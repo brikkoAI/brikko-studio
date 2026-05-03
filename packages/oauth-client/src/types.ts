@@ -4,7 +4,10 @@ export interface TokenSet {
   expires_at: number; // unix epoch seconds
   token_type: "Bearer";
   scope: string;
-  user_email: string;
+  // Optional: Gateway's standard token response per RFC 6749 §5.1 does not
+  // include user_email. We may populate it later via a /userinfo endpoint
+  // or as a Gateway extension. Clients must not assume it is present.
+  user_email?: string;
 }
 
 export interface KeychainBackend {
