@@ -1,0 +1,27 @@
+{
+  "auth": {
+    "welcome": {
+      "title": "Welcome to Brikko Studio",
+      "subtitle": "Russian AI agent with PII anonymization",
+      "login_button": "Log in with Brikko",
+      "footer": "By logging in you agree to the terms of service"
+    },
+    "callback": {
+      "loading": "Finishing login…",
+      "success": "Logged in. Redirecting…",
+      "error_title": "Login failed",
+      "error_retry": "Try again"
+    },
+    "status": {
+      "logged_in_as": "Logged in as {email}",
+      "logout": "Log out",
+      "anonymizer_ok": "Anonymizer: up",
+      "anonymizer_down": "Anonymizer: down"
+    },
+    "errors": {
+      "network": "Brikko server is unreachable. Check your internet connection.",
+      "token_expired": "Session expired. Please log in again.",
+      "callback_state_mismatch": "Security error (state mismatch). Please try again."
+    }
+  }
+}
