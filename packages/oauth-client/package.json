@@ -1,0 +1,21 @@
+{
+  "name": "@brikko/oauth-client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "keytar": "7.9.0"
+  },
+  "devDependencies": {
+    "vitest": "^1.5.0",
+    "msw": "^2.2.14",
+    "@types/node": "^20.12.7"
+  }
+}
