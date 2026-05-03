@@ -1,0 +1,14 @@
+[project]
+name = "brikko-anonymizer"
+version = "0.1.0"
+description = "Brikko Studio Anonymizer sidecar (M0 scaffold — /health only)"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
