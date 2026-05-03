@@ -21,6 +21,7 @@ export default defineConfig({
       "packages/web-ui/**/*.test.ts",
       "packages/anonymizer/**/*.test.ts",
       "packages/core/src/i18n/__tests__/**/*.test.ts",
+      "packages/core/src/auth-api/__tests__/**/*.test.ts",
     ],
     exclude: ["**/node_modules/**", "**/dist/**"],
   },
