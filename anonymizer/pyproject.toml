@@ -17,6 +17,11 @@ dependencies = [
   "aiosqlite>=0.20,<0.22",
   "sqlalchemy>=2.0,<2.1",
   "pyyaml>=6.0,<7.0",
+  # natasha pulls in pymorphy2, which still imports pkg_resources at runtime.
+  # setuptools >=81 dropped pkg_resources, so pin to the last compatible
+  # major. Once pymorphy2 (or its replacement, pymorphy3) drops pkg_resources
+  # we can lift this. See pymorphy2#170, setuptools#4519.
+  "setuptools>=70,<81",
 ]
 
 [project.optional-dependencies]

@@ -24,3 +24,9 @@ docker-compose.override.yml
 # Playwright
 test-results/
 playwright-report/
+
+# PII benchmark runtime output (the JSON gets diffed against
+# tests/pii_corpus/baseline.json, but per-day result files are not
+# committed)
+anonymizer/tests/pii_corpus/benchmark_results/
+anonymizer/tests/pii_corpus/results/
