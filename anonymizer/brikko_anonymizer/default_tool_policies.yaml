@@ -1,0 +1,49 @@
+# Brikko Studio anonymizer — default tool-call policies.
+#
+# Loaded by main.py at FastAPI startup. Operators may override per-deployment by
+# pointing BRIKKO_TOOL_POLICIES at a custom YAML file with the same shape.
+#
+# Modes:
+#   deanonymize          — replace placeholders in `keys` with originals before forwarding
+#                          (use ONLY for trusted internal tools)
+#   forbid               — block the call; return a TrustViolationError to the caller
+#   forward_masked       — pass placeholders through untouched (default; deny-by-default)
+#   forward_then_remask  — forward with placeholders, re-mask any new PII in the response
+#
+# Top-level `defaults.mode = forward_masked` means: any tool not listed below
+# never sees raw PII. To unblock a tool, add it explicitly here.
+
+tools:
+  # ---- Bitrix24 (trusted internal) -----------------------------------------
+  bitrix24.deals.list:
+    mode: deanonymize
+    keys: [client, contact, company]
+  bitrix24.deals.get:
+    mode: deanonymize
+    keys: [client, contact, company, comment]
+  bitrix24.contacts.search:
+    mode: deanonymize
+    keys: [name, email, phone]
+  bitrix24.leads.create:
+    mode: deanonymize
+    keys: [name, email, phone, company]
+
+  # ---- 1С (trusted internal) -----------------------------------------------
+  one_c.documents.list:
+    mode: deanonymize
+    keys: [contractor, comment]
+  one_c.contractors.search:
+    mode: deanonymize
+    keys: [name, inn, kpp]
+  one_c.reports.balance:
+    mode: deanonymize
+    keys: [contractor]
+
+  # ---- Third-party AI (forbidden) ------------------------------------------
+  # Even masked content sent to an external LLM endpoint is policy-blocked,
+  # because the gateway-side LLM is the ONLY sanctioned external destination.
+  third_party_ai.send:
+    mode: forbid
+
+defaults:
+  mode: forward_masked
