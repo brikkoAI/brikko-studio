@@ -1,0 +1,74 @@
+# Repo-root .dockerignore — applies to all builds whose context is the repo root,
+# in particular `docker build -f packages/core/Dockerfile .`.
+#
+# Without this, the entire ~600 MB node_modules tree (with pnpm symlinks) would
+# be sent as build context — slow upload + breaks COPY semantics.
+
+# Node / pnpm
+node_modules
+**/node_modules
+.pnpm-store
+**/.pnpm-store
+
+# Build outputs
+dist
+**/dist
+build
+**/build
+coverage
+**/coverage
+*.tsbuildinfo
+**/*.tsbuildinfo
+.turbo
+.cache
+.vite
+**/.vite
+.parcel-cache
+
+# Tests (we don't run them inside the image)
+tests
+**/tests
+__tests__
+**/__tests__
+*.test.ts
+*.test.tsx
+*.test.js
+*.spec.ts
+*.spec.tsx
+.playwright
+
+# Python / anonymizer artifacts (relevant only when context happens to include them)
+.venv
+**/.venv
+__pycache__
+**/__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+*.egg-info
+**/*.egg-info
+
+# VCS + editor + secrets
+.git
+.github
+.gitignore
+.gitattributes
+.vscode
+.idea
+*.log
+.env
+.env.*
+!.env.example
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Big upstream things we never need at build time
+.worktrees
+deploy
+qa
+docs
+*.md
+!README.md
