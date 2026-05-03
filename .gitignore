@@ -1,0 +1,26 @@
+node_modules/
+dist/
+build/
+coverage/
+*.log
+.env
+.env.local
+.DS_Store
+.idea/
+.vscode/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Docker
+docker-compose.override.yml
+
+# Playwright
+test-results/
+playwright-report/
