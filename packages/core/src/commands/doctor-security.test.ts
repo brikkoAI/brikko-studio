@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 
 const note = vi.hoisted(() => vi.fn());
 const pluginRegistry = vi.hoisted(() => ({ list: [] as unknown[] }));
@@ -32,23 +32,23 @@ describe("noteSecurityWarnings gateway exposure", () => {
     listReadOnlyChannelPluginsForConfigMock.mockReset();
     listReadOnlyChannelPluginsForConfigMock.mockImplementation(() => pluginRegistry.list);
     pluginRegistry.list = [];
-    prevToken = process.env.OPENCLAW_GATEWAY_TOKEN;
-    prevPassword = process.env.OPENCLAW_GATEWAY_PASSWORD;
+    prevToken = process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
+    prevPassword = process.env.BRIKKO_STUDIO_GATEWAY_PASSWORD;
     prevHome = process.env.HOME;
-    delete process.env.OPENCLAW_GATEWAY_TOKEN;
-    delete process.env.OPENCLAW_GATEWAY_PASSWORD;
+    delete process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
+    delete process.env.BRIKKO_STUDIO_GATEWAY_PASSWORD;
   });
 
   afterEach(() => {
     if (prevToken === undefined) {
-      delete process.env.OPENCLAW_GATEWAY_TOKEN;
+      delete process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
     } else {
-      process.env.OPENCLAW_GATEWAY_TOKEN = prevToken;
+      process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = prevToken;
     }
     if (prevPassword === undefined) {
-      delete process.env.OPENCLAW_GATEWAY_PASSWORD;
+      delete process.env.BRIKKO_STUDIO_GATEWAY_PASSWORD;
     } else {
-      process.env.OPENCLAW_GATEWAY_PASSWORD = prevPassword;
+      process.env.BRIKKO_STUDIO_GATEWAY_PASSWORD = prevPassword;
     }
     if (prevHome === undefined) {
       delete process.env.HOME;
@@ -63,11 +63,11 @@ describe("noteSecurityWarnings gateway exposure", () => {
     file: Record<string, unknown>,
     run: () => Promise<void>,
   ): Promise<void> {
-    const home = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-doctor-security-"));
+    const home = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-doctor-security-"));
     process.env.HOME = home;
-    await fs.mkdir(path.join(home, ".openclaw"), { recursive: true });
+    await fs.mkdir(path.join(home, ".brikko-studio"), { recursive: true });
     await fs.writeFile(
-      path.join(home, ".openclaw", "exec-approvals.json"),
+      path.join(home, ".brikko-studio", "exec-approvals.json"),
       JSON.stringify(file, null, 2),
     );
     await run();
@@ -106,7 +106,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
               },
             ],
           },
-        } as OpenClawConfig);
+        } as Brikko StudioConfig);
       },
     );
 
@@ -117,7 +117,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
   }
 
   it("warns when exposed without auth", async () => {
-    const cfg = { gateway: { bind: "lan" } } as OpenClawConfig;
+    const cfg = { gateway: { bind: "lan" } } as Brikko StudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("CRITICAL");
@@ -127,8 +127,8 @@ describe("noteSecurityWarnings gateway exposure", () => {
   });
 
   it("uses env token to avoid critical warning", async () => {
-    process.env.OPENCLAW_GATEWAY_TOKEN = "token-123";
-    const cfg = { gateway: { bind: "lan" } } as OpenClawConfig;
+    process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = "token-123";
+    const cfg = { gateway: { bind: "lan" } } as Brikko StudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("WARNING");
@@ -141,10 +141,10 @@ describe("noteSecurityWarnings gateway exposure", () => {
         bind: "lan",
         auth: {
           mode: "token",
-          token: { source: "env", provider: "default", id: "OPENCLAW_GATEWAY_TOKEN" },
+          token: { source: "env", provider: "default", id: "BRIKKO_STUDIO_GATEWAY_TOKEN" },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("WARNING");
@@ -154,14 +154,14 @@ describe("noteSecurityWarnings gateway exposure", () => {
   it("treats whitespace token as missing", async () => {
     const cfg = {
       gateway: { bind: "lan", auth: { mode: "token", token: "   " } },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("CRITICAL");
   });
 
   it("skips warning for loopback bind", async () => {
-    const cfg = { gateway: { bind: "loopback" } } as OpenClawConfig;
+    const cfg = { gateway: { bind: "loopback" } } as Brikko StudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("No channel security warnings detected");
@@ -169,7 +169,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
   });
 
   it("treats unset bind as loopback for host-side doctor checks", async () => {
-    const cfg = { gateway: {} } as OpenClawConfig;
+    const cfg = { gateway: {} } as Brikko StudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("No channel security warnings detected");
@@ -198,7 +198,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
         },
       },
     ];
-    const cfg = { session: { dmScope: "main" } } as OpenClawConfig;
+    const cfg = { session: { dmScope: "main" } } as Brikko StudioConfig;
     await noteSecurityWarnings(cfg);
     expect(listReadOnlyChannelPluginsForConfigMock).toHaveBeenCalledWith(cfg, {
       includePersistedAuthState: true,
@@ -215,12 +215,12 @@ describe("noteSecurityWarnings gateway exposure", () => {
           enabled: false,
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("disables approval forwarding only");
     expect(message).toContain("exec-approvals.json");
-    expect(message).toContain("openclaw approvals get --gateway");
+    expect(message).toContain("brikko-studio approvals get --gateway");
   });
 
   it("warns when tools.exec is broader than host exec defaults", async () => {
@@ -240,7 +240,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
               ask: "off",
             },
           },
-        } as OpenClawConfig);
+        } as Brikko StudioConfig);
       },
     );
 
@@ -269,7 +269,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
               ask: "on-miss",
             },
           },
-        } as OpenClawConfig);
+        } as Brikko StudioConfig);
       },
     );
 
@@ -291,7 +291,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
               ask: "always",
             },
           },
-        } as OpenClawConfig);
+        } as Brikko StudioConfig);
       },
     );
 
@@ -326,7 +326,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           agents: {
             list: [{ id: "runner" }],
           },
-        } as OpenClawConfig);
+        } as Brikko StudioConfig);
       },
     );
 
@@ -361,7 +361,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           agents: {
             list: [{ id: "runner" }],
           },
-        } as OpenClawConfig);
+        } as Brikko StudioConfig);
       },
     );
 
@@ -396,7 +396,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
               ask: "always",
             },
           },
-        } as OpenClawConfig);
+        } as Brikko StudioConfig);
       },
     );
 
@@ -413,7 +413,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("Heartbeat defaults");
@@ -433,7 +433,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           },
         ],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain('Heartbeat agent "ops"');
@@ -460,7 +460,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
       },
     ];
 
-    await noteSecurityWarnings({} as OpenClawConfig);
+    await noteSecurityWarnings({} as Brikko StudioConfig);
     expect(listReadOnlyChannelPluginsForConfigMock).toHaveBeenCalledWith(
       {},
       {
@@ -471,7 +471,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
     const message = lastMessage();
     expect(message).toContain("[secrets]");
     expect(message).toContain("failed to resolve account");
-    expect(message).toContain("Run: openclaw security audit --deep");
+    expect(message).toContain("Run: brikko-studio security audit --deep");
   });
 
   it("skips heartbeat directPolicy warning when delivery is internal-only or explicit", async () => {
@@ -492,7 +492,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           },
         ],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).not.toContain("Heartbeat defaults");

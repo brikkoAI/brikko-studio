@@ -1,8 +1,8 @@
 ---
-summary: "Use DeepInfra's unified API to access the most popular open source and frontier models in OpenClaw"
+summary: "Use DeepInfra's unified API to access the most popular open source and frontier models in Brikko Studio"
 read_when:
   - You want a single API key for the top open source LLMs
-  - You want to run models via DeepInfra's API in OpenClaw
+  - You want to run models via DeepInfra's API in Brikko Studio
 ---
 
 # DeepInfra
@@ -19,7 +19,7 @@ endpoint and API key. It is OpenAI-compatible, so most OpenAI SDKs work by switc
 ## CLI setup
 
 ```bash
-openclaw onboard --deepinfra-api-key <key>
+brikko-studio onboard --deepinfra-api-key <key>
 ```
 
 Or set the environment variable:
@@ -41,12 +41,12 @@ export DEEPINFRA_API_KEY="<your-deepinfra-api-key>" # pragma: allowlist secret
 }
 ```
 
-## Supported OpenClaw surfaces
+## Supported Brikko Studio surfaces
 
 The bundled plugin registers all DeepInfra surfaces that match current
-OpenClaw provider contracts:
+Brikko Studio provider contracts:
 
-| Surface                  | Default model                      | OpenClaw config/tool                                     |
+| Surface                  | Default model                      | Brikko Studio config/tool                                     |
 | ------------------------ | ---------------------------------- | -------------------------------------------------------- |
 | Chat / model provider    | `deepseek-ai/DeepSeek-V3.2`        | `agents.defaults.model`                                  |
 | Image generation/editing | `black-forest-labs/FLUX-1-schnell` | `image_generate`, `agents.defaults.imageGenerationModel` |
@@ -57,12 +57,12 @@ OpenClaw provider contracts:
 | Memory embeddings        | `BAAI/bge-m3`                      | `agents.defaults.memorySearch.provider: "deepinfra"`     |
 
 DeepInfra also exposes reranking, classification, object-detection, and other
-native model types. OpenClaw does not currently have first-class provider
+native model types. Brikko Studio does not currently have first-class provider
 contracts for those categories, so this plugin does not register them yet.
 
 ## Available models
 
-OpenClaw dynamically discovers available DeepInfra models at startup. Use
+Brikko Studio dynamically discovers available DeepInfra models at startup. Use
 `/models deepinfra` to see the full list of models available.
 
 Any model available on [DeepInfra.com](https://deepinfra.com/) can be used with the `deepinfra/` prefix:

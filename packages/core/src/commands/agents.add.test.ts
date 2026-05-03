@@ -82,7 +82,7 @@ describe("agents add command", () => {
   });
 
   it("copies only portable auth profiles when seeding a new agent store", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-agents-add-auth-copy-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-agents-add-auth-copy-"));
     try {
       const sourceAgentDir = path.join(root, "main", "agent");
       const destAgentDir = path.join(root, "work", "agent");

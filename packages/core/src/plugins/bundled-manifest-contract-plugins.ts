@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveBundledPluginCompatibleLoadValues,
   type PluginActivationBundledCompatMode,
@@ -33,7 +33,7 @@ export function listBundledManifestContractPluginIds(params: {
 }
 
 export function resolveEnabledBundledManifestContractPlugins(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   onlyPluginIds?: readonly string[];
@@ -44,7 +44,7 @@ export function resolveEnabledBundledManifestContractPlugins(params: {
     return [];
   }
   let manifestRecords: readonly PluginManifestRecord[] | undefined;
-  const loadManifestRecords = (config?: OpenClawConfig) => {
+  const loadManifestRecords = (config?: Brikko StudioConfig) => {
     manifestRecords ??= loadManifestContractSnapshot({
       config,
       workspaceDir: params.workspaceDir,

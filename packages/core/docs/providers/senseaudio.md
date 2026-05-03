@@ -9,7 +9,7 @@ title: "SenseAudio"
 # SenseAudio
 
 SenseAudio can transcribe inbound audio/voice-note attachments through
-OpenClaw's shared `tools.media.audio` pipeline. OpenClaw posts multipart audio
+Brikko Studio's shared `tools.media.audio` pipeline. Brikko Studio posts multipart audio
 to the OpenAI-compatible transcription endpoint and injects the returned text
 as `{{Transcript}}` plus an `[Audio]` block.
 
@@ -44,7 +44,7 @@ as `{{Transcript}}` plus an `[Audio]` block.
     ```
   </Step>
   <Step title="Send a voice note">
-    Send an audio message through any connected channel. OpenClaw uploads the
+    Send an audio message through any connected channel. Brikko Studio uploads the
     audio to SenseAudio and uses the transcript in the reply pipeline.
   </Step>
 </Steps>
@@ -60,6 +60,6 @@ as `{{Transcript}}` plus an `[Audio]` block.
 | `headers`  | `tools.media.audio.request.headers`   | Extra request headers               |
 
 <Note>
-SenseAudio is batch STT only in OpenClaw. Voice Call realtime transcription
+SenseAudio is batch STT only in Brikko Studio. Voice Call realtime transcription
 continues to use providers with streaming STT support.
 </Note>

@@ -1,5 +1,5 @@
-import type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   createAgendaCard,
   createAppleTvRemoteCard,

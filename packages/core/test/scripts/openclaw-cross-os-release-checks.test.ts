@@ -63,9 +63,9 @@ import {
   verifyDevUpdateStatus,
   verifyPackagedUpgradeUpdateResult,
   writePackageDistInventoryForCandidate,
-} from "../../scripts/openclaw-cross-os-release-checks.ts";
+} from "../../scripts/brikko-studio-cross-os-release-checks.ts";
 
-describe("scripts/openclaw-cross-os-release-checks", () => {
+describe("scripts/brikko-studio-cross-os-release-checks", () => {
   it("keeps dashboard smoke patient enough for cold packaged gateway startup", () => {
     expect(CROSS_OS_DASHBOARD_SMOKE_TIMEOUT_MS).toBeGreaterThanOrEqual(120_000);
     expect(CROSS_OS_DASHBOARD_FETCH_TIMEOUT_MS).toBeGreaterThanOrEqual(10_000);
@@ -81,7 +81,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   });
 
   it("accepts OK agent output from the captured log when stdout is empty", () => {
-    const dir = mkdtempSync(join(tmpdir(), "openclaw-cross-os-agent-output-"));
+    const dir = mkdtempSync(join(tmpdir(), "brikko-studio-cross-os-agent-output-"));
     try {
       const logPath = join(dir, "agent.log");
       writeFileSync(
@@ -127,7 +127,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   });
 
   it("skips optional live agent turns only for model availability failures", () => {
-    const dir = mkdtempSync(join(tmpdir(), "openclaw-cross-os-agent-skip-"));
+    const dir = mkdtempSync(join(tmpdir(), "brikko-studio-cross-os-agent-skip-"));
     try {
       const logPath = join(dir, "agent.log");
       writeFileSync(
@@ -170,12 +170,12 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   it("allows cross-OS provider smoke models to use faster CI overrides", () => {
     expect(
       resolveProviderConfig("openai", {
-        OPENCLAW_CROSS_OS_OPENAI_MODEL: "openai/gpt-5.4-mini",
+        BRIKKO_STUDIO_CROSS_OS_OPENAI_MODEL: "openai/gpt-5.4-mini",
       })?.model,
     ).toBe("openai/gpt-5.4-mini");
     expect(
       resolveProviderConfig("openai", {
-        OPENCLAW_CROSS_OS_MODEL: "openai/gpt-5.4-nano",
+        BRIKKO_STUDIO_CROSS_OS_MODEL: "openai/gpt-5.4-nano",
       })?.model,
     ).toBe("openai/gpt-5.4-nano");
     expect(resolveProviderConfig("openai", {})?.model).toBe("openai/gpt-5.4");
@@ -183,13 +183,13 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
 
   it("keeps release cross-OS OpenAI smoke on GPT-5.4", () => {
     const workflow = readFileSync(
-      ".github/workflows/openclaw-cross-os-release-checks-reusable.yml",
+      ".github/workflows/brikko-studio-cross-os-release-checks-reusable.yml",
       "utf8",
     );
-    const releaseChecks = readFileSync(".github/workflows/openclaw-release-checks.yml", "utf8");
+    const releaseChecks = readFileSync(".github/workflows/brikko-studio-release-checks.yml", "utf8");
 
     expect(workflow).toContain(
-      "OPENCLAW_CROSS_OS_OPENAI_MODEL: ${{ inputs.openai_model || vars.OPENCLAW_CROSS_OS_OPENAI_MODEL || 'openai/gpt-5.4' }}",
+      "BRIKKO_STUDIO_CROSS_OS_OPENAI_MODEL: ${{ inputs.openai_model || vars.BRIKKO_STUDIO_CROSS_OS_OPENAI_MODEL || 'openai/gpt-5.4' }}",
     );
     expect(releaseChecks).toContain("openai_model: openai/gpt-5.4");
   });
@@ -205,7 +205,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   });
 
   it("keeps cross-OS live smoke agent turns on GPT-5-safe timeouts and minimal context", () => {
-    const source = readFileSync("scripts/openclaw-cross-os-release-checks.ts", "utf8");
+    const source = readFileSync("scripts/brikko-studio-cross-os-release-checks.ts", "utf8");
     const providerOverride = "models.providers.${params.providerConfig.extensionId}";
 
     expect(CROSS_OS_RELEASE_SMOKE_TOOLS_PROFILE).toBe("minimal");
@@ -348,8 +348,8 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
     );
     expect(script).toContain("Get-Command npm.cmd -ErrorAction SilentlyContinue");
     expect(script).toContain('$env:Path = "$npmPrefix;$env:Path"');
-    expect(script).toContain("(Join-Path $npmPrefix 'openclaw.cmd')");
-    expect(script).toContain("$cmd = Get-Command openclaw -ErrorAction Stop");
+    expect(script).toContain("(Join-Path $npmPrefix 'brikko-studio.cmd')");
+    expect(script).toContain("$cmd = Get-Command brikko-studio -ErrorAction Stop");
   });
 
   it("keeps Windows dev-update toolchain checks compatible with setup-node PATH shims", () => {
@@ -369,9 +369,9 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
         VAR_UBUNTU_RUNNER: "workflow-linux",
         VAR_WINDOWS_RUNNER: "workflow-windows",
         VAR_MACOS_RUNNER: "workflow-macos",
-        OPENCLAW_RELEASE_CHECKS_UBUNTU_RUNNER: "legacy-linux",
-        OPENCLAW_RELEASE_CHECKS_WINDOWS_RUNNER: "legacy-windows",
-        OPENCLAW_RELEASE_CHECKS_MACOS_RUNNER: "legacy-macos",
+        BRIKKO_STUDIO_RELEASE_CHECKS_UBUNTU_RUNNER: "legacy-linux",
+        BRIKKO_STUDIO_RELEASE_CHECKS_WINDOWS_RUNNER: "legacy-windows",
+        BRIKKO_STUDIO_RELEASE_CHECKS_MACOS_RUNNER: "legacy-macos",
       }),
     ).toEqual({
       varUbuntuRunner: "workflow-linux",
@@ -386,9 +386,9 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
         VAR_UBUNTU_RUNNER: "",
         VAR_WINDOWS_RUNNER: " ",
         VAR_MACOS_RUNNER: "",
-        OPENCLAW_RELEASE_CHECKS_UBUNTU_RUNNER: "legacy-linux",
-        OPENCLAW_RELEASE_CHECKS_WINDOWS_RUNNER: "legacy-windows",
-        OPENCLAW_RELEASE_CHECKS_MACOS_RUNNER: "legacy-macos",
+        BRIKKO_STUDIO_RELEASE_CHECKS_UBUNTU_RUNNER: "legacy-linux",
+        BRIKKO_STUDIO_RELEASE_CHECKS_WINDOWS_RUNNER: "legacy-windows",
+        BRIKKO_STUDIO_RELEASE_CHECKS_MACOS_RUNNER: "legacy-macos",
       }),
     ).toEqual({
       varUbuntuRunner: "legacy-linux",
@@ -400,13 +400,13 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   it("serves installer scripts as UTF-8 text and package payloads as binary", () => {
     expect(resolveStaticFileContentType("scripts/install.sh")).toBe("text/plain; charset=utf-8");
     expect(resolveStaticFileContentType("scripts/install.ps1")).toBe("text/plain; charset=utf-8");
-    expect(resolveStaticFileContentType("openclaw-2026.4.14.tgz")).toBe("application/octet-stream");
+    expect(resolveStaticFileContentType("brikko-studio-2026.4.14.tgz")).toBe("application/octet-stream");
   });
 
   it("uses the published installer URLs for native installer lanes", () => {
-    expect(resolvePublishedInstallerUrl("darwin")).toBe("https://openclaw.ai/install.sh");
-    expect(resolvePublishedInstallerUrl("linux")).toBe("https://openclaw.ai/install.sh");
-    expect(resolvePublishedInstallerUrl("win32")).toBe("https://openclaw.ai/install.ps1");
+    expect(resolvePublishedInstallerUrl("darwin")).toBe("https://brikko-studio.ai/install.sh");
+    expect(resolvePublishedInstallerUrl("linux")).toBe("https://brikko-studio.ai/install.sh");
+    expect(resolvePublishedInstallerUrl("win32")).toBe("https://brikko-studio.ai/install.ps1");
   });
 
   it("uses managed gateway services only on native Windows runners", () => {
@@ -468,34 +468,34 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
     expect(shouldRunWindowsInstalledBrowserOverrideImportSmoke("linux")).toBe(false);
 
     const script = buildInstalledBrowserOverrideImportProbeScript();
-    expect(script).toContain('from "openclaw/plugin-sdk/plugin-runtime"');
-    expect(script).toContain('overrideEnvVar: "OPENCLAW_BROWSER_CONTROL_MODULE"');
+    expect(script).toContain('from "brikko-studio/plugin-sdk/plugin-runtime"');
+    expect(script).toContain('overrideEnvVar: "BRIKKO_STUDIO_BROWSER_CONTROL_MODULE"');
     expect(script).toContain("startBrowserControlService");
     expect(script).toContain("stopBrowserControlService");
     expect(script).toContain("Browser control override start sentinel was not written.");
 
     const installedScript = buildInstalledBrowserOverrideImportProbeScript(
-      "file:///C:/Users/runner/AppData/Roaming/npm/node_modules/openclaw/dist/plugin-sdk/plugin-runtime.js",
+      "file:///C:/Users/runner/AppData/Roaming/npm/node_modules/brikko-studio/dist/plugin-sdk/plugin-runtime.js",
     );
     expect(installedScript).toContain(
-      'from "file:///C:/Users/runner/AppData/Roaming/npm/node_modules/openclaw/dist/plugin-sdk/plugin-runtime.js"',
+      'from "file:///C:/Users/runner/AppData/Roaming/npm/node_modules/brikko-studio/dist/plugin-sdk/plugin-runtime.js"',
     );
-    expect(readFileSync("scripts/openclaw-cross-os-release-checks.ts", "utf8")).toContain(
-      "OPENCLAW_BROWSER_CONTROL_MODULE: pathToFileURL(overridePath).href",
+    expect(readFileSync("scripts/brikko-studio-cross-os-release-checks.ts", "utf8")).toContain(
+      "BRIKKO_STUDIO_BROWSER_CONTROL_MODULE: pathToFileURL(overridePath).href",
     );
   });
 
   it("normalizes Windows installed CLI paths to the cmd shim", () => {
     expect(
       normalizeWindowsInstalledCliPath(
-        String.raw`C:\Users\runner\AppData\Roaming\npm\openclaw.ps1`,
+        String.raw`C:\Users\runner\AppData\Roaming\npm\brikko-studio.ps1`,
       ),
-    ).toBe(String.raw`C:\Users\runner\AppData\Roaming\npm\openclaw.cmd`);
+    ).toBe(String.raw`C:\Users\runner\AppData\Roaming\npm\brikko-studio.cmd`);
     expect(
       normalizeWindowsInstalledCliPath(
-        String.raw`C:\Users\runner\AppData\Roaming\npm\openclaw.cmd`,
+        String.raw`C:\Users\runner\AppData\Roaming\npm\brikko-studio.cmd`,
       ),
-    ).toBe(String.raw`C:\Users\runner\AppData\Roaming\npm\openclaw.cmd`);
+    ).toBe(String.raw`C:\Users\runner\AppData\Roaming\npm\brikko-studio.cmd`);
   });
 
   it("normalizes generic Windows PowerShell shims to cmd shims", () => {
@@ -513,37 +513,37 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   it("derives the installed prefix from resolved CLI paths", () => {
     expect(
       resolveInstalledPrefixDirFromCliPath(
-        String.raw`C:\Users\runner\AppData\Roaming\npm\openclaw.ps1`,
+        String.raw`C:\Users\runner\AppData\Roaming\npm\brikko-studio.ps1`,
         "win32",
       ),
     ).toBe(String.raw`C:\Users\runner\AppData\Roaming\npm`);
     expect(
-      resolveInstalledPrefixDirFromCliPath("/Users/runner/.npm-global/bin/openclaw", "darwin"),
+      resolveInstalledPrefixDirFromCliPath("/Users/runner/.npm-global/bin/brikko-studio", "darwin"),
     ).toBe("/Users/runner/.npm-global");
   });
 
   it("resolves Linux npm package roots when the CLI is a user-local shim", () => {
-    const homeDir = mkdtempSync(join(tmpdir(), "openclaw-cross-os-linux-home-"));
+    const homeDir = mkdtempSync(join(tmpdir(), "brikko-studio-cross-os-linux-home-"));
     try {
-      const packageRoot = join(homeDir, ".npm-global", "lib", "node_modules", "openclaw");
+      const packageRoot = join(homeDir, ".npm-global", "lib", "node_modules", "brikko-studio");
       const distDir = join(packageRoot, "dist");
       const cliDir = join(homeDir, ".local", "bin");
       mkdirSync(distDir, { recursive: true });
       mkdirSync(cliDir, { recursive: true });
-      writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "openclaw" }));
+      writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "brikko-studio" }));
       writeFileSync(join(distDir, "entry.js"), "#!/usr/bin/env node\n");
 
       expect(
-        resolveInstalledPackageRootFromCliPath(join(cliDir, "openclaw"), "linux", {
+        resolveInstalledPackageRootFromCliPath(join(cliDir, "brikko-studio"), "linux", {
           HOME: homeDir,
         }),
       ).toBe(packageRoot);
 
-      rmSync(join(cliDir, "openclaw"), { force: true });
-      symlinkSync(join(distDir, "entry.js"), join(cliDir, "openclaw"));
+      rmSync(join(cliDir, "brikko-studio"), { force: true });
+      symlinkSync(join(distDir, "entry.js"), join(cliDir, "brikko-studio"));
 
       expect(
-        resolveInstalledPackageRootFromCliPath(join(cliDir, "openclaw"), "linux", {
+        resolveInstalledPackageRootFromCliPath(join(cliDir, "brikko-studio"), "linux", {
           HOME: homeDir,
         }),
       ).toBe(realpathSync(packageRoot));
@@ -614,8 +614,8 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
     expect(
       buildRealUpdateEnv({
         FOO: "bar",
-        NODE_COMPILE_CACHE: "/tmp/stale-openclaw-cache",
-        OPENCLAW_DISABLE_BUNDLED_PLUGIN_POSTINSTALL: "1",
+        NODE_COMPILE_CACHE: "/tmp/stale-brikko-studio-cache",
+        BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGIN_POSTINSTALL: "1",
       }),
     ).toEqual({
       FOO: "bar",
@@ -634,7 +634,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
             steps: [{ name: "global update", exitCode: 0 }],
           }),
           stderr:
-            "[openclaw] Failed to start CLI: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/prefix/lib/node_modules/openclaw/dist/memory-state-old.js'",
+            "[brikko-studio] Failed to start CLI: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/prefix/lib/node_modules/brikko-studio/dist/memory-state-old.js'",
         },
         { candidateVersion: "2026.4.27" },
       ),
@@ -652,7 +652,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
             steps: [{ name: "global update", exitCode: 0 }],
           }),
           stderr:
-            "[openclaw] Failed to start CLI: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/prefix/lib/node_modules/openclaw/dist/memory-state-old.js'",
+            "[brikko-studio] Failed to start CLI: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/prefix/lib/node_modules/brikko-studio/dist/memory-state-old.js'",
         },
         { candidateVersion: "2026.4.27" },
       ),
@@ -670,7 +670,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
             steps: [{ name: "global update", exitCode: 1 }],
           }),
           stderr:
-            "[openclaw] Failed to start CLI: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/prefix/lib/node_modules/openclaw/dist/memory-state-old.js'",
+            "[brikko-studio] Failed to start CLI: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/prefix/lib/node_modules/brikko-studio/dist/memory-state-old.js'",
         },
         { candidateVersion: "2026.4.27" },
       ),
@@ -691,7 +691,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
                 name: "global install swap",
                 exitCode: 1,
                 stderrTail:
-                  "EPERM: operation not permitted, unlink 'C:\\Users\\runner\\prefix\\node_modules\\.openclaw-5748-1777776287462\\node_modules\\@mariozechner\\clipboard-win32-x64-msvc\\clipboard.win32-x64-msvc.node'",
+                  "EPERM: operation not permitted, unlink 'C:\\Users\\runner\\prefix\\node_modules\\.brikko-studio-5748-1777776287462\\node_modules\\@mariozechner\\clipboard-win32-x64-msvc\\clipboard.win32-x64-msvc.node'",
               },
             ],
           }),
@@ -722,7 +722,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
         {
           exitCode: 1,
           stdout:
-            "EPERM: operation not permitted, unlink '/tmp/prefix/node_modules/.openclaw-1-2/native.node'",
+            "EPERM: operation not permitted, unlink '/tmp/prefix/node_modules/.brikko-studio-1-2/native.node'",
           stderr: "",
         },
         "linux",
@@ -732,23 +732,23 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
 
   it("only treats pinned baseline specs as exact installer version assertions", () => {
     expect(resolveExplicitBaselineVersion("")).toBe("");
-    expect(resolveExplicitBaselineVersion("openclaw@latest")).toBe("");
-    expect(resolveExplicitBaselineVersion("openclaw@2026.4.10")).toBe("2026.4.10");
+    expect(resolveExplicitBaselineVersion("brikko-studio@latest")).toBe("");
+    expect(resolveExplicitBaselineVersion("brikko-studio@2026.4.10")).toBe("2026.4.10");
     expect(resolveExplicitBaselineVersion("2026.4.10")).toBe("2026.4.10");
   });
 
   it("reads an installed baseline version without requiring build metadata", () => {
-    const prefixDir = mkdtempSync(join(tmpdir(), "openclaw-cross-os-installed-version-"));
+    const prefixDir = mkdtempSync(join(tmpdir(), "brikko-studio-cross-os-installed-version-"));
     try {
       const packageRoot =
         process.platform === "win32"
-          ? join(prefixDir, "node_modules", "openclaw")
-          : join(prefixDir, "lib", "node_modules", "openclaw");
+          ? join(prefixDir, "node_modules", "brikko-studio")
+          : join(prefixDir, "lib", "node_modules", "brikko-studio");
       mkdirSync(packageRoot, { recursive: true });
       writeFileSync(
         join(packageRoot, "package.json"),
         JSON.stringify({
-          name: "openclaw",
+          name: "brikko-studio",
           version: "2026.4.10",
         }),
         "utf8",
@@ -761,12 +761,12 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   });
 
   it("treats missing package scripts as optional in older refs", () => {
-    const packageRoot = mkdtempSync(join(tmpdir(), "openclaw-cross-os-scripts-"));
+    const packageRoot = mkdtempSync(join(tmpdir(), "brikko-studio-cross-os-scripts-"));
     try {
       writeFileSync(
         join(packageRoot, "package.json"),
         JSON.stringify({
-          name: "openclaw",
+          name: "brikko-studio",
           scripts: {
             build: "pnpm build",
           },
@@ -782,14 +782,14 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   });
 
   it("rejects legacy plugin dependency staging debris before candidate inventory generation", async () => {
-    const packageRoot = mkdtempSync(join(tmpdir(), "openclaw-cross-os-stage-debris-"));
+    const packageRoot = mkdtempSync(join(tmpdir(), "brikko-studio-cross-os-stage-debris-"));
     try {
       mkdirSync(
-        join(packageRoot, "dist", "Extensions", "demo", ".OpenClaw-Install-Stage", "node_modules"),
+        join(packageRoot, "dist", "Extensions", "demo", ".Brikko Studio-Install-Stage", "node_modules"),
         { recursive: true },
       );
       writeFileSync(
-        join(packageRoot, "dist", "Extensions", "demo", ".OpenClaw-Install-Stage", "package.json"),
+        join(packageRoot, "dist", "Extensions", "demo", ".Brikko Studio-Install-Stage", "package.json"),
         "{}\n",
         "utf8",
       );
@@ -806,12 +806,12 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   });
 
   it("omits local build metadata from candidate package inventories", async () => {
-    const packageRoot = mkdtempSync(join(tmpdir(), "openclaw-cross-os-local-stamps-"));
+    const packageRoot = mkdtempSync(join(tmpdir(), "brikko-studio-cross-os-local-stamps-"));
     try {
       mkdirSync(join(packageRoot, "dist"), { recursive: true });
       writeFileSync(
         join(packageRoot, "package.json"),
-        JSON.stringify({ name: "openclaw-fixture", version: "0.0.0", files: ["dist/"] }),
+        JSON.stringify({ name: "brikko-studio-fixture", version: "0.0.0", files: ["dist/"] }),
         "utf8",
       );
       writeFileSync(join(packageRoot, "dist", "index.js"), "export {};\n", "utf8");

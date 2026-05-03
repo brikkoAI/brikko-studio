@@ -1,6 +1,6 @@
 import { resolveSessionAgentId } from "../../agents/agent-scope.js";
 import { normalizeChatType } from "../../channels/chat-type.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { SilentReplyConversationType } from "../../shared/silent-reply-policy.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 
@@ -26,7 +26,7 @@ export type OutboundSessionContext = {
 };
 
 export function buildOutboundSessionContext(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionKey?: string | null;
   policySessionKey?: string | null;
   conversationType?: string | null;

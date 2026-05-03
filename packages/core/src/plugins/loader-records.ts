@@ -32,7 +32,7 @@ export function createPluginRecord(params: {
     name: params.name ?? params.id,
     description: params.description,
     version: params.version,
-    format: params.format ?? "openclaw",
+    format: params.format ?? "brikko-studio",
     bundleFormat: params.bundleFormat,
     bundleCapabilities: params.bundleCapabilities,
     source: params.source,
@@ -107,7 +107,7 @@ export function recordPluginError(params: {
   diagnosticMessagePrefix: string;
 }) {
   const errorText =
-    process.env.OPENCLAW_PLUGIN_LOADER_DEBUG_STACKS === "1" &&
+    process.env.BRIKKO_STUDIO_PLUGIN_LOADER_DEBUG_STACKS === "1" &&
     params.error instanceof Error &&
     typeof params.error.stack === "string"
       ? params.error.stack
@@ -147,7 +147,7 @@ export function formatPluginFailureSummary(failedPlugins: PluginRecord[]): strin
 }
 
 function isPluginLoadDebugEnabled(env: NodeJS.ProcessEnv): boolean {
-  const normalized = normalizeLowercaseStringOrEmpty(env.OPENCLAW_PLUGIN_LOAD_DEBUG);
+  const normalized = normalizeLowercaseStringOrEmpty(env.BRIKKO_STUDIO_PLUGIN_LOAD_DEBUG);
   return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
 }
 

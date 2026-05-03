@@ -1,12 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { createOpenClawTestInstance } from "./openclaw-test-instance.js";
+import { createBrikko StudioTestInstance } from "./brikko-studio-test-instance.js";
 
-describe("openclaw test instance", () => {
+describe("brikko-studio test instance", () => {
   it("creates isolated config and spawn env without mutating process env", async () => {
     const previousHome = process.env.HOME;
-    const inst = await createOpenClawTestInstance({
+    const inst = await createBrikko StudioTestInstance({
       name: "instance-unit",
       gatewayToken: "gateway-token",
       hookToken: "hook-token",
@@ -16,19 +16,19 @@ describe("openclaw test instance", () => {
         },
       },
       env: {
-        OPENCLAW_SKIP_CRON: "0",
+        BRIKKO_STUDIO_SKIP_CRON: "0",
       },
     });
 
     try {
       expect(process.env.HOME).toBe(previousHome);
       expect(inst.homeDir).toBe(path.join(inst.state.root, "home"));
-      expect(inst.stateDir).toBe(path.join(inst.homeDir, ".openclaw"));
-      expect(inst.configPath).toBe(path.join(inst.stateDir, "openclaw.json"));
+      expect(inst.stateDir).toBe(path.join(inst.homeDir, ".brikko-studio"));
+      expect(inst.configPath).toBe(path.join(inst.stateDir, "brikko-studio.json"));
       expect(inst.env.HOME).toBe(inst.homeDir);
-      expect(inst.env.OPENCLAW_STATE_DIR).toBe(inst.stateDir);
-      expect(inst.env.OPENCLAW_CONFIG_PATH).toBe(inst.configPath);
-      expect(inst.env.OPENCLAW_SKIP_CRON).toBe("0");
+      expect(inst.env.BRIKKO_STUDIO_STATE_DIR).toBe(inst.stateDir);
+      expect(inst.env.BRIKKO_STUDIO_CONFIG_PATH).toBe(inst.configPath);
+      expect(inst.env.BRIKKO_STUDIO_SKIP_CRON).toBe("0");
 
       const config = JSON.parse(await fs.readFile(inst.configPath, "utf8"));
       expect(config).toMatchObject({

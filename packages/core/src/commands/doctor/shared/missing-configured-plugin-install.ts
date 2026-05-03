@@ -5,7 +5,7 @@ import {
   listPotentialConfiguredChannelIds,
 } from "../../../channels/config-presence.js";
 import { listChannelPluginCatalogEntries } from "../../../channels/plugins/catalog.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../../../config/types.plugins.js";
 import { parseClawHubPluginSpec } from "../../../infra/clawhub-spec.js";
 import { parseRegistryNpmSpec } from "../../../infra/npm-registry-spec.js";
@@ -46,20 +46,20 @@ const RUNTIME_PLUGIN_INSTALL_CANDIDATES: readonly DownloadableInstallCandidate[]
   {
     pluginId: "acpx",
     label: "ACPX Runtime",
-    npmSpec: "@openclaw/acpx",
+    npmSpec: "@brikko-studio/acpx",
     trustedSourceLinkedOfficialInstall: true,
   },
   // Runtime-only configs do not have a provider/channel integration catalog entry.
   {
     pluginId: "codex",
     label: "Codex",
-    npmSpec: "@openclaw/codex",
+    npmSpec: "@brikko-studio/codex",
     trustedSourceLinkedOfficialInstall: true,
   },
 ];
 
 const MISSING_CHANNEL_CONFIG_DESCRIPTOR_DIAGNOSTIC = "without channelConfigs metadata";
-const UPDATE_IN_PROGRESS_ENV = "OPENCLAW_UPDATE_IN_PROGRESS";
+const UPDATE_IN_PROGRESS_ENV = "BRIKKO_STUDIO_UPDATE_IN_PROGRESS";
 
 function shouldFallbackClawHubToNpm(result: { ok: false; code?: string }): boolean {
   return (
@@ -88,10 +88,10 @@ function addConfiguredPluginId(ids: Set<string>, value: unknown): void {
 
 function addConfiguredAgentRuntimePluginIds(
   ids: Set<string>,
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   env?: NodeJS.ProcessEnv,
 ): void {
-  addConfiguredPluginId(ids, env?.OPENCLAW_AGENT_RUNTIME);
+  addConfiguredPluginId(ids, env?.BRIKKO_STUDIO_AGENT_RUNTIME);
   const agents = asObjectRecord(cfg.agents);
   const defaults = asObjectRecord(agents?.defaults);
   addConfiguredPluginId(ids, asObjectRecord(defaults?.agentRuntime)?.id);
@@ -101,7 +101,7 @@ function addConfiguredAgentRuntimePluginIds(
   }
 }
 
-function collectConfiguredPluginIds(cfg: OpenClawConfig, env?: NodeJS.ProcessEnv): Set<string> {
+function collectConfiguredPluginIds(cfg: Brikko StudioConfig, env?: NodeJS.ProcessEnv): Set<string> {
   const ids = new Set<string>();
   const plugins = asObjectRecord(cfg.plugins);
   if (plugins?.enabled === false) {
@@ -139,7 +139,7 @@ function collectConfiguredPluginIds(cfg: OpenClawConfig, env?: NodeJS.ProcessEnv
   return ids;
 }
 
-function collectConfiguredChannelIds(cfg: OpenClawConfig, env?: NodeJS.ProcessEnv): Set<string> {
+function collectConfiguredChannelIds(cfg: Brikko StudioConfig, env?: NodeJS.ProcessEnv): Set<string> {
   const ids = new Set<string>();
   if (asObjectRecord(cfg.plugins)?.enabled === false) {
     return ids;
@@ -162,7 +162,7 @@ function collectConfiguredChannelIds(cfg: OpenClawConfig, env?: NodeJS.ProcessEn
 }
 
 function collectDownloadableInstallCandidates(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   missingPluginIds: ReadonlySet<string>;
   configuredPluginIds?: ReadonlySet<string>;
@@ -288,7 +288,7 @@ function collectDownloadableInstallCandidates(params: {
 }
 
 function collectUpdateDeferredPluginIds(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   configuredPluginIds: ReadonlySet<string>;
   configuredChannelIds: ReadonlySet<string>;
@@ -480,7 +480,7 @@ async function installCandidate(params: {
 }
 
 export async function repairMissingConfiguredPluginInstalls(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
 }): Promise<{ changes: string[]; warnings: string[] }> {
   return repairMissingPluginInstalls({
@@ -492,7 +492,7 @@ export async function repairMissingConfiguredPluginInstalls(params: {
 }
 
 export async function repairMissingPluginInstallsForIds(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   pluginIds: Iterable<string>;
   channelIds?: Iterable<string>;
   blockedPluginIds?: Iterable<string>;
@@ -518,7 +518,7 @@ export async function repairMissingPluginInstallsForIds(params: {
 }
 
 async function repairMissingPluginInstalls(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   pluginIds: ReadonlySet<string>;
   channelIds: ReadonlySet<string>;
   blockedPluginIds?: ReadonlySet<string>;

@@ -37,7 +37,7 @@ import { resolveStorePath } from "../config/sessions/paths.js";
 import { loadSessionStore } from "../config/sessions/store.js";
 import { resolveSessionTranscriptFile } from "../config/sessions/transcript.js";
 import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { callGateway } from "../gateway/call.js";
 import { areHeartbeatsEnabled } from "../infra/heartbeat-wake.js";
 import {
@@ -175,7 +175,7 @@ export const ACP_SPAWN_SESSION_ACCEPTED_NOTE =
   "thread-bound ACP session stays active after this task; continue in-thread for follow-ups.";
 
 export function resolveAcpSpawnRuntimePolicyError(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   requesterSessionKey?: string;
   requesterSandboxed?: boolean;
   sandbox?: SpawnAcpSandboxMode;
@@ -307,7 +307,7 @@ function resolveAcpSessionMode(mode: SpawnAcpMode): AcpRuntimeSessionMode {
 }
 
 function isHeartbeatEnabledForSessionAgent(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionKey?: string;
 }): boolean {
   if (!areHeartbeatsEnabled()) {
@@ -345,9 +345,9 @@ function isHeartbeatEnabledForSessionAgent(params: {
 }
 
 function resolveHeartbeatConfigForAgent(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
-}): NonNullable<NonNullable<OpenClawConfig["agents"]>["defaults"]>["heartbeat"] {
+}): NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]>["heartbeat"] {
   const defaults = params.cfg.agents?.defaults?.heartbeat;
   const overrides = resolveAgentConfig(params.cfg, params.agentId)?.heartbeat;
   if (!defaults && !overrides) {
@@ -360,7 +360,7 @@ function resolveHeartbeatConfigForAgent(params: {
 }
 
 function hasSessionLocalHeartbeatRelayRoute(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   parentSessionKey: string;
   requesterAgentId: string;
 }): boolean {
@@ -397,7 +397,7 @@ function hasSessionLocalHeartbeatRelayRoute(params: {
 
 function resolveTargetAcpAgentId(params: {
   requestedAgentId?: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
 }): { ok: true; agentId: string } | { ok: false; error: string } {
   const requested = normalizeOptionalAgentId(params.requestedAgentId);
   if (requested) {
@@ -414,8 +414,8 @@ function resolveTargetAcpAgentId(params: {
       return {
         ok: false,
         error:
-          `agentId "${requested}" is an OpenClaw config agent, not an ACP harness. ` +
-          'Use runtime="subagent" or omit runtime for OpenClaw config agents. ' +
+          `agentId "${requested}" is an Brikko Studio config agent, not an ACP harness. ` +
+          'Use runtime="subagent" or omit runtime for Brikko Studio config agents. ' +
           'Use runtime="acp" only with external ACP harness ids such as codex, claude, droid, gemini, or opencode, or configure agents.list[].runtime.type="acp" with runtime.acp.agent.',
       };
     }
@@ -434,7 +434,7 @@ function resolveTargetAcpAgentId(params: {
   };
 }
 
-function isExplicitlyAllowedAcpAgent(cfg: OpenClawConfig, agentId: string): boolean {
+function isExplicitlyAllowedAcpAgent(cfg: Brikko StudioConfig, agentId: string): boolean {
   return (cfg.acp?.allowedAgents ?? []).some((entry) => {
     const normalized = normalizeOptionalAgentId(entry);
     return normalized === "*" || normalized === agentId;
@@ -500,7 +500,7 @@ async function resolveRuntimeCwdForAcpSpawn(params: {
 }
 
 function resolveRequesterInternalSessionKey(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   requesterSessionKey?: string;
 }): string {
   const { mainKey, alias } = resolveMainSessionAlias(params.cfg);
@@ -544,7 +544,7 @@ async function persistAcpSpawnSessionFileBestEffort(params: {
 }
 
 function resolveConversationRefForThreadBinding(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel?: string;
   accountId?: string;
   to?: string;
@@ -564,7 +564,7 @@ function resolveConversationRefForThreadBinding(params: {
 }
 
 function resolveAcpSpawnChannelAccountId(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel?: string;
   accountId?: string;
 }): string | undefined {
@@ -582,7 +582,7 @@ function resolveAcpSpawnChannelAccountId(params: {
 }
 
 function prepareAcpThreadBinding(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel?: string;
   accountId?: string;
   to?: string;
@@ -681,7 +681,7 @@ function prepareAcpThreadBinding(params: {
 }
 
 function resolveAcpSpawnRequesterState(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   parentSessionKey?: string;
   targetAgentId: string;
   ctx: SpawnAcpContext;
@@ -735,7 +735,7 @@ function resolveAcpSpawnRequesterState(params: {
 }
 
 function resolveAcpSubagentEnvelopeState(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   requesterSessionKey?: string;
   targetAgentId: string;
   requestedAgentId?: string;
@@ -869,7 +869,7 @@ function sessionEntryIsOwnedByRequester(params: {
 }
 
 function validateAcpResumeSessionOwnership(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   targetAgentId: string;
   requesterSessionKey?: string;
   resumeSessionId?: string;
@@ -912,7 +912,7 @@ function validateAcpResumeSessionOwnership(params: {
 }
 
 async function initializeAcpSpawnRuntime(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionKey: string;
   targetAgentId: string;
   runtimeMode: AcpRuntimeSessionMode;
@@ -970,7 +970,7 @@ async function initializeAcpSpawnRuntime(params: {
 }
 
 async function bindPreparedAcpThread(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionKey: string;
   targetAgentId: string;
   label?: string;
@@ -1050,7 +1050,7 @@ async function bindPreparedAcpThread(params: {
 }
 
 function resolveAcpSpawnBootstrapDeliveryPlan(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   spawnMode: SpawnAcpMode;
   requestThreadBinding: boolean;
   effectiveStreamToParent: boolean;

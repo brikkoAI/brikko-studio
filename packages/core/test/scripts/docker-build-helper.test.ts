@@ -59,7 +59,7 @@ describe("docker build helper", () => {
     expect(helper).toContain("docker_build_run()");
     expect(helper).toContain("docker buildx build --load");
     expect(helper).toContain("docker_build_transient_failure()");
-    expect(helper).toContain("OPENCLAW_DOCKER_BUILD_RETRIES");
+    expect(helper).toContain("BRIKKO_STUDIO_DOCKER_BUILD_RETRIES");
     expect(helper).toContain("frontend grpc server closed unexpectedly");
   });
 
@@ -80,20 +80,20 @@ describe("docker build helper", () => {
     const liveCliBackend = readFileSync(LIVE_CLI_BACKEND_DOCKER_PATH, "utf8");
 
     expect(helper).toContain("docker_build_on_missing_enabled()");
-    expect(helper).toContain("OPENCLAW_DOCKER_BUILD_ON_MISSING");
-    expect(helper).toContain("OPENCLAW_TESTBOX");
+    expect(helper).toContain("BRIKKO_STUDIO_DOCKER_BUILD_ON_MISSING");
+    expect(helper).toContain("BRIKKO_STUDIO_TESTBOX");
     expect(e2eImageHelper).toContain("docker_build_on_missing_enabled");
     expect(e2eImageHelper).toContain("Docker image not available; building");
     expect(liveBuild).toContain("docker image inspect");
     expect(liveBuild).toContain("docker pull");
     expect(liveBuild).toContain("Live-test image not available; building");
     expect(liveCliBackend).toContain(
-      'OPENCLAW_LIVE_DOCKER_REPO_ROOT="$ROOT_DIR" "$TRUSTED_HARNESS_DIR/scripts/test-live-build-docker.sh"',
+      'BRIKKO_STUDIO_LIVE_DOCKER_REPO_ROOT="$ROOT_DIR" "$TRUSTED_HARNESS_DIR/scripts/test-live-build-docker.sh"',
     );
-    expect(liveCliBackend).toContain("direct Codex CLI probe failed before OpenClaw gateway smoke");
+    expect(liveCliBackend).toContain("direct Codex CLI probe failed before Brikko Studio gateway smoke");
     expect(liveCliBackend).toContain("==> Direct Codex CLI probe ok");
     expect(liveCliBackend).not.toContain(
-      'echo "==> Reuse live-test image: $LIVE_IMAGE_NAME (OPENCLAW_SKIP_DOCKER_BUILD=1)"',
+      'echo "==> Reuse live-test image: $LIVE_IMAGE_NAME (BRIKKO_STUDIO_SKIP_DOCKER_BUILD=1)"',
     );
   });
 
@@ -111,17 +111,17 @@ describe("docker build helper", () => {
     expect(scheduler).toContain("path.dirname(process.execPath)");
     expect(scheduler).toContain("env.PATH = [...new Set(pathEntries)].join(path.delimiter)");
     expect(scheduler).toContain("withResolvedPnpmCommand");
-    expect(scheduler).toContain("OPENCLAW_DOCKER_ALL_PNPM_COMMAND");
+    expect(scheduler).toContain("BRIKKO_STUDIO_DOCKER_ALL_PNPM_COMMAND");
   });
 
   it("runs release installer E2E against the npm beta tag", () => {
     const scenarios = readFileSync(DOCKER_E2E_SCENARIOS_PATH, "utf8");
 
     expect(scenarios).toContain(
-      '"OPENCLAW_INSTALL_TAG=beta OPENCLAW_E2E_MODELS=openai OPENCLAW_INSTALL_E2E_IMAGE=openclaw-install-e2e-openai:local pnpm test:install:e2e"',
+      '"BRIKKO_STUDIO_INSTALL_TAG=beta BRIKKO_STUDIO_E2E_MODELS=openai BRIKKO_STUDIO_INSTALL_E2E_IMAGE=brikko-studio-install-e2e-openai:local pnpm test:install:e2e"',
     );
     expect(scenarios).toContain(
-      '"OPENCLAW_INSTALL_TAG=beta OPENCLAW_E2E_MODELS=anthropic OPENCLAW_INSTALL_E2E_IMAGE=openclaw-install-e2e-anthropic:local pnpm test:install:e2e"',
+      '"BRIKKO_STUDIO_INSTALL_TAG=beta BRIKKO_STUDIO_E2E_MODELS=anthropic BRIKKO_STUDIO_INSTALL_E2E_IMAGE=brikko-studio-install-e2e-anthropic:local pnpm test:install:e2e"',
     );
   });
 
@@ -130,7 +130,7 @@ describe("docker build helper", () => {
     const wrapper = readFileSync("scripts/test-install-sh-e2e-docker.sh", "utf8");
 
     expect(runner).toContain(
-      'AGENT_TURNS_PARALLEL="${OPENCLAW_INSTALL_E2E_AGENT_TURNS_PARALLEL:-1}"',
+      'AGENT_TURNS_PARALLEL="${BRIKKO_STUDIO_INSTALL_E2E_AGENT_TURNS_PARALLEL:-1}"',
     );
     expect(runner).toContain("time_phase");
     expect(runner).toContain("phase_mark_start");
@@ -139,7 +139,7 @@ describe("docker build helper", () => {
     expect(runner).toContain('run_agent_turn_bg "read proof"');
     expect(runner).toContain('run_agent_turn_bg "image write"');
     expect(runner).toContain('run_agent_turn_logged "read proof copy"');
-    expect(wrapper).toContain("OPENCLAW_INSTALL_E2E_AGENT_TURNS_PARALLEL");
+    expect(wrapper).toContain("BRIKKO_STUDIO_INSTALL_E2E_AGENT_TURNS_PARALLEL");
   });
 
   it("keeps package acceptance plugin coverage offline-capable", () => {
@@ -148,7 +148,7 @@ describe("docker build helper", () => {
     expect(scenarios).toContain('"plugins-offline"');
     expect(scenarios).toContain("`bundled-plugin-install-uninstall-${index}`");
     expect(scenarios).toContain("pnpm test:docker:bundled-plugin-install-uninstall");
-    expect(scenarios).toContain("OPENCLAW_PLUGINS_E2E_CLAWHUB=0");
+    expect(scenarios).toContain("BRIKKO_STUDIO_PLUGINS_E2E_CLAWHUB=0");
   });
 
   it("allows plugin update smoke to tolerate config metadata migrations", () => {
@@ -199,7 +199,7 @@ describe("docker build helper", () => {
     expect(doctorScenario).toContain("scripts/e2e/lib/package-compat.mjs");
     expect(pluginsSweep).toContain("scripts/e2e/lib/package-compat.mjs");
     expect(pluginUpdateProbe).toContain("../package-compat.mjs");
-    expect(scripts.join("\n")).toContain("OPENCLAW_PACKAGE_ACCEPTANCE_LEGACY_COMPAT");
+    expect(scripts.join("\n")).toContain("BRIKKO_STUDIO_PACKAGE_ACCEPTANCE_LEGACY_COMPAT");
     expect(scripts.join("\n")).toContain(
       "Package $package_version must support gateway install --wrapper.",
     );
@@ -214,16 +214,16 @@ describe("docker build helper", () => {
     const probe = readFileSync(BUNDLED_PLUGIN_INSTALL_UNINSTALL_PROBE_PATH, "utf8");
     const runtimeSmoke = readFileSync(BUNDLED_PLUGIN_INSTALL_UNINSTALL_RUNTIME_SMOKE_PATH, "utf8");
 
-    expect(runner).toContain("OPENCLAW_BUNDLED_PLUGIN_SWEEP_TOTAL");
-    expect(runner).toContain("OPENCLAW_BUNDLED_PLUGIN_SWEEP_INDEX");
-    expect(runner).toContain("OPENCLAW_BUNDLED_PLUGIN_RUNTIME_READY_MS");
+    expect(runner).toContain("BRIKKO_STUDIO_BUNDLED_PLUGIN_SWEEP_TOTAL");
+    expect(runner).toContain("BRIKKO_STUDIO_BUNDLED_PLUGIN_SWEEP_INDEX");
+    expect(runner).toContain("BRIKKO_STUDIO_BUNDLED_PLUGIN_RUNTIME_READY_MS");
     expect(runner).toContain("scripts/e2e/lib/bundled-plugin-install-uninstall/sweep.sh");
-    expect(probe).toContain('"openclaw.plugin.json"');
-    expect(runtimeSmoke).toContain("process.env.OPENCLAW_BUNDLED_PLUGIN_RUNTIME_READY_MS");
+    expect(probe).toContain('"brikko-studio.plugin.json"');
+    expect(runtimeSmoke).toContain("process.env.BRIKKO_STUDIO_BUNDLED_PLUGIN_RUNTIME_READY_MS");
     expect(runtimeSmoke).toContain("900000");
     expect(sweep).toContain("read -r plugin_id plugin_dir requires_config");
-    expect(sweep).toContain('node "$OPENCLAW_ENTRY" plugins install "$plugin_id"');
-    expect(sweep).toContain('node "$OPENCLAW_ENTRY" plugins uninstall "$plugin_id" --force');
+    expect(sweep).toContain('node "$BRIKKO_STUDIO_ENTRY" plugins install "$plugin_id"');
+    expect(sweep).toContain('node "$BRIKKO_STUDIO_ENTRY" plugins uninstall "$plugin_id" --force');
     expect(sweep).toContain("assert-installed");
     expect(sweep).toContain("assert-uninstalled");
   });
@@ -231,11 +231,11 @@ describe("docker build helper", () => {
   it("passes installer tag env to bash, not curl", () => {
     const runner = readFileSync(INSTALL_E2E_RUNNER_PATH, "utf8");
 
-    expect(runner).toContain('curl -fsSL "$INSTALL_URL" | OPENCLAW_BETA=1 bash');
-    expect(runner).toContain('curl -fsSL "$INSTALL_URL" | OPENCLAW_VERSION="$INSTALL_TAG" bash');
-    expect(runner).not.toContain('OPENCLAW_BETA=1 curl -fsSL "$INSTALL_URL" | bash');
+    expect(runner).toContain('curl -fsSL "$INSTALL_URL" | BRIKKO_STUDIO_BETA=1 bash');
+    expect(runner).toContain('curl -fsSL "$INSTALL_URL" | BRIKKO_STUDIO_VERSION="$INSTALL_TAG" bash');
+    expect(runner).not.toContain('BRIKKO_STUDIO_BETA=1 curl -fsSL "$INSTALL_URL" | bash');
     expect(runner).not.toContain(
-      'OPENCLAW_VERSION="$INSTALL_TAG" curl -fsSL "$INSTALL_URL" | bash',
+      'BRIKKO_STUDIO_VERSION="$INSTALL_TAG" curl -fsSL "$INSTALL_URL" | bash',
     );
   });
 
@@ -277,16 +277,16 @@ describe("docker build helper", () => {
     const clawhub = readFileSync(PLUGINS_DOCKER_CLAWHUB_PATH, "utf8");
 
     expect(runner).toContain("scripts/e2e/lib/plugins/sweep.sh");
-    expect(runner).toContain("OPENCLAW_PLUGINS_E2E_LIVE_CLAWHUB");
+    expect(runner).toContain("BRIKKO_STUDIO_PLUGINS_E2E_LIVE_CLAWHUB");
     expect(sweep).toContain("scripts/e2e/lib/plugins/clawhub.sh");
     expect(clawhub).toContain("start_clawhub_fixture_server()");
-    expect(clawhub).toContain('OPENCLAW_CLAWHUB_URL="http://127.0.0.1:');
-    expect(clawhub).toContain("OPENCLAW_PLUGINS_E2E_LIVE_CLAWHUB");
-    expect(clawhub).toContain("OPENCLAW_PLUGINS_E2E_LIVE_NPM_REGISTRY");
+    expect(clawhub).toContain('BRIKKO_STUDIO_CLAWHUB_URL="http://127.0.0.1:');
+    expect(clawhub).toContain("BRIKKO_STUDIO_PLUGINS_E2E_LIVE_CLAWHUB");
+    expect(clawhub).toContain("BRIKKO_STUDIO_PLUGINS_E2E_LIVE_NPM_REGISTRY");
     expect(clawhub).toContain("live ClawHub can rate-limit CI");
-    expect(clawhub).toContain('[[ -n "${OPENCLAW_CLAWHUB_URL:-}" || -n "${CLAWHUB_URL:-}" ]]');
+    expect(clawhub).toContain('[[ -n "${BRIKKO_STUDIO_CLAWHUB_URL:-}" || -n "${CLAWHUB_URL:-}" ]]');
     expect(clawhub).toContain("Ignoring ambient ClawHub URL for fixture-mode plugin E2E");
-    expect(clawhub).toContain("unset OPENCLAW_CLAWHUB_URL CLAWHUB_URL");
+    expect(clawhub).toContain("unset BRIKKO_STUDIO_CLAWHUB_URL CLAWHUB_URL");
   });
 
   it("covers plugin install/update sources in the Docker plugin sweep", () => {
@@ -300,7 +300,7 @@ describe("docker build helper", () => {
     expect(assertions).toContain('Skipping "demo-plugin-dir" (source: path).');
 
     expect(sweep).toContain("start_npm_fixture_registry");
-    expect(sweep).toContain('plugins install "npm:@openclaw/demo-plugin-npm@0.0.1"');
+    expect(sweep).toContain('plugins install "npm:@brikko-studio/demo-plugin-npm@0.0.1"');
     expect(sweep).toContain("plugins update demo-plugin-npm");
     expect(assertions).toContain("demo-plugin-npm is up to date (0.0.1).");
     expect(npmRegistry).toContain('"dist-tags": { latest: entry.latestVersion }');
@@ -313,7 +313,7 @@ describe("docker build helper", () => {
 
     expect(clawhub).toContain('plugins install "$CLAWHUB_PLUGIN_SPEC"');
     expect(clawhub).toContain('plugins update "$CLAWHUB_PLUGIN_ID"');
-    expect(clawhub).toContain("clawhub:@openclaw/kitchen-sink");
+    expect(clawhub).toContain("clawhub:@brikko-studio/kitchen-sink");
     expect(assertions).toContain("clawhub-updated");
     expect(assertions).toContain("record.clawpackSha256");
     expect(assertions).toContain("record.artifactKind");

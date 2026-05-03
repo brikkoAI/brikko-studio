@@ -1,4 +1,4 @@
-import { withServer } from "openclaw/plugin-sdk/test-env";
+import { withServer } from "brikko-studio/plugin-sdk/test-env";
 import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { PluginRuntime } from "../runtime-api.js";
 import {

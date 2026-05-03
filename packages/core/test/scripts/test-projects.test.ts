@@ -50,18 +50,18 @@ function findVitestConfigFactory(mod: Record<string, unknown>): VitestConfigFact
 
 async function loadRawVitestConfig(configPath: string): Promise<VitestConfig> {
   const previousArgv = process.argv;
-  const previousIncludeFile = process.env.OPENCLAW_VITEST_INCLUDE_FILE;
+  const previousIncludeFile = process.env.BRIKKO_STUDIO_VITEST_INCLUDE_FILE;
   process.argv = [previousArgv[0] ?? "node", previousArgv[1] ?? "vitest"];
-  delete process.env.OPENCLAW_VITEST_INCLUDE_FILE;
+  delete process.env.BRIKKO_STUDIO_VITEST_INCLUDE_FILE;
   try {
     const mod = (await import(path.resolve(process.cwd(), configPath))) as Record<string, unknown>;
     return findVitestConfigFactory(mod)?.(process.env) ?? ((mod.default ?? {}) as VitestConfig);
   } finally {
     process.argv = previousArgv;
     if (previousIncludeFile === undefined) {
-      delete process.env.OPENCLAW_VITEST_INCLUDE_FILE;
+      delete process.env.BRIKKO_STUDIO_VITEST_INCLUDE_FILE;
     } else {
-      process.env.OPENCLAW_VITEST_INCLUDE_FILE = previousIncludeFile;
+      process.env.BRIKKO_STUDIO_VITEST_INCLUDE_FILE = previousIncludeFile;
     }
   }
 }
@@ -122,7 +122,7 @@ describe("scripts/test-projects changed-target routing", () => {
         ["--changed", "origin/main"],
         process.cwd(),
         () => ["test/vitest/vitest.shared.config.ts", "src/utils/provider-utils.ts"],
-        { env: { OPENCLAW_TEST_CHANGED_BROAD: "1" } },
+        { env: { BRIKKO_STUDIO_TEST_CHANGED_BROAD: "1" } },
       ),
     ).toBeNull();
   });
@@ -308,7 +308,7 @@ describe("scripts/test-projects changed-target routing", () => {
         ["--changed", "origin/main"],
         process.cwd(),
         () => ["test/helpers/poll.ts"],
-        { env: { OPENCLAW_TEST_CHANGED_BROAD: "1" } },
+        { env: { BRIKKO_STUDIO_TEST_CHANGED_BROAD: "1" } },
       ),
     ).toBeNull();
   });
@@ -374,7 +374,7 @@ describe("scripts/test-projects changed-target routing", () => {
         ["--changed", "origin/main"],
         process.cwd(),
         () => ["unknown/file.txt"],
-        { env: { OPENCLAW_TEST_CHANGED_BROAD: "1" } },
+        { env: { BRIKKO_STUDIO_TEST_CHANGED_BROAD: "1" } },
       ),
     ).toBeNull();
   });
@@ -396,7 +396,7 @@ describe("scripts/test-projects changed-target routing", () => {
   it("skips app-only changes because app tests are separate from Vitest lanes", () => {
     expect(
       buildVitestRunPlans(["--changed", "origin/main"], process.cwd(), () => [
-        "apps/macos/OpenClaw/AppDelegate.swift",
+        "apps/macos/Brikko Studio/AppDelegate.swift",
       ]),
     ).toEqual([]);
   });
@@ -421,7 +421,7 @@ describe("scripts/test-projects changed-target routing", () => {
       ["--changed", "origin/main"],
       process.cwd(),
       () => ["src/plugin-sdk/provider-entry.ts"],
-      { env: { OPENCLAW_TEST_CHANGED_BROAD: "1" } },
+      { env: { BRIKKO_STUDIO_TEST_CHANGED_BROAD: "1" } },
     );
 
     expect(plans).toEqual([
@@ -782,7 +782,7 @@ describe("scripts/test-projects changed-target routing", () => {
       ["--changed", "origin/main"],
       process.cwd(),
       () => ["src/plugin-sdk/facade-runtime.ts"],
-      { env: { OPENCLAW_TEST_CHANGED_BROAD: "1" } },
+      { env: { BRIKKO_STUDIO_TEST_CHANGED_BROAD: "1" } },
     );
 
     expect(plans).toEqual([
@@ -826,7 +826,7 @@ describe("scripts/test-projects changed-target routing", () => {
   it("keeps broad changed fallback available through explicit env", () => {
     expect(
       resolveChangedTestTargetPlan(["package.json", "src/commands/channels.add.ts"], {
-        env: { OPENCLAW_TEST_CHANGED_BROAD: "1" },
+        env: { BRIKKO_STUDIO_TEST_CHANGED_BROAD: "1" },
       }),
     ).toEqual({
       mode: "broad",
@@ -861,8 +861,8 @@ describe("scripts/test-projects changed-target routing", () => {
 describe("scripts/test-projects local heavy-check lock", () => {
   const localCheckEnv = () => ({
     ...process.env,
-    OPENCLAW_TEST_HEAVY_CHECK_LOCK_HELD: undefined,
-    OPENCLAW_TEST_PROJECTS_FORCE_LOCK: undefined,
+    BRIKKO_STUDIO_TEST_HEAVY_CHECK_LOCK_HELD: undefined,
+    BRIKKO_STUDIO_TEST_PROJECTS_FORCE_LOCK: undefined,
   });
 
   it("skips the lock for a single scoped tooling run", () => {
@@ -907,7 +907,7 @@ describe("scripts/test-projects local heavy-check lock", () => {
         ],
         {
           ...localCheckEnv(),
-          OPENCLAW_TEST_HEAVY_CHECK_LOCK_HELD: "1",
+          BRIKKO_STUDIO_TEST_HEAVY_CHECK_LOCK_HELD: "1",
         },
       ),
     ).toBe(false);
@@ -925,7 +925,7 @@ describe("scripts/test-projects local heavy-check lock", () => {
         ],
         {
           ...localCheckEnv(),
-          OPENCLAW_TEST_PROJECTS_FORCE_LOCK: "1",
+          BRIKKO_STUDIO_TEST_PROJECTS_FORCE_LOCK: "1",
         },
       ),
     ).toBe(true);
@@ -1001,7 +1001,7 @@ describe("scripts/test-projects full-suite sharding", () => {
       resolveParallelFullSuiteConcurrency(
         61,
         {
-          OPENCLAW_TEST_PROJECTS_PARALLEL: "3",
+          BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL: "3",
         },
         {
           cpuCount: 14,
@@ -1013,12 +1013,12 @@ describe("scripts/test-projects full-suite sharding", () => {
   });
 
   it("keeps serial untargeted runs on aggregate shards", () => {
-    const previousParallel = process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
-    const previousSerial = process.env.OPENCLAW_TEST_PROJECTS_SERIAL;
-    delete process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
-    delete process.env.OPENCLAW_TEST_SKIP_FULL_EXTENSIONS_SHARD;
-    delete process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
-    process.env.OPENCLAW_TEST_PROJECTS_SERIAL = "1";
+    const previousParallel = process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
+    const previousSerial = process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL;
+    delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
+    delete process.env.BRIKKO_STUDIO_TEST_SKIP_FULL_EXTENSIONS_SHARD;
+    delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
+    process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL = "1";
     try {
       expect(buildFullSuiteVitestRunPlans([], process.cwd()).map((plan) => plan.config)).toEqual([
         "test/vitest/vitest.full-core-unit-fast.config.ts",
@@ -1036,33 +1036,33 @@ describe("scripts/test-projects full-suite sharding", () => {
       ]);
     } finally {
       if (previousParallel === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_PARALLEL = previousParallel;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL = previousParallel;
       }
       if (previousSerial === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_SERIAL;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_SERIAL = previousSerial;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL = previousSerial;
       }
     }
   });
 
   it("expands untargeted local runs to leaf project configs by default", () => {
-    const previousLeafShards = process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
-    const previousParallel = process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
-    const previousSerial = process.env.OPENCLAW_TEST_PROJECTS_SERIAL;
+    const previousLeafShards = process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
+    const previousParallel = process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
+    const previousSerial = process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL;
     const previousCi = process.env.CI;
     const previousActions = process.env.GITHUB_ACTIONS;
-    const previousVitestMaxWorkers = process.env.OPENCLAW_VITEST_MAX_WORKERS;
-    const previousTestWorkers = process.env.OPENCLAW_TEST_WORKERS;
-    delete process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
-    delete process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
-    delete process.env.OPENCLAW_TEST_PROJECTS_SERIAL;
+    const previousVitestMaxWorkers = process.env.BRIKKO_STUDIO_VITEST_MAX_WORKERS;
+    const previousTestWorkers = process.env.BRIKKO_STUDIO_TEST_WORKERS;
+    delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
+    delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
+    delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL;
     delete process.env.CI;
     delete process.env.GITHUB_ACTIONS;
-    delete process.env.OPENCLAW_VITEST_MAX_WORKERS;
-    delete process.env.OPENCLAW_TEST_WORKERS;
+    delete process.env.BRIKKO_STUDIO_VITEST_MAX_WORKERS;
+    delete process.env.BRIKKO_STUDIO_TEST_WORKERS;
     try {
       const configs = buildFullSuiteVitestRunPlans([], process.cwd()).map((plan) => plan.config);
 
@@ -1072,19 +1072,19 @@ describe("scripts/test-projects full-suite sharding", () => {
       expect(configs).not.toContain("test/vitest/vitest.full-core-unit-fast.config.ts");
     } finally {
       if (previousLeafShards === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS = previousLeafShards;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS = previousLeafShards;
       }
       if (previousParallel === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_PARALLEL = previousParallel;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL = previousParallel;
       }
       if (previousSerial === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_SERIAL;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_SERIAL = previousSerial;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL = previousSerial;
       }
       if (previousCi === undefined) {
         delete process.env.CI;
@@ -1097,25 +1097,25 @@ describe("scripts/test-projects full-suite sharding", () => {
         process.env.GITHUB_ACTIONS = previousActions;
       }
       if (previousVitestMaxWorkers === undefined) {
-        delete process.env.OPENCLAW_VITEST_MAX_WORKERS;
+        delete process.env.BRIKKO_STUDIO_VITEST_MAX_WORKERS;
       } else {
-        process.env.OPENCLAW_VITEST_MAX_WORKERS = previousVitestMaxWorkers;
+        process.env.BRIKKO_STUDIO_VITEST_MAX_WORKERS = previousVitestMaxWorkers;
       }
       if (previousTestWorkers === undefined) {
-        delete process.env.OPENCLAW_TEST_WORKERS;
+        delete process.env.BRIKKO_STUDIO_TEST_WORKERS;
       } else {
-        process.env.OPENCLAW_TEST_WORKERS = previousTestWorkers;
+        process.env.BRIKKO_STUDIO_TEST_WORKERS = previousTestWorkers;
       }
     }
   });
 
   it("can skip the aggregate extension shard when CI runs dedicated extension shards", () => {
-    const previous = process.env.OPENCLAW_TEST_SKIP_FULL_EXTENSIONS_SHARD;
-    const previousParallel = process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
-    const previousSerial = process.env.OPENCLAW_TEST_PROJECTS_SERIAL;
-    delete process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
-    process.env.OPENCLAW_TEST_PROJECTS_SERIAL = "1";
-    process.env.OPENCLAW_TEST_SKIP_FULL_EXTENSIONS_SHARD = "1";
+    const previous = process.env.BRIKKO_STUDIO_TEST_SKIP_FULL_EXTENSIONS_SHARD;
+    const previousParallel = process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
+    const previousSerial = process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL;
+    delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
+    process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL = "1";
+    process.env.BRIKKO_STUDIO_TEST_SKIP_FULL_EXTENSIONS_SHARD = "1";
     try {
       const configs = buildFullSuiteVitestRunPlans([], process.cwd()).map((plan) => plan.config);
 
@@ -1123,35 +1123,35 @@ describe("scripts/test-projects full-suite sharding", () => {
       expect(configs).toContain("test/vitest/vitest.full-auto-reply.config.ts");
     } finally {
       if (previous === undefined) {
-        delete process.env.OPENCLAW_TEST_SKIP_FULL_EXTENSIONS_SHARD;
+        delete process.env.BRIKKO_STUDIO_TEST_SKIP_FULL_EXTENSIONS_SHARD;
       } else {
-        process.env.OPENCLAW_TEST_SKIP_FULL_EXTENSIONS_SHARD = previous;
+        process.env.BRIKKO_STUDIO_TEST_SKIP_FULL_EXTENSIONS_SHARD = previous;
       }
       if (previousParallel === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_PARALLEL = previousParallel;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL = previousParallel;
       }
       if (previousSerial === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_SERIAL;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_SERIAL = previousSerial;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_SERIAL = previousSerial;
       }
     }
   });
 
   it("can expand full-suite shards to project configs for perf experiments", () => {
-    const previous = process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
+    const previous = process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
     const gatewayServerConfig = "test/vitest/vitest.gateway-server.config.ts";
-    process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS = "1";
+    process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS = "1";
     let plans: ReturnType<typeof buildFullSuiteVitestRunPlans>;
     try {
       plans = buildFullSuiteVitestRunPlans([], process.cwd());
     } finally {
       if (previous === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS = previous;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS = previous;
       }
     }
 
@@ -1257,10 +1257,10 @@ describe("scripts/test-projects full-suite sharding", () => {
   });
 
   it("skips extension project configs when leaf sharding and the aggregate extension shard is disabled", () => {
-    const previousLeafShards = process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
-    const previousSkipExtensions = process.env.OPENCLAW_TEST_SKIP_FULL_EXTENSIONS_SHARD;
-    process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS = "1";
-    process.env.OPENCLAW_TEST_SKIP_FULL_EXTENSIONS_SHARD = "1";
+    const previousLeafShards = process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
+    const previousSkipExtensions = process.env.BRIKKO_STUDIO_TEST_SKIP_FULL_EXTENSIONS_SHARD;
+    process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS = "1";
+    process.env.BRIKKO_STUDIO_TEST_SKIP_FULL_EXTENSIONS_SHARD = "1";
     try {
       const configs = buildFullSuiteVitestRunPlans([], process.cwd()).map((plan) => plan.config);
 
@@ -1269,23 +1269,23 @@ describe("scripts/test-projects full-suite sharding", () => {
       expect(configs).toContain("test/vitest/vitest.auto-reply-reply.config.ts");
     } finally {
       if (previousLeafShards === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS = previousLeafShards;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS = previousLeafShards;
       }
       if (previousSkipExtensions === undefined) {
-        delete process.env.OPENCLAW_TEST_SKIP_FULL_EXTENSIONS_SHARD;
+        delete process.env.BRIKKO_STUDIO_TEST_SKIP_FULL_EXTENSIONS_SHARD;
       } else {
-        process.env.OPENCLAW_TEST_SKIP_FULL_EXTENSIONS_SHARD = previousSkipExtensions;
+        process.env.BRIKKO_STUDIO_TEST_SKIP_FULL_EXTENSIONS_SHARD = previousSkipExtensions;
       }
     }
   });
 
   it("expands full-suite shards before running them in parallel", () => {
-    const previousLeafShards = process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
-    const previousParallel = process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
-    delete process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
-    process.env.OPENCLAW_TEST_PROJECTS_PARALLEL = "6";
+    const previousLeafShards = process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
+    const previousParallel = process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
+    delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
+    process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL = "6";
     try {
       const configs = buildFullSuiteVitestRunPlans([], process.cwd()).map((plan) => plan.config);
 
@@ -1293,14 +1293,14 @@ describe("scripts/test-projects full-suite sharding", () => {
       expect(configs).not.toContain("test/vitest/vitest.full-extensions.config.ts");
     } finally {
       if (previousLeafShards === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS = previousLeafShards;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS = previousLeafShards;
       }
       if (previousParallel === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_PARALLEL = previousParallel;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL = previousParallel;
       }
     }
   });
@@ -1329,7 +1329,7 @@ describe("scripts/test-projects parallel cache paths", () => {
 
     expect(specs.map((spec) => spec.env)).toEqual([
       {
-        OPENCLAW_VITEST_FS_MODULE_CACHE_PATH: path.join(
+        BRIKKO_STUDIO_VITEST_FS_MODULE_CACHE_PATH: path.join(
           "/repo",
           "node_modules",
           ".experimental-vitest-cache",
@@ -1337,7 +1337,7 @@ describe("scripts/test-projects parallel cache paths", () => {
         ),
       },
       {
-        OPENCLAW_VITEST_FS_MODULE_CACHE_PATH: path.join(
+        BRIKKO_STUDIO_VITEST_FS_MODULE_CACHE_PATH: path.join(
           "/repo",
           "node_modules",
           ".experimental-vitest-cache",
@@ -1350,10 +1350,10 @@ describe("scripts/test-projects parallel cache paths", () => {
   it("keeps an explicit global cache path", () => {
     const [spec] = applyParallelVitestCachePaths(
       [{ config: "test/vitest/vitest.gateway.config.ts", env: {}, pnpmArgs: [] }],
-      { cwd: "/repo", env: { OPENCLAW_VITEST_FS_MODULE_CACHE_PATH: "/tmp/cache" } },
+      { cwd: "/repo", env: { BRIKKO_STUDIO_VITEST_FS_MODULE_CACHE_PATH: "/tmp/cache" } },
     );
 
-    expect(spec?.env.OPENCLAW_VITEST_FS_MODULE_CACHE_PATH).toBeUndefined();
+    expect(spec?.env.BRIKKO_STUDIO_VITEST_FS_MODULE_CACHE_PATH).toBeUndefined();
   });
 });
 
@@ -1373,7 +1373,7 @@ describe("scripts/test-projects Vitest stall watchdog", () => {
       { env: { PATH: "/usr/bin" } },
     );
 
-    expect(spec?.env.OPENCLAW_VITEST_NO_OUTPUT_TIMEOUT_MS).toBe(
+    expect(spec?.env.BRIKKO_STUDIO_VITEST_NO_OUTPUT_TIMEOUT_MS).toBe(
       DEFAULT_TEST_PROJECTS_VITEST_NO_OUTPUT_TIMEOUT_MS,
     );
   });
@@ -1391,7 +1391,7 @@ describe("scripts/test-projects Vitest stall watchdog", () => {
         },
         {
           config: "test/vitest/vitest.extension-memory.config.ts",
-          env: { OPENCLAW_VITEST_NO_OUTPUT_TIMEOUT_MS: "0", PATH: "/usr/bin" },
+          env: { BRIKKO_STUDIO_VITEST_NO_OUTPUT_TIMEOUT_MS: "0", PATH: "/usr/bin" },
           includeFilePath: null,
           includePatterns: null,
           pnpmArgs: [],
@@ -1401,15 +1401,15 @@ describe("scripts/test-projects Vitest stall watchdog", () => {
       { env: { PATH: "/usr/bin" } },
     );
 
-    expect(specs[0]?.env.OPENCLAW_VITEST_NO_OUTPUT_TIMEOUT_MS).toBeUndefined();
-    expect(specs[1]?.env.OPENCLAW_VITEST_NO_OUTPUT_TIMEOUT_MS).toBe("0");
+    expect(specs[0]?.env.BRIKKO_STUDIO_VITEST_NO_OUTPUT_TIMEOUT_MS).toBeUndefined();
+    expect(specs[1]?.env.BRIKKO_STUDIO_VITEST_NO_OUTPUT_TIMEOUT_MS).toBe("0");
   });
 
   it("allows changed checks to disable automatic silent-run retries", () => {
     expect(shouldRetryVitestNoOutputTimeout({})).toBe(true);
-    expect(shouldRetryVitestNoOutputTimeout({ OPENCLAW_VITEST_NO_OUTPUT_RETRY: "1" })).toBe(true);
-    expect(shouldRetryVitestNoOutputTimeout({ OPENCLAW_VITEST_NO_OUTPUT_RETRY: "0" })).toBe(false);
-    expect(shouldRetryVitestNoOutputTimeout({ OPENCLAW_VITEST_NO_OUTPUT_RETRY: "false" })).toBe(
+    expect(shouldRetryVitestNoOutputTimeout({ BRIKKO_STUDIO_VITEST_NO_OUTPUT_RETRY: "1" })).toBe(true);
+    expect(shouldRetryVitestNoOutputTimeout({ BRIKKO_STUDIO_VITEST_NO_OUTPUT_RETRY: "0" })).toBe(false);
+    expect(shouldRetryVitestNoOutputTimeout({ BRIKKO_STUDIO_VITEST_NO_OUTPUT_RETRY: "false" })).toBe(
       false,
     );
   });
@@ -1439,7 +1439,7 @@ describe("scripts/test-projects Vitest cache isolation", () => {
       { cwd: "/repo", env: {} },
     );
 
-    expect(specs.map((spec) => spec.env.OPENCLAW_VITEST_FS_MODULE_CACHE_PATH)).toEqual([
+    expect(specs.map((spec) => spec.env.BRIKKO_STUDIO_VITEST_FS_MODULE_CACHE_PATH)).toEqual([
       path.join(
         "/repo",
         "node_modules",

@@ -96,7 +96,7 @@ beforeEach(() => {
   vi.mocked(enqueueFollowupRun).mockClear();
   vi.mocked(refreshQueuedFollowupSession).mockClear();
   vi.mocked(scheduleFollowupDrain).mockClear();
-  vi.stubEnv("OPENCLAW_TEST_FAST", "1");
+  vi.stubEnv("BRIKKO_STUDIO_TEST_FAST", "1");
 });
 
 function createMinimalRun(params?: {
@@ -148,7 +148,7 @@ function createMinimalRun(params?: {
       },
       timeoutMs: 1_000,
       blockReplyBreak: "message_end",
-      skipProviderRuntimeHints: process.env.OPENCLAW_TEST_FAST === "1",
+      skipProviderRuntimeHints: process.env.BRIKKO_STUDIO_TEST_FAST === "1",
       ...params?.runOverrides,
     },
   } as unknown as FollowupRun;

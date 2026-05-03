@@ -1,6 +1,6 @@
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/channel-plugin-common";
+import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/channel-plugin-common";
 
-export function registerMatrixCliMetadata(api: OpenClawPluginApi) {
+export function registerMatrixCliMetadata(api: Brikko StudioPluginApi) {
   api.registerCli(
     async ({ program }) => {
       const { registerMatrixCli } = await import("./cli.js");

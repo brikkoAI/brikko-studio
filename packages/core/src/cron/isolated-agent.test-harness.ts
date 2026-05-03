@@ -1,11 +1,11 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { withTempHome as withTempHomeBase } from "openclaw/plugin-sdk/test-env";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { withTempHome as withTempHomeBase } from "brikko-studio/plugin-sdk/test-env";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { CronJob } from "./types.js";
 
 export async function withTempCronHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
-  return withTempHomeBase(fn, { prefix: "openclaw-cron-" });
+  return withTempHomeBase(fn, { prefix: "brikko-studio-cron-" });
 }
 
 export async function writeSessionStore(
@@ -25,7 +25,7 @@ export async function writeSessionStoreEntries(
   home: string,
   entries: Record<string, Record<string, unknown>>,
 ): Promise<string> {
-  const dir = path.join(home, ".openclaw", "sessions");
+  const dir = path.join(home, ".brikko-studio", "sessions");
   await fs.mkdir(dir, { recursive: true });
   const storePath = path.join(dir, "sessions.json");
   await fs.writeFile(storePath, JSON.stringify(entries, null, 2), "utf-8");
@@ -35,17 +35,17 @@ export async function writeSessionStoreEntries(
 export function makeCfg(
   home: string,
   storePath: string,
-  overrides: Partial<OpenClawConfig> = {},
-): OpenClawConfig {
-  const base: OpenClawConfig = {
+  overrides: Partial<Brikko StudioConfig> = {},
+): Brikko StudioConfig {
+  const base: Brikko StudioConfig = {
     agents: {
       defaults: {
         model: "anthropic/claude-opus-4-6",
-        workspace: path.join(home, "openclaw"),
+        workspace: path.join(home, "brikko-studio"),
       },
     },
     session: { store: storePath, mainKey: "main" },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
   return { ...base, ...overrides };
 }
 

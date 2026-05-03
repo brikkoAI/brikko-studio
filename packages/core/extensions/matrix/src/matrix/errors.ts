@@ -1,5 +1,5 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/string-coerce-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/string-coerce-runtime";
 
 export function formatMatrixErrorMessage(err: unknown): string {
   return formatErrorMessage(err);

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { withTempDir } from "../test-helpers/temp-dir.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import { runCapability } from "./runner.js";
@@ -27,8 +27,8 @@ describe("runCapability video provider wiring", () => {
     let seenBaseUrl: string | undefined;
     let seenHeaders: Record<string, string> | undefined;
 
-    await withTempDir({ prefix: "openclaw-video-auth-" }, async (isolatedAgentDir) => {
-      await withVideoFixture("openclaw-video-merge", async ({ ctx, media, cache }) => {
+    await withTempDir({ prefix: "brikko-studio-video-auth-" }, async (isolatedAgentDir) => {
+      await withVideoFixture("brikko-studio-video-merge", async ({ ctx, media, cache }) => {
         const cfg = {
           models: {
             providers: {
@@ -58,7 +58,7 @@ describe("runCapability video provider wiring", () => {
               },
             },
           },
-        } as unknown as OpenClawConfig;
+        } as unknown as Brikko StudioConfig;
 
         const result = await runCapability({
           capability: "video",
@@ -96,17 +96,17 @@ describe("runCapability video provider wiring", () => {
   });
 
   it("auto-selects moonshot for video when google is unavailable", async () => {
-    await withTempDir({ prefix: "openclaw-video-agent-" }, async (isolatedAgentDir) => {
+    await withTempDir({ prefix: "brikko-studio-video-agent-" }, async (isolatedAgentDir) => {
       await withEnvAsync(
         {
           GEMINI_API_KEY: undefined,
           GOOGLE_API_KEY: undefined,
           MOONSHOT_API_KEY: undefined,
-          OPENCLAW_AGENT_DIR: isolatedAgentDir,
+          BRIKKO_STUDIO_AGENT_DIR: isolatedAgentDir,
           PI_CODING_AGENT_DIR: isolatedAgentDir,
         },
         async () => {
-          await withVideoFixture("openclaw-video-auto-moonshot", async ({ ctx, media, cache }) => {
+          await withVideoFixture("brikko-studio-video-auto-moonshot", async ({ ctx, media, cache }) => {
             const cfg = {
               models: {
                 providers: {
@@ -124,7 +124,7 @@ describe("runCapability video provider wiring", () => {
                   },
                 },
               },
-            } as unknown as OpenClawConfig;
+            } as unknown as Brikko StudioConfig;
 
             const result = await runCapability({
               capability: "video",

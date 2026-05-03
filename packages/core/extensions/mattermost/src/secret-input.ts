@@ -1,7 +1,7 @@
-export type { SecretInput } from "openclaw/plugin-sdk/secret-input";
+export type { SecretInput } from "brikko-studio/plugin-sdk/secret-input";
 export {
   buildSecretInputSchema,
   hasConfiguredSecretInput,
   normalizeResolvedSecretInputString,
   normalizeSecretInputString,
-} from "openclaw/plugin-sdk/secret-input";
+} from "brikko-studio/plugin-sdk/secret-input";

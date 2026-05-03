@@ -10,7 +10,7 @@ import {
 let tempRoots: string[] = [];
 
 function makeRepoFixture(): string {
-  const repoRoot = mkdtempSync(join(tmpdir(), "openclaw-config-boundary-"));
+  const repoRoot = mkdtempSync(join(tmpdir(), "brikko-studio-config-boundary-"));
   tempRoots.push(repoRoot);
   for (const dir of ["src", "extensions", "packages", "test", "scripts"]) {
     mkdirSync(join(repoRoot, dir), { recursive: true });
@@ -82,19 +82,19 @@ describe("config boundary guard", () => {
       repoRoot,
       "extensions/telegram/src/index.ts",
       [
-        'import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";',
-        'import { requireRuntimeConfig } from "openclaw/plugin-sdk/config-runtime";',
-        'type Loader = typeof import("openclaw/plugin-sdk/config-runtime").getRuntimeConfig;',
-        "export type Config = OpenClawConfig;",
+        'import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-runtime";',
+        'import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/config-runtime";',
+        'type Loader = typeof import("brikko-studio/plugin-sdk/config-runtime").getRuntimeConfig;',
+        "export type Config = Brikko StudioConfig;",
         "export const load: Loader = requireRuntimeConfig;",
       ].join("\n"),
     );
 
     expect(collectDeprecatedInternalConfigApiViolations({ repoRoot })).toEqual(
       expect.arrayContaining([
-        "extensions/telegram/src/index.ts:1 use narrow plugin-sdk config subpaths instead of openclaw/plugin-sdk/config-runtime",
-        "extensions/telegram/src/index.ts:2 use narrow plugin-sdk config subpaths instead of openclaw/plugin-sdk/config-runtime",
-        "extensions/telegram/src/index.ts:3 use narrow plugin-sdk config subpaths instead of openclaw/plugin-sdk/config-runtime",
+        "extensions/telegram/src/index.ts:1 use narrow plugin-sdk config subpaths instead of brikko-studio/plugin-sdk/config-runtime",
+        "extensions/telegram/src/index.ts:2 use narrow plugin-sdk config subpaths instead of brikko-studio/plugin-sdk/config-runtime",
+        "extensions/telegram/src/index.ts:3 use narrow plugin-sdk config subpaths instead of brikko-studio/plugin-sdk/config-runtime",
       ]),
     );
   });
@@ -104,11 +104,11 @@ describe("config boundary guard", () => {
     writeFixture(
       repoRoot,
       "extensions/telegram/src/index.test.ts",
-      'vi.mock("openclaw/plugin-sdk/config-runtime", () => ({}));',
+      'vi.mock("brikko-studio/plugin-sdk/config-runtime", () => ({}));',
     );
 
     expect(collectDeprecatedInternalConfigApiViolations({ repoRoot })).toEqual([
-      "extensions/telegram/src/index.test.ts:1 use narrow plugin-sdk config subpaths instead of openclaw/plugin-sdk/config-runtime",
+      "extensions/telegram/src/index.test.ts:1 use narrow plugin-sdk config subpaths instead of brikko-studio/plugin-sdk/config-runtime",
     ]);
   });
 
@@ -118,10 +118,10 @@ describe("config boundary guard", () => {
       repoRoot,
       "extensions/telegram/src/index.ts",
       [
-        'import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";',
-        'import { requireRuntimeConfig } from "openclaw/plugin-sdk/plugin-config-runtime";',
-        'type Loader = typeof import("openclaw/plugin-sdk/runtime-config-snapshot").getRuntimeConfig;',
-        'export const load = (cfg: OpenClawConfig) => requireRuntimeConfig(cfg, "telegram");',
+        'import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";',
+        'import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";',
+        'type Loader = typeof import("brikko-studio/plugin-sdk/runtime-config-snapshot").getRuntimeConfig;',
+        'export const load = (cfg: Brikko StudioConfig) => requireRuntimeConfig(cfg, "telegram");',
       ].join("\n"),
     );
 

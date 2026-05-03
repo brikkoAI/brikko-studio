@@ -1,9 +1,9 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { CronJob } from "../types.js";
 import { resolveEffectiveModelFallbacks } from "./run-execution.runtime.js";
 
 export function resolveCronFallbacksOverride(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   job: CronJob;
   agentId: string;
 }): string[] | undefined {

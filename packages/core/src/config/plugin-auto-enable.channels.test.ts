@@ -57,8 +57,8 @@ describe("applyPluginAutoEnable channels", () => {
       JSON.stringify({
         entries: [
           {
-            name: "@openclaw/env-secondary",
-            openclaw: {
+            name: "@brikko-studio/env-secondary",
+            brikko-studio: {
               channel: {
                 id: "env-secondary",
                 label: "Env Secondary",
@@ -68,7 +68,7 @@ describe("applyPluginAutoEnable channels", () => {
                 preferOver: ["env-primary"],
               },
               install: {
-                npmSpec: "@openclaw/env-secondary",
+                npmSpec: "@brikko-studio/env-secondary",
               },
             },
           },
@@ -98,8 +98,8 @@ describe("applyPluginAutoEnable channels", () => {
       ],
       env: {
         ...makeIsolatedEnv(),
-        OPENCLAW_STATE_DIR: stateDir,
-        OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+        BRIKKO_STUDIO_STATE_DIR: stateDir,
+        BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
       },
       manifestRegistry: makeRegistry([]),
     });
@@ -117,8 +117,8 @@ describe("applyPluginAutoEnable channels", () => {
       JSON.stringify({
         entries: [
           {
-            name: "@openclaw/env-primary",
-            openclaw: {
+            name: "@brikko-studio/env-primary",
+            brikko-studio: {
               channel: {
                 id: "env-primary",
                 label: "Env Primary",
@@ -127,13 +127,13 @@ describe("applyPluginAutoEnable channels", () => {
                 blurb: "Env primary entry",
               },
               install: {
-                npmSpec: "@openclaw/env-primary",
+                npmSpec: "@brikko-studio/env-primary",
               },
             },
           },
           {
-            name: "@openclaw/env-secondary",
-            openclaw: {
+            name: "@brikko-studio/env-secondary",
+            brikko-studio: {
               channel: {
                 id: "env-secondary",
                 label: "Env Secondary",
@@ -143,7 +143,7 @@ describe("applyPluginAutoEnable channels", () => {
                 preferOver: ["env-primary"],
               },
               install: {
-                npmSpec: "@openclaw/env-secondary",
+                npmSpec: "@brikko-studio/env-secondary",
               },
             },
           },
@@ -169,8 +169,8 @@ describe("applyPluginAutoEnable channels", () => {
         })),
         env: {
           ...makeIsolatedEnv(),
-          OPENCLAW_STATE_DIR: stateDir,
-          OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+          BRIKKO_STUDIO_STATE_DIR: stateDir,
+          BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
         },
         manifestRegistry: makeRegistry([]),
       });
@@ -230,7 +230,7 @@ describe("applyPluginAutoEnable channels", () => {
             },
           },
           {
-            id: "openclaw-modern-chat",
+            id: "brikko-studio-modern-chat",
             channels: ["legacy-bundled-chat"],
             channelConfigs: {
               "legacy-bundled-chat": {
@@ -243,7 +243,7 @@ describe("applyPluginAutoEnable channels", () => {
         ]),
       });
 
-      expect(result.config.plugins?.entries?.["openclaw-modern-chat"]?.enabled).toBe(true);
+      expect(result.config.plugins?.entries?.["brikko-studio-modern-chat"]?.enabled).toBe(true);
       expect(result.config.plugins?.entries?.["legacy-bundled-chat"]?.enabled).toBe(false);
       expect(result.changes.join("\n")).toContain("Modern Chat configured, enabled automatically.");
     });
@@ -252,7 +252,7 @@ describe("applyPluginAutoEnable channels", () => {
       const result = applyPluginAutoEnable({
         config: {
           channels: { "legacy-bundled-chat": { token: "legacy" } },
-          plugins: { entries: { "openclaw-modern-chat": { enabled: false } } },
+          plugins: { entries: { "brikko-studio-modern-chat": { enabled: false } } },
         },
         env: makeIsolatedEnv(),
         manifestRegistry: makeRegistry([
@@ -268,7 +268,7 @@ describe("applyPluginAutoEnable channels", () => {
             },
           },
           {
-            id: "openclaw-modern-chat",
+            id: "brikko-studio-modern-chat",
             channels: ["legacy-bundled-chat"],
             channelConfigs: {
               "legacy-bundled-chat": {
@@ -281,7 +281,7 @@ describe("applyPluginAutoEnable channels", () => {
         ]),
       });
 
-      expect(result.config.plugins?.entries?.["openclaw-modern-chat"]?.enabled).toBe(false);
+      expect(result.config.plugins?.entries?.["brikko-studio-modern-chat"]?.enabled).toBe(false);
       expect(result.config.plugins?.entries?.["legacy-bundled-chat"]).toBeUndefined();
       expect(result.config.channels?.["legacy-bundled-chat"]?.enabled).toBe(true);
       expect(result.changes.join("\n")).toContain(
@@ -303,7 +303,7 @@ describe("applyPluginAutoEnable channels", () => {
         manifestRegistry: makeRegistry([
           { id: "qqbot", channels: ["qqbot"] },
           {
-            id: "openclaw-qqbot",
+            id: "brikko-studio-qqbot",
             channels: ["qqbot"],
             channelConfigs: {
               qqbot: {
@@ -315,7 +315,7 @@ describe("applyPluginAutoEnable channels", () => {
         ]),
       });
 
-      expect(result.config.plugins?.entries?.["openclaw-qqbot"]?.enabled).toBe(true);
+      expect(result.config.plugins?.entries?.["brikko-studio-qqbot"]?.enabled).toBe(true);
       expect(result.config.plugins?.entries?.qqbot?.enabled).toBe(true);
     });
 

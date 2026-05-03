@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import type { DispatchReplyWithBufferedBlockDispatcher } from "../../auto-reply/reply/provider-dispatcher.types.js";
 import type { FinalizedMsgContext } from "../../auto-reply/templating.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { RecordInboundSession } from "../session.types.js";
 import {
   createNoopChannelTurnDeliveryAdapter,
@@ -13,7 +13,7 @@ import {
   runChannelTurn,
 } from "./kernel.js";
 
-const cfg = {} as OpenClawConfig;
+const cfg = {} as Brikko StudioConfig;
 
 function createCtx(overrides: Partial<FinalizedMsgContext> = {}): FinalizedMsgContext {
   return {

@@ -1,5 +1,5 @@
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
-import { normalizeWebhookPath } from "openclaw/plugin-sdk/webhook-path";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
+import { normalizeWebhookPath } from "brikko-studio/plugin-sdk/webhook-path";
 import type { BlueBubblesAccountConfig } from "./types.js";
 
 export { normalizeWebhookPath };

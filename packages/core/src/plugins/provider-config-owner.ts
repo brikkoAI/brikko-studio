@@ -1,9 +1,9 @@
 import { normalizeProviderId } from "../agents/provider-id.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 
 export function resolveProviderConfigApiOwnerHint(params: {
   provider: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 }): string | undefined {
   const providers = params.config?.models?.providers;
   if (!providers) {

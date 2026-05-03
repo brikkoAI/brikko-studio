@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import { resolveSessionKeyForRequest } from "./session.js";
 
 const mocks = vi.hoisted(() => ({
@@ -33,7 +33,7 @@ vi.mock("../../agents/agent-scope.js", async () => {
   >("../../routing/session-key.js");
   return {
     listAgentIds: mocks.listAgentIds,
-    resolveDefaultAgentId: (cfg: OpenClawConfig) => {
+    resolveDefaultAgentId: (cfg: Brikko StudioConfig) => {
       const agents = cfg.agents?.list ?? [];
       return normalizeAgentId(agents.find((agent) => agent?.default)?.id ?? agents[0]?.id);
     },
@@ -69,7 +69,7 @@ describe("resolveSessionKeyForRequest", () => {
     mocks.resolveExplicitAgentSessionKey.mockReturnValue(undefined);
   });
 
-  const baseCfg: OpenClawConfig = {};
+  const baseCfg: Brikko StudioConfig = {};
 
   it("returns sessionKey when --to resolves a session key via context", async () => {
     mocks.resolveStorePath.mockReturnValue(MAIN_STORE_PATH);
@@ -94,7 +94,7 @@ describe("resolveSessionKeyForRequest", () => {
     const result = resolveSessionKeyForRequest({
       cfg: {
         agents: { list: [{ id: "mybot", default: true }] },
-      } satisfies OpenClawConfig,
+      } satisfies Brikko StudioConfig,
       to: "+15551234567",
     });
 
@@ -116,7 +116,7 @@ describe("resolveSessionKeyForRequest", () => {
     const result = resolveSessionKeyForRequest({
       cfg: {
         agents: { list: [{ id: "mybot", default: true }] },
-      } satisfies OpenClawConfig,
+      } satisfies Brikko StudioConfig,
       to: "+15551234567",
     });
 
@@ -138,7 +138,7 @@ describe("resolveSessionKeyForRequest", () => {
       cfg: {
         agents: { list: [{ id: "mybot", default: true }] },
         session: { store: SHARED_STORE_PATH },
-      } satisfies OpenClawConfig,
+      } satisfies Brikko StudioConfig,
       to: "+15551234567",
     });
 
@@ -165,7 +165,7 @@ describe("resolveSessionKeyForRequest", () => {
     const result = resolveSessionKeyForRequest({
       cfg: {
         agents: { list: [{ id: "mybot", default: true }] },
-      } satisfies OpenClawConfig,
+      } satisfies Brikko StudioConfig,
       to: "+15551234567",
     });
 

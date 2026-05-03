@@ -1,4 +1,4 @@
-import { bundledPluginFile } from "openclaw/plugin-sdk/test-fixtures";
+import { bundledPluginFile } from "brikko-studio/plugin-sdk/test-fixtures";
 import { describe, expect, it } from "vitest";
 import { isUnitConfigTestFile } from "./vitest/vitest.unit-paths.mjs";
 
@@ -17,11 +17,11 @@ describe("isUnitConfigTestFile", () => {
     expect(isUnitConfigTestFile("src/infra/boundary-path.test.ts")).toBe(false);
     expect(isUnitConfigTestFile("src/infra/git-root.test.ts")).toBe(false);
     expect(isUnitConfigTestFile("src/infra/home-dir.test.ts")).toBe(false);
-    expect(isUnitConfigTestFile("src/infra/openclaw-exec-env.test.ts")).toBe(false);
+    expect(isUnitConfigTestFile("src/infra/brikko-studio-exec-env.test.ts")).toBe(false);
     expect(
       isUnitConfigTestFile(bundledPluginFile("matrix", "src/migration-snapshot.test.ts")),
     ).toBe(false);
-    expect(isUnitConfigTestFile("src/infra/openclaw-root.test.ts")).toBe(false);
+    expect(isUnitConfigTestFile("src/infra/brikko-studio-root.test.ts")).toBe(false);
     expect(isUnitConfigTestFile("src/infra/package-json.test.ts")).toBe(false);
     expect(isUnitConfigTestFile("src/infra/path-env.test.ts")).toBe(false);
     expect(isUnitConfigTestFile("src/plugin-sdk/facade-runtime.test.ts")).toBe(false);

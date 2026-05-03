@@ -62,7 +62,7 @@ function formatMigrationItem(item: MigrationItem): string {
 export function assertConflictFreePlan(plan: MigrationPlan, providerId: string): void {
   if (plan.summary.conflicts > 0) {
     throw new Error(
-      `Migration has ${formatCount(plan.summary.conflicts, "conflict")}. Re-run with --overwrite after reviewing openclaw migrate plan ${providerId}.`,
+      `Migration has ${formatCount(plan.summary.conflicts, "conflict")}. Re-run with --overwrite after reviewing brikko-studio migrate plan ${providerId}.`,
     );
   }
 }
@@ -80,7 +80,7 @@ export function writeApplyResult(
   if (result.backupPath) {
     runtime.log(`Backup: ${result.backupPath}`);
   } else if (!opts.noBackup) {
-    runtime.log("Backup: skipped (no existing OpenClaw state found)");
+    runtime.log("Backup: skipped (no existing Brikko Studio state found)");
   }
   if (result.reportDir) {
     runtime.log(`Report: ${result.reportDir}`);

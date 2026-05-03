@@ -1,4 +1,4 @@
-import { withFetchPreconnect } from "openclaw/plugin-sdk/test-env";
+import { withFetchPreconnect } from "brikko-studio/plugin-sdk/test-env";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { DiscordApiError, fetchDiscord, requestDiscord } from "./api.js";
 import { jsonResponse } from "./test-http-helpers.js";

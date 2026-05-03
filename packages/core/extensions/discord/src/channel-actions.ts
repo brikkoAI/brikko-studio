@@ -1,12 +1,12 @@
-import { createUnionActionGate } from "openclaw/plugin-sdk/channel-actions";
+import { createUnionActionGate } from "brikko-studio/plugin-sdk/channel-actions";
 import type {
   ChannelMessageActionAdapter,
   ChannelMessageActionName,
   ChannelMessageToolDiscovery,
-} from "openclaw/plugin-sdk/channel-contract";
-import type { DiscordActionConfig, OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
-import { extractToolSend } from "openclaw/plugin-sdk/tool-send";
+} from "brikko-studio/plugin-sdk/channel-contract";
+import type { DiscordActionConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
+import { extractToolSend } from "brikko-studio/plugin-sdk/tool-send";
 import { inspectDiscordAccount } from "./account-inspect.js";
 import { createDiscordActionGate, listDiscordAccountIds } from "./accounts.js";
 
@@ -19,13 +19,13 @@ async function loadDiscordChannelActionsRuntime() {
   return await discordChannelActionsRuntimePromise;
 }
 
-function listDiscoverableDiscordAccounts(cfg: OpenClawConfig) {
+function listDiscoverableDiscordAccounts(cfg: Brikko StudioConfig) {
   return listDiscordAccountIds(cfg)
     .map((accountId) => inspectDiscordAccount({ cfg, accountId }))
     .filter((account) => account.enabled && account.configured);
 }
 
-function resolveDiscordActionDiscovery(cfg: OpenClawConfig) {
+function resolveDiscordActionDiscovery(cfg: Brikko StudioConfig) {
   const accounts = listDiscoverableDiscordAccounts(cfg);
   if (accounts.length === 0) {
     return null;
@@ -43,7 +43,7 @@ function resolveDiscordActionDiscovery(cfg: OpenClawConfig) {
 }
 
 function resolveScopedDiscordActionDiscovery(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }) {
   if (!params.accountId) {

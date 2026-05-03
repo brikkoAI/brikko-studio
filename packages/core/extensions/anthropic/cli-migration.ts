@@ -1,19 +1,19 @@
 import {
   CLAUDE_CLI_PROFILE_ID,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
   type ProviderAuthResult,
-} from "openclaw/plugin-sdk/provider-auth";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/provider-auth";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   readClaudeCliCredentialsForSetup,
   readClaudeCliCredentialsForSetupNonInteractive,
 } from "./cli-auth-seam.js";
 import { CLAUDE_CLI_BACKEND_ID, CLAUDE_CLI_DEFAULT_ALLOWLIST_REFS } from "./cli-shared.js";
 
-type AgentDefaultsModel = NonNullable<NonNullable<OpenClawConfig["agents"]>["defaults"]>["model"];
-type AgentDefaultsModels = NonNullable<NonNullable<OpenClawConfig["agents"]>["defaults"]>["models"];
+type AgentDefaultsModel = NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]>["model"];
+type AgentDefaultsModels = NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]>["models"];
 type AgentDefaultsRuntimePolicy = NonNullable<
-  NonNullable<OpenClawConfig["agents"]>["defaults"]
+  NonNullable<Brikko StudioConfig["agents"]>["defaults"]
 >["agentRuntime"];
 type ClaudeCliCredential = NonNullable<ReturnType<typeof readClaudeCliCredentialsForSetup>>;
 
@@ -178,7 +178,7 @@ function buildClaudeCliAuthProfiles(
 }
 
 export function buildAnthropicCliMigrationResult(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   credential?: ClaudeCliCredential | null,
 ): ProviderAuthResult {
   const defaults = config.agents?.defaults;

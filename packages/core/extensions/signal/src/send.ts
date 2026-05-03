@@ -1,16 +1,16 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { resolveMarkdownTableMode } from "openclaw/plugin-sdk/markdown-table-runtime";
-import { kindFromMime } from "openclaw/plugin-sdk/media-runtime";
-import { resolveOutboundAttachmentFromUrl } from "openclaw/plugin-sdk/media-runtime";
-import { requireRuntimeConfig } from "openclaw/plugin-sdk/plugin-config-runtime";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
+import { kindFromMime } from "brikko-studio/plugin-sdk/media-runtime";
+import { resolveOutboundAttachmentFromUrl } from "brikko-studio/plugin-sdk/media-runtime";
+import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveSignalAccount } from "./accounts.js";
 import { signalRpcRequest } from "./client.js";
 import { markdownToSignalText, type SignalTextStyleRange } from "./format.js";
 import { resolveSignalRpcContext } from "./rpc-context.js";
 
 export type SignalSendOpts = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   baseUrl?: string;
   account?: string;
   accountId?: string;

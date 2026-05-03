@@ -1,17 +1,17 @@
 import { describe, expect, it, vi } from "vitest";
 import type { ResolvedSlackAccount } from "./accounts.js";
-import type { OpenClawConfig } from "./runtime-api.js";
+import type { Brikko StudioConfig } from "./runtime-api.js";
 import { collectSlackSecurityAuditFindings } from "./security-audit.js";
 
 const { readChannelAllowFromStoreMock } = vi.hoisted(() => ({
   readChannelAllowFromStoreMock: vi.fn(async () => [] as string[]),
 }));
 
-vi.mock("openclaw/plugin-sdk/conversation-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/conversation-runtime", () => ({
   readChannelAllowFromStore: readChannelAllowFromStoreMock,
 }));
 
-function createSlackAccount(config: NonNullable<OpenClawConfig["channels"]>["slack"]) {
+function createSlackAccount(config: NonNullable<Brikko StudioConfig["channels"]>["slack"]) {
   return {
     accountId: "default",
     enabled: true,
@@ -24,7 +24,7 @@ function createSlackAccount(config: NonNullable<OpenClawConfig["channels"]>["sla
 
 function createSlashCommandSlackConfig(
   options: { useAccessGroups?: boolean } = {},
-): OpenClawConfig {
+): Brikko StudioConfig {
   return {
     ...(options.useAccessGroups === undefined
       ? {}
@@ -41,7 +41,7 @@ function createSlashCommandSlackConfig(
   };
 }
 
-async function collectSlackFindingsForConfig(cfg: OpenClawConfig) {
+async function collectSlackFindingsForConfig(cfg: Brikko StudioConfig) {
   readChannelAllowFromStoreMock.mockResolvedValue([]);
   return await collectSlackSecurityAuditFindings({
     cfg,

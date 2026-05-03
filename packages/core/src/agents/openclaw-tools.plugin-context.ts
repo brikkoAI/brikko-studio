@@ -1,11 +1,11 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeDeliveryContext } from "../utils/delivery-context.js";
 import type { GatewayMessageChannel } from "../utils/message-channel.js";
 import { resolveAgentWorkspaceDir, resolveSessionAgentIds } from "./agent-scope.js";
 import type { ToolFsPolicy } from "./tool-fs-policy.js";
 import { resolveWorkspaceRoot } from "./workspace-dir.js";
 
-export type OpenClawPluginToolOptions = {
+export type Brikko StudioPluginToolOptions = {
   agentSessionKey?: string;
   agentChannel?: GatewayMessageChannel;
   agentAccountId?: string;
@@ -13,7 +13,7 @@ export type OpenClawPluginToolOptions = {
   agentThreadId?: string | number;
   agentDir?: string;
   workspaceDir?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   fsPolicy?: ToolFsPolicy;
   requesterSenderId?: string | null;
   requesterAgentIdOverride?: string;
@@ -25,11 +25,11 @@ export type OpenClawPluginToolOptions = {
   allowGatewaySubagentBinding?: boolean;
 };
 
-export function resolveOpenClawPluginToolInputs(params: {
-  options?: OpenClawPluginToolOptions;
-  resolvedConfig?: OpenClawConfig;
-  runtimeConfig?: OpenClawConfig;
-  getRuntimeConfig?: () => OpenClawConfig | undefined;
+export function resolveBrikko StudioPluginToolInputs(params: {
+  options?: Brikko StudioPluginToolOptions;
+  resolvedConfig?: Brikko StudioConfig;
+  runtimeConfig?: Brikko StudioConfig;
+  getRuntimeConfig?: () => Brikko StudioConfig | undefined;
 }) {
   const { options, resolvedConfig, runtimeConfig, getRuntimeConfig } = params;
   const { sessionAgentId } = resolveSessionAgentIds({

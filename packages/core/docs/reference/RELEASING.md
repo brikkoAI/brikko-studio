@@ -7,7 +7,7 @@ read_when:
   - Looking for version naming and cadence
 ---
 
-OpenClaw has three public release lanes:
+Brikko Studio has three public release lanes:
 
 - stable: tagged releases that publish to npm `beta` by default, or to npm `latest` when explicitly requested
 - beta: prerelease tags that publish to npm `beta`
@@ -25,7 +25,7 @@ OpenClaw has three public release lanes:
 - `latest` means the current promoted stable npm release
 - `beta` means the current beta install target
 - Stable and stable correction releases publish to npm `beta` by default; release operators can target `latest` explicitly, or promote a vetted beta build later
-- Every stable OpenClaw release ships the npm package and macOS app together;
+- Every stable Brikko Studio release ships the npm package and macOS app together;
   beta releases normally validate and publish the npm/package path first, with
   mac app build/sign/notarize reserved for stable unless explicitly requested
 
@@ -65,7 +65,7 @@ the maintainer-only release runbook.
    `pnpm check:test-types`, `pnpm check:architecture`,
    `pnpm build && pnpm ui:build`, `pnpm plugins:sync:check`, and
    `pnpm release:check`.
-6. Run `OpenClaw NPM Release` with `preflight_only=true`. Before a tag exists,
+6. Run `Brikko Studio NPM Release` with `preflight_only=true`. Before a tag exists,
    a full 40-character release-branch SHA is allowed for validation-only
    preflight. Save the successful `preflight_run_id`.
 7. Kick off all pre-release tests with `Full Release Validation` for the
@@ -75,18 +75,18 @@ the maintainer-only release runbook.
    file, lane, workflow job, package profile, provider, or model allowlist that
    proves the fix. Rerun the full umbrella only when the changed surface makes
    prior evidence stale.
-9. For beta, tag `vYYYY.M.D-beta.N`, then run `OpenClaw Release Publish` from
+9. For beta, tag `vYYYY.M.D-beta.N`, then run `Brikko Studio Release Publish` from
    the matching `release/YYYY.M.D` branch. It verifies `pnpm plugins:sync:check`,
    publishes all publishable plugin packages to npm first, publishes the same
-   set to ClawHub second, and then promotes the prepared OpenClaw npm preflight
+   set to ClawHub second, and then promotes the prepared Brikko Studio npm preflight
    artifact with the matching dist-tag. After publish, run post-publish package
-   acceptance against the published `openclaw@YYYY.M.D-beta.N` or
-   `openclaw@beta` package. If a pushed or published prerelease needs a fix,
+   acceptance against the published `brikko-studio@YYYY.M.D-beta.N` or
+   `brikko-studio@beta` package. If a pushed or published prerelease needs a fix,
    cut the next matching prerelease number; do not delete or rewrite the old
    prerelease.
 10. For stable, continue only after the vetted beta or release candidate has the
     required validation evidence. Stable npm publish also goes through
-    `OpenClaw Release Publish`, reusing the successful preflight artifact via
+    `Brikko Studio Release Publish`, reusing the successful preflight artifact via
     `preflight_run_id`; stable macOS release readiness also requires the
     packaged `.zip`, `.dmg`, `.dSYM.zip`, and updated `appcast.xml` on `main`.
 11. After publish, run the npm post-publish verifier, optional standalone
@@ -105,7 +105,7 @@ the maintainer-only release runbook.
   `dist/*` release artifacts and Control UI bundle exist for the pack
   validation step
 - Run `pnpm plugins:sync` after the root version bump and before tagging. It
-  updates publishable plugin package versions, OpenClaw peer/API compatibility
+  updates publishable plugin package versions, Brikko Studio peer/API compatibility
   metadata, build metadata, and plugin changelog stubs to match the core
   release version. `pnpm plugins:sync:check` is the non-mutating release guard;
   the publish workflow fails before any registry mutation if this step was
@@ -113,7 +113,7 @@ the maintainer-only release runbook.
 - Run the manual `Full Release Validation` workflow before release approval to
   kick off all pre-release test boxes from one entrypoint. It accepts a branch,
   tag, or full commit SHA, dispatches manual `CI`, and dispatches
-  `OpenClaw Release Checks` for install smoke, package acceptance, Docker
+  `Brikko Studio Release Checks` for install smoke, package acceptance, Docker
   release-path suites, live/E2E, OpenWebUI, QA Lab parity, Matrix, and Telegram
   lanes. With `release_profile=full` and `rerun_group=all`, it also runs package
   Telegram E2E against the `release-package-under-test` artifact from release
@@ -128,7 +128,7 @@ the maintainer-only release runbook.
   `gh workflow run full-release-validation.yml --ref main -f ref=release/YYYY.M.D`
 - Run the manual `Package Acceptance` workflow when you want side-channel proof
   for a package candidate while release work continues. Use `source=npm` for
-  `openclaw@beta`, `openclaw@latest`, or an exact release version; `source=ref`
+  `brikko-studio@beta`, `brikko-studio@latest`, or an exact release version; `source=ref`
   to pack a trusted `package_ref` branch/tag/SHA with the current
   `workflow_ref` harness; `source=url` for an HTTPS tarball with a required
   SHA-256; or `source=artifact` for a tarball uploaded by another GitHub
@@ -139,7 +139,7 @@ the maintainer-only release runbook.
   selected Docker lanes include `published-upgrade-survivor`, the package
   artifact is the candidate and `published_upgrade_survivor_baseline` selects
   the published baseline.
-  Example: `gh workflow run package-acceptance.yml --ref main -f workflow_ref=main -f source=npm -f package_spec=openclaw@beta -f suite_profile=product -f published_upgrade_survivor_baseline=openclaw@2026.4.26 -f telegram_mode=mock-openai`
+  Example: `gh workflow run package-acceptance.yml --ref main -f workflow_ref=main -f source=npm -f package_spec=brikko-studio@beta -f suite_profile=product -f published_upgrade_survivor_baseline=brikko-studio@2026.4.26 -f telegram_mode=mock-openai`
   Common profiles:
   - `smoke`: install/channel/agent, gateway network, and config reload lanes
   - `package`: artifact-native package/update/plugin lanes without OpenWebUI or live ClawHub
@@ -159,35 +159,35 @@ the maintainer-only release runbook.
   span names, bounded attributes, and content/identifier redaction without
   requiring Opik, Langfuse, or another external collector.
 - Run `pnpm release:check` before every tagged release
-- Run `OpenClaw Release Publish` for the mutating publish sequence after the
+- Run `Brikko Studio Release Publish` for the mutating publish sequence after the
   tag exists. Dispatch it from `release/YYYY.M.D` (or `main` when publishing a
-  main-reachable tag), pass the release tag and successful OpenClaw npm
+  main-reachable tag), pass the release tag and successful Brikko Studio npm
   `preflight_run_id`, and keep the default plugin publish scope
   `all-publishable` unless you are deliberately running a focused repair. The
-  workflow serializes plugin npm publish, plugin ClawHub publish, and OpenClaw
+  workflow serializes plugin npm publish, plugin ClawHub publish, and Brikko Studio
   npm publish so the core package is not published before its externalized
   plugins.
 - Release checks now run in a separate manual workflow:
-  `OpenClaw Release Checks`
-- `OpenClaw Release Checks` also runs the QA Lab mock parity lane plus the fast
+  `Brikko Studio Release Checks`
+- `Brikko Studio Release Checks` also runs the QA Lab mock parity lane plus the fast
   live Matrix profile and Telegram QA lane before release approval. The live
   lanes use the `qa-live-shared` environment; Telegram also uses Convex CI
   credential leases. Run the manual `QA-Lab - All Lanes` workflow with
   `matrix_profile=all` and `matrix_shards=true` when you want full Matrix
   transport, media, and E2EE inventory in parallel.
 - Cross-OS install and upgrade runtime validation is part of public
-  `OpenClaw Release Checks` and `Full Release Validation`, which call the
+  `Brikko Studio Release Checks` and `Full Release Validation`, which call the
   reusable workflow
-  `.github/workflows/openclaw-cross-os-release-checks-reusable.yml` directly
+  `.github/workflows/brikko-studio-cross-os-release-checks-reusable.yml` directly
 - This split is intentional: keep the real npm release path short,
   deterministic, and artifact-focused, while slower live checks stay in their
   own lane so they do not stall or block publish
 - Secret-bearing release checks should be dispatched through `Full Release
 Validation` or from the `main`/release workflow ref so workflow logic and
   secrets stay controlled
-- `OpenClaw Release Checks` accepts a branch, tag, or full commit SHA as long
-  as the resolved commit is reachable from an OpenClaw branch or release tag
-- `OpenClaw NPM Release` validation-only preflight also accepts the current
+- `Brikko Studio Release Checks` accepts a branch, tag, or full commit SHA as long
+  as the resolved commit is reachable from an Brikko Studio branch or release tag
+- `Brikko Studio NPM Release` validation-only preflight also accepts the current
   full 40-character workflow-branch commit SHA without requiring a pushed tag
 - That SHA path is validation-only and cannot be promoted into a real publish
 - In SHA mode the workflow synthesizes `v<package.json version>` only for the
@@ -196,20 +196,20 @@ Validation` or from the `main`/release workflow ref so workflow logic and
   runners, while the non-mutating validation path can use the larger
   Blacksmith Linux runners
 - That workflow runs
-  `OPENCLAW_LIVE_TEST=1 OPENCLAW_LIVE_CACHE_TEST=1 pnpm test:live:cache`
+  `BRIKKO_STUDIO_LIVE_TEST=1 BRIKKO_STUDIO_LIVE_CACHE_TEST=1 pnpm test:live:cache`
   using both `OPENAI_API_KEY` and `ANTHROPIC_API_KEY` workflow secrets
 - npm release preflight no longer waits on the separate release checks lane
-- Run `RELEASE_TAG=vYYYY.M.D node --import tsx scripts/openclaw-npm-release-check.ts`
+- Run `RELEASE_TAG=vYYYY.M.D node --import tsx scripts/brikko-studio-npm-release-check.ts`
   (or the matching beta/correction tag) before approval
 - After npm publish, run
-  `node --import tsx scripts/openclaw-npm-postpublish-verify.ts YYYY.M.D`
+  `node --import tsx scripts/brikko-studio-npm-postpublish-verify.ts YYYY.M.D`
   (or the matching beta/correction version) to verify the published registry
   install path in a fresh temp prefix
-- After a beta publish, run `OPENCLAW_NPM_TELEGRAM_PACKAGE_SPEC=openclaw@YYYY.M.D-beta.N OPENCLAW_NPM_TELEGRAM_CREDENTIAL_SOURCE=convex OPENCLAW_NPM_TELEGRAM_CREDENTIAL_ROLE=ci pnpm test:docker:npm-telegram-live`
+- After a beta publish, run `BRIKKO_STUDIO_NPM_TELEGRAM_PACKAGE_SPEC=brikko-studio@YYYY.M.D-beta.N BRIKKO_STUDIO_NPM_TELEGRAM_CREDENTIAL_SOURCE=convex BRIKKO_STUDIO_NPM_TELEGRAM_CREDENTIAL_ROLE=ci pnpm test:docker:npm-telegram-live`
   to verify installed-package onboarding, Telegram setup, and real Telegram E2E
   against the published npm package using the shared leased Telegram credential
   pool. Local maintainer one-offs may omit the Convex vars and pass the three
-  `OPENCLAW_QA_TELEGRAM_*` env credentials directly.
+  `BRIKKO_STUDIO_QA_TELEGRAM_*` env credentials directly.
 - Maintainers can run the same post-publish check from GitHub Actions via the
   manual `NPM Telegram Beta E2E` workflow. It is intentionally manual-only and
   does not run on every merge.
@@ -220,7 +220,7 @@ Validation` or from the `main`/release workflow ref so workflow logic and
   - stable npm releases default to `beta`
   - stable npm publish can target `latest` explicitly via workflow input
   - token-based npm dist-tag mutation now lives in
-    `openclaw/releases-private/.github/workflows/openclaw-npm-dist-tags.yml`
+    `brikko-studio/releases-private/.github/workflows/brikko-studio-npm-dist-tags.yml`
     for security, because `npm dist-tag add` still needs `NPM_TOKEN` while the
     public repo keeps OIDC-only publish
   - public `macOS Release` is validation-only; when a tag lives only on a
@@ -282,14 +282,14 @@ gh workflow run full-release-validation.yml \
   -f provider=openai \
   -f mode=both \
   -f release_profile=stable \
-  -f evidence_package_spec=openclaw@YYYY.M.D-beta.N
+  -f evidence_package_spec=brikko-studio@YYYY.M.D-beta.N
 ```
 
 The workflow resolves the target ref, dispatches manual `CI` with
-`target_ref=<release-ref>`, dispatches `OpenClaw Release Checks`, prepares a
+`target_ref=<release-ref>`, dispatches `Brikko Studio Release Checks`, prepares a
 parent `release-package-under-test` artifact for package-facing checks, and
 dispatches standalone package Telegram E2E when `release_profile=full` with
-`rerun_group=all` or when `npm_telegram_package_spec` is set. `OpenClaw Release
+`rerun_group=all` or when `npm_telegram_package_spec` is set. `Brikko Studio Release
 Checks` then fans out install smoke, cross-OS release checks, live/E2E Docker
 release-path coverage, Package Acceptance with Telegram package QA, QA Lab
 parity, live Matrix, and live Telegram. A full run is only acceptable when the
@@ -316,11 +316,11 @@ Use `release_profile` to select live/provider breadth:
 - `stable`: minimum plus stable provider/backend coverage for release approval
 - `full`: stable plus broad advisory provider/media coverage
 
-`OpenClaw Release Checks` uses the trusted workflow ref to resolve the target
+`Brikko Studio Release Checks` uses the trusted workflow ref to resolve the target
 ref once as `release-package-under-test` and reuses that artifact in both
 release-path Docker checks and Package Acceptance. This keeps all
 package-facing boxes on the same bytes and avoids repeated package builds.
-The cross-OS OpenAI install smoke uses `OPENCLAW_CROSS_OS_OPENAI_MODEL` when the
+The cross-OS OpenAI install smoke uses `BRIKKO_STUDIO_CROSS_OS_OPENAI_MODEL` when the
 repo/org variable is set, otherwise `openai/gpt-5.4`, because this lane is
 proving package install, onboarding, gateway startup, and one live agent turn
 rather than benchmarking the slowest default model. The broader live provider
@@ -351,8 +351,8 @@ gh workflow run full-release-validation.yml \
   -f provider=openai \
   -f mode=both \
   -f release_profile=full \
-  -f evidence_package_spec=openclaw@YYYY.M.D-beta.N \
-  -f npm_telegram_package_spec=openclaw@YYYY.M.D-beta.N \
+  -f evidence_package_spec=brikko-studio@YYYY.M.D-beta.N \
+  -f npm_telegram_package_spec=brikko-studio@YYYY.M.D-beta.N \
   -f npm_telegram_provider_mode=mock-openai
 ```
 
@@ -398,8 +398,8 @@ gh workflow run ci.yml --ref main -f target_ref=release/YYYY.M.D
 
 ### Docker
 
-The Docker box lives in `OpenClaw Release Checks` through
-`openclaw-live-and-e2e-checks-reusable.yml`, plus the release-mode
+The Docker box lives in `Brikko Studio Release Checks` through
+`brikko-studio-live-and-e2e-checks-reusable.yml`, plus the release-mode
 `install-smoke` workflow. It validates the release candidate through packaged
 Docker environments instead of only source-level tests.
 
@@ -434,7 +434,7 @@ failed lane can reuse the same tarball and GHCR images.
 
 ### QA Lab
 
-The QA Lab box is also part of `OpenClaw Release Checks`. It is the agentic
+The QA Lab box is also part of `Brikko Studio Release Checks`. It is the agentic
 behavior and channel-level release gate, separate from Vitest and Docker
 package mechanics.
 
@@ -455,21 +455,21 @@ manual sharded QA-Lab run rather than the default release-critical lane.
 
 The Package box is the installable-product gate. It is backed by
 `Package Acceptance` and the resolver
-`scripts/resolve-openclaw-package-candidate.mjs`. The resolver normalizes a
+`scripts/resolve-brikko-studio-package-candidate.mjs`. The resolver normalizes a
 candidate into the `package-under-test` tarball consumed by Docker E2E, validates
 the package inventory, records the package version and SHA-256, and keeps the
 workflow harness ref separate from the package source ref.
 
 Supported candidate sources:
 
-- `source=npm`: `openclaw@beta`, `openclaw@latest`, or an exact OpenClaw release
+- `source=npm`: `brikko-studio@beta`, `brikko-studio@latest`, or an exact Brikko Studio release
   version
 - `source=ref`: pack a trusted `package_ref` branch, tag, or full commit SHA
   with the selected `workflow_ref` harness
 - `source=url`: download an HTTPS `.tgz` with required `package_sha256`
 - `source=artifact`: reuse a `.tgz` uploaded by another GitHub Actions run
 
-`OpenClaw Release Checks` runs Package Acceptance with `source=artifact`, the
+`Brikko Studio Release Checks` runs Package Acceptance with `source=artifact`, the
 prepared release package artifact, `suite_profile=custom`,
 `docker_lanes=doctor-switch update-channel-switch upgrade-survivor published-upgrade-survivor plugins-offline plugin-update`,
 `published_upgrade_survivor_baselines=all-since-2026.4.23`,
@@ -511,9 +511,9 @@ gh workflow run package-acceptance.yml \
   --ref main \
   -f workflow_ref=main \
   -f source=npm \
-  -f package_spec=openclaw@beta \
+  -f package_spec=brikko-studio@beta \
   -f suite_profile=product \
-  -f published_upgrade_survivor_baseline=openclaw@2026.4.26
+  -f published_upgrade_survivor_baseline=brikko-studio@2026.4.26
 ```
 
 Common package profiles:
@@ -534,7 +534,7 @@ Telegram workflow still accepts a published npm spec for post-publish checks.
 
 ## Release publish automation
 
-`OpenClaw Release Publish` is the normal mutating publish entrypoint. It
+`Brikko Studio Release Publish` is the normal mutating publish entrypoint. It
 orchestrates the trusted-publisher workflows in the order the release needs:
 
 1. Check out the release tag and resolve its commit SHA.
@@ -543,48 +543,48 @@ orchestrates the trusted-publisher workflows in the order the release needs:
 4. Dispatch `Plugin NPM Release` with `publish_scope=all-publishable` and
    `ref=<release-sha>`.
 5. Dispatch `Plugin ClawHub Release` with the same scope and SHA.
-6. Dispatch `OpenClaw NPM Release` with the release tag, npm dist-tag, and
+6. Dispatch `Brikko Studio NPM Release` with the release tag, npm dist-tag, and
    saved `preflight_run_id`.
 
 Beta publish example:
 
 ```bash
-gh workflow run openclaw-release-publish.yml \
+gh workflow run brikko-studio-release-publish.yml \
   --ref release/YYYY.M.D \
   -f tag=vYYYY.M.D-beta.N \
-  -f preflight_run_id=<successful-openclaw-npm-preflight-run-id> \
+  -f preflight_run_id=<successful-brikko-studio-npm-preflight-run-id> \
   -f npm_dist_tag=beta
 ```
 
 Stable publish to the default beta dist-tag:
 
 ```bash
-gh workflow run openclaw-release-publish.yml \
+gh workflow run brikko-studio-release-publish.yml \
   --ref release/YYYY.M.D \
   -f tag=vYYYY.M.D \
-  -f preflight_run_id=<successful-openclaw-npm-preflight-run-id> \
+  -f preflight_run_id=<successful-brikko-studio-npm-preflight-run-id> \
   -f npm_dist_tag=beta
 ```
 
 Stable promotion directly to `latest` is explicit:
 
 ```bash
-gh workflow run openclaw-release-publish.yml \
+gh workflow run brikko-studio-release-publish.yml \
   --ref release/YYYY.M.D \
   -f tag=vYYYY.M.D \
-  -f preflight_run_id=<successful-openclaw-npm-preflight-run-id> \
+  -f preflight_run_id=<successful-brikko-studio-npm-preflight-run-id> \
   -f npm_dist_tag=latest
 ```
 
 Use the lower-level `Plugin NPM Release` and `Plugin ClawHub Release` workflows
 only for focused repair or republish work. For a selected plugin repair, pass
-`plugin_publish_scope=selected` and `plugins=@openclaw/name` to
-`OpenClaw Release Publish`, or dispatch the child workflow directly when the
-OpenClaw package must not be published.
+`plugin_publish_scope=selected` and `plugins=@brikko-studio/name` to
+`Brikko Studio Release Publish`, or dispatch the child workflow directly when the
+Brikko Studio package must not be published.
 
 ## NPM workflow inputs
 
-`OpenClaw NPM Release` accepts these operator-controlled inputs:
+`Brikko Studio NPM Release` accepts these operator-controlled inputs:
 
 - `tag`: required release tag such as `v2026.4.2`, `v2026.4.2-1`, or
   `v2026.4.2-beta.1`; when `preflight_only=true`, it may also be the current
@@ -595,32 +595,32 @@ OpenClaw package must not be published.
   the prepared tarball from the successful preflight run
 - `npm_dist_tag`: npm target tag for the publish path; defaults to `beta`
 
-`OpenClaw Release Publish` accepts these operator-controlled inputs:
+`Brikko Studio Release Publish` accepts these operator-controlled inputs:
 
 - `tag`: required release tag; must already exist
-- `preflight_run_id`: successful `OpenClaw NPM Release` preflight run id;
-  required when `publish_openclaw_npm=true`
-- `npm_dist_tag`: npm target tag for the OpenClaw package
+- `preflight_run_id`: successful `Brikko Studio NPM Release` preflight run id;
+  required when `publish_brikko-studio_npm=true`
+- `npm_dist_tag`: npm target tag for the Brikko Studio package
 - `plugin_publish_scope`: defaults to `all-publishable`; use `selected` only
   for focused repair work
-- `plugins`: comma-separated `@openclaw/*` package names when
+- `plugins`: comma-separated `@brikko-studio/*` package names when
   `plugin_publish_scope=selected`
-- `publish_openclaw_npm`: defaults to `true`; set `false` only when using the
+- `publish_brikko-studio_npm`: defaults to `true`; set `false` only when using the
   workflow as a plugin-only repair orchestrator
 
-`OpenClaw Release Checks` accepts these operator-controlled inputs:
+`Brikko Studio Release Checks` accepts these operator-controlled inputs:
 
 - `ref`: branch, tag, or full commit SHA to validate. Secret-bearing checks
-  require the resolved commit to be reachable from an OpenClaw branch or
+  require the resolved commit to be reachable from an Brikko Studio branch or
   release tag.
 
 Rules:
 
 - Stable and correction tags may publish to either `beta` or `latest`
 - Beta prerelease tags may publish only to `beta`
-- For `OpenClaw NPM Release`, full commit SHA input is allowed only when
+- For `Brikko Studio NPM Release`, full commit SHA input is allowed only when
   `preflight_only=true`
-- `OpenClaw Release Checks` and `Full Release Validation` are always
+- `Brikko Studio Release Checks` and `Full Release Validation` are always
   validation-only
 - The real publish path must use the same `npm_dist_tag` used during preflight;
   the workflow verifies that metadata before publish continues
@@ -629,7 +629,7 @@ Rules:
 
 When cutting a stable npm release:
 
-1. Run `OpenClaw NPM Release` with `preflight_only=true`
+1. Run `Brikko Studio NPM Release` with `preflight_only=true`
    - Before a tag exists, you may use the current full workflow-branch commit
      SHA for a validation-only dry run of the preflight workflow
 2. Choose `npm_dist_tag=beta` for the normal beta-first flow, or `latest` only
@@ -640,11 +640,11 @@ When cutting a stable npm release:
 4. If you intentionally only need the deterministic normal test graph, run the
    manual `CI` workflow on the release ref instead
 5. Save the successful `preflight_run_id`
-6. Run `OpenClaw Release Publish` with the same `tag`, the same `npm_dist_tag`,
+6. Run `Brikko Studio Release Publish` with the same `tag`, the same `npm_dist_tag`,
    and the saved `preflight_run_id`; it publishes externalized plugins to npm
-   and ClawHub before promoting the OpenClaw npm package
+   and ClawHub before promoting the Brikko Studio npm package
 7. If the release landed on `beta`, use the private
-   `openclaw/releases-private/.github/workflows/openclaw-npm-dist-tags.yml`
+   `brikko-studio/releases-private/.github/workflows/brikko-studio-npm-dist-tags.yml`
    workflow to promote that stable version from `beta` to `latest`
 8. If the release intentionally published directly to `latest` and `beta`
    should follow the same stable build immediately, use that same private
@@ -664,18 +664,18 @@ alerts, and OTP handling observable and prevents repeated host alerts.
 
 ## Public references
 
-- [`.github/workflows/full-release-validation.yml`](https://github.com/openclaw/openclaw/blob/main/.github/workflows/full-release-validation.yml)
-- [`.github/workflows/package-acceptance.yml`](https://github.com/openclaw/openclaw/blob/main/.github/workflows/package-acceptance.yml)
-- [`.github/workflows/openclaw-npm-release.yml`](https://github.com/openclaw/openclaw/blob/main/.github/workflows/openclaw-npm-release.yml)
-- [`.github/workflows/openclaw-release-checks.yml`](https://github.com/openclaw/openclaw/blob/main/.github/workflows/openclaw-release-checks.yml)
-- [`.github/workflows/openclaw-cross-os-release-checks-reusable.yml`](https://github.com/openclaw/openclaw/blob/main/.github/workflows/openclaw-cross-os-release-checks-reusable.yml)
-- [`scripts/resolve-openclaw-package-candidate.mjs`](https://github.com/openclaw/openclaw/blob/main/scripts/resolve-openclaw-package-candidate.mjs)
-- [`scripts/openclaw-npm-release-check.ts`](https://github.com/openclaw/openclaw/blob/main/scripts/openclaw-npm-release-check.ts)
-- [`scripts/package-mac-dist.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/package-mac-dist.sh)
-- [`scripts/make_appcast.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/make_appcast.sh)
+- [`.github/workflows/full-release-validation.yml`](https://github.com/brikko-studio/brikko-studio/blob/main/.github/workflows/full-release-validation.yml)
+- [`.github/workflows/package-acceptance.yml`](https://github.com/brikko-studio/brikko-studio/blob/main/.github/workflows/package-acceptance.yml)
+- [`.github/workflows/brikko-studio-npm-release.yml`](https://github.com/brikko-studio/brikko-studio/blob/main/.github/workflows/brikko-studio-npm-release.yml)
+- [`.github/workflows/brikko-studio-release-checks.yml`](https://github.com/brikko-studio/brikko-studio/blob/main/.github/workflows/brikko-studio-release-checks.yml)
+- [`.github/workflows/brikko-studio-cross-os-release-checks-reusable.yml`](https://github.com/brikko-studio/brikko-studio/blob/main/.github/workflows/brikko-studio-cross-os-release-checks-reusable.yml)
+- [`scripts/resolve-brikko-studio-package-candidate.mjs`](https://github.com/brikko-studio/brikko-studio/blob/main/scripts/resolve-brikko-studio-package-candidate.mjs)
+- [`scripts/brikko-studio-npm-release-check.ts`](https://github.com/brikko-studio/brikko-studio/blob/main/scripts/brikko-studio-npm-release-check.ts)
+- [`scripts/package-mac-dist.sh`](https://github.com/brikko-studio/brikko-studio/blob/main/scripts/package-mac-dist.sh)
+- [`scripts/make_appcast.sh`](https://github.com/brikko-studio/brikko-studio/blob/main/scripts/make_appcast.sh)
 
 Maintainers use the private release docs in
-[`openclaw/maintainers/release/README.md`](https://github.com/openclaw/maintainers/blob/main/release/README.md)
+[`brikko-studio/maintainers/release/README.md`](https://github.com/brikko-studio/maintainers/blob/main/release/README.md)
 for the actual runbook.
 
 ## Related

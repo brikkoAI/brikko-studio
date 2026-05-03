@@ -1,12 +1,12 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createStandardChannelSetupStatus,
   DEFAULT_ACCOUNT_ID,
   type ChannelSetupAdapter,
   type ChannelSetupWizard,
   type WizardPrompter,
-} from "openclaw/plugin-sdk/setup";
-import { formatDocsLink } from "openclaw/plugin-sdk/setup-tools";
+} from "brikko-studio/plugin-sdk/setup";
+import { formatDocsLink } from "brikko-studio/plugin-sdk/setup-tools";
 import { normalizeSecretInputString } from "./secret-input.js";
 import { hasConfiguredMSTeamsCredentials, resolveMSTeamsCredentials } from "./token.js";
 
@@ -102,7 +102,7 @@ export function createMSTeamsSetupWizardBase(): Pick<
         normalizeSecretInputString(process.env.MSTEAMS_TENANT_ID),
       );
 
-      let next: OpenClawConfig = cfg;
+      let next: Brikko StudioConfig = cfg;
       let appId: string | null = null;
       let appPassword: string | null = null;
       let tenantId: string | null = null;

@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/kimi-provider",
+  "name": "@brikko-studio/kimi-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Kimi provider plugin",
+  "description": "Brikko Studio Kimi provider plugin",
   "type": "module",
   "dependencies": {
     "@mariozechner/pi-ai": "0.71.1"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

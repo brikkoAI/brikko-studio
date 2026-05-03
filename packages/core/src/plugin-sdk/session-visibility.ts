@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { callGateway as defaultCallGateway } from "../gateway/call.js";
 import { resolveAgentIdFromSessionKey } from "../routing/session-key.js";
 import {
@@ -57,7 +57,7 @@ export async function listSpawnedSessionKeys(params: {
   }
 }
 
-export function resolveSessionToolsVisibility(cfg: OpenClawConfig): SessionToolsVisibility {
+export function resolveSessionToolsVisibility(cfg: Brikko StudioConfig): SessionToolsVisibility {
   const raw = (cfg.tools as { sessions?: { visibility?: unknown } } | undefined)?.sessions
     ?.visibility;
   const value = normalizeLowercaseStringOrEmpty(raw);
@@ -68,7 +68,7 @@ export function resolveSessionToolsVisibility(cfg: OpenClawConfig): SessionTools
 }
 
 export function resolveEffectiveSessionToolsVisibility(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sandboxed: boolean;
 }): SessionToolsVisibility {
   const visibility = resolveSessionToolsVisibility(params.cfg);
@@ -82,11 +82,11 @@ export function resolveEffectiveSessionToolsVisibility(params: {
   return visibility;
 }
 
-export function resolveSandboxSessionToolsVisibility(cfg: OpenClawConfig): "spawned" | "all" {
+export function resolveSandboxSessionToolsVisibility(cfg: Brikko StudioConfig): "spawned" | "all" {
   return cfg.agents?.defaults?.sandbox?.sessionToolsVisibility ?? "spawned";
 }
 
-export function createAgentToAgentPolicy(cfg: OpenClawConfig): AgentToAgentPolicy {
+export function createAgentToAgentPolicy(cfg: Brikko StudioConfig): AgentToAgentPolicy {
   const routingA2A = cfg.tools?.agentToAgent;
   const enabled = routingA2A?.enabled === true;
   const allowPatterns = Array.isArray(routingA2A?.allow) ? routingA2A.allow : [];

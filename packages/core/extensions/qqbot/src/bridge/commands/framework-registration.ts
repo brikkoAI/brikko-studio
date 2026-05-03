@@ -11,14 +11,14 @@
  * the three single-responsibility helpers in this directory.
  */
 
-import type { OpenClawPluginApi, PluginCommandContext } from "openclaw/plugin-sdk/plugin-entry";
+import type { Brikko StudioPluginApi, PluginCommandContext } from "brikko-studio/plugin-sdk/plugin-entry";
 import { getFrameworkCommands } from "../../engine/commands/slash-commands-impl.js";
 import { resolveQQBotAccount } from "../config.js";
 import { buildFrameworkSlashContext } from "./framework-context-adapter.js";
 import { parseQQBotFrom } from "./from-parser.js";
 import { dispatchFrameworkSlashResult } from "./result-dispatcher.js";
 
-export function registerQQBotFrameworkCommands(api: OpenClawPluginApi): void {
+export function registerQQBotFrameworkCommands(api: Brikko StudioPluginApi): void {
   for (const cmd of getFrameworkCommands()) {
     api.registerCommand({
       name: cmd.name,

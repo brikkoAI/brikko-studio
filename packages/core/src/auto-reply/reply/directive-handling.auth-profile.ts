@@ -2,13 +2,13 @@ import {
   ensureAuthProfileStore,
   findPersistedAuthProfileCredential,
 } from "../../agents/auth-profiles/store.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 
 export function resolveProfileOverride(params: {
   rawProfile?: string;
   provider: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentDir?: string;
 }): { profileId?: string; error?: string } {
   const raw = normalizeOptionalString(params.rawProfile);

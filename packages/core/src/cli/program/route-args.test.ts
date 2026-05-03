@@ -14,7 +14,7 @@ import {
 describe("route-args", () => {
   it("parses health and status route args", () => {
     expect(
-      parseHealthRouteArgs(["node", "openclaw", "health", "--json", "--timeout", "5000"]),
+      parseHealthRouteArgs(["node", "brikko-studio", "health", "--json", "--timeout", "5000"]),
     ).toEqual({
       json: true,
       verbose: false,
@@ -23,7 +23,7 @@ describe("route-args", () => {
     expect(
       parseStatusRouteArgs([
         "node",
-        "openclaw",
+        "brikko-studio",
         "status",
         "--json",
         "--deep",
@@ -40,14 +40,14 @@ describe("route-args", () => {
       verbose: false,
       timeoutMs: 5000,
     });
-    expect(parseStatusRouteArgs(["node", "openclaw", "status", "--timeout"])).toBeNull();
+    expect(parseStatusRouteArgs(["node", "brikko-studio", "status", "--timeout"])).toBeNull();
   });
 
   it("parses gateway status route args and rejects probe-only ssh flags", () => {
     expect(
       parseGatewayStatusRouteArgs([
         "node",
-        "openclaw",
+        "brikko-studio",
         "gateway",
         "status",
         "--url",
@@ -75,10 +75,10 @@ describe("route-args", () => {
       json: true,
     });
     expect(
-      parseGatewayStatusRouteArgs(["node", "openclaw", "gateway", "status", "--ssh", "host"]),
+      parseGatewayStatusRouteArgs(["node", "brikko-studio", "gateway", "status", "--ssh", "host"]),
     ).toBeNull();
     expect(
-      parseGatewayStatusRouteArgs(["node", "openclaw", "gateway", "status", "--ssh-auto"]),
+      parseGatewayStatusRouteArgs(["node", "brikko-studio", "gateway", "status", "--ssh-auto"]),
     ).toBeNull();
   });
 
@@ -86,7 +86,7 @@ describe("route-args", () => {
     expect(
       parseSessionsRouteArgs([
         "node",
-        "openclaw",
+        "brikko-studio",
         "sessions",
         "--json",
         "--all-agents",
@@ -104,14 +104,14 @@ describe("route-args", () => {
       store: "sqlite",
       active: "true",
     });
-    expect(parseSessionsRouteArgs(["node", "openclaw", "sessions", "--agent"])).toBeNull();
+    expect(parseSessionsRouteArgs(["node", "brikko-studio", "sessions", "--agent"])).toBeNull();
     expect(
-      parseAgentsListRouteArgs(["node", "openclaw", "agents", "list", "--json", "--bindings"]),
+      parseAgentsListRouteArgs(["node", "brikko-studio", "agents", "list", "--json", "--bindings"]),
     ).toEqual({
       json: true,
       bindings: true,
     });
-    expect(parseAgentsListRouteArgs(["node", "openclaw", "agents"])).toEqual({
+    expect(parseAgentsListRouteArgs(["node", "brikko-studio", "agents"])).toEqual({
       json: false,
       bindings: false,
     });
@@ -121,7 +121,7 @@ describe("route-args", () => {
     expect(
       parseConfigGetRouteArgs([
         "node",
-        "openclaw",
+        "brikko-studio",
         "--log-level",
         "debug",
         "config",
@@ -136,7 +136,7 @@ describe("route-args", () => {
     expect(
       parseConfigUnsetRouteArgs([
         "node",
-        "openclaw",
+        "brikko-studio",
         "config",
         "unset",
         "--profile",
@@ -146,14 +146,14 @@ describe("route-args", () => {
     ).toEqual({
       path: "update.channel",
     });
-    expect(parseConfigGetRouteArgs(["node", "openclaw", "config", "get", "--json"])).toBeNull();
+    expect(parseConfigGetRouteArgs(["node", "brikko-studio", "config", "get", "--json"])).toBeNull();
   });
 
   it("parses models list and models status route args", () => {
     expect(
       parseModelsListRouteArgs([
         "node",
-        "openclaw",
+        "brikko-studio",
         "models",
         "list",
         "--provider",
@@ -173,7 +173,7 @@ describe("route-args", () => {
     expect(
       parseModelsStatusRouteArgs([
         "node",
-        "openclaw",
+        "brikko-studio",
         "models",
         "status",
         "--probe-provider",
@@ -208,7 +208,7 @@ describe("route-args", () => {
       probe: true,
     });
     expect(
-      parseModelsStatusRouteArgs(["node", "openclaw", "models", "status", "--probe-profile"]),
+      parseModelsStatusRouteArgs(["node", "brikko-studio", "models", "status", "--probe-profile"]),
     ).toBeNull();
   });
 });

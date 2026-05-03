@@ -1,13 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { expect } from "vitest";
-import type { OpenClawConfig } from "../../../../config/config.js";
+import type { Brikko StudioConfig } from "../../../../config/config.js";
 import {
   getSessionBindingService,
   type SessionBindingCapabilities,
   type SessionBindingRecord,
 } from "../../../../infra/outbound/session-binding-service.js";
-import { resolvePreferredOpenClawTmpDir } from "../../../../infra/tmp-openclaw-dir.js";
+import { resolvePreferredBrikko StudioTmpDir } from "../../../../infra/tmp-brikko-studio-dir.js";
 import { setActivePluginRegistry } from "../../../../plugins/runtime.js";
 import { createTestRegistry } from "../../../../test-utils/channel-plugins.js";
 import { createChannelConversationBindingManager } from "../../conversation-bindings.js";
@@ -31,7 +31,7 @@ type SessionBindingContractEntry = {
 const contractApiPromises = new Map<string, Promise<Record<string, unknown>>>();
 
 const matrixSessionBindingStateDir = fs.mkdtempSync(
-  path.join(resolvePreferredOpenClawTmpDir(), "openclaw-matrix-session-binding-contract-"),
+  path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-matrix-session-binding-contract-"),
 );
 const matrixSessionBindingAuth = {
   accountId: "ops",
@@ -119,7 +119,7 @@ async function createContractMatrixThreadBindingManager() {
 
 const baseSessionBindingCfg = {
   session: { mainKey: "main", scope: "per-sender" },
-} satisfies OpenClawConfig;
+} satisfies Brikko StudioConfig;
 
 type ChannelConversationBindingManagerFactory = NonNullable<
   NonNullable<ChannelPlugin["conversationBindings"]>["createManager"]
@@ -135,7 +135,7 @@ type BlueBubblesContractApi = {
 type DiscordContractApi = {
   createThreadBindingManager: (params: {
     accountId: string;
-    cfg?: OpenClawConfig;
+    cfg?: Brikko StudioConfig;
     persist: boolean;
     enableSweeper: boolean;
   }) => unknown;
@@ -147,7 +147,7 @@ type DiscordContractApi = {
 type FeishuContractApi = {
   createFeishuThreadBindingManager: (params: {
     accountId?: string;
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
   }) => unknown;
   feishuThreadBindingTesting: {
     resetFeishuThreadBindingsForTests: () => void;

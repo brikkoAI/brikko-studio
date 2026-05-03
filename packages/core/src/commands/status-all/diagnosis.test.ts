@@ -63,7 +63,7 @@ function createBaseParams(
 }
 
 describe("status-all diagnosis port checks", () => {
-  it("labels OpenClaw Tailscale exposure separately from daemon state", async () => {
+  it("labels Brikko Studio Tailscale exposure separately from daemon state", async () => {
     const params = createBaseParams([]);
     params.tailscale.backendState = "Running";
     params.tailscale.dnsName = "box.tail.ts.net";
@@ -77,8 +77,8 @@ describe("status-all diagnosis port checks", () => {
 
   it("treats same-process dual-stack loopback listeners as healthy", async () => {
     const params = createBaseParams([
-      { pid: 5001, commandLine: "openclaw-gateway", address: "127.0.0.1:18789" },
-      { pid: 5001, commandLine: "openclaw-gateway", address: "[::1]:18789" },
+      { pid: 5001, commandLine: "brikko-studio-gateway", address: "127.0.0.1:18789" },
+      { pid: 5001, commandLine: "brikko-studio-gateway", address: "[::1]:18789" },
     ]);
 
     await appendStatusAllDiagnosis(params);
@@ -91,8 +91,8 @@ describe("status-all diagnosis port checks", () => {
 
   it("keeps warning for multi-process listener conflicts", async () => {
     const params = createBaseParams([
-      { pid: 5001, commandLine: "openclaw-gateway", address: "127.0.0.1:18789" },
-      { pid: 5002, commandLine: "openclaw-gateway", address: "[::1]:18789" },
+      { pid: 5001, commandLine: "brikko-studio-gateway", address: "127.0.0.1:18789" },
+      { pid: 5002, commandLine: "brikko-studio-gateway", address: "[::1]:18789" },
     ]);
 
     await appendStatusAllDiagnosis(params);

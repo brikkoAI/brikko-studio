@@ -10,7 +10,7 @@ let fixtureRoot = "";
 let caseId = 0;
 
 beforeAll(async () => {
-  fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-cron-store-"));
+  fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-cron-store-"));
 });
 
 afterAll(async () => {
@@ -70,12 +70,12 @@ describe("resolveCronStorePath", () => {
     vi.unstubAllEnvs();
   });
 
-  it("uses OPENCLAW_HOME for tilde expansion", () => {
-    vi.stubEnv("OPENCLAW_HOME", "/srv/openclaw-home");
+  it("uses BRIKKO_STUDIO_HOME for tilde expansion", () => {
+    vi.stubEnv("BRIKKO_STUDIO_HOME", "/srv/brikko-studio-home");
     vi.stubEnv("HOME", "/home/other");
 
     const result = resolveCronStorePath("~/cron/jobs.json");
-    expect(result).toBe(path.resolve("/srv/openclaw-home", "cron", "jobs.json"));
+    expect(result).toBe(path.resolve("/srv/brikko-studio-home", "cron", "jobs.json"));
   });
 });
 

@@ -18,7 +18,7 @@ import {
 } from "node:http";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { resolveOpenClawPackageRootSync } from "../../infra/openclaw-root.js";
+import { resolveBrikko StudioPackageRootSync } from "../../infra/brikko-studio-root.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { PluginApprovalResolutions } from "../../plugins/types.js";
 import { runBeforeToolCallHook } from "../pi-tools.before-tool-call.js";
@@ -276,7 +276,7 @@ const nativeHookRelayProviderAdapters: Record<
               ? { behavior: "allow" }
               : {
                   behavior: "deny",
-                  message: message?.trim() || "Denied by OpenClaw",
+                  message: message?.trim() || "Denied by Brikko Studio",
                 },
         },
       })}\n`,
@@ -348,10 +348,10 @@ export function buildNativeHookRelayCommand(params: {
   nodeExecutable?: string;
 }): string {
   const timeoutMs = normalizePositiveInteger(params.timeoutMs, DEFAULT_RELAY_TIMEOUT_MS);
-  const executable = params.executable ?? resolveOpenClawCliExecutable();
+  const executable = params.executable ?? resolveBrikko StudioCliExecutable();
   const argv =
-    executable === "openclaw"
-      ? ["openclaw"]
+    executable === "brikko-studio"
+      ? ["brikko-studio"]
       : [params.nodeExecutable ?? process.execPath, executable];
   return shellQuoteArgs([
     ...argv,
@@ -791,7 +791,7 @@ function isRetryableNativeHookRelayBridgeError(error: unknown): boolean {
 
 function nativeHookRelayBridgeDir(): string {
   const uid = typeof process.getuid === "function" ? process.getuid() : "nouid";
-  return path.join(tmpdir(), `openclaw-native-hook-relays-${uid}`);
+  return path.join(tmpdir(), `brikko-studio-native-hook-relays-${uid}`);
 }
 
 function ensureNativeHookRelayBridgeDir(): string {
@@ -885,7 +885,7 @@ async function runNativeHookRelayPreToolUse(params: {
     return params.adapter.renderPreToolUseBlockResponse(outcome.reason);
   }
   // Codex PreToolUse supports block/allow, not argument mutation. If an
-  // OpenClaw plugin returns adjusted params here, we intentionally ignore them.
+  // Brikko Studio plugin returns adjusted params here, we intentionally ignore them.
   return params.adapter.renderNoopResponse(params.invocation.event);
 }
 
@@ -1315,7 +1315,7 @@ async function requestNativeHookRelayPermissionApproval(
     "plugin.approval.request",
     { timeoutMs: timeoutMs + 10_000 },
     {
-      pluginId: `openclaw-native-hook-relay-${request.provider}`,
+      pluginId: `brikko-studio-native-hook-relay-${request.provider}`,
       title: truncateText(
         `${nativeHookRelayProviderDisplayName(request.provider)} permission request`,
         MAX_APPROVAL_TITLE_LENGTH,
@@ -1454,19 +1454,19 @@ function truncateText(value: string, maxLength: number): string {
   return `${value.slice(0, Math.max(0, maxLength - 3))}...`;
 }
 
-function resolveOpenClawCliExecutable(): string {
-  const envPath = process.env.OPENCLAW_CLI_PATH?.trim();
+function resolveBrikko StudioCliExecutable(): string {
+  const envPath = process.env.BRIKKO_STUDIO_CLI_PATH?.trim();
   if (envPath && existsSync(envPath)) {
     return envPath;
   }
-  const packageRoot = resolveOpenClawPackageRootSync({
+  const packageRoot = resolveBrikko StudioPackageRootSync({
     moduleUrl: import.meta.url,
     argv1: process.argv[1],
     cwd: process.cwd(),
   });
   if (packageRoot) {
     for (const candidate of [
-      path.join(packageRoot, "openclaw.mjs"),
+      path.join(packageRoot, "brikko-studio.mjs"),
       path.join(packageRoot, "dist", "entry.js"),
       path.join(packageRoot, "scripts", "run-node.mjs"),
     ]) {
@@ -1482,7 +1482,7 @@ function resolveOpenClawCliExecutable(): string {
       return resolved;
     }
   }
-  throw new Error("Cannot resolve OpenClaw CLI executable path for native hook relay");
+  throw new Error("Cannot resolve Brikko Studio CLI executable path for native hook relay");
 }
 
 function normalizeAllowedEvents(

@@ -1,4 +1,4 @@
-import type { ChannelConfigUiHint } from "openclaw/plugin-sdk/channel-core";
+import type { ChannelConfigUiHint } from "brikko-studio/plugin-sdk/channel-core";
 
 export const slackChannelConfigUiHints = {
   "": {
@@ -35,7 +35,7 @@ export const slackChannelConfigUiHints = {
   },
   "socketMode.clientPingTimeout": {
     label: "Slack Socket Mode Pong Timeout",
-    help: "Milliseconds the Slack SDK waits for a pong after its client ping before treating the websocket as stale (OpenClaw default: 15000). Increase on hosts with event-loop starvation or slow network scheduling.",
+    help: "Milliseconds the Slack SDK waits for a pong after its client ping before treating the websocket as stale (Brikko Studio default: 15000). Increase on hosts with event-loop starvation or slow network scheduling.",
   },
   "socketMode.serverPingTimeout": {
     label: "Slack Socket Mode Server Ping Timeout",
@@ -67,7 +67,7 @@ export const slackChannelConfigUiHints = {
   },
   execApprovals: {
     label: "Slack Exec Approvals",
-    help: "Slack-native exec approval routing and approver authorization. When unset, OpenClaw auto-enables DM-first native approvals if approvers can be resolved for this workspace account.",
+    help: "Slack-native exec approval routing and approver authorization. When unset, Brikko Studio auto-enables DM-first native approvals if approvers can be resolved for this workspace account.",
   },
   "execApprovals.enabled": {
     label: "Slack Exec Approvals Enabled",
@@ -75,7 +75,7 @@ export const slackChannelConfigUiHints = {
   },
   "execApprovals.approvers": {
     label: "Slack Exec Approval Approvers",
-    help: "Slack user IDs allowed to approve exec requests for this workspace account. Use Slack user IDs or user targets such as `U123`, `user:U123`, or `<@U123>`. If you leave this unset, OpenClaw falls back to commands.ownerAllowFrom when possible.",
+    help: "Slack user IDs allowed to approve exec requests for this workspace account. Use Slack user IDs or user targets such as `U123`, `user:U123`, or `<@U123>`. If you leave this unset, Brikko Studio falls back to commands.ownerAllowFrom when possible.",
   },
   "execApprovals.agentFilter": {
     label: "Slack Exec Approval Agent Filter",

@@ -2,7 +2,7 @@ import { Command } from "commander";
 import type { Mock } from "vitest";
 import { vi } from "vitest";
 import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import { createEmptyUninstallActions } from "../plugins/uninstall.js";
 import type { CliMockOutputRuntime } from "./test-runtime-capture.js";
@@ -33,13 +33,13 @@ function invokeMock<TArgs extends unknown[], TResult>(mock: unknown, ...args: TA
   return (mock as (...args: TArgs) => TResult)(...args);
 }
 
-export const loadConfig: Mock<LoadConfigFn> = vi.fn<LoadConfigFn>(() => ({}) as OpenClawConfig);
+export const loadConfig: Mock<LoadConfigFn> = vi.fn<LoadConfigFn>(() => ({}) as Brikko StudioConfig);
 export const readConfigFileSnapshot: AsyncUnknownMock = vi.fn();
 export const writeConfigFile: AsyncUnknownMock = vi.fn(async () => undefined);
 export const replaceConfigFile: AsyncUnknownMock = vi.fn(
-  async (params: { nextConfig: OpenClawConfig }) => await writeConfigFile(params.nextConfig),
+  async (params: { nextConfig: Brikko StudioConfig }) => await writeConfigFile(params.nextConfig),
 ) as AsyncUnknownMock;
-const resolveStateDir: Mock<() => string> = vi.fn(() => "/tmp/openclaw-state");
+const resolveStateDir: Mock<() => string> = vi.fn(() => "/tmp/brikko-studio-state");
 export const installPluginFromMarketplace: Mock<InstallPluginFromMarketplaceFn> = vi.fn();
 export const installPluginFromGitSpec: Mock<InstallPluginFromGitSpecFn> = vi.fn();
 const parseGitPluginSpec: Mock<ParseGitPluginSpecFn> = vi.fn();
@@ -170,9 +170,9 @@ vi.mock("../config/config.js", () => ({
       readConfigFileSnapshot,
       ...args,
     )) as (typeof import("../config/config.js"))["readConfigFileSnapshot"],
-  writeConfigFile: ((config: OpenClawConfig) =>
+  writeConfigFile: ((config: Brikko StudioConfig) =>
     invokeMock<
-      [OpenClawConfig],
+      [Brikko StudioConfig],
       ReturnType<(typeof import("../config/config.js"))["writeConfigFile"]>
     >(writeConfigFile, config)) as (typeof import("../config/config.js"))["writeConfigFile"],
   replaceConfigFile: ((
@@ -651,11 +651,11 @@ export function resetPluginsCliTestState() {
   installHooksFromPath.mockReset();
   recordHookInstall.mockReset();
 
-  loadConfig.mockReturnValue({} as OpenClawConfig);
+  loadConfig.mockReturnValue({} as Brikko StudioConfig);
   readConfigFileSnapshot.mockImplementation(async () => {
     const config = getRuntimeConfig();
     return {
-      path: "/tmp/openclaw-config.json5",
+      path: "/tmp/brikko-studio-config.json5",
       exists: true,
       raw: "{}",
       parsed: config,
@@ -672,22 +672,22 @@ export function resetPluginsCliTestState() {
   });
   writeConfigFile.mockResolvedValue(undefined);
   replaceConfigFile.mockImplementation(
-    (async (params: { nextConfig: OpenClawConfig }) =>
+    (async (params: { nextConfig: Brikko StudioConfig }) =>
       await writeConfigFile(params.nextConfig)) as (...args: unknown[]) => Promise<unknown>,
   );
-  resolveStateDir.mockReturnValue("/tmp/openclaw-state");
+  resolveStateDir.mockReturnValue("/tmp/brikko-studio-state");
   resolveMarketplaceInstallShortcut.mockResolvedValue(null);
   installPluginFromMarketplace.mockResolvedValue({
     ok: false,
     error: "marketplace install failed",
   });
-  enablePluginInConfig.mockImplementation(((cfg: OpenClawConfig, pluginId: string) => ({
+  enablePluginInConfig.mockImplementation(((cfg: Brikko StudioConfig, pluginId: string) => ({
     config: cfg,
     enabled: true,
     pluginId,
   })) as (...args: unknown[]) => unknown);
   recordPluginInstall.mockImplementation(
-    ((cfg: OpenClawConfig) => cfg) as (...args: unknown[]) => unknown,
+    ((cfg: Brikko StudioConfig) => cfg) as (...args: unknown[]) => unknown,
   );
   loadInstalledPluginIndexInstallRecords.mockImplementation(async () =>
     clonePluginInstallRecords(mockInstalledPluginIndexInstallRecords),
@@ -730,7 +730,7 @@ export function resetPluginsCliTestState() {
     current: defaultRegistryIndex,
   });
   refreshPluginRegistry.mockResolvedValue(defaultRegistryIndex);
-  applyExclusiveSlotSelection.mockImplementation((({ config }: { config: OpenClawConfig }) => ({
+  applyExclusiveSlotSelection.mockImplementation((({ config }: { config: Brikko StudioConfig }) => ({
     config,
     warnings: [],
   })) as (...args: unknown[]) => unknown);
@@ -738,7 +738,7 @@ export function resetPluginsCliTestState() {
     config,
     pluginId,
   }: {
-    config: OpenClawConfig;
+    config: Brikko StudioConfig;
     pluginId: string;
   }) => ({
     ok: true,
@@ -753,19 +753,19 @@ export function resetPluginsCliTestState() {
   });
   uninstallPlugin.mockResolvedValue({
     ok: true,
-    config: {} as OpenClawConfig,
+    config: {} as Brikko StudioConfig,
     warnings: [],
     actions: createEmptyUninstallActions(),
   });
   updateNpmInstalledPlugins.mockResolvedValue({
     outcomes: [],
     changed: false,
-    config: {} as OpenClawConfig,
+    config: {} as Brikko StudioConfig,
   });
   updateNpmInstalledHookPacks.mockResolvedValue({
     outcomes: [],
     changed: false,
-    config: {} as OpenClawConfig,
+    config: {} as Brikko StudioConfig,
   });
   promptYesNo.mockResolvedValue(true);
   installPluginFromPath.mockResolvedValue({ ok: false, error: "path install disabled in test" });
@@ -807,6 +807,6 @@ export function resetPluginsCliTestState() {
     error: "hook npm install disabled in test",
   });
   recordHookInstall.mockImplementation(
-    ((cfg: OpenClawConfig) => cfg) as (...args: unknown[]) => unknown,
+    ((cfg: Brikko StudioConfig) => cfg) as (...args: unknown[]) => unknown,
   );
 }

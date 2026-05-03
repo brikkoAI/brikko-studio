@@ -1,7 +1,7 @@
 import {
   createWebSearchProviderContractFields,
   type WebSearchProviderPlugin,
-} from "openclaw/plugin-sdk/provider-web-search-contract";
+} from "brikko-studio/plugin-sdk/provider-web-search-contract";
 
 export function createOllamaWebSearchProvider(): WebSearchProviderPlugin {
   return {
@@ -13,7 +13,7 @@ export function createOllamaWebSearchProvider(): WebSearchProviderPlugin {
     envVars: [],
     placeholder: "(run ollama signin)",
     signupUrl: "https://ollama.com/",
-    docsUrl: "https://docs.openclaw.ai/tools/web",
+    docsUrl: "https://docs.brikko-studio.ai/tools/web",
     autoDetectOrder: 110,
     credentialPath: "",
     ...createWebSearchProviderContractFields({

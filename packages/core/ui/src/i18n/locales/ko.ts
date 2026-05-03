@@ -383,7 +383,7 @@ export const ko: TranslationMap = {
     skills: "Skills 및 API 키.",
     nodes: "페어링된 디바이스 및 명령.",
     chat: "빠른 개입을 위한 Gateway 채팅.",
-    config: "openclaw.json 편집.",
+    config: "brikko-studio.json 편집.",
     communications: "채널, 메시지, 오디오 설정.",
     appearance: "테마, UI, 설정 마법사 설정.",
     automation: "명령, hooks, cron, plugins.",
@@ -458,7 +458,7 @@ export const ko: TranslationMap = {
       metadataUpgradeSummary:
         "이 기기는 이미 페어링되어 있지만, 메타데이터 변경은 승인을 기다리고 있습니다.",
       mobileHint:
-        "모바일에서 사용 중이신가요? 데스크톱에서 openclaw dashboard --no-open으로 전체 URL(#token=... 포함)을 복사하세요.",
+        "모바일에서 사용 중이신가요? 데스크톱에서 brikko-studio dashboard --no-open으로 전체 URL(#token=... 포함)을 복사하세요.",
       docsTitle: "기기 페어링 문서(새 탭에서 열림)",
       docsLink: "문서: 기기 페어링",
     },
@@ -496,7 +496,7 @@ export const ko: TranslationMap = {
       modelAuthExpiresIn: "{when} 후 만료",
       modelAuthAttentionExpiredTitle: "모델 인증이 만료됨",
       modelAuthAttentionExpiringTitle: "모델 인증이 곧 만료됨",
-      modelAuthAttentionExpiredDesc: "{providers} — openclaw models auth로 다시 인증하세요",
+      modelAuthAttentionExpiredDesc: "{providers} — brikko-studio models auth로 다시 인증하세요",
       modelAuthAttentionExpiringEntry: "{provider} ({when})",
     },
     attention: {

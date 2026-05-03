@@ -1,4 +1,4 @@
-import { discoverOpenClawPlugins } from "./discovery.js";
+import { discoverBrikko StudioPlugins } from "./discovery.js";
 import {
   loadPluginManifest,
   type PluginPackageChannel,
@@ -23,7 +23,7 @@ export function listChannelCatalogEntries(
     env?: NodeJS.ProcessEnv;
   } = {},
 ): PluginChannelCatalogEntry[] {
-  return discoverOpenClawPlugins({
+  return discoverBrikko StudioPlugins({
     workspaceDir: params.workspaceDir,
     env: params.env,
   }).candidates.flatMap((candidate) => {

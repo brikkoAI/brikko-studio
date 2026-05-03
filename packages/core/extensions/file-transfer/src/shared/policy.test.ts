@@ -5,14 +5,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 // Mock the plugin-sdk runtime-config surface so we can drive the policy
 // reader from the test without booting a gateway. mutateConfigFile is also
 // mocked so persistAllowAlways tests can assert what would have been written
-// without touching ~/.openclaw/openclaw.json.
+// without touching ~/.brikko-studio/brikko-studio.json.
 const getRuntimeConfigMock = vi.fn();
 const mutateConfigFileMock = vi.fn();
 
-vi.mock("openclaw/plugin-sdk/runtime-config-snapshot", () => ({
+vi.mock("brikko-studio/plugin-sdk/runtime-config-snapshot", () => ({
   getRuntimeConfig: () => getRuntimeConfigMock(),
 }));
-vi.mock("openclaw/plugin-sdk/config-mutation", () => ({
+vi.mock("brikko-studio/plugin-sdk/config-mutation", () => ({
   mutateConfigFile: (input: unknown) => mutateConfigFileMock(input),
 }));
 

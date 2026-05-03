@@ -18,7 +18,7 @@ import {
 import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.js";
 import { getChannelPlugin } from "../../channels/plugins/index.js";
 import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
@@ -66,7 +66,7 @@ type ParsedModelsCommand =
     };
 
 export async function buildModelsProviderData(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId?: string,
   options: { view?: "default" | "all"; workspaceDir?: string } = {},
 ): Promise<ModelsProviderData> {
@@ -177,8 +177,8 @@ export async function buildModelsProviderData(
     const choices = runtimeChoicesByProvider.get(provider) ?? [
       {
         id: "pi",
-        label: "OpenClaw Pi Default",
-        description: "Use the built-in OpenClaw Pi runtime.",
+        label: "Brikko Studio Pi Default",
+        description: "Use the built-in Brikko Studio Pi runtime.",
       },
     ];
     choices.push({
@@ -271,7 +271,7 @@ function parseModelsArgs(raw: string): ParsedModelsCommand {
 
 function resolveProviderLabel(params: {
   provider: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   sessionEntry?: ModelsCommandSessionEntry;
@@ -292,7 +292,7 @@ function resolveProviderLabel(params: {
 export function formatModelsAvailableHeader(params: {
   provider: string;
   total: number;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   sessionEntry?: ModelsCommandSessionEntry;
@@ -336,7 +336,7 @@ function buildProviderInfos(params: {
 }
 
 export async function resolveModelsCommandReply(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   commandBodyNormalized: string;
   surface?: string;
   currentModel?: string;

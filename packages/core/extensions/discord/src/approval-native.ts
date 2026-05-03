@@ -1,12 +1,12 @@
-import { createLazyChannelApprovalNativeRuntimeAdapter } from "openclaw/plugin-sdk/approval-handler-adapter-runtime";
-import type { ChannelApprovalNativeRuntimeAdapter } from "openclaw/plugin-sdk/approval-handler-runtime";
-import { resolveApprovalRequestSessionConversation } from "openclaw/plugin-sdk/approval-native-runtime";
-import type { ChannelApprovalCapability } from "openclaw/plugin-sdk/channel-contract";
-import type { DiscordExecApprovalConfig } from "openclaw/plugin-sdk/config-types";
+import { createLazyChannelApprovalNativeRuntimeAdapter } from "brikko-studio/plugin-sdk/approval-handler-adapter-runtime";
+import type { ChannelApprovalNativeRuntimeAdapter } from "brikko-studio/plugin-sdk/approval-handler-runtime";
+import { resolveApprovalRequestSessionConversation } from "brikko-studio/plugin-sdk/approval-native-runtime";
+import type { ChannelApprovalCapability } from "brikko-studio/plugin-sdk/channel-contract";
+import type { DiscordExecApprovalConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 export { shouldHandleDiscordApprovalRequest } from "./approval-shared.js";
 import { listDiscordAccountIds, resolveDiscordAccount } from "./accounts.js";
 import {

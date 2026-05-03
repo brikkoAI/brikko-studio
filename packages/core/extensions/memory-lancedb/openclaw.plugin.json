@@ -38,7 +38,7 @@
     },
     "dbPath": {
       "label": "Database Path",
-      "placeholder": "~/.openclaw/memory/lancedb",
+      "placeholder": "~/.brikko-studio/memory/lancedb",
       "advanced": true
     },
     "autoCapture": {

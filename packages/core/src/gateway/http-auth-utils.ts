@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { getRuntimeConfig } from "../config/io.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
@@ -106,7 +106,7 @@ export async function checkGatewayHttpRequestAuth(params: {
   trustedProxies?: string[];
   allowRealIpFallback?: boolean;
   rateLimiter?: AuthRateLimiter;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
 }): Promise<GatewayHttpRequestAuthCheckResult> {
   const token = getBearerToken(params.req);
   const browserOriginPolicy = resolveHttpBrowserOriginPolicy(params.req, params.cfg);
@@ -150,7 +150,7 @@ export async function authorizeScopedGatewayHttpRequestOrReply(params: {
     req: IncomingMessage,
     requestAuth: AuthorizedGatewayHttpRequest,
   ) => string[];
-}): Promise<{ cfg: OpenClawConfig; requestAuth: AuthorizedGatewayHttpRequest } | null> {
+}): Promise<{ cfg: Brikko StudioConfig; requestAuth: AuthorizedGatewayHttpRequest } | null> {
   const cfg = getRuntimeConfig();
   const requestAuth = await authorizeGatewayHttpRequestOrReply({
     req: params.req,
@@ -199,7 +199,7 @@ export function resolveTrustedHttpOperatorScopes(
     return [];
   }
 
-  const headerValue = getHeader(req, "x-openclaw-scopes");
+  const headerValue = getHeader(req, "x-brikko-studio-scopes");
   if (headerValue === undefined) {
     // No scope header present - trusted clients without an explicit header
     // get the default operator scopes (matching pre-#57783 behavior).

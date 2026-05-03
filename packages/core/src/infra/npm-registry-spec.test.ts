@@ -16,22 +16,22 @@ function parseSpecOrThrow(spec: string) {
 
 describe("npm registry spec validation", () => {
   it.each([
-    "@openclaw/voice-call",
-    "@openclaw/voice-call@1.2.3",
-    "@openclaw/voice-call@1.2.3-beta.4",
-    "@openclaw/voice-call@latest",
-    "@openclaw/voice-call@beta",
+    "@brikko-studio/voice-call",
+    "@brikko-studio/voice-call@1.2.3",
+    "@brikko-studio/voice-call@1.2.3-beta.4",
+    "@brikko-studio/voice-call@latest",
+    "@brikko-studio/voice-call@beta",
   ])("accepts %s", (spec) => {
     expect(validateRegistryNpmSpec(spec)).toBeNull();
   });
 
   it.each([
     {
-      spec: "@openclaw/voice-call@^1.2.3",
+      spec: "@brikko-studio/voice-call@^1.2.3",
       expected: "exact version or dist-tag",
     },
     {
-      spec: "@openclaw/voice-call@~1.2.3",
+      spec: "@brikko-studio/voice-call@~1.2.3",
       expected: "exact version or dist-tag",
     },
     {
@@ -39,15 +39,15 @@ describe("npm registry spec validation", () => {
       expected: "URLs are not allowed",
     },
     {
-      spec: "git+ssh://github.com/openclaw/openclaw",
+      spec: "git+ssh://github.com/brikko-studio/brikko-studio",
       expected: "URLs are not allowed",
     },
     {
-      spec: "@openclaw/voice-call@",
+      spec: "@brikko-studio/voice-call@",
       expected: "missing version/tag after @",
     },
     {
-      spec: "@openclaw/voice-call@../beta",
+      spec: "@brikko-studio/voice-call@../beta",
       expected: "invalid version/tag",
     },
   ])("rejects %s", ({ spec, expected }) => {
@@ -58,29 +58,29 @@ describe("npm registry spec validation", () => {
 describe("npm registry spec parsing helpers", () => {
   it.each([
     {
-      spec: "@openclaw/voice-call",
+      spec: "@brikko-studio/voice-call",
       expected: {
-        name: "@openclaw/voice-call",
-        raw: "@openclaw/voice-call",
+        name: "@brikko-studio/voice-call",
+        raw: "@brikko-studio/voice-call",
         selectorKind: "none",
         selectorIsPrerelease: false,
       },
     },
     {
-      spec: "@openclaw/voice-call@beta",
+      spec: "@brikko-studio/voice-call@beta",
       expected: {
-        name: "@openclaw/voice-call",
-        raw: "@openclaw/voice-call@beta",
+        name: "@brikko-studio/voice-call",
+        raw: "@brikko-studio/voice-call@beta",
         selector: "beta",
         selectorKind: "tag",
         selectorIsPrerelease: false,
       },
     },
     {
-      spec: "@openclaw/voice-call@1.2.3-beta.1",
+      spec: "@brikko-studio/voice-call@1.2.3-beta.1",
       expected: {
-        name: "@openclaw/voice-call",
-        raw: "@openclaw/voice-call@1.2.3-beta.1",
+        name: "@brikko-studio/voice-call",
+        raw: "@brikko-studio/voice-call@1.2.3-beta.1",
         selector: "1.2.3-beta.1",
         selectorKind: "exact-version",
         selectorIsPrerelease: true,
@@ -108,32 +108,32 @@ describe("npm registry spec parsing helpers", () => {
 describe("npm prerelease resolution policy", () => {
   it.each([
     {
-      spec: "@openclaw/voice-call",
+      spec: "@brikko-studio/voice-call",
       resolvedVersion: "1.2.3-beta.1",
       expected: false,
     },
     {
-      spec: "@openclaw/voice-call@latest",
+      spec: "@brikko-studio/voice-call@latest",
       resolvedVersion: "1.2.3-rc.1",
       expected: false,
     },
     {
-      spec: "@openclaw/voice-call@beta",
+      spec: "@brikko-studio/voice-call@beta",
       resolvedVersion: "1.2.3-beta.4",
       expected: true,
     },
     {
-      spec: "@openclaw/voice-call@1.2.3-beta.1",
+      spec: "@brikko-studio/voice-call@1.2.3-beta.1",
       resolvedVersion: "1.2.3-beta.1",
       expected: true,
     },
     {
-      spec: "@openclaw/voice-call",
+      spec: "@brikko-studio/voice-call",
       resolvedVersion: "1.2.3",
       expected: true,
     },
     {
-      spec: "@openclaw/voice-call@latest",
+      spec: "@brikko-studio/voice-call@latest",
       resolvedVersion: undefined,
       expected: true,
     },
@@ -148,12 +148,12 @@ describe("npm prerelease resolution policy", () => {
 
   it.each([
     {
-      spec: "@openclaw/voice-call",
+      spec: "@brikko-studio/voice-call",
       resolvedVersion: "1.2.3-beta.1",
-      expected: `Use "@openclaw/voice-call@beta"`,
+      expected: `Use "@brikko-studio/voice-call@beta"`,
     },
     {
-      spec: "@openclaw/voice-call@beta",
+      spec: "@brikko-studio/voice-call@beta",
       resolvedVersion: "1.2.3-rc.1",
       expected: "Use an explicit prerelease tag or exact prerelease version",
     },

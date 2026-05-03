@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import {
   collectAllowlistProviderGroupPolicyWarnings,
   collectAllowlistProviderRestrictSendersWarnings,
@@ -49,13 +49,13 @@ describe("group policy warning builders", () => {
   });
 
   it("projects cfg-only warning collector inputs", () => {
-    const collect = projectConfigWarningCollector<{ cfg: OpenClawConfig; accountId: string }>(
+    const collect = projectConfigWarningCollector<{ cfg: Brikko StudioConfig; accountId: string }>(
       ({ cfg }) => [cfg.channels ? "configured" : "none"],
     );
 
     expect(
       collect({
-        cfg: { channels: { slack: {} } } as OpenClawConfig,
+        cfg: { channels: { slack: {} } } as Brikko StudioConfig,
         accountId: "acct-1",
       }),
     ).toEqual(["configured"]);
@@ -63,14 +63,14 @@ describe("group policy warning builders", () => {
 
   it("projects cfg+accountId warning collector inputs", () => {
     const collect = projectConfigAccountIdWarningCollector<{
-      cfg: OpenClawConfig;
+      cfg: Brikko StudioConfig;
       accountId?: string | null;
       account: { accountId: string };
     }>(({ accountId }) => [accountId ?? "default"]);
 
     expect(
       collect({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         accountId: "acct-1",
         account: { accountId: "ignored" },
       }),
@@ -90,16 +90,16 @@ describe("group policy warning builders", () => {
     const collect = projectAccountConfigWarningCollector<
       { accountId: string },
       Record<string, unknown>,
-      { account: { accountId: string }; cfg: OpenClawConfig }
+      { account: { accountId: string }; cfg: Brikko StudioConfig }
     >(
-      (cfg: OpenClawConfig) => cfg.channels ?? {},
+      (cfg: Brikko StudioConfig) => cfg.channels ?? {},
       ({ account, cfg }) => [account.accountId, Object.keys(cfg).join(",") || "none"],
     );
 
     expect(
       collect({
         account: { accountId: "acct-1" },
-        cfg: { channels: { slack: {} } } as OpenClawConfig,
+        cfg: { channels: { slack: {} } } as Brikko StudioConfig,
       }),
     ).toEqual(["acct-1", "slack"]);
   });

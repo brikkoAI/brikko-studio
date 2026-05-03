@@ -1,4 +1,4 @@
-import { runSetupWizardFinalize } from "openclaw/plugin-sdk/plugin-test-runtime";
+import { runSetupWizardFinalize } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it } from "vitest";
 import { createOptionalChannelSetupSurface } from "./channel-setup.js";
 
@@ -7,7 +7,7 @@ describe("createOptionalChannelSetupSurface", () => {
     const setup = createOptionalChannelSetupSurface({
       channel: "example",
       label: "Example",
-      npmSpec: "@openclaw/example",
+      npmSpec: "@brikko-studio/example",
       docsPath: "/channels/example",
     });
 
@@ -18,7 +18,7 @@ describe("createOptionalChannelSetupSurface", () => {
         accountId: "default",
         input: {},
       }),
-    ).toContain("@openclaw/example");
+    ).toContain("@brikko-studio/example");
     expect(setup.setupWizard.channel).toBe("example");
     expect(setup.setupWizard.status.unconfiguredHint).toContain("/channels/example");
     await expect(
@@ -30,6 +30,6 @@ describe("createOptionalChannelSetupSurface", () => {
           exit: async () => {},
         },
       }),
-    ).rejects.toThrow("@openclaw/example");
+    ).rejects.toThrow("@brikko-studio/example");
   });
 });

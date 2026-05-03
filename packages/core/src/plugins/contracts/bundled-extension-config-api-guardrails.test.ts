@@ -48,7 +48,7 @@ describe("bundled extension config api guardrails", () => {
     it(`keeps ${entry.path} off the generic concrete-schema barrel`, () => {
       const source = readFileSync(resolve(REPO_ROOT, entry.path), "utf8");
       expect(source).toContain(entry.allowedSpecifier);
-      expect(source).not.toContain("openclaw/plugin-sdk/channel-config-schema");
+      expect(source).not.toContain("brikko-studio/plugin-sdk/channel-config-schema");
     });
   }
 });

@@ -1,6 +1,6 @@
 import type { AgentToolResult } from "@mariozechner/pi-agent-core";
 import type { ChannelAgentTool } from "../../channels/plugins/types.core.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import {
   getDefaultLocalRoots as getDefaultLocalRootsImpl,
   loadWebMedia as loadWebMediaImpl,
@@ -59,7 +59,7 @@ type WebChannelHeavyRuntimeModule = {
     body: string,
     options: {
       verbose: boolean;
-      cfg?: OpenClawConfig;
+      cfg?: Brikko StudioConfig;
       mediaUrl?: string;
       mediaAccess?: {
         localRoots?: readonly string[];
@@ -74,7 +74,7 @@ type WebChannelHeavyRuntimeModule = {
   sendPollWhatsApp: (
     to: string,
     poll: PollInput,
-    options: { verbose: boolean; accountId?: string; cfg?: OpenClawConfig },
+    options: { verbose: boolean; accountId?: string; cfg?: Brikko StudioConfig },
   ) => Promise<{ messageId: string; toJid: string }>;
   sendReactionWhatsApp: (
     chatJid: string,
@@ -94,7 +94,7 @@ type WebChannelHeavyRuntimeModule = {
   ) => Promise<unknown>;
   handleWhatsAppAction: (
     params: Record<string, unknown>,
-    cfg: OpenClawConfig,
+    cfg: Brikko StudioConfig,
   ) => Promise<AgentToolResult<unknown>>;
   monitorWebChannel: (...args: unknown[]) => Promise<unknown>;
   monitorWebInbox: (...args: unknown[]) => Promise<unknown>;

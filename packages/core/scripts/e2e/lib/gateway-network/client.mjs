@@ -9,8 +9,8 @@ if (!url || !token) {
 }
 
 const deadlineMs = Number.parseInt(
-  process.env.OPENCLAW_GATEWAY_NETWORK_CLIENT_CONNECT_TIMEOUT_MS ??
-    process.env.OPENCLAW_GATEWAY_NETWORK_CONNECT_READY_TIMEOUT_MS ??
+  process.env.BRIKKO_STUDIO_GATEWAY_NETWORK_CLIENT_CONNECT_TIMEOUT_MS ??
+    process.env.BRIKKO_STUDIO_GATEWAY_NETWORK_CONNECT_READY_TIMEOUT_MS ??
     "80000",
   10,
 );

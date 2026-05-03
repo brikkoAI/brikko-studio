@@ -15,7 +15,7 @@ import {
 async function withIdentity(
   run: (identity: ReturnType<typeof loadOrCreateDeviceIdentity>) => void,
 ) {
-  await withTempDir("openclaw-device-identity-", async (dir) => {
+  await withTempDir("brikko-studio-device-identity-", async (dir) => {
     const identity = loadOrCreateDeviceIdentity(path.join(dir, "device.json"));
     run(identity);
   });
@@ -23,7 +23,7 @@ async function withIdentity(
 
 describe("device identity crypto helpers", () => {
   it("loads an existing identity without creating a missing file", async () => {
-    await withTempDir("openclaw-device-identity-readonly-", async (dir) => {
+    await withTempDir("brikko-studio-device-identity-readonly-", async (dir) => {
       const identityPath = path.join(dir, "identity", "device.json");
 
       expect(loadDeviceIdentityIfPresent(identityPath)).toBeNull();
@@ -36,7 +36,7 @@ describe("device identity crypto helpers", () => {
   });
 
   it("does not repair mismatched stored device ids in read-only mode", async () => {
-    await withTempDir("openclaw-device-identity-readonly-", async (dir) => {
+    await withTempDir("brikko-studio-device-identity-readonly-", async (dir) => {
       const identityPath = path.join(dir, "identity", "device.json");
       loadOrCreateDeviceIdentity(identityPath);
       const stored = JSON.parse(fs.readFileSync(identityPath, "utf8")) as Record<string, unknown>;

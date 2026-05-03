@@ -2,7 +2,7 @@ import {
   GPT5_BEHAVIOR_CONTRACT,
   renderGpt5PromptOverlay,
   resolveGpt5SystemPromptContribution,
-} from "openclaw/plugin-sdk/provider-model-shared";
+} from "brikko-studio/plugin-sdk/provider-model-shared";
 
 export const CODEX_GPT5_BEHAVIOR_CONTRACT = GPT5_BEHAVIOR_CONTRACT;
 

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import type { Context, Model } from "@mariozechner/pi-ai";
-import { registerSingleProviderPlugin } from "openclaw/plugin-sdk/plugin-test-runtime";
-import { createCapturedThinkingConfigStream } from "openclaw/plugin-sdk/provider-test-contracts";
+import { registerSingleProviderPlugin } from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { createCapturedThinkingConfigStream } from "brikko-studio/plugin-sdk/provider-test-contracts";
 import { describe, expect, it } from "vitest";
 import plugin from "./index.js";
 import { createKimiWebSearchProvider } from "./src/kimi-web-search-provider.js";
@@ -12,7 +12,7 @@ type MoonshotManifest = {
 
 function readManifest(): MoonshotManifest {
   return JSON.parse(
-    fs.readFileSync(new URL("./openclaw.plugin.json", import.meta.url), "utf8"),
+    fs.readFileSync(new URL("./brikko-studio.plugin.json", import.meta.url), "utf8"),
   ) as MoonshotManifest;
 }
 

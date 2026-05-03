@@ -24,7 +24,7 @@ vi.mock("../config/config.js", () => ({
 }));
 
 vi.mock("../config/paths.js", () => ({
-  resolveStateDir: () => "/tmp/openclaw-migrate-command-test",
+  resolveStateDir: () => "/tmp/brikko-studio-migrate-command-test",
 }));
 
 vi.mock("../cli/prompt.js", () => ({
@@ -75,7 +75,7 @@ function codexSkillPlan(overrides: Partial<MigrationPlan> = {}): MigrationPlan {
       action: "copy",
       status: "planned",
       source: "/tmp/codex/skills/alpha",
-      target: "/tmp/openclaw/workspace/skills/alpha",
+      target: "/tmp/brikko-studio/workspace/skills/alpha",
       details: {
         skillName: "alpha",
         sourceLabel: "Codex CLI skill",
@@ -87,7 +87,7 @@ function codexSkillPlan(overrides: Partial<MigrationPlan> = {}): MigrationPlan {
       action: "copy",
       status: "planned",
       source: "/tmp/codex/skills/beta",
-      target: "/tmp/openclaw/workspace/skills/beta",
+      target: "/tmp/brikko-studio/workspace/skills/beta",
       details: {
         skillName: "beta",
         sourceLabel: "Personal AgentSkill",
@@ -129,7 +129,7 @@ describe("migrateApplyCommand", () => {
   const originalIsTty = process.stdin.isTTY;
 
   beforeEach(async () => {
-    await fs.rm("/tmp/openclaw-migrate-command-test", { force: true, recursive: true });
+    await fs.rm("/tmp/brikko-studio-migrate-command-test", { force: true, recursive: true });
     Object.defineProperty(process.stdin, "isTTY", {
       configurable: true,
       value: false,
@@ -142,7 +142,7 @@ describe("migrateApplyCommand", () => {
     mocks.clackIsCancel.mockImplementation((value) => value === mocks.cancelSymbol);
     mocks.promptYesNo.mockReset();
     mocks.backupCreateCommand.mockReset();
-    mocks.backupCreateCommand.mockResolvedValue({ archivePath: "/tmp/openclaw-backup.tgz" });
+    mocks.backupCreateCommand.mockResolvedValue({ archivePath: "/tmp/brikko-studio-backup.tgz" });
   });
 
   afterEach(async () => {
@@ -150,7 +150,7 @@ describe("migrateApplyCommand", () => {
       configurable: true,
       value: originalIsTty,
     });
-    await fs.rm("/tmp/openclaw-migrate-command-test", { force: true, recursive: true });
+    await fs.rm("/tmp/brikko-studio-migrate-command-test", { force: true, recursive: true });
     vi.clearAllMocks();
   });
 
@@ -425,12 +425,12 @@ describe("migrateApplyCommand", () => {
     );
     expect(mocks.provider.apply).toHaveBeenCalledWith(
       expect.objectContaining({
-        backupPath: "/tmp/openclaw-backup.tgz",
+        backupPath: "/tmp/brikko-studio-backup.tgz",
         reportDir: expect.stringContaining("/migration/hermes/"),
       }),
       planned,
     );
-    expect(result.backupPath).toBe("/tmp/openclaw-backup.tgz");
+    expect(result.backupPath).toBe("/tmp/brikko-studio-backup.tgz");
   });
 
   it("prints only the final result for root apply in JSON mode", async () => {
@@ -472,7 +472,7 @@ describe("migrateApplyCommand", () => {
     expect(logs).toHaveLength(1);
     expect(JSON.parse(logs[0] ?? "{}")).toMatchObject({
       providerId: "hermes",
-      backupPath: "/tmp/openclaw-backup.tgz",
+      backupPath: "/tmp/brikko-studio-backup.tgz",
       items: [
         {
           details: {

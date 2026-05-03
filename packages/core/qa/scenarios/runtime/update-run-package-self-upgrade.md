@@ -10,7 +10,7 @@ coverage:
   secondary:
     - runtime.gateway-restart
     - runtime.package-update
-objective: Verify an agent can self-update an installed OpenClaw package from 2026.4.26 to latest by using the gateway update.run action, then recover through the forced restart.
+objective: Verify an agent can self-update an installed Brikko Studio package from 2026.4.26 to latest by using the gateway update.run action, then recover through the forced restart.
 successCriteria:
   - The agent is explicitly instructed to use the gateway tool action update.run instead of shell package-manager commands.
   - The update request carries a restart note marker that can be observed after the gateway restart.
@@ -30,7 +30,7 @@ execution:
     requiredProviderMode: live-frontier
     sourceVersion: "2026.4.26"
     targetTag: latest
-    allowEnv: OPENCLAW_QA_ALLOW_UPDATE_RUN_SELF
+    allowEnv: BRIKKO_STUDIO_QA_ALLOW_UPDATE_RUN_SELF
     channelId: qa-room
 ```
 
@@ -84,7 +84,7 @@ steps:
                     expr: "`channel:${config.channelId}`"
                   message:
                     expr: |-
-                      `Update-run self-upgrade QA check. The OpenClaw package under test was installed from openclaw@${config.sourceVersion} and must update itself to openclaw@${config.targetTag}. Use the gateway tool with action=update.run. Do not run npm, pnpm, bun, git pull, or shell package-manager commands yourself. Set note exactly to "${marker} update.run complete" and restartDelayMs to 0 so the post-restart channel message proves recovery.`
+                      `Update-run self-upgrade QA check. The Brikko Studio package under test was installed from brikko-studio@${config.sourceVersion} and must update itself to brikko-studio@${config.targetTag}. Use the gateway tool with action=update.run. Do not run npm, pnpm, bun, git pull, or shell package-manager commands yourself. Set note exactly to "${marker} update.run complete" and restartDelayMs to 0 so the post-restart channel message proves recovery.`
                   timeoutMs:
                     expr: liveTurnTimeoutMs(env, 180000)
             - call: waitForGatewayHealthy

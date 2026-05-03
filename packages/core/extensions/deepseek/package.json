@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/deepseek-provider",
+  "name": "@brikko-studio/deepseek-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw DeepSeek provider plugin",
+  "description": "Brikko Studio DeepSeek provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

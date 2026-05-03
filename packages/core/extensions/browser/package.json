@@ -1,8 +1,8 @@
 {
-  "name": "@openclaw/browser-plugin",
+  "name": "@brikko-studio/browser-plugin",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw browser tool plugin",
+  "description": "Brikko Studio browser tool plugin",
   "type": "module",
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.29.0",
@@ -13,10 +13,10 @@
     "ws": "^8.20.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
+    "@brikko-studio/plugin-sdk": "workspace:*",
     "undici": "8.1.0"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

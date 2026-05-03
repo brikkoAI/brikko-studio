@@ -1,13 +1,13 @@
 import { mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { bundledPluginFile, bundledPluginRoot } from "openclaw/plugin-sdk/test-fixtures";
+import { bundledPluginFile, bundledPluginRoot } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it } from "vitest";
 import { collectClawHubPublishablePluginPackages } from "../scripts/lib/plugin-clawhub-release.ts";
 import {
   collectPublishablePluginPackages,
   collectChangedExtensionIdsFromPaths,
   collectPublishablePluginPackageErrors,
-  OPENCLAW_PLUGIN_NPM_REPOSITORY_URL,
+  BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL,
   parsePluginReleaseArgs,
   parsePluginReleaseSelection,
   parsePluginReleaseSelectionMode,
@@ -32,8 +32,8 @@ describe("parsePluginReleaseSelection", () => {
 
   it("dedupes and sorts comma or whitespace separated package names", () => {
     expect(
-      parsePluginReleaseSelection(" @openclaw/zalo, @openclaw/feishu  @openclaw/zalo "),
-    ).toEqual(["@openclaw/feishu", "@openclaw/zalo"]);
+      parsePluginReleaseSelection(" @brikko-studio/zalo, @brikko-studio/feishu  @brikko-studio/zalo "),
+    ).toEqual(["@brikko-studio/feishu", "@brikko-studio/zalo"]);
   });
 });
 
@@ -69,7 +69,7 @@ describe("parsePluginReleaseArgs", () => {
         "--selection-mode",
         "all-publishable",
         "--plugins",
-        "@openclaw/zalo",
+        "@brikko-studio/zalo",
       ]),
     ).toThrowError("`--selection-mode all-publishable` must not be combined with `--plugins`.");
   });
@@ -90,16 +90,16 @@ describe("collectPublishablePluginPackageErrors", () => {
         extensionId: "zalo",
         packageDir: bundledPluginRoot("zalo"),
         packageJson: {
-          name: "@openclaw/zalo",
+          name: "@brikko-studio/zalo",
           version: "2026.3.15",
           repository: {
             type: "git",
-            url: OPENCLAW_PLUGIN_NPM_REPOSITORY_URL,
+            url: BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL,
           },
-          openclaw: {
+          brikko-studio: {
             extensions: ["./index.ts"],
             install: {
-              npmSpec: "@openclaw/zalo",
+              npmSpec: "@brikko-studio/zalo",
             },
             release: {
               publishToNpm: true,
@@ -119,7 +119,7 @@ describe("collectPublishablePluginPackageErrors", () => {
           name: "broken",
           version: "latest",
           private: true,
-          openclaw: {
+          brikko-studio: {
             extensions: [""],
             install: {
               npmSpec: "   ",
@@ -131,12 +131,12 @@ describe("collectPublishablePluginPackageErrors", () => {
         },
       }),
     ).toEqual([
-      'package name must start with "@openclaw/"; found "broken".',
+      'package name must start with "@brikko-studio/"; found "broken".',
       "package.json private must not be true.",
-      `package.json repository.url must be "${OPENCLAW_PLUGIN_NPM_REPOSITORY_URL}" so npm provenance can validate GitHub trusted publishing; found "<missing>".`,
+      `package.json repository.url must be "${BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL}" so npm provenance can validate GitHub trusted publishing; found "<missing>".`,
       'package.json version must match YYYY.M.D, YYYY.M.D-N, YYYY.M.D-alpha.N, or YYYY.M.D-beta.N; found "latest".',
-      "openclaw.extensions must contain only non-empty strings.",
-      "openclaw.install.npmSpec must be a non-empty string for publishable plugins.",
+      "brikko-studio.extensions must contain only non-empty strings.",
+      "brikko-studio.install.npmSpec must be a non-empty string for publishable plugins.",
     ]);
   });
 
@@ -146,12 +146,12 @@ describe("collectPublishablePluginPackageErrors", () => {
         extensionId: "twitch",
         packageDir: bundledPluginRoot("twitch"),
         packageJson: {
-          name: "@openclaw/twitch",
+          name: "@brikko-studio/twitch",
           version: "2026.5.1-beta.1",
-          openclaw: {
+          brikko-studio: {
             extensions: ["./index.ts"],
             install: {
-              npmSpec: "@openclaw/twitch",
+              npmSpec: "@brikko-studio/twitch",
             },
             release: {
               publishToNpm: true,
@@ -160,7 +160,7 @@ describe("collectPublishablePluginPackageErrors", () => {
         },
       }),
     ).toEqual([
-      `package.json repository.url must be "${OPENCLAW_PLUGIN_NPM_REPOSITORY_URL}" so npm provenance can validate GitHub trusted publishing; found "<missing>".`,
+      `package.json repository.url must be "${BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL}" so npm provenance can validate GitHub trusted publishing; found "<missing>".`,
     ]);
   });
 
@@ -170,13 +170,13 @@ describe("collectPublishablePluginPackageErrors", () => {
         extensionId: "voice-call",
         packageDir: bundledPluginRoot("voice-call"),
         packageJson: {
-          name: "@openclaw/voice-call",
+          name: "@brikko-studio/voice-call",
           version: "2026.5.1-beta.1",
           repository: {
             type: "git",
-            url: OPENCLAW_PLUGIN_NPM_REPOSITORY_URL,
+            url: BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL,
           },
-          openclaw: {
+          brikko-studio: {
             extensions: ["./index.ts"],
             release: {
               publishToNpm: true,
@@ -184,7 +184,7 @@ describe("collectPublishablePluginPackageErrors", () => {
           },
         },
       }),
-    ).toEqual(["openclaw.install.npmSpec must be a non-empty string for publishable plugins."]);
+    ).toEqual(["brikko-studio.install.npmSpec must be a non-empty string for publishable plugins."]);
   });
 });
 
@@ -211,19 +211,19 @@ describe("collectPublishablePluginPackages", () => {
   });
 
   it("collects publishable npm plugins from extension package manifests", () => {
-    const repoDir = makeTempRepoRoot(tempDirs, "openclaw-plugin-npm-release-");
+    const repoDir = makeTempRepoRoot(tempDirs, "brikko-studio-plugin-npm-release-");
     mkdirSync(join(repoDir, "extensions", "demo-plugin"), { recursive: true });
     writeJsonFile(join(repoDir, "extensions", "demo-plugin", "package.json"), {
-      name: "@openclaw/demo-plugin",
+      name: "@brikko-studio/demo-plugin",
       version: "2026.4.10",
       repository: {
         type: "git",
-        url: OPENCLAW_PLUGIN_NPM_REPOSITORY_URL,
+        url: BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL,
       },
-      openclaw: {
+      brikko-studio: {
         extensions: ["./index.ts"],
         install: {
-          npmSpec: "@openclaw/demo-plugin",
+          npmSpec: "@brikko-studio/demo-plugin",
         },
         release: {
           publishToNpm: true,
@@ -235,29 +235,29 @@ describe("collectPublishablePluginPackages", () => {
       {
         extensionId: "demo-plugin",
         packageDir: "extensions/demo-plugin",
-        packageName: "@openclaw/demo-plugin",
+        packageName: "@brikko-studio/demo-plugin",
         version: "2026.4.10",
         channel: "stable",
         publishTag: "latest",
-        installNpmSpec: "@openclaw/demo-plugin",
+        installNpmSpec: "@brikko-studio/demo-plugin",
       },
     ]);
   });
 
   it("does not validate unselected publishable plugin manifests", () => {
-    const repoDir = makeTempRepoRoot(tempDirs, "openclaw-plugin-npm-release-");
+    const repoDir = makeTempRepoRoot(tempDirs, "brikko-studio-plugin-npm-release-");
     mkdirSync(join(repoDir, "extensions", "demo-plugin"), { recursive: true });
     writeJsonFile(join(repoDir, "extensions", "demo-plugin", "package.json"), {
-      name: "@openclaw/demo-plugin",
+      name: "@brikko-studio/demo-plugin",
       version: "2026.4.10-beta.1",
       repository: {
         type: "git",
-        url: OPENCLAW_PLUGIN_NPM_REPOSITORY_URL,
+        url: BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL,
       },
-      openclaw: {
+      brikko-studio: {
         extensions: ["./index.ts"],
         install: {
-          npmSpec: "@openclaw/demo-plugin",
+          npmSpec: "@brikko-studio/demo-plugin",
         },
         release: {
           publishToNpm: true,
@@ -266,13 +266,13 @@ describe("collectPublishablePluginPackages", () => {
     });
     mkdirSync(join(repoDir, "extensions", "private-plugin"), { recursive: true });
     writeJsonFile(join(repoDir, "extensions", "private-plugin", "package.json"), {
-      name: "@openclaw/private-plugin",
+      name: "@brikko-studio/private-plugin",
       version: "2026.4.10-beta.1",
       private: true,
-      openclaw: {
+      brikko-studio: {
         extensions: ["./index.ts"],
         install: {
-          npmSpec: "@openclaw/private-plugin",
+          npmSpec: "@brikko-studio/private-plugin",
         },
         release: {
           publishToNpm: true,
@@ -282,25 +282,25 @@ describe("collectPublishablePluginPackages", () => {
 
     expect(
       collectPublishablePluginPackages(repoDir, {
-        packageNames: ["@openclaw/demo-plugin"],
+        packageNames: ["@brikko-studio/demo-plugin"],
       }),
     ).toEqual([
       expect.objectContaining({
         extensionId: "demo-plugin",
-        packageName: "@openclaw/demo-plugin",
+        packageName: "@brikko-studio/demo-plugin",
         publishTag: "beta",
       }),
     ]);
   });
 
   it("treats an explicit empty extension filter as no candidates", () => {
-    const repoDir = makeTempRepoRoot(tempDirs, "openclaw-plugin-npm-release-");
+    const repoDir = makeTempRepoRoot(tempDirs, "brikko-studio-plugin-npm-release-");
     mkdirSync(join(repoDir, "extensions", "private-plugin"), { recursive: true });
     writeJsonFile(join(repoDir, "extensions", "private-plugin", "package.json"), {
-      name: "@openclaw/private-plugin",
+      name: "@brikko-studio/private-plugin",
       version: "2026.4.10-beta.1",
       private: true,
-      openclaw: {
+      brikko-studio: {
         extensions: ["./index.ts"],
         release: {
           publishToNpm: true,
@@ -316,19 +316,19 @@ describe("collectPublishablePluginPackages", () => {
   });
 
   it("publishes alpha plugin packages to the alpha dist-tag", () => {
-    const repoDir = makeTempRepoRoot(tempDirs, "openclaw-plugin-npm-release-");
+    const repoDir = makeTempRepoRoot(tempDirs, "brikko-studio-plugin-npm-release-");
     mkdirSync(join(repoDir, "extensions", "demo-plugin"), { recursive: true });
     writeJsonFile(join(repoDir, "extensions", "demo-plugin", "package.json"), {
-      name: "@openclaw/demo-plugin",
+      name: "@brikko-studio/demo-plugin",
       version: "2026.4.10-alpha.1",
       repository: {
         type: "git",
-        url: OPENCLAW_PLUGIN_NPM_REPOSITORY_URL,
+        url: BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL,
       },
-      openclaw: {
+      brikko-studio: {
         extensions: ["./index.ts"],
         install: {
-          npmSpec: "@openclaw/demo-plugin",
+          npmSpec: "@brikko-studio/demo-plugin",
         },
         release: {
           publishToNpm: true,
@@ -339,7 +339,7 @@ describe("collectPublishablePluginPackages", () => {
     expect(collectPublishablePluginPackages(repoDir)).toEqual([
       expect.objectContaining({
         channel: "alpha",
-        packageName: "@openclaw/demo-plugin",
+        packageName: "@brikko-studio/demo-plugin",
         publishTag: "alpha",
         version: "2026.4.10-alpha.1",
       }),
@@ -352,7 +352,7 @@ describe("resolveSelectedPublishablePluginPackages", () => {
     {
       extensionId: "feishu",
       packageDir: bundledPluginRoot("feishu"),
-      packageName: "@openclaw/feishu",
+      packageName: "@brikko-studio/feishu",
       version: "2026.3.15",
       channel: "stable",
       publishTag: "latest",
@@ -360,7 +360,7 @@ describe("resolveSelectedPublishablePluginPackages", () => {
     {
       extensionId: "zalo",
       packageDir: bundledPluginRoot("zalo"),
-      packageName: "@openclaw/zalo",
+      packageName: "@brikko-studio/zalo",
       version: "2026.3.15-beta.1",
       channel: "beta",
       publishTag: "beta",
@@ -380,7 +380,7 @@ describe("resolveSelectedPublishablePluginPackages", () => {
     expect(
       resolveSelectedPublishablePluginPackages({
         plugins: publishablePlugins,
-        selection: ["@openclaw/zalo"],
+        selection: ["@brikko-studio/zalo"],
       }),
     ).toEqual([publishablePlugins[1]]);
   });
@@ -389,9 +389,9 @@ describe("resolveSelectedPublishablePluginPackages", () => {
     expect(() =>
       resolveSelectedPublishablePluginPackages({
         plugins: publishablePlugins,
-        selection: ["@openclaw/missing"],
+        selection: ["@brikko-studio/missing"],
       }),
-    ).toThrowError("Unknown or non-publishable plugin package selection: @openclaw/missing.");
+    ).toThrowError("Unknown or non-publishable plugin package selection: @brikko-studio/missing.");
   });
 });
 
@@ -413,7 +413,7 @@ describe("resolveChangedPublishablePluginPackages", () => {
     {
       extensionId: "feishu",
       packageDir: bundledPluginRoot("feishu"),
-      packageName: "@openclaw/feishu",
+      packageName: "@brikko-studio/feishu",
       version: "2026.3.15",
       channel: "stable",
       publishTag: "latest",
@@ -421,7 +421,7 @@ describe("resolveChangedPublishablePluginPackages", () => {
     {
       extensionId: "zalo",
       packageDir: bundledPluginRoot("zalo"),
-      packageName: "@openclaw/zalo",
+      packageName: "@brikko-studio/zalo",
       version: "2026.3.15-beta.1",
       channel: "beta",
       publishTag: "beta",

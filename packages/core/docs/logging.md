@@ -1,13 +1,13 @@
 ---
 summary: "File logs, console output, CLI tailing, and the Control UI Logs tab"
 read_when:
-  - You need a beginner-friendly overview of OpenClaw logging
+  - You need a beginner-friendly overview of Brikko Studio logging
   - You want to configure log levels, formats, or redaction
   - You are troubleshooting and need to find logs quickly
 title: "Logging"
 ---
 
-OpenClaw has two main log surfaces:
+Brikko Studio has two main log surfaces:
 
 - **File logs** (JSON lines) written by the Gateway.
 - **Console output** shown in terminals and the Gateway Debug UI.
@@ -19,21 +19,21 @@ logs live, how to read them, and how to configure log levels and formats.
 
 By default, the Gateway writes a rolling log file under:
 
-`/tmp/openclaw/openclaw-YYYY-MM-DD.log`
+`/tmp/brikko-studio/brikko-studio-YYYY-MM-DD.log`
 
 The date uses the gateway host's local timezone.
 
 Each file rotates when it reaches `logging.maxFileBytes` (default: 100 MB).
-OpenClaw keeps up to five numbered archives beside the active file, such as
-`openclaw-YYYY-MM-DD.1.log`, and keeps writing to a fresh active log instead of
+Brikko Studio keeps up to five numbered archives beside the active file, such as
+`brikko-studio-YYYY-MM-DD.1.log`, and keeps writing to a fresh active log instead of
 suppressing diagnostics.
 
-You can override this in `~/.openclaw/openclaw.json`:
+You can override this in `~/.brikko-studio/brikko-studio.json`:
 
 ```json
 {
   "logging": {
-    "file": "/path/to/openclaw.log"
+    "file": "/path/to/brikko-studio.log"
   }
 }
 ```
@@ -45,7 +45,7 @@ You can override this in `~/.openclaw/openclaw.json`:
 Use the CLI to tail the gateway log file via RPC:
 
 ```bash
-openclaw logs --follow
+brikko-studio logs --follow
 ```
 
 Useful current options:
@@ -74,14 +74,14 @@ In JSON mode, the CLI emits `type`-tagged objects:
 - `raw`: unparsed log line
 
 If the implicit local loopback Gateway asks for pairing, closes during connect,
-or times out before `logs.tail` answers, `openclaw logs` falls back to the
+or times out before `logs.tail` answers, `brikko-studio logs` falls back to the
 configured Gateway file log automatically. Explicit `--url` targets do not use
 this fallback.
 
 If the Gateway is unreachable, the CLI prints a short hint to run:
 
 ```bash
-openclaw doctor
+brikko-studio doctor
 ```
 
 ### Control UI (web)
@@ -94,7 +94,7 @@ See [/web/control-ui](/web/control-ui) for how to open it.
 To filter channel activity (WhatsApp/Telegram/etc), use:
 
 ```bash
-openclaw channels logs --channel whatsapp
+brikko-studio channels logs --channel whatsapp
 ```
 
 ## Log formats
@@ -113,7 +113,7 @@ available:
 - `session_id`: active session id/key when the log call carries session context.
 - `channel`: active channel when the log call carries channel context.
 
-OpenClaw preserves the original structured log arguments alongside these fields
+Brikko Studio preserves the original structured log arguments alongside these fields
 so existing parsers that read numbered tslog argument keys keep working.
 
 ### Console output
@@ -128,7 +128,7 @@ Console formatting is controlled by `logging.consoleStyle`.
 
 ### Gateway WebSocket logs
 
-`openclaw gateway` also has WebSocket protocol logging for RPC traffic:
+`brikko-studio gateway` also has WebSocket protocol logging for RPC traffic:
 
 - normal mode: only interesting results (errors, parse errors, slow calls)
 - `--verbose`: all request/response traffic
@@ -138,20 +138,20 @@ Console formatting is controlled by `logging.consoleStyle`.
 Examples:
 
 ```bash
-openclaw gateway
-openclaw gateway --verbose --ws-log compact
-openclaw gateway --verbose --ws-log full
+brikko-studio gateway
+brikko-studio gateway --verbose --ws-log compact
+brikko-studio gateway --verbose --ws-log full
 ```
 
 ## Configuring logging
 
-All logging configuration lives under `logging` in `~/.openclaw/openclaw.json`.
+All logging configuration lives under `logging` in `~/.brikko-studio/brikko-studio.json`.
 
 ```json
 {
   "logging": {
     "level": "info",
-    "file": "/tmp/openclaw/openclaw-YYYY-MM-DD.log",
+    "file": "/tmp/brikko-studio/brikko-studio-YYYY-MM-DD.log",
     "consoleLevel": "info",
     "consoleStyle": "pretty",
     "redactSensitive": "tools",
@@ -165,7 +165,7 @@ All logging configuration lives under `logging` in `~/.openclaw/openclaw.json`.
 - `logging.level`: **file logs** (JSONL) level.
 - `logging.consoleLevel`: **console** verbosity level.
 
-You can override both via the **`OPENCLAW_LOG_LEVEL`** environment variable (e.g. `OPENCLAW_LOG_LEVEL=debug`). The env var takes precedence over the config file, so you can raise verbosity for a single run without editing `openclaw.json`. You can also pass the global CLI option **`--log-level <level>`** (for example, `openclaw --log-level debug gateway run`), which overrides the environment variable for that command.
+You can override both via the **`BRIKKO_STUDIO_LOG_LEVEL`** environment variable (e.g. `BRIKKO_STUDIO_LOG_LEVEL=debug`). The env var takes precedence over the config file, so you can raise verbosity for a single run without editing `brikko-studio.json`. You can also pass the global CLI option **`--log-level <level>`** (for example, `brikko-studio --log-level debug gateway run`), which overrides the environment variable for that command.
 
 `--verbose` only affects console output and WS log verbosity; it does not change
 file log levels.
@@ -173,7 +173,7 @@ file log levels.
 ### Trace correlation
 
 File logs are JSONL. When a log call carries a valid diagnostic trace context,
-OpenClaw writes the trace fields as top-level JSON keys (`traceId`, `spanId`,
+Brikko Studio writes the trace fields as top-level JSON keys (`traceId`, `spanId`,
 `parentSpanId`, `traceFlags`) so external log processors can correlate the line
 with OTEL spans and provider `traceparent` propagation.
 
@@ -207,7 +207,7 @@ OTEL model-call spans/metrics when diagnostics export is enabled.
 
 ### Redaction
 
-OpenClaw can redact sensitive tokens before they hit console output, file logs,
+Brikko Studio can redact sensitive tokens before they hit console output, file logs,
 OTLP log records, persisted session transcript text, or Control UI tool
 event payloads (tool start args, partial/final result payloads, derived
 exec output, and patch summaries):
@@ -225,7 +225,7 @@ names such as card number, CVC/CVV, shared payment token, and payment credential
 when they appear as JSON fields, URL parameters, CLI flags, or assignments.
 
 `logging.redactSensitive: "off"` only disables this general log/transcript
-policy. OpenClaw still redacts safety-boundary payloads that can be shown to UI
+policy. Brikko Studio still redacts safety-boundary payloads that can be shown to UI
 clients, support bundles, diagnostics observers, approval prompts, or agent
 tools. Examples include Control UI tool-call events, `sessions_history` output,
 diagnostics support exports, provider error observations, exec approval command
@@ -249,7 +249,7 @@ Two adjacent surfaces:
 - **Diagnostics flags** — targeted debug-log flags that route extra logs to
   `logging.file` without raising `logging.level`. Flags are case-insensitive
   and support wildcards (`telegram.*`, `*`). Configure under `diagnostics.flags`
-  or via the `OPENCLAW_DIAGNOSTICS=...` env override. Full guide:
+  or via the `BRIKKO_STUDIO_DIAGNOSTICS=...` env override. Full guide:
   [Diagnostics flags](/diagnostics/flags).
 
 To enable diagnostics events for plugins or custom sinks without OTLP export:
@@ -264,7 +264,7 @@ For OTLP export to a collector, see [OpenTelemetry export](/gateway/opentelemetr
 
 ## Troubleshooting tips
 
-- **Gateway not reachable?** Run `openclaw doctor` first.
+- **Gateway not reachable?** Run `brikko-studio doctor` first.
 - **Logs empty?** Check that the Gateway is running and writing to the file path
   in `logging.file`.
 - **Need more detail?** Set `logging.level` to `debug` or `trace` and retry.

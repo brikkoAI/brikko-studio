@@ -1,16 +1,16 @@
 import type { ToolFsPolicy } from "../agents/tool-fs-policy.js";
 import type { AnyAgentTool } from "../agents/tools/common.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { HookEntry } from "../hooks/types.js";
 import type { DeliveryContext } from "../utils/delivery-context.types.js";
 
 /** Trusted execution context passed to plugin-owned agent tool factories. */
-export type OpenClawPluginToolContext = {
-  config?: OpenClawConfig;
+export type Brikko StudioPluginToolContext = {
+  config?: Brikko StudioConfig;
   /** Active runtime-resolved config snapshot when one is available. */
-  runtimeConfig?: OpenClawConfig;
+  runtimeConfig?: Brikko StudioConfig;
   /** Returns the latest runtime-resolved config snapshot for long-lived tool definitions. */
-  getRuntimeConfig?: () => OpenClawConfig | undefined;
+  getRuntimeConfig?: () => Brikko StudioConfig | undefined;
   /** Effective filesystem policy for the active tool run. */
   fsPolicy?: ToolFsPolicy;
   workspaceDir?: string;
@@ -34,17 +34,17 @@ export type OpenClawPluginToolContext = {
   sandboxed?: boolean;
 };
 
-export type OpenClawPluginToolFactory = (
-  ctx: OpenClawPluginToolContext,
+export type Brikko StudioPluginToolFactory = (
+  ctx: Brikko StudioPluginToolContext,
 ) => AnyAgentTool | AnyAgentTool[] | null | undefined;
 
-export type OpenClawPluginToolOptions = {
+export type Brikko StudioPluginToolOptions = {
   name?: string;
   names?: string[];
   optional?: boolean;
 };
 
-export type OpenClawPluginHookOptions = {
+export type Brikko StudioPluginHookOptions = {
   entry?: HookEntry;
   name?: string;
   description?: string;

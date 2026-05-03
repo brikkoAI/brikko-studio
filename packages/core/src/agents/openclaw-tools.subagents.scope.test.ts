@@ -6,7 +6,7 @@ import {
   callGatewayMock,
   resetSubagentsConfigOverride,
   setSubagentsConfigOverride,
-} from "./openclaw-tools.subagents.test-harness.js";
+} from "./brikko-studio-tools.subagents.test-harness.js";
 import { addSubagentRunForTests, resetSubagentRegistryForTests } from "./subagent-registry.js";
 import "./test-helpers/fast-core-tools.js";
 import { createPerSenderSessionConfig } from "./test-helpers/session-config.js";
@@ -74,7 +74,7 @@ async function expectLeafSubagentControlForbidden(params: {
   expect(callGatewayMock).not.toHaveBeenCalled();
 }
 
-describe("openclaw-tools: subagents scope isolation", () => {
+describe("brikko-studio-tools: subagents scope isolation", () => {
   let storePath = "";
 
   beforeEach(() => {
@@ -83,7 +83,7 @@ describe("openclaw-tools: subagents scope isolation", () => {
     callGatewayMock.mockReset();
     storePath = path.join(
       os.tmpdir(),
-      `openclaw-subagents-scope-${Date.now()}-${Math.random().toString(16).slice(2)}.json`,
+      `brikko-studio-subagents-scope-${Date.now()}-${Math.random().toString(16).slice(2)}.json`,
     );
     setSubagentsConfigOverride({
       session: createPerSenderSessionConfig({ store: storePath }),

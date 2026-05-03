@@ -53,9 +53,9 @@ describe("getBlockedBindReason", () => {
     }
   });
 
-  it("still blocks OS-home credential paths when OPENCLAW_HOME points elsewhere", () => {
+  it("still blocks OS-home credential paths when BRIKKO_STUDIO_HOME points elsewhere", () => {
     vi.stubEnv("HOME", "/home/tester");
-    vi.stubEnv("OPENCLAW_HOME", "/srv/openclaw-home");
+    vi.stubEnv("BRIKKO_STUDIO_HOME", "/srv/brikko-studio-home");
 
     expect(getBlockedBindReason("/home/tester/.gnupg/secring.gpg:/mnt/gnupg:ro")).toEqual(
       expect.objectContaining({
@@ -70,7 +70,7 @@ describe("getBlockedBindReason", () => {
       return;
     }
 
-    const dir = mkdtempSync(join(tmpdir(), "openclaw-home-"));
+    const dir = mkdtempSync(join(tmpdir(), "brikko-studio-home-"));
     const realHome = join(dir, "real-home");
     const aliasHome = join(dir, "alias-home");
     mkdirSync(join(realHome, ".ssh"), { recursive: true });
@@ -92,7 +92,7 @@ describe("validateBindMounts", () => {
   });
 
   it("allows legitimate project directory mounts", () => {
-    const projectRoot = mkdtempSync(join(tmpdir(), "openclaw-sbx-safe-"));
+    const projectRoot = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-safe-"));
     expect(() =>
       validateBindMounts([
         `${join(projectRoot, "source")}:/source:rw`,
@@ -179,7 +179,7 @@ describe("validateBindMounts", () => {
       return;
     }
 
-    const dir = mkdtempSync(join(tmpdir(), "openclaw-home-"));
+    const dir = mkdtempSync(join(tmpdir(), "brikko-studio-home-"));
     const realHome = join(dir, "real-home");
     const aliasHome = join(dir, "alias-home");
     mkdirSync(join(realHome, ".docker"), { recursive: true });
@@ -197,14 +197,14 @@ describe("validateBindMounts", () => {
       // SeCreateSymbolicLinkPrivilege on Windows.  The Windows branch of this
       // test does not need a real symlink — it only asserts that Windows source
       // paths are rejected as non-POSIX.
-      const dir = mkdtempSync(join(tmpdir(), "openclaw-sbx-"));
+      const dir = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-"));
       const fakePath = join(dir, "etc-link", "passwd");
       const run = () => validateBindMounts([`${fakePath}:/mnt/passwd:ro`]);
       expect(run).toThrow(/non-absolute source path/);
       return;
     }
 
-    const dir = mkdtempSync(join(tmpdir(), "openclaw-sbx-"));
+    const dir = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-"));
     const link = join(dir, "etc-link");
     symlinkSync("/etc", link);
     const run = () => validateBindMounts([`${link}/passwd:/mnt/passwd:ro`]);
@@ -216,7 +216,7 @@ describe("validateBindMounts", () => {
       // Windows source paths (e.g. C:\\...) are intentionally rejected as non-POSIX.
       return;
     }
-    const dir = mkdtempSync(join(tmpdir(), "openclaw-sbx-"));
+    const dir = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-"));
     const workspace = join(dir, "workspace");
     const outside = join(dir, "outside");
     mkdirSync(workspace, { recursive: true });
@@ -236,12 +236,12 @@ describe("validateBindMounts", () => {
       // Windows source paths (e.g. C:\\...) are intentionally rejected as non-POSIX.
       return;
     }
-    const dir = mkdtempSync(join(tmpdir(), "openclaw-sbx-"));
+    const dir = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-"));
     const workspace = join(dir, "workspace");
     mkdirSync(workspace, { recursive: true });
     const link = join(workspace, "run-link");
     symlinkSync("/var/run", link);
-    const missingLeaf = join(link, "openclaw-not-created");
+    const missingLeaf = join(link, "brikko-studio-not-created");
     expect(() =>
       validateBindMounts([`${missingLeaf}:/mnt/run:ro`], {
         allowedSourceRoots: [workspace],
@@ -257,8 +257,8 @@ describe("validateBindMounts", () => {
   });
 
   it("blocks bind sources outside allowed roots when allowlist is configured", () => {
-    const allowedRoot = mkdtempSync(join(tmpdir(), "openclaw-sbx-allowed-root-"));
-    const externalRoot = mkdtempSync(join(tmpdir(), "openclaw-sbx-external-"));
+    const allowedRoot = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-allowed-root-"));
+    const externalRoot = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-external-"));
     expect(() =>
       validateBindMounts([`${externalRoot}:/data:ro`], {
         allowedSourceRoots: [allowedRoot],
@@ -267,7 +267,7 @@ describe("validateBindMounts", () => {
   });
 
   it("allows bind sources in allowed roots when allowlist is configured", () => {
-    const projectRoot = mkdtempSync(join(tmpdir(), "openclaw-sbx-allowed-"));
+    const projectRoot = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-allowed-"));
     expect(() =>
       validateBindMounts([`${join(projectRoot, "cache")}:/data:ro`], {
         allowedSourceRoots: [projectRoot],
@@ -276,8 +276,8 @@ describe("validateBindMounts", () => {
   });
 
   it("allows bind sources outside allowed roots with explicit dangerous override", () => {
-    const allowedRoot = mkdtempSync(join(tmpdir(), "openclaw-sbx-allowed-root-"));
-    const externalRoot = mkdtempSync(join(tmpdir(), "openclaw-sbx-external-"));
+    const allowedRoot = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-allowed-root-"));
+    const externalRoot = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-external-"));
     expect(() =>
       validateBindMounts([`${externalRoot}:/data:ro`], {
         allowedSourceRoots: [allowedRoot],
@@ -287,14 +287,14 @@ describe("validateBindMounts", () => {
   });
 
   it("blocks reserved container target paths by default", () => {
-    const projectRoot = mkdtempSync(join(tmpdir(), "openclaw-sbx-reserved-default-"));
+    const projectRoot = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-reserved-default-"));
     expect(() =>
       validateBindMounts([`${projectRoot}:/workspace:rw`, `${projectRoot}:/agent/cache:rw`]),
     ).toThrow(/reserved container path/);
   });
 
   it("allows reserved container target paths with explicit dangerous override", () => {
-    const projectRoot = mkdtempSync(join(tmpdir(), "openclaw-sbx-reserved-"));
+    const projectRoot = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-reserved-"));
     expect(() =>
       validateBindMounts([`${projectRoot}:/workspace:rw`], {
         allowReservedContainerTargets: true,
@@ -359,7 +359,7 @@ describe("validateSeccompProfile", () => {
 
 describe("validateApparmorProfile", () => {
   it("allows named profile/undefined", () => {
-    expect(() => validateApparmorProfile("openclaw-sandbox")).not.toThrow();
+    expect(() => validateApparmorProfile("brikko-studio-sandbox")).not.toThrow();
     expect(() => validateApparmorProfile(undefined)).not.toThrow();
   });
 });
@@ -384,13 +384,13 @@ describe("profile hardening", () => {
 
 describe("validateSandboxSecurity", () => {
   it("passes with safe config", () => {
-    const projectRoot = mkdtempSync(join(tmpdir(), "openclaw-sbx-safe-config-"));
+    const projectRoot = mkdtempSync(join(tmpdir(), "brikko-studio-sbx-safe-config-"));
     expect(() =>
       validateSandboxSecurity({
         binds: [`${projectRoot}:/src:rw`],
         network: "none",
         seccompProfile: "/tmp/seccomp.json",
-        apparmorProfile: "openclaw-sandbox",
+        apparmorProfile: "brikko-studio-sandbox",
       }),
     ).not.toThrow();
   });

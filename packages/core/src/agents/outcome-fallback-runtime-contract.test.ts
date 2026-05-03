@@ -2,9 +2,9 @@ import {
   createContractFallbackConfig,
   createContractRunResult,
   OUTCOME_FALLBACK_RUNTIME_CONTRACT,
-} from "openclaw/plugin-sdk/agent-runtime-test-contracts";
+} from "brikko-studio/plugin-sdk/agent-runtime-test-contracts";
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { runWithModelFallback } from "./model-fallback.js";
 import { classifyEmbeddedPiRunResultForModelFallback } from "./pi-embedded-runner/result-fallback-classifier.js";
 
@@ -58,7 +58,7 @@ describe("Outcome/fallback runtime contract - Pi fallback classifier", () => {
       const run = vi.fn().mockResolvedValueOnce(primary).mockResolvedValueOnce(fallback);
 
       const result = await runWithModelFallback({
-        cfg: createContractFallbackConfig() as unknown as OpenClawConfig,
+        cfg: createContractFallbackConfig() as unknown as Brikko StudioConfig,
         provider: OUTCOME_FALLBACK_RUNTIME_CONTRACT.primaryProvider,
         model: OUTCOME_FALLBACK_RUNTIME_CONTRACT.primaryModel,
         run,
@@ -166,7 +166,7 @@ describe("Outcome/fallback runtime contract - Pi fallback classifier", () => {
 
     const run = vi.fn().mockResolvedValue(contractCase.result);
     const result = await runWithModelFallback({
-      cfg: createContractFallbackConfig() as unknown as OpenClawConfig,
+      cfg: createContractFallbackConfig() as unknown as Brikko StudioConfig,
       provider: OUTCOME_FALLBACK_RUNTIME_CONTRACT.primaryProvider,
       model: OUTCOME_FALLBACK_RUNTIME_CONTRACT.primaryModel,
       run,

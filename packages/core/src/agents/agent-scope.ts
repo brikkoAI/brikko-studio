@@ -4,7 +4,7 @@ import { resolveAgentModelFallbackValues } from "../config/model-input.js";
 import type { AgentDefaultsConfig } from "../config/types.agent-defaults.js";
 import type { AgentModelConfig } from "../config/types.agents-shared.js";
 import type { AgentConfig } from "../config/types.agents.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import {
   normalizeAgentId,
   parseAgentSessionKey,
@@ -49,7 +49,7 @@ export { resolveAgentIdFromSessionKey };
 
 export function resolveSessionAgentIds(params: {
   sessionKey?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   agentId?: string;
 }): {
   defaultAgentId: string;
@@ -68,13 +68,13 @@ export function resolveSessionAgentIds(params: {
 
 export function resolveSessionAgentId(params: {
   sessionKey?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 }): string {
   return resolveSessionAgentIds(params).sessionAgentId;
 }
 
 export function resolveAgentExecutionContract(
-  cfg: OpenClawConfig | undefined,
+  cfg: Brikko StudioConfig | undefined,
   agentId?: string | null,
 ): NonNullable<NonNullable<AgentDefaultsConfig["embeddedPi"]>["executionContract"]> | undefined {
   const defaultContract = cfg?.agents?.defaults?.embeddedPi?.executionContract;
@@ -86,14 +86,14 @@ export function resolveAgentExecutionContract(
 }
 
 export function resolveAgentSkillsFilter(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
 ): string[] | undefined {
   return resolveEffectiveAgentSkillFilter(cfg, agentId);
 }
 
 export function resolveAgentExplicitModelPrimary(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
 ): string | undefined {
   const raw = resolveAgentConfig(cfg, agentId)?.model;
@@ -101,7 +101,7 @@ export function resolveAgentExplicitModelPrimary(
 }
 
 export function resolveAgentEffectiveModelPrimary(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
 ): string | undefined {
   return (
@@ -110,7 +110,7 @@ export function resolveAgentEffectiveModelPrimary(
   );
 }
 
-function findMutableAgentEntry(cfg: OpenClawConfig, agentId: string): AgentConfig | undefined {
+function findMutableAgentEntry(cfg: Brikko StudioConfig, agentId: string): AgentConfig | undefined {
   const id = normalizeAgentId(agentId);
   return cfg.agents?.list?.find((entry) => normalizeAgentId(entry?.id) === id);
 }
@@ -128,7 +128,7 @@ function updateAgentModelPrimary(
 export type AgentModelPrimaryWriteTarget = "agent" | "defaults";
 
 export function setAgentEffectiveModelPrimary(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
   primary: string,
 ): AgentModelPrimaryWriteTarget {
@@ -147,12 +147,12 @@ export function setAgentEffectiveModelPrimary(
 }
 
 /** @deprecated Prefer explicit/effective helpers at new call sites. */
-export function resolveAgentModelPrimary(cfg: OpenClawConfig, agentId: string): string | undefined {
+export function resolveAgentModelPrimary(cfg: Brikko StudioConfig, agentId: string): string | undefined {
   return resolveAgentExplicitModelPrimary(cfg, agentId);
 }
 
 export function resolveAgentModelFallbacksOverride(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
 ): string[] | undefined {
   const raw = resolveAgentConfig(cfg, agentId)?.model;
@@ -181,7 +181,7 @@ export function resolveFallbackAgentId(params: {
 }
 
 export function resolveRunModelFallbacksOverride(params: {
-  cfg: OpenClawConfig | undefined;
+  cfg: Brikko StudioConfig | undefined;
   agentId?: string | null;
   sessionKey?: string | null;
 }): string[] | undefined {
@@ -195,7 +195,7 @@ export function resolveRunModelFallbacksOverride(params: {
 }
 
 export function hasConfiguredModelFallbacks(params: {
-  cfg: OpenClawConfig | undefined;
+  cfg: Brikko StudioConfig | undefined;
   agentId?: string | null;
   sessionKey?: string | null;
 }): boolean {
@@ -205,7 +205,7 @@ export function hasConfiguredModelFallbacks(params: {
 }
 
 export function resolveEffectiveModelFallbacks(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   hasSessionModelOverride: boolean;
   modelOverrideSource?: "auto" | "user";
@@ -243,7 +243,7 @@ function isPathWithinRoot(candidatePath: string, rootPath: string): boolean {
 }
 
 export function resolveAgentIdsByWorkspacePath(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   workspacePath: string,
 ): string[] {
   const normalizedWorkspacePath = normalizePathForComparison(workspacePath);
@@ -271,7 +271,7 @@ export function resolveAgentIdsByWorkspacePath(
 }
 
 export function resolveAgentIdByWorkspacePath(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   workspacePath: string,
 ): string | undefined {
   return resolveAgentIdsByWorkspacePath(cfg, workspacePath)[0];

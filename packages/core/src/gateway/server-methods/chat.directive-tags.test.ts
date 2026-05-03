@@ -355,7 +355,7 @@ function createScopedCliClient(
     version: string;
   }> = {},
 ) {
-  const id = client.id ?? "openclaw-cli";
+  const id = client.id ?? "brikko-studio-cli";
   return {
     connect: {
       scopes,
@@ -526,7 +526,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("registers tool-event recipients for clients advertising tool-events capability", async () => {
-    createTranscriptFixture("openclaw-chat-send-tool-events-");
+    createTranscriptFixture("brikko-studio-chat-send-tool-events-");
     mockState.finalText = "ok";
     mockState.triggerAgentRunStart = true;
     mockState.agentRunId = "run-current";
@@ -565,7 +565,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("does not register tool-event recipients without tool-events capability", async () => {
-    createTranscriptFixture("openclaw-chat-send-tool-events-off-");
+    createTranscriptFixture("brikko-studio-chat-send-tool-events-off-");
     mockState.finalText = "ok";
     mockState.triggerAgentRunStart = true;
     mockState.agentRunId = "run-no-cap";
@@ -588,7 +588,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("persists agent-run audio replies emitted as media-bearing block payloads", async () => {
-    createTranscriptFixture("openclaw-chat-send-agent-audio-");
+    createTranscriptFixture("brikko-studio-chat-send-agent-audio-");
     const transcriptDir = path.dirname(mockState.transcriptPath);
     const audioPath = path.join(transcriptDir, "reply.mp3");
     fs.writeFileSync(audioPath, Buffer.from([0xff, 0xfb, 0x90, 0x00]));
@@ -653,7 +653,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("persists auto-TTS final media as audio-only so webchat does not duplicate assistant text", async () => {
-    const transcriptDir = createTranscriptFixture("openclaw-chat-send-agent-tts-final-");
+    const transcriptDir = createTranscriptFixture("brikko-studio-chat-send-agent-tts-final-");
     const audioPath = path.join(transcriptDir, "tts.mp3");
     fs.writeFileSync(audioPath, Buffer.from([0xff, 0xfb, 0x90, 0x00]));
     mockState.config = {
@@ -717,7 +717,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("does not persist agent media supplements when no playable media resolves", async () => {
-    const transcriptDir = createTranscriptFixture("openclaw-chat-send-agent-stale-tts-");
+    const transcriptDir = createTranscriptFixture("brikko-studio-chat-send-agent-stale-tts-");
     const staleAudioPath = path.join(transcriptDir, "stale.mp3");
     mockState.config = {
       agents: {
@@ -759,7 +759,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("keeps visible text on non-agent TTS final media because no model transcript exists", async () => {
-    const transcriptDir = createTranscriptFixture("openclaw-chat-send-command-tts-final-");
+    const transcriptDir = createTranscriptFixture("brikko-studio-chat-send-command-tts-final-");
     const audioPath = path.join(transcriptDir, "tts.mp3");
     fs.writeFileSync(audioPath, Buffer.from([0xff, 0xfb, 0x90, 0x00]));
     mockState.config = {
@@ -810,9 +810,9 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("renders image reply payloads as assistant image content instead of MEDIA text", async () => {
-    createTranscriptFixture("openclaw-chat-send-agent-image-");
+    createTranscriptFixture("brikko-studio-chat-send-agent-image-");
     mockState.finalPayload = {
-      text: "Scan this QR code with the OpenClaw iOS app:",
+      text: "Scan this QR code with the Brikko Studio iOS app:",
       mediaUrl: "data:image/png;base64,cG5n",
     };
     const respond = vi.fn();
@@ -827,7 +827,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
     expect(payload?.message).toMatchObject({
       role: "assistant",
       content: [
-        { type: "text", text: "Scan this QR code with the OpenClaw iOS app:" },
+        { type: "text", text: "Scan this QR code with the Brikko Studio iOS app:" },
         { type: "input_image", image_url: "data:image/png;base64,cG5n" },
       ],
     });
@@ -835,7 +835,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("suppresses reasoning payloads from webchat transcript replies", async () => {
-    createTranscriptFixture("openclaw-chat-send-reasoning-hidden-");
+    createTranscriptFixture("brikko-studio-chat-send-reasoning-hidden-");
     mockState.dispatchedReplies = [
       {
         kind: "final",
@@ -860,7 +860,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.inject keeps message defined when directive tag is the only content", async () => {
-    createTranscriptFixture("openclaw-chat-inject-directive-only-");
+    createTranscriptFixture("brikko-studio-chat-inject-directive-only-");
     const respond = vi.fn();
     const context = createChatContext();
 
@@ -889,7 +889,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send non-streaming final keeps message defined for directive-only assistant text", async () => {
-    createTranscriptFixture("openclaw-chat-send-directive-only-");
+    createTranscriptFixture("brikko-studio-chat-send-directive-only-");
     mockState.finalText = "[[reply_to_current]]";
     const respond = vi.fn();
     const context = createChatContext();
@@ -911,7 +911,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("rejects oversized chat.send session keys before dispatch", async () => {
-    createTranscriptFixture("openclaw-chat-send-session-key-too-long-");
+    createTranscriptFixture("brikko-studio-chat-send-session-key-too-long-");
     const respond = vi.fn();
     const context = createChatContext();
 
@@ -939,7 +939,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.inject strips external untrusted wrapper metadata from final payload text", async () => {
-    createTranscriptFixture("openclaw-chat-inject-untrusted-meta-");
+    createTranscriptFixture("brikko-studio-chat-inject-untrusted-meta-");
     const respond = vi.fn();
     const context = createChatContext();
 
@@ -962,7 +962,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.inject broadcasts and routes on the canonical session key", async () => {
-    createTranscriptFixture("openclaw-chat-inject-canonical-key-");
+    createTranscriptFixture("brikko-studio-chat-inject-canonical-key-");
     mockState.sessionEntry = {
       canonicalKey: "agent:main:canon",
     };
@@ -998,7 +998,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send non-streaming final strips external untrusted wrapper metadata from final payload text", async () => {
-    createTranscriptFixture("openclaw-chat-send-untrusted-meta-");
+    createTranscriptFixture("brikko-studio-chat-send-untrusted-meta-");
     mockState.finalText = `hello\n\n${UNTRUSTED_CONTEXT_SUFFIX}`;
     const respond = vi.fn();
     const context = createChatContext();
@@ -1012,7 +1012,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send non-streaming final broadcasts and routes on the canonical session key", async () => {
-    createTranscriptFixture("openclaw-chat-send-canonical-key-");
+    createTranscriptFixture("brikko-studio-chat-send-canonical-key-");
     mockState.sessionEntry = {
       canonicalKey: "agent:main:canon",
     };
@@ -1042,7 +1042,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send broadcasts final replies for telegram-shaped session keys", async () => {
-    createTranscriptFixture("openclaw-chat-send-telegram-final-");
+    createTranscriptFixture("brikko-studio-chat-send-telegram-final-");
     mockState.finalText = "telegram ok";
     const respond = vi.fn();
     const context = createChatContext();
@@ -1072,7 +1072,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps explicit delivery routes for channel-scoped sessions", async () => {
-    createTranscriptFixture("openclaw-chat-send-origin-routing-");
+    createTranscriptFixture("brikko-studio-chat-send-origin-routing-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1110,7 +1110,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps explicit delivery routes for Feishu channel-scoped sessions", async () => {
-    createTranscriptFixture("openclaw-chat-send-feishu-origin-routing-");
+    createTranscriptFixture("brikko-studio-chat-send-feishu-origin-routing-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1145,7 +1145,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps explicit delivery routes for per-account channel-peer sessions", async () => {
-    createTranscriptFixture("openclaw-chat-send-per-account-channel-peer-routing-");
+    createTranscriptFixture("brikko-studio-chat-send-per-account-channel-peer-routing-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1180,7 +1180,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps explicit delivery routes for legacy channel-peer sessions", async () => {
-    createTranscriptFixture("openclaw-chat-send-legacy-channel-peer-routing-");
+    createTranscriptFixture("brikko-studio-chat-send-legacy-channel-peer-routing-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1215,7 +1215,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps explicit delivery routes for legacy thread sessions", async () => {
-    createTranscriptFixture("openclaw-chat-send-legacy-thread-channel-peer-routing-");
+    createTranscriptFixture("brikko-studio-chat-send-legacy-thread-channel-peer-routing-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1253,7 +1253,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send does not inherit external delivery context for shared main sessions", async () => {
-    createTranscriptFixture("openclaw-chat-send-main-no-cross-route-");
+    createTranscriptFixture("brikko-studio-chat-send-main-no-cross-route-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1287,7 +1287,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send does not inherit external delivery context for UI clients on main sessions", async () => {
-    createTranscriptFixture("openclaw-chat-send-main-ui-routes-");
+    createTranscriptFixture("brikko-studio-chat-send-main-ui-routes-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1310,7 +1310,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
         connect: {
           client: {
             mode: GATEWAY_CLIENT_MODES.UI,
-            id: "openclaw-tui",
+            id: "brikko-studio-tui",
           },
         },
       } as unknown,
@@ -1328,7 +1328,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send does not inherit external delivery context for UI clients on main sessions when deliver is enabled", async () => {
-    createTranscriptFixture("openclaw-chat-send-main-ui-deliver-no-route-");
+    createTranscriptFixture("brikko-studio-chat-send-main-ui-deliver-no-route-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1351,7 +1351,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
         connect: {
           client: {
             mode: GATEWAY_CLIENT_MODES.UI,
-            id: "openclaw-tui",
+            id: "brikko-studio-tui",
           },
         },
       } as unknown,
@@ -1371,7 +1371,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send inherits external delivery context for CLI clients on configured main sessions", async () => {
-    createTranscriptFixture("openclaw-chat-send-config-main-cli-routes-");
+    createTranscriptFixture("brikko-studio-chat-send-config-main-cli-routes-");
     mockState.mainSessionKey = "work";
     mockState.finalText = "ok";
     mockState.sessionEntry = {
@@ -1414,7 +1414,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send falls back to origin provider metadata for configured main CLI delivery inheritance", async () => {
-    createTranscriptFixture("openclaw-chat-send-config-main-origin-provider-routes-");
+    createTranscriptFixture("brikko-studio-chat-send-config-main-origin-provider-routes-");
     mockState.mainSessionKey = "work";
     mockState.finalText = "ok";
     mockState.sessionEntry = {
@@ -1454,7 +1454,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send falls back to origin thread metadata for configured main CLI delivery inheritance", async () => {
-    createTranscriptFixture("openclaw-chat-send-config-main-origin-thread-routes-");
+    createTranscriptFixture("brikko-studio-chat-send-config-main-origin-thread-routes-");
     mockState.mainSessionKey = "work";
     mockState.finalText = "ok";
     mockState.sessionEntry = {
@@ -1497,7 +1497,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps configured main delivery inheritance when connect metadata omits client details", async () => {
-    createTranscriptFixture("openclaw-chat-send-config-main-connect-no-client-");
+    createTranscriptFixture("brikko-studio-chat-send-config-main-connect-no-client-");
     mockState.mainSessionKey = "work";
     mockState.finalText = "ok";
     mockState.sessionEntry = {
@@ -1535,7 +1535,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send does not inherit external delivery context for non-channel custom sessions", async () => {
-    createTranscriptFixture("openclaw-chat-send-custom-no-cross-route-");
+    createTranscriptFixture("brikko-studio-chat-send-custom-no-cross-route-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1570,7 +1570,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps replies on the internal surface when deliver is not enabled", async () => {
-    createTranscriptFixture("openclaw-chat-send-no-deliver-internal-surface-");
+    createTranscriptFixture("brikko-studio-chat-send-no-deliver-internal-surface-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1604,7 +1604,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send does not inherit external routes for webchat clients on channel-scoped sessions", async () => {
-    createTranscriptFixture("openclaw-chat-send-webchat-channel-scoped-no-inherit-");
+    createTranscriptFixture("brikko-studio-chat-send-webchat-channel-scoped-no-inherit-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1629,7 +1629,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
         connect: {
           client: {
             mode: GATEWAY_CLIENT_MODES.WEBCHAT,
-            id: "openclaw-webchat",
+            id: "brikko-studio-webchat",
           },
         },
       } as unknown,
@@ -1649,7 +1649,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send still inherits external routes for UI clients on channel-scoped sessions", async () => {
-    createTranscriptFixture("openclaw-chat-send-ui-channel-scoped-inherit-");
+    createTranscriptFixture("brikko-studio-chat-send-ui-channel-scoped-inherit-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -1672,7 +1672,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
         connect: {
           client: {
             mode: GATEWAY_CLIENT_MODES.UI,
-            id: "openclaw-tui",
+            id: "brikko-studio-tui",
           },
         },
       } as unknown,
@@ -1692,7 +1692,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send accepts admin-scoped synthetic originating routes without external delivery", async () => {
-    createTranscriptFixture("openclaw-chat-send-synthetic-origin-admin-");
+    createTranscriptFixture("brikko-studio-chat-send-synthetic-origin-admin-");
     mockState.finalText = "ok";
     const respond = vi.fn();
     const context = createChatContext();
@@ -1724,7 +1724,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("rejects synthetic originating routes when the caller lacks admin scope", async () => {
-    createTranscriptFixture("openclaw-chat-send-synthetic-origin-reject-");
+    createTranscriptFixture("brikko-studio-chat-send-synthetic-origin-reject-");
     mockState.finalText = "ok";
     const respond = vi.fn();
     const context = createChatContext();
@@ -1751,7 +1751,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("rejects reserved system provenance fields for non-ACP clients", async () => {
-    createTranscriptFixture("openclaw-chat-send-system-provenance-reject-");
+    createTranscriptFixture("brikko-studio-chat-send-system-provenance-reject-");
     mockState.finalText = "ok";
     const respond = vi.fn();
     const context = createChatContext();
@@ -1762,7 +1762,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
       idempotencyKey: "idem-system-provenance-reject",
       requestParams: {
         systemInputProvenance: { kind: "external_user", sourceChannel: "acp" },
-        systemProvenanceReceipt: "[Source Receipt]\nbridge=openclaw-acp\n[/Source Receipt]",
+        systemProvenanceReceipt: "[Source Receipt]\nbridge=brikko-studio-acp\n[/Source Receipt]",
       },
       expectBroadcast: false,
       waitForCompletion: false,
@@ -1777,7 +1777,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("rejects forged ACP metadata when the caller lacks admin scope", async () => {
-    createTranscriptFixture("openclaw-chat-send-system-provenance-spoof-reject-");
+    createTranscriptFixture("brikko-studio-chat-send-system-provenance-spoof-reject-");
     mockState.finalText = "ok";
     const respond = vi.fn();
     const context = createChatContext();
@@ -1796,10 +1796,10 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
           kind: "external_user",
           originSessionId: "acp-session-spoof",
           sourceChannel: "acp",
-          sourceTool: "openclaw_acp",
+          sourceTool: "brikko-studio_acp",
         },
         systemProvenanceReceipt:
-          "[Source Receipt]\nbridge=openclaw-acp\noriginSessionId=acp-session-spoof\n[/Source Receipt]",
+          "[Source Receipt]\nbridge=brikko-studio-acp\noriginSessionId=acp-session-spoof\n[/Source Receipt]",
       },
       expectBroadcast: false,
       waitForCompletion: false,
@@ -1814,7 +1814,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("allows admin-scoped clients to inject system provenance without ACP metadata", async () => {
-    createTranscriptFixture("openclaw-chat-send-system-provenance-admin-");
+    createTranscriptFixture("brikko-studio-chat-send-system-provenance-admin-");
     mockState.finalText = "ok";
     const respond = vi.fn();
     const context = createChatContext();
@@ -1832,10 +1832,10 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
           kind: "external_user",
           originSessionId: "admin-session-1",
           sourceChannel: "acp",
-          sourceTool: "openclaw_acp",
+          sourceTool: "brikko-studio_acp",
         },
         systemProvenanceReceipt:
-          "[Source Receipt]\nbridge=openclaw-acp\noriginSessionId=admin-session-1\n[/Source Receipt]",
+          "[Source Receipt]\nbridge=brikko-studio-acp\noriginSessionId=admin-session-1\n[/Source Receipt]",
       },
       expectBroadcast: false,
     });
@@ -1844,17 +1844,17 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
       kind: "external_user",
       originSessionId: "admin-session-1",
       sourceChannel: "acp",
-      sourceTool: "openclaw_acp",
+      sourceTool: "brikko-studio_acp",
     });
     expect(mockState.lastDispatchCtx?.Body).toBe(
-      "[Source Receipt]\nbridge=openclaw-acp\noriginSessionId=admin-session-1\n[/Source Receipt]\n\nops update",
+      "[Source Receipt]\nbridge=brikko-studio-acp\noriginSessionId=admin-session-1\n[/Source Receipt]\n\nops update",
     );
     expect(mockState.lastDispatchCtx?.RawBody).toBe("ops update");
     expect(mockState.lastDispatchCtx?.CommandBody).toBe("ops update");
   });
 
   it("forwards gateway caller scopes into the dispatch context", async () => {
-    createTranscriptFixture("openclaw-chat-send-gateway-client-scopes-");
+    createTranscriptFixture("brikko-studio-chat-send-gateway-client-scopes-");
     mockState.finalText = "ok";
     const respond = vi.fn();
     const context = createChatContext();
@@ -1876,7 +1876,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("normalizes missing gateway caller scopes to an empty array before dispatch", async () => {
-    createTranscriptFixture("openclaw-chat-send-missing-gateway-client-scopes-");
+    createTranscriptFixture("brikko-studio-chat-send-missing-gateway-client-scopes-");
     mockState.finalText = "ok";
     const respond = vi.fn();
     const context = createChatContext();
@@ -1895,7 +1895,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("injects ACP system provenance into the agent-visible body", async () => {
-    createTranscriptFixture("openclaw-chat-send-system-provenance-acp-");
+    createTranscriptFixture("brikko-studio-chat-send-system-provenance-acp-");
     mockState.finalText = "ok";
     const respond = vi.fn();
     const context = createChatContext();
@@ -1915,10 +1915,10 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
           kind: "external_user",
           originSessionId: "acp-session-1",
           sourceChannel: "acp",
-          sourceTool: "openclaw_acp",
+          sourceTool: "brikko-studio_acp",
         },
         systemProvenanceReceipt:
-          "[Source Receipt]\nbridge=openclaw-acp\noriginSessionId=acp-session-1\n[/Source Receipt]",
+          "[Source Receipt]\nbridge=brikko-studio-acp\noriginSessionId=acp-session-1\n[/Source Receipt]",
       },
       expectBroadcast: false,
     });
@@ -1927,17 +1927,17 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
       kind: "external_user",
       originSessionId: "acp-session-1",
       sourceChannel: "acp",
-      sourceTool: "openclaw_acp",
+      sourceTool: "brikko-studio_acp",
     });
     expect(mockState.lastDispatchCtx?.Body).toBe(
-      "[Source Receipt]\nbridge=openclaw-acp\noriginSessionId=acp-session-1\n[/Source Receipt]\n\nbench update",
+      "[Source Receipt]\nbridge=brikko-studio-acp\noriginSessionId=acp-session-1\n[/Source Receipt]\n\nbench update",
     );
     expect(mockState.lastDispatchCtx?.RawBody).toBe("bench update");
     expect(mockState.lastDispatchCtx?.CommandBody).toBe("bench update");
   });
 
   it("emits a user transcript update when chat.send starts an agent run", async () => {
-    createTranscriptFixture("openclaw-chat-send-user-transcript-agent-run-");
+    createTranscriptFixture("brikko-studio-chat-send-user-transcript-agent-run-");
     mockState.finalText = "ok";
     mockState.triggerAgentRunStart = true;
     const respond = vi.fn();
@@ -1973,7 +1973,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("adds persisted media paths to the user transcript update", async () => {
-    createTranscriptFixture("openclaw-chat-send-user-transcript-images-");
+    createTranscriptFixture("brikko-studio-chat-send-user-transcript-images-");
     mockState.finalText = "ok";
     mockState.triggerAgentRunStart = true;
     mockState.savedMediaResults = [
@@ -2050,7 +2050,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("persists non-image chat.send attachments as media refs without dispatch images", async () => {
-    createTranscriptFixture("openclaw-chat-send-user-transcript-file-");
+    createTranscriptFixture("brikko-studio-chat-send-user-transcript-file-");
     mockState.finalText = "ok";
     mockState.triggerAgentRunStart = true;
     mockState.savedMediaResults = [
@@ -2113,7 +2113,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("preserves offloaded attachment media paths in transcript order", async () => {
-    createTranscriptFixture("openclaw-chat-send-user-transcript-offloaded-");
+    createTranscriptFixture("brikko-studio-chat-send-user-transcript-offloaded-");
     mockState.finalText = "ok";
     mockState.triggerAgentRunStart = true;
     mockState.sessionEntry = {
@@ -2182,7 +2182,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("skips transcript media notes for ACP bridge clients", async () => {
-    createTranscriptFixture("openclaw-chat-send-user-transcript-acp-images-");
+    createTranscriptFixture("brikko-studio-chat-send-user-transcript-acp-images-");
     mockState.finalText = "ok";
     mockState.triggerAgentRunStart = true;
     mockState.savedMediaResults = [
@@ -2236,7 +2236,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("waits for the user transcript update before final broadcast on non-agent attachment sends", async () => {
-    createTranscriptFixture("openclaw-chat-send-no-agent-images-order-");
+    createTranscriptFixture("brikko-studio-chat-send-no-agent-images-order-");
     mockState.finalText = "ok";
     mockState.savedMediaResults = [
       { path: "/tmp/chat-send-image-a.png", contentType: "image/png" },
@@ -2278,7 +2278,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("preserves media-only final replies in the final broadcast message", async () => {
-    createTranscriptFixture("openclaw-chat-send-media-only-final-");
+    createTranscriptFixture("brikko-studio-chat-send-media-only-final-");
     mockState.finalPayload = { mediaUrl: "data:image/png;base64,cG5n" };
     const respond = vi.fn();
     const context = createChatContext();
@@ -2299,7 +2299,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("strips NO_REPLY from transcript text when final replies only carry media", async () => {
-    createTranscriptFixture("openclaw-chat-send-media-only-silent-final-");
+    createTranscriptFixture("brikko-studio-chat-send-media-only-silent-final-");
     mockState.finalPayload = {
       text: "NO_REPLY",
       mediaUrl: "data:image/png;base64,cG5n",
@@ -2323,7 +2323,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("preserves reply tags in transcript updates for media replies while stripping them from the broadcast", async () => {
-    createTranscriptFixture("openclaw-chat-send-media-reply-tags-");
+    createTranscriptFixture("brikko-studio-chat-send-media-reply-tags-");
     mockState.finalPayload = {
       replyToCurrent: true,
       mediaUrl: "data:image/png;base64,cG5n",
@@ -2365,9 +2365,9 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("does not persist sensitive image media into transcript updates", async () => {
-    createTranscriptFixture("openclaw-chat-send-sensitive-media-final-");
+    createTranscriptFixture("brikko-studio-chat-send-sensitive-media-final-");
     mockState.finalPayload = {
-      text: "Scan this QR code with the OpenClaw iOS app:",
+      text: "Scan this QR code with the Brikko Studio iOS app:",
       mediaUrl: "data:image/png;base64,cG5n",
       sensitiveMedia: true,
     };
@@ -2383,7 +2383,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
     expect(payload?.message).toMatchObject({
       role: "assistant",
       content: [
-        { type: "text", text: "Scan this QR code with the OpenClaw iOS app:" },
+        { type: "text", text: "Scan this QR code with the Brikko Studio iOS app:" },
         { type: "input_image", image_url: "data:image/png;base64,cG5n" },
       ],
     });
@@ -2396,7 +2396,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
     expect(transcriptUpdate).toMatchObject({
       message: {
         role: "assistant",
-        content: [{ type: "text", text: "Scan this QR code with the OpenClaw iOS app:" }],
+        content: [{ type: "text", text: "Scan this QR code with the Brikko Studio iOS app:" }],
       },
     });
     expect(JSON.stringify(transcriptUpdate)).not.toContain("input_image");
@@ -2405,7 +2405,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("sanitizes replyToId before emitting inline reply directives", async () => {
-    createTranscriptFixture("openclaw-chat-send-sanitized-reply-id-");
+    createTranscriptFixture("brikko-studio-chat-send-sanitized-reply-id-");
     mockState.finalPayload = {
       text: "hello",
       replyToId: "abc]]\n[[audio_as_voice]]",
@@ -2431,7 +2431,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("routes text-only image offloads into media-understanding fields", async () => {
-    createTranscriptFixture("openclaw-chat-send-text-only-attachments-");
+    createTranscriptFixture("brikko-studio-chat-send-text-only-attachments-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       modelProvider: "test-provider",
@@ -2481,7 +2481,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("keeps image attachments inline for configured custom vision models", async () => {
-    createTranscriptFixture("openclaw-chat-send-configured-custom-vision-");
+    createTranscriptFixture("brikko-studio-chat-send-configured-custom-vision-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       modelProvider: "modelscope",
@@ -2529,7 +2529,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("keeps image attachments for text-only sessions bound to ACP", async () => {
-    createTranscriptFixture("openclaw-chat-send-text-only-acp-bound-attachments-");
+    createTranscriptFixture("brikko-studio-chat-send-text-only-acp-bound-attachments-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       modelProvider: "test-provider",
@@ -2580,7 +2580,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("resolves attachment image support from the session agent model", async () => {
-    createTranscriptFixture("openclaw-chat-send-agent-scoped-text-only-attachments-");
+    createTranscriptFixture("brikko-studio-chat-send-agent-scoped-text-only-attachments-");
     mockState.finalText = "ok";
     mockState.config = {
       agents: {
@@ -2648,7 +2648,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("routes non-image offloaded refs into ctx.MediaPaths + MediaTypes for chat.send", async () => {
-    createTranscriptFixture("openclaw-chat-send-non-image-ctx-media-paths-");
+    createTranscriptFixture("brikko-studio-chat-send-non-image-ctx-media-paths-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       modelProvider: "test-provider",
@@ -2663,7 +2663,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
       },
     ];
     mockState.savedMediaResults = [
-      { path: "/home/user/.openclaw/media/inbound/report.pdf", contentType: "application/pdf" },
+      { path: "/home/user/.brikko-studio/media/inbound/report.pdf", contentType: "application/pdf" },
     ];
     const respond = vi.fn();
     const context = createChatContext();
@@ -2688,10 +2688,10 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
     });
 
     expect(mockState.lastDispatchCtx?.MediaPaths).toEqual([
-      "/home/user/.openclaw/media/inbound/report.pdf",
+      "/home/user/.brikko-studio/media/inbound/report.pdf",
     ]);
     expect(mockState.lastDispatchCtx?.MediaPath).toBe(
-      "/home/user/.openclaw/media/inbound/report.pdf",
+      "/home/user/.brikko-studio/media/inbound/report.pdf",
     );
     expect(mockState.lastDispatchCtx?.MediaTypes).toEqual(["application/pdf"]);
     expect(mockState.lastDispatchCtx?.MediaType).toBe("application/pdf");
@@ -2707,7 +2707,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("preserves sandbox-relative MediaPaths and stores workspace context for media-understanding", async () => {
-    createTranscriptFixture("openclaw-chat-send-non-image-absolutize-");
+    createTranscriptFixture("brikko-studio-chat-send-non-image-absolutize-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       modelProvider: "test-provider",
@@ -2722,7 +2722,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
       },
     ];
     mockState.savedMediaResults = [
-      { path: "/home/user/.openclaw/media/inbound/report.pdf", contentType: "application/pdf" },
+      { path: "/home/user/.brikko-studio/media/inbound/report.pdf", contentType: "application/pdf" },
     ];
     mockState.sandboxWorkspace = { workspaceDir: "/sandbox/workspace" };
     mockState.stagedRelativePaths = ["media/inbound/report.pdf"];
@@ -2755,7 +2755,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("wraps stageSandboxMedia infrastructure errors as 5xx UNAVAILABLE and cleans up media-store files", async () => {
-    createTranscriptFixture("openclaw-chat-send-stage-unavailable-");
+    createTranscriptFixture("brikko-studio-chat-send-stage-unavailable-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       modelProvider: "test-provider",
@@ -2770,7 +2770,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
       },
     ];
     mockState.savedMediaResults = [
-      { path: "/home/user/.openclaw/media/inbound/report.pdf", contentType: "application/pdf" },
+      { path: "/home/user/.brikko-studio/media/inbound/report.pdf", contentType: "application/pdf" },
     ];
     mockState.sandboxWorkspace = { workspaceDir: "/sandbox/workspace" };
     const stageError = Object.assign(new Error("ENOSPC: no space left on device"), {
@@ -2828,7 +2828,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("logs chat.send attachment parse failures with stack details", async () => {
-    createTranscriptFixture("openclaw-chat-send-attachment-parse-stack-");
+    createTranscriptFixture("brikko-studio-chat-send-attachment-parse-stack-");
     const respond = vi.fn();
     const context = createChatContext();
 
@@ -2880,7 +2880,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
     // check could not detect when one of the files silently fell out (e.g. a
     // file between the RPC cap and the staging cap). Prestage must compare
     // the returned `staged` map against the input refs.
-    createTranscriptFixture("openclaw-chat-send-partial-stage-");
+    createTranscriptFixture("brikko-studio-chat-send-partial-stage-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       modelProvider: "test-provider",
@@ -2895,12 +2895,12 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
       },
     ];
     mockState.savedMediaResults = [
-      { path: "/home/user/.openclaw/media/inbound/report.pdf", contentType: "application/pdf" },
-      { path: "/home/user/.openclaw/media/inbound/oversize.pdf", contentType: "application/pdf" },
+      { path: "/home/user/.brikko-studio/media/inbound/report.pdf", contentType: "application/pdf" },
+      { path: "/home/user/.brikko-studio/media/inbound/oversize.pdf", contentType: "application/pdf" },
     ];
     mockState.sandboxWorkspace = { workspaceDir: "/sandbox/workspace" };
     mockState.stagedRelativePaths = ["media/inbound/report.pdf", "media/inbound/oversize.pdf"];
-    mockState.unstagedSources = ["/home/user/.openclaw/media/inbound/oversize.pdf"];
+    mockState.unstagedSources = ["/home/user/.brikko-studio/media/inbound/oversize.pdf"];
     const respond = vi.fn();
     const context = createChatContext();
     const pdf = Buffer.from("%PDF-1.4\n").toString("base64");
@@ -2941,7 +2941,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
     // accepting a 5-20MB non-image would fail staging and surface as a
     // retryable 5xx UNAVAILABLE, misleading clients into retrying a
     // deterministically broken request.
-    createTranscriptFixture("openclaw-chat-send-sandbox-oversize-");
+    createTranscriptFixture("brikko-studio-chat-send-sandbox-oversize-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       modelProvider: "test-provider",
@@ -2956,7 +2956,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
       },
     ];
     mockState.savedMediaResults = [
-      { path: "/home/user/.openclaw/media/inbound/huge.pdf", contentType: "application/pdf" },
+      { path: "/home/user/.brikko-studio/media/inbound/huge.pdf", contentType: "application/pdf" },
     ];
     mockState.sandboxWorkspace = { workspaceDir: "/sandbox/workspace" };
     const respond = vi.fn();
@@ -2994,7 +2994,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("passes imageOrder for mixed inline and offloaded chat.send attachments", async () => {
-    createTranscriptFixture("openclaw-chat-send-image-order-");
+    createTranscriptFixture("brikko-studio-chat-send-image-order-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       modelProvider: "test-provider",
@@ -3040,7 +3040,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("maps media offload failures to UNAVAILABLE in chat.send", async () => {
-    createTranscriptFixture("openclaw-chat-send-media-offload-error-");
+    createTranscriptFixture("brikko-studio-chat-send-media-offload-error-");
     mockState.sessionEntry = {
       modelProvider: "test-provider",
       model: "vision-model",
@@ -3083,7 +3083,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("persists chat.send attachments one at a time", async () => {
-    createTranscriptFixture("openclaw-chat-send-image-serial-save-");
+    createTranscriptFixture("brikko-studio-chat-send-image-serial-save-");
     mockState.finalText = "ok";
     mockState.savedMediaResults = [
       { path: "/tmp/chat-send-image-a.png", contentType: "image/png" },
@@ -3131,7 +3131,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("does not parse or offload attachments for stop commands", async () => {
-    createTranscriptFixture("openclaw-chat-send-stop-command-attachments-");
+    createTranscriptFixture("brikko-studio-chat-send-stop-command-attachments-");
     mockState.savedMediaResults = [{ path: "/tmp/should-not-exist.png", contentType: "image/png" }];
     const respond = vi.fn();
     const context = createChatContext();
@@ -3171,7 +3171,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("emits a user transcript update when chat.send completes without an agent run", async () => {
-    createTranscriptFixture("openclaw-chat-send-user-transcript-no-run-");
+    createTranscriptFixture("brikko-studio-chat-send-user-transcript-no-run-");
     mockState.finalText = "ok";
     const respond = vi.fn();
     const context = createChatContext();
@@ -3202,7 +3202,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("emits a user transcript update when chat.send fails before an agent run starts", async () => {
-    createTranscriptFixture("openclaw-chat-send-user-transcript-error-no-run-");
+    createTranscriptFixture("brikko-studio-chat-send-user-transcript-error-no-run-");
     mockState.dispatchError = new Error("upstream unavailable");
     const respond = vi.fn();
     const context = createChatContext();

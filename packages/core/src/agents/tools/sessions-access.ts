@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import {
   createAgentToAgentPolicy,
   createSessionVisibilityChecker,
@@ -20,7 +20,7 @@ export {
 } from "../../plugin-sdk/session-visibility.js";
 
 export function resolveSandboxedSessionToolContext(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentSessionKey?: string;
   sandboxed?: boolean;
 }): {

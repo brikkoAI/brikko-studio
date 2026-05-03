@@ -7,7 +7,7 @@ read_when:
 title: "Messages"
 ---
 
-OpenClaw handles inbound messages through a pipeline of session resolution, queueing, streaming, tool execution, and reasoning visibility. This page maps the path from inbound message to reply.
+Brikko Studio handles inbound messages through a pipeline of session resolution, queueing, streaming, tool execution, and reasoning visibility. This page maps the path from inbound message to reply.
 
 ## Message flow (high level)
 
@@ -29,7 +29,7 @@ See [Configuration](/gateway/configuration) for full schema.
 
 ## Inbound dedupe
 
-Channels can redeliver the same message after reconnects. OpenClaw keeps a
+Channels can redeliver the same message after reconnects. Brikko Studio keeps a
 short-lived cache keyed by channel/account/peer/session/message id so duplicate
 deliveries do not trigger another agent run.
 
@@ -81,7 +81,7 @@ Details: [Session management](/concepts/session).
 Tool result `content` is the model-visible result. Tool result `details` is
 runtime metadata for UI rendering, diagnostics, media delivery, and plugins.
 
-OpenClaw keeps that boundary explicit:
+Brikko Studio keeps that boundary explicit:
 
 - `toolResult.details` is stripped before provider replay and compaction input.
 - Persisted session transcripts keep only bounded `details`; oversized metadata
@@ -91,7 +91,7 @@ OpenClaw keeps that boundary explicit:
 
 ## Inbound bodies and history context
 
-OpenClaw separates the **prompt body** from the **command body**:
+Brikko Studio separates the **prompt body** from the **command body**:
 
 - `BodyForAgent`: primary model-facing text for the current message. Channel
   plugins should keep this focused on the sender's current prompt-bearing text.
@@ -162,7 +162,7 @@ Details: [Streaming + chunking](/concepts/streaming).
 
 ## Reasoning visibility and tokens
 
-OpenClaw can expose or hide model reasoning:
+Brikko Studio can expose or hide model reasoning:
 
 - `/reasoning on|off|stream` controls visibility.
 - Reasoning content still counts toward token usage when produced by the model.
@@ -182,16 +182,16 @@ Details: [Configuration](/gateway/config-agents#messages) and channel docs.
 ## Silent replies
 
 The exact silent token `NO_REPLY` / `no_reply` means “do not deliver a user-visible reply”.
-When a turn also has pending tool media, such as generated TTS audio, OpenClaw
+When a turn also has pending tool media, such as generated TTS audio, Brikko Studio
 strips the silent text but still delivers the media attachment.
-OpenClaw resolves that behavior by conversation type:
+Brikko Studio resolves that behavior by conversation type:
 
 - Direct conversations disallow silence by default and rewrite a bare silent
   reply to a short visible fallback.
 - Groups/channels allow silence by default.
 - Internal orchestration allows silence by default.
 
-OpenClaw also uses silent replies for internal runner failures that happen
+Brikko Studio also uses silent replies for internal runner failures that happen
 before any assistant reply in non-direct chats, so groups/channels do not see
 gateway error boilerplate. Direct chats show compact failure copy by default;
 raw runner details are shown only when `/verbose` is `on` or `full`.

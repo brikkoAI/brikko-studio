@@ -1,5 +1,5 @@
-import { normalizeAccountId } from "openclaw/plugin-sdk/account-id";
-import { z } from "openclaw/plugin-sdk/zod";
+import { normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
+import { z } from "brikko-studio/plugin-sdk/zod";
 export { z };
 import { buildSecretInputSchema, hasConfiguredSecretInput } from "./secret-input.js";
 

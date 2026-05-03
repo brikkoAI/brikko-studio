@@ -88,9 +88,9 @@ async function startTokenServer(port: number, opts?: { openResponsesEnabled?: bo
 }
 
 async function writeGatewayConfig(config: Record<string, unknown>) {
-  const configPath = process.env.OPENCLAW_CONFIG_PATH;
+  const configPath = process.env.BRIKKO_STUDIO_CONFIG_PATH;
   if (!configPath) {
-    throw new Error("OPENCLAW_CONFIG_PATH is required for gateway config tests");
+    throw new Error("BRIKKO_STUDIO_CONFIG_PATH is required for gateway config tests");
   }
   await fs.mkdir(path.dirname(configPath), { recursive: true });
   await fs.writeFile(configPath, JSON.stringify(config, null, 2), "utf-8");
@@ -101,7 +101,7 @@ async function postResponses(port: number, body: unknown, headers?: Record<strin
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "x-openclaw-scopes": "operator.write",
+      "x-brikko-studio-scopes": "operator.write",
       ...headers,
     },
     body: JSON.stringify(body),
@@ -222,7 +222,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
       const resMissingAuth = await fetch(`http://127.0.0.1:${port}/v1/responses`, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ model: "openclaw", input: "hi" }),
+        body: JSON.stringify({ model: "brikko-studio", input: "hi" }),
       });
       expect(resMissingAuth.status).toBe(200);
       await ensureResponseConsumed(resMissingAuth);
@@ -243,7 +243,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
       };
       expect(invalidModelJson.error?.type).toBe("invalid_request_error");
       expect(invalidModelJson.error?.message).toBe(
-        "Invalid `model`. Use `openclaw` or `openclaw/<agentId>`.",
+        "Invalid `model`. Use `brikko-studio` or `brikko-studio/<agentId>`.",
       );
       expect(agentCommand).toHaveBeenCalledTimes(0);
       await ensureResponseConsumed(resInvalidModel);
@@ -251,8 +251,8 @@ describe("OpenResponses HTTP API (e2e)", () => {
       mockAgentOnce([{ text: "hello" }]);
       const resHeader = await postResponses(
         port,
-        { model: "openclaw", input: "hi" },
-        { "x-openclaw-agent-id": "beta" },
+        { model: "brikko-studio", input: "hi" },
+        { "x-brikko-studio-agent-id": "beta" },
       );
       expect(resHeader.status).toBe(200);
       const optsHeader = (agentCommand.mock.calls[0] as unknown[] | undefined)?.[0];
@@ -265,7 +265,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
       await ensureResponseConsumed(resHeader);
 
       mockAgentOnce([{ text: "hello" }]);
-      const resModel = await postResponses(port, { model: "openclaw/beta", input: "hi" });
+      const resModel = await postResponses(port, { model: "brikko-studio/beta", input: "hi" });
       expect(resModel.status).toBe(200);
       const optsModel = (agentCommand.mock.calls[0] as unknown[] | undefined)?.[0];
       expect((optsModel as { sessionKey?: string } | undefined)?.sessionKey ?? "").toMatch(
@@ -274,7 +274,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
       await ensureResponseConsumed(resModel);
 
       mockAgentOnce([{ text: "hello" }]);
-      const resDefaultAlias = await postResponses(port, { model: "openclaw/default", input: "hi" });
+      const resDefaultAlias = await postResponses(port, { model: "brikko-studio/default", input: "hi" });
       expect(resDefaultAlias.status).toBe(200);
       const optsDefaultAlias = (agentCommand.mock.calls[0] as unknown[] | undefined)?.[0];
       expect((optsDefaultAlias as { sessionKey?: string } | undefined)?.sessionKey ?? "").toMatch(
@@ -285,8 +285,8 @@ describe("OpenResponses HTTP API (e2e)", () => {
       mockAgentOnce([{ text: "hello" }]);
       const resChannelHeader = await postResponses(
         port,
-        { model: "openclaw", input: "hi" },
-        { "x-openclaw-message-channel": "custom-client-channel" },
+        { model: "brikko-studio", input: "hi" },
+        { "x-brikko-studio-message-channel": "custom-client-channel" },
       );
       expect(resChannelHeader.status).toBe(200);
       const optsChannelHeader = (agentCommand.mock.calls[0] as unknown[] | undefined)?.[0];
@@ -299,10 +299,10 @@ describe("OpenResponses HTTP API (e2e)", () => {
       const resModelOverride = await postResponses(
         port,
         {
-          model: "openclaw",
+          model: "brikko-studio",
           input: "hi",
         },
-        { "x-openclaw-model": "openai/gpt-5.4" },
+        { "x-brikko-studio-model": "openai/gpt-5.4" },
       );
       expect(resModelOverride.status).toBe(200);
       const optsModelOverride = (agentCommand.mock.calls[0] as unknown[] | undefined)?.[0];
@@ -312,22 +312,22 @@ describe("OpenResponses HTTP API (e2e)", () => {
       agentCommand.mockClear();
       const resInvalidOverride = await postResponses(
         port,
-        { model: "openclaw", input: "hi" },
-        { "x-openclaw-model": "openai/" },
+        { model: "brikko-studio", input: "hi" },
+        { "x-brikko-studio-model": "openai/" },
       );
       expect(resInvalidOverride.status).toBe(400);
       const invalidOverrideJson = (await resInvalidOverride.json()) as {
         error?: { type?: string; message?: string };
       };
       expect(invalidOverrideJson.error?.type).toBe("invalid_request_error");
-      expect(invalidOverrideJson.error?.message).toBe("Invalid `x-openclaw-model`.");
+      expect(invalidOverrideJson.error?.message).toBe("Invalid `x-brikko-studio-model`.");
       expect(agentCommand).toHaveBeenCalledTimes(0);
       await ensureResponseConsumed(resInvalidOverride);
 
       agentCommand.mockClear();
       agentCommand.mockRejectedValueOnce(createClientToolNameConflictError(["exec"]));
       const resToolConflict = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
         tools: WEATHER_TOOL,
       });
@@ -342,7 +342,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
       mockAgentOnce([{ text: "hello" }]);
       const resUser = await postResponses(port, {
         user: "alice",
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
       });
       expect(resUser.status).toBe(200);
@@ -354,7 +354,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "hello" }]);
       const resString = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hello world",
       });
       expect(resString.status).toBe(200);
@@ -364,7 +364,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "hello" }]);
       const resArray = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: [{ type: "message", role: "user", content: "hello there" }],
       });
       expect(resArray.status).toBe(200);
@@ -374,7 +374,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "hello" }]);
       const resSystemDeveloper = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: [
           { type: "message", role: "system", content: "You are a helpful assistant." },
           { type: "message", role: "developer", content: "Be concise." },
@@ -392,7 +392,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "hello" }]);
       const resInstructions = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
         instructions: "Always respond in French.",
       });
@@ -405,7 +405,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "I am Claude" }]);
       const resHistory = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: [
           { type: "message", role: "system", content: "You are a helpful assistant." },
           { type: "message", role: "user", content: "Hello, who are you?" },
@@ -425,7 +425,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "ok" }]);
       const resFunctionOutput = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: [
           { type: "message", role: "user", content: "What's the weather?" },
           { type: "function_call_output", call_id: "call_1", output: "Sunny, 70F." },
@@ -440,7 +440,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "ok" }]);
       const resInputFile = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: [
           {
             type: "message",
@@ -473,7 +473,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "ok" }]);
       const resInputFileWhitespace = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: [
           {
             type: "message",
@@ -505,7 +505,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "ok" }]);
       const resInputFileInjection = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: [
           {
             type: "message",
@@ -542,7 +542,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "ok" }]);
       const resToolNone = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
         tools: WEATHER_TOOL,
         tool_choice: "none",
@@ -556,7 +556,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "ok" }]);
       const resToolChoice = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
         tools: [
           {
@@ -589,7 +589,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
       await ensureResponseConsumed(resToolChoice);
 
       const resUnknownTool = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
         tools: WEATHER_TOOL,
         tool_choice: { type: "function", function: { name: "unknown_tool" } },
@@ -599,7 +599,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       mockAgentOnce([{ text: "ok" }]);
       const resMaxTokens = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
         max_output_tokens: 123,
       });
@@ -618,7 +618,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
       });
       const resUsage = await postResponses(port, {
         stream: false,
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
       });
       expect(resUsage.status).toBe(200);
@@ -629,7 +629,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
       mockAgentOnce([{ text: "hello" }]);
       const resShape = await postResponses(port, {
         stream: false,
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
       });
       expect(resShape.status).toBe(200);
@@ -652,7 +652,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
       await ensureResponseConsumed(resShape);
 
       const resNoUser = await postResponses(port, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: [{ type: "message", role: "system", content: "yo" }],
       });
       expect(resNoUser.status).toBe(400);
@@ -680,7 +680,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       const resDelta = await postResponses(port, {
         stream: true,
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
       });
       expect(resDelta.status).toBe(200);
@@ -724,7 +724,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       const resFallback = await postResponses(port, {
         stream: true,
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
       });
       expect(resFallback.status).toBe(200);
@@ -739,7 +739,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
       const resTypeMatch = await postResponses(port, {
         stream: true,
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
       });
       expect(resTypeMatch.status).toBe(200);
@@ -765,7 +765,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
     agentCommand.mockResolvedValueOnce({ payloads: [{ text: "hello" }] } as never);
 
     const writeScopeResponse = await postResponses(port, {
-      model: "openclaw",
+      model: "brikko-studio",
       input: "hi",
     });
     expect(writeScopeResponse.status).toBe(200);
@@ -780,8 +780,8 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
     const adminScopeResponse = await postResponses(
       port,
-      { model: "openclaw", input: "hi" },
-      { "x-openclaw-scopes": "operator.admin, operator.write" },
+      { model: "brikko-studio", input: "hi" },
+      { "x-brikko-studio-scopes": "operator.admin, operator.write" },
     );
     expect(adminScopeResponse.status).toBe(200);
     const adminScopeOpts = (agentCommand.mock.calls[0] as unknown[] | undefined)?.[0] as
@@ -801,8 +801,8 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
     const streamingResponse = await postResponses(
       port,
-      { stream: true, model: "openclaw", input: "hi" },
-      { "x-openclaw-scopes": "operator.admin, operator.write" },
+      { stream: true, model: "brikko-studio", input: "hi" },
+      { "x-brikko-studio-scopes": "operator.admin, operator.write" },
     );
     expect(streamingResponse.status).toBe(200);
     const streamingOpts = (agentCommand.mock.calls[0] as unknown[] | undefined)?.[0] as
@@ -825,10 +825,10 @@ describe("OpenResponses HTTP API (e2e)", () => {
         headers: {
           authorization: "Bearer secret",
           "content-type": "application/json",
-          "x-openclaw-scopes": "operator.approvals",
+          "x-brikko-studio-scopes": "operator.approvals",
         },
         body: JSON.stringify({
-          model: "openclaw",
+          model: "brikko-studio",
           input: "hi",
         }),
       });
@@ -863,7 +863,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
     const res = await postResponses(port, {
       stream: false,
-      model: "openclaw",
+      model: "brikko-studio",
       input: "check the weather",
       tools: WEATHER_TOOL,
     });
@@ -904,7 +904,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
     const res = await postResponses(port, {
       stream: true,
-      model: "openclaw",
+      model: "brikko-studio",
       input: "check the weather",
       tools: WEATHER_TOOL,
     });
@@ -959,7 +959,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
     const res = await postResponses(port, {
       stream: false,
-      model: "openclaw",
+      model: "brikko-studio",
       input: "call all three tools",
       tools: [
         { type: "function", name: "create_graph", description: "Create graph" },
@@ -1021,7 +1021,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
     const res = await postResponses(port, {
       stream: true,
-      model: "openclaw",
+      model: "brikko-studio",
       input: "call all three tools",
       tools: [
         { type: "function", name: "create_graph", description: "Create graph" },
@@ -1101,7 +1101,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
     const firstResponse = await postResponses(port, {
       stream: false,
-      model: "openclaw",
+      model: "brikko-studio",
       input: "check the weather",
       tools: WEATHER_TOOL,
     });
@@ -1119,7 +1119,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
     const secondResponse = await postResponses(port, {
       stream: false,
-      model: "openclaw",
+      model: "brikko-studio",
       previous_response_id: firstJson.id,
       input: [{ type: "function_call_output", call_id: "call_1", output: "Sunny, 70F." }],
     });
@@ -1140,7 +1140,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
     const firstResponse = await postResponses(port, {
       stream: false,
-      model: "openclaw",
+      model: "brikko-studio",
       user: "alice",
       input: "hello",
     });
@@ -1157,7 +1157,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
     const secondResponse = await postResponses(port, {
       stream: false,
-      model: "openclaw",
+      model: "brikko-studio",
       user: "bob",
       previous_response_id: firstJson.id,
       input: "hello again",
@@ -1184,7 +1184,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
 
     const responsePromise = postResponses(port, {
       stream: false,
-      model: "openclaw",
+      model: "brikko-studio",
       input: "delayed hello",
     });
 
@@ -1242,7 +1242,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
     agentCommand.mockClear();
 
     const blockedPrivate = await postResponses(port, {
-      model: "openclaw",
+      model: "brikko-studio",
       input: buildUrlInputMessage({
         kind: "input_file",
         url: "http://127.0.0.1:6379/info",
@@ -1251,7 +1251,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
     await expectInvalidRequest(blockedPrivate, /invalid request|private|internal|blocked/i);
 
     const blockedMetadata = await postResponses(port, {
-      model: "openclaw",
+      model: "brikko-studio",
       input: buildUrlInputMessage({
         kind: "input_image",
         url: "http://metadata.google.internal/computeMetadata/v1",
@@ -1260,7 +1260,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
     await expectInvalidRequest(blockedMetadata, /invalid request|blocked|metadata|internal/i);
 
     const blockedScheme = await postResponses(port, {
-      model: "openclaw",
+      model: "brikko-studio",
       input: buildUrlInputMessage({
         kind: "input_file",
         url: "file:///etc/passwd",
@@ -1280,7 +1280,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
       agentCommand.mockClear();
 
       const allowlistBlocked = await postResponses(allowlistPort, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: buildUrlInputMessage({
           kind: "input_file",
           text: "fetch this",
@@ -1300,7 +1300,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
     try {
       agentCommand.mockClear();
       const maxUrlBlocked = await postResponses(capPort, {
-        model: "openclaw",
+        model: "brikko-studio",
         input: buildUrlInputMessage({
           kind: "input_file",
           text: "fetch this",
@@ -1349,7 +1349,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
     clientReq.end(
       JSON.stringify({
         stream: true,
-        model: "openclaw",
+        model: "brikko-studio",
         input: "hi",
       }),
     );
@@ -1405,7 +1405,7 @@ describe("OpenResponses HTTP API (e2e)", () => {
       clientReq.on("error", () => {});
       clientReq.end(
         JSON.stringify({
-          model: "openclaw",
+          model: "brikko-studio",
           input: "hi",
         }),
       );

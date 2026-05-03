@@ -5,7 +5,7 @@ import {
   type OAuthProvider,
 } from "@mariozechner/pi-ai/oauth";
 import { getRuntimeConfig } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { coerceSecretRef } from "../../config/types.secrets.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import {
@@ -77,7 +77,7 @@ const isCompatibleModeType = (mode: string | undefined, type: string | undefined
 };
 
 function isProfileConfigCompatible(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   profileId: string;
   provider: string;
   mode: "api_key" | "token" | "oauth";
@@ -96,7 +96,7 @@ function isProfileConfigCompatible(params: {
 async function buildOAuthApiKey(
   provider: string,
   credentials: OAuthCredential,
-  context: { cfg?: OpenClawConfig },
+  context: { cfg?: Brikko StudioConfig },
 ): Promise<string> {
   const formatted = await formatProviderAuthProfileApiKeyWithPlugin({
     provider,
@@ -128,13 +128,13 @@ export function isRefreshTokenReusedError(error: unknown): boolean {
 }
 
 type ResolveApiKeyForProfileParams = {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   store: AuthProfileStore;
   profileId: string;
   agentDir?: string;
 };
 
-type SecretDefaults = NonNullable<OpenClawConfig["secrets"]>["defaults"];
+type SecretDefaults = NonNullable<Brikko StudioConfig["secrets"]>["defaults"];
 
 async function refreshOAuthCredential(
   credential: OAuthCredential,
@@ -218,7 +218,7 @@ async function resolveProfileSecretString(params: {
   value: string | undefined;
   valueRef: unknown;
   refDefaults: SecretDefaults | undefined;
-  configForRefResolution: OpenClawConfig;
+  configForRefResolution: Brikko StudioConfig;
   cache: SecretRefResolveCache;
   inlineFailureMessage: string;
   refFailureMessage: string;

@@ -4,7 +4,7 @@ description: Create, view, edit, delete, search, move, or export Apple Notes via
 homepage: https://github.com/antoniorodr/memo
 metadata:
   {
-    "openclaw":
+    "brikko-studio":
       {
         "emoji": "📝",
         "os": ["darwin"],

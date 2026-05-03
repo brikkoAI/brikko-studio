@@ -1,15 +1,15 @@
 import fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { formatEnvelopeTimestamp } from "openclaw/plugin-sdk/channel-test-helpers";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/string-coerce-runtime";
+import { formatEnvelopeTimestamp } from "brikko-studio/plugin-sdk/channel-test-helpers";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/string-coerce-runtime";
 import { vi } from "vitest";
 import type { MockBaileysSocket } from "../../../test/mocks/baileys.js";
 import { createMockBaileys } from "../../../test/mocks/baileys.js";
 
 // Use globalThis to store the mock config so it survives vi.mock hoisting
-const CONFIG_KEY = Symbol.for("openclaw:testConfigMock");
-const SOURCE_CONFIG_KEY = Symbol.for("openclaw:testSourceConfigMock");
+const CONFIG_KEY = Symbol.for("brikko-studio:testConfigMock");
+const SOURCE_CONFIG_KEY = Symbol.for("brikko-studio:testSourceConfigMock");
 const DEFAULT_CONFIG = {
   channels: {
     whatsapp: {
@@ -50,7 +50,7 @@ function resolveStorePathFallback(store?: string, opts?: { agentId?: string }) {
     const agentId = normalizeLowercaseStringOrEmpty(opts?.agentId?.trim() || "main");
     return path.join(
       process.env.HOME ?? "/tmp",
-      ".openclaw",
+      ".brikko-studio",
       "agents",
       agentId,
       "sessions",
@@ -594,17 +594,17 @@ vi.mock("./auto-reply/monitor/message-line.runtime.js", () => ({
     if (configured !== undefined) {
       return configured;
     }
-    return params?.hasAllowFrom === true ? "" : "[openclaw]";
+    return params?.hasAllowFrom === true ? "" : "[brikko-studio]";
   },
 }));
 
 vi.mock("./auth-store.runtime.js", () => ({
-  resolveOAuthDir: () => "/tmp/openclaw-oauth",
+  resolveOAuthDir: () => "/tmp/brikko-studio-oauth",
 }));
 
 vi.mock("./session.runtime.js", () => {
   const created = createMockBaileys();
-  (globalThis as Record<PropertyKey, unknown>)[Symbol.for("openclaw:lastSocket")] =
+  (globalThis as Record<PropertyKey, unknown>)[Symbol.for("brikko-studio:lastSocket")] =
     created.lastSocket;
   return {
     ...created.mod,
@@ -635,7 +635,7 @@ function resetMockExport<T extends (...args: never[]) => unknown>(params: {
 
 export function resetBaileysMocks() {
   const recreated = createMockBaileys();
-  (globalThis as Record<PropertyKey, unknown>)[Symbol.for("openclaw:lastSocket")] =
+  (globalThis as Record<PropertyKey, unknown>)[Symbol.for("brikko-studio:lastSocket")] =
     recreated.lastSocket;
 
   const makeWASocket = vi.mocked(baileys.makeWASocket);
@@ -679,7 +679,7 @@ export function resetBaileysMocks() {
 }
 
 export function getLastSocket(): MockBaileysSocket {
-  const getter = (globalThis as Record<PropertyKey, unknown>)[Symbol.for("openclaw:lastSocket")];
+  const getter = (globalThis as Record<PropertyKey, unknown>)[Symbol.for("brikko-studio:lastSocket")];
   if (typeof getter === "function") {
     return (getter as () => MockBaileysSocket)();
   }

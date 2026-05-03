@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginKind } from "../plugins/plugin-kind.types.js";
 import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
 import { applyExclusiveSlotSelection } from "../plugins/slots.js";
@@ -46,7 +46,7 @@ function mergeRuntimeKinds(
   };
 }
 
-function loadRuntimeKindReportForPlugins(config: OpenClawConfig, pluginIds: readonly string[]) {
+function loadRuntimeKindReportForPlugins(config: Brikko StudioConfig, pluginIds: readonly string[]) {
   return buildPluginDiagnosticsReport({
     config,
     onlyPluginIds: [...pluginIds],
@@ -54,7 +54,7 @@ function loadRuntimeKindReportForPlugins(config: OpenClawConfig, pluginIds: read
 }
 
 function buildSlotSelectionRegistry(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   pluginId: string,
 ): SlotSelectionRegistry {
   const plugins = loadPluginMetadataSnapshot({
@@ -96,9 +96,9 @@ export function resolveFileNpmSpecToLocalPath(
 }
 
 export function applySlotSelectionForPlugin(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   pluginId: string,
-): { config: OpenClawConfig; warnings: string[] } {
+): { config: Brikko StudioConfig; warnings: string[] } {
   const report = buildSlotSelectionRegistry(config, pluginId);
   const plugin = report.plugins.find((entry) => entry.id === pluginId);
   if (!plugin) {
@@ -147,9 +147,9 @@ export function createHookPackInstallLogger(runtime: RuntimeEnv = defaultRuntime
 }
 
 export function enableInternalHookEntries(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   hookNames: string[],
-): OpenClawConfig {
+): Brikko StudioConfig {
   const entries = { ...config.hooks?.internal?.entries } as Record<string, HookInternalEntryLike>;
 
   for (const hookName of hookNames) {
@@ -177,7 +177,7 @@ export function formatPluginInstallWithHookFallbackError(
   hookError: string,
 ): string {
   if (/plugin already exists: .+ \(delete it first\)/.test(pluginError)) {
-    return `${pluginError}\nUse \`openclaw plugins update <id-or-npm-spec>\` to upgrade the tracked plugin, or rerun install with \`--force\` to replace it.`;
+    return `${pluginError}\nUse \`brikko-studio plugins update <id-or-npm-spec>\` to upgrade the tracked plugin, or rerun install with \`--force\` to replace it.`;
   }
   if (
     pluginError.startsWith("Invalid extensions directory:") ||

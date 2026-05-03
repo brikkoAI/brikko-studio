@@ -14,7 +14,7 @@ describe("config clobber snapshots", () => {
   let caseId = 0;
 
   beforeAll(async () => {
-    fixtureRoot = await fsp.mkdtemp(path.join(os.tmpdir(), "openclaw-config-clobber-"));
+    fixtureRoot = await fsp.mkdtemp(path.join(os.tmpdir(), "brikko-studio-config-clobber-"));
   });
 
   afterAll(async () => {
@@ -23,7 +23,7 @@ describe("config clobber snapshots", () => {
 
   async function withCase<T>(fn: (configPath: string) => Promise<T>): Promise<T> {
     const home = path.join(fixtureRoot, `case-${caseId++}`);
-    const configPath = path.join(home, ".openclaw", "openclaw.json");
+    const configPath = path.join(home, ".brikko-studio", "brikko-studio.json");
     await fsp.mkdir(path.dirname(configPath), { recursive: true });
     await fsp.writeFile(configPath, "{}\n", "utf-8");
     return await fn(configPath);

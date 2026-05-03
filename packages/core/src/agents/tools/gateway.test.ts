@@ -17,7 +17,7 @@ let resolveGatewayOptions: typeof import("./gateway.js").resolveGatewayOptions;
 
 describe("gateway tool defaults", () => {
   const envSnapshot = {
-    openclaw: process.env.OPENCLAW_GATEWAY_TOKEN,
+    brikko-studio: process.env.BRIKKO_STUDIO_GATEWAY_TOKEN,
   };
 
   beforeAll(async () => {
@@ -27,14 +27,14 @@ describe("gateway tool defaults", () => {
   beforeEach(() => {
     callGatewayMock.mockClear();
     configState.value = {};
-    delete process.env.OPENCLAW_GATEWAY_TOKEN;
+    delete process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
   });
 
   afterAll(() => {
-    if (envSnapshot.openclaw === undefined) {
-      delete process.env.OPENCLAW_GATEWAY_TOKEN;
+    if (envSnapshot.brikko-studio === undefined) {
+      delete process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
     } else {
-      process.env.OPENCLAW_GATEWAY_TOKEN = envSnapshot.openclaw;
+      process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = envSnapshot.brikko-studio;
     }
   });
 
@@ -60,8 +60,8 @@ describe("gateway tool defaults", () => {
     );
   });
 
-  it("uses OPENCLAW_GATEWAY_TOKEN for allowlisted local overrides", () => {
-    process.env.OPENCLAW_GATEWAY_TOKEN = "env-token";
+  it("uses BRIKKO_STUDIO_GATEWAY_TOKEN for allowlisted local overrides", () => {
+    process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = "env-token";
     const opts = resolveGatewayOptions({ gatewayUrl: "ws://127.0.0.1:18789" });
     expect(opts.url).toBe("ws://127.0.0.1:18789");
     expect(opts.token).toBe("env-token");
@@ -92,7 +92,7 @@ describe("gateway tool defaults", () => {
   });
 
   it("does not leak local env/config tokens to remote overrides", () => {
-    process.env.OPENCLAW_GATEWAY_TOKEN = "local-env-token";
+    process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = "local-env-token";
     configState.value = {
       gateway: {
         auth: { token: "local-config-token" },
@@ -127,7 +127,7 @@ describe("gateway tool defaults", () => {
   });
 
   it("explicit gatewayToken overrides fallback token resolution", () => {
-    process.env.OPENCLAW_GATEWAY_TOKEN = "local-env-token";
+    process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = "local-env-token";
     configState.value = {
       gateway: {
         remote: {

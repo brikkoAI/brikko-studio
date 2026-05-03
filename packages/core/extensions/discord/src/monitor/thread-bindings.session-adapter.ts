@@ -3,9 +3,9 @@ import {
   type BindingTargetKind,
   type SessionBindingAdapter,
   type SessionBindingRecord,
-} from "openclaw/plugin-sdk/conversation-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/runtime-config-snapshot";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/conversation-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveDiscordChannelId } from "../target-parsing.js";
 import { resolveChannelIdForBinding } from "./thread-bindings.discord-api.js";
 import { resolveBindingRecordKey } from "./thread-bindings.state.js";
@@ -111,7 +111,7 @@ export function createThreadBindingSessionAdapter(params: {
   accountId: string;
   manager: ThreadBindingManager;
   defaults: ThreadBindingDefaults;
-  resolveCurrentCfg: () => OpenClawConfig;
+  resolveCurrentCfg: () => Brikko StudioConfig;
   resolveCurrentToken: () => string | undefined;
 }): SessionBindingAdapter {
   const toRecord = (entry: ThreadBindingRecord) => toSessionBindingRecord(entry, params.defaults);

@@ -11,4 +11,4 @@ export {
   stripInvalidGoogleThinkingBudget,
   type GoogleThinkingInputLevel,
   type GoogleThinkingLevel,
-} from "openclaw/plugin-sdk/provider-stream-shared";
+} from "brikko-studio/plugin-sdk/provider-stream-shared";

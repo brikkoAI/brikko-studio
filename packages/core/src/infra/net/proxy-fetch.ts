@@ -8,7 +8,7 @@ import { logWarn } from "../../logger.js";
 import { formatErrorMessage } from "../errors.js";
 import { resolveEnvHttpProxyAgentOptions } from "./proxy-env.js";
 
-export const PROXY_FETCH_PROXY_URL = Symbol.for("openclaw.proxyFetch.proxyUrl");
+export const PROXY_FETCH_PROXY_URL = Symbol.for("brikko-studio.proxyFetch.proxyUrl");
 type ProxyFetchWithMetadata = typeof fetch & {
   [PROXY_FETCH_PROXY_URL]?: string;
 };

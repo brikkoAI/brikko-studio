@@ -151,7 +151,7 @@ describe("cli credentials", () => {
   );
 
   it("falls back to the file store when the keychain update fails", async () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-"));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-"));
     const credPath = path.join(tempDir, ".claude", ".credentials.json");
 
     fs.mkdirSync(path.dirname(credPath), { recursive: true, mode: 0o700 });
@@ -241,7 +241,7 @@ describe("cli credentials", () => {
   );
 
   it("does not let no-keychain Claude cache misses poison keychain reads", async () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-claude-cache-"));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-claude-cache-"));
     vi.setSystemTime(new Date("2025-01-01T00:00:00Z"));
 
     const withoutKeychain = readClaudeCliCredentialsCached({
@@ -273,7 +273,7 @@ describe("cli credentials", () => {
   });
 
   it("keeps no-prompt Claude reads on the file credential path after a keychain read", async () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-claude-cache-"));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-claude-cache-"));
     vi.setSystemTime(new Date("2025-01-01T00:00:00Z"));
     mockClaudeCliCredentialRead();
 
@@ -302,7 +302,7 @@ describe("cli credentials", () => {
   });
 
   it("reads Codex credentials from keychain when available", async () => {
-    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-codex-"));
+    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-codex-"));
     process.env.CODEX_HOME = tempHome;
     const expSeconds = Math.floor(Date.parse("2026-03-23T00:48:49Z") / 1000);
 
@@ -334,7 +334,7 @@ describe("cli credentials", () => {
   });
 
   it("falls back to Codex auth.json when keychain is unavailable", async () => {
-    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-codex-"));
+    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-codex-"));
     process.env.CODEX_HOME = tempHome;
     const expSeconds = Math.floor(Date.parse("2026-03-24T12:34:56Z") / 1000);
     execSyncMock.mockImplementation(() => {
@@ -367,7 +367,7 @@ describe("cli credentials", () => {
   });
 
   it("does not read Codex keychain when keychain prompts are disabled", async () => {
-    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-codex-no-prompt-"));
+    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-codex-no-prompt-"));
     process.env.CODEX_HOME = tempHome;
     const expSeconds = Math.floor(Date.parse("2026-03-24T12:34:56Z") / 1000);
     const authPath = path.join(tempHome, "auth.json");
@@ -399,7 +399,7 @@ describe("cli credentials", () => {
   });
 
   it("does not let no-keychain Codex cache misses poison keychain reads", async () => {
-    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-codex-cache-"));
+    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-codex-cache-"));
     process.env.CODEX_HOME = tempHome;
     const expSeconds = Math.floor(Date.parse("2026-03-24T12:34:56Z") / 1000);
 
@@ -435,7 +435,7 @@ describe("cli credentials", () => {
   });
 
   it("keeps no-prompt Codex reads on auth.json after a keychain read", async () => {
-    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-codex-cache-"));
+    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-codex-cache-"));
     process.env.CODEX_HOME = tempHome;
     const keychainExpiry = Math.floor(Date.parse("2026-03-24T12:34:56Z") / 1000);
     const fileExpiry = Math.floor(Date.parse("2026-03-25T12:34:56Z") / 1000);
@@ -487,7 +487,7 @@ describe("cli credentials", () => {
   });
 
   it("invalidates cached Codex credentials when auth.json changes within the TTL window", () => {
-    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-codex-cache-"));
+    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-codex-cache-"));
     process.env.CODEX_HOME = tempHome;
     const authPath = path.join(tempHome, "auth.json");
     const firstExpiry = Math.floor(Date.parse("2026-03-24T12:34:56Z") / 1000);
@@ -547,7 +547,7 @@ describe("cli credentials", () => {
   });
 
   it("lifts Google account identity from the Gemini id_token", () => {
-    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-gemini-"));
+    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-gemini-"));
     try {
       const credPath = path.join(tempHome, ".gemini", "oauth_creds.json");
       fs.mkdirSync(path.dirname(credPath), { recursive: true, mode: 0o700 });
@@ -582,7 +582,7 @@ describe("cli credentials", () => {
   });
 
   it("reads Gemini credentials without identity fields when id_token is absent", () => {
-    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-gemini-noid-"));
+    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-gemini-noid-"));
     try {
       const credPath = path.join(tempHome, ".gemini", "oauth_creds.json");
       fs.mkdirSync(path.dirname(credPath), { recursive: true, mode: 0o700 });

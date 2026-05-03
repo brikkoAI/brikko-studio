@@ -1,10 +1,10 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import {
   completeWithPreparedSimpleCompletionModel,
   extractAssistantText,
   prepareSimpleCompletionModelForAgent,
-} from "openclaw/plugin-sdk/simple-completion-runtime";
+} from "brikko-studio/plugin-sdk/simple-completion-runtime";
 import { withAbortTimeout } from "./timeouts.js";
 
 const DEFAULT_THREAD_TITLE_TIMEOUT_MS = 10_000;
@@ -21,7 +21,7 @@ const DISCORD_THREAD_TITLE_SYSTEM_PROMPT =
   "Generate a concise Discord thread title (3-6 words). Return only the title. Use channel context when provided and avoid redundant channel-name words unless needed for clarity.";
 
 export async function generateThreadTitle(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   messageText: string;
   modelRef?: string;

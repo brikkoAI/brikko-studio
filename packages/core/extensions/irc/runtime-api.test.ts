@@ -1,4 +1,4 @@
-import { runDirectImportSmoke } from "openclaw/plugin-sdk/plugin-test-contracts";
+import { runDirectImportSmoke } from "brikko-studio/plugin-sdk/plugin-test-contracts";
 import { describe, expect, it } from "vitest";
 
 describe("irc bundled api seams", () => {

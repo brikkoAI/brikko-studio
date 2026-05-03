@@ -26,7 +26,7 @@ real bottlenecks:
   focused.
 - **Ownership ambiguity**: duplicate agents doing the same job waste capacity.
 
-OpenClaw already serializes runs per session and caps global parallelism through
+Brikko Studio already serializes runs per session and caps global parallelism through
 the [command queue](/concepts/queue). Specialist lanes add policy on top:
 which agent owns which work, what stays in chat, and what becomes background
 work.

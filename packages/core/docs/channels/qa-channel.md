@@ -1,5 +1,5 @@
 ---
-summary: "Synthetic Slack-class channel plugin for deterministic OpenClaw QA scenarios"
+summary: "Synthetic Slack-class channel plugin for deterministic Brikko Studio QA scenarios"
 title: "QA channel"
 read_when:
   - You are wiring the synthetic QA transport into a local or CI test run
@@ -7,7 +7,7 @@ read_when:
   - You are iterating on end-to-end QA automation
 ---
 
-`qa-channel` is a bundled synthetic message transport for automated OpenClaw QA. It is not a production channel — it exists to exercise the same channel plugin boundary used by real transports while keeping state deterministic and fully inspectable.
+`qa-channel` is a bundled synthetic message transport for automated Brikko Studio QA. It is not a production channel — it exists to exercise the same channel plugin boundary used by real transports while keeping state deterministic and fully inspectable.
 
 ## What it does
 
@@ -27,8 +27,8 @@ read_when:
   "channels": {
     "qa-channel": {
       "baseUrl": "http://127.0.0.1:43123",
-      "botUserId": "openclaw",
-      "botDisplayName": "OpenClaw QA",
+      "botUserId": "brikko-studio",
+      "botDisplayName": "Brikko Studio QA",
       "allowFrom": ["*"],
       "pollTimeoutMs": 1000
     }
@@ -66,7 +66,7 @@ This routes through `qa-lab`, starts the in-repo QA bus, boots the bundled `qa-c
 Full repo-backed scenario suite:
 
 ```bash
-pnpm openclaw qa suite
+pnpm brikko-studio qa suite
 ```
 
 Runs scenarios in parallel against the QA gateway lane. See [QA overview](/concepts/qa-e2e-automation) for scenarios, profiles, and provider modes.

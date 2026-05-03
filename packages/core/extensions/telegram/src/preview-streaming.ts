@@ -1,4 +1,4 @@
-import { resolveChannelPreviewStreamMode } from "openclaw/plugin-sdk/channel-streaming";
+import { resolveChannelPreviewStreamMode } from "brikko-studio/plugin-sdk/channel-streaming";
 
 type TelegramPreviewStreamMode = "off" | "partial" | "block";
 

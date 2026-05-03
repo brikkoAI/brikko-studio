@@ -32,7 +32,7 @@ const originalPath = process.env.PATH;
 const originalPathExt = process.env.PATHEXT;
 
 beforeAll(async () => {
-  fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-qmd-win-spawn-"));
+  fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-qmd-win-spawn-"));
   platformSpy = vi.spyOn(process, "platform", "get").mockReturnValue("win32");
 });
 

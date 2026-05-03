@@ -12,15 +12,15 @@ const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."
 const smokeEntryPath = path.join(repoRoot, "dist", "plugins", "build-smoke-entry.js");
 assert.ok(fs.existsSync(smokeEntryPath), `missing build output: ${smokeEntryPath}`);
 
-const { clearPluginCommands, getPluginCommandSpecs, loadOpenClawPlugins, matchPluginCommand } =
+const { clearPluginCommands, getPluginCommandSpecs, loadBrikko StudioPlugins, matchPluginCommand } =
   await import(pathToFileURL(smokeEntryPath).href);
 
-assert.equal(typeof loadOpenClawPlugins, "function", "built loader export missing");
+assert.equal(typeof loadBrikko StudioPlugins, "function", "built loader export missing");
 assert.equal(typeof clearPluginCommands, "function", "clearPluginCommands missing");
 assert.equal(typeof getPluginCommandSpecs, "function", "getPluginCommandSpecs missing");
 assert.equal(typeof matchPluginCommand, "function", "matchPluginCommand missing");
 
-const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-build-smoke-"));
+const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-build-smoke-"));
 const pluginId = "build-smoke-plugin";
 const distPluginDir = path.join(repoRoot, "dist", "extensions", pluginId);
 const runtimePluginDir = path.join(repoRoot, "dist-runtime", "extensions", pluginId);
@@ -47,9 +47,9 @@ fs.writeFileSync(
   path.join(distPluginDir, "package.json"),
   JSON.stringify(
     {
-      name: "@openclaw/build-smoke-plugin",
+      name: "@brikko-studio/build-smoke-plugin",
       type: "module",
-      openclaw: {
+      brikko-studio: {
         extensions: ["./index.js"],
       },
     },
@@ -59,7 +59,7 @@ fs.writeFileSync(
   "utf8",
 );
 fs.writeFileSync(
-  path.join(distPluginDir, "openclaw.plugin.json"),
+  path.join(distPluginDir, "brikko-studio.plugin.json"),
   JSON.stringify(
     {
       id: pluginId,
@@ -77,7 +77,7 @@ fs.writeFileSync(
 fs.writeFileSync(
   path.join(distPluginDir, "index.js"),
   [
-    "import sdk from 'openclaw/plugin-sdk';",
+    "import sdk from 'brikko-studio/plugin-sdk';",
     "const { emptyPluginConfigSchema } = sdk;",
     "",
     "export default {",
@@ -112,12 +112,12 @@ assert.equal(
 
 clearPluginCommands();
 
-const registry = loadOpenClawPlugins({
+const registry = loadBrikko StudioPlugins({
   cache: false,
   workspaceDir: tempRoot,
   env: {
     ...process.env,
-    OPENCLAW_BUNDLED_PLUGINS_DIR: path.join(repoRoot, "dist-runtime", "extensions"),
+    BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: path.join(repoRoot, "dist-runtime", "extensions"),
   },
   config: {
     plugins: {

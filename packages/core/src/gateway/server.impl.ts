@@ -21,7 +21,7 @@ import { isNixMode } from "../config/paths.js";
 import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
 import { applyConfigOverrides } from "../config/runtime-overrides.js";
 import { resolveMainSessionKey } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { clearAgentRunContext } from "../infra/agent-events.js";
 import {
   isDiagnosticsEnabled,
@@ -32,7 +32,7 @@ import {
   isDiagnosticsTimelineEnabled,
 } from "../infra/diagnostics-timeline.js";
 import { isTruthyEnvValue, isVitestRuntimeEnv, logAcceptedEnvOption } from "../infra/env.js";
-import { ensureOpenClawCliOnPath } from "../infra/path-env.js";
+import { ensureBrikko StudioCliOnPath } from "../infra/path-env.js";
 import { setGatewaySigusr1RestartPolicy, setPreRestartDeferralCheck } from "../infra/restart.js";
 import { enqueueSystemEvent } from "../infra/system-events.js";
 import type { VoiceWakeRoutingConfig } from "../infra/voicewake-routing.js";
@@ -107,7 +107,7 @@ import { maybeSeedControlUiAllowedOriginsAtStartup } from "./startup-control-ui-
 
 export { __resetModelCatalogCacheForTest } from "./server-model-catalog.js";
 
-ensureOpenClawCliOnPath();
+ensureBrikko StudioCliOnPath();
 
 const MAX_MEDIA_TTL_HOURS = 24 * 7;
 
@@ -180,8 +180,8 @@ const gatewayRuntime = runtimeForLogger(log);
 const canvasRuntime = runtimeForLogger(logCanvas);
 
 function createGatewayStartupTrace() {
-  const logEnabled = isTruthyEnvValue(process.env.OPENCLAW_GATEWAY_STARTUP_TRACE);
-  let timelineConfig: OpenClawConfig | undefined;
+  const logEnabled = isTruthyEnvValue(process.env.BRIKKO_STUDIO_GATEWAY_STARTUP_TRACE);
+  let timelineConfig: Brikko StudioConfig | undefined;
   let eventLoopDelay: ReturnType<typeof monitorEventLoopDelay> | undefined;
   const timelineOptions = () => ({
     ...(timelineConfig ? { config: timelineConfig } : {}),
@@ -189,7 +189,7 @@ function createGatewayStartupTrace() {
   });
   const eventLoopTimelineEnabled = () =>
     isDiagnosticsTimelineEnabled(timelineOptions()) &&
-    isTruthyEnvValue(process.env.OPENCLAW_DIAGNOSTICS_EVENT_LOOP);
+    isTruthyEnvValue(process.env.BRIKKO_STUDIO_DIAGNOSTICS_EVENT_LOOP);
   const ensureEventLoopDelay = () => {
     if (eventLoopDelay || (!logEnabled && !eventLoopTimelineEnabled())) {
       return;
@@ -276,7 +276,7 @@ function createGatewayStartupTrace() {
     }
   };
   return {
-    setConfig(config: OpenClawConfig) {
+    setConfig(config: Brikko StudioConfig) {
       timelineConfig = config;
       ensureEventLoopDelay();
     },
@@ -471,7 +471,7 @@ export type GatewayServerOptions = {
   startupStartedAt?: number;
   /**
    * Config snapshot already read by the CLI gateway preflight. Passing it avoids
-   * reparsing openclaw.json during server startup.
+   * reparsing brikko-studio.json during server startup.
    */
   startupConfigSnapshotRead?: ReadConfigFileSnapshotWithPluginMetadataResult;
 };
@@ -491,16 +491,16 @@ export async function startGatewayServer(
   bootstrapGatewayNetworkRuntime();
 
   const minimalTestGateway =
-    isVitestRuntimeEnv() && process.env.OPENCLAW_TEST_MINIMAL_GATEWAY === "1";
+    isVitestRuntimeEnv() && process.env.BRIKKO_STUDIO_TEST_MINIMAL_GATEWAY === "1";
 
   // Ensure all default port derivations (browser/canvas) see the actual runtime port.
-  process.env.OPENCLAW_GATEWAY_PORT = String(port);
+  process.env.BRIKKO_STUDIO_GATEWAY_PORT = String(port);
   logAcceptedEnvOption({
-    key: "OPENCLAW_RAW_STREAM",
+    key: "BRIKKO_STUDIO_RAW_STREAM",
     description: "raw stream logging enabled",
   });
   logAcceptedEnvOption({
-    key: "OPENCLAW_RAW_STREAM_PATH",
+    key: "BRIKKO_STUDIO_RAW_STREAM_PATH",
     description: "raw stream log path override",
   });
   const startupTrace = createGatewayStartupTrace();
@@ -520,7 +520,7 @@ export async function startGatewayServer(
   const emitSecretsStateEvent = (
     code: "SECRETS_RELOADER_DEGRADED" | "SECRETS_RELOADER_RECOVERED",
     message: string,
-    cfg: OpenClawConfig,
+    cfg: Brikko StudioConfig,
   ) => {
     enqueueSystemEvent(`[${code}] ${message}`, {
       sessionKey: resolveMainSessionKey(cfg),
@@ -533,7 +533,7 @@ export async function startGatewayServer(
     emitStateEvent: emitSecretsStateEvent,
   });
 
-  let cfgAtStart: OpenClawConfig;
+  let cfgAtStart: Brikko StudioConfig;
   let startupInternalWriteHash: string | null = null;
   let startupLastGoodSnapshot = configSnapshot;
   const startupActivationSourceConfig = configSnapshot.sourceConfig;
@@ -557,7 +557,7 @@ export async function startGatewayServer(
       );
     } else {
       log.warn(
-        "Gateway auth token was missing. Generated a runtime token for this startup without changing config; restart will generate a different token. Persist one with `openclaw config set gateway.auth.mode token` and `openclaw config set gateway.auth.token <token>`.",
+        "Gateway auth token was missing. Generated a runtime token for this startup without changing config; restart will generate a different token. Persist one with `brikko-studio config set gateway.auth.mode token` and `brikko-studio config set gateway.auth.token <token>`.",
       );
     }
   }
@@ -694,7 +694,7 @@ export async function startGatewayServer(
       env: process.env,
       tailscaleMode,
     });
-  const resolveSharedGatewaySessionGenerationForConfig = (config: OpenClawConfig) =>
+  const resolveSharedGatewaySessionGenerationForConfig = (config: Brikko StudioConfig) =>
     resolveSharedGatewaySessionGeneration(
       resolveGatewayAuth({
         authConfig: config.gateway?.auth,
@@ -774,8 +774,8 @@ export async function startGatewayServer(
     getStartupPendingReason: () => startupPendingReason,
     getEventLoopHealth: readinessEventLoopHealth.snapshot,
     shouldSkipChannelReadiness: () =>
-      isTruthyEnvValue(process.env.OPENCLAW_SKIP_CHANNELS) ||
-      isTruthyEnvValue(process.env.OPENCLAW_SKIP_PROVIDERS),
+      isTruthyEnvValue(process.env.BRIKKO_STUDIO_SKIP_CHANNELS) ||
+      isTruthyEnvValue(process.env.BRIKKO_STUDIO_SKIP_PROVIDERS),
   });
   log.info("starting HTTP server...");
   const {
@@ -1088,7 +1088,7 @@ export async function startGatewayServer(
         ]),
       );
     const reloadAttachedGatewayPlugins = async (params: {
-      nextConfig: OpenClawConfig;
+      nextConfig: Brikko StudioConfig;
       changedPaths: readonly string[];
       beforeReplace: (channels: ReadonlySet<ChannelId>) => Promise<void>;
     }): Promise<GatewayPluginReloadResult> => {
@@ -1208,7 +1208,7 @@ export async function startGatewayServer(
       nodeUnsubscribeAll,
       hasConnectedMobileNode: hasMobileNodeConnected,
       clients,
-      enforceSharedGatewayAuthGenerationForConfigWrite: (nextConfig: OpenClawConfig) => {
+      enforceSharedGatewayAuthGenerationForConfigWrite: (nextConfig: Brikko StudioConfig) => {
         enforceSharedGatewaySessionGenerationForConfigWrite({
           state: sharedGatewaySessionGenerationState,
           nextConfig,

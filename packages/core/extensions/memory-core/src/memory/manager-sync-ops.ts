@@ -4,24 +4,24 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import type { DatabaseSync } from "node:sqlite";
 import chokidar, { FSWatcher } from "chokidar";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { classifyMemoryMultimodalPath } from "openclaw/plugin-sdk/memory-core-host-engine-embeddings";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { classifyMemoryMultimodalPath } from "brikko-studio/plugin-sdk/memory-core-host-engine-embeddings";
 import {
   createSubsystemLogger,
   onSessionTranscriptUpdate,
   resolveAgentDir,
   resolveSessionTranscriptsDirForAgent,
   resolveUserPath,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
   type ResolvedMemorySearchConfig,
-} from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import {
   buildSessionEntry,
   isSessionArchiveArtifactName,
   isUsageCountedSessionTranscriptFileName,
   listSessionFilesForAgent,
   sessionPathForFile,
-} from "openclaw/plugin-sdk/memory-core-host-engine-qmd";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-qmd";
 import {
   buildFileEntry,
   ensureMemoryIndexSchema,
@@ -32,8 +32,8 @@ import {
   runWithConcurrency,
   type MemorySource,
   type MemorySyncProgressUpdate,
-} from "openclaw/plugin-sdk/memory-core-host-engine-storage";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-storage";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   createEmbeddingProvider,
   type EmbeddingProvider,
@@ -94,7 +94,7 @@ const IGNORED_MEMORY_WATCH_DIR_NAMES = new Set([
 ]);
 
 const log = createSubsystemLogger("memory");
-const TEST_MEMORY_WATCH_FACTORY_KEY = Symbol.for("openclaw.test.memoryWatchFactory");
+const TEST_MEMORY_WATCH_FACTORY_KEY = Symbol.for("brikko-studio.test.memoryWatchFactory");
 
 function resolveMemoryWatchFactory(): typeof chokidar.watch {
   if (process.env.VITEST === "true" || process.env.NODE_ENV === "test") {
@@ -141,7 +141,7 @@ export function runDetachedMemorySync(sync: () => Promise<void>, reason: "interv
 }
 
 export abstract class MemoryManagerSyncOps {
-  protected abstract readonly cfg: OpenClawConfig;
+  protected abstract readonly cfg: Brikko StudioConfig;
   protected abstract readonly agentId: string;
   protected abstract readonly workspaceDir: string;
   protected abstract readonly settings: ResolvedMemorySearchConfig;
@@ -1009,8 +1009,8 @@ export abstract class MemoryManagerSyncOps {
       reason: params?.reason,
       progress: progress ?? undefined,
       useUnsafeReindex:
-        process.env.OPENCLAW_TEST_FAST === "1" &&
-        process.env.OPENCLAW_TEST_MEMORY_UNSAFE_REINDEX === "1",
+        process.env.BRIKKO_STUDIO_TEST_FAST === "1" &&
+        process.env.BRIKKO_STUDIO_TEST_MEMORY_UNSAFE_REINDEX === "1",
       sessionsDirtyFiles: this.sessionsDirtyFiles,
       syncSessionFiles: async (targetedParams) => {
         await this.syncSessionFiles(targetedParams);
@@ -1045,8 +1045,8 @@ export abstract class MemoryManagerSyncOps {
     try {
       if (needsFullReindex) {
         if (
-          process.env.OPENCLAW_TEST_FAST === "1" &&
-          process.env.OPENCLAW_TEST_MEMORY_UNSAFE_REINDEX === "1"
+          process.env.BRIKKO_STUDIO_TEST_FAST === "1" &&
+          process.env.BRIKKO_STUDIO_TEST_MEMORY_UNSAFE_REINDEX === "1"
         ) {
           await this.runUnsafeReindex({
             reason: params?.reason,

@@ -13,14 +13,14 @@ import {
 import { resolveDefaultModelForAgent } from "../agents/model-selection.js";
 import { runEmbeddedPiAgent } from "../agents/pi-embedded.js";
 import { resolveAgentTimeoutMs } from "../agents/timeout.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 
 const log = createSubsystemLogger("llm-slug-generator");
 const DEFAULT_SLUG_GENERATOR_TIMEOUT_MS = 15_000;
 
-function resolveSlugGeneratorTimeoutMs(cfg: OpenClawConfig): number {
+function resolveSlugGeneratorTimeoutMs(cfg: Brikko StudioConfig): number {
   const configuredTimeoutSeconds = cfg.agents?.defaults?.timeoutSeconds;
   if (typeof configuredTimeoutSeconds !== "number" || !Number.isFinite(configuredTimeoutSeconds)) {
     return DEFAULT_SLUG_GENERATOR_TIMEOUT_MS;
@@ -33,7 +33,7 @@ function resolveSlugGeneratorTimeoutMs(cfg: OpenClawConfig): number {
  */
 export async function generateSlugViaLLM(params: {
   sessionContent: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
 }): Promise<string | null> {
   let tempSessionFile: string | null = null;
 
@@ -43,7 +43,7 @@ export async function generateSlugViaLLM(params: {
     const agentDir = resolveAgentDir(params.cfg, agentId);
 
     // Create a temporary session file for this one-off LLM call
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-slug-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-slug-"));
     tempSessionFile = path.join(tempDir, "session.jsonl");
 
     const prompt = `Based on this conversation, generate a short 1-2 word filename slug (lowercase, hyphen-separated, no file extension).

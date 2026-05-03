@@ -1,7 +1,7 @@
 import {
   clearRuntimeConfigSnapshot,
   setRuntimeConfigSnapshot,
-} from "openclaw/plugin-sdk/runtime-config-snapshot";
+} from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import { vi, type Mock } from "vitest";
 import { finalizeTelegramInboundContextForTest } from "./bot-message-context.session-runtime-test-support.js";
 
@@ -35,7 +35,7 @@ export const telegramRouteTestSessionRuntime: NonNullable<
   resolveInboundLastRouteSessionKey: ({ route, sessionKey }) =>
     route.lastRoutePolicy === "main" ? route.mainSessionKey : sessionKey,
   resolvePinnedMainDmOwnerFromAllowlist: () => null,
-  resolveStorePath: () => "/tmp/openclaw/session-store.json",
+  resolveStorePath: () => "/tmp/brikko-studio/session-store.json",
 };
 
 export async function loadTelegramMessageContextRouteHarness() {

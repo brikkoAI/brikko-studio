@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
+import { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { WhatsAppSendResult } from "../inbound/send-result.js";
 import { buildMentionConfig } from "./mentions.js";
@@ -23,7 +23,7 @@ function acceptedSendResult(kind: "media" | "text", id: string): WhatsAppSendRes
 }
 
 beforeEach(async () => {
-  sessionDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-group-gating-"));
+  sessionDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-group-gating-"));
   sessionStorePath = path.join(sessionDir, "sessions.json");
   await fs.writeFile(sessionStorePath, "{}");
 });
@@ -45,10 +45,10 @@ const makeConfig = (overrides: Record<string, unknown>) =>
     },
     session: { store: sessionStorePath },
     ...overrides,
-  }) as unknown as import("openclaw/plugin-sdk/config-types").OpenClawConfig;
+  }) as unknown as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
 
 async function runGroupGating(params: {
-  cfg: import("openclaw/plugin-sdk/config-types").OpenClawConfig;
+  cfg: import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
   msg: WebInboundMsg;
   conversationId?: string;
   agentId?: string;
@@ -112,7 +112,7 @@ function makeOwnerGroupConfig() {
 
 function makeInboundCfg(messagePrefix = "") {
   return {
-    agents: { defaults: { workspace: "/tmp/openclaw" } },
+    agents: { defaults: { workspace: "/tmp/brikko-studio" } },
     channels: { whatsapp: { messagePrefix } },
   } as never;
 }
@@ -432,14 +432,14 @@ describe("applyGroupGating", () => {
           groups: { "*": { requireMention: true } },
         },
       },
-      messages: { groupChat: { mentionPatterns: ["@openclaw"] } },
+      messages: { groupChat: { mentionPatterns: ["@brikko-studio"] } },
     });
 
     const { result, groupHistories } = await runGroupGating({
       cfg,
       msg: createGroupMessage({
         id: "g-other-mention",
-        body: "@openclaw please check this",
+        body: "@brikko-studio please check this",
         mentionedJids: ["15550000000@s.whatsapp.net"],
         selfE164: "+15551234567",
         selfJid: "15551234567@s.whatsapp.net",
@@ -561,7 +561,7 @@ describe("applyGroupGating", () => {
           groups: { "*": { requireMention: false } },
         },
       },
-      messages: { groupChat: { mentionPatterns: ["@openclaw"] } },
+      messages: { groupChat: { mentionPatterns: ["@brikko-studio"] } },
     });
 
     const { result } = await runGroupGating({

@@ -6,7 +6,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import {
   evaluateLocalTestboxKey,
-  evaluateOpenClawTestboxClaim,
+  evaluateBrikko StudioTestboxClaim,
   resolveTestboxId,
 } from "./blacksmith-testbox-state.mjs";
 
@@ -94,7 +94,7 @@ export function runTestboxSyncSanity({
     env,
     testboxId,
   });
-  const claimResult = evaluateOpenClawTestboxClaim({
+  const claimResult = evaluateBrikko StudioTestboxClaim({
     cwd: root,
     env,
     testboxId,
@@ -103,10 +103,10 @@ export function runTestboxSyncSanity({
     cwd: root,
     statusRaw,
     deletionThreshold: parsePositiveInteger(
-      env.OPENCLAW_TESTBOX_DELETION_THRESHOLD,
+      env.BRIKKO_STUDIO_TESTBOX_DELETION_THRESHOLD,
       DEFAULT_DELETION_THRESHOLD,
     ),
-    allowMassDeletions: parseBooleanEnv(env.OPENCLAW_TESTBOX_ALLOW_MASS_DELETIONS),
+    allowMassDeletions: parseBooleanEnv(env.BRIKKO_STUDIO_TESTBOX_ALLOW_MASS_DELETIONS),
   });
   result.problems.push(...keyResult.problems);
   result.problems.push(...claimResult.problems);
@@ -121,7 +121,7 @@ export function runTestboxSyncSanity({
   }
 
   if (keyResult.checked) {
-    stdout.write(`Testbox local key and OpenClaw claim ok: ${keyResult.testboxId}\n`);
+    stdout.write(`Testbox local key and Brikko Studio claim ok: ${keyResult.testboxId}\n`);
   }
   stdout.write(
     `Testbox sync sanity ok: ${result.statusEntryCount} changed entries, ${result.trackedDeletionCount} tracked deletions.\n`,

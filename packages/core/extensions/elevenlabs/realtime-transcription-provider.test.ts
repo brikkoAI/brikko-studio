@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import {
   __testing,
@@ -9,7 +9,7 @@ describe("buildElevenLabsRealtimeTranscriptionProvider", () => {
   it("normalizes nested provider config", () => {
     const provider = buildElevenLabsRealtimeTranscriptionProvider();
     const resolved = provider.resolveConfig?.({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       rawConfig: {
         providers: {
           elevenlabs: {

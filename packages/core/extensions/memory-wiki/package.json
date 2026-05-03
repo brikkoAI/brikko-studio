@@ -1,26 +1,26 @@
 {
-  "name": "@openclaw/memory-wiki",
+  "name": "@brikko-studio/memory-wiki",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw persistent wiki plugin",
+  "description": "Brikko Studio persistent wiki plugin",
   "type": "module",
   "dependencies": {
     "typebox": "1.1.37",
     "yaml": "^2.8.3"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*",
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

@@ -1,4 +1,4 @@
-profile: openclaw-check
+profile: brikko-studio-check
 provider: aws
 class: beast
 capacity:
@@ -13,7 +13,7 @@ actions:
   ref: main
   runnerLabels:
     - crabbox
-    - openclaw
+    - brikko-studio
   runnerVersion: latest
   ephemeral: true
 aws:
@@ -35,7 +35,7 @@ env:
   allow:
     - CI
     - NODE_OPTIONS
-    - OPENCLAW_*
+    - BRIKKO_STUDIO_*
 ssh:
   user: crabbox
   port: "2222"

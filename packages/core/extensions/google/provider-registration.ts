@@ -1,6 +1,6 @@
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
-import { createProviderApiKeyAuthMethod } from "openclaw/plugin-sdk/provider-auth-api-key";
-import type { ProviderPlugin } from "openclaw/plugin-sdk/provider-model-shared";
+import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import { createProviderApiKeyAuthMethod } from "brikko-studio/plugin-sdk/provider-auth-api-key";
+import type { ProviderPlugin } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { normalizeGoogleModelId } from "./model-id.js";
 import { GOOGLE_GEMINI_DEFAULT_MODEL, applyGoogleGeminiModelDefault } from "./onboard.js";
 import { GOOGLE_GEMINI_PROVIDER_HOOKS } from "./provider-hooks.js";
@@ -67,6 +67,6 @@ export function buildGoogleProvider(): ProviderPlugin {
   };
 }
 
-export function registerGoogleProvider(api: OpenClawPluginApi) {
+export function registerGoogleProvider(api: Brikko StudioPluginApi) {
   api.registerProvider(buildGoogleProvider());
 }

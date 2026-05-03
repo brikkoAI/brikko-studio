@@ -1,9 +1,9 @@
 import { VERSION } from "../version.js";
-import type { ConfigFileSnapshot, OpenClawConfig } from "./types.js";
+import type { ConfigFileSnapshot, Brikko StudioConfig } from "./types.js";
 import { shouldWarnOnTouchedVersion } from "./version.js";
 
 export const ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV =
-  "OPENCLAW_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS";
+  "BRIKKO_STUDIO_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS";
 
 export type FutureConfigActionBlock = {
   action: string;
@@ -16,7 +16,7 @@ export type FutureConfigActionBlock = {
 type FutureConfigGuardParams = {
   action: string;
   snapshot?: Pick<ConfigFileSnapshot, "config" | "sourceConfig"> | null;
-  config?: Pick<OpenClawConfig, "meta"> | null;
+  config?: Pick<Brikko StudioConfig, "meta"> | null;
   currentVersion?: string;
   env?: Record<string, string | undefined>;
 };
@@ -53,9 +53,9 @@ export function resolveFutureConfigActionBlock(
     action: params.action,
     currentVersion,
     touchedVersion,
-    message: `Refusing to ${params.action} because this OpenClaw binary (${currentVersion}) is older than the config last written by OpenClaw ${touchedVersion}.`,
+    message: `Refusing to ${params.action} because this Brikko Studio binary (${currentVersion}) is older than the config last written by Brikko Studio ${touchedVersion}.`,
     hints: [
-      "Run the newer openclaw binary on PATH, or reinstall the intended gateway service from the newer install.",
+      "Run the newer brikko-studio binary on PATH, or reinstall the intended gateway service from the newer install.",
       `Set ${ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV}=1 only for an intentional downgrade or recovery action.`,
     ],
   };

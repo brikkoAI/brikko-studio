@@ -2,12 +2,12 @@ import type { Context, Model } from "@mariozechner/pi-ai";
 import type {
   ProviderReplaySessionEntry,
   ProviderSanitizeReplayHistoryContext,
-} from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/plugin-entry";
 import {
   registerProviderPlugin,
   requireRegisteredProvider,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import { createCapturedThinkingConfigStream } from "openclaw/plugin-sdk/provider-test-contracts";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { createCapturedThinkingConfigStream } from "brikko-studio/plugin-sdk/provider-test-contracts";
 import { describe, expect, it } from "vitest";
 import { registerGoogleGeminiCliProvider } from "./gemini-cli-provider.js";
 import { registerGoogleProvider } from "./provider-registration.js";

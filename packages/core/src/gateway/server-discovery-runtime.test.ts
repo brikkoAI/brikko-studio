@@ -4,13 +4,13 @@ import type { PluginGatewayDiscoveryServiceRegistration } from "../plugins/regis
 const mocks = vi.hoisted(() => ({
   pickPrimaryTailnetIPv4: vi.fn(() => "100.64.0.10"),
   pickPrimaryTailnetIPv6: vi.fn(() => undefined as string | undefined),
-  resolveWideAreaDiscoveryDomain: vi.fn(() => "openclaw.internal."),
+  resolveWideAreaDiscoveryDomain: vi.fn(() => "brikko-studio.internal."),
   writeWideAreaGatewayZone: vi.fn(async () => ({
     changed: true,
-    zonePath: "/tmp/openclaw.internal.db",
+    zonePath: "/tmp/brikko-studio.internal.db",
   })),
-  formatBonjourInstanceName: vi.fn((name: string) => `${name} (OpenClaw)`),
-  resolveBonjourCliPath: vi.fn(() => "/usr/local/bin/openclaw"),
+  formatBonjourInstanceName: vi.fn((name: string) => `${name} (Brikko Studio)`),
+  resolveBonjourCliPath: vi.fn(() => "/usr/local/bin/brikko-studio"),
   resolveTailnetDnsHint: vi.fn(async () => "gateway.tailnet.example.ts.net"),
 }));
 
@@ -72,7 +72,7 @@ describe("startGatewayDiscovery", () => {
   it("starts registered local discovery services with gateway advertisement context", async () => {
     process.env.NODE_ENV = "development";
     delete process.env.VITEST;
-    process.env.OPENCLAW_SSH_PORT = "2222";
+    process.env.BRIKKO_STUDIO_SSH_PORT = "2222";
 
     const stopped: string[] = [];
     const bonjour = makeDiscoveryService({
@@ -111,7 +111,7 @@ describe("startGatewayDiscovery", () => {
       canvasPort: 18789,
       sshPort: 2222,
       tailnetDns: "gateway.tailnet.example.ts.net",
-      cliPath: "/usr/local/bin/openclaw",
+      cliPath: "/usr/local/bin/brikko-studio",
       minimal: false,
     });
     expect(peer.service.advertise).toHaveBeenCalledTimes(1);
@@ -125,7 +125,7 @@ describe("startGatewayDiscovery", () => {
     vi.useFakeTimers();
     process.env.NODE_ENV = "development";
     delete process.env.VITEST;
-    process.env.OPENCLAW_GATEWAY_DISCOVERY_ADVERTISE_TIMEOUT_MS = "10";
+    process.env.BRIKKO_STUDIO_GATEWAY_DISCOVERY_ADVERTISE_TIMEOUT_MS = "10";
 
     const service = makeDiscoveryService({
       id: "stuck-discovery",
@@ -177,10 +177,10 @@ describe("startGatewayDiscovery", () => {
     expect(result.bonjourStop).toBeNull();
   });
 
-  it("skips local discovery services for truthy OPENCLAW_DISABLE_BONJOUR values", async () => {
+  it("skips local discovery services for truthy BRIKKO_STUDIO_DISABLE_BONJOUR values", async () => {
     process.env.NODE_ENV = "development";
     delete process.env.VITEST;
-    process.env.OPENCLAW_DISABLE_BONJOUR = "yes";
+    process.env.BRIKKO_STUDIO_DISABLE_BONJOUR = "yes";
 
     const service = makeDiscoveryService({ id: "bonjour" });
     const result = await startGatewayDiscovery({
@@ -209,7 +209,7 @@ describe("startGatewayDiscovery", () => {
       port: 18789,
       gatewayTls: { enabled: false },
       wideAreaDiscoveryEnabled: true,
-      wideAreaDiscoveryDomain: "openclaw.internal.",
+      wideAreaDiscoveryDomain: "brikko-studio.internal.",
       tailscaleMode: "serve",
       mdnsMode: "off",
       gatewayDiscoveryServices: [service],
@@ -220,9 +220,9 @@ describe("startGatewayDiscovery", () => {
     expect(mocks.resolveTailnetDnsHint).toHaveBeenCalledWith({ enabled: true });
     expect(mocks.writeWideAreaGatewayZone).toHaveBeenCalledWith(
       expect.objectContaining({
-        domain: "openclaw.internal.",
+        domain: "brikko-studio.internal.",
         gatewayPort: 18789,
-        displayName: "Lab Mac (OpenClaw)",
+        displayName: "Lab Mac (Brikko Studio)",
         tailnetIPv4: "100.64.0.10",
         tailnetDns: "gateway.tailnet.example.ts.net",
       }),

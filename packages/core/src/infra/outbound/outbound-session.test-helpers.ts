@@ -1,5 +1,5 @@
 import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import {
   buildChannelOutboundSessionRoute,
   buildThreadAwareOutboundSessionRoute,
@@ -44,7 +44,7 @@ function createSessionRouteTestPlugin(params: {
 }
 
 function buildThreadedChannelRoute(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   channel: string;
   accountId?: string | null;

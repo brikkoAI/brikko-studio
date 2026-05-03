@@ -13,7 +13,7 @@ import {
   type SessionEntry,
   updateSessionStore,
 } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { resolveSessionModelIdentityRef } from "../../gateway/session-utils.js";
 import {
   buildAgentMainSessionKey,
@@ -211,7 +211,7 @@ function formatSessionTaskLine(params: {
 }
 
 async function resolveModelOverride(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   raw: string;
   sessionEntry?: SessionEntry;
   agentId: string;
@@ -276,7 +276,7 @@ async function resolveModelOverride(params: {
 
 export function createSessionStatusTool(opts?: {
   agentSessionKey?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   sandboxed?: boolean;
 }): AnyAgentTool {
   return {

@@ -1,5 +1,5 @@
 ---
-summary: "Adds xAI model provider support to OpenClaw."
+summary: "Adds xAI model provider support to Brikko Studio."
 read_when:
   - You are installing, configuring, or auditing the xai plugin
 title: "xAI plugin"
@@ -7,12 +7,12 @@ title: "xAI plugin"
 
 # xAI plugin
 
-Adds xAI model provider support to OpenClaw.
+Adds xAI model provider support to Brikko Studio.
 
 ## Distribution
 
-- Package: `@openclaw/xai-plugin`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/xai-plugin`
+- Install route: included in Brikko Studio
 
 ## Surface
 

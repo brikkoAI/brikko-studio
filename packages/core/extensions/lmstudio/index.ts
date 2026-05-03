@@ -1,13 +1,13 @@
 import {
   definePluginEntry,
-  OpenClawConfig,
-  type OpenClawPluginApi,
+  Brikko StudioConfig,
+  type Brikko StudioPluginApi,
   type ProviderAuthContext,
   type ProviderAuthMethodNonInteractiveContext,
   type ProviderAuthResult,
   type ProviderRuntimeModel,
-} from "openclaw/plugin-sdk/plugin-entry";
-import { CUSTOM_LOCAL_AUTH_MARKER } from "openclaw/plugin-sdk/provider-auth";
+} from "brikko-studio/plugin-sdk/plugin-entry";
+import { CUSTOM_LOCAL_AUTH_MARKER } from "brikko-studio/plugin-sdk/provider-auth";
 import { lmstudioMemoryEmbeddingProviderAdapter } from "./memory-embedding-adapter.js";
 import {
   LMSTUDIO_DEFAULT_API_KEY_ENV_VAR,
@@ -25,7 +25,7 @@ const PROVIDER_ID = "lmstudio";
 // Intentional: dynamic models are cached per LM Studio endpoint (`baseUrl`) only.
 const cachedDynamicModels = new Map<string, ProviderRuntimeModel[]>();
 
-function resolveLmstudioAugmentedCatalogEntries(config: OpenClawConfig | undefined) {
+function resolveLmstudioAugmentedCatalogEntries(config: Brikko StudioConfig | undefined) {
   if (!config) {
     return [];
   }
@@ -52,7 +52,7 @@ export default definePluginEntry({
   id: PROVIDER_ID,
   name: "LM Studio Provider",
   description: "Bundled LM Studio provider plugin",
-  register(api: OpenClawPluginApi) {
+  register(api: Brikko StudioPluginApi) {
     api.registerMemoryEmbeddingProvider(lmstudioMemoryEmbeddingProviderAdapter);
     api.registerProvider({
       id: PROVIDER_ID,

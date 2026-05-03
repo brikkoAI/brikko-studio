@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
+import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 
 const runFfmpegMock = vi.hoisted(() => vi.fn());
 
@@ -46,7 +46,7 @@ describe("transcodeAudioBufferToOpus", () => {
       { timeoutMs: 1234 },
     );
     expect(
-      capturedInputPath?.startsWith(path.join(resolvePreferredOpenClawTmpDir(), "tts-test-")),
+      capturedInputPath?.startsWith(path.join(resolvePreferredBrikko StudioTmpDir(), "tts-test-")),
     ).toBe(true);
     expect(capturedInputPath ? existsSync(capturedInputPath) : true).toBe(false);
     expect(capturedOutputPath ? existsSync(capturedOutputPath) : true).toBe(false);
@@ -93,7 +93,7 @@ describe("transcodeAudioBufferToOpus", () => {
       tempPrefix: "../bad-prefix",
     });
 
-    const tempRoot = resolvePreferredOpenClawTmpDir();
+    const tempRoot = resolvePreferredBrikko StudioTmpDir();
     expect(capturedInputPath?.startsWith(tempRoot)).toBe(true);
     expect(capturedOutputPath?.startsWith(tempRoot)).toBe(true);
   });

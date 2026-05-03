@@ -109,7 +109,7 @@ const scenarioConfigSteps = new Map([
       {
         id: "logging-file",
         intent: "logging",
-        argv: ["config", "set", "logging.file", "~/openclaw-upgrade-survivor/gateway.jsonl"],
+        argv: ["config", "set", "logging.file", "~/brikko-studio-upgrade-survivor/gateway.jsonl"],
       },
     ],
   ],
@@ -153,7 +153,7 @@ const recipe = [
 ];
 
 function selectedScenario() {
-  return process.env.OPENCLAW_UPGRADE_SURVIVOR_SCENARIO || "base";
+  return process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIO || "base";
 }
 
 function adaptStepForBaseline(step, baselineVersion, summary) {
@@ -195,15 +195,15 @@ function adaptStepForBaseline(step, baselineVersion, summary) {
   return step;
 }
 
-function runOpenClaw(step) {
-  const result = spawnSync("openclaw", step.argv, {
+function runBrikko Studio(step) {
+  const result = spawnSync("brikko-studio", step.argv, {
     encoding: "utf8",
     env: process.env,
   });
   return {
     id: step.id,
     intent: step.intent,
-    command: ["openclaw", ...step.argv].join(" "),
+    command: ["brikko-studio", ...step.argv].join(" "),
     status: result.status,
     signal: result.signal,
     ok: result.status === 0,
@@ -243,7 +243,7 @@ function applyRecipe() {
     if (!adaptedStep) {
       continue;
     }
-    const outcome = runOpenClaw(adaptedStep);
+    const outcome = runBrikko Studio(adaptedStep);
     summary.steps.push(outcome);
     writeJson(summaryPath, summary);
     if (!outcome.ok) {

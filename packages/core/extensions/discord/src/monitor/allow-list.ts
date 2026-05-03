@@ -1,15 +1,15 @@
-import type { AllowlistMatch } from "openclaw/plugin-sdk/allow-from";
+import type { AllowlistMatch } from "brikko-studio/plugin-sdk/allow-from";
 import {
   buildChannelKeyCandidates,
   resolveChannelEntryMatchWithFallback,
   resolveChannelMatchConfig,
   type ChannelMatchSource,
-} from "openclaw/plugin-sdk/channel-targets";
-import { evaluateGroupRouteAccessForPolicy } from "openclaw/plugin-sdk/group-access";
+} from "brikko-studio/plugin-sdk/channel-targets";
+import { evaluateGroupRouteAccessForPolicy } from "brikko-studio/plugin-sdk/group-access";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import type { Guild, User } from "../internal/discord.js";
 import { formatDiscordUserTag } from "./format.js";
 

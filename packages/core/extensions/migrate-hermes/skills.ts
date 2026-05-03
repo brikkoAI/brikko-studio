@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { createMigrationItem, MIGRATION_REASON_TARGET_EXISTS } from "openclaw/plugin-sdk/migration";
-import type { MigrationItem } from "openclaw/plugin-sdk/plugin-entry";
+import { createMigrationItem, MIGRATION_REASON_TARGET_EXISTS } from "brikko-studio/plugin-sdk/migration";
+import type { MigrationItem } from "brikko-studio/plugin-sdk/plugin-entry";
 import { exists, sanitizeName } from "./helpers.js";
 import type { HermesSource } from "./source.js";
 import type { PlannedTargets } from "./targets.js";

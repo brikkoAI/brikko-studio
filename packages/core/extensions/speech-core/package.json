@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/speech-core",
+  "name": "@brikko-studio/speech-core",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw speech runtime package",
+  "description": "Brikko Studio speech runtime package",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   }
 }

@@ -1,9 +1,9 @@
 ---
-name: openclaw-release-maintainer
-description: Prepare or verify OpenClaw stable/beta releases, changelogs, release notes, publish commands, and artifacts.
+name: brikko-studio-release-maintainer
+description: Prepare or verify Brikko Studio stable/beta releases, changelogs, release notes, publish commands, and artifacts.
 ---
 
-# OpenClaw Release Maintainer
+# Brikko Studio Release Maintainer
 
 Use this skill for release and publish-time workflow. Keep ordinary development changes and GHSA-specific advisory work outside this skill.
 
@@ -13,7 +13,7 @@ Use this skill for release and publish-time workflow. Keep ordinary development 
 - Ask permission before any npm publish or release step.
 - This skill should be sufficient to drive the normal release flow end-to-end.
 - Use the private maintainer release docs for credentials, recovery steps, and mac signing/notary specifics, and use `docs/reference/RELEASING.md` for public policy.
-- Core `openclaw` publish is manual `workflow_dispatch`; creating or pushing a tag does not publish by itself.
+- Core `brikko-studio` publish is manual `workflow_dispatch`; creating or pushing a tag does not publish by itself.
 - Normal release work happens on a branch cut from `main`, not directly on
   `main`. Use `release/YYYY.M.D` for the branch name.
 - If the operator asks for a release without saying stable/full, default to
@@ -83,14 +83,14 @@ Use this skill for release and publish-time workflow. Keep ordinary development 
   - `apps/android/app/build.gradle.kts`
   - `apps/ios/Sources/Info.plist`
   - `apps/ios/Tests/Info.plist`
-  - `apps/macos/Sources/OpenClaw/Resources/Info.plist`
+  - `apps/macos/Sources/Brikko Studio/Resources/Info.plist`
   - `docs/install/updating.md`
   - Peekaboo Xcode project and plist version fields
 - Before creating a release tag, make every version location above match the version encoded by that tag.
 - For fallback correction tags like `vYYYY.M.D-N`, the repo version locations still stay at `YYYY.M.D`.
 - “Bump version everywhere” means all version locations above except `appcast.xml`.
 - Release signing and notary credentials live outside the repo in the private maintainer docs.
-- Every stable OpenClaw release ships the npm package and macOS app together.
+- Every stable Brikko Studio release ships the npm package and macOS app together.
   Beta releases normally ship npm/package artifacts first and skip mac app
   build/sign/notarize unless the operator requests mac beta validation.
 - Do not let the slower macOS signing/notary path block npm publication once
@@ -114,7 +114,7 @@ Use this skill for release and publish-time workflow. Keep ordinary development 
   validation/preflight use the same source. Reserve `vYYYY.M.D-N` correction
   tags for emergency hotfixes that must publish a new npm package/release
   identity, not for ordinary mac-only packaging recovery.
-- The production Sparkle feed lives at `https://raw.githubusercontent.com/openclaw/openclaw/main/appcast.xml`, and the canonical published file is `appcast.xml` on `main` in the `openclaw` repo.
+- The production Sparkle feed lives at `https://raw.githubusercontent.com/brikko-studio/brikko-studio/main/appcast.xml`, and the canonical published file is `appcast.xml` on `main` in the `brikko-studio` repo.
 - That shared production Sparkle feed is stable-only. Beta mac releases may
   upload assets to the GitHub prerelease, but they must not replace the shared
   `appcast.xml` unless a separate beta feed exists.
@@ -144,7 +144,7 @@ Use this skill for release and publish-time workflow. Keep ordinary development 
   deprecation page exists.
 - When cutting a mac release with a beta GitHub prerelease:
   - tag `vYYYY.M.D-beta.N` from the release commit
-  - create a prerelease titled `openclaw YYYY.M.D-beta.N`
+  - create a prerelease titled `brikko-studio YYYY.M.D-beta.N`
   - use release notes from the stable base `CHANGELOG.md` version section
     (`## YYYY.M.D`), not a beta-specific heading
   - attach at least the zip and dSYM zip, plus dmg if available
@@ -154,12 +154,12 @@ Use this skill for release and publish-time workflow. Keep ordinary development 
 
 ## Write release tweets
 
-Use the OpenClaw account's existing release-post style:
+Use the Brikko Studio account's existing release-post style:
 
-- Format: `OpenClaw YYYY.M.D 🦞` or `🦞 OpenClaw YYYY.M.D is live`, blank line,
+- Format: `Brikko Studio YYYY.M.D 🦞` or `🦞 Brikko Studio YYYY.M.D is live`, blank line,
   then 3-4 emoji-led bullets, blank line, one short punchline, then the release
   link.
-- For beta: say `OpenClaw YYYY.M.D-beta.N 🦞` or `OpenClaw YYYY.M.D beta N is
+- For beta: say `Brikko Studio YYYY.M.D-beta.N 🦞` or `Brikko Studio YYYY.M.D beta N is
 live`; keep it clearly beta and avoid implying stable promotion.
 - Lead with user-visible capabilities, then important integrations, then
   reliability/security/install fixes. Compress "lots of fixes" into one
@@ -200,7 +200,7 @@ live`; keep it clearly beta and avoid implying stable promotion.
 Examples to adapt:
 
 ```text
-OpenClaw 2026.4.20-beta.1 🦞
+Brikko Studio 2026.4.20-beta.1 🦞
 
 🐳 Docker install/update smoke
 🖥️ Parallels upgrade checks
@@ -211,7 +211,7 @@ Beta first. Stable after the gauntlet.
 ```
 
 ```text
-OpenClaw 2026.4.20 🦞
+Brikko Studio 2026.4.20 🦞
 
 🚀 Faster install + update
 🐳 Docker + Parallels verified
@@ -253,13 +253,13 @@ pnpm test:install:smoke
 For a non-root smoke path:
 
 ```bash
-  OPENCLAW_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke
+  BRIKKO_STUDIO_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke
 ```
 
 After npm publish, run:
 
 ```bash
-node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
+node --import tsx scripts/brikko-studio-npm-postpublish-verify.ts <published-version>
 ```
 
 - This verifies the published registry install path in a fresh temp prefix.
@@ -276,16 +276,16 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
 - Use `pnpm test:live:media video` for bounded video-provider smoke when video
   generation is in release scope. The default video smoke skips `fal`, runs one
   text-to-video attempt per provider with a one-second lobster prompt, and caps
-  each provider operation with `OPENCLAW_LIVE_VIDEO_GENERATION_TIMEOUT_MS`
+  each provider operation with `BRIKKO_STUDIO_LIVE_VIDEO_GENERATION_TIMEOUT_MS`
   (`180000` by default).
 - Run `pnpm test:live:media video --video-providers fal` only when FAL-specific
   proof is required. Its queue latency can dominate release time.
-- Set `OPENCLAW_LIVE_VIDEO_GENERATION_FULL_MODES=1` only when intentionally
+- Set `BRIKKO_STUDIO_LIVE_VIDEO_GENERATION_FULL_MODES=1` only when intentionally
   validating the slower image-to-video and video-to-video transform lanes.
 
 ## Check all relevant release builds
 
-- Always validate the OpenClaw npm release path before creating the tag.
+- Always validate the Brikko Studio npm release path before creating the tag.
 - Source Peter's profile before live release validation so OpenAI and Anthropic
   credentials are available without printing secrets:
   `set -a; source "$HOME/.profile"; set +a`.
@@ -308,7 +308,7 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
   - `pnpm build`
   - `pnpm ui:build`
   - `pnpm release:check`
-  - `OPENCLAW_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke`
+  - `BRIKKO_STUDIO_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke`
 - Full pre-npm beta test roster:
   - default release checks above
   - all Docker tests: `pnpm test:docker:all`, plus standalone Docker live lanes
@@ -317,7 +317,7 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
     `pnpm test:docker:live-codex-harness`
   - all Parallels install/update tests:
     `pnpm test:parallels:npm-update -- --json` plus any needed individual
-    rerun lanes from `openclaw-parallels-smoke`
+    rerun lanes from `brikko-studio-parallels-smoke`
   - all QA release validation: dispatch GitHub Actions > `QA-Lab - All Lanes`
     against the release tag and require success. This is the release gate for
     live credentialed Matrix/Telegram channel coverage. Use a SHA only when it
@@ -325,18 +325,18 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
     repo-backed character evals only when the operator asks for extra model
     coverage or a failure needs local debugging.
 - Post-published beta verification roster:
-  - `node --import tsx scripts/openclaw-npm-postpublish-verify.ts <beta-version>`
+  - `node --import tsx scripts/brikko-studio-npm-postpublish-verify.ts <beta-version>`
   - install/update smoke against the published beta channel
   - Docker install/update coverage that exercises the published beta package
   - published npm Telegram proof: dispatch Actions > `NPM Telegram Beta E2E`
-    from `main` with `package_spec=openclaw@<beta-version>` and
+    from `main` with `package_spec=brikko-studio@<beta-version>` and
     `provider_mode=mock-openai`, and require success. This workflow is
     maintainer-dispatched and intentionally has no `npm-release` approval gate;
     `qa-live-shared` only supplies the shared QA secrets. This is the default
     button path for installed-package onboarding, Telegram setup, and real
     Telegram E2E against the published npm package.
     Use the local `pnpm test:docker:npm-telegram-live` lane with the matching
-    `OPENCLAW_NPM_TELEGRAM_PACKAGE_SPEC` and Convex CI env only as a fallback
+    `BRIKKO_STUDIO_NPM_TELEGRAM_PACKAGE_SPEC` and Convex CI env only as a fallback
     or debugging path.
   - Parallels published beta install/update coverage with both OpenAI and
     Anthropic provider keys available
@@ -350,19 +350,19 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
     harness, rerun Actions > `QA-Lab - All Lanes`.
 - Check all release-related build surfaces touched by the release, not only the npm package.
 - For beta-style full e2e batteries, hard-cap top-level long lanes instead of letting them run indefinitely. Use host `timeout --foreground`/`gtimeout --foreground` caps such as:
-  - `45m` for `OPENCLAW_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke`
+  - `45m` for `BRIKKO_STUDIO_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke`
   - `90m` for `pnpm test:docker:all`
   - `60m` each for standalone Docker live lanes
   - `180m` for local full QA live OpenAI + Anthropic rosters when explicitly
     requested; the default release channel QA gate is Actions >
     `QA-Lab - All Lanes`
-  - Parallels caps from the `openclaw-parallels-smoke` skill
+  - Parallels caps from the `brikko-studio-parallels-smoke` skill
     If a lane hits its cap, stop and inspect/fix the affected lane before continuing; do not continue to wait on the same process.
-- Actual npm install/update phases are capped at 5 minutes. If `npm install -g`, installer package install, or `openclaw update` takes longer than 300s in release e2e, stop treating the run as healthy progress and debug the installer/updater or harness.
+- Actual npm install/update phases are capped at 5 minutes. If `npm install -g`, installer package install, or `brikko-studio update` takes longer than 300s in release e2e, stop treating the run as healthy progress and debug the installer/updater or harness.
 - Serialize host build/package mutations ahead of VM lanes. Finish `pnpm build`, `pnpm ui:build`, `pnpm release:check`, install smoke, and any Docker/package-prep lanes before starting Parallels `npm pack` lanes; otherwise `dist` can disappear during VM pack prep and produce false failures.
 - Include mac release readiness in preflight by running the public validation
-  workflow in `openclaw/openclaw` and the real mac preflight in
-  `openclaw/releases-private` for every release.
+  workflow in `brikko-studio/brikko-studio` and the real mac preflight in
+  `brikko-studio/releases-private` for every release.
 - Treat the `appcast.xml` update on `main` as part of mac release readiness, not an optional follow-up.
 - The workflows remain tag-based. The agent is responsible for making sure
   preflight runs complete successfully before any publish run starts.
@@ -389,14 +389,14 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
 
 ## Use the right auth flow
 
-- OpenClaw publish uses GitHub trusted publishing.
+- Brikko Studio publish uses GitHub trusted publishing.
 - Stable npm promotion from `beta` to `latest` uses the private
-  `openclaw/releases-private/.github/workflows/openclaw-npm-dist-tags.yml`
+  `brikko-studio/releases-private/.github/workflows/brikko-studio-npm-dist-tags.yml`
   workflow because `npm dist-tag` management needs `NPM_TOKEN`, while the
   public npm release workflow stays OIDC-only.
 - Prefer fixing the private workflow token path over any local 1Password
   fallback. The desired setup is a granular npm token stored as the private
-  repo's `NPM_TOKEN` secret, scoped to the `openclaw` package with read/write
+  repo's `NPM_TOKEN` secret, scoped to the `brikko-studio` package with read/write
   and 2FA bypass for automation.
 - If the private dist-tag workflow cannot promote because `NPM_TOKEN` is absent
   or stale, use the local tmux + 1Password fallback:
@@ -413,10 +413,10 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
     `npm login --auth-type=legacy`, then confirm `npm whoami` reports
     `steipete`.
   - Promote with a fresh OTP:
-    `npm dist-tag add openclaw@YYYY.M.D latest --otp "$OTP"`.
+    `npm dist-tag add brikko-studio@YYYY.M.D latest --otp "$OTP"`.
   - Verify with a cache-bypassed registry read, for example:
-    `npm view openclaw dist-tags --json --prefer-online --cache /tmp/openclaw-npm-cache-verify-$$`
-    and `npm view openclaw@latest version dist.tarball --json --prefer-online`.
+    `npm view brikko-studio dist-tags --json --prefer-online --cache /tmp/brikko-studio-npm-cache-verify-$$`
+    and `npm view brikko-studio@latest version dist.tarball --json --prefer-online`.
 - Direct stable publishes can also use that private dist-tag workflow to point
   `beta` at the already-published `latest` version when the operator wants both
   tags aligned immediately.
@@ -438,16 +438,16 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
 - npm validation-only preflight may still be dispatched from ordinary branches
   when testing workflow changes before merge. Release checks and real publish
   use only `main` or `release/YYYY.M.D`.
-- `.github/workflows/macos-release.yml` in `openclaw/openclaw` is now a
+- `.github/workflows/macos-release.yml` in `brikko-studio/brikko-studio` is now a
   public validation-only handoff. It validates the tag/release state and points
   operators to the private repo. It still rebuilds the JS outputs needed for
   release validation, but it does not sign, notarize, or publish macOS
   artifacts.
-- `openclaw/releases-private/.github/workflows/openclaw-macos-validate.yml`
+- `brikko-studio/releases-private/.github/workflows/brikko-studio-macos-validate.yml`
   is the required private mac validation lane for `swift test`; keep it green
   before any real stable mac publish run starts.
 - Real mac preflight and real mac publish both use
-  `openclaw/releases-private/.github/workflows/openclaw-macos-publish.yml`.
+  `brikko-studio/releases-private/.github/workflows/brikko-studio-macos-publish.yml`.
 - The private mac validation lane runs on GitHub's standard macOS runner.
 - The private mac preflight path runs on GitHub's xlarge macOS runner and uses
   a SwiftPM cache because the build/sign/notarize/package path is CPU-heavy.
@@ -466,14 +466,14 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
   from the same branch.
 - The release workflows stay tag-based; rely on the documented release sequence
   rather than workflow-level SHA pinning.
-- The `npm-release` environment must be approved by `@openclaw/openclaw-release-managers` before publish continues.
+- The `npm-release` environment must be approved by `@brikko-studio/brikko-studio-release-managers` before publish continues.
 - Mac publish uses
-  `openclaw/releases-private/.github/workflows/openclaw-macos-publish.yml` for
+  `brikko-studio/releases-private/.github/workflows/brikko-studio-macos-publish.yml` for
   private mac preflight artifact preparation and real publish artifact
   promotion.
 - Real private mac publish uploads the packaged `.zip`, `.dmg`, and
-  `.dSYM.zip` assets to the existing GitHub release in `openclaw/openclaw`
-  automatically when `OPENCLAW_PUBLIC_REPO_RELEASE_TOKEN` is present in the
+  `.dSYM.zip` assets to the existing GitHub release in `brikko-studio/brikko-studio`
+  automatically when `BRIKKO_STUDIO_PUBLIC_REPO_RELEASE_TOKEN` is present in the
   private repo `mac-release` environment.
 - For stable releases, the agent must also download the signed
   `macos-appcast-<tag>` artifact from the successful private mac workflow and
@@ -484,11 +484,11 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
   plan does not yet support required reviewers there, do not assume the
   environment alone is the approval boundary; rely on private repo access and
   CODEOWNERS until those settings can be enabled.
-- Do not use `NPM_TOKEN` or the plugin OTP flow for the OpenClaw package
+- Do not use `NPM_TOKEN` or the plugin OTP flow for the Brikko Studio package
   publish path; package publishing uses trusted publishing.
 - Use `NPM_TOKEN` only for explicit npm dist-tag management modes, because npm
   does not support trusted publishing for `npm dist-tag add`.
-- `@openclaw/*` plugin publishes use a separate maintainer-only flow.
+- `@brikko-studio/*` plugin publishes use a separate maintainer-only flow.
 - Only publish plugins that already exist on npm; bundled disk-tree-only plugins stay unpublished.
 
 ## Fallback local mac publish
@@ -546,18 +546,18 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
 14. Dispatch Actions > `QA-Lab - All Lanes` against the release tag and wait
     for the mock parity, live Matrix, and live Telegram credentialed-channel
     lanes to pass.
-15. Start `.github/workflows/openclaw-npm-release.yml` from the release branch
+15. Start `.github/workflows/brikko-studio-npm-release.yml` from the release branch
     with `preflight_only=true`
     and choose the intended `npm_dist_tag` (`beta` default; `latest` only for
     an intentional direct stable publish). Wait for it to pass. Save that run id
     because the real publish requires it to reuse the prepared npm tarball.
 16. For stable releases, start `.github/workflows/macos-release.yml` in
-    `openclaw/openclaw` and wait for the public validation-only run to pass.
+    `brikko-studio/brikko-studio` and wait for the public validation-only run to pass.
 17. For stable releases, start
-    `openclaw/releases-private/.github/workflows/openclaw-macos-validate.yml`
+    `brikko-studio/releases-private/.github/workflows/brikko-studio-macos-validate.yml`
     with the same tag and wait for the private mac validation lane to pass.
 18. For stable releases, start
-    `openclaw/releases-private/.github/workflows/openclaw-macos-publish.yml`
+    `brikko-studio/releases-private/.github/workflows/brikko-studio-macos-publish.yml`
     with `preflight_only=true` and wait for it to pass. Save that run id because
     the real publish requires it to reuse the notarized mac artifacts.
 19. If any preflight or validation run fails, fix the issue on a new commit,
@@ -568,14 +568,14 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
     For preflight-only failures where npm did not publish the beta version,
     delete/recreate the same beta tag and prerelease at the fixed commit instead
     of skipping a prerelease number.
-20. Start `.github/workflows/openclaw-npm-release.yml` from the same branch with
+20. Start `.github/workflows/brikko-studio-npm-release.yml` from the same branch with
     the same tag for the real publish, choose `npm_dist_tag` (`beta` default,
     `latest` only when you intentionally want direct stable publish), keep it
     the same as the preflight run, and pass the successful npm
     `preflight_run_id`.
-21. Wait for `npm-release` approval from `@openclaw/openclaw-release-managers`.
+21. Wait for `npm-release` approval from `@brikko-studio/brikko-studio-release-managers`.
 22. Run postpublish verification:
-    `node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>`.
+    `node --import tsx scripts/brikko-studio-npm-postpublish-verify.ts <published-version>`.
 23. Run the post-published beta verification roster. First scan current `main`
     for critical fixes that landed after the release branch cut; backport only
     important low-risk fixes before starting expensive lanes, or increment to
@@ -599,19 +599,19 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
     pass: published npm postpublish verify, Docker install/update smoke,
     macOS-only Parallels install/update smoke, and required QA signal.
     Then start the private
-    `openclaw/releases-private/.github/workflows/openclaw-npm-dist-tags.yml`
+    `brikko-studio/releases-private/.github/workflows/brikko-studio-npm-dist-tags.yml`
     workflow to promote that stable version from `beta` to `latest`, then
     verify `latest` now points at that version.
 27. If the stable release was published directly to `latest` and `beta` should
     follow it, start that same private dist-tag workflow to point `beta` at the
     stable version, then verify both `latest` and `beta` point at that version.
 28. For stable releases, start
-    `openclaw/releases-private/.github/workflows/openclaw-macos-publish.yml`
+    `brikko-studio/releases-private/.github/workflows/brikko-studio-macos-publish.yml`
     for the real publish with the successful private mac `preflight_run_id` and
     wait for success.
 29. Verify the successful real private mac run uploaded the `.zip`, `.dmg`,
     and `.dSYM.zip` artifacts to the existing GitHub release in
-    `openclaw/openclaw`.
+    `brikko-studio/brikko-studio`.
 30. For stable releases, download `macos-appcast-<tag>` from the successful
     private mac run, update `appcast.xml` on `main`, and verify the feed. Merge
     or cherry-pick release branch changes back to `main` after stable succeeds.
@@ -623,4 +623,4 @@ node --import tsx scripts/openclaw-npm-postpublish-verify.ts <published-version>
 
 ## GHSA advisory work
 
-- Use `openclaw-ghsa-maintainer` for GHSA advisory inspection, patch/publish flow, private-fork validation, and GHSA API-specific publish checks.
+- Use `brikko-studio-ghsa-maintainer` for GHSA advisory inspection, patch/publish flow, private-fork validation, and GHSA API-specific publish checks.

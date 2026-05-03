@@ -1,15 +1,15 @@
 import type { DatabaseSync } from "node:sqlite";
 import { type FSWatcher } from "chokidar";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import {
   createSubsystemLogger,
   resolveAgentDir,
   resolveAgentWorkspaceDir,
   resolveMemorySearchConfig,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
   type ResolvedMemorySearchConfig,
-} from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
-import { extractKeywords } from "openclaw/plugin-sdk/memory-core-host-engine-qmd";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
+import { extractKeywords } from "brikko-studio/plugin-sdk/memory-core-host-engine-qmd";
 import {
   readMemoryFile,
   type MemoryEmbeddingProbeResult,
@@ -19,7 +19,7 @@ import {
   type MemorySearchResult,
   type MemorySource,
   type MemorySyncProgressUpdate,
-} from "openclaw/plugin-sdk/memory-core-host-engine-storage";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-storage";
 import {
   createEmbeddingProvider,
   type EmbeddingProvider,
@@ -61,7 +61,7 @@ const SNIPPET_MAX_CHARS = 700;
 const VECTOR_TABLE = "chunks_vec";
 const FTS_TABLE = "chunks_fts";
 const EMBEDDING_CACHE_TABLE = "embedding_cache";
-const MEMORY_INDEX_MANAGER_CACHE_KEY = Symbol.for("openclaw.memoryIndexManagerCache");
+const MEMORY_INDEX_MANAGER_CACHE_KEY = Symbol.for("brikko-studio.memoryIndexManagerCache");
 export const EMBEDDING_PROBE_CACHE_TTL_MS = 30_000;
 const log = createSubsystemLogger("memory");
 type MemoryIndexManagerPurpose = "default" | "status" | "cli";
@@ -90,7 +90,7 @@ export async function closeAllMemoryIndexManagers(): Promise<void> {
 
 export class MemoryIndexManager extends MemoryManagerEmbeddingOps implements MemorySearchManager {
   private readonly cacheKey: string;
-  protected readonly cfg: OpenClawConfig;
+  protected readonly cfg: Brikko StudioConfig;
   protected readonly agentId: string;
   protected readonly workspaceDir: string;
   protected readonly settings: ResolvedMemorySearchConfig;
@@ -155,7 +155,7 @@ export class MemoryIndexManager extends MemoryManagerEmbeddingOps implements Mem
   private readonlyRecoveryLastError?: string;
 
   private static async loadProviderResult(params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     agentId: string;
     settings: ResolvedMemorySearchConfig;
   }): Promise<EmbeddingProviderResult> {
@@ -167,7 +167,7 @@ export class MemoryIndexManager extends MemoryManagerEmbeddingOps implements Mem
   }
 
   static async get(params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     agentId: string;
     purpose?: MemoryIndexManagerPurpose;
   }): Promise<MemoryIndexManager | null> {
@@ -200,7 +200,7 @@ export class MemoryIndexManager extends MemoryManagerEmbeddingOps implements Mem
 
   private constructor(params: {
     cacheKey: string;
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     agentId: string;
     workspaceDir: string;
     settings: ResolvedMemorySearchConfig;

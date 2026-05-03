@@ -2,13 +2,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { Readable } from "node:stream";
 import type * as Lark from "@larksuiteoapi/node-sdk";
-import { mediaKindFromMime } from "openclaw/plugin-sdk/media-mime";
-import { MEDIA_FFMPEG_MAX_AUDIO_DURATION_SECS, runFfmpeg } from "openclaw/plugin-sdk/media-runtime";
+import { mediaKindFromMime } from "brikko-studio/plugin-sdk/media-mime";
+import { MEDIA_FFMPEG_MAX_AUDIO_DURATION_SECS, runFfmpeg } from "brikko-studio/plugin-sdk/media-runtime";
 import {
-  resolvePreferredOpenClawTmpDir,
+  resolvePreferredBrikko StudioTmpDir,
   withTempDownloadPath,
-} from "openclaw/plugin-sdk/temp-path";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/temp-path";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import type { ClawdbotConfig } from "../runtime-api.js";
 import { resolveFeishuRuntimeAccount } from "./accounts.js";
 import { createFeishuClient } from "./client.js";
@@ -320,7 +320,7 @@ export async function downloadImageFeishu(params: {
 
   const buffer = await readFeishuResponseBuffer({
     response,
-    tmpDirPrefix: "openclaw-feishu-img-",
+    tmpDirPrefix: "brikko-studio-feishu-img-",
     errorPrefix: "Feishu image download failed",
   });
   const meta = extractFeishuDownloadMetadata(response);
@@ -340,7 +340,7 @@ async function downloadMessageResourceWithType(params: {
 
   const buffer = await readFeishuResponseBuffer({
     response,
-    tmpDirPrefix: "openclaw-feishu-resource-",
+    tmpDirPrefix: "brikko-studio-feishu-resource-",
     errorPrefix: "Feishu message resource download failed",
   });
   return { buffer, ...extractFeishuDownloadMetadata(response) };
@@ -741,7 +741,7 @@ async function transcodeToFeishuVoiceOpus(params: {
   fileName: string;
   contentType?: string;
 }): Promise<{ buffer: Buffer; fileName: string; contentType: string }> {
-  const tempRoot = resolvePreferredOpenClawTmpDir();
+  const tempRoot = resolvePreferredBrikko StudioTmpDir();
   await fs.promises.mkdir(tempRoot, { recursive: true, mode: 0o700 });
   const tempDir = await fs.promises.mkdtemp(path.join(tempRoot, "feishu-voice-"));
   try {

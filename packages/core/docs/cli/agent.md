@@ -1,11 +1,11 @@
 ---
-summary: "CLI reference for `openclaw agent` (send one agent turn via the Gateway)"
+summary: "CLI reference for `brikko-studio agent` (send one agent turn via the Gateway)"
 read_when:
   - You want to run one agent turn from scripts (optionally deliver reply)
 title: "Agent"
 ---
 
-# `openclaw agent`
+# `brikko-studio agent`
 
 Run an agent turn via the Gateway (use `--local` for embedded).
 Use `--agent <id>` to target a configured agent directly.
@@ -41,13 +41,13 @@ Related:
 ## Examples
 
 ```bash
-openclaw agent --to +15555550123 --message "status update" --deliver
-openclaw agent --agent ops --message "Summarize logs"
-openclaw agent --agent ops --model openai/gpt-5.4 --message "Summarize logs"
-openclaw agent --session-id 1234 --message "Summarize inbox" --thinking medium
-openclaw agent --to +15555550123 --message "Trace logs" --verbose on --json
-openclaw agent --agent ops --message "Generate report" --deliver --reply-channel slack --reply-to "#reports"
-openclaw agent --agent ops --message "Run locally" --local
+brikko-studio agent --to +15555550123 --message "status update" --deliver
+brikko-studio agent --agent ops --message "Summarize logs"
+brikko-studio agent --agent ops --model openai/gpt-5.4 --message "Summarize logs"
+brikko-studio agent --session-id 1234 --message "Summarize inbox" --thinking medium
+brikko-studio agent --to +15555550123 --message "Trace logs" --verbose on --json
+brikko-studio agent --agent ops --message "Generate report" --deliver --reply-channel slack --reply-to "#reports"
+brikko-studio agent --agent ops --message "Run locally" --local
 ```
 
 ## Notes
@@ -61,7 +61,7 @@ openclaw agent --agent ops --message "Run locally" --local
 - Embedded fallback JSON includes `meta.transport: "embedded"` and `meta.fallbackFrom: "gateway"` so scripts can distinguish fallback runs from Gateway runs.
 - If the Gateway accepts an agent run but the CLI times out waiting for the final reply, embedded fallback uses a fresh explicit `gateway-fallback-*` session/run id and reports `meta.fallbackReason: "gateway_timeout"` plus the fallback session fields. This avoids racing the Gateway-owned transcript lock or silently replacing the original routed conversation session.
 - When this command triggers `models.json` regeneration, SecretRef-managed provider credentials are persisted as non-secret markers (for example env var names, `secretref-env:ENV_VAR_NAME`, or `secretref-managed`), not resolved secret plaintext.
-- Marker writes are source-authoritative: OpenClaw persists markers from the active source config snapshot, not from resolved runtime secret values.
+- Marker writes are source-authoritative: Brikko Studio persists markers from the active source config snapshot, not from resolved runtime secret values.
 
 ## Related
 

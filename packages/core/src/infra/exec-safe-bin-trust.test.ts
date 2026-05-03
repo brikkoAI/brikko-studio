@@ -65,7 +65,7 @@ describe("exec safe bin trust", () => {
   });
 
   it("does not trust PATH entries by default", () => {
-    const injected = `/tmp/openclaw-path-injected-${Date.now()}`;
+    const injected = `/tmp/brikko-studio-path-injected-${Date.now()}`;
 
     withEnv({ PATH: `${injected}${path.delimiter}${process.env.PATH ?? ""}` }, () => {
       const refreshed = getTrustedSafeBinDirs({ refresh: true });
@@ -77,7 +77,7 @@ describe("exec safe bin trust", () => {
     if (process.platform === "win32") {
       return;
     }
-    await withTempDir({ prefix: "openclaw-safe-bin-trust-" }, async (dir) => {
+    await withTempDir({ prefix: "brikko-studio-safe-bin-trust-" }, async (dir) => {
       try {
         await fs.chmod(dir, 0o777);
         const hits = listWritableExplicitTrustedSafeBinDirs([dir]);

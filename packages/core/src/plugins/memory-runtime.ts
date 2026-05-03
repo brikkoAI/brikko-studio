@@ -1,12 +1,12 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { resolveUserPath } from "../utils.js";
 import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
 import { normalizePluginsConfig } from "./config-state.js";
 import { getMemoryRuntime } from "./memory-state.js";
 import { ensureStandaloneRuntimePluginRegistryLoaded } from "./runtime/standalone-runtime-registry-loader.js";
 
-function resolveMemoryRuntimePluginIds(config: OpenClawConfig): string[] {
+function resolveMemoryRuntimePluginIds(config: Brikko StudioConfig): string[] {
   const plugins = normalizePluginsConfig(config.plugins);
   const memorySlot = plugins.slots.memory;
   if (!plugins.enabled || typeof memorySlot !== "string" || memorySlot.trim().length === 0) {
@@ -19,7 +19,7 @@ function resolveMemoryRuntimePluginIds(config: OpenClawConfig): string[] {
   return [pluginId];
 }
 
-function resolveMemoryRuntimeWorkspaceDir(cfg: OpenClawConfig): string | undefined {
+function resolveMemoryRuntimeWorkspaceDir(cfg: Brikko StudioConfig): string | undefined {
   const agentId = resolveDefaultAgentId(cfg);
   const dir = resolveAgentWorkspaceDir(cfg, agentId);
   if (typeof dir !== "string" || !dir.trim()) {
@@ -28,7 +28,7 @@ function resolveMemoryRuntimeWorkspaceDir(cfg: OpenClawConfig): string | undefin
   return resolveUserPath(dir);
 }
 
-function ensureMemoryRuntime(cfg?: OpenClawConfig) {
+function ensureMemoryRuntime(cfg?: Brikko StudioConfig) {
   const current = getMemoryRuntime();
   if (current || !cfg) {
     return current;
@@ -54,7 +54,7 @@ function ensureMemoryRuntime(cfg?: OpenClawConfig) {
 }
 
 export async function getActiveMemorySearchManager(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   purpose?: "default" | "status" | "cli";
 }) {
@@ -65,11 +65,11 @@ export async function getActiveMemorySearchManager(params: {
   return await runtime.getMemorySearchManager(params);
 }
 
-export function resolveActiveMemoryBackendConfig(params: { cfg: OpenClawConfig; agentId: string }) {
+export function resolveActiveMemoryBackendConfig(params: { cfg: Brikko StudioConfig; agentId: string }) {
   return ensureMemoryRuntime(params.cfg)?.resolveMemoryBackendConfig(params) ?? null;
 }
 
-export async function closeActiveMemorySearchManagers(cfg?: OpenClawConfig): Promise<void> {
+export async function closeActiveMemorySearchManagers(cfg?: Brikko StudioConfig): Promise<void> {
   void cfg;
   const runtime = getMemoryRuntime();
   await runtime?.closeAllMemorySearchManagers?.();

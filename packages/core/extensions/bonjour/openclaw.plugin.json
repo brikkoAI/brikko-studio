@@ -5,7 +5,7 @@
   },
   "enabledByDefault": true,
   "name": "Bonjour Gateway Discovery",
-  "description": "Advertise the local OpenClaw gateway over Bonjour/mDNS.",
+  "description": "Advertise the local Brikko Studio gateway over Bonjour/mDNS.",
   "configSchema": {
     "type": "object",
     "additionalProperties": false,

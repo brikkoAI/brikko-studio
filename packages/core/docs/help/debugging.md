@@ -13,13 +13,13 @@ Debugging helpers for streaming output, especially when a provider mixes reasoni
 
 Use `/debug` in chat to set **runtime-only** config overrides (memory, not disk).
 `/debug` is disabled by default; enable with `commands.debug: true`.
-This is handy when you need to toggle obscure settings without editing `openclaw.json`.
+This is handy when you need to toggle obscure settings without editing `brikko-studio.json`.
 
 Examples:
 
 ```
 /debug show
-/debug set messages.responsePrefix="[openclaw]"
+/debug set messages.responsePrefix="[brikko-studio]"
 /debug unset messages.responsePrefix
 /debug reset
 ```
@@ -45,7 +45,7 @@ Keep using `/verbose` for normal verbose status/tool output, and keep using
 
 ## Plugin lifecycle trace
 
-Use `OPENCLAW_PLUGIN_LIFECYCLE_TRACE=1` when plugin lifecycle commands feel slow
+Use `BRIKKO_STUDIO_PLUGIN_LIFECYCLE_TRACE=1` when plugin lifecycle commands feel slow
 and you need a built-in phase breakdown for plugin metadata, discovery, registry,
 runtime mirror, config mutation, and refresh work. The trace is opt-in and writes
 to stderr, so JSON command output remains parseable.
@@ -53,7 +53,7 @@ to stderr, so JSON command output remains parseable.
 Example:
 
 ```bash
-OPENCLAW_PLUGIN_LIFECYCLE_TRACE=1 openclaw plugins install tokenjuice --force
+BRIKKO_STUDIO_PLUGIN_LIFECYCLE_TRACE=1 brikko-studio plugins install tokenjuice --force
 ```
 
 Example output:
@@ -66,7 +66,7 @@ Example output:
 
 Use this for plugin lifecycle investigation before reaching for a CPU profiler.
 If the command is running from a source checkout, prefer measuring the built
-runtime with `node dist/entry.js ...` after `pnpm build`; `pnpm openclaw ...`
+runtime with `node dist/entry.js ...` after `pnpm build`; `pnpm brikko-studio ...`
 also measures source-runner overhead.
 
 ## CLI startup and command profiling
@@ -80,10 +80,10 @@ pnpm tsx scripts/bench-cli-startup.ts --preset real --cpu-prof-dir .artifacts/cl
 ```
 
 For one-off profiling through the normal source runner, set
-`OPENCLAW_RUN_NODE_CPU_PROF_DIR`:
+`BRIKKO_STUDIO_RUN_NODE_CPU_PROF_DIR`:
 
 ```bash
-OPENCLAW_RUN_NODE_CPU_PROF_DIR=.artifacts/cli-cpu pnpm openclaw status
+BRIKKO_STUDIO_RUN_NODE_CPU_PROF_DIR=.artifacts/cli-cpu pnpm brikko-studio status
 ```
 
 The source runner adds Node CPU profile flags and writes a `.cpuprofile` for the
@@ -98,13 +98,13 @@ pnpm gateway:watch
 ```
 
 By default, this starts or restarts a tmux session named
-`openclaw-gateway-watch-main` (or a profile/port-specific variant such as
-`openclaw-gateway-watch-dev-19001`) and auto-attaches from interactive terminals.
+`brikko-studio-gateway-watch-main` (or a profile/port-specific variant such as
+`brikko-studio-gateway-watch-dev-19001`) and auto-attaches from interactive terminals.
 Non-interactive shells, CI, and agent exec calls stay detached and print attach
 instructions instead. Attach manually when needed:
 
 ```bash
-tmux attach -t openclaw-gateway-watch-main
+tmux attach -t brikko-studio-gateway-watch-main
 ```
 
 The tmux pane runs the raw watcher:
@@ -118,13 +118,13 @@ Use foreground mode when tmux is not wanted:
 ```bash
 pnpm gateway:watch:raw
 # or
-OPENCLAW_GATEWAY_WATCH_TMUX=0 pnpm gateway:watch
+BRIKKO_STUDIO_GATEWAY_WATCH_TMUX=0 pnpm gateway:watch
 ```
 
 Disable auto-attach while keeping tmux management:
 
 ```bash
-OPENCLAW_GATEWAY_WATCH_ATTACH=0 pnpm gateway:watch
+BRIKKO_STUDIO_GATEWAY_WATCH_ATTACH=0 pnpm gateway:watch
 ```
 
 Profile watched Gateway CPU time when debugging startup/runtime hotspots:
@@ -148,19 +148,19 @@ default `--force` port cleanup and fail fast if the Gateway port is already in
 use.
 
 The tmux wrapper carries common non-secret runtime selectors such as
-`OPENCLAW_PROFILE`, `OPENCLAW_CONFIG_PATH`, `OPENCLAW_STATE_DIR`,
-`OPENCLAW_GATEWAY_PORT`, and `OPENCLAW_SKIP_CHANNELS` into the pane. Put
+`BRIKKO_STUDIO_PROFILE`, `BRIKKO_STUDIO_CONFIG_PATH`, `BRIKKO_STUDIO_STATE_DIR`,
+`BRIKKO_STUDIO_GATEWAY_PORT`, and `BRIKKO_STUDIO_SKIP_CHANNELS` into the pane. Put
 provider credentials in your normal profile/config, or use raw foreground mode
 for one-off ephemeral secrets.
 If the watched Gateway exits during startup, the watcher runs
-`openclaw doctor --fix --non-interactive` once and restarts the Gateway child.
-Use `OPENCLAW_GATEWAY_WATCH_AUTO_DOCTOR=0` when you want the original startup
+`brikko-studio doctor --fix --non-interactive` once and restarts the Gateway child.
+Use `BRIKKO_STUDIO_GATEWAY_WATCH_AUTO_DOCTOR=0` when you want the original startup
 failure without the dev-only repair pass.
 The managed tmux pane also defaults to colored Gateway logs for readability;
 set `FORCE_COLOR=0` when starting `pnpm gateway:watch` to disable ANSI output.
 
 The watcher restarts on build-relevant files under `src/`, extension source files,
-extension `package.json` and `openclaw.plugin.json` metadata, `tsconfig.json`,
+extension `package.json` and `brikko-studio.plugin.json` metadata, `tsconfig.json`,
 `package.json`, and `tsdown.config.ts`. Extension metadata changes restart the
 gateway without forcing a `tsdown` rebuild; source and config changes still
 rebuild `dist` first.
@@ -175,7 +175,7 @@ are replaced instead of piling up.
 Use the dev profile to isolate state and spin up a safe, disposable setup for
 debugging. There are **two** `--dev` flags:
 
-- **Global `--dev` (profile):** isolates state under `~/.openclaw-dev` and
+- **Global `--dev` (profile):** isolates state under `~/.brikko-studio-dev` and
   defaults the gateway port to `19001` (derived ports shift with it).
 - **`gateway --dev`: tells the Gateway to auto-create a default config +
   workspace** when missing (and skip BOOTSTRAP.md).
@@ -184,18 +184,18 @@ Recommended flow (dev profile + dev bootstrap):
 
 ```bash
 pnpm gateway:dev
-OPENCLAW_PROFILE=dev openclaw tui
+BRIKKO_STUDIO_PROFILE=dev brikko-studio tui
 ```
 
-If you don’t have a global install yet, run the CLI via `pnpm openclaw ...`.
+If you don’t have a global install yet, run the CLI via `pnpm brikko-studio ...`.
 
 What this does:
 
 1. **Profile isolation** (global `--dev`)
-   - `OPENCLAW_PROFILE=dev`
-   - `OPENCLAW_STATE_DIR=~/.openclaw-dev`
-   - `OPENCLAW_CONFIG_PATH=~/.openclaw-dev/openclaw.json`
-   - `OPENCLAW_GATEWAY_PORT=19001` (browser/canvas shift accordingly)
+   - `BRIKKO_STUDIO_PROFILE=dev`
+   - `BRIKKO_STUDIO_STATE_DIR=~/.brikko-studio-dev`
+   - `BRIKKO_STUDIO_CONFIG_PATH=~/.brikko-studio-dev/brikko-studio.json`
+   - `BRIKKO_STUDIO_GATEWAY_PORT=19001` (browser/canvas shift accordingly)
 
 2. **Dev bootstrap** (`gateway --dev`)
    - Writes a minimal config if missing (`gateway.mode=local`, bind loopback).
@@ -204,7 +204,7 @@ What this does:
    - Seeds the workspace files if missing:
      `AGENTS.md`, `SOUL.md`, `TOOLS.md`, `IDENTITY.md`, `USER.md`, `HEARTBEAT.md`.
    - Default identity: **C3‑PO** (protocol droid).
-   - Skips channel providers in dev mode (`OPENCLAW_SKIP_CHANNELS=1`).
+   - Skips channel providers in dev mode (`BRIKKO_STUDIO_SKIP_CHANNELS=1`).
 
 Reset flow (fresh start):
 
@@ -216,7 +216,7 @@ pnpm gateway:dev:reset
 `--dev` is a **global** profile flag and gets eaten by some runners. If you need to spell it out, use the env var form:
 
 ```bash
-OPENCLAW_PROFILE=dev openclaw gateway --dev --reset
+BRIKKO_STUDIO_PROFILE=dev brikko-studio gateway --dev --reset
 ```
 
 </Note>
@@ -228,14 +228,14 @@ OPENCLAW_PROFILE=dev openclaw gateway --dev --reset
 If a non-dev gateway is already running (launchd or systemd), stop it first:
 
 ```bash
-openclaw gateway stop
+brikko-studio gateway stop
 ```
 
 </Tip>
 
-## Raw stream logging (OpenClaw)
+## Raw stream logging (Brikko Studio)
 
-OpenClaw can log the **raw assistant stream** before any filtering/formatting.
+Brikko Studio can log the **raw assistant stream** before any filtering/formatting.
 This is the best way to see whether reasoning is arriving as plain text deltas
 (or as separate thinking blocks).
 
@@ -248,19 +248,19 @@ pnpm gateway:watch --raw-stream
 Optional path override:
 
 ```bash
-pnpm gateway:watch --raw-stream --raw-stream-path ~/.openclaw/logs/raw-stream.jsonl
+pnpm gateway:watch --raw-stream --raw-stream-path ~/.brikko-studio/logs/raw-stream.jsonl
 ```
 
 Equivalent env vars:
 
 ```bash
-OPENCLAW_RAW_STREAM=1
-OPENCLAW_RAW_STREAM_PATH=~/.openclaw/logs/raw-stream.jsonl
+BRIKKO_STUDIO_RAW_STREAM=1
+BRIKKO_STUDIO_RAW_STREAM_PATH=~/.brikko-studio/logs/raw-stream.jsonl
 ```
 
 Default file:
 
-`~/.openclaw/logs/raw-stream.jsonl`
+`~/.brikko-studio/logs/raw-stream.jsonl`
 
 ## Raw chunk logging (pi-mono)
 

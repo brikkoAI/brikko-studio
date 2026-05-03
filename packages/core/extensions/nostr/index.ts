@@ -1,8 +1,8 @@
 import {
   defineBundledChannelEntry,
   loadBundledEntryExportSync,
-} from "openclaw/plugin-sdk/channel-entry-contract";
-import type { OpenClawConfig, PluginRuntime, ResolvedNostrAccount } from "./api.js";
+} from "brikko-studio/plugin-sdk/channel-entry-contract";
+import type { Brikko StudioConfig, PluginRuntime, ResolvedNostrAccount } from "./api.js";
 
 function createNostrProfileHttpHandler() {
   return loadBundledEntryExportSync<
@@ -46,13 +46,13 @@ export default defineBundledChannelEntry({
     const httpHandler = createNostrProfileHttpHandler()({
       getConfigProfile: (accountId: string) => {
         const runtime = getNostrRuntime();
-        const cfg = runtime.config.current() as OpenClawConfig;
+        const cfg = runtime.config.current() as Brikko StudioConfig;
         const account = resolveNostrAccount({ cfg, accountId });
         return account.profile;
       },
       updateConfigProfile: async (accountId: string, profile: unknown) => {
         const runtime = getNostrRuntime();
-        const cfg = runtime.config.current() as OpenClawConfig;
+        const cfg = runtime.config.current() as Brikko StudioConfig;
 
         const channels = (cfg.channels ?? {}) as Record<string, unknown>;
         const nostrConfig = (channels.nostr ?? {}) as Record<string, unknown>;
@@ -73,7 +73,7 @@ export default defineBundledChannelEntry({
       },
       getAccountInfo: (accountId: string) => {
         const runtime = getNostrRuntime();
-        const cfg = runtime.config.current() as OpenClawConfig;
+        const cfg = runtime.config.current() as Brikko StudioConfig;
         const account = resolveNostrAccount({ cfg, accountId });
         if (!account.configured || !account.publicKey) {
           return null;

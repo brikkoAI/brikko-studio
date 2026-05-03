@@ -1,19 +1,19 @@
-import { resolveAccountEntry } from "openclaw/plugin-sdk/account-core";
-import { resolveInboundDebounceMs } from "openclaw/plugin-sdk/channel-inbound-debounce";
-import { formatCliCommand } from "openclaw/plugin-sdk/cli-runtime";
-import { hasControlCommand } from "openclaw/plugin-sdk/command-detection";
-import { drainPendingDeliveries } from "openclaw/plugin-sdk/delivery-queue-runtime";
-import { DEFAULT_GROUP_HISTORY_LIMIT } from "openclaw/plugin-sdk/reply-history";
-import { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { registerUnhandledRejectionHandler } from "openclaw/plugin-sdk/runtime-env";
-import { getChildLogger } from "openclaw/plugin-sdk/runtime-env";
+import { resolveAccountEntry } from "brikko-studio/plugin-sdk/account-core";
+import { resolveInboundDebounceMs } from "brikko-studio/plugin-sdk/channel-inbound-debounce";
+import { formatCliCommand } from "brikko-studio/plugin-sdk/cli-runtime";
+import { hasControlCommand } from "brikko-studio/plugin-sdk/command-detection";
+import { drainPendingDeliveries } from "brikko-studio/plugin-sdk/delivery-queue-runtime";
+import { DEFAULT_GROUP_HISTORY_LIMIT } from "brikko-studio/plugin-sdk/reply-history";
+import { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { registerUnhandledRejectionHandler } from "brikko-studio/plugin-sdk/runtime-env";
+import { getChildLogger } from "brikko-studio/plugin-sdk/runtime-env";
 import {
   defaultRuntime,
   formatDurationPrecise,
   type RuntimeEnv,
-} from "openclaw/plugin-sdk/runtime-env";
-import { enqueueSystemEvent } from "openclaw/plugin-sdk/system-event-runtime";
+} from "brikko-studio/plugin-sdk/runtime-env";
+import { enqueueSystemEvent } from "brikko-studio/plugin-sdk/system-event-runtime";
 import { resolveWhatsAppAccount, resolveWhatsAppMediaMaxBytes } from "../accounts.js";
 import { WHATSAPP_AUTH_UNSTABLE_CODE, WhatsAppAuthUnstableError } from "../auth-store.js";
 import {
@@ -130,7 +130,7 @@ async function clearTerminalWebAuthState(params: {
       "web reconnect: failed clearing cached auth after terminal close",
     );
     params.runtime.error(
-      `WhatsApp Web cleanup failed after terminal close (status ${params.statusLabel}). Run \`${formatCliCommand("openclaw channels logout --channel whatsapp")}\`, then relink with \`${formatCliCommand("openclaw channels login --channel whatsapp")}\`.`,
+      `WhatsApp Web cleanup failed after terminal close (status ${params.statusLabel}). Run \`${formatCliCommand("brikko-studio channels logout --channel whatsapp")}\`, then relink with \`${formatCliCommand("brikko-studio channels login --channel whatsapp")}\`.`,
     );
   }
 }
@@ -526,7 +526,7 @@ export async function monitorWebChannel(
             log: reconnectLogger,
           });
           runtime.error(
-            `WhatsApp session logged out. Run \`${formatCliCommand("openclaw channels login --channel whatsapp")}\` to relink.`,
+            `WhatsApp session logged out. Run \`${formatCliCommand("brikko-studio channels login --channel whatsapp")}\` to relink.`,
           );
         } else if (decision.healthState === "conflict") {
           await clearTerminalWebAuthState({
@@ -545,7 +545,7 @@ export async function monitorWebChannel(
             "web reconnect: non-retryable close status; stopping monitor",
           );
           runtime.error(
-            `WhatsApp Web connection closed (status ${decision.normalized.statusLabel}: session conflict). Resolve conflicting WhatsApp Web sessions, then relink with \`${formatCliCommand("openclaw channels login --channel whatsapp")}\`. Stopping web monitoring.`,
+            `WhatsApp Web connection closed (status ${decision.normalized.statusLabel}: session conflict). Resolve conflicting WhatsApp Web sessions, then relink with \`${formatCliCommand("brikko-studio channels login --channel whatsapp")}\`. Stopping web monitoring.`,
           );
         } else {
           reconnectLogger.warn(

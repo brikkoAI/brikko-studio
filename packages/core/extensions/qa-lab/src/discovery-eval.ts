@@ -1,4 +1,4 @@
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { readQaScenarioExecutionConfig } from "./scenario-catalog.js";
 
 function readRequiredDiscoveryRefs() {

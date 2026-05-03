@@ -3,7 +3,7 @@ import {
   type SpeechModelOverridePolicy,
   type SpeechProviderConfig,
   type TtsDirectiveOverrides,
-} from "openclaw/plugin-sdk/speech";
+} from "brikko-studio/plugin-sdk/speech";
 import type { VoiceCallTtsConfig } from "./config.js";
 import type { CoreConfig } from "./core-bridge.js";
 import { deepMergeDefined } from "./deep-merge.js";

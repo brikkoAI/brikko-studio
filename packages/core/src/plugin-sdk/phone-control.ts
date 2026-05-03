@@ -3,8 +3,8 @@
 
 export { definePluginEntry } from "./plugin-entry.js";
 export type {
-  OpenClawPluginApi,
-  OpenClawPluginCommandDefinition,
-  OpenClawPluginService,
+  Brikko StudioPluginApi,
+  Brikko StudioPluginCommandDefinition,
+  Brikko StudioPluginService,
   PluginCommandContext,
 } from "../plugins/types.js";

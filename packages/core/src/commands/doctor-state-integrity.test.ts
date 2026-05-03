@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import {
   resolveStorePath,
   resolveSessionTranscriptsDirForAgent,
@@ -22,17 +22,17 @@ const noteMock = vi.fn();
 
 type EnvSnapshot = {
   HOME?: string;
-  OPENCLAW_HOME?: string;
-  OPENCLAW_STATE_DIR?: string;
-  OPENCLAW_OAUTH_DIR?: string;
+  BRIKKO_STUDIO_HOME?: string;
+  BRIKKO_STUDIO_STATE_DIR?: string;
+  BRIKKO_STUDIO_OAUTH_DIR?: string;
 };
 
 function captureEnv(): EnvSnapshot {
   return {
     HOME: process.env.HOME,
-    OPENCLAW_HOME: process.env.OPENCLAW_HOME,
-    OPENCLAW_STATE_DIR: process.env.OPENCLAW_STATE_DIR,
-    OPENCLAW_OAUTH_DIR: process.env.OPENCLAW_OAUTH_DIR,
+    BRIKKO_STUDIO_HOME: process.env.BRIKKO_STUDIO_HOME,
+    BRIKKO_STUDIO_STATE_DIR: process.env.BRIKKO_STUDIO_STATE_DIR,
+    BRIKKO_STUDIO_OAUTH_DIR: process.env.BRIKKO_STUDIO_OAUTH_DIR,
   };
 }
 
@@ -47,7 +47,7 @@ function restoreEnv(snapshot: EnvSnapshot) {
   }
 }
 
-function setupSessionState(cfg: OpenClawConfig, env: NodeJS.ProcessEnv, homeDir: string) {
+function setupSessionState(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv, homeDir: string) {
   const agentId = "main";
   const sessionsDir = resolveSessionTranscriptsDirForAgent(agentId, env, () => homeDir);
   const storePath = resolveStorePath(cfg.session?.store, { agentId });
@@ -70,9 +70,9 @@ function doctorChangesText(): string {
 }
 
 function createAgentDir(agentId: string, includeNestedAgentDir = true) {
-  const stateDir = process.env.OPENCLAW_STATE_DIR;
+  const stateDir = process.env.BRIKKO_STUDIO_STATE_DIR;
   if (!stateDir) {
-    throw new Error("OPENCLAW_STATE_DIR is not set");
+    throw new Error("BRIKKO_STUDIO_STATE_DIR is not set");
   }
   const targetDir = includeNestedAgentDir
     ? path.join(stateDir, "agents", agentId, "agent")
@@ -84,7 +84,7 @@ const OAUTH_PROMPT_MATCHER = expect.objectContaining({
   message: expect.stringContaining("Create OAuth dir at"),
 });
 
-async function runStateIntegrity(cfg: OpenClawConfig) {
+async function runStateIntegrity(cfg: Brikko StudioConfig) {
   setupSessionState(cfg, process.env, process.env.HOME ?? "");
   const confirmRuntimeRepair = vi.fn(async () => false);
   await noteStateIntegrity(cfg, { confirmRuntimeRepair, note: noteMock });
@@ -92,7 +92,7 @@ async function runStateIntegrity(cfg: OpenClawConfig) {
 }
 
 function writeSessionStore(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   sessions: Record<string, { sessionId: string; updatedAt: number } & Record<string, unknown>>,
 ) {
   setupSessionState(cfg, process.env, process.env.HOME ?? "");
@@ -100,13 +100,13 @@ function writeSessionStore(
   fs.writeFileSync(storePath, JSON.stringify(sessions, null, 2));
 }
 
-async function runStateIntegrityText(cfg: OpenClawConfig): Promise<string> {
+async function runStateIntegrityText(cfg: Brikko StudioConfig): Promise<string> {
   await noteStateIntegrity(cfg, { confirmRuntimeRepair: vi.fn(async () => false), note: noteMock });
   return stateIntegrityText();
 }
 
 async function runOrphanTranscriptCheckWithQmdSessions(enabled: boolean, homeDir: string) {
-  const cfg: OpenClawConfig = {
+  const cfg: Brikko StudioConfig = {
     memory: {
       backend: "qmd",
       qmd: {
@@ -128,12 +128,12 @@ describe("doctor state integrity oauth dir checks", () => {
 
   beforeEach(() => {
     envSnapshot = captureEnv();
-    tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-doctor-state-integrity-"));
+    tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-doctor-state-integrity-"));
     process.env.HOME = tempHome;
-    process.env.OPENCLAW_HOME = tempHome;
-    process.env.OPENCLAW_STATE_DIR = path.join(tempHome, ".openclaw");
-    delete process.env.OPENCLAW_OAUTH_DIR;
-    fs.mkdirSync(process.env.OPENCLAW_STATE_DIR, { recursive: true, mode: 0o700 });
+    process.env.BRIKKO_STUDIO_HOME = tempHome;
+    process.env.BRIKKO_STUDIO_STATE_DIR = path.join(tempHome, ".brikko-studio");
+    delete process.env.BRIKKO_STUDIO_OAUTH_DIR;
+    fs.mkdirSync(process.env.BRIKKO_STUDIO_STATE_DIR, { recursive: true, mode: 0o700 });
     noteMock.mockClear();
   });
 
@@ -143,7 +143,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("does not prompt for oauth dir when no whatsapp/pairing config is active", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: Brikko StudioConfig = {};
     const confirmRuntimeRepair = await runStateIntegrity(cfg);
     expect(confirmRuntimeRepair).not.toHaveBeenCalledWith(OAUTH_PROMPT_MATCHER);
     const text = stateIntegrityText();
@@ -152,7 +152,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("does not prompt for oauth dir when whatsapp is configured without persisted auth state", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       channels: {
         whatsapp: {},
       },
@@ -164,7 +164,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("prompts for oauth dir when a channel dmPolicy is pairing", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       channels: {
         telegram: {
           dmPolicy: "pairing",
@@ -175,9 +175,9 @@ describe("doctor state integrity oauth dir checks", () => {
     expect(confirmRuntimeRepair).toHaveBeenCalledWith(OAUTH_PROMPT_MATCHER);
   });
 
-  it("prompts for oauth dir when OPENCLAW_OAUTH_DIR is explicitly configured", async () => {
-    process.env.OPENCLAW_OAUTH_DIR = path.join(tempHome, ".oauth");
-    const cfg: OpenClawConfig = {};
+  it("prompts for oauth dir when BRIKKO_STUDIO_OAUTH_DIR is explicitly configured", async () => {
+    process.env.BRIKKO_STUDIO_OAUTH_DIR = path.join(tempHome, ".oauth");
+    const cfg: Brikko StudioConfig = {};
     const confirmRuntimeRepair = await runStateIntegrity(cfg);
     expect(confirmRuntimeRepair).toHaveBeenCalledWith(OAUTH_PROMPT_MATCHER);
     expect(stateIntegrityText()).toContain("CRITICAL: OAuth dir missing");
@@ -227,7 +227,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("warns about tombstoned subagent restart recovery sessions", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: Brikko StudioConfig = {};
     writeSessionStore(cfg, {
       "agent:main:subagent:wedged-child": {
         sessionId: "session-wedged-child",
@@ -249,7 +249,7 @@ describe("doctor state integrity oauth dir checks", () => {
     const text = stateIntegrityText();
     expect(text).toContain("automatic restart recovery tombstoned");
     expect(text).toContain("agent:main:subagent:wedged-child");
-    expect(text).toContain("openclaw tasks maintenance --apply");
+    expect(text).toContain("brikko-studio tasks maintenance --apply");
     expect(confirmRuntimeRepair).toHaveBeenCalledWith(
       expect.objectContaining({
         message: expect.stringContaining("Clear stale aborted recovery flags"),
@@ -258,7 +258,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("clears stale aborted recovery flags for tombstoned subagent sessions when approved", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: Brikko StudioConfig = {};
     const sessionKey = "agent:main:subagent:wedged-child";
     writeSessionStore(cfg, {
       [sessionKey]: {
@@ -325,7 +325,7 @@ describe("doctor state integrity oauth dir checks", () => {
 
     const realpathNative = fs.realpathSync.native.bind(fs.realpathSync);
     const resolvedResearchAgentDir = realpathNative(
-      path.join(process.env.OPENCLAW_STATE_DIR ?? "", "agents", "Research", "agent"),
+      path.join(process.env.BRIKKO_STUDIO_STATE_DIR ?? "", "agents", "Research", "agent"),
     );
     const realpathSpy = vi
       .spyOn(fs.realpathSync, "native")
@@ -352,7 +352,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("detects orphan transcripts and offers archival remediation", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: Brikko StudioConfig = {};
     setupSessionState(cfg, process.env, process.env.HOME ?? "");
     const sessionsDir = resolveSessionTranscriptsDirForAgent("main", process.env, () => tempHome);
     fs.writeFileSync(path.join(sessionsDir, "orphan-session.jsonl"), '{"type":"session"}\n');
@@ -375,7 +375,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("does not auto-archive orphan transcripts from non-interactive repair mode", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: Brikko StudioConfig = {};
     setupSessionState(cfg, process.env, process.env.HOME ?? "");
     const sessionsDir = resolveSessionTranscriptsDirForAgent("main", process.env, () => tempHome);
     fs.writeFileSync(path.join(sessionsDir, "orphan-session.jsonl"), '{"type":"session"}\n');
@@ -399,7 +399,7 @@ describe("doctor state integrity oauth dir checks", () => {
   it.skipIf(process.platform === "win32")(
     "does not archive referenced transcripts when the state dir path resolves through a symlink",
     async () => {
-      const cfg: OpenClawConfig = {};
+      const cfg: Brikko StudioConfig = {};
       const originalHome = tempHome;
       const symlinkHome = path.join(
         path.dirname(originalHome),
@@ -408,8 +408,8 @@ describe("doctor state integrity oauth dir checks", () => {
       fs.symlinkSync(originalHome, symlinkHome, "dir");
       try {
         process.env.HOME = symlinkHome;
-        process.env.OPENCLAW_HOME = symlinkHome;
-        process.env.OPENCLAW_STATE_DIR = path.join(symlinkHome, ".openclaw");
+        process.env.BRIKKO_STUDIO_HOME = symlinkHome;
+        process.env.BRIKKO_STUDIO_STATE_DIR = path.join(symlinkHome, ".brikko-studio");
 
         setupSessionState(cfg, process.env, symlinkHome);
         const sessionsDir = resolveSessionTranscriptsDirForAgent(
@@ -458,8 +458,8 @@ describe("doctor state integrity oauth dir checks", () => {
     expect(confirmRuntimeRepair).toHaveBeenCalled();
   });
 
-  it("prints openclaw-only verification hints when recent sessions are missing transcripts", async () => {
-    const cfg: OpenClawConfig = {};
+  it("prints brikko-studio-only verification hints when recent sessions are missing transcripts", async () => {
+    const cfg: Brikko StudioConfig = {};
     writeSessionStore(cfg, {
       "agent:main:main": {
         sessionId: "missing-transcript",
@@ -468,17 +468,17 @@ describe("doctor state integrity oauth dir checks", () => {
     });
     const text = await runStateIntegrityText(cfg);
     expect(text).toContain("recent sessions are missing transcripts");
-    expect(text).toMatch(/openclaw sessions --store ".*sessions\.json"/);
-    expect(text).toMatch(/openclaw sessions cleanup --store ".*sessions\.json" --dry-run/);
+    expect(text).toMatch(/brikko-studio sessions --store ".*sessions\.json"/);
+    expect(text).toMatch(/brikko-studio sessions cleanup --store ".*sessions\.json" --dry-run/);
     expect(text).toMatch(
-      /openclaw sessions cleanup --store ".*sessions\.json" --enforce --fix-missing/,
+      /brikko-studio sessions cleanup --store ".*sessions\.json" --enforce --fix-missing/,
     );
     expect(text).not.toContain("--active");
     expect(text).not.toContain(" ls ");
   });
 
   it("ignores slash-routing sessions for recent missing transcript warnings", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: Brikko StudioConfig = {};
     writeSessionStore(cfg, {
       "agent:main:telegram:slash:6790081233": {
         sessionId: "missing-slash-transcript",

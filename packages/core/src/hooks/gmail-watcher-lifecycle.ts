@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import { startGmailWatcher } from "./gmail-watcher.js";
 
@@ -9,11 +9,11 @@ export type GMailWatcherLog = {
 };
 
 export async function startGmailWatcherWithLogs(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   log: GMailWatcherLog;
   onSkipped?: () => void;
 }) {
-  if (isTruthyEnvValue(process.env.OPENCLAW_SKIP_GMAIL_WATCHER)) {
+  if (isTruthyEnvValue(process.env.BRIKKO_STUDIO_SKIP_GMAIL_WATCHER)) {
     params.onSkipped?.();
     return;
   }

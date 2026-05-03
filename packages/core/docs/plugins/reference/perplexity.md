@@ -11,8 +11,8 @@ Adds web search provider support.
 
 ## Distribution
 
-- Package: `@openclaw/perplexity-plugin`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/perplexity-plugin`
+- Install route: included in Brikko Studio
 
 ## Surface
 

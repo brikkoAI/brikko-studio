@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import type { NormalizedModelCatalogRow } from "../model-catalog/index.js";
 import {
   applyModelAllowlist,
@@ -48,7 +48,7 @@ const resolveEnvApiKey = vi.hoisted(() =>
   ),
 );
 const hasUsableCustomProviderApiKey = vi.hoisted(() =>
-  vi.fn<(_cfg?: OpenClawConfig, _provider?: string, _env?: NodeJS.ProcessEnv) => boolean>(
+  vi.fn<(_cfg?: Brikko StudioConfig, _provider?: string, _env?: NodeJS.ProcessEnv) => boolean>(
     () => false,
   ),
 );
@@ -60,7 +60,7 @@ const hasRuntimeAvailableProviderAuth = vi.hoisted(() =>
       env,
     }: {
       provider: string;
-      cfg?: OpenClawConfig;
+      cfg?: Brikko StudioConfig;
       env?: NodeJS.ProcessEnv;
     }) => {
       if (provider === "amazon-bedrock") {
@@ -204,7 +204,7 @@ describe("promptDefaultModel", () => {
     const prompter = makePrompter({ select });
 
     await promptDefaultModel({
-      config: { agents: { defaults: {} } } as OpenClawConfig,
+      config: { agents: { defaults: {} } } as Brikko StudioConfig,
       prompter,
       allowKeep: false,
       includeManual: false,
@@ -261,7 +261,7 @@ describe("promptDefaultModel", () => {
     const prompter = makePrompter({ select });
 
     await promptDefaultModel({
-      config: { agents: { defaults: {} } } as OpenClawConfig,
+      config: { agents: { defaults: {} } } as Brikko StudioConfig,
       prompter,
       allowKeep: false,
       includeManual: false,
@@ -290,7 +290,7 @@ describe("promptDefaultModel", () => {
     const prompter = makePrompter({ select });
 
     await promptDefaultModel({
-      config: { agents: { defaults: {} } } as OpenClawConfig,
+      config: { agents: { defaults: {} } } as Brikko StudioConfig,
       prompter,
       allowKeep: false,
       includeManual: false,
@@ -327,7 +327,7 @@ describe("promptDefaultModel", () => {
         },
       },
       agents: { defaults: {} },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptDefaultModel({
       config,
@@ -369,7 +369,7 @@ describe("promptDefaultModel", () => {
           model: "openai/gpt-5.5",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptDefaultModel({
       config,
@@ -417,7 +417,7 @@ describe("promptDefaultModel", () => {
           model: "nvidia/nemotron-3-super-120b-a12b",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await promptDefaultModel({
       config,
@@ -458,7 +458,7 @@ describe("promptDefaultModel", () => {
           model: "nvidia/nemotron-3-super-120b-a12b",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptDefaultModel({
       config,
@@ -495,7 +495,7 @@ describe("promptDefaultModel", () => {
           model: "openai-codex/gpt-5.5",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptDefaultModel({
       config,
@@ -549,7 +549,7 @@ describe("promptDefaultModel", () => {
           model: "openai-codex/gpt-5.5",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptDefaultModel({
       config,
@@ -609,7 +609,7 @@ describe("promptDefaultModel", () => {
       return (vllm?.value ?? "") as never;
     });
     const prompter = makePrompter({ select });
-    const config = { agents: { defaults: {} } } as OpenClawConfig;
+    const config = { agents: { defaults: {} } } as Brikko StudioConfig;
 
     const result = await promptDefaultModel({
       config,
@@ -618,7 +618,7 @@ describe("promptDefaultModel", () => {
       includeManual: false,
       includeProviderPluginSetups: true,
       ignoreAllowlist: true,
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       runtime: {} as never,
     });
 
@@ -676,13 +676,13 @@ describe("promptDefaultModel", () => {
     const prompter = makePrompter({ select });
 
     await promptDefaultModel({
-      config: { agents: { defaults: {} } } as OpenClawConfig,
+      config: { agents: { defaults: {} } } as Brikko StudioConfig,
       prompter,
       allowKeep: false,
       includeManual: false,
       includeProviderPluginSetups: true,
       ignoreAllowlist: true,
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       runtime: {} as never,
     });
 
@@ -704,7 +704,7 @@ describe("promptDefaultModel", () => {
           model: "openai/gpt-5.5",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptDefaultModel({
       config,
@@ -714,7 +714,7 @@ describe("promptDefaultModel", () => {
       ignoreAllowlist: true,
       includeProviderPluginSetups: true,
       loadCatalog: false,
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       runtime: {} as never,
     });
 
@@ -760,13 +760,13 @@ describe("promptDefaultModel", () => {
     const prompter = makePrompter({ select });
 
     await promptDefaultModel({
-      config: { agents: { defaults: {} } } as OpenClawConfig,
+      config: { agents: { defaults: {} } } as Brikko StudioConfig,
       prompter,
       allowKeep: false,
       includeManual: false,
       includeProviderPluginSetups: true,
       ignoreAllowlist: true,
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       runtime: {} as never,
     });
 
@@ -803,7 +803,7 @@ describe("promptModelAllowlist", () => {
 
     const multiselect = createSelectAllMultiselect();
     const prompter = makePrompter({ multiselect });
-    const config = { agents: { defaults: {} } } as OpenClawConfig;
+    const config = { agents: { defaults: {} } } as Brikko StudioConfig;
 
     const result = await promptModelAllowlist({
       config,
@@ -835,7 +835,7 @@ describe("promptModelAllowlist", () => {
 
     const multiselect = createSelectAllMultiselect();
     const prompter = makePrompter({ multiselect });
-    const config = { agents: { defaults: {} } } as OpenClawConfig;
+    const config = { agents: { defaults: {} } } as Brikko StudioConfig;
 
     await promptModelAllowlist({
       config,
@@ -879,7 +879,7 @@ describe("promptModelAllowlist", () => {
         },
       },
       agents: { defaults: {} },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptModelAllowlist({ config, prompter });
 
@@ -911,7 +911,7 @@ describe("promptModelAllowlist", () => {
 
     const multiselect = createSelectAllMultiselect();
     const prompter = makePrompter({ multiselect });
-    const config = { agents: { defaults: {} } } as OpenClawConfig;
+    const config = { agents: { defaults: {} } } as Brikko StudioConfig;
 
     await promptModelAllowlist({
       config,
@@ -946,7 +946,7 @@ describe("promptModelAllowlist", () => {
         },
       },
       agents: { defaults: {} },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptModelAllowlist({
       config,
@@ -993,7 +993,7 @@ describe("promptModelAllowlist", () => {
         },
       },
       agents: { defaults: {} },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptModelAllowlist({ config, prompter });
 
@@ -1026,7 +1026,7 @@ describe("promptModelAllowlist", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptModelAllowlist({ config, prompter });
     const call = multiselect.mock.calls[0]?.[0];
@@ -1068,7 +1068,7 @@ describe("promptModelAllowlist", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptModelAllowlist({ config, prompter });
     const call = multiselect.mock.calls[0]?.[0];
@@ -1091,7 +1091,7 @@ describe("promptModelAllowlist", () => {
           model: "openai/gpt-5.5",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptModelAllowlist({ config, prompter });
 
@@ -1116,7 +1116,7 @@ describe("promptModelAllowlist", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptModelAllowlist({ config, prompter });
 
@@ -1156,7 +1156,7 @@ describe("promptModelAllowlist", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptModelAllowlist({
       config,
@@ -1185,7 +1185,7 @@ describe("promptModelAllowlist", () => {
           model: "openai-codex/gpt-5.5",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptModelAllowlist({
       config,
@@ -1214,7 +1214,7 @@ describe("promptModelAllowlist", () => {
           model: "openai-codex/gpt-5.5",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = await promptModelAllowlist({
       config,
@@ -1259,7 +1259,7 @@ describe("runtime model picker visibility", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await promptModelAllowlist({ config, prompter });
 
@@ -1285,7 +1285,7 @@ describe("router model filtering", () => {
     const multiselect = createSelectAllMultiselect();
     const defaultPrompter = makePrompter({ select });
     const allowlistPrompter = makePrompter({ multiselect });
-    const config = { agents: { defaults: {} } } as OpenClawConfig;
+    const config = { agents: { defaults: {} } } as Brikko StudioConfig;
 
     await promptDefaultModel({
       config,
@@ -1317,7 +1317,7 @@ describe("applyModelAllowlist", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelAllowlist(config, ["openai/gpt-5.5"]);
     expect(next.agents?.defaults?.models).toEqual({
@@ -1336,7 +1336,7 @@ describe("applyModelAllowlist", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelAllowlist(config, ["anthropic/claude-sonnet-4-6"], {
       scopeKeys: ["anthropic/claude-opus-4-6", "anthropic/claude-sonnet-4-6"],
@@ -1356,7 +1356,7 @@ describe("applyModelAllowlist", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelAllowlist(config, []);
     expect(next.agents?.defaults?.models).toBeUndefined();
@@ -1371,7 +1371,7 @@ describe("applyModelFallbacksFromSelection", () => {
           model: { primary: "anthropic/claude-opus-4-6" },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(config, [
       "anthropic/claude-opus-4-6",
@@ -1388,7 +1388,7 @@ describe("applyModelFallbacksFromSelection", () => {
       agents: {
         defaults: {},
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(config, [
       "openai/gpt-5.5",
@@ -1405,7 +1405,7 @@ describe("applyModelFallbacksFromSelection", () => {
       agents: {
         defaults: {},
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(config, ["openai/gpt-5.5"]);
     expect(next).toBe(config);
@@ -1421,7 +1421,7 @@ describe("applyModelFallbacksFromSelection", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(config, ["anthropic/claude-opus-4-6"]);
     expect(next.agents?.defaults?.model).toEqual({
@@ -1439,7 +1439,7 @@ describe("applyModelFallbacksFromSelection", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(config, ["openai/gpt-5.5"]);
     expect(next.agents?.defaults?.model).toEqual({
@@ -1457,7 +1457,7 @@ describe("applyModelFallbacksFromSelection", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(config, ["openai/gpt-5.5"]);
     expect(next.agents?.defaults?.model).toEqual({
@@ -1476,7 +1476,7 @@ describe("applyModelFallbacksFromSelection", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(config, ["openai/gpt-5.5"], {
       scopeKeys: ["openai/gpt-5.5", "openai/gpt-5.4"],
@@ -1497,7 +1497,7 @@ describe("applyModelFallbacksFromSelection", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(config, [], {
       scopeKeys: ["openai/gpt-5.5", "openai/gpt-5.4"],
@@ -1518,7 +1518,7 @@ describe("applyModelFallbacksFromSelection", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(config, ["openai/gpt-5.5", "openai/gpt-5.4"], {
       scopeKeys: ["openai/gpt-5.5", "openai/gpt-5.4"],
@@ -1542,7 +1542,7 @@ describe("applyModelFallbacksFromSelection", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(config, ["openai/gpt-5.5"], {
       scopeKeys: ["openai/gpt-5.5", "openai/gpt-5.4-mini"],
@@ -1565,7 +1565,7 @@ describe("applyModelFallbacksFromSelection", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(
       config,
@@ -1587,7 +1587,7 @@ describe("applyModelFallbacksFromSelection", () => {
           model: { primary: "anthropic/claude-opus-4-6", fallbacks: ["openai/gpt-5.5"] },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const next = applyModelFallbacksFromSelection(config, ["openai/gpt-5.5"]);
     expect(next.agents?.defaults?.model).toEqual({

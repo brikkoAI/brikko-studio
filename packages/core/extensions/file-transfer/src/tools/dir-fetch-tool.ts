@@ -8,8 +8,8 @@ import {
   resolveNodeIdFromList,
   type AnyAgentTool,
   type NodeListNode,
-} from "openclaw/plugin-sdk/agent-harness-runtime";
-import { saveMediaBuffer } from "openclaw/plugin-sdk/media-store";
+} from "brikko-studio/plugin-sdk/agent-harness-runtime";
+import { saveMediaBuffer } from "brikko-studio/plugin-sdk/media-store";
 import { appendFileTransferAudit } from "../shared/audit.js";
 import { throwFromNodePayload } from "../shared/errors.js";
 import { IMAGE_MIME_INLINE_SET, mimeFromExtension } from "../shared/mime.js";

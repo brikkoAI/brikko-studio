@@ -128,11 +128,11 @@ function collectGatewayServiceStartRepairIssues(
     return [];
   }
   const issues: GatewayServiceStartRepairIssue[] = [];
-  const serviceVersion = command.environment?.OPENCLAW_SERVICE_VERSION?.trim();
+  const serviceVersion = command.environment?.BRIKKO_STUDIO_SERVICE_VERSION?.trim();
   if (serviceVersion && serviceVersion !== VERSION) {
     issues.push({
       code: "version-mismatch",
-      message: `service was installed by OpenClaw ${serviceVersion}, current CLI is ${VERSION}`,
+      message: `service was installed by Brikko Studio ${serviceVersion}, current CLI is ${VERSION}`,
     });
   }
   for (const candidate of command.programArguments.slice(0, 2)) {

@@ -1,4 +1,4 @@
-import { assertBundledChannelEntries } from "openclaw/plugin-sdk/channel-test-helpers";
+import { assertBundledChannelEntries } from "brikko-studio/plugin-sdk/channel-test-helpers";
 import { beforeEach, describe, vi } from "vitest";
 import entry from "./index.js";
 import setupEntry from "./setup-entry.js";

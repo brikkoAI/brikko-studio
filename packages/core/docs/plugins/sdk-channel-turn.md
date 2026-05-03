@@ -13,7 +13,7 @@ The channel turn kernel is the shared inbound state machine that turns a normali
 Use this when your plugin is on the inbound message hot path. For non-message events (slash commands, modals, button interactions, lifecycle events, reactions, voice state), keep them plugin-local. The kernel only owns events that may become an agent text turn.
 
 <Info>
-  The kernel is reached through the injected plugin runtime as `runtime.channel.turn.*`. The plugin runtime type is exported from `openclaw/plugin-sdk/core`, so third-party native plugins can use these entry points the same way bundled channel plugins do.
+  The kernel is reached through the injected plugin runtime as `runtime.channel.turn.*`. The plugin runtime type is exported from `brikko-studio/plugin-sdk/core`, so third-party native plugins can use these entry points the same way bundled channel plugins do.
 </Info>
 
 ## Why a shared kernel
@@ -382,7 +382,7 @@ If two channels start needing the same helper for one of these, extract a shared
 
 ## Stability
 
-`runtime.channel.turn.*` is part of the public plugin runtime surface. The fact types (`SenderFacts`, `ConversationFacts`, `RouteFacts`, `ReplyPlanFacts`, `AccessFacts`, `MessageFacts`, `SupplementalContextFacts`, `InboundMediaFacts`) and admission shapes (`ChannelTurnAdmission`, `ChannelEventClass`) are reachable through `PluginRuntime` from `openclaw/plugin-sdk/core`.
+`runtime.channel.turn.*` is part of the public plugin runtime surface. The fact types (`SenderFacts`, `ConversationFacts`, `RouteFacts`, `ReplyPlanFacts`, `AccessFacts`, `MessageFacts`, `SupplementalContextFacts`, `InboundMediaFacts`) and admission shapes (`ChannelTurnAdmission`, `ChannelEventClass`) are reachable through `PluginRuntime` from `brikko-studio/plugin-sdk/core`.
 
 Backward compatibility rules apply: new fact fields are additive, admission kinds are not renamed, and the entry point names stay stable. New channel needs that require a non-additive change must go through the plugin SDK migration process.
 

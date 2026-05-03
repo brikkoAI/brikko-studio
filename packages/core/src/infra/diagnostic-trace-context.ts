@@ -8,7 +8,7 @@ const TRACE_ID_RE = /^[0-9a-f]{32}$/;
 const SPAN_ID_RE = /^[0-9a-f]{16}$/;
 const TRACE_FLAGS_RE = /^[0-9a-f]{2}$/;
 const TRACEPARENT_VERSION_RE = /^[0-9a-f]{2}$/;
-const DIAGNOSTIC_TRACE_SCOPE_STATE_KEY = Symbol.for("openclaw.diagnosticTraceScope.state.v1");
+const DIAGNOSTIC_TRACE_SCOPE_STATE_KEY = Symbol.for("brikko-studio.diagnosticTraceScope.state.v1");
 
 export type DiagnosticTraceContext = {
   /** W3C trace id, 32 lowercase hex chars. */

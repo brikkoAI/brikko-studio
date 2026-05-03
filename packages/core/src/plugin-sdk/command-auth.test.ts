@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import {
   buildCommandsMessage,
   buildCommandsMessagePaginated,
@@ -9,13 +9,13 @@ import {
 
 const baseCfg = {
   commands: { useAccessGroups: true },
-} as unknown as OpenClawConfig;
+} as unknown as Brikko StudioConfig;
 
 async function resolveAuthorization(params: {
   senderId: string;
   configuredAllowFrom?: string[];
   configuredGroupAllowFrom?: string[];
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
 }) {
   return resolveSenderCommandAuthorization({
     cfg: params.cfg ?? baseCfg,
@@ -37,7 +37,7 @@ async function resolveAuthorization(params: {
 
 describe("plugin-sdk/command-auth", () => {
   it("keeps deprecated command status builders available for compatibility", () => {
-    const cfg = { commands: { config: false, debug: false } } as unknown as OpenClawConfig;
+    const cfg = { commands: { config: false, debug: false } } as unknown as Brikko StudioConfig;
 
     expect(buildHelpMessage(cfg)).toContain("/commands for full list");
     expect(buildCommandsMessage(cfg)).toContain("More: /tools for available capabilities");
@@ -111,7 +111,7 @@ describe("plugin-sdk/command-auth", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     expect(result.effectiveGroupAllowFrom).toEqual(["accessGroup:admins", "group-admin"]);

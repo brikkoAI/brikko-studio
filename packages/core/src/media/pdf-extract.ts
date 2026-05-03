@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type {
   DocumentExtractedImage,
   DocumentExtractionResult,
@@ -14,7 +14,7 @@ export async function extractPdfContent(params: {
   maxPixels: number;
   minTextChars: number;
   pageNumbers?: number[];
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   onImageExtractionError?: (error: unknown) => void;
 }): Promise<PdfExtractedContent> {
   const extracted = await extractDocumentContent({

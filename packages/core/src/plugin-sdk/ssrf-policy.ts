@@ -11,7 +11,7 @@ import type {
   ChannelDoctorConfigMutation,
   ChannelDoctorLegacyConfigRule,
 } from "./channel-contract.js";
-import type { OpenClawConfig } from "./config-runtime.js";
+import type { Brikko StudioConfig } from "./config-runtime.js";
 
 export { isPrivateIpAddress };
 export type { SsrFPolicy };
@@ -154,19 +154,19 @@ function hasLegacyAllowPrivateNetworkInAccounts(value: unknown): boolean {
 
 export function createLegacyPrivateNetworkDoctorContract(params: { channelKey: string }): {
   legacyConfigRules: ChannelDoctorLegacyConfigRule[];
-  normalizeCompatibilityConfig: (params: { cfg: OpenClawConfig }) => ChannelDoctorConfigMutation;
+  normalizeCompatibilityConfig: (params: { cfg: Brikko StudioConfig }) => ChannelDoctorConfigMutation;
 } {
   const pathPrefix = `channels.${params.channelKey}`;
   return {
     legacyConfigRules: [
       {
         path: ["channels", params.channelKey],
-        message: `${pathPrefix}.allowPrivateNetwork is legacy; use ${pathPrefix}.network.dangerouslyAllowPrivateNetwork instead. Run "openclaw doctor --fix".`,
+        message: `${pathPrefix}.allowPrivateNetwork is legacy; use ${pathPrefix}.network.dangerouslyAllowPrivateNetwork instead. Run "brikko-studio doctor --fix".`,
         match: (value) => hasLegacyFlatAllowPrivateNetworkAlias(asNullableRecord(value) ?? {}),
       },
       {
         path: ["channels", params.channelKey, "accounts"],
-        message: `${pathPrefix}.accounts.<id>.allowPrivateNetwork is legacy; use ${pathPrefix}.accounts.<id>.network.dangerouslyAllowPrivateNetwork instead. Run "openclaw doctor --fix".`,
+        message: `${pathPrefix}.accounts.<id>.allowPrivateNetwork is legacy; use ${pathPrefix}.accounts.<id>.network.dangerouslyAllowPrivateNetwork instead. Run "brikko-studio doctor --fix".`,
         match: hasLegacyAllowPrivateNetworkInAccounts,
       },
     ],
@@ -225,7 +225,7 @@ export function createLegacyPrivateNetworkDoctorContract(params: { channelKey: s
           channels: {
             ...cfg.channels,
             [params.channelKey]: updatedChannel,
-          } as OpenClawConfig["channels"],
+          } as Brikko StudioConfig["channels"],
         },
         changes,
       };

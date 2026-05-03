@@ -14,7 +14,7 @@ import {
   resolveThinkingDefault,
 } from "../../agents/model-selection.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import type { ThinkLevel } from "./directives.js";
@@ -41,7 +41,7 @@ type ModelSelectionState = {
 };
 
 export function createFastTestModelSelectionState(params: {
-  agentCfg: NonNullable<NonNullable<OpenClawConfig["agents"]>["defaults"]> | undefined;
+  agentCfg: NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]> | undefined;
   provider: string;
   model: string;
 }): ModelSelectionState {
@@ -60,7 +60,7 @@ export function createFastTestModelSelectionState(params: {
 }
 
 function shouldLogModelSelectionTiming(): boolean {
-  return process.env.OPENCLAW_DEBUG_INGRESS_TIMING === "1";
+  return process.env.BRIKKO_STUDIO_DEBUG_INGRESS_TIMING === "1";
 }
 
 const modelCatalogRuntimeLoader = createLazyImportLoader(
@@ -79,9 +79,9 @@ function loadSessionStoreRuntime() {
 }
 
 export async function createModelSelectionState(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId?: string;
-  agentCfg: NonNullable<NonNullable<OpenClawConfig["agents"]>["defaults"]> | undefined;
+  agentCfg: NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]> | undefined;
   sessionEntry?: SessionEntry;
   sessionStore?: Record<string, SessionEntry>;
   sessionKey?: string;
@@ -323,8 +323,8 @@ export async function createModelSelectionState(params: {
 }
 
 export function resolveContextTokens(params: {
-  cfg: OpenClawConfig;
-  agentCfg: NonNullable<NonNullable<OpenClawConfig["agents"]>["defaults"]> | undefined;
+  cfg: Brikko StudioConfig;
+  agentCfg: NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]> | undefined;
   provider: string;
   model: string;
 }): number {

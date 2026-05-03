@@ -1,8 +1,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { createTestPluginApi } from "openclaw/plugin-sdk/plugin-test-api";
+import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawPluginApi, OpenClawPluginToolContext } from "../api.js";
+import type { Brikko StudioPluginApi, Brikko StudioPluginToolContext } from "../api.js";
 import type { DiffScreenshotter } from "./browser.js";
 import { DEFAULT_DIFFS_TOOL_DEFAULTS } from "./config.js";
 import { DiffArtifactStore } from "./store.js";
@@ -15,7 +15,7 @@ describe("diffs tool", () => {
   let cleanupRootDir: () => Promise<void>;
 
   beforeEach(async () => {
-    ({ store, cleanup: cleanupRootDir } = await createDiffStoreHarness("openclaw-diffs-tool-"));
+    ({ store, cleanup: cleanupRootDir } = await createDiffStoreHarness("brikko-studio-diffs-tool-"));
   });
 
   afterEach(async () => {
@@ -44,11 +44,11 @@ describe("diffs tool", () => {
   it("uses configured viewerBaseUrl when tool input omits baseUrl", async () => {
     const tool = createDiffsTool({
       api: createApi({
-        viewerBaseUrl: "https://example.com/openclaw/",
+        viewerBaseUrl: "https://example.com/brikko-studio/",
       }),
       store,
       defaults: DEFAULT_DIFFS_TOOL_DEFAULTS,
-      viewerBaseUrl: "https://example.com/openclaw",
+      viewerBaseUrl: "https://example.com/brikko-studio",
     });
 
     const result = await tool.execute?.("tool-viewer-config", {
@@ -59,21 +59,21 @@ describe("diffs tool", () => {
     });
 
     expect(readTextContent(result, 0)).toContain(
-      "https://example.com/openclaw/plugins/diffs/view/",
+      "https://example.com/brikko-studio/plugins/diffs/view/",
     );
     expect((result?.details as Record<string, unknown>).viewerUrl).toEqual(
-      expect.stringContaining("https://example.com/openclaw/plugins/diffs/view/"),
+      expect.stringContaining("https://example.com/brikko-studio/plugins/diffs/view/"),
     );
   });
 
   it("prefers per-call baseUrl over configured viewerBaseUrl", async () => {
     const tool = createDiffsTool({
       api: createApi({
-        viewerBaseUrl: "https://example.com/openclaw",
+        viewerBaseUrl: "https://example.com/brikko-studio",
       }),
       store,
       defaults: DEFAULT_DIFFS_TOOL_DEFAULTS,
-      viewerBaseUrl: "https://example.com/openclaw",
+      viewerBaseUrl: "https://example.com/brikko-studio",
     });
 
     const result = await tool.execute?.("tool-viewer-override", {
@@ -471,7 +471,7 @@ describe("diffs tool", () => {
   });
 });
 
-function createApi(pluginConfig?: Record<string, unknown>): OpenClawPluginApi {
+function createApi(pluginConfig?: Record<string, unknown>): Brikko StudioPluginApi {
   return createTestPluginApi({
     id: "diffs",
     name: "Diffs",
@@ -484,7 +484,7 @@ function createApi(pluginConfig?: Record<string, unknown>): OpenClawPluginApi {
       },
     },
     pluginConfig,
-    runtime: {} as OpenClawPluginApi["runtime"],
+    runtime: {} as Brikko StudioPluginApi["runtime"],
   });
 }
 
@@ -492,7 +492,7 @@ function createToolWithScreenshotter(
   store: DiffArtifactStore,
   screenshotter: DiffScreenshotter,
   defaults = DEFAULT_DIFFS_TOOL_DEFAULTS,
-  context: OpenClawPluginToolContext = {
+  context: Brikko StudioPluginToolContext = {
     agentId: "main",
     sessionId: "session-123",
     messageChannel: "discord",

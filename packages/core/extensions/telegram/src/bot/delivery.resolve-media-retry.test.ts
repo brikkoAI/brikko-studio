@@ -1,5 +1,5 @@
 import type { Message } from "@grammyjs/types";
-import { retryAsync } from "openclaw/plugin-sdk/retry-runtime";
+import { retryAsync } from "brikko-studio/plugin-sdk/retry-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { resolveMedia } from "./delivery.resolve-media.js";
 import type { TelegramContext } from "./types.js";
@@ -8,7 +8,7 @@ const saveMediaBuffer = vi.fn();
 const fetchRemoteMedia = vi.fn();
 const readFileWithinRoot = vi.fn();
 
-vi.mock("openclaw/plugin-sdk/file-access-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/file-access-runtime", () => ({
   readFileWithinRoot: (...args: unknown[]) => readFileWithinRoot(...args),
 }));
 

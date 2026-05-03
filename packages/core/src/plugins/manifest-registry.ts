@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import { isBlockedObjectKey } from "../infra/prototype-keys.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
@@ -10,7 +10,7 @@ import { resolveUserPath } from "../utils.js";
 import { resolveCompatibilityHostVersion } from "../version.js";
 import { loadBundleManifest } from "./bundle-manifest.js";
 import { normalizePluginsConfigWithResolver } from "./config-policy.js";
-import { discoverOpenClawPlugins, type PluginCandidate } from "./discovery.js";
+import { discoverBrikko StudioPlugins, type PluginCandidate } from "./discovery.js";
 import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-record-reader.js";
 import type { PluginManifestCommandAlias } from "./manifest-command-aliases.js";
 import type {
@@ -21,7 +21,7 @@ import type {
 } from "./manifest-types.js";
 import {
   loadPluginManifest,
-  type OpenClawPackageManifest,
+  type Brikko StudioPackageManifest,
   type PluginManifestActivation,
   type PluginManifestConfigContracts,
   type PluginManifest,
@@ -130,7 +130,7 @@ export type PluginManifestRecord = {
   providerAuthChoices?: PluginManifest["providerAuthChoices"];
   activation?: PluginManifestActivation;
   setup?: PluginManifestSetup;
-  packageManifest?: OpenClawPackageManifest;
+  packageManifest?: Brikko StudioPackageManifest;
   packageDependencies?: PluginDependencySpecMap;
   packageOptionalDependencies?: PluginDependencySpecMap;
   packageChannel?: PluginPackageChannel;
@@ -177,7 +177,7 @@ export type PluginManifestRegistry = {
 export type BundledChannelConfigCollector = (params: {
   pluginDir: string;
   manifest: PluginManifest;
-  packageManifest?: OpenClawPackageManifest;
+  packageManifest?: Brikko StudioPackageManifest;
 }) => Record<string, PluginManifestChannelConfig> | undefined;
 
 function safeStatMtimeMs(filePath: string): number | null {
@@ -217,7 +217,7 @@ function normalizePackageChannelCommands(
 
 function mergePackageChannelMetaIntoChannelConfigs(params: {
   channelConfigs?: Record<string, PluginManifestChannelConfig>;
-  packageChannel?: OpenClawPackageManifest["channel"];
+  packageChannel?: Brikko StudioPackageManifest["channel"];
 }): Record<string, PluginManifestChannelConfig> | undefined {
   const channelId = params.packageChannel?.id?.trim();
   if (
@@ -292,7 +292,7 @@ function buildRecord(params: {
     enabledByDefault: params.manifest.enabledByDefault === true ? true : undefined,
     autoEnableWhenConfiguredProviders: params.manifest.autoEnableWhenConfiguredProviders,
     legacyPluginIds: params.manifest.legacyPluginIds,
-    format: params.candidate.format ?? "openclaw",
+    format: params.candidate.format ?? "brikko-studio",
     bundleFormat: params.candidate.bundleFormat,
     kind: params.manifest.kind,
     channels: params.manifest.channels ?? [],
@@ -476,7 +476,7 @@ function pushNonBundledChannelConfigDescriptorDiagnostic(params: {
     level: "warn",
     pluginId: sanitizeForLog(params.record.id),
     source: sanitizeForLog(params.record.manifestPath),
-    message: `channel plugin manifest declares ${safeMissingChannels.join(", ")} without channelConfigs metadata; add openclaw.plugin.json#channelConfigs so config schema and setup surfaces work before runtime loads`,
+    message: `channel plugin manifest declares ${safeMissingChannels.join(", ")} without channelConfigs metadata; add brikko-studio.plugin.json#channelConfigs so config schema and setup surfaces work before runtime loads`,
   });
 }
 
@@ -491,7 +491,7 @@ function pushManifestCompatibilityDiagnostics(params: {
 function matchesInstalledPluginRecord(params: {
   pluginId: string;
   candidate: PluginCandidate;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   installRecords: Record<string, PluginInstallRecord>;
 }): boolean {
@@ -517,7 +517,7 @@ function matchesInstalledPluginRecord(params: {
 function resolveDuplicatePrecedenceRank(params: {
   pluginId: string;
   candidate: PluginCandidate;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   installRecords: Record<string, PluginInstallRecord>;
 }): number {
@@ -550,7 +550,7 @@ function isIntentionalInstalledBundledDuplicate(params: {
   pluginId: string;
   left: PluginCandidate;
   right: PluginCandidate;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   installRecords: Record<string, PluginInstallRecord>;
 }): boolean {
@@ -576,7 +576,7 @@ function isIntentionalInstalledBundledDuplicate(params: {
 
 export function loadPluginManifestRegistry(
   params: {
-    config?: OpenClawConfig;
+    config?: Brikko StudioConfig;
     workspaceDir?: string;
     env?: NodeJS.ProcessEnv;
     candidates?: PluginCandidate[];
@@ -603,7 +603,7 @@ export function loadPluginManifestRegistry(
         candidates: params.candidates,
         diagnostics: params.diagnostics ?? [],
       }
-    : discoverOpenClawPlugins({
+    : discoverBrikko StudioPlugins({
         workspaceDir: params.workspaceDir,
         extraPaths: normalized.loadPaths,
         env,
@@ -618,7 +618,7 @@ export function loadPluginManifestRegistry(
 
   for (const candidate of candidates) {
     const rejectHardlinks = candidate.origin !== "bundled";
-    const isBundleRecord = (candidate.format ?? "openclaw") === "bundle";
+    const isBundleRecord = (candidate.format ?? "brikko-studio") === "bundle";
     const manifestRes:
       | ReturnType<typeof loadPluginManifest>
       | ReturnType<typeof loadBundleManifest>
@@ -673,8 +673,8 @@ export function loadPluginManifestRegistry(
             minHostVersionCheck.kind === "invalid"
               ? `plugin manifest invalid | ${minHostVersionCheck.error}`
               : minHostVersionCheck.kind === "unknown_host_version"
-                ? `plugin requires OpenClaw >=${minHostVersionCheck.requirement.minimumLabel}, but this host version could not be determined; skipping load`
-                : `plugin requires OpenClaw >=${minHostVersionCheck.requirement.minimumLabel}, but this host is ${minHostVersionCheck.currentVersion}; skipping load`,
+                ? `plugin requires Brikko Studio >=${minHostVersionCheck.requirement.minimumLabel}, but this host version could not be determined; skipping load`
+                : `plugin requires Brikko Studio >=${minHostVersionCheck.requirement.minimumLabel}, but this host is ${minHostVersionCheck.currentVersion}; skipping load`,
         });
         continue;
       }

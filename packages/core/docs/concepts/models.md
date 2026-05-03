@@ -27,7 +27,7 @@ Model refs choose a provider and model. They do not usually choose the low-level
 
 ## How model selection works
 
-OpenClaw selects models in this order:
+Brikko Studio selects models in this order:
 
 <Steps>
   <Step title="Primary model">
@@ -43,7 +43,7 @@ OpenClaw selects models in this order:
 
 <AccordionGroup>
   <Accordion title="Related model surfaces">
-    - `agents.defaults.models` is the allowlist/catalog of models OpenClaw can use (plus aliases).
+    - `agents.defaults.models` is the allowlist/catalog of models Brikko Studio can use (plus aliases).
     - `agents.defaults.imageModel` is used **only when** the primary model can't accept images.
     - `agents.defaults.pdfModel` is used by the `pdf` tool. If omitted, the tool falls back to `agents.defaults.imageModel`, then the resolved session/default model.
     - `agents.defaults.imageGenerationModel` is used by the shared image-generation capability. If omitted, `image_generate` can still infer an auth-backed provider default. It tries the current default provider first, then the remaining registered image-generation providers in provider-id order. If you set a specific provider/model, also configure that provider's auth/API key.
@@ -60,10 +60,10 @@ The same `provider/model` can mean different things depending on where it came f
 
 - Configured defaults (`agents.defaults.model.primary` and agent-specific primaries) are the normal starting point and use `agents.defaults.model.fallbacks`.
 - Auto fallback selections are temporary recovery state. They are stored with `modelOverrideSource: "auto"` so later turns can keep using the fallback chain without probing a known-bad primary first.
-- User session selections are exact. `/model`, the model picker, `session_status(model=...)`, and `sessions.patch` store `modelOverrideSource: "user"`; if that selected provider/model is unreachable, OpenClaw fails visibly instead of falling through to another configured model.
+- User session selections are exact. `/model`, the model picker, `session_status(model=...)`, and `sessions.patch` store `modelOverrideSource: "user"`; if that selected provider/model is unreachable, Brikko Studio fails visibly instead of falling through to another configured model.
 - Cron `--model` / payload `model` is a per-job primary. It still uses configured fallbacks unless the job supplies explicit payload `fallbacks` (use `fallbacks: []` for a strict cron run).
 - CLI default-model and allowlist pickers respect `models.mode: "replace"` by listing explicit `models.providers.*.models` instead of loading the full built-in catalog.
-- The Control UI model picker asks the Gateway for its configured model view: `agents.defaults.models` when present, otherwise explicit `models.providers.*.models` plus providers with usable auth. The full built-in catalog is reserved for explicit browse views such as `models.list` with `view: "all"` or `openclaw models list --all`.
+- The Control UI model picker asks the Gateway for its configured model view: `agents.defaults.models` when present, otherwise explicit `models.providers.*.models` plus providers with usable auth. The full built-in catalog is reserved for explicit browse views such as `models.list` with `view: "all"` or `brikko-studio models list --all`.
 
 ## Quick model policy
 
@@ -76,7 +76,7 @@ The same `provider/model` can mean different things depending on where it came f
 If you don't want to hand-edit config, run onboarding:
 
 ```bash
-openclaw onboard
+brikko-studio onboard
 ```
 
 It can set up model + auth for common providers, including **OpenAI Code (Codex) subscription** (OAuth) and **Anthropic** (API key or Claude CLI).
@@ -102,21 +102,21 @@ Provider configuration examples (including OpenCode) live in [OpenCode](/provide
 Use additive writes when updating `agents.defaults.models` by hand:
 
 ```bash
-openclaw config set agents.defaults.models '{"openai/gpt-5.4":{}}' --strict-json --merge
+brikko-studio config set agents.defaults.models '{"openai/gpt-5.4":{}}' --strict-json --merge
 ```
 
 <AccordionGroup>
   <Accordion title="Clobber protection rules">
-    `openclaw config set` protects model/provider maps from accidental clobbers. A plain object assignment to `agents.defaults.models`, `models.providers`, or `models.providers.<id>.models` is rejected when it would remove existing entries. Use `--merge` for additive changes; use `--replace` only when the provided value should become the complete target value.
+    `brikko-studio config set` protects model/provider maps from accidental clobbers. A plain object assignment to `agents.defaults.models`, `models.providers`, or `models.providers.<id>.models` is rejected when it would remove existing entries. Use `--merge` for additive changes; use `--replace` only when the provided value should become the complete target value.
 
-    Interactive provider setup and `openclaw configure --section model` also merge provider-scoped selections into the existing allowlist, so adding Codex, Ollama, or another provider does not drop unrelated model entries. Configure preserves an existing `agents.defaults.model.primary` when provider auth is re-applied. Explicit default-setting commands such as `openclaw models auth login --provider <id> --set-default` and `openclaw models set <model>` still replace `agents.defaults.model.primary`.
+    Interactive provider setup and `brikko-studio configure --section model` also merge provider-scoped selections into the existing allowlist, so adding Codex, Ollama, or another provider does not drop unrelated model entries. Configure preserves an existing `agents.defaults.model.primary` when provider auth is re-applied. Explicit default-setting commands such as `brikko-studio models auth login --provider <id> --set-default` and `brikko-studio models set <model>` still replace `agents.defaults.model.primary`.
 
   </Accordion>
 </AccordionGroup>
 
 ## "Model is not allowed" (and why replies stop)
 
-If `agents.defaults.models` is set, it becomes the **allowlist** for `/model` and for session overrides. When a user selects a model that isn't in that allowlist, OpenClaw returns:
+If `agents.defaults.models` is set, it becomes the **allowlist** for `/model` and for session overrides. When a user selects a model that isn't in that allowlist, Brikko Studio returns:
 
 ```
 Model "provider/model" is not allowed. Use /model to list available models.
@@ -133,7 +133,7 @@ This happens **before** a normal reply is generated, so the message can feel lik
 
 For local/GGUF models, store the full provider-prefixed ref in the allowlist,
 for example `ollama/gemma4:26b`, `lmstudio/Gemma4-26b-a4-it-gguf`, or the
-exact provider/model shown by `openclaw models list --provider <provider>`.
+exact provider/model shown by `brikko-studio models list --provider <provider>`.
 Bare local filenames or display names are not enough when the allowlist is
 active.
 
@@ -167,7 +167,7 @@ You can switch models for the current session without restarting:
   <Accordion title="Picker behavior">
     - `/model` (and `/model list`) is a compact, numbered picker (model family + available providers).
     - On Discord, `/model` and `/models` open an interactive picker with provider and model dropdowns plus a Submit step.
-    - On Telegram, `/models` picker selections are session-scoped; they do not change the agent's persistent default in `openclaw.json`.
+    - On Telegram, `/models` picker selections are session-scoped; they do not change the agent's persistent default in `brikko-studio.json`.
     - `/models add` is deprecated and now returns a deprecation message instead of registering models from chat.
     - `/model <#>` selects from that picker.
 
@@ -175,7 +175,7 @@ You can switch models for the current session without restarting:
   <Accordion title="Persistence and live switching">
     - `/model` persists the new session selection immediately.
     - If the agent is idle, the next run uses the new model right away.
-    - If a run is already active, OpenClaw marks a live switch as pending and only restarts into the new model at a clean retry point.
+    - If a run is already active, Brikko Studio marks a live switch as pending and only restarts into the new model at a clean retry point.
     - If tool activity or reply output has already started, the pending switch can stay queued until a later retry opportunity or the next user turn.
     - A user-selected `/model` ref is strict for that session: if the selected provider/model is unreachable, the reply fails visibly instead of silently answering from `agents.defaults.model.fallbacks`. This is different from configured defaults and cron job primaries, which can still use fallback chains.
     - `/model status` is the detailed view (auth candidates and, when configured, provider endpoint `baseUrl` + `api` mode).
@@ -184,10 +184,10 @@ You can switch models for the current session without restarting:
   <Accordion title="Ref parsing">
     - Model refs are parsed by splitting on the **first** `/`. Use `provider/model` when typing `/model <ref>`.
     - If the model ID itself contains `/` (OpenRouter-style), you must include the provider prefix (example: `/model openrouter/moonshotai/kimi-k2`).
-    - If you omit the provider, OpenClaw resolves the input in this order:
+    - If you omit the provider, Brikko Studio resolves the input in this order:
       1. alias match
       2. unique configured-provider match for that exact unprefixed model id
-      3. deprecated fallback to the configured default provider — if that provider no longer exposes the configured default model, OpenClaw instead falls back to the first configured provider/model to avoid surfacing a stale removed-provider default.
+      3. deprecated fallback to the configured default provider — if that provider no longer exposes the configured default model, Brikko Studio instead falls back to the first configured provider/model to avoid surfacing a stale removed-provider default.
   </Accordion>
 </AccordionGroup>
 
@@ -196,27 +196,27 @@ Full command behavior/config: [Slash commands](/tools/slash-commands).
 ## CLI commands
 
 ```bash
-openclaw models list
-openclaw models status
-openclaw models set <provider/model>
-openclaw models set-image <provider/model>
+brikko-studio models list
+brikko-studio models status
+brikko-studio models set <provider/model>
+brikko-studio models set-image <provider/model>
 
-openclaw models aliases list
-openclaw models aliases add <alias> <provider/model>
-openclaw models aliases remove <alias>
+brikko-studio models aliases list
+brikko-studio models aliases add <alias> <provider/model>
+brikko-studio models aliases remove <alias>
 
-openclaw models fallbacks list
-openclaw models fallbacks add <provider/model>
-openclaw models fallbacks remove <provider/model>
-openclaw models fallbacks clear
+brikko-studio models fallbacks list
+brikko-studio models fallbacks add <provider/model>
+brikko-studio models fallbacks remove <provider/model>
+brikko-studio models fallbacks clear
 
-openclaw models image-fallbacks list
-openclaw models image-fallbacks add <provider/model>
-openclaw models image-fallbacks remove <provider/model>
-openclaw models image-fallbacks clear
+brikko-studio models image-fallbacks list
+brikko-studio models image-fallbacks add <provider/model>
+brikko-studio models image-fallbacks remove <provider/model>
+brikko-studio models image-fallbacks clear
 ```
 
-`openclaw models` (no subcommand) is a shortcut for `models status`.
+`brikko-studio models` (no subcommand) is a shortcut for `models status`.
 
 ### `models list`
 
@@ -261,12 +261,12 @@ Example (Claude CLI):
 
 ```bash
 claude auth login
-openclaw models status
+brikko-studio models status
 ```
 
 ## Scanning (OpenRouter free models)
 
-`openclaw models scan` inspects OpenRouter's **free model catalog** and can optionally probe models for tool and image support.
+`brikko-studio models scan` inspects OpenRouter's **free model catalog** and can optionally probe models for tool and image support.
 
 <ParamField path="--no-probe" type="boolean">
   Skip live probes (metadata only).
@@ -291,7 +291,7 @@ openclaw models status
 </ParamField>
 
 <Note>
-The OpenRouter `/models` catalog is public, so metadata-only scans can list free candidates without a key. Probing and inference still require an OpenRouter API key (from auth profiles or `OPENROUTER_API_KEY`). If no key is available, `openclaw models scan` falls back to metadata-only output and leaves config unchanged. Use `--no-probe` to request metadata-only mode explicitly.
+The OpenRouter `/models` catalog is public, so metadata-only scans can list free candidates without a key. Probing and inference still require an OpenRouter API key (from auth profiles or `OPENROUTER_API_KEY`). If no key is available, `brikko-studio models scan` falls back to metadata-only output and leaves config unchanged. Use `--no-probe` to request metadata-only mode explicitly.
 </Note>
 
 Scan results are ranked by:
@@ -308,11 +308,11 @@ Input:
 - Optional filters: `--max-age-days`, `--min-params`, `--provider`, `--max-candidates`
 - Request/probe controls: `--timeout`, `--concurrency`
 
-When live probes run in a TTY, you can select fallbacks interactively. In non-interactive mode, pass `--yes` to accept defaults. Metadata-only results are informational; `--set-default` and `--set-image` require live probes so OpenClaw does not configure an unusable keyless OpenRouter model.
+When live probes run in a TTY, you can select fallbacks interactively. In non-interactive mode, pass `--yes` to accept defaults. Metadata-only results are informational; `--set-default` and `--set-image` require live probes so Brikko Studio does not configure an unusable keyless OpenRouter model.
 
 ## Models registry (`models.json`)
 
-Custom providers in `models.providers` are written into `models.json` under the agent directory (default `~/.openclaw/agents/<agentId>/agent/models.json`). This file is merged by default unless `models.mode` is set to `replace`.
+Custom providers in `models.providers` are written into `models.json` under the agent directory (default `~/.brikko-studio/agents/<agentId>/agent/models.json`). This file is merged by default unless `models.mode` is set to `replace`.
 
 <AccordionGroup>
   <Accordion title="Merge mode precedence">
@@ -329,7 +329,7 @@ Custom providers in `models.providers` are written into `models.json` under the 
 </AccordionGroup>
 
 <Note>
-Marker persistence is source-authoritative: OpenClaw writes markers from the active source config snapshot (pre-resolution), not from resolved runtime secret values. This applies whenever OpenClaw regenerates `models.json`, including command-driven paths like `openclaw agent`.
+Marker persistence is source-authoritative: Brikko Studio writes markers from the active source config snapshot (pre-resolution), not from resolved runtime secret values. This applies whenever Brikko Studio regenerates `models.json`, including command-driven paths like `brikko-studio agent`.
 </Note>
 
 ## Related

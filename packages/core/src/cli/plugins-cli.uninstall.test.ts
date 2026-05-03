@@ -1,6 +1,6 @@
-import { installedPluginRoot } from "openclaw/plugin-sdk/test-fixtures";
+import { installedPluginRoot } from "brikko-studio/plugin-sdk/test-fixtures";
 import { beforeEach, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import {
   applyPluginUninstallDirectoryRemoval,
   buildPluginDiagnosticsReport,
@@ -19,7 +19,7 @@ import {
   writePersistedInstalledPluginIndexInstallRecords,
 } from "./plugins-cli-test-helpers.js";
 
-const CLI_STATE_ROOT = "/tmp/openclaw-state";
+const CLI_STATE_ROOT = "/tmp/brikko-studio-state";
 const ALPHA_INSTALL_PATH = installedPluginRoot(CLI_STATE_ROOT, "alpha");
 
 describe("plugins cli uninstall", () => {
@@ -46,14 +46,14 @@ describe("plugins cli uninstall", () => {
           contextEngine: "alpha",
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
     buildPluginSnapshotReport.mockReturnValue({
       plugins: [{ id: "alpha", name: "alpha" }],
       diagnostics: [],
     });
     planPluginUninstall.mockReturnValue({
       ok: true,
-      config: {} as OpenClawConfig,
+      config: {} as Brikko StudioConfig,
       actions: {
         entry: true,
         install: true,
@@ -92,13 +92,13 @@ describe("plugins cli uninstall", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const nextConfig = {
       plugins: {
         entries: {},
         installs: {},
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     setInstalledPluginIndexInstallRecords(baseConfig.plugins?.installs ?? {});
@@ -163,13 +163,13 @@ describe("plugins cli uninstall", () => {
         },
         installs: installRecords,
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const nextConfig = {
       plugins: {
         entries: {},
         installs: {},
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     setInstalledPluginIndexInstallRecords(installRecords);
@@ -222,13 +222,13 @@ describe("plugins cli uninstall", () => {
         },
         installs: installRecords,
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const nextConfig = {
       plugins: {
         entries: {},
         installs: {},
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     setInstalledPluginIndexInstallRecords(installRecords);
@@ -277,12 +277,12 @@ describe("plugins cli uninstall", () => {
         allow: ["alpha", "beta"],
         deny: ["alpha"],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const nextConfig = {
       plugins: {
         allow: ["beta"],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     buildPluginSnapshotReport.mockReturnValue({
@@ -325,8 +325,8 @@ describe("plugins cli uninstall", () => {
           alpha: { enabled: true },
         },
       },
-    } as OpenClawConfig;
-    const nextConfig = {} as OpenClawConfig;
+    } as Brikko StudioConfig;
+    const nextConfig = {} as Brikko StudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     buildPluginSnapshotReport.mockReturnValue({
@@ -391,14 +391,14 @@ describe("plugins cli uninstall", () => {
           enabled: true,
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const nextConfig = {
       channels: {
         discord: {
           enabled: true,
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     setInstalledPluginIndexInstallRecords(installRecords);
@@ -444,7 +444,7 @@ describe("plugins cli uninstall", () => {
         entries: {},
         installs: {},
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
     buildPluginSnapshotReport.mockReturnValue({
       plugins: [{ id: "alpha", name: "alpha" }],
       diagnostics: [],

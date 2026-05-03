@@ -15,7 +15,7 @@ import urllib.request
 req = urllib.request.Request(
     "https://api.github.com/repos/git-for-windows/git/releases/latest",
     headers={
-        "User-Agent": "openclaw-parallels-smoke",
+        "User-Agent": "brikko-studio-parallels-smoke",
         "Accept": "application/vnd.github+json",
     },
 )
@@ -107,7 +107,7 @@ export function ensureGuestGit(input: {
   const minGitName = path.basename(input.minGitZipPath);
   input.guest.powershell(
     `$ErrorActionPreference = 'Stop'
-$depsRoot = Join-Path $env:LOCALAPPDATA 'OpenClaw\\deps'
+$depsRoot = Join-Path $env:LOCALAPPDATA 'Brikko Studio\\deps'
 $portableGit = Join-Path $depsRoot 'portable-git'
 $archive = Join-Path $env:TEMP ${psSingleQuote(minGitName)}
 if (Test-Path $portableGit) {

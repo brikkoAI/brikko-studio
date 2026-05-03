@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../runtime-api.js";
+import type { Brikko StudioConfig } from "../runtime-api.js";
 import { feishuPlugin } from "./channel.js";
 import { looksLikeFeishuId, normalizeFeishuTarget, resolveReceiveIdType } from "./targets.js";
 
@@ -55,7 +55,7 @@ vi.mock("./channel.runtime.js", () => ({
   },
 }));
 
-function getDescribedActions(cfg: OpenClawConfig, accountId?: string): string[] {
+function getDescribedActions(cfg: Brikko StudioConfig, accountId?: string): string[] {
   return [...(feishuPlugin.actions?.describeMessageTool?.({ cfg, accountId })?.actions ?? [])];
 }
 
@@ -74,7 +74,7 @@ describe("feishuPlugin.status.probeAccount", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const account = feishuPlugin.config.resolveAccount(cfg, "main");
     probeFeishuMock.mockResolvedValueOnce({ ok: true, appId: "cli_main" });
@@ -116,7 +116,7 @@ describe("feishuPlugin.pairing.notifyApproval", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await feishuPlugin.pairing?.notifyApproval?.({
       cfg,
@@ -181,7 +181,7 @@ describe("feishuPlugin actions", () => {
         },
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -217,7 +217,7 @@ describe("feishuPlugin actions", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(getDescribedActions(disabledCfg)).toEqual([
       "send",
@@ -255,7 +255,7 @@ describe("feishuPlugin actions", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(getDescribedActions(cfg, "default")).toEqual([
       "send",

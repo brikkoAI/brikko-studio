@@ -1,15 +1,15 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { importFreshModule } from "openclaw/plugin-sdk/test-fixtures";
+import { importFreshModule } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 const tempDirs: string[] = [];
-const originalBundledPluginsDir = process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
-const originalTrustBundledPluginsDir = process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR;
+const originalBundledPluginsDir = process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR;
+const originalTrustBundledPluginsDir = process.env.BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR;
 
 function createTempDir(): string {
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-public-surface-loader-"));
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-public-surface-loader-"));
   tempDirs.push(tempDir);
   return tempDir;
 }
@@ -24,14 +24,14 @@ afterEach(() => {
   vi.doUnmock("./native-module-require.js");
   vi.doUnmock("node:module");
   if (originalBundledPluginsDir === undefined) {
-    delete process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
+    delete process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR;
   } else {
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = originalBundledPluginsDir;
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = originalBundledPluginsDir;
   }
   if (originalTrustBundledPluginsDir === undefined) {
-    delete process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR;
+    delete process.env.BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR;
   } else {
-    process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR = originalTrustBundledPluginsDir;
+    process.env.BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR = originalTrustBundledPluginsDir;
   }
 });
 
@@ -56,7 +56,7 @@ describe("bundled plugin public surface loader", () => {
       >(import.meta.url, "./public-surface-loader.js?scope=windows-dist-jiti");
       const tempRoot = createTempDir();
       const bundledPluginsDir = path.join(tempRoot, "dist");
-      process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
+      process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
 
       const modulePath = path.join(bundledPluginsDir, "demo", "provider-policy-api.js");
       fs.mkdirSync(path.dirname(modulePath), { recursive: true });
@@ -100,7 +100,7 @@ describe("bundled plugin public surface loader", () => {
     >(import.meta.url, "./public-surface-loader.js?scope=source-require-fast-path");
     const tempRoot = createTempDir();
     const bundledPluginsDir = path.join(tempRoot, "extensions");
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
 
     const modulePath = path.join(bundledPluginsDir, "demo", "secret-contract-api.ts");
     fs.mkdirSync(path.dirname(modulePath), { recursive: true });
@@ -135,8 +135,8 @@ describe("bundled plugin public surface loader", () => {
     const tempRoot = createTempDir();
     const bundledPluginsDir = path.join(tempRoot, "dist");
     fs.mkdirSync(bundledPluginsDir, { recursive: true });
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
-    process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR = "1";
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
+    process.env.BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR = "1";
 
     const firstPath = path.join(bundledPluginsDir, "demo-a", "api.js");
     const secondPath = path.join(bundledPluginsDir, "demo-b", "api.js");
@@ -173,8 +173,8 @@ describe("bundled plugin public surface loader", () => {
     const tempRoot = createTempDir();
     const bundledPluginsDir = path.join(tempRoot, "dist");
     fs.mkdirSync(bundledPluginsDir, { recursive: true });
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
-    process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR = "1";
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
+    process.env.BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR = "1";
     const publicSurfaceLoader = await importFreshModule<
       typeof import("./public-surface-loader.js")
     >(import.meta.url, "./public-surface-loader.js?scope=missing-location-retry");
@@ -210,7 +210,7 @@ describe("bundled plugin public surface loader", () => {
     >(import.meta.url, "./public-surface-loader.js?scope=post-validation-identity");
     const tempRoot = createTempDir();
     const bundledPluginsDir = path.join(tempRoot, "dist");
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
 
     const modulePath = path.join(bundledPluginsDir, "demo", "api.js");
     fs.mkdirSync(path.dirname(modulePath), { recursive: true });

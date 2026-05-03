@@ -1,5 +1,5 @@
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { logDebug } from "openclaw/plugin-sdk/text-runtime";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { logDebug } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   isDiscordGroupAllowedByPolicy,
   resolveGroupDmAllow,

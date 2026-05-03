@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/vercel-ai-gateway-provider",
+  "name": "@brikko-studio/vercel-ai-gateway-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Vercel AI Gateway provider plugin",
+  "description": "Brikko Studio Vercel AI Gateway provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

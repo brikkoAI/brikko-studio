@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { getSkillsSnapshotVersion, resetSkillsRefreshForTest } from "../agents/skills/refresh.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { NodeRegistry } from "../gateway/node-registry.js";
 import {
   getRemoteSkillEligibility,
@@ -160,7 +160,7 @@ describe("skills-remote", () => {
 
   it("clears stale bins when a connected node probe times out", async () => {
     await resetSkillsRefreshForTest();
-    const workspaceDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-remote-skills-"));
+    const workspaceDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-remote-skills-"));
     const nodeId = `node-${randomUUID()}`;
     const bin = `bin-${randomUUID()}`;
     try {
@@ -171,7 +171,7 @@ describe("skills-remote", () => {
           "---",
           "name: remote-skill",
           "description: Needs a remote bin",
-          `metadata: { "openclaw": { "os": ["darwin"], "requires": { "bins": ["${bin}"] } } }`,
+          `metadata: { "brikko-studio": { "os": ["darwin"], "requires": { "bins": ["${bin}"] } } }`,
           "---",
           "# Remote Skill",
           "",
@@ -183,7 +183,7 @@ describe("skills-remote", () => {
             workspace: workspaceDir,
           },
         },
-      } satisfies OpenClawConfig;
+      } satisfies Brikko StudioConfig;
       const invokeCalls: string[] = [];
       setSkillsRemoteRegistry({
         listConnected: () => [],
@@ -223,7 +223,7 @@ describe("skills-remote", () => {
   });
 
   it("coalesces overlapping bin probes for the same node", async () => {
-    const workspaceDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-remote-skills-"));
+    const workspaceDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-remote-skills-"));
     const nodeId = `node-${randomUUID()}`;
     const bin = `bin-${randomUUID()}`;
     let invokeCount = 0;
@@ -253,7 +253,7 @@ describe("skills-remote", () => {
           "---",
           "name: remote-skill",
           "description: Needs a remote bin",
-          `metadata: { "openclaw": { "os": ["darwin"], "requires": { "bins": ["${bin}"] } } }`,
+          `metadata: { "brikko-studio": { "os": ["darwin"], "requires": { "bins": ["${bin}"] } } }`,
           "---",
           "# Remote Skill",
           "",
@@ -265,7 +265,7 @@ describe("skills-remote", () => {
             workspace: workspaceDir,
           },
         },
-      } satisfies OpenClawConfig;
+      } satisfies Brikko StudioConfig;
       recordRemoteNodeInfo({
         nodeId,
         displayName: "Remote Mac",
@@ -300,7 +300,7 @@ describe("skills-remote", () => {
 
   it("records bins from system.which object-map responses", async () => {
     await resetSkillsRefreshForTest();
-    const workspaceDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-remote-skills-"));
+    const workspaceDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-remote-skills-"));
     const nodeId = `node-${randomUUID()}`;
     const bin = `bin-${randomUUID()}`;
     try {
@@ -311,7 +311,7 @@ describe("skills-remote", () => {
           "---",
           "name: remote-skill",
           "description: Needs a remote bin",
-          `metadata: { "openclaw": { "os": ["darwin"], "requires": { "bins": ["${bin}"] } } }`,
+          `metadata: { "brikko-studio": { "os": ["darwin"], "requires": { "bins": ["${bin}"] } } }`,
           "---",
           "# Remote Skill",
           "",
@@ -323,7 +323,7 @@ describe("skills-remote", () => {
             workspace: workspaceDir,
           },
         },
-      } satisfies OpenClawConfig;
+      } satisfies Brikko StudioConfig;
       const invokeCalls: string[] = [];
       setSkillsRemoteRegistry({
         listConnected: () => [],

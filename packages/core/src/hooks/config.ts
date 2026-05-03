@@ -1,4 +1,4 @@
-import type { OpenClawConfig, HookConfig } from "../config/config.js";
+import type { Brikko StudioConfig, HookConfig } from "../config/config.js";
 import {
   evaluateRuntimeEligibility,
   hasBinary,
@@ -15,7 +15,7 @@ const DEFAULT_CONFIG_VALUES: Record<string, boolean> = {
 
 export { hasBinary };
 
-export function isConfigPathTruthy(config: OpenClawConfig | undefined, pathStr: string): boolean {
+export function isConfigPathTruthy(config: Brikko StudioConfig | undefined, pathStr: string): boolean {
   return isConfigPathTruthyWithDefaults(config, pathStr, DEFAULT_CONFIG_VALUES);
 }
 
@@ -23,7 +23,7 @@ export { resolveHookConfig };
 
 function evaluateHookRuntimeEligibility(params: {
   entry: HookEntry;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   hookConfig?: HookConfig;
   eligibility?: HookEligibilityContext;
 }): boolean {
@@ -47,7 +47,7 @@ function evaluateHookRuntimeEligibility(params: {
 
 export function shouldIncludeHook(params: {
   entry: HookEntry;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   eligibility?: HookEligibilityContext;
 }): boolean {
   const { entry, config, eligibility } = params;

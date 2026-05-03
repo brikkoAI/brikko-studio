@@ -9,7 +9,7 @@ coverage:
     - tools.web-search
   secondary:
     - models.openai
-objective: Verify a live OpenAI GPT model can use OpenAI native web_search when OpenClaw web search is enabled in auto mode.
+objective: Verify a live OpenAI GPT model can use OpenAI native web_search when Brikko Studio web search is enabled in auto mode.
 successCriteria:
   - A live-frontier run fails fast unless the selected primary provider is openai.
   - The selected primary model is GPT-5.5, not a mini or pro variant.
@@ -32,7 +32,7 @@ codeRefs:
   - extensions/qa-lab/src/suite.ts
 execution:
   kind: flow
-  summary: Run with `OPENCLAW_LIVE_OPENAI_KEY="${OPENAI_API_KEY}" pnpm openclaw qa suite --provider-mode live-frontier --model openai/gpt-5.5 --alt-model openai/gpt-5.5 --fast --thinking medium --scenario openai-native-web-search-live`.
+  summary: Run with `BRIKKO_STUDIO_LIVE_OPENAI_KEY="${OPENAI_API_KEY}" pnpm brikko-studio qa suite --provider-mode live-frontier --model openai/gpt-5.5 --alt-model openai/gpt-5.5 --fast --thinking medium --scenario openai-native-web-search-live`.
   config:
     requiredProvider: openai
     requiredModel: gpt-5.5
@@ -86,8 +86,8 @@ steps:
           message:
             expr: "`expected web search provider auto/openai/unset for native OpenAI search, got ${JSON.stringify(searchConfig)}`"
       - assert:
-          expr: "env.providerMode !== 'live-frontier' || Boolean(env.gateway.runtimeEnv.OPENAI_API_KEY?.trim() || env.gateway.runtimeEnv.OPENCLAW_LIVE_OPENAI_KEY?.trim())"
-          message: expected OPENAI_API_KEY or OPENCLAW_LIVE_OPENAI_KEY for live OpenAI QA
+          expr: "env.providerMode !== 'live-frontier' || Boolean(env.gateway.runtimeEnv.OPENAI_API_KEY?.trim() || env.gateway.runtimeEnv.BRIKKO_STUDIO_LIVE_OPENAI_KEY?.trim())"
+          message: expected OPENAI_API_KEY or BRIKKO_STUDIO_LIVE_OPENAI_KEY for live OpenAI QA
     detailsExpr: "env.providerMode === 'live-frontier' ? `provider=${selected?.provider} model=${selected?.model} webSearch=${JSON.stringify(searchConfig)}` : `mock-compatible provider=${selected?.provider}`"
   - name: searches official OpenAI News through the live model
     actions:

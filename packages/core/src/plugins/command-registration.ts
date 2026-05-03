@@ -11,7 +11,7 @@ import {
   pluginCommands,
   type RegisteredPluginCommand,
 } from "./command-registry-state.js";
-import type { OpenClawPluginCommandDefinition } from "./types.js";
+import type { Brikko StudioPluginCommandDefinition } from "./types.js";
 
 /**
  * Reserved command names that plugins cannot override (built-in commands).
@@ -101,7 +101,7 @@ export function validateCommandName(
  * Shared by both the global registration path and snapshot (non-activating) loads.
  */
 export function validatePluginCommandDefinition(
-  command: OpenClawPluginCommandDefinition,
+  command: Brikko StudioPluginCommandDefinition,
   opts?: { allowReservedCommandNames?: boolean },
 ): string | null {
   if (typeof command.handler !== "function") {
@@ -180,7 +180,7 @@ export function validatePluginCommandDefinition(
   return null;
 }
 
-export function listPluginInvocationKeys(command: OpenClawPluginCommandDefinition): string[] {
+export function listPluginInvocationKeys(command: Brikko StudioPluginCommandDefinition): string[] {
   const keys = new Set<string>();
   const push = (value: string | undefined) => {
     const normalized = normalizeOptionalLowercaseString(value);
@@ -202,7 +202,7 @@ export function listPluginInvocationKeys(command: OpenClawPluginCommandDefinitio
 
 export function registerPluginCommand(
   pluginId: string,
-  command: OpenClawPluginCommandDefinition,
+  command: Brikko StudioPluginCommandDefinition,
   opts?: { pluginName?: string; pluginRoot?: string; allowReservedCommandNames?: boolean },
 ): CommandRegistrationResult {
   // Prevent registration while commands are being processed

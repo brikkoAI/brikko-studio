@@ -2,7 +2,7 @@ import fs from "node:fs";
 import {
   registerSingleProviderPlugin,
   resolveProviderPluginChoice,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it } from "vitest";
 import plugin from "./index.js";
 
@@ -12,7 +12,7 @@ type NvidiaManifest = {
 
 function readManifest(): NvidiaManifest {
   return JSON.parse(
-    fs.readFileSync(new URL("./openclaw.plugin.json", import.meta.url), "utf8"),
+    fs.readFileSync(new URL("./brikko-studio.plugin.json", import.meta.url), "utf8"),
   ) as NvidiaManifest;
 }
 

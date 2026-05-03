@@ -1,5 +1,5 @@
 {
-  "allowBundled": ["memory", "openclaw-testing"],
+  "allowBundled": ["memory", "brikko-studio-testing"],
   "limits": {
     "maxSkillsInPrompt": 8,
     "maxSkillsPromptChars": 30000

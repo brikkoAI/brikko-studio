@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const hoisted = vi.hoisted(() => ({
   completeMock: vi.fn(),
-  ensureOpenClawModelsJsonMock: vi.fn(async () => {}),
+  ensureBrikko StudioModelsJsonMock: vi.fn(async () => {}),
   getApiKeyForModelMock: vi.fn(async () => ({
     apiKey: "oauth-test", // pragma: allowlist secret
     source: "test",
@@ -23,7 +23,7 @@ const hoisted = vi.hoisted(() => ({
 }));
 const {
   completeMock,
-  ensureOpenClawModelsJsonMock,
+  ensureBrikko StudioModelsJsonMock,
   getApiKeyForModelMock,
   resolveApiKeyForProviderMock,
   requireApiKeyMock,
@@ -53,7 +53,7 @@ vi.mock("../agents/models-config.js", async () => ({
   ...(await vi.importActual<typeof import("../agents/models-config.js")>(
     "../agents/models-config.js",
   )),
-  ensureOpenClawModelsJson: ensureOpenClawModelsJsonMock,
+  ensureBrikko StudioModelsJson: ensureBrikko StudioModelsJsonMock,
 }));
 
 vi.mock("../agents/model-auth.js", () => ({
@@ -128,7 +128,7 @@ describe("describeImageWithModel", () => {
     const authStore = { version: 1, profiles: {} };
     const result = await describeImageWithModel({
       cfg: {},
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       provider: "minimax-portal",
       model: "MiniMax-VL-01",
       buffer: Buffer.from("png-bytes"),
@@ -143,7 +143,7 @@ describe("describeImageWithModel", () => {
       text: "portal ok",
       model: "MiniMax-VL-01",
     });
-    expect(ensureOpenClawModelsJsonMock).toHaveBeenCalled();
+    expect(ensureBrikko StudioModelsJsonMock).toHaveBeenCalled();
     expect(getApiKeyForModelMock).toHaveBeenCalledWith(
       expect.objectContaining({ store: authStore }),
     );
@@ -156,7 +156,7 @@ describe("describeImageWithModel", () => {
         headers: {
           Authorization: "Bearer oauth-test",
           "Content-Type": "application/json",
-          "MM-API-Source": "OpenClaw",
+          "MM-API-Source": "Brikko Studio",
         },
         body: JSON.stringify({
           prompt: "Describe the image.",
@@ -190,7 +190,7 @@ describe("describeImageWithModel", () => {
 
     const result = await describeImageWithModel({
       cfg: {},
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       provider: "minimax-portal",
       model: "custom-vision",
       buffer: Buffer.from("png-bytes"),
@@ -211,7 +211,7 @@ describe("describeImageWithModel", () => {
           id: "custom-vision",
         }),
         cfg: {},
-        agentDir: "/tmp/openclaw-agent",
+        agentDir: "/tmp/brikko-studio-agent",
       }),
     );
     expect(completeMock).toHaveBeenCalledOnce();
@@ -262,7 +262,7 @@ describe("describeImageWithModel", () => {
           },
         },
       },
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       provider: "lmstudio",
       model: "google/gemma-4-e2b",
       buffer: Buffer.from("png-bytes"),
@@ -310,7 +310,7 @@ describe("describeImageWithModel", () => {
     await expect(
       describeImageWithModel({
         cfg: {},
-        agentDir: "/tmp/openclaw-agent",
+        agentDir: "/tmp/brikko-studio-agent",
         provider: "lmstudio",
         model: "text-only",
         buffer: Buffer.from("png-bytes"),
@@ -346,7 +346,7 @@ describe("describeImageWithModel", () => {
 
     const result = await describeImageWithModel({
       cfg: {},
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       provider: "openai-codex",
       model: "gpt-5.4",
       buffer: Buffer.from("png-bytes"),
@@ -408,7 +408,7 @@ describe("describeImageWithModel", () => {
 
     const result = await describeImageWithModel({
       cfg: {},
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       provider: "openrouter",
       model: "google/gemini-2.5-flash",
       buffer: Buffer.from("png-bytes"),
@@ -521,7 +521,7 @@ describe("describeImageWithModel", () => {
 
       const result = await describeImageWithModel({
         cfg: {},
-        agentDir: "/tmp/openclaw-agent",
+        agentDir: "/tmp/brikko-studio-agent",
         provider,
         model: model.id,
         buffer: Buffer.from("png-bytes"),
@@ -565,7 +565,7 @@ describe("describeImageWithModel", () => {
 
     const result = describeImageWithModel({
       cfg: {},
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       provider: "openai",
       model: "gpt-5.4-mini",
       buffer: Buffer.from("png-bytes"),
@@ -585,11 +585,11 @@ describe("describeImageWithModel", () => {
 
   it("rejects when image runtime setup exceeds the request timeout", async () => {
     vi.useFakeTimers();
-    ensureOpenClawModelsJsonMock.mockImplementationOnce(() => new Promise(() => {}));
+    ensureBrikko StudioModelsJsonMock.mockImplementationOnce(() => new Promise(() => {}));
 
     const result = describeImageWithModel({
       cfg: {},
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       provider: "openai",
       model: "gpt-5.4-mini",
       buffer: Buffer.from("png-bytes"),
@@ -629,7 +629,7 @@ describe("describeImageWithModel", () => {
 
     const result = await describeImageWithModel({
       cfg: {},
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       provider: "google",
       model: "gemini-3.1-flash-preview",
       profile: "google:default",
@@ -677,7 +677,7 @@ describe("describeImageWithModel", () => {
 
     const result = await describeImageWithModel({
       cfg: {},
-      agentDir: "/tmp/openclaw-agent",
+      agentDir: "/tmp/brikko-studio-agent",
       provider: "google",
       model: "gemini-3.1-flash-lite",
       profile: "google:default",

@@ -2,11 +2,11 @@
 // Keep monitor internals off the broad package runtime-api barrel so monitor
 // tests and shared workers do not pull unrelated Matrix helper surfaces.
 
-export type { NormalizedLocation } from "openclaw/plugin-sdk/channel-location";
-export type { PluginRuntime, RuntimeLogger } from "openclaw/plugin-sdk/plugin-runtime";
-export type { BlockReplyContext, ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
-export type { MarkdownTableMode, OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
+export type { NormalizedLocation } from "brikko-studio/plugin-sdk/channel-location";
+export type { PluginRuntime, RuntimeLogger } from "brikko-studio/plugin-sdk/plugin-runtime";
+export type { BlockReplyContext, ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
+export type { MarkdownTableMode, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
 export {
   addAllowlistUserEntriesFromConfigEntry,
   buildAllowlistResolutionSummary,
@@ -14,15 +14,15 @@ export {
   formatAllowlistMatchMeta,
   patchAllowlistUsersInConfigEntries,
   summarizeMapping,
-} from "openclaw/plugin-sdk/allow-from";
+} from "brikko-studio/plugin-sdk/allow-from";
 export {
   createReplyPrefixOptions,
   createTypingCallbacks,
-} from "openclaw/plugin-sdk/channel-reply-options-runtime";
-export { formatLocationText, toLocationContext } from "openclaw/plugin-sdk/channel-location";
-export { getAgentScopedMediaLocalRoots } from "openclaw/plugin-sdk/agent-media-payload";
-export { logInboundDrop, logTypingFailure } from "openclaw/plugin-sdk/channel-logging";
+} from "brikko-studio/plugin-sdk/channel-reply-options-runtime";
+export { formatLocationText, toLocationContext } from "brikko-studio/plugin-sdk/channel-location";
+export { getAgentScopedMediaLocalRoots } from "brikko-studio/plugin-sdk/agent-media-payload";
+export { logInboundDrop, logTypingFailure } from "brikko-studio/plugin-sdk/channel-logging";
 export {
   buildChannelKeyCandidates,
   resolveChannelEntryMatch,
-} from "openclaw/plugin-sdk/channel-targets";
+} from "brikko-studio/plugin-sdk/channel-targets";

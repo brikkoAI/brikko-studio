@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   DEFAULT_CACHE_TTL_MINUTES,
   markdownToText,
@@ -10,16 +10,16 @@ import {
   withSelfHostedWebToolsEndpoint,
   withStrictWebToolsEndpoint,
   writeCache,
-} from "openclaw/plugin-sdk/provider-web-fetch";
-import { normalizeSecretInput } from "openclaw/plugin-sdk/secret-input";
-import { wrapExternalContent, wrapWebContent } from "openclaw/plugin-sdk/security-runtime";
+} from "brikko-studio/plugin-sdk/provider-web-fetch";
+import { normalizeSecretInput } from "brikko-studio/plugin-sdk/secret-input";
+import { wrapExternalContent, wrapWebContent } from "brikko-studio/plugin-sdk/security-runtime";
 import {
   SsrFBlockedError,
   isBlockedHostnameOrIp,
   isPrivateIpAddress,
   resolvePinnedHostnameWithPolicy,
   type LookupFn,
-} from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/ssrf-runtime";
 import {
   DEFAULT_FIRECRAWL_BASE_URL,
   resolveFirecrawlApiKey,
@@ -62,7 +62,7 @@ type FirecrawlSearchItem = {
 };
 
 export type FirecrawlSearchParams = {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   query: string;
   count?: number;
   timeoutSeconds?: number;
@@ -72,7 +72,7 @@ export type FirecrawlSearchParams = {
 };
 
 export type FirecrawlScrapeParams = {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   url: string;
   extractMode: "markdown" | "text";
   maxChars?: number;

@@ -2,22 +2,22 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const groupId = process.env.OPENCLAW_QA_TELEGRAM_GROUP_ID;
-const driverToken = process.env.OPENCLAW_QA_TELEGRAM_DRIVER_BOT_TOKEN;
-const sutToken = process.env.OPENCLAW_QA_TELEGRAM_SUT_BOT_TOKEN;
-const outputDir = process.env.OPENCLAW_NPM_TELEGRAM_OUTPUT_DIR ?? ".artifacts/rtt/raw";
-const timeoutMs = Number(process.env.OPENCLAW_QA_TELEGRAM_SCENARIO_TIMEOUT_MS ?? "180000");
+const groupId = process.env.BRIKKO_STUDIO_QA_TELEGRAM_GROUP_ID;
+const driverToken = process.env.BRIKKO_STUDIO_QA_TELEGRAM_DRIVER_BOT_TOKEN;
+const sutToken = process.env.BRIKKO_STUDIO_QA_TELEGRAM_SUT_BOT_TOKEN;
+const outputDir = process.env.BRIKKO_STUDIO_NPM_TELEGRAM_OUTPUT_DIR ?? ".artifacts/rtt/raw";
+const timeoutMs = Number(process.env.BRIKKO_STUDIO_QA_TELEGRAM_SCENARIO_TIMEOUT_MS ?? "180000");
 const canaryTimeoutMs = Number(
-  process.env.OPENCLAW_QA_TELEGRAM_CANARY_TIMEOUT_MS ?? String(timeoutMs),
+  process.env.BRIKKO_STUDIO_QA_TELEGRAM_CANARY_TIMEOUT_MS ?? String(timeoutMs),
 );
-const warmSampleCount = Number(process.env.OPENCLAW_NPM_TELEGRAM_WARM_SAMPLES ?? "20");
-const sampleTimeoutMs = Number(process.env.OPENCLAW_NPM_TELEGRAM_SAMPLE_TIMEOUT_MS ?? "30000");
+const warmSampleCount = Number(process.env.BRIKKO_STUDIO_NPM_TELEGRAM_WARM_SAMPLES ?? "20");
+const sampleTimeoutMs = Number(process.env.BRIKKO_STUDIO_NPM_TELEGRAM_SAMPLE_TIMEOUT_MS ?? "30000");
 const maxWarmFailures = Number(
-  process.env.OPENCLAW_NPM_TELEGRAM_MAX_FAILURES ?? String(warmSampleCount),
+  process.env.BRIKKO_STUDIO_NPM_TELEGRAM_MAX_FAILURES ?? String(warmSampleCount),
 );
-const successMarker = process.env.OPENCLAW_NPM_TELEGRAM_SUCCESS_MARKER ?? "OPENCLAW_E2E_OK";
+const successMarker = process.env.BRIKKO_STUDIO_NPM_TELEGRAM_SUCCESS_MARKER ?? "BRIKKO_STUDIO_E2E_OK";
 const scenarioIds = new Set(
-  (process.env.OPENCLAW_NPM_TELEGRAM_SCENARIOS ?? "telegram-mentioned-message-reply")
+  (process.env.BRIKKO_STUDIO_NPM_TELEGRAM_SCENARIOS ?? "telegram-mentioned-message-reply")
     .split(",")
     .map((value) => value.trim())
     .filter(Boolean),
@@ -25,22 +25,22 @@ const scenarioIds = new Set(
 
 if (!groupId || !driverToken || !sutToken) {
   throw new Error(
-    "missing Telegram env: OPENCLAW_QA_TELEGRAM_GROUP_ID, OPENCLAW_QA_TELEGRAM_DRIVER_BOT_TOKEN, OPENCLAW_QA_TELEGRAM_SUT_BOT_TOKEN",
+    "missing Telegram env: BRIKKO_STUDIO_QA_TELEGRAM_GROUP_ID, BRIKKO_STUDIO_QA_TELEGRAM_DRIVER_BOT_TOKEN, BRIKKO_STUDIO_QA_TELEGRAM_SUT_BOT_TOKEN",
   );
 }
 if (!Number.isInteger(warmSampleCount) || warmSampleCount < 1) {
   throw new Error(
-    `OPENCLAW_NPM_TELEGRAM_WARM_SAMPLES must be a positive integer; got: ${warmSampleCount}`,
+    `BRIKKO_STUDIO_NPM_TELEGRAM_WARM_SAMPLES must be a positive integer; got: ${warmSampleCount}`,
   );
 }
 if (!Number.isInteger(sampleTimeoutMs) || sampleTimeoutMs < 1) {
   throw new Error(
-    `OPENCLAW_NPM_TELEGRAM_SAMPLE_TIMEOUT_MS must be a positive integer; got: ${sampleTimeoutMs}`,
+    `BRIKKO_STUDIO_NPM_TELEGRAM_SAMPLE_TIMEOUT_MS must be a positive integer; got: ${sampleTimeoutMs}`,
   );
 }
 if (!Number.isInteger(maxWarmFailures) || maxWarmFailures < 1) {
   throw new Error(
-    `OPENCLAW_NPM_TELEGRAM_MAX_FAILURES must be a positive integer; got: ${maxWarmFailures}`,
+    `BRIKKO_STUDIO_NPM_TELEGRAM_MAX_FAILURES must be a positive integer; got: ${maxWarmFailures}`,
   );
 }
 

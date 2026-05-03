@@ -1,4 +1,4 @@
-import { importFreshModule } from "openclaw/plugin-sdk/test-fixtures";
+import { importFreshModule } from "brikko-studio/plugin-sdk/test-fixtures";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   clearActiveEmbeddedRun,
@@ -1199,8 +1199,8 @@ describe("runPreparedReply media-only handling", () => {
     const call = vi.mocked(runReplyAgent).mock.calls.at(-1)?.[0];
     expect(call?.commandBody).toContain(heartbeatPrompt);
     expect(call?.followupRun.prompt).toContain(heartbeatPrompt);
-    expect(call?.transcriptCommandBody).toBe("[OpenClaw heartbeat poll]");
-    expect(call?.followupRun.transcriptPrompt).toBe("[OpenClaw heartbeat poll]");
+    expect(call?.transcriptCommandBody).toBe("[Brikko Studio heartbeat poll]");
+    expect(call?.followupRun.transcriptPrompt).toBe("[Brikko Studio heartbeat poll]");
   });
 
   it("uses persisted Discord chat metadata for system-event CLI static prompt identity", async () => {
@@ -1293,8 +1293,8 @@ describe("runPreparedReply media-only handling", () => {
     const call = vi.mocked(runReplyAgent).mock.calls.at(-1)?.[0];
     expect(call?.commandBody).toContain("A new session was started via /new or /reset.");
     expect(call?.followupRun.prompt).toContain("A new session was started via /new or /reset.");
-    expect(call?.transcriptCommandBody).toBe("[OpenClaw session new]");
-    expect(call?.followupRun.transcriptPrompt).toBe("[OpenClaw session new]");
+    expect(call?.transcriptCommandBody).toBe("[Brikko Studio session new]");
+    expect(call?.followupRun.transcriptPrompt).toBe("[Brikko Studio session new]");
   });
 
   it("keeps reset user notes visible while hiding startup instructions", async () => {

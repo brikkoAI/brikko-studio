@@ -1,17 +1,17 @@
 {
-  "name": "@openclaw/github-copilot-provider",
+  "name": "@brikko-studio/github-copilot-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw GitHub Copilot provider plugin",
+  "description": "Brikko Studio GitHub Copilot provider plugin",
   "type": "module",
   "dependencies": {
     "@clack/prompts": "^1.3.0"
   },
   "devDependencies": {
     "@mariozechner/pi-ai": "0.71.1",
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

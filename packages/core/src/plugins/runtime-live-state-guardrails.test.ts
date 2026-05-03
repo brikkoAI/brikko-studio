@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { bundledPluginFile } from "openclaw/plugin-sdk/test-fixtures";
+import { bundledPluginFile } from "brikko-studio/plugin-sdk/test-fixtures";
 import { describe, expect, it } from "vitest";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -14,7 +14,7 @@ const LIVE_RUNTIME_STATE_GUARDS: Record<
   }
 > = {
   [bundledPluginFile("whatsapp", "src/connection-controller-registry.ts")]: {
-    required: ["globalThis", 'Symbol.for("openclaw.whatsapp.connectionControllerRegistry")'],
+    required: ["globalThis", 'Symbol.for("brikko-studio.whatsapp.connectionControllerRegistry")'],
     forbidden: ["resolveGlobalSingleton"],
   },
 };

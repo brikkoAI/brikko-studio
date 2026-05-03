@@ -35,12 +35,12 @@ Pending requests expire automatically after **5 minutes**.
 ## CLI workflow (headless friendly)
 
 ```bash
-openclaw nodes pending
-openclaw nodes approve <requestId>
-openclaw nodes reject <requestId>
-openclaw nodes status
-openclaw nodes remove --node <id|name|ip>
-openclaw nodes rename --node <id|name|ip> --name "Living Room iPad"
+brikko-studio nodes pending
+brikko-studio nodes approve <requestId>
+brikko-studio nodes reject <requestId>
+brikko-studio nodes status
+brikko-studio nodes remove --node <id|name|ip>
+brikko-studio nodes rename --node <id|name|ip> --name "Living Room iPad"
 ```
 
 `nodes status` shows paired/connected nodes and their capabilities.
@@ -153,7 +153,7 @@ Security boundary:
 ## Metadata-upgrade auto-approval
 
 When an already paired device reconnects with only non-sensitive metadata
-changes (for example, display name or client platform hints), OpenClaw treats
+changes (for example, display name or client platform hints), Brikko Studio treats
 that as a `metadata-upgrade`. Silent auto-approval is narrow: it applies only
 to trusted non-browser local reconnects that already proved possession of local
 or shared credentials, including same-host native app reconnects after OS
@@ -183,12 +183,12 @@ operator auth.
 
 ## Storage (local, private)
 
-Pairing state is stored under the Gateway state directory (default `~/.openclaw`):
+Pairing state is stored under the Gateway state directory (default `~/.brikko-studio`):
 
-- `~/.openclaw/nodes/paired.json`
-- `~/.openclaw/nodes/pending.json`
+- `~/.brikko-studio/nodes/paired.json`
+- `~/.brikko-studio/nodes/pending.json`
 
-If you override `OPENCLAW_STATE_DIR`, the `nodes/` folder moves with it.
+If you override `BRIKKO_STUDIO_STATE_DIR`, the `nodes/` folder moves with it.
 
 Security notes:
 

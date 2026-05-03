@@ -613,12 +613,12 @@ describe("markAuthProfileUsed", () => {
     await markAuthProfileUsed({
       store,
       profileId: "anthropic:default",
-      agentDir: "/tmp/openclaw-auth-profiles-used",
+      agentDir: "/tmp/brikko-studio-auth-profiles-used",
     });
 
     expect(storeMocks.saveAuthProfileStore).toHaveBeenCalledWith(
       store,
-      "/tmp/openclaw-auth-profiles-used",
+      "/tmp/brikko-studio-auth-profiles-used",
     );
     expect(store.usageStats?.["anthropic:default"]?.errorCount).toBe(0);
     expect(store.usageStats?.["anthropic:default"]?.cooldownUntil).toBeUndefined();
@@ -644,7 +644,7 @@ describe("markAuthProfileUsed", () => {
     await markAuthProfileUsed({
       store,
       profileId: "anthropic:default",
-      agentDir: "/tmp/openclaw-auth-profiles-used",
+      agentDir: "/tmp/brikko-studio-auth-profiles-used",
     });
 
     expect(storeMocks.saveAuthProfileStore).not.toHaveBeenCalled();
@@ -653,7 +653,7 @@ describe("markAuthProfileUsed", () => {
 });
 
 describe("markAuthProfileFailure — active windows do not extend on retry", () => {
-  // Regression for https://github.com/openclaw/openclaw/issues/23516
+  // Regression for https://github.com/brikko-studio/brikko-studio/issues/23516
   // When all providers are at saturation backoff (60 min) and retries fire every 30 min,
   // each retry was resetting cooldownUntil to now+60m, preventing recovery.
   type WindowStats = ProfileUsageStats;
@@ -895,8 +895,8 @@ describe("markAuthProfileFailure — WHAM-aware Codex cooldowns", () => {
         headers: expect.objectContaining({
           Authorization: "Bearer codex-access-token",
           "ChatGPT-Account-Id": "acct_test_123",
-          originator: "openclaw",
-          "User-Agent": expect.stringMatching(/^openclaw\//),
+          originator: "brikko-studio",
+          "User-Agent": expect.stringMatching(/^brikko-studio\//),
         }),
       }),
     );

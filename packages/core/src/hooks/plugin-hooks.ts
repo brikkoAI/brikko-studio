@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import {
   normalizePluginsConfigWithResolver,
@@ -20,7 +20,7 @@ type PluginHookDirEntry = {
 
 export function resolvePluginHookDirs(params: {
   workspaceDir: string | undefined;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 }): PluginHookDirEntry[] {
   const workspaceDir = (params.workspaceDir ?? "").trim();
   if (!workspaceDir) {

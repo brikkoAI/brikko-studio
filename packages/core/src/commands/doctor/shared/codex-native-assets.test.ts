@@ -2,13 +2,13 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
 import { collectCodexNativeAssetWarnings, scanCodexNativeAssets } from "./codex-native-assets.js";
 
 const tempRoots = new Set<string>();
 
 async function makeTempRoot(): Promise<string> {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-doctor-codex-assets-"));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-doctor-codex-assets-"));
   tempRoots.add(root);
   return root;
 }
@@ -18,7 +18,7 @@ async function writeFile(filePath: string, content = ""): Promise<void> {
   await fs.writeFile(filePath, content, "utf8");
 }
 
-function codexConfig(): OpenClawConfig {
+function codexConfig(): Brikko StudioConfig {
   return {
     plugins: {
       entries: {
@@ -32,7 +32,7 @@ function codexConfig(): OpenClawConfig {
         },
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 afterEach(async () => {
@@ -104,7 +104,7 @@ describe("scanCodexNativeAssets", () => {
 
     await expect(
       scanCodexNativeAssets({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         env: { CODEX_HOME: codexHome, HOME: root },
       }),
     ).resolves.toEqual([]);
@@ -126,7 +126,7 @@ describe("collectCodexNativeAssetWarnings", () => {
     expect(warnings[0]).toContain("isolated per-agent Codex homes");
     expect(warnings[0]).toContain(codexHome);
     expect(warnings[0]).toContain(path.join(root, ".agents", "skills"));
-    expect(warnings[0]).toContain("openclaw migrate codex --dry-run");
+    expect(warnings[0]).toContain("brikko-studio migrate codex --dry-run");
     expect(warnings[0]).toContain("manual-review only");
   });
 });

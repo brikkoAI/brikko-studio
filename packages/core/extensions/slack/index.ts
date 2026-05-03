@@ -1,11 +1,11 @@
 import {
   defineBundledChannelEntry,
   loadBundledEntryExportSync,
-} from "openclaw/plugin-sdk/channel-entry-contract";
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/channel-entry-contract";
+} from "brikko-studio/plugin-sdk/channel-entry-contract";
+import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/channel-entry-contract";
 
-function registerSlackPluginHttpRoutes(api: OpenClawPluginApi): void {
-  const register = loadBundledEntryExportSync<(api: OpenClawPluginApi) => void>(import.meta.url, {
+function registerSlackPluginHttpRoutes(api: Brikko StudioPluginApi): void {
+  const register = loadBundledEntryExportSync<(api: Brikko StudioPluginApi) => void>(import.meta.url, {
     specifier: "./http-routes-api.js",
     exportName: "registerSlackPluginHttpRoutes",
   });

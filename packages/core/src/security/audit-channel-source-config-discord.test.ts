@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { stubAuditChannelPlugin } from "./audit-channel-test-helpers.js";
 import { collectChannelSecurityFindings } from "./audit-channel.js";
 
 function stubDiscordPlugin(params: {
-  resolveAccount: (cfg: OpenClawConfig, accountId: string | null | undefined) => unknown;
-  inspectAccount?: (cfg: OpenClawConfig, accountId: string | null | undefined) => unknown;
-  isConfigured?: (account: unknown, cfg: OpenClawConfig) => boolean;
+  resolveAccount: (cfg: Brikko StudioConfig, accountId: string | null | undefined) => unknown;
+  inspectAccount?: (cfg: Brikko StudioConfig, accountId: string | null | undefined) => unknown;
+  isConfigured?: (account: unknown, cfg: Brikko StudioConfig) => boolean;
 }) {
   return stubAuditChannelPlugin({
     id: "discord",
@@ -39,7 +39,7 @@ function stubDiscordPlugin(params: {
 
 describe("security audit channel source-config fallback discord", () => {
   it("keeps source-configured channel security findings when resolved inspection is incomplete", async () => {
-    const sourceConfig: OpenClawConfig = {
+    const sourceConfig: Brikko StudioConfig = {
       commands: { native: true },
       channels: {
         discord: {
@@ -56,7 +56,7 @@ describe("security audit channel source-config fallback discord", () => {
         },
       },
     };
-    const resolvedConfig: OpenClawConfig = {
+    const resolvedConfig: Brikko StudioConfig = {
       commands: { native: true },
       channels: {
         discord: {

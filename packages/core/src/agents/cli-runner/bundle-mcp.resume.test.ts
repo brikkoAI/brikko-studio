@@ -7,15 +7,15 @@ import {
 setupCliBundleMcpTestHarness();
 
 describe("prepareCliBundleMcpConfig resume hash", () => {
-  it("stabilizes the resume hash when only the OpenClaw loopback port changes", async () => {
+  it("stabilizes the resume hash when only the Brikko Studio loopback port changes", async () => {
     const first = await prepareBundleProbeCliConfig({
       additionalConfig: {
         mcpServers: {
-          openclaw: {
+          brikko-studio: {
             type: "http",
             url: "http://127.0.0.1:23119/mcp",
             headers: {
-              Authorization: "Bearer ${OPENCLAW_MCP_TOKEN}",
+              Authorization: "Bearer ${BRIKKO_STUDIO_MCP_TOKEN}",
             },
           },
         },
@@ -24,11 +24,11 @@ describe("prepareCliBundleMcpConfig resume hash", () => {
     const second = await prepareBundleProbeCliConfig({
       additionalConfig: {
         mcpServers: {
-          openclaw: {
+          brikko-studio: {
             type: "http",
             url: "http://127.0.0.1:24567/mcp",
             headers: {
-              Authorization: "Bearer ${OPENCLAW_MCP_TOKEN}",
+              Authorization: "Bearer ${BRIKKO_STUDIO_MCP_TOKEN}",
             },
           },
         },
@@ -46,11 +46,11 @@ describe("prepareCliBundleMcpConfig resume hash", () => {
     const first = await prepareBundleProbeCliConfig({
       additionalConfig: {
         mcpServers: {
-          openclaw: {
+          brikko-studio: {
             type: "http",
             url: "http://127.0.0.1:23119/mcp",
             headers: {
-              Authorization: "Bearer ${OPENCLAW_MCP_TOKEN}",
+              Authorization: "Bearer ${BRIKKO_STUDIO_MCP_TOKEN}",
             },
           },
         },
@@ -59,11 +59,11 @@ describe("prepareCliBundleMcpConfig resume hash", () => {
     const second = await prepareBundleProbeCliConfig({
       additionalConfig: {
         mcpServers: {
-          openclaw: {
+          brikko-studio: {
             type: "http",
             url: "http://127.0.0.1:23119/other",
             headers: {
-              Authorization: "Bearer ${OPENCLAW_MCP_TOKEN}",
+              Authorization: "Bearer ${BRIKKO_STUDIO_MCP_TOKEN}",
             },
           },
         },

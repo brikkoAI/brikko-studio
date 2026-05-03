@@ -1,5 +1,5 @@
 import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { InstalledPluginIndexRecordStoreOptions } from "../plugins/installed-plugin-index-records.js";
 import { refreshPluginRegistry } from "../plugins/plugin-registry.js";
 import { note } from "../terminal/note.js";
@@ -14,13 +14,13 @@ import {
 
 type PluginRegistryDoctorRepairParams = Omit<PluginRegistryInstallMigrationParams, "config"> &
   InstalledPluginIndexRecordStoreOptions & {
-    config: OpenClawConfig;
+    config: Brikko StudioConfig;
     prompter: Pick<DoctorPrompter, "shouldRepair">;
   };
 
 export async function maybeRepairPluginRegistryState(
   params: PluginRegistryDoctorRepairParams,
-): Promise<OpenClawConfig> {
+): Promise<Brikko StudioConfig> {
   const preflight = preflightPluginRegistryInstallMigration(params);
   for (const warning of preflight.deprecationWarnings) {
     note(warning, "Plugin registry");
@@ -42,7 +42,7 @@ export async function maybeRepairPluginRegistryState(
       note(
         [
           "Persisted plugin registry is missing or stale.",
-          `Repair with ${formatCliCommand("openclaw doctor --fix")} to rebuild ${shortenHomePath(preflight.filePath)} from enabled plugins.`,
+          `Repair with ${formatCliCommand("brikko-studio doctor --fix")} to rebuild ${shortenHomePath(preflight.filePath)} from enabled plugins.`,
         ].join("\n"),
         "Plugin registry",
       );

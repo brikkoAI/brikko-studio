@@ -4,13 +4,13 @@ import type {
   AgentContextLimitsConfig,
   AgentDefaultsConfig,
 } from "../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { DEFAULT_AGENT_ID, normalizeAgentId } from "../routing/session-key.js";
 import { readStringValue } from "../shared/string-coerce.js";
 import { resolveUserPath } from "../utils.js";
 import { resolveDefaultAgentWorkspaceDir } from "./workspace-default.js";
 
-type AgentEntry = NonNullable<NonNullable<OpenClawConfig["agents"]>["list"]>[number];
+type AgentEntry = NonNullable<NonNullable<Brikko StudioConfig["agents"]>["list"]>[number];
 
 export type ResolvedAgentConfig = {
   name?: string;
@@ -53,7 +53,7 @@ function stripNullBytes(s: string): string {
   return s.replaceAll("\0", "");
 }
 
-export function listAgentEntries(cfg: OpenClawConfig): AgentEntry[] {
+export function listAgentEntries(cfg: Brikko StudioConfig): AgentEntry[] {
   const list = cfg.agents?.list;
   if (!Array.isArray(list)) {
     return [];
@@ -61,7 +61,7 @@ export function listAgentEntries(cfg: OpenClawConfig): AgentEntry[] {
   return list.filter((entry): entry is AgentEntry => entry !== null && typeof entry === "object");
 }
 
-export function listAgentIds(cfg: OpenClawConfig): string[] {
+export function listAgentIds(cfg: Brikko StudioConfig): string[] {
   const agents = listAgentEntries(cfg);
   if (agents.length === 0) {
     return [DEFAULT_AGENT_ID];
@@ -79,7 +79,7 @@ export function listAgentIds(cfg: OpenClawConfig): string[] {
   return ids.length > 0 ? ids : [DEFAULT_AGENT_ID];
 }
 
-export function resolveDefaultAgentId(cfg: OpenClawConfig): string {
+export function resolveDefaultAgentId(cfg: Brikko StudioConfig): string {
   const agents = listAgentEntries(cfg);
   if (agents.length === 0) {
     return DEFAULT_AGENT_ID;
@@ -93,13 +93,13 @@ export function resolveDefaultAgentId(cfg: OpenClawConfig): string {
   return normalizeAgentId(chosen || DEFAULT_AGENT_ID);
 }
 
-function resolveAgentEntry(cfg: OpenClawConfig, agentId: string): AgentEntry | undefined {
+function resolveAgentEntry(cfg: Brikko StudioConfig, agentId: string): AgentEntry | undefined {
   const id = normalizeAgentId(agentId);
   return listAgentEntries(cfg).find((entry) => normalizeAgentId(entry.id) === id);
 }
 
 export function resolveAgentConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
 ): ResolvedAgentConfig | undefined {
   const id = normalizeAgentId(agentId);
@@ -141,7 +141,7 @@ export function resolveAgentConfig(
 }
 
 export function resolveAgentContextLimits(
-  cfg: OpenClawConfig | undefined,
+  cfg: Brikko StudioConfig | undefined,
   agentId?: string | null,
 ): AgentContextLimitsConfig | undefined {
   const defaults = cfg?.agents?.defaults?.contextLimits;
@@ -152,7 +152,7 @@ export function resolveAgentContextLimits(
 }
 
 export function resolveAgentWorkspaceDir(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
   env: NodeJS.ProcessEnv = process.env,
 ) {
@@ -177,7 +177,7 @@ export function resolveAgentWorkspaceDir(
 }
 
 export function resolveAgentDir(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
   env: NodeJS.ProcessEnv = process.env,
 ) {

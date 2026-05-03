@@ -1,5 +1,5 @@
 import type { AgentRuntimePolicyConfig } from "../../config/types.agents-shared.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { normalizeAgentId } from "../../routing/session-key.js";
@@ -70,7 +70,7 @@ function compareHarnessSupport(
 export function selectAgentHarness(params: {
   provider: string;
   modelId?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   agentId?: string;
   sessionKey?: string;
   agentHarnessId?: string;
@@ -81,7 +81,7 @@ export function selectAgentHarness(params: {
 function selectAgentHarnessDecision(params: {
   provider: string;
   modelId?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   agentId?: string;
   sessionKey?: string;
   agentHarnessId?: string;
@@ -281,7 +281,7 @@ export async function maybeCompactAgentHarnessSession(
 export function resolveAgentHarnessPolicy(params: {
   provider?: string;
   modelId?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   agentId?: string;
   sessionKey?: string;
   env?: NodeJS.ProcessEnv;
@@ -294,7 +294,7 @@ export function resolveAgentHarnessPolicy(params: {
     sessionKey: params.sessionKey,
   });
   const defaultsPolicy = resolveAgentRuntimePolicy(params.config?.agents?.defaults);
-  const runtime = env.OPENCLAW_AGENT_RUNTIME?.trim()
+  const runtime = env.BRIKKO_STUDIO_AGENT_RUNTIME?.trim()
     ? resolveEmbeddedAgentRuntime(env)
     : normalizeEmbeddedAgentRuntime(agentPolicy?.id ?? defaultsPolicy?.id);
   if (isCliRuntimeAlias(runtime)) {
@@ -308,7 +308,7 @@ export function resolveAgentHarnessPolicy(params: {
 }
 
 function resolveAgentEmbeddedHarnessConfig(
-  config: OpenClawConfig | undefined,
+  config: Brikko StudioConfig | undefined,
   params: { agentId?: string; sessionKey?: string },
 ): AgentRuntimePolicyConfig | undefined {
   if (!config) {

@@ -11,10 +11,10 @@ export {
   type DiagnosticEventMetadata,
   type DiagnosticEventPayload,
   type DiagnosticTraceContext,
-} from "openclaw/plugin-sdk/diagnostic-runtime";
-export { emptyPluginConfigSchema, type OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/diagnostic-runtime";
+export { emptyPluginConfigSchema, type Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 export type {
-  OpenClawPluginService,
-  OpenClawPluginServiceContext,
-} from "openclaw/plugin-sdk/plugin-entry";
-export { redactSensitiveText } from "openclaw/plugin-sdk/security-runtime";
+  Brikko StudioPluginService,
+  Brikko StudioPluginServiceContext,
+} from "brikko-studio/plugin-sdk/plugin-entry";
+export { redactSensitiveText } from "brikko-studio/plugin-sdk/security-runtime";

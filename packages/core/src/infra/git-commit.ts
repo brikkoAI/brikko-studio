@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { resolveGitHeadPath } from "./git-root.js";
-import { resolveOpenClawPackageRootSync } from "./openclaw-root.js";
+import { resolveBrikko StudioPackageRootSync } from "./brikko-studio-root.js";
 
 const formatCommit = (value?: string | null) => {
   if (!value) {
@@ -230,7 +230,7 @@ export const resolveCommitHash = (
   if (cachedGitCommitBySearchDir.has(searchDir)) {
     return cachedGitCommitBySearchDir.get(searchDir) ?? null;
   }
-  const packageRoot = resolveOpenClawPackageRootSync({
+  const packageRoot = resolveBrikko StudioPackageRootSync({
     cwd: options.cwd,
     moduleUrl: options.moduleUrl,
   });

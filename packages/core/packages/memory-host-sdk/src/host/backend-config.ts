@@ -9,7 +9,7 @@ import {
   type MemoryQmdMcporterConfig,
   type MemoryQmdSearchMode,
   type MemoryQmdStartupMode,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
   parseDurationMs,
   resolveAgentWorkspaceDir,
   normalizeAgentId,
@@ -361,7 +361,7 @@ function resolveDefaultCollections(
 }
 
 export function resolveMemoryBackendConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
 }): ResolvedMemoryBackendConfig {
   const normalizedAgentId = normalizeAgentId(params.agentId);

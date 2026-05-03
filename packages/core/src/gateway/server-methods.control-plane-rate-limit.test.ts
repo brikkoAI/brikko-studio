@@ -37,7 +37,7 @@ describe("gateway control-plane write rate limit", () => {
       role: "operator",
       scopes: ["operator.admin"],
       client: {
-        id: "openclaw-control-ui",
+        id: "brikko-studio-control-ui",
         version: "1.0.0",
         platform: "darwin",
         mode: "ui",

@@ -35,7 +35,7 @@ function makeParams(msg: WebInboundMsg, groupHistories: Map<string, GroupHistory
       },
       messages: {
         groupChat: {
-          mentionPatterns: ["\\bopenclaw\\b"],
+          mentionPatterns: ["\\bbrikko-studio\\b"],
         },
       },
     } as never,
@@ -44,7 +44,7 @@ function makeParams(msg: WebInboundMsg, groupHistories: Map<string, GroupHistory
     groupHistoryKey: "whatsapp:group:1203630",
     agentId: "main",
     sessionKey: "agent:main:whatsapp:group:1203630",
-    baseMentionConfig: { mentionRegexes: [/\bopenclaw\b/i] } satisfies MentionConfig,
+    baseMentionConfig: { mentionRegexes: [/\bbrikko-studio\b/i] } satisfies MentionConfig,
     groupHistories,
     groupHistoryLimit: 20,
     groupMemberNames: new Map<string, Map<string, string>>(),
@@ -77,7 +77,7 @@ describe("applyGroupGating audio preflight mention text", () => {
 
     const result = await applyGroupGating({
       ...makeParams(msg, groupHistories),
-      mentionText: "openclaw please summarize the thread",
+      mentionText: "brikko-studio please summarize the thread",
     });
 
     expect(result).toEqual({ shouldProcess: true });

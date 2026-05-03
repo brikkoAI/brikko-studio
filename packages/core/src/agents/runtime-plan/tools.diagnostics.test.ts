@@ -21,7 +21,7 @@ describe("AgentRuntimePlan tool diagnostics legacy fallback", () => {
       provider: "openai",
       modelId: "gpt-5.4",
       modelApi: "openai-responses",
-      workspaceDir: "/tmp/openclaw-runtime-plan-tools",
+      workspaceDir: "/tmp/brikko-studio-runtime-plan-tools",
     });
 
     expect(mocks.logProviderToolSchemaDiagnostics).toHaveBeenCalledWith(
@@ -30,7 +30,7 @@ describe("AgentRuntimePlan tool diagnostics legacy fallback", () => {
         provider: "openai",
         modelId: "gpt-5.4",
         modelApi: "openai-responses",
-        workspaceDir: "/tmp/openclaw-runtime-plan-tools",
+        workspaceDir: "/tmp/brikko-studio-runtime-plan-tools",
       }),
     );
   });

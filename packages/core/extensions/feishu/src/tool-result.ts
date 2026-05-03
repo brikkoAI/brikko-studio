@@ -1,4 +1,4 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 
 export function jsonToolResult(data: unknown) {
   return {

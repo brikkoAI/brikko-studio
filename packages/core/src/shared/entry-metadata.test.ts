@@ -5,12 +5,12 @@ describe("shared/entry-metadata", () => {
   it("prefers metadata emoji and homepage when present", () => {
     expect(
       resolveEmojiAndHomepage({
-        metadata: { emoji: "🦀", homepage: " https://openclaw.ai " },
+        metadata: { emoji: "🦀", homepage: " https://brikko-studio.ai " },
         frontmatter: { emoji: "🙂", homepage: "https://example.com" },
       }),
     ).toEqual({
       emoji: "🦀",
-      homepage: "https://openclaw.ai",
+      homepage: "https://brikko-studio.ai",
     });
   });
 
@@ -26,11 +26,11 @@ describe("shared/entry-metadata", () => {
   it("falls back through frontmatter homepage aliases and drops blanks", () => {
     expect(
       resolveEmojiAndHomepage({
-        frontmatter: { emoji: "🙂", website: " https://docs.openclaw.ai " },
+        frontmatter: { emoji: "🙂", website: " https://docs.brikko-studio.ai " },
       }),
     ).toEqual({
       emoji: "🙂",
-      homepage: "https://docs.openclaw.ai",
+      homepage: "https://docs.brikko-studio.ai",
     });
     expect(
       resolveEmojiAndHomepage({
@@ -40,10 +40,10 @@ describe("shared/entry-metadata", () => {
     ).toEqual({});
     expect(
       resolveEmojiAndHomepage({
-        frontmatter: { url: " https://openclaw.ai/install " },
+        frontmatter: { url: " https://brikko-studio.ai/install " },
       }),
     ).toEqual({
-      homepage: "https://openclaw.ai/install",
+      homepage: "https://brikko-studio.ai/install",
     });
   });
 
@@ -52,8 +52,8 @@ describe("shared/entry-metadata", () => {
       resolveEmojiAndHomepage({
         frontmatter: {
           homepage: " ",
-          website: "https://docs.openclaw.ai",
-          url: "https://openclaw.ai/install",
+          website: "https://docs.brikko-studio.ai",
+          url: "https://brikko-studio.ai/install",
         },
       }),
     ).toEqual({});

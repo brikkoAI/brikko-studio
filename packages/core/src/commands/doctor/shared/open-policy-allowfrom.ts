@@ -1,5 +1,5 @@
 import { ensureOpenDmPolicyAllowFromWildcard } from "../../../channels/plugins/dm-access.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
 import { sanitizeForLog } from "../../../terminal/ansi.js";
 import { resolveAllowFromMode, type AllowFromMode } from "./allow-from-mode.js";
 import { asObjectRecord } from "./object.js";
@@ -17,8 +17,8 @@ export function collectOpenPolicyAllowFromWarnings(params: {
   ];
 }
 
-export function maybeRepairOpenPolicyAllowFrom(cfg: OpenClawConfig): {
-  config: OpenClawConfig;
+export function maybeRepairOpenPolicyAllowFrom(cfg: Brikko StudioConfig): {
+  config: Brikko StudioConfig;
   changes: string[];
 } {
   const channels = cfg.channels;

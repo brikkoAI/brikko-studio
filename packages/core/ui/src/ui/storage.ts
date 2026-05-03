@@ -1,9 +1,9 @@
-const SETTINGS_KEY_PREFIX = "openclaw.control.settings.v1:";
-const LEGACY_SETTINGS_KEY = "openclaw.control.settings.v1";
-const LOCAL_USER_IDENTITY_KEY = "openclaw.control.user.v1";
-const LOCAL_ASSISTANT_IDENTITY_KEY = "openclaw.control.assistant.v1";
-const LEGACY_TOKEN_SESSION_KEY = "openclaw.control.token.v1";
-const TOKEN_SESSION_KEY_PREFIX = "openclaw.control.token.v1:";
+const SETTINGS_KEY_PREFIX = "brikko-studio.control.settings.v1:";
+const LEGACY_SETTINGS_KEY = "brikko-studio.control.settings.v1";
+const LOCAL_USER_IDENTITY_KEY = "brikko-studio.control.user.v1";
+const LOCAL_ASSISTANT_IDENTITY_KEY = "brikko-studio.control.assistant.v1";
+const LEGACY_TOKEN_SESSION_KEY = "brikko-studio.control.token.v1";
+const TOKEN_SESSION_KEY_PREFIX = "brikko-studio.control.token.v1:";
 const MAX_SCOPED_SESSION_ENTRIES = 10;
 
 function settingsKeyForGateway(gatewayUrl: string): string {
@@ -87,7 +87,7 @@ function deriveDefaultGatewayUrl(): { pageUrl: string; effectiveUrl: string } {
   const proto = location.protocol === "https:" ? "wss" : "ws";
   const configured =
     typeof window !== "undefined" &&
-    normalizeOptionalString(window.__OPENCLAW_CONTROL_UI_BASE_PATH__);
+    normalizeOptionalString(window.__BRIKKO_STUDIO_CONTROL_UI_BASE_PATH__);
   const basePath = configured
     ? normalizeBasePath(configured)
     : inferBasePathFromPathname(location.pathname);
@@ -352,7 +352,7 @@ function persistSettings(next: UiSettings) {
     const raw =
       storage?.getItem(scopedKey) ??
       storage?.getItem(SETTINGS_KEY_PREFIX + "default") ??
-      storage?.getItem("openclaw.control.settings.v1");
+      storage?.getItem("brikko-studio.control.settings.v1");
     if (raw) {
       const parsed = JSON.parse(raw) as PersistedUiSettings;
       if (parsed.sessionsByGateway && typeof parsed.sessionsByGateway === "object") {

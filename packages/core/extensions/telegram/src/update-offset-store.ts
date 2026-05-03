@@ -1,8 +1,8 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { writeJsonFileAtomically } from "openclaw/plugin-sdk/json-store";
-import { resolveStateDir } from "openclaw/plugin-sdk/state-paths";
+import { writeJsonFileAtomically } from "brikko-studio/plugin-sdk/json-store";
+import { resolveStateDir } from "brikko-studio/plugin-sdk/state-paths";
 
 const STORE_VERSION = 2;
 

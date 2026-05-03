@@ -1,6 +1,6 @@
 import type { DispatchReplyWithBufferedBlockDispatcher } from "../auto-reply/reply/provider-dispatcher.types.js";
 import type { FinalizedMsgContext } from "../auto-reply/templating.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { resolveInboundRouteEnvelopeBuilderWithRuntime } from "./inbound-envelope.js";
 import { recordInboundSessionAndDispatchReply } from "./inbound-reply-dispatch.js";
 import type { OutboundReplyPayload } from "./reply-payload.js";
@@ -32,7 +32,7 @@ type DirectDmRuntime = {
   channel: {
     routing: {
       resolveAgentRoute: (params: {
-        cfg: OpenClawConfig;
+        cfg: Brikko StudioConfig;
         channel: string;
         accountId: string;
         peer: DirectDmRoutePeer;
@@ -48,7 +48,7 @@ type DirectDmRuntime = {
     };
     reply: {
       resolveEnvelopeFormatOptions: (
-        cfg: OpenClawConfig,
+        cfg: Brikko StudioConfig,
       ) => ReturnType<typeof import("../auto-reply/envelope.js").resolveEnvelopeFormatOptions>;
       formatAgentEnvelope: typeof import("../auto-reply/envelope.js").formatAgentEnvelope;
       finalizeInboundContext: typeof import("../auto-reply/reply/inbound-context.js").finalizeInboundContext;
@@ -59,7 +59,7 @@ type DirectDmRuntime = {
 
 /** Route, envelope, record, and dispatch one direct-DM turn through the standard pipeline. */
 export async function dispatchInboundDirectDmWithRuntime(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   runtime: DirectDmRuntime;
   channel: string;
   channelLabel: string;

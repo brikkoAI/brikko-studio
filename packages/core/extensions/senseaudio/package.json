@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/senseaudio-provider",
+  "name": "@brikko-studio/senseaudio-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw SenseAudio media-understanding provider",
+  "description": "Brikko Studio SenseAudio media-understanding provider",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

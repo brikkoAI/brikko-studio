@@ -23,17 +23,17 @@ import {
 } from "./workspace.js";
 
 describe("resolveDefaultAgentWorkspaceDir", () => {
-  it("uses OPENCLAW_HOME for default workspace resolution", () => {
+  it("uses BRIKKO_STUDIO_HOME for default workspace resolution", () => {
     const dir = resolveDefaultAgentWorkspaceDir({
-      OPENCLAW_HOME: "/srv/openclaw-home",
+      BRIKKO_STUDIO_HOME: "/srv/brikko-studio-home",
       HOME: "/home/other",
     } as NodeJS.ProcessEnv);
 
-    expect(dir).toBe(path.join(path.resolve("/srv/openclaw-home"), ".openclaw", "workspace"));
+    expect(dir).toBe(path.join(path.resolve("/srv/brikko-studio-home"), ".brikko-studio", "workspace"));
   });
 });
 
-const WORKSPACE_STATE_PATH_SEGMENTS = [".openclaw", "workspace-state.json"] as const;
+const WORKSPACE_STATE_PATH_SEGMENTS = [".brikko-studio", "workspace-state.json"] as const;
 
 async function readWorkspaceState(dir: string): Promise<{
   version: number;
@@ -77,7 +77,7 @@ function expectSubagentAllowedBootstrapNames(files: WorkspaceBootstrapFile[]) {
 
 describe("ensureAgentWorkspace", () => {
   it("creates BOOTSTRAP.md and records a seeded marker for brand new workspaces", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
 
     await ensureAgentWorkspace({ dir: tempDir, ensureBootstrapFiles: true });
 
@@ -86,7 +86,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("recovers partial initialization by creating BOOTSTRAP.md when marker is missing", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await writeWorkspaceFile({ dir: tempDir, name: DEFAULT_AGENTS_FILENAME, content: "existing" });
 
     await ensureAgentWorkspace({ dir: tempDir, ensureBootstrapFiles: true });
@@ -95,7 +95,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("does not recreate BOOTSTRAP.md after completion, even when a core file is recreated", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await ensureAgentWorkspace({ dir: tempDir, ensureBootstrapFiles: true });
     await writeWorkspaceFile({ dir: tempDir, name: DEFAULT_IDENTITY_FILENAME, content: "custom" });
     await writeWorkspaceFile({ dir: tempDir, name: DEFAULT_USER_FILENAME, content: "custom" });
@@ -113,7 +113,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("does not re-seed BOOTSTRAP.md for legacy completed workspaces without state marker", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await writeWorkspaceFile({ dir: tempDir, name: DEFAULT_IDENTITY_FILENAME, content: "custom" });
     await writeWorkspaceFile({ dir: tempDir, name: DEFAULT_USER_FILENAME, content: "custom" });
 
@@ -128,7 +128,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("treats memory-backed workspaces as existing even when template files are missing", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await fs.mkdir(path.join(tempDir, "memory"), { recursive: true });
     await fs.writeFile(path.join(tempDir, "memory", "2026-02-25.md"), "# Daily log\nSome notes");
     await fs.writeFile(path.join(tempDir, "MEMORY.md"), "# Long-term memory\nImportant stuff");
@@ -146,7 +146,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("treats git-backed workspaces as existing even when template files are missing", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await fs.mkdir(path.join(tempDir, ".git"), { recursive: true });
     await fs.writeFile(path.join(tempDir, ".git", "HEAD"), "ref: refs/heads/main\n");
 
@@ -156,7 +156,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("skips configured optional bootstrap files without skipping required files", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
 
     await ensureAgentWorkspace({
       dir: tempDir,
@@ -187,7 +187,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("preserves legacy setup detection when skipped profile files already exist", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await writeWorkspaceFile({ dir: tempDir, name: DEFAULT_IDENTITY_FILENAME, content: "custom" });
     await writeWorkspaceFile({ dir: tempDir, name: DEFAULT_USER_FILENAME, content: "custom" });
 
@@ -205,8 +205,8 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("migrates legacy onboardingCompletedAt markers to setupCompletedAt", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
-    await fs.mkdir(path.join(tempDir, ".openclaw"), { recursive: true });
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
+    await fs.mkdir(path.join(tempDir, ".brikko-studio"), { recursive: true });
     await fs.writeFile(
       path.join(tempDir, ...WORKSPACE_STATE_PATH_SEGMENTS),
       JSON.stringify({
@@ -227,7 +227,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("reports bootstrap pending while BOOTSTRAP.md exists and setup is incomplete", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
 
     await ensureAgentWorkspace({ dir: tempDir, ensureBootstrapFiles: true });
 
@@ -236,7 +236,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("keeps bootstrap status read-only when stale completion evidence exists", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await ensureAgentWorkspace({ dir: tempDir, ensureBootstrapFiles: true });
     await writeWorkspaceFile({
       dir: tempDir,
@@ -252,7 +252,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("repairs stale BOOTSTRAP.md when profile files show onboarding completed", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await ensureAgentWorkspace({ dir: tempDir, ensureBootstrapFiles: true });
     await writeWorkspaceFile({
       dir: tempDir,
@@ -275,7 +275,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("uses SOUL.md customization as stale bootstrap completion evidence", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await ensureAgentWorkspace({ dir: tempDir, ensureBootstrapFiles: true });
     await writeWorkspaceFile({
       dir: tempDir,
@@ -293,7 +293,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("does not treat git alone as stale bootstrap completion evidence", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await ensureAgentWorkspace({ dir: tempDir, ensureBootstrapFiles: true });
     await fs.mkdir(path.join(tempDir, ".git"), { recursive: true });
     await fs.writeFile(path.join(tempDir, ".git", "HEAD"), "ref: refs/heads/main\n");
@@ -310,7 +310,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("reports bootstrap complete once BOOTSTRAP.md is deleted and completion is recorded", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
 
     await ensureAgentWorkspace({ dir: tempDir, ensureBootstrapFiles: true });
     await fs.unlink(path.join(tempDir, DEFAULT_BOOTSTRAP_FILENAME));
@@ -321,7 +321,7 @@ describe("ensureAgentWorkspace", () => {
   });
 
   it("writes the current fenced HEARTBEAT template body into new workspaces", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
 
     await ensureAgentWorkspace({ dir: tempDir, ensureBootstrapFiles: true });
 
@@ -351,7 +351,7 @@ describe("loadWorkspaceBootstrapFiles", () => {
   };
 
   it("includes MEMORY.md when present", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await writeWorkspaceFile({ dir: tempDir, name: "MEMORY.md", content: "memory" });
 
     const files = await loadWorkspaceBootstrapFiles(tempDir);
@@ -359,7 +359,7 @@ describe("loadWorkspaceBootstrapFiles", () => {
   });
 
   it("ignores lowercase memory.md when MEMORY.md is absent", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
     await writeWorkspaceFile({ dir: tempDir, name: "memory.md", content: "alt" });
 
     const files = await loadWorkspaceBootstrapFiles(tempDir);
@@ -367,7 +367,7 @@ describe("loadWorkspaceBootstrapFiles", () => {
   });
 
   it("omits memory entries when no memory files exist", async () => {
-    const tempDir = await makeTempWorkspace("openclaw-workspace-");
+    const tempDir = await makeTempWorkspace("brikko-studio-workspace-");
 
     const files = await loadWorkspaceBootstrapFiles(tempDir);
     expect(getMemoryEntries(files)).toHaveLength(0);
@@ -377,7 +377,7 @@ describe("loadWorkspaceBootstrapFiles", () => {
     if (process.platform === "win32") {
       return;
     }
-    const rootDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-workspace-hardlink-"));
+    const rootDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-workspace-hardlink-"));
     try {
       const workspaceDir = path.join(rootDir, "workspace");
       const outsideDir = path.join(rootDir, "outside");

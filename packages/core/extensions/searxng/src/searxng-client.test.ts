@@ -1,4 +1,4 @@
-import type { LookupFn } from "openclaw/plugin-sdk/ssrf-runtime";
+import type { LookupFn } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const endpointMockState = vi.hoisted(() => ({
@@ -6,8 +6,8 @@ const endpointMockState = vi.hoisted(() => ({
   responses: [] as Response[],
 }));
 
-vi.mock("openclaw/plugin-sdk/provider-web-search", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("openclaw/plugin-sdk/provider-web-search")>();
+vi.mock("brikko-studio/plugin-sdk/provider-web-search", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("brikko-studio/plugin-sdk/provider-web-search")>();
   const runEndpoint = async (
     params: { url: string; timeoutSeconds: number; init: RequestInit },
     run: (response: Response) => Promise<unknown>,
@@ -48,12 +48,12 @@ describe("searxng client", () => {
     expect(
       __testing.buildSearxngSearchUrl({
         baseUrl: "https://search.example.com/searxng",
-        query: "openclaw",
+        query: "brikko-studio",
         categories: "general,news",
         language: "en",
       }),
     ).toBe(
-      "https://search.example.com/searxng/search?q=openclaw&format=json&categories=general%2Cnews&language=en",
+      "https://search.example.com/searxng/search?q=brikko-studio&format=json&categories=general%2Cnews&language=en",
     );
   });
 
@@ -116,7 +116,7 @@ describe("searxng client", () => {
 
     const result = await runSearxngSearch({
       baseUrl: "http://127.0.0.1:8888",
-      query: "openclaw",
+      query: "brikko-studio",
       categories: "general",
       count: 5,
     });

@@ -1,4 +1,4 @@
-import type { SsrFPolicy } from "openclaw/plugin-sdk/ssrf-runtime";
+import type { SsrFPolicy } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import { blueBubblesFetchWithTimeout } from "./types.js";
 
 function concatUint8Arrays(parts: Uint8Array[]): Uint8Array {

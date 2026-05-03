@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import {
   collectDiscordMissingEnvTokenWarnings,
@@ -319,7 +319,7 @@ describe("discord doctor", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     const hits = scanDiscordNumericIdEntries(cfg);
     expect(hits.map((hit) => hit.path)).toEqual([
@@ -342,9 +342,9 @@ describe("discord doctor", () => {
           guilds: { main: { users: [111], roles: [222] } },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
-    const result = maybeRepairDiscordNumericIds(cfg, "openclaw doctor --fix");
+    const result = maybeRepairDiscordNumericIds(cfg, "brikko-studio doctor --fix");
     expect(result.config.channels?.discord?.allowFrom).toEqual(["123"]);
     expect(result.config.channels?.discord?.dm?.allowFrom).toEqual(["99"]);
     expect(result.config.channels?.discord?.guilds?.main?.users).toEqual(["111"]);
@@ -356,11 +356,11 @@ describe("discord doctor", () => {
   it("formats repair guidance for unsafe numeric ids", () => {
     const warnings = collectDiscordNumericIdWarnings({
       hits: [{ path: "channels.discord.allowFrom[0]", entry: 106232522769186816, safe: false }],
-      doctorFixCommand: "openclaw doctor --fix",
+      doctorFixCommand: "brikko-studio doctor --fix",
     });
 
     expect(warnings[0]).toContain("cannot be auto-repaired");
-    expect(warnings[1]).toContain("openclaw doctor --fix");
+    expect(warnings[1]).toContain("brikko-studio doctor --fix");
   });
 
   it("warns when default env fallback token is missing after migration", async () => {
@@ -370,7 +370,7 @@ describe("discord doctor", () => {
           allowFrom: ["123"],
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     expect(collectDiscordMissingEnvTokenWarnings({ cfg, env: {} })).toEqual([
       expect.stringContaining("DISCORD_BOT_TOKEN is absent"),
@@ -381,7 +381,7 @@ describe("discord doctor", () => {
     expect(
       await discordDoctor.collectPreviewWarnings?.({
         cfg,
-        doctorFixCommand: "openclaw doctor --fix",
+        doctorFixCommand: "brikko-studio doctor --fix",
         env: {},
       }),
     ).toEqual([expect.stringContaining("DISCORD_BOT_TOKEN is absent")]);
@@ -398,7 +398,7 @@ describe("discord doctor", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     expect(collectDiscordMissingEnvTokenWarnings({ cfg, env: {} })).toEqual([]);
   });

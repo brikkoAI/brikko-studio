@@ -1,4 +1,4 @@
-import type { MigrationPlan, MigrationProviderPlugin } from "openclaw/plugin-sdk/plugin-entry";
+import type { MigrationPlan, MigrationProviderPlugin } from "brikko-studio/plugin-sdk/plugin-entry";
 import { applyCodexMigrationPlan } from "./apply.js";
 import { buildCodexMigrationPlan } from "./plan.js";
 import { discoverCodexSource, hasCodexSource } from "./source.js";

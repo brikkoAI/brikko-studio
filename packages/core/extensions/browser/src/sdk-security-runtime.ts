@@ -1,4 +1,4 @@
-export { createSubsystemLogger } from "openclaw/plugin-sdk/logging-core";
+export { createSubsystemLogger } from "brikko-studio/plugin-sdk/logging-core";
 export {
   ensurePortAvailable,
   extractErrorCode,
@@ -17,5 +17,5 @@ export {
   SsrFBlockedError,
   wrapExternalContent,
   writeFileFromPathWithinRoot,
-} from "openclaw/plugin-sdk/security-runtime";
-export type { LookupFn, SsrFPolicy } from "openclaw/plugin-sdk/security-runtime";
+} from "brikko-studio/plugin-sdk/security-runtime";
+export type { LookupFn, SsrFPolicy } from "brikko-studio/plugin-sdk/security-runtime";

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import {
   buildPluginRegistrySnapshotReport,
   enablePluginInConfig,
@@ -32,14 +32,14 @@ describe("plugins cli policy mutations", () => {
   }
 
   it("refreshes the persisted plugin registry after enabling a plugin", async () => {
-    const sourceConfig = {} as OpenClawConfig;
+    const sourceConfig = {} as Brikko StudioConfig;
     const enabledConfig = {
       plugins: {
         entries: {
           alpha: { enabled: true },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     loadConfig.mockReturnValue(sourceConfig);
     enablePluginInConfig.mockReturnValue({
       config: enabledConfig,
@@ -69,12 +69,12 @@ describe("plugins cli policy mutations", () => {
           alpha: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
     mockPluginRegistry(["alpha"]);
 
     await runPluginsCommand(["plugins", "disable", "alpha"]);
 
-    const nextConfig = writeConfigFile.mock.calls[0]?.[0] as OpenClawConfig;
+    const nextConfig = writeConfigFile.mock.calls[0]?.[0] as Brikko StudioConfig;
     expect(nextConfig.plugins?.entries?.alpha?.enabled).toBe(false);
     expect(refreshPluginRegistry).toHaveBeenCalledWith({
       config: nextConfig,
@@ -87,14 +87,14 @@ describe("plugins cli policy mutations", () => {
   it.each(compatibilityPluginIds)(
     "enables compatibility id $alias through canonical plugin $pluginId",
     async ({ alias, pluginId }) => {
-      const sourceConfig = {} as OpenClawConfig;
+      const sourceConfig = {} as Brikko StudioConfig;
       const enabledConfig = {
         plugins: {
           entries: {
             [pluginId]: { enabled: true },
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
       loadConfig.mockReturnValue(sourceConfig);
       enablePluginInConfig.mockReturnValue({
         config: enabledConfig,
@@ -120,12 +120,12 @@ describe("plugins cli policy mutations", () => {
             [pluginId]: { enabled: true },
           },
         },
-      } as OpenClawConfig);
+      } as Brikko StudioConfig);
       mockPluginRegistry([pluginId]);
 
       await runPluginsCommand(["plugins", "disable", alias]);
 
-      const nextConfig = writeConfigFile.mock.calls[0]?.[0] as OpenClawConfig;
+      const nextConfig = writeConfigFile.mock.calls[0]?.[0] as Brikko StudioConfig;
       expect(nextConfig.plugins?.entries?.[pluginId]?.enabled).toBe(false);
       expect(nextConfig.plugins?.entries?.[alias]).toBeUndefined();
     },
@@ -141,7 +141,7 @@ describe("plugins cli policy mutations", () => {
       );
 
       expect(runtimeErrors).toContain(
-        "Plugin not found: missing-plugin. Run `openclaw plugins list` to see installed plugins.",
+        "Plugin not found: missing-plugin. Run `brikko-studio plugins list` to see installed plugins.",
       );
       expect(enablePluginInConfig).not.toHaveBeenCalled();
       expect(writeConfigFile).not.toHaveBeenCalled();
@@ -150,12 +150,12 @@ describe("plugins cli policy mutations", () => {
   );
 
   it("does not create a channel config when disabling a channel plugin by policy", async () => {
-    loadConfig.mockReturnValue({} as OpenClawConfig);
+    loadConfig.mockReturnValue({} as Brikko StudioConfig);
     mockPluginRegistry(["twitch"]);
 
     await runPluginsCommand(["plugins", "disable", "twitch"]);
 
-    const nextConfig = writeConfigFile.mock.calls[0]?.[0] as OpenClawConfig;
+    const nextConfig = writeConfigFile.mock.calls[0]?.[0] as Brikko StudioConfig;
     expect(nextConfig.plugins?.entries?.twitch?.enabled).toBe(false);
     expect(nextConfig.channels?.twitch).toBeUndefined();
   });

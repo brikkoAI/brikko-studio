@@ -1,5 +1,5 @@
 import { normalizeModelCatalogProviderRows } from "./normalize.js";
-import type { OpenClawProviderIndex } from "./provider-index/index.js";
+import type { Brikko StudioProviderIndex } from "./provider-index/index.js";
 import { normalizeModelCatalogProviderId } from "./refs.js";
 import type { ModelCatalogProvider, NormalizedModelCatalogRow } from "./types.js";
 
@@ -25,7 +25,7 @@ function withPreviewStatusDefaults(providerCatalog: ModelCatalogProvider): Model
 }
 
 export function planProviderIndexModelCatalogRows(params: {
-  index: OpenClawProviderIndex;
+  index: Brikko StudioProviderIndex;
   providerFilter?: string;
 }): ProviderIndexModelCatalogPlan {
   const providerFilter = params.providerFilter

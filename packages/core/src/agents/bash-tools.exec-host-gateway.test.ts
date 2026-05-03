@@ -331,11 +331,11 @@ describe("processGatewayAllowlist", () => {
       durationMs: 12,
       timedOut: false,
       aggregated: JSON.stringify({
-        path: "/tmp/openclaw-diagnostics.zip",
+        path: "/tmp/brikko-studio-diagnostics.zip",
         bytes: 1234,
         manifest: {
           generatedAt: "2026-04-28T20:58:29.311Z",
-          openclawVersion: "2026.4.27",
+          brikko-studioVersion: "2026.4.27",
           contents: [
             { path: "diagnostics.json", bytes: 100 },
             { path: "summary.md", bytes: 200 },
@@ -360,13 +360,13 @@ describe("processGatewayAllowlist", () => {
         "Codex diagnostics sent to OpenAI servers:",
         "Session 1",
         "Channel: telegram",
-        "OpenClaw session id: `session-1`",
+        "Brikko Studio session id: `session-1`",
         "Codex thread id: `thread-1`",
       ].join("\n"),
     );
 
     await runGatewayAllowlist({
-      command: "openclaw gateway diagnostics export --json",
+      command: "brikko-studio gateway diagnostics export --json",
       trigger: "diagnostics",
       approvalFollowupMode: "direct",
       approvalFollowup,
@@ -383,7 +383,7 @@ describe("processGatewayAllowlist", () => {
       expect.stringContaining("Diagnostics export created."),
     );
     const followupText = sendExecApprovalFollowupResultMock.mock.calls[0]?.[1] ?? "";
-    expect(followupText).toContain("Path: /tmp/openclaw-diagnostics.zip");
+    expect(followupText).toContain("Path: /tmp/brikko-studio-diagnostics.zip");
     expect(followupText).toContain("Contents (2 files):");
     expect(followupText).toContain("OpenAI Codex harness:");
     expect(followupText).toContain("Codex diagnostics sent to OpenAI servers:");

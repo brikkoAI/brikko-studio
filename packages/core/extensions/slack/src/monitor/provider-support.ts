@@ -11,7 +11,7 @@ type SlackSocketModeConfig = Pick<
   "clientPingTimeout" | "serverPingTimeout" | "pingPongLoggingEnabled"
 >;
 
-const OPENCLAW_SLACK_CLIENT_PING_TIMEOUT_MS = 15_000;
+const BRIKKO_STUDIO_SLACK_CLIENT_PING_TIMEOUT_MS = 15_000;
 
 export type SlackBoltResolvedExports = {
   App: SlackAppConstructor;
@@ -139,7 +139,7 @@ function asRecord(value: unknown): Record<string, unknown> | undefined {
     : undefined;
 }
 
-export function shouldSkipOpenClawSlackSelfEvent(args: SlackSelfFilterArgs): boolean {
+export function shouldSkipBrikko StudioSlackSelfEvent(args: SlackSelfFilterArgs): boolean {
   const botId = args.context?.botId;
   const botUserId = args.context?.botUserId;
   const message = asRecord(args.message);
@@ -180,7 +180,7 @@ export function createSlackBoltApp(params: {
     appToken: params.appToken ?? "",
     autoReconnectEnabled: false,
     clientPingTimeout:
-      params.socketMode?.clientPingTimeout ?? OPENCLAW_SLACK_CLIENT_PING_TIMEOUT_MS,
+      params.socketMode?.clientPingTimeout ?? BRIKKO_STUDIO_SLACK_CLIENT_PING_TIMEOUT_MS,
     installerOptions: {
       clientOptions: params.clientOptions,
     },
@@ -206,11 +206,11 @@ export function createSlackBoltApp(params: {
     ignoreSelf: false,
     // Bolt eagerly starts an auth.test promise in the constructor when token
     // verification is enabled. Invalid tokens can reject before any listener
-    // consumes that promise, tripping OpenClaw's fatal unhandled-rejection path.
+    // consumes that promise, tripping Brikko Studio's fatal unhandled-rejection path.
     tokenVerificationEnabled: false,
   });
   app.use(async (args) => {
-    if (shouldSkipOpenClawSlackSelfEvent(args)) {
+    if (shouldSkipBrikko StudioSlackSelfEvent(args)) {
       return;
     }
     await args.next();

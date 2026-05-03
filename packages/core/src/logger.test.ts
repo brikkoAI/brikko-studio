@@ -47,8 +47,8 @@ describe("logger helpers", () => {
   });
 
   it("writes to configured log file at configured level", () => {
-    withTempDirSync({ prefix: "openclaw-log-test-" }, (dir) => {
-      const logPath = path.join(dir, "openclaw.log");
+    withTempDirSync({ prefix: "brikko-studio-log-test-" }, (dir) => {
+      const logPath = path.join(dir, "brikko-studio.log");
       setLoggerOverride({ level: "info", file: logPath });
       fs.writeFileSync(logPath, "");
       logInfo("hello");
@@ -59,8 +59,8 @@ describe("logger helpers", () => {
   });
 
   it("filters messages below configured level", () => {
-    withTempDirSync({ prefix: "openclaw-log-test-" }, (dir) => {
-      const logPath = path.join(dir, "openclaw.log");
+    withTempDirSync({ prefix: "brikko-studio-log-test-" }, (dir) => {
+      const logPath = path.join(dir, "brikko-studio.log");
       setLoggerOverride({ level: "warn", file: logPath });
       logInfo("info-only");
       logWarn("warn-only");
@@ -70,14 +70,14 @@ describe("logger helpers", () => {
   });
 
   it("uses daily rolling log files and prunes old ones", () => {
-    withTempDirSync({ prefix: "openclaw-log-test-" }, (dir) => {
+    withTempDirSync({ prefix: "brikko-studio-log-test-" }, (dir) => {
       resetLogger();
       const today = localDateString(new Date());
-      const todayPath = path.join(dir, `openclaw-${today}.log`);
+      const todayPath = path.join(dir, `brikko-studio-${today}.log`);
       setLoggerOverride({ level: "info", file: todayPath });
 
       // create an old file to be pruned
-      const oldPath = path.join(dir, "openclaw-2000-01-01.log");
+      const oldPath = path.join(dir, "brikko-studio-2000-01-01.log");
       fs.writeFileSync(oldPath, "old");
       fs.utimesSync(oldPath, new Date(0), new Date(0));
 

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { resolveBundledInstallPlanForCatalogEntry } from "../cli/plugin-install-plan.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { parseClawHubPluginSpec } from "../infra/clawhub-spec.js";
 import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.js";
 import {
@@ -37,7 +37,7 @@ export type OnboardingPluginInstallEntry = {
 export type OnboardingPluginInstallStatus = "installed" | "skipped" | "failed" | "timed_out";
 
 export type OnboardingPluginInstallResult = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   installed: boolean;
   pluginId: string;
   status: OnboardingPluginInstallStatus;
@@ -116,7 +116,7 @@ function hasGitWorkspace(workspaceDir?: string): boolean {
   return roots.some((root) => hasTrustedGitWorkspace(root));
 }
 
-function addPluginLoadPath(cfg: OpenClawConfig, pluginPath: string): OpenClawConfig {
+function addPluginLoadPath(cfg: Brikko StudioConfig, pluginPath: string): Brikko StudioConfig {
   const existing = cfg.plugins?.load?.paths ?? [];
   const merged = Array.from(new Set([...existing, pluginPath]));
   return {
@@ -163,12 +163,12 @@ function formatPortableLocalPath(localPath: string, workspaceDir?: string): stri
 }
 
 async function recordLocalPluginInstall(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   entry: OnboardingPluginInstallEntry;
   localPath: string;
   npmSpec?: string | null;
   workspaceDir?: string;
-}): Promise<OpenClawConfig> {
+}): Promise<Brikko StudioConfig> {
   const sourcePath = formatPortableLocalPath(params.localPath, params.workspaceDir);
   const install = {
     pluginId: params.entry.pluginId,
@@ -273,7 +273,7 @@ function resolveClawHubSpecForOnboarding(install: PluginPackageInstall): string 
 }
 
 function resolveInstallDefaultChoice(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   entry: OnboardingPluginInstallEntry;
   localPath?: string | null;
   bundledLocalPath?: string | null;
@@ -433,7 +433,7 @@ function isTimeoutError(error: unknown): boolean {
 }
 
 async function applyPluginEnablement(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   pluginId: string;
   label: string;
   prompter: WizardPrompter;
@@ -708,7 +708,7 @@ async function installPluginFromClawHubSpecWithProgress(params: {
 }
 
 export async function ensureOnboardingPluginInstalled(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   entry: OnboardingPluginInstallEntry;
   prompter: WizardPrompter;
   runtime: RuntimeEnv;

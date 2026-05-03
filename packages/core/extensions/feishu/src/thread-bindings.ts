@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   resolveThreadBindingIdleTimeoutMsForChannel,
   resolveThreadBindingMaxAgeMsForChannel,
@@ -8,9 +8,9 @@ import {
   type BindingTargetKind,
   type SessionBindingAdapter,
   type SessionBindingRecord,
-} from "openclaw/plugin-sdk/conversation-runtime";
-import { normalizeAccountId, resolveAgentIdFromSessionKey } from "openclaw/plugin-sdk/routing";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/conversation-runtime";
+import { normalizeAccountId, resolveAgentIdFromSessionKey } from "brikko-studio/plugin-sdk/routing";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 
 type FeishuBindingTargetKind = "subagent" | "acp";
 
@@ -51,7 +51,7 @@ type FeishuThreadBindingsState = {
   bindingsByAccountConversation: Map<string, FeishuThreadBindingRecord>;
 };
 
-const FEISHU_THREAD_BINDINGS_STATE_KEY = Symbol.for("openclaw.feishuThreadBindingsState");
+const FEISHU_THREAD_BINDINGS_STATE_KEY = Symbol.for("brikko-studio.feishuThreadBindingsState");
 let state: FeishuThreadBindingsState | undefined;
 
 function getState(): FeishuThreadBindingsState {
@@ -122,7 +122,7 @@ function toSessionBindingRecord(
 
 export function createFeishuThreadBindingManager(params: {
   accountId?: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
 }): FeishuThreadBindingManager {
   const accountId = normalizeAccountId(params.accountId);
   const existing = getState().managersByAccountId.get(accountId);

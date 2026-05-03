@@ -1,39 +1,39 @@
 ---
 summary: "Context engine: pluggable context assembly, compaction, and subagent lifecycle"
 read_when:
-  - You want to understand how OpenClaw assembles model context
+  - You want to understand how Brikko Studio assembles model context
   - You are switching between the legacy engine and a plugin engine
   - You are building a context engine plugin
 title: "Context engine"
 sidebarTitle: "Context engine"
 ---
 
-A **context engine** controls how OpenClaw builds model context for each run: which messages to include, how to summarize older history, and how to manage context across subagent boundaries.
+A **context engine** controls how Brikko Studio builds model context for each run: which messages to include, how to summarize older history, and how to manage context across subagent boundaries.
 
-OpenClaw ships with a built-in `legacy` engine and uses it by default — most users never need to change this. Install and select a plugin engine only when you want different assembly, compaction, or cross-session recall behavior.
+Brikko Studio ships with a built-in `legacy` engine and uses it by default — most users never need to change this. Install and select a plugin engine only when you want different assembly, compaction, or cross-session recall behavior.
 
 ## Quick start
 
 <Steps>
   <Step title="Check which engine is active">
     ```bash
-    openclaw doctor
+    brikko-studio doctor
     # or inspect config directly:
-    cat ~/.openclaw/openclaw.json | jq '.plugins.slots.contextEngine'
+    cat ~/.brikko-studio/brikko-studio.json | jq '.plugins.slots.contextEngine'
     ```
   </Step>
   <Step title="Install a plugin engine">
-    Context engine plugins are installed like any other OpenClaw plugin.
+    Context engine plugins are installed like any other Brikko Studio plugin.
 
     <Tabs>
       <Tab title="From npm">
         ```bash
-        openclaw plugins install @martian-engineering/lossless-claw
+        brikko-studio plugins install @martian-engineering/lossless-claw
         ```
       </Tab>
       <Tab title="From a local path">
         ```bash
-        openclaw plugins install -l ./my-context-engine
+        brikko-studio plugins install -l ./my-context-engine
         ```
       </Tab>
     </Tabs>
@@ -41,7 +41,7 @@ OpenClaw ships with a built-in `legacy` engine and uses it by default — most u
   </Step>
   <Step title="Enable and select the engine">
     ```json5
-    // openclaw.json
+    // brikko-studio.json
     {
       plugins: {
         slots: {
@@ -67,7 +67,7 @@ OpenClaw ships with a built-in `legacy` engine and uses it by default — most u
 
 ## How it works
 
-Every time OpenClaw runs a model prompt, the context engine participates at four lifecycle points:
+Every time Brikko Studio runs a model prompt, the context engine participates at four lifecycle points:
 
 <AccordionGroup>
   <Accordion title="1. Ingest">
@@ -84,14 +84,14 @@ Every time OpenClaw runs a model prompt, the context engine participates at four
   </Accordion>
 </AccordionGroup>
 
-For the bundled non-ACP Codex harness, OpenClaw applies the same lifecycle by projecting assembled context into Codex developer instructions and the current turn prompt. Codex still owns its native thread history and native compactor.
+For the bundled non-ACP Codex harness, Brikko Studio applies the same lifecycle by projecting assembled context into Codex developer instructions and the current turn prompt. Codex still owns its native thread history and native compactor.
 
 ### Subagent lifecycle (optional)
 
-OpenClaw calls two optional subagent lifecycle hooks:
+Brikko Studio calls two optional subagent lifecycle hooks:
 
 <ParamField path="prepareSubagentSpawn" type="method">
-  Prepare shared context state before a child run starts. The hook receives parent/child session keys, `contextMode` (`isolated` or `fork`), available transcript ids/files, and optional TTL. If it returns a rollback handle, OpenClaw calls it when spawn fails after preparation succeeds.
+  Prepare shared context state before a child run starts. The hook receives parent/child session keys, `contextMode` (`isolated` or `fork`), available transcript ids/files, and optional TTL. If it returns a rollback handle, Brikko Studio calls it when spawn fails after preparation succeeds.
 </ParamField>
 <ParamField path="onSubagentEnded" type="method">
   Clean up when a subagent session completes or is swept.
@@ -99,11 +99,11 @@ OpenClaw calls two optional subagent lifecycle hooks:
 
 ### System prompt addition
 
-The `assemble` method can return a `systemPromptAddition` string. OpenClaw prepends this to the system prompt for the run. This lets engines inject dynamic recall guidance, retrieval instructions, or context-aware hints without requiring static workspace files.
+The `assemble` method can return a `systemPromptAddition` string. Brikko Studio prepends this to the system prompt for the run. This lets engines inject dynamic recall guidance, retrieval instructions, or context-aware hints without requiring static workspace files.
 
 ## The legacy engine
 
-The built-in `legacy` engine preserves OpenClaw's original behavior:
+The built-in `legacy` engine preserves Brikko Studio's original behavior:
 
 - **Ingest**: no-op (the session manager handles message persistence directly).
 - **Assemble**: pass-through (the existing sanitize → validate → limit pipeline in the runtime handles context assembly).
@@ -119,7 +119,7 @@ When no `plugins.slots.contextEngine` is set (or it's set to `"legacy"`), this e
 A plugin can register a context engine using the plugin API:
 
 ```ts
-import { buildMemorySystemPromptAddition } from "openclaw/plugin-sdk/core";
+import { buildMemorySystemPromptAddition } from "brikko-studio/plugin-sdk/core";
 
 export default function register(api) {
   api.registerContextEngine("my-engine", (ctx) => ({
@@ -192,7 +192,7 @@ Required members:
   The ordered messages to send to the model.
 </ParamField>
 <ParamField path="estimatedTokens" type="number" required>
-  The engine's estimate of total tokens in the assembled context. OpenClaw uses this for compaction threshold decisions and diagnostic reporting.
+  The engine's estimate of total tokens in the assembled context. Brikko Studio uses this for compaction threshold decisions and diagnostic reporting.
 </ParamField>
 <ParamField path="systemPromptAddition" type="string">
   Prepended to the system prompt.
@@ -230,7 +230,7 @@ Optional members:
 
 <AccordionGroup>
   <Accordion title="ownsCompaction: true">
-    The engine owns compaction behavior. OpenClaw disables Pi's built-in auto-compaction for that run, and the engine's `compact()` implementation is responsible for `/compact`, overflow recovery compaction, and any proactive compaction it wants to do in `afterTurn()`. OpenClaw may still run the pre-prompt overflow safeguard; when it predicts the full transcript will overflow, the recovery path calls the active engine's `compact()` before submitting another prompt.
+    The engine owns compaction behavior. Brikko Studio disables Pi's built-in auto-compaction for that run, and the engine's `compact()` implementation is responsible for `/compact`, overflow recovery compaction, and any proactive compaction it wants to do in `afterTurn()`. Brikko Studio may still run the pre-prompt overflow safeguard; when it predicts the full transcript will overflow, the recovery path calls the active engine's `compact()` before submitting another prompt.
   </Accordion>
   <Accordion title="ownsCompaction: false or unset">
     Pi's built-in auto-compaction may still run during prompt execution, but the active engine's `compact()` method is still called for `/compact` and overflow recovery.
@@ -238,7 +238,7 @@ Optional members:
 </AccordionGroup>
 
 <Warning>
-`ownsCompaction: false` does **not** mean OpenClaw automatically falls back to the legacy engine's compaction path.
+`ownsCompaction: false` does **not** mean Brikko Studio automatically falls back to the legacy engine's compaction path.
 </Warning>
 
 That means there are two valid plugin patterns:
@@ -248,7 +248,7 @@ That means there are two valid plugin patterns:
     Implement your own compaction algorithm and set `ownsCompaction: true`.
   </Tab>
   <Tab title="Delegating mode">
-    Set `ownsCompaction: false` and have `compact()` call `delegateCompactionToRuntime(...)` from `openclaw/plugin-sdk/core` to use OpenClaw's built-in compaction behavior.
+    Set `ownsCompaction: false` and have `compact()` call `delegateCompactionToRuntime(...)` from `brikko-studio/plugin-sdk/core` to use Brikko Studio's built-in compaction behavior.
   </Tab>
 </Tabs>
 
@@ -269,21 +269,21 @@ A no-op `compact()` is unsafe for an active non-owning engine because it disable
 ```
 
 <Note>
-The slot is exclusive at run time — only one registered context engine is resolved for a given run or compaction operation. Other enabled `kind: "context-engine"` plugins can still load and run their registration code; `plugins.slots.contextEngine` only selects which registered engine id OpenClaw resolves when it needs a context engine.
+The slot is exclusive at run time — only one registered context engine is resolved for a given run or compaction operation. Other enabled `kind: "context-engine"` plugins can still load and run their registration code; `plugins.slots.contextEngine` only selects which registered engine id Brikko Studio resolves when it needs a context engine.
 </Note>
 
 <Note>
-**Plugin uninstall:** when you uninstall the plugin currently selected as `plugins.slots.contextEngine`, OpenClaw resets the slot back to the default (`legacy`). The same reset behavior applies to `plugins.slots.memory`. No manual config edit is required.
+**Plugin uninstall:** when you uninstall the plugin currently selected as `plugins.slots.contextEngine`, Brikko Studio resets the slot back to the default (`legacy`). The same reset behavior applies to `plugins.slots.memory`. No manual config edit is required.
 </Note>
 
 ## Relationship to compaction and memory
 
 <AccordionGroup>
   <Accordion title="Compaction">
-    Compaction is one responsibility of the context engine. The legacy engine delegates to OpenClaw's built-in summarization. Plugin engines can implement any compaction strategy (DAG summaries, vector retrieval, etc.).
+    Compaction is one responsibility of the context engine. The legacy engine delegates to Brikko Studio's built-in summarization. Plugin engines can implement any compaction strategy (DAG summaries, vector retrieval, etc.).
   </Accordion>
   <Accordion title="Memory plugins">
-    Memory plugins (`plugins.slots.memory`) are separate from context engines. Memory plugins provide search/retrieval; context engines control what the model sees. They can work together — a context engine might use memory plugin data during assembly. Plugin engines that want the active memory prompt path should prefer `buildMemorySystemPromptAddition(...)` from `openclaw/plugin-sdk/core`, which converts the active memory prompt sections into a ready-to-prepend `systemPromptAddition`. If an engine needs lower-level control, it can still pull raw lines from `openclaw/plugin-sdk/memory-host-core` via `buildActiveMemoryPromptSection(...)`.
+    Memory plugins (`plugins.slots.memory`) are separate from context engines. Memory plugins provide search/retrieval; context engines control what the model sees. They can work together — a context engine might use memory plugin data during assembly. Plugin engines that want the active memory prompt path should prefer `buildMemorySystemPromptAddition(...)` from `brikko-studio/plugin-sdk/core`, which converts the active memory prompt sections into a ready-to-prepend `systemPromptAddition`. If an engine needs lower-level control, it can still pull raw lines from `brikko-studio/plugin-sdk/memory-host-core` via `buildActiveMemoryPromptSection(...)`.
   </Accordion>
   <Accordion title="Session pruning">
     Trimming old tool results in-memory still runs regardless of which context engine is active.
@@ -292,10 +292,10 @@ The slot is exclusive at run time — only one registered context engine is reso
 
 ## Tips
 
-- Use `openclaw doctor` to verify your engine is loading correctly.
+- Use `brikko-studio doctor` to verify your engine is loading correctly.
 - If switching engines, existing sessions continue with their current history. The new engine takes over for future runs.
-- Engine errors are logged and surfaced in diagnostics. If a plugin engine fails to register or the selected engine id cannot be resolved, OpenClaw does not fall back automatically; runs fail until you fix the plugin or switch `plugins.slots.contextEngine` back to `"legacy"`.
-- For development, use `openclaw plugins install -l ./my-engine` to link a local plugin directory without copying.
+- Engine errors are logged and surfaced in diagnostics. If a plugin engine fails to register or the selected engine id cannot be resolved, Brikko Studio does not fall back automatically; runs fail until you fix the plugin or switch `plugins.slots.contextEngine` back to `"legacy"`.
+- For development, use `brikko-studio plugins install -l ./my-engine` to link a local plugin directory without copying.
 
 ## Related
 

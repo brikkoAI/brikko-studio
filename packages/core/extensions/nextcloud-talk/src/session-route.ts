@@ -1,9 +1,9 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { buildOutboundBaseSessionKey } from "openclaw/plugin-sdk/routing";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { buildOutboundBaseSessionKey } from "brikko-studio/plugin-sdk/routing";
 import { stripNextcloudTalkTargetPrefix } from "./normalize.js";
 
 type NextcloudTalkOutboundSessionRouteParams = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   accountId?: string | null;
   target: string;

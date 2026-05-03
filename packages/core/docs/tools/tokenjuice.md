@@ -2,7 +2,7 @@
 summary: "Compact noisy exec and bash tool results with an optional bundled plugin"
 title: "Tokenjuice"
 read_when:
-  - You want shorter `exec` or `bash` tool results in OpenClaw
+  - You want shorter `exec` or `bash` tool results in Brikko Studio
   - You want to enable the bundled tokenjuice plugin
   - You need to understand what tokenjuice changes and what it leaves raw
 ---
@@ -13,8 +13,8 @@ tool results after the command has already run.
 It changes the returned `tool_result`, not the command itself. Tokenjuice does
 not rewrite shell input, rerun commands, or change exit codes.
 
-Today this applies to PI embedded runs and OpenClaw dynamic tools in the Codex
-app-server harness. Tokenjuice hooks OpenClaw's tool-result middleware and
+Today this applies to PI embedded runs and Brikko Studio dynamic tools in the Codex
+app-server harness. Tokenjuice hooks Brikko Studio's tool-result middleware and
 trims the output before it goes back into the active harness session.
 
 ## Enable the plugin
@@ -22,17 +22,17 @@ trims the output before it goes back into the active harness session.
 Fast path:
 
 ```bash
-openclaw config set plugins.entries.tokenjuice.enabled true
+brikko-studio config set plugins.entries.tokenjuice.enabled true
 ```
 
 Equivalent:
 
 ```bash
-openclaw plugins enable tokenjuice
+brikko-studio plugins enable tokenjuice
 ```
 
-OpenClaw already ships the plugin. There is no separate `plugins install`
-or `tokenjuice install openclaw` step.
+Brikko Studio already ships the plugin. There is no separate `plugins install`
+or `tokenjuice install brikko-studio` step.
 
 If you prefer editing config directly:
 
@@ -65,13 +65,13 @@ If you prefer editing config directly:
 ## Disable the plugin
 
 ```bash
-openclaw config set plugins.entries.tokenjuice.enabled false
+brikko-studio config set plugins.entries.tokenjuice.enabled false
 ```
 
 Or:
 
 ```bash
-openclaw plugins disable tokenjuice
+brikko-studio plugins disable tokenjuice
 ```
 
 ## Related

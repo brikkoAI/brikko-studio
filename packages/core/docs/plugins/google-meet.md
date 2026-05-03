@@ -1,19 +1,19 @@
 ---
 summary: "Google Meet plugin: join explicit Meet URLs through Chrome or Twilio with realtime voice defaults"
 read_when:
-  - You want an OpenClaw agent to join a Google Meet call
-  - You want an OpenClaw agent to create a new Google Meet call
+  - You want an Brikko Studio agent to join a Google Meet call
+  - You want an Brikko Studio agent to create a new Google Meet call
   - You are configuring Chrome, Chrome node, or Twilio as a Google Meet transport
 title: "Google Meet plugin"
 ---
 
-Google Meet participant support for OpenClaw — the plugin is explicit by design:
+Google Meet participant support for Brikko Studio — the plugin is explicit by design:
 
 - It only joins an explicit `https://meet.google.com/...` URL.
 - It can create a new Meet space through the Google Meet API, then join the
   returned URL.
 - `realtime` voice is the default mode.
-- Realtime voice can call back into the full OpenClaw agent when deeper
+- Realtime voice can call back into the full Brikko Studio agent when deeper
   reasoning or tools are needed.
 - Agents choose the join behavior with `mode`: use `realtime` for live
   listen/talk-back, or `transcribe` to join/control the browser without the
@@ -72,7 +72,7 @@ Enable the plugin:
 Check setup:
 
 ```bash
-openclaw googlemeet setup
+brikko-studio googlemeet setup
 ```
 
 The setup output is meant to be agent-readable and mode-aware. It reports Chrome
@@ -82,13 +82,13 @@ transport with `--mode transcribe`; that mode skips realtime audio prerequisites
 because it does not listen through or speak through the bridge:
 
 ```bash
-openclaw googlemeet setup --transport chrome-node --mode transcribe
+brikko-studio googlemeet setup --transport chrome-node --mode transcribe
 ```
 
 When Twilio delegation is configured, setup also reports whether the
 `voice-call` plugin, Twilio credentials, and public webhook exposure are ready.
 Treat any `ok: false` check as a blocker for the checked transport and mode
-before asking an agent to join. Use `openclaw googlemeet setup --json` for
+before asking an agent to join. Use `brikko-studio googlemeet setup --json` for
 scripts or machine-readable output. Use `--transport chrome`,
 `--transport chrome-node`, or `--transport twilio` to preflight a specific
 transport before an agent tries it.
@@ -97,7 +97,7 @@ For Twilio, always preflight the transport explicitly when the default transport
 is Chrome:
 
 ```bash
-openclaw googlemeet setup --transport twilio
+brikko-studio googlemeet setup --transport twilio
 ```
 
 That catches missing `voice-call` wiring, Twilio credentials, or unreachable
@@ -106,7 +106,7 @@ webhook exposure before the agent tries to dial the meeting.
 Join a meeting:
 
 ```bash
-openclaw googlemeet join https://meet.google.com/abc-defg-hij
+brikko-studio googlemeet join https://meet.google.com/abc-defg-hij
 ```
 
 Or let an agent join through the `google_meet` tool:
@@ -130,7 +130,7 @@ Chrome participation.
 Create a new meeting and join it:
 
 ```bash
-openclaw googlemeet create --transport chrome-node --mode realtime
+brikko-studio googlemeet create --transport chrome-node --mode realtime
 ```
 
 For API-created rooms, use Google Meet `SpaceConfig.accessType` when you want
@@ -138,7 +138,7 @@ the room's no-knock policy to be explicit instead of inherited from the Google
 account defaults:
 
 ```bash
-openclaw googlemeet create --access-type OPEN --transport chrome-node --mode realtime
+brikko-studio googlemeet create --access-type OPEN --transport chrome-node --mode realtime
 ```
 
 `OPEN` lets anyone with the Meet URL join without knocking. `TRUSTED` lets the
@@ -148,23 +148,23 @@ settings only apply to the official Google Meet API creation path, so OAuth
 credentials must be configured.
 
 If you authenticated Google Meet before this option was available, rerun
-`openclaw googlemeet auth login --json` after adding the
+`brikko-studio googlemeet auth login --json` after adding the
 `meetings.space.settings` scope to your Google OAuth consent screen.
 
 Create only the URL without joining:
 
 ```bash
-openclaw googlemeet create --no-join
+brikko-studio googlemeet create --no-join
 ```
 
 `googlemeet create` has two paths:
 
 - API create: used when Google Meet OAuth credentials are configured. This is
   the most deterministic path and does not depend on browser UI state.
-- Browser fallback: used when OAuth credentials are absent. OpenClaw uses the
+- Browser fallback: used when OAuth credentials are absent. Brikko Studio uses the
   pinned Chrome node, opens `https://meet.google.com/new`, waits for Google to
   redirect to a real meeting-code URL, then returns that URL. This path requires
-  the OpenClaw Chrome profile on the node to already be signed in to Google.
+  the Brikko Studio Chrome profile on the node to already be signed in to Google.
   Browser automation handles Meet's own first-run microphone prompt; that prompt
   is not treated as a Google login failure.
   Join and create flows also try to reuse an existing Meet tab before opening a
@@ -192,7 +192,7 @@ then share the returned `meetingUri`.
 For an observe-only/browser-control join, set `"mode": "transcribe"`. That does
 not start the duplex realtime model bridge, does not require BlackHole or SoX,
 and will not talk back into the meeting. Chrome joins in this mode also avoid
-OpenClaw's microphone/camera permission grant and avoid the Meet **Use
+Brikko Studio's microphone/camera permission grant and avoid the Meet **Use
 microphone** path. If Meet shows an audio-choice interstitial, automation tries
 the no-microphone path and otherwise reports a manual action instead of opening
 the local microphone. In transcribe mode, managed Chrome transports also install
@@ -201,7 +201,7 @@ a best-effort Meet caption observer. `googlemeet status --json` and
 `transcriptLines`, `lastCaptionAt`, `lastCaptionSpeaker`, `lastCaptionText`,
 and a short `recentTranscript` tail so operators can tell whether the browser
 joined the call and whether Meet captions are producing text.
-Use `openclaw googlemeet test-listen <meet-url> --transport chrome-node` when
+Use `brikko-studio googlemeet test-listen <meet-url> --transport chrome-node` when
 you need a yes/no probe: it joins in transcribe mode, waits for fresh caption or
 transcript movement, and returns `listenVerified`, `listenTimedOut`, manual
 action fields, and the latest caption health.
@@ -217,23 +217,23 @@ test phrase after browser health reports `inCall: true`; otherwise status report
 `speechReady: false` and the speech attempt is blocked instead of pretending the
 agent spoke into the meeting.
 
-Local Chrome joins through the signed-in OpenClaw browser profile. Realtime mode
-requires `BlackHole 2ch` for the microphone/speaker path used by OpenClaw. For
+Local Chrome joins through the signed-in Brikko Studio browser profile. Realtime mode
+requires `BlackHole 2ch` for the microphone/speaker path used by Brikko Studio. For
 clean duplex audio, use separate virtual devices or a Loopback-style graph; a
 single BlackHole device is enough for a first smoke test but can echo.
 
 ### Local gateway + Parallels Chrome
 
-You do **not** need a full OpenClaw Gateway or model API key inside a macOS VM
+You do **not** need a full Brikko Studio Gateway or model API key inside a macOS VM
 just to make the VM own Chrome. Run the Gateway and agent locally, then run a
 node host in the VM. Enable the bundled plugin on the VM once so the node
 advertises the Chrome command:
 
 What runs where:
 
-- Gateway host: OpenClaw Gateway, agent workspace, model/API keys, realtime
+- Gateway host: Brikko Studio Gateway, agent workspace, model/API keys, realtime
   provider, and the Google Meet plugin config.
-- Parallels macOS VM: OpenClaw CLI/node host, Google Chrome, SoX, BlackHole 2ch,
+- Parallels macOS VM: Brikko Studio CLI/node host, Google Chrome, SoX, BlackHole 2ch,
   and a Chrome profile signed in to Google.
 - Not needed in the VM: Gateway service, agent config, OpenAI/GPT key, or model
   provider setup.
@@ -257,50 +257,50 @@ system_profiler SPAudioDataType | grep -i BlackHole
 command -v sox
 ```
 
-Install or update OpenClaw in the VM, then enable the bundled plugin there:
+Install or update Brikko Studio in the VM, then enable the bundled plugin there:
 
 ```bash
-openclaw plugins enable google-meet
+brikko-studio plugins enable google-meet
 ```
 
 Start the node host in the VM:
 
 ```bash
-openclaw node run --host <gateway-host> --port 18789 --display-name parallels-macos
+brikko-studio node run --host <gateway-host> --port 18789 --display-name parallels-macos
 ```
 
 If `<gateway-host>` is a LAN IP and you are not using TLS, the node refuses the
 plaintext WebSocket unless you opt in for that trusted private network:
 
 ```bash
-OPENCLAW_ALLOW_INSECURE_PRIVATE_WS=1 \
-  openclaw node run --host <gateway-lan-ip> --port 18789 --display-name parallels-macos
+BRIKKO_STUDIO_ALLOW_INSECURE_PRIVATE_WS=1 \
+  brikko-studio node run --host <gateway-lan-ip> --port 18789 --display-name parallels-macos
 ```
 
 Use the same environment variable when installing the node as a LaunchAgent:
 
 ```bash
-OPENCLAW_ALLOW_INSECURE_PRIVATE_WS=1 \
-  openclaw node install --host <gateway-lan-ip> --port 18789 --display-name parallels-macos --force
-openclaw node restart
+BRIKKO_STUDIO_ALLOW_INSECURE_PRIVATE_WS=1 \
+  brikko-studio node install --host <gateway-lan-ip> --port 18789 --display-name parallels-macos --force
+brikko-studio node restart
 ```
 
-`OPENCLAW_ALLOW_INSECURE_PRIVATE_WS=1` is process environment, not an
-`openclaw.json` setting. `openclaw node install` stores it in the LaunchAgent
+`BRIKKO_STUDIO_ALLOW_INSECURE_PRIVATE_WS=1` is process environment, not an
+`brikko-studio.json` setting. `brikko-studio node install` stores it in the LaunchAgent
 environment when it is present on the install command.
 
 Approve the node from the Gateway host:
 
 ```bash
-openclaw devices list
-openclaw devices approve <requestId>
+brikko-studio devices list
+brikko-studio devices approve <requestId>
 ```
 
 Confirm the Gateway sees the node and that it advertises both `googlemeet.chrome`
 and browser capability/`browser.proxy`:
 
 ```bash
-openclaw nodes status
+brikko-studio nodes status
 ```
 
 Route Meet through that node on the Gateway host:
@@ -319,7 +319,7 @@ Route Meet through that node on the Gateway host:
         config: {
           defaultTransport: "chrome-node",
           chrome: {
-            guestName: "OpenClaw Agent",
+            guestName: "Brikko Studio Agent",
             autoJoin: true,
             reuseExistingTab: true,
           },
@@ -336,7 +336,7 @@ Route Meet through that node on the Gateway host:
 Now join normally from the Gateway host:
 
 ```bash
-openclaw googlemeet join https://meet.google.com/abc-defg-hij
+brikko-studio googlemeet join https://meet.google.com/abc-defg-hij
 ```
 
 or ask the agent to use the `google_meet` tool with `transport: "chrome-node"`.
@@ -345,10 +345,10 @@ For a one-command smoke test that creates or reuses a session, speaks a known
 phrase, and prints session health:
 
 ```bash
-openclaw googlemeet test-speech https://meet.google.com/abc-defg-hij
+brikko-studio googlemeet test-speech https://meet.google.com/abc-defg-hij
 ```
 
-During realtime join, OpenClaw browser automation fills the guest name, clicks
+During realtime join, Brikko Studio browser automation fills the guest name, clicks
 Join/Ask to join, and accepts Meet's first-run "Use microphone" choice when that
 prompt appears. During observe-only join or browser-only meeting creation, it
 continues past the same prompt without microphone when that choice is available.
@@ -360,7 +360,7 @@ on a prompt automation could not resolve, the join/test-speech result reports
 message plus the current `browserUrl`/`browserTitle`, and retry only after the
 manual browser action is complete.
 
-If `chromeNode.node` is omitted, OpenClaw auto-selects only when exactly one
+If `chromeNode.node` is omitted, Brikko Studio auto-selects only when exactly one
 connected node advertises both `googlemeet.chrome` and browser control. If
 several capable nodes are connected, set `chromeNode.node` to the node id,
 display name, or remote IP.
@@ -371,9 +371,9 @@ Common failure checks:
   known to the Gateway but unavailable. Agents should treat that node as
   diagnostic state, not as a usable Chrome host, and report the setup blocker
   instead of falling back to another transport unless the user asked for that.
-- `No connected Google Meet-capable node`: start `openclaw node run` in the VM,
-  approve pairing, and make sure `openclaw plugins enable google-meet` and
-  `openclaw plugins enable browser` were run in the VM. Also confirm the
+- `No connected Google Meet-capable node`: start `brikko-studio node run` in the VM,
+  approve pairing, and make sure `brikko-studio plugins enable google-meet` and
+  `brikko-studio plugins enable browser` were run in the VM. Also confirm the
   Gateway host allows both node commands with
   `gateway.nodes.allowCommands: ["googlemeet.chrome", "browser.proxy"]`.
 - `BlackHole 2ch audio device not found`: install `blackhole-2ch` on the host
@@ -381,16 +381,16 @@ Common failure checks:
 - `BlackHole 2ch audio device not found on the node`: install `blackhole-2ch`
   in the VM and reboot the VM.
 - Chrome opens but cannot join: sign in to the browser profile inside the VM, or
-  keep `chrome.guestName` set for guest join. Guest auto-join uses OpenClaw
+  keep `chrome.guestName` set for guest join. Guest auto-join uses Brikko Studio
   browser automation through the node browser proxy; make sure the node browser
   config points at the profile you want, for example
   `browser.defaultProfile: "user"` or a named existing-session profile.
-- Duplicate Meet tabs: leave `chrome.reuseExistingTab: true` enabled. OpenClaw
+- Duplicate Meet tabs: leave `chrome.reuseExistingTab: true` enabled. Brikko Studio
   activates an existing tab for the same Meet URL before opening a new one, and
   browser meeting creation reuses an in-progress `https://meet.google.com/new`
   or Google account prompt tab before opening another one.
 - No audio: in Meet, route microphone/speaker through the virtual audio device
-  path used by OpenClaw; use separate virtual devices or Loopback-style routing
+  path used by Brikko Studio; use separate virtual devices or Loopback-style routing
   for clean duplex audio.
 
 ## Install notes
@@ -402,18 +402,18 @@ The Chrome realtime default uses two external tools:
 - `blackhole-2ch`: macOS virtual audio driver. It creates the `BlackHole 2ch`
   audio device that Chrome/Meet can route through.
 
-OpenClaw does not bundle or redistribute either package. The docs ask users to
+Brikko Studio does not bundle or redistribute either package. The docs ask users to
 install them as host dependencies through Homebrew. SoX is licensed as
 `LGPL-2.0-only AND GPL-2.0-only`; BlackHole is GPL-3.0. If you build an
-installer or appliance that bundles BlackHole with OpenClaw, review BlackHole's
+installer or appliance that bundles BlackHole with Brikko Studio, review BlackHole's
 upstream licensing terms or get a separate license from Existential Audio.
 
 ## Transports
 
 ### Chrome
 
-Chrome transport opens the Meet URL through OpenClaw browser control and joins
-as the signed-in OpenClaw browser profile. On macOS, the plugin checks for
+Chrome transport opens the Meet URL through Brikko Studio browser control and joins
+as the signed-in Brikko Studio browser profile. On macOS, the plugin checks for
 `BlackHole 2ch` before launch. If configured, it also runs an audio bridge
 health command and startup command before opening Chrome. Use `chrome` when
 Chrome/audio live on the Gateway host; use `chrome-node` when Chrome/audio live
@@ -422,11 +422,11 @@ profile with `browser.defaultProfile`; `chrome.browserProfile` is passed to
 `chrome-node` hosts.
 
 ```bash
-openclaw googlemeet join https://meet.google.com/abc-defg-hij --transport chrome
-openclaw googlemeet join https://meet.google.com/abc-defg-hij --transport chrome-node
+brikko-studio googlemeet join https://meet.google.com/abc-defg-hij --transport chrome
+brikko-studio googlemeet join https://meet.google.com/abc-defg-hij --transport chrome-node
 ```
 
-Route Chrome microphone and speaker audio through the local OpenClaw audio
+Route Chrome microphone and speaker audio through the local Brikko Studio audio
 bridge. If `BlackHole 2ch` is not installed, the join fails with a setup error
 instead of silently joining without an audio path.
 
@@ -437,7 +437,7 @@ does not parse Meet pages for phone numbers.
 
 Use this when Chrome participation is not available or you want a phone dial-in
 fallback. Google Meet must expose a phone dial-in number and PIN for the
-meeting; OpenClaw does not discover those from the Meet page.
+meeting; Brikko Studio does not discover those from the Meet page.
 
 Enable the Voice Call plugin on the Gateway host, not on the Chrome node:
 
@@ -465,7 +465,7 @@ Enable the Voice Call plugin on the Gateway host, not on the Chrome node:
 ```
 
 Provide Twilio credentials through environment or config. Environment keeps
-secrets out of `openclaw.json`:
+secrets out of `brikko-studio.json`:
 
 ```bash
 export TWILIO_ACCOUNT_SID=AC...
@@ -479,9 +479,9 @@ do not appear in an already running Gateway process until it reloads.
 Then verify:
 
 ```bash
-openclaw config validate
-openclaw plugins list | grep -E 'google-meet|voice-call'
-openclaw googlemeet setup
+brikko-studio config validate
+brikko-studio plugins list | grep -E 'google-meet|voice-call'
+brikko-studio googlemeet setup
 ```
 
 When Twilio delegation is wired, `googlemeet setup` includes successful
@@ -489,7 +489,7 @@ When Twilio delegation is wired, `googlemeet setup` includes successful
 `twilio-voice-call-webhook` checks.
 
 ```bash
-openclaw googlemeet join https://meet.google.com/abc-defg-hij \
+brikko-studio googlemeet join https://meet.google.com/abc-defg-hij \
   --transport twilio \
   --dial-in-number +15551234567 \
   --pin 123456
@@ -498,7 +498,7 @@ openclaw googlemeet join https://meet.google.com/abc-defg-hij \
 Use `--dtmf-sequence` when the meeting needs a custom sequence:
 
 ```bash
-openclaw googlemeet join https://meet.google.com/abc-defg-hij \
+brikko-studio googlemeet join https://meet.google.com/abc-defg-hij \
   --transport twilio \
   --dial-in-number +15551234567 \
   --dtmf-sequence ww123456#
@@ -513,7 +513,7 @@ space resolution, or Meet Media API preflight checks.
 Google Meet API access uses user OAuth: create a Google Cloud OAuth client,
 request the required scopes, authorize a Google account, then store the
 resulting refresh token in the Google Meet plugin config or provide the
-`OPENCLAW_GOOGLE_MEET_*` environment variables.
+`BRIKKO_STUDIO_GOOGLE_MEET_*` environment variables.
 
 OAuth does not replace the Chrome join path. Chrome and Chrome-node transports
 still join through a signed-in Chrome profile, BlackHole/SoX, and a connected
@@ -531,7 +531,7 @@ In Google Cloud Console:
    - **Internal** is simplest for a Google Workspace organization.
    - **External** works for personal/test setups; while the app is in Testing,
      add each Google account that will authorize the app as a test user.
-4. Add the scopes OpenClaw requests:
+4. Add the scopes Brikko Studio requests:
    - `https://www.googleapis.com/auth/meetings.space.created`
    - `https://www.googleapis.com/auth/meetings.space.readonly`
    - `https://www.googleapis.com/auth/meetings.space.settings`
@@ -547,8 +547,8 @@ In Google Cloud Console:
 6. Copy the client ID and client secret.
 
 `meetings.space.created` is required by Google Meet `spaces.create`.
-`meetings.space.readonly` lets OpenClaw resolve Meet URLs/codes to spaces.
-`meetings.space.settings` lets OpenClaw pass `SpaceConfig` settings such as
+`meetings.space.readonly` lets Brikko Studio resolve Meet URLs/codes to spaces.
+`meetings.space.settings` lets Brikko Studio pass `SpaceConfig` settings such as
 `accessType` during API room creation.
 `meetings.conference.media.readonly` is for Meet Media API preflight and media
 work; Google may require Developer Preview enrollment for actual Media API use.
@@ -560,7 +560,7 @@ Configure `oauth.clientId` and optionally `oauth.clientSecret`, or pass them as
 environment variables, then run:
 
 ```bash
-openclaw googlemeet auth login --json
+brikko-studio googlemeet auth login --json
 ```
 
 The command prints an `oauth` config block with a refresh token. It uses PKCE,
@@ -570,17 +570,17 @@ copy/paste flow with `--manual`.
 Examples:
 
 ```bash
-OPENCLAW_GOOGLE_MEET_CLIENT_ID="your-client-id" \
-OPENCLAW_GOOGLE_MEET_CLIENT_SECRET="your-client-secret" \
-openclaw googlemeet auth login --json
+BRIKKO_STUDIO_GOOGLE_MEET_CLIENT_ID="your-client-id" \
+BRIKKO_STUDIO_GOOGLE_MEET_CLIENT_SECRET="your-client-secret" \
+brikko-studio googlemeet auth login --json
 ```
 
 Use manual mode when the browser cannot reach the local callback:
 
 ```bash
-OPENCLAW_GOOGLE_MEET_CLIENT_ID="your-client-id" \
-OPENCLAW_GOOGLE_MEET_CLIENT_SECRET="your-client-secret" \
-openclaw googlemeet auth login --json --manual
+BRIKKO_STUDIO_GOOGLE_MEET_CLIENT_ID="your-client-id" \
+BRIKKO_STUDIO_GOOGLE_MEET_CLIENT_SECRET="your-client-secret" \
+brikko-studio googlemeet auth login --json --manual
 ```
 
 The JSON output includes:
@@ -625,7 +625,7 @@ first and then environment fallback.
 
 The OAuth consent includes Meet space creation, Meet space read access, and Meet
 conference media read access. If you authenticated before meeting creation
-support existed, rerun `openclaw googlemeet auth login --json` so the refresh
+support existed, rerun `brikko-studio googlemeet auth login --json` so the refresh
 token has the `meetings.space.created` scope.
 
 ### Verify OAuth with doctor
@@ -633,7 +633,7 @@ token has the `meetings.space.created` scope.
 Run the OAuth doctor when you want a fast, non-secret health check:
 
 ```bash
-openclaw googlemeet doctor --oauth --json
+brikko-studio googlemeet doctor --oauth --json
 ```
 
 This does not load the Chrome runtime or require a connected Chrome node. It
@@ -655,8 +655,8 @@ To prove Google Meet API enablement and `spaces.create` scope as well, run the
 side-effecting create check:
 
 ```bash
-openclaw googlemeet doctor --oauth --create-space --json
-openclaw googlemeet create --no-join --json
+brikko-studio googlemeet doctor --oauth --create-space --json
+brikko-studio googlemeet create --no-join --json
 ```
 
 `--create-space` creates a throwaway Meet URL. Use it when you need to confirm
@@ -666,50 +666,50 @@ account has the `meetings.space.created` scope.
 To prove read access for an existing meeting space:
 
 ```bash
-openclaw googlemeet doctor --oauth --meeting https://meet.google.com/abc-defg-hij --json
-openclaw googlemeet resolve-space --meeting https://meet.google.com/abc-defg-hij
+brikko-studio googlemeet doctor --oauth --meeting https://meet.google.com/abc-defg-hij --json
+brikko-studio googlemeet resolve-space --meeting https://meet.google.com/abc-defg-hij
 ```
 
 `doctor --oauth --meeting` and `resolve-space` prove read access to an existing
 space that the authorized Google account can access. A `403` from these checks
 usually means the Google Meet REST API is disabled, the consented refresh token
 is missing the required scope, or the Google account cannot access that Meet
-space. A refresh-token error means rerun `openclaw googlemeet auth login
+space. A refresh-token error means rerun `brikko-studio googlemeet auth login
 --json` and store the new `oauth` block.
 
 No OAuth credentials are needed for the browser fallback. In that mode, Google
 auth comes from the signed-in Chrome profile on the selected node, not from
-OpenClaw config.
+Brikko Studio config.
 
 These environment variables are accepted as fallbacks:
 
-- `OPENCLAW_GOOGLE_MEET_CLIENT_ID` or `GOOGLE_MEET_CLIENT_ID`
-- `OPENCLAW_GOOGLE_MEET_CLIENT_SECRET` or `GOOGLE_MEET_CLIENT_SECRET`
-- `OPENCLAW_GOOGLE_MEET_REFRESH_TOKEN` or `GOOGLE_MEET_REFRESH_TOKEN`
-- `OPENCLAW_GOOGLE_MEET_ACCESS_TOKEN` or `GOOGLE_MEET_ACCESS_TOKEN`
-- `OPENCLAW_GOOGLE_MEET_ACCESS_TOKEN_EXPIRES_AT` or
+- `BRIKKO_STUDIO_GOOGLE_MEET_CLIENT_ID` or `GOOGLE_MEET_CLIENT_ID`
+- `BRIKKO_STUDIO_GOOGLE_MEET_CLIENT_SECRET` or `GOOGLE_MEET_CLIENT_SECRET`
+- `BRIKKO_STUDIO_GOOGLE_MEET_REFRESH_TOKEN` or `GOOGLE_MEET_REFRESH_TOKEN`
+- `BRIKKO_STUDIO_GOOGLE_MEET_ACCESS_TOKEN` or `GOOGLE_MEET_ACCESS_TOKEN`
+- `BRIKKO_STUDIO_GOOGLE_MEET_ACCESS_TOKEN_EXPIRES_AT` or
   `GOOGLE_MEET_ACCESS_TOKEN_EXPIRES_AT`
-- `OPENCLAW_GOOGLE_MEET_DEFAULT_MEETING` or `GOOGLE_MEET_DEFAULT_MEETING`
-- `OPENCLAW_GOOGLE_MEET_PREVIEW_ACK` or `GOOGLE_MEET_PREVIEW_ACK`
+- `BRIKKO_STUDIO_GOOGLE_MEET_DEFAULT_MEETING` or `GOOGLE_MEET_DEFAULT_MEETING`
+- `BRIKKO_STUDIO_GOOGLE_MEET_PREVIEW_ACK` or `GOOGLE_MEET_PREVIEW_ACK`
 
 Resolve a Meet URL, code, or `spaces/{id}` through `spaces.get`:
 
 ```bash
-openclaw googlemeet resolve-space --meeting https://meet.google.com/abc-defg-hij
+brikko-studio googlemeet resolve-space --meeting https://meet.google.com/abc-defg-hij
 ```
 
 Run preflight before media work:
 
 ```bash
-openclaw googlemeet preflight --meeting https://meet.google.com/abc-defg-hij
+brikko-studio googlemeet preflight --meeting https://meet.google.com/abc-defg-hij
 ```
 
 List meeting artifacts and attendance after Meet has created conference records:
 
 ```bash
-openclaw googlemeet artifacts --meeting https://meet.google.com/abc-defg-hij
-openclaw googlemeet attendance --meeting https://meet.google.com/abc-defg-hij
-openclaw googlemeet export --meeting https://meet.google.com/abc-defg-hij --output ./meet-export
+brikko-studio googlemeet artifacts --meeting https://meet.google.com/abc-defg-hij
+brikko-studio googlemeet attendance --meeting https://meet.google.com/abc-defg-hij
+brikko-studio googlemeet export --meeting https://meet.google.com/abc-defg-hij --output ./meet-export
 ```
 
 With `--meeting`, `artifacts` and `attendance` use the latest conference record
@@ -720,10 +720,10 @@ Calendar lookup can resolve the meeting URL from Google Calendar before reading
 Meet artifacts:
 
 ```bash
-openclaw googlemeet latest --today
-openclaw googlemeet calendar-events --today --json
-openclaw googlemeet artifacts --event "Weekly sync"
-openclaw googlemeet attendance --today --format csv --output attendance.csv
+brikko-studio googlemeet latest --today
+brikko-studio googlemeet calendar-events --today --json
+brikko-studio googlemeet artifacts --event "Weekly sync"
+brikko-studio googlemeet attendance --today --format csv --output attendance.csv
 ```
 
 `--today` searches today's `primary` calendar for a Calendar event with a
@@ -736,38 +736,38 @@ OAuth login that includes the Calendar events readonly scope.
 If you already know the conference record id, address it directly:
 
 ```bash
-openclaw googlemeet latest --meeting https://meet.google.com/abc-defg-hij
-openclaw googlemeet artifacts --conference-record conferenceRecords/abc123 --json
-openclaw googlemeet attendance --conference-record conferenceRecords/abc123 --json
+brikko-studio googlemeet latest --meeting https://meet.google.com/abc-defg-hij
+brikko-studio googlemeet artifacts --conference-record conferenceRecords/abc123 --json
+brikko-studio googlemeet attendance --conference-record conferenceRecords/abc123 --json
 ```
 
 End an active conference for an API-created space when you want to close the
 room after the call:
 
 ```bash
-openclaw googlemeet end-active-conference https://meet.google.com/abc-defg-hij
+brikko-studio googlemeet end-active-conference https://meet.google.com/abc-defg-hij
 ```
 
 This calls Google Meet `spaces.endActiveConference` and requires OAuth with the
 `meetings.space.created` scope for a space the authorized account can manage.
-OpenClaw accepts a Meet URL, meeting code, or `spaces/{id}` input and resolves it
+Brikko Studio accepts a Meet URL, meeting code, or `spaces/{id}` input and resolves it
 to the API space resource before ending the active conference.
-It is separate from `googlemeet leave`: `leave` stops OpenClaw's local/session
+It is separate from `googlemeet leave`: `leave` stops Brikko Studio's local/session
 participation, while `end-active-conference` asks Google Meet to end the active
 conference for the space.
 
 Write a readable report:
 
 ```bash
-openclaw googlemeet artifacts --conference-record conferenceRecords/abc123 \
+brikko-studio googlemeet artifacts --conference-record conferenceRecords/abc123 \
   --format markdown --output meet-artifacts.md
-openclaw googlemeet attendance --conference-record conferenceRecords/abc123 \
+brikko-studio googlemeet attendance --conference-record conferenceRecords/abc123 \
   --format markdown --output meet-attendance.md
-openclaw googlemeet attendance --conference-record conferenceRecords/abc123 \
+brikko-studio googlemeet attendance --conference-record conferenceRecords/abc123 \
   --format csv --output meet-attendance.csv
-openclaw googlemeet export --conference-record conferenceRecords/abc123 \
+brikko-studio googlemeet export --conference-record conferenceRecords/abc123 \
   --include-doc-bodies --zip --output meet-export
-openclaw googlemeet export --conference-record conferenceRecords/abc123 \
+brikko-studio googlemeet export --conference-record conferenceRecords/abc123 \
   --include-doc-bodies --dry-run
 ```
 
@@ -847,8 +847,8 @@ meeting is useful:
 Run the guarded live smoke against a real retained meeting:
 
 ```bash
-OPENCLAW_LIVE_TEST=1 \
-OPENCLAW_GOOGLE_MEET_LIVE_MEETING=https://meet.google.com/abc-defg-hij \
+BRIKKO_STUDIO_LIVE_TEST=1 \
+BRIKKO_STUDIO_GOOGLE_MEET_LIVE_MEETING=https://meet.google.com/abc-defg-hij \
 pnpm test:live -- extensions/google-meet/google-meet.live.test.ts
 ```
 
@@ -856,23 +856,23 @@ Run the live listen-first browser probe against a meeting where someone will
 speak with Meet captions available:
 
 ```bash
-openclaw googlemeet setup --transport chrome-node --mode transcribe
-openclaw googlemeet test-listen https://meet.google.com/abc-defg-hij --transport chrome-node --timeout-ms 30000
+brikko-studio googlemeet setup --transport chrome-node --mode transcribe
+brikko-studio googlemeet test-listen https://meet.google.com/abc-defg-hij --transport chrome-node --timeout-ms 30000
 ```
 
 Live smoke environment:
 
-- `OPENCLAW_LIVE_TEST=1` enables guarded live tests.
-- `OPENCLAW_GOOGLE_MEET_LIVE_MEETING` points at a retained Meet URL, code, or
+- `BRIKKO_STUDIO_LIVE_TEST=1` enables guarded live tests.
+- `BRIKKO_STUDIO_GOOGLE_MEET_LIVE_MEETING` points at a retained Meet URL, code, or
   `spaces/{id}`.
-- `OPENCLAW_GOOGLE_MEET_CLIENT_ID` or `GOOGLE_MEET_CLIENT_ID` provides the OAuth
+- `BRIKKO_STUDIO_GOOGLE_MEET_CLIENT_ID` or `GOOGLE_MEET_CLIENT_ID` provides the OAuth
   client id.
-- `OPENCLAW_GOOGLE_MEET_REFRESH_TOKEN` or `GOOGLE_MEET_REFRESH_TOKEN` provides
+- `BRIKKO_STUDIO_GOOGLE_MEET_REFRESH_TOKEN` or `GOOGLE_MEET_REFRESH_TOKEN` provides
   the refresh token.
-- Optional: `OPENCLAW_GOOGLE_MEET_CLIENT_SECRET`,
-  `OPENCLAW_GOOGLE_MEET_ACCESS_TOKEN`, and
-  `OPENCLAW_GOOGLE_MEET_ACCESS_TOKEN_EXPIRES_AT` use the same fallback names
-  without the `OPENCLAW_` prefix.
+- Optional: `BRIKKO_STUDIO_GOOGLE_MEET_CLIENT_SECRET`,
+  `BRIKKO_STUDIO_GOOGLE_MEET_ACCESS_TOKEN`, and
+  `BRIKKO_STUDIO_GOOGLE_MEET_ACCESS_TOKEN_EXPIRES_AT` use the same fallback names
+  without the `BRIKKO_STUDIO_` prefix.
 
 The base artifact/attendance live smoke needs
 `https://www.googleapis.com/auth/meetings.space.readonly` and
@@ -884,7 +884,7 @@ document-body export needs
 Create a fresh Meet space:
 
 ```bash
-openclaw googlemeet create
+brikko-studio googlemeet create
 ```
 
 The command prints the new `meeting uri`, source, and join session. With OAuth
@@ -920,10 +920,10 @@ can create the URL, the Gateway method returns a failed response and the
 ```json
 {
   "source": "browser",
-  "error": "google-login-required: Sign in to Google in the OpenClaw browser profile, then retry meeting creation.",
+  "error": "google-login-required: Sign in to Google in the Brikko Studio browser profile, then retry meeting creation.",
   "manualActionRequired": true,
   "manualActionReason": "google-login-required",
-  "manualActionMessage": "Sign in to Google in the OpenClaw browser profile, then retry meeting creation.",
+  "manualActionMessage": "Sign in to Google in the Brikko Studio browser profile, then retry meeting creation.",
   "browser": {
     "nodeId": "ba0f4e4bc...",
     "targetId": "tab-1",
@@ -960,7 +960,7 @@ Example JSON output from API create:
 
 Creating a Meet joins by default. The Chrome or Chrome-node transport still
 needs a signed-in Google Chrome profile to join through the browser. If the
-profile is signed out, OpenClaw reports `manualActionRequired: true` or a
+profile is signed out, Brikko Studio reports `manualActionRequired: true` or a
 browser fallback error and asks the operator to finish Google login before
 retrying.
 
@@ -1002,10 +1002,10 @@ Defaults:
 - `defaultMode: "realtime"`
 - `chromeNode.node`: optional node id/name/IP for `chrome-node`
 - `chrome.audioBackend: "blackhole-2ch"`
-- `chrome.guestName: "OpenClaw Agent"`: name used on the signed-out Meet guest
+- `chrome.guestName: "Brikko Studio Agent"`: name used on the signed-out Meet guest
   screen
 - `chrome.autoJoin: true`: best-effort guest-name fill and Join Now click
-  through OpenClaw browser automation on `chrome-node`
+  through Brikko Studio browser automation on `chrome-node`
 - `chrome.reuseExistingTab: true`: activate an existing Meet tab instead of
   opening duplicates
 - `chrome.waitForInCallMs: 20000`: wait for the Meet tab to report in-call
@@ -1030,11 +1030,11 @@ Defaults:
 - `realtime.provider: "openai"`
 - `realtime.toolPolicy: "safe-read-only"`
 - `realtime.instructions`: brief spoken replies, with
-  `openclaw_agent_consult` for deeper answers
+  `brikko-studio_agent_consult` for deeper answers
 - `realtime.introMessage`: short spoken readiness check when the realtime bridge
   connects; set it to `""` to join silently
-- `realtime.agentId`: optional OpenClaw agent id for
-  `openclaw_agent_consult`; defaults to `main`
+- `realtime.agentId`: optional Brikko Studio agent id for
+  `brikko-studio_agent_consult`; defaults to `main`
 
 Optional overrides:
 
@@ -1044,10 +1044,10 @@ Optional overrides:
     meeting: "https://meet.google.com/abc-defg-hij",
   },
   browser: {
-    defaultProfile: "openclaw",
+    defaultProfile: "brikko-studio",
   },
   chrome: {
-    guestName: "OpenClaw Agent",
+    guestName: "Brikko Studio Agent",
     waitForInCallMs: 30000,
     bargeInInputCommand: [
       "sox",
@@ -1123,7 +1123,7 @@ Agents can use the `google_meet` tool:
 
 Use `transport: "chrome"` when Chrome runs on the Gateway host. Use
 `transport: "chrome-node"` when Chrome runs on a paired node such as a Parallels
-VM. In both cases the realtime model and `openclaw_agent_consult` run on the
+VM. In both cases the realtime model and `brikko-studio_agent_consult` run on the
 Gateway host, so model credentials stay there.
 
 Use `action: "status"` to list active sessions or inspect a session ID. Use
@@ -1145,7 +1145,7 @@ a session ended.
   browser profile needs manual login, Meet host admission, permissions, or
   browser-control repair before speech can work
 - `speechReady` / `speechBlockedReason` / `speechBlockedMessage`: whether
-  managed Chrome speech is allowed now. `speechReady: false` means OpenClaw did
+  managed Chrome speech is allowed now. `speechReady: false` means Brikko Studio did
   not send the intro/test phrase into the audio bridge.
 - `providerConnected` / `realtimeReady`: realtime voice bridge state
 - `lastInputAt` / `lastOutputAt`: last audio seen from or sent to the bridge
@@ -1165,15 +1165,15 @@ a session ended.
 Chrome realtime mode is optimized for a live voice loop. The realtime voice
 provider hears the meeting audio and speaks through the configured audio bridge.
 When the realtime model needs deeper reasoning, current information, or normal
-OpenClaw tools, it can call `openclaw_agent_consult`.
+Brikko Studio tools, it can call `brikko-studio_agent_consult`.
 
-The consult tool runs the regular OpenClaw agent behind the scenes with recent
+The consult tool runs the regular Brikko Studio agent behind the scenes with recent
 meeting transcript context and returns a concise spoken answer to the realtime
 voice session. The voice model can then speak that answer back into the meeting.
 It uses the same shared realtime consult tool as Voice Call.
 
 By default, consults run against the `main` agent. Set `realtime.agentId` when a
-Meet lane should consult a dedicated OpenClaw agent workspace, model defaults,
+Meet lane should consult a dedicated Brikko Studio agent workspace, model defaults,
 tool policy, memory, and session history.
 
 `realtime.toolPolicy` controls the consult run:
@@ -1191,13 +1191,13 @@ can reuse prior consult context during the same meeting.
 To force a spoken readiness check after Chrome has fully joined the call:
 
 ```bash
-openclaw googlemeet speak meet_... "Say exactly: I'm here and listening."
+brikko-studio googlemeet speak meet_... "Say exactly: I'm here and listening."
 ```
 
 For the full join-and-speak smoke:
 
 ```bash
-openclaw googlemeet test-speech https://meet.google.com/abc-defg-hij \
+brikko-studio googlemeet test-speech https://meet.google.com/abc-defg-hij \
   --transport chrome-node \
   --message "Say exactly: I'm here and listening."
 ```
@@ -1207,9 +1207,9 @@ openclaw googlemeet test-speech https://meet.google.com/abc-defg-hij \
 Use this sequence before handing a meeting to an unattended agent:
 
 ```bash
-openclaw googlemeet setup
-openclaw nodes status
-openclaw googlemeet test-speech https://meet.google.com/abc-defg-hij \
+brikko-studio googlemeet setup
+brikko-studio nodes status
+brikko-studio googlemeet test-speech https://meet.google.com/abc-defg-hij \
   --transport chrome-node \
   --message "Say exactly: Google Meet speech test complete."
 ```
@@ -1228,9 +1228,9 @@ For a remote Chrome host such as a Parallels macOS VM, this is the shortest
 safe check after updating the Gateway or the VM:
 
 ```bash
-openclaw googlemeet setup
-openclaw nodes status --connected
-openclaw nodes invoke \
+brikko-studio googlemeet setup
+brikko-studio nodes status --connected
+brikko-studio nodes invoke \
   --node parallels-macos \
   --command googlemeet.chrome \
   --params '{"action":"setup"}'
@@ -1243,8 +1243,8 @@ real meeting tab.
 For a Twilio smoke, use a meeting that exposes phone dial-in details:
 
 ```bash
-openclaw googlemeet setup
-openclaw googlemeet join https://meet.google.com/abc-defg-hij \
+brikko-studio googlemeet setup
+brikko-studio googlemeet join https://meet.google.com/abc-defg-hij \
   --transport twilio \
   --dial-in-number +15551234567 \
   --pin 123456
@@ -1256,7 +1256,7 @@ Expected Twilio state:
   `twilio-voice-call-credentials`, and `twilio-voice-call-webhook` checks.
 - `voicecall` is available in the CLI after Gateway reload.
 - The returned session has `transport: "twilio"` and a `twilio.voiceCallId`.
-- `openclaw logs --follow` shows DTMF TwiML served before realtime TwiML, then a
+- `brikko-studio logs --follow` shows DTMF TwiML served before realtime TwiML, then a
   realtime bridge with the initial greeting queued.
 - `googlemeet leave <sessionId>` hangs up the delegated voice call.
 
@@ -1267,8 +1267,8 @@ Expected Twilio state:
 Confirm the plugin is enabled in the Gateway config and reload the Gateway:
 
 ```bash
-openclaw plugins list | grep google-meet
-openclaw googlemeet setup
+brikko-studio plugins list | grep google-meet
+brikko-studio googlemeet setup
 ```
 
 If you just edited `plugins.entries.google-meet`, restart or reload the Gateway.
@@ -1286,18 +1286,18 @@ Linux agents should use `mode: "transcribe"`, Twilio dial-in, or a macOS
 On the node host, run:
 
 ```bash
-openclaw plugins enable google-meet
-openclaw plugins enable browser
-OPENCLAW_ALLOW_INSECURE_PRIVATE_WS=1 \
-  openclaw node run --host <gateway-lan-ip> --port 18789 --display-name parallels-macos
+brikko-studio plugins enable google-meet
+brikko-studio plugins enable browser
+BRIKKO_STUDIO_ALLOW_INSECURE_PRIVATE_WS=1 \
+  brikko-studio node run --host <gateway-lan-ip> --port 18789 --display-name parallels-macos
 ```
 
 On the Gateway host, approve the node and verify commands:
 
 ```bash
-openclaw devices list
-openclaw devices approve <requestId>
-openclaw nodes status
+brikko-studio devices list
+brikko-studio devices approve <requestId>
+brikko-studio nodes status
 ```
 
 The node must be connected and list `googlemeet.chrome` plus `browser.proxy`.
@@ -1318,8 +1318,8 @@ If `googlemeet setup` fails `chrome-node-connected` or the Gateway log reports
 token. For a LAN Gateway this usually means:
 
 ```bash
-OPENCLAW_ALLOW_INSECURE_PRIVATE_WS=1 \
-  openclaw node install \
+BRIKKO_STUDIO_ALLOW_INSECURE_PRIVATE_WS=1 \
+  brikko-studio node install \
   --host <gateway-lan-ip> \
   --port 18789 \
   --display-name parallels-macos \
@@ -1329,8 +1329,8 @@ OPENCLAW_ALLOW_INSECURE_PRIVATE_WS=1 \
 Then reload the node service and re-run:
 
 ```bash
-openclaw googlemeet setup
-openclaw nodes status --connected
+brikko-studio googlemeet setup
+brikko-studio nodes status --connected
 ```
 
 ### Browser opens but agent cannot join
@@ -1349,9 +1349,9 @@ Common manual actions:
 - Close or repair a stuck Meet permission dialog.
 
 Do not report "not signed in" just because Meet shows "Do you want people to
-hear you in the meeting?" That is Meet's audio-choice interstitial; OpenClaw
+hear you in the meeting?" That is Meet's audio-choice interstitial; Brikko Studio
 clicks **Use microphone** through browser automation when available and keeps
-waiting for the real meeting state. For create-only browser fallback, OpenClaw
+waiting for the real meeting state. For create-only browser fallback, Brikko Studio
 may click **Continue without microphone** because creating the URL does not need
 the realtime audio path.
 
@@ -1362,14 +1362,14 @@ when OAuth credentials are configured. Without OAuth credentials it falls back
 to the pinned Chrome node browser. Confirm:
 
 - For API creation: `oauth.clientId` and `oauth.refreshToken` are configured,
-  or matching `OPENCLAW_GOOGLE_MEET_*` environment variables are present.
+  or matching `BRIKKO_STUDIO_GOOGLE_MEET_*` environment variables are present.
 - For API creation: the refresh token was minted after create support was
   added. Older tokens may be missing the `meetings.space.created` scope; rerun
-  `openclaw googlemeet auth login --json` and update plugin config.
+  `brikko-studio googlemeet auth login --json` and update plugin config.
 - For browser fallback: `defaultTransport: "chrome-node"` and
   `chromeNode.node` point at a connected node with `browser.proxy` and
   `googlemeet.chrome`.
-- For browser fallback: the OpenClaw Chrome profile on that node is signed in
+- For browser fallback: the Brikko Studio Chrome profile on that node is signed in
   to Google and can open `https://meet.google.com/new`.
 - For browser fallback: retries reuse an existing `https://meet.google.com/new`
   or Google account prompt tab before opening a new tab. If an agent times out,
@@ -1379,7 +1379,7 @@ to the pinned Chrome node browser. Confirm:
   `manualActionMessage` to guide the operator. Do not retry in a loop until that
   action is complete.
 - For browser fallback: if Meet shows "Do you want people to hear you in the
-  meeting?", leave the tab open. OpenClaw should click **Use microphone** or, for
+  meeting?", leave the tab open. Brikko Studio should click **Use microphone** or, for
   create-only fallback, **Continue without microphone** through browser
   automation and continue waiting for the generated Meet URL. If it cannot, the
   error should mention `meet-audio-choice-required`, not `google-login-required`.
@@ -1389,13 +1389,13 @@ to the pinned Chrome node browser. Confirm:
 Check the realtime path:
 
 ```bash
-openclaw googlemeet setup
-openclaw googlemeet doctor
+brikko-studio googlemeet setup
+brikko-studio googlemeet doctor
 ```
 
 Use `mode: "realtime"` for listen/talk-back. `mode: "transcribe"` intentionally
 does not start the duplex realtime voice bridge. For observe-only debugging,
-run `openclaw googlemeet status --json <session-id>` after participants speak
+run `brikko-studio googlemeet status --json <session-id>` after participants speak
 and check `captioning`, `transcriptLines`, and `lastCaptionText`. If `inCall` is
 true but `transcriptLines` stays at `0`, Meet captions may be disabled, no one
 has spoken since the observer was installed, the Meet UI changed, or live
@@ -1404,7 +1404,7 @@ captions are unavailable for the meeting language/account.
 `googlemeet test-speech` always checks the realtime path and reports whether
 bridge output bytes were observed for that invocation. If `speechOutputVerified` is false and
 `speechOutputTimedOut` is true, the realtime provider may have accepted the
-utterance but OpenClaw did not see new output bytes reach the Chrome audio
+utterance but Brikko Studio did not see new output bytes reach the Chrome audio
 bridge.
 
 Also verify:
@@ -1414,7 +1414,7 @@ Also verify:
 - `BlackHole 2ch` is visible on the Chrome host.
 - `sox` exists on the Chrome host.
 - Meet microphone and speaker are routed through the virtual audio path used by
-  OpenClaw.
+  Brikko Studio.
 
 `googlemeet doctor [session-id]` prints the session, node, in-call state,
 manual action reason, realtime provider connection, `realtimeReady`, audio
@@ -1428,8 +1428,8 @@ If an agent timed out and you can see a Meet tab already open, inspect that tab
 without opening another one:
 
 ```bash
-openclaw googlemeet recover-tab
-openclaw googlemeet recover-tab https://meet.google.com/abc-defg-hij
+brikko-studio googlemeet recover-tab
+brikko-studio googlemeet recover-tab https://meet.google.com/abc-defg-hij
 ```
 
 The equivalent tool action is `recover_current_tab`. It focuses and inspects an
@@ -1505,22 +1505,22 @@ host URL:
 Then restart or reload the Gateway and run:
 
 ```bash
-openclaw googlemeet setup --transport twilio
-openclaw voicecall setup
-openclaw voicecall smoke
+brikko-studio googlemeet setup --transport twilio
+brikko-studio voicecall setup
+brikko-studio voicecall smoke
 ```
 
 `voicecall smoke` is readiness-only by default. To dry-run a specific number:
 
 ```bash
-openclaw voicecall smoke --to "+15555550123"
+brikko-studio voicecall smoke --to "+15555550123"
 ```
 
 Only add `--yes` when you intentionally want to place a live outbound notify
 call:
 
 ```bash
-openclaw voicecall smoke --to "+15555550123" --yes
+brikko-studio voicecall smoke --to "+15555550123" --yes
 ```
 
 ### Twilio call starts but never enters the meeting
@@ -1529,7 +1529,7 @@ Confirm the Meet event exposes phone dial-in details. Pass the exact dial-in
 number and PIN or a custom DTMF sequence:
 
 ```bash
-openclaw googlemeet join https://meet.google.com/abc-defg-hij \
+brikko-studio googlemeet join https://meet.google.com/abc-defg-hij \
   --transport twilio \
   --dial-in-number +15551234567 \
   --dtmf-sequence ww123456#
@@ -1541,25 +1541,25 @@ before entering the PIN.
 If the phone call is created but the Meet roster never shows the dial-in
 participant:
 
-- Run `openclaw googlemeet doctor <session-id>` to confirm the delegated Twilio
+- Run `brikko-studio googlemeet doctor <session-id>` to confirm the delegated Twilio
   call ID, whether DTMF was queued, and whether the intro greeting was requested.
-- Run `openclaw voicecall status --call-id <id>` and confirm the call is still
+- Run `brikko-studio voicecall status --call-id <id>` and confirm the call is still
   active.
-- Run `openclaw voicecall tail` and check that Twilio webhooks are arriving at
+- Run `brikko-studio voicecall tail` and check that Twilio webhooks are arriving at
   the Gateway.
-- Run `openclaw logs --follow` and look for the Twilio Meet sequence: Google
+- Run `brikko-studio logs --follow` and look for the Twilio Meet sequence: Google
   Meet delegates the join, Voice Call starts the phone leg, Google Meet waits
   `voiceCall.dtmfDelayMs`, sends DTMF with `voicecall.dtmf`, waits
   `voiceCall.postDtmfSpeechDelayMs`, then requests intro speech with
   `voicecall.speak`.
-- Re-run `openclaw googlemeet setup --transport twilio`; a green setup check is
+- Re-run `brikko-studio googlemeet setup --transport twilio`; a green setup check is
   required but does not prove the meeting PIN sequence is correct.
 - Confirm the dial-in number belongs to the same Meet invitation and region as
   the PIN.
 - Increase `voiceCall.dtmfDelayMs` if Meet answers slowly or the call transcript
   still shows the prompt asking for a PIN after DTMF was sent.
 - If the participant joins but you do not hear the greeting, check
-  `openclaw logs --follow` for the post-DTMF `voicecall.speak` request and
+  `brikko-studio logs --follow` for the post-DTMF `voicecall.speak` request and
   either media-stream TTS playback or the Twilio `<Say>` fallback. If the call
   transcript still contains "enter the meeting PIN", the phone leg has not joined
   the Meet room yet, so meeting participants will not hear speech.
@@ -1577,7 +1577,7 @@ phone dial-in participation.
 
 Chrome realtime mode needs `BlackHole 2ch` plus either:
 
-- `chrome.audioInputCommand` plus `chrome.audioOutputCommand`: OpenClaw owns the
+- `chrome.audioInputCommand` plus `chrome.audioOutputCommand`: Brikko Studio owns the
   realtime model bridge and pipes audio in `chrome.audioFormat` between those
   commands and the selected realtime voice provider. The default Chrome path is
   24 kHz PCM16; 8 kHz G.711 mu-law remains available for legacy command pairs.

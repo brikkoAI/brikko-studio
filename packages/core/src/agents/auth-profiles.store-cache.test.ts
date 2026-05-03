@@ -27,17 +27,17 @@ vi.mock("../plugins/provider-runtime.js", () => ({
 
 async function withAgentDirEnv(prefix: string, run: (agentDir: string) => void | Promise<void>) {
   const agentDir = fs.mkdtempSync(path.join(os.tmpdir(), prefix));
-  const previousAgentDir = process.env.OPENCLAW_AGENT_DIR;
+  const previousAgentDir = process.env.BRIKKO_STUDIO_AGENT_DIR;
   const previousPiAgentDir = process.env.PI_CODING_AGENT_DIR;
   try {
-    process.env.OPENCLAW_AGENT_DIR = agentDir;
+    process.env.BRIKKO_STUDIO_AGENT_DIR = agentDir;
     process.env.PI_CODING_AGENT_DIR = agentDir;
     await run(agentDir);
   } finally {
     if (previousAgentDir === undefined) {
-      delete process.env.OPENCLAW_AGENT_DIR;
+      delete process.env.BRIKKO_STUDIO_AGENT_DIR;
     } else {
-      process.env.OPENCLAW_AGENT_DIR = previousAgentDir;
+      process.env.BRIKKO_STUDIO_AGENT_DIR = previousAgentDir;
     }
     if (previousPiAgentDir === undefined) {
       delete process.env.PI_CODING_AGENT_DIR;
@@ -97,7 +97,7 @@ describe("auth profile store cache", () => {
   }
 
   it("recomputes runtime-only external auth overlays even while the base store is cached", async () => {
-    await withAgentDirEnv("openclaw-auth-store-cache-", (agentDir) => {
+    await withAgentDirEnv("brikko-studio-auth-store-cache-", (agentDir) => {
       writeAuthStore(agentDir, "sk-test");
       mocks.resolveExternalCliAuthProfiles
         .mockReturnValueOnce([createRuntimeOnlyOverlay("access-1")])
@@ -113,7 +113,7 @@ describe("auth profile store cache", () => {
   });
 
   it("refreshes the cached auth store after auth-profiles.json changes", async () => {
-    await withAgentDirEnv("openclaw-auth-store-refresh-", async (agentDir) => {
+    await withAgentDirEnv("brikko-studio-auth-store-refresh-", async (agentDir) => {
       const authPath = writeAuthStore(agentDir, "sk-test-1");
 
       ensureAuthProfileStore(agentDir);
@@ -132,7 +132,7 @@ describe("auth profile store cache", () => {
 
   it("isolates cached auth stores without structuredClone", async () => {
     const structuredCloneSpy = vi.spyOn(globalThis, "structuredClone");
-    await withAgentDirEnv("openclaw-auth-store-isolated-", (agentDir) => {
+    await withAgentDirEnv("brikko-studio-auth-store-isolated-", (agentDir) => {
       writeAuthStore(agentDir, "sk-test");
 
       const first = ensureAuthProfileStore(agentDir);
@@ -159,7 +159,7 @@ describe("auth profile store cache", () => {
   it("keeps runtime-only external auth out of persisted auth-profiles.json files", async () => {
     mocks.resolveExternalCliAuthProfiles.mockReturnValue([createRuntimeOnlyOverlay("access-1")]);
 
-    await withAgentDirEnv("openclaw-auth-store-missing-", (agentDir) => {
+    await withAgentDirEnv("brikko-studio-auth-store-missing-", (agentDir) => {
       const store = ensureAuthProfileStore(agentDir);
 
       expect(store.profiles["openai-codex:default"]).toMatchObject({ access: "access-1" });

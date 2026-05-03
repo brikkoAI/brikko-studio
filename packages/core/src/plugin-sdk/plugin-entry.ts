@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
 import type {
@@ -12,22 +12,22 @@ import type {
   MigrationProviderContext,
   MigrationProviderPlugin,
   MigrationSummary,
-  OpenClawPluginApi,
-  OpenClawPluginCommandDefinition,
-  OpenClawPluginConfigSchema,
-  OpenClawPluginDefinition,
-  OpenClawPluginHttpRouteHandler,
-  OpenClawPluginNodeHostCommand,
-  OpenClawPluginNodeInvokePolicy,
-  OpenClawPluginNodeInvokePolicyContext,
-  OpenClawPluginNodeInvokePolicyResult,
-  OpenClawPluginReloadRegistration,
-  OpenClawPluginSecurityAuditCollector,
-  OpenClawPluginSecurityAuditContext,
-  OpenClawPluginService,
-  OpenClawPluginServiceContext,
-  OpenClawPluginToolContext,
-  OpenClawPluginToolFactory,
+  Brikko StudioPluginApi,
+  Brikko StudioPluginCommandDefinition,
+  Brikko StudioPluginConfigSchema,
+  Brikko StudioPluginDefinition,
+  Brikko StudioPluginHttpRouteHandler,
+  Brikko StudioPluginNodeHostCommand,
+  Brikko StudioPluginNodeInvokePolicy,
+  Brikko StudioPluginNodeInvokePolicyContext,
+  Brikko StudioPluginNodeInvokePolicyResult,
+  Brikko StudioPluginReloadRegistration,
+  Brikko StudioPluginSecurityAuditCollector,
+  Brikko StudioPluginSecurityAuditContext,
+  Brikko StudioPluginService,
+  Brikko StudioPluginServiceContext,
+  Brikko StudioPluginToolContext,
+  Brikko StudioPluginToolFactory,
   PluginLogger,
   ProviderAugmentModelCatalogContext,
   ProviderAuthContext,
@@ -79,8 +79,8 @@ import type {
   ProviderValidateReplayTurnsContext,
   ProviderWebSocketSessionPolicy,
   ProviderWrapStreamFnContext,
-  OpenClawGatewayDiscoveryAdvertiseContext,
-  OpenClawGatewayDiscoveryService,
+  Brikko StudioGatewayDiscoveryAdvertiseContext,
+  Brikko StudioGatewayDiscoveryService,
   SpeechProviderPlugin,
   PluginCommandContext,
   PluginCommandResult,
@@ -117,16 +117,16 @@ export type {
   MigrationProviderContext,
   MigrationProviderPlugin,
   MigrationSummary,
-  OpenClawPluginApi,
-  OpenClawPluginNodeHostCommand,
-  OpenClawPluginNodeInvokePolicy,
-  OpenClawPluginNodeInvokePolicyContext,
-  OpenClawPluginNodeInvokePolicyResult,
-  OpenClawPluginReloadRegistration,
-  OpenClawPluginSecurityAuditCollector,
-  OpenClawPluginSecurityAuditContext,
-  OpenClawPluginToolContext,
-  OpenClawPluginToolFactory,
+  Brikko StudioPluginApi,
+  Brikko StudioPluginNodeHostCommand,
+  Brikko StudioPluginNodeInvokePolicy,
+  Brikko StudioPluginNodeInvokePolicyContext,
+  Brikko StudioPluginNodeInvokePolicyResult,
+  Brikko StudioPluginReloadRegistration,
+  Brikko StudioPluginSecurityAuditCollector,
+  Brikko StudioPluginSecurityAuditContext,
+  Brikko StudioPluginToolContext,
+  Brikko StudioPluginToolFactory,
   PluginCommandContext,
   PluginCommandResult,
   PluginAgentEventSubscriptionRegistration,
@@ -148,8 +148,8 @@ export type {
   PluginSessionExtensionProjection,
   PluginToolMetadataRegistration,
   PluginTrustedToolPolicyRegistration,
-  OpenClawPluginConfigSchema,
-  OpenClawPluginHttpRouteHandler,
+  Brikko StudioPluginConfigSchema,
+  Brikko StudioPluginHttpRouteHandler,
   ProviderDiscoveryContext,
   ProviderCatalogContext,
   ProviderCatalogResult,
@@ -196,17 +196,17 @@ export type {
   ProviderValidateReplayTurnsContext,
   ProviderWebSocketSessionPolicy,
   ProviderWrapStreamFnContext,
-  OpenClawGatewayDiscoveryAdvertiseContext,
-  OpenClawGatewayDiscoveryService,
-  OpenClawPluginService,
-  OpenClawPluginServiceContext,
+  Brikko StudioGatewayDiscoveryAdvertiseContext,
+  Brikko StudioGatewayDiscoveryService,
+  Brikko StudioPluginService,
+  Brikko StudioPluginServiceContext,
   ProviderAuthContext,
   ProviderAuthDoctorHintContext,
   ProviderAuthMethodNonInteractiveContext,
   ProviderAuthMethod,
   ProviderAuthResult,
-  OpenClawPluginCommandDefinition,
-  OpenClawPluginDefinition,
+  Brikko StudioPluginCommandDefinition,
+  Brikko StudioPluginDefinition,
   PluginLogger,
 };
 export type {
@@ -221,7 +221,7 @@ export type {
   PluginHookInboundClaimResult,
 } from "../plugins/hook-types.js";
 export type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
-export type { OpenClawConfig };
+export type { Brikko StudioConfig };
 
 export {
   buildJsonPluginConfigSchema,
@@ -235,27 +235,27 @@ type DefinePluginEntryOptions = {
   name: string;
   description: string;
   /**
-   * @deprecated Declare exclusive plugin kind in `openclaw.plugin.json` via
+   * @deprecated Declare exclusive plugin kind in `brikko-studio.plugin.json` via
    * manifest `kind`. Runtime-entry `kind` remains only as a compatibility
    * fallback for older plugins.
    */
-  kind?: OpenClawPluginDefinition["kind"];
-  configSchema?: OpenClawPluginConfigSchema | (() => OpenClawPluginConfigSchema);
-  reload?: OpenClawPluginDefinition["reload"];
-  nodeHostCommands?: OpenClawPluginDefinition["nodeHostCommands"];
-  securityAuditCollectors?: OpenClawPluginDefinition["securityAuditCollectors"];
-  register: (api: OpenClawPluginApi) => void;
+  kind?: Brikko StudioPluginDefinition["kind"];
+  configSchema?: Brikko StudioPluginConfigSchema | (() => Brikko StudioPluginConfigSchema);
+  reload?: Brikko StudioPluginDefinition["reload"];
+  nodeHostCommands?: Brikko StudioPluginDefinition["nodeHostCommands"];
+  securityAuditCollectors?: Brikko StudioPluginDefinition["securityAuditCollectors"];
+  register: (api: Brikko StudioPluginApi) => void;
 };
 
-/** Normalized object shape that OpenClaw loads from a plugin entry module. */
+/** Normalized object shape that Brikko Studio loads from a plugin entry module. */
 type DefinedPluginEntry = {
   id: string;
   name: string;
   description: string;
-  configSchema: OpenClawPluginConfigSchema;
-  register: NonNullable<OpenClawPluginDefinition["register"]>;
+  configSchema: Brikko StudioPluginConfigSchema;
+  register: NonNullable<Brikko StudioPluginDefinition["register"]>;
 } & Pick<
-  OpenClawPluginDefinition,
+  Brikko StudioPluginDefinition,
   "kind" | "reload" | "nodeHostCommands" | "securityAuditCollectors"
 >;
 
@@ -264,7 +264,7 @@ type DefinedPluginEntry = {
  *
  * Use this for provider, tool, command, service, memory, and context-engine
  * plugins. Channel plugins should use `defineChannelPluginEntry(...)` from
- * `openclaw/plugin-sdk/core` so they inherit the channel capability wiring.
+ * `brikko-studio/plugin-sdk/core` so they inherit the channel capability wiring.
  */
 export function definePluginEntry({
   id,

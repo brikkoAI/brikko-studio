@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/openshell-sandbox",
+  "name": "@brikko-studio/openshell-sandbox",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw OpenShell sandbox backend",
+  "description": "Brikko Studio OpenShell sandbox backend",
   "type": "module",
   "dependencies": {
     "openshell": "0.1.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

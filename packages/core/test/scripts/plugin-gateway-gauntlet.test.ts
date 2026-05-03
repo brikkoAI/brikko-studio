@@ -33,7 +33,7 @@ describe("plugin gateway gauntlet helpers", () => {
   it("discovers bundled plugin manifests into lifecycle matrix rows", async () => {
     await writeManifest(
       "alpha",
-      "openclaw.plugin.json",
+      "brikko-studio.plugin.json",
       JSON.stringify({
         id: "alpha",
         enabledByDefault: true,
@@ -53,7 +53,7 @@ describe("plugin gateway gauntlet helpers", () => {
     );
     await writeManifest(
       "beta",
-      "openclaw.plugin.json5",
+      "brikko-studio.plugin.json5",
       `{ id: "beta", commandAliases: ["dreaming"], onboardingScopes: ["memory"] }`,
     );
 
@@ -63,7 +63,7 @@ describe("plugin gateway gauntlet helpers", () => {
     expect(matrix[0]).toMatchObject({
       id: "alpha",
       dir: path.join("extensions", "alpha"),
-      manifestPath: path.join("extensions", "alpha", "openclaw.plugin.json"),
+      manifestPath: path.join("extensions", "alpha", "brikko-studio.plugin.json"),
       enabledByDefault: true,
       providers: ["openai"],
       authMethods: ["oauth"],
@@ -222,8 +222,8 @@ describe("plugin gateway gauntlet helpers", () => {
   it("prebuilds private QA dist when QA chunks are enabled", () => {
     expect(buildGauntletPrebuildEnv({ EXISTING: "1" }, { includePrivateQa: true })).toEqual({
       EXISTING: "1",
-      OPENCLAW_BUILD_PRIVATE_QA: "1",
-      OPENCLAW_ENABLE_PRIVATE_QA_CLI: "1",
+      BRIKKO_STUDIO_BUILD_PRIVATE_QA: "1",
+      BRIKKO_STUDIO_ENABLE_PRIVATE_QA_CLI: "1",
     });
     const env = { EXISTING: "1" };
     expect(buildGauntletPrebuildEnv(env, { includePrivateQa: false })).toBe(env);

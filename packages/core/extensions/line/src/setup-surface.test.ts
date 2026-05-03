@@ -1,16 +1,16 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { createStartAccountContext } from "openclaw/plugin-sdk/channel-test-helpers";
+import { createStartAccountContext } from "brikko-studio/plugin-sdk/channel-test-helpers";
 import {
   createPluginSetupWizardConfigure,
   createTestWizardPrompter,
   runSetupWizardConfigure,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import type { WizardPrompter } from "openclaw/plugin-sdk/plugin-test-runtime";
-import { bundledPluginRoot } from "openclaw/plugin-sdk/test-fixtures";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import type { WizardPrompter } from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { bundledPluginRoot } from "brikko-studio/plugin-sdk/test-fixtures";
 import ts from "typescript";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig, PluginRuntime, ResolvedLineAccount } from "../api.js";
+import type { Brikko StudioConfig, PluginRuntime, ResolvedLineAccount } from "../api.js";
 import { linePlugin } from "./channel.js";
 import { lineGatewayAdapter } from "./gateway.js";
 import { probeLineBot } from "./probe.js";
@@ -102,7 +102,7 @@ function collectRuntimeApiPreExports(runtimeApiPath: string): string[] {
   );
   const preExports = new Set<string>();
   let pluginSdkLineRuntimeSeen = false;
-  const removedLineRuntimeSpecifier = ["openclaw", "plugin-sdk", "line-runtime"].join("/");
+  const removedLineRuntimeSpecifier = ["brikko-studio", "plugin-sdk", "line-runtime"].join("/");
 
   for (const statement of runtimeApiFile.statements) {
     if (!ts.isExportDeclaration(statement)) {
@@ -167,7 +167,7 @@ describe("line setup wizard", () => {
 
     const result = await runSetupWizardConfigure({
       configure: lineConfigure,
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       prompter,
       options: {},
     });
@@ -194,14 +194,14 @@ describe("line setup wizard", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         "work",
       ),
     ).toBe("allowlist");
   });
 
   it("reports account-scoped config keys for named accounts", async () => {
-    expect(lineSetupWizard.dmPolicy?.resolveConfigKeys?.({} as OpenClawConfig, "work")).toEqual({
+    expect(lineSetupWizard.dmPolicy?.resolveConfigKeys?.({} as Brikko StudioConfig, "work")).toEqual({
       policyKey: "channels.line.accounts.work.dmPolicy",
       allowFromKey: "channels.line.accounts.work.allowFrom",
     });
@@ -223,7 +223,7 @@ describe("line setup wizard", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(lineSetupWizard.dmPolicy?.getCurrent(cfg)).toBe("allowlist");
     expect(lineSetupWizard.dmPolicy?.resolveConfigKeys?.(cfg)).toEqual({
@@ -255,7 +255,7 @@ describe("line setup wizard", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       "open",
       "work",
     );
@@ -292,7 +292,7 @@ describe("line setup wizard", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     expect(configured).toBe(false);
@@ -328,9 +328,9 @@ describe("probeLineBot", () => {
 
   it("returns bot info when available", async () => {
     getBotInfoMock.mockResolvedValue({
-      displayName: "OpenClaw",
+      displayName: "Brikko Studio",
       userId: "U123",
-      basicId: "@openclaw",
+      basicId: "@brikko-studio",
       pictureUrl: "https://example.com/bot.png",
     });
 
@@ -348,14 +348,14 @@ describe("linePlugin status.probeAccount", () => {
       return { getBotInfo: getBotInfoMock };
     });
     getBotInfoMock.mockResolvedValue({
-      displayName: "OpenClaw",
+      displayName: "Brikko Studio",
       userId: "U123",
-      basicId: "@openclaw",
+      basicId: "@brikko-studio",
       pictureUrl: "https://example.com/bot.png",
     });
 
     const params = {
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       account: {
         accountId: "default",
         enabled: true,

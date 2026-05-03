@@ -8,14 +8,14 @@ import { createOllamaEmbeddingProvider } from "./src/embedding-provider.js";
 import { createOllamaStreamFn } from "./src/stream.js";
 import { createOllamaWebSearchProvider } from "./src/web-search-provider.js";
 
-const LIVE = process.env.OPENCLAW_LIVE_TEST === "1" && process.env.OPENCLAW_LIVE_OLLAMA === "1";
+const LIVE = process.env.BRIKKO_STUDIO_LIVE_TEST === "1" && process.env.BRIKKO_STUDIO_LIVE_OLLAMA === "1";
 const OLLAMA_BASE_URL =
-  process.env.OPENCLAW_LIVE_OLLAMA_BASE_URL?.trim() || "http://127.0.0.1:11434";
-const CHAT_MODEL = process.env.OPENCLAW_LIVE_OLLAMA_MODEL?.trim() || "llama3.2:latest";
+  process.env.BRIKKO_STUDIO_LIVE_OLLAMA_BASE_URL?.trim() || "http://127.0.0.1:11434";
+const CHAT_MODEL = process.env.BRIKKO_STUDIO_LIVE_OLLAMA_MODEL?.trim() || "llama3.2:latest";
 const EMBEDDING_MODEL =
-  process.env.OPENCLAW_LIVE_OLLAMA_EMBED_MODEL?.trim() || "embeddinggemma:latest";
-const PROVIDER_ID = process.env.OPENCLAW_LIVE_OLLAMA_PROVIDER_ID?.trim() || "ollama-live-custom";
-const RUN_WEB_SEARCH = process.env.OPENCLAW_LIVE_OLLAMA_WEB_SEARCH !== "0";
+  process.env.BRIKKO_STUDIO_LIVE_OLLAMA_EMBED_MODEL?.trim() || "embeddinggemma:latest";
+const PROVIDER_ID = process.env.BRIKKO_STUDIO_LIVE_OLLAMA_PROVIDER_ID?.trim() || "ollama-live-custom";
+const RUN_WEB_SEARCH = process.env.BRIKKO_STUDIO_LIVE_OLLAMA_WEB_SEARCH !== "0";
 
 async function collectStreamEvents<T>(stream: AsyncIterable<T>): Promise<T[]> {
   const events: T[] = [];
@@ -25,11 +25,11 @@ async function collectStreamEvents<T>(stream: AsyncIterable<T>): Promise<T[]> {
   return events;
 }
 
-async function withTempOpenClawState<T>(run: (paths: { root: string }) => Promise<T>): Promise<T> {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-ollama-cli-live-"));
+async function withTempBrikko StudioState<T>(run: (paths: { root: string }) => Promise<T>): Promise<T> {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-ollama-cli-live-"));
   try {
     await fs.writeFile(
-      path.join(root, "openclaw.json"),
+      path.join(root, "brikko-studio.json"),
       JSON.stringify(
         {
           models: {
@@ -53,8 +53,8 @@ async function withTempOpenClawState<T>(run: (paths: { root: string }) => Promis
   }
 }
 
-async function runOpenClawCli(args: string[], env: NodeJS.ProcessEnv) {
-  const outputRoot = fsSync.mkdtempSync(path.join(os.tmpdir(), "openclaw-ollama-cli-output-"));
+async function runBrikko StudioCli(args: string[], env: NodeJS.ProcessEnv) {
+  const outputRoot = fsSync.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-ollama-cli-output-"));
   const stdoutPath = path.join(outputRoot, "stdout.txt");
   const stderrPath = path.join(outputRoot, "stderr.txt");
   const stdoutFd = fsSync.openSync(stdoutPath, "w");
@@ -62,7 +62,7 @@ async function runOpenClawCli(args: string[], env: NodeJS.ProcessEnv) {
   let stdoutClosed = false;
   let stderrClosed = false;
   try {
-    const result = spawnSync(process.execPath, ["openclaw.mjs", ...args], {
+    const result = spawnSync(process.execPath, ["brikko-studio.mjs", ...args], {
       cwd: process.cwd(),
       env,
       timeout: 90_000,
@@ -103,21 +103,21 @@ function buildCliEnv(root: string): NodeJS.ProcessEnv {
     TMPDIR: process.env.TMPDIR,
     NODE_PATH: process.env.NODE_PATH,
     NODE_OPTIONS: process.env.NODE_OPTIONS,
-    OPENCLAW_LIVE_TEST: "1",
-    OPENCLAW_LIVE_OLLAMA: "1",
-    OPENCLAW_LIVE_OLLAMA_WEB_SEARCH: "0",
-    OPENCLAW_STATE_DIR: path.join(root, "state"),
-    OPENCLAW_CONFIG_PATH: path.join(root, "openclaw.json"),
-    OPENCLAW_NO_RESPAWN: "1",
-    OPENCLAW_TEST_FAST: "1",
+    BRIKKO_STUDIO_LIVE_TEST: "1",
+    BRIKKO_STUDIO_LIVE_OLLAMA: "1",
+    BRIKKO_STUDIO_LIVE_OLLAMA_WEB_SEARCH: "0",
+    BRIKKO_STUDIO_STATE_DIR: path.join(root, "state"),
+    BRIKKO_STUDIO_CONFIG_PATH: path.join(root, "brikko-studio.json"),
+    BRIKKO_STUDIO_NO_RESPAWN: "1",
+    BRIKKO_STUDIO_TEST_FAST: "1",
     OLLAMA_API_KEY: "ollama-local",
   };
 }
 
 describe.skipIf(!LIVE)("ollama live", () => {
   it("runs infer model run through the local CLI path without PI model discovery", async () => {
-    await withTempOpenClawState(async ({ root }) => {
-      const result = await runOpenClawCli(
+    await withTempBrikko StudioState(async ({ root }) => {
+      const result = await runBrikko StudioCli(
         [
           "infer",
           "model",
@@ -273,7 +273,7 @@ describe.skipIf(!LIVE)("ollama live", () => {
       }
 
       const result = (await tool.execute({
-        query: "OpenClaw documentation",
+        query: "Brikko Studio documentation",
         count: 1,
       })) as {
         provider?: string;

@@ -242,13 +242,13 @@ const LEGACY_TTS_PROVIDER_RULES: LegacyConfigRule[] = [
   {
     path: ["messages", "tts"],
     message:
-      'messages.tts legacy provider aliases/keys are legacy; use provider: "microsoft" and messages.tts.providers.<provider>. Run "openclaw doctor --fix".',
+      'messages.tts legacy provider aliases/keys are legacy; use provider: "microsoft" and messages.tts.providers.<provider>. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyTtsProviderKeys(value),
   },
   {
     path: ["plugins", "entries"],
     message:
-      'plugins.entries.voice-call.config.tts legacy provider aliases/keys are legacy; use provider: "microsoft" and plugins.entries.voice-call.config.tts.providers.<provider>. Run "openclaw doctor --fix".',
+      'plugins.entries.voice-call.config.tts legacy provider aliases/keys are legacy; use provider: "microsoft" and plugins.entries.voice-call.config.tts.providers.<provider>. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyPluginEntryTtsProviderKeys(value),
   },
 ];
@@ -256,24 +256,24 @@ const LEGACY_TTS_PROVIDER_RULES: LegacyConfigRule[] = [
 const LEGACY_TTS_ENABLED_RULES: LegacyConfigRule[] = [
   {
     path: ["messages", "tts"],
-    message: 'messages.tts.enabled is legacy; use messages.tts.auto. Run "openclaw doctor --fix".',
+    message: 'messages.tts.enabled is legacy; use messages.tts.auto. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyTtsEnabled(value),
   },
   {
     path: ["agents"],
-    message: 'agents.*.tts.enabled is legacy; use agents.*.tts.auto. Run "openclaw doctor --fix".',
+    message: 'agents.*.tts.enabled is legacy; use agents.*.tts.auto. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyTtsEnabledInAgentLocations(value),
   },
   {
     path: ["channels"],
     message:
-      'channels.*.tts.enabled is legacy; use channels.*.tts.auto. Run "openclaw doctor --fix".',
+      'channels.*.tts.enabled is legacy; use channels.*.tts.auto. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyTtsEnabledInChannelLocations(value),
   },
   {
     path: ["plugins", "entries"],
     message:
-      'plugins.entries.voice-call.config.tts.enabled is legacy; use plugins.entries.voice-call.config.tts.auto. Run "openclaw doctor --fix".',
+      'plugins.entries.voice-call.config.tts.enabled is legacy; use plugins.entries.voice-call.config.tts.auto. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyTtsEnabledInPluginLocations(value),
   },
 ];

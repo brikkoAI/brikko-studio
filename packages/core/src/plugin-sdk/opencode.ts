@@ -1,4 +1,4 @@
-import { createProviderApiKeyAuthMethod, type OpenClawConfig } from "./provider-auth-api-key.js";
+import { createProviderApiKeyAuthMethod, type Brikko StudioConfig } from "./provider-auth-api-key.js";
 
 export { applyOpencodeZenModelDefault, OPENCODE_ZEN_DEFAULT_MODEL } from "./provider-onboard.js";
 
@@ -16,7 +16,7 @@ export function createOpencodeCatalogApiKeyAuthMethod(params: {
   optionKey: string;
   flagName: `--${string}`;
   defaultModel: string;
-  applyConfig: (cfg: OpenClawConfig) => OpenClawConfig;
+  applyConfig: (cfg: Brikko StudioConfig) => Brikko StudioConfig;
   noteMessage: string;
   choiceId: string;
   choiceLabel: string;

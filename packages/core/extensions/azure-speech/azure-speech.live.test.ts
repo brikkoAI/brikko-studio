@@ -1,8 +1,8 @@
 import {
   registerProviderPlugin,
   requireRegisteredProvider,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import { isLiveTestEnabled } from "openclaw/plugin-sdk/test-env";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { isLiveTestEnabled } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import plugin from "./index.js";
 
@@ -52,7 +52,7 @@ describeLive("azure speech plugin live", () => {
     };
 
     const audioFile = await provider.synthesize({
-      text: "OpenClaw Azure Speech text to speech integration test OK.",
+      text: "Brikko Studio Azure Speech text to speech integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       target: "audio-file",
@@ -65,7 +65,7 @@ describeLive("azure speech plugin live", () => {
     expect(audioFile.audioBuffer.byteLength).toBeGreaterThan(512);
 
     const voiceNote = await provider.synthesize({
-      text: "OpenClaw Azure Speech voice note integration test OK.",
+      text: "Brikko Studio Azure Speech voice note integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       target: "voice-note",
@@ -79,7 +79,7 @@ describeLive("azure speech plugin live", () => {
     expect(voiceNote.audioBuffer.subarray(0, 4).toString("ascii")).toBe("OggS");
 
     const telephony = await provider.synthesizeTelephony?.({
-      text: "OpenClaw Azure Speech telephony check OK.",
+      text: "Brikko Studio Azure Speech telephony check OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       timeoutMs: 90_000,

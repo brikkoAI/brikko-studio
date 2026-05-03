@@ -3,9 +3,9 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vite
 const recordChannelActivityMock = vi.hoisted(() => vi.fn());
 const loadConfigMock = vi.hoisted(() => vi.fn(() => ({ channels: { discord: {} } })));
 
-vi.mock("openclaw/plugin-sdk/plugin-config-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/plugin-config-runtime")>(
-    "openclaw/plugin-sdk/plugin-config-runtime",
+vi.mock("brikko-studio/plugin-sdk/plugin-config-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/plugin-config-runtime")>(
+    "brikko-studio/plugin-sdk/plugin-config-runtime",
   );
   return {
     ...actual,
@@ -13,10 +13,10 @@ vi.mock("openclaw/plugin-sdk/plugin-config-runtime", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/channel-activity-runtime", async () => {
+vi.mock("brikko-studio/plugin-sdk/channel-activity-runtime", async () => {
   const actual = await vi.importActual<
-    typeof import("openclaw/plugin-sdk/channel-activity-runtime")
-  >("openclaw/plugin-sdk/channel-activity-runtime");
+    typeof import("brikko-studio/plugin-sdk/channel-activity-runtime")
+  >("brikko-studio/plugin-sdk/channel-activity-runtime");
   return {
     ...actual,
     recordChannelActivity: (...args: unknown[]) => recordChannelActivityMock(...args),

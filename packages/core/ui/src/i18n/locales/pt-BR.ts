@@ -384,7 +384,7 @@ export const pt_BR: TranslationMap = {
     skills: "Habilidades e chaves API.",
     nodes: "Dispositivos e comandos.",
     chat: "Chat do gateway para intervenções rápidas.",
-    config: "Editar openclaw.json.",
+    config: "Editar brikko-studio.json.",
     communications: "Configurações de canais, mensagens e áudio.",
     appearance: "Configurações de tema, UI e assistente de configuração.",
     automation: "Configurações de comandos, hooks, cron e plugins.",
@@ -459,7 +459,7 @@ export const pt_BR: TranslationMap = {
       metadataUpgradeSummary:
         "Este dispositivo já está pareado, mas a alteração de metadados está aguardando aprovação.",
       mobileHint:
-        "No celular? Copie a URL completa (incluindo #token=...) executando openclaw dashboard --no-open no desktop.",
+        "No celular? Copie a URL completa (incluindo #token=...) executando brikko-studio dashboard --no-open no desktop.",
       docsTitle: "Documentação de pareamento de dispositivo (abre em nova aba)",
       docsLink: "Docs: Pareamento de dispositivo",
     },
@@ -497,7 +497,7 @@ export const pt_BR: TranslationMap = {
       modelAuthExpiresIn: "expira {when}",
       modelAuthAttentionExpiredTitle: "Autenticação de modelo expirada",
       modelAuthAttentionExpiringTitle: "Autenticação de modelo expirando em breve",
-      modelAuthAttentionExpiredDesc: "{providers} — autentique novamente com openclaw models auth",
+      modelAuthAttentionExpiredDesc: "{providers} — autentique novamente com brikko-studio models auth",
       modelAuthAttentionExpiringEntry: "{provider} ({when})",
     },
     attention: {

@@ -7,7 +7,7 @@ import {
   resolveSessionIdentityFromMeta,
 } from "../../acp/runtime/session-identity.js";
 import { resolveAgentDir } from "../../agents/agent-scope.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { TtsAutoMode } from "../../config/types.tts.js";
 import { logVerbose } from "../../globals.js";
 import { emitAgentEvent } from "../../infra/agent-events.js";
@@ -132,7 +132,7 @@ function resolveAcpTurnText(params: {
 }
 
 async function hasBoundConversationForSession(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionKey: string;
   channelRaw: string | undefined;
   accountIdRaw: string | undefined;
@@ -203,7 +203,7 @@ async function maybeUnbindStaleBoundConversations(params: {
 }
 
 async function finalizeAcpTurnOutput(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionKey: string;
   agentId: string;
   delivery: AcpDispatchDeliveryCoordinator;
@@ -305,7 +305,7 @@ async function finalizeAcpTurnOutput(params: {
 
 export async function tryDispatchAcpReply(params: {
   ctx: FinalizedMsgContext;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   dispatcher: ReplyDispatcher;
   runId?: string;
   sessionKey?: string;

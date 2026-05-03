@@ -4,8 +4,8 @@ import { shouldSkipRespawnForArgv } from "./cli/respawn-policy.js";
 import { isTruthyEnvValue } from "./infra/env.js";
 
 export const EXPERIMENTAL_WARNING_FLAG = "--disable-warning=ExperimentalWarning";
-export const OPENCLAW_NODE_OPTIONS_READY = "OPENCLAW_NODE_OPTIONS_READY";
-export const OPENCLAW_NODE_EXTRA_CA_CERTS_READY = "OPENCLAW_NODE_EXTRA_CA_CERTS_READY";
+export const BRIKKO_STUDIO_NODE_OPTIONS_READY = "BRIKKO_STUDIO_NODE_OPTIONS_READY";
+export const BRIKKO_STUDIO_NODE_EXTRA_CA_CERTS_READY = "BRIKKO_STUDIO_NODE_EXTRA_CA_CERTS_READY";
 
 type CliRespawnPlan = {
   command: string;
@@ -60,7 +60,7 @@ export function buildCliRespawnPlan(
   const execPath = params.execPath ?? process.execPath;
   const platform = params.platform ?? process.platform;
 
-  if (shouldSkipRespawnForArgv(argv) || isTruthyEnvValue(env.OPENCLAW_NO_RESPAWN)) {
+  if (shouldSkipRespawnForArgv(argv) || isTruthyEnvValue(env.BRIKKO_STUDIO_NO_RESPAWN)) {
     return null;
   }
 
@@ -81,19 +81,19 @@ export function buildCliRespawnPlan(
     }).NODE_EXTRA_CA_CERTS;
   if (
     autoNodeExtraCaCerts &&
-    !isTruthyEnvValue(env[OPENCLAW_NODE_EXTRA_CA_CERTS_READY]) &&
+    !isTruthyEnvValue(env[BRIKKO_STUDIO_NODE_EXTRA_CA_CERTS_READY]) &&
     !env.NODE_EXTRA_CA_CERTS
   ) {
     childEnv.NODE_EXTRA_CA_CERTS = autoNodeExtraCaCerts;
-    childEnv[OPENCLAW_NODE_EXTRA_CA_CERTS_READY] = "1";
+    childEnv[BRIKKO_STUDIO_NODE_EXTRA_CA_CERTS_READY] = "1";
     needsRespawn = true;
   }
 
   if (
-    !isTruthyEnvValue(env[OPENCLAW_NODE_OPTIONS_READY]) &&
+    !isTruthyEnvValue(env[BRIKKO_STUDIO_NODE_OPTIONS_READY]) &&
     !hasExperimentalWarningSuppressed({ env, execArgv })
   ) {
-    childEnv[OPENCLAW_NODE_OPTIONS_READY] = "1";
+    childEnv[BRIKKO_STUDIO_NODE_OPTIONS_READY] = "1";
     childExecArgv.unshift(EXPERIMENTAL_WARNING_FLAG);
     needsRespawn = true;
   }

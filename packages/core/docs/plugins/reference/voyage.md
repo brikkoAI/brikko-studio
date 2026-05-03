@@ -11,8 +11,8 @@ Adds memory embedding provider support.
 
 ## Distribution
 
-- Package: `@openclaw/voyage-provider`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/voyage-provider`
+- Install route: included in Brikko Studio
 
 ## Surface
 

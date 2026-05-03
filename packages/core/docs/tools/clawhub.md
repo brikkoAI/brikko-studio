@@ -1,5 +1,5 @@
 ---
-summary: "ClawHub: public registry for OpenClaw skills and plugins, native install flows, and the clawhub CLI"
+summary: "ClawHub: public registry for Brikko Studio skills and plugins, native install flows, and the clawhub CLI"
 read_when:
   - Searching for, installing, or updating skills or plugins
   - Publishing skills or plugins to the registry
@@ -8,9 +8,9 @@ title: "ClawHub"
 sidebarTitle: "ClawHub"
 ---
 
-ClawHub is the public registry for **OpenClaw skills and plugins**.
+ClawHub is the public registry for **Brikko Studio skills and plugins**.
 
-- Use native `openclaw` commands to search, install, and update skills, and to install plugins from ClawHub.
+- Use native `brikko-studio` commands to search, install, and update skills, and to install plugins from ClawHub.
 - Use the separate `clawhub` CLI for registry auth, publish, delete/undelete, and sync workflows.
 
 Site: [clawhub.ai](https://clawhub.ai)
@@ -20,16 +20,16 @@ Site: [clawhub.ai](https://clawhub.ai)
 <Steps>
   <Step title="Search">
     ```bash
-    openclaw skills search "calendar"
+    brikko-studio skills search "calendar"
     ```
   </Step>
   <Step title="Install">
     ```bash
-    openclaw skills install <skill-slug>
+    brikko-studio skills install <skill-slug>
     ```
   </Step>
   <Step title="Use">
-    Start a new OpenClaw session — it picks up the new skill.
+    Start a new Brikko Studio session — it picks up the new skill.
   </Step>
   <Step title="Publish (optional)">
     For registry-authenticated workflows (publish, sync, manage), install
@@ -44,25 +44,25 @@ Site: [clawhub.ai](https://clawhub.ai)
   </Step>
 </Steps>
 
-## Native OpenClaw flows
+## Native Brikko Studio flows
 
 <Tabs>
   <Tab title="Skills">
     ```bash
-    openclaw skills search "calendar"
-    openclaw skills install <skill-slug>
-    openclaw skills update --all
+    brikko-studio skills search "calendar"
+    brikko-studio skills install <skill-slug>
+    brikko-studio skills update --all
     ```
 
-    Native `openclaw` commands install into your active workspace and
+    Native `brikko-studio` commands install into your active workspace and
     persist source metadata so later `update` calls can stay on ClawHub.
 
   </Tab>
   <Tab title="Plugins">
     ```bash
-    openclaw plugins search "calendar"
-    openclaw plugins install clawhub:<package>
-    openclaw plugins update --all
+    brikko-studio plugins search "calendar"
+    brikko-studio plugins install clawhub:<package>
+    brikko-studio plugins update --all
     ```
 
     `plugins search` queries the ClawHub plugin catalog and prints install-ready
@@ -70,21 +70,21 @@ Site: [clawhub.ai](https://clawhub.ai)
     Bare npm-safe plugin specs install from npm during the launch cutover:
 
     ```bash
-    openclaw plugins install openclaw-codex-app-server
+    brikko-studio plugins install brikko-studio-codex-app-server
     ```
 
     `npm:<package>` is also npm-only and is useful when a spec could otherwise
     be ambiguous:
 
     ```bash
-    openclaw plugins install npm:openclaw-codex-app-server
+    brikko-studio plugins install npm:brikko-studio-codex-app-server
     ```
 
     Plugin installs validate advertised `pluginApi` and
     `minGatewayVersion` compatibility before archive install runs, so
     incompatible hosts fail closed early instead of partially installing
     the package. When a package version publishes a ClawPack artifact,
-    OpenClaw prefers the exact uploaded npm-pack `.tgz`, verifies the ClawHub
+    Brikko Studio prefers the exact uploaded npm-pack `.tgz`, verifies the ClawHub
     digest header and downloaded bytes, and records the artifact kind, npm
     integrity, npm shasum, tarball name, and ClawPack digest metadata for later
     updates. Older package versions without ClawPack metadata still use the
@@ -94,19 +94,19 @@ Site: [clawhub.ai](https://clawhub.ai)
 </Tabs>
 
 <Note>
-`openclaw plugins install clawhub:...` only accepts installable plugin
-families. If a ClawHub package is actually a skill, OpenClaw stops and
-points you at `openclaw skills install <slug>` instead.
+`brikko-studio plugins install clawhub:...` only accepts installable plugin
+families. If a ClawHub package is actually a skill, Brikko Studio stops and
+points you at `brikko-studio skills install <slug>` instead.
 
 Anonymous ClawHub plugin installs also fail closed for private packages.
-Community or other non-official channels can still install, but OpenClaw
+Community or other non-official channels can still install, but Brikko Studio
 warns so operators can review source and verification before enabling
 them.
 </Note>
 
 ## What ClawHub is
 
-- A public registry for OpenClaw skills and plugins.
+- A public registry for Brikko Studio skills and plugins.
 - A versioned store of skill bundles and metadata.
 - A discovery surface for search, tags, and usage signals.
 
@@ -125,12 +125,12 @@ changes.
 ## Workspace and skill loading
 
 The separate `clawhub` CLI also installs skills into `./skills` under
-your current working directory. If an OpenClaw workspace is configured,
+your current working directory. If an Brikko Studio workspace is configured,
 `clawhub` falls back to that workspace unless you override `--workdir`
-(or `CLAWHUB_WORKDIR`). OpenClaw loads workspace skills from
+(or `CLAWHUB_WORKDIR`). Brikko Studio loads workspace skills from
 `<workspace>/skills` and picks them up in the **next** session.
 
-If you already use `~/.openclaw/skills` or bundled skills, workspace
+If you already use `~/.brikko-studio/skills` or bundled skills, workspace
 skills take precedence. For more detail on how skills are loaded,
 shared, and gated, see [Skills](/tools/skills).
 
@@ -177,7 +177,7 @@ abuse without blocking legitimate contributors.
   <Accordion title="Moderation">
     - Moderators can view hidden skills, unhide them, delete them, or ban users.
     - Abusing the report feature can result in account bans.
-    - Interested in becoming a moderator? Ask in the OpenClaw Discord and contact a moderator or maintainer.
+    - Interested in becoming a moderator? Ask in the Brikko Studio Discord and contact a moderator or maintainer.
 
   </Accordion>
 </AccordionGroup>
@@ -190,7 +190,7 @@ publish/sync.
 ### Global options
 
 <ParamField path="--workdir <dir>" type="string">
-  Working directory. Default: current dir; falls back to OpenClaw workspace.
+  Working directory. Default: current dir; falls back to Brikko Studio workspace.
 </ParamField>
 <ParamField path="--dir <dir>" type="string" default="skills">
   Skills directory, relative to workdir.
@@ -243,7 +243,7 @@ publish/sync.
     clawhub package inspect episodic-claw
     ```
 
-    `package explore` and `package inspect` are the ClawHub CLI surfaces for plugin/package discovery and metadata inspection. Native OpenClaw installs still use `openclaw plugins install clawhub:<package>`.
+    `package explore` and `package inspect` are the ClawHub CLI surfaces for plugin/package discovery and metadata inspection. Native Brikko Studio installs still use `brikko-studio plugins install clawhub:<package>`.
 
     Options:
 
@@ -387,15 +387,15 @@ publish/sync.
 
 ### Plugin package metadata
 
-Code plugins must include the required OpenClaw metadata in
+Code plugins must include the required Brikko Studio metadata in
 `package.json`:
 
 ```json
 {
-  "name": "@myorg/openclaw-my-plugin",
+  "name": "@myorg/brikko-studio-my-plugin",
   "version": "1.0.0",
   "type": "module",
-  "openclaw": {
+  "brikko-studio": {
     "extensions": ["./src/index.ts"],
     "runtimeExtensions": ["./dist/index.js"],
     "compat": {
@@ -403,7 +403,7 @@ Code plugins must include the required OpenClaw metadata in
       "minGatewayVersion": "2026.3.24-beta.2"
     },
     "build": {
-      "openclawVersion": "2026.3.24-beta.2",
+      "brikko-studioVersion": "2026.3.24-beta.2",
       "pluginSdkVersion": "2026.3.24-beta.2"
     }
   }
@@ -434,7 +434,7 @@ plugin loading paths.
   <Accordion title="Sync scanning and fallback roots">
     `clawhub sync` scans your current workdir first. If no skills are
     found, it falls back to known legacy locations (for example
-    `~/openclaw/skills` and `~/.openclaw/skills`). This is designed to
+    `~/brikko-studio/skills` and `~/.brikko-studio/skills`). This is designed to
     find older skill installs without extra flags.
   </Accordion>
   <Accordion title="Storage and lockfile">

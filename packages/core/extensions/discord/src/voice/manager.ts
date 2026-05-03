@@ -1,9 +1,9 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { DiscordAccountConfig } from "openclaw/plugin-sdk/config-types";
-import { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { formatErrorMessage } from "openclaw/plugin-sdk/ssrf-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { DiscordAccountConfig } from "brikko-studio/plugin-sdk/config-types";
+import { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
+import { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import { resolveDiscordAccountAllowFrom } from "../accounts.js";
 import { type Client, ReadyListener, ResumedListener } from "../internal/discord.js";
 import type { VoicePlugin } from "../internal/voice.js";
@@ -95,7 +95,7 @@ export class DiscordVoiceManager {
   constructor(
     private params: {
       client: Client;
-      cfg: OpenClawConfig;
+      cfg: Brikko StudioConfig;
       discordConfig: DiscordAccountConfig;
       accountId: string;
       runtime: RuntimeEnv;

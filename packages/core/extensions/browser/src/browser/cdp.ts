@@ -623,7 +623,7 @@ async function findCursorInteractiveElements(
   send: CdpSendFn,
   sessionId?: string,
 ): Promise<Map<number, CursorInteractiveInfo>> {
-  const attr = "data-openclaw-cdp-ci";
+  const attr = "data-brikko-studio-cdp-ci";
   const evaluated = (await send(
     "Runtime.evaluate",
     {

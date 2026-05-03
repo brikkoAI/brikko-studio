@@ -1,6 +1,6 @@
 import type { SkillSnapshot } from "../../agents/skills.js";
 import { matchesSkillFilter } from "../../agents/skills/filter.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 
 const skillsSnapshotRuntimeLoader = createLazyImportLoader(
@@ -13,7 +13,7 @@ async function loadSkillsSnapshotRuntime() {
 
 export async function resolveCronSkillsSnapshot(params: {
   workspaceDir: string;
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   agentId: string;
   existingSnapshot?: SkillSnapshot;
   isFastTestEnv: boolean;

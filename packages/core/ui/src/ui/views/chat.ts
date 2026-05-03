@@ -1230,7 +1230,7 @@ export function renderChat(props: ChatProps) {
                 ${props.realtimeTalkDetail ??
                 props.realtimeTalkTranscript ??
                 (props.realtimeTalkStatus === "thinking"
-                  ? "Asking OpenClaw..."
+                  ? "Asking Brikko Studio..."
                   : props.realtimeTalkStatus === "connecting"
                     ? "Connecting Talk..."
                     : "Talk live")}

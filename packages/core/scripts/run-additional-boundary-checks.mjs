@@ -225,13 +225,13 @@ function resolveCliShardSpec(args, env) {
   if (inlineShard) {
     return inlineShard.slice("--shard=".length);
   }
-  return env.OPENCLAW_ADDITIONAL_BOUNDARY_SHARD ?? "";
+  return env.BRIKKO_STUDIO_ADDITIONAL_BOUNDARY_SHARD ?? "";
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const concurrency = resolveConcurrency(
-    process.env.OPENCLAW_ADDITIONAL_BOUNDARY_CONCURRENCY ??
-      process.env.OPENCLAW_EXTENSION_BOUNDARY_CONCURRENCY,
+    process.env.BRIKKO_STUDIO_ADDITIONAL_BOUNDARY_CONCURRENCY ??
+      process.env.BRIKKO_STUDIO_EXTENSION_BOUNDARY_CONCURRENCY,
   );
   const shard = parseShardSpec(resolveCliShardSpec(process.argv.slice(2), process.env));
   const checks = selectChecksForShard(BOUNDARY_CHECKS, shard);

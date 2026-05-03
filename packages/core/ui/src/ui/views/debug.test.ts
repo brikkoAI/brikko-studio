@@ -58,7 +58,7 @@ describe("renderDebug", () => {
     );
 
     const command = container.querySelector<HTMLElement>(".callout .mono");
-    expect(command?.textContent).toBe("openclaw security audit --deep");
+    expect(command?.textContent).toBe("brikko-studio security audit --deep");
     expect(container.textContent).toContain("安全审计");
   });
 });

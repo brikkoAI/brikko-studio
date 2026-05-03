@@ -23,11 +23,11 @@ describe("web_search signal plumbing", () => {
     const controller = new AbortController();
     const tool = createWebSearchTool({ config: {} });
 
-    await tool?.execute("call-search", { query: "openclaw" }, controller.signal);
+    await tool?.execute("call-search", { query: "brikko-studio" }, controller.signal);
 
     expect(mocks.runWebSearch).toHaveBeenCalledWith(
       expect.objectContaining({
-        args: { query: "openclaw" },
+        args: { query: "brikko-studio" },
         signal: controller.signal,
       }),
     );

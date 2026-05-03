@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/nvidia-provider",
+  "name": "@brikko-studio/nvidia-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw NVIDIA provider plugin",
+  "description": "Brikko Studio NVIDIA provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

@@ -16,7 +16,7 @@ import {
 import type { CanvasHostHandler } from "../canvas-host/server.js";
 import { resolveBundledChannelGatewayAuthBypassPaths } from "../channels/plugins/gateway-auth-bypass.js";
 import { getRuntimeConfig } from "../config/io.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   createDiagnosticTraceContext,
   runWithDiagnosticTraceContext,
@@ -156,12 +156,12 @@ const GATEWAY_PROBE_STATUS_BY_PATH = new Map<string, "live" | "ready">([
   ["/readyz", "ready"],
 ]);
 const pluginGatewayAuthBypassPathsCache = new WeakMap<
-  OpenClawConfig,
+  Brikko StudioConfig,
   Promise<ReadonlySet<string>>
 >();
 
 async function resolvePluginGatewayAuthBypassPaths(
-  configSnapshot: OpenClawConfig,
+  configSnapshot: Brikko StudioConfig,
 ): Promise<Set<string>> {
   const paths = new Set<string>();
   const configuredChannels = configSnapshot.channels;
@@ -180,7 +180,7 @@ async function resolvePluginGatewayAuthBypassPaths(
 }
 
 function getCachedPluginGatewayAuthBypassPaths(
-  configSnapshot: OpenClawConfig,
+  configSnapshot: Brikko StudioConfig,
 ): Promise<ReadonlySet<string>> {
   const cached = pluginGatewayAuthBypassPathsCache.get(configSnapshot);
   if (cached) {
@@ -486,7 +486,7 @@ export function createGatewayHttpServer(opts: {
   /** Optional rate limiter for auth brute-force protection. */
   rateLimiter?: AuthRateLimiter;
   getReadiness?: ReadinessChecker;
-  getRuntimeConfig?: () => OpenClawConfig;
+  getRuntimeConfig?: () => Brikko StudioConfig;
   tlsOptions?: TlsOptions;
 }): HttpServer {
   const {
@@ -926,17 +926,17 @@ export function attachGatewayUpgradeHandler(opts: {
         wss.handleUpgrade(req, socket, head, (ws) => {
           (
             ws as unknown as import("ws").WebSocket & {
-              __openclawPreauthBudgetClaimed?: boolean;
-              __openclawPreauthBudgetKey?: string;
+              __brikko-studioPreauthBudgetClaimed?: boolean;
+              __brikko-studioPreauthBudgetKey?: string;
             }
-          ).__openclawPreauthBudgetKey = preauthBudgetKey;
+          ).__brikko-studioPreauthBudgetKey = preauthBudgetKey;
           wss.emit("connection", ws, req);
           const budgetClaimed = Boolean(
             (
               ws as unknown as import("ws").WebSocket & {
-                __openclawPreauthBudgetClaimed?: boolean;
+                __brikko-studioPreauthBudgetClaimed?: boolean;
               }
-            ).__openclawPreauthBudgetClaimed,
+            ).__brikko-studioPreauthBudgetClaimed,
           );
           if (budgetClaimed) {
             budgetTransferred = true;

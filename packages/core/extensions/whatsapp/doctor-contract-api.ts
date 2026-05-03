@@ -1,4 +1,4 @@
-import type { ChannelDoctorLegacyConfigRule } from "openclaw/plugin-sdk/channel-contract";
+import type { ChannelDoctorLegacyConfigRule } from "brikko-studio/plugin-sdk/channel-contract";
 
 export { normalizeCompatibilityConfig } from "./src/doctor-contract.js";
 

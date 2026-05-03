@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 
 type ProviderModelRef = {
   provider: string;
@@ -6,7 +6,7 @@ type ProviderModelRef = {
 };
 
 export function resolveConfiguredProviderFallback(params: {
-  cfg: Pick<OpenClawConfig, "models">;
+  cfg: Pick<Brikko StudioConfig, "models">;
   defaultProvider: string;
   defaultModel?: string;
 }): ProviderModelRef | null {

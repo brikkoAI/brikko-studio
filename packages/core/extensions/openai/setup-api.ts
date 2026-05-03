@@ -1,7 +1,7 @@
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
-import type { ProviderAuthContext, ProviderAuthResult } from "openclaw/plugin-sdk/plugin-entry";
-import type { ProviderAuthMethod } from "openclaw/plugin-sdk/plugin-entry";
-import type { ProviderPlugin } from "openclaw/plugin-sdk/provider-model-shared";
+import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { ProviderAuthContext, ProviderAuthResult } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { ProviderAuthMethod } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { ProviderPlugin } from "brikko-studio/plugin-sdk/provider-model-shared";
 import {
   OPENAI_API_KEY_LABEL,
   OPENAI_API_KEY_WIZARD_GROUP,

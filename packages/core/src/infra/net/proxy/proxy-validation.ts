@@ -7,7 +7,7 @@ import { createHttp1ProxyAgent } from "../undici-runtime.js";
 export const DEFAULT_PROXY_VALIDATION_ALLOWED_URLS = ["https://example.com/"] as const;
 
 const DEFAULT_PROXY_VALIDATION_TIMEOUT_MS = 5000;
-const DENIED_CANARY_HEADER = "x-openclaw-proxy-validation-canary";
+const DENIED_CANARY_HEADER = "x-brikko-studio-proxy-validation-canary";
 
 export type ProxyValidationConfigSource = "override" | "config" | "env" | "missing" | "disabled";
 
@@ -52,7 +52,7 @@ export type ProxyValidationFetchCheck = (
 
 export type ResolveProxyValidationConfigOptions = {
   config?: ProxyConfig;
-  env?: NodeJS.ProcessEnv | Partial<Record<"OPENCLAW_PROXY_URL", string | undefined>>;
+  env?: NodeJS.ProcessEnv | Partial<Record<"BRIKKO_STUDIO_PROXY_URL", string | undefined>>;
   proxyUrlOverride?: string;
 };
 
@@ -78,7 +78,7 @@ function isHttpProxyUrl(value: string): boolean {
 
 function validateProxyUrl(value: string | undefined): string[] {
   if (!value) {
-    return ["proxy validation requires proxy.proxyUrl, --proxy-url, or OPENCLAW_PROXY_URL"];
+    return ["proxy validation requires proxy.proxyUrl, --proxy-url, or BRIKKO_STUDIO_PROXY_URL"];
   }
   if (!isHttpProxyUrl(value)) {
     return ["proxyUrl must use http://"];
@@ -91,7 +91,7 @@ function validateProxyEnabled(source: ProxyValidationConfigSource, enabled: bool
     return [];
   }
   if (source === "env") {
-    return ["proxy validation requires proxy.enabled to be true for OPENCLAW_PROXY_URL"];
+    return ["proxy validation requires proxy.enabled to be true for BRIKKO_STUDIO_PROXY_URL"];
   }
   return ["proxy validation requires proxy.enabled to be true for configured proxy URLs"];
 }
@@ -127,7 +127,7 @@ export function resolveProxyValidationConfig(
     };
   }
 
-  const envUrl = normalizeProxyUrl(options.env?.OPENCLAW_PROXY_URL);
+  const envUrl = normalizeProxyUrl(options.env?.BRIKKO_STUDIO_PROXY_URL);
   if (envUrl) {
     return {
       enabled: options.config?.enabled === true,
@@ -149,7 +149,7 @@ export function resolveProxyValidationConfig(
     enabled: false,
     source: "disabled",
     errors: [
-      "proxy validation requires proxy.enabled=true with proxy.proxyUrl or OPENCLAW_PROXY_URL, or --proxy-url",
+      "proxy validation requires proxy.enabled=true with proxy.proxyUrl or BRIKKO_STUDIO_PROXY_URL, or --proxy-url",
     ],
   };
 }

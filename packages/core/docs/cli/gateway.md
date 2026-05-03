@@ -1,5 +1,5 @@
 ---
-summary: "OpenClaw Gateway CLI (`openclaw gateway`) — run, query, and discover gateways"
+summary: "Brikko Studio Gateway CLI (`brikko-studio gateway`) — run, query, and discover gateways"
 read_when:
   - Running the Gateway from the CLI (dev or servers)
   - Debugging Gateway auth, bind modes, and connectivity
@@ -8,14 +8,14 @@ title: "Gateway"
 sidebarTitle: "Gateway"
 ---
 
-The Gateway is OpenClaw's WebSocket server (channels, nodes, sessions, hooks). Subcommands in this page live under `openclaw gateway …`.
+The Gateway is Brikko Studio's WebSocket server (channels, nodes, sessions, hooks). Subcommands in this page live under `brikko-studio gateway …`.
 
 <CardGroup cols={3}>
   <Card title="Bonjour discovery" href="/gateway/bonjour">
     Local mDNS + wide-area DNS-SD setup.
   </Card>
   <Card title="Discovery overview" href="/gateway/discovery">
-    How OpenClaw advertises and finds gateways.
+    How Brikko Studio advertises and finds gateways.
   </Card>
   <Card title="Configuration" href="/gateway/configuration">
     Top-level gateway config keys.
@@ -27,19 +27,19 @@ The Gateway is OpenClaw's WebSocket server (channels, nodes, sessions, hooks). S
 Run a local Gateway process:
 
 ```bash
-openclaw gateway
+brikko-studio gateway
 ```
 
 Foreground alias:
 
 ```bash
-openclaw gateway run
+brikko-studio gateway run
 ```
 
 <AccordionGroup>
   <Accordion title="Startup behavior">
-    - By default, the Gateway refuses to start unless `gateway.mode=local` is set in `~/.openclaw/openclaw.json`. Use `--allow-unconfigured` for ad-hoc/dev runs.
-    - `openclaw onboard --mode local` and `openclaw setup` are expected to write `gateway.mode=local`. If the file exists but `gateway.mode` is missing, treat that as a broken or clobbered config and repair it instead of assuming local mode implicitly.
+    - By default, the Gateway refuses to start unless `gateway.mode=local` is set in `~/.brikko-studio/brikko-studio.json`. Use `--allow-unconfigured` for ad-hoc/dev runs.
+    - `brikko-studio onboard --mode local` and `brikko-studio setup` are expected to write `gateway.mode=local`. If the file exists but `gateway.mode` is missing, treat that as a broken or clobbered config and repair it instead of assuming local mode implicitly.
     - If the file exists and `gateway.mode` is missing, the Gateway treats that as suspicious config damage and refuses to "guess local" for you.
     - Binding beyond loopback without auth is blocked (safety guardrail).
     - `SIGUSR1` triggers an in-process restart when authorized (`commands.restart` is enabled by default; set `commands.restart: false` to block manual restart, while gateway tool/config apply/update remain allowed).
@@ -60,7 +60,7 @@ openclaw gateway run
   Auth mode override.
 </ParamField>
 <ParamField path="--token <token>" type="string">
-  Token override (also sets `OPENCLAW_GATEWAY_TOKEN` for the process).
+  Token override (also sets `BRIKKO_STUDIO_GATEWAY_TOKEN` for the process).
 </ParamField>
 <ParamField path="--password <password>" type="string">
   Password override.
@@ -111,8 +111,8 @@ Inline `--password` can be exposed in local process listings. Prefer `--password
 
 ### Startup profiling
 
-- Set `OPENCLAW_GATEWAY_STARTUP_TRACE=1` to log phase timings during Gateway startup, including per-phase `eventLoopMax` delay and plugin lookup-table timings for installed-index, manifest registry, startup planning, and owner-map work.
-- Set `OPENCLAW_DIAGNOSTICS=timeline` with `OPENCLAW_DIAGNOSTICS_TIMELINE_PATH=<path>` to write a best-effort JSONL startup diagnostics timeline for external QA harnesses. You can also enable the flag with `diagnostics.flags: ["timeline"]` in config; the path is still env-provided. Add `OPENCLAW_DIAGNOSTICS_EVENT_LOOP=1` to include event-loop samples.
+- Set `BRIKKO_STUDIO_GATEWAY_STARTUP_TRACE=1` to log phase timings during Gateway startup, including per-phase `eventLoopMax` delay and plugin lookup-table timings for installed-index, manifest registry, startup planning, and owner-map work.
+- Set `BRIKKO_STUDIO_DIAGNOSTICS=timeline` with `BRIKKO_STUDIO_DIAGNOSTICS_TIMELINE_PATH=<path>` to write a best-effort JSONL startup diagnostics timeline for external QA harnesses. You can also enable the flag with `diagnostics.flags: ["timeline"]` in config; the path is still env-provided. Add `BRIKKO_STUDIO_DIAGNOSTICS_EVENT_LOOP=1` to include event-loop samples.
 - Run `pnpm test:startup:gateway -- --runs 5 --warmup 1` to benchmark Gateway startup. The benchmark records first process output, `/healthz`, `/readyz`, startup trace timings, event-loop delay, and plugin lookup-table timing details.
 
 ## Query a running Gateway
@@ -143,7 +143,7 @@ When you set `--url`, the CLI does not fall back to config or environment creden
 ### `gateway health`
 
 ```bash
-openclaw gateway health --url ws://127.0.0.1:18789
+brikko-studio gateway health --url ws://127.0.0.1:18789
 ```
 
 The HTTP `/healthz` endpoint is a liveness probe: it returns once the server can answer HTTP. The HTTP `/readyz` endpoint is stricter and stays red while startup plugin sidecars, channels, or configured hooks are still settling. Local or authenticated detailed readiness responses include an `eventLoop` diagnostic block with event-loop delay, event-loop utilization, CPU core ratio, and a `degraded` flag.
@@ -153,9 +153,9 @@ The HTTP `/healthz` endpoint is a liveness probe: it returns once the server can
 Fetch usage-cost summaries from session logs.
 
 ```bash
-openclaw gateway usage-cost
-openclaw gateway usage-cost --days 7
-openclaw gateway usage-cost --json
+brikko-studio gateway usage-cost
+brikko-studio gateway usage-cost --days 7
+brikko-studio gateway usage-cost --json
 ```
 
 <ParamField path="--days <days>" type="number" default="30">
@@ -167,11 +167,11 @@ openclaw gateway usage-cost --json
 Fetch the recent diagnostic stability recorder from a running Gateway.
 
 ```bash
-openclaw gateway stability
-openclaw gateway stability --type payload.large
-openclaw gateway stability --bundle latest
-openclaw gateway stability --bundle latest --export
-openclaw gateway stability --json
+brikko-studio gateway stability
+brikko-studio gateway stability --type payload.large
+brikko-studio gateway stability --bundle latest
+brikko-studio gateway stability --bundle latest --export
+brikko-studio gateway stability --json
 ```
 
 <ParamField path="--limit <limit>" type="number" default="25">
@@ -196,7 +196,7 @@ openclaw gateway stability --json
 <AccordionGroup>
   <Accordion title="Privacy and bundle behavior">
     - Records keep operational metadata: event names, counts, byte sizes, memory readings, queue/session state, channel/plugin names, and redacted session summaries. They do not keep chat text, webhook bodies, tool outputs, raw request or response bodies, tokens, cookies, secret values, hostnames, or raw session ids. Set `diagnostics.enabled: false` to disable the recorder entirely.
-    - On fatal Gateway exits, shutdown timeouts, and restart startup failures, OpenClaw writes the same diagnostic snapshot to `~/.openclaw/logs/stability/openclaw-stability-*.json` when the recorder has events. Inspect the newest bundle with `openclaw gateway stability --bundle latest`; `--limit`, `--type`, and `--since-seq` also apply to bundle output.
+    - On fatal Gateway exits, shutdown timeouts, and restart startup failures, Brikko Studio writes the same diagnostic snapshot to `~/.brikko-studio/logs/stability/brikko-studio-stability-*.json` when the recorder has events. Inspect the newest bundle with `brikko-studio gateway stability --bundle latest`; `--limit`, `--type`, and `--since-seq` also apply to bundle output.
 
   </Accordion>
 </AccordionGroup>
@@ -206,9 +206,9 @@ openclaw gateway stability --json
 Write a local diagnostics zip that is designed to attach to bug reports. For the privacy model and bundle contents, see [Diagnostics Export](/gateway/diagnostics).
 
 ```bash
-openclaw gateway diagnostics export
-openclaw gateway diagnostics export --output openclaw-diagnostics.zip
-openclaw gateway diagnostics export --json
+brikko-studio gateway diagnostics export
+brikko-studio gateway diagnostics export --output brikko-studio-diagnostics.zip
+brikko-studio gateway diagnostics export --json
 ```
 
 <ParamField path="--output <path>" type="string">
@@ -241,16 +241,16 @@ openclaw gateway diagnostics export --json
 
 The export contains a manifest, a Markdown summary, config shape, sanitized config details, sanitized log summaries, sanitized Gateway status/health snapshots, and the newest stability bundle when one exists.
 
-It is meant to be shared. It keeps operational details that help debugging, such as safe OpenClaw log fields, subsystem names, status codes, durations, configured modes, ports, plugin ids, provider ids, non-secret feature settings, and redacted operational log messages. It omits or redacts chat text, webhook bodies, tool outputs, credentials, cookies, account/message identifiers, prompt/instruction text, hostnames, and secret values. When a LogTape-style message looks like user/chat/tool payload text, the export keeps only that a message was omitted plus its byte count.
+It is meant to be shared. It keeps operational details that help debugging, such as safe Brikko Studio log fields, subsystem names, status codes, durations, configured modes, ports, plugin ids, provider ids, non-secret feature settings, and redacted operational log messages. It omits or redacts chat text, webhook bodies, tool outputs, credentials, cookies, account/message identifiers, prompt/instruction text, hostnames, and secret values. When a LogTape-style message looks like user/chat/tool payload text, the export keeps only that a message was omitted plus its byte count.
 
 ### `gateway status`
 
 `gateway status` shows the Gateway service (launchd/systemd/schtasks) plus an optional probe of connectivity/auth capability.
 
 ```bash
-openclaw gateway status
-openclaw gateway status --json
-openclaw gateway status --require-rpc
+brikko-studio gateway status
+brikko-studio gateway status --json
+brikko-studio gateway status --require-rpc
 ```
 
 <ParamField path="--url <url>" type="string">
@@ -314,8 +314,8 @@ If multiple gateways are reachable, it prints all of them. Multiple gateways are
 </Note>
 
 ```bash
-openclaw gateway probe
-openclaw gateway probe --json
+brikko-studio gateway probe
+brikko-studio gateway probe --json
 ```
 
 <AccordionGroup>
@@ -369,7 +369,7 @@ The macOS app "Remote over SSH" mode uses a local port-forward so the remote gat
 CLI equivalent:
 
 ```bash
-openclaw gateway probe --ssh user@gateway-host
+brikko-studio gateway probe --ssh user@gateway-host
 ```
 
 <ParamField path="--ssh <target>" type="string">
@@ -392,8 +392,8 @@ Config (optional, used as defaults):
 Low-level RPC helper.
 
 ```bash
-openclaw gateway call status
-openclaw gateway call logs.tail --params '{"sinceMs": 60000}'
+brikko-studio gateway call status
+brikko-studio gateway call logs.tail --params '{"sinceMs": 60000}'
 ```
 
 <ParamField path="--params <json>" type="string" default="{}">
@@ -425,46 +425,46 @@ openclaw gateway call logs.tail --params '{"sinceMs": 60000}'
 ## Manage the Gateway service
 
 ```bash
-openclaw gateway install
-openclaw gateway start
-openclaw gateway stop
-openclaw gateway restart
-openclaw gateway uninstall
+brikko-studio gateway install
+brikko-studio gateway start
+brikko-studio gateway stop
+brikko-studio gateway restart
+brikko-studio gateway uninstall
 ```
 
 ### Install with a wrapper
 
 Use `--wrapper` when the managed service must start through another executable, for example a
 secrets manager shim or a run-as helper. The wrapper receives the normal Gateway args and is
-responsible for eventually exec'ing `openclaw` or Node with those args.
+responsible for eventually exec'ing `brikko-studio` or Node with those args.
 
 ```bash
-cat > ~/.local/bin/openclaw-doppler <<'EOF'
+cat > ~/.local/bin/brikko-studio-doppler <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-exec doppler run --project my-project --config production -- openclaw "$@"
+exec doppler run --project my-project --config production -- brikko-studio "$@"
 EOF
-chmod +x ~/.local/bin/openclaw-doppler
+chmod +x ~/.local/bin/brikko-studio-doppler
 
-openclaw gateway install --wrapper ~/.local/bin/openclaw-doppler --force
-openclaw gateway restart
+brikko-studio gateway install --wrapper ~/.local/bin/brikko-studio-doppler --force
+brikko-studio gateway restart
 ```
 
 You can also set the wrapper through the environment. `gateway install` validates that the path is
 an executable file, writes the wrapper into service `ProgramArguments`, and persists
-`OPENCLAW_WRAPPER` in the service environment for later forced reinstalls, updates, and doctor
+`BRIKKO_STUDIO_WRAPPER` in the service environment for later forced reinstalls, updates, and doctor
 repairs.
 
 ```bash
-OPENCLAW_WRAPPER="$HOME/.local/bin/openclaw-doppler" openclaw gateway install --force
-openclaw doctor
+BRIKKO_STUDIO_WRAPPER="$HOME/.local/bin/brikko-studio-doppler" brikko-studio gateway install --force
+brikko-studio doctor
 ```
 
-To remove a persisted wrapper, clear `OPENCLAW_WRAPPER` while reinstalling:
+To remove a persisted wrapper, clear `BRIKKO_STUDIO_WRAPPER` while reinstalling:
 
 ```bash
-OPENCLAW_WRAPPER= openclaw gateway install --force
-openclaw gateway restart
+BRIKKO_STUDIO_WRAPPER= brikko-studio gateway install --force
+brikko-studio gateway restart
 ```
 
 <AccordionGroup>
@@ -485,8 +485,8 @@ openclaw gateway restart
   <Accordion title="Auth and SecretRefs at install time">
     - When token auth requires a token and `gateway.auth.token` is SecretRef-managed, `gateway install` validates that the SecretRef is resolvable but does not persist the resolved token into service environment metadata.
     - If token auth requires a token and the configured token SecretRef is unresolved, install fails closed instead of persisting fallback plaintext.
-    - For password auth on `gateway run`, prefer `OPENCLAW_GATEWAY_PASSWORD`, `--password-file`, or a SecretRef-backed `gateway.auth.password` over inline `--password`.
-    - In inferred auth mode, shell-only `OPENCLAW_GATEWAY_PASSWORD` does not relax install token requirements; use durable config (`gateway.auth.password` or config `env`) when installing a managed service.
+    - For password auth on `gateway run`, prefer `BRIKKO_STUDIO_GATEWAY_PASSWORD`, `--password-file`, or a SecretRef-backed `gateway.auth.password` over inline `--password`.
+    - In inferred auth mode, shell-only `BRIKKO_STUDIO_GATEWAY_PASSWORD` does not relax install token requirements; use durable config (`gateway.auth.password` or config `env`) when installing a managed service.
     - If both `gateway.auth.token` and `gateway.auth.password` are configured and `gateway.auth.mode` is unset, install is blocked until mode is set explicitly.
 
   </Accordion>
@@ -494,10 +494,10 @@ openclaw gateway restart
 
 ## Discover gateways (Bonjour)
 
-`gateway discover` scans for Gateway beacons (`_openclaw-gw._tcp`).
+`gateway discover` scans for Gateway beacons (`_brikko-studio-gw._tcp`).
 
 - Multicast DNS-SD: `local.`
-- Unicast DNS-SD (Wide-Area Bonjour): choose a domain (example: `openclaw.internal.`) and set up split DNS + a DNS server; see [Bonjour](/gateway/bonjour).
+- Unicast DNS-SD (Wide-Area Bonjour): choose a domain (example: `brikko-studio.internal.`) and set up split DNS + a DNS server; see [Bonjour](/gateway/bonjour).
 
 Only gateways with Bonjour discovery enabled (default) advertise the beacon.
 
@@ -514,7 +514,7 @@ Wide-Area discovery records include (TXT):
 ### `gateway discover`
 
 ```bash
-openclaw gateway discover
+brikko-studio gateway discover
 ```
 
 <ParamField path="--timeout <ms>" type="number" default="2000">
@@ -527,8 +527,8 @@ openclaw gateway discover
 Examples:
 
 ```bash
-openclaw gateway discover --timeout 4000
-openclaw gateway discover --json | jq '.beacons[].wsUrl'
+brikko-studio gateway discover --timeout 4000
+brikko-studio gateway discover --json | jq '.beacons[].wsUrl'
 ```
 
 <Note>

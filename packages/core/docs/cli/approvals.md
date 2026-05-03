@@ -1,44 +1,44 @@
 ---
-summary: "CLI reference for `openclaw approvals` and `openclaw exec-policy`"
+summary: "CLI reference for `brikko-studio approvals` and `brikko-studio exec-policy`"
 read_when:
   - You want to edit exec approvals from the CLI
   - You need to manage allowlists on gateway or node hosts
 title: "Approvals"
 ---
 
-# `openclaw approvals`
+# `brikko-studio approvals`
 
 Manage exec approvals for the **local host**, **gateway host**, or a **node host**.
 By default, commands target the local approvals file on disk. Use `--gateway` to target the gateway, or `--node` to target a specific node.
 
-Alias: `openclaw exec-approvals`
+Alias: `brikko-studio exec-approvals`
 
 Related:
 
 - Exec approvals: [Exec approvals](/tools/exec-approvals)
 - Nodes: [Nodes](/nodes)
 
-## `openclaw exec-policy`
+## `brikko-studio exec-policy`
 
-`openclaw exec-policy` is the local convenience command for keeping the requested
+`brikko-studio exec-policy` is the local convenience command for keeping the requested
 `tools.exec.*` config and the local host approvals file aligned in one step.
 
 Use it when you want to:
 
 - inspect the local requested policy, host approvals file, and effective merge
 - apply a local preset such as YOLO or deny-all
-- synchronize local `tools.exec.*` and local `~/.openclaw/exec-approvals.json`
+- synchronize local `tools.exec.*` and local `~/.brikko-studio/exec-approvals.json`
 
 Examples:
 
 ```bash
-openclaw exec-policy show
-openclaw exec-policy show --json
+brikko-studio exec-policy show
+brikko-studio exec-policy show --json
 
-openclaw exec-policy preset yolo
-openclaw exec-policy preset cautious --json
+brikko-studio exec-policy preset yolo
+brikko-studio exec-policy preset cautious --json
 
-openclaw exec-policy set --host gateway --security full --ask off --ask-fallback full
+brikko-studio exec-policy set --host gateway --security full --ask off --ask-fallback full
 ```
 
 Output modes:
@@ -52,20 +52,20 @@ Current scope:
 - it updates the local config file and the local approvals file together
 - it does **not** push policy to the gateway host or a node host
 - `--host node` is rejected in this command because node exec approvals are fetched from the node at runtime and must be managed through node-targeted approvals commands instead
-- `openclaw exec-policy show` marks `host=node` scopes as node-managed at runtime instead of deriving an effective policy from the local approvals file
+- `brikko-studio exec-policy show` marks `host=node` scopes as node-managed at runtime instead of deriving an effective policy from the local approvals file
 
-If you need to edit remote host approvals directly, keep using `openclaw approvals set --gateway`
-or `openclaw approvals set --node <id|name|ip>`.
+If you need to edit remote host approvals directly, keep using `brikko-studio approvals set --gateway`
+or `brikko-studio approvals set --node <id|name|ip>`.
 
 ## Common commands
 
 ```bash
-openclaw approvals get
-openclaw approvals get --node <id|name|ip>
-openclaw approvals get --gateway
+brikko-studio approvals get
+brikko-studio approvals get --node <id|name|ip>
+brikko-studio approvals get --gateway
 ```
 
-`openclaw approvals get` now shows the effective exec policy for local, gateway, and node targets:
+`brikko-studio approvals get` now shows the effective exec policy for local, gateway, and node targets:
 
 - requested `tools.exec` policy
 - host approvals-file policy
@@ -81,12 +81,12 @@ Precedence is intentional:
 ## Replace approvals from a file
 
 ```bash
-openclaw approvals set --file ./exec-approvals.json
-openclaw approvals set --stdin <<'EOF'
+brikko-studio approvals set --file ./exec-approvals.json
+brikko-studio approvals set --stdin <<'EOF'
 { version: 1, defaults: { security: "full", ask: "off" } }
 EOF
-openclaw approvals set --node <id|name|ip> --file ./exec-approvals.json
-openclaw approvals set --gateway --file ./exec-approvals.json
+brikko-studio approvals set --node <id|name|ip> --file ./exec-approvals.json
+brikko-studio approvals set --gateway --file ./exec-approvals.json
 ```
 
 `set` accepts JSON5, not only strict JSON. Use either `--file` or `--stdin`, not both.
@@ -96,7 +96,7 @@ openclaw approvals set --gateway --file ./exec-approvals.json
 For a host that should never stop on exec approvals, set the host approvals defaults to `full` + `off`:
 
 ```bash
-openclaw approvals set --stdin <<'EOF'
+brikko-studio approvals set --stdin <<'EOF'
 {
   version: 1,
   defaults: {
@@ -111,7 +111,7 @@ EOF
 Node variant:
 
 ```bash
-openclaw approvals set --node <id|name|ip> --stdin <<'EOF'
+brikko-studio approvals set --node <id|name|ip> --stdin <<'EOF'
 {
   version: 1,
   defaults: {
@@ -123,12 +123,12 @@ openclaw approvals set --node <id|name|ip> --stdin <<'EOF'
 EOF
 ```
 
-This changes the **host approvals file** only. To keep the requested OpenClaw policy aligned, also set:
+This changes the **host approvals file** only. To keep the requested Brikko Studio policy aligned, also set:
 
 ```bash
-openclaw config set tools.exec.host gateway
-openclaw config set tools.exec.security full
-openclaw config set tools.exec.ask off
+brikko-studio config set tools.exec.host gateway
+brikko-studio config set tools.exec.security full
+brikko-studio config set tools.exec.ask off
 ```
 
 Why `tools.exec.host=gateway` in this example:
@@ -142,7 +142,7 @@ This matches the current host-default YOLO behavior. Tighten it if you want appr
 Local shortcut:
 
 ```bash
-openclaw exec-policy preset yolo
+brikko-studio exec-policy preset yolo
 ```
 
 That local shortcut updates both the requested local `tools.exec.*` config and the
@@ -152,11 +152,11 @@ setup above, but only for the local machine.
 ## Allowlist helpers
 
 ```bash
-openclaw approvals allowlist add "~/Projects/**/bin/rg"
-openclaw approvals allowlist add --agent main --node <id|name|ip> "/usr/bin/uptime"
-openclaw approvals allowlist add --agent "*" "/usr/bin/uname"
+brikko-studio approvals allowlist add "~/Projects/**/bin/rg"
+brikko-studio approvals allowlist add --agent main --node <id|name|ip> "/usr/bin/uptime"
+brikko-studio approvals allowlist add --agent "*" "/usr/bin/uname"
 
-openclaw approvals allowlist remove "~/Projects/**/bin/rg"
+brikko-studio approvals allowlist remove "~/Projects/**/bin/rg"
 ```
 
 ## Common options
@@ -179,10 +179,10 @@ Targeting notes:
 
 ## Notes
 
-- `--node` uses the same resolver as `openclaw nodes` (id, name, ip, or id prefix).
+- `--node` uses the same resolver as `brikko-studio nodes` (id, name, ip, or id prefix).
 - `--agent` defaults to `"*"`, which applies to all agents.
 - The node host must advertise `system.execApprovals.get/set` (macOS app or headless node host).
-- Approvals files are stored per host at `~/.openclaw/exec-approvals.json`.
+- Approvals files are stored per host at `~/.brikko-studio/exec-approvals.json`.
 
 ## Related
 

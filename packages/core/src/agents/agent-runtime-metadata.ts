@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeAgentId } from "../routing/session-key.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { resolveAgentRuntimePolicy } from "./agent-runtime-policy.js";
@@ -19,11 +19,11 @@ function normalizeRuntimeValue(value: unknown): EmbeddedAgentRuntime | undefined
 }
 
 export function resolveAgentRuntimeMetadata(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
   env: NodeJS.ProcessEnv = process.env,
 ): AgentRuntimeMetadata {
-  const envRuntime = normalizeRuntimeValue(env.OPENCLAW_AGENT_RUNTIME);
+  const envRuntime = normalizeRuntimeValue(env.BRIKKO_STUDIO_AGENT_RUNTIME);
   const normalizedAgentId = normalizeAgentId(agentId);
   const agentEntry = listAgentEntries(cfg).find(
     (entry) => normalizeAgentId(entry.id) === normalizedAgentId,

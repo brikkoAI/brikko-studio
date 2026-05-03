@@ -11,7 +11,7 @@ describe("prepare-codex-ci-config", () => {
   it("renders a minimal trusted non-interactive Codex config for the target repo", () => {
     expect(
       buildCiSafeCodexConfig({
-        projectPath: "/tmp/openclaw-pr-sync.xph5uu",
+        projectPath: "/tmp/brikko-studio-pr-sync.xph5uu",
       }),
     ).toBe(
       [
@@ -22,7 +22,7 @@ describe("prepare-codex-ci-config", () => {
         'sandbox_mode = "workspace-write"',
         'model_reasoning_effort = "low"',
         "",
-        '[projects."/tmp/openclaw-pr-sync.xph5uu"]',
+        '[projects."/tmp/brikko-studio-pr-sync.xph5uu"]',
         'trust_level = "trusted"',
         "",
       ].join("\n"),

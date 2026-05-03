@@ -62,7 +62,7 @@ describe("secrets runtime fast path", () => {
         },
       }),
       env: {},
-      agentDirs: ["/tmp/openclaw-agent-main"],
+      agentDirs: ["/tmp/brikko-studio-agent-main"],
       loadAuthStore: emptyAuthStore,
     });
 
@@ -70,7 +70,7 @@ describe("secrets runtime fast path", () => {
     expect(snapshot.config.gateway?.auth?.token).toBe("plain-startup-token");
     expect(snapshot.authStores).toEqual([
       {
-        agentDir: "/tmp/openclaw-agent-main",
+        agentDir: "/tmp/brikko-studio-agent-main",
         store: emptyAuthStore(),
       },
     ]);
@@ -97,7 +97,7 @@ describe("secrets runtime fast path", () => {
         },
       }),
       env: {},
-      agentDirs: ["/tmp/openclaw-agent-main"],
+      agentDirs: ["/tmp/brikko-studio-agent-main"],
       loadAuthStore: emptyAuthStore,
     });
 
@@ -120,7 +120,7 @@ describe("secrets runtime fast path", () => {
         },
       }),
       env: {},
-      agentDirs: ["/tmp/openclaw-agent-main"],
+      agentDirs: ["/tmp/brikko-studio-agent-main"],
       loadAuthStore: emptyAuthStore,
     });
 
@@ -133,7 +133,7 @@ describe("secrets runtime fast path", () => {
     await prepareSecretsRuntimeSnapshot({
       config: asConfig({}),
       env: {},
-      agentDirs: ["/tmp/openclaw-agent-main"],
+      agentDirs: ["/tmp/brikko-studio-agent-main"],
       loadAuthStore: () => ({
         version: 1,
         profiles: {
@@ -163,7 +163,7 @@ describe("secrets runtime fast path", () => {
         },
       }),
       env: {},
-      agentDirs: ["/tmp/openclaw-agent-main"],
+      agentDirs: ["/tmp/brikko-studio-agent-main"],
       loadAuthStore: emptyAuthStore,
     });
 

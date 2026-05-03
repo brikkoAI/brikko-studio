@@ -1,5 +1,5 @@
-import { warn, type RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { formatErrorMessage } from "openclaw/plugin-sdk/ssrf-runtime";
+import { warn, type RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import { Client, overwriteApplicationCommands, type RequestClient } from "../internal/discord.js";
 import {
   attachDiscordDeployRestContext,

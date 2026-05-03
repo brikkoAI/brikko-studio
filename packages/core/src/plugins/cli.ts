@@ -1,6 +1,6 @@
 import type { Command } from "commander";
 import { getRuntimeConfig, readConfigFileSnapshot } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   createPluginCliLogger,
   loadPluginCliDescriptors,
@@ -8,7 +8,7 @@ import {
   type PluginCliLoaderOptions,
 } from "./cli-registry-loader.js";
 import { registerPluginCliCommandGroups } from "./register-plugin-cli-command-groups.js";
-import type { OpenClawPluginCliCommandDescriptor } from "./types.js";
+import type { Brikko StudioPluginCliCommandDescriptor } from "./types.js";
 
 type PluginCliRegistrationMode = "eager" | "lazy";
 
@@ -21,7 +21,7 @@ type PluginCliRegistrationEntries = Awaited<
   ReturnType<typeof loadPluginCliRegistrationEntriesWithDefaults>
 >;
 
-const PLUGIN_CLI_ENTRIES_CACHE_KEY = Symbol.for("openclaw.plugin-cli-registration-entries-cache");
+const PLUGIN_CLI_ENTRIES_CACHE_KEY = Symbol.for("brikko-studio.plugin-cli-registration-entries-cache");
 
 interface ProgramWithEntriesCache {
   [PLUGIN_CLI_ENTRIES_CACHE_KEY]?: {
@@ -33,7 +33,7 @@ interface ProgramWithEntriesCache {
 const logger = createPluginCliLogger();
 
 export const loadValidatedConfigForPluginRegistration =
-  async (): Promise<OpenClawConfig | null> => {
+  async (): Promise<Brikko StudioConfig | null> => {
     const snapshot = await readConfigFileSnapshot();
     if (!snapshot.valid) {
       return null;
@@ -42,16 +42,16 @@ export const loadValidatedConfigForPluginRegistration =
   };
 
 export async function getPluginCliCommandDescriptors(
-  cfg?: OpenClawConfig,
+  cfg?: Brikko StudioConfig,
   env?: NodeJS.ProcessEnv,
   loaderOptions?: PluginCliLoaderOptions,
-): Promise<OpenClawPluginCliCommandDescriptor[]> {
+): Promise<Brikko StudioPluginCliCommandDescriptor[]> {
   return loadPluginCliDescriptors({ cfg, env, loaderOptions });
 }
 
 export async function registerPluginCliCommands(
   program: Command,
-  cfg?: OpenClawConfig,
+  cfg?: Brikko StudioConfig,
   env?: NodeJS.ProcessEnv,
   loaderOptions?: PluginCliLoaderOptions,
   options?: RegisterPluginCliOptions,
@@ -87,7 +87,7 @@ export async function registerPluginCliCommandsFromValidatedConfig(
   env?: NodeJS.ProcessEnv,
   loaderOptions?: PluginCliLoaderOptions,
   options?: RegisterPluginCliOptions,
-): Promise<OpenClawConfig | null> {
+): Promise<Brikko StudioConfig | null> {
   const config = await loadValidatedConfigForPluginRegistration();
   if (!config) {
     return null;

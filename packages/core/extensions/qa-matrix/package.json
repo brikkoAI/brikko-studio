@@ -1,26 +1,26 @@
 {
-  "name": "@openclaw/qa-matrix",
+  "name": "@brikko-studio/qa-matrix",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Matrix QA runner plugin",
+  "description": "Brikko Studio Matrix QA runner plugin",
   "type": "module",
   "dependencies": {
     "undici": "8.1.0"
   },
   "devDependencies": {
-    "@openclaw/matrix": "workspace:*",
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@brikko-studio/matrix": "workspace:*",
+    "@brikko-studio/plugin-sdk": "workspace:*",
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { ModelCatalogEntry } from "./model-catalog.js";
 import { createProviderAuthChecker } from "./model-provider-auth.js";
 import { buildAllowedModelSet, buildConfiguredModelCatalog, modelKey } from "./model-selection.js";
@@ -26,7 +26,7 @@ function dedupeModelCatalogEntries(entries: ModelCatalogEntry[]): ModelCatalogEn
 }
 
 export function resolveVisibleModelCatalog(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   catalog: ModelCatalogEntry[];
   defaultProvider: string;
   defaultModel?: string;

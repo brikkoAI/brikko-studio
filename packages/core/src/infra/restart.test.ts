@@ -6,7 +6,7 @@ const resolveLsofCommandSyncMock = vi.hoisted(() => vi.fn());
 const resolveGatewayPortMock = vi.hoisted(() => vi.fn());
 
 vi.mock("node:child_process", async () => {
-  const { mockNodeChildProcessSpawnSync } = await import("openclaw/plugin-sdk/test-node-mocks");
+  const { mockNodeChildProcessSpawnSync } = await import("brikko-studio/plugin-sdk/test-node-mocks");
   return mockNodeChildProcessSpawnSync(spawnSyncMock);
 });
 
@@ -25,7 +25,7 @@ vi.mock("../config/paths.js", async () => {
 let __testing: typeof import("./restart-stale-pids.js").__testing;
 let cleanStaleGatewayProcessesSync: typeof import("./restart-stale-pids.js").cleanStaleGatewayProcessesSync;
 let findGatewayPidsOnPortSync: typeof import("./restart-stale-pids.js").findGatewayPidsOnPortSync;
-let triggerOpenClawRestart: typeof import("./restart.js").triggerOpenClawRestart;
+let triggerBrikko StudioRestart: typeof import("./restart.js").triggerBrikko StudioRestart;
 
 let currentTimeMs = 0;
 const envSnapshot = captureFullEnv();
@@ -34,7 +34,7 @@ const originalPlatformDescriptor = Object.getOwnPropertyDescriptor(process, "pla
 beforeAll(async () => {
   ({ __testing, cleanStaleGatewayProcessesSync, findGatewayPidsOnPortSync } =
     await import("./restart-stale-pids.js"));
-  ({ triggerOpenClawRestart } = await import("./restart.js"));
+  ({ triggerBrikko StudioRestart } = await import("./restart.js"));
 });
 
 beforeEach(() => {
@@ -72,7 +72,7 @@ function setPlatform(platform: NodeJS.Platform): void {
 }
 
 describe.runIf(process.platform !== "win32")("findGatewayPidsOnPortSync", () => {
-  it("parses lsof output and filters non-openclaw/current processes", () => {
+  it("parses lsof output and filters non-brikko-studio/current processes", () => {
     const gatewayPidA = process.pid + 1000;
     const gatewayPidB = process.pid + 2000;
     const foreignPid = process.pid + 3000;
@@ -81,13 +81,13 @@ describe.runIf(process.platform !== "win32")("findGatewayPidsOnPortSync", () => 
       status: 0,
       stdout: [
         `p${process.pid}`,
-        "copenclaw",
+        "cbrikko-studio",
         `p${gatewayPidA}`,
-        "copenclaw-gateway",
+        "cbrikko-studio-gateway",
         `p${foreignPid}`,
         "cnode",
         `p${gatewayPidB}`,
-        "cOpenClaw",
+        "cBrikko Studio",
       ].join("\n"),
     });
 
@@ -121,7 +121,7 @@ describe.runIf(process.platform !== "win32")("cleanStaleGatewayProcessesSync", (
       .mockReturnValueOnce({
         error: undefined,
         status: 0,
-        stdout: [`p${stalePidA}`, "copenclaw", `p${stalePidB}`, "copenclaw-gateway"].join("\n"),
+        stdout: [`p${stalePidA}`, "cbrikko-studio", `p${stalePidB}`, "cbrikko-studio-gateway"].join("\n"),
       })
       .mockReturnValue({
         error: undefined,
@@ -146,7 +146,7 @@ describe.runIf(process.platform !== "win32")("cleanStaleGatewayProcessesSync", (
       .mockReturnValueOnce({
         error: undefined,
         status: 0,
-        stdout: [`p${stalePid}`, "copenclaw"].join("\n"),
+        stdout: [`p${stalePid}`, "cbrikko-studio"].join("\n"),
       })
       .mockReturnValue({
         error: undefined,
@@ -183,13 +183,13 @@ describe.runIf(process.platform !== "win32")("cleanStaleGatewayProcessesSync", (
   });
 });
 
-describe("triggerOpenClawRestart", () => {
+describe("triggerBrikko StudioRestart", () => {
   it("continues when launchctl bootstrap reports the service is already loaded", () => {
     setPlatform("darwin");
     delete process.env.VITEST;
     delete process.env.NODE_ENV;
     process.env.HOME = "/Users/test";
-    process.env.OPENCLAW_PROFILE = "default";
+    process.env.BRIKKO_STUDIO_PROFILE = "default";
     const uid = typeof process.getuid === "function" ? process.getuid() : 501;
     spawnSyncMock.mockImplementation((command: string, args: string[]) => {
       if (command === "/usr/sbin/lsof") {
@@ -207,15 +207,15 @@ describe("triggerOpenClawRestart", () => {
       return { error: undefined, status: 1, stdout: "" };
     });
 
-    const result = triggerOpenClawRestart();
+    const result = triggerBrikko StudioRestart();
 
     expect(result).toEqual({
       ok: true,
       method: "launchctl",
       tried: [
-        `launchctl kickstart -k gui/${uid}/ai.openclaw.gateway`,
-        `launchctl bootstrap gui/${uid} /Users/test/Library/LaunchAgents/ai.openclaw.gateway.plist`,
-        `launchctl kickstart gui/${uid}/ai.openclaw.gateway`,
+        `launchctl kickstart -k gui/${uid}/ai.brikko-studio.gateway`,
+        `launchctl bootstrap gui/${uid} /Users/test/Library/LaunchAgents/ai.brikko-studio.gateway.plist`,
+        `launchctl kickstart gui/${uid}/ai.brikko-studio.gateway`,
       ],
     });
   });

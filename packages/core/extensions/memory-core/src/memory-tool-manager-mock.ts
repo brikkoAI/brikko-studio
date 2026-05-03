@@ -1,4 +1,4 @@
-import type { MemorySearchRuntimeDebug } from "openclaw/plugin-sdk/memory-core-host-runtime-files";
+import type { MemorySearchRuntimeDebug } from "brikko-studio/plugin-sdk/memory-core-host-runtime-files";
 import { vi } from "vitest";
 
 type SearchImpl = (opts?: {

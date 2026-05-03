@@ -1,27 +1,27 @@
-import { normalizeOptionalLowercaseString } from "openclaw/plugin-sdk/text-runtime";
+import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
 
 export {
   getRuntimeConfig,
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
-} from "openclaw/plugin-sdk/runtime-config-snapshot";
-export { replaceConfigFile } from "openclaw/plugin-sdk/config-mutation";
+} from "brikko-studio/plugin-sdk/runtime-config-snapshot";
+export { replaceConfigFile } from "brikko-studio/plugin-sdk/config-mutation";
 export {
   type BrowserConfig,
   type BrowserProfileConfig,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/config-types";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/config-types";
 export {
   normalizePluginsConfig,
   resolveEffectiveEnableState,
-} from "openclaw/plugin-sdk/plugin-config-runtime";
-export { resolveGatewayPort } from "openclaw/plugin-sdk/core";
+} from "brikko-studio/plugin-sdk/plugin-config-runtime";
+export { resolveGatewayPort } from "brikko-studio/plugin-sdk/core";
 export {
   CONFIG_DIR,
   escapeRegExp,
   resolveUserPath,
   shortenHomePath,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 type PortRange = { start: number; end: number };
 
 const DEFAULT_BROWSER_CDP_PORT_RANGE_START = 18800;

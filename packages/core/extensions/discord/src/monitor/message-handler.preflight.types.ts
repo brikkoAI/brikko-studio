@@ -1,7 +1,7 @@
-import type { OpenClawConfig, ReplyToMode } from "openclaw/plugin-sdk/config-types";
-import type { SessionBindingRecord } from "openclaw/plugin-sdk/conversation-runtime";
-import type { HistoryEntry } from "openclaw/plugin-sdk/reply-history";
-import type { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
+import type { Brikko StudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import type { SessionBindingRecord } from "brikko-studio/plugin-sdk/conversation-runtime";
+import type { HistoryEntry } from "brikko-studio/plugin-sdk/reply-history";
+import type { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import type { ChannelType, Client, User } from "../internal/discord.js";
 import type { DiscordChannelConfigResolved, DiscordGuildEntryResolved } from "./allow-list.js";
 import type { DiscordChannelInfo } from "./message-utils.js";
@@ -11,15 +11,15 @@ import type { DiscordSenderIdentity } from "./sender-identity.js";
 export type { DiscordSenderIdentity } from "./sender-identity.js";
 import type { DiscordThreadChannel } from "./threading.js";
 
-type LoadedConfig = OpenClawConfig;
-export type RuntimeEnv = import("openclaw/plugin-sdk/runtime-env").RuntimeEnv;
+type LoadedConfig = Brikko StudioConfig;
+export type RuntimeEnv = import("brikko-studio/plugin-sdk/runtime-env").RuntimeEnv;
 
 export type DiscordMessageEvent = import("./listeners.js").DiscordMessageEvent;
 
 type DiscordMessagePreflightSharedFields = {
   cfg: LoadedConfig;
   discordConfig: NonNullable<
-    import("openclaw/plugin-sdk/config-types").OpenClawConfig["channels"]
+    import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig["channels"]
   >["discord"];
   accountId: string;
   token: string;

@@ -1,5 +1,5 @@
 import type { ChannelDirectoryEntryKind, ChannelId } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { maybeResolvePluginMessagingTarget } from "./target-normalization.js";
 
 export type ResolvedIdLikeTarget = {
@@ -10,7 +10,7 @@ export type ResolvedIdLikeTarget = {
 };
 
 export async function maybeResolveIdLikeTarget(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel: ChannelId;
   input: string;
   accountId?: string | null;

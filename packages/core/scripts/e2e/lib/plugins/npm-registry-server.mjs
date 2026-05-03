@@ -27,7 +27,7 @@ for (let index = 0; index < packageArgs.length; index += 3) {
   existing.latestVersion = version;
   existing.versions.set(version, {
     archive,
-    dependencies: packageName === "@openclaw/demo-plugin-npm" ? { "is-number": "7.0.0" } : {},
+    dependencies: packageName === "@brikko-studio/demo-plugin-npm" ? { "is-number": "7.0.0" } : {},
     integrity: `sha512-${crypto.createHash("sha512").update(archive).digest("base64")}`,
     shasum: crypto.createHash("sha1").update(archive).digest("hex"),
     tarballName: path.basename(tarballPath),

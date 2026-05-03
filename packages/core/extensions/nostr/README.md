@@ -1,10 +1,10 @@
-# @openclaw/nostr
+# @brikko-studio/nostr
 
-Nostr DM channel plugin for OpenClaw using NIP-04 encrypted direct messages.
+Nostr DM channel plugin for Brikko Studio using NIP-04 encrypted direct messages.
 
 ## Overview
 
-This extension adds Nostr as a messaging channel to OpenClaw. It enables your bot to:
+This extension adds Nostr as a messaging channel to Brikko Studio. It enables your bot to:
 
 - Receive encrypted DMs from Nostr users
 - Send encrypted responses back
@@ -13,7 +13,7 @@ This extension adds Nostr as a messaging channel to OpenClaw. It enables your bo
 ## Installation
 
 ```bash
-openclaw plugins install @openclaw/nostr
+brikko-studio plugins install @brikko-studio/nostr
 ```
 
 ## Quick Setup
@@ -94,7 +94,7 @@ processed unless approved.
 # Using strfry
 docker run -p 7777:7777 ghcr.io/hoytech/strfry
 
-# Configure openclaw to use local relay
+# Configure brikko-studio to use local relay
 "relays": ["ws://localhost:7777"]
 ```
 

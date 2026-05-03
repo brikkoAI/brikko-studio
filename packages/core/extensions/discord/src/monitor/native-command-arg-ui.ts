@@ -9,8 +9,8 @@ import {
   type CommandArgDefinition,
   type CommandArgValues,
   type CommandArgs,
-} from "openclaw/plugin-sdk/command-auth";
-import { chunkItems } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/command-auth";
+import { chunkItems } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   Button,
   Row,

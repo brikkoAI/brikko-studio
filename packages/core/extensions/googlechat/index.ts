@@ -1,9 +1,9 @@
-import { defineBundledChannelEntry } from "openclaw/plugin-sdk/channel-entry-contract";
+import { defineBundledChannelEntry } from "brikko-studio/plugin-sdk/channel-entry-contract";
 
 export default defineBundledChannelEntry({
   id: "googlechat",
   name: "Google Chat",
-  description: "OpenClaw Google Chat channel plugin",
+  description: "Brikko Studio Google Chat channel plugin",
   importMetaUrl: import.meta.url,
   plugin: {
     specifier: "./channel-plugin-api.js",

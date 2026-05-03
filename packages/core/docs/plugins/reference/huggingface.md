@@ -1,5 +1,5 @@
 ---
-summary: "Adds Hugging Face model provider support to OpenClaw."
+summary: "Adds Hugging Face model provider support to Brikko Studio."
 read_when:
   - You are installing, configuring, or auditing the huggingface plugin
 title: "Hugging Face plugin"
@@ -7,12 +7,12 @@ title: "Hugging Face plugin"
 
 # Hugging Face plugin
 
-Adds Hugging Face model provider support to OpenClaw.
+Adds Hugging Face model provider support to Brikko Studio.
 
 ## Distribution
 
-- Package: `@openclaw/huggingface-provider`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/huggingface-provider`
+- Install route: included in Brikko Studio
 
 ## Surface
 

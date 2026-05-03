@@ -12,7 +12,7 @@ import {
   assertLiveImageProbeReply,
   buildLiveCronProbeMessage,
   createLiveCronProbeSpec,
-  runOpenClawCliJson,
+  runBrikko StudioCliJson,
   type CronListJob,
 } from "./live-agent-probes.js";
 import { renderCatFacePngBase64 } from "./live-image-probe.js";
@@ -28,8 +28,8 @@ const CLI_CRON_MCP_PROBE_VERIFY_POLL_MS = 2_000;
 
 function shouldLogCliCronProbe(): boolean {
   return (
-    isTruthyEnvValue(process.env.OPENCLAW_LIVE_CLI_BACKEND_DEBUG) ||
-    isTruthyEnvValue(process.env.OPENCLAW_CLI_BACKEND_LOG_OUTPUT)
+    isTruthyEnvValue(process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_DEBUG) ||
+    isTruthyEnvValue(process.env.BRIKKO_STUDIO_CLI_BACKEND_LOG_OUTPUT)
   );
 }
 
@@ -81,7 +81,7 @@ async function removeCliCronJobBestEffort(params: {
   env: NodeJS.ProcessEnv;
 }): Promise<void> {
   try {
-    await runOpenClawCliJson(
+    await runBrikko StudioCliJson(
       [
         "cron",
         "rm",
@@ -183,10 +183,10 @@ async function callLoopbackJsonRpc(params: {
     "x-session-key": params.sessionKey,
   };
   if (params.messageProvider) {
-    headers["x-openclaw-message-channel"] = params.messageProvider;
+    headers["x-brikko-studio-message-channel"] = params.messageProvider;
   }
   if (params.accountId) {
-    headers["x-openclaw-account-id"] = params.accountId;
+    headers["x-brikko-studio-account-id"] = params.accountId;
   }
   const response = await fetch(`http://127.0.0.1:${runtime.port}/mcp`, {
     method: "POST",

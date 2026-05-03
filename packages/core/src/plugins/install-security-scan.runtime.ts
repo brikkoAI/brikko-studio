@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveOpenClawPackageRootSync } from "../infra/openclaw-root.js";
+import { resolveBrikko StudioPackageRootSync } from "../infra/brikko-studio-root.js";
 import { extensionUsesSkippedScannerPath, isPathInside } from "../security/scan-paths.js";
 import { scanDirectoryWithSummary } from "../security/skill-scanner.js";
 import {
@@ -114,7 +114,7 @@ function buildCriticalBlockReason(params: {
 }
 
 function buildScanFailureBlockReason(params: { error: string; targetLabel: string }) {
-  return `${params.targetLabel} blocked: code safety scan failed (${params.error}). Run "openclaw security audit --deep" for details.`;
+  return `${params.targetLabel} blocked: code safety scan failed (${params.error}). Run "brikko-studio security audit --deep" for details.`;
 }
 
 function buildBlockedDependencyManifestLabel(params: {
@@ -177,13 +177,13 @@ function pathContainsNodeModulesSegment(relativePath: string): boolean {
     .includes("node_modules");
 }
 
-function isPackageRootOpenClawPeerSymlink(segments: string[]): boolean {
+function isPackageRootBrikko StudioPeerSymlink(segments: string[]): boolean {
   return (
-    (segments.length === 2 && segments[0] === "node_modules" && segments[1] === "openclaw") ||
+    (segments.length === 2 && segments[0] === "node_modules" && segments[1] === "brikko-studio") ||
     (segments.length === 3 &&
       segments[0] === "node_modules" &&
       segments[1] === ".bin" &&
-      segments[2] === "openclaw")
+      segments[2] === "brikko-studio")
   );
 }
 
@@ -199,23 +199,23 @@ function isManagedNpmRootPackagePeerSymlink(segments: string[]): boolean {
   ) {
     return false;
   }
-  return isPackageRootOpenClawPeerSymlink(segments.slice(packageEndIndex));
+  return isPackageRootBrikko StudioPeerSymlink(segments.slice(packageEndIndex));
 }
 
-function isTrustedOpenClawPeerSymlink(params: {
+function isTrustedBrikko StudioPeerSymlink(params: {
   allowManagedNpmRootPackagePeerSymlinks?: boolean;
   relativePath: string;
 }): boolean {
   const segments = params.relativePath.split(/[\\/]+/);
   return (
-    isPackageRootOpenClawPeerSymlink(segments) ||
+    isPackageRootBrikko StudioPeerSymlink(segments) ||
     (params.allowManagedNpmRootPackagePeerSymlinks === true &&
       isManagedNpmRootPackagePeerSymlink(segments))
   );
 }
 
-async function resolveTrustedHostOpenClawRootRealPath(): Promise<string | null> {
-  const hostRoot = resolveOpenClawPackageRootSync({
+async function resolveTrustedHostBrikko StudioRootRealPath(): Promise<string | null> {
+  const hostRoot = resolveBrikko StudioPackageRootSync({
     argv1: process.argv[1],
     cwd: process.cwd(),
     moduleUrl: import.meta.url,
@@ -226,13 +226,13 @@ async function resolveTrustedHostOpenClawRootRealPath(): Promise<string | null> 
   return await fs.realpath(hostRoot).catch(() => path.resolve(hostRoot));
 }
 
-function isTrustedHostOpenClawPath(params: {
+function isTrustedHostBrikko StudioPath(params: {
   resolvedTargetPath: string;
-  trustedHostOpenClawRootRealPath: string | null;
+  trustedHostBrikko StudioRootRealPath: string | null;
 }): boolean {
   return (
-    params.trustedHostOpenClawRootRealPath !== null &&
-    isPathInside(params.trustedHostOpenClawRootRealPath, params.resolvedTargetPath)
+    params.trustedHostBrikko StudioRootRealPath !== null &&
+    isPathInside(params.trustedHostBrikko StudioRootRealPath, params.resolvedTargetPath)
   );
 }
 
@@ -241,7 +241,7 @@ async function inspectNodeModulesSymlinkTarget(params: {
   rootRealPath: string;
   symlinkPath: string;
   symlinkRelativePath: string;
-  trustedHostOpenClawRootRealPath: string | null;
+  trustedHostBrikko StudioRootRealPath: string | null;
 }): Promise<
   Pick<PackageManifestTraversalResult, "blockedDirectoryFinding" | "blockedFileFinding">
 > {
@@ -258,17 +258,17 @@ async function inspectNodeModulesSymlinkTarget(params: {
   }
 
   if (!isPathInside(params.rootRealPath, resolvedTargetPath)) {
-    // Workspace package managers can leave peer links back to the OpenClaw host
+    // Workspace package managers can leave peer links back to the Brikko Studio host
     // package. Trust only the exact peer-link shapes and only when the resolved
     // target stays inside the host package root.
     if (
-      isTrustedOpenClawPeerSymlink({
+      isTrustedBrikko StudioPeerSymlink({
         allowManagedNpmRootPackagePeerSymlinks: params.allowManagedNpmRootPackagePeerSymlinks,
         relativePath: params.symlinkRelativePath,
       }) &&
-      isTrustedHostOpenClawPath({
+      isTrustedHostBrikko StudioPath({
         resolvedTargetPath,
-        trustedHostOpenClawRootRealPath: params.trustedHostOpenClawRootRealPath,
+        trustedHostBrikko StudioRootRealPath: params.trustedHostBrikko StudioRootRealPath,
       })
     ) {
       return {};
@@ -345,15 +345,15 @@ function readPositiveIntegerEnv(name: string, fallback: number): number {
 function resolvePackageManifestTraversalLimits(): PackageManifestTraversalLimits {
   return {
     maxDepth: readPositiveIntegerEnv(
-      "OPENCLAW_INSTALL_SCAN_MAX_DEPTH",
+      "BRIKKO_STUDIO_INSTALL_SCAN_MAX_DEPTH",
       DEFAULT_PACKAGE_MANIFEST_TRAVERSAL_LIMITS.maxDepth,
     ),
     maxDirectories: readPositiveIntegerEnv(
-      "OPENCLAW_INSTALL_SCAN_MAX_DIRECTORIES",
+      "BRIKKO_STUDIO_INSTALL_SCAN_MAX_DIRECTORIES",
       DEFAULT_PACKAGE_MANIFEST_TRAVERSAL_LIMITS.maxDirectories,
     ),
     maxManifests: readPositiveIntegerEnv(
-      "OPENCLAW_INSTALL_SCAN_MAX_MANIFESTS",
+      "BRIKKO_STUDIO_INSTALL_SCAN_MAX_MANIFESTS",
       DEFAULT_PACKAGE_MANIFEST_TRAVERSAL_LIMITS.maxManifests,
     ),
   };
@@ -366,7 +366,7 @@ async function collectPackageManifestPaths(params: {
   const limits = resolvePackageManifestTraversalLimits();
   const rootDir = params.rootDir;
   const rootRealPath = await fs.realpath(rootDir).catch(() => rootDir);
-  const trustedHostOpenClawRootRealPath = await resolveTrustedHostOpenClawRootRealPath();
+  const trustedHostBrikko StudioRootRealPath = await resolveTrustedHostBrikko StudioRootRealPath();
   const queue: Array<{ depth: number; dir: string }> = [{ depth: 0, dir: rootDir }];
   const packageManifestPaths: string[] = [];
   const visitedDirectories = new Set<string>();
@@ -437,7 +437,7 @@ async function collectPackageManifestPaths(params: {
             rootRealPath,
             symlinkPath: nextPath,
             symlinkRelativePath: relativeNextPath,
-            trustedHostOpenClawRootRealPath,
+            trustedHostBrikko StudioRootRealPath,
           });
           if (symlinkTargetInspection.blockedDirectoryFinding) {
             firstBlockedDirectoryFinding ??= symlinkTargetInspection.blockedDirectoryFinding;
@@ -638,7 +638,7 @@ function logTrustedSourceLinkedOfficialInstall(params: {
   targetLabel: string;
 }) {
   params.logger.warn?.(
-    `WARNING: ${params.targetLabel} allowed because it is an official OpenClaw package: ${buildCriticalDetails({ findings: params.findings })}`,
+    `WARNING: ${params.targetLabel} allowed because it is an official Brikko Studio package: ${buildCriticalDetails({ findings: params.findings })}`,
   );
 }
 
@@ -780,7 +780,7 @@ export async function scanBundleInstallSourceRuntime(
   const builtinScan = await scanDirectoryTarget({
     logger: params.logger,
     path: params.sourceDir,
-    suspiciousMessage: `Bundle "{target}" has {count} suspicious code pattern(s). Run "openclaw security audit --deep" for details.`,
+    suspiciousMessage: `Bundle "{target}" has {count} suspicious code pattern(s). Run "brikko-studio security audit --deep" for details.`,
     targetName: params.pluginId,
     warningMessage: `WARNING: Bundle "${params.pluginId}" contains dangerous code patterns`,
   });
@@ -857,7 +857,7 @@ export async function scanPackageInstallSourceRuntime(
     includeFiles: forcedScanEntries,
     logger: params.logger,
     path: params.packageDir,
-    suspiciousMessage: `Plugin "{target}" has {count} suspicious code pattern(s). Run "openclaw security audit --deep" for details.`,
+    suspiciousMessage: `Plugin "{target}" has {count} suspicious code pattern(s). Run "brikko-studio security audit --deep" for details.`,
     targetName: params.pluginId,
     warningMessage: `WARNING: Plugin "${params.pluginId}" contains dangerous code patterns`,
   });
@@ -919,7 +919,7 @@ export async function scanFileInstallSourceRuntime(
   const builtinScan = await scanFileTarget({
     logger: params.logger,
     path: params.filePath,
-    suspiciousMessage: `Plugin file "{target}" has {count} suspicious code pattern(s). Run "openclaw security audit --deep" for details.`,
+    suspiciousMessage: `Plugin file "{target}" has {count} suspicious code pattern(s). Run "brikko-studio security audit --deep" for details.`,
     targetName: params.pluginId,
     warningMessage: `WARNING: Plugin file "${params.pluginId}" contains dangerous code patterns`,
   });
@@ -964,7 +964,7 @@ export async function scanSkillInstallSourceRuntime(params: {
     logger: params.logger,
     path: params.sourceDir,
     suspiciousMessage:
-      'Skill "{target}" has {count} suspicious code pattern(s). Run "openclaw security audit --deep" for details.',
+      'Skill "{target}" has {count} suspicious code pattern(s). Run "brikko-studio security audit --deep" for details.',
     targetName: params.skillName,
     warningMessage: `WARNING: Skill "${params.skillName}" contains dangerous code patterns`,
   });

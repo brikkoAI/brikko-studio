@@ -5,13 +5,13 @@ import type { VoiceMessageMetadata } from "./voice-message.js";
 const runFfprobeMock = vi.hoisted(() => vi.fn<(...args: unknown[]) => Promise<string>>());
 const runFfmpegMock = vi.hoisted(() => vi.fn<(...args: unknown[]) => Promise<void>>());
 
-vi.mock("openclaw/plugin-sdk/temp-path", async () => {
+vi.mock("brikko-studio/plugin-sdk/temp-path", async () => {
   return {
-    resolvePreferredOpenClawTmpDir: () => "/tmp",
+    resolvePreferredBrikko StudioTmpDir: () => "/tmp",
   };
 });
 
-vi.mock("openclaw/plugin-sdk/media-runtime", async () => {
+vi.mock("brikko-studio/plugin-sdk/media-runtime", async () => {
   return {
     runFfprobe: runFfprobeMock,
     runFfmpeg: runFfmpegMock,
@@ -27,7 +27,7 @@ vi.mock("openclaw/plugin-sdk/media-runtime", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/ssrf-runtime", async () => {
+vi.mock("brikko-studio/plugin-sdk/ssrf-runtime", async () => {
   return {
     fetchWithSsrFGuard: async (params: { url: string; init?: RequestInit }) => ({
       response: await globalThis.fetch(params.url, params.init),

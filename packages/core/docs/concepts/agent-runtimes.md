@@ -1,5 +1,5 @@
 ---
-summary: "How OpenClaw separates model providers, models, channels, and agent runtimes"
+summary: "How Brikko Studio separates model providers, models, channels, and agent runtimes"
 title: "Agent runtimes"
 read_when:
   - You are choosing between PI, Codex, ACP, or another native agent runtime
@@ -9,26 +9,26 @@ read_when:
 
 An **agent runtime** is the component that owns one prepared model loop: it
 receives the prompt, drives model output, handles native tool calls, and returns
-the finished turn to OpenClaw.
+the finished turn to Brikko Studio.
 
 Runtimes are easy to confuse with providers because both show up near model
 configuration. They are different layers:
 
 | Layer         | Examples                              | What it means                                                       |
 | ------------- | ------------------------------------- | ------------------------------------------------------------------- |
-| Provider      | `openai`, `anthropic`, `openai-codex` | How OpenClaw authenticates, discovers models, and names model refs. |
+| Provider      | `openai`, `anthropic`, `openai-codex` | How Brikko Studio authenticates, discovers models, and names model refs. |
 | Model         | `gpt-5.5`, `claude-opus-4-6`          | The model selected for the agent turn.                              |
 | Agent runtime | `pi`, `codex`, `claude-cli`           | The low level loop or backend that executes the prepared turn.      |
-| Channel       | Telegram, Discord, Slack, WhatsApp    | Where messages enter and leave OpenClaw.                            |
+| Channel       | Telegram, Discord, Slack, WhatsApp    | Where messages enter and leave Brikko Studio.                            |
 
 You will also see the word **harness** in code. A harness is the implementation
 that provides an agent runtime. For example, the bundled Codex harness
-implements the `codex` runtime. Public config uses `agentRuntime.id`; `openclaw
+implements the `codex` runtime. Public config uses `agentRuntime.id`; `brikko-studio
 doctor --fix` rewrites older runtime-policy keys to that shape.
 
 There are two runtime families:
 
-- **Embedded harnesses** run inside OpenClaw's prepared agent loop. Today this
+- **Embedded harnesses** run inside Brikko Studio's prepared agent loop. Today this
   is the built-in `pi` runtime plus registered plugin harnesses such as
   `codex`.
 - **CLI backends** run a local CLI process while keeping the model ref
@@ -41,10 +41,10 @@ There are two runtime families:
 
 Most confusion comes from several different surfaces sharing the Codex name:
 
-| Surface                                              | OpenClaw name/config                       | What it does                                                                                               |
+| Surface                                              | Brikko Studio name/config                       | What it does                                                                                               |
 | ---------------------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Native Codex app-server runtime                      | `openai/*` plus `agentRuntime.id: "codex"` | Runs the embedded agent turn through Codex app-server. This is the usual ChatGPT/Codex subscription setup. |
-| Codex OAuth provider route                           | `openai-codex/*` model refs                | Uses ChatGPT/Codex subscription OAuth through the normal OpenClaw PI runner.                               |
+| Codex OAuth provider route                           | `openai-codex/*` model refs                | Uses ChatGPT/Codex subscription OAuth through the normal Brikko Studio PI runner.                               |
 | Codex ACP adapter                                    | `runtime: "acp"`, `agentId: "codex"`       | Runs Codex through the external ACP/acpx control plane. Use only when ACP/acpx is explicitly asked.        |
 | Native Codex chat-control command set                | `/codex ...`                               | Binds, resumes, steers, stops, and inspects Codex app-server threads from chat.                            |
 | OpenAI Platform API route for GPT/Codex-style models | `openai/*` model refs                      | Uses OpenAI API-key auth unless a runtime override, such as `agentRuntime.id: "codex"`, runs the turn.     |
@@ -71,9 +71,9 @@ the model ref as `openai/*` and selects the `codex` runtime:
 }
 ```
 
-That means OpenClaw selects an OpenAI model ref, then asks the Codex app-server
+That means Brikko Studio selects an OpenAI model ref, then asks the Codex app-server
 runtime to run the embedded agent turn. It does not mean "use API billing," and
-it does not mean the channel, model provider catalog, or OpenClaw session store
+it does not mean the channel, model provider catalog, or Brikko Studio session store
 becomes Codex.
 
 When the bundled `codex` plugin is enabled, natural-language Codex control
@@ -90,7 +90,7 @@ This is the agent-facing decision tree:
 2. If the user asks for **Codex as the embedded runtime** or wants the normal
    subscription-backed Codex agent experience, use
    `openai/<model>` with `agentRuntime.id: "codex"`.
-3. If the user asks for **Codex OAuth/subscription auth on the normal OpenClaw
+3. If the user asks for **Codex OAuth/subscription auth on the normal Brikko Studio
    runner**, use `openai-codex/<model>` and leave the runtime as PI.
 4. If the user explicitly says **ACP**, **acpx**, or **Codex ACP adapter**, use
    ACP with `runtime: "acp"` and `agentId: "codex"`.
@@ -112,35 +112,35 @@ contract, see [Codex harness](/plugins/codex-harness#v1-support-contract).
 
 Different runtimes own different amounts of the loop.
 
-| Surface                     | OpenClaw PI embedded                    | Codex app-server                                                            |
+| Surface                     | Brikko Studio PI embedded                    | Codex app-server                                                            |
 | --------------------------- | --------------------------------------- | --------------------------------------------------------------------------- |
-| Model loop owner            | OpenClaw through the PI embedded runner | Codex app-server                                                            |
-| Canonical thread state      | OpenClaw transcript                     | Codex thread, plus OpenClaw transcript mirror                               |
-| OpenClaw dynamic tools      | Native OpenClaw tool loop               | Bridged through the Codex adapter                                           |
-| Native shell and file tools | PI/OpenClaw path                        | Codex-native tools, bridged through native hooks where supported            |
-| Context engine              | Native OpenClaw context assembly        | OpenClaw projects assembled context into the Codex turn                     |
-| Compaction                  | OpenClaw or selected context engine     | Codex-native compaction, with OpenClaw notifications and mirror maintenance |
-| Channel delivery            | OpenClaw                                | OpenClaw                                                                    |
+| Model loop owner            | Brikko Studio through the PI embedded runner | Codex app-server                                                            |
+| Canonical thread state      | Brikko Studio transcript                     | Codex thread, plus Brikko Studio transcript mirror                               |
+| Brikko Studio dynamic tools      | Native Brikko Studio tool loop               | Bridged through the Codex adapter                                           |
+| Native shell and file tools | PI/Brikko Studio path                        | Codex-native tools, bridged through native hooks where supported            |
+| Context engine              | Native Brikko Studio context assembly        | Brikko Studio projects assembled context into the Codex turn                     |
+| Compaction                  | Brikko Studio or selected context engine     | Codex-native compaction, with Brikko Studio notifications and mirror maintenance |
+| Channel delivery            | Brikko Studio                                | Brikko Studio                                                                    |
 
 This ownership split is the main design rule:
 
-- If OpenClaw owns the surface, OpenClaw can provide normal plugin hook behavior.
-- If the native runtime owns the surface, OpenClaw needs runtime events or native hooks.
-- If the native runtime owns canonical thread state, OpenClaw should mirror and project context, not rewrite unsupported internals.
+- If Brikko Studio owns the surface, Brikko Studio can provide normal plugin hook behavior.
+- If the native runtime owns the surface, Brikko Studio needs runtime events or native hooks.
+- If the native runtime owns canonical thread state, Brikko Studio should mirror and project context, not rewrite unsupported internals.
 
 ## Runtime selection
 
-OpenClaw chooses an embedded runtime after provider and model resolution:
+Brikko Studio chooses an embedded runtime after provider and model resolution:
 
 1. A session's recorded runtime wins. Config changes do not hot-switch an
    existing transcript to a different native thread system.
-2. `OPENCLAW_AGENT_RUNTIME=<id>` forces that runtime for new or reset sessions.
+2. `BRIKKO_STUDIO_AGENT_RUNTIME=<id>` forces that runtime for new or reset sessions.
 3. `agents.defaults.agentRuntime.id` or `agents.list[].agentRuntime.id` can set
    `auto`, `pi`, a registered embedded harness id such as `codex`, or a
    supported CLI backend alias such as `claude-cli`.
 4. In `auto` mode, registered plugin runtimes can claim supported provider/model
    pairs.
-5. If no runtime claims a turn in `auto` mode, OpenClaw uses PI as the
+5. If no runtime claims a turn in `auto` mode, Brikko Studio uses PI as the
    compatibility runtime. Use an explicit runtime id when the run must be
    strict.
 
@@ -172,7 +172,7 @@ provider/model pairs they understand, but the Codex plugin does not claim the
 `openai-codex/*` as the explicit PI Codex OAuth route and avoids silently
 moving subscription-auth configs onto the native app-server harness.
 
-If `openclaw doctor` warns that the `codex` plugin is enabled while
+If `brikko-studio doctor` warns that the `codex` plugin is enabled while
 `openai-codex/*` still routes through PI, treat that as a diagnosis, not a
 migration. Keep the config unchanged when PI Codex OAuth is what you want.
 Switch to `openai/<model>` plus `agentRuntime.id: "codex"` only when you want native
@@ -180,15 +180,15 @@ Codex app-server execution.
 
 ## Compatibility contract
 
-When a runtime is not PI, it should document what OpenClaw surfaces it supports.
+When a runtime is not PI, it should document what Brikko Studio surfaces it supports.
 Use this shape for runtime docs:
 
 | Question                               | Why it matters                                                                                    |
 | -------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | Who owns the model loop?               | Determines where retries, tool continuation, and final answer decisions happen.                   |
-| Who owns canonical thread history?     | Determines whether OpenClaw can edit history or only mirror it.                                   |
-| Do OpenClaw dynamic tools work?        | Messaging, sessions, cron, and OpenClaw-owned tools rely on this.                                 |
-| Do dynamic tool hooks work?            | Plugins expect `before_tool_call`, `after_tool_call`, and middleware around OpenClaw-owned tools. |
+| Who owns canonical thread history?     | Determines whether Brikko Studio can edit history or only mirror it.                                   |
+| Do Brikko Studio dynamic tools work?        | Messaging, sessions, cron, and Brikko Studio-owned tools rely on this.                                 |
+| Do dynamic tool hooks work?            | Plugins expect `before_tool_call`, `after_tool_call`, and middleware around Brikko Studio-owned tools. |
 | Do native tool hooks work?             | Shell, patch, and runtime-owned tools need native hook support for policy and observation.        |
 | Does the context engine lifecycle run? | Memory and context plugins depend on assemble, ingest, after-turn, and compaction lifecycle.      |
 | What compaction data is exposed?       | Some plugins only need notifications, while others need kept/dropped metadata.                    |

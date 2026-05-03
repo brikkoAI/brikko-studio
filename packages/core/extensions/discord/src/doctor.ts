@@ -1,7 +1,7 @@
-import { type ChannelDoctorAdapter } from "openclaw/plugin-sdk/channel-contract";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { collectProviderDangerousNameMatchingScopes } from "openclaw/plugin-sdk/runtime-doctor";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { type ChannelDoctorAdapter } from "brikko-studio/plugin-sdk/channel-contract";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { collectProviderDangerousNameMatchingScopes } from "brikko-studio/plugin-sdk/runtime-doctor";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { inspectDiscordAccount } from "./account-inspect.js";
 import { resolveDefaultDiscordAccountId } from "./accounts.js";
 import { normalizeCompatibilityConfig as normalizeDiscordCompatibilityConfig } from "./doctor-contract.js";
@@ -27,7 +27,7 @@ function sanitizeForLog(value: string): string {
 }
 
 function collectDiscordAccountScopes(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
 ): Array<{ prefix: string; account: Record<string, unknown> }> {
   const scopes: Array<{ prefix: string; account: Record<string, unknown> }> = [];
   const discord = asObjectRecord(cfg.channels?.discord);
@@ -104,7 +104,7 @@ function collectDiscordIdLists(
   return refs;
 }
 
-export function scanDiscordNumericIdEntries(cfg: OpenClawConfig): DiscordNumericIdHit[] {
+export function scanDiscordNumericIdEntries(cfg: Brikko StudioConfig): DiscordNumericIdHit[] {
   const hits: DiscordNumericIdHit[] = [];
   const scanList = (pathLabel: string, list: unknown) => {
     if (!Array.isArray(list)) {
@@ -177,9 +177,9 @@ export function collectDiscordNumericIdWarnings(params: {
 }
 
 export function maybeRepairDiscordNumericIds(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   doctorFixCommand: string,
-): { config: OpenClawConfig; changes: string[]; warnings?: string[] } {
+): { config: Brikko StudioConfig; changes: string[]; warnings?: string[] } {
   const hits = scanDiscordNumericIdEntries(cfg);
   if (hits.length === 0) {
     return { config: cfg, changes: [] };
@@ -238,7 +238,7 @@ export function maybeRepairDiscordNumericIds(
 }
 
 export function collectDiscordMissingEnvTokenWarnings(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
 }): string[] {
   if (resolveDefaultDiscordAccountId(params.cfg) !== "default") {
@@ -257,7 +257,7 @@ export function collectDiscordMissingEnvTokenWarnings(params: {
   ];
 }
 
-function collectDiscordMutableAllowlistWarnings(cfg: OpenClawConfig): string[] {
+function collectDiscordMutableAllowlistWarnings(cfg: Brikko StudioConfig): string[] {
   const hits: Array<{ path: string; entry: string }> = [];
   const addHits = (pathLabel: string, list: unknown) => {
     if (!Array.isArray(list)) {

@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/msteams",
+  "name": "@brikko-studio/msteams",
   "version": "2026.5.3",
-  "description": "OpenClaw Microsoft Teams channel plugin",
+  "description": "Brikko Studio Microsoft Teams channel plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/brikko-studio/brikko-studio"
   },
   "type": "module",
   "dependencies": {
@@ -17,19 +17,19 @@
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
+    "@brikko-studio/plugin-sdk": "workspace:*",
     "@types/jsonwebtoken": "^9.0.10",
-    "openclaw": "workspace:*"
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],
@@ -53,7 +53,7 @@
       }
     },
     "install": {
-      "npmSpec": "@openclaw/msteams",
+      "npmSpec": "@brikko-studio/msteams",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -61,7 +61,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "brikko-studioVersion": "2026.5.3"
     },
     "release": {
       "publishToClawHub": true,

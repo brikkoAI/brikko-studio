@@ -1,6 +1,6 @@
-import { resolveMarkdownTableMode } from "openclaw/plugin-sdk/markdown-table-runtime";
-import { convertMarkdownTables } from "openclaw/plugin-sdk/text-runtime";
-import { loadOutboundMediaFromUrl, type OpenClawConfig } from "../runtime-api.js";
+import { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
+import { convertMarkdownTables } from "brikko-studio/plugin-sdk/text-runtime";
+import { loadOutboundMediaFromUrl, type Brikko StudioConfig } from "../runtime-api.js";
 import {
   classifyMSTeamsSendError,
   formatMSTeamsSendErrorHint,
@@ -22,7 +22,7 @@ import { resolveMSTeamsSendContext, type MSTeamsProactiveContext } from "./send-
 
 type SendMSTeamsMessageParams = {
   /** Full config (for credentials) */
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   /** Conversation ID or user ID to send to */
   to: string;
   /** Message text */
@@ -53,7 +53,7 @@ const MSTEAMS_MAX_MEDIA_BYTES = 100 * 1024 * 1024;
 
 type SendMSTeamsPollParams = {
   /** Full config (for credentials) */
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   /** Conversation ID or user ID to send to */
   to: string;
   /** Poll question */
@@ -72,7 +72,7 @@ type SendMSTeamsPollResult = {
 
 type SendMSTeamsCardParams = {
   /** Full config (for credentials) */
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   /** Conversation ID or user ID to send to */
   to: string;
   /** Adaptive Card JSON object */
@@ -528,7 +528,7 @@ export async function sendAdaptiveCardMSTeams(
 
 type EditMSTeamsMessageParams = {
   /** Full config (for credentials) */
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   /** Conversation ID or user ID */
   to: string;
   /** Activity ID of the message to edit */
@@ -543,7 +543,7 @@ type EditMSTeamsMessageResult = {
 
 type DeleteMSTeamsMessageParams = {
   /** Full config (for credentials) */
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   /** Conversation ID or user ID */
   to: string;
   /** Activity ID of the message to delete */

@@ -82,7 +82,7 @@ async function ensureCurrentBuildUnlocked(input: {
   }
 }
 
-export async function packOpenClaw(input: {
+export async function packBrikko Studio(input: {
   destination: string;
   packageSpec?: string;
   requireControlUi?: boolean;
@@ -113,7 +113,7 @@ export async function packOpenClaw(input: {
     return { path: tgzPath, version };
   }
 
-  return await withPackageLock(path.join(tmpdir(), "openclaw-parallels-build.lock"), async () => {
+  return await withPackageLock(path.join(tmpdir(), "brikko-studio-parallels-build.lock"), async () => {
     await ensureCurrentBuildUnlocked({
       checkDirty: true,
       requireControlUi: input.requireControlUi,
@@ -137,7 +137,7 @@ export async function packOpenClaw(input: {
     if (!packed) {
       die("npm pack did not report a filename");
     }
-    const tgzPath = path.join(input.destination, `openclaw-main-${shortHead}.tgz`);
+    const tgzPath = path.join(input.destination, `brikko-studio-main-${shortHead}.tgz`);
     await copyFile(path.join(input.destination, packed), tgzPath);
     const buildCommit = await packageBuildCommitFromTgz(tgzPath);
     if (!buildCommit) {
@@ -159,8 +159,8 @@ async function withPackageLock<T>(lockDir: string, fn: () => Promise<T>): Promis
 }
 
 async function acquirePackageLock(lockDir: string, ownerToken: string): Promise<void> {
-  const timeoutMs = Number(process.env.OPENCLAW_PARALLELS_PACKAGE_LOCK_TIMEOUT_MS || 30 * 60_000);
-  const staleMs = Number(process.env.OPENCLAW_PARALLELS_PACKAGE_LOCK_STALE_MS || 2 * 60 * 60_000);
+  const timeoutMs = Number(process.env.BRIKKO_STUDIO_PARALLELS_PACKAGE_LOCK_TIMEOUT_MS || 30 * 60_000);
+  const staleMs = Number(process.env.BRIKKO_STUDIO_PARALLELS_PACKAGE_LOCK_STALE_MS || 2 * 60 * 60_000);
   const startedAt = Date.now();
   let announcedWait = false;
   while (Date.now() - startedAt < timeoutMs) {

@@ -3,12 +3,12 @@ export {
   parsePluginBindingApprovalCustomId,
   recordInboundSession,
   resolvePluginConversationBindingApproval,
-} from "openclaw/plugin-sdk/conversation-runtime";
-export { dispatchPluginInteractiveHandler } from "openclaw/plugin-sdk/plugin-runtime";
+} from "brikko-studio/plugin-sdk/conversation-runtime";
+export { dispatchPluginInteractiveHandler } from "brikko-studio/plugin-sdk/plugin-runtime";
 export {
   createReplyReferencePlanner,
   dispatchReplyWithBufferedBlockDispatcher,
   finalizeInboundContext,
   resolveChunkMode,
   resolveTextChunkLimit,
-} from "openclaw/plugin-sdk/reply-runtime";
+} from "brikko-studio/plugin-sdk/reply-runtime";

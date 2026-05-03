@@ -1,5 +1,5 @@
-import type { TelegramGroupConfig } from "openclaw/plugin-sdk/config-types";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import type { TelegramGroupConfig } from "brikko-studio/plugin-sdk/config-types";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 export type {
   AuditTelegramGroupMembershipParams,
   TelegramGroupMembershipAudit,

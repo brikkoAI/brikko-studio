@@ -1,6 +1,6 @@
-export type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-export { definePluginEntry, type OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
+export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export { definePluginEntry, type Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 export {
   fetchWithSsrFGuard,
   ssrfPolicyFromDangerouslyAllowPrivateNetwork,
-} from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/ssrf-runtime";

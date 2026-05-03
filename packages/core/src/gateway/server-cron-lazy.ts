@@ -1,11 +1,11 @@
 import type { CliDeps } from "../cli/deps.types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { CronServiceContract } from "../cron/service-contract.js";
 import { resolveCronStorePath } from "../cron/store.js";
 import type { GatewayCronState } from "./server-cron.js";
 
 type LazyGatewayCronParams = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   deps: CliDeps;
   broadcast: (event: string, payload: unknown, opts?: { dropIfSlow?: boolean }) => void;
 };
@@ -17,7 +17,7 @@ type LoadedGatewayCronState = {
 
 export function createLazyGatewayCronState(params: LazyGatewayCronParams): GatewayCronState {
   const storePath = resolveCronStorePath(params.cfg.cron?.store);
-  const cronEnabled = process.env.OPENCLAW_SKIP_CRON !== "1" && params.cfg.cron?.enabled !== false;
+  const cronEnabled = process.env.BRIKKO_STUDIO_SKIP_CRON !== "1" && params.cfg.cron?.enabled !== false;
   let loaded: LoadedGatewayCronState | null = null;
   let loading: Promise<LoadedGatewayCronState> | null = null;
   let stopped = false;

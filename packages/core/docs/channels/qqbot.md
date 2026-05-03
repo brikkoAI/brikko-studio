@@ -1,13 +1,13 @@
 ---
 summary: "QQ Bot setup, config, and usage"
 read_when:
-  - You want to connect OpenClaw to QQ
+  - You want to connect Brikko Studio to QQ
   - You need QQ Bot credential setup
   - You want QQ Bot group or private chat support
 title: QQ bot
 ---
 
-QQ Bot connects to OpenClaw via the official QQ Bot API (WebSocket gateway). The
+QQ Bot connects to Brikko Studio via the official QQ Bot API (WebSocket gateway). The
 plugin supports C2C private chat, group @messages, and guild channel messages with
 rich media (images, voice, video, files).
 
@@ -19,7 +19,7 @@ media are supported. Reactions and threads are not supported.
 Install QQ Bot before setup:
 
 ```bash
-openclaw plugins install @openclaw/qqbot
+brikko-studio plugins install @brikko-studio/qqbot
 ```
 
 ## Setup
@@ -35,7 +35,7 @@ openclaw plugins install @openclaw/qqbot
 4. Add the channel:
 
 ```bash
-openclaw channels add --channel qqbot --token "AppID:AppSecret"
+brikko-studio channels add --channel qqbot --token "AppID:AppSecret"
 ```
 
 5. Restart the Gateway.
@@ -43,8 +43,8 @@ openclaw channels add --channel qqbot --token "AppID:AppSecret"
 Interactive setup paths:
 
 ```bash
-openclaw channels add
-openclaw configure --section channels
+brikko-studio channels add
+brikko-studio configure --section channels
 ```
 
 ## Configure
@@ -99,7 +99,7 @@ Env SecretRef AppSecret:
 Notes:
 
 - Env fallback applies to the default QQ Bot account only.
-- `openclaw channels add --channel qqbot --token-file ...` provides the
+- `brikko-studio channels add --channel qqbot --token-file ...` provides the
   AppSecret only; the AppID must already be set in config or `QQBOT_APP_ID`.
 - `clientSecret` also accepts SecretRef input, not just a plaintext string.
 - Legacy `secretref:/...` marker strings are not valid `clientSecret` values;
@@ -107,7 +107,7 @@ Notes:
 
 ### Multi-account setup
 
-Run multiple QQ bots under a single OpenClaw instance:
+Run multiple QQ bots under a single Brikko Studio instance:
 
 ```json5
 {
@@ -134,7 +134,7 @@ token cache (isolated by `appId`).
 Add a second bot via CLI:
 
 ```bash
-openclaw channels add --channel qqbot --account bot2 --token "222222222:secret-of-bot-2"
+brikko-studio channels add --channel qqbot --account bot2 --token "222222222:secret-of-bot-2"
 ```
 
 ### Group chats
@@ -256,7 +256,7 @@ Built-in commands intercepted before the AI queue:
 | Command        | Description                                                                                              |
 | -------------- | -------------------------------------------------------------------------------------------------------- |
 | `/bot-ping`    | Latency test                                                                                             |
-| `/bot-version` | Show the OpenClaw framework version                                                                      |
+| `/bot-version` | Show the Brikko Studio framework version                                                                      |
 | `/bot-help`    | List all commands                                                                                        |
 | `/bot-me`      | Show the sender's QQ user ID (openid) for `allowFrom`/`groupAllowFrom` setup                             |
 | `/bot-upgrade` | Show the QQBot upgrade guide link                                                                        |
@@ -273,26 +273,26 @@ QQ Bot ships as a self-contained engine inside the plugin:
 
 - Each account owns an isolated resource stack (WebSocket connection, API client, token cache, media storage root) keyed by `appId`. Accounts never share inbound/outbound state.
 - The multi-account logger tags log lines with the owning account so diagnostics stay separable when you run several bots under one gateway.
-- Inbound, outbound, and gateway bridge paths share a single media payload root under `~/.openclaw/media`, so uploads, downloads, and transcode caches land under one guarded directory instead of a per-subsystem tree.
+- Inbound, outbound, and gateway bridge paths share a single media payload root under `~/.brikko-studio/media`, so uploads, downloads, and transcode caches land under one guarded directory instead of a per-subsystem tree.
 - Rich media delivery goes through one `sendMedia` path for C2C and group targets. Local files and buffers above the large-file threshold use QQ's chunked upload endpoints, while smaller payloads use the one-shot media API.
-- Credentials can be backed up and restored as part of standard OpenClaw credential snapshots; the engine re-attaches each account's resource stack on restore without requiring a fresh QR-code pair.
+- Credentials can be backed up and restored as part of standard Brikko Studio credential snapshots; the engine re-attaches each account's resource stack on restore without requiring a fresh QR-code pair.
 
 ## QR-code onboarding
 
-As an alternative to pasting `AppID:AppSecret` manually, the engine supports a QR-code onboarding flow for linking a QQ Bot to OpenClaw:
+As an alternative to pasting `AppID:AppSecret` manually, the engine supports a QR-code onboarding flow for linking a QQ Bot to Brikko Studio:
 
-1. Run the QQ Bot setup path (for example `openclaw channels add --channel qqbot`) and pick the QR-code flow when prompted.
+1. Run the QQ Bot setup path (for example `brikko-studio channels add --channel qqbot`) and pick the QR-code flow when prompted.
 2. Scan the generated QR code with the phone app tied to the target QQ Bot.
-3. Approve the pairing on the phone. OpenClaw persists the returned credentials into `credentials/` under the right account scope.
+3. Approve the pairing on the phone. Brikko Studio persists the returned credentials into `credentials/` under the right account scope.
 
-Approval prompts generated by the bot itself (for example, "allow this action?" flows exposed by the QQ Bot API) surface as native OpenClaw prompts that you can accept with `/bot-approve` rather than replying through the raw QQ client.
+Approval prompts generated by the bot itself (for example, "allow this action?" flows exposed by the QQ Bot API) surface as native Brikko Studio prompts that you can accept with `/bot-approve` rather than replying through the raw QQ client.
 
 ## Troubleshooting
 
 - **Bot replies "gone to Mars":** credentials not configured or Gateway not started.
 - **No inbound messages:** verify `appId` and `clientSecret` are correct, and the
   bot is enabled on the QQ Open Platform.
-- **Repeated self-replies:** OpenClaw records QQ outbound ref indexes as
+- **Repeated self-replies:** Brikko Studio records QQ outbound ref indexes as
   bot-authored and ignores inbound events whose current `msgIdx` matches that
   same bot account. This prevents platform echo loops while still allowing users
   to quote or reply to previous bot messages.

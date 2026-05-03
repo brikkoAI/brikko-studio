@@ -1,6 +1,6 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { readStoreAllowFromForDmPolicy } from "openclaw/plugin-sdk/security-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { readStoreAllowFromForDmPolicy } from "brikko-studio/plugin-sdk/security-runtime";
 import {
   allowListMatches,
   normalizeAllowList,
@@ -43,7 +43,7 @@ const DEFAULT_CHANNEL_MEMBERS_CACHE_TTL_MS = 60_000;
 const CHANNEL_MEMBERS_CACHE_MAX = 512;
 
 function getPairingAllowFromCacheTtlMs(): number {
-  const raw = process.env.OPENCLAW_SLACK_PAIRING_ALLOWFROM_CACHE_TTL_MS?.trim();
+  const raw = process.env.BRIKKO_STUDIO_SLACK_PAIRING_ALLOWFROM_CACHE_TTL_MS?.trim();
   if (!raw) {
     return DEFAULT_PAIRING_ALLOW_FROM_CACHE_TTL_MS;
   }
@@ -55,7 +55,7 @@ function getPairingAllowFromCacheTtlMs(): number {
 }
 
 function getChannelMembersCacheTtlMs(): number {
-  const raw = process.env.OPENCLAW_SLACK_CHANNEL_MEMBERS_CACHE_TTL_MS?.trim();
+  const raw = process.env.BRIKKO_STUDIO_SLACK_CHANNEL_MEMBERS_CACHE_TTL_MS?.trim();
   if (!raw) {
     return DEFAULT_CHANNEL_MEMBERS_CACHE_TTL_MS;
   }

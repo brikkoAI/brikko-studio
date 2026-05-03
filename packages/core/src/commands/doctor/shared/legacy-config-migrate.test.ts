@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../../../config/types.js";
+import type { Brikko StudioConfig } from "../../../config/types.js";
 import { LEGACY_CONFIG_MIGRATIONS } from "./legacy-config-migrations.js";
 
 function migrateLegacyConfigForTest(raw: unknown): {
-  config: OpenClawConfig | null;
+  config: Brikko StudioConfig | null;
   changes: string[];
 } {
   if (!raw || typeof raw !== "object") {
@@ -16,7 +16,7 @@ function migrateLegacyConfigForTest(raw: unknown): {
   }
   return changes.length === 0
     ? { config: null, changes }
-    : { config: next as OpenClawConfig, changes };
+    : { config: next as Brikko StudioConfig, changes };
 }
 
 describe("legacy session maintenance migrate", () => {
@@ -351,7 +351,7 @@ describe("legacy migrate sandbox scope aliases", () => {
 });
 
 describe("legacy migrate MCP server type aliases", () => {
-  it("moves CLI-native http type to OpenClaw streamable HTTP transport", () => {
+  it("moves CLI-native http type to Brikko Studio streamable HTTP transport", () => {
     const res = migrateLegacyConfigForTest({
       mcp: {
         servers: {

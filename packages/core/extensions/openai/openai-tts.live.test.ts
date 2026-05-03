@@ -1,4 +1,4 @@
-import { isLiveTestEnabled } from "openclaw/plugin-sdk/test-env";
+import { isLiveTestEnabled } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import { buildOpenAISpeechProvider } from "./speech-provider.js";
 
@@ -21,7 +21,7 @@ describeLive("openai tts live", () => {
     };
 
     const audioFile = await speechProvider.synthesize({
-      text: "OpenClaw OpenAI text to speech integration test OK.",
+      text: "Brikko Studio OpenAI text to speech integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       target: "audio-file",
@@ -32,7 +32,7 @@ describeLive("openai tts live", () => {
     expect(audioFile.audioBuffer.byteLength).toBeGreaterThan(512);
 
     const telephony = await speechProvider.synthesizeTelephony?.({
-      text: "OpenClaw OpenAI telephony integration test OK.",
+      text: "Brikko Studio OpenAI telephony integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       timeoutMs: 45_000,

@@ -1,1 +1,1 @@
-export { resolveRequestUrl } from "openclaw/plugin-sdk/request-url";
+export { resolveRequestUrl } from "brikko-studio/plugin-sdk/request-url";

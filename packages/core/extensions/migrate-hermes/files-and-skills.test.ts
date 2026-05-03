@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { MIGRATION_REASON_TARGET_EXISTS } from "openclaw/plugin-sdk/migration";
+import { MIGRATION_REASON_TARGET_EXISTS } from "brikko-studio/plugin-sdk/migration";
 import { afterEach, describe, expect, it } from "vitest";
 import { buildHermesMigrationProvider } from "./provider.js";
 import { cleanupTempRoots, makeContext, makeTempRoot, writeFile } from "./test/provider-helpers.js";

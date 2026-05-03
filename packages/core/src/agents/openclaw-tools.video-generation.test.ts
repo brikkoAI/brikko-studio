@@ -1,7 +1,7 @@
-import { describeOpenClawGenerationToolRegistration } from "./openclaw-tools.generation.test-support.js";
+import { describeBrikko StudioGenerationToolRegistration } from "./brikko-studio-tools.generation.test-support.js";
 
-describeOpenClawGenerationToolRegistration({
-  suiteName: "openclaw tools video generation registration",
+describeBrikko StudioGenerationToolRegistration({
+  suiteName: "brikko-studio tools video generation registration",
   toolName: "video_generate",
   toolLabel: "a video-generation tool",
 });

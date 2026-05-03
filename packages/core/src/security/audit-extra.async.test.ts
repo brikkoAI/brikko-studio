@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import {
   collectInstalledSkillsCodeSafetyFindings,
   collectPluginsCodeSafetyFindings,
@@ -51,7 +51,7 @@ describe("audit-extra async code safety", () => {
       path.join(pluginDir, "package.json"),
       JSON.stringify({
         name: "evil-plugin",
-        openclaw: { extensions: [".hidden/index.js"] },
+        brikko-studio: { extensions: [".hidden/index.js"] },
       }),
     );
 
@@ -72,7 +72,7 @@ description: test skill
   };
 
   beforeAll(async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-security-audit-async-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-security-audit-async-"));
     const codeSafetyFixture = await createSharedCodeSafetyFixture();
     sharedCodeSafetyStateDir = codeSafetyFixture.stateDir;
     sharedCodeSafetyWorkspaceDir = codeSafetyFixture.workspaceDir;
@@ -113,7 +113,7 @@ description: test skill
       };
     });
 
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       agents: { defaults: { workspace: sharedCodeSafetyWorkspaceDir } },
     };
     const [pluginFindings, skillFindings] = await Promise.all([
@@ -144,7 +144,7 @@ description: test skill
       path.join(pluginDir, "package.json"),
       JSON.stringify({
         name: "escape-plugin",
-        openclaw: { extensions: ["../outside.js"] },
+        brikko-studio: { extensions: ["../outside.js"] },
       }),
     );
     await fs.writeFile(path.join(pluginDir, "index.js"), "export {};");
@@ -179,7 +179,7 @@ description: test skill
       const tmpDir = await makeTmpDir("audit-scanner-install-debris");
       for (const name of [
         "demo",
-        ".openclaw-install-backups",
+        ".brikko-studio-install-backups",
         "node_modules",
         "old-plugin.backup-20260502",
         "old-plugin.disabled.20260502",
@@ -195,7 +195,7 @@ description: test skill
       expect(scanSpy.mock.calls.map(([dirPath]) => path.basename(dirPath))).toEqual(["demo"]);
       const codeSafetyFinding = findings.find((f) => f.checkId === "plugins.code_safety");
       expect(codeSafetyFinding?.title).toContain('Plugin "demo"');
-      expect(findings.map((f) => f.title).join("\n")).not.toContain(".openclaw-install-backups");
+      expect(findings.map((f) => f.title).join("\n")).not.toContain(".brikko-studio-install-backups");
     } finally {
       scanSpy.mockRestore();
     }
@@ -236,7 +236,7 @@ description: test skill
         path.join(pluginDir, "package.json"),
         JSON.stringify({
           name: "scanfail-plugin",
-          openclaw: { extensions: ["index.js"] },
+          brikko-studio: { extensions: ["index.js"] },
         }),
       );
       await fs.writeFile(path.join(pluginDir, "index.js"), "export {};");

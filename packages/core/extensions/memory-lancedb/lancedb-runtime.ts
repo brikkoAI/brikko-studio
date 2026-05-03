@@ -14,7 +14,7 @@ type LanceDbRuntimeLoaderDeps = {
 function buildLoadFailureMessage(error: unknown): string {
   return [
     "memory-lancedb: bundled @lancedb/lancedb dependency is unavailable.",
-    "Install or repair the memory-lancedb plugin package dependencies, then restart OpenClaw.",
+    "Install or repair the memory-lancedb plugin package dependencies, then restart Brikko Studio.",
     String(error),
   ].join(" ");
 }

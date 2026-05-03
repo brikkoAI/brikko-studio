@@ -98,7 +98,7 @@ function buildEntry(name: string): SkillEntry {
       description: `${name} test skill`,
       filePath,
       baseDir: skillDir,
-      source: "openclaw-workspace",
+      source: "brikko-studio-workspace",
     }),
     frontmatter: {},
   };
@@ -197,7 +197,7 @@ let workspaceDir = "";
 let stateDir = "";
 
 beforeAll(async () => {
-  workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-skills-install-"));
+  workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-skills-install-"));
   stateDir = setTempStateDir(workspaceDir);
 });
 

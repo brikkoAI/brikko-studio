@@ -1,21 +1,21 @@
-import { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/account-core";
-import { describeAccountSnapshot } from "openclaw/plugin-sdk/account-helpers";
-import { normalizeE164 } from "openclaw/plugin-sdk/account-resolution";
+import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-core";
+import { describeAccountSnapshot } from "brikko-studio/plugin-sdk/account-helpers";
+import { normalizeE164 } from "brikko-studio/plugin-sdk/account-resolution";
 import {
   adaptScopedAccountAccessor,
   createScopedChannelConfigAdapter,
   createScopedDmSecurityResolver,
-} from "openclaw/plugin-sdk/channel-config-helpers";
+} from "brikko-studio/plugin-sdk/channel-config-helpers";
 import {
   collectOpenGroupPolicyRouteAllowlistWarnings,
   createAllowlistProviderGroupPolicyWarningCollector,
-} from "openclaw/plugin-sdk/channel-policy";
-import type { ChannelPlugin } from "openclaw/plugin-sdk/core";
-import { createChannelPluginBase, getChatChannelMeta } from "openclaw/plugin-sdk/core";
+} from "brikko-studio/plugin-sdk/channel-policy";
+import type { ChannelPlugin } from "brikko-studio/plugin-sdk/core";
+import { createChannelPluginBase, getChatChannelMeta } from "brikko-studio/plugin-sdk/core";
 import {
   createDelegatedSetupWizardProxy,
   type ChannelSetupWizard,
-} from "openclaw/plugin-sdk/setup-runtime";
+} from "brikko-studio/plugin-sdk/setup-runtime";
 import {
   hasAnyWhatsAppAuth,
   listWhatsAppAccountIds,

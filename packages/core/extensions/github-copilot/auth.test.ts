@@ -5,13 +5,13 @@ const listProfilesForProviderMock = vi.hoisted(() => vi.fn());
 const coerceSecretRefMock = vi.hoisted(() => vi.fn());
 const resolveRequiredConfiguredSecretRefInputStringMock = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/provider-auth", () => ({
+vi.mock("brikko-studio/plugin-sdk/provider-auth", () => ({
   coerceSecretRef: coerceSecretRefMock,
   ensureAuthProfileStore: ensureAuthProfileStoreMock,
   listProfilesForProvider: listProfilesForProviderMock,
 }));
 
-vi.mock("openclaw/plugin-sdk/secret-input-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/secret-input-runtime", () => ({
   resolveRequiredConfiguredSecretRefInputString: resolveRequiredConfiguredSecretRefInputStringMock,
 }));
 

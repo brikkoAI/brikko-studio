@@ -1,7 +1,7 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import * as conversationRuntime from "openclaw/plugin-sdk/conversation-binding-runtime";
-import type { ResolvedAgentRoute } from "openclaw/plugin-sdk/routing";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import * as conversationRuntime from "brikko-studio/plugin-sdk/conversation-binding-runtime";
+import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   resolveDiscordBoundConversationRoute,
   resolveDiscordEffectiveRoute,
@@ -27,7 +27,7 @@ type DiscordNativeInteractionRouteState = {
 };
 
 export async function resolveDiscordNativeInteractionRouteState(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   guildId?: string;
   memberRoleIds?: string[];

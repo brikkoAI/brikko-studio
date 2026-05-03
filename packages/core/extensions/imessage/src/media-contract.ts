@@ -1,11 +1,11 @@
-import { mergeInboundPathRoots } from "openclaw/plugin-sdk/channel-inbound-roots";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import { mergeInboundPathRoots } from "brikko-studio/plugin-sdk/channel-inbound-roots";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveIMessageAccount } from "./accounts.js";
 
 export const DEFAULT_IMESSAGE_ATTACHMENT_ROOTS = ["/Users/*/Library/Messages/Attachments"] as const;
 
 export function resolveIMessageAttachmentRoots(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): string[] {
   const account = resolveIMessageAccount(params);
@@ -17,7 +17,7 @@ export function resolveIMessageAttachmentRoots(params: {
 }
 
 export function resolveIMessageRemoteAttachmentRoots(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): string[] {
   const account = resolveIMessageAccount(params);

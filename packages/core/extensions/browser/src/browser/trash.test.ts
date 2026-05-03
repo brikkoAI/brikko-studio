@@ -2,12 +2,12 @@ import fs from "node:fs";
 import os from "node:os";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const resolvePreferredOpenClawTmpDirMock = vi.hoisted(() => vi.fn(() => "/tmp/openclaw"));
-const OPENCLAW_TMP_ROOT = "/tmp/openclaw";
-const TRASH_SOURCE = `${OPENCLAW_TMP_ROOT}/demo`;
+const resolvePreferredBrikko StudioTmpDirMock = vi.hoisted(() => vi.fn(() => "/tmp/brikko-studio"));
+const BRIKKO_STUDIO_TMP_ROOT = "/tmp/brikko-studio";
+const TRASH_SOURCE = `${BRIKKO_STUDIO_TMP_ROOT}/demo`;
 
-vi.mock("openclaw/plugin-sdk/temp-path", () => ({
-  resolvePreferredOpenClawTmpDir: resolvePreferredOpenClawTmpDirMock,
+vi.mock("brikko-studio/plugin-sdk/temp-path", () => ({
+  resolvePreferredBrikko StudioTmpDir: resolvePreferredBrikko StudioTmpDirMock,
 }));
 
 function mockTrashContainer(...suffixes: string[]) {
@@ -22,8 +22,8 @@ function mockTrashContainer(...suffixes: string[]) {
 describe("browser trash", () => {
   beforeEach(() => {
     vi.restoreAllMocks();
-    resolvePreferredOpenClawTmpDirMock.mockReset();
-    resolvePreferredOpenClawTmpDirMock.mockReturnValue("/tmp/openclaw");
+    resolvePreferredBrikko StudioTmpDirMock.mockReset();
+    resolvePreferredBrikko StudioTmpDirMock.mockReturnValue("/tmp/brikko-studio");
     vi.spyOn(Date, "now").mockReturnValue(123);
     vi.spyOn(os, "homedir").mockReturnValue("/home/test");
     vi.spyOn(os, "tmpdir").mockReturnValue("/tmp");
@@ -90,7 +90,7 @@ describe("browser trash", () => {
   it("refuses to trash paths outside allowed roots", async () => {
     const { movePathToTrash } = await import("./trash.js");
 
-    await expect(movePathToTrash("/etc/openclaw-demo")).rejects.toThrow(
+    await expect(movePathToTrash("/etc/brikko-studio-demo")).rejects.toThrow(
       "Refusing to trash path outside allowed roots",
     );
   });

@@ -504,6 +504,6 @@ describe("skills cli commands", () => {
     expect(defaultRuntime.log).not.toHaveBeenCalled();
     expect(runtimeErrors).toEqual([]);
     expect(runtimeStdout.at(-1)).toContain("calendar");
-    expect(runtimeStdout.at(-1)).toContain("openclaw skills search");
+    expect(runtimeStdout.at(-1)).toContain("brikko-studio skills search");
   });
 });

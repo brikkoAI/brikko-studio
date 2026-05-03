@@ -10,7 +10,7 @@ import {
 import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.js";
 import type { ThinkLevel } from "../../auto-reply/thinking.js";
 import { resolveAgentModelFallbackValues } from "../../config/model-input.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import {
   captureCompactionCheckpointSnapshotAsync,
   cleanupCompactionCheckpointSnapshot,
@@ -34,7 +34,7 @@ import { buildTtsSystemPromptHint } from "../../tts/tts.js";
 import { resolveUserPath } from "../../utils.js";
 import { normalizeMessageChannel } from "../../utils/message-channel.js";
 import { isReasoningTagProvider } from "../../utils/provider-utils.js";
-import { resolveOpenClawAgentDir } from "../agent-paths.js";
+import { resolveBrikko StudioAgentDir } from "../agent-paths.js";
 import { resolveRunModelFallbacksOverride, resolveSessionAgentIds } from "../agent-scope.js";
 import {
   makeBootstrapWarn,
@@ -53,7 +53,7 @@ import {
 import { resolveContextWindowInfo } from "../context-window-guard.js";
 import { formatUserTime, resolveUserTimeFormat, resolveUserTimezone } from "../date-time.js";
 import { DEFAULT_CONTEXT_TOKENS, DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.js";
-import { resolveOpenClawReferencePaths } from "../docs-path.js";
+import { resolveBrikko StudioReferencePaths } from "../docs-path.js";
 import { coerceToFailoverError, describeFailoverError } from "../failover-error.js";
 import { resolveHeartbeatPromptForSystemPrompt } from "../heartbeat-system-prompt.js";
 import {
@@ -64,7 +64,7 @@ import {
 } from "../model-auth.js";
 import { isFallbackSummaryError, runWithModelFallback } from "../model-fallback.js";
 import { supportsModelTools } from "../model-tool-support.js";
-import { ensureOpenClawModelsJson } from "../models-config.js";
+import { ensureBrikko StudioModelsJson } from "../models-config.js";
 import { resolveOwnerDisplaySetting } from "../owner-display.js";
 import { createBundleLspToolRuntime } from "../pi-bundle-lsp-runtime.js";
 import { createBundleMcpToolRuntime } from "../pi-bundle-mcp-tools.js";
@@ -80,7 +80,7 @@ import {
   applyPiCompactionSettingsFromConfig,
   isSilentOverflowProneModel,
 } from "../pi-settings.js";
-import { createOpenClawCodingTools } from "../pi-tools.js";
+import { createBrikko StudioCodingTools } from "../pi-tools.js";
 import { wrapStreamFnTextTransforms } from "../plugin-text-transforms.js";
 import { registerProviderStreamForModel } from "../provider-stream.js";
 import { collectRuntimeChannelCapabilities } from "../runtime-capabilities.js";
@@ -186,7 +186,7 @@ function prepareCompactionSessionAgent(params: {
   effectiveModel: ProviderRuntimeModel;
   resolvedApiKey?: string;
   authStorage: unknown;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   provider: string;
   modelId: string;
   thinkLevel: ThinkLevel;
@@ -243,7 +243,7 @@ function prepareCompactionSessionAgent(params: {
 
 function resolveCompactionProviderStream(params: {
   effectiveModel: ProviderRuntimeModel;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   agentDir: string;
   effectiveWorkspace: string;
 }) {
@@ -481,8 +481,8 @@ async function compactEmbeddedPiSessionDirectOnce(
         : undefined,
     };
   };
-  const agentDir = params.agentDir ?? resolveOpenClawAgentDir();
-  await ensureOpenClawModelsJson(params.config, agentDir);
+  const agentDir = params.agentDir ?? resolveBrikko StudioAgentDir();
+  await ensureBrikko StudioModelsJson(params.config, agentDir);
   const { model, error, authStorage, modelRegistry } = await resolveModelAsync(
     provider,
     modelId,
@@ -656,7 +656,7 @@ async function compactEmbeddedPiSessionDirectOnce(
       });
 
     const runAbortController = new AbortController();
-    const toolsRaw = createOpenClawCodingTools({
+    const toolsRaw = createBrikko StudioCodingTools({
       exec: {
         elevated: params.bashElevated,
       },
@@ -722,7 +722,7 @@ async function compactEmbeddedPiSessionDirectOnce(
       sandboxToolPolicy: sandbox?.tools,
       sessionKey: sandboxSessionKey,
       // Intentionally omit explicit agentId: the core tools just built with
-      // createOpenClawCodingTools(...) also omit it, so both paths resolve
+      // createBrikko StudioCodingTools(...) also omit it, so both paths resolve
       // agentId the same way via resolveAgentIdFromSessionKey(sessionKey).
       // Passing effectiveSkillAgentId here would diverge from the core-tool
       // policy for legacy/non-agent session keys where the two sources fall
@@ -817,7 +817,7 @@ async function compactEmbeddedPiSessionDirectOnce(
       isSubagentSessionKey(params.sessionKey) || isCronSessionKey(params.sessionKey)
         ? "minimal"
         : "full";
-    const openClawReferences = await resolveOpenClawReferencePaths({
+    const openClawReferences = await resolveBrikko StudioReferencePaths({
       workspaceDir: effectiveWorkspace,
       argv1: process.argv[1],
       cwd: effectiveWorkspace,
@@ -964,9 +964,9 @@ async function compactEmbeddedPiSessionDirectOnce(
         extensionFactories,
       });
       await resourceLoader.reload();
-      // DefaultResourceLoader.reload() rehydrates settings from disk and can drop OpenClaw
+      // DefaultResourceLoader.reload() rehydrates settings from disk and can drop Brikko Studio
       // compaction overrides applied in createPreparedEmbeddedPiSettingsManager — same
-      // rehydration also restores Pi's auto-compaction (openclaw#75799), so re-apply
+      // rehydration also restores Pi's auto-compaction (brikko-studio#75799), so re-apply
       // both guards. effectiveModel.baseUrl matches the surrounding scope so
       // auth-profile-injected baseUrls reach the endpoint-class detector.
       applyPiCompactionSettingsFromConfig({
@@ -991,7 +991,7 @@ async function compactEmbeddedPiSessionDirectOnce(
         sandboxEnabled: !!sandbox?.enabled,
       });
       // Pi treats `tools` as a name allowlist during session creation. Pass the
-      // exact OpenClaw-managed registrations so custom tools survive startup.
+      // exact Brikko Studio-managed registrations so custom tools survive startup.
       const sessionToolAllowlist = toSessionToolAllowlist(collectRegisteredToolNames(customTools));
 
       const providerStreamFn = resolveCompactionProviderStream({

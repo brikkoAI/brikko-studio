@@ -7,7 +7,7 @@ import type { SlashCommandResult } from "../slash-commands.js";
 function getConfiguredLogFiles(): string[] {
   const homeDir = getHomeDir();
   const files: string[] = [];
-  for (const cli of ["openclaw", "clawdbot", "moltbot"]) {
+  for (const cli of ["brikko-studio", "clawdbot", "moltbot"]) {
     try {
       const cfgPath = path.join(homeDir, `.${cli}`, `${cli}.json`);
       if (!fs.existsSync(cfgPath)) {
@@ -55,12 +55,12 @@ function collectCandidateLogDirs(): string[] {
     if (!value) {
       continue;
     }
-    if (/STATE_DIR$/i.test(key) && /(OPENCLAW|CLAWDBOT|MOLTBOT)/i.test(key)) {
+    if (/STATE_DIR$/i.test(key) && /(BRIKKO_STUDIO|CLAWDBOT|MOLTBOT)/i.test(key)) {
       pushStateDir(value);
     }
   }
 
-  for (const name of [".openclaw", ".clawdbot", ".moltbot", "openclaw", "clawdbot", "moltbot"]) {
+  for (const name of [".brikko-studio", ".clawdbot", ".moltbot", "brikko-studio", "clawdbot", "moltbot"]) {
     pushDir(path.join(homeDir, name));
     pushDir(path.join(homeDir, name, "logs"));
   }
@@ -80,7 +80,7 @@ function collectCandidateLogDirs(): string[] {
         if (!entry.isDirectory()) {
           continue;
         }
-        if (!/(openclaw|clawdbot|moltbot)/i.test(entry.name)) {
+        if (!/(brikko-studio|clawdbot|moltbot)/i.test(entry.name)) {
           continue;
         }
         const base = path.join(root, entry.name);
@@ -93,7 +93,7 @@ function collectCandidateLogDirs(): string[] {
   }
 
   if (!isWindows()) {
-    for (const name of ["openclaw", "clawdbot", "moltbot"]) {
+    for (const name of ["brikko-studio", "clawdbot", "moltbot"]) {
       pushDir(path.join("/var/log", name));
     }
   }
@@ -114,7 +114,7 @@ function collectCandidateLogDirs(): string[] {
     tmpRoots.add("/tmp");
   }
   for (const tmpRoot of tmpRoots) {
-    for (const name of ["openclaw", "clawdbot", "moltbot"]) {
+    for (const name of ["brikko-studio", "clawdbot", "moltbot"]) {
       pushDir(path.join(tmpRoot, name));
     }
   }
@@ -156,7 +156,7 @@ function collectRecentLogFiles(logDirs: string[]): LogCandidate[] {
   for (const dir of logDirs) {
     pushFile(path.join(dir, "gateway.log"), dir);
     pushFile(path.join(dir, "gateway.err.log"), dir);
-    pushFile(path.join(dir, "openclaw.log"), dir);
+    pushFile(path.join(dir, "brikko-studio.log"), dir);
     pushFile(path.join(dir, "clawdbot.log"), dir);
     pushFile(path.join(dir, "moltbot.log"), dir);
 
@@ -169,7 +169,7 @@ function collectRecentLogFiles(logDirs: string[]): LogCandidate[] {
         if (!/\.(log|txt)$/i.test(entry.name)) {
           continue;
         }
-        if (!/(gateway|openclaw|clawdbot|moltbot)/i.test(entry.name)) {
+        if (!/(gateway|brikko-studio|clawdbot|moltbot)/i.test(entry.name)) {
           continue;
         }
         pushFile(path.join(dir, entry.name), dir);

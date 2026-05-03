@@ -1,8 +1,8 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { MigrationProviderContext } from "openclaw/plugin-sdk/plugin-entry";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/provider-auth";
+import type { MigrationProviderContext } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { HERMES_REASON_AUTH_PROFILE_WRITE_FAILED } from "./items.js";
 
@@ -10,7 +10,7 @@ const mocks = vi.hoisted(() => ({
   updateAuthProfileStoreWithLock: vi.fn(async () => null),
 }));
 
-vi.mock("openclaw/plugin-sdk/provider-auth", () => ({
+vi.mock("brikko-studio/plugin-sdk/provider-auth", () => ({
   updateAuthProfileStoreWithLock: mocks.updateAuthProfileStoreWithLock,
 }));
 
@@ -25,7 +25,7 @@ const logger = {
 };
 
 async function makeTempRoot() {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-hermes-secret-failure-"));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-hermes-secret-failure-"));
   tempRoots.add(root);
   return root;
 }
@@ -48,7 +48,7 @@ function makeContext(params: {
           workspace: params.workspaceDir,
         },
       },
-    } as OpenClawConfig,
+    } as Brikko StudioConfig,
     stateDir: params.stateDir,
     source: params.source,
     includeSecrets: true,

@@ -1,2 +1,2 @@
-export { definePluginEntry, type OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
-export { resolveStateDir } from "openclaw/plugin-sdk/state-paths";
+export { definePluginEntry, type Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+export { resolveStateDir } from "brikko-studio/plugin-sdk/state-paths";

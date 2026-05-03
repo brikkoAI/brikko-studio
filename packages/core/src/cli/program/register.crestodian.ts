@@ -16,11 +16,11 @@ export function registerCrestodianCommand(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["openclaw", "Start Crestodian."],
-          ["openclaw crestodian", "Start Crestodian explicitly."],
-          ['openclaw crestodian -m "status"', "Run one status request."],
+          ["brikko-studio", "Start Crestodian."],
+          ["brikko-studio crestodian", "Start Crestodian explicitly."],
+          ['brikko-studio crestodian -m "status"', "Run one status request."],
           [
-            'openclaw crestodian -m "set default model openai/gpt-5.2" --yes',
+            'brikko-studio crestodian -m "set default model openai/gpt-5.2" --yes',
             "Apply a typed config write.",
           ],
         ])}`,

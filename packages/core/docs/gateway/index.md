@@ -28,11 +28,11 @@ Use this page for day-1 startup and day-2 operations of the Gateway service.
   <Step title="Start the Gateway">
 
 ```bash
-openclaw gateway --port 18789
+brikko-studio gateway --port 18789
 # debug/trace mirrored to stdio
-openclaw gateway --port 18789 --verbose
+brikko-studio gateway --port 18789 --verbose
 # force-kill listener on selected port, then start
-openclaw gateway --force
+brikko-studio gateway --force
 ```
 
   </Step>
@@ -40,19 +40,19 @@ openclaw gateway --force
   <Step title="Verify service health">
 
 ```bash
-openclaw gateway status
-openclaw status
-openclaw logs --follow
+brikko-studio gateway status
+brikko-studio status
+brikko-studio logs --follow
 ```
 
-Healthy baseline: `Runtime: running`, `Connectivity probe: ok`, and `Capability: ...` that matches what you expect. Use `openclaw gateway status --require-rpc` when you need read-scope RPC proof, not just reachability.
+Healthy baseline: `Runtime: running`, `Connectivity probe: ok`, and `Capability: ...` that matches what you expect. Use `brikko-studio gateway status --require-rpc` when you need read-scope RPC proof, not just reachability.
 
   </Step>
 
   <Step title="Validate channel readiness">
 
 ```bash
-openclaw channels status --probe
+brikko-studio channels status --probe
 ```
 
 With a reachable gateway this runs live per-account channel probes and optional audits.
@@ -63,7 +63,7 @@ of live probe output.
 </Steps>
 
 <Note>
-Gateway config reload watches the active config file path (resolved from profile/state defaults, or `OPENCLAW_CONFIG_PATH` when set).
+Gateway config reload watches the active config file path (resolved from profile/state defaults, or `BRIKKO_STUDIO_CONFIG_PATH` when set).
 Default mode is `gateway.reload.mode="hybrid"`.
 After the first successful load, the running process serves the active in-memory config snapshot; successful reload swaps that snapshot atomically.
 </Note>
@@ -78,12 +78,12 @@ After the first successful load, the running process serves the active in-memory
 - Default bind mode: `loopback`.
 - Auth is required by default. Shared-secret setups use
   `gateway.auth.token` / `gateway.auth.password` (or
-  `OPENCLAW_GATEWAY_TOKEN` / `OPENCLAW_GATEWAY_PASSWORD`), and non-loopback
+  `BRIKKO_STUDIO_GATEWAY_TOKEN` / `BRIKKO_STUDIO_GATEWAY_PASSWORD`), and non-loopback
   reverse-proxy setups can use `gateway.auth.mode: "trusted-proxy"`.
 
 ## OpenAI-compatible endpoints
 
-OpenClaw’s highest-leverage compatibility surface is now:
+Brikko Studio’s highest-leverage compatibility surface is now:
 
 - `GET /v1/models`
 - `GET /v1/models/{id}`
@@ -99,9 +99,9 @@ Why this set matters:
 
 Planning note:
 
-- `/v1/models` is agent-first: it returns `openclaw`, `openclaw/default`, and `openclaw/<agentId>`.
-- `openclaw/default` is the stable alias that always maps to the configured default agent.
-- Use `x-openclaw-model` when you want a backend provider/model override; otherwise the selected agent's normal model and embedding setup stays in control.
+- `/v1/models` is agent-first: it returns `brikko-studio`, `brikko-studio/default`, and `brikko-studio/<agentId>`.
+- `brikko-studio/default` is the stable alias that always maps to the configured default agent.
+- Use `x-brikko-studio-model` when you want a backend provider/model override; otherwise the selected agent's normal model and embedding setup stays in control.
 
 All of these run on the main Gateway port and use the same trusted operator auth boundary as the rest of the Gateway HTTP API.
 
@@ -109,10 +109,10 @@ All of these run on the main Gateway port and use the same trusted operator auth
 
 | Setting      | Resolution order                                              |
 | ------------ | ------------------------------------------------------------- |
-| Gateway port | `--port` → `OPENCLAW_GATEWAY_PORT` → `gateway.port` → `18789` |
+| Gateway port | `--port` → `BRIKKO_STUDIO_GATEWAY_PORT` → `gateway.port` → `18789` |
 | Bind mode    | CLI/override → `gateway.bind` → `loopback`                    |
 
-Installed gateway services record the resolved `--port` in supervisor metadata. After changing `gateway.port`, run `openclaw doctor --fix` or `openclaw gateway install --force` so launchd/systemd/schtasks starts the process on the new port.
+Installed gateway services record the resolved `--port` in supervisor metadata. After changing `gateway.port`, run `brikko-studio doctor --fix` or `brikko-studio gateway install --force` so launchd/systemd/schtasks starts the process on the new port.
 
 Gateway startup uses the same effective port and bind when it seeds local
 Control UI origins for non-loopback binds. For example, `--bind lan --port 3000`
@@ -132,15 +132,15 @@ validation runs. Add any remote browser origins, such as HTTPS proxy URLs, to
 ## Operator command set
 
 ```bash
-openclaw gateway status
-openclaw gateway status --deep   # adds a system-level service scan
-openclaw gateway status --json
-openclaw gateway install
-openclaw gateway restart
-openclaw gateway stop
-openclaw secrets reload
-openclaw logs --follow
-openclaw doctor
+brikko-studio gateway status
+brikko-studio gateway status --deep   # adds a system-level service scan
+brikko-studio gateway status --json
+brikko-studio gateway install
+brikko-studio gateway restart
+brikko-studio gateway stop
+brikko-studio secrets reload
+brikko-studio logs --follow
+brikko-studio doctor
 ```
 
 `gateway status --deep` is for extra service discovery (LaunchDaemons/systemd system
@@ -156,8 +156,8 @@ You only need multiple gateways when you intentionally want isolation or a rescu
 Useful checks:
 
 ```bash
-openclaw gateway status --deep
-openclaw gateway probe
+brikko-studio gateway status --deep
+brikko-studio gateway probe
 ```
 
 What to expect:
@@ -171,35 +171,35 @@ What to expect:
 Checklist per instance:
 
 - Unique `gateway.port`
-- Unique `OPENCLAW_CONFIG_PATH`
-- Unique `OPENCLAW_STATE_DIR`
+- Unique `BRIKKO_STUDIO_CONFIG_PATH`
+- Unique `BRIKKO_STUDIO_STATE_DIR`
 - Unique `agents.defaults.workspace`
 
 Example:
 
 ```bash
-OPENCLAW_CONFIG_PATH=~/.openclaw/a.json OPENCLAW_STATE_DIR=~/.openclaw-a openclaw gateway --port 19001
-OPENCLAW_CONFIG_PATH=~/.openclaw/b.json OPENCLAW_STATE_DIR=~/.openclaw-b openclaw gateway --port 19002
+BRIKKO_STUDIO_CONFIG_PATH=~/.brikko-studio/a.json BRIKKO_STUDIO_STATE_DIR=~/.brikko-studio-a brikko-studio gateway --port 19001
+BRIKKO_STUDIO_CONFIG_PATH=~/.brikko-studio/b.json BRIKKO_STUDIO_STATE_DIR=~/.brikko-studio-b brikko-studio gateway --port 19002
 ```
 
 Detailed setup: [/gateway/multiple-gateways](/gateway/multiple-gateways).
 
 ## VoiceClaw real-time brain endpoint
 
-OpenClaw exposes a VoiceClaw-compatible real-time WebSocket endpoint at
+Brikko Studio exposes a VoiceClaw-compatible real-time WebSocket endpoint at
 `/voiceclaw/realtime`. Use it when a VoiceClaw desktop client should talk
-directly to a real-time OpenClaw brain instead of going through a separate relay
+directly to a real-time Brikko Studio brain instead of going through a separate relay
 process.
 
-The endpoint uses Gemini Live for real-time audio and calls OpenClaw as the
-brain by exposing OpenClaw tools directly to Gemini Live. Tool calls return an
-immediate `working` result to keep the voice turn responsive, then OpenClaw
+The endpoint uses Gemini Live for real-time audio and calls Brikko Studio as the
+brain by exposing Brikko Studio tools directly to Gemini Live. Tool calls return an
+immediate `working` result to keep the voice turn responsive, then Brikko Studio
 executes the actual tool asynchronously and injects the result back into the
 live session. Set `GEMINI_API_KEY` in the gateway process environment. If
 gateway auth is enabled, the desktop client sends the gateway token or password
 in its first `session.config` message.
 
-Real-time brain access runs owner-authorized OpenClaw agent commands. Keep
+Real-time brain access runs owner-authorized Brikko Studio agent commands. Keep
 `gateway.auth.mode: "none"` limited to loopback-only test instances. Non-local
 real-time brain connections require gateway auth.
 
@@ -207,11 +207,11 @@ For an isolated test gateway, run a separate instance with its own port, config,
 and state:
 
 ```bash
-OPENCLAW_CONFIG_PATH=/path/to/openclaw-realtime/openclaw.json \
-OPENCLAW_STATE_DIR=/path/to/openclaw-realtime/state \
-OPENCLAW_SKIP_CHANNELS=1 \
+BRIKKO_STUDIO_CONFIG_PATH=/path/to/brikko-studio-realtime/brikko-studio.json \
+BRIKKO_STUDIO_STATE_DIR=/path/to/brikko-studio-realtime/state \
+BRIKKO_STUDIO_SKIP_CHANNELS=1 \
 GEMINI_API_KEY=... \
-openclaw gateway --port 19789
+brikko-studio gateway --port 19789
 ```
 
 Then configure VoiceClaw to use:
@@ -247,24 +247,24 @@ Use supervised runs for production-like reliability.
   <Tab title="macOS (launchd)">
 
 ```bash
-openclaw gateway install
-openclaw gateway status
-openclaw gateway restart
-openclaw gateway stop
+brikko-studio gateway install
+brikko-studio gateway status
+brikko-studio gateway restart
+brikko-studio gateway stop
 ```
 
-Use `openclaw gateway restart` for restarts. Do not chain `openclaw gateway stop` and `openclaw gateway start`; on macOS, `gateway stop` intentionally disables the LaunchAgent before stopping it.
+Use `brikko-studio gateway restart` for restarts. Do not chain `brikko-studio gateway stop` and `brikko-studio gateway start`; on macOS, `gateway stop` intentionally disables the LaunchAgent before stopping it.
 
-LaunchAgent labels are `ai.openclaw.gateway` (default) or `ai.openclaw.<profile>` (named profile). `openclaw doctor` audits and repairs service config drift.
+LaunchAgent labels are `ai.brikko-studio.gateway` (default) or `ai.brikko-studio.<profile>` (named profile). `brikko-studio doctor` audits and repairs service config drift.
 
   </Tab>
 
   <Tab title="Linux (systemd user)">
 
 ```bash
-openclaw gateway install
-systemctl --user enable --now openclaw-gateway[-<profile>].service
-openclaw gateway status
+brikko-studio gateway install
+systemctl --user enable --now brikko-studio-gateway[-<profile>].service
+brikko-studio gateway status
 ```
 
 For persistence after logout, enable lingering:
@@ -277,12 +277,12 @@ Manual user-unit example when you need a custom install path:
 
 ```ini
 [Unit]
-Description=OpenClaw Gateway
+Description=Brikko Studio Gateway
 After=network-online.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/usr/local/bin/openclaw gateway --port 18789
+ExecStart=/usr/local/bin/brikko-studio gateway --port 18789
 Restart=always
 RestartSec=5
 TimeoutStopSec=30
@@ -299,15 +299,15 @@ WantedBy=default.target
   <Tab title="Windows (native)">
 
 ```powershell
-openclaw gateway install
-openclaw gateway status --json
-openclaw gateway restart
-openclaw gateway stop
+brikko-studio gateway install
+brikko-studio gateway status --json
+brikko-studio gateway restart
+brikko-studio gateway stop
 ```
 
-Native Windows managed startup uses a Scheduled Task named `OpenClaw Gateway`
-(or `OpenClaw Gateway (<profile>)` for named profiles). If Scheduled Task
-creation is denied, OpenClaw falls back to a per-user Startup-folder launcher
+Native Windows managed startup uses a Scheduled Task named `Brikko Studio Gateway`
+(or `Brikko Studio Gateway (<profile>)` for named profiles). If Scheduled Task
+creation is denied, Brikko Studio falls back to a per-user Startup-folder launcher
 that points at `gateway.cmd` inside the state directory.
 
   </Tab>
@@ -318,14 +318,14 @@ Use a system unit for multi-user/always-on hosts.
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable --now openclaw-gateway[-<profile>].service
+sudo systemctl enable --now brikko-studio-gateway[-<profile>].service
 ```
 
 Use the same service body as the user unit, but install it under
-`/etc/systemd/system/openclaw-gateway[-<profile>].service` and adjust
-`ExecStart=` if your `openclaw` binary lives elsewhere.
+`/etc/systemd/system/brikko-studio-gateway[-<profile>].service` and adjust
+`ExecStart=` if your `brikko-studio` binary lives elsewhere.
 
-Do not also let `openclaw doctor --fix` install a user-level gateway service for the same profile/port. Doctor refuses that automatic install when it finds a system-level OpenClaw gateway service; use `OPENCLAW_SERVICE_REPAIR_POLICY=external` when the system unit owns the lifecycle.
+Do not also let `brikko-studio doctor --fix` install a user-level gateway service for the same profile/port. Doctor refuses that automatic install when it finds a system-level Brikko Studio gateway service; use `BRIKKO_STUDIO_SERVICE_REPAIR_POLICY=external` when the system unit owns the lifecycle.
 
   </Tab>
 </Tabs>
@@ -333,9 +333,9 @@ Do not also let `openclaw doctor --fix` install a user-level gateway service for
 ## Dev profile quick path
 
 ```bash
-openclaw --dev setup
-openclaw --dev gateway --allow-unconfigured
-openclaw --dev status
+brikko-studio --dev setup
+brikko-studio --dev gateway --allow-unconfigured
+brikko-studio --dev status
 ```
 
 Defaults include isolated state/config and base gateway port `19001`.
@@ -368,9 +368,9 @@ See full protocol docs: [Gateway Protocol](/gateway/protocol).
 ### Readiness
 
 ```bash
-openclaw gateway status
-openclaw channels status --probe
-openclaw health
+brikko-studio gateway status
+brikko-studio channels status --probe
+brikko-studio health
 ```
 
 ### Gap recovery

@@ -225,13 +225,13 @@ describe("buildEmbeddedRunPayloads tool-error warnings", () => {
 
   it("strips NO_REPLY text but keeps voice media directives", () => {
     const payloads = buildPayloads({
-      assistantTexts: ["NO_REPLY\nMEDIA:/tmp/openclaw/tts-a/voice-a.opus\n[[audio_as_voice]]"],
+      assistantTexts: ["NO_REPLY\nMEDIA:/tmp/brikko-studio/tts-a/voice-a.opus\n[[audio_as_voice]]"],
     });
 
     expect(payloads).toHaveLength(1);
     expect(payloads[0]).toMatchObject({
-      mediaUrl: "/tmp/openclaw/tts-a/voice-a.opus",
-      mediaUrls: ["/tmp/openclaw/tts-a/voice-a.opus"],
+      mediaUrl: "/tmp/brikko-studio/tts-a/voice-a.opus",
+      mediaUrls: ["/tmp/brikko-studio/tts-a/voice-a.opus"],
       audioAsVoice: true,
     });
     expect(payloads[0]?.text).toBeUndefined();

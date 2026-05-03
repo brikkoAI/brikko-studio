@@ -105,7 +105,7 @@ test("webchat clients cannot patch, delete, compact, or restore sessions", async
 });
 
 test("session:patch hook fires with correct context", async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sessions-patch-hook-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-sessions-patch-hook-"));
   const storePath = path.join(dir, "sessions.json");
   testState.sessionStorePath = storePath;
 
@@ -149,7 +149,7 @@ test("session:patch hook fires with correct context", async () => {
 });
 
 test("session:patch hook does not fire for webchat clients", async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sessions-webchat-hook-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-sessions-webchat-hook-"));
   const storePath = path.join(dir, "sessions.json");
   testState.sessionStorePath = storePath;
 
@@ -188,7 +188,7 @@ test("session:patch hook does not fire for webchat clients", async () => {
 });
 
 test("session:patch hook only fires after successful patch", async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sessions-success-hook-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-sessions-success-hook-"));
   const storePath = path.join(dir, "sessions.json");
   testState.sessionStorePath = storePath;
 
@@ -299,7 +299,7 @@ test("session:patch hook mutations cannot change the response path", async () =>
 });
 
 test("control-ui client can delete sessions even in webchat mode", async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sessions-control-ui-delete-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-sessions-control-ui-delete-"));
   const storePath = path.join(dir, "sessions.json");
   testState.sessionStorePath = storePath;
 

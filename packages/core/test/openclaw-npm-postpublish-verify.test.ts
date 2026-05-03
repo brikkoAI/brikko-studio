@@ -11,14 +11,14 @@ import {
   collectInstalledPackageErrors,
   normalizeInstalledBinaryVersion,
   resolveInstalledBinaryPath,
-} from "../scripts/openclaw-npm-postpublish-verify.ts";
+} from "../scripts/brikko-studio-npm-postpublish-verify.ts";
 
 describe("buildPublishedInstallScenarios", () => {
   it("uses a single fresh scenario for plain stable releases", () => {
     expect(buildPublishedInstallScenarios("2026.3.23")).toEqual([
       {
         name: "fresh-exact",
-        installSpecs: ["openclaw@2026.3.23"],
+        installSpecs: ["brikko-studio@2026.3.23"],
         expectedVersion: "2026.3.23",
       },
     ]);
@@ -28,12 +28,12 @@ describe("buildPublishedInstallScenarios", () => {
     expect(buildPublishedInstallScenarios("2026.3.23-2")).toEqual([
       {
         name: "fresh-exact",
-        installSpecs: ["openclaw@2026.3.23-2"],
+        installSpecs: ["brikko-studio@2026.3.23-2"],
         expectedVersion: "2026.3.23-2",
       },
       {
         name: "upgrade-from-base-stable",
-        installSpecs: ["openclaw@2026.3.23", "openclaw@2026.3.23-2"],
+        installSpecs: ["brikko-studio@2026.3.23", "brikko-studio@2026.3.23-2"],
         expectedVersion: "2026.3.23-2",
       },
     ]);
@@ -42,14 +42,14 @@ describe("buildPublishedInstallScenarios", () => {
 
 describe("buildPublishedInstallCommandArgs", () => {
   it("runs lifecycle scripts for published install verification", () => {
-    const args = buildPublishedInstallCommandArgs("/tmp/openclaw-prefix", "openclaw@2026.4.10");
+    const args = buildPublishedInstallCommandArgs("/tmp/brikko-studio-prefix", "brikko-studio@2026.4.10");
 
     expect(args).toEqual([
       "install",
       "-g",
       "--prefix",
-      "/tmp/openclaw-prefix",
-      "openclaw@2026.4.10",
+      "/tmp/brikko-studio-prefix",
+      "brikko-studio@2026.4.10",
       "--no-fund",
       "--no-audit",
     ]);
@@ -59,14 +59,14 @@ describe("buildPublishedInstallCommandArgs", () => {
 
 describe("collectInstalledPackageErrors", () => {
   function makeInstalledPackageRoot(): string {
-    return mkdtempSync(join(tmpdir(), "openclaw-postpublish-package-"));
+    return mkdtempSync(join(tmpdir(), "brikko-studio-postpublish-package-"));
   }
 
   it("flags version mismatches", () => {
     const errors = collectInstalledPackageErrors({
       expectedVersion: "2026.3.23-2",
       installedVersion: "2026.3.23",
-      packageRoot: "/tmp/empty-openclaw",
+      packageRoot: "/tmp/empty-brikko-studio",
     });
 
     expect(errors[0]).toBe(
@@ -106,7 +106,7 @@ describe("collectInstalledPackageErrors", () => {
 
 describe("collectInstalledContextEngineRuntimeErrors", () => {
   function makeInstalledPackageRoot(): string {
-    return mkdtempSync(join(tmpdir(), "openclaw-postpublish-context-engine-"));
+    return mkdtempSync(join(tmpdir(), "brikko-studio-postpublish-context-engine-"));
   }
 
   it("rejects packaged bundles with unresolved legacy context engine runtime loaders", () => {
@@ -148,8 +148,8 @@ describe("collectInstalledContextEngineRuntimeErrors", () => {
 
 describe("normalizeInstalledBinaryVersion", () => {
   it("accepts decorated CLI version output", () => {
-    expect(normalizeInstalledBinaryVersion("OpenClaw 2026.4.8 (9ece252)")).toBe("2026.4.8");
-    expect(normalizeInstalledBinaryVersion("OpenClaw 2026.4.8-beta.1 (9ece252)")).toBe(
+    expect(normalizeInstalledBinaryVersion("Brikko Studio 2026.4.8 (9ece252)")).toBe("2026.4.8");
+    expect(normalizeInstalledBinaryVersion("Brikko Studio 2026.4.8-beta.1 (9ece252)")).toBe(
       "2026.4.8-beta.1",
     );
   });
@@ -157,21 +157,21 @@ describe("normalizeInstalledBinaryVersion", () => {
 
 describe("resolveInstalledBinaryPath", () => {
   it("uses the Unix global bin path on non-Windows platforms", () => {
-    expect(resolveInstalledBinaryPath("/tmp/openclaw-prefix", "darwin")).toBe(
-      "/tmp/openclaw-prefix/bin/openclaw",
+    expect(resolveInstalledBinaryPath("/tmp/brikko-studio-prefix", "darwin")).toBe(
+      "/tmp/brikko-studio-prefix/bin/brikko-studio",
     );
   });
 
   it("uses the Windows npm shim path on win32", () => {
-    expect(resolveInstalledBinaryPath("C:/openclaw-prefix", "win32")).toBe(
-      "C:/openclaw-prefix/openclaw.cmd",
+    expect(resolveInstalledBinaryPath("C:/brikko-studio-prefix", "win32")).toBe(
+      "C:/brikko-studio-prefix/brikko-studio.cmd",
     );
   });
 });
 
 describe("collectInstalledRootDependencyManifestErrors", () => {
   function makeInstalledPackageRoot(): string {
-    return mkdtempSync(join(tmpdir(), "openclaw-postpublish-root-deps-"));
+    return mkdtempSync(join(tmpdir(), "brikko-studio-postpublish-root-deps-"));
   }
 
   function writePackageFile(root: string, relativePath: string, value: unknown): void {

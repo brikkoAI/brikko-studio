@@ -308,7 +308,7 @@ describe("gateway config mutation guard coverage", () => {
 
   it("blocks gateway.tls.certPath redirect via config.patch", () => {
     expectBlocked(
-      { gateway: { tls: { enabled: true, certPath: "/etc/openclaw/cert.pem" } } },
+      { gateway: { tls: { enabled: true, certPath: "/etc/brikko-studio/cert.pem" } } },
       { gateway: { tls: { certPath: "/tmp/attacker/cert.pem" } } },
     );
   });

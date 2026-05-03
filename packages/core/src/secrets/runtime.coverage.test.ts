@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import type { PluginOrigin } from "../plugins/types.js";
 import { getPath, setPathCreateStrict } from "./path-utils.js";
 import { canonicalizeSecretTargetCoverageId } from "./target-registry-test-helpers.js";
@@ -13,7 +13,7 @@ vi.mock("../plugins/installed-plugin-index-records.js", () => ({
 
 type SecretRegistryEntry = {
   id: string;
-  configFile: "openclaw.json" | "auth-profiles.json";
+  configFile: "brikko-studio.json" | "auth-profiles.json";
   pathPattern: string;
   refPathPattern?: string;
   secretShape: "secret_input" | "sibling_ref";
@@ -24,7 +24,7 @@ type SecretRegistryEntry = {
 type SecretRefCredentialMatrix = {
   entries: Array<{
     id: string;
-    configFile: "openclaw.json" | "auth-profiles.json";
+    configFile: "brikko-studio.json" | "auth-profiles.json";
     path: string;
     refPath?: string;
     secretShape: SecretRegistryEntry["secretShape"];
@@ -53,11 +53,11 @@ function loadCoverageRegistryEntries(): SecretRegistryEntry[] {
 }
 
 const COVERAGE_REGISTRY_ENTRIES = loadCoverageRegistryEntries();
-const DEBUG_COVERAGE_BATCHES = process.env.OPENCLAW_DEBUG_RUNTIME_COVERAGE === "1";
+const DEBUG_COVERAGE_BATCHES = process.env.BRIKKO_STUDIO_DEBUG_RUNTIME_COVERAGE === "1";
 const RUNTIME_COVERAGE_TEST_TIMEOUT_MS = 240_000;
 const COVERAGE_LOADABLE_PLUGIN_ORIGINS =
   buildCoverageLoadablePluginOrigins(COVERAGE_REGISTRY_ENTRIES);
-const PLUGIN_OWNED_OPENCLAW_COVERAGE_EXCLUSIONS = new Set([
+const PLUGIN_OWNED_BRIKKO_STUDIO_COVERAGE_EXCLUSIONS = new Set([
   "channels.googlechat.accounts.*.serviceAccount",
   // Doctor migrates legacy web search config into plugin-owned webSearch config.
   "tools.web.search.apiKey",
@@ -240,19 +240,19 @@ function batchUsesRuntimeWebToolsOnly(batch: readonly SecretRegistryEntry[]): bo
   );
 }
 
-function collectOpenClawCoverageEntries(options: {
+function collectBrikko StudioCoverageEntries(options: {
   includePluginEntries: boolean;
 }): SecretRegistryEntry[] {
   return COVERAGE_REGISTRY_ENTRIES.filter(
     (entry) =>
-      entry.configFile === "openclaw.json" &&
+      entry.configFile === "brikko-studio.json" &&
       entry.id.startsWith("plugins.entries.") === options.includePluginEntries &&
-      !PLUGIN_OWNED_OPENCLAW_COVERAGE_EXCLUSIONS.has(entry.id),
+      !PLUGIN_OWNED_BRIKKO_STUDIO_COVERAGE_EXCLUSIONS.has(entry.id),
   );
 }
 
-function applyConfigForOpenClawTarget(
-  config: OpenClawConfig,
+function applyConfigForBrikko StudioTarget(
+  config: Brikko StudioConfig,
   entry: SecretRegistryEntry,
   envId: string,
   wildcardToken: string,
@@ -426,7 +426,7 @@ function applyAuthStoreTarget(
 }
 
 async function prepareConfigCoverageSnapshot(params: {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   loadablePluginOrigins?: ReadonlyMap<string, PluginOrigin>;
   includeRuntimeWebTools?: boolean;
@@ -479,7 +479,7 @@ async function prepareConfigCoverageSnapshot(params: {
 }
 
 async function prepareAuthCoverageSnapshot(params: {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   agentDirs: string[];
   loadAuthStore: (agentDir?: string) => AuthProfileStore;
@@ -522,21 +522,21 @@ async function prepareAuthCoverageSnapshot(params: {
   };
 }
 
-async function expectOpenClawCoverageEntriesResolved(
+async function expectBrikko StudioCoverageEntriesResolved(
   label: string,
   entries: readonly SecretRegistryEntry[],
 ): Promise<void> {
   for (const batch of buildCoverageBatches(entries)) {
     logCoverageBatch(label, batch);
-    const config = {} as OpenClawConfig;
+    const config = {} as Brikko StudioConfig;
     const env: Record<string, string> = {};
     for (const [index, entry] of batch.entries()) {
-      const envId = `OPENCLAW_SECRET_TARGET_${entry.id}`;
+      const envId = `BRIKKO_STUDIO_SECRET_TARGET_${entry.id}`;
       const runtimeEnvId = resolveCoverageEnvId(entry, envId);
       const expectedValue = `resolved-${entry.id}`;
       const wildcardToken = resolveCoverageWildcardToken(index);
       env[runtimeEnvId] = expectedValue;
-      applyConfigForOpenClawTarget(config, entry, envId, wildcardToken);
+      applyConfigForBrikko StudioTarget(config, entry, envId, wildcardToken);
     }
     const snapshot = await prepareConfigCoverageSnapshot({
       config,
@@ -566,22 +566,22 @@ describe("secrets runtime target coverage", () => {
   });
 
   it(
-    "handles every core and channel openclaw.json registry target when configured as active",
+    "handles every core and channel brikko-studio.json registry target when configured as active",
     async () => {
-      await expectOpenClawCoverageEntriesResolved(
-        "openclaw.json core",
-        collectOpenClawCoverageEntries({ includePluginEntries: false }),
+      await expectBrikko StudioCoverageEntriesResolved(
+        "brikko-studio.json core",
+        collectBrikko StudioCoverageEntries({ includePluginEntries: false }),
       );
     },
     RUNTIME_COVERAGE_TEST_TIMEOUT_MS,
   );
 
   it(
-    "handles every plugin openclaw.json registry target when configured as active",
+    "handles every plugin brikko-studio.json registry target when configured as active",
     async () => {
-      await expectOpenClawCoverageEntriesResolved(
-        "openclaw.json plugins",
-        collectOpenClawCoverageEntries({ includePluginEntries: true }),
+      await expectBrikko StudioCoverageEntriesResolved(
+        "brikko-studio.json plugins",
+        collectBrikko StudioCoverageEntries({ includePluginEntries: true }),
       );
     },
     RUNTIME_COVERAGE_TEST_TIMEOUT_MS,
@@ -599,14 +599,14 @@ describe("secrets runtime target coverage", () => {
         profiles: {},
       };
       for (const [index, entry] of batch.entries()) {
-        const envId = `OPENCLAW_AUTH_SECRET_TARGET_${entry.id}`;
+        const envId = `BRIKKO_STUDIO_AUTH_SECRET_TARGET_${entry.id}`;
         env[envId] = `resolved-${entry.id}`;
         applyAuthStoreTarget(authStore, entry, envId, resolveCoverageWildcardToken(index));
       }
       const snapshot = await prepareAuthCoverageSnapshot({
-        config: {} as OpenClawConfig,
+        config: {} as Brikko StudioConfig,
         env,
-        agentDirs: ["/tmp/openclaw-agent-main"],
+        agentDirs: ["/tmp/brikko-studio-agent-main"],
         loadAuthStore: () => authStore,
       });
       const resolvedStore = snapshot.authStores[0]?.store;

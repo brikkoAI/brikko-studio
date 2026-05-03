@@ -12,7 +12,7 @@ export type GatewayEvent = {
   stateVersion?: unknown;
 };
 
-export type OpenClawTransport = {
+export type Brikko StudioTransport = {
   request<T = unknown>(
     method: string,
     params?: unknown,
@@ -22,7 +22,7 @@ export type OpenClawTransport = {
   close?(): Promise<void> | void;
 };
 
-export type ConnectableOpenClawTransport = OpenClawTransport & {
+export type ConnectableBrikko StudioTransport = Brikko StudioTransport & {
   connect(): Promise<void>;
 };
 
@@ -155,7 +155,7 @@ export type RunResult = {
   raw?: unknown;
 };
 
-export type OpenClawEventType =
+export type Brikko StudioEventType =
   | "run.created"
   | "run.queued"
   | "run.started"
@@ -185,11 +185,11 @@ export type OpenClawEventType =
   | "git.pr"
   | "raw";
 
-export type OpenClawEvent<TData = unknown> = {
+export type Brikko StudioEvent<TData = unknown> = {
   version: 1;
   id: string;
   ts: number;
-  type: OpenClawEventType;
+  type: Brikko StudioEventType;
   runId?: string;
   sessionId?: string;
   sessionKey?: string;

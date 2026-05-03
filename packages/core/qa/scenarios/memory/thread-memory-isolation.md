@@ -32,7 +32,7 @@ execution:
     channelId: qa-room
     channelTitle: QA Room
     threadTitle: "Thread memory QA"
-    prompt: "@openclaw Thread memory check: what is the hidden thread codename stored only in memory? Use memory tools first and reply only in this thread."
+    prompt: "@brikko-studio Thread memory check: what is the hidden thread codename stored only in memory? Use memory tools first and reply only in this thread."
     promptSnippet: "Thread memory check"
 ```
 

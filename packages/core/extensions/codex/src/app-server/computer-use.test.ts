@@ -263,7 +263,7 @@ describe("Codex Computer Use setup", () => {
 
   it("auto-registers the bundled Codex app marketplace during auto-install", async () => {
     const bundledMarketplacePath = fs.mkdtempSync(
-      path.join(os.tmpdir(), "openclaw-codex-bundled-marketplace-"),
+      path.join(os.tmpdir(), "brikko-studio-codex-bundled-marketplace-"),
     );
     cleanupPaths.push(bundledMarketplacePath);
     const request = createBundledMarketplaceComputerUseRequest(bundledMarketplacePath);

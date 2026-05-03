@@ -1,11 +1,11 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { resolveStateDir } from "openclaw/plugin-sdk/state-paths";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
-import { captureEnv } from "openclaw/plugin-sdk/test-env";
-import { mockPinnedHostnameResolution } from "openclaw/plugin-sdk/test-env";
-import { optimizeImageToPng } from "openclaw/plugin-sdk/web-media";
+import { resolveStateDir } from "brikko-studio/plugin-sdk/state-paths";
+import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { captureEnv } from "brikko-studio/plugin-sdk/test-env";
+import { mockPinnedHostnameResolution } from "brikko-studio/plugin-sdk/test-env";
+import { optimizeImageToPng } from "brikko-studio/plugin-sdk/web-media";
 import sharp from "sharp";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import {
@@ -55,7 +55,7 @@ function cloneStatWithDev<T extends { dev: number | bigint }>(stat: T, dev: numb
 
 beforeAll(async () => {
   fixtureRoot = await fs.mkdtemp(
-    path.join(resolvePreferredOpenClawTmpDir(), "openclaw-media-test-"),
+    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-media-test-"),
   );
   largeJpegBuffer = await sharp({
     create: {
@@ -113,14 +113,14 @@ afterEach(() => {
 
 describe("web media loading", () => {
   beforeAll(() => {
-    // Ensure state dir is stable and not influenced by other tests that stub OPENCLAW_STATE_DIR.
-    // Also keep it outside the OpenClaw temp root so default localRoots doesn't accidentally make all state readable.
-    stateDirSnapshot = captureEnv(["OPENCLAW_STATE_DIR"]);
-    process.env.OPENCLAW_STATE_DIR = path.join(
+    // Ensure state dir is stable and not influenced by other tests that stub BRIKKO_STUDIO_STATE_DIR.
+    // Also keep it outside the Brikko Studio temp root so default localRoots doesn't accidentally make all state readable.
+    stateDirSnapshot = captureEnv(["BRIKKO_STUDIO_STATE_DIR"]);
+    process.env.BRIKKO_STUDIO_STATE_DIR = path.join(
       path.parse(os.tmpdir()).root,
       "var",
       "lib",
-      "openclaw-media-state-test",
+      "brikko-studio-media-state-test",
     );
   });
 
@@ -328,7 +328,7 @@ describe("local media root guard", () => {
 
   it("allows local paths under an explicit root", async () => {
     const result = await loadWebMedia(tinyPngFile, 1024 * 1024, {
-      localRoots: [resolvePreferredOpenClawTmpDir()],
+      localRoots: [resolvePreferredBrikko StudioTmpDir()],
     });
     expect(result.kind).toBe("image");
   });
@@ -339,7 +339,7 @@ describe("local media root guard", () => {
     try {
       await expect(
         loadWebMedia("file://attacker/share/evil.png", 1024 * 1024, {
-          localRoots: [resolvePreferredOpenClawTmpDir()],
+          localRoots: [resolvePreferredBrikko StudioTmpDir()],
         }),
       ).rejects.toMatchObject({ code: "invalid-file-url" });
       expect(realpathSpy).not.toHaveBeenCalled();
@@ -361,7 +361,7 @@ describe("local media root guard", () => {
 
     try {
       const result = await loadWebMedia(tinyPngFile, 1024 * 1024, {
-        localRoots: [resolvePreferredOpenClawTmpDir()],
+        localRoots: [resolvePreferredBrikko StudioTmpDir()],
       });
       expect(result.kind).toBe("image");
       expect(result.buffer.length).toBeGreaterThan(0);
@@ -379,7 +379,7 @@ describe("local media root guard", () => {
     try {
       await expect(
         loadWebMedia("\\\\attacker\\share\\evil.png", 1024 * 1024, {
-          localRoots: [resolvePreferredOpenClawTmpDir()],
+          localRoots: [resolvePreferredBrikko StudioTmpDir()],
         }),
       ).rejects.toMatchObject({ code: "network-path-not-allowed" });
       expect(realpathSpy).not.toHaveBeenCalled();
@@ -421,7 +421,7 @@ describe("local media root guard", () => {
     ).rejects.toMatchObject({ code: "invalid-root" });
   });
 
-  it("allows default OpenClaw state workspace and sandbox roots", async () => {
+  it("allows default Brikko Studio state workspace and sandbox roots", async () => {
     const stateDir = resolveStateDir();
     const readFile = vi.fn(async () => Buffer.from("generated-media"));
 
@@ -448,7 +448,7 @@ describe("local media root guard", () => {
     );
   });
 
-  it("rejects default OpenClaw state per-agent workspace-* roots without explicit local roots", async () => {
+  it("rejects default Brikko Studio state per-agent workspace-* roots without explicit local roots", async () => {
     const stateDir = resolveStateDir();
     const readFile = vi.fn(async () => Buffer.from("generated-media"));
 

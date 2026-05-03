@@ -1,28 +1,28 @@
 {
-  "name": "@openclaw/mattermost",
+  "name": "@brikko-studio/mattermost",
   "version": "2026.5.3",
-  "description": "OpenClaw Mattermost channel plugin",
+  "description": "Brikko Studio Mattermost channel plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/brikko-studio/brikko-studio"
   },
   "type": "module",
   "dependencies": {
     "ws": "^8.20.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*",
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],

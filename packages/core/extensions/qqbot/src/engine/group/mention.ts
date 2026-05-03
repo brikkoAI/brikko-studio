@@ -1,7 +1,7 @@
 /**
  * QQBot group @mention detection and text normalization.
  *
- * Pure functions extracted from the standalone build (`openclaw-qqbot/src/
+ * Pure functions extracted from the standalone build (`brikko-studio-qqbot/src/
  * channel.ts::detectWasMentioned` / `stripMentionText`) plus the helper
  * `hasAnyMention` that previously lived inline in `gateway.ts` and the
  * `resolveImplicitMention` predicate that decides whether a quoted-reply

@@ -3,7 +3,7 @@ import {
   normalizeInteractiveReply,
   renderMessagePresentationFallbackText,
   resolveInteractiveTextFallback,
-} from "openclaw/plugin-sdk/interactive-runtime";
+} from "brikko-studio/plugin-sdk/interactive-runtime";
 
 export function resolveTelegramInteractiveTextFallback(params: {
   text?: string | null;

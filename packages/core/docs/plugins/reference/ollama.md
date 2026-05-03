@@ -1,5 +1,5 @@
 ---
-summary: "Adds Ollama model provider support to OpenClaw."
+summary: "Adds Ollama model provider support to Brikko Studio."
 read_when:
   - You are installing, configuring, or auditing the ollama plugin
 title: "Ollama plugin"
@@ -7,12 +7,12 @@ title: "Ollama plugin"
 
 # Ollama plugin
 
-Adds Ollama model provider support to OpenClaw.
+Adds Ollama model provider support to Brikko Studio.
 
 ## Distribution
 
-- Package: `@openclaw/ollama-provider`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/ollama-provider`
+- Install route: included in Brikko Studio
 
 ## Surface
 

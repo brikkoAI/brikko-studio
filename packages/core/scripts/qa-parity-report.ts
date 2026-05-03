@@ -24,7 +24,7 @@ function parseArgs(args: string[]): Options {
     switch (arg) {
       case "--help":
       case "-h":
-        process.stdout.write(`Usage: openclaw qa parity-report [options]
+        process.stdout.write(`Usage: brikko-studio qa parity-report [options]
 
 Options:
   --candidate-summary <path>  Candidate qa-suite-summary.json path

@@ -1,8 +1,8 @@
-import { formatAllowFromLowercase } from "openclaw/plugin-sdk/allow-from";
+import { formatAllowFromLowercase } from "brikko-studio/plugin-sdk/allow-from";
 import {
   adaptScopedAccountAccessor,
   createScopedChannelConfigAdapter,
-} from "openclaw/plugin-sdk/channel-config-helpers";
+} from "brikko-studio/plugin-sdk/channel-config-helpers";
 import { type ResolvedSlackAccount } from "./accounts.js";
 import {
   listSlackAccountIds,

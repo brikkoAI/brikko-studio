@@ -23,7 +23,7 @@ describe("isChannelConfigured", () => {
     expect(
       isChannelConfigured({}, "irc", {
         IRC_HOST: "irc.example.com",
-        IRC_NICK: "openclaw",
+        IRC_NICK: "brikko-studio",
       }),
     ).toBe(true);
   });
@@ -46,7 +46,7 @@ describe("isChannelConfigured", () => {
 
   it("does not treat persisted Matrix credentials as configured channel state", () => {
     expect(
-      isChannelConfigured({}, "matrix", { OPENCLAW_STATE_DIR: "state-with-matrix-creds" }),
+      isChannelConfigured({}, "matrix", { BRIKKO_STUDIO_STATE_DIR: "state-with-matrix-creds" }),
     ).toBe(false);
   });
 });

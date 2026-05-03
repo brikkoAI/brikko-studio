@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
 import { validateConfigObjectWithPlugins } from "../../../config/validation.js";
 import { sanitizeForLog } from "../../../terminal/ansi.js";
 import { asObjectRecord } from "./object.js";
@@ -10,7 +10,7 @@ type InvalidPluginConfigHit = {
 
 const PLUGIN_CONFIG_ISSUE_RE = /^plugins\.entries\.([^.]+)\.config(?:\.|$)/;
 
-function scanInvalidPluginConfig(cfg: OpenClawConfig): InvalidPluginConfigHit[] {
+function scanInvalidPluginConfig(cfg: Brikko StudioConfig): InvalidPluginConfigHit[] {
   const validation = validateConfigObjectWithPlugins(cfg);
   if (validation.ok) {
     return [];
@@ -35,8 +35,8 @@ function scanInvalidPluginConfig(cfg: OpenClawConfig): InvalidPluginConfigHit[] 
   return hits;
 }
 
-export function maybeRepairInvalidPluginConfig(cfg: OpenClawConfig): {
-  config: OpenClawConfig;
+export function maybeRepairInvalidPluginConfig(cfg: Brikko StudioConfig): {
+  config: Brikko StudioConfig;
   changes: string[];
 } {
   const hits = scanInvalidPluginConfig(cfg);

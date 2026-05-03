@@ -479,7 +479,7 @@ export function renderUsage(props: UsageProps) {
                     class="usage-export-item"
                     @click=${() =>
                       downloadTextFile(
-                        `openclaw-usage-sessions-${exportStamp}.csv`,
+                        `brikko-studio-usage-sessions-${exportStamp}.csv`,
                         buildSessionsCsv(filteredSessions),
                         "text/csv",
                       )}
@@ -491,7 +491,7 @@ export function renderUsage(props: UsageProps) {
                     class="usage-export-item"
                     @click=${() =>
                       downloadTextFile(
-                        `openclaw-usage-daily-${exportStamp}.csv`,
+                        `brikko-studio-usage-daily-${exportStamp}.csv`,
                         buildDailyCsv(filteredDaily),
                         "text/csv",
                       )}
@@ -503,7 +503,7 @@ export function renderUsage(props: UsageProps) {
                     class="usage-export-item"
                     @click=${() =>
                       downloadTextFile(
-                        `openclaw-usage-${exportStamp}.json`,
+                        `brikko-studio-usage-${exportStamp}.json`,
                         JSON.stringify(
                           {
                             totals: displayTotals,

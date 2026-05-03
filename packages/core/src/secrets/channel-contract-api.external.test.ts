@@ -26,7 +26,7 @@ vi.mock("../plugins/public-surface-loader.js", () => ({
 import { loadChannelSecretContractApi } from "./channel-contract-api.js";
 
 function writeExternalChannelPlugin(params: { pluginId: string; channelId: string }) {
-  const rootDir = makeTrackedTempDir("openclaw-channel-secret-contract", tempDirs);
+  const rootDir = makeTrackedTempDir("brikko-studio-channel-secret-contract", tempDirs);
   fs.writeFileSync(
     path.join(rootDir, "secret-contract-api.cjs"),
     `
@@ -35,7 +35,7 @@ module.exports = {
     {
       id: "channels.${params.channelId}.token",
       targetType: "channels.${params.channelId}.token",
-      configFile: "openclaw.json",
+      configFile: "brikko-studio.json",
       pathPattern: "channels.${params.channelId}.token",
       secretShape: "secret_input",
       expectedResolvedValue: "string",

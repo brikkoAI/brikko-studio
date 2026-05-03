@@ -1,19 +1,19 @@
 ---
-summary: "Use OpenCode Zen and Go catalogs with OpenClaw"
+summary: "Use OpenCode Zen and Go catalogs with Brikko Studio"
 read_when:
   - You want OpenCode-hosted model access
   - You want to pick between the Zen and Go catalogs
 title: "OpenCode"
 ---
 
-OpenCode exposes two hosted catalogs in OpenClaw:
+OpenCode exposes two hosted catalogs in Brikko Studio:
 
 | Catalog | Prefix            | Runtime provider |
 | ------- | ----------------- | ---------------- |
 | **Zen** | `opencode/...`    | `opencode`       |
 | **Go**  | `opencode-go/...` | `opencode-go`    |
 
-Both catalogs use the same OpenCode API key. OpenClaw keeps the runtime provider ids
+Both catalogs use the same OpenCode API key. Brikko Studio keeps the runtime provider ids
 split so upstream per-model routing stays correct, but onboarding and docs treat them
 as one OpenCode setup.
 
@@ -26,23 +26,23 @@ as one OpenCode setup.
     <Steps>
       <Step title="Run onboarding">
         ```bash
-        openclaw onboard --auth-choice opencode-zen
+        brikko-studio onboard --auth-choice opencode-zen
         ```
 
         Or pass the key directly:
 
         ```bash
-        openclaw onboard --opencode-zen-api-key "$OPENCODE_API_KEY"
+        brikko-studio onboard --opencode-zen-api-key "$OPENCODE_API_KEY"
         ```
       </Step>
       <Step title="Set a Zen model as the default">
         ```bash
-        openclaw config set agents.defaults.model.primary "opencode/claude-opus-4-6"
+        brikko-studio config set agents.defaults.model.primary "opencode/claude-opus-4-6"
         ```
       </Step>
       <Step title="Verify models are available">
         ```bash
-        openclaw models list --provider opencode
+        brikko-studio models list --provider opencode
         ```
       </Step>
     </Steps>
@@ -55,23 +55,23 @@ as one OpenCode setup.
     <Steps>
       <Step title="Run onboarding">
         ```bash
-        openclaw onboard --auth-choice opencode-go
+        brikko-studio onboard --auth-choice opencode-go
         ```
 
         Or pass the key directly:
 
         ```bash
-        openclaw onboard --opencode-go-api-key "$OPENCODE_API_KEY"
+        brikko-studio onboard --opencode-go-api-key "$OPENCODE_API_KEY"
         ```
       </Step>
       <Step title="Set a Go model as the default">
         ```bash
-        openclaw config set agents.defaults.model.primary "opencode-go/kimi-k2.6"
+        brikko-studio config set agents.defaults.model.primary "opencode-go/kimi-k2.6"
         ```
       </Step>
       <Step title="Verify models are available">
         ```bash
-        openclaw models list --provider opencode-go
+        brikko-studio models list --provider opencode-go
         ```
       </Step>
     </Steps>
@@ -122,7 +122,7 @@ as one OpenCode setup.
   </Accordion>
 
   <Accordion title="Gemini replay behavior">
-    Gemini-backed OpenCode refs stay on the proxy-Gemini path, so OpenClaw keeps
+    Gemini-backed OpenCode refs stay on the proxy-Gemini path, so Brikko Studio keeps
     Gemini thought-signature sanitation there without enabling native Gemini
     replay validation or bootstrap rewrites.
   </Accordion>

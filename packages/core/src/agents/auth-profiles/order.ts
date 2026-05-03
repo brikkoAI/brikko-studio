@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { resolveProviderIdForAuth } from "../provider-auth-aliases.js";
 import { findNormalizedProviderValue, normalizeProviderId } from "../provider-id.js";
 import {
@@ -25,7 +25,7 @@ export type AuthProfileEligibility = {
 };
 
 export function resolveAuthProfileEligibility(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   store: AuthProfileStore;
   provider: string;
   profileId: string;
@@ -64,7 +64,7 @@ export function resolveAuthProfileEligibility(params: {
 }
 
 export function resolveAuthProfileOrder(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   store: AuthProfileStore;
   provider: string;
   preferredProfile?: string;

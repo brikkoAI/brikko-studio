@@ -6,7 +6,7 @@
  */
 
 import { finalizeEvent, SimplePool, type Event } from "nostr-tools";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type { NostrProfile } from "./config-schema.js";
 import { profileToContent } from "./nostr-profile-core.js";
 export {

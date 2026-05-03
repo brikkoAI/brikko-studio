@@ -1,16 +1,16 @@
 import path from "node:path";
-import { summarizeMigrationItems } from "openclaw/plugin-sdk/migration";
+import { summarizeMigrationItems } from "brikko-studio/plugin-sdk/migration";
 import {
   archiveMigrationItem,
   copyMigrationFileItem,
   writeMigrationReport,
-} from "openclaw/plugin-sdk/migration-runtime";
+} from "brikko-studio/plugin-sdk/migration-runtime";
 import type {
   MigrationApplyResult,
   MigrationItem,
   MigrationPlan,
   MigrationProviderContext,
-} from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/plugin-entry";
 import { buildCodexMigrationPlan } from "./plan.js";
 
 export async function applyCodexMigrationPlan(params: {

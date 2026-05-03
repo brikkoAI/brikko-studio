@@ -66,11 +66,11 @@ function modelConfig(id: string) {
 }
 
 async function writeWorkspaceAuthEvidencePlugin(workspaceDir: string) {
-  const pluginDir = path.join(workspaceDir, ".openclaw", "extensions", "workspace-cloud");
+  const pluginDir = path.join(workspaceDir, ".brikko-studio", "extensions", "workspace-cloud");
   await fs.mkdir(pluginDir, { recursive: true });
   await fs.writeFile(path.join(pluginDir, "index.ts"), "export default {}\n", "utf8");
   await fs.writeFile(
-    path.join(pluginDir, "openclaw.plugin.json"),
+    path.join(pluginDir, "brikko-studio.plugin.json"),
     JSON.stringify({
       id: "workspace-cloud",
       configSchema: { type: "object" },
@@ -147,7 +147,7 @@ describe("createModelListAuthIndex", () => {
   });
 
   it("uses trusted workspace plugin auth evidence when workspace scope is supplied", async () => {
-    const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-list-auth-index-"));
+    const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-list-auth-index-"));
     const workspaceDir = path.join(tempRoot, "workspace");
     const bundledDir = path.join(tempRoot, "bundled");
     const stateDir = path.join(tempRoot, "state");
@@ -160,8 +160,8 @@ describe("createModelListAuthIndex", () => {
     try {
       await withEnvAsync(
         {
-          OPENCLAW_BUNDLED_PLUGINS_DIR: bundledDir,
-          OPENCLAW_STATE_DIR: stateDir,
+          BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledDir,
+          BRIKKO_STUDIO_STATE_DIR: stateDir,
           WORKSPACE_CLOUD_CREDENTIALS: credentialsPath,
         },
         async () => {

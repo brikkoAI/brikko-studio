@@ -17,7 +17,7 @@ function readJsonFile(filePath) {
 }
 
 export function isPublishablePluginPackage(packageJson) {
-  return packageJson.openclaw?.release?.publishToNpm === true;
+  return packageJson.brikko-studio?.release?.publishToNpm === true;
 }
 
 function normalizePackageEntry(value) {
@@ -61,7 +61,7 @@ function getRecord(value) {
 function createNeverBundleDependencyMatcher(packageJson) {
   const externalDependencies = collectExternalDependencyNames(packageJson);
   return (id) => {
-    if (id === "openclaw" || id.startsWith("openclaw/")) {
+    if (id === "brikko-studio" || id.startsWith("brikko-studio/")) {
       return true;
     }
     for (const dependency of externalDependencies) {
@@ -116,8 +116,8 @@ export function resolvePluginNpmRuntimePackageFiles(plan) {
       : [],
   );
   merged.add("dist/**");
-  if (packageRelativePathExists(plan.packageDir, "openclaw.plugin.json")) {
-    merged.add("openclaw.plugin.json");
+  if (packageRelativePathExists(plan.packageDir, "brikko-studio.plugin.json")) {
+    merged.add("brikko-studio.plugin.json");
   }
   if (packageRelativePathExists(plan.packageDir, "README.md")) {
     merged.add("README.md");
@@ -131,7 +131,7 @@ export function resolvePluginNpmRuntimePackageFiles(plan) {
   return [...merged];
 }
 
-function normalizeOpenClawPeerRange(value) {
+function normalizeBrikko StudioPeerRange(value) {
   const normalized = normalizePackageEntry(value);
   if (!normalized) {
     return "";
@@ -141,35 +141,35 @@ function normalizeOpenClawPeerRange(value) {
     : `>=${normalized}`;
 }
 
-function resolveOpenClawPeerRange(packageJson, rootPackageJson) {
+function resolveBrikko StudioPeerRange(packageJson, rootPackageJson) {
   return (
-    normalizeOpenClawPeerRange(packageJson.openclaw?.compat?.pluginApi) ||
-    normalizeOpenClawPeerRange(packageJson.peerDependencies?.openclaw) ||
-    normalizeOpenClawPeerRange(packageJson.openclaw?.build?.openclawVersion) ||
-    normalizeOpenClawPeerRange(rootPackageJson?.version) ||
-    normalizeOpenClawPeerRange(packageJson.version)
+    normalizeBrikko StudioPeerRange(packageJson.brikko-studio?.compat?.pluginApi) ||
+    normalizeBrikko StudioPeerRange(packageJson.peerDependencies?.brikko-studio) ||
+    normalizeBrikko StudioPeerRange(packageJson.brikko-studio?.build?.brikko-studioVersion) ||
+    normalizeBrikko StudioPeerRange(rootPackageJson?.version) ||
+    normalizeBrikko StudioPeerRange(packageJson.version)
   );
 }
 
 export function resolvePluginNpmRuntimePackagePeerMetadata(plan) {
-  const openclawPeerRange = resolveOpenClawPeerRange(plan.packageJson, plan.rootPackageJson);
-  if (!openclawPeerRange) {
+  const brikko-studioPeerRange = resolveBrikko StudioPeerRange(plan.packageJson, plan.rootPackageJson);
+  if (!brikko-studioPeerRange) {
     throw new Error(
-      `cannot infer openclaw peerDependency range for ${plan.pluginDir}; set openclaw.compat.pluginApi or package version`,
+      `cannot infer brikko-studio peerDependency range for ${plan.pluginDir}; set brikko-studio.compat.pluginApi or package version`,
     );
   }
   const existingPeerDependencies = getStringRecord(plan.packageJson.peerDependencies);
   const existingPeerDependenciesMeta = getRecord(plan.packageJson.peerDependenciesMeta);
-  const existingOpenClawMeta = getRecord(existingPeerDependenciesMeta.openclaw);
+  const existingBrikko StudioMeta = getRecord(existingPeerDependenciesMeta.brikko-studio);
   return {
     peerDependencies: {
       ...existingPeerDependencies,
-      openclaw: openclawPeerRange,
+      brikko-studio: brikko-studioPeerRange,
     },
     peerDependenciesMeta: {
       ...existingPeerDependenciesMeta,
-      openclaw: {
-        ...existingOpenClawMeta,
+      brikko-studio: {
+        ...existingBrikko StudioMeta,
         optional: true,
       },
     },
@@ -221,15 +221,15 @@ export function resolvePluginNpmRuntimeBuildPlan(params) {
     sourceEntries,
     entry,
     outDir: path.join(packageDir, "dist"),
-    runtimeExtensions: (Array.isArray(packageJson.openclaw?.extensions)
-      ? packageJson.openclaw.extensions
+    runtimeExtensions: (Array.isArray(packageJson.brikko-studio?.extensions)
+      ? packageJson.brikko-studio.extensions
       : []
     )
       .map(normalizePackageEntry)
       .filter(Boolean)
       .map(toPackageRuntimeEntry),
-    runtimeSetupEntry: normalizePackageEntry(packageJson.openclaw?.setupEntry)
-      ? toPackageRuntimeEntry(packageJson.openclaw.setupEntry)
+    runtimeSetupEntry: normalizePackageEntry(packageJson.brikko-studio?.setupEntry)
+      ? toPackageRuntimeEntry(packageJson.brikko-studio.setupEntry)
       : undefined,
   };
   return {

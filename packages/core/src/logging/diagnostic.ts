@@ -1,6 +1,6 @@
 import { monitorEventLoopDelay, performance } from "node:perf_hooks";
 import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   areDiagnosticsEnabledForProcess,
   emitDiagnosticEvent,
@@ -102,7 +102,7 @@ type SampleDiagnosticLiveness = (
 ) => DiagnosticLivenessSample | null;
 
 type StartDiagnosticHeartbeatOptions = {
-  getConfig?: () => OpenClawConfig;
+  getConfig?: () => Brikko StudioConfig;
   emitMemorySample?: EmitDiagnosticMemorySample;
   sampleLiveness?: SampleDiagnosticLiveness;
   recoverStuckSession?: RecoverStuckSession;
@@ -332,7 +332,7 @@ function emitDiagnosticLivenessWarning(
   markActivity();
 }
 
-export function resolveStuckSessionWarnMs(config?: OpenClawConfig): number {
+export function resolveStuckSessionWarnMs(config?: Brikko StudioConfig): number {
   const raw = config?.diagnostics?.stuckSessionWarnMs;
   if (typeof raw !== "number" || !Number.isFinite(raw)) {
     return DEFAULT_STUCK_SESSION_WARN_MS;
@@ -729,7 +729,7 @@ export function logActiveRuns() {
 let heartbeatInterval: NodeJS.Timeout | null = null;
 
 export function startDiagnosticHeartbeat(
-  config?: OpenClawConfig,
+  config?: Brikko StudioConfig,
   opts?: StartDiagnosticHeartbeatOptions,
 ) {
   if (!areDiagnosticsEnabledForProcess() || !isDiagnosticsEnabled(config)) {

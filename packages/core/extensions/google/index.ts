@@ -1,16 +1,16 @@
-import type { ImageGenerationProvider } from "openclaw/plugin-sdk/image-generation";
-import type { MediaUnderstandingProvider } from "openclaw/plugin-sdk/media-understanding";
-import type { MusicGenerationProvider } from "openclaw/plugin-sdk/music-generation";
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
+import type { ImageGenerationProvider } from "brikko-studio/plugin-sdk/image-generation";
+import type { MediaUnderstandingProvider } from "brikko-studio/plugin-sdk/media-understanding";
+import type { MusicGenerationProvider } from "brikko-studio/plugin-sdk/music-generation";
+import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 import type {
   RealtimeVoiceBridge,
   RealtimeVoiceBridgeCreateRequest,
   RealtimeVoiceProviderConfig,
   RealtimeVoiceProviderPlugin,
-} from "openclaw/plugin-sdk/realtime-voice";
-import { normalizeResolvedSecretInputString } from "openclaw/plugin-sdk/secret-input";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
-import type { VideoGenerationProvider } from "openclaw/plugin-sdk/video-generation";
+} from "brikko-studio/plugin-sdk/realtime-voice";
+import { normalizeResolvedSecretInputString } from "brikko-studio/plugin-sdk/secret-input";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
+import type { VideoGenerationProvider } from "brikko-studio/plugin-sdk/video-generation";
 import { buildGoogleGeminiCliBackend } from "./cli-backend.js";
 import { registerGoogleGeminiCliProvider } from "./gemini-cli-provider.js";
 import {

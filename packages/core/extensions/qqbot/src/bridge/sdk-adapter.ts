@@ -3,20 +3,20 @@
  * SDK implementations.
  *
  * This file lives in bridge/ (not engine/) because it imports from
- * `openclaw/plugin-sdk/*`. The engine layer stays zero-SDK-dependency;
+ * `brikko-studio/plugin-sdk/*`. The engine layer stays zero-SDK-dependency;
  * only the bridge layer couples to the framework.
  */
 
 import {
   implicitMentionKindWhen,
   resolveInboundMentionDecision,
-} from "openclaw/plugin-sdk/channel-mention-gating";
+} from "brikko-studio/plugin-sdk/channel-mention-gating";
 import {
   buildPendingHistoryContextFromMap,
   clearHistoryEntriesIfEnabled,
   recordPendingHistoryEntryIfEnabled,
   type HistoryEntry as SdkHistoryEntry,
-} from "openclaw/plugin-sdk/reply-history";
+} from "brikko-studio/plugin-sdk/reply-history";
 import type { HistoryPort, HistoryEntryLike } from "../engine/adapter/history.port.js";
 import type {
   MentionGatePort,

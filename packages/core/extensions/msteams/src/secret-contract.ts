@@ -3,14 +3,14 @@ import {
   getChannelRecord,
   type ResolverContext,
   type SecretDefaults,
-} from "openclaw/plugin-sdk/channel-secret-basic-runtime";
+} from "brikko-studio/plugin-sdk/channel-secret-basic-runtime";
 
-export const secretTargetRegistryEntries: import("openclaw/plugin-sdk/channel-secret-basic-runtime").SecretTargetRegistryEntry[] =
+export const secretTargetRegistryEntries: import("brikko-studio/plugin-sdk/channel-secret-basic-runtime").SecretTargetRegistryEntry[] =
   [
     {
       id: "channels.msteams.appPassword",
       targetType: "channels.msteams.appPassword",
-      configFile: "openclaw.json",
+      configFile: "brikko-studio.json",
       pathPattern: "channels.msteams.appPassword",
       secretShape: "secret_input",
       expectedResolvedValue: "string",

@@ -11,8 +11,8 @@ Adds media understanding provider support.
 
 ## Distribution
 
-- Package: `@openclaw/senseaudio-provider`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/senseaudio-provider`
+- Install route: included in Brikko Studio
 
 ## Surface
 

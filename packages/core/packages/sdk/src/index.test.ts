@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { EventHub, OpenClaw, normalizeGatewayEvent } from "./index.js";
+import { EventHub, Brikko Studio, normalizeGatewayEvent } from "./index.js";
 import type {
   GatewayEvent,
   GatewayRequestOptions,
-  OpenClawEvent,
-  OpenClawTransport,
+  Brikko StudioEvent,
+  Brikko StudioTransport,
 } from "./types.js";
 
 type RequestCall = {
@@ -21,7 +21,7 @@ type FakeResponseHandler = (
 ) => Promise<FakeResponseValue> | FakeResponseValue;
 type FakeResponse = FakeResponseValue | FakeResponseHandler;
 
-class FakeTransport implements OpenClawTransport {
+class FakeTransport implements Brikko StudioTransport {
   readonly calls: RequestCall[] = [];
   private readonly eventHub = new EventHub<GatewayEvent>({ replayLimit: 100 });
 
@@ -53,13 +53,13 @@ class FakeTransport implements OpenClawTransport {
   }
 }
 
-describe("OpenClaw SDK", () => {
+describe("Brikko Studio SDK", () => {
   it("runs an agent through the Gateway agent method", async () => {
     const transport = new FakeTransport({
       agent: { status: "accepted", runId: "run_123" },
       "agent.wait": { status: "ok", runId: "run_123", sessionKey: "main" },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
     const agent = await oc.agents.get("main");
 
     const run = await agent.run({
@@ -102,7 +102,7 @@ describe("OpenClaw SDK", () => {
     const transport = new FakeTransport({
       "agent.wait": { status: "ok", runId: "run_numeric", startedAt: 123, endedAt: 456 },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     const result = await oc.runs.wait("run_numeric");
 
@@ -130,7 +130,7 @@ describe("OpenClaw SDK", () => {
         error: "aborted by operator",
       },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     const result = await oc.runs.wait("run_cancelled");
 
@@ -145,7 +145,7 @@ describe("OpenClaw SDK", () => {
     const transport = new FakeTransport({
       "agent.wait": { status: "timeout", runId: "run_still_active" },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     const result = await oc.runs.wait("run_still_active");
 
@@ -165,7 +165,7 @@ describe("OpenClaw SDK", () => {
         error: "agent runtime timeout",
       },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     const result = await oc.runs.wait("run_timed_out");
 
@@ -185,7 +185,7 @@ describe("OpenClaw SDK", () => {
         endedAt: 456,
       },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     const result = await oc.runs.wait("run_timed_out");
 
@@ -202,7 +202,7 @@ describe("OpenClaw SDK", () => {
     const transport = new FakeTransport({
       agent: { status: "accepted", runId: "run_openrouter" },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     await oc.runs.create({
       input: "use a routed model",
@@ -229,7 +229,7 @@ describe("OpenClaw SDK", () => {
         approvals: "ask",
       }),
     ).rejects.toThrow(
-      "OpenClaw Gateway does not support per-run SDK options yet: workspace, runtime, environment, approvals",
+      "Brikko Studio Gateway does not support per-run SDK options yet: workspace, runtime, environment, approvals",
     );
   });
 
@@ -237,7 +237,7 @@ describe("OpenClaw SDK", () => {
     const transport = new FakeTransport({
       agent: { status: "accepted", runId: "run_timeout" },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     await oc.runs.create({
       input: "short run",
@@ -273,7 +273,7 @@ describe("OpenClaw SDK", () => {
         data: "aGVsbG8=",
       },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     await expect(oc.artifacts.list({ sessionKey: "agent:main:main" })).resolves.toMatchObject({
       artifacts: [{ id: "artifact_123" }],
@@ -308,7 +308,7 @@ describe("OpenClaw SDK", () => {
 
   it("requires artifact query scope before calling Gateway", async () => {
     const transport = new FakeTransport({});
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     await expect(oc.artifacts.list(undefined as never)).rejects.toThrow(
       "oc.artifacts.list requires one of sessionKey, runId, or taskId",
@@ -324,28 +324,28 @@ describe("OpenClaw SDK", () => {
 
   it("throws explicit unsupported errors for SDK namespaces without Gateway RPCs", async () => {
     const transport = new FakeTransport({});
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     await expect(oc.tasks.list()).rejects.toThrow(
-      "oc.tasks.list is not supported by the current OpenClaw Gateway yet",
+      "oc.tasks.list is not supported by the current Brikko Studio Gateway yet",
     );
     await expect(oc.tasks.get("task_123")).rejects.toThrow(
-      "oc.tasks.get is not supported by the current OpenClaw Gateway yet",
+      "oc.tasks.get is not supported by the current Brikko Studio Gateway yet",
     );
     await expect(oc.tasks.cancel("task_123")).rejects.toThrow(
-      "oc.tasks.cancel is not supported by the current OpenClaw Gateway yet",
+      "oc.tasks.cancel is not supported by the current Brikko Studio Gateway yet",
     );
     await expect(oc.environments.list()).rejects.toThrow(
-      "oc.environments.list is not supported by the current OpenClaw Gateway yet",
+      "oc.environments.list is not supported by the current Brikko Studio Gateway yet",
     );
     await expect(oc.environments.create({ provider: "testbox" })).rejects.toThrow(
-      "oc.environments.create is not supported by the current OpenClaw Gateway yet",
+      "oc.environments.create is not supported by the current Brikko Studio Gateway yet",
     );
     await expect(oc.environments.status("environment_123")).rejects.toThrow(
-      "oc.environments.status is not supported by the current OpenClaw Gateway yet",
+      "oc.environments.status is not supported by the current Brikko Studio Gateway yet",
     );
     await expect(oc.environments.delete("environment_123")).rejects.toThrow(
-      "oc.environments.delete is not supported by the current OpenClaw Gateway yet",
+      "oc.environments.delete is not supported by the current Brikko Studio Gateway yet",
     );
     expect(transport.calls).toEqual([]);
   });
@@ -354,7 +354,7 @@ describe("OpenClaw SDK", () => {
     const transport = new FakeTransport({
       "tools.invoke": { ok: true, toolName: "demo", output: { value: 1 }, source: "core" },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     await expect(
       oc.tools.invoke("demo", {
@@ -385,7 +385,7 @@ describe("OpenClaw SDK", () => {
       "sessions.abort": { ok: true, status: "aborted", abortedRunId: "run_without_session" },
       "models.authStatus": { providers: [] },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     const run = await oc.runs.create({
       input: "start",
@@ -439,7 +439,7 @@ describe("OpenClaw SDK", () => {
         return { status: "accepted", runId: "run_fast", sessionKey: "fast" };
       },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     const run = await oc.runs.create({
       input: "finish immediately",
@@ -531,14 +531,14 @@ describe("OpenClaw SDK", () => {
         };
       },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     const run = await oc.runs.create({
       input: "stream with chat projection",
       idempotencyKey: "chat-projection-events",
       sessionKey: "chat-projection",
     });
-    const seen: OpenClawEvent[] = [];
+    const seen: Brikko StudioEvent[] = [];
 
     for await (const event of run.events()) {
       seen.push(event);
@@ -631,7 +631,7 @@ describe("OpenClaw SDK", () => {
         return { status: "accepted", runId: "run_chat_only", sessionKey: "chat-only" };
       },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     const run = await oc.runs.create({
       input: "stream with chat-only projection",
@@ -690,7 +690,7 @@ describe("OpenClaw SDK", () => {
       "sessions.create": { key: "session-main", label: "Main" },
       "sessions.send": { status: "accepted", runId: "run_session" },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new Brikko Studio({ transport });
 
     const session = await oc.sessions.create({ key: "session-main" });
     const run = await session.send({ message: "continue", thinking: "medium" });

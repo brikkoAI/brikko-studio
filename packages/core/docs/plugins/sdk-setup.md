@@ -5,10 +5,10 @@ sidebarTitle: "Setup and config"
 read_when:
   - You are adding a setup wizard to a plugin
   - You need to understand setup-entry.ts vs index.ts
-  - You are defining plugin config schemas or package.json openclaw metadata
+  - You are defining plugin config schemas or package.json brikko-studio metadata
 ---
 
-Reference for plugin packaging (`package.json` metadata), manifests (`openclaw.plugin.json`), setup entries, and config schemas.
+Reference for plugin packaging (`package.json` metadata), manifests (`brikko-studio.plugin.json`), setup entries, and config schemas.
 
 <Tip>
 **Looking for a walkthrough?** The how-to guides cover packaging in context: [Channel plugins](/plugins/sdk-channel-plugins#step-1-package-and-manifest) and [Provider plugins](/plugins/sdk-provider-plugins#step-1-package-and-manifest).
@@ -16,16 +16,16 @@ Reference for plugin packaging (`package.json` metadata), manifests (`openclaw.p
 
 ## Package metadata
 
-Your `package.json` needs an `openclaw` field that tells the plugin system what your plugin provides:
+Your `package.json` needs an `brikko-studio` field that tells the plugin system what your plugin provides:
 
 <Tabs>
   <Tab title="Channel plugin">
     ```json
     {
-      "name": "@myorg/openclaw-my-channel",
+      "name": "@myorg/brikko-studio-my-channel",
       "version": "1.0.0",
       "type": "module",
-      "openclaw": {
+      "brikko-studio": {
         "extensions": ["./index.ts"],
         "setupEntry": "./setup-entry.ts",
         "channel": {
@@ -38,19 +38,19 @@ Your `package.json` needs an `openclaw` field that tells the plugin system what 
     ```
   </Tab>
   <Tab title="Provider plugin / ClawHub baseline">
-    ```json openclaw-clawhub-package.json
+    ```json brikko-studio-clawhub-package.json
     {
-      "name": "@myorg/openclaw-my-plugin",
+      "name": "@myorg/brikko-studio-my-plugin",
       "version": "1.0.0",
       "type": "module",
-      "openclaw": {
+      "brikko-studio": {
         "extensions": ["./index.ts"],
         "compat": {
           "pluginApi": ">=2026.3.24-beta.2",
           "minGatewayVersion": "2026.3.24-beta.2"
         },
         "build": {
-          "openclawVersion": "2026.3.24-beta.2",
+          "brikko-studioVersion": "2026.3.24-beta.2",
           "pluginSdkVersion": "2026.3.24-beta.2"
         }
       }
@@ -63,7 +63,7 @@ Your `package.json` needs an `openclaw` field that tells the plugin system what 
 If you publish the plugin externally on ClawHub, those `compat` and `build` fields are required. The canonical publish snippets live in `docs/snippets/plugin-publish/`.
 </Note>
 
-### `openclaw` fields
+### `brikko-studio` fields
 
 <ParamField path="extensions" type="string[]">
   Entry point files (relative to package root).
@@ -84,9 +84,9 @@ If you publish the plugin externally on ClawHub, those `compat` and `build` fiel
   Startup behavior flags.
 </ParamField>
 
-### `openclaw.channel`
+### `brikko-studio.channel`
 
-`openclaw.channel` is cheap package metadata for channel discovery and setup surfaces before runtime loads.
+`brikko-studio.channel` is cheap package metadata for channel discovery and setup surfaces before runtime loads.
 
 | Field                                  | Type       | What it means                                                                 |
 | -------------------------------------- | ---------- | ----------------------------------------------------------------------------- |
@@ -114,7 +114,7 @@ Example:
 
 ```json
 {
-  "openclaw": {
+  "brikko-studio": {
     "channel": {
       "id": "my-channel",
       "label": "My Channel",
@@ -150,9 +150,9 @@ Example:
 `showConfigured` and `showInSetup` remain supported as legacy aliases. Prefer `exposure`.
 </Note>
 
-### `openclaw.install`
+### `brikko-studio.install`
 
-`openclaw.install` is package metadata, not manifest metadata.
+`brikko-studio.install` is package metadata, not manifest metadata.
 
 | Field                        | Type                                | What it means                                                                     |
 | ---------------------------- | ----------------------------------- | --------------------------------------------------------------------------------- |
@@ -160,13 +160,13 @@ Example:
 | `npmSpec`                    | `string`                            | Canonical npm spec for install/update fallback flows.                             |
 | `localPath`                  | `string`                            | Local development or bundled install path.                                        |
 | `defaultChoice`              | `"clawhub"` \| `"npm"` \| `"local"` | Preferred install source when multiple sources are available.                     |
-| `minHostVersion`             | `string`                            | Minimum supported OpenClaw version in the form `>=x.y.z` or `>=x.y.z-prerelease`. |
+| `minHostVersion`             | `string`                            | Minimum supported Brikko Studio version in the form `>=x.y.z` or `>=x.y.z-prerelease`. |
 | `expectedIntegrity`          | `string`                            | Expected npm dist integrity string, usually `sha512-...`, for pinned installs.    |
 | `allowInvalidConfigRecovery` | `boolean`                           | Lets bundled-plugin reinstall flows recover from specific stale-config failures.  |
 
 <AccordionGroup>
   <Accordion title="Onboarding behavior">
-    Interactive onboarding also uses `openclaw.install` for install-on-demand surfaces. If your plugin exposes provider auth choices or channel setup/catalog metadata before runtime loads, onboarding can show that choice, prompt for ClawHub, npm, or local install, install or enable the plugin, then continue the selected flow. ClawHub onboarding choices use `clawhubSpec` and are preferred when present; npm choices require trusted catalog metadata with a registry `npmSpec`; exact versions and `expectedIntegrity` are optional npm pins. If `expectedIntegrity` is present, install/update flows enforce it for npm. Keep the "what to show" metadata in `openclaw.plugin.json` and the "how to install it" metadata in `package.json`.
+    Interactive onboarding also uses `brikko-studio.install` for install-on-demand surfaces. If your plugin exposes provider auth choices or channel setup/catalog metadata before runtime loads, onboarding can show that choice, prompt for ClawHub, npm, or local install, install or enable the plugin, then continue the selected flow. ClawHub onboarding choices use `clawhubSpec` and are preferred when present; npm choices require trusted catalog metadata with a registry `npmSpec`; exact versions and `expectedIntegrity` are optional npm pins. If `expectedIntegrity` is present, install/update flows enforce it for npm. Keep the "what to show" metadata in `brikko-studio.plugin.json` and the "how to install it" metadata in `package.json`.
   </Accordion>
   <Accordion title="minHostVersion enforcement">
     If `minHostVersion` is set, install and non-bundled manifest-registry loading both enforce it. Older hosts skip external plugins; invalid version strings are rejected. Bundled source plugins are assumed to be co-versioned with the host checkout.
@@ -176,9 +176,9 @@ Example:
 
     ```json
     {
-      "openclaw": {
+      "brikko-studio": {
         "install": {
-          "npmSpec": "@wecom/wecom-openclaw-plugin@1.2.3",
+          "npmSpec": "@wecom/wecom-brikko-studio-plugin@1.2.3",
           "expectedIntegrity": "sha512-REPLACE_WITH_NPM_DIST_INTEGRITY",
           "defaultChoice": "npm"
         }
@@ -188,7 +188,7 @@ Example:
 
   </Accordion>
   <Accordion title="allowInvalidConfigRecovery scope">
-    `allowInvalidConfigRecovery` is not a general bypass for broken configs. It is for narrow bundled-plugin recovery only, so reinstall/setup can repair known upgrade leftovers like a missing bundled plugin path or stale `channels.<id>` entry for that same plugin. If config is broken for unrelated reasons, install still fails closed and tells the operator to run `openclaw doctor --fix`.
+    `allowInvalidConfigRecovery` is not a general bypass for broken configs. It is for narrow bundled-plugin recovery only, so reinstall/setup can repair known upgrade leftovers like a missing bundled plugin path or stale `channels.<id>` entry for that same plugin. If config is broken for unrelated reasons, install still fails closed and tells the operator to run `brikko-studio doctor --fix`.
   </Accordion>
 </AccordionGroup>
 
@@ -198,7 +198,7 @@ Channel plugins can opt into deferred loading with:
 
 ```json
 {
-  "openclaw": {
+  "brikko-studio": {
     "extensions": ["./index.ts"],
     "setupEntry": "./setup-entry.ts",
     "startup": {
@@ -208,7 +208,7 @@ Channel plugins can opt into deferred loading with:
 }
 ```
 
-When enabled, OpenClaw loads only `setupEntry` during the pre-listen startup phase, even for already-configured channels. The full entry loads after the gateway starts listening.
+When enabled, Brikko Studio loads only `setupEntry` during the pre-listen startup phase, even for already-configured channels. The full entry loads after the gateway starts listening.
 
 <Warning>
 Only enable deferred loading when your `setupEntry` registers everything the gateway needs before it starts listening (channel registration, HTTP routes, gateway methods). If the full entry owns required startup capabilities, keep the default behavior.
@@ -218,13 +218,13 @@ If your setup/full entry registers gateway RPC methods, keep them on a plugin-sp
 
 ## Plugin manifest
 
-Every native plugin must ship an `openclaw.plugin.json` in the package root. OpenClaw uses this to validate config without executing plugin code.
+Every native plugin must ship an `brikko-studio.plugin.json` in the package root. Brikko Studio uses this to validate config without executing plugin code.
 
 ```json
 {
   "id": "my-plugin",
   "name": "My Plugin",
-  "description": "Adds My Plugin capabilities to OpenClaw",
+  "description": "Adds My Plugin capabilities to Brikko Studio",
   "configSchema": {
     "type": "object",
     "additionalProperties": false,
@@ -282,11 +282,11 @@ The legacy skill-only publish alias is for skills. Plugin packages should always
 
 ## Setup entry
 
-The `setup-entry.ts` file is a lightweight alternative to `index.ts` that OpenClaw loads when it only needs setup surfaces (onboarding, config repair, disabled channel inspection).
+The `setup-entry.ts` file is a lightweight alternative to `index.ts` that Brikko Studio loads when it only needs setup surfaces (onboarding, config repair, disabled channel inspection).
 
 ```typescript
 // setup-entry.ts
-import { defineSetupPluginEntry } from "openclaw/plugin-sdk/channel-core";
+import { defineSetupPluginEntry } from "brikko-studio/plugin-sdk/channel-core";
 import { myChannelPlugin } from "./src/channel.js";
 
 export default defineSetupPluginEntry(myChannelPlugin);
@@ -294,10 +294,10 @@ export default defineSetupPluginEntry(myChannelPlugin);
 
 This avoids loading heavy runtime code (crypto libraries, CLI registrations, background services) during setup flows.
 
-Bundled workspace channels that keep setup-safe exports in sidecar modules can use `defineBundledChannelSetupEntry(...)` from `openclaw/plugin-sdk/channel-entry-contract` instead of `defineSetupPluginEntry(...)`. That bundled contract also supports an optional `runtime` export so setup-time runtime wiring can stay lightweight and explicit.
+Bundled workspace channels that keep setup-safe exports in sidecar modules can use `defineBundledChannelSetupEntry(...)` from `brikko-studio/plugin-sdk/channel-entry-contract` instead of `defineSetupPluginEntry(...)`. That bundled contract also supports an optional `runtime` export so setup-time runtime wiring can stay lightweight and explicit.
 
 <AccordionGroup>
-  <Accordion title="When OpenClaw uses setupEntry instead of the full entry">
+  <Accordion title="When Brikko Studio uses setupEntry instead of the full entry">
     - The channel is disabled but needs setup/onboarding surfaces.
     - The channel is enabled but unconfigured.
     - Deferred loading is enabled (`deferConfiguredChannelFullLoadUntilAfterListen`).
@@ -387,7 +387,7 @@ Use `buildChannelConfigSchema` to convert a Zod schema into the `ChannelConfigSc
 
 ```typescript
 import { z } from "zod";
-import { buildChannelConfigSchema } from "openclaw/plugin-sdk/channel-config-schema";
+import { buildChannelConfigSchema } from "brikko-studio/plugin-sdk/channel-config-schema";
 
 const accountSchema = z.object({
   token: z.string().optional(),
@@ -399,11 +399,11 @@ const accountSchema = z.object({
 const configSchema = buildChannelConfigSchema(accountSchema);
 ```
 
-If you already author the contract as JSON Schema or TypeBox, use the direct helper so OpenClaw can skip Zod-to-JSON-Schema conversion on metadata paths:
+If you already author the contract as JSON Schema or TypeBox, use the direct helper so Brikko Studio can skip Zod-to-JSON-Schema conversion on metadata paths:
 
 ```typescript
 import { Type } from "typebox";
-import { buildJsonChannelConfigSchema } from "openclaw/plugin-sdk/channel-config-schema";
+import { buildJsonChannelConfigSchema } from "brikko-studio/plugin-sdk/channel-config-schema";
 
 const configSchema = buildJsonChannelConfigSchema(
   Type.Object({
@@ -413,14 +413,14 @@ const configSchema = buildJsonChannelConfigSchema(
 );
 ```
 
-For third-party plugins, the cold-path contract is still the plugin manifest: mirror the generated JSON Schema into `openclaw.plugin.json#channelConfigs` so config schema, setup, and UI surfaces can inspect `channels.<id>` without loading runtime code.
+For third-party plugins, the cold-path contract is still the plugin manifest: mirror the generated JSON Schema into `brikko-studio.plugin.json#channelConfigs` so config schema, setup, and UI surfaces can inspect `channels.<id>` without loading runtime code.
 
 ## Setup wizards
 
-Channel plugins can provide interactive setup wizards for `openclaw onboard`. The wizard is a `ChannelSetupWizard` object on the `ChannelPlugin`:
+Channel plugins can provide interactive setup wizards for `brikko-studio onboard`. The wizard is a `ChannelSetupWizard` object on the `ChannelPlugin`:
 
 ```typescript
-import type { ChannelSetupWizard } from "openclaw/plugin-sdk/channel-setup";
+import type { ChannelSetupWizard } from "brikko-studio/plugin-sdk/channel-setup";
 
 const setupWizard: ChannelSetupWizard = {
   channel: "my-channel",
@@ -454,21 +454,21 @@ The `ChannelSetupWizard` type supports `credentials`, `textInputs`, `dmPolicy`, 
 
 <AccordionGroup>
   <Accordion title="Shared allowFrom prompts">
-    For DM allowlist prompts that only need the standard `note -> prompt -> parse -> merge -> patch` flow, prefer the shared setup helpers from `openclaw/plugin-sdk/setup`: `createPromptParsedAllowFromForAccount(...)`, `createTopLevelChannelParsedAllowFromPrompt(...)`, and `createNestedChannelParsedAllowFromPrompt(...)`.
+    For DM allowlist prompts that only need the standard `note -> prompt -> parse -> merge -> patch` flow, prefer the shared setup helpers from `brikko-studio/plugin-sdk/setup`: `createPromptParsedAllowFromForAccount(...)`, `createTopLevelChannelParsedAllowFromPrompt(...)`, and `createNestedChannelParsedAllowFromPrompt(...)`.
   </Accordion>
   <Accordion title="Standard channel setup status">
-    For channel setup status blocks that only vary by labels, scores, and optional extra lines, prefer `createStandardChannelSetupStatus(...)` from `openclaw/plugin-sdk/setup` instead of hand-rolling the same `status` object in each plugin.
+    For channel setup status blocks that only vary by labels, scores, and optional extra lines, prefer `createStandardChannelSetupStatus(...)` from `brikko-studio/plugin-sdk/setup` instead of hand-rolling the same `status` object in each plugin.
   </Accordion>
   <Accordion title="Optional channel setup surface">
-    For optional setup surfaces that should only appear in certain contexts, use `createOptionalChannelSetupSurface` from `openclaw/plugin-sdk/channel-setup`:
+    For optional setup surfaces that should only appear in certain contexts, use `createOptionalChannelSetupSurface` from `brikko-studio/plugin-sdk/channel-setup`:
 
     ```typescript
-    import { createOptionalChannelSetupSurface } from "openclaw/plugin-sdk/channel-setup";
+    import { createOptionalChannelSetupSurface } from "brikko-studio/plugin-sdk/channel-setup";
 
     const setupSurface = createOptionalChannelSetupSurface({
       channel: "my-channel",
       label: "My Channel",
-      npmSpec: "@myorg/openclaw-my-channel",
+      npmSpec: "@myorg/brikko-studio-my-channel",
       docsPath: "/channels/my-channel",
     });
     // Returns { setupAdapter, setupWizard }
@@ -497,7 +497,7 @@ The `ChannelSetupWizard` type supports `credentials`, `textInputs`, `dmPolicy`, 
 <Tabs>
   <Tab title="npm">
     ```bash
-    openclaw plugins install @myorg/openclaw-my-plugin
+    brikko-studio plugins install @myorg/brikko-studio-my-plugin
     ```
 
     Bare package specs install from npm during the launch cutover.
@@ -505,7 +505,7 @@ The `ChannelSetupWizard` type supports `credentials`, `textInputs`, `dmPolicy`, 
   </Tab>
   <Tab title="ClawHub only">
     ```bash
-    openclaw plugins install clawhub:@myorg/openclaw-my-plugin
+    brikko-studio plugins install clawhub:@myorg/brikko-studio-my-plugin
     ```
   </Tab>
   <Tab title="npm package spec">
@@ -513,7 +513,7 @@ The `ChannelSetupWizard` type supports `credentials`, `textInputs`, `dmPolicy`, 
     direct npm install path during migration:
 
     ```bash
-    openclaw plugins install npm:@myorg/openclaw-my-plugin
+    brikko-studio plugins install npm:@myorg/brikko-studio-my-plugin
     ```
 
   </Tab>
@@ -524,18 +524,18 @@ The `ChannelSetupWizard` type supports `credentials`, `textInputs`, `dmPolicy`, 
 **Users can install:**
 
 ```bash
-openclaw plugins install <package-name>
+brikko-studio plugins install <package-name>
 ```
 
 <Info>
-For npm-sourced installs, `openclaw plugins install` installs the package under `~/.openclaw/npm` with lifecycle scripts disabled. Keep plugin dependency trees pure JS/TS and avoid packages that require `postinstall` builds.
+For npm-sourced installs, `brikko-studio plugins install` installs the package under `~/.brikko-studio/npm` with lifecycle scripts disabled. Keep plugin dependency trees pure JS/TS and avoid packages that require `postinstall` builds.
 </Info>
 
 <Note>
 Gateway startup does not install plugin dependencies. npm/git/ClawHub install flows own dependency convergence; local plugins must already have their dependencies installed.
 </Note>
 
-Bundled package metadata is explicit, not inferred from built JavaScript at gateway startup. Runtime dependencies belong in the plugin package that owns them; packaged OpenClaw startup never repairs or mirrors plugin dependencies.
+Bundled package metadata is explicit, not inferred from built JavaScript at gateway startup. Runtime dependencies belong in the plugin package that owns them; packaged Brikko Studio startup never repairs or mirrors plugin dependencies.
 
 ## Related
 

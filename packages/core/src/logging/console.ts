@@ -1,5 +1,5 @@
 import util from "node:util";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { isVerbose } from "../global-state.js";
 import { stripAnsi } from "../terminal/ansi.js";
 import { readLoggingConfig, shouldSkipMutatingLoggingConfigRead } from "./config.js";
@@ -18,7 +18,7 @@ type ConsoleSettings = {
 };
 export type ConsoleLoggerSettings = ConsoleSettings;
 
-type ConsoleConfigLoader = () => OpenClawConfig["logging"] | undefined;
+type ConsoleConfigLoader = () => Brikko StudioConfig["logging"] | undefined;
 const loadConfigFallbackDefault: ConsoleConfigLoader = () => undefined;
 let loadConfigFallback: ConsoleConfigLoader = loadConfigFallbackDefault;
 
@@ -30,7 +30,7 @@ function normalizeConsoleLevel(level?: string): LogLevel {
   if (isVerbose()) {
     return "debug";
   }
-  if (!level && process.env.VITEST === "true" && process.env.OPENCLAW_TEST_CONSOLE !== "1") {
+  if (!level && process.env.VITEST === "true" && process.env.BRIKKO_STUDIO_TEST_CONSOLE !== "1") {
     return "silent";
   }
   return normalizeLogLevel(level, "info");
@@ -52,7 +52,7 @@ function resolveConsoleSettings(): ConsoleSettings {
   // Skip config-file and full config fallback reads in this fast path.
   if (
     process.env.VITEST === "true" &&
-    process.env.OPENCLAW_TEST_CONSOLE !== "1" &&
+    process.env.BRIKKO_STUDIO_TEST_CONSOLE !== "1" &&
     !isVerbose() &&
     !envLevel &&
     !loggingState.overrideSettings
@@ -60,7 +60,7 @@ function resolveConsoleSettings(): ConsoleSettings {
     return { level: "silent", style: normalizeConsoleStyle(undefined) };
   }
 
-  let cfg: OpenClawConfig["logging"] | undefined =
+  let cfg: Brikko StudioConfig["logging"] | undefined =
     (loggingState.overrideSettings as LoggerSettings | null) ?? readLoggingConfig();
   if (!cfg && !shouldSkipMutatingLoggingConfigRead()) {
     if (loggingState.resolvingConsoleSettings) {

@@ -6,68 +6,68 @@ type Offender = { file: string; hint: string; line?: number; specifier?: string 
 
 const FORBIDDEN_PATTERNS: Array<{ pattern: RegExp; hint: string }> = [
   {
-    pattern: /["']openclaw\/plugin-sdk["']/,
-    hint: "Use openclaw/plugin-sdk/<subpath> instead of the monolithic root entry.",
+    pattern: /["']brikko-studio\/plugin-sdk["']/,
+    hint: "Use brikko-studio/plugin-sdk/<subpath> instead of the monolithic root entry.",
   },
   {
-    pattern: /["']openclaw\/plugin-sdk\/test-utils["']/,
+    pattern: /["']brikko-studio\/plugin-sdk\/test-utils["']/,
     hint: "Use a focused plugin-sdk test subpath for the public extension test surface.",
   },
   {
-    pattern: /["']openclaw\/plugin-sdk\/testing["']/,
+    pattern: /["']brikko-studio\/plugin-sdk\/testing["']/,
     hint: "Use a focused plugin-sdk test subpath instead of the broad compatibility testing barrel.",
   },
   {
-    pattern: /["']openclaw\/plugin-sdk\/compat["']/,
+    pattern: /["']brikko-studio\/plugin-sdk\/compat["']/,
     hint: "Use a focused public plugin-sdk subpath instead of compat.",
   },
   {
     pattern: /["'](?:\.\.\/)+(?:test-utils\/)[^"']+["']/,
-    hint: "Use a documented openclaw/plugin-sdk test subpath for bundled extension test helpers.",
+    hint: "Use a documented brikko-studio/plugin-sdk test subpath for bundled extension test helpers.",
   },
   {
     pattern: /["'](?:\.\.\/)+(?:test\/helpers\/plugins\/)[^"']+["']/,
-    hint: "Use a documented openclaw/plugin-sdk test subpath instead of repo-only plugin helper bridges.",
+    hint: "Use a documented brikko-studio/plugin-sdk test subpath instead of repo-only plugin helper bridges.",
   },
   {
     pattern: /["'](?:\.\.\/)+(?:test\/helpers\/channels\/)[^"']+["']/,
-    hint: "Use openclaw/plugin-sdk/channel-test-helpers or another focused SDK test subpath instead of repo-only channel helper bridges.",
+    hint: "Use brikko-studio/plugin-sdk/channel-test-helpers or another focused SDK test subpath instead of repo-only channel helper bridges.",
   },
   {
     pattern: /["'](?:\.\.\/)+(?:test\/helpers\/media-generation\/)[^"']+["']/,
-    hint: "Use openclaw/plugin-sdk/provider-test-contracts or openclaw/plugin-sdk/provider-http-test-mocks instead of repo-only media provider helper bridges.",
+    hint: "Use brikko-studio/plugin-sdk/provider-test-contracts or brikko-studio/plugin-sdk/provider-http-test-mocks instead of repo-only media provider helper bridges.",
   },
   {
     pattern:
       /["'](?:\.\.\/)+(?:test\/helpers\/(?:bundled-channel-entry|envelope-timestamp|pairing-reply)\.(?:js|ts))["']/,
-    hint: "Use openclaw/plugin-sdk/channel-test-helpers instead of repo-only channel test helper bridges.",
+    hint: "Use brikko-studio/plugin-sdk/channel-test-helpers instead of repo-only channel test helper bridges.",
   },
   {
     pattern:
       /["'](?:\.\.\/)+(?:test\/helpers\/(?:http-test-server|mock-incoming-request|temp-home)\.(?:js|ts))["']/,
-    hint: "Use openclaw/plugin-sdk/test-env instead of repo-only environment/network test helper bridges.",
+    hint: "Use brikko-studio/plugin-sdk/test-env instead of repo-only environment/network test helper bridges.",
   },
   {
     pattern:
       /["'](?:\.\.\/)+(?:test\/helpers\/(?:bundled-plugin-paths|import-fresh|node-builtin-mocks)\.(?:js|ts))["']/,
-    hint: "Use openclaw/plugin-sdk/test-fixtures instead of repo-only generic test helper bridges.",
+    hint: "Use brikko-studio/plugin-sdk/test-fixtures instead of repo-only generic test helper bridges.",
   },
   {
     pattern:
       /["'](?:\.\.\/)+(?:test\/helpers\/(?:provider-replay-policy|stt-live-audio)\.(?:js|ts))["']/,
-    hint: "Use openclaw/plugin-sdk/provider-test-contracts instead of repo-only provider test helper bridges.",
+    hint: "Use brikko-studio/plugin-sdk/provider-test-contracts instead of repo-only provider test helper bridges.",
   },
   {
     pattern: /["'](?:\.\.\/)+(?:test\/helpers\/)[^"']+["']/,
-    hint: "Use a documented openclaw/plugin-sdk test subpath instead of repo-only test helper bridges.",
+    hint: "Use a documented brikko-studio/plugin-sdk test subpath instead of repo-only test helper bridges.",
   },
   {
     pattern: /["'](?:\.\.\/)+(?:src\/channels\/plugins\/contracts\/test-helpers\/)[^"']+["']/,
-    hint: "Use openclaw/plugin-sdk/channel-test-helpers or another focused SDK test subpath instead of core-only channel contract helpers.",
+    hint: "Use brikko-studio/plugin-sdk/channel-test-helpers or another focused SDK test subpath instead of core-only channel contract helpers.",
   },
   {
     pattern: /["'](?:\.\.\/)+(?:src\/test-utils\/)[^"']+["']/,
-    hint: "Use a documented openclaw/plugin-sdk test subpath for public surfaces.",
+    hint: "Use a documented brikko-studio/plugin-sdk test subpath for public surfaces.",
   },
   {
     pattern: /["'](?:\.\.\/)+(?:src\/plugins\/types\.js)["']/,
@@ -75,7 +75,7 @@ const FORBIDDEN_PATTERNS: Array<{ pattern: RegExp; hint: string }> = [
   },
   {
     pattern: /["'](?:\.\.\/)+(?:src\/channels\/plugins\/contracts\/test-helpers\.js)["']/,
-    hint: "Use openclaw/plugin-sdk/channel-contract-testing for channel contract test helpers.",
+    hint: "Use brikko-studio/plugin-sdk/channel-contract-testing for channel contract test helpers.",
   },
 ];
 
@@ -152,7 +152,7 @@ const RETIRED_EXTENSION_TEST_HELPER_BRIDGE_FILES = [
   "test/helpers/temp-home.ts",
   "test/helpers/agents/auth-profile-runtime-contract.ts",
   "test/helpers/agents/delivery-no-reply-runtime-contract.ts",
-  "test/helpers/agents/openclaw-owned-tool-runtime-contract.ts",
+  "test/helpers/agents/brikko-studio-owned-tool-runtime-contract.ts",
   "test/helpers/agents/outcome-fallback-runtime-contract.ts",
   "test/helpers/agents/prompt-overlay-runtime-contract.ts",
   "test/helpers/agents/schema-normalization-runtime-contract.ts",
@@ -296,7 +296,7 @@ function main() {
   for (const file of retiredChannelHelperFiles) {
     offenders.push({
       file,
-      hint: "Keep core channel contract helpers under src/channels/plugins/contracts/test-helpers and public plugin helpers under focused openclaw/plugin-sdk test subpaths.",
+      hint: "Keep core channel contract helpers under src/channels/plugins/contracts/test-helpers and public plugin helpers under focused brikko-studio/plugin-sdk test subpaths.",
     });
   }
 
@@ -307,7 +307,7 @@ function main() {
     }
     offenders.push({
       file: filePath,
-      hint: "Import the helper directly from a documented openclaw/plugin-sdk testing subpath instead of recreating this bridge.",
+      hint: "Import the helper directly from a documented brikko-studio/plugin-sdk testing subpath instead of recreating this bridge.",
     });
   }
 

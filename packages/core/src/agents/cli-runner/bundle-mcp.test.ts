@@ -14,7 +14,7 @@ setupCliBundleMcpTestHarness();
 describe("prepareCliBundleMcpConfig", () => {
   it("injects a strict empty --mcp-config overlay for bundle-MCP-enabled backends without servers", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
-      "openclaw-cli-bundle-mcp-empty-",
+      "brikko-studio-cli-bundle-mcp-empty-",
     );
 
     const prepared = await prepareCliBundleMcpConfig({
@@ -63,9 +63,9 @@ describe("prepareCliBundleMcpConfig", () => {
 
   it("loads workspace bundle MCP plugins from the configured workspace root", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
-      "openclaw-cli-bundle-mcp-workspace-root-",
+      "brikko-studio-cli-bundle-mcp-workspace-root-",
     );
-    const pluginRoot = path.join(workspaceDir, ".openclaw", "extensions", "workspace-probe");
+    const pluginRoot = path.join(workspaceDir, ".brikko-studio", "extensions", "workspace-probe");
     const serverPath = path.join(pluginRoot, "servers", "probe.mjs");
     await fs.mkdir(path.dirname(serverPath), { recursive: true });
     await fs.writeFile(serverPath, "export {};\n", "utf-8");
@@ -122,11 +122,11 @@ describe("prepareCliBundleMcpConfig", () => {
     const prepared = await prepareBundleProbeCliConfig({
       additionalConfig: {
         mcpServers: {
-          openclaw: {
+          brikko-studio: {
             type: "http",
             url: "http://127.0.0.1:23119/mcp",
             headers: {
-              Authorization: "Bearer ${OPENCLAW_MCP_TOKEN}",
+              Authorization: "Bearer ${BRIKKO_STUDIO_MCP_TOKEN}",
             },
           },
         },
@@ -138,16 +138,16 @@ describe("prepareCliBundleMcpConfig", () => {
     const raw = JSON.parse(await fs.readFile(generatedConfigPath as string, "utf-8")) as {
       mcpServers?: Record<string, { url?: string; headers?: Record<string, string> }>;
     };
-    expect(Object.keys(raw.mcpServers ?? {}).toSorted()).toEqual(["bundleProbe", "openclaw"]);
-    expect(raw.mcpServers?.openclaw?.url).toBe("http://127.0.0.1:23119/mcp");
-    expect(raw.mcpServers?.openclaw?.headers?.Authorization).toBe("Bearer ${OPENCLAW_MCP_TOKEN}");
+    expect(Object.keys(raw.mcpServers ?? {}).toSorted()).toEqual(["bundleProbe", "brikko-studio"]);
+    expect(raw.mcpServers?.brikko-studio?.url).toBe("http://127.0.0.1:23119/mcp");
+    expect(raw.mcpServers?.brikko-studio?.headers?.Authorization).toBe("Bearer ${BRIKKO_STUDIO_MCP_TOKEN}");
 
     await prepared.cleanup?.();
   });
 
   it("preserves extra env values alongside generated MCP config", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
-      "openclaw-cli-bundle-mcp-env-",
+      "brikko-studio-cli-bundle-mcp-env-",
     );
 
     const prepared = await prepareCliBundleMcpConfig({
@@ -160,14 +160,14 @@ describe("prepareCliBundleMcpConfig", () => {
       workspaceDir,
       config: { plugins: { enabled: false } },
       env: {
-        OPENCLAW_MCP_TOKEN: "loopback-token-123",
-        OPENCLAW_MCP_SESSION_KEY: "agent:main:telegram:group:chat123",
+        BRIKKO_STUDIO_MCP_TOKEN: "loopback-token-123",
+        BRIKKO_STUDIO_MCP_SESSION_KEY: "agent:main:telegram:group:chat123",
       },
     });
 
     expect(prepared.env).toEqual({
-      OPENCLAW_MCP_TOKEN: "loopback-token-123",
-      OPENCLAW_MCP_SESSION_KEY: "agent:main:telegram:group:chat123",
+      BRIKKO_STUDIO_MCP_TOKEN: "loopback-token-123",
+      BRIKKO_STUDIO_MCP_SESSION_KEY: "agent:main:telegram:group:chat123",
     });
 
     await prepared.cleanup?.();
@@ -180,7 +180,7 @@ describe("prepareCliBundleMcpConfig", () => {
         command: "node",
         args: ["./fake-cli.mjs"],
       },
-      workspaceDir: "/tmp/openclaw-bundle-mcp-disabled",
+      workspaceDir: "/tmp/brikko-studio-bundle-mcp-disabled",
     });
 
     expect(prepared.backend.args).toEqual(["./fake-cli.mjs"]);

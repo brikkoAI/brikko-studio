@@ -1,4 +1,4 @@
-import { normalizeAccountId } from "openclaw/plugin-sdk/account-id";
+import { normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
 import { resolveMatrixDirectUserId, resolveMatrixTargetIdentity } from "./target-ids.js";
 
 function trimMaybeString(value: unknown): string | undefined {

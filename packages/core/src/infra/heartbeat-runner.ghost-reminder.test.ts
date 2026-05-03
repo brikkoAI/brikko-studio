@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { resolveMainSessionKey } from "../config/sessions/main-session.js";
 import { runHeartbeatOnce } from "./heartbeat-runner.js";
 import {
@@ -35,8 +35,8 @@ describe("Ghost reminder bug (issue #13317)", () => {
     storePath: string;
     target?: "telegram" | "none";
     isolatedSession?: boolean;
-  }): Promise<{ cfg: OpenClawConfig; sessionKey: string }> => {
-    const cfg: OpenClawConfig = {
+  }): Promise<{ cfg: Brikko StudioConfig; sessionKey: string }> => {
+    const cfg: Brikko StudioConfig = {
       agents: {
         defaults: {
           workspace: params.tmpDir,
@@ -63,7 +63,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
     tmpDir: string;
     storePath: string;
     isolatedSession?: boolean;
-  }): OpenClawConfig => ({
+  }): Brikko StudioConfig => ({
     agents: {
       defaults: {
         workspace: params.tmpDir,
@@ -214,7 +214,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("does not use CRON_EVENT_PROMPT when only a HEARTBEAT_OK event is present", async () => {
     const { result, sendTelegram, calledCtx, replyCallCount } = await runHeartbeatCase({
-      tmpPrefix: "openclaw-ghost-",
+      tmpPrefix: "brikko-studio-ghost-",
       replyText: "Heartbeat check-in",
       reason: "cron:test-job",
       enqueue: (sessionKey) => {
@@ -231,7 +231,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("uses CRON_EVENT_PROMPT when an actionable cron event exists", async () => {
     const { result, sendTelegram, calledCtx } = await runCronReminderCase(
-      "openclaw-cron-",
+      "brikko-studio-cron-",
       (sessionKey) => {
         enqueueSystemEvent("Reminder: Check Base Scout results", { sessionKey });
       },
@@ -243,7 +243,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("uses CRON_EVENT_PROMPT when cron events are mixed with heartbeat noise", async () => {
     const { result, sendTelegram, calledCtx } = await runCronReminderCase(
-      "openclaw-cron-mixed-",
+      "brikko-studio-cron-mixed-",
       (sessionKey) => {
         enqueueSystemEvent("HEARTBEAT_OK", { sessionKey });
         enqueueSystemEvent("Reminder: Check Base Scout results", { sessionKey });
@@ -256,7 +256,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("uses CRON_EVENT_PROMPT for tagged cron events on interval wake", async () => {
     const { result, sendTelegram, calledCtx, replyCallCount } = await runHeartbeatCase({
-      tmpPrefix: "openclaw-cron-interval-",
+      tmpPrefix: "brikko-studio-cron-interval-",
       replyText: "Relay this cron update now",
       reason: "interval",
       enqueue: (sessionKey) => {
@@ -327,7 +327,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("uses an internal-only cron prompt when delivery target is none", async () => {
     const { result, sendTelegram, calledCtx } = await runHeartbeatCase({
-      tmpPrefix: "openclaw-cron-internal-",
+      tmpPrefix: "brikko-studio-cron-internal-",
       replyText: "Handled internally",
       reason: "cron:reminder-job",
       target: "none",
@@ -344,7 +344,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("uses an internal-only exec prompt when delivery target is none", async () => {
     const { result, sendTelegram, calledCtx } = await runHeartbeatCase({
-      tmpPrefix: "openclaw-exec-internal-",
+      tmpPrefix: "brikko-studio-exec-internal-",
       replyText: "Handled internally",
       reason: "exec-event",
       target: "none",
@@ -362,7 +362,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("includes untrusted exec completion details in user-relay prompts", async () => {
     const { result, sendTelegram, calledCtx } = await runHeartbeatCase({
-      tmpPrefix: "openclaw-exec-untrusted-relay-",
+      tmpPrefix: "brikko-studio-exec-untrusted-relay-",
       replyText: "Deploy succeeded",
       reason: "exec-event",
       enqueue: (sessionKey) => {
@@ -379,7 +379,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("consumes exec completion entries without dropping later generic events", async () => {
     const { result, calledCtx, sessionKey } = await runHeartbeatCase({
-      tmpPrefix: "openclaw-exec-preserve-generic-",
+      tmpPrefix: "brikko-studio-exec-preserve-generic-",
       replyText: "Deploy succeeded",
       reason: "exec-event",
       enqueue: (key) => {
@@ -399,7 +399,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("classifies hook:wake exec completions as exec-event prompts", async () => {
     const { result, sendTelegram, calledCtx } = await runHeartbeatCase({
-      tmpPrefix: "openclaw-hook-exec-",
+      tmpPrefix: "brikko-studio-hook-exec-",
       replyText: "Handled internally",
       reason: "hook:wake",
       target: "none",
@@ -417,7 +417,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("does not classify base-session hook:wake exec completions as exec-event prompts when isolated sessions are enabled", async () => {
     const { result, sendTelegram, calledCtx } = await runHeartbeatCase({
-      tmpPrefix: "openclaw-hook-exec-isolated-",
+      tmpPrefix: "brikko-studio-hook-exec-isolated-",
       replyText: "Handled internally",
       reason: "hook:wake",
       target: "none",
@@ -436,7 +436,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("forces owner downgrade for untrusted hook:wake system events", async () => {
     await expectUntrustedEventOwnership({
-      tmpPrefix: "openclaw-hook-untrusted-",
+      tmpPrefix: "brikko-studio-hook-untrusted-",
       reason: "hook:wake",
       forceSenderIsOwnerFalse: true,
     });
@@ -444,7 +444,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("forces owner downgrade for untrusted interval events", async () => {
     await expectUntrustedEventOwnership({
-      tmpPrefix: "openclaw-interval-untrusted-",
+      tmpPrefix: "brikko-studio-interval-untrusted-",
       reason: "interval",
       forceSenderIsOwnerFalse: true,
     });
@@ -452,7 +452,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("does not force owner downgrade for untrusted hook:wake events with isolated sessions", async () => {
     await expectUntrustedEventOwnership({
-      tmpPrefix: "openclaw-hook-untrusted-isolated-",
+      tmpPrefix: "brikko-studio-hook-untrusted-isolated-",
       reason: "hook:wake",
       isolatedSession: true,
       forceSenderIsOwnerFalse: false,
@@ -461,7 +461,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("does not force owner downgrade for isolated interval runs with only base-session untrusted events", async () => {
     await expectUntrustedEventOwnership({
-      tmpPrefix: "openclaw-interval-untrusted-isolated-",
+      tmpPrefix: "brikko-studio-interval-untrusted-isolated-",
       reason: "interval",
       isolatedSession: true,
       forceSenderIsOwnerFalse: false,
@@ -470,7 +470,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("routes wake-triggered heartbeat replies using queued system-event delivery context", async () => {
     await withTempHeartbeatSandbox(async ({ tmpDir, storePath, replySpy }) => {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         agents: {
           defaults: {
             workspace: tmpDir,
@@ -578,7 +578,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
   });
   it("keeps output-bearing exec-event delivery pinned to the original Telegram topic when session route drifts", async () => {
     await withTempHeartbeatSandbox(async ({ tmpDir, storePath }) => {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         agents: {
           defaults: {
             workspace: tmpDir,
@@ -645,7 +645,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("suppresses metadata-only successful exec completions", async () => {
     await withTempHeartbeatSandbox(async ({ tmpDir, storePath }) => {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         agents: {
           defaults: {
             workspace: tmpDir,

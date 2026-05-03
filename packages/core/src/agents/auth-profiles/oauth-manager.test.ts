@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { captureEnv } from "../../test-utils/env.js";
 import { __testing as externalAuthTesting } from "./external-auth.js";
 import {
@@ -32,7 +32,7 @@ function createCredential(overrides: Partial<OAuthCredential> = {}): OAuthCreden
 }
 
 const tempDirs: string[] = [];
-const envSnapshot = captureEnv(["OPENCLAW_STATE_DIR", "OPENCLAW_AGENT_DIR", "PI_CODING_AGENT_DIR"]);
+const envSnapshot = captureEnv(["BRIKKO_STUDIO_STATE_DIR", "BRIKKO_STUDIO_AGENT_DIR", "PI_CODING_AGENT_DIR"]);
 
 beforeEach(() => {
   externalAuthTesting.setResolveExternalAuthProfilesForTest(() => []);
@@ -156,7 +156,7 @@ describe("createOAuthManager", () => {
           "openai-codex": { auth: "oauth", baseUrl: "", models: [] },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
     const buildApiKey = vi.fn(async (_provider, value: OAuthCredential) => value.access);
     const manager = createOAuthManager({
       buildApiKey,
@@ -188,10 +188,10 @@ describe("createOAuthManager", () => {
   it("does not overlay external auth while checking main-store adoption", async () => {
     const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "oauth-manager-main-adopt-"));
     tempDirs.push(tempRoot);
-    process.env.OPENCLAW_STATE_DIR = tempRoot;
+    process.env.BRIKKO_STUDIO_STATE_DIR = tempRoot;
     const mainAgentDir = path.join(tempRoot, "agents", "main", "agent");
     const agentDir = path.join(tempRoot, "agents", "sub", "agent");
-    process.env.OPENCLAW_AGENT_DIR = mainAgentDir;
+    process.env.BRIKKO_STUDIO_AGENT_DIR = mainAgentDir;
     process.env.PI_CODING_AGENT_DIR = mainAgentDir;
     await fs.mkdir(agentDir, { recursive: true });
     await fs.mkdir(mainAgentDir, { recursive: true });
@@ -276,10 +276,10 @@ describe("createOAuthManager", () => {
   it("refreshes with the adopted external oauth credential", async () => {
     const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "oauth-manager-refresh-"));
     tempDirs.push(tempRoot);
-    process.env.OPENCLAW_STATE_DIR = tempRoot;
+    process.env.BRIKKO_STUDIO_STATE_DIR = tempRoot;
     const mainAgentDir = path.join(tempRoot, "agents", "main", "agent");
     const agentDir = path.join(tempRoot, "agents", "sub", "agent");
-    process.env.OPENCLAW_AGENT_DIR = mainAgentDir;
+    process.env.BRIKKO_STUDIO_AGENT_DIR = mainAgentDir;
     process.env.PI_CODING_AGENT_DIR = mainAgentDir;
     await fs.mkdir(agentDir, { recursive: true });
     await fs.mkdir(mainAgentDir, { recursive: true });

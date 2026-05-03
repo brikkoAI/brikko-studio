@@ -279,7 +279,7 @@ describe("Client.deployCommands", () => {
 
   it("skips unchanged command deploys across client restarts using the hash store", async () => {
     const hashStorePath = path.join(
-      await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-discord-command-deploy-")),
+      await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-discord-command-deploy-")),
       "hashes.json",
     );
     const first = createInternalTestClient([createTestCommand({ name: "one" })], {
@@ -338,7 +338,7 @@ describe("Client gateway event queue", () => {
     );
   }
 
-  it("uses OpenClaw Discord event queue defaults", () => {
+  it("uses Brikko Studio Discord event queue defaults", () => {
     const client = createQueuedClient({
       listeners: [],
       eventQueue: {},

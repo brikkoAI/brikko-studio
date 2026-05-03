@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { withOpenClawTestState } from "../test-utils/openclaw-test-state.js";
+import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
 
 afterEach(() => {
   vi.doUnmock("node:fs");
@@ -36,7 +36,7 @@ describe("plugin state permission hardening", () => {
       await import("./plugin-state-store.js");
 
     try {
-      await withOpenClawTestState({ label: "plugin-state-post-commit-chmod" }, async () => {
+      await withBrikko StudioTestState({ label: "plugin-state-post-commit-chmod" }, async () => {
         const store = createPluginStateKeyedStore<{ value: number }>("fixture-plugin", {
           namespace: "post-commit",
           maxEntries: 10,

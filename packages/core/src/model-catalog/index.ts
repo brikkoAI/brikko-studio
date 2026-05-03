@@ -5,7 +5,7 @@ export {
   normalizeModelCatalogProviderId,
 } from "./refs.js";
 export { normalizeModelCatalog, normalizeModelCatalogRows } from "./normalize.js";
-export { loadOpenClawProviderIndex } from "./provider-index/index.js";
+export { loadBrikko StudioProviderIndex } from "./provider-index/index.js";
 export {
   planManifestModelCatalogRows,
   planManifestModelCatalogSuppressions,
@@ -26,4 +26,4 @@ export type {
   ModelCatalogTieredCost,
   NormalizedModelCatalogRow,
 } from "./types.js";
-export type { OpenClawProviderIndexProvider } from "./provider-index/index.js";
+export type { Brikko StudioProviderIndexProvider } from "./provider-index/index.js";

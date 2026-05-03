@@ -1,28 +1,28 @@
 {
-  "name": "@openclaw/line",
+  "name": "@brikko-studio/line",
   "version": "2026.5.3",
-  "description": "OpenClaw LINE channel plugin",
+  "description": "Brikko Studio LINE channel plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/brikko-studio/brikko-studio"
   },
   "type": "module",
   "dependencies": {
     "@line/bot-sdk": "^11.0.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*",
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],
@@ -40,7 +40,7 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@openclaw/line",
+      "npmSpec": "@brikko-studio/line",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -48,7 +48,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "brikko-studioVersion": "2026.5.3"
     },
     "release": {
       "publishToClawHub": true,

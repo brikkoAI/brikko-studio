@@ -76,17 +76,17 @@ describe("listManifestInstalledChannelIds", () => {
     const installedIds = listManifestInstalledChannelIds({
       cfg: {} as never,
       workspaceDir: "/tmp/workspace",
-      env: { OPENCLAW_HOME: "/tmp/home" } as NodeJS.ProcessEnv,
+      env: { BRIKKO_STUDIO_HOME: "/tmp/home" } as NodeJS.ProcessEnv,
     });
 
     expect(applyPluginAutoEnable).toHaveBeenCalledWith({
       config: {},
-      env: { OPENCLAW_HOME: "/tmp/home" },
+      env: { BRIKKO_STUDIO_HOME: "/tmp/home" },
     });
     expect(loadPluginRegistrySnapshot).toHaveBeenCalledWith({
       config: autoEnabledConfig,
       workspaceDir: "/tmp/workspace",
-      env: { OPENCLAW_HOME: "/tmp/home" },
+      env: { BRIKKO_STUDIO_HOME: "/tmp/home" },
     });
     expect(listPluginContributionIds).toHaveBeenCalledWith({
       index: {
@@ -96,7 +96,7 @@ describe("listManifestInstalledChannelIds", () => {
       contribution: "channels",
       config: autoEnabledConfig,
       workspaceDir: "/tmp/workspace",
-      env: { OPENCLAW_HOME: "/tmp/home" },
+      env: { BRIKKO_STUDIO_HOME: "/tmp/home" },
     });
     expect(installedIds).toEqual(new Set(["slack"]));
   });
@@ -128,7 +128,7 @@ describe("listManifestInstalledChannelIds", () => {
         } as never,
       ],
       workspaceDir: "/tmp/workspace",
-      env: { OPENCLAW_HOME: "/tmp/home" } as NodeJS.ProcessEnv,
+      env: { BRIKKO_STUDIO_HOME: "/tmp/home" } as NodeJS.ProcessEnv,
     });
 
     expect(resolved.entries.map((entry) => entry.id)).toEqual(["telegram"]);
@@ -156,7 +156,7 @@ describe("listManifestInstalledChannelIds", () => {
         } as never,
       ],
       workspaceDir: "/tmp/workspace",
-      env: { OPENCLAW_HOME: "/tmp/home" } as NodeJS.ProcessEnv,
+      env: { BRIKKO_STUDIO_HOME: "/tmp/home" } as NodeJS.ProcessEnv,
     });
 
     expect(resolved.entries).toEqual([

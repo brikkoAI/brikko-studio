@@ -1,11 +1,11 @@
-import { logTypingFailure } from "openclaw/plugin-sdk/channel-feedback";
-import { createChannelReplyPipeline } from "openclaw/plugin-sdk/channel-reply-pipeline";
+import { logTypingFailure } from "brikko-studio/plugin-sdk/channel-feedback";
+import { createChannelReplyPipeline } from "brikko-studio/plugin-sdk/channel-reply-pipeline";
 import {
   resolveSendableOutboundReplyParts,
   resolveTextChunksWithFallback,
   sendMediaWithLeadingCaption,
-} from "openclaw/plugin-sdk/reply-payload";
-import { stripReasoningTagsFromText } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/reply-payload";
+import { stripReasoningTagsFromText } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveFeishuRuntimeAccount } from "./accounts.js";
 import { createFeishuClient } from "./client.js";
 import { sendMediaFeishu, shouldSuppressFeishuTextForVoiceMedia } from "./media.js";

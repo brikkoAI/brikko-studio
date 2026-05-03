@@ -1,5 +1,5 @@
-import type { MessagePresentation } from "openclaw/plugin-sdk/interactive-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import type { MessagePresentation } from "brikko-studio/plugin-sdk/interactive-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 
 export function buildMSTeamsPresentationCard(params: {
   presentation: MessagePresentation;

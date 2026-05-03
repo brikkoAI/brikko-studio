@@ -1,14 +1,14 @@
 import { isIP } from "node:net";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { makeProxyFetch } from "openclaw/plugin-sdk/fetch-runtime";
-import { danger } from "openclaw/plugin-sdk/runtime-env";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { makeProxyFetch } from "brikko-studio/plugin-sdk/fetch-runtime";
+import { danger } from "brikko-studio/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import type { ResolvedDiscordAccount } from "./accounts.js";
 
 function resolveDiscordProxyUrl(
   account: Pick<ResolvedDiscordAccount, "config">,
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
 ): string | undefined {
   const accountProxy = account.config.proxy?.trim();
   if (accountProxy) {
@@ -31,7 +31,7 @@ function resolveDiscordProxyFetchByUrl(
 
 export function resolveDiscordProxyFetchForAccount(
   account: Pick<ResolvedDiscordAccount, "config">,
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   runtime?: Pick<RuntimeEnv, "error">,
 ): typeof fetch | undefined {
   return resolveDiscordProxyFetchByUrl(resolveDiscordProxyUrl(account, cfg), runtime);

@@ -7,7 +7,7 @@ read_when:
 title: "Session management deep dive"
 ---
 
-OpenClaw manages sessions end-to-end across these areas:
+Brikko Studio manages sessions end-to-end across these areas:
 
 - **Session routing** (how inbound messages map to a `sessionKey`)
 - **Session store** (`sessions.json`) and what it tracks
@@ -30,7 +30,7 @@ If you want a higher-level overview first, start with:
 
 ## Source of truth: the Gateway
 
-OpenClaw is designed around a single **Gateway process** that owns session state.
+Brikko Studio is designed around a single **Gateway process** that owns session state.
 
 - UIs (macOS app, web Control UI, TUI) should query the Gateway for session lists and token counts.
 - In remote mode, session files are on the remote host; “checking your local Mac files” won’t reflect what the Gateway is using.
@@ -39,7 +39,7 @@ OpenClaw is designed around a single **Gateway process** that owns session state
 
 ## Two persistence layers
 
-OpenClaw persists sessions in two layers:
+Brikko Studio persists sessions in two layers:
 
 1. **Session store (`sessions.json`)**
    - Key/value map: `sessionKey -> SessionEntry`
@@ -66,11 +66,11 @@ cached by file path plus `mtimeMs`/`size` and shared across concurrent readers.
 
 Per agent, on the Gateway host:
 
-- Store: `~/.openclaw/agents/<agentId>/sessions/sessions.json`
-- Transcripts: `~/.openclaw/agents/<agentId>/sessions/<sessionId>.jsonl`
+- Store: `~/.brikko-studio/agents/<agentId>/sessions/sessions.json`
+- Transcripts: `~/.brikko-studio/agents/<agentId>/sessions/<sessionId>.jsonl`
   - Telegram topic sessions: `.../<sessionId>-topic-<threadId>.jsonl`
 
-OpenClaw resolves these via `src/config/sessions.ts`.
+Brikko Studio resolves these via `src/config/sessions.ts`.
 
 ---
 
@@ -85,14 +85,14 @@ Session persistence has automatic maintenance controls (`session.maintenance`) f
 - `maxDiskBytes`: optional sessions-directory budget
 - `highWaterBytes`: optional target after cleanup (default `80%` of `maxDiskBytes`)
 
-Normal Gateway writes flow through a per-store session writer that serializes in-process mutations without taking a runtime file lock. Hot-path patch helpers borrow the validated mutable cache while they hold that writer slot, so large `sessions.json` files are not cloned or reread for every metadata update. Runtime code should prefer `updateSessionStore(...)` or `updateSessionStoreEntry(...)`; direct whole-store saves are compatibility and offline-maintenance tools. When a Gateway is reachable, non-dry-run `openclaw sessions cleanup` and `openclaw agents delete` delegate store mutations to the Gateway so cleanup joins the same writer queue; `--store <path>` is the explicit offline repair path for direct file maintenance. `maxEntries` cleanup is still batched for production-sized caps, so a store may briefly exceed the configured cap before the next high-water cleanup rewrites it back down. Session store reads do not prune or cap entries during Gateway startup; use writes or `openclaw sessions cleanup --enforce` for cleanup. `openclaw sessions cleanup --enforce` still applies the configured cap immediately.
+Normal Gateway writes flow through a per-store session writer that serializes in-process mutations without taking a runtime file lock. Hot-path patch helpers borrow the validated mutable cache while they hold that writer slot, so large `sessions.json` files are not cloned or reread for every metadata update. Runtime code should prefer `updateSessionStore(...)` or `updateSessionStoreEntry(...)`; direct whole-store saves are compatibility and offline-maintenance tools. When a Gateway is reachable, non-dry-run `brikko-studio sessions cleanup` and `brikko-studio agents delete` delegate store mutations to the Gateway so cleanup joins the same writer queue; `--store <path>` is the explicit offline repair path for direct file maintenance. `maxEntries` cleanup is still batched for production-sized caps, so a store may briefly exceed the configured cap before the next high-water cleanup rewrites it back down. Session store reads do not prune or cap entries during Gateway startup; use writes or `brikko-studio sessions cleanup --enforce` for cleanup. `brikko-studio sessions cleanup --enforce` still applies the configured cap immediately.
 
 Maintenance keeps durable external conversation pointers such as group sessions
 and thread-scoped chat sessions, but synthetic runtime entries for cron, hooks,
 heartbeat, ACP, and sub-agents can still be removed when they exceed the
 configured age, count, or disk budget.
 
-OpenClaw no longer creates automatic `sessions.json.bak.*` rotation backups during Gateway writes. The legacy `session.maintenance.rotateBytes` key is ignored and `openclaw doctor --fix` removes it from older configs.
+Brikko Studio no longer creates automatic `sessions.json.bak.*` rotation backups during Gateway writes. The legacy `session.maintenance.rotateBytes` key is ignored and `brikko-studio doctor --fix` removes it from older configs.
 
 Transcript mutations use a session write lock on the transcript file. Lock acquisition waits up to
 `session.writeLock.acquireTimeoutMs` before surfacing a busy-session error; the default is `60000`
@@ -105,13 +105,13 @@ Enforcement order for disk budget cleanup (`mode: "enforce"`):
 2. If still above the target, evict oldest session entries and their transcript/trajectory files.
 3. Keep going until usage is at or below `highWaterBytes`.
 
-In `mode: "warn"`, OpenClaw reports potential evictions but does not mutate the store/files.
+In `mode: "warn"`, Brikko Studio reports potential evictions but does not mutate the store/files.
 
 Run maintenance on demand:
 
 ```bash
-openclaw sessions cleanup --dry-run
-openclaw sessions cleanup --enforce
+brikko-studio sessions cleanup --dry-run
+brikko-studio sessions cleanup --enforce
 ```
 
 ---
@@ -121,7 +121,7 @@ openclaw sessions cleanup --enforce
 Isolated cron runs also create session entries/transcripts, and they have dedicated retention controls:
 
 - `cron.sessionRetention` (default `24h`) prunes old isolated cron run sessions from the session store (`false` disables).
-- `cron.runLog.maxBytes` + `cron.runLog.keepLines` prune `~/.openclaw/cron/runs/<jobId>.jsonl` files (defaults: `2_000_000` bytes and `2000` lines).
+- `cron.runLog.maxBytes` + `cron.runLog.keepLines` prune `~/.brikko-studio/cron/runs/<jobId>.jsonl` files (defaults: `2_000_000` bytes and `2000` lines).
 
 When cron force-creates a new isolated run session, it sanitizes the previous
 `cron:<jobId>` session entry before writing the new row. It carries safe
@@ -159,7 +159,7 @@ Rules of thumb:
 - **Daily reset** (default 4:00 AM local time on the gateway host) creates a new `sessionId` on the next message after the reset boundary.
 - **Idle expiry** (`session.reset.idleMinutes` or legacy `session.idleMinutes`) creates a new `sessionId` when a message arrives after the idle window. When daily + idle are both configured, whichever expires first wins.
 - **System events** (heartbeat, cron wakeups, exec notifications, gateway bookkeeping) may mutate the session row but do not extend daily/idle reset freshness. Reset rollover discards queued system-event notices for the previous session before the fresh prompt is built.
-- **Parent fork policy** uses PI's active branch when creating a thread or subagent fork. If that branch is too large, OpenClaw starts the child with isolated context instead of failing or inheriting unusable history. The sizing policy is automatic; legacy `session.parentForkMaxTokens` config is removed by `openclaw doctor --fix`.
+- **Parent fork policy** uses PI's active branch when creating a thread or subagent fork. If that branch is too large, Brikko Studio starts the child with isolated context instead of failing or inheriting unusable history. The sizing policy is automatic; legacy `session.parentForkMaxTokens` config is removed by `brikko-studio doctor --fix`.
 
 Implementation detail: the decision happens in `initSessionState()` in `src/auto-reply/reply/session.ts`.
 
@@ -215,7 +215,7 @@ Notable entry types:
 - `compaction`: persisted compaction summary with `firstKeptEntryId` and `tokensBefore`
 - `branch_summary`: persisted summary when navigating a tree branch
 
-OpenClaw intentionally does **not** “fix up” transcripts; the Gateway uses `SessionManager` to read/write them.
+Brikko Studio intentionally does **not** “fix up” transcripts; the Gateway uses `SessionManager` to read/write them.
 
 ---
 
@@ -248,14 +248,14 @@ Compaction is **persistent** (unlike session pruning). See [/concepts/session-pr
 
 ## Compaction chunk boundaries and tool pairing
 
-When OpenClaw splits a long transcript into compaction chunks, it keeps
+When Brikko Studio splits a long transcript into compaction chunks, it keeps
 assistant tool calls paired with their matching `toolResult` entries.
 
-- If the token-share split lands between a tool call and its result, OpenClaw
+- If the token-share split lands between a tool call and its result, Brikko Studio
   shifts the boundary to the assistant tool-call message instead of separating
   the pair.
 - If a trailing tool-result block would otherwise push the chunk over target,
-  OpenClaw preserves that pending tool block and keeps the unsummarized tail
+  Brikko Studio preserves that pending tool block and keeps the unsummarized tail
   intact.
 - Aborted/error tool-call blocks do not hold a pending split open.
 
@@ -279,18 +279,18 @@ Where:
 - `contextWindow` is the model’s context window
 - `reserveTokens` is headroom reserved for prompts + the next model output
 
-These are Pi runtime semantics (OpenClaw consumes the events, but Pi decides when to compact).
+These are Pi runtime semantics (Brikko Studio consumes the events, but Pi decides when to compact).
 
-OpenClaw can also trigger a preflight local compaction before opening the next
+Brikko Studio can also trigger a preflight local compaction before opening the next
 run when `agents.defaults.compaction.maxActiveTranscriptBytes` is set and the
 active transcript file reaches that size. This is a file-size guard for local
-reopen cost, not raw archival: OpenClaw still runs normal semantic compaction,
+reopen cost, not raw archival: Brikko Studio still runs normal semantic compaction,
 and it requires `truncateAfterCompaction` so the compacted summary can become a
 new successor transcript.
 
 For embedded Pi runs, `agents.defaults.compaction.midTurnPrecheck.enabled: true`
 adds an opt-in tool-loop guard. After a tool result is appended and before the
-next model call, OpenClaw estimates the prompt pressure using the same preflight
+next model call, Brikko Studio estimates the prompt pressure using the same preflight
 budget logic used at turn start. If the context no longer fits, the guard does
 not compact inside Pi's `transformContext` hook. It raises a structured
 mid-turn precheck signal, stops the current prompt submission, and lets the
@@ -318,12 +318,12 @@ Pi’s compaction settings live in Pi settings:
 }
 ```
 
-OpenClaw also enforces a safety floor for embedded runs:
+Brikko Studio also enforces a safety floor for embedded runs:
 
-- If `compaction.reserveTokens < reserveTokensFloor`, OpenClaw bumps it.
+- If `compaction.reserveTokens < reserveTokensFloor`, Brikko Studio bumps it.
 - Default floor is `20000` tokens.
 - Set `agents.defaults.compaction.reserveTokensFloor: 0` to disable the floor.
-- If it’s already higher, OpenClaw leaves it alone.
+- If it’s already higher, Brikko Studio leaves it alone.
 - Manual `/compact` honors an explicit `agents.defaults.compaction.keepRecentTokens`
   and keeps Pi's recent-tail cut point. Without an explicit keep budget,
   manual compaction remains a hard checkpoint and rebuilt context starts from
@@ -339,7 +339,7 @@ OpenClaw also enforces a safety floor for embedded runs:
   `truncateAfterCompaction` is also enabled. Leave it unset or set `0` to
   disable.
 - When `agents.defaults.compaction.truncateAfterCompaction` is enabled,
-  OpenClaw rotates the active transcript to a compacted successor JSONL after
+  Brikko Studio rotates the active transcript to a compacted successor JSONL after
   compaction. The old full transcript remains archived and linked from the
   compaction checkpoint instead of being rewritten in place.
 
@@ -362,7 +362,7 @@ Plugins can register a compaction provider via `registerCompactionProvider()` on
   instead of preserving the full previous summary verbatim.
 - Safeguard mode enables summary quality audits by default; set
   `qualityGuard.enabled: false` to skip retry-on-malformed-output behavior.
-- If the provider fails or returns an empty result, OpenClaw falls back to built-in LLM summarization automatically.
+- If the provider fails or returns an empty result, Brikko Studio falls back to built-in LLM summarization automatically.
 - Abort/timeout signals are re-thrown (not swallowed) to respect caller cancellation.
 
 Source: `src/plugins/compaction-provider.ts`, `src/agents/pi-hooks/compaction-safeguard.ts`.
@@ -374,27 +374,27 @@ Source: `src/plugins/compaction-provider.ts`, `src/agents/pi-hooks/compaction-sa
 You can observe compaction and session state via:
 
 - `/status` (in any chat session)
-- `openclaw status` (CLI)
-- `openclaw sessions` / `sessions --json`
+- `brikko-studio status` (CLI)
+- `brikko-studio sessions` / `sessions --json`
 - Verbose mode: `🧹 Auto-compaction complete` + compaction count
 
 ---
 
 ## Silent housekeeping (`NO_REPLY`)
 
-OpenClaw supports “silent” turns for background tasks where the user should not see intermediate output.
+Brikko Studio supports “silent” turns for background tasks where the user should not see intermediate output.
 
 Convention:
 
 - The assistant starts its output with the exact silent token `NO_REPLY` /
   `no_reply` to indicate “do not deliver a reply to the user”.
-- OpenClaw strips/suppresses this in the delivery layer.
+- Brikko Studio strips/suppresses this in the delivery layer.
 - Exact silent-token suppression is case-insensitive, so `NO_REPLY` and
   `no_reply` both count when the whole payload is just the silent token.
 - This is for true background/no-delivery turns only; it is not a shortcut for
   ordinary actionable user requests.
 
-As of `2026.1.10`, OpenClaw also suppresses **draft/typing streaming** when a
+As of `2026.1.10`, Brikko Studio also suppresses **draft/typing streaming** when a
 partial chunk begins with `NO_REPLY`, so silent operations don’t leak partial
 output mid-turn.
 
@@ -406,7 +406,7 @@ Goal: before auto-compaction happens, run a silent agentic turn that writes dura
 state to disk (e.g. `memory/YYYY-MM-DD.md` in the agent workspace) so compaction can’t
 erase critical context.
 
-OpenClaw uses the **pre-threshold flush** approach:
+Brikko Studio uses the **pre-threshold flush** approach:
 
 1. Monitor session context usage.
 2. When it crosses a “soft threshold” (below Pi’s compaction threshold), run a silent
@@ -434,7 +434,7 @@ Notes:
 - The flush is skipped when the session workspace is read-only (`workspaceAccess: "ro"` or `"none"`).
 - See [Memory](/concepts/memory) for the workspace file layout and write patterns.
 
-Pi also exposes a `session_before_compact` hook in the extension API, but OpenClaw’s
+Pi also exposes a `session_before_compact` hook in the extension API, but Brikko Studio’s
 flush logic lives on the Gateway side today.
 
 ---
@@ -442,7 +442,7 @@ flush logic lives on the Gateway side today.
 ## Troubleshooting checklist
 
 - Session key wrong? Start with [/concepts/session](/concepts/session) and confirm the `sessionKey` in `/status`.
-- Store vs transcript mismatch? Confirm the Gateway host and the store path from `openclaw status`.
+- Store vs transcript mismatch? Confirm the Gateway host and the store path from `brikko-studio status`.
 - Compaction spam? Check:
   - model context window (too small)
   - compaction settings (`reserveTokens` too high for the model window can cause earlier compaction)

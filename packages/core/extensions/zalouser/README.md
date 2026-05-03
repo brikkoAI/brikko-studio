@@ -1,6 +1,6 @@
-# @openclaw/zalouser
+# @brikko-studio/zalouser
 
-OpenClaw extension for Zalo Personal Account messaging via native `zca-js` integration.
+Brikko Studio extension for Zalo Personal Account messaging via native `zca-js` integration.
 
 > **Warning:** Using Zalo automation may result in account suspension or ban. Use at your own risk. This is an unofficial integration.
 
@@ -14,7 +14,7 @@ OpenClaw extension for Zalo Personal Account messaging via native `zca-js` integ
 
 ## Prerequisites
 
-- OpenClaw Gateway
+- Brikko Studio Gateway
 - Zalo mobile app (for QR login)
 
 No external `zca`, `openzca`, or `zca-cli` binary is required.
@@ -24,14 +24,14 @@ No external `zca`, `openzca`, or `zca-cli` binary is required.
 ### Option A: npm
 
 ```bash
-openclaw plugins install @openclaw/zalouser
+brikko-studio plugins install @brikko-studio/zalouser
 ```
 
 ### Option B: local source checkout
 
 ```bash
 PLUGIN_SRC=./path/to/local/zalouser-plugin
-openclaw plugins install "$PLUGIN_SRC"
+brikko-studio plugins install "$PLUGIN_SRC"
 cd "$PLUGIN_SRC" && pnpm install
 ```
 
@@ -42,7 +42,7 @@ Restart the Gateway after install.
 ### Login (QR)
 
 ```bash
-openclaw channels login --channel zalouser
+brikko-studio channels login --channel zalouser
 ```
 
 Scan the QR code with the Zalo app on your phone.
@@ -59,7 +59,7 @@ channels:
 ### Send a message
 
 ```bash
-openclaw message send --channel zalouser --target <threadId> --message "Hello from OpenClaw"
+brikko-studio message send --channel zalouser --target <threadId> --message "Hello from Brikko Studio"
 ```
 
 ## Configuration
@@ -92,15 +92,15 @@ channels:
 ## Useful commands
 
 ```bash
-openclaw channels login --channel zalouser
-openclaw channels login --channel zalouser --account work
-openclaw channels status --probe
-openclaw channels logout --channel zalouser
+brikko-studio channels login --channel zalouser
+brikko-studio channels login --channel zalouser --account work
+brikko-studio channels status --probe
+brikko-studio channels logout --channel zalouser
 
-openclaw directory self --channel zalouser
-openclaw directory peers list --channel zalouser --query "name"
-openclaw directory groups list --channel zalouser --query "work"
-openclaw directory groups members --channel zalouser --group-id <id>
+brikko-studio directory self --channel zalouser
+brikko-studio directory peers list --channel zalouser --query "name"
+brikko-studio directory groups list --channel zalouser --query "work"
+brikko-studio directory groups members --channel zalouser --group-id <id>
 ```
 
 ## Agent tool
@@ -111,8 +111,8 @@ Available actions: `send`, `image`, `link`, `friends`, `groups`, `me`, `status`
 
 ## Troubleshooting
 
-- Login not persisted: `openclaw channels logout --channel zalouser && openclaw channels login --channel zalouser`
-- Probe status: `openclaw channels status --probe`
+- Login not persisted: `brikko-studio channels logout --channel zalouser && brikko-studio channels login --channel zalouser`
+- Probe status: `brikko-studio channels status --probe`
 - Name resolution issues (allowlist/groups): use numeric IDs or exact Zalo names
 
 ## Credits

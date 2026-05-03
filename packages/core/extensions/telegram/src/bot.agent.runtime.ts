@@ -1,1 +1,1 @@
-export { resolveDefaultAgentId } from "openclaw/plugin-sdk/agent-runtime";
+export { resolveDefaultAgentId } from "brikko-studio/plugin-sdk/agent-runtime";

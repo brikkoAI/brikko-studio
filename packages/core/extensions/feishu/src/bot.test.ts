@@ -1,6 +1,6 @@
-import type * as ConversationRuntime from "openclaw/plugin-sdk/conversation-runtime";
-import { createRuntimeEnv } from "openclaw/plugin-sdk/plugin-test-runtime";
-import type { ResolvedAgentRoute } from "openclaw/plugin-sdk/routing";
+import type * as ConversationRuntime from "brikko-studio/plugin-sdk/conversation-runtime";
+import { createRuntimeEnv } from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ClawdbotConfig, PluginRuntime } from "../runtime-api.js";
 import type { FeishuMessageEvent } from "./bot.js";
@@ -312,9 +312,9 @@ vi.mock("./client.js", () => ({
   createFeishuClient: mockCreateFeishuClient,
 }));
 
-vi.mock("openclaw/plugin-sdk/conversation-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/conversation-runtime")>(
-    "openclaw/plugin-sdk/conversation-runtime",
+vi.mock("brikko-studio/plugin-sdk/conversation-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/conversation-runtime")>(
+    "brikko-studio/plugin-sdk/conversation-runtime",
   );
   return {
     ...actual,

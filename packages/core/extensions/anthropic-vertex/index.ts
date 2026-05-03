@@ -1,6 +1,6 @@
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
-import { readConfiguredProviderCatalogEntries } from "openclaw/plugin-sdk/provider-catalog-shared";
-import { NATIVE_ANTHROPIC_REPLAY_HOOKS } from "openclaw/plugin-sdk/provider-model-shared";
+import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
+import { readConfiguredProviderCatalogEntries } from "brikko-studio/plugin-sdk/provider-catalog-shared";
+import { NATIVE_ANTHROPIC_REPLAY_HOOKS } from "brikko-studio/plugin-sdk/provider-model-shared";
 import {
   hasAnthropicVertexAvailableAuth,
   mergeImplicitAnthropicVertexProvider,

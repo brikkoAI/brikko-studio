@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { resolveQaNodeExecPath } from "./node-exec.js";
 import {
   isPreferredQaLiveFrontierCatalogModel,
@@ -95,12 +95,12 @@ function killProcessTree(pid: number | undefined, signal: NodeJS.Signals) {
 
 export async function loadQaRunnerModelOptions(params: { repoRoot: string; signal?: AbortSignal }) {
   const tempRoot = await fs.mkdtemp(
-    path.join(resolvePreferredOpenClawTmpDir(), "openclaw-qa-model-catalog-"),
+    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-qa-model-catalog-"),
   );
   const workspaceDir = path.join(tempRoot, "workspace");
   const stateDir = path.join(tempRoot, "state");
   const homeDir = path.join(tempRoot, "home");
-  const configPath = path.join(tempRoot, "openclaw.json");
+  const configPath = path.join(tempRoot, "brikko-studio.json");
 
   try {
     await Promise.all([
@@ -137,11 +137,11 @@ export async function loadQaRunnerModelOptions(params: { repoRoot: string; signa
         env: {
           ...process.env,
           HOME: homeDir,
-          OPENCLAW_HOME: homeDir,
-          OPENCLAW_CONFIG_PATH: configPath,
-          OPENCLAW_STATE_DIR: stateDir,
-          OPENCLAW_OAUTH_DIR: path.join(stateDir, "credentials"),
-          OPENCLAW_CODEX_DISCOVERY_LIVE: "0",
+          BRIKKO_STUDIO_HOME: homeDir,
+          BRIKKO_STUDIO_CONFIG_PATH: configPath,
+          BRIKKO_STUDIO_STATE_DIR: stateDir,
+          BRIKKO_STUDIO_OAUTH_DIR: path.join(stateDir, "credentials"),
+          BRIKKO_STUDIO_CODEX_DISCOVERY_LIVE: "0",
         },
         detached: process.platform !== "win32",
         stdio: ["ignore", "pipe", "pipe"],

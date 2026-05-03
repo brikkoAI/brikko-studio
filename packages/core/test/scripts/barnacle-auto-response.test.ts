@@ -51,8 +51,8 @@ function barnacleContext(
 ) {
   return {
     repo: {
-      owner: "openclaw",
-      repo: "openclaw",
+      owner: "brikko-studio",
+      repo: "brikko-studio",
     },
     payload: {
       action: options.action ?? "opened",
@@ -80,8 +80,8 @@ function barnacleIssueContext(
 ) {
   return {
     repo: {
-      owner: "openclaw",
-      repo: "openclaw",
+      owner: "brikko-studio",
+      repo: "brikko-studio",
     },
     payload: {
       action: options.action ?? "opened",
@@ -89,7 +89,7 @@ function barnacleIssueContext(
       sender: options.sender,
       issue: {
         number: 456,
-        title: "OpenClaw issue",
+        title: "Brikko Studio issue",
         body: "",
         author_association: "CONTRIBUTOR",
         user: {
@@ -279,7 +279,7 @@ describe("barnacle-auto-response", () => {
       pr(
         "Fix duplicate plugin auto-enable entries",
         [
-          "- Problem: openclaw doctor --fix adds duplicate installed plugin entries",
+          "- Problem: brikko-studio doctor --fix adds duplicate installed plugin entries",
           "- Why it matters: users get noisy config churn",
           "- What changed: respect manifest-provided channel auto-loads",
           "",
@@ -463,13 +463,13 @@ describe("barnacle-auto-response", () => {
 
   it("does not close automation PRs for the active PR limit", async () => {
     for (const automationPullRequest of [
-      { head: { ref: "clawsweeper/openclaw-openclaw-73880" }, login: "app/openclaw-clawsweeper" },
-      { headRefName: "clawsweeper/openclaw-openclaw-73880", login: "app/openclaw-clawsweeper" },
+      { head: { ref: "clawsweeper/brikko-studio-brikko-studio-73880" }, login: "app/brikko-studio-clawsweeper" },
+      { headRefName: "clawsweeper/brikko-studio-brikko-studio-73880", login: "app/brikko-studio-clawsweeper" },
       {
         head: { ref: "clownfish/ghcrawl-156993-autonomous-smoke" },
-        login: "app/openclaw-clownfish",
+        login: "app/brikko-studio-clownfish",
       },
-      { headRefName: "clownfish/ghcrawl-156993-autonomous-smoke", login: "app/openclaw-clownfish" },
+      { headRefName: "clownfish/ghcrawl-156993-autonomous-smoke", login: "app/brikko-studio-clownfish" },
     ]) {
       const { calls, github } = barnacleGithub([]);
       const { login, ...pullRequest } = automationPullRequest;
@@ -578,7 +578,7 @@ describe("barnacle-auto-response", () => {
   });
 
   it("actions manually applied candidate labels", async () => {
-    const { calls, github } = barnacleGithub([file("extensions/example/openclaw.plugin.json")]);
+    const { calls, github } = barnacleGithub([file("extensions/example/brikko-studio.plugin.json")]);
 
     await runBarnacleAutoResponse({
       github,
@@ -601,14 +601,14 @@ describe("barnacle-auto-response", () => {
   });
 
   it("keeps bot-applied candidate labels passive", async () => {
-    const { calls, github } = barnacleGithub([file("extensions/example/openclaw.plugin.json")]);
+    const { calls, github } = barnacleGithub([file("extensions/example/brikko-studio.plugin.json")]);
 
     await runBarnacleAutoResponse({
       github,
       context: barnacleContext({}, [candidateLabels.externalPluginCandidate], {
         action: "labeled",
         label: { name: candidateLabels.externalPluginCandidate },
-        sender: { login: "openclaw-bot[bot]", type: "Bot" },
+        sender: { login: "brikko-studio-bot[bot]", type: "Bot" },
       }),
       core: {
         info: () => undefined,

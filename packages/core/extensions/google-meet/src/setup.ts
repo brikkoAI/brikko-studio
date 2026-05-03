@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { isBlockedHostnameOrIp } from "openclaw/plugin-sdk/ssrf-runtime";
+import { isBlockedHostnameOrIp } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import type { GoogleMeetConfig, GoogleMeetMode, GoogleMeetTransport } from "./config.js";
 
 type SetupCheck = {
@@ -137,8 +137,8 @@ export function getGoogleMeetSetupStatus(
     id: "chrome-profile",
     ok: true,
     message: config.chrome.browserProfile
-      ? "Local Chrome uses the OpenClaw browser profile; chrome.browserProfile is passed to chrome-node hosts"
-      : "Local Chrome uses the OpenClaw browser profile; configure browser.defaultProfile to choose another profile",
+      ? "Local Chrome uses the Brikko Studio browser profile; chrome.browserProfile is passed to chrome-node hosts"
+      : "Local Chrome uses the Brikko Studio browser profile; configure browser.defaultProfile to choose another profile",
   });
 
   if (needsChromeRealtimeAudio) {

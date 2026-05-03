@@ -1,13 +1,13 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
 import type { ChannelPluginCatalogEntry } from "../../channels/plugins/catalog.js";
 import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import {
   resolveConfiguredChannelPluginIds,
   resolveDiscoverableScopedChannelPluginIds,
 } from "../../plugins/channel-plugin-ids.js";
-import { loadOpenClawPlugins } from "../../plugins/loader.js";
+import { loadBrikko StudioPlugins } from "../../plugins/loader.js";
 import { createPluginLoaderLogger } from "../../plugins/logger.js";
 import type { PluginRegistry } from "../../plugins/registry.js";
 import type { RuntimeEnv } from "../../runtime.js";
@@ -20,7 +20,7 @@ import {
 import { getTrustedChannelPluginCatalogEntry } from "./trusted-catalog.js";
 
 type InstallResult = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   installed: boolean;
   pluginId?: string;
   status: OnboardingPluginInstallStatus;
@@ -40,7 +40,7 @@ function toOnboardingPluginInstallEntry(
 }
 
 export async function ensureChannelSetupPluginInstalled(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   entry: ChannelPluginCatalogEntry;
   prompter: WizardPrompter;
   runtime: RuntimeEnv;
@@ -68,7 +68,7 @@ export async function ensureChannelSetupPluginInstalled(params: {
 }
 
 export function reloadChannelSetupPluginRegistry(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   runtime: RuntimeEnv;
   workspaceDir?: string;
 }): void {
@@ -76,7 +76,7 @@ export function reloadChannelSetupPluginRegistry(params: {
 }
 
 function loadChannelSetupPluginRegistry(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   runtime: RuntimeEnv;
   workspaceDir?: string;
   onlyPluginIds?: string[];
@@ -97,7 +97,7 @@ function loadChannelSetupPluginRegistry(params: {
       env: process.env,
     });
   const log = createSubsystemLogger("plugins");
-  return loadOpenClawPlugins({
+  return loadBrikko StudioPlugins({
     config: resolvedConfig,
     activationSourceConfig: params.cfg,
     autoEnabledReasons: autoEnabled.autoEnabledReasons,
@@ -112,7 +112,7 @@ function loadChannelSetupPluginRegistry(params: {
 }
 
 function resolveScopedChannelPluginId(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel: string;
   pluginId?: string;
   workspaceDir?: string;
@@ -130,7 +130,7 @@ function resolveScopedChannelPluginId(params: {
 }
 
 function resolveUniqueManifestScopedChannelPluginId(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel: string;
   workspaceDir?: string;
 }): string | undefined {
@@ -144,7 +144,7 @@ function resolveUniqueManifestScopedChannelPluginId(params: {
 }
 
 export function reloadChannelSetupPluginRegistryForChannel(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   runtime: RuntimeEnv;
   channel: string;
   pluginId?: string;
@@ -163,7 +163,7 @@ export function reloadChannelSetupPluginRegistryForChannel(params: {
 }
 
 export function loadChannelSetupPluginRegistrySnapshotForChannel(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   runtime: RuntimeEnv;
   channel: string;
   pluginId?: string;

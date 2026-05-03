@@ -1,7 +1,7 @@
 ---
-summary: "OpenClaw tools and plugins overview: what the agent can do and how to extend it"
+summary: "Brikko Studio tools and plugins overview: what the agent can do and how to extend it"
 read_when:
-  - You want to understand what tools OpenClaw provides
+  - You want to understand what tools Brikko Studio provides
   - You need to configure, allow, or deny tools
   - You are deciding between built-in tools, skills, and plugins
 title: "Tools and plugins"
@@ -13,12 +13,12 @@ messages, and interacts with devices.
 
 ## Tools, skills, and plugins
 
-OpenClaw has three layers that work together:
+Brikko Studio has three layers that work together:
 
 <Steps>
   <Step title="Tools are what the agent calls">
     A tool is a typed function the agent can invoke (e.g. `exec`, `browser`,
-    `web_search`, `message`). OpenClaw ships a set of **built-in tools** and
+    `web_search`, `message`). Brikko Studio ships a set of **built-in tools** and
     plugins can register additional ones.
 
     The agent sees tools as structured function definitions sent to the model API.
@@ -40,7 +40,7 @@ OpenClaw has three layers that work together:
     channels, model providers, tools, skills, speech, realtime transcription,
     realtime voice, media understanding, image generation, video generation,
     web fetch, web search, and more. Some plugins are **core** (shipped with
-    OpenClaw), others are **external** (published on npm by the community).
+    Brikko Studio), others are **external** (published on npm by the community).
 
     [Install and configure plugins](/tools/plugin) | [Build your own](/plugins/building-plugins)
 
@@ -49,7 +49,7 @@ OpenClaw has three layers that work together:
 
 ## Built-in tools
 
-These tools ship with OpenClaw and are available without installing any plugins:
+These tools ship with Brikko Studio and are available without installing any plugins:
 
 | Tool                                       | What it does                                                          | Page                                                         |
 | ------------------------------------------ | --------------------------------------------------------------------- | ------------------------------------------------------------ |
@@ -112,7 +112,7 @@ Plugins can register additional tools. Some examples:
 - [Tokenjuice](/tools/tokenjuice) — compact noisy `exec` and `bash` tool results
 
 Plugin tools are still authored with `api.registerTool(...)` and declared in
-the plugin manifest's `contracts.tools` list. OpenClaw captures the validated
+the plugin manifest's `contracts.tools` list. Brikko Studio captures the validated
 tool descriptor during discovery and caches it by plugin source and contract, so
 later tool planning can skip plugin runtime loading. Tool execution still loads
 the owning plugin and calls the live registered implementation.
@@ -133,7 +133,7 @@ config. Deny always wins over allow.
 }
 ```
 
-OpenClaw fails closed when an explicit allowlist resolves to no callable tools.
+Brikko Studio fails closed when an explicit allowlist resolves to no callable tools.
 For example, `tools.allow: ["query_db"]` only works if a loaded plugin actually
 registers `query_db`. If no built-in, plugin, or bundled MCP tool matches the
 allowlist, the run stops before the model call instead of continuing as a
@@ -166,7 +166,7 @@ sessions and logged-in profiles, so add it explicitly with
 `agents.list[].tools.alsoAllow: ["browser"]`.
 
 <Note>
-Configuring `tools.exec` or `tools.fs` under a restrictive profile (`messaging`, `minimal`) does not implicitly widen the profile's allowlist. Add explicit `tools.alsoAllow` entries (for example `["exec", "process"]` for exec, or `["read", "write", "edit"]` for fs) when you want a restrictive profile to use those configured sections. OpenClaw logs a startup warning when a config section is present without a matching `alsoAllow` grant.
+Configuring `tools.exec` or `tools.fs` under a restrictive profile (`messaging`, `minimal`) does not implicitly widen the profile's allowlist. Add explicit `tools.alsoAllow` entries (for example `["exec", "process"]` for exec, or `["read", "write", "edit"]` for fs) when you want a restrictive profile to use those configured sections. Brikko Studio logs a startup warning when a config section is present without a matching `alsoAllow` grant.
 </Note>
 
 The `coding` and `messaging` profiles also allow configured bundle MCP tools
@@ -201,7 +201,7 @@ Use `group:*` shorthands in allow/deny lists:
 | `group:nodes`      | nodes                                                                                                     |
 | `group:agents`     | agents_list                                                                                               |
 | `group:media`      | image, image_generate, music_generate, video_generate, tts                                                |
-| `group:openclaw`   | All built-in OpenClaw tools (excludes plugin tools)                                                       |
+| `group:brikko-studio`   | All built-in Brikko Studio tools (excludes plugin tools)                                                       |
 
 `sessions_history` returns a bounded, safety-filtered recall view. It strips
 thinking tags, `<relevant-memories>` scaffolding, plain-text tool-call XML

@@ -7,7 +7,7 @@ read_when:
 title: "Transcript hygiene"
 ---
 
-OpenClaw applies **provider-specific fixes** to transcripts before a run (building model context). Most of these are **in-memory** adjustments used to satisfy strict provider requirements. A separate session-file repair pass may also rewrite stored JSONL before the session is loaded, but only for malformed lines or persisted turns that are invalid durable records. Delivered assistant replies are preserved on disk; provider-specific assistant-prefill stripping happens only while constructing outbound payloads. When a repair occurs, the original file is backed up alongside the session file.
+Brikko Studio applies **provider-specific fixes** to transcripts before a run (building model context). Most of these are **in-memory** adjustments used to satisfy strict provider requirements. A separate session-file repair pass may also rewrite stored JSONL before the session is loaded, but only for malformed lines or persisted turns that are invalid durable records. Delivered assistant replies are preserved on disk; provider-specific assistant-prefill stripping happens only while constructing outbound payloads. When a repair occurs, the original file is backed up alongside the session file.
 
 Scope includes:
 
@@ -32,7 +32,7 @@ If you need transcript storage details, see:
 ## Global rule: runtime context is not user transcript
 
 Runtime/system context can be added to the model prompt for a turn, but it is
-not end-user-authored content. OpenClaw keeps a separate transcript-facing
+not end-user-authored content. Brikko Studio keeps a separate transcript-facing
 prompt body for Gateway replies, queued followups, ACP, CLI, and embedded Pi
 runs. Stored visible user turns use that transcript body instead of the
 runtime-enriched prompt.
@@ -94,18 +94,18 @@ Implementation:
 ## Global rule: inter-session input provenance
 
 When an agent sends a prompt into another session via `sessions_send` (including
-agent-to-agent reply/announce steps), OpenClaw persists the created user turn with:
+agent-to-agent reply/announce steps), Brikko Studio persists the created user turn with:
 
 - `message.provenance.kind = "inter_session"`
 
-OpenClaw also prepends a same-turn `[Inter-session message ... isUser=false]`
+Brikko Studio also prepends a same-turn `[Inter-session message ... isUser=false]`
 marker before the routed prompt text so the active model call can distinguish
 foreign session output from external end-user instructions. This marker includes
 the source session, channel, and tool when available. The transcript still uses
 `role: "user"` for provider compatibility, but the visible text and provenance
 metadata both mark the turn as inter-session data.
 
-During context rebuild, OpenClaw applies the same marker to older persisted
+During context rebuild, Brikko Studio applies the same marker to older persisted
 inter-session user turns that only have provenance metadata.
 
 ---
@@ -145,7 +145,7 @@ inter-session user turns that only have provenance metadata.
 - Trailing assistant prefill turns are stripped from outgoing Anthropic Messages
   payloads when thinking is enabled, including Cloudflare AI Gateway routes.
 - Thinking blocks with missing, empty, or blank replay signatures are stripped
-  before provider conversion. If that empties an assistant turn, OpenClaw keeps
+  before provider conversion. If that empties an assistant turn, Brikko Studio keeps
   turn shape with non-empty omitted-reasoning text.
 - Older thinking-only assistant turns that must be stripped are replaced with
   non-empty omitted-reasoning text so provider adapters do not drop the replay
@@ -160,11 +160,11 @@ inter-session user turns that only have provenance metadata.
 - Assistant stream-error turns that contain only blank text blocks are dropped
   from the in-memory replay copy instead of replaying an invalid blank block.
 - Claude thinking blocks with missing, empty, or blank replay signatures are
-  stripped before Converse replay. If that empties an assistant turn, OpenClaw
+  stripped before Converse replay. If that empties an assistant turn, Brikko Studio
   keeps turn shape with non-empty omitted-reasoning text.
 - Older thinking-only assistant turns that must be stripped are replaced with
   non-empty omitted-reasoning text so the Converse replay keeps strict turn shape.
-- Replay filters OpenClaw delivery-mirror and gateway-injected assistant turns.
+- Replay filters Brikko Studio delivery-mirror and gateway-injected assistant turns.
 - Image sanitization applies through the global rule.
 
 **Mistral (including model-id based detection)**
@@ -189,7 +189,7 @@ inter-session user turns that only have provenance metadata.
 
 ## Historical behavior (pre-2026.1.22)
 
-Before the 2026.1.22 release, OpenClaw applied multiple layers of transcript hygiene:
+Before the 2026.1.22 release, Brikko Studio applied multiple layers of transcript hygiene:
 
 - A **transcript-sanitize extension** ran on every context build and could:
   - Repair tool use/result pairing.

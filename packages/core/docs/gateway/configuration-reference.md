@@ -1,18 +1,18 @@
 ---
-summary: "Gateway config reference for core OpenClaw keys, defaults, and links to dedicated subsystem references"
+summary: "Gateway config reference for core Brikko Studio keys, defaults, and links to dedicated subsystem references"
 title: "Configuration reference"
 read_when:
   - You need exact field-level config semantics or defaults
   - You are validating channel, model, gateway, or tool config blocks
 ---
 
-Core config reference for `~/.openclaw/openclaw.json`. For a task-oriented overview, see [Configuration](/gateway/configuration).
+Core config reference for `~/.brikko-studio/brikko-studio.json`. For a task-oriented overview, see [Configuration](/gateway/configuration).
 
-Covers the main OpenClaw config surfaces and links out when a subsystem has its own deeper reference. Channel- and plugin-owned command catalogs and deep memory/QMD knobs live on their own pages rather than on this one.
+Covers the main Brikko Studio config surfaces and links out when a subsystem has its own deeper reference. Channel- and plugin-owned command catalogs and deep memory/QMD knobs live on their own pages rather than on this one.
 
 Code truth:
 
-- `openclaw config schema` prints the live JSON Schema used for validation and Control UI, with bundled/plugin/channel metadata merged in when available
+- `brikko-studio config schema` prints the live JSON Schema used for validation and Control UI, with bundled/plugin/channel metadata merged in when available
 - `config.schema.lookup` returns one path-scoped schema node for drill-down tooling
 - `pnpm config:docs:check` / `pnpm config:docs:gen` validate the config-doc baseline hash against the current schema surface
 
@@ -27,7 +27,7 @@ Dedicated deep references:
 - [Slash commands](/tools/slash-commands) for the current built-in + bundled command catalog
 - owning channel/plugin pages for channel-specific command surfaces
 
-Config format is **JSON5** (comments + trailing commas allowed). All fields are optional — OpenClaw uses safe defaults when omitted.
+Config format is **JSON5** (comments + trailing commas allowed). All fields are optional — Brikko Studio uses safe defaults when omitted.
 
 ---
 
@@ -81,8 +81,8 @@ The `models` root also owns global model-catalog behavior.
 
 ## MCP
 
-OpenClaw-managed MCP server definitions live under `mcp.servers` and are
-consumed by embedded Pi and other runtime adapters. The `openclaw mcp list`,
+Brikko Studio-managed MCP server definitions live under `mcp.servers` and are
+consumed by embedded Pi and other runtime adapters. The `brikko-studio mcp list`,
 `show`, `set`, and `unset` commands manage this block without connecting to the
 target server during config edits.
 
@@ -111,8 +111,8 @@ target server during config edits.
 - `mcp.servers`: named stdio or remote MCP server definitions for runtimes that
   expose configured MCP tools.
   Remote entries use `transport: "streamable-http"` or `transport: "sse"`;
-  `type: "http"` is a CLI-native alias that `openclaw mcp set` and
-  `openclaw doctor --fix` normalize into the canonical `transport` field.
+  `type: "http"` is a CLI-native alias that `brikko-studio mcp set` and
+  `brikko-studio doctor --fix` normalize into the canonical `transport` field.
 - `mcp.sessionIdleTtlMs`: idle TTL for session-scoped bundled MCP runtimes.
   One-shot embedded runs request run-end cleanup; this TTL is the backstop for
   long-lived sessions and future callers.
@@ -120,7 +120,7 @@ target server during config edits.
   The next tool discovery/use recreates them from the new config, so removed
   `mcp.servers` entries are reaped immediately instead of waiting for idle TTL.
 
-See [MCP](/cli/mcp#openclaw-as-an-mcp-client-registry) and
+See [MCP](/cli/mcp#brikko-studio-as-an-mcp-client-registry) and
 [CLI backends](/gateway/cli-backends#bundle-mcp-overlays) for runtime behavior.
 
 ## Skills
@@ -152,7 +152,7 @@ See [MCP](/cli/mcp#openclaw-as-an-mcp-client-registry) and
 - `load.extraDirs`: extra shared skill roots (lowest precedence).
 - `install.preferBrew`: when true, prefer Homebrew installers when `brew` is
   available before falling back to other installer kinds.
-- `install.nodeManager`: node installer preference for `metadata.openclaw.install`
+- `install.nodeManager`: node installer preference for `metadata.brikko-studio.install`
   specs (`npm` | `pnpm` | `yarn` | `bun`).
 - `entries.<skillKey>.enabled: false` disables a skill even if bundled/installed.
 - `entries.<skillKey>.apiKey`: convenience for skills declaring a primary env var (plaintext string or SecretRef object).
@@ -183,8 +183,8 @@ See [MCP](/cli/mcp#openclaw-as-an-mcp-client-registry) and
 }
 ```
 
-- Loaded from `~/.openclaw/extensions`, `<workspace>/.openclaw/extensions`, plus `plugins.load.paths`.
-- Discovery accepts native OpenClaw plugins plus compatible Codex bundles and Claude bundles, including manifestless Claude default-layout bundles.
+- Loaded from `~/.brikko-studio/extensions`, `<workspace>/.brikko-studio/extensions`, plus `plugins.load.paths`.
+- Discovery accepts native Brikko Studio plugins plus compatible Codex bundles and Claude bundles, including manifestless Claude default-layout bundles.
 - **Config changes require a gateway restart.**
 - `allow`: optional allowlist (only listed plugins load). `deny` wins.
 - `plugins.entries.<id>.apiKey`: plugin-level API key convenience field (when supported by the plugin).
@@ -193,8 +193,8 @@ See [MCP](/cli/mcp#openclaw-as-an-mcp-client-registry) and
 - `plugins.entries.<id>.hooks.allowConversationAccess`: when `true`, trusted non-bundled plugins may read raw conversation content from typed hooks such as `llm_input`, `llm_output`, `before_agent_finalize`, and `agent_end`.
 - `plugins.entries.<id>.subagent.allowModelOverride`: explicitly trust this plugin to request per-run `provider` and `model` overrides for background subagent runs.
 - `plugins.entries.<id>.subagent.allowedModels`: optional allowlist of canonical `provider/model` targets for trusted subagent overrides. Use `"*"` only when you intentionally want to allow any model.
-- `plugins.entries.<id>.config`: plugin-defined config object (validated by native OpenClaw plugin schema when available).
-- Channel plugin account/runtime settings live under `channels.<id>` and should be described by the owning plugin's manifest `channelConfigs` metadata, not by a central OpenClaw option registry.
+- `plugins.entries.<id>.config`: plugin-defined config object (validated by native Brikko Studio plugin schema when available).
+- Channel plugin account/runtime settings live under `channels.<id>` and should be described by the owning plugin's manifest `channelConfigs` metadata, not by a central Brikko Studio option registry.
 - `plugins.entries.firecrawl.config.webFetch`: Firecrawl web-fetch provider settings.
   - `apiKey`: Firecrawl API key (accepts SecretRef). Falls back to `plugins.entries.firecrawl.config.webSearch.apiKey`, legacy `tools.web.fetch.firecrawl.apiKey`, or `FIRECRAWL_API_KEY` env var.
   - `baseUrl`: Firecrawl API base URL (default: `https://api.firecrawl.dev`; self-hosted overrides must target private/internal endpoints).
@@ -215,7 +215,7 @@ See [MCP](/cli/mcp#openclaw-as-an-mcp-client-registry) and
   - `memory.citations`
   - `memory.qmd.*`
   - `plugins.entries.memory-core.config.dreaming`
-- Enabled Claude bundle plugins can also contribute embedded Pi defaults from `settings.json`; OpenClaw applies those as sanitized agent settings, not as raw OpenClaw config patches.
+- Enabled Claude bundle plugins can also contribute embedded Pi defaults from `settings.json`; Brikko Studio applies those as sanitized agent settings, not as raw Brikko Studio config patches.
 - `plugins.slots.memory`: pick the active memory plugin id, or `"none"` to disable memory plugins.
 - `plugins.slots.contextEngine`: pick the active context engine plugin id; defaults to `"legacy"` unless you install and select another engine.
 
@@ -225,7 +225,7 @@ See [Plugins](/tools/plugin).
 
 ## Commitments
 
-`commitments` controls inferred follow-up memory: OpenClaw can detect check-ins from conversation turns and deliver them through heartbeat runs.
+`commitments` controls inferred follow-up memory: Brikko Studio can detect check-ins from conversation turns and deliver them through heartbeat runs.
 
 - `commitments.enabled`: enable hidden LLM extraction, storage, and heartbeat delivery for inferred follow-up commitments. Default: `false`.
 - `commitments.maxPerDay`: maximum inferred follow-up commitments delivered per agent session in a rolling day. Default: `3`.
@@ -255,7 +255,7 @@ See [Inferred commitments](/concepts/commitments).
       sweepMinutes: 5,
     },
     profiles: {
-      openclaw: { cdpPort: 18800, color: "#FF4500" },
+      brikko-studio: { cdpPort: 18800, color: "#FF4500" },
       work: {
         cdpPort: 18801,
         color: "#0066CC",
@@ -291,13 +291,13 @@ See [Inferred commitments](/concepts/commitments).
 - In strict mode, use `ssrfPolicy.hostnameAllowlist` and `ssrfPolicy.allowedHostnames` for explicit exceptions.
 - Remote profiles are attach-only (start/stop/reset disabled).
 - `profiles.*.cdpUrl` accepts `http://`, `https://`, `ws://`, and `wss://`.
-  Use HTTP(S) when you want OpenClaw to discover `/json/version`; use WS(S)
+  Use HTTP(S) when you want Brikko Studio to discover `/json/version`; use WS(S)
   when your provider gives you a direct DevTools WebSocket URL.
 - `remoteCdpTimeoutMs` and `remoteCdpHandshakeTimeoutMs` apply to remote and
   `attachOnly` CDP reachability plus tab-opening requests. Managed loopback
   profiles keep local CDP defaults.
 - If an externally managed CDP service is reachable through loopback, set that
-  profile's `attachOnly: true`; otherwise OpenClaw treats the loopback port as a
+  profile's `attachOnly: true`; otherwise Brikko Studio treats the loopback port as a
   local managed browser profile and may report local port ownership errors.
 - `existing-session` profiles use Chrome MCP instead of CDP and can attach on
   the selected host or through a connected browser node.
@@ -307,7 +307,7 @@ See [Inferred commitments](/concepts/commitments).
   snapshot/ref-driven actions instead of CSS-selector targeting, one-file upload
   hooks, no dialog timeout overrides, no `wait --load networkidle`, and no
   `responsebody`, PDF export, download interception, or batch actions.
-- Local managed `openclaw` profiles auto-assign `cdpPort` and `cdpUrl`; only
+- Local managed `brikko-studio` profiles auto-assign `cdpPort` and `cdpUrl`; only
   set `cdpUrl` explicitly for remote CDP.
 - Local managed profiles can set `executablePath` to override the global
   `browser.executablePath` for that profile. Use this to run one profile in
@@ -334,7 +334,7 @@ See [Inferred commitments](/concepts/commitments).
   ui: {
     seamColor: "#FF4500",
     assistant: {
-      name: "OpenClaw",
+      name: "Brikko Studio",
       avatar: "CB", // emoji, short text, image URL, or data URI
     },
   },
@@ -357,7 +357,7 @@ See [Inferred commitments](/concepts/commitments).
     auth: {
       mode: "token", // none | token | password | trusted-proxy
       token: "your-token",
-      // password: "your-password", // or OPENCLAW_GATEWAY_PASSWORD
+      // password: "your-password", // or BRIKKO_STUDIO_GATEWAY_PASSWORD
       // trustedProxy: { userHeader: "x-forwarded-user" }, // for mode=trusted-proxy; see /gateway/trusted-proxy-auth
       allowTailscale: true,
       rateLimit: {
@@ -373,7 +373,7 @@ See [Inferred commitments](/concepts/commitments).
     },
     controlUi: {
       enabled: true,
-      basePath: "/openclaw",
+      basePath: "/brikko-studio",
       // root: "dist/control-ui",
       // embedSandbox: "scripts", // strict | scripts | trusted
       // allowExternalEmbedUrls: false, // dangerous: allow absolute external http(s) embed URLs
@@ -421,7 +421,7 @@ See [Inferred commitments](/concepts/commitments).
 <Accordion title="Gateway field details">
 
 - `mode`: `local` (run gateway) or `remote` (connect to remote gateway). Gateway refuses to start unless `local`.
-- `port`: single multiplexed port for WS + HTTP. Precedence: `--port` > `OPENCLAW_GATEWAY_PORT` > `gateway.port` > `18789`.
+- `port`: single multiplexed port for WS + HTTP. Precedence: `--port` > `BRIKKO_STUDIO_GATEWAY_PORT` > `gateway.port` > `18789`.
 - `bind`: `auto`, `loopback` (default), `lan` (`0.0.0.0`), `tailnet` (Tailscale IP only), or `custom`.
 - **Legacy bind aliases**: use bind mode values in `gateway.bind` (`auto`, `loopback`, `lan`, `tailnet`, `custom`), not host aliases (`0.0.0.0`, `127.0.0.1`, `localhost`, `::`, `::1`).
 - **Docker note**: the default `loopback` bind listens on `127.0.0.1` inside the container. With Docker bridge networking (`-p 18789:18789`), traffic arrives on `eth0`, so the gateway is unreachable. Use `--network host`, or set `bind: "lan"` (or `bind: "custom"` with `customBindHost: "0.0.0.0"`) to listen on all interfaces.
@@ -442,9 +442,9 @@ See [Inferred commitments](/concepts/commitments).
 - `controlUi.chatMessageMaxWidth`: optional max-width for grouped Control UI chat messages. Accepts constrained CSS width values such as `960px`, `82%`, `min(1280px, 82%)`, and `calc(100% - 2rem)`.
 - `controlUi.dangerouslyAllowHostHeaderOriginFallback`: dangerous mode that enables Host-header origin fallback for deployments that intentionally rely on Host-header origin policy.
 - `remote.transport`: `ssh` (default) or `direct` (ws/wss). For `direct`, `remote.url` must be `ws://` or `wss://`.
-- `OPENCLAW_ALLOW_INSECURE_PRIVATE_WS=1`: client-side process-environment
+- `BRIKKO_STUDIO_ALLOW_INSECURE_PRIVATE_WS=1`: client-side process-environment
   break-glass override that allows plaintext `ws://` to trusted private-network
-  IPs; default remains loopback-only for plaintext. There is no `openclaw.json`
+  IPs; default remains loopback-only for plaintext. There is no `brikko-studio.json`
   equivalent, and browser private-network config such as
   `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork` does not affect Gateway
   WebSocket clients.
@@ -452,9 +452,9 @@ See [Inferred commitments](/concepts/commitments).
 - `gateway.push.apns.relay.baseUrl`: base HTTPS URL for the external APNs relay used by official/TestFlight iOS builds after they publish relay-backed registrations to the gateway. This URL must match the relay URL compiled into the iOS build.
 - `gateway.push.apns.relay.timeoutMs`: gateway-to-relay send timeout in milliseconds. Defaults to `10000`.
 - Relay-backed registrations are delegated to a specific gateway identity. The paired iOS app fetches `gateway.identity.get`, includes that identity in the relay registration, and forwards a registration-scoped send grant to the gateway. Another gateway cannot reuse that stored registration.
-- `OPENCLAW_APNS_RELAY_BASE_URL` / `OPENCLAW_APNS_RELAY_TIMEOUT_MS`: temporary env overrides for the relay config above.
-- `OPENCLAW_APNS_RELAY_ALLOW_HTTP=true`: development-only escape hatch for loopback HTTP relay URLs. Production relay URLs should stay on HTTPS.
-- `gateway.handshakeTimeoutMs`: pre-auth Gateway WebSocket handshake timeout in milliseconds. Default: `15000`. `OPENCLAW_HANDSHAKE_TIMEOUT_MS` takes precedence when set. Increase this on loaded or low-powered hosts where local clients can connect while startup warmup is still settling.
+- `BRIKKO_STUDIO_APNS_RELAY_BASE_URL` / `BRIKKO_STUDIO_APNS_RELAY_TIMEOUT_MS`: temporary env overrides for the relay config above.
+- `BRIKKO_STUDIO_APNS_RELAY_ALLOW_HTTP=true`: development-only escape hatch for loopback HTTP relay URLs. Production relay URLs should stay on HTTPS.
+- `gateway.handshakeTimeoutMs`: pre-auth Gateway WebSocket handshake timeout in milliseconds. Default: `15000`. `BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS` takes precedence when set. Increase this on loaded or low-powered hosts where local clients can connect while startup warmup is still settling.
 - `gateway.channelHealthCheckMinutes`: channel health-monitor interval in minutes. Set `0` to disable health-monitor restarts globally. Default: `5`.
 - `gateway.channelStaleEventThresholdMinutes`: stale-socket threshold in minutes. Keep this greater than or equal to `gateway.channelHealthCheckMinutes`. Default: `30`.
 - `gateway.channelMaxRestartsPerHour`: maximum health-monitor restarts per channel/account in a rolling hour. Default: `10`.
@@ -489,12 +489,12 @@ See [Inferred commitments](/concepts/commitments).
 Run multiple gateways on one host with unique ports and state dirs:
 
 ```bash
-OPENCLAW_CONFIG_PATH=~/.openclaw/a.json \
-OPENCLAW_STATE_DIR=~/.openclaw-a \
-openclaw gateway --port 19001
+BRIKKO_STUDIO_CONFIG_PATH=~/.brikko-studio/a.json \
+BRIKKO_STUDIO_STATE_DIR=~/.brikko-studio-a \
+brikko-studio gateway --port 19001
 ```
 
-Convenience flags: `--dev` (uses `~/.openclaw-dev` + port `19001`), `--profile <name>` (uses `~/.openclaw-<name>`).
+Convenience flags: `--dev` (uses `~/.brikko-studio-dev` + port `19001`), `--profile <name>` (uses `~/.brikko-studio-<name>`).
 
 See [Multiple Gateways](/gateway/multiple-gateways).
 
@@ -506,9 +506,9 @@ See [Multiple Gateways](/gateway/multiple-gateways).
     tls: {
       enabled: false,
       autoGenerate: false,
-      certPath: "/etc/openclaw/tls/server.crt",
-      keyPath: "/etc/openclaw/tls/server.key",
-      caPath: "/etc/openclaw/tls/ca-bundle.crt",
+      certPath: "/etc/brikko-studio/tls/server.crt",
+      keyPath: "/etc/brikko-studio/tls/server.key",
+      caPath: "/etc/brikko-studio/tls/ca-bundle.crt",
     },
   },
 }
@@ -558,7 +558,7 @@ See [Multiple Gateways](/gateway/multiple-gateways).
     allowedSessionKeyPrefixes: ["hook:", "hook:gmail:"],
     allowedAgentIds: ["hooks", "main"],
     presets: ["gmail"],
-    transformsDir: "~/.openclaw/hooks/transforms",
+    transformsDir: "~/.brikko-studio/hooks/transforms",
     mappings: [
       {
         match: { path: "gmail" },
@@ -577,7 +577,7 @@ See [Multiple Gateways](/gateway/multiple-gateways).
 }
 ```
 
-Auth: `Authorization: Bearer <token>` or `x-openclaw-token: <token>`.
+Auth: `Authorization: Bearer <token>` or `x-brikko-studio-token: <token>`.
 Query-string hook tokens are rejected.
 
 Validation and safety notes:
@@ -603,7 +603,7 @@ Validation and safety notes:
 - Templates like `{{messages[0].subject}}` read from the payload.
 - `transform` can point to a JS/TS module returning a hook action.
   - `transform.module` must be a relative path and stays within `hooks.transformsDir` (absolute paths and traversal are rejected).
-  - Keep `hooks.transformsDir` under `~/.openclaw/hooks/transforms`; workspace skill directories are rejected. If `openclaw doctor` reports this path as invalid, move the transform module into the hooks transforms directory or remove `hooks.transformsDir`.
+  - Keep `hooks.transformsDir` under `~/.brikko-studio/hooks/transforms`; workspace skill directories are rejected. If `brikko-studio doctor` reports this path as invalid, move the transform module into the hooks transforms directory or remove `hooks.transformsDir`.
 - `agentId` routes to a specific agent; unknown IDs fall back to default.
 - `allowedAgentIds`: restricts explicit routing (`*` or omitted = allow all, `[]` = deny all).
 - `defaultSessionKey`: optional fixed session key for hook agent runs without explicit `sessionKey`.
@@ -624,7 +624,7 @@ Validation and safety notes:
 {
   hooks: {
     gmail: {
-      account: "openclaw@gmail.com",
+      account: "brikko-studio@gmail.com",
       topic: "projects/<project-id>/topics/gog-gmail-watch",
       subscription: "gog-gmail-watch-push",
       pushToken: "shared-push-token",
@@ -641,7 +641,7 @@ Validation and safety notes:
 }
 ```
 
-- Gateway auto-starts `gog gmail watch serve` on boot when configured. Set `OPENCLAW_SKIP_GMAIL_WATCHER=1` to disable.
+- Gateway auto-starts `gog gmail watch serve` on boot when configured. Set `BRIKKO_STUDIO_SKIP_GMAIL_WATCHER=1` to disable.
 - Don't run a separate `gog gmail watch serve` alongside the Gateway.
 
 ---
@@ -651,23 +651,23 @@ Validation and safety notes:
 ```json5
 {
   canvasHost: {
-    root: "~/.openclaw/workspace/canvas",
+    root: "~/.brikko-studio/workspace/canvas",
     liveReload: true,
-    // enabled: false, // or OPENCLAW_SKIP_CANVAS_HOST=1
+    // enabled: false, // or BRIKKO_STUDIO_SKIP_CANVAS_HOST=1
   },
 }
 ```
 
 - Serves agent-editable HTML/CSS/JS and A2UI over HTTP under the Gateway port:
-  - `http://<gateway-host>:<gateway.port>/__openclaw__/canvas/`
-  - `http://<gateway-host>:<gateway.port>/__openclaw__/a2ui/`
+  - `http://<gateway-host>:<gateway.port>/__brikko-studio__/canvas/`
+  - `http://<gateway-host>:<gateway.port>/__brikko-studio__/a2ui/`
 - Local-only: keep `gateway.bind: "loopback"` (default).
 - Non-loopback binds: canvas routes require Gateway auth (token/password/trusted-proxy), same as other Gateway HTTP surfaces.
 - Node WebViews typically don't send auth headers; after a node is paired and connected, the Gateway advertises node-scoped capability URLs for canvas/A2UI access.
 - Capability URLs are bound to the active node WS session and expire quickly. IP-based fallback is not used.
 - Injects live-reload client into served HTML.
 - Auto-creates starter `index.html` when empty.
-- Also serves A2UI at `/__openclaw__/a2ui/`.
+- Also serves A2UI at `/__brikko-studio__/a2ui/`.
 - Changes require a gateway restart.
 - Disable live reload for large directories or `EMFILE` errors.
 
@@ -689,7 +689,7 @@ Validation and safety notes:
 
 - `minimal` (default): omit `cliPath` + `sshPort` from TXT records.
 - `full`: include `cliPath` + `sshPort`.
-- Hostname defaults to the system hostname when it is a valid DNS label, falling back to `openclaw`. Override with `OPENCLAW_MDNS_HOSTNAME`.
+- Hostname defaults to the system hostname when it is a valid DNS label, falling back to `brikko-studio`. Override with `BRIKKO_STUDIO_MDNS_HOSTNAME`.
 
 ### Wide-area (DNS-SD)
 
@@ -701,9 +701,9 @@ Validation and safety notes:
 }
 ```
 
-Writes a unicast DNS-SD zone under `~/.openclaw/dns/`. For cross-network discovery, pair with a DNS server (CoreDNS recommended) + Tailscale split DNS.
+Writes a unicast DNS-SD zone under `~/.brikko-studio/dns/`. For cross-network discovery, pair with a DNS server (CoreDNS recommended) + Tailscale split DNS.
 
-Setup: `openclaw dns setup --apply`.
+Setup: `brikko-studio dns setup --apply`.
 
 ---
 
@@ -727,7 +727,7 @@ Setup: `openclaw dns setup --apply`.
 ```
 
 - Inline env vars are only applied if the process env is missing the key.
-- `.env` files: CWD `.env` + `~/.openclaw/.env` (neither overrides existing vars).
+- `.env` files: CWD `.env` + `~/.brikko-studio/.env` (neither overrides existing vars).
 - `shellEnv`: imports missing expected keys from your login shell profile.
 - See [Environment](/help/environment) for full precedence.
 
@@ -738,7 +738,7 @@ Reference env vars in any config string with `${VAR_NAME}`:
 ```json5
 {
   gateway: {
-    auth: { token: "${OPENCLAW_GATEWAY_TOKEN}" },
+    auth: { token: "${BRIKKO_STUDIO_GATEWAY_TOKEN}" },
   },
 }
 ```
@@ -773,7 +773,7 @@ Validation:
 ### Supported credential surface
 
 - Canonical matrix: [SecretRef Credential Surface](/reference/secretref-credential-surface)
-- `secrets apply` targets supported `openclaw.json` credential paths.
+- `secrets apply` targets supported `brikko-studio.json` credential paths.
 - `auth-profiles.json` refs are included in runtime resolution and audit coverage.
 
 ### Secret providers config
@@ -785,13 +785,13 @@ Validation:
       default: { source: "env" }, // optional explicit env provider
       filemain: {
         source: "file",
-        path: "~/.openclaw/secrets.json",
+        path: "~/.brikko-studio/secrets.json",
         mode: "json",
         timeoutMs: 5000,
       },
       vault: {
         source: "exec",
-        command: "/usr/local/bin/openclaw-vault-resolver",
+        command: "/usr/local/bin/brikko-studio-vault-resolver",
         passEnv: ["PATH", "VAULT_ADDR"],
       },
     },
@@ -837,10 +837,10 @@ Notes:
 
 - Per-agent profiles are stored at `<agentDir>/auth-profiles.json`.
 - `auth-profiles.json` supports value-level refs (`keyRef` for `api_key`, `tokenRef` for `token`) for static credential modes.
-- Legacy flat `auth-profiles.json` maps such as `{ "provider": { "apiKey": "..." } }` are not a runtime format; `openclaw doctor --fix` rewrites them to canonical `provider:default` API-key profiles with a `.legacy-flat.*.bak` backup.
+- Legacy flat `auth-profiles.json` maps such as `{ "provider": { "apiKey": "..." } }` are not a runtime format; `brikko-studio doctor --fix` rewrites them to canonical `provider:default` API-key profiles with a `.legacy-flat.*.bak` backup.
 - OAuth-mode profiles (`auth.profiles.<id>.mode = "oauth"`) do not support SecretRef-backed auth-profile credentials.
 - Static runtime credentials come from in-memory resolved snapshots; legacy static `auth.json` entries are scrubbed when discovered.
-- Legacy OAuth imports from `~/.openclaw/credentials/oauth.json`.
+- Legacy OAuth imports from `~/.brikko-studio/credentials/oauth.json`.
 - See [OAuth](/concepts/oauth).
 - Secrets runtime behavior and `audit/configure/apply` tooling: [Secrets Management](/gateway/secrets).
 
@@ -888,7 +888,7 @@ Notes:
 {
   logging: {
     level: "info",
-    file: "/tmp/openclaw/openclaw.log",
+    file: "/tmp/brikko-studio/brikko-studio.log",
     consoleLevel: "info",
     consoleStyle: "pretty", // pretty | compact | json
     redactSensitive: "tools", // off | tools
@@ -897,10 +897,10 @@ Notes:
 }
 ```
 
-- Default log file: `/tmp/openclaw/openclaw-YYYY-MM-DD.log`.
+- Default log file: `/tmp/brikko-studio/brikko-studio-YYYY-MM-DD.log`.
 - Set `logging.file` for a stable path.
 - `consoleLevel` bumps to `debug` when `--verbose`.
-- `maxFileBytes`: maximum active log file size in bytes before rotation (positive integer; default: `104857600` = 100 MB). OpenClaw keeps up to five numbered archives beside the active file.
+- `maxFileBytes`: maximum active log file size in bytes before rotation (positive integer; default: `104857600` = 100 MB). Brikko Studio keeps up to five numbered archives beside the active file.
 - `redactSensitive` / `redactPatterns`: best-effort masking for console output, file logs, OTLP log records, and persisted session transcript text. `redactSensitive: "off"` only disables this general log/transcript policy; UI/tool/diagnostic safety surfaces still redact secrets before emission.
 
 ---
@@ -922,7 +922,7 @@ Notes:
       logsEndpoint: "https://logs.example.com/v1/logs",
       protocol: "http/protobuf", // http/protobuf | grpc
       headers: { "x-tenant-id": "my-org" },
-      serviceName: "openclaw-gateway",
+      serviceName: "brikko-studio-gateway",
       traces: true,
       metrics: true,
       logs: false,
@@ -940,7 +940,7 @@ Notes:
 
     cacheTrace: {
       enabled: false,
-      filePath: "~/.openclaw/logs/cache-trace.jsonl",
+      filePath: "~/.brikko-studio/logs/cache-trace.jsonl",
       includeMessages: true,
       includePrompt: true,
       includeSystem: true,
@@ -963,10 +963,10 @@ Notes:
 - `otel.flushIntervalMs`: periodic telemetry flush interval in ms.
 - `otel.captureContent`: opt-in raw content capture for OTEL span attributes. Defaults to off. Boolean `true` captures non-system message/tool content; the object form lets you enable `inputMessages`, `outputMessages`, `toolInputs`, `toolOutputs`, and `systemPrompt` explicitly.
 - `OTEL_SEMCONV_STABILITY_OPT_IN=gen_ai_latest_experimental`: environment toggle for latest experimental GenAI span provider attributes. By default spans keep the legacy `gen_ai.system` attribute for compatibility; GenAI metrics use bounded semantic attributes.
-- `OPENCLAW_OTEL_PRELOADED=1`: environment toggle for hosts that already registered a global OpenTelemetry SDK. OpenClaw then skips plugin-owned SDK startup/shutdown while keeping diagnostic listeners active.
+- `BRIKKO_STUDIO_OTEL_PRELOADED=1`: environment toggle for hosts that already registered a global OpenTelemetry SDK. Brikko Studio then skips plugin-owned SDK startup/shutdown while keeping diagnostic listeners active.
 - `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT`, `OTEL_EXPORTER_OTLP_METRICS_ENDPOINT`, and `OTEL_EXPORTER_OTLP_LOGS_ENDPOINT`: signal-specific endpoint env vars used when the matching config key is unset.
 - `cacheTrace.enabled`: log cache trace snapshots for embedded runs (default: `false`).
-- `cacheTrace.filePath`: output path for cache trace JSONL (default: `$OPENCLAW_STATE_DIR/logs/cache-trace.jsonl`).
+- `cacheTrace.filePath`: output path for cache trace JSONL (default: `$BRIKKO_STUDIO_STATE_DIR/logs/cache-trace.jsonl`).
 - `cacheTrace.includeMessages` / `includePrompt` / `includeSystem`: control what is included in cache trace output (all default: `true`).
 
 ---
@@ -1061,9 +1061,9 @@ Notes:
 
 - `cli.banner.taglineMode` controls banner tagline style:
   - `"random"` (default): rotating funny/seasonal taglines.
-  - `"default"`: fixed neutral tagline (`All your chats, one OpenClaw.`).
+  - `"default"`: fixed neutral tagline (`All your chats, one Brikko Studio.`).
   - `"off"`: no tagline text (banner title/version still shown).
-- To hide the entire banner (not just taglines), set env `OPENCLAW_HIDE_BANNER=1`.
+- To hide the entire banner (not just taglines), set env `BRIKKO_STUDIO_HIDE_BANNER=1`.
 
 ---
 
@@ -1093,7 +1093,7 @@ See `agents.list` identity fields under [Agent defaults](/gateway/config-agents#
 
 ## Bridge (legacy, removed)
 
-Current builds no longer include the TCP bridge. Nodes connect over the Gateway WebSocket. `bridge.*` keys are no longer part of the config schema (validation fails until removed; `openclaw doctor --fix` can strip unknown keys).
+Current builds no longer include the TCP bridge. Nodes connect over the Gateway WebSocket. `bridge.*` keys are no longer part of the config schema (validation fails until removed; `brikko-studio doctor --fix` can strip unknown keys).
 
 <Accordion title="Legacy bridge config (historical reference)">
 
@@ -1245,7 +1245,7 @@ Template placeholders expanded in `tools.media.models[].args`:
 Split config into multiple files:
 
 ```json5
-// ~/.openclaw/openclaw.json
+// ~/.brikko-studio/brikko-studio.json
 {
   gateway: { port: 18789 },
   agents: { $include: "./agents.json5" },
@@ -1261,9 +1261,9 @@ Split config into multiple files:
 - Array of files: deep-merged in order (later overrides earlier).
 - Sibling keys: merged after includes (override included values).
 - Nested includes: up to 10 levels deep.
-- Paths: resolved relative to the including file, but must stay inside the top-level config directory (`dirname` of `openclaw.json`). Absolute/`../` forms are allowed only when they still resolve inside that boundary.
-- OpenClaw-owned writes that change only one top-level section backed by a single-file include write through to that included file. For example, `plugins install` updates `plugins: { $include: "./plugins.json5" }` in `plugins.json5` and leaves `openclaw.json` intact.
-- Root includes, include arrays, and includes with sibling overrides are read-only for OpenClaw-owned writes; those writes fail closed instead of flattening the config.
+- Paths: resolved relative to the including file, but must stay inside the top-level config directory (`dirname` of `brikko-studio.json`). Absolute/`../` forms are allowed only when they still resolve inside that boundary.
+- Brikko Studio-owned writes that change only one top-level section backed by a single-file include write through to that included file. For example, `plugins install` updates `plugins: { $include: "./plugins.json5" }` in `plugins.json5` and leaves `brikko-studio.json` intact.
+- Root includes, include arrays, and includes with sibling overrides are read-only for Brikko Studio-owned writes; those writes fail closed instead of flattening the config.
 - Errors: clear messages for missing files, parse errors, and circular includes.
 
 ---

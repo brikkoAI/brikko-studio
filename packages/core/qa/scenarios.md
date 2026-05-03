@@ -1,4 +1,4 @@
-# OpenClaw QA Scenarios
+# Brikko Studio QA Scenarios
 
 Canonical scenario source now lives in:
 

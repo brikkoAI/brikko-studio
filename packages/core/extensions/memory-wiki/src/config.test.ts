@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import AjvPkg from "ajv";
-import type { JsonSchemaObject } from "openclaw/plugin-sdk/config-schema";
+import type { JsonSchemaObject } from "brikko-studio/plugin-sdk/config-schema";
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_WIKI_RENDER_MODE,
@@ -13,7 +13,7 @@ import {
 
 function compileManifestConfigSchema() {
   const manifest = JSON.parse(
-    fs.readFileSync(new URL("../openclaw.plugin.json", import.meta.url), "utf8"),
+    fs.readFileSync(new URL("../brikko-studio.plugin.json", import.meta.url), "utf8"),
   ) as { configSchema: JsonSchemaObject };
   const Ajv = AjvPkg as unknown as new (opts?: object) => import("ajv").default;
   const ajv = new Ajv({ allErrors: true, strict: false, useDefaults: true });

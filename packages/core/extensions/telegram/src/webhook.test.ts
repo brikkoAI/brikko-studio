@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { once } from "node:events";
 import { request, type IncomingMessage } from "node:http";
 import { setTimeout as sleep } from "node:timers/promises";
-import { WEBHOOK_RATE_LIMIT_DEFAULTS } from "openclaw/plugin-sdk/webhook-ingress";
+import { WEBHOOK_RATE_LIMIT_DEFAULTS } from "brikko-studio/plugin-sdk/webhook-ingress";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 const handleUpdateSpy = vi.hoisted(() => vi.fn((..._args: unknown[]): unknown => undefined));

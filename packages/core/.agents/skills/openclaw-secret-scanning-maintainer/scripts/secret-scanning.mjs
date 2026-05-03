@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Secret scanning alert handler for OpenClaw maintainers.
+// Secret scanning alert handler for Brikko Studio maintainers.
 // Usage: node secret-scanning.mjs <command> [options]
 
 import { execFileSync, spawnSync } from "node:child_process";
@@ -8,7 +8,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-const REPO = "openclaw/openclaw";
+const REPO = "brikko-studio/brikko-studio";
 const REPO_URL = `https://github.com/${REPO}`;
 
 // ─── Helpers ────────────────────────────────────────────────────────────────

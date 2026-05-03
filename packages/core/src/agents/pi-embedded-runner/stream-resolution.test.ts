@@ -353,7 +353,7 @@ describe("resolveEmbeddedAgentStreamFn", () => {
       resolvedApiKey: "oauth-bearer-token",
     });
 
-    const systemPrompt = "intro<<openclaw-cache-boundary>>tail";
+    const systemPrompt = "intro<<brikko-studio-cache-boundary>>tail";
     await expect(
       streamFn({ provider: "openai-codex", id: "gpt-5.5" } as never, { systemPrompt } as never, {}),
     ).resolves.toMatchObject({ systemPrompt });

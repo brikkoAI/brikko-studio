@@ -1,5 +1,5 @@
-import { expectChannelInboundContextContract as expectInboundContextContract } from "openclaw/plugin-sdk/channel-contract-testing";
-import type { MsgContext } from "openclaw/plugin-sdk/reply-runtime";
+import { expectChannelInboundContextContract as expectInboundContextContract } from "brikko-studio/plugin-sdk/channel-contract-testing";
+import type { MsgContext } from "brikko-studio/plugin-sdk/reply-runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { SignalReactionMessage } from "./event-handler.types.js";
 vi.useRealTimers();
@@ -40,9 +40,9 @@ vi.mock("../send.js", () => ({
   sendReadReceiptSignal: sendReadReceiptMock,
 }));
 
-vi.mock("openclaw/plugin-sdk/reply-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/reply-runtime")>(
-    "openclaw/plugin-sdk/reply-runtime",
+vi.mock("brikko-studio/plugin-sdk/reply-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/reply-runtime")>(
+    "brikko-studio/plugin-sdk/reply-runtime",
   );
   return {
     ...actual,
@@ -52,9 +52,9 @@ vi.mock("openclaw/plugin-sdk/reply-runtime", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/conversation-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/conversation-runtime")>(
-    "openclaw/plugin-sdk/conversation-runtime",
+vi.mock("brikko-studio/plugin-sdk/conversation-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/conversation-runtime")>(
+    "brikko-studio/plugin-sdk/conversation-runtime",
   );
   return {
     ...actual,
@@ -63,9 +63,9 @@ vi.mock("openclaw/plugin-sdk/conversation-runtime", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/system-event-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/system-event-runtime")>(
-    "openclaw/plugin-sdk/system-event-runtime",
+vi.mock("brikko-studio/plugin-sdk/system-event-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/system-event-runtime")>(
+    "brikko-studio/plugin-sdk/system-event-runtime",
   );
   return {
     ...actual,

@@ -2,15 +2,15 @@ import { randomUUID } from "node:crypto";
 import fsSync from "node:fs";
 import type { Agent } from "node:https";
 import { HttpsProxyAgent } from "https-proxy-agent";
-import { formatCliCommand } from "openclaw/plugin-sdk/cli-runtime";
-import { VERSION } from "openclaw/plugin-sdk/cli-runtime";
+import { formatCliCommand } from "brikko-studio/plugin-sdk/cli-runtime";
+import { VERSION } from "brikko-studio/plugin-sdk/cli-runtime";
 import {
   resolveEnvHttpProxyUrl,
   shouldUseEnvHttpProxyForUrl,
-} from "openclaw/plugin-sdk/fetch-runtime";
-import { danger, success } from "openclaw/plugin-sdk/runtime-env";
-import { getChildLogger, toPinoLikeLogger } from "openclaw/plugin-sdk/runtime-env";
-import { ensureDir, resolveUserPath } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/fetch-runtime";
+import { danger, success } from "brikko-studio/plugin-sdk/runtime-env";
+import { getChildLogger, toPinoLikeLogger } from "brikko-studio/plugin-sdk/runtime-env";
+import { ensureDir, resolveUserPath } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   readCredsJsonRaw,
   restoreCredsFromBackupIfNeeded,
@@ -173,7 +173,7 @@ export async function createWaSocket(
     version,
     logger,
     printQRInTerminal: false,
-    browser: ["openclaw", "cli", VERSION],
+    browser: ["brikko-studio", "cli", VERSION],
     syncFullHistory: false,
     markOnlineOnConnect: false,
     ...socketTiming,
@@ -203,7 +203,7 @@ export async function createWaSocket(
           if (status === LOGGED_OUT_STATUS) {
             console.error(
               danger(
-                `WhatsApp session logged out. Run: ${formatCliCommand("openclaw channels login")}`,
+                `WhatsApp session logged out. Run: ${formatCliCommand("brikko-studio channels login")}`,
               ),
             );
           }

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import { MAX_VIDEO_BYTES } from "../../media/constants.js";
 import * as mediaStore from "../../media/store.js";
 import * as webMedia from "../../media/web-media.js";
@@ -86,8 +86,8 @@ const GENERATION_PROVIDER_ENV_VARS = [
   "XAI_API_KEY",
 ];
 
-function asConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asConfig(value: unknown): Brikko StudioConfig {
+  return value as Brikko StudioConfig;
 }
 
 function mockVideoPluginProvider(capabilities: Record<string, unknown> = {}) {

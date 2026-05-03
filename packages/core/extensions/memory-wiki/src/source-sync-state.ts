@@ -23,7 +23,7 @@ const EMPTY_STATE: MemoryWikiImportedSourceState = {
 };
 
 function resolveMemoryWikiSourceSyncStatePath(vaultRoot: string): string {
-  return path.join(vaultRoot, ".openclaw-wiki", "source-sync.json");
+  return path.join(vaultRoot, ".brikko-studio-wiki", "source-sync.json");
 }
 
 export async function readMemoryWikiSourceSyncState(

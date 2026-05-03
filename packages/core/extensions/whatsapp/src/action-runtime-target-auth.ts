@@ -1,10 +1,10 @@
-import { ToolAuthorizationError } from "openclaw/plugin-sdk/channel-actions";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import { ToolAuthorizationError } from "brikko-studio/plugin-sdk/channel-actions";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveWhatsAppAccount } from "./accounts.js";
 import { resolveWhatsAppOutboundTarget } from "./resolve-outbound-target.js";
 
 export function resolveAuthorizedWhatsAppOutboundTarget(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   chatJid: string;
   accountId?: string;
   actionLabel: string;

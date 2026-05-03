@@ -11,7 +11,7 @@ describe("dreaming markdown storage", () => {
   const timezone = "UTC";
 
   it("writes inline light dreaming output into the daily memory file", async () => {
-    const workspaceDir = await createTempWorkspace("openclaw-dreaming-markdown-");
+    const workspaceDir = await createTempWorkspace("brikko-studio-dreaming-markdown-");
 
     const result = await writeDailyDreamingPhaseBlock({
       workspaceDir,
@@ -32,7 +32,7 @@ describe("dreaming markdown storage", () => {
   });
 
   it("keeps multiple inline phases in the shared daily memory file", async () => {
-    const workspaceDir = await createTempWorkspace("openclaw-dreaming-markdown-");
+    const workspaceDir = await createTempWorkspace("brikko-studio-dreaming-markdown-");
 
     await writeDailyDreamingPhaseBlock({
       workspaceDir,
@@ -66,7 +66,7 @@ describe("dreaming markdown storage", () => {
   });
 
   it("keeps daily phase output separate from lowercase dreams.md diaries", async () => {
-    const workspaceDir = await createTempWorkspace("openclaw-dreaming-markdown-");
+    const workspaceDir = await createTempWorkspace("brikko-studio-dreaming-markdown-");
     const lowercasePath = path.join(workspaceDir, "dreams.md");
     await fs.writeFile(lowercasePath, "# Scratch\n\n", "utf-8");
 
@@ -90,7 +90,7 @@ describe("dreaming markdown storage", () => {
   });
 
   it("still writes deep reports to the per-phase report directory", async () => {
-    const workspaceDir = await createTempWorkspace("openclaw-dreaming-markdown-");
+    const workspaceDir = await createTempWorkspace("brikko-studio-dreaming-markdown-");
 
     const reportPath = await writeDeepDreamingReport({
       workspaceDir,

@@ -59,14 +59,14 @@ export function buildGatewayRuntimeHints(
     return hints;
   }
   if (runtime.cachedLabel && platform === "darwin") {
-    const label = resolveGatewayLaunchAgentLabel(env.OPENCLAW_PROFILE);
+    const label = resolveGatewayLaunchAgentLabel(env.BRIKKO_STUDIO_PROFILE);
     hints.push(
       `LaunchAgent label cached but plist missing. Clear with: launchctl bootout gui/$UID/${label}`,
     );
-    hints.push(`Then reinstall: ${formatCliCommand("openclaw gateway install", env)}`);
+    hints.push(`Then reinstall: ${formatCliCommand("brikko-studio gateway install", env)}`);
   }
   if (runtime.missingUnit) {
-    hints.push(`Service not installed. Run: ${formatCliCommand("openclaw gateway install", env)}`);
+    hints.push(`Service not installed. Run: ${formatCliCommand("brikko-studio gateway install", env)}`);
     if (fileLog) {
       hints.push(`File logs: ${fileLog}`);
     }
@@ -74,7 +74,7 @@ export function buildGatewayRuntimeHints(
   }
   if (runtime.missingSupervision && platform === "darwin") {
     hints.push(
-      `LaunchAgent installed but not loaded. Run: ${formatCliCommand("openclaw gateway restart", env)}`,
+      `LaunchAgent installed but not loaded. Run: ${formatCliCommand("brikko-studio gateway restart", env)}`,
     );
     if (fileLog) {
       hints.push(`File logs: ${fileLog}`);
@@ -90,8 +90,8 @@ export function buildGatewayRuntimeHints(
       ...buildPlatformRuntimeLogHints({
         platform,
         env,
-        systemdServiceName: resolveGatewaySystemdServiceName(env.OPENCLAW_PROFILE),
-        windowsTaskName: resolveGatewayWindowsTaskName(env.OPENCLAW_PROFILE),
+        systemdServiceName: resolveGatewaySystemdServiceName(env.BRIKKO_STUDIO_PROFILE),
+        windowsTaskName: resolveGatewayWindowsTaskName(env.BRIKKO_STUDIO_PROFILE),
       }),
     );
   }

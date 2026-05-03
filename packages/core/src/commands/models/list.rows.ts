@@ -7,7 +7,7 @@ import {
 } from "../../agents/model-suppression.js";
 import { normalizeProviderId } from "../../agents/provider-id.js";
 import type { ModelDefinitionConfig, ModelProviderConfig } from "../../config/types.models.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { NormalizedModelCatalogRow } from "../../model-catalog/index.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import type { ModelListAuthIndex } from "./list.auth-index.js";
@@ -27,7 +27,7 @@ type RowFilter = {
 };
 
 export type RowBuilderContext = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentDir: string;
   authIndex: ModelListAuthIndex;
   availableKeys?: Set<string>;
@@ -189,7 +189,7 @@ function shouldListConfiguredProviderModel(params: {
 }
 
 function findConfiguredProviderModel(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   provider: string;
   modelId: string;
 }): ListRowModel | undefined {
@@ -205,7 +205,7 @@ function findConfiguredProviderModel(params: {
   });
 }
 
-function toFallbackConfiguredListModel(entry: ConfiguredEntry, cfg: OpenClawConfig): ListRowModel {
+function toFallbackConfiguredListModel(entry: ConfiguredEntry, cfg: Brikko StudioConfig): ListRowModel {
   return (
     findConfiguredProviderModel({
       cfg,

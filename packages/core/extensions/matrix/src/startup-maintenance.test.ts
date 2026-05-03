@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { withTempHome } from "openclaw/plugin-sdk/test-env";
+import { withTempHome } from "brikko-studio/plugin-sdk/test-env";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const legacyCryptoInspectorAvailability = vi.hoisted(() => ({
@@ -15,7 +15,7 @@ import { runMatrixStartupMaintenance } from "./startup-maintenance.js";
 import { resolveMatrixAccountStorageRoot } from "./storage-paths.js";
 
 async function seedLegacyMatrixState(home: string) {
-  const stateDir = path.join(home, ".openclaw");
+  const stateDir = path.join(home, ".brikko-studio");
   await fs.mkdir(path.join(stateDir, "matrix"), { recursive: true });
   await fs.writeFile(path.join(stateDir, "matrix", "bot-storage.json"), '{"legacy":true}');
 }
@@ -37,7 +37,7 @@ function makeMatrixStartupConfig(includeCredentials = true) {
 }
 
 async function seedLegacyMatrixCrypto(home: string) {
-  const stateDir = path.join(home, ".openclaw");
+  const stateDir = path.join(home, ".brikko-studio");
   const { rootDir } = resolveMatrixAccountStorageRoot({
     stateDir,
     homeserver: "https://matrix.example.org",

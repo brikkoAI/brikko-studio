@@ -1,4 +1,4 @@
-import { mergeDmAllowFromSources } from "openclaw/plugin-sdk/allow-from";
+import { mergeDmAllowFromSources } from "brikko-studio/plugin-sdk/allow-from";
 import { normalizeMatrixAllowList, resolveMatrixAllowListMatch } from "./allowlist.js";
 
 type MatrixCommandAuthorizer = {

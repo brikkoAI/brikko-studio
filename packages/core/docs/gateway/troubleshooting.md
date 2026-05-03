@@ -14,52 +14,52 @@ This page is the deep runbook. Start at [/help/troubleshooting](/help/troublesho
 Run these first, in this order:
 
 ```bash
-openclaw status
-openclaw gateway status
-openclaw logs --follow
-openclaw doctor
-openclaw channels status --probe
+brikko-studio status
+brikko-studio gateway status
+brikko-studio logs --follow
+brikko-studio doctor
+brikko-studio channels status --probe
 ```
 
 Expected healthy signals:
 
-- `openclaw gateway status` shows `Runtime: running`, `Connectivity probe: ok`, and a `Capability: ...` line.
-- `openclaw doctor` reports no blocking config/service issues.
-- `openclaw channels status --probe` shows live per-account transport status and, where supported, probe/audit results such as `works` or `audit ok`.
+- `brikko-studio gateway status` shows `Runtime: running`, `Connectivity probe: ok`, and a `Capability: ...` line.
+- `brikko-studio doctor` reports no blocking config/service issues.
+- `brikko-studio channels status --probe` shows live per-account transport status and, where supported, probe/audit results such as `works` or `audit ok`.
 
 ## Split brain installs and newer config guard
 
-Use this when a gateway service unexpectedly stops after an update, or logs show that one `openclaw` binary is older than the version that last wrote `openclaw.json`.
+Use this when a gateway service unexpectedly stops after an update, or logs show that one `brikko-studio` binary is older than the version that last wrote `brikko-studio.json`.
 
-OpenClaw stamps config writes with `meta.lastTouchedVersion`. Read-only commands can still inspect a config written by a newer OpenClaw, but process and service mutations refuse to continue from an older binary. Blocked actions include gateway service start, stop, restart, uninstall, forced service reinstall, service-mode gateway startup, and `gateway --force` port cleanup.
+Brikko Studio stamps config writes with `meta.lastTouchedVersion`. Read-only commands can still inspect a config written by a newer Brikko Studio, but process and service mutations refuse to continue from an older binary. Blocked actions include gateway service start, stop, restart, uninstall, forced service reinstall, service-mode gateway startup, and `gateway --force` port cleanup.
 
 ```bash
-which openclaw
-openclaw --version
-openclaw gateway status --deep
-openclaw config get meta.lastTouchedVersion
+which brikko-studio
+brikko-studio --version
+brikko-studio gateway status --deep
+brikko-studio config get meta.lastTouchedVersion
 ```
 
 <Steps>
   <Step title="Fix PATH">
-    Fix `PATH` so `openclaw` resolves to the newer install, then rerun the action.
+    Fix `PATH` so `brikko-studio` resolves to the newer install, then rerun the action.
   </Step>
   <Step title="Reinstall the gateway service">
     Reinstall the intended gateway service from the newer install:
 
     ```bash
-    openclaw gateway install --force
-    openclaw gateway restart
+    brikko-studio gateway install --force
+    brikko-studio gateway restart
     ```
 
   </Step>
   <Step title="Remove stale wrappers">
-    Remove stale system package or old wrapper entries that still point at an old `openclaw` binary.
+    Remove stale system package or old wrapper entries that still point at an old `brikko-studio` binary.
   </Step>
 </Steps>
 
 <Warning>
-For intentional downgrade or emergency recovery only, set `OPENCLAW_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS=1` for the single command. Leave it unset for normal operation.
+For intentional downgrade or emergency recovery only, set `BRIKKO_STUDIO_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS=1` for the single command. Leave it unset for normal operation.
 </Warning>
 
 ## Anthropic 429 extra usage required for long context
@@ -67,9 +67,9 @@ For intentional downgrade or emergency recovery only, set `OPENCLAW_ALLOW_OLDER_
 Use this when logs/errors include: `HTTP 429: rate_limit_error: Extra usage is required for long context requests`.
 
 ```bash
-openclaw logs --follow
-openclaw models status
-openclaw config get agents.defaults.models
+brikko-studio logs --follow
+brikko-studio models status
+brikko-studio config get agents.defaults.models
 ```
 
 Look for:
@@ -104,20 +104,20 @@ Use this when:
 
 - `curl ... /v1/models` works
 - tiny direct `/v1/chat/completions` calls work
-- OpenClaw model runs fail only on normal agent turns
+- Brikko Studio model runs fail only on normal agent turns
 
 ```bash
 curl http://127.0.0.1:1234/v1/models
 curl http://127.0.0.1:1234/v1/chat/completions \
   -H 'content-type: application/json' \
   -d '{"model":"<id>","messages":[{"role":"user","content":"hi"}],"stream":false}'
-openclaw infer model run --model <provider/model> --prompt "hi" --json
-openclaw logs --follow
+brikko-studio infer model run --model <provider/model> --prompt "hi" --json
+brikko-studio logs --follow
 ```
 
 Look for:
 
-- direct tiny calls succeed, but OpenClaw runs fail only on larger prompts
+- direct tiny calls succeed, but Brikko Studio runs fail only on larger prompts
 - `model_not_found` or 404 errors even though direct `/v1/chat/completions`
   works with the same bare model id
 - backend errors about `messages[].content` expecting a string
@@ -128,16 +128,16 @@ Look for:
   <Accordion title="Common signatures">
     - `model_not_found` with a local MLX/vLLM-style server → verify `baseUrl` includes `/v1`, `api` is `"openai-completions"` for `/v1/chat/completions` backends, and `models.providers.<provider>.models[].id` is the bare provider-local id. Select it with the provider prefix once, for example `mlx/mlx-community/Qwen3-30B-A3B-6bit`; keep the catalog entry as `mlx-community/Qwen3-30B-A3B-6bit`.
     - `messages[...].content: invalid type: sequence, expected a string` → backend rejects structured Chat Completions content parts. Fix: set `models.providers.<provider>.models[].compat.requiresStringContent: true`.
-    - `incomplete turn detected ... stopReason=stop payloads=0` → the backend completed the Chat Completions request but returned no user-visible assistant text for that turn. OpenClaw retries replay-safe empty OpenAI-compatible turns once; persistent failures usually mean the backend is emitting empty/non-text content or suppressing final-answer text.
-    - direct tiny requests succeed, but OpenClaw agent runs fail with backend/model crashes (for example Gemma on some `inferrs` builds) → OpenClaw transport is likely already correct; the backend is failing on the larger agent-runtime prompt shape.
+    - `incomplete turn detected ... stopReason=stop payloads=0` → the backend completed the Chat Completions request but returned no user-visible assistant text for that turn. Brikko Studio retries replay-safe empty OpenAI-compatible turns once; persistent failures usually mean the backend is emitting empty/non-text content or suppressing final-answer text.
+    - direct tiny requests succeed, but Brikko Studio agent runs fail with backend/model crashes (for example Gemma on some `inferrs` builds) → Brikko Studio transport is likely already correct; the backend is failing on the larger agent-runtime prompt shape.
     - failures shrink after disabling tools but do not disappear → tool schemas were part of the pressure, but the remaining issue is still upstream model/server capacity or a backend bug.
 
   </Accordion>
   <Accordion title="Fix options">
     1. Set `compat.requiresStringContent: true` for string-only Chat Completions backends.
-    2. Set `compat.supportsTools: false` for models/backends that cannot handle OpenClaw's tool schema surface reliably.
+    2. Set `compat.supportsTools: false` for models/backends that cannot handle Brikko Studio's tool schema surface reliably.
     3. Lower prompt pressure where possible: smaller workspace bootstrap, shorter session history, lighter local model, or a backend with stronger long-context support.
-    4. If tiny direct requests keep passing while OpenClaw agent turns still crash inside the backend, treat it as an upstream server/model limitation and file a repro there with the accepted payload shape.
+    4. If tiny direct requests keep passing while Brikko Studio agent turns still crash inside the backend, treat it as an upstream server/model limitation and file a repro there with the accepted payload shape.
   </Accordion>
 </AccordionGroup>
 
@@ -152,11 +152,11 @@ Related:
 If channels are up but nothing answers, check routing and policy before reconnecting anything.
 
 ```bash
-openclaw status
-openclaw channels status --probe
-openclaw pairing list --channel <channel> [--account <id>]
-openclaw config get channels
-openclaw logs --follow
+brikko-studio status
+brikko-studio channels status --probe
+brikko-studio pairing list --channel <channel> [--account <id>]
+brikko-studio config get channels
+brikko-studio logs --follow
 ```
 
 Look for:
@@ -182,11 +182,11 @@ Related:
 When dashboard/control UI will not connect, validate URL, auth mode, and secure context assumptions.
 
 ```bash
-openclaw gateway status
-openclaw status
-openclaw logs --follow
-openclaw doctor
-openclaw gateway status --json
+brikko-studio gateway status
+brikko-studio status
+brikko-studio logs --follow
+brikko-studio doctor
+brikko-studio gateway status --json
 ```
 
 Look for:
@@ -218,10 +218,10 @@ Use `error.details.code` from the failed `connect` response to pick the next act
 
 | Detail code                  | Meaning                                                                                                                                                                                      | Recommended action                                                                                                                                                                                                                                                                       |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `AUTH_TOKEN_MISSING`         | Client did not send a required shared token.                                                                                                                                                 | Paste/set token in the client and retry. For dashboard paths: `openclaw config get gateway.auth.token` then paste into Control UI settings.                                                                                                                                              |
+| `AUTH_TOKEN_MISSING`         | Client did not send a required shared token.                                                                                                                                                 | Paste/set token in the client and retry. For dashboard paths: `brikko-studio config get gateway.auth.token` then paste into Control UI settings.                                                                                                                                              |
 | `AUTH_TOKEN_MISMATCH`        | Shared token did not match gateway auth token.                                                                                                                                               | If `canRetryWithDeviceToken=true`, allow one trusted retry. Cached-token retries reuse stored approved scopes; explicit `deviceToken` / `scopes` callers keep requested scopes. If still failing, run the [token drift recovery checklist](/cli/devices#token-drift-recovery-checklist). |
 | `AUTH_DEVICE_TOKEN_MISMATCH` | Cached per-device token is stale or revoked.                                                                                                                                                 | Rotate/re-approve device token using [devices CLI](/cli/devices), then reconnect.                                                                                                                                                                                                        |
-| `PAIRING_REQUIRED`           | Device identity needs approval. Check `error.details.reason` for `not-paired`, `scope-upgrade`, `role-upgrade`, or `metadata-upgrade`, and use `requestId` / `remediationHint` when present. | Approve pending request: `openclaw devices list` then `openclaw devices approve <requestId>`. Scope/role upgrades use the same flow after you review the requested access.                                                                                                               |
+| `PAIRING_REQUIRED`           | Device identity needs approval. Check `error.details.reason` for `not-paired`, `scope-upgrade`, `role-upgrade`, or `metadata-upgrade`, and use `requestId` / `remediationHint` when present. | Approve pending request: `brikko-studio devices list` then `brikko-studio devices approve <requestId>`. Scope/role upgrades use the same flow after you review the requested access.                                                                                                               |
 
 <Note>
 Direct loopback backend RPCs authenticated with the shared gateway token/password should not depend on the CLI's paired-device scope baseline. If subagents or other internal calls still fail with `scope-upgrade`, verify the caller is using `client.id: "gateway-client"` and `client.mode: "backend"` and is not forcing an explicit `deviceIdentity` or device token.
@@ -230,9 +230,9 @@ Direct loopback backend RPCs authenticated with the shared gateway token/passwor
 Device auth v2 migration check:
 
 ```bash
-openclaw --version
-openclaw doctor
-openclaw gateway status
+brikko-studio --version
+brikko-studio doctor
+brikko-studio gateway status
 ```
 
 If logs show nonce/signature errors, update the connecting client and verify it:
@@ -249,10 +249,10 @@ If logs show nonce/signature errors, update the connecting client and verify it:
   </Step>
 </Steps>
 
-If `openclaw devices rotate` / `revoke` / `remove` is denied unexpectedly:
+If `brikko-studio devices rotate` / `revoke` / `remove` is denied unexpectedly:
 
 - paired-device token sessions can manage only **their own** device unless the caller also has `operator.admin`
-- `openclaw devices rotate --scope ...` can only request operator scopes that the caller session already holds
+- `brikko-studio devices rotate --scope ...` can only request operator scopes that the caller session already holds
 
 Related:
 
@@ -267,11 +267,11 @@ Related:
 Use this when service is installed but process does not stay up.
 
 ```bash
-openclaw gateway status
-openclaw status
-openclaw logs --follow
-openclaw doctor
-openclaw gateway status --deep   # also scan system-level services
+brikko-studio gateway status
+brikko-studio status
+brikko-studio logs --follow
+brikko-studio doctor
+brikko-studio gateway status --deep   # also scan system-level services
 ```
 
 Look for:
@@ -284,12 +284,12 @@ Look for:
 
 <AccordionGroup>
   <Accordion title="Common signatures">
-    - `Gateway start blocked: set gateway.mode=local` or `existing config is missing gateway.mode` → local gateway mode is not enabled, or the config file was clobbered and lost `gateway.mode`. Fix: set `gateway.mode="local"` in your config, or re-run `openclaw onboard --mode local` / `openclaw setup` to restamp the expected local-mode config. If you are running OpenClaw via Podman, the default config path is `~/.openclaw/openclaw.json`.
+    - `Gateway start blocked: set gateway.mode=local` or `existing config is missing gateway.mode` → local gateway mode is not enabled, or the config file was clobbered and lost `gateway.mode`. Fix: set `gateway.mode="local"` in your config, or re-run `brikko-studio onboard --mode local` / `brikko-studio setup` to restamp the expected local-mode config. If you are running Brikko Studio via Podman, the default config path is `~/.brikko-studio/brikko-studio.json`.
     - `refusing to bind gateway ... without auth` → non-loopback bind without a valid gateway auth path (token/password, or trusted-proxy where configured).
     - `another gateway instance is already listening` / `EADDRINUSE` → port conflict.
     - `Other gateway-like services detected (best effort)` → stale or parallel launchd/systemd/schtasks units exist. Most setups should keep one gateway per machine; if you do need more than one, isolate ports + config/state/workspace. See [/gateway#multiple-gateways-same-host](/gateway#multiple-gateways-same-host).
-    - `System-level OpenClaw gateway service detected` from doctor → a systemd system unit exists while the user-level service is missing. Remove or disable the duplicate before allowing doctor to install a user service, or set `OPENCLAW_SERVICE_REPAIR_POLICY=external` if the system unit is the intended supervisor.
-    - `Gateway service port does not match current gateway config` → the installed supervisor still pins the old `--port`. Run `openclaw doctor --fix` or `openclaw gateway install --force`, then restart the gateway service.
+    - `System-level Brikko Studio gateway service detected` from doctor → a systemd system unit exists while the user-level service is missing. Remove or disable the duplicate before allowing doctor to install a user service, or set `BRIKKO_STUDIO_SERVICE_REPAIR_POLICY=external` if the system unit is the intended supervisor.
+    - `Gateway service port does not match current gateway config` → the installed supervisor still pins the old `--port`. Run `brikko-studio doctor --fix` or `brikko-studio gateway install --force`, then restart the gateway service.
 
   </Accordion>
 </AccordionGroup>
@@ -302,13 +302,13 @@ Related:
 
 ## Gateway restored last-known-good config
 
-Use this when the Gateway starts, but logs say it restored `openclaw.json`.
+Use this when the Gateway starts, but logs say it restored `brikko-studio.json`.
 
 ```bash
-openclaw logs --follow
-openclaw config file
-openclaw config validate
-openclaw doctor
+brikko-studio logs --follow
+brikko-studio config file
+brikko-studio config validate
+brikko-studio doctor
 ```
 
 Look for:
@@ -316,30 +316,30 @@ Look for:
 - `Config auto-restored from last-known-good`
 - `gateway: invalid config was restored from last-known-good backup`
 - `config reload restored last-known-good config after invalid-config`
-- A timestamped `openclaw.json.clobbered.*` file beside the active config
+- A timestamped `brikko-studio.json.clobbered.*` file beside the active config
 - A main-agent system event that starts with `Config recovery warning`
 
 <AccordionGroup>
   <Accordion title="What happened">
     - The rejected config did not validate during startup or hot reload.
-    - OpenClaw preserved the rejected payload as `.clobbered.*`.
+    - Brikko Studio preserved the rejected payload as `.clobbered.*`.
     - The active config was restored from the last validated last-known-good copy.
     - The next main-agent turn is warned not to blindly rewrite the rejected config.
-    - If all validation issues were under `plugins.entries.<id>...`, OpenClaw would not restore the whole file. Plugin-local failures stay loud while unrelated user settings remain in the active config.
+    - If all validation issues were under `plugins.entries.<id>...`, Brikko Studio would not restore the whole file. Plugin-local failures stay loud while unrelated user settings remain in the active config.
 
   </Accordion>
   <Accordion title="Inspect and repair">
     ```bash
-    CONFIG="$(openclaw config file)"
+    CONFIG="$(brikko-studio config file)"
     ls -lt "$CONFIG".clobbered.* "$CONFIG".rejected.* 2>/dev/null | head
     diff -u "$CONFIG" "$(ls -t "$CONFIG".clobbered.* 2>/dev/null | head -n 1)"
-    openclaw config validate
-    openclaw doctor
+    brikko-studio config validate
+    brikko-studio doctor
     ```
   </Accordion>
   <Accordion title="Common signatures">
     - `.clobbered.*` exists → an external direct edit or startup read was restored.
-    - `.rejected.*` exists → an OpenClaw-owned config write failed schema or clobber checks before commit.
+    - `.rejected.*` exists → an Brikko Studio-owned config write failed schema or clobber checks before commit.
     - `Config write rejected:` → the write tried to drop required shape, shrink the file sharply, or persist invalid config.
     - `Rejected validation details:` → the recovery log or main-agent notice includes the schema path that caused the restore, such as `agents.defaults.execution` or `gateway.auth.password.source`.
     - `missing-meta-vs-last-good`, `gateway-mode-missing-vs-last-good`, or `size-drop-vs-last-good:*` → startup treated the current file as clobbered because it lost fields or size compared with the last-known-good backup.
@@ -348,8 +348,8 @@ Look for:
   </Accordion>
   <Accordion title="Fix options">
     1. Keep the restored active config if it is correct.
-    2. Copy only the intended keys from `.clobbered.*` or `.rejected.*`, then apply them with `openclaw config set` or `config.patch`.
-    3. Run `openclaw config validate` before restarting.
+    2. Copy only the intended keys from `.clobbered.*` or `.rejected.*`, then apply them with `brikko-studio config set` or `config.patch`.
+    3. Run `brikko-studio config validate` before restarting.
     4. If you edit by hand, keep the full JSON5 config, not just the partial object you wanted to change.
   </Accordion>
 </AccordionGroup>
@@ -363,12 +363,12 @@ Related:
 
 ## Gateway probe warnings
 
-Use this when `openclaw gateway probe` reaches something, but still prints a warning block.
+Use this when `brikko-studio gateway probe` reaches something, but still prints a warning block.
 
 ```bash
-openclaw gateway probe
-openclaw gateway probe --json
-openclaw gateway probe --ssh user@gateway-host
+brikko-studio gateway probe
+brikko-studio gateway probe --json
+brikko-studio gateway probe --ssh user@gateway-host
 ```
 
 Look for:
@@ -396,11 +396,11 @@ Related:
 If channel state is connected but message flow is dead, focus on policy, permissions, and channel specific delivery rules.
 
 ```bash
-openclaw channels status --probe
-openclaw pairing list --channel <channel> [--account <id>]
-openclaw status --deep
-openclaw logs --follow
-openclaw config get channels
+brikko-studio channels status --probe
+brikko-studio pairing list --channel <channel> [--account <id>]
+brikko-studio status --deep
+brikko-studio logs --follow
+brikko-studio config get channels
 ```
 
 Look for:
@@ -427,11 +427,11 @@ Related:
 If cron or heartbeat did not run or did not deliver, verify scheduler state first, then delivery target.
 
 ```bash
-openclaw cron status
-openclaw cron list
-openclaw cron runs --id <jobId> --limit 20
-openclaw system heartbeat last
-openclaw logs --follow
+brikko-studio cron status
+brikko-studio cron list
+brikko-studio cron runs --id <jobId> --limit 20
+brikko-studio system heartbeat last
+brikko-studio logs --follow
 ```
 
 Look for:
@@ -445,7 +445,7 @@ Look for:
     - `cron: scheduler disabled; jobs will not run automatically` → cron disabled.
     - `cron: timer tick failed` → scheduler tick failed; check file/log/runtime errors.
     - `heartbeat skipped` with `reason=quiet-hours` → outside active hours window.
-    - `heartbeat skipped` with `reason=empty-heartbeat-file` → `HEARTBEAT.md` exists but only contains blank lines / markdown headers, so OpenClaw skips the model call.
+    - `heartbeat skipped` with `reason=empty-heartbeat-file` → `HEARTBEAT.md` exists but only contains blank lines / markdown headers, so Brikko Studio skips the model call.
     - `heartbeat skipped` with `reason=no-tasks-due` → `HEARTBEAT.md` contains a `tasks:` block, but none of the tasks are due on this tick.
     - `heartbeat: unknown accountId` → invalid account id for heartbeat delivery target.
     - `heartbeat skipped` with `reason=dm-blocked` → heartbeat target resolved to a DM-style destination while `agents.defaults.heartbeat.directPolicy` (or per-agent override) is set to `block`.
@@ -464,11 +464,11 @@ Related:
 If a node is paired but tools fail, isolate foreground, permission, and approval state.
 
 ```bash
-openclaw nodes status
-openclaw nodes describe --node <idOrNameOrIp>
-openclaw approvals get --node <idOrNameOrIp>
-openclaw logs --follow
-openclaw status
+brikko-studio nodes status
+brikko-studio nodes describe --node <idOrNameOrIp>
+brikko-studio approvals get --node <idOrNameOrIp>
+brikko-studio logs --follow
+brikko-studio status
 ```
 
 Look for:
@@ -495,11 +495,11 @@ Related:
 Use this when browser tool actions fail even though the gateway itself is healthy.
 
 ```bash
-openclaw browser status
-openclaw browser start --browser-profile openclaw
-openclaw browser profiles
-openclaw logs --follow
-openclaw doctor
+brikko-studio browser status
+brikko-studio browser start --browser-profile brikko-studio
+brikko-studio browser profiles
+brikko-studio logs --follow
+brikko-studio doctor
 ```
 
 Look for:
@@ -517,11 +517,11 @@ Look for:
     - `browser.executablePath not found` → configured path is invalid.
     - `browser.cdpUrl must be http(s) or ws(s)` → the configured CDP URL uses an unsupported scheme such as `file:` or `ftp:`.
     - `browser.cdpUrl has invalid port` → the configured CDP URL has a bad or out-of-range port.
-    - `Playwright is not available in this gateway build; '<feature>' is unsupported.` → the current gateway install lacks the core browser runtime dependency; reinstall or update OpenClaw, then restart the gateway. ARIA snapshots and basic page screenshots can still work, but navigation, AI snapshots, CSS-selector element screenshots, and PDF export stay unavailable.
+    - `Playwright is not available in this gateway build; '<feature>' is unsupported.` → the current gateway install lacks the core browser runtime dependency; reinstall or update Brikko Studio, then restart the gateway. ARIA snapshots and basic page screenshots can still work, but navigation, AI snapshots, CSS-selector element screenshots, and PDF export stay unavailable.
 
   </Accordion>
   <Accordion title="Chrome MCP / existing-session signatures">
-    - `Could not find DevToolsActivePort for chrome` → Chrome MCP existing-session could not attach to the selected browser data dir yet. Open the browser inspect page, enable remote debugging, keep the browser open, approve the first attach prompt, then retry. If signed-in state is not required, prefer the managed `openclaw` profile.
+    - `Could not find DevToolsActivePort for chrome` → Chrome MCP existing-session could not attach to the selected browser data dir yet. Open the browser inspect page, enable remote debugging, keep the browser open, approve the first attach prompt, then retry. If signed-in state is not required, prefer the managed `brikko-studio` profile.
     - `No Chrome tabs found for profile="user"` → the Chrome MCP attach profile has no open local Chrome tabs.
     - `Remote CDP for profile "<name>" is not reachable` → the configured remote CDP endpoint is not reachable from the gateway host.
     - `Browser attachOnly is enabled ... not reachable` or `Browser attachOnly is enabled and CDP websocket ... is not reachable` → attach-only profile has no reachable target, or the HTTP endpoint answered but the CDP WebSocket still could not be opened.
@@ -536,14 +536,14 @@ Look for:
     - `existing-session type does not support timeoutMs overrides.` → omit `timeoutMs` for `act:type` on `profile="user"` / Chrome MCP existing-session profiles, or use a managed/CDP browser profile when a custom timeout is required.
     - `existing-session evaluate does not support timeoutMs overrides.` → omit `timeoutMs` for `act:evaluate` on `profile="user"` / Chrome MCP existing-session profiles, or use a managed/CDP browser profile when a custom timeout is required.
     - `response body is not supported for existing-session profiles yet.` → `responsebody` still requires a managed browser or raw CDP profile.
-    - stale viewport / dark-mode / locale / offline overrides on attach-only or remote CDP profiles → run `openclaw browser stop --browser-profile <name>` to close the active control session and release Playwright/CDP emulation state without restarting the whole gateway.
+    - stale viewport / dark-mode / locale / offline overrides on attach-only or remote CDP profiles → run `brikko-studio browser stop --browser-profile <name>` to close the active control session and release Playwright/CDP emulation state without restarting the whole gateway.
 
   </Accordion>
 </AccordionGroup>
 
 Related:
 
-- [Browser (OpenClaw-managed)](/tools/browser)
+- [Browser (Brikko Studio-managed)](/tools/browser)
 - [Browser troubleshooting](/tools/browser-linux-troubleshooting)
 
 ## If you upgraded and something suddenly broke
@@ -553,10 +553,10 @@ Most post-upgrade breakage is config drift or stricter defaults now being enforc
 <AccordionGroup>
   <Accordion title="1. Auth and URL override behavior changed">
     ```bash
-    openclaw gateway status
-    openclaw config get gateway.mode
-    openclaw config get gateway.remote.url
-    openclaw config get gateway.auth.mode
+    brikko-studio gateway status
+    brikko-studio config get gateway.mode
+    brikko-studio config get gateway.remote.url
+    brikko-studio config get gateway.auth.mode
     ```
 
     What to check:
@@ -572,11 +572,11 @@ Most post-upgrade breakage is config drift or stricter defaults now being enforc
   </Accordion>
   <Accordion title="2. Bind and auth guardrails are stricter">
     ```bash
-    openclaw config get gateway.bind
-    openclaw config get gateway.auth.mode
-    openclaw config get gateway.auth.token
-    openclaw gateway status
-    openclaw logs --follow
+    brikko-studio config get gateway.bind
+    brikko-studio config get gateway.auth.mode
+    brikko-studio config get gateway.auth.token
+    brikko-studio gateway status
+    brikko-studio logs --follow
     ```
 
     What to check:
@@ -592,10 +592,10 @@ Most post-upgrade breakage is config drift or stricter defaults now being enforc
   </Accordion>
   <Accordion title="3. Pairing and device identity state changed">
     ```bash
-    openclaw devices list
-    openclaw pairing list --channel <channel> [--account <id>]
-    openclaw logs --follow
-    openclaw doctor
+    brikko-studio devices list
+    brikko-studio pairing list --channel <channel> [--account <id>]
+    brikko-studio logs --follow
+    brikko-studio doctor
     ```
 
     What to check:
@@ -614,8 +614,8 @@ Most post-upgrade breakage is config drift or stricter defaults now being enforc
 If the service config and runtime still disagree after checks, reinstall service metadata from the same profile/state directory:
 
 ```bash
-openclaw gateway install --force
-openclaw gateway restart
+brikko-studio gateway install --force
+brikko-studio gateway restart
 ```
 
 Related:

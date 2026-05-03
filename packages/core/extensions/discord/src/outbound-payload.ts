@@ -1,12 +1,12 @@
 import {
   attachChannelToResult,
   type ChannelOutboundAdapter,
-} from "openclaw/plugin-sdk/channel-send-result";
+} from "brikko-studio/plugin-sdk/channel-send-result";
 import {
   resolvePayloadMediaUrls,
   sendPayloadMediaSequenceOrFallback,
   sendTextMediaPayload,
-} from "openclaw/plugin-sdk/reply-payload";
+} from "brikko-studio/plugin-sdk/reply-payload";
 import { normalizeDiscordApprovalPayload } from "./outbound-approval.js";
 import {
   resolveDiscordComponentSpec,

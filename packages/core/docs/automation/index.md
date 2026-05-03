@@ -1,13 +1,13 @@
 ---
 summary: "Overview of automation mechanisms: tasks, cron, hooks, standing orders, and Task Flow"
 read_when:
-  - Deciding how to automate work with OpenClaw
+  - Deciding how to automate work with Brikko Studio
   - Choosing between heartbeat, cron, commitments, hooks, and standing orders
   - Looking for the right automation entry point
 title: "Automation & tasks"
 ---
 
-OpenClaw runs work in the background through tasks, scheduled jobs, inferred
+Brikko Studio runs work in the background through tasks, scheduled jobs, inferred
 commitments, event hooks, and standing instructions. This page helps you choose
 the right mechanism and understand how they fit together.
 
@@ -43,7 +43,7 @@ flowchart TD
 | Check in after a mentioned interview    | Inferred Commitments   | Memory-like follow-up, no exact reminder request |
 | Gentle care check-in after user context | Inferred Commitments   | Scoped to the same agent and channel             |
 | Inspect status of a subagent or ACP run | Background Tasks       | Tasks ledger tracks all detached work            |
-| Audit what ran and when                 | Background Tasks       | `openclaw tasks list` and `openclaw tasks audit` |
+| Audit what ran and when                 | Background Tasks       | `brikko-studio tasks list` and `brikko-studio tasks audit` |
 | Multi-step research then summarize      | Task Flow              | Durable orchestration with revision tracking     |
 | Run a script on session reset           | Hooks                  | Event-driven, fires on lifecycle events          |
 | Execute code on every tool call         | Plugin hooks           | In-process hooks can intercept tool calls        |
@@ -71,13 +71,13 @@ See [Scheduled Tasks](/automation/cron-jobs).
 
 ### Tasks
 
-The background task ledger tracks all detached work: ACP runs, subagent spawns, isolated cron executions, and CLI operations. Tasks are records, not schedulers. Use `openclaw tasks list` and `openclaw tasks audit` to inspect them.
+The background task ledger tracks all detached work: ACP runs, subagent spawns, isolated cron executions, and CLI operations. Tasks are records, not schedulers. Use `brikko-studio tasks list` and `brikko-studio tasks audit` to inspect them.
 
 See [Background Tasks](/automation/tasks).
 
 ### Inferred commitments
 
-Commitments are opt-in, short-lived follow-up memories. OpenClaw infers them
+Commitments are opt-in, short-lived follow-up memories. Brikko Studio infers them
 from normal conversations, scopes them to the same agent and channel, and
 delivers due check-ins through heartbeat. Exact user-requested reminders still
 belong to cron.
@@ -86,7 +86,7 @@ See [Inferred Commitments](/concepts/commitments).
 
 ### Task Flow
 
-Task Flow is the flow orchestration substrate above background tasks. It manages durable multi-step flows with managed and mirrored sync modes, revision tracking, and `openclaw tasks flow list|show|cancel` for inspection.
+Task Flow is the flow orchestration substrate above background tasks. It manages durable multi-step flows with managed and mirrored sync modes, revision tracking, and `brikko-studio tasks flow list|show|cancel` for inspection.
 
 See [Task Flow](/automation/taskflow).
 
@@ -101,7 +101,7 @@ See [Standing Orders](/automation/standing-orders).
 Internal hooks are event-driven scripts triggered by agent lifecycle events
 (`/new`, `/reset`, `/stop`), session compaction, gateway startup, and message
 flow. They are automatically discovered from directories and can be managed
-with `openclaw hooks`. For in-process tool-call interception, use
+with `brikko-studio hooks`. For in-process tool-call interception, use
 [Plugin hooks](/plugins/hooks).
 
 See [Hooks](/automation/hooks).

@@ -1,14 +1,14 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   __testing as sessionBindingTesting,
   getSessionBindingService,
-} from "openclaw/plugin-sdk/conversation-runtime";
+} from "brikko-studio/plugin-sdk/conversation-runtime";
 import { beforeEach, describe, expect, it } from "vitest";
 import { __testing, createBlueBubblesConversationBindingManager } from "./conversation-bindings.js";
 
 const baseCfg = {
   session: { mainKey: "main", scope: "per-sender" },
-} satisfies OpenClawConfig;
+} satisfies Brikko StudioConfig;
 
 describe("BlueBubbles conversation bindings", () => {
   beforeEach(() => {

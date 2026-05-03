@@ -14,4 +14,4 @@ export {
   withManager,
   withProgress,
   withProgressTotals,
-} from "./openclaw-runtime.js";
+} from "./brikko-studio-runtime.js";

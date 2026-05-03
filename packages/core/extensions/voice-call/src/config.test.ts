@@ -395,7 +395,7 @@ describe("normalizeVoiceCallConfig", () => {
       sources: ["memory", "sessions"],
       fallbackToConsult: false,
     });
-    expect(normalized.realtime.instructions).toContain("openclaw_agent_consult");
+    expect(normalized.realtime.instructions).toContain("brikko-studio_agent_consult");
     expect(normalized.tunnel.provider).toBe("none");
     expect(normalized.webhookSecurity.allowedHosts).toEqual([]);
   });

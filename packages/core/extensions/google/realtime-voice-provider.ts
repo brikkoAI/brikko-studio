@@ -16,7 +16,7 @@ import {
   type RealtimeInputConfig,
   type ThinkingConfig,
 } from "@google/genai";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/provider-onboard";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-onboard";
 import type {
   RealtimeVoiceAudioFormat,
   RealtimeVoiceBridge,
@@ -27,16 +27,16 @@ import type {
   RealtimeVoiceProviderPlugin,
   RealtimeVoiceTool,
   RealtimeVoiceToolResultOptions,
-} from "openclaw/plugin-sdk/realtime-voice";
+} from "brikko-studio/plugin-sdk/realtime-voice";
 import {
   convertPcmToMulaw8k,
   mulawToPcm,
   REALTIME_VOICE_AUDIO_FORMAT_G711_ULAW_8KHZ,
   REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME,
   resamplePcm,
-} from "openclaw/plugin-sdk/realtime-voice";
-import { normalizeResolvedSecretInputString } from "openclaw/plugin-sdk/secret-input";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/realtime-voice";
+import { normalizeResolvedSecretInputString } from "brikko-studio/plugin-sdk/secret-input";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { createGoogleGenAI } from "./google-genai-runtime.js";
 
 const GOOGLE_REALTIME_DEFAULT_MODEL = "gemini-2.5-flash-native-audio-preview-12-2025";
@@ -189,7 +189,7 @@ function resolveGoogleRealtimeProviderConfigRecord(
 
 function normalizeProviderConfig(
   config: RealtimeVoiceProviderConfig,
-  cfg?: OpenClawConfig,
+  cfg?: Brikko StudioConfig,
 ): GoogleRealtimeVoiceProviderConfig {
   const raw = resolveGoogleRealtimeProviderConfigRecord(config);
   return {

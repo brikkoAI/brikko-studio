@@ -1,6 +1,6 @@
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ChannelOutboundAdapter } from "../../channels/plugins/types.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import {
   forumMessagingForTest,
   telegramMessagingForTest,
@@ -139,7 +139,7 @@ beforeEach(() => {
           config: {
             listAccountIds: () => [],
             resolveAccount: () => ({}),
-            resolveAllowFrom: ({ cfg }: { cfg: OpenClawConfig }) =>
+            resolveAllowFrom: ({ cfg }: { cfg: Brikko StudioConfig }) =>
               (cfg.channels?.alpha as { allowFrom?: string[] } | undefined)?.allowFrom,
           },
         },
@@ -153,15 +153,15 @@ afterEach(() => {
   resetPluginRuntimeStateForTest();
 });
 
-function makeCfg(overrides?: Partial<OpenClawConfig>): OpenClawConfig {
+function makeCfg(overrides?: Partial<Brikko StudioConfig>): Brikko StudioConfig {
   return {
     bindings: [],
     channels: {},
     ...overrides,
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
-function makeForumBoundCfg(accountId = "account-b"): OpenClawConfig {
+function makeForumBoundCfg(accountId = "account-b"): Brikko StudioConfig {
   return makeCfg({
     bindings: [
       {
@@ -211,7 +211,7 @@ function setStoredAlphaAllowFrom(allowFrom: string[]) {
 }
 
 async function resolveForAgent(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   target?: { channel?: "last" | "forum" | "alpha"; to?: string };
 }) {
   const channel = params.target ? params.target.channel : DEFAULT_TARGET.channel;
@@ -222,7 +222,7 @@ async function resolveForAgent(params: {
   });
 }
 
-async function resolveLastTarget(cfg: OpenClawConfig) {
+async function resolveLastTarget(cfg: Brikko StudioConfig) {
   return resolveForAgent({
     cfg,
     target: { channel: "last", to: undefined },

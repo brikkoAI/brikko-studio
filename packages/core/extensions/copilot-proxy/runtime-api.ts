@@ -1,6 +1,6 @@
-export { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
+export { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 export type {
-  OpenClawPluginApi,
+  Brikko StudioPluginApi,
   ProviderAuthContext,
   ProviderAuthResult,
-} from "openclaw/plugin-sdk/core";
+} from "brikko-studio/plugin-sdk/core";

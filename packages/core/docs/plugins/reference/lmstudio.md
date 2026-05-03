@@ -1,5 +1,5 @@
 ---
-summary: "Adds LM Studio model provider support to OpenClaw."
+summary: "Adds LM Studio model provider support to Brikko Studio."
 read_when:
   - You are installing, configuring, or auditing the lmstudio plugin
 title: "LM Studio plugin"
@@ -7,12 +7,12 @@ title: "LM Studio plugin"
 
 # LM Studio plugin
 
-Adds LM Studio model provider support to OpenClaw.
+Adds LM Studio model provider support to Brikko Studio.
 
 ## Distribution
 
-- Package: `@openclaw/lmstudio-provider`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/lmstudio-provider`
+- Install route: included in Brikko Studio
 
 ## Surface
 

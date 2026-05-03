@@ -40,7 +40,7 @@ function writeAllowFromFile(params: {
 }
 
 beforeAll(() => {
-  fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-allow-from-read-"));
+  fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-allow-from-read-"));
 });
 
 afterAll(() => {

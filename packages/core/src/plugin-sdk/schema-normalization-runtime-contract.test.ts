@@ -5,7 +5,7 @@ import {
   createPermissiveTool,
   createProxyOpenAIResponsesModel,
   normalizedParameterFreeSchema,
-} from "openclaw/plugin-sdk/agent-runtime-test-contracts";
+} from "brikko-studio/plugin-sdk/agent-runtime-test-contracts";
 import { describe, expect, it } from "vitest";
 import { buildProviderToolCompatFamilyHooks } from "./provider-tools.js";
 

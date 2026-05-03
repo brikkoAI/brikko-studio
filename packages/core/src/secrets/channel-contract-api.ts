@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
 import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
@@ -23,7 +23,7 @@ type UnsupportedSecretRefConfigCandidate = {
 
 type BundledChannelContractApi = {
   collectRuntimeConfigAssignments?: (params: {
-    config: OpenClawConfig;
+    config: Brikko StudioConfig;
     defaults: SecretDefaults | undefined;
     context: ResolverContext;
   }) => void;
@@ -58,7 +58,7 @@ function loadBundledChannelPublicArtifact(
       ) {
         continue;
       }
-      if (process.env.OPENCLAW_DEBUG_CHANNEL_CONTRACT_API === "1") {
+      if (process.env.BRIKKO_STUDIO_DEBUG_CHANNEL_CONTRACT_API === "1") {
         const detail = error instanceof Error ? error.message : String(error);
         process.stderr.write(
           `[channel-contract-api] failed to load ${channelId}/${artifactBasename}: ${detail}\n`,
@@ -135,7 +135,7 @@ function loadExternalChannelSecretContractFromRecord(
       return mod;
     }
   } catch (error) {
-    if (process.env.OPENCLAW_DEBUG_CHANNEL_CONTRACT_API === "1") {
+    if (process.env.BRIKKO_STUDIO_DEBUG_CHANNEL_CONTRACT_API === "1") {
       const detail = error instanceof Error ? error.message : String(error);
       process.stderr.write(
         `[channel-contract-api] failed to load ${record.id} contract ${safePath}: ${detail}\n`,
@@ -156,7 +156,7 @@ function recordOwnsChannel(record: PluginManifestRecord, channelId: string): boo
 
 function listChannelSecretContractRecords(params: {
   channelId: string;
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   loadablePluginOrigins?: ReadonlyMap<string, PluginOrigin>;
 }): PluginManifestRecord[] {
@@ -189,7 +189,7 @@ function listChannelSecretContractRecords(params: {
 
 export function loadChannelSecretContractApi(params: {
   channelId: string;
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   loadablePluginOrigins?: ReadonlyMap<string, PluginOrigin>;
 }): BundledChannelSecretContractApi | undefined {

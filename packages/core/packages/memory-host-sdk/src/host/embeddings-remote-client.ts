@@ -1,5 +1,5 @@
 import type { EmbeddingProviderOptions } from "./embeddings.types.js";
-import { requireApiKey, resolveApiKeyForProvider } from "./openclaw-runtime-auth.js";
+import { requireApiKey, resolveApiKeyForProvider } from "./brikko-studio-runtime-auth.js";
 import { buildRemoteBaseUrlPolicy } from "./remote-http.js";
 import { resolveMemorySecretInputString } from "./secret-input.js";
 import type { SsrFPolicy } from "./ssrf-policy.js";
@@ -7,12 +7,12 @@ import { normalizeOptionalString } from "./string-utils.js";
 
 export type RemoteEmbeddingProviderId = string;
 
-function resolveOpenClawAttributionHeaders(): Record<string, string> {
-  const version = typeof process !== "undefined" ? process.env.OPENCLAW_VERSION?.trim() : undefined;
+function resolveBrikko StudioAttributionHeaders(): Record<string, string> {
+  const version = typeof process !== "undefined" ? process.env.BRIKKO_STUDIO_VERSION?.trim() : undefined;
   return {
-    originator: "openclaw",
+    originator: "brikko-studio",
     ...(version ? { version } : {}),
-    "User-Agent": version ? `openclaw/${version}` : "openclaw",
+    "User-Agent": version ? `brikko-studio/${version}` : "brikko-studio",
   };
 }
 
@@ -58,7 +58,7 @@ export async function resolveRemoteEmbeddingBearerClient(params: {
     ...headerOverrides,
   };
   if (isNativeOpenAIEmbeddingRoute(params.provider, baseUrl)) {
-    Object.assign(headers, resolveOpenClawAttributionHeaders());
+    Object.assign(headers, resolveBrikko StudioAttributionHeaders());
   }
   return { baseUrl, headers, ssrfPolicy: buildRemoteBaseUrlPolicy(baseUrl) };
 }

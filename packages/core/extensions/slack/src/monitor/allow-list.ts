@@ -2,13 +2,13 @@ import {
   compileAllowlist,
   resolveCompiledAllowlistMatch,
   type AllowlistMatch,
-} from "openclaw/plugin-sdk/allow-from";
+} from "brikko-studio/plugin-sdk/allow-from";
 import {
   normalizeHyphenSlug,
   normalizeStringEntries,
   normalizeStringEntriesLower,
-} from "openclaw/plugin-sdk/string-normalization-runtime";
-import { normalizeOptionalLowercaseString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/string-normalization-runtime";
+import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
 
 const SLACK_SLUG_CACHE_MAX = 512;
 const slackSlugCache = new Map<string, string>();

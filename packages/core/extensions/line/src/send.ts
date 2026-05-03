@@ -1,8 +1,8 @@
 import { messagingApi } from "@line/bot-sdk";
-import { recordChannelActivity } from "openclaw/plugin-sdk/channel-activity-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { requireRuntimeConfig } from "openclaw/plugin-sdk/plugin-config-runtime";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+import { recordChannelActivity } from "brikko-studio/plugin-sdk/channel-activity-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { resolveLineAccount } from "./accounts.js";
 import { resolveLineChannelAccessToken } from "./channel-access-token.js";
 import { validateLineMediaUrl } from "./outbound-media.js";
@@ -27,7 +27,7 @@ const userProfileCache = new Map<
 const PROFILE_CACHE_TTL_MS = 5 * 60 * 1000;
 
 interface LineSendOpts {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channelAccessToken?: string;
   accountId?: string;
   verbose?: boolean;

@@ -47,11 +47,11 @@ function resolveSystemdUnitPathForName(env: GatewayServiceEnv, name: string): st
 }
 
 function resolveSystemdServiceName(env: GatewayServiceEnv): string {
-  const override = env.OPENCLAW_SYSTEMD_UNIT?.trim();
+  const override = env.BRIKKO_STUDIO_SYSTEMD_UNIT?.trim();
   if (override) {
     return override.endsWith(".service") ? override.slice(0, -".service".length) : override;
   }
-  return resolveGatewaySystemdServiceName(env.OPENCLAW_PROFILE);
+  return resolveGatewaySystemdServiceName(env.BRIKKO_STUDIO_PROFILE);
 }
 
 function resolveSystemdUnitPath(env: GatewayServiceEnv): string {

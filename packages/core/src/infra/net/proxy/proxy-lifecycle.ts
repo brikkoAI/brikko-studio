@@ -1,8 +1,8 @@
 /**
- * High-level lifecycle management for OpenClaw's operator-managed network
+ * High-level lifecycle management for Brikko Studio's operator-managed network
  * proxy routing.
  *
- * OpenClaw does not spawn or configure the filtering proxy. When enabled, it
+ * Brikko Studio does not spawn or configure the filtering proxy. When enabled, it
  * routes process-wide HTTP clients through the configured forward proxy URL and
  * restores the previous process state on shutdown.
  */
@@ -33,7 +33,7 @@ const PROXY_ENV_KEYS = ["http_proxy", "https_proxy", "HTTP_PROXY", "HTTPS_PROXY"
 const GLOBAL_AGENT_PROXY_KEYS = ["GLOBAL_AGENT_HTTP_PROXY", "GLOBAL_AGENT_HTTPS_PROXY"] as const;
 const GLOBAL_AGENT_FORCE_KEYS = ["GLOBAL_AGENT_FORCE_GLOBAL_AGENT"] as const;
 const NO_PROXY_ENV_KEYS = ["no_proxy", "NO_PROXY", "GLOBAL_AGENT_NO_PROXY"] as const;
-const PROXY_ACTIVE_KEYS = ["OPENCLAW_PROXY_ACTIVE"] as const;
+const PROXY_ACTIVE_KEYS = ["BRIKKO_STUDIO_PROXY_ACTIVE"] as const;
 const ALL_PROXY_ENV_KEYS = [
   ...PROXY_ENV_KEYS,
   ...GLOBAL_AGENT_PROXY_KEYS,
@@ -106,7 +106,7 @@ function captureProxyEnv(): ProxyEnvSnapshot {
     no_proxy: process.env["no_proxy"],
     NO_PROXY: process.env["NO_PROXY"],
     GLOBAL_AGENT_NO_PROXY: process.env["GLOBAL_AGENT_NO_PROXY"],
-    OPENCLAW_PROXY_ACTIVE: process.env["OPENCLAW_PROXY_ACTIVE"],
+    BRIKKO_STUDIO_PROXY_ACTIVE: process.env["BRIKKO_STUDIO_PROXY_ACTIVE"],
   };
 }
 
@@ -124,7 +124,7 @@ function applyProxyEnv(proxyUrl: string): void {
     process.env[key] = proxyUrl;
   }
   process.env["GLOBAL_AGENT_FORCE_GLOBAL_AGENT"] = "true";
-  process.env["OPENCLAW_PROXY_ACTIVE"] = "1";
+  process.env["BRIKKO_STUDIO_PROXY_ACTIVE"] = "1";
   for (const key of NO_PROXY_ENV_KEYS) {
     process.env[key] = "";
   }
@@ -393,17 +393,17 @@ function isSupportedProxyUrl(value: string): boolean {
 }
 
 function resolveProxyUrl(config: ProxyConfig | undefined): string {
-  const candidate = config?.proxyUrl?.trim() || process.env["OPENCLAW_PROXY_URL"]?.trim();
+  const candidate = config?.proxyUrl?.trim() || process.env["BRIKKO_STUDIO_PROXY_URL"]?.trim();
   if (!candidate) {
     throw new Error(
       "proxy: enabled but no HTTP proxy URL is configured; set proxy.proxyUrl " +
-        "or OPENCLAW_PROXY_URL to an http:// forward proxy.",
+        "or BRIKKO_STUDIO_PROXY_URL to an http:// forward proxy.",
     );
   }
   if (!isSupportedProxyUrl(candidate)) {
     throw new Error(
       "proxy: enabled but proxy URL is invalid; set proxy.proxyUrl " +
-        "or OPENCLAW_PROXY_URL to an http:// forward proxy.",
+        "or BRIKKO_STUDIO_PROXY_URL to an http:// forward proxy.",
     );
   }
   return candidate;

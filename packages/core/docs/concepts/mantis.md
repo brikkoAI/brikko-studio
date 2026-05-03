@@ -1,14 +1,14 @@
 ---
-summary: "Mantis is the visual end-to-end verification system for reproducing OpenClaw bugs on live transports, capturing before and after evidence, and attaching artifacts to PRs."
+summary: "Mantis is the visual end-to-end verification system for reproducing Brikko Studio bugs on live transports, capturing before and after evidence, and attaching artifacts to PRs."
 title: "Mantis"
 read_when:
-  - Building or running live visual QA for OpenClaw bugs
+  - Building or running live visual QA for Brikko Studio bugs
   - Adding before and after verification for a pull request
   - Adding Discord, Slack, WhatsApp, or other live transport scenarios
   - Debugging QA runs that need screenshots, browser automation, or VNC access
 ---
 
-Mantis is the OpenClaw end-to-end verification system for bugs that need a real
+Mantis is the Brikko Studio end-to-end verification system for bugs that need a real
 runtime, a real transport, and visible proof. It runs a scenario against a known
 bad ref, captures evidence, runs the same scenario against a candidate ref, and
 publishes the comparison as artifacts that a maintainer can inspect from a PR or
@@ -46,20 +46,20 @@ browser UI where humans can visually confirm what the transport showed.
 
 ## Ownership
 
-Mantis lives in the OpenClaw QA stack.
+Mantis lives in the Brikko Studio QA stack.
 
-- OpenClaw owns the scenario runtime, transport adapters, evidence schema, and
-  local CLI under `pnpm openclaw qa mantis`.
+- Brikko Studio owns the scenario runtime, transport adapters, evidence schema, and
+  local CLI under `pnpm brikko-studio qa mantis`.
 - QA Lab owns the live transport harness pieces, browser capture helpers, and
   artifact writers.
 - Crabbox owns warmed Linux machines when a remote VM is needed.
 - GitHub Actions owns the remote workflow entrypoint and artifact retention.
 - ClawSweeper owns GitHub comment routing: parsing maintainer commands,
   dispatching the workflow, and posting the final PR comment.
-- OpenClaw agents drive Mantis through Codex when a scenario needs agentic setup,
+- Brikko Studio agents drive Mantis through Codex when a scenario needs agentic setup,
   debugging, or stuck-state reporting.
 
-This boundary keeps transport knowledge in OpenClaw, machine scheduling in
+This boundary keeps transport knowledge in Brikko Studio, machine scheduling in
 Crabbox, and maintainer workflow glue in ClawSweeper.
 
 ## Command Shape
@@ -68,14 +68,14 @@ The first local command verifies the Discord bot, guild, channel, message send,
 reaction send, and artifact path:
 
 ```bash
-pnpm openclaw qa mantis discord-smoke \
+pnpm brikko-studio qa mantis discord-smoke \
   --output-dir .artifacts/qa-e2e/mantis/discord-smoke
 ```
 
 The later before and after runner should accept this shape:
 
 ```bash
-pnpm openclaw qa mantis run \
+pnpm brikko-studio qa mantis run \
   --transport discord \
   --scenario discord-status-reactions-tool-only \
   --baseline origin/main \
@@ -112,7 +112,7 @@ ClawSweeper review findings.
 2. Allocate or reuse a VM.
 3. Prepare a clean checkout for the baseline ref.
 4. Install dependencies and build only what the scenario needs.
-5. Start a child OpenClaw Gateway with an isolated state directory.
+5. Start a child Brikko Studio Gateway with an isolated state directory.
 6. Configure the live transport, provider, model, and browser profile.
 7. Run the scenario and capture baseline evidence.
 8. Stop the gateway and preserve logs.
@@ -141,7 +141,7 @@ Why it is a good Mantis seed:
 
 - It is visible in Discord as reactions on the triggering message.
 - It has a strong REST oracle through Discord message reaction state.
-- It exercises a real OpenClaw Gateway, Discord bot auth, message dispatch,
+- It exercises a real Brikko Studio Gateway, Discord bot auth, message dispatch,
   source reply delivery mode, status reaction state, and model turn lifecycle.
 - It is narrow enough to keep the first implementation honest.
 
@@ -184,7 +184,7 @@ true.
 The executable first slice is the opt-in Discord live QA scenario:
 
 ```bash
-pnpm openclaw qa discord \
+pnpm brikko-studio qa discord \
   --scenario discord-status-reactions-tool-only \
   --provider-mode live-frontier \
   --model openai/gpt-5.4 \
@@ -205,7 +205,7 @@ polls the real Discord triggering message and expects the observed sequence
 Mantis should build on the existing private QA stack instead of starting from
 zero:
 
-- `pnpm openclaw qa discord` already runs a live Discord lane with driver and
+- `pnpm brikko-studio qa discord` already runs a live Discord lane with driver and
   SUT bots.
 - The live transport runner already writes reports and observed-message
   artifacts under `.artifacts/qa-e2e/`.
@@ -266,7 +266,7 @@ is stronger.
 The browser lane has two modes:
 
 - **Headless automation**: default for CI. Chrome runs with CDP enabled, and
-  Playwright or OpenClaw browser control captures screenshots.
+  Playwright or Brikko Studio browser control captures screenshots.
 - **VNC rescue**: enabled on the same VM when login, MFA, Discord anti-automation,
   or visual debugging needs a human.
 
@@ -299,9 +299,9 @@ Minimum VM requirements:
 - CDP access for browser automation
 - VNC or noVNC for rescue
 - Node 22 and pnpm
-- OpenClaw checkout and dependency cache
+- Brikko Studio checkout and dependency cache
 - Playwright Chromium browser cache when Playwright is used
-- enough CPU and memory for one OpenClaw Gateway, one browser, and one model run
+- enough CPU and memory for one Brikko Studio Gateway, one browser, and one model run
 - outbound access to Discord, GitHub, model providers, and the credential broker
 
 The VM should not keep long-lived raw secrets outside the expected credential or
@@ -314,15 +314,15 @@ a local operator-controlled secret file for local runs.
 
 Recommended secret names:
 
-- `OPENCLAW_QA_DISCORD_MANTIS_BOT_TOKEN`
-- `OPENCLAW_QA_DISCORD_DRIVER_BOT_TOKEN`
-- `OPENCLAW_QA_DISCORD_SUT_BOT_TOKEN`
-- `OPENCLAW_QA_DISCORD_GUILD_ID`
-- `OPENCLAW_QA_DISCORD_CHANNEL_ID`
-- `OPENCLAW_QA_DISCORD_NOTIFY_CHANNEL_ID`
-- `OPENCLAW_QA_REDACT_PUBLIC_METADATA=1` for public GitHub artifact uploads
-- `OPENCLAW_QA_CONVEX_SITE_URL`
-- `OPENCLAW_QA_CONVEX_SECRET_CI`
+- `BRIKKO_STUDIO_QA_DISCORD_MANTIS_BOT_TOKEN`
+- `BRIKKO_STUDIO_QA_DISCORD_DRIVER_BOT_TOKEN`
+- `BRIKKO_STUDIO_QA_DISCORD_SUT_BOT_TOKEN`
+- `BRIKKO_STUDIO_QA_DISCORD_GUILD_ID`
+- `BRIKKO_STUDIO_QA_DISCORD_CHANNEL_ID`
+- `BRIKKO_STUDIO_QA_DISCORD_NOTIFY_CHANNEL_ID`
+- `BRIKKO_STUDIO_QA_REDACT_PUBLIC_METADATA=1` for public GitHub artifact uploads
+- `BRIKKO_STUDIO_QA_CONVEX_SITE_URL`
+- `BRIKKO_STUDIO_QA_CONVEX_SECRET_CI`
 
 Long term, the Convex credential pool should remain the normal source for live
 transport credentials. GitHub secrets bootstrap the broker and fallback lanes.
@@ -338,7 +338,7 @@ The Mantis runner must never print:
 
 Public artifact uploads should also redact Discord target metadata such as bot,
 guild, channel, and message ids. The GitHub smoke workflow enables
-`OPENCLAW_QA_REDACT_PUBLIC_METADATA=1` for this reason.
+`BRIKKO_STUDIO_QA_REDACT_PUBLIC_METADATA=1` for this reason.
 
 If a token is accidentally pasted into an issue, PR, chat, or log, rotate it
 after the new secret has been stored.
@@ -398,7 +398,7 @@ A Mantis scenario should declare:
 - required credentials
 - baseline ref policy
 - candidate ref policy
-- OpenClaw config patch
+- Brikko Studio config patch
 - setup steps
 - stimulus
 - expected baseline oracle

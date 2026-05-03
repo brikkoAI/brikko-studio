@@ -1,1 +1,1 @@
-export { requireApiKey, resolveApiKeyForProvider } from "./openclaw-runtime.js";
+export { requireApiKey, resolveApiKeyForProvider } from "./brikko-studio-runtime.js";

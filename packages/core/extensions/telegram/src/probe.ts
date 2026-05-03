@@ -1,7 +1,7 @@
-import type { BaseProbeResult } from "openclaw/plugin-sdk/channel-contract";
-import type { TelegramNetworkConfig } from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { fetchWithTimeout } from "openclaw/plugin-sdk/text-runtime";
+import type { BaseProbeResult } from "brikko-studio/plugin-sdk/channel-contract";
+import type { TelegramNetworkConfig } from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { fetchWithTimeout } from "brikko-studio/plugin-sdk/text-runtime";
 import type { TelegramBotInfo } from "./bot-info.js";
 import { resolveTelegramApiBase, resolveTelegramFetch } from "./fetch.js";
 import { makeProxyFetch } from "./proxy.js";

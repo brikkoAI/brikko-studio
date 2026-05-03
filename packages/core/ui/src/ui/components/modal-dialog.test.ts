@@ -2,7 +2,7 @@
 
 import { html, nothing, render } from "lit";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { type OpenClawModalDialog } from "./modal-dialog.ts";
+import { type Brikko StudioModalDialog } from "./modal-dialog.ts";
 import "./modal-dialog.ts";
 
 let container: HTMLDivElement;
@@ -45,7 +45,7 @@ function restoreDescriptor(name: "showModal" | "close", descriptor?: PropertyDes
 async function renderModal() {
   render(
     html`
-      <openclaw-modal-dialog
+      <brikko-studio-modal-dialog
         label="Confirm action"
         description="Review the operation before continuing."
       >
@@ -55,11 +55,11 @@ async function renderModal() {
           <button id="first-action">First</button>
           <button id="last-action">Last</button>
         </section>
-      </openclaw-modal-dialog>
+      </brikko-studio-modal-dialog>
     `,
     container,
   );
-  const modal = container.querySelector<OpenClawModalDialog>("openclaw-modal-dialog");
+  const modal = container.querySelector<Brikko StudioModalDialog>("brikko-studio-modal-dialog");
   expect(modal).not.toBeNull();
   await modal!.updateComplete;
   await nextFrame();
@@ -68,7 +68,7 @@ async function renderModal() {
   return { modal: modal!, dialog: dialog! };
 }
 
-describe("openclaw-modal-dialog", () => {
+describe("brikko-studio-modal-dialog", () => {
   beforeEach(() => {
     installDialogPolyfill();
     container = document.createElement("div");
@@ -91,8 +91,8 @@ describe("openclaw-modal-dialog", () => {
     expect(dialog.getAttribute("aria-modal")).toBe("true");
     const labelId = dialog.getAttribute("aria-labelledby");
     const descriptionId = dialog.getAttribute("aria-describedby");
-    expect(labelId).toBe("openclaw-modal-dialog-label");
-    expect(descriptionId).toBe("openclaw-modal-dialog-description");
+    expect(labelId).toBe("brikko-studio-modal-dialog-label");
+    expect(descriptionId).toBe("brikko-studio-modal-dialog-description");
     expect(dialog.getRootNode()).toBe(modal.shadowRoot);
     expect(dialog.ownerDocument.querySelector(`#${labelId}`)).toBeNull();
     expect(modal.shadowRoot?.getElementById(labelId!)?.textContent).toBe("Confirm action");

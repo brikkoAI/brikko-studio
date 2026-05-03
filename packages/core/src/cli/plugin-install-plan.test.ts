@@ -1,4 +1,4 @@
-import { installedPluginRoot } from "openclaw/plugin-sdk/test-fixtures";
+import { installedPluginRoot } from "brikko-studio/plugin-sdk/test-fixtures";
 import { describe, expect, it, vi } from "vitest";
 import { PLUGIN_INSTALL_ERROR_CODE } from "../plugins/install.js";
 import {
@@ -13,7 +13,7 @@ describe("plugin install plan helpers", () => {
     const findBundledSource = vi.fn().mockReturnValue({
       pluginId: "voice-call",
       localPath: installedPluginRoot("/tmp", "voice-call"),
-      npmSpec: "@openclaw/voice-call",
+      npmSpec: "@brikko-studio/voice-call",
     });
 
     const result = resolveBundledInstallPlanBeforeNpm({
@@ -29,7 +29,7 @@ describe("plugin install plan helpers", () => {
   it("skips bundled pre-plan for scoped npm specs", () => {
     const findBundledSource = vi.fn();
     const result = resolveBundledInstallPlanBeforeNpm({
-      rawSpec: "@openclaw/voice-call",
+      rawSpec: "@brikko-studio/voice-call",
       findBundledSource,
     });
 
@@ -40,7 +40,7 @@ describe("plugin install plan helpers", () => {
   it("resolves exact official external plugin ids before npm fallback", () => {
     const findOfficialExternalPlugin = vi.fn().mockReturnValue({
       pluginId: "brave",
-      npmSpec: "@openclaw/brave-plugin",
+      npmSpec: "@brikko-studio/brave-plugin",
       expectedIntegrity: "sha512-brave",
     });
 
@@ -52,7 +52,7 @@ describe("plugin install plan helpers", () => {
     expect(findOfficialExternalPlugin).toHaveBeenCalledWith("brave");
     expect(result).toEqual({
       pluginId: "brave",
-      npmSpec: "@openclaw/brave-plugin",
+      npmSpec: "@brikko-studio/brave-plugin",
       expectedIntegrity: "sha512-brave",
     });
   });
@@ -68,7 +68,7 @@ describe("plugin install plan helpers", () => {
     ).toBeNull();
     expect(
       resolveOfficialExternalInstallPlanBeforeNpm({
-        rawSpec: "@openclaw/brave-plugin",
+        rawSpec: "@brikko-studio/brave-plugin",
         findOfficialExternalPlugin,
       }),
     ).toBeNull();
@@ -94,7 +94,7 @@ describe("plugin install plan helpers", () => {
           return {
             pluginId: "voice-call",
             localPath: installedPluginRoot("/tmp", "voice-call"),
-            npmSpec: "@openclaw/voice-call",
+            npmSpec: "@brikko-studio/voice-call",
           };
         }
         return undefined;
@@ -102,7 +102,7 @@ describe("plugin install plan helpers", () => {
 
     const result = resolveBundledInstallPlanForCatalogEntry({
       pluginId: "voice-call",
-      npmSpec: "@openclaw/voice-call",
+      npmSpec: "@brikko-studio/voice-call",
       findBundledSource,
     });
 
@@ -118,7 +118,7 @@ describe("plugin install plan helpers", () => {
           return {
             pluginId: "not-voice-call",
             localPath: installedPluginRoot("/tmp", "not-voice-call"),
-            npmSpec: "@openclaw/voice-call",
+            npmSpec: "@brikko-studio/voice-call",
           };
         }
         return undefined;
@@ -126,7 +126,7 @@ describe("plugin install plan helpers", () => {
 
     const result = resolveBundledInstallPlanForCatalogEntry({
       pluginId: "voice-call",
-      npmSpec: "@openclaw/voice-call",
+      npmSpec: "@brikko-studio/voice-call",
       findBundledSource,
     });
 
@@ -141,7 +141,7 @@ describe("plugin install plan helpers", () => {
           return {
             pluginId: "whatsapp",
             localPath: installedPluginRoot("/tmp", "whatsapp"),
-            npmSpec: "@openclaw/whatsapp",
+            npmSpec: "@brikko-studio/whatsapp",
           };
         }
         return undefined;
@@ -160,17 +160,17 @@ describe("plugin install plan helpers", () => {
     const findBundledSource = vi.fn().mockReturnValue({
       pluginId: "voice-call",
       localPath: installedPluginRoot("/tmp", "voice-call"),
-      npmSpec: "@openclaw/voice-call",
+      npmSpec: "@brikko-studio/voice-call",
     });
     const result = resolveBundledInstallPlanForNpmFailure({
-      rawSpec: "@openclaw/voice-call",
+      rawSpec: "@brikko-studio/voice-call",
       code: PLUGIN_INSTALL_ERROR_CODE.NPM_PACKAGE_NOT_FOUND,
       findBundledSource,
     });
 
     expect(findBundledSource).toHaveBeenCalledWith({
       kind: "npmSpec",
-      value: "@openclaw/voice-call",
+      value: "@brikko-studio/voice-call",
     });
     expect(result?.warning).toContain("npm package unavailable");
   });
@@ -178,7 +178,7 @@ describe("plugin install plan helpers", () => {
   it("skips fallback for non-not-found npm failures", () => {
     const findBundledSource = vi.fn();
     const result = resolveBundledInstallPlanForNpmFailure({
-      rawSpec: "@openclaw/voice-call",
+      rawSpec: "@brikko-studio/voice-call",
       code: "INSTALL_FAILED",
       findBundledSource,
     });

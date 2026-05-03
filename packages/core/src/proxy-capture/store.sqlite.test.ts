@@ -23,14 +23,14 @@ afterEach(() => {
 });
 
 function makeStore() {
-  const root = mkdtempSync(path.join(os.tmpdir(), "openclaw-proxy-capture-"));
+  const root = mkdtempSync(path.join(os.tmpdir(), "brikko-studio-proxy-capture-"));
   cleanupDirs.push(root);
   return new DebugProxyCaptureStore(path.join(root, "capture.sqlite"), path.join(root, "blobs"));
 }
 
 describe("DebugProxyCaptureStore", () => {
   it("keeps the cached store open until the last lease releases", () => {
-    const root = mkdtempSync(path.join(os.tmpdir(), "openclaw-proxy-capture-lease-"));
+    const root = mkdtempSync(path.join(os.tmpdir(), "brikko-studio-proxy-capture-lease-"));
     cleanupDirs.push(root);
     const dbPath = path.join(root, "capture.sqlite");
     const blobDir = path.join(root, "blobs");
@@ -64,8 +64,8 @@ describe("DebugProxyCaptureStore", () => {
       id: "session-1",
       startedAt: Date.now(),
       mode: "proxy-run",
-      sourceScope: "openclaw",
-      sourceProcess: "openclaw",
+      sourceScope: "brikko-studio",
+      sourceProcess: "brikko-studio",
       dbPath: store.dbPath,
       blobDir: store.blobDir,
     });
@@ -76,8 +76,8 @@ describe("DebugProxyCaptureStore", () => {
     store.recordEvent({
       sessionId: "session-1",
       ts: 1,
-      sourceScope: "openclaw",
-      sourceProcess: "openclaw",
+      sourceScope: "brikko-studio",
+      sourceProcess: "brikko-studio",
       protocol: "https",
       direction: "outbound",
       kind: "request",
@@ -90,8 +90,8 @@ describe("DebugProxyCaptureStore", () => {
     store.recordEvent({
       sessionId: "session-1",
       ts: 2,
-      sourceScope: "openclaw",
-      sourceProcess: "openclaw",
+      sourceScope: "brikko-studio",
+      sourceProcess: "brikko-studio",
       protocol: "https",
       direction: "outbound",
       kind: "request",
@@ -126,16 +126,16 @@ describe("DebugProxyCaptureStore", () => {
         id: sessionId,
         startedAt: Date.now(),
         mode: "proxy-run",
-        sourceScope: "openclaw",
-        sourceProcess: "openclaw",
+        sourceScope: "brikko-studio",
+        sourceProcess: "brikko-studio",
         dbPath: store.dbPath,
         blobDir: store.blobDir,
       });
       store.recordEvent({
         sessionId,
         ts: Date.now(),
-        sourceScope: "openclaw",
-        sourceProcess: "openclaw",
+        sourceScope: "brikko-studio",
+        sourceProcess: "brikko-studio",
         protocol: "https",
         direction: "outbound",
         kind: "request",

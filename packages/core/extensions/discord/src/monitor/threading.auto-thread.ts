@@ -1,11 +1,11 @@
-import type { OpenClawConfig, ReplyToMode } from "openclaw/plugin-sdk/config-types";
-import { resolveChannelModelOverride } from "openclaw/plugin-sdk/model-session-runtime";
-import { buildAgentSessionKey } from "openclaw/plugin-sdk/routing";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+import type { Brikko StudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import { resolveChannelModelOverride } from "brikko-studio/plugin-sdk/model-session-runtime";
+import { buildAgentSessionKey } from "brikko-studio/plugin-sdk/routing";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import {
   normalizeOptionalString,
   normalizeOptionalStringifiedId,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import {
   ChannelType,
   createThread,
@@ -78,7 +78,7 @@ export async function resolveDiscordAutoThreadReplyPlan(
     replyToMode: ReplyToMode;
     agentId: string;
     channel: string;
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     threadParentInheritanceEnabled?: boolean;
   },
 ): Promise<DiscordAutoThreadReplyPlan> {
@@ -219,7 +219,7 @@ export async function maybeCreateDiscordAutoThread(
 }
 
 function resolveDiscordThreadTitleModelRef(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel?: string;
   agentId: string;
   threadId: string;
@@ -258,7 +258,7 @@ async function maybeRenameDiscordAutoThread(params: {
   modelRef?: string;
   channelName?: string;
   channelDescription?: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
 }): Promise<void> {
   try {

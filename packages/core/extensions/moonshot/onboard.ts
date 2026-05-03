@@ -1,7 +1,7 @@
 import {
   createDefaultModelPresetAppliers,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/provider-onboard";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildMoonshotProvider,
   MOONSHOT_BASE_URL,
@@ -12,7 +12,7 @@ export const MOONSHOT_DEFAULT_MODEL_REF = `moonshot/${MOONSHOT_DEFAULT_MODEL_ID}
 
 const moonshotPresetAppliers = createDefaultModelPresetAppliers<[string]>({
   primaryModelRef: MOONSHOT_DEFAULT_MODEL_REF,
-  resolveParams: (_cfg: OpenClawConfig, baseUrl: string) => {
+  resolveParams: (_cfg: Brikko StudioConfig, baseUrl: string) => {
     const defaultModel = buildMoonshotProvider().models[0];
     if (!defaultModel) {
       return null;
@@ -29,10 +29,10 @@ const moonshotPresetAppliers = createDefaultModelPresetAppliers<[string]>({
   },
 });
 
-export function applyMoonshotConfig(cfg: OpenClawConfig): OpenClawConfig {
+export function applyMoonshotConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return moonshotPresetAppliers.applyConfig(cfg, MOONSHOT_BASE_URL);
 }
 
-export function applyMoonshotConfigCn(cfg: OpenClawConfig): OpenClawConfig {
+export function applyMoonshotConfigCn(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return moonshotPresetAppliers.applyConfig(cfg, MOONSHOT_CN_BASE_URL);
 }

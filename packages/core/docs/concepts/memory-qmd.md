@@ -7,7 +7,7 @@ read_when:
 ---
 
 [QMD](https://github.com/tobi/qmd) is a local-first search sidecar that runs
-alongside OpenClaw. It combines BM25, vector search, and reranking in a single
+alongside Brikko Studio. It combines BM25, vector search, and reranking in a single
 binary, and can index content beyond your workspace memory files.
 
 ## What it adds over builtin
@@ -17,7 +17,7 @@ binary, and can index content beyond your workspace memory files.
 - **Index session transcripts** -- recall earlier conversations.
 - **Fully local** -- runs with the optional node-llama-cpp runtime package and
   auto-downloads GGUF models.
-- **Automatic fallback** -- if QMD is unavailable, OpenClaw falls back to the
+- **Automatic fallback** -- if QMD is unavailable, Brikko Studio falls back to the
   builtin engine seamlessly.
 
 ## Getting started
@@ -39,8 +39,8 @@ binary, and can index content beyond your workspace memory files.
 }
 ```
 
-OpenClaw creates a self-contained QMD home under
-`~/.openclaw/agents/<agentId>/qmd/` and manages the sidecar lifecycle
+Brikko Studio creates a self-contained QMD home under
+`~/.brikko-studio/agents/<agentId>/qmd/` and manages the sidecar lifecycle
 automatically -- collections, updates, and embedding runs are handled for you.
 It prefers current QMD collection and MCP query shapes, but still falls back to
 alternate collection pattern flags and older MCP tool names when needed.
@@ -50,7 +50,7 @@ present.
 
 ## How the sidecar works
 
-- OpenClaw creates collections from your workspace memory files and any
+- Brikko Studio creates collections from your workspace memory files and any
   configured `memory.qmd.paths`, then runs `qmd update` when the QMD manager is
   opened and periodically afterward (default every 5 minutes). These refreshes
   run through QMD subprocesses, not an in-process filesystem crawl. Semantic
@@ -67,16 +67,16 @@ present.
   refresh uses a one-shot QMD subprocess path instead of creating the full
   long-lived in-process watcher.
 - Searches use the configured `searchMode` (default: `search`; also supports
-  `vsearch` and `query`). `search` is BM25-only, so OpenClaw skips semantic
+  `vsearch` and `query`). `search` is BM25-only, so Brikko Studio skips semantic
   vector readiness probes and embedding maintenance in that mode. If a mode
-  fails, OpenClaw retries with `qmd query`.
-- With QMD releases that advertise multi-collection filters, OpenClaw groups
+  fails, Brikko Studio retries with `qmd query`.
+- With QMD releases that advertise multi-collection filters, Brikko Studio groups
   same-source collections into one QMD search invocation. Older QMD releases
   keep the compatible per-collection fallback.
-- If QMD fails entirely, OpenClaw falls back to the builtin SQLite engine.
+- If QMD fails entirely, Brikko Studio falls back to the builtin SQLite engine.
   Repeated chat-turn attempts back off briefly after an open failure so a
   missing binary or broken sidecar dependency does not create a retry storm;
-  `openclaw memory status` and one-shot CLI probes still recheck QMD directly.
+  `brikko-studio memory status` and one-shot CLI probes still recheck QMD directly.
 
 <Info>
 The first search may be slow -- QMD auto-downloads GGUF models (~2 GB) for
@@ -85,11 +85,11 @@ reranking and query expansion on the first `qmd query` run.
 
 ## Search performance and compatibility
 
-OpenClaw keeps the QMD search path compatible with both current and older QMD
+Brikko Studio keeps the QMD search path compatible with both current and older QMD
 installs.
 
-On startup, OpenClaw checks the installed QMD help text once per manager. If the
-binary advertises support for multiple collection filters, OpenClaw searches all
+On startup, Brikko Studio checks the installed QMD help text once per manager. If the
+binary advertises support for multiple collection filters, Brikko Studio searches all
 same-source collections with one command:
 
 ```bash
@@ -101,7 +101,7 @@ Session transcript collections stay in their own source group, so mixed
 `memory` + `sessions` searches still give the result diversifier input from both
 sources.
 
-Older QMD builds only accept one collection filter. When OpenClaw detects one
+Older QMD builds only accept one collection filter. When Brikko Studio detects one
 of those builds, it keeps the compatibility path and searches each collection
 separately before merging and deduplicating results.
 
@@ -117,7 +117,7 @@ Older help usually describes a single collection.
 ## Model overrides
 
 QMD model environment variables pass through unchanged from the gateway
-process, so you can tune QMD globally without adding new OpenClaw config:
+process, so you can tune QMD globally without adding new Brikko Studio config:
 
 ```bash
 export QMD_EMBED_MODEL="hf:Qwen/Qwen3-Embedding-0.6B-GGUF/Qwen3-Embedding-0.6B-Q8_0.gguf"
@@ -163,7 +163,7 @@ Enable session indexing to recall earlier conversations:
 ```
 
 Transcripts are exported as sanitized User/Assistant turns into a dedicated QMD
-collection under `~/.openclaw/agents/<id>/qmd/sessions/`.
+collection under `~/.brikko-studio/agents/<id>/qmd/sessions/`.
 
 ## Search scope
 
@@ -183,7 +183,7 @@ By default, QMD search results are surfaced in direct and channel sessions
 }
 ```
 
-When scope denies a search, OpenClaw logs a warning with the derived channel and
+When scope denies a search, Brikko Studio logs a warning with the derived channel and
 chat type so empty results are easier to debug.
 
 ## Citations
@@ -206,11 +206,11 @@ with no extra dependencies.
 
 ## Troubleshooting
 
-**QMD not found?** Ensure the binary is on the gateway's `PATH`. If OpenClaw
+**QMD not found?** Ensure the binary is on the gateway's `PATH`. If Brikko Studio
 runs as a service, create a symlink:
 `sudo ln -s ~/.bun/bin/qmd /usr/local/bin/qmd`.
 
-If `qmd --version` works in your shell but OpenClaw still reports
+If `qmd --version` works in your shell but Brikko Studio still reports
 `spawn qmd ENOENT`, the gateway process likely has a different `PATH` than your
 interactive shell. Pin the binary explicitly:
 
@@ -226,18 +226,18 @@ interactive shell. Pin the binary explicitly:
 ```
 
 Use `command -v qmd` in the environment where QMD is installed, then recheck
-with `openclaw memory status --deep`.
+with `brikko-studio memory status --deep`.
 
 **First search very slow?** QMD downloads GGUF models on first use. Pre-warm
-with `qmd query "test"` using the same XDG dirs OpenClaw uses.
+with `qmd query "test"` using the same XDG dirs Brikko Studio uses.
 
-**Many QMD subprocesses during search?** Update QMD if possible. OpenClaw uses
+**Many QMD subprocesses during search?** Update QMD if possible. Brikko Studio uses
 one process for same-source multi-collection searches only when the installed
 QMD advertises support for multiple `-c` filters; otherwise it keeps the older
 per-collection fallback for correctness.
 
 **BM25-only QMD still trying to build llama.cpp?** Set
-`memory.qmd.searchMode = "search"`. OpenClaw treats that mode as lexical-only,
+`memory.qmd.searchMode = "search"`. Brikko Studio treats that mode as lexical-only,
 does not run QMD vector status probes or embedding maintenance, and leaves
 semantic readiness checks to `vsearch` or `query` setups.
 
@@ -248,13 +248,13 @@ Set to `120000` for slower hardware.
 allows direct and channel sessions.
 
 **Root memory search suddenly got too broad?** Restart the gateway or wait for
-the next startup reconciliation. OpenClaw recreates stale managed collections
+the next startup reconciliation. Brikko Studio recreates stale managed collections
 back to canonical `MEMORY.md` and `memory/` patterns when it detects a same-name
 conflict.
 
 **Workspace-visible temp repos causing `ENAMETOOLONG` or broken indexing?**
 QMD traversal currently follows the underlying QMD scanner behavior rather than
-OpenClaw's builtin symlink rules. Keep temporary monorepo checkouts under
+Brikko Studio's builtin symlink rules. Keep temporary monorepo checkouts under
 hidden directories like `.tmp/` or outside indexed QMD roots until QMD exposes
 cycle-safe traversal or explicit exclusion controls.
 

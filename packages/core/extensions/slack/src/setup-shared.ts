@@ -1,18 +1,18 @@
-import { describeAccountSnapshot } from "openclaw/plugin-sdk/account-helpers";
-import { hasConfiguredSecretInput } from "openclaw/plugin-sdk/secret-input";
-import { patchChannelConfigForAccount } from "openclaw/plugin-sdk/setup-runtime";
-import { formatDocsLink } from "openclaw/plugin-sdk/setup-tools";
+import { describeAccountSnapshot } from "brikko-studio/plugin-sdk/account-helpers";
+import { hasConfiguredSecretInput } from "brikko-studio/plugin-sdk/secret-input";
+import { patchChannelConfigForAccount } from "brikko-studio/plugin-sdk/setup-runtime";
+import { formatDocsLink } from "brikko-studio/plugin-sdk/setup-tools";
 import type { ResolvedSlackAccount } from "./accounts.js";
-import type { OpenClawConfig } from "./channel-api.js";
+import type { Brikko StudioConfig } from "./channel-api.js";
 
 export const SLACK_CHANNEL = "slack" as const;
 
-export function buildSlackManifest(botName = "OpenClaw") {
-  const safeName = botName.trim() || "OpenClaw";
+export function buildSlackManifest(botName = "Brikko Studio") {
+  const safeName = botName.trim() || "Brikko Studio";
   const manifest = {
     display_information: {
       name: safeName,
-      description: `${safeName} connector for OpenClaw`,
+      description: `${safeName} connector for Brikko Studio`,
     },
     features: {
       bot_user: {
@@ -26,8 +26,8 @@ export function buildSlackManifest(botName = "OpenClaw") {
       },
       slash_commands: [
         {
-          command: "/openclaw",
-          description: "Send a message to OpenClaw",
+          command: "/brikko-studio",
+          description: "Send a message to Brikko Studio",
           should_escape: false,
         },
       ],
@@ -99,10 +99,10 @@ export function buildSlackSetupLines(): string[] {
 }
 
 export function setSlackChannelAllowlist(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId: string,
   channelKeys: string[],
-): OpenClawConfig {
+): Brikko StudioConfig {
   const channels = Object.fromEntries(channelKeys.map((key) => [key, { enabled: true }]));
   return patchChannelConfigForAccount({
     cfg,

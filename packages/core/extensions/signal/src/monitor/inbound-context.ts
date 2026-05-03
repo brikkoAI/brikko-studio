@@ -1,9 +1,9 @@
-import { resolveChannelContextVisibilityMode } from "openclaw/plugin-sdk/context-visibility-runtime";
+import { resolveChannelContextVisibilityMode } from "brikko-studio/plugin-sdk/context-visibility-runtime";
 import {
   evaluateSupplementalContextVisibility,
   type ContextVisibilityDecision,
-} from "openclaw/plugin-sdk/security-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/security-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   formatSignalSenderDisplay,
   isSignalSenderAllowed,

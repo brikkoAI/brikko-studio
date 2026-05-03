@@ -1,5 +1,5 @@
-import type { CliBackendPlugin } from "openclaw/plugin-sdk/cli-backend";
-import type { ProviderPlugin } from "openclaw/plugin-sdk/provider-model-shared";
+import type { CliBackendPlugin } from "brikko-studio/plugin-sdk/cli-backend";
+import type { ProviderPlugin } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { describe, expect, it } from "vitest";
 import setupEntry from "./setup-api.js";
 

@@ -1,6 +1,6 @@
 import { DisconnectReason, type WASocket } from "@whiskeysockets/baileys";
-import { info } from "openclaw/plugin-sdk/runtime-env";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+import { info } from "brikko-studio/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import {
   registerWhatsAppConnectionController,
   unregisterWhatsAppConnectionController,
@@ -20,7 +20,7 @@ const LOGGED_OUT_STATUS = DisconnectReason?.loggedOut ?? 401;
 const WHATSAPP_LOGIN_RESTART_MESSAGE =
   "WhatsApp asked for a restart after pairing (code 515); waiting for creds to save…";
 const WHATSAPP_LOGGED_OUT_RELINK_MESSAGE =
-  "WhatsApp reported the session is logged out. Cleared cached web session; please rerun openclaw channels login and scan the QR again.";
+  "WhatsApp reported the session is logged out. Cleared cached web session; please rerun brikko-studio channels login and scan the QR again.";
 export const WHATSAPP_LOGGED_OUT_QR_MESSAGE =
   "WhatsApp reported the session is logged out. Cleared cached web session; please scan a new QR.";
 
@@ -142,7 +142,7 @@ export function closeWaSocket(
 ): void {
   try {
     if (typeof sock?.end === "function") {
-      sock.end(new Error("OpenClaw WhatsApp socket close"));
+      sock.end(new Error("Brikko Studio WhatsApp socket close"));
       return;
     }
     sock?.ws?.close?.();

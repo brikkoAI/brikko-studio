@@ -3,14 +3,14 @@ import {
   resolveBlueBubblesEffectiveAllowPrivateNetwork,
   resolveBlueBubblesPrivateNetworkConfigValue,
 } from "./accounts.js";
-import type { OpenClawConfig } from "./runtime-api.js";
+import type { Brikko StudioConfig } from "./runtime-api.js";
 import { normalizeResolvedSecretInputString } from "./secret-input.js";
 
 type BlueBubblesAccountResolveOpts = {
   serverUrl?: string;
   password?: string;
   accountId?: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
 };
 
 export function resolveBlueBubblesServerAccount(params: BlueBubblesAccountResolveOpts): {

@@ -4,7 +4,7 @@
     "onStartup": true
   },
   "name": "Memory Wiki",
-  "description": "Persistent wiki compiler and Obsidian-friendly knowledge vault for OpenClaw.",
+  "description": "Persistent wiki compiler and Obsidian-friendly knowledge vault for Brikko Studio.",
   "contracts": {
     "tools": ["wiki_apply", "wiki_get", "wiki_lint", "wiki_search", "wiki_status"]
   },
@@ -20,7 +20,7 @@
     },
     "vault.renderMode": {
       "label": "Render Mode",
-      "help": "Render markdown in native OpenClaw format or Obsidian-friendly format."
+      "help": "Render markdown in native Brikko Studio format or Obsidian-friendly format."
     },
     "obsidian.useOfficialCli": {
       "label": "Use Obsidian CLI",

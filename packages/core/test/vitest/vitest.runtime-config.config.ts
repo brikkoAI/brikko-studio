@@ -4,7 +4,7 @@ export function createRuntimeConfigVitestConfig(env?: Record<string, string | un
   const config = createScopedVitestConfig(["src/config/**/*.test.ts"], {
     dir: "src",
     env,
-    includeOpenClawRuntimeSetup: false,
+    includeBrikko StudioRuntimeSetup: false,
     name: "runtime-config",
     passWithNoTests: true,
   });

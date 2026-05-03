@@ -12,7 +12,7 @@ import {
   makeRegistry,
   resetPluginAutoEnableTestState,
 } from "./plugin-auto-enable.test-helpers.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { Brikko StudioConfig } from "./types.brikko-studio.js";
 import { validateConfigObject } from "./validation.js";
 
 vi.mock("../channels/plugins/configured-state.js", async (importOriginal) => {
@@ -21,7 +21,7 @@ vi.mock("../channels/plugins/configured-state.js", async (importOriginal) => {
     ...actual,
     hasBundledChannelConfiguredState: (params: {
       channelId: string;
-      cfg: OpenClawConfig;
+      cfg: Brikko StudioConfig;
       env?: NodeJS.ProcessEnv;
     }) => {
       if (params.channelId === "irc") {
@@ -220,7 +220,7 @@ describe("applyPluginAutoEnable core", () => {
     expect(result.changes).toEqual([]);
     expect(
       readFileSync.mock.calls.some(
-        ([filePath]) => typeof filePath === "string" && filePath.endsWith("openclaw.plugin.json"),
+        ([filePath]) => typeof filePath === "string" && filePath.endsWith("brikko-studio.plugin.json"),
       ),
     ).toBe(false);
   });
@@ -248,7 +248,7 @@ describe("applyPluginAutoEnable core", () => {
     expect(result.changes).toEqual([]);
     expect(
       readFileSync.mock.calls.some(
-        ([filePath]) => typeof filePath === "string" && filePath.endsWith("openclaw.plugin.json"),
+        ([filePath]) => typeof filePath === "string" && filePath.endsWith("brikko-studio.plugin.json"),
       ),
     ).toBe(false);
   });
@@ -532,7 +532,7 @@ describe("applyPluginAutoEnable core", () => {
   it("auto-enables an opt-in plugin when an agent harness runtime is forced by env", () => {
     const result = applyPluginAutoEnable({
       config: {},
-      env: makeIsolatedEnv({ OPENCLAW_AGENT_RUNTIME: "codex" }),
+      env: makeIsolatedEnv({ BRIKKO_STUDIO_AGENT_RUNTIME: "codex" }),
       manifestRegistry: makeRegistry([
         {
           id: "codex",
@@ -636,7 +636,7 @@ describe("applyPluginAutoEnable core", () => {
   it("does not auto-enable WhatsApp from persisted auth state alone", () => {
     const persistedEnv = makeIsolatedEnv();
     const authDir = path.join(
-      persistedEnv.OPENCLAW_STATE_DIR ?? "",
+      persistedEnv.BRIKKO_STUDIO_STATE_DIR ?? "",
       "credentials",
       "whatsapp",
       "default",
@@ -774,7 +774,7 @@ describe("applyPluginAutoEnable core", () => {
       env: {
         ...makeIsolatedEnv(),
         IRC_HOST: "irc.libera.chat",
-        IRC_NICK: "openclaw-bot",
+        IRC_NICK: "brikko-studio-bot",
       },
     });
 

@@ -88,24 +88,24 @@ async function readRequestBodyWithLimitForTest(req: IncomingMessage): Promise<st
   });
 }
 
-vi.mock("openclaw/plugin-sdk/setup", async () => {
-  const actual = await vi.importActual<object>("openclaw/plugin-sdk/setup");
+vi.mock("brikko-studio/plugin-sdk/setup", async () => {
+  const actual = await vi.importActual<object>("brikko-studio/plugin-sdk/setup");
   return {
     ...actual,
     DEFAULT_ACCOUNT_ID: "default",
   };
 });
 
-vi.mock("openclaw/plugin-sdk/channel-config-schema", async () => {
-  const actual = await vi.importActual<object>("openclaw/plugin-sdk/channel-config-schema");
+vi.mock("brikko-studio/plugin-sdk/channel-config-schema", async () => {
+  const actual = await vi.importActual<object>("brikko-studio/plugin-sdk/channel-config-schema");
   return {
     ...actual,
     buildChannelConfigSchema: vi.fn((schema: unknown) => ({ schema })),
   };
 });
 
-vi.mock("openclaw/plugin-sdk/webhook-ingress", async () => {
-  const actual = await vi.importActual<object>("openclaw/plugin-sdk/webhook-ingress");
+vi.mock("brikko-studio/plugin-sdk/webhook-ingress", async () => {
+  const actual = await vi.importActual<object>("brikko-studio/plugin-sdk/webhook-ingress");
   return {
     ...actual,
     registerPluginHttpRoute: registerPluginHttpRouteMock,
@@ -138,7 +138,7 @@ vi.mock("./runtime.js", () => ({
         dispatchReplyWithBufferedBlockDispatcher,
       },
       session: {
-        resolveStorePath: vi.fn(() => "/tmp/openclaw/synology-chat-sessions.json"),
+        resolveStorePath: vi.fn(() => "/tmp/brikko-studio/synology-chat-sessions.json"),
         recordInboundSession: vi.fn(async () => undefined),
       },
       turn: {

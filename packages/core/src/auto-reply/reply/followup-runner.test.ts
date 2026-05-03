@@ -1,9 +1,9 @@
 import fs from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { DELIVERY_NO_REPLY_RUNTIME_CONTRACT } from "openclaw/plugin-sdk/agent-runtime-test-contracts";
+import { DELIVERY_NO_REPLY_RUNTIME_CONTRACT } from "brikko-studio/plugin-sdk/agent-runtime-test-contracts";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
 import type { FollowupRun, QueueSettings } from "./queue.js";
 
@@ -29,7 +29,7 @@ let sessionRunAccounting: typeof import("./session-run-accounting.js");
 let setRuntimeConfigSnapshot: typeof import("../../config/config.js").setRuntimeConfigSnapshot;
 let createMockFollowupRun: typeof import("./test-helpers.js").createMockFollowupRun;
 let createMockTypingController: typeof import("./test-helpers.js").createMockTypingController;
-const FOLLOWUP_DEBUG = process.env.OPENCLAW_DEBUG_FOLLOWUP_RUNNER_TEST === "1";
+const FOLLOWUP_DEBUG = process.env.BRIKKO_STUDIO_DEBUG_FOLLOWUP_RUNNER_TEST === "1";
 const FOLLOWUP_TEST_QUEUES = new Map<
   string,
   {
@@ -461,7 +461,7 @@ function createAsyncReplySpy() {
 
 describe("createFollowupRunner runtime config", () => {
   it("uses the active runtime snapshot for queued embedded followup runs", async () => {
-    const sourceConfig: OpenClawConfig = {
+    const sourceConfig: Brikko StudioConfig = {
       models: {
         providers: {
           openai: {
@@ -476,7 +476,7 @@ describe("createFollowupRunner runtime config", () => {
         },
       },
     };
-    const runtimeConfig: OpenClawConfig = {
+    const runtimeConfig: Brikko StudioConfig = {
       models: {
         providers: {
           openai: {
@@ -518,7 +518,7 @@ describe("createFollowupRunner runtime config", () => {
   });
 
   it("resolves queued embedded followups before preflight helpers read config", async () => {
-    const sourceConfig: OpenClawConfig = {
+    const sourceConfig: Brikko StudioConfig = {
       skills: {
         entries: {
           whisper: {
@@ -531,7 +531,7 @@ describe("createFollowupRunner runtime config", () => {
         },
       },
     };
-    const runtimeConfig: OpenClawConfig = {
+    const runtimeConfig: Brikko StudioConfig = {
       skills: {
         entries: {
           whisper: {
@@ -585,7 +585,7 @@ describe("createFollowupRunner runtime config", () => {
       payloads: [],
       meta: {},
     });
-    const sourceConfig: OpenClawConfig = {};
+    const sourceConfig: Brikko StudioConfig = {};
     const runner = createFollowupRunner({
       typing: createMockTypingController(),
       typingMode: "instant",
@@ -651,7 +651,7 @@ describe("createFollowupRunner runtime config", () => {
 describe("createFollowupRunner compaction", () => {
   it("adds verbose auto-compaction notice and tracks count", async () => {
     const storePath = path.join(
-      await fs.mkdtemp(path.join(tmpdir(), "openclaw-compaction-")),
+      await fs.mkdtemp(path.join(tmpdir(), "brikko-studio-compaction-")),
       "sessions.json",
     );
     const sessionEntry: SessionEntry = {
@@ -696,7 +696,7 @@ describe("createFollowupRunner compaction", () => {
 
   it("tracks auto-compaction from embedded result metadata even when no compaction event is emitted", async () => {
     const storePath = path.join(
-      await fs.mkdtemp(path.join(tmpdir(), "openclaw-compaction-meta-")),
+      await fs.mkdtemp(path.join(tmpdir(), "brikko-studio-compaction-meta-")),
       "sessions.json",
     );
     const sessionEntry: SessionEntry = {
@@ -752,7 +752,7 @@ describe("createFollowupRunner compaction", () => {
 
   it("refreshes queued followup runs to the rotated transcript", async () => {
     const storePath = path.join(
-      await fs.mkdtemp(path.join(tmpdir(), "openclaw-compaction-queue-")),
+      await fs.mkdtemp(path.join(tmpdir(), "brikko-studio-compaction-queue-")),
       "sessions.json",
     );
     const sessionEntry: SessionEntry = {
@@ -815,7 +815,7 @@ describe("createFollowupRunner compaction", () => {
 
   it("does not count failed compaction end events in followup runs", async () => {
     const storePath = path.join(
-      await fs.mkdtemp(path.join(tmpdir(), "openclaw-compaction-failed-")),
+      await fs.mkdtemp(path.join(tmpdir(), "brikko-studio-compaction-failed-")),
       "sessions.json",
     );
     const sessionEntry: SessionEntry = {
@@ -870,7 +870,7 @@ describe("createFollowupRunner compaction", () => {
   });
 
   it("injects the post-compaction refresh prompt before followup runs after preflight compaction", async () => {
-    const workspaceDir = await fs.mkdtemp(path.join(tmpdir(), "openclaw-preflight-followup-"));
+    const workspaceDir = await fs.mkdtemp(path.join(tmpdir(), "brikko-studio-preflight-followup-"));
     const storePath = path.join(workspaceDir, "sessions.json");
     const transcriptPath = path.join(workspaceDir, "session.jsonl");
     await fs.writeFile(
@@ -1123,7 +1123,7 @@ describe("createFollowupRunner messaging delivery and dedupe", () => {
   }
 
   it("persists usage even when replies are suppressed", async () => {
-    const storePath = "/tmp/openclaw-followup-usage.json";
+    const storePath = "/tmp/brikko-studio-followup-usage.json";
     const sessionKey = "main";
     const sessionEntry: SessionEntry = { sessionId: "session", updatedAt: Date.now() };
     const sessionStore: Record<string, SessionEntry> = { [sessionKey]: sessionEntry };
@@ -1183,7 +1183,7 @@ describe("createFollowupRunner messaging delivery and dedupe", () => {
   });
 
   it("passes queued config into usage persistence during drained followups", async () => {
-    const storePath = "/tmp/openclaw-followup-usage-cfg.json";
+    const storePath = "/tmp/brikko-studio-followup-usage-cfg.json";
     const sessionKey = "main";
     const sessionEntry: SessionEntry = { sessionId: "session", updatedAt: Date.now() };
     const sessionStore: Record<string, SessionEntry> = { [sessionKey]: sessionEntry };
@@ -1237,7 +1237,7 @@ describe("createFollowupRunner messaging delivery and dedupe", () => {
   });
 
   it("uses providerUsed for snapshot freshness when agent metadata overrides the run provider", async () => {
-    const storePath = "/tmp/openclaw-followup-usage-provider.json";
+    const storePath = "/tmp/brikko-studio-followup-usage-provider.json";
     const sessionKey = "main";
     const sessionEntry: SessionEntry = { sessionId: "session", updatedAt: Date.now() };
     const sessionStore: Record<string, SessionEntry> = { [sessionKey]: sessionEntry };
@@ -1278,7 +1278,7 @@ describe("createFollowupRunner messaging delivery and dedupe", () => {
                   },
                 },
               },
-            } as OpenClawConfig,
+            } as Brikko StudioConfig,
           },
         }),
       ),

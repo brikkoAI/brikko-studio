@@ -1,5 +1,5 @@
 import type { InboundDebounceByProvider } from "../config/types.messages.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 
 const resolveMs = (value: unknown): number | undefined => {
   if (typeof value !== "number" || !Number.isFinite(value)) {
@@ -19,7 +19,7 @@ const resolveChannelOverride = (params: {
 };
 
 export function resolveInboundDebounceMs(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel: string;
   overrideMs?: number;
 }): number {

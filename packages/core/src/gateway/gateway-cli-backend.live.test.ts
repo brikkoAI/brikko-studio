@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 import { resolveCliBackendConfig, resolveCliBackendLiveTest } from "../agents/cli-backends.js";
 import { isLiveTestEnabled } from "../agents/live-test-helpers.js";
 import { parseModelRef } from "../agents/model-selection.js";
-import { clearRuntimeConfigSnapshot, type OpenClawConfig } from "../config/config.js";
+import { clearRuntimeConfigSnapshot, type Brikko StudioConfig } from "../config/config.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import {
   applyCliBackendLiveEnv,
@@ -37,14 +37,14 @@ import { startGatewayServer } from "./server.js";
 import { extractPayloadText } from "./test-helpers.agent-results.js";
 
 const LIVE = isLiveTestEnabled();
-const CLI_LIVE = isTruthyEnvValue(process.env.OPENCLAW_LIVE_CLI_BACKEND);
-const CLI_RESUME = isTruthyEnvValue(process.env.OPENCLAW_LIVE_CLI_BACKEND_RESUME_PROBE);
-const CLI_DEBUG = isTruthyEnvValue(process.env.OPENCLAW_LIVE_CLI_BACKEND_DEBUG);
+const CLI_LIVE = isTruthyEnvValue(process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND);
+const CLI_RESUME = isTruthyEnvValue(process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_RESUME_PROBE);
+const CLI_DEBUG = isTruthyEnvValue(process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_DEBUG);
 const CLI_CI_SAFE_CODEX_CONFIG = isTruthyEnvValue(
-  process.env.OPENCLAW_LIVE_CLI_BACKEND_USE_CI_SAFE_CODEX_CONFIG,
+  process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_USE_CI_SAFE_CODEX_CONFIG,
 );
 const CLI_MCP_SCHEMA_PROBE = isTruthyEnvValue(
-  process.env.OPENCLAW_LIVE_CLI_BACKEND_MCP_SCHEMA_PROBE,
+  process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_MCP_SCHEMA_PROBE,
 );
 const describeLive = LIVE && CLI_LIVE ? describe : describe.skip;
 
@@ -58,7 +58,7 @@ const DEFAULT_MODEL =
 // so the outer test budget needs enough headroom to finish those retries.
 const CLI_BACKEND_LIVE_TIMEOUT_MS = 20 * 60_000;
 const CLI_BACKEND_REQUEST_TIMEOUT_MS = parsePositiveIntegerEnv(
-  "OPENCLAW_LIVE_CLI_BACKEND_REQUEST_TIMEOUT_MS",
+  "BRIKKO_STUDIO_LIVE_CLI_BACKEND_REQUEST_TIMEOUT_MS",
   15 * 60_000,
 );
 const CLI_BACKEND_AGENT_TIMEOUT_SECONDS = Math.max(
@@ -92,7 +92,7 @@ function sleep(ms: number): Promise<void> {
 
 function openAiProviderConfigForCodexCli(
   modelKey: string,
-): NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]>["openai"] {
+): NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]>["openai"] {
   const parsed = parseModelRef(modelKey, DEFAULT_PROVIDER);
   const modelId = parsed?.model?.trim() || "gpt-5.5";
   return {
@@ -151,7 +151,7 @@ async function createMcpSchemaProbePlugin(tempDir: string): Promise<string> {
   await fs.mkdir(pluginDir, { recursive: true });
   const pluginFile = path.join(pluginDir, "index.cjs");
   await fs.writeFile(
-    path.join(pluginDir, "openclaw.plugin.json"),
+    path.join(pluginDir, "brikko-studio.plugin.json"),
     `${JSON.stringify(
       {
         id: MCP_SCHEMA_PROBE_PLUGIN_ID,
@@ -190,8 +190,8 @@ describeLive("gateway live (cli backend)", () => {
     async () => {
       const preservedEnv = new Set(
         parseJsonStringArray(
-          "OPENCLAW_LIVE_CLI_BACKEND_PRESERVE_ENV",
-          process.env.OPENCLAW_LIVE_CLI_BACKEND_PRESERVE_ENV,
+          "BRIKKO_STUDIO_LIVE_CLI_BACKEND_PRESERVE_ENV",
+          process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_PRESERVE_ENV,
         ) ?? [],
       );
       const previousEnv = snapshotCliBackendLiveEnv();
@@ -200,11 +200,11 @@ describeLive("gateway live (cli backend)", () => {
       applyCliBackendLiveEnv(preservedEnv);
 
       const token = `test-${randomUUID()}`;
-      process.env.OPENCLAW_GATEWAY_TOKEN = token;
+      process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = token;
       const port = await getFreeGatewayPort();
       logCliBackendLiveStep("env-ready", { port });
 
-      const rawModel = process.env.OPENCLAW_LIVE_CLI_BACKEND_MODEL ?? DEFAULT_MODEL;
+      const rawModel = process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_MODEL ?? DEFAULT_MODEL;
       const initialParsed = parseModelRef(rawModel, "claude-cli");
       const initialProviderId = initialParsed?.provider ?? "";
       const initialModelKey = initialParsed
@@ -240,10 +240,10 @@ describeLive("gateway live (cli backend)", () => {
       });
       const providerDefaults = backendResolved?.config;
 
-      const cliCommand = process.env.OPENCLAW_LIVE_CLI_BACKEND_COMMAND ?? providerDefaults?.command;
+      const cliCommand = process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_COMMAND ?? providerDefaults?.command;
       if (!cliCommand) {
         throw new Error(
-          `OPENCLAW_LIVE_CLI_BACKEND_COMMAND is required for provider "${providerId}".`,
+          `BRIKKO_STUDIO_LIVE_CLI_BACKEND_COMMAND is required for provider "${providerId}".`,
         );
       }
 
@@ -255,8 +255,8 @@ describeLive("gateway live (cli backend)", () => {
 
       const cliClearEnv =
         parseJsonStringArray(
-          "OPENCLAW_LIVE_CLI_BACKEND_CLEAR_ENV",
-          process.env.OPENCLAW_LIVE_CLI_BACKEND_CLEAR_ENV,
+          "BRIKKO_STUDIO_LIVE_CLI_BACKEND_CLEAR_ENV",
+          process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_CLEAR_ENV,
         ) ??
         providerDefaults?.clearEnv ??
         [];
@@ -267,27 +267,27 @@ describeLive("gateway live (cli backend)", () => {
           .filter((entry): entry is [string, string] => typeof entry[1] === "string"),
       );
       const cliImageArg =
-        process.env.OPENCLAW_LIVE_CLI_BACKEND_IMAGE_ARG?.trim() || providerDefaults?.imageArg;
+        process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_IMAGE_ARG?.trim() || providerDefaults?.imageArg;
       const cliImageMode =
-        parseImageMode(process.env.OPENCLAW_LIVE_CLI_BACKEND_IMAGE_MODE) ??
+        parseImageMode(process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_IMAGE_MODE) ??
         providerDefaults?.imageMode;
       if (cliImageMode && !cliImageArg) {
         throw new Error(
-          "OPENCLAW_LIVE_CLI_BACKEND_IMAGE_MODE requires OPENCLAW_LIVE_CLI_BACKEND_IMAGE_ARG.",
+          "BRIKKO_STUDIO_LIVE_CLI_BACKEND_IMAGE_MODE requires BRIKKO_STUDIO_LIVE_CLI_BACKEND_IMAGE_ARG.",
         );
       }
 
-      const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-live-cli-"));
+      const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-live-cli-"));
       const stateDir = path.join(tempDir, "state");
       await fs.mkdir(stateDir, { recursive: true });
       const schemaProbePluginPath = CLI_MCP_SCHEMA_PROBE
         ? await createMcpSchemaProbePlugin(tempDir)
         : undefined;
       const useMinimalToolsProfile = providerId === "codex-cli" && !schemaProbePluginPath;
-      process.env.OPENCLAW_STATE_DIR = stateDir;
+      process.env.BRIKKO_STUDIO_STATE_DIR = stateDir;
       const bundleMcp = backendResolved?.bundleMcp === true;
       const bootstrapWorkspace = await createBootstrapWorkspace(tempDir);
-      const disableMcpConfig = process.env.OPENCLAW_LIVE_CLI_BACKEND_DISABLE_MCP_CONFIG !== "0";
+      const disableMcpConfig = process.env.BRIKKO_STUDIO_LIVE_CLI_BACKEND_DISABLE_MCP_CONFIG !== "0";
       let cliArgs = baseCliArgs;
       if (
         bundleMcp &&
@@ -299,8 +299,8 @@ describeLive("gateway live (cli backend)", () => {
         cliArgs = withClaudeMcpConfigOverrides(baseCliArgs, mcpConfigPath);
       }
 
-      const cfg: OpenClawConfig = {};
-      const cfgWithCliBackends = cfg as OpenClawConfig & {
+      const cfg: Brikko StudioConfig = {};
+      const cfgWithCliBackends = cfg as Brikko StudioConfig & {
         agents?: {
           defaults?: {
             cliBackends?: Record<string, Record<string, unknown>>;
@@ -385,9 +385,9 @@ describeLive("gateway live (cli backend)", () => {
           },
         },
       };
-      const tempConfigPath = path.join(tempDir, "openclaw.json");
+      const tempConfigPath = path.join(tempDir, "brikko-studio.json");
       await fs.writeFile(tempConfigPath, `${JSON.stringify(nextCfg, null, 2)}\n`);
-      process.env.OPENCLAW_CONFIG_PATH = tempConfigPath;
+      process.env.BRIKKO_STUDIO_CONFIG_PATH = tempConfigPath;
       const deviceIdentity = await ensurePairedTestGatewayClientIdentity();
       logCliBackendLiveStep("config-written", {
         tempConfigPath,

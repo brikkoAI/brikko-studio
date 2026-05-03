@@ -5,7 +5,7 @@ import {
   shouldEagerRegisterSubcommands,
   type CommandGroupEntry,
   type CommandGroupPlaceholder,
-} from "openclaw/plugin-sdk/cli-runtime";
+} from "brikko-studio/plugin-sdk/cli-runtime";
 import { browserActionExamples, browserCoreExamples } from "./browser-cli-examples.js";
 import type { BrowserParentOpts } from "./browser-cli-shared.js";
 import {
@@ -160,7 +160,7 @@ function registerLazyBrowserCommands(
 export function registerBrowserCli(program: Command, argv: string[] = process.argv) {
   const browser = program
     .command("browser")
-    .description("Manage OpenClaw's dedicated browser (Chrome/Chromium)")
+    .description("Manage Brikko Studio's dedicated browser (Chrome/Chromium)")
     .option("--browser-profile <name>", "Browser profile name (default from config)")
     .option("--json", "Output machine-readable JSON", false)
     .addHelpText(
@@ -171,13 +171,13 @@ export function registerBrowserCli(program: Command, argv: string[] = process.ar
           true,
         )}\n\n${theme.muted("Docs:")} ${formatDocsLink(
           "/cli/browser",
-          "docs.openclaw.ai/cli/browser",
+          "docs.brikko-studio.ai/cli/browser",
         )}\n`,
     )
     .action(() => {
       browser.outputHelp();
       defaultRuntime.error(
-        danger(`Missing subcommand. Try: "${formatCliCommand("openclaw browser status")}"`),
+        danger(`Missing subcommand. Try: "${formatCliCommand("brikko-studio browser status")}"`),
       );
       defaultRuntime.exit(1);
     });

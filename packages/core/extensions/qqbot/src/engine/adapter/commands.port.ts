@@ -5,7 +5,7 @@
  * Eliminates global `register*` singletons in `slash-commands-impl.ts`.
  */
 
-import type { PluginRuntime } from "openclaw/plugin-sdk/core";
+import type { PluginRuntime } from "brikko-studio/plugin-sdk/core";
 
 /** Runtime getter shape for the `/bot-approve` command. */
 export type ApproveRuntimeGetter = () => {

@@ -1,4 +1,4 @@
-import { describePackageManifestContract } from "openclaw/plugin-sdk/plugin-test-contracts";
+import { describePackageManifestContract } from "brikko-studio/plugin-sdk/plugin-test-contracts";
 
 type PackageManifestContractParams = Parameters<typeof describePackageManifestContract>[0];
 

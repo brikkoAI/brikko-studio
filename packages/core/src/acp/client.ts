@@ -11,7 +11,7 @@ import {
   type RequestPermissionRequest,
   type SessionNotification,
 } from "@agentclientprotocol/sdk";
-import { ensureOpenClawCliOnPath } from "../infra/path-env.js";
+import { ensureBrikko StudioCliOnPath } from "../infra/path-env.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import {
   buildAcpClientStripKeys,
@@ -109,11 +109,11 @@ async function createAcpClient(opts: AcpClientOptions = {}): Promise<AcpClientHa
   const verbose = Boolean(opts.verbose);
   const log = verbose ? (msg: string) => console.error(`[acp-client] ${msg}`) : () => {};
 
-  ensureOpenClawCliOnPath();
+  ensureBrikko StudioCliOnPath();
   const serverArgs = buildServerArgs(opts);
 
   const entryPath = resolveSelfEntryPath();
-  const defaultServerCommand = entryPath ? process.execPath : "openclaw";
+  const defaultServerCommand = entryPath ? process.execPath : "brikko-studio";
   const defaultServerArgs = entryPath ? [entryPath, ...serverArgs] : serverArgs;
   const serverCommand = opts.serverCommand ?? defaultServerCommand;
   const effectiveArgs = opts.serverCommand || !entryPath ? serverArgs : defaultServerArgs;
@@ -175,7 +175,7 @@ async function createAcpClient(opts: AcpClientOptions = {}): Promise<AcpClientHa
       fs: { readTextFile: true, writeTextFile: true },
       terminal: true,
     },
-    clientInfo: { name: "openclaw-acp-client", version: "1.0.0" },
+    clientInfo: { name: "brikko-studio-acp-client", version: "1.0.0" },
   });
 
   log("creating session");
@@ -199,7 +199,7 @@ export async function runAcpClientInteractive(opts: AcpClientOptions = {}): Prom
     output: process.stdout,
   });
 
-  console.log("OpenClaw ACP client");
+  console.log("Brikko Studio ACP client");
   console.log(`Session: ${sessionId}`);
   console.log('Type a prompt, or "exit" to quit.\n');
 

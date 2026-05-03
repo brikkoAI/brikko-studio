@@ -1,4 +1,4 @@
-import type { PluginRuntime } from "openclaw/plugin-sdk/plugin-runtime";
+import type { PluginRuntime } from "brikko-studio/plugin-sdk/plugin-runtime";
 
 type BrowserProxyResult = {
   result?: unknown;
@@ -106,7 +106,7 @@ export async function resolveChromeNodeInfo(params: {
         return node;
       }
       throw new Error(
-        `Configured Google Meet node ${requested} is not usable (${formatNodeLabel(node)}): ${describeNodeUsabilityIssues(node).join("; ")}. Start or reinstall \`openclaw node run\` on that Chrome host, approve pairing, and allow googlemeet.chrome plus browser.proxy.`,
+        `Configured Google Meet node ${requested} is not usable (${formatNodeLabel(node)}): ${describeNodeUsabilityIssues(node).join("; ")}. Start or reinstall \`brikko-studio node run\` on that Chrome host, approve pairing, and allow googlemeet.chrome plus browser.proxy.`,
       );
     }
     if (matches.length > 1) {
@@ -115,7 +115,7 @@ export async function resolveChromeNodeInfo(params: {
       );
     }
     throw new Error(
-      `Configured Google Meet node ${requested} was not found. Run \`openclaw nodes status\` and start or approve the Chrome node.`,
+      `Configured Google Meet node ${requested} was not found. Run \`brikko-studio nodes status\` and start or approve the Chrome node.`,
     );
   }
 
@@ -123,7 +123,7 @@ export async function resolveChromeNodeInfo(params: {
   const nodes = list.nodes.filter(isGoogleMeetNode);
   if (nodes.length === 0) {
     throw new Error(
-      "No connected Google Meet-capable node with browser proxy. Run `openclaw node run` on the Chrome host with browser proxy enabled, approve pairing, and allow googlemeet.chrome plus browser.proxy.",
+      "No connected Google Meet-capable node with browser proxy. Run `brikko-studio node run` on the Chrome host with browser proxy enabled, approve pairing, and allow googlemeet.chrome plus browser.proxy.",
     );
   }
   if (nodes.length === 1) {

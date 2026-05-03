@@ -1,13 +1,13 @@
 ---
-summary: "Runway video generation setup in OpenClaw"
+summary: "Runway video generation setup in Brikko Studio"
 title: "Runway"
 read_when:
-  - You want to use Runway video generation in OpenClaw
+  - You want to use Runway video generation in Brikko Studio
   - You need the Runway API key/env setup
   - You want to make Runway the default video provider
 ---
 
-OpenClaw ships a bundled `runway` provider for hosted video generation.
+Brikko Studio ships a bundled `runway` provider for hosted video generation.
 
 | Property    | Value                                                             |
 | ----------- | ----------------------------------------------------------------- |
@@ -20,12 +20,12 @@ OpenClaw ships a bundled `runway` provider for hosted video generation.
 <Steps>
   <Step title="Set the API key">
     ```bash
-    openclaw onboard --auth-choice runway-api-key
+    brikko-studio onboard --auth-choice runway-api-key
     ```
   </Step>
   <Step title="Set Runway as the default video provider">
     ```bash
-    openclaw config set agents.defaults.videoGenerationModel.primary "runway/gen4.5"
+    brikko-studio config set agents.defaults.videoGenerationModel.primary "runway/gen4.5"
     ```
   </Step>
   <Step title="Generate a video">
@@ -68,12 +68,12 @@ Video-to-video currently requires `runway/gen4_aleph` specifically.
 
 <AccordionGroup>
   <Accordion title="Environment variable aliases">
-    OpenClaw recognizes both `RUNWAYML_API_SECRET` (canonical) and `RUNWAY_API_KEY`.
+    Brikko Studio recognizes both `RUNWAYML_API_SECRET` (canonical) and `RUNWAY_API_KEY`.
     Either variable will authenticate the Runway provider.
   </Accordion>
 
   <Accordion title="Task polling">
-    Runway uses a task-based API. After submitting a generation request, OpenClaw
+    Runway uses a task-based API. After submitting a generation request, Brikko Studio
     polls `GET /v1/tasks/{id}` until the video is ready. No additional
     configuration is needed for the polling behavior.
   </Accordion>

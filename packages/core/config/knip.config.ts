@@ -5,7 +5,7 @@ function bundledPluginFile(pluginId: string, relativePath: string, suffix = ""):
 }
 
 const rootEntries = [
-  "openclaw.mjs!",
+  "brikko-studio.mjs!",
   "src/index.ts!",
   "src/entry.ts!",
   "src/cli/daemon-cli.ts!",
@@ -42,7 +42,7 @@ const bundledPluginIgnoredRuntimeDependencies = [
   "@zed-industries/codex-acp",
   "jiti",
   "linkedom",
-  "openclaw",
+  "brikko-studio",
   "pdfjs-dist",
 ] as const;
 
@@ -137,7 +137,7 @@ const config = {
     ".": {
       entry: rootEntries,
       ignoreDependencies: [
-        "@openclaw/*",
+        "@brikko-studio/*",
         "playwright-core",
         "sqlite-vec",
         "tree-sitter-bash",

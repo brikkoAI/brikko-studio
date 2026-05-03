@@ -3,24 +3,24 @@ import { ChannelType } from "../internal/discord.js";
 
 const loadConfigMock = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/runtime-config-snapshot", async () => {
+vi.mock("brikko-studio/plugin-sdk/runtime-config-snapshot", async () => {
   const actual = await vi.importActual<
-    typeof import("openclaw/plugin-sdk/runtime-config-snapshot")
-  >("openclaw/plugin-sdk/runtime-config-snapshot");
+    typeof import("brikko-studio/plugin-sdk/runtime-config-snapshot")
+  >("brikko-studio/plugin-sdk/runtime-config-snapshot");
   return {
     ...actual,
     getRuntimeConfig: () => loadConfigMock(),
   };
 });
 
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   getSessionBindingService,
   registerSessionBindingAdapter,
   type SessionBindingBindInput,
   type SessionBindingRecord,
-} from "openclaw/plugin-sdk/conversation-runtime";
-import { __testing as sessionBindingTesting } from "openclaw/plugin-sdk/conversation-runtime";
+} from "brikko-studio/plugin-sdk/conversation-runtime";
+import { __testing as sessionBindingTesting } from "brikko-studio/plugin-sdk/conversation-runtime";
 import { preflightDiscordMessage } from "./message-handler.preflight.js";
 import {
   createDiscordMessage,
@@ -49,7 +49,7 @@ const baseCfg = {
       },
     },
   },
-} satisfies OpenClawConfig;
+} satisfies Brikko StudioConfig;
 
 function createDmClient(channelId: string): DiscordClient {
   return {

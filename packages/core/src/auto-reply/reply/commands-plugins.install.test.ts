@@ -52,7 +52,7 @@ vi.mock("../../cli/plugins-install-persist.js", () => ({
   persistPluginInstall: persistPluginInstallMock,
 }));
 
-const workspaceHarness = createCommandWorkspaceHarness("openclaw-command-plugins-install-");
+const workspaceHarness = createCommandWorkspaceHarness("brikko-studio-command-plugins-install-");
 
 function buildPluginsParams(commandBodyNormalized: string, workspaceDir: string) {
   return buildPluginsCommandParams({
@@ -81,7 +81,7 @@ describe("handleCommands /plugins install", () => {
     });
     persistPluginInstallMock.mockResolvedValue({});
 
-    await withTempHome("openclaw-command-plugins-home-", async () => {
+    await withTempHome("brikko-studio-command-plugins-home-", async () => {
       const workspaceDir = await workspaceHarness.createWorkspace();
       const pluginDir = path.join(workspaceDir, "fixtures", "path-install-plugin");
       await fs.mkdir(pluginDir, { recursive: true });
@@ -118,11 +118,11 @@ describe("handleCommands /plugins install", () => {
       targetDir: "/tmp/clawhub-demo",
       version: "1.2.3",
       extensions: ["index.js"],
-      packageName: "@openclaw/clawhub-demo",
+      packageName: "@brikko-studio/clawhub-demo",
       clawhub: {
         source: "clawhub",
         clawhubUrl: "https://clawhub.ai",
-        clawhubPackage: "@openclaw/clawhub-demo",
+        clawhubPackage: "@brikko-studio/clawhub-demo",
         clawhubFamily: "code-plugin",
         clawhubChannel: "official",
         version: "1.2.3",
@@ -132,10 +132,10 @@ describe("handleCommands /plugins install", () => {
     });
     persistPluginInstallMock.mockResolvedValue({});
 
-    await withTempHome("openclaw-command-plugins-home-", async () => {
+    await withTempHome("brikko-studio-command-plugins-home-", async () => {
       const workspaceDir = await workspaceHarness.createWorkspace();
       const params = buildPluginsParams(
-        "/plugins install clawhub:@openclaw/clawhub-demo@1.2.3",
+        "/plugins install clawhub:@brikko-studio/clawhub-demo@1.2.3",
         workspaceDir,
       );
       const result = await handlePluginsCommand(params, true);
@@ -145,7 +145,7 @@ describe("handleCommands /plugins install", () => {
       expect(result.reply?.text).toContain('Installed plugin "clawhub-demo"');
       expect(installPluginFromClawHubMock).toHaveBeenCalledWith(
         expect.objectContaining({
-          spec: "clawhub:@openclaw/clawhub-demo@1.2.3",
+          spec: "clawhub:@brikko-studio/clawhub-demo@1.2.3",
         }),
       );
       expect(persistPluginInstallMock).toHaveBeenCalledWith(
@@ -153,11 +153,11 @@ describe("handleCommands /plugins install", () => {
           pluginId: "clawhub-demo",
           install: expect.objectContaining({
             source: "clawhub",
-            spec: "clawhub:@openclaw/clawhub-demo@1.2.3",
+            spec: "clawhub:@brikko-studio/clawhub-demo@1.2.3",
             installPath: "/tmp/clawhub-demo",
             version: "1.2.3",
             integrity: "sha512-demo",
-            clawhubPackage: "@openclaw/clawhub-demo",
+            clawhubPackage: "@brikko-studio/clawhub-demo",
             clawhubChannel: "official",
           }),
         }),
@@ -181,7 +181,7 @@ describe("handleCommands /plugins install", () => {
     });
     persistPluginInstallMock.mockResolvedValue({});
 
-    await withTempHome("openclaw-command-plugins-home-", async () => {
+    await withTempHome("brikko-studio-command-plugins-home-", async () => {
       const workspaceDir = await workspaceHarness.createWorkspace();
       const params = buildPluginsParams(
         "/plugins install git:github.com/acme/git-demo@v1.2.3",
@@ -221,11 +221,11 @@ describe("handleCommands /plugins install", () => {
       targetDir: "/tmp/alias-demo",
       version: "1.0.0",
       extensions: ["index.js"],
-      packageName: "@openclaw/alias-demo",
+      packageName: "@brikko-studio/alias-demo",
       clawhub: {
         source: "clawhub",
         clawhubUrl: "https://clawhub.ai",
-        clawhubPackage: "@openclaw/alias-demo",
+        clawhubPackage: "@brikko-studio/alias-demo",
         clawhubFamily: "code-plugin",
         clawhubChannel: "official",
         version: "1.0.0",
@@ -235,10 +235,10 @@ describe("handleCommands /plugins install", () => {
     });
     persistPluginInstallMock.mockResolvedValue({});
 
-    await withTempHome("openclaw-command-plugins-home-", async () => {
+    await withTempHome("brikko-studio-command-plugins-home-", async () => {
       const workspaceDir = await workspaceHarness.createWorkspace();
       const params = buildPluginsParams(
-        "/plugin add clawhub:@openclaw/alias-demo@1.0.0",
+        "/plugin add clawhub:@brikko-studio/alias-demo@1.0.0",
         workspaceDir,
       );
       const result = await handlePluginsCommand(params, true);
@@ -248,7 +248,7 @@ describe("handleCommands /plugins install", () => {
       expect(result.reply?.text).toContain('Installed plugin "alias-demo"');
       expect(installPluginFromClawHubMock).toHaveBeenCalledWith(
         expect.objectContaining({
-          spec: "clawhub:@openclaw/alias-demo@1.0.0",
+          spec: "clawhub:@brikko-studio/alias-demo@1.0.0",
         }),
       );
     });

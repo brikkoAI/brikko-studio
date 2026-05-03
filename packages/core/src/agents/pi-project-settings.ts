@@ -1,5 +1,5 @@
 import { SettingsManager } from "@mariozechner/pi-coding-agent";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   buildEmbeddedPiSettingsSnapshot,
   loadEnabledBundlePiSettingsSnapshot,
@@ -10,7 +10,7 @@ import { applyPiCompactionSettingsFromConfig } from "./pi-settings.js";
 function createEmbeddedPiSettingsManager(params: {
   cwd: string;
   agentDir: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
 }): SettingsManager {
   const fileSettingsManager = SettingsManager.create(params.cwd, params.agentDir);
   const policy = resolveEmbeddedPiProjectSettingsPolicy(params.cfg);
@@ -45,7 +45,7 @@ function createRuntimeEmbeddedPiSettingsManager(settingsManager: SettingsManager
 export function createPreparedEmbeddedPiSettingsManager(params: {
   cwd: string;
   agentDir: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   /** Resolved context window budget so reserve-token floor can be capped for small models. */
   contextTokenBudget?: number;
 }): SettingsManager {

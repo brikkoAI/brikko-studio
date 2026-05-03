@@ -1,5 +1,5 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   collectPluginConfigContractMatches,
   resolvePluginConfigContractsById,
@@ -7,7 +7,7 @@ import {
 import { isRecord } from "../utils.js";
 import { collectEnabledInsecureOrDangerousFlagsFromContracts } from "./dangerous-config-flags-core.js";
 
-export function collectEnabledInsecureOrDangerousFlags(cfg: OpenClawConfig): string[] {
+export function collectEnabledInsecureOrDangerousFlags(cfg: Brikko StudioConfig): string[] {
   const pluginEntries = cfg.plugins?.entries;
   if (!isRecord(pluginEntries)) {
     return collectEnabledInsecureOrDangerousFlagsFromContracts(cfg);

@@ -4,13 +4,13 @@ const enqueueSystemEventMock = vi.hoisted(() => vi.fn());
 let registerSlackChannelEvents: typeof import("./channels.js").registerSlackChannelEvents;
 let createSlackSystemEventTestHarness: typeof import("./system-event-test-harness.js").createSlackSystemEventTestHarness;
 
-vi.mock("openclaw/plugin-sdk/system-event-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/system-event-runtime", () => ({
   enqueueSystemEvent: (...args: unknown[]) => enqueueSystemEventMock(...args),
 }));
-vi.mock("openclaw/plugin-sdk/system-event-runtime.js", () => ({
+vi.mock("brikko-studio/plugin-sdk/system-event-runtime.js", () => ({
   enqueueSystemEvent: (...args: unknown[]) => enqueueSystemEventMock(...args),
 }));
-vi.mock("openclaw/plugin-sdk/security-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/security-runtime", () => ({
   readStoreAllowFromForDmPolicy: async () => [],
 }));
 

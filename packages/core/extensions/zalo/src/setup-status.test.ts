@@ -1,6 +1,6 @@
-import { createPluginSetupWizardStatus } from "openclaw/plugin-sdk/plugin-test-runtime";
+import { createPluginSetupWizardStatus } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../runtime-api.js";
+import type { Brikko StudioConfig } from "../runtime-api.js";
 import { zaloSetupWizard } from "./setup-surface.js";
 
 const zaloGetStatus = createPluginSetupWizardStatus({
@@ -24,7 +24,7 @@ describe("zalo setup wizard status", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       accountOverrides: {},
     });
 

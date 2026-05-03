@@ -11,7 +11,7 @@
       "SYNOLOGY_NAS_HOST",
       "SYNOLOGY_ALLOWED_USER_IDS",
       "SYNOLOGY_RATE_LIMIT",
-      "OPENCLAW_BOT_NAME"
+      "BRIKKO_STUDIO_BOT_NAME"
     ]
   },
   "configSchema": {

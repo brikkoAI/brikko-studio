@@ -1,5 +1,5 @@
 ---
-summary: "CLI reference for `openclaw skills` (search/install/update/list/info/check)"
+summary: "CLI reference for `brikko-studio skills` (search/install/update/list/info/check)"
 read_when:
   - You want to see which skills are available and ready to run
   - You want to search, install, or update skills from ClawHub
@@ -7,7 +7,7 @@ read_when:
 title: "Skills"
 ---
 
-# `openclaw skills`
+# `brikko-studio skills`
 
 Inspect local skills and install/update skills from ClawHub.
 
@@ -20,26 +20,26 @@ Related:
 ## Commands
 
 ```bash
-openclaw skills search "calendar"
-openclaw skills search --limit 20 --json
-openclaw skills install <slug>
-openclaw skills install <slug> --version <version>
-openclaw skills install <slug> --force
-openclaw skills install <slug> --agent <id>
-openclaw skills update <slug>
-openclaw skills update --all
-openclaw skills update --all --agent <id>
-openclaw skills list
-openclaw skills list --eligible
-openclaw skills list --json
-openclaw skills list --verbose
-openclaw skills list --agent <id>
-openclaw skills info <name>
-openclaw skills info <name> --json
-openclaw skills info <name> --agent <id>
-openclaw skills check
-openclaw skills check --agent <id>
-openclaw skills check --json
+brikko-studio skills search "calendar"
+brikko-studio skills search --limit 20 --json
+brikko-studio skills install <slug>
+brikko-studio skills install <slug> --version <version>
+brikko-studio skills install <slug> --force
+brikko-studio skills install <slug> --agent <id>
+brikko-studio skills update <slug>
+brikko-studio skills update --all
+brikko-studio skills update --all --agent <id>
+brikko-studio skills list
+brikko-studio skills list --eligible
+brikko-studio skills list --json
+brikko-studio skills list --verbose
+brikko-studio skills list --agent <id>
+brikko-studio skills info <name>
+brikko-studio skills info <name> --json
+brikko-studio skills info <name> --agent <id>
+brikko-studio skills check
+brikko-studio skills check --agent <id>
+brikko-studio skills check --json
 ```
 
 `search`/`install`/`update` use ClawHub directly and install into the active

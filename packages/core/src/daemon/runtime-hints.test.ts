@@ -7,16 +7,16 @@ describe("buildPlatformRuntimeLogHints", () => {
       buildPlatformRuntimeLogHints({
         platform: "darwin",
         env: {
-          OPENCLAW_STATE_DIR: "/tmp/openclaw-state",
-          OPENCLAW_LOG_PREFIX: "gateway",
+          BRIKKO_STUDIO_STATE_DIR: "/tmp/brikko-studio-state",
+          BRIKKO_STUDIO_LOG_PREFIX: "gateway",
         },
-        systemdServiceName: "openclaw-gateway",
-        windowsTaskName: "OpenClaw Gateway",
+        systemdServiceName: "brikko-studio-gateway",
+        windowsTaskName: "Brikko Studio Gateway",
       }),
     ).toEqual([
-      "Launchd stdout (if installed): /tmp/openclaw-state/logs/gateway.log",
-      "Launchd stderr (if installed): /tmp/openclaw-state/logs/gateway.err.log",
-      "Restart attempts: /tmp/openclaw-state/logs/gateway-restart.log",
+      "Launchd stdout (if installed): /tmp/brikko-studio-state/logs/gateway.log",
+      "Launchd stderr (if installed): /tmp/brikko-studio-state/logs/gateway.err.log",
+      "Restart attempts: /tmp/brikko-studio-state/logs/gateway-restart.log",
     ]);
   });
 
@@ -25,27 +25,27 @@ describe("buildPlatformRuntimeLogHints", () => {
       buildPlatformRuntimeLogHints({
         platform: "linux",
         env: {
-          OPENCLAW_STATE_DIR: "/tmp/openclaw-state",
+          BRIKKO_STUDIO_STATE_DIR: "/tmp/brikko-studio-state",
         },
-        systemdServiceName: "openclaw-gateway",
-        windowsTaskName: "OpenClaw Gateway",
+        systemdServiceName: "brikko-studio-gateway",
+        windowsTaskName: "Brikko Studio Gateway",
       }),
     ).toEqual([
-      "Logs: journalctl --user -u openclaw-gateway.service -n 200 --no-pager",
-      "Restart attempts: /tmp/openclaw-state/logs/gateway-restart.log",
+      "Logs: journalctl --user -u brikko-studio-gateway.service -n 200 --no-pager",
+      "Restart attempts: /tmp/brikko-studio-state/logs/gateway-restart.log",
     ]);
     expect(
       buildPlatformRuntimeLogHints({
         platform: "win32",
         env: {
-          OPENCLAW_STATE_DIR: "/tmp/openclaw-state",
+          BRIKKO_STUDIO_STATE_DIR: "/tmp/brikko-studio-state",
         },
-        systemdServiceName: "openclaw-gateway",
-        windowsTaskName: "OpenClaw Gateway",
+        systemdServiceName: "brikko-studio-gateway",
+        windowsTaskName: "Brikko Studio Gateway",
       }),
     ).toEqual([
-      'Logs: schtasks /Query /TN "OpenClaw Gateway" /V /FO LIST',
-      "Restart attempts: /tmp/openclaw-state/logs/gateway-restart.log",
+      'Logs: schtasks /Query /TN "Brikko Studio Gateway" /V /FO LIST',
+      "Restart attempts: /tmp/brikko-studio-state/logs/gateway-restart.log",
     ]);
   });
 });
@@ -55,30 +55,30 @@ describe("buildPlatformServiceStartHints", () => {
     expect(
       buildPlatformServiceStartHints({
         platform: "darwin",
-        installCommand: "openclaw gateway install",
-        startCommand: "openclaw gateway",
-        launchAgentPlistPath: "~/Library/LaunchAgents/com.openclaw.gateway.plist",
-        systemdServiceName: "openclaw-gateway",
-        windowsTaskName: "OpenClaw Gateway",
+        installCommand: "brikko-studio gateway install",
+        startCommand: "brikko-studio gateway",
+        launchAgentPlistPath: "~/Library/LaunchAgents/com.brikko-studio.gateway.plist",
+        systemdServiceName: "brikko-studio-gateway",
+        windowsTaskName: "Brikko Studio Gateway",
       }),
     ).toEqual([
-      "openclaw gateway install",
-      "openclaw gateway",
-      "launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.openclaw.gateway.plist",
+      "brikko-studio gateway install",
+      "brikko-studio gateway",
+      "launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.brikko-studio.gateway.plist",
     ]);
     expect(
       buildPlatformServiceStartHints({
         platform: "linux",
-        installCommand: "openclaw gateway install",
-        startCommand: "openclaw gateway",
-        launchAgentPlistPath: "~/Library/LaunchAgents/com.openclaw.gateway.plist",
-        systemdServiceName: "openclaw-gateway",
-        windowsTaskName: "OpenClaw Gateway",
+        installCommand: "brikko-studio gateway install",
+        startCommand: "brikko-studio gateway",
+        launchAgentPlistPath: "~/Library/LaunchAgents/com.brikko-studio.gateway.plist",
+        systemdServiceName: "brikko-studio-gateway",
+        windowsTaskName: "Brikko Studio Gateway",
       }),
     ).toEqual([
-      "openclaw gateway install",
-      "openclaw gateway",
-      "systemctl --user start openclaw-gateway.service",
+      "brikko-studio gateway install",
+      "brikko-studio gateway",
+      "systemctl --user start brikko-studio-gateway.service",
     ]);
   });
 });

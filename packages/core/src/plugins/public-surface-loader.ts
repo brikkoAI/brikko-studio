@@ -13,7 +13,7 @@ import {
 import { resolveBundledPluginPublicSurfacePath } from "./public-surface-runtime.js";
 import { resolvePluginLoaderTryNative, resolveLoaderPackageRoot } from "./sdk-alias.js";
 
-const OPENCLAW_PACKAGE_ROOT =
+const BRIKKO_STUDIO_PACKAGE_ROOT =
   resolveLoaderPackageRoot({
     modulePath: fileURLToPath(import.meta.url),
     moduleUrl: import.meta.url,
@@ -62,7 +62,7 @@ function resolvePublicSurfaceLocationUncached(params: {
 }): { modulePath: string; boundaryRoot: string } | null {
   const bundledPluginsDir = resolveBundledPluginsDir();
   const modulePath = resolveBundledPluginPublicSurfacePath({
-    rootDir: OPENCLAW_PACKAGE_ROOT,
+    rootDir: BRIKKO_STUDIO_PACKAGE_ROOT,
     ...(bundledPluginsDir ? { bundledPluginsDir } : {}),
     dirName: params.dirName,
     artifactBasename: params.artifactBasename,
@@ -75,7 +75,7 @@ function resolvePublicSurfaceLocationUncached(params: {
     boundaryRoot:
       bundledPluginsDir && modulePath.startsWith(path.resolve(bundledPluginsDir) + path.sep)
         ? path.resolve(bundledPluginsDir)
-        : OPENCLAW_PACKAGE_ROOT,
+        : BRIKKO_STUDIO_PACKAGE_ROOT,
   };
 }
 
@@ -133,7 +133,7 @@ export function loadBundledPluginPublicArtifactModuleSync<T extends object>(para
     absolutePath: location.modulePath,
     rootPath: location.boundaryRoot,
     boundaryLabel:
-      location.boundaryRoot === OPENCLAW_PACKAGE_ROOT ? "OpenClaw package root" : "plugin root",
+      location.boundaryRoot === BRIKKO_STUDIO_PACKAGE_ROOT ? "Brikko Studio package root" : "plugin root",
     rejectHardlinks: true,
   });
   if (!opened.ok) {

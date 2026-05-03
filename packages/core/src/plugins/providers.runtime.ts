@@ -5,7 +5,7 @@ import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
 import {
   getRuntimePluginRegistryForLoadOptions,
   isPluginRegistryLoadInFlight,
-  loadOpenClawPlugins,
+  loadBrikko StudioPlugins,
   type PluginLoadOptions,
 } from "./loader.js";
 import { hasExplicitPluginIdScope } from "./plugin-scope.js";
@@ -304,7 +304,7 @@ export function resolvePluginProviders(params: {
     if (!loadState) {
       return [];
     }
-    const registry = loadOpenClawPlugins(loadState.loadOptions);
+    const registry = loadBrikko StudioPlugins(loadState.loadOptions);
     return registry.providers.map((entry) =>
       Object.assign({}, entry.provider, { pluginId: entry.pluginId }),
     );

@@ -25,12 +25,12 @@ describe("status daemon summary", () => {
       label: "systemd",
       installed: true,
       loaded: true,
-      managedByOpenClaw: true,
+      managedByBrikko Studio: true,
       externallyManaged: false,
       loadedText: "enabled",
       runtime: { status: "running", pid: 1234 },
       layout: {
-        execStart: "/usr/bin/node /opt/openclaw/dist/entry.js gateway",
+        execStart: "/usr/bin/node /opt/brikko-studio/dist/entry.js gateway",
         sourceScope: "system",
         entrypointSourceCheckout: false,
       },
@@ -39,7 +39,7 @@ describe("status daemon summary", () => {
     await expect(getDaemonStatusSummary()).resolves.toMatchObject({
       runtimeShort: expect.stringContaining("running"),
       layout: {
-        execStart: "/usr/bin/node /opt/openclaw/dist/entry.js gateway",
+        execStart: "/usr/bin/node /opt/brikko-studio/dist/entry.js gateway",
         sourceScope: "system",
         entrypointSourceCheckout: false,
       },

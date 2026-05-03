@@ -1,12 +1,12 @@
 import {
   getProviderHttpMocks,
   installProviderHttpMockCleanup,
-} from "openclaw/plugin-sdk/provider-http-test-mocks";
+} from "brikko-studio/plugin-sdk/provider-http-test-mocks";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 const transcodeAudioBufferToOpusMock = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/media-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/media-runtime", () => ({
   transcodeAudioBufferToOpus: transcodeAudioBufferToOpusMock,
 }));
 
@@ -211,7 +211,7 @@ describe("Google speech provider", () => {
     );
   });
 
-  it("does not wrap an OpenClaw audio-profile-v1 prompt twice", async () => {
+  it("does not wrap an Brikko Studio audio-profile-v1 prompt twice", async () => {
     const provider = buildGoogleSpeechProvider();
     const text = [
       "Synthesize speech from the TRANSCRIPT section only. Use the other sections only",

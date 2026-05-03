@@ -1,8 +1,8 @@
 import type {
   ProviderDefaultThinkingPolicyContext,
   ProviderThinkingProfile,
-} from "openclaw/plugin-sdk/core";
-import { buildProviderReplayFamilyHooks } from "openclaw/plugin-sdk/provider-model-shared";
+} from "brikko-studio/plugin-sdk/core";
+import { buildProviderReplayFamilyHooks } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { createGoogleThinkingStreamWrapper, isGoogleGemini3ProModel } from "./thinking-api.js";
 
 export const GOOGLE_GEMINI_PROVIDER_HOOKS = {

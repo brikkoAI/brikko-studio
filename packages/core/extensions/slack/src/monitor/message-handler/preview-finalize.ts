@@ -1,5 +1,5 @@
 import type { Block, KnownBlock, WebClient } from "@slack/web-api";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { editSlackMessage } from "../../actions.js";
 import { buildSlackEditTextPayload } from "../../edit-text.js";
 import { normalizeSlackOutboundText } from "../../format.js";

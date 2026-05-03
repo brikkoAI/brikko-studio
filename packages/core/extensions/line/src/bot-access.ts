@@ -2,7 +2,7 @@ import {
   firstDefined,
   isSenderIdAllowed,
   mergeDmAllowFromSources,
-} from "openclaw/plugin-sdk/allow-from";
+} from "brikko-studio/plugin-sdk/allow-from";
 
 export type NormalizedAllowFrom = {
   entries: string[];

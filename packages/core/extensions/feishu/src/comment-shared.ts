@@ -2,7 +2,7 @@ import {
   isRecord as sharedIsRecord,
   normalizeOptionalString,
   readStringValue,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import { FEISHU_COMMENT_FILE_TYPES, type CommentFileType } from "./comment-target.js";
 
 export function encodeQuery(params: Record<string, string | undefined>): string {

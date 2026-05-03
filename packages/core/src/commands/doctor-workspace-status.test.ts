@@ -230,7 +230,7 @@ describe("noteWorkspaceStatus", () => {
       expect(recoveryCalls).toHaveLength(1);
       const [[body]] = recoveryCalls;
       expect(body).toContain("flow-123");
-      expect(body).toContain("openclaw tasks flow show <flow-id>");
+      expect(body).toContain("brikko-studio tasks flow show <flow-id>");
     } finally {
       noteSpy.mockRestore();
     }

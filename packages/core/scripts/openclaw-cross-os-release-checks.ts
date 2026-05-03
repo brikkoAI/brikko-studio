@@ -24,7 +24,7 @@ import { assertNoLegacyPluginDependencyStagingDebris } from "../src/infra/packag
 import { isLocalBuildMetadataDistPath } from "./lib/local-build-metadata-paths.mjs";
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
-const PUBLISHED_INSTALLER_BASE_URL = "https://openclaw.ai";
+const PUBLISHED_INSTALLER_BASE_URL = "https://brikko-studio.ai";
 
 const SUPPORTED_MODES = new Set(["fresh", "upgrade", "both"]);
 const SUPPORTED_SUITES = new Set([
@@ -35,10 +35,10 @@ const SUPPORTED_SUITES = new Set([
 ]);
 
 export const CROSS_OS_AGENT_TURN_TIMEOUT_SECONDS = parsePositiveIntegerEnv(
-  "OPENCLAW_CROSS_OS_AGENT_TURN_TIMEOUT_SECONDS",
+  "BRIKKO_STUDIO_CROSS_OS_AGENT_TURN_TIMEOUT_SECONDS",
   600,
 );
-const CROSS_OS_AGENT_TURN_OPTIONAL = parseBooleanEnv("OPENCLAW_CROSS_OS_AGENT_TURN_OPTIONAL", true);
+const CROSS_OS_AGENT_TURN_OPTIONAL = parseBooleanEnv("BRIKKO_STUDIO_CROSS_OS_AGENT_TURN_OPTIONAL", true);
 
 const providerConfig = {
   openai: {
@@ -68,8 +68,8 @@ export function resolveProviderConfig(provider, env = process.env) {
   if (!config) {
     return null;
   }
-  const providerEnvKey = `OPENCLAW_CROSS_OS_${provider.toUpperCase().replace(/[^A-Z0-9]+/gu, "_")}_MODEL`;
-  const model = env[providerEnvKey]?.trim() || env.OPENCLAW_CROSS_OS_MODEL?.trim() || config.model;
+  const providerEnvKey = `BRIKKO_STUDIO_CROSS_OS_${provider.toUpperCase().replace(/[^A-Z0-9]+/gu, "_")}_MODEL`;
+  const model = env[providerEnvKey]?.trim() || env.BRIKKO_STUDIO_CROSS_OS_MODEL?.trim() || config.model;
   return { ...config, model };
 }
 
@@ -275,15 +275,15 @@ export function readRunnerOverrideEnv(env = process.env) {
   return {
     varUbuntuRunner: preferNonEmptyEnv(
       env.VAR_UBUNTU_RUNNER,
-      env.OPENCLAW_RELEASE_CHECKS_UBUNTU_RUNNER,
+      env.BRIKKO_STUDIO_RELEASE_CHECKS_UBUNTU_RUNNER,
     ),
     varWindowsRunner: preferNonEmptyEnv(
       env.VAR_WINDOWS_RUNNER,
-      env.OPENCLAW_RELEASE_CHECKS_WINDOWS_RUNNER,
+      env.BRIKKO_STUDIO_RELEASE_CHECKS_WINDOWS_RUNNER,
     ),
     varMacosRunner: preferNonEmptyEnv(
       env.VAR_MACOS_RUNNER,
-      env.OPENCLAW_RELEASE_CHECKS_MACOS_RUNNER,
+      env.BRIKKO_STUDIO_RELEASE_CHECKS_MACOS_RUNNER,
     ),
   };
 }
@@ -333,7 +333,7 @@ async function main(argv) {
   const previousVersion = args["previous-version"]?.trim() || "";
   const baselineSpec =
     args["baseline-spec"]?.trim() ||
-    (previousVersion ? `openclaw@${previousVersion}` : "openclaw@latest");
+    (previousVersion ? `brikko-studio@${previousVersion}` : "brikko-studio@latest");
   const providedBaselineTgz = args["baseline-tgz"]?.trim()
     ? resolve(args["baseline-tgz"].trim())
     : "";
@@ -376,8 +376,8 @@ async function main(argv) {
 
   const summary = {
     platform: process.platform,
-    runnerOs: process.env.OPENCLAW_RELEASE_CHECK_OS ?? "",
-    runnerLabel: process.env.OPENCLAW_RELEASE_CHECK_RUNNER ?? "",
+    runnerOs: process.env.BRIKKO_STUDIO_RELEASE_CHECK_OS ?? "",
+    runnerLabel: process.env.BRIKKO_STUDIO_RELEASE_CHECK_RUNNER ?? "",
     provider,
     mode,
     suite,
@@ -769,7 +769,7 @@ async function runUpgradeLane(params) {
       "--timeout",
       String(updateStepTimeoutSeconds()),
     ];
-    const updateResult = await runOpenClaw({
+    const updateResult = await runBrikko Studio({
       lane,
       env: updateEnv,
       args: updateArgs,
@@ -792,7 +792,7 @@ async function runUpgradeLane(params) {
     }
 
     logLanePhase(lane, "update-status");
-    await runOpenClaw({
+    await runBrikko Studio({
       lane,
       env: updateEnv,
       args: ["update", "status", "--json"],
@@ -1077,7 +1077,7 @@ async function runDevUpdateSuite(params) {
       args: ["update", "--channel", "dev", "--yes", "--json"],
       env: {
         ...buildRealUpdateEnv(env),
-        OPENCLAW_UPDATE_DEV_TARGET_REF: verificationRef,
+        BRIKKO_STUDIO_UPDATE_DEV_TARGET_REF: verificationRef,
       },
       cwd: lane.homeDir,
       logPath: join(params.logsDir, "dev-update.log"),
@@ -1088,7 +1088,7 @@ async function runDevUpdateSuite(params) {
     const updatedShell = await verifyFreshShellCommand({
       lane,
       env,
-      expectedNeedle: "OpenClaw",
+      expectedNeedle: "Brikko Studio",
       logPath: join(params.logsDir, "dev-update-shell.log"),
     });
 
@@ -1198,10 +1198,10 @@ async function runDevUpdateSuite(params) {
 }
 
 function createLaneState(name) {
-  const rootDir = mkdtempSync(join(tmpdir(), `openclaw-${name}-`));
+  const rootDir = mkdtempSync(join(tmpdir(), `brikko-studio-${name}-`));
   const prefixDir = join(rootDir, "prefix");
   const homeDir = join(rootDir, "home");
-  const stateDir = join(homeDir, ".openclaw");
+  const stateDir = join(homeDir, ".brikko-studio");
   const appDataDir = process.platform === "win32" ? join(homeDir, "AppData", "Roaming") : stateDir;
   mkdirSync(prefixDir, { recursive: true });
   mkdirSync(homeDir, { recursive: true });
@@ -1230,11 +1230,11 @@ function buildLaneEnv(lane, providerMeta, providerSecretValue) {
     USERPROFILE: lane.homeDir,
     APPDATA: lane.appDataDir,
     LOCALAPPDATA: join(lane.homeDir, "AppData", "Local"),
-    OPENCLAW_HOME: lane.homeDir,
-    OPENCLAW_STATE_DIR: lane.stateDir,
-    OPENCLAW_CONFIG_PATH: join(lane.stateDir, "openclaw.json"),
-    OPENCLAW_DISABLE_BONJOUR: "1",
-    OPENCLAW_DISABLE_BUNDLED_PLUGIN_POSTINSTALL: "1",
+    BRIKKO_STUDIO_HOME: lane.homeDir,
+    BRIKKO_STUDIO_STATE_DIR: lane.stateDir,
+    BRIKKO_STUDIO_CONFIG_PATH: join(lane.stateDir, "brikko-studio.json"),
+    BRIKKO_STUDIO_DISABLE_BONJOUR: "1",
+    BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGIN_POSTINSTALL: "1",
     NPM_CONFIG_PREFIX: lane.prefixDir,
     PATH: `${binDirForPrefix(lane.prefixDir)}${process.platform === "win32" ? ";" : ":"}${process.env.PATH ?? ""}`,
     [providerMeta.secretEnv]: providerSecretValue,
@@ -1250,12 +1250,12 @@ function buildInstallerEnv(lane, providerMeta, providerSecretValue) {
     USERPROFILE: lane.homeDir,
     APPDATA: lane.appDataDir,
     LOCALAPPDATA: localAppData,
-    OPENCLAW_HOME: lane.homeDir,
-    OPENCLAW_STATE_DIR: lane.stateDir,
-    OPENCLAW_CONFIG_PATH: join(lane.stateDir, "openclaw.json"),
-    OPENCLAW_DISABLE_BONJOUR: "1",
-    OPENCLAW_NO_ONBOARD: "1",
-    OPENCLAW_NO_PROMPT: "1",
+    BRIKKO_STUDIO_HOME: lane.homeDir,
+    BRIKKO_STUDIO_STATE_DIR: lane.stateDir,
+    BRIKKO_STUDIO_CONFIG_PATH: join(lane.stateDir, "brikko-studio.json"),
+    BRIKKO_STUDIO_DISABLE_BONJOUR: "1",
+    BRIKKO_STUDIO_NO_ONBOARD: "1",
+    BRIKKO_STUDIO_NO_PROMPT: "1",
     CI: "1",
     NODE_OPTIONS: "--max-old-space-size=6144",
     [providerMeta.secretEnv]: providerSecretValue,
@@ -1314,7 +1314,7 @@ export function buildRealUpdateEnv(env) {
     ...env,
     NODE_DISABLE_COMPILE_CACHE: "1",
   };
-  delete updateEnv.OPENCLAW_DISABLE_BUNDLED_PLUGIN_POSTINSTALL;
+  delete updateEnv.BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGIN_POSTINSTALL;
   delete updateEnv.NODE_COMPILE_CACHE;
   return updateEnv;
 }
@@ -1343,18 +1343,18 @@ export function isRecoverableWindowsPackagedUpgradeSwapCleanupFailure(
     /\bglobal install swap\b/iu.test(output) &&
     /\bEPERM\b/iu.test(output) &&
     /\bunlink\b/iu.test(output) &&
-    /[/\\]\.openclaw-\d+-\d+[/\\]/u.test(output) &&
+    /[/\\]\.brikko-studio-\d+-\d+[/\\]/u.test(output) &&
     /\.node['"]?/iu.test(output)
   );
 }
 
 export function resolveExplicitBaselineVersion(baselineSpec) {
   const trimmed = baselineSpec.trim();
-  if (!trimmed || trimmed === "openclaw@latest") {
+  if (!trimmed || trimmed === "brikko-studio@latest") {
     return "";
   }
-  if (trimmed.startsWith("openclaw@")) {
-    return trimmed.slice("openclaw@".length);
+  if (trimmed.startsWith("brikko-studio@")) {
+    return trimmed.slice("brikko-studio@".length);
   }
   return trimmed;
 }
@@ -1364,13 +1364,13 @@ async function resolveInstallerTargetVersion(params) {
   if (resolvedVersion) {
     return resolvedVersion;
   }
-  const latestResult = await runCommand(npmCommand(), ["view", "openclaw@latest", "version"], {
+  const latestResult = await runCommand(npmCommand(), ["view", "brikko-studio@latest", "version"], {
     logPath: join(params.logsDir, `${params.suiteName}-latest-version.log`),
     timeoutMs: 2 * 60 * 1000,
   });
   const latestVersion = latestResult.stdout.trim();
   if (!latestVersion) {
-    throw new Error("npm view openclaw@latest version did not return a version.");
+    throw new Error("npm view brikko-studio@latest version did not return a version.");
   }
   return latestVersion;
 }
@@ -1533,8 +1533,8 @@ if ($null -ne $npmCommand) {
   if (-not [string]::IsNullOrWhiteSpace($npmPrefix)) {
     $env:Path = "$npmPrefix;$env:Path"
     foreach ($candidate in @(
-      (Join-Path $npmPrefix 'openclaw.cmd'),
-      (Join-Path $npmPrefix 'openclaw.ps1')
+      (Join-Path $npmPrefix 'brikko-studio.cmd'),
+      (Join-Path $npmPrefix 'brikko-studio.ps1')
     )) {
       if (Test-Path -LiteralPath $candidate) {
         $commandPath = $candidate
@@ -1544,7 +1544,7 @@ if ($null -ne $npmCommand) {
   }
 }
 if ([string]::IsNullOrWhiteSpace($commandPath)) {
-  $cmd = Get-Command openclaw -ErrorAction Stop
+  $cmd = Get-Command brikko-studio -ErrorAction Stop
   $commandPath = $cmd.Source
 }
 if ($commandPath -match '(?i)\\.ps1$') {
@@ -1554,7 +1554,7 @@ if ($commandPath -match '(?i)\\.ps1$') {
   }
 }
 $version = (& $commandPath --version 2>&1 | Out-String).Trim()
-Write-Output "__OPENCLAW_PATH__=$commandPath"
+Write-Output "__BRIKKO_STUDIO_PATH__=$commandPath"
 Write-Output $version
 if ('${expectedNeedle}'.Length -gt 0 -and $version -notmatch [regex]::Escape('${expectedNeedle}')) {
   throw "version mismatch: expected substring ${expectedNeedle}"
@@ -1616,10 +1616,10 @@ async function verifyFreshShellCommand(params) {
       timeoutMs: 2 * 60 * 1000,
     });
     const cliPath = normalizeWindowsInstalledCliPath(
-      parseMarkerLine(result.stdout, "__OPENCLAW_PATH__="),
+      parseMarkerLine(result.stdout, "__BRIKKO_STUDIO_PATH__="),
     );
     if (!cliPath) {
-      throw new Error("Failed to resolve installed openclaw path from fresh Windows shell.");
+      throw new Error("Failed to resolve installed brikko-studio path from fresh Windows shell.");
     }
     return {
       cliPath,
@@ -1630,9 +1630,9 @@ async function verifyFreshShellCommand(params) {
   const script = [
     "set -euo pipefail",
     'if [ -f "$HOME/.bashrc" ]; then . "$HOME/.bashrc"; fi',
-    "command -v openclaw >/dev/null 2>&1",
-    'printf "__OPENCLAW_PATH__=%s\\n" "$(command -v openclaw)"',
-    "openclaw --version",
+    "command -v brikko-studio >/dev/null 2>&1",
+    'printf "__BRIKKO_STUDIO_PATH__=%s\\n" "$(command -v brikko-studio)"',
+    "brikko-studio --version",
   ].join("\n");
   const result = await runPosixShellScript(script, {
     cwd: params.lane.homeDir,
@@ -1640,10 +1640,10 @@ async function verifyFreshShellCommand(params) {
     logPath: params.logPath,
     timeoutMs: 2 * 60 * 1000,
   });
-  const cliPath = parseMarkerLine(result.stdout, "__OPENCLAW_PATH__=");
+  const cliPath = parseMarkerLine(result.stdout, "__BRIKKO_STUDIO_PATH__=");
   const versionOutput = `${result.stdout}\n${result.stderr}`.trim();
   if (!cliPath) {
-    throw new Error("Failed to resolve installed openclaw path from fresh POSIX shell.");
+    throw new Error("Failed to resolve installed brikko-studio path from fresh POSIX shell.");
   }
   if (params.expectedNeedle && !versionOutput.includes(params.expectedNeedle)) {
     throw new Error(
@@ -1682,7 +1682,7 @@ async function ensureDevUpdateGitInstall(params) {
     env: params.env,
     logPath: join(params.logsDir, "dev-update-status.log"),
   });
-  // The dev-update lane must prove that `openclaw update --channel dev` landed on
+  // The dev-update lane must prove that `brikko-studio update --channel dev` landed on
   // the expected git checkout. Falling back to a manual repair here would hide
   // updater regressions and turn the suite into a false green.
   verifyDevUpdateStatus(updateStatus.stdout, { ref: params.requestedRef });
@@ -2131,7 +2131,7 @@ async function configureDiscordSmoke(params) {
       lane: params.lane,
       cliPath: params.cliPath,
       env: gatewayEnv,
-      logPath: join(params.cwd, `.openclaw/logs/${params.lane.name}-discord-gateway.log`),
+      logPath: join(params.cwd, `.brikko-studio/logs/${params.lane.name}-discord-gateway.log`),
     });
     if (params.gatewayHolder) {
       params.gatewayHolder.current = gateway;
@@ -2258,11 +2258,11 @@ async function waitForInstalledDiscordReadback(params) {
 
 async function maybeRunDiscordRoundtrip(params) {
   const token =
-    process.env.OPENCLAW_DISCORD_SMOKE_BOT_TOKEN?.trim() ||
+    process.env.BRIKKO_STUDIO_DISCORD_SMOKE_BOT_TOKEN?.trim() ||
     process.env.DISCORD_BOT_TOKEN?.trim() ||
     "";
-  const guildId = process.env.OPENCLAW_DISCORD_SMOKE_GUILD_ID?.trim() || "";
-  const channelId = process.env.OPENCLAW_DISCORD_SMOKE_CHANNEL_ID?.trim() || "";
+  const guildId = process.env.BRIKKO_STUDIO_DISCORD_SMOKE_GUILD_ID?.trim() || "";
+  const channelId = process.env.BRIKKO_STUDIO_DISCORD_SMOKE_CHANNEL_ID?.trim() || "";
   if (!token || !guildId || !channelId) {
     return "skipped-missing-config";
   }
@@ -2405,7 +2405,7 @@ async function runBundledPluginPostinstall(params) {
   const installEnv = {
     ...params.env,
   };
-  delete installEnv.OPENCLAW_DISABLE_BUNDLED_PLUGIN_POSTINSTALL;
+  delete installEnv.BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGIN_POSTINSTALL;
   delete installEnv.NPM_CONFIG_PREFIX;
   delete installEnv.npm_config_global;
   delete installEnv.npm_config_location;
@@ -2424,24 +2424,24 @@ export function shouldRunWindowsInstalledBrowserOverrideImportSmoke(platform = p
 }
 
 export function buildInstalledBrowserOverrideImportProbeScript(
-  runtimeModuleSpecifier = "openclaw/plugin-sdk/plugin-runtime",
+  runtimeModuleSpecifier = "brikko-studio/plugin-sdk/plugin-runtime",
 ) {
   return `
 import { existsSync } from "node:fs";
 import { startLazyPluginServiceModule } from ${JSON.stringify(runtimeModuleSpecifier)};
 
-const startedPath = process.env.OPENCLAW_BROWSER_OVERRIDE_STARTED_PATH;
-const stoppedPath = process.env.OPENCLAW_BROWSER_OVERRIDE_STOPPED_PATH;
+const startedPath = process.env.BRIKKO_STUDIO_BROWSER_OVERRIDE_STARTED_PATH;
+const stoppedPath = process.env.BRIKKO_STUDIO_BROWSER_OVERRIDE_STOPPED_PATH;
 
-if (!process.env.OPENCLAW_BROWSER_CONTROL_MODULE) {
-  throw new Error("Missing OPENCLAW_BROWSER_CONTROL_MODULE.");
+if (!process.env.BRIKKO_STUDIO_BROWSER_CONTROL_MODULE) {
+  throw new Error("Missing BRIKKO_STUDIO_BROWSER_CONTROL_MODULE.");
 }
 if (!startedPath || !stoppedPath) {
   throw new Error("Missing browser override sentinel path env.");
 }
 
 const handle = await startLazyPluginServiceModule({
-  overrideEnvVar: "OPENCLAW_BROWSER_CONTROL_MODULE",
+  overrideEnvVar: "BRIKKO_STUDIO_BROWSER_CONTROL_MODULE",
   validateOverrideSpecifier: (specifier) => specifier,
   loadDefaultModule: async () => {
     throw new Error("Default browser control service should not load during override probe.");
@@ -2472,11 +2472,11 @@ function buildBrowserOverrideProbeServiceModule() {
 import { writeFileSync } from "node:fs";
 
 export async function startBrowserControlService() {
-  writeFileSync(process.env.OPENCLAW_BROWSER_OVERRIDE_STARTED_PATH, "started\\n", "utf8");
+  writeFileSync(process.env.BRIKKO_STUDIO_BROWSER_OVERRIDE_STARTED_PATH, "started\\n", "utf8");
 }
 
 export async function stopBrowserControlService() {
-  writeFileSync(process.env.OPENCLAW_BROWSER_OVERRIDE_STOPPED_PATH, "stopped\\n", "utf8");
+  writeFileSync(process.env.BRIKKO_STUDIO_BROWSER_OVERRIDE_STOPPED_PATH, "stopped\\n", "utf8");
 }
 `.trim();
 }
@@ -2509,9 +2509,9 @@ async function runInstalledBrowserOverrideImportSmoke(params) {
     cwd: packageRoot,
     env: {
       ...params.env,
-      OPENCLAW_BROWSER_CONTROL_MODULE: pathToFileURL(overridePath).href,
-      OPENCLAW_BROWSER_OVERRIDE_STARTED_PATH: startedPath,
-      OPENCLAW_BROWSER_OVERRIDE_STOPPED_PATH: stoppedPath,
+      BRIKKO_STUDIO_BROWSER_CONTROL_MODULE: pathToFileURL(overridePath).href,
+      BRIKKO_STUDIO_BROWSER_OVERRIDE_STARTED_PATH: startedPath,
+      BRIKKO_STUDIO_BROWSER_OVERRIDE_STOPPED_PATH: stoppedPath,
     },
     logPath: params.logPath,
     timeoutMs: 60_000,
@@ -2552,7 +2552,7 @@ function ensureLocalNpmShim(lane) {
 
 async function runOnboard(params) {
   await withAllocatedGatewayPort(params.lane, async () => {
-    await runOpenClaw({
+    await runBrikko Studio({
       lane: params.lane,
       env: params.env,
       args: buildReleaseOnboardArgs({
@@ -2671,7 +2671,7 @@ async function waitForGateway(params) {
   while (Date.now() < deadline) {
     let result;
     try {
-      result = await runOpenClaw({
+      result = await runBrikko Studio({
         lane: params.lane,
         env: params.env,
         args: statusArgs,
@@ -2698,7 +2698,7 @@ function gatewayReadyDeadlineMs() {
 }
 
 async function resolveGatewayStatusArgs(lane, env, logPath) {
-  const help = await runOpenClaw({
+  const help = await runBrikko Studio({
     lane,
     env,
     args: ["gateway", "status", "--help"],
@@ -2719,7 +2719,7 @@ async function resolveGatewayStatusArgs(lane, env, logPath) {
 }
 
 async function runModelsSet(params) {
-  await runOpenClaw({
+  await runBrikko Studio({
     lane: params.lane,
     env: params.env,
     args: ["models", "set", params.providerConfig.model],
@@ -2728,7 +2728,7 @@ async function runModelsSet(params) {
   });
   const providerConfigOverride = buildReleaseProviderConfigOverride(params.providerConfig);
   if (providerConfigOverride) {
-    await runOpenClaw({
+    await runBrikko Studio({
       lane: params.lane,
       env: params.env,
       args: [
@@ -2743,7 +2743,7 @@ async function runModelsSet(params) {
       timeoutMs: 2 * 60 * 1000,
     });
   }
-  await runOpenClaw({
+  await runBrikko Studio({
     lane: params.lane,
     env: params.env,
     args: [
@@ -2756,14 +2756,14 @@ async function runModelsSet(params) {
     logPath: params.logPath,
     timeoutMs: 2 * 60 * 1000,
   });
-  await runOpenClaw({
+  await runBrikko Studio({
     lane: params.lane,
     env: params.env,
     args: ["config", "set", "agents.defaults.skipBootstrap", "true", "--strict-json"],
     logPath: params.logPath,
     timeoutMs: 2 * 60 * 1000,
   });
-  await runOpenClaw({
+  await runBrikko Studio({
     lane: params.lane,
     env: params.env,
     args: ["config", "set", "tools.profile", CROSS_OS_RELEASE_SMOKE_TOOLS_PROFILE],
@@ -2777,7 +2777,7 @@ async function runAgentTurn(params) {
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     const sessionId = `cross-os-release-check-${params.label}-${Date.now()}-${attempt}`;
     try {
-      const result = await runOpenClaw({
+      const result = await runBrikko Studio({
         lane: params.lane,
         env: params.env,
         args: buildReleaseAgentTurnArgs(sessionId),
@@ -2935,8 +2935,8 @@ async function runDashboardSmoke(params) {
         const html = await response.text();
         if (
           response.ok &&
-          html.includes("<title>OpenClaw Control</title>") &&
-          html.includes("<openclaw-app></openclaw-app>")
+          html.includes("<title>Brikko Studio Control</title>") &&
+          html.includes("<brikko-studio-app></brikko-studio-app>")
         ) {
           logStream.write(
             `${new Date().toISOString()} dashboard-ready status=${response.status}\n`,
@@ -2944,7 +2944,7 @@ async function runDashboardSmoke(params) {
           return;
         }
         logStream.write(
-          `${new Date().toISOString()} dashboard-not-ready status=${response.status} title=${html.includes("<title>OpenClaw Control</title>")} app=${html.includes("<openclaw-app></openclaw-app>")}\n`,
+          `${new Date().toISOString()} dashboard-not-ready status=${response.status} title=${html.includes("<title>Brikko Studio Control</title>")} app=${html.includes("<brikko-studio-app></brikko-studio-app>")}\n`,
         );
       } catch (error) {
         logStream.write(
@@ -3036,7 +3036,7 @@ async function runCleanup(cleanupFns) {
   }
 }
 
-async function runOpenClaw(params) {
+async function runBrikko Studio(params) {
   return runCommand(process.execPath, [installedEntryPath(params.lane.prefixDir), ...params.args], {
     cwd: params.lane.homeDir,
     env: params.env,
@@ -3153,12 +3153,12 @@ export function resolveInstalledPackageRootFromCliPath(
 
 function installedPackageRoot(prefixDir, platform = process.platform) {
   return platform === "win32"
-    ? join(prefixDir, "node_modules", "openclaw")
-    : join(prefixDir, "lib", "node_modules", "openclaw");
+    ? join(prefixDir, "node_modules", "brikko-studio")
+    : join(prefixDir, "lib", "node_modules", "brikko-studio");
 }
 
 function installedEntryPath(prefixDir) {
-  return join(installedPackageRoot(prefixDir), "openclaw.mjs");
+  return join(installedPackageRoot(prefixDir), "brikko-studio.mjs");
 }
 
 function npmShimPath(prefixDir) {

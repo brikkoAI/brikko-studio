@@ -5,7 +5,7 @@ import {
   runHarnessContextEngineMaintenance,
   type CompactEmbeddedPiSessionParams,
   type EmbeddedPiCompactResult,
-} from "openclaw/plugin-sdk/agent-harness-runtime";
+} from "brikko-studio/plugin-sdk/agent-harness-runtime";
 import {
   createCodexAppServerClientFactoryTestHooks,
   defaultCodexAppServerClientFactory,
@@ -342,7 +342,7 @@ function readNativeCompactionCompletion(
 }
 
 function resolveCompactionWaitTimeoutMs(): number {
-  const raw = process.env.OPENCLAW_CODEX_COMPACTION_WAIT_TIMEOUT_MS?.trim();
+  const raw = process.env.BRIKKO_STUDIO_CODEX_COMPACTION_WAIT_TIMEOUT_MS?.trim();
   const parsed = raw ? Number.parseInt(raw, 10) : Number.NaN;
   if (Number.isFinite(parsed) && parsed > 0) {
     return parsed;

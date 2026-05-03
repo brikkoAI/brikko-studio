@@ -384,7 +384,7 @@ export const vi: TranslationMap = {
     skills: "Skills và khóa API.",
     nodes: "Thiết bị đã ghép nối và lệnh.",
     chat: "Trò chuyện Gateway để can thiệp nhanh.",
-    config: "Chỉnh sửa openclaw.json.",
+    config: "Chỉnh sửa brikko-studio.json.",
     communications: "Kênh, tin nhắn và cài đặt âm thanh.",
     appearance: "Giao diện, UI và cài đặt trình hướng dẫn thiết lập.",
     automation: "Lệnh, hook, cron và plugin.",
@@ -457,7 +457,7 @@ export const vi: TranslationMap = {
       metadataUpgradeSummary:
         "Thiết bị này đã được ghép nối, nhưng thay đổi siêu dữ liệu đang chờ phê duyệt.",
       mobileHint:
-        "Đang dùng di động? Sao chép URL đầy đủ (bao gồm #token=...) từ openclaw dashboard --no-open trên máy tính của bạn.",
+        "Đang dùng di động? Sao chép URL đầy đủ (bao gồm #token=...) từ brikko-studio dashboard --no-open trên máy tính của bạn.",
       docsTitle: "Tài liệu ghép nối thiết bị (mở trong tab mới)",
       docsLink: "Tài liệu: Ghép nối thiết bị",
     },
@@ -495,7 +495,7 @@ export const vi: TranslationMap = {
       modelAuthExpiresIn: "hết hạn {when}",
       modelAuthAttentionExpiredTitle: "Xác thực mô hình đã hết hạn",
       modelAuthAttentionExpiringTitle: "Xác thực mô hình sắp hết hạn",
-      modelAuthAttentionExpiredDesc: "{providers} — xác thực lại bằng openclaw models auth",
+      modelAuthAttentionExpiredDesc: "{providers} — xác thực lại bằng brikko-studio models auth",
       modelAuthAttentionExpiringEntry: "{provider} ({when})",
     },
     attention: {

@@ -1,7 +1,7 @@
-// OpenClaw Control – Service Worker
+// Brikko Studio Control – Service Worker
 // Handles offline caching and push notifications.
 
-const CACHE_NAME = "openclaw-control-v1";
+const CACHE_NAME = "brikko-studio-control-v1";
 
 // Minimal app-shell files to precache.
 const PRECACHE_URLS = ["./"];
@@ -80,15 +80,15 @@ self.addEventListener("push", (event) => {
   try {
     data = event.data.json();
   } catch {
-    data = { title: "OpenClaw", body: event.data.text() };
+    data = { title: "Brikko Studio", body: event.data.text() };
   }
 
-  const title = data.title || "OpenClaw";
+  const title = data.title || "Brikko Studio";
   const options = {
     body: data.body || "",
     icon: "./apple-touch-icon.png",
     badge: "./favicon-32.png",
-    tag: data.tag || "openclaw-notification",
+    tag: data.tag || "brikko-studio-notification",
     data: { url: data.url || "./" },
   };
 

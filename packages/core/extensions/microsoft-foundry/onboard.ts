@@ -1,10 +1,10 @@
-import type { ProviderAuthContext } from "openclaw/plugin-sdk/core";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { fetchWithSsrFGuard } from "openclaw/plugin-sdk/ssrf-runtime";
+import type { ProviderAuthContext } from "brikko-studio/plugin-sdk/core";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import {
   normalizeOptionalString,
   normalizeStringifiedOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import {
   azLoginDeviceCode,
   azLoginDeviceCodeWithOptions,

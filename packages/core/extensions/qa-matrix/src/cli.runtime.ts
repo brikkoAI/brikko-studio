@@ -6,7 +6,7 @@ import {
   startLiveTransportQaOutputTee,
 } from "./shared/live-transport-cli.runtime.js";
 
-const RUN_NODE_OUTPUT_LOG_ENV = "OPENCLAW_RUN_NODE_OUTPUT_LOG";
+const RUN_NODE_OUTPUT_LOG_ENV = "BRIKKO_STUDIO_RUN_NODE_OUTPUT_LOG";
 
 async function closeMatrixQaCommandFetchHandles() {
   try {

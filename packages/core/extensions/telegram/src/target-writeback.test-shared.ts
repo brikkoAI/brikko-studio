@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeAll, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 
 type UnknownMock = Mock<(...args: unknown[]) => unknown>;
@@ -14,9 +14,9 @@ const loadCronStore: AsyncUnknownMock = vi.fn();
 const resolveCronStorePath: UnknownMock = vi.fn();
 const saveCronStore: AsyncUnknownMock = vi.fn();
 
-vi.mock("openclaw/plugin-sdk/config-mutation", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/config-mutation")>(
-    "openclaw/plugin-sdk/config-mutation",
+vi.mock("brikko-studio/plugin-sdk/config-mutation", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/config-mutation")>(
+    "brikko-studio/plugin-sdk/config-mutation",
   );
   return {
     ...actual,
@@ -26,9 +26,9 @@ vi.mock("openclaw/plugin-sdk/config-mutation", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/cron-store-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/cron-store-runtime")>(
-    "openclaw/plugin-sdk/cron-store-runtime",
+vi.mock("brikko-studio/plugin-sdk/cron-store-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/cron-store-runtime")>(
+    "brikko-studio/plugin-sdk/cron-store-runtime",
   );
   return {
     ...actual,
@@ -60,7 +60,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
 
     it("skips writeback when target is already numeric", async () => {
       await maybePersistResolvedTelegramTarget({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         rawTarget: "-100123",
         resolvedChatId: "-100123",
       });
@@ -74,7 +74,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
         await maybePersistResolvedTelegramTarget({
           cfg: {
             cron: { store: "/tmp/cron/jobs.json" },
-          } as OpenClawConfig,
+          } as Brikko StudioConfig,
           rawTarget: "t.me/mychannel",
           resolvedChatId: "-100123",
           gatewayClientScopes: ["operator.write"],
@@ -90,7 +90,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
         await maybePersistResolvedTelegramTarget({
           cfg: {
             cron: { store: "/tmp/cron/jobs.json" },
-          } as OpenClawConfig,
+          } as Brikko StudioConfig,
           rawTarget: "t.me/mychannel",
           resolvedChatId: "-100123",
           gatewayClientScopes: [],
@@ -119,7 +119,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
             },
           },
         },
-        writeOptions: { expectedConfigPath: "/tmp/openclaw.json" },
+        writeOptions: { expectedConfigPath: "/tmp/brikko-studio.json" },
       });
       loadCronStore.mockResolvedValue({
         version: 1,
@@ -132,7 +132,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
       await maybePersistResolvedTelegramTarget({
         cfg: {
           cron: { store: "/tmp/cron/jobs.json" },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         rawTarget: "t.me/mychannel",
         resolvedChatId: "-100123",
       });
@@ -151,7 +151,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
             },
           },
         }),
-        expect.objectContaining({ expectedConfigPath: "/tmp/openclaw.json" }),
+        expect.objectContaining({ expectedConfigPath: "/tmp/brikko-studio.json" }),
       );
       expect(saveCronStore).toHaveBeenCalledTimes(1);
       expect(saveCronStore).toHaveBeenCalledWith(
@@ -181,7 +181,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
       loadCronStore.mockResolvedValue({ version: 1, jobs: [] });
 
       await maybePersistResolvedTelegramTarget({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         rawTarget: "t.me/mychannel:topic:9",
         resolvedChatId: "-100123",
       });
@@ -217,7 +217,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
       });
 
       await maybePersistResolvedTelegramTarget({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         rawTarget: "@MyChannel",
         resolvedChatId: "-100123",
       });

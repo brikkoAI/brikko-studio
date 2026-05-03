@@ -1,4 +1,4 @@
-import { loadOpenClawPlugins } from "./loader.js";
+import { loadBrikko StudioPlugins } from "./loader.js";
 import type { PluginLoadOptions } from "./loader.js";
 import { type PluginManifestRecord } from "./manifest-registry.js";
 import type { PluginWebSearchProviderEntry } from "./types.js";
@@ -35,7 +35,7 @@ function resolveWebSearchCandidatePluginIds(params: {
 }
 
 function mapRegistryWebSearchProviders(params: {
-  registry: ReturnType<typeof loadOpenClawPlugins>;
+  registry: ReturnType<typeof loadBrikko StudioPlugins>;
   onlyPluginIds?: readonly string[];
 }): PluginWebSearchProviderEntry[] {
   return mapRegistryProviders({

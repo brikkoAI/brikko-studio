@@ -2,4 +2,4 @@ export {
   fetchRemoteMedia,
   MediaFetchError,
   saveMediaBuffer,
-} from "openclaw/plugin-sdk/media-runtime";
+} from "brikko-studio/plugin-sdk/media-runtime";

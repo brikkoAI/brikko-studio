@@ -1,7 +1,7 @@
 import { messagingApi } from "@line/bot-sdk";
-import { saveMediaBuffer } from "openclaw/plugin-sdk/media-store";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { lowercasePreservingWhitespace } from "openclaw/plugin-sdk/text-runtime";
+import { saveMediaBuffer } from "brikko-studio/plugin-sdk/media-store";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { lowercasePreservingWhitespace } from "brikko-studio/plugin-sdk/text-runtime";
 
 interface DownloadResult {
   path: string;

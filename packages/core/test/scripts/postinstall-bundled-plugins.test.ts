@@ -7,7 +7,7 @@ import {
   collectLegacyPluginRuntimeDepsStateRoots,
   isSourceCheckoutRoot,
   isDirectPostinstallInvocation,
-  pruneOpenClawCompileCache,
+  pruneBrikko StudioCompileCache,
   pruneInstalledPackageDist,
   pruneLegacyPluginRuntimeDepsState,
   pruneBundledPluginSourceNodeModules,
@@ -20,7 +20,7 @@ import { createScriptTestHarness } from "./test-helpers.js";
 const { createTempDirAsync } = createScriptTestHarness();
 
 async function createExtensionsDir() {
-  const root = await createTempDirAsync("openclaw-postinstall-");
+  const root = await createTempDirAsync("brikko-studio-postinstall-");
   const extensionsDir = path.join(root, "dist", "extensions");
   await fs.mkdir(extensionsDir, { recursive: true });
   return extensionsDir;
@@ -58,15 +58,15 @@ describe("bundled plugin postinstall", () => {
 
     expect(
       isDirectPostinstallInvocation({
-        entryPath: "/var/folders/tmp/openclaw/scripts/postinstall-bundled-plugins.mjs",
-        modulePath: "/private/var/folders/tmp/openclaw/scripts/postinstall-bundled-plugins.mjs",
+        entryPath: "/var/folders/tmp/brikko-studio/scripts/postinstall-bundled-plugins.mjs",
+        modulePath: "/private/var/folders/tmp/brikko-studio/scripts/postinstall-bundled-plugins.mjs",
         realpathSync,
       }),
     ).toBe(true);
   });
 
   it("prunes Node versioned compile cache dirs during package postinstall", () => {
-    const configuredBase = path.join("/tmp", "openclaw-cache");
+    const configuredBase = path.join("/tmp", "brikko-studio-cache");
     const defaultBase = path.join(tmpdir(), "node-compile-cache");
     const removed: string[] = [];
     const existsSync = vi.fn((value: string) => value === configuredBase || value === defaultBase);
@@ -74,7 +74,7 @@ describe("bundled plugin postinstall", () => {
       if (value === configuredBase) {
         return [
           { name: "v22.13.1-x64-efe9a9df-1001", isDirectory: () => true },
-          { name: "openclaw", isDirectory: () => true },
+          { name: "brikko-studio", isDirectory: () => true },
           { name: "README", isDirectory: () => false },
         ];
       }
@@ -87,7 +87,7 @@ describe("bundled plugin postinstall", () => {
       removed.push(value);
     });
 
-    pruneOpenClawCompileCache({
+    pruneBrikko StudioCompileCache({
       env: { NODE_COMPILE_CACHE: configuredBase },
       existsSync,
       readdirSync,
@@ -99,7 +99,7 @@ describe("bundled plugin postinstall", () => {
       path.join(configuredBase, "v22.13.1-x64-efe9a9df-1001"),
       path.join(defaultBase, "v24.14.1-x64-efe9a9df-1001"),
     ]);
-    expect(removed).not.toContain(path.join(configuredBase, "openclaw"));
+    expect(removed).not.toContain(path.join(configuredBase, "brikko-studio"));
     for (const cacheDir of removed) {
       expect(rmSync).toHaveBeenCalledWith(cacheDir, {
         recursive: true,
@@ -111,7 +111,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("keeps pruning sibling compile cache dirs after one removal fails", () => {
-    const configuredBase = path.join("/tmp", "openclaw-cache");
+    const configuredBase = path.join("/tmp", "brikko-studio-cache");
     const attempted: string[] = [];
     const warn = vi.fn();
     const firstCacheDir = path.join(configuredBase, "v22.13.1-x64-efe9a9df-1001");
@@ -123,7 +123,7 @@ describe("bundled plugin postinstall", () => {
       }
     });
 
-    pruneOpenClawCompileCache({
+    pruneBrikko StudioCompileCache({
       env: { NODE_COMPILE_CACHE: configuredBase },
       existsSync: vi.fn((value: string) => value === configuredBase),
       readdirSync: vi.fn(() => [
@@ -136,7 +136,7 @@ describe("bundled plugin postinstall", () => {
 
     expect(attempted).toEqual([firstCacheDir, secondCacheDir]);
     expect(warn).toHaveBeenCalledWith(
-      "[postinstall] could not prune OpenClaw compile cache: Error: locked",
+      "[postinstall] could not prune Brikko Studio compile cache: Error: locked",
     );
   });
 
@@ -159,7 +159,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("prunes source-checkout bundled plugin node_modules", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-source-checkout-");
+    const packageRoot = await createTempDirAsync("brikko-studio-source-checkout-");
     const extensionsDir = path.join(packageRoot, "extensions");
     await fs.mkdir(path.join(packageRoot, ".git"), { recursive: true });
     await fs.mkdir(path.join(packageRoot, "src"), { recursive: true });
@@ -186,7 +186,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("keeps source-checkout prune non-fatal", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-source-checkout-prune-error-");
+    const packageRoot = await createTempDirAsync("brikko-studio-source-checkout-prune-error-");
     const extensionsDir = path.join(packageRoot, "extensions");
     await fs.mkdir(path.join(packageRoot, ".git"), { recursive: true });
     await fs.mkdir(path.join(packageRoot, "src"), { recursive: true });
@@ -211,9 +211,9 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("does not prune user-state legacy runtime deps during source-checkout postinstall", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-source-checkout-state-skip-");
-    const home = await createTempDirAsync("openclaw-source-checkout-home-");
-    const legacyRuntimeRoot = path.join(home, ".openclaw", "plugin-runtime-deps");
+    const packageRoot = await createTempDirAsync("brikko-studio-source-checkout-state-skip-");
+    const home = await createTempDirAsync("brikko-studio-source-checkout-home-");
+    const legacyRuntimeRoot = path.join(home, ".brikko-studio", "plugin-runtime-deps");
     await fs.mkdir(path.join(packageRoot, ".git"), { recursive: true });
     await fs.mkdir(path.join(packageRoot, "src"), { recursive: true });
     await fs.mkdir(path.join(packageRoot, "extensions"), { recursive: true });
@@ -230,7 +230,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("honors disable env before source-checkout pruning", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-source-checkout-disabled-");
+    const packageRoot = await createTempDirAsync("brikko-studio-source-checkout-disabled-");
     const extensionsDir = path.join(packageRoot, "extensions");
     await fs.mkdir(path.join(packageRoot, ".git"), { recursive: true });
     await fs.mkdir(path.join(packageRoot, "src"), { recursive: true });
@@ -238,7 +238,7 @@ describe("bundled plugin postinstall", () => {
     await fs.writeFile(path.join(extensionsDir, "acpx", "package.json"), "{}\n");
 
     runBundledPluginPostinstall({
-      env: { OPENCLAW_DISABLE_BUNDLED_PLUGIN_POSTINSTALL: "1" },
+      env: { BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGIN_POSTINSTALL: "1" },
       packageRoot,
       log: { log: vi.fn(), warn: vi.fn() },
     });
@@ -247,7 +247,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("migrates the plugin registry during postinstall from built dist contracts", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-postinstall-registry-");
+    const packageRoot = await createTempDirAsync("brikko-studio-postinstall-registry-");
     const log = { log: vi.fn(), warn: vi.fn() };
     const migratePluginRegistryForInstall = vi.fn(async () => ({
       status: "migrated",
@@ -274,13 +274,13 @@ describe("bundled plugin postinstall", () => {
         ),
       ),
       importModule,
-      env: { OPENCLAW_HOME: "/tmp/home" },
+      env: { BRIKKO_STUDIO_HOME: "/tmp/home" },
       log,
     });
 
     expect(result).toMatchObject({ status: "migrated" });
     expect(migratePluginRegistryForInstall).toHaveBeenCalledWith({
-      env: { OPENCLAW_HOME: "/tmp/home" },
+      env: { BRIKKO_STUDIO_HOME: "/tmp/home" },
       packageRoot,
     });
     expect(log.log).toHaveBeenCalledWith(
@@ -294,7 +294,7 @@ describe("bundled plugin postinstall", () => {
       status: "skip-existing",
       migrated: false,
       preflight: {
-        deprecationWarnings: ["OPENCLAW_FORCE_PLUGIN_REGISTRY_MIGRATION is deprecated"],
+        deprecationWarnings: ["BRIKKO_STUDIO_FORCE_PLUGIN_REGISTRY_MIGRATION is deprecated"],
       },
     }));
     const importModule = vi.fn(async () => ({ migratePluginRegistryForInstall }));
@@ -307,7 +307,7 @@ describe("bundled plugin postinstall", () => {
     });
 
     expect(warn).toHaveBeenCalledWith(
-      "[postinstall] OPENCLAW_FORCE_PLUGIN_REGISTRY_MIGRATION is deprecated",
+      "[postinstall] BRIKKO_STUDIO_FORCE_PLUGIN_REGISTRY_MIGRATION is deprecated",
     );
   });
 
@@ -334,7 +334,7 @@ describe("bundled plugin postinstall", () => {
     await expect(
       runPluginRegistryPostinstallMigration({
         packageRoot: "/pkg",
-        env: { OPENCLAW_DISABLE_PLUGIN_REGISTRY_MIGRATION: "1" },
+        env: { BRIKKO_STUDIO_DISABLE_PLUGIN_REGISTRY_MIGRATION: "1" },
         existsSync: vi.fn(() => true),
         importModule,
         log: { log: vi.fn(), warn: vi.fn() },
@@ -358,7 +358,7 @@ describe("bundled plugin postinstall", () => {
     await expect(
       runPluginRegistryPostinstallMigration({
         packageRoot: "/pkg",
-        env: { OPENCLAW_DISABLE_PLUGIN_REGISTRY_MIGRATION: "0" },
+        env: { BRIKKO_STUDIO_DISABLE_PLUGIN_REGISTRY_MIGRATION: "0" },
         existsSync: vi.fn(() => true),
         importModule,
         log: { log: vi.fn(), warn: vi.fn() },
@@ -369,13 +369,13 @@ describe("bundled plugin postinstall", () => {
     });
     expect(importModule).toHaveBeenCalledOnce();
     expect(migratePluginRegistryForInstall).toHaveBeenCalledWith({
-      env: { OPENCLAW_DISABLE_PLUGIN_REGISTRY_MIGRATION: "0" },
+      env: { BRIKKO_STUDIO_DISABLE_PLUGIN_REGISTRY_MIGRATION: "0" },
       packageRoot: "/pkg",
     });
   });
 
   it("prunes stale dist files from packaged installs", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-packaged-install-");
+    const packageRoot = await createTempDirAsync("brikko-studio-packaged-install-");
     const currentFile = path.join(packageRoot, "dist", "channel-BOa4MfoC.js");
     const staleFile = path.join(packageRoot, "dist", "channel-CJUAgRQR.js");
     await fs.mkdir(path.dirname(currentFile), { recursive: true });
@@ -395,17 +395,17 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("prunes legacy plugin runtime deps state during packaged postinstall", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-packaged-state-cleanup-");
-    const home = await createTempDirAsync("openclaw-packaged-home-");
+    const packageRoot = await createTempDirAsync("brikko-studio-packaged-state-cleanup-");
+    const home = await createTempDirAsync("brikko-studio-packaged-home-");
     const stateOverride = path.join(home, "custom-state");
     const systemState = path.join(home, "system-state");
-    const defaultLegacyRoot = path.join(home, ".openclaw", "plugin-runtime-deps");
+    const defaultLegacyRoot = path.join(home, ".brikko-studio", "plugin-runtime-deps");
     const oldBrandLegacyRoot = path.join(home, ".clawdbot", "plugin-runtime-deps");
     const overrideLegacyRoot = path.join(stateOverride, "plugin-runtime-deps");
     const systemLegacyRoot = path.join(systemState, "plugin-runtime-deps");
     const thirdPartyNodeModules = path.join(
       home,
-      ".openclaw",
+      ".brikko-studio",
       "extensions",
       "lossless-claw",
       "node_modules",
@@ -430,7 +430,7 @@ describe("bundled plugin postinstall", () => {
     runBundledPluginPostinstall({
       env: {
         HOME: home,
-        OPENCLAW_STATE_DIR: stateOverride,
+        BRIKKO_STUDIO_STATE_DIR: stateOverride,
         STATE_DIRECTORY: systemState,
       },
       packageRoot,
@@ -465,34 +465,34 @@ describe("bundled plugin postinstall", () => {
 
     expect(warn).toHaveBeenCalledWith(
       expect.stringContaining(
-        "[postinstall] could not prune legacy plugin runtime deps /home/alice/.openclaw/plugin-runtime-deps: Error: locked",
+        "[postinstall] could not prune legacy plugin runtime deps /home/alice/.brikko-studio/plugin-runtime-deps: Error: locked",
       ),
     );
   });
 
-  it("resolves legacy plugin runtime deps roots from OpenClaw state env", () => {
+  it("resolves legacy plugin runtime deps roots from Brikko Studio state env", () => {
     expect(
       collectLegacyPluginRuntimeDepsStateRoots({
         env: {
           HOME: "/users/alice",
-          OPENCLAW_HOME: "/srv/openclaw-home",
-          OPENCLAW_CONFIG_PATH: "~/profile/openclaw.json",
-          OPENCLAW_STATE_DIR: "~/state",
-          STATE_DIRECTORY: "/var/lib/openclaw",
+          BRIKKO_STUDIO_HOME: "/srv/brikko-studio-home",
+          BRIKKO_STUDIO_CONFIG_PATH: "~/profile/brikko-studio.json",
+          BRIKKO_STUDIO_STATE_DIR: "~/state",
+          STATE_DIRECTORY: "/var/lib/brikko-studio",
         },
         homedir: () => "/users/alice",
       }),
     ).toEqual([
-      "/srv/openclaw-home/.clawdbot/plugin-runtime-deps",
-      "/srv/openclaw-home/.openclaw/plugin-runtime-deps",
-      "/srv/openclaw-home/profile/plugin-runtime-deps",
-      "/srv/openclaw-home/state/plugin-runtime-deps",
-      "/var/lib/openclaw/plugin-runtime-deps",
+      "/srv/brikko-studio-home/.clawdbot/plugin-runtime-deps",
+      "/srv/brikko-studio-home/.brikko-studio/plugin-runtime-deps",
+      "/srv/brikko-studio-home/profile/plugin-runtime-deps",
+      "/srv/brikko-studio-home/state/plugin-runtime-deps",
+      "/var/lib/brikko-studio/plugin-runtime-deps",
     ]);
   });
 
   it("keeps imported dist chunks even when inventory is stale", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-packaged-install-import-");
+    const packageRoot = await createTempDirAsync("brikko-studio-packaged-install-import-");
     const entryFile = path.join(packageRoot, "dist", "cli", "run-main.js");
     const importedChunk = path.join(packageRoot, "dist", "memory-state-CcqRgDZU.js");
     const staleFile = path.join(packageRoot, "dist", "memory-state-old.js");
@@ -514,7 +514,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("does not abort dist pruning when a listed chunk disappears before import expansion", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-packaged-install-missing-chunk-");
+    const packageRoot = await createTempDirAsync("brikko-studio-packaged-install-missing-chunk-");
     const entryFile = path.join(packageRoot, "dist", "control-ui", "assets", "instances.js");
     const staleFile = path.join(packageRoot, "dist", "stale.js");
     await fs.mkdir(path.dirname(entryFile), { recursive: true });
@@ -542,7 +542,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("prunes stale private QA files without restoring compat sidecars", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-packaged-install-qa-compat-");
+    const packageRoot = await createTempDirAsync("brikko-studio-packaged-install-qa-compat-");
     const currentFile = path.join(packageRoot, "dist", "entry.js");
     const stalePackage = path.join(packageRoot, "dist", "extensions", "qa-lab", "package.json");
     const staleManifest = path.join(
@@ -550,7 +550,7 @@ describe("bundled plugin postinstall", () => {
       "dist",
       "extensions",
       "qa-lab",
-      "openclaw.plugin.json",
+      "brikko-studio.plugin.json",
     );
     await fs.mkdir(path.dirname(stalePackage), { recursive: true });
     await fs.writeFile(currentFile, "export {};\n");
@@ -572,7 +572,7 @@ describe("bundled plugin postinstall", () => {
       fs.stat(path.join(packageRoot, "dist", "extensions", "qa-channel", "package.json")),
     ).rejects.toMatchObject({ code: "ENOENT" });
     await expect(
-      fs.stat(path.join(packageRoot, "dist", "extensions", "qa-channel", "openclaw.plugin.json")),
+      fs.stat(path.join(packageRoot, "dist", "extensions", "qa-channel", "brikko-studio.plugin.json")),
     ).rejects.toMatchObject({ code: "ENOENT" });
     await expect(
       fs.stat(path.join(packageRoot, "dist", "extensions", "qa-lab", "runtime-api.js")),
@@ -580,7 +580,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("keeps packaged postinstall non-fatal when the dist inventory is missing", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-packaged-install-missing-inventory-");
+    const packageRoot = await createTempDirAsync("brikko-studio-packaged-install-missing-inventory-");
     const staleFile = path.join(packageRoot, "dist", "channel-CJUAgRQR.js");
     await fs.mkdir(path.dirname(staleFile), { recursive: true });
     await fs.writeFile(staleFile, "export {};\n");
@@ -600,7 +600,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("keeps packaged postinstall non-fatal when the dist inventory is invalid", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-packaged-install-invalid-inventory-");
+    const packageRoot = await createTempDirAsync("brikko-studio-packaged-install-invalid-inventory-");
     const currentFile = path.join(packageRoot, "dist", "channel-BOa4MfoC.js");
     const inventoryPath = path.join(packageRoot, "dist", "postinstall-inventory.json");
     await fs.mkdir(path.dirname(currentFile), { recursive: true });
@@ -670,7 +670,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("prunes stale bundled plugin dependency debris from packaged dist", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-packaged-install-dist-prune-");
+    const packageRoot = await createTempDirAsync("brikko-studio-packaged-install-dist-prune-");
     const staleFile = path.join(packageRoot, "dist", "stale-runtime.js");
     const packageJson = path.join(packageRoot, "dist", "extensions", "slack", "package.json");
     const binDir = path.join(packageRoot, "dist", "extensions", "slack", "node_modules", ".bin");
@@ -688,7 +688,7 @@ describe("bundled plugin postinstall", () => {
       "dist",
       "extensions",
       "slack",
-      ".openclaw-install-stage",
+      ".brikko-studio-install-stage",
       "node_modules",
       "typebox",
       "build",
@@ -700,7 +700,7 @@ describe("bundled plugin postinstall", () => {
       "dist",
       "extensions",
       "slack",
-      ".openclaw-install-stage-retry",
+      ".brikko-studio-install-stage-retry",
       "node_modules",
       "typebox",
       "build",
@@ -773,13 +773,13 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("prunes only bundled plugin package node_modules in source checkouts", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-source-prune-");
+    const packageRoot = await createTempDirAsync("brikko-studio-source-prune-");
     const extensionsDir = path.join(packageRoot, "extensions");
     await fs.mkdir(path.join(extensionsDir, "acpx", "node_modules"), { recursive: true });
     await fs.mkdir(path.join(extensionsDir, "fixtures", "node_modules"), { recursive: true });
     await fs.writeFile(
       path.join(extensionsDir, "acpx", "package.json"),
-      JSON.stringify({ name: "@openclaw/acpx" }),
+      JSON.stringify({ name: "@brikko-studio/acpx" }),
     );
 
     pruneBundledPluginSourceNodeModules({ extensionsDir });

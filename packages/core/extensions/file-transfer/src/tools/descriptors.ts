@@ -1,4 +1,4 @@
-import type { AnyAgentTool } from "openclaw/plugin-sdk/plugin-entry";
+import type { AnyAgentTool } from "brikko-studio/plugin-sdk/plugin-entry";
 import { Type } from "typebox";
 
 type FileTransferToolDescriptor = Pick<

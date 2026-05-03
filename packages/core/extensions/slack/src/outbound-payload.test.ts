@@ -1,5 +1,5 @@
-import { installChannelOutboundPayloadContractSuite } from "openclaw/plugin-sdk/channel-contract-testing";
-import type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
+import { installChannelOutboundPayloadContractSuite } from "brikko-studio/plugin-sdk/channel-contract-testing";
+import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
 import { describe, expect, it } from "vitest";
 import { createSlackOutboundPayloadHarness } from "../test-api.js";
 
@@ -104,7 +104,7 @@ describe("slackOutbound sendPayload", () => {
             blocks: [
               {
                 type: "actions",
-                block_id: "openclaw_reply_buttons_1",
+                block_id: "brikko-studio_reply_buttons_1",
                 elements: [],
               },
             ],
@@ -136,14 +136,14 @@ describe("slackOutbound sendPayload", () => {
       "Deploy?",
       expect.objectContaining({
         blocks: [
-          expect.objectContaining({ block_id: "openclaw_reply_buttons_1" }),
+          expect.objectContaining({ block_id: "brikko-studio_reply_buttons_1" }),
           expect.objectContaining({
-            block_id: "openclaw_reply_buttons_2",
-            elements: [expect.objectContaining({ action_id: "openclaw:reply_button:2:1" })],
+            block_id: "brikko-studio_reply_buttons_2",
+            elements: [expect.objectContaining({ action_id: "brikko-studio:reply_button:2:1" })],
           }),
           expect.objectContaining({
-            block_id: "openclaw_reply_buttons_3",
-            elements: [expect.objectContaining({ action_id: "openclaw:reply_button:3:1" })],
+            block_id: "brikko-studio_reply_buttons_3",
+            elements: [expect.objectContaining({ action_id: "brikko-studio:reply_button:3:1" })],
           }),
         ],
       }),

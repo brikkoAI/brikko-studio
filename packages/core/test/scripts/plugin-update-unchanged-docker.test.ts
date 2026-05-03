@@ -13,9 +13,9 @@ describe("plugin update unchanged Docker E2E", () => {
 
     expect(runner).toContain("scripts/e2e/lib/plugin-update/unchanged-scenario.sh");
     expect(scenario).toContain('node "$probe" seed');
-    expect(probe).toContain("writeJson(process.env.OPENCLAW_CONFIG_PATH, { plugins: {} });");
+    expect(probe).toContain("writeJson(process.env.BRIKKO_STUDIO_CONFIG_PATH, { plugins: {} });");
     expect(probe).not.toContain(
-      "writeJson(process.env.OPENCLAW_CONFIG_PATH, { plugins: { installs",
+      "writeJson(process.env.BRIKKO_STUDIO_CONFIG_PATH, { plugins: { installs",
     );
     expect(probe).toContain("installRecords: {");
     expect(probe).toContain('"lossless-claw": {');
@@ -24,7 +24,7 @@ describe("plugin update unchanged Docker E2E", () => {
   it("bounds the update command and prints diagnostics on hangs", () => {
     const script = readFileSync(PLUGIN_UPDATE_SCENARIO_SCRIPT, "utf8");
 
-    expect(script).toContain("OPENCLAW_PLUGIN_UPDATE_TIMEOUT_SECONDS");
+    expect(script).toContain("BRIKKO_STUDIO_PLUGIN_UPDATE_TIMEOUT_SECONDS");
     expect(script).toContain(
       'timeout "${plugin_update_timeout_seconds}s" node "$entry" plugins update',
     );

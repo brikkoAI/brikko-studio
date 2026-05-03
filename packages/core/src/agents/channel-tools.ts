@@ -15,14 +15,14 @@ import type {
   ChannelMessageActionName,
 } from "../channels/plugins/types.public.js";
 import { normalizeAnyChannelId } from "../channels/registry.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 
 type ChannelAgentToolMeta = {
   channelId: string;
 };
 
 type ChannelMessageActionDiscoveryParams = {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   currentChannelId?: string | null;
   currentThreadTs?: string | null;
   currentMessageId?: string | number | null;
@@ -96,7 +96,7 @@ export function listAllChannelSupportedActions(
   return Array.from(actions);
 }
 
-export function listChannelAgentTools(params: { cfg?: OpenClawConfig }): ChannelAgentTool[] {
+export function listChannelAgentTools(params: { cfg?: Brikko StudioConfig }): ChannelAgentTool[] {
   // Channel docking: aggregate channel-owned tools (login, etc.).
   const tools: ChannelAgentTool[] = [];
   for (const plugin of listChannelPlugins()) {
@@ -116,7 +116,7 @@ export function listChannelAgentTools(params: { cfg?: OpenClawConfig }): Channel
 }
 
 export function resolveChannelMessageToolHints(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   channel?: string | null;
   accountId?: string | null;
 }): string[] {
@@ -128,14 +128,14 @@ export function resolveChannelMessageToolHints(params: {
   if (!resolve) {
     return [];
   }
-  const cfg = params.cfg ?? ({} as OpenClawConfig);
+  const cfg = params.cfg ?? ({} as Brikko StudioConfig);
   return (resolve({ cfg, accountId: params.accountId }) ?? [])
     .map((entry) => entry.trim())
     .filter(Boolean);
 }
 
 export function resolveChannelPromptCapabilities(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   channel?: string | null;
   accountId?: string | null;
 }): string[] {
@@ -144,7 +144,7 @@ export function resolveChannelPromptCapabilities(params: {
     return [];
   }
   const plugin = getChannelPlugin(channelId);
-  const cfg = params.cfg ?? ({} as OpenClawConfig);
+  const cfg = params.cfg ?? ({} as Brikko StudioConfig);
   const capabilities = normalizePromptCapabilities(
     plugin?.agentPrompt?.messageToolCapabilities?.({ cfg, accountId: params.accountId }),
   );
@@ -159,7 +159,7 @@ function normalizePromptCapabilities(capabilities?: readonly string[] | null): s
 }
 
 export function resolveChannelReactionGuidance(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   channel?: string | null;
   accountId?: string | null;
 }): { level: "minimal" | "extensive"; channel: string } | undefined {
@@ -171,7 +171,7 @@ export function resolveChannelReactionGuidance(params: {
   if (!resolve) {
     return undefined;
   }
-  const cfg = params.cfg ?? ({} as OpenClawConfig);
+  const cfg = params.cfg ?? ({} as Brikko StudioConfig);
   const resolved = resolve({ cfg, accountId: params.accountId });
   if (!resolved?.level) {
     return undefined;

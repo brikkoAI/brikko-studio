@@ -2,12 +2,12 @@
 summary: "Plugin compatibility contracts, deprecation metadata, and migration expectations"
 title: "Plugin compatibility"
 read_when:
-  - You maintain an OpenClaw plugin
+  - You maintain an Brikko Studio plugin
   - You see a plugin compatibility warning
   - You are planning a plugin SDK or manifest migration
 ---
 
-OpenClaw keeps older plugin contracts wired through named compatibility
+Brikko Studio keeps older plugin contracts wired through named compatibility
 adapters before removing them. This protects existing bundled and external
 plugins while the SDK, manifest, setup, config, and agent runtime contracts
 evolve.
@@ -45,14 +45,14 @@ core.
 
 ## Plugin inspector package
 
-The plugin inspector should live outside the core OpenClaw repo as a separate
+The plugin inspector should live outside the core Brikko Studio repo as a separate
 package/repository backed by the versioned compatibility and manifest
 contracts.
 
 The day-one CLI should be:
 
 ```sh
-openclaw-plugin-inspector ./my-plugin
+brikko-studio-plugin-inspector ./my-plugin
 ```
 
 It should emit:
@@ -63,21 +63,21 @@ It should emit:
 - cold-path import checks
 - deprecation and compatibility warnings
 
-Use `--json` for stable machine-readable output in CI annotations. OpenClaw
+Use `--json` for stable machine-readable output in CI annotations. Brikko Studio
 core should expose contracts and fixtures the inspector can consume, but should
-not publish the inspector binary from the main `openclaw` package.
+not publish the inspector binary from the main `brikko-studio` package.
 
 ### Maintainer acceptance lane
 
 Use Blacksmith Testbox for the installable-package acceptance lane when validating
-the external inspector against OpenClaw plugin packages. Run it from a clean
-OpenClaw checkout after the package is built:
+the external inspector against Brikko Studio plugin packages. Run it from a clean
+Brikko Studio checkout after the package is built:
 
 ```sh
 blacksmith testbox warmup ci-check-testbox.yml --ref main --idle-timeout 90
-blacksmith testbox run --id <tbx_id> "pnpm install && pnpm build && npm exec --yes @openclaw/plugin-inspector@0.1.0 -- ./extensions/telegram --json"
-blacksmith testbox run --id <tbx_id> "npm exec --yes @openclaw/plugin-inspector@0.1.0 -- ./extensions/discord --json"
-blacksmith testbox run --id <tbx_id> "npm exec --yes @openclaw/plugin-inspector@0.1.0 -- <clawhub-plugin-dir> --json"
+blacksmith testbox run --id <tbx_id> "pnpm install && pnpm build && npm exec --yes @brikko-studio/plugin-inspector@0.1.0 -- ./extensions/telegram --json"
+blacksmith testbox run --id <tbx_id> "npm exec --yes @brikko-studio/plugin-inspector@0.1.0 -- ./extensions/discord --json"
+blacksmith testbox run --id <tbx_id> "npm exec --yes @brikko-studio/plugin-inspector@0.1.0 -- <clawhub-plugin-dir> --json"
 blacksmith testbox stop <tbx_id>
 ```
 
@@ -89,7 +89,7 @@ proof covers the package as external plugin authors consume it.
 
 ## Deprecation policy
 
-OpenClaw should not remove a documented plugin contract in the same release
+Brikko Studio should not remove a documented plugin contract in the same release
 that introduces its replacement.
 
 The migration sequence is:
@@ -112,15 +112,15 @@ instead.
 
 Current compatibility records include:
 
-- legacy broad SDK imports such as `openclaw/plugin-sdk/compat`
+- legacy broad SDK imports such as `brikko-studio/plugin-sdk/compat`
 - legacy hook-only plugin shapes and `before_agent_start`
 - legacy `activate(api)` plugin entrypoints while plugins migrate to
   `register(api)`
-- legacy SDK aliases such as `openclaw/extension-api`,
-  `openclaw/plugin-sdk/channel-runtime`, `openclaw/plugin-sdk/command-auth`
-  status builders, `openclaw/plugin-sdk/test-utils` (replaced by focused
-  `openclaw/plugin-sdk/*` test subpaths), and the `ClawdbotConfig` /
-  `OpenClawSchemaType` type aliases
+- legacy SDK aliases such as `brikko-studio/extension-api`,
+  `brikko-studio/plugin-sdk/channel-runtime`, `brikko-studio/plugin-sdk/command-auth`
+  status builders, `brikko-studio/plugin-sdk/test-utils` (replaced by focused
+  `brikko-studio/plugin-sdk/*` test subpaths), and the `ClawdbotConfig` /
+  `Brikko StudioSchemaType` type aliases
 - bundled plugin allowlist and enablement behavior
 - legacy provider/channel env-var manifest metadata
 - legacy provider plugin hooks and type aliases while providers move to
@@ -133,21 +133,21 @@ Current compatibility records include:
 - legacy channel SDK helpers for native message schemas, mention gating,
   inbound envelope formatting, and approval capability nesting
 - legacy channel route key and comparable-target helper aliases while plugins
-  move to `openclaw/plugin-sdk/channel-route`
+  move to `brikko-studio/plugin-sdk/channel-route`
 - activation hints that are being replaced by manifest contribution ownership
 - `setup-api` runtime fallback while setup descriptors move to cold
   `setup.requiresRuntime: false` metadata
 - provider `discovery` hooks while provider catalog hooks move to
   `catalog.run(...)`
 - channel `showConfigured` / `showInSetup` metadata while channel packages move
-  to `openclaw.channel.exposure`
+  to `brikko-studio.channel.exposure`
 - legacy runtime-policy config keys while doctor migrates operators to
   `agentRuntime`
 - generated bundled channel config metadata fallback while registry-first
   `channelConfigs` metadata lands
 - persisted plugin registry disable and install-migration env flags while
-  repair flows migrate operators to `openclaw plugins registry --refresh` and
-  `openclaw doctor --fix`
+  repair flows migrate operators to `brikko-studio plugins registry --refresh` and
+  `brikko-studio doctor --fix`
 - legacy plugin-owned web search, web fetch, and x_search config paths while
   doctor migrates them to `plugins.entries.<plugin>.config`
 - legacy `plugins.installs` authored config and bundled plugin load-path

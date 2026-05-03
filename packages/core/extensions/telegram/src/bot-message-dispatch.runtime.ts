@@ -1,10 +1,10 @@
 export {
   loadSessionStore,
   resolveSessionStoreEntry,
-} from "openclaw/plugin-sdk/session-store-runtime";
-export { resolveMarkdownTableMode } from "openclaw/plugin-sdk/markdown-table-runtime";
-export { getAgentScopedMediaLocalRoots } from "openclaw/plugin-sdk/media-runtime";
-export { resolveChunkMode } from "openclaw/plugin-sdk/reply-dispatch-runtime";
+} from "brikko-studio/plugin-sdk/session-store-runtime";
+export { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
+export { getAgentScopedMediaLocalRoots } from "brikko-studio/plugin-sdk/media-runtime";
+export { resolveChunkMode } from "brikko-studio/plugin-sdk/reply-dispatch-runtime";
 export {
   generateTelegramTopicLabel as generateTopicLabel,
   resolveAutoTopicLabelConfig,

@@ -1,8 +1,8 @@
-import { readNumberParam, readStringParam } from "openclaw/plugin-sdk/param-readers";
+import { readNumberParam, readStringParam } from "brikko-studio/plugin-sdk/param-readers";
 import {
   createWebSearchProviderContractFields,
   type WebSearchProviderPlugin,
-} from "openclaw/plugin-sdk/provider-web-search-contract";
+} from "brikko-studio/plugin-sdk/provider-web-search-contract";
 
 const SEARXNG_CREDENTIAL_PATH = "plugins.entries.searxng.config.webSearch.baseUrl";
 

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { withFileLock } from "../../infra/file-lock.js";
 import {
@@ -38,7 +38,7 @@ export type OAuthManagerAdapter = {
   buildApiKey: (
     provider: string,
     credentials: OAuthCredential,
-    context: { cfg?: OpenClawConfig; agentDir?: string },
+    context: { cfg?: Brikko StudioConfig; agentDir?: string },
   ) => Promise<string>;
   refreshCredential: (credential: OAuthCredential) => Promise<OAuthCredentials | null>;
   readBootstrapCredential: (params: {
@@ -323,7 +323,7 @@ export function createOAuthManager(adapter: OAuthManagerAdapter) {
     profileId: string;
     provider: string;
     agentDir?: string;
-    cfg?: OpenClawConfig;
+    cfg?: Brikko StudioConfig;
   }): Promise<ResolvedOAuthAccess | null> {
     const ownerAgentDir = resolvePersistedAuthProfileOwnerAgentDir(params);
     const authPath = resolveAuthStorePath(ownerAgentDir);
@@ -484,7 +484,7 @@ export function createOAuthManager(adapter: OAuthManagerAdapter) {
     profileId: string;
     provider: string;
     agentDir?: string;
-    cfg?: OpenClawConfig;
+    cfg?: Brikko StudioConfig;
   }): Promise<ResolvedOAuthAccess | null> {
     const key = refreshQueueKey(params.provider, params.profileId);
     const prev = refreshQueues.get(key) ?? Promise.resolve();
@@ -509,7 +509,7 @@ export function createOAuthManager(adapter: OAuthManagerAdapter) {
     profileId: string;
     credential: OAuthCredential;
     agentDir?: string;
-    cfg?: OpenClawConfig;
+    cfg?: Brikko StudioConfig;
   }): Promise<ResolvedOAuthAccess | null> {
     const adoptedCredential =
       adoptNewerMainOAuthCredential({

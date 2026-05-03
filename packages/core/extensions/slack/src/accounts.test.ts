@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import {
   resolveSlackAccount,
@@ -126,7 +126,7 @@ describe("resolveSlackAccount allowFrom precedence", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     expect(resolveSlackAccountAllowFrom({ cfg, accountId: "work" })).toEqual(["account-legacy"]);
   });
@@ -144,7 +144,7 @@ describe("resolveSlackAccount allowFrom precedence", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     expect(resolveSlackAccountAllowFrom({ cfg, accountId: "work" })).toEqual(["12345"]);
   });
@@ -163,7 +163,7 @@ describe("resolveSlackAccount allowFrom precedence", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     expect(resolveSlackAccountDmPolicy({ cfg, accountId: "work" })).toBe("allowlist");
   });
@@ -184,7 +184,7 @@ describe("resolveSlackAccount allowFrom precedence", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     expect(resolveSlackAccountDmPolicy({ cfg, accountId: "work" })).toBe("allowlist");
     expect(resolveSlackAccountAllowFrom({ cfg, accountId: "work" })).toEqual(["U123"]);
@@ -204,7 +204,7 @@ describe("resolveSlackAccount active secret surfaces", () => {
         },
       },
     },
-  } as unknown as OpenClawConfig;
+  } as unknown as Brikko StudioConfig;
 
   it("throws when an enabled account still has an unresolved active bot token SecretRef", () => {
     expect(() =>
@@ -231,7 +231,7 @@ describe("resolveSlackAccount active secret surfaces", () => {
             },
           },
         },
-      } as unknown as OpenClawConfig,
+      } as unknown as Brikko StudioConfig,
       accountId: "default",
     });
 
@@ -260,7 +260,7 @@ describe("resolveSlackAccount active secret surfaces", () => {
             },
           },
         },
-      } as unknown as OpenClawConfig,
+      } as unknown as Brikko StudioConfig,
       accountId: "default",
     });
 
@@ -285,7 +285,7 @@ describe("resolveSlackAccount active secret surfaces", () => {
               },
             },
           },
-        } as unknown as OpenClawConfig,
+        } as unknown as Brikko StudioConfig,
         accountId: "default",
       }),
     ).toThrowError(/channels\.slack\.accounts\.default\.appToken/);

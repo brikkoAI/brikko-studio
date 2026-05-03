@@ -25,7 +25,7 @@ export {
   trimToUndefined,
   truncateErrorDetail,
   TTS_AUTO_MODES,
-} from "openclaw/plugin-sdk/speech-core";
+} from "brikko-studio/plugin-sdk/speech-core";
 export type {
   ResolvedTtsConfig,
   ResolvedTtsModelOverrides,
@@ -49,4 +49,4 @@ export type {
   TtsConfigResolutionContext,
   TtsDirectiveOverrides,
   TtsDirectiveParseResult,
-} from "openclaw/plugin-sdk/speech-core";
+} from "brikko-studio/plugin-sdk/speech-core";

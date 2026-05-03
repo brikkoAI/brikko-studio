@@ -19,7 +19,7 @@ skips approvals).
 Effective policy is the **stricter** of `tools.exec.*` and approvals
 defaults; if an approvals field is omitted, the `tools.exec` value is
 used. Host exec also uses local approvals state on that machine — a
-host-local `ask: "always"` in `~/.openclaw/exec-approvals.json` keeps
+host-local `ask: "always"` in `~/.brikko-studio/exec-approvals.json` keeps
 prompting even if session or config defaults request `ask: "on-miss"`.
 </Note>
 
@@ -27,9 +27,9 @@ prompting even if session or config defaults request `ask: "on-miss"`.
 
 | Command                                                          | What it shows                                                                          |
 | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `openclaw approvals get` / `--gateway` / `--node <id\|name\|ip>` | Requested policy, host policy sources, and the effective result.                       |
-| `openclaw exec-policy show`                                      | Local-machine merged view.                                                             |
-| `openclaw exec-policy set` / `preset`                            | Synchronize the local requested policy with the local host approvals file in one step. |
+| `brikko-studio approvals get` / `--gateway` / `--node <id\|name\|ip>` | Requested policy, host policy sources, and the effective result.                       |
+| `brikko-studio exec-policy show`                                      | Local-machine merged view.                                                             |
+| `brikko-studio exec-policy set` / `preset`                            | Synchronize the local requested policy with the local host approvals file in one step. |
 
 When a local scope requests `host=node`, `exec-policy show` reports that
 scope as node-managed at runtime instead of pretending the local
@@ -49,7 +49,7 @@ pending approval message. For example, Matrix seeds reaction shortcuts
 
 Exec approvals are enforced locally on the execution host:
 
-- **Gateway host** → `openclaw` process on the gateway machine.
+- **Gateway host** → `brikko-studio` process on the gateway machine.
 - **Node host** → node runner (macOS companion app or headless node host).
 
 ### Trust model
@@ -58,7 +58,7 @@ Exec approvals are enforced locally on the execution host:
 - Paired nodes extend that trusted operator capability onto the node host.
 - Exec approvals reduce accidental execution risk, but are **not** a per-user auth boundary.
 - Approved node-host runs bind canonical execution context: canonical cwd, exact argv, env binding when present, and pinned executable path when applicable.
-- For shell scripts and direct interpreter/runtime file invocations, OpenClaw also tries to bind one concrete local file operand. If that bound file changes after approval but before execution, the run is denied instead of executing drifted content.
+- For shell scripts and direct interpreter/runtime file invocations, Brikko Studio also tries to bind one concrete local file operand. If that bound file changes after approval but before execution, the run is denied instead of executing drifted content.
 - File binding is intentionally best-effort, **not** a complete semantic model of every interpreter/runtime loader path. If approval mode cannot identify exactly one concrete local file to bind, it refuses to mint an approval-backed run instead of pretending full coverage.
 
 ### macOS split
@@ -71,7 +71,7 @@ Exec approvals are enforced locally on the execution host:
 Approvals live in a local JSON file on the execution host:
 
 ```text
-~/.openclaw/exec-approvals.json
+~/.brikko-studio/exec-approvals.json
 ```
 
 Example schema:
@@ -80,7 +80,7 @@ Example schema:
 {
   "version": 1,
   "socket": {
-    "path": "~/.openclaw/exec-approvals.sock",
+    "path": "~/.brikko-studio/exec-approvals.sock",
     "token": "base64url-token"
   },
   "defaults": {
@@ -145,7 +145,7 @@ Example schema:
 ### `tools.exec.strictInlineEval`
 
 <ParamField path="strictInlineEval" type="boolean">
-  When `true`, OpenClaw treats inline code-eval forms as approval-only
+  When `true`, Brikko Studio treats inline code-eval forms as approval-only
   even if the interpreter binary itself is allowlisted. Defense-in-depth
   for interpreter loaders that do not map cleanly to one stable file
   operand.
@@ -168,9 +168,9 @@ automatically.
 ## YOLO mode (no-approval)
 
 If you want host exec to run without approval prompts, you must open
-**both** policy layers — requested exec policy in OpenClaw config
+**both** policy layers — requested exec policy in Brikko Studio config
 (`tools.exec.*`) **and** host-local approvals policy in
-`~/.openclaw/exec-approvals.json`.
+`~/.brikko-studio/exec-approvals.json`.
 
 YOLO is the default host behavior unless you tighten it explicitly:
 
@@ -185,14 +185,14 @@ YOLO is the default host behavior unless you tighten it explicitly:
 
 - `tools.exec.host=auto` chooses **where** exec runs: sandbox when available, otherwise gateway.
 - YOLO chooses **how** host exec is approved: `security=full` plus `ask=off`.
-- In YOLO mode, OpenClaw does **not** add a separate heuristic command-obfuscation approval gate or script-preflight rejection layer on top of the configured host exec policy.
+- In YOLO mode, Brikko Studio does **not** add a separate heuristic command-obfuscation approval gate or script-preflight rejection layer on top of the configured host exec policy.
 - `auto` does not make gateway routing a free override from a sandboxed session. A per-call `host=node` request is allowed from `auto`; `host=gateway` is only allowed from `auto` when no sandbox runtime is active. For a stable non-auto default, set `tools.exec.host` or use `/exec host=...` explicitly.
 
 </Warning>
 
 CLI-backed providers that expose their own noninteractive permission mode
 can follow this policy. Claude CLI adds
-`--permission-mode bypassPermissions` when OpenClaw's requested exec
+`--permission-mode bypassPermissions` when Brikko Studio's requested exec
 policy is YOLO. Override that backend behavior with explicit Claude args
 under `agents.defaults.cliBackends.claude-cli.args` / `resumeArgs` —
 for example `--permission-mode default`, `acceptEdits`, or
@@ -206,15 +206,15 @@ If you want a more conservative setup, tighten either layer back to
 <Steps>
   <Step title="Set the requested config policy">
     ```bash
-    openclaw config set tools.exec.host gateway
-    openclaw config set tools.exec.security full
-    openclaw config set tools.exec.ask off
-    openclaw gateway restart
+    brikko-studio config set tools.exec.host gateway
+    brikko-studio config set tools.exec.security full
+    brikko-studio config set tools.exec.ask off
+    brikko-studio gateway restart
     ```
   </Step>
   <Step title="Match the host approvals file">
     ```bash
-    openclaw approvals set --stdin <<'EOF'
+    brikko-studio approvals set --stdin <<'EOF'
     {
       version: 1,
       defaults: {
@@ -231,24 +231,24 @@ If you want a more conservative setup, tighten either layer back to
 ### Local shortcut
 
 ```bash
-openclaw exec-policy preset yolo
+brikko-studio exec-policy preset yolo
 ```
 
 That local shortcut updates both:
 
 - Local `tools.exec.host/security/ask`.
-- Local `~/.openclaw/exec-approvals.json` defaults.
+- Local `~/.brikko-studio/exec-approvals.json` defaults.
 
 It is intentionally local-only. To change gateway-host or node-host
-approvals remotely, use `openclaw approvals set --gateway` or
-`openclaw approvals set --node <id|name|ip>`.
+approvals remotely, use `brikko-studio approvals set --gateway` or
+`brikko-studio approvals set --node <id|name|ip>`.
 
 ### Node host
 
 For a node host, apply the same approvals file on that node instead:
 
 ```bash
-openclaw approvals set --node <id|name|ip> --stdin <<'EOF'
+brikko-studio approvals set --node <id|name|ip> --stdin <<'EOF'
 {
   version: 1,
   defaults: {
@@ -263,9 +263,9 @@ EOF
 <Note>
 **Local-only limitations:**
 
-- `openclaw exec-policy` does not synchronize node approvals.
-- `openclaw exec-policy set --host node` is rejected.
-- Node exec approvals are fetched from the node at runtime, so node-targeted updates must use `openclaw approvals --node ...`.
+- `brikko-studio exec-policy` does not synchronize node approvals.
+- `brikko-studio exec-policy set --host node` is rejected.
+- Node exec approvals are fetched from the node at runtime, so node-targeted updates must use `brikko-studio approvals --node ...`.
 
 </Note>
 
@@ -339,9 +339,9 @@ shows last-used metadata per pattern so you can keep the list tidy.
 The target selector chooses **Gateway** (local approvals) or a **Node**.
 Nodes must advertise `system.execApprovals.get/set` (macOS app or
 headless node host). If a node does not advertise exec approvals yet,
-edit its local `~/.openclaw/exec-approvals.json` directly.
+edit its local `~/.brikko-studio/exec-approvals.json` directly.
 
-CLI: `openclaw approvals` supports gateway or node editing — see
+CLI: `brikko-studio approvals` supports gateway or node editing — see
 [Approvals CLI](/cli/approvals).
 
 ## Approval flow
@@ -379,7 +379,7 @@ messages for easy correlation.
 
 ## Denied approval behavior
 
-When an async exec approval is denied, OpenClaw prevents the agent from
+When an async exec approval is denied, Brikko Studio prevents the agent from
 reusing output from any earlier run of the same command in the session.
 The denial reason is passed with explicit guidance that no command output
 is available, which stops the agent from claiming there is new output or

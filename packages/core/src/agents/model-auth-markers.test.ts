@@ -2,22 +2,22 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vite
 import { captureEnv, withEnvAsync } from "../test-utils/env.js";
 
 const PLUGIN_MANIFEST_ENV_KEYS = [
-  "OPENCLAW_BUNDLED_PLUGINS_DIR",
-  "OPENCLAW_DISABLE_BUNDLED_PLUGINS",
-  "OPENCLAW_SKIP_PROVIDERS",
-  "OPENCLAW_SKIP_CHANNELS",
-  "OPENCLAW_SKIP_CRON",
-  "OPENCLAW_TEST_MINIMAL_GATEWAY",
+  "BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR",
+  "BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS",
+  "BRIKKO_STUDIO_SKIP_PROVIDERS",
+  "BRIKKO_STUDIO_SKIP_CHANNELS",
+  "BRIKKO_STUDIO_SKIP_CRON",
+  "BRIKKO_STUDIO_TEST_MINIMAL_GATEWAY",
 ] as const;
 
 function cleanPluginManifestEnv(): Record<(typeof PLUGIN_MANIFEST_ENV_KEYS)[number], undefined> {
   return {
-    OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
-    OPENCLAW_DISABLE_BUNDLED_PLUGINS: undefined,
-    OPENCLAW_SKIP_PROVIDERS: undefined,
-    OPENCLAW_SKIP_CHANNELS: undefined,
-    OPENCLAW_SKIP_CRON: undefined,
-    OPENCLAW_TEST_MINIMAL_GATEWAY: undefined,
+    BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
+    BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: undefined,
+    BRIKKO_STUDIO_SKIP_PROVIDERS: undefined,
+    BRIKKO_STUDIO_SKIP_CHANNELS: undefined,
+    BRIKKO_STUDIO_SKIP_CRON: undefined,
+    BRIKKO_STUDIO_TEST_MINIMAL_GATEWAY: undefined,
   };
 }
 

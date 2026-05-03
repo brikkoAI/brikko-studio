@@ -7,7 +7,7 @@ const runtime = vi.hoisted(() => ({
   resolveSessionAgentId: vi.fn(() => "main"),
   loadSessionEntry: vi.fn(() => ({
     cfg: {},
-    storePath: "/tmp/openclaw-sessions.json",
+    storePath: "/tmp/brikko-studio-sessions.json",
     entry: { sessionId: "sess-main" },
   })),
   resolveSessionModelRef: vi.fn(() => ({ provider: "openai" })),
@@ -93,7 +93,7 @@ describe("embedded gateway stub", () => {
     });
     expect(runtime.readSessionMessagesAsync).toHaveBeenCalledWith(
       "sess-main",
-      "/tmp/openclaw-sessions.json",
+      "/tmp/brikko-studio-sessions.json",
       undefined,
       {
         mode: "recent",
@@ -123,7 +123,7 @@ describe("embedded gateway stub", () => {
     });
     expect(runtime.readSessionMessagesAsync).toHaveBeenCalledWith(
       "sess-main",
-      "/tmp/openclaw-sessions.json",
+      "/tmp/brikko-studio-sessions.json",
       undefined,
       {
         mode: "recent",

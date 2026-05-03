@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { DiscordRetryableInboundError } from "./inbound-dedupe.js";
 import {
@@ -63,7 +63,7 @@ function createPreflightContext(channelId = "ch-1") {
     token: "test-token",
     groupPolicy: "allowlist" as const,
   };
-  const cfg: OpenClawConfig = {
+  const cfg: Brikko StudioConfig = {
     channels: {
       discord: discordConfig,
     },

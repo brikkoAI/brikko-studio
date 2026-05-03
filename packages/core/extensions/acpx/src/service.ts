@@ -1,10 +1,10 @@
 import fs from "node:fs/promises";
 import { inspect } from "node:util";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type {
   AcpRuntime,
-  OpenClawPluginService,
-  OpenClawPluginServiceContext,
+  Brikko StudioPluginService,
+  Brikko StudioPluginServiceContext,
   PluginLogger,
 } from "../runtime-api.js";
 import { registerAcpRuntimeBackend, unregisterAcpRuntimeBackend } from "../runtime-api.js";
@@ -25,7 +25,7 @@ type AcpxRuntimeLike = AcpRuntime & {
   }>;
 };
 
-const ENABLE_STARTUP_PROBE_ENV = "OPENCLAW_ACPX_RUNTIME_STARTUP_PROBE";
+const ENABLE_STARTUP_PROBE_ENV = "BRIKKO_STUDIO_ACPX_RUNTIME_STARTUP_PROBE";
 const ACPX_BACKEND_ID = "acpx";
 
 type AcpxRuntimeModule = typeof import("./runtime.js");
@@ -174,7 +174,7 @@ function normalizeProbeAgent(value: string | undefined): string | undefined {
   return normalized ? normalized : undefined;
 }
 
-function resolveAllowedAgentsProbeAgent(ctx: OpenClawPluginServiceContext): string | undefined {
+function resolveAllowedAgentsProbeAgent(ctx: Brikko StudioPluginServiceContext): string | undefined {
   for (const agent of ctx.config.acp?.allowedAgents ?? []) {
     const normalized = normalizeProbeAgent(agent);
     if (normalized) {
@@ -190,15 +190,15 @@ function shouldRunStartupProbe(env: NodeJS.ProcessEnv = process.env): boolean {
 
 export function createAcpxRuntimeService(
   params: CreateAcpxRuntimeServiceParams = {},
-): OpenClawPluginService {
+): Brikko StudioPluginService {
   let runtime: AcpxRuntimeLike | null = null;
   let lifecycleRevision = 0;
 
   return {
     id: "acpx-runtime",
-    async start(ctx: OpenClawPluginServiceContext): Promise<void> {
-      if (process.env.OPENCLAW_SKIP_ACPX_RUNTIME === "1") {
-        ctx.logger.info("skipping embedded acpx runtime backend (OPENCLAW_SKIP_ACPX_RUNTIME=1)");
+    async start(ctx: Brikko StudioPluginServiceContext): Promise<void> {
+      if (process.env.BRIKKO_STUDIO_SKIP_ACPX_RUNTIME === "1") {
+        ctx.logger.info("skipping embedded acpx runtime backend (BRIKKO_STUDIO_SKIP_ACPX_RUNTIME=1)");
         return;
       }
 
@@ -238,7 +238,7 @@ export function createAcpxRuntimeService(
       });
       ctx.logger.info(`embedded acpx runtime backend registered (cwd: ${pluginConfig.cwd})`);
 
-      if (!shouldRunStartupProbe() || process.env.OPENCLAW_SKIP_ACPX_RUNTIME_PROBE === "1") {
+      if (!shouldRunStartupProbe() || process.env.BRIKKO_STUDIO_SKIP_ACPX_RUNTIME_PROBE === "1") {
         return;
       }
 
@@ -269,7 +269,7 @@ export function createAcpxRuntimeService(
         }
       })();
     },
-    async stop(_ctx: OpenClawPluginServiceContext): Promise<void> {
+    async stop(_ctx: Brikko StudioPluginServiceContext): Promise<void> {
       lifecycleRevision += 1;
       unregisterAcpRuntimeBackend(ACPX_BACKEND_ID);
       runtime = null;

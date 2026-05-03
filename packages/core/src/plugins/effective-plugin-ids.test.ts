@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
 
 const mocks = vi.hoisted(() => ({
@@ -56,7 +56,7 @@ vi.mock("./manifest-owner-policy.js", () => ({
 
 import { resolveEffectivePluginIds } from "./effective-plugin-ids.js";
 
-function resolve(config: OpenClawConfig): string[] {
+function resolve(config: Brikko StudioConfig): string[] {
   return resolveEffectivePluginIds({
     config,
     env: {},
@@ -139,7 +139,7 @@ describe("resolveEffectivePluginIds", () => {
         slots: { contextEngine: "lossless-claw" },
       },
     },
-  ] satisfies Array<{ name: string; plugins: NonNullable<OpenClawConfig["plugins"]> }>)(
+  ] satisfies Array<{ name: string; plugins: NonNullable<Brikko StudioConfig["plugins"]> }>)(
     "does not preload a selected context-engine slot when $name",
     ({ plugins }) => {
       expect(resolve({ plugins })).toEqual([]);

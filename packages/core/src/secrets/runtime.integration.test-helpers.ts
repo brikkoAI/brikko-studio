@@ -20,12 +20,12 @@ export const SECRETS_RUNTIME_INTEGRATION_TIMEOUT_MS = 300_000;
 
 export function beginSecretsRuntimeIsolationForTest(): SecretsRuntimeEnvSnapshot {
   const envSnapshot = captureEnv([
-    "OPENCLAW_BUNDLED_PLUGINS_DIR",
-    "OPENCLAW_DISABLE_BUNDLED_PLUGINS",
-    "OPENCLAW_VERSION",
+    "BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR",
+    "BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS",
+    "BRIKKO_STUDIO_VERSION",
   ]);
-  delete process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
-  delete process.env.OPENCLAW_VERSION;
+  delete process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR;
+  delete process.env.BRIKKO_STUDIO_VERSION;
   return envSnapshot;
 }
 

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import type { MsgContext } from "../templating.js";
 
 const { getSessionMock, getFinishedSessionMock, killProcessTreeMock } = vi.hoisted(() => ({
@@ -23,7 +23,7 @@ const { handleBashChatCommand } = await import("./bash-command.js");
 function buildParams(commandBody: string) {
   const cfg = {
     commands: { bash: true },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 
   const ctx = {
     CommandBody: commandBody,
@@ -162,10 +162,10 @@ describe("handleBashChatCommand stop", () => {
       sessionKey: "agent:target:telegram:direct:target-session",
     });
     expect(result.text).toContain(
-      "openclaw sandbox explain --session agent:target:telegram:direct:target-session",
+      "brikko-studio sandbox explain --session agent:target:telegram:direct:target-session",
     );
     expect(result.text).not.toContain(
-      "openclaw sandbox explain --session agent:main:telegram:slash-session",
+      "brikko-studio sandbox explain --session agent:main:telegram:slash-session",
     );
   });
 });

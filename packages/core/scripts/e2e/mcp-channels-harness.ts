@@ -1,6 +1,6 @@
 // Shared MCP-channel Docker E2E harness helpers.
 // The mounted test harness imports packaged dist modules so bridge assertions run
-// against the OpenClaw npm tarball installed in the functional image.
+// against the Brikko Studio npm tarball installed in the functional image.
 import { randomUUID } from "node:crypto";
 import { mkdirSync, writeFileSync } from "node:fs";
 import process from "node:process";
@@ -249,7 +249,7 @@ async function connectGatewayOnce(params: {
       minProtocol: PROTOCOL_VERSION,
       maxProtocol: PROTOCOL_VERSION,
       client: {
-        id: "openclaw-tui",
+        id: "brikko-studio-tui",
         displayName: "docker-mcp-channels",
         version: "1.0.0",
         platform: process.platform,
@@ -306,14 +306,14 @@ export async function connectMcpClient(params: {
   gatewayUrl: string;
   gatewayToken: string;
 }): Promise<McpClientHandle> {
-  const tokenDir = "/tmp/openclaw-mcp-client";
+  const tokenDir = "/tmp/brikko-studio-mcp-client";
   const tokenFile = `${tokenDir}/gateway.token`;
   mkdirSync(tokenDir, { recursive: true });
   writeFileSync(tokenFile, `${params.gatewayToken}\n`, { encoding: "utf8", mode: 0o600 });
   const transport = new StdioClientTransport({
     command: "node",
     args: [
-      "/app/openclaw.mjs",
+      "/app/brikko-studio.mjs",
       "mcp",
       "serve",
       "--url",
@@ -326,13 +326,13 @@ export async function connectMcpClient(params: {
     cwd: "/app",
     env: {
       ...process.env,
-      OPENCLAW_ALLOW_INSECURE_PRIVATE_WS: "1",
-      OPENCLAW_STATE_DIR: "/tmp/openclaw-mcp-client",
+      BRIKKO_STUDIO_ALLOW_INSECURE_PRIVATE_WS: "1",
+      BRIKKO_STUDIO_STATE_DIR: "/tmp/brikko-studio-mcp-client",
     },
     stderr: "pipe",
   });
   transport.stderr?.on("data", (chunk) => {
-    process.stderr.write(`[openclaw mcp] ${String(chunk)}`);
+    process.stderr.write(`[brikko-studio mcp] ${String(chunk)}`);
   });
   const rawMessages: unknown[] = [];
   // The MCP stdio transport here exposes a writable onmessage callback at

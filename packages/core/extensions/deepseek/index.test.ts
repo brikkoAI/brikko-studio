@@ -3,8 +3,8 @@ import { createAssistantMessageEventStream } from "@mariozechner/pi-ai";
 import {
   registerSingleProviderPlugin,
   resolveProviderPluginChoice,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import { buildOpenAICompletionsParams } from "openclaw/plugin-sdk/provider-transport-runtime";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { buildOpenAICompletionsParams } from "brikko-studio/plugin-sdk/provider-transport-runtime";
 import { describe, expect, it } from "vitest";
 import { runSingleProviderCatalog } from "../test-support/provider-model-test-helpers.js";
 import deepseekPlugin from "./index.js";

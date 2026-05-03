@@ -95,23 +95,23 @@ if (isMain) {
     }
     if (isBenignUncaughtExceptionError(error)) {
       console.warn(
-        "[openclaw] Non-fatal uncaught exception (continuing):",
+        "[brikko-studio] Non-fatal uncaught exception (continuing):",
         formatUncaughtError(error),
       );
       return;
     }
-    console.error("[openclaw] Uncaught exception:", formatUncaughtError(error));
+    console.error("[brikko-studio] Uncaught exception:", formatUncaughtError(error));
     for (const message of runFatalErrorHooks({ reason: "uncaught_exception", error })) {
-      console.error("[openclaw]", message);
+      console.error("[brikko-studio]", message);
     }
     restoreTerminalState("uncaught exception", { resumeStdinIfPaused: false });
     process.exit(1);
   });
 
   void runLegacyCliEntry(process.argv).catch((err) => {
-    console.error("[openclaw] CLI failed:", formatUncaughtError(err));
+    console.error("[brikko-studio] CLI failed:", formatUncaughtError(err));
     for (const message of runFatalErrorHooks({ reason: "legacy_cli_failure", error: err })) {
-      console.error("[openclaw]", message);
+      console.error("[brikko-studio]", message);
     }
     restoreTerminalState("legacy cli failure", { resumeStdinIfPaused: false });
     process.exit(1);

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { resolveCompatibilityHostVersion } from "../version.js";
 import { normalizePluginsConfig, resolveEffectivePluginActivationState } from "./config-state.js";
 import { normalizeInstallRecordMap } from "./installed-plugin-index-install-records.js";
@@ -98,7 +98,7 @@ export function listInstalledPluginRecords(
 
 export function listEnabledInstalledPluginRecords(
   index: InstalledPluginIndex,
-  config?: OpenClawConfig,
+  config?: Brikko StudioConfig,
 ): readonly InstalledPluginIndexRecord[] {
   if (!config) {
     return index.plugins.filter((plugin) => plugin.enabled);
@@ -116,7 +116,7 @@ export function getInstalledPluginRecord(
 export function isInstalledPluginEnabled(
   index: InstalledPluginIndex,
   pluginId: string,
-  config?: OpenClawConfig,
+  config?: Brikko StudioConfig,
 ): boolean {
   const record = getInstalledPluginRecord(index, pluginId);
   if (!record) {

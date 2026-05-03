@@ -1,4 +1,4 @@
-import { normalizeProviderId } from "openclaw/plugin-sdk/provider-model-shared";
+import { normalizeProviderId } from "brikko-studio/plugin-sdk/provider-model-shared";
 
 const OLLAMA_PROVIDER_ID = "ollama";
 

@@ -3,14 +3,14 @@ import {
   listCombinedAccountIds,
   normalizeOptionalAccountId,
   resolveListedDefaultAccountId,
-} from "openclaw/plugin-sdk/account-core";
+} from "brikko-studio/plugin-sdk/account-core";
 import {
   createAttachedChannelResultAdapter,
   type ChannelOutboundAdapter,
-} from "openclaw/plugin-sdk/channel-send-result";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { resolveOutboundSendDep } from "openclaw/plugin-sdk/outbound-send-deps";
-import { sendTextMediaPayload } from "openclaw/plugin-sdk/reply-payload";
+} from "brikko-studio/plugin-sdk/channel-send-result";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { resolveOutboundSendDep } from "brikko-studio/plugin-sdk/outbound-send-deps";
+import { sendTextMediaPayload } from "brikko-studio/plugin-sdk/reply-payload";
 import {
   normalizeWhatsAppOutboundPayload,
   normalizeWhatsAppPayloadText,
@@ -22,7 +22,7 @@ import { toWhatsappJid } from "./text-runtime.js";
 type WhatsAppChunker = NonNullable<ChannelOutboundAdapter["chunker"]>;
 type WhatsAppSendTextOptions = {
   verbose: boolean;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   mediaUrl?: string;
   mediaAccess?: {
     localRoots?: readonly string[];
@@ -50,7 +50,7 @@ type WhatsAppSendMessage = (
 type WhatsAppSendPoll = (
   to: string,
   poll: Parameters<NonNullable<ChannelOutboundAdapter["sendPoll"]>>[0]["poll"],
-  options: { verbose: boolean; accountId?: string; cfg: OpenClawConfig },
+  options: { verbose: boolean; accountId?: string; cfg: Brikko StudioConfig },
 ) => Promise<{ messageId: string; toJid: string }>;
 
 type CreateWhatsAppOutboundBaseParams = {
@@ -63,7 +63,7 @@ type CreateWhatsAppOutboundBaseParams = {
   skipEmptyText?: boolean;
 };
 
-function resolveQuoteLookupAccountId(cfg?: OpenClawConfig, accountId?: string | null): string {
+function resolveQuoteLookupAccountId(cfg?: Brikko StudioConfig, accountId?: string | null): string {
   const explicitAccountId = normalizeOptionalAccountId(accountId);
   if (explicitAccountId) {
     return explicitAccountId;

@@ -2,7 +2,7 @@ import type { EventEmitter } from "node:events";
 import type { GatewayPlugin } from "../internal/gateway.js";
 
 export const DISCORD_GATEWAY_TRANSPORT_ACTIVITY_EVENT =
-  "openclaw:discord-gateway-transport-activity";
+  "brikko-studio:discord-gateway-transport-activity";
 
 export type DiscordGatewayHandle = Pick<GatewayPlugin, "disconnect"> & {
   emitter?: EventEmitter;

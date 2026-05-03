@@ -20,7 +20,7 @@ function createScan() {
     sourceConfig: { gateway: {} },
     summary: { ok: true },
     update: {
-      root: "/tmp/openclaw",
+      root: "/tmp/brikko-studio",
       installKind: "package",
       packageManager: "npm",
     },

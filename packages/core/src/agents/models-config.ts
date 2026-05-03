@@ -4,16 +4,16 @@ import {
   getRuntimeConfig,
   getRuntimeConfigSourceSnapshot,
   projectConfigOntoRuntimeSourceSnapshot,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
 } from "../config/config.js";
 import { createConfigRuntimeEnv } from "../config/env-vars.js";
 import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
 import { resolveInstalledManifestRegistryIndexFingerprint } from "../plugins/manifest-registry-installed.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import { resolveOpenClawAgentDir } from "./agent-paths.js";
+import { resolveBrikko StudioAgentDir } from "./agent-paths.js";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "./agent-scope.js";
 import { MODELS_JSON_STATE } from "./models-config-state.js";
-import { planOpenClawModelsJson } from "./models-config.plan.js";
+import { planBrikko StudioModelsJson } from "./models-config.plan.js";
 
 export { resetModelsJsonReadyCacheForTest } from "./models-config-state.js";
 
@@ -42,8 +42,8 @@ function stableStringify(value: unknown): string {
 }
 
 async function buildModelsJsonFingerprint(params: {
-  config: OpenClawConfig;
-  sourceConfigForSecrets: OpenClawConfig;
+  config: Brikko StudioConfig;
+  sourceConfigForSecrets: Brikko StudioConfig;
   agentDir: string;
   workspaceDir?: string;
   pluginMetadataSnapshot?: Pick<PluginMetadataSnapshot, "index">;
@@ -110,9 +110,9 @@ export async function writeModelsFileAtomicForModelsJson(
   await fs.rename(tempPath, targetPath);
 }
 
-function resolveModelsConfigInput(config?: OpenClawConfig): {
-  config: OpenClawConfig;
-  sourceConfigForSecrets: OpenClawConfig;
+function resolveModelsConfigInput(config?: Brikko StudioConfig): {
+  config: Brikko StudioConfig;
+  sourceConfigForSecrets: Brikko StudioConfig;
 } {
   const runtimeSource = getRuntimeConfigSourceSnapshot();
   if (!config) {
@@ -156,8 +156,8 @@ async function withModelsJsonWriteLock<T>(targetPath: string, run: () => Promise
   }
 }
 
-export async function ensureOpenClawModelsJson(
-  config?: OpenClawConfig,
+export async function ensureBrikko StudioModelsJson(
+  config?: Brikko StudioConfig,
   agentDirOverride?: string,
   options: {
     pluginMetadataSnapshot?: Pick<PluginMetadataSnapshot, "index" | "manifestRegistry" | "owners">;
@@ -180,7 +180,7 @@ export async function ensureOpenClawModelsJson(
       config: cfg,
       ...(workspaceDir ? { workspaceDir } : {}),
     });
-  const agentDir = agentDirOverride?.trim() ? agentDirOverride.trim() : resolveOpenClawAgentDir();
+  const agentDir = agentDirOverride?.trim() ? agentDirOverride.trim() : resolveBrikko StudioAgentDir();
   const targetPath = path.join(agentDir, "models.json");
   const fingerprint = await buildModelsJsonFingerprint({
     config: cfg,
@@ -211,7 +211,7 @@ export async function ensureOpenClawModelsJson(
     // are available to provider discovery without mutating process.env.
     const env = createConfigRuntimeEnv(cfg);
     const existingModelsFile = await readExistingModelsFile(targetPath);
-    const plan = await planOpenClawModelsJson({
+    const plan = await planBrikko StudioModelsJson({
       cfg,
       sourceConfigForSecrets: resolved.sourceConfigForSecrets,
       agentDir,

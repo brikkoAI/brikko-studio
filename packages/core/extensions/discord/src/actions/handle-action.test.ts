@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const runtimeModule = await import("./runtime.js");
@@ -23,7 +23,7 @@ describe("handleDiscordMessageAction", () => {
       },
       cfg: {
         channels: { discord: { token: "tok", actions: { moderation: true } } },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       requesterSenderId: "trusted-sender-id",
       toolContext: { currentChannelProvider: "discord" },
     });
@@ -55,7 +55,7 @@ describe("handleDiscordMessageAction", () => {
       },
       cfg: {
         channels: { discord: { token: "tok" } },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       toolContext: { currentMessageId: "9001" },
     });
 
@@ -79,7 +79,7 @@ describe("handleDiscordMessageAction", () => {
       },
       cfg: {
         channels: { discord: { token: "tok" } },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       toolContext: {
         currentChannelProvider: "discord",
         currentChannelId: "user:U1",
@@ -107,7 +107,7 @@ describe("handleDiscordMessageAction", () => {
       },
       cfg: {
         channels: { discord: { token: "tok" } },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       toolContext: {
         currentChannelProvider: "discord",
         currentChannelId: "channel:123",
@@ -146,7 +146,7 @@ describe("handleDiscordMessageAction", () => {
       },
       cfg: {
         channels: { discord: { token: "tok" } },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       mediaAccess,
       mediaLocalRoots: ["/tmp/agent-root"],
       mediaReadFile,
@@ -181,7 +181,7 @@ describe("handleDiscordMessageAction", () => {
       },
       cfg: {
         channels: { discord: { token: "tok" } },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       toolContext: {
         currentChannelProvider: "discord",
         currentChannelId: "channel:123",
@@ -209,7 +209,7 @@ describe("handleDiscordMessageAction", () => {
         },
         cfg: {
           channels: { discord: { token: "tok" } },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
       }),
     ).rejects.toThrow(/upload-file requires filePath, path, or media/i);
 
@@ -227,7 +227,7 @@ describe("handleDiscordMessageAction", () => {
       },
       cfg: {
         channels: { discord: { token: "tok" } },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       toolContext: {
         currentChannelProvider: "discord",
         currentChannelId: "channel:123",
@@ -255,7 +255,7 @@ describe("handleDiscordMessageAction", () => {
         },
         cfg: {
           channels: { discord: { token: "tok" } },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         toolContext: {
           currentChannelProvider: "telegram",
           currentChannelId: "channel:123",
@@ -275,7 +275,7 @@ describe("handleDiscordMessageAction", () => {
         },
         cfg: {
           channels: { discord: { token: "tok" } },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         toolContext: {
           currentChannelProvider: "telegram",
           currentChannelId: "user:U1",
@@ -297,7 +297,7 @@ describe("handleDiscordMessageAction", () => {
         },
         cfg: {
           channels: { discord: { token: "tok" } },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
       }),
     ).rejects.toThrow(/messageId required/i);
 

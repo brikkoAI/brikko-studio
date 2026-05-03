@@ -1,4 +1,4 @@
-import { normalizeOptionalLowercaseString } from "openclaw/plugin-sdk/text-runtime";
+import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
 import type { SlackMessageEvent } from "../types.js";
 
 type SlackChatType = "direct" | "group" | "channel";

@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { i18n } from "../../i18n/index.ts";
 import { createStorageMock } from "../../test-helpers/storage.ts";
 import type { AppViewState } from "../app-view-state.ts";
-import { type OpenClawModalDialog } from "../components/modal-dialog.ts";
+import { type Brikko StudioModalDialog } from "../components/modal-dialog.ts";
 import type { ExecApprovalRequest } from "../controllers/exec-approval.ts";
 import { renderDreamingRestartConfirmation } from "./dreaming-restart-confirmation.ts";
 import { renderExecApprovalPrompt } from "./exec-approval.ts";
@@ -49,7 +49,7 @@ function restoreDescriptor(name: "showModal" | "close", descriptor?: PropertyDes
 }
 
 async function getRenderedDialog() {
-  const modal = container.querySelector<OpenClawModalDialog>("openclaw-modal-dialog");
+  const modal = container.querySelector<Brikko StudioModalDialog>("brikko-studio-modal-dialog");
   expect(modal).not.toBeNull();
   await modal!.updateComplete;
   await nextFrame();
@@ -76,7 +76,7 @@ function createExecRequest(): ExecApprovalRequest {
     request: {
       command: "echo hello",
       host: "gateway",
-      cwd: "/tmp/openclaw",
+      cwd: "/tmp/brikko-studio",
       security: "workspace-write",
       ask: "on-request",
     },
@@ -128,13 +128,13 @@ describe("approval and confirmation modals", () => {
     const { modal, dialog } = await getRenderedDialog();
 
     expect(dialog.getAttribute("aria-modal")).toBe("true");
-    expect(dialog.getAttribute("aria-labelledby")).toBe("openclaw-modal-dialog-label");
-    expect(dialog.getAttribute("aria-describedby")).toBe("openclaw-modal-dialog-description");
-    expect(modal.shadowRoot?.querySelector("#openclaw-modal-dialog-label")?.textContent).toBe(
+    expect(dialog.getAttribute("aria-labelledby")).toBe("brikko-studio-modal-dialog-label");
+    expect(dialog.getAttribute("aria-describedby")).toBe("brikko-studio-modal-dialog-description");
+    expect(modal.shadowRoot?.querySelector("#brikko-studio-modal-dialog-label")?.textContent).toBe(
       "Exec approval needed",
     );
     expect(
-      modal.shadowRoot?.querySelector("#openclaw-modal-dialog-description")?.textContent,
+      modal.shadowRoot?.querySelector("#brikko-studio-modal-dialog-description")?.textContent,
     ).toContain("expires in");
     expect(container.querySelector("#exec-approval-title")?.textContent).toContain(
       "Exec approval needed",
@@ -213,7 +213,7 @@ describe("approval and confirmation modals", () => {
     const handleGatewayUrlCancel = vi.fn();
     render(
       renderGatewayUrlConfirmation({
-        pendingGatewayUrl: "wss://gateway.example/openclaw",
+        pendingGatewayUrl: "wss://gateway.example/brikko-studio",
         handleGatewayUrlConfirm: vi.fn(),
         handleGatewayUrlCancel,
       } as unknown as AppViewState),
@@ -221,7 +221,7 @@ describe("approval and confirmation modals", () => {
     );
 
     const { dialog } = await getRenderedDialog();
-    expect(container.querySelector("openclaw-modal-dialog")).not.toBeNull();
+    expect(container.querySelector("brikko-studio-modal-dialog")).not.toBeNull();
 
     dispatchEscape(dialog);
 
@@ -242,7 +242,7 @@ describe("approval and confirmation modals", () => {
     );
 
     const { dialog } = await getRenderedDialog();
-    expect(container.querySelector("openclaw-modal-dialog")).not.toBeNull();
+    expect(container.querySelector("brikko-studio-modal-dialog")).not.toBeNull();
 
     dispatchEscape(dialog);
 

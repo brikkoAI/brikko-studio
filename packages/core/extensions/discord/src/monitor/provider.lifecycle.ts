@@ -1,9 +1,9 @@
 import {
   createConnectedChannelStatusPatch,
   createTransportActivityStatusPatch,
-} from "openclaw/plugin-sdk/gateway-runtime";
-import { danger } from "openclaw/plugin-sdk/runtime-env";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+} from "brikko-studio/plugin-sdk/gateway-runtime";
+import { danger } from "brikko-studio/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { attachDiscordGatewayLogging } from "../gateway-logging.js";
 import { getDiscordGatewayEmitter, waitForDiscordGatewayStop } from "../monitor.gateway.js";
 import type { DiscordVoiceManager } from "../voice/manager.js";
@@ -22,8 +22,8 @@ import type { DiscordMonitorStatusSink } from "./status.js";
 const DEFAULT_DISCORD_GATEWAY_READY_TIMEOUT_MS = 15_000;
 const DEFAULT_DISCORD_GATEWAY_RUNTIME_READY_TIMEOUT_MS = 30_000;
 const MAX_DISCORD_GATEWAY_READY_TIMEOUT_MS = 120_000;
-const DISCORD_GATEWAY_READY_TIMEOUT_ENV = "OPENCLAW_DISCORD_READY_TIMEOUT_MS";
-const DISCORD_GATEWAY_RUNTIME_READY_TIMEOUT_ENV = "OPENCLAW_DISCORD_RUNTIME_READY_TIMEOUT_MS";
+const DISCORD_GATEWAY_READY_TIMEOUT_ENV = "BRIKKO_STUDIO_DISCORD_READY_TIMEOUT_MS";
+const DISCORD_GATEWAY_RUNTIME_READY_TIMEOUT_ENV = "BRIKKO_STUDIO_DISCORD_RUNTIME_READY_TIMEOUT_MS";
 const DISCORD_GATEWAY_READY_POLL_MS = 250;
 const DISCORD_GATEWAY_STARTUP_DISCONNECT_DRAIN_TIMEOUT_MS = 5_000;
 const DISCORD_GATEWAY_STARTUP_TERMINATE_CLOSE_TIMEOUT_MS = 1_000;

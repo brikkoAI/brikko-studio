@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   auditDiscordChannelPermissionsWithFetcher,
@@ -7,7 +7,7 @@ import {
 
 const fetchChannelPermissionsDiscordMock = vi.fn();
 
-function readDiscordGuilds(cfg: OpenClawConfig) {
+function readDiscordGuilds(cfg: Brikko StudioConfig) {
   const guilds = cfg.channels?.discord?.guilds;
   expect(guilds).toBeDefined();
   return guilds ?? {};
@@ -36,7 +36,7 @@ describe("discord audit", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     const collected = collectDiscordAuditChannelIdsForGuilds(readDiscordGuilds(cfg));
     expect(collected.channelIds).toEqual(["111", "222"]);
@@ -86,7 +86,7 @@ describe("discord audit", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     const collected = collectDiscordAuditChannelIdsForGuilds(readDiscordGuilds(cfg));
     expect(collected.channelIds).toEqual(["111"]);
@@ -109,7 +109,7 @@ describe("discord audit", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     const collected = collectDiscordAuditChannelIdsForGuilds(readDiscordGuilds(cfg));
     expect(collected.channelIds).toEqual([]);
@@ -136,7 +136,7 @@ describe("discord audit", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     const collected = collectDiscordAuditChannelIdsForGuilds(readDiscordGuilds(cfg));
     expect(collected.channelIds).toEqual(["111"]);

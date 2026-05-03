@@ -1,5 +1,5 @@
 import { normalizeProviderId } from "../agents/provider-id.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 import type { PluginManifestRecord } from "./manifest-registry.js";
 import type { PluginDiagnostic } from "./manifest-types.js";
@@ -51,7 +51,7 @@ export type PluginActivationPlan = {
 
 type ResolveManifestActivationPlanParams = {
   trigger: PluginActivationPlannerTrigger;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   origin?: PluginOrigin;

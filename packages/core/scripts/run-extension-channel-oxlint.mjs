@@ -5,7 +5,7 @@ runExtensionOxlint({
   roots: extensionChannelTestRoots,
   toolName: "oxlint-extension-channels",
   lockName: "oxlint-extension-channels",
-  tempDirPrefix: "openclaw-extension-channel-oxlint-",
+  tempDirPrefix: "brikko-studio-extension-channel-oxlint-",
   emptyMessage: "No extension channel files found.",
   allowEmpty: true,
 });

@@ -1,5 +1,5 @@
-import type { ResolvedAgentRoute } from "openclaw/plugin-sdk/routing";
-import { resolveOpenDmAllowlistAccess } from "openclaw/plugin-sdk/security-runtime";
+import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
+import { resolveOpenDmAllowlistAccess } from "brikko-studio/plugin-sdk/security-runtime";
 import { resolveFeishuRuntimeAccount } from "./accounts.js";
 import { createFeishuClient } from "./client.js";
 import { createFeishuCommentReplyDispatcher } from "./comment-dispatcher.js";

@@ -1,6 +1,6 @@
-import type { ChannelMessageActionContext } from "openclaw/plugin-sdk/channel-contract";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { withEnv } from "openclaw/plugin-sdk/test-env";
+import type { ChannelMessageActionContext } from "brikko-studio/plugin-sdk/channel-contract";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { withEnv } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it, vi } from "vitest";
 
 const handleDiscordMessageActionMock = vi.hoisted(() =>
@@ -23,7 +23,7 @@ describe("discordMessageActions", () => {
               enabled: true,
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
       });
 
       expect(discovery).toEqual({
@@ -49,7 +49,7 @@ describe("discordMessageActions", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     expect(discovery?.capabilities).toEqual(["presentation"]);
@@ -81,7 +81,7 @@ describe("discordMessageActions", () => {
             },
           },
         },
-      } as unknown as OpenClawConfig,
+      } as unknown as Brikko StudioConfig,
     });
 
     expect(discovery?.capabilities).toEqual(["presentation"]);
@@ -110,7 +110,7 @@ describe("discordMessageActions", () => {
             },
           },
         },
-      } as unknown as OpenClawConfig,
+      } as unknown as Brikko StudioConfig,
       accountId: "ops",
     });
 
@@ -140,7 +140,7 @@ describe("discordMessageActions", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const defaultDiscovery = discordMessageActions.describeMessageTool?.({
       cfg,
@@ -171,7 +171,7 @@ describe("discordMessageActions", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     expect(discovery?.actions).toContain("send");
@@ -189,7 +189,7 @@ describe("discordMessageActions", () => {
             token: "Bot token-main",
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
     expect(discovery?.schema).toBeUndefined();
   });
@@ -236,7 +236,7 @@ describe("discordMessageActions", () => {
           token: "Bot token-main",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const toolContext: ChannelMessageActionContext["toolContext"] = {
       currentChannelProvider: "discord",
     };

@@ -1,7 +1,7 @@
 import type { Api, Model } from "@mariozechner/pi-ai";
 import { normalizeProviderId } from "../../agents/provider-id.js";
 import type { ModelProviderConfig } from "../../config/types.models.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import {
@@ -41,7 +41,7 @@ function collectMatchingContributionOwners(
   index: PluginRegistrySnapshot,
   contribution: "providers" | "cliBackends",
   providerFilter: string,
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   options: { includeDisabled?: boolean } = {},
 ): string[] {
   if (contribution === "providers") {
@@ -66,7 +66,7 @@ function collectMatchingContributionOwners(
 }
 
 function resolveInstalledIndexPluginIdsForProviderFilter(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   providerFilter: string;
 }): string[] | undefined {
@@ -97,7 +97,7 @@ function resolveInstalledIndexPluginIdsForProviderFilter(params: {
 }
 
 export async function resolveProviderCatalogPluginIdsForFilter(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   providerFilter: string;
 }): Promise<string[] | undefined> {
@@ -131,7 +131,7 @@ export async function resolveProviderCatalogPluginIdsForFilter(params: {
 }
 
 export async function hasProviderStaticCatalogForFilter(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   providerFilter: string;
 }): Promise<boolean> {
@@ -194,7 +194,7 @@ function modelFromProviderCatalog(params: {
 }
 
 export async function loadProviderCatalogModelsForList(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentDir: string;
   env?: NodeJS.ProcessEnv;
   providerFilter?: string;

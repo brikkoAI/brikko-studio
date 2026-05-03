@@ -1,6 +1,6 @@
 import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.public.js";
 import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import { normalizeAccountId } from "../../utils/account-id.js";
 import {
@@ -38,7 +38,7 @@ export function resolveAgentDeliveryPlan(params: {
    * overrides session-level `lastChannel` to prevent cross-channel reply
    * routing in shared sessions (dmScope="main").
    *
-   * @see https://github.com/openclaw/openclaw/issues/24152
+   * @see https://github.com/brikko-studio/brikko-studio/issues/24152
    */
   turnSourceChannel?: string;
   /** Turn-source `to` — paired with `turnSourceChannel`. */
@@ -131,7 +131,7 @@ export function resolveAgentDeliveryPlan(params: {
 }
 
 export function resolveAgentOutboundTarget(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   plan: AgentDeliveryPlan;
   targetMode?: ChannelOutboundTargetMode;
   validateExplicitTarget?: boolean;

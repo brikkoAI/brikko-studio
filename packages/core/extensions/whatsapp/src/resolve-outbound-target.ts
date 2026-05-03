@@ -1,4 +1,4 @@
-import { missingTargetError } from "openclaw/plugin-sdk/channel-feedback";
+import { missingTargetError } from "brikko-studio/plugin-sdk/channel-feedback";
 import {
   isWhatsAppGroupJid,
   isWhatsAppNewsletterJid,

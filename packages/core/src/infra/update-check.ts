@@ -325,7 +325,7 @@ export async function fetchNpmPackageTargetStatus(params: {
   const target = params.target;
   try {
     const res = await fetchWithTimeout(
-      `https://registry.npmjs.org/openclaw/${encodeURIComponent(target)}`,
+      `https://registry.npmjs.org/brikko-studio/${encodeURIComponent(target)}`,
       {},
       Math.max(250, timeoutMs),
     );

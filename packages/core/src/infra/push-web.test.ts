@@ -60,9 +60,9 @@ describe("resolveVapidKeys", () => {
     await resolveVapidKeys(tmpDir);
 
     // Set env overrides.
-    process.env.OPENCLAW_VAPID_PUBLIC_KEY = "env-public";
-    process.env.OPENCLAW_VAPID_PRIVATE_KEY = "env-private";
-    process.env.OPENCLAW_VAPID_SUBJECT = "mailto:env@test.com";
+    process.env.BRIKKO_STUDIO_VAPID_PUBLIC_KEY = "env-public";
+    process.env.BRIKKO_STUDIO_VAPID_PRIVATE_KEY = "env-private";
+    process.env.BRIKKO_STUDIO_VAPID_SUBJECT = "mailto:env@test.com";
     try {
       const keys = await resolveVapidKeys(tmpDir);
       expect(keys.publicKey).toBe("env-public");
@@ -70,9 +70,9 @@ describe("resolveVapidKeys", () => {
       expect(keys.subject).toBe("mailto:env@test.com");
       expect(vi.mocked(webPush.generateVAPIDKeys)).toHaveBeenCalledTimes(1);
     } finally {
-      delete process.env.OPENCLAW_VAPID_PUBLIC_KEY;
-      delete process.env.OPENCLAW_VAPID_PRIVATE_KEY;
-      delete process.env.OPENCLAW_VAPID_SUBJECT;
+      delete process.env.BRIKKO_STUDIO_VAPID_PUBLIC_KEY;
+      delete process.env.BRIKKO_STUDIO_VAPID_PRIVATE_KEY;
+      delete process.env.BRIKKO_STUDIO_VAPID_SUBJECT;
     }
   });
 });
@@ -200,7 +200,7 @@ describe("sending", () => {
     expect(result.ok).toBe(true);
     expect(vi.mocked(webPush.setVapidDetails)).toHaveBeenCalledTimes(1);
     expect(vi.mocked(webPush.setVapidDetails)).toHaveBeenCalledWith(
-      "mailto:openclaw@localhost",
+      "mailto:brikko-studio@localhost",
       "test-public-key-base64url",
       "test-private-key-base64url",
     );

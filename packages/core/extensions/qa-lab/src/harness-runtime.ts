@@ -4,8 +4,8 @@ import {
   matchesMentionPatterns,
   matchesMentionWithExplicit,
   resolveInboundMentionDecision,
-} from "openclaw/plugin-sdk/channel-inbound";
-import type { PluginRuntime } from "openclaw/plugin-sdk/runtime-store";
+} from "brikko-studio/plugin-sdk/channel-inbound";
+import type { PluginRuntime } from "brikko-studio/plugin-sdk/runtime-store";
 
 type SessionRecord = {
   sessionKey: string;

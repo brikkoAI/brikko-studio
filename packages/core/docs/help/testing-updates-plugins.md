@@ -1,7 +1,7 @@
 ---
-summary: "How OpenClaw validates update paths, package migrations, and plugin install/update behavior"
+summary: "How Brikko Studio validates update paths, package migrations, and plugin install/update behavior"
 read_when:
-  - Changing OpenClaw update, doctor, package acceptance, or plugin install behavior
+  - Changing Brikko Studio update, doctor, package acceptance, or plugin install behavior
   - Preparing or approving a release candidate
   - Debugging package update, plugin dependency cleanup, or plugin install regressions
 title: "Testing: updates and plugins"
@@ -25,7 +25,7 @@ Update and plugin tests protect these contracts:
 - A user can move from an older published package to the candidate package
   without losing config, agents, sessions, workspaces, plugin allowlists, or
   channel config.
-- `openclaw doctor --fix --non-interactive` owns legacy cleanup and repair
+- `brikko-studio doctor --fix --non-interactive` owns legacy cleanup and repair
   paths. Startup should not grow hidden compatibility migrations for stale
   plugin state.
 - Plugin installs work from local directories, git repos, npm packages, and the
@@ -89,18 +89,18 @@ Important lanes:
   moving-ref updates, npm registry installs with hoisted transitive
   dependencies, npm update no-ops, local ClawHub fixture installs and update
   no-ops, marketplace update behavior, and Claude-bundle enable/inspect. Set
-  `OPENCLAW_PLUGINS_E2E_CLAWHUB=0` to keep the ClawHub block hermetic/offline.
+  `BRIKKO_STUDIO_PLUGINS_E2E_CLAWHUB=0` to keep the ClawHub block hermetic/offline.
 - `test:docker:plugin-lifecycle-matrix` installs the candidate package in a bare
   container, runs an npm plugin through install, inspect, disable, enable,
   explicit upgrade, explicit downgrade, and uninstall after deleting the plugin
   code. It logs RSS and CPU metrics for each phase.
 - `test:docker:plugin-update` validates that an unchanged installed plugin does
-  not reinstall or lose install metadata during `openclaw plugins update`.
+  not reinstall or lose install metadata during `brikko-studio plugins update`.
 - `test:docker:upgrade-survivor` installs the candidate tarball over a dirty
   old-user fixture, runs package update plus non-interactive doctor, then starts
   a loopback Gateway and checks state preservation.
 - `test:docker:published-upgrade-survivor` first installs a published baseline,
-  configures it through a baked `openclaw config set` recipe, updates it to the
+  configures it through a baked `brikko-studio config set` recipe, updates it to the
   candidate tarball, runs doctor, checks legacy cleanup, starts the Gateway, and
   probes `/healthz`, `/readyz`, and RPC status.
 - `test:docker:update-migration` is the cleanup-heavy published-update lane. It
@@ -113,19 +113,19 @@ Important lanes:
 Useful published-upgrade survivor variants:
 
 ```bash
-OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC=openclaw@2026.4.23 \
-OPENCLAW_UPGRADE_SURVIVOR_SCENARIO=versioned-runtime-deps \
+BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC=brikko-studio@2026.4.23 \
+BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIO=versioned-runtime-deps \
 pnpm test:docker:published-upgrade-survivor
 
-OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC=openclaw@latest \
-OPENCLAW_UPGRADE_SURVIVOR_SCENARIO=bootstrap-persona \
+BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC=brikko-studio@latest \
+BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIO=bootstrap-persona \
 pnpm test:docker:published-upgrade-survivor
 ```
 
 Available scenarios are `base`, `feishu-channel`, `bootstrap-persona`,
 `plugin-deps-cleanup`, `configured-plugin-installs`, `tilde-log-path`, and
 `versioned-runtime-deps`. In aggregate runs,
-`OPENCLAW_UPGRADE_SURVIVOR_SCENARIOS=reported-issues` expands to all reported
+`BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIOS=reported-issues` expands to all reported
 issue-shaped scenarios, including the configured-plugin install migration.
 
 Full update migration is intentionally separate from Full Release CI. Use the
@@ -152,7 +152,7 @@ older trusted releases.
 
 Candidate sources:
 
-- `source=npm`: validate `openclaw@beta`, `openclaw@latest`, or an exact
+- `source=npm`: validate `brikko-studio@beta`, `brikko-studio@latest`, or an exact
   published version.
 - `source=ref`: pack a trusted branch, tag, or commit with the selected current
   harness.
@@ -161,7 +161,7 @@ Candidate sources:
 
 Full Release Validation uses `source=artifact` by default, built from the
 resolved release SHA. For post-publish proof, pass
-`package_acceptance_package_spec=openclaw@YYYY.M.D` so the same upgrade matrix
+`package_acceptance_package_spec=brikko-studio@YYYY.M.D` so the same upgrade matrix
 targets the shipped npm package instead.
 
 Release checks call Package Acceptance with the package/update/plugin set:
@@ -195,7 +195,7 @@ gh workflow run package-acceptance.yml \
   --ref main \
   -f workflow_ref=main \
   -f source=npm \
-  -f package_spec=openclaw@beta \
+  -f package_spec=brikko-studio@beta \
   -f suite_profile=package \
   -f published_upgrade_survivor_baselines=all-since-2026.4.23 \
   -f published_upgrade_survivor_scenarios=reported-issues \

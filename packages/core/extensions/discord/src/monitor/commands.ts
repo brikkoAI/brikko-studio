@@ -1,4 +1,4 @@
-import type { DiscordSlashCommandConfig } from "openclaw/plugin-sdk/config-types";
+import type { DiscordSlashCommandConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export function resolveDiscordSlashCommandConfig(
   raw?: DiscordSlashCommandConfig,

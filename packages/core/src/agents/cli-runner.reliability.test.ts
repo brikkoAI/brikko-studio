@@ -8,7 +8,7 @@ import {
   createReplyOperation,
   replyRunRegistry,
 } from "../auto-reply/reply/reply-run-registry.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
 import { runPreparedCliAgent } from "./cli-runner.js";
 import {
@@ -33,7 +33,7 @@ vi.mock("../tts/tts.js", () => ({
 }));
 
 const mockGetGlobalHookRunner = vi.mocked(getGlobalHookRunner);
-const hookRunnerGlobalStateKey = Symbol.for("openclaw.plugins.hook-runner-global-state");
+const hookRunnerGlobalStateKey = Symbol.for("brikko-studio.plugins.hook-runner-global-state");
 
 type HookRunnerGlobalStateForTest = {
   hookRunner: unknown;
@@ -55,8 +55,8 @@ function setHookRunnerForTest(hookRunner: unknown): void {
 }
 
 function createSessionFile(params?: { history?: Array<{ role: "user"; content: string }> }) {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-cli-hooks-"));
-  vi.stubEnv("OPENCLAW_STATE_DIR", dir);
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-cli-hooks-"));
+  vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", dir);
   const sessionFile = path.join(dir, "agents", "main", "sessions", "s1.jsonl");
   fs.mkdirSync(path.dirname(sessionFile), { recursive: true });
   fs.writeFileSync(
@@ -383,7 +383,7 @@ describe("runCliAgent reliability", () => {
     });
   });
 
-  it("seeds fresh CLI sessions from the OpenClaw transcript", async () => {
+  it("seeds fresh CLI sessions from the Brikko Studio transcript", async () => {
     supervisorSpawnMock.mockResolvedValueOnce(
       createManagedRun({
         reason: "exit",
@@ -400,7 +400,7 @@ describe("runCliAgent reliability", () => {
     const result = await runPreparedCliAgent(
       buildPreparedContext({
         openClawHistoryPrompt:
-          "Continue this conversation using the OpenClaw transcript below.\n\nUser: earlier ask\n\nAssistant: earlier answer\n\n<next_user_message>\nhi\n</next_user_message>",
+          "Continue this conversation using the Brikko Studio transcript below.\n\nUser: earlier ask\n\nAssistant: earlier answer\n\n<next_user_message>\nhi\n</next_user_message>",
       }),
     );
 
@@ -825,7 +825,7 @@ describe("runCliAgent reliability", () => {
       })}\n`,
       "utf-8",
     );
-    const config: OpenClawConfig = {
+    const config: Brikko StudioConfig = {
       agents: {
         defaults: {
           workspace: dir,

@@ -1,24 +1,24 @@
 ---
 summary: "CLI reference and security model for Crestodian, the configless-safe setup and repair helper"
 read_when:
-  - You run openclaw with no command and want to understand Crestodian
-  - You need a configless-safe way to inspect or repair OpenClaw
+  - You run brikko-studio with no command and want to understand Crestodian
+  - You need a configless-safe way to inspect or repair Brikko Studio
   - You are designing or enabling message-channel rescue mode
 title: "Crestodian"
 ---
 
-# `openclaw crestodian`
+# `brikko-studio crestodian`
 
-Crestodian is OpenClaw's local setup, repair, and configuration helper. It is
+Crestodian is Brikko Studio's local setup, repair, and configuration helper. It is
 designed to stay reachable when the normal agent path is broken.
 
-Running `openclaw` with no command starts Crestodian in an interactive terminal.
-Running `openclaw crestodian` starts the same helper explicitly.
+Running `brikko-studio` with no command starts Crestodian in an interactive terminal.
+Running `brikko-studio crestodian` starts the same helper explicitly.
 
 ## What Crestodian shows
 
 On startup, interactive Crestodian opens the same TUI shell used by
-`openclaw tui`, with a Crestodian chat backend. The chat log starts with a short
+`brikko-studio tui`, with a Crestodian chat backend. The chat log starts with a short
 greeting:
 
 - when to start Crestodian
@@ -34,23 +34,23 @@ and editor controls.
 Use `status` for the detailed inventory with config path, docs/source paths,
 local CLI probes, API-key presence, agents, model, and Gateway details.
 
-Crestodian uses the same OpenClaw reference discovery as regular agents. In a Git checkout,
+Crestodian uses the same Brikko Studio reference discovery as regular agents. In a Git checkout,
 it points itself at local `docs/` and the local source tree. In an npm package install, it
 uses the bundled package docs and links to
-[https://github.com/openclaw/openclaw](https://github.com/openclaw/openclaw), with explicit
+[https://github.com/brikko-studio/brikko-studio](https://github.com/brikko-studio/brikko-studio), with explicit
 guidance to review source whenever the docs are not enough.
 
 ## Examples
 
 ```bash
-openclaw
-openclaw crestodian
-openclaw crestodian --json
-openclaw crestodian --message "models"
-openclaw crestodian --message "validate config"
-openclaw crestodian --message "setup workspace ~/Projects/work model openai/gpt-5.5" --yes
-openclaw crestodian --message "set default model openai/gpt-5.5" --yes
-openclaw onboard --modern
+brikko-studio
+brikko-studio crestodian
+brikko-studio crestodian --json
+brikko-studio crestodian --message "models"
+brikko-studio crestodian --message "validate config"
+brikko-studio crestodian --message "setup workspace ~/Projects/work model openai/gpt-5.5" --yes
+brikko-studio crestodian --message "set default model openai/gpt-5.5" --yes
+brikko-studio onboard --modern
 ```
 
 Inside the Crestodian TUI:
@@ -64,7 +64,7 @@ validate config
 setup
 setup workspace ~/Projects/work model openai/gpt-5.5
 config set gateway.port 19001
-config set-ref gateway.auth.token env OPENCLAW_GATEWAY_TOKEN
+config set-ref gateway.auth.token env BRIKKO_STUDIO_GATEWAY_TOKEN
 gateway status
 restart gateway
 agents
@@ -73,8 +73,8 @@ models
 set default model openai/gpt-5.5
 plugins list
 plugins search slack
-plugin install clawhub:openclaw-codex-app-server
-plugin uninstall openclaw-codex-app-server
+plugin install clawhub:brikko-studio-codex-app-server
+plugin uninstall brikko-studio-codex-app-server
 talk to work agent
 talk to agent for ~/Projects/work
 audit
@@ -85,14 +85,14 @@ quit
 
 Crestodian's startup path is deliberately small. It can run when:
 
-- `openclaw.json` is missing
-- `openclaw.json` is invalid
+- `brikko-studio.json` is missing
+- `brikko-studio.json` is invalid
 - the Gateway is down
 - plugin command registration is unavailable
 - no agent has been configured yet
 
-`openclaw --help` and `openclaw --version` still use the normal fast paths.
-Noninteractive `openclaw` exits with a short message instead of printing root
+`brikko-studio --help` and `brikko-studio --version` still use the normal fast paths.
+Noninteractive `brikko-studio` exits with a short message instead of printing root
 help, because the no-command product is Crestodian.
 
 ## Operations and approval
@@ -129,13 +129,13 @@ you pass `--yes` for a direct command:
 Applied writes are recorded in:
 
 ```text
-~/.openclaw/audit/crestodian.jsonl
+~/.brikko-studio/audit/crestodian.jsonl
 ```
 
 Discovery is not audited. Only applied operations and writes are logged.
 
-`openclaw onboard --modern` starts Crestodian as the modern onboarding preview.
-Plain `openclaw onboard` still runs classic onboarding.
+`brikko-studio onboard --modern` starts Crestodian as the modern onboarding preview.
+Plain `brikko-studio onboard` still runs classic onboarding.
 
 ## Setup bootstrap
 
@@ -165,8 +165,8 @@ model unset. Install or log into Codex/Claude Code, or expose
 
 Crestodian always starts in deterministic mode. For fuzzy commands that the
 deterministic parser does not understand, local Crestodian can make one bounded
-planner turn through OpenClaw's normal runtime paths. It first uses the
-configured OpenClaw model. If no configured model is usable yet, it can fall
+planner turn through Brikko Studio's normal runtime paths. It first uses the
+configured Brikko Studio model. If no configured model is usable yet, it can fall
 back to local runtimes already present on the machine:
 
 - Claude Code CLI: `claude-cli/claude-opus-4-7`
@@ -194,7 +194,7 @@ talk to work agent
 switch to main agent
 ```
 
-`openclaw tui`, `openclaw chat`, and `openclaw terminal` still open the normal
+`brikko-studio tui`, `brikko-studio chat`, and `brikko-studio terminal` still open the normal
 agent TUI directly. They do not start Crestodian.
 
 After switching into the normal TUI, use `/crestodian` to return to Crestodian.
@@ -221,11 +221,11 @@ Operator flow:
 
 ```text
 You, in a trusted owner DM: /crestodian status
-OpenClaw: Crestodian rescue mode. Gateway reachable: no. Config valid: no.
+Brikko Studio: Crestodian rescue mode. Gateway reachable: no. Config valid: no.
 You: /crestodian restart gateway
-OpenClaw: Plan: restart the Gateway. Reply /crestodian yes to apply.
+Brikko Studio: Plan: restart the Gateway. Reply /crestodian yes to apply.
 You: /crestodian yes
-OpenClaw: Applied. Audit entry written.
+Brikko Studio: Applied. Audit entry written.
 ```
 
 Agent creation can also be queued from the local prompt or rescue mode:
@@ -252,7 +252,7 @@ Security contract for remote rescue:
   because it downloads executable code. Plugin uninstall can be allowed as an
   approved repair operation when rescue policy permits persistent writes.
 - Remote rescue cannot open the local TUI or switch into an interactive agent
-  session. Use local `openclaw` for agent handoff.
+  session. Use local `brikko-studio` for agent handoff.
 - Persistent writes still require approval, even in rescue mode.
 - Audit every applied rescue operation. Message-channel rescue records channel,
   account, sender, and source-address metadata. Config-mutating operations also
@@ -315,13 +315,13 @@ Fresh configless setup through Crestodian is covered by:
 pnpm test:docker:crestodian-first-run
 ```
 
-That lane starts with an empty state dir, routes bare `openclaw` to Crestodian,
+That lane starts with an empty state dir, routes bare `brikko-studio` to Crestodian,
 sets the default model, creates an additional agent, configures Discord through
 a plugin enablement plus token SecretRef, validates config, and checks the audit
 log. QA Lab also has a repo-backed scenario for the same Ring 0 flow:
 
 ```bash
-pnpm openclaw qa suite --scenario crestodian-ring-zero-setup
+pnpm brikko-studio qa suite --scenario crestodian-ring-zero-setup
 ```
 
 ## Related

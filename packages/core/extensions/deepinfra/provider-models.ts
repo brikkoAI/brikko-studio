@@ -1,8 +1,8 @@
-import { buildManifestModelProviderConfig } from "openclaw/plugin-sdk/provider-catalog-shared";
-import { fetchWithTimeout } from "openclaw/plugin-sdk/provider-http";
-import type { ModelDefinitionConfig } from "openclaw/plugin-sdk/provider-model-shared";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import manifest from "./openclaw.plugin.json" with { type: "json" };
+import { buildManifestModelProviderConfig } from "brikko-studio/plugin-sdk/provider-catalog-shared";
+import { fetchWithTimeout } from "brikko-studio/plugin-sdk/provider-http";
+import type { ModelDefinitionConfig } from "brikko-studio/plugin-sdk/provider-model-shared";
+import { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
+import manifest from "./brikko-studio.plugin.json" with { type: "json" };
 
 const log = createSubsystemLogger("deepinfra-models");
 
@@ -12,7 +12,7 @@ const DEEPINFRA_MANIFEST_PROVIDER = buildManifestModelProviderConfig({
 });
 
 export const DEEPINFRA_BASE_URL = DEEPINFRA_MANIFEST_PROVIDER.baseUrl;
-export const DEEPINFRA_MODELS_URL = `${DEEPINFRA_BASE_URL}/models?sort_by=openclaw&filter=with_meta`;
+export const DEEPINFRA_MODELS_URL = `${DEEPINFRA_BASE_URL}/models?sort_by=brikko-studio&filter=with_meta`;
 
 export const DEEPINFRA_DEFAULT_MODEL_ID = "deepseek-ai/DeepSeek-V3.2";
 export const DEEPINFRA_DEFAULT_MODEL_REF = `deepinfra/${DEEPINFRA_DEFAULT_MODEL_ID}`;

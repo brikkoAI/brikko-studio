@@ -2,17 +2,17 @@
  * Twitch setup wizard surface for CLI setup.
  */
 
-import { normalizeOptionalAccountId } from "openclaw/plugin-sdk/account-id";
-import { getChatChannelMeta, type ChannelPlugin } from "openclaw/plugin-sdk/core";
+import { normalizeOptionalAccountId } from "brikko-studio/plugin-sdk/account-id";
+import { getChatChannelMeta, type ChannelPlugin } from "brikko-studio/plugin-sdk/core";
 import {
   formatDocsLink,
   type ChannelSetupAdapter,
   type ChannelSetupDmPolicy,
   type ChannelSetupWizard,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
   type WizardPrompter,
   normalizeAccountId,
-} from "openclaw/plugin-sdk/setup";
+} from "brikko-studio/plugin-sdk/setup";
 import {
   DEFAULT_ACCOUNT_ID,
   getAccountConfig,
@@ -34,7 +34,7 @@ function normalizeRequestedSetupAccountId(accountId: string): string {
   return normalized;
 }
 
-function resolveSetupAccountId(cfg: OpenClawConfig, requestedAccountId?: string): string {
+function resolveSetupAccountId(cfg: Brikko StudioConfig, requestedAccountId?: string): string {
   const requested = requestedAccountId?.trim();
   if (requested) {
     return normalizeRequestedSetupAccountId(requested);
@@ -45,10 +45,10 @@ function resolveSetupAccountId(cfg: OpenClawConfig, requestedAccountId?: string)
 }
 
 export function setTwitchAccount(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   account: Partial<TwitchAccountConfig>,
   accountId: string = resolveSetupAccountId(cfg),
-): OpenClawConfig {
+): Brikko StudioConfig {
   const resolvedAccountId = accountId.trim()
     ? normalizeRequestedSetupAccountId(accountId)
     : resolveSetupAccountId(cfg);
@@ -96,7 +96,7 @@ async function noteTwitchSetupHelp(prompter: WizardPrompter): Promise<void> {
       "2. Generate a token with scopes: chat:read and chat:write",
       "   Use https://twitchtokengenerator.com/ or https://twitchapps.com/tmi/",
       "3. Copy the token (starts with 'oauth:') and Client ID",
-      "Env vars supported: OPENCLAW_TWITCH_ACCESS_TOKEN",
+      "Env vars supported: BRIKKO_STUDIO_TWITCH_ACCESS_TOKEN",
       `Docs: ${formatDocsLink("/channels/twitch", "channels/twitch")}`,
     ].join("\n"),
     "Twitch setup",
@@ -212,14 +212,14 @@ export async function promptRefreshTokenSetup(
 }
 
 export async function configureWithEnvToken(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   prompter: WizardPrompter,
   account: TwitchAccountConfig | null,
   envToken: string,
   forceAllowFrom: boolean,
   dmPolicy: ChannelSetupDmPolicy,
   accountId: string = resolveSetupAccountId(cfg),
-): Promise<{ cfg: OpenClawConfig } | null> {
+): Promise<{ cfg: Brikko StudioConfig } | null> {
   const resolvedAccountId = accountId.trim()
     ? normalizeRequestedSetupAccountId(accountId)
     : resolveSetupAccountId(cfg);
@@ -228,7 +228,7 @@ export async function configureWithEnvToken(
   }
 
   const useEnv = await prompter.confirm({
-    message: "Twitch env var OPENCLAW_TWITCH_ACCESS_TOKEN detected. Use env token?",
+    message: "Twitch env var BRIKKO_STUDIO_TWITCH_ACCESS_TOKEN detected. Use env token?",
     initialValue: true,
   });
   if (!useEnv) {
@@ -263,11 +263,11 @@ export async function configureWithEnvToken(
 }
 
 function setTwitchAccessControl(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   allowedRoles: TwitchRole[],
   requireMention: boolean,
   accountId?: string,
-): OpenClawConfig {
+): Brikko StudioConfig {
   const resolvedAccountId = resolveSetupAccountId(cfg, accountId);
   const account = getAccountConfig(cfg, resolvedAccountId);
   if (!account) {
@@ -286,7 +286,7 @@ function setTwitchAccessControl(
 }
 
 function resolveTwitchGroupPolicy(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId?: string,
 ): "open" | "allowlist" | "disabled" {
   const account = getAccountConfig(cfg, resolveSetupAccountId(cfg, accountId));
@@ -300,10 +300,10 @@ function resolveTwitchGroupPolicy(
 }
 
 function setTwitchGroupPolicy(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   policy: "open" | "allowlist" | "disabled",
   accountId?: string,
-): OpenClawConfig {
+): Brikko StudioConfig {
   const allowedRoles: TwitchRole[] =
     policy === "open" ? ["all"] : policy === "allowlist" ? ["moderator", "vip"] : [];
   return setTwitchAccessControl(cfg, allowedRoles, true, accountId);
@@ -423,7 +423,7 @@ export const twitchSetupWizard: ChannelSetupWizard = {
       await noteTwitchSetupHelp(prompter);
     }
 
-    const envToken = process.env.OPENCLAW_TWITCH_ACCESS_TOKEN?.trim();
+    const envToken = process.env.BRIKKO_STUDIO_TWITCH_ACCESS_TOKEN?.trim();
 
     if (accountId === DEFAULT_ACCOUNT_ID && envToken && !account?.accessToken) {
       const envResult = await configureWithEnvToken(

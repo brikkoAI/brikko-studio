@@ -44,7 +44,7 @@ import {
 import {
   __testing,
   clearPluginLoaderCache,
-  loadOpenClawPlugins,
+  loadBrikko StudioPlugins,
   PluginLoadReentryError,
   resolveRuntimePluginRegistry,
 } from "./loader.js";
@@ -78,7 +78,7 @@ import {
   registerMemoryPromptSupplement,
   resolveMemoryFlushPlan,
 } from "./memory-state.js";
-import { ensureOpenClawPluginSdkAlias } from "./plugin-sdk-dist-alias.js";
+import { ensureBrikko StudioPluginSdkAlias } from "./plugin-sdk-dist-alias.js";
 import { createEmptyPluginRegistry } from "./registry.js";
 import {
   getActivePluginRegistry,
@@ -143,7 +143,7 @@ function simplePluginBody(id: string) {
 }
 
 function updatePluginManifest(plugin: Pick<TempPlugin, "dir">, patch: Record<string, unknown>) {
-  const manifestPath = path.join(plugin.dir, "openclaw.plugin.json");
+  const manifestPath = path.join(plugin.dir, "brikko-studio.plugin.json");
   const raw = JSON.parse(fs.readFileSync(manifestPath, "utf-8")) as Record<string, unknown>;
   fs.writeFileSync(manifestPath, JSON.stringify({ ...raw, ...patch }, null, 2), "utf-8");
 }
@@ -169,8 +169,8 @@ function writeBundledPlugin(params: {
     filename: params.filename ?? "index.cjs",
     body: params.body ?? simplePluginBody(params.id),
   });
-  delete process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS;
-  process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
+  delete process.env.BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS;
+  process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
   return { bundledDir, plugin };
 }
 
@@ -181,7 +181,7 @@ function writeWorkspacePlugin(params: {
   workspaceDir?: string;
 }) {
   const workspaceDir = params.workspaceDir ?? makeTempDir();
-  const workspacePluginDir = path.join(workspaceDir, ".openclaw", "extensions", params.id);
+  const workspacePluginDir = path.join(workspaceDir, ".brikko-studio", "extensions", params.id);
   mkdirSafe(workspacePluginDir);
   const plugin = writePlugin({
     id: params.id,
@@ -194,7 +194,7 @@ function writeWorkspacePlugin(params: {
 
 function withStateDir<T>(run: (stateDir: string) => T) {
   const stateDir = makeTempDir();
-  return withEnv({ OPENCLAW_STATE_DIR: stateDir }, () => run(stateDir));
+  return withEnv({ BRIKKO_STUDIO_STATE_DIR: stateDir }, () => run(stateDir));
 }
 
 function loadBundledMemoryPluginRegistry(options?: {
@@ -203,8 +203,8 @@ function loadBundledMemoryPluginRegistry(options?: {
   pluginFilename?: string;
 }) {
   if (!options && cachedBundledMemoryDir) {
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = cachedBundledMemoryDir;
-    return loadOpenClawPlugins({
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = cachedBundledMemoryDir;
+    return loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: cachedBundledMemoryDir,
       config: {
@@ -232,7 +232,7 @@ function loadBundledMemoryPluginRegistry(options?: {
           name: options.packageMeta.name,
           version: options.packageMeta.version,
           description: options.packageMeta.description,
-          openclaw: { extensions: [`./${pluginFilename}`] },
+          brikko-studio: { extensions: [`./${pluginFilename}`] },
         },
         null,
         2,
@@ -252,9 +252,9 @@ function loadBundledMemoryPluginRegistry(options?: {
   if (!options) {
     cachedBundledMemoryDir = bundledDir;
   }
-  process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
+  process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-  return loadOpenClawPlugins({
+  return loadBrikko StudioPlugins({
     cache: false,
     workspaceDir: bundledDir,
     config: {
@@ -277,10 +277,10 @@ function setupBundledTelegramPlugin() {
       filename: "telegram.cjs",
     });
   }
-  process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = cachedBundledTelegramDir;
+  process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = cachedBundledTelegramDir;
 }
 
-function expectTelegramLoaded(registry: ReturnType<typeof loadOpenClawPlugins>) {
+function expectTelegramLoaded(registry: ReturnType<typeof loadBrikko StudioPlugins>) {
   const telegram = registry.plugins.find((entry) => entry.id === "telegram");
   expect(telegram?.status).toBe("loaded");
   expect(registry.channels.some((entry) => entry.plugin.id === "telegram")).toBe(true);
@@ -290,10 +290,10 @@ function loadRegistryFromSinglePlugin(params: {
   plugin: TempPlugin;
   pluginConfig?: Record<string, unknown>;
   includeWorkspaceDir?: boolean;
-  options?: Omit<Parameters<typeof loadOpenClawPlugins>[0], "cache" | "workspaceDir" | "config">;
+  options?: Omit<Parameters<typeof loadBrikko StudioPlugins>[0], "cache" | "workspaceDir" | "config">;
 }) {
   const pluginConfig = params.pluginConfig ?? {};
-  return loadOpenClawPlugins({
+  return loadBrikko StudioPlugins({
     cache: false,
     ...(params.includeWorkspaceDir === false ? {} : { workspaceDir: params.plugin.dir }),
     ...params.options,
@@ -308,9 +308,9 @@ function loadRegistryFromSinglePlugin(params: {
 
 function loadRegistryFromAllowedPlugins(
   plugins: TempPlugin[],
-  options?: Omit<Parameters<typeof loadOpenClawPlugins>[0], "cache" | "config">,
+  options?: Omit<Parameters<typeof loadBrikko StudioPlugins>[0], "cache" | "config">,
 ) {
-  return loadOpenClawPlugins({
+  return loadBrikko StudioPlugins({
     cache: false,
     ...options,
     config: {
@@ -531,7 +531,7 @@ function createEscapingEntryFixture(params: { id: string; sourceBody: string }) 
   const linkedEntry = path.join(pluginDir, "entry.cjs");
   fs.writeFileSync(outsideEntry, params.sourceBody, "utf-8");
   fs.writeFileSync(
-    path.join(pluginDir, "openclaw.plugin.json"),
+    path.join(pluginDir, "brikko-studio.plugin.json"),
     JSON.stringify(
       {
         id: params.id,
@@ -546,7 +546,7 @@ function createEscapingEntryFixture(params: { id: string; sourceBody: string }) 
 }
 
 function resolveLoadedPluginSource(
-  registry: ReturnType<typeof loadOpenClawPlugins>,
+  registry: ReturnType<typeof loadBrikko StudioPlugins>,
   pluginId: string,
 ) {
   return fs.realpathSync(registry.plugins.find((entry) => entry.id === pluginId)?.source ?? "");
@@ -554,8 +554,8 @@ function resolveLoadedPluginSource(
 
 function expectCachePartitionByPluginSource(params: {
   pluginId: string;
-  loadFirst: () => ReturnType<typeof loadOpenClawPlugins>;
-  loadSecond: () => ReturnType<typeof loadOpenClawPlugins>;
+  loadFirst: () => ReturnType<typeof loadBrikko StudioPlugins>;
+  loadSecond: () => ReturnType<typeof loadBrikko StudioPlugins>;
   expectedFirstSource: string;
   expectedSecondSource: string;
 }) {
@@ -572,8 +572,8 @@ function expectCachePartitionByPluginSource(params: {
 }
 
 function expectCacheMissThenHit(params: {
-  loadFirst: () => ReturnType<typeof loadOpenClawPlugins>;
-  loadVariant: () => ReturnType<typeof loadOpenClawPlugins>;
+  loadFirst: () => ReturnType<typeof loadBrikko StudioPlugins>;
+  loadVariant: () => ReturnType<typeof loadBrikko StudioPlugins>;
 }) {
   const first = params.loadFirst();
   const second = params.loadVariant();
@@ -615,7 +615,7 @@ function createSetupEntryChannelPluginFixture(params: {
     JSON.stringify(
       {
         name: params.packageName,
-        openclaw: {
+        brikko-studio: {
           extensions: ["./index.cjs"],
           setupEntry: "./setup-entry.cjs",
           ...(params.startupDeferConfiguredChannelFullLoadUntilAfterListen
@@ -633,7 +633,7 @@ function createSetupEntryChannelPluginFixture(params: {
     "utf-8",
   );
   fs.writeFileSync(
-    path.join(pluginDir, "openclaw.plugin.json"),
+    path.join(pluginDir, "brikko-studio.plugin.json"),
     JSON.stringify(
       {
         id: params.id,
@@ -787,10 +787,10 @@ module.exports = {
 
 function createEnvResolvedPluginFixture(pluginId: string) {
   useNoBundledPlugins();
-  const openclawHome = makeTempDir();
+  const brikko-studioHome = makeTempDir();
   const ignoredHome = makeTempDir();
   const stateDir = makeTempDir();
-  const pluginDir = path.join(openclawHome, "plugins", pluginId);
+  const pluginDir = path.join(brikko-studioHome, "plugins", pluginId);
   mkdirSafe(pluginDir);
   const plugin = writePlugin({
     id: pluginId,
@@ -800,10 +800,10 @@ function createEnvResolvedPluginFixture(pluginId: string) {
   });
   const env = {
     ...process.env,
-    OPENCLAW_HOME: openclawHome,
+    BRIKKO_STUDIO_HOME: brikko-studioHome,
     HOME: ignoredHome,
-    OPENCLAW_STATE_DIR: stateDir,
-    OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+    BRIKKO_STUDIO_STATE_DIR: stateDir,
+    BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
   };
   return { plugin, env };
 }
@@ -834,7 +834,7 @@ function expectEscapingEntryRejected(params: {
     throw err;
   }
 
-  const registry = loadOpenClawPlugins({
+  const registry = loadBrikko StudioPlugins({
     cache: false,
     config: {
       plugins: {
@@ -862,7 +862,7 @@ afterAll(() => {
   cachedBundledMemoryDir = "";
 });
 
-describe("loadOpenClawPlugins", () => {
+describe("loadBrikko StudioPlugins", () => {
   it("can load scoped plugins from a supplied manifest registry without rereading manifests", () => {
     useNoBundledPlugins();
     const plugin = writePlugin({
@@ -876,9 +876,9 @@ describe("loadOpenClawPlugins", () => {
       },
     };
     const manifestRegistry = loadPluginManifestRegistry({ config });
-    fs.rmSync(path.join(plugin.dir, "openclaw.plugin.json"));
+    fs.rmSync(path.join(plugin.dir, "brikko-studio.plugin.json"));
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config,
       manifestRegistry,
@@ -908,8 +908,8 @@ describe("loadOpenClawPlugins", () => {
       { stateDir },
     );
 
-    const registry = withEnv({ OPENCLAW_STATE_DIR: stateDir }, () =>
-      loadOpenClawPlugins({
+    const registry = withEnv({ BRIKKO_STUDIO_STATE_DIR: stateDir }, () =>
+      loadBrikko StudioPlugins({
         cache: false,
         config: {
           plugins: {
@@ -931,16 +931,16 @@ describe("loadOpenClawPlugins", () => {
   it("refreshes bundled plugin-sdk aliases without deleting the shared alias directory", () => {
     const distRoot = makeTempDir();
     const pluginSdkDir = path.join(distRoot, "plugin-sdk");
-    const aliasDir = path.join(distRoot, "extensions", "node_modules", "openclaw", "plugin-sdk");
+    const aliasDir = path.join(distRoot, "extensions", "node_modules", "brikko-studio", "plugin-sdk");
     mkdirSafe(pluginSdkDir);
     mkdirSafe(aliasDir);
     fs.writeFileSync(path.join(pluginSdkDir, "index.js"), "export const value = 1;\n", "utf8");
     fs.writeFileSync(path.join(pluginSdkDir, "core.js"), "export const core = 1;\n", "utf8");
     fs.writeFileSync(path.join(aliasDir, "sentinel.txt"), "keep\n", "utf8");
 
-    ensureOpenClawPluginSdkAlias(distRoot);
+    ensureBrikko StudioPluginSdkAlias(distRoot);
     fs.writeFileSync(path.join(pluginSdkDir, "core.js"), "export const core = 2;\n", "utf8");
-    ensureOpenClawPluginSdkAlias(distRoot);
+    ensureBrikko StudioPluginSdkAlias(distRoot);
 
     expect(fs.existsSync(path.join(aliasDir, "sentinel.txt"))).toBe(true);
     expect(fs.readFileSync(path.join(aliasDir, "core.js"), "utf8")).toContain("core.js");
@@ -954,9 +954,9 @@ describe("loadOpenClawPlugins", () => {
       dir: bundledDir,
       filename: "bundled.cjs",
     });
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -976,7 +976,7 @@ describe("loadOpenClawPlugins", () => {
     fs.mkdirSync(pluginRoot, { recursive: true });
     fs.writeFileSync(
       path.join(packageRoot, "package.json"),
-      JSON.stringify({ name: "openclaw", version: "2026.4.22", type: "module" }),
+      JSON.stringify({ name: "brikko-studio", version: "2026.4.22", type: "module" }),
       "utf-8",
     );
     fs.writeFileSync(
@@ -984,11 +984,11 @@ describe("loadOpenClawPlugins", () => {
       "export const normalizeLowercaseStringOrEmpty = (value) => String(value).toLowerCase();\n",
       "utf-8",
     );
-    ensureOpenClawPluginSdkAlias(path.join(packageRoot, "dist"));
+    ensureBrikko StudioPluginSdkAlias(path.join(packageRoot, "dist"));
     fs.writeFileSync(
       path.join(pluginRoot, "index.js"),
       [
-        `import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";`,
+        `import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";`,
         `export default {`,
         `  id: "discord",`,
         `  register(api) {`,
@@ -1003,10 +1003,10 @@ describe("loadOpenClawPlugins", () => {
       path.join(pluginRoot, "package.json"),
       JSON.stringify(
         {
-          name: "@openclaw/discord",
+          name: "@brikko-studio/discord",
           version: "1.0.0",
           type: "module",
-          openclaw: { extensions: ["./index.js"] },
+          brikko-studio: { extensions: ["./index.js"] },
         },
         null,
         2,
@@ -1014,7 +1014,7 @@ describe("loadOpenClawPlugins", () => {
       "utf-8",
     );
     fs.writeFileSync(
-      path.join(pluginRoot, "openclaw.plugin.json"),
+      path.join(pluginRoot, "brikko-studio.plugin.json"),
       JSON.stringify(
         {
           id: "discord",
@@ -1026,9 +1026,9 @@ describe("loadOpenClawPlugins", () => {
       ),
       "utf-8",
     );
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1081,7 +1081,7 @@ describe("loadOpenClawPlugins", () => {
           },
         },
       } satisfies PluginLoadConfig,
-      assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+      assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
         expectTelegramLoaded(registry);
       },
     },
@@ -1097,7 +1097,7 @@ describe("loadOpenClawPlugins", () => {
           enabled: true,
         },
       } satisfies PluginLoadConfig,
-      assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+      assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
         expectTelegramLoaded(registry);
       },
     },
@@ -1113,7 +1113,7 @@ describe("loadOpenClawPlugins", () => {
           allow: ["browser"],
         },
       } satisfies PluginLoadConfig,
-      assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+      assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
         const telegram = registry.plugins.find((entry) => entry.id === "telegram");
         expect(telegram?.status).toBe("loaded");
         expect(telegram?.error).toBeUndefined();
@@ -1134,7 +1134,7 @@ describe("loadOpenClawPlugins", () => {
           },
         },
       } satisfies PluginLoadConfig,
-      assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+      assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
         const telegram = registry.plugins.find((entry) => entry.id === "telegram");
         expect(telegram?.status).toBe("disabled");
         expect(telegram?.error).toBe("disabled in config");
@@ -1144,7 +1144,7 @@ describe("loadOpenClawPlugins", () => {
     "handles bundled telegram plugin enablement and override rules: $name",
     ({ config, assert }) => {
       setupBundledTelegramPlugin();
-      const registry = loadOpenClawPlugins({
+      const registry = loadBrikko StudioPlugins({
         cache: false,
         workspaceDir: cachedBundledTelegramDir,
         config,
@@ -1170,7 +1170,7 @@ describe("loadOpenClawPlugins", () => {
       env: {},
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: autoEnabled.config,
@@ -1203,7 +1203,7 @@ describe("loadOpenClawPlugins", () => {
       env: {},
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: autoEnabled.config,
@@ -1236,7 +1236,7 @@ describe("loadOpenClawPlugins", () => {
       },
     } satisfies PluginLoadConfig;
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: {
@@ -1278,7 +1278,7 @@ describe("loadOpenClawPlugins", () => {
       },
     } satisfies PluginLoadConfig;
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: bundledDir,
       config,
@@ -1296,7 +1296,7 @@ describe("loadOpenClawPlugins", () => {
   it("preserves package.json metadata for bundled memory plugins", () => {
     const registry = loadBundledMemoryPluginRegistry({
       packageMeta: {
-        name: "@openclaw/memory-core",
+        name: "@brikko-studio/memory-core",
         version: "1.2.3",
         description: "Memory plugin package",
       },
@@ -1326,7 +1326,7 @@ describe("loadOpenClawPlugins", () => {
 };`,
         });
 
-        const registry = loadOpenClawPlugins({
+        const registry = loadBrikko StudioPlugins({
           cache: false,
           workspaceDir: plugin.dir,
           config: {
@@ -1361,7 +1361,7 @@ describe("loadOpenClawPlugins", () => {
 };`,
         });
 
-        const registry = loadOpenClawPlugins({
+        const registry = loadBrikko StudioPlugins({
           cache: false,
           workspaceDir: plugin.dir,
           config: {
@@ -1399,7 +1399,7 @@ describe("loadOpenClawPlugins", () => {
 };`,
         });
 
-        const registry = loadOpenClawPlugins({
+        const registry = loadBrikko StudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -1433,7 +1433,7 @@ describe("loadOpenClawPlugins", () => {
 module.exports = { id: "skipped-scoped-only", register() { throw new Error("skipped plugin should not load"); } };`,
         });
 
-        const registry = loadOpenClawPlugins({
+        const registry = loadBrikko StudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -1460,7 +1460,7 @@ module.exports = { id: "skipped-scoped-only", register() { throw new Error("skip
 module.exports = { id: "manifest-only-plugin", register() { throw new Error("manifest-only snapshot should not register"); } };`,
         });
 
-        const registry = loadOpenClawPlugins({
+        const registry = loadBrikko StudioPlugins({
           cache: false,
           activate: false,
           loadModules: false,
@@ -1498,7 +1498,7 @@ module.exports = { id: "manifest-only-plugin", register() { throw new Error("man
 module.exports = { id: "manifest-surfaces-plugin", register() { throw new Error("manifest-only snapshot should not register"); } };`,
         });
         fs.writeFileSync(
-          path.join(plugin.dir, "openclaw.plugin.json"),
+          path.join(plugin.dir, "brikko-studio.plugin.json"),
           JSON.stringify(
             {
               id: "manifest-surfaces-plugin",
@@ -1515,7 +1515,7 @@ module.exports = { id: "manifest-surfaces-plugin", register() { throw new Error(
           "utf-8",
         );
 
-        const registry = loadOpenClawPlugins({
+        const registry = loadBrikko StudioPlugins({
           cache: false,
           activate: false,
           loadModules: false,
@@ -1556,7 +1556,7 @@ module.exports = { id: "manifest-surfaces-plugin", register() { throw new Error(
 };`,
         });
         fs.writeFileSync(
-          path.join(memoryPlugin.dir, "openclaw.plugin.json"),
+          path.join(memoryPlugin.dir, "brikko-studio.plugin.json"),
           JSON.stringify(
             {
               id: "memory-demo",
@@ -1569,7 +1569,7 @@ module.exports = { id: "manifest-surfaces-plugin", register() { throw new Error(
           "utf-8",
         );
 
-        const registry = loadOpenClawPlugins({
+        const registry = loadBrikko StudioPlugins({
           cache: false,
           activate: false,
           loadModules: false,
@@ -1605,7 +1605,7 @@ module.exports = { id: "manifest-surfaces-plugin", register() { throw new Error(
       label: "tracks plugins as imported when module evaluation throws after top-level execution",
       run: () => {
         useNoBundledPlugins();
-        const importMarker = "__openclaw_loader_import_throw_marker";
+        const importMarker = "__brikko-studio_loader_import_throw_marker";
         Reflect.deleteProperty(globalThis, importMarker);
 
         const plugin = writePlugin({
@@ -1616,7 +1616,7 @@ throw new Error("boom after import");
 module.exports = { id: "throws-after-import", register() {} };`,
         });
 
-        const registry = loadOpenClawPlugins({
+        const registry = loadBrikko StudioPlugins({
           cache: false,
           activate: false,
           config: {
@@ -1647,13 +1647,13 @@ module.exports = { id: "throws-after-import", register() {} };`,
       label: "fails loudly when a plugin reenters the same snapshot load during register",
       run: () => {
         useNoBundledPlugins();
-        const marker = "__openclaw_loader_reentry_error";
-        const reenterFnMarker = "__openclaw_loader_reentry_fn";
+        const marker = "__brikko-studio_loader_reentry_error";
+        const reenterFnMarker = "__brikko-studio_loader_reentry_fn";
         Reflect.deleteProperty(globalThis, marker);
         Reflect.set(
           globalThis,
           reenterFnMarker,
-          (options: Parameters<typeof loadOpenClawPlugins>[0]) => loadOpenClawPlugins(options),
+          (options: Parameters<typeof loadBrikko StudioPlugins>[0]) => loadBrikko StudioPlugins(options),
         );
         const pluginDir = makeTempDir();
         const pluginFile = path.join(pluginDir, "reentrant-snapshot.cjs");
@@ -1667,7 +1667,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
               allow: ["reentrant-snapshot"],
             },
           },
-        } satisfies Parameters<typeof loadOpenClawPlugins>[0];
+        } satisfies Parameters<typeof loadBrikko StudioPlugins>[0];
         writePlugin({
           id: "reentrant-snapshot",
           dir: pluginDir,
@@ -1688,7 +1688,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 };`,
         });
 
-        const registry = loadOpenClawPlugins(nestedOptions);
+        const registry = loadBrikko StudioPlugins(nestedOptions);
 
         try {
           expect(Reflect.get(globalThis, marker)).toMatchObject({
@@ -1712,8 +1712,8 @@ module.exports = { id: "throws-after-import", register() {} };`,
       label: "lets resolveRuntimePluginRegistry short-circuit during same snapshot load",
       run: () => {
         useNoBundledPlugins();
-        const marker = "__openclaw_runtime_registry_reentry_marker";
-        const resolverMarker = "__openclaw_runtime_registry_reentry_fn";
+        const marker = "__brikko-studio_runtime_registry_reentry_marker";
+        const resolverMarker = "__brikko-studio_runtime_registry_reentry_fn";
         Reflect.deleteProperty(globalThis, marker);
         Reflect.set(
           globalThis,
@@ -1733,7 +1733,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
               allow: ["runtime-registry-reentry"],
             },
           },
-        } satisfies Parameters<typeof loadOpenClawPlugins>[0];
+        } satisfies Parameters<typeof loadBrikko StudioPlugins>[0];
         writePlugin({
           id: "runtime-registry-reentry",
           dir: pluginDir,
@@ -1747,7 +1747,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 };`,
         });
 
-        const registry = loadOpenClawPlugins(nestedOptions);
+        const registry = loadBrikko StudioPlugins(nestedOptions);
 
         try {
           expect(Reflect.get(globalThis, marker)).toBe("undefined");
@@ -1785,12 +1785,12 @@ module.exports = { id: "throws-after-import", register() {} };`,
           },
         };
 
-        const full = loadOpenClawPlugins(options);
-        const scoped = loadOpenClawPlugins({
+        const full = loadBrikko StudioPlugins(options);
+        const scoped = loadBrikko StudioPlugins({
           ...options,
           onlyPluginIds: ["allowed-cache-scope"],
         });
-        const scopedAgain = loadOpenClawPlugins({
+        const scopedAgain = loadBrikko StudioPlugins({
           ...options,
           onlyPluginIds: ["allowed-cache-scope"],
         });
@@ -1817,7 +1817,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         setActivePluginRegistry(previousRegistry, "existing-registry");
         resetGlobalHookRunner();
 
-        const scoped = loadOpenClawPlugins({
+        const scoped = loadBrikko StudioPlugins({
           cache: false,
           activate: false,
           workspaceDir: plugin.dir,
@@ -1853,7 +1853,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       body: `module.exports = { id: "extra-empty-scope", register() {} };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       activate: false,
       config: {
@@ -1878,10 +1878,10 @@ module.exports = { id: "throws-after-import", register() {} };`,
 
     const discovery = await import("./discovery.js");
     const manifestRegistry = await import("./manifest-registry.js");
-    const discoverySpy = vi.spyOn(discovery, "discoverOpenClawPlugins");
+    const discoverySpy = vi.spyOn(discovery, "discoverBrikko StudioPlugins");
     const manifestSpy = vi.spyOn(manifestRegistry, "loadPluginManifestRegistry");
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       activate: false,
       config: {
@@ -1920,7 +1920,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     });
     clearPluginCommands();
 
-    const scoped = loadOpenClawPlugins({
+    const scoped = loadBrikko StudioPlugins({
       cache: false,
       activate: false,
       workspaceDir: plugin.dir,
@@ -1937,7 +1937,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     expect(scoped.commands.map((entry) => entry.command.name)).toEqual(["pair"]);
     expect(getPluginCommandSpecs("telegram")).toEqual([]);
 
-    const active = loadOpenClawPlugins({
+    const active = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -1979,7 +1979,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    loadOpenClawPlugins({
+    loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -1992,7 +1992,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     });
     expect(listAgentHarnessIds()).toEqual(["codex"]);
 
-    loadOpenClawPlugins({
+    loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: makeTempDir(),
       config: {
@@ -2020,7 +2020,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2056,7 +2056,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     });
 
     clearInternalHooks();
-    const scoped = loadOpenClawPlugins({
+    const scoped = loadBrikko StudioPlugins({
       cache: false,
       activate: false,
       workspaceDir: plugin.dir,
@@ -2111,8 +2111,8 @@ module.exports = { id: "throws-after-import", register() {} };`,
       onlyPluginIds: ["internal-hook-reload"],
     };
 
-    loadOpenClawPlugins(loadOptions);
-    loadOpenClawPlugins(loadOptions);
+    loadBrikko StudioPlugins(loadOptions);
+    loadBrikko StudioPlugins(loadOptions);
 
     const event = createInternalHookEvent("gateway", "startup", "gateway:startup");
     await triggerInternalHook(event);
@@ -2140,7 +2140,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
     fs.writeFileSync(
-      path.join(plugin.dir, "openclaw.plugin.json"),
+      path.join(plugin.dir, "brikko-studio.plugin.json"),
       JSON.stringify(
         {
           id: "hook-config-context",
@@ -2154,7 +2154,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 
     clearInternalHooks();
 
-    loadOpenClawPlugins({
+    loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2236,7 +2236,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     clearPluginCommands();
     clearPluginInteractiveHandlers();
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2285,7 +2285,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 
     clearInternalHooks();
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2330,7 +2330,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2358,7 +2358,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
   });
 
   it("can scope bundled provider loads to deepseek without hanging", () => {
-    const scoped = loadOpenClawPlugins({
+    const scoped = loadBrikko StudioPlugins({
       cache: false,
       activate: false,
       pluginSdkResolution: "dist",
@@ -2439,7 +2439,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const scoped = loadOpenClawPlugins({
+    const scoped = loadBrikko StudioPlugins({
       cache: false,
       activate: false,
       workspaceDir: plugin.dir,
@@ -2504,7 +2504,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2551,7 +2551,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const scoped = loadOpenClawPlugins({
+    const scoped = loadBrikko StudioPlugins({
       cache: false,
       activate: false,
       workspaceDir: plugin.dir,
@@ -2597,7 +2597,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2647,15 +2647,15 @@ module.exports = { id: "throws-after-import", register() {} };`,
         },
       },
       onlyPluginIds: ["cached-detached-runtime"],
-    } satisfies Parameters<typeof loadOpenClawPlugins>[0];
+    } satisfies Parameters<typeof loadBrikko StudioPlugins>[0];
 
-    loadOpenClawPlugins(loadOptions);
+    loadBrikko StudioPlugins(loadOptions);
     expect(getDetachedTaskLifecycleRuntimeRegistration()?.pluginId).toBe("cached-detached-runtime");
 
     clearDetachedTaskLifecycleRuntimeRegistration();
     expect(getDetachedTaskLifecycleRuntimeRegistration()).toBeUndefined();
 
-    loadOpenClawPlugins(loadOptions);
+    loadBrikko StudioPlugins(loadOptions);
 
     expect(getDetachedTaskLifecycleRuntimeRegistration()?.pluginId).toBe("cached-detached-runtime");
   });
@@ -2691,9 +2691,9 @@ module.exports = { id: "throws-after-import", register() {} };`,
         },
       },
       onlyPluginIds: ["cached-command-interactive"],
-    } satisfies Parameters<typeof loadOpenClawPlugins>[0];
+    } satisfies Parameters<typeof loadBrikko StudioPlugins>[0];
 
-    loadOpenClawPlugins(loadOptions);
+    loadBrikko StudioPlugins(loadOptions);
     expect(getPluginCommandSpecs()).toEqual([
       { name: "hue", description: "Control Hue lights", acceptsArgs: false },
     ]);
@@ -2704,7 +2704,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     commitPluginInteractiveCallbackDedupe(dedupeKey, 1_000);
     expect(claimPluginInteractiveCallbackDedupe(dedupeKey, 1_001)).toBe(false);
 
-    loadOpenClawPlugins(loadOptions);
+    loadBrikko StudioPlugins(loadOptions);
     expect(claimPluginInteractiveCallbackDedupe(dedupeKey, 1_002)).toBe(false);
 
     clearPluginCommands();
@@ -2712,7 +2712,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     expect(getPluginCommandSpecs()).toEqual([]);
     expect(resolvePluginInteractiveNamespaceMatch("telegram", "hue:on")).toBeNull();
 
-    loadOpenClawPlugins(loadOptions);
+    loadBrikko StudioPlugins(loadOptions);
 
     expect(getPluginCommandSpecs()).toEqual([
       { name: "hue", description: "Control Hue lights", acceptsArgs: false },
@@ -2731,7 +2731,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     useNoBundledPlugins();
     registerDetachedTaskLifecycleRuntime("stale-runtime", createDetachedTaskRuntimeStub("stale"));
 
-    loadOpenClawPlugins({
+    loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -2797,14 +2797,14 @@ module.exports = { id: "throws-after-import", register() {} };`,
       },
     ];
 
-    const first = loadOpenClawPlugins(options);
+    const first = loadBrikko StudioPlugins(options);
     await expect(listActiveMemoryPublicArtifacts({ cfg: {} as never })).resolves.toEqual(
       expectedArtifacts,
     );
 
     clearMemoryPluginState();
 
-    const second = loadOpenClawPlugins(options);
+    const second = loadBrikko StudioPlugins(options);
     expect(second).toBe(first);
     await expect(listActiveMemoryPublicArtifacts({ cfg: {} as never })).resolves.toEqual(
       expectedArtifacts,
@@ -2856,7 +2856,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         slots: { memory: "capability-survives-memory" },
       },
     };
-    loadOpenClawPlugins({
+    loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: memoryPlugin.dir,
       config: activateConfig,
@@ -2880,7 +2880,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     // Simulate what resolvePluginWebSearchProviders and similar read-only paths do:
     // load plugins again with activate:false. Each per-plugin snapshot/rollback must
     // preserve the previously registered memory capability.
-    loadOpenClawPlugins({
+    loadBrikko StudioPlugins({
       cache: false,
       activate: false,
       workspaceDir: memoryPlugin.dir,
@@ -2894,7 +2894,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 
   it("uses discovery registration mode for non-activating loads", () => {
     useNoBundledPlugins();
-    const marker = "__openclawDiscoveryModeTest";
+    const marker = "__brikko-studioDiscoveryModeTest";
     const plugin = writePlugin({
       id: "discovery-mode-test",
       filename: "discovery-mode-test.cjs",
@@ -2921,7 +2921,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       },
     };
 
-    const snapshot = loadOpenClawPlugins({
+    const snapshot = loadBrikko StudioPlugins({
       activate: false,
       cache: false,
       workspaceDir: plugin.dir,
@@ -2931,7 +2931,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     expect(snapshot.providers.map((entry) => entry.provider.id)).toEqual(["discovery-provider"]);
     expect(snapshot.tools.flatMap((entry) => entry.names)).toContain("discovery_tool");
 
-    loadOpenClawPlugins({
+    loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config,
@@ -2958,7 +2958,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       activate: false,
       cache: false,
       workspaceDir: plugin.dir,
@@ -3000,7 +3000,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     });
     updatePluginManifest(plugin, { contracts: { tools: ["manifest_tool"] } });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       activate: false,
       cache: false,
       workspaceDir: plugin.dir,
@@ -3026,7 +3026,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
   it("caches non-activating snapshots without restoring global side effects", () => {
     useNoBundledPlugins();
     clearPluginCommands();
-    const marker = "__openclawSnapshotCacheRegisterCount";
+    const marker = "__brikko-studioSnapshotCacheRegisterCount";
     const plugin = writePlugin({
       id: "snapshot-cache",
       filename: "snapshot-cache.cjs",
@@ -3054,15 +3054,15 @@ module.exports = { id: "throws-after-import", register() {} };`,
       onlyPluginIds: ["snapshot-cache"],
     };
 
-    const first = loadOpenClawPlugins(options);
-    const second = loadOpenClawPlugins(options);
+    const first = loadBrikko StudioPlugins(options);
+    const second = loadBrikko StudioPlugins(options);
 
     expect(second).toBe(first);
     expect((globalThis as Record<string, unknown>)[marker]).toBe(1);
     expect(first.commands.map((entry) => entry.command.name)).toEqual(["snapshot-command"]);
     expect(getPluginCommandSpecs()).toEqual([]);
 
-    const active = loadOpenClawPlugins({
+    const active = loadBrikko StudioPlugins({
       workspaceDir: plugin.dir,
       config: options.config,
       onlyPluginIds: ["snapshot-cache"],
@@ -3081,7 +3081,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 
   it("does not re-register non-bundled plugins after gateway-bindable boot loads", () => {
     useNoBundledPlugins();
-    const marker = "__openclawGatewayBootRegisterCount";
+    const marker = "__brikko-studioGatewayBootRegisterCount";
     const plugin = writePlugin({
       id: "costclaw-boot-cache",
       filename: "costclaw-boot-cache.cjs",
@@ -3102,7 +3102,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       },
     };
 
-    loadOpenClawPlugins({
+    loadBrikko StudioPlugins({
       workspaceDir: plugin.dir,
       config,
       runtimeOptions: {
@@ -3121,7 +3121,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 
   it("reuses a gateway-bindable cache entry for later default-mode loads", () => {
     useNoBundledPlugins();
-    const marker = "__openclawGatewayBindableCacheRegisterCount";
+    const marker = "__brikko-studioGatewayBindableCacheRegisterCount";
     const plugin = writePlugin({
       id: "gateway-bindable-cache",
       filename: "gateway-bindable-cache.cjs",
@@ -3145,13 +3145,13 @@ module.exports = { id: "throws-after-import", register() {} };`,
       },
     };
 
-    const gatewayBindable = loadOpenClawPlugins({
+    const gatewayBindable = loadBrikko StudioPlugins({
       ...options,
       runtimeOptions: {
         allowGatewaySubagentBinding: true,
       },
     });
-    const defaultMode = loadOpenClawPlugins(options);
+    const defaultMode = loadBrikko StudioPlugins(options);
 
     expect(defaultMode).toBe(gatewayBindable);
     expect((globalThis as Record<string, unknown>)[marker]).toBe(1);
@@ -3176,13 +3176,13 @@ module.exports = { id: "throws-after-import", register() {} };`,
       },
     };
 
-    const first = loadOpenClawPlugins(options);
+    const first = loadBrikko StudioPlugins(options);
     expect(getGlobalHookRunner()).not.toBeNull();
 
     resetGlobalHookRunner();
     expect(getGlobalHookRunner()).toBeNull();
 
-    const second = loadOpenClawPlugins(options);
+    const second = loadBrikko StudioPlugins(options);
     expect(second).toBe(first);
     expect(getGlobalHookRunner()).not.toBeNull();
 
@@ -3206,7 +3206,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       } };`,
     });
 
-    const gatewayRegistry = loadOpenClawPlugins({
+    const gatewayRegistry = loadBrikko StudioPlugins({
       workspaceDir: gatewayPlugin.dir,
       config: {
         plugins: {
@@ -3227,7 +3227,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     expect(getGlobalPluginRegistry()).toBe(gatewayRegistry);
     expect(getGlobalHookRunner()?.hasHooks("subagent_ended")).toBe(true);
 
-    const defaultRegistry = loadOpenClawPlugins({
+    const defaultRegistry = loadBrikko StudioPlugins({
       workspaceDir: defaultPlugin.dir,
       config: {
         plugins: {
@@ -3284,19 +3284,19 @@ module.exports = { id: "throws-after-import", register() {} };`,
           expectedFirstSource: pluginA.file,
           expectedSecondSource: pluginB.file,
           loadFirst: () =>
-            loadOpenClawPlugins({
+            loadBrikko StudioPlugins({
               ...options,
               env: {
                 ...process.env,
-                OPENCLAW_BUNDLED_PLUGINS_DIR: bundledA,
+                BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledA,
               },
             }),
           loadSecond: () =>
-            loadOpenClawPlugins({
+            loadBrikko StudioPlugins({
               ...options,
               env: {
                 ...process.env,
-                OPENCLAW_BUNDLED_PLUGINS_DIR: bundledB,
+                BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledB,
               },
             }),
         };
@@ -3341,25 +3341,25 @@ module.exports = { id: "throws-after-import", register() {} };`,
           expectedFirstSource: pluginA.file,
           expectedSecondSource: pluginB.file,
           loadFirst: () =>
-            loadOpenClawPlugins({
+            loadBrikko StudioPlugins({
               ...options,
               env: {
                 ...process.env,
                 HOME: homeA,
-                OPENCLAW_HOME: undefined,
-                OPENCLAW_STATE_DIR: stateDir,
-                OPENCLAW_BUNDLED_PLUGINS_DIR: bundledDir,
+                BRIKKO_STUDIO_HOME: undefined,
+                BRIKKO_STUDIO_STATE_DIR: stateDir,
+                BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledDir,
               },
             }),
           loadSecond: () =>
-            loadOpenClawPlugins({
+            loadBrikko StudioPlugins({
               ...options,
               env: {
                 ...process.env,
                 HOME: homeB,
-                OPENCLAW_HOME: undefined,
-                OPENCLAW_STATE_DIR: stateDir,
-                OPENCLAW_BUNDLED_PLUGINS_DIR: bundledDir,
+                BRIKKO_STUDIO_HOME: undefined,
+                BRIKKO_STUDIO_STATE_DIR: stateDir,
+                BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledDir,
               },
             }),
         };
@@ -3381,10 +3381,10 @@ module.exports = { id: "throws-after-import", register() {} };`,
       name: "does not reuse cached registries when env-resolved install paths change",
       setup: () => {
         useNoBundledPlugins();
-        const openclawHome = makeTempDir();
+        const brikko-studioHome = makeTempDir();
         const ignoredHome = makeTempDir();
         const stateDir = makeTempDir();
-        const pluginDir = path.join(openclawHome, "plugins", "tracked-install-cache");
+        const pluginDir = path.join(brikko-studioHome, "plugins", "tracked-install-cache");
         mkdirSafe(pluginDir);
         const plugin = writePlugin({
           id: "tracked-install-cache",
@@ -3416,25 +3416,25 @@ module.exports = { id: "throws-after-import", register() {} };`,
         const secondHome = makeTempDir();
         return {
           loadFirst: () =>
-            loadOpenClawPlugins({
+            loadBrikko StudioPlugins({
               ...options,
               env: {
                 ...process.env,
-                OPENCLAW_HOME: openclawHome,
+                BRIKKO_STUDIO_HOME: brikko-studioHome,
                 HOME: ignoredHome,
-                OPENCLAW_STATE_DIR: stateDir,
-                OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+                BRIKKO_STUDIO_STATE_DIR: stateDir,
+                BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
               },
             }),
           loadVariant: () =>
-            loadOpenClawPlugins({
+            loadBrikko StudioPlugins({
               ...options,
               env: {
                 ...process.env,
-                OPENCLAW_HOME: secondHome,
+                BRIKKO_STUDIO_HOME: secondHome,
                 HOME: ignoredHome,
-                OPENCLAW_STATE_DIR: stateDir,
-                OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+                BRIKKO_STUDIO_STATE_DIR: stateDir,
+                BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
               },
             }),
         };
@@ -3463,9 +3463,9 @@ module.exports = { id: "throws-after-import", register() {} };`,
         };
 
         return {
-          loadFirst: () => loadOpenClawPlugins(options),
+          loadFirst: () => loadBrikko StudioPlugins(options),
           loadVariant: () =>
-            loadOpenClawPlugins({
+            loadBrikko StudioPlugins({
               ...options,
               pluginSdkResolution: "workspace" as PluginSdkResolutionPreference,
             }),
@@ -3495,9 +3495,9 @@ module.exports = { id: "throws-after-import", register() {} };`,
         };
 
         return {
-          loadFirst: () => loadOpenClawPlugins(options),
+          loadFirst: () => loadBrikko StudioPlugins(options),
           loadVariant: () =>
-            loadOpenClawPlugins({
+            loadBrikko StudioPlugins({
               ...options,
               runtimeOptions: {
                 allowGatewaySubagentBinding: true,
@@ -3524,11 +3524,11 @@ module.exports = { id: "throws-after-import", register() {} };`,
     );
 
     const loadWithStateDir = (stateDir: string) =>
-      loadOpenClawPlugins({
+      loadBrikko StudioPlugins({
         env: {
           ...process.env,
-          OPENCLAW_STATE_DIR: stateDir,
-          OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+          BRIKKO_STUDIO_STATE_DIR: stateDir,
+          BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
         },
         config: {
           plugins: {
@@ -3568,12 +3568,12 @@ module.exports = { id: "throws-after-import", register() {} };`,
       body: `module.exports = { id: "tilde-bundled", register() {} };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       env: {
         ...process.env,
         HOME: homeDir,
-        OPENCLAW_HOME: undefined,
-        OPENCLAW_BUNDLED_PLUGINS_DIR: override,
+        BRIKKO_STUDIO_HOME: undefined,
+        BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: override,
       },
       config: {
         plugins: {
@@ -3590,34 +3590,34 @@ module.exports = { id: "throws-after-import", register() {} };`,
     ).toBe(fs.realpathSync(plugin.file));
   });
 
-  it("prefers OPENCLAW_HOME over HOME for env-expanded load paths", () => {
+  it("prefers BRIKKO_STUDIO_HOME over HOME for env-expanded load paths", () => {
     const ignoredHome = makeTempDir();
-    const openclawHome = makeTempDir();
+    const brikko-studioHome = makeTempDir();
     const stateDir = makeTempDir();
     const bundledDir = makeTempDir();
     const plugin = writePlugin({
-      id: "openclaw-home-demo",
-      dir: path.join(openclawHome, "plugins", "openclaw-home-demo"),
+      id: "brikko-studio-home-demo",
+      dir: path.join(brikko-studioHome, "plugins", "brikko-studio-home-demo"),
       filename: "index.cjs",
-      body: `module.exports = { id: "openclaw-home-demo", register() {} };`,
+      body: `module.exports = { id: "brikko-studio-home-demo", register() {} };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       env: {
         ...process.env,
         HOME: ignoredHome,
-        OPENCLAW_HOME: openclawHome,
-        OPENCLAW_STATE_DIR: stateDir,
-        OPENCLAW_BUNDLED_PLUGINS_DIR: bundledDir,
+        BRIKKO_STUDIO_HOME: brikko-studioHome,
+        BRIKKO_STUDIO_STATE_DIR: stateDir,
+        BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledDir,
       },
       config: {
         plugins: {
-          allow: ["openclaw-home-demo"],
+          allow: ["brikko-studio-home-demo"],
           entries: {
-            "openclaw-home-demo": { enabled: true },
+            "brikko-studio-home-demo": { enabled: true },
           },
           load: {
-            paths: ["~/plugins/openclaw-home-demo"],
+            paths: ["~/plugins/brikko-studio-home-demo"],
           },
         },
       },
@@ -3625,7 +3625,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 
     expect(
       fs.realpathSync(
-        registry.plugins.find((entry) => entry.id === "openclaw-home-demo")?.source ?? "",
+        registry.plugins.find((entry) => entry.id === "brikko-studio-home-demo")?.source ?? "",
       ),
     ).toBe(fs.realpathSync(plugin.file));
   });
@@ -3751,7 +3751,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     });
 
     expect(() =>
-      loadOpenClawPlugins({
+      loadBrikko StudioPlugins({
         cache: false,
         throwOnLoadError: true,
         config: {
@@ -3810,7 +3810,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       body: `module.exports = { default: { default: { id: "missing-register-shape" } } };`,
     });
 
-    const registry = withEnv({ OPENCLAW_PLUGIN_LOAD_DEBUG: "1" }, () =>
+    const registry = withEnv({ BRIKKO_STUDIO_PLUGIN_LOAD_DEBUG: "1" }, () =>
       loadRegistryFromSinglePlugin({
         plugin,
         pluginConfig: {
@@ -3853,7 +3853,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     }
   });
 } };`,
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           const channel = registry.channels.find((entry) => entry.plugin.id === "demo");
           expect(channel).toBeDefined();
         },
@@ -3899,7 +3899,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     }
   });
 } };`,
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expect(registry.channels.filter((entry) => entry.plugin.id === "demo")).toHaveLength(1);
           expect(
             registry.channels.find((entry) => entry.plugin.id === "demo")?.plugin.meta?.label,
@@ -3912,7 +3912,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         body: `module.exports = { id: "context-engine-malformed", register(api) {
   api.registerContextEngine({ id: "broken-context" });
 } };`,
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expectRegistryErrorDiagnostic({
             registry,
             pluginId: "context-engine-malformed",
@@ -3927,7 +3927,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         body: `module.exports = { id: "context-engine-core-collision", register(api) {
   api.registerContextEngine("legacy", () => ({}));
 } };`,
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expectRegistryErrorDiagnostic({
             registry,
             pluginId: "context-engine-core-collision",
@@ -3941,7 +3941,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         body: `module.exports = { id: "compaction-provider-malformed", register(api) {
   api.registerCompactionProvider({ id: "broken-compaction", label: "Broken" });
 } };`,
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expectRegistryErrorDiagnostic({
             registry,
             pluginId: "compaction-provider-malformed",
@@ -3956,7 +3956,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         body: `module.exports = { id: "memory-prompt-supplement-malformed", register(api) {
   api.registerMemoryPromptSupplement({ id: "broken-memory-prompt" });
 } };`,
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expectRegistryErrorDiagnostic({
             registry,
             pluginId: "memory-prompt-supplement-malformed",
@@ -3971,7 +3971,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         body: `module.exports = { id: "cli-missing-metadata", register(api) {
   api.registerCli(() => {});
 } };`,
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expect(registry.cliRegistrars).toHaveLength(0);
           expectRegistryErrorDiagnostic({
             registry,
@@ -4031,7 +4031,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         buildBody: (ownerId: string) => `module.exports = { id: "${ownerId}", register(api) {
   api.registerHook("gateway:startup", () => {}, { name: "shared-hook" });
 } };`,
-        selectCount: (registry: ReturnType<typeof loadOpenClawPlugins>) =>
+        selectCount: (registry: ReturnType<typeof loadBrikko StudioPlugins>) =>
           registry.hooks.filter((entry) => entry.entry.hook.name === "shared-hook").length,
         duplicateMessage: "hook already registered: shared-hook (hook-owner-a)",
         assert: expectDuplicateRegistrationResult,
@@ -4043,7 +4043,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         buildBody: (ownerId: string) => `module.exports = { id: "${ownerId}", register(api) {
   api.registerService({ id: "shared-service", start() {} });
 } };`,
-        selectCount: (registry: ReturnType<typeof loadOpenClawPlugins>) =>
+        selectCount: (registry: ReturnType<typeof loadBrikko StudioPlugins>) =>
           registry.services.filter((entry) => entry.service.id === "shared-service").length,
         duplicateMessage: "service already registered: shared-service (service-owner-a)",
         assert: expectDuplicateRegistrationResult,
@@ -4055,13 +4055,13 @@ module.exports = { id: "throws-after-import", register() {} };`,
         buildBody: (ownerId: string) => `module.exports = { id: "${ownerId}", register(api) {
   api.registerGatewayDiscoveryService({ id: "shared-discovery", advertise() {} });
 } };`,
-        selectCount: (registry: ReturnType<typeof loadOpenClawPlugins>) =>
+        selectCount: (registry: ReturnType<typeof loadBrikko StudioPlugins>) =>
           registry.gatewayDiscoveryServices.filter(
             (entry) => entry.service.id === "shared-discovery",
           ).length,
         duplicateMessage:
           "gateway discovery service already registered: shared-discovery (discovery-owner-a)",
-        assertPrimaryOwner: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assertPrimaryOwner: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expect(
             registry.plugins.find((entry) => entry.id === "discovery-owner-a")
               ?.gatewayDiscoveryServiceIds,
@@ -4079,7 +4079,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         selectCount: () => 1,
         duplicateMessage:
           "context engine already registered: shared-context-engine-loader-test (plugin:context-engine-owner-a)",
-        assertPrimaryOwner: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assertPrimaryOwner: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expect(
             registry.plugins.find((entry) => entry.id === "context-engine-owner-a")
               ?.contextEngineIds,
@@ -4094,10 +4094,10 @@ module.exports = { id: "throws-after-import", register() {} };`,
         buildBody: (ownerId: string) => `module.exports = { id: "${ownerId}", register(api) {
   api.registerCli(() => {}, { commands: ["shared-cli"] });
 } };`,
-        selectCount: (registry: ReturnType<typeof loadOpenClawPlugins>) =>
+        selectCount: (registry: ReturnType<typeof loadBrikko StudioPlugins>) =>
           registry.cliRegistrars.length,
         duplicateMessage: "cli command already registered: shared-cli (cli-owner-a)",
-        assertPrimaryOwner: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assertPrimaryOwner: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expect(registry.cliRegistrars[0]?.pluginId).toBe("cli-owner-a");
         },
         assert: expectDuplicateRegistrationResult,
@@ -4246,7 +4246,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 } };`,
           }),
         ],
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expect(
             registry.httpRoutes.find((entry) => entry.pluginId === "http-route-missing-auth"),
           ).toBeUndefined();
@@ -4269,7 +4269,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 } };`,
           }),
         ],
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           const routes = registry.httpRoutes.filter(
             (entry) => entry.pluginId === "http-route-replace-self",
           );
@@ -4296,7 +4296,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 } };`,
           }),
         ],
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           const route = registry.httpRoutes.find((entry) => entry.path === "/demo");
           expect(route?.pluginId).toBe("http-route-owner-a");
           expect(
@@ -4318,7 +4318,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 } };`,
           }),
         ],
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           const routes = registry.httpRoutes.filter(
             (entry) => entry.pluginId === "http-route-overlap",
           );
@@ -4343,7 +4343,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 } };`,
           }),
         ],
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           const routes = registry.httpRoutes.filter(
             (entry) => entry.pluginId === "http-route-overlap-same-auth",
           );
@@ -4365,7 +4365,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       body: `module.exports = { id: "config-disable", register() {} };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -4390,8 +4390,8 @@ module.exports = { id: "throws-after-import", register() {} };`,
       path.join(pluginDir, "package.json"),
       JSON.stringify(
         {
-          name: "@openclaw/nested-default-channel",
-          openclaw: {
+          name: "@brikko-studio/nested-default-channel",
+          brikko-studio: {
             extensions: ["./index.cjs"],
           },
         },
@@ -4401,7 +4401,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       "utf-8",
     );
     fs.writeFileSync(
-      path.join(pluginDir, "openclaw.plugin.json"),
+      path.join(pluginDir, "brikko-studio.plugin.json"),
       JSON.stringify(
         {
           id: "nested-default-channel",
@@ -4449,7 +4449,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       "utf-8",
     );
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         channels: {
@@ -4487,7 +4487,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       body: `module.exports = { id: "unrelated-plugin", register() { throw new Error("unrelated plugin should not load"); } };`,
     });
     fs.writeFileSync(
-      path.join(unrelated.dir, "openclaw.plugin.json"),
+      path.join(unrelated.dir, "brikko-studio.plugin.json"),
       JSON.stringify(
         {
           id: "unrelated-plugin",
@@ -4500,7 +4500,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       "utf-8",
     );
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -4550,7 +4550,7 @@ module.exports = {
 };`,
     });
     fs.writeFileSync(
-      path.join(plugin.dir, "openclaw.plugin.json"),
+      path.join(plugin.dir, "brikko-studio.plugin.json"),
       JSON.stringify(
         {
           id: "lazy-channel-plugin",
@@ -4572,7 +4572,7 @@ module.exports = {
       },
     };
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config,
     });
@@ -4583,7 +4583,7 @@ module.exports = {
       "disabled",
     );
 
-    const broadSetupRegistry = loadOpenClawPlugins({
+    const broadSetupRegistry = loadBrikko StudioPlugins({
       cache: false,
       config,
       includeSetupOnlyChannelPlugins: true,
@@ -4596,7 +4596,7 @@ module.exports = {
       broadSetupRegistry.plugins.find((entry) => entry.id === "lazy-channel-plugin")?.status,
     ).toBe("disabled");
 
-    const scopedSetupRegistry = loadOpenClawPlugins({
+    const scopedSetupRegistry = loadBrikko StudioPlugins({
       cache: false,
       config,
       includeSetupOnlyChannelPlugins: true,
@@ -4617,13 +4617,13 @@ module.exports = {
       fixture: {
         id: "setup-entry-test",
         label: "Setup Entry Test",
-        packageName: "@openclaw/setup-entry-test",
+        packageName: "@brikko-studio/setup-entry-test",
         fullBlurb: "full entry should not run in setup-only mode",
         setupBlurb: "setup entry",
         configured: false,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadOpenClawPlugins({
+        loadBrikko StudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4646,14 +4646,14 @@ module.exports = {
       fixture: {
         id: "setup-only-bundled-contract-test",
         label: "Setup Only Bundled Contract Test",
-        packageName: "@openclaw/setup-only-bundled-contract-test",
+        packageName: "@brikko-studio/setup-only-bundled-contract-test",
         fullBlurb: "full entry should not run in setup-only mode",
         setupBlurb: "setup-only bundled contract",
         configured: false,
         useBundledSetupEntryContract: true,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadOpenClawPlugins({
+        loadBrikko StudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4676,13 +4676,13 @@ module.exports = {
       fixture: {
         id: "setup-runtime-test",
         label: "Setup Runtime Test",
-        packageName: "@openclaw/setup-runtime-test",
+        packageName: "@brikko-studio/setup-runtime-test",
         fullBlurb: "full entry should not run while unconfigured",
         setupBlurb: "setup runtime",
         configured: false,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadOpenClawPlugins({
+        loadBrikko StudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4700,14 +4700,14 @@ module.exports = {
       fixture: {
         id: "setup-runtime-bundled-contract-test",
         label: "Setup Runtime Bundled Contract Test",
-        packageName: "@openclaw/setup-runtime-bundled-contract-test",
+        packageName: "@brikko-studio/setup-runtime-bundled-contract-test",
         fullBlurb: "full entry should not run while unconfigured",
         setupBlurb: "setup runtime bundled contract",
         configured: false,
         useBundledSetupEntryContract: true,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadOpenClawPlugins({
+        loadBrikko StudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4725,7 +4725,7 @@ module.exports = {
       fixture: {
         id: "setup-runtime-bundled-contract-secrets-test",
         label: "Setup Runtime Bundled Contract Secrets Test",
-        packageName: "@openclaw/setup-runtime-bundled-contract-secrets-test",
+        packageName: "@brikko-studio/setup-runtime-bundled-contract-secrets-test",
         fullBlurb: "full entry should not run while unconfigured",
         setupBlurb: "setup runtime bundled contract secrets",
         configured: false,
@@ -4733,7 +4733,7 @@ module.exports = {
         splitBundledSetupSecrets: true,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadOpenClawPlugins({
+        loadBrikko StudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4752,7 +4752,7 @@ module.exports = {
       fixture: {
         id: "setup-runtime-bundled-contract-runtime-test",
         label: "Setup Runtime Bundled Contract Runtime Test",
-        packageName: "@openclaw/setup-runtime-bundled-contract-runtime-test",
+        packageName: "@brikko-studio/setup-runtime-bundled-contract-runtime-test",
         fullBlurb: "full entry should not run while unconfigured",
         setupBlurb: "setup runtime bundled contract runtime",
         configured: false,
@@ -4760,7 +4760,7 @@ module.exports = {
         bundledSetupRuntimeMarker: path.join(makeTempDir(), "setup-runtime-applied.txt"),
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadOpenClawPlugins({
+        loadBrikko StudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4779,7 +4779,7 @@ module.exports = {
       fixture: {
         id: "setup-runtime-bundled-runtime-merge-test",
         label: "Setup Runtime Bundled Runtime Merge Test",
-        packageName: "@openclaw/setup-runtime-bundled-runtime-merge-test",
+        packageName: "@brikko-studio/setup-runtime-bundled-runtime-merge-test",
         fullBlurb: "full runtime plugin",
         setupBlurb: "setup runtime override",
         configured: false,
@@ -4788,7 +4788,7 @@ module.exports = {
         bundledFullRuntimeMarker: path.join(makeTempDir(), "bundled-runtime-applied.txt"),
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadOpenClawPlugins({
+        loadBrikko StudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4807,13 +4807,13 @@ module.exports = {
       fixture: {
         id: "setup-runtime-not-preferred-test",
         label: "Setup Runtime Not Preferred Test",
-        packageName: "@openclaw/setup-runtime-not-preferred-test",
+        packageName: "@brikko-studio/setup-runtime-not-preferred-test",
         fullBlurb: "full entry should still load without explicit startup opt-in",
         setupBlurb: "setup runtime not preferred",
         configured: true,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadOpenClawPlugins({
+        loadBrikko StudioPlugins({
           cache: false,
           preferSetupRuntimeForChannelPlugins: true,
           config: {
@@ -4886,7 +4886,7 @@ module.exports = {
     const built = createSetupEntryChannelPluginFixture({
       id: "setup-runtime-order-test",
       label: "Setup Runtime Order Test",
-      packageName: "@openclaw/setup-runtime-order-test",
+      packageName: "@brikko-studio/setup-runtime-order-test",
       fullBlurb: "full runtime plugin",
       setupBlurb: "setup runtime override",
       configured: false,
@@ -4896,7 +4896,7 @@ module.exports = {
       requireBundledFullRuntimeBeforeLoad: true,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -4916,7 +4916,7 @@ module.exports = {
     const built = createSetupEntryChannelPluginFixture({
       id: "setup-runtime-error-test",
       label: "Setup Runtime Error Test",
-      packageName: "@openclaw/setup-runtime-error-test",
+      packageName: "@brikko-studio/setup-runtime-error-test",
       fullBlurb: "full runtime plugin",
       setupBlurb: "setup runtime override",
       configured: false,
@@ -4929,7 +4929,7 @@ module.exports = {
       body: `module.exports = { id: "setup-runtime-helper-test", register() {} };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -4956,7 +4956,7 @@ module.exports = {
       id: "setup-runtime-mismatch-test",
       bundledFullEntryId: "wrong-runtime-id",
       label: "Setup Runtime Mismatch Test",
-      packageName: "@openclaw/setup-runtime-mismatch-test",
+      packageName: "@brikko-studio/setup-runtime-mismatch-test",
       fullBlurb: "full runtime plugin",
       setupBlurb: "setup runtime override",
       configured: false,
@@ -4965,7 +4965,7 @@ module.exports = {
       bundledFullRuntimeMarker: runtimeMarker,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -4991,7 +4991,7 @@ module.exports = {
       id: "setup-export-mismatch-test",
       bundledSetupEntryId: "wrong-setup-id",
       label: "Setup Export Mismatch Test",
-      packageName: "@openclaw/setup-export-mismatch-test",
+      packageName: "@brikko-studio/setup-export-mismatch-test",
       fullBlurb: "full runtime plugin",
       setupBlurb: "setup runtime override",
       configured: false,
@@ -5000,7 +5000,7 @@ module.exports = {
       bundledFullRuntimeMarker: runtimeMarker,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -5030,8 +5030,8 @@ module.exports = {
       path.join(pluginDir, "package.json"),
       JSON.stringify(
         {
-          name: "@openclaw/setup-entry-throws-test",
-          openclaw: {
+          name: "@brikko-studio/setup-entry-throws-test",
+          brikko-studio: {
             extensions: ["./index.cjs"],
             setupEntry: "./setup-entry.cjs",
           },
@@ -5042,7 +5042,7 @@ module.exports = {
       "utf-8",
     );
     fs.writeFileSync(
-      path.join(pluginDir, "openclaw.plugin.json"),
+      path.join(pluginDir, "brikko-studio.plugin.json"),
       JSON.stringify(
         {
           id: "setup-entry-throws-test",
@@ -5070,7 +5070,7 @@ module.exports = {
       "utf-8",
     );
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -5098,8 +5098,8 @@ module.exports = {
       path.join(brokenDir, "package.json"),
       JSON.stringify(
         {
-          name: "@openclaw/setup-entry-throws-sibling-test",
-          openclaw: {
+          name: "@brikko-studio/setup-entry-throws-sibling-test",
+          brikko-studio: {
             extensions: ["./index.cjs"],
             setupEntry: "./setup-entry.cjs",
           },
@@ -5110,7 +5110,7 @@ module.exports = {
       "utf-8",
     );
     fs.writeFileSync(
-      path.join(brokenDir, "openclaw.plugin.json"),
+      path.join(brokenDir, "brikko-studio.plugin.json"),
       JSON.stringify(
         {
           id: "setup-entry-throws-sibling-test",
@@ -5161,7 +5161,7 @@ module.exports = {
 } };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -5216,7 +5216,7 @@ module.exports = {
     mkdirSafe(sourceDir);
     mkdirSafe(runtimeDir);
     fs.writeFileSync(
-      path.join(sourceDir, "openclaw.plugin.json"),
+      path.join(sourceDir, "brikko-studio.plugin.json"),
       JSON.stringify(
         {
           id: "startup-artifact-test",
@@ -5240,12 +5240,12 @@ module.exports = {
 
     const registry = withEnv(
       {
-        OPENCLAW_BUNDLED_PLUGINS_DIR: path.join(repoRoot, "extensions"),
-        OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR: "1",
-        OPENCLAW_DISABLE_BUNDLED_PLUGINS: undefined,
+        BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: path.join(repoRoot, "extensions"),
+        BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR: "1",
+        BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: undefined,
       },
       () =>
-        loadOpenClawPlugins({
+        loadBrikko StudioPlugins({
           cache: false,
           preferBuiltPluginArtifacts: true,
           onlyPluginIds: ["startup-artifact-test"],
@@ -5504,11 +5504,11 @@ module.exports = {
 
           return withEnv(
             {
-              OPENCLAW_DISABLE_BUNDLED_PLUGINS: "1",
-              OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
+              BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: "1",
+              BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
             },
             () =>
-              loadOpenClawPlugins({
+              loadBrikko StudioPlugins({
                 cache: false,
                 config: {
                   plugins: {
@@ -5519,7 +5519,7 @@ module.exports = {
               }),
           );
         },
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           const a = registry.plugins.find((entry) => entry.id === "memory-a");
           const b = registry.plugins.find((entry) => entry.id === "memory-b");
           expect(b?.status).toBe("loaded");
@@ -5547,7 +5547,7 @@ module.exports = {
             body: memoryPluginBody("memory-b"),
           });
           fs.writeFileSync(
-            path.join(memoryADir, "openclaw.plugin.json"),
+            path.join(memoryADir, "brikko-studio.plugin.json"),
             JSON.stringify(
               {
                 id: "memory-a",
@@ -5560,7 +5560,7 @@ module.exports = {
             "utf-8",
           );
           fs.writeFileSync(
-            path.join(memoryBDir, "openclaw.plugin.json"),
+            path.join(memoryBDir, "brikko-studio.plugin.json"),
             JSON.stringify(
               {
                 id: "memory-b",
@@ -5572,9 +5572,9 @@ module.exports = {
             ),
             "utf-8",
           );
-          process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
+          process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-          return loadOpenClawPlugins({
+          return loadBrikko StudioPlugins({
             cache: false,
             config: {
               plugins: {
@@ -5588,7 +5588,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           const a = registry.plugins.find((entry) => entry.id === "memory-a");
           const b = registry.plugins.find((entry) => entry.id === "memory-b");
           expect(a?.status).toBe("disabled");
@@ -5619,7 +5619,7 @@ module.exports = {
           });
           const openSchema = { type: "object", additionalProperties: true };
           fs.writeFileSync(
-            path.join(memoryCoreDir, "openclaw.plugin.json"),
+            path.join(memoryCoreDir, "brikko-studio.plugin.json"),
             JSON.stringify(
               { id: "memory-core", kind: "memory", configSchema: EMPTY_PLUGIN_SCHEMA },
               null,
@@ -5628,7 +5628,7 @@ module.exports = {
             "utf-8",
           );
           fs.writeFileSync(
-            path.join(memoryLanceDir, "openclaw.plugin.json"),
+            path.join(memoryLanceDir, "brikko-studio.plugin.json"),
             JSON.stringify(
               { id: "memory-lancedb", kind: "memory", configSchema: openSchema },
               null,
@@ -5636,9 +5636,9 @@ module.exports = {
             ),
             "utf-8",
           );
-          process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
+          process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-          return loadOpenClawPlugins({
+          return loadBrikko StudioPlugins({
             cache: false,
             config: {
               plugins: {
@@ -5652,7 +5652,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           const core = registry.plugins.find((entry) => entry.id === "memory-core");
           const lance = registry.plugins.find((entry) => entry.id === "memory-lancedb");
           expect(core?.status).toBe("loaded");
@@ -5682,7 +5682,7 @@ module.exports = {
             body: memoryPluginBody("memory-lancedb"),
           });
           fs.writeFileSync(
-            path.join(memoryCoreDir, "openclaw.plugin.json"),
+            path.join(memoryCoreDir, "brikko-studio.plugin.json"),
             JSON.stringify(
               { id: "memory-core", kind: "memory", configSchema: EMPTY_PLUGIN_SCHEMA },
               null,
@@ -5691,7 +5691,7 @@ module.exports = {
             "utf-8",
           );
           fs.writeFileSync(
-            path.join(memoryLanceDir, "openclaw.plugin.json"),
+            path.join(memoryLanceDir, "brikko-studio.plugin.json"),
             JSON.stringify(
               { id: "memory-lancedb", kind: "memory", configSchema: EMPTY_PLUGIN_SCHEMA },
               null,
@@ -5699,9 +5699,9 @@ module.exports = {
             ),
             "utf-8",
           );
-          process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
+          process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-          return loadOpenClawPlugins({
+          return loadBrikko StudioPlugins({
             cache: false,
             config: {
               plugins: {
@@ -5715,7 +5715,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           const core = registry.plugins.find((entry) => entry.id === "memory-core");
           const lance = registry.plugins.find((entry) => entry.id === "memory-lancedb");
           expect(core?.status).toBe("disabled");
@@ -5735,7 +5735,7 @@ module.exports = {
             body: `throw new Error("memory-core should not load when memory slot is none");`,
           });
           fs.writeFileSync(
-            path.join(memoryCoreDir, "openclaw.plugin.json"),
+            path.join(memoryCoreDir, "brikko-studio.plugin.json"),
             JSON.stringify(
               { id: "memory-core", kind: "memory", configSchema: EMPTY_PLUGIN_SCHEMA },
               null,
@@ -5743,9 +5743,9 @@ module.exports = {
             ),
             "utf-8",
           );
-          process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
+          process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-          return loadOpenClawPlugins({
+          return loadBrikko StudioPlugins({
             cache: false,
             config: {
               plugins: {
@@ -5758,7 +5758,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           const core = registry.plugins.find((entry) => entry.id === "memory-core");
           expect(core?.status).toBe("disabled");
         },
@@ -5773,11 +5773,11 @@ module.exports = {
 
           return withEnv(
             {
-              OPENCLAW_DISABLE_BUNDLED_PLUGINS: "1",
-              OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
+              BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: "1",
+              BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
             },
             () =>
-              loadOpenClawPlugins({
+              loadBrikko StudioPlugins({
                 cache: false,
                 config: {
                   plugins: {
@@ -5788,7 +5788,7 @@ module.exports = {
               }),
           );
         },
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           const entry = registry.plugins.find((item) => item.id === "memory-off");
           expect(entry?.status).toBe("disabled");
         },
@@ -5816,7 +5816,7 @@ module.exports = {
             body: simplePluginBody("shadow"),
           });
 
-          return loadOpenClawPlugins({
+          return loadBrikko StudioPlugins({
             cache: false,
             config: {
               plugins: {
@@ -5851,7 +5851,7 @@ module.exports = {
               filename: "index.cjs",
             });
 
-            return loadOpenClawPlugins({
+            return loadBrikko StudioPlugins({
               cache: false,
               config: {
                 plugins: {
@@ -5897,7 +5897,7 @@ module.exports = {
               { stateDir },
             );
 
-            return loadOpenClawPlugins({
+            return loadBrikko StudioPlugins({
               cache: false,
               config: {
                 plugins: {
@@ -5935,7 +5935,7 @@ module.exports = {
             id: "warn-open-allow-config",
             body: simplePluginBody("warn-open-allow-config"),
           });
-          return loadOpenClawPlugins({
+          return loadBrikko StudioPlugins({
             cache: false,
             logger: createWarningLogger(warnings),
             config: {
@@ -5956,7 +5956,7 @@ module.exports = {
             id: "warn-open-allow-workspace",
           });
           return (warnings: string[]) =>
-            loadOpenClawPlugins({
+            loadBrikko StudioPlugins({
               cache: false,
               workspaceDir,
               logger: createWarningLogger(warnings),
@@ -5997,7 +5997,7 @@ module.exports = {
             id: "workspace-helper",
           });
 
-          return loadOpenClawPlugins({
+          return loadBrikko StudioPlugins({
             cache: false,
             workspaceDir,
             config: {
@@ -6007,7 +6007,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expectPluginOriginAndStatus({
             registry,
             pluginId: "workspace-helper",
@@ -6026,7 +6026,7 @@ module.exports = {
             id: "workspace-helper",
           });
 
-          return loadOpenClawPlugins({
+          return loadBrikko StudioPlugins({
             cache: false,
             workspaceDir,
             config: {
@@ -6037,7 +6037,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadOpenClawPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
           expectPluginOriginAndStatus({
             registry,
             pluginId: "workspace-helper",
@@ -6061,7 +6061,7 @@ module.exports = {
             id: "shadowed",
           });
 
-          return loadOpenClawPlugins({
+          return loadBrikko StudioPlugins({
             cache: false,
             workspaceDir,
             config: {
@@ -6096,7 +6096,7 @@ module.exports = {
       body: simplePluginBody("profile-aware"),
     });
     fs.writeFileSync(
-      path.join(plugin.dir, "openclaw.plugin.json"),
+      path.join(plugin.dir, "brikko-studio.plugin.json"),
       JSON.stringify(
         {
           id: "profile-aware",
@@ -6109,7 +6109,7 @@ module.exports = {
       "utf-8",
     );
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: bundledDir,
       config: {
@@ -6137,7 +6137,7 @@ module.exports = {
       filename: "unscoped.cjs",
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -6171,7 +6171,7 @@ module.exports = {
             });
 
             const warnings: string[] = [];
-            const registry = loadOpenClawPlugins({
+            const registry = loadBrikko StudioPlugins({
               cache: false,
               logger: createWarningLogger(warnings),
               config: {
@@ -6189,7 +6189,7 @@ module.exports = {
         label: "warns when loaded non-bundled plugin has no provenance and no allowlist is set",
         loadRegistry: () => {
           const stateDir = makeTempDir();
-          return withEnv({ OPENCLAW_STATE_DIR: stateDir }, () => {
+          return withEnv({ BRIKKO_STUDIO_STATE_DIR: stateDir }, () => {
             const globalDir = path.join(stateDir, "extensions", "rogue");
             mkdirSafe(globalDir);
             writePlugin({
@@ -6200,7 +6200,7 @@ module.exports = {
             });
 
             const warnings: string[] = [];
-            const registry = loadOpenClawPlugins({
+            const registry = loadBrikko StudioPlugins({
               cache: false,
               logger: createWarningLogger(warnings),
               config: {
@@ -6219,7 +6219,7 @@ module.exports = {
         loadRegistry: () => {
           const { plugin, env } = createEnvResolvedPluginFixture("tracked-load-path");
           const warnings: string[] = [];
-          const registry = loadOpenClawPlugins({
+          const registry = loadBrikko StudioPlugins({
             cache: false,
             logger: createWarningLogger(warnings),
             env,
@@ -6245,7 +6245,7 @@ module.exports = {
         loadRegistry: () => {
           const { plugin, env } = createEnvResolvedPluginFixture("tracked-install-path");
           const warnings: string[] = [];
-          const registry = loadOpenClawPlugins({
+          const registry = loadBrikko StudioPlugins({
             cache: false,
             logger: createWarningLogger(warnings),
             env,
@@ -6285,7 +6285,7 @@ module.exports = {
 
           const pluginDir = path.join(
             realHome,
-            ".openclaw",
+            ".brikko-studio",
             "npm",
             "node_modules",
             "@example",
@@ -6305,7 +6305,7 @@ module.exports = {
                 spec: "@example/tracked-symlink-install@1.0.0",
                 installPath: path.join(
                   linkedHome,
-                  ".openclaw",
+                  ".brikko-studio",
                   "npm",
                   "node_modules",
                   "@example",
@@ -6318,13 +6318,13 @@ module.exports = {
           );
 
           const warnings: string[] = [];
-          const registry = loadOpenClawPlugins({
+          const registry = loadBrikko StudioPlugins({
             cache: false,
             logger: createWarningLogger(warnings),
             env: {
               ...process.env,
-              OPENCLAW_STATE_DIR: stateDir,
-              OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+              BRIKKO_STUDIO_STATE_DIR: stateDir,
+              BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
             },
             config: {
               plugins: {
@@ -6360,7 +6360,7 @@ module.exports = {
   it("uses the source runtime snapshot allowlist for plugin trust checks", () => {
     useNoBundledPlugins();
     const stateDir = makeTempDir();
-    withEnv({ OPENCLAW_STATE_DIR: stateDir }, () => {
+    withEnv({ BRIKKO_STUDIO_STATE_DIR: stateDir }, () => {
       const globalDir = path.join(stateDir, "extensions", "trusted-plugin");
       mkdirSafe(globalDir);
       writePlugin({
@@ -6392,7 +6392,7 @@ module.exports = {
       setRuntimeConfigSnapshot(runtimeConfig, sourceConfig);
 
       const warnings: string[] = [];
-      const registry = loadOpenClawPlugins({
+      const registry = loadBrikko StudioPlugins({
         cache: false,
         logger: createWarningLogger(warnings),
         config: runtimeConfig,
@@ -6470,8 +6470,8 @@ module.exports = {
       throw err;
     }
 
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
-    const registry = loadOpenClawPlugins({
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: bundledDir,
       config: {
@@ -6512,7 +6512,7 @@ module.exports = {
 } };`,
     });
 
-    const registry = withEnv({ OPENCLAW_STATE_DIR: stateDir }, () =>
+    const registry = withEnv({ BRIKKO_STUDIO_STATE_DIR: stateDir }, () =>
       loadRegistryFromSinglePlugin({
         plugin,
         pluginConfig: {
@@ -6535,13 +6535,13 @@ module.exports = {
       filename: "legacy-root-import.cjs",
       body: `module.exports = {
   id: "legacy-root-import",
-  configSchema: (require("openclaw/plugin-sdk").emptyPluginConfigSchema)(),
+  configSchema: (require("brikko-studio/plugin-sdk").emptyPluginConfigSchema)(),
         register() {},
       };`,
     });
 
-    const registry = withEnv({ OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins" }, () =>
-      loadOpenClawPlugins({
+    const registry = withEnv({ BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins" }, () =>
+      loadBrikko StudioPlugins({
         cache: false,
         workspaceDir: plugin.dir,
         config: {
@@ -6558,7 +6558,7 @@ module.exports = {
 
   it("supports legacy plugins subscribing to diagnostic events from the root sdk", async () => {
     useNoBundledPlugins();
-    const seenKey = "__openclawLegacyRootDiagnosticSeen";
+    const seenKey = "__brikko-studioLegacyRootDiagnosticSeen";
     delete (globalThis as Record<string, unknown>)[seenKey];
 
     const plugin = writePlugin({
@@ -6566,9 +6566,9 @@ module.exports = {
       filename: "legacy-root-diagnostic-listener.cjs",
       body: `module.exports = {
   id: "legacy-root-diagnostic-listener",
-  configSchema: (require("openclaw/plugin-sdk").emptyPluginConfigSchema)(),
+  configSchema: (require("brikko-studio/plugin-sdk").emptyPluginConfigSchema)(),
   register() {
-    const { onDiagnosticEvent } = require("openclaw/plugin-sdk");
+    const { onDiagnosticEvent } = require("brikko-studio/plugin-sdk");
     if (typeof onDiagnosticEvent !== "function") {
       throw new Error("missing onDiagnosticEvent root export");
     }
@@ -6585,9 +6585,9 @@ module.exports = {
 
     try {
       const registry = withEnv(
-        { OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins" },
+        { BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins" },
         () =>
-          loadOpenClawPlugins({
+          loadBrikko StudioPlugins({
             cache: false,
             workspaceDir: plugin.dir,
             config: {
@@ -6623,7 +6623,7 @@ module.exports = {
   it("suppresses trust warning logs for non-activating snapshot loads", () => {
     useNoBundledPlugins();
     const stateDir = makeTempDir();
-    withEnv({ OPENCLAW_STATE_DIR: stateDir }, () => {
+    withEnv({ BRIKKO_STUDIO_STATE_DIR: stateDir }, () => {
       const globalDir = path.join(stateDir, "extensions", "rogue");
       mkdirSafe(globalDir);
       writePlugin({
@@ -6634,7 +6634,7 @@ module.exports = {
       });
 
       const warnings: string[] = [];
-      const registry = loadOpenClawPlugins({
+      const registry = loadBrikko StudioPlugins({
         activate: false,
         cache: false,
         logger: createWarningLogger(warnings),
@@ -6681,7 +6681,7 @@ export const runtimeValue = helperValue;`,
       "utf-8",
     );
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {

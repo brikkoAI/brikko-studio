@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "./config.js";
+import type { Brikko StudioConfig } from "./config.js";
 
 type DangerousNameMatchingConfig = {
   dangerouslyAllowNameMatching?: boolean;
@@ -43,7 +43,7 @@ export function resolveDangerousNameMatchingEnabled(
 }
 
 export function collectProviderDangerousNameMatchingScopes(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   provider: string,
 ): ProviderDangerousNameMatchingScope[] {
   const scopes: ProviderDangerousNameMatchingScope[] = [];

@@ -1,17 +1,17 @@
 {
-  "name": "@openclaw/ollama-provider",
+  "name": "@brikko-studio/ollama-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Ollama provider plugin",
+  "description": "Brikko Studio Ollama provider plugin",
   "type": "module",
   "dependencies": {
     "@mariozechner/pi-ai": "0.71.1",
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

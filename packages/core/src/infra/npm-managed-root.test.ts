@@ -12,7 +12,7 @@ import {
 const tempDirs: string[] = [];
 
 async function makeTempRoot(): Promise<string> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-npm-managed-root-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-npm-managed-root-"));
   tempDirs.push(dir);
   return dir;
 }
@@ -30,7 +30,7 @@ describe("managed npm root", () => {
         {
           private: true,
           dependencies: {
-            "@openclaw/discord": "2026.5.2",
+            "@brikko-studio/discord": "2026.5.2",
           },
           devDependencies: {
             fixture: "1.0.0",
@@ -43,7 +43,7 @@ describe("managed npm root", () => {
 
     await upsertManagedNpmRootDependency({
       npmRoot,
-      packageName: "@openclaw/feishu",
+      packageName: "@brikko-studio/feishu",
       dependencySpec: "2026.5.2",
     });
 
@@ -52,8 +52,8 @@ describe("managed npm root", () => {
     ).resolves.toEqual({
       private: true,
       dependencies: {
-        "@openclaw/discord": "2026.5.2",
-        "@openclaw/feishu": "2026.5.2",
+        "@brikko-studio/discord": "2026.5.2",
+        "@brikko-studio/feishu": "2026.5.2",
       },
       devDependencies: {
         fixture: "1.0.0",
@@ -65,16 +65,16 @@ describe("managed npm root", () => {
     expect(
       resolveManagedNpmRootDependencySpec({
         parsedSpec: {
-          name: "@openclaw/discord",
-          raw: "@openclaw/discord@stable",
+          name: "@brikko-studio/discord",
+          raw: "@brikko-studio/discord@stable",
           selector: "stable",
           selectorKind: "tag",
           selectorIsPrerelease: false,
         },
         resolution: {
-          name: "@openclaw/discord",
+          name: "@brikko-studio/discord",
           version: "2026.5.2",
-          resolvedSpec: "@openclaw/discord@2026.5.2",
+          resolvedSpec: "@brikko-studio/discord@2026.5.2",
           resolvedAt: "2026-05-03T00:00:00.000Z",
         },
       }),
@@ -83,15 +83,15 @@ describe("managed npm root", () => {
     expect(
       resolveManagedNpmRootDependencySpec({
         parsedSpec: {
-          name: "@openclaw/discord",
-          raw: "@openclaw/discord",
+          name: "@brikko-studio/discord",
+          raw: "@brikko-studio/discord",
           selectorKind: "none",
           selectorIsPrerelease: false,
         },
         resolution: {
-          name: "@openclaw/discord",
+          name: "@brikko-studio/discord",
           version: "2026.5.2",
-          resolvedSpec: "@openclaw/discord@2026.5.2",
+          resolvedSpec: "@brikko-studio/discord@2026.5.2",
           resolvedAt: "2026-05-03T00:00:00.000Z",
         },
       }),
@@ -106,9 +106,9 @@ describe("managed npm root", () => {
         {
           lockfileVersion: 3,
           packages: {
-            "node_modules/@openclaw/discord": {
+            "node_modules/@brikko-studio/discord": {
               version: "2026.5.2",
-              resolved: "https://registry.npmjs.org/@openclaw/discord/-/discord-2026.5.2.tgz",
+              resolved: "https://registry.npmjs.org/@brikko-studio/discord/-/discord-2026.5.2.tgz",
               integrity: "sha512-discord",
             },
           },
@@ -121,11 +121,11 @@ describe("managed npm root", () => {
     await expect(
       readManagedNpmRootInstalledDependency({
         npmRoot,
-        packageName: "@openclaw/discord",
+        packageName: "@brikko-studio/discord",
       }),
     ).resolves.toEqual({
       version: "2026.5.2",
-      resolved: "https://registry.npmjs.org/@openclaw/discord/-/discord-2026.5.2.tgz",
+      resolved: "https://registry.npmjs.org/@brikko-studio/discord/-/discord-2026.5.2.tgz",
       integrity: "sha512-discord",
     });
   });
@@ -138,8 +138,8 @@ describe("managed npm root", () => {
         {
           private: true,
           dependencies: {
-            "@openclaw/discord": "2026.5.2",
-            "@openclaw/voice-call": "2026.5.2",
+            "@brikko-studio/discord": "2026.5.2",
+            "@brikko-studio/voice-call": "2026.5.2",
           },
           devDependencies: {
             fixture: "1.0.0",
@@ -152,7 +152,7 @@ describe("managed npm root", () => {
 
     await removeManagedNpmRootDependency({
       npmRoot,
-      packageName: "@openclaw/voice-call",
+      packageName: "@brikko-studio/voice-call",
     });
 
     await expect(
@@ -160,7 +160,7 @@ describe("managed npm root", () => {
     ).resolves.toEqual({
       private: true,
       dependencies: {
-        "@openclaw/discord": "2026.5.2",
+        "@brikko-studio/discord": "2026.5.2",
       },
       devDependencies: {
         fixture: "1.0.0",

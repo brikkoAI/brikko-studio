@@ -27,9 +27,9 @@ export function createChangedCheckChildEnv(baseEnv = process.env) {
   const resolvedBaseEnv = resolveLocalHeavyCheckEnv(baseEnv);
   return {
     ...resolvedBaseEnv,
-    OPENCLAW_OXLINT_SKIP_LOCK: "1",
-    OPENCLAW_TEST_HEAVY_CHECK_LOCK_HELD: "1",
-    OPENCLAW_TSGO_HEAVY_CHECK_LOCK_HELD: "1",
+    BRIKKO_STUDIO_OXLINT_SKIP_LOCK: "1",
+    BRIKKO_STUDIO_TEST_HEAVY_CHECK_LOCK_HELD: "1",
+    BRIKKO_STUDIO_TSGO_HEAVY_CHECK_LOCK_HELD: "1",
   };
 }
 
@@ -145,8 +145,8 @@ export function createChangedCheckPlan(result, options = {}) {
     addCommand("live Docker shell syntax", "bash", ["-n", ...LIVE_DOCKER_AUTH_SHELL_TARGETS]);
     addCommand("live Docker scheduler dry run", "node", ["scripts/test-docker-all.mjs"], {
       ...baseEnv,
-      OPENCLAW_DOCKER_ALL_DRY_RUN: "1",
-      OPENCLAW_DOCKER_ALL_LIVE_MODE: "only",
+      BRIKKO_STUDIO_DOCKER_ALL_DRY_RUN: "1",
+      BRIKKO_STUDIO_DOCKER_ALL_LIVE_MODE: "only",
     });
   }
 

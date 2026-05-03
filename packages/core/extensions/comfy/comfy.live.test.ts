@@ -1,8 +1,8 @@
-import { resolveOpenClawAgentDir } from "openclaw/plugin-sdk/agent-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { createTestPluginApi } from "openclaw/plugin-sdk/plugin-test-api";
-import { getRuntimeConfig } from "openclaw/plugin-sdk/runtime-config-snapshot";
-import { isLiveTestEnabled } from "openclaw/plugin-sdk/test-env";
+import { resolveBrikko StudioAgentDir } from "brikko-studio/plugin-sdk/agent-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
+import { getRuntimeConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
+import { isLiveTestEnabled } from "brikko-studio/plugin-sdk/test-env";
 import { beforeAll, describe, expect, it } from "vitest";
 import plugin from "./index.js";
 import { getComfyConfig, isComfyCapabilityConfigured } from "./workflow-runtime.js";
@@ -32,7 +32,7 @@ function withPluginsEnabled<T>(cfg: T): T {
 }
 
 describeLive("comfy live", () => {
-  let cfg = {} as OpenClawConfig;
+  let cfg = {} as Brikko StudioConfig;
   let agentDir = "";
   const imageProviders: Array<{ id: string; generateImage: Function; isConfigured?: Function }> =
     [];
@@ -42,7 +42,7 @@ describeLive("comfy live", () => {
 
   beforeAll(async () => {
     cfg = withPluginsEnabled(getRuntimeConfig());
-    agentDir = resolveOpenClawAgentDir();
+    agentDir = resolveBrikko StudioAgentDir();
     plugin.register(
       createTestPluginApi({
         config: cfg as never,

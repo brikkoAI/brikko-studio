@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { resolveOpenClawPackageRoot } from "../../infra/openclaw-root.js";
+import { resolveBrikko StudioPackageRoot } from "../../infra/brikko-studio-root.js";
 import { readPackageName, readPackageVersion } from "../../infra/package-json.js";
 import { normalizePackageTagInput } from "../../infra/package-tag.js";
 import { trimLogTail } from "../../infra/restart-sentinel.js";
@@ -55,14 +55,14 @@ export function parseTimeoutMsOrExit(timeout?: string): number | undefined | nul
   return timeoutMs;
 }
 
-const OPENCLAW_REPO_URL = "https://github.com/openclaw/openclaw.git";
+const BRIKKO_STUDIO_REPO_URL = "https://github.com/brikko-studio/brikko-studio.git";
 const MAX_LOG_CHARS = 8000;
 
-export const DEFAULT_PACKAGE_NAME = "openclaw";
+export const DEFAULT_PACKAGE_NAME = "brikko-studio";
 const CORE_PACKAGE_NAMES = new Set([DEFAULT_PACKAGE_NAME]);
 
 export function normalizeTag(value?: string | null): string | null {
-  return normalizePackageTagInput(value, ["openclaw", DEFAULT_PACKAGE_NAME]);
+  return normalizePackageTagInput(value, ["brikko-studio", DEFAULT_PACKAGE_NAME]);
 }
 
 function normalizeVersionTag(tag: string): string | null {
@@ -115,7 +115,7 @@ export async function isEmptyDir(targetPath: string): Promise<boolean> {
 }
 
 export function resolveGitInstallDir(): string {
-  const override = process.env.OPENCLAW_GIT_DIR?.trim();
+  const override = process.env.BRIKKO_STUDIO_GIT_DIR?.trim();
   if (override) {
     return path.resolve(override);
   }
@@ -125,9 +125,9 @@ export function resolveGitInstallDir(): string {
 function resolveDefaultGitDir(): string {
   const home = os.homedir();
   if (home.startsWith("/")) {
-    return path.posix.join(home, "openclaw");
+    return path.posix.join(home, "brikko-studio");
   }
-  return path.join(home, "openclaw");
+  return path.join(home, "brikko-studio");
 }
 
 export function resolveNodeRunner(): string {
@@ -140,7 +140,7 @@ export function resolveNodeRunner(): string {
 
 export async function resolveUpdateRoot(): Promise<string> {
   return (
-    (await resolveOpenClawPackageRoot({
+    (await resolveBrikko StudioPackageRoot({
       moduleUrl: import.meta.url,
       argv1: process.argv[1],
       cwd: process.cwd(),
@@ -205,7 +205,7 @@ export async function ensureGitCheckout(params: {
   if (!dirExists) {
     return await runUpdateStep({
       name: "git clone",
-      argv: ["git", "clone", OPENCLAW_REPO_URL, params.dir],
+      argv: ["git", "clone", BRIKKO_STUDIO_REPO_URL, params.dir],
       env: gitEnv,
       timeoutMs: params.timeoutMs,
       progress: params.progress,
@@ -216,13 +216,13 @@ export async function ensureGitCheckout(params: {
     const empty = await isEmptyDir(params.dir);
     if (!empty) {
       throw new Error(
-        `OPENCLAW_GIT_DIR points at a non-git directory: ${params.dir}. Set OPENCLAW_GIT_DIR to an empty folder or an openclaw checkout.`,
+        `BRIKKO_STUDIO_GIT_DIR points at a non-git directory: ${params.dir}. Set BRIKKO_STUDIO_GIT_DIR to an empty folder or an brikko-studio checkout.`,
       );
     }
 
     return await runUpdateStep({
       name: "git clone",
-      argv: ["git", "clone", OPENCLAW_REPO_URL, params.dir],
+      argv: ["git", "clone", BRIKKO_STUDIO_REPO_URL, params.dir],
       cwd: params.dir,
       env: gitEnv,
       timeoutMs: params.timeoutMs,
@@ -231,7 +231,7 @@ export async function ensureGitCheckout(params: {
   }
 
   if (!(await isCorePackage(params.dir))) {
-    throw new Error(`OPENCLAW_GIT_DIR does not look like a core checkout: ${params.dir}.`);
+    throw new Error(`BRIKKO_STUDIO_GIT_DIR does not look like a core checkout: ${params.dir}.`);
   }
 
   return null;
@@ -261,10 +261,10 @@ export async function resolveGlobalManager(params: {
 
 const COMPLETION_CACHE_WRITE_TIMEOUT_MS = 30_000;
 const COMPLETION_CACHE_MANUAL_REFRESH_HINT =
-  "Shell tab-completion may be stale; refresh manually with: openclaw completion --write-state";
+  "Shell tab-completion may be stale; refresh manually with: brikko-studio completion --write-state";
 
 export async function tryWriteCompletionCache(root: string, jsonMode: boolean): Promise<void> {
-  const binPath = path.join(root, "openclaw.mjs");
+  const binPath = path.join(root, "brikko-studio.mjs");
   if (!(await pathExists(binPath))) {
     return;
   }

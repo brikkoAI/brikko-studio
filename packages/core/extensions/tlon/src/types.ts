@@ -3,12 +3,12 @@ import {
   listCombinedAccountIds,
   normalizeAccountId,
   resolveMergedAccountConfig,
-} from "openclaw/plugin-sdk/account-resolution";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/account-resolution";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   hasLegacyFlatAllowPrivateNetworkAlias,
   isPrivateNetworkOptInEnabled,
-} from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/ssrf-runtime";
 
 type TlonAccountConfig = {
   name?: string;
@@ -53,12 +53,12 @@ export type TlonResolvedAccount = {
   ownerShip: string | null;
 };
 
-function resolveTlonChannelConfig(cfg: OpenClawConfig): TlonAccountConfig | undefined {
+function resolveTlonChannelConfig(cfg: Brikko StudioConfig): TlonAccountConfig | undefined {
   return cfg.channels?.tlon as TlonAccountConfig | undefined;
 }
 
 function resolveMergedTlonAccountConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId: string,
 ): Record<string, unknown> & TlonAccountConfig {
   const channel = resolveTlonChannelConfig(cfg);
@@ -76,7 +76,7 @@ function resolveMergedTlonAccountConfig(
 }
 
 export function resolveTlonAccount(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId?: string | null,
 ): TlonResolvedAccount {
   const resolvedAccountId = normalizeAccountId(accountId);
@@ -148,7 +148,7 @@ export function resolveTlonAccount(
   };
 }
 
-export function listTlonAccountIds(cfg: OpenClawConfig): string[] {
+export function listTlonAccountIds(cfg: Brikko StudioConfig): string[] {
   const base = resolveTlonChannelConfig(cfg);
   if (!base) {
     return [];

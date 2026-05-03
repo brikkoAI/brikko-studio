@@ -1,4 +1,4 @@
-import { optionalStringEnum, stringEnum } from "openclaw/plugin-sdk/channel-actions";
+import { optionalStringEnum, stringEnum } from "brikko-studio/plugin-sdk/channel-actions";
 import { Type } from "typebox";
 
 const BROWSER_ACT_KINDS = [

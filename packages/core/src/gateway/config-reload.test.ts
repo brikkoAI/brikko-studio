@@ -9,7 +9,7 @@ import type { ChannelPlugin } from "../channels/plugins/types.js";
 import type {
   ConfigFileSnapshot,
   ConfigWriteNotification,
-  OpenClawConfig,
+  Brikko StudioConfig,
 } from "../config/config.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import {
@@ -523,7 +523,7 @@ function makeSnapshot(partial: Partial<ConfigFileSnapshot> = {}): ConfigFileSnap
     {}) as ConfigFileSnapshot["sourceConfig"];
   const runtimeConfig = partial.runtimeConfig ?? partial.config ?? {};
   return {
-    path: "/tmp/openclaw.json",
+    path: "/tmp/brikko-studio.json",
     exists: true,
     raw: "{}",
     parsed: {},
@@ -559,7 +559,7 @@ function makeZeroDebounceHookSnapshot(hash: string): ConfigFileSnapshot {
 
 function makeZeroDebounceHookWrite(persistedHash: string): ConfigWriteNotification {
   return {
-    configPath: "/tmp/openclaw.json",
+    configPath: "/tmp/brikko-studio.json",
     sourceConfig: { gateway: { reload: { debounceMs: 0 } }, hooks: { enabled: true } },
     runtimeConfig: {
       gateway: { reload: { debounceMs: 0 } },
@@ -576,7 +576,7 @@ function makeZeroDebounceHookWrite(persistedHash: string): ConfigWriteNotificati
 function createReloaderHarness(
   readSnapshot: () => Promise<ConfigFileSnapshot>,
   options: {
-    initialCompareConfig?: OpenClawConfig;
+    initialCompareConfig?: Brikko StudioConfig;
     initialInternalWriteHash?: string | null;
     recoverSnapshot?: (snapshot: ConfigFileSnapshot, reason: string) => Promise<boolean>;
     promoteSnapshot?: (snapshot: ConfigFileSnapshot, reason: string) => Promise<boolean>;
@@ -621,7 +621,7 @@ function createReloaderHarness(
     onHotReload,
     onRestart,
     log,
-    watchPath: "/tmp/openclaw.json",
+    watchPath: "/tmp/brikko-studio.json",
   });
   return {
     watcher,
@@ -798,7 +798,7 @@ describe("startGatewayConfigReloader", () => {
   });
 
   it("queues restart in degraded mode for plugin-local invalid reloads", async () => {
-    const activeConfig: OpenClawConfig = {
+    const activeConfig: Brikko StudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       agents: { defaults: { model: "gpt-5.4" } },
       plugins: {
@@ -830,7 +830,7 @@ describe("startGatewayConfigReloader", () => {
       .mockResolvedValueOnce(invalidSnapshot);
     const recoverSnapshot = vi.fn(async () => true);
     const promoteSnapshot = vi.fn(async () => true);
-    const previousConfig: OpenClawConfig = {
+    const previousConfig: Brikko StudioConfig = {
       ...activeConfig,
       plugins: {
         entries: {
@@ -1077,7 +1077,7 @@ describe("startGatewayConfigReloader", () => {
       installedAt: "2026-04-22T00:00:00.000Z",
       resolvedAt: "2026-04-22T00:00:00.000Z",
     };
-    const sourceConfig: OpenClawConfig = {
+    const sourceConfig: Brikko StudioConfig = {
       gateway: { reload: { debounceMs: 0 }, auth: { mode: "token" } },
       plugins: {
         installs: {
@@ -1105,7 +1105,7 @@ describe("startGatewayConfigReloader", () => {
     const harness = createReloaderHarness(readSnapshot, { initialCompareConfig: sourceConfig });
 
     harness.emitWrite({
-      configPath: "/tmp/openclaw.json",
+      configPath: "/tmp/brikko-studio.json",
       sourceConfig: {
         ...sourceConfig,
         plugins: {
@@ -1157,7 +1157,7 @@ describe("startGatewayConfigReloader", () => {
   });
 
   it("does not suppress functional install changes that collide with timestamp paths", async () => {
-    const sourceConfig: OpenClawConfig = {
+    const sourceConfig: Brikko StudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         installs: {
@@ -1168,7 +1168,7 @@ describe("startGatewayConfigReloader", () => {
         },
       },
     };
-    const nextSourceConfig: OpenClawConfig = {
+    const nextSourceConfig: Brikko StudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         installs: {
@@ -1193,7 +1193,7 @@ describe("startGatewayConfigReloader", () => {
     const harness = createReloaderHarness(readSnapshot, { initialCompareConfig: sourceConfig });
 
     harness.emitWrite({
-      configPath: "/tmp/openclaw.json",
+      configPath: "/tmp/brikko-studio.json",
       sourceConfig: nextSourceConfig,
       runtimeConfig: nextSourceConfig,
       persistedHash: "plugin-collision-1",
@@ -1233,7 +1233,7 @@ describe("startGatewayConfigReloader", () => {
   });
 
   it("queues restart when an external plugin source write only changes the managed index", async () => {
-    const activeConfig: OpenClawConfig = {
+    const activeConfig: Brikko StudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         allow: ["lossless-claw"],
@@ -1254,7 +1254,7 @@ describe("startGatewayConfigReloader", () => {
       "lossless-claw": {
         source: "npm",
         spec: "@martian-engineering/lossless-claw",
-        installPath: "/tmp/openclaw/plugins/lossless-claw",
+        installPath: "/tmp/brikko-studio/plugins/lossless-claw",
         installedAt: "2026-04-22T00:00:00.000Z",
       },
     } satisfies Record<string, PluginInstallRecord>);
@@ -1282,7 +1282,7 @@ describe("startGatewayConfigReloader", () => {
   });
 
   it("keeps external plugin policy-only writes on the hot reload path", async () => {
-    const previousConfig: OpenClawConfig = {
+    const previousConfig: Brikko StudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         entries: {
@@ -1290,7 +1290,7 @@ describe("startGatewayConfigReloader", () => {
         },
       },
     };
-    const nextConfig: OpenClawConfig = {
+    const nextConfig: Brikko StudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         entries: {
@@ -1301,8 +1301,8 @@ describe("startGatewayConfigReloader", () => {
     const installRecords = {
       telegram: {
         source: "npm",
-        spec: "@openclaw/telegram",
-        installPath: "/tmp/openclaw/plugins/telegram",
+        spec: "@brikko-studio/telegram",
+        installPath: "/tmp/brikko-studio/plugins/telegram",
       },
     } satisfies Record<string, PluginInstallRecord>;
     const readSnapshot = vi.fn<() => Promise<ConfigFileSnapshot>>().mockResolvedValueOnce(
@@ -1339,13 +1339,13 @@ describe("startGatewayConfigReloader", () => {
   });
 
   it("queues restart when an external plugin source write also changes plugin config", async () => {
-    const previousConfig: OpenClawConfig = {
+    const previousConfig: Brikko StudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         allow: ["lossless-claw"],
       },
     };
-    const nextConfig: OpenClawConfig = {
+    const nextConfig: Brikko StudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         allow: ["lossless-claw"],
@@ -1366,7 +1366,7 @@ describe("startGatewayConfigReloader", () => {
       "lossless-claw": {
         source: "npm",
         spec: "@martian-engineering/lossless-claw",
-        installPath: "/tmp/openclaw/plugins/lossless-claw",
+        installPath: "/tmp/brikko-studio/plugins/lossless-claw",
         installedAt: "2026-04-22T00:00:00.000Z",
       },
     } satisfies Record<string, PluginInstallRecord>);

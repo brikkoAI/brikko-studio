@@ -1,5 +1,5 @@
 import { runChannelPluginStartupMaintenance } from "../channels/plugins/lifecycle-startup.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 
 type DoctorStartupMaintenanceRuntime = {
   error: (message: string) => void;
@@ -9,7 +9,7 @@ type DoctorStartupMaintenanceRuntime = {
 type ChannelPluginStartupMaintenanceRunner = typeof runChannelPluginStartupMaintenance;
 
 export async function maybeRunDoctorStartupChannelMaintenance(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   runChannelPluginStartupMaintenance?: ChannelPluginStartupMaintenanceRunner;
   runtime: DoctorStartupMaintenanceRuntime;

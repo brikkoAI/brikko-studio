@@ -1,8 +1,8 @@
 import { resolveGlobalSingleton } from "../shared/global-singleton.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
-import type { OpenClawPluginCommandDefinition } from "./types.js";
+import type { Brikko StudioPluginCommandDefinition } from "./types.js";
 
-export type RegisteredPluginCommand = OpenClawPluginCommandDefinition & {
+export type RegisteredPluginCommand = Brikko StudioPluginCommandDefinition & {
   pluginId: string;
   pluginName?: string;
   pluginRoot?: string;
@@ -13,7 +13,7 @@ type PluginCommandState = {
   registryLocked: boolean;
 };
 
-const PLUGIN_COMMAND_STATE_KEY = Symbol.for("openclaw.pluginCommandsState");
+const PLUGIN_COMMAND_STATE_KEY = Symbol.for("brikko-studio.pluginCommandsState");
 
 const getState = () =>
   resolveGlobalSingleton<PluginCommandState>(PLUGIN_COMMAND_STATE_KEY, () => ({

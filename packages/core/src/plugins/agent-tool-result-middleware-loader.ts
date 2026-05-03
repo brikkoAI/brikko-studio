@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
 import type {
@@ -9,12 +9,12 @@ import {
   listAgentToolResultMiddlewares,
   normalizeAgentToolResultMiddlewareRuntimeIds,
 } from "./agent-tool-result-middleware.js";
-import { loadOpenClawPlugins } from "./loader.js";
+import { loadBrikko StudioPlugins } from "./loader.js";
 import { loadPluginManifestRegistry, type PluginManifestRegistry } from "./manifest-registry.js";
 
 const log = createSubsystemLogger("plugins/agent-tool-result-middleware");
 
-async function resolveRuntimeConfig(): Promise<OpenClawConfig> {
+async function resolveRuntimeConfig(): Promise<Brikko StudioConfig> {
   const { getRuntimeConfig } = await import("../config/config.js");
   return getRuntimeConfig();
 }
@@ -40,7 +40,7 @@ function listMiddlewareOwnerPluginIds(params: {
 
 export async function loadAgentToolResultMiddlewaresForRuntime(params: {
   runtime: AgentToolResultMiddlewareRuntime;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   manifestRegistry?: PluginManifestRegistry;
@@ -74,7 +74,7 @@ export async function loadAgentToolResultMiddlewaresForRuntime(params: {
         env,
         requiredPluginIds: pluginIds,
       }) ??
-      loadOpenClawPlugins({
+      loadBrikko StudioPlugins({
         config,
         workspaceDir: params.workspaceDir,
         env,

@@ -1,26 +1,26 @@
 ---
-summary: "CLI reference for `openclaw daemon` (legacy alias for gateway service management)"
+summary: "CLI reference for `brikko-studio daemon` (legacy alias for gateway service management)"
 read_when:
-  - You still use `openclaw daemon ...` in scripts
+  - You still use `brikko-studio daemon ...` in scripts
   - You need service lifecycle commands (install/start/stop/restart/status)
 title: "Daemon"
 ---
 
-# `openclaw daemon`
+# `brikko-studio daemon`
 
 Legacy alias for Gateway service management commands.
 
-`openclaw daemon ...` maps to the same service control surface as `openclaw gateway ...` service commands.
+`brikko-studio daemon ...` maps to the same service control surface as `brikko-studio gateway ...` service commands.
 
 ## Usage
 
 ```bash
-openclaw daemon status
-openclaw daemon install
-openclaw daemon start
-openclaw daemon stop
-openclaw daemon restart
-openclaw daemon uninstall
+brikko-studio daemon status
+brikko-studio daemon install
+brikko-studio daemon start
+brikko-studio daemon stop
+brikko-studio daemon restart
+brikko-studio daemon uninstall
 ```
 
 ## Subcommands
@@ -56,7 +56,7 @@ Notes:
 
 ## Prefer
 
-Use [`openclaw gateway`](/cli/gateway) for current docs and examples.
+Use [`brikko-studio gateway`](/cli/gateway) for current docs and examples.
 
 ## Related
 

@@ -1,4 +1,4 @@
-import { countLines, hasBalancedFences } from "openclaw/plugin-sdk/test-fixtures";
+import { countLines, hasBalancedFences } from "brikko-studio/plugin-sdk/test-fixtures";
 import { describe, expect, it } from "vitest";
 import { chunkDiscordText, chunkDiscordTextWithMode } from "./chunk.js";
 

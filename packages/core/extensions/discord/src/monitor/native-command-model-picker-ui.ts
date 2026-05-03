@@ -1,17 +1,17 @@
-import { resolveDefaultModelForAgent } from "openclaw/plugin-sdk/agent-runtime";
+import { resolveDefaultModelForAgent } from "brikko-studio/plugin-sdk/agent-runtime";
 import {
   resolveStoredModelOverride,
   serializeCommandArgs,
   type ChatCommandDefinition,
   type CommandArgs,
-} from "openclaw/plugin-sdk/command-auth";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { ResolvedAgentRoute } from "openclaw/plugin-sdk/routing";
-import { loadSessionStore, resolveStorePath } from "openclaw/plugin-sdk/session-store-runtime";
+} from "brikko-studio/plugin-sdk/command-auth";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
+import { loadSessionStore, resolveStorePath } from "brikko-studio/plugin-sdk/session-store-runtime";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import {
   Container,
   TextDisplay,
@@ -131,7 +131,7 @@ async function resolveDiscordModelPickerRouteState(params: {
     | ButtonInteraction
     | StringSelectMenuInteraction
     | AutocompleteInteraction;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   threadBindings: ThreadBindingManager;
   enforceConfiguredBindingReadiness?: boolean;
@@ -172,7 +172,7 @@ export async function resolveDiscordModelPickerRoute(params: {
     | ButtonInteraction
     | StringSelectMenuInteraction
     | AutocompleteInteraction;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   threadBindings: ThreadBindingManager;
 }) {
@@ -182,7 +182,7 @@ export async function resolveDiscordModelPickerRoute(params: {
 
 export async function resolveDiscordNativeChoiceContext(params: {
   interaction: DiscordNativeChoiceInteraction;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   threadBindings: ThreadBindingManager;
 }): Promise<{ provider?: string; model?: string } | null> {
@@ -229,7 +229,7 @@ export async function resolveDiscordNativeChoiceContext(params: {
 }
 
 export function resolveDiscordModelPickerCurrentModel(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   route: ResolvedAgentRoute;
   data: Awaited<ReturnType<typeof loadDiscordModelPickerData>>;
 }): string {
@@ -263,7 +263,7 @@ export function resolveDiscordModelPickerCurrentModel(params: {
 }
 
 export function resolveDiscordModelPickerCurrentRuntime(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   route: ResolvedAgentRoute;
 }): string {
   try {
@@ -294,7 +294,7 @@ export function resolveDiscordModelPickerCurrentRuntime(params: {
 
 export async function replyWithDiscordModelPickerProviders(params: {
   interaction: CommandInteraction | ButtonInteraction | StringSelectMenuInteraction;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   command: DiscordModelPickerCommandContext;
   userId: string;
   accountId: string;

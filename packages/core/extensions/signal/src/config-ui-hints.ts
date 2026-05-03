@@ -1,4 +1,4 @@
-import type { ChannelConfigUiHint } from "openclaw/plugin-sdk/core";
+import type { ChannelConfigUiHint } from "brikko-studio/plugin-sdk/core";
 
 export const signalChannelConfigUiHints = {
   "": {

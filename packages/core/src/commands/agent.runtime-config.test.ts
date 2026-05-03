@@ -1,25 +1,25 @@
 import path from "node:path";
-import { withTempHome as withTempHomeBase } from "openclaw/plugin-sdk/test-env";
+import { withTempHome as withTempHomeBase } from "brikko-studio/plugin-sdk/test-env";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { resolveAgentRuntimeConfig } from "../agents/agent-runtime-config.js";
 import { resolveSession } from "../agents/command/session.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { createThrowingTestRuntime } from "./test-runtime-config-helpers.js";
 
 type ConfigSnapshotForWrite = {
-  snapshot: { valid: boolean; resolved: OpenClawConfig };
+  snapshot: { valid: boolean; resolved: Brikko StudioConfig };
   writeOptions: Record<string, never>;
 };
 
 type ResolveCommandConfigParams = {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   commandName: string;
   targetIds: Set<string>;
   runtime: RuntimeEnv;
 };
 
-const loadConfigMock = vi.hoisted(() => vi.fn<() => OpenClawConfig>());
+const loadConfigMock = vi.hoisted(() => vi.fn<() => Brikko StudioConfig>());
 const readConfigFileSnapshotForWriteMock = vi.hoisted(() =>
   vi.fn<() => Promise<ConfigSnapshotForWrite>>(),
 );
@@ -38,7 +38,7 @@ vi.mock("../cli/command-secret-targets.js", () => ({
 }));
 
 const setRuntimeConfigSnapshotMock = vi.hoisted(() =>
-  vi.fn<(cfg: OpenClawConfig, sourceConfig: OpenClawConfig) => void>(),
+  vi.fn<(cfg: Brikko StudioConfig, sourceConfig: Brikko StudioConfig) => void>(),
 );
 vi.mock("../config/runtime-snapshot.js", () => ({
   setRuntimeConfigSnapshot: setRuntimeConfigSnapshotMock,
@@ -47,8 +47,8 @@ vi.mock("../config/runtime-snapshot.js", () => ({
 const resolveCommandConfigWithSecretsMock = vi.hoisted(() =>
   vi.fn<
     (params: ResolveCommandConfigParams) => Promise<{
-      resolvedConfig: OpenClawConfig;
-      effectiveConfig: OpenClawConfig;
+      resolvedConfig: Brikko StudioConfig;
+      effectiveConfig: Brikko StudioConfig;
       diagnostics: never[];
     }>
   >(),
@@ -60,20 +60,20 @@ vi.mock("../cli/command-config-resolution.runtime.js", () => ({
 const runtime = createThrowingTestRuntime();
 
 async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
-  return withTempHomeBase(fn, { prefix: "openclaw-agent-" });
+  return withTempHomeBase(fn, { prefix: "brikko-studio-agent-" });
 }
 
-function mockConfig(home: string, storePath: string): OpenClawConfig {
+function mockConfig(home: string, storePath: string): Brikko StudioConfig {
   const cfg = {
     agents: {
       defaults: {
         model: { primary: "anthropic/claude-opus-4-6" },
         models: { "anthropic/claude-opus-4-6": {} },
-        workspace: path.join(home, "openclaw"),
+        workspace: path.join(home, "brikko-studio"),
       },
     },
     session: { store: storePath, mainKey: "main" },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
   loadConfigMock.mockReturnValue(cfg);
   return cfg;
 }
@@ -81,7 +81,7 @@ function mockConfig(home: string, storePath: string): OpenClawConfig {
 beforeEach(() => {
   vi.clearAllMocks();
   readConfigFileSnapshotForWriteMock.mockResolvedValue({
-    snapshot: { valid: false, resolved: {} as OpenClawConfig },
+    snapshot: { valid: false, resolved: {} as Brikko StudioConfig },
     writeOptions: {},
   });
 });
@@ -95,7 +95,7 @@ describe("agentCommand runtime config", () => {
           defaults: {
             model: { primary: "anthropic/claude-opus-4-6" },
             models: { "anthropic/claude-opus-4-6": {} },
-            workspace: path.join(home, "openclaw"),
+            workspace: path.join(home, "brikko-studio"),
           },
         },
         session: { store, mainKey: "main" },
@@ -108,7 +108,7 @@ describe("agentCommand runtime config", () => {
             },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as Brikko StudioConfig;
       const sourceConfig = {
         ...loadedConfig,
         models: {
@@ -120,7 +120,7 @@ describe("agentCommand runtime config", () => {
             },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as Brikko StudioConfig;
       const resolvedConfig = {
         ...loadedConfig,
         models: {
@@ -132,7 +132,7 @@ describe("agentCommand runtime config", () => {
             },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as Brikko StudioConfig;
 
       loadConfigMock.mockReturnValue(loadedConfig);
       readConfigFileSnapshotForWriteMock.mockResolvedValue({
@@ -171,7 +171,7 @@ describe("agentCommand runtime config", () => {
         telegram: {
           botToken: { source: "env", provider: "default", id: "TELEGRAM_BOT_TOKEN" },
         },
-      } as unknown as OpenClawConfig["channels"];
+      } as unknown as Brikko StudioConfig["channels"];
       resolveCommandConfigWithSecretsMock.mockResolvedValueOnce({
         resolvedConfig: loadedConfig,
         effectiveConfig: loadedConfig,

@@ -11,8 +11,8 @@ Azure AI Speech text-to-speech (MP3, native Ogg/Opus voice notes, PCM telephony)
 
 ## Distribution
 
-- Package: `@openclaw/azure-speech`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/azure-speech`
+- Install route: included in Brikko Studio
 
 ## Surface
 

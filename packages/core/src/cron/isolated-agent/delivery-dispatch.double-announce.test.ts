@@ -701,7 +701,7 @@ describe("dispatchCronDelivery — double-announce guard", () => {
   });
 
   it("retries transient direct announce failures before succeeding", async () => {
-    vi.stubEnv("OPENCLAW_TEST_FAST", "1");
+    vi.stubEnv("BRIKKO_STUDIO_TEST_FAST", "1");
     vi.mocked(countActiveDescendantRuns).mockReturnValue(0);
     vi.mocked(isLikelyInterimCronMessage).mockReturnValue(false);
     vi.mocked(deliverOutboundPayloads)
@@ -808,7 +808,7 @@ describe("dispatchCronDelivery — double-announce guard", () => {
   });
 
   it("does not retry permanent direct announce failures", async () => {
-    vi.stubEnv("OPENCLAW_TEST_FAST", "1");
+    vi.stubEnv("BRIKKO_STUDIO_TEST_FAST", "1");
     vi.mocked(countActiveDescendantRuns).mockReturnValue(0);
     vi.mocked(isLikelyInterimCronMessage).mockReturnValue(false);
     vi.mocked(deliverOutboundPayloads).mockRejectedValue(new Error("chat not found"));
@@ -922,7 +922,7 @@ describe("dispatchCronDelivery — double-announce guard", () => {
       .mockRejectedValueOnce(new Error("gateway timeout"))
       .mockResolvedValueOnce([{ ok: true } as never]);
 
-    vi.stubEnv("OPENCLAW_TEST_FAST", "1");
+    vi.stubEnv("BRIKKO_STUDIO_TEST_FAST", "1");
     try {
       const params = makeBaseParams({ synthesizedText: "Retry test." });
       const state = await dispatchCronDelivery(params);
@@ -1029,7 +1029,7 @@ describe("dispatchCronDelivery — double-announce guard", () => {
       "sessionKey is required to resolve delivery.channel=last",
     );
     expect(state.result?.error).toContain(
-      "the agent used the message tool, but OpenClaw could not verify",
+      "the agent used the message tool, but Brikko Studio could not verify",
     );
   });
 

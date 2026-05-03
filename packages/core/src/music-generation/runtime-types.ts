@@ -1,6 +1,6 @@
 import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
 import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type {
   GeneratedMusicAsset,
   MusicGenerationIgnoredOverride,
@@ -11,7 +11,7 @@ import type {
 } from "./types.js";
 
 export type GenerateMusicParams = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   prompt: string;
   agentDir?: string;
   authStore?: AuthProfileStore;
@@ -38,7 +38,7 @@ export type GenerateMusicRuntimeResult = {
 };
 
 export type ListRuntimeMusicGenerationProvidersParams = {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 };
 
 export type RuntimeMusicGenerationProvider = MusicGenerationProvider;

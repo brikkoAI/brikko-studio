@@ -1,1 +1,1 @@
-export { maybeLoadShellEnvForGenerationProviders } from "openclaw/plugin-sdk/test-env";
+export { maybeLoadShellEnvForGenerationProviders } from "brikko-studio/plugin-sdk/test-env";

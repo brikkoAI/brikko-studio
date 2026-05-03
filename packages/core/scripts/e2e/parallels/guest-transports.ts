@@ -28,7 +28,7 @@ export class LinuxGuest {
   }
 
   bash(script: string): string {
-    const scriptPath = `/tmp/openclaw-parallels-${process.pid}-${Date.now()}.sh`;
+    const scriptPath = `/tmp/brikko-studio-parallels-${process.pid}-${Date.now()}.sh`;
     const write = run(
       "prlctl",
       ["exec", this.vmName, "/usr/bin/env", "HOME=/root", "dd", `of=${scriptPath}`, "bs=1048576"],
@@ -102,7 +102,7 @@ export class MacosGuest {
   }
 
   sh(script: string, env: Record<string, string> = {}): string {
-    const scriptPath = `/tmp/openclaw-parallels-${process.pid}-${Date.now()}.sh`;
+    const scriptPath = `/tmp/brikko-studio-parallels-${process.pid}-${Date.now()}.sh`;
     this.exec(["/bin/dd", `of=${scriptPath}`, "bs=1048576"], { input: script });
     try {
       return this.exec(["/bin/bash", scriptPath], { env });
@@ -135,7 +135,7 @@ export class WindowsGuest {
   }
 
   powershell(script: string, options: GuestExecOptions = {}): string {
-    const scriptName = `openclaw-parallels-${process.pid}-${Date.now()}.ps1`;
+    const scriptName = `brikko-studio-parallels-${process.pid}-${Date.now()}.ps1`;
     const writeScript = `$scriptPath = Join-Path $env:TEMP ${JSON.stringify(scriptName)}
 [System.IO.File]::WriteAllText($scriptPath, [Console]::In.ReadToEnd(), [System.Text.UTF8Encoding]::new($false))`;
     const write = run(

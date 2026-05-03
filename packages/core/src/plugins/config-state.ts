@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
@@ -28,8 +28,8 @@ export type PluginActivationState = PluginActivationStateLike;
 
 export type PluginActivationConfigSource = {
   plugins: NormalizedPluginsConfig;
-  rootConfig?: OpenClawConfig;
-} & PluginActivationConfigSourceLike<OpenClawConfig>;
+  rootConfig?: Brikko StudioConfig;
+} & PluginActivationConfigSourceLike<Brikko StudioConfig>;
 
 export type NormalizedPluginsConfig = SharedNormalizedPluginsConfig;
 
@@ -79,13 +79,13 @@ export function normalizePluginId(id: string): string {
 }
 
 export const normalizePluginsConfig = (
-  config?: OpenClawConfig["plugins"],
+  config?: Brikko StudioConfig["plugins"],
 ): NormalizedPluginsConfig => {
   return normalizePluginsConfigWithResolver(config, createScopedPluginIdNormalizer());
 };
 
 export function createPluginActivationSource(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   plugins?: NormalizedPluginsConfig;
 }): PluginActivationConfigSource {
   return {
@@ -94,22 +94,22 @@ export function createPluginActivationSource(params: {
   };
 }
 
-const hasExplicitMemorySlot = (plugins?: OpenClawConfig["plugins"]) =>
+const hasExplicitMemorySlot = (plugins?: Brikko StudioConfig["plugins"]) =>
   Boolean(plugins?.slots && Object.prototype.hasOwnProperty.call(plugins.slots, "memory"));
 
-const hasExplicitMemoryEntry = (plugins?: OpenClawConfig["plugins"]) =>
+const hasExplicitMemoryEntry = (plugins?: Brikko StudioConfig["plugins"]) =>
   Boolean(
     plugins?.entries &&
     Object.prototype.hasOwnProperty.call(plugins.entries, defaultSlotIdForKey("memory")),
   );
 
-export const hasExplicitPluginConfig = (plugins?: OpenClawConfig["plugins"]) =>
+export const hasExplicitPluginConfig = (plugins?: Brikko StudioConfig["plugins"]) =>
   hasExplicitPluginConfigShared(plugins);
 
 export function applyTestPluginDefaults(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   env: NodeJS.ProcessEnv = process.env,
-): OpenClawConfig {
+): Brikko StudioConfig {
   if (!env.VITEST) {
     return cfg;
   }
@@ -145,7 +145,7 @@ export function applyTestPluginDefaults(
 }
 
 export function isTestDefaultMemorySlotDisabled(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
   if (!env.VITEST) {
@@ -162,7 +162,7 @@ export function resolvePluginActivationState(params: {
   id: string;
   origin: PluginOrigin;
   config: NormalizedPluginsConfig;
-  rootConfig?: OpenClawConfig;
+  rootConfig?: Brikko StudioConfig;
   enabledByDefault?: boolean;
   activationSource?: PluginActivationConfigSource;
   autoEnabledReason?: string;
@@ -193,7 +193,7 @@ type EffectiveActivationParams = {
   id: string;
   origin: PluginOrigin;
   config: NormalizedPluginsConfig;
-  rootConfig?: OpenClawConfig;
+  rootConfig?: Brikko StudioConfig;
   enabledByDefault?: boolean;
   activationSource?: PluginActivationConfigSource;
 };

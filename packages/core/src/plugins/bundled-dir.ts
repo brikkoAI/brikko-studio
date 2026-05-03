@@ -2,12 +2,12 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveOpenClawPackageRootSync } from "../infra/openclaw-root.js";
+import { resolveBrikko StudioPackageRootSync } from "../infra/brikko-studio-root.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 import { resolveUserPath } from "../utils.js";
 
-const DISABLED_BUNDLED_PLUGINS_DIR = path.join(os.tmpdir(), "openclaw-empty-bundled-plugins");
-const TEST_TRUST_BUNDLED_PLUGINS_DIR_ENV = "OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR";
+const DISABLED_BUNDLED_PLUGINS_DIR = path.join(os.tmpdir(), "brikko-studio-empty-bundled-plugins");
+const TEST_TRUST_BUNDLED_PLUGINS_DIR_ENV = "BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR";
 let bundledPluginsDirOverrideForTest: string | undefined;
 const bundledPluginsDirCache = new Map<string, string | undefined>();
 
@@ -17,7 +17,7 @@ export type SourceCheckoutDependencyDiagnostic = {
 };
 
 export function areBundledPluginsDisabled(env: NodeJS.ProcessEnv = process.env): boolean {
-  const raw = normalizeOptionalLowercaseString(env.OPENCLAW_DISABLE_BUNDLED_PLUGINS);
+  const raw = normalizeOptionalLowercaseString(env.BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS);
   return raw === "1" || raw === "true";
 }
 
@@ -61,7 +61,7 @@ function hasUsableBundledPluginTree(pluginsDir: string): boolean {
       const pluginDir = path.join(pluginsDir, entry.name);
       return (
         fs.existsSync(path.join(pluginDir, "package.json")) ||
-        fs.existsSync(path.join(pluginDir, "openclaw.plugin.json"))
+        fs.existsSync(path.join(pluginDir, "brikko-studio.plugin.json"))
       );
     });
   } catch {
@@ -94,8 +94,8 @@ function trustedBundledPluginRootsForPackageRoot(packageRoot: string): string[] 
 }
 
 function resolvePackageRootsForBundledPlugins(): string[] {
-  const argvRoot = resolveOpenClawPackageRootSync({ argv1: process.argv[1] });
-  const moduleRoot = resolveOpenClawPackageRootSync({ moduleUrl: import.meta.url });
+  const argvRoot = resolveBrikko StudioPackageRootSync({ argv1: process.argv[1] });
+  const moduleRoot = resolveBrikko StudioPackageRootSync({ moduleUrl: import.meta.url });
   return [argvRoot, moduleRoot].filter(
     (entry, index, all): entry is string => Boolean(entry) && all.indexOf(entry) === index,
   );
@@ -121,7 +121,7 @@ export function resolveSourceCheckoutDependencyDiagnostic(
     return {
       source: packageRoot,
       message:
-        "OpenClaw source checkout detected without pnpm workspace dependencies; run `pnpm install` from the repo root so bundled plugins can load package-local dependencies.",
+        "Brikko Studio source checkout detected without pnpm workspace dependencies; run `pnpm install` from the repo root so bundled plugins can load package-local dependencies.",
     };
   }
   return null;
@@ -133,7 +133,7 @@ function resolveTrustedExistingOverride(resolvedOverride: string): string | null
     return null;
   }
 
-  const modulePackageRoot = resolveOpenClawPackageRootSync({ moduleUrl: import.meta.url });
+  const modulePackageRoot = resolveBrikko StudioPackageRootSync({ moduleUrl: import.meta.url });
   const packageRoots = modulePackageRoot ? [modulePackageRoot] : [];
   const trustedRoots = packageRoots
     .flatMap((packageRoot) => trustedBundledPluginRootsForPackageRoot(packageRoot))
@@ -197,8 +197,8 @@ function resolveBundledDirFromPackageRoot(packageRoot: string): string | undefin
 
 function createBundledPluginsDirCacheKey(env: NodeJS.ProcessEnv): string {
   return JSON.stringify({
-    disabled: env.OPENCLAW_DISABLE_BUNDLED_PLUGINS ?? "",
-    override: env.OPENCLAW_BUNDLED_PLUGINS_DIR ?? "",
+    disabled: env.BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS ?? "",
+    override: env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR ?? "",
     trustOverride: env[TEST_TRUST_BUNDLED_PLUGINS_DIR_ENV] ?? "",
     processTrustOverride: process.env[TEST_TRUST_BUNDLED_PLUGINS_DIR_ENV] ?? "",
     vitest: env.VITEST ?? "",
@@ -206,7 +206,7 @@ function createBundledPluginsDirCacheKey(env: NodeJS.ProcessEnv): string {
     nodeEnv: process.env.NODE_ENV ?? "",
     argv1: process.argv[1] ?? "",
     execPath: process.execPath,
-    openClawHome: env.OPENCLAW_HOME ?? "",
+    openClawHome: env.BRIKKO_STUDIO_HOME ?? "",
     home: env.HOME ?? "",
     userProfile: env.USERPROFILE ?? "",
     testOverride: bundledPluginsDirOverrideForTest ?? "",
@@ -222,7 +222,7 @@ function resolveBundledPluginsDirUncached(env: NodeJS.ProcessEnv): string | unde
     return bundledPluginsDirOverrideForTest;
   }
 
-  const override = env.OPENCLAW_BUNDLED_PLUGINS_DIR?.trim();
+  const override = env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR?.trim();
   let rejectedExistingOverride: string | null = null;
   if (override) {
     const resolvedOverride = resolveUserPath(override, env);
@@ -239,7 +239,7 @@ function resolveBundledPluginsDirUncached(env: NodeJS.ProcessEnv): string | unde
   }
 
   try {
-    const argvRoot = resolveOpenClawPackageRootSync({ argv1: process.argv[1] });
+    const argvRoot = resolveBrikko StudioPackageRootSync({ argv1: process.argv[1] });
     const rejectedOverrideUsesArgvRoot = Boolean(
       argvRoot &&
       rejectedExistingOverride &&
@@ -249,7 +249,7 @@ function resolveBundledPluginsDirUncached(env: NodeJS.ProcessEnv): string | unde
       }),
     );
     const safeArgvRoot = rejectedOverrideUsesArgvRoot ? null : argvRoot;
-    const moduleRoot = resolveOpenClawPackageRootSync({ moduleUrl: import.meta.url });
+    const moduleRoot = resolveBrikko StudioPackageRootSync({ moduleUrl: import.meta.url });
     const packageRoots = [safeArgvRoot, moduleRoot].filter(
       (entry, index, all): entry is string => Boolean(entry) && all.indexOf(entry) === index,
     );

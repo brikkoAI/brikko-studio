@@ -3,7 +3,7 @@ import { resolveDefaultAgentId } from "../../agents/agent-scope.js";
 import { resolveStoredSessionOwnerAgentId } from "../../gateway/session-store-key.js";
 import { getLogger } from "../../logging/logger.js";
 import { normalizeAgentId } from "../../routing/session-key.js";
-import type { OpenClawConfig } from "../types.openclaw.js";
+import type { Brikko StudioConfig } from "../types.brikko-studio.js";
 import { enforceSessionDiskBudget } from "./disk-budget.js";
 import {
   resolveSessionFilePath,
@@ -227,7 +227,7 @@ async function previewStoreCleanup(params: {
 }
 
 export async function runSessionsCleanup(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   opts: SessionsCleanupOptions;
   targets?: SessionStoreTarget[];
 }): Promise<SessionsCleanupRunResult> {
@@ -334,7 +334,7 @@ export async function runSessionsCleanup(params: {
 
 /** Purge session store entries for a deleted agent (#65524). Best-effort. */
 export async function purgeAgentSessionStoreEntries(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
 ): Promise<void> {
   try {

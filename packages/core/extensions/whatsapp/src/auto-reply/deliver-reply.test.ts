@@ -1,6 +1,6 @@
 import fsSync from "node:fs";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { sleep } from "openclaw/plugin-sdk/text-runtime";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { sleep } from "brikko-studio/plugin-sdk/text-runtime";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import { loadWebMedia } from "../media.js";
 import { cacheInboundMessageMeta } from "../quoted-message.js";
@@ -10,9 +10,9 @@ const hoisted = vi.hoisted(() => ({
   runFfmpeg: vi.fn(),
 }));
 
-vi.mock("openclaw/plugin-sdk/media-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/media-runtime")>(
-    "openclaw/plugin-sdk/media-runtime",
+vi.mock("brikko-studio/plugin-sdk/media-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/media-runtime")>(
+    "brikko-studio/plugin-sdk/media-runtime",
   );
   return {
     ...actual,
@@ -20,9 +20,9 @@ vi.mock("openclaw/plugin-sdk/media-runtime", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/runtime-env", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/runtime-env")>(
-    "openclaw/plugin-sdk/runtime-env",
+vi.mock("brikko-studio/plugin-sdk/runtime-env", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/runtime-env")>(
+    "brikko-studio/plugin-sdk/runtime-env",
   );
   return {
     ...actual,
@@ -31,9 +31,9 @@ vi.mock("openclaw/plugin-sdk/runtime-env", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/text-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/text-runtime")>(
-    "openclaw/plugin-sdk/text-runtime",
+vi.mock("brikko-studio/plugin-sdk/text-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/text-runtime")>(
+    "brikko-studio/plugin-sdk/text-runtime",
   );
   return {
     ...actual,

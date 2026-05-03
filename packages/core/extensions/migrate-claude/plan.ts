@@ -1,9 +1,9 @@
-import { createMigrationItem, summarizeMigrationItems } from "openclaw/plugin-sdk/migration";
+import { createMigrationItem, summarizeMigrationItems } from "brikko-studio/plugin-sdk/migration";
 import type {
   MigrationItem,
   MigrationPlan,
   MigrationProviderContext,
-} from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/plugin-entry";
 import { buildConfigItems } from "./config.js";
 import { buildMemoryItems } from "./memory.js";
 import { buildSkillItems } from "./skills.js";
@@ -81,7 +81,7 @@ export async function buildClaudePlan(ctx: MigrationProviderContext): Promise<Mi
       : []),
     ...(items.some((item) => item.kind === "archive")
       ? [
-          "Some Claude files are archive-only. They will be copied into the migration report for manual review, not loaded into OpenClaw.",
+          "Some Claude files are archive-only. They will be copied into the migration report for manual review, not loaded into Brikko Studio.",
         ]
       : []),
     ...(items.some((item) => item.kind === "manual")
@@ -95,7 +95,7 @@ export async function buildClaudePlan(ctx: MigrationProviderContext): Promise<Mi
     summary: summarizeMigrationItems(items),
     items,
     warnings,
-    nextSteps: ["Run openclaw doctor after applying the migration."],
+    nextSteps: ["Run brikko-studio doctor after applying the migration."],
     metadata: { agentDir: targets.agentDir },
   };
 }

@@ -3,7 +3,7 @@ import path from "node:path";
 import {
   attachChannelToResult,
   createAttachedChannelResultAdapter,
-} from "openclaw/plugin-sdk/channel-send-result";
+} from "brikko-studio/plugin-sdk/channel-send-result";
 import {
   interactiveReplyToPresentation,
   normalizeInteractiveReply,
@@ -12,13 +12,13 @@ import {
   resolveInteractiveTextFallback,
   type MessagePresentationBlock,
   type MessagePresentationButton,
-} from "openclaw/plugin-sdk/interactive-runtime";
+} from "brikko-studio/plugin-sdk/interactive-runtime";
 import {
   resolvePayloadMediaUrls,
   sendPayloadMediaSequenceAndFinalize,
   sendTextMediaPayload,
-} from "openclaw/plugin-sdk/reply-payload";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/reply-payload";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveFeishuAccount } from "./accounts.js";
 import { createFeishuCardInteractionEnvelope } from "./card-interaction.js";
 import { createFeishuClient } from "./client.js";
@@ -35,7 +35,7 @@ import {
   sendStructuredCardFeishu,
 } from "./send.js";
 
-const RENDERED_FEISHU_CARD = Symbol("openclaw.renderedFeishuCard");
+const RENDERED_FEISHU_CARD = Symbol("brikko-studio.renderedFeishuCard");
 
 function normalizePossibleLocalImagePath(text: string | undefined): string | null {
   const raw = text?.trim();

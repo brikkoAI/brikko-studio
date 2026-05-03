@@ -42,7 +42,7 @@ import {
   type PackageManifest as PluginPackageManifest,
 } from "./manifest.js";
 import { validatePackageExtensionEntriesForInstall } from "./package-entry-resolution.js";
-import { linkOpenClawPeerDependencies } from "./plugin-peer-link.js";
+import { linkBrikko StudioPeerDependencies } from "./plugin-peer-link.js";
 
 export { resolvePluginInstallDir } from "./install-paths.js";
 
@@ -64,10 +64,10 @@ type PackageManifest = PluginPackageManifest & {
 };
 
 const MISSING_EXTENSIONS_ERROR =
-  'package.json missing openclaw.extensions; update the plugin package to include openclaw.extensions (for example ["./dist/index.js"]). See https://docs.openclaw.ai/help/troubleshooting#plugin-install-fails-with-missing-openclaw-extensions';
+  'package.json missing brikko-studio.extensions; update the plugin package to include brikko-studio.extensions (for example ["./dist/index.js"]). See https://docs.brikko-studio.ai/help/troubleshooting#plugin-install-fails-with-missing-brikko-studio-extensions';
 const PLUGIN_ARCHIVE_ROOT_MARKERS = [
   "package.json",
-  "openclaw.plugin.json",
+  "brikko-studio.plugin.json",
   ".codex-plugin/plugin.json",
   ".claude-plugin/plugin.json",
   ".cursor-plugin/plugin.json",
@@ -78,10 +78,10 @@ export const PLUGIN_INSTALL_ERROR_CODE = {
   INVALID_MIN_HOST_VERSION: "invalid_min_host_version",
   UNKNOWN_HOST_VERSION: "unknown_host_version",
   INCOMPATIBLE_HOST_VERSION: "incompatible_host_version",
-  MISSING_OPENCLAW_EXTENSIONS: "missing_openclaw_extensions",
+  MISSING_BRIKKO_STUDIO_EXTENSIONS: "missing_brikko-studio_extensions",
   MISSING_PLUGIN_MANIFEST: "missing_plugin_manifest",
-  EMPTY_OPENCLAW_EXTENSIONS: "empty_openclaw_extensions",
-  INVALID_OPENCLAW_EXTENSIONS: "invalid_openclaw_extensions",
+  EMPTY_BRIKKO_STUDIO_EXTENSIONS: "empty_brikko-studio_extensions",
+  INVALID_BRIKKO_STUDIO_EXTENSIONS: "invalid_brikko-studio_extensions",
   NPM_PACKAGE_NOT_FOUND: "npm_package_not_found",
   PLUGIN_ID_MISMATCH: "plugin_id_mismatch",
   SECURITY_SCAN_BLOCKED: "security_scan_blocked",
@@ -118,7 +118,7 @@ type PluginInstallPolicyRequest = {
 
 const defaultLogger: PluginInstallLogger = {};
 
-function ensureOpenClawExtensions(params: { manifest: PackageManifest }):
+function ensureBrikko StudioExtensions(params: { manifest: PackageManifest }):
   | {
       ok: true;
       entries: string[];
@@ -133,14 +133,14 @@ function ensureOpenClawExtensions(params: { manifest: PackageManifest }):
     return {
       ok: false,
       error: MISSING_EXTENSIONS_ERROR,
-      code: PLUGIN_INSTALL_ERROR_CODE.MISSING_OPENCLAW_EXTENSIONS,
+      code: PLUGIN_INSTALL_ERROR_CODE.MISSING_BRIKKO_STUDIO_EXTENSIONS,
     };
   }
   if (resolved.status === "empty") {
     return {
       ok: false,
-      error: "package.json openclaw.extensions is empty",
-      code: PLUGIN_INSTALL_ERROR_CODE.EMPTY_OPENCLAW_EXTENSIONS,
+      error: "package.json brikko-studio.extensions is empty",
+      code: PLUGIN_INSTALL_ERROR_CODE.EMPTY_BRIKKO_STUDIO_EXTENSIONS,
     };
   }
   return {
@@ -384,7 +384,7 @@ async function runInstallSourceScan(params: {
   } catch (err) {
     return {
       ok: false,
-      error: `${params.subject} installation blocked: code safety scan failed (${String(err)}). Run "openclaw security audit --deep" for details.`,
+      error: `${params.subject} installation blocked: code safety scan failed (${String(err)}). Run "brikko-studio security audit --deep" for details.`,
       code: PLUGIN_INSTALL_ERROR_CODE.SECURITY_SCAN_FAILED,
     };
   }
@@ -629,7 +629,7 @@ async function detectNativePackageInstallSource(packageDir: string): Promise<boo
 
   try {
     const manifest = await runtime.readJsonFile<PackageManifest>(manifestPath);
-    return ensureOpenClawExtensions({ manifest }).ok;
+    return ensureBrikko StudioExtensions({ manifest }).ok;
   } catch {
     return false;
   }
@@ -675,7 +675,7 @@ async function validatePackagePluginInstallSource(params: {
     return { ok: false, error: `invalid package.json: ${String(err)}` };
   }
 
-  const extensionsResult = ensureOpenClawExtensions({
+  const extensionsResult = ensureBrikko StudioExtensions({
     manifest,
   });
   if (!extensionsResult.ok) {
@@ -693,7 +693,7 @@ async function validatePackagePluginInstallSource(params: {
   if (!ocManifestResult.ok && params.requirePluginManifest) {
     return {
       ok: false,
-      error: `package missing valid openclaw.plugin.json: ${ocManifestResult.error}`,
+      error: `package missing valid brikko-studio.plugin.json: ${ocManifestResult.error}`,
       code: PLUGIN_INSTALL_ERROR_CODE.MISSING_PLUGIN_MANIFEST,
     };
   }
@@ -737,20 +737,20 @@ async function validatePackagePluginInstallSource(params: {
     if (minHostVersionCheck.kind === "invalid") {
       return {
         ok: false,
-        error: `invalid package.json openclaw.install.minHostVersion: ${minHostVersionCheck.error}`,
+        error: `invalid package.json brikko-studio.install.minHostVersion: ${minHostVersionCheck.error}`,
         code: PLUGIN_INSTALL_ERROR_CODE.INVALID_MIN_HOST_VERSION,
       };
     }
     if (minHostVersionCheck.kind === "unknown_host_version") {
       return {
         ok: false,
-        error: `plugin "${pluginId}" requires OpenClaw >=${minHostVersionCheck.requirement.minimumLabel}, but this host version could not be determined. Re-run from a released build or set OPENCLAW_VERSION and retry.`,
+        error: `plugin "${pluginId}" requires Brikko Studio >=${minHostVersionCheck.requirement.minimumLabel}, but this host version could not be determined. Re-run from a released build or set BRIKKO_STUDIO_VERSION and retry.`,
         code: PLUGIN_INSTALL_ERROR_CODE.UNKNOWN_HOST_VERSION,
       };
     }
     return {
       ok: false,
-      error: `plugin "${pluginId}" requires OpenClaw >=${minHostVersionCheck.requirement.minimumLabel}, but this host is ${minHostVersionCheck.currentVersion}. Upgrade OpenClaw and retry.`,
+      error: `plugin "${pluginId}" requires Brikko Studio >=${minHostVersionCheck.requirement.minimumLabel}, but this host is ${minHostVersionCheck.currentVersion}. Upgrade Brikko Studio and retry.`,
       code: PLUGIN_INSTALL_ERROR_CODE.INCOMPATIBLE_HOST_VERSION,
     };
   }
@@ -764,7 +764,7 @@ async function validatePackagePluginInstallSource(params: {
     return {
       ok: false,
       error: extensionValidation.error,
-      code: PLUGIN_INSTALL_ERROR_CODE.INVALID_OPENCLAW_EXTENSIONS,
+      code: PLUGIN_INSTALL_ERROR_CODE.INVALID_BRIKKO_STUDIO_EXTENSIONS,
     };
   }
 
@@ -830,7 +830,7 @@ async function scanAndLinkInstalledPackage(params: {
   if (scanResult) {
     return scanResult;
   }
-  await linkOpenClawPeerDependencies({
+  await linkBrikko StudioPeerDependencies({
     installedDir: params.installedDir,
     peerDependencies: params.peerDependencies,
     logger: params.logger,
@@ -981,7 +981,7 @@ export async function installPluginFromArchive(
 
   return await runtime.withExtractedArchiveRoot({
     archivePath,
-    tempDirPrefix: "openclaw-plugin-",
+    tempDirPrefix: "brikko-studio-plugin-",
     timeoutMs,
     logger,
     rootMarkers: PLUGIN_ARCHIVE_ROOT_MARKERS,

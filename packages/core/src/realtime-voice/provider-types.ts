@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 
 export type RealtimeVoiceProviderId = string;
 
@@ -66,12 +66,12 @@ export type RealtimeVoiceBridgeCallbacks = {
 export type RealtimeVoiceProviderConfig = Record<string, unknown>;
 
 export type RealtimeVoiceProviderResolveConfigContext = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   rawConfig: RealtimeVoiceProviderConfig;
 };
 
 export type RealtimeVoiceProviderConfiguredContext = {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   providerConfig: RealtimeVoiceProviderConfig;
 };
 

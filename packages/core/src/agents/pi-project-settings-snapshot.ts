@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { SettingsManager } from "@mariozechner/pi-coding-agent";
 import { applyMergePatch } from "../config/merge-patch.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import type { BundleMcpServerConfig } from "../plugins/bundle-mcp.js";
@@ -70,7 +70,7 @@ function loadBundleSettingsFile(params: {
 
 export function loadEnabledBundlePiSettingsSnapshot(params: {
   cwd: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
 }): PiSettingsSnapshot {
   const workspaceDir = params.cwd.trim();
   if (!workspaceDir) {
@@ -135,7 +135,7 @@ export function loadEnabledBundlePiSettingsSnapshot(params: {
 }
 
 export function resolveEmbeddedPiProjectSettingsPolicy(
-  cfg?: OpenClawConfig,
+  cfg?: Brikko StudioConfig,
 ): EmbeddedPiProjectSettingsPolicy {
   const raw = cfg?.agents?.defaults?.embeddedPi?.projectSettingsPolicy;
   if (raw === "trusted" || raw === "sanitize" || raw === "ignore") {

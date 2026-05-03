@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: openclaw-config
+  name: brikko-studio-config
   labels:
-    app: openclaw
+    app: brikko-studio
 data:
-  openclaw.json: |
+  brikko-studio.json: |
     {
       "gateway": {
         "mode": "local",
@@ -20,19 +20,19 @@ data:
       },
       "agents": {
         "defaults": {
-          "workspace": "~/.openclaw/workspace"
+          "workspace": "~/.brikko-studio/workspace"
         },
         "list": [
           {
             "id": "default",
-            "name": "OpenClaw Assistant",
-            "workspace": "~/.openclaw/workspace"
+            "name": "Brikko Studio Assistant",
+            "workspace": "~/.brikko-studio/workspace"
           }
         ]
       },
       "cron": { "enabled": false }
     }
   AGENTS.md: |
-    # OpenClaw Assistant
+    # Brikko Studio Assistant
 
     You are a helpful AI assistant running in Kubernetes.

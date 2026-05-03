@@ -1,15 +1,15 @@
 import type {
   ChannelAccountSnapshot,
   ChannelRuntimeSurface,
-} from "openclaw/plugin-sdk/channel-contract";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+} from "brikko-studio/plugin-sdk/channel-contract";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import type { TelegramBotInfo } from "./bot-info.js";
 
 export type MonitorTelegramOpts = {
   token?: string;
   accountId?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   runtime?: RuntimeEnv;
   channelRuntime?: ChannelRuntimeSurface;
   abortSignal?: AbortSignal;

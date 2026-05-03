@@ -1,3 +1,3 @@
-import { describeProviderWizardModelPickerContract } from "openclaw/plugin-sdk/provider-test-contracts";
+import { describeProviderWizardModelPickerContract } from "brikko-studio/plugin-sdk/provider-test-contracts";
 
 describeProviderWizardModelPickerContract();

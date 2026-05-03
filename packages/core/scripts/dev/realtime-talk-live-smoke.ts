@@ -6,12 +6,12 @@ import { chromium, type Browser } from "playwright";
 import { createServer, type ViteDevServer } from "vite";
 
 const OPENAI_REALTIME_MODEL =
-  process.env.OPENCLAW_REALTIME_OPENAI_MODEL?.trim() || "gpt-realtime-1.5";
-const OPENAI_REALTIME_VOICE = process.env.OPENCLAW_REALTIME_OPENAI_VOICE?.trim() || "alloy";
+  process.env.BRIKKO_STUDIO_REALTIME_OPENAI_MODEL?.trim() || "gpt-realtime-1.5";
+const OPENAI_REALTIME_VOICE = process.env.BRIKKO_STUDIO_REALTIME_OPENAI_VOICE?.trim() || "alloy";
 const GOOGLE_REALTIME_MODEL =
-  process.env.OPENCLAW_REALTIME_GOOGLE_MODEL?.trim() ||
+  process.env.BRIKKO_STUDIO_REALTIME_GOOGLE_MODEL?.trim() ||
   "gemini-2.5-flash-native-audio-preview-12-2025";
-const GOOGLE_REALTIME_VOICE = process.env.OPENCLAW_REALTIME_GOOGLE_VOICE?.trim() || "Kore";
+const GOOGLE_REALTIME_VOICE = process.env.BRIKKO_STUDIO_REALTIME_GOOGLE_VOICE?.trim() || "Kore";
 const GOOGLE_LIVE_WS_URL =
   "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained";
 
@@ -181,7 +181,7 @@ async function createGoogleLiveToken(apiKey: string): Promise<string> {
               prebuiltVoiceConfig: { voiceName: GOOGLE_REALTIME_VOICE },
             },
           },
-          systemInstruction: "OpenClaw browser Talk live smoke.",
+          systemInstruction: "Brikko Studio browser Talk live smoke.",
           inputAudioTranscription: {},
           outputAudioTranscription: {},
         },
@@ -292,7 +292,7 @@ async function smokeGoogleLiveBrowserWs(browser: Browser, apiKey: string): Promi
 
 async function smokeGatewayRelayBrowser(browser: Browser): Promise<SmokeResult> {
   let server: ViteDevServer | undefined;
-  const dir = await mkdtemp(path.join(tmpdir(), "openclaw-realtime-talk-"));
+  const dir = await mkdtemp(path.join(tmpdir(), "brikko-studio-realtime-talk-"));
   try {
     const repoRoot = process.cwd().replaceAll("\\", "/");
     await writeFile(
@@ -389,7 +389,7 @@ try {
       relaySessionId: "relay-live-smoke",
       type: "toolCall",
       callId: "call-smoke",
-      name: "openclaw_agent_consult",
+      name: "brikko-studio_agent_consult",
       args: { question: "confirm relay consult path" },
     },
   });

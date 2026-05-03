@@ -1,19 +1,19 @@
-import { resolveApiKeyForProvider } from "openclaw/plugin-sdk/agent-runtime";
-import type { ModelCatalogEntry } from "openclaw/plugin-sdk/agent-runtime";
+import { resolveApiKeyForProvider } from "brikko-studio/plugin-sdk/agent-runtime";
+import type { ModelCatalogEntry } from "brikko-studio/plugin-sdk/agent-runtime";
 import {
   findModelInCatalog,
   loadModelCatalog,
   modelSupportsVision,
-} from "openclaw/plugin-sdk/agent-runtime";
-import { resolveDefaultModelForAgent } from "openclaw/plugin-sdk/agent-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { resolveAutoImageModel } from "openclaw/plugin-sdk/media-runtime";
+} from "brikko-studio/plugin-sdk/agent-runtime";
+import { resolveDefaultModelForAgent } from "brikko-studio/plugin-sdk/agent-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { resolveAutoImageModel } from "brikko-studio/plugin-sdk/media-runtime";
 import {
   resolveAutoMediaKeyProviders,
   resolveDefaultMediaModel,
-} from "openclaw/plugin-sdk/media-runtime";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/media-runtime";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { getTelegramRuntime } from "./runtime.js";
 export {
   cacheSticker,
@@ -29,7 +29,7 @@ const STICKER_DESCRIPTION_PROMPT =
 
 export interface DescribeStickerParams {
   imagePath: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentDir?: string;
   agentId?: string;
 }

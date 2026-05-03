@@ -3,7 +3,7 @@ import {
   normalizeLegacyDotBetaVersion,
 } from "../infra/semver-compare.js";
 
-type OpenClawVersion = {
+type Brikko StudioVersion = {
   major: number;
   minor: number;
   patch: number;
@@ -13,7 +13,7 @@ type OpenClawVersion = {
 
 const VERSION_RE = /^v?(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?$/;
 
-export function parseOpenClawVersion(raw: string | null | undefined): OpenClawVersion | null {
+export function parseBrikko StudioVersion(raw: string | null | undefined): Brikko StudioVersion | null {
   if (!raw) {
     return null;
   }
@@ -33,20 +33,20 @@ export function parseOpenClawVersion(raw: string | null | undefined): OpenClawVe
   };
 }
 
-export function normalizeOpenClawVersionBase(raw: string | null | undefined): string | null {
-  const parsed = parseOpenClawVersion(raw);
+export function normalizeBrikko StudioVersionBase(raw: string | null | undefined): string | null {
+  const parsed = parseBrikko StudioVersion(raw);
   if (!parsed) {
     return null;
   }
   return `${parsed.major}.${parsed.minor}.${parsed.patch}`;
 }
 
-export function isSameOpenClawStableFamily(
+export function isSameBrikko StudioStableFamily(
   a: string | null | undefined,
   b: string | null | undefined,
 ): boolean {
-  const parsedA = parseOpenClawVersion(a);
-  const parsedB = parseOpenClawVersion(b);
+  const parsedA = parseBrikko StudioVersion(a);
+  const parsedB = parseBrikko StudioVersion(b);
   if (!parsedA || !parsedB) {
     return false;
   }
@@ -60,12 +60,12 @@ export function isSameOpenClawStableFamily(
   );
 }
 
-export function compareOpenClawVersions(
+export function compareBrikko StudioVersions(
   a: string | null | undefined,
   b: string | null | undefined,
 ): number | null {
-  const parsedA = parseOpenClawVersion(a);
-  const parsedB = parseOpenClawVersion(b);
+  const parsedA = parseBrikko StudioVersion(a);
+  const parsedB = parseBrikko StudioVersion(b);
   if (!parsedA || !parsedB) {
     return null;
   }
@@ -104,8 +104,8 @@ export function shouldWarnOnTouchedVersion(
   current: string | null | undefined,
   touched: string | null | undefined,
 ): boolean {
-  const parsedCurrent = parseOpenClawVersion(current);
-  const parsedTouched = parseOpenClawVersion(touched);
+  const parsedCurrent = parseBrikko StudioVersion(current);
+  const parsedTouched = parseBrikko StudioVersion(touched);
   if (
     parsedCurrent &&
     parsedTouched &&
@@ -117,14 +117,14 @@ export function shouldWarnOnTouchedVersion(
       return false;
     }
   }
-  if (isSameOpenClawStableFamily(current, touched)) {
+  if (isSameBrikko StudioStableFamily(current, touched)) {
     return false;
   }
-  const cmp = compareOpenClawVersions(current, touched);
+  const cmp = compareBrikko StudioVersions(current, touched);
   return cmp !== null && cmp < 0;
 }
 
-function releaseRank(version: OpenClawVersion): number {
+function releaseRank(version: Brikko StudioVersion): number {
   if (version.prerelease?.length) {
     return 0;
   }

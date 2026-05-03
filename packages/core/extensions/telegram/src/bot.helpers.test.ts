@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import { resolveTelegramStreamMode } from "./bot/helpers.js";
 import { resolveTelegramDraftStreamingChunking } from "./draft-chunking.js";
@@ -36,7 +36,7 @@ describe("resolveTelegramDraftStreamingChunking", () => {
   });
 
   it("clamps to telegram.textChunkLimit", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       channels: { telegram: { allowFrom: ["*"], textChunkLimit: 150 } },
     };
     const chunking = resolveTelegramDraftStreamingChunking(cfg, "default");
@@ -48,7 +48,7 @@ describe("resolveTelegramDraftStreamingChunking", () => {
   });
 
   it("supports per-account overrides", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       channels: {
         telegram: {
           allowFrom: ["*"],

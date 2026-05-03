@@ -12,7 +12,7 @@ import {
 } from "./bundled-plugin-scan.js";
 import type { PluginConfigUiHint } from "./manifest-types.js";
 import type {
-  OpenClawPackageManifest,
+  Brikko StudioPackageManifest,
   PluginManifest,
   PluginManifestChannelConfig,
 } from "./manifest.js";
@@ -136,9 +136,9 @@ function loadChannelConfigSurfaceModuleSync(modulePath: string): ChannelConfigSu
 }
 
 function resolvePackageChannelMeta(
-  packageManifest: OpenClawPackageManifest | undefined,
+  packageManifest: Brikko StudioPackageManifest | undefined,
   channelId: string,
-): OpenClawPackageManifest["channel"] | undefined {
+): Brikko StudioPackageManifest["channel"] | undefined {
   const channelMeta = packageManifest?.channel;
   return channelMeta?.id?.trim() === channelId ? channelMeta : undefined;
 }
@@ -146,7 +146,7 @@ function resolvePackageChannelMeta(
 export function collectBundledChannelConfigs(params: {
   pluginDir: string;
   manifest: PluginManifest;
-  packageManifest?: OpenClawPackageManifest;
+  packageManifest?: Brikko StudioPackageManifest;
 }): Record<string, PluginManifestChannelConfig> | undefined {
   const channelIds = normalizeBundledPluginStringList(params.manifest.channels);
   const existingChannelConfigs: Record<string, PluginManifestChannelConfig> =

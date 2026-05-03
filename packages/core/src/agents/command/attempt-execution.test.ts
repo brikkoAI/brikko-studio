@@ -226,7 +226,7 @@ describe("buildClaudeCliFallbackContextPrelude", () => {
   });
 
   it("returns empty string when the Claude session file does not exist", async () => {
-    const tmpHome = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-fallback-prelude-"));
+    const tmpHome = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-fallback-prelude-"));
     try {
       expect(
         buildClaudeCliFallbackContextPrelude({
@@ -240,7 +240,7 @@ describe("buildClaudeCliFallbackContextPrelude", () => {
   });
 
   it("reads a real Claude JSONL fixture and emits a labeled prelude end-to-end", async () => {
-    const tmpHome = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-fallback-prelude-"));
+    const tmpHome = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-fallback-prelude-"));
     const sessionId = "e2e-session";
     const projectsDir = path.join(tmpHome, ".claude", "projects", "demo");
     try {

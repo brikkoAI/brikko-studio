@@ -2831,12 +2831,12 @@ describe("createOpenAIWebSocketStreamFn", () => {
 
     const firstPayload = firstManager.sentEvents[0] as { metadata?: Record<string, string> };
     const secondPayload = secondManager.sentEvents[0] as { metadata?: Record<string, string> };
-    expect(firstPayload.metadata?.openclaw_session_id).toBe("sess-turn-metadata-retry");
-    expect(firstPayload.metadata?.openclaw_transport).toBe("websocket");
-    expect(firstPayload.metadata?.openclaw_turn_id).toBeTruthy();
-    expect(secondPayload.metadata?.openclaw_turn_id).toBe(firstPayload.metadata?.openclaw_turn_id);
-    expect(firstPayload.metadata?.openclaw_turn_attempt).toBe("1");
-    expect(secondPayload.metadata?.openclaw_turn_attempt).toBe("2");
+    expect(firstPayload.metadata?.brikko-studio_session_id).toBe("sess-turn-metadata-retry");
+    expect(firstPayload.metadata?.brikko-studio_transport).toBe("websocket");
+    expect(firstPayload.metadata?.brikko-studio_turn_id).toBeTruthy();
+    expect(secondPayload.metadata?.brikko-studio_turn_id).toBe(firstPayload.metadata?.brikko-studio_turn_id);
+    expect(firstPayload.metadata?.brikko-studio_turn_attempt).toBe("1");
+    expect(secondPayload.metadata?.brikko-studio_turn_attempt).toBe("2");
   });
 
   it("does not attach native OpenAI session headers or metadata for custom responses endpoints", async () => {
@@ -2867,8 +2867,8 @@ describe("createOpenAIWebSocketStreamFn", () => {
       undefined,
     );
     const payload = manager.sentEvents[0] as { metadata?: Record<string, string> };
-    expect(payload.metadata?.openclaw_session_id).toBeUndefined();
-    expect(payload.metadata?.openclaw_transport).toBeUndefined();
+    expect(payload.metadata?.brikko-studio_session_id).toBeUndefined();
+    expect(payload.metadata?.brikko-studio_transport).toBeUndefined();
     releaseWsSession(sessionId);
   });
 
@@ -3421,7 +3421,7 @@ describe("createOpenAIWebSocketStreamFn", () => {
     });
   });
 
-  it("keeps the default websocket HTTP fallback on the OpenClaw transport", () => {
+  it("keeps the default websocket HTTP fallback on the Brikko Studio transport", () => {
     expect(
       openAIWsStreamTesting.getDefaultHttpFallbackStreamFnForTest(modelStub as never),
     ).toBeTypeOf("function");
@@ -4053,8 +4053,8 @@ describe("releaseWsSession / hasWsSession", () => {
       releaseWsSession("registry-test", {
         allowPool: true,
         env: {
-          OPENCLAW_OPENAI_WS_POOL: "1",
-          OPENCLAW_OPENAI_WS_SESSION_POOL_IDLE_MS: "1000",
+          BRIKKO_STUDIO_OPENAI_WS_POOL: "1",
+          BRIKKO_STUDIO_OPENAI_WS_SESSION_POOL_IDLE_MS: "1000",
         } as NodeJS.ProcessEnv,
       });
 

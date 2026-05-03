@@ -25,17 +25,17 @@ function assert(condition: unknown, message: string): asserts condition {
 }
 
 async function withStateDir<T>(name: string, fn: (stateDir: string) => Promise<T>): Promise<T> {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), `openclaw-${name}-`));
-  const previousStateDir = process.env.OPENCLAW_STATE_DIR;
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), `brikko-studio-${name}-`));
+  const previousStateDir = process.env.BRIKKO_STUDIO_STATE_DIR;
   try {
-    process.env.OPENCLAW_STATE_DIR = root;
+    process.env.BRIKKO_STUDIO_STATE_DIR = root;
     return await fn(root);
   } finally {
     resetCommitmentExtractionRuntimeForTests();
     if (previousStateDir === undefined) {
-      delete process.env.OPENCLAW_STATE_DIR;
+      delete process.env.BRIKKO_STUDIO_STATE_DIR;
     } else {
-      process.env.OPENCLAW_STATE_DIR = previousStateDir;
+      process.env.BRIKKO_STUDIO_STATE_DIR = previousStateDir;
     }
     await fs.rm(root, { recursive: true, force: true });
   }

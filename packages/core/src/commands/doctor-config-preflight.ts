@@ -3,7 +3,7 @@ import path from "node:path";
 import { readConfigFileSnapshot, recoverConfigFromJsonRootSuffix } from "../config/io.js";
 import { formatConfigIssueLines } from "../config/issue-format.js";
 import type { LegacyConfigIssue } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { note } from "../terminal/note.js";
 import { resolveHomeDir } from "../utils.js";
 import { noteIncludeConfinementWarning } from "./doctor-config-analysis.js";
@@ -16,8 +16,8 @@ async function maybeMigrateLegacyConfig(): Promise<string[]> {
     return changes;
   }
 
-  const targetDir = path.join(home, ".openclaw");
-  const targetPath = path.join(targetDir, "openclaw.json");
+  const targetDir = path.join(home, ".brikko-studio");
+  const targetPath = path.join(targetDir, "brikko-studio.json");
   try {
     await fs.access(targetPath);
     return changes;
@@ -54,7 +54,7 @@ async function maybeMigrateLegacyConfig(): Promise<string[]> {
 
 export type DoctorConfigPreflightResult = {
   snapshot: Awaited<ReturnType<typeof readConfigFileSnapshot>>;
-  baseConfig: OpenClawConfig;
+  baseConfig: Brikko StudioConfig;
 };
 
 function collectDoctorLegacyIssues(
@@ -111,7 +111,7 @@ export async function runDoctorConfigPreflight(
     !snapshot.valid &&
     (await recoverConfigFromJsonRootSuffix(snapshot))
   ) {
-    note("Removed non-JSON prefix from openclaw.json; original saved as .clobbered.*.", "Config");
+    note("Removed non-JSON prefix from brikko-studio.json; original saved as .clobbered.*.", "Config");
     snapshot = addDoctorLegacyIssues(await readConfigFileSnapshot());
   }
   const invalidConfigNote =

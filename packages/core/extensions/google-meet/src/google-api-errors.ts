@@ -1,4 +1,4 @@
-const REAUTH_HINT = "Re-run `openclaw googlemeet auth login` and store the refreshed oauth block.";
+const REAUTH_HINT = "Re-run `brikko-studio googlemeet auth login` and store the refreshed oauth block.";
 
 function scopeText(scopes: readonly string[]): string {
   return scopes.map((scope) => `\`${scope}\``).join(", ");

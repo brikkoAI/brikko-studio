@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import {
   buildFastReplyCommandContext,
   initFastReplySessionState,
@@ -25,7 +25,7 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock("../../agents/workspace.js", () => ({
-  DEFAULT_AGENT_WORKSPACE_DIR: "/tmp/openclaw-workspace",
+  DEFAULT_AGENT_WORKSPACE_DIR: "/tmp/brikko-studio-workspace",
   ensureAgentWorkspace: (...args: unknown[]) => mocks.ensureAgentWorkspace(...args),
 }));
 registerGetReplyRuntimeOverrides(mocks);
@@ -46,7 +46,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
   });
 
   beforeEach(() => {
-    vi.stubEnv("OPENCLAW_TEST_FAST", "1");
+    vi.stubEnv("BRIKKO_STUDIO_TEST_FAST", "1");
     mocks.ensureAgentWorkspace.mockReset();
     mocks.initSessionState.mockReset();
     mocks.resolveReplyDirectives.mockReset();
@@ -64,23 +64,23 @@ describe("getReplyFromConfig fast test bootstrap", () => {
 
   it("fails fast on unmarked config overrides in strict fast-test mode", async () => {
     await expect(
-      getReplyFromConfig(buildGetReplyCtx(), undefined, {} as OpenClawConfig),
+      getReplyFromConfig(buildGetReplyCtx(), undefined, {} as Brikko StudioConfig),
     ).rejects.toThrow(/withFastReplyConfig\(\)\/markCompleteReplyConfig\(\)/);
     expect(vi.mocked(loadConfigMock)).not.toHaveBeenCalled();
   });
 
   it("skips getRuntimeConfig, workspace bootstrap, and session bootstrap for marked test configs", async () => {
-    const home = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-fast-reply-"));
+    const home = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-fast-reply-"));
     const cfg = markCompleteReplyConfig({
       agents: {
         defaults: {
           model: "anthropic/claude-opus-4-6",
-          workspace: path.join(home, "openclaw"),
+          workspace: path.join(home, "brikko-studio"),
         },
       },
       channels: { telegram: { allowFrom: ["*"] } },
       session: { store: path.join(home, "sessions.json") },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     await expect(getReplyFromConfig(buildGetReplyCtx(), undefined, cfg)).resolves.toEqual({
       text: "ok",
@@ -97,14 +97,14 @@ describe("getReplyFromConfig fast test bootstrap", () => {
   });
 
   it("still merges partial config overrides against getRuntimeConfig()", async () => {
-    vi.stubEnv("OPENCLAW_ALLOW_SLOW_REPLY_TESTS", "1");
+    vi.stubEnv("BRIKKO_STUDIO_ALLOW_SLOW_REPLY_TESTS", "1");
     vi.mocked(loadConfigMock).mockReturnValue({
       channels: {
         telegram: {
           botToken: "resolved-telegram-token",
         },
       },
-    } satisfies OpenClawConfig);
+    } satisfies Brikko StudioConfig);
 
     await getReplyFromConfig(buildGetReplyCtx(), undefined, {
       agents: {
@@ -112,7 +112,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
           userTimezone: "America/New_York",
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     expect(vi.mocked(loadConfigMock)).toHaveBeenCalledOnce();
     expect(mocks.initSessionState).toHaveBeenCalledOnce();
@@ -120,7 +120,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
   });
 
   it("marks configs through withFastReplyConfig()", async () => {
-    const cfg = withFastReplyConfig({ session: { store: "/tmp/sessions.json" } } as OpenClawConfig);
+    const cfg = withFastReplyConfig({ session: { store: "/tmp/sessions.json" } } as Brikko StudioConfig);
 
     await expect(getReplyFromConfig(buildGetReplyCtx(), undefined, cfg)).resolves.toEqual({
       text: "ok",
@@ -137,7 +137,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
         CommandSource: "native",
         CommandTargetSessionKey: "agent:main:main",
       }),
-      cfg: { session: { store: "/tmp/sessions.json" } } as OpenClawConfig,
+      cfg: { session: { store: "/tmp/sessions.json" } } as Brikko StudioConfig,
       agentId: "main",
       commandAuthorized: true,
       workspaceDir: "/tmp/workspace",
@@ -158,7 +158,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
         To: undefined,
         SenderId: "gateway-client",
       }),
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       sessionKey: "main",
       isGroup: false,
       triggerBodyNormalized: "/codex bind",
@@ -172,7 +172,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
   });
 
   it("keeps the existing session for /reset newline soft during fast bootstrap", async () => {
-    const home = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-fast-reset-newline-soft-"));
+    const home = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-fast-reset-newline-soft-"));
     const storePath = path.join(home, "sessions.json");
     const sessionKey = "agent:main:telegram:123";
     await fs.writeFile(
@@ -193,7 +193,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
         CommandBody: "/reset \nsoft",
         SessionKey: sessionKey,
       }),
-      cfg: { session: { store: storePath } } as OpenClawConfig,
+      cfg: { session: { store: storePath } } as Brikko StudioConfig,
       agentId: "main",
       commandAuthorized: true,
       workspaceDir: home,
@@ -205,7 +205,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
   });
 
   it("keeps the existing session for /reset: soft during fast bootstrap", async () => {
-    const home = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-fast-reset-colon-soft-"));
+    const home = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-fast-reset-colon-soft-"));
     const storePath = path.join(home, "sessions.json");
     const sessionKey = "agent:main:telegram:123";
     await fs.writeFile(
@@ -226,7 +226,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
         CommandBody: "/reset: soft",
         SessionKey: sessionKey,
       }),
-      cfg: { session: { store: storePath } } as OpenClawConfig,
+      cfg: { session: { store: storePath } } as Brikko StudioConfig,
       agentId: "main",
       commandAuthorized: true,
       workspaceDir: home,

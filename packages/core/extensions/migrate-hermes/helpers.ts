@@ -4,8 +4,8 @@ import path from "node:path";
 import {
   markMigrationItemError,
   MIGRATION_REASON_MISSING_SOURCE_OR_TARGET,
-} from "openclaw/plugin-sdk/migration";
-import type { MigrationItem } from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/migration";
+import type { MigrationItem } from "brikko-studio/plugin-sdk/plugin-entry";
 import { parse as parseYaml } from "yaml";
 
 export function resolveHomePath(input: string): string {

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveManifestCommandAliasOwnerInRegistry,
   type PluginManifestCommandAliasRecord,
@@ -42,7 +42,7 @@ export function shouldUseRootHelpFastPath(
 ): boolean {
   const invocation = resolveCliArgvInvocation(argv);
   return (
-    env.OPENCLAW_DISABLE_CLI_STARTUP_HELP_FAST_PATH !== "1" &&
+    env.BRIKKO_STUDIO_DISABLE_CLI_STARTUP_HELP_FAST_PATH !== "1" &&
     (invocation.isRootHelpInvocation ||
       (invocation.commandPath.length === 1 &&
         ROOT_HELP_ALIASES.has(invocation.commandPath[0] ?? "") &&
@@ -57,7 +57,7 @@ export function shouldUseBrowserHelpFastPath(
   argv: string[],
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
-  if (env.OPENCLAW_DISABLE_CLI_STARTUP_HELP_FAST_PATH === "1") {
+  if (env.BRIKKO_STUDIO_DISABLE_CLI_STARTUP_HELP_FAST_PATH === "1") {
     return false;
   }
   const invocation = resolveCliArgvInvocation(argv);
@@ -94,12 +94,12 @@ export function shouldStartProxyForCli(argv: string[]): boolean {
 
 export function resolveMissingPluginCommandMessage(
   pluginId: string,
-  config?: OpenClawConfig,
+  config?: Brikko StudioConfig,
   options?: {
     registry?: PluginManifestCommandAliasRegistry;
     resolveCommandAliasOwner?: (params: {
       command: string | undefined;
-      config?: OpenClawConfig;
+      config?: Brikko StudioConfig;
       registry?: PluginManifestCommandAliasRegistry;
     }) => PluginManifestCommandAliasRecord | undefined;
   },
@@ -136,14 +136,14 @@ export function resolveMissingPluginCommandMessage(
     }
     if (config?.plugins?.entries?.[parentPluginId]?.enabled === false) {
       return (
-        `The \`openclaw ${normalizedPluginId}\` command is unavailable because ` +
+        `The \`brikko-studio ${normalizedPluginId}\` command is unavailable because ` +
         `\`plugins.entries.${parentPluginId}.enabled=false\`. Re-enable that entry if you want ` +
         "the bundled plugin command surface."
       );
     }
     if (commandAlias.kind === "runtime-slash") {
       const cliHint = commandAlias.cliCommand
-        ? `Use \`openclaw ${commandAlias.cliCommand}\` for related CLI operations, or `
+        ? `Use \`brikko-studio ${commandAlias.cliCommand}\` for related CLI operations, or `
         : "Use ";
       return (
         `"${normalizedPluginId}" is a runtime slash command (/${normalizedPluginId}), not a CLI command. ` +
@@ -162,14 +162,14 @@ export function resolveMissingPluginCommandMessage(
       return null;
     }
     return (
-      `The \`openclaw ${normalizedPluginId}\` command is unavailable because ` +
+      `The \`brikko-studio ${normalizedPluginId}\` command is unavailable because ` +
       `\`plugins.allow\` excludes "${normalizedPluginId}". Add "${normalizedPluginId}" to ` +
       `\`plugins.allow\` if you want that bundled plugin CLI surface.`
     );
   }
   if (config?.plugins?.entries?.[normalizedPluginId]?.enabled === false) {
     return (
-      `The \`openclaw ${normalizedPluginId}\` command is unavailable because ` +
+      `The \`brikko-studio ${normalizedPluginId}\` command is unavailable because ` +
       `\`plugins.entries.${normalizedPluginId}.enabled=false\`. Re-enable that entry if you want ` +
       "the bundled plugin CLI surface."
     );

@@ -1,6 +1,6 @@
 import type { App } from "@slack/bolt";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { describe, expect, it } from "vitest";
 import { resolveSlackChannelConfig } from "./channel-config.js";
 import { createSlackMonitorContext, normalizeSlackChannelType } from "./context.js";
@@ -135,7 +135,7 @@ describe("resolveSlackChannelConfig", () => {
 });
 
 const baseParams = () => ({
-  cfg: {} as OpenClawConfig,
+  cfg: {} as Brikko StudioConfig,
   accountId: "default",
   botToken: "token",
   app: { client: {} } as App,
@@ -161,7 +161,7 @@ const baseParams = () => ({
   replyToMode: "off" as const,
   slashCommand: {
     enabled: false,
-    name: "openclaw",
+    name: "brikko-studio",
     sessionPrefix: "slack:slash",
     ephemeral: true,
   },

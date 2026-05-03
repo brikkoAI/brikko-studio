@@ -10,7 +10,7 @@ Status: external CLI integration. Gateway talks to `signal-cli` over HTTP JSON-R
 
 ## Prerequisites
 
-- OpenClaw installed on your server (Linux flow below tested on Ubuntu 24).
+- Brikko Studio installed on your server (Linux flow below tested on Ubuntu 24).
 - `signal-cli` available on the host where the gateway runs.
 - A phone number that can receive one verification SMS (for SMS registration path).
 - Browser access for Signal captcha (`signalcaptchas.org`) during registration.
@@ -20,10 +20,10 @@ Status: external CLI integration. Gateway talks to `signal-cli` over HTTP JSON-R
 1. Use a **separate Signal number** for the bot (recommended).
 2. Install `signal-cli` (Java required if you use the JVM build).
 3. Choose one setup path:
-   - **Path A (QR link):** `signal-cli link -n "OpenClaw"` and scan with Signal.
+   - **Path A (QR link):** `signal-cli link -n "Brikko Studio"` and scan with Signal.
    - **Path B (SMS register):** register a dedicated number with captcha + SMS verification.
-4. Configure OpenClaw and restart the gateway.
-5. Send a first DM and approve pairing (`openclaw pairing approve signal <CODE>`).
+4. Configure Brikko Studio and restart the gateway.
+5. Send a first DM and approve pairing (`brikko-studio pairing approve signal <CODE>`).
 
 Minimal config:
 
@@ -78,7 +78,7 @@ Disable with:
 
 1. Install `signal-cli` (JVM or native build).
 2. Link a bot account:
-   - `signal-cli link -n "OpenClaw"` then scan the QR in Signal.
+   - `signal-cli link -n "Brikko Studio"` then scan the QR in Signal.
 3. Configure Signal and start the gateway.
 
 Example:
@@ -136,20 +136,20 @@ signal-cli -a +<BOT_PHONE_NUMBER> register --captcha '<SIGNALCAPTCHA_URL>'
 signal-cli -a +<BOT_PHONE_NUMBER> verify <VERIFICATION_CODE>
 ```
 
-4. Configure OpenClaw, restart gateway, verify channel:
+4. Configure Brikko Studio, restart gateway, verify channel:
 
 ```bash
 # If you run the gateway as a user systemd service:
-systemctl --user restart openclaw-gateway.service
+systemctl --user restart brikko-studio-gateway.service
 
 # Then verify:
-openclaw doctor
-openclaw channels status --probe
+brikko-studio doctor
+brikko-studio channels status --probe
 ```
 
 5. Pair your DM sender:
    - Send any message to the bot number.
-   - Approve code on the server: `openclaw pairing approve signal <PAIRING_CODE>`.
+   - Approve code on the server: `brikko-studio pairing approve signal <PAIRING_CODE>`.
    - Save the bot number as a contact on your phone to avoid "Unknown contact".
 
 <Warning>
@@ -164,7 +164,7 @@ Upstream references:
 
 ## External daemon mode (httpUrl)
 
-If you want to manage `signal-cli` yourself (slow JVM cold starts, container init, or shared CPUs), run the daemon separately and point OpenClaw at it:
+If you want to manage `signal-cli` yourself (slow JVM cold starts, container init, or shared CPUs), run the daemon separately and point Brikko Studio at it:
 
 ```json5
 {
@@ -177,7 +177,7 @@ If you want to manage `signal-cli` yourself (slow JVM cold starts, container ini
 }
 ```
 
-This skips auto-spawn and the startup wait inside OpenClaw. For slow starts when auto-spawning, set `channels.signal.startupTimeoutMs`.
+This skips auto-spawn and the startup wait inside Brikko Studio. For slow starts when auto-spawning, set `channels.signal.startupTimeoutMs`.
 
 ## Access control (DMs + groups)
 
@@ -186,8 +186,8 @@ DMs:
 - Default: `channels.signal.dmPolicy = "pairing"`.
 - Unknown senders receive a pairing code; messages are ignored until approved (codes expire after 1 hour).
 - Approve via:
-  - `openclaw pairing list signal`
-  - `openclaw pairing approve signal <CODE>`
+  - `brikko-studio pairing list signal`
+  - `brikko-studio pairing approve signal <CODE>`
 - Pairing is the default token exchange for Signal DMs. Details: [Pairing](/channels/pairing)
 - UUID-only senders (from `sourceUuid`) are stored as `uuid:<id>` in `channels.signal.allowFrom`.
 
@@ -218,8 +218,8 @@ Groups:
 
 ## Typing + read receipts
 
-- **Typing indicators**: OpenClaw sends typing signals via `signal-cli sendTyping` and refreshes them while a reply is running.
-- **Read receipts**: when `channels.signal.sendReadReceipts` is true, OpenClaw forwards read receipts for allowed DMs.
+- **Typing indicators**: Brikko Studio sends typing signals via `signal-cli sendTyping` and refreshes them while a reply is running.
+- **Read receipts**: when `channels.signal.sendReadReceipts` is true, Brikko Studio forwards read receipts for allowed DMs.
 - Signal-cli does not expose read receipts for groups.
 
 ## Reactions (message tool)
@@ -257,17 +257,17 @@ Config:
 Run this ladder first:
 
 ```bash
-openclaw status
-openclaw gateway status
-openclaw logs --follow
-openclaw doctor
-openclaw channels status --probe
+brikko-studio status
+brikko-studio gateway status
+brikko-studio logs --follow
+brikko-studio doctor
+brikko-studio channels status --probe
 ```
 
 Then confirm DM pairing state if needed:
 
 ```bash
-openclaw pairing list signal
+brikko-studio pairing list signal
 ```
 
 Common failures:
@@ -275,15 +275,15 @@ Common failures:
 - Daemon reachable but no replies: verify account/daemon settings (`httpUrl`, `account`) and receive mode.
 - DMs ignored: sender is pending pairing approval.
 - Group messages ignored: group sender/mention gating blocks delivery.
-- Config validation errors after edits: run `openclaw doctor --fix`.
+- Config validation errors after edits: run `brikko-studio doctor --fix`.
 - Signal missing from diagnostics: confirm `channels.signal.enabled: true`.
 
 Extra checks:
 
 ```bash
-openclaw pairing list signal
+brikko-studio pairing list signal
 pgrep -af signal-cli
-grep -i "signal" "/tmp/openclaw/openclaw-$(date +%Y-%m-%d).log" | tail -20
+grep -i "signal" "/tmp/brikko-studio/brikko-studio-$(date +%Y-%m-%d).log" | tail -20
 ```
 
 For triage flow: [/channels/troubleshooting](/channels/troubleshooting).

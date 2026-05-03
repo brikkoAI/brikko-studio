@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import type { PluginOrigin } from "../plugins/types.js";
 import { collectPluginConfigAssignments } from "./runtime-config-collectors-plugins.js";
 import {
@@ -21,11 +21,11 @@ vi.mock("../plugins/bundled-plugin-metadata.js", () => ({
   listBundledPluginMetadata: () => [],
 }));
 
-function asConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asConfig(value: unknown): Brikko StudioConfig {
+  return value as Brikko StudioConfig;
 }
 
-function makeContext(sourceConfig: OpenClawConfig): ResolverContext {
+function makeContext(sourceConfig: Brikko StudioConfig): ResolverContext {
   return createResolverContext({
     sourceConfig,
     env: {},
@@ -43,7 +43,7 @@ function loadablePluginOrigins(entries: Array<[string, PluginOrigin]>) {
 function createAcpxMcpSecretConfig(params: {
   plugins?: Record<string, unknown>;
   entry?: Record<string, unknown>;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   return asConfig({
     plugins: {
       ...params.plugins,
@@ -61,7 +61,7 @@ function createAcpxMcpSecretConfig(params: {
   });
 }
 
-function collectAcpxConfigAssignments(config: OpenClawConfig): ResolverContext {
+function collectAcpxConfigAssignments(config: Brikko StudioConfig): ResolverContext {
   const context = makeContext(config);
   collectPluginConfigAssignments({
     config,
@@ -72,7 +72,7 @@ function collectAcpxConfigAssignments(config: OpenClawConfig): ResolverContext {
   return context;
 }
 
-function expectInactiveAcpxConfig(config: OpenClawConfig): void {
+function expectInactiveAcpxConfig(config: Brikko StudioConfig): void {
   const context = collectAcpxConfigAssignments(config);
   expect(context.assignments).toHaveLength(0);
   expect(context.warnings.some((w) => w.code === "SECRETS_REF_IGNORED_INACTIVE_SURFACE")).toBe(

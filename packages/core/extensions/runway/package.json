@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/runway-provider",
+  "name": "@brikko-studio/runway-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Runway video provider plugin",
+  "description": "Brikko Studio Runway video provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

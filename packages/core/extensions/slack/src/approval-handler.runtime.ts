@@ -5,13 +5,13 @@ import type {
   ExecApprovalExpiredView,
   ExecApprovalPendingView,
   ExecApprovalResolvedView,
-} from "openclaw/plugin-sdk/approval-handler-runtime";
-import { createChannelApprovalNativeRuntimeAdapter } from "openclaw/plugin-sdk/approval-handler-runtime";
-import { buildChannelApprovalNativeTargetKey } from "openclaw/plugin-sdk/approval-native-runtime";
-import { buildApprovalInteractiveReplyFromActionDescriptors } from "openclaw/plugin-sdk/approval-reply-runtime";
-import type { ExecApprovalRequest } from "openclaw/plugin-sdk/approval-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { logError, normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/approval-handler-runtime";
+import { createChannelApprovalNativeRuntimeAdapter } from "brikko-studio/plugin-sdk/approval-handler-runtime";
+import { buildChannelApprovalNativeTargetKey } from "brikko-studio/plugin-sdk/approval-native-runtime";
+import { buildApprovalInteractiveReplyFromActionDescriptors } from "brikko-studio/plugin-sdk/approval-reply-runtime";
+import type { ExecApprovalRequest } from "brikko-studio/plugin-sdk/approval-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { logError, normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   isSlackExecApprovalClientEnabled,
   shouldHandleSlackExecApprovalRequest,
@@ -36,7 +36,7 @@ const SLACK_CHAT_UPDATE_TEXT_LIMIT = 4000;
 const SLACK_TEXT_OBJECT_MAX = 3000;
 
 type SlackExecApprovalConfig = NonNullable<
-  NonNullable<NonNullable<OpenClawConfig["channels"]>["slack"]>["execApprovals"]
+  NonNullable<NonNullable<Brikko StudioConfig["channels"]>["slack"]>["execApprovals"]
 >;
 
 export type SlackApprovalHandlerContext = {

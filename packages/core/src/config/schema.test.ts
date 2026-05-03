@@ -3,7 +3,7 @@ import { SENSITIVE_URL_HINT_TAG } from "../shared/net/redact-sensitive-url.js";
 import { buildConfigSchema, lookupConfigSchema } from "./schema.js";
 import { applyDerivedTags, CONFIG_TAGS, deriveTagsForPath } from "./schema.tags.js";
 import { ToolsSchema } from "./zod-schema.agent-runtime.js";
-import { OpenClawSchema } from "./zod-schema.js";
+import { Brikko StudioSchema } from "./zod-schema.js";
 
 describe("config schema", () => {
   type SchemaInput = NonNullable<Parameters<typeof buildConfigSchema>[0]>;
@@ -349,7 +349,7 @@ describe("config schema", () => {
   });
 
   it("accepts WhatsApp Web Baileys socket timing in the runtime zod schema", () => {
-    const parsed = OpenClawSchema.parse({
+    const parsed = Brikko StudioSchema.parse({
       web: {
         whatsapp: {
           keepAliveIntervalMs: 15_000,

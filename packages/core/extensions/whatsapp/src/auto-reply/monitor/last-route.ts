@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { MsgContext } from "openclaw/plugin-sdk/reply-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { MsgContext } from "brikko-studio/plugin-sdk/reply-runtime";
 import { formatError } from "../../session.js";
 import { resolveStorePath, updateLastRoute } from "../config.runtime.js";
 
@@ -15,7 +15,7 @@ export function trackBackgroundTask(
 }
 
 export function updateLastRouteInBackground(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   backgroundTasks: Set<Promise<unknown>>;
   storeAgentId: string;
   sessionKey: string;

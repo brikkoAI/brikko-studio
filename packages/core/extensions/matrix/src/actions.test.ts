@@ -20,7 +20,7 @@ const runtimeStub = {
     resizeToJpeg: async () => Buffer.from(""),
   },
   state: {
-    resolveStateDir: () => "/tmp/openclaw-matrix-test",
+    resolveStateDir: () => "/tmp/brikko-studio-matrix-test",
   },
   channel: {
     text: {

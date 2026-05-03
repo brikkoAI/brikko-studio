@@ -230,14 +230,14 @@ describe("fetchBrowserJson loopback auth (bridge auth registry)", () => {
 describe("browser server-context listKnownProfileNames", () => {
   it("includes configured and runtime-only profile names", () => {
     const resolved = resolveBrowserConfig({
-      defaultProfile: "openclaw",
+      defaultProfile: "brikko-studio",
       profiles: {
-        openclaw: { cdpPort: 18800, color: "#FF4500" },
+        brikko-studio: { cdpPort: 18800, color: "#FF4500" },
       },
     });
-    const openclaw = resolveProfile(resolved, "openclaw");
-    if (!openclaw) {
-      throw new Error("expected openclaw profile");
+    const brikko-studio = resolveProfile(resolved, "brikko-studio");
+    if (!brikko-studio) {
+      throw new Error("expected brikko-studio profile");
     }
 
     const state: BrowserServerState = {
@@ -248,13 +248,13 @@ describe("browser server-context listKnownProfileNames", () => {
         [
           "stale-removed",
           {
-            profile: { ...openclaw, name: "stale-removed" },
+            profile: { ...brikko-studio, name: "stale-removed" },
             running: null,
           },
         ],
       ]),
     };
 
-    expect(listKnownProfileNames(state).toSorted()).toEqual(["openclaw", "stale-removed", "user"]);
+    expect(listKnownProfileNames(state).toSorted()).toEqual(["brikko-studio", "stale-removed", "user"]);
   });
 });

@@ -14,15 +14,15 @@ export function resetPluginAutoEnableTestState(): void {
 }
 
 export function makeTempDir(): string {
-  return makeTrackedTempDir("openclaw-plugin-auto-enable", tempDirs);
+  return makeTrackedTempDir("brikko-studio-plugin-auto-enable", tempDirs);
 }
 
 export function makeIsolatedEnv(overrides: NodeJS.ProcessEnv = {}): NodeJS.ProcessEnv {
   const rootDir = makeTempDir();
   return {
-    OPENCLAW_STATE_DIR: path.join(rootDir, "state"),
-    OPENCLAW_BUNDLED_PLUGINS_DIR: path.join(process.cwd(), "extensions"),
-    OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR: "1",
+    BRIKKO_STUDIO_STATE_DIR: path.join(rootDir, "state"),
+    BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: path.join(process.cwd(), "extensions"),
+    BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR: "1",
     VITEST: "true",
     ...overrides,
   };
@@ -63,7 +63,7 @@ export function makeRegistry(
       origin: plugin.origin ?? "config",
       rootDir: `/fake/${plugin.id}`,
       source: `/fake/${plugin.id}/index.js`,
-      manifestPath: `/fake/${plugin.id}/openclaw.plugin.json`,
+      manifestPath: `/fake/${plugin.id}/brikko-studio.plugin.json`,
     })),
     diagnostics: [],
   };

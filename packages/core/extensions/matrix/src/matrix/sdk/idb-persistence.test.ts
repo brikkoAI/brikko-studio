@@ -5,7 +5,7 @@ import path from "node:path";
 import {
   drainFileLockStateForTest,
   resetFileLockStateForTest,
-} from "openclaw/plugin-sdk/file-lock";
+} from "brikko-studio/plugin-sdk/file-lock";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { persistIdbToDisk, restoreIdbFromDisk } from "./idb-persistence.js";
 import {
@@ -15,8 +15,8 @@ import {
 } from "./idb-persistence.test-helpers.js";
 import { LogService } from "./logger.js";
 
-const DATABASE_PREFIX = "openclaw-matrix-persistence-test";
-const OTHER_DATABASE_PREFIX = "openclaw-matrix-persistence-other-test";
+const DATABASE_PREFIX = "brikko-studio-matrix-persistence-test";
+const OTHER_DATABASE_PREFIX = "brikko-studio-matrix-persistence-other-test";
 const cryptoDatabaseName = `${DATABASE_PREFIX}::matrix-sdk-crypto`;
 const otherCryptoDatabaseName = `${OTHER_DATABASE_PREFIX}::matrix-sdk-crypto`;
 

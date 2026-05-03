@@ -3,7 +3,7 @@ import { i18n } from "../../i18n/index.ts";
 import { getSafeLocalStorage, getSafeSessionStorage } from "../../local-storage.ts";
 import { createStorageMock } from "../../test-helpers/storage.ts";
 import "../app.ts";
-import type { OpenClawApp } from "../app.ts";
+import type { Brikko StudioApp } from "../app.ts";
 
 class MockWebSocket {
   static CONNECTING = 0;
@@ -42,12 +42,12 @@ function createMatchMediaMock(width: number) {
   });
 }
 
-const mountedApps = new Set<OpenClawApp>();
+const mountedApps = new Set<Brikko StudioApp>();
 
 function collectMountedApps() {
-  return new Set<OpenClawApp>([
+  return new Set<Brikko StudioApp>([
     ...mountedApps,
-    ...document.querySelectorAll<OpenClawApp>("openclaw-app"),
+    ...document.querySelectorAll<Brikko StudioApp>("brikko-studio-app"),
   ]);
 }
 
@@ -69,13 +69,13 @@ function nextFrame() {
   });
 }
 
-async function waitForAppUpdates(apps: Iterable<OpenClawApp>) {
+async function waitForAppUpdates(apps: Iterable<Brikko StudioApp>) {
   for (const app of apps) {
     await app.updateComplete;
   }
 }
 
-async function drainAppWork(apps: Iterable<OpenClawApp>) {
+async function drainAppWork(apps: Iterable<Brikko StudioApp>) {
   const snapshot = [...apps];
   await nextMicrotask();
   await waitForAppUpdates(snapshot);
@@ -102,7 +102,7 @@ async function cleanupMountedApps() {
 
 export function mountApp(pathname: string) {
   window.history.replaceState({}, "", pathname);
-  const app = document.createElement("openclaw-app") as OpenClawApp;
+  const app = document.createElement("brikko-studio-app") as Brikko StudioApp;
   mountedApps.add(app);
   document.body.append(app);
   app.connected = true;
@@ -115,7 +115,7 @@ export function registerAppMountHooks() {
     const localStorage = createStorageMock();
     const sessionStorage = createStorageMock();
     const matchMedia = createMatchMediaMock(390);
-    window.__OPENCLAW_CONTROL_UI_BASE_PATH__ = undefined;
+    window.__BRIKKO_STUDIO_CONTROL_UI_BASE_PATH__ = undefined;
     vi.stubGlobal("localStorage", localStorage);
     vi.stubGlobal("sessionStorage", sessionStorage);
     vi.stubGlobal("matchMedia", matchMedia);
@@ -157,7 +157,7 @@ export function registerAppMountHooks() {
 
   afterEach(async () => {
     await cleanupMountedApps();
-    window.__OPENCLAW_CONTROL_UI_BASE_PATH__ = undefined;
+    window.__BRIKKO_STUDIO_CONTROL_UI_BASE_PATH__ = undefined;
     getSafeLocalStorage()?.clear();
     getSafeSessionStorage()?.clear();
     await i18n.setLocale("en");

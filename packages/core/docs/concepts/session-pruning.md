@@ -35,7 +35,7 @@ cache-write size, directly lowering cost.
 
 ## Legacy image cleanup
 
-OpenClaw also builds a separate idempotent replay view for sessions that
+Brikko Studio also builds a separate idempotent replay view for sessions that
 persist raw image blocks or prompt-hydration media markers in history.
 
 - It preserves the **3 most recent completed turns** byte-for-byte so prompt
@@ -55,14 +55,14 @@ persist raw image blocks or prompt-hydration media markers in history.
 
 ## Smart defaults
 
-OpenClaw auto-enables pruning for Anthropic profiles:
+Brikko Studio auto-enables pruning for Anthropic profiles:
 
 | Profile type                                            | Pruning enabled | Heartbeat |
 | ------------------------------------------------------- | --------------- | --------- |
 | Anthropic OAuth/token auth (including Claude CLI reuse) | Yes             | 1 hour    |
 | API key                                                 | Yes             | 30 min    |
 
-If you set explicit values, OpenClaw does not override them.
+If you set explicit values, Brikko Studio does not override them.
 
 ## Enable or disable
 

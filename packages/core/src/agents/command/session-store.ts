@@ -4,7 +4,7 @@ import {
   type SessionEntry,
   updateSessionStore,
 } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import { clearCliSession, setCliSessionBinding, setCliSessionId } from "../cli-session.js";
@@ -46,7 +46,7 @@ function removeLifecycleStateFromMetadataPatch(entry: SessionEntry): SessionEntr
 }
 
 export async function updateSessionStoreAfterAgentRun(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   contextTokensOverride?: number;
   sessionId: string;
   sessionKey: string;

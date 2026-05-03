@@ -79,7 +79,7 @@
     },
     "from": {
       "label": "Sandbox Source",
-      "help": "OpenShell sandbox source for first-time create. Defaults to openclaw."
+      "help": "OpenShell sandbox source for first-time create. Defaults to brikko-studio."
     },
     "policy": {
       "label": "Policy File",

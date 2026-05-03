@@ -181,8 +181,8 @@ function formatDiagnosticsExportSuccess(aggregated: string): string {
     if (typeof manifest.generatedAt === "string") {
       lines.push(`Generated at: ${manifest.generatedAt}`);
     }
-    if (typeof manifest.openclawVersion === "string") {
-      lines.push(`OpenClaw version: ${manifest.openclawVersion}`);
+    if (typeof manifest.brikko-studioVersion === "string") {
+      lines.push(`Brikko Studio version: ${manifest.brikko-studioVersion}`);
     }
     const contents = formatDiagnosticsContents(manifest);
     if (contents.length > 0) {

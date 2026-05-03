@@ -2,20 +2,20 @@ import process from "node:process";
 import type {
   AgentToolResultMiddleware,
   AgentToolResultMiddlewareEvent,
-  OpenClawAgentToolResult,
-} from "openclaw/plugin-sdk/agent-harness";
-import { createTokenjuiceOpenClawEmbeddedExtension } from "./runtime-api.js";
+  Brikko StudioAgentToolResult,
+} from "brikko-studio/plugin-sdk/agent-harness";
+import { createTokenjuiceBrikko StudioEmbeddedExtension } from "./runtime-api.js";
 
 type TokenjuiceToolResultHandler = (
   event: {
     toolName: string;
     input: Record<string, unknown>;
-    content: OpenClawAgentToolResult["content"];
+    content: Brikko StudioAgentToolResult["content"];
     details: unknown;
     isError?: boolean;
   },
   ctx: { cwd: string },
-) => Promise<Partial<OpenClawAgentToolResult> | void> | Partial<OpenClawAgentToolResult> | void;
+) => Promise<Partial<Brikko StudioAgentToolResult> | void> | Partial<Brikko StudioAgentToolResult> | void;
 
 function readCwd(event: AgentToolResultMiddlewareEvent): string {
   if (event.cwd?.trim()) {
@@ -30,7 +30,7 @@ function readCwd(event: AgentToolResultMiddlewareEvent): string {
 
 export function createTokenjuiceAgentToolResultMiddleware(): AgentToolResultMiddleware {
   const handlers: TokenjuiceToolResultHandler[] = [];
-  createTokenjuiceOpenClawEmbeddedExtension()({
+  createTokenjuiceBrikko StudioEmbeddedExtension()({
     on(event, handler) {
       if (event === "tool_result") {
         handlers.push(handler as TokenjuiceToolResultHandler);

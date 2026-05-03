@@ -4,7 +4,7 @@ import path from "node:path";
 import { vi } from "vitest";
 
 export async function withTempPdfAgentDir<T>(run: (agentDir: string) => Promise<T>): Promise<T> {
-  const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-pdf-"));
+  const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-pdf-"));
   try {
     return await run(agentDir);
   } finally {

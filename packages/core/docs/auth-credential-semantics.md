@@ -50,7 +50,7 @@ Agent auth inheritance is read-through. When an agent has no local profile, it
 can resolve profiles from the default/main agent store at runtime without
 copying secret material into its own `auth-profiles.json`.
 
-Explicit copy flows, such as `openclaw agents add`, use this portability policy:
+Explicit copy flows, such as `brikko-studio agents add`, use this portability policy:
 
 - `api_key` profiles are portable unless `copyToAgents: false`.
 - `token` profiles are portable unless `copyToAgents: false`.
@@ -76,7 +76,7 @@ the target agent signs in separately and creates its own local profile.
 
 - Probe targets can come from auth profiles, environment credentials, or
   `models.json`.
-- If a provider has credentials but OpenClaw cannot resolve a probeable model
+- If a provider has credentials but Brikko Studio cannot resolve a probeable model
   candidate for it, `models status --probe` reports `status: no_model` with
   `reasonCode: no_model`.
 

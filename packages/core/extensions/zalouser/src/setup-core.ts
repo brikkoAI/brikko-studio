@@ -2,7 +2,7 @@ import {
   createDelegatedSetupWizardProxy,
   createPatchedAccountSetupAdapter,
   type ChannelSetupWizard,
-} from "openclaw/plugin-sdk/setup-runtime";
+} from "brikko-studio/plugin-sdk/setup-runtime";
 
 const channel = "zalouser" as const;
 

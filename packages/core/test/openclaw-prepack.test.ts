@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { collectPreparedPrepackErrors } from "../scripts/openclaw-prepack.ts";
+import { collectPreparedPrepackErrors } from "../scripts/brikko-studio-prepack.ts";
 
 describe("collectPreparedPrepackErrors", () => {
   it("accepts prepared release artifacts", () => {

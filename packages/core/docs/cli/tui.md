@@ -1,14 +1,14 @@
 ---
-summary: "CLI reference for `openclaw tui` (Gateway-backed or local embedded terminal UI)"
+summary: "CLI reference for `brikko-studio tui` (Gateway-backed or local embedded terminal UI)"
 read_when:
   - You want a terminal UI for the Gateway (remote-friendly)
   - You want to pass url/token/session from scripts
   - You want to run the TUI in local embedded mode without a Gateway
-  - You want to use openclaw chat or openclaw tui --local
+  - You want to use brikko-studio chat or brikko-studio tui --local
 title: "TUI"
 ---
 
-# `openclaw tui`
+# `brikko-studio tui`
 
 Open the terminal UI connected to the Gateway, or run it in local embedded
 mode.
@@ -19,7 +19,7 @@ Related:
 
 Notes:
 
-- `chat` and `terminal` are aliases for `openclaw tui --local`.
+- `chat` and `terminal` are aliases for `brikko-studio tui --local`.
 - `--local` cannot be combined with `--url`, `--token`, or `--password`.
 - `tui` resolves configured gateway auth SecretRefs for token/password auth when possible (`env`/`file`/`exec` providers).
 - When launched from inside a configured agent workspace directory, TUI auto-selects that agent for the session key default (unless `--session` is explicitly `agent:<id>:...`).
@@ -30,14 +30,14 @@ Notes:
 ## Examples
 
 ```bash
-openclaw chat
-openclaw tui --local
-openclaw tui
-openclaw tui --url ws://127.0.0.1:18789 --token <token>
-openclaw tui --session main --deliver
-openclaw chat --message "Compare my config to the docs and tell me what to fix"
+brikko-studio chat
+brikko-studio tui --local
+brikko-studio tui
+brikko-studio tui --url ws://127.0.0.1:18789 --token <token>
+brikko-studio tui --session main --deliver
+brikko-studio chat --message "Compare my config to the docs and tell me what to fix"
 # when run inside an agent workspace, infers that agent automatically
-openclaw tui --session bugfix
+brikko-studio tui --session bugfix
 ```
 
 ## Config repair loop
@@ -46,25 +46,25 @@ Use local mode when the current config already validates and you want the
 embedded agent to inspect it, compare it against the docs, and help repair it
 from the same terminal:
 
-If `openclaw config validate` is already failing, use `openclaw configure` or
-`openclaw doctor --fix` first. `openclaw chat` does not bypass the invalid-
+If `brikko-studio config validate` is already failing, use `brikko-studio configure` or
+`brikko-studio doctor --fix` first. `brikko-studio chat` does not bypass the invalid-
 config guard.
 
 ```bash
-openclaw chat
+brikko-studio chat
 ```
 
 Then inside the TUI:
 
 ```text
-!openclaw config file
-!openclaw docs gateway auth token secretref
-!openclaw config validate
-!openclaw doctor
+!brikko-studio config file
+!brikko-studio docs gateway auth token secretref
+!brikko-studio config validate
+!brikko-studio doctor
 ```
 
-Apply targeted fixes with `openclaw config set` or `openclaw configure`, then
-rerun `openclaw config validate`. See [TUI](/web/tui) and [Config](/cli/config).
+Apply targeted fixes with `brikko-studio config set` or `brikko-studio configure`, then
+rerun `brikko-studio config validate`. See [TUI](/web/tui) and [Config](/cli/config).
 
 ## Related
 

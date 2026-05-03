@@ -1,7 +1,7 @@
 import type {
   ModelDefinitionConfig,
   ModelProviderConfig,
-} from "openclaw/plugin-sdk/provider-model-types";
+} from "brikko-studio/plugin-sdk/provider-model-types";
 import { describe, expect, it } from "vitest";
 import { normalizeConfig } from "./provider-policy-api.js";
 

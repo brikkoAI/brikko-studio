@@ -1,4 +1,4 @@
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
+import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 import { buildGoogleGeminiCliBackend } from "./cli-backend.js";
 import { createGoogleVertexProvider } from "./provider-contract-api.js";
 

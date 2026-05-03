@@ -1,6 +1,6 @@
-import { type ChannelOutboundAdapter } from "openclaw/plugin-sdk/channel-send-result";
-import { chunkText } from "openclaw/plugin-sdk/reply-chunking";
-import { shouldLogVerbose } from "openclaw/plugin-sdk/runtime-env";
+import { type ChannelOutboundAdapter } from "brikko-studio/plugin-sdk/channel-send-result";
+import { chunkText } from "brikko-studio/plugin-sdk/reply-chunking";
+import { shouldLogVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { createWhatsAppOutboundBase } from "./outbound-base.js";
 import { normalizeWhatsAppPayloadText } from "./outbound-media-contract.js";
 import { resolveWhatsAppOutboundTarget } from "./resolve-outbound-target.js";

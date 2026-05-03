@@ -11,8 +11,8 @@ Extract text and fallback page images from local document attachments.
 
 ## Distribution
 
-- Package: `@openclaw/document-extract-plugin`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/document-extract-plugin`
+- Install route: included in Brikko Studio
 
 ## Surface
 

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { TlonSettingsStore } from "../settings.js";
 
 type ChannelAuthorization = {
@@ -7,7 +7,7 @@ type ChannelAuthorization = {
 };
 
 export function resolveChannelAuthorization(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   channelNest: string,
   settings?: TlonSettingsStore,
 ): { mode: "restricted" | "open"; allowedShips: string[] } {

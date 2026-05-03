@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { createTestPluginApi } from "openclaw/plugin-sdk/plugin-test-api";
+import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { describe, expect, it, vi } from "vitest";
 import { createCodexAppServerAgentHarness } from "./harness.js";
 import plugin from "./index.js";
@@ -7,7 +7,7 @@ import plugin from "./index.js";
 describe("codex plugin", () => {
   it("is opt-in by default", () => {
     const manifest = JSON.parse(
-      fs.readFileSync(new URL("./openclaw.plugin.json", import.meta.url), "utf8"),
+      fs.readFileSync(new URL("./brikko-studio.plugin.json", import.meta.url), "utf8"),
     ) as { enabledByDefault?: unknown };
 
     expect(manifest.enabledByDefault).toBeUndefined();

@@ -1,5 +1,5 @@
-import { normalizeOptionalLowercaseString } from "openclaw/plugin-sdk/text-runtime";
-import type { OpenClawConfig } from "../runtime-api.js";
+import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
+import type { Brikko StudioConfig } from "../runtime-api.js";
 import {
   createChannelReplyPipeline,
   resolveInboundRouteEnvelopeBuilderWithRuntime,
@@ -71,12 +71,12 @@ async function processGoogleChatEvent(event: GoogleChatEvent, target: WebhookTar
  * Resolve bot display name with fallback chain:
  * 1. Account config name
  * 2. Agent name from config
- * 3. "OpenClaw" as generic fallback
+ * 3. "Brikko Studio" as generic fallback
  */
 function resolveBotDisplayName(params: {
   accountName?: string;
   agentId: string;
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
 }): string {
   const { accountName, agentId, config } = params;
   if (accountName?.trim()) {
@@ -86,13 +86,13 @@ function resolveBotDisplayName(params: {
   if (agent?.name?.trim()) {
     return agent.name.trim();
   }
-  return "OpenClaw";
+  return "Brikko Studio";
 }
 
 async function processMessageWithPipeline(params: {
   event: GoogleChatEvent;
   account: ResolvedGoogleChatAccount;
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   runtime: GoogleChatRuntimeEnv;
   core: GoogleChatCoreRuntime;
   statusSink?: (patch: { lastInboundAt?: number; lastOutboundAt?: number }) => void;

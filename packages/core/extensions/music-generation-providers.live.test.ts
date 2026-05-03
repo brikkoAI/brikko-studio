@@ -1,13 +1,13 @@
 import {
   resolveApiKeyForProvider,
-  resolveOpenClawAgentDir,
-} from "openclaw/plugin-sdk/agent-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+  resolveBrikko StudioAgentDir,
+} from "brikko-studio/plugin-sdk/agent-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   registerProviderPlugin,
   requireRegisteredProvider,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import { getRuntimeConfig } from "openclaw/plugin-sdk/runtime-config-snapshot";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { getRuntimeConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import {
   DEFAULT_LIVE_MUSIC_MODELS,
   collectProviderApiKeys,
@@ -28,7 +28,7 @@ import {
   redactLiveApiKey,
   resolveConfiguredLiveMusicModels,
   resolveLiveMusicAuthStore,
-} from "openclaw/plugin-sdk/test-env";
+} from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import googlePlugin from "./google/index.js";
 import minimaxPlugin from "./minimax/index.js";
@@ -36,10 +36,10 @@ import { maybeLoadShellEnvForGenerationProviders } from "./test-support/generati
 
 const LIVE = isLiveTestEnabled();
 const REQUIRE_PROFILE_KEYS =
-  isLiveProfileKeyModeEnabled() || isTruthyEnvValue(process.env.OPENCLAW_LIVE_REQUIRE_PROFILE_KEYS);
+  isLiveProfileKeyModeEnabled() || isTruthyEnvValue(process.env.BRIKKO_STUDIO_LIVE_REQUIRE_PROFILE_KEYS);
 const describeLive = LIVE ? describe : describe.skip;
-const providerFilter = parseCsvFilter(process.env.OPENCLAW_LIVE_MUSIC_GENERATION_PROVIDERS);
-const envModelMap = parseProviderModelMap(process.env.OPENCLAW_LIVE_MUSIC_GENERATION_MODELS);
+const providerFilter = parseCsvFilter(process.env.BRIKKO_STUDIO_LIVE_MUSIC_GENERATION_PROVIDERS);
+const envModelMap = parseProviderModelMap(process.env.BRIKKO_STUDIO_LIVE_MUSIC_GENERATION_MODELS);
 
 type LiveProviderCase = {
   plugin: Parameters<typeof registerProviderPlugin>[0]["plugin"];
@@ -65,7 +65,7 @@ const CASES: LiveProviderCase[] = [
   .filter((entry) => (providerFilter ? providerFilter.has(entry.providerId) : true))
   .toSorted((left, right) => left.providerId.localeCompare(right.providerId));
 
-function withPluginsEnabled(cfg: OpenClawConfig): OpenClawConfig {
+function withPluginsEnabled(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return {
     ...cfg,
     plugins: {
@@ -159,7 +159,7 @@ describeLive("music generation provider live", () => {
     async () => {
       const cfg = withPluginsEnabled(getRuntimeConfig());
       const configuredModels = resolveConfiguredLiveMusicModels(cfg);
-      const agentDir = resolveOpenClawAgentDir();
+      const agentDir = resolveBrikko StudioAgentDir();
       const attempted: string[] = [];
       const skipped: string[] = [];
       const failures: string[] = [];

@@ -5,9 +5,9 @@ import { resolveBundledPluginsDir } from "./bundled-dir.js";
 import { formatPluginSourceForTable, resolvePluginSourceRoots } from "./source-display.js";
 
 const PLUGIN_SOURCE_ROOTS = {
-  stock: path.resolve(path.sep, "opt", "homebrew", "lib", "node_modules", "openclaw", "extensions"),
-  global: path.resolve(path.sep, "Users", "x", ".openclaw", "extensions"),
-  workspace: path.resolve(path.sep, "Users", "x", "ws", ".openclaw", "extensions"),
+  stock: path.resolve(path.sep, "opt", "homebrew", "lib", "node_modules", "brikko-studio", "extensions"),
+  global: path.resolve(path.sep, "Users", "x", ".brikko-studio", "extensions"),
+  workspace: path.resolve(path.sep, "Users", "x", "ws", ".brikko-studio", "extensions"),
 };
 
 function expectFormattedSource(params: {
@@ -73,10 +73,10 @@ describe("formatPluginSourceForTable", () => {
   ])("shortens $origin sources under the $sourceKey root", expectFormattedSourceCase);
 
   it("ignores untrusted explicit env override for the stock source root", () => {
-    const homeDir = path.resolve(path.sep, "tmp", "openclaw-home");
+    const homeDir = path.resolve(path.sep, "tmp", "brikko-studio-home");
     const rawEnv = {
-      OPENCLAW_BUNDLED_PLUGINS_DIR: "~/bundled",
-      OPENCLAW_STATE_DIR: "~/state",
+      BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "~/bundled",
+      BRIKKO_STUDIO_STATE_DIR: "~/state",
     } as NodeJS.ProcessEnv;
     const stock = withPathResolutionEnv(homeDir, rawEnv, (env) => resolveBundledPluginsDir(env));
     expect(stock).toBeDefined();
@@ -87,7 +87,7 @@ describe("formatPluginSourceForTable", () => {
       expected: {
         stock: stock!,
         global: path.join(homeDir, "state", "extensions"),
-        workspace: path.join(homeDir, "ws", ".openclaw", "extensions"),
+        workspace: path.join(homeDir, "ws", ".brikko-studio", "extensions"),
       },
     });
   });

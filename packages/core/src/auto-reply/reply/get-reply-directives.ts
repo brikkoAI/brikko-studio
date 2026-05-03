@@ -5,7 +5,7 @@ import { type ModelAliasIndex, resolveModelRefFromString } from "../../agents/mo
 import { resolveSandboxRuntimeStatus } from "../../agents/sandbox/runtime-status.js";
 import type { SkillCommandSpec } from "../../agents/skills.js";
 import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeAgentId } from "../../routing/session-key.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import {
@@ -39,7 +39,7 @@ import { stripInlineStatus } from "./reply-inline.js";
 import { resolveRuntimePolicySessionKey } from "./runtime-policy-session-key.js";
 import type { TypingController } from "./typing.js";
 
-type AgentDefaults = NonNullable<OpenClawConfig["agents"]>["defaults"];
+type AgentDefaults = NonNullable<Brikko StudioConfig["agents"]>["defaults"];
 
 const commandsRegistryLoader = createLazyImportLoader(
   () => import("../commands-registry.runtime.js"),
@@ -142,7 +142,7 @@ export type ReplyDirectiveResult =
 
 export async function resolveReplyDirectives(params: {
   ctx: MsgContext;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   agentDir: string;
   workspaceDir: string;
@@ -480,7 +480,7 @@ export async function resolveReplyDirectives(params: {
     : undefined;
   const useFastReplyRuntime = shouldUseReplyFastTestRuntime({
     cfg,
-    isFastTestEnv: process.env.OPENCLAW_TEST_FAST === "1",
+    isFastTestEnv: process.env.BRIKKO_STUDIO_TEST_FAST === "1",
   });
 
   const useFastModelSelection =

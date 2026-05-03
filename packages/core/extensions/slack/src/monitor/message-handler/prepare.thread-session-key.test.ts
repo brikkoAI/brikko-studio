@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import type { ResolvedSlackAccount } from "../../accounts.js";
 import type { SlackMessageEvent } from "../../types.js";
@@ -15,7 +15,7 @@ function buildCtx(overrides?: {
       channels: {
         slack: { enabled: true, replyToMode },
       },
-    } as OpenClawConfig,
+    } as Brikko StudioConfig,
     teamId: "T1",
     threadInheritParent: false,
     threadHistoryScope: "thread",
@@ -235,7 +235,7 @@ describe("thread-level session keys", () => {
       account,
       message: buildChannelMessage({
         channel: "C0AHZFCAS1K",
-        text: "https://github.com/openclaw/openclaw/issues/50621",
+        text: "https://github.com/brikko-studio/brikko-studio/issues/50621",
         ts: "1777244714.000100",
         thread_ts: rootTs,
         parent_user_id: "U1",
@@ -278,7 +278,7 @@ describe("thread-level session keys", () => {
       account,
       message: buildChannelMessage({
         channel: "C0AHZFCAS1K",
-        text: "https://github.com/openclaw/openclaw/issues/50621",
+        text: "https://github.com/brikko-studio/brikko-studio/issues/50621",
         ts: "1777244714.000100",
         thread_ts: rootTs,
       }),

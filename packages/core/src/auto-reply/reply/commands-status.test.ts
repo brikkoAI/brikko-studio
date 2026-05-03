@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { withTempHome } from "openclaw/plugin-sdk/test-env";
+import { withTempHome } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { normalizeTestText } from "../../../test/helpers/normalize-text.js";
 import { clearAgentHarnesses, registerAgentHarness } from "../../agents/harness/registry.js";
@@ -28,7 +28,7 @@ import {
 vi.mock("../../agents/harness/builtin-pi.js", () => ({
   createPiAgentHarness: () => ({
     id: "pi",
-    label: "OpenClaw Pi",
+    label: "Brikko Studio Pi",
     supports: () => ({ supported: true, priority: 0 }),
     runAttempt: async () => {
       throw new Error("not used in status tests");
@@ -96,7 +96,7 @@ function writeTranscriptUsageLog(params: {
 }) {
   const logPath = path.join(
     params.dir,
-    ".openclaw",
+    ".brikko-studio",
     "agents",
     params.agentId,
     "sessions",
@@ -347,7 +347,7 @@ describe("buildStatusReply subagent summary", () => {
       runId: "run-status-task-leak",
       endedAt: Date.now(),
       error: [
-        "OpenClaw runtime context (internal):",
+        "Brikko Studio runtime context (internal):",
         "This context is runtime-generated, not user-authored. Keep internal details private.",
         "",
         "[Internal task completion event]",
@@ -359,7 +359,7 @@ describe("buildStatusReply subagent summary", () => {
 
     expect(reply?.text).toContain("📌 Tasks: 1 recent failure");
     expect(reply?.text).toContain("leaked context task");
-    expect(reply?.text).not.toContain("OpenClaw runtime context (internal):");
+    expect(reply?.text).not.toContain("Brikko Studio runtime context (internal):");
     expect(reply?.text).not.toContain("Internal task completion event");
   });
 
@@ -541,7 +541,7 @@ describe("buildStatusReply subagent summary", () => {
       async (dir) => {
         const authPath = path.join(
           dir,
-          ".openclaw",
+          ".brikko-studio",
           "agents",
           "main",
           "agent",
@@ -620,9 +620,9 @@ describe("buildStatusReply subagent summary", () => {
   });
 
   it("uses workspace-scoped auth evidence in /status auth labels", async () => {
-    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-status-auth-label-"));
+    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-status-auth-label-"));
     const workspaceDir = path.join(tempRoot, "workspace");
-    const pluginDir = path.join(workspaceDir, ".openclaw", "extensions", "workspace-auth-label");
+    const pluginDir = path.join(workspaceDir, ".brikko-studio", "extensions", "workspace-auth-label");
     const bundledDir = path.join(tempRoot, "bundled");
     const stateDir = path.join(tempRoot, "state");
     const credentialPath = path.join(tempRoot, "credentials.json");
@@ -632,7 +632,7 @@ describe("buildStatusReply subagent summary", () => {
     fs.writeFileSync(path.join(pluginDir, "index.ts"), "export default {}\n", "utf8");
     fs.writeFileSync(credentialPath, "{}", "utf8");
     fs.writeFileSync(
-      path.join(pluginDir, "openclaw.plugin.json"),
+      path.join(pluginDir, "brikko-studio.plugin.json"),
       JSON.stringify({
         id: "workspace-auth-label",
         configSchema: { type: "object" },
@@ -658,8 +658,8 @@ describe("buildStatusReply subagent summary", () => {
     try {
       await withEnvAsync(
         {
-          OPENCLAW_BUNDLED_PLUGINS_DIR: bundledDir,
-          OPENCLAW_STATE_DIR: stateDir,
+          BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledDir,
+          BRIKKO_STUDIO_STATE_DIR: stateDir,
           ANTHROPIC_API_KEY: undefined,
           ANTHROPIC_OAUTH_TOKEN: undefined,
           WORKSPACE_STATUS_CREDENTIALS: credentialPath,

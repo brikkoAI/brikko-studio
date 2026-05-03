@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const transcodeAudioBufferToOpusMock = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/media-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/media-runtime", () => ({
   transcodeAudioBufferToOpus: transcodeAudioBufferToOpusMock,
 }));
 
@@ -44,11 +44,11 @@ describe("buildMinimaxSpeechProvider", () => {
     let tempAgentDir: string;
 
     beforeEach(async () => {
-      tempStateDir = await mkdtemp(path.join(tmpdir(), "openclaw-minimax-tts-auth-"));
+      tempStateDir = await mkdtemp(path.join(tmpdir(), "brikko-studio-minimax-tts-auth-"));
       tempAgentDir = path.join(tempStateDir, "agents", "main", "agent");
       await mkdir(tempAgentDir, { recursive: true });
-      process.env.OPENCLAW_STATE_DIR = tempStateDir;
-      process.env.OPENCLAW_AGENT_DIR = tempAgentDir;
+      process.env.BRIKKO_STUDIO_STATE_DIR = tempStateDir;
+      process.env.BRIKKO_STUDIO_AGENT_DIR = tempAgentDir;
       clearMinimaxAuthEnv();
     });
 
@@ -283,13 +283,13 @@ describe("buildMinimaxSpeechProvider", () => {
     let tempAgentDir: string;
 
     beforeEach(async () => {
-      tempStateDir = await mkdtemp(path.join(tmpdir(), "openclaw-minimax-tts-synth-"));
+      tempStateDir = await mkdtemp(path.join(tmpdir(), "brikko-studio-minimax-tts-synth-"));
       tempAgentDir = path.join(tempStateDir, "agents", "main", "agent");
       await mkdir(tempAgentDir, { recursive: true });
       process.env = {
         ...savedEnv,
-        OPENCLAW_AGENT_DIR: tempAgentDir,
-        OPENCLAW_STATE_DIR: tempStateDir,
+        BRIKKO_STUDIO_AGENT_DIR: tempAgentDir,
+        BRIKKO_STUDIO_STATE_DIR: tempStateDir,
       };
       clearMinimaxAuthEnv();
       vi.stubGlobal("fetch", vi.fn());

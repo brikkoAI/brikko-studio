@@ -1,4 +1,4 @@
-import { expectOpenDmPolicyConfigIssue } from "openclaw/plugin-sdk/channel-test-helpers";
+import { expectOpenDmPolicyConfigIssue } from "brikko-studio/plugin-sdk/channel-test-helpers";
 import { describe, expect, it } from "vitest";
 import { collectZalouserStatusIssues } from "./status-issues.js";
 

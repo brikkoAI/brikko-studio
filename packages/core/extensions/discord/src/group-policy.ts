@@ -1,11 +1,11 @@
-import type { ChannelGroupContext } from "openclaw/plugin-sdk/channel-contract";
+import type { ChannelGroupContext } from "brikko-studio/plugin-sdk/channel-contract";
 import {
   resolveToolsBySender,
   type GroupToolPolicyBySenderConfig,
   type GroupToolPolicyConfig,
-} from "openclaw/plugin-sdk/channel-policy";
-import { normalizeAtHashSlug } from "openclaw/plugin-sdk/string-normalization-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/channel-policy";
+import { normalizeAtHashSlug } from "brikko-studio/plugin-sdk/string-normalization-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import type { DiscordConfig } from "./runtime-api.js";
 
 function normalizeDiscordSlug(value?: string | null) {

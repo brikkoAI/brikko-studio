@@ -1,7 +1,7 @@
 // Append-only audit log for file-transfer operations.
 //
 // Records every decision (allow/deny/error) at the gateway-side tool
-// layer. Lands at ~/.openclaw/audit/file-transfer.jsonl. Rotation is
+// layer. Lands at ~/.brikko-studio/audit/file-transfer.jsonl. Rotation is
 // caller's responsibility — the file grows unbounded.
 //
 // Log records do NOT include file contents or hashes of secrets. They do
@@ -52,7 +52,7 @@ async function ensureAuditDir(): Promise<string> {
     return auditDirPromise;
   }
   const promise = (async () => {
-    const dir = path.join(os.homedir(), ".openclaw", "audit");
+    const dir = path.join(os.homedir(), ".brikko-studio", "audit");
     await fs.mkdir(dir, { recursive: true, mode: 0o700 });
     return dir;
   })();

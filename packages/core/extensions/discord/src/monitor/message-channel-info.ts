@@ -1,5 +1,5 @@
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeOptionalStringifiedId } from "openclaw/plugin-sdk/text-runtime";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { normalizeOptionalStringifiedId } from "brikko-studio/plugin-sdk/text-runtime";
 import type { ChannelType, Message } from "../internal/discord.js";
 import { resolveDiscordChannelInfoSafe } from "./channel-access.js";
 

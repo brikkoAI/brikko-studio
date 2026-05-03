@@ -104,7 +104,7 @@ describe("gateway status output", () => {
     expect(warnings).toContainEqual(
       expect.objectContaining({
         code: "no_gateway_reachable",
-        message: expect.stringContaining("openclaw gateway status --deep --require-rpc"),
+        message: expect.stringContaining("brikko-studio gateway status --deep --require-rpc"),
         targetIds: ["localLoopback"],
       }),
     );

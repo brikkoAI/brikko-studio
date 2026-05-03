@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { planManifestModelCatalogRows } from "../model-catalog/manifest-planner.js";
 import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
@@ -13,11 +13,11 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "../shared/string-coerce.js";
-import { resolveOpenClawAgentDir } from "./agent-paths.js";
+import { resolveBrikko StudioAgentDir } from "./agent-paths.js";
 import { modelSupportsInput as modelCatalogEntrySupportsInput } from "./model-catalog-lookup.js";
 import type { ModelCatalogEntry, ModelInputType } from "./model-catalog.types.js";
 import { buildConfiguredModelCatalog } from "./model-selection-shared.js";
-import { ensureOpenClawModelsJson } from "./models-config.js";
+import { ensureBrikko StudioModelsJson } from "./models-config.js";
 import { normalizeProviderId } from "./provider-id.js";
 
 const log = createSubsystemLogger("model-catalog");
@@ -61,7 +61,7 @@ const modelSuppressionLoader = createLazyImportLoader(
 );
 
 function shouldLogModelCatalogTiming(): boolean {
-  return process.env.OPENCLAW_DEBUG_INGRESS_TIMING === "1";
+  return process.env.BRIKKO_STUDIO_DEBUG_INGRESS_TIMING === "1";
 }
 
 function loadModelSuppression() {
@@ -116,7 +116,7 @@ function appendCatalogEntriesIfAbsent(
 }
 
 export function loadManifestModelCatalog(params: {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   fallbackToMetadataScan?: boolean;
@@ -219,10 +219,10 @@ function normalizePersistedModelCatalogEntry(
 }
 
 async function loadReadOnlyPersistedModelCatalog(params?: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 }): Promise<ModelCatalogEntry[]> {
   const cfg = params?.config ?? getRuntimeConfig();
-  const agentDir = resolveOpenClawAgentDir();
+  const agentDir = resolveBrikko StudioAgentDir();
   const raw = await readFile(join(agentDir, "models.json"), "utf8");
   const parsed = JSON.parse(raw) as Record<string, unknown>;
   const models: ModelCatalogEntry[] = [];
@@ -259,7 +259,7 @@ async function loadReadOnlyPersistedModelCatalog(params?: {
   return sortModelCatalogEntries(models);
 }
 
-function loadReadOnlyStaticModelCatalog(params?: { config?: OpenClawConfig }): ModelCatalogEntry[] {
+function loadReadOnlyStaticModelCatalog(params?: { config?: Brikko StudioConfig }): ModelCatalogEntry[] {
   const cfg = params?.config ?? getRuntimeConfig();
   const models: ModelCatalogEntry[] = [];
   try {
@@ -286,7 +286,7 @@ function loadReadOnlyStaticModelCatalog(params?: { config?: OpenClawConfig }): M
 }
 
 export async function loadModelCatalog(params?: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   useCache?: boolean;
   readOnly?: boolean;
 }): Promise<ModelCatalogEntry[]> {
@@ -322,7 +322,7 @@ export async function loadModelCatalog(params?: {
     try {
       const cfg = params?.config ?? getRuntimeConfig();
       if (!readOnly) {
-        await ensureOpenClawModelsJson(cfg);
+        await ensureBrikko StudioModelsJson(cfg);
         logStage("models-json-ready");
       }
       // IMPORTANT: keep the dynamic import *inside* the try/catch.
@@ -331,7 +331,7 @@ export async function loadModelCatalog(params?: {
       // will keep failing until restart).
       const piSdk = await importPiSdk();
       logStage("pi-sdk-imported");
-      const agentDir = resolveOpenClawAgentDir();
+      const agentDir = resolveBrikko StudioAgentDir();
       const { buildShouldSuppressBuiltInModel } = await loadModelSuppression();
       logStage("catalog-deps-ready");
       const authStorage = piSdk.discoverAuthStorage(

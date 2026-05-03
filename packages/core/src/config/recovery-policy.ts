@@ -1,4 +1,4 @@
-import type { ConfigFileSnapshot, ConfigValidationIssue } from "./types.openclaw.js";
+import type { ConfigFileSnapshot, ConfigValidationIssue } from "./types.brikko-studio.js";
 
 const PLUGIN_ENTRY_PATH_PREFIX = "plugins.entries.";
 

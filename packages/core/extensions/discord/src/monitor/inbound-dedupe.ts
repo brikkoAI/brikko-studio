@@ -1,4 +1,4 @@
-import { createClaimableDedupe, type ClaimableDedupe } from "openclaw/plugin-sdk/persistent-dedupe";
+import { createClaimableDedupe, type ClaimableDedupe } from "brikko-studio/plugin-sdk/persistent-dedupe";
 import type { DiscordMessageEvent } from "./listeners.js";
 import { resolveDiscordMessageChannelId } from "./message-utils.js";
 

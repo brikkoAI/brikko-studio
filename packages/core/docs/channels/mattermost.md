@@ -1,5 +1,5 @@
 ---
-summary: "Mattermost bot setup and OpenClaw config"
+summary: "Mattermost bot setup and Brikko Studio config"
 read_when:
   - Setting up Mattermost
   - Debugging Mattermost routing
@@ -16,12 +16,12 @@ Install Mattermost before configuring the channel:
 <Tabs>
   <Tab title="npm registry">
     ```bash
-    openclaw plugins install @openclaw/mattermost
+    brikko-studio plugins install @brikko-studio/mattermost
     ```
   </Tab>
   <Tab title="Local checkout">
     ```bash
-    openclaw plugins install ./path/to/local/mattermost-plugin
+    brikko-studio plugins install ./path/to/local/mattermost-plugin
     ```
   </Tab>
 </Tabs>
@@ -32,7 +32,7 @@ Details: [Plugins](/tools/plugin)
 
 <Steps>
   <Step title="Ensure plugin is available">
-    Current packaged OpenClaw releases already bundle it. Older/custom installs can add it manually with the commands above.
+    Current packaged Brikko Studio releases already bundle it. Older/custom installs can add it manually with the commands above.
   </Step>
   <Step title="Create a Mattermost bot">
     Create a Mattermost bot account and copy the **bot token**.
@@ -40,7 +40,7 @@ Details: [Plugins](/tools/plugin)
   <Step title="Copy the base URL">
     Copy the Mattermost **base URL** (e.g., `https://chat.example.com`).
   </Step>
-  <Step title="Configure OpenClaw and start the gateway">
+  <Step title="Configure Brikko Studio and start the gateway">
     Minimal config:
 
     ```json5
@@ -61,7 +61,7 @@ Details: [Plugins](/tools/plugin)
 
 ## Native slash commands
 
-Native slash commands are opt-in. When enabled, OpenClaw registers `oc_*` slash commands via the Mattermost API and receives callback POSTs on the gateway HTTP server.
+Native slash commands are opt-in. When enabled, Brikko Studio registers `oc_*` slash commands via the Mattermost API and receives callback POSTs on the gateway HTTP server.
 
 ```json5
 {
@@ -82,10 +82,10 @@ Native slash commands are opt-in. When enabled, OpenClaw registers `oc_*` slash 
 <AccordionGroup>
   <Accordion title="Behavior notes">
     - `native: "auto"` defaults to disabled for Mattermost. Set `native: true` to enable.
-    - If `callbackUrl` is omitted, OpenClaw derives one from gateway host/port + `callbackPath`.
+    - If `callbackUrl` is omitted, Brikko Studio derives one from gateway host/port + `callbackPath`.
     - For multi-account setups, `commands` can be set at the top level or under `channels.mattermost.accounts.<id>.commands` (account values override top-level fields).
-    - Command callbacks are validated with the per-command tokens returned by Mattermost when OpenClaw registers `oc_*` commands.
-    - OpenClaw refreshes current Mattermost command registration before accepting each callback so stale tokens from deleted or regenerated slash commands stop being accepted without a gateway restart.
+    - Command callbacks are validated with the per-command tokens returned by Mattermost when Brikko Studio registers `oc_*` commands.
+    - Brikko Studio refreshes current Mattermost command registration before accepting each callback so stale tokens from deleted or regenerated slash commands stop being accepted without a gateway restart.
     - Callback validation fails closed if the Mattermost API cannot confirm the command is still current; failed validations are cached briefly, concurrent lookups are coalesced, and fresh lookup starts are rate-limited per command to bound replay pressure.
     - Slash callbacks fail closed when registration failed, startup was partial, or the callback token does not match the resolved command's registered token (a token valid for one command cannot reach upstream validation for a different command).
 
@@ -93,9 +93,9 @@ Native slash commands are opt-in. When enabled, OpenClaw registers `oc_*` slash 
   <Accordion title="Reachability requirement">
     The callback endpoint must be reachable from the Mattermost server.
 
-    - Do not set `callbackUrl` to `localhost` unless Mattermost runs on the same host/network namespace as OpenClaw.
-    - Do not set `callbackUrl` to your Mattermost base URL unless that URL reverse-proxies `/api/channels/mattermost/command` to OpenClaw.
-    - A quick check is `curl https://<gateway-host>/api/channels/mattermost/command`; a GET should return `405 Method Not Allowed` from OpenClaw, not `404`.
+    - Do not set `callbackUrl` to `localhost` unless Mattermost runs on the same host/network namespace as Brikko Studio.
+    - Do not set `callbackUrl` to your Mattermost base URL unless that URL reverse-proxies `/api/channels/mattermost/command` to Brikko Studio.
+    - A quick check is `curl https://<gateway-host>/api/channels/mattermost/command`; a GET should return `405 Method Not Allowed` from Brikko Studio, not `404`.
 
   </Accordion>
   <Accordion title="Mattermost egress allowlist">
@@ -186,8 +186,8 @@ Notes:
 
 - Default: `channels.mattermost.dmPolicy = "pairing"` (unknown senders get a pairing code).
 - Approve via:
-  - `openclaw pairing list mattermost`
-  - `openclaw pairing approve mattermost <CODE>`
+  - `brikko-studio pairing list mattermost`
+  - `brikko-studio pairing approve mattermost <CODE>`
 - Public DMs: `channels.mattermost.dmPolicy="open"` plus `channels.mattermost.allowFrom=["*"]`.
 
 ## Channels (groups)
@@ -217,7 +217,7 @@ Example:
 
 ## Targets for outbound delivery
 
-Use these target formats with `openclaw message send` or cron/webhooks:
+Use these target formats with `brikko-studio message send` or cron/webhooks:
 
 - `channel:<id>` for a channel
 - `user:<id>` for a DM
@@ -226,9 +226,9 @@ Use these target formats with `openclaw message send` or cron/webhooks:
 <Warning>
 Bare opaque IDs (like `64ifufp...`) are **ambiguous** in Mattermost (user ID vs channel ID).
 
-OpenClaw resolves them **user-first**:
+Brikko Studio resolves them **user-first**:
 
-- If the ID exists as a user (`GET /api/v4/users/<id>` succeeds), OpenClaw sends a **DM** by resolving the direct channel via `/api/v4/channels/direct`.
+- If the ID exists as a user (`GET /api/v4/users/<id>` succeeds), Brikko Studio sends a **DM** by resolving the direct channel via `/api/v4/channels/direct`.
 - Otherwise the ID is treated as a **channel ID**.
 
 If you need deterministic behavior, always use the explicit prefixes (`user:<id>` / `channel:<id>`).
@@ -236,7 +236,7 @@ If you need deterministic behavior, always use the explicit prefixes (`user:<id>
 
 ## DM channel retry
 
-When OpenClaw sends to a Mattermost DM target and needs to resolve the direct channel first, it retries transient direct-channel creation failures by default.
+When Brikko Studio sends to a Mattermost DM target and needs to resolve the direct channel first, it retries transient direct-channel creation failures by default.
 
 Use `channels.mattermost.dmChannelRetry` to tune that behavior globally for the Mattermost plugin, or `channels.mattermost.accounts.<id>.dmChannelRetry` for one account.
 
@@ -286,7 +286,7 @@ Enable via `channels.mattermost.streaming`:
 
   </Accordion>
   <Accordion title="Streaming behavior notes">
-    - If the stream cannot be finalized in place (for example the post was deleted mid-stream), OpenClaw falls back to sending a fresh final post so the reply is never lost.
+    - If the stream cannot be finalized in place (for example the post was deleted mid-stream), Brikko Studio falls back to sending a fresh final post so the reply is never lost.
     - Reasoning-only payloads are suppressed from channel posts, including text that arrives as a `> Reasoning:` blockquote. Set `/reasoning on` to see thinking in other surfaces; the Mattermost final post keeps the answer only.
     - See [Streaming](/concepts/streaming#preview-streaming-modes) for the channel-mapping matrix.
 
@@ -369,8 +369,8 @@ When a user clicks a button:
     - `channels.mattermost.capabilities`: array of capability strings. Add `"inlineButtons"` to enable the buttons tool description in the agent system prompt.
     - `channels.mattermost.interactions.callbackBaseUrl`: optional external base URL for button callbacks (for example `https://gateway.example.com`). Use this when Mattermost cannot reach the gateway at its bind host directly.
     - In multi-account setups, you can also set the same field under `channels.mattermost.accounts.<id>.interactions.callbackBaseUrl`.
-    - If `interactions.callbackBaseUrl` is omitted, OpenClaw derives the callback URL from `gateway.customBindHost` + `gateway.port`, then falls back to `http://localhost:<port>`.
-    - Reachability rule: the button callback URL must be reachable from the Mattermost server. `localhost` only works when Mattermost and OpenClaw run on the same host/network namespace.
+    - If `interactions.callbackBaseUrl` is omitted, Brikko Studio derives the callback URL from `gateway.customBindHost` + `gateway.port`, then falls back to `http://localhost:<port>`.
+    - Reachability rule: the button callback URL must be reachable from the Mattermost server. `localhost` only works when Mattermost and Brikko Studio run on the same host/network namespace.
     - If your callback target is private/tailnet/internal, add its host/domain to Mattermost `ServiceSettings.AllowedUntrustedInternalConnections`.
 
   </Accordion>
@@ -430,7 +430,7 @@ The gateway verifies button clicks with HMAC-SHA256. External scripts must gener
 
 <Steps>
   <Step title="Derive the secret from the bot token">
-    `HMAC-SHA256(key="openclaw-mattermost-interactions", data=botToken)`
+    `HMAC-SHA256(key="brikko-studio-mattermost-interactions", data=botToken)`
   </Step>
   <Step title="Build the context object">
     Build the context object with all fields **except** `_token`.
@@ -452,7 +452,7 @@ Python example:
 import hmac, hashlib, json
 
 secret = hmac.new(
-    b"openclaw-mattermost-interactions",
+    b"brikko-studio-mattermost-interactions",
     bot_token.encode(), hashlib.sha256
 ).hexdigest()
 
@@ -475,7 +475,7 @@ context = {**ctx, "_token": token}
 
 ## Directory adapter
 
-The Mattermost plugin includes a directory adapter that resolves channel and user names via the Mattermost API. This enables `#channel-name` and `@username` targets in `openclaw message send` and cron/webhook deliveries.
+The Mattermost plugin includes a directory adapter that resolves channel and user names via the Mattermost API. This enables `#channel-name` and `@username` targets in `brikko-studio message send` and cron/webhook deliveries.
 
 No configuration is needed — the adapter uses the bot token from the account config.
 
@@ -508,13 +508,13 @@ Mattermost supports multiple accounts under `channels.mattermost.accounts`:
 
   </Accordion>
   <Accordion title="Native slash commands fail">
-    - `Unauthorized: invalid command token.`: OpenClaw did not accept the callback token. Typical causes:
+    - `Unauthorized: invalid command token.`: Brikko Studio did not accept the callback token. Typical causes:
       - slash command registration failed or only partially completed at startup
       - the callback is hitting the wrong gateway/account
       - Mattermost still has old commands pointing at a previous callback target
       - the gateway restarted without reactivating slash commands
     - If native slash commands stop working, check logs for `mattermost: failed to register slash commands` or `mattermost: native slash commands enabled but no commands could be registered`.
-    - If `callbackUrl` is omitted and logs warn that the callback resolved to `http://127.0.0.1:18789/...`, that URL is probably only reachable when Mattermost runs on the same host/network namespace as OpenClaw. Set an explicit externally reachable `commands.callbackUrl` instead.
+    - If `callbackUrl` is omitted and logs warn that the callback resolved to `http://127.0.0.1:18789/...`, that URL is probably only reachable when Mattermost runs on the same host/network namespace as Brikko Studio. Set an explicit externally reachable `commands.callbackUrl` instead.
 
   </Accordion>
   <Accordion title="Buttons issues">

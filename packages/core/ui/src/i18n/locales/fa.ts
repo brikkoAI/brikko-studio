@@ -385,7 +385,7 @@ export const fa: TranslationMap = {
     skills: "Skills و کلیدهای API.",
     nodes: "دستگاه‌های جفت‌شده و فرمان‌ها.",
     chat: "چت Gateway برای مداخله‌های سریع.",
-    config: "ویرایش openclaw.json.",
+    config: "ویرایش brikko-studio.json.",
     communications: "کانال‌ها، پیام‌ها و تنظیمات صوتی.",
     appearance: "تنظیمات پوسته، UI و جادوگر راه‌اندازی.",
     automation: "فرمان‌ها، قلاب‌ها، cron و پلاگین‌ها.",
@@ -460,7 +460,7 @@ export const fa: TranslationMap = {
       metadataUpgradeTitle: "تغییر فراداده دستگاه در انتظار تأیید است.",
       metadataUpgradeSummary: "این دستگاه قبلاً جفت شده است، اما تغییر فراداده در انتظار تأیید است.",
       mobileHint:
-        "روی موبایل هستید؟ URL کامل (شامل #token=...) را از openclaw dashboard --no-open روی دسکتاپ خود کپی کنید.",
+        "روی موبایل هستید؟ URL کامل (شامل #token=...) را از brikko-studio dashboard --no-open روی دسکتاپ خود کپی کنید.",
       docsTitle: "مستندات جفت‌سازی دستگاه (در زبانه جدید باز می‌شود)",
       docsLink: "مستندات: جفت‌سازی دستگاه",
     },
@@ -498,7 +498,7 @@ export const fa: TranslationMap = {
       modelAuthExpiresIn: "انقضا {when}",
       modelAuthAttentionExpiredTitle: "احراز هویت مدل منقضی شده است",
       modelAuthAttentionExpiringTitle: "احراز هویت مدل به‌زودی منقضی می‌شود",
-      modelAuthAttentionExpiredDesc: "{providers} — با openclaw models auth دوباره احراز هویت کنید",
+      modelAuthAttentionExpiredDesc: "{providers} — با brikko-studio models auth دوباره احراز هویت کنید",
       modelAuthAttentionExpiringEntry: "{provider} ({when})",
     },
     attention: {

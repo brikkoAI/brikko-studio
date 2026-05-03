@@ -24,7 +24,7 @@ function expectFailure() {
 }
 
 function scanLogs() {
-  const roots = ["/tmp", path.join(process.env.HOME, ".openclaw")];
+  const roots = ["/tmp", path.join(process.env.HOME, ".brikko-studio")];
   const files = [];
   const visit = (entry) => {
     if (!fs.existsSync(entry)) {
@@ -37,7 +37,7 @@ function scanLogs() {
       }
       return;
     }
-    if (/\.(?:log|jsonl)$/u.test(entry) || /openclaw-kitchen-sink-/u.test(path.basename(entry))) {
+    if (/\.(?:log|jsonl)$/u.test(entry) || /brikko-studio-kitchen-sink-/u.test(path.basename(entry))) {
       if (entry.includes("/.npm/_logs/")) {
         return;
       }
@@ -77,7 +77,7 @@ function scanLogs() {
 }
 
 function readConfig() {
-  const configPath = path.join(process.env.HOME, ".openclaw", "openclaw.json");
+  const configPath = path.join(process.env.HOME, ".brikko-studio", "brikko-studio.json");
   return {
     configPath,
     exists: fs.existsSync(configPath),
@@ -195,17 +195,17 @@ function assertRealPathInside(parentPath, childPath, label) {
 }
 
 function assertClawHubExternalInstallContract(installPath) {
-  const openclawPeerPath = path.join(installPath, "node_modules", "openclaw");
-  if (!fs.existsSync(openclawPeerPath)) {
-    throw new Error(`missing kitchen-sink openclaw peer symlink: ${openclawPeerPath}`);
+  const brikko-studioPeerPath = path.join(installPath, "node_modules", "brikko-studio");
+  if (!fs.existsSync(brikko-studioPeerPath)) {
+    throw new Error(`missing kitchen-sink brikko-studio peer symlink: ${brikko-studioPeerPath}`);
   }
-  if (!fs.lstatSync(openclawPeerPath).isSymbolicLink()) {
-    throw new Error(`kitchen-sink openclaw peer is not a symlink: ${openclawPeerPath}`);
+  if (!fs.lstatSync(brikko-studioPeerPath).isSymbolicLink()) {
+    throw new Error(`kitchen-sink brikko-studio peer is not a symlink: ${brikko-studioPeerPath}`);
   }
   const hostRoot = fs.realpathSync(process.cwd());
-  const linkedHostRoot = fs.realpathSync(openclawPeerPath);
+  const linkedHostRoot = fs.realpathSync(brikko-studioPeerPath);
   if (linkedHostRoot !== hostRoot) {
-    throw new Error(`expected kitchen-sink openclaw peer ${linkedHostRoot} to target ${hostRoot}`);
+    throw new Error(`expected kitchen-sink brikko-studio peer ${linkedHostRoot} to target ${hostRoot}`);
   }
 
   const dependencyPackagePath = path.join(installPath, "node_modules", "is-number", "package.json");
@@ -253,7 +253,7 @@ function assertCutoverPreinstalled() {
     throw new Error(`invalid kitchen-sink cutover preinstall spec: ${preinstallSpec}`);
   }
 
-  const indexPath = path.join(process.env.HOME, ".openclaw", "plugins", "installs.json");
+  const indexPath = path.join(process.env.HOME, ".brikko-studio", "plugins", "installs.json");
   const index = readJson(indexPath);
   const record = (index.installRecords ?? index.records ?? {})[pluginId];
   if (!record) {
@@ -377,7 +377,7 @@ function assertInstalled() {
   }
   assertExpectedDiagnostics(surfaceMode, errorMessages);
 
-  const indexPath = path.join(process.env.HOME, ".openclaw", "plugins", "installs.json");
+  const indexPath = path.join(process.env.HOME, ".brikko-studio", "plugins", "installs.json");
   const index = readJson(indexPath);
   const record = (index.installRecords ?? index.records ?? {})[pluginId];
   if (!record) {
@@ -434,7 +434,7 @@ function assertRemoved() {
     throw new Error(`kitchen-sink plugin still listed after uninstall: ${pluginId}`);
   }
 
-  const indexPath = path.join(process.env.HOME, ".openclaw", "plugins", "installs.json");
+  const indexPath = path.join(process.env.HOME, ".brikko-studio", "plugins", "installs.json");
   const index = fs.existsSync(indexPath) ? readJson(indexPath) : {};
   const records = index.installRecords ?? index.records ?? {};
   if (records[pluginId]) {

@@ -1,6 +1,6 @@
 import type { Api, Model } from "@mariozechner/pi-ai";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import type {
   EmbeddedRunAttemptParams,
   EmbeddedRunAttemptResult,
@@ -24,19 +24,19 @@ vi.mock("./builtin-pi.js", () => ({
   }),
 }));
 
-const originalRuntime = process.env.OPENCLAW_AGENT_RUNTIME;
+const originalRuntime = process.env.BRIKKO_STUDIO_AGENT_RUNTIME;
 
 afterEach(() => {
   clearAgentHarnesses();
   piRunAttempt.mockClear();
   if (originalRuntime == null) {
-    delete process.env.OPENCLAW_AGENT_RUNTIME;
+    delete process.env.BRIKKO_STUDIO_AGENT_RUNTIME;
   } else {
-    process.env.OPENCLAW_AGENT_RUNTIME = originalRuntime;
+    process.env.BRIKKO_STUDIO_AGENT_RUNTIME = originalRuntime;
   }
 });
 
-function createAttemptParams(config?: OpenClawConfig): EmbeddedRunAttemptParams {
+function createAttemptParams(config?: Brikko StudioConfig): EmbeddedRunAttemptParams {
   return {
     prompt: "hello",
     sessionId: "session-1",
@@ -97,7 +97,7 @@ function registerFailingCodexHarness(): void {
 
 describe("runAgentHarnessAttempt", () => {
   it("fails when a forced plugin harness is unavailable and fallback is omitted", async () => {
-    process.env.OPENCLAW_AGENT_RUNTIME = "codex";
+    process.env.BRIKKO_STUDIO_AGENT_RUNTIME = "codex";
 
     await expect(runAgentHarnessAttempt(createAttemptParams())).rejects.toThrow(
       'Requested agent harness "codex" is not registered.',
@@ -293,7 +293,7 @@ describe("selectAgentHarness", () => {
   });
 
   it("allows per-agent runtime policy overrides", () => {
-    const config: OpenClawConfig = {
+    const config: Brikko StudioConfig = {
       agents: {
         defaults: { agentRuntime: { id: "auto" } },
         list: [
@@ -317,7 +317,7 @@ describe("selectAgentHarness", () => {
   });
 
   it("uses agentRuntime as the runtime policy source", () => {
-    const config: OpenClawConfig = {
+    const config: Brikko StudioConfig = {
       agents: {
         defaults: {
           agentRuntime: { id: "auto" },
@@ -335,7 +335,7 @@ describe("selectAgentHarness", () => {
   });
 
   it("does not treat CLI runtime aliases as embedded harness ids", async () => {
-    const config: OpenClawConfig = {
+    const config: Brikko StudioConfig = {
       agents: {
         defaults: {
           agentRuntime: { id: "claude-cli" },
@@ -370,7 +370,7 @@ describe("selectAgentHarness", () => {
   });
 
   it("keeps an existing session pinned to its plugin harness even when env now forces PI", () => {
-    process.env.OPENCLAW_AGENT_RUNTIME = "pi";
+    process.env.BRIKKO_STUDIO_AGENT_RUNTIME = "pi";
     registerFailingCodexHarness();
 
     expect(

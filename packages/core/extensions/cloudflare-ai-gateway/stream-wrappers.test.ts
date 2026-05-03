@@ -10,7 +10,7 @@ const { warnMock } = vi.hoisted(() => ({
   warnMock: vi.fn(),
 }));
 
-vi.mock("openclaw/plugin-sdk/runtime-env", () => ({
+vi.mock("brikko-studio/plugin-sdk/runtime-env", () => ({
   createSubsystemLogger: () => ({
     debug: vi.fn(),
     error: vi.fn(),

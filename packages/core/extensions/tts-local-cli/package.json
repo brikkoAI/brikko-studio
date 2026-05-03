@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/tts-local-cli",
+  "name": "@brikko-studio/tts-local-cli",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw local CLI TTS plugin",
+  "description": "Brikko Studio local CLI TTS plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

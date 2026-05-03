@@ -1,7 +1,7 @@
 import type { StreamFn } from "@mariozechner/pi-agent-core";
 import { streamSimple } from "@mariozechner/pi-ai";
 import { DEFAULT_LLM_IDLE_TIMEOUT_SECONDS } from "../../../config/agent-timeout-defaults.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
 import { createStreamIteratorWrapper } from "../../stream-iterator-wrapper.js";
 import type { EmbeddedRunTrigger } from "./params.js";
 
@@ -96,7 +96,7 @@ function isLocalProviderBaseUrl(baseUrl: string): boolean {
  * @returns Idle timeout in milliseconds, or 0 to disable
  */
 export function resolveLlmIdleTimeoutMs(params?: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   trigger?: EmbeddedRunTrigger;
   runTimeoutMs?: number;
   modelRequestTimeoutMs?: number;

@@ -59,13 +59,13 @@ describe("bundled plugin build entries", () => {
 
     expect(artifacts).toContain("dist/extensions/image-generation-core/package.json");
     expect(artifacts).toContain("dist/extensions/image-generation-core/runtime-api.js");
-    expect(artifacts).not.toContain("dist/extensions/image-generation-core/openclaw.plugin.json");
+    expect(artifacts).not.toContain("dist/extensions/image-generation-core/brikko-studio.plugin.json");
     expect(artifacts).toContain("dist/extensions/media-understanding-core/runtime-api.js");
     expect(artifacts).not.toContain(
-      "dist/extensions/media-understanding-core/openclaw.plugin.json",
+      "dist/extensions/media-understanding-core/brikko-studio.plugin.json",
     );
     expect(artifacts).toContain("dist/extensions/speech-core/runtime-api.js");
-    expect(artifacts).not.toContain("dist/extensions/speech-core/openclaw.plugin.json");
+    expect(artifacts).not.toContain("dist/extensions/speech-core/brikko-studio.plugin.json");
   });
 
   it("packs the Matrix packaged runtime shim", () => {

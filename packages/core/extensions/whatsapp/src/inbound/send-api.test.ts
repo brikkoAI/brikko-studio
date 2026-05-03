@@ -9,10 +9,10 @@ import { createWebSendApi } from "./send-api.js";
 
 const recordChannelActivity = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/channel-activity-runtime", async () => {
+vi.mock("brikko-studio/plugin-sdk/channel-activity-runtime", async () => {
   const actual = await vi.importActual<
-    typeof import("openclaw/plugin-sdk/channel-activity-runtime")
-  >("openclaw/plugin-sdk/channel-activity-runtime");
+    typeof import("brikko-studio/plugin-sdk/channel-activity-runtime")
+  >("brikko-studio/plugin-sdk/channel-activity-runtime");
   return {
     ...actual,
     recordChannelActivity: (...args: unknown[]) => recordChannelActivity(...args),

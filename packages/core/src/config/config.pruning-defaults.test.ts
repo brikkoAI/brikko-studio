@@ -1,22 +1,22 @@
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "./config.js";
+import type { Brikko StudioConfig } from "./config.js";
 import { applyProviderConfigDefaultsForConfig } from "./provider-policy.js";
 
-function expectAnthropicPruningDefaults(cfg: OpenClawConfig, heartbeatEvery = "30m") {
+function expectAnthropicPruningDefaults(cfg: Brikko StudioConfig, heartbeatEvery = "30m") {
   expect(cfg.agents?.defaults?.contextPruning?.mode).toBe("cache-ttl");
   expect(cfg.agents?.defaults?.contextPruning?.ttl).toBe("1h");
   expect(cfg.agents?.defaults?.heartbeat?.every).toBe(heartbeatEvery);
 }
 
-function applyAnthropicDefaultsForTest(config: OpenClawConfig) {
+function applyAnthropicDefaultsForTest(config: Brikko StudioConfig) {
   return applyProviderConfigDefaultsForConfig({ provider: "anthropic", config, env: {} });
 }
 
 describe("config pruning defaults", () => {
   beforeEach(() => {
     vi.stubEnv(
-      "OPENCLAW_BUNDLED_PLUGINS_DIR",
+      "BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR",
       path.resolve(import.meta.dirname, "../../extensions"),
     );
   });

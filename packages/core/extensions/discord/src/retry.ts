@@ -3,12 +3,12 @@ import {
   extractErrorCode,
   formatErrorMessage,
   readErrorName,
-} from "openclaw/plugin-sdk/error-runtime";
+} from "brikko-studio/plugin-sdk/error-runtime";
 import {
   createRateLimitRetryRunner,
   type RetryConfig,
   type RetryRunner,
-} from "openclaw/plugin-sdk/retry-runtime";
+} from "brikko-studio/plugin-sdk/retry-runtime";
 import { RateLimitError } from "./internal/discord.js";
 
 const DISCORD_RETRY_DEFAULTS = {

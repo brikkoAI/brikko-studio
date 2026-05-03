@@ -5,7 +5,7 @@ import {
   replaceConfigFile,
 } from "../../config/config.js";
 import { extractDeliveryInfo } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import {
   formatDoctorNonInteractiveHint,
   type RestartSentinelPayload,
@@ -31,7 +31,7 @@ export function resolveGatewayConfigPath(snapshot?: Pick<ConfigWriteSnapshot, "p
   return snapshot?.path ?? createConfigIO().configPath;
 }
 
-export function didSharedGatewayAuthChange(prev: OpenClawConfig, next: OpenClawConfig): boolean {
+export function didSharedGatewayAuthChange(prev: Brikko StudioConfig, next: Brikko StudioConfig): boolean {
   const prevAuth = resolveEffectiveSharedGatewayAuth({
     authConfig: prev.gateway?.auth,
     env: process.env,
@@ -49,8 +49,8 @@ export function didSharedGatewayAuthChange(prev: OpenClawConfig, next: OpenClawC
 }
 
 export function didActiveSharedGatewayAuthChange(params: {
-  fallbackPrev: OpenClawConfig;
-  next: OpenClawConfig;
+  fallbackPrev: Brikko StudioConfig;
+  next: Brikko StudioConfig;
 }): boolean {
   return didSharedGatewayAuthChange(
     getActiveSecretsRuntimeSnapshot()?.config ?? params.fallbackPrev,
@@ -72,7 +72,7 @@ function queueSharedGatewayAuthDisconnect(
 
 function queueSharedGatewayAuthGenerationRefresh(
   shouldRefresh: boolean,
-  nextConfig: OpenClawConfig,
+  nextConfig: Brikko StudioConfig,
   context?: GatewayRequestContext,
 ): void {
   if (!shouldRefresh) {
@@ -85,7 +85,7 @@ function queueSharedGatewayAuthGenerationRefresh(
 
 function shouldScheduleDirectConfigRestart(params: {
   changedPaths: string[];
-  nextConfig: OpenClawConfig;
+  nextConfig: Brikko StudioConfig;
 }): boolean {
   const reloadSettings = resolveGatewayReloadSettings(params.nextConfig);
   if (reloadSettings.mode === "off") {
@@ -165,7 +165,7 @@ async function tryWriteRestartSentinelPayload(
 export async function commitGatewayConfigWrite(params: {
   snapshot: ConfigWriteSnapshot;
   writeOptions: ConfigWriteOptions;
-  nextConfig: OpenClawConfig;
+  nextConfig: Brikko StudioConfig;
   context?: GatewayRequestContext;
   disconnectSharedAuthClients?: boolean;
 }): Promise<{ path: string; queueFollowUp: () => void }> {
@@ -189,7 +189,7 @@ export async function resolveGatewayConfigRestartWriteResult(params: {
   mode: "config.patch" | "config.apply";
   configPath: string;
   changedPaths: string[];
-  nextConfig: OpenClawConfig;
+  nextConfig: Brikko StudioConfig;
   actor: ControlPlaneActor;
   context?: GatewayRequestContext;
 }): Promise<{

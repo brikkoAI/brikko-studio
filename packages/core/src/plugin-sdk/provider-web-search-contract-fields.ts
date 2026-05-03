@@ -7,7 +7,7 @@ import {
   setProviderWebSearchPluginConfigValue,
   setTopLevelCredentialValue,
 } from "../agents/tools/web-search-provider-config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { WebSearchProviderPlugin } from "../plugins/types.js";
 
 export type WebSearchProviderContractCredential =
@@ -73,9 +73,9 @@ function createConfiguredCredentialFields(
   const field = configuredCredential.field ?? "apiKey";
 
   return {
-    getConfiguredCredentialValue: (config?: OpenClawConfig) =>
+    getConfiguredCredentialValue: (config?: Brikko StudioConfig) =>
       resolveProviderWebSearchPluginConfig(config, configuredCredential.pluginId)?.[field],
-    setConfiguredCredentialValue: (configTarget: OpenClawConfig, value: unknown) => {
+    setConfiguredCredentialValue: (configTarget: Brikko StudioConfig, value: unknown) => {
       setProviderWebSearchPluginConfigValue(
         configTarget,
         configuredCredential.pluginId,

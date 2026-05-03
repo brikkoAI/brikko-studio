@@ -1,4 +1,4 @@
-import { REALTIME_VOICE_AUDIO_FORMAT_PCM16_24KHZ } from "openclaw/plugin-sdk/realtime-voice";
+import { REALTIME_VOICE_AUDIO_FORMAT_PCM16_24KHZ } from "brikko-studio/plugin-sdk/realtime-voice";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { buildGoogleRealtimeVoiceProvider } from "./realtime-voice-provider.js";
 
@@ -141,8 +141,8 @@ describe("buildGoogleRealtimeVoiceProvider", () => {
         },
         {
           type: "function",
-          name: "openclaw_agent_consult",
-          description: "Ask OpenClaw",
+          name: "brikko-studio_agent_consult",
+          description: "Ask Brikko Studio",
           parameters: {
             type: "object",
             properties: {
@@ -196,8 +196,8 @@ describe("buildGoogleRealtimeVoiceProvider", () => {
                 },
               },
               {
-                name: "openclaw_agent_consult",
-                description: "Ask OpenClaw",
+                name: "brikko-studio_agent_consult",
+                description: "Ask Brikko Studio",
                 parametersJsonSchema: {
                   type: "object",
                   properties: {
@@ -244,8 +244,8 @@ describe("buildGoogleRealtimeVoiceProvider", () => {
       tools: [
         {
           type: "function",
-          name: "openclaw_agent_consult",
-          description: "Ask OpenClaw",
+          name: "brikko-studio_agent_consult",
+          description: "Ask Brikko Studio",
           parameters: {
             type: "object",
             properties: {
@@ -278,7 +278,7 @@ describe("buildGoogleRealtimeVoiceProvider", () => {
               {
                 functionDeclarations: [
                   {
-                    name: "openclaw_agent_consult",
+                    name: "brikko-studio_agent_consult",
                     behavior: "NON_BLOCKING",
                   },
                 ],
@@ -577,7 +577,7 @@ describe("buildGoogleRealtimeVoiceProvider", () => {
       setupComplete: { sessionId: "session-1" },
       toolCall: {
         functionCalls: [
-          { id: "consult-call", name: "openclaw_agent_consult", args: { prompt: "hi" } },
+          { id: "consult-call", name: "brikko-studio_agent_consult", args: { prompt: "hi" } },
         ],
       },
     });
@@ -593,7 +593,7 @@ describe("buildGoogleRealtimeVoiceProvider", () => {
       functionResponses: [
         {
           id: "consult-call",
-          name: "openclaw_agent_consult",
+          name: "brikko-studio_agent_consult",
           scheduling: "WHEN_IDLE",
           willContinue: true,
           response: { status: "working", message: "Tell the participant you are checking." },
@@ -604,7 +604,7 @@ describe("buildGoogleRealtimeVoiceProvider", () => {
       functionResponses: [
         {
           id: "consult-call",
-          name: "openclaw_agent_consult",
+          name: "brikko-studio_agent_consult",
           scheduling: "WHEN_IDLE",
           response: { text: "The meeting starts at 3." },
         },

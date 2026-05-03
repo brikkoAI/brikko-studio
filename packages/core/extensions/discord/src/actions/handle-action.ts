@@ -3,15 +3,15 @@ import {
   readNumberParam,
   readStringArrayParam,
   readStringParam,
-} from "openclaw/plugin-sdk/agent-runtime";
-import { readBooleanParam } from "openclaw/plugin-sdk/boolean-param";
-import { resolveReactionMessageId } from "openclaw/plugin-sdk/channel-actions";
-import type { ChannelMessageActionContext } from "openclaw/plugin-sdk/channel-contract";
+} from "brikko-studio/plugin-sdk/agent-runtime";
+import { readBooleanParam } from "brikko-studio/plugin-sdk/boolean-param";
+import { resolveReactionMessageId } from "brikko-studio/plugin-sdk/channel-actions";
+import type { ChannelMessageActionContext } from "brikko-studio/plugin-sdk/channel-contract";
 import {
   normalizeInteractiveReply,
   normalizeMessagePresentation,
-} from "openclaw/plugin-sdk/interactive-runtime";
-import { normalizeOptionalStringifiedId } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/interactive-runtime";
+import { normalizeOptionalStringifiedId } from "brikko-studio/plugin-sdk/text-runtime";
 import { handleDiscordAction } from "../../action-runtime-api.js";
 import {
   buildDiscordInteractiveComponents,

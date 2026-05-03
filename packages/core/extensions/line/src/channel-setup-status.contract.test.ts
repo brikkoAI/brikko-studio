@@ -1,8 +1,8 @@
 import {
   installChannelSetupContractSuite,
   installChannelStatusContractSuite,
-} from "openclaw/plugin-sdk/channel-test-helpers";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/channel-test-helpers";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect } from "vitest";
 import { linePlugin, lineSetupPlugin } from "../api.js";
 
@@ -12,7 +12,7 @@ describe("line setup contract", () => {
     cases: [
       {
         name: "default account stores token and secret",
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         input: {
           channelAccessToken: "line-token",
           channelSecret: "line-secret",
@@ -26,7 +26,7 @@ describe("line setup contract", () => {
       },
       {
         name: "non-default env setup is rejected",
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         accountId: "ops",
         input: {
           useEnv: true,
@@ -52,7 +52,7 @@ describe("line status contract", () => {
               channelSecret: "line-secret",
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         runtime: {
           accountId: "default",
           running: true,

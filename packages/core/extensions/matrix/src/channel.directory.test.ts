@@ -1,4 +1,4 @@
-import { createRuntimeEnv } from "openclaw/plugin-sdk/plugin-test-runtime";
+import { createRuntimeEnv } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { RuntimeEnv } from "../runtime-api.js";
 import { matrixPlugin } from "./channel.js";

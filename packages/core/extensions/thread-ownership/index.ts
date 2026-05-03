@@ -1,11 +1,11 @@
-import { resolveLivePluginConfigObject } from "openclaw/plugin-sdk/plugin-config-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { resolveLivePluginConfigObject } from "brikko-studio/plugin-sdk/plugin-config-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   definePluginEntry,
   fetchWithSsrFGuard,
   ssrfPolicyFromDangerouslyAllowPrivateNetwork,
-  type OpenClawConfig,
-  type OpenClawPluginApi,
+  type Brikko StudioConfig,
+  type Brikko StudioPluginApi,
 } from "./api.js";
 
 type ThreadOwnershipConfig = {
@@ -13,7 +13,7 @@ type ThreadOwnershipConfig = {
   abTestChannels?: string[];
 };
 
-type AgentEntry = NonNullable<NonNullable<OpenClawConfig["agents"]>["list"]>[number];
+type AgentEntry = NonNullable<NonNullable<Brikko StudioConfig["agents"]>["list"]>[number];
 type ThreadOwnershipMessageSendingResult = { cancel: true } | undefined;
 
 // In-memory set of {channel}:{thread} keys where this agent was @-mentioned.
@@ -61,7 +61,7 @@ function containsAgentNameMention(text: string, agentName: string): boolean {
   return new RegExp(`(^|[^\\w])@${escapeRegExp(trimmedName)}(?=$|[^\\w])`, "i").test(text);
 }
 
-function resolveOwnershipAgent(config: OpenClawConfig): { id: string; name: string } {
+function resolveOwnershipAgent(config: Brikko StudioConfig): { id: string; name: string } {
   const list = Array.isArray(config.agents?.list)
     ? config.agents.list.filter(
         (entry): entry is AgentEntry => entry !== null && typeof entry === "object",
@@ -81,12 +81,12 @@ export default definePluginEntry({
   id: "thread-ownership",
   name: "Thread Ownership",
   description: "Slack thread claim coordination for multi-agent setups",
-  register(api: OpenClawPluginApi) {
+  register(api: Brikko StudioPluginApi) {
     const resolveCurrentState = () => {
-      const currentConfig = (api.runtime.config?.current?.() ?? api.config) as OpenClawConfig;
+      const currentConfig = (api.runtime.config?.current?.() ?? api.config) as Brikko StudioConfig;
       const livePluginCfg = resolveLivePluginConfigObject(
         api.runtime.config?.current
-          ? () => api.runtime.config.current() as OpenClawConfig
+          ? () => api.runtime.config.current() as Brikko StudioConfig
           : undefined,
         "thread-ownership",
         isThreadOwnershipConfig(api.pluginConfig)

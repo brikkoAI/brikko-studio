@@ -323,12 +323,12 @@ function buildWebchatCanvasSection(params: {
     "- Do not use `[embed ...]` for non-web channels.",
     "- `[embed ...]` is separate from `MEDIA:`. Use `MEDIA:` for attachments; use `[embed ...]` for web-only rich rendering.",
     '- Use self-closing form for hosted embed documents: `[embed ref="cv_123" title="Status" height="320" /]`.',
-    '- You may also use an explicit hosted URL: `[embed url="/__openclaw__/canvas/documents/cv_123/index.html" title="Status" height="320" /]`.',
-    '- Never use local filesystem paths or `file://...` URLs in `[embed ...]`. Hosted embeds must point at `/__openclaw__/canvas/...` URLs or use `ref="..."`.',
+    '- You may also use an explicit hosted URL: `[embed url="/__brikko-studio__/canvas/documents/cv_123/index.html" title="Status" height="320" /]`.',
+    '- Never use local filesystem paths or `file://...` URLs in `[embed ...]`. Hosted embeds must point at `/__brikko-studio__/canvas/...` URLs or use `ref="..."`.',
     params.canvasRootDir
       ? `- The active hosted embed root for this session is: \`${sanitizeForPromptLiteral(params.canvasRootDir)}\`. If you manually stage a hosted embed file, write it there, not in the workspace.`
       : "- The active hosted embed root is profile-scoped, not workspace-scoped. If you manually stage a hosted embed file, write it under the active profile embed root, not in the workspace.",
-    "- Quote all attribute values. Prefer `ref` for hosted documents unless you already have the full `/__openclaw__/canvas/documents/<id>/index.html` URL.",
+    "- Quote all attribute values. Prefer `ref` for hosted documents unless you already have the full `/__brikko-studio__/canvas/documents/<id>/index.html` URL.",
     "",
   ];
 }
@@ -403,7 +403,7 @@ function buildMessagingSection(params: {
     "- Cross-session messaging → use sessions_send(sessionKey, message)",
     subagentOrchestrationGuidance,
     completionEventGuidance,
-    "- Never use exec/curl for provider messaging; OpenClaw handles all routing internally.",
+    "- Never use exec/curl for provider messaging; Brikko Studio handles all routing internally.",
     params.availableTools.has("message")
       ? [
           "",
@@ -456,20 +456,20 @@ function buildDocsSection(params: {
   }
   const lines = [
     "## Documentation",
-    docsPath ? `OpenClaw docs: ${docsPath}` : "OpenClaw docs: https://docs.openclaw.ai",
-    "Mirror: https://docs.openclaw.ai",
+    docsPath ? `Brikko Studio docs: ${docsPath}` : "Brikko Studio docs: https://docs.brikko-studio.ai",
+    "Mirror: https://docs.brikko-studio.ai",
     sourcePath ? `Local source: ${sourcePath}` : undefined,
-    "Source: https://github.com/openclaw/openclaw",
+    "Source: https://github.com/brikko-studio/brikko-studio",
     "Community: https://discord.com/invite/clawd",
     "Find new skills: https://clawhub.ai",
     docsPath
-      ? "For OpenClaw behavior, commands, config, or architecture: consult local docs first."
-      : "For OpenClaw behavior, commands, config, or architecture: consult the docs mirror first.",
+      ? "For Brikko Studio behavior, commands, config, or architecture: consult local docs first."
+      : "For Brikko Studio behavior, commands, config, or architecture: consult the docs mirror first.",
     "For config field docs, prefer the `gateway` tool action `config.schema.lookup`; for broader config guidance, read `docs/gateway/configuration.md` and `docs/gateway/configuration-reference.md`.",
     sourcePath
-      ? "If docs are incomplete or stale, inspect the local OpenClaw source code before answering."
-      : "If docs are incomplete or stale, review the OpenClaw source on GitHub before answering.",
-    "When diagnosing issues, run `openclaw status` yourself when possible; only ask the user if you lack access (e.g., sandboxed).",
+      ? "If docs are incomplete or stale, inspect the local Brikko Studio source code before answering."
+      : "If docs are incomplete or stale, review the Brikko Studio source on GitHub before answering.",
+    "When diagnosing issues, run `brikko-studio status` yourself when possible; only ask the user if you lack access (e.g., sandboxed).",
     "",
   ];
   return lines.filter((line): line is string => line !== undefined);
@@ -566,10 +566,10 @@ export function buildAgentSystemPrompt(params: {
     nodes: "List/describe/notify/camera/screen on paired nodes",
     cron: "Manage cron jobs and wake events (use for reminders; when scheduling a reminder, write the systemEvent text as something that will read like a reminder when it fires, and mention that it is a reminder depending on the time gap between setting and firing; include recent context in reminder text if appropriate)",
     message: "Send messages and channel actions",
-    gateway: "Restart, apply config, or run updates on the running OpenClaw process",
+    gateway: "Restart, apply config, or run updates on the running Brikko Studio process",
     agents_list: acpSpawnRuntimeEnabled
-      ? 'List OpenClaw agent ids allowed for sessions_spawn when runtime="subagent" (not ACP harness ids)'
-      : "List OpenClaw agent ids allowed for sessions_spawn",
+      ? 'List Brikko Studio agent ids allowed for sessions_spawn when runtime="subagent" (not ACP harness ids)'
+      : "List Brikko Studio agent ids allowed for sessions_spawn",
     sessions_list: "List other sessions (incl. sub-agents) with filters/last",
     sessions_history: "Fetch history for another session/sub-agent",
     sessions_send: "Send a message to another session/sub-agent",
@@ -752,7 +752,7 @@ export function buildAgentSystemPrompt(params: {
 
   // For "none" mode, return just the basic identity line
   if (promptMode === "none") {
-    return "You are a personal assistant running inside OpenClaw.";
+    return "You are a personal assistant running inside Brikko Studio.";
   }
 
   const contextFiles = params.contextFiles ?? [];
@@ -799,7 +799,7 @@ export function buildAgentSystemPrompt(params: {
   });
   const stablePrefix = cacheStablePromptPrefix(stablePrefixCacheKey, () => {
     const lines = [
-      "You are a personal assistant running inside OpenClaw.",
+      "You are a personal assistant running inside Brikko Studio.",
       "",
       "## Tooling",
       "Tool availability (filtered by policy):",
@@ -814,7 +814,7 @@ export function buildAgentSystemPrompt(params: {
             "- apply_patch: apply multi-file patches",
             `- ${execToolName}: run shell commands (supports background via yieldMs/background)`,
             `- ${processToolName}: manage background exec sessions`,
-            "- browser: control OpenClaw's dedicated browser",
+            "- browser: control Brikko Studio's dedicated browser",
             "- canvas: present/eval/snapshot the Canvas",
             "- nodes: list/describe/notify/camera/screen on paired nodes",
             "- cron: manage cron jobs and wake events (use for reminders; when scheduling a reminder, write the systemEvent text as something that will read like a reminder when it fires, and mention that it is a reminder depending on the time gap between setting and firing; include recent context in reminder text if appropriate)",
@@ -882,29 +882,29 @@ export function buildAgentSystemPrompt(params: {
         fallback: [],
       }),
       ...safetySection,
-      "## OpenClaw CLI Quick Reference",
-      "OpenClaw is controlled via subcommands. Do not invent commands.",
+      "## Brikko Studio CLI Quick Reference",
+      "Brikko Studio is controlled via subcommands. Do not invent commands.",
       "For config changes, use the first-class `gateway` tool (`config.schema.lookup`, `config.get`, `config.patch`, `config.apply`) instead of editing config through exec; the gateway tool hot-reloads config when possible and uses a safe restart only when required.",
       "Use the `gateway` tool action `restart` for Gateway restarts. Only use CLI service lifecycle commands when the user explicitly asks for them.",
       "Gateway service lifecycle quick reference:",
-      "- openclaw gateway status",
-      "- openclaw gateway restart",
+      "- brikko-studio gateway status",
+      "- brikko-studio gateway restart",
       "Operator-only, explicit user request:",
-      "- openclaw gateway start",
-      "- openclaw gateway stop",
-      "Do not chain `openclaw gateway stop` and `openclaw gateway start` as a restart substitute.",
-      "If unsure, ask the user to run `openclaw help` (or `openclaw gateway --help`) and paste the output.",
+      "- brikko-studio gateway start",
+      "- brikko-studio gateway stop",
+      "Do not chain `brikko-studio gateway stop` and `brikko-studio gateway start` as a restart substitute.",
+      "If unsure, ask the user to run `brikko-studio help` (or `brikko-studio gateway --help`) and paste the output.",
       "",
       ...skillsSection,
       ...memorySection,
-      hasGateway && !isMinimal ? "## OpenClaw Self-Update" : "",
+      hasGateway && !isMinimal ? "## Brikko Studio Self-Update" : "",
       hasGateway && !isMinimal
         ? [
             "Get Updates (self-update) is ONLY allowed when the user explicitly asks for it.",
             "Do not run config.apply or update.run unless the user explicitly requests an update or config change; if it's not explicit, ask first.",
             "Use config.schema.lookup with a specific dot path to inspect only the relevant config subtree before making config changes or answering config-field questions; avoid guessing field names/types.",
             "Actions: config.schema.lookup, config.get, config.patch (partial update, merges with existing), config.apply (validate + write full config), update.run (update deps or git, then restart). Config writes hot-reload when possible and use a safe restart only when required.",
-            "After restart, OpenClaw pings the last active session automatically.",
+            "After restart, Brikko Studio pings the last active session automatically.",
           ].join("\n")
         : "",
       hasGateway && !isMinimal ? "" : "",
@@ -996,7 +996,7 @@ export function buildAgentSystemPrompt(params: {
         userTimezone,
       }),
       "## Workspace Files (injected)",
-      "These user-editable files are loaded by OpenClaw and included below in Project Context.",
+      "These user-editable files are loaded by Brikko Studio and included below in Project Context.",
       "",
       ...buildAssistantOutputDirectivesSection(isMinimal),
     ];

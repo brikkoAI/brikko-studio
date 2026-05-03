@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/alibaba-provider",
+  "name": "@brikko-studio/alibaba-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Alibaba Model Studio video provider plugin",
+  "description": "Brikko Studio Alibaba Model Studio video provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

@@ -2,17 +2,17 @@ import { mkdtemp, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { ChannelType } from "discord-api-types/v10";
-import * as commandRegistryModule from "openclaw/plugin-sdk/command-auth";
-import type { ChatCommandDefinition, CommandArgsParsing } from "openclaw/plugin-sdk/command-auth";
-import type { ModelsProviderData } from "openclaw/plugin-sdk/command-auth";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import * as globalsModule from "openclaw/plugin-sdk/runtime-env";
+import * as commandRegistryModule from "brikko-studio/plugin-sdk/command-auth";
+import type { ChatCommandDefinition, CommandArgsParsing } from "brikko-studio/plugin-sdk/command-auth";
+import type { ModelsProviderData } from "brikko-studio/plugin-sdk/command-auth";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import * as globalsModule from "brikko-studio/plugin-sdk/runtime-env";
 import {
   loadSessionStore,
   resolveStorePath,
   saveSessionStore,
-} from "openclaw/plugin-sdk/session-store-runtime";
-import * as commandTextModule from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/session-store-runtime";
+import * as commandTextModule from "brikko-studio/plugin-sdk/text-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { defineThrowingDiscordChannelGetter } from "../test-support/partial-channel.js";
 import { resolveDiscordChannelContext } from "./agent-components-helpers.js";
@@ -82,7 +82,7 @@ function createModelPickerContext(): ModelPickerContext {
         },
       },
     },
-  } as unknown as OpenClawConfig;
+  } as unknown as Brikko StudioConfig;
 
   return {
     cfg,
@@ -278,7 +278,7 @@ function createBoundThreadBindingManager(params: {
 
 describe("Discord model picker interactions", () => {
   beforeEach(async () => {
-    tempDir = await mkdtemp(path.join(os.tmpdir(), "openclaw-discord-model-picker-"));
+    tempDir = await mkdtemp(path.join(os.tmpdir(), "brikko-studio-discord-model-picker-"));
     vi.useRealTimers();
     vi.restoreAllMocks();
   });
@@ -430,8 +430,8 @@ describe("Discord model picker interactions", () => {
         [
           {
             id: "pi",
-            label: "OpenClaw Pi Default",
-            description: "Use the built-in OpenClaw Pi runtime.",
+            label: "Brikko Studio Pi Default",
+            description: "Use the built-in Brikko Studio Pi runtime.",
           },
           {
             id: "codex",

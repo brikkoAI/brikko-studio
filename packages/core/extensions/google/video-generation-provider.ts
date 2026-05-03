@@ -1,19 +1,19 @@
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import path from "node:path";
-import { resolveApiKeyForProvider } from "openclaw/plugin-sdk/provider-auth-runtime";
+import { resolveApiKeyForProvider } from "brikko-studio/plugin-sdk/provider-auth-runtime";
 import {
   createProviderOperationDeadline,
   resolveProviderOperationTimeoutMs,
   waitProviderOperationPollInterval,
-} from "openclaw/plugin-sdk/provider-http";
-import { fetchWithSsrFGuard } from "openclaw/plugin-sdk/ssrf-runtime";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/provider-http";
+import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
+import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import type {
   GeneratedVideoAsset,
   VideoGenerationProvider,
   VideoGenerationRequest,
-} from "openclaw/plugin-sdk/video-generation";
+} from "brikko-studio/plugin-sdk/video-generation";
 import { parseGeminiAuth, resolveGoogleGenerativeAiApiOrigin } from "./api.js";
 import {
   createGoogleVideoGenerationProviderMetadata,
@@ -152,7 +152,7 @@ async function downloadGeneratedVideo(params: {
   index: number;
 }): Promise<GeneratedVideoAsset> {
   const tempDir = await mkdtemp(
-    path.join(resolvePreferredOpenClawTmpDir(), "openclaw-google-video-"),
+    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-google-video-"),
   );
   const downloadPath = path.join(tempDir, `video-${params.index + 1}.mp4`);
   try {

@@ -17,7 +17,7 @@ vi.resetModules();
 
 const { installPluginFromNpmSpec, PLUGIN_INSTALL_ERROR_CODE } = await import("./install.js");
 
-const suiteTempRootTracker = createSuiteTempRootTracker("openclaw-plugin-install-npm-spec");
+const suiteTempRootTracker = createSuiteTempRootTracker("brikko-studio-plugin-install-npm-spec");
 
 function successfulSpawn(stdout = "") {
   return {
@@ -72,7 +72,7 @@ function writeInstalledNpmPlugin(params: {
     JSON.stringify({
       name: params.packageName,
       version: params.version,
-      openclaw: { extensions: ["./dist/index.js"] },
+      brikko-studio: { extensions: ["./dist/index.js"] },
       ...(params.dependency
         ? { dependencies: { [params.dependency.name]: params.dependency.version } }
         : {}),
@@ -81,7 +81,7 @@ function writeInstalledNpmPlugin(params: {
     "utf-8",
   );
   fs.writeFileSync(
-    path.join(pluginDir, "openclaw.plugin.json"),
+    path.join(pluginDir, "brikko-studio.plugin.json"),
     JSON.stringify({
       id: params.pluginId ?? params.packageName,
       name: params.pluginId ?? params.packageName,
@@ -268,13 +268,13 @@ beforeEach(() => {
 });
 
 describe("installPluginFromNpmSpec", () => {
-  it("installs npm plugins into .openclaw/npm", async () => {
+  it("installs npm plugins into .brikko-studio/npm", async () => {
     const stateDir = suiteTempRootTracker.makeTempDir();
     const npmRoot = path.join(stateDir, "npm");
 
     mockNpmViewAndInstall({
-      spec: "@openclaw/voice-call@0.0.1",
-      packageName: "@openclaw/voice-call",
+      spec: "@brikko-studio/voice-call@0.0.1",
+      packageName: "@brikko-studio/voice-call",
       version: "0.0.1",
       pluginId: "voice-call",
       npmRoot,
@@ -282,7 +282,7 @@ describe("installPluginFromNpmSpec", () => {
     });
 
     const result = await installPluginFromNpmSpec({
-      spec: "@openclaw/voice-call@0.0.1",
+      spec: "@brikko-studio/voice-call@0.0.1",
       npmDir: npmRoot,
       logger: { info: () => {}, warn: () => {} },
     });
@@ -292,8 +292,8 @@ describe("installPluginFromNpmSpec", () => {
       return;
     }
     expect(result.pluginId).toBe("voice-call");
-    expect(result.targetDir).toBe(path.join(npmRoot, "node_modules", "@openclaw/voice-call"));
-    expect(result.npmResolution?.resolvedSpec).toBe("@openclaw/voice-call@0.0.1");
+    expect(result.targetDir).toBe(path.join(npmRoot, "node_modules", "@brikko-studio/voice-call"));
+    expect(result.npmResolution?.resolvedSpec).toBe("@brikko-studio/voice-call@0.0.1");
     expect(result.npmResolution?.integrity).toBe("sha512-plugin-test");
     expect(
       fs.existsSync(path.join(result.targetDir, "node_modules", "is-number", "package.json")),
@@ -445,7 +445,7 @@ describe("installPluginFromNpmSpec", () => {
   });
 
   it.runIf(process.platform !== "win32")(
-    "does not let managed openclaw peer links poison later npm installs",
+    "does not let managed brikko-studio peer links poison later npm installs",
     async () => {
       const stateDir = suiteTempRootTracker.makeTempDir();
       const npmRoot = path.join(stateDir, "npm");
@@ -457,7 +457,7 @@ describe("installPluginFromNpmSpec", () => {
           version: "1.0.0",
           pluginId: "peer-plugin",
           npmRoot,
-          peerDependencies: { openclaw: "^2026.0.0" },
+          peerDependencies: { brikko-studio: "^2026.0.0" },
         },
         {
           spec: "next-plugin@1.0.0",
@@ -476,7 +476,7 @@ describe("installPluginFromNpmSpec", () => {
       expect(first.ok).toBe(true);
       expect(
         fs
-          .lstatSync(path.join(npmRoot, "node_modules", "peer-plugin", "node_modules", "openclaw"))
+          .lstatSync(path.join(npmRoot, "node_modules", "peer-plugin", "node_modules", "brikko-studio"))
           .isSymbolicLink(),
       ).toBe(true);
 
@@ -488,7 +488,7 @@ describe("installPluginFromNpmSpec", () => {
 
       expect(second.ok).toBe(true);
       if (!second.ok) {
-        expect(second.error).not.toContain("peer-plugin/node_modules/openclaw");
+        expect(second.error).not.toContain("peer-plugin/node_modules/brikko-studio");
       }
     },
   );
@@ -532,10 +532,10 @@ describe("installPluginFromNpmSpec", () => {
   it("rolls back the managed npm root when npm install fails", async () => {
     const npmRoot = path.join(suiteTempRootTracker.makeTempDir(), "npm");
     runCommandWithTimeoutMock.mockImplementation(async (argv: string[]) => {
-      if (JSON.stringify(argv) === JSON.stringify(npmViewArgv("@openclaw/voice-call@0.0.1"))) {
+      if (JSON.stringify(argv) === JSON.stringify(npmViewArgv("@brikko-studio/voice-call@0.0.1"))) {
         return successfulSpawn(
           JSON.stringify({
-            name: "@openclaw/voice-call",
+            name: "@brikko-studio/voice-call",
             version: "0.0.1",
             dist: {
               integrity: "sha512-plugin-test",
@@ -558,7 +558,7 @@ describe("installPluginFromNpmSpec", () => {
     });
 
     const result = await installPluginFromNpmSpec({
-      spec: "@openclaw/voice-call@0.0.1",
+      spec: "@brikko-studio/voice-call@0.0.1",
       npmDir: npmRoot,
       logger: { info: () => {}, warn: () => {} },
     });
@@ -606,22 +606,22 @@ describe("installPluginFromNpmSpec", () => {
 
   const officialLaunchPluginCases = [
     {
-      spec: "@openclaw/acpx",
+      spec: "@brikko-studio/acpx",
       pluginId: "acpx",
       indexJs: `import { spawn } from "node:child_process";\nspawn("codex-acp", []);`,
     },
     {
-      spec: "@openclaw/codex",
+      spec: "@brikko-studio/codex",
       pluginId: "codex",
       indexJs: `import { spawn } from "node:child_process";\nspawn("codex", ["app-server"]);`,
     },
     {
-      spec: "@openclaw/google-meet",
+      spec: "@brikko-studio/google-meet",
       pluginId: "google-meet",
       indexJs: `import { spawnSync } from "node:child_process";\nspawnSync("node", ["bridge.js"]);`,
     },
     {
-      spec: "@openclaw/voice-call",
+      spec: "@brikko-studio/voice-call",
       pluginId: "voice-call",
       indexJs: `import { spawn } from "node:child_process";\nspawn("ngrok", ["http", "3000"]);`,
     },
@@ -658,7 +658,7 @@ describe("installPluginFromNpmSpec", () => {
       expect(fs.existsSync(path.join(npmRoot, "node_modules", spec))).toBe(false);
       expect(
         warnings.some((warning) =>
-          warning.includes("allowed because it is an official OpenClaw package"),
+          warning.includes("allowed because it is an official Brikko Studio package"),
         ),
       ).toBe(false);
     },
@@ -696,7 +696,7 @@ describe("installPluginFromNpmSpec", () => {
       expect(result.pluginId).toBe(pluginId);
       expect(
         warnings.some((warning) =>
-          warning.includes("allowed because it is an official OpenClaw package"),
+          warning.includes("allowed because it is an official Brikko Studio package"),
         ),
       ).toBe(true);
       expectNpmInstallIntoRoot({
@@ -718,17 +718,17 @@ describe("installPluginFromNpmSpec", () => {
   it("rejects duplicate npm installs unless update mode is requested", async () => {
     const stateDir = suiteTempRootTracker.makeTempDir();
     const npmRoot = path.join(stateDir, "npm");
-    const installRoot = path.join(npmRoot, "node_modules", "@openclaw", "voice-call");
+    const installRoot = path.join(npmRoot, "node_modules", "@brikko-studio", "voice-call");
     fs.mkdirSync(installRoot, { recursive: true });
     mockNpmViewMetadataResult(runCommandWithTimeoutMock, {
-      name: "@openclaw/voice-call",
+      name: "@brikko-studio/voice-call",
       version: "0.0.1",
       integrity: "sha512-plugin-test",
       shasum: "pluginshasum",
     });
 
     const result = await installPluginFromNpmSpec({
-      spec: "@openclaw/voice-call@0.0.1",
+      spec: "@brikko-studio/voice-call@0.0.1",
       npmDir: npmRoot,
       mode: "install",
     });
@@ -748,19 +748,19 @@ describe("installPluginFromNpmSpec", () => {
   it("allows duplicate npm installs in update mode", async () => {
     const stateDir = suiteTempRootTracker.makeTempDir();
     const npmRoot = path.join(stateDir, "npm");
-    const installRoot = path.join(npmRoot, "node_modules", "@openclaw", "voice-call");
+    const installRoot = path.join(npmRoot, "node_modules", "@brikko-studio", "voice-call");
     fs.mkdirSync(installRoot, { recursive: true });
     fs.writeFileSync(path.join(installRoot, "old.txt"), "old", "utf-8");
     mockNpmViewAndInstall({
-      spec: "@openclaw/voice-call@0.0.2",
-      packageName: "@openclaw/voice-call",
+      spec: "@brikko-studio/voice-call@0.0.2",
+      packageName: "@brikko-studio/voice-call",
       version: "0.0.2",
       pluginId: "voice-call",
       npmRoot,
     });
 
     const result = await installPluginFromNpmSpec({
-      spec: "@openclaw/voice-call@0.0.2",
+      spec: "@brikko-studio/voice-call@0.0.2",
       npmDir: npmRoot,
       mode: "update",
       logger: { info: () => {}, warn: () => {} },
@@ -784,15 +784,15 @@ describe("installPluginFromNpmSpec", () => {
 
     mockNpmViewAndInstallMany([
       {
-        spec: "@openclaw/voice-call@0.0.1",
-        packageName: "@openclaw/voice-call",
+        spec: "@brikko-studio/voice-call@0.0.1",
+        packageName: "@brikko-studio/voice-call",
         version: "0.0.1",
         pluginId: "voice-call",
         npmRoot,
       },
       {
-        spec: "@openclaw/whatsapp@0.0.1",
-        packageName: "@openclaw/whatsapp",
+        spec: "@brikko-studio/whatsapp@0.0.1",
+        packageName: "@brikko-studio/whatsapp",
         version: "0.0.1",
         pluginId: "whatsapp",
         npmRoot,
@@ -800,7 +800,7 @@ describe("installPluginFromNpmSpec", () => {
     ]);
 
     const result1 = await installPluginFromNpmSpec({
-      spec: "@openclaw/voice-call@0.0.1",
+      spec: "@brikko-studio/voice-call@0.0.1",
       npmDir: npmRoot,
       logger: { info: () => {}, warn: () => {} },
     });
@@ -808,7 +808,7 @@ describe("installPluginFromNpmSpec", () => {
 
     runCommandWithTimeoutMock.mockClear();
     const result2 = await installPluginFromNpmSpec({
-      spec: "@openclaw/whatsapp@0.0.1",
+      spec: "@brikko-studio/whatsapp@0.0.1",
       npmDir: npmRoot,
       logger: { info: () => {}, warn: () => {} },
     });
@@ -818,13 +818,13 @@ describe("installPluginFromNpmSpec", () => {
       calls: runCommandWithTimeoutMock.mock.calls,
       npmRoot,
     });
-    expect(fs.existsSync(path.join(npmRoot, "node_modules", "@openclaw", "voice-call"))).toBe(true);
-    expect(fs.existsSync(path.join(npmRoot, "node_modules", "@openclaw", "whatsapp"))).toBe(true);
+    expect(fs.existsSync(path.join(npmRoot, "node_modules", "@brikko-studio", "voice-call"))).toBe(true);
+    expect(fs.existsSync(path.join(npmRoot, "node_modules", "@brikko-studio", "whatsapp"))).toBe(true);
   });
 
   it("aborts when integrity drift callback rejects the fetched artifact", async () => {
     mockNpmViewMetadataResult(runCommandWithTimeoutMock, {
-      name: "@openclaw/voice-call",
+      name: "@brikko-studio/voice-call",
       version: "0.0.1",
       integrity: "sha512-new",
       shasum: "newshasum",
@@ -832,7 +832,7 @@ describe("installPluginFromNpmSpec", () => {
 
     const onIntegrityDrift = vi.fn(async () => false);
     const result = await installPluginFromNpmSpec({
-      spec: "@openclaw/voice-call@0.0.1",
+      spec: "@brikko-studio/voice-call@0.0.1",
       expectedIntegrity: "sha512-old",
       onIntegrityDrift,
     });
@@ -855,7 +855,7 @@ describe("installPluginFromNpmSpec", () => {
     });
 
     const result = await installPluginFromNpmSpec({
-      spec: "@openclaw/not-found",
+      spec: "@brikko-studio/not-found",
       logger: { info: () => {}, warn: () => {} },
     });
     expect(result.ok).toBe(false);
@@ -866,27 +866,27 @@ describe("installPluginFromNpmSpec", () => {
 
   it("handles prerelease npm specs correctly", async () => {
     mockNpmViewMetadataResult(runCommandWithTimeoutMock, {
-      name: "@openclaw/voice-call",
+      name: "@brikko-studio/voice-call",
       version: "0.0.2-beta.1",
       integrity: "sha512-beta",
       shasum: "betashasum",
     });
 
     const rejected = await installPluginFromNpmSpec({
-      spec: "@openclaw/voice-call",
+      spec: "@brikko-studio/voice-call",
       logger: { info: () => {}, warn: () => {} },
     });
     expect(rejected.ok).toBe(false);
     if (!rejected.ok) {
       expect(rejected.error).toContain("prerelease version 0.0.2-beta.1");
-      expect(rejected.error).toContain('"@openclaw/voice-call@beta"');
+      expect(rejected.error).toContain('"@brikko-studio/voice-call@beta"');
     }
 
     runCommandWithTimeoutMock.mockReset();
     const npmRoot = path.join(suiteTempRootTracker.makeTempDir(), "npm");
     mockNpmViewAndInstall({
-      spec: "@openclaw/voice-call@beta",
-      packageName: "@openclaw/voice-call",
+      spec: "@brikko-studio/voice-call@beta",
+      packageName: "@brikko-studio/voice-call",
       version: "0.0.2-beta.1",
       pluginId: "voice-call",
       integrity: "sha512-beta",
@@ -895,7 +895,7 @@ describe("installPluginFromNpmSpec", () => {
     });
 
     const accepted = await installPluginFromNpmSpec({
-      spec: "@openclaw/voice-call@beta",
+      spec: "@brikko-studio/voice-call@beta",
       npmDir: npmRoot,
       logger: { info: () => {}, warn: () => {} },
     });
@@ -904,7 +904,7 @@ describe("installPluginFromNpmSpec", () => {
       return;
     }
     expect(accepted.npmResolution?.version).toBe("0.0.2-beta.1");
-    expect(accepted.npmResolution?.resolvedSpec).toBe("@openclaw/voice-call@0.0.2-beta.1");
+    expect(accepted.npmResolution?.resolvedSpec).toBe("@brikko-studio/voice-call@0.0.2-beta.1");
     expectNpmInstallIntoRoot({
       calls: runCommandWithTimeoutMock.mock.calls,
       npmRoot,

@@ -1,8 +1,8 @@
 {
-  "name": "@openclaw/qa-channel",
+  "name": "@brikko-studio/qa-channel",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw QA synthetic channel plugin",
+  "description": "Brikko Studio QA synthetic channel plugin",
   "type": "module",
   "exports": {
     ".": "./index.ts",
@@ -14,18 +14,18 @@
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*",
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],
@@ -37,7 +37,7 @@
       "detailLabel": "QA Channel",
       "docsPath": "/channels/qa-channel",
       "docsLabel": "qa-channel",
-      "blurb": "Synthetic Slack-class transport for automated OpenClaw QA scenarios.",
+      "blurb": "Synthetic Slack-class transport for automated Brikko Studio QA scenarios.",
       "systemImage": "checklist",
       "order": 999,
       "exposure": {

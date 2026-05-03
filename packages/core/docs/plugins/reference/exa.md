@@ -11,8 +11,8 @@ Adds web search provider support.
 
 ## Distribution
 
-- Package: `@openclaw/exa-plugin`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/exa-plugin`
+- Install route: included in Brikko Studio
 
 ## Surface
 

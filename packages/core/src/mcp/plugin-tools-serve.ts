@@ -1,5 +1,5 @@
 /**
- * Standalone MCP server that exposes OpenClaw plugin-registered tools
+ * Standalone MCP server that exposes Brikko Studio plugin-registered tools
  * (e.g. memory-lancedb's memory_recall, memory_store, memory_forget)
  * so ACP sessions running Claude Code can use them.
  *
@@ -10,13 +10,13 @@ import { pathToFileURL } from "node:url";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import type { AnyAgentTool } from "../agents/tools/common.js";
 import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { routeLogsToStderr } from "../logging/console.js";
 import { ensureStandalonePluginToolRegistryLoaded, resolvePluginTools } from "../plugins/tools.js";
 import { connectToolsMcpServerToStdio, createToolsMcpServer } from "./tools-stdio-server.js";
 
-function resolveTools(config: OpenClawConfig): AnyAgentTool[] {
+function resolveTools(config: Brikko StudioConfig): AnyAgentTool[] {
   ensureStandalonePluginToolRegistryLoaded({
     context: { config },
   });
@@ -28,13 +28,13 @@ function resolveTools(config: OpenClawConfig): AnyAgentTool[] {
 
 export function createPluginToolsMcpServer(
   params: {
-    config?: OpenClawConfig;
+    config?: Brikko StudioConfig;
     tools?: AnyAgentTool[];
   } = {},
 ): Server {
   const cfg = params.config ?? getRuntimeConfig();
   const tools = params.tools ?? resolveTools(cfg);
-  return createToolsMcpServer({ name: "openclaw-plugin-tools", tools });
+  return createToolsMcpServer({ name: "brikko-studio-plugin-tools", tools });
 }
 
 export async function servePluginToolsMcp(): Promise<void> {

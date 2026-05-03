@@ -1,6 +1,6 @@
-import type { ReplyToMode } from "openclaw/plugin-sdk/config-types";
-import { createReplyReferencePlanner } from "openclaw/plugin-sdk/reply-reference";
-import { normalizeOptionalString, truncateUtf16Safe } from "openclaw/plugin-sdk/text-runtime";
+import type { ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import { createReplyReferencePlanner } from "brikko-studio/plugin-sdk/reply-reference";
+import { normalizeOptionalString, truncateUtf16Safe } from "brikko-studio/plugin-sdk/text-runtime";
 import { ChannelType, getChannelMessage, type Client } from "../internal/discord.js";
 import {
   resolveDiscordChannelIdSafe,

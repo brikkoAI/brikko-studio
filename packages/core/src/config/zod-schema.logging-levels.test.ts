@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { OpenClawSchema } from "./zod-schema.js";
+import { Brikko StudioSchema } from "./zod-schema.js";
 
-describe("OpenClawSchema logging levels", () => {
+describe("Brikko StudioSchema logging levels", () => {
   it("accepts valid logging level values for level and consoleLevel", () => {
     expect(() =>
-      OpenClawSchema.parse({
+      Brikko StudioSchema.parse({
         logging: {
           level: "debug",
           consoleLevel: "warn",
@@ -15,14 +15,14 @@ describe("OpenClawSchema logging levels", () => {
 
   it("rejects invalid logging level values", () => {
     expect(() =>
-      OpenClawSchema.parse({
+      Brikko StudioSchema.parse({
         logging: {
           level: "loud",
         },
       }),
     ).toThrow();
     expect(() =>
-      OpenClawSchema.parse({
+      Brikko StudioSchema.parse({
         logging: {
           consoleLevel: "verbose",
         },

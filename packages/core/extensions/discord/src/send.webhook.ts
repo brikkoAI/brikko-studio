@@ -1,6 +1,6 @@
-import { recordChannelActivity } from "openclaw/plugin-sdk/channel-activity-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { recordChannelActivity } from "brikko-studio/plugin-sdk/channel-activity-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveDiscordClientAccountContext } from "./client.js";
 import {
   DiscordError,
@@ -13,7 +13,7 @@ import { rewriteDiscordKnownMentions } from "./mentions.js";
 import type { DiscordSendResult } from "./send.types.js";
 
 type DiscordWebhookSendOpts = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   webhookId: string;
   webhookToken: string;
   accountId?: string;

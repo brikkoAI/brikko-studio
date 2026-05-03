@@ -11,7 +11,7 @@ function runInstallShell(script: string, env: NodeJS.ProcessEnv = {}) {
     encoding: "utf8",
     env: {
       ...process.env,
-      OPENCLAW_INSTALL_SH_NO_RUN: "1",
+      BRIKKO_STUDIO_INSTALL_SH_NO_RUN: "1",
       ...env,
     },
   });
@@ -48,7 +48,7 @@ describe("install.sh", () => {
       /# Step 2: Node\.js\s+load_nvm_for_node_detection\s+if ! check_node; then/,
     );
 
-    const tmp = mkdtempSync(join(tmpdir(), "openclaw-install-nvm-"));
+    const tmp = mkdtempSync(join(tmpdir(), "brikko-studio-install-nvm-"));
     const home = join(tmp, "home");
     const systemBin = join(tmp, "system-bin");
     const nvmBin = join(home, ".nvm/versions/node/v22.22.1/bin");
@@ -110,7 +110,7 @@ describe("install.sh", () => {
   });
 
   it("warns before redirecting an unwritable npm prefix", () => {
-    const tmp = mkdtempSync(join(tmpdir(), "openclaw-install-npm-prefix-"));
+    const tmp = mkdtempSync(join(tmpdir(), "brikko-studio-install-npm-prefix-"));
     const home = join(tmp, "home");
     const events = join(tmp, "events.log");
     mkdirSync(home, { recursive: true });
@@ -157,7 +157,7 @@ describe("install.sh", () => {
     expect(noSudoWarningIndex).toBeGreaterThan(npmSetIndex);
     expect(result?.stdout).toContain("npm global prefix is not writable");
     expect(result?.stdout).toContain("npm normally writes that setting to ~/.npmrc");
-    expect(result?.stdout).toContain("npm i -g openclaw@latest");
+    expect(result?.stdout).toContain("npm i -g brikko-studio@latest");
     expect(result?.stdout).toContain("using this user prefix");
     expect(result?.stdout).not.toContain("has been saved");
   });
@@ -261,7 +261,7 @@ describe("install.sh macOS Homebrew Node behavior", () => {
   });
 
   it("reruns spinner-wrapped commands when gum reports ioctl failure", () => {
-    const dir = mkdtempSync(join(tmpdir(), "openclaw-install-sh-gum-"));
+    const dir = mkdtempSync(join(tmpdir(), "brikko-studio-install-sh-gum-"));
     try {
       const gumPath = join(dir, "gum");
       const commandPath = join(dir, "command");
@@ -295,46 +295,46 @@ describe("install.sh macOS Homebrew Node behavior", () => {
   });
 });
 
-describe("install.sh duplicate OpenClaw install detection", () => {
+describe("install.sh duplicate Brikko Studio install detection", () => {
   it("warns with concrete package paths and versions for duplicate npm roots", () => {
     const result = runInstallShell(`
       set -euo pipefail
       source "${SCRIPT_PATH}"
       root="$(mktemp -d)"
       trap 'rm -rf "$root"' EXIT
-      mkdir -p "$root/brew/openclaw" "$root/fnm/openclaw"
-      printf '{"version":"2026.3.7"}\\n' > "$root/brew/openclaw/package.json"
-      printf '{"version":"2026.3.1"}\\n' > "$root/fnm/openclaw/package.json"
-      collect_openclaw_npm_root_candidates() { printf '%s\\n' "$root/brew" "$root/fnm"; }
-      OPENCLAW_BIN="$root/fnm/.bin/openclaw"
+      mkdir -p "$root/brew/brikko-studio" "$root/fnm/brikko-studio"
+      printf '{"version":"2026.3.7"}\\n' > "$root/brew/brikko-studio/package.json"
+      printf '{"version":"2026.3.1"}\\n' > "$root/fnm/brikko-studio/package.json"
+      collect_brikko-studio_npm_root_candidates() { printf '%s\\n' "$root/brew" "$root/fnm"; }
+      BRIKKO_STUDIO_BIN="$root/fnm/.bin/brikko-studio"
       ui_warn() { echo "WARN: $*"; }
-      warn_duplicate_openclaw_global_installs
+      warn_duplicate_brikko-studio_global_installs
     `);
 
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain("Multiple OpenClaw global installs detected");
+    expect(result.stdout).toContain("Multiple Brikko Studio global installs detected");
     expect(result.stdout).toContain("2026.3.7");
     expect(result.stdout).toContain("2026.3.1");
-    expect(result.stdout).toContain("/brew/openclaw");
-    expect(result.stdout).toContain("/fnm/openclaw");
-    expect(result.stdout).toContain("Active openclaw:");
-    expect(result.stdout).toContain("npm uninstall -g openclaw");
+    expect(result.stdout).toContain("/brew/brikko-studio");
+    expect(result.stdout).toContain("/fnm/brikko-studio");
+    expect(result.stdout).toContain("Active brikko-studio:");
+    expect(result.stdout).toContain("npm uninstall -g brikko-studio");
   });
 
-  it("stays quiet when only one OpenClaw npm root exists", () => {
+  it("stays quiet when only one Brikko Studio npm root exists", () => {
     const result = runInstallShell(`
       set -euo pipefail
       source "${SCRIPT_PATH}"
       root="$(mktemp -d)"
       trap 'rm -rf "$root"' EXIT
-      mkdir -p "$root/only/openclaw"
-      printf '{"version":"2026.3.7"}\\n' > "$root/only/openclaw/package.json"
-      collect_openclaw_npm_root_candidates() { printf '%s\\n' "$root/only"; }
+      mkdir -p "$root/only/brikko-studio"
+      printf '{"version":"2026.3.7"}\\n' > "$root/only/brikko-studio/package.json"
+      collect_brikko-studio_npm_root_candidates() { printf '%s\\n' "$root/only"; }
       ui_warn() { echo "WARN: $*"; }
-      warn_duplicate_openclaw_global_installs
+      warn_duplicate_brikko-studio_global_installs
     `);
 
     expect(result.status).toBe(0);
-    expect(result.stdout).not.toContain("Multiple OpenClaw global installs detected");
+    expect(result.stdout).not.toContain("Multiple Brikko Studio global installs detected");
   });
 });

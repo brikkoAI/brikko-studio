@@ -1,21 +1,21 @@
 import { randomUUID } from "node:crypto";
 import * as dns from "node:dns";
-import type { TelegramNetworkConfig } from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import type { TelegramNetworkConfig } from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import {
   createPinnedLookup,
   hasEnvHttpProxyAgentConfigured,
   resolveEnvHttpProxyAgentOptions,
   resolveFetch,
   type PinnedDispatcherPolicy,
-} from "openclaw/plugin-sdk/fetch-runtime";
+} from "brikko-studio/plugin-sdk/fetch-runtime";
 import {
   captureHttpExchange,
   resolveEffectiveDebugProxyUrl,
-} from "openclaw/plugin-sdk/proxy-capture";
-import { resolveRequestUrl } from "openclaw/plugin-sdk/request-url";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/proxy-capture";
+import { resolveRequestUrl } from "brikko-studio/plugin-sdk/request-url";
+import { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { Agent, EnvHttpProxyAgent, ProxyAgent, fetch as undiciFetch } from "undici";
 import { normalizeTelegramApiRoot } from "./api-root.js";
 import {
@@ -35,7 +35,7 @@ const TELEGRAM_FALLBACK_IPS: readonly string[] = ["149.154.167.220"];
 // strict enough that (a) idle sockets are closed even when the pool is still
 // actively used and (b) the pool itself cannot grow unbounded under transient
 // concurrency spikes. These values are a defence-in-depth layer; the primary
-// fix for the leak observed in openclaw#68128 is the transport lifecycle that
+// fix for the leak observed in brikko-studio#68128 is the transport lifecycle that
 // calls `close()` on abandoned dispatchers.
 const TELEGRAM_DISPATCHER_KEEP_ALIVE_TIMEOUT_MS = 30_000;
 const TELEGRAM_DISPATCHER_KEEP_ALIVE_MAX_TIMEOUT_MS = 600_000;
@@ -230,10 +230,10 @@ function hasEnvHttpProxyForTelegramApi(env: NodeJS.ProcessEnv = process.env): bo
   return hasEnvHttpProxyAgentConfigured(env);
 }
 
-function resolveOpenClawProxyUrlForTelegram(
+function resolveBrikko StudioProxyUrlForTelegram(
   env: NodeJS.ProcessEnv = process.env,
 ): string | undefined {
-  const proxyUrl = env.OPENCLAW_PROXY_URL?.trim();
+  const proxyUrl = env.BRIKKO_STUDIO_PROXY_URL?.trim();
   return proxyUrl ? proxyUrl : undefined;
 }
 
@@ -594,7 +594,7 @@ export function resolveTelegramTransport(
     : undefined;
   const hasEnvProxy = !explicitProxyUrl && hasEnvHttpProxyForTelegramApi();
   const managedProxyUrl =
-    !effectiveProxyFetch && !hasEnvProxy ? resolveOpenClawProxyUrlForTelegram() : undefined;
+    !effectiveProxyFetch && !hasEnvProxy ? resolveBrikko StudioProxyUrlForTelegram() : undefined;
   const resolvedExplicitProxyUrl = explicitProxyUrl ?? managedProxyUrl;
   const undiciSourceFetch = resolveWrappedFetch(undiciFetch as unknown as typeof fetch);
   const sourceFetch = resolvedExplicitProxyUrl

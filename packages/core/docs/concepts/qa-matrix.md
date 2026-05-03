@@ -1,39 +1,39 @@
 ---
 summary: "Maintainer reference for the Docker-backed Matrix live QA lane: CLI, profiles, env vars, scenarios, and output artifacts."
 read_when:
-  - Running pnpm openclaw qa matrix locally
+  - Running pnpm brikko-studio qa matrix locally
   - Adding or selecting Matrix QA scenarios
   - Triaging Matrix QA failures, timeouts, or stuck cleanup
 title: "Matrix QA"
 ---
 
-The Matrix QA lane runs the bundled `@openclaw/matrix` plugin against a disposable Tuwunel homeserver in Docker, with temporary driver, SUT, and observer accounts plus seeded rooms. It is the live transport-real coverage for Matrix.
+The Matrix QA lane runs the bundled `@brikko-studio/matrix` plugin against a disposable Tuwunel homeserver in Docker, with temporary driver, SUT, and observer accounts plus seeded rooms. It is the live transport-real coverage for Matrix.
 
-This is maintainer-only tooling. Packaged OpenClaw releases intentionally omit `qa-lab`, so `openclaw qa` is only available from a source checkout. Source checkouts load the bundled runner directly — no plugin install step is needed.
+This is maintainer-only tooling. Packaged Brikko Studio releases intentionally omit `qa-lab`, so `brikko-studio qa` is only available from a source checkout. Source checkouts load the bundled runner directly — no plugin install step is needed.
 
 For broader QA framework context, see [QA overview](/concepts/qa-e2e-automation).
 
 ## Quick start
 
 ```bash
-pnpm openclaw qa matrix --profile fast --fail-fast
+pnpm brikko-studio qa matrix --profile fast --fail-fast
 ```
 
-Plain `pnpm openclaw qa matrix` runs `--profile all` and does not stop on first failure. Use `--profile fast --fail-fast` for a release gate; shard the catalog with `--profile transport|media|e2ee-smoke|e2ee-deep|e2ee-cli` when running the full inventory in parallel.
+Plain `pnpm brikko-studio qa matrix` runs `--profile all` and does not stop on first failure. Use `--profile fast --fail-fast` for a release gate; shard the catalog with `--profile transport|media|e2ee-smoke|e2ee-deep|e2ee-cli` when running the full inventory in parallel.
 
 ## What the lane does
 
 1. Provisions a disposable Tuwunel homeserver in Docker (default image `ghcr.io/matrix-construct/tuwunel:v1.5.1`, server name `matrix-qa.test`, port `28008`).
-2. Registers three temporary users — `driver` (sends inbound traffic), `sut` (the OpenClaw Matrix account under test), `observer` (third-party traffic capture).
+2. Registers three temporary users — `driver` (sends inbound traffic), `sut` (the Brikko Studio Matrix account under test), `observer` (third-party traffic capture).
 3. Seeds rooms required by the selected scenarios (main, threading, media, restart, secondary, allowlist, E2EE, verification DM, etc.).
-4. Starts a child OpenClaw gateway with the real Matrix plugin scoped to the SUT account; `qa-channel` is not loaded in the child.
+4. Starts a child Brikko Studio gateway with the real Matrix plugin scoped to the SUT account; `qa-channel` is not loaded in the child.
 5. Runs scenarios in sequence, observing events through the driver/observer Matrix clients.
 6. Tears down the homeserver, writes report and summary artifacts, then exits.
 
 ## CLI
 
 ```text
-pnpm openclaw qa matrix [options]
+pnpm brikko-studio qa matrix [options]
 ```
 
 ### Common flags
@@ -72,7 +72,7 @@ The selected profile decides which scenarios run.
 | `media`         | Image, audio, video, PDF, EPUB attachment coverage.                                                                                                                                                                                  |
 | `e2ee-smoke`    | Minimum E2EE coverage — basic encrypted reply, thread follow-up, bootstrap success.                                                                                                                                                  |
 | `e2ee-deep`     | Exhaustive E2EE state-loss, backup, key, and recovery scenarios.                                                                                                                                                                     |
-| `e2ee-cli`      | `openclaw matrix encryption setup` and `verify *` CLI scenarios driven through the QA harness.                                                                                                                                       |
+| `e2ee-cli`      | `brikko-studio matrix encryption setup` and `verify *` CLI scenarios driven through the QA harness.                                                                                                                                       |
 
 The exact mapping lives in `extensions/qa-matrix/src/runners/contract/scenario-catalog.ts`.
 
@@ -98,15 +98,15 @@ Pass `--scenario <id>` (repeatable) to run a hand-picked set; combine with `--pr
 
 | Variable                                | Default                                   | Effect                                                                                                                                                                                         |
 | --------------------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `OPENCLAW_QA_MATRIX_TIMEOUT_MS`         | `1800000` (30 min)                        | Hard upper bound on the entire run.                                                                                                                                                            |
-| `OPENCLAW_QA_MATRIX_CANARY_TIMEOUT_MS`  | `45000`                                   | Bound for the initial canary reply. Release CI raises this on shared runners so a slow first gateway turn does not fail before scenario coverage starts.                                       |
-| `OPENCLAW_QA_MATRIX_NO_REPLY_WINDOW_MS` | `8000`                                    | Quiet window for negative no-reply assertions. Clamped to `≤` the run timeout.                                                                                                                 |
-| `OPENCLAW_QA_MATRIX_CLEANUP_TIMEOUT_MS` | `90000`                                   | Bound for Docker teardown. Failure surfaces include the recovery `docker compose ... down --remove-orphans` command.                                                                           |
-| `OPENCLAW_QA_MATRIX_TUWUNEL_IMAGE`      | `ghcr.io/matrix-construct/tuwunel:v1.5.1` | Override the homeserver image when validating against a different Tuwunel version.                                                                                                             |
-| `OPENCLAW_QA_MATRIX_PROGRESS`           | on                                        | `0` silences `[matrix-qa] ...` progress lines on stderr. `1` forces them on.                                                                                                                   |
-| `OPENCLAW_QA_MATRIX_CAPTURE_CONTENT`    | redacted                                  | `1` keeps message body and `formatted_body` in `matrix-qa-observed-events.json`. Default redacts to keep CI artifacts safe.                                                                    |
-| `OPENCLAW_QA_MATRIX_DISABLE_FORCE_EXIT` | off                                       | `1` skips the deterministic `process.exit` after artifact write. The default forces exit because matrix-js-sdk's native crypto handles can keep the event loop alive past artifact completion. |
-| `OPENCLAW_RUN_NODE_OUTPUT_LOG`          | unset                                     | When set by an outer launcher (e.g. `scripts/run-node.mjs`), Matrix QA reuses that log path instead of starting its own tee.                                                                   |
+| `BRIKKO_STUDIO_QA_MATRIX_TIMEOUT_MS`         | `1800000` (30 min)                        | Hard upper bound on the entire run.                                                                                                                                                            |
+| `BRIKKO_STUDIO_QA_MATRIX_CANARY_TIMEOUT_MS`  | `45000`                                   | Bound for the initial canary reply. Release CI raises this on shared runners so a slow first gateway turn does not fail before scenario coverage starts.                                       |
+| `BRIKKO_STUDIO_QA_MATRIX_NO_REPLY_WINDOW_MS` | `8000`                                    | Quiet window for negative no-reply assertions. Clamped to `≤` the run timeout.                                                                                                                 |
+| `BRIKKO_STUDIO_QA_MATRIX_CLEANUP_TIMEOUT_MS` | `90000`                                   | Bound for Docker teardown. Failure surfaces include the recovery `docker compose ... down --remove-orphans` command.                                                                           |
+| `BRIKKO_STUDIO_QA_MATRIX_TUWUNEL_IMAGE`      | `ghcr.io/matrix-construct/tuwunel:v1.5.1` | Override the homeserver image when validating against a different Tuwunel version.                                                                                                             |
+| `BRIKKO_STUDIO_QA_MATRIX_PROGRESS`           | on                                        | `0` silences `[matrix-qa] ...` progress lines on stderr. `1` forces them on.                                                                                                                   |
+| `BRIKKO_STUDIO_QA_MATRIX_CAPTURE_CONTENT`    | redacted                                  | `1` keeps message body and `formatted_body` in `matrix-qa-observed-events.json`. Default redacts to keep CI artifacts safe.                                                                    |
+| `BRIKKO_STUDIO_QA_MATRIX_DISABLE_FORCE_EXIT` | off                                       | `1` skips the deterministic `process.exit` after artifact write. The default forces exit because matrix-js-sdk's native crypto handles can keep the event loop alive past artifact completion. |
+| `BRIKKO_STUDIO_RUN_NODE_OUTPUT_LOG`          | unset                                     | When set by an outer launcher (e.g. `scripts/run-node.mjs`), Matrix QA reuses that log path instead of starting its own tee.                                                                   |
 
 ## Output artifacts
 
@@ -114,18 +114,18 @@ Written to `--output-dir`:
 
 - `matrix-qa-report.md` — Markdown protocol report (what passed, failed, was skipped, and why).
 - `matrix-qa-summary.json` — Structured summary suitable for CI parsing and dashboards.
-- `matrix-qa-observed-events.json` — Observed Matrix events from the driver and observer clients. Bodies are redacted unless `OPENCLAW_QA_MATRIX_CAPTURE_CONTENT=1`; approval metadata is summarized with selected safe fields and truncated command preview.
-- `matrix-qa-output.log` — Combined stdout/stderr from the run. If `OPENCLAW_RUN_NODE_OUTPUT_LOG` is set, the outer launcher's log is reused instead.
+- `matrix-qa-observed-events.json` — Observed Matrix events from the driver and observer clients. Bodies are redacted unless `BRIKKO_STUDIO_QA_MATRIX_CAPTURE_CONTENT=1`; approval metadata is summarized with selected safe fields and truncated command preview.
+- `matrix-qa-output.log` — Combined stdout/stderr from the run. If `BRIKKO_STUDIO_RUN_NODE_OUTPUT_LOG` is set, the outer launcher's log is reused instead.
 
 The default output dir is `<repo>/.artifacts/qa-e2e/matrix-<timestamp>` so successive runs do not overwrite each other.
 
 ## Triage tips
 
-- **Run hangs near the end:** `matrix-js-sdk` native crypto handles can outlive the harness. The default forces a clean `process.exit` after artifact write; if you have unset `OPENCLAW_QA_MATRIX_DISABLE_FORCE_EXIT=1`, expect the process to linger.
+- **Run hangs near the end:** `matrix-js-sdk` native crypto handles can outlive the harness. The default forces a clean `process.exit` after artifact write; if you have unset `BRIKKO_STUDIO_QA_MATRIX_DISABLE_FORCE_EXIT=1`, expect the process to linger.
 - **Cleanup error:** look for the printed recovery command (a `docker compose ... down --remove-orphans` invocation) and run it manually to release the homeserver port.
-- **Flaky negative-assertion windows in CI:** lower `OPENCLAW_QA_MATRIX_NO_REPLY_WINDOW_MS` (default 8 s) when CI is fast; raise it on slow shared runners.
-- **Need redacted bodies for a bug report:** rerun with `OPENCLAW_QA_MATRIX_CAPTURE_CONTENT=1` and attach `matrix-qa-observed-events.json`. Treat the resulting artifact as sensitive.
-- **Different Tuwunel version:** point `OPENCLAW_QA_MATRIX_TUWUNEL_IMAGE` at the version under test. The lane checks in only the pinned default image.
+- **Flaky negative-assertion windows in CI:** lower `BRIKKO_STUDIO_QA_MATRIX_NO_REPLY_WINDOW_MS` (default 8 s) when CI is fast; raise it on slow shared runners.
+- **Need redacted bodies for a bug report:** rerun with `BRIKKO_STUDIO_QA_MATRIX_CAPTURE_CONTENT=1` and attach `matrix-qa-observed-events.json`. Treat the resulting artifact as sensitive.
+- **Different Tuwunel version:** point `BRIKKO_STUDIO_QA_MATRIX_TUWUNEL_IMAGE` at the version under test. The lane checks in only the pinned default image.
 
 ## Live transport contract
 

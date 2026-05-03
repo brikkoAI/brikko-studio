@@ -1,11 +1,11 @@
-import type { ImageGenerationProvider } from "openclaw/plugin-sdk/image-generation";
-import { isProviderApiKeyConfigured } from "openclaw/plugin-sdk/provider-auth";
-import { resolveApiKeyForProvider } from "openclaw/plugin-sdk/provider-auth-runtime";
+import type { ImageGenerationProvider } from "brikko-studio/plugin-sdk/image-generation";
+import { isProviderApiKeyConfigured } from "brikko-studio/plugin-sdk/provider-auth";
+import { resolveApiKeyForProvider } from "brikko-studio/plugin-sdk/provider-auth-runtime";
 import {
   assertOkOrThrowHttpError,
   postJsonRequest,
   resolveProviderHttpRequestConfig,
-} from "openclaw/plugin-sdk/provider-http";
+} from "brikko-studio/plugin-sdk/provider-http";
 
 const DEFAULT_MINIMAX_IMAGE_BASE_URL = "https://api.minimax.io";
 const CN_MINIMAX_IMAGE_BASE_URL = "https://api.minimaxi.com";

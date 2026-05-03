@@ -1,9 +1,9 @@
 import type { AgentTool } from "@mariozechner/pi-agent-core";
-import { resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-payload";
+import { resolveSendableOutboundReplyParts } from "brikko-studio/plugin-sdk/reply-payload";
 import type { TSchema } from "typebox";
 import type { ThinkLevel } from "../../auto-reply/thinking.js";
 import { isSilentReplyPayloadText, SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
 import {
   resolveProviderFollowupFallbackRoute,
@@ -33,9 +33,9 @@ function hasMedia(payload: { mediaUrl?: string; mediaUrls?: string[] }): boolean
   return resolveSendableOutboundReplyParts(payload).hasMedia;
 }
 
-function asOpenClawConfig(value: unknown): OpenClawConfig | undefined {
+function asBrikko StudioConfig(value: unknown): Brikko StudioConfig | undefined {
   return value !== null && typeof value === "object" && !Array.isArray(value)
-    ? (value as OpenClawConfig)
+    ? (value as Brikko StudioConfig)
     : undefined;
 }
 
@@ -52,7 +52,7 @@ function asThinkLevel(value: BuildAgentRuntimePlanParams["thinkingLevel"]): Thin
 export function buildAgentRuntimeDeliveryPlan(
   params: BuildAgentRuntimeDeliveryPlanParams,
 ): AgentRuntimeDeliveryPlan {
-  const config = asOpenClawConfig(params.config);
+  const config = asBrikko StudioConfig(params.config);
   return {
     isSilentPayload(payload): boolean {
       return isSilentReplyPayloadText(payload.text, SILENT_REPLY_TOKEN) && !hasMedia(payload);
@@ -86,7 +86,7 @@ export function buildAgentRuntimeOutcomePlan(): AgentRuntimeOutcomePlan {
 }
 
 export function buildAgentRuntimePlan(params: BuildAgentRuntimePlanParams): AgentRuntimePlan {
-  const config = asOpenClawConfig(params.config);
+  const config = asBrikko StudioConfig(params.config);
   const model = asProviderRuntimeModel(params.model);
   const modelApi = params.modelApi ?? params.model?.api ?? undefined;
   const transport = params.resolvedTransport;
@@ -169,7 +169,7 @@ export function buildAgentRuntimePlan(params: BuildAgentRuntimePlanParams): Agen
           workspaceDir: context.workspaceDir ?? params.workspaceDir,
           context: {
             ...context,
-            config: asOpenClawConfig(context.config),
+            config: asBrikko StudioConfig(context.config),
           },
         });
       },

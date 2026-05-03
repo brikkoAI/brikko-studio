@@ -3,7 +3,7 @@ import path from "node:path";
 import {
   clearMemoryPluginState,
   registerMemoryCorpusSupplement,
-} from "openclaw/plugin-sdk/memory-host-core";
+} from "brikko-studio/plugin-sdk/memory-host-core";
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   getMemorySearchManagerMockCalls,
@@ -17,7 +17,7 @@ import {
 } from "./memory-tool-manager-mock.js";
 import { createMemoryCoreTestHarness } from "./test-helpers.js";
 import {
-  asOpenClawConfig,
+  asBrikko StudioConfig,
   createAutoCitationsMemorySearchTool,
   createDefaultMemoryToolConfig,
   createMemoryGetToolOrThrow,
@@ -72,7 +72,7 @@ beforeEach(() => {
 describe("memory search citations", () => {
   it("appends source information when citations are enabled", async () => {
     setMemoryBackend("builtin");
-    const cfg = asOpenClawConfig({
+    const cfg = asBrikko StudioConfig({
       memory: { citations: "on" },
       agents: { list: [{ id: "main", default: true }] },
     });
@@ -85,7 +85,7 @@ describe("memory search citations", () => {
 
   it("leaves snippet untouched when citations are off", async () => {
     setMemoryBackend("builtin");
-    const cfg = asOpenClawConfig({
+    const cfg = asBrikko StudioConfig({
       memory: { citations: "off" },
       agents: { list: [{ id: "main", default: true }] },
     });
@@ -98,7 +98,7 @@ describe("memory search citations", () => {
 
   it("clamps decorated snippets to qmd injected budget", async () => {
     setMemoryBackend("qmd");
-    const cfg = asOpenClawConfig({
+    const cfg = asBrikko StudioConfig({
       memory: { citations: "on", backend: "qmd", qmd: { limits: { maxInjectedChars: 20 } } },
       agents: { list: [{ id: "main", default: true }] },
     });

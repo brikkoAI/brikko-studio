@@ -2,7 +2,7 @@ import {
   resolveConfiguredBindingRecord,
   resolveConfiguredBindingRecordBySessionKey,
 } from "../channels/plugins/binding-registry.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveConfiguredAcpBindingSpecFromRecord,
   toResolvedConfiguredAcpBinding,
@@ -11,7 +11,7 @@ import {
 } from "./persistent-bindings.types.js";
 
 export function resolveConfiguredAcpBindingRecord(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel: string;
   accountId: string;
   conversationId: string;
@@ -22,7 +22,7 @@ export function resolveConfiguredAcpBindingRecord(params: {
 }
 
 export function resolveConfiguredAcpBindingSpecBySessionKey(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionKey: string;
 }): ConfiguredAcpBindingSpec | null {
   const resolved = resolveConfiguredBindingRecordBySessionKey(params);

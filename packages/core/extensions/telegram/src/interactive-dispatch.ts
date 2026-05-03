@@ -5,7 +5,7 @@ import {
   type PluginConversationBindingRequestParams,
   type PluginConversationBindingRequestResult,
   type PluginInteractiveRegistration,
-} from "openclaw/plugin-sdk/plugin-runtime";
+} from "brikko-studio/plugin-sdk/plugin-runtime";
 
 type TelegramInteractiveButtons = Array<
   Array<{ text: string; callback_data: string; style?: "danger" | "success" | "primary" }>

@@ -7,28 +7,28 @@ import {
 } from "./config-paths.js";
 import { readConfigFileSnapshot } from "./config.js";
 import { findLegacyConfigIssues } from "./legacy.js";
-import { buildWebSearchProviderConfig, withTempHome, writeOpenClawConfig } from "./test-helpers.js";
+import { buildWebSearchProviderConfig, withTempHome, writeBrikko StudioConfig } from "./test-helpers.js";
 import { validateConfigObject, validateConfigObjectRaw } from "./validation.js";
-import { OpenClawSchema } from "./zod-schema.js";
+import { Brikko StudioSchema } from "./zod-schema.js";
 
 describe("$schema key in config (#14998)", () => {
   it("accepts config with $schema string", () => {
-    const result = OpenClawSchema.safeParse({
-      $schema: "https://openclaw.ai/config.json",
+    const result = Brikko StudioSchema.safeParse({
+      $schema: "https://brikko-studio.ai/config.json",
     });
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.$schema).toBe("https://openclaw.ai/config.json");
+      expect(result.data.$schema).toBe("https://brikko-studio.ai/config.json");
     }
   });
 
   it("accepts config without $schema", () => {
-    const result = OpenClawSchema.safeParse({});
+    const result = Brikko StudioSchema.safeParse({});
     expect(result.success).toBe(true);
   });
 
   it("rejects non-string $schema", () => {
-    const result = OpenClawSchema.safeParse({ $schema: 123 });
+    const result = Brikko StudioSchema.safeParse({ $schema: 123 });
     expect(result.success).toBe(false);
   });
 
@@ -42,18 +42,18 @@ describe("$schema key in config (#14998)", () => {
 
   it("preserves $schema through validateConfigObject round-trip", () => {
     const res = validateConfigObject({
-      $schema: "https://openclaw.ai/config.json",
+      $schema: "https://brikko-studio.ai/config.json",
     });
     expect(res.ok).toBe(true);
     if (res.ok) {
-      expect(res.config.$schema).toBe("https://openclaw.ai/config.json");
+      expect(res.config.$schema).toBe("https://brikko-studio.ai/config.json");
     }
   });
 });
 
 describe("accessGroups config", () => {
   it("accepts Discord channel audience access groups", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       accessGroups: {
         maintainers: {
           type: "discord.channelAudience",
@@ -74,7 +74,7 @@ describe("accessGroups config", () => {
   });
 
   it("rejects unknown access group membership modes", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       accessGroups: {
         maintainers: {
           type: "discord.channelAudience",
@@ -89,7 +89,7 @@ describe("accessGroups config", () => {
   });
 
   it("accepts message sender access groups for any channel", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       accessGroups: {
         owners: {
           type: "message.senders",
@@ -114,7 +114,7 @@ describe("accessGroups config", () => {
 
 describe("plugins.slots.contextEngine", () => {
   it("accepts a contextEngine slot id", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       plugins: {
         slots: {
           contextEngine: "my-context-engine",
@@ -128,7 +128,7 @@ describe("plugins.slots.contextEngine", () => {
 describe("models.pricing", () => {
   it("accepts the model pricing bootstrap toggle", () => {
     for (const enabled of [true, false]) {
-      const result = OpenClawSchema.safeParse({
+      const result = Brikko StudioSchema.safeParse({
         models: {
           pricing: { enabled },
         },
@@ -138,7 +138,7 @@ describe("models.pricing", () => {
   });
 
   it("rejects non-boolean model pricing bootstrap values", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       models: {
         pricing: { enabled: "false" },
       },
@@ -149,7 +149,7 @@ describe("models.pricing", () => {
 
 describe("crestodian.rescue", () => {
   it("accepts documented rescue config", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       crestodian: {
         rescue: {
           enabled: "auto",
@@ -162,7 +162,7 @@ describe("crestodian.rescue", () => {
   });
 
   it("accepts boolean rescue enablement", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       crestodian: {
         rescue: {
           enabled: true,
@@ -174,7 +174,7 @@ describe("crestodian.rescue", () => {
   });
 
   it("rejects unknown rescue keys", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       crestodian: {
         rescue: {
           enabled: true,
@@ -200,7 +200,7 @@ describe("diagnostics.otel.captureContent", () => {
         systemPrompt: false,
       },
     ]) {
-      const result = OpenClawSchema.safeParse({
+      const result = Brikko StudioSchema.safeParse({
         diagnostics: {
           otel: {
             captureContent,
@@ -214,7 +214,7 @@ describe("diagnostics.otel.captureContent", () => {
 
 describe("auth.cooldowns auth_permanent backoff config", () => {
   it("accepts auth_permanent backoff knobs", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       auth: {
         cooldowns: {
           authPermanentBackoffMinutes: 10,
@@ -246,7 +246,7 @@ describe("ui.seamColor", () => {
 describe("gateway.controlUi.embedSandbox", () => {
   it("accepts strict, scripts, and trusted modes", () => {
     for (const mode of ["strict", "scripts", "trusted"] as const) {
-      const result = OpenClawSchema.safeParse({
+      const result = Brikko StudioSchema.safeParse({
         gateway: {
           controlUi: {
             embedSandbox: mode,
@@ -258,7 +258,7 @@ describe("gateway.controlUi.embedSandbox", () => {
   });
 
   it("rejects unsupported values", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       gateway: {
         controlUi: {
           embedSandbox: "yolo",
@@ -272,7 +272,7 @@ describe("gateway.controlUi.embedSandbox", () => {
 describe("gateway.controlUi.allowExternalEmbedUrls", () => {
   it("accepts boolean values", () => {
     for (const value of [true, false]) {
-      const result = OpenClawSchema.safeParse({
+      const result = Brikko StudioSchema.safeParse({
         gateway: {
           controlUi: {
             allowExternalEmbedUrls: value,
@@ -284,7 +284,7 @@ describe("gateway.controlUi.allowExternalEmbedUrls", () => {
   });
 
   it("rejects non-boolean values", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       gateway: {
         controlUi: {
           allowExternalEmbedUrls: "yes",
@@ -298,7 +298,7 @@ describe("gateway.controlUi.allowExternalEmbedUrls", () => {
 describe("gateway.controlUi.chatMessageMaxWidth", () => {
   it("accepts constrained CSS width values", () => {
     for (const value of ["960px", "82%", "min(1280px, 82%)", "calc(100% - 2rem)"]) {
-      const result = OpenClawSchema.safeParse({
+      const result = Brikko StudioSchema.safeParse({
         gateway: {
           controlUi: {
             chatMessageMaxWidth: value,
@@ -313,7 +313,7 @@ describe("gateway.controlUi.chatMessageMaxWidth", () => {
   });
 
   it("normalizes whitespace around the width value", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       gateway: {
         controlUi: {
           chatMessageMaxWidth: "  min(1280px,   82%)  ",
@@ -329,7 +329,7 @@ describe("gateway.controlUi.chatMessageMaxWidth", () => {
 
   it("rejects arbitrary CSS injection", () => {
     for (const value of ["url(https://example.com/x)", "960px; color: red", "var(--x)"]) {
-      const result = OpenClawSchema.safeParse({
+      const result = Brikko StudioSchema.safeParse({
         gateway: {
           controlUi: {
             chatMessageMaxWidth: value,
@@ -343,7 +343,7 @@ describe("gateway.controlUi.chatMessageMaxWidth", () => {
 
 describe("plugins.entries.*.hooks", () => {
   it.each([true, false])("accepts allowConversationAccess=%s", (allowConversationAccess) => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       plugins: {
         entries: {
           "voice-call": {
@@ -359,7 +359,7 @@ describe("plugins.entries.*.hooks", () => {
   });
 
   it("accepts allowPromptInjection=false alongside allowConversationAccess=true", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       plugins: {
         entries: {
           "voice-call": {
@@ -375,7 +375,7 @@ describe("plugins.entries.*.hooks", () => {
   });
 
   it("rejects non-boolean values", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       plugins: {
         entries: {
           "voice-call": {
@@ -391,7 +391,7 @@ describe("plugins.entries.*.hooks", () => {
   });
 
   it("rejects non-boolean conversation access values", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       plugins: {
         entries: {
           "voice-call": {
@@ -409,7 +409,7 @@ describe("plugins.entries.*.hooks", () => {
 
 describe("plugins.entries.*.subagent", () => {
   it("accepts trusted subagent override settings", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       plugins: {
         entries: {
           "voice-call": {
@@ -425,7 +425,7 @@ describe("plugins.entries.*.subagent", () => {
   });
 
   it("rejects invalid trusted subagent override settings", () => {
-    const result = OpenClawSchema.safeParse({
+    const result = Brikko StudioSchema.safeParse({
       plugins: {
         entries: {
           "voice-call": {
@@ -613,7 +613,7 @@ describe("config identity/materialization regressions", () => {
               theme: "space lobster",
               emoji: "🦞",
             },
-            groupChat: { mentionPatterns: ["@openclaw"] },
+            groupChat: { mentionPatterns: ["@brikko-studio"] },
           },
         ],
       },
@@ -625,7 +625,7 @@ describe("config identity/materialization regressions", () => {
     expect(res.ok).toBe(true);
     if (res.ok) {
       expect(res.config.messages?.responsePrefix).toBe("✅");
-      expect(res.config.agents?.list?.[0]?.groupChat?.mentionPatterns).toEqual(["@openclaw"]);
+      expect(res.config.agents?.list?.[0]?.groupChat?.mentionPatterns).toEqual(["@brikko-studio"]);
     }
   });
 
@@ -696,7 +696,7 @@ describe("config identity/materialization regressions", () => {
 
 describe("cron webhook schema", () => {
   it("accepts cron.webhookToken and legacy cron.webhook", () => {
-    const res = OpenClawSchema.safeParse({
+    const res = Brikko StudioSchema.safeParse({
       cron: {
         enabled: true,
         webhook: "https://example.invalid/legacy-cron-webhook",
@@ -708,7 +708,7 @@ describe("cron webhook schema", () => {
   });
 
   it("accepts cron.webhookToken SecretRef values", () => {
-    const res = OpenClawSchema.safeParse({
+    const res = Brikko StudioSchema.safeParse({
       cron: {
         webhook: "https://example.invalid/legacy-cron-webhook",
         webhookToken: {
@@ -723,7 +723,7 @@ describe("cron webhook schema", () => {
   });
 
   it("rejects non-http cron.webhook URLs", () => {
-    const res = OpenClawSchema.safeParse({
+    const res = Brikko StudioSchema.safeParse({
       cron: {
         webhook: "ftp://example.invalid/legacy-cron-webhook",
       },
@@ -733,7 +733,7 @@ describe("cron webhook schema", () => {
   });
 
   it("accepts cron.retry config", () => {
-    const res = OpenClawSchema.safeParse({
+    const res = Brikko StudioSchema.safeParse({
       cron: {
         retry: {
           maxAttempts: 5,
@@ -777,7 +777,7 @@ describe("broadcast", () => {
 
 describe("model compat config schema", () => {
   it("accepts full openai-completions compat fields", () => {
-    const res = OpenClawSchema.safeParse({
+    const res = Brikko StudioSchema.safeParse({
       models: {
         providers: {
           local: {
@@ -871,7 +871,7 @@ describe("config strict validation", () => {
 
   it("rejects top-level memorySearch without read-time auto-migration", async () => {
     await withTempHome(async (home) => {
-      await writeOpenClawConfig(home, {
+      await writeBrikko StudioConfig(home, {
         memorySearch: {
           provider: "local",
           fallback: "none",
@@ -895,7 +895,7 @@ describe("config strict validation", () => {
 
   it("rejects top-level heartbeat agent settings without read-time auto-migration", async () => {
     await withTempHome(async (home) => {
-      await writeOpenClawConfig(home, {
+      await writeBrikko StudioConfig(home, {
         heartbeat: {
           every: "30m",
           model: "anthropic/claude-3-5-haiku-20241022",
@@ -917,7 +917,7 @@ describe("config strict validation", () => {
 
   it("rejects top-level heartbeat visibility without read-time auto-migration", async () => {
     await withTempHome(async (home) => {
-      await writeOpenClawConfig(home, {
+      await writeBrikko StudioConfig(home, {
         heartbeat: {
           showOk: true,
           showAlerts: false,
@@ -963,7 +963,7 @@ describe("config strict validation", () => {
 
   it("rejects legacy sandbox perSession without read-time auto-migration", async () => {
     await withTempHome(async (home) => {
-      await writeOpenClawConfig(home, {
+      await writeBrikko StudioConfig(home, {
         agents: {
           defaults: {
             sandbox: {
@@ -997,12 +997,12 @@ describe("config strict validation", () => {
 
   it("rejects resolved-only gateway.bind aliases as invalid schema values, not legacy", async () => {
     await withTempHome(async (home) => {
-      await writeOpenClawConfig(home, {
-        gateway: { bind: "${OPENCLAW_BIND}" },
+      await writeBrikko StudioConfig(home, {
+        gateway: { bind: "${BRIKKO_STUDIO_BIND}" },
       });
 
-      const prev = process.env.OPENCLAW_BIND;
-      process.env.OPENCLAW_BIND = "0.0.0.0";
+      const prev = process.env.BRIKKO_STUDIO_BIND;
+      process.env.BRIKKO_STUDIO_BIND = "0.0.0.0";
       try {
         const snap = await readConfigFileSnapshot();
         expect(snap.valid).toBe(false);
@@ -1010,9 +1010,9 @@ describe("config strict validation", () => {
         expect(snap.issues.some((issue) => issue.path === "gateway.bind")).toBe(true);
       } finally {
         if (prev === undefined) {
-          delete process.env.OPENCLAW_BIND;
+          delete process.env.BRIKKO_STUDIO_BIND;
         } else {
-          process.env.OPENCLAW_BIND = prev;
+          process.env.BRIKKO_STUDIO_BIND = prev;
         }
       }
     });
@@ -1020,7 +1020,7 @@ describe("config strict validation", () => {
 
   it("rejects literal gateway.bind host aliases as legacy", async () => {
     await withTempHome(async (home) => {
-      await writeOpenClawConfig(home, {
+      await writeBrikko StudioConfig(home, {
         gateway: { bind: "0.0.0.0" },
       });
 

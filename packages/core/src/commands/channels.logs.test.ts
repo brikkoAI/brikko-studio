@@ -50,8 +50,8 @@ describe("channelsLogsCommand", () => {
   let logPath: string;
 
   beforeEach(async () => {
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-channels-logs-"));
-    logPath = path.join(tempDir, "openclaw.log");
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-channels-logs-"));
+    logPath = path.join(tempDir, "brikko-studio.log");
     setLoggerOverride({ file: logPath });
     runtime.log.mockClear();
     runtime.error.mockClear();
@@ -89,9 +89,9 @@ describe("channelsLogsCommand", () => {
   });
 
   it("falls back to the latest rolling log when the configured rolling file is missing", async () => {
-    const configuredFile = path.join(tempDir, "openclaw-2026-04-26.log");
-    const fallbackFile = path.join(tempDir, "openclaw-2026-04-25.log");
-    const staleFile = path.join(tempDir, "openclaw-2026-04-24.log");
+    const configuredFile = path.join(tempDir, "brikko-studio-2026-04-26.log");
+    const fallbackFile = path.join(tempDir, "brikko-studio-2026-04-25.log");
+    const staleFile = path.join(tempDir, "brikko-studio-2026-04-24.log");
     setLoggerOverride({ file: configuredFile });
     await fs.writeFile(
       fallbackFile,
@@ -123,8 +123,8 @@ describe("channelsLogsCommand", () => {
   });
 
   it("prefers the configured rolling log when it exists", async () => {
-    const configuredFile = path.join(tempDir, "openclaw-2026-04-26.log");
-    const fallbackFile = path.join(tempDir, "openclaw-2026-04-25.log");
+    const configuredFile = path.join(tempDir, "brikko-studio-2026-04-26.log");
+    const fallbackFile = path.join(tempDir, "brikko-studio-2026-04-25.log");
     setLoggerOverride({ file: configuredFile });
     await fs.writeFile(
       fallbackFile,
@@ -144,7 +144,7 @@ describe("channelsLogsCommand", () => {
 
   it("does not fall back to rolling logs for a missing custom log file", async () => {
     const configuredFile = path.join(tempDir, "custom-channel.log");
-    const fallbackFile = path.join(tempDir, "openclaw-2026-04-25.log");
+    const fallbackFile = path.join(tempDir, "brikko-studio-2026-04-25.log");
     setLoggerOverride({ file: configuredFile });
     await fs.writeFile(
       fallbackFile,

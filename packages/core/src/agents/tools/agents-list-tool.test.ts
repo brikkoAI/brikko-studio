@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 
-const loadConfigMock = vi.fn<() => OpenClawConfig>();
+const loadConfigMock = vi.fn<() => Brikko StudioConfig>();
 
 vi.mock("../../config/config.js", async () => {
   const actual =
@@ -36,7 +36,7 @@ describe("agents_list tool", () => {
           },
         ],
       },
-    } satisfies OpenClawConfig);
+    } satisfies Brikko StudioConfig);
 
     const { createAgentsListTool } = await import("./agents-list-tool.js");
     const result = await createAgentsListTool({ agentSessionKey: "agent:main:main" }).execute(
@@ -63,7 +63,7 @@ describe("agents_list tool", () => {
       agents: {
         list: [{ id: "main", default: true }, { id: "codex" }],
       },
-    } satisfies OpenClawConfig);
+    } satisfies Brikko StudioConfig);
 
     const { createAgentsListTool } = await import("./agents-list-tool.js");
     const result = await createAgentsListTool({ agentSessionKey: "agent:main:main" }).execute(
@@ -84,7 +84,7 @@ describe("agents_list tool", () => {
   });
 
   it("reports env-forced plugin runtime selections", async () => {
-    vi.stubEnv("OPENCLAW_AGENT_RUNTIME", "codex");
+    vi.stubEnv("BRIKKO_STUDIO_AGENT_RUNTIME", "codex");
     loadConfigMock.mockReturnValue({
       agents: {
         defaults: {
@@ -92,7 +92,7 @@ describe("agents_list tool", () => {
         },
         list: [{ id: "main", default: true }],
       },
-    } satisfies OpenClawConfig);
+    } satisfies Brikko StudioConfig);
 
     const { createAgentsListTool } = await import("./agents-list-tool.js");
     const result = await createAgentsListTool({ agentSessionKey: "agent:main:main" }).execute(
@@ -122,7 +122,7 @@ describe("agents_list tool", () => {
           { id: "strict", agentRuntime: { id: "codex" } },
         ],
       },
-    } satisfies OpenClawConfig);
+    } satisfies Brikko StudioConfig);
 
     const { createAgentsListTool } = await import("./agents-list-tool.js");
     const result = await createAgentsListTool({ agentSessionKey: "agent:main:main" }).execute(

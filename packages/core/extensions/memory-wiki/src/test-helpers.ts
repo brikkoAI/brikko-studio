@@ -1,9 +1,9 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { createTestPluginApi } from "openclaw/plugin-sdk/plugin-test-api";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
+import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { afterEach, vi } from "vitest";
-import type { OpenClawPluginApi } from "../api.js";
+import type { Brikko StudioPluginApi } from "../api.js";
 import {
   resolveMemoryWikiConfig,
   type MemoryWikiPluginConfig,
@@ -19,7 +19,7 @@ type MemoryWikiTestVault = {
 };
 
 type MemoryWikiPluginApiHarness = {
-  api: OpenClawPluginApi;
+  api: Brikko StudioPluginApi;
   registerCli: ReturnType<typeof vi.fn>;
   registerGatewayMethod: ReturnType<typeof vi.fn>;
   registerMemoryCorpusSupplement: ReturnType<typeof vi.fn>;
@@ -37,7 +37,7 @@ export function createMemoryWikiTestHarness() {
   });
 
   async function createTempDir(prefix: string): Promise<string> {
-    const tempDir = await fs.mkdtemp(path.join(resolvePreferredOpenClawTmpDir(), prefix));
+    const tempDir = await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), prefix));
     tempDirs.push(tempDir);
     return tempDir;
   }
@@ -79,7 +79,7 @@ export function createMemoryWikiTestHarness() {
       name: "Memory Wiki",
       source: "test",
       config: {},
-      runtime: {} as OpenClawPluginApi["runtime"],
+      runtime: {} as Brikko StudioPluginApi["runtime"],
       registerCli,
       registerGatewayMethod,
       registerMemoryCorpusSupplement,

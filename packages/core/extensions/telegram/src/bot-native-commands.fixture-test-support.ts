@@ -1,6 +1,6 @@
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { vi } from "vitest";
-import type { OpenClawConfig, TelegramAccountConfig } from "../runtime-api.js";
+import type { Brikko StudioConfig, TelegramAccountConfig } from "../runtime-api.js";
 import type { RegisterTelegramNativeCommandsParams } from "./bot-native-commands.js";
 
 export type NativeCommandTestParams = RegisterTelegramNativeCommandsParams;
@@ -27,7 +27,7 @@ export function createNativeCommandTestParams(
         },
         command: vi.fn(),
       } as unknown as NativeCommandTestParams["bot"]),
-    cfg: params.cfg ?? ({} as OpenClawConfig),
+    cfg: params.cfg ?? ({} as Brikko StudioConfig),
     runtime:
       params.runtime ??
       ({
@@ -99,7 +99,7 @@ export function createTelegramGroupCommandContext(params?: {
       chat: {
         id: params?.chatId ?? -1001234567890,
         type: "supergroup" as const,
-        title: params?.title ?? "OpenClaw",
+        title: params?.title ?? "Brikko Studio",
       },
       from: { id: params?.userId ?? 200, username: params?.username ?? "bob" },
     },
@@ -124,7 +124,7 @@ export function createTelegramTopicCommandContext(params?: {
       chat: {
         id: params?.chatId ?? -1001234567890,
         type: "supergroup" as const,
-        title: params?.title ?? "OpenClaw",
+        title: params?.title ?? "Brikko Studio",
         is_forum: true,
       },
       message_thread_id: params?.threadId ?? 42,

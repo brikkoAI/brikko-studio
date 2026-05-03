@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/opencode-provider",
+  "name": "@brikko-studio/opencode-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw OpenCode Zen provider plugin",
+  "description": "Brikko Studio OpenCode Zen provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

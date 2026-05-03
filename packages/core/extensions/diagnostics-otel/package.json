@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/diagnostics-otel",
+  "name": "@brikko-studio/diagnostics-otel",
   "version": "2026.5.3",
-  "description": "OpenClaw diagnostics OpenTelemetry exporter",
+  "description": "Brikko Studio diagnostics OpenTelemetry exporter",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/brikko-studio/brikko-studio"
   },
   "type": "module",
   "dependencies": {
@@ -21,15 +21,15 @@
     "@opentelemetry/semantic-conventions": "^1.40.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],
     "install": {
-      "clawhubSpec": "clawhub:@openclaw/diagnostics-otel",
-      "npmSpec": "@openclaw/diagnostics-otel",
+      "clawhubSpec": "clawhub:@brikko-studio/diagnostics-otel",
+      "npmSpec": "@brikko-studio/diagnostics-otel",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.25"
     },
@@ -37,7 +37,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "brikko-studioVersion": "2026.5.3"
     },
     "release": {
       "publishToClawHub": true,

@@ -1,5 +1,5 @@
-import { resolveAgentModelPrimaryValue } from "openclaw/plugin-sdk/provider-onboard";
-import { expectProviderOnboardPreservesPrimary } from "openclaw/plugin-sdk/provider-test-contracts";
+import { resolveAgentModelPrimaryValue } from "brikko-studio/plugin-sdk/provider-onboard";
+import { expectProviderOnboardPreservesPrimary } from "brikko-studio/plugin-sdk/provider-test-contracts";
 import { describe, expect, it } from "vitest";
 import { ZAI_CODING_CN_BASE_URL, ZAI_GLOBAL_BASE_URL } from "./model-definitions.js";
 import { applyZaiConfig, applyZaiProviderConfig } from "./onboard.js";

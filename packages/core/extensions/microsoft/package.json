@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/microsoft-speech",
+  "name": "@brikko-studio/microsoft-speech",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Microsoft speech plugin",
+  "description": "Brikko Studio Microsoft speech plugin",
   "type": "module",
   "dependencies": {
     "node-edge-tts": "^1.2.10"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

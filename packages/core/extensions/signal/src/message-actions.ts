@@ -1,10 +1,10 @@
-import { resolveReactionMessageId } from "openclaw/plugin-sdk/channel-actions";
-import { createActionGate, jsonResult, readStringParam } from "openclaw/plugin-sdk/channel-actions";
+import { resolveReactionMessageId } from "brikko-studio/plugin-sdk/channel-actions";
+import { createActionGate, jsonResult, readStringParam } from "brikko-studio/plugin-sdk/channel-actions";
 import type {
   ChannelMessageActionAdapter,
   ChannelMessageActionName,
-} from "openclaw/plugin-sdk/channel-contract";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/channel-contract";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { removeReactionSignal, sendReactionSignal } from "../reaction-runtime-api.js";
 import { listEnabledSignalAccounts, resolveSignalAccount } from "./accounts.js";
 import { resolveSignalReactionLevel } from "./reaction-level.js";

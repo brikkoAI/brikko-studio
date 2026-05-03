@@ -1,13 +1,13 @@
-import { createChannelPairingChallengeIssuer } from "openclaw/plugin-sdk/channel-pairing";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { upsertChannelPairingRequest } from "openclaw/plugin-sdk/conversation-runtime";
-import { defaultRuntime } from "openclaw/plugin-sdk/runtime-env";
-import { warnMissingProviderGroupPolicyFallbackOnce } from "openclaw/plugin-sdk/runtime-group-policy";
+import { createChannelPairingChallengeIssuer } from "brikko-studio/plugin-sdk/channel-pairing";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { upsertChannelPairingRequest } from "brikko-studio/plugin-sdk/conversation-runtime";
+import { defaultRuntime } from "brikko-studio/plugin-sdk/runtime-env";
+import { warnMissingProviderGroupPolicyFallbackOnce } from "brikko-studio/plugin-sdk/runtime-group-policy";
 import {
   expandAllowFromWithAccessGroups,
   readStoreAllowFromForDmPolicy,
   resolveDmGroupAccessWithLists,
-} from "openclaw/plugin-sdk/security-runtime";
+} from "brikko-studio/plugin-sdk/security-runtime";
 import { resolveWhatsAppInboundPolicy } from "../inbound-policy.js";
 
 export type InboundAccessControlResult = {
@@ -27,7 +27,7 @@ function logWhatsAppVerbose(enabled: boolean | undefined, message: string) {
 }
 
 export async function checkInboundAccessControl(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   from: string;
   selfE164: string | null;

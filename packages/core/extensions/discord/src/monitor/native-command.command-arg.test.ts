@@ -1,6 +1,6 @@
-import type { ChatCommandDefinition } from "openclaw/plugin-sdk/command-auth";
-import * as commandRegistryModule from "openclaw/plugin-sdk/command-auth";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { ChatCommandDefinition } from "brikko-studio/plugin-sdk/command-auth";
+import * as commandRegistryModule from "brikko-studio/plugin-sdk/command-auth";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   createDiscordCommandArgFallbackButton,
@@ -34,13 +34,13 @@ function createCommandDefinition(): ChatCommandDefinition {
 }
 
 function createContext(
-  discordConfig: NonNullable<OpenClawConfig["channels"]>["discord"],
+  discordConfig: NonNullable<Brikko StudioConfig["channels"]>["discord"],
 ): CommandArgContext {
   const cfg = {
     channels: {
       discord: discordConfig,
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
   return {
     cfg,
     discordConfig,

@@ -230,7 +230,7 @@ function main() {
       throw new Error("Could not determine Full Release Validation run id.");
     }
 
-    console.log(`Parent run: https://github.com/openclaw/openclaw/actions/runs/${parentRunId}`);
+    console.log(`Parent run: https://github.com/brikko-studio/brikko-studio/actions/runs/${parentRunId}`);
     const watch = runStatus(
       "gh",
       ["run", "watch", parentRunId, "--exit-status", "--interval", "30"],
@@ -240,7 +240,7 @@ function main() {
     );
     if (watch.status !== 0) {
       throw new Error(
-        `Full Release Validation failed: https://github.com/openclaw/openclaw/actions/runs/${parentRunId}`,
+        `Full Release Validation failed: https://github.com/brikko-studio/brikko-studio/actions/runs/${parentRunId}`,
       );
     }
     verifyChildHeads(parentRunId, sha);

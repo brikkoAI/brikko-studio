@@ -1,23 +1,23 @@
 /**
- * Twitch channel plugin for OpenClaw.
+ * Twitch channel plugin for Brikko Studio.
  *
  * Main plugin export combining all adapters (outbound, actions, status, gateway).
  * This is the primary entry point for the Twitch channel integration.
  */
 
-import { describeAccountSnapshot } from "openclaw/plugin-sdk/account-helpers";
-import { buildChannelConfigSchema } from "openclaw/plugin-sdk/channel-config-schema";
-import { createChatChannelPlugin } from "openclaw/plugin-sdk/channel-core";
+import { describeAccountSnapshot } from "brikko-studio/plugin-sdk/account-helpers";
+import { buildChannelConfigSchema } from "brikko-studio/plugin-sdk/channel-config-schema";
+import { createChatChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
 import {
   createLoggedPairingApprovalNotifier,
   createPairingPrefixStripper,
-} from "openclaw/plugin-sdk/channel-pairing";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { buildPassiveProbedChannelStatusSummary } from "openclaw/plugin-sdk/extension-shared";
+} from "brikko-studio/plugin-sdk/channel-pairing";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { buildPassiveProbedChannelStatusSummary } from "brikko-studio/plugin-sdk/extension-shared";
 import {
   createComputedAccountStatusAdapter,
   createDefaultChannelRuntimeState,
-} from "openclaw/plugin-sdk/status-helpers";
+} from "brikko-studio/plugin-sdk/status-helpers";
 import { twitchMessageActions } from "./actions.js";
 import { removeClientManager } from "./client-manager-registry.js";
 import { TwitchConfigSchema } from "./config-schema.js";
@@ -49,7 +49,7 @@ type ResolvedTwitchAccount = TwitchAccountConfig & { accountId?: string | null }
  * Twitch channel plugin.
  *
  * Implements the ChannelPlugin interface to provide Twitch chat integration
- * for OpenClaw. Supports message sending, receiving, access control, and
+ * for Brikko Studio. Supports message sending, receiving, access control, and
  * status monitoring.
  */
 export const twitchPlugin: ChannelPlugin<ResolvedTwitchAccount> =
@@ -80,8 +80,8 @@ export const twitchPlugin: ChannelPlugin<ResolvedTwitchAccount> =
       },
       configSchema: buildChannelConfigSchema(TwitchConfigSchema),
       config: {
-        listAccountIds: (cfg: OpenClawConfig): string[] => listAccountIds(cfg),
-        resolveAccount: (cfg: OpenClawConfig, accountId?: string | null): ResolvedTwitchAccount => {
+        listAccountIds: (cfg: Brikko StudioConfig): string[] => listAccountIds(cfg),
+        resolveAccount: (cfg: Brikko StudioConfig, accountId?: string | null): ResolvedTwitchAccount => {
           const resolvedAccountId = accountId ?? resolveDefaultTwitchAccountId(cfg);
           const account = getAccountConfig(cfg, resolvedAccountId);
           if (!account) {
@@ -99,8 +99,8 @@ export const twitchPlugin: ChannelPlugin<ResolvedTwitchAccount> =
             ...account,
           };
         },
-        defaultAccountId: (cfg: OpenClawConfig): string => resolveDefaultTwitchAccountId(cfg),
-        isConfigured: (_account: unknown, cfg: OpenClawConfig): boolean =>
+        defaultAccountId: (cfg: Brikko StudioConfig): string => resolveDefaultTwitchAccountId(cfg),
+        isConfigured: (_account: unknown, cfg: Brikko StudioConfig): boolean =>
           resolveTwitchAccountContext(cfg).configured,
         isEnabled: (account: ResolvedTwitchAccount | undefined): boolean =>
           account?.enabled !== false,
@@ -125,11 +125,11 @@ export const twitchPlugin: ChannelPlugin<ResolvedTwitchAccount> =
           kind,
           runtime,
         }: {
-          cfg: OpenClawConfig;
+          cfg: Brikko StudioConfig;
           accountId?: string | null;
           inputs: string[];
           kind: ChannelResolveKind;
-          runtime: import("openclaw/plugin-sdk/runtime-env").RuntimeEnv;
+          runtime: import("brikko-studio/plugin-sdk/runtime-env").RuntimeEnv;
         }): Promise<ChannelResolveResult[]> => {
           const account = getAccountConfig(cfg, accountId ?? resolveDefaultTwitchAccountId(cfg));
           if (!account) {

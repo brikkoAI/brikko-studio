@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { collectPresentOpenClawTools } from "./openclaw-tools.registration.js";
+import { collectPresentBrikko StudioTools } from "./brikko-studio-tools.registration.js";
 import { createPdfTool } from "./tools/pdf-tool.js";
 
-describe("createOpenClawTools PDF registration", () => {
+describe("createBrikko StudioTools PDF registration", () => {
   it("includes the pdf tool when the pdf factory returns a tool", () => {
     const pdfTool = createPdfTool({
-      agentDir: "/tmp/openclaw-agent-main",
+      agentDir: "/tmp/brikko-studio-agent-main",
       config: {
         agents: {
           defaults: {
@@ -16,6 +16,6 @@ describe("createOpenClawTools PDF registration", () => {
     });
 
     expect(pdfTool?.name).toBe("pdf");
-    expect(collectPresentOpenClawTools([pdfTool]).map((tool) => tool.name)).toContain("pdf");
+    expect(collectPresentBrikko StudioTools([pdfTool]).map((tool) => tool.name)).toContain("pdf");
   });
 });

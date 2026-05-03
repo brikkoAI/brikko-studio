@@ -1,7 +1,7 @@
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MemoryCitationsMode } from "../config/types.memory.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { clearMemoryPluginState, registerMemoryPromptSection } from "../plugins/memory-state.js";
 // ---------------------------------------------------------------------------
 // We dynamically import the registry so we can get a fresh module per test
@@ -59,7 +59,7 @@ function installCompactRuntimeSpy() {
 // ---------------------------------------------------------------------------
 
 /** Build a config object with a contextEngine slot for testing. */
-function configWithSlot(engineId: string): OpenClawConfig {
+function configWithSlot(engineId: string): Brikko StudioConfig {
   return { plugins: { slots: { contextEngine: engineId } } };
 }
 
@@ -899,7 +899,7 @@ describe("Invalid engine fallback", () => {
     // private CONTEXT_ENGINE_REGISTRY_STATE constant in registry.ts — guard
     // against a silent key mismatch so a rename surfaces loudly.
     const registryState = (globalThis as Record<symbol, unknown>)[
-      Symbol.for("openclaw.contextEngineRegistryState")
+      Symbol.for("brikko-studio.contextEngineRegistryState")
     ] as { engines: Map<string, unknown> } | undefined;
     expect(registryState).toBeDefined();
     const snapshot = new Map(registryState!.engines);
@@ -943,7 +943,7 @@ describe("Invalid engine fallback", () => {
   });
 
   it("accepts resolved engines whose info.id differs from the registered slot id (#66601)", async () => {
-    // Regression for openclaw/openclaw#66601: third-party plugins like
+    // Regression for brikko-studio/brikko-studio#66601: third-party plugins like
     // lossless-claw register under an external slot id ("lossless-claw") but
     // the ContextEngine they return uses the plugin's own internal id
     // (e.g. "lcm"). That id is metadata, not the lookup key.

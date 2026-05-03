@@ -4,7 +4,7 @@ import * as Lark from "@larksuiteoapi/node-sdk";
 import {
   readPluginPackageVersion,
   resolveAmbientNodeProxyAgent,
-} from "openclaw/plugin-sdk/extension-shared";
+} from "brikko-studio/plugin-sdk/extension-shared";
 import {
   FEISHU_HTTP_TIMEOUT_ENV_VAR,
   FEISHU_HTTP_TIMEOUT_MAX_MS,
@@ -18,7 +18,7 @@ const pluginVersion = readPluginPackageVersion({ require });
 
 export { pluginVersion };
 
-const FEISHU_USER_AGENT = `openclaw-feishu-builtin/${pluginVersion}/${process.platform}`;
+const FEISHU_USER_AGENT = `brikko-studio-feishu-builtin/${pluginVersion}/${process.platform}`;
 export { FEISHU_USER_AGENT };
 
 const FEISHU_WS_CONFIG = {

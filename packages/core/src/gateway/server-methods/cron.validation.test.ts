@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ChannelPlugin } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { CronJob } from "../../cron/types.js";
 import { resetPluginRuntimeStateForTest, setActivePluginRegistry } from "../../plugins/runtime.js";
 import {
@@ -9,7 +9,7 @@ import {
 } from "../../test-utils/channel-plugins.js";
 
 const getRuntimeConfig = vi.hoisted(() =>
-  vi.fn<() => OpenClawConfig>(() => ({}) as OpenClawConfig),
+  vi.fn<() => Brikko StudioConfig>(() => ({}) as Brikko StudioConfig),
 );
 
 vi.mock("../../config/config.js", async () => {
@@ -132,7 +132,7 @@ function createCronJob(overrides: Partial<CronJob> = {}): CronJob {
 
 describe("cron method validation", () => {
   beforeEach(() => {
-    getRuntimeConfig.mockReset().mockReturnValue({} as OpenClawConfig);
+    getRuntimeConfig.mockReset().mockReturnValue({} as Brikko StudioConfig);
     setCronValidationTestRegistry();
   });
 
@@ -152,7 +152,7 @@ describe("cron method validation", () => {
           telegram: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     const { context, respond } = await invokeCronAdd({
       name: "topic announce add",
@@ -194,7 +194,7 @@ describe("cron method validation", () => {
           telegram: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     const { context, respond } = await invokeCronUpdate(
       {
@@ -247,7 +247,7 @@ describe("cron method validation", () => {
           slack: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     const { context, respond } = await invokeCronAdd({
       name: "ambiguous announce add",
@@ -289,7 +289,7 @@ describe("cron method validation", () => {
           slack: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     const { context, respond } = await invokeCronAdd({
       name: "prefixed announce add",
@@ -322,7 +322,7 @@ describe("cron method validation", () => {
           slack: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     const { context, respond } = await invokeCronAdd({
       name: "mismatched announce add",
@@ -356,7 +356,7 @@ describe("cron method validation", () => {
           msteams: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     for (const to of ["teams:19:meeting_abc@thread.tacv2", "msteams:19:meeting_abc@thread.tacv2"]) {
       const { context, respond } = await invokeCronAdd({
@@ -395,7 +395,7 @@ describe("cron method validation", () => {
           slack: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     const { context, respond } = await invokeCronUpdate(
       {
@@ -436,7 +436,7 @@ describe("cron method validation", () => {
           "synology-chat": { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     const { context, respond } = await invokeCronAdd({
       name: "underscored mismatch add",
@@ -478,7 +478,7 @@ describe("cron method validation", () => {
           slack: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     const { context, respond } = await invokeCronUpdate(
       {
@@ -516,7 +516,7 @@ describe("cron method validation", () => {
           slack: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     const { context, respond } = await invokeCronAdd({
       name: "invalid delivery provider",

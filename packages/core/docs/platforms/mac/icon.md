@@ -1,5 +1,5 @@
 ---
-summary: "Menu bar icon states and animations for OpenClaw on macOS"
+summary: "Menu bar icon states and animations for Brikko Studio on macOS"
 read_when:
   - Changing menu bar icon behavior
 title: "Menu bar icon"

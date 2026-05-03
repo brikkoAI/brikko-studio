@@ -92,21 +92,21 @@ describe("scripts/lib/plugin-prerelease-test-plan.mjs", () => {
 
     expect(lane).toEqual(
       expect.objectContaining({
-        command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:kitchen-sink-plugin",
+        command: "BRIKKO_STUDIO_SKIP_DOCKER_BUILD=1 pnpm test:docker:kitchen-sink-plugin",
         e2eImageKind: "functional",
         name: "kitchen-sink-plugin",
         resources: expect.arrayContaining(["npm"]),
         stateScenario: "empty",
       }),
     );
-    expect(script).toContain("npm:@openclaw/kitchen-sink@0.1.5");
+    expect(script).toContain("npm:@brikko-studio/kitchen-sink@0.1.5");
     expect(script).toContain("npm-pinned-conformance");
     expect(script).toContain("npm-pinned-adversarial");
-    expect(script).toContain("npm:@openclaw/kitchen-sink@beta");
-    expect(script).toContain("clawhub:@openclaw/kitchen-sink@latest");
-    expect(script).toContain("clawhub:@openclaw/kitchen-sink@beta");
+    expect(script).toContain("npm:@brikko-studio/kitchen-sink@beta");
+    expect(script).toContain("clawhub:@brikko-studio/kitchen-sink@latest");
+    expect(script).toContain("clawhub:@brikko-studio/kitchen-sink@beta");
     expect(script).toContain(
-      "npm-to-clawhub|clawhub:@openclaw/kitchen-sink@latest|openclaw-kitchen-sink-fixture|clawhub|success|basic||${KITCHEN_SINK_NPM_SPEC}",
+      "npm-to-clawhub|clawhub:@brikko-studio/kitchen-sink@latest|brikko-studio-kitchen-sink-fixture|clawhub|success|basic||${KITCHEN_SINK_NPM_SPEC}",
     );
     expect(script).toContain("scripts/e2e/lib/kitchen-sink-plugin/sweep.sh");
     expect(sweepScript).toContain('plugins install "$KITCHEN_SINK_SPEC"');
@@ -114,7 +114,7 @@ describe("scripts/lib/plugin-prerelease-test-plan.mjs", () => {
     expect(sweepScript).toContain("assert-cutover-preinstalled");
     expect(sweepScript).toContain('install_args+=("--force")');
     expect(sweepScript).toContain("KITCHEN_SINK_PERSONALITY");
-    expect(sweepScript).toContain("OPENCLAW_KITCHEN_SINK_PERSONALITY");
+    expect(sweepScript).toContain("BRIKKO_STUDIO_KITCHEN_SINK_PERSONALITY");
     expect(sweepScript).toContain('plugins uninstall "$KITCHEN_SINK_SPEC" --force');
     const successScenario = sweepScript.slice(
       sweepScript.indexOf("run_success_scenario()"),
@@ -142,7 +142,7 @@ describe("scripts/lib/plugin-prerelease-test-plan.mjs", () => {
     );
     expect(assertionsScript).toContain("!INVALID_PROBE_DIAGNOSTIC_SURFACE_MODES.has(surfaceMode)");
     expect(readFileSync("scripts/e2e/lib/clawhub-fixture-server.cjs", "utf8")).toContain(
-      'from "openclaw/plugin-sdk/plugin-entry"',
+      'from "brikko-studio/plugin-sdk/plugin-entry"',
     );
     expect(readFileSync("scripts/e2e/lib/clawhub-fixture-server.cjs", "utf8")).toContain(
       "X-ClawHub-Artifact-Sha256",
@@ -161,7 +161,7 @@ describe("scripts/lib/plugin-prerelease-test-plan.mjs", () => {
 
     expect(lane).toEqual(
       expect.objectContaining({
-        command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:plugins",
+        command: "BRIKKO_STUDIO_SKIP_DOCKER_BUILD=1 pnpm test:docker:plugins",
         name: "plugins",
         resources: expect.arrayContaining(["npm"]),
         stateScenario: "empty",
@@ -171,9 +171,9 @@ describe("scripts/lib/plugin-prerelease-test-plan.mjs", () => {
     expect(sweepScript).toContain("run_plugins_clawhub_scenario");
     expect(clawhubScript).toContain('plugins install "$CLAWHUB_PLUGIN_SPEC"');
     expect(assertionsScript).toContain("assertClawHubExternalInstallContract");
-    expect(assertionsScript).toContain('node_modules", "openclaw');
+    expect(assertionsScript).toContain('node_modules", "brikko-studio');
     expect(fixtureServer).toContain('"is-number": "7.0.0"');
-    expect(fixtureServer).toContain('openclaw: ">=2026.4.11"');
+    expect(fixtureServer).toContain('brikko-studio: ">=2026.4.11"');
     expect(fixtureServer).toContain("/versions/${fixture.version}/artifact");
   });
 
@@ -219,10 +219,10 @@ describe("scripts/lib/plugin-prerelease-test-plan.mjs", () => {
       type: "boolean",
     });
     expect(manifestEnv).toMatchObject({
-      OPENCLAW_CI_RUN_ANDROID:
+      BRIKKO_STUDIO_CI_RUN_ANDROID:
         "${{ github.event_name == 'workflow_dispatch' && inputs.include_android && 'true' || steps.changed_scope.outputs.run_android || 'false' }}",
     });
-    expect(manifestEnv).not.toHaveProperty("OPENCLAW_CI_FULL_RELEASE_VALIDATION");
+    expect(manifestEnv).not.toHaveProperty("BRIKKO_STUDIO_CI_FULL_RELEASE_VALIDATION");
     expect(manifestScript).toContain("includeReleaseOnlyPluginShards: false");
     expect(manifestScript).not.toContain("plugin-prerelease-test-plan.mjs");
     expect(workflow.jobs["check-shard"].strategy.matrix.include).toContainEqual({
@@ -299,7 +299,7 @@ describe("scripts/lib/plugin-prerelease-test-plan.mjs", () => {
     expect(dockerSuite).toMatchObject({
       if: "${{ inputs.full_release_validation && needs.preflight.outputs.run_plugin_prerelease_docker == 'true' }}",
       needs: ["preflight"],
-      uses: "./.github/workflows/openclaw-live-and-e2e-checks-reusable.yml",
+      uses: "./.github/workflows/brikko-studio-live-and-e2e-checks-reusable.yml",
       with: {
         docker_lanes: "${{ needs.preflight.outputs.plugin_prerelease_docker_lanes }}",
         include_live_suites: false,
@@ -323,13 +323,13 @@ describe("scripts/lib/plugin-prerelease-test-plan.mjs", () => {
 
   it("keeps release-check reruns independent while cancelling superseded umbrella runs", () => {
     const releaseChecksWorkflow = parse(
-      readFileSync(".github/workflows/openclaw-release-checks.yml", "utf8"),
+      readFileSync(".github/workflows/brikko-studio-release-checks.yml", "utf8"),
     );
     const fullReleaseWorkflow = readFullReleaseValidationWorkflow();
 
     expect(releaseChecksWorkflow.concurrency).toEqual({
       group:
-        "openclaw-release-checks-${{ inputs.expected_sha || inputs.ref }}-${{ inputs.rerun_group }}",
+        "brikko-studio-release-checks-${{ inputs.expected_sha || inputs.ref }}-${{ inputs.rerun_group }}",
       "cancel-in-progress": false,
     });
     expect(fullReleaseWorkflow.concurrency).toEqual({
@@ -366,7 +366,7 @@ describe("scripts/lib/plugin-prerelease-test-plan.mjs", () => {
     );
 
     expect(output).toContain("provider-openai: present (OPENAI_API_KEY, OPENAI_BASE_URL)");
-    expect(output).toContain("channel-discord: present (DISCORD_TOKEN, OPENCLAW_DISCORD_TOKEN)");
+    expect(output).toContain("channel-discord: present (DISCORD_TOKEN, BRIKKO_STUDIO_DISCORD_TOKEN)");
     expect(output).not.toContain("openai-token-should-not-print");
     expect(output).not.toContain("discord-token-should-not-print");
   });

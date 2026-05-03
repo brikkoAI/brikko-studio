@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/plugin-entry";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/plugin-entry";
 import { CLAUDE_CLI_BACKEND_ID, CLAUDE_CLI_DEFAULT_ALLOWLIST_REFS } from "./cli-constants.js";
 
 const ANTHROPIC_PROVIDER_API = "anthropic-messages";
@@ -16,7 +16,7 @@ function normalizeProviderId(provider: string): string {
 }
 
 function resolveAnthropicDefaultAuthMode(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   env: NodeJS.ProcessEnv,
 ): "api_key" | "oauth" | null {
   const profiles = config.auth?.profiles ?? {};
@@ -139,7 +139,7 @@ function isAnthropicCacheRetentionTarget(
   );
 }
 
-function usesClaudeCliModelSelection(config: OpenClawConfig): boolean {
+function usesClaudeCliModelSelection(config: Brikko StudioConfig): boolean {
   if (config.agents?.defaults?.agentRuntime?.id === CLAUDE_CLI_BACKEND_ID) {
     return true;
   }
@@ -189,9 +189,9 @@ export function normalizeAnthropicProviderConfigForProvider<
 }
 
 export function applyAnthropicConfigDefaults(params: {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   const defaults = params.config.agents?.defaults;
   if (!defaults) {
     return params.config;

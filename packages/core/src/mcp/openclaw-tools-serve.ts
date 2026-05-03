@@ -1,8 +1,8 @@
 /**
- * Standalone MCP server for selected built-in OpenClaw tools.
+ * Standalone MCP server for selected built-in Brikko Studio tools.
  *
- * Run via: node --import tsx src/mcp/openclaw-tools-serve.ts
- * Or: bun src/mcp/openclaw-tools-serve.ts
+ * Run via: node --import tsx src/mcp/brikko-studio-tools-serve.ts
+ * Or: bun src/mcp/brikko-studio-tools-serve.ts
  */
 import { pathToFileURL } from "node:url";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -11,27 +11,27 @@ import { createCronTool } from "../agents/tools/cron-tool.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { connectToolsMcpServerToStdio, createToolsMcpServer } from "./tools-stdio-server.js";
 
-export function resolveOpenClawToolsForMcp(): AnyAgentTool[] {
+export function resolveBrikko StudioToolsForMcp(): AnyAgentTool[] {
   return [createCronTool()];
 }
 
-function createOpenClawToolsMcpServer(
+function createBrikko StudioToolsMcpServer(
   params: {
     tools?: AnyAgentTool[];
   } = {},
 ): Server {
-  const tools = params.tools ?? resolveOpenClawToolsForMcp();
-  return createToolsMcpServer({ name: "openclaw-tools", tools });
+  const tools = params.tools ?? resolveBrikko StudioToolsForMcp();
+  return createToolsMcpServer({ name: "brikko-studio-tools", tools });
 }
 
-async function serveOpenClawToolsMcp(): Promise<void> {
-  const server = createOpenClawToolsMcpServer();
+async function serveBrikko StudioToolsMcp(): Promise<void> {
+  const server = createBrikko StudioToolsMcpServer();
   await connectToolsMcpServerToStdio(server);
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
-  serveOpenClawToolsMcp().catch((err) => {
-    process.stderr.write(`openclaw-tools-serve: ${formatErrorMessage(err)}\n`);
+  serveBrikko StudioToolsMcp().catch((err) => {
+    process.stderr.write(`brikko-studio-tools-serve: ${formatErrorMessage(err)}\n`);
     process.exit(1);
   });
 }

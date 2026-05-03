@@ -34,7 +34,7 @@ Production-ready for DMs and channels via Slack app integrations. Default mode i
 
       </Step>
 
-      <Step title="Configure OpenClaw">
+      <Step title="Configure Brikko Studio">
 
         Recommended SecretRef setup:
 
@@ -53,8 +53,8 @@ cat > slack.socket.patch.json5 <<'JSON5'
   },
 }
 JSON5
-openclaw config patch --file ./slack.socket.patch.json5 --dry-run
-openclaw config patch --file ./slack.socket.patch.json5
+brikko-studio config patch --file ./slack.socket.patch.json5 --dry-run
+brikko-studio config patch --file ./slack.socket.patch.json5
 ```
 
         Env fallback (default account only):
@@ -69,7 +69,7 @@ SLACK_BOT_TOKEN=xoxb-...
       <Step title="Start gateway">
 
 ```bash
-openclaw gateway
+brikko-studio gateway
 ```
 
       </Step>
@@ -89,7 +89,7 @@ openclaw gateway
 
       </Step>
 
-      <Step title="Configure OpenClaw">
+      <Step title="Configure Brikko Studio">
 
         Recommended SecretRef setup:
 
@@ -109,8 +109,8 @@ cat > slack.http.patch.json5 <<'JSON5'
   },
 }
 JSON5
-openclaw config patch --file ./slack.http.patch.json5 --dry-run
-openclaw config patch --file ./slack.http.patch.json5
+brikko-studio config patch --file ./slack.http.patch.json5 --dry-run
+brikko-studio config patch --file ./slack.http.patch.json5
 ```
 
         <Note>
@@ -124,7 +124,7 @@ openclaw config patch --file ./slack.http.patch.json5
       <Step title="Start gateway">
 
 ```bash
-openclaw gateway
+brikko-studio gateway
 ```
 
       </Step>
@@ -135,7 +135,7 @@ openclaw gateway
 
 ## Socket Mode transport tuning
 
-OpenClaw sets the Slack SDK client pong timeout to 15 seconds by default for Socket Mode. Override the transport settings only when you need workspace- or host-specific tuning:
+Brikko Studio sets the Slack SDK client pong timeout to 15 seconds by default for Socket Mode. Override the transport settings only when you need workspace- or host-specific tuning:
 
 ```json5
 {
@@ -163,11 +163,11 @@ Base manifest (Socket Mode default):
 ```json
 {
   "display_information": {
-    "name": "OpenClaw",
-    "description": "Slack connector for OpenClaw"
+    "name": "Brikko Studio",
+    "description": "Slack connector for Brikko Studio"
   },
   "features": {
-    "bot_user": { "display_name": "OpenClaw", "always_online": true },
+    "bot_user": { "display_name": "Brikko Studio", "always_online": true },
     "app_home": {
       "home_tab_enabled": true,
       "messages_tab_enabled": true,
@@ -175,8 +175,8 @@ Base manifest (Socket Mode default):
     },
     "slash_commands": [
       {
-        "command": "/openclaw",
-        "description": "Send a message to OpenClaw",
+        "command": "/brikko-studio",
+        "description": "Send a message to Brikko Studio",
         "should_escape": false
       }
     ]
@@ -240,8 +240,8 @@ For **HTTP Request URLs mode**, replace `settings` with the HTTP variant and add
   "features": {
     "slash_commands": [
       {
-        "command": "/openclaw",
-        "description": "Send a message to OpenClaw",
+        "command": "/brikko-studio",
+        "description": "Send a message to Brikko Studio",
         "should_escape": false,
         "url": "https://gateway-host.example.com/slack/events"
       }
@@ -267,7 +267,7 @@ For **HTTP Request URLs mode**, replace `settings` with the HTTP variant and add
 
 Surface different features that extend the above defaults.
 
-The default manifest enables the Slack App Home **Home** tab and subscribes to `app_home_opened`. When a workspace member opens the Home tab, OpenClaw publishes a safe default Home view with `views.publish`; no conversation payload or private configuration is included. The **Messages** tab remains enabled for Slack DMs.
+The default manifest enables the Slack App Home **Home** tab and subscribes to `app_home_opened`. When a workspace member opens the Home tab, Brikko Studio publishes a safe default Home view with `views.publish`; no conversation payload or private configuration is included. The **Messages** tab remains enabled for Slack DMs.
 
 <AccordionGroup>
   <Accordion title="Optional native slash commands">
@@ -506,9 +506,9 @@ Current Slack message actions include `send`, `upload-file`, `download-file`, `r
     - Named accounts inherit `channels.slack.allowFrom` when their own `allowFrom` is unset.
     - Named accounts do not inherit `channels.slack.accounts.default.allowFrom`.
 
-    Legacy `channels.slack.dm.policy` and `channels.slack.dm.allowFrom` still read for compatibility. `openclaw doctor --fix` migrates them to `dmPolicy` and `allowFrom` when it can do so without changing access.
+    Legacy `channels.slack.dm.policy` and `channels.slack.dm.allowFrom` still read for compatibility. `brikko-studio doctor --fix` migrates them to `dmPolicy` and `allowFrom` when it can do so without changing access.
 
-    Pairing in DMs uses `openclaw pairing approve slack <code>`.
+    Pairing in DMs uses `brikko-studio pairing approve slack <code>`.
 
   </Tab>
 
@@ -588,7 +588,7 @@ Current Slack message actions include `send`, `upload-file`, `download-file`, `r
     - `toolsBySender` key format: `id:`, `e164:`, `username:`, `name:`, or `"*"` wildcard
       (legacy unprefixed keys still map to `id:` only)
 
-    `allowBots` is conservative for channels and private channels: bot-authored room messages are accepted only when the sending bot is explicitly listed in that room's `users` allowlist, or when at least one explicit Slack owner ID from `channels.slack.allowFrom` is currently a room member. Wildcards and display-name owner entries do not satisfy owner presence. Owner presence uses Slack `conversations.members`; make sure the app has the matching read scope for the room type (`channels:read` for public channels, `groups:read` for private channels). If the member lookup fails, OpenClaw drops the bot-authored room message.
+    `allowBots` is conservative for channels and private channels: bot-authored room messages are accepted only when the sending bot is explicitly listed in that room's `users` allowlist, or when at least one explicit Slack owner ID from `channels.slack.allowFrom` is currently a room member. Wildcards and display-name owner entries do not satisfy owner presence. Owner presence uses Slack `conversations.members`; make sure the app has the matching read scope for the room type (`channels:read` for public channels, `groups:read` for private channels). If the member lookup fails, Brikko Studio drops the bot-authored room message.
 
   </Tab>
 </Tabs>
@@ -621,7 +621,7 @@ Manual reply tags are supported:
 
 ## Ack reactions
 
-`ackReaction` sends an acknowledgement emoji while OpenClaw is processing an inbound message.
+`ackReaction` sends an acknowledgement emoji while Brikko Studio is processing an inbound message.
 
 Resolution order:
 
@@ -649,10 +649,10 @@ Notes:
 
 - A reply thread must be available for native text streaming and Slack assistant thread status to appear. Thread selection still follows `replyToMode`.
 - Channel, group-chat, and top-level DM roots can still use the normal draft preview when native streaming is unavailable or no reply thread exists.
-- Top-level Slack DMs stay off-thread by default, so they do not show Slack's thread-style native stream/status preview; OpenClaw posts and edits a draft preview in the DM instead.
+- Top-level Slack DMs stay off-thread by default, so they do not show Slack's thread-style native stream/status preview; Brikko Studio posts and edits a draft preview in the DM instead.
 - Media and non-text payloads fall back to normal delivery.
 - Media/error finals cancel pending preview edits; eligible text/block finals flush only when they can edit the preview in place.
-- If streaming fails mid-reply, OpenClaw falls back to normal delivery for remaining payloads.
+- If streaming fails mid-reply, Brikko Studio falls back to normal delivery for remaining payloads.
 
 Use draft preview instead of Slack native text streaming:
 
@@ -677,7 +677,7 @@ Legacy keys:
 
 ## Typing reaction fallback
 
-`typingReaction` adds a temporary reaction to the inbound Slack message while OpenClaw is processing a reply, then removes it when the run finishes. This is most useful outside of thread replies, which use a default "is typing..." status indicator.
+`typingReaction` adds a temporary reaction to the inbound Slack message while Brikko Studio is processing a reply, then removes it when the run finishes. This is most useful outside of thread replies, which use a default "is typing..." status indicator.
 
 Resolution order:
 
@@ -695,7 +695,7 @@ Notes:
   <Accordion title="Inbound attachments">
     Slack file attachments are downloaded from Slack-hosted private URLs (token-authenticated request flow) and written to the media store when fetch succeeds and size limits permit. File placeholders include the Slack `fileId` so agents can fetch the original file with `download-file`.
 
-    Downloads use bounded idle and total timeouts. If Slack file retrieval stalls or fails, OpenClaw keeps processing the message and falls back to the file placeholder.
+    Downloads use bounded idle and total timeouts. If Slack file retrieval stalls or fails, Brikko Studio keeps processing the message and falls back to the file placeholder.
 
     Runtime inbound size cap defaults to `20MB` unless overridden by `channels.slack.mediaMaxMb`.
 
@@ -725,12 +725,12 @@ Notes:
 Slash commands appear in Slack as either a single configured command or multiple native commands. Configure `channels.slack.slashCommand` to change command defaults:
 
 - `enabled: false`
-- `name: "openclaw"`
+- `name: "brikko-studio"`
 - `sessionPrefix: "slack:slash"`
 - `ephemeral: true`
 
 ```txt
-/openclaw /help
+/brikko-studio /help
 ```
 
 Native commands require [additional manifest settings](#additional-manifest-settings) in your Slack app and are enabled with `channels.slack.commands.native: true` or `commands.native: true` in global configurations instead.
@@ -800,8 +800,8 @@ These directives compile into Slack Block Kit and route clicks or selections bac
 Notes:
 
 - This is Slack-specific UI. Other channels do not translate Slack Block Kit directives into their own button systems.
-- The interactive callback values are OpenClaw-generated opaque tokens, not raw agent-authored values.
-- If generated interactive blocks would exceed Slack Block Kit limits, OpenClaw falls back to the original text reply instead of sending an invalid blocks payload.
+- The interactive callback values are Brikko Studio-generated opaque tokens, not raw agent-authored values.
+- If generated interactive blocks would exceed Slack Block Kit limits, Brikko Studio falls back to the original text reply instead of sending an invalid blocks payload.
 
 ## Exec approvals in Slack
 
@@ -812,7 +812,7 @@ Slack can act as a native approval client with interactive buttons and interacti
 - Approver authorization is still enforced: only users identified as approvers can approve or deny requests through Slack.
 
 This uses the same shared approval button surface as other channels. When `interactivity` is enabled in your Slack app settings, approval prompts render as Block Kit buttons directly in the conversation.
-When those buttons are present, they are the primary approval UX; OpenClaw
+When those buttons are present, they are the primary approval UX; Brikko Studio
 should only include a manual `/approve` command when the tool result says chat
 approvals are unavailable or manual approval is the only path.
 
@@ -904,9 +904,9 @@ Primary reference: [Configuration reference - Slack](/gateway/config-channels#sl
     Useful commands:
 
 ```bash
-openclaw channels status --probe
-openclaw logs --follow
-openclaw doctor
+brikko-studio channels status --probe
+brikko-studio logs --follow
+brikko-studio doctor
 ```
 
   </Accordion>
@@ -922,7 +922,7 @@ openclaw doctor
       recoverable human sender in message metadata
 
 ```bash
-openclaw pairing list slack
+brikko-studio pairing list slack
 ```
 
   </Accordion>
@@ -930,7 +930,7 @@ openclaw pairing list slack
   <Accordion title="Socket mode not connecting">
     Validate bot + app tokens and Socket Mode enablement in Slack app settings.
 
-    If `openclaw channels status --probe --json` shows `botTokenStatus` or
+    If `brikko-studio channels status --probe --json` shows `botTokenStatus` or
     `appTokenStatus: "configured_unavailable"`, the Slack account is
     configured but the current runtime could not resolve the SecretRef-backed
     value.
@@ -980,7 +980,7 @@ Slack can attach downloaded media to the agent turn when Slack file downloads su
 
 When a Slack message with file attachments arrives:
 
-1. OpenClaw downloads the file from Slack's private URL using the bot token (`xoxb-...`).
+1. Brikko Studio downloads the file from Slack's private URL using the bot token (`xoxb-...`).
 2. The file is written to the media store on success.
 3. Downloaded media paths and content types are added to the inbound context.
 4. Image-capable model/tool paths can use image attachments from that context.
@@ -1016,16 +1016,16 @@ When a single Slack message contains multiple file attachments:
 | Expired Slack file URL                 | File skipped; no error shown                                                 | Re-upload the file in Slack                                                |
 | Vision model not configured            | Image attachments are stored as media references, but not analyzed as images | Configure `agents.defaults.imageModel` or use a vision-capable reply model |
 | Very large images (> 20 MB by default) | Skipped per size cap                                                         | Increase `channels.slack.mediaMaxMb` if Slack allows                       |
-| Forwarded/shared attachments           | Text and Slack-hosted image/file media are best-effort                       | Re-share directly in the OpenClaw thread                                   |
+| Forwarded/shared attachments           | Text and Slack-hosted image/file media are best-effort                       | Re-share directly in the Brikko Studio thread                                   |
 | PDF attachments                        | Stored as file/media context, not automatically routed through image vision  | Use `download-file` for file metadata or the `pdf` tool for PDF analysis   |
 
 ### Related documentation
 
 - [Media understanding pipeline](/nodes/media-understanding)
 - [PDF tool](/tools/pdf)
-- Epic: [#51349](https://github.com/openclaw/openclaw/issues/51349) — Slack attachment vision enablement
-- Regression tests: [#51353](https://github.com/openclaw/openclaw/issues/51353)
-- Live verification: [#51354](https://github.com/openclaw/openclaw/issues/51354)
+- Epic: [#51349](https://github.com/brikko-studio/brikko-studio/issues/51349) — Slack attachment vision enablement
+- Regression tests: [#51353](https://github.com/brikko-studio/brikko-studio/issues/51353)
+- Live verification: [#51354](https://github.com/brikko-studio/brikko-studio/issues/51354)
 
 ## Related
 

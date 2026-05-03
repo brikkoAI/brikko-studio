@@ -99,7 +99,7 @@ function createHost() {
     toolsCatalogError: null,
     toolsCatalogResult: null,
     debugHealth: null,
-    assistantName: "OpenClaw",
+    assistantName: "Brikko Studio",
     assistantAvatar: null,
     assistantAgentId: null,
     serverVersion: null,

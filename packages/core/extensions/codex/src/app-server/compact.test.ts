@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { HarnessContextEngine as ContextEngine } from "openclaw/plugin-sdk/agent-harness-runtime";
+import type { HarnessContextEngine as ContextEngine } from "brikko-studio/plugin-sdk/agent-harness-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { CodexAppServerClient } from "./client.js";
 import { maybeCompactCodexAppServerSession, __testing } from "./compact.js";
@@ -32,7 +32,7 @@ function startCompaction(sessionFile: string, options: { currentTokenCount?: num
 
 describe("maybeCompactCodexAppServerSession", () => {
   beforeEach(async () => {
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-codex-compact-"));
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-codex-compact-"));
   });
 
   afterEach(async () => {

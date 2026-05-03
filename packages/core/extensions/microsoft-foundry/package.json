@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/microsoft-foundry",
+  "name": "@brikko-studio/microsoft-foundry",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Microsoft Foundry provider plugin",
+  "description": "Brikko Studio Microsoft Foundry provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

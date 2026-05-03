@@ -1,5 +1,5 @@
-import type { ChannelDoctorAdapter } from "openclaw/plugin-sdk/channel-contract";
-import { createDangerousNameMatchingMutableAllowlistWarningCollector } from "openclaw/plugin-sdk/channel-policy";
+import type { ChannelDoctorAdapter } from "brikko-studio/plugin-sdk/channel-contract";
+import { createDangerousNameMatchingMutableAllowlistWarningCollector } from "brikko-studio/plugin-sdk/channel-policy";
 import { legacyConfigRules, normalizeCompatibilityConfig } from "./doctor-contract.js";
 import { isZalouserMutableGroupEntry } from "./security-audit.js";
 

@@ -41,7 +41,7 @@ describe("check-gateway-watch-regression", () => {
   });
 
   it("refreshes runtime postbuild stamps after build stamps", () => {
-    const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-gateway-watch-stamps-"));
+    const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-gateway-watch-stamps-"));
     try {
       fs.mkdirSync(path.join(rootDir, ".git"), { recursive: true });
       writeBuildAndRuntimePostBuildStamps({ cwd: rootDir });

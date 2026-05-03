@@ -17,7 +17,7 @@ import {
 } from "../config/recovery-policy.js";
 import { applyConfigOverrides } from "../config/runtime-overrides.js";
 import type { GatewayAuthConfig, GatewayTailscaleConfig } from "../config/types.gateway.js";
-import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.openclaw.js";
+import type { ConfigFileSnapshot, Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { validateConfigObjectWithPlugins } from "../config/validation.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
@@ -47,7 +47,7 @@ type GatewayStartupLog = {
 type GatewaySecretsStateEventCode = "SECRETS_RELOADER_DEGRADED" | "SECRETS_RELOADER_RECOVERED";
 
 export type ActivateRuntimeSecrets = (
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   params: { reason: "startup" | "reload" | "restart-check"; activate: boolean },
 ) => Promise<Awaited<ReturnType<typeof prepareSecretsRuntimeSnapshot>>>;
 
@@ -86,9 +86,9 @@ function resolveInvalidModelProviderApiIssueProviderId(issue: {
 }
 
 function cloneConfigWithoutModelProviders(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   providerIds: ReadonlySet<string>,
-): OpenClawConfig {
+): Brikko StudioConfig {
   const providers = config.models?.providers;
   if (!providers) {
     return config;
@@ -144,7 +144,7 @@ function resolveGatewayStartupConfigWithoutInvalidModelProviders(params: {
   const runtimeConfig = materializeRuntimeConfig(validated.config, "load");
   for (const providerId of providerIds) {
     params.log.warn(
-      `gateway: skipped model provider ${providerId}; configured provider api is invalid. Run "openclaw doctor --fix" to repair the config.`,
+      `gateway: skipped model provider ${providerId}; configured provider api is invalid. Run "brikko-studio doctor --fix" to repair the config.`,
     );
   }
   return {
@@ -184,7 +184,7 @@ function resolveGatewayStartupConfigWithoutInvalidPluginEntries(params: {
   const runtimeConfig = materializeRuntimeConfig(validated.config, "load");
   for (const issue of params.snapshot.issues) {
     params.log.warn(
-      `gateway: skipped plugin config validation issue at ${issue.path}: ${issue.message}. Run "openclaw doctor --fix" to quarantine the plugin config.`,
+      `gateway: skipped plugin config validation issue at ${issue.path}: ${issue.message}. Run "brikko-studio doctor --fix" to quarantine the plugin config.`,
     );
   }
   return {
@@ -347,7 +347,7 @@ export function createRuntimeSecretsActivator(params: {
   emitStateEvent: (
     code: GatewaySecretsStateEventCode,
     message: string,
-    cfg: OpenClawConfig,
+    cfg: Brikko StudioConfig,
   ) => void;
   prepareRuntimeSecretsSnapshot?: PrepareRuntimeSecretsSnapshot;
   activateRuntimeSecretsSnapshot?: ActivateRuntimeSecretsSnapshot;
@@ -432,7 +432,7 @@ export function assertValidGatewayStartupConfigSnapshot(
       ? formatConfigIssueLines(snapshot.issues, "", { normalizeRoot: true }).join("\n")
       : "Unknown validation issue.";
   const doctorHint = options.includeDoctorHint
-    ? `\nRun "${formatCliCommand("openclaw doctor --fix")}" to repair, then retry.`
+    ? `\nRun "${formatCliCommand("brikko-studio doctor --fix")}" to repair, then retry.`
     : "";
   throw new Error(`Invalid config at ${snapshot.path}.\n${issues}${doctorHint}`);
 }
@@ -498,7 +498,7 @@ export async function prepareGatewayStartupConfig(params: {
   };
 }
 
-function hasActiveGatewayAuthSecretRef(config: OpenClawConfig): boolean {
+function hasActiveGatewayAuthSecretRef(config: Brikko StudioConfig): boolean {
   const states = evaluateGatewayAuthSurfaceStates({
     config,
     defaults: config.secrets?.defaults,
@@ -510,10 +510,10 @@ function hasActiveGatewayAuthSecretRef(config: OpenClawConfig): boolean {
   });
 }
 
-function pruneSkippedStartupSecretSurfaces(config: OpenClawConfig): OpenClawConfig {
+function pruneSkippedStartupSecretSurfaces(config: Brikko StudioConfig): Brikko StudioConfig {
   const skipChannels =
-    isTruthyEnvValue(process.env.OPENCLAW_SKIP_CHANNELS) ||
-    isTruthyEnvValue(process.env.OPENCLAW_SKIP_PROVIDERS);
+    isTruthyEnvValue(process.env.BRIKKO_STUDIO_SKIP_CHANNELS) ||
+    isTruthyEnvValue(process.env.BRIKKO_STUDIO_SKIP_PROVIDERS);
   if (!skipChannels || !config.channels) {
     return config;
   }
@@ -523,7 +523,7 @@ function pruneSkippedStartupSecretSurfaces(config: OpenClawConfig): OpenClawConf
   };
 }
 
-function assertRuntimeGatewayAuthNotKnownWeak(config: OpenClawConfig): void {
+function assertRuntimeGatewayAuthNotKnownWeak(config: Brikko StudioConfig): void {
   assertGatewayAuthNotKnownWeak(
     resolveGatewayAuth({
       authConfig: config.gateway?.auth,
@@ -535,7 +535,7 @@ function assertRuntimeGatewayAuthNotKnownWeak(config: OpenClawConfig): void {
 
 function logGatewayAuthSurfaceDiagnostics(
   prepared: {
-    sourceConfig: OpenClawConfig;
+    sourceConfig: Brikko StudioConfig;
     warnings: Array<{ code: string; path: string; message: string }>;
   },
   logSecrets: GatewayStartupLog,
@@ -566,9 +566,9 @@ function logGatewayAuthSurfaceDiagnostics(
 }
 
 function applyGatewayAuthOverridesForStartupPreflight(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   overrides: GatewayStartupConfigOverrides,
-): OpenClawConfig {
+): Brikko StudioConfig {
   if (!overrides.auth && !overrides.tailscale) {
     return config;
   }

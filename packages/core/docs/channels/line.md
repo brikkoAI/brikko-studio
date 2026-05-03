@@ -1,13 +1,13 @@
 ---
 summary: "LINE Messaging API plugin setup, config, and usage"
 read_when:
-  - You want to connect OpenClaw to LINE
+  - You want to connect Brikko Studio to LINE
   - You need LINE webhook + credential setup
   - You want LINE-specific message options
 title: LINE
 ---
 
-LINE connects to OpenClaw via the LINE Messaging API. The plugin runs as a webhook
+LINE connects to Brikko Studio via the LINE Messaging API. The plugin runs as a webhook
 receiver on the gateway and uses your channel access token + channel secret for
 authentication.
 
@@ -20,13 +20,13 @@ are not supported.
 Install LINE before configuring the channel:
 
 ```bash
-openclaw plugins install @openclaw/line
+brikko-studio plugins install @brikko-studio/line
 ```
 
 Local checkout (when running from a git repo):
 
 ```bash
-openclaw plugins install ./path/to/local/line-plugin
+brikko-studio plugins install ./path/to/local/line-plugin
 ```
 
 ## Setup
@@ -48,8 +48,8 @@ If you need a custom path, set `channels.line.webhookPath` or
 
 Security note:
 
-- LINE signature verification is body-dependent (HMAC over the raw body), so OpenClaw applies strict pre-auth body limits and timeout before verification.
-- OpenClaw processes webhook events from the verified raw request bytes. Upstream middleware-transformed `req.body` values are ignored for signature-integrity safety.
+- LINE signature verification is body-dependent (HMAC over the raw body), so Brikko Studio applies strict pre-auth body limits and timeout before verification.
+- Brikko Studio processes webhook events from the verified raw request bytes. Upstream middleware-transformed `req.body` values are ignored for signature-integrity safety.
 
 ## Configure
 
@@ -112,8 +112,8 @@ Direct messages default to pairing. Unknown senders get a pairing code and their
 messages are ignored until approved.
 
 ```bash
-openclaw pairing list line
-openclaw pairing approve line <CODE>
+brikko-studio pairing list line
+brikko-studio pairing approve line <CODE>
 ```
 
 Allowlists and policies:
@@ -139,7 +139,7 @@ LINE IDs are case-sensitive. Valid IDs look like:
 - Streaming responses are buffered; LINE receives full chunks with a loading
   animation while the agent works.
 - Media downloads are capped by `channels.line.mediaMaxMb` (default 10).
-- Inbound media is saved under `~/.openclaw/media/inbound/` before it is passed
+- Inbound media is saved under `~/.brikko-studio/media/inbound/` before it is passed
   to the agent, matching the shared media store used by other bundled channel
   plugins.
 
@@ -202,7 +202,7 @@ The LINE plugin supports sending images, videos, and audio files through the age
 - **Videos**: sent with explicit preview and content-type handling.
 - **Audio**: sent as LINE audio messages.
 
-Outbound media URLs must be public HTTPS URLs. OpenClaw validates the target hostname before handing the URL to LINE and rejects loopback, link-local, and private-network targets.
+Outbound media URLs must be public HTTPS URLs. Brikko Studio validates the target hostname before handing the URL to LINE and rejects loopback, link-local, and private-network targets.
 
 Generic media sends fall back to the existing image-only route when a LINE-specific path is not available.
 

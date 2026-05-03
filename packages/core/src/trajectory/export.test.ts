@@ -7,7 +7,7 @@ import { exportTrajectoryBundle, resolveDefaultTrajectoryExportDir } from "./exp
 import { resolveTrajectoryPointerFilePath } from "./paths.js";
 import type { TrajectoryEvent } from "./types.js";
 
-const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-trajectory-"));
+const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-trajectory-"));
 let tempDirId = 0;
 
 function makeTempDir(): string {
@@ -195,9 +195,9 @@ describe("exportTrajectoryBundle", () => {
     expect(outputDir).toBe(
       path.join(
         "/tmp/workspace",
-        ".openclaw",
+        ".brikko-studio",
         "trajectory-exports",
-        "openclaw-trajectory-___evil_-2026-04-22T08-00-00",
+        "brikko-studio-trajectory-___evil_-2026-04-22T08-00-00",
       ),
     );
   });
@@ -311,7 +311,7 @@ describe("exportTrajectoryBundle", () => {
     fs.writeFileSync(
       runtimeFile,
       `${JSON.stringify({})}\n${JSON.stringify({
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "session-1",
         source: "runtime",
@@ -347,7 +347,7 @@ describe("exportTrajectoryBundle", () => {
     fs.writeFileSync(
       resolveTrajectoryPointerFilePath(sessionFile),
       `${JSON.stringify({
-        traceSchema: "openclaw-trajectory-pointer",
+        traceSchema: "brikko-studio-trajectory-pointer",
         schemaVersion: 1,
         sessionId: "session-1",
         runtimeFile: recordedRuntimeFile,
@@ -357,7 +357,7 @@ describe("exportTrajectoryBundle", () => {
     fs.writeFileSync(
       recordedRuntimeFile,
       `${JSON.stringify({
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "session-1",
         source: "runtime",
@@ -372,7 +372,7 @@ describe("exportTrajectoryBundle", () => {
     fs.writeFileSync(
       path.join(envRuntimeDir, "session-1.jsonl"),
       `${JSON.stringify({
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "session-1",
         source: "runtime",
@@ -384,8 +384,8 @@ describe("exportTrajectoryBundle", () => {
       })}\n`,
       "utf8",
     );
-    const previous = process.env.OPENCLAW_TRAJECTORY_DIR;
-    process.env.OPENCLAW_TRAJECTORY_DIR = envRuntimeDir;
+    const previous = process.env.BRIKKO_STUDIO_TRAJECTORY_DIR;
+    process.env.BRIKKO_STUDIO_TRAJECTORY_DIR = envRuntimeDir;
     try {
       const bundle = await exportTrajectoryBundle({
         outputDir,
@@ -399,9 +399,9 @@ describe("exportTrajectoryBundle", () => {
       expect(bundle.events.some((event) => event.type === "env-runtime")).toBe(false);
     } finally {
       if (previous === undefined) {
-        delete process.env.OPENCLAW_TRAJECTORY_DIR;
+        delete process.env.BRIKKO_STUDIO_TRAJECTORY_DIR;
       } else {
-        process.env.OPENCLAW_TRAJECTORY_DIR = previous;
+        process.env.BRIKKO_STUDIO_TRAJECTORY_DIR = previous;
       }
     }
   });
@@ -415,7 +415,7 @@ describe("exportTrajectoryBundle", () => {
     fs.writeFileSync(
       resolveTrajectoryPointerFilePath(sessionFile),
       `${JSON.stringify({
-        traceSchema: "openclaw-trajectory-pointer",
+        traceSchema: "brikko-studio-trajectory-pointer",
         schemaVersion: 1,
         sessionId: "session-1",
         runtimeFile: outsideFile,
@@ -425,7 +425,7 @@ describe("exportTrajectoryBundle", () => {
     fs.writeFileSync(
       outsideFile,
       `${JSON.stringify({
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "session-1",
         source: "runtime",
@@ -460,7 +460,7 @@ describe("exportTrajectoryBundle", () => {
     fs.writeFileSync(
       resolveTrajectoryPointerFilePath(sessionFile),
       `${JSON.stringify({
-        traceSchema: "openclaw-trajectory-pointer",
+        traceSchema: "brikko-studio-trajectory-pointer",
         schemaVersion: 1,
         sessionId: "session-1",
         runtimeFile: symlinkFile,
@@ -470,7 +470,7 @@ describe("exportTrajectoryBundle", () => {
     fs.writeFileSync(
       targetFile,
       `${JSON.stringify({
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "session-1",
         source: "runtime",
@@ -521,7 +521,7 @@ describe("exportTrajectoryBundle", () => {
     fs.writeFileSync(
       runtimeFile,
       `${JSON.stringify({
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "other-session",
         source: "runtime",
@@ -556,7 +556,7 @@ describe("exportTrajectoryBundle", () => {
     fs.writeFileSync(
       runtimeFile,
       `${JSON.stringify({
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "session-1",
         source: "runtime",
@@ -608,7 +608,7 @@ describe("exportTrajectoryBundle", () => {
 
     const runtimeEvents: TrajectoryEvent[] = [
       {
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "session-1",
         source: "runtime",
@@ -624,7 +624,7 @@ describe("exportTrajectoryBundle", () => {
         },
       },
       {
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "session-1",
         source: "runtime",
@@ -645,7 +645,7 @@ describe("exportTrajectoryBundle", () => {
         },
       },
       {
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "session-1",
         source: "runtime",
@@ -655,7 +655,7 @@ describe("exportTrajectoryBundle", () => {
         sourceSeq: 3,
         sessionId: "session-1",
         data: {
-          harness: { type: "openclaw", version: "0.1.0" },
+          harness: { type: "brikko-studio", version: "0.1.0" },
           model: { provider: "openai", name: "gpt-5.4" },
           skills: {
             entries: [
@@ -674,7 +674,7 @@ describe("exportTrajectoryBundle", () => {
         },
       },
       {
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "session-1",
         source: "runtime",
@@ -688,7 +688,7 @@ describe("exportTrajectoryBundle", () => {
         },
       },
       {
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId: "session-1",
         source: "runtime",

@@ -1,7 +1,7 @@
 import { setTimeout as scheduleNativeTimeout } from "node:timers";
 import { setTimeout as sleep } from "node:timers/promises";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import type { AcpSessionRuntimeOptions, SessionAcpMeta } from "../../config/sessions/types.js";
 import { resetHeartbeatWakeStateForTests } from "../../infra/heartbeat-wake.js";
 import { withTempDir } from "../../test-helpers/temp-dir.js";
@@ -52,11 +52,11 @@ const baseCfg = {
     dispatch: { enabled: true },
   },
 } as const;
-const ORIGINAL_STATE_DIR = process.env.OPENCLAW_STATE_DIR;
+const ORIGINAL_STATE_DIR = process.env.BRIKKO_STUDIO_STATE_DIR;
 
 async function withAcpManagerTaskStateDir(run: (root: string) => Promise<void>): Promise<void> {
-  await withTempDir({ prefix: "openclaw-acp-manager-task-" }, async (root) => {
-    process.env.OPENCLAW_STATE_DIR = root;
+  await withTempDir({ prefix: "brikko-studio-acp-manager-task-" }, async (root) => {
+    process.env.BRIKKO_STUDIO_STATE_DIR = root;
     resetTaskRegistryForTests({ persist: false });
     resetTaskFlowRegistryForTests({ persist: false });
     installInMemoryTaskRegistryRuntime();
@@ -229,9 +229,9 @@ describe("AcpSessionManager", () => {
 
   afterEach(() => {
     if (ORIGINAL_STATE_DIR === undefined) {
-      delete process.env.OPENCLAW_STATE_DIR;
+      delete process.env.BRIKKO_STUDIO_STATE_DIR;
     } else {
-      process.env.OPENCLAW_STATE_DIR = ORIGINAL_STATE_DIR;
+      process.env.BRIKKO_STUDIO_STATE_DIR = ORIGINAL_STATE_DIR;
     }
     resetHeartbeatWakeStateForTests();
     resetTaskRegistryForTests({ persist: false });
@@ -282,7 +282,7 @@ describe("AcpSessionManager", () => {
       ...baseCfg,
       session: { mainKey: "main" },
       agents: { list: [{ id: "main", default: true }] },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await manager.runTurn({
       cfg,
@@ -544,7 +544,7 @@ describe("AcpSessionManager", () => {
             timeoutSeconds: 1,
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
 
       const first = manager.runTurn({
         cfg,
@@ -647,7 +647,7 @@ describe("AcpSessionManager", () => {
             timeoutSeconds: 1,
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
 
       const first = manager.runTurn({
         cfg,
@@ -1303,7 +1303,7 @@ describe("AcpSessionManager", () => {
         ...baseCfg.acp,
         maxConcurrentSessions: 1,
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const manager = new AcpSessionManager();
     await manager.runTurn({
@@ -1345,7 +1345,7 @@ describe("AcpSessionManager", () => {
         ...baseCfg.acp,
         maxConcurrentSessions: 1,
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const manager = new AcpSessionManager();
     await manager.initializeSession({
@@ -1488,7 +1488,7 @@ describe("AcpSessionManager", () => {
           ...baseCfg.acp,
           maxConcurrentSessions: 1,
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
 
       const manager = new AcpSessionManager();
       await manager.runTurn({
@@ -1568,17 +1568,17 @@ describe("AcpSessionManager", () => {
       runtime: runtimeState.runtime,
     });
     hoisted.readAcpSessionEntryMock.mockReturnValue({
-      sessionKey: "agent:openclaw:acp:session-1",
-      storeSessionKey: "agent:openclaw:acp:session-1",
+      sessionKey: "agent:brikko-studio:acp:session-1",
+      storeSessionKey: "agent:brikko-studio:acp:session-1",
       acp: readySessionMeta({
-        agent: "openclaw",
+        agent: "brikko-studio",
       }),
     });
 
     const manager = new AcpSessionManager();
     const closeResult = await manager.closeSession({
       cfg: baseCfg,
-      sessionKey: "agent:openclaw:acp:session-1",
+      sessionKey: "agent:brikko-studio:acp:session-1",
       reason: "terminal-task-cleanup",
       allowBackendUnavailable: true,
       discardPersistentState: true,
@@ -1589,7 +1589,7 @@ describe("AcpSessionManager", () => {
     expect(closeResult.runtimeNotice).toContain("does not support session/close");
     expect(closeResult.metaCleared).toBe(true);
     expect(runtimeState.prepareFreshSession).toHaveBeenCalledWith({
-      sessionKey: "agent:openclaw:acp:session-1",
+      sessionKey: "agent:brikko-studio:acp:session-1",
     });
   });
 
@@ -1823,7 +1823,7 @@ describe("AcpSessionManager", () => {
             ttlMinutes: 0.01,
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
 
       const manager = new AcpSessionManager();
       await manager.runTurn({

@@ -199,7 +199,7 @@ function makeMissingToolResult(params: {
   // function_call_output normalization; live coverage in
   // openai-reasoning-compat.live.test.ts and tool-replay-repair.live.test.ts
   // sends this repaired history to real models. Other providers keep the older,
-  // explicit OpenClaw diagnostic text unless the caller opts in.
+  // explicit Brikko Studio diagnostic text unless the caller opts in.
   text?: string;
 }): Extract<AgentMessage, { role: "toolResult" }> {
   return {
@@ -211,7 +211,7 @@ function makeMissingToolResult(params: {
         type: "text",
         text:
           params.text ??
-          "[openclaw] missing tool result in session history; inserted synthetic error result for transcript repair.",
+          "[brikko-studio] missing tool result in session history; inserted synthetic error result for transcript repair.",
       },
     ],
     isError: true,

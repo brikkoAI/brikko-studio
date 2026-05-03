@@ -159,7 +159,7 @@ export function resolveAcpClientSpawnEnv(
   options: AcpClientSpawnEnvOptions = {},
 ): NodeJS.ProcessEnv {
   const env = omitEnvKeysCaseInsensitive(baseEnv, options.stripKeys ?? []);
-  env.OPENCLAW_SHELL = "acp-client";
+  env.BRIKKO_STUDIO_SHELL = "acp-client";
   return env;
 }
 
@@ -221,7 +221,7 @@ export function resolveAcpClientSpawnInvocation(
     platform: runtime.platform,
     env: runtime.env,
     execPath: runtime.execPath,
-    packageName: "openclaw",
+    packageName: "brikko-studio",
   });
   const resolved = materializeWindowsSpawnProgram(program, params.serverArgs);
   return {

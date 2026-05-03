@@ -6,7 +6,7 @@ import {
   abortAgentHarnessRun,
   queueAgentHarnessMessage,
   type EmbeddedRunAttemptParams,
-} from "openclaw/plugin-sdk/agent-harness";
+} from "brikko-studio/plugin-sdk/agent-harness";
 import {
   buildAgentRuntimePlan,
   embeddedAgentLog,
@@ -14,12 +14,12 @@ import {
   onAgentEvent,
   resetAgentEventsForTest,
   type AgentEventPayload,
-} from "openclaw/plugin-sdk/agent-harness-runtime";
+} from "brikko-studio/plugin-sdk/agent-harness-runtime";
 import {
   initializeGlobalHookRunner,
   resetGlobalHookRunner,
-} from "openclaw/plugin-sdk/hook-runtime";
-import { createMockPluginRegistry } from "openclaw/plugin-sdk/plugin-test-runtime";
+} from "brikko-studio/plugin-sdk/hook-runtime";
+import { createMockPluginRegistry } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CODEX_GPT5_BEHAVIOR_CONTRACT } from "../../prompt-overlay.js";
 import * as elicitationBridge from "./elicitation-bridge.js";
@@ -89,7 +89,7 @@ function threadStartResult(threadId = "thread-1") {
       updatedAt: 1,
       status: { type: "idle" },
       path: null,
-      cwd: tempDir || "/tmp/openclaw-codex-test",
+      cwd: tempDir || "/tmp/brikko-studio-codex-test",
       cliVersion: "0.125.0",
       source: "unknown",
       agentNickname: null,
@@ -101,7 +101,7 @@ function threadStartResult(threadId = "thread-1") {
     model: "gpt-5.4-codex",
     modelProvider: "openai",
     serviceTier: null,
-    cwd: tempDir || "/tmp/openclaw-codex-test",
+    cwd: tempDir || "/tmp/brikko-studio-codex-test",
     instructionSources: [],
     approvalPolicy: "never",
     approvalsReviewer: "user",
@@ -337,7 +337,7 @@ function extractRelayIdFromThreadRequest(params: unknown): string {
 describe("runCodexAppServerAttempt", () => {
   beforeEach(async () => {
     resetAgentEventsForTest();
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-codex-run-"));
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-codex-run-"));
   });
 
   afterEach(async () => {
@@ -373,20 +373,20 @@ describe("runCodexAppServerAttempt", () => {
     ]);
   });
 
-  it("allows Codex dynamic tool filtering to opt back into OpenClaw compatibility", () => {
+  it("allows Codex dynamic tool filtering to opt back into Brikko Studio compatibility", () => {
     const tools = ["read", "exec", "message", "custom_tool"].map((name) => ({ name }));
 
     expect(
       __testing
         .applyCodexDynamicToolProfile(tools, {
-          codexDynamicToolsProfile: "openclaw-compat",
+          codexDynamicToolsProfile: "brikko-studio-compat",
           codexDynamicToolsExclude: ["custom_tool"],
         })
         .map((tool) => tool.name),
     ).toEqual(["read", "exec", "message"]);
   });
 
-  it("starts Codex threads without duplicate OpenClaw workspace tools by default", async () => {
+  it("starts Codex threads without duplicate Brikko Studio workspace tools by default", async () => {
     const sessionFile = path.join(tempDir, "session.jsonl");
     const workspaceDir = path.join(tempDir, "workspace");
     const appServer = createThreadLifecycleAppServerOptions();
@@ -495,7 +495,7 @@ describe("runCodexAppServerAttempt", () => {
       contentItems: [
         {
           type: "inputText",
-          text: "OpenClaw dynamic tool call timed out after 1ms while running tool message.",
+          text: "Brikko Studio dynamic tool call timed out after 1ms while running tool message.",
         },
       ],
     });
@@ -529,7 +529,7 @@ describe("runCodexAppServerAttempt", () => {
       contentItems: [
         {
           type: "inputText",
-          text: "OpenClaw dynamic tool call timed out after 1ms while waiting for process action=poll sessionId=rapid-crustacean. This is a tool RPC timeout, not a session idle timeout.",
+          text: "Brikko Studio dynamic tool call timed out after 1ms while waiting for process action=poll sessionId=rapid-crustacean. This is a tool RPC timeout, not a session idle timeout.",
         },
       ],
     });
@@ -606,7 +606,7 @@ describe("runCodexAppServerAttempt", () => {
         {
           type: "inputText",
           text: expect.stringMatching(
-            /^(Unknown OpenClaw tool: message|Action send requires a target\.)$/u,
+            /^(Unknown Brikko Studio tool: message|Action send requires a target\.)$/u,
           ),
         },
       ],
@@ -705,7 +705,7 @@ describe("runCodexAppServerAttempt", () => {
     );
   });
 
-  it("passes OpenClaw bootstrap files through Codex config instructions", async () => {
+  it("passes Brikko Studio bootstrap files through Codex config instructions", async () => {
     const sessionFile = path.join(tempDir, "session.jsonl");
     const workspaceDir = path.join(tempDir, "workspace");
     await fs.mkdir(workspaceDir, { recursive: true });
@@ -1731,7 +1731,7 @@ describe("runCodexAppServerAttempt", () => {
   });
 
   it("releases completion when a projector callback throws during turn/completed", async () => {
-    // Regression for openclaw/openclaw#67996: a throw inside the projector's
+    // Regression for brikko-studio/brikko-studio#67996: a throw inside the projector's
     // turn/completed handler must not strand resolveCompletion, otherwise the
     // gateway session lane stays locked and every follow-up message queues
     // behind a run that will never resolve.
@@ -2288,7 +2288,7 @@ describe("runCodexAppServerAttempt", () => {
     );
   });
 
-  it("builds resume and turn params from the currently selected OpenClaw model", () => {
+  it("builds resume and turn params from the currently selected Brikko Studio model", () => {
     const params = createParams("/tmp/session.jsonl", "/tmp/workspace");
     const appServer = {
       start: {

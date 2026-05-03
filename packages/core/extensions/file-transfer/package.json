@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/file-transfer",
+  "name": "@brikko-studio/file-transfer",
   "version": "2026.5.3",
-  "description": "OpenClaw file transfer plugin (file_fetch, dir_list, dir_fetch, file_write)",
+  "description": "Brikko Studio file transfer plugin (file_fetch, dir_list, dir_fetch, file_write)",
   "type": "module",
   "dependencies": {
     "minimatch": "10.2.5",
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

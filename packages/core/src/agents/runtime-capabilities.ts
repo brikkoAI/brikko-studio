@@ -3,7 +3,7 @@ import {
   supportsAutomaticThreadBindingSpawn,
 } from "../channels/thread-bindings-policy.js";
 import { resolveChannelCapabilities } from "../config/channel-capabilities.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 import { resolveChannelPromptCapabilities } from "./channel-tools.js";
 
@@ -32,7 +32,7 @@ function mergeRuntimeCapabilities(
 }
 
 export function collectRuntimeChannelCapabilities(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   channel?: string | null;
   accountId?: string | null;
 }): string[] | undefined {

@@ -1,6 +1,6 @@
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import type { checkQmdBinaryAvailability as checkQmdBinaryAvailabilityFn } from "../memory-host-sdk/engine-qmd.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 
@@ -142,7 +142,7 @@ function resetMemoryRecallMocks() {
 }
 
 describe("noteMemorySearchHealth", () => {
-  const cfg = {} as OpenClawConfig;
+  const cfg = {} as Brikko StudioConfig;
 
   async function expectNoWarningWithConfiguredRemoteApiKey(provider: string) {
     resolveMemorySearchConfig.mockReturnValue({
@@ -169,7 +169,7 @@ describe("noteMemorySearchHealth", () => {
     hasAnyAuthProfileStoreSource.mockReturnValue(true);
     getActiveMemorySearchManager.mockReset();
     resolveActiveMemoryBackendConfig.mockReset();
-    resolveActiveMemoryBackendConfig.mockImplementation(({ cfg }: { cfg: OpenClawConfig }) =>
+    resolveActiveMemoryBackendConfig.mockImplementation(({ cfg }: { cfg: Brikko StudioConfig }) =>
       cfg.memory?.backend === "qmd"
         ? { backend: "qmd", qmd: cfg.memory.qmd ?? {} }
         : { backend: "builtin" },
@@ -277,7 +277,7 @@ describe("noteMemorySearchHealth", () => {
   });
 
   it("does not warn when QMD backend is active", async () => {
-    const qmdCfg = { memory: { backend: "qmd", qmd: { command: "qmd" } } } as OpenClawConfig;
+    const qmdCfg = { memory: { backend: "qmd", qmd: { command: "qmd" } } } as Brikko StudioConfig;
     resolveMemorySearchConfig.mockReturnValue({
       provider: "auto",
       local: {},
@@ -295,7 +295,7 @@ describe("noteMemorySearchHealth", () => {
   });
 
   it("warns when QMD backend is active but the qmd binary is unavailable", async () => {
-    const qmdCfg = { memory: { backend: "qmd", qmd: { command: "qmd" } } } as OpenClawConfig;
+    const qmdCfg = { memory: { backend: "qmd", qmd: { command: "qmd" } } } as Brikko StudioConfig;
     checkQmdBinaryAvailability.mockResolvedValueOnce({
       available: false,
       error: "spawn qmd ENOENT",
@@ -460,11 +460,11 @@ describe("noteMemorySearchHealth", () => {
   });
 
   it("does not warn when key-optional provider (lmstudio) probe was skipped (skipped: true)", async () => {
-    // When `openclaw doctor` runs without --deep, the probe is skipped and returns
+    // When `brikko-studio doctor` runs without --deep, the probe is skipped and returns
     // { checked: false, ready: false, skipped: true }. This must NOT produce a
     // false-positive warning — it means readiness was never checked, not that
     // embeddings are unavailable.
-    // Regression test for: https://github.com/openclaw/openclaw/issues/74608
+    // Regression test for: https://github.com/brikko-studio/brikko-studio/issues/74608
     resolveMemorySearchConfig.mockReturnValue({
       provider: "lmstudio",
       local: {},
@@ -496,7 +496,7 @@ describe("noteMemorySearchHealth", () => {
   it("warns for key-optional provider (lmstudio) when gateway probe timed out", async () => {
     // A gateway timeout sets checked: false but skipped: false/absent. This is a
     // real diagnostic signal — embeddings may be unavailable — so we should warn.
-    // Regression guard: https://github.com/openclaw/openclaw/issues/74608
+    // Regression guard: https://github.com/brikko-studio/brikko-studio/issues/74608
     resolveMemorySearchConfig.mockReturnValue({
       provider: "lmstudio",
       local: {},
@@ -548,8 +548,8 @@ describe("noteMemorySearchHealth", () => {
 
     const message = note.mock.calls[0]?.[0] as string;
     expect(message).toContain("Gateway memory probe for default agent is not ready");
-    expect(message).toContain("openclaw configure --section model");
-    expect(message).not.toContain("openclaw auth add --provider");
+    expect(message).toContain("brikko-studio configure --section model");
+    expect(message).not.toContain("brikko-studio auth add --provider");
   });
 
   it("warns in auto mode when no local modelPath and no API keys are configured", async () => {
@@ -567,7 +567,7 @@ describe("noteMemorySearchHealth", () => {
     expect(note).toHaveBeenCalledTimes(1);
     const message = String(note.mock.calls[0]?.[0] ?? "");
     expect(message).toContain("needs at least one embedding provider");
-    expect(message).toContain("openclaw configure --section model");
+    expect(message).toContain("brikko-studio configure --section model");
   });
 
   it("does not probe unrelated embedding providers in auto mode", async () => {
@@ -654,7 +654,7 @@ describe("noteMemorySearchHealth", () => {
 });
 
 describe("memory recall doctor integration", () => {
-  const cfg = {} as OpenClawConfig;
+  const cfg = {} as Brikko StudioConfig;
 
   beforeEach(() => {
     note.mockClear();
@@ -781,7 +781,7 @@ describe("memory recall doctor integration", () => {
     });
     repairDreamingArtifacts.mockResolvedValueOnce({
       changed: true,
-      archiveDir: "/tmp/agent-default/workspace/.openclaw-repair/dreaming/2026-04-11T21-35-00-000Z",
+      archiveDir: "/tmp/agent-default/workspace/.brikko-studio-repair/dreaming/2026-04-11T21-35-00-000Z",
       archivedDreamsDiary: false,
       archivedSessionCorpus: true,
       archivedSessionIngestion: true,
@@ -806,7 +806,7 @@ describe("memory recall doctor integration", () => {
 
 describe("detectLegacyWorkspaceDirs", () => {
   it("returns active workspace and no legacy dirs", () => {
-    const workspaceDir = "/home/user/openclaw";
+    const workspaceDir = "/home/user/brikko-studio";
     const detection = detectLegacyWorkspaceDirs({ workspaceDir });
     expect(detection.activeWorkspace).toBe(path.resolve(workspaceDir));
     expect(detection.legacyDirs).toEqual([]);

@@ -1,5 +1,5 @@
 import { EventEmitter } from "node:events";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { beforeAll, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 import type { GatewayPlugin } from "../internal/gateway.js";
 import type { WaitForDiscordGatewayStopParams } from "../monitor.gateway.js";
@@ -188,7 +188,7 @@ describe("runDiscordGatewayLifecycle", () => {
     expect(resolveDiscordGatewayReadyTimeoutMs({ configuredTimeoutMs: 45_000 })).toBe(45_000);
     expect(
       resolveDiscordGatewayReadyTimeoutMs({
-        env: { OPENCLAW_DISCORD_READY_TIMEOUT_MS: "90000" },
+        env: { BRIKKO_STUDIO_DISCORD_READY_TIMEOUT_MS: "90000" },
       }),
     ).toBe(90_000);
     expect(resolveDiscordGatewayReadyTimeoutMs({ env: {} })).toBe(15_000);
@@ -198,7 +198,7 @@ describe("runDiscordGatewayLifecycle", () => {
     );
     expect(
       resolveDiscordGatewayRuntimeReadyTimeoutMs({
-        env: { OPENCLAW_DISCORD_RUNTIME_READY_TIMEOUT_MS: "120000" },
+        env: { BRIKKO_STUDIO_DISCORD_RUNTIME_READY_TIMEOUT_MS: "120000" },
       }),
     ).toBe(120_000);
     expect(resolveDiscordGatewayRuntimeReadyTimeoutMs({ env: {} })).toBe(30_000);

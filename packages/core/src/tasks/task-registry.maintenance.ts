@@ -10,7 +10,7 @@ import {
 } from "../agents/subagent-recovery-state.js";
 import { loadSessionStore, resolveStorePath } from "../config/sessions.js";
 import type { SessionEntry } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { isCronJobActive } from "../cron/active-jobs.js";
 import { readCronRunLogEntriesSync, resolveCronRunLogPath } from "../cron/run-log.js";
 import type { CronRunLogEntry } from "../cron/run-log.js";
@@ -78,7 +78,7 @@ type TaskRegistryMaintenanceRuntime = {
   listAcpSessionEntries: typeof listAcpSessionEntries;
   readAcpSessionEntry: typeof readAcpSessionEntry;
   closeAcpSession?: (params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     sessionKey: string;
     reason: string;
   }) => Promise<void>;

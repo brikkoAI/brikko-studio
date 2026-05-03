@@ -2,7 +2,7 @@ import type { ModelCatalogEntry } from "../../agents/model-catalog.types.js";
 import { normalizeProviderId } from "../../agents/provider-id.js";
 import { resolveAgentModelFallbackValues } from "../../config/model-input.js";
 import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import type { MsgContext, TemplateContext } from "../templating.js";
@@ -29,13 +29,13 @@ function splitBody(body: string) {
   };
 }
 
-async function loadResetModelCatalog(cfg: OpenClawConfig): Promise<ModelCatalogEntry[]> {
+async function loadResetModelCatalog(cfg: Brikko StudioConfig): Promise<ModelCatalogEntry[]> {
   const { loadModelCatalog } = await import("../../agents/model-catalog.js");
   return loadModelCatalog({ config: cfg });
 }
 
 async function resolveResetFallbackModels(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId?: string;
 }): Promise<string[]> {
   if (params.agentId) {
@@ -49,7 +49,7 @@ async function resolveResetFallbackModels(params: {
 }
 
 async function buildResetAllowedModelKeys(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   catalog: ModelCatalogEntry[];
   defaultProvider: string;
   defaultModel?: string;
@@ -135,7 +135,7 @@ function applySelectionToSession(params: {
 }
 
 export async function applyResetModelOverride(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId?: string;
   resetTriggered: boolean;
   bodyStripped?: string;

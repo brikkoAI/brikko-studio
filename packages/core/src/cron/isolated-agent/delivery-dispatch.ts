@@ -12,7 +12,7 @@ import {
   resolveAgentMainSessionKey,
   resolveMainSessionKey,
 } from "../../config/sessions/main-session.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { TtsAutoMode } from "../../config/types.tts.js";
 import { sleepWithAbort } from "../../infra/backoff.js";
 import { formatErrorMessage } from "../../infra/errors.js";
@@ -102,8 +102,8 @@ export function resolveCronDeliveryBestEffort(job: CronJob): boolean {
 export type SuccessfulDeliveryTarget = Extract<DeliveryTargetResolution, { ok: true }>;
 
 type DispatchCronDeliveryParams = {
-  cfg: OpenClawConfig;
-  cfgWithAgentDefaults: OpenClawConfig;
+  cfg: Brikko StudioConfig;
+  cfgWithAgentDefaults: Brikko StudioConfig;
   deps: CliDeps;
   job: CronJob;
   agentId: string;
@@ -249,7 +249,7 @@ function cloneDeliveryResults(
 }
 
 function pruneCompletedDirectCronDeliveries(now: number) {
-  const ttlMs = process.env.OPENCLAW_TEST_FAST === "1" ? 60_000 : 24 * 60 * 60 * 1000;
+  const ttlMs = process.env.BRIKKO_STUDIO_TEST_FAST === "1" ? 60_000 : 24 * 60 * 60 * 1000;
   for (const [key, entry] of COMPLETED_DIRECT_CRON_DELIVERIES) {
     if (now - entry.ts >= ttlMs) {
       COMPLETED_DIRECT_CRON_DELIVERIES.delete(key);
@@ -310,7 +310,7 @@ function getCompletedDirectCronDelivery(
 }
 
 async function maybeApplyTtsToCronPayloads(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   payloads: ReplyPayload[];
   delivery: SuccessfulDeliveryTarget;
   agentId: string;
@@ -373,7 +373,7 @@ function shouldQueueCronAwareness(params: {
 }
 
 function resolveCronAwarenessMainSessionKey(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
 }): string {
   return params.cfg.session?.scope === "global"
@@ -382,7 +382,7 @@ function resolveCronAwarenessMainSessionKey(params: {
 }
 
 async function queueCronAwarenessSystemEvent(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   jobId: string;
   agentId: string;
   deliveryIdempotencyKey: string;
@@ -449,7 +449,7 @@ function isTransientDirectCronDeliveryError(error: unknown): boolean {
 }
 
 function resolveDirectCronRetryDelaysMs(): readonly number[] {
-  return process.env.NODE_ENV === "test" && process.env.OPENCLAW_TEST_FAST === "1"
+  return process.env.NODE_ENV === "test" && process.env.BRIKKO_STUDIO_TEST_FAST === "1"
     ? [0, 0, 0]
     : [5_000, 10_000, 20_000];
 }
@@ -500,7 +500,7 @@ export async function dispatchCronDelivery(
   let directCronSessionDeleted = false;
   const formatDeliveryTargetError = (error: string) =>
     params.unverifiedMessagingToolDelivery === true
-      ? `${error}; the agent used the message tool, but OpenClaw could not verify that message matched the cron delivery target`
+      ? `${error}; the agent used the message tool, but Brikko Studio could not verify that message matched the cron delivery target`
       : error;
   const failDeliveryTarget = (error: string) =>
     params.withRunSession({
@@ -678,7 +678,7 @@ export async function dispatchCronDelivery(
           // Keep all attempts out of the write-ahead delivery queue so a
           // late-successful first send cannot leave behind a failed queue
           // entry that replays on the next restart.
-          // See: https://github.com/openclaw/openclaw/issues/40545
+          // See: https://github.com/brikko-studio/brikko-studio/issues/40545
           skipQueue: true,
         });
       const deliveryResults = options?.retryTransient

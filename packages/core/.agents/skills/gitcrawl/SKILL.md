@@ -1,8 +1,8 @@
 ---
 name: gitcrawl
-description: Use gitcrawl for OpenClaw issue and PR archive search, duplicate discovery, related-thread clustering, and local GitHub mirror freshness checks.
+description: Use gitcrawl for Brikko Studio issue and PR archive search, duplicate discovery, related-thread clustering, and local GitHub mirror freshness checks.
 metadata:
-  openclaw:
+  brikko-studio:
     requires:
       bins:
         - gitcrawl
@@ -10,7 +10,7 @@ metadata:
 
 # Gitcrawl
 
-Use this skill before live GitHub search when triaging OpenClaw issues or PRs.
+Use this skill before live GitHub search when triaging Brikko Studio issues or PRs.
 
 `gitcrawl` is the local candidate-discovery layer. It is fast, includes open and closed threads, and can surface duplicate attempts, related issues, and already-landed fixes. It is not the final source of truth for comments, labels, merges, closes, or current CI.
 
@@ -25,20 +25,20 @@ gitcrawl doctor --json
 2. Read the target from the local archive:
 
 ```bash
-gitcrawl threads openclaw/openclaw --numbers <issue-or-pr-number> --include-closed --json
+gitcrawl threads brikko-studio/brikko-studio --numbers <issue-or-pr-number> --include-closed --json
 ```
 
 3. Find related candidates:
 
 ```bash
-gitcrawl neighbors openclaw/openclaw --number <issue-or-pr-number> --limit 12 --json
-gitcrawl search openclaw/openclaw --query "<scope or title keywords>" --mode hybrid --limit 20 --json
+gitcrawl neighbors brikko-studio/brikko-studio --number <issue-or-pr-number> --limit 12 --json
+gitcrawl search brikko-studio/brikko-studio --query "<scope or title keywords>" --mode hybrid --limit 20 --json
 ```
 
 4. Inspect relevant clusters:
 
 ```bash
-gitcrawl cluster-detail openclaw/openclaw --id <cluster-id> --member-limit 20 --body-chars 280 --json
+gitcrawl cluster-detail brikko-studio/brikko-studio --id <cluster-id> --member-limit 20 --body-chars 280 --json
 ```
 
 5. Verify anything actionable with live GitHub and the checkout:
@@ -54,7 +54,7 @@ gh issue view <number> --json number,title,state,body,comments,closedAt
 - If stale data blocks the decision, refresh the portable store first:
 
 ```bash
-gitcrawl init --portable-store git@github.com:openclaw/gitcrawl-store.git --json
+gitcrawl init --portable-store git@github.com:brikko-studio/gitcrawl-store.git --json
 ```
 
 - Run expensive update commands such as `gitcrawl sync --include-comments` only when the user asked to update the local store or stale data is blocking the decision.

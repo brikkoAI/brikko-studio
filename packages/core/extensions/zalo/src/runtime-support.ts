@@ -1,19 +1,19 @@
-export type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
-export type { OpenClawConfig, GroupPolicy } from "openclaw/plugin-sdk/config-types";
-export type { MarkdownTableMode } from "openclaw/plugin-sdk/config-types";
-export type { BaseTokenResolution } from "openclaw/plugin-sdk/channel-contract";
+export type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
+export type { Brikko StudioConfig, GroupPolicy } from "brikko-studio/plugin-sdk/config-types";
+export type { MarkdownTableMode } from "brikko-studio/plugin-sdk/config-types";
+export type { BaseTokenResolution } from "brikko-studio/plugin-sdk/channel-contract";
 export type {
   BaseProbeResult,
   ChannelAccountSnapshot,
   ChannelMessageActionAdapter,
   ChannelMessageActionName,
   ChannelStatusIssue,
-} from "openclaw/plugin-sdk/channel-contract";
-export type { SecretInput } from "openclaw/plugin-sdk/secret-input";
-export type { SenderGroupAccessDecision } from "openclaw/plugin-sdk/group-access";
-export type { ChannelPlugin, PluginRuntime, WizardPrompter } from "openclaw/plugin-sdk/core";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
-export type { OutboundReplyPayload } from "openclaw/plugin-sdk/reply-payload";
+} from "brikko-studio/plugin-sdk/channel-contract";
+export type { SecretInput } from "brikko-studio/plugin-sdk/secret-input";
+export type { SenderGroupAccessDecision } from "brikko-studio/plugin-sdk/group-access";
+export type { ChannelPlugin, PluginRuntime, WizardPrompter } from "brikko-studio/plugin-sdk/core";
+export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
+export type { OutboundReplyPayload } from "brikko-studio/plugin-sdk/reply-payload";
 export {
   DEFAULT_ACCOUNT_ID,
   buildChannelConfigSchema,
@@ -23,7 +23,7 @@ export {
   normalizeAccountId,
   readStringParam,
   resolveClientIp,
-} from "openclaw/plugin-sdk/core";
+} from "brikko-studio/plugin-sdk/core";
 export {
   applyAccountNameToChannelSection,
   applySetupAccountConfigPatch,
@@ -33,44 +33,44 @@ export {
   promptSingleChannelSecretInput,
   runSingleChannelSecretStep,
   setTopLevelChannelDmPolicyWithAllowFrom,
-} from "openclaw/plugin-sdk/setup";
+} from "brikko-studio/plugin-sdk/setup";
 export {
   buildSecretInputSchema,
   hasConfiguredSecretInput,
   normalizeResolvedSecretInputString,
   normalizeSecretInputString,
-} from "openclaw/plugin-sdk/secret-input";
+} from "brikko-studio/plugin-sdk/secret-input";
 export {
   buildTokenChannelStatusSummary,
   PAIRING_APPROVED_MESSAGE,
-} from "openclaw/plugin-sdk/channel-status";
-export { buildBaseAccountStatusSnapshot } from "openclaw/plugin-sdk/status-helpers";
-export { chunkTextForOutbound } from "openclaw/plugin-sdk/text-chunking";
+} from "brikko-studio/plugin-sdk/channel-status";
+export { buildBaseAccountStatusSnapshot } from "brikko-studio/plugin-sdk/status-helpers";
+export { chunkTextForOutbound } from "brikko-studio/plugin-sdk/text-chunking";
 export {
   formatAllowFromLowercase,
   isNormalizedSenderAllowed,
-} from "openclaw/plugin-sdk/allow-from";
-export { addWildcardAllowFrom } from "openclaw/plugin-sdk/setup";
-export { evaluateSenderGroupAccess } from "openclaw/plugin-sdk/group-access";
-export { resolveOpenProviderRuntimeGroupPolicy } from "openclaw/plugin-sdk/runtime-group-policy";
+} from "brikko-studio/plugin-sdk/allow-from";
+export { addWildcardAllowFrom } from "brikko-studio/plugin-sdk/setup";
+export { evaluateSenderGroupAccess } from "brikko-studio/plugin-sdk/group-access";
+export { resolveOpenProviderRuntimeGroupPolicy } from "brikko-studio/plugin-sdk/runtime-group-policy";
 export {
   warnMissingProviderGroupPolicyFallbackOnce,
   resolveDefaultGroupPolicy,
-} from "openclaw/plugin-sdk/runtime-group-policy";
-export { createChannelPairingController } from "openclaw/plugin-sdk/channel-pairing";
-export { createChannelReplyPipeline } from "openclaw/plugin-sdk/channel-reply-pipeline";
-export { logTypingFailure } from "openclaw/plugin-sdk/channel-feedback";
+} from "brikko-studio/plugin-sdk/runtime-group-policy";
+export { createChannelPairingController } from "brikko-studio/plugin-sdk/channel-pairing";
+export { createChannelReplyPipeline } from "brikko-studio/plugin-sdk/channel-reply-pipeline";
+export { logTypingFailure } from "brikko-studio/plugin-sdk/channel-feedback";
 export {
   deliverTextOrMediaReply,
   isNumericTargetId,
   sendPayloadWithChunkedTextAndMedia,
-} from "openclaw/plugin-sdk/reply-payload";
+} from "brikko-studio/plugin-sdk/reply-payload";
 export {
   resolveDirectDmAuthorizationOutcome,
   resolveSenderCommandAuthorizationWithRuntime,
-} from "openclaw/plugin-sdk/command-auth";
-export { resolveInboundRouteEnvelopeBuilderWithRuntime } from "openclaw/plugin-sdk/inbound-envelope";
-export { waitForAbortSignal } from "openclaw/plugin-sdk/runtime";
+} from "brikko-studio/plugin-sdk/command-auth";
+export { resolveInboundRouteEnvelopeBuilderWithRuntime } from "brikko-studio/plugin-sdk/inbound-envelope";
+export { waitForAbortSignal } from "brikko-studio/plugin-sdk/runtime";
 export {
   applyBasicWebhookRequestGuards,
   createFixedWindowRateLimiter,
@@ -84,8 +84,8 @@ export {
   WEBHOOK_ANOMALY_COUNTER_DEFAULTS,
   WEBHOOK_RATE_LIMIT_DEFAULTS,
   withResolvedWebhookRequestPipeline,
-} from "openclaw/plugin-sdk/webhook-ingress";
+} from "brikko-studio/plugin-sdk/webhook-ingress";
 export type {
   RegisterWebhookPluginRouteOptions,
   RegisterWebhookTargetOptions,
-} from "openclaw/plugin-sdk/webhook-ingress";
+} from "brikko-studio/plugin-sdk/webhook-ingress";

@@ -1,4 +1,4 @@
-import type { SlackAccountConfig } from "openclaw/plugin-sdk/config-types";
+import type { SlackAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export type SlackAccountSurfaceFields = {
   groupPolicy?: SlackAccountConfig["groupPolicy"];

@@ -22,9 +22,9 @@ describe("commitment store delivery selection", () => {
   });
 
   async function useTempStateDir(): Promise<string> {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-commitments-store-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-commitments-store-"));
     tmpDirs.push(tmpDir);
-    vi.stubEnv("OPENCLAW_STATE_DIR", tmpDir);
+    vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tmpDir);
     return tmpDir;
   }
 

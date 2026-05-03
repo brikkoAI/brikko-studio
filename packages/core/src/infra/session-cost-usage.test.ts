@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { createSuiteTempRootTracker } from "../test-helpers/temp-dir.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import {
@@ -14,9 +14,9 @@ import {
 } from "./session-cost-usage.js";
 
 describe("session cost usage", () => {
-  const suiteRootTracker = createSuiteTempRootTracker({ prefix: "openclaw-session-cost-" });
+  const suiteRootTracker = createSuiteTempRootTracker({ prefix: "brikko-studio-session-cost-" });
   const withStateDir = async <T>(stateDir: string, fn: () => Promise<T>): Promise<T> =>
-    await withEnvAsync({ OPENCLAW_STATE_DIR: stateDir }, fn);
+    await withEnvAsync({ BRIKKO_STUDIO_STATE_DIR: stateDir }, fn);
   const makeSessionCostRoot = async (prefix: string): Promise<string> =>
     await suiteRootTracker.make(prefix);
   const transcriptText = (sessionId: string, entry: unknown): string =>
@@ -118,7 +118,7 @@ describe("session cost usage", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     await withStateDir(root, async () => {
       const summary = await loadCostUsageSummary({ days: 30, config });
@@ -766,7 +766,7 @@ example
   });
 
   it("buckets hourly message counts into UTC quarter-hour slots", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-cost-quarter-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-cost-quarter-"));
     const sessionFile = path.join(root, "session.jsonl");
 
     // Messages at different UTC quarter-hour boundaries:
@@ -833,7 +833,7 @@ example
   });
 
   it("captures UTC quarter-hour token usage buckets without proportional allocation", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-cost-token-hourly-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-cost-token-hourly-"));
     const sessionFile = path.join(root, "session.jsonl");
     const entries = [
       {
@@ -916,7 +916,7 @@ example
   });
 
   it("splits UTC quarter-hour token usage buckets across UTC day boundaries", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-cost-token-midnight-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-cost-token-midnight-"));
     const sessionFile = path.join(root, "session.jsonl");
     const entries = [
       {
@@ -973,7 +973,7 @@ example
   });
 
   it("returns undefined utcQuarterHourMessageCounts when session has no messages", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-cost-empty-hourly-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-cost-empty-hourly-"));
     const sessionFile = path.join(root, "session.jsonl");
     // Empty file — no entries at all
     await fs.writeFile(sessionFile, "", "utf-8");

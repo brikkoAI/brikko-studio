@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { GetReplyOptions, SourceReplyDeliveryMode } from "../get-reply-options.types.js";
 import type { FinalizedMsgContext } from "../templating.js";
 import type { FormatAbortReplyText, TryFastAbortFromMessage } from "./abort.runtime-types.js";
@@ -13,14 +13,14 @@ export type DispatchFromConfigResult = {
 
 export type DispatchFromConfigParams = {
   ctx: FinalizedMsgContext;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   dispatcher: ReplyDispatcher;
   replyOptions?: Omit<GetReplyOptions, "onBlockReply">;
   replyResolver?: GetReplyFromConfig;
   fastAbortResolver?: TryFastAbortFromMessage;
   formatAbortReplyTextResolver?: FormatAbortReplyText;
   /** Optional patch applied to the already loaded config before reply resolution. */
-  configOverride?: OpenClawConfig;
+  configOverride?: Brikko StudioConfig;
 };
 
 export type DispatchReplyFromConfig = (

@@ -49,7 +49,7 @@ const errors = collectPackageDistImportErrors({
 });
 
 if (errors.length > 0) {
-  fail(`OpenClaw package dist import closure failed:\n${errors.join("\n")}`);
+  fail(`Brikko Studio package dist import closure failed:\n${errors.join("\n")}`);
 }
 
-console.log("OpenClaw package dist import closure passed.");
+console.log("Brikko Studio package dist import closure passed.");

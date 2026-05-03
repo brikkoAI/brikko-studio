@@ -1,5 +1,5 @@
-import { createFinalizableDraftLifecycle } from "openclaw/plugin-sdk/channel-lifecycle";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { createFinalizableDraftLifecycle } from "brikko-studio/plugin-sdk/channel-lifecycle";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import {
   createChannelMessage,
   deleteChannelMessage,

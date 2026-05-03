@@ -28,7 +28,7 @@ function mkSessionsSpawnToolCall(content: string): AgentMessage {
 }
 
 describe("sanitizeToolCallInputs redacts sessions_spawn attachments", () => {
-  it("replaces attachments[].content with __OPENCLAW_REDACTED__", () => {
+  it("replaces attachments[].content with __BRIKKO_STUDIO_REDACTED__", () => {
     const secret = "SUPER_SECRET_SHOULD_NOT_PERSIST"; // pragma: allowlist secret
     const input = [mkSessionsSpawnToolCall(secret)];
     const out = sanitizeToolCallInputs(input);
@@ -39,7 +39,7 @@ describe("sanitizeToolCallInputs redacts sessions_spawn attachments", () => {
       arguments?: { attachments?: Array<{ content?: string }> };
     } | null;
     expect(tool?.name).toBe("sessions_spawn");
-    expect(tool?.arguments?.attachments?.[0]?.content).toBe("__OPENCLAW_REDACTED__");
+    expect(tool?.arguments?.attachments?.[0]?.content).toBe("__BRIKKO_STUDIO_REDACTED__");
     expect(JSON.stringify(out)).not.toContain(secret);
   });
 
@@ -71,7 +71,7 @@ describe("sanitizeToolCallInputs redacts sessions_spawn attachments", () => {
     } | null;
     expect(
       tool?.input?.attachments?.[0]?.content || tool?.arguments?.attachments?.[0]?.content,
-    ).toBe("__OPENCLAW_REDACTED__");
+    ).toBe("__BRIKKO_STUDIO_REDACTED__");
     expect(JSON.stringify(out)).not.toContain(secret);
   });
 
@@ -115,7 +115,7 @@ describe("sanitizeToolCallInputs redacts sessions_spawn attachments", () => {
       name: "payload.json",
       mimeType: "application/json",
       encoding: "utf8",
-      content: "__OPENCLAW_REDACTED__",
+      content: "__BRIKKO_STUDIO_REDACTED__",
     });
     expect(JSON.stringify(out)).not.toContain(secret);
   });
@@ -160,10 +160,10 @@ describe("sanitizeToolCallInputs redacts sessions_spawn attachments", () => {
       input?: { resumeSessionId?: string; streamTo?: string };
     } | null;
 
-    expect(argumentTool?.arguments?.resumeSessionId).toBe("__OPENCLAW_REDACTED__");
-    expect(argumentTool?.arguments?.streamTo).toBe("__OPENCLAW_REDACTED__");
-    expect(inputTool?.input?.resumeSessionId).toBe("__OPENCLAW_REDACTED__");
-    expect(inputTool?.input?.streamTo).toBe("__OPENCLAW_REDACTED__");
+    expect(argumentTool?.arguments?.resumeSessionId).toBe("__BRIKKO_STUDIO_REDACTED__");
+    expect(argumentTool?.arguments?.streamTo).toBe("__BRIKKO_STUDIO_REDACTED__");
+    expect(inputTool?.input?.resumeSessionId).toBe("__BRIKKO_STUDIO_REDACTED__");
+    expect(inputTool?.input?.streamTo).toBe("__BRIKKO_STUDIO_REDACTED__");
     expect(JSON.stringify(out)).not.toContain(argumentResumeSessionId);
     expect(JSON.stringify(out)).not.toContain(inputResumeSessionId);
   });
@@ -194,8 +194,8 @@ describe("sanitizeToolCallInputs redacts sessions_spawn attachments", () => {
       input?: { resumeSessionId?: string; streamTo?: string };
     } | null;
 
-    expect(tool?.input?.resumeSessionId).toBe("__OPENCLAW_REDACTED__");
-    expect(tool?.input?.streamTo).toBe("__OPENCLAW_REDACTED__");
+    expect(tool?.input?.resumeSessionId).toBe("__BRIKKO_STUDIO_REDACTED__");
+    expect(tool?.input?.streamTo).toBe("__BRIKKO_STUDIO_REDACTED__");
     expect(JSON.stringify(out)).not.toContain(nestedResumeSessionId);
   });
 });

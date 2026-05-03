@@ -1,14 +1,14 @@
 import type {
   ChannelAccountSnapshot,
   ChannelStatusIssue,
-} from "openclaw/plugin-sdk/channel-contract";
-import { formatCliCommand } from "openclaw/plugin-sdk/cli-runtime";
+} from "brikko-studio/plugin-sdk/channel-contract";
+import { formatCliCommand } from "brikko-studio/plugin-sdk/cli-runtime";
 import {
   appendMatchMetadata,
   asString,
   isRecord,
   resolveEnabledConfiguredAccountId,
-} from "openclaw/plugin-sdk/status-helpers";
+} from "brikko-studio/plugin-sdk/status-helpers";
 
 const TELEGRAM_POLLING_CONNECT_GRACE_MS = 120_000;
 const TELEGRAM_POLLING_STALE_TRANSPORT_MS = 30 * 60_000;
@@ -82,7 +82,7 @@ function collectTelegramPollingRuntimeIssues(params: {
 
   const lastStartAt = asFiniteNumber(account.lastStartAt);
   const lastTransportActivityAt = asFiniteNumber(account.lastTransportActivityAt);
-  const fix = `Run: ${formatCliCommand("openclaw channels status --probe")} (or restart the gateway). Check the bot token, proxy/network settings, and logs if it persists.`;
+  const fix = `Run: ${formatCliCommand("brikko-studio channels status --probe")} (or restart the gateway). Check the bot token, proxy/network settings, and logs if it persists.`;
 
   if (account.connected === false) {
     const withinStartupGrace =
@@ -155,7 +155,7 @@ function collectTelegramWebhookRuntimeIssues(params: {
       "Telegram webhook listener is running but setWebhook has not completed since startup",
       account.lastError,
     ),
-    fix: `Run: ${formatCliCommand("openclaw channels status --probe")} (or restart the gateway). Check the webhook URL, secret, TLS/proxy reachability, and Telegram setWebhook logs if it persists.`,
+    fix: `Run: ${formatCliCommand("brikko-studio channels status --probe")} (or restart the gateway). Check the webhook URL, secret, TLS/proxy reachability, and Telegram setWebhook logs if it persists.`,
   });
 }
 

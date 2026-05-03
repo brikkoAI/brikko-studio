@@ -5,17 +5,17 @@ describe("buildVitestCapabilityShimAliasMap", () => {
   it("keeps scoped and unscoped capability shim aliases aligned", () => {
     const aliasMap = buildVitestCapabilityShimAliasMap();
 
-    expect(aliasMap["openclaw/plugin-sdk/config-runtime"]).toBe(
-      aliasMap["@openclaw/plugin-sdk/config-runtime"],
+    expect(aliasMap["brikko-studio/plugin-sdk/config-runtime"]).toBe(
+      aliasMap["@brikko-studio/plugin-sdk/config-runtime"],
     );
-    expect(aliasMap["openclaw/plugin-sdk/media-runtime"]).toBe(
-      aliasMap["@openclaw/plugin-sdk/media-runtime"],
+    expect(aliasMap["brikko-studio/plugin-sdk/media-runtime"]).toBe(
+      aliasMap["@brikko-studio/plugin-sdk/media-runtime"],
     );
-    expect(aliasMap["openclaw/plugin-sdk/provider-onboard"]).toBe(
-      aliasMap["@openclaw/plugin-sdk/provider-onboard"],
+    expect(aliasMap["brikko-studio/plugin-sdk/provider-onboard"]).toBe(
+      aliasMap["@brikko-studio/plugin-sdk/provider-onboard"],
     );
-    expect(aliasMap["openclaw/plugin-sdk/speech-core"]).toBe(
-      aliasMap["@openclaw/plugin-sdk/speech-core"],
+    expect(aliasMap["brikko-studio/plugin-sdk/speech-core"]).toBe(
+      aliasMap["@brikko-studio/plugin-sdk/speech-core"],
     );
   });
 });

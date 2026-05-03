@@ -25,7 +25,7 @@ export function createUiVitestConfig(
     env,
     exclude,
     excludeUnitFastTests: false,
-    includeOpenClawRuntimeSetup: false,
+    includeBrikko StudioRuntimeSetup: false,
     isolate: false,
     name: options?.name ?? "ui",
     setupFiles: ["ui/src/test-helpers/lit-warnings.setup.ts"],

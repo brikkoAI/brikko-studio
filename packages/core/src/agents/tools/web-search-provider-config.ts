@@ -1,5 +1,5 @@
 import { resolvePluginWebSearchConfig } from "../../config/plugin-web-search-config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 
 export function getTopLevelCredentialValue(searchConfig?: Record<string, unknown>): unknown {
   return searchConfig?.apiKey;
@@ -68,7 +68,7 @@ export function mergeScopedSearchConfig(
 }
 
 export function resolveProviderWebSearchPluginConfig(
-  config: OpenClawConfig | undefined,
+  config: Brikko StudioConfig | undefined,
   pluginId: string,
 ): Record<string, unknown> | undefined {
   return resolvePluginWebSearchConfig(config, pluginId);
@@ -85,7 +85,7 @@ function ensureObject(target: Record<string, unknown>, key: string): Record<stri
 }
 
 export function setProviderWebSearchPluginConfigValue(
-  configTarget: OpenClawConfig,
+  configTarget: Brikko StudioConfig,
   pluginId: string,
   key: string,
   value: unknown,

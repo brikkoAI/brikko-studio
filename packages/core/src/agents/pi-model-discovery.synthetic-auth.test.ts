@@ -42,7 +42,7 @@ vi.mock("./pi-auth-discovery-core.js", () => ({
 let resolvePiCredentialsForDiscovery: typeof import("./pi-auth-discovery.js").resolvePiCredentialsForDiscovery;
 
 async function withAgentDir(run: (agentDir: string) => Promise<void>): Promise<void> {
-  const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-pi-synthetic-auth-"));
+  const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-pi-synthetic-auth-"));
   try {
     await run(agentDir);
   } finally {

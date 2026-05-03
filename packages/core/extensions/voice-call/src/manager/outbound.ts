@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import {
   resolveVoiceCallEffectiveConfig,
   resolveVoiceCallSessionKey,

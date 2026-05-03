@@ -15,7 +15,7 @@ import { refreshPluginRegistryAfterConfigMutation } from "../../cli/plugins-regi
 import {
   readConfigFileSnapshot,
   replaceConfigFile,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
 } from "../../config/config.js";
 import { danger } from "../../globals.js";
 import { formatErrorMessage } from "../../infra/errors.js";
@@ -135,7 +135,7 @@ function renderDisplayLine(line: ChannelCapabilitiesDisplayLine) {
 
 async function resolveChannelReports(params: {
   plugin: ChannelPlugin;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   timeoutMs: number;
   accountOverride?: string;
   target?: string;

@@ -1,24 +1,24 @@
-import { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/account-id";
-import { buildDmGroupAccountAllowlistAdapter } from "openclaw/plugin-sdk/allowlist-config-edit";
-import { createChatChannelPlugin, type ChannelPlugin } from "openclaw/plugin-sdk/channel-core";
-import { createPairingPrefixStripper } from "openclaw/plugin-sdk/channel-pairing";
+import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
+import { buildDmGroupAccountAllowlistAdapter } from "brikko-studio/plugin-sdk/allowlist-config-edit";
+import { createChatChannelPlugin, type ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
+import { createPairingPrefixStripper } from "brikko-studio/plugin-sdk/channel-pairing";
 import {
   attachChannelToResult,
   attachChannelToResults,
-} from "openclaw/plugin-sdk/channel-send-result";
-import { PAIRING_APPROVED_MESSAGE } from "openclaw/plugin-sdk/channel-status";
-import { resolveMarkdownTableMode } from "openclaw/plugin-sdk/markdown-table-runtime";
-import { resolveChannelMediaMaxBytes } from "openclaw/plugin-sdk/media-runtime";
-import { resolveOutboundSendDep } from "openclaw/plugin-sdk/outbound-send-deps";
-import { chunkText, resolveTextChunkLimit } from "openclaw/plugin-sdk/reply-chunking";
-import { buildOutboundBaseSessionKey, type RoutePeer } from "openclaw/plugin-sdk/routing";
+} from "brikko-studio/plugin-sdk/channel-send-result";
+import { PAIRING_APPROVED_MESSAGE } from "brikko-studio/plugin-sdk/channel-status";
+import { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
+import { resolveChannelMediaMaxBytes } from "brikko-studio/plugin-sdk/media-runtime";
+import { resolveOutboundSendDep } from "brikko-studio/plugin-sdk/outbound-send-deps";
+import { chunkText, resolveTextChunkLimit } from "brikko-studio/plugin-sdk/reply-chunking";
+import { buildOutboundBaseSessionKey, type RoutePeer } from "brikko-studio/plugin-sdk/routing";
 import {
   buildBaseChannelStatusSummary,
   collectStatusIssuesFromLastError,
   createComputedAccountStatusAdapter,
   createDefaultChannelRuntimeState,
-} from "openclaw/plugin-sdk/status-helpers";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/status-helpers";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveSignalAccount, type ResolvedSignalAccount } from "./accounts.js";
 import { signalApprovalAuth } from "./approval-auth.js";
 import { markdownToSignalTextChunks } from "./format.js";

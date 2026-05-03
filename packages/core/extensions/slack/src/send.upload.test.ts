@@ -21,14 +21,14 @@ const fetchWithSsrFGuard = vi.fn(
     }) as const,
 );
 
-vi.mock("openclaw/plugin-sdk/ssrf-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/ssrf-runtime", () => ({
   fetchWithSsrFGuard: (...args: unknown[]) =>
     fetchWithSsrFGuard(...(args as [params: { url: string; init?: RequestInit }])),
 }));
 
-vi.mock("openclaw/plugin-sdk/fetch-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/fetch-runtime")>(
-    "openclaw/plugin-sdk/fetch-runtime",
+vi.mock("brikko-studio/plugin-sdk/fetch-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/fetch-runtime")>(
+    "brikko-studio/plugin-sdk/fetch-runtime",
   );
   return {
     ...actual,

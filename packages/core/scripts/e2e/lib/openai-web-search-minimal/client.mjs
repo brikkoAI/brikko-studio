@@ -17,15 +17,15 @@ async function loadCallGateway() {
 const callGateway = await loadCallGateway();
 
 const port = process.env.PORT;
-const token = process.env.OPENCLAW_GATEWAY_TOKEN;
+const token = process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
 const mode = process.argv[2];
 const sessionKey = `agent:main:openai-web-search-minimal:${mode}`;
 const message =
-  mode === "reject" ? "FORCE_SCHEMA_REJECT" : "Return exactly OPENCLAW_SCHEMA_E2E_OK.";
+  mode === "reject" ? "FORCE_SCHEMA_REJECT" : "Return exactly BRIKKO_STUDIO_SCHEMA_E2E_OK.";
 const id = mode === "reject" ? "schema-reject" : "schema-success";
 
 if (!port || !token) {
-  throw new Error("missing PORT/OPENCLAW_GATEWAY_TOKEN");
+  throw new Error("missing PORT/BRIKKO_STUDIO_GATEWAY_TOKEN");
 }
 
 async function gatewayAgent(params) {

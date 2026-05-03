@@ -1,12 +1,12 @@
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import { resolveOpenClawPluginToolInputs } from "./openclaw-tools.plugin-context.js";
+import { resolveBrikko StudioPluginToolInputs } from "./brikko-studio-tools.plugin-context.js";
 import { applyPluginToolDeliveryDefaults } from "./plugin-tool-delivery-defaults.js";
 import type { AnyAgentTool } from "./tools/common.js";
 
-describe("openclaw plugin tool context", () => {
+describe("brikko-studio plugin tool context", () => {
   it("forwards trusted requester sender identity", () => {
-    const result = resolveOpenClawPluginToolInputs({
+    const result = resolveBrikko StudioPluginToolInputs({
       options: {
         config: {} as never,
         requesterSenderId: "trusted-sender",
@@ -23,7 +23,7 @@ describe("openclaw plugin tool context", () => {
   });
 
   it("forwards fs policy for plugin tool sandbox enforcement", () => {
-    const result = resolveOpenClawPluginToolInputs({
+    const result = resolveBrikko StudioPluginToolInputs({
       options: {
         config: {} as never,
         fsPolicy: { workspaceOnly: true },
@@ -38,7 +38,7 @@ describe("openclaw plugin tool context", () => {
   });
 
   it("forwards ephemeral sessionId", () => {
-    const result = resolveOpenClawPluginToolInputs({
+    const result = resolveBrikko StudioPluginToolInputs({
       options: {
         config: {} as never,
         agentSessionKey: "agent:main:telegram:direct:12345",
@@ -56,7 +56,7 @@ describe("openclaw plugin tool context", () => {
 
   it("infers the default agent workspace when workspaceDir is omitted", () => {
     const workspaceDir = path.join(process.cwd(), "tmp-main-workspace");
-    const result = resolveOpenClawPluginToolInputs({
+    const result = resolveBrikko StudioPluginToolInputs({
       options: {
         config: {
           agents: {
@@ -93,7 +93,7 @@ describe("openclaw plugin tool context", () => {
         ],
       },
     } as never;
-    const result = resolveOpenClawPluginToolInputs({
+    const result = resolveBrikko StudioPluginToolInputs({
       options: {
         config,
         agentSessionKey: "agent:support:main",
@@ -120,7 +120,7 @@ describe("openclaw plugin tool context", () => {
         ],
       },
     } as never;
-    const result = resolveOpenClawPluginToolInputs({
+    const result = resolveBrikko StudioPluginToolInputs({
       options: {
         config,
         agentSessionKey: "explicit:user-session:active-memory:abc123",
@@ -138,7 +138,7 @@ describe("openclaw plugin tool context", () => {
   });
 
   it("forwards browser session wiring", () => {
-    const result = resolveOpenClawPluginToolInputs({
+    const result = resolveBrikko StudioPluginToolInputs({
       options: {
         config: {} as never,
         sandboxBrowserBridgeUrl: "http://127.0.0.1:9999",
@@ -157,7 +157,7 @@ describe("openclaw plugin tool context", () => {
   });
 
   it("forwards gateway subagent binding", () => {
-    const result = resolveOpenClawPluginToolInputs({
+    const result = resolveBrikko StudioPluginToolInputs({
       options: {
         config: {} as never,
         allowGatewaySubagentBinding: true,
@@ -168,7 +168,7 @@ describe("openclaw plugin tool context", () => {
   });
 
   it("forwards ambient deliveryContext", () => {
-    const result = resolveOpenClawPluginToolInputs({
+    const result = resolveBrikko StudioPluginToolInputs({
       options: {
         config: {} as never,
         agentChannel: "slack",

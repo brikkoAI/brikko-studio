@@ -7,8 +7,8 @@
  * Converts common inline HTML to lightweight-markup equivalents used by
  * WhatsApp/Signal/Telegram and strips any remaining tags.
  *
- * @see https://github.com/openclaw/openclaw/issues/31884
- * @see https://github.com/openclaw/openclaw/issues/18558
+ * @see https://github.com/brikko-studio/brikko-studio/issues/31884
+ * @see https://github.com/brikko-studio/brikko-studio/issues/18558
  */
 
 const INTERNAL_RUNTIME_SCAFFOLDING_TAGS = ["system-reminder", "previous_response"] as const;

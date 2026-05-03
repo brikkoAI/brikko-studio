@@ -5,7 +5,7 @@
   },
   "channels": ["twitch"],
   "channelEnvVars": {
-    "twitch": ["OPENCLAW_TWITCH_ACCESS_TOKEN"]
+    "twitch": ["BRIKKO_STUDIO_TWITCH_ACCESS_TOKEN"]
   },
   "configSchema": {
     "type": "object",

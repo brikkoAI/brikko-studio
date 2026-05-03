@@ -47,13 +47,13 @@ describe("json file helpers", () => {
       expected: null,
     },
   ])("$name", async ({ setup, expected }) => {
-    await withTempDir({ prefix: "openclaw-json-files-" }, async (base) => {
+    await withTempDir({ prefix: "brikko-studio-json-files-" }, async (base) => {
       await expect(readJsonFile(await setup(base))).resolves.toEqual(expected);
     });
   });
 
   it("reads durable json strictly while allowing missing files", async () => {
-    await withTempDir({ prefix: "openclaw-json-files-" }, async (base) => {
+    await withTempDir({ prefix: "brikko-studio-json-files-" }, async (base) => {
       const validPath = path.join(base, "valid.json");
       const invalidPath = path.join(base, "invalid.json");
       const missingPath = path.join(base, "missing.json");
@@ -70,7 +70,7 @@ describe("json file helpers", () => {
   });
 
   it("writes json atomically with pretty formatting and optional trailing newline", async () => {
-    await withTempDir({ prefix: "openclaw-json-files-" }, async (base) => {
+    await withTempDir({ prefix: "brikko-studio-json-files-" }, async (base) => {
       const filePath = path.join(base, "nested", "config.json");
 
       await writeJsonAtomic(
@@ -89,7 +89,7 @@ describe("json file helpers", () => {
     { input: "hello", expected: "hello\n" },
     { input: "hello\n", expected: "hello\n" },
   ])("writes text atomically for %j", async ({ input, expected }) => {
-    await withTempDir({ prefix: "openclaw-json-files-" }, async (base) => {
+    await withTempDir({ prefix: "brikko-studio-json-files-" }, async (base) => {
       const filePath = path.join(base, "nested", "note.txt");
       await writeTextAtomic(filePath, input, { appendTrailingNewline: true });
       await expect(fs.readFile(filePath, "utf8")).resolves.toBe(expected);
@@ -97,7 +97,7 @@ describe("json file helpers", () => {
   });
 
   it("falls back to copy-on-replace for Windows rename EPERM", async () => {
-    await withTempDir({ prefix: "openclaw-json-files-" }, async (base) => {
+    await withTempDir({ prefix: "brikko-studio-json-files-" }, async (base) => {
       const filePath = path.join(base, "state.json");
       await fs.writeFile(filePath, "old", "utf8");
 
@@ -115,7 +115,7 @@ describe("json file helpers", () => {
   });
 
   it("replaces symlink targets instead of writing through them on Windows rename fallback", async () => {
-    await withTempDir({ prefix: "openclaw-json-files-" }, async (base) => {
+    await withTempDir({ prefix: "brikko-studio-json-files-" }, async (base) => {
       const filePath = path.join(base, "state.json");
       const outsidePath = path.join(base, "outside.json");
       await fs.writeFile(outsidePath, "outside", "utf8");

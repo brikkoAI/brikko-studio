@@ -1,7 +1,7 @@
 import {
   expectProviderOnboardMergedLegacyConfig,
   expectProviderOnboardPrimaryModel,
-} from "openclaw/plugin-sdk/provider-test-contracts";
+} from "brikko-studio/plugin-sdk/provider-test-contracts";
 import { describe, expect, it } from "vitest";
 import { SYNTHETIC_DEFAULT_MODEL_REF as SYNTHETIC_DEFAULT_MODEL_REF_PUBLIC } from "./api.js";
 import {

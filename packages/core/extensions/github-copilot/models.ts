@@ -1,9 +1,9 @@
 import type {
   ProviderResolveDynamicModelContext,
   ProviderRuntimeModel,
-} from "openclaw/plugin-sdk/core";
-import { normalizeModelCompat } from "openclaw/plugin-sdk/provider-model-shared";
-import { normalizeOptionalLowercaseString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/core";
+import { normalizeModelCompat } from "brikko-studio/plugin-sdk/provider-model-shared";
+import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
 
 export const PROVIDER_ID = "github-copilot";
 const CODEX_FORWARD_COMPAT_TARGET_IDS = new Set(["gpt-5.4", "gpt-5.3-codex"]);
@@ -64,7 +64,7 @@ export function resolveCopilotForwardCompatModel(
   // Catch-all: create a synthetic model definition for any unknown model ID.
   // The Copilot API is OpenAI-compatible and will return its own error if the
   // model isn't available on the user's plan. This lets new models be used
-  // by simply adding them to agents.defaults.models in openclaw.json — no
+  // by simply adding them to agents.defaults.models in brikko-studio.json — no
   // code change required.
   const reasoning = /^o[13](\b|$)/.test(lowerModelId) || isCopilotCodexModelId(lowerModelId);
   return normalizeModelCompat({

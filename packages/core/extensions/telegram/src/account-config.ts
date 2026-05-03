@@ -1,9 +1,9 @@
 import {
   normalizeAccountId,
   resolveAccountEntry,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/account-core";
-import type { TelegramAccountConfig } from "openclaw/plugin-sdk/config-types";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/account-core";
+import type { TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 
 function normalizeAllowFromEntry(value: string | number): string {
   return String(value).trim();
@@ -45,7 +45,7 @@ function resolveMergedAllowFrom(params: {
 }
 
 export function resolveTelegramAccountConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId: string,
 ): TelegramAccountConfig | undefined {
   const normalized = normalizeAccountId(accountId);
@@ -53,7 +53,7 @@ export function resolveTelegramAccountConfig(
 }
 
 export function mergeTelegramAccountConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId: string,
 ): TelegramAccountConfig {
   const {

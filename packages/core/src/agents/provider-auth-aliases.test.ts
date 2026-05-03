@@ -80,7 +80,7 @@ describe("provider auth aliases", () => {
   it("does not reuse aliases across env-resolved plugin roots", () => {
     const env = {
       HOME: "/home/one",
-      OPENCLAW_HOME: undefined,
+      BRIKKO_STUDIO_HOME: undefined,
     } as NodeJS.ProcessEnv;
     pluginRegistryMocks.loadPluginManifestRegistryForPluginRegistry
       .mockReturnValueOnce({

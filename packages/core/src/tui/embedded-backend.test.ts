@@ -26,7 +26,7 @@ vi.mock("../cli/deps.js", () => ({
 
 vi.mock("../config/sessions.js", () => ({
   resolveAgentMainSessionKey: () => "agent:main:main",
-  resolveStorePath: () => "/tmp/openclaw-sessions.json",
+  resolveStorePath: () => "/tmp/brikko-studio-sessions.json",
   updateSessionStore: vi.fn(),
 }));
 
@@ -74,7 +74,7 @@ vi.mock("../gateway/session-utils.js", () => ({
   listAgentsForGateway: () => [],
   listSessionsFromStoreAsync: async () => ({ sessions: [] }),
   loadCombinedSessionStoreForGateway: () => ({
-    storePath: "/tmp/openclaw-sessions.json",
+    storePath: "/tmp/brikko-studio-sessions.json",
     store: {},
   }),
   loadSessionEntry: (sessionKey: string) => ({
@@ -86,7 +86,7 @@ vi.mock("../gateway/session-utils.js", () => ({
   readSessionMessagesAsync: async () => [],
   resolveGatewaySessionStoreTarget: ({ key }: { key: string }) => ({
     canonicalKey: key,
-    storePath: "/tmp/openclaw-sessions.json",
+    storePath: "/tmp/brikko-studio-sessions.json",
   }),
   resolveSessionModelRef: () => ({ provider: "openai", model: "gpt-5.4" }),
 }));

@@ -59,7 +59,7 @@ const hoisted = vi.hoisted(() => {
   const stopGmailWatcher = vi.fn(async () => {});
   const resetModelCatalogCache = vi.fn();
   const disposeAllSessionMcpRuntimes = vi.fn(async () => {});
-  const resolveOpenClawPackageRootSync = vi.fn((_params: unknown) => "/package");
+  const resolveBrikko StudioPackageRootSync = vi.fn((_params: unknown) => "/package");
 
   const providerManager = {
     getRuntimeSnapshot: vi.fn(() => ({
@@ -163,7 +163,7 @@ const hoisted = vi.hoisted(() => {
     stopGmailWatcher,
     resetModelCatalogCache,
     disposeAllSessionMcpRuntimes,
-    resolveOpenClawPackageRootSync,
+    resolveBrikko StudioPackageRootSync,
     providerManager,
     createChannelManager,
     startGatewayConfigReloader,
@@ -213,11 +213,11 @@ vi.mock("../agents/pi-bundle-mcp-tools.js", async () => {
   };
 });
 
-vi.mock("../infra/openclaw-root.js", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("../infra/openclaw-root.js")>();
+vi.mock("../infra/brikko-studio-root.js", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../infra/brikko-studio-root.js")>();
   return {
     ...actual,
-    resolveOpenClawPackageRootSync: hoisted.resolveOpenClawPackageRootSync,
+    resolveBrikko StudioPackageRootSync: hoisted.resolveBrikko StudioPackageRootSync,
   };
 });
 
@@ -310,13 +310,13 @@ describe("gateway hot reload", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    prevSkipChannels = process.env.OPENCLAW_SKIP_CHANNELS;
-    prevSkipGmail = process.env.OPENCLAW_SKIP_GMAIL_WATCHER;
-    prevSkipProviders = process.env.OPENCLAW_SKIP_PROVIDERS;
+    prevSkipChannels = process.env.BRIKKO_STUDIO_SKIP_CHANNELS;
+    prevSkipGmail = process.env.BRIKKO_STUDIO_SKIP_GMAIL_WATCHER;
+    prevSkipProviders = process.env.BRIKKO_STUDIO_SKIP_PROVIDERS;
     prevOpenAiApiKey = process.env.OPENAI_API_KEY;
-    process.env.OPENCLAW_SKIP_CHANNELS = "0";
-    delete process.env.OPENCLAW_SKIP_GMAIL_WATCHER;
-    delete process.env.OPENCLAW_SKIP_PROVIDERS;
+    process.env.BRIKKO_STUDIO_SKIP_CHANNELS = "0";
+    delete process.env.BRIKKO_STUDIO_SKIP_GMAIL_WATCHER;
+    delete process.env.BRIKKO_STUDIO_SKIP_PROVIDERS;
     hoisted.cronInstances.length = 0;
     hoisted.activeEmbeddedRunCount.value = 0;
     hoisted.totalPendingReplies.value = 0;
@@ -327,26 +327,26 @@ describe("gateway hot reload", () => {
     hoisted.resetModelCatalogCache.mockReset();
     hoisted.disposeAllSessionMcpRuntimes.mockReset();
     hoisted.disposeAllSessionMcpRuntimes.mockResolvedValue(undefined);
-    hoisted.resolveOpenClawPackageRootSync.mockClear();
-    hoisted.resolveOpenClawPackageRootSync.mockReturnValue("/package");
+    hoisted.resolveBrikko StudioPackageRootSync.mockClear();
+    hoisted.resolveBrikko StudioPackageRootSync.mockReturnValue("/package");
     hoisted.resetReloadCallbacks();
   });
 
   afterEach(() => {
     if (prevSkipChannels === undefined) {
-      delete process.env.OPENCLAW_SKIP_CHANNELS;
+      delete process.env.BRIKKO_STUDIO_SKIP_CHANNELS;
     } else {
-      process.env.OPENCLAW_SKIP_CHANNELS = prevSkipChannels;
+      process.env.BRIKKO_STUDIO_SKIP_CHANNELS = prevSkipChannels;
     }
     if (prevSkipGmail === undefined) {
-      delete process.env.OPENCLAW_SKIP_GMAIL_WATCHER;
+      delete process.env.BRIKKO_STUDIO_SKIP_GMAIL_WATCHER;
     } else {
-      process.env.OPENCLAW_SKIP_GMAIL_WATCHER = prevSkipGmail;
+      process.env.BRIKKO_STUDIO_SKIP_GMAIL_WATCHER = prevSkipGmail;
     }
     if (prevSkipProviders === undefined) {
-      delete process.env.OPENCLAW_SKIP_PROVIDERS;
+      delete process.env.BRIKKO_STUDIO_SKIP_PROVIDERS;
     } else {
-      process.env.OPENCLAW_SKIP_PROVIDERS = prevSkipProviders;
+      process.env.BRIKKO_STUDIO_SKIP_PROVIDERS = prevSkipProviders;
     }
     if (prevOpenAiApiKey === undefined) {
       delete process.env.OPENAI_API_KEY;
@@ -370,9 +370,9 @@ describe("gateway hot reload", () => {
   }
 
   async function writeConfigFile(config: unknown) {
-    const configPath = process.env.OPENCLAW_CONFIG_PATH;
+    const configPath = process.env.BRIKKO_STUDIO_CONFIG_PATH;
     if (!configPath) {
-      throw new Error("OPENCLAW_CONFIG_PATH is not set");
+      throw new Error("BRIKKO_STUDIO_CONFIG_PATH is not set");
     }
     await fs.writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`, "utf8");
   }
@@ -452,7 +452,7 @@ describe("gateway hot reload", () => {
   async function withNonMinimalGatewayServer(
     fn: Parameters<typeof withMinimalGatewayServer>[0],
   ): ReturnType<typeof withMinimalGatewayServer> {
-    return await withEnvAsync({ OPENCLAW_TEST_MINIMAL_GATEWAY: undefined }, async () =>
+    return await withEnvAsync({ BRIKKO_STUDIO_TEST_MINIMAL_GATEWAY: undefined }, async () =>
       withMinimalGatewayServer(fn),
     );
   }
@@ -1002,9 +1002,9 @@ describe("gateway hot reload", () => {
   });
 
   it("keeps last-known-good auth snapshot active when gateway auth token exec reload fails", async () => {
-    const stateDir = process.env.OPENCLAW_STATE_DIR;
+    const stateDir = process.env.BRIKKO_STUDIO_STATE_DIR;
     if (!stateDir) {
-      throw new Error("OPENCLAW_STATE_DIR is not set");
+      throw new Error("BRIKKO_STUDIO_STATE_DIR is not set");
     }
     const resolverScriptPath = path.join(stateDir, "gateway-auth-token-resolver.cjs");
     const modePath = path.join(stateDir, "gateway-auth-token-resolver.mode");
@@ -1056,11 +1056,11 @@ process.stdin.on("end", () => {
     });
 
     const previousGatewayAuth = testState.gatewayAuth;
-    const previousGatewayTokenEnv = process.env.OPENCLAW_GATEWAY_TOKEN;
+    const previousGatewayTokenEnv = process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
     let started: Awaited<ReturnType<typeof startServerWithClient>> | undefined;
     try {
       testState.gatewayAuth = undefined;
-      delete process.env.OPENCLAW_GATEWAY_TOKEN;
+      delete process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
 
       started = await startServerWithClient();
       const { ws } = started;
@@ -1095,9 +1095,9 @@ process.stdin.on("end", () => {
     } finally {
       testState.gatewayAuth = previousGatewayAuth;
       if (previousGatewayTokenEnv === undefined) {
-        delete process.env.OPENCLAW_GATEWAY_TOKEN;
+        delete process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
       } else {
-        process.env.OPENCLAW_GATEWAY_TOKEN = previousGatewayTokenEnv;
+        process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = previousGatewayTokenEnv;
       }
       started?.envSnapshot.restore();
       started?.ws.close();
@@ -1106,9 +1106,9 @@ process.stdin.on("end", () => {
   });
 
   it("uses refreshed gateway auth for new websocket connects after secrets reload", async () => {
-    const stateDir = process.env.OPENCLAW_STATE_DIR;
+    const stateDir = process.env.BRIKKO_STUDIO_STATE_DIR;
     if (!stateDir) {
-      throw new Error("OPENCLAW_STATE_DIR is not set");
+      throw new Error("BRIKKO_STUDIO_STATE_DIR is not set");
     }
     const resolverScriptPath = path.join(stateDir, "gateway-auth-refresh-resolver.cjs");
     const tokenPath = path.join(stateDir, "gateway-auth-refresh-token.txt");
@@ -1161,11 +1161,11 @@ process.stdin.on("end", () => {
     });
 
     const previousGatewayAuth = testState.gatewayAuth;
-    const previousGatewayTokenEnv = process.env.OPENCLAW_GATEWAY_TOKEN;
+    const previousGatewayTokenEnv = process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
     let started: Awaited<ReturnType<typeof startServerWithClient>> | undefined;
     try {
       testState.gatewayAuth = undefined;
-      delete process.env.OPENCLAW_GATEWAY_TOKEN;
+      delete process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
 
       started = await startServerWithClient();
       const { ws, port } = started;
@@ -1211,9 +1211,9 @@ process.stdin.on("end", () => {
     } finally {
       testState.gatewayAuth = previousGatewayAuth;
       if (previousGatewayTokenEnv === undefined) {
-        delete process.env.OPENCLAW_GATEWAY_TOKEN;
+        delete process.env.BRIKKO_STUDIO_GATEWAY_TOKEN;
       } else {
-        process.env.OPENCLAW_GATEWAY_TOKEN = previousGatewayTokenEnv;
+        process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = previousGatewayTokenEnv;
       }
       started?.envSnapshot.restore();
       started?.ws.close();

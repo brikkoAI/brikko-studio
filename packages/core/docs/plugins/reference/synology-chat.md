@@ -1,5 +1,5 @@
 ---
-summary: "Adds the Synology Chat channel surface for sending and receiving OpenClaw messages."
+summary: "Adds the Synology Chat channel surface for sending and receiving Brikko Studio messages."
 read_when:
   - You are installing, configuring, or auditing the synology-chat plugin
 title: "Synology Chat plugin"
@@ -7,11 +7,11 @@ title: "Synology Chat plugin"
 
 # Synology Chat plugin
 
-Adds the Synology Chat channel surface for sending and receiving OpenClaw messages.
+Adds the Synology Chat channel surface for sending and receiving Brikko Studio messages.
 
 ## Distribution
 
-- Package: `@openclaw/synology-chat`
+- Package: `@brikko-studio/synology-chat`
 - Install route: npm; ClawHub
 
 ## Surface

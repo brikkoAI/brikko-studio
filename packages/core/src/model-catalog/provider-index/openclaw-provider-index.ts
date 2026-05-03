@@ -1,6 +1,6 @@
-import type { OpenClawProviderIndex } from "./types.js";
+import type { Brikko StudioProviderIndex } from "./types.js";
 
-// OpenClaw-owned preview metadata for providers whose plugins may not be
+// Brikko Studio-owned preview metadata for providers whose plugins may not be
 // installed yet. Installed plugin manifests remain authoritative; this index is
 // a fallback for installable-provider and pre-install model picker surfaces.
 // Preview catalogs use the shared model catalog type, but intentionally keep to
@@ -9,7 +9,7 @@ import type { OpenClawProviderIndex } from "./types.js";
 // When a bundled provider moves to an external package, keep its provider id
 // here and add plugin package metadata so pre-install surfaces do not disappear
 // before the user installs the new package.
-export const OPENCLAW_PROVIDER_INDEX = {
+export const BRIKKO_STUDIO_PROVIDER_INDEX = {
   version: 1,
   providers: {
     moonshot: {
@@ -58,4 +58,4 @@ export const OPENCLAW_PROVIDER_INDEX = {
       },
     },
   },
-} satisfies OpenClawProviderIndex;
+} satisfies Brikko StudioProviderIndex;

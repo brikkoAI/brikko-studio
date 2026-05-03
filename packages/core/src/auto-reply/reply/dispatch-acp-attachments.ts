@@ -1,5 +1,5 @@
 import type { AcpTurnAttachment } from "../../acp/control-plane/manager.types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { logVerbose } from "../../globals.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
@@ -26,7 +26,7 @@ const ACP_ATTACHMENT_TIMEOUT_MS = 1_000;
 
 export async function resolveAcpAttachments(params: {
   ctx: FinalizedMsgContext;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   runtime?: DispatchAcpAttachmentRuntime;
 }): Promise<AcpTurnAttachment[]> {
   const runtime = params.runtime ?? (await loadDispatchAcpMediaRuntime());

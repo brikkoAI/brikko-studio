@@ -1,14 +1,14 @@
-import { resolveNormalizedAccountEntry } from "openclaw/plugin-sdk/account-core";
-import type { BaseTokenResolution } from "openclaw/plugin-sdk/channel-contract";
-import { tryReadSecretFileSync } from "openclaw/plugin-sdk/channel-core";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { TelegramAccountConfig } from "openclaw/plugin-sdk/config-types";
-import { resolveDefaultSecretProviderAlias } from "openclaw/plugin-sdk/provider-auth";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "openclaw/plugin-sdk/routing";
+import { resolveNormalizedAccountEntry } from "brikko-studio/plugin-sdk/account-core";
+import type { BaseTokenResolution } from "brikko-studio/plugin-sdk/channel-contract";
+import { tryReadSecretFileSync } from "brikko-studio/plugin-sdk/channel-core";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
+import { resolveDefaultSecretProviderAlias } from "brikko-studio/plugin-sdk/provider-auth";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
 import {
   normalizeSecretInputString,
   resolveSecretInputString,
-} from "openclaw/plugin-sdk/secret-input";
+} from "brikko-studio/plugin-sdk/secret-input";
 
 type TelegramTokenSource = "env" | "tokenFile" | "config" | "none";
 
@@ -22,7 +22,7 @@ type RuntimeTokenValueResolution =
   | { status: "missing" };
 
 function resolveEnvSecretRefValue(params: {
-  cfg?: Pick<OpenClawConfig, "secrets">;
+  cfg?: Pick<Brikko StudioConfig, "secrets">;
   provider: string;
   id: string;
   env?: NodeJS.ProcessEnv;
@@ -50,7 +50,7 @@ function resolveEnvSecretRefValue(params: {
 }
 
 function resolveRuntimeTokenValue(params: {
-  cfg?: Pick<OpenClawConfig, "secrets">;
+  cfg?: Pick<Brikko StudioConfig, "secrets">;
   value: unknown;
   path: string;
 }): RuntimeTokenValueResolution {
@@ -100,7 +100,7 @@ type ResolveTelegramTokenOpts = {
 };
 
 export function resolveTelegramToken(
-  cfg?: OpenClawConfig,
+  cfg?: Brikko StudioConfig,
   opts: ResolveTelegramTokenOpts = {},
 ): TelegramTokenResolution {
   const accountId = normalizeAccountId(opts.accountId);
@@ -128,7 +128,7 @@ export function resolveTelegramToken(
   //
   // Single-bot: no accounts section (or empty) → allow fallthrough so that
   // binding-created accountIds inherit the channel-level token.
-  // See: https://github.com/openclaw/openclaw/issues/53876
+  // See: https://github.com/brikko-studio/brikko-studio/issues/53876
   if (accountId !== DEFAULT_ACCOUNT_ID && !accountCfg) {
     const accounts = telegramCfg?.accounts;
     const hasConfiguredAccounts =

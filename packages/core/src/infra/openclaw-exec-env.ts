@@ -1,16 +1,16 @@
-export const OPENCLAW_CLI_ENV_VAR = "OPENCLAW_CLI";
-export const OPENCLAW_CLI_ENV_VALUE = "1";
+export const BRIKKO_STUDIO_CLI_ENV_VAR = "BRIKKO_STUDIO_CLI";
+export const BRIKKO_STUDIO_CLI_ENV_VALUE = "1";
 
-export function markOpenClawExecEnv<T extends Record<string, string | undefined>>(env: T): T {
+export function markBrikko StudioExecEnv<T extends Record<string, string | undefined>>(env: T): T {
   return {
     ...env,
-    [OPENCLAW_CLI_ENV_VAR]: OPENCLAW_CLI_ENV_VALUE,
+    [BRIKKO_STUDIO_CLI_ENV_VAR]: BRIKKO_STUDIO_CLI_ENV_VALUE,
   };
 }
 
-export function ensureOpenClawExecMarkerOnProcess(
+export function ensureBrikko StudioExecMarkerOnProcess(
   env: NodeJS.ProcessEnv = process.env,
 ): NodeJS.ProcessEnv {
-  env[OPENCLAW_CLI_ENV_VAR] = OPENCLAW_CLI_ENV_VALUE;
+  env[BRIKKO_STUDIO_CLI_ENV_VAR] = BRIKKO_STUDIO_CLI_ENV_VALUE;
   return env;
 }

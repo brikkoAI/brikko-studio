@@ -70,12 +70,12 @@ describe("install.ps1 failure handling", () => {
     const completeInstallBody = extractFunctionBody(source, "Complete-Install");
     expect(completeInstallBody).toMatch(/\$PSCommandPath/);
     expect(completeInstallBody).toMatch(/\bexit \$script:InstallExitCode\b/);
-    expect(completeInstallBody).toMatch(/\bthrow "OpenClaw installation failed with exit code/);
+    expect(completeInstallBody).toMatch(/\bthrow "Brikko Studio installation failed with exit code/);
   });
 
   it("runs npm capture commands from a writable installer temp directory", () => {
     const nativeCaptureBody = extractFunctionBody(source, "Invoke-NativeCommandCapture");
-    const npmInstallBody = extractFunctionBody(source, "Install-OpenClawNpm");
+    const npmInstallBody = extractFunctionBody(source, "Install-Brikko StudioNpm");
     const mainBody = extractFunctionBody(source, "Main");
     expect(source).toContain("function Get-NpmWorkingDirectory {");
     expect(nativeCaptureBody).toContain('[string]$WorkingDirectory = ""');
@@ -85,7 +85,7 @@ describe("install.ps1 failure handling", () => {
   });
 
   runIfPowerShell("creates a temp npm working directory", () => {
-    const tempDir = harness.createTempDir("openclaw-install-ps1-");
+    const tempDir = harness.createTempDir("brikko-studio-install-ps1-");
     const scriptPath = join(tempDir, "install.ps1");
     const scriptWithoutEntryPoint = source.replace(ENTRYPOINT_RE, "");
     writeFileSync(
@@ -95,7 +95,7 @@ describe("install.ps1 failure handling", () => {
         "",
         "$result = Get-NpmWorkingDirectory",
         'if (!(Test-Path -LiteralPath $result)) { throw "missing $result" }',
-        'if ($result -notmatch "openclaw-installer") { throw "unexpected $result" }',
+        'if ($result -notmatch "brikko-studio-installer") { throw "unexpected $result" }',
         "",
       ].join("\n"),
     );
@@ -112,7 +112,7 @@ describe("install.ps1 failure handling", () => {
   });
 
   runIfPowerShell("exits non-zero when run as a script file", () => {
-    const tempDir = harness.createTempDir("openclaw-install-ps1-");
+    const tempDir = harness.createTempDir("brikko-studio-install-ps1-");
     const scriptPath = join(tempDir, "install.ps1");
     writeFileSync(scriptPath, createFailingNodeFixture(source));
     chmodSync(scriptPath, 0o755);
@@ -127,7 +127,7 @@ describe("install.ps1 failure handling", () => {
   });
 
   runIfPowerShell("throws without killing the caller when run as a scriptblock", () => {
-    const tempDir = harness.createTempDir("openclaw-install-ps1-");
+    const tempDir = harness.createTempDir("brikko-studio-install-ps1-");
     const scriptPath = join(tempDir, "install.ps1");
     writeFileSync(scriptPath, createFailingNodeFixture(source));
     chmodSync(scriptPath, 0o755);
@@ -145,12 +145,12 @@ describe("install.ps1 failure handling", () => {
     });
 
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain("caught=OpenClaw installation failed with exit code 1.");
+    expect(result.stdout).toContain("caught=Brikko Studio installation failed with exit code 1.");
     expect(result.stdout).toContain("alive-after-install");
   });
 
   runIfPowerShell("keeps npm chatter out of Main's success return value", () => {
-    const tempDir = harness.createTempDir("openclaw-install-ps1-");
+    const tempDir = harness.createTempDir("brikko-studio-install-ps1-");
     const scriptPath = join(tempDir, "install.ps1");
     const scriptWithoutEntryPoint = source.replace(ENTRYPOINT_RE, "");
     writeFileSync(
@@ -186,7 +186,7 @@ describe("install.ps1 failure handling", () => {
   });
 
   runIfPowerShell("uses Main's final boolean result when helper output precedes success", () => {
-    const tempDir = harness.createTempDir("openclaw-install-ps1-");
+    const tempDir = harness.createTempDir("brikko-studio-install-ps1-");
     const scriptPath = join(tempDir, "install.ps1");
     const scriptWithoutEntryPoint = source.replace(ENTRYPOINT_RE, "");
     writeFileSync(
@@ -199,7 +199,7 @@ describe("install.ps1 failure handling", () => {
         "function Ensure-Node { return $true }",
         "function Ensure-Git { return $true }",
         "function Add-ToPath { param([string]$Path) }",
-        "function Install-OpenClawNpm {",
+        "function Install-Brikko StudioNpm {",
         "  param([string]$Target = 'latest')",
         "  Write-Output 'native chatter'",
         "  return $true",

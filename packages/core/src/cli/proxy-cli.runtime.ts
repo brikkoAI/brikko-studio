@@ -27,8 +27,8 @@ export async function runDebugProxyStartCommand(opts: { host?: string; port?: nu
     id: settings.sessionId,
     startedAt: Date.now(),
     mode: "proxy-start",
-    sourceScope: "openclaw",
-    sourceProcess: "openclaw",
+    sourceScope: "brikko-studio",
+    sourceProcess: "brikko-studio",
     proxyUrl: settings.proxyUrl,
     dbPath: settings.dbPath,
     blobDir: settings.blobDir,
@@ -82,8 +82,8 @@ export async function runDebugProxyRunCommand(opts: {
     id: sessionId,
     startedAt: Date.now(),
     mode: "proxy-run",
-    sourceScope: "openclaw",
-    sourceProcess: "openclaw",
+    sourceScope: "brikko-studio",
+    sourceProcess: "brikko-studio",
     proxyUrl: undefined,
     dbPath: settings.dbPath,
     blobDir: settings.blobDir,
@@ -161,12 +161,12 @@ function formatProxyValidationNextSteps(result: ProxyValidationResult): string[]
   }
   if (result.config.errors.some((error) => error.includes("proxy.enabled"))) {
     return [
-      "Enable proxy.enabled with proxy.proxyUrl or OPENCLAW_PROXY_URL, or pass --proxy-url for an explicit one-off validation.",
+      "Enable proxy.enabled with proxy.proxyUrl or BRIKKO_STUDIO_PROXY_URL, or pass --proxy-url for an explicit one-off validation.",
     ];
   }
   if (result.config.errors.length > 0) {
     return [
-      "Fix proxy.proxyUrl, OPENCLAW_PROXY_URL, or --proxy-url so it uses a reachable http:// proxy.",
+      "Fix proxy.proxyUrl, BRIKKO_STUDIO_PROXY_URL, or --proxy-url so it uses a reachable http:// proxy.",
     ];
   }
   if (result.checks.some((check) => !check.ok && check.kind === "allowed")) {

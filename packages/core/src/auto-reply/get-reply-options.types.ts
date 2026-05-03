@@ -57,7 +57,7 @@ export type GetReplyOptions = {
   bootstrapContextMode?: "full" | "lightweight";
   /** If true, suppress tool error warning payloads for this run. */
   suppressToolErrorWarnings?: boolean;
-  /** If true, run the model without OpenClaw tools for this turn. */
+  /** If true, run the model without Brikko Studio tools for this turn. */
   disableTools?: boolean;
   /** If true, include the heartbeat response tool for structured heartbeat outcomes. */
   enableHeartbeatTool?: boolean;

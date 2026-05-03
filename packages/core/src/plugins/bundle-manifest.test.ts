@@ -17,7 +17,7 @@ import {
 const tempDirs: string[] = [];
 
 function makeTempDir() {
-  return makeTrackedTempDir("openclaw-bundle-manifest", tempDirs);
+  return makeTrackedTempDir("brikko-studio-bundle-manifest", tempDirs);
 }
 
 const mkdirSafe = mkdirSafeDir;
@@ -133,9 +133,9 @@ afterEach(() => {
 });
 
 describe("bundle manifest parsing", () => {
-  it("does not treat openclaw.bundle.json as a bundle manifest", () => {
+  it("does not treat brikko-studio.bundle.json as a bundle manifest", () => {
     const rootDir = makeTempDir();
-    writeBundleManifest(rootDir, "openclaw.bundle.json", {
+    writeBundleManifest(rootDir, "brikko-studio.bundle.json", {
       name: "Not Real",
       skills: ["skills"],
     });

@@ -1,12 +1,12 @@
 ---
-summary: "OpenClaw CLI index: command list, global flags, and links to per-command pages"
+summary: "Brikko Studio CLI index: command list, global flags, and links to per-command pages"
 read_when:
-  - Finding the right `openclaw` subcommand
+  - Finding the right `brikko-studio` subcommand
   - Looking up global flags or output styling rules
 title: "CLI reference"
 ---
 
-`openclaw` is the main CLI entry point. Each core command has either a
+`brikko-studio` is the main CLI entry point. Each core command has either a
 dedicated reference page or is documented with the command it aliases; this
 index lists the commands, the global flags, and the output styling rules that
 apply across the CLI.
@@ -34,11 +34,11 @@ apply across the CLI.
 
 | Flag                    | Purpose                                                               |
 | ----------------------- | --------------------------------------------------------------------- |
-| `--dev`                 | Isolate state under `~/.openclaw-dev` and shift default ports         |
-| `--profile <name>`      | Isolate state under `~/.openclaw-<name>`                              |
+| `--dev`                 | Isolate state under `~/.brikko-studio-dev` and shift default ports         |
+| `--profile <name>`      | Isolate state under `~/.brikko-studio-<name>`                              |
 | `--container <name>`    | Target a named container for execution                                |
 | `--no-color`            | Disable ANSI colors (`NO_COLOR=1` is also respected)                  |
-| `--update`              | Shorthand for [`openclaw update`](/cli/update) (source installs only) |
+| `--update`              | Shorthand for [`brikko-studio update`](/cli/update) (source installs only) |
 | `-V`, `--version`, `-v` | Print version and exit                                                |
 
 ## Output modes
@@ -56,7 +56,7 @@ Palette source of truth: `src/terminal/palette.ts`.
 <Accordion title="Full command tree">
 
 ```
-openclaw [--dev] [--profile <name>] <command>
+brikko-studio [--dev] [--profile <name>] <command>
   crestodian
   setup
   onboard
@@ -350,7 +350,7 @@ openclaw [--dev] [--profile <name>] <command>
   terminal (alias: tui --local)
 ```
 
-Plugins can add additional top-level commands (for example `openclaw voicecall`).
+Plugins can add additional top-level commands (for example `brikko-studio voicecall`).
 
 </Accordion>
 
@@ -367,7 +367,7 @@ Highlights:
 
 ## Usage tracking
 
-`openclaw status --usage` and the Control UI surface provider usage/quota when
+`brikko-studio status --usage` and the Control UI surface provider usage/quota when
 OAuth/API credentials are available. Data comes directly from provider usage
 endpoints and is normalized to `X% left`. Providers with current usage
 windows: Anthropic, GitHub Copilot, Gemini CLI, OpenAI Codex, MiniMax,

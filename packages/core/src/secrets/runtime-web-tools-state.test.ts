@@ -40,7 +40,7 @@ describe("runtime web tools state", () => {
       env: {
         WEB_SEARCH_GEMINI_API_KEY: "web-search-gemini-ref",
       },
-      agentDirs: ["/tmp/openclaw-agent-main"],
+      agentDirs: ["/tmp/brikko-studio-agent-main"],
       loadablePluginOrigins: new Map([["google", "bundled"]]),
       loadAuthStore: () => ({ version: 1, profiles: {} }),
     });

@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { installedPluginRoot } from "openclaw/plugin-sdk/test-fixtures";
+import { installedPluginRoot } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import {
   listOfficialExternalPluginCatalogEntries,
   resolveOfficialExternalPluginId,
@@ -36,9 +36,9 @@ import {
   writePersistedInstalledPluginIndexInstallRecords,
 } from "./plugins-cli-test-helpers.js";
 
-const CLI_STATE_ROOT = "/tmp/openclaw-state";
-const ORIGINAL_OPENCLAW_STATE_DIR = process.env.OPENCLAW_STATE_DIR;
-const PROFILE_STATE_ROOT = "/tmp/openclaw-ledger-profile";
+const CLI_STATE_ROOT = "/tmp/brikko-studio-state";
+const ORIGINAL_BRIKKO_STUDIO_STATE_DIR = process.env.BRIKKO_STUDIO_STATE_DIR;
+const PROFILE_STATE_ROOT = "/tmp/brikko-studio-ledger-profile";
 
 const OFFICIAL_EXTERNAL_NPM_INSTALLS_WITHOUT_INTEGRITY = listOfficialExternalPluginCatalogEntries()
   .map((entry) => {
@@ -58,11 +58,11 @@ function cliInstallPath(pluginId: string): string {
 }
 
 function useProfileExtensionsDir(): string {
-  process.env.OPENCLAW_STATE_DIR = PROFILE_STATE_ROOT;
+  process.env.BRIKKO_STUDIO_STATE_DIR = PROFILE_STATE_ROOT;
   return path.join(PROFILE_STATE_ROOT, "extensions");
 }
 
-function createEnabledPluginConfig(pluginId: string): OpenClawConfig {
+function createEnabledPluginConfig(pluginId: string): Brikko StudioConfig {
   return {
     plugins: {
       entries: {
@@ -71,15 +71,15 @@ function createEnabledPluginConfig(pluginId: string): OpenClawConfig {
         },
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
-function createEmptyPluginConfig(): OpenClawConfig {
+function createEmptyPluginConfig(): Brikko StudioConfig {
   return {
     plugins: {
       entries: {},
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 function createClawHubInstallResult(params: {
@@ -170,7 +170,7 @@ function primeNpmPluginFallback(pluginId = "demo") {
   return { cfg, enabledCfg };
 }
 
-function createPathHookPackInstalledConfig(tmpRoot: string): OpenClawConfig {
+function createPathHookPackInstalledConfig(tmpRoot: string): Brikko StudioConfig {
   return {
     hooks: {
       internal: {
@@ -183,10 +183,10 @@ function createPathHookPackInstalledConfig(tmpRoot: string): OpenClawConfig {
         },
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
-function createNpmHookPackInstalledConfig(): OpenClawConfig {
+function createNpmHookPackInstalledConfig(): Brikko StudioConfig {
   return {
     hooks: {
       internal: {
@@ -198,7 +198,7 @@ function createNpmHookPackInstalledConfig(): OpenClawConfig {
         },
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 function createHookPackInstallResult(targetDir: string): {
@@ -218,14 +218,14 @@ function createHookPackInstallResult(targetDir: string): {
 }
 
 function primeHookPackNpmFallback() {
-  const cfg = {} as OpenClawConfig;
+  const cfg = {} as Brikko StudioConfig;
   const installedCfg = createNpmHookPackInstalledConfig();
 
   loadConfig.mockReturnValue(cfg);
   mockClawHubPackageNotFound("@acme/demo-hooks");
   installPluginFromNpmSpec.mockResolvedValue({
     ok: false,
-    error: "package.json missing openclaw.plugin.json",
+    error: "package.json missing brikko-studio.plugin.json",
   });
   installHooksFromNpmSpec.mockResolvedValue({
     ...createHookPackInstallResult("/tmp/hooks/demo-hooks"),
@@ -245,7 +245,7 @@ function primeBlockedNpmPluginInstall(params: {
   pluginId: string;
   code?: "security_scan_blocked" | "security_scan_failed";
 }) {
-  loadConfig.mockReturnValue({} as OpenClawConfig);
+  loadConfig.mockReturnValue({} as Brikko StudioConfig);
   mockClawHubPackageNotFound(params.spec);
   installPluginFromNpmSpec.mockResolvedValue({
     ok: false,
@@ -257,10 +257,10 @@ function primeBlockedNpmPluginInstall(params: {
 function primeHookPackPathFallback(params: {
   tmpRoot: string;
   pluginInstallError: string;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   const installedCfg = createPathHookPackInstalledConfig(params.tmpRoot);
 
-  loadConfig.mockReturnValue({} as OpenClawConfig);
+  loadConfig.mockReturnValue({} as Brikko StudioConfig);
   installPluginFromPath.mockResolvedValueOnce({
     ok: false,
     error: params.pluginInstallError,
@@ -277,10 +277,10 @@ describe("plugins cli install", () => {
   });
 
   afterEach(() => {
-    if (ORIGINAL_OPENCLAW_STATE_DIR === undefined) {
-      delete process.env.OPENCLAW_STATE_DIR;
+    if (ORIGINAL_BRIKKO_STUDIO_STATE_DIR === undefined) {
+      delete process.env.BRIKKO_STUDIO_STATE_DIR;
     } else {
-      process.env.OPENCLAW_STATE_DIR = ORIGINAL_OPENCLAW_STATE_DIR;
+      process.env.BRIKKO_STUDIO_STATE_DIR = ORIGINAL_BRIKKO_STUDIO_STATE_DIR;
     }
   });
 
@@ -355,7 +355,7 @@ describe("plugins cli install", () => {
       throw invalidConfigErr;
     });
     readConfigFileSnapshot.mockResolvedValue({
-      path: "/tmp/openclaw-config.json5",
+      path: "/tmp/brikko-studio-config.json5",
       exists: true,
       raw: '{ "models": { "default": 123 } }',
       parsed: { models: { default: 123 } },
@@ -371,7 +371,7 @@ describe("plugins cli install", () => {
     await expect(runPluginsCommand(["plugins", "install", "alpha"])).rejects.toThrow("__exit__:1");
 
     expect(runtimeErrors.at(-1)).toContain(
-      "Config invalid; run `openclaw doctor --fix` before installing plugins.",
+      "Config invalid; run `brikko-studio doctor --fix` before installing plugins.",
     );
     expect(installPluginFromMarketplace).not.toHaveBeenCalled();
     expect(installPluginFromNpmSpec).not.toHaveBeenCalled();
@@ -383,7 +383,7 @@ describe("plugins cli install", () => {
       plugins: {
         entries: {},
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const enabledCfg = {
       plugins: {
         entries: {
@@ -392,7 +392,7 @@ describe("plugins cli install", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     loadConfig.mockReturnValue(cfg);
     installPluginFromMarketplace.mockResolvedValue({
       ok: true,
@@ -456,7 +456,7 @@ describe("plugins cli install", () => {
       plugins: {
         entries: {},
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const enabledCfg = createEnabledPluginConfig("demo");
     loadConfig.mockReturnValue(cfg);
     parseClawHubPluginSpec.mockReturnValue({ name: "demo" });
@@ -545,7 +545,7 @@ describe("plugins cli install", () => {
           paths: ["/existing/plugin"],
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     loadConfig.mockReturnValue(cfg);
     findBundledPluginSourceMock.mockReturnValue({
       pluginId,
@@ -564,7 +564,7 @@ describe("plugins cli install", () => {
 
     await runPluginsCommand(["plugins", "install", pluginId]);
 
-    const writtenConfig = writeConfigFile.mock.calls.at(-1)?.[0] as OpenClawConfig;
+    const writtenConfig = writeConfigFile.mock.calls.at(-1)?.[0] as Brikko StudioConfig;
     expect(writtenConfig.plugins?.entries?.[pluginId]).toBeUndefined();
     expect(writtenConfig.plugins?.load?.paths).toEqual(["/existing/plugin"]);
     expect(writePersistedInstalledPluginIndexInstallRecords).toHaveBeenCalledWith({
@@ -591,7 +591,7 @@ describe("plugins cli install", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const enabledCfg = createEnabledPluginConfig(pluginId);
     loadConfig.mockReturnValue(cfg);
     findBundledPluginSourceMock.mockReturnValue({
@@ -622,7 +622,7 @@ describe("plugins cli install", () => {
       plugins: {
         entries: {},
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const enabledCfg = createEnabledPluginConfig("demo");
 
     loadConfig.mockReturnValue(cfg);
@@ -657,7 +657,7 @@ describe("plugins cli install", () => {
       plugins: {
         entries: {},
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const enabledCfg = createEnabledPluginConfig("demo");
 
     loadConfig.mockReturnValue(cfg);
@@ -718,7 +718,7 @@ describe("plugins cli install", () => {
     expect(installPluginFromClawHub).not.toHaveBeenCalled();
     expect(installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@openclaw/brave-plugin",
+        spec: "@brikko-studio/brave-plugin",
         expectedPluginId: "brave",
         trustedSourceLinkedOfficialInstall: true,
       }),
@@ -726,7 +726,7 @@ describe("plugins cli install", () => {
     expect(writePersistedInstalledPluginIndexInstallRecords).toHaveBeenCalledWith({
       brave: expect.objectContaining({
         source: "npm",
-        spec: "@openclaw/brave-plugin",
+        spec: "@brikko-studio/brave-plugin",
         installPath: cliInstallPath("brave"),
         version: "1.2.3",
       }),
@@ -736,11 +736,11 @@ describe("plugins cli install", () => {
 
   it("passes official external catalog integrity to npm installs", async () => {
     const cfg = createEmptyPluginConfig();
-    const enabledCfg = createEnabledPluginConfig("wecom-openclaw-plugin");
+    const enabledCfg = createEnabledPluginConfig("wecom-brikko-studio-plugin");
     loadConfig.mockReturnValue(cfg);
     findBundledPluginSourceMock.mockReturnValue(undefined);
     installPluginFromNpmSpec.mockResolvedValue(
-      createNpmPluginInstallResult("wecom-openclaw-plugin"),
+      createNpmPluginInstallResult("wecom-brikko-studio-plugin"),
     );
     enablePluginInConfig.mockReturnValue({ config: enabledCfg });
     applyExclusiveSlotSelection.mockReturnValue({
@@ -752,8 +752,8 @@ describe("plugins cli install", () => {
 
     expect(installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@wecom/wecom-openclaw-plugin@2026.4.23",
-        expectedPluginId: "wecom-openclaw-plugin",
+        spec: "@wecom/wecom-brikko-studio-plugin@2026.4.23",
+        expectedPluginId: "wecom-brikko-studio-plugin",
         expectedIntegrity:
           "sha512-bnzfdIEEu1/LFvcdyjaTkyxt27w6c7dqhkPezU62OWaqmcdFsUGR3T55USK/O9pIKsNcnL1Tnu1pqKYCWHFgWQ==",
         trustedSourceLinkedOfficialInstall: true,
@@ -801,13 +801,13 @@ describe("plugins cli install", () => {
     findBundledPluginSourceMock.mockReturnValue(undefined);
     installPluginFromNpmSpec.mockResolvedValue({
       ok: false,
-      error: "package.json missing openclaw.extensions",
-      code: "missing_openclaw_extensions",
+      error: "package.json missing brikko-studio.extensions",
+      code: "missing_brikko-studio_extensions",
     });
     installHooksFromNpmSpec.mockResolvedValue({
       ok: false,
       error:
-        "aborted: npm package integrity drift detected for @wecom/wecom-openclaw-plugin@2026.4.23",
+        "aborted: npm package integrity drift detected for @wecom/wecom-brikko-studio-plugin@2026.4.23",
     });
 
     await expect(runPluginsCommand(["plugins", "install", "wecom"])).rejects.toThrow("__exit__:1");
@@ -819,7 +819,7 @@ describe("plugins cli install", () => {
     );
     expect(installHooksFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@wecom/wecom-openclaw-plugin@2026.4.23",
+        spec: "@wecom/wecom-brikko-studio-plugin@2026.4.23",
         expectedIntegrity:
           "sha512-bnzfdIEEu1/LFvcdyjaTkyxt27w6c7dqhkPezU62OWaqmcdFsUGR3T55USK/O9pIKsNcnL1Tnu1pqKYCWHFgWQ==",
       }),
@@ -994,14 +994,14 @@ describe("plugins cli install", () => {
   });
 
   it("reports npm install failures without trying ClawHub when npm: prefix is used", async () => {
-    loadConfig.mockReturnValue({} as OpenClawConfig);
+    loadConfig.mockReturnValue({} as Brikko StudioConfig);
     installPluginFromNpmSpec.mockResolvedValue({
       ok: false,
       error: "npm install failed",
     });
     installHooksFromNpmSpec.mockResolvedValue({
       ok: false,
-      error: "package.json missing openclaw.hooks",
+      error: "package.json missing brikko-studio.hooks",
     });
 
     await expect(runPluginsCommand(["plugins", "install", "npm:demo"])).rejects.toThrow(
@@ -1013,7 +1013,7 @@ describe("plugins cli install", () => {
   });
 
   it("does not resolve npm: prefixed bundled plugin ids through bundled installs", async () => {
-    loadConfig.mockReturnValue({ plugins: { load: { paths: [] } } } as OpenClawConfig);
+    loadConfig.mockReturnValue({ plugins: { load: { paths: [] } } } as Brikko StudioConfig);
     installPluginFromNpmSpec.mockResolvedValue({
       ok: false,
       error: "Package not found on npm: memory-lancedb.",
@@ -1021,7 +1021,7 @@ describe("plugins cli install", () => {
     });
     installHooksFromNpmSpec.mockResolvedValue({
       ok: false,
-      error: "package.json missing openclaw.hooks",
+      error: "package.json missing brikko-studio.hooks",
     });
 
     await expect(runPluginsCommand(["plugins", "install", "npm:memory-lancedb"])).rejects.toThrow(
@@ -1039,7 +1039,7 @@ describe("plugins cli install", () => {
   });
 
   it("rejects empty npm: prefix installs before resolver lookup", async () => {
-    loadConfig.mockReturnValue({} as OpenClawConfig);
+    loadConfig.mockReturnValue({} as Brikko StudioConfig);
 
     await expect(runPluginsCommand(["plugins", "install", "npm:"])).rejects.toThrow("__exit__:1");
 
@@ -1085,7 +1085,7 @@ describe("plugins cli install", () => {
   });
 
   it("rejects --pin for git installs and points at git refs", async () => {
-    loadConfig.mockReturnValue({} as OpenClawConfig);
+    loadConfig.mockReturnValue({} as Brikko StudioConfig);
 
     await expect(
       runPluginsCommand(["plugins", "install", "git:github.com/acme/demo", "--pin"]),
@@ -1134,9 +1134,9 @@ describe("plugins cli install", () => {
       plugins: {
         entries: {},
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const enabledCfg = createEnabledPluginConfig("demo");
-    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-plugin-link-"));
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-plugin-link-"));
 
     loadConfig.mockReturnValue(cfg);
     installPluginFromPath.mockResolvedValueOnce({
@@ -1175,7 +1175,7 @@ describe("plugins cli install", () => {
   });
 
   it("passes dangerous force unsafe install to linked hook-pack probe fallback", async () => {
-    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-hook-link-"));
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-hook-link-"));
     primeHookPackPathFallback({
       tmpRoot,
       pluginInstallError: "plugin install probe failed",
@@ -1203,10 +1203,10 @@ describe("plugins cli install", () => {
   });
 
   it("does not fall back to hook pack for linked path when a no-flag security scan blocks", async () => {
-    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-link-plugin-"));
+    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-link-plugin-"));
     const pluginInstallError = "plugin blocked by security scan";
 
-    loadConfig.mockReturnValue({} as OpenClawConfig);
+    loadConfig.mockReturnValue({} as Brikko StudioConfig);
     installPluginFromPath.mockResolvedValue({
       ok: false,
       error: pluginInstallError,
@@ -1227,7 +1227,7 @@ describe("plugins cli install", () => {
   });
 
   it("passes dangerous force unsafe install to local hook-pack fallback installs", async () => {
-    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-hook-install-"));
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-hook-install-"));
     primeHookPackPathFallback({
       tmpRoot,
       pluginInstallError: "plugin install failed",
@@ -1255,7 +1255,7 @@ describe("plugins cli install", () => {
 
   it("passes the active profile extensions dir to local path installs", async () => {
     const extensionsDir = useProfileExtensionsDir();
-    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-local-plugin-"));
+    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-local-plugin-"));
     const cfg = createEmptyPluginConfig();
     const enabledCfg = createEnabledPluginConfig("demo");
 
@@ -1301,16 +1301,16 @@ describe("plugins cli install", () => {
   });
 
   it("suggests update or --force when npm plugin install target already exists", async () => {
-    loadConfig.mockReturnValue({} as OpenClawConfig);
+    loadConfig.mockReturnValue({} as Brikko StudioConfig);
     mockClawHubPackageNotFound("@example/lossless-claw");
     installPluginFromNpmSpec.mockResolvedValue({
       ok: false,
       error:
-        "plugin already exists: /home/openclaw/.openclaw/extensions/lossless-claw (delete it first)",
+        "plugin already exists: /home/brikko-studio/.brikko-studio/extensions/lossless-claw (delete it first)",
     });
     installHooksFromNpmSpec.mockResolvedValue({
       ok: false,
-      error: "package.json missing openclaw.hooks",
+      error: "package.json missing brikko-studio.hooks",
     });
 
     await expect(
@@ -1318,22 +1318,22 @@ describe("plugins cli install", () => {
     ).rejects.toThrow("__exit__:1");
 
     expect(runtimeErrors.at(-1)).toContain(
-      "Use `openclaw plugins update <id-or-npm-spec>` to upgrade the tracked plugin, or rerun install with `--force` to replace it.",
+      "Use `brikko-studio plugins update <id-or-npm-spec>` to upgrade the tracked plugin, or rerun install with `--force` to replace it.",
     );
     expect(runtimeErrors.at(-1)).not.toContain("Also not a valid hook pack");
   });
 
   it("does not append hook-pack fallback details for managed extensions boundary failures", async () => {
-    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-local-plugin-"));
+    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-local-plugin-"));
 
-    loadConfig.mockReturnValue({} as OpenClawConfig);
+    loadConfig.mockReturnValue({} as Brikko StudioConfig);
     installPluginFromPath.mockResolvedValue({
       ok: false,
       error: "Invalid path: must stay within extensions directory",
     });
     installHooksFromPath.mockResolvedValue({
       ok: false,
-      error: "package.json missing openclaw.hooks",
+      error: "package.json missing brikko-studio.hooks",
     });
 
     try {
@@ -1349,7 +1349,7 @@ describe("plugins cli install", () => {
   });
 
   it("passes the install logger to the --link dry-run probe", async () => {
-    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-link-plugin-"));
+    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-link-plugin-"));
     const cfg = {
       plugins: {
         entries: {},
@@ -1357,7 +1357,7 @@ describe("plugins cli install", () => {
           paths: [],
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const enabledCfg = createEnabledPluginConfig("demo");
 
     loadConfig.mockReturnValue(cfg);
@@ -1421,10 +1421,10 @@ describe("plugins cli install", () => {
   });
 
   it("does not fall back to hook pack for local path when a no-flag security scan fails", async () => {
-    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-local-plugin-"));
+    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-local-plugin-"));
     const pluginInstallError = "plugin security scan failed";
 
-    loadConfig.mockReturnValue({} as OpenClawConfig);
+    loadConfig.mockReturnValue({} as Brikko StudioConfig);
     installPluginFromPath.mockResolvedValue({
       ok: false,
       error: pluginInstallError,
@@ -1445,8 +1445,8 @@ describe("plugins cli install", () => {
   });
 
   it("does not fall back to hook pack for local path when dangerous force unsafe install is set", async () => {
-    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-local-plugin-"));
-    const cfg = {} as OpenClawConfig;
+    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-local-plugin-"));
+    const cfg = {} as Brikko StudioConfig;
     const pluginInstallError = "plugin blocked by security scan";
 
     loadConfig.mockReturnValue(cfg);
@@ -1474,8 +1474,8 @@ describe("plugins cli install", () => {
   });
 
   it("does not fall back to hook pack for local path when security scan fails under dangerous force unsafe install", async () => {
-    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-local-plugin-"));
-    const cfg = {} as OpenClawConfig;
+    const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-local-plugin-"));
+    const cfg = {} as Brikko StudioConfig;
     const pluginInstallError = "plugin security scan failed";
 
     loadConfig.mockReturnValue(cfg);
@@ -1503,7 +1503,7 @@ describe("plugins cli install", () => {
   });
 
   it("does not fall back to hook pack for npm installs when dangerous force unsafe install is set", async () => {
-    const cfg = {} as OpenClawConfig;
+    const cfg = {} as Brikko StudioConfig;
     const pluginInstallError = "plugin blocked by security scan";
 
     loadConfig.mockReturnValue(cfg);
@@ -1542,7 +1542,7 @@ describe("plugins cli install", () => {
   });
 
   it("does not fall back to hook pack for npm installs when security scan fails under dangerous force unsafe install", async () => {
-    const cfg = {} as OpenClawConfig;
+    const cfg = {} as Brikko StudioConfig;
     const pluginInstallError = "plugin security scan failed";
 
     loadConfig.mockReturnValue(cfg);
@@ -1566,8 +1566,8 @@ describe("plugins cli install", () => {
   });
 
   it("still falls back to local hook pack when dangerous force unsafe install is set for non-security errors", async () => {
-    const localHookDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-local-hook-pack-"));
-    const cfg = {} as OpenClawConfig;
+    const localHookDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-local-hook-pack-"));
+    const cfg = {} as Brikko StudioConfig;
     const installedCfg = {
       hooks: {
         internal: {
@@ -1579,13 +1579,13 @@ describe("plugins cli install", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     loadConfig.mockReturnValue(cfg);
     installPluginFromPath.mockResolvedValue({
       ok: false,
-      error: "package.json missing openclaw.plugin.json",
-      code: "missing_openclaw_extensions",
+      error: "package.json missing brikko-studio.plugin.json",
+      code: "missing_brikko-studio_extensions",
     });
     installHooksFromPath.mockResolvedValue({
       ok: true,
@@ -1616,7 +1616,7 @@ describe("plugins cli install", () => {
   });
 
   it("still falls back to npm hook pack when dangerous force unsafe install is set for non-security errors", async () => {
-    const cfg = {} as OpenClawConfig;
+    const cfg = {} as Brikko StudioConfig;
     const installedCfg = {
       hooks: {
         internal: {
@@ -1628,7 +1628,7 @@ describe("plugins cli install", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     loadConfig.mockReturnValue(cfg);
     installPluginFromClawHub.mockResolvedValue({
@@ -1638,8 +1638,8 @@ describe("plugins cli install", () => {
     });
     installPluginFromNpmSpec.mockResolvedValue({
       ok: false,
-      error: "package.json missing openclaw.plugin.json",
-      code: "missing_openclaw_extensions",
+      error: "package.json missing brikko-studio.plugin.json",
+      code: "missing_brikko-studio_extensions",
     });
     installHooksFromNpmSpec.mockResolvedValue({
       ok: true,
@@ -1674,7 +1674,7 @@ describe("plugins cli install", () => {
     parseClawHubPluginSpec.mockReturnValue({ name: "demo" });
     installPluginFromClawHub.mockResolvedValue({
       ok: false,
-      error: 'Use "openclaw skills install demo" instead.',
+      error: 'Use "brikko-studio skills install demo" instead.',
       code: "skill_package",
     });
 
@@ -1683,7 +1683,7 @@ describe("plugins cli install", () => {
     );
 
     expect(installPluginFromNpmSpec).not.toHaveBeenCalled();
-    expect(runtimeErrors.at(-1)).toContain('Use "openclaw skills install demo" instead.');
+    expect(runtimeErrors.at(-1)).toContain('Use "brikko-studio skills install demo" instead.');
   });
 
   it("falls back to installing hook packs from npm specs", async () => {

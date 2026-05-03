@@ -1,4 +1,4 @@
-import { isLiveTestEnabled } from "openclaw/plugin-sdk/test-env";
+import { isLiveTestEnabled } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import { buildGoogleMeetExportManifest, googleMeetExportFileNames } from "./src/cli.js";
 import {
@@ -8,23 +8,23 @@ import {
 } from "./src/meet.js";
 import { resolveGoogleMeetAccessToken } from "./src/oauth.js";
 
-const LIVE_MEETING = process.env.OPENCLAW_GOOGLE_MEET_LIVE_MEETING?.trim() ?? "";
+const LIVE_MEETING = process.env.BRIKKO_STUDIO_GOOGLE_MEET_LIVE_MEETING?.trim() ?? "";
 const CLIENT_ID =
-  process.env.OPENCLAW_GOOGLE_MEET_CLIENT_ID?.trim() ??
+  process.env.BRIKKO_STUDIO_GOOGLE_MEET_CLIENT_ID?.trim() ??
   process.env.GOOGLE_MEET_CLIENT_ID?.trim() ??
   "";
 const CLIENT_SECRET =
-  process.env.OPENCLAW_GOOGLE_MEET_CLIENT_SECRET?.trim() ??
+  process.env.BRIKKO_STUDIO_GOOGLE_MEET_CLIENT_SECRET?.trim() ??
   process.env.GOOGLE_MEET_CLIENT_SECRET?.trim();
 const REFRESH_TOKEN =
-  process.env.OPENCLAW_GOOGLE_MEET_REFRESH_TOKEN?.trim() ??
+  process.env.BRIKKO_STUDIO_GOOGLE_MEET_REFRESH_TOKEN?.trim() ??
   process.env.GOOGLE_MEET_REFRESH_TOKEN?.trim() ??
   "";
 const ACCESS_TOKEN =
-  process.env.OPENCLAW_GOOGLE_MEET_ACCESS_TOKEN?.trim() ??
+  process.env.BRIKKO_STUDIO_GOOGLE_MEET_ACCESS_TOKEN?.trim() ??
   process.env.GOOGLE_MEET_ACCESS_TOKEN?.trim();
 const EXPIRES_AT = Number(
-  process.env.OPENCLAW_GOOGLE_MEET_ACCESS_TOKEN_EXPIRES_AT ??
+  process.env.BRIKKO_STUDIO_GOOGLE_MEET_ACCESS_TOKEN_EXPIRES_AT ??
     process.env.GOOGLE_MEET_ACCESS_TOKEN_EXPIRES_AT,
 );
 

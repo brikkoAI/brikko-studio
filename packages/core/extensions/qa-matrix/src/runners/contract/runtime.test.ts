@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { renderQaMarkdownReport } from "../../report.js";
 import { __testing as liveTesting } from "./runtime.js";
@@ -75,57 +75,57 @@ function buildMatrixQaSummaryInput(
 
 describe("matrix live qa runtime", () => {
   it("prints Matrix QA progress by default for non-interactive runs", () => {
-    const previous = process.env.OPENCLAW_QA_MATRIX_PROGRESS;
-    delete process.env.OPENCLAW_QA_MATRIX_PROGRESS;
+    const previous = process.env.BRIKKO_STUDIO_QA_MATRIX_PROGRESS;
+    delete process.env.BRIKKO_STUDIO_QA_MATRIX_PROGRESS;
     try {
       expect(liveTesting.shouldWriteMatrixQaProgress()).toBe(true);
-      process.env.OPENCLAW_QA_MATRIX_PROGRESS = "0";
+      process.env.BRIKKO_STUDIO_QA_MATRIX_PROGRESS = "0";
       expect(liveTesting.shouldWriteMatrixQaProgress()).toBe(false);
     } finally {
       if (previous === undefined) {
-        delete process.env.OPENCLAW_QA_MATRIX_PROGRESS;
+        delete process.env.BRIKKO_STUDIO_QA_MATRIX_PROGRESS;
       } else {
-        process.env.OPENCLAW_QA_MATRIX_PROGRESS = previous;
+        process.env.BRIKKO_STUDIO_QA_MATRIX_PROGRESS = previous;
       }
     }
   });
 
   it("normalizes the Matrix QA hard timeout env", () => {
-    const previous = process.env.OPENCLAW_QA_MATRIX_TIMEOUT_MS;
+    const previous = process.env.BRIKKO_STUDIO_QA_MATRIX_TIMEOUT_MS;
     try {
-      process.env.OPENCLAW_QA_MATRIX_TIMEOUT_MS = "12345";
+      process.env.BRIKKO_STUDIO_QA_MATRIX_TIMEOUT_MS = "12345";
       expect(liveTesting.createMatrixQaRunDeadline().timeoutMs).toBe(12345);
-      process.env.OPENCLAW_QA_MATRIX_TIMEOUT_MS = "nope";
+      process.env.BRIKKO_STUDIO_QA_MATRIX_TIMEOUT_MS = "nope";
       expect(liveTesting.createMatrixQaRunDeadline().timeoutMs).toBe(30 * 60_000);
     } finally {
       if (previous === undefined) {
-        delete process.env.OPENCLAW_QA_MATRIX_TIMEOUT_MS;
+        delete process.env.BRIKKO_STUDIO_QA_MATRIX_TIMEOUT_MS;
       } else {
-        process.env.OPENCLAW_QA_MATRIX_TIMEOUT_MS = previous;
+        process.env.BRIKKO_STUDIO_QA_MATRIX_TIMEOUT_MS = previous;
       }
     }
   });
 
   it("normalizes the Matrix QA canary timeout env", () => {
-    const previous = process.env.OPENCLAW_QA_MATRIX_CANARY_TIMEOUT_MS;
+    const previous = process.env.BRIKKO_STUDIO_QA_MATRIX_CANARY_TIMEOUT_MS;
     try {
-      delete process.env.OPENCLAW_QA_MATRIX_CANARY_TIMEOUT_MS;
+      delete process.env.BRIKKO_STUDIO_QA_MATRIX_CANARY_TIMEOUT_MS;
       expect(liveTesting.resolveMatrixQaCanaryTimeoutMs()).toBe(45_000);
-      process.env.OPENCLAW_QA_MATRIX_CANARY_TIMEOUT_MS = "90000";
+      process.env.BRIKKO_STUDIO_QA_MATRIX_CANARY_TIMEOUT_MS = "90000";
       expect(liveTesting.resolveMatrixQaCanaryTimeoutMs()).toBe(90_000);
-      process.env.OPENCLAW_QA_MATRIX_CANARY_TIMEOUT_MS = "nope";
+      process.env.BRIKKO_STUDIO_QA_MATRIX_CANARY_TIMEOUT_MS = "nope";
       expect(liveTesting.resolveMatrixQaCanaryTimeoutMs()).toBe(45_000);
     } finally {
       if (previous === undefined) {
-        delete process.env.OPENCLAW_QA_MATRIX_CANARY_TIMEOUT_MS;
+        delete process.env.BRIKKO_STUDIO_QA_MATRIX_CANARY_TIMEOUT_MS;
       } else {
-        process.env.OPENCLAW_QA_MATRIX_CANARY_TIMEOUT_MS = previous;
+        process.env.BRIKKO_STUDIO_QA_MATRIX_CANARY_TIMEOUT_MS = previous;
       }
     }
   });
 
   it("injects a temporary Matrix account into the QA gateway config", () => {
-    const baseCfg: OpenClawConfig = {
+    const baseCfg: Brikko StudioConfig = {
       plugins: {
         allow: ["memory-core", "qa-channel"],
         entries: {

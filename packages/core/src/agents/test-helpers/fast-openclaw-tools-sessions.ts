@@ -3,7 +3,7 @@ import { normalizeOptionalLowercaseString } from "../../shared/string-coerce.js"
 import { stubTool } from "./fast-tool-stubs.js";
 
 // Sessions-tool tests only exercise sessions/subagent registrations.
-// Stub the unrelated tool factories so importing openclaw-tools stays cheap.
+// Stub the unrelated tool factories so importing brikko-studio-tools stays cheap.
 vi.mock("../tools/agents-list-tool.js", () => ({
   createAgentsListTool: () => stubTool("agents_list"),
 }));

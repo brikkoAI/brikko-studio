@@ -25,7 +25,7 @@ function isNodeCompileCacheRequested(env: NodeJS.ProcessEnv | undefined): boolea
   return env?.NODE_COMPILE_CACHE !== undefined && !isNodeCompileCacheDisabled(env);
 }
 
-export function shouldEnableOpenClawCompileCache(params: {
+export function shouldEnableBrikko StudioCompileCache(params: {
   env?: NodeJS.ProcessEnv;
   installRoot: string;
 }): boolean {
@@ -58,7 +58,7 @@ function readPackageVersion(packageJsonPath: string): string {
   return "unknown";
 }
 
-export function resolveOpenClawCompileCacheDirectory(params: {
+export function resolveBrikko StudioCompileCacheDirectory(params: {
   env?: NodeJS.ProcessEnv;
   installRoot: string;
 }): string {
@@ -78,19 +78,19 @@ export function resolveOpenClawCompileCacheDirectory(params: {
       : path.join(os.tmpdir(), "node-compile-cache");
   return path.join(
     baseDirectory,
-    "openclaw",
+    "brikko-studio",
     version,
     sanitizeCompileCachePathSegment(installMarker),
   );
 }
 
-type OpenClawCompileCacheRespawnPlan = {
+type Brikko StudioCompileCacheRespawnPlan = {
   command: string;
   args: string[];
   env: NodeJS.ProcessEnv;
 };
 
-export function buildOpenClawCompileCacheRespawnPlan(params: {
+export function buildBrikko StudioCompileCacheRespawnPlan(params: {
   currentFile: string;
   env?: NodeJS.ProcessEnv;
   execArgv?: string[];
@@ -98,12 +98,12 @@ export function buildOpenClawCompileCacheRespawnPlan(params: {
   installRoot: string;
   argv?: string[];
   compileCacheDir?: string;
-}): OpenClawCompileCacheRespawnPlan | undefined {
+}): Brikko StudioCompileCacheRespawnPlan | undefined {
   const env = params.env ?? process.env;
   if (!isSourceCheckoutInstallRoot(params.installRoot)) {
     return undefined;
   }
-  if (env.OPENCLAW_SOURCE_COMPILE_CACHE_RESPAWNED === "1") {
+  if (env.BRIKKO_STUDIO_SOURCE_COMPILE_CACHE_RESPAWNED === "1") {
     return undefined;
   }
   if (!params.compileCacheDir && !isNodeCompileCacheRequested(env)) {
@@ -112,7 +112,7 @@ export function buildOpenClawCompileCacheRespawnPlan(params: {
   const nextEnv: NodeJS.ProcessEnv = {
     ...env,
     NODE_DISABLE_COMPILE_CACHE: "1",
-    OPENCLAW_SOURCE_COMPILE_CACHE_RESPAWNED: "1",
+    BRIKKO_STUDIO_SOURCE_COMPILE_CACHE_RESPAWNED: "1",
   };
   delete nextEnv.NODE_COMPILE_CACHE;
   return {
@@ -126,11 +126,11 @@ export function buildOpenClawCompileCacheRespawnPlan(params: {
   };
 }
 
-export function respawnWithoutOpenClawCompileCacheIfNeeded(params: {
+export function respawnWithoutBrikko StudioCompileCacheIfNeeded(params: {
   currentFile: string;
   installRoot: string;
 }): boolean {
-  const plan = buildOpenClawCompileCacheRespawnPlan({
+  const plan = buildBrikko StudioCompileCacheRespawnPlan({
     currentFile: params.currentFile,
     installRoot: params.installRoot,
     compileCacheDir: getCompileCacheDir?.(),
@@ -149,15 +149,15 @@ export function respawnWithoutOpenClawCompileCacheIfNeeded(params: {
   return true;
 }
 
-export function enableOpenClawCompileCache(params: {
+export function enableBrikko StudioCompileCache(params: {
   env?: NodeJS.ProcessEnv;
   installRoot: string;
 }): void {
-  if (!shouldEnableOpenClawCompileCache(params)) {
+  if (!shouldEnableBrikko StudioCompileCache(params)) {
     return;
   }
   try {
-    enableCompileCache(resolveOpenClawCompileCacheDirectory(params));
+    enableCompileCache(resolveBrikko StudioCompileCacheDirectory(params));
   } catch {
     // Best-effort only; never block startup.
   }

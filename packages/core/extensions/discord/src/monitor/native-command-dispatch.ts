@@ -1,6 +1,6 @@
-import type { ChatCommandDefinition, CommandArgs } from "openclaw/plugin-sdk/command-auth";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { ResolvedAgentRoute } from "openclaw/plugin-sdk/routing";
+import type { ChatCommandDefinition, CommandArgs } from "brikko-studio/plugin-sdk/command-auth";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import type {
   ButtonInteraction,
   CommandInteraction,
@@ -8,14 +8,14 @@ import type {
 } from "../internal/discord.js";
 import type { ThreadBindingManager } from "./thread-bindings.js";
 
-type DiscordConfig = NonNullable<OpenClawConfig["channels"]>["discord"];
+type DiscordConfig = NonNullable<Brikko StudioConfig["channels"]>["discord"];
 
 export type DispatchDiscordCommandInteractionParams = {
   interaction: CommandInteraction | ButtonInteraction | StringSelectMenuInteraction;
   prompt: string;
   command: ChatCommandDefinition;
   commandArgs?: CommandArgs;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   discordConfig: DiscordConfig;
   accountId: string;
   sessionPrefix: string;

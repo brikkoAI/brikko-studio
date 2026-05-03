@@ -1,14 +1,14 @@
 ---
 summary: "Zalo Personal plugin: QR login + messaging via native zca-js (plugin install + channel config + tool)"
 read_when:
-  - You want Zalo Personal (unofficial) support in OpenClaw
+  - You want Zalo Personal (unofficial) support in Brikko Studio
   - You are configuring or developing the zalouser plugin
 title: "Zalo personal plugin"
 ---
 
 # Zalo Personal (plugin)
 
-Zalo Personal support for OpenClaw via a plugin, using native `zca-js` to automate a normal Zalo user account.
+Zalo Personal support for Brikko Studio via a plugin, using native `zca-js` to automate a normal Zalo user account.
 
 <Warning>
 Unofficial automation may lead to account suspension or ban. Use at your own risk.
@@ -31,7 +31,7 @@ No external `zca`/`openzca` CLI binary is required.
 ### Option A: install from npm
 
 ```bash
-openclaw plugins install @openclaw/zalouser
+brikko-studio plugins install @brikko-studio/zalouser
 ```
 
 Use the bare package to follow the current official release tag. Pin an exact
@@ -43,7 +43,7 @@ Restart the Gateway afterwards.
 
 ```bash
 PLUGIN_SRC=./path/to/local/zalouser-plugin
-openclaw plugins install "$PLUGIN_SRC"
+brikko-studio plugins install "$PLUGIN_SRC"
 cd "$PLUGIN_SRC" && pnpm install
 ```
 
@@ -67,11 +67,11 @@ Channel config lives under `channels.zalouser` (not `plugins.entries.*`):
 ## CLI
 
 ```bash
-openclaw channels login --channel zalouser
-openclaw channels logout --channel zalouser
-openclaw channels status --probe
-openclaw message send --channel zalouser --target <threadId> --message "Hello from OpenClaw"
-openclaw directory peers list --channel zalouser --query "name"
+brikko-studio channels login --channel zalouser
+brikko-studio channels logout --channel zalouser
+brikko-studio channels status --probe
+brikko-studio message send --channel zalouser --target <threadId> --message "Hello from Brikko Studio"
+brikko-studio directory peers list --channel zalouser --query "name"
 ```
 
 ## Agent tool

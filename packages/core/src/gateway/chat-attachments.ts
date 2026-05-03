@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { estimateBase64DecodedBytes } from "../media/base64.js";
 import { MAX_IMAGE_BYTES } from "../media/constants.js";
@@ -58,7 +58,7 @@ const TEXT_ONLY_OFFLOAD_LIMIT = 10;
 
 export const DEFAULT_CHAT_ATTACHMENT_MAX_MB = 20;
 
-export function resolveChatAttachmentMaxBytes(cfg: OpenClawConfig): number {
+export function resolveChatAttachmentMaxBytes(cfg: Brikko StudioConfig): number {
   const configured = cfg.agents?.defaults?.mediaMaxMb;
   const mb =
     typeof configured === "number" && Number.isFinite(configured) && configured > 0

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { defaultSlotIdForKey } from "../plugins/slots.js";
 import { resolveGlobalSingleton } from "../shared/global-singleton.js";
 import { sanitizeForLog } from "../terminal/ansi.js";
@@ -10,7 +10,7 @@ import type { ContextEngine } from "./types.js";
  * without fragile workarounds.
  */
 export type ContextEngineFactoryContext = {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   agentDir?: string;
   workspaceDir?: string;
 };
@@ -33,7 +33,7 @@ type RegisterContextEngineForOwnerOptions = {
   allowSameOwnerRefresh?: boolean;
 };
 
-const LEGACY_SESSION_KEY_COMPAT = Symbol.for("openclaw.contextEngine.sessionKeyCompat");
+const LEGACY_SESSION_KEY_COMPAT = Symbol.for("brikko-studio.contextEngine.sessionKeyCompat");
 const SESSION_KEY_COMPAT_METHODS = [
   "bootstrap",
   "maintain",
@@ -321,7 +321,7 @@ function wrapContextEngineWithSessionKeyCompat(engine: ContextEngine): ContextEn
 // Registry (module-level singleton)
 // ---------------------------------------------------------------------------
 
-const CONTEXT_ENGINE_REGISTRY_STATE = Symbol.for("openclaw.contextEngineRegistryState");
+const CONTEXT_ENGINE_REGISTRY_STATE = Symbol.for("brikko-studio.contextEngineRegistryState");
 const CORE_CONTEXT_ENGINE_OWNER = "core";
 const PUBLIC_CONTEXT_ENGINE_OWNER = "public-sdk";
 
@@ -498,7 +498,7 @@ export type ResolveContextEngineOptions = {
  * Throws only when the default engine itself cannot be resolved.
  */
 export async function resolveContextEngine(
-  config?: OpenClawConfig,
+  config?: Brikko StudioConfig,
   options?: ResolveContextEngineOptions,
 ): Promise<ContextEngine> {
   const slotValue = config?.plugins?.slots?.contextEngine;

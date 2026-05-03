@@ -5,8 +5,8 @@ import os from "node:os";
 import path from "node:path";
 import readline from "node:readline";
 import chokidar, { type FSWatcher } from "chokidar";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { withFileLock } from "openclaw/plugin-sdk/file-lock";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { withFileLock } from "brikko-studio/plugin-sdk/file-lock";
 import {
   createSubsystemLogger,
   resolveAgentContextLimits,
@@ -15,8 +15,8 @@ import {
   resolveGlobalSingleton,
   resolveStateDir,
   writeFileWithinRoot,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import {
   buildSessionEntry,
   deriveQmdScopeChannel,
@@ -28,7 +28,7 @@ import {
   runCliCommand,
   type QmdQueryResult,
   type SessionFileEntry,
-} from "openclaw/plugin-sdk/memory-core-host-engine-qmd";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-qmd";
 import {
   buildMemoryReadResult,
   buildMemoryReadResultFromSlice,
@@ -47,11 +47,11 @@ import {
   type ResolvedMemoryBackendConfig,
   type ResolvedQmdConfig,
   type ResolvedQmdMcporterConfig,
-} from "openclaw/plugin-sdk/memory-core-host-engine-storage";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-storage";
 import {
   localeLowercasePreservingWhitespace,
   normalizeLowercaseStringOrEmpty,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import { asRecord } from "../dreaming-shared.js";
 import { resolveQmdCollectionPatternFlags, type QmdCollectionPatternFlag } from "./qmd-compat.js";
 
@@ -74,9 +74,9 @@ const QMD_EMBED_LOCK_RETRY_TEMPLATE = {
   maxTimeout: 10_000,
   randomize: true,
 } as const;
-const MCPORTER_STATE_KEY = Symbol.for("openclaw.mcporterState");
-const QMD_EMBED_QUEUE_KEY = Symbol.for("openclaw.qmdEmbedQueueTail");
-const QMD_UPDATE_QUEUE_KEY = Symbol.for("openclaw.qmdUpdateQueueState");
+const MCPORTER_STATE_KEY = Symbol.for("brikko-studio.mcporterState");
+const QMD_EMBED_QUEUE_KEY = Symbol.for("brikko-studio.qmdEmbedQueueTail");
+const QMD_UPDATE_QUEUE_KEY = Symbol.for("brikko-studio.qmdUpdateQueueState");
 const IGNORED_MEMORY_WATCH_DIR_NAMES = new Set([
   ".git",
   ".cache",
@@ -153,7 +153,7 @@ function _hasHanScript(value: string): boolean {
 
 function normalizeHanBm25Query(query: string): string {
   const trimmed = query.trim();
-  // Keep Han/CJK BM25 queries intact so OpenClaw search semantics match direct qmd search.
+  // Keep Han/CJK BM25 queries intact so Brikko Studio search semantics match direct qmd search.
   return trimmed;
 }
 
@@ -274,7 +274,7 @@ type QmdMcporterAcrossCollectionsParams =
 
 export class QmdMemoryManager implements MemorySearchManager {
   static async create(params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     agentId: string;
     resolved: ResolvedMemoryBackendConfig;
     mode?: QmdManagerMode;
@@ -3124,7 +3124,7 @@ export class QmdMemoryManager implements MemorySearchManager {
 }
 
 function resolveQmdManagerRuntimeConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
 ): QmdManagerRuntimeConfig {
   return {

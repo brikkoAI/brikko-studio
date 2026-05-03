@@ -1,13 +1,13 @@
 import { createHash } from "node:crypto";
-import type { ModelsProviderData } from "openclaw/plugin-sdk/command-auth";
-import { resolveStoredModelOverride } from "openclaw/plugin-sdk/command-auth";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/core";
-import { normalizeProviderId } from "openclaw/plugin-sdk/provider-model-shared";
-import { loadSessionStore, resolveStorePath } from "openclaw/plugin-sdk/session-store-runtime";
+import type { ModelsProviderData } from "brikko-studio/plugin-sdk/command-auth";
+import { resolveStoredModelOverride } from "brikko-studio/plugin-sdk/command-auth";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/core";
+import { normalizeProviderId } from "brikko-studio/plugin-sdk/provider-model-shared";
+import { loadSessionStore, resolveStorePath } from "brikko-studio/plugin-sdk/session-store-runtime";
 import {
   normalizeOptionalString,
   normalizeStringifiedOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import type { MattermostInteractiveButtonInput } from "./interactions.js";
 
 const MATTERMOST_MODEL_PICKER_CONTEXT_KEY = "oc_model_picker";
@@ -233,7 +233,7 @@ export function buildMattermostAllowedModelRefs(data: ModelsProviderData): Set<s
 }
 
 export function resolveMattermostModelPickerCurrentModel(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   route: { agentId: string; sessionKey: string };
   data: ModelsProviderData;
   skipCache?: boolean;

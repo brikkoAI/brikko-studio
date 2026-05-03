@@ -3,14 +3,14 @@ import {
   getChannelSurface,
   type ResolverContext,
   type SecretDefaults,
-} from "openclaw/plugin-sdk/channel-secret-basic-runtime";
+} from "brikko-studio/plugin-sdk/channel-secret-basic-runtime";
 
-export const secretTargetRegistryEntries: import("openclaw/plugin-sdk/channel-secret-basic-runtime").SecretTargetRegistryEntry[] =
+export const secretTargetRegistryEntries: import("brikko-studio/plugin-sdk/channel-secret-basic-runtime").SecretTargetRegistryEntry[] =
   [
     {
       id: "channels.bluebubbles.accounts.*.password",
       targetType: "channels.bluebubbles.accounts.*.password",
-      configFile: "openclaw.json",
+      configFile: "brikko-studio.json",
       pathPattern: "channels.bluebubbles.accounts.*.password",
       secretShape: "secret_input",
       expectedResolvedValue: "string",
@@ -21,7 +21,7 @@ export const secretTargetRegistryEntries: import("openclaw/plugin-sdk/channel-se
     {
       id: "channels.bluebubbles.password",
       targetType: "channels.bluebubbles.password",
-      configFile: "openclaw.json",
+      configFile: "brikko-studio.json",
       pathPattern: "channels.bluebubbles.password",
       secretShape: "secret_input",
       expectedResolvedValue: "string",

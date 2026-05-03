@@ -1,6 +1,6 @@
 import { selectApplicableRuntimeConfig } from "../config/config.js";
 import type { AgentModelConfig } from "../config/types.agents-shared.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { callGateway } from "../gateway/call.js";
 import { isEmbeddedMode } from "../infra/embedded-mode.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.js";
@@ -13,12 +13,12 @@ import type { GatewayMessageChannel } from "../utils/message-channel.js";
 import { resolveAgentWorkspaceDir, resolveSessionAgentIds } from "./agent-scope.js";
 import { listProfilesForProvider } from "./auth-profiles.js";
 import type { AuthProfileStore } from "./auth-profiles/types.js";
-import { resolveOpenClawPluginToolsForOptions } from "./openclaw-plugin-tools.js";
-import { applyNodesToolWorkspaceGuard } from "./openclaw-tools.nodes-workspace-guard.js";
+import { resolveBrikko StudioPluginToolsForOptions } from "./brikko-studio-plugin-tools.js";
+import { applyNodesToolWorkspaceGuard } from "./brikko-studio-tools.nodes-workspace-guard.js";
 import {
-  collectPresentOpenClawTools,
-  isUpdatePlanToolEnabledForOpenClawTools,
-} from "./openclaw-tools.registration.js";
+  collectPresentBrikko StudioTools,
+  isUpdatePlanToolEnabledForBrikko StudioTools,
+} from "./brikko-studio-tools.registration.js";
 import type { SandboxFsBridge } from "./sandbox/fs-bridge.js";
 import type { SpawnedToolContext } from "./spawned-context.js";
 import type { ToolFsPolicy } from "./tool-fs-policy.js";
@@ -57,16 +57,16 @@ import { createVideoGenerateTool } from "./tools/video-generate-tool.js";
 import { createWebFetchTool, createWebSearchTool } from "./tools/web-tools.js";
 import { resolveWorkspaceRoot } from "./workspace-dir.js";
 
-type OpenClawToolsDeps = {
+type Brikko StudioToolsDeps = {
   callGateway: typeof callGateway;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 };
 
-const defaultOpenClawToolsDeps: OpenClawToolsDeps = {
+const defaultBrikko StudioToolsDeps: Brikko StudioToolsDeps = {
   callGateway,
 };
 
-let openClawToolsDeps: OpenClawToolsDeps = defaultOpenClawToolsDeps;
+let openClawToolsDeps: Brikko StudioToolsDeps = defaultBrikko StudioToolsDeps;
 
 type OptionalMediaToolFactoryPlan = {
   imageGenerate: boolean;
@@ -79,7 +79,7 @@ function hasExplicitToolModelConfig(modelConfig: AgentModelConfig | undefined): 
   return hasToolModelConfig(coerceToolModelConfig(modelConfig));
 }
 
-function hasExplicitImageModelConfig(config: OpenClawConfig | undefined): boolean {
+function hasExplicitImageModelConfig(config: Brikko StudioConfig | undefined): boolean {
   return hasToolModelConfig(coerceImageModelConfig(config));
 }
 
@@ -95,7 +95,7 @@ function isToolAllowedByFactoryPolicy(params: {
 }
 
 function resolveImageToolFactoryAvailable(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   agentDir?: string;
   modelHasVision?: boolean;
   authStore?: AuthProfileStore;
@@ -125,7 +125,7 @@ function resolveImageToolFactoryAvailable(params: {
 }
 
 function hasConfiguredVisionModelAuthSignal(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   snapshot: Pick<PluginMetadataSnapshot, "index" | "plugins">;
   authStore?: AuthProfileStore;
 }): boolean {
@@ -158,7 +158,7 @@ function hasConfiguredVisionModelAuthSignal(params: {
 }
 
 function resolveOptionalMediaToolFactoryPlan(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   workspaceDir?: string;
   authStore?: AuthProfileStore;
   toolAllowlist?: string[];
@@ -248,7 +248,7 @@ function resolveOptionalMediaToolFactoryPlan(params: {
   };
 }
 
-export function createOpenClawTools(
+export function createBrikko StudioTools(
   options?: {
     sandboxBrowserBridgeUrl?: string;
     allowHostBrowserControl?: boolean;
@@ -265,7 +265,7 @@ export function createOpenClawTools(
     sandboxFsBridge?: SandboxFsBridge;
     fsPolicy?: ToolFsPolicy;
     sandboxed?: boolean;
-    config?: OpenClawConfig;
+    config?: Brikko StudioConfig;
     pluginToolAllowlist?: string[];
     pluginToolDenylist?: string[];
     /** Current channel ID for auto-threading. */
@@ -343,7 +343,7 @@ export function createOpenClawTools(
   const spawnWorkspaceDir = resolveWorkspaceRoot(
     options?.spawnWorkspaceDir ?? options?.workspaceDir ?? inferredWorkspaceDir,
   );
-  options?.recordToolPrepStage?.("openclaw-tools:session-workspace");
+  options?.recordToolPrepStage?.("brikko-studio-tools:session-workspace");
   const deliveryContext = normalizeDeliveryContext({
     channel: options?.agentChannel,
     to: options?.agentTo,
@@ -380,7 +380,7 @@ export function createOpenClawTools(
         deferAutoModelResolution: true,
       })
     : null;
-  options?.recordToolPrepStage?.("openclaw-tools:image-tool");
+  options?.recordToolPrepStage?.("brikko-studio-tools:image-tool");
   const imageGenerateTool = optionalMediaTools.imageGenerate
     ? createImageGenerateTool({
         config: options?.config,
@@ -391,7 +391,7 @@ export function createOpenClawTools(
         fsPolicy: options?.fsPolicy,
       })
     : null;
-  options?.recordToolPrepStage?.("openclaw-tools:image-generate-tool");
+  options?.recordToolPrepStage?.("brikko-studio-tools:image-generate-tool");
   const videoGenerateTool = optionalMediaTools.videoGenerate
     ? createVideoGenerateTool({
         config: options?.config,
@@ -404,7 +404,7 @@ export function createOpenClawTools(
         fsPolicy: options?.fsPolicy,
       })
     : null;
-  options?.recordToolPrepStage?.("openclaw-tools:video-generate-tool");
+  options?.recordToolPrepStage?.("brikko-studio-tools:video-generate-tool");
   const musicGenerateTool = optionalMediaTools.musicGenerate
     ? createMusicGenerateTool({
         config: options?.config,
@@ -417,7 +417,7 @@ export function createOpenClawTools(
         fsPolicy: options?.fsPolicy,
       })
     : null;
-  options?.recordToolPrepStage?.("openclaw-tools:music-generate-tool");
+  options?.recordToolPrepStage?.("brikko-studio-tools:music-generate-tool");
   const pdfTool =
     optionalMediaTools.pdf && options?.agentDir?.trim()
       ? createPdfTool({
@@ -430,20 +430,20 @@ export function createOpenClawTools(
           deferAutoModelResolution: true,
         })
       : null;
-  options?.recordToolPrepStage?.("openclaw-tools:pdf-tool");
+  options?.recordToolPrepStage?.("brikko-studio-tools:pdf-tool");
   const webSearchTool = createWebSearchTool({
     config: options?.config,
     sandboxed: options?.sandboxed,
     runtimeWebSearch: runtimeWebTools?.search,
     lateBindRuntimeConfig: true,
   });
-  options?.recordToolPrepStage?.("openclaw-tools:web-search-tool");
+  options?.recordToolPrepStage?.("brikko-studio-tools:web-search-tool");
   const webFetchTool = createWebFetchTool({
     config: options?.config,
     sandboxed: options?.sandboxed,
     runtimeWebFetch: runtimeWebTools?.fetch,
   });
-  options?.recordToolPrepStage?.("openclaw-tools:web-fetch-tool");
+  options?.recordToolPrepStage?.("brikko-studio-tools:web-fetch-tool");
   const messageTool = options?.disableMessageTool
     ? null
     : createMessageTool({
@@ -463,7 +463,7 @@ export function createOpenClawTools(
         senderIsOwner: options?.senderIsOwner,
       });
   const heartbeatTool = options?.enableHeartbeatTool ? createHeartbeatResponseTool() : null;
-  options?.recordToolPrepStage?.("openclaw-tools:message-tool");
+  options?.recordToolPrepStage?.("brikko-studio-tools:message-tool");
   const nodesToolBase = createNodesTool({
     agentSessionKey: options?.agentSessionKey,
     agentChannel: options?.agentChannel,
@@ -480,7 +480,7 @@ export function createOpenClawTools(
     sandboxRoot: options?.sandboxRoot,
     workspaceDir,
   });
-  options?.recordToolPrepStage?.("openclaw-tools:nodes-tool");
+  options?.recordToolPrepStage?.("brikko-studio-tools:nodes-tool");
   const embedded = isEmbeddedMode();
   const effectiveCallGateway = embedded
     ? createEmbeddedCallGateway()
@@ -505,14 +505,14 @@ export function createOpenClawTools(
           }),
         ]),
     ...(!embedded && messageTool ? [messageTool] : []),
-    ...collectPresentOpenClawTools([heartbeatTool]),
+    ...collectPresentBrikko StudioTools([heartbeatTool]),
     createTtsTool({
       agentChannel: options?.agentChannel,
       config: resolvedConfig,
       agentId: sessionAgentId,
       agentAccountId: options?.agentAccountId,
     }),
-    ...collectPresentOpenClawTools([imageGenerateTool, musicGenerateTool, videoGenerateTool]),
+    ...collectPresentBrikko StudioTools([imageGenerateTool, musicGenerateTool, videoGenerateTool]),
     ...(embedded
       ? []
       : [
@@ -525,7 +525,7 @@ export function createOpenClawTools(
       agentSessionKey: options?.agentSessionKey,
       requesterAgentIdOverride: options?.requesterAgentIdOverride,
     }),
-    ...(isUpdatePlanToolEnabledForOpenClawTools({
+    ...(isUpdatePlanToolEnabledForBrikko StudioTools({
       config: resolvedConfig,
       agentSessionKey: options?.agentSessionKey,
       agentId: options?.requesterAgentIdOverride,
@@ -584,32 +584,32 @@ export function createOpenClawTools(
       config: resolvedConfig,
       sandboxed: options?.sandboxed,
     }),
-    ...collectPresentOpenClawTools([webSearchTool, webFetchTool, imageTool, pdfTool]),
+    ...collectPresentBrikko StudioTools([webSearchTool, webFetchTool, imageTool, pdfTool]),
   ];
-  options?.recordToolPrepStage?.("openclaw-tools:core-tool-list");
+  options?.recordToolPrepStage?.("brikko-studio-tools:core-tool-list");
 
   if (options?.disablePluginTools) {
     return tools;
   }
 
-  const wrappedPluginTools = resolveOpenClawPluginToolsForOptions({
+  const wrappedPluginTools = resolveBrikko StudioPluginToolsForOptions({
     options,
     resolvedConfig,
     existingToolNames: new Set(tools.map((tool) => tool.name)),
   });
-  options?.recordToolPrepStage?.("openclaw-tools:plugin-tools");
+  options?.recordToolPrepStage?.("brikko-studio-tools:plugin-tools");
 
   return [...tools, ...wrappedPluginTools];
 }
 
 export const __testing = {
   resolveOptionalMediaToolFactoryPlan,
-  setDepsForTest(overrides?: Partial<OpenClawToolsDeps>) {
+  setDepsForTest(overrides?: Partial<Brikko StudioToolsDeps>) {
     openClawToolsDeps = overrides
       ? {
-          ...defaultOpenClawToolsDeps,
+          ...defaultBrikko StudioToolsDeps,
           ...overrides,
         }
-      : defaultOpenClawToolsDeps;
+      : defaultBrikko StudioToolsDeps;
   },
 };

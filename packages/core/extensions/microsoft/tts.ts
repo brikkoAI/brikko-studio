@@ -1,5 +1,5 @@
 import { statSync } from "node:fs";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 
 type EdgeTTSRuntimeConfig = {
   voice?: string;

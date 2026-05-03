@@ -1,5 +1,5 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import type { OpenClawConfig, OpenClawPluginApi } from "../api.js";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import type { Brikko StudioConfig, Brikko StudioPluginApi } from "../api.js";
 import { applyMemoryWikiMutation, normalizeMemoryWikiMutationInput } from "./apply.js";
 import { compileMemoryWikiVault } from "./compile.js";
 import {
@@ -27,7 +27,7 @@ import { initializeMemoryWikiVault } from "./vault.js";
 const READ_SCOPE = "operator.read" as const;
 const WRITE_SCOPE = "operator.write" as const;
 type GatewayMethodContext = Parameters<
-  Parameters<OpenClawPluginApi["registerGatewayMethod"]>[1]
+  Parameters<Brikko StudioPluginApi["registerGatewayMethod"]>[1]
 >[0];
 type GatewayRespond = GatewayMethodContext["respond"];
 
@@ -88,15 +88,15 @@ function respondError(respond: GatewayRespond, error: unknown) {
 
 async function syncImportedSourcesIfNeeded(
   config: ResolvedMemoryWikiConfig,
-  appConfig?: OpenClawConfig,
+  appConfig?: Brikko StudioConfig,
 ) {
   await syncMemoryWikiImportedSources({ config, appConfig });
 }
 
 export function registerMemoryWikiGatewayMethods(params: {
-  api: OpenClawPluginApi;
+  api: Brikko StudioPluginApi;
   config: ResolvedMemoryWikiConfig;
-  appConfig?: OpenClawConfig;
+  appConfig?: Brikko StudioConfig;
 }) {
   const { api, config, appConfig } = params;
 

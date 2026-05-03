@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { LOCAL_BUILD_METADATA_DIST_PATHS } from "../../scripts/lib/local-build-metadata-paths.mjs";
 
-const CHECK_SCRIPT = "scripts/check-openclaw-package-tarball.mjs";
+const CHECK_SCRIPT = "scripts/check-brikko-studio-package-tarball.mjs";
 
 function withTarball(
   inventory: string[],
@@ -14,11 +14,11 @@ function withTarball(
   version = "0.0.0",
   options: { includeControlUi?: boolean } = {},
 ) {
-  const root = mkdtempSync(join(tmpdir(), "openclaw-package-tarball-test-"));
+  const root = mkdtempSync(join(tmpdir(), "brikko-studio-package-tarball-test-"));
   try {
     const packageRoot = join(root, "package");
     mkdirSync(join(packageRoot, "dist"), { recursive: true });
-    writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "openclaw", version }));
+    writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "brikko-studio", version }));
     writeFileSync(
       join(packageRoot, "dist", "postinstall-inventory.json"),
       JSON.stringify(inventory),
@@ -27,7 +27,7 @@ function withTarball(
       options.includeControlUi === false
         ? files
         : {
-            "dist/control-ui/index.html": "<!doctype html><openclaw-app></openclaw-app>",
+            "dist/control-ui/index.html": "<!doctype html><brikko-studio-app></brikko-studio-app>",
             "dist/control-ui/assets/app.js": "console.log('ok');\n",
             ...files,
           };
@@ -37,7 +37,7 @@ function withTarball(
       writeFileSync(filePath, body);
     }
 
-    const tarball = join(root, "openclaw.tgz");
+    const tarball = join(root, "brikko-studio.tgz");
     const pack = spawnSync("tar", ["-czf", tarball, "-C", root, "package"], {
       encoding: "utf8",
     });
@@ -48,7 +48,7 @@ function withTarball(
   }
 }
 
-describe("check-openclaw-package-tarball", () => {
+describe("check-brikko-studio-package-tarball", () => {
   it("allows legacy private QA inventory entries omitted from shipped tarballs through 2026.4.25", () => {
     withTarball(
       ["dist/index.js", "dist/extensions/qa-channel/runtime-api.js"],
@@ -58,7 +58,7 @@ describe("check-openclaw-package-tarball", () => {
 
         expect(result.status, result.stderr).toBe(0);
         expect(result.stderr).toContain("legacy inventory references omitted private QA");
-        expect(result.stdout).toContain("OpenClaw package tarball integrity passed.");
+        expect(result.stdout).toContain("Brikko Studio package tarball integrity passed.");
       },
       "2026.4.25-beta.10",
     );
@@ -121,7 +121,7 @@ describe("check-openclaw-package-tarball", () => {
         const result = spawnSync("node", [CHECK_SCRIPT, tarball], { encoding: "utf8" });
 
         expect(result.status, result.stderr).toBe(0);
-        expect(result.stdout).toContain("OpenClaw package tarball integrity passed.");
+        expect(result.stdout).toContain("Brikko Studio package tarball integrity passed.");
       },
       "2026.4.27",
     );
@@ -203,7 +203,7 @@ describe("check-openclaw-package-tarball", () => {
         expect(result.stderr).toContain(
           "legacy package includes local build metadata tar entry dist/.runtime-postbuildstamp",
         );
-        expect(result.stdout).toContain("OpenClaw package tarball integrity passed.");
+        expect(result.stdout).toContain("Brikko Studio package tarball integrity passed.");
       },
       "2026.4.26",
     );

@@ -10,9 +10,9 @@ import { ChannelType, type Client, type Message } from "../internal/discord.js";
 const fetchRemoteMedia = vi.fn();
 const saveMediaBuffer = vi.fn();
 
-vi.mock("openclaw/plugin-sdk/media-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/media-runtime")>(
-    "openclaw/plugin-sdk/media-runtime",
+vi.mock("brikko-studio/plugin-sdk/media-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/media-runtime")>(
+    "brikko-studio/plugin-sdk/media-runtime",
   );
   return {
     ...actual,
@@ -21,9 +21,9 @@ vi.mock("openclaw/plugin-sdk/media-runtime", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/runtime-env", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/runtime-env")>(
-    "openclaw/plugin-sdk/runtime-env",
+vi.mock("brikko-studio/plugin-sdk/runtime-env", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/runtime-env")>(
+    "brikko-studio/plugin-sdk/runtime-env",
   );
   return {
     ...actual,

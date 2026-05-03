@@ -1,27 +1,27 @@
 ---
-summary: "CLI reference for `openclaw configure` (interactive configuration prompts)"
+summary: "CLI reference for `brikko-studio configure` (interactive configuration prompts)"
 read_when:
   - You want to tweak credentials, devices, or agent defaults interactively
 title: "Configure"
 ---
 
-# `openclaw configure`
+# `brikko-studio configure`
 
 Interactive prompt to set up credentials, devices, and agent defaults.
 
 <Note>
 The **Model** section includes a multi-select for the `agents.defaults.models` allowlist (what shows up in `/model` and the model picker). Provider-scoped setup choices merge their selected models into the existing allowlist instead of replacing unrelated providers already in the config.
 
-Re-running provider auth from configure preserves an existing `agents.defaults.model.primary`, even when the provider's auth step returns a config patch with its own recommended default model. That means adding or reauthing xAI, OpenRouter, or another provider should make the new model available without taking over from your current primary model. Use `openclaw models auth login --provider <id> --set-default` or `openclaw models set <model>` when you intentionally want to change the default model.
+Re-running provider auth from configure preserves an existing `agents.defaults.model.primary`, even when the provider's auth step returns a config patch with its own recommended default model. That means adding or reauthing xAI, OpenRouter, or another provider should make the new model available without taking over from your current primary model. Use `brikko-studio models auth login --provider <id> --set-default` or `brikko-studio models set <model>` when you intentionally want to change the default model.
 </Note>
 
 When configure starts from a provider auth choice, the default-model and allowlist pickers prefer that provider automatically. For paired providers such as Volcengine and BytePlus, the same preference also matches their coding-plan variants (`volcengine-plan/*`, `byteplus-plan/*`). If the preferred-provider filter would produce an empty list, configure falls back to the unfiltered catalog instead of showing a blank picker.
 
 <Tip>
-`openclaw config` without a subcommand opens the same wizard. Use `openclaw config get|set|unset` for non-interactive edits.
+`brikko-studio config` without a subcommand opens the same wizard. Use `brikko-studio config get|set|unset` for non-interactive edits.
 </Tip>
 
-For web search, `openclaw configure --section web` lets you choose a provider
+For web search, `brikko-studio configure --section web` lets you choose a provider
 and configure its credentials. Some providers also show provider-specific
 follow-up prompts:
 
@@ -63,10 +63,10 @@ Notes:
 ## Examples
 
 ```bash
-openclaw configure
-openclaw configure --section web
-openclaw configure --section model --section channels
-openclaw configure --section gateway --section daemon
+brikko-studio configure
+brikko-studio configure --section web
+brikko-studio configure --section model --section channels
+brikko-studio configure --section gateway --section daemon
 ```
 
 ## Related

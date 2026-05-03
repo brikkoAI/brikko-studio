@@ -10,7 +10,7 @@ import { VOICECLAW_REALTIME_PATH } from "./paths.js";
 import { VOICECLAW_REALTIME_MAX_PAYLOAD_BYTES } from "./upgrade.js";
 
 const previousGeminiApiKey = process.env.GEMINI_API_KEY;
-const previousTestHandshakeTimeout = process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS;
+const previousTestHandshakeTimeout = process.env.BRIKKO_STUDIO_TEST_HANDSHAKE_TIMEOUT_MS;
 
 afterEach(() => {
   if (previousGeminiApiKey === undefined) {
@@ -19,10 +19,10 @@ afterEach(() => {
     process.env.GEMINI_API_KEY = previousGeminiApiKey;
   }
   if (previousTestHandshakeTimeout === undefined) {
-    delete process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS;
+    delete process.env.BRIKKO_STUDIO_TEST_HANDSHAKE_TIMEOUT_MS;
     return;
   }
-  process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS = previousTestHandshakeTimeout;
+  process.env.BRIKKO_STUDIO_TEST_HANDSHAKE_TIMEOUT_MS = previousTestHandshakeTimeout;
 });
 
 describe("VoiceClaw realtime gateway upgrade", () => {
@@ -60,7 +60,7 @@ describe("VoiceClaw realtime gateway upgrade", () => {
   });
 
   it("closes idle realtime sockets that never send session.config", async () => {
-    process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS = "50";
+    process.env.BRIKKO_STUDIO_TEST_HANDSHAKE_TIMEOUT_MS = "50";
     await withRealtimeGateway(async ({ port }) => {
       const ws = new WebSocket(`ws://127.0.0.1:${port}${VOICECLAW_REALTIME_PATH}`);
 

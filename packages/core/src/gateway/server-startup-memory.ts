@@ -1,6 +1,6 @@
 import { listAgentEntries, listAgentIds, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { resolveMemorySearchConfig } from "../agents/memory-search.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveMemoryBackendConfig,
   type ResolvedQmdConfig,
@@ -12,14 +12,14 @@ function shouldRunQmdStartupBootSync(qmd: ResolvedQmdConfig): boolean {
   return qmd.update.onBoot && qmd.update.startup !== "off";
 }
 
-function hasExplicitAgentMemorySearchConfig(cfg: OpenClawConfig, agentId: string): boolean {
+function hasExplicitAgentMemorySearchConfig(cfg: Brikko StudioConfig, agentId: string): boolean {
   return listAgentEntries(cfg).some(
     (entry) => normalizeAgentId(entry.id) === agentId && entry.memorySearch != null,
   );
 }
 
 function shouldEagerlyStartAgentMemory(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   agentCount: number;
 }): boolean {
@@ -36,7 +36,7 @@ function shouldEagerlyStartAgentMemory(params: {
 }
 
 export async function startGatewayMemoryBackend(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   log: { info?: (msg: string) => void; warn: (msg: string) => void };
 }): Promise<void> {
   const agentIds = listAgentIds(params.cfg);

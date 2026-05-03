@@ -62,7 +62,7 @@ export async function runPluginsListCommand(
       return {
         Name: plugin.name || plugin.id,
         ID: plugin.name && plugin.name !== plugin.id ? plugin.id : "",
-        Format: plugin.format ?? "openclaw",
+        Format: plugin.format ?? "brikko-studio",
         Status:
           plugin.status === "error"
             ? theme.error("error")

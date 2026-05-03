@@ -1,4 +1,4 @@
-import { createProviderUsageFetch, makeResponse } from "openclaw/plugin-sdk/test-env";
+import { createProviderUsageFetch, makeResponse } from "brikko-studio/plugin-sdk/test-env";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { buildCopilotModelDefinition, getDefaultCopilotModelIds } from "./models-defaults.js";
 import { fetchCopilotUsage } from "./usage.js";
@@ -14,7 +14,7 @@ vi.mock("@mariozechner/pi-ai/oauth", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/provider-model-shared", () => ({
+vi.mock("brikko-studio/plugin-sdk/provider-model-shared", () => ({
   normalizeModelCompat: (model: Record<string, unknown>) => model,
   resolveProviderEndpoint: (baseUrl: string) => ({
     baseUrl,
@@ -28,16 +28,16 @@ const jsonStoreMocks = vi.hoisted(() => ({
   saveJsonFile: vi.fn(),
 }));
 
-vi.mock("openclaw/plugin-sdk/json-store", () => ({
+vi.mock("brikko-studio/plugin-sdk/json-store", () => ({
   loadJsonFile: jsonStoreMocks.loadJsonFile,
   saveJsonFile: jsonStoreMocks.saveJsonFile,
 }));
 
-vi.mock("openclaw/plugin-sdk/state-paths", () => ({
-  resolveStateDir: () => "/tmp/openclaw-state",
+vi.mock("brikko-studio/plugin-sdk/state-paths", () => ({
+  resolveStateDir: () => "/tmp/brikko-studio-state",
 }));
 
-import type { ProviderResolveDynamicModelContext } from "openclaw/plugin-sdk/core";
+import type { ProviderResolveDynamicModelContext } from "brikko-studio/plugin-sdk/core";
 import { resolveCopilotForwardCompatModel } from "./models.js";
 
 let deriveCopilotApiBaseUrlFromToken: typeof import("./token.js").deriveCopilotApiBaseUrlFromToken;
@@ -301,7 +301,7 @@ describe("fetchCopilotUsage", () => {
 });
 
 describe("github-copilot token", () => {
-  const cachePath = "/tmp/openclaw-state/credentials/github-copilot.token.json";
+  const cachePath = "/tmp/brikko-studio-state/credentials/github-copilot.token.json";
 
   beforeEach(async () => {
     vi.resetModules();

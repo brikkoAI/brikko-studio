@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: openclaw
+  name: brikko-studio
   labels:
-    app: openclaw
+    app: brikko-studio
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: openclaw
+      app: brikko-studio
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: openclaw
+        app: brikko-studio
     spec:
       automountServiceAccountToken: false
       securityContext:
@@ -29,9 +29,9 @@ spec:
             - sh
             - -c
             - |
-              cp /config/openclaw.json /home/node/.openclaw/openclaw.json
-              mkdir -p /home/node/.openclaw/workspace
-              cp /config/AGENTS.md /home/node/.openclaw/workspace/AGENTS.md
+              cp /config/brikko-studio.json /home/node/.brikko-studio/brikko-studio.json
+              mkdir -p /home/node/.brikko-studio/workspace
+              cp /config/AGENTS.md /home/node/.brikko-studio/workspace/AGENTS.md
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
@@ -43,13 +43,13 @@ spec:
               memory: 64Mi
               cpu: 100m
           volumeMounts:
-            - name: openclaw-home
-              mountPath: /home/node/.openclaw
+            - name: brikko-studio-home
+              mountPath: /home/node/.brikko-studio
             - name: config
               mountPath: /config
       containers:
         - name: gateway
-          image: ghcr.io/openclaw/openclaw:slim
+          image: ghcr.io/brikko-studio/brikko-studio:slim
           imagePullPolicy: IfNotPresent
           command:
             - node
@@ -63,37 +63,37 @@ spec:
           env:
             - name: HOME
               value: /home/node
-            - name: OPENCLAW_CONFIG_DIR
-              value: /home/node/.openclaw
+            - name: BRIKKO_STUDIO_CONFIG_DIR
+              value: /home/node/.brikko-studio
             - name: NODE_ENV
               value: production
-            - name: OPENCLAW_GATEWAY_TOKEN
+            - name: BRIKKO_STUDIO_GATEWAY_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: openclaw-secrets
-                  key: OPENCLAW_GATEWAY_TOKEN
+                  name: brikko-studio-secrets
+                  key: BRIKKO_STUDIO_GATEWAY_TOKEN
             - name: ANTHROPIC_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: openclaw-secrets
+                  name: brikko-studio-secrets
                   key: ANTHROPIC_API_KEY
                   optional: true
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: openclaw-secrets
+                  name: brikko-studio-secrets
                   key: OPENAI_API_KEY
                   optional: true
             - name: GEMINI_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: openclaw-secrets
+                  name: brikko-studio-secrets
                   key: GEMINI_API_KEY
                   optional: true
             - name: OPENROUTER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: openclaw-secrets
+                  name: brikko-studio-secrets
                   key: OPENROUTER_API_KEY
                   optional: true
           resources:
@@ -122,8 +122,8 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
           volumeMounts:
-            - name: openclaw-home
-              mountPath: /home/node/.openclaw
+            - name: brikko-studio-home
+              mountPath: /home/node/.brikko-studio
             - name: tmp-volume
               mountPath: /tmp
           securityContext:
@@ -136,11 +136,11 @@ spec:
               drop:
                 - ALL
       volumes:
-        - name: openclaw-home
+        - name: brikko-studio-home
           persistentVolumeClaim:
-            claimName: openclaw-home-pvc
+            claimName: brikko-studio-home-pvc
         - name: config
           configMap:
-            name: openclaw-config
+            name: brikko-studio-config
         - name: tmp-volume
           emptyDir: {}

@@ -66,7 +66,7 @@ describe("readSubagentOutput", () => {
         {
           role: "system",
           content: [{ type: "text", text: "Compaction" }],
-          __openclaw: { kind: "compaction" },
+          __brikko-studio: { kind: "compaction" },
         },
         {
           role: "assistant",

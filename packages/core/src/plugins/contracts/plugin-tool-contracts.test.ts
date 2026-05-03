@@ -205,7 +205,7 @@ describe("bundled plugin tool manifest contracts", () => {
         continue;
       }
       const pluginDir = path.join(extensionsDir, entry.name);
-      const manifestPath = path.join(pluginDir, "openclaw.plugin.json");
+      const manifestPath = path.join(pluginDir, "brikko-studio.plugin.json");
       if (!fs.existsSync(manifestPath)) {
         continue;
       }

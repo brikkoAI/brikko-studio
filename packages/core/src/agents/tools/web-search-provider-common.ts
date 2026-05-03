@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeResolvedSecretInputString } from "../../config/types.secrets.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
@@ -36,7 +36,7 @@ async function loadSelfHostedWebToolsEndpoint(): Promise<
   return (await webGuardedFetchLoader.load()).withSelfHostedWebToolsEndpoint;
 }
 
-export type SearchConfigRecord = (NonNullable<OpenClawConfig["tools"]>["web"] extends infer Web
+export type SearchConfigRecord = (NonNullable<Brikko StudioConfig["tools"]>["web"] extends infer Web
   ? Web extends { search?: infer Search }
     ? Search
     : never
@@ -257,7 +257,7 @@ export function parseIsoDateRange(params: {
       message: string;
       docs: string;
     } {
-  const docs = params.docs ?? "https://docs.openclaw.ai/tools/web";
+  const docs = params.docs ?? "https://docs.brikko-studio.ai/tools/web";
   const dateAfter = params.rawDateAfter ? normalizeToIsoDate(params.rawDateAfter) : undefined;
   if (params.rawDateAfter && !dateAfter) {
     return {
@@ -369,7 +369,7 @@ function describeUnsupportedSearchFilter(name: UnsupportedWebSearchFilterName): 
 export function buildUnsupportedSearchFilterResponse(
   params: Record<string, unknown>,
   provider: string,
-  docs = "https://docs.openclaw.ai/tools/web",
+  docs = "https://docs.brikko-studio.ai/tools/web",
 ):
   | {
       error: string;

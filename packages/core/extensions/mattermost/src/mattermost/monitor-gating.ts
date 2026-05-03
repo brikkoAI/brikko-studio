@@ -1,4 +1,4 @@
-import type { ChatType, OpenClawConfig } from "./runtime-api.js";
+import type { ChatType, Brikko StudioConfig } from "./runtime-api.js";
 
 export function mapMattermostChannelTypeToChatType(channelType?: string | null): ChatType {
   if (!channelType) {
@@ -26,7 +26,7 @@ export function resolveMattermostTrustedChatKind(params: {
 }
 
 export type MattermostRequireMentionResolverInput = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel: "mattermost";
   accountId: string;
   groupId: string;
@@ -35,7 +35,7 @@ export type MattermostRequireMentionResolverInput = {
 
 export type MattermostMentionGateInput = {
   kind: ChatType;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   channelId: string;
   threadRootId?: string;

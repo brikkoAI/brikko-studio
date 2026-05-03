@@ -144,7 +144,7 @@ async function main() {
   for (const variant of releaseVariants) {
     const outputPath = join(
       releaseOutputDir,
-      `openclaw-${nextVersion.versionName}-${variant.flavorName}-release.aab`,
+      `brikko-studio-${nextVersion.versionName}-${variant.flavorName}-release.aab`,
     );
 
     await copyBundle(variant.bundlePath, outputPath);

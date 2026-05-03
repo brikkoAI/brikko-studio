@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { expectGeneratedTokenPersistedToGatewayAuth } from "../test-utils/auth-token-assertions.js";
 import { KNOWN_WEAK_GATEWAY_TOKEN_PLACEHOLDERS } from "./known-weak-gateway-secrets.js";
 import {
@@ -9,7 +9,7 @@ import {
 } from "./startup-auth.js";
 
 const mocks = vi.hoisted(() => ({
-  replaceConfigFile: vi.fn(async (_params: { nextConfig: OpenClawConfig }) => {}),
+  replaceConfigFile: vi.fn(async (_params: { nextConfig: Brikko StudioConfig }) => {}),
 }));
 
 vi.mock("../config/mutate.js", () => ({
@@ -25,7 +25,7 @@ vi.mock("../config/mutate.js", async () => {
 });
 
 describe("ensureGatewayStartupAuth", () => {
-  async function expectEphemeralGeneratedTokenWhenOverridden(cfg: OpenClawConfig) {
+  async function expectEphemeralGeneratedTokenWhenOverridden(cfg: Brikko StudioConfig) {
     const result = await ensureGatewayStartupAuth({
       cfg,
       env: {} as NodeJS.ProcessEnv,
@@ -45,7 +45,7 @@ describe("ensureGatewayStartupAuth", () => {
     mocks.replaceConfigFile.mockClear();
   });
 
-  async function expectNoTokenGeneration(cfg: OpenClawConfig, mode: string) {
+  async function expectNoTokenGeneration(cfg: Brikko StudioConfig, mode: string) {
     const result = await ensureGatewayStartupAuth({
       cfg,
       env: {} as NodeJS.ProcessEnv,
@@ -59,7 +59,7 @@ describe("ensureGatewayStartupAuth", () => {
   }
 
   async function expectResolvedToken(params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     env: NodeJS.ProcessEnv;
     expectedToken: string;
     expectedConfiguredToken?: unknown;
@@ -80,7 +80,7 @@ describe("ensureGatewayStartupAuth", () => {
     expect(mocks.replaceConfigFile).not.toHaveBeenCalled();
   }
 
-  function createMissingGatewayTokenSecretRefConfig(): OpenClawConfig {
+  function createMissingGatewayTokenSecretRefConfig(): Brikko StudioConfig {
     return {
       gateway: {
         auth: {
@@ -108,7 +108,7 @@ describe("ensureGatewayStartupAuth", () => {
     expect(result.auth.mode).toBe("token");
     expect(mocks.replaceConfigFile).toHaveBeenCalledTimes(1);
     const persistedParams = mocks.replaceConfigFile.mock.calls[0]?.[0] as
-      | { nextConfig: OpenClawConfig }
+      | { nextConfig: Brikko StudioConfig }
       | undefined;
     expectGeneratedTokenPersistedToGatewayAuth({
       generatedToken: result.generatedToken,
@@ -209,23 +209,23 @@ describe("ensureGatewayStartupAuth", () => {
         gateway: {
           auth: {
             mode: "token",
-            token: "${OPENCLAW_GATEWAY_TOKEN}",
+            token: "${BRIKKO_STUDIO_GATEWAY_TOKEN}",
           },
         },
       },
       env: {
-        OPENCLAW_GATEWAY_TOKEN: "resolved-token",
+        BRIKKO_STUDIO_GATEWAY_TOKEN: "resolved-token",
       } as NodeJS.ProcessEnv,
       expectedToken: "resolved-token",
-      expectedConfiguredToken: "${OPENCLAW_GATEWAY_TOKEN}",
+      expectedConfiguredToken: "${BRIKKO_STUDIO_GATEWAY_TOKEN}",
     });
   });
 
-  it("uses OPENCLAW_GATEWAY_TOKEN without resolving configured token SecretRef", async () => {
+  it("uses BRIKKO_STUDIO_GATEWAY_TOKEN without resolving configured token SecretRef", async () => {
     await expectResolvedToken({
       cfg: createMissingGatewayTokenSecretRefConfig(),
       env: {
-        OPENCLAW_GATEWAY_TOKEN: "token-from-env",
+        BRIKKO_STUDIO_GATEWAY_TOKEN: "token-from-env",
       } as NodeJS.ProcessEnv,
       expectedToken: "token-from-env",
     });
@@ -260,7 +260,7 @@ describe("ensureGatewayStartupAuth", () => {
     expect(mocks.replaceConfigFile).not.toHaveBeenCalled();
   });
 
-  it("uses OPENCLAW_GATEWAY_PASSWORD without resolving configured password SecretRef", async () => {
+  it("uses BRIKKO_STUDIO_GATEWAY_PASSWORD without resolving configured password SecretRef", async () => {
     const result = await ensureGatewayStartupAuth({
       cfg: {
         gateway: {
@@ -276,7 +276,7 @@ describe("ensureGatewayStartupAuth", () => {
         },
       },
       env: {
-        OPENCLAW_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
+        BRIKKO_STUDIO_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
       } as NodeJS.ProcessEnv,
       persist: true,
     });
@@ -287,7 +287,7 @@ describe("ensureGatewayStartupAuth", () => {
   });
 
   it("does not resolve gateway.auth.password SecretRef when token mode is explicit", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       gateway: {
         auth: {
           mode: "token",
@@ -341,7 +341,7 @@ describe("ensureGatewayStartupAuth", () => {
   });
 
   it("treats undefined token override as no override", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       gateway: {
         auth: {
           mode: "token",
@@ -403,7 +403,7 @@ describe("ensureGatewayStartupAuth", () => {
           },
         },
         env: {
-          OPENCLAW_GATEWAY_TOKEN: "shared-gateway-token-1234567890",
+          BRIKKO_STUDIO_GATEWAY_TOKEN: "shared-gateway-token-1234567890",
         } as NodeJS.ProcessEnv,
       }),
     ).rejects.toThrow(/hooks\.token must not match gateway auth token/i);
@@ -416,7 +416,7 @@ describe("ensureGatewayStartupAuth", () => {
         ensureGatewayStartupAuth({
           cfg: {},
           env: {
-            OPENCLAW_GATEWAY_TOKEN: token,
+            BRIKKO_STUDIO_GATEWAY_TOKEN: token,
           } as NodeJS.ProcessEnv,
         }),
       ).rejects.toThrow(/example placeholder/i);

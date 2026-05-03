@@ -1,25 +1,25 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type {
   ProviderAuthContext,
   ProviderResolveDynamicModelContext,
   ProviderRuntimeModel,
-} from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/plugin-entry";
 import {
   CODEX_CLI_PROFILE_ID,
   ensureAuthProfileStoreForLocalUpdate,
   listProfilesForProvider,
   type OAuthCredential,
-} from "openclaw/plugin-sdk/provider-auth";
-import { buildOauthProviderAuthResult } from "openclaw/plugin-sdk/provider-auth";
-import { loginOpenAICodexOAuth } from "openclaw/plugin-sdk/provider-auth-login";
+} from "brikko-studio/plugin-sdk/provider-auth";
+import { buildOauthProviderAuthResult } from "brikko-studio/plugin-sdk/provider-auth";
+import { loginOpenAICodexOAuth } from "brikko-studio/plugin-sdk/provider-auth-login";
 import {
   DEFAULT_CONTEXT_TOKENS,
   normalizeModelCompat,
   normalizeProviderId,
   type ProviderPlugin,
-} from "openclaw/plugin-sdk/provider-model-shared";
-import { fetchCodexUsage } from "openclaw/plugin-sdk/provider-usage";
-import { normalizeLowercaseStringOrEmpty, readStringValue } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/provider-model-shared";
+import { fetchCodexUsage } from "brikko-studio/plugin-sdk/provider-usage";
+import { normalizeLowercaseStringOrEmpty, readStringValue } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   OPENAI_CODEX_DEVICE_PAIRING_HINT,
   OPENAI_CODEX_DEVICE_PAIRING_LABEL,
@@ -424,7 +424,7 @@ async function runOpenAICodexDeviceCode(ctx: ProviderAuthContext) {
     spin.stop("OpenAI device code failed");
     ctx.runtime.error(formatErrorMessage(error));
     await ctx.prompter.note(
-      "Trouble with device code login? See https://docs.openclaw.ai/start/faq",
+      "Trouble with device code login? See https://docs.brikko-studio.ai/start/faq",
       "OAuth help",
     );
     throw error;
@@ -435,7 +435,7 @@ function buildOpenAICodexAuthDoctorHint(ctx: { profileId?: string }) {
   if (ctx.profileId !== CODEX_CLI_PROFILE_ID) {
     return undefined;
   }
-  return "Deprecated profile. Run `openclaw models auth login --provider openai-codex` or `openclaw configure`.";
+  return "Deprecated profile. Run `brikko-studio models auth login --provider openai-codex` or `brikko-studio configure`.";
 }
 
 export function buildOpenAICodexProviderPlugin(): ProviderPlugin {

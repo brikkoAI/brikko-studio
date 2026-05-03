@@ -6,25 +6,25 @@ import {
   validateExternalCodePluginPackageJson,
 } from "./index.js";
 
-describe("@openclaw/plugin-package-contract", () => {
-  it("normalizes the OpenClaw compatibility block for external plugins", () => {
+describe("@brikko-studio/plugin-package-contract", () => {
+  it("normalizes the Brikko Studio compatibility block for external plugins", () => {
     expect(
       normalizeExternalPluginCompatibility({
         version: "1.2.3",
-        openclaw: {
+        brikko-studio: {
           compat: {
             pluginApi: ">=2026.3.24-beta.2",
             minGatewayVersion: "2026.3.24-beta.2",
           },
           build: {
-            openclawVersion: "2026.3.24-beta.2",
+            brikko-studioVersion: "2026.3.24-beta.2",
             pluginSdkVersion: "0.9.0",
           },
         },
       }),
     ).toEqual({
       pluginApiRange: ">=2026.3.24-beta.2",
-      builtWithOpenClawVersion: "2026.3.24-beta.2",
+      builtWithBrikko StudioVersion: "2026.3.24-beta.2",
       pluginSdkVersion: "0.9.0",
       minGatewayVersion: "2026.3.24-beta.2",
     });
@@ -34,7 +34,7 @@ describe("@openclaw/plugin-package-contract", () => {
     expect(
       normalizeExternalPluginCompatibility({
         version: "1.2.3",
-        openclaw: {
+        brikko-studio: {
           compat: {
             pluginApi: ">=1.0.0",
           },
@@ -45,40 +45,40 @@ describe("@openclaw/plugin-package-contract", () => {
       }),
     ).toEqual({
       pluginApiRange: ">=1.0.0",
-      builtWithOpenClawVersion: "1.2.3",
+      builtWithBrikko StudioVersion: "1.2.3",
       minGatewayVersion: "2026.3.24-beta.2",
     });
   });
 
   it("lists the required external code-plugin fields", () => {
     expect(EXTERNAL_CODE_PLUGIN_REQUIRED_FIELD_PATHS).toEqual([
-      "openclaw.compat.pluginApi",
-      "openclaw.build.openclawVersion",
+      "brikko-studio.compat.pluginApi",
+      "brikko-studio.build.brikko-studioVersion",
     ]);
   });
 
   it("reports missing required fields with stable field paths", () => {
     const packageJson = {
-      openclaw: {
+      brikko-studio: {
         compat: {},
         build: {},
       },
     };
 
     expect(listMissingExternalCodePluginFieldPaths(packageJson)).toEqual([
-      "openclaw.compat.pluginApi",
-      "openclaw.build.openclawVersion",
+      "brikko-studio.compat.pluginApi",
+      "brikko-studio.build.brikko-studioVersion",
     ]);
     expect(validateExternalCodePluginPackageJson(packageJson).issues).toEqual([
       {
-        fieldPath: "openclaw.compat.pluginApi",
+        fieldPath: "brikko-studio.compat.pluginApi",
         message:
-          "openclaw.compat.pluginApi is required for external code plugins published to ClawHub.",
+          "brikko-studio.compat.pluginApi is required for external code plugins published to ClawHub.",
       },
       {
-        fieldPath: "openclaw.build.openclawVersion",
+        fieldPath: "brikko-studio.build.brikko-studioVersion",
         message:
-          "openclaw.build.openclawVersion is required for external code plugins published to ClawHub.",
+          "brikko-studio.build.brikko-studioVersion is required for external code plugins published to ClawHub.",
       },
     ]);
   });

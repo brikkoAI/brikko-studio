@@ -1,21 +1,21 @@
 import {
   resolveChannelGroupPolicy,
   resolveChannelGroupRequireMention,
-} from "openclaw/plugin-sdk/channel-policy";
+} from "brikko-studio/plugin-sdk/channel-policy";
 import type {
   ChannelGroupPolicy,
   DmPolicy,
   GroupPolicy,
-  OpenClawConfig,
-} from "openclaw/plugin-sdk/config-types";
-import { resolveDefaultGroupPolicy } from "openclaw/plugin-sdk/runtime-group-policy";
+  Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/config-types";
+import { resolveDefaultGroupPolicy } from "brikko-studio/plugin-sdk/runtime-group-policy";
 import {
   expandAllowFromWithAccessGroups,
   readStoreAllowFromForDmPolicy,
   resolveEffectiveAllowFromLists,
   resolveDmGroupAccessWithCommandGate,
-} from "openclaw/plugin-sdk/security-runtime";
-import { resolveGroupSessionKey } from "openclaw/plugin-sdk/session-store-runtime";
+} from "brikko-studio/plugin-sdk/security-runtime";
+import { resolveGroupSessionKey } from "brikko-studio/plugin-sdk/session-store-runtime";
 import { resolveWhatsAppAccount, type ResolvedWhatsAppAccount } from "./accounts.js";
 import { getSelfIdentity, getSenderIdentity } from "./identity.js";
 import type { WebInboundMessage } from "./inbound/types.js";
@@ -68,7 +68,7 @@ function isNormalizedSenderAllowed(allowEntries: string[], sender?: string | nul
 function buildResolvedWhatsAppGroupConfig(params: {
   groupPolicy: GroupPolicy;
   groups: ResolvedWhatsAppAccount["groups"];
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   return {
     channels: {
       whatsapp: {
@@ -76,11 +76,11 @@ function buildResolvedWhatsAppGroupConfig(params: {
         groups: params.groups,
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 export function resolveWhatsAppInboundPolicy(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
   selfE164?: string | null;
 }): ResolvedWhatsAppInboundPolicy {
@@ -143,7 +143,7 @@ export function resolveWhatsAppInboundPolicy(params: {
 }
 
 export async function resolveWhatsAppCommandAuthorized(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   msg: WebInboundMessage;
   policy?: ResolvedWhatsAppInboundPolicy;
 }): Promise<boolean> {

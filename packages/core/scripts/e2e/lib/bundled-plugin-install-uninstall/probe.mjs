@@ -4,7 +4,7 @@ import path from "node:path";
 const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
 
 function loadManifestEntries() {
-  const explicit = (process.env.OPENCLAW_BUNDLED_PLUGIN_SWEEP_IDS || "")
+  const explicit = (process.env.BRIKKO_STUDIO_BUNDLED_PLUGIN_SWEEP_IDS || "")
     .split(/[,\s]+/u)
     .map((entry) => entry.trim())
     .filter(Boolean);
@@ -13,7 +13,7 @@ function loadManifestEntries() {
     .readdirSync(extensionRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => {
-      const manifestPath = path.join(extensionRoot, entry.name, "openclaw.plugin.json");
+      const manifestPath = path.join(extensionRoot, entry.name, "brikko-studio.plugin.json");
       if (!fs.existsSync(manifestPath)) {
         return null;
       }
@@ -48,16 +48,16 @@ function loadManifestEntries() {
 
 function selectedManifestEntries() {
   const allEntries = loadManifestEntries();
-  const total = Number.parseInt(process.env.OPENCLAW_BUNDLED_PLUGIN_SWEEP_TOTAL || "1", 10);
-  const index = Number.parseInt(process.env.OPENCLAW_BUNDLED_PLUGIN_SWEEP_INDEX || "0", 10);
+  const total = Number.parseInt(process.env.BRIKKO_STUDIO_BUNDLED_PLUGIN_SWEEP_TOTAL || "1", 10);
+  const index = Number.parseInt(process.env.BRIKKO_STUDIO_BUNDLED_PLUGIN_SWEEP_INDEX || "0", 10);
   if (!Number.isInteger(total) || total < 1) {
     throw new Error(
-      `OPENCLAW_BUNDLED_PLUGIN_SWEEP_TOTAL must be >= 1, got ${process.env.OPENCLAW_BUNDLED_PLUGIN_SWEEP_TOTAL}`,
+      `BRIKKO_STUDIO_BUNDLED_PLUGIN_SWEEP_TOTAL must be >= 1, got ${process.env.BRIKKO_STUDIO_BUNDLED_PLUGIN_SWEEP_TOTAL}`,
     );
   }
   if (!Number.isInteger(index) || index < 0 || index >= total) {
     throw new Error(
-      `OPENCLAW_BUNDLED_PLUGIN_SWEEP_INDEX must be in [0, ${total - 1}], got ${process.env.OPENCLAW_BUNDLED_PLUGIN_SWEEP_INDEX}`,
+      `BRIKKO_STUDIO_BUNDLED_PLUGIN_SWEEP_INDEX must be in [0, ${total - 1}], got ${process.env.BRIKKO_STUDIO_BUNDLED_PLUGIN_SWEEP_INDEX}`,
     );
   }
 
@@ -69,8 +69,8 @@ function selectedManifestEntries() {
 }
 
 function assertInstalled(pluginId, pluginDir, requiresConfig) {
-  const configPath = path.join(process.env.HOME, ".openclaw", "openclaw.json");
-  const indexPath = path.join(process.env.HOME, ".openclaw", "plugins", "installs.json");
+  const configPath = path.join(process.env.HOME, ".brikko-studio", "brikko-studio.json");
+  const indexPath = path.join(process.env.HOME, ".brikko-studio", "plugins", "installs.json");
   const config = readJson(configPath);
   const index = readJson(indexPath);
   const records = index.installRecords ?? index.records ?? {};
@@ -114,8 +114,8 @@ function assertInstalled(pluginId, pluginDir, requiresConfig) {
 }
 
 function assertUninstalled(pluginId, pluginDir) {
-  const configPath = path.join(process.env.HOME, ".openclaw", "openclaw.json");
-  const indexPath = path.join(process.env.HOME, ".openclaw", "plugins", "installs.json");
+  const configPath = path.join(process.env.HOME, ".brikko-studio", "brikko-studio.json");
+  const indexPath = path.join(process.env.HOME, ".brikko-studio", "plugins", "installs.json");
   const config = fs.existsSync(configPath) ? readJson(configPath) : {};
   const index = fs.existsSync(indexPath) ? readJson(indexPath) : {};
   const records = index.installRecords ?? index.records ?? {};
@@ -135,7 +135,7 @@ function assertUninstalled(pluginId, pluginDir) {
   if ((config.plugins?.deny || []).includes(pluginId)) {
     throw new Error(`denylist still contains ${pluginId} after uninstall`);
   }
-  const managedPath = path.join(process.env.HOME, ".openclaw", "extensions", pluginId);
+  const managedPath = path.join(process.env.HOME, ".brikko-studio", "extensions", pluginId);
   if (fs.existsSync(managedPath)) {
     throw new Error(
       `managed install directory unexpectedly exists for bundled plugin ${pluginId}: ${managedPath}`,

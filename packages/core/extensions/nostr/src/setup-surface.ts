@@ -1,10 +1,10 @@
-import type { ChannelSetupAdapter } from "openclaw/plugin-sdk/channel-setup";
-import { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/routing";
+import type { ChannelSetupAdapter } from "brikko-studio/plugin-sdk/channel-setup";
+import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/routing";
 import {
   hasConfiguredSecretInput,
   normalizeSecretInputString,
-} from "openclaw/plugin-sdk/secret-input";
-import type { ChannelSetupDmPolicy, ChannelSetupWizard, DmPolicy } from "openclaw/plugin-sdk/setup";
+} from "brikko-studio/plugin-sdk/secret-input";
+import type { ChannelSetupDmPolicy, ChannelSetupWizard, DmPolicy } from "brikko-studio/plugin-sdk/setup";
 import {
   createStandardChannelSetupStatus,
   createTopLevelChannelDmPolicy,
@@ -14,7 +14,7 @@ import {
   parseSetupEntriesWithParser,
   patchTopLevelChannelConfigSection,
   splitSetupEntries,
-} from "openclaw/plugin-sdk/setup";
+} from "brikko-studio/plugin-sdk/setup";
 import { DEFAULT_RELAYS } from "./default-relays.js";
 import { getPublicKeyFromPrivate, normalizePubkey } from "./nostr-key-utils.js";
 import { resolveDefaultNostrAccountId, resolveNostrAccount } from "./types.js";

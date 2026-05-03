@@ -1,11 +1,11 @@
-export type { AcpRuntimeErrorCode } from "openclaw/plugin-sdk/acp-runtime-backend";
+export type { AcpRuntimeErrorCode } from "brikko-studio/plugin-sdk/acp-runtime-backend";
 export {
   AcpRuntimeError,
   getAcpRuntimeBackend,
   tryDispatchAcpReplyHook,
   registerAcpRuntimeBackend,
   unregisterAcpRuntimeBackend,
-} from "openclaw/plugin-sdk/acp-runtime-backend";
+} from "brikko-studio/plugin-sdk/acp-runtime-backend";
 export type {
   AcpRuntime,
   AcpRuntimeCapabilities,
@@ -17,30 +17,30 @@ export type {
   AcpRuntimeTurnAttachment,
   AcpRuntimeTurnInput,
   AcpSessionUpdateTag,
-} from "openclaw/plugin-sdk/acp-runtime-backend";
+} from "brikko-studio/plugin-sdk/acp-runtime-backend";
 export type {
-  OpenClawPluginApi,
-  OpenClawPluginConfigSchema,
-  OpenClawPluginService,
-  OpenClawPluginServiceContext,
+  Brikko StudioPluginApi,
+  Brikko StudioPluginConfigSchema,
+  Brikko StudioPluginService,
+  Brikko StudioPluginServiceContext,
   PluginLogger,
-} from "openclaw/plugin-sdk/core";
+} from "brikko-studio/plugin-sdk/core";
 export type {
   PluginHookReplyDispatchContext,
   PluginHookReplyDispatchEvent,
   PluginHookReplyDispatchResult,
-} from "openclaw/plugin-sdk/core";
+} from "brikko-studio/plugin-sdk/core";
 export type {
   WindowsSpawnProgram,
   WindowsSpawnProgramCandidate,
   WindowsSpawnResolution,
-} from "openclaw/plugin-sdk/windows-spawn";
+} from "brikko-studio/plugin-sdk/windows-spawn";
 export {
   applyWindowsSpawnProgramPolicy,
   materializeWindowsSpawnProgram,
   resolveWindowsSpawnProgramCandidate,
-} from "openclaw/plugin-sdk/windows-spawn";
+} from "brikko-studio/plugin-sdk/windows-spawn";
 export {
   listKnownProviderAuthEnvVarNames,
   omitEnvKeysCaseInsensitive,
-} from "openclaw/plugin-sdk/provider-env-vars";
+} from "brikko-studio/plugin-sdk/provider-env-vars";

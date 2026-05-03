@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { collectModelHygieneFindings } from "./audit-extra.sync.js";
 
 describe("security audit model hygiene findings", () => {
   it("classifies legacy and weak-tier model identifiers", () => {
     const cases: Array<{
       name: string;
-      cfg: OpenClawConfig;
+      cfg: Brikko StudioConfig;
       expectedPresent?: Array<{ checkId: string; severity: "warn" }>;
       expectedAbsentCheckId?: string;
     }> = [
@@ -68,7 +68,7 @@ describe("security audit model hygiene findings", () => {
           },
         },
       },
-    } satisfies OpenClawConfig);
+    } satisfies Brikko StudioConfig);
 
     expect(findings.some((finding) => finding.checkId === "models.weak_tier")).toBe(false);
   });

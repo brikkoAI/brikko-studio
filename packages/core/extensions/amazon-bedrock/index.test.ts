@@ -1,11 +1,11 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { PluginRuntime } from "openclaw/plugin-sdk/core";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { PluginRuntime } from "brikko-studio/plugin-sdk/core";
 import {
   buildPluginApi,
   registerSingleProviderPlugin,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { resetBedrockDiscoveryCacheForTest } from "./discovery.js";
 import amazonBedrockPlugin from "./index.js";
@@ -104,7 +104,7 @@ async function registerWithConfig(
     name: "Amazon Bedrock Provider",
     source: "test",
     registrationMode: "full",
-    config: {} as OpenClawConfig,
+    config: {} as Brikko StudioConfig,
     pluginConfig,
     runtime: {} as PluginRuntime,
     logger: noopLogger,
@@ -166,7 +166,7 @@ function callWrappedStream(
   provider: RegisteredProviderPlugin,
   modelId: string,
   modelDescriptor: never,
-  config?: OpenClawConfig,
+  config?: Brikko StudioConfig,
 ): Record<string, unknown> {
   const wrapped = provider.wrapStreamFn?.({
     provider: "amazon-bedrock",
@@ -193,7 +193,7 @@ function callWrappedStream(
   return result;
 }
 
-function runtimePluginConfig(config?: Record<string, unknown>): OpenClawConfig {
+function runtimePluginConfig(config?: Record<string, unknown>): Brikko StudioConfig {
   return {
     plugins: {
       entries: config
@@ -204,7 +204,7 @@ function runtimePluginConfig(config?: Record<string, unknown>): OpenClawConfig {
           }
         : {},
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 describe("amazon-bedrock provider plugin", () => {
@@ -480,7 +480,7 @@ describe("amazon-bedrock provider plugin", () => {
   describe("guardrail config schema", () => {
     it("defines discovery and guardrail objects with the expected shape", () => {
       const pluginJson = JSON.parse(
-        readFileSync(resolve(import.meta.dirname, "openclaw.plugin.json"), "utf-8"),
+        readFileSync(resolve(import.meta.dirname, "brikko-studio.plugin.json"), "utf-8"),
       );
       const discovery = pluginJson.configSchema?.properties?.discovery;
       const guardrail = pluginJson.configSchema?.properties?.guardrail;

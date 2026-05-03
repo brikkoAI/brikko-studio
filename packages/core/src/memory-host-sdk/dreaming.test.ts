@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import {
   formatMemoryDreamingDay,
   isSameMemoryDreamingDay,
@@ -92,7 +92,7 @@ describe("memory dreaming host helpers", () => {
           userTimezone: "America/Los_Angeles",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const resolved = resolveMemoryDreamingConfig({
       pluginConfig: {},
@@ -161,7 +161,7 @@ describe("memory dreaming host helpers", () => {
           { id: "gamma", workspace: "/workspace/shared" },
         ],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(resolveMemoryDreamingWorkspaces(cfg)).toEqual([
       {
@@ -183,7 +183,7 @@ describe("memory dreaming host helpers", () => {
           { id: "agi-cdo", workspace: "/workspace/agi-cdo" },
         ],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(
       resolveMemoryDreamingWorkspaces(cfg, {
@@ -213,7 +213,7 @@ describe("memory dreaming host helpers", () => {
           workspace: "/workspace",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(resolveMemoryDreamingWorkspaces(cfg)).toEqual([
       {
@@ -239,11 +239,11 @@ describe("memory dreaming host helpers", () => {
       resolveMemoryDreamingPluginId({
         plugins: {
           slots: {
-            memory: "memos-local-openclaw-plugin",
+            memory: "memos-local-brikko-studio-plugin",
           },
         },
-      } as OpenClawConfig),
-    ).toBe("memos-local-openclaw-plugin");
+      } as Brikko StudioConfig),
+    ).toBe("memos-local-brikko-studio-plugin");
   });
 
   it("reads dreaming config from the configured memory-slot owner", () => {
@@ -251,10 +251,10 @@ describe("memory dreaming host helpers", () => {
       resolveMemoryDreamingPluginConfig({
         plugins: {
           slots: {
-            memory: "memos-local-openclaw-plugin",
+            memory: "memos-local-brikko-studio-plugin",
           },
           entries: {
-            "memos-local-openclaw-plugin": {
+            "memos-local-brikko-studio-plugin": {
               config: {
                 dreaming: {
                   enabled: true,
@@ -263,7 +263,7 @@ describe("memory dreaming host helpers", () => {
             },
           },
         },
-      } as OpenClawConfig),
+      } as Brikko StudioConfig),
     ).toEqual({
       dreaming: {
         enabled: true,
@@ -289,7 +289,7 @@ describe("memory dreaming host helpers", () => {
             },
           },
         },
-      } as OpenClawConfig),
+      } as Brikko StudioConfig),
     ).toEqual({
       dreaming: {
         enabled: true,
@@ -312,7 +312,7 @@ describe("memory dreaming host helpers", () => {
             },
           },
         },
-      } as OpenClawConfig),
+      } as Brikko StudioConfig),
     ).toEqual({
       dreaming: {
         enabled: true,
@@ -328,7 +328,7 @@ describe("memory dreaming host helpers", () => {
             memory: "none",
           },
         },
-      } as OpenClawConfig),
+      } as Brikko StudioConfig),
     ).toBe("memory-core");
 
     expect(
@@ -347,7 +347,7 @@ describe("memory dreaming host helpers", () => {
             },
           },
         },
-      } as OpenClawConfig),
+      } as Brikko StudioConfig),
     ).toEqual({
       dreaming: {
         enabled: true,

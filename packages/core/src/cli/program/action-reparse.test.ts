@@ -18,18 +18,18 @@ vi.mock("./helpers.js", () => ({
 describe("reparseProgramFromActionArgs", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    buildParseArgvMock.mockReturnValue(["node", "openclaw", "status"]);
+    buildParseArgvMock.mockReturnValue(["node", "brikko-studio", "status"]);
     resolveActionArgsMock.mockReturnValue([]);
     resolveCommandOptionArgsMock.mockReturnValue([]);
   });
 
   it("uses action command name + args as fallback argv", async () => {
-    const program = new Command().name("openclaw");
+    const program = new Command().name("brikko-studio");
     const parseAsync = vi.spyOn(program, "parseAsync").mockResolvedValue(program);
     const actionCommand = {
       name: () => "status",
       parent: {
-        rawArgs: ["node", "openclaw", "status", "--json"],
+        rawArgs: ["node", "brikko-studio", "status", "--json"],
       },
     } as unknown as Command;
     resolveActionArgsMock.mockReturnValue(["--json"]);
@@ -37,15 +37,15 @@ describe("reparseProgramFromActionArgs", () => {
     await reparseProgramFromActionArgs(program, [actionCommand]);
 
     expect(buildParseArgvMock).toHaveBeenCalledWith({
-      programName: "openclaw",
-      rawArgs: ["node", "openclaw", "status", "--json"],
+      programName: "brikko-studio",
+      rawArgs: ["node", "brikko-studio", "status", "--json"],
       fallbackArgv: ["status", "--json"],
     });
-    expect(parseAsync).toHaveBeenCalledWith(["node", "openclaw", "status"]);
+    expect(parseAsync).toHaveBeenCalledWith(["node", "brikko-studio", "status"]);
   });
 
   it("falls back to action args without command name when action has no name", async () => {
-    const program = new Command().name("openclaw");
+    const program = new Command().name("brikko-studio");
     const parseAsync = vi.spyOn(program, "parseAsync").mockResolvedValue(program);
     const actionCommand = {
       name: () => "",
@@ -56,11 +56,11 @@ describe("reparseProgramFromActionArgs", () => {
     await reparseProgramFromActionArgs(program, [actionCommand]);
 
     expect(buildParseArgvMock).toHaveBeenCalledWith({
-      programName: "openclaw",
+      programName: "brikko-studio",
       rawArgs: undefined,
       fallbackArgv: ["--json"],
     });
-    expect(parseAsync).toHaveBeenCalledWith(["node", "openclaw", "status"]);
+    expect(parseAsync).toHaveBeenCalledWith(["node", "brikko-studio", "status"]);
   });
 
   it("preserves explicit parent command options in fallback argv", async () => {
@@ -81,21 +81,21 @@ describe("reparseProgramFromActionArgs", () => {
       rawArgs: [],
       fallbackArgv: ["--json", "open", "about:blank"],
     });
-    expect(parseAsync).toHaveBeenCalledWith(["node", "openclaw", "status"]);
+    expect(parseAsync).toHaveBeenCalledWith(["node", "brikko-studio", "status"]);
   });
 
   it("uses program root when action command is missing", async () => {
-    const program = new Command().name("openclaw");
+    const program = new Command().name("brikko-studio");
     const parseAsync = vi.spyOn(program, "parseAsync").mockResolvedValue(program);
 
     await reparseProgramFromActionArgs(program, []);
 
     expect(resolveActionArgsMock).toHaveBeenCalledWith(undefined);
     expect(buildParseArgvMock).toHaveBeenCalledWith({
-      programName: "openclaw",
+      programName: "brikko-studio",
       rawArgs: [],
       fallbackArgv: [],
     });
-    expect(parseAsync).toHaveBeenCalledWith(["node", "openclaw", "status"]);
+    expect(parseAsync).toHaveBeenCalledWith(["node", "brikko-studio", "status"]);
   });
 });

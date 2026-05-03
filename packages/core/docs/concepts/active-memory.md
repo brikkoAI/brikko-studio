@@ -20,7 +20,7 @@ before the main reply is generated.
 
 ## Quick start
 
-Paste this into `openclaw.json` for a safe-default setup — plugin on, scoped to
+Paste this into `brikko-studio.json` for a safe-default setup — plugin on, scoped to
 the `main` agent, direct-message sessions only, inherits the session model
 when available:
 
@@ -51,7 +51,7 @@ when available:
 Then restart the gateway:
 
 ```bash
-openclaw gateway
+brikko-studio gateway
 ```
 
 To inspect it live in a conversation:
@@ -160,7 +160,7 @@ session toggles that match the output you want:
 /trace on
 ```
 
-With those enabled, OpenClaw can show:
+With those enabled, Brikko Studio can show:
 
 - an active memory status line such as `Active Memory: status=ok elapsed=842ms query=recent summary=34 chars` when `/verbose on`
 - a readable debug summary such as `Active Memory Debug: Lemon pepper wings with blue cheese.` when `/trace on`
@@ -272,7 +272,7 @@ even when its session type is otherwise allowed.
 
 The ids come from the persistent channel session key: for example Feishu
 `chat_id` / `open_id`, Telegram chat id, or Slack channel id. Matching is
-case-insensitive. If `allowedChatIds` is non-empty and OpenClaw cannot resolve a
+case-insensitive. If `allowedChatIds` is non-empty and Brikko Studio cannot resolve a
 conversation id for the session, Active Memory skips the turn instead of
 guessing.
 
@@ -488,7 +488,7 @@ Memory prompt and before the conversation context:
 promptAppend: "Prefer stable long-term preferences over one-off events."
 ```
 
-`config.promptOverride` replaces the default Active Memory prompt. OpenClaw
+`config.promptOverride` replaces the default Active Memory prompt. Brikko Studio
 still appends the conversation context afterward:
 
 ```json5
@@ -675,7 +675,7 @@ If active memory is not showing up where you expect:
 2. Confirm the current agent id is listed in `config.agents`.
 3. Confirm you are testing through an interactive persistent chat session.
 4. Turn on `config.logging: true` and watch the gateway logs.
-5. Verify memory search itself works with `openclaw memory status --deep`.
+5. Verify memory search itself works with `brikko-studio memory status --deep`.
 
 If memory hits are noisy, tighten:
 
@@ -697,7 +697,7 @@ default `memory-core` path uses `memory_search`; `memory-lancedb` uses
 
 <AccordionGroup>
   <Accordion title="Embedding provider switched or stopped working">
-    If `memorySearch.provider` is unset, OpenClaw auto-detects the first
+    If `memorySearch.provider` is unset, Brikko Studio auto-detects the first
     available embedding provider. A new API key, quota exhaustion, or a
     rate-limited hosted provider can change which provider resolves between
     runs. If no provider resolves, `memory_search` may degrade to lexical-only
@@ -717,7 +717,7 @@ default `memory-core` path uses `memory_search`; `memory-lancedb` uses
       after each reply.
     - Watch gateway logs for `active-memory: ... start|done`,
       `memory sync failed (search-bootstrap)`, or provider embedding errors.
-    - Run `openclaw memory status --deep` to inspect the memory-search backend
+    - Run `brikko-studio memory status --deep` to inspect the memory-search backend
       and index health.
     - If you use `ollama`, confirm the embedding model is installed
       (`ollama list`).

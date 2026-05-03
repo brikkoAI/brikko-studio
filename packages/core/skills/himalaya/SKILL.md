@@ -4,7 +4,7 @@ description: "Use himalaya to list, read, search, compose, reply, forward, and o
 homepage: https://github.com/pimalaya/himalaya
 metadata:
   {
-    "openclaw":
+    "brikko-studio":
       {
         "emoji": "📧",
         "requires": { "bins": ["himalaya"] },

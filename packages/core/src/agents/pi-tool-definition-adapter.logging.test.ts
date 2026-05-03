@@ -132,7 +132,7 @@ describe("pi tool definition adapter logging", () => {
 
     const result = await def.execute(
       "call-web-search-abort",
-      { query: "OpenClaw" },
+      { query: "Brikko Studio" },
       undefined,
       undefined,
       extensionContext,
@@ -176,7 +176,7 @@ describe("pi tool definition adapter logging", () => {
     await expect(
       def.execute(
         "call-web-search-agent-abort",
-        { query: "OpenClaw" },
+        { query: "Brikko Studio" },
         controller.signal,
         undefined,
         extensionContext,

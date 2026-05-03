@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { ContextEngineInfo } from "../context-engine/types.js";
 import { MIN_PROMPT_BUDGET_RATIO, MIN_PROMPT_BUDGET_TOKENS } from "./pi-compaction-constants.js";
 import { resolveProviderEndpoint } from "./provider-attribution.js";
@@ -42,7 +42,7 @@ export function ensurePiCompactionReserveTokens(params: {
   return { didOverride: true, reserveTokens: minReserveTokens };
 }
 
-export function resolveCompactionReserveTokensFloor(cfg?: OpenClawConfig): number {
+export function resolveCompactionReserveTokensFloor(cfg?: Brikko StudioConfig): number {
   const raw = cfg?.agents?.defaults?.compaction?.reserveTokensFloor;
   if (typeof raw === "number" && Number.isFinite(raw) && raw >= 0) {
     return Math.floor(raw);
@@ -66,7 +66,7 @@ function toPositiveInt(value: unknown): number | undefined {
 
 export function applyPiCompactionSettingsFromConfig(params: {
   settingsManager: PiSettingsManagerLike;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   /** When known, the resolved context window budget for the current model. */
   contextTokenBudget?: number;
 }): {
@@ -128,7 +128,7 @@ export function applyPiCompactionSettingsFromConfig(params: {
  * Detect providers whose pi-ai `isContextOverflow` Case 2 (silent overflow)
  * fires on a successful turn and triggers Pi's `_runAutoCompaction` from
  * inside `Session.prompt()`, collapsing `agent.state.messages` before the
- * provider call (openclaw#75799).
+ * provider call (brikko-studio#75799).
  *
  * True on any of: `zai-native` endpoint class, normalized provider id `zai`,
  * a `z-ai/` / `openrouter/z-ai/` model-id namespace prefix, or a bare `glm-`
@@ -170,9 +170,9 @@ export function isSilentOverflowProneModel(model: {
 /**
  * Disable Pi's `_checkCompaction → _runAutoCompaction` (which would otherwise
  * fire from inside `Session.prompt()` and reassign `agent.state.messages`
- * before the provider call) when OpenClaw or a plugin owns compaction:
+ * before the provider call) when Brikko Studio or a plugin owns compaction:
  * `contextEngineInfo.ownsCompaction === true`, or the active model is
- * silent-overflow-prone (openclaw#75799). Default-mode runs against ordinary
+ * silent-overflow-prone (brikko-studio#75799). Default-mode runs against ordinary
  * providers keep Pi's auto-compaction as the existing baseline.
  */
 function shouldDisablePiAutoCompaction(params: {

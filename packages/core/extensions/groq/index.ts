@@ -1,4 +1,4 @@
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
+import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 import { contributeGroqResolvedModelCompat } from "./api.js";
 import { groqMediaUnderstandingProvider } from "./media-understanding-provider.js";
 

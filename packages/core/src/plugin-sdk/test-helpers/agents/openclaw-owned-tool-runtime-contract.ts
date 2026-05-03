@@ -39,7 +39,7 @@ export function mediaToolResult(
   });
 }
 
-export function installOpenClawOwnedToolHooks(params?: {
+export function installBrikko StudioOwnedToolHooks(params?: {
   adjustedParams?: Record<string, unknown>;
   blockReason?: string;
 }) {
@@ -64,7 +64,7 @@ export function installOpenClawOwnedToolHooks(params?: {
 
 /**
  * Installs only the Codex app-server `tool_result` middleware fixture.
- * Pair with `installOpenClawOwnedToolHooks()` when a test asserts before/after hook behavior.
+ * Pair with `installBrikko StudioOwnedToolHooks()` when a test asserts before/after hook behavior.
  */
 export function installCodexToolResultMiddleware(
   handler: (event: CodexAppServerToolResultEvent) => AgentToolResult<unknown>,
@@ -87,7 +87,7 @@ export function installCodexToolResultMiddleware(
   return { middleware };
 }
 
-export function resetOpenClawOwnedToolHooks(): void {
+export function resetBrikko StudioOwnedToolHooks(): void {
   resetGlobalHookRunner();
   resetPluginRuntimeStateForTest();
   beforeToolCallTesting.adjustedParamsByToolCallId.clear();

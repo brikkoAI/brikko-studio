@@ -5,23 +5,23 @@ import {
   TRUSTED_CLIENT_TOKEN,
   generateSecMsGecToken,
 } from "node-edge-tts/dist/drm.js";
-import { isVoiceCompatibleAudio } from "openclaw/plugin-sdk/media-runtime";
-import { assertOkOrThrowProviderError } from "openclaw/plugin-sdk/provider-http";
+import { isVoiceCompatibleAudio } from "brikko-studio/plugin-sdk/media-runtime";
+import { assertOkOrThrowProviderError } from "brikko-studio/plugin-sdk/provider-http";
 import {
   captureHttpExchange,
   isDebugProxyGlobalFetchPatchInstalled,
-} from "openclaw/plugin-sdk/proxy-capture";
+} from "brikko-studio/plugin-sdk/proxy-capture";
 import type {
   SpeechProviderConfig,
   SpeechProviderPlugin,
   SpeechVoiceOption,
-} from "openclaw/plugin-sdk/speech";
-import { asBoolean, asFiniteNumber, asObject, trimToUndefined } from "openclaw/plugin-sdk/speech";
+} from "brikko-studio/plugin-sdk/speech";
+import { asBoolean, asFiniteNumber, asObject, trimToUndefined } from "brikko-studio/plugin-sdk/speech";
 import {
   fetchWithSsrFGuard,
   ssrfPolicyFromHttpBaseUrlAllowedHostname,
-} from "openclaw/plugin-sdk/ssrf-runtime";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+} from "brikko-studio/plugin-sdk/ssrf-runtime";
+import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { edgeTTS, inferEdgeExtension } from "./tts.js";
 
 const DEFAULT_EDGE_VOICE = "en-US-MichelleNeural";
@@ -236,7 +236,7 @@ export function buildMicrosoftSpeechProvider(): SpeechProviderPlugin {
     isConfigured: ({ providerConfig }) => readMicrosoftProviderConfig(providerConfig).enabled,
     synthesize: async (req) => {
       const config = readMicrosoftProviderConfig(req.providerConfig);
-      const tempRoot = resolvePreferredOpenClawTmpDir();
+      const tempRoot = resolvePreferredBrikko StudioTmpDir();
       mkdirSync(tempRoot, { recursive: true, mode: 0o700 });
       const tempDir = mkdtempSync(path.join(tempRoot, "tts-microsoft-"));
       const overrideVoice = trimToUndefined(req.providerOverrides?.voice);

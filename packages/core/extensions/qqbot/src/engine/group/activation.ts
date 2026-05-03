@@ -85,8 +85,8 @@ export function resolveGroupActivation(params: {
  *
  * Priority:
  *   1. `cfg.session.store` (supports `{agentId}` placeholder and `~` expansion)
- *   2. `$OPENCLAW_STATE_DIR` / `$CLAWDBOT_STATE_DIR`
- *   3. `~/.openclaw/agents/{agentId}/sessions/sessions.json`
+ *   2. `$BRIKKO_STUDIO_STATE_DIR` / `$CLAWDBOT_STATE_DIR`
+ *   3. `~/.brikko-studio/agents/{agentId}/sessions/sessions.json`
  */
 function resolveSessionStorePath(
   cfg: Record<string, unknown>,
@@ -113,9 +113,9 @@ function resolveSessionStorePath(
   }
 
   const stateDir =
-    process.env.OPENCLAW_STATE_DIR?.trim() ||
+    process.env.BRIKKO_STUDIO_STATE_DIR?.trim() ||
     process.env.CLAWDBOT_STATE_DIR?.trim() ||
-    path.join(process.env.HOME || process.env.USERPROFILE || "", ".openclaw");
+    path.join(process.env.HOME || process.env.USERPROFILE || "", ".brikko-studio");
   return path.join(stateDir, "agents", resolvedAgentId, "sessions", "sessions.json");
 }
 

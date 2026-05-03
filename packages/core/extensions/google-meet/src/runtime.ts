@@ -1,8 +1,8 @@
 import { randomUUID } from "node:crypto";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import type { PluginRuntime, RuntimeLogger } from "openclaw/plugin-sdk/plugin-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import type { PluginRuntime, RuntimeLogger } from "brikko-studio/plugin-sdk/plugin-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import type { GoogleMeetConfig, GoogleMeetMode, GoogleMeetTransport } from "./config.js";
 import { addGoogleMeetSetupCheck, getGoogleMeetSetupStatus } from "./setup.js";
 import { isSameMeetUrlForReuse, resolveChromeNodeInfo } from "./transports/chrome-browser-proxy.js";
@@ -140,7 +140,7 @@ function evaluateSpeechReadiness(session: GoogleMeetSession): {
       reason: health.manualActionReason ?? "browser-unverified",
       message:
         health.manualActionMessage ??
-        "Resolve the Google Meet browser prompt before asking OpenClaw to speak.",
+        "Resolve the Google Meet browser prompt before asking Brikko Studio to speak.",
     };
   }
   if (health?.inCall === true) {
@@ -195,7 +195,7 @@ export class GoogleMeetRuntime {
   constructor(
     private readonly params: {
       config: GoogleMeetConfig;
-      fullConfig: OpenClawConfig;
+      fullConfig: Brikko StudioConfig;
       runtime: PluginRuntime;
       logger: RuntimeLogger;
     },

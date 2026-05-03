@@ -1,5 +1,5 @@
-import type { ProviderWrapStreamFnContext } from "openclaw/plugin-sdk/plugin-entry";
-import { createDeepSeekV4OpenAICompatibleThinkingWrapper } from "openclaw/plugin-sdk/provider-stream-shared";
+import type { ProviderWrapStreamFnContext } from "brikko-studio/plugin-sdk/plugin-entry";
+import { createDeepSeekV4OpenAICompatibleThinkingWrapper } from "brikko-studio/plugin-sdk/provider-stream-shared";
 import { isDeepSeekV4ModelRef } from "./models.js";
 
 export function createDeepSeekV4ThinkingWrapper(

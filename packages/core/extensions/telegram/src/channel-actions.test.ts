@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { telegramMessageActions, telegramMessageActionRuntime } from "./channel-actions.js";
 
@@ -70,7 +70,7 @@ describe("telegramMessageActions", () => {
     const cases = [
       {
         name: "configured telegram enables poll",
-        cfg: { channels: { telegram: { botToken: "tok" } } } as OpenClawConfig,
+        cfg: { channels: { telegram: { botToken: "tok" } } } as Brikko StudioConfig,
         expectPoll: true,
         expectTopicEdit: true,
       },
@@ -83,7 +83,7 @@ describe("telegramMessageActions", () => {
               actions: { sendMessage: false },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         expectPoll: false,
         expectTopicEdit: true,
       },
@@ -96,7 +96,7 @@ describe("telegramMessageActions", () => {
               actions: { poll: false },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         expectPoll: false,
         expectTopicEdit: true,
       },
@@ -123,7 +123,7 @@ describe("telegramMessageActions", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         expectPoll: false,
         expectTopicEdit: true,
       },
@@ -151,7 +151,7 @@ describe("telegramMessageActions", () => {
     const cases = [
       {
         name: "default config",
-        cfg: { channels: { telegram: { botToken: "tok" } } } as OpenClawConfig,
+        cfg: { channels: { telegram: { botToken: "tok" } } } as Brikko StudioConfig,
         expectSticker: false,
       },
       {
@@ -164,7 +164,7 @@ describe("telegramMessageActions", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         expectSticker: true,
       },
       {
@@ -178,7 +178,7 @@ describe("telegramMessageActions", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         expectSticker: false,
       },
     ] as const;
@@ -219,7 +219,7 @@ describe("telegramMessageActions", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const defaultActions =
       telegramMessageActions.describeMessageTool?.({
@@ -239,7 +239,7 @@ describe("telegramMessageActions", () => {
   });
 
   it("normalizes reaction message identifiers before dispatch", async () => {
-    const cfg = { channels: { telegram: { botToken: "tok" } } } as OpenClawConfig;
+    const cfg = { channels: { telegram: { botToken: "tok" } } } as Brikko StudioConfig;
     const cases = [
       {
         name: "numeric channelId/messageId",

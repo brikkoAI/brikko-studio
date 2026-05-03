@@ -1,6 +1,6 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export type SignalAccountConfig = Omit<
-  Exclude<NonNullable<OpenClawConfig["channels"]>["signal"], undefined>,
+  Exclude<NonNullable<Brikko StudioConfig["channels"]>["signal"], undefined>,
   "accounts"
 >;

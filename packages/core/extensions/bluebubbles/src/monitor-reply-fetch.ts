@@ -1,4 +1,4 @@
-import { normalizeOptionalString } from "openclaw/plugin-sdk/string-coerce-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/string-coerce-runtime";
 import {
   resolveBlueBubblesEffectiveAllowPrivateNetworkFromConfig,
   resolveBlueBubblesPrivateNetworkConfigValue,

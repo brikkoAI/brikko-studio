@@ -1,5 +1,5 @@
 import type { TSchema } from "typebox";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type {
   RuntimeWebFetchMetadata,
@@ -27,7 +27,7 @@ export type WebFetchProviderToolDefinition = {
 };
 
 export type WebSearchProviderContext = {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   searchConfig?: Record<string, unknown>;
   runtimeMetadata?: RuntimeWebSearchMetadata;
 };
@@ -37,7 +37,7 @@ export type WebSearchProviderToolExecutionContext = {
 };
 
 export type WebFetchProviderContext = {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   fetchConfig?: Record<string, unknown>;
   runtimeMetadata?: RuntimeWebFetchMetadata;
 };
@@ -50,7 +50,7 @@ export type WebSearchProviderConfiguredCredentialFallback = {
 };
 
 export type WebSearchRuntimeMetadataContext = {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   searchConfig?: Record<string, unknown>;
   runtimeMetadata?: RuntimeWebSearchMetadata;
   resolvedCredential?: {
@@ -61,7 +61,7 @@ export type WebSearchRuntimeMetadataContext = {
 };
 
 export type WebSearchProviderSetupContext = {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   runtime: RuntimeEnv;
   prompter: WizardPrompter;
   quickstartDefaults?: boolean;
@@ -71,7 +71,7 @@ export type WebSearchProviderSetupContext = {
 export type WebFetchCredentialResolutionSource = "config" | "secretRef" | "env" | "missing";
 
 export type WebFetchRuntimeMetadataContext = {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   fetchConfig?: Record<string, unknown>;
   runtimeMetadata?: RuntimeWebFetchMetadata;
   resolvedCredential?: {
@@ -99,13 +99,13 @@ export type WebSearchProviderPlugin = {
   inactiveSecretPaths?: string[];
   getCredentialValue: (searchConfig?: Record<string, unknown>) => unknown;
   setCredentialValue: (searchConfigTarget: Record<string, unknown>, value: unknown) => void;
-  getConfiguredCredentialValue?: (config?: OpenClawConfig) => unknown;
-  setConfiguredCredentialValue?: (configTarget: OpenClawConfig, value: unknown) => void;
+  getConfiguredCredentialValue?: (config?: Brikko StudioConfig) => unknown;
+  setConfiguredCredentialValue?: (configTarget: Brikko StudioConfig, value: unknown) => void;
   getConfiguredCredentialFallback?: (
-    config?: OpenClawConfig,
+    config?: Brikko StudioConfig,
   ) => WebSearchProviderConfiguredCredentialFallback | undefined;
-  applySelectionConfig?: (config: OpenClawConfig) => OpenClawConfig;
-  runSetup?: (ctx: WebSearchProviderSetupContext) => OpenClawConfig | Promise<OpenClawConfig>;
+  applySelectionConfig?: (config: Brikko StudioConfig) => Brikko StudioConfig;
+  runSetup?: (ctx: WebSearchProviderSetupContext) => Brikko StudioConfig | Promise<Brikko StudioConfig>;
   resolveRuntimeMetadata?: (
     ctx: WebSearchRuntimeMetadataContext,
   ) => Partial<RuntimeWebSearchMetadata> | Promise<Partial<RuntimeWebSearchMetadata>>;
@@ -131,9 +131,9 @@ export type WebFetchProviderPlugin = {
   inactiveSecretPaths?: string[];
   getCredentialValue: (fetchConfig?: Record<string, unknown>) => unknown;
   setCredentialValue: (fetchConfigTarget: Record<string, unknown>, value: unknown) => void;
-  getConfiguredCredentialValue?: (config?: OpenClawConfig) => unknown;
-  setConfiguredCredentialValue?: (configTarget: OpenClawConfig, value: unknown) => void;
-  applySelectionConfig?: (config: OpenClawConfig) => OpenClawConfig;
+  getConfiguredCredentialValue?: (config?: Brikko StudioConfig) => unknown;
+  setConfiguredCredentialValue?: (configTarget: Brikko StudioConfig, value: unknown) => void;
+  applySelectionConfig?: (config: Brikko StudioConfig) => Brikko StudioConfig;
   resolveRuntimeMetadata?: (
     ctx: WebFetchRuntimeMetadataContext,
   ) => Partial<RuntimeWebFetchMetadata> | Promise<Partial<RuntimeWebFetchMetadata>>;

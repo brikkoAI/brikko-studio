@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/inworld-speech",
+  "name": "@brikko-studio/inworld-speech",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Inworld speech plugin",
+  "description": "Brikko Studio Inworld speech plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

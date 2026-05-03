@@ -1,12 +1,12 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { EmbeddedRunAttemptParams } from "openclaw/plugin-sdk/agent-harness";
+import type { EmbeddedRunAttemptParams } from "brikko-studio/plugin-sdk/agent-harness";
 import {
   createParameterFreeTool,
   createPermissiveTool,
   normalizedParameterFreeSchema,
-} from "openclaw/plugin-sdk/agent-runtime-test-contracts";
+} from "brikko-studio/plugin-sdk/agent-runtime-test-contracts";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createCodexTestModel } from "./test-support.js";
 import { startOrResumeThread } from "./thread-lifecycle.js";
@@ -84,7 +84,7 @@ function threadStartResult(threadId = "thread-1") {
 
 describe("Codex app-server dynamic tool schema boundary contract", () => {
   beforeEach(async () => {
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-codex-schema-contract-"));
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-codex-schema-contract-"));
   });
 
   afterEach(async () => {

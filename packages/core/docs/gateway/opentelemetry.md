@@ -1,13 +1,13 @@
 ---
-summary: "Export OpenClaw diagnostics to any OpenTelemetry collector via the diagnostics-otel plugin (OTLP/HTTP)"
+summary: "Export Brikko Studio diagnostics to any OpenTelemetry collector via the diagnostics-otel plugin (OTLP/HTTP)"
 title: "OpenTelemetry export"
 read_when:
-  - You want to send OpenClaw model usage, message flow, or session metrics to an OpenTelemetry collector
+  - You want to send Brikko Studio model usage, message flow, or session metrics to an OpenTelemetry collector
   - You are wiring traces, metrics, or logs into Grafana, Datadog, Honeycomb, New Relic, Tempo, or another OTLP backend
   - You need the exact metric names, span names, or attribute shapes to build dashboards or alerts
 ---
 
-OpenClaw exports diagnostics through the official `diagnostics-otel` plugin
+Brikko Studio exports diagnostics through the official `diagnostics-otel` plugin
 using **OTLP/HTTP (protobuf)**. Any collector or backend that accepts OTLP/HTTP
 works without code changes. For local file logs and how to read them, see
 [Logging](/logging).
@@ -19,7 +19,7 @@ works without code changes. For local file logs and how to read them, see
   and exec.
 - **`diagnostics-otel` plugin** subscribes to those events and exports them as
   OpenTelemetry **metrics**, **traces**, and **logs** over OTLP/HTTP.
-- **Provider calls** receive a W3C `traceparent` header from OpenClaw's
+- **Provider calls** receive a W3C `traceparent` header from Brikko Studio's
   trusted model-call span context when the provider transport accepts custom
   headers. Plugin-emitted trace context is not propagated.
 - Exporters only attach when both the diagnostics surface and the plugin are
@@ -30,7 +30,7 @@ works without code changes. For local file logs and how to read them, see
 For packaged installs, install the plugin first:
 
 ```bash
-openclaw plugins install clawhub:@openclaw/diagnostics-otel
+brikko-studio plugins install clawhub:@brikko-studio/diagnostics-otel
 ```
 
 ```json5
@@ -47,7 +47,7 @@ openclaw plugins install clawhub:@openclaw/diagnostics-otel
       enabled: true,
       endpoint: "http://otel-collector:4318",
       protocol: "http/protobuf",
-      serviceName: "openclaw-gateway",
+      serviceName: "brikko-studio-gateway",
       traces: true,
       metrics: true,
       logs: true,
@@ -61,7 +61,7 @@ openclaw plugins install clawhub:@openclaw/diagnostics-otel
 You can also enable the plugin from the CLI:
 
 ```bash
-openclaw plugins enable diagnostics-otel
+brikko-studio plugins enable diagnostics-otel
 ```
 
 <Note>
@@ -92,7 +92,7 @@ when `diagnostics.otel.enabled` is true.
       metricsEndpoint: "http://otel-collector:4318/v1/metrics",
       logsEndpoint: "http://otel-collector:4318/v1/logs",
       protocol: "http/protobuf", // grpc is ignored
-      serviceName: "openclaw-gateway",
+      serviceName: "brikko-studio-gateway",
       headers: { "x-collector-token": "..." },
       traces: true,
       metrics: true,
@@ -121,7 +121,7 @@ when `diagnostics.otel.enabled` is true.
 | `OTEL_SERVICE_NAME`                                                                                               | Override `diagnostics.otel.serviceName`.                                                                                                                                                                                                   |
 | `OTEL_EXPORTER_OTLP_PROTOCOL`                                                                                     | Override the wire protocol (only `http/protobuf` is honored today).                                                                                                                                                                        |
 | `OTEL_SEMCONV_STABILITY_OPT_IN`                                                                                   | Set to `gen_ai_latest_experimental` to emit the latest experimental GenAI span attribute (`gen_ai.provider.name`) instead of the legacy `gen_ai.system`. GenAI metrics always use bounded, low-cardinality semantic attributes regardless. |
-| `OPENCLAW_OTEL_PRELOADED`                                                                                         | Set to `1` when another preload or host process already registered the global OpenTelemetry SDK. The plugin then skips its own NodeSDK lifecycle but still wires diagnostic listeners and honors `traces`/`metrics`/`logs`.                |
+| `BRIKKO_STUDIO_OTEL_PRELOADED`                                                                                         | Set to `1` when another preload or host process already registered the global OpenTelemetry SDK. The plugin then skips its own NodeSDK lifecycle but still wires diagnostic listeners and honors `traces`/`metrics`/`logs`.                |
 
 ## Privacy and content capture
 
@@ -131,7 +131,7 @@ and never include prompt text, response text, tool inputs, tool outputs, or
 session keys.
 
 Outbound model requests may include a W3C `traceparent` header. That header is
-generated only from OpenClaw-owned diagnostic trace context for the active model
+generated only from Brikko Studio-owned diagnostic trace context for the active model
 call. Existing caller-supplied `traceparent` headers are replaced, so plugins or
 custom provider options cannot spoof cross-service trace ancestry.
 
@@ -146,7 +146,7 @@ text. Each subkey is opt-in independently:
 - `systemPrompt` — assembled system/developer prompt.
 
 When any subkey is enabled, model and tool spans get bounded, redacted
-`openclaw.content.*` attributes for that class only.
+`brikko-studio.content.*` attributes for that class only.
 
 ## Sampling and flushing
 
@@ -169,48 +169,48 @@ When any subkey is enabled, model and tool spans get bounded, redacted
 
 ### Model usage
 
-- `openclaw.tokens` (counter, attrs: `openclaw.token`, `openclaw.channel`, `openclaw.provider`, `openclaw.model`, `openclaw.agent`)
-- `openclaw.cost.usd` (counter, attrs: `openclaw.channel`, `openclaw.provider`, `openclaw.model`)
-- `openclaw.run.duration_ms` (histogram, attrs: `openclaw.channel`, `openclaw.provider`, `openclaw.model`)
-- `openclaw.context.tokens` (histogram, attrs: `openclaw.context`, `openclaw.channel`, `openclaw.provider`, `openclaw.model`)
+- `brikko-studio.tokens` (counter, attrs: `brikko-studio.token`, `brikko-studio.channel`, `brikko-studio.provider`, `brikko-studio.model`, `brikko-studio.agent`)
+- `brikko-studio.cost.usd` (counter, attrs: `brikko-studio.channel`, `brikko-studio.provider`, `brikko-studio.model`)
+- `brikko-studio.run.duration_ms` (histogram, attrs: `brikko-studio.channel`, `brikko-studio.provider`, `brikko-studio.model`)
+- `brikko-studio.context.tokens` (histogram, attrs: `brikko-studio.context`, `brikko-studio.channel`, `brikko-studio.provider`, `brikko-studio.model`)
 - `gen_ai.client.token.usage` (histogram, GenAI semantic-conventions metric, attrs: `gen_ai.token.type` = `input`/`output`, `gen_ai.provider.name`, `gen_ai.operation.name`, `gen_ai.request.model`)
 - `gen_ai.client.operation.duration` (histogram, seconds, GenAI semantic-conventions metric, attrs: `gen_ai.provider.name`, `gen_ai.operation.name`, `gen_ai.request.model`, optional `error.type`)
-- `openclaw.model_call.duration_ms` (histogram, attrs: `openclaw.provider`, `openclaw.model`, `openclaw.api`, `openclaw.transport`, plus `openclaw.errorCategory` and `openclaw.failureKind` on classified errors)
-- `openclaw.model_call.request_bytes` (histogram, UTF-8 byte size of the final model request payload; no raw payload content)
-- `openclaw.model_call.response_bytes` (histogram, UTF-8 byte size of streamed model response events; no raw response content)
-- `openclaw.model_call.time_to_first_byte_ms` (histogram, elapsed time before the first streamed response event)
+- `brikko-studio.model_call.duration_ms` (histogram, attrs: `brikko-studio.provider`, `brikko-studio.model`, `brikko-studio.api`, `brikko-studio.transport`, plus `brikko-studio.errorCategory` and `brikko-studio.failureKind` on classified errors)
+- `brikko-studio.model_call.request_bytes` (histogram, UTF-8 byte size of the final model request payload; no raw payload content)
+- `brikko-studio.model_call.response_bytes` (histogram, UTF-8 byte size of streamed model response events; no raw response content)
+- `brikko-studio.model_call.time_to_first_byte_ms` (histogram, elapsed time before the first streamed response event)
 
 ### Message flow
 
-- `openclaw.webhook.received` (counter, attrs: `openclaw.channel`, `openclaw.webhook`)
-- `openclaw.webhook.error` (counter, attrs: `openclaw.channel`, `openclaw.webhook`)
-- `openclaw.webhook.duration_ms` (histogram, attrs: `openclaw.channel`, `openclaw.webhook`)
-- `openclaw.message.queued` (counter, attrs: `openclaw.channel`, `openclaw.source`)
-- `openclaw.message.processed` (counter, attrs: `openclaw.channel`, `openclaw.outcome`)
-- `openclaw.message.duration_ms` (histogram, attrs: `openclaw.channel`, `openclaw.outcome`)
-- `openclaw.message.delivery.started` (counter, attrs: `openclaw.channel`, `openclaw.delivery.kind`)
-- `openclaw.message.delivery.duration_ms` (histogram, attrs: `openclaw.channel`, `openclaw.delivery.kind`, `openclaw.outcome`, `openclaw.errorCategory`)
+- `brikko-studio.webhook.received` (counter, attrs: `brikko-studio.channel`, `brikko-studio.webhook`)
+- `brikko-studio.webhook.error` (counter, attrs: `brikko-studio.channel`, `brikko-studio.webhook`)
+- `brikko-studio.webhook.duration_ms` (histogram, attrs: `brikko-studio.channel`, `brikko-studio.webhook`)
+- `brikko-studio.message.queued` (counter, attrs: `brikko-studio.channel`, `brikko-studio.source`)
+- `brikko-studio.message.processed` (counter, attrs: `brikko-studio.channel`, `brikko-studio.outcome`)
+- `brikko-studio.message.duration_ms` (histogram, attrs: `brikko-studio.channel`, `brikko-studio.outcome`)
+- `brikko-studio.message.delivery.started` (counter, attrs: `brikko-studio.channel`, `brikko-studio.delivery.kind`)
+- `brikko-studio.message.delivery.duration_ms` (histogram, attrs: `brikko-studio.channel`, `brikko-studio.delivery.kind`, `brikko-studio.outcome`, `brikko-studio.errorCategory`)
 
 ### Queues and sessions
 
-- `openclaw.queue.lane.enqueue` (counter, attrs: `openclaw.lane`)
-- `openclaw.queue.lane.dequeue` (counter, attrs: `openclaw.lane`)
-- `openclaw.queue.depth` (histogram, attrs: `openclaw.lane` or `openclaw.channel=heartbeat`)
-- `openclaw.queue.wait_ms` (histogram, attrs: `openclaw.lane`)
-- `openclaw.session.state` (counter, attrs: `openclaw.state`, `openclaw.reason`)
-- `openclaw.session.stuck` (counter, attrs: `openclaw.state`; emitted only for stale session bookkeeping with no active work)
-- `openclaw.session.stuck_age_ms` (histogram, attrs: `openclaw.state`; emitted only for stale session bookkeeping with no active work)
-- `openclaw.run.attempt` (counter, attrs: `openclaw.attempt`)
+- `brikko-studio.queue.lane.enqueue` (counter, attrs: `brikko-studio.lane`)
+- `brikko-studio.queue.lane.dequeue` (counter, attrs: `brikko-studio.lane`)
+- `brikko-studio.queue.depth` (histogram, attrs: `brikko-studio.lane` or `brikko-studio.channel=heartbeat`)
+- `brikko-studio.queue.wait_ms` (histogram, attrs: `brikko-studio.lane`)
+- `brikko-studio.session.state` (counter, attrs: `brikko-studio.state`, `brikko-studio.reason`)
+- `brikko-studio.session.stuck` (counter, attrs: `brikko-studio.state`; emitted only for stale session bookkeeping with no active work)
+- `brikko-studio.session.stuck_age_ms` (histogram, attrs: `brikko-studio.state`; emitted only for stale session bookkeeping with no active work)
+- `brikko-studio.run.attempt` (counter, attrs: `brikko-studio.attempt`)
 
 ### Session liveness telemetry
 
 `diagnostics.stuckSessionWarnMs` is the no-progress age threshold for session
 liveness diagnostics. A `processing` session does not age toward this threshold
-while OpenClaw observes reply, tool, status, block, or ACP runtime progress.
+while Brikko Studio observes reply, tool, status, block, or ACP runtime progress.
 Typing keepalives are not counted as progress, so a silent model or harness can
 still be detected.
 
-OpenClaw classifies sessions by the work it can still observe:
+Brikko Studio classifies sessions by the work it can still observe:
 
 - `session.long_running`: active embedded work, model calls, or tool calls are
   still making progress.
@@ -219,8 +219,8 @@ OpenClaw classifies sessions by the work it can still observe:
 - `session.stuck`: stale session bookkeeping with no active work. This is the
   only liveness classification that releases the affected session lane.
 
-Only `session.stuck` emits the `openclaw.session.stuck` counter, the
-`openclaw.session.stuck_age_ms` histogram, and the `openclaw.session.stuck`
+Only `session.stuck` emits the `brikko-studio.session.stuck` counter, the
+`brikko-studio.session.stuck_age_ms` histogram, and the `brikko-studio.session.stuck`
 span. Repeated `session.stuck` diagnostics back off while the session remains
 unchanged, so dashboards should alert on sustained increases rather than every
 heartbeat tick. For the config knob and defaults, see
@@ -228,62 +228,62 @@ heartbeat tick. For the config knob and defaults, see
 
 ### Harness lifecycle
 
-- `openclaw.harness.duration_ms` (histogram, attrs: `openclaw.harness.id`, `openclaw.harness.plugin`, `openclaw.outcome`, `openclaw.harness.phase` on errors)
+- `brikko-studio.harness.duration_ms` (histogram, attrs: `brikko-studio.harness.id`, `brikko-studio.harness.plugin`, `brikko-studio.outcome`, `brikko-studio.harness.phase` on errors)
 
 ### Exec
 
-- `openclaw.exec.duration_ms` (histogram, attrs: `openclaw.exec.target`, `openclaw.exec.mode`, `openclaw.outcome`, `openclaw.failureKind`)
+- `brikko-studio.exec.duration_ms` (histogram, attrs: `brikko-studio.exec.target`, `brikko-studio.exec.mode`, `brikko-studio.outcome`, `brikko-studio.failureKind`)
 
 ### Diagnostics internals (memory and tool loop)
 
-- `openclaw.memory.heap_used_bytes` (histogram, attrs: `openclaw.memory.kind`)
-- `openclaw.memory.rss_bytes` (histogram)
-- `openclaw.memory.pressure` (counter, attrs: `openclaw.memory.level`)
-- `openclaw.tool.loop.iterations` (counter, attrs: `openclaw.toolName`, `openclaw.outcome`)
-- `openclaw.tool.loop.duration_ms` (histogram, attrs: `openclaw.toolName`, `openclaw.outcome`)
+- `brikko-studio.memory.heap_used_bytes` (histogram, attrs: `brikko-studio.memory.kind`)
+- `brikko-studio.memory.rss_bytes` (histogram)
+- `brikko-studio.memory.pressure` (counter, attrs: `brikko-studio.memory.level`)
+- `brikko-studio.tool.loop.iterations` (counter, attrs: `brikko-studio.toolName`, `brikko-studio.outcome`)
+- `brikko-studio.tool.loop.duration_ms` (histogram, attrs: `brikko-studio.toolName`, `brikko-studio.outcome`)
 
 ## Exported spans
 
-- `openclaw.model.usage`
-  - `openclaw.channel`, `openclaw.provider`, `openclaw.model`
-  - `openclaw.tokens.*` (input/output/cache_read/cache_write/total)
+- `brikko-studio.model.usage`
+  - `brikko-studio.channel`, `brikko-studio.provider`, `brikko-studio.model`
+  - `brikko-studio.tokens.*` (input/output/cache_read/cache_write/total)
   - `gen_ai.system` by default, or `gen_ai.provider.name` when the latest GenAI semantic conventions are opted in
   - `gen_ai.request.model`, `gen_ai.operation.name`, `gen_ai.usage.*`
-- `openclaw.run`
-  - `openclaw.outcome`, `openclaw.channel`, `openclaw.provider`, `openclaw.model`, `openclaw.errorCategory`
-- `openclaw.model.call`
+- `brikko-studio.run`
+  - `brikko-studio.outcome`, `brikko-studio.channel`, `brikko-studio.provider`, `brikko-studio.model`, `brikko-studio.errorCategory`
+- `brikko-studio.model.call`
   - `gen_ai.system` by default, or `gen_ai.provider.name` when the latest GenAI semantic conventions are opted in
-  - `gen_ai.request.model`, `gen_ai.operation.name`, `openclaw.provider`, `openclaw.model`, `openclaw.api`, `openclaw.transport`
-  - `openclaw.errorCategory` and optional `openclaw.failureKind` on errors
-  - `openclaw.model_call.request_bytes`, `openclaw.model_call.response_bytes`, `openclaw.model_call.time_to_first_byte_ms`
-  - `openclaw.provider.request_id_hash` (bounded SHA-based hash of the upstream provider request id; raw ids are not exported)
-- `openclaw.harness.run`
-  - `openclaw.harness.id`, `openclaw.harness.plugin`, `openclaw.outcome`, `openclaw.provider`, `openclaw.model`, `openclaw.channel`
-  - On completion: `openclaw.harness.result_classification`, `openclaw.harness.yield_detected`, `openclaw.harness.items.started`, `openclaw.harness.items.completed`, `openclaw.harness.items.active`
-  - On error: `openclaw.harness.phase`, `openclaw.errorCategory`, optional `openclaw.harness.cleanup_failed`
-- `openclaw.tool.execution`
-  - `gen_ai.tool.name`, `openclaw.toolName`, `openclaw.errorCategory`, `openclaw.tool.params.*`
-- `openclaw.exec`
-  - `openclaw.exec.target`, `openclaw.exec.mode`, `openclaw.outcome`, `openclaw.failureKind`, `openclaw.exec.command_length`, `openclaw.exec.exit_code`, `openclaw.exec.timed_out`
-- `openclaw.webhook.processed`
-  - `openclaw.channel`, `openclaw.webhook`, `openclaw.chatId`
-- `openclaw.webhook.error`
-  - `openclaw.channel`, `openclaw.webhook`, `openclaw.chatId`, `openclaw.error`
-- `openclaw.message.processed`
-  - `openclaw.channel`, `openclaw.outcome`, `openclaw.chatId`, `openclaw.messageId`, `openclaw.reason`
-- `openclaw.message.delivery`
-  - `openclaw.channel`, `openclaw.delivery.kind`, `openclaw.outcome`, `openclaw.errorCategory`, `openclaw.delivery.result_count`
-- `openclaw.session.stuck`
-  - `openclaw.state`, `openclaw.ageMs`, `openclaw.queueDepth`
-- `openclaw.context.assembled`
-  - `openclaw.prompt.size`, `openclaw.history.size`, `openclaw.context.tokens`, `openclaw.errorCategory` (no prompt, history, response, or session-key content)
-- `openclaw.tool.loop`
-  - `openclaw.toolName`, `openclaw.outcome`, `openclaw.iterations`, `openclaw.errorCategory` (no loop messages, params, or tool output)
-- `openclaw.memory.pressure`
-  - `openclaw.memory.level`, `openclaw.memory.heap_used_bytes`, `openclaw.memory.rss_bytes`
+  - `gen_ai.request.model`, `gen_ai.operation.name`, `brikko-studio.provider`, `brikko-studio.model`, `brikko-studio.api`, `brikko-studio.transport`
+  - `brikko-studio.errorCategory` and optional `brikko-studio.failureKind` on errors
+  - `brikko-studio.model_call.request_bytes`, `brikko-studio.model_call.response_bytes`, `brikko-studio.model_call.time_to_first_byte_ms`
+  - `brikko-studio.provider.request_id_hash` (bounded SHA-based hash of the upstream provider request id; raw ids are not exported)
+- `brikko-studio.harness.run`
+  - `brikko-studio.harness.id`, `brikko-studio.harness.plugin`, `brikko-studio.outcome`, `brikko-studio.provider`, `brikko-studio.model`, `brikko-studio.channel`
+  - On completion: `brikko-studio.harness.result_classification`, `brikko-studio.harness.yield_detected`, `brikko-studio.harness.items.started`, `brikko-studio.harness.items.completed`, `brikko-studio.harness.items.active`
+  - On error: `brikko-studio.harness.phase`, `brikko-studio.errorCategory`, optional `brikko-studio.harness.cleanup_failed`
+- `brikko-studio.tool.execution`
+  - `gen_ai.tool.name`, `brikko-studio.toolName`, `brikko-studio.errorCategory`, `brikko-studio.tool.params.*`
+- `brikko-studio.exec`
+  - `brikko-studio.exec.target`, `brikko-studio.exec.mode`, `brikko-studio.outcome`, `brikko-studio.failureKind`, `brikko-studio.exec.command_length`, `brikko-studio.exec.exit_code`, `brikko-studio.exec.timed_out`
+- `brikko-studio.webhook.processed`
+  - `brikko-studio.channel`, `brikko-studio.webhook`, `brikko-studio.chatId`
+- `brikko-studio.webhook.error`
+  - `brikko-studio.channel`, `brikko-studio.webhook`, `brikko-studio.chatId`, `brikko-studio.error`
+- `brikko-studio.message.processed`
+  - `brikko-studio.channel`, `brikko-studio.outcome`, `brikko-studio.chatId`, `brikko-studio.messageId`, `brikko-studio.reason`
+- `brikko-studio.message.delivery`
+  - `brikko-studio.channel`, `brikko-studio.delivery.kind`, `brikko-studio.outcome`, `brikko-studio.errorCategory`, `brikko-studio.delivery.result_count`
+- `brikko-studio.session.stuck`
+  - `brikko-studio.state`, `brikko-studio.ageMs`, `brikko-studio.queueDepth`
+- `brikko-studio.context.assembled`
+  - `brikko-studio.prompt.size`, `brikko-studio.history.size`, `brikko-studio.context.tokens`, `brikko-studio.errorCategory` (no prompt, history, response, or session-key content)
+- `brikko-studio.tool.loop`
+  - `brikko-studio.toolName`, `brikko-studio.outcome`, `brikko-studio.iterations`, `brikko-studio.errorCategory` (no loop messages, params, or tool output)
+- `brikko-studio.memory.pressure`
+  - `brikko-studio.memory.level`, `brikko-studio.memory.heap_used_bytes`, `brikko-studio.memory.rss_bytes`
 
 When content capture is explicitly enabled, model and tool spans can also
-include bounded, redacted `openclaw.content.*` attributes for the specific
+include bounded, redacted `brikko-studio.content.*` attributes for the specific
 content classes you opted into.
 
 ## Diagnostic event catalog
@@ -351,7 +351,7 @@ flags. Flags are case-insensitive and support wildcards (e.g. `telegram.*` or
 Or as a one-off env override:
 
 ```bash
-OPENCLAW_DIAGNOSTICS=telegram.http,telegram.payload openclaw gateway
+BRIKKO_STUDIO_DIAGNOSTICS=telegram.http,telegram.payload brikko-studio gateway
 ```
 
 Flag output goes to the standard log file (`logging.file`) and is still
@@ -367,7 +367,7 @@ redacted by `logging.redactSensitive`. Full guide:
 ```
 
 You can also leave `diagnostics-otel` out of `plugins.allow`, or run
-`openclaw plugins disable diagnostics-otel`.
+`brikko-studio plugins disable diagnostics-otel`.
 
 ## Related
 

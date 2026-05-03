@@ -37,13 +37,13 @@ export function createLazyFacadeValue<TFacade extends object, K extends keyof TF
   }) as TFacade[K];
 }
 
-const OPENCLAW_PACKAGE_ROOT =
+const BRIKKO_STUDIO_PACKAGE_ROOT =
   resolveLoaderPackageRoot({
     modulePath: fileURLToPath(import.meta.url),
     moduleUrl: import.meta.url,
   }) ?? fileURLToPath(new URL("../..", import.meta.url));
 const CURRENT_MODULE_PATH = fileURLToPath(import.meta.url);
-const OPENCLAW_SOURCE_EXTENSIONS_ROOT = path.resolve(OPENCLAW_PACKAGE_ROOT, "extensions");
+const BRIKKO_STUDIO_SOURCE_EXTENSIONS_ROOT = path.resolve(BRIKKO_STUDIO_PACKAGE_ROOT, "extensions");
 
 function createFacadeResolutionKey(params: {
   dirName: string;
@@ -78,7 +78,7 @@ function resolveFacadeModuleLocationUncached(params: {
   const bundledLocation = resolveBundledFacadeModuleLocation({
     ...params,
     currentModulePath: CURRENT_MODULE_PATH,
-    packageRoot: OPENCLAW_PACKAGE_ROOT,
+    packageRoot: BRIKKO_STUDIO_PACKAGE_ROOT,
     bundledPluginsDir,
   });
   if (bundledLocation) {
@@ -175,7 +175,7 @@ function buildFacadeActivationCheckParams(
   return {
     ...params,
     location,
-    sourceExtensionsRoot: OPENCLAW_SOURCE_EXTENSIONS_ROOT,
+    sourceExtensionsRoot: BRIKKO_STUDIO_SOURCE_EXTENSIONS_ROOT,
     resolutionKey: createFacadeResolutionKey(params),
   };
 }

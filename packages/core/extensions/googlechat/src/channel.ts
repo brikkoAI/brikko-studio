@@ -1,16 +1,16 @@
-import { describeAccountSnapshot } from "openclaw/plugin-sdk/account-helpers";
-import { formatNormalizedAllowFromEntries } from "openclaw/plugin-sdk/allow-from";
+import { describeAccountSnapshot } from "brikko-studio/plugin-sdk/account-helpers";
+import { formatNormalizedAllowFromEntries } from "brikko-studio/plugin-sdk/allow-from";
 import {
   adaptScopedAccountAccessor,
   createScopedChannelConfigAdapter,
-} from "openclaw/plugin-sdk/channel-config-helpers";
-import { createChatChannelPlugin } from "openclaw/plugin-sdk/channel-core";
-import { buildPassiveProbedChannelStatusSummary } from "openclaw/plugin-sdk/extension-shared";
-import { createLazyRuntimeNamedExport } from "openclaw/plugin-sdk/lazy-runtime";
+} from "brikko-studio/plugin-sdk/channel-config-helpers";
+import { createChatChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
+import { buildPassiveProbedChannelStatusSummary } from "brikko-studio/plugin-sdk/extension-shared";
+import { createLazyRuntimeNamedExport } from "brikko-studio/plugin-sdk/lazy-runtime";
 import {
   createComputedAccountStatusAdapter,
   createDefaultChannelRuntimeState,
-} from "openclaw/plugin-sdk/status-helpers";
+} from "brikko-studio/plugin-sdk/status-helpers";
 import { googlechatMessageActions } from "./actions.js";
 import { googleChatApprovalAuth } from "./approval-auth.js";
 import {

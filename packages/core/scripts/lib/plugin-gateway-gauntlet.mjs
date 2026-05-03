@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import JSON5 from "json5";
 
-const MANIFEST_NAMES = ["openclaw.plugin.json", "openclaw.plugin.json5"];
+const MANIFEST_NAMES = ["brikko-studio.plugin.json", "brikko-studio.plugin.json5"];
 
 function isPlainObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -340,8 +340,8 @@ function buildGauntletPrebuildEnv(env, options = {}) {
   }
   return {
     ...env,
-    OPENCLAW_BUILD_PRIVATE_QA: "1",
-    OPENCLAW_ENABLE_PRIVATE_QA_CLI: "1",
+    BRIKKO_STUDIO_BUILD_PRIVATE_QA: "1",
+    BRIKKO_STUDIO_ENABLE_PRIVATE_QA_CLI: "1",
   };
 }
 

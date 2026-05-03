@@ -1,8 +1,8 @@
 import {
   registerSingleProviderPlugin,
   resolveProviderPluginChoice,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import { resolveAgentModelPrimaryValue } from "openclaw/plugin-sdk/provider-onboard";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { resolveAgentModelPrimaryValue } from "brikko-studio/plugin-sdk/provider-onboard";
 import { describe, expect, it } from "vitest";
 import { runSingleProviderCatalog } from "../test-support/provider-model-test-helpers.js";
 import qianfanPlugin from "./index.js";

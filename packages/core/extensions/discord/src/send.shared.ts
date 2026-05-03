@@ -1,20 +1,20 @@
 import { PollLayoutType } from "discord-api-types/payloads/v10";
 import type { RESTAPIPoll } from "discord-api-types/rest/v10";
 import type { APIChannel } from "discord-api-types/v10";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { buildOutboundMediaLoadOptions } from "openclaw/plugin-sdk/media-runtime";
-import { extensionForMime } from "openclaw/plugin-sdk/media-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { buildOutboundMediaLoadOptions } from "brikko-studio/plugin-sdk/media-runtime";
+import { extensionForMime } from "brikko-studio/plugin-sdk/media-runtime";
 import {
   normalizePollDurationHours,
   normalizePollInput,
   type OutboundMediaAccess,
   type PollInput,
-} from "openclaw/plugin-sdk/media-runtime";
-import { requireRuntimeConfig } from "openclaw/plugin-sdk/plugin-config-runtime";
-import type { ChunkMode } from "openclaw/plugin-sdk/reply-chunking";
-import { resolveTextChunksWithFallback } from "openclaw/plugin-sdk/reply-payload";
-import type { RetryRunner } from "openclaw/plugin-sdk/retry-runtime";
-import { loadWebMedia } from "openclaw/plugin-sdk/web-media";
+} from "brikko-studio/plugin-sdk/media-runtime";
+import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
+import type { ChunkMode } from "brikko-studio/plugin-sdk/reply-chunking";
+import { resolveTextChunksWithFallback } from "brikko-studio/plugin-sdk/reply-payload";
+import type { RetryRunner } from "brikko-studio/plugin-sdk/retry-runtime";
+import { loadWebMedia } from "brikko-studio/plugin-sdk/web-media";
 import { chunkDiscordTextWithMode } from "./chunk.js";
 import { createDiscordClient, resolveDiscordRest, type DiscordClientOpts } from "./client.js";
 import {
@@ -155,7 +155,7 @@ async function buildDiscordSendError(
   err: unknown,
   ctx: {
     channelId: string;
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     rest: RequestClient;
     token: string;
     hasMedia: boolean;
@@ -244,7 +244,7 @@ async function resolveChannelId(
 
 async function resolveDiscordTargetChannelId(
   raw: string,
-  opts: DiscordClientOpts & { cfg: OpenClawConfig },
+  opts: DiscordClientOpts & { cfg: Brikko StudioConfig },
 ): Promise<{ channelId: string; dm?: boolean }> {
   const cfg = requireRuntimeConfig(opts.cfg, "Discord target channel resolution");
   const recipient = await parseAndResolveRecipient(raw, cfg, opts.accountId, {

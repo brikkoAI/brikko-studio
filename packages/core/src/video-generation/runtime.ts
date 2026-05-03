@@ -1,5 +1,5 @@
 import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import {
   buildMediaGenerationNormalizationMetadata,
@@ -83,7 +83,7 @@ function validateProviderOptionsAgainstDeclaration(params: {
 }
 
 function buildNoVideoGenerationModelConfiguredMessage(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   deps: VideoGenerationRuntimeDeps,
 ): string {
   const listProviders = deps.listProviders ?? listVideoGenerationProviders;
@@ -96,7 +96,7 @@ function buildNoVideoGenerationModelConfiguredMessage(
 }
 
 export function listRuntimeVideoGenerationProviders(
-  params?: { config?: OpenClawConfig },
+  params?: { config?: Brikko StudioConfig },
   deps: VideoGenerationRuntimeDeps = {},
 ) {
   return (deps.listProviders ?? listVideoGenerationProviders)(params?.config);

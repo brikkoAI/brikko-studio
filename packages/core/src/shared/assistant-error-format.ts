@@ -16,7 +16,7 @@ const STANDALONE_HTML_ERROR_HINT_RE =
   /\bcloudflare\b|cdn-cgi\/challenge-platform|challenge-error-text|enable javascript and cookies to continue|access denied|forbidden|service unavailable|bad gateway|web server is down|captcha|attention required/i;
 
 export const MALFORMED_STREAMING_FRAGMENT_ERROR_MESSAGE =
-  "OpenClaw transport error: malformed_streaming_fragment";
+  "Brikko Studio transport error: malformed_streaming_fragment";
 const MALFORMED_STREAMING_FRAGMENT_USER_MESSAGE =
   "LLM streaming response contained a malformed fragment. Please try again.";
 

@@ -1,10 +1,10 @@
 // Manual facade. Keep loader boundary explicit.
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import type { GroupToolPolicyConfig } from "../config/types.tools.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
 
 type BlueBubblesGroupContext = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
   groupId?: string | null;
   senderId?: string | null;

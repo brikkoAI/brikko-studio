@@ -45,7 +45,7 @@ export function resolveBrowserNavigationProxyMode(params: {
   profile: Pick<ResolvedBrowserProfile, "cdpIsLoopback" | "driver">;
 }): BrowserNavigationProxyMode {
   if (
-    params.profile.driver === "openclaw" &&
+    params.profile.driver === "brikko-studio" &&
     params.profile.cdpIsLoopback &&
     hasExplicitChromeProxyRoutingArg(params.resolved.extraArgs)
   ) {

@@ -4,7 +4,7 @@ import { buildOpenAICodexProviderPlugin } from "./openai-codex-provider.js";
 import { buildOpenAIProvider } from "./openai-provider.js";
 
 const manifest = JSON.parse(
-  readFileSync(new URL("./openclaw.plugin.json", import.meta.url), "utf8"),
+  readFileSync(new URL("./brikko-studio.plugin.json", import.meta.url), "utf8"),
 ) as {
   providerAuthChoices?: Array<{
     provider?: string;

@@ -1084,21 +1084,21 @@ function normalizeCommandBaseName(token: string | undefined): string {
   return base.replace(/\.(?:cmd|exe)$/u, "");
 }
 
-function stripOpenClawPackageRunner(argv: string[]): string[] {
+function stripBrikko StudioPackageRunner(argv: string[]): string[] {
   const commandName = normalizeCommandBaseName(argv[0]);
-  if (commandName === "openclaw") {
+  if (commandName === "brikko-studio") {
     return argv;
   }
   if (
     (commandName === "pnpm" || commandName === "npm" || commandName === "yarn") &&
-    normalizeCommandBaseName(argv[1]) === "openclaw"
+    normalizeCommandBaseName(argv[1]) === "brikko-studio"
   ) {
     return argv.slice(1);
   }
   if (
     (commandName === "pnpm" || commandName === "npm" || commandName === "yarn") &&
     (argv[1] === "exec" || argv[1] === "dlx" || argv[1] === "run") &&
-    normalizeCommandBaseName(argv[2]) === "openclaw"
+    normalizeCommandBaseName(argv[2]) === "brikko-studio"
   ) {
     return argv.slice(2);
   }
@@ -1118,23 +1118,23 @@ function stripOpenClawPackageRunner(argv: string[]): string[] {
         idx += 1;
       }
     }
-    if (normalizeCommandBaseName(argv[idx]) === "openclaw") {
+    if (normalizeCommandBaseName(argv[idx]) === "brikko-studio") {
       return argv.slice(idx);
     }
   }
   return argv;
 }
 
-function parseOpenClawChannelsLoginShellCommand(raw: string): boolean {
+function parseBrikko StudioChannelsLoginShellCommand(raw: string): boolean {
   const argv = splitShellArgs(raw);
   if (!argv) {
     return false;
   }
-  const openclawArgv = stripOpenClawPackageRunner(argv);
+  const brikko-studioArgv = stripBrikko StudioPackageRunner(argv);
   return (
-    normalizeCommandBaseName(openclawArgv[0]) === "openclaw" &&
-    (openclawArgv[1] === "channels" || openclawArgv[1] === "channel") &&
-    openclawArgv[2] === "login"
+    normalizeCommandBaseName(brikko-studioArgv[0]) === "brikko-studio" &&
+    (brikko-studioArgv[1] === "channels" || brikko-studioArgv[1] === "channel") &&
+    brikko-studioArgv[2] === "login"
   );
 }
 
@@ -1367,11 +1367,11 @@ function rejectUnsafeControlShellCommand(command: string): void {
         ].join(" "),
       );
     }
-    if (parseOpenClawChannelsLoginShellCommand(candidate)) {
+    if (parseBrikko StudioChannelsLoginShellCommand(candidate)) {
       throw new Error(
         [
-          "exec cannot run interactive OpenClaw channel login commands.",
-          "Run `openclaw channels login` in a terminal on the gateway host, or use the channel-specific login agent tool when available (for WhatsApp: `whatsapp_login`).",
+          "exec cannot run interactive Brikko Studio channel login commands.",
+          "Run `brikko-studio channels login` in a terminal on the gateway host, or use the channel-specific login agent tool when available (for WhatsApp: `whatsapp_login`).",
         ].join(" "),
       );
     }
@@ -1892,6 +1892,6 @@ export function createExecTool(
 export const execTool = createExecTool();
 
 export const __testing = {
-  parseOpenClawChannelsLoginShellCommand,
+  parseBrikko StudioChannelsLoginShellCommand,
   validateScriptFileForShellBleed,
 };

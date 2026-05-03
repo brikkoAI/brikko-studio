@@ -1,6 +1,6 @@
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
-import { createProviderApiKeyAuthMethod } from "openclaw/plugin-sdk/provider-auth-api-key";
-import { PASSTHROUGH_GEMINI_REPLAY_HOOKS } from "openclaw/plugin-sdk/provider-model-shared";
+import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
+import { createProviderApiKeyAuthMethod } from "brikko-studio/plugin-sdk/provider-auth-api-key";
+import { PASSTHROUGH_GEMINI_REPLAY_HOOKS } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { applyOpencodeGoConfig, OPENCODE_GO_DEFAULT_MODEL_REF } from "./api.js";
 import { opencodeGoMediaUnderstandingProvider } from "./media-understanding-provider.js";
 import {

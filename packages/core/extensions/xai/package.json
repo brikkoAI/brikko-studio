@@ -1,18 +1,18 @@
 {
-  "name": "@openclaw/xai-plugin",
+  "name": "@brikko-studio/xai-plugin",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw xAI plugin",
+  "description": "Brikko Studio xAI plugin",
   "type": "module",
   "dependencies": {
     "@mariozechner/pi-ai": "0.71.1",
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
+    "@brikko-studio/plugin-sdk": "workspace:*",
     "ws": "^8.20.0"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

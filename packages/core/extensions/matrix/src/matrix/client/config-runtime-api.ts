@@ -2,8 +2,8 @@ export {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
   normalizeOptionalAccountId,
-} from "openclaw/plugin-sdk/account-id";
+} from "brikko-studio/plugin-sdk/account-id";
 export {
   isPrivateNetworkOptInEnabled,
   ssrfPolicyFromDangerouslyAllowPrivateNetwork,
-} from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/ssrf-runtime";

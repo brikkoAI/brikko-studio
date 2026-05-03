@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { NormalizedModelCatalogRow } from "../model-catalog/index.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -320,7 +320,7 @@ describe("promptAuthConfig", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     mocks.applyAuthChoice.mockResolvedValue({ config: existingConfig });
     mocks.promptModelAllowlist.mockResolvedValue({ models: undefined });
     mocks.resolveProviderPluginChoice.mockReturnValue(null);
@@ -349,7 +349,7 @@ describe("promptAuthConfig", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     mocks.applyAuthChoice.mockResolvedValue({
       config: {
         ...existingConfig,

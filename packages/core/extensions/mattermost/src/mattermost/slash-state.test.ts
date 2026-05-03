@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig, RuntimeEnv } from "../runtime-api.js";
+import type { Brikko StudioConfig, RuntimeEnv } from "../runtime-api.js";
 import type { ResolvedMattermostAccount } from "./accounts.js";
 import type { MattermostRegisteredCommand } from "./slash-commands.js";
 import {
@@ -42,7 +42,7 @@ const slashApi = {
     exit: () => {},
   },
 } satisfies {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   runtime: RuntimeEnv;
 };
 

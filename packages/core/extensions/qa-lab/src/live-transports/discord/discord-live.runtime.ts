@@ -2,10 +2,10 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { requestDiscord } from "@openclaw/discord/api.js";
-import { DEFAULT_EMOJIS } from "openclaw/plugin-sdk/channel-feedback";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { requestDiscord } from "@brikko-studio/discord/api.js";
+import { DEFAULT_EMOJIS } from "brikko-studio/plugin-sdk/channel-feedback";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { chromium } from "playwright-core";
 import { z } from "zod";
 import { startQaGatewayChild } from "../../gateway-child.js";
@@ -192,14 +192,14 @@ type DiscordStatusReactionTimeline = {
   triggerMessageId: string;
 };
 
-const DISCORD_QA_CAPTURE_CONTENT_ENV = "OPENCLAW_QA_DISCORD_CAPTURE_CONTENT";
-const QA_REDACT_PUBLIC_METADATA_ENV = "OPENCLAW_QA_REDACT_PUBLIC_METADATA";
+const DISCORD_QA_CAPTURE_CONTENT_ENV = "BRIKKO_STUDIO_QA_DISCORD_CAPTURE_CONTENT";
+const QA_REDACT_PUBLIC_METADATA_ENV = "BRIKKO_STUDIO_QA_REDACT_PUBLIC_METADATA";
 const DISCORD_QA_ENV_KEYS = [
-  "OPENCLAW_QA_DISCORD_GUILD_ID",
-  "OPENCLAW_QA_DISCORD_CHANNEL_ID",
-  "OPENCLAW_QA_DISCORD_DRIVER_BOT_TOKEN",
-  "OPENCLAW_QA_DISCORD_SUT_BOT_TOKEN",
-  "OPENCLAW_QA_DISCORD_SUT_APPLICATION_ID",
+  "BRIKKO_STUDIO_QA_DISCORD_GUILD_ID",
+  "BRIKKO_STUDIO_QA_DISCORD_CHANNEL_ID",
+  "BRIKKO_STUDIO_QA_DISCORD_DRIVER_BOT_TOKEN",
+  "BRIKKO_STUDIO_QA_DISCORD_SUT_BOT_TOKEN",
+  "BRIKKO_STUDIO_QA_DISCORD_SUT_APPLICATION_ID",
 ] as const;
 
 const DISCORD_QA_SCENARIOS: DiscordQaScenarioDefinition[] = [
@@ -303,13 +303,13 @@ function isTruthyOptIn(value: string | undefined) {
 
 function resolveDiscordQaRuntimeEnv(env: NodeJS.ProcessEnv = process.env): DiscordQaRuntimeEnv {
   const runtimeEnv = {
-    guildId: resolveEnvValue(env, "OPENCLAW_QA_DISCORD_GUILD_ID"),
-    channelId: resolveEnvValue(env, "OPENCLAW_QA_DISCORD_CHANNEL_ID"),
-    driverBotToken: resolveEnvValue(env, "OPENCLAW_QA_DISCORD_DRIVER_BOT_TOKEN"),
-    sutBotToken: resolveEnvValue(env, "OPENCLAW_QA_DISCORD_SUT_BOT_TOKEN"),
-    sutApplicationId: resolveEnvValue(env, "OPENCLAW_QA_DISCORD_SUT_APPLICATION_ID"),
+    guildId: resolveEnvValue(env, "BRIKKO_STUDIO_QA_DISCORD_GUILD_ID"),
+    channelId: resolveEnvValue(env, "BRIKKO_STUDIO_QA_DISCORD_CHANNEL_ID"),
+    driverBotToken: resolveEnvValue(env, "BRIKKO_STUDIO_QA_DISCORD_DRIVER_BOT_TOKEN"),
+    sutBotToken: resolveEnvValue(env, "BRIKKO_STUDIO_QA_DISCORD_SUT_BOT_TOKEN"),
+    sutApplicationId: resolveEnvValue(env, "BRIKKO_STUDIO_QA_DISCORD_SUT_APPLICATION_ID"),
   };
-  validateDiscordQaRuntimeEnv(runtimeEnv, "OPENCLAW_QA_DISCORD");
+  validateDiscordQaRuntimeEnv(runtimeEnv, "BRIKKO_STUDIO_QA_DISCORD");
   return runtimeEnv;
 }
 
@@ -333,7 +333,7 @@ function parseDiscordQaCredentialPayload(payload: unknown): DiscordQaRuntimeEnv 
 }
 
 function buildDiscordQaConfig(
-  baseCfg: OpenClawConfig,
+  baseCfg: Brikko StudioConfig,
   params: {
     guildId: string;
     channelId: string;
@@ -344,7 +344,7 @@ function buildDiscordQaConfig(
   options: {
     statusReactionsToolOnly?: boolean;
   } = {},
-): OpenClawConfig {
+): Brikko StudioConfig {
   const pluginAllow = [...new Set([...(baseCfg.plugins?.allow ?? []), "discord"])];
   const pluginEntries = {
     ...baseCfg.plugins?.entries,
@@ -1186,7 +1186,7 @@ export async function runDiscordQaLive(params: {
 
   const finishedAt = new Date().toISOString();
   const publishedCleanupIssues = redactPublicMetadata
-    ? cleanupIssues.map(() => "details redacted (OPENCLAW_QA_REDACT_PUBLIC_METADATA=1)")
+    ? cleanupIssues.map(() => "details redacted (BRIKKO_STUDIO_QA_REDACT_PUBLIC_METADATA=1)")
     : cleanupIssues;
   const passedCount = scenarioResults.filter((entry) => entry.status === "pass").length;
   const failedCount = scenarioResults.filter((entry) => entry.status === "fail").length;

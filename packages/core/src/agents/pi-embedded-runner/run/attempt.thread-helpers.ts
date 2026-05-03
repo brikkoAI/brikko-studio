@@ -1,9 +1,9 @@
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
 import { joinPresentTextSegments } from "../../../shared/text/join-segments.js";
 import { normalizeStructuredPromptSection } from "../../prompt-cache-stability.js";
 import { resolveProviderEndpoint } from "../../provider-attribution.js";
 
-export const ATTEMPT_CACHE_TTL_CUSTOM_TYPE = "openclaw.cache-ttl";
+export const ATTEMPT_CACHE_TTL_CUSTOM_TYPE = "brikko-studio.cache-ttl";
 
 export function composeSystemPromptWithHookContext(params: {
   baseSystemPrompt?: string;
@@ -81,7 +81,7 @@ export function shouldUseOpenAIWebSocketTransportForAttempt(params: {
 function shouldAppendAttemptCacheTtl(params: {
   timedOutDuringCompaction: boolean;
   compactionOccurredThisAttempt: boolean;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   provider: string;
   modelId: string;
   modelApi?: string;
@@ -102,7 +102,7 @@ export function appendAttemptCacheTtlIfNeeded(params: {
   };
   timedOutDuringCompaction: boolean;
   compactionOccurredThisAttempt: boolean;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   provider: string;
   modelId: string;
   modelApi?: string;

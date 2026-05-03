@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   createDefaultMenuConfig,
@@ -223,7 +223,7 @@ describe("createDefaultMenuConfig", () => {
   });
 });
 
-const richMenuUploadCfg: OpenClawConfig = {
+const richMenuUploadCfg: Brikko StudioConfig = {
   channels: {
     line: {
       channelAccessToken: "line-token",
@@ -236,7 +236,7 @@ describe("uploadRichMenuImage", () => {
   let tempRoot: string;
 
   beforeEach(async () => {
-    tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-line-rich-menu-"));
+    tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-line-rich-menu-"));
     setRichMenuImageMock.mockReset();
     MessagingApiBlobClientMock.mockClear();
   });

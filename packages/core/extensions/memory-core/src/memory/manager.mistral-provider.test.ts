@@ -1,7 +1,7 @@
 import type {
-  OpenClawConfig,
+  Brikko StudioConfig,
   ResolvedMemorySearchConfig,
-} from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import { describe, expect, it, vi } from "vitest";
 import {
   applyMemoryFallbackProviderState,
@@ -111,7 +111,7 @@ describe("memory manager mistral provider wiring", () => {
 
   it("uses default ollama model when activating ollama fallback", () => {
     const request = resolveMemoryFallbackProviderRequest({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       settings: createSettings({ provider: "openai", fallback: "ollama" }),
       currentProviderId: "openai",
     });
@@ -153,7 +153,7 @@ describe("memory manager mistral provider wiring", () => {
 
   it("uses default lmstudio model when activating lmstudio fallback", async () => {
     const request = resolveMemoryFallbackProviderRequest({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       settings: createSettings({ provider: "openai", fallback: "lmstudio" }),
       currentProviderId: "openai",
     });

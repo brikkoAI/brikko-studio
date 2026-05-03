@@ -35,7 +35,7 @@ function listExtensionPackageDirs(rootDir, fsImpl) {
 }
 
 function readPackageStaticAssetEntries(packageJson) {
-  const entries = packageJson.openclaw?.build?.staticAssets;
+  const entries = packageJson.brikko-studio?.build?.staticAssets;
   return Array.isArray(entries) ? entries : [];
 }
 

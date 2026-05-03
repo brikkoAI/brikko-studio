@@ -3,4 +3,4 @@ export {
   listRuntimeImageGenerationProviders,
   type GenerateImageParams,
   type GenerateImageRuntimeResult,
-} from "openclaw/plugin-sdk/image-generation-runtime";
+} from "brikko-studio/plugin-sdk/image-generation-runtime";

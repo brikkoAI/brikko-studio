@@ -1,6 +1,6 @@
 import { createRequire } from "node:module";
 
-export const TEST_UNDICI_RUNTIME_DEPS_KEY = "__OPENCLAW_TEST_UNDICI_RUNTIME_DEPS__";
+export const TEST_UNDICI_RUNTIME_DEPS_KEY = "__BRIKKO_STUDIO_TEST_UNDICI_RUNTIME_DEPS__";
 
 export type UndiciRuntimeDeps = {
   Agent: typeof import("undici").Agent;

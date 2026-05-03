@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { MatrixQaProvisionedTopology } from "./topology.js";
 
 type MatrixQaReplyToMode = "off" | "first" | "all" | "batched";
@@ -142,7 +142,7 @@ type MatrixQaGroupSnapshot = {
 };
 
 type MatrixQaGroupEntry = Omit<MatrixQaGroupSnapshot, "roomId">;
-type MatrixQaChannelConfig = NonNullable<OpenClawConfig["channels"]>["matrix"];
+type MatrixQaChannelConfig = NonNullable<Brikko StudioConfig["channels"]>["matrix"];
 type MatrixQaChannelAccountConfig = NonNullable<
   NonNullable<MatrixQaChannelConfig>["accounts"]
 >[string];
@@ -555,7 +555,7 @@ export function summarizeMatrixQaConfigSnapshot(snapshot: MatrixQaConfigSnapshot
 }
 
 export function buildMatrixQaConfig(
-  baseCfg: OpenClawConfig,
+  baseCfg: Brikko StudioConfig,
   params: {
     driverAccessToken?: string;
     driverUserId: string;
@@ -569,7 +569,7 @@ export function buildMatrixQaConfig(
     sutUserId: string;
     topology: MatrixQaProvisionedTopology;
   },
-): OpenClawConfig {
+): Brikko StudioConfig {
   const pluginAllow = [...new Set([...(baseCfg.plugins?.allow ?? []), "matrix"])];
   const snapshot = buildMatrixQaConfigSnapshot({
     driverUserId: params.driverUserId,

@@ -1,8 +1,8 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { coerceSecretRef, resolveSecretInputRef } from "../../config/types.secrets.js";
 import type { AuthProfileCredential, AuthProfileStore } from "./types.js";
 
-type SecretDefaults = NonNullable<OpenClawConfig["secrets"]>["defaults"];
+type SecretDefaults = NonNullable<Brikko StudioConfig["secrets"]>["defaults"];
 
 type OAuthSecretRefPolicyViolation = {
   profileId: string;
@@ -97,7 +97,7 @@ function collectOAuthModeSecretRefViolations(params: {
 
 function collectOAuthSecretRefPolicyViolations(params: {
   store: AuthProfileStore;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   profileIds?: Iterable<string>;
 }): OAuthSecretRefPolicyViolation[] {
   const defaults = params.cfg?.secrets?.defaults;
@@ -126,7 +126,7 @@ function collectOAuthSecretRefPolicyViolations(params: {
 
 export function assertNoOAuthSecretRefPolicyViolations(params: {
   store: AuthProfileStore;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   profileIds?: Iterable<string>;
   context?: string;
 }): void {

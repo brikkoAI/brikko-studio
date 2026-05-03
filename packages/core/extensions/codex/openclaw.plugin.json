@@ -35,7 +35,7 @@
     "properties": {
       "codexDynamicToolsProfile": {
         "type": "string",
-        "enum": ["native-first", "openclaw-compat"],
+        "enum": ["native-first", "brikko-studio-compat"],
         "default": "native-first"
       },
       "codexDynamicToolsExclude": {
@@ -153,12 +153,12 @@
   "uiHints": {
     "codexDynamicToolsProfile": {
       "label": "Dynamic Tools Profile",
-      "help": "Select which OpenClaw dynamic tools are exposed to Codex app-server. native-first omits tools Codex already owns.",
+      "help": "Select which Brikko Studio dynamic tools are exposed to Codex app-server. native-first omits tools Codex already owns.",
       "advanced": true
     },
     "codexDynamicToolsExclude": {
       "label": "Dynamic Tool Excludes",
-      "help": "Additional OpenClaw dynamic tool names to omit from Codex app-server turns.",
+      "help": "Additional Brikko Studio dynamic tool names to omit from Codex app-server turns.",
       "advanced": true
     },
     "discovery": {
@@ -167,7 +167,7 @@
     },
     "discovery.enabled": {
       "label": "Enable Discovery",
-      "help": "When false, OpenClaw keeps the Codex harness available but uses the bundled fallback model list."
+      "help": "When false, Brikko Studio keeps the Codex harness available but uses the bundled fallback model list."
     },
     "discovery.timeoutMs": {
       "label": "Discovery Timeout",
@@ -236,7 +236,7 @@
     },
     "appServer.command": {
       "label": "Command",
-      "help": "Executable used for stdio transport. Leave unset to use OpenClaw's managed Codex binary.",
+      "help": "Executable used for stdio transport. Leave unset to use Brikko Studio's managed Codex binary.",
       "advanced": true
     },
     "appServer.args": {

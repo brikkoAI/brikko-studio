@@ -1,4 +1,4 @@
-import { importFreshModule } from "openclaw/plugin-sdk/test-fixtures";
+import { importFreshModule } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 afterEach(() => {
@@ -8,13 +8,13 @@ afterEach(() => {
 
 describe("listBundledChannelCatalogEntries discovery failures", () => {
   it("falls back when bundled plugin catalog discovery is unavailable during import", async () => {
-    vi.doMock("../infra/openclaw-root.js", () => ({
-      resolveOpenClawPackageRootSync: () => null,
-      resolveOpenClawPackageRoot: async () => null,
+    vi.doMock("../infra/brikko-studio-root.js", () => ({
+      resolveBrikko StudioPackageRootSync: () => null,
+      resolveBrikko StudioPackageRoot: async () => null,
     }));
     vi.doMock("../plugins/channel-catalog-registry.js", () => ({
       listChannelCatalogEntries() {
-        throw new ReferenceError("Cannot access 'discoverOpenClawPlugins' before initialization.");
+        throw new ReferenceError("Cannot access 'discoverBrikko StudioPlugins' before initialization.");
       },
     }));
 

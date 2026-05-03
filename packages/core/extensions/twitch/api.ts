@@ -12,7 +12,7 @@ export {
   type ChannelResolveKind,
   type ChannelResolveResult,
   type ChannelStatusAdapter,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
   type OutboundDeliveryResult,
   type RuntimeEnv,
   type WizardPrompter,

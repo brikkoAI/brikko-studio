@@ -29,11 +29,11 @@ describe("loadSqliteVecExtension", () => {
     await expect(
       loadSqliteVecExtension({
         db: db as never,
-        extensionPath: "/opt/openclaw/sqlite-vec.so",
+        extensionPath: "/opt/brikko-studio/sqlite-vec.so",
       }),
-    ).resolves.toEqual({ ok: true, extensionPath: "/opt/openclaw/sqlite-vec.so" });
+    ).resolves.toEqual({ ok: true, extensionPath: "/opt/brikko-studio/sqlite-vec.so" });
     expect(db.enableLoadExtension).toHaveBeenCalledWith(true);
-    expect(db.loadExtension).toHaveBeenCalledWith("/opt/openclaw/sqlite-vec.so");
+    expect(db.loadExtension).toHaveBeenCalledWith("/opt/brikko-studio/sqlite-vec.so");
   });
 
   it("returns a valid memorySearch extensionPath hint when sqlite-vec is absent", async () => {

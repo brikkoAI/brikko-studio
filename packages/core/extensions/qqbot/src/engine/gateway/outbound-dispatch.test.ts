@@ -137,7 +137,7 @@ function makeRuntime(params: {
         resolveEnvelopeFormatOptions: vi.fn(() => ({})),
       },
       session: {
-        resolveStorePath: vi.fn(() => "/tmp/openclaw/qqbot-sessions.json"),
+        resolveStorePath: vi.fn(() => "/tmp/brikko-studio/qqbot-sessions.json"),
         recordInboundSession: vi.fn(async () => undefined),
       },
       turn: {
@@ -168,7 +168,7 @@ function makeRuntime(params: {
     tts: {
       textToSpeech: vi.fn(async () => ({
         success: true,
-        audioPath: "/tmp/openclaw-qqbot/tts.wav",
+        audioPath: "/tmp/brikko-studio-qqbot/tts.wav",
         provider: "test-tts",
         outputFormat: "wav",
       })),
@@ -217,7 +217,7 @@ describe("dispatchOutbound", () => {
       channel: "qqbot",
       accountId: "qq-main",
     });
-    expect(audioFileToSilkBase64Mock).toHaveBeenCalledWith("/tmp/openclaw-qqbot/tts.wav");
+    expect(audioFileToSilkBase64Mock).toHaveBeenCalledWith("/tmp/brikko-studio-qqbot/tts.wav");
     expect(sendMediaMock).toHaveBeenCalledWith(
       expect.objectContaining({
         kind: "voice",

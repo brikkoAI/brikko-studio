@@ -30,7 +30,7 @@ const ensureSupportedNodeVersion = () => {
   }
 
   process.stderr.write(
-    `openclaw: Node.js v${MIN_NODE_VERSION}+ is required (current: v${process.versions.node}).\n` +
+    `brikko-studio: Node.js v${MIN_NODE_VERSION}+ is required (current: v${process.versions.node}).\n` +
       "If you use nvm, run:\n" +
       `  nvm install ${MIN_NODE_MAJOR}\n` +
       `  nvm use ${MIN_NODE_MAJOR}\n` +
@@ -78,7 +78,7 @@ const resolvePackagedCompileCacheDirectory = () => {
     : path.join(os.tmpdir(), "node-compile-cache");
   return path.join(
     baseDirectory,
-    "openclaw",
+    "brikko-studio",
     version,
     sanitizeCompileCachePathSegment(installMarker),
   );
@@ -88,7 +88,7 @@ const respawnWithoutCompileCacheIfNeeded = () => {
   if (!isSourceCheckoutLauncher()) {
     return false;
   }
-  if (process.env.OPENCLAW_SOURCE_COMPILE_CACHE_RESPAWNED === "1") {
+  if (process.env.BRIKKO_STUDIO_SOURCE_COMPILE_CACHE_RESPAWNED === "1") {
     return false;
   }
   if (!module.getCompileCacheDir?.() && !isNodeCompileCacheRequested()) {
@@ -97,7 +97,7 @@ const respawnWithoutCompileCacheIfNeeded = () => {
   const env = {
     ...process.env,
     NODE_DISABLE_COMPILE_CACHE: "1",
-    OPENCLAW_SOURCE_COMPILE_CACHE_RESPAWNED: "1",
+    BRIKKO_STUDIO_SOURCE_COMPILE_CACHE_RESPAWNED: "1",
   };
   delete env.NODE_COMPILE_CACHE;
   const result = spawnSync(
@@ -120,7 +120,7 @@ const respawnWithPackagedCompileCacheIfNeeded = () => {
   if (isSourceCheckoutLauncher() || isNodeCompileCacheDisabled()) {
     return false;
   }
-  if (process.env.OPENCLAW_PACKAGED_COMPILE_CACHE_RESPAWNED === "1") {
+  if (process.env.BRIKKO_STUDIO_PACKAGED_COMPILE_CACHE_RESPAWNED === "1") {
     return false;
   }
   const currentDirectory = module.getCompileCacheDir?.();
@@ -134,7 +134,7 @@ const respawnWithPackagedCompileCacheIfNeeded = () => {
   const env = {
     ...process.env,
     NODE_COMPILE_CACHE: desiredDirectory,
-    OPENCLAW_PACKAGED_COMPILE_CACHE_RESPAWNED: "1",
+    BRIKKO_STUDIO_PACKAGED_COMPILE_CACHE_RESPAWNED: "1",
   };
   const result = spawnSync(
     process.execPath,
@@ -223,7 +223,7 @@ const exists = async (specifier) => {
 };
 
 const buildMissingEntryErrorMessage = async () => {
-  const lines = ["openclaw: missing dist/entry.(m)js (build output)."];
+  const lines = ["brikko-studio: missing dist/entry.(m)js (build output)."];
   if (!(await exists("./src/entry.ts"))) {
     return lines.join("\n");
   }
@@ -233,9 +233,9 @@ const buildMissingEntryErrorMessage = async () => {
     "Build locally with `pnpm install && pnpm build`, or install a built package instead.",
   );
   lines.push(
-    "For pinned GitHub installs, use `npm install -g github:openclaw/openclaw#<ref>` instead of a raw `/archive/<ref>.tar.gz` URL.",
+    "For pinned GitHub installs, use `npm install -g github:brikko-studio/brikko-studio#<ref>` instead of a raw `/archive/<ref>.tar.gz` URL.",
   );
-  lines.push("For releases, use `npm install -g openclaw@latest`.");
+  lines.push("For releases, use `npm install -g brikko-studio@latest`.");
   return lines.join("\n");
 };
 
@@ -246,7 +246,7 @@ const isBrowserHelpInvocation = (argv) =>
   argv.length === 4 && argv[2] === "browser" && (argv[3] === "--help" || argv[3] === "-h");
 
 const isHelpFastPathDisabled = () =>
-  process.env.OPENCLAW_DISABLE_CLI_STARTUP_HELP_FAST_PATH === "1";
+  process.env.BRIKKO_STUDIO_DISABLE_CLI_STARTUP_HELP_FAST_PATH === "1";
 
 const loadPrecomputedHelpText = (key) => {
   try {

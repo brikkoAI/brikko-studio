@@ -133,11 +133,11 @@ describe("test-projects args", () => {
   });
 
   it("routes boundary targets to the boundary config", () => {
-    expect(buildVitestRunPlans(["src/infra/openclaw-root.test.ts"])).toEqual([
+    expect(buildVitestRunPlans(["src/infra/brikko-studio-root.test.ts"])).toEqual([
       {
         config: "test/vitest/vitest.boundary.config.ts",
         forwardedArgs: [],
-        includePatterns: ["src/infra/openclaw-root.test.ts"],
+        includePatterns: ["src/infra/brikko-studio-root.test.ts"],
         watchMode: false,
       },
     ]);
@@ -421,11 +421,11 @@ describe("test-projects args", () => {
   });
 
   it("routes infra targets to the infra config", () => {
-    expect(buildVitestRunPlans(["src/infra/openclaw-root.test.ts"])).toEqual([
+    expect(buildVitestRunPlans(["src/infra/brikko-studio-root.test.ts"])).toEqual([
       {
         config: "test/vitest/vitest.boundary.config.ts",
         forwardedArgs: [],
-        includePatterns: ["src/infra/openclaw-root.test.ts"],
+        includePatterns: ["src/infra/brikko-studio-root.test.ts"],
         watchMode: false,
       },
     ]);
@@ -465,27 +465,27 @@ describe("test-projects args", () => {
   it("caps project-level parallelism when the Vitest worker budget is conservative", () => {
     expect(
       resolveParallelFullSuiteConcurrency(58, {
-        OPENCLAW_VITEST_MAX_WORKERS: "1",
+        BRIKKO_STUDIO_VITEST_MAX_WORKERS: "1",
       }),
     ).toBe(1);
 
     expect(
       resolveParallelFullSuiteConcurrency(58, {
-        OPENCLAW_TEST_WORKERS: "1",
+        BRIKKO_STUDIO_TEST_WORKERS: "1",
       }),
     ).toBe(1);
   });
 
   it("keeps conservative core full-suite runs on aggregate shards", () => {
-    const originalVitestMaxWorkers = process.env.OPENCLAW_VITEST_MAX_WORKERS;
-    const originalTestWorkers = process.env.OPENCLAW_TEST_WORKERS;
-    const originalProjectParallel = process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
-    const originalLeafShards = process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
+    const originalVitestMaxWorkers = process.env.BRIKKO_STUDIO_VITEST_MAX_WORKERS;
+    const originalTestWorkers = process.env.BRIKKO_STUDIO_TEST_WORKERS;
+    const originalProjectParallel = process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
+    const originalLeafShards = process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
     try {
-      process.env.OPENCLAW_VITEST_MAX_WORKERS = "1";
-      delete process.env.OPENCLAW_TEST_WORKERS;
-      delete process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
-      delete process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
+      process.env.BRIKKO_STUDIO_VITEST_MAX_WORKERS = "1";
+      delete process.env.BRIKKO_STUDIO_TEST_WORKERS;
+      delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
+      delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
 
       const configs = buildFullSuiteVitestRunPlans([]).map((plan) => plan.config);
 
@@ -497,24 +497,24 @@ describe("test-projects args", () => {
       expect(configs).not.toContain("test/vitest/vitest.plugins.config.ts");
     } finally {
       if (originalVitestMaxWorkers === undefined) {
-        delete process.env.OPENCLAW_VITEST_MAX_WORKERS;
+        delete process.env.BRIKKO_STUDIO_VITEST_MAX_WORKERS;
       } else {
-        process.env.OPENCLAW_VITEST_MAX_WORKERS = originalVitestMaxWorkers;
+        process.env.BRIKKO_STUDIO_VITEST_MAX_WORKERS = originalVitestMaxWorkers;
       }
       if (originalTestWorkers === undefined) {
-        delete process.env.OPENCLAW_TEST_WORKERS;
+        delete process.env.BRIKKO_STUDIO_TEST_WORKERS;
       } else {
-        process.env.OPENCLAW_TEST_WORKERS = originalTestWorkers;
+        process.env.BRIKKO_STUDIO_TEST_WORKERS = originalTestWorkers;
       }
       if (originalProjectParallel === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_PARALLEL;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_PARALLEL = originalProjectParallel;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL = originalProjectParallel;
       }
       if (originalLeafShards === undefined) {
-        delete process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS;
+        delete process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS;
       } else {
-        process.env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS = originalLeafShards;
+        process.env.BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS = originalLeafShards;
       }
     }
   });
@@ -523,8 +523,8 @@ describe("test-projects args", () => {
     expect(
       resolveParallelFullSuiteConcurrency(58, {
         GITHUB_ACTIONS: "true",
-        OPENCLAW_TEST_PROJECTS_PARALLEL: "3",
-        OPENCLAW_VITEST_MAX_WORKERS: "1",
+        BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL: "3",
+        BRIKKO_STUDIO_VITEST_MAX_WORKERS: "1",
       }),
     ).toBe(3);
   });
@@ -534,7 +534,7 @@ describe("test-projects args", () => {
       resolveParallelFullSuiteConcurrency(
         58,
         {
-          OPENCLAW_TEST_PROJECTS_LEAF_SHARDS: "1",
+          BRIKKO_STUDIO_TEST_PROJECTS_LEAF_SHARDS: "1",
         },
         {
           cpuCount: 8,
@@ -565,10 +565,10 @@ describe("test-projects args", () => {
 
     expect(specs[0]?.env).toMatchObject({
       KEEP_ME: "1",
-      OPENCLAW_VITEST_FS_MODULE_CACHE_PATH:
+      BRIKKO_STUDIO_VITEST_FS_MODULE_CACHE_PATH:
         "/repo/node_modules/.experimental-vitest-cache/0-test-vitest-vitest.gateway.config.ts",
     });
-    expect(specs[1]?.env.OPENCLAW_VITEST_FS_MODULE_CACHE_PATH).toBe(
+    expect(specs[1]?.env.BRIKKO_STUDIO_VITEST_FS_MODULE_CACHE_PATH).toBe(
       "/repo/node_modules/.experimental-vitest-cache/1-test-vitest-vitest.gateway-server.config.ts",
     );
   });
@@ -585,7 +585,7 @@ describe("test-projects args", () => {
       applyParallelVitestCachePaths(specs, {
         cwd: "/repo",
         env: {
-          OPENCLAW_VITEST_FS_MODULE_CACHE_PATH: "/tmp/cache",
+          BRIKKO_STUDIO_VITEST_FS_MODULE_CACHE_PATH: "/tmp/cache",
         },
       }),
     ).toBe(specs);
@@ -932,7 +932,7 @@ describe("test-projects args", () => {
     expect(targetArgs).toEqual(["src/plugin-sdk/core.test.ts"]);
     expect(
       resolveChangedTargetArgs(["--changed=origin/main"], process.cwd(), () => changedPaths, {
-        env: { OPENCLAW_TEST_CHANGED_BROAD: "1" },
+        env: { BRIKKO_STUDIO_TEST_CHANGED_BROAD: "1" },
       }),
     ).toEqual(["src/plugin-sdk/core.test.ts", "extensions"]);
     expect(plans[0]).toEqual({
@@ -1005,12 +1005,12 @@ describe("test-projects args", () => {
     expect(spec?.includePatterns).toEqual([
       "extensions/discord/src/monitor/message-handler.preflight.test.ts",
     ]);
-    expect(spec?.includeFilePath).toContain("openclaw-vitest-include-");
-    expect(spec?.env.OPENCLAW_VITEST_INCLUDE_FILE).toBe(spec?.includeFilePath);
+    expect(spec?.includeFilePath).toContain("brikko-studio-vitest-include-");
+    expect(spec?.env.BRIKKO_STUDIO_VITEST_INCLUDE_FILE).toBe(spec?.includeFilePath);
   });
 
   it("skips channel contract configs with no matching external include patterns", () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-contract-include-"));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-contract-include-"));
     try {
       const includeFile = path.join(tempDir, "include.json");
       fs.writeFileSync(
@@ -1030,7 +1030,7 @@ describe("test-projects args", () => {
         ],
         {
           baseEnv: {
-            OPENCLAW_VITEST_INCLUDE_FILE: includeFile,
+            BRIKKO_STUDIO_VITEST_INCLUDE_FILE: includeFile,
           } as NodeJS.ProcessEnv,
         },
       );

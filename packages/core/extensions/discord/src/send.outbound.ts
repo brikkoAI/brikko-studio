@@ -1,12 +1,12 @@
 import { ChannelType } from "discord-api-types/v10";
-import { recordChannelActivity } from "openclaw/plugin-sdk/channel-activity-runtime";
-import type { MarkdownTableMode, OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { resolveMarkdownTableMode } from "openclaw/plugin-sdk/markdown-table-runtime";
-import type { OutboundMediaAccess, PollInput } from "openclaw/plugin-sdk/media-runtime";
-import { requireRuntimeConfig } from "openclaw/plugin-sdk/plugin-config-runtime";
-import { resolveChunkMode, type ChunkMode } from "openclaw/plugin-sdk/reply-chunking";
-import type { RetryConfig } from "openclaw/plugin-sdk/retry-runtime";
-import { convertMarkdownTables, normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { recordChannelActivity } from "brikko-studio/plugin-sdk/channel-activity-runtime";
+import type { MarkdownTableMode, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
+import type { OutboundMediaAccess, PollInput } from "brikko-studio/plugin-sdk/media-runtime";
+import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
+import { resolveChunkMode, type ChunkMode } from "brikko-studio/plugin-sdk/reply-chunking";
+import type { RetryConfig } from "brikko-studio/plugin-sdk/retry-runtime";
+import { convertMarkdownTables, normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveDiscordAccount } from "./accounts.js";
 import { createChannelMessage, createThread, type RequestClient } from "./internal/discord.js";
 import { rewriteDiscordKnownMentions } from "./mentions.js";
@@ -30,7 +30,7 @@ import {
 } from "./send.shared.js";
 import type { DiscordSendResult } from "./send.types.js";
 type DiscordSendOpts = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   token?: string;
   accountId?: string;
   mediaUrl?: string;

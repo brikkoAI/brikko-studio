@@ -51,7 +51,7 @@ vi.mock("../version.js", () => ({
 }));
 
 vi.mock("./channel-bridge.js", () => ({
-  OpenClawChannelBridge: class MockOpenClawChannelBridge {
+  Brikko StudioChannelBridge: class MockBrikko StudioChannelBridge {
     setServer(server: unknown) {
       bridgeState.setServer(server);
     }
@@ -89,7 +89,7 @@ async function waitForTransport(): Promise<{ onclose?: (() => void) | undefined 
   throw new Error("MCP stdio transport was not created");
 }
 
-describe("serveOpenClawChannelMcp shutdown", () => {
+describe("serveBrikko StudioChannelMcp shutdown", () => {
   const unhandledRejections: unknown[] = [];
   const onUnhandledRejection = (reason: unknown) => {
     unhandledRejections.push(reason);
@@ -109,9 +109,9 @@ describe("serveOpenClawChannelMcp shutdown", () => {
 
   it("does not leak unhandled rejections when shutdown close fails", async () => {
     process.on("unhandledRejection", onUnhandledRejection);
-    const { serveOpenClawChannelMcp } = await import("./channel-server.js");
+    const { serveBrikko StudioChannelMcp } = await import("./channel-server.js");
 
-    const servePromise = serveOpenClawChannelMcp({ verbose: false });
+    const servePromise = serveBrikko StudioChannelMcp({ verbose: false });
     const transport = await waitForTransport();
 
     transport.onclose?.();

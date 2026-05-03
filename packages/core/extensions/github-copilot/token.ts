@@ -3,4 +3,4 @@ export {
   deriveCopilotApiBaseUrlFromToken,
   resolveCopilotApiToken,
   type CachedCopilotToken,
-} from "openclaw/plugin-sdk/provider-auth";
+} from "brikko-studio/plugin-sdk/provider-auth";

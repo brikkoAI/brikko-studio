@@ -1,7 +1,7 @@
 import {
   defineBundledChannelEntry,
-  type OpenClawPluginApi,
-} from "openclaw/plugin-sdk/channel-entry-contract";
+  type Brikko StudioPluginApi,
+} from "brikko-studio/plugin-sdk/channel-entry-contract";
 import { registerMatrixCliMetadata } from "./cli-metadata.js";
 import { registerMatrixSubagentHooks } from "./subagent-hooks-api.js";
 
@@ -14,7 +14,7 @@ function loadMatrixHandlersRuntimeModule() {
   return matrixHandlersRuntimePromise;
 }
 
-export function registerMatrixFullRuntime(api: OpenClawPluginApi): void {
+export function registerMatrixFullRuntime(api: Brikko StudioPluginApi): void {
   api.registerGatewayMethod("matrix.verify.recoveryKey", async (ctx) => {
     const { handleVerifyRecoveryKey } = await loadMatrixHandlersRuntimeModule();
     await handleVerifyRecoveryKey(ctx);

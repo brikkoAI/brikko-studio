@@ -133,7 +133,7 @@ describe("buildEmbeddedPiSettingsSnapshot", () => {
 
 describe("createPreparedEmbeddedPiSettingsManager", () => {
   it("keeps trusted file-backed settings runtime-scoped after preparation", async () => {
-    const baseDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-pi-settings-"));
+    const baseDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-pi-settings-"));
     try {
       const cwd = path.join(baseDir, "workspace");
       const agentDir = path.join(baseDir, "agent");

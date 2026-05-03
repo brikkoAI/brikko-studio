@@ -8,12 +8,12 @@ const isGatewayArgvMock = vi.hoisted(() => vi.fn());
 const findGatewayPidsOnPortSyncMock = vi.hoisted(() => vi.fn());
 
 vi.mock("node:child_process", async () => {
-  const { mockNodeChildProcessSpawnSync } = await import("openclaw/plugin-sdk/test-node-mocks");
+  const { mockNodeChildProcessSpawnSync } = await import("brikko-studio/plugin-sdk/test-node-mocks");
   return mockNodeChildProcessSpawnSync(spawnSyncMock);
 });
 
 vi.mock("node:fs", async () => {
-  const { mockNodeBuiltinModule } = await import("openclaw/plugin-sdk/test-node-mocks");
+  const { mockNodeBuiltinModule } = await import("brikko-studio/plugin-sdk/test-node-mocks");
   return mockNodeBuiltinModule(
     () => vi.importActual<typeof import("node:fs")>("node:fs"),
     {
@@ -159,10 +159,10 @@ describe("gateway-processes", () => {
   it("dedupes and filters verified gateway listener pids on unix and windows", () => {
     setPlatform("linux");
     findGatewayPidsOnPortSyncMock.mockReturnValue([process.pid, 200, 200, 300, -1]);
-    readFileSyncMock.mockReturnValueOnce("openclaw-gateway\0gateway\0");
+    readFileSyncMock.mockReturnValueOnce("brikko-studio-gateway\0gateway\0");
     readFileSyncMock.mockReturnValueOnce("python\0-m\0http.server\0");
     parseProcCmdlineMock
-      .mockReturnValueOnce(["openclaw-gateway", "gateway"])
+      .mockReturnValueOnce(["brikko-studio-gateway", "gateway"])
       .mockReturnValueOnce(["python", "-m", "http.server"]);
     isGatewayArgvMock.mockReturnValueOnce(true).mockReturnValueOnce(false);
 

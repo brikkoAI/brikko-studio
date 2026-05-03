@@ -1,17 +1,17 @@
 import { rmSync } from "node:fs";
 import path from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { ReplyPayload } from "openclaw/plugin-sdk/reply-payload";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-payload";
 import {
   clearRuntimeConfigSnapshot,
   setRuntimeConfigSnapshot,
-} from "openclaw/plugin-sdk/runtime-config-snapshot";
+} from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import type {
   SpeechProviderPlugin,
   SpeechProviderPrepareSynthesisContext,
   SpeechSynthesisRequest,
   SpeechTelephonySynthesisRequest,
-} from "openclaw/plugin-sdk/speech-core";
+} from "brikko-studio/plugin-sdk/speech-core";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 type MockSpeechSynthesisResult = Awaited<ReturnType<SpeechProviderPlugin["synthesize"]>>;
@@ -59,7 +59,7 @@ vi.mock("./audio-transcode.js", () => ({
   transcodeAudioBuffer: transcodeAudioBufferMock,
 }));
 
-vi.mock("openclaw/plugin-sdk/channel-targets", () => ({
+vi.mock("brikko-studio/plugin-sdk/channel-targets", () => ({
   normalizeChannelId: (channel: string | undefined) => channel?.trim().toLowerCase() ?? null,
   resolveChannelTtsVoiceDelivery: (channel: string | undefined) => {
     const normalized = channel?.trim().toLowerCase();
@@ -147,7 +147,7 @@ function installSpeechProviders(providers: SpeechProviderPlugin[]): void {
   );
 }
 
-function createTtsConfig(prefsName: string): OpenClawConfig {
+function createTtsConfig(prefsName: string): Brikko StudioConfig {
   return {
     messages: {
       tts: {
@@ -215,7 +215,7 @@ describe("speech-core native voice-note routing", () => {
   it("marks Discord auto TTS replies as native voice messages", async () => {
     await expectTtsPayloadResult({
       channel: "discord",
-      prefsName: "openclaw-speech-core-tts-test",
+      prefsName: "brikko-studio-speech-core-tts-test",
       text: "This Discord reply should be delivered as a native voice note.",
       target: "voice-note",
       audioAsVoice: true,
@@ -225,7 +225,7 @@ describe("speech-core native voice-note routing", () => {
   it("keeps BlueBubbles synthesis on mp3 audio-file output but delivers it as a voice memo", async () => {
     await expectTtsPayloadResult({
       channel: "bluebubbles",
-      prefsName: "openclaw-speech-core-tts-bluebubbles-mp3-test",
+      prefsName: "brikko-studio-speech-core-tts-bluebubbles-mp3-test",
       text: "This BlueBubbles reply should be delivered as an iMessage voice memo.",
       target: "audio-file",
       audioAsVoice: true,
@@ -242,7 +242,7 @@ describe("speech-core native voice-note routing", () => {
   it("does not mark unsupported BlueBubbles audio-file output as a voice memo", async () => {
     await expectTtsPayloadResult({
       channel: "bluebubbles",
-      prefsName: "openclaw-speech-core-tts-bluebubbles-ogg-test",
+      prefsName: "brikko-studio-speech-core-tts-bluebubbles-ogg-test",
       text: "This BlueBubbles reply should stay a regular audio attachment.",
       target: "audio-file",
       audioAsVoice: undefined,
@@ -256,7 +256,7 @@ describe("speech-core native voice-note routing", () => {
     });
     await expectTtsPayloadResult({
       channel: "bluebubbles",
-      prefsName: "openclaw-speech-core-tts-bluebubbles-caf-transcode-test",
+      prefsName: "brikko-studio-speech-core-tts-bluebubbles-caf-transcode-test",
       text: "This BlueBubbles reply should be pre-transcoded to a native voice-memo CAF.",
       target: "audio-file",
       audioAsVoice: true,
@@ -286,7 +286,7 @@ describe("speech-core native voice-note routing", () => {
     // the failure is logged via the call site in tts.ts so it isn't silent.
     await expectTtsPayloadResult({
       channel: "bluebubbles",
-      prefsName: "openclaw-speech-core-tts-bluebubbles-caf-fallback-test",
+      prefsName: "brikko-studio-speech-core-tts-bluebubbles-caf-fallback-test",
       text: "This BlueBubbles reply should fall back to the original mp3.",
       target: "audio-file",
       audioAsVoice: true,
@@ -313,7 +313,7 @@ describe("speech-core native voice-note routing", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
     const runtimeConfig = {
       messages: {
         tts: {
@@ -326,7 +326,7 @@ describe("speech-core native voice-note routing", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
     installSpeechProviders([
       createMockSpeechProvider("mock", {
         isConfigured: ({ providerConfig }) => providerConfig.apiKey === "resolved-minimax-key",
@@ -363,7 +363,7 @@ describe("speech-core native voice-note routing", () => {
       expect(_test.supportsTranscodedVoiceNoteTts(channel)).toBe(true);
       await expectTtsPayloadResult({
         channel,
-        prefsName: `openclaw-speech-core-tts-${channel}-mp3-test`,
+        prefsName: `brikko-studio-speech-core-tts-${channel}-mp3-test`,
         text: `This ${channel} reply should be transcoded by the channel.`,
         target: "voice-note",
         audioAsVoice: true,
@@ -381,7 +381,7 @@ describe("speech-core native voice-note routing", () => {
   it("keeps non-native voice-note channels as regular audio files", async () => {
     await expectTtsPayloadResult({
       channel: "slack",
-      prefsName: "openclaw-speech-core-tts-slack-test",
+      prefsName: "brikko-studio-speech-core-tts-slack-test",
       text: "Slack replies should be delivered as regular audio attachments.",
       target: "audio-file",
       audioAsVoice: undefined,
@@ -389,7 +389,7 @@ describe("speech-core native voice-note routing", () => {
   });
 
   it("synthesizes explicitly tagged short hidden TTS text", async () => {
-    const cfg = createTtsConfig("openclaw-speech-core-short-hidden-tts-test");
+    const cfg = createTtsConfig("brikko-studio-speech-core-short-hidden-tts-test");
     let mediaDir: string | undefined;
     try {
       const result = await maybeApplyTtsToPayload({
@@ -415,7 +415,7 @@ describe("speech-core native voice-note routing", () => {
   });
 
   it("keeps skipping untagged short TTS text", async () => {
-    const cfg = createTtsConfig("openclaw-speech-core-short-plain-tts-test");
+    const cfg = createTtsConfig("brikko-studio-speech-core-short-plain-tts-test");
     const result = await maybeApplyTtsToPayload({
       payload: {
         text: "hello",
@@ -434,7 +434,7 @@ describe("speech-core native voice-note routing", () => {
   });
 
   it("keeps skipping explicit tagged TTS text that strips to empty markdown", async () => {
-    const cfg = createTtsConfig("openclaw-speech-core-empty-hidden-tts-test");
+    const cfg = createTtsConfig("brikko-studio-speech-core-empty-hidden-tts-test");
     const result = await maybeApplyTtsToPayload({
       payload: {
         text: "[[tts:text]]***[[/tts:text]]",
@@ -452,7 +452,7 @@ describe("speech-core native voice-note routing", () => {
   });
 
   it("selects persona preferred provider before config fallback", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       messages: {
         tts: {
           enabled: true,
@@ -473,19 +473,19 @@ describe("speech-core native voice-note routing", () => {
       },
     };
     const config = resolveTtsConfig(cfg);
-    const prefsPath = "/tmp/openclaw-speech-core-persona-provider.json";
+    const prefsPath = "/tmp/brikko-studio-speech-core-persona-provider.json";
 
     expect(getTtsPersona(config, prefsPath)?.id).toBe("alfred");
     expect(getTtsProvider(config, prefsPath)).toBe("mock");
   });
 
   it("merges active persona provider binding into synthesis config", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       messages: {
         tts: {
           enabled: true,
           provider: "mock",
-          prefsPath: "/tmp/openclaw-speech-core-persona-merge.json",
+          prefsPath: "/tmp/brikko-studio-speech-core-persona-merge.json",
           providers: {
             mock: {
               model: "base-model",
@@ -786,7 +786,7 @@ describe("speech-core per-agent TTS config", () => {
           },
         ],
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveTtsConfig(cfg, "reader");
 
@@ -851,7 +851,7 @@ describe("speech-core per-agent TTS config", () => {
           },
         ],
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     let mediaDir: string | undefined;
     try {
@@ -903,7 +903,7 @@ describe("speech-core per-agent TTS config", () => {
           },
         ],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const resolved = resolveTtsConfig(cfg, "reader");
 

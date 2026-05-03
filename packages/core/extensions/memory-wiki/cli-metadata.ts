@@ -1,9 +1,9 @@
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
+import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 
 export default definePluginEntry({
   id: "memory-wiki",
   name: "Memory Wiki",
-  description: "Persistent wiki compiler and Obsidian-friendly knowledge vault for OpenClaw.",
+  description: "Persistent wiki compiler and Obsidian-friendly knowledge vault for Brikko Studio.",
   register(api) {
     api.registerCli(
       async ({ program, config: appConfig }) => {

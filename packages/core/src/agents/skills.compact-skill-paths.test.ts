@@ -36,7 +36,7 @@ describe("compactSkillPaths", () => {
 
   it("replaces home directory prefix with ~ in skill locations", () => {
     const home = os.homedir();
-    const skillDir = path.join(home, ".openclaw-test-skills", "test-skill");
+    const skillDir = path.join(home, ".brikko-studio-test-skills", "test-skill");
 
     const prompt = buildPromptForFixtureSkill({
       workspaceRoot: home,
@@ -52,7 +52,7 @@ describe("compactSkillPaths", () => {
   });
 
   it("preserves paths outside home directory", () => {
-    const outsideHome = path.join(path.parse(os.homedir()).root, "openclaw-external-skills");
+    const outsideHome = path.join(path.parse(os.homedir()).root, "brikko-studio-external-skills");
     const skillDir = path.join(outsideHome, "skills", "ext-skill");
 
     const prompt = buildPromptForFixtureSkill({

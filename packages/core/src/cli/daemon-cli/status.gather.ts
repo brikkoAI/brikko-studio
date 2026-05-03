@@ -7,7 +7,7 @@ import {
   resolveStateDir,
 } from "../../config/config.js";
 import type {
-  OpenClawConfig,
+  Brikko StudioConfig,
   ConfigFileSnapshot,
   GatewayBindMode,
   GatewayControlUiConfig,
@@ -62,8 +62,8 @@ type PortStatusSummary = {
 
 type DaemonConfigContext = {
   mergedDaemonEnv: Record<string, string | undefined>;
-  cliCfg: OpenClawConfig;
-  daemonCfg: OpenClawConfig;
+  cliCfg: Brikko StudioConfig;
+  daemonCfg: Brikko StudioConfig;
   cliConfigSummary: ConfigSummary;
   daemonConfigSummary: ConfigSummary;
   configMismatch: boolean;
@@ -71,7 +71,7 @@ type DaemonConfigContext = {
 
 type StatusConfigRead = {
   summary: ConfigSummary;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   mode: "fast" | "full";
 };
 
@@ -117,18 +117,18 @@ function loadRestartHealthModule() {
   return restartHealthModuleLoader.load();
 }
 
-function resolveSnapshotRuntimeConfig(snapshot: ConfigFileSnapshot | null): OpenClawConfig | null {
+function resolveSnapshotRuntimeConfig(snapshot: ConfigFileSnapshot | null): Brikko StudioConfig | null {
   if (!snapshot?.valid || !snapshot.runtimeConfig) {
     return null;
   }
   return snapshot.runtimeConfig;
 }
 
-function coerceStatusConfig(value: unknown): OpenClawConfig {
+function coerceStatusConfig(value: unknown): Brikko StudioConfig {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return {};
   }
-  return value as OpenClawConfig;
+  return value as Brikko StudioConfig;
 }
 
 function hasOwnKey(value: unknown, key: string): boolean {
@@ -335,8 +335,8 @@ async function loadDaemonConfigContext(
 }
 
 async function resolveGatewayStatusSummary(params: {
-  daemonCfg: OpenClawConfig;
-  cliCfg: OpenClawConfig;
+  daemonCfg: Brikko StudioConfig;
+  cliCfg: Brikko StudioConfig;
   mergedDaemonEnv: Record<string, string | undefined>;
   commandProgramArguments?: string[];
   rpcUrlOverride?: string;

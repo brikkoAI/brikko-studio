@@ -1,7 +1,7 @@
-import { createSubsystemLogger } from "openclaw/plugin-sdk/logging-core";
-import type { ModelDefinitionConfig } from "openclaw/plugin-sdk/provider-model-shared";
-import { SELF_HOSTED_DEFAULT_COST } from "openclaw/plugin-sdk/provider-setup";
-import { fetchWithSsrFGuard, type SsrFPolicy } from "openclaw/plugin-sdk/ssrf-runtime";
+import { createSubsystemLogger } from "brikko-studio/plugin-sdk/logging-core";
+import type { ModelDefinitionConfig } from "brikko-studio/plugin-sdk/provider-model-shared";
+import { SELF_HOSTED_DEFAULT_COST } from "brikko-studio/plugin-sdk/provider-setup";
+import { fetchWithSsrFGuard, type SsrFPolicy } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import { LMSTUDIO_DEFAULT_LOAD_CONTEXT_LENGTH } from "./defaults.js";
 import {
   buildLmstudioModelName,
@@ -119,7 +119,7 @@ export async function fetchLmstudioModels(params: {
   }
 }
 
-/** Discovers LLM models from LM Studio and maps them to OpenClaw model definitions. */
+/** Discovers LLM models from LM Studio and maps them to Brikko Studio model definitions. */
 export async function discoverLmstudioModels(
   params: DiscoverLmstudioModelsParams,
 ): Promise<ModelDefinitionConfig[]> {

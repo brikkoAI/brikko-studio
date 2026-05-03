@@ -1,20 +1,20 @@
-export { formatAllowFromLowercase } from "openclaw/plugin-sdk/allow-from";
+export { formatAllowFromLowercase } from "brikko-studio/plugin-sdk/allow-from";
 export type {
   ChannelDirectoryEntry,
   ChannelGroupContext,
   ChannelMessageActionAdapter,
-} from "openclaw/plugin-sdk/channel-contract";
-export { buildChannelConfigSchema } from "openclaw/plugin-sdk/channel-config-schema";
-export type { ChannelPlugin } from "openclaw/plugin-sdk/core";
+} from "brikko-studio/plugin-sdk/channel-contract";
+export { buildChannelConfigSchema } from "brikko-studio/plugin-sdk/channel-config-schema";
+export type { ChannelPlugin } from "brikko-studio/plugin-sdk/core";
 export {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/core";
-export { isDangerousNameMatchingEnabled } from "openclaw/plugin-sdk/dangerous-name-runtime";
-export type { GroupToolPolicyConfig } from "openclaw/plugin-sdk/config-types";
-export { chunkTextForOutbound } from "openclaw/plugin-sdk/text-chunking";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/core";
+export { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
+export type { GroupToolPolicyConfig } from "brikko-studio/plugin-sdk/config-types";
+export { chunkTextForOutbound } from "brikko-studio/plugin-sdk/text-chunking";
 export {
   isNumericTargetId,
   sendPayloadWithChunkedTextAndMedia,
-} from "openclaw/plugin-sdk/reply-payload";
+} from "brikko-studio/plugin-sdk/reply-payload";

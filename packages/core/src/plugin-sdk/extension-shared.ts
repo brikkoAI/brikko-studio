@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { hasEnvHttpProxyConfigured } from "../infra/net/proxy-env.js";
 import { resolveDefaultSecretProviderAlias } from "../secrets/ref-contract.js";
 import { runPassiveAccountLifecycle } from "./channel-lifecycle.core.js";
@@ -194,7 +194,7 @@ export function mapPluginConfigIssues(
 }
 
 export function canResolveEnvSecretRefInReadOnlyPath(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   provider: string;
   id: string;
 }): boolean {

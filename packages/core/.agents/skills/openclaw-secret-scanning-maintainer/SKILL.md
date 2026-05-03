@@ -1,13 +1,13 @@
 ---
-name: openclaw-secret-scanning-maintainer
-description: Triage, redact, clean up, and resolve OpenClaw GitHub Secret Scanning alerts in issues or PRs.
+name: brikko-studio-secret-scanning-maintainer
+description: Triage, redact, clean up, and resolve Brikko Studio GitHub Secret Scanning alerts in issues or PRs.
 ---
 
-# OpenClaw Secret Scanning Maintainer
+# Brikko Studio Secret Scanning Maintainer
 
 **Maintainer-only.** This skill requires repo admin / maintainer permissions to edit or delete other users' comments and resolve secret scanning alerts.
 
-Use this skill when processing alerts from `https://github.com/openclaw/openclaw/security/secret-scanning`.
+Use this skill when processing alerts from `https://github.com/brikko-studio/brikko-studio/security/secret-scanning`.
 
 **Language rule:** All notification comments and replacement comments MUST be written in English.
 
@@ -16,7 +16,7 @@ Use this skill when processing alerts from `https://github.com/openclaw/openclaw
 All mechanical operations (API calls, temp file management, security enforcements) are handled by:
 
 ```
-$REPO_ROOT/.agents/skills/openclaw-secret-scanning-maintainer/scripts/secret-scanning.mjs
+$REPO_ROOT/.agents/skills/brikko-studio-secret-scanning-maintainer/scripts/secret-scanning.mjs
 ```
 
 The script enforces:
@@ -198,7 +198,7 @@ The JSON format:
     "number": 72,
     "secret_type": "Discord Bot Token",
     "location_label": "Issue #63101 comment",
-    "location_url": "https://github.com/openclaw/openclaw/issues/63101#issuecomment-xxx",
+    "location_url": "https://github.com/brikko-studio/brikko-studio/issues/63101#issuecomment-xxx",
     "actions": "Deleted+Recreated+Notified",
     "history_cleared": true
   }

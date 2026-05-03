@@ -9,7 +9,7 @@ import {
 
 async function withStateDirFixture(run: (root: string) => Promise<void>): Promise<void> {
   try {
-    await withTempDir({ prefix: "openclaw-state-dir-" }, async (root) => {
+    await withTempDir({ prefix: "brikko-studio-state-dir-" }, async (root) => {
       await run(root);
     });
   } finally {
@@ -45,13 +45,13 @@ describe("legacy state dir auto-migration", () => {
     });
   });
 
-  it("skips state-dir migration when OPENCLAW_STATE_DIR is explicitly set", async () => {
+  it("skips state-dir migration when BRIKKO_STUDIO_STATE_DIR is explicitly set", async () => {
     await withStateDirFixture(async (root) => {
       const legacyDir = path.join(root, ".clawdbot");
       fs.mkdirSync(legacyDir, { recursive: true });
 
       const result = await autoMigrateLegacyStateDir({
-        env: { OPENCLAW_STATE_DIR: path.join(root, "custom-state") } as NodeJS.ProcessEnv,
+        env: { BRIKKO_STUDIO_STATE_DIR: path.join(root, "custom-state") } as NodeJS.ProcessEnv,
         homedir: () => root,
       });
 

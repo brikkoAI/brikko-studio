@@ -1,18 +1,18 @@
 ---
-summary: "Redirect: flow commands live under `openclaw tasks flow`"
+summary: "Redirect: flow commands live under `brikko-studio tasks flow`"
 read_when:
-  - You encounter openclaw flows in older docs or release notes
+  - You encounter brikko-studio flows in older docs or release notes
 title: "Flows (redirect)"
 ---
 
-# `openclaw tasks flow`
+# `brikko-studio tasks flow`
 
-Flow commands are subcommands of `openclaw tasks`, not a standalone `flows` command.
+Flow commands are subcommands of `brikko-studio tasks`, not a standalone `flows` command.
 
 ```bash
-openclaw tasks flow list [--json]
-openclaw tasks flow show <lookup>
-openclaw tasks flow cancel <lookup>
+brikko-studio tasks flow list [--json]
+brikko-studio tasks flow show <lookup>
+brikko-studio tasks flow cancel <lookup>
 ```
 
 For full documentation see [Task Flow](/automation/taskflow) and the [tasks CLI reference](/cli/tasks).

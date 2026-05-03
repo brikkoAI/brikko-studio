@@ -163,7 +163,7 @@ describe("buildWorkspaceSkillStatus", () => {
   });
 
   it("classifies a mixed broken skill pack without flattening visibility reasons", () => {
-    const missingBin = "openclaw-test-definitely-missing-skill-bin";
+    const missingBin = "brikko-studio-test-definitely-missing-skill-bin";
     const report = buildWorkspaceSkillStatus("/tmp/ws", {
       agentId: "specialist",
       config: {
@@ -201,7 +201,7 @@ describe("buildWorkspaceSkillStatus", () => {
             install: [
               {
                 kind: "node",
-                package: "@openclaw/missing-skill-bin",
+                package: "@brikko-studio/missing-skill-bin",
                 bins: [missingBin],
               },
             ],
@@ -209,8 +209,8 @@ describe("buildWorkspaceSkillStatus", () => {
         }),
         createEntry("needs-env", {
           metadata: {
-            primaryEnv: "OPENCLAW_TEST_MISSING_SKILL_KEY",
-            requires: { env: ["OPENCLAW_TEST_MISSING_SKILL_KEY"] },
+            primaryEnv: "BRIKKO_STUDIO_TEST_MISSING_SKILL_KEY",
+            requires: { env: ["BRIKKO_STUDIO_TEST_MISSING_SKILL_KEY"] },
           },
         }),
         createEntry("prompt-hidden", {
@@ -227,7 +227,7 @@ describe("buildWorkspaceSkillStatus", () => {
         }),
         createEntry("agent-filtered"),
         createEntry("disabled"),
-        createEntry("bundled-blocked", { source: "openclaw-bundled" }),
+        createEntry("bundled-blocked", { source: "brikko-studio-bundled" }),
       ],
     });
 
@@ -254,15 +254,15 @@ describe("buildWorkspaceSkillStatus", () => {
       install: [
         {
           kind: "node",
-          label: "Install @openclaw/missing-skill-bin (pnpm)",
+          label: "Install @brikko-studio/missing-skill-bin (pnpm)",
           bins: [missingBin],
         },
       ],
     });
     expect(byName.get("needs-env")).toMatchObject({
       eligible: false,
-      primaryEnv: "OPENCLAW_TEST_MISSING_SKILL_KEY",
-      missing: { env: ["OPENCLAW_TEST_MISSING_SKILL_KEY"] },
+      primaryEnv: "BRIKKO_STUDIO_TEST_MISSING_SKILL_KEY",
+      missing: { env: ["BRIKKO_STUDIO_TEST_MISSING_SKILL_KEY"] },
     });
     expect(byName.get("prompt-hidden")).toMatchObject({
       eligible: true,

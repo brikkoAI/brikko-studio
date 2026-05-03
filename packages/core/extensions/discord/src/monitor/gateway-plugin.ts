@@ -1,13 +1,13 @@
 import { randomUUID } from "node:crypto";
 import * as httpsProxyAgent from "https-proxy-agent";
-import type { DiscordAccountConfig } from "openclaw/plugin-sdk/config-types";
+import type { DiscordAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   captureWsEvent,
   resolveEffectiveDebugProxyUrl,
   resolveDebugProxySettings,
-} from "openclaw/plugin-sdk/proxy-capture";
-import { danger } from "openclaw/plugin-sdk/runtime-env";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+} from "brikko-studio/plugin-sdk/proxy-capture";
+import { danger } from "brikko-studio/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import * as ws from "ws";
 import * as discordGateway from "../internal/gateway.js";
 import { validateDiscordProxyUrl } from "../proxy-fetch.js";
@@ -64,7 +64,7 @@ function hasGatewaySocketStarted(plugin: discordGateway.GatewayPlugin): boolean 
 }
 
 type ResolveDiscordGatewayIntentsParams = {
-  intentsConfig?: import("openclaw/plugin-sdk/config-types").DiscordIntentsConfig;
+  intentsConfig?: import("brikko-studio/plugin-sdk/config-types").DiscordIntentsConfig;
   voiceEnabled?: boolean;
 };
 
@@ -104,7 +104,7 @@ function createGatewayPlugin(params: {
   runtime?: RuntimeEnv;
   testing?: GatewayPluginTestingOptions;
 }): discordGateway.GatewayPlugin {
-  class OpenClawGatewayPlugin extends discordGateway.GatewayPlugin {
+  class Brikko StudioGatewayPlugin extends discordGateway.GatewayPlugin {
     private gatewayInfoUsedFallback = false;
 
     constructor() {
@@ -221,7 +221,7 @@ function createGatewayPlugin(params: {
     }
   }
 
-  return new OpenClawGatewayPlugin();
+  return new Brikko StudioGatewayPlugin();
 }
 
 function createDiscordGatewayMetadataFetch(debugCaptureEnabled: boolean): DiscordGatewayFetch {
@@ -282,7 +282,7 @@ export function createDiscordGatewayPlugin(params: {
     options: {
       reconnect: { maxAttempts: 50 },
       intents,
-      // OpenClaw registers its own async interaction listener.
+      // Brikko Studio registers its own async interaction listener.
       autoInteractions: false,
     },
     gatewayInfoTimeoutMs,

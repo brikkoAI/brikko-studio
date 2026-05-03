@@ -6,8 +6,8 @@ import {
 
 describe("runEmbeddedAttempt bootstrap routing", () => {
   it("resolves bootstrap pending from the canonical workspace instead of a copied sandbox", async () => {
-    const sandboxWorkspace = "/tmp/openclaw-sandbox-copy";
-    const canonicalWorkspace = "/tmp/openclaw-canonical-workspace";
+    const sandboxWorkspace = "/tmp/brikko-studio-sandbox-copy";
+    const canonicalWorkspace = "/tmp/brikko-studio-canonical-workspace";
     const isWorkspaceBootstrapPending = vi.fn(async (workspaceDir: string) => {
       return workspaceDir === sandboxWorkspace;
     });
@@ -35,8 +35,8 @@ describe("runEmbeddedAttempt bootstrap routing", () => {
       trigger: "user",
       isPrimaryRun: true,
       isCanonicalWorkspace: true,
-      effectiveWorkspace: "/tmp/openclaw-workspace",
-      resolvedWorkspace: "/tmp/openclaw-workspace",
+      effectiveWorkspace: "/tmp/brikko-studio-workspace",
+      resolvedWorkspace: "/tmp/brikko-studio-workspace",
       hasBootstrapFileAccess: false,
     });
 

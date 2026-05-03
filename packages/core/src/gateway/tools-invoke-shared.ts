@@ -5,7 +5,7 @@ import { isKnownCoreToolId } from "../agents/tool-catalog.js";
 import { applyOwnerOnlyToolPolicy } from "../agents/tool-policy.js";
 import { ToolInputError, type AnyAgentTool } from "../agents/tools/common.js";
 import { resolveMainSessionKey } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { logWarn } from "../logger.js";
 import { isTestDefaultMemorySlotDisabled } from "../plugins/config-state.js";
 import { defaultSlotIdForKey } from "../plugins/slots.js";
@@ -51,7 +51,7 @@ type ToolsInvokeOutcome =
       };
     };
 
-function resolveSessionKey(params: { cfg: OpenClawConfig; input: ToolsInvokeInput }): string {
+function resolveSessionKey(params: { cfg: Brikko StudioConfig; input: ToolsInvokeInput }): string {
   const rawSessionKey = normalizeOptionalString(params.input.sessionKey);
   if (rawSessionKey && rawSessionKey !== "main") {
     return rawSessionKey;
@@ -63,7 +63,7 @@ function resolveSessionKey(params: { cfg: OpenClawConfig; input: ToolsInvokeInpu
   return resolveMainSessionKey(params.cfg);
 }
 
-function resolveMemoryToolDisableReasons(cfg: OpenClawConfig): string[] {
+function resolveMemoryToolDisableReasons(cfg: Brikko StudioConfig): string[] {
   if (!process.env.VITEST) {
     return [];
   }
@@ -145,7 +145,7 @@ function resolveToolSource(tool: AnyAgentTool): "core" | "plugin" | "channel" {
 }
 
 export async function invokeGatewayTool(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   input: ToolsInvokeInput;
   senderIsOwner: boolean;
   messageChannel?: string;

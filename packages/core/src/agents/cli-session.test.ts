@@ -12,7 +12,7 @@ import {
 describe("cli-session helpers", () => {
   it("persists binding metadata alongside legacy session ids", () => {
     const entry: SessionEntry = {
-      sessionId: "openclaw-session",
+      sessionId: "brikko-studio-session",
       updatedAt: Date.now(),
     };
 
@@ -68,7 +68,7 @@ describe("cli-session helpers", () => {
 
   it("keeps legacy bindings reusable until richer metadata is persisted", () => {
     const entry: SessionEntry = {
-      sessionId: "openclaw-session",
+      sessionId: "brikko-studio-session",
       updatedAt: Date.now(),
       cliSessionIds: { "claude-cli": "legacy-session" },
       claudeCliSessionId: "legacy-session",
@@ -84,7 +84,7 @@ describe("cli-session helpers", () => {
 
   it("invalidates legacy bindings when auth, prompt, or MCP state changes", () => {
     const entry: SessionEntry = {
-      sessionId: "openclaw-session",
+      sessionId: "brikko-studio-session",
       updatedAt: Date.now(),
       cliSessionIds: { "claude-cli": "legacy-session" },
       claudeCliSessionId: "legacy-session",
@@ -329,7 +329,7 @@ describe("cli-session helpers", () => {
 
   it("clears provider-scoped and global CLI session state", () => {
     const entry: SessionEntry = {
-      sessionId: "openclaw-session",
+      sessionId: "brikko-studio-session",
       updatedAt: Date.now(),
     };
     setCliSessionBinding(entry, "claude-cli", { sessionId: "claude-session" });

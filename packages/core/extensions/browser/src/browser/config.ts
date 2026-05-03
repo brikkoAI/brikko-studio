@@ -3,11 +3,11 @@ import path from "node:path";
 import {
   normalizeOptionalString,
   normalizeOptionalTrimmedStringList,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import {
   type BrowserConfig,
   type BrowserProfileConfig,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
 } from "../config/config.js";
 import { resolveGatewayPort } from "../config/paths.js";
 import {
@@ -29,9 +29,9 @@ import {
   DEFAULT_BROWSER_TAB_CLEANUP_IDLE_MINUTES,
   DEFAULT_BROWSER_TAB_CLEANUP_MAX_TABS_PER_SESSION,
   DEFAULT_BROWSER_TAB_CLEANUP_SWEEP_MINUTES,
-  DEFAULT_OPENCLAW_BROWSER_COLOR,
-  DEFAULT_OPENCLAW_BROWSER_ENABLED,
-  DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME,
+  DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR,
+  DEFAULT_BRIKKO_STUDIO_BROWSER_ENABLED,
+  DEFAULT_BRIKKO_STUDIO_BROWSER_PROFILE_NAME,
 } from "./constants.js";
 import { DEFAULT_UPLOAD_DIR } from "./paths.js";
 
@@ -40,9 +40,9 @@ export {
   DEFAULT_BROWSER_ACTION_TIMEOUT_MS,
   DEFAULT_BROWSER_DEFAULT_PROFILE_NAME,
   DEFAULT_BROWSER_EVALUATE_ENABLED,
-  DEFAULT_OPENCLAW_BROWSER_COLOR,
-  DEFAULT_OPENCLAW_BROWSER_ENABLED,
-  DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME,
+  DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR,
+  DEFAULT_BRIKKO_STUDIO_BROWSER_ENABLED,
+  DEFAULT_BRIKKO_STUDIO_BROWSER_PROFILE_NAME,
   DEFAULT_UPLOAD_DIR,
   parseBrowserHttpUrl,
   redactCdpUrl,
@@ -101,7 +101,7 @@ export type ResolvedBrowserProfile = {
   mcpCommand?: string;
   mcpArgs?: string[];
   color: string;
-  driver: "openclaw" | "existing-session";
+  driver: "brikko-studio" | "existing-session";
   executablePath?: string;
   headless: boolean;
   headlessSource?: "profile" | "config" | "default";
@@ -110,7 +110,7 @@ export type ResolvedBrowserProfile = {
 
 const DEFAULT_BROWSER_CDP_PORT_RANGE_START = 18800;
 const MAX_BROWSER_STARTUP_TIMEOUT_MS = 120_000;
-export const OPENCLAW_BROWSER_HEADLESS_ENV = "OPENCLAW_BROWSER_HEADLESS";
+export const BRIKKO_STUDIO_BROWSER_HEADLESS_ENV = "BRIKKO_STUDIO_BROWSER_HEADLESS";
 
 export type ManagedBrowserHeadlessSource =
   | "request"
@@ -134,11 +134,11 @@ export type ManagedBrowserHeadlessOptions = {
 function normalizeHexColor(raw: string | undefined): string {
   const value = (raw ?? "").trim();
   if (!value) {
-    return DEFAULT_OPENCLAW_BROWSER_COLOR;
+    return DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR;
   }
   const normalized = value.startsWith("#") ? value : `#${value}`;
   if (!/^#[0-9a-fA-F]{6}$/.test(normalized)) {
-    return DEFAULT_OPENCLAW_BROWSER_COLOR;
+    return DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR;
   }
   return normalized.toUpperCase();
 }
@@ -213,7 +213,7 @@ function hasLinuxDisplay(env: NodeJS.ProcessEnv): boolean {
 }
 
 function isLocalManagedProfile(profile: ResolvedBrowserProfile): boolean {
-  return profile.driver === "openclaw" && profile.cdpIsLoopback && !profile.attachOnly;
+  return profile.driver === "brikko-studio" && profile.cdpIsLoopback && !profile.attachOnly;
 }
 
 function resolveBrowserTabCleanupConfig(
@@ -301,8 +301,8 @@ function ensureDefaultProfile(
   legacyCdpUrl?: string,
 ): Record<string, BrowserProfileConfig> {
   const result = { ...profiles };
-  if (!result[DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME]) {
-    result[DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME] = {
+  if (!result[DEFAULT_BRIKKO_STUDIO_BROWSER_PROFILE_NAME]) {
+    result[DEFAULT_BRIKKO_STUDIO_BROWSER_PROFILE_NAME] = {
       cdpPort: legacyCdpPort ?? derivedDefaultCdpPort ?? DEFAULT_BROWSER_CDP_PORT_RANGE_START,
       color: defaultColor,
       ...(legacyCdpUrl ? { cdpUrl: legacyCdpUrl } : {}),
@@ -328,9 +328,9 @@ function ensureDefaultUserBrowserProfile(
 
 export function resolveBrowserConfig(
   cfg: BrowserConfig | undefined,
-  rootConfig?: OpenClawConfig,
+  rootConfig?: Brikko StudioConfig,
 ): ResolvedBrowserConfig {
-  const enabled = cfg?.enabled ?? DEFAULT_OPENCLAW_BROWSER_ENABLED;
+  const enabled = cfg?.enabled ?? DEFAULT_BRIKKO_STUDIO_BROWSER_ENABLED;
   const evaluateEnabled = cfg?.evaluateEnabled ?? DEFAULT_BROWSER_EVALUATE_ENABLED;
   const gatewayPort = resolveGatewayPort(rootConfig);
   const controlPort = deriveDefaultBrowserControlPort(gatewayPort ?? DEFAULT_BROWSER_CONTROL_PORT);
@@ -412,8 +412,8 @@ export function resolveBrowserConfig(
     defaultProfileFromConfig ??
     (profiles[DEFAULT_BROWSER_DEFAULT_PROFILE_NAME]
       ? DEFAULT_BROWSER_DEFAULT_PROFILE_NAME
-      : profiles[DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME]
-        ? DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME
+      : profiles[DEFAULT_BRIKKO_STUDIO_BROWSER_PROFILE_NAME]
+        ? DEFAULT_BRIKKO_STUDIO_BROWSER_PROFILE_NAME
         : "user");
 
   const extraArgs = Array.isArray(cfg?.extraArgs)
@@ -463,7 +463,7 @@ export function resolveProfile(
   let cdpHost = resolved.cdpHost;
   let cdpPort = profile.cdpPort ?? 0;
   let cdpUrl = "";
-  const driver = profile.driver === "existing-session" ? "existing-session" : "openclaw";
+  const driver = profile.driver === "existing-session" ? "existing-session" : "brikko-studio";
   const headless = profile.headless ?? resolved.headless;
   const headlessSource =
     typeof profile.headless === "boolean" ? "profile" : resolved.headlessSource;
@@ -540,7 +540,7 @@ export function resolveManagedBrowserHeadlessMode(
 
   const env = params.env ?? process.env;
   const platform = params.platform ?? process.platform;
-  const envHeadless = parseBooleanValue(env[OPENCLAW_BROWSER_HEADLESS_ENV]);
+  const envHeadless = parseBooleanValue(env[BRIKKO_STUDIO_BROWSER_HEADLESS_ENV]);
   if (envHeadless !== undefined) {
     return { headless: envHeadless, source: "env" };
   }
@@ -580,14 +580,14 @@ export function getManagedBrowserMissingDisplayError(
     mode.source === "request"
       ? "request override"
       : mode.source === "env"
-        ? `${OPENCLAW_BROWSER_HEADLESS_ENV}=0`
+        ? `${BRIKKO_STUDIO_BROWSER_HEADLESS_ENV}=0`
         : mode.source === "profile"
           ? `browser.profiles.${profile.name}.headless=false`
           : "browser.headless=false";
   return (
     `Headed browser start requested for profile "${profile.name}" via ${sourceHint}, ` +
     "but no Linux display server was detected ($DISPLAY/$WAYLAND_DISPLAY unset). " +
-    `Set ${OPENCLAW_BROWSER_HEADLESS_ENV}=1, remove the headed override, or launch under Xvfb.`
+    `Set ${BRIKKO_STUDIO_BROWSER_HEADLESS_ENV}=1, remove the headed override, or launch under Xvfb.`
   );
 }
 

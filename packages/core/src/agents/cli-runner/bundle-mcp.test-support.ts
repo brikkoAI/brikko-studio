@@ -1,5 +1,5 @@
 import { afterAll, beforeAll } from "vitest";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import {
   createBundleMcpTempHarness,
   createBundleProbePlugin,
@@ -28,11 +28,11 @@ export const cliBundleMcpHarness = {
 
 export function setupCliBundleMcpTestHarness(): void {
   beforeAll(async () => {
-    envSnapshot = captureEnv(["OPENCLAW_BUNDLED_PLUGINS_DIR"]);
-    bundleProbeHomeDir = await tempHarness.createTempDir("openclaw-cli-bundle-mcp-home-");
-    bundleProbeWorkspaceDir = await tempHarness.createTempDir("openclaw-cli-bundle-mcp-workspace-");
-    const emptyBundledDir = await tempHarness.createTempDir("openclaw-cli-bundle-mcp-bundled-");
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = emptyBundledDir;
+    envSnapshot = captureEnv(["BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR"]);
+    bundleProbeHomeDir = await tempHarness.createTempDir("brikko-studio-cli-bundle-mcp-home-");
+    bundleProbeWorkspaceDir = await tempHarness.createTempDir("brikko-studio-cli-bundle-mcp-workspace-");
+    const emptyBundledDir = await tempHarness.createTempDir("brikko-studio-cli-bundle-mcp-bundled-");
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = emptyBundledDir;
     ({ serverPath: bundleProbeServerPath } = await createBundleProbePlugin(bundleProbeHomeDir));
   });
 
@@ -42,7 +42,7 @@ export function setupCliBundleMcpTestHarness(): void {
   });
 }
 
-function createEnabledBundleProbeConfig(): OpenClawConfig {
+function createEnabledBundleProbeConfig(): Brikko StudioConfig {
   return {
     plugins: {
       entries: {

@@ -1,6 +1,6 @@
 import os from "node:os";
 import path from "node:path";
-import type { OpenClawConfig, MemorySearchConfig } from "../config/config.js";
+import type { Brikko StudioConfig, MemorySearchConfig } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
 import type { SecretInput } from "../config/types.secrets.js";
 import {
@@ -150,7 +150,7 @@ function resolveStorePath(agentId: string, raw?: string): string {
 
 function getConfiguredMemoryEmbeddingProvider(
   providerId: string,
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
 ): ReturnType<typeof getMemoryEmbeddingProvider> {
   const directAdapter = getMemoryEmbeddingProvider(providerId);
   if (directAdapter) {
@@ -170,7 +170,7 @@ function getConfiguredMemoryEmbeddingProvider(
 }
 
 function mergeConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   defaults: MemorySearchConfig | undefined,
   overrides: MemorySearchConfig | undefined,
   agentId: string,
@@ -423,7 +423,7 @@ function resolveSyncConfig(
 }
 
 export function resolveMemorySearchConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
 ): ResolvedMemorySearchConfig | null {
   const defaults = cfg.agents?.defaults?.memorySearch;
@@ -457,7 +457,7 @@ export function resolveMemorySearchConfig(
 }
 
 export function resolveMemorySearchSyncConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
 ): ResolvedMemorySearchSyncConfig | null {
   const defaults = cfg.agents?.defaults?.memorySearch;

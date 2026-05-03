@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import {
   consultRealtimeVoiceAgent,
   REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME,
@@ -7,7 +7,7 @@ import {
   resolveRealtimeVoiceAgentConsultToolsAllow,
   type RealtimeVoiceAgentConsultTranscriptEntry,
   type ResolvedRealtimeVoiceProvider,
-} from "openclaw/plugin-sdk/realtime-voice";
+} from "brikko-studio/plugin-sdk/realtime-voice";
 import type { VoiceCallConfig } from "./config.js";
 import {
   resolveVoiceCallEffectiveConfig,
@@ -254,7 +254,7 @@ async function resolveProvider(config: VoiceCallConfig): Promise<VoiceCallProvid
 
 async function resolveRealtimeProvider(params: {
   config: VoiceCallConfig;
-  fullConfig: OpenClawConfig;
+  fullConfig: Brikko StudioConfig;
 }): Promise<ResolvedRealtimeProvider> {
   const { resolveConfiguredRealtimeVoiceProvider } = await loadRealtimeVoiceRuntime();
   return resolveConfiguredRealtimeVoiceProvider({
@@ -267,7 +267,7 @@ async function resolveRealtimeProvider(params: {
 export async function createVoiceCallRuntime(params: {
   config: VoiceCallConfig;
   coreConfig: CoreConfig;
-  fullConfig?: OpenClawConfig;
+  fullConfig?: Brikko StudioConfig;
   agentRuntime: CoreAgentDeps;
   ttsRuntime?: TelephonyTtsRuntime;
   logger?: Logger;
@@ -281,7 +281,7 @@ export async function createVoiceCallRuntime(params: {
   };
 
   const config = resolveVoiceCallConfig(rawConfig);
-  const cfg = fullConfig ?? (coreConfig as OpenClawConfig);
+  const cfg = fullConfig ?? (coreConfig as Brikko StudioConfig);
 
   if (!config.enabled) {
     throw new Error("Voice call disabled. Enable the plugin entry in config.");
@@ -311,7 +311,7 @@ export async function createVoiceCallRuntime(params: {
     manager,
     provider,
     coreConfig,
-    fullConfig ?? (coreConfig as OpenClawConfig),
+    fullConfig ?? (coreConfig as Brikko StudioConfig),
     agentRuntime,
     log,
   );

@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   applyXaiModelCompat,
   findUnsupportedSchemaKeywords,
@@ -11,9 +11,9 @@ import {
 } from "../plugin-sdk/provider-tools.js";
 import "./test-helpers/fast-bash-tools.js";
 import "./test-helpers/fast-coding-tools.js";
-import "./test-helpers/fast-openclaw-tools.js";
-import { createOpenClawTools } from "./openclaw-tools.js";
-import { createOpenClawCodingTools } from "./pi-tools.js";
+import "./test-helpers/fast-brikko-studio-tools.js";
+import { createBrikko StudioTools } from "./brikko-studio-tools.js";
+import { createBrikko StudioCodingTools } from "./pi-tools.js";
 import { createHostSandboxFsBridge } from "./test-helpers/host-sandbox-fs-bridge.js";
 import { expectReadWriteEditTools } from "./test-helpers/pi-tools-fs-helpers.js";
 import { createPiToolsSandboxContext } from "./test-helpers/pi-tools-sandbox-context.js";
@@ -62,7 +62,7 @@ async function writeSessionStore(
 }
 
 function createToolsForStoredSession(storeTemplate: string, sessionKey: string) {
-  return createOpenClawCodingTools({
+  return createBrikko StudioCodingTools({
     sessionKey,
     config: {
       session: {
@@ -79,7 +79,7 @@ function createToolsForStoredSession(storeTemplate: string, sessionKey: string) 
   });
 }
 
-function expectNoSubagentControlTools(tools: ReturnType<typeof createOpenClawCodingTools>) {
+function expectNoSubagentControlTools(tools: ReturnType<typeof createBrikko StudioCodingTools>) {
   const names = new Set(tools.map((tool) => tool.name));
   expect(names.has("sessions_spawn")).toBe(false);
   expect(names.has("sessions_list")).toBe(false);
@@ -92,11 +92,11 @@ function applyRuntimeToolsAllow<T extends { name: string }>(tools: T[], toolsAll
   return tools.filter((tool) => allowSet.has(normalizeToolName(tool.name)));
 }
 
-describe("createOpenClawCodingTools", () => {
-  const testConfig: OpenClawConfig = {};
+describe("createBrikko StudioCodingTools", () => {
+  const testConfig: Brikko StudioConfig = {};
 
   it("exposes gateway config and restart actions to owner sessions", () => {
-    const tools = createOpenClawCodingTools({ config: testConfig, senderIsOwner: true });
+    const tools = createBrikko StudioCodingTools({ config: testConfig, senderIsOwner: true });
     const gateway = tools.find((tool) => tool.name === "gateway");
     expect(gateway).toBeDefined();
 
@@ -115,7 +115,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("exposes only an explicitly authorized owner-only tool to non-owner sessions", () => {
-    const tools = createOpenClawCodingTools({
+    const tools = createBrikko StudioCodingTools({
       config: testConfig,
       senderIsOwner: false,
       ownerOnlyToolAllowlist: ["cron"],
@@ -129,7 +129,7 @@ describe("createOpenClawCodingTools", () => {
 
   it("resolves isolated cron runtime toolsAllow after the cron owner-only grant", () => {
     const withoutGrant = applyRuntimeToolsAllow(
-      createOpenClawCodingTools({
+      createBrikko StudioCodingTools({
         config: testConfig,
         senderIsOwner: false,
       }),
@@ -146,7 +146,7 @@ describe("createOpenClawCodingTools", () => {
     );
 
     const withGrant = applyRuntimeToolsAllow(
-      createOpenClawCodingTools({
+      createBrikko StudioCodingTools({
         config: testConfig,
         senderIsOwner: false,
         ownerOnlyToolAllowlist: ["cron"],
@@ -165,30 +165,30 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("uses runtime toolsAllow when materializing plugin tools", () => {
-    const createOpenClawToolsMock = vi.mocked(createOpenClawTools);
-    createOpenClawToolsMock.mockClear();
+    const createBrikko StudioToolsMock = vi.mocked(createBrikko StudioTools);
+    createBrikko StudioToolsMock.mockClear();
 
-    createOpenClawCodingTools({
+    createBrikko StudioCodingTools({
       config: testConfig,
       runtimeToolAllowlist: ["memory_search", "memory_get"],
     });
 
-    expect(createOpenClawToolsMock).toHaveBeenCalledWith(
+    expect(createBrikko StudioToolsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         pluginToolAllowlist: expect.arrayContaining(["memory_search", "memory_get"]),
       }),
     );
   });
 
-  it("passes explicit denylist entries to OpenClaw tool factory planning", () => {
-    const createOpenClawToolsMock = vi.mocked(createOpenClawTools);
-    createOpenClawToolsMock.mockClear();
+  it("passes explicit denylist entries to Brikko Studio tool factory planning", () => {
+    const createBrikko StudioToolsMock = vi.mocked(createBrikko StudioTools);
+    createBrikko StudioToolsMock.mockClear();
 
-    createOpenClawCodingTools({
+    createBrikko StudioCodingTools({
       config: { tools: { deny: ["pdf"] } },
     });
 
-    expect(createOpenClawToolsMock).toHaveBeenCalledWith(
+    expect(createBrikko StudioToolsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         pluginToolDenylist: expect.arrayContaining(["pdf"]),
       }),
@@ -198,7 +198,7 @@ describe("createOpenClawCodingTools", () => {
   it("records core tool-prep stages for hot-path diagnostics", () => {
     const stages: string[] = [];
 
-    createOpenClawCodingTools({
+    createBrikko StudioCodingTools({
       config: testConfig,
       recordToolPrepStage: (name) => stages.push(name),
       senderIsOwner: true,
@@ -210,8 +210,8 @@ describe("createOpenClawCodingTools", () => {
         "workspace-policy",
         "base-coding-tools",
         "shell-tools",
-        "openclaw-tools:test-helper",
-        "openclaw-tools",
+        "brikko-studio-tools:test-helper",
+        "brikko-studio-tools",
         "message-provider-policy",
         "model-provider-policy",
         "authorization-policy",
@@ -223,14 +223,14 @@ describe("createOpenClawCodingTools", () => {
     );
     expect(stages.indexOf("tool-policy")).toBeLessThan(stages.indexOf("workspace-policy"));
     expect(stages.indexOf("workspace-policy")).toBeLessThan(stages.indexOf("base-coding-tools"));
-    expect(stages.indexOf("openclaw-tools:test-helper")).toBeLessThan(
-      stages.indexOf("openclaw-tools"),
+    expect(stages.indexOf("brikko-studio-tools:test-helper")).toBeLessThan(
+      stages.indexOf("brikko-studio-tools"),
     );
     expect(stages.indexOf("schema-normalization")).toBeLessThan(stages.indexOf("tool-hooks"));
   });
 
   it("preserves action enums in normalized schemas", () => {
-    const defaultTools = createOpenClawCodingTools({ config: testConfig, senderIsOwner: true });
+    const defaultTools = createBrikko StudioCodingTools({ config: testConfig, senderIsOwner: true });
     const toolNames = ["canvas", "nodes", "cron", "gateway", "message"];
     const missingNames = toolNames.filter(
       (name) => !defaultTools.some((candidate) => candidate.name === name),
@@ -254,68 +254,68 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("enforces apply_patch availability and canonical names across model/provider constraints", () => {
-    const defaultTools = createOpenClawCodingTools({ config: testConfig, senderIsOwner: true });
+    const defaultTools = createBrikko StudioCodingTools({ config: testConfig, senderIsOwner: true });
     expect(defaultTools.some((tool) => tool.name === "exec")).toBe(true);
     expect(defaultTools.some((tool) => tool.name === "process")).toBe(true);
     expect(defaultTools.some((tool) => tool.name === "apply_patch")).toBe(false);
 
-    const openAiTools = createOpenClawCodingTools({
+    const openAiTools = createBrikko StudioCodingTools({
       config: testConfig,
       modelProvider: "openai",
       modelId: "gpt-5.4",
     });
     expect(openAiTools.some((tool) => tool.name === "apply_patch")).toBe(true);
 
-    const codexTools = createOpenClawCodingTools({
+    const codexTools = createBrikko StudioCodingTools({
       config: testConfig,
       modelProvider: "openai-codex",
       modelId: "gpt-5.4",
     });
     expect(codexTools.some((tool) => tool.name === "apply_patch")).toBe(true);
 
-    const disabledConfig: OpenClawConfig = {
+    const disabledConfig: Brikko StudioConfig = {
       tools: {
         exec: {
           applyPatch: { enabled: false },
         },
       },
     };
-    const disabledOpenAiTools = createOpenClawCodingTools({
+    const disabledOpenAiTools = createBrikko StudioCodingTools({
       config: disabledConfig,
       modelProvider: "openai",
       modelId: "gpt-5.4",
     });
     expect(disabledOpenAiTools.some((tool) => tool.name === "apply_patch")).toBe(false);
 
-    const anthropicTools = createOpenClawCodingTools({
+    const anthropicTools = createBrikko StudioCodingTools({
       config: disabledConfig,
       modelProvider: "anthropic",
       modelId: "claude-opus-4-6",
     });
     expect(anthropicTools.some((tool) => tool.name === "apply_patch")).toBe(false);
 
-    const allowModelsConfig: OpenClawConfig = {
+    const allowModelsConfig: Brikko StudioConfig = {
       tools: {
         exec: {
           applyPatch: { allowModels: ["gpt-5.4"] },
         },
       },
     };
-    const allowed = createOpenClawCodingTools({
+    const allowed = createBrikko StudioCodingTools({
       config: allowModelsConfig,
       modelProvider: "openai",
       modelId: "gpt-5.4",
     });
     expect(allowed.some((tool) => tool.name === "apply_patch")).toBe(true);
 
-    const denied = createOpenClawCodingTools({
+    const denied = createBrikko StudioCodingTools({
       config: allowModelsConfig,
       modelProvider: "openai",
       modelId: "gpt-5.4-mini",
     });
     expect(denied.some((tool) => tool.name === "apply_patch")).toBe(false);
 
-    const oauthTools = createOpenClawCodingTools({
+    const oauthTools = createBrikko StudioCodingTools({
       config: testConfig,
       modelProvider: "anthropic",
       modelAuthMode: "oauth",
@@ -329,7 +329,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("provides top-level object schemas for all tools", () => {
-    const tools = createOpenClawCodingTools({ config: testConfig });
+    const tools = createBrikko StudioCodingTools({ config: testConfig });
     const offenders = tools
       .map((tool) => {
         const schema =
@@ -348,7 +348,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("does not expose provider-specific message tools", () => {
-    const tools = createOpenClawCodingTools({ messageProvider: "discord" });
+    const tools = createBrikko StudioCodingTools({ messageProvider: "discord" });
     const names = new Set(tools.map((tool) => tool.name));
     expect(names.has("discord")).toBe(false);
     expect(names.has("slack")).toBe(false);
@@ -357,7 +357,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("filters session tools for sub-agent sessions by default", () => {
-    const tools = createOpenClawCodingTools({
+    const tools = createBrikko StudioCodingTools({
       sessionKey: "agent:main:subagent:test",
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -374,7 +374,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("uses stored spawnDepth to apply leaf tool policy for flat depth-2 session keys", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-depth-policy-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-depth-policy-"));
     try {
       const storeTemplate = path.join(tmpDir, "sessions-{agentId}.json");
       await writeSessionStore(storeTemplate, "main", {
@@ -393,7 +393,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("applies subagent tool policy to ACP children spawned under a subagent envelope", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-acp-subagent-policy-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-acp-subagent-policy-"));
     try {
       const storeTemplate = path.join(tmpDir, "sessions-{agentId}.json");
       await writeSessionStore(storeTemplate, "main", {
@@ -443,7 +443,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("applies leaf tool policy for cross-agent subagent sessions when spawnDepth is missing", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-cross-agent-subagent-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-cross-agent-subagent-"));
     try {
       const storeTemplate = path.join(tmpDir, "sessions-{agentId}.json");
       await writeSessionStore(storeTemplate, "main", {
@@ -469,7 +469,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("supports allow-only sub-agent tool policy", () => {
-    const tools = createOpenClawCodingTools({
+    const tools = createBrikko StudioCodingTools({
       sessionKey: "agent:main:subagent:test",
       config: {
         tools: {
@@ -485,7 +485,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("applies tool profiles before allow/deny policies", () => {
-    const tools = createOpenClawCodingTools({
+    const tools = createBrikko StudioCodingTools({
       config: { tools: { profile: "messaging" } },
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -497,12 +497,12 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("includes browser tool with full profile when browser is configured (#76507)", () => {
-    const tools = createOpenClawCodingTools({
+    const tools = createBrikko StudioCodingTools({
       config: {
         tools: { profile: "full" },
         browser: { enabled: true },
         plugins: { entries: { browser: { enabled: true } } },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       senderIsOwner: true,
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -514,12 +514,12 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("includes browser tool with full profile for non-owner senders (#76507)", () => {
-    const tools = createOpenClawCodingTools({
+    const tools = createBrikko StudioCodingTools({
       config: {
         tools: { profile: "full" },
         browser: { enabled: true },
         plugins: { entries: { browser: { enabled: true } } },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       senderIsOwner: false,
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -533,11 +533,11 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("includes browser tool without explicit profile (defaults to no filtering) (#76507)", () => {
-    const tools = createOpenClawCodingTools({
+    const tools = createBrikko StudioCodingTools({
       config: {
         browser: { enabled: true },
         plugins: { entries: { browser: { enabled: true } } },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
     const names = new Set(tools.map((tool) => tool.name));
     // No profile means no profile filtering — all tools pass.
@@ -549,15 +549,15 @@ describe("createOpenClawCodingTools", () => {
       browser: { enabled: true },
       plugins: { entries: { browser: { enabled: true } } },
       tools: { profile: "coding" },
-    } as OpenClawConfig;
-    const codingSubagent = createOpenClawCodingTools({
+    } as Brikko StudioConfig;
+    const codingSubagent = createBrikko StudioCodingTools({
       sessionKey: "agent:main:subagent:test",
       config: baseConfig,
     });
     const codingNames = new Set(codingSubagent.map((tool) => tool.name));
     expect(codingNames.has("browser")).toBe(false);
 
-    const subagentAllowOnly = createOpenClawCodingTools({
+    const subagentAllowOnly = createBrikko StudioCodingTools({
       sessionKey: "agent:main:subagent:test",
       config: {
         ...baseConfig,
@@ -565,27 +565,27 @@ describe("createOpenClawCodingTools", () => {
           profile: "coding",
           subagents: { tools: { allow: ["browser"] } },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
     expect(subagentAllowOnly.some((tool) => tool.name === "browser")).toBe(false);
 
-    const profileStageAlsoAllow = createOpenClawCodingTools({
+    const profileStageAlsoAllow = createBrikko StudioCodingTools({
       sessionKey: "agent:main:subagent:test",
       config: {
         ...baseConfig,
         tools: { profile: "coding", alsoAllow: ["browser"] },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
     expect(profileStageAlsoAllow.some((tool) => tool.name === "browser")).toBe(true);
   });
 
   it("can keep message available when a cron route needs it under the coding profile", () => {
-    const codingTools = createOpenClawCodingTools({
+    const codingTools = createBrikko StudioCodingTools({
       config: { tools: { profile: "coding" } },
     });
     expect(codingTools.some((tool) => tool.name === "message")).toBe(false);
 
-    const cronTools = createOpenClawCodingTools({
+    const cronTools = createBrikko StudioCodingTools({
       config: { tools: { profile: "coding" } },
       forceMessageTool: true,
     });
@@ -593,7 +593,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("keeps heartbeat response available for heartbeat runs under the coding profile", () => {
-    const codingTools = createOpenClawCodingTools({
+    const codingTools = createBrikko StudioCodingTools({
       config: { tools: { profile: "coding" } },
       trigger: "heartbeat",
       enableHeartbeatTool: true,
@@ -604,11 +604,11 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("enables heartbeat response when visible replies are message-tool-only", () => {
-    const tools = createOpenClawCodingTools({
+    const tools = createBrikko StudioCodingTools({
       config: {
         messages: { visibleReplies: "message_tool" },
         tools: { profile: "coding" },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       trigger: "heartbeat",
     });
 
@@ -616,14 +616,14 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("can keep message available when a cron route needs it under a provider coding profile", () => {
-    const providerProfileTools = createOpenClawCodingTools({
+    const providerProfileTools = createBrikko StudioCodingTools({
       config: { tools: { byProvider: { openai: { profile: "coding" } } } },
       modelProvider: "openai",
       modelId: "gpt-5.4",
     });
     expect(providerProfileTools.some((tool) => tool.name === "message")).toBe(false);
 
-    const cronTools = createOpenClawCodingTools({
+    const cronTools = createBrikko StudioCodingTools({
       config: { tools: { byProvider: { openai: { profile: "coding" } } } },
       modelProvider: "openai",
       modelId: "gpt-5.4",
@@ -635,14 +635,14 @@ describe("createOpenClawCodingTools", () => {
   it.each(providerAliasCases)(
     "applies canonical tools.byProvider deny policy to core tools for alias %s",
     (alias, canonical) => {
-      const tools = createOpenClawCodingTools({
+      const tools = createBrikko StudioCodingTools({
         config: {
           tools: {
             byProvider: {
               [canonical]: { deny: ["read"] },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         modelProvider: alias,
       });
       const names = new Set(tools.map((tool) => tool.name));
@@ -653,7 +653,7 @@ describe("createOpenClawCodingTools", () => {
   );
 
   it("expands group shorthands in global tool policy", () => {
-    const tools = createOpenClawCodingTools({
+    const tools = createBrikko StudioCodingTools({
       config: { tools: { allow: ["group:fs"] } },
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -665,7 +665,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("expands group shorthands in global tool deny policy", () => {
-    const tools = createOpenClawCodingTools({
+    const tools = createBrikko StudioCodingTools({
       config: { tools: { deny: ["group:fs"] } },
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -676,7 +676,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("lets agent profiles override global profiles", () => {
-    const tools = createOpenClawCodingTools({
+    const tools = createBrikko StudioCodingTools({
       sessionKey: "agent:work:main",
       config: {
         tools: { profile: "coding" },
@@ -692,7 +692,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("removes unsupported JSON Schema keywords for Cloud Code Assist API compatibility", () => {
-    const googleTools = createOpenClawCodingTools({
+    const googleTools = createBrikko StudioCodingTools({
       modelProvider: "google",
       senderIsOwner: true,
     });
@@ -707,7 +707,7 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("applies xai model compat for direct Grok tool cleanup", () => {
-    const xaiTools = createOpenClawCodingTools({
+    const xaiTools = createBrikko StudioCodingTools({
       modelProvider: "xai",
       modelCompat: applyXaiModelCompat({ compat: {} }).compat,
       senderIsOwner: true,
@@ -730,11 +730,11 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("returns image-aware read metadata for images and text-only blocks for text files", async () => {
-    const defaultTools = createOpenClawCodingTools();
+    const defaultTools = createBrikko StudioCodingTools();
     const readTool = defaultTools.find((tool) => tool.name === "read");
     expect(readTool).toBeDefined();
 
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-read-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-read-"));
     try {
       const imagePath = path.join(tmpDir, "sample.png");
       await fs.writeFile(imagePath, tinyPngBuffer);
@@ -758,7 +758,7 @@ describe("createOpenClawCodingTools", () => {
       }
 
       const textPath = path.join(tmpDir, "sample.txt");
-      const contents = "Hello from openclaw read tool.";
+      const contents = "Hello from brikko-studio read tool.";
       await fs.writeFile(textPath, contents, "utf8");
 
       const textResult = await readTool?.execute("tool-2", {
@@ -778,10 +778,10 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("filters tools by sandbox policy", () => {
-    const sandboxDir = path.join(os.tmpdir(), "openclaw-sandbox");
+    const sandboxDir = path.join(os.tmpdir(), "brikko-studio-sandbox");
     const sandbox = createPiToolsSandboxContext({
       workspaceDir: sandboxDir,
-      agentWorkspaceDir: path.join(os.tmpdir(), "openclaw-workspace"),
+      agentWorkspaceDir: path.join(os.tmpdir(), "brikko-studio-workspace"),
       workspaceAccess: "none" as const,
       fsBridge: createHostSandboxFsBridge(sandboxDir),
       tools: {
@@ -789,17 +789,17 @@ describe("createOpenClawCodingTools", () => {
         deny: ["browser"],
       },
     });
-    const tools = createOpenClawCodingTools({ sandbox });
+    const tools = createBrikko StudioCodingTools({ sandbox });
     expect(tools.some((tool) => tool.name === "exec")).toBe(true);
     expect(tools.some((tool) => tool.name === "read")).toBe(false);
     expect(tools.some((tool) => tool.name === "browser")).toBe(false);
   });
 
   it("hard-disables write/edit when sandbox workspaceAccess is ro", () => {
-    const sandboxDir = path.join(os.tmpdir(), "openclaw-sandbox");
+    const sandboxDir = path.join(os.tmpdir(), "brikko-studio-sandbox");
     const sandbox = createPiToolsSandboxContext({
       workspaceDir: sandboxDir,
-      agentWorkspaceDir: path.join(os.tmpdir(), "openclaw-workspace"),
+      agentWorkspaceDir: path.join(os.tmpdir(), "brikko-studio-workspace"),
       workspaceAccess: "ro" as const,
       fsBridge: createHostSandboxFsBridge(sandboxDir),
       tools: {
@@ -807,16 +807,16 @@ describe("createOpenClawCodingTools", () => {
         deny: [],
       },
     });
-    const tools = createOpenClawCodingTools({ sandbox });
+    const tools = createBrikko StudioCodingTools({ sandbox });
     expect(tools.some((tool) => tool.name === "read")).toBe(true);
     expect(tools.some((tool) => tool.name === "write")).toBe(false);
     expect(tools.some((tool) => tool.name === "edit")).toBe(false);
   });
 
   it("accepts canonical parameters for read/write/edit", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-canonical-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-canonical-"));
     try {
-      const tools = createOpenClawCodingTools({ workspaceDir: tmpDir });
+      const tools = createBrikko StudioCodingTools({ workspaceDir: tmpDir });
       const { readTool, writeTool, editTool } = expectReadWriteEditTools(tools);
 
       const filePath = "canonical-test.txt";
@@ -845,9 +845,9 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("rejects legacy alias parameters", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-legacy-alias-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-legacy-alias-"));
     try {
-      const tools = createOpenClawCodingTools({ workspaceDir: tmpDir });
+      const tools = createBrikko StudioCodingTools({ workspaceDir: tmpDir });
       const { readTool, writeTool, editTool } = expectReadWriteEditTools(tools);
 
       await expect(
@@ -876,9 +876,9 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("rejects structured content blocks for write", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-structured-write-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-structured-write-"));
     try {
-      const tools = createOpenClawCodingTools({ workspaceDir: tmpDir });
+      const tools = createBrikko StudioCodingTools({ workspaceDir: tmpDir });
       const writeTool = tools.find((tool) => tool.name === "write");
       expect(writeTool).toBeDefined();
 
@@ -897,12 +897,12 @@ describe("createOpenClawCodingTools", () => {
   });
 
   it("rejects structured edit payloads", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-structured-edit-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-structured-edit-"));
     try {
       const filePath = path.join(tmpDir, "structured-edit.js");
       await fs.writeFile(filePath, "const value = 'old';\n", "utf8");
 
-      const tools = createOpenClawCodingTools({ workspaceDir: tmpDir });
+      const tools = createBrikko StudioCodingTools({ workspaceDir: tmpDir });
       const editTool = tools.find((tool) => tool.name === "edit");
       expect(editTool).toBeDefined();
 

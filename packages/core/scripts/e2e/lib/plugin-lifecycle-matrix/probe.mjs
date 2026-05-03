@@ -4,8 +4,8 @@ import path from "node:path";
 
 const home = os.homedir();
 
-function openclawPath(...parts) {
-  return path.join(home, ".openclaw", ...parts);
+function brikko-studioPath(...parts) {
+  return path.join(home, ".brikko-studio", ...parts);
 }
 
 function readJson(file) {
@@ -17,7 +17,7 @@ function readJson(file) {
 }
 
 function records() {
-  const index = readJson(openclawPath("plugins", "installs.json"));
+  const index = readJson(brikko-studioPath("plugins", "installs.json"));
   return index.installRecords ?? index.records ?? {};
 }
 
@@ -26,7 +26,7 @@ function recordFor(pluginId) {
 }
 
 function config() {
-  return readJson(process.env.OPENCLAW_CONFIG_PATH ?? openclawPath("openclaw.json"));
+  return readJson(process.env.BRIKKO_STUDIO_CONFIG_PATH ?? brikko-studioPath("brikko-studio.json"));
 }
 
 function assert(condition, message) {

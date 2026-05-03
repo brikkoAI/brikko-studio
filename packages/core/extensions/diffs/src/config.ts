@@ -1,7 +1,7 @@
-import { mapPluginConfigIssues } from "openclaw/plugin-sdk/extension-shared";
-import { buildPluginConfigSchema } from "openclaw/plugin-sdk/plugin-entry";
-import { z } from "openclaw/plugin-sdk/zod";
-import type { OpenClawPluginConfigSchema } from "../api.js";
+import { mapPluginConfigIssues } from "brikko-studio/plugin-sdk/extension-shared";
+import { buildPluginConfigSchema } from "brikko-studio/plugin-sdk/plugin-entry";
+import { z } from "brikko-studio/plugin-sdk/zod";
+import type { Brikko StudioPluginConfigSchema } from "../api.js";
 import {
   DIFF_IMAGE_QUALITY_PRESETS,
   DIFF_INDICATORS,
@@ -201,7 +201,7 @@ const diffsPluginConfigSchemaBase = buildPluginConfigSchema(DiffsPluginJsonSchem
   },
 });
 
-export const diffsPluginConfigSchema: OpenClawPluginConfigSchema = {
+export const diffsPluginConfigSchema: Brikko StudioPluginConfigSchema = {
   ...diffsPluginConfigSchemaBase,
   jsonSchema: {
     ...diffsPluginConfigSchemaBase.jsonSchema,

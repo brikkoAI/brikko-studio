@@ -1,6 +1,6 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 
-export function collectCoreInsecureOrDangerousFlags(cfg: OpenClawConfig): string[] {
+export function collectCoreInsecureOrDangerousFlags(cfg: Brikko StudioConfig): string[] {
   const enabledFlags: string[] = [];
   if (cfg.gateway?.controlUi?.allowInsecureAuth === true) {
     enabledFlags.push("gateway.controlUi.allowInsecureAuth=true");

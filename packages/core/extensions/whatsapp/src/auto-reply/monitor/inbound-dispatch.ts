@@ -1,4 +1,4 @@
-import { hasVisibleInboundReplyDispatch } from "openclaw/plugin-sdk/inbound-reply-dispatch";
+import { hasVisibleInboundReplyDispatch } from "brikko-studio/plugin-sdk/inbound-reply-dispatch";
 import {
   type DeliverableWhatsAppOutboundPayload,
   normalizeWhatsAppOutboundPayload,

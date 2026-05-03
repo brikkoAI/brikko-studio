@@ -2,8 +2,8 @@ import {
   createDetectedBinaryStatus,
   setSetupChannelEnabled,
   type ChannelSetupWizard,
-} from "openclaw/plugin-sdk/setup";
-import { detectBinary } from "openclaw/plugin-sdk/setup-tools";
+} from "brikko-studio/plugin-sdk/setup";
+import { detectBinary } from "brikko-studio/plugin-sdk/setup-tools";
 import { resolveIMessageAccount } from "./accounts.js";
 import {
   createIMessageCliPathTextInput,

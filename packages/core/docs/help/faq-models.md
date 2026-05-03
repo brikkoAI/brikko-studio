@@ -15,13 +15,13 @@ troubleshooting, see the main [FAQ](/help/faq).
 
 <AccordionGroup>
   <Accordion title='What is the "default model"?'>
-    OpenClaw's default model is whatever you set as:
+    Brikko Studio's default model is whatever you set as:
 
     ```
     agents.defaults.model.primary
     ```
 
-    Models are referenced as `provider/model` (example: `openai/gpt-5.5` or `openai-codex/gpt-5.5`). If you omit the provider, OpenClaw first tries an alias, then a unique configured-provider match for that exact model id, and only then falls back to the configured default provider as a deprecated compatibility path. If that provider no longer exposes the configured default model, OpenClaw falls back to the first configured provider/model instead of surfacing a stale removed-provider default. You should still **explicitly** set `provider/model`.
+    Models are referenced as `provider/model` (example: `openai/gpt-5.5` or `openai-codex/gpt-5.5`). If you omit the provider, Brikko Studio first tries an alias, then a unique configured-provider match for that exact model id, and only then falls back to the configured default provider as a deprecated compatibility path. If that provider no longer exposes the configured default model, Brikko Studio falls back to the first configured provider/model instead of surfacing a stale removed-provider default. You should still **explicitly** set `provider/model`.
 
   </Accordion>
 
@@ -51,14 +51,14 @@ troubleshooting, see the main [FAQ](/help/faq).
     Safe options:
 
     - `/model` in chat (quick, per-session)
-    - `openclaw models set ...` (updates just model config)
-    - `openclaw configure --section model` (interactive)
-    - edit `agents.defaults.model` in `~/.openclaw/openclaw.json`
+    - `brikko-studio models set ...` (updates just model config)
+    - `brikko-studio configure --section model` (interactive)
+    - edit `agents.defaults.model` in `~/.brikko-studio/brikko-studio.json`
 
     Avoid `config.apply` with a partial object unless you intend to replace the whole config.
     For RPC edits, inspect with `config.schema.lookup` first and prefer `config.patch`. The lookup payload gives you the normalized path, shallow schema docs/constraints, and immediate child summaries.
     for partial updates.
-    If you did overwrite config, restore from backup or re-run `openclaw doctor` to repair.
+    If you did overwrite config, restore from backup or re-run `brikko-studio doctor` to repair.
 
     Docs: [Models](/concepts/models), [Configure](/cli/configure), [Config](/cli/config), [Doctor](/gateway/doctor).
 
@@ -72,14 +72,14 @@ troubleshooting, see the main [FAQ](/help/faq).
     1. Install Ollama from `https://ollama.com/download`
     2. Pull a local model such as `ollama pull gemma4`
     3. If you want cloud models too, run `ollama signin`
-    4. Run `openclaw onboard` and choose `Ollama`
+    4. Run `brikko-studio onboard` and choose `Ollama`
     5. Pick `Local` or `Cloud + Local`
 
     Notes:
 
     - `Cloud + Local` gives you cloud models plus your local Ollama models
     - cloud models such as `kimi-k2.5:cloud` do not need a local pull
-    - for manual switching, use `openclaw models list` and `openclaw models set ollama/<model>`
+    - for manual switching, use `brikko-studio models list` and `brikko-studio models set ollama/<model>`
 
     Security note: smaller or heavily quantized models are more vulnerable to prompt
     injection. We strongly recommend **large models** for any bot that can use tools.
@@ -91,9 +91,9 @@ troubleshooting, see the main [FAQ](/help/faq).
 
   </Accordion>
 
-  <Accordion title="What do OpenClaw, Flawd, and Krill use for models?">
+  <Accordion title="What do Brikko Studio, Flawd, and Krill use for models?">
     - These deployments can differ and may change over time; there is no fixed provider recommendation.
-    - Check the current runtime setting on each gateway with `openclaw models status`.
+    - Check the current runtime setting on each gateway with `brikko-studio models status`.
     - For security-sensitive/tool-enabled agents, use the strongest latest-generation model available.
 
   </Accordion>
@@ -147,7 +147,7 @@ troubleshooting, see the main [FAQ](/help/faq).
   <Accordion title="Can I use GPT 5.5 for daily tasks and Codex 5.5 for coding?">
     Yes. Treat model choice and runtime choice separately:
 
-    - **Native Codex coding agent:** set `agents.defaults.model.primary` to `openai/gpt-5.5` and `agents.defaults.agentRuntime.id` to `"codex"`. Sign in with `openclaw models auth login --provider openai-codex` when you want ChatGPT/Codex subscription auth.
+    - **Native Codex coding agent:** set `agents.defaults.model.primary` to `openai/gpt-5.5` and `agents.defaults.agentRuntime.id` to `"codex"`. Sign in with `brikko-studio models auth login --provider openai-codex` when you want ChatGPT/Codex subscription auth.
     - **Direct OpenAI API tasks through PI:** use `/model openai/gpt-5.5` without a Codex runtime override and configure `OPENAI_API_KEY`.
     - **Codex OAuth through PI:** use `/model openai-codex/gpt-5.5` only when you intentionally want the normal PI runner with Codex OAuth.
     - **Sub-agents:** route coding tasks to a Codex-only agent with its own model and `agentRuntime` default.
@@ -205,7 +205,7 @@ troubleshooting, see the main [FAQ](/help/faq).
 
     Fix checklist:
 
-    1. Upgrade to a current OpenClaw release (or run from source `main`), then restart the gateway.
+    1. Upgrade to a current Brikko Studio release (or run from source `main`), then restart the gateway.
     2. Make sure MiniMax is configured (wizard or JSON), or that MiniMax auth
        exists in env/auth profiles so the matching provider can be injected
        (`MINIMAX_API_KEY` for `minimax`, `MINIMAX_OAUTH_TOKEN` or stored MiniMax
@@ -217,7 +217,7 @@ troubleshooting, see the main [FAQ](/help/faq).
     4. Run:
 
        ```bash
-       openclaw models list
+       brikko-studio models list
        ```
 
        and pick from the list (or `/model list` in chat).
@@ -264,7 +264,7 @@ troubleshooting, see the main [FAQ](/help/faq).
   </Accordion>
 
   <Accordion title="Are opus / sonnet / gpt built-in shortcuts?">
-    Yes. OpenClaw ships a few default shorthands (only applied when the model exists in `agents.defaults.models`):
+    Yes. Brikko Studio ships a few default shorthands (only applied when the model exists in `agents.defaults.models`):
 
     - `opus` → `anthropic/claude-opus-4-6`
     - `sonnet` → `anthropic/claude-sonnet-4-6`
@@ -338,14 +338,14 @@ troubleshooting, see the main [FAQ](/help/faq).
     stored in:
 
     ```
-    ~/.openclaw/agents/<agentId>/agent/auth-profiles.json
+    ~/.brikko-studio/agents/<agentId>/agent/auth-profiles.json
     ```
 
     Fix options:
 
-    - Run `openclaw agents add <id>` and configure auth during the wizard.
+    - Run `brikko-studio agents add <id>` and configure auth during the wizard.
     - Or copy only portable static `api_key` / `token` profiles from the main agent's auth store into the new agent's auth store.
-    - For OAuth profiles, sign in from the new agent when it needs its own account; otherwise OpenClaw can read through to the default/main agent without cloning refresh tokens.
+    - For OAuth profiles, sign in from the new agent when it needs its own account; otherwise Brikko Studio can read through to the default/main agent without cloning refresh tokens.
 
     Do **not** reuse `agentDir` across agents; it causes auth/session collisions.
 
@@ -361,9 +361,9 @@ troubleshooting, see the main [FAQ](/help/faq).
     1. **Auth profile rotation** within the same provider.
     2. **Model fallback** to the next model in `agents.defaults.model.fallbacks`.
 
-    Cooldowns apply to failing profiles (exponential backoff), so OpenClaw can keep responding even when a provider is rate-limited or temporarily failing.
+    Cooldowns apply to failing profiles (exponential backoff), so Brikko Studio can keep responding even when a provider is rate-limited or temporarily failing.
 
-    The rate-limit bucket includes more than plain `429` responses. OpenClaw
+    The rate-limit bucket includes more than plain `429` responses. Brikko Studio
     also treats messages like `Too many concurrent requests`,
     `ThrottlingException`, `concurrency limit reached`,
     `workers_ai ... quota limit exceeded`, `resource exhausted`, and periodic
@@ -372,12 +372,12 @@ troubleshooting, see the main [FAQ](/help/faq).
 
     Some billing-looking responses are not `402`, and some HTTP `402`
     responses also stay in that transient bucket. If a provider returns
-    explicit billing text on `401` or `403`, OpenClaw can still keep that in
+    explicit billing text on `401` or `403`, Brikko Studio can still keep that in
     the billing lane, but provider-specific text matchers stay scoped to the
     provider that owns them (for example OpenRouter `Key limit exceeded`). If a `402`
     message instead looks like a retryable usage-window or
     organization/workspace spend limit (`daily limit reached, resets tomorrow`,
-    `organization spending limit exceeded`), OpenClaw treats it as
+    `organization spending limit exceeded`), Brikko Studio treats it as
     `rate_limit`, not a long billing disable.
 
     Context-overflow errors are different: signatures such as
@@ -388,7 +388,7 @@ troubleshooting, see the main [FAQ](/help/faq).
     fallback.
 
     Generic server-error text is intentionally narrower than "anything with
-    unknown/error in it". OpenClaw does treat provider-scoped transient shapes
+    unknown/error in it". Brikko Studio does treat provider-scoped transient shapes
     such as Anthropic bare `An unknown error occurred`, OpenRouter bare
     `Provider returned error`, stop-reason errors like `Unhandled stop reason:
     error`, JSON `api_error` payloads with transient server text
@@ -407,14 +407,14 @@ troubleshooting, see the main [FAQ](/help/faq).
     **Fix checklist:**
 
     - **Confirm where auth profiles live** (new vs legacy paths)
-      - Current: `~/.openclaw/agents/<agentId>/agent/auth-profiles.json`
-      - Legacy: `~/.openclaw/agent/*` (migrated by `openclaw doctor`)
+      - Current: `~/.brikko-studio/agents/<agentId>/agent/auth-profiles.json`
+      - Legacy: `~/.brikko-studio/agent/*` (migrated by `brikko-studio doctor`)
     - **Confirm your env var is loaded by the Gateway**
-      - If you set `ANTHROPIC_API_KEY` in your shell but run the Gateway via systemd/launchd, it may not inherit it. Put it in `~/.openclaw/.env` or enable `env.shellEnv`.
+      - If you set `ANTHROPIC_API_KEY` in your shell but run the Gateway via systemd/launchd, it may not inherit it. Put it in `~/.brikko-studio/.env` or enable `env.shellEnv`.
     - **Make sure you're editing the correct agent**
       - Multi-agent setups mean there can be multiple `auth-profiles.json` files.
     - **Sanity-check model/auth status**
-      - Use `openclaw models status` to see configured models and whether providers are authenticated.
+      - Use `brikko-studio models status` to see configured models and whether providers are authenticated.
 
     **Fix checklist for "No credentials found for profile anthropic"**
 
@@ -422,13 +422,13 @@ troubleshooting, see the main [FAQ](/help/faq).
     can't find it in its auth store.
 
     - **Use Claude CLI**
-      - Run `openclaw models auth login --provider anthropic --method cli --set-default` on the gateway host.
+      - Run `brikko-studio models auth login --provider anthropic --method cli --set-default` on the gateway host.
     - **If you want to use an API key instead**
-      - Put `ANTHROPIC_API_KEY` in `~/.openclaw/.env` on the **gateway host**.
+      - Put `ANTHROPIC_API_KEY` in `~/.brikko-studio/.env` on the **gateway host**.
       - Clear any pinned order that forces a missing profile:
 
         ```bash
-        openclaw models auth order clear --provider anthropic
+        brikko-studio models auth order clear --provider anthropic
         ```
 
     - **Confirm you're running commands on the gateway host**
@@ -437,7 +437,7 @@ troubleshooting, see the main [FAQ](/help/faq).
   </Accordion>
 
   <Accordion title="Why did it also try Google Gemini and fail?">
-    If your model config includes Google Gemini as a fallback (or you switched to a Gemini shorthand), OpenClaw will try it during model fallback. If you haven't configured Google credentials, you'll see `No API key found for provider "google"`.
+    If your model config includes Google Gemini as a fallback (or you switched to a Gemini shorthand), Brikko Studio will try it during model fallback. If you haven't configured Google credentials, you'll see `No API key found for provider "google"`.
 
     Fix: either provide Google auth, or remove/avoid Google models in `agents.defaults.model.fallbacks` / aliases so fallback doesn't route there.
 
@@ -446,7 +446,7 @@ troubleshooting, see the main [FAQ](/help/faq).
     Cause: the session history contains **thinking blocks without signatures** (often from
     an aborted/partial stream). Google Antigravity requires signatures for thinking blocks.
 
-    Fix: OpenClaw now strips unsigned thinking blocks for Google Antigravity Claude. If it still appears, start a **new session** or set `/thinking off` for that agent.
+    Fix: Brikko Studio now strips unsigned thinking blocks for Google Antigravity Claude. If it still appears, start a **new session** or set `/thinking off` for that agent.
 
   </Accordion>
 </AccordionGroup>
@@ -460,13 +460,13 @@ Related: [/concepts/oauth](/concepts/oauth) (OAuth flows, token storage, multi-a
     An auth profile is a named credential record (OAuth or API key) tied to a provider. Profiles live in:
 
     ```
-    ~/.openclaw/agents/<agentId>/agent/auth-profiles.json
+    ~/.brikko-studio/agents/<agentId>/agent/auth-profiles.json
     ```
 
   </Accordion>
 
   <Accordion title="What are typical profile IDs?">
-    OpenClaw uses provider-prefixed IDs like:
+    Brikko Studio uses provider-prefixed IDs like:
 
     - `anthropic:default` (common when no email identity exists)
     - `anthropic:<email>` for OAuth identities
@@ -477,7 +477,7 @@ Related: [/concepts/oauth](/concepts/oauth) (OAuth flows, token storage, multi-a
   <Accordion title="Can I control which auth profile is tried first?">
     Yes. Config supports optional metadata for profiles and an ordering per provider (`auth.order.<provider>`). This does **not** store secrets; it maps IDs to provider/mode and sets rotation order.
 
-    OpenClaw may temporarily skip a profile if it's in a short **cooldown** (rate limits/timeouts/auth failures) or a longer **disabled** state (billing/insufficient credits). To inspect this, run `openclaw models status --json` and check `auth.unusableProfiles`. Tuning: `auth.cooldowns.billingBackoffHours*`.
+    Brikko Studio may temporarily skip a profile if it's in a short **cooldown** (rate limits/timeouts/auth failures) or a longer **disabled** state (billing/insufficient credits). To inspect this, run `brikko-studio models status --json` and check `auth.unusableProfiles`. Tuning: `auth.cooldowns.billingBackoffHours*`.
 
     Rate-limit cooldowns can be model-scoped. A profile that is cooling down
     for one model can still be usable for a sibling model on the same provider,
@@ -487,28 +487,28 @@ Related: [/concepts/oauth](/concepts/oauth) (OAuth flows, token storage, multi-a
 
     ```bash
     # Defaults to the configured default agent (omit --agent)
-    openclaw models auth order get --provider anthropic
+    brikko-studio models auth order get --provider anthropic
 
     # Lock rotation to a single profile (only try this one)
-    openclaw models auth order set --provider anthropic anthropic:default
+    brikko-studio models auth order set --provider anthropic anthropic:default
 
     # Or set an explicit order (fallback within provider)
-    openclaw models auth order set --provider anthropic anthropic:work anthropic:default
+    brikko-studio models auth order set --provider anthropic anthropic:work anthropic:default
 
     # Clear override (fall back to config auth.order / round-robin)
-    openclaw models auth order clear --provider anthropic
+    brikko-studio models auth order clear --provider anthropic
     ```
 
     To target a specific agent:
 
     ```bash
-    openclaw models auth order set --provider anthropic --agent main anthropic:default
+    brikko-studio models auth order set --provider anthropic --agent main anthropic:default
     ```
 
     To verify what will actually be tried, use:
 
     ```bash
-    openclaw models status --probe
+    brikko-studio models status --probe
     ```
 
     If a stored profile is omitted from the explicit order, probe reports
@@ -517,7 +517,7 @@ Related: [/concepts/oauth](/concepts/oauth) (OAuth flows, token storage, multi-a
   </Accordion>
 
   <Accordion title="OAuth vs API key - what is the difference?">
-    OpenClaw supports both:
+    Brikko Studio supports both:
 
     - **OAuth** often leverages subscription access (where applicable).
     - **API keys** use pay-per-token billing.

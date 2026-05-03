@@ -10,19 +10,19 @@ export {
   resolveGatewayAuth,
   resolveNodeCommandAllowlist,
   safeParseJson,
-} from "openclaw/plugin-sdk/gateway-runtime";
+} from "brikko-studio/plugin-sdk/gateway-runtime";
 export type {
   GatewayRequestHandlers,
   GatewayRpcOpts,
   NodeSession,
-} from "openclaw/plugin-sdk/gateway-runtime";
-export { runCommandWithRuntime } from "openclaw/plugin-sdk/cli-runtime";
-export type { OpenClawPluginService } from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/gateway-runtime";
+export { runCommandWithRuntime } from "brikko-studio/plugin-sdk/cli-runtime";
+export type { Brikko StudioPluginService } from "brikko-studio/plugin-sdk/plugin-entry";
 export {
   startLazyPluginServiceModule,
   type LazyPluginServiceHandle,
-} from "openclaw/plugin-sdk/plugin-runtime";
-export { defaultRuntime } from "openclaw/plugin-sdk/runtime-env";
+} from "brikko-studio/plugin-sdk/plugin-runtime";
+export { defaultRuntime } from "brikko-studio/plugin-sdk/runtime-env";
 
 export async function withTimeout<T>(
   work: (signal: AbortSignal | undefined) => Promise<T>,

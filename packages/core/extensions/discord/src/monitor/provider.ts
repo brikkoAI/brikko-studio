@@ -1,27 +1,27 @@
-import type { ChannelRuntimeSurface } from "openclaw/plugin-sdk/channel-contract";
+import type { ChannelRuntimeSurface } from "brikko-studio/plugin-sdk/channel-contract";
 import {
   listNativeCommandSpecsForConfig,
   listSkillCommandsForAgents,
-} from "openclaw/plugin-sdk/command-auth";
-import type { OpenClawConfig, ReplyToMode } from "openclaw/plugin-sdk/config-types";
-import { createConnectedChannelStatusPatch } from "openclaw/plugin-sdk/gateway-runtime";
+} from "brikko-studio/plugin-sdk/command-auth";
+import type { Brikko StudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import { createConnectedChannelStatusPatch } from "brikko-studio/plugin-sdk/gateway-runtime";
 import {
   isNativeCommandsExplicitlyDisabled,
   resolveNativeCommandsEnabled,
   resolveNativeSkillsEnabled,
-} from "openclaw/plugin-sdk/native-command-config-runtime";
-import { resolveTextChunkLimit } from "openclaw/plugin-sdk/reply-chunking";
-import { getRuntimeConfig } from "openclaw/plugin-sdk/runtime-config-snapshot";
-import { isVerbose, logVerbose, shouldLogVerbose, warn } from "openclaw/plugin-sdk/runtime-env";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import { createNonExitingRuntime, type RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+} from "brikko-studio/plugin-sdk/native-command-config-runtime";
+import { resolveTextChunkLimit } from "brikko-studio/plugin-sdk/reply-chunking";
+import { getRuntimeConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
+import { isVerbose, logVerbose, shouldLogVerbose, warn } from "brikko-studio/plugin-sdk/runtime-env";
+import { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
+import { createNonExitingRuntime, type RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import {
   GROUP_POLICY_BLOCKED_LABEL,
   resolveOpenProviderRuntimeGroupPolicy,
   resolveDefaultGroupPolicy,
   warnMissingProviderGroupPolicyFallbackOnce,
-} from "openclaw/plugin-sdk/runtime-group-policy";
-import { formatErrorMessage } from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/runtime-group-policy";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import {
   resolveDiscordAccount,
   resolveDiscordAccountAllowFrom,
@@ -71,7 +71,7 @@ import type { DiscordMonitorStatusSink } from "./status.js";
 export type MonitorDiscordOpts = {
   token?: string;
   accountId?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   runtime?: RuntimeEnv;
   channelRuntime?: ChannelRuntimeSurface;
   abortSignal?: AbortSignal;
@@ -487,7 +487,7 @@ export async function monitorDiscordProvider(opts: MonitorDiscordOpts = {}) {
     const logger = createSubsystemLogger("discord/monitor");
     const guildHistories = new Map<
       string,
-      import("openclaw/plugin-sdk/reply-history").HistoryEntry[]
+      import("brikko-studio/plugin-sdk/reply-history").HistoryEntry[]
     >();
     let { botUserId, botUserName } = await fetchDiscordBotIdentity({
       client,

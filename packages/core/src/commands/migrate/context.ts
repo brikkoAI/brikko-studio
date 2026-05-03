@@ -8,7 +8,7 @@ export function createMigrationLogger(runtime: RuntimeEnv, opts: { json?: boolea
   const info = opts.json ? runtime.error : runtime.log;
   return {
     debug: (message: string) => {
-      if (process.env.OPENCLAW_VERBOSE === "1") {
+      if (process.env.BRIKKO_STUDIO_VERBOSE === "1") {
         info(message);
       }
     },

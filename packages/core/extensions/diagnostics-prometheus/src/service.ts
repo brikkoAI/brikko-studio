@@ -2,8 +2,8 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import type {
   DiagnosticEventMetadata,
   DiagnosticEventPayload,
-  OpenClawPluginHttpRouteHandler,
-  OpenClawPluginService,
+  Brikko StudioPluginHttpRouteHandler,
+  Brikko StudioPluginService,
 } from "../api.js";
 import { redactSensitiveText } from "../api.js";
 
@@ -48,7 +48,7 @@ const BYTE_BUCKETS = [
 ];
 const LOW_CARDINALITY_VALUE_RE = /^[A-Za-z0-9_.:-]{1,120}$/u;
 const MAX_PROMETHEUS_SERIES = 2048;
-const DROPPED_SERIES_COUNTER_NAME = "openclaw_prometheus_series_dropped_total";
+const DROPPED_SERIES_COUNTER_NAME = "brikko-studio_prometheus_series_dropped_total";
 
 function lowCardinalityLabel(value: string | undefined, fallback = "unknown"): string {
   if (!value) {
@@ -368,7 +368,7 @@ function recordModelUsage(
       return;
     }
     store.counter(
-      "openclaw_model_tokens_total",
+      "brikko-studio_model_tokens_total",
       "Model tokens reported by diagnostic usage events.",
       {
         ...labels,
@@ -378,7 +378,7 @@ function recordModelUsage(
     );
     if (tokenType === "input" || tokenType === "output") {
       store.histogram(
-        "openclaw_gen_ai_client_token_usage",
+        "brikko-studio_gen_ai_client_token_usage",
         "GenAI token usage distribution for input and output tokens.",
         {
           model: labels.model,
@@ -399,13 +399,13 @@ function recordModelUsage(
   recordTokens("total", usage.total);
 
   store.counter(
-    "openclaw_model_cost_usd_total",
+    "brikko-studio_model_cost_usd_total",
     "Estimated model cost in USD reported by diagnostic usage events.",
     labels,
     numericValue(evt.costUsd) ?? 0,
   );
   store.histogram(
-    "openclaw_model_usage_duration_seconds",
+    "brikko-studio_model_usage_duration_seconds",
     "Model usage event duration in seconds.",
     labels,
     seconds(evt.durationMs),
@@ -427,13 +427,13 @@ function recordDiagnosticEvent(
       return;
     case "run.completed":
       store.histogram(
-        "openclaw_run_duration_seconds",
+        "brikko-studio_run_duration_seconds",
         "Agent run duration in seconds.",
         runLabels(evt),
         seconds(evt.durationMs),
       );
       store.counter(
-        "openclaw_run_completed_total",
+        "brikko-studio_run_completed_total",
         "Agent runs completed by outcome.",
         runLabels(evt),
       );
@@ -441,13 +441,13 @@ function recordDiagnosticEvent(
     case "model.call.completed":
     case "model.call.error":
       store.histogram(
-        "openclaw_model_call_duration_seconds",
+        "brikko-studio_model_call_duration_seconds",
         "Provider model call duration in seconds.",
         modelCallLabels(evt),
         seconds(evt.durationMs),
       );
       store.counter(
-        "openclaw_model_call_total",
+        "brikko-studio_model_call_total",
         "Provider model calls completed by outcome.",
         modelCallLabels(evt),
       );
@@ -455,13 +455,13 @@ function recordDiagnosticEvent(
     case "tool.execution.completed":
     case "tool.execution.error":
       store.histogram(
-        "openclaw_tool_execution_duration_seconds",
+        "brikko-studio_tool_execution_duration_seconds",
         "Tool execution duration in seconds.",
         toolExecutionLabels(evt),
         seconds(evt.durationMs),
       );
       store.counter(
-        "openclaw_tool_execution_total",
+        "brikko-studio_tool_execution_total",
         "Tool executions completed by outcome.",
         toolExecutionLabels(evt),
       );
@@ -469,25 +469,25 @@ function recordDiagnosticEvent(
     case "harness.run.completed":
     case "harness.run.error":
       store.histogram(
-        "openclaw_harness_run_duration_seconds",
+        "brikko-studio_harness_run_duration_seconds",
         "Agent harness run duration in seconds.",
         harnessLabels(evt),
         seconds(evt.durationMs),
       );
       store.counter(
-        "openclaw_harness_run_total",
+        "brikko-studio_harness_run_total",
         "Agent harness runs completed by outcome.",
         harnessLabels(evt),
       );
       return;
     case "message.processed":
-      store.counter("openclaw_message_processed_total", "Inbound messages processed by outcome.", {
+      store.counter("brikko-studio_message_processed_total", "Inbound messages processed by outcome.", {
         channel: lowCardinalityLabel(evt.channel),
         outcome: evt.outcome,
         reason: lowCardinalityLabel(evt.reason, "none"),
       });
       store.histogram(
-        "openclaw_message_processed_duration_seconds",
+        "brikko-studio_message_processed_duration_seconds",
         "Inbound message processing duration in seconds.",
         {
           channel: lowCardinalityLabel(evt.channel),
@@ -500,7 +500,7 @@ function recordDiagnosticEvent(
     case "message.delivery.completed":
     case "message.delivery.error":
       store.counter(
-        "openclaw_message_delivery_total",
+        "brikko-studio_message_delivery_total",
         "Outbound message delivery attempts by outcome.",
         {
           channel: lowCardinalityLabel(evt.channel),
@@ -513,7 +513,7 @@ function recordDiagnosticEvent(
         },
       );
       store.histogram(
-        "openclaw_message_delivery_duration_seconds",
+        "brikko-studio_message_delivery_duration_seconds",
         "Outbound message delivery duration in seconds.",
         {
           channel: lowCardinalityLabel(evt.channel),
@@ -530,7 +530,7 @@ function recordDiagnosticEvent(
     case "queue.lane.enqueue":
     case "queue.lane.dequeue":
       store.gauge(
-        "openclaw_queue_lane_size",
+        "brikko-studio_queue_lane_size",
         "Current diagnostic queue lane size.",
         {
           lane: lowCardinalityLabel(evt.lane),
@@ -539,7 +539,7 @@ function recordDiagnosticEvent(
       );
       if (evt.type === "queue.lane.dequeue") {
         store.histogram(
-          "openclaw_queue_lane_wait_seconds",
+          "brikko-studio_queue_lane_wait_seconds",
           "Queue lane wait time in seconds.",
           { lane: lowCardinalityLabel(evt.lane) },
           seconds(evt.waitMs),
@@ -547,13 +547,13 @@ function recordDiagnosticEvent(
       }
       return;
     case "session.state":
-      store.counter("openclaw_session_state_total", "Session state observations.", {
+      store.counter("brikko-studio_session_state_total", "Session state observations.", {
         reason: lowCardinalityLabel(evt.reason, "none"),
         state: evt.state,
       });
       if (evt.queueDepth !== undefined) {
         store.gauge(
-          "openclaw_session_queue_depth",
+          "brikko-studio_session_queue_depth",
           "Latest observed session queue depth.",
           {
             state: evt.state,
@@ -564,25 +564,25 @@ function recordDiagnosticEvent(
       return;
     case "diagnostic.memory.sample":
       store.gauge(
-        "openclaw_memory_bytes",
+        "brikko-studio_memory_bytes",
         "Latest process memory usage by memory kind.",
         { kind: "rss" },
         evt.memory.rssBytes,
       );
       store.gauge(
-        "openclaw_memory_bytes",
+        "brikko-studio_memory_bytes",
         "Latest process memory usage by memory kind.",
         { kind: "heap_total" },
         evt.memory.heapTotalBytes,
       );
       store.gauge(
-        "openclaw_memory_bytes",
+        "brikko-studio_memory_bytes",
         "Latest process memory usage by memory kind.",
         { kind: "heap_used" },
         evt.memory.heapUsedBytes,
       );
       store.histogram(
-        "openclaw_memory_rss_bytes",
+        "brikko-studio_memory_rss_bytes",
         "RSS memory sample distribution in bytes.",
         {},
         numericValue(evt.memory.rssBytes),
@@ -591,7 +591,7 @@ function recordDiagnosticEvent(
       return;
     case "diagnostic.memory.pressure":
       store.counter(
-        "openclaw_memory_pressure_total",
+        "brikko-studio_memory_pressure_total",
         "Memory pressure events by level and reason.",
         {
           level: evt.level,
@@ -603,7 +603,7 @@ function recordDiagnosticEvent(
     case "diagnostic.liveness.warning":
       return;
     case "telemetry.exporter":
-      store.counter("openclaw_telemetry_exporter_total", "Telemetry exporter lifecycle events.", {
+      store.counter("brikko-studio_telemetry_exporter_total", "Telemetry exporter lifecycle events.", {
         exporter: lowCardinalityLabel(evt.exporter),
         reason: lowCardinalityLabel(evt.reason, "none"),
         signal: evt.signal,
@@ -615,7 +615,7 @@ function recordDiagnosticEvent(
   }
 }
 
-function createMetricsHandler(store: PrometheusMetricStore): OpenClawPluginHttpRouteHandler {
+function createMetricsHandler(store: PrometheusMetricStore): Brikko StudioPluginHttpRouteHandler {
   return (req: IncomingMessage, res: ServerResponse) => {
     if (req.method !== "GET" && req.method !== "HEAD") {
       res.statusCode = 405;
@@ -671,7 +671,7 @@ export function createDiagnosticsPrometheusExporter() {
       unsubscribe = undefined;
       store.reset();
     },
-  } satisfies OpenClawPluginService;
+  } satisfies Brikko StudioPluginService;
 
   return {
     handler: createMetricsHandler(store),

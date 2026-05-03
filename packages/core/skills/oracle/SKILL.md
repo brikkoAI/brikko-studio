@@ -4,7 +4,7 @@ description: Use oracle CLI to bundle prompts and files for second-model debuggi
 homepage: https://askoracle.dev
 metadata:
   {
-    "openclaw":
+    "brikko-studio":
       {
         "emoji": "🧿",
         "requires": { "bins": ["oracle"] },

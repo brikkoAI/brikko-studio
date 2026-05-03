@@ -10,18 +10,18 @@ title: "Gateway logging"
 
 For a user-facing overview (CLI + Control UI + config), see [/logging](/logging).
 
-OpenClaw has two log “surfaces”:
+Brikko Studio has two log “surfaces”:
 
 - **Console output** (what you see in the terminal / Debug UI).
 - **File logs** (JSON lines) written by the gateway logger.
 
 ## File-based logger
 
-- Default rolling log file is under `/tmp/openclaw/` (one file per day): `openclaw-YYYY-MM-DD.log`
+- Default rolling log file is under `/tmp/brikko-studio/` (one file per day): `brikko-studio-YYYY-MM-DD.log`
   - Date uses the gateway host's local timezone.
 - Active log files rotate at `logging.maxFileBytes` (default: 100 MB), keeping
   up to five numbered archives and continuing to write a fresh active file.
-- The log file path and level can be configured via `~/.openclaw/openclaw.json`:
+- The log file path and level can be configured via `~/.brikko-studio/brikko-studio.json`:
   - `logging.file`
   - `logging.level`
 
@@ -31,7 +31,7 @@ The Control UI Logs tab tails this file via the gateway (`logs.tail`).
 CLI can do the same:
 
 ```bash
-openclaw logs --follow
+brikko-studio logs --follow
 ```
 
 **Verbose vs. log levels**
@@ -57,7 +57,7 @@ You can tune console verbosity independently via:
 
 ## Redaction
 
-OpenClaw can mask sensitive tokens before log or transcript output leaves the
+Brikko Studio can mask sensitive tokens before log or transcript output leaves the
 process. This logging redaction policy is applied at console, file-log, OTLP
 log-record, and session transcript text sinks, so matching secret values are
 masked before JSONL lines or messages are written to disk.
@@ -87,7 +87,7 @@ The gateway prints WebSocket protocol logs in two modes:
 
 ### WS log style
 
-`openclaw gateway` supports a per-gateway style switch:
+`brikko-studio gateway` supports a per-gateway style switch:
 
 - `--ws-log auto` (default): normal mode is optimized; verbose mode uses compact output
 - `--ws-log compact`: compact output (paired request/response) when verbose
@@ -98,13 +98,13 @@ Examples:
 
 ```bash
 # optimized (only errors/slow)
-openclaw gateway
+brikko-studio gateway
 
 # show all WS traffic (paired)
-openclaw gateway --verbose --ws-log compact
+brikko-studio gateway --verbose --ws-log compact
 
 # show all WS traffic (full meta)
-openclaw gateway --verbose --ws-log full
+brikko-studio gateway --verbose --ws-log full
 ```
 
 ## Console formatting (subsystem logging)

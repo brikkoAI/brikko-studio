@@ -1,27 +1,27 @@
-import { formatAllowlistMatchMeta } from "openclaw/plugin-sdk/allow-from";
-import { resolveInboundMentionDecision } from "openclaw/plugin-sdk/channel-inbound";
+import { formatAllowlistMatchMeta } from "brikko-studio/plugin-sdk/allow-from";
+import { resolveInboundMentionDecision } from "brikko-studio/plugin-sdk/channel-inbound";
 import {
   logInboundDrop,
   resolveInboundSessionEnvelopeContext,
-} from "openclaw/plugin-sdk/channel-inbound";
-import { resolveDualTextControlCommandGate } from "openclaw/plugin-sdk/command-gating";
+} from "brikko-studio/plugin-sdk/channel-inbound";
+import { resolveDualTextControlCommandGate } from "brikko-studio/plugin-sdk/command-gating";
 import {
   filterSupplementalContextItems,
   resolveChannelContextVisibilityMode,
   shouldIncludeSupplementalContext,
-} from "openclaw/plugin-sdk/context-visibility-runtime";
-import { evaluateSenderGroupAccessForPolicy } from "openclaw/plugin-sdk/group-access";
+} from "brikko-studio/plugin-sdk/context-visibility-runtime";
+import { evaluateSenderGroupAccessForPolicy } from "brikko-studio/plugin-sdk/group-access";
 import {
   dispatchReplyFromConfigWithSettledDispatcher,
   hasFinalInboundReplyDispatch,
   resolveInboundReplyDispatchCounts,
-} from "openclaw/plugin-sdk/inbound-reply-dispatch";
+} from "brikko-studio/plugin-sdk/inbound-reply-dispatch";
 import {
   buildPendingHistoryContextFromMap,
   DEFAULT_GROUP_HISTORY_LIMIT,
   recordPendingHistoryEntryIfEnabled,
   type HistoryEntry,
-} from "openclaw/plugin-sdk/reply-history";
+} from "brikko-studio/plugin-sdk/reply-history";
 import {
   buildMSTeamsAttachmentPlaceholder,
   buildMSTeamsMediaPayload,

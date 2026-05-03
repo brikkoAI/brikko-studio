@@ -1,9 +1,9 @@
-import type { BaseProbeResult } from "openclaw/plugin-sdk/channel-contract";
-import { runCommandWithTimeout } from "openclaw/plugin-sdk/process-runtime";
-import { getRuntimeConfig } from "openclaw/plugin-sdk/runtime-config-snapshot";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { detectBinary } from "openclaw/plugin-sdk/setup";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import type { BaseProbeResult } from "brikko-studio/plugin-sdk/channel-contract";
+import { runCommandWithTimeout } from "brikko-studio/plugin-sdk/process-runtime";
+import { getRuntimeConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
+import { detectBinary } from "brikko-studio/plugin-sdk/setup";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { createIMessageRpcClient } from "./client.js";
 import { DEFAULT_IMESSAGE_PROBE_TIMEOUT_MS } from "./constants.js";
 

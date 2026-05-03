@@ -3,7 +3,7 @@ import {
   resolveRemoteEmbeddingClient,
   type MemoryEmbeddingProviderCreateOptions,
   type MemoryEmbeddingProviderCreateResult,
-} from "openclaw/plugin-sdk/memory-core-host-engine-embeddings";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-embeddings";
 import {
   DEEPINFRA_BASE_URL,
   DEFAULT_DEEPINFRA_EMBEDDING_MODEL,

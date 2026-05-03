@@ -144,7 +144,7 @@ export function resolveAllSince(args, minimumVersion) {
 
 export function resolveBaselines(args) {
   const requested = args.get("requested") ?? "";
-  const fallback = args.get("fallback") ?? "openclaw@latest";
+  const fallback = args.get("fallback") ?? "brikko-studio@latest";
   const requestedTokens = splitSpecs(requested);
   if (requestedTokens.length === 0) {
     return dedupeSpecs([fallback]);

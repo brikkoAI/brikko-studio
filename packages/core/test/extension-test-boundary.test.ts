@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { BUNDLED_PLUGIN_PATH_PREFIX } from "openclaw/plugin-sdk/test-fixtures";
+import { BUNDLED_PLUGIN_PATH_PREFIX } from "brikko-studio/plugin-sdk/test-fixtures";
 import { describe, expect, it } from "vitest";
 import { GUARDED_EXTENSION_PUBLIC_SURFACE_BASENAMES } from "../src/plugin-sdk/test-helpers/public-artifacts.js";
 
@@ -273,8 +273,8 @@ describe("non-extension test boundaries", () => {
 
   it("keeps extension tests off legacy broad testing barrels and repo helper bridges", () => {
     const bannedPatterns = [
-      /["']openclaw\/plugin-sdk\/testing["']/u,
-      /["']openclaw\/plugin-sdk\/test-utils["']/u,
+      /["']brikko-studio\/plugin-sdk\/testing["']/u,
+      /["']brikko-studio\/plugin-sdk\/test-utils["']/u,
       /["'](?:\.\.\/)+(?:test\/helpers\/channels\/)[^"']+["']/u,
       /["'](?:\.\.\/)+(?:src\/channels\/plugins\/contracts\/test-helpers\/)[^"']+["']/u,
       /["'](?:\.\.\/)+(?:test\/helpers\/plugins\/)[^"']+["']/u,
@@ -310,7 +310,7 @@ describe("non-extension test boundaries", () => {
 
     const offenders = files.filter((file) => {
       const source = fs.readFileSync(path.join(repoRoot, file), "utf8");
-      return source.includes("openclaw/plugin-sdk/channel-config-schema-legacy");
+      return source.includes("brikko-studio/plugin-sdk/channel-config-schema-legacy");
     });
 
     expect(offenders).toEqual([]);

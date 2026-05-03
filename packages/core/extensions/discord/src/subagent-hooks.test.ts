@@ -1,8 +1,8 @@
 import {
   getRequiredHookHandler,
   registerHookHandlersForTest,
-} from "openclaw/plugin-sdk/channel-test-helpers";
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/core";
+} from "brikko-studio/plugin-sdk/channel-test-helpers";
+import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/core";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 type ThreadBindingRecord = {
@@ -83,7 +83,7 @@ function registerHandlersForTest(
     },
   },
 ) {
-  return registerHookHandlersForTest<OpenClawPluginApi>({
+  return registerHookHandlersForTest<Brikko StudioPluginApi>({
     config,
     register: registerDiscordSubagentHooks,
   });

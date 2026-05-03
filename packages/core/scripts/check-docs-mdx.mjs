@@ -65,7 +65,7 @@ const POISON_TEXT_PATTERNS = [
     message: "Leaked tool-call input payload.",
   },
   {
-    pattern: /<\/?openclaw_docs_i18n_input>/iu,
+    pattern: /<\/?brikko-studio_docs_i18n_input>/iu,
     message: "Leaked docs i18n prompt wrapper.",
   },
   {

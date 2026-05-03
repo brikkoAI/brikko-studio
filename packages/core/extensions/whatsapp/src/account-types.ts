@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export type WhatsAppAccountConfig = NonNullable<
-  NonNullable<NonNullable<OpenClawConfig["channels"]>["whatsapp"]>["accounts"]
+  NonNullable<NonNullable<Brikko StudioConfig["channels"]>["whatsapp"]>["accounts"]
 >[string];

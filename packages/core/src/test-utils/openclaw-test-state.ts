@@ -4,9 +4,9 @@ import path from "node:path";
 import { captureEnv } from "./env.js";
 import { cleanupSessionStateForTest } from "./session-state-cleanup.js";
 
-type OpenClawTestStateLayout = "home" | "state-only" | "split";
+type Brikko StudioTestStateLayout = "home" | "state-only" | "split";
 
-type OpenClawTestStateScenario =
+type Brikko StudioTestStateScenario =
   | "empty"
   | "minimal"
   | "update-stable"
@@ -14,11 +14,11 @@ type OpenClawTestStateScenario =
   | "gateway-loopback"
   | "external-service";
 
-export type OpenClawTestStateOptions = {
+export type Brikko StudioTestStateOptions = {
   prefix?: string;
   label?: string;
-  layout?: OpenClawTestStateLayout;
-  scenario?: OpenClawTestStateScenario;
+  layout?: Brikko StudioTestStateLayout;
+  scenario?: Brikko StudioTestStateScenario;
   agentEnv?: "clear" | "main";
   applyEnv?: boolean;
   env?: Record<string, string | undefined>;
@@ -28,7 +28,7 @@ export type OpenClawTestStateOptions = {
   };
 };
 
-export type OpenClawTestState = {
+export type Brikko StudioTestState = {
   root: string;
   home: string;
   stateDir: string;
@@ -49,18 +49,18 @@ export type OpenClawTestState = {
   cleanup: () => Promise<void>;
 };
 
-const DEFAULT_PREFIX = "openclaw-test-state-";
+const DEFAULT_PREFIX = "brikko-studio-test-state-";
 const ENV_KEYS = [
   "HOME",
   "USERPROFILE",
   "HOMEDRIVE",
   "HOMEPATH",
-  "OPENCLAW_HOME",
-  "OPENCLAW_STATE_DIR",
-  "OPENCLAW_CONFIG_PATH",
-  "OPENCLAW_AGENT_DIR",
+  "BRIKKO_STUDIO_HOME",
+  "BRIKKO_STUDIO_STATE_DIR",
+  "BRIKKO_STUDIO_CONFIG_PATH",
+  "BRIKKO_STUDIO_AGENT_DIR",
   "PI_CODING_AGENT_DIR",
-  "OPENCLAW_SERVICE_REPAIR_POLICY",
+  "BRIKKO_STUDIO_SERVICE_REPAIR_POLICY",
 ] as const;
 
 function normalizeLabel(value: string | undefined): string {
@@ -85,7 +85,7 @@ function resolveWindowsHomeEnv(
 
 function resolveLayout(
   root: string,
-  layout: OpenClawTestStateLayout,
+  layout: Brikko StudioTestStateLayout,
 ): {
   home: string;
   stateDir: string;
@@ -94,11 +94,11 @@ function resolveLayout(
 } {
   if (layout === "home") {
     const home = path.join(root, "home");
-    const stateDir = path.join(home, ".openclaw");
+    const stateDir = path.join(home, ".brikko-studio");
     return {
       home,
       stateDir,
-      configPath: path.join(stateDir, "openclaw.json"),
+      configPath: path.join(stateDir, "brikko-studio.json"),
       workspaceDir: path.join(home, "workspace"),
     };
   }
@@ -108,7 +108,7 @@ function resolveLayout(
     return {
       home,
       stateDir,
-      configPath: path.join(root, "config", "openclaw.json"),
+      configPath: path.join(root, "config", "brikko-studio.json"),
       workspaceDir: path.join(root, "workspace"),
     };
   }
@@ -116,12 +116,12 @@ function resolveLayout(
   return {
     home: path.join(root, "home"),
     stateDir,
-    configPath: path.join(stateDir, "openclaw.json"),
+    configPath: path.join(stateDir, "brikko-studio.json"),
     workspaceDir: path.join(root, "workspace"),
   };
 }
 
-function scenarioConfig(options: OpenClawTestStateOptions): Record<string, unknown> | undefined {
+function scenarioConfig(options: Brikko StudioTestStateOptions): Record<string, unknown> | undefined {
   const scenario = options.scenario ?? "empty";
   if (scenario === "minimal" || scenario === "external-service") {
     return {};
@@ -144,7 +144,7 @@ function scenarioConfig(options: OpenClawTestStateOptions): Record<string, unkno
         bind: "loopback",
         auth: {
           mode: "token",
-          token: options.gateway?.token ?? "openclaw-test-token",
+          token: options.gateway?.token ?? "brikko-studio-test-token",
         },
         controlUi: {
           enabled: false,
@@ -167,7 +167,7 @@ function scenarioConfig(options: OpenClawTestStateOptions): Record<string, unkno
         port: options.gateway?.port ?? 18789,
         auth: {
           mode: "token",
-          token: options.gateway?.token ?? "openclaw-test-token",
+          token: options.gateway?.token ?? "brikko-studio-test-token",
         },
         controlUi: {
           enabled: false,
@@ -178,17 +178,17 @@ function scenarioConfig(options: OpenClawTestStateOptions): Record<string, unkno
   return undefined;
 }
 
-function scenarioEnv(options: OpenClawTestStateOptions): Record<string, string | undefined> {
+function scenarioEnv(options: Brikko StudioTestStateOptions): Record<string, string | undefined> {
   if ((options.scenario ?? "empty") === "external-service") {
     return {
-      OPENCLAW_SERVICE_REPAIR_POLICY: "external",
+      BRIKKO_STUDIO_SERVICE_REPAIR_POLICY: "external",
     };
   }
   return {};
 }
 
 function buildEnvVars(params: {
-  layout: OpenClawTestStateLayout;
+  layout: Brikko StudioTestStateLayout;
   home: string;
   stateDir: string;
   configPath: string;
@@ -200,16 +200,16 @@ function buildEnvVars(params: {
   const agentDirEnv =
     params.agentEnv === "main"
       ? {
-          OPENCLAW_AGENT_DIR: params.agentDir,
+          BRIKKO_STUDIO_AGENT_DIR: params.agentDir,
           PI_CODING_AGENT_DIR: params.agentDir,
         }
       : {
-          OPENCLAW_AGENT_DIR: undefined,
+          BRIKKO_STUDIO_AGENT_DIR: undefined,
           PI_CODING_AGENT_DIR: undefined,
         };
   const envVars: Record<string, string | undefined> = {
-    OPENCLAW_STATE_DIR: params.stateDir,
-    OPENCLAW_CONFIG_PATH: params.configPath,
+    BRIKKO_STUDIO_STATE_DIR: params.stateDir,
+    BRIKKO_STUDIO_CONFIG_PATH: params.configPath,
     ...agentDirEnv,
     ...params.scenarioEnv,
     ...params.extraEnv,
@@ -218,7 +218,7 @@ function buildEnvVars(params: {
     Object.assign(envVars, {
       HOME: params.home,
       USERPROFILE: params.home,
-      OPENCLAW_HOME: params.home,
+      BRIKKO_STUDIO_HOME: params.home,
       ...resolveWindowsHomeEnv(params.home),
     });
   }
@@ -243,9 +243,9 @@ async function writeJsonFile(filePath: string, value: unknown): Promise<string> 
   return filePath;
 }
 
-export async function createOpenClawTestState(
-  options: OpenClawTestStateOptions = {},
-): Promise<OpenClawTestState> {
+export async function createBrikko StudioTestState(
+  options: Brikko StudioTestStateOptions = {},
+): Promise<Brikko StudioTestState> {
   const label = normalizeLabel(options.label ?? options.scenario);
   const prefix = options.prefix ?? `${DEFAULT_PREFIX}${label}-`;
   const root = await fs.mkdtemp(path.join(os.tmpdir(), prefix));
@@ -282,7 +282,7 @@ export async function createOpenClawTestState(
   const sessionsDir = (agentId = "main") =>
     path.join(paths.stateDir, "agents", agentId, "sessions");
 
-  const state: OpenClawTestState = {
+  const state: Brikko StudioTestState = {
     root,
     ...paths,
     env,
@@ -338,11 +338,11 @@ export async function createOpenClawTestState(
   return state;
 }
 
-export async function withOpenClawTestState<T>(
-  options: OpenClawTestStateOptions,
-  fn: (state: OpenClawTestState) => Promise<T>,
+export async function withBrikko StudioTestState<T>(
+  options: Brikko StudioTestStateOptions,
+  fn: (state: Brikko StudioTestState) => Promise<T>,
 ): Promise<T> {
-  const state = await createOpenClawTestState(options);
+  const state = await createBrikko StudioTestState(options);
   try {
     return await fn(state);
   } finally {

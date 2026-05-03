@@ -1,6 +1,6 @@
 import { join } from "node:path";
-import { withTempHome as withTempHomeBase } from "openclaw/plugin-sdk/test-env";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { withTempHome as withTempHomeBase } from "brikko-studio/plugin-sdk/test-env";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { MsgContext, TemplateContext } from "./templating.js";
 
 export async function withSandboxMediaTempHome<T>(
@@ -27,12 +27,12 @@ export function createSandboxMediaContexts(mediaPath: string): {
   return { ctx, sessionCtx: { ...ctx } };
 }
 
-export function createSandboxMediaStageConfig(home: string): OpenClawConfig {
+export function createSandboxMediaStageConfig(home: string): Brikko StudioConfig {
   return {
     agents: {
       defaults: {
         model: "anthropic/claude-opus-4-6",
-        workspace: join(home, "openclaw"),
+        workspace: join(home, "brikko-studio"),
         sandbox: {
           mode: "non-main",
           workspaceRoot: join(home, "sandboxes"),
@@ -41,5 +41,5 @@ export function createSandboxMediaStageConfig(home: string): OpenClawConfig {
     },
     channels: { whatsapp: { allowFrom: ["*"] } },
     session: { store: join(home, "sessions.json") },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }

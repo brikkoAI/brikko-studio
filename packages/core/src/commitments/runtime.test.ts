@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { DEFAULT_COMMITMENT_EXTRACTION_QUEUE_MAX_ITEMS } from "./config.js";
 import {
   configureCommitmentExtractionRuntime,
@@ -38,10 +38,10 @@ describe("commitment extraction runtime", () => {
     tmpDirs.length = 0;
   });
 
-  async function createConfig(): Promise<OpenClawConfig> {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-commitment-runtime-"));
+  async function createConfig(): Promise<Brikko StudioConfig> {
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-commitment-runtime-"));
     tmpDirs.push(tmpDir);
-    vi.stubEnv("OPENCLAW_STATE_DIR", tmpDir);
+    vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tmpDir);
     return {
       commitments: {
         enabled: true,
@@ -66,7 +66,7 @@ describe("commitment extraction runtime", () => {
   });
 
   it("keeps hidden extraction opt-in by default", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       commitments: {},
     };
     configureCommitmentExtractionRuntime({

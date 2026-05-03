@@ -1,1 +1,1 @@
-export { saveMediaBuffer } from "openclaw/plugin-sdk/media-store";
+export { saveMediaBuffer } from "brikko-studio/plugin-sdk/media-store";

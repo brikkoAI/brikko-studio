@@ -1,9 +1,9 @@
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
-import { createTestPluginApi } from "openclaw/plugin-sdk/plugin-test-api";
+import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { vi } from "vitest";
 
 type GoogleMeetTestPluginEntry = {
-  register(api: OpenClawPluginApi): void;
+  register(api: Brikko StudioPluginApi): void;
 };
 
 export const noopLogger = {
@@ -151,7 +151,7 @@ export function setupGoogleMeetPlugin(
         list: nodesList,
         invoke: nodesInvoke,
       },
-    } as unknown as OpenClawPluginApi["runtime"],
+    } as unknown as Brikko StudioPluginApi["runtime"],
     logger: noopLogger,
     registerGatewayMethod: (method: string, handler: unknown) => methods.set(method, handler),
     registerTool: (tool: unknown) => tools.push(tool),

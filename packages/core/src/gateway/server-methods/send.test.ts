@@ -25,7 +25,7 @@ const mocks = vi.hoisted(() => ({
     }>
   >(async () => ({ messageId: "poll-1" })),
   getChannelPlugin: vi.fn(),
-  loadOpenClawPlugins: vi.fn(),
+  loadBrikko StudioPlugins: vi.fn(),
   applyPluginAutoEnable: vi.fn(),
 }));
 
@@ -44,7 +44,7 @@ vi.mock("../../channels/plugins/index.js", () => ({
   normalizeChannelId: (value: string) => (value === "webchat" ? null : value),
 }));
 
-const TEST_AGENT_WORKSPACE = "/tmp/openclaw-test-workspace";
+const TEST_AGENT_WORKSPACE = "/tmp/brikko-studio-test-workspace";
 let sendHandlers: typeof import("./send.js").sendHandlers;
 
 function resolveAgentIdFromSessionKeyForTests(params: { sessionKey?: string }): string {
@@ -75,7 +75,7 @@ vi.mock("../../config/plugin-auto-enable.js", () => ({
 }));
 
 vi.mock("../../plugins/loader.js", () => ({
-  loadOpenClawPlugins: mocks.loadOpenClawPlugins,
+  loadBrikko StudioPlugins: mocks.loadBrikko StudioPlugins,
   resolveRuntimePluginRegistry: vi.fn(),
 }));
 
@@ -289,7 +289,7 @@ describe("gateway send mirroring", () => {
     const { respond } = await runSend({
       to: "channel:C1",
       message: "voice note",
-      mediaUrl: "file:///tmp/openclaw-voice.ogg",
+      mediaUrl: "file:///tmp/brikko-studio-voice.ogg",
       asVoice: true,
       channel: "slack",
       idempotencyKey: "idem-voice",
@@ -300,7 +300,7 @@ describe("gateway send mirroring", () => {
         payloads: [
           expect.objectContaining({
             text: "voice note",
-            mediaUrl: "file:///tmp/openclaw-voice.ogg",
+            mediaUrl: "file:///tmp/brikko-studio-voice.ogg",
             audioAsVoice: true,
           }),
         ],

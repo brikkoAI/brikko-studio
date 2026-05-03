@@ -1,7 +1,7 @@
 import path from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { resetInboundDedupe } from "openclaw/plugin-sdk/reply-runtime";
-import type { GetReplyOptions, MsgContext } from "openclaw/plugin-sdk/reply-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { resetInboundDedupe } from "brikko-studio/plugin-sdk/reply-runtime";
+import type { GetReplyOptions, MsgContext } from "brikko-studio/plugin-sdk/reply-runtime";
 import { beforeEach, vi, type Mock } from "vitest";
 import type { TelegramBotDeps } from "./bot-deps.js";
 
@@ -9,9 +9,9 @@ type TelegramBotRuntimeForTest = NonNullable<
   Parameters<typeof import("./bot.js").setTelegramBotRuntimeForTest>[0]
 >;
 type DispatchReplyWithBufferedBlockDispatcherFn =
-  typeof import("openclaw/plugin-sdk/reply-runtime").dispatchReplyWithBufferedBlockDispatcher;
+  typeof import("brikko-studio/plugin-sdk/reply-runtime").dispatchReplyWithBufferedBlockDispatcher;
 type DispatchReplyHarnessParams = Parameters<DispatchReplyWithBufferedBlockDispatcherFn>[0];
-type FetchRemoteMediaFn = typeof import("openclaw/plugin-sdk/media-runtime").fetchRemoteMedia;
+type FetchRemoteMediaFn = typeof import("brikko-studio/plugin-sdk/media-runtime").fetchRemoteMedia;
 
 const useSpy: Mock = vi.fn();
 const middlewareUseSpy: Mock = vi.fn();
@@ -148,7 +148,7 @@ export const telegramBotDepsForTest: TelegramBotDeps = {
   getRuntimeConfig: (() =>
     ({
       channels: { telegram: { dmPolicy: "open", allowFrom: ["*"] } },
-    }) as OpenClawConfig) as TelegramBotDeps["getRuntimeConfig"],
+    }) as Brikko StudioConfig) as TelegramBotDeps["getRuntimeConfig"],
   resolveStorePath: vi.fn(
     (storePath?: string) => storePath ?? "/tmp/telegram-media-sessions.json",
   ) as TelegramBotDeps["resolveStorePath"],

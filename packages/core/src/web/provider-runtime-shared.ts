@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeSecretInputString, resolveSecretInputRef } from "../config/types.secrets.js";
 import { normalizeSecretInput } from "../utils/normalize-secret-input.js";
 
@@ -13,7 +13,7 @@ type ProviderWithCredential = {
 };
 
 export function resolveWebProviderConfig(
-  cfg: OpenClawConfig | undefined,
+  cfg: Brikko StudioConfig | undefined,
   kind: "search" | "fetch",
 ): Record<string, unknown> | undefined {
   const webConfig = cfg?.tools?.web;
@@ -51,16 +51,16 @@ export function hasWebProviderEntryCredential<
   TConfig extends Record<string, unknown> | undefined,
 >(params: {
   provider: TProvider;
-  config: OpenClawConfig | undefined;
+  config: Brikko StudioConfig | undefined;
   toolConfig: TConfig;
   resolveRawValue: (params: {
     provider: TProvider;
-    config: OpenClawConfig | undefined;
+    config: Brikko StudioConfig | undefined;
     toolConfig: TConfig;
   }) => unknown;
   resolveFallbackRawValue?: (params: {
     provider: TProvider;
-    config: OpenClawConfig | undefined;
+    config: Brikko StudioConfig | undefined;
     toolConfig: TConfig;
   }) => unknown;
   resolveEnvValue: (params: {
@@ -123,7 +123,7 @@ export function resolveWebProviderDefinition<
   TRuntimeMetadata extends RuntimeWebProviderMetadata,
   TDefinition,
 >(params: {
-  config: OpenClawConfig | undefined;
+  config: Brikko StudioConfig | undefined;
   toolConfig: TConfig;
   runtimeMetadata: TRuntimeMetadata | undefined;
   sandboxed?: boolean;
@@ -131,19 +131,19 @@ export function resolveWebProviderDefinition<
   providers: TProvider[];
   resolveEnabled: (params: { toolConfig: TConfig; sandboxed?: boolean }) => boolean;
   resolveAutoProviderId: (params: {
-    config: OpenClawConfig | undefined;
+    config: Brikko StudioConfig | undefined;
     toolConfig: TConfig;
     providers: TProvider[];
   }) => string;
   resolveFallbackProviderId?: (params: {
-    config: OpenClawConfig | undefined;
+    config: Brikko StudioConfig | undefined;
     toolConfig: TConfig;
     providers: TProvider[];
     providerId: string;
   }) => string | undefined;
   createTool: (params: {
     provider: TProvider;
-    config: OpenClawConfig | undefined;
+    config: Brikko StudioConfig | undefined;
     toolConfig: TConfig;
     runtimeMetadata: TRuntimeMetadata | undefined;
   }) => TDefinition | null;

@@ -1,39 +1,39 @@
 import type { Message, ReactionTypeEmoji } from "@grammyjs/types";
-import { parseExecApprovalCommandText } from "openclaw/plugin-sdk/approval-reply-runtime";
-import { resolveChannelConfigWrites } from "openclaw/plugin-sdk/channel-config-helpers";
-import { shouldDebounceTextInbound } from "openclaw/plugin-sdk/channel-inbound";
+import { parseExecApprovalCommandText } from "brikko-studio/plugin-sdk/approval-reply-runtime";
+import { resolveChannelConfigWrites } from "brikko-studio/plugin-sdk/channel-config-helpers";
+import { shouldDebounceTextInbound } from "brikko-studio/plugin-sdk/channel-inbound";
 import {
   createInboundDebouncer,
   resolveInboundDebounceMs,
-} from "openclaw/plugin-sdk/channel-inbound-debounce";
-import { resolveStoredModelOverride } from "openclaw/plugin-sdk/command-auth";
+} from "brikko-studio/plugin-sdk/channel-inbound-debounce";
+import { resolveStoredModelOverride } from "brikko-studio/plugin-sdk/command-auth";
 import {
   resolveCommandAuthorization,
   resolveCommandAuthorizedFromAuthorizers,
-} from "openclaw/plugin-sdk/command-auth-native";
-import { buildCommandsMessagePaginated } from "openclaw/plugin-sdk/command-status";
-import { replaceConfigFile } from "openclaw/plugin-sdk/config-mutation";
-import type { DmPolicy, OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/command-auth-native";
+import { buildCommandsMessagePaginated } from "brikko-studio/plugin-sdk/command-status";
+import { replaceConfigFile } from "brikko-studio/plugin-sdk/config-mutation";
+import type { DmPolicy, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type {
   TelegramDirectConfig,
   TelegramGroupConfig,
   TelegramTopicConfig,
-} from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/config-types";
 import {
   buildPluginBindingResolvedText,
   parsePluginBindingApprovalCustomId,
   resolvePluginConversationBindingApproval,
-} from "openclaw/plugin-sdk/conversation-runtime";
-import { applyModelOverrideToSessionEntry } from "openclaw/plugin-sdk/model-session-runtime";
-import { formatModelsAvailableHeader } from "openclaw/plugin-sdk/models-provider-runtime";
-import { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
-import { resolveThreadSessionKeys } from "openclaw/plugin-sdk/routing";
-import { danger, logVerbose, warn } from "openclaw/plugin-sdk/runtime-env";
+} from "brikko-studio/plugin-sdk/conversation-runtime";
+import { applyModelOverrideToSessionEntry } from "brikko-studio/plugin-sdk/model-session-runtime";
+import { formatModelsAvailableHeader } from "brikko-studio/plugin-sdk/models-provider-runtime";
+import { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
+import { resolveThreadSessionKeys } from "brikko-studio/plugin-sdk/routing";
+import { danger, logVerbose, warn } from "brikko-studio/plugin-sdk/runtime-env";
 import {
   loadSessionStore,
   resolveSessionStoreEntry,
   updateSessionStore,
-} from "openclaw/plugin-sdk/session-store-runtime";
+} from "brikko-studio/plugin-sdk/session-store-runtime";
 import { resolveTelegramAccount, resolveTelegramMediaRuntimeOptions } from "./accounts.js";
 import { withTelegramApiErrorLogging } from "./api-logging.js";
 import {
@@ -813,7 +813,7 @@ export const registerTelegramHandlers = ({
     senderId: string;
     senderUsername: string;
     context: TelegramEventAuthorizationContext;
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
   }): boolean => {
     const { chatId, isGroup, senderId, senderUsername, context, cfg } = params;
     const useAccessGroups = cfg.commands?.useAccessGroups !== false;
@@ -1762,7 +1762,7 @@ export const registerTelegramHandlers = ({
               : `changed to <b>${escapeHtml(selection.provider)}/${escapeHtml(selection.model)}</b>`;
             const scopeText = isDefaultSelection
               ? "Session selection cleared. New replies use the agent's configured default."
-              : "Session-only selection. The agent default in openclaw.json is unchanged; /reset or a new session may return to that default.";
+              : "Session-only selection. The agent default in brikko-studio.json is unchanged; /reset or a new session may return to that default.";
             await editMessageWithButtons(
               `✅ Model ${actionText}\n\n${scopeText}`,
               [], // Empty buttons = remove inline keyboard

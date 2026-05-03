@@ -1,19 +1,19 @@
 import { describe, expect, it, vi } from "vitest";
 import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 
 const {
   collectEnabledInsecureOrDangerousFlagsMock,
   listReadOnlyChannelPluginsForConfigMock,
   hasConfiguredChannelsForReadOnlyScopeMock,
 } = vi.hoisted(() => ({
-  collectEnabledInsecureOrDangerousFlagsMock: vi.fn((_config: OpenClawConfig): string[] => []),
+  collectEnabledInsecureOrDangerousFlagsMock: vi.fn((_config: Brikko StudioConfig): string[] => []),
   listReadOnlyChannelPluginsForConfigMock: vi.fn(),
   hasConfiguredChannelsForReadOnlyScopeMock: vi.fn(),
 }));
 
 vi.mock("./dangerous-config-flags.js", () => ({
-  collectEnabledInsecureOrDangerousFlags: (config: OpenClawConfig) =>
+  collectEnabledInsecureOrDangerousFlags: (config: Brikko StudioConfig) =>
     collectEnabledInsecureOrDangerousFlagsMock(config),
 }));
 
@@ -62,7 +62,7 @@ describe("security audit channel read-only setup fallback", () => {
     const cfg = {
       session: { dmScope: "main" },
       channels: { telegram: { enabled: true } },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     hasConfiguredChannelsForReadOnlyScopeMock.mockReturnValue(true);
     listReadOnlyChannelPluginsForConfigMock.mockReturnValue([plugin]);

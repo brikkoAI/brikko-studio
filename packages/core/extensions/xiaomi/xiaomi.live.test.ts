@@ -1,8 +1,8 @@
 import {
   registerProviderPlugin,
   requireRegisteredProvider,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import { isLiveTestEnabled } from "openclaw/plugin-sdk/test-env";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { isLiveTestEnabled } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import plugin from "./index.js";
 
@@ -23,7 +23,7 @@ describeLive("xiaomi plugin live", () => {
     const provider = requireRegisteredProvider(speechProviders, "xiaomi");
 
     const audioFile = await provider.synthesize({
-      text: "OpenClaw Xiaomi MiMo text to speech integration test OK.",
+      text: "Brikko Studio Xiaomi MiMo text to speech integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig: { apiKey: XIAOMI_API_KEY, format: "mp3", voice: "mimo_default" },
       target: "audio-file",
@@ -40,7 +40,7 @@ describeLive("xiaomi plugin live", () => {
     const provider = requireRegisteredProvider(speechProviders, "xiaomi");
 
     const voiceNote = await provider.synthesize({
-      text: "OpenClaw Xiaomi MiMo voice note test OK.",
+      text: "Brikko Studio Xiaomi MiMo voice note test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig: { apiKey: XIAOMI_API_KEY, format: "mp3", voice: "mimo_default" },
       target: "voice-note",

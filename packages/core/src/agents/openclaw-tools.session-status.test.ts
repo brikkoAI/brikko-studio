@@ -9,7 +9,7 @@ const updateSessionStoreMock = vi.fn();
 const callGatewayMock = vi.fn();
 const loadCombinedSessionStoreForGatewayMock = vi.fn();
 const buildStatusMessageMock = vi.hoisted(() =>
-  vi.fn((_params?: unknown) => "OpenClaw\n🧠 Model: GPT-5.4"),
+  vi.fn((_params?: unknown) => "Brikko Studio\n🧠 Model: GPT-5.4"),
 );
 const resolveQueueSettingsMock = vi.hoisted(() =>
   vi.fn((_params?: unknown) => ({ mode: "interrupt" })),
@@ -228,7 +228,7 @@ function createCommandsStatusRuntimeModuleMock() {
         includeTranscriptUsage: params.includeTranscriptUsage,
         workspaceDir: params.workspaceDir,
       });
-      return ["OpenClaw", `🧠 Model: ${primary}`, params.taskLineOverride]
+      return ["Brikko Studio", `🧠 Model: ${primary}`, params.taskLineOverride]
         .filter(Boolean)
         .join("\n");
     },
@@ -405,7 +405,7 @@ describe("session_status tool", () => {
     const result = await tool.execute("call1", {});
     const details = result.details as { ok?: boolean; statusText?: string };
     expect(details.ok).toBe(true);
-    expect(details.statusText).toContain("OpenClaw");
+    expect(details.statusText).toContain("Brikko Studio");
     expect(details.statusText).toContain("🧠 Model:");
     expect(details.statusText).not.toContain("OAuth/token status");
   });
@@ -434,7 +434,7 @@ describe("session_status tool", () => {
       "agent:main:spawned": {
         sessionId: "spawned-status",
         updatedAt: 10,
-        spawnedWorkspaceDir: "/tmp/openclaw-spawned-workspace",
+        spawnedWorkspaceDir: "/tmp/brikko-studio-spawned-workspace",
         providerOverride: "anthropic",
         modelOverride: "claude-opus-4-6",
       },
@@ -446,7 +446,7 @@ describe("session_status tool", () => {
 
     expect(buildStatusMessageMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        workspaceDir: "/tmp/openclaw-spawned-workspace",
+        workspaceDir: "/tmp/brikko-studio-spawned-workspace",
       }),
     );
   });
@@ -502,7 +502,7 @@ describe("session_status tool", () => {
 
     const tool = getSessionStatusTool("agent:main:main");
 
-    const result = await tool.execute("call-tui-label", { sessionKey: "openclaw-tui" });
+    const result = await tool.execute("call-tui-label", { sessionKey: "brikko-studio-tui" });
     const details = result.details as { ok?: boolean; sessionKey?: string };
     expect(details.ok).toBe(true);
     expect(details.sessionKey).toBe("agent:main:main");
@@ -586,7 +586,7 @@ describe("session_status tool", () => {
     const details = result.details as { ok?: boolean; sessionKey?: string; statusText?: string };
     expect(details.ok).toBe(true);
     expect(details.sessionKey).toBe("agent:main:scope:scopy:direct:scopy");
-    expect(details.statusText).toContain("OpenClaw");
+    expect(details.statusText).toContain("Brikko Studio");
     expect(details.statusText).toContain("🧠 Model:");
   });
 
@@ -599,7 +599,7 @@ describe("session_status tool", () => {
     const details = result.details as { ok?: boolean; sessionKey?: string; statusText?: string };
     expect(details.ok).toBe(true);
     expect(details.sessionKey).toBe("agent:main:scope:scopy:direct:scopy");
-    expect(details.statusText).toContain("OpenClaw");
+    expect(details.statusText).toContain("Brikko Studio");
     expect(details.statusText).toContain("🧠 Model:");
   });
 

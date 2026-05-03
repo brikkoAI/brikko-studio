@@ -40,7 +40,7 @@ export function buildBrowserDoctorReport(params: {
     id: "profile",
     label: "Profile",
     status: "pass",
-    summary: `${status.profile ?? "openclaw"} via ${transport}`,
+    summary: `${status.profile ?? "brikko-studio"} via ${transport}`,
   });
 
   if (transport === "chrome-mcp") {
@@ -93,7 +93,7 @@ export function buildBrowserDoctorReport(params: {
         status: "warn",
         summary: `No DISPLAY or WAYLAND_DISPLAY is set while headed mode is selected (${status.headlessSource ?? "unknown"})`,
         fixHint:
-          "Use a desktop session, Xvfb, set OPENCLAW_BROWSER_HEADLESS=1, or remove the headed override.",
+          "Use a desktop session, Xvfb, set BRIKKO_STUDIO_BROWSER_HEADLESS=1, or remove the headed override.",
       });
     }
     if (platform === "linux" && uid === 0 && !status.noSandbox) {
@@ -118,7 +118,7 @@ export function buildBrowserDoctorReport(params: {
       ...(status.cdpHttp || !status.running
         ? {}
         : {
-            fixHint: "Run openclaw browser start or inspect browser.cdpUrl/CDP port reachability.",
+            fixHint: "Run brikko-studio browser start or inspect browser.cdpUrl/CDP port reachability.",
           }),
     });
 
@@ -139,7 +139,7 @@ export function buildBrowserDoctorReport(params: {
 
   return {
     ok: checks.every((check) => check.status !== "fail"),
-    profile: status.profile ?? "openclaw",
+    profile: status.profile ?? "brikko-studio",
     transport,
     checks,
     status,

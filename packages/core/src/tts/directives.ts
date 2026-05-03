@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import type { SpeechProviderPlugin } from "../plugins/types.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { listSpeechProviders } from "./provider-registry.js";
@@ -10,7 +10,7 @@ import type {
 } from "./provider-types.js";
 
 type ParseTtsDirectiveOptions = {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   providers?: readonly SpeechProviderPlugin[];
   providerConfigs?: Record<string, SpeechProviderConfig>;
   preferredProviderId?: string;

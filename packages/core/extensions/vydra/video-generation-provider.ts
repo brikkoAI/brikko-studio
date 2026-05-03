@@ -1,11 +1,11 @@
-import { isProviderApiKeyConfigured } from "openclaw/plugin-sdk/provider-auth";
+import { isProviderApiKeyConfigured } from "brikko-studio/plugin-sdk/provider-auth";
 import {
   assertOkOrThrowHttpError,
   createProviderOperationDeadline,
   postJsonRequest,
   resolveProviderOperationTimeoutMs,
-} from "openclaw/plugin-sdk/provider-http";
-import type { VideoGenerationProvider } from "openclaw/plugin-sdk/video-generation";
+} from "brikko-studio/plugin-sdk/provider-http";
+import type { VideoGenerationProvider } from "brikko-studio/plugin-sdk/video-generation";
 import {
   DEFAULT_VYDRA_VIDEO_MODEL,
   downloadVydraAsset,

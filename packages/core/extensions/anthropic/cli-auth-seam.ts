@@ -1,4 +1,4 @@
-import { readClaudeCliCredentialsCached } from "openclaw/plugin-sdk/provider-auth";
+import { readClaudeCliCredentialsCached } from "brikko-studio/plugin-sdk/provider-auth";
 
 export function readClaudeCliCredentialsForSetup() {
   return readClaudeCliCredentialsCached();

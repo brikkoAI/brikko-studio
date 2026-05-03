@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/irc",
+  "name": "@brikko-studio/irc",
   "version": "2026.5.3",
-  "description": "OpenClaw IRC channel plugin",
+  "description": "Brikko Studio IRC channel plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],

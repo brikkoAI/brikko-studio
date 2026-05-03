@@ -159,7 +159,7 @@ describe("installPluginFromGitSpec", () => {
   });
 
   it("uses a credential-free managed repo path for authenticated git URLs", async () => {
-    const gitDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-git-install-path-"));
+    const gitDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-git-install-path-"));
     try {
       runCommandWithTimeoutMock
         .mockResolvedValueOnce({ code: 0, stdout: "", stderr: "" })
@@ -226,7 +226,7 @@ describe("installPluginFromGitSpec", () => {
   });
 
   it("keeps the existing managed repo when replacement install fails", async () => {
-    const gitDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-git-install-preserve-"));
+    const gitDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-git-install-preserve-"));
     const normalizedSpec = "git:https://github.com/acme/demo.git";
     const existingRepoDir = expectedGitRepoDir({ gitDir, normalizedSpec });
     const markerPath = path.join(existingRepoDir, "existing.txt");

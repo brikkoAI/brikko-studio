@@ -17,8 +17,8 @@ type CandidateDir = {
   origin?: string;
 };
 
-const OPENCLAW_PACKAGE_ROOT = fileURLToPath(new URL("../..", import.meta.url));
-const PLUGIN_MANIFEST_FILENAME = "openclaw.plugin.json";
+const BRIKKO_STUDIO_PACKAGE_ROOT = fileURLToPath(new URL("../..", import.meta.url));
+const PLUGIN_MANIFEST_FILENAME = "brikko-studio.plugin.json";
 let manifestMetadataCache:
   | {
       key: string;
@@ -36,23 +36,23 @@ function normalizeTrimmedString(value: unknown): string | undefined {
 
 function resolveUserPath(value: string, env: NodeJS.ProcessEnv): string {
   if (value === "~" || value.startsWith("~/")) {
-    const home = env.OPENCLAW_HOME ?? env.HOME ?? env.USERPROFILE ?? os.homedir();
+    const home = env.BRIKKO_STUDIO_HOME ?? env.HOME ?? env.USERPROFILE ?? os.homedir();
     return path.join(home, value.slice(2));
   }
   return path.resolve(value);
 }
 
 function resolveStateDir(env: NodeJS.ProcessEnv): string {
-  const override = normalizeTrimmedString(env.OPENCLAW_STATE_DIR);
+  const override = normalizeTrimmedString(env.BRIKKO_STUDIO_STATE_DIR);
   if (override) {
     return resolveUserPath(override, env);
   }
-  const home = env.OPENCLAW_HOME ?? env.HOME ?? env.USERPROFILE ?? os.homedir();
-  return path.join(home, ".openclaw");
+  const home = env.BRIKKO_STUDIO_HOME ?? env.HOME ?? env.USERPROFILE ?? os.homedir();
+  return path.join(home, ".brikko-studio");
 }
 
 function areBundledPluginsDisabled(env: NodeJS.ProcessEnv): boolean {
-  const value = normalizeTrimmedString(env.OPENCLAW_DISABLE_BUNDLED_PLUGINS)?.toLowerCase();
+  const value = normalizeTrimmedString(env.BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS)?.toLowerCase();
   return value === "1" || value === "true";
 }
 
@@ -65,14 +65,14 @@ function resolveBundledPluginRoot(env: NodeJS.ProcessEnv): string | undefined {
     return undefined;
   }
 
-  const override = normalizeTrimmedString(env.OPENCLAW_BUNDLED_PLUGINS_DIR);
+  const override = normalizeTrimmedString(env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR);
   if (override) {
     return resolveUserPath(override, env);
   }
 
-  const sourceRoot = path.join(OPENCLAW_PACKAGE_ROOT, "extensions");
-  const runtimeRoot = path.join(OPENCLAW_PACKAGE_ROOT, "dist-runtime", "extensions");
-  const distRoot = path.join(OPENCLAW_PACKAGE_ROOT, "dist", "extensions");
+  const sourceRoot = path.join(BRIKKO_STUDIO_PACKAGE_ROOT, "extensions");
+  const runtimeRoot = path.join(BRIKKO_STUDIO_PACKAGE_ROOT, "dist-runtime", "extensions");
+  const distRoot = path.join(BRIKKO_STUDIO_PACKAGE_ROOT, "dist", "extensions");
   return [sourceRoot, runtimeRoot, distRoot].find(hasManifestDir);
 }
 
@@ -170,7 +170,7 @@ function uniqueCandidateDirs(candidates: CandidateDir[]): CandidateDir[] {
   );
 }
 
-export function listOpenClawPluginManifestMetadata(
+export function listBrikko StudioPluginManifestMetadata(
   env: NodeJS.ProcessEnv = process.env,
 ): PluginManifestMetadataRecord[] {
   const candidates: CandidateDir[] = [];

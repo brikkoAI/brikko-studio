@@ -3,8 +3,8 @@ import { listPotentialConfiguredChannelPresenceSignals } from "../../../channels
 import { normalizeChatChannelId } from "../../../channels/registry.js";
 import { isChannelConfigured } from "../../../config/channel-configured.js";
 import { detectPluginAutoEnableCandidates } from "../../../config/plugin-auto-enable.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { compareOpenClawVersions } from "../../../config/version.js";
+import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import { compareBrikko StudioVersions } from "../../../config/version.js";
 import { resolveProviderInstallCatalogEntries } from "../../../plugins/provider-install-catalog.js";
 import { resolveWebSearchInstallCatalogEntry } from "../../../plugins/web-search-install-catalog.js";
 import { VERSION } from "../../../version.js";
@@ -27,16 +27,16 @@ function normalizeId(value: unknown): string | null {
   return typeof value === "string" && value.trim() ? value.trim() : null;
 }
 
-function isPluginsGloballyDisabled(cfg: OpenClawConfig): boolean {
+function isPluginsGloballyDisabled(cfg: Brikko StudioConfig): boolean {
   return cfg.plugins?.enabled === false;
 }
 
-function isDenied(cfg: OpenClawConfig, pluginId: string): boolean {
+function isDenied(cfg: Brikko StudioConfig, pluginId: string): boolean {
   const deny = cfg.plugins?.deny;
   return Array.isArray(deny) && deny.includes(pluginId);
 }
 
-function collectBlockedPluginIds(cfg: OpenClawConfig): string[] {
+function collectBlockedPluginIds(cfg: Brikko StudioConfig): string[] {
   const ids = new Set<string>();
   const deny = cfg.plugins?.deny;
   if (Array.isArray(deny)) {
@@ -56,17 +56,17 @@ function collectBlockedPluginIds(cfg: OpenClawConfig): string[] {
   return [...ids].toSorted((left, right) => left.localeCompare(right));
 }
 
-function isPluginEntryDisabled(cfg: OpenClawConfig, pluginId: string): boolean {
+function isPluginEntryDisabled(cfg: Brikko StudioConfig, pluginId: string): boolean {
   return cfg.plugins?.entries?.[pluginId]?.enabled === false;
 }
 
-function isChannelDisabled(cfg: OpenClawConfig, channelId: string): boolean {
+function isChannelDisabled(cfg: Brikko StudioConfig, channelId: string): boolean {
   const channels = asObjectRecord(cfg.channels);
   const entry = asObjectRecord(channels?.[channelId]);
   return entry?.enabled === false;
 }
 
-function isDisabled(cfg: OpenClawConfig, pluginId: string): boolean {
+function isDisabled(cfg: Brikko StudioConfig, pluginId: string): boolean {
   if (isPluginEntryDisabled(cfg, pluginId)) {
     return true;
   }
@@ -89,7 +89,7 @@ function hasMaterialPluginEntry(entry: unknown): boolean {
   );
 }
 
-function collectMaterialPluginEntryIds(cfg: OpenClawConfig): string[] {
+function collectMaterialPluginEntryIds(cfg: Brikko StudioConfig): string[] {
   const entries = asObjectRecord(cfg.plugins?.entries);
   if (!entries) {
     return [];
@@ -100,14 +100,14 @@ function collectMaterialPluginEntryIds(cfg: OpenClawConfig): string[] {
     .filter((pluginId) => pluginId);
 }
 
-function collectSlotPluginIds(cfg: OpenClawConfig): string[] {
+function collectSlotPluginIds(cfg: Brikko StudioConfig): string[] {
   const slots = asObjectRecord(cfg.plugins?.slots);
   return ["memory", "contextEngine"]
     .map((key) => normalizeId(slots?.[key]))
     .filter((pluginId): pluginId is string => !!pluginId && pluginId.toLowerCase() !== "none");
 }
 
-function collectConfiguredChannelIds(cfg: OpenClawConfig, env: NodeJS.ProcessEnv): string[] {
+function collectConfiguredChannelIds(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): string[] {
   const ids = new Set<string>();
   const channels = asObjectRecord(cfg.channels);
   if (channels) {
@@ -135,7 +135,7 @@ function collectConfiguredChannelIds(cfg: OpenClawConfig, env: NodeJS.ProcessEnv
   return [...ids].toSorted((left, right) => left.localeCompare(right));
 }
 
-function collectConfiguredProviderIds(cfg: OpenClawConfig): Set<string> {
+function collectConfiguredProviderIds(cfg: Brikko StudioConfig): Set<string> {
   const ids = new Set<string>();
   const add = (value: unknown) => {
     const id = normalizeId(value);
@@ -196,7 +196,7 @@ function collectConfiguredProviderIds(cfg: OpenClawConfig): Set<string> {
   return ids;
 }
 
-function collectProviderPluginIds(cfg: OpenClawConfig, env: NodeJS.ProcessEnv): string[] {
+function collectProviderPluginIds(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): string[] {
   const configuredProviders = collectConfiguredProviderIds(cfg);
   if (configuredProviders.size === 0) {
     return [];
@@ -215,7 +215,7 @@ function collectProviderPluginIds(cfg: OpenClawConfig, env: NodeJS.ProcessEnv): 
 }
 
 function collectAgentHarnessRuntimePluginIds(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   env: NodeJS.ProcessEnv,
 ): string[] {
   return collectConfiguredAgentHarnessRuntimes(cfg, env)
@@ -224,7 +224,7 @@ function collectAgentHarnessRuntimePluginIds(
     .toSorted((left, right) => left.localeCompare(right));
 }
 
-function collectWebSearchPluginIds(cfg: OpenClawConfig): string[] {
+function collectWebSearchPluginIds(cfg: Brikko StudioConfig): string[] {
   const providerId = cfg.tools?.web?.search?.provider;
   if (typeof providerId !== "string") {
     return [];
@@ -233,7 +233,7 @@ function collectWebSearchPluginIds(cfg: OpenClawConfig): string[] {
   return entry?.pluginId ? [entry.pluginId] : [];
 }
 
-function collectAcpRuntimePluginIds(cfg: OpenClawConfig): string[] {
+function collectAcpRuntimePluginIds(cfg: Brikko StudioConfig): string[] {
   const acp = asObjectRecord(cfg.acp);
   if (!acp) {
     return [];
@@ -247,7 +247,7 @@ function collectAcpRuntimePluginIds(cfg: OpenClawConfig): string[] {
   return ["acpx"];
 }
 
-function addEligiblePluginId(cfg: OpenClawConfig, pluginIds: Set<string>, pluginId: string): void {
+function addEligiblePluginId(cfg: Brikko StudioConfig, pluginIds: Set<string>, pluginId: string): void {
   const normalized = pluginId.trim();
   if (!normalized || isDenied(cfg, normalized) || isDisabled(cfg, normalized)) {
     return;
@@ -261,19 +261,19 @@ export function shouldRunConfiguredPluginInstallReleaseStep(params: {
   releaseVersion?: string;
 }): boolean {
   const releaseVersion = params.releaseVersion ?? CONFIGURED_PLUGIN_INSTALL_RELEASE_VERSION;
-  const currentComparedToRelease = compareOpenClawVersions(
+  const currentComparedToRelease = compareBrikko StudioVersions(
     params.currentVersion ?? VERSION,
     releaseVersion,
   );
   if (currentComparedToRelease === null || currentComparedToRelease < 0) {
     return false;
   }
-  const touchedComparedToRelease = compareOpenClawVersions(params.touchedVersion, releaseVersion);
+  const touchedComparedToRelease = compareBrikko StudioVersions(params.touchedVersion, releaseVersion);
   return touchedComparedToRelease === null || touchedComparedToRelease < 0;
 }
 
 export function collectReleaseConfiguredPluginIds(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
 }): ReleaseConfiguredPluginIds {
   const env = params.env ?? process.env;
@@ -324,7 +324,7 @@ export function collectReleaseConfiguredPluginIds(params: {
 }
 
 export async function maybeRunConfiguredPluginInstallReleaseStep(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   touchedVersion?: string | null;
   currentVersion?: string | null;

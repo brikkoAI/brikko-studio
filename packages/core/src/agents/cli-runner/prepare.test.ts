@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { CURRENT_SESSION_VERSION } from "@mariozechner/pi-coding-agent";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
 import { __testing as cliBackendsTesting } from "../cli-backends.js";
 import { hashCliSessionText } from "../cli-session.js";
@@ -52,15 +52,15 @@ const mockBuildActiveMusicGenerationTaskPromptContextForSession = vi.mocked(
 function createTestMcpLoopbackServerConfig(port: number) {
   return {
     mcpServers: {
-      openclaw: {
+      brikko-studio: {
         type: "http",
         url: `http://127.0.0.1:${port}/mcp`,
         headers: {
-          Authorization: "Bearer ${OPENCLAW_MCP_TOKEN}",
-          "x-session-key": "${OPENCLAW_MCP_SESSION_KEY}",
-          "x-openclaw-agent-id": "${OPENCLAW_MCP_AGENT_ID}",
-          "x-openclaw-account-id": "${OPENCLAW_MCP_ACCOUNT_ID}",
-          "x-openclaw-message-channel": "${OPENCLAW_MCP_MESSAGE_CHANNEL}",
+          Authorization: "Bearer ${BRIKKO_STUDIO_MCP_TOKEN}",
+          "x-session-key": "${BRIKKO_STUDIO_MCP_SESSION_KEY}",
+          "x-brikko-studio-agent-id": "${BRIKKO_STUDIO_MCP_AGENT_ID}",
+          "x-brikko-studio-account-id": "${BRIKKO_STUDIO_MCP_ACCOUNT_ID}",
+          "x-brikko-studio-message-channel": "${BRIKKO_STUDIO_MCP_MESSAGE_CHANNEL}",
         },
       },
     },
@@ -76,7 +76,7 @@ async function createTestMcpLoopbackServer(port = 0) {
 
 function createCliBackendConfig(
   params: { systemPromptOverride?: string | null; bundleMcp?: boolean } = {},
-): OpenClawConfig {
+): Brikko StudioConfig {
   return {
     agents: {
       defaults: {
@@ -99,12 +99,12 @@ function createCliBackendConfig(
         },
       },
     },
-  } satisfies OpenClawConfig;
+  } satisfies Brikko StudioConfig;
 }
 
 function createSessionFile() {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-cli-prepare-"));
-  vi.stubEnv("OPENCLAW_STATE_DIR", dir);
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-cli-prepare-"));
+  vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", dir);
   const sessionFile = path.join(dir, "agents", "main", "sessions", "session-test.jsonl");
   fs.mkdirSync(path.dirname(sessionFile), { recursive: true });
   fs.writeFileSync(
@@ -158,7 +158,7 @@ describe("shouldSkipLocalCliCredentialEpoch", () => {
       getActiveMcpLoopbackRuntime: vi.fn(() => undefined),
       ensureMcpLoopbackServer: vi.fn(createTestMcpLoopbackServer),
       createMcpLoopbackServerConfig: vi.fn(createTestMcpLoopbackServerConfig),
-      resolveOpenClawReferencePaths: vi.fn(async () => ({ docsPath: null, sourcePath: null })),
+      resolveBrikko StudioReferencePaths: vi.fn(async () => ({ docsPath: null, sourcePath: null })),
     });
     mockGetGlobalHookRunner.mockReturnValue(null);
     mockBuildActiveVideoGenerationTaskPromptContextForSession.mockReturnValue(undefined);

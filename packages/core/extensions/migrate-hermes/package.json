@@ -1,25 +1,25 @@
 {
-  "name": "@openclaw/migrate-hermes",
+  "name": "@brikko-studio/migrate-hermes",
   "version": "2026.5.3",
   "private": true,
-  "description": "Hermes to OpenClaw migration provider",
+  "description": "Hermes to Brikko Studio migration provider",
   "type": "module",
   "dependencies": {
     "yaml": "^2.8.3"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*",
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

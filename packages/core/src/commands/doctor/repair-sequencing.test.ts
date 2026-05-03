@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import { runDoctorRepairSequence } from "./repair-sequencing.js";
 
 vi.mock("./shared/channel-doctor.js", () => ({
-  collectChannelDoctorRepairMutations: ({ cfg }: { cfg: OpenClawConfig }) => {
+  collectChannelDoctorRepairMutations: ({ cfg }: { cfg: Brikko StudioConfig }) => {
     const allowFrom = cfg.channels?.discord?.allowFrom as unknown[] | undefined;
     if (allowFrom?.[0] === 123) {
       return [
@@ -42,49 +42,49 @@ vi.mock("./shared/channel-doctor.js", () => ({
 }));
 
 vi.mock("./shared/empty-allowlist-scan.js", () => ({
-  scanEmptyAllowlistPolicyWarnings: (cfg: OpenClawConfig) =>
+  scanEmptyAllowlistPolicyWarnings: (cfg: Brikko StudioConfig) =>
     cfg.channels?.signal
       ? ["channels.signal.accounts.ops\u001B[31m-team\u001B[0m\r\nnext.dmPolicy warning"]
       : [],
 }));
 
 vi.mock("./shared/allowlist-policy-repair.js", () => ({
-  maybeRepairAllowlistPolicyAllowFrom: async (cfg: OpenClawConfig) => ({
+  maybeRepairAllowlistPolicyAllowFrom: async (cfg: Brikko StudioConfig) => ({
     config: cfg,
     changes: [],
   }),
 }));
 
 vi.mock("./shared/bundled-plugin-load-paths.js", () => ({
-  maybeRepairBundledPluginLoadPaths: (cfg: OpenClawConfig) => ({
+  maybeRepairBundledPluginLoadPaths: (cfg: Brikko StudioConfig) => ({
     config: cfg,
     changes: [],
   }),
 }));
 
 vi.mock("./shared/open-policy-allowfrom.js", () => ({
-  maybeRepairOpenPolicyAllowFrom: (cfg: OpenClawConfig) => ({
+  maybeRepairOpenPolicyAllowFrom: (cfg: Brikko StudioConfig) => ({
     config: cfg,
     changes: [],
   }),
 }));
 
 vi.mock("./shared/stale-plugin-config.js", () => ({
-  maybeRepairStalePluginConfig: (cfg: OpenClawConfig) => ({
+  maybeRepairStalePluginConfig: (cfg: Brikko StudioConfig) => ({
     config: cfg,
     changes: [],
   }),
 }));
 
 vi.mock("./shared/invalid-plugin-config.js", () => ({
-  maybeRepairInvalidPluginConfig: (cfg: OpenClawConfig) => ({
+  maybeRepairInvalidPluginConfig: (cfg: Brikko StudioConfig) => ({
     config: cfg,
     changes: [],
   }),
 }));
 
 vi.mock("./shared/legacy-tools-by-sender.js", () => ({
-  maybeRepairLegacyToolsBySenderKeys: (cfg: OpenClawConfig) => {
+  maybeRepairLegacyToolsBySenderKeys: (cfg: Brikko StudioConfig) => {
     const channels = cfg.channels as Record<string, unknown> | undefined;
     const tools = channels?.tools as
       | { exec?: { toolsBySender?: Record<string, unknown> } }
@@ -121,7 +121,7 @@ vi.mock("./shared/legacy-tools-by-sender.js", () => ({
 }));
 
 vi.mock("./shared/exec-safe-bins.js", () => ({
-  maybeRepairExecSafeBinProfiles: (cfg: OpenClawConfig) => ({
+  maybeRepairExecSafeBinProfiles: (cfg: Brikko StudioConfig) => ({
     config: cfg,
     changes: [],
   }),
@@ -151,7 +151,7 @@ describe("doctor repair sequencing", () => {
               },
             },
           },
-        } as unknown as OpenClawConfig,
+        } as unknown as Brikko StudioConfig,
         candidate: {
           channels: {
             discord: {
@@ -172,11 +172,11 @@ describe("doctor repair sequencing", () => {
               },
             },
           },
-        } as unknown as OpenClawConfig,
+        } as unknown as Brikko StudioConfig,
         pendingChanges: false,
         fixHints: [],
       },
-      doctorFixCommand: "openclaw doctor --fix",
+      doctorFixCommand: "brikko-studio doctor --fix",
     });
 
     expect(result.state.pendingChanges).toBe(true);
@@ -210,18 +210,18 @@ describe("doctor repair sequencing", () => {
               allowFrom: [106232522769186816],
             },
           },
-        } as unknown as OpenClawConfig,
+        } as unknown as Brikko StudioConfig,
         candidate: {
           channels: {
             discord: {
               allowFrom: [106232522769186816],
             },
           },
-        } as unknown as OpenClawConfig,
+        } as unknown as Brikko StudioConfig,
         pendingChanges: false,
         fixHints: [],
       },
-      doctorFixCommand: "openclaw doctor --fix",
+      doctorFixCommand: "brikko-studio doctor --fix",
     });
 
     expect(result.changeNotes).toEqual([]);

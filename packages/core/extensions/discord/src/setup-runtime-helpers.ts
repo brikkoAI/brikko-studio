@@ -7,4 +7,4 @@ export {
   promptLegacyChannelAllowFromForAccount,
   resolveEntriesWithOptionalToken,
   setSetupChannelEnabled,
-} from "openclaw/plugin-sdk/setup-runtime";
+} from "brikko-studio/plugin-sdk/setup-runtime";

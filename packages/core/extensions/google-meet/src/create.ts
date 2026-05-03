@@ -1,5 +1,5 @@
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import type { GoogleMeetConfig, GoogleMeetMode, GoogleMeetTransport } from "./config.js";
 import {
   createGoogleMeetSpace,
@@ -86,7 +86,7 @@ function hasGoogleMeetOAuth(config: GoogleMeetConfig, raw: Record<string, unknow
 
 export async function createMeetFromParams(params: {
   config: GoogleMeetConfig;
-  runtime: OpenClawPluginApi["runtime"];
+  runtime: Brikko StudioPluginApi["runtime"];
   raw: Record<string, unknown>;
 }) {
   if (hasGoogleMeetOAuth(params.config, params.raw)) {
@@ -129,7 +129,7 @@ export async function createMeetFromParams(params: {
 
 export async function createAndJoinMeetFromParams(params: {
   config: GoogleMeetConfig;
-  runtime: OpenClawPluginApi["runtime"];
+  runtime: Brikko StudioPluginApi["runtime"];
   raw: Record<string, unknown>;
   ensureRuntime: () => Promise<GoogleMeetRuntime>;
 }) {
@@ -147,7 +147,7 @@ export async function createAndJoinMeetFromParams(params: {
   return {
     ...created,
     joined: true,
-    nextAction: "Share meetingUri with participants; the OpenClaw agent has started the join flow.",
+    nextAction: "Share meetingUri with participants; the Brikko Studio agent has started the join flow.",
     join,
   };
 }

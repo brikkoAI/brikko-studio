@@ -8,7 +8,7 @@ const mocks = vi.hoisted(() => ({
   loadInstalledPluginIndexInstallRecords: vi.fn(),
   loadPluginMetadataSnapshot: vi.fn(),
   getOfficialExternalPluginCatalogManifest: vi.fn(
-    (entry: { openclaw?: unknown }) => entry.openclaw,
+    (entry: { brikko-studio?: unknown }) => entry.brikko-studio,
   ),
   resolveOfficialExternalPluginId: vi.fn((entry: { id?: string }) => entry.id),
   resolveOfficialExternalPluginInstall: vi.fn(
@@ -17,7 +17,7 @@ const mocks = vi.hoisted(() => ({
   resolveOfficialExternalPluginLabel: vi.fn(
     (entry: { label?: string; id?: string }) => entry.label ?? entry.id ?? "plugin",
   ),
-  resolveDefaultPluginExtensionsDir: vi.fn(() => "/tmp/openclaw-plugins"),
+  resolveDefaultPluginExtensionsDir: vi.fn(() => "/tmp/brikko-studio-plugins"),
   resolveProviderInstallCatalogEntries: vi.fn(),
   updateNpmInstalledPlugins: vi.fn(),
   writePersistedInstalledPluginIndexInstallRecords: vi.fn(),
@@ -83,12 +83,12 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     mocks.installPluginFromClawHub.mockResolvedValue({
       ok: true,
       pluginId: "matrix",
-      targetDir: "/tmp/openclaw-plugins/matrix",
+      targetDir: "/tmp/brikko-studio-plugins/matrix",
       version: "1.2.3",
       clawhub: {
         source: "clawhub",
         clawhubUrl: "https://clawhub.ai",
-        clawhubPackage: "@openclaw/plugin-matrix",
+        clawhubPackage: "@brikko-studio/plugin-matrix",
         clawhubFamily: "code-plugin",
         clawhubChannel: "official",
         version: "1.2.3",
@@ -103,26 +103,26 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     mocks.installPluginFromNpmSpec.mockResolvedValue({
       ok: true,
       pluginId: "matrix",
-      targetDir: "/tmp/openclaw-plugins/matrix",
+      targetDir: "/tmp/brikko-studio-plugins/matrix",
       version: "1.2.3",
       npmResolution: {
-        name: "@openclaw/plugin-matrix",
+        name: "@brikko-studio/plugin-matrix",
         version: "1.2.3",
-        resolvedSpec: "@openclaw/plugin-matrix@1.2.3",
+        resolvedSpec: "@brikko-studio/plugin-matrix@1.2.3",
         integrity: "sha512-test",
         resolvedAt: "2026-05-01T00:00:00.000Z",
       },
     });
   });
 
-  it("installs a missing configured OpenClaw channel plugin from npm by default", async () => {
+  it("installs a missing configured Brikko Studio channel plugin from npm by default", async () => {
     mocks.listChannelPluginCatalogEntries.mockReturnValue([
       {
         id: "matrix",
         pluginId: "matrix",
         meta: { label: "Matrix" },
         install: {
-          npmSpec: "@openclaw/plugin-matrix@1.2.3",
+          npmSpec: "@brikko-studio/plugin-matrix@1.2.3",
           expectedIntegrity: "sha512-test",
         },
         trustedSourceLinkedOfficialInstall: true,
@@ -143,8 +143,8 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     expect(mocks.installPluginFromClawHub).not.toHaveBeenCalled();
     expect(mocks.installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@openclaw/plugin-matrix@1.2.3",
-        extensionsDir: "/tmp/openclaw-plugins",
+        spec: "@brikko-studio/plugin-matrix@1.2.3",
+        extensionsDir: "/tmp/brikko-studio-plugins",
         expectedPluginId: "matrix",
         expectedIntegrity: "sha512-test",
         trustedSourceLinkedOfficialInstall: true,
@@ -154,14 +154,14 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       expect.objectContaining({
         matrix: expect.objectContaining({
           source: "npm",
-          spec: "@openclaw/plugin-matrix@1.2.3",
-          installPath: "/tmp/openclaw-plugins/matrix",
+          spec: "@brikko-studio/plugin-matrix@1.2.3",
+          installPath: "/tmp/brikko-studio-plugins/matrix",
         }),
       }),
       { env: {} },
     );
     expect(result.changes).toEqual([
-      'Installed missing configured plugin "matrix" from @openclaw/plugin-matrix@1.2.3.',
+      'Installed missing configured plugin "matrix" from @brikko-studio/plugin-matrix@1.2.3.',
     ]);
     expect(result.warnings).toEqual([]);
   });
@@ -173,8 +173,8 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "matrix",
         meta: { label: "Matrix" },
         install: {
-          clawhubSpec: "clawhub:@openclaw/plugin-matrix@stable",
-          npmSpec: "@openclaw/plugin-matrix@1.2.3",
+          clawhubSpec: "clawhub:@brikko-studio/plugin-matrix@stable",
+          npmSpec: "@brikko-studio/plugin-matrix@1.2.3",
           expectedIntegrity: "sha512-test",
         },
       },
@@ -193,13 +193,13 @@ describe("repairMissingConfiguredPluginInstalls", () => {
 
     expect(mocks.installPluginFromClawHub).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "clawhub:@openclaw/plugin-matrix@stable",
+        spec: "clawhub:@brikko-studio/plugin-matrix@stable",
         expectedPluginId: "matrix",
       }),
     );
     expect(mocks.installPluginFromNpmSpec).not.toHaveBeenCalled();
     expect(result.changes).toEqual([
-      'Installed missing configured plugin "matrix" from clawhub:@openclaw/plugin-matrix@stable.',
+      'Installed missing configured plugin "matrix" from clawhub:@brikko-studio/plugin-matrix@stable.',
     ]);
     expect(result.warnings).toEqual([]);
   });
@@ -208,12 +208,12 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce({
       ok: true,
       pluginId: "matrix",
-      targetDir: "/tmp/openclaw-plugins/matrix",
+      targetDir: "/tmp/brikko-studio-plugins/matrix",
       version: "1.2.3",
       npmResolution: {
-        name: "@openclaw/plugin-matrix",
+        name: "@brikko-studio/plugin-matrix",
         version: "1.2.3",
-        resolvedSpec: "@openclaw/plugin-matrix@1.2.3",
+        resolvedSpec: "@brikko-studio/plugin-matrix@1.2.3",
         integrity: "sha512-matrix",
         resolvedAt: "2026-05-01T00:00:00.000Z",
       },
@@ -224,7 +224,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "matrix",
         meta: { label: "Matrix" },
         install: {
-          npmSpec: "@openclaw/plugin-matrix@1.2.3",
+          npmSpec: "@brikko-studio/plugin-matrix@1.2.3",
         },
         trustedSourceLinkedOfficialInstall: true,
       },
@@ -240,8 +240,8 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     expect(mocks.installPluginFromClawHub).not.toHaveBeenCalled();
     expect(mocks.installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@openclaw/plugin-matrix@1.2.3",
-        extensionsDir: "/tmp/openclaw-plugins",
+        spec: "@brikko-studio/plugin-matrix@1.2.3",
+        extensionsDir: "/tmp/brikko-studio-plugins",
         expectedPluginId: "matrix",
         trustedSourceLinkedOfficialInstall: true,
       }),
@@ -250,19 +250,19 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       expect.objectContaining({
         matrix: expect.objectContaining({
           source: "npm",
-          spec: "@openclaw/plugin-matrix@1.2.3",
-          installPath: "/tmp/openclaw-plugins/matrix",
+          spec: "@brikko-studio/plugin-matrix@1.2.3",
+          installPath: "/tmp/brikko-studio-plugins/matrix",
         }),
       }),
       { env: { MATRIX_HOMESERVER: "https://matrix.example.org" } },
     );
     expect(result.changes).toEqual([
-      'Installed missing configured plugin "matrix" from @openclaw/plugin-matrix@1.2.3.',
+      'Installed missing configured plugin "matrix" from @brikko-studio/plugin-matrix@1.2.3.',
     ]);
     expect(result.warnings).toEqual([]);
   });
 
-  it("falls back to npm when an OpenClaw channel plugin is not on ClawHub", async () => {
+  it("falls back to npm when an Brikko Studio channel plugin is not on ClawHub", async () => {
     mocks.installPluginFromClawHub.mockResolvedValueOnce({
       ok: false,
       code: "package_not_found",
@@ -274,8 +274,8 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "matrix",
         meta: { label: "Matrix" },
         install: {
-          clawhubSpec: "clawhub:@openclaw/plugin-matrix@stable",
-          npmSpec: "@openclaw/plugin-matrix@1.2.3",
+          clawhubSpec: "clawhub:@brikko-studio/plugin-matrix@stable",
+          npmSpec: "@brikko-studio/plugin-matrix@1.2.3",
         },
         trustedSourceLinkedOfficialInstall: true,
       },
@@ -292,28 +292,28 @@ describe("repairMissingConfiguredPluginInstalls", () => {
 
     expect(mocks.installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@openclaw/plugin-matrix@1.2.3",
+        spec: "@brikko-studio/plugin-matrix@1.2.3",
         expectedPluginId: "matrix",
         trustedSourceLinkedOfficialInstall: true,
       }),
     );
     expect(result.changes).toEqual([
-      'ClawHub clawhub:@openclaw/plugin-matrix@stable unavailable for "matrix"; falling back to npm @openclaw/plugin-matrix@1.2.3.',
-      'Installed missing configured plugin "matrix" from @openclaw/plugin-matrix@1.2.3.',
+      'ClawHub clawhub:@brikko-studio/plugin-matrix@stable unavailable for "matrix"; falling back to npm @brikko-studio/plugin-matrix@1.2.3.',
+      'Installed missing configured plugin "matrix" from @brikko-studio/plugin-matrix@1.2.3.',
     ]);
     expect(result.warnings).toEqual([]);
   });
 
-  it("honors npm-first catalog metadata for missing OpenClaw channel plugins", async () => {
+  it("honors npm-first catalog metadata for missing Brikko Studio channel plugins", async () => {
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce({
       ok: true,
       pluginId: "twitch",
-      targetDir: "/tmp/openclaw-plugins/twitch",
+      targetDir: "/tmp/brikko-studio-plugins/twitch",
       version: "2026.5.2",
       npmResolution: {
-        name: "@openclaw/twitch",
+        name: "@brikko-studio/twitch",
         version: "2026.5.2",
-        resolvedSpec: "@openclaw/twitch@2026.5.2",
+        resolvedSpec: "@brikko-studio/twitch@2026.5.2",
         integrity: "sha512-twitch",
         resolvedAt: "2026-05-01T00:00:00.000Z",
       },
@@ -324,7 +324,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "twitch",
         meta: { label: "Twitch" },
         install: {
-          npmSpec: "@openclaw/twitch",
+          npmSpec: "@brikko-studio/twitch",
           defaultChoice: "npm",
         },
         trustedSourceLinkedOfficialInstall: true,
@@ -343,13 +343,13 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     expect(mocks.installPluginFromClawHub).not.toHaveBeenCalled();
     expect(mocks.installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@openclaw/twitch",
+        spec: "@brikko-studio/twitch",
         expectedPluginId: "twitch",
         trustedSourceLinkedOfficialInstall: true,
       }),
     );
     expect(result.changes).toEqual([
-      'Installed missing configured plugin "twitch" from @openclaw/twitch.',
+      'Installed missing configured plugin "twitch" from @brikko-studio/twitch.',
     ]);
   });
 
@@ -357,12 +357,12 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce({
       ok: true,
       pluginId: "diagnostics-otel",
-      targetDir: "/tmp/openclaw-plugins/diagnostics-otel",
+      targetDir: "/tmp/brikko-studio-plugins/diagnostics-otel",
       version: "2026.5.2",
       npmResolution: {
-        name: "@openclaw/diagnostics-otel",
+        name: "@brikko-studio/diagnostics-otel",
         version: "2026.5.2",
-        resolvedSpec: "@openclaw/diagnostics-otel@2026.5.2",
+        resolvedSpec: "@brikko-studio/diagnostics-otel@2026.5.2",
         integrity: "sha512-otel",
         resolvedAt: "2026-05-01T00:00:00.000Z",
       },
@@ -372,8 +372,8 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         id: "diagnostics-otel",
         label: "Diagnostics OpenTelemetry",
         install: {
-          clawhubSpec: "clawhub:@openclaw/diagnostics-otel",
-          npmSpec: "@openclaw/diagnostics-otel",
+          clawhubSpec: "clawhub:@brikko-studio/diagnostics-otel",
+          npmSpec: "@brikko-studio/diagnostics-otel",
           defaultChoice: "npm",
         },
       },
@@ -395,12 +395,12 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     expect(mocks.installPluginFromClawHub).not.toHaveBeenCalled();
     expect(mocks.installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@openclaw/diagnostics-otel",
+        spec: "@brikko-studio/diagnostics-otel",
         expectedPluginId: "diagnostics-otel",
       }),
     );
     expect(result.changes).toEqual([
-      'Installed missing configured plugin "diagnostics-otel" from @openclaw/diagnostics-otel.',
+      'Installed missing configured plugin "diagnostics-otel" from @brikko-studio/diagnostics-otel.',
     ]);
   });
 
@@ -408,12 +408,12 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce({
       ok: true,
       pluginId: "acpx",
-      targetDir: "/tmp/openclaw-plugins/acpx",
+      targetDir: "/tmp/brikko-studio-plugins/acpx",
       version: "2026.5.2-beta.2",
       npmResolution: {
-        name: "@openclaw/acpx",
+        name: "@brikko-studio/acpx",
         version: "2026.5.2-beta.2",
-        resolvedSpec: "@openclaw/acpx@2026.5.2-beta.2",
+        resolvedSpec: "@brikko-studio/acpx@2026.5.2-beta.2",
         integrity: "sha512-acpx",
         resolvedAt: "2026-05-01T00:00:00.000Z",
       },
@@ -423,7 +423,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         id: "acpx",
         label: "ACPX Runtime",
         install: {
-          npmSpec: "@openclaw/acpx",
+          npmSpec: "@brikko-studio/acpx",
           defaultChoice: "npm",
         },
       },
@@ -442,13 +442,13 @@ describe("repairMissingConfiguredPluginInstalls", () => {
 
     expect(mocks.installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@openclaw/acpx",
+        spec: "@brikko-studio/acpx",
         expectedPluginId: "acpx",
         trustedSourceLinkedOfficialInstall: true,
       }),
     );
     expect(result.changes).toEqual([
-      'Installed missing configured plugin "acpx" from @openclaw/acpx.',
+      'Installed missing configured plugin "acpx" from @brikko-studio/acpx.',
     ]);
   });
 
@@ -458,7 +458,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         id: "diagnostics-otel",
         label: "Diagnostics OpenTelemetry",
         install: {
-          npmSpec: "@openclaw/diagnostics-otel",
+          npmSpec: "@brikko-studio/diagnostics-otel",
           defaultChoice: "npm",
         },
       },
@@ -496,7 +496,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "matrix",
         meta: { label: "Matrix" },
         install: {
-          npmSpec: "@openclaw/plugin-matrix@1.2.3",
+          npmSpec: "@brikko-studio/plugin-matrix@1.2.3",
         },
       },
     ]);
@@ -522,7 +522,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         origin: "bundled",
         meta: { label: "Matrix" },
         install: {
-          npmSpec: "@openclaw/matrix",
+          npmSpec: "@brikko-studio/matrix",
         },
       },
     ]);
@@ -531,7 +531,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         {
           id: "matrix",
           origin: "bundled",
-          packageName: "@openclaw/matrix",
+          packageName: "@brikko-studio/matrix",
           channels: ["matrix"],
         },
       ],
@@ -565,7 +565,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     const records = {
       matrix: {
         source: "npm",
-        spec: "@openclaw/matrix",
+        spec: "@brikko-studio/matrix",
         installPath: "/missing/matrix",
       },
     };
@@ -577,7 +577,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         origin: "bundled",
         meta: { label: "Matrix" },
         install: {
-          npmSpec: "@openclaw/matrix",
+          npmSpec: "@brikko-studio/matrix",
         },
       },
     ]);
@@ -586,7 +586,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         {
           id: "matrix",
           origin: "bundled",
-          packageName: "@openclaw/matrix",
+          packageName: "@brikko-studio/matrix",
           channels: ["matrix"],
         },
       ],
@@ -634,9 +634,9 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       "npm",
       {
         source: "npm",
-        spec: "@openclaw/matrix-fork",
-        resolvedName: "@openclaw/matrix-fork",
-        resolvedSpec: "@openclaw/matrix-fork@1.2.3",
+        spec: "@brikko-studio/matrix-fork",
+        resolvedName: "@brikko-studio/matrix-fork",
+        resolvedSpec: "@brikko-studio/matrix-fork@1.2.3",
         installPath: "/missing/matrix-fork",
       },
     ],
@@ -644,8 +644,8 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       "clawhub",
       {
         source: "clawhub",
-        spec: "clawhub:@openclaw/matrix-fork@stable",
-        clawhubPackage: "@openclaw/matrix-fork",
+        spec: "clawhub:@brikko-studio/matrix-fork@stable",
+        clawhubPackage: "@brikko-studio/matrix-fork",
         installPath: "/missing/matrix-fork",
       },
     ],
@@ -661,7 +661,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
           origin: "bundled",
           meta: { label: "Matrix" },
           install: {
-            npmSpec: "@openclaw/matrix",
+            npmSpec: "@brikko-studio/matrix",
           },
         },
       ]);
@@ -670,7 +670,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
           {
             id: "matrix",
             origin: "bundled",
-            packageName: "@openclaw/matrix",
+            packageName: "@brikko-studio/matrix",
             channels: ["matrix"],
           },
         ],
@@ -710,7 +710,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     const records = {
       discord: {
         source: "npm",
-        spec: "@openclaw/discord",
+        spec: "@brikko-studio/discord",
         installPath: "/missing/discord",
       },
     };
@@ -721,7 +721,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "discord",
         meta: { label: "Discord" },
         install: {
-          npmSpec: "@openclaw/discord",
+          npmSpec: "@brikko-studio/discord",
         },
       },
     ]);
@@ -740,7 +740,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         },
       },
       env: {
-        OPENCLAW_UPDATE_IN_PROGRESS: "1",
+        BRIKKO_STUDIO_UPDATE_IN_PROGRESS: "1",
       },
     });
 
@@ -751,7 +751,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       {},
       {
         env: {
-          OPENCLAW_UPDATE_IN_PROGRESS: "1",
+          BRIKKO_STUDIO_UPDATE_IN_PROGRESS: "1",
         },
       },
     );
@@ -767,7 +767,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     const records = {
       discord: {
         source: "npm",
-        spec: "@openclaw/discord",
+        spec: "@brikko-studio/discord",
         installPath: "/missing/discord",
       },
     };
@@ -778,7 +778,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "discord",
         meta: { label: "Discord" },
         install: {
-          npmSpec: "@openclaw/discord",
+          npmSpec: "@brikko-studio/discord",
         },
       },
     ]);
@@ -792,7 +792,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         },
       },
       env: {
-        OPENCLAW_UPDATE_IN_PROGRESS: "1",
+        BRIKKO_STUDIO_UPDATE_IN_PROGRESS: "1",
       },
     });
 
@@ -803,7 +803,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       {},
       {
         env: {
-          OPENCLAW_UPDATE_IN_PROGRESS: "1",
+          BRIKKO_STUDIO_UPDATE_IN_PROGRESS: "1",
         },
       },
     );
@@ -822,7 +822,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "discord",
         meta: { label: "Discord" },
         install: {
-          npmSpec: "@openclaw/discord",
+          npmSpec: "@brikko-studio/discord",
         },
       },
     ]);
@@ -836,7 +836,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         },
       },
       env: {
-        OPENCLAW_UPDATE_IN_PROGRESS: "1",
+        BRIKKO_STUDIO_UPDATE_IN_PROGRESS: "1",
       },
     });
 
@@ -854,7 +854,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "matrix",
         meta: { label: "Matrix" },
         install: {
-          npmSpec: "@openclaw/plugin-matrix@1.2.3",
+          npmSpec: "@brikko-studio/plugin-matrix@1.2.3",
         },
       },
     ]);
@@ -863,7 +863,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         id: "codex",
         label: "Codex",
         install: {
-          npmSpec: "@openclaw/codex",
+          npmSpec: "@brikko-studio/codex",
           defaultChoice: "npm",
         },
       },
@@ -871,7 +871,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         id: "diagnostics-otel",
         label: "Diagnostics OpenTelemetry",
         install: {
-          npmSpec: "@openclaw/diagnostics-otel",
+          npmSpec: "@brikko-studio/diagnostics-otel",
           defaultChoice: "npm",
         },
       },
@@ -909,12 +909,12 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce({
       ok: true,
       pluginId: "wecom",
-      targetDir: "/tmp/openclaw-plugins/wecom",
+      targetDir: "/tmp/brikko-studio-plugins/wecom",
       version: "2026.4.23",
       npmResolution: {
-        name: "@wecom/wecom-openclaw-plugin",
+        name: "@wecom/wecom-brikko-studio-plugin",
         version: "2026.4.23",
-        resolvedSpec: "@wecom/wecom-openclaw-plugin@2026.4.23",
+        resolvedSpec: "@wecom/wecom-brikko-studio-plugin@2026.4.23",
         integrity: "sha512-third-party",
         resolvedAt: "2026-05-01T00:00:00.000Z",
       },
@@ -925,7 +925,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "wecom",
         meta: { label: "WeCom" },
         install: {
-          npmSpec: "@wecom/wecom-openclaw-plugin@2026.4.23",
+          npmSpec: "@wecom/wecom-brikko-studio-plugin@2026.4.23",
         },
       },
     ]);
@@ -942,7 +942,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     expect(mocks.installPluginFromClawHub).not.toHaveBeenCalled();
     expect(mocks.installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@wecom/wecom-openclaw-plugin@2026.4.23",
+        spec: "@wecom/wecom-brikko-studio-plugin@2026.4.23",
         expectedPluginId: "wecom",
       }),
     );
@@ -952,7 +952,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       }),
     );
     expect(result.changes).toEqual([
-      'Installed missing configured plugin "wecom" from @wecom/wecom-openclaw-plugin@2026.4.23.',
+      'Installed missing configured plugin "wecom" from @wecom/wecom-brikko-studio-plugin@2026.4.23.',
     ]);
   });
 
@@ -960,12 +960,12 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce({
       ok: true,
       pluginId: "codex",
-      targetDir: "/tmp/openclaw-plugins/codex",
+      targetDir: "/tmp/brikko-studio-plugins/codex",
       version: "2026.5.2",
       npmResolution: {
-        name: "@openclaw/codex",
+        name: "@brikko-studio/codex",
         version: "2026.5.2",
-        resolvedSpec: "@openclaw/codex@2026.5.2",
+        resolvedSpec: "@brikko-studio/codex@2026.5.2",
         integrity: "sha512-codex",
         resolvedAt: "2026-05-01T00:00:00.000Z",
       },
@@ -975,7 +975,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         id: "codex",
         label: "Codex",
         install: {
-          npmSpec: "@openclaw/codex",
+          npmSpec: "@brikko-studio/codex",
           defaultChoice: "npm",
         },
       },
@@ -999,7 +999,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     expect(mocks.resolveProviderInstallCatalogEntries).toHaveBeenCalled();
     expect(mocks.installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@openclaw/codex",
+        spec: "@brikko-studio/codex",
         expectedPluginId: "codex",
         trustedSourceLinkedOfficialInstall: true,
       }),
@@ -1008,15 +1008,15 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       expect.objectContaining({
         codex: expect.objectContaining({
           source: "npm",
-          spec: "@openclaw/codex",
-          installPath: "/tmp/openclaw-plugins/codex",
+          spec: "@brikko-studio/codex",
+          installPath: "/tmp/brikko-studio-plugins/codex",
           version: "2026.5.2",
         }),
       }),
       { env: {} },
     );
     expect(result.changes).toEqual([
-      'Installed missing configured plugin "codex" from @openclaw/codex.',
+      'Installed missing configured plugin "codex" from @brikko-studio/codex.',
     ]);
     expect(result.warnings).toEqual([]);
   });
@@ -1042,17 +1042,17 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       },
       {},
     ],
-    ["environment runtime override", {}, { OPENCLAW_AGENT_RUNTIME: "codex" }],
+    ["environment runtime override", {}, { BRIKKO_STUDIO_AGENT_RUNTIME: "codex" }],
   ])("repairs a missing Codex plugin selected by %s", async (_label, cfg, env) => {
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce({
       ok: true,
       pluginId: "codex",
-      targetDir: "/tmp/openclaw-plugins/codex",
+      targetDir: "/tmp/brikko-studio-plugins/codex",
       version: "2026.5.2",
       npmResolution: {
-        name: "@openclaw/codex",
+        name: "@brikko-studio/codex",
         version: "2026.5.2",
-        resolvedSpec: "@openclaw/codex@2026.5.2",
+        resolvedSpec: "@brikko-studio/codex@2026.5.2",
         integrity: "sha512-codex",
         resolvedAt: "2026-05-01T00:00:00.000Z",
       },
@@ -1062,7 +1062,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         id: "codex",
         label: "Codex",
         install: {
-          npmSpec: "@openclaw/codex",
+          npmSpec: "@brikko-studio/codex",
           defaultChoice: "npm",
         },
       },
@@ -1077,7 +1077,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
 
     expect(mocks.installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@openclaw/codex",
+        spec: "@brikko-studio/codex",
         expectedPluginId: "codex",
         trustedSourceLinkedOfficialInstall: true,
       }),
@@ -1086,15 +1086,15 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       expect.objectContaining({
         codex: expect.objectContaining({
           source: "npm",
-          spec: "@openclaw/codex",
-          installPath: "/tmp/openclaw-plugins/codex",
+          spec: "@brikko-studio/codex",
+          installPath: "/tmp/brikko-studio-plugins/codex",
           version: "2026.5.2",
         }),
       }),
       { env },
     );
     expect(result).toEqual({
-      changes: ['Installed missing configured plugin "codex" from @openclaw/codex.'],
+      changes: ['Installed missing configured plugin "codex" from @brikko-studio/codex.'],
       warnings: [],
     });
   });
@@ -1106,7 +1106,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "matrix",
         meta: { label: "Matrix" },
         install: {
-          npmSpec: "@openclaw/plugin-matrix@1.2.3",
+          npmSpec: "@brikko-studio/plugin-matrix@1.2.3",
         },
       },
     ]);
@@ -1130,7 +1130,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     const records = {
       demo: {
         source: "npm",
-        spec: "@openclaw/plugin-demo@1.0.0",
+        spec: "@brikko-studio/plugin-demo@1.0.0",
         installPath: "/missing/demo",
       },
     };
@@ -1142,8 +1142,8 @@ describe("repairMissingConfiguredPluginInstalls", () => {
           installs: {
             demo: {
               source: "npm",
-              spec: "@openclaw/plugin-demo@1.0.0",
-              installPath: "/tmp/openclaw-plugins/demo",
+              spec: "@brikko-studio/plugin-demo@1.0.0",
+              installPath: "/tmp/brikko-studio-plugins/demo",
             },
           },
         },
@@ -1180,7 +1180,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     );
     expect(mocks.writePersistedInstalledPluginIndexInstallRecords).toHaveBeenCalledWith(
       expect.objectContaining({
-        demo: expect.objectContaining({ installPath: "/tmp/openclaw-plugins/demo" }),
+        demo: expect.objectContaining({ installPath: "/tmp/brikko-studio-plugins/demo" }),
       }),
       { env: {} },
     );
@@ -1191,8 +1191,8 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     const records = {
       discord: {
         source: "npm",
-        spec: "@openclaw/discord",
-        installPath: "/tmp/openclaw-missing-discord-install-record",
+        spec: "@brikko-studio/discord",
+        installPath: "/tmp/brikko-studio-missing-discord-install-record",
       },
     };
     mocks.loadInstalledPluginIndexInstallRecords.mockResolvedValue(records);
@@ -1211,7 +1211,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "discord",
         meta: { label: "Discord" },
         install: {
-          npmSpec: "@openclaw/discord",
+          npmSpec: "@brikko-studio/discord",
         },
         trustedSourceLinkedOfficialInstall: true,
       },
@@ -1219,12 +1219,12 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce({
       ok: true,
       pluginId: "discord",
-      targetDir: "/tmp/openclaw-plugins/discord",
+      targetDir: "/tmp/brikko-studio-plugins/discord",
       version: "1.2.3",
       npmResolution: {
-        name: "@openclaw/discord",
+        name: "@brikko-studio/discord",
         version: "1.2.3",
-        resolvedSpec: "@openclaw/discord@1.2.3",
+        resolvedSpec: "@brikko-studio/discord@1.2.3",
         integrity: "sha512-discord",
         resolvedAt: "2026-05-01T00:00:00.000Z",
       },
@@ -1271,19 +1271,19 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     );
     expect(mocks.installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@openclaw/discord",
+        spec: "@brikko-studio/discord",
         expectedPluginId: "discord",
         trustedSourceLinkedOfficialInstall: true,
       }),
     );
     expect(mocks.writePersistedInstalledPluginIndexInstallRecords).toHaveBeenCalledWith(
       expect.objectContaining({
-        discord: expect.objectContaining({ installPath: "/tmp/openclaw-plugins/discord" }),
+        discord: expect.objectContaining({ installPath: "/tmp/brikko-studio-plugins/discord" }),
       }),
       { env: {} },
     );
     expect(result.changes).toEqual([
-      'Installed missing configured plugin "discord" from @openclaw/discord.',
+      'Installed missing configured plugin "discord" from @brikko-studio/discord.',
     ]);
   });
 
@@ -1291,7 +1291,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     const records = {
       discord: {
         source: "npm",
-        spec: "@openclaw/discord",
+        spec: "@brikko-studio/discord",
         installPath: process.cwd(),
       },
     };
@@ -1317,7 +1317,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
           installs: {
             discord: {
               source: "npm",
-              spec: "@openclaw/discord",
+              spec: "@brikko-studio/discord",
               installPath: process.cwd(),
             },
           },
@@ -1369,8 +1369,8 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     const records = {
       discord: {
         source: "npm",
-        spec: "@openclaw/discord",
-        installPath: "/tmp/openclaw-plugins/discord",
+        spec: "@brikko-studio/discord",
+        installPath: "/tmp/brikko-studio-plugins/discord",
       },
     };
     mocks.loadInstalledPluginIndexInstallRecords.mockResolvedValue(records);
@@ -1380,7 +1380,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         pluginId: "discord",
         meta: { label: "Discord" },
         install: {
-          npmSpec: "@openclaw/discord",
+          npmSpec: "@brikko-studio/discord",
         },
       },
     ]);
@@ -1396,7 +1396,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
           level: "warn",
           pluginId: "discord",
           message:
-            "channel plugin manifest declares discord without channelConfigs metadata; add openclaw.plugin.json#channelConfigs so config schema and setup surfaces work before runtime loads",
+            "channel plugin manifest declares discord without channelConfigs metadata; add brikko-studio.plugin.json#channelConfigs so config schema and setup surfaces work before runtime loads",
         },
       ],
     });
@@ -1407,7 +1407,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
           installs: {
             discord: {
               source: "npm",
-              spec: "@openclaw/discord",
+              spec: "@brikko-studio/discord",
               installPath: process.cwd(),
             },
           },
@@ -1464,7 +1464,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     const records = {
       brave: {
         source: "npm",
-        spec: "@openclaw/brave-plugin@beta",
+        spec: "@brikko-studio/brave-plugin@beta",
         installPath: "/missing/brave",
       },
     };
@@ -1474,10 +1474,10 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         id: "brave",
         label: "Brave",
         install: {
-          npmSpec: "@openclaw/brave-plugin",
+          npmSpec: "@brikko-studio/brave-plugin",
           defaultChoice: "npm",
         },
-        openclaw: {
+        brikko-studio: {
           plugin: { id: "brave", label: "Brave" },
           webSearchProviders: [
             {
@@ -1499,7 +1499,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
           installs: {
             brave: {
               source: "npm",
-              spec: "@openclaw/brave-plugin@beta",
+              spec: "@brikko-studio/brave-plugin@beta",
               installPath: process.cwd(),
             },
           },
@@ -1552,10 +1552,10 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         id: "brave",
         label: "Brave",
         install: {
-          npmSpec: "@openclaw/brave-plugin",
+          npmSpec: "@brikko-studio/brave-plugin",
           defaultChoice: "npm",
         },
-        openclaw: {
+        brikko-studio: {
           plugin: { id: "brave", label: "Brave" },
           webSearchProviders: [
             {
@@ -1569,33 +1569,33 @@ describe("repairMissingConfiguredPluginInstalls", () => {
             },
           ],
           install: {
-            npmSpec: "@openclaw/brave-plugin",
+            npmSpec: "@brikko-studio/brave-plugin",
             defaultChoice: "npm",
           },
         },
       },
     ]);
     mocks.resolveOfficialExternalPluginId.mockImplementation(
-      (entry: { id?: string; openclaw?: { plugin?: { id?: string } } }) =>
-        entry.openclaw?.plugin?.id ?? entry.id,
+      (entry: { id?: string; brikko-studio?: { plugin?: { id?: string } } }) =>
+        entry.brikko-studio?.plugin?.id ?? entry.id,
     );
     mocks.resolveOfficialExternalPluginInstall.mockImplementation(
-      (entry: { install?: unknown; openclaw?: { install?: unknown } }) =>
-        entry.openclaw?.install ?? entry.install ?? null,
+      (entry: { install?: unknown; brikko-studio?: { install?: unknown } }) =>
+        entry.brikko-studio?.install ?? entry.install ?? null,
     );
     mocks.resolveOfficialExternalPluginLabel.mockImplementation(
-      (entry: { label?: string; openclaw?: { plugin?: { label?: string } } }) =>
-        entry.openclaw?.plugin?.label ?? entry.label ?? "plugin",
+      (entry: { label?: string; brikko-studio?: { plugin?: { label?: string } } }) =>
+        entry.brikko-studio?.plugin?.label ?? entry.label ?? "plugin",
     );
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce({
       ok: true,
       pluginId: "brave",
-      targetDir: "/tmp/openclaw-plugins/brave",
+      targetDir: "/tmp/brikko-studio-plugins/brave",
       version: "2026.5.2",
       npmResolution: {
-        name: "@openclaw/brave-plugin",
+        name: "@brikko-studio/brave-plugin",
         version: "2026.5.2",
-        resolvedSpec: "@openclaw/brave-plugin@2026.5.2",
+        resolvedSpec: "@brikko-studio/brave-plugin@2026.5.2",
       },
     });
 
@@ -1616,13 +1616,13 @@ describe("repairMissingConfiguredPluginInstalls", () => {
 
     expect(mocks.installPluginFromNpmSpec).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@openclaw/brave-plugin",
+        spec: "@brikko-studio/brave-plugin",
         expectedPluginId: "brave",
         trustedSourceLinkedOfficialInstall: true,
       }),
     );
     expect(result.changes).toEqual([
-      'Installed missing configured plugin "brave" from @openclaw/brave-plugin.',
+      'Installed missing configured plugin "brave" from @brikko-studio/brave-plugin.',
     ]);
   });
 
@@ -1632,10 +1632,10 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         id: "brave",
         label: "Brave",
         install: {
-          npmSpec: "@openclaw/brave-plugin",
+          npmSpec: "@brikko-studio/brave-plugin",
           defaultChoice: "npm",
         },
-        openclaw: {
+        brikko-studio: {
           plugin: { id: "brave", label: "Brave" },
           webSearchProviders: [
             {
@@ -1649,23 +1649,23 @@ describe("repairMissingConfiguredPluginInstalls", () => {
             },
           ],
           install: {
-            npmSpec: "@openclaw/brave-plugin",
+            npmSpec: "@brikko-studio/brave-plugin",
             defaultChoice: "npm",
           },
         },
       },
     ]);
     mocks.resolveOfficialExternalPluginId.mockImplementation(
-      (entry: { id?: string; openclaw?: { plugin?: { id?: string } } }) =>
-        entry.openclaw?.plugin?.id ?? entry.id,
+      (entry: { id?: string; brikko-studio?: { plugin?: { id?: string } } }) =>
+        entry.brikko-studio?.plugin?.id ?? entry.id,
     );
     mocks.resolveOfficialExternalPluginInstall.mockImplementation(
-      (entry: { install?: unknown; openclaw?: { install?: unknown } }) =>
-        entry.openclaw?.install ?? entry.install ?? null,
+      (entry: { install?: unknown; brikko-studio?: { install?: unknown } }) =>
+        entry.brikko-studio?.install ?? entry.install ?? null,
     );
     mocks.resolveOfficialExternalPluginLabel.mockImplementation(
-      (entry: { label?: string; openclaw?: { plugin?: { label?: string } } }) =>
-        entry.openclaw?.plugin?.label ?? entry.label ?? "plugin",
+      (entry: { label?: string; brikko-studio?: { plugin?: { label?: string } } }) =>
+        entry.brikko-studio?.plugin?.label ?? entry.label ?? "plugin",
     );
 
     const { repairMissingConfiguredPluginInstalls } =

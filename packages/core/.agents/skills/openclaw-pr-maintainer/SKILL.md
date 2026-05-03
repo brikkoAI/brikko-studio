@@ -1,15 +1,15 @@
 ---
-name: openclaw-pr-maintainer
-description: Review, triage, close, label, comment on, or land OpenClaw PRs/issues with maintainer evidence checks.
+name: brikko-studio-pr-maintainer
+description: Review, triage, close, label, comment on, or land Brikko Studio PRs/issues with maintainer evidence checks.
 ---
 
-# OpenClaw PR Maintainer
+# Brikko Studio PR Maintainer
 
 Use this skill for maintainer-facing GitHub workflow, not for ordinary code changes.
 
 ## Start issue and PR triage with gitcrawl
 
-- Use `$gitcrawl` first anytime you inspect OpenClaw issues or PRs.
+- Use `$gitcrawl` first anytime you inspect Brikko Studio issues or PRs.
 - Check local `gitcrawl` data first for related threads, duplicate attempts, and already-landed fixes.
 - Use `gitcrawl` for candidate discovery and clustering; use `gh`, `gh api`, and the current checkout to verify live state before commenting, labeling, closing, or landing.
 - If `gitcrawl` is missing, stale, lacks the target thread, or has no embeddings for neighbor/search commands, fall back to the GitHub search workflow below.
@@ -18,10 +18,10 @@ Use this skill for maintainer-facing GitHub workflow, not for ordinary code chan
 Common read-only path:
 
 ```bash
-gitcrawl threads openclaw/openclaw --numbers <issue-or-pr-number> --include-closed --json
-gitcrawl neighbors openclaw/openclaw --number <issue-or-pr-number> --limit 12 --json
-gitcrawl search openclaw/openclaw --query "<scope or title keywords>" --mode hybrid --json
-gitcrawl cluster-detail openclaw/openclaw --id <cluster-id> --member-limit 20 --body-chars 280 --json
+gitcrawl threads brikko-studio/brikko-studio --numbers <issue-or-pr-number> --include-closed --json
+gitcrawl neighbors brikko-studio/brikko-studio --number <issue-or-pr-number> --limit 12 --json
+gitcrawl search brikko-studio/brikko-studio --query "<scope or title keywords>" --mode hybrid --json
+gitcrawl cluster-detail brikko-studio/brikko-studio --id <cluster-id> --member-limit 20 --body-chars 280 --json
 ```
 
 ## Apply close and triage labels correctly
@@ -84,7 +84,7 @@ Output only qualifying candidates, with: ref, surface, proof, cause, fix sketch,
 
 - Do not close for red CI alone. Require a clear low-signal category plus stale or failed validation.
 - Good manual-close categories:
-  - blank or mostly untouched PR template with no concrete OpenClaw problem/fix
+  - blank or mostly untouched PR template with no concrete Brikko Studio problem/fix
   - random docs-only churn such as root README translations, generic wording tweaks, or community-plugin discoverability docs that should go through ClawHub
   - test-only coverage without a linked bug, owner request, or behavior change
   - refactor-only cleanup, variable renames, formatting, or generated/baseline churn without maintainer request
@@ -105,16 +105,16 @@ Output only qualifying candidates, with: ref, surface, proof, cause, fix sketch,
 ## Search broadly before deciding
 
 - Prefer `gitcrawl` first. Then use targeted GitHub keyword search to verify gaps, live status, comments, and candidates not present in the local store.
-- Use `--repo openclaw/openclaw` with `--match title,body` first when using `gh search`.
+- Use `--repo brikko-studio/brikko-studio` with `--match title,body` first when using `gh search`.
 - Add `--match comments` when triaging follow-up discussion or closed-as-duplicate chains.
 - Do not stop at the first 500 results when the task requires a full search.
 
 Examples:
 
 ```bash
-gh search prs --repo openclaw/openclaw --match title,body --limit 50 -- "auto-update"
-gh search issues --repo openclaw/openclaw --match title,body --limit 50 -- "auto-update"
-gh search issues --repo openclaw/openclaw --match title,body --limit 50 \
+gh search prs --repo brikko-studio/brikko-studio --match title,body --limit 50 -- "auto-update"
+gh search issues --repo brikko-studio/brikko-studio --match title,body --limit 50 -- "auto-update"
+gh search issues --repo brikko-studio/brikko-studio --match title,body --limit 50 \
   --json number,title,state,url,updatedAt -- "auto update" \
   --jq '.[] | "\(.number) | \(.state) | \(.title) | \(.url)"'
 ```

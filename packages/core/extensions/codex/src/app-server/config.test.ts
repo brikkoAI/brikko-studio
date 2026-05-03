@@ -25,8 +25,8 @@ describe("Codex app-server config", () => {
         },
       },
       env: {
-        OPENCLAW_CODEX_APP_SERVER_APPROVAL_POLICY: "never",
-        OPENCLAW_CODEX_APP_SERVER_SANDBOX: "read-only",
+        BRIKKO_STUDIO_CODEX_APP_SERVER_APPROVAL_POLICY: "never",
+        BRIKKO_STUDIO_CODEX_APP_SERVER_SANDBOX: "read-only",
       },
     });
 
@@ -141,11 +141,11 @@ describe("Codex app-server config", () => {
   it("parses dynamic tool profile controls", () => {
     expect(
       readCodexPluginConfig({
-        codexDynamicToolsProfile: "openclaw-compat",
+        codexDynamicToolsProfile: "brikko-studio-compat",
         codexDynamicToolsExclude: ["custom_tool"],
       }),
     ).toMatchObject({
-      codexDynamicToolsProfile: "openclaw-compat",
+      codexDynamicToolsProfile: "brikko-studio-compat",
       codexDynamicToolsExclude: ["custom_tool"],
     });
   });
@@ -154,7 +154,7 @@ describe("Codex app-server config", () => {
     expect(
       resolveCodexAppServerRuntimeOptions({
         pluginConfig: { appServer: { command: "/opt/codex/bin/codex" } },
-        env: { OPENCLAW_CODEX_APP_SERVER_BIN: "/usr/local/bin/codex" },
+        env: { BRIKKO_STUDIO_CODEX_APP_SERVER_BIN: "/usr/local/bin/codex" },
       }).start,
     ).toEqual(
       expect.objectContaining({
@@ -166,7 +166,7 @@ describe("Codex app-server config", () => {
     expect(
       resolveCodexAppServerRuntimeOptions({
         pluginConfig: {},
-        env: { OPENCLAW_CODEX_APP_SERVER_BIN: "/usr/local/bin/codex" },
+        env: { BRIKKO_STUDIO_CODEX_APP_SERVER_BIN: "/usr/local/bin/codex" },
       }).start,
     ).toEqual(
       expect.objectContaining({
@@ -186,7 +186,7 @@ describe("Codex app-server config", () => {
           },
         },
         env: {
-          OPENCLAW_CODEX_COMPUTER_USE_PLUGIN_NAME: "env-fallback-plugin",
+          BRIKKO_STUDIO_CODEX_COMPUTER_USE_PLUGIN_NAME: "env-fallback-plugin",
         },
       }),
     ).toEqual({
@@ -202,10 +202,10 @@ describe("Codex app-server config", () => {
       resolveCodexComputerUseConfig({
         pluginConfig: {},
         env: {
-          OPENCLAW_CODEX_COMPUTER_USE: "1",
-          OPENCLAW_CODEX_COMPUTER_USE_MARKETPLACE_SOURCE: "github:example/plugins",
-          OPENCLAW_CODEX_COMPUTER_USE_AUTO_INSTALL: "true",
-          OPENCLAW_CODEX_COMPUTER_USE_MARKETPLACE_DISCOVERY_TIMEOUT_MS: "30000",
+          BRIKKO_STUDIO_CODEX_COMPUTER_USE: "1",
+          BRIKKO_STUDIO_CODEX_COMPUTER_USE_MARKETPLACE_SOURCE: "github:example/plugins",
+          BRIKKO_STUDIO_CODEX_COMPUTER_USE_AUTO_INSTALL: "true",
+          BRIKKO_STUDIO_CODEX_COMPUTER_USE_MARKETPLACE_DISCOVERY_TIMEOUT_MS: "30000",
         },
       }),
     ).toEqual(
@@ -240,7 +240,7 @@ describe("Codex app-server config", () => {
   it("allows environment mode fallback to opt in to guardian-reviewed local execution", () => {
     const runtime = resolveCodexAppServerRuntimeOptions({
       pluginConfig: {},
-      env: { OPENCLAW_CODEX_APP_SERVER_MODE: "guardian" },
+      env: { BRIKKO_STUDIO_CODEX_APP_SERVER_MODE: "guardian" },
     });
 
     expect(runtime).toEqual(
@@ -267,10 +267,10 @@ describe("Codex app-server config", () => {
     ).toBe("guardian_subagent");
   });
 
-  it("ignores removed OPENCLAW_CODEX_APP_SERVER_GUARDIAN fallback", () => {
+  it("ignores removed BRIKKO_STUDIO_CODEX_APP_SERVER_GUARDIAN fallback", () => {
     const runtime = resolveCodexAppServerRuntimeOptions({
       pluginConfig: {},
-      env: { OPENCLAW_CODEX_APP_SERVER_GUARDIAN: "1" },
+      env: { BRIKKO_STUDIO_CODEX_APP_SERVER_GUARDIAN: "1" },
     });
 
     expect(runtime).toEqual(
@@ -382,7 +382,7 @@ describe("Codex app-server config", () => {
 
   it("keeps runtime config keys aligned with manifest schema and UI hints", async () => {
     const manifest = JSON.parse(
-      await fs.readFile(new URL("../../openclaw.plugin.json", import.meta.url), "utf8"),
+      await fs.readFile(new URL("../../brikko-studio.plugin.json", import.meta.url), "utf8"),
     ) as {
       configSchema: {
         properties: {
@@ -411,7 +411,7 @@ describe("Codex app-server config", () => {
 
   it("does not schema-default mode-derived policy fields", async () => {
     const manifest = JSON.parse(
-      await fs.readFile(new URL("../../openclaw.plugin.json", import.meta.url), "utf8"),
+      await fs.readFile(new URL("../../brikko-studio.plugin.json", import.meta.url), "utf8"),
     ) as {
       configSchema: {
         properties: {

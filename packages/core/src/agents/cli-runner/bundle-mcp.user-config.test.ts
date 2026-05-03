@@ -9,9 +9,9 @@ import { cliBundleMcpHarness, setupCliBundleMcpTestHarness } from "./bundle-mcp.
 setupCliBundleMcpTestHarness();
 
 describe("prepareCliBundleMcpConfig user mcp.servers", () => {
-  it("merges user-configured mcp.servers from OpenClaw config", async () => {
+  it("merges user-configured mcp.servers from Brikko Studio config", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
-      "openclaw-cli-bundle-mcp-user-servers-",
+      "brikko-studio-cli-bundle-mcp-user-servers-",
     );
 
     const prepared = await prepareCliBundleMcpConfig({
@@ -48,9 +48,9 @@ describe("prepareCliBundleMcpConfig user mcp.servers", () => {
     await prepared.cleanup?.();
   });
 
-  it("translates OpenClaw transport field on user mcp.servers into Claude type", async () => {
+  it("translates Brikko Studio transport field on user mcp.servers into Claude type", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
-      "openclaw-cli-bundle-mcp-user-servers-transport-",
+      "brikko-studio-cli-bundle-mcp-user-servers-transport-",
     );
 
     const prepared = await prepareCliBundleMcpConfig({
@@ -98,7 +98,7 @@ describe("prepareCliBundleMcpConfig user mcp.servers", () => {
 
   it("preserves explicit type and still strips transport on user mcp.servers", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
-      "openclaw-cli-bundle-mcp-user-servers-transport-explicit-",
+      "brikko-studio-cli-bundle-mcp-user-servers-transport-explicit-",
     );
 
     const prepared = await prepareCliBundleMcpConfig({
@@ -137,7 +137,7 @@ describe("prepareCliBundleMcpConfig user mcp.servers", () => {
 
   it("user mcp.servers do not override the loopback additionalConfig", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
-      "openclaw-cli-bundle-mcp-user-servers-loopback-",
+      "brikko-studio-cli-bundle-mcp-user-servers-loopback-",
     );
 
     const prepared = await prepareCliBundleMcpConfig({
@@ -152,7 +152,7 @@ describe("prepareCliBundleMcpConfig user mcp.servers", () => {
         plugins: { enabled: false },
         mcp: {
           servers: {
-            openclaw: {
+            brikko-studio: {
               type: "http",
               url: "https://example.com/malicious",
             },
@@ -161,10 +161,10 @@ describe("prepareCliBundleMcpConfig user mcp.servers", () => {
       },
       additionalConfig: {
         mcpServers: {
-          openclaw: {
+          brikko-studio: {
             type: "http",
             url: "http://127.0.0.1:23119/mcp",
-            headers: { Authorization: "Bearer ${OPENCLAW_MCP_TOKEN}" },
+            headers: { Authorization: "Bearer ${BRIKKO_STUDIO_MCP_TOKEN}" },
           },
         },
       },
@@ -176,14 +176,14 @@ describe("prepareCliBundleMcpConfig user mcp.servers", () => {
     const raw = JSON.parse(await fs.readFile(generatedConfigPath as string, "utf-8")) as {
       mcpServers?: Record<string, { url?: string }>;
     };
-    expect(raw.mcpServers?.openclaw?.url).toBe("http://127.0.0.1:23119/mcp");
+    expect(raw.mcpServers?.brikko-studio?.url).toBe("http://127.0.0.1:23119/mcp");
 
     await prepared.cleanup?.();
   });
 
   it("replaces overlapping bundle server entries with user-configured mcp.servers", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
-      "openclaw-cli-bundle-mcp-user-servers-replace-",
+      "brikko-studio-cli-bundle-mcp-user-servers-replace-",
     );
     await writeClaudeBundleManifest({
       homeDir: cliBundleMcpHarness.bundleProbeHomeDir,
@@ -192,7 +192,7 @@ describe("prepareCliBundleMcpConfig user mcp.servers", () => {
     });
     const pluginDir = path.join(
       cliBundleMcpHarness.bundleProbeHomeDir,
-      ".openclaw",
+      ".brikko-studio",
       "extensions",
       "omi",
     );

@@ -6,7 +6,7 @@ read_when:
 title: "Kimi search"
 ---
 
-OpenClaw supports Kimi as a `web_search` provider, using Moonshot web search
+Brikko Studio supports Kimi as a `web_search` provider, using Moonshot web search
 to produce AI-synthesized answers with citations.
 
 ## Get an API key
@@ -20,14 +20,14 @@ to produce AI-synthesized answers with citations.
     configure via:
 
     ```bash
-    openclaw configure --section web
+    brikko-studio configure --section web
     ```
 
   </Step>
 </Steps>
 
-When you choose **Kimi** during `openclaw onboard` or
-`openclaw configure --section web`, OpenClaw can also ask for:
+When you choose **Kimi** during `brikko-studio onboard` or
+`brikko-studio configure --section web`, Brikko Studio can also ask for:
 
 - the Moonshot API region:
   - `https://api.moonshot.ai/v1`
@@ -62,28 +62,28 @@ When you choose **Kimi** during `openclaw onboard` or
 ```
 
 If you use the China API host for chat (`models.providers.moonshot.baseUrl`:
-`https://api.moonshot.cn/v1`), OpenClaw reuses that same host for Kimi
+`https://api.moonshot.cn/v1`), Brikko Studio reuses that same host for Kimi
 `web_search` when `tools.web.search.kimi.baseUrl` is omitted, so keys from
 [platform.moonshot.cn](https://platform.moonshot.cn/) do not hit the
 international endpoint by mistake (which often returns HTTP 401). Override
 with `tools.web.search.kimi.baseUrl` when you need a different search base URL.
 
 **Environment alternative:** set `KIMI_API_KEY` or `MOONSHOT_API_KEY` in the
-Gateway environment. For a gateway install, put it in `~/.openclaw/.env`.
+Gateway environment. For a gateway install, put it in `~/.brikko-studio/.env`.
 
-If you omit `baseUrl`, OpenClaw defaults to `https://api.moonshot.ai/v1`.
-If you omit `model`, OpenClaw defaults to `kimi-k2.6`.
+If you omit `baseUrl`, Brikko Studio defaults to `https://api.moonshot.ai/v1`.
+If you omit `model`, Brikko Studio defaults to `kimi-k2.6`.
 
 ## How it works
 
 Kimi uses Moonshot web search to synthesize answers with inline citations,
 similar to Gemini and Grok's grounded response approach.
 
-OpenClaw treats Kimi `web_search` as successful only after Moonshot returns
+Brikko Studio treats Kimi `web_search` as successful only after Moonshot returns
 native web-search grounding evidence, such as a replayable `$web_search` tool
 payload, `search_results`, or citation URLs. If Kimi stops immediately with a
 plain chat answer like "I cannot browse the internet" and no grounding evidence,
-OpenClaw returns a structured `kimi_web_search_ungrounded` error instead of
+Brikko Studio returns a structured `kimi_web_search_ungrounded` error instead of
 wrapping that text as a search result. Retry the query, switch to a structured
 provider such as Brave, or use `web_fetch` / the browser tool when you already
 have a target URL.

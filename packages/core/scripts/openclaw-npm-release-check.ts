@@ -61,7 +61,7 @@ export type NpmDistTagMirrorAuth = {
   hasAuth: boolean;
   source: "node-auth-token" | "npm-token" | "none";
 };
-const EXPECTED_REPOSITORY_URL = "https://github.com/openclaw/openclaw";
+const EXPECTED_REPOSITORY_URL = "https://github.com/brikko-studio/brikko-studio";
 const OPTIONAL_LOCAL_EMBEDDING_RUNTIME_PACKAGE = "node-llama-cpp";
 const MAX_CALVER_DISTANCE_DAYS = 2;
 const REQUIRED_PACKED_PATHS = [
@@ -144,7 +144,7 @@ const PACKED_TEST_CARGO_DIRECTORY_SEGMENTS = new Set([
 ]);
 const PACKED_TEST_CARGO_FILE_RE = /(?:^|\/)[^/]+\.(?:test|spec)\.(?:[cm]?[jt]sx?)$/u;
 const NPM_PACK_MAX_BUFFER_BYTES = 64 * 1024 * 1024;
-const skipPackValidationEnv = "OPENCLAW_NPM_RELEASE_SKIP_PACK_CHECK";
+const skipPackValidationEnv = "BRIKKO_STUDIO_NPM_RELEASE_SKIP_PACK_CHECK";
 
 function normalizePackedPath(packedPath: string): string {
   return packedPath.replace(/\\/g, "/");
@@ -293,8 +293,8 @@ export function collectReleasePackageMetadataErrors(pkg: PackageJson): string[] 
   );
   const errors: string[] = [];
 
-  if (pkg.name !== "openclaw") {
-    errors.push(`package.json name must be "openclaw"; found "${pkg.name ?? ""}".`);
+  if (pkg.name !== "brikko-studio") {
+    errors.push(`package.json name must be "brikko-studio"; found "${pkg.name ?? ""}".`);
   }
   if (!pkg.description?.trim()) {
     errors.push("package.json description must be non-empty.");
@@ -309,9 +309,9 @@ export function collectReleasePackageMetadataErrors(pkg: PackageJson): string[] 
       }.`,
     );
   }
-  if (pkg.bin?.openclaw !== "openclaw.mjs") {
+  if (pkg.bin?.brikko-studio !== "brikko-studio.mjs") {
     errors.push(
-      `package.json bin.openclaw must be "openclaw.mjs"; found "${pkg.bin?.openclaw ?? ""}".`,
+      `package.json bin.brikko-studio must be "brikko-studio.mjs"; found "${pkg.bin?.brikko-studio ?? ""}".`,
     );
   }
   if (pkg.dependencies?.[OPTIONAL_LOCAL_EMBEDDING_RUNTIME_PACKAGE]) {
@@ -662,7 +662,7 @@ async function main(): Promise<number> {
 
   if (errors.length > 0) {
     for (const error of errors) {
-      console.error(`openclaw-npm-release-check: ${error}`);
+      console.error(`brikko-studio-npm-release-check: ${error}`);
     }
     return 1;
   }
@@ -672,7 +672,7 @@ async function main(): Promise<number> {
   const dayDistance =
     parsedVersion === null ? "unknown" : String(utcCalendarDayDistance(parsedVersion.date, now));
   console.log(
-    `openclaw-npm-release-check: validated ${channel} release ${pkg.version} (${dayDistance} day UTC delta${skipPackValidation ? "; metadata-only" : ""}).`,
+    `brikko-studio-npm-release-check: validated ${channel} release ${pkg.version} (${dayDistance} day UTC delta${skipPackValidation ? "; metadata-only" : ""}).`,
   );
   return 0;
 }

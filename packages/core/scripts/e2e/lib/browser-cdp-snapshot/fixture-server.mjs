@@ -10,7 +10,7 @@ const html = `<!doctype html>
   <body>
     <main>
       <button>Save</button>
-      <a href="https://docs.openclaw.ai/browser-cdp-live">Docs</a>
+      <a href="https://docs.brikko-studio.ai/browser-cdp-live">Docs</a>
       <div id="card" onclick="window.__clicked = true" style="cursor: pointer">Clickable Card</div>
       <iframe title="Child" srcdoc='<button>Inside</button>'></iframe>
     </main>

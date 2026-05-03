@@ -51,7 +51,7 @@ function assertSuccessRequest() {
     throw new Error(`mock OpenAI /v1/responses was not used. Requests: ${JSON.stringify(entries)}`);
   }
   const success = responseEntries.find((entry) =>
-    JSON.stringify(entry.body).includes("OPENCLAW_SCHEMA_E2E_OK"),
+    JSON.stringify(entry.body).includes("BRIKKO_STUDIO_SCHEMA_E2E_OK"),
   );
   if (!success) {
     throw new Error(`missing success request. Requests: ${JSON.stringify(responseEntries)}`);

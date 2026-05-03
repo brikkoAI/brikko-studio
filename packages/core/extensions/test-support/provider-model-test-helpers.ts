@@ -3,8 +3,8 @@ import type {
   ProviderCatalogContext,
   ProviderResolveDynamicModelContext,
   ProviderRuntimeModel,
-} from "openclaw/plugin-sdk/plugin-entry";
-import type { ProviderPlugin } from "openclaw/plugin-sdk/provider-model-shared";
+} from "brikko-studio/plugin-sdk/plugin-entry";
+import type { ProviderPlugin } from "brikko-studio/plugin-sdk/provider-model-shared";
 
 export function createProviderDynamicModelContext(params: {
   provider: string;

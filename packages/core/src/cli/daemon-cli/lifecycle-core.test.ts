@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import {
   defaultRuntime,
   resetLifecycleRuntimeLogs,
@@ -9,7 +9,7 @@ import {
   stubEmptyGatewayEnv,
 } from "./test-helpers/lifecycle-core-harness.js";
 
-const loadConfig = vi.fn<() => OpenClawConfig>(() => ({
+const loadConfig = vi.fn<() => Brikko StudioConfig>(() => ({
   gateway: {
     auth: {
       token: "config-token",
@@ -78,7 +78,7 @@ function stubServiceGatewayTokenEnv() {
   service.readCommand.mockResolvedValue({
     programArguments: [],
     environment: {
-      OPENCLAW_GATEWAY_TOKEN: "service-token",
+      BRIKKO_STUDIO_GATEWAY_TOKEN: "service-token",
       SERVICE_GATEWAY_TOKEN: "service-token",
     },
   });
@@ -104,28 +104,28 @@ describe("runServiceRestart token drift", () => {
     clearGatewayRestartIntentSync.mockClear();
     service.readCommand.mockResolvedValue({
       programArguments: [],
-      environment: { OPENCLAW_GATEWAY_TOKEN: "service-token" },
+      environment: { BRIKKO_STUDIO_GATEWAY_TOKEN: "service-token" },
     });
     stubEmptyGatewayEnv();
   });
 
   it("prints the container restart hint when restart is requested for a not-loaded service", async () => {
     service.isLoaded.mockResolvedValue(false);
-    vi.stubEnv("OPENCLAW_CONTAINER_HINT", "openclaw-demo-container");
+    vi.stubEnv("BRIKKO_STUDIO_CONTAINER_HINT", "brikko-studio-demo-container");
 
     await runServiceRestart({
       serviceNoun: "Gateway",
       service,
       renderStartHints: () => [
-        "Restart the container or the service that manages it for openclaw-demo-container.",
-        "openclaw gateway install",
+        "Restart the container or the service that manages it for brikko-studio-demo-container.",
+        "brikko-studio gateway install",
       ],
       opts: { json: false },
     });
 
     expect(runtimeLogs).toContain("Gateway service not loaded.");
     expect(runtimeLogs).toContain(
-      "Start with: Restart the container or the service that manages it for openclaw-demo-container.",
+      "Start with: Restart the container or the service that manages it for brikko-studio-demo-container.",
     );
   });
 
@@ -149,9 +149,9 @@ describe("runServiceRestart token drift", () => {
     });
     service.readCommand.mockResolvedValue({
       programArguments: [],
-      environment: { OPENCLAW_GATEWAY_TOKEN: "env-token" },
+      environment: { BRIKKO_STUDIO_GATEWAY_TOKEN: "env-token" },
     });
-    vi.stubEnv("OPENCLAW_GATEWAY_TOKEN", "env-token");
+    vi.stubEnv("BRIKKO_STUDIO_GATEWAY_TOKEN", "env-token");
 
     await runServiceRestart(createServiceRunArgs(true));
 
@@ -376,13 +376,13 @@ describe("runServiceRestart token drift", () => {
 
   it("repairs stale loaded services during start before reporting success", async () => {
     service.readCommand.mockResolvedValue({
-      programArguments: ["openclaw", "gateway"],
-      environment: { OPENCLAW_SERVICE_VERSION: "2026.4.24" },
+      programArguments: ["brikko-studio", "gateway"],
+      environment: { BRIKKO_STUDIO_SERVICE_VERSION: "2026.4.24" },
     });
     const repairLoadedService = vi.fn(async () => ({
       result: "started" as const,
       message: "Gateway service definition repaired and started.",
-      warnings: ["service was installed by OpenClaw 2026.4.24, current CLI is 2026.5.2"],
+      warnings: ["service was installed by Brikko Studio 2026.4.24, current CLI is 2026.5.2"],
       loaded: true,
     }));
 
@@ -404,14 +404,14 @@ describe("runServiceRestart token drift", () => {
     }>();
     expect(payload.result).toBe("started");
     expect(payload.message).toBe("Gateway service definition repaired and started.");
-    expect(payload.warnings?.[0]).toContain("service was installed by OpenClaw");
+    expect(payload.warnings?.[0]).toContain("service was installed by Brikko Studio");
     expect(payload.service?.loaded).toBe(true);
   });
 
   it("fails start with an install hint when a stale loaded service has no repair callback", async () => {
     service.readCommand.mockResolvedValue({
-      programArguments: ["openclaw", "gateway"],
-      environment: { OPENCLAW_SERVICE_VERSION: "2026.4.24" },
+      programArguments: ["brikko-studio", "gateway"],
+      environment: { BRIKKO_STUDIO_SERVICE_VERSION: "2026.4.24" },
     });
 
     await expect(runServiceStart(createServiceRunArgs())).rejects.toThrow("__exit__:1");
@@ -419,7 +419,7 @@ describe("runServiceRestart token drift", () => {
     const payload = readJsonLog<{ ok?: boolean; error?: string; hints?: string[] }>();
     expect(payload.ok).toBe(false);
     expect(payload.error).toContain("service needs repair");
-    expect(payload.hints).toEqual(["openclaw gateway install --force"]);
+    expect(payload.hints).toEqual(["brikko-studio gateway install --force"]);
     expect(service.restart).not.toHaveBeenCalled();
   });
 
@@ -441,7 +441,7 @@ describe("runServiceRestart token drift", () => {
     await runServiceStart({
       serviceNoun: "Gateway",
       service,
-      renderStartHints: () => ["openclaw gateway install"],
+      renderStartHints: () => ["brikko-studio gateway install"],
       opts: { json: true },
     });
 
@@ -453,12 +453,12 @@ describe("runServiceRestart token drift", () => {
     }>();
     expect(payload.ok).toBe(true);
     expect(payload.result).toBe("not-loaded");
-    expect(payload.hints).toEqual(expect.arrayContaining(["openclaw gateway install"]));
+    expect(payload.hints).toEqual(expect.arrayContaining(["brikko-studio gateway install"]));
     expect(payload.hintItems).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           kind: "install",
-          text: "openclaw gateway install",
+          text: "brikko-studio gateway install",
         }),
       ]),
     );

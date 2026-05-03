@@ -6,8 +6,8 @@
  * proceed into the outbound pipeline. The implementation mirrors the
  * semantics of the framework-wide `resolveDmGroupAccessDecision`
  * (`src/security/dm-policy-shared.ts`) but is kept standalone so the
- * `engine/` layer does not pull in `openclaw/plugin-sdk/*` modules —
- * a hard constraint shared with the standalone `openclaw-qqbot` build.
+ * `engine/` layer does not pull in `brikko-studio/plugin-sdk/*` modules —
+ * a hard constraint shared with the standalone `brikko-studio-qqbot` build.
  *
  * If in the future we lift the zero-dependency rule in the engine
  * layer, this file can be replaced by a thin adapter around the

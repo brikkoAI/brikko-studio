@@ -1,11 +1,11 @@
-import { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/account-id";
-import { buildDmGroupAccountAllowlistAdapter } from "openclaw/plugin-sdk/allowlist-config-edit";
-import { createChatChannelPlugin, type ChannelPlugin } from "openclaw/plugin-sdk/channel-core";
-import { createLazyRuntimeModule } from "openclaw/plugin-sdk/lazy-runtime";
+import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
+import { buildDmGroupAccountAllowlistAdapter } from "brikko-studio/plugin-sdk/allowlist-config-edit";
+import { createChatChannelPlugin, type ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
+import { createLazyRuntimeModule } from "brikko-studio/plugin-sdk/lazy-runtime";
 import {
   createAsyncComputedAccountStatusAdapter,
   createDefaultChannelRuntimeState,
-} from "openclaw/plugin-sdk/status-helpers";
+} from "brikko-studio/plugin-sdk/status-helpers";
 import { resolveWhatsAppAccount, type ResolvedWhatsAppAccount } from "./accounts.js";
 import { createWhatsAppLoginTool } from "./agent-tools-login.js";
 import { whatsappApprovalAuth } from "./approval-auth.js";

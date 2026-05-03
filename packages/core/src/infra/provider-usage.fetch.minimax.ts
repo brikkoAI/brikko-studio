@@ -404,7 +404,7 @@ export async function fetchMinimaxUsage(
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        "MM-API-Source": "OpenClaw",
+        "MM-API-Source": "Brikko Studio",
       },
     },
     timeoutMs,

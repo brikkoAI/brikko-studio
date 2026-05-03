@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { listAgentWorkspaceDirs } from "../agents/workspace-dirs.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import type { SecurityAuditFinding } from "./audit.types.js";
 import { isPathInside } from "./scan-paths.js";
 
@@ -109,7 +109,7 @@ async function listWorkspaceSkillMarkdownFiles(
 }
 
 export async function collectWorkspaceSkillSymlinkEscapeFindings(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   skillScanLimits?: WorkspaceSkillScanLimits;
 }): Promise<SecurityAuditFinding[]> {
   const findings: SecurityAuditFinding[] = [];

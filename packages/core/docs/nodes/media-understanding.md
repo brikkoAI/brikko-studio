@@ -7,9 +7,9 @@ title: "Media understanding"
 sidebarTitle: "Media understanding"
 ---
 
-OpenClaw can **summarize inbound media** (image/audio/video) before the reply pipeline runs. It auto-detects when local tools or provider keys are available, and can be disabled or customized. If understanding is off, models still receive the original files/URLs as usual.
+Brikko Studio can **summarize inbound media** (image/audio/video) before the reply pipeline runs. It auto-detects when local tools or provider keys are available, and can be disabled or customized. If understanding is off, models still receive the original files/URLs as usual.
 
-Vendor-specific media behavior is registered by vendor plugins, while OpenClaw core owns the shared `tools.media` config, fallback order, and reply-pipeline integration.
+Vendor-specific media behavior is registered by vendor plugins, while Brikko Studio core owns the shared `tools.media` config, fallback order, and reply-pipeline integration.
 
 ## Goals
 
@@ -154,17 +154,17 @@ Recommended defaults:
     - Audio files smaller than **1024 bytes** are treated as empty/corrupt and skipped before provider/CLI transcription; inbound reply context receives a deterministic placeholder transcript so the agent knows the note was too small.
     - If the model returns more than `maxChars`, output is trimmed.
     - `prompt` defaults to simple "Describe the {media}." plus the `maxChars` guidance (image/video only).
-    - If the active primary image model already supports vision natively, OpenClaw skips the `[Image]` summary block and passes the original image into the model instead.
+    - If the active primary image model already supports vision natively, Brikko Studio skips the `[Image]` summary block and passes the original image into the model instead.
     - If a Gateway/WebChat primary model is text-only, image attachments are preserved as offloaded `media://inbound/*` refs so the image/PDF tools or configured image model can still inspect them instead of losing the attachment.
-    - Explicit `openclaw infer image describe --model <provider/model>` requests are different: they run that image-capable provider/model directly, including Ollama refs such as `ollama/qwen2.5vl:7b`.
-    - If `<capability>.enabled: true` but no models are configured, OpenClaw tries the **active reply model** when its provider supports the capability.
+    - Explicit `brikko-studio infer image describe --model <provider/model>` requests are different: they run that image-capable provider/model directly, including Ollama refs such as `ollama/qwen2.5vl:7b`.
+    - If `<capability>.enabled: true` but no models are configured, Brikko Studio tries the **active reply model** when its provider supports the capability.
 
   </Accordion>
 </AccordionGroup>
 
 ### Auto-detect media understanding (default)
 
-If `tools.media.<capability>.enabled` is **not** set to `false` and you haven't configured models, OpenClaw auto-detects in this order and **stops at the first working option**:
+If `tools.media.<capability>.enabled` is **not** set to `false` and you haven't configured models, Brikko Studio auto-detects in this order and **stops at the first working option**:
 
 <Steps>
   <Step title="Active reply model">
@@ -188,7 +188,7 @@ If `tools.media.<capability>.enabled` is **not** set to `false` and you haven't 
   <Step title="Provider auth">
     - Configured `models.providers.*` entries that support the capability are tried before the bundled fallback order.
     - Image-only config providers with an image-capable model auto-register for media understanding even when they are not a bundled vendor plugin.
-    - Ollama image understanding is available when selected explicitly, for example through `agents.defaults.imageModel` or `openclaw infer image describe --model ollama/<vision-model>`.
+    - Ollama image understanding is available when selected explicitly, for example through `agents.defaults.imageModel` or `brikko-studio infer image describe --model ollama/<vision-model>`.
 
     Bundled fallback order:
 
@@ -219,7 +219,7 @@ Binary detection is best-effort across macOS/Linux/Windows; ensure the CLI is on
 
 ### Proxy environment support (provider models)
 
-When provider-based **audio** and **video** media understanding is enabled, OpenClaw honors standard outbound proxy environment variables for provider HTTP calls:
+When provider-based **audio** and **video** media understanding is enabled, Brikko Studio honors standard outbound proxy environment variables for provider HTTP calls:
 
 - `HTTPS_PROXY`
 - `HTTP_PROXY`
@@ -228,11 +228,11 @@ When provider-based **audio** and **video** media understanding is enabled, Open
 - `http_proxy`
 - `all_proxy`
 
-If no proxy env vars are set, media understanding uses direct egress. If the proxy value is malformed, OpenClaw logs a warning and falls back to direct fetch.
+If no proxy env vars are set, media understanding uses direct egress. If the proxy value is malformed, Brikko Studio logs a warning and falls back to direct fetch.
 
 ## Capabilities (optional)
 
-If you set `capabilities`, the entry only runs for those media types. For shared lists, OpenClaw can infer defaults:
+If you set `capabilities`, the entry only runs for those media types. For shared lists, Brikko Studio can infer defaults:
 
 - `openai`, `anthropic`, `minimax`: **image**
 - `minimax-portal`: **image**
@@ -249,7 +249,7 @@ If you set `capabilities`, the entry only runs for those media types. For shared
 
 For CLI entries, **set `capabilities` explicitly** to avoid surprising matches. If you omit `capabilities`, the entry is eligible for the list it appears in.
 
-## Provider support matrix (OpenClaw integrations)
+## Provider support matrix (Brikko Studio integrations)
 
 | Capability | Provider integration                                                                                                         | Notes                                                                                                                                                                                                                                   |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -271,7 +271,7 @@ For CLI entries, **set `capabilities` explicitly** to avoid surprising matches. 
 - For tool-enabled agents handling untrusted inputs, avoid older/weaker media models.
 - Keep at least one fallback per capability for availability (quality model + faster/cheaper model).
 - CLI fallbacks (`whisper-cli`, `whisper`, `gemini`) are useful when provider APIs are unavailable.
-- `parakeet-mlx` note: with `--output-dir`, OpenClaw reads `<output-dir>/<media-basename>.txt` when output format is `txt` (or unspecified); non-`txt` formats fall back to stdout.
+- `parakeet-mlx` note: with `--output-dir`, Brikko Studio reads `<output-dir>/<media-basename>.txt` when output format is `txt` (or unspecified); non-`txt` formats fall back to stdout.
 
 ## Attachment policy
 
@@ -294,7 +294,7 @@ When `mode: "all"`, outputs are labeled `[Image 1/2]`, `[Audio 2/2]`, etc.
     - Extracted file text is wrapped as **untrusted external content** before it is appended to the media prompt.
     - The injected block uses explicit boundary markers like `<<<EXTERNAL_UNTRUSTED_CONTENT id="...">>>` / `<<<END_EXTERNAL_UNTRUSTED_CONTENT id="...">>>` and includes a `Source: External` metadata line.
     - This attachment-extraction path intentionally omits the long `SECURITY NOTICE:` banner to avoid bloating the media prompt; the boundary markers and metadata still remain.
-    - If a file has no extractable text, OpenClaw injects `[No extractable text]`.
+    - If a file has no extractable text, Brikko Studio injects `[No extractable text]`.
     - If a PDF falls back to rendered page images in this path, the media prompt keeps the placeholder `[PDF content rendered to images; images not forwarded to model]` because this attachment-extraction step forwards text blocks, not the rendered PDF images.
 
   </Accordion>

@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { parseStandalonePlainTextToolCallBlocks } from "openclaw/plugin-sdk/tool-payload";
+import { parseStandalonePlainTextToolCallBlocks } from "brikko-studio/plugin-sdk/tool-payload";
 
 type LmstudioPlainTextToolCallBlock = {
   arguments: Record<string, unknown>;

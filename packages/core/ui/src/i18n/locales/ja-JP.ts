@@ -387,7 +387,7 @@ export const ja_JP: TranslationMap = {
     skills: "Skills と API キー。",
     nodes: "ペアリング済みデバイスとコマンド。",
     chat: "すばやく介入するための Gateway チャット。",
-    config: "openclaw.json を編集。",
+    config: "brikko-studio.json を編集。",
     communications: "チャンネル、メッセージ、音声設定。",
     appearance: "テーマ、UI、セットアップウィザードの設定。",
     automation: "コマンド、フック、cron、プラグイン。",
@@ -463,7 +463,7 @@ export const ja_JP: TranslationMap = {
       metadataUpgradeSummary:
         "このデバイスはすでにペアリングされていますが、メタデータの変更は承認待ちです。",
       mobileHint:
-        "モバイルを使用していますか？ デスクトップで openclaw dashboard --no-open から完全な URL（#token=... を含む）をコピーしてください。",
+        "モバイルを使用していますか？ デスクトップで brikko-studio dashboard --no-open から完全な URL（#token=... を含む）をコピーしてください。",
       docsTitle: "デバイスのペアリングに関するドキュメント（新しいタブで開きます）",
       docsLink: "ドキュメント: デバイスのペアリング",
     },
@@ -501,7 +501,7 @@ export const ja_JP: TranslationMap = {
       modelAuthExpiresIn: "{when} に期限切れ",
       modelAuthAttentionExpiredTitle: "モデル認証の有効期限が切れています",
       modelAuthAttentionExpiringTitle: "モデル認証の有効期限がまもなく切れます",
-      modelAuthAttentionExpiredDesc: "{providers} — openclaw models auth で再認証してください",
+      modelAuthAttentionExpiredDesc: "{providers} — brikko-studio models auth で再認証してください",
       modelAuthAttentionExpiringEntry: "{provider} ({when})",
     },
     attention: {

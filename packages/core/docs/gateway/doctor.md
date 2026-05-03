@@ -7,12 +7,12 @@ title: "Doctor"
 sidebarTitle: "Doctor"
 ---
 
-`openclaw doctor` is the repair + migration tool for OpenClaw. It fixes stale config/state, checks health, and provides actionable repair steps.
+`brikko-studio doctor` is the repair + migration tool for Brikko Studio. It fixes stale config/state, checks health, and provides actionable repair steps.
 
 ## Quick start
 
 ```bash
-openclaw doctor
+brikko-studio doctor
 ```
 
 ### Headless and automation modes
@@ -20,7 +20,7 @@ openclaw doctor
 <Tabs>
   <Tab title="--yes">
     ```bash
-    openclaw doctor --yes
+    brikko-studio doctor --yes
     ```
 
     Accept defaults without prompting (including restart/service/sandbox repair steps when applicable).
@@ -28,7 +28,7 @@ openclaw doctor
   </Tab>
   <Tab title="--repair">
     ```bash
-    openclaw doctor --repair
+    brikko-studio doctor --repair
     ```
 
     Apply recommended repairs without prompting (repairs + restarts where safe).
@@ -36,7 +36,7 @@ openclaw doctor
   </Tab>
   <Tab title="--repair --force">
     ```bash
-    openclaw doctor --repair --force
+    brikko-studio doctor --repair --force
     ```
 
     Apply aggressive repairs too (overwrites custom supervisor configs).
@@ -44,7 +44,7 @@ openclaw doctor
   </Tab>
   <Tab title="--non-interactive">
     ```bash
-    openclaw doctor --non-interactive
+    brikko-studio doctor --non-interactive
     ```
 
     Run without prompts and only apply safe migrations (config normalization + on-disk state moves). Skips restart/service/sandbox actions that require human confirmation. Legacy state migrations run automatically when detected.
@@ -52,7 +52,7 @@ openclaw doctor
   </Tab>
   <Tab title="--deep">
     ```bash
-    openclaw doctor --deep
+    brikko-studio doctor --deep
     ```
 
     Scan system services for extra gateway installs (launchd/systemd/schtasks).
@@ -63,7 +63,7 @@ openclaw doctor
 If you want to review changes before writing, open the config file first:
 
 ```bash
-cat ~/.openclaw/openclaw.json
+cat ~/.brikko-studio/brikko-studio.json
 ```
 
 ## What it does (summary)
@@ -98,7 +98,7 @@ cat ~/.openclaw/openclaw.json
     - State integrity and permissions checks (sessions, transcripts, state dir).
     - Config file permission checks (chmod 600) when running locally.
     - Model auth health: checks OAuth expiry, can refresh expiring tokens, and reports auth-profile cooldown/disabled states.
-    - Extra workspace dir detection (`~/openclaw`).
+    - Extra workspace dir detection (`~/brikko-studio`).
 
   </Accordion>
   <Accordion title="Gateway, services, and supervisors">
@@ -133,7 +133,7 @@ cat ~/.openclaw/openclaw.json
 
 ## Dreams UI backfill and reset
 
-The Control UI Dreams scene includes **Backfill**, **Reset**, and **Clear Grounded** actions for the grounded dreaming workflow. These actions use gateway doctor-style RPC methods, but they are **not** part of `openclaw doctor` CLI repair/migration.
+The Control UI Dreams scene includes **Backfill**, **Reset**, and **Clear Grounded** actions for the grounded dreaming workflow. These actions use gateway doctor-style RPC methods, but they are **not** part of `brikko-studio doctor` CLI repair/migration.
 
 What they do:
 
@@ -150,7 +150,7 @@ What they do **not** do by themselves:
 If you want grounded historical replay to influence the normal deep promotion lane, use the CLI flow instead:
 
 ```bash
-openclaw memory rem-backfill --path ./memory --stage-short-term
+brikko-studio memory rem-backfill --path ./memory --stage-short-term
 ```
 
 That stages grounded durable candidates into the short-term dreaming store while keeping `DREAMS.md` as the review surface.
@@ -173,15 +173,15 @@ That stages grounded durable candidates into the short-term dreaming store while
 
   </Accordion>
   <Accordion title="2. Legacy config key migrations">
-    When the config contains deprecated keys, other commands refuse to run and ask you to run `openclaw doctor`.
+    When the config contains deprecated keys, other commands refuse to run and ask you to run `brikko-studio doctor`.
 
     Doctor will:
 
     - Explain which legacy keys were found.
     - Show the migration it applied.
-    - Rewrite `~/.openclaw/openclaw.json` with the updated schema.
+    - Rewrite `~/.brikko-studio/brikko-studio.json` with the updated schema.
 
-    The Gateway also auto-runs doctor migrations on startup when it detects a legacy config format, so stale configs are repaired without manual intervention. Cron job store migrations are handled by `openclaw doctor --fix`.
+    The Gateway also auto-runs doctor migrations on startup when it detects a legacy config format, so stale configs are repaired without manual intervention. Cron job store migrations are handled by `brikko-studio doctor --fix`.
 
     Current migrations:
 
@@ -257,11 +257,11 @@ That stages grounded durable candidates into the short-term dreaming store while
     If you previously added legacy OpenAI transport settings under `models.providers.openai-codex`, they can shadow the built-in Codex OAuth provider path that newer releases use automatically. Doctor warns when it sees those old transport settings alongside Codex OAuth so you can remove or rewrite the stale transport override and get the built-in routing/fallback behavior back. Custom proxies and header-only overrides are still supported and do not trigger this warning.
   </Accordion>
   <Accordion title="2f. Codex plugin route warnings">
-    When the bundled Codex plugin is enabled, doctor also checks whether `openai-codex/*` primary model refs still resolve through the default PI runner. That combination is valid when you want Codex OAuth/subscription auth through PI, but it is easy to confuse with the native Codex app-server harness. Doctor warns and points to the explicit app-server shape: `openai/*` plus `agentRuntime.id: "codex"` or `OPENCLAW_AGENT_RUNTIME=codex`.
+    When the bundled Codex plugin is enabled, doctor also checks whether `openai-codex/*` primary model refs still resolve through the default PI runner. That combination is valid when you want Codex OAuth/subscription auth through PI, but it is easy to confuse with the native Codex app-server harness. Doctor warns and points to the explicit app-server shape: `openai/*` plus `agentRuntime.id: "codex"` or `BRIKKO_STUDIO_AGENT_RUNTIME=codex`.
 
     Doctor does not repair this automatically because both routes are valid:
 
-    - `openai-codex/*` + PI means "use Codex OAuth/subscription auth through the normal OpenClaw runner."
+    - `openai-codex/*` + PI means "use Codex OAuth/subscription auth through the normal Brikko Studio runner."
     - `openai/*` + `agentRuntime.id: "codex"` means "run the embedded turn through native Codex app-server."
     - `/codex ...` means "control or bind a native Codex conversation from chat."
     - `/acp ...` or `runtime: "acp"` means "use the external ACP/acpx adapter."
@@ -273,21 +273,21 @@ That stages grounded durable candidates into the short-term dreaming store while
     Doctor can migrate older on-disk layouts into the current structure:
 
     - Sessions store + transcripts:
-      - from `~/.openclaw/sessions/` to `~/.openclaw/agents/<agentId>/sessions/`
+      - from `~/.brikko-studio/sessions/` to `~/.brikko-studio/agents/<agentId>/sessions/`
     - Agent dir:
-      - from `~/.openclaw/agent/` to `~/.openclaw/agents/<agentId>/agent/`
+      - from `~/.brikko-studio/agent/` to `~/.brikko-studio/agents/<agentId>/agent/`
     - WhatsApp auth state (Baileys):
-      - from legacy `~/.openclaw/credentials/*.json` (except `oauth.json`)
-      - to `~/.openclaw/credentials/whatsapp/<accountId>/...` (default account id: `default`)
+      - from legacy `~/.brikko-studio/credentials/*.json` (except `oauth.json`)
+      - to `~/.brikko-studio/credentials/whatsapp/<accountId>/...` (default account id: `default`)
 
-    These migrations are best-effort and idempotent; doctor will emit warnings when it leaves any legacy folders behind as backups. The Gateway/CLI also auto-migrates the legacy sessions + agent dir on startup so history/auth/models land in the per-agent path without a manual doctor run. WhatsApp auth is intentionally only migrated via `openclaw doctor`. Talk provider/provider-map normalization now compares by structural equality, so key-order-only diffs no longer trigger repeat no-op `doctor --fix` changes.
+    These migrations are best-effort and idempotent; doctor will emit warnings when it leaves any legacy folders behind as backups. The Gateway/CLI also auto-migrates the legacy sessions + agent dir on startup so history/auth/models land in the per-agent path without a manual doctor run. WhatsApp auth is intentionally only migrated via `brikko-studio doctor`. Talk provider/provider-map normalization now compares by structural equality, so key-order-only diffs no longer trigger repeat no-op `doctor --fix` changes.
 
   </Accordion>
   <Accordion title="3a. Legacy plugin manifest migrations">
     Doctor scans all installed plugin manifests for deprecated top-level capability keys (`speechProviders`, `realtimeTranscriptionProviders`, `realtimeVoiceProviders`, `mediaUnderstandingProviders`, `imageGenerationProviders`, `videoGenerationProviders`, `webFetchProviders`, `webSearchProviders`). When found, it offers to move them into the `contracts` object and rewrite the manifest file in-place. This migration is idempotent; if the `contracts` key already has the same values, the legacy key is removed without duplicating the data.
   </Accordion>
   <Accordion title="3b. Legacy cron store migrations">
-    Doctor also checks the cron job store (`~/.openclaw/cron/jobs.json` by default, or `cron.store` when overridden) for old job shapes that the scheduler still accepts for compatibility.
+    Doctor also checks the cron job store (`~/.brikko-studio/cron/jobs.json` by default, or `cron.store` when overridden) for old job shapes that the scheduler still accepts for compatibility.
 
     Current cron cleanups include:
 
@@ -300,14 +300,14 @@ That stages grounded durable candidates into the short-term dreaming store while
 
     Doctor only auto-migrates `notify: true` jobs when it can do so without changing behavior. If a job combines legacy notify fallback with an existing non-webhook delivery mode, doctor warns and leaves that job for manual review.
 
-    On Linux, doctor also warns when the user's crontab still invokes legacy `~/.openclaw/bin/ensure-whatsapp.sh`. That host-local script is not maintained by current OpenClaw and can write false `Gateway inactive` messages to `~/.openclaw/logs/whatsapp-health.log` when cron cannot reach the systemd user bus. Remove the stale crontab entry with `crontab -e`; use `openclaw channels status --probe`, `openclaw doctor`, and `openclaw gateway status` for current health checks.
+    On Linux, doctor also warns when the user's crontab still invokes legacy `~/.brikko-studio/bin/ensure-whatsapp.sh`. That host-local script is not maintained by current Brikko Studio and can write false `Gateway inactive` messages to `~/.brikko-studio/logs/whatsapp-health.log` when cron cannot reach the systemd user bus. Remove the stale crontab entry with `crontab -e`; use `brikko-studio channels status --probe`, `brikko-studio doctor`, and `brikko-studio gateway status` for current health checks.
 
   </Accordion>
   <Accordion title="3c. Session lock cleanup">
     Doctor scans every agent session directory for stale write-lock files — files left behind when a session exited abnormally. For each lock file found it reports: the path, PID, whether the PID is still alive, lock age, and whether it is considered stale (dead PID or older than 30 minutes). In `--fix` / `--repair` mode it removes stale lock files automatically; otherwise it prints a note and instructs you to rerun with `--fix`.
   </Accordion>
   <Accordion title="3d. Session transcript branch repair">
-    Doctor scans agent session JSONL files for the duplicated branch shape created by the 2026.4.24 prompt transcript rewrite bug: an abandoned user turn with OpenClaw internal runtime context plus an active sibling containing the same visible user prompt. In `--fix` / `--repair` mode, doctor backs up each affected file next to the original and rewrites the transcript to the active branch so gateway history and memory readers no longer see duplicate turns.
+    Doctor scans agent session JSONL files for the duplicated branch shape created by the 2026.4.24 prompt transcript rewrite bug: an abandoned user turn with Brikko Studio internal runtime context plus an active sibling containing the same visible user prompt. In `--fix` / `--repair` mode, doctor backs up each affected file next to the original and rewrites the transcript to the active branch so gateway history and memory readers no longer see duplicate turns.
   </Accordion>
   <Accordion title="4. State integrity checks (session persistence, routing, and safety)">
     The state directory is the operational brainstem. If it vanishes, you lose sessions, credentials, logs, and config (unless you have backups elsewhere).
@@ -321,15 +321,15 @@ That stages grounded durable candidates into the short-term dreaming store while
     - **Session dirs missing**: `sessions/` and the session store directory are required to persist history and avoid `ENOENT` crashes.
     - **Transcript mismatch**: warns when recent session entries have missing transcript files.
     - **Main session "1-line JSONL"**: flags when the main transcript has only one line (history is not accumulating).
-    - **Multiple state dirs**: warns when multiple `~/.openclaw` folders exist across home directories or when `OPENCLAW_STATE_DIR` points elsewhere (history can split between installs).
+    - **Multiple state dirs**: warns when multiple `~/.brikko-studio` folders exist across home directories or when `BRIKKO_STUDIO_STATE_DIR` points elsewhere (history can split between installs).
     - **Remote mode reminder**: if `gateway.mode=remote`, doctor reminds you to run it on the remote host (the state lives there).
-    - **Config file permissions**: warns if `~/.openclaw/openclaw.json` is group/world readable and offers to tighten to `600`.
+    - **Config file permissions**: warns if `~/.brikko-studio/brikko-studio.json` is group/world readable and offers to tighten to `600`.
 
   </Accordion>
   <Accordion title="5. Model auth health (OAuth expiry)">
     Doctor inspects OAuth profiles in the auth store, warns when tokens are expiring/expired, and can refresh them when safe. If the Anthropic OAuth/token profile is stale, it suggests an Anthropic API key or the Anthropic setup-token path. Refresh prompts only appear when running interactively (TTY); `--non-interactive` skips refresh attempts.
 
-    When an OAuth refresh fails permanently (for example `refresh_token_reused`, `invalid_grant`, or a provider telling you to sign in again), doctor reports that re-auth is required and prints the exact `openclaw models auth login --provider ...` command to run.
+    When an OAuth refresh fails permanently (for example `refresh_token_reused`, `invalid_grant`, or a provider telling you to sign in again), doctor reports that re-auth is required and prints the exact `brikko-studio models auth login --provider ...` command to run.
 
     Doctor also reports auth profiles that are temporarily unusable due to:
 
@@ -344,19 +344,19 @@ That stages grounded durable candidates into the short-term dreaming store while
     When sandboxing is enabled, doctor checks Docker images and offers to build or switch to legacy names if the current image is missing.
   </Accordion>
   <Accordion title="7b. Plugin install cleanup">
-    Doctor removes legacy OpenClaw-generated plugin dependency staging state in `openclaw doctor --fix` / `openclaw doctor --repair` mode. This covers stale generated dependency roots, old install-stage directories, and package-local debris from earlier bundled-plugin dependency repair code.
+    Doctor removes legacy Brikko Studio-generated plugin dependency staging state in `brikko-studio doctor --fix` / `brikko-studio doctor --repair` mode. This covers stale generated dependency roots, old install-stage directories, and package-local debris from earlier bundled-plugin dependency repair code.
 
     Doctor can also reinstall configured downloadable plugins when the config references them but the local plugin registry cannot find them. For the 2026.5.2 bundled-plugin externalization, doctor automatically installs downloadable plugins that the existing config already uses and then relies on `meta.lastTouchedVersion` to run that release pass only once. Gateway startup and config reload do not run package managers; plugin installs remain explicit doctor/install/update work.
 
   </Accordion>
   <Accordion title="8. Gateway service migrations and cleanup hints">
-    Doctor detects legacy gateway services (launchd/systemd/schtasks) and offers to remove them and install the OpenClaw service using the current gateway port. It can also scan for extra gateway-like services and print cleanup hints. Profile-named OpenClaw gateway services are considered first-class and are not flagged as "extra."
+    Doctor detects legacy gateway services (launchd/systemd/schtasks) and offers to remove them and install the Brikko Studio service using the current gateway port. It can also scan for extra gateway-like services and print cleanup hints. Profile-named Brikko Studio gateway services are considered first-class and are not flagged as "extra."
 
-    On Linux, if the user-level gateway service is missing but a system-level OpenClaw gateway service exists, doctor does not install a second user-level service automatically. Inspect with `openclaw gateway status --deep` or `openclaw doctor --deep`, then remove the duplicate or set `OPENCLAW_SERVICE_REPAIR_POLICY=external` when a system supervisor owns the gateway lifecycle.
+    On Linux, if the user-level gateway service is missing but a system-level Brikko Studio gateway service exists, doctor does not install a second user-level service automatically. Inspect with `brikko-studio gateway status --deep` or `brikko-studio doctor --deep`, then remove the duplicate or set `BRIKKO_STUDIO_SERVICE_REPAIR_POLICY=external` when a system supervisor owns the gateway lifecycle.
 
   </Accordion>
   <Accordion title="8b. Startup Matrix migration">
-    When a Matrix channel account has a pending or actionable legacy state migration, doctor (in `--fix` / `--repair` mode) creates a pre-migration snapshot and then runs the best-effort migration steps: legacy Matrix state migration and legacy encrypted-state preparation. Both steps are non-fatal; errors are logged and startup continues. In read-only mode (`openclaw doctor` without `--fix`) this check is skipped entirely.
+    When a Matrix channel account has a pending or actionable legacy state migration, doctor (in `--fix` / `--repair` mode) creates a pre-migration snapshot and then runs the best-effort migration steps: legacy Matrix state migration and legacy encrypted-state preparation. Both steps are non-fatal; errors are logged and startup continues. In read-only mode (`brikko-studio doctor` without `--fix`) this check is skipped entirely.
   </Accordion>
   <Accordion title="8c. Device pairing and auth drift">
     Doctor now inspects device-pairing state as part of the normal health pass.
@@ -373,10 +373,10 @@ That stages grounded durable candidates into the short-term dreaming store while
 
     Doctor does not auto-approve pair requests or auto-rotate device tokens. It prints the exact next steps instead:
 
-    - inspect pending requests with `openclaw devices list`
-    - approve the exact request with `openclaw devices approve <requestId>`
-    - rotate a fresh token with `openclaw devices rotate --device <deviceId> --role <role>`
-    - remove and re-approve a stale record with `openclaw devices remove <deviceId>`
+    - inspect pending requests with `brikko-studio devices list`
+    - approve the exact request with `brikko-studio devices approve <requestId>`
+    - rotate a fresh token with `brikko-studio devices rotate --device <deviceId> --role <role>`
+    - remove and re-approve a stale record with `brikko-studio devices remove <deviceId>`
 
     This closes the common "already paired but still getting pairing required" hole: doctor now distinguishes first-time pairing from pending role/scope upgrades and from stale token/device-identity drift.
 
@@ -391,7 +391,7 @@ That stages grounded durable candidates into the short-term dreaming store while
     Doctor prints a summary of the workspace state for the default agent:
 
     - **Skills status**: counts eligible, missing-requirements, and allowlist-blocked skills.
-    - **Legacy workspace dirs**: warns when `~/openclaw` or other legacy workspace directories exist alongside the current workspace.
+    - **Legacy workspace dirs**: warns when `~/brikko-studio` or other legacy workspace directories exist alongside the current workspace.
     - **Plugin status**: counts enabled/disabled/errored plugins; lists plugin IDs for any errors; reports bundle plugin capabilities.
     - **Plugin compatibility warnings**: flags plugins that have compatibility issues with the current runtime.
     - **Plugin diagnostics**: surfaces any load-time warnings or errors emitted by the plugin registry.
@@ -401,16 +401,16 @@ That stages grounded durable candidates into the short-term dreaming store while
     Doctor checks whether workspace bootstrap files (for example `AGENTS.md`, `CLAUDE.md`, or other injected context files) are near or over the configured character budget. It reports per-file raw vs. injected character counts, truncation percentage, truncation cause (`max/file` or `max/total`), and total injected characters as a fraction of the total budget. When files are truncated or near the limit, doctor prints tips for tuning `agents.defaults.bootstrapMaxChars` and `agents.defaults.bootstrapTotalMaxChars`.
   </Accordion>
   <Accordion title="11d. Stale channel plugin cleanup">
-    When `openclaw doctor --fix` removes a missing channel plugin, it also removes the dangling channel-scoped config that referenced that plugin: `channels.<id>` entries, heartbeat targets that named the channel, and `agents.*.models["<channel>/*"]` overrides. This prevents Gateway boot loops where the channel runtime is gone but config still asks the gateway to bind to it.
+    When `brikko-studio doctor --fix` removes a missing channel plugin, it also removes the dangling channel-scoped config that referenced that plugin: `channels.<id>` entries, heartbeat targets that named the channel, and `agents.*.models["<channel>/*"]` overrides. This prevents Gateway boot loops where the channel runtime is gone but config still asks the gateway to bind to it.
   </Accordion>
   <Accordion title="11c. Shell completion">
     Doctor checks whether tab completion is installed for the current shell (zsh, bash, fish, or PowerShell):
 
-    - If the shell profile uses a slow dynamic completion pattern (`source <(openclaw completion ...)`), doctor upgrades it to the faster cached file variant.
+    - If the shell profile uses a slow dynamic completion pattern (`source <(brikko-studio completion ...)`), doctor upgrades it to the faster cached file variant.
     - If completion is configured in the profile but the cache file is missing, doctor regenerates the cache automatically.
     - If no completion is configured at all, doctor prompts to install it (interactive mode only; skipped with `--non-interactive`).
 
-    Run `openclaw completion --write-state` to regenerate the cache manually.
+    Run `brikko-studio completion --write-state` to regenerate the cache manually.
 
   </Accordion>
   <Accordion title="12. Gateway auth checks (local token)">
@@ -418,13 +418,13 @@ That stages grounded durable candidates into the short-term dreaming store while
 
     - If token mode needs a token and no token source exists, doctor offers to generate one.
     - If `gateway.auth.token` is SecretRef-managed but unavailable, doctor warns and does not overwrite it with plaintext.
-    - `openclaw doctor --generate-gateway-token` forces generation only when no token SecretRef is configured.
+    - `brikko-studio doctor --generate-gateway-token` forces generation only when no token SecretRef is configured.
 
   </Accordion>
   <Accordion title="12b. Read-only SecretRef-aware repairs">
     Some repair flows need to inspect configured credentials without weakening runtime fail-fast behavior.
 
-    - `openclaw doctor --fix` now uses the same read-only SecretRef summary model as status-family commands for targeted config repairs.
+    - `brikko-studio doctor --fix` now uses the same read-only SecretRef summary model as status-family commands for targeted config repairs.
     - Example: Telegram `allowFrom` / `groupAllowFrom` `@username` repair tries to use configured bot credentials when available.
     - If the Telegram bot token is configured via SecretRef but unavailable in the current command path, doctor reports that the credential is configured-but-unavailable and skips auto-resolution instead of crashing or misreporting the token as missing.
 
@@ -442,7 +442,7 @@ That stages grounded durable candidates into the short-term dreaming store while
 
     When a cached gateway probe result is available (gateway was healthy at the time of the check), doctor cross-references its result with the CLI-visible config and notes any discrepancy. Doctor does not start a fresh embedding ping on the default path; use the deep memory status command when you want a live provider check.
 
-    Use `openclaw memory status --deep` to verify embedding readiness at runtime.
+    Use `brikko-studio memory status --deep` to verify embedding readiness at runtime.
 
   </Accordion>
   <Accordion title="14. Channel status warnings">
@@ -453,11 +453,11 @@ That stages grounded durable candidates into the short-term dreaming store while
 
     Notes:
 
-    - `openclaw doctor` prompts before rewriting supervisor config.
-    - `openclaw doctor --yes` accepts the default repair prompts.
-    - `openclaw doctor --repair` applies recommended fixes without prompts.
-    - `openclaw doctor --repair --force` overwrites custom supervisor configs.
-    - `OPENCLAW_SERVICE_REPAIR_POLICY=external` keeps doctor read-only for gateway service lifecycle. It still reports service health and runs non-service repairs, but skips service install/start/restart/bootstrap, supervisor config rewrites, and legacy service cleanup because an external supervisor owns that lifecycle.
+    - `brikko-studio doctor` prompts before rewriting supervisor config.
+    - `brikko-studio doctor --yes` accepts the default repair prompts.
+    - `brikko-studio doctor --repair` applies recommended fixes without prompts.
+    - `brikko-studio doctor --repair --force` overwrites custom supervisor configs.
+    - `BRIKKO_STUDIO_SERVICE_REPAIR_POLICY=external` keeps doctor read-only for gateway service lifecycle. It still reports service health and runs non-service repairs, but skips service install/start/restart/bootstrap, supervisor config rewrites, and legacy service cleanup because an external supervisor owns that lifecycle.
     - On Linux, doctor does not rewrite command/entrypoint metadata while the matching systemd gateway unit is active. It also ignores inactive non-legacy extra gateway-like units during the duplicate-service scan so companion service files do not create cleanup noise.
     - If token auth requires a token and `gateway.auth.token` is SecretRef-managed, doctor service install/repair validates the SecretRef but does not persist resolved plaintext token values into supervisor service environment metadata.
     - Doctor detects managed `.env`/SecretRef-backed service environment values that older LaunchAgent, systemd, or Windows Scheduled Task installs embedded inline and rewrites the service metadata so those values load from the runtime source instead of the supervisor definition.
@@ -465,8 +465,8 @@ That stages grounded durable candidates into the short-term dreaming store while
     - If token auth requires a token and the configured token SecretRef is unresolved, doctor blocks the install/repair path with actionable guidance.
     - If both `gateway.auth.token` and `gateway.auth.password` are configured and `gateway.auth.mode` is unset, doctor blocks install/repair until mode is set explicitly.
     - For Linux user-systemd units, doctor token drift checks now include both `Environment=` and `EnvironmentFile=` sources when comparing service auth metadata.
-    - Doctor service repairs refuse to rewrite, stop, or restart a gateway service from an older OpenClaw binary when the config was last written by a newer version. See [Gateway troubleshooting](/gateway/troubleshooting#split-brain-installs-and-newer-config-guard).
-    - You can always force a full rewrite via `openclaw gateway install --force`.
+    - Doctor service repairs refuse to rewrite, stop, or restart a gateway service from an older Brikko Studio binary when the config was last written by a newer version. See [Gateway troubleshooting](/gateway/troubleshooting#split-brain-installs-and-newer-config-guard).
+    - You can always force a full rewrite via `brikko-studio gateway install --force`.
 
   </Accordion>
   <Accordion title="16. Gateway runtime + port diagnostics">

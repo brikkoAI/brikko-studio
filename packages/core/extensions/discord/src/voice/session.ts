@@ -1,5 +1,5 @@
-import type { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+import type { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { ChannelType } from "../internal/discord.js";
 import type { VoiceCaptureState } from "./capture-state.js";
 import type { VoiceReceiveRecoveryState } from "./receive-recovery.js";

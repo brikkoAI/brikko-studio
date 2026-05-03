@@ -1,5 +1,5 @@
 import { ButtonStyle, TextInputStyle } from "discord-api-types/v10";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import type {
   DiscordComponentBlock,
   DiscordComponentButtonSpec,

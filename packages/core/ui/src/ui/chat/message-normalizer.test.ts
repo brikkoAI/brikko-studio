@@ -109,7 +109,7 @@ describe("message-normalizer", () => {
             surface: "assistant_message",
             render: "url",
             viewId: "cv_status",
-            url: "/__openclaw__/canvas/documents/cv_status/index.html",
+            url: "/__brikko-studio__/canvas/documents/cv_status/index.html",
             title: "Status",
             preferredHeight: 320,
           },
@@ -204,7 +204,7 @@ describe("message-normalizer", () => {
     it("keeps valid local MEDIA paths as assistant attachments", () => {
       const result = normalizeMessage({
         role: "assistant",
-        content: "Hello\nMEDIA:/tmp/openclaw/test-image.png\nWorld",
+        content: "Hello\nMEDIA:/tmp/brikko-studio/test-image.png\nWorld",
       });
 
       expect(result.content).toEqual([
@@ -212,7 +212,7 @@ describe("message-normalizer", () => {
         {
           type: "attachment",
           attachment: {
-            url: "/tmp/openclaw/test-image.png",
+            url: "/tmp/brikko-studio/test-image.png",
             kind: "image",
             label: "test-image.png",
             mimeType: "image/png",
@@ -225,14 +225,14 @@ describe("message-normalizer", () => {
     it("keeps spaced local filenames together instead of leaking suffix text", () => {
       const result = normalizeMessage({
         role: "assistant",
-        content: "MEDIA:/tmp/openclaw/shinkansen kato - Google Shopping.pdf",
+        content: "MEDIA:/tmp/brikko-studio/shinkansen kato - Google Shopping.pdf",
       });
 
       expect(result.content).toEqual([
         {
           type: "attachment",
           attachment: {
-            url: "/tmp/openclaw/shinkansen kato - Google Shopping.pdf",
+            url: "/tmp/brikko-studio/shinkansen kato - Google Shopping.pdf",
             kind: "document",
             label: "shinkansen kato - Google Shopping.pdf",
             mimeType: "application/pdf",

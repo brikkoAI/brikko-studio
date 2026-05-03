@@ -1,4 +1,4 @@
-import { resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-payload";
+import { resolveSendableOutboundReplyParts } from "brikko-studio/plugin-sdk/reply-payload";
 import { isParentOwnedBackgroundAcpSession } from "../../acp/session-interaction-mode.js";
 import {
   resolveAgentConfig,
@@ -27,7 +27,7 @@ import { applyMergePatch } from "../../config/merge-patch.js";
 import { resolveGroupSessionKey } from "../../config/sessions/group.js";
 import { parseSessionThreadInfoFast } from "../../config/sessions/thread-info.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { logVerbose } from "../../globals.js";
 import { fireAndForgetHook } from "../../hooks/fire-and-forget.js";
 import {
@@ -207,7 +207,7 @@ const resolveRoutedPolicyConversationType = (
 
 const resolveSessionStoreLookup = (
   ctx: FinalizedMsgContext,
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
 ): {
   sessionKey?: string;
   storePath?: string;
@@ -240,7 +240,7 @@ const resolveSessionStoreLookup = (
 
 const resolveBoundAcpDispatchSessionKey = (params: {
   ctx: FinalizedMsgContext;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
 }): string | undefined => {
   const bindingContext = resolveConversationBindingContextFromMessage({
     cfg: params.cfg,
@@ -292,7 +292,7 @@ const createShouldEmitVerboseProgress = (params: {
 };
 
 const resolveHarnessSourceVisibleRepliesDefault = (params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   ctx: FinalizedMsgContext;
   entry?: SessionEntry;
   sessionAgentId: string;
@@ -1230,7 +1230,7 @@ export async function dispatchReplyFromConfig(
     const replyResolver =
       params.replyResolver ?? (await loadGetReplyFromConfigRuntime()).getReplyFromConfig;
     const replyConfig = withFullRuntimeReplyConfig(
-      params.configOverride ? (applyMergePatch(cfg, params.configOverride) as OpenClawConfig) : cfg,
+      params.configOverride ? (applyMergePatch(cfg, params.configOverride) as Brikko StudioConfig) : cfg,
     );
     const replyResult = await replyResolver(
       ctx,

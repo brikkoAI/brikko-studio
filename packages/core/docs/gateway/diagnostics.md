@@ -7,7 +7,7 @@ read_when:
   - Reviewing what diagnostics data is recorded or redacted
 ---
 
-OpenClaw can create a local diagnostics zip for bug reports. It combines
+Brikko Studio can create a local diagnostics zip for bug reports. It combines
 sanitized Gateway status, health, logs, config shape, and recent payload-free
 stability events.
 
@@ -18,19 +18,19 @@ local Gateway logs and host-level runtime state.
 ## Quick start
 
 ```bash
-openclaw gateway diagnostics export
+brikko-studio gateway diagnostics export
 ```
 
 The command prints the written zip path. To choose a path:
 
 ```bash
-openclaw gateway diagnostics export --output openclaw-diagnostics.zip
+brikko-studio gateway diagnostics export --output brikko-studio-diagnostics.zip
 ```
 
 For automation:
 
 ```bash
-openclaw gateway diagnostics export --json
+brikko-studio gateway diagnostics export --json
 ```
 
 ## Chat command
@@ -41,28 +41,28 @@ copy-pasteable report for support:
 
 1. Send `/diagnostics` in the conversation where you noticed the problem. Add a
    short note if it helps, for example `/diagnostics bad tool choice`.
-2. OpenClaw sends the diagnostics preamble and asks for one explicit exec
-   approval. The approval runs `openclaw gateway diagnostics export --json`.
+2. Brikko Studio sends the diagnostics preamble and asks for one explicit exec
+   approval. The approval runs `brikko-studio gateway diagnostics export --json`.
    Do not approve diagnostics through an allow-all rule.
-3. After approval, OpenClaw replies with a pasteable report containing the local
+3. After approval, Brikko Studio replies with a pasteable report containing the local
    bundle path, manifest summary, privacy notes, and relevant session ids.
 
-In group chats, an owner can still run `/diagnostics`, but OpenClaw does not
+In group chats, an owner can still run `/diagnostics`, but Brikko Studio does not
 post the diagnostic details back into the shared chat. It sends the preamble,
 approval prompts, Gateway export result, and Codex session/thread breakdown to
 the owner through the private approval route. The group only gets a short notice
-that the diagnostics flow was sent privately. If OpenClaw cannot find a private
+that the diagnostics flow was sent privately. If Brikko Studio cannot find a private
 owner route, the command fails closed and asks the owner to run it from a DM.
 
-When the active OpenClaw session is using the native OpenAI Codex harness,
+When the active Brikko Studio session is using the native OpenAI Codex harness,
 the same exec approval also covers an OpenAI feedback upload for the Codex
-runtime threads OpenClaw knows about. That upload is separate from the local
+runtime threads Brikko Studio knows about. That upload is separate from the local
 Gateway zip and appears only for Codex harness sessions. Before approval, the
 prompt explains that approving diagnostics will also send Codex feedback, but it
 does not list Codex session or thread ids. After approval, the chat reply lists
-the channels, OpenClaw session ids, Codex thread ids, and local resume commands
+the channels, Brikko Studio session ids, Codex thread ids, and local resume commands
 for the threads that were sent to OpenAI servers. If you deny or ignore the
-approval, OpenClaw does not run the export, does not send Codex feedback, and
+approval, Brikko Studio does not run the export, does not send Codex feedback, and
 does not print the Codex ids.
 
 That makes the common Codex debugging loop short: notice the bad behavior in
@@ -125,31 +125,31 @@ restart the Gateway by themselves.
 Inspect the live recorder:
 
 ```bash
-openclaw gateway stability
-openclaw gateway stability --type payload.large
-openclaw gateway stability --json
+brikko-studio gateway stability
+brikko-studio gateway stability --type payload.large
+brikko-studio gateway stability --json
 ```
 
 Inspect the newest persisted stability bundle after a fatal exit, shutdown
 timeout, or restart startup failure:
 
 ```bash
-openclaw gateway stability --bundle latest
+brikko-studio gateway stability --bundle latest
 ```
 
 Create a diagnostics zip from the newest persisted bundle:
 
 ```bash
-openclaw gateway stability --bundle latest --export
+brikko-studio gateway stability --bundle latest --export
 ```
 
-Persisted bundles live under `~/.openclaw/logs/stability/` when events exist.
+Persisted bundles live under `~/.brikko-studio/logs/stability/` when events exist.
 
 ## Useful options
 
 ```bash
-openclaw gateway diagnostics export \
-  --output openclaw-diagnostics.zip \
+brikko-studio gateway diagnostics export \
+  --output brikko-studio-diagnostics.zip \
   --log-lines 5000 \
   --log-bytes 1000000
 ```

@@ -1,4 +1,4 @@
-import { importFreshModule } from "openclaw/plugin-sdk/test-fixtures";
+import { importFreshModule } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { CommandLane } from "./lanes.js";
 
@@ -523,7 +523,7 @@ describe("command queue", () => {
     // the `activeTaskWaiters` field.  The schema migration in getQueueState()
     // must patch the missing field so resetAllLanes() and
     // notifyActiveTaskWaiters() do not throw.
-    const key = Symbol.for("openclaw.commandQueueState");
+    const key = Symbol.for("brikko-studio.commandQueueState");
     const globalStore = globalThis as Record<PropertyKey, unknown>;
     const original = globalStore[key];
 

@@ -1,6 +1,6 @@
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { ModelProviderConfig, OpenClawConfig } from "../config/types.js";
+import type { ModelProviderConfig, Brikko StudioConfig } from "../config/types.js";
 import type { ProviderRuntimeModel } from "./provider-runtime-model.types.js";
 import {
   expectAugmentedCodexCatalog,
@@ -456,14 +456,14 @@ describe("provider-runtime", () => {
           demo: { enabled: true, config: { endpoint: "https://one.example" } },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const secondConfig = {
       plugins: {
         entries: {
           demo: { enabled: true, config: { endpoint: "https://two.example" } },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(resolveProviderRuntimePlugin({ provider: DEMO_PROVIDER_ID, config: firstConfig })).toBe(
       provider,
@@ -490,7 +490,7 @@ describe("provider-runtime", () => {
           "active-memory": { enabled: true },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const secondConfig = {
       plugins: {
         entries: {
@@ -498,7 +498,7 @@ describe("provider-runtime", () => {
           "active-memory": { enabled: true, config: { qmd: { searchMode: "fast" } } },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(resolveProviderRuntimePlugin({ provider: DEMO_PROVIDER_ID, config: firstConfig })).toBe(
       provider,
@@ -521,12 +521,12 @@ describe("provider-runtime", () => {
       label: "Demo two",
       auth: [],
     };
-    const config = {} as OpenClawConfig;
+    const config = {} as Brikko StudioConfig;
     const originalHome = process.env.HOME;
-    const originalOpenClawHome = process.env.OPENCLAW_HOME;
+    const originalBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
     try {
       process.env.HOME = "/home/one";
-      delete process.env.OPENCLAW_HOME;
+      delete process.env.BRIKKO_STUDIO_HOME;
       resolvePluginProvidersMock.mockReturnValueOnce([firstProvider]);
       expect(resolveProviderRuntimePlugin({ provider: DEMO_PROVIDER_ID, config })).toBe(
         firstProvider,
@@ -543,10 +543,10 @@ describe("provider-runtime", () => {
       } else {
         process.env.HOME = originalHome;
       }
-      if (originalOpenClawHome === undefined) {
-        delete process.env.OPENCLAW_HOME;
+      if (originalBrikko StudioHome === undefined) {
+        delete process.env.BRIKKO_STUDIO_HOME;
       } else {
-        process.env.OPENCLAW_HOME = originalOpenClawHome;
+        process.env.BRIKKO_STUDIO_HOME = originalBrikko StudioHome;
       }
     }
 
@@ -704,15 +704,15 @@ describe("provider-runtime", () => {
           demo: { enabled: true },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const firstConfig = {
       ...baseConfig,
       agents: { defaults: { model: "openai/gpt-5.4" } },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const secondConfig = {
       ...baseConfig,
       agents: { defaults: { model: "anthropic/claude-sonnet-4-5" } },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(
       await augmentModelCatalogWithProviderPlugins({
@@ -749,7 +749,7 @@ describe("provider-runtime", () => {
           "active-memory": { enabled: true },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const secondConfig = {
       plugins: {
         entries: {
@@ -757,7 +757,7 @@ describe("provider-runtime", () => {
           "active-memory": { enabled: true, config: { qmd: { searchMode: "fast" } } },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     for (const config of [firstConfig, secondConfig]) {
       expect(

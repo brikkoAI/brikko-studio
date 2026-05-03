@@ -288,7 +288,7 @@ export async function installPluginFromGitSpec(
   }
 
   const persistentRepoDir = resolveGitInstallRepoDir({ gitDir: params.gitDir, source: parsed });
-  return await withTempDir("openclaw-git-plugin-", async (tmpDir) => {
+  return await withTempDir("brikko-studio-git-plugin-", async (tmpDir) => {
     const repoDir = path.join(tmpDir, "repo");
     params.logger?.info?.(
       `Cloning ${sanitizeForLog(redactSensitiveUrlLikeString(parsed.label))}...`,

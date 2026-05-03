@@ -7,7 +7,7 @@ import {
 import {
   listSkillCommandsForAgents,
   parseStrictPositiveInteger,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
   type RuntimeEnv,
 } from "./runtime-api.js";
 import {
@@ -27,7 +27,7 @@ function isLoopbackHost(hostname: string): boolean {
 }
 
 function buildSlashCommands(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   runtime: RuntimeEnv;
   nativeSkills: boolean;
 }): MattermostCommandSpec[] {
@@ -136,7 +136,7 @@ async function registerSlashCommandsAcrossTeams(params: {
 
 export async function registerMattermostMonitorSlashCommands(params: {
   client: MattermostClient;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   runtime: RuntimeEnv;
   account: ResolvedMattermostAccount;
   baseUrl: string;
@@ -152,7 +152,7 @@ export async function registerMattermostMonitorSlashCommands(params: {
 
   try {
     const teams = await fetchMattermostUserTeams(params.client, params.botUserId);
-    const envPort = parseStrictPositiveInteger(process.env.OPENCLAW_GATEWAY_PORT?.trim());
+    const envPort = parseStrictPositiveInteger(process.env.BRIKKO_STUDIO_GATEWAY_PORT?.trim());
     const slashGatewayPort = envPort ?? params.cfg.gateway?.port ?? 18789;
     const slashCallbackUrl = resolveCallbackUrl({
       config: slashConfig,

@@ -1,12 +1,12 @@
-import { resolveApprovalOverGateway } from "openclaw/plugin-sdk/approval-gateway-runtime";
-import type { ExecApprovalReplyDecision } from "openclaw/plugin-sdk/approval-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { isApprovalNotFoundError } from "openclaw/plugin-sdk/error-runtime";
+import { resolveApprovalOverGateway } from "brikko-studio/plugin-sdk/approval-gateway-runtime";
+import type { ExecApprovalReplyDecision } from "brikko-studio/plugin-sdk/approval-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { isApprovalNotFoundError } from "brikko-studio/plugin-sdk/error-runtime";
 
 export { isApprovalNotFoundError };
 
 export async function resolveMatrixApproval(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   approvalId: string;
   decision: ExecApprovalReplyDecision;
   senderId?: string | null;

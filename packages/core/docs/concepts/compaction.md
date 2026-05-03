@@ -1,12 +1,12 @@
 ---
-summary: "How OpenClaw summarizes long conversations to stay within model limits"
+summary: "How Brikko Studio summarizes long conversations to stay within model limits"
 read_when:
   - You want to understand auto-compaction and /compact
   - You are debugging long sessions hitting context limits
 title: "Compaction"
 ---
 
-Every model has a context window: the maximum number of tokens it can process. When a conversation approaches that limit, OpenClaw **compacts** older messages into a summary so the chat can continue.
+Every model has a context window: the maximum number of tokens it can process. When a conversation approaches that limit, Brikko Studio **compacts** older messages into a summary so the chat can continue.
 
 ## How it works
 
@@ -14,13 +14,13 @@ Every model has a context window: the maximum number of tokens it can process. W
 2. The summary is saved in the session transcript.
 3. Recent messages are kept intact.
 
-When OpenClaw splits history into compaction chunks, it keeps assistant tool calls paired with their matching `toolResult` entries. If a split point lands inside a tool block, OpenClaw moves the boundary so the pair stays together and the current unsummarized tail is preserved.
+When Brikko Studio splits history into compaction chunks, it keeps assistant tool calls paired with their matching `toolResult` entries. If a split point lands inside a tool block, Brikko Studio moves the boundary so the pair stays together and the current unsummarized tail is preserved.
 
 The full conversation history stays on disk. Compaction only changes what the model sees on the next turn.
 
 ## Auto-compaction
 
-Auto-compaction is on by default. It runs when the session nears the context limit, or when the model returns a context-overflow error (in which case OpenClaw compacts and retries).
+Auto-compaction is on by default. It runs when the session nears the context limit, or when the model returns a context-overflow error (in which case Brikko Studio compacts and retries).
 
 You will see:
 
@@ -28,12 +28,12 @@ You will see:
 - `/status` showing `🧹 Compactions: <count>`.
 
 <Info>
-Before compacting, OpenClaw automatically reminds the agent to save important notes to [memory](/concepts/memory) files. This prevents context loss.
+Before compacting, Brikko Studio automatically reminds the agent to save important notes to [memory](/concepts/memory) files. This prevents context loss.
 </Info>
 
 <AccordionGroup>
   <Accordion title="Recognized overflow signatures">
-    OpenClaw detects context overflow from these provider error patterns:
+    Brikko Studio detects context overflow from these provider error patterns:
 
     - `request_too_large`
     - `context length exceeded`
@@ -57,7 +57,7 @@ When `agents.defaults.compaction.keepRecentTokens` is set, manual compaction hon
 
 ## Configuration
 
-Configure compaction under `agents.defaults.compaction` in your `openclaw.json`. The most common knobs are listed below; for the full reference, see [Session management deep dive](/reference/session-management-compaction).
+Configure compaction under `agents.defaults.compaction` in your `brikko-studio.json`. The most common knobs are listed below; for the full reference, see [Session management deep dive](/reference/session-management-compaction).
 
 ### Using a different model
 
@@ -89,7 +89,7 @@ This works with local models too, for example a second Ollama model dedicated to
 }
 ```
 
-When unset, compaction starts with the active session model. If summarization fails with a model-fallback-eligible provider error, OpenClaw retries that compaction attempt through the session's existing model fallback chain. The fallback choice is temporary and is not written back to session state. An explicit `agents.defaults.compaction.model` override remains exact and does not inherit the session fallback chain.
+When unset, compaction starts with the active session model. If summarization fails with a model-fallback-eligible provider error, Brikko Studio retries that compaction attempt through the session's existing model fallback chain. The fallback choice is temporary and is not written back to session state. An explicit `agents.defaults.compaction.model` override remains exact and does not inherit the session fallback chain.
 
 ### Identifier preservation
 
@@ -97,7 +97,7 @@ Compaction summarization preserves opaque identifiers by default (`identifierPol
 
 ### Active transcript byte guard
 
-When `agents.defaults.compaction.maxActiveTranscriptBytes` is set, OpenClaw triggers normal local compaction before a run if the active JSONL reaches that size. This is useful for long-running sessions where provider-side context management may keep model context healthy while the local transcript keeps growing. It does not split raw JSONL bytes; it asks the normal compaction pipeline to create a semantic summary.
+When `agents.defaults.compaction.maxActiveTranscriptBytes` is set, Brikko Studio triggers normal local compaction before a run if the active JSONL reaches that size. This is useful for long-running sessions where provider-side context management may keep model context healthy while the local transcript keeps growing. It does not split raw JSONL bytes; it asks the normal compaction pipeline to create a semantic summary.
 
 <Warning>
 The byte guard requires `truncateAfterCompaction: true`. Without transcript rotation, the active file would not shrink and the guard remains inactive.
@@ -105,13 +105,13 @@ The byte guard requires `truncateAfterCompaction: true`. Without transcript rota
 
 ### Successor transcripts
 
-When `agents.defaults.compaction.truncateAfterCompaction` is enabled, OpenClaw does not rewrite the existing transcript in place. It creates a new active successor transcript from the compaction summary, preserved state, and unsummarized tail, then keeps the previous JSONL as the archived checkpoint source.
+When `agents.defaults.compaction.truncateAfterCompaction` is enabled, Brikko Studio does not rewrite the existing transcript in place. It creates a new active successor transcript from the compaction summary, preserved state, and unsummarized tail, then keeps the previous JSONL as the archived checkpoint source.
 Successor transcripts also drop exact duplicate long user turns that arrive
 inside a short retry window, so channel retry storms are not carried into the
 next active transcript after compaction.
 
-Pre-compaction checkpoints are retained only while they stay below OpenClaw's
-checkpoint size cap; oversized active transcripts still compact, but OpenClaw
+Pre-compaction checkpoints are retained only while they stay below Brikko Studio's
+checkpoint size cap; oversized active transcripts still compact, but Brikko Studio
 skips the large debug snapshot instead of doubling disk usage.
 
 ### Compaction notices
@@ -132,7 +132,7 @@ By default, compaction runs silently. Set `notifyUser` to show brief status mess
 
 ### Memory flush
 
-Before compaction, OpenClaw can run a **silent memory flush** turn to store durable notes to disk. Set `agents.defaults.compaction.memoryFlush.model` when this housekeeping turn should use a local model instead of the active conversation model:
+Before compaction, Brikko Studio can run a **silent memory flush** turn to store durable notes to disk. Set `agents.defaults.compaction.memoryFlush.model` when this housekeeping turn should use a local model instead of the active conversation model:
 
 ```json
 {
@@ -152,7 +152,7 @@ The memory-flush model override is exact and does not inherit the active session
 
 ## Pluggable compaction providers
 
-Plugins can register a custom compaction provider via `registerCompactionProvider()` on the plugin API. When a provider is registered and configured, OpenClaw delegates summarization to it instead of the built-in LLM pipeline.
+Plugins can register a custom compaction provider via `registerCompactionProvider()` on the plugin API. When a provider is registered and configured, Brikko Studio delegates summarization to it instead of the built-in LLM pipeline.
 
 To use a registered provider, set its id in your config:
 
@@ -168,10 +168,10 @@ To use a registered provider, set its id in your config:
 }
 ```
 
-Setting a `provider` automatically forces `mode: "safeguard"`. Providers receive the same compaction instructions and identifier-preservation policy as the built-in path, and OpenClaw still preserves recent-turn and split-turn suffix context after provider output.
+Setting a `provider` automatically forces `mode: "safeguard"`. Providers receive the same compaction instructions and identifier-preservation policy as the built-in path, and Brikko Studio still preserves recent-turn and split-turn suffix context after provider output.
 
 <Note>
-If the provider fails or returns an empty result, OpenClaw falls back to built-in LLM summarization.
+If the provider fails or returns an empty result, Brikko Studio falls back to built-in LLM summarization.
 </Note>
 
 ## Compaction vs pruning

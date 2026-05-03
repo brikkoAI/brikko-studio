@@ -14,7 +14,7 @@ import type {
   CaptureProtocol,
 } from "./types.js";
 
-const DEBUG_PROXY_FETCH_PATCH_KEY = Symbol.for("openclaw.debugProxy.fetchPatch");
+const DEBUG_PROXY_FETCH_PATCH_KEY = Symbol.for("brikko-studio.debugProxy.fetchPatch");
 const REDACTED_CAPTURE_HEADER_VALUE = "[REDACTED]";
 const SENSITIVE_CAPTURE_HEADER_NAMES = new Set([
   "authorization",
@@ -146,7 +146,7 @@ function createHttpCaptureEventBase(params: {
   return {
     sessionId: params.settings.sessionId,
     ts: Date.now(),
-    sourceScope: "openclaw",
+    sourceScope: "brikko-studio",
     sourceProcess: params.settings.sourceProcess,
     protocol: params.transport ?? protocolFromUrl(params.rawUrl),
     direction: params.direction,
@@ -215,7 +215,7 @@ function installDebugProxyGlobalFetchPatch(
         store.recordEvent({
           sessionId: settings.sessionId,
           ts: Date.now(),
-          sourceScope: "openclaw",
+          sourceScope: "brikko-studio",
           sourceProcess: settings.sourceProcess,
           protocol: protocolFromUrl(url),
           direction: "local",
@@ -265,7 +265,7 @@ export function initializeDebugProxyCapture(
     id: settings.sessionId,
     startedAt: Date.now(),
     mode,
-    sourceScope: "openclaw",
+    sourceScope: "brikko-studio",
     sourceProcess: settings.sourceProcess,
     proxyUrl: settings.proxyUrl,
     dbPath: settings.dbPath,
@@ -435,7 +435,7 @@ export function captureWsEvent(params: {
   store.recordEvent({
     sessionId: settings.sessionId,
     ts: Date.now(),
-    sourceScope: "openclaw",
+    sourceScope: "brikko-studio",
     sourceProcess: settings.sourceProcess,
     protocol: protocolFromUrl(params.url),
     direction: params.direction,

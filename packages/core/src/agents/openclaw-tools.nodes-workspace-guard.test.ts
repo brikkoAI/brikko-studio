@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { applyNodesToolWorkspaceGuard } from "./openclaw-tools.nodes-workspace-guard.js";
+import { applyNodesToolWorkspaceGuard } from "./brikko-studio-tools.nodes-workspace-guard.js";
 import type { AnyAgentTool } from "./tools/common.js";
 
 const mocks = vi.hoisted(() => ({
@@ -33,7 +33,7 @@ vi.mock("./sandbox-paths.js", () => ({
   assertSandboxPath: mocks.assertSandboxPath,
 }));
 
-const WORKSPACE_ROOT = "/tmp/openclaw-workspace-nodes-guard";
+const WORKSPACE_ROOT = "/tmp/brikko-studio-workspace-nodes-guard";
 
 function createNodesToolHarness() {
   const nodesExecute = vi.fn(async () => ({

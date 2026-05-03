@@ -1,5 +1,5 @@
 ---
-summary: "Run external coding harnesses (Claude Code, Cursor, Gemini CLI, explicit Codex ACP, OpenClaw ACP, OpenCode) through the ACP backend"
+summary: "Run external coding harnesses (Claude Code, Cursor, Gemini CLI, explicit Codex ACP, Brikko Studio ACP, OpenCode) through the ACP backend"
 read_when:
   - Running coding harnesses through ACP
   - Setting up conversation-bound ACP sessions on messaging channels
@@ -11,8 +11,8 @@ sidebarTitle: "ACP agents"
 ---
 
 [Agent Client Protocol (ACP)](https://agentclientprotocol.com/) sessions
-let OpenClaw run external coding harnesses (for example Pi, Claude Code,
-Cursor, Copilot, Droid, OpenClaw ACP, OpenCode, Gemini CLI, and other
+let Brikko Studio run external coding harnesses (for example Pi, Claude Code,
+Cursor, Copilot, Droid, Brikko Studio ACP, OpenCode, Gemini CLI, and other
 supported ACPX harnesses) through an ACP backend plugin.
 
 Each ACP session spawn is tracked as a [background task](/automation/tasks).
@@ -24,8 +24,8 @@ native Codex app-server plugin owns `/codex ...` controls and the
 `/acp ...` controls and `sessions_spawn({ runtime: "acp" })` sessions.
 
 If you want Codex or Claude Code to connect as an external MCP client
-directly to existing OpenClaw channel conversations, use
-[`openclaw mcp serve`](/cli/mcp) instead of ACP.
+directly to existing Brikko Studio channel conversations, use
+[`brikko-studio mcp serve`](/cli/mcp) instead of ACP.
 </Note>
 
 ## Which page do I want?
@@ -33,23 +33,23 @@ directly to existing OpenClaw channel conversations, use
 | You want to…                                                                                    | Use this                              | Notes                                                                                                                                                                                         |
 | ----------------------------------------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Bind or control Codex in the current conversation                                               | `/codex bind`, `/codex threads`       | Native Codex app-server path when the `codex` plugin is enabled; includes bound chat replies, image forwarding, model/fast/permissions, stop, and steer controls. ACP is an explicit fallback |
-| Run Claude Code, Gemini CLI, explicit Codex ACP, or another external harness _through_ OpenClaw | This page                             | Chat-bound sessions, `/acp spawn`, `sessions_spawn({ runtime: "acp" })`, background tasks, runtime controls                                                                                   |
-| Expose an OpenClaw Gateway session _as_ an ACP server for an editor or client                   | [`openclaw acp`](/cli/acp)            | Bridge mode. IDE/client talks ACP to OpenClaw over stdio/WebSocket                                                                                                                            |
-| Reuse a local AI CLI as a text-only fallback model                                              | [CLI Backends](/gateway/cli-backends) | Not ACP. No OpenClaw tools, no ACP controls, no harness runtime                                                                                                                               |
+| Run Claude Code, Gemini CLI, explicit Codex ACP, or another external harness _through_ Brikko Studio | This page                             | Chat-bound sessions, `/acp spawn`, `sessions_spawn({ runtime: "acp" })`, background tasks, runtime controls                                                                                   |
+| Expose an Brikko Studio Gateway session _as_ an ACP server for an editor or client                   | [`brikko-studio acp`](/cli/acp)            | Bridge mode. IDE/client talks ACP to Brikko Studio over stdio/WebSocket                                                                                                                            |
+| Reuse a local AI CLI as a text-only fallback model                                              | [CLI Backends](/gateway/cli-backends) | Not ACP. No Brikko Studio tools, no ACP controls, no harness runtime                                                                                                                               |
 
 ## Does this work out of the box?
 
 Yes, after installing the official ACP runtime plugin:
 
 ```bash
-openclaw plugins install @openclaw/acpx
-openclaw config set plugins.entries.acpx.enabled true
+brikko-studio plugins install @brikko-studio/acpx
+brikko-studio config set plugins.entries.acpx.enabled true
 ```
 
 Source checkouts can use the local `extensions/acpx` workspace plugin after
 `pnpm install`. Run `/acp doctor` for a readiness check.
 
-OpenClaw only teaches agents about ACP spawning when ACP is **truly
+Brikko Studio only teaches agents about ACP spawning when ACP is **truly
 usable**: ACP must be enabled, dispatch must not be disabled, the current
 session must not be sandbox-blocked, and a runtime backend must be
 loaded. If those conditions are not met, ACP plugin skills and
@@ -66,12 +66,12 @@ an unavailable backend.
 
   </Accordion>
   <Accordion title="Runtime prerequisites">
-    ACP launches a real external harness process. OpenClaw owns routing,
+    ACP launches a real external harness process. Brikko Studio owns routing,
     background-task state, delivery, bindings, and policy; the harness
     owns its provider login, model catalog, filesystem behavior, and
     native tools.
 
-    Before blaming OpenClaw, verify:
+    Before blaming Brikko Studio, verify:
 
     - `/acp doctor` reports an enabled, healthy backend.
     - The target id is allowed by `acp.allowedAgents` when that allowlist is set.
@@ -84,7 +84,7 @@ an unavailable backend.
   </Accordion>
 </AccordionGroup>
 
-OpenClaw plugin tools and built-in OpenClaw tools are **not** exposed to
+Brikko Studio plugin tools and built-in Brikko Studio tools are **not** exposed to
 ACP harnesses by default. Enable the explicit MCP bridges in
 [ACP agents — setup](/tools/acp-agents-setup) only when the harness
 should call those tools directly.
@@ -107,11 +107,11 @@ or `sessions_spawn({ runtime: "acp", agentId: "<id>" })` targets:
 | `kimi`     | Kimi/Moonshot CLI                              | Requires Kimi/Moonshot auth on the host.                                            |
 | `kiro`     | Kiro CLI                                       | Adapter availability and model control depend on the installed CLI.                 |
 | `opencode` | OpenCode ACP adapter                           | Requires OpenCode CLI/provider auth.                                                |
-| `openclaw` | OpenClaw Gateway bridge through `openclaw acp` | Lets an ACP-aware harness talk back to an OpenClaw Gateway session.                 |
-| `pi`       | Pi/embedded OpenClaw runtime                   | Used for OpenClaw-native harness experiments.                                       |
+| `brikko-studio` | Brikko Studio Gateway bridge through `brikko-studio acp` | Lets an ACP-aware harness talk back to an Brikko Studio Gateway session.                 |
+| `pi`       | Pi/embedded Brikko Studio runtime                   | Used for Brikko Studio-native harness experiments.                                       |
 | `qwen`     | Qwen Code / Qwen CLI                           | Requires Qwen-compatible auth on the host.                                          |
 
-Custom acpx agent aliases can be configured in acpx itself, but OpenClaw
+Custom acpx agent aliases can be configured in acpx itself, but Brikko Studio
 policy still checks `acp.allowedAgents` and any
 `agents.list[].runtime.acp.agent` mapping before dispatch.
 
@@ -147,13 +147,13 @@ Quick `/acp` flow from chat:
 
 <AccordionGroup>
   <Accordion title="Lifecycle details">
-    - Spawn creates or resumes an ACP runtime session, records ACP metadata in the OpenClaw session store, and may create a background task when the run is parent-owned.
+    - Spawn creates or resumes an ACP runtime session, records ACP metadata in the Brikko Studio session store, and may create a background task when the run is parent-owned.
     - Parent-owned ACP sessions are treated as background work even when the runtime session is persistent; completion and cross-surface delivery go through the parent task notifier rather than acting like a normal user-facing chat session.
     - Task maintenance closes terminal or orphaned parent-owned one-shot ACP sessions. Persistent ACP sessions are preserved while an active conversation binding remains; stale persistent sessions without an active binding are closed so they cannot be silently resumed after the owning task is done or its task record is gone.
     - Bound follow-up messages go directly to the ACP session until the binding is closed, unfocused, reset, or expired.
     - Gateway commands stay local. `/acp ...`, `/status`, and `/unfocus` are never sent as normal prompt text to a bound ACP harness.
     - `cancel` aborts the active turn when the backend supports cancellation; it does not delete the binding or session metadata.
-    - `close` ends the ACP session from OpenClaw's point of view and removes the binding. A harness may still keep its own upstream history if it supports resume.
+    - `close` ends the ACP session from Brikko Studio's point of view and removes the binding. A harness may still keep its own upstream history if it supports resume.
     - Idle runtime workers are eligible for cleanup after `acp.runtime.ttlMinutes`; stored session metadata remains available for `/acp sessions`.
 
   </Accordion>
@@ -166,13 +166,13 @@ Quick `/acp` flow from chat:
     - "Show Codex threads, then bind this one."
 
     Native Codex conversation binding is the default chat-control path.
-    OpenClaw dynamic tools still execute through OpenClaw, while
+    Brikko Studio dynamic tools still execute through Brikko Studio, while
     Codex-native tools such as shell/apply-patch execute inside Codex.
-    For Codex-native tool events, OpenClaw injects a per-turn native
+    For Codex-native tool events, Brikko Studio injects a per-turn native
     hook relay so plugin hooks can block `before_tool_call`, observe
     `after_tool_call`, and route Codex `PermissionRequest` events
-    through OpenClaw approvals. Codex `Stop` hooks are relayed to
-    OpenClaw `before_agent_finalize`, where plugins can request one more
+    through Brikko Studio approvals. Codex `Stop` hooks are relayed to
+    Brikko Studio `before_agent_finalize`, where plugins can request one more
     model pass before Codex finalizes its answer. The relay remains
     deliberately conservative: it does not mutate Codex-native tool
     arguments or rewrite Codex thread records. Use explicit ACP only
@@ -195,7 +195,7 @@ Quick `/acp` flow from chat:
     - "Use Gemini CLI for this task in a thread, then keep follow-ups in that same thread."
     - "Run Codex through ACP in a background thread."
 
-    OpenClaw picks `runtime: "acp"`, resolves the harness `agentId`,
+    Brikko Studio picks `runtime: "acp"`, resolves the harness `agentId`,
     binds to the current conversation or thread when supported, and
     routes follow-ups to that session until close/expiry. Codex only
     follows this path when ACP/acpx is explicit or the native Codex
@@ -207,10 +207,10 @@ Quick `/acp` flow from chat:
     ACP thread dispatch but does not hide or block explicit
     `sessions_spawn({ runtime: "acp" })` calls. It targets ACP harness ids such as `codex`,
     `claude`, `droid`, `gemini`, or `opencode`. Do not pass a normal
-    OpenClaw config agent id from `agents_list` unless that entry is
+    Brikko Studio config agent id from `agents_list` unless that entry is
     explicitly configured with `agents.list[].runtime.type="acp"`;
-    otherwise use the default sub-agent runtime. When an OpenClaw agent
-    is configured with `runtime.type="acp"`, OpenClaw uses
+    otherwise use the default sub-agent runtime. When an Brikko Studio agent
+    is configured with `runtime.type="acp"`, Brikko Studio uses
     `runtime.acp.agent` as the underlying harness id.
 
   </Accordion>
@@ -220,12 +220,12 @@ Quick `/acp` flow from chat:
 
 Use ACP when you want an external harness runtime. Use **native Codex
 app-server** for Codex conversation binding/control when the `codex`
-plugin is enabled. Use **sub-agents** when you want OpenClaw-native
+plugin is enabled. Use **sub-agents** when you want Brikko Studio-native
 delegated runs.
 
 | Area          | ACP session                           | Sub-agent run                      |
 | ------------- | ------------------------------------- | ---------------------------------- |
-| Runtime       | ACP backend plugin (for example acpx) | OpenClaw native sub-agent runtime  |
+| Runtime       | ACP backend plugin (for example acpx) | Brikko Studio native sub-agent runtime  |
 | Session key   | `agent:<agentId>:acp:<uuid>`          | `agent:<agentId>:subagent:<uuid>`  |
 | Main commands | `/acp ...`                            | `/subagents ...`                   |
 | Spawn tool    | `sessions_spawn` with `runtime:"acp"` | `sessions_spawn` (default runtime) |
@@ -236,8 +236,8 @@ See also [Sub-agents](/tools/subagents).
 
 For Claude Code through ACP, the stack is:
 
-1. OpenClaw ACP session control plane.
-2. Official `@openclaw/acpx` runtime plugin.
+1. Brikko Studio ACP session control plane.
+2. Official `@brikko-studio/acpx` runtime plugin.
 3. Claude ACP adapter.
 4. Claude-side runtime/session machinery.
 
@@ -257,14 +257,14 @@ For operators, the practical rule is:
 ### Mental model
 
 - **Chat surface** — where people keep talking (Discord channel, Telegram topic, iMessage chat).
-- **ACP session** — the durable Codex/Claude/Gemini runtime state OpenClaw routes to.
+- **ACP session** — the durable Codex/Claude/Gemini runtime state Brikko Studio routes to.
 - **Child thread/topic** — an optional extra messaging surface created only by `--thread ...`.
 - **Runtime workspace** — the filesystem location (`cwd`, repo checkout, backend workspace) where the harness runs. Independent of the chat surface.
 
 ### Current-conversation binds
 
 `/acp spawn <harness> --bind here` pins the current conversation to the
-spawned ACP session — no child thread, same chat surface. OpenClaw keeps
+spawned ACP session — no child thread, same chat surface. Brikko Studio keeps
 owning transport, auth, safety, and delivery. Follow-up messages in that
 conversation route to the same session; `/new` and `/reset` reset the
 session in place; `/acp close` removes the binding.
@@ -283,16 +283,16 @@ Examples:
 <AccordionGroup>
   <Accordion title="Binding rules and exclusivity">
     - `--bind here` and `--thread ...` are mutually exclusive.
-    - `--bind here` only works on channels that advertise current-conversation binding; OpenClaw returns a clear unsupported message otherwise. Bindings persist across gateway restarts.
+    - `--bind here` only works on channels that advertise current-conversation binding; Brikko Studio returns a clear unsupported message otherwise. Bindings persist across gateway restarts.
     - On Discord, `spawnSessions` gates child thread creation for `--thread auto|here` — not `--bind here`.
-    - If you spawn to a different ACP agent without `--cwd`, OpenClaw inherits the **target agent's** workspace by default. Missing inherited paths (`ENOENT`/`ENOTDIR`) fall back to the backend default; other access errors (e.g. `EACCES`) surface as spawn errors.
-    - Gateway management commands stay local in bound conversations — `/acp ...` commands are handled by OpenClaw even when normal follow-up text routes to the bound ACP session; `/status` and `/unfocus` also stay local whenever command handling is enabled for that surface.
+    - If you spawn to a different ACP agent without `--cwd`, Brikko Studio inherits the **target agent's** workspace by default. Missing inherited paths (`ENOENT`/`ENOTDIR`) fall back to the backend default; other access errors (e.g. `EACCES`) surface as spawn errors.
+    - Gateway management commands stay local in bound conversations — `/acp ...` commands are handled by Brikko Studio even when normal follow-up text routes to the bound ACP session; `/status` and `/unfocus` also stay local whenever command handling is enabled for that surface.
 
   </Accordion>
   <Accordion title="Thread-bound sessions">
     When thread bindings are enabled for a channel adapter:
 
-    - OpenClaw binds a thread to a target ACP session.
+    - Brikko Studio binds a thread to a target ACP session.
     - Follow-up messages in that thread route to the bound ACP session.
     - ACP output is delivered back to the same thread.
     - Unfocus/close/archive/idle-timeout or max-age expiry removes the binding.
@@ -307,7 +307,7 @@ Examples:
       - Telegram: `channels.telegram.threadBindings.spawnSessions=true`
 
     Thread binding support is adapter-specific. If the active channel
-    adapter does not support thread bindings, OpenClaw returns a clear
+    adapter does not support thread bindings, Brikko Studio returns a clear
     unsupported/unavailable message.
 
   </Accordion>
@@ -339,7 +339,7 @@ top-level `bindings[]` entries.
 
 </ParamField>
 <ParamField path="bindings[].agentId" type="string">
-  The owning OpenClaw agent id.
+  The owning Brikko Studio agent id.
 </ParamField>
 <ParamField path="bindings[].acp.mode" type='"persistent" | "oneshot"'>
   Optional ACP override.
@@ -384,7 +384,7 @@ Use `agents.list[].runtime` to define ACP defaults once per agent:
             agent: "codex",
             backend: "acpx",
             mode: "persistent",
-            cwd: "/workspace/openclaw",
+            cwd: "/workspace/brikko-studio",
           },
         },
       },
@@ -452,11 +452,11 @@ Use `agents.list[].runtime` to define ACP defaults once per agent:
 
 ### Behavior
 
-- OpenClaw ensures the configured ACP session exists before use.
+- Brikko Studio ensures the configured ACP session exists before use.
 - Messages in that channel or topic route to the configured ACP session.
 - In bound conversations, `/new` and `/reset` reset the same ACP session key in place.
 - Temporary runtime bindings (for example created by thread-focus flows) still apply where present.
-- For cross-agent ACP spawns without an explicit `cwd`, OpenClaw inherits the target agent workspace from agent config.
+- For cross-agent ACP spawns without an explicit `cwd`, Brikko Studio inherits the target agent workspace from agent config.
 - Missing inherited workspace paths fall back to the backend default cwd; non-missing access failures surface as spawn errors.
 
 ## Start ACP sessions
@@ -480,7 +480,7 @@ Two ways to start an ACP session:
 
     <Note>
     `runtime` defaults to `subagent`, so set `runtime: "acp"` explicitly
-    for ACP sessions. If `agentId` is omitted, OpenClaw uses
+    for ACP sessions. If `agentId` is omitted, Brikko Studio uses
     `acp.defaultAgent` when configured. `mode: "session"` requires
     `thread: true` to keep a persistent bound conversation.
     </Note>
@@ -525,7 +525,7 @@ Two ways to start an ACP session:
 </ParamField>
 <ParamField path="mode" type='"run" | "session"' default="run">
   `"run"` is one-shot; `"session"` is persistent. If `thread: true` and
-  `mode` is omitted, OpenClaw may default to persistent behaviour per
+  `mode` is omitted, Brikko Studio may default to persistent behaviour per
   runtime path. `mode: "session"` requires `thread: true`.
 </ParamField>
 <ParamField path="cwd" type="string">
@@ -556,11 +556,11 @@ Two ways to start an ACP session:
 </ParamField>
 <ParamField path="model" type="string">
   Explicit model override for the ACP child session. Codex ACP spawns
-  normalize OpenClaw Codex refs such as `openai-codex/gpt-5.4` to Codex
+  normalize Brikko Studio Codex refs such as `openai-codex/gpt-5.4` to Codex
   ACP startup config before `session/new`; slash forms such as
   `openai-codex/gpt-5.4/high` also set Codex ACP reasoning effort.
   Other harnesses must advertise ACP `models` and support
-  `session/set_model`; otherwise OpenClaw/acpx fails clearly instead of
+  `session/set_model`; otherwise Brikko Studio/acpx fails clearly instead of
   silently falling back to the target agent default.
 </ParamField>
 <ParamField path="thinking" type="string">
@@ -622,12 +622,12 @@ background work. The delivery path depends on that shape.
     ACP session, and ACP output is delivered back to that same
     channel/thread/topic.
 
-    What OpenClaw sends to the harness:
+    What Brikko Studio sends to the harness:
 
     - Normal bound follow-ups are sent as prompt text, plus attachments only when the harness/backend supports them.
     - `/acp` management commands and local Gateway commands are intercepted before ACP dispatch.
-    - Runtime-generated completion events are materialized per target. OpenClaw agents get OpenClaw's internal runtime-context envelope; external ACP harnesses get a plain prompt with the child result and instruction. The raw `<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>` envelope should never be sent to external harnesses or persisted as ACP user transcript text.
-    - ACP transcript entries use the user-visible trigger text or the plain completion prompt. Internal event metadata stays structured in OpenClaw where possible and is not treated as user-authored chat content.
+    - Runtime-generated completion events are materialized per target. Brikko Studio agents get Brikko Studio's internal runtime-context envelope; external ACP harnesses get a plain prompt with the child result and instruction. The raw `<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>` envelope should never be sent to external harnesses or persisted as ACP user transcript text.
+    - ACP transcript entries use the user-visible trigger text or the plain completion prompt. Internal event metadata stays structured in Brikko Studio where possible and is not treated as user-authored chat content.
 
   </Accordion>
   <Accordion title="Parent-owned one-shot ACP sessions">
@@ -637,7 +637,7 @@ background work. The delivery path depends on that shape.
     - The parent asks for work with `sessions_spawn({ runtime: "acp", mode: "run" })`.
     - The child runs in its own ACP harness session.
     - Child turns run on the same background lane used by native sub-agent spawns, so a slow ACP harness does not block unrelated main-session work.
-    - Completion reports back through the task-completion announce path. OpenClaw converts internal completion metadata into a plain ACP prompt before sending it to an external harness, so harnesses do not see OpenClaw-only runtime context markers.
+    - Completion reports back through the task-completion announce path. Brikko Studio converts internal completion metadata into a plain ACP prompt before sending it to an external harness, so harnesses do not see Brikko Studio-only runtime context markers.
     - The parent rewrites the child result in normal assistant voice when a user-facing reply is useful.
 
     Do **not** treat this path as a peer-to-peer chat between parent
@@ -647,7 +647,7 @@ background work. The delivery path depends on that shape.
   </Accordion>
   <Accordion title="sessions_send and A2A delivery">
     `sessions_send` can target another session after spawn. For normal
-    peer sessions, OpenClaw uses an agent-to-agent (A2A) follow-up path
+    peer sessions, Brikko Studio uses an agent-to-agent (A2A) follow-up path
     after injecting the message:
 
     - Wait for the target session's reply.
@@ -660,7 +660,7 @@ background work. The delivery path depends on that shape.
     see and message an ACP target, for example under broad
     `tools.sessions.visibility` settings.
 
-    OpenClaw skips the A2A follow-up only when the requester is the
+    Brikko Studio skips the A2A follow-up only when the requester is the
     parent of its own parent-owned one-shot ACP child. In that case,
     running A2A on top of task completion can wake the parent with the
     child's result, forward the parent's reply back into the child, and
@@ -693,8 +693,8 @@ background work. The delivery path depends on that shape.
 
     - `resumeSessionId` only applies when `runtime: "acp"`; the default sub-agent runtime ignores this ACP-only field.
     - `streamTo` only applies when `runtime: "acp"`; the default sub-agent runtime ignores this ACP-only field.
-    - `resumeSessionId` is a host-local ACP/harness resume id, not an OpenClaw channel session key; OpenClaw still checks ACP spawn policy and target agent policy before dispatch, while the ACP backend or harness owns authorization for loading that upstream id.
-    - `resumeSessionId` restores the upstream ACP conversation history; `thread` and `mode` still apply normally to the new OpenClaw session you are creating, so `mode: "session"` still requires `thread: true`.
+    - `resumeSessionId` is a host-local ACP/harness resume id, not an Brikko Studio channel session key; Brikko Studio still checks ACP spawn policy and target agent policy before dispatch, while the ACP backend or harness owns authorization for loading that upstream id.
+    - `resumeSessionId` restores the upstream ACP conversation history; `thread` and `mode` still apply normally to the new Brikko Studio session you are creating, so `mode: "session"` still requires `thread: true`.
     - The target agent must support `session/load` (Codex and Claude Code do).
     - If the session id is not found, the spawn fails with a clear error — no silent fallback to a new session.
 
@@ -719,15 +719,15 @@ background work. The delivery path depends on that shape.
 ## Sandbox compatibility
 
 ACP sessions currently run on the host runtime, **not** inside the
-OpenClaw sandbox.
+Brikko Studio sandbox.
 
 <Warning>
 **Security boundary:**
 
 - The external harness can read/write according to its own CLI permissions and the selected `cwd`.
-- OpenClaw's sandbox policy does **not** wrap ACP harness execution.
-- OpenClaw still enforces ACP feature gates, allowed agents, session ownership, channel bindings, and Gateway delivery policy.
-- Use `runtime: "subagent"` for sandbox-enforced OpenClaw-native work.
+- Brikko Studio's sandbox policy does **not** wrap ACP harness execution.
+- Brikko Studio still enforces ACP feature gates, allowed agents, session ownership, channel bindings, and Gateway delivery policy.
+- Use `runtime: "subagent"` for sandbox-enforced Brikko Studio-native work.
 
 </Warning>
 
@@ -753,7 +753,7 @@ Most `/acp` actions accept an optional session target (`session-key`,
 Current-conversation bindings and thread bindings both participate in
 step 2.
 
-If no target resolves, OpenClaw returns a clear error
+If no target resolves, Brikko Studio returns a clear error
 (`Unable to resolve session target: ...`).
 
 ## ACP controls
@@ -791,8 +791,8 @@ operations:
 
 | Command                      | Maps to                              | Notes                                                                                                                                                                          |
 | ---------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `/acp model <id>`            | runtime config key `model`           | For Codex ACP, OpenClaw normalizes `openai-codex/<model>` to the adapter model id and maps slash reasoning suffixes such as `openai-codex/gpt-5.4/high` to `reasoning_effort`. |
-| `/acp set thinking <level>`  | runtime config key `thinking`        | For Codex ACP, OpenClaw sends the corresponding `reasoning_effort` where the adapter supports one.                                                                             |
+| `/acp model <id>`            | runtime config key `model`           | For Codex ACP, Brikko Studio normalizes `openai-codex/<model>` to the adapter model id and maps slash reasoning suffixes such as `openai-codex/gpt-5.4/high` to `reasoning_effort`. |
+| `/acp set thinking <level>`  | runtime config key `thinking`        | For Codex ACP, Brikko Studio sends the corresponding `reasoning_effort` where the adapter supports one.                                                                             |
 | `/acp permissions <profile>` | runtime config key `approval_policy` | —                                                                                                                                                                              |
 | `/acp timeout <seconds>`     | runtime config key `timeout`         | —                                                                                                                                                                              |
 | `/acp cwd <path>`            | runtime cwd override                 | Direct update.                                                                                                                                                                 |
@@ -802,7 +802,7 @@ operations:
 ## acpx harness, plugin setup, and permissions
 
 For acpx harness configuration (Claude Code / Codex / Gemini CLI
-aliases), the plugin-tools and OpenClaw-tools MCP bridges, and ACP
+aliases), the plugin-tools and Brikko Studio-tools MCP bridges, and ACP
 permission modes, see
 [ACP agents — setup](/tools/acp-agents-setup).
 
@@ -817,7 +817,7 @@ permission modes, see
 | `/acp doctor` reports backend not ready right after startup                 | Backend plugin is missing, disabled, blocked by allow/deny policy, or its configured executable is unavailable.        | Install/enable the backend plugin, rerun `/acp doctor`, and inspect the backend install or policy error if it stays unhealthy.                                           |
 | Harness command not found                                                   | Adapter CLI is not installed, the external plugin is missing, or first-run `npx` fetch failed for a non-Codex adapter. | Run `/acp doctor`, install/prewarm the adapter on the Gateway host, or configure the acpx agent command explicitly.                                                      |
 | Model-not-found from the harness                                            | Model id is valid for another provider/harness but not this ACP target.                                                | Use a model listed by that harness, configure the model in the harness, or omit the override.                                                                            |
-| Vendor auth error from the harness                                          | OpenClaw is healthy, but the target CLI/provider is not logged in.                                                     | Log in or provide the required provider key on the Gateway host environment.                                                                                             |
+| Vendor auth error from the harness                                          | Brikko Studio is healthy, but the target CLI/provider is not logged in.                                                     | Log in or provide the required provider key on the Gateway host environment.                                                                                             |
 | `Unable to resolve session target: ...`                                     | Bad key/id/label token.                                                                                                | Run `/acp sessions`, copy exact key/label, retry.                                                                                                                        |
 | `--bind here requires running /acp spawn inside an active ... conversation` | `--bind here` used without an active bindable conversation.                                                            | Move to the target chat/channel and retry, or use unbound spawn.                                                                                                         |
 | `Conversation bindings are unavailable for <channel>.`                      | Adapter lacks current-conversation ACP binding capability.                                                             | Use `/acp spawn ... --thread ...` where supported, configure top-level `bindings[]`, or move to a supported channel.                                                     |
@@ -831,7 +831,7 @@ permission modes, see
 | `AcpRuntimeError: Permission prompt unavailable in non-interactive mode`    | `permissionMode` blocks writes/exec in non-interactive ACP session.                                                    | Set `plugins.entries.acpx.config.permissionMode` to `approve-all` and restart gateway. See [Permission configuration](/tools/acp-agents-setup#permission-configuration). |
 | ACP session fails early with little output                                  | Permission prompts are blocked by `permissionMode`/`nonInteractivePermissions`.                                        | Check gateway logs for `AcpRuntimeError`. For full permissions, set `permissionMode=approve-all`; for graceful degradation, set `nonInteractivePermissions=deny`.        |
 | ACP session stalls indefinitely after completing work                       | Harness process finished but ACP session did not report completion.                                                    | Monitor with `ps aux \| grep acpx`; kill stale processes manually.                                                                                                       |
-| Harness sees `<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>`                        | Internal event envelope leaked across the ACP boundary.                                                                | Update OpenClaw and rerun the completion flow; external harnesses should receive plain completion prompts only.                                                          |
+| Harness sees `<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>`                        | Internal event envelope leaked across the ACP boundary.                                                                | Update Brikko Studio and rerun the completion flow; external harnesses should receive plain completion prompts only.                                                          |
 
 ## Related
 
@@ -840,5 +840,5 @@ permission modes, see
 - [CLI Backends](/gateway/cli-backends)
 - [Codex harness](/plugins/codex-harness)
 - [Multi-agent sandbox tools](/tools/multi-agent-sandbox-tools)
-- [`openclaw acp` (bridge mode)](/cli/acp)
+- [`brikko-studio acp` (bridge mode)](/cli/acp)
 - [Sub-agents](/tools/subagents)

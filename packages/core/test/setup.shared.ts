@@ -2,7 +2,7 @@ import { vi } from "vitest";
 
 declare global {
   // Optional per-test delegate for the shared OAuth mock.
-  var __OPENCLAW_TEST_REFRESH_OPENAI_CODEX_TOKEN__: ((...args: unknown[]) => unknown) | undefined;
+  var __BRIKKO_STUDIO_TEST_REFRESH_OPENAI_CODEX_TOKEN__: ((...args: unknown[]) => unknown) | undefined;
 }
 
 vi.mock("@mariozechner/pi-ai/oauth", () => ({
@@ -10,7 +10,7 @@ vi.mock("@mariozechner/pi-ai/oauth", () => ({
   getOAuthProviders: () => [],
   loginOpenAICodex: vi.fn(),
   refreshOpenAICodexToken: vi.fn((...args: unknown[]) =>
-    globalThis.__OPENCLAW_TEST_REFRESH_OPENAI_CODEX_TOKEN__?.(...args),
+    globalThis.__BRIKKO_STUDIO_TEST_REFRESH_OPENAI_CODEX_TOKEN__?.(...args),
   ),
 }));
 
@@ -38,8 +38,8 @@ vi.mock("@mariozechner/clipboard", () => ({
 // Ensure Vitest environment is properly set.
 process.env.VITEST = "true";
 // Tests frequently point bundled plugin discovery at temp fixture roots. Production still rejects
-// arbitrary OPENCLAW_BUNDLED_PLUGINS_DIR overrides unless this Vitest-only opt-in is present.
-process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR ??= "1";
+// arbitrary BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR overrides unless this Vitest-only opt-in is present.
+process.env.BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR ??= "1";
 // Vitest fork workers can load transitive lockfile helpers many times per worker.
 // Raise listener budget to avoid noisy MaxListeners warnings and warning-stack overhead.
 const TEST_PROCESS_MAX_LISTENERS = 256;
@@ -54,7 +54,7 @@ type SharedTestSetupOptions = {
   loadProfileEnv?: boolean;
 };
 
-const SHARED_TEST_SETUP = Symbol.for("openclaw.sharedTestSetup");
+const SHARED_TEST_SETUP = Symbol.for("brikko-studio.sharedTestSetup");
 
 type SharedTestSetupHandle = {
   cleanup: () => void;

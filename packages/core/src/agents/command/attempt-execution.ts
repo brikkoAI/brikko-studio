@@ -4,7 +4,7 @@ import type { ThinkLevel, VerboseLevel } from "../../auto-reply/thinking.js";
 import { appendSessionTranscriptMessage } from "../../config/sessions/transcript-append.js";
 import { resolveSessionTranscriptFile } from "../../config/sessions/transcript.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { emitAgentEvent } from "../../infra/agent-events.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { annotateInterSessionPromptText } from "../../sessions/input-provenance.js";
@@ -80,7 +80,7 @@ type PersistTextTurnTranscriptParams = {
   sessionAgentId: string;
   threadId?: string | number;
   sessionCwd: string;
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   assistant: {
     api: string;
     provider: string;
@@ -109,7 +109,7 @@ function resolveProfileProviderFromStore(params: {
 }
 
 function resolveHarnessAuthProfileSelection(params: {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   agentDir: string;
   workspaceDir: string;
   provider: string;
@@ -271,13 +271,13 @@ export async function persistAcpTurnTranscript(params: {
   sessionAgentId: string;
   threadId?: string | number;
   sessionCwd: string;
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
 }): Promise<SessionEntry | undefined> {
   return await persistTextTurnTranscript({
     ...params,
     assistant: {
       api: "openai-responses",
-      provider: "openclaw",
+      provider: "brikko-studio",
       model: "acp-runtime",
     },
   });
@@ -295,7 +295,7 @@ export async function persistCliTurnTranscript(params: {
   sessionAgentId: string;
   threadId?: string | number;
   sessionCwd: string;
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
 }): Promise<SessionEntry | undefined> {
   const replyText = resolveCliTranscriptReplyText(params.result);
   const provider = params.result.meta.agentMeta?.provider?.trim() ?? "cli";
@@ -327,7 +327,7 @@ export function runAgentAttempt(params: {
   providerOverride: string;
   modelOverride: string;
   originalProvider: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionEntry: SessionEntry | undefined;
   sessionId: string;
   sessionKey: string | undefined;
@@ -622,7 +622,7 @@ export function runAgentAttempt(params: {
 }
 
 function resolveSessionPinnedAgentHarnessId(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionAgentId: string;
   sessionEntry?: SessionEntry;
   sessionHasHistory?: boolean;
@@ -646,7 +646,7 @@ function resolveSessionPinnedAgentHarnessId(params: {
 }
 
 function resolveConfiguredAgentHarnessId(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionAgentId: string;
   sessionKey: string;
 }): string | undefined {

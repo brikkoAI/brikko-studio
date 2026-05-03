@@ -1,15 +1,15 @@
-import { resolveChannelStreamingPreviewChunk } from "openclaw/plugin-sdk/channel-streaming";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { resolveTextChunkLimit } from "openclaw/plugin-sdk/reply-chunking";
-import { resolveAccountEntry } from "openclaw/plugin-sdk/routing";
-import { normalizeAccountId } from "openclaw/plugin-sdk/routing";
+import { resolveChannelStreamingPreviewChunk } from "brikko-studio/plugin-sdk/channel-streaming";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { resolveTextChunkLimit } from "brikko-studio/plugin-sdk/reply-chunking";
+import { resolveAccountEntry } from "brikko-studio/plugin-sdk/routing";
+import { normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
 import { DISCORD_TEXT_CHUNK_LIMIT } from "./outbound-adapter.js";
 
 const DEFAULT_DISCORD_DRAFT_STREAM_MIN = 200;
 const DEFAULT_DISCORD_DRAFT_STREAM_MAX = 800;
 
 export function resolveDiscordDraftStreamingChunking(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId?: string | null,
 ): {
   minChars: number;

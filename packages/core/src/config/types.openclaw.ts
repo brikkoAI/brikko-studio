@@ -42,10 +42,10 @@ export type SurfaceConfigEntry = {
   silentReplyRewrite?: SilentReplyRewriteShape;
 };
 
-export type OpenClawConfig = {
+export type Brikko StudioConfig = {
   $schema?: string;
   meta?: {
-    /** Last OpenClaw version that wrote this config. */
+    /** Last Brikko Studio version that wrote this config. */
     lastTouchedVersion?: string;
     /** ISO timestamp when this config was last written. */
     lastTouchedAt?: string;
@@ -99,7 +99,7 @@ export type OpenClawConfig = {
   };
   browser?: BrowserConfig;
   ui?: {
-    /** Accent color for OpenClaw UI chrome (hex). */
+    /** Accent color for Brikko Studio UI chrome (hex). */
     seamColor?: string;
     assistant?: {
       /** Assistant display name for UI surfaces. */
@@ -146,7 +146,7 @@ export type OpenClawConfig = {
 
 declare const openClawConfigStateBrand: unique symbol;
 
-type BrandedConfigState<TState extends string> = OpenClawConfig & {
+type BrandedConfigState<TState extends string> = Brikko StudioConfig & {
   readonly [openClawConfigStateBrand]?: TState;
 };
 

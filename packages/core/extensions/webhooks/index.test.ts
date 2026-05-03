@@ -1,13 +1,13 @@
-import { createTestPluginApi } from "openclaw/plugin-sdk/plugin-test-api";
+import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawPluginApi } from "./api.js";
+import type { Brikko StudioPluginApi } from "./api.js";
 import plugin from "./index.js";
 
 function createApi(params?: {
-  pluginConfig?: OpenClawPluginApi["pluginConfig"];
-  registerHttpRoute?: OpenClawPluginApi["registerHttpRoute"];
-  logger?: OpenClawPluginApi["logger"];
-}): OpenClawPluginApi {
+  pluginConfig?: Brikko StudioPluginApi["pluginConfig"];
+  registerHttpRoute?: Brikko StudioPluginApi["registerHttpRoute"];
+  logger?: Brikko StudioPluginApi["logger"];
+}): Brikko StudioPluginApi {
   return createTestPluginApi({
     id: "webhooks",
     name: "Webhooks",
@@ -19,7 +19,7 @@ function createApi(params?: {
           bindSession: vi.fn(({ sessionKey }: { sessionKey: string }) => ({ sessionKey })),
         },
       },
-    } as unknown as OpenClawPluginApi["runtime"],
+    } as unknown as Brikko StudioPluginApi["runtime"],
     registerHttpRoute: params?.registerHttpRoute ?? vi.fn(),
     logger:
       params?.logger ??
@@ -28,7 +28,7 @@ function createApi(params?: {
         warn: vi.fn(),
         error: vi.fn(),
         debug: vi.fn(),
-      } as OpenClawPluginApi["logger"]),
+      } as Brikko StudioPluginApi["logger"]),
   });
 }
 
@@ -45,7 +45,7 @@ describe("webhooks plugin registration", () => {
               secret: {
                 source: "env",
                 provider: "default",
-                id: "OPENCLAW_WEBHOOK_SECRET",
+                id: "BRIKKO_STUDIO_WEBHOOK_SECRET",
               },
             },
           },

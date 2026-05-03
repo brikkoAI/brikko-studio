@@ -1,9 +1,9 @@
-import { isBillingErrorMessage } from "openclaw/plugin-sdk/test-env";
+import { isBillingErrorMessage } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import { createXSearchTool } from "./x-search.js";
 
 const liveEnabled =
-  process.env.OPENCLAW_LIVE_TEST === "1" && (process.env.XAI_API_KEY ?? "").trim().length > 0;
+  process.env.BRIKKO_STUDIO_LIVE_TEST === "1" && (process.env.XAI_API_KEY ?? "").trim().length > 0;
 
 const describeLive = liveEnabled ? describe : describe.skip;
 
@@ -32,7 +32,7 @@ describeLive("xai x_search live", () => {
     let result: Awaited<ReturnType<NonNullable<typeof tool>["execute"]>>;
     try {
       result = await tool!.execute("x-search:live", {
-        query: "OpenClaw from:steipete",
+        query: "Brikko Studio from:steipete",
         to_date: "2026-03-28",
       });
     } catch (error) {

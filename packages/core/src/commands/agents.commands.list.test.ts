@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { OutputRuntimeEnv } from "../runtime.js";
 
 const {
@@ -54,7 +54,7 @@ function createRuntime(): OutputRuntimeEnv & { json: unknown[] } {
   };
 }
 
-function createConfig(): OpenClawConfig {
+function createConfig(): Brikko StudioConfig {
   return {
     agents: {
       list: [{ id: "main", default: true }],

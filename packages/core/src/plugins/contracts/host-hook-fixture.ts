@@ -1,6 +1,6 @@
-import type { OpenClawPluginApi } from "../types.js";
+import type { Brikko StudioPluginApi } from "../types.js";
 
-export function registerHostHookFixture(api: OpenClawPluginApi) {
+export function registerHostHookFixture(api: Brikko StudioPluginApi) {
   api.registerSessionExtension({
     namespace: "workflow",
     description: "Generic approval-workflow state projection",
@@ -59,7 +59,7 @@ export function registerHostHookFixture(api: OpenClawPluginApi) {
   }));
 }
 
-export function registerTrustedHostHookFixture(api: OpenClawPluginApi) {
+export function registerTrustedHostHookFixture(api: Brikko StudioPluginApi) {
   registerHostHookFixture(api);
   api.registerTrustedToolPolicy({
     id: "budget-policy",

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import { createDiscordRestClient } from "./client.js";
 import type { RequestClient } from "./internal/discord.js";
@@ -17,7 +17,7 @@ describe("createDiscordRestClient", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = createDiscordRestClient({ cfg, token: "Bot explicit-token", rest: fakeRest });
 
@@ -44,7 +44,7 @@ describe("createDiscordRestClient", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = createDiscordRestClient({
       cfg,
@@ -69,7 +69,7 @@ describe("createDiscordRestClient", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(() => createDiscordRestClient({ cfg, rest: fakeRest })).toThrow(/unresolved SecretRef/i);
   });

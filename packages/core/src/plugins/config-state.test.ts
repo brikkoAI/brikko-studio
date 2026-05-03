@@ -158,7 +158,7 @@ describe("normalizePluginsConfig", () => {
   it("normalizes unknown plugin ids without loading discovery", async () => {
     vi.resetModules();
     const discovery = await import("./discovery.js");
-    const discoverPlugins = vi.spyOn(discovery, "discoverOpenClawPlugins");
+    const discoverPlugins = vi.spyOn(discovery, "discoverBrikko StudioPlugins");
     const { normalizePluginsConfig: normalizeFreshPluginsConfig } =
       await import("./config-state.js");
     discoverPlugins.mockClear();
@@ -183,12 +183,12 @@ describe("normalizePluginsConfig", () => {
     vi.resetModules();
     const discovery = await import("./discovery.js");
     const manifest = await import("./manifest.js");
-    const discoverPlugins = vi.spyOn(discovery, "discoverOpenClawPlugins").mockReturnValue({
+    const discoverPlugins = vi.spyOn(discovery, "discoverBrikko StudioPlugins").mockReturnValue({
       candidates: [
         {
           idHint: "anthropic",
-          source: "/tmp/openclaw-bundled-anthropic/index.js",
-          rootDir: "/tmp/openclaw-bundled-anthropic",
+          source: "/tmp/brikko-studio-bundled-anthropic/index.js",
+          rootDir: "/tmp/brikko-studio-bundled-anthropic",
           origin: "bundled",
           bundledManifest: {
             id: "anthropic",
@@ -198,8 +198,8 @@ describe("normalizePluginsConfig", () => {
         },
         {
           idHint: "external-anthropic",
-          source: "/tmp/openclaw-global-anthropic/index.js",
-          rootDir: "/tmp/openclaw-global-anthropic",
+          source: "/tmp/brikko-studio-global-anthropic/index.js",
+          rootDir: "/tmp/brikko-studio-global-anthropic",
           origin: "global",
         },
       ],
@@ -207,7 +207,7 @@ describe("normalizePluginsConfig", () => {
     });
     const loadManifest = vi.spyOn(manifest, "loadPluginManifest").mockReturnValue({
       ok: true,
-      manifestPath: "/tmp/openclaw-global-anthropic/openclaw.plugin.json",
+      manifestPath: "/tmp/brikko-studio-global-anthropic/brikko-studio.plugin.json",
       manifest: {
         id: "external-anthropic",
         configSchema: {},

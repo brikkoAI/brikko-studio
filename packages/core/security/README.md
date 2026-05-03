@@ -1,6 +1,6 @@
 # Security tooling
 
-This directory holds OpenClaw's shipped OpenGrep security rulepack and the
+This directory holds Brikko Studio's shipped OpenGrep security rulepack and the
 supporting tooling that validates and runs it. Maintainer-only advisory triage
 and detector-generation prompts live outside the public repo; this repo keeps the
 durable artifacts needed to block regressions in PRs and support local rule

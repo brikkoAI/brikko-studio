@@ -6,7 +6,7 @@ read_when:
   - Running Pi-specific lint, typecheck, and live test flows
 ---
 
-A sane workflow for working on the Pi integration in OpenClaw.
+A sane workflow for working on the Pi integration in Brikko Studio.
 
 ## Type checking and linting
 
@@ -31,7 +31,7 @@ pnpm test \
 To include the live provider exercise:
 
 ```bash
-OPENCLAW_LIVE_TEST=1 pnpm test src/agents/pi-embedded-runner-extraparams.live.test.ts
+BRIKKO_STUDIO_LIVE_TEST=1 pnpm test src/agents/pi-embedded-runner-extraparams.live.test.ts
 ```
 
 This covers the main Pi unit suites:
@@ -50,7 +50,7 @@ Recommended flow:
 - Run the gateway in dev mode:
   - `pnpm gateway:dev`
 - Trigger the agent directly:
-  - `pnpm openclaw agent --message "Hello" --thinking low`
+  - `pnpm brikko-studio agent --message "Hello" --thinking low`
 - Use the TUI for interactive debugging:
   - `pnpm tui`
 
@@ -58,11 +58,11 @@ For tool call behavior, prompt for a `read` or `exec` action so you can see tool
 
 ## Clean slate reset
 
-State lives under the OpenClaw state directory. Default is `~/.openclaw`. If `OPENCLAW_STATE_DIR` is set, use that directory instead.
+State lives under the Brikko Studio state directory. Default is `~/.brikko-studio`. If `BRIKKO_STUDIO_STATE_DIR` is set, use that directory instead.
 
 To reset everything:
 
-- `openclaw.json` for config
+- `brikko-studio.json` for config
 - `agents/<agentId>/agent/auth-profiles.json` for model auth profiles (API keys + OAuth)
 - `credentials/` for provider/channel state that still lives outside the auth profile store
 - `agents/<agentId>/sessions/` for agent session history

@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 
-const ensureOpenClawModelsJsonMock = vi.fn<
+const ensureBrikko StudioModelsJsonMock = vi.fn<
   (
     config: unknown,
     agentDir: unknown,
@@ -12,7 +12,7 @@ const piModelModuleLoadedMock = vi.fn();
 const resolveEmbeddedAgentRuntimeMock = vi.fn(() => "auto");
 
 vi.mock("../agents/agent-paths.js", () => ({
-  resolveOpenClawAgentDir: () => "/tmp/agent",
+  resolveBrikko StudioAgentDir: () => "/tmp/agent",
 }));
 
 vi.mock("../agents/agent-scope.js", () => ({
@@ -21,8 +21,8 @@ vi.mock("../agents/agent-scope.js", () => ({
 }));
 
 vi.mock("../agents/models-config.js", () => ({
-  ensureOpenClawModelsJson: (config: unknown, agentDir: unknown, options?: unknown) =>
-    ensureOpenClawModelsJsonMock(config, agentDir, options),
+  ensureBrikko StudioModelsJson: (config: unknown, agentDir: unknown, options?: unknown) =>
+    ensureBrikko StudioModelsJsonMock(config, agentDir, options),
 }));
 
 vi.mock("../agents/pi-embedded-runner/model.js", () => {
@@ -47,7 +47,7 @@ describe("gateway startup primary model warmup", () => {
   });
 
   beforeEach(() => {
-    ensureOpenClawModelsJsonMock.mockClear();
+    ensureBrikko StudioModelsJsonMock.mockClear();
     piModelModuleLoadedMock.mockClear();
     resolveEmbeddedAgentRuntimeMock.mockClear();
     resolveEmbeddedAgentRuntimeMock.mockReturnValue("auto");
@@ -62,14 +62,14 @@ describe("gateway startup primary model warmup", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await prewarmConfiguredPrimaryModel({
       cfg,
       log: { warn: vi.fn() },
     });
 
-    expect(ensureOpenClawModelsJsonMock).toHaveBeenCalledWith(
+    expect(ensureBrikko StudioModelsJsonMock).toHaveBeenCalledWith(
       cfg,
       "/tmp/agent",
       expect.objectContaining({
@@ -84,11 +84,11 @@ describe("gateway startup primary model warmup", () => {
 
   it("skips warmup when no explicit primary model is configured", async () => {
     await prewarmConfiguredPrimaryModel({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       log: { warn: vi.fn() },
     });
 
-    expect(ensureOpenClawModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
     expect(piModelModuleLoadedMock).not.toHaveBeenCalled();
   });
 
@@ -96,12 +96,12 @@ describe("gateway startup primary model warmup", () => {
     expect(shouldSkipStartupModelPrewarm({})).toBe(false);
     expect(
       shouldSkipStartupModelPrewarm({
-        OPENCLAW_SKIP_STARTUP_MODEL_PREWARM: "1",
+        BRIKKO_STUDIO_SKIP_STARTUP_MODEL_PREWARM: "1",
       }),
     ).toBe(true);
     expect(
       shouldSkipStartupModelPrewarm({
-        OPENCLAW_SKIP_STARTUP_MODEL_PREWARM: "true",
+        BRIKKO_STUDIO_SKIP_STARTUP_MODEL_PREWARM: "true",
       }),
     ).toBe(true);
   });
@@ -122,11 +122,11 @@ describe("gateway startup primary model warmup", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       log: { warn: vi.fn() },
     });
 
-    expect(ensureOpenClawModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
     expect(piModelModuleLoadedMock).not.toHaveBeenCalled();
   });
 
@@ -141,11 +141,11 @@ describe("gateway startup primary model warmup", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       log: { warn: vi.fn() },
     });
 
-    expect(ensureOpenClawModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
     expect(piModelModuleLoadedMock).not.toHaveBeenCalled();
   });
 
@@ -159,14 +159,14 @@ describe("gateway startup primary model warmup", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await prewarmConfiguredPrimaryModel({
       cfg,
       log: { warn: vi.fn() },
     });
 
-    expect(ensureOpenClawModelsJsonMock).toHaveBeenCalledWith(
+    expect(ensureBrikko StudioModelsJsonMock).toHaveBeenCalledWith(
       cfg,
       "/tmp/agent",
       expect.objectContaining({
@@ -180,7 +180,7 @@ describe("gateway startup primary model warmup", () => {
   });
 
   it("warns when scoped models.json preparation fails", async () => {
-    ensureOpenClawModelsJsonMock.mockRejectedValueOnce(new Error("models write failed"));
+    ensureBrikko StudioModelsJsonMock.mockRejectedValueOnce(new Error("models write failed"));
     const warn = vi.fn();
 
     await prewarmConfiguredPrimaryModel({
@@ -192,7 +192,7 @@ describe("gateway startup primary model warmup", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       log: { warn },
     });
 

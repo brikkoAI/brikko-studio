@@ -14,8 +14,8 @@ import { renderQrTerminal } from "./qr-terminal.ts";
 
 describe("renderQrTerminal", () => {
   it("delegates terminal rendering to qrcode", async () => {
-    await expect(renderQrTerminal("openclaw")).resolves.toBe("ASCII-QR");
-    expect(toString).toHaveBeenCalledWith("openclaw", {
+    await expect(renderQrTerminal("brikko-studio")).resolves.toBe("ASCII-QR");
+    expect(toString).toHaveBeenCalledWith("brikko-studio", {
       small: true,
       type: "terminal",
     });

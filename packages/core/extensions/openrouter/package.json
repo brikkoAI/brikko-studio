@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/openrouter-provider",
+  "name": "@brikko-studio/openrouter-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw OpenRouter provider plugin",
+  "description": "Brikko Studio OpenRouter provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

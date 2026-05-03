@@ -19,7 +19,7 @@ import {
   type ProviderBatchOutputLine,
   uploadBatchJsonlFile,
   withRemoteHttpResponse,
-} from "openclaw/plugin-sdk/memory-core-host-engine-embeddings";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-embeddings";
 import type { VoyageEmbeddingClient } from "./embedding-provider.js";
 
 /**

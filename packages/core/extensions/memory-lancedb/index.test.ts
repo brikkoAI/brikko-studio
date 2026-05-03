@@ -69,7 +69,7 @@ function createRuntimeLoader(
 }
 
 describe("memory plugin e2e", () => {
-  const { getDbPath } = installTmpDirHarness({ prefix: "openclaw-memory-test-" });
+  const { getDbPath } = installTmpDirHarness({ prefix: "brikko-studio-memory-test-" });
 
   function parseConfig(overrides: Record<string, unknown> = {}) {
     return memoryPlugin.configSchema?.parse?.({
@@ -269,7 +269,7 @@ describe("memory plugin e2e", () => {
     }));
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/memory-core-host-engine-embeddings", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/memory-core-host-engine-embeddings", () => ({
       getMemoryEmbeddingProvider,
     }));
     vi.doMock("openai", () => ({
@@ -310,7 +310,7 @@ describe("memory plugin e2e", () => {
             current: () => cfg,
           },
           agent: {
-            resolveAgentDir: vi.fn(() => "/tmp/openclaw-agent"),
+            resolveAgentDir: vi.fn(() => "/tmp/brikko-studio-agent"),
           },
         },
         logger: {
@@ -338,7 +338,7 @@ describe("memory plugin e2e", () => {
       expect(createProvider).toHaveBeenCalledWith(
         expect.objectContaining({
           config: cfg,
-          agentDir: "/tmp/openclaw-agent",
+          agentDir: "/tmp/brikko-studio-agent",
           provider: "openai",
           fallback: "none",
           model: "text-embedding-3-small",
@@ -347,7 +347,7 @@ describe("memory plugin e2e", () => {
       expect(createProvider.mock.calls[0][0]).not.toHaveProperty("remote");
       expect(embedQuery).toHaveBeenCalledWith("project memory");
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/memory-core-host-engine-embeddings");
+      vi.doUnmock("brikko-studio/plugin-sdk/memory-core-host-engine-embeddings");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();
@@ -474,7 +474,7 @@ describe("memory plugin e2e", () => {
     }));
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -559,7 +559,7 @@ describe("memory plugin e2e", () => {
       );
       expect(logger.info).toHaveBeenCalledWith("memory-lancedb: injecting 1 memories into context");
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+      vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();
@@ -583,7 +583,7 @@ describe("memory plugin e2e", () => {
     }));
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -654,7 +654,7 @@ describe("memory plugin e2e", () => {
         "memory-lancedb: auto-recall timed out after 15000ms; skipping memory injection to avoid stalling agent startup",
       );
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+      vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();
@@ -711,7 +711,7 @@ describe("memory plugin e2e", () => {
     };
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -801,7 +801,7 @@ describe("memory plugin e2e", () => {
       });
       expect(logger.info).toHaveBeenCalledWith("memory-lancedb: injecting 1 memories into context");
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+      vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();
@@ -843,7 +843,7 @@ describe("memory plugin e2e", () => {
     };
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -926,7 +926,7 @@ describe("memory plugin e2e", () => {
       expect(embeddingsCreate).not.toHaveBeenCalled();
       expect(loadLanceDbModule).not.toHaveBeenCalled();
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+      vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();
@@ -968,7 +968,7 @@ describe("memory plugin e2e", () => {
     };
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -1039,7 +1039,7 @@ describe("memory plugin e2e", () => {
       expect(embeddingsCreate).not.toHaveBeenCalled();
       expect(loadLanceDbModule).not.toHaveBeenCalled();
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+      vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();
@@ -1069,7 +1069,7 @@ describe("memory plugin e2e", () => {
     }));
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -1149,7 +1149,7 @@ describe("memory plugin e2e", () => {
         }),
       ]);
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+      vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();
@@ -1196,7 +1196,7 @@ describe("memory plugin e2e", () => {
     };
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -1290,7 +1290,7 @@ describe("memory plugin e2e", () => {
         }),
       ]);
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+      vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();
@@ -1333,7 +1333,7 @@ describe("memory plugin e2e", () => {
     };
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -1417,7 +1417,7 @@ describe("memory plugin e2e", () => {
       expect(loadLanceDbModule).not.toHaveBeenCalled();
       expect(add).not.toHaveBeenCalled();
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+      vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();
@@ -1460,7 +1460,7 @@ describe("memory plugin e2e", () => {
     };
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -1532,7 +1532,7 @@ describe("memory plugin e2e", () => {
       expect(loadLanceDbModule).not.toHaveBeenCalled();
       expect(add).not.toHaveBeenCalled();
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+      vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();
@@ -1567,7 +1567,7 @@ describe("memory plugin e2e", () => {
     }));
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -1631,7 +1631,7 @@ describe("memory plugin e2e", () => {
   }
 
   async function cleanupAutoCaptureCursorHarness() {
-    vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+    vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
     vi.doUnmock("openai");
     vi.doUnmock("./lancedb-runtime.js");
     vi.resetModules();
@@ -1785,7 +1785,7 @@ describe("memory plugin e2e", () => {
     }));
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -1851,7 +1851,7 @@ describe("memory plugin e2e", () => {
         dimensions: 1024,
       });
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+      vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();
@@ -1882,7 +1882,7 @@ describe("memory plugin e2e", () => {
       });
 
     vi.resetModules();
-    vi.doMock("openclaw/plugin-sdk/runtime-env", () => ({
+    vi.doMock("brikko-studio/plugin-sdk/runtime-env", () => ({
       ensureGlobalUndiciEnvProxyDispatcher,
     }));
     vi.doMock("openai", () => ({
@@ -1947,7 +1947,7 @@ describe("memory plugin e2e", () => {
       expect(loadLanceDbModule).toHaveBeenCalledTimes(2);
       expect(embeddingsCreate).toHaveBeenCalledTimes(2);
     } finally {
-      vi.doUnmock("openclaw/plugin-sdk/runtime-env");
+      vi.doUnmock("brikko-studio/plugin-sdk/runtime-env");
       vi.doUnmock("openai");
       vi.doUnmock("./lancedb-runtime.js");
       vi.resetModules();

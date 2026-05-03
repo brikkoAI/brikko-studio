@@ -2,4 +2,4 @@ export {
   buildSecretInputSchema,
   normalizeResolvedSecretInputString,
   normalizeSecretInputString,
-} from "openclaw/plugin-sdk/secret-input";
+} from "brikko-studio/plugin-sdk/secret-input";

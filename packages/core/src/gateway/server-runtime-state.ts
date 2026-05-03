@@ -54,7 +54,7 @@ type GatewayPluginRequestHandler = (
 ) => Promise<boolean>;
 
 export async function createGatewayRuntimeState(params: {
-  cfg: import("../config/config.js").OpenClawConfig;
+  cfg: import("../config/config.js").Brikko StudioConfig;
   bindHost: string;
   port: number;
   controlUiEnabled: boolean;

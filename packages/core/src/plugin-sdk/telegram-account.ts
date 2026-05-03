@@ -1,16 +1,16 @@
-import type { OpenClawConfig } from "./config-types.js";
+import type { Brikko StudioConfig } from "./config-types.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
 
 /**
- * @deprecated Compatibility type for the `openclaw/plugin-sdk/telegram-account` facade.
+ * @deprecated Compatibility type for the `brikko-studio/plugin-sdk/telegram-account` facade.
  * New channel plugins should prefer injected runtime helpers and generic SDK subpaths.
  */
 export type TelegramAccountConfig = NonNullable<
-  NonNullable<OpenClawConfig["channels"]>["telegram"]
+  NonNullable<Brikko StudioConfig["channels"]>["telegram"]
 >;
 
 /**
- * @deprecated Compatibility type for the `openclaw/plugin-sdk/telegram-account` facade.
+ * @deprecated Compatibility type for the `brikko-studio/plugin-sdk/telegram-account` facade.
  * New channel plugins should prefer injected runtime helpers and generic SDK subpaths.
  */
 export type ResolvedTelegramAccount = {
@@ -24,7 +24,7 @@ export type ResolvedTelegramAccount = {
 
 type TelegramAccountFacadeModule = {
   resolveTelegramAccount: (params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     accountId?: string | null;
   }) => ResolvedTelegramAccount;
 };
@@ -41,7 +41,7 @@ function loadTelegramAccountFacadeModule(): TelegramAccountFacadeModule {
  * New channel plugins should prefer injected runtime helpers and generic SDK subpaths.
  */
 export function resolveTelegramAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): ResolvedTelegramAccount {
   return loadTelegramAccountFacadeModule().resolveTelegramAccount(params);

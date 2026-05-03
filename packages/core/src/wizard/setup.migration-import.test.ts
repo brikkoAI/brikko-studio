@@ -7,7 +7,7 @@ import { inspectSetupMigrationFreshness } from "./setup.migration-import.js";
 const tempRoots = new Set<string>();
 
 async function makeTempRoot() {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-setup-migration-"));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-setup-migration-"));
   tempRoots.add(root);
   return root;
 }

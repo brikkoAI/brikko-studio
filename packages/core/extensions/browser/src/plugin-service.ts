@@ -1,7 +1,7 @@
 import {
   startLazyPluginServiceModule,
   type LazyPluginServiceHandle,
-  type OpenClawPluginService,
+  type Brikko StudioPluginService,
 } from "./sdk-node-runtime.js";
 
 type BrowserControlHandle = LazyPluginServiceHandle | null;
@@ -15,7 +15,7 @@ function validateBrowserControlOverrideSpecifier(specifier: string): string {
   return trimmed;
 }
 
-export function createBrowserPluginService(): OpenClawPluginService {
+export function createBrowserPluginService(): Brikko StudioPluginService {
   let handle: BrowserControlHandle = null;
 
   return {
@@ -25,8 +25,8 @@ export function createBrowserPluginService(): OpenClawPluginService {
         return;
       }
       handle = await startLazyPluginServiceModule({
-        skipEnvVar: "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER",
-        overrideEnvVar: "OPENCLAW_BROWSER_CONTROL_MODULE",
+        skipEnvVar: "BRIKKO_STUDIO_SKIP_BROWSER_CONTROL_SERVER",
+        overrideEnvVar: "BRIKKO_STUDIO_BROWSER_CONTROL_MODULE",
         validateOverrideSpecifier: validateBrowserControlOverrideSpecifier,
         // Keep the default module import static so compiled builds still bundle it.
         loadDefaultModule: async () => await import("./server.js"),

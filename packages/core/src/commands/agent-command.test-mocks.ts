@@ -183,10 +183,10 @@ vi.mock("../gateway/call.js", () => ({
 }));
 
 vi.mock("../agents/workspace.js", () => ({
-  DEFAULT_AGENT_WORKSPACE_DIR: "/tmp/openclaw-workspace",
+  DEFAULT_AGENT_WORKSPACE_DIR: "/tmp/brikko-studio-workspace",
   DEFAULT_AGENTS_FILENAME: "AGENTS.md",
   DEFAULT_IDENTITY_FILENAME: "IDENTITY.md",
-  resolveDefaultAgentWorkspaceDir: () => "/tmp/openclaw-workspace",
+  resolveDefaultAgentWorkspaceDir: () => "/tmp/brikko-studio-workspace",
   ensureAgentWorkspace: vi.fn(async ({ dir }: { dir: string }) => ({ dir })),
 }));
 

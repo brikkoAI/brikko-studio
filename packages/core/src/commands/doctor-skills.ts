@@ -2,7 +2,7 @@ import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent
 import type { SkillStatusEntry, SkillStatusReport } from "../agents/skills-status.js";
 import { buildWorkspaceSkillStatus } from "../agents/skills-status.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { note } from "../terminal/note.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 
@@ -51,17 +51,17 @@ export function formatUnavailableSkillDoctorLines(skills: SkillStatusEntry[]): s
     lines.push(`- ${skill.name}: ${formatMissingSummary(skill)}`);
     lines.push(...formatInstallHints(skill));
   }
-  lines.push(`Disable unused skills: ${formatCliCommand("openclaw doctor --fix")}`);
+  lines.push(`Disable unused skills: ${formatCliCommand("brikko-studio doctor --fix")}`);
   lines.push(
-    `Inspect details: ${formatCliCommand("openclaw skills check --agent <id>")} or ${formatCliCommand("openclaw skills info <name> --agent <id>")}`,
+    `Inspect details: ${formatCliCommand("brikko-studio skills check --agent <id>")} or ${formatCliCommand("brikko-studio skills info <name> --agent <id>")}`,
   );
   return lines;
 }
 
 export function disableUnavailableSkillsInConfig(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   skills: readonly SkillStatusEntry[],
-): OpenClawConfig {
+): Brikko StudioConfig {
   if (skills.length === 0) {
     return config;
   }
@@ -82,9 +82,9 @@ export function disableUnavailableSkillsInConfig(
 }
 
 export async function maybeRepairSkillReadiness(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   prompter: DoctorPrompter;
-}): Promise<OpenClawConfig> {
+}): Promise<Brikko StudioConfig> {
   const agentId = resolveDefaultAgentId(params.cfg);
   const workspaceDir = resolveAgentWorkspaceDir(params.cfg, agentId);
   const report = buildWorkspaceSkillStatus(workspaceDir, {

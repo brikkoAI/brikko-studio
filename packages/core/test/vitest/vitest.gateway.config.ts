@@ -25,6 +25,6 @@ export function createGatewayProjectShardVitestConfig() {
   return createProjectShardVitestConfig(gatewayProjectConfigs);
 }
 
-export default process.env.OPENCLAW_GATEWAY_PROJECT_SHARDS === "1"
+export default process.env.BRIKKO_STUDIO_GATEWAY_PROJECT_SHARDS === "1"
   ? createGatewayProjectShardVitestConfig()
   : createGatewayVitestConfig();

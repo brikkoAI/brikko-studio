@@ -1,7 +1,7 @@
 import { ServerResponse, type IncomingMessage } from "node:http";
 import { PassThrough } from "node:stream";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/core";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/core";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ResolvedMattermostAccount } from "./accounts.js";
 
@@ -233,7 +233,7 @@ describe("slash-http cfg threading", () => {
           botToken: "exec:secret-ref",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const handler = createSlashCommandHttpHandler({
       account: accountFixture,
       cfg,
@@ -287,7 +287,7 @@ describe("slash-http cfg threading", () => {
 
     const handler = createSlashCommandHttpHandler({
       account: accountFixture,
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
       registeredCommands: [
         {
@@ -322,7 +322,7 @@ describe("slash-http cfg threading", () => {
     });
     const handler = createSlashCommandHttpHandler({
       account: accountFixture,
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
       registeredCommands: [
         {
@@ -367,7 +367,7 @@ describe("slash-http cfg threading", () => {
 
     const handler = createSlashCommandHttpHandler({
       account: accountFixture,
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
       registeredCommands: [
         {

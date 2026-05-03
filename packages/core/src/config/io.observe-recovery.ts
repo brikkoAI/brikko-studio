@@ -17,7 +17,7 @@ import {
   isPluginLocalInvalidConfigSnapshot,
   shouldAttemptLastKnownGoodRecovery,
 } from "./recovery-policy.js";
-import type { ConfigFileSnapshot } from "./types.openclaw.js";
+import type { ConfigFileSnapshot } from "./types.brikko-studio.js";
 
 export type ObserveRecoveryDeps = {
   fs: {

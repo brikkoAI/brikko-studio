@@ -1,8 +1,8 @@
 /**
  * Engine import boundary test.
  *
- * Ensures that engine/ sources only import from `openclaw/plugin-sdk/*`
- * and never reach into other openclaw internals directly.
+ * Ensures that engine/ sources only import from `brikko-studio/plugin-sdk/*`
+ * and never reach into other brikko-studio internals directly.
  */
 
 import fs from "node:fs";
@@ -34,31 +34,31 @@ function walkSourceFiles(dir: string, files: string[] = []): string[] {
 }
 
 /**
- * Extract all `openclaw/...` import specifiers from source text.
- * Matches: import ... from "openclaw/...", import("openclaw/...")
+ * Extract all `brikko-studio/...` import specifiers from source text.
+ * Matches: import ... from "brikko-studio/...", import("brikko-studio/...")
  */
 function findOpenclawImports(source: string): string[] {
   return [
-    ...source.matchAll(/from\s+["'](openclaw\/[^"']+)["']/g),
-    ...source.matchAll(/import\(\s*["'](openclaw\/[^"']+)["']\s*\)/g),
+    ...source.matchAll(/from\s+["'](brikko-studio\/[^"']+)["']/g),
+    ...source.matchAll(/import\(\s*["'](brikko-studio\/[^"']+)["']\s*\)/g),
   ].map((match) => match[1]);
 }
 
-/** Check if an import specifier is an allowed openclaw/plugin-sdk subpath. */
-const ALLOWED_PREFIX = ["openclaw", "plugin-sdk"].join("/");
+/** Check if an import specifier is an allowed brikko-studio/plugin-sdk subpath. */
+const ALLOWED_PREFIX = ["brikko-studio", "plugin-sdk"].join("/");
 function isAllowedImport(specifier: string): boolean {
   return specifier.startsWith(ALLOWED_PREFIX);
 }
 
 describe("engine import boundary", () => {
-  it("only imports from openclaw/plugin-sdk, never from other openclaw internals", () => {
+  it("only imports from brikko-studio/plugin-sdk, never from other brikko-studio internals", () => {
     const sourceFiles = walkSourceFiles(ENGINE_DIR);
     const offenders: Array<{ file: string; imports: string[] }> = [];
 
     for (const file of sourceFiles) {
       const source = fs.readFileSync(file, "utf8");
-      const openclawImports = findOpenclawImports(source);
-      const forbidden = openclawImports.filter((specifier) => !isAllowedImport(specifier));
+      const brikko-studioImports = findOpenclawImports(source);
+      const forbidden = brikko-studioImports.filter((specifier) => !isAllowedImport(specifier));
 
       if (forbidden.length > 0) {
         offenders.push({

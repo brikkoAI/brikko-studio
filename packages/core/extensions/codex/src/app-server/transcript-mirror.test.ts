@@ -4,13 +4,13 @@ import path from "node:path";
 import {
   initializeGlobalHookRunner,
   resetGlobalHookRunner,
-} from "openclaw/plugin-sdk/hook-runtime";
-import { createMockPluginRegistry } from "openclaw/plugin-sdk/plugin-test-runtime";
+} from "brikko-studio/plugin-sdk/hook-runtime";
+import { createMockPluginRegistry } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import {
   castAgentMessage,
   makeAgentAssistantMessage,
   makeAgentUserMessage,
-} from "openclaw/plugin-sdk/test-fixtures";
+} from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it } from "vitest";
 import { mirrorCodexAppServerTranscript } from "./transcript-mirror.js";
 
@@ -24,7 +24,7 @@ afterEach(async () => {
 });
 
 async function createTempSessionFile() {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-codex-transcript-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-codex-transcript-"));
   tempDirs.push(dir);
   return path.join(dir, "session.jsonl");
 }
@@ -65,7 +65,7 @@ describe("mirrorCodexAppServerTranscript", () => {
   });
 
   it("creates the transcript directory on first mirror", async () => {
-    const root = await makeRoot("openclaw-codex-transcript-missing-dir-");
+    const root = await makeRoot("brikko-studio-codex-transcript-missing-dir-");
     const sessionFile = path.join(root, "nested", "sessions", "session.jsonl");
 
     await mirrorCodexAppServerTranscript({

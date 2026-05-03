@@ -1,12 +1,12 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import {
   callGatewayFromCli,
   ErrorCodes,
   errorShape,
   type GatewayRequestHandlerOptions,
-} from "openclaw/plugin-sdk/gateway-runtime";
-import { definePluginEntry, type OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/gateway-runtime";
+import { definePluginEntry, type Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { Type } from "typebox";
 import {
   buildGoogleMeetCalendarDayWindow,
@@ -70,7 +70,7 @@ const googleMeetConfigSchema = {
     },
     "chrome.autoJoin": {
       label: "Auto Join Guest Screen",
-      help: "Best-effort guest-name fill and Join Now click through OpenClaw browser automation.",
+      help: "Best-effort guest-name fill and Join Now click through Brikko Studio browser automation.",
     },
     "chrome.waitForInCallMs": {
       label: "Wait For In-Call (ms)",
@@ -162,7 +162,7 @@ const googleMeetConfigSchema = {
     },
     "realtime.agentId": {
       label: "Realtime Consult Agent",
-      help: 'OpenClaw agent id used by openclaw_agent_consult. Defaults to "main".',
+      help: 'Brikko Studio agent id used by brikko-studio_agent_consult. Defaults to "main".',
       advanced: true,
     },
     "realtime.toolPolicy": {
@@ -472,7 +472,7 @@ async function callGoogleMeetGatewayFromTool(params: {
 
 async function createMeetFromParams(params: {
   config: GoogleMeetConfig;
-  runtime: OpenClawPluginApi["runtime"];
+  runtime: Brikko StudioPluginApi["runtime"];
   raw: Record<string, unknown>;
 }) {
   const create = await import("./src/create.js");
@@ -481,7 +481,7 @@ async function createMeetFromParams(params: {
 
 async function createAndJoinMeetFromParams(params: {
   config: GoogleMeetConfig;
-  runtime: OpenClawPluginApi["runtime"];
+  runtime: Brikko StudioPluginApi["runtime"];
   raw: Record<string, unknown>;
   ensureRuntime: () => Promise<GoogleMeetRuntime>;
 }) {
@@ -659,7 +659,7 @@ export default definePluginEntry({
   name: "Google Meet",
   description: "Join Google Meet calls through Chrome or Twilio transports",
   configSchema: googleMeetConfigSchema,
-  register(api: OpenClawPluginApi) {
+  register(api: Brikko StudioPluginApi) {
     const config = googleMeetConfigSchema.parse(api.pluginConfig);
     let runtime: GoogleMeetRuntime | null = null;
 

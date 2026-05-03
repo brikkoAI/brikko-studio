@@ -1,1 +1,1 @@
-export { createTokenjuiceOpenClawEmbeddedExtension } from "tokenjuice/openclaw";
+export { createTokenjuiceBrikko StudioEmbeddedExtension } from "tokenjuice/brikko-studio";

@@ -20,7 +20,7 @@ function makeSnapshot() {
     valid: true,
     issues: [],
     legacyIssues: [],
-    path: "/tmp/openclaw.json",
+    path: "/tmp/brikko-studio.json",
   };
 }
 

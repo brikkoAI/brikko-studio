@@ -1,10 +1,10 @@
-import * as conversationBindingRuntime from "openclaw/plugin-sdk/conversation-binding-runtime";
+import * as conversationBindingRuntime from "brikko-studio/plugin-sdk/conversation-binding-runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const ensureConfiguredBindingRouteReadyMock = vi.hoisted(() => vi.fn());
 const resolveConfiguredBindingRouteMock = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/conversation-binding-runtime", async () => {
+vi.mock("brikko-studio/plugin-sdk/conversation-binding-runtime", async () => {
   const { createConfiguredBindingConversationRuntimeModuleMock } =
     await import("../test-support/configured-binding-runtime.js");
   return await createConfiguredBindingConversationRuntimeModuleMock(
@@ -13,13 +13,13 @@ vi.mock("openclaw/plugin-sdk/conversation-binding-runtime", async () => {
       resolveConfiguredBindingRouteMock,
     },
     () =>
-      vi.importActual<typeof import("openclaw/plugin-sdk/conversation-binding-runtime")>(
-        "openclaw/plugin-sdk/conversation-binding-runtime",
+      vi.importActual<typeof import("brikko-studio/plugin-sdk/conversation-binding-runtime")>(
+        "brikko-studio/plugin-sdk/conversation-binding-runtime",
       ),
   );
 });
 
-import { __testing as sessionBindingTesting } from "openclaw/plugin-sdk/conversation-runtime";
+import { __testing as sessionBindingTesting } from "brikko-studio/plugin-sdk/conversation-runtime";
 import { preflightDiscordMessage } from "./message-handler.preflight.js";
 import {
   createDiscordMessage,
@@ -151,7 +151,7 @@ function createBasePreflightParams(overrides?: Record<string, unknown>) {
       discordConfig: {
         allowBots: true,
       } as NonNullable<
-        import("openclaw/plugin-sdk/config-types").OpenClawConfig["channels"]
+        import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig["channels"]
       >["discord"],
       data: createGuildEvent({
         channelId: CHANNEL_ID,
@@ -165,7 +165,7 @@ function createBasePreflightParams(overrides?: Record<string, unknown>) {
     discordConfig: {
       allowBots: true,
     } as NonNullable<
-      import("openclaw/plugin-sdk/config-types").OpenClawConfig["channels"]
+      import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig["channels"]
     >["discord"],
     ...overrides,
   } satisfies Parameters<typeof preflightDiscordMessage>[0];

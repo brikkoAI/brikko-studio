@@ -8,7 +8,7 @@ title: "Bonjour discovery"
 
 # Bonjour / mDNS discovery
 
-OpenClaw uses Bonjour (mDNS / DNS‑SD) to discover an active Gateway (WebSocket endpoint).
+Brikko Studio uses Bonjour (mDNS / DNS‑SD) to discover an active Gateway (WebSocket endpoint).
 Multicast `local.` browsing is a **LAN-only convenience**. The bundled `bonjour`
 plugin owns LAN advertising and is enabled by default. For cross-network discovery,
 the same beacon can also be published through a configured wide-area DNS-SD domain.
@@ -23,12 +23,12 @@ boundary. You can keep the same discovery UX by switching to **unicast DNS‑SD*
 High‑level steps:
 
 1. Run a DNS server on the gateway host (reachable over Tailnet).
-2. Publish DNS‑SD records for `_openclaw-gw._tcp` under a dedicated zone
-   (example: `openclaw.internal.`).
+2. Publish DNS‑SD records for `_brikko-studio-gw._tcp` under a dedicated zone
+   (example: `brikko-studio.internal.`).
 3. Configure Tailscale **split DNS** so your chosen domain resolves via that
    DNS server for clients (including iOS).
 
-OpenClaw supports any discovery domain; `openclaw.internal.` is just an example.
+Brikko Studio supports any discovery domain; `brikko-studio.internal.` is just an example.
 iOS/Android nodes browse both `local.` and your configured wide‑area domain.
 
 ### Gateway config (recommended)
@@ -43,19 +43,19 @@ iOS/Android nodes browse both `local.` and your configured wide‑area domain.
 ### One-time DNS server setup (gateway host)
 
 ```bash
-openclaw dns setup --apply
+brikko-studio dns setup --apply
 ```
 
 This installs CoreDNS and configures it to:
 
 - listen on port 53 only on the gateway’s Tailscale interfaces
-- serve your chosen domain (example: `openclaw.internal.`) from `~/.openclaw/dns/<domain>.db`
+- serve your chosen domain (example: `brikko-studio.internal.`) from `~/.brikko-studio/dns/<domain>.db`
 
 Validate from a tailnet‑connected machine:
 
 ```bash
-dns-sd -B _openclaw-gw._tcp openclaw.internal.
-dig @<TAILNET_IPV4> -p 53 _openclaw-gw._tcp.openclaw.internal PTR +short
+dns-sd -B _brikko-studio-gw._tcp brikko-studio.internal.
+dig @<TAILNET_IPV4> -p 53 _brikko-studio-gw._tcp.brikko-studio.internal PTR +short
 ```
 
 ### Tailscale DNS settings
@@ -66,7 +66,7 @@ In the Tailscale admin console:
 - Add split DNS so your discovery domain uses that nameserver.
 
 Once clients accept tailnet DNS, iOS nodes and CLI discovery can browse
-`_openclaw-gw._tcp` in your discovery domain without multicast.
+`_brikko-studio-gw._tcp` in your discovery domain without multicast.
 
 ### Gateway listener security (recommended)
 
@@ -75,18 +75,18 @@ access, bind explicitly and keep auth enabled.
 
 For tailnet‑only setups:
 
-- Set `gateway.bind: "tailnet"` in `~/.openclaw/openclaw.json`.
+- Set `gateway.bind: "tailnet"` in `~/.brikko-studio/brikko-studio.json`.
 - Restart the Gateway (or restart the macOS menubar app).
 
 ## What advertises
 
-Only the Gateway advertises `_openclaw-gw._tcp`. LAN multicast advertising is
+Only the Gateway advertises `_brikko-studio-gw._tcp`. LAN multicast advertising is
 provided by the bundled `bonjour` plugin; wide-area DNS-SD publishing remains
 Gateway-owned.
 
 ## Service types
 
-- `_openclaw-gw._tcp` — gateway transport beacon (used by macOS/iOS/Android nodes).
+- `_brikko-studio-gw._tcp` — gateway transport beacon (used by macOS/iOS/Android nodes).
 
 ## TXT keys (non-secret hints)
 
@@ -119,13 +119,13 @@ Useful built‑in tools:
 - Browse instances:
 
   ```bash
-  dns-sd -B _openclaw-gw._tcp local.
+  dns-sd -B _brikko-studio-gw._tcp local.
   ```
 
 - Resolve one instance (replace `<instance>`):
 
   ```bash
-  dns-sd -L "<instance>" _openclaw-gw._tcp local.
+  dns-sd -L "<instance>" _brikko-studio-gw._tcp local.
   ```
 
 If browsing works but resolving fails, you’re usually hitting a LAN policy or
@@ -144,13 +144,13 @@ The Gateway writes a rolling log file (printed on startup as
 
 Bonjour uses the system hostname for the advertised `.local` host when it is a
 valid DNS label. If the system hostname contains spaces, underscores, or another
-invalid DNS-label character, OpenClaw falls back to `openclaw.local`. Set
-`OPENCLAW_MDNS_HOSTNAME=<name>` before starting the Gateway when you need an
+invalid DNS-label character, Brikko Studio falls back to `brikko-studio.local`. Set
+`BRIKKO_STUDIO_MDNS_HOSTNAME=<name>` before starting the Gateway when you need an
 explicit host label.
 
 ## Debugging on iOS node
 
-The iOS node uses `NWBrowser` to discover `_openclaw-gw._tcp`.
+The iOS node uses `NWBrowser` to discover `_brikko-studio-gw._tcp`.
 
 To capture logs:
 
@@ -170,7 +170,7 @@ but LAN auto-discovery is not reliable.
 Prefer the existing environment override when the problem is deployment-scoped:
 
 ```bash
-OPENCLAW_DISABLE_BONJOUR=1
+BRIKKO_STUDIO_DISABLE_BONJOUR=1
 ```
 
 That disables LAN multicast advertising without changing plugin configuration.
@@ -178,16 +178,16 @@ It is safe for Docker images, service files, launch scripts, and one-off
 debugging because the setting disappears when the environment does.
 
 Use plugin configuration only when you intentionally want to turn off the
-bundled LAN discovery plugin for that OpenClaw config:
+bundled LAN discovery plugin for that Brikko Studio config:
 
 ```bash
-openclaw plugins disable bonjour
+brikko-studio plugins disable bonjour
 ```
 
 ## Docker gotchas
 
 The bundled Bonjour plugin auto-disables LAN multicast advertising in detected
-containers when `OPENCLAW_DISABLE_BONJOUR` is unset. Docker bridge networks
+containers when `BRIKKO_STUDIO_DISABLE_BONJOUR` is unset. Docker bridge networks
 usually do not forward mDNS multicast (`224.0.0.251:5353`) between the container
 and the LAN, so advertising from the container rarely makes discovery work.
 
@@ -196,12 +196,12 @@ Important gotchas:
 - Disabling Bonjour does not stop the Gateway. It only stops LAN multicast
   advertising.
 - Disabling Bonjour does not change `gateway.bind`; Docker still defaults to
-  `OPENCLAW_GATEWAY_BIND=lan` so the published host port can work.
+  `BRIKKO_STUDIO_GATEWAY_BIND=lan` so the published host port can work.
 - Disabling Bonjour does not disable wide-area DNS-SD. Use wide-area discovery
   or Tailnet when the Gateway and node are not on the same LAN.
-- Reusing the same `OPENCLAW_CONFIG_DIR` outside Docker does not persist the
+- Reusing the same `BRIKKO_STUDIO_CONFIG_DIR` outside Docker does not persist the
   container auto-disable policy.
-- Set `OPENCLAW_DISABLE_BONJOUR=0` only for host networking, macvlan, or another
+- Set `BRIKKO_STUDIO_DISABLE_BONJOUR=0` only for host networking, macvlan, or another
   network where mDNS multicast is known to pass; set it to `1` to force-disable.
 
 ## Troubleshooting disabled Bonjour
@@ -211,7 +211,7 @@ If a node no longer auto-discovers the Gateway after Docker setup:
 1. Confirm whether the Gateway is running in auto, forced-on, or forced-off mode:
 
    ```bash
-   docker compose config | grep OPENCLAW_DISABLE_BONJOUR
+   docker compose config | grep BRIKKO_STUDIO_DISABLE_BONJOUR
    ```
 
 2. Confirm the Gateway itself is reachable through the published port:
@@ -227,14 +227,14 @@ If a node no longer auto-discovers the Gateway after Docker setup:
      wide-area DNS-SD
 
 4. If you deliberately enabled Bonjour in Docker with
-   `OPENCLAW_DISABLE_BONJOUR=0`, test multicast from the host:
+   `BRIKKO_STUDIO_DISABLE_BONJOUR=0`, test multicast from the host:
 
    ```bash
-   dns-sd -B _openclaw-gw._tcp local.
+   dns-sd -B _brikko-studio-gw._tcp local.
    ```
 
    If browsing is empty or the Gateway logs show repeated ciao watchdog
-   cancellations, restore `OPENCLAW_DISABLE_BONJOUR=1` and use a direct or
+   cancellations, restore `BRIKKO_STUDIO_DISABLE_BONJOUR=1` and use a direct or
    Tailnet route.
 
 ## Common failure modes
@@ -243,10 +243,10 @@ If a node no longer auto-discovers the Gateway after Docker setup:
 - **Multicast blocked**: some Wi‑Fi networks disable mDNS.
 - **Advertiser stuck in probing/announcing**: hosts with blocked multicast,
   container bridges, WSL, or interface churn can leave the ciao advertiser in a
-  non-announced state. OpenClaw retries a few times and then disables Bonjour
+  non-announced state. Brikko Studio retries a few times and then disables Bonjour
   for the current Gateway process instead of restarting the advertiser forever.
 - **Docker bridge networking**: Bonjour auto-disables in detected containers.
-  Set `OPENCLAW_DISABLE_BONJOUR=0` only for host, macvlan, or another
+  Set `BRIKKO_STUDIO_DISABLE_BONJOUR=0` only for host, macvlan, or another
   mDNS-capable network.
 - **Sleep / interface churn**: macOS may temporarily drop mDNS results; retry.
 - **Browse works but resolve fails**: keep machine names simple (avoid emojis or
@@ -263,15 +263,15 @@ sequences (e.g. spaces become `\032`).
 
 ## Disabling / configuration
 
-- `openclaw plugins disable bonjour` disables LAN multicast advertising by disabling the bundled plugin.
-- `openclaw plugins enable bonjour` restores the default LAN discovery plugin.
-- `OPENCLAW_DISABLE_BONJOUR=1` disables LAN multicast advertising without changing plugin config; accepted truthy values are `1`, `true`, `yes`, and `on` (legacy: `OPENCLAW_DISABLE_BONJOUR`).
-- `OPENCLAW_DISABLE_BONJOUR=0` forces LAN multicast advertising on, including inside detected containers; accepted falsy values are `0`, `false`, `no`, and `off`.
-- When `OPENCLAW_DISABLE_BONJOUR` is unset, Bonjour advertises on normal hosts and auto-disables inside detected containers.
-- `gateway.bind` in `~/.openclaw/openclaw.json` controls the Gateway bind mode.
-- `OPENCLAW_SSH_PORT` overrides the SSH port when `sshPort` is advertised (legacy: `OPENCLAW_SSH_PORT`).
-- `OPENCLAW_TAILNET_DNS` publishes a MagicDNS hint in TXT when mDNS full mode is enabled (legacy: `OPENCLAW_TAILNET_DNS`).
-- `OPENCLAW_CLI_PATH` overrides the advertised CLI path (legacy: `OPENCLAW_CLI_PATH`).
+- `brikko-studio plugins disable bonjour` disables LAN multicast advertising by disabling the bundled plugin.
+- `brikko-studio plugins enable bonjour` restores the default LAN discovery plugin.
+- `BRIKKO_STUDIO_DISABLE_BONJOUR=1` disables LAN multicast advertising without changing plugin config; accepted truthy values are `1`, `true`, `yes`, and `on` (legacy: `BRIKKO_STUDIO_DISABLE_BONJOUR`).
+- `BRIKKO_STUDIO_DISABLE_BONJOUR=0` forces LAN multicast advertising on, including inside detected containers; accepted falsy values are `0`, `false`, `no`, and `off`.
+- When `BRIKKO_STUDIO_DISABLE_BONJOUR` is unset, Bonjour advertises on normal hosts and auto-disables inside detected containers.
+- `gateway.bind` in `~/.brikko-studio/brikko-studio.json` controls the Gateway bind mode.
+- `BRIKKO_STUDIO_SSH_PORT` overrides the SSH port when `sshPort` is advertised (legacy: `BRIKKO_STUDIO_SSH_PORT`).
+- `BRIKKO_STUDIO_TAILNET_DNS` publishes a MagicDNS hint in TXT when mDNS full mode is enabled (legacy: `BRIKKO_STUDIO_TAILNET_DNS`).
+- `BRIKKO_STUDIO_CLI_PATH` overrides the advertised CLI path (legacy: `BRIKKO_STUDIO_CLI_PATH`).
 
 ## Related docs
 

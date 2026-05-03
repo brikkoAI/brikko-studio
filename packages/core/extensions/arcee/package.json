@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/arcee-provider",
+  "name": "@brikko-studio/arcee-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Arcee provider plugin",
+  "description": "Brikko Studio Arcee provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

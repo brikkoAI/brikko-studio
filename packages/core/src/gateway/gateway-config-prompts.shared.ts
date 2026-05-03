@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { getTailnetHostname } from "../infra/tailscale.js";
 import { isIpv6Address, parseCanonicalIpAddress } from "../shared/net/ip.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
@@ -27,8 +27,8 @@ export const TAILSCALE_MISSING_BIN_NOTE_LINES = [
 
 export const TAILSCALE_DOCS_LINES = [
   "Docs:",
-  "https://docs.openclaw.ai/gateway/tailscale",
-  "https://docs.openclaw.ai/web",
+  "https://docs.brikko-studio.ai/gateway/tailscale",
+  "https://docs.brikko-studio.ai/web",
 ] as const;
 
 function normalizeTailnetHostForUrl(rawHost: string): string | null {
@@ -65,10 +65,10 @@ function appendAllowedOrigin(existing: string[] | undefined, origin: string): st
 }
 
 export async function maybeAddTailnetOriginToControlUiAllowedOrigins(params: {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   tailscaleMode: string;
   tailscaleBin?: string | null;
-}): Promise<OpenClawConfig> {
+}): Promise<Brikko StudioConfig> {
   if (params.tailscaleMode !== "serve" && params.tailscaleMode !== "funnel") {
     return params.config;
   }

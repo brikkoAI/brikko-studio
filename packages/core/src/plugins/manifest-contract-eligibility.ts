@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.js";
 import { isInstalledPluginEnabled } from "./installed-plugin-index.js";
 import type { PluginManifestContractListKey, PluginManifestRecord } from "./manifest-registry.js";
@@ -12,7 +12,7 @@ import type {
 export function isManifestPluginAvailableForControlPlane(params: {
   snapshot: Pick<PluginMetadataSnapshot, "index">;
   plugin: Pick<PluginManifestRecord, "id" | "origin" | "enabledByDefault">;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 }): boolean {
   if (params.plugin.origin === "bundled") {
     return true;
@@ -33,7 +33,7 @@ export function listAvailableManifestContractPlugins(params: {
   snapshot: Pick<PluginMetadataSnapshot, "index" | "plugins">;
   contract: PluginManifestContractListKey;
   value?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 }): PluginManifestRecord[] {
   return params.snapshot.plugins.filter(
     (plugin) =>
@@ -53,7 +53,7 @@ export function listAvailableManifestContractPlugins(params: {
 export function listAvailableManifestContractValues(params: {
   snapshot: Pick<PluginMetadataSnapshot, "index" | "plugins">;
   contract: PluginManifestContractListKey;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 }): string[] {
   const values = new Set<string>();
   for (const plugin of listAvailableManifestContractPlugins(params)) {
@@ -65,7 +65,7 @@ export function listAvailableManifestContractValues(params: {
 }
 
 export function loadManifestContractSnapshot(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): PluginMetadataManifestView {
@@ -77,7 +77,7 @@ export function loadManifestContractSnapshot(params: {
 }
 
 export function loadManifestMetadataRegistry(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): PluginMetadataRegistryView {
@@ -89,7 +89,7 @@ export function loadManifestMetadataRegistry(params: {
 }
 
 export function loadManifestMetadataSnapshot(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): PluginMetadataSnapshot {

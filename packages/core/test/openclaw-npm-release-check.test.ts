@@ -19,7 +19,7 @@ import {
   resolveNpmCommandInvocation,
   shouldSkipPackedTarballValidation,
   utcCalendarDayDistance,
-} from "../scripts/openclaw-npm-release-check.ts";
+} from "../scripts/brikko-studio-npm-release-check.ts";
 import {
   LOCAL_BUILD_METADATA_DIST_PATHS,
   PACKAGE_DIST_INVENTORY_RELATIVE_PATH,
@@ -215,7 +215,7 @@ describe("shouldSkipPackedTarballValidation", () => {
   it("accepts truthy values for metadata-only validation", () => {
     expect(
       shouldSkipPackedTarballValidation({
-        OPENCLAW_NPM_RELEASE_SKIP_PACK_CHECK: "1",
+        BRIKKO_STUDIO_NPM_RELEASE_SKIP_PACK_CHECK: "1",
       }),
     ).toBe(true);
   });
@@ -223,7 +223,7 @@ describe("shouldSkipPackedTarballValidation", () => {
   it("treats false-like values as disabled", () => {
     expect(
       shouldSkipPackedTarballValidation({
-        OPENCLAW_NPM_RELEASE_SKIP_PACK_CHECK: "false",
+        BRIKKO_STUDIO_NPM_RELEASE_SKIP_PACK_CHECK: "false",
       }),
     ).toBe(false);
   });
@@ -296,8 +296,8 @@ describe("resolveNpmCommandInvocation", () => {
 
 describe("parseNpmPackJsonOutput", () => {
   it("parses a plain npm pack JSON array", () => {
-    expect(parseNpmPackJsonOutput('[{"filename":"openclaw.tgz","files":[]}]')).toEqual([
-      { filename: "openclaw.tgz", files: [] },
+    expect(parseNpmPackJsonOutput('[{"filename":"brikko-studio.tgz","files":[]}]')).toEqual([
+      { filename: "brikko-studio.tgz", files: [] },
     ]);
   });
 
@@ -305,23 +305,23 @@ describe("parseNpmPackJsonOutput", () => {
     const stdout = [
       'npm warn Unknown project config "node-linker".',
       "",
-      "> openclaw@2026.3.23 prepack",
+      "> brikko-studio@2026.3.23 prepack",
       "> pnpm build && pnpm ui:build",
       "",
       "[copy-hook-metadata] Copied 4 hook metadata files.",
-      '[{"filename":"openclaw.tgz","files":[{"path":"dist/control-ui/index.html"}]}]',
+      '[{"filename":"brikko-studio.tgz","files":[{"path":"dist/control-ui/index.html"}]}]',
     ].join("\n");
 
     expect(parseNpmPackJsonOutput(stdout)).toEqual([
       {
-        filename: "openclaw.tgz",
+        filename: "brikko-studio.tgz",
         files: [{ path: "dist/control-ui/index.html" }],
       },
     ]);
   });
 
   it("returns null when no JSON payload is present", () => {
-    expect(parseNpmPackJsonOutput("> openclaw@2026.3.23 prepack")).toBeNull();
+    expect(parseNpmPackJsonOutput("> brikko-studio@2026.3.23 prepack")).toBeNull();
   });
 });
 
@@ -414,7 +414,7 @@ describe("collectForbiddenPackedPathErrors", () => {
   });
 
   it("rejects root dist chunks that still reference the private qa lab", () => {
-    const rootDir = mkdtempSync(join(tmpdir(), "openclaw-pack-private-qa-"));
+    const rootDir = mkdtempSync(join(tmpdir(), "brikko-studio-pack-private-qa-"));
 
     try {
       mkdirSync(join(rootDir, "dist"), { recursive: true });
@@ -434,7 +434,7 @@ describe("collectForbiddenPackedPathErrors", () => {
   });
 
   it("rejects private QA paths in the generated dist inventory", () => {
-    const rootDir = mkdtempSync(join(tmpdir(), "openclaw-pack-inventory-"));
+    const rootDir = mkdtempSync(join(tmpdir(), "brikko-studio-pack-inventory-"));
 
     try {
       mkdirSync(join(rootDir, "dist"), { recursive: true });
@@ -569,11 +569,11 @@ describe("collectReleasePackageMetadataErrors", () => {
   it("validates the expected npm package metadata", () => {
     expect(
       collectReleasePackageMetadataErrors({
-        name: "openclaw",
+        name: "brikko-studio",
         description: "Multi-channel AI gateway with extensible messaging integrations",
         license: "MIT",
-        repository: { url: "git+https://github.com/openclaw/openclaw.git" },
-        bin: { openclaw: "openclaw.mjs" },
+        repository: { url: "git+https://github.com/brikko-studio/brikko-studio.git" },
+        bin: { brikko-studio: "brikko-studio.mjs" },
       }),
     ).toEqual([]);
   });
@@ -581,11 +581,11 @@ describe("collectReleasePackageMetadataErrors", () => {
   it("rejects node-llama-cpp as a peer dependency", () => {
     expect(
       collectReleasePackageMetadataErrors({
-        name: "openclaw",
+        name: "brikko-studio",
         description: "Multi-channel AI gateway with extensible messaging integrations",
         license: "MIT",
-        repository: { url: "git+https://github.com/openclaw/openclaw.git" },
-        bin: { openclaw: "openclaw.mjs" },
+        repository: { url: "git+https://github.com/brikko-studio/brikko-studio.git" },
+        bin: { brikko-studio: "brikko-studio.mjs" },
         peerDependencies: { "node-llama-cpp": "3.18.1" },
         peerDependenciesMeta: { "node-llama-cpp": { optional: true } },
       }),
@@ -598,11 +598,11 @@ describe("collectReleasePackageMetadataErrors", () => {
   it("rejects node-llama-cpp as a direct runtime dependency", () => {
     expect(
       collectReleasePackageMetadataErrors({
-        name: "openclaw",
+        name: "brikko-studio",
         description: "Multi-channel AI gateway with extensible messaging integrations",
         license: "MIT",
-        repository: { url: "git+https://github.com/openclaw/openclaw.git" },
-        bin: { openclaw: "openclaw.mjs" },
+        repository: { url: "git+https://github.com/brikko-studio/brikko-studio.git" },
+        bin: { brikko-studio: "brikko-studio.mjs" },
         dependencies: { "node-llama-cpp": "3.18.1" },
       }),
     ).toContain('package.json dependencies["node-llama-cpp"] must be omitted; keep it optional.');
@@ -611,11 +611,11 @@ describe("collectReleasePackageMetadataErrors", () => {
   it("rejects node-llama-cpp as an optional dependency", () => {
     expect(
       collectReleasePackageMetadataErrors({
-        name: "openclaw",
+        name: "brikko-studio",
         description: "Multi-channel AI gateway with extensible messaging integrations",
         license: "MIT",
-        repository: { url: "git+https://github.com/openclaw/openclaw.git" },
-        bin: { openclaw: "openclaw.mjs" },
+        repository: { url: "git+https://github.com/brikko-studio/brikko-studio.git" },
+        bin: { brikko-studio: "brikko-studio.mjs" },
         optionalDependencies: { "node-llama-cpp": "3.18.1" },
       }),
     ).toContain(

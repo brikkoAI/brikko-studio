@@ -62,7 +62,7 @@ let cronSuiteCaseId = 0;
 
 async function getCronSuiteTempRoot(): Promise<string> {
   if (!cronSuiteTempRootPromise) {
-    cronSuiteTempRootPromise = fs.mkdtemp(path.join(os.tmpdir(), "openclaw-gw-cron-suite-"));
+    cronSuiteTempRootPromise = fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-gw-cron-suite-"));
   }
   return await cronSuiteTempRootPromise;
 }
@@ -131,10 +131,10 @@ async function cleanupCronTestRun(params: {
   }
   testState.cronEnabled = undefined;
   if (params.prevSkipCron === undefined) {
-    delete process.env.OPENCLAW_SKIP_CRON;
+    delete process.env.BRIKKO_STUDIO_SKIP_CRON;
     return;
   }
-  process.env.OPENCLAW_SKIP_CRON = params.prevSkipCron;
+  process.env.BRIKKO_STUDIO_SKIP_CRON = params.prevSkipCron;
 }
 
 async function setupCronTestRun(params: {
@@ -143,8 +143,8 @@ async function setupCronTestRun(params: {
   sessionConfig?: { mainKey: string };
   jobs?: unknown[];
 }): Promise<{ prevSkipCron: string | undefined; dir: string }> {
-  const prevSkipCron = process.env.OPENCLAW_SKIP_CRON;
-  process.env.OPENCLAW_SKIP_CRON = "0";
+  const prevSkipCron = process.env.BRIKKO_STUDIO_SKIP_CRON;
+  process.env.BRIKKO_STUDIO_SKIP_CRON = "0";
   const { dir, storePath } = await createCronCasePaths(params.tempPrefix);
   testState.cronStorePath = storePath;
   testState.sessionConfig = params.sessionConfig;
@@ -159,7 +159,7 @@ async function setupCronTestRun(params: {
 type DirectCronState = {
   cron: { stop: () => void };
   storePath: string;
-  getRuntimeConfig: () => import("../config/types.openclaw.js").OpenClawConfig;
+  getRuntimeConfig: () => import("../config/types.brikko-studio.js").Brikko StudioConfig;
 };
 
 async function createDirectCronState(): Promise<DirectCronState> {
@@ -272,7 +272,7 @@ async function addWebhookCronJob(params: {
 }
 
 async function writeCronConfig(config: unknown) {
-  const configPath = process.env.OPENCLAW_CONFIG_PATH;
+  const configPath = process.env.BRIKKO_STUDIO_CONFIG_PATH;
   expect(typeof configPath).toBe("string");
   await fs.mkdir(path.dirname(configPath as string), { recursive: true });
   await fs.writeFile(configPath as string, JSON.stringify(config, null, 2), "utf-8");
@@ -331,7 +331,7 @@ describe("gateway server cron", () => {
 
   test("handles cron CRUD, normalization, and patch semantics", { timeout: 45_000 }, async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-",
+      tempPrefix: "brikko-studio-gw-cron-",
       sessionConfig: { mainKey: "primary" },
       cronEnabled: false,
     });
@@ -580,7 +580,7 @@ describe("gateway server cron", () => {
 
   test("rejects unsafe custom session ids on add and update", async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-bad-session-target-",
+      tempPrefix: "brikko-studio-gw-cron-bad-session-target-",
       cronEnabled: false,
     });
 
@@ -625,7 +625,7 @@ describe("gateway server cron", () => {
 
   test("keeps delivery updates valid for main jobs owned by an explicit default agent", async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-main-default-agent-delivery-",
+      tempPrefix: "brikko-studio-gw-cron-main-default-agent-delivery-",
       cronEnabled: false,
     });
 
@@ -677,7 +677,7 @@ describe("gateway server cron", () => {
 
   test("accepts implicit announce delivery when extra configured channels are disabled", async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-disabled-channel-ambiguity-",
+      tempPrefix: "brikko-studio-gw-cron-disabled-channel-ambiguity-",
       cronEnabled: false,
     });
 
@@ -721,7 +721,7 @@ describe("gateway server cron", () => {
 
   test("keeps delivery updates valid after gateway config changes the default agent", async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-main-default-agent-drift-",
+      tempPrefix: "brikko-studio-gw-cron-main-default-agent-drift-",
       cronEnabled: false,
     });
 
@@ -795,11 +795,11 @@ describe("gateway server cron", () => {
   });
 
   test("ignores ambient disabled channel env when validating announce delivery", async () => {
-    vi.stubEnv("OPENCLAW_DISABLE_BUNDLED_PLUGINS", "1");
+    vi.stubEnv("BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS", "1");
     vi.stubEnv("SLACK_BOT_TOKEN", "xoxb-ambient");
     vi.stubEnv("TELEGRAM_BOT_TOKEN", "ambient-telegram");
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-ambient-disabled-delivery-",
+      tempPrefix: "brikko-studio-gw-cron-ambient-disabled-delivery-",
       cronEnabled: false,
     });
 
@@ -833,7 +833,7 @@ describe("gateway server cron", () => {
 
   test("writes cron run history and auto-runs due jobs", async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-log-",
+      tempPrefix: "brikko-studio-gw-cron-log-",
     });
 
     const { server, ws } = await startServerWithClient();
@@ -934,7 +934,7 @@ describe("gateway server cron", () => {
   test("fails closed for persisted unsafe custom session ids", async () => {
     const now = Date.now();
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-persisted-bad-session-target-",
+      tempPrefix: "brikko-studio-gw-cron-persisted-bad-session-target-",
       cronEnabled: false,
       jobs: [
         {
@@ -971,7 +971,7 @@ describe("gateway server cron", () => {
 
   test("returns from cron.run immediately while isolated work continues in background", async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-run-detached-",
+      tempPrefix: "brikko-studio-gw-cron-run-detached-",
       cronEnabled: false,
     });
 
@@ -1039,7 +1039,7 @@ describe("gateway server cron", () => {
     );
 
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-run-busy-",
+      tempPrefix: "brikko-studio-gw-cron-run-busy-",
       cronEnabled: false,
       jobs: [
         {
@@ -1093,7 +1093,7 @@ describe("gateway server cron", () => {
   test("returns not-due without starting background work", async () => {
     const now = Date.now();
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-run-not-due-",
+      tempPrefix: "brikko-studio-gw-cron-run-not-due-",
       cronEnabled: false,
       jobs: [
         {
@@ -1143,7 +1143,7 @@ describe("gateway server cron", () => {
       state: {},
     };
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-webhook-",
+      tempPrefix: "brikko-studio-gw-cron-webhook-",
       cronEnabled: false,
       jobs: [legacyNotifyJob],
     });
@@ -1307,7 +1307,7 @@ describe("gateway server cron", () => {
 
   test("falls back to the primary delivery channel on job failure and preserves sessionKey", async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-failure-primary-fallback-",
+      tempPrefix: "brikko-studio-gw-cron-failure-primary-fallback-",
       cronEnabled: false,
     });
 
@@ -1362,7 +1362,7 @@ describe("gateway server cron", () => {
 
   test("prefers sessionTarget session context for failure announcements over creator sessionKey", async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-failure-session-target-",
+      tempPrefix: "brikko-studio-gw-cron-failure-session-target-",
       cronEnabled: false,
     });
 
@@ -1422,7 +1422,7 @@ describe("gateway server cron", () => {
 
   test("rejects malformed cron.webhookToken objects at startup", async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "openclaw-gw-cron-webhook-secretinput-",
+      tempPrefix: "brikko-studio-gw-cron-webhook-secretinput-",
       cronEnabled: false,
     });
 

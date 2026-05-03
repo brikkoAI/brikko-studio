@@ -8,7 +8,7 @@ import {
 } from "../infra/host-env-security.js";
 import { collectConfigServiceEnvVars } from "./config-env-vars.js";
 import { resolveStateDir } from "./paths.js";
-import type { OpenClawConfig } from "./types.js";
+import type { Brikko StudioConfig } from "./types.js";
 
 function isBlockedServiceEnvVar(key: string): boolean {
   return isDangerousHostEnvVarName(key) || isDangerousHostEnvOverrideVarName(key);
@@ -43,7 +43,7 @@ export function readStateDirDotEnvVarsFromStateDir(stateDir: string): Record<str
 }
 
 /**
- * Read and parse `~/.openclaw/.env` (or `$OPENCLAW_STATE_DIR/.env`), returning
+ * Read and parse `~/.brikko-studio/.env` (or `$BRIKKO_STUDIO_STATE_DIR/.env`), returning
  * a filtered record of key-value pairs suitable for a managed service
  * environment source.
  */
@@ -64,7 +64,7 @@ export function readStateDirDotEnvVars(
  */
 export function collectDurableServiceEnvVars(params: {
   env: Record<string, string | undefined>;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 }): Record<string, string> {
   return {
     ...readStateDirDotEnvVars(params.env),

@@ -8,14 +8,14 @@ read_when:
 title: "Ollama web search"
 ---
 
-OpenClaw supports **Ollama Web Search** as a bundled `web_search` provider. It
+Brikko Studio supports **Ollama Web Search** as a bundled `web_search` provider. It
 uses Ollama's web-search API and returns structured results with titles, URLs,
 and snippets.
 
 For local or self-hosted Ollama, this setup does not need an API key by
 default. It does require:
 
-- an Ollama host that is reachable from OpenClaw
+- an Ollama host that is reachable from Brikko Studio
 - `ollama signin`
 
 For direct hosted search, set the Ollama provider base URL to `https://ollama.com`
@@ -39,7 +39,7 @@ and provide a real `OLLAMA_API_KEY`.
     Run:
 
     ```bash
-    openclaw configure --section web
+    brikko-studio configure --section web
     ```
 
     Then select **Ollama Web Search** as the provider.
@@ -99,9 +99,9 @@ reuse that host instead:
 
 The Ollama model provider uses `baseUrl` as the canonical key. The web-search provider also honors `baseURL` on `models.providers.ollama` for compatibility with OpenAI SDK-style config examples.
 
-If no explicit Ollama base URL is set, OpenClaw uses `http://127.0.0.1:11434`.
+If no explicit Ollama base URL is set, Brikko Studio uses `http://127.0.0.1:11434`.
 
-If your Ollama host expects bearer auth, OpenClaw reuses
+If your Ollama host expects bearer auth, Brikko Studio reuses
 `models.providers.ollama.apiKey` (or the matching env-backed provider auth)
 for requests to that configured host.
 
@@ -130,15 +130,15 @@ Direct hosted Ollama Web Search:
 ## Notes
 
 - No web-search-specific API key field is required for this provider.
-- If the Ollama host is auth-protected, OpenClaw reuses the normal Ollama
+- If the Ollama host is auth-protected, Brikko Studio reuses the normal Ollama
   provider API key when present.
-- If `baseUrl` is `https://ollama.com`, OpenClaw calls
+- If `baseUrl` is `https://ollama.com`, Brikko Studio calls
   `https://ollama.com/api/web_search` directly and sends the configured Ollama
   API key as bearer auth.
 - If the configured host does not expose web search and `OLLAMA_API_KEY` is set,
-  OpenClaw can fall back to `https://ollama.com/api/web_search` without sending
+  Brikko Studio can fall back to `https://ollama.com/api/web_search` without sending
   that env key to the local host.
-- OpenClaw warns during setup if Ollama is unreachable or not signed in, but
+- Brikko Studio warns during setup if Ollama is unreachable or not signed in, but
   it does not block selection.
 - Runtime auto-detect can fall back to Ollama Web Search when no higher-priority
   credentialed provider is configured.

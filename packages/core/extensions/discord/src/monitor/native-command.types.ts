@@ -1,7 +1,7 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { CommandArgValues } from "openclaw/plugin-sdk/native-command-registry";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { CommandArgValues } from "brikko-studio/plugin-sdk/native-command-registry";
 
-export type DiscordConfig = NonNullable<OpenClawConfig["channels"]>["discord"];
+export type DiscordConfig = NonNullable<Brikko StudioConfig["channels"]>["discord"];
 
 export type DiscordCommandArgs = {
   raw?: string;

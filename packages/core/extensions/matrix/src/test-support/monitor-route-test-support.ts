@@ -1,10 +1,10 @@
 export {
   registerSessionBindingAdapter,
   __testing,
-} from "openclaw/plugin-sdk/session-binding-runtime";
-export { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
+} from "brikko-studio/plugin-sdk/session-binding-runtime";
+export { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
 export {
   createTestRegistry,
   setActivePluginRegistry,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-export type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";

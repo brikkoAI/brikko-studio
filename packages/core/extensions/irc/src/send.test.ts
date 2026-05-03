@@ -1,4 +1,4 @@
-import { createSendCfgThreadingRuntime } from "openclaw/plugin-sdk/channel-test-helpers";
+import { createSendCfgThreadingRuntime } from "brikko-studio/plugin-sdk/channel-test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { IrcClient } from "./client.js";
 import { setIrcRuntime } from "./runtime.js";
@@ -40,8 +40,8 @@ vi.mock("./protocol.js", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/plugin-config-runtime", async () => {
-  const original = (await vi.importActual("openclaw/plugin-sdk/plugin-config-runtime")) as Record<
+vi.mock("brikko-studio/plugin-sdk/plugin-config-runtime", async () => {
+  const original = (await vi.importActual("brikko-studio/plugin-sdk/plugin-config-runtime")) as Record<
     string,
     unknown
   >;
@@ -51,8 +51,8 @@ vi.mock("openclaw/plugin-sdk/plugin-config-runtime", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/text-runtime", async () => {
-  const original = (await vi.importActual("openclaw/plugin-sdk/text-runtime")) as Record<
+vi.mock("brikko-studio/plugin-sdk/text-runtime", async () => {
+  const original = (await vi.importActual("brikko-studio/plugin-sdk/text-runtime")) as Record<
     string,
     unknown
   >;
@@ -75,7 +75,7 @@ describe("sendMessageIrc cfg threading", () => {
       channels: {
         irc: {
           host: "irc.example.com",
-          nick: "openclaw",
+          nick: "brikko-studio",
           accounts: {
             work: {
               host: "irc.example.com",
@@ -128,7 +128,7 @@ describe("sendMessageIrc cfg threading", () => {
       channels: {
         irc: {
           host: "irc.example.com",
-          nick: "openclaw",
+          nick: "brikko-studio",
         },
       },
     } as unknown as CoreConfig;

@@ -8,9 +8,9 @@ if (!summaryPath || !phase || separator !== "--" || !command) {
   process.exit(2);
 }
 
-const pageSize = Number.parseInt(process.env.OPENCLAW_PROC_PAGE_SIZE || "4096", 10);
-const clockTicks = Number.parseInt(process.env.OPENCLAW_PROC_CLK_TCK || "100", 10);
-const pollMs = Number.parseInt(process.env.OPENCLAW_PLUGIN_LIFECYCLE_METRIC_POLL_MS || "100", 10);
+const pageSize = Number.parseInt(process.env.BRIKKO_STUDIO_PROC_PAGE_SIZE || "4096", 10);
+const clockTicks = Number.parseInt(process.env.BRIKKO_STUDIO_PROC_CLK_TCK || "100", 10);
+const pollMs = Number.parseInt(process.env.BRIKKO_STUDIO_PLUGIN_LIFECYCLE_METRIC_POLL_MS || "100", 10);
 
 if (!fs.existsSync("/proc")) {
   console.error("plugin lifecycle resource sampler requires Linux /proc");

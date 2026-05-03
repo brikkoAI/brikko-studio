@@ -6,7 +6,7 @@ import { isAtLeast, parseMinHostVersionRequirement, parseSemver } from "../testi
 type PackageManifest = {
   dependencies?: Record<string, string>;
   optionalDependencies?: Record<string, string>;
-  openclaw?: {
+  brikko-studio?: {
     install?: {
       minHostVersion?: string;
     };
@@ -62,12 +62,12 @@ export function describePackageManifestContract(params: PackageManifestContractP
 
         const manifest = readJson<PackageManifest>(packagePath);
         const requirement = parseMinHostVersionRequirement(
-          manifest.openclaw?.install?.minHostVersion ?? null,
+          manifest.brikko-studio?.install?.minHostVersion ?? null,
         );
 
         expect(
           requirement,
-          `${packagePath} should declare openclaw.install.minHostVersion`,
+          `${packagePath} should declare brikko-studio.install.minHostVersion`,
         ).not.toBeNull();
         if (!requirement) {
           return;
@@ -81,7 +81,7 @@ export function describePackageManifestContract(params: PackageManifestContractP
 
         expect(
           isAtLeast(minimum, baseline),
-          `${packagePath} should require at least OpenClaw ${minHostVersionBaseline}`,
+          `${packagePath} should require at least Brikko Studio ${minHostVersionBaseline}`,
         ).toBe(true);
       });
     }

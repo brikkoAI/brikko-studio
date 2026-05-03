@@ -2,8 +2,8 @@ import { getModels } from "@mariozechner/pi-ai";
 import {
   registerProviderPlugin,
   registerSingleProviderPlugin,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import { expectPassthroughReplayPolicy } from "openclaw/plugin-sdk/provider-test-contracts";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { expectPassthroughReplayPolicy } from "brikko-studio/plugin-sdk/provider-test-contracts";
 import { describe, expect, it } from "vitest";
 import plugin from "./index.js";
 

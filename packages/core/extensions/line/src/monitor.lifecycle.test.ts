@@ -1,11 +1,11 @@
 import crypto from "node:crypto";
 import { EventEmitter } from "node:events";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { WEBHOOK_IN_FLIGHT_DEFAULTS } from "openclaw/plugin-sdk/webhook-request-guards";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
+import { WEBHOOK_IN_FLIGHT_DEFAULTS } from "brikko-studio/plugin-sdk/webhook-request-guards";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { createMockIncomingRequest } from "openclaw/plugin-sdk/test-env";
+import { createMockIncomingRequest } from "brikko-studio/plugin-sdk/test-env";
 
 type LineNodeWebhookHandler = (req: IncomingMessage, res: ServerResponse) => Promise<void>;
 
@@ -35,14 +35,14 @@ vi.mock("./bot.js", () => ({
   createLineBot: createLineBotMock,
 }));
 
-vi.mock("openclaw/plugin-sdk/reply-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/reply-runtime", () => ({
   chunkMarkdownText: vi.fn(),
   dispatchReplyWithBufferedBlockDispatcher: vi.fn(),
 }));
 
-vi.mock("openclaw/plugin-sdk/runtime-env", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/runtime-env")>(
-    "openclaw/plugin-sdk/runtime-env",
+vi.mock("brikko-studio/plugin-sdk/runtime-env", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/runtime-env")>(
+    "brikko-studio/plugin-sdk/runtime-env",
   );
   return {
     ...actual,
@@ -52,13 +52,13 @@ vi.mock("openclaw/plugin-sdk/runtime-env", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/channel-reply-pipeline", () => ({
+vi.mock("brikko-studio/plugin-sdk/channel-reply-pipeline", () => ({
   createChannelReplyPipeline: vi.fn(() => ({})),
 }));
 
-vi.mock("openclaw/plugin-sdk/webhook-ingress", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/webhook-ingress")>(
-    "openclaw/plugin-sdk/webhook-ingress",
+vi.mock("brikko-studio/plugin-sdk/webhook-ingress", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/webhook-ingress")>(
+    "brikko-studio/plugin-sdk/webhook-ingress",
   );
   return {
     ...actual,
@@ -166,7 +166,7 @@ describe("monitorLineProvider lifecycle", () => {
     const task = monitorLineProvider({
       channelAccessToken: "token",
       channelSecret: "secret", // pragma: allowlist secret
-      config: {} as OpenClawConfig,
+      config: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
       abortSignal: abort.signal,
     }).then((monitor) => {
@@ -190,7 +190,7 @@ describe("monitorLineProvider lifecycle", () => {
       channelAccessToken: "token",
       channelSecret: "secret", // pragma: allowlist secret
       accountId: "work",
-      config: {} as OpenClawConfig,
+      config: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
     });
 
@@ -217,7 +217,7 @@ describe("monitorLineProvider lifecycle", () => {
     await monitorLineProvider({
       channelAccessToken: "token",
       channelSecret: "secret", // pragma: allowlist secret
-      config: {} as OpenClawConfig,
+      config: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
       abortSignal: abort.signal,
     });
@@ -229,7 +229,7 @@ describe("monitorLineProvider lifecycle", () => {
     const monitor = await monitorLineProvider({
       channelAccessToken: "token",
       channelSecret: "secret", // pragma: allowlist secret
-      config: {} as OpenClawConfig,
+      config: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
     });
 
@@ -255,7 +255,7 @@ describe("monitorLineProvider lifecycle", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
     });
 
@@ -274,14 +274,14 @@ describe("monitorLineProvider lifecycle", () => {
       channelAccessToken: "first-token",
       channelSecret: "first-secret", // pragma: allowlist secret
       accountId: "first",
-      config: {} as OpenClawConfig,
+      config: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
     });
     const secondMonitor = await monitorLineProvider({
       channelAccessToken: "second-token",
       channelSecret: "second-secret", // pragma: allowlist secret
       accountId: "second",
-      config: {} as OpenClawConfig,
+      config: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
     });
 
@@ -319,14 +319,14 @@ describe("monitorLineProvider lifecycle", () => {
       channelAccessToken: "first-token",
       channelSecret: "shared-secret", // pragma: allowlist secret
       accountId: "first",
-      config: {} as OpenClawConfig,
+      config: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
     });
     const secondMonitor = await monitorLineProvider({
       channelAccessToken: "second-token",
       channelSecret: "shared-secret", // pragma: allowlist secret
       accountId: "second",
-      config: {} as OpenClawConfig,
+      config: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
     });
 
@@ -367,7 +367,7 @@ describe("monitorLineProvider lifecycle", () => {
     const monitor = await monitorLineProvider({
       channelAccessToken: "token",
       channelSecret: "secret", // pragma: allowlist secret
-      config: {} as OpenClawConfig,
+      config: {} as Brikko StudioConfig,
       runtime: {} as RuntimeEnv,
     });
 

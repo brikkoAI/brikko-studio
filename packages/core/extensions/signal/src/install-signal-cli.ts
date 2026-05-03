@@ -3,13 +3,13 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { Readable, Transform } from "node:stream";
 import { pipeline } from "node:stream/promises";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { runPluginCommandWithTimeout } from "openclaw/plugin-sdk/run-command";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { CONFIG_DIR, extractArchive, resolveBrewExecutable } from "openclaw/plugin-sdk/setup-tools";
-import { fetchWithSsrFGuard } from "openclaw/plugin-sdk/ssrf-runtime";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { runPluginCommandWithTimeout } from "brikko-studio/plugin-sdk/run-command";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
+import { CONFIG_DIR, extractArchive, resolveBrewExecutable } from "brikko-studio/plugin-sdk/setup-tools";
+import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
+import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 
 export type ReleaseAsset = {
   name?: string;
@@ -283,7 +283,7 @@ export async function installSignalCliFromRelease(
     auditContext: "signal-cli-release-info",
     init: {
       headers: {
-        "User-Agent": "openclaw",
+        "User-Agent": "brikko-studio",
         Accept: "application/vnd.github+json",
       },
     },
@@ -312,7 +312,7 @@ export async function installSignalCliFromRelease(
     };
   }
 
-  const tmpDir = await fs.mkdtemp(path.join(resolvePreferredOpenClawTmpDir(), "openclaw-signal-"));
+  const tmpDir = await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-signal-"));
   const archivePath = path.join(tmpDir, asset.name);
 
   runtime.log(`Downloading signal-cli ${version} (${asset.name})…`);

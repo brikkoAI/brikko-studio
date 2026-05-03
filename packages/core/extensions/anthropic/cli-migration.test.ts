@@ -1,7 +1,7 @@
 import type {
   ProviderAuthContext,
   ProviderAuthMethodNonInteractiveContext,
-} from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/plugin-entry";
 import { describe, expect, it, vi } from "vitest";
 
 const { readClaudeCliCredentialsForSetup, readClaudeCliCredentialsForSetupNonInteractive } =
@@ -21,7 +21,7 @@ vi.mock("./cli-auth-seam.js", async (importActual) => {
 
 const { buildAnthropicCliMigrationResult, hasClaudeCliAuth } = await import("./cli-migration.js");
 const { createTestWizardPrompter, registerSingleProviderPlugin } =
-  await import("openclaw/plugin-sdk/plugin-test-runtime");
+  await import("brikko-studio/plugin-sdk/plugin-test-runtime");
 const { default: anthropicPlugin } = await import("./index.js");
 
 async function resolveAnthropicCliAuthMethod() {
@@ -40,8 +40,8 @@ function createProviderAuthContext(
     config,
     opts: {},
     env: {},
-    agentDir: "/tmp/openclaw/agents/main",
-    workspaceDir: "/tmp/openclaw/workspace",
+    agentDir: "/tmp/brikko-studio/agents/main",
+    workspaceDir: "/tmp/brikko-studio/workspace",
     prompter: createTestWizardPrompter(),
     runtime: {
       log: vi.fn(),
@@ -70,8 +70,8 @@ function createProviderAuthMethodNonInteractiveContext(
       error: vi.fn(),
       exit: vi.fn(),
     },
-    agentDir: "/tmp/openclaw/agents/main",
-    workspaceDir: "/tmp/openclaw/workspace",
+    agentDir: "/tmp/brikko-studio/agents/main",
+    workspaceDir: "/tmp/brikko-studio/workspace",
     resolveApiKey: vi.fn(async () => null),
     toApiKeyCredential: vi.fn(() => null),
   };

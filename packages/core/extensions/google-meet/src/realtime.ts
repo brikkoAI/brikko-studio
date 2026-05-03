@@ -1,8 +1,8 @@
 import { spawn } from "node:child_process";
 import type { Writable } from "node:stream";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import type { PluginRuntime, RuntimeLogger } from "openclaw/plugin-sdk/plugin-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import type { PluginRuntime, RuntimeLogger } from "brikko-studio/plugin-sdk/plugin-runtime";
 import {
   createRealtimeVoiceBridgeSession,
   REALTIME_VOICE_AUDIO_FORMAT_G711_ULAW_8KHZ,
@@ -11,9 +11,9 @@ import {
   type RealtimeVoiceBridgeSession,
   type RealtimeVoiceProviderConfig,
   type RealtimeVoiceProviderPlugin,
-} from "openclaw/plugin-sdk/realtime-voice";
+} from "brikko-studio/plugin-sdk/realtime-voice";
 import {
-  consultOpenClawAgentForGoogleMeet,
+  consultBrikko StudioAgentForGoogleMeet,
   GOOGLE_MEET_AGENT_CONSULT_TOOL_NAME,
   resolveGoogleMeetRealtimeTools,
   submitGoogleMeetConsultWorkingResponse,
@@ -88,7 +88,7 @@ export function resolveGoogleMeetRealtimeAudioFormat(config: GoogleMeetConfig) {
 
 export function resolveGoogleMeetRealtimeProvider(params: {
   config: GoogleMeetConfig;
-  fullConfig: OpenClawConfig;
+  fullConfig: Brikko StudioConfig;
   providers?: RealtimeVoiceProviderPlugin[];
 }): ResolvedRealtimeProvider {
   return resolveConfiguredRealtimeVoiceProvider({
@@ -103,7 +103,7 @@ export function resolveGoogleMeetRealtimeProvider(params: {
 
 export async function startCommandRealtimeAudioBridge(params: {
   config: GoogleMeetConfig;
-  fullConfig: OpenClawConfig;
+  fullConfig: Brikko StudioConfig;
   runtime: PluginRuntime;
   meetingSessionId: string;
   inputCommand: string[];
@@ -350,7 +350,7 @@ export async function startCommandRealtimeAudioBridge(params: {
         return;
       }
       submitGoogleMeetConsultWorkingResponse(session, event.callId || event.itemId);
-      void consultOpenClawAgentForGoogleMeet({
+      void consultBrikko StudioAgentForGoogleMeet({
         config: params.config,
         fullConfig: params.fullConfig,
         runtime: params.runtime,

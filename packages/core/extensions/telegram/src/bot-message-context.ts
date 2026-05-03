@@ -2,12 +2,12 @@ import type { ReactionTypeEmoji } from "@grammyjs/types";
 import {
   resolveAckReaction,
   shouldAckReaction as shouldAckReactionGate,
-} from "openclaw/plugin-sdk/channel-feedback";
-import { logInboundDrop } from "openclaw/plugin-sdk/channel-inbound";
-import type { TelegramDirectConfig, TelegramGroupConfig } from "openclaw/plugin-sdk/config-types";
-import { deriveLastRoutePolicy } from "openclaw/plugin-sdk/routing";
-import { normalizeAccountId, resolveThreadSessionKeys } from "openclaw/plugin-sdk/routing";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+} from "brikko-studio/plugin-sdk/channel-feedback";
+import { logInboundDrop } from "brikko-studio/plugin-sdk/channel-inbound";
+import type { TelegramDirectConfig, TelegramGroupConfig } from "brikko-studio/plugin-sdk/config-types";
+import { deriveLastRoutePolicy } from "brikko-studio/plugin-sdk/routing";
+import { normalizeAccountId, resolveThreadSessionKeys } from "brikko-studio/plugin-sdk/routing";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { mergeTelegramAccountConfig, resolveDefaultTelegramAccountId } from "./accounts.js";
 import { withTelegramApiErrorLogging } from "./api-logging.js";
 import { firstDefined, normalizeAllowFrom, normalizeDmAllowFromWithStore } from "./bot-access.js";

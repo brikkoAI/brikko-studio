@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { enqueueCommandInLane, resetCommandQueueStateForTest } from "../process/command-queue.js";
 import { CommandLane } from "../process/lanes.js";
 import { applyGatewayLaneConcurrency } from "./server-lanes.js";
@@ -20,7 +20,7 @@ describe("applyGatewayLaneConcurrency", () => {
   });
 
   it("applies cron maxConcurrentRuns to the cron-nested lane used by cron agent turns", async () => {
-    applyGatewayLaneConcurrency({ cron: { maxConcurrentRuns: 2 } } as OpenClawConfig);
+    applyGatewayLaneConcurrency({ cron: { maxConcurrentRuns: 2 } } as Brikko StudioConfig);
 
     let activeRuns = 0;
     let peakActiveRuns = 0;
@@ -59,7 +59,7 @@ describe("applyGatewayLaneConcurrency", () => {
   });
 
   it("keeps the shared nested lane at its default concurrency", async () => {
-    applyGatewayLaneConcurrency({ cron: { maxConcurrentRuns: 2 } } as OpenClawConfig);
+    applyGatewayLaneConcurrency({ cron: { maxConcurrentRuns: 2 } } as Brikko StudioConfig);
 
     let startedRuns = 0;
     const releaseRuns = createDeferred<void>();

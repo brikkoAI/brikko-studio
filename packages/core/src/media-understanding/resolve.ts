@@ -1,5 +1,5 @@
 import type { MsgContext } from "../auto-reply/templating.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import type {
   MediaUnderstandingConfig,
   MediaUnderstandingModelConfig,
@@ -37,7 +37,7 @@ export function resolvePrompt(
 export function resolveMaxChars(params: {
   capability: MediaUnderstandingCapability;
   entry: MediaUnderstandingModelConfig;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   config?: MediaUnderstandingConfig;
 }): number | undefined {
   const { capability, entry, cfg } = params;
@@ -52,7 +52,7 @@ export function resolveMaxChars(params: {
 export function resolveMaxBytes(params: {
   capability: MediaUnderstandingCapability;
   entry: MediaUnderstandingModelConfig;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   config?: MediaUnderstandingConfig;
 }): number {
   const configured =
@@ -78,7 +78,7 @@ export function resolveScopeDecision(params: {
 }
 
 export function resolveModelEntries(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   capability: MediaUnderstandingCapability;
   config?: MediaUnderstandingConfig;
   providerRegistry: Map<string, { capabilities?: MediaUnderstandingCapability[] }>;
@@ -116,7 +116,7 @@ export function resolveModelEntries(params: {
     .map(({ entry }) => entry);
 }
 
-export function resolveConcurrency(cfg: OpenClawConfig): number {
+export function resolveConcurrency(cfg: Brikko StudioConfig): number {
   const configured = cfg.tools?.media?.concurrency;
   if (typeof configured === "number" && Number.isFinite(configured) && configured > 0) {
     return Math.floor(configured);
@@ -125,7 +125,7 @@ export function resolveConcurrency(cfg: OpenClawConfig): number {
 }
 
 export function resolveEntriesWithActiveFallback(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   capability: MediaUnderstandingCapability;
   config?: MediaUnderstandingConfig;
   providerRegistry: Map<string, { capabilities?: MediaUnderstandingCapability[] }>;

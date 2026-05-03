@@ -10,7 +10,7 @@ coverage:
   secondary:
     - channels.discord-config
     - agents.create
-objective: Verify Crestodian can bootstrap a fresh OpenClaw config, set the default model, create an agent, configure Discord through a SecretRef, validate config, and leave an audit trail.
+objective: Verify Crestodian can bootstrap a fresh Brikko Studio config, set the default model, create an agent, configure Discord through a SecretRef, validate config, and leave an audit trail.
 successCriteria:
   - Crestodian reports missing config in an empty state dir.
   - Crestodian setup writes a workspace and default model.
@@ -46,7 +46,7 @@ steps:
           expr: "path.join(env.gateway.tempRoot, setupSpec.stateDirName)"
       - set: configPath
         value:
-          expr: "path.join(stateDir, 'openclaw.json')"
+          expr: "path.join(stateDir, 'brikko-studio.json')"
       - set: defaultWorkspace
         value:
           expr: "path.join(env.gateway.tempRoot, setupSpec.defaultWorkspaceName)"
@@ -64,7 +64,7 @@ steps:
             expr: "String(template).replace(/\\{([A-Za-z0-9_]+)\\}/g, (match, key) => String(commandVars[key] ?? match))"
       - set: crestodianEnv
         value:
-          expr: "({ OPENCLAW_STATE_DIR: stateDir, OPENCLAW_CONFIG_PATH: configPath, OPENCLAW_BUNDLED_PLUGINS_DIR: path.join(env.repoRoot, 'dist', 'extensions'), [setupSpec.discordEnv]: setupSpec.discordToken })"
+          expr: "({ BRIKKO_STUDIO_STATE_DIR: stateDir, BRIKKO_STUDIO_CONFIG_PATH: configPath, BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: path.join(env.repoRoot, 'dist', 'extensions'), [setupSpec.discordEnv]: setupSpec.discordToken })"
       - call: fs.rm
         args:
           - ref: stateDir

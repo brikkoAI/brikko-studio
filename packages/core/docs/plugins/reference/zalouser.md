@@ -1,5 +1,5 @@
 ---
-summary: "Adds the Zalo Personal channel surface for sending and receiving OpenClaw messages."
+summary: "Adds the Zalo Personal channel surface for sending and receiving Brikko Studio messages."
 read_when:
   - You are installing, configuring, or auditing the zalouser plugin
 title: "Zalo Personal plugin"
@@ -7,11 +7,11 @@ title: "Zalo Personal plugin"
 
 # Zalo Personal plugin
 
-Adds the Zalo Personal channel surface for sending and receiving OpenClaw messages.
+Adds the Zalo Personal channel surface for sending and receiving Brikko Studio messages.
 
 ## Distribution
 
-- Package: `@openclaw/zalouser`
+- Package: `@brikko-studio/zalouser`
 - Install route: npm; ClawHub
 
 ## Surface

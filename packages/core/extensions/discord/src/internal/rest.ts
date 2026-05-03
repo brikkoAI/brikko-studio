@@ -62,7 +62,7 @@ const defaultOptions = {
   tokenHeader: "Bot" as const,
   baseUrl: "https://discord.com/api",
   apiVersion: 10,
-  userAgent: "OpenClaw Discord",
+  userAgent: "Brikko Studio Discord",
   timeout: 15_000,
   queueRequests: true,
   maxQueueSize: 1000,
@@ -92,7 +92,7 @@ function escapeMultipartQuotedValue(value: string): string {
 }
 
 async function formDataToMultipartBody(body: FormData, headers: Headers): Promise<BodyInit> {
-  const boundary = `----openclaw-discord-${randomBytes(12).toString("hex")}`;
+  const boundary = `----brikko-studio-discord-${randomBytes(12).toString("hex")}`;
   headers.set("Content-Type", `multipart/form-data; boundary=${boundary}`);
   const chunks: Buffer[] = [];
   const push = (value: string | Buffer) => {

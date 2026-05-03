@@ -325,7 +325,7 @@ async function main(): Promise<void> {
   if (!opts.quiet) {
     process.stdout.write(
       `snapshots in ${opts.snapDir}/ — diff with:\n` +
-        `  node .agents/skills/openclaw-test-heap-leaks/scripts/heapsnapshot-delta.mjs ` +
+        `  node .agents/skills/brikko-studio-test-heap-leaks/scripts/heapsnapshot-delta.mjs ` +
         `${baseline.snapshotPath} ${final.snapshotPath} --top 30\n`,
     );
   }

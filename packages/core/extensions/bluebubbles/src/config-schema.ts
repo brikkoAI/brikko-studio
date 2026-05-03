@@ -6,8 +6,8 @@ import {
   GroupPolicySchema,
   MarkdownConfigSchema,
   ToolPolicySchema,
-} from "openclaw/plugin-sdk/channel-config-schema";
-import { z } from "openclaw/plugin-sdk/zod";
+} from "brikko-studio/plugin-sdk/channel-config-schema";
+import { z } from "brikko-studio/plugin-sdk/zod";
 import { bluebubblesChannelConfigUiHints } from "./config-ui-hints.js";
 import { buildSecretInputSchema, hasConfiguredSecretInput } from "./secret-input.js";
 

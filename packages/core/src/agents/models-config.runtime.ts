@@ -1,1 +1,1 @@
-export { ensureOpenClawModelsJson } from "./models-config.js";
+export { ensureBrikko StudioModelsJson } from "./models-config.js";

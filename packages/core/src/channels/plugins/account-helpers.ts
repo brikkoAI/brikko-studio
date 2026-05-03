@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import {
   resolveAccountEntry,
   resolveNormalizedAccountEntry,
@@ -18,7 +18,7 @@ export function createAccountListHelpers(
     allowUnlistedDefaultAccount?: boolean;
   },
 ) {
-  function resolveConfiguredDefaultAccountId(cfg: OpenClawConfig): string | undefined {
+  function resolveConfiguredDefaultAccountId(cfg: Brikko StudioConfig): string | undefined {
     const channel = cfg.channels?.[channelKey] as Record<string, unknown> | undefined;
     const preferred = normalizeOptionalAccountId(
       typeof channel?.defaultAccount === "string" ? channel.defaultAccount : undefined,
@@ -36,7 +36,7 @@ export function createAccountListHelpers(
     return undefined;
   }
 
-  function listConfiguredAccountIds(cfg: OpenClawConfig): string[] {
+  function listConfiguredAccountIds(cfg: Brikko StudioConfig): string[] {
     const channel = cfg.channels?.[channelKey];
     const accounts = (channel as Record<string, unknown> | undefined)?.accounts;
     if (!accounts || typeof accounts !== "object") {
@@ -50,14 +50,14 @@ export function createAccountListHelpers(
     return [...new Set(ids.map((id) => normalizeConfiguredAccountId(id)).filter(Boolean))];
   }
 
-  function listAccountIds(cfg: OpenClawConfig): string[] {
+  function listAccountIds(cfg: Brikko StudioConfig): string[] {
     return listCombinedAccountIds({
       configuredAccountIds: listConfiguredAccountIds(cfg),
       fallbackAccountIdWhenEmpty: DEFAULT_ACCOUNT_ID,
     });
   }
 
-  function resolveDefaultAccountId(cfg: OpenClawConfig): string {
+  function resolveDefaultAccountId(cfg: Brikko StudioConfig): string {
     return resolveListedDefaultAccountId({
       accountIds: listAccountIds(cfg),
       configuredDefaultAccountId: resolveConfiguredDefaultAccountId(cfg),

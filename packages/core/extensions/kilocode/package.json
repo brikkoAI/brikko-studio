@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/kilocode-provider",
+  "name": "@brikko-studio/kilocode-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Kilo Gateway provider plugin",
+  "description": "Brikko Studio Kilo Gateway provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

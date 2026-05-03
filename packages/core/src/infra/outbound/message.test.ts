@@ -26,7 +26,7 @@ vi.mock("../../agents/agent-scope.js", () => ({
     const match = sessionKey?.match(/^agent:([^:]+)/i);
     return match?.[1] ?? "main";
   },
-  resolveAgentWorkspaceDir: () => "/tmp/openclaw-test-workspace",
+  resolveAgentWorkspaceDir: () => "/tmp/brikko-studio-test-workspace",
 }));
 
 vi.mock("../../config/plugin-auto-enable.js", () => ({
@@ -210,7 +210,7 @@ describe("sendMessage", () => {
       channel: "forum",
       to: "123456",
       content: "voice note",
-      mediaUrl: "file:///tmp/openclaw-voice.ogg",
+      mediaUrl: "file:///tmp/brikko-studio-voice.ogg",
       asVoice: true,
     });
 
@@ -219,7 +219,7 @@ describe("sendMessage", () => {
         payloads: [
           expect.objectContaining({
             text: "voice note",
-            mediaUrl: "file:///tmp/openclaw-voice.ogg",
+            mediaUrl: "file:///tmp/brikko-studio-voice.ogg",
             audioAsVoice: true,
           }),
         ],

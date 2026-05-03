@@ -1,33 +1,33 @@
 ---
-summary: "Public OpenClaw App SDK for external apps, scripts, dashboards, CI jobs, and IDE extensions"
-title: "OpenClaw App SDK"
+summary: "Public Brikko Studio App SDK for external apps, scripts, dashboards, CI jobs, and IDE extensions"
+title: "Brikko Studio App SDK"
 sidebarTitle: "App SDK"
 read_when:
-  - You are building an external app, script, dashboard, CI job, or IDE extension that talks to OpenClaw
+  - You are building an external app, script, dashboard, CI job, or IDE extension that talks to Brikko Studio
   - You are choosing between the App SDK and the Plugin SDK
   - You are integrating with Gateway agent runs, sessions, events, approvals, models, or tools
 ---
 
-The **OpenClaw App SDK** is the public client API for apps outside the
-OpenClaw process. Use `@openclaw/sdk` when a script, dashboard, CI job, IDE
+The **Brikko Studio App SDK** is the public client API for apps outside the
+Brikko Studio process. Use `@brikko-studio/sdk` when a script, dashboard, CI job, IDE
 extension, or other external app wants to connect to the Gateway, start agent
 runs, stream events, wait for results, cancel work, or inspect Gateway
 resources.
 
 <Note>
   The App SDK is different from the [Plugin SDK](/plugins/sdk-overview).
-  `@openclaw/sdk` talks to the Gateway from outside OpenClaw.
-  `openclaw/plugin-sdk/*` is only for plugins that run inside OpenClaw and
+  `@brikko-studio/sdk` talks to the Gateway from outside Brikko Studio.
+  `brikko-studio/plugin-sdk/*` is only for plugins that run inside Brikko Studio and
   register providers, channels, tools, hooks, or trusted runtimes.
 </Note>
 
 ## What Ships Today
 
-`@openclaw/sdk` ships with:
+`@brikko-studio/sdk` ships with:
 
 | Surface                   | Status | What it does                                                               |
 | ------------------------- | ------ | -------------------------------------------------------------------------- |
-| `OpenClaw`                | Ready  | Main client entry point. Owns transport, connection, requests, and events. |
+| `Brikko Studio`                | Ready  | Main client entry point. Owns transport, connection, requests, and events. |
 | `GatewayClientTransport`  | Ready  | WebSocket transport backed by the Gateway client.                          |
 | `oc.agents`               | Ready  | Lists, creates, updates, deletes, and gets agent handles.                  |
 | `Agent.run()`             | Ready  | Starts a Gateway `agent` run and returns a `Run`.                          |
@@ -45,8 +45,8 @@ resources.
 | `normalizeGatewayEvent()` | Ready  | Converts raw Gateway events into the stable SDK event shape.               |
 
 The SDK also exports the core types used by those surfaces:
-`AgentRunParams`, `RunResult`, `RunStatus`, `OpenClawEvent`,
-`OpenClawEventType`, `GatewayEvent`, `OpenClawTransport`,
+`AgentRunParams`, `RunResult`, `RunStatus`, `Brikko StudioEvent`,
+`Brikko StudioEventType`, `GatewayEvent`, `Brikko StudioTransport`,
 `GatewayRequestOptions`, `SessionCreateParams`, `SessionSendParams`,
 `ArtifactSummary`, `ArtifactQuery`, `ArtifactsListResult`,
 `ArtifactsGetResult`, `ArtifactsDownloadResult`, `RuntimeSelection`,
@@ -59,26 +59,26 @@ Create a client with an explicit Gateway URL, or inject a custom transport for
 tests and embedded app runtimes.
 
 ```typescript
-import { OpenClaw } from "@openclaw/sdk";
+import { Brikko Studio } from "@brikko-studio/sdk";
 
-const oc = new OpenClaw({
+const oc = new Brikko Studio({
   url: "ws://127.0.0.1:14565",
-  token: process.env.OPENCLAW_GATEWAY_TOKEN,
+  token: process.env.BRIKKO_STUDIO_GATEWAY_TOKEN,
   requestTimeoutMs: 30_000,
 });
 
 await oc.connect();
 ```
 
-`new OpenClaw({ gateway: "ws://..." })` is equivalent to `url`. The
+`new Brikko Studio({ gateway: "ws://..." })` is equivalent to `url`. The
 `gateway: "auto"` option is accepted by the constructor, but automatic Gateway
 discovery is not a separate SDK feature yet; pass `url` when the app does not
 already know how to discover the Gateway.
 
-For tests, pass an object that implements `OpenClawTransport`:
+For tests, pass an object that implements `Brikko StudioTransport`:
 
 ```typescript
-const oc = new OpenClaw({
+const oc = new Brikko Studio({
   transport: {
     async request(method, params) {
       return { method, params };
@@ -148,14 +148,14 @@ await session.compact({ maxLines: 200 });
 
 ## Stream Events
 
-The SDK normalizes raw Gateway events into a stable `OpenClawEvent` envelope:
+The SDK normalizes raw Gateway events into a stable `Brikko StudioEvent` envelope:
 
 ```typescript
-type OpenClawEvent = {
+type Brikko StudioEvent = {
   version: 1;
   id: string;
   ts: number;
-  type: OpenClawEventType;
+  type: Brikko StudioEventType;
   runId?: string;
   sessionId?: string;
   sessionKey?: string;
@@ -278,7 +278,7 @@ environment, or approval behavior.
 
 ## App SDK Versus Plugin SDK
 
-Use the App SDK when code lives outside OpenClaw:
+Use the App SDK when code lives outside Brikko Studio:
 
 - Node scripts that start or observe agent runs
 - CI jobs that call a Gateway
@@ -287,7 +287,7 @@ Use the App SDK when code lives outside OpenClaw:
 - external bridges that do not need to become channel plugins
 - integration tests with fake or real Gateway transports
 
-Use the Plugin SDK when code runs inside OpenClaw:
+Use the Plugin SDK when code runs inside Brikko Studio:
 
 - provider plugins
 - channel plugins
@@ -295,12 +295,12 @@ Use the Plugin SDK when code runs inside OpenClaw:
 - agent harness plugins
 - trusted runtime helpers
 
-App SDK code should import from `@openclaw/sdk`. Plugin code should import from
-documented `openclaw/plugin-sdk/*` subpaths. Do not mix the two contracts.
+App SDK code should import from `@brikko-studio/sdk`. Plugin code should import from
+documented `brikko-studio/plugin-sdk/*` subpaths. Do not mix the two contracts.
 
 ## Related Docs
 
-- [OpenClaw App SDK API design](/reference/openclaw-sdk-api-design)
+- [Brikko Studio App SDK API design](/reference/brikko-studio-sdk-api-design)
 - [Gateway RPC reference](/reference/rpc)
 - [Agent loop](/concepts/agent-loop)
 - [Agent runtimes](/concepts/agent-runtimes)

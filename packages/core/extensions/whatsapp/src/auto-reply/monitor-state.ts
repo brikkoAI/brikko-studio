@@ -1,7 +1,7 @@
 import {
   createConnectedChannelStatusPatch,
   createTransportActivityStatusPatch,
-} from "openclaw/plugin-sdk/gateway-runtime";
+} from "brikko-studio/plugin-sdk/gateway-runtime";
 import type { WebChannelHealthState, WebChannelStatus } from "./types.js";
 
 function cloneStatus(status: WebChannelStatus): WebChannelStatus {

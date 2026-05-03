@@ -1,7 +1,7 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/plugin-entry";
-import { capturePluginRegistration } from "openclaw/plugin-sdk/plugin-test-runtime";
-import { CUSTOM_LOCAL_AUTH_MARKER } from "openclaw/plugin-sdk/provider-auth";
-import type { ModelProviderConfig } from "openclaw/plugin-sdk/provider-model-shared";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/plugin-entry";
+import { capturePluginRegistration } from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { CUSTOM_LOCAL_AUTH_MARKER } from "brikko-studio/plugin-sdk/provider-auth";
+import type { ModelProviderConfig } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { describe, expect, it } from "vitest";
 import plugin from "./index.js";
 import { LMSTUDIO_LOCAL_API_KEY_PLACEHOLDER } from "./src/defaults.js";
@@ -164,12 +164,12 @@ describe("lmstudio plugin", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     expect(
       provider?.augmentModelCatalog?.({
         config,
-        agentDir: "/tmp/openclaw",
+        agentDir: "/tmp/brikko-studio",
         env: {},
         entries: [],
       }),

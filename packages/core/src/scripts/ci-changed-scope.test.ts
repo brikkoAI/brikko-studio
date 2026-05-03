@@ -2,7 +2,7 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { bundledPluginFile } from "openclaw/plugin-sdk/test-fixtures";
+import { bundledPluginFile } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it } from "vitest";
 
 const { detectChangedScope, detectInstallSmokeScope, detectNodeFastScope, listChangedPaths } =
@@ -105,7 +105,7 @@ describe("detectChangedScope", () => {
       runControlUiI18n: false,
     });
     expect(
-      detectChangedScope(["apps/macos-mlx-tts/Sources/OpenClawMLXTTSHelper/main.swift"]),
+      detectChangedScope(["apps/macos-mlx-tts/Sources/Brikko StudioMLXTTSHelper/main.swift"]),
     ).toEqual({
       runNode: false,
       runMacos: true,
@@ -115,7 +115,7 @@ describe("detectChangedScope", () => {
       runChangedSmoke: false,
       runControlUiI18n: false,
     });
-    expect(detectChangedScope(["apps/shared/OpenClawKit/Sources/Foo.swift"])).toEqual({
+    expect(detectChangedScope(["apps/shared/Brikko StudioKit/Sources/Foo.swift"])).toEqual({
       runNode: false,
       runMacos: true,
       runAndroid: true,
@@ -145,7 +145,7 @@ describe("detectChangedScope", () => {
   });
 
   it("does not force macOS for generated protocol model-only changes", () => {
-    expect(detectChangedScope(["apps/macos/Sources/OpenClawProtocol/GatewayModels.swift"])).toEqual(
+    expect(detectChangedScope(["apps/macos/Sources/Brikko StudioProtocol/GatewayModels.swift"])).toEqual(
       {
         runNode: false,
         runMacos: false,
@@ -570,7 +570,7 @@ describe("detectChangedScope", () => {
   it("treats base and head as literal git args", () => {
     const markerPath = path.join(
       os.tmpdir(),
-      `openclaw-ci-changed-scope-${Date.now()}-${Math.random().toString(16).slice(2)}.tmp`,
+      `brikko-studio-ci-changed-scope-${Date.now()}-${Math.random().toString(16).slice(2)}.tmp`,
     );
     markerPaths.push(markerPath);
 
@@ -584,7 +584,7 @@ describe("detectChangedScope", () => {
   });
 
   it("keeps direct CLI preflight empty diffs as no-op scope", () => {
-    const repoDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-ci-scope-empty-"));
+    const repoDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-ci-scope-empty-"));
     tempDirs.push(repoDir);
     const outputPath = path.join(repoDir, "github-output.txt");
     const scriptPath = path.resolve("scripts/ci-changed-scope.mjs");

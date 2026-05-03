@@ -3,9 +3,9 @@ import { EventEmitter } from "node:events";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { resetInboundDedupe } from "openclaw/plugin-sdk/reply-dedupe";
-import { resetLogger, setLoggerOverride } from "openclaw/plugin-sdk/runtime-env";
-import { mockPinnedHostnameResolution } from "openclaw/plugin-sdk/test-env";
+import { resetInboundDedupe } from "brikko-studio/plugin-sdk/reply-dedupe";
+import { resetLogger, setLoggerOverride } from "brikko-studio/plugin-sdk/runtime-env";
+import { mockPinnedHostnameResolution } from "brikko-studio/plugin-sdk/test-env";
 import { afterAll, afterEach, beforeAll, beforeEach, vi, type Mock } from "vitest";
 import type { WebChannelStatus } from "./auto-reply/types.js";
 import type { WebInboundMessage, WebListenerCloseReason } from "./inbound.js";
@@ -56,7 +56,7 @@ type MockSessionSocket = {
 };
 
 const TEST_NET_IP = "93.184.216.34";
-const WEB_AUTO_REPLY_SOCKETS_KEY = Symbol.for("openclaw:webAutoReplySessionSockets");
+const WEB_AUTO_REPLY_SOCKETS_KEY = Symbol.for("brikko-studio:webAutoReplySessionSockets");
 
 function getSessionSockets(): MockSessionSocket[] {
   const store = globalThis as Record<PropertyKey, unknown>;
@@ -100,7 +100,7 @@ function resetWebAutoReplySessionSockets() {
   getSessionSockets().length = 0;
 }
 
-vi.mock("openclaw/plugin-sdk/agent-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/agent-runtime", () => ({
   abortEmbeddedPiRun: vi.fn().mockReturnValue(false),
   appendCronStyleCurrentTimeLine: (text: string) => text,
   isEmbeddedPiRunActive: vi.fn().mockReturnValue(false),
@@ -160,7 +160,7 @@ let tempHomeId = 0;
 
 export function installWebAutoReplyTestHomeHooks() {
   beforeAll(async () => {
-    tempHomeRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-web-home-suite-"));
+    tempHomeRoot = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-web-home-suite-"));
   });
 
   beforeEach(async () => {
@@ -188,7 +188,7 @@ export function installWebAutoReplyTestHomeHooks() {
 export async function makeSessionStore(
   entries: Record<string, unknown> = {},
 ): Promise<{ storePath: string; cleanup: () => Promise<void> }> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-session-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-session-"));
   const storePath = path.join(dir, "sessions.json");
   await fs.writeFile(storePath, JSON.stringify(entries));
   const cleanup = async () => {

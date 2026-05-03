@@ -65,17 +65,17 @@ function assert(condition, message) {
 }
 
 function getScenario() {
-  const scenario = process.env.OPENCLAW_UPGRADE_SURVIVOR_SCENARIO || "base";
+  const scenario = process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIO || "base";
   assert(SCENARIOS.has(scenario), `unknown upgrade survivor scenario: ${scenario}`);
   return scenario;
 }
 
 function getConfig() {
-  return readJson(requireEnv("OPENCLAW_CONFIG_PATH"));
+  return readJson(requireEnv("BRIKKO_STUDIO_CONFIG_PATH"));
 }
 
 function getCoverage() {
-  const file = process.env.OPENCLAW_UPGRADE_SURVIVOR_CONFIG_COVERAGE_JSON;
+  const file = process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_CONFIG_COVERAGE_JSON;
   if (!file || !fs.existsSync(file)) {
     return null;
   }
@@ -98,8 +98,8 @@ function hasCoverage(coverage) {
 }
 
 function seedState() {
-  const stateDir = requireEnv("OPENCLAW_STATE_DIR");
-  const workspace = requireEnv("OPENCLAW_TEST_WORKSPACE_DIR");
+  const stateDir = requireEnv("BRIKKO_STUDIO_STATE_DIR");
+  const workspace = requireEnv("BRIKKO_STUDIO_TEST_WORKSPACE_DIR");
   const scenario = getScenario();
 
   write(
@@ -111,7 +111,7 @@ function seedState() {
       write(path.join(workspace, fileName), contents);
     }
   }
-  writeJson(path.join(workspace, ".openclaw", "workspace-state.json"), {
+  writeJson(path.join(workspace, ".brikko-studio", "workspace-state.json"), {
     version: 1,
     setupCompletedAt: "2026-04-01T00:00:00.000Z",
   });
@@ -123,7 +123,7 @@ function seedState() {
 
   const runtimeRoot = path.join(stateDir, "plugin-runtime-deps");
   for (const plugin of ["discord", "telegram", "whatsapp"]) {
-    writeJson(path.join(runtimeRoot, plugin, ".openclaw-runtime-deps-stamp.json"), {
+    writeJson(path.join(runtimeRoot, plugin, ".brikko-studio-runtime-deps-stamp.json"), {
       version: 0,
       plugin,
       stale: true,
@@ -132,7 +132,7 @@ function seedState() {
       path.join(
         runtimeRoot,
         plugin,
-        ".openclaw-runtime-deps-copy-stale",
+        ".brikko-studio-runtime-deps-copy-stale",
         "node_modules",
         "stale-sentinel",
         "package.json",
@@ -141,13 +141,13 @@ function seedState() {
     );
   }
   if (scenario === "versioned-runtime-deps") {
-    const version = process.env.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_VERSION || "2026.4.24";
+    const version = process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_VERSION || "2026.4.24";
     for (const plugin of ["discord", "feishu", "telegram", "whatsapp"]) {
       writeJson(
         path.join(
           runtimeRoot,
-          `openclaw-${version}-${plugin}`,
-          ".openclaw-runtime-deps-stamp.json",
+          `brikko-studio-${version}-${plugin}`,
+          ".brikko-studio-runtime-deps-stamp.json",
         ),
         {
           packageVersion: version,
@@ -158,7 +158,7 @@ function seedState() {
       write(
         path.join(
           runtimeRoot,
-          `openclaw-${version}-${plugin}`,
+          `brikko-studio-${version}-${plugin}`,
           "node_modules",
           "stale-sentinel",
           "package.json",
@@ -319,22 +319,22 @@ function assertConfigSurvived() {
 
   if (hasCoverage(coverage) && acceptsIntent(coverage, "logging")) {
     assert(
-      config.logging?.file === "~/openclaw-upgrade-survivor/gateway.jsonl",
+      config.logging?.file === "~/brikko-studio-upgrade-survivor/gateway.jsonl",
       "logging.file tilde path changed",
     );
   }
 }
 
 function assertStateSurvived() {
-  const stateDir = requireEnv("OPENCLAW_STATE_DIR");
-  const workspace = requireEnv("OPENCLAW_TEST_WORKSPACE_DIR");
+  const stateDir = requireEnv("BRIKKO_STUDIO_STATE_DIR");
+  const workspace = requireEnv("BRIKKO_STUDIO_TEST_WORKSPACE_DIR");
   const scenario = getScenario();
   assert(fs.existsSync(path.join(workspace, "IDENTITY.md")), "workspace identity file missing");
   assert(
     fs.existsSync(path.join(stateDir, "agents", "main", "sessions", "legacy-session.json")),
     "legacy session file missing",
   );
-  const stage = process.env.OPENCLAW_UPGRADE_SURVIVOR_ASSERT_STAGE || "survival";
+  const stage = process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_ASSERT_STAGE || "survival";
   const legacyRuntimeRoot = path.join(stateDir, "plugin-runtime-deps");
   if (stage === "baseline") {
     if (fs.existsSync(legacyRuntimeRoot)) {
@@ -359,10 +359,10 @@ function assertStateSurvived() {
     if (stage === "baseline") {
       return;
     }
-    const version = process.env.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_VERSION || "2026.4.24";
+    const version = process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_VERSION || "2026.4.24";
     const runtimeRoot = path.join(stateDir, "plugin-runtime-deps");
     const staleVersionedRoots = fs.existsSync(runtimeRoot)
-      ? fs.readdirSync(runtimeRoot).filter((entry) => entry.startsWith(`openclaw-${version}-`))
+      ? fs.readdirSync(runtimeRoot).filter((entry) => entry.startsWith(`brikko-studio-${version}-`))
       : [];
     assert(
       staleVersionedRoots.length === 0,
@@ -372,7 +372,7 @@ function assertStateSurvived() {
 }
 
 function readInstalledPluginIndex() {
-  const stateDir = requireEnv("OPENCLAW_STATE_DIR");
+  const stateDir = requireEnv("BRIKKO_STUDIO_STATE_DIR");
   const file = path.join(stateDir, "plugins", "installs.json");
   assert(fs.existsSync(file), `installed plugin index missing: ${file}`);
   return readJson(file);
@@ -404,7 +404,7 @@ function assertExternalPluginInstall(records, pluginId, packageName) {
       `configured external ${pluginId} plugin ClawHub spec changed`,
     );
   } else {
-    const npmRoot = path.join(requireEnv("OPENCLAW_STATE_DIR"), "npm", "node_modules");
+    const npmRoot = path.join(requireEnv("BRIKKO_STUDIO_STATE_DIR"), "npm", "node_modules");
     assert(
       isPathInside(npmRoot, installPath),
       `configured external ${pluginId} npm install path outside managed npm root: ${installPath}`,
@@ -418,7 +418,7 @@ function assertExternalPluginInstall(records, pluginId, packageName) {
 
 function assertConfiguredPluginInstalls() {
   const coverage = getCoverage();
-  const stage = process.env.OPENCLAW_UPGRADE_SURVIVOR_ASSERT_STAGE || "survival";
+  const stage = process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_ASSERT_STAGE || "survival";
   if (!hasCoverage(coverage) || !acceptsIntent(coverage, "configured-plugin-installs")) {
     return;
   }
@@ -432,7 +432,7 @@ function assertConfiguredPluginInstalls() {
   assert(!matrix, "internal matrix plugin should not be installed externally");
   assert(bundledMatrix, "configured bundled matrix plugin is missing from the plugin index");
   assert(bundledMatrix.enabled !== false, "configured bundled matrix plugin is disabled");
-  assertExternalPluginInstall(records, "discord", "@openclaw/discord");
+  assertExternalPluginInstall(records, "discord", "@brikko-studio/discord");
   assert(!records.telegram, "internal telegram plugin should not be installed externally");
 }
 

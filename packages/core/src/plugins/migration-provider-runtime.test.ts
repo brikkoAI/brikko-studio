@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginRegistry } from "./registry-types.js";
 import { createEmptyPluginRegistry } from "./registry.js";
 
@@ -128,7 +128,7 @@ describe("migration provider runtime", () => {
     }));
 
     ensureStandaloneMigrationProviderRegistryLoaded({
-      cfg: { plugins: { enabled: false } } as OpenClawConfig,
+      cfg: { plugins: { enabled: false } } as Brikko StudioConfig,
     });
 
     expect(mocks.ensureStandaloneRuntimePluginRegistryLoaded).toHaveBeenCalledWith({
@@ -152,7 +152,7 @@ describe("migration provider runtime", () => {
   it("loads configured external migration-provider plugins from manifest contracts", () => {
     const cfg = {
       plugins: { entries: { "external-migration": { enabled: true } } },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const provider = createMigrationProvider("external-import");
     const active = createEmptyPluginRegistry();
     const loaded = createEmptyPluginRegistry();

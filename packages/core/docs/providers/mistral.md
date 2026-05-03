@@ -1,13 +1,13 @@
 ---
-summary: "Use Mistral models and Voxtral transcription with OpenClaw"
+summary: "Use Mistral models and Voxtral transcription with Brikko Studio"
 read_when:
-  - You want to use Mistral models in OpenClaw
+  - You want to use Mistral models in Brikko Studio
   - You want Voxtral realtime transcription for Voice Call
   - You need Mistral API key onboarding and model refs
 title: "Mistral"
 ---
 
-OpenClaw supports Mistral for both text/image model routing (`mistral/...`) and
+Brikko Studio supports Mistral for both text/image model routing (`mistral/...`) and
 audio transcription via Voxtral in media understanding.
 Mistral can also be used for memory embeddings (`memorySearch.provider = "mistral"`).
 
@@ -23,13 +23,13 @@ Mistral can also be used for memory embeddings (`memorySearch.provider = "mistra
   </Step>
   <Step title="Run onboarding">
     ```bash
-    openclaw onboard --auth-choice mistral-api-key
+    brikko-studio onboard --auth-choice mistral-api-key
     ```
 
     Or pass the key directly:
 
     ```bash
-    openclaw onboard --mistral-api-key "$MISTRAL_API_KEY"
+    brikko-studio onboard --mistral-api-key "$MISTRAL_API_KEY"
     ```
 
   </Step>
@@ -43,14 +43,14 @@ Mistral can also be used for memory embeddings (`memorySearch.provider = "mistra
   </Step>
   <Step title="Verify the model is available">
     ```bash
-    openclaw models list --provider mistral
+    brikko-studio models list --provider mistral
     ```
   </Step>
 </Steps>
 
 ## Built-in LLM catalog
 
-OpenClaw currently ships this bundled Mistral catalog:
+Brikko Studio currently ships this bundled Mistral catalog:
 
 | Model ref                        | Input       | Context | Max output | Notes                                                            |
 | -------------------------------- | ----------- | ------- | ---------- | ---------------------------------------------------------------- |
@@ -121,7 +121,7 @@ streaming STT provider.
 ```
 
 <Note>
-OpenClaw defaults Mistral realtime STT to `pcm_mulaw` at 8 kHz so Voice Call
+Brikko Studio defaults Mistral realtime STT to `pcm_mulaw` at 8 kHz so Voice Call
 can forward Twilio media frames directly. Use `encoding: "pcm_s16le"` and a
 matching `sampleRate` only if your upstream stream is already raw PCM.
 </Note>
@@ -132,9 +132,9 @@ matching `sampleRate` only if your upstream stream is already raw PCM.
   <Accordion title="Adjustable reasoning (mistral-small-latest)">
     `mistral/mistral-small-latest` maps to Mistral Small 4 and supports [adjustable reasoning](https://docs.mistral.ai/capabilities/reasoning/adjustable) on the Chat Completions API via `reasoning_effort` (`none` minimizes extra thinking in the output; `high` surfaces full thinking traces before the final answer).
 
-    OpenClaw maps the session **thinking** level to Mistral's API:
+    Brikko Studio maps the session **thinking** level to Mistral's API:
 
-    | OpenClaw thinking level                          | Mistral `reasoning_effort` |
+    | Brikko Studio thinking level                          | Mistral `reasoning_effort` |
     | ------------------------------------------------ | -------------------------- |
     | **off** / **minimal**                            | `none`                     |
     | **low** / **medium** / **high** / **xhigh** / **adaptive** / **max** | `high`     |

@@ -1,6 +1,6 @@
 import type { WebClient } from "@slack/web-api";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 
 const SUBTEAM_MENTION_RE = /<!subteam\^([A-Z0-9]+)(?:\|[^>]*)?>/gi;
 const SUBTEAM_MEMBER_CACHE_TTL_MS = 5 * 60 * 1000;

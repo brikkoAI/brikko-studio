@@ -2,8 +2,8 @@ export {
   buildPluginConfigSchema,
   definePluginEntry,
   type AnyAgentTool,
-  type OpenClawConfig,
-  type OpenClawPluginApi,
-  type OpenClawPluginConfigSchema,
-} from "openclaw/plugin-sdk/plugin-entry";
-export { z } from "openclaw/plugin-sdk/zod";
+  type Brikko StudioConfig,
+  type Brikko StudioPluginApi,
+  type Brikko StudioPluginConfigSchema,
+} from "brikko-studio/plugin-sdk/plugin-entry";
+export { z } from "brikko-studio/plugin-sdk/zod";

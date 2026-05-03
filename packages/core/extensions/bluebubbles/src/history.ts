@@ -1,6 +1,6 @@
 import { resolveBlueBubblesServerAccount } from "./account-resolve.js";
 import { createBlueBubblesClientFromParts } from "./client.js";
-import type { OpenClawConfig } from "./runtime-api.js";
+import type { Brikko StudioConfig } from "./runtime-api.js";
 
 type BlueBubblesHistoryEntry = {
   sender: string;
@@ -37,7 +37,7 @@ type BlueBubblesChatOpts = {
   password?: string;
   accountId?: string;
   timeoutMs?: number;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
 };
 
 function resolveAccount(params: BlueBubblesChatOpts) {

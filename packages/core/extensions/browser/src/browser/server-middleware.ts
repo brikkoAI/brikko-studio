@@ -3,7 +3,7 @@ import express from "express";
 import { browserMutationGuardMiddleware } from "./csrf.js";
 import { isAuthorizedBrowserRequest } from "./http-auth.js";
 
-const BROWSER_AUTH_VERIFIED_FLAG = "__openclawBrowserAuthVerified";
+const BROWSER_AUTH_VERIFIED_FLAG = "__brikko-studioBrowserAuthVerified";
 
 type BrowserAuthMarkedRequest = Request & {
   [BROWSER_AUTH_VERIFIED_FLAG]?: boolean;

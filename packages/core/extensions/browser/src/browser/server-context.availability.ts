@@ -14,8 +14,8 @@ import {
   formatChromeCdpDiagnostic,
   isChromeCdpReady,
   isChromeReachable,
-  launchOpenClawChrome,
-  stopOpenClawChrome,
+  launchBrikko StudioChrome,
+  stopBrikko StudioChrome,
 } from "./chrome.js";
 import type { ResolvedBrowserProfile } from "./config.js";
 import { BrowserProfileUnavailableError } from "./errors.js";
@@ -72,16 +72,16 @@ function ensureOptionsKey(options?: BrowserEnsureOptions): string {
 
 function formatLocalPortOwnershipHint(profile: ResolvedBrowserProfile): string {
   const resetHint =
-    `If OpenClaw should own this local profile, run action=reset-profile profile=${profile.name} ` +
+    `If Brikko Studio should own this local profile, run action=reset-profile profile=${profile.name} ` +
     "to stop the conflicting process.";
   if (!profile.cdpIsLoopback) {
     return resetHint;
   }
   return (
     `${resetHint} If this port is an externally managed CDP service such as Browserless, ` +
-    `set browser.profiles.${profile.name}.attachOnly=true so OpenClaw attaches without trying ` +
+    `set browser.profiles.${profile.name}.attachOnly=true so Brikko Studio attaches without trying ` +
     "to manage the local process. For Browserless Docker, set EXTERNAL to the same WebSocket " +
-    "endpoint OpenClaw can reach via browser.profiles.<name>.cdpUrl."
+    "endpoint Brikko Studio can reach via browser.profiles.<name>.cdpUrl."
   );
 }
 
@@ -218,7 +218,7 @@ export function createProfileAvailability({
       return (
         `Chrome MCP existing-session attach for profile "${profile.name}" could not connect to Chrome. ` +
         "Enable remote debugging in the browser inspect page, keep the browser open, approve the attach prompt, and retry. " +
-        'If you do not need your signed-in browser session, use the managed "openclaw" profile instead.' +
+        'If you do not need your signed-in browser session, use the managed "brikko-studio" profile instead.' +
         detail
       );
     }
@@ -240,7 +240,7 @@ export function createProfileAvailability({
     const previousProfile = reconcile.previousProfile;
     resetManagedLaunchFailure(profileState);
     if (profileState.running) {
-      await stopOpenClawChrome(profileState.running).catch(() => {});
+      await stopBrikko StudioChrome(profileState.running).catch(() => {});
       setProfileRunning(null);
     }
     if (getBrowserProfileCapabilities(previousProfile).usesChromeMcp) {
@@ -254,7 +254,7 @@ export function createProfileAvailability({
   };
 
   const waitForCdpReadyAfterLaunch = async (): Promise<void> => {
-    // launchOpenClawChrome() can return before Chrome is fully ready to serve /json/version + CDP WS.
+    // launchBrikko StudioChrome() can return before Chrome is fully ready to serve /json/version + CDP WS.
     // If a follow-up call races ahead, we can hit PortInUseError trying to launch again on the same port.
     const deadlineMs =
       Date.now() + (state().resolved.localCdpReadyTimeoutMs ?? CDP_READY_AFTER_LAUNCH_WINDOW_MS);
@@ -300,7 +300,7 @@ export function createProfileAvailability({
   ) => {
     assertManagedLaunchNotCoolingDown(profile.name, profileState);
     try {
-      return await launchOpenClawChrome(current.resolved, profile, launchOptions);
+      return await launchBrikko StudioChrome(current.resolved, profile, launchOptions);
     } catch (err) {
       recordManagedLaunchFailure(profileState, err);
       throw err;
@@ -334,7 +334,7 @@ export function createProfileAvailability({
           return;
         }
       }
-      // Browser control service can restart while a loopback OpenClaw browser is still
+      // Browser control service can restart while a loopback Brikko Studio browser is still
       // alive. Give that pre-existing browser one longer probe window before falling
       // back to local executable resolution.
       if (!attachOnly && !remoteCdp && profile.cdpIsLoopback && !profileState.running) {
@@ -359,7 +359,7 @@ export function createProfileAvailability({
         await waitForCdpReadyAfterLaunch();
         resetManagedLaunchFailure(profileState);
       } catch (err) {
-        await stopOpenClawChrome(launched).catch(() => {});
+        await stopBrikko StudioChrome(launched).catch(() => {});
         setProfileRunning(null);
         recordManagedLaunchFailure(profileState, err);
         throw err;
@@ -397,12 +397,12 @@ export function createProfileAvailability({
     if (!profileState.running) {
       const detail = await describeCdpFailure(PROFILE_ATTACH_RETRY_TIMEOUT_MS);
       throw new BrowserProfileUnavailableError(
-        `Port ${profile.cdpPort} is in use for profile "${profile.name}" but not by openclaw. ` +
+        `Port ${profile.cdpPort} is in use for profile "${profile.name}" but not by brikko-studio. ` +
           `${formatLocalPortOwnershipHint(profile)} ${detail}`,
       );
     }
 
-    await stopOpenClawChrome(profileState.running);
+    await stopBrikko StudioChrome(profileState.running);
     setProfileRunning(null);
 
     const relaunched = await launchManagedChrome(profileState, current, launchOptions);
@@ -460,7 +460,7 @@ export function createProfileAvailability({
       }
       return { stopped: idleStop.stopped };
     }
-    await stopOpenClawChrome(profileState.running);
+    await stopBrikko StudioChrome(profileState.running);
     setProfileRunning(null);
     return { stopped: true };
   };

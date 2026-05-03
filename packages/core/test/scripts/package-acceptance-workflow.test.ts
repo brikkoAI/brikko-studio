@@ -3,10 +3,10 @@ import { describe, expect, it } from "vitest";
 import { parse } from "yaml";
 
 const PACKAGE_ACCEPTANCE_WORKFLOW = ".github/workflows/package-acceptance.yml";
-const LIVE_E2E_WORKFLOW = ".github/workflows/openclaw-live-and-e2e-checks-reusable.yml";
+const LIVE_E2E_WORKFLOW = ".github/workflows/brikko-studio-live-and-e2e-checks-reusable.yml";
 const NPM_TELEGRAM_WORKFLOW = ".github/workflows/npm-telegram-beta-e2e.yml";
 const PACKAGE_JSON = "package.json";
-const RELEASE_CHECKS_WORKFLOW = ".github/workflows/openclaw-release-checks.yml";
+const RELEASE_CHECKS_WORKFLOW = ".github/workflows/brikko-studio-release-checks.yml";
 const FULL_RELEASE_VALIDATION_WORKFLOW = ".github/workflows/full-release-validation.yml";
 const QA_LIVE_TRANSPORTS_WORKFLOW = ".github/workflows/qa-live-transports-convex.yml";
 const UPDATE_MIGRATION_WORKFLOW = ".github/workflows/update-migration.yml";
@@ -69,13 +69,13 @@ describe("package acceptance workflow", () => {
     expect(workflow).toContain("- ref");
     expect(workflow).toContain("- url");
     expect(workflow).toContain("- artifact");
-    expect(workflow).toContain("scripts/resolve-openclaw-package-candidate.mjs");
+    expect(workflow).toContain("scripts/resolve-brikko-studio-package-candidate.mjs");
     expect(workflow).toContain('--package-ref "$PACKAGE_REF"');
     expect(workflow).toContain('gh run download "$ARTIFACT_RUN_ID"');
     expect(workflow).toContain("name: ${{ env.PACKAGE_ARTIFACT_NAME }}");
     expect(workflow).toContain("pull-requests: read");
     expect(workflow).toContain(
-      "uses: ./.github/workflows/openclaw-live-and-e2e-checks-reusable.yml",
+      "uses: ./.github/workflows/brikko-studio-live-and-e2e-checks-reusable.yml",
     );
     expect(workflow).toContain(
       "ref: ${{ needs.resolve_package.outputs.package_source_sha || inputs.workflow_ref }}",
@@ -113,7 +113,7 @@ describe("package acceptance workflow", () => {
     expect(workflow).toContain("telegram_scenarios:");
     expect(workflow).toContain("scenario: ${{ inputs.telegram_scenarios }}");
     expect(workflow).toContain(
-      "package_label: openclaw@${{ needs.resolve_package.outputs.package_version }}",
+      "package_label: brikko-studio@${{ needs.resolve_package.outputs.package_version }}",
     );
     expect(npmTelegramWorkflow).toContain("package_artifact_run_id:");
     expect(npmTelegramWorkflow).toContain("Download package-under-test artifact from release run");
@@ -159,7 +159,7 @@ describe("package acceptance workflow", () => {
       "source: ${{ needs.resolve_target.outputs.package_acceptance_package_spec != '' && 'npm' || 'artifact' }}",
     );
     expect(releaseChecksWorkflow).toContain(
-      "package_spec: ${{ needs.resolve_target.outputs.package_acceptance_package_spec || 'openclaw@beta' }}",
+      "package_spec: ${{ needs.resolve_target.outputs.package_acceptance_package_spec || 'brikko-studio@beta' }}",
     );
   });
 
@@ -194,18 +194,18 @@ describe("package artifact reuse", () => {
     expect(workflow).toContain("published_upgrade_survivor_scenarios:");
     expect(workflow).toContain("docker_e2e_bare_image:");
     expect(workflow).toContain("docker_e2e_functional_image:");
-    expect(workflow).toContain("OPENCLAW_DOCKER_E2E_SELECTED_SHA:");
+    expect(workflow).toContain("BRIKKO_STUDIO_DOCKER_E2E_SELECTED_SHA:");
     expect(workflow).toContain(
-      "OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC: ${{ inputs.published_upgrade_survivor_baseline }}",
+      "BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC: ${{ inputs.published_upgrade_survivor_baseline }}",
     );
     expect(workflow).toContain(
-      "OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPECS: ${{ inputs.published_upgrade_survivor_baselines }}",
+      "BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPECS: ${{ inputs.published_upgrade_survivor_baselines }}",
     );
     expect(workflow).toContain(
-      "OPENCLAW_UPGRADE_SURVIVOR_SCENARIOS: ${{ inputs.published_upgrade_survivor_scenarios }}",
+      "BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIOS: ${{ inputs.published_upgrade_survivor_scenarios }}",
     );
-    expect(workflow).toContain("Download current-run OpenClaw Docker E2E package");
-    expect(workflow).toContain("Download previous-run OpenClaw Docker E2E package");
+    expect(workflow).toContain("Download current-run Brikko Studio Docker E2E package");
+    expect(workflow).toContain("Download previous-run Brikko Studio Docker E2E package");
     expect(workflow).toContain("inputs.package_artifact_name != ''");
     expect(workflow).toContain(
       'bare_image="${PROVIDED_BARE_IMAGE:-ghcr.io/${repository}-docker-e2e-bare:${image_tag}}"',
@@ -216,16 +216,16 @@ describe("package artifact reuse", () => {
     expect(workflow).toContain("name: ${{ inputs.package_artifact_name || 'docker-e2e-package' }}");
     expect(workflow).not.toContain("uses: ./.github/actions/docker-e2e-plan");
     expect(workflow).toContain("Checkout trusted release harness");
-    expect(workflow).toContain("OPENCLAW_DOCKER_E2E_REPO_ROOT:");
+    expect(workflow).toContain("BRIKKO_STUDIO_DOCKER_E2E_REPO_ROOT:");
     expect(workflow).toContain("node .release-harness/scripts/test-docker-all.mjs --plan-json");
     expect(workflow).toContain("node .release-harness/scripts/docker-e2e.mjs github-outputs");
     expect(workflow).toContain("bash .release-harness/scripts/ci-docker-pull-retry.sh");
     const prepareDockerImage = workflowJob(LIVE_E2E_WORKFLOW, "prepare_docker_e2e_image");
     expect(workflowStep(prepareDockerImage, "Plan Docker E2E images").env).toMatchObject({
-      OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC: "${{ inputs.published_upgrade_survivor_baseline }}",
-      OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPECS:
+      BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC: "${{ inputs.published_upgrade_survivor_baseline }}",
+      BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPECS:
         "${{ inputs.published_upgrade_survivor_baselines }}",
-      OPENCLAW_UPGRADE_SURVIVOR_SCENARIOS: "${{ inputs.published_upgrade_survivor_scenarios }}",
+      BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIOS: "${{ inputs.published_upgrade_survivor_scenarios }}",
     });
     expect(workflow).toContain("plan_docker_lane_groups:");
     expect(workflow).toContain("targeted_docker_lane_group_size:");
@@ -234,19 +234,19 @@ describe("package artifact reuse", () => {
     expect(workflow).toContain("DOCKER_E2E_LANES: ${{ matrix.group.docker_lanes }}");
     expect(workflow).toContain("name: docker-e2e-${{ steps.plan.outputs.artifact_suffix }}");
     expect(scheduler).toContain(
-      "published_upgrade_survivor_baseline=${shellQuote(process.env.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC)}",
+      "published_upgrade_survivor_baseline=${shellQuote(process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC)}",
     );
     expect(scheduler).toContain(
-      "published_upgrade_survivor_baselines=${shellQuote(process.env.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPECS)}",
+      "published_upgrade_survivor_baselines=${shellQuote(process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPECS)}",
     );
     expect(scheduler).toContain(
-      '["OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC", baseEnv.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC]',
+      '["BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC", baseEnv.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC]',
     );
-    expect(scheduler).toContain('["OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPECS",');
-    expect(scheduler).toContain('["OPENCLAW_UPGRADE_SURVIVOR_SCENARIOS",');
-    expect(packageJson).toContain("OPENCLAW_UPGRADE_SURVIVOR_PUBLISHED_BASELINE=1");
+    expect(scheduler).toContain('["BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPECS",');
+    expect(scheduler).toContain('["BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIOS",');
+    expect(packageJson).toContain("BRIKKO_STUDIO_UPGRADE_SURVIVOR_PUBLISHED_BASELINE=1");
     expect(publishedUpgradeSurvivor).toContain("validate_baseline_package_spec");
-    expect(publishedUpgradeSurvivor).toContain("openclaw@(alpha|beta|latest|");
+    expect(publishedUpgradeSurvivor).toContain("brikko-studio@(alpha|beta|latest|");
     expect(publishedUpgradeSurvivor).toContain("plugin_deps_cleanup_plugin_dirs");
     expect(publishedUpgradeSurvivor).toContain('"$(package_root)/extensions/$plugin"');
     expect(publishedUpgradeSurvivor).toContain("probe_gateway_endpoint");
@@ -266,11 +266,11 @@ describe("package artifact reuse", () => {
   it("bounds shared Docker image pulls so package acceptance cannot stall forever", () => {
     const pullHelper = readFileSync("scripts/ci-docker-pull-retry.sh", "utf8");
 
-    expect(pullHelper).toContain("OPENCLAW_DOCKER_PULL_ATTEMPTS");
-    expect(pullHelper).toContain("OPENCLAW_DOCKER_PULL_TIMEOUT_SECONDS");
-    expect(pullHelper).toContain('timeout_seconds="${OPENCLAW_DOCKER_PULL_TIMEOUT_SECONDS:-180}"');
+    expect(pullHelper).toContain("BRIKKO_STUDIO_DOCKER_PULL_ATTEMPTS");
+    expect(pullHelper).toContain("BRIKKO_STUDIO_DOCKER_PULL_TIMEOUT_SECONDS");
+    expect(pullHelper).toContain('timeout_seconds="${BRIKKO_STUDIO_DOCKER_PULL_TIMEOUT_SECONDS:-180}"');
     expect(pullHelper).toContain(
-      'retry_delay_seconds="${OPENCLAW_DOCKER_PULL_RETRY_DELAY_SECONDS:-5}"',
+      'retry_delay_seconds="${BRIKKO_STUDIO_DOCKER_PULL_RETRY_DELAY_SECONDS:-5}"',
     );
     expect(pullHelper).toContain(
       'timeout --foreground --kill-after=30s "${timeout_seconds}s" docker pull "$image"',
@@ -298,7 +298,7 @@ describe("package artifact reuse", () => {
     expect(workflow).toContain(
       "command: node .release-harness/scripts/test-live-shard.mjs native-live-src-agents",
     );
-    expect(workflow).toContain("OPENCLAW_LIVE_COMMAND: ${{ matrix.command }}");
+    expect(workflow).toContain("BRIKKO_STUDIO_LIVE_COMMAND: ${{ matrix.command }}");
     expect(workflow).toContain("live_suite_filter:");
     expect(workflow).toContain("validate_live_suite_filter:");
     expect(workflow).toContain("LIVE_SUITE_FILTER: ${{ inputs.live_suite_filter }}");
@@ -327,16 +327,16 @@ describe("package artifact reuse", () => {
     expect(workflow).toContain("suite_id: live-gateway-advisory-docker-opencode-openrouter");
     expect(workflow).toContain("suite_id: live-gateway-advisory-docker-xai-zai");
     expect(workflow).toContain("suite_group: live-gateway-advisory-docker");
-    expect(workflow).toContain("OPENCLAW_LIVE_GATEWAY_PROVIDERS=deepseek,fireworks");
-    expect(workflow).toContain("OPENCLAW_LIVE_GATEWAY_PROVIDERS=opencode-go,openrouter");
-    expect(workflow).toContain("OPENCLAW_LIVE_GATEWAY_PROVIDERS=xai,zai");
+    expect(workflow).toContain("BRIKKO_STUDIO_LIVE_GATEWAY_PROVIDERS=deepseek,fireworks");
+    expect(workflow).toContain("BRIKKO_STUDIO_LIVE_GATEWAY_PROVIDERS=opencode-go,openrouter");
+    expect(workflow).toContain("BRIKKO_STUDIO_LIVE_GATEWAY_PROVIDERS=xai,zai");
     expect(workflow).toContain("inputs.live_suite_filter == 'live-gateway-advisory-docker'");
-    expect(workflow).toContain("OPENCLAW_LIVE_CLI_BACKEND_MODEL=codex-cli/gpt-5.4");
-    expect(workflow).toContain("OPENCLAW_LIVE_CLI_BACKEND_AUTH=api-key");
-    expect(workflow).toContain("OPENCLAW_LIVE_CLI_BACKEND_USE_CI_SAFE_CODEX_CONFIG=1");
+    expect(workflow).toContain("BRIKKO_STUDIO_LIVE_CLI_BACKEND_MODEL=codex-cli/gpt-5.4");
+    expect(workflow).toContain("BRIKKO_STUDIO_LIVE_CLI_BACKEND_AUTH=api-key");
+    expect(workflow).toContain("BRIKKO_STUDIO_LIVE_CLI_BACKEND_USE_CI_SAFE_CODEX_CONFIG=1");
     expect((workflow.match(/service_tier=\\"fast\\"/g) ?? []).length).toBeGreaterThanOrEqual(2);
     expect(workflow).not.toContain(
-      'OPENCLAW_LIVE_CLI_BACKEND_ARGS=["exec","--json","--color","never","--sandbox","danger-full-access","--skip-git-repo-check"]',
+      'BRIKKO_STUDIO_LIVE_CLI_BACKEND_ARGS=["exec","--json","--color","never","--sandbox","danger-full-access","--skip-git-repo-check"]',
     );
     expect(workflow).toContain("bash .release-harness/scripts/ci-live-command-retry.sh");
     expect(workflow).toMatch(/validate_repo_e2e:[\s\S]*?runs-on: blacksmith-8vcpu-ubuntu-2404/u);
@@ -358,16 +358,16 @@ describe("package artifact reuse", () => {
     expect(workflow).toContain("suite_id: native-live-src-gateway-profiles-xai");
     expect(workflow).toContain("suite_id: native-live-src-gateway-profiles-zai");
     expect(workflow).not.toContain(
-      "OPENCLAW_LIVE_GATEWAY_PROVIDERS=deepseek,opencode-go,openrouter,xai,zai",
+      "BRIKKO_STUDIO_LIVE_GATEWAY_PROVIDERS=deepseek,opencode-go,openrouter,xai,zai",
     );
     expect(workflow).toContain("suite_id: live-gateway-anthropic-docker");
-    expect(workflow).toContain("OPENCLAW_LIVE_GATEWAY_MAX_MODELS=2");
+    expect(workflow).toContain("BRIKKO_STUDIO_LIVE_GATEWAY_MAX_MODELS=2");
     expect(workflow).toContain("timeout --foreground --kill-after=30s 25m");
     expect(workflow).toContain("suite_id: native-live-extensions-a-k");
     expect(workflow).toContain("suite_id: native-live-extensions-l-n");
     expect(workflow).toContain("suite_id: native-live-extensions-moonshot");
     expect(workflow).toMatch(/suite_id: native-live-extensions-moonshot[\s\S]*?advisory: true/u);
-    expect(workflow).toContain("OPENCLAW_LIVE_SUITE_ADVISORY: ${{ matrix.advisory }}");
+    expect(workflow).toContain("BRIKKO_STUDIO_LIVE_SUITE_ADVISORY: ${{ matrix.advisory }}");
     expect(workflow).toContain("Advisory live suite failed with exit code");
     expect(workflow).toContain("suite_id: native-live-extensions-openai");
     expect(workflow).toContain("suite_id: native-live-extensions-o-z-other");
@@ -375,7 +375,7 @@ describe("package artifact reuse", () => {
     expect(workflow).toMatch(
       /validate_live_media_provider_suites:[\s\S]*?runs-on: blacksmith-8vcpu-ubuntu-2404/u,
     );
-    expect(workflow).toContain("image: ghcr.io/openclaw/openclaw-live-media-runner:ubuntu-24.04");
+    expect(workflow).toContain("image: ghcr.io/brikko-studio/brikko-studio-live-media-runner:ubuntu-24.04");
     expect(workflow).toContain("ffmpeg -version | head -1");
     expect(workflow).toContain("ffprobe -version | head -1");
     expect(workflow).toContain("suite_id: native-live-extensions-media-audio");
@@ -383,8 +383,8 @@ describe("package artifact reuse", () => {
     expect(workflow).toContain("suite_id: native-live-extensions-media-music-minimax");
     expect(workflow).toContain("suite_id: native-live-extensions-media-video");
     expect(workflow).toContain("suite_group: native-live-extensions-media-video");
-    expect(workflow).toContain("OPENCLAW_LIVE_VIDEO_GENERATION_PROVIDERS=google,minimax");
-    expect(workflow).toContain("OPENCLAW_LIVE_VIDEO_GENERATION_PROVIDERS=openai,openrouter,xai");
+    expect(workflow).toContain("BRIKKO_STUDIO_LIVE_VIDEO_GENERATION_PROVIDERS=google,minimax");
+    expect(workflow).toContain("BRIKKO_STUDIO_LIVE_VIDEO_GENERATION_PROVIDERS=openai,openrouter,xai");
     expect(workflow).toContain("suite_group: native-live-src-gateway-profiles-opencode-go");
     expect(workflow).toContain("opencode-go/mimo-v2-omni");
     expect(workflow).toContain(
@@ -395,7 +395,7 @@ describe("package artifact reuse", () => {
     );
     expect(workflow).toContain("inputs.live_suite_filter == 'native-live-extensions-media-video'");
     expect(workflow).not.toContain("needs_ffmpeg: true");
-    expect(retryHelper).toContain("OPENCLAW_LIVE_COMMAND_ATTEMPTS:-2");
+    expect(retryHelper).toContain("BRIKKO_STUDIO_LIVE_COMMAND_ATTEMPTS:-2");
     expect(retryHelper).toContain("ECONNRESET");
     expect(retryHelper).toContain("fetch failed");
     expect(retryHelper).toContain("gateway request timeout");
@@ -417,19 +417,19 @@ describe("package artifact reuse", () => {
     const stage = readFileSync("scripts/lib/live-docker-stage.sh", "utf8");
 
     expect(workflow).toContain(
-      'run: OPENCLAW_LIVE_DOCKER_REPO_ROOT="$GITHUB_WORKSPACE" timeout --foreground --kill-after=30s 35m bash .release-harness/scripts/test-live-models-docker.sh',
+      'run: BRIKKO_STUDIO_LIVE_DOCKER_REPO_ROOT="$GITHUB_WORKSPACE" timeout --foreground --kill-after=30s 35m bash .release-harness/scripts/test-live-models-docker.sh',
     );
     expect(workflow).toContain(
-      "command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=openai OPENCLAW_LIVE_GATEWAY_MAX_MODELS=2",
+      "command: BRIKKO_STUDIO_LIVE_GATEWAY_PROVIDERS=openai BRIKKO_STUDIO_LIVE_GATEWAY_MAX_MODELS=2",
     );
     expect(workflow).toContain(
-      'command: OPENCLAW_LIVE_DOCKER_REPO_ROOT="$GITHUB_WORKSPACE" timeout --foreground --kill-after=30s 45m bash .release-harness/scripts/test-live-cli-backend-docker.sh',
+      'command: BRIKKO_STUDIO_LIVE_DOCKER_REPO_ROOT="$GITHUB_WORKSPACE" timeout --foreground --kill-after=30s 45m bash .release-harness/scripts/test-live-cli-backend-docker.sh',
     );
     expect(workflow).toContain(
-      'command: OPENCLAW_LIVE_DOCKER_REPO_ROOT="$GITHUB_WORKSPACE" timeout --foreground --kill-after=30s 45m bash .release-harness/scripts/test-live-acp-bind-docker.sh',
+      'command: BRIKKO_STUDIO_LIVE_DOCKER_REPO_ROOT="$GITHUB_WORKSPACE" timeout --foreground --kill-after=30s 45m bash .release-harness/scripts/test-live-acp-bind-docker.sh',
     );
     expect(workflow).toContain(
-      'command: OPENCLAW_LIVE_DOCKER_REPO_ROOT="$GITHUB_WORKSPACE" timeout --foreground --kill-after=30s 35m bash .release-harness/scripts/test-live-codex-harness-docker.sh',
+      'command: BRIKKO_STUDIO_LIVE_DOCKER_REPO_ROOT="$GITHUB_WORKSPACE" timeout --foreground --kill-after=30s 35m bash .release-harness/scripts/test-live-codex-harness-docker.sh',
     );
     expect(scenarios).toContain("function liveDockerScriptCommand");
     expect(scenarios).toContain(
@@ -445,10 +445,10 @@ describe("package artifact reuse", () => {
     expect(harness).toContain('source "$TRUSTED_HARNESS_DIR/scripts/lib/live-docker-auth.sh"');
     expect(harness).not.toContain('source "$ROOT_DIR/scripts/lib/live-docker-auth.sh"');
     expect(harness).toContain(
-      'OPENCLAW_LIVE_DOCKER_REPO_ROOT="$ROOT_DIR" "$TRUSTED_HARNESS_DIR/scripts/test-live-build-docker.sh"',
+      'BRIKKO_STUDIO_LIVE_DOCKER_REPO_ROOT="$ROOT_DIR" "$TRUSTED_HARNESS_DIR/scripts/test-live-build-docker.sh"',
     );
     expect(harness).toContain(
-      '-e OPENCLAW_LIVE_DOCKER_SCRIPTS_DIR="${DOCKER_TRUSTED_HARNESS_CONTAINER_DIR}/scripts"',
+      '-e BRIKKO_STUDIO_LIVE_DOCKER_SCRIPTS_DIR="${DOCKER_TRUSTED_HARNESS_CONTAINER_DIR}/scripts"',
     );
     expect(harness).toContain('node --import tsx "$trusted_scripts_dir/prepare-codex-ci-auth.ts"');
     expect(harness).toContain('source "$trusted_scripts_dir/lib/live-docker-stage.sh"');
@@ -456,20 +456,20 @@ describe("package artifact reuse", () => {
       expect(script).toContain('source "$TRUSTED_HARNESS_DIR/scripts/lib/live-docker-auth.sh"');
       expect(script).not.toContain('source "$ROOT_DIR/scripts/lib/live-docker-auth.sh"');
       expect(script).toContain(
-        'OPENCLAW_LIVE_DOCKER_REPO_ROOT="$ROOT_DIR" "$TRUSTED_HARNESS_DIR/scripts/test-live-build-docker.sh"',
+        'BRIKKO_STUDIO_LIVE_DOCKER_REPO_ROOT="$ROOT_DIR" "$TRUSTED_HARNESS_DIR/scripts/test-live-build-docker.sh"',
       );
       expect(script).toContain('source "$trusted_scripts_dir/lib/live-docker-stage.sh"');
       expect(script).toContain(
-        '-e OPENCLAW_LIVE_DOCKER_SCRIPTS_DIR="${DOCKER_TRUSTED_HARNESS_CONTAINER_DIR}/scripts"',
+        '-e BRIKKO_STUDIO_LIVE_DOCKER_SCRIPTS_DIR="${DOCKER_TRUSTED_HARNESS_CONTAINER_DIR}/scripts"',
       );
       expect(script).toContain(
-        "openclaw_live_append_array DOCKER_RUN_ARGS DOCKER_TRUSTED_HARNESS_MOUNT",
+        "brikko-studio_live_append_array DOCKER_RUN_ARGS DOCKER_TRUSTED_HARNESS_MOUNT",
       );
     }
-    expect(build).toContain('ROOT_DIR="${OPENCLAW_LIVE_DOCKER_REPO_ROOT:-$SCRIPT_ROOT_DIR}"');
+    expect(build).toContain('ROOT_DIR="${BRIKKO_STUDIO_LIVE_DOCKER_REPO_ROOT:-$SCRIPT_ROOT_DIR}"');
     expect(build).toContain('source "$SCRIPT_ROOT_DIR/scripts/lib/docker-build.sh"');
     expect(stage).toContain(
-      'local scripts_dir="${OPENCLAW_LIVE_DOCKER_SCRIPTS_DIR:-/src/scripts}"',
+      'local scripts_dir="${BRIKKO_STUDIO_LIVE_DOCKER_SCRIPTS_DIR:-/src/scripts}"',
     );
     expect(stage).toContain('node --import tsx "$scripts_dir/live-docker-normalize-config.ts"');
   });
@@ -482,7 +482,7 @@ describe("package artifact reuse", () => {
     expect(workflow).toContain("Download package-under-test artifact");
     expect(workflow).toContain("harness_ref:");
     expect(workflow).toContain("ref: ${{ inputs.harness_ref || github.sha }}");
-    expect(workflow).toContain("OPENCLAW_NPM_TELEGRAM_PACKAGE_TGZ");
+    expect(workflow).toContain("BRIKKO_STUDIO_NPM_TELEGRAM_PACKAGE_TGZ");
     expect(workflow).toContain("provider_mode:");
     expect(workflow).toContain("provider_mode must be mock-openai or live-frontier");
     expect(workflow).toContain("run_package_telegram_e2e:");
@@ -505,7 +505,7 @@ describe("package artifact reuse", () => {
       "source: ${{ needs.resolve_target.outputs.package_acceptance_package_spec != '' && 'npm' || 'artifact' }}",
     );
     expect(workflow).toContain(
-      "package_spec: ${{ needs.resolve_target.outputs.package_acceptance_package_spec || 'openclaw@beta' }}",
+      "package_spec: ${{ needs.resolve_target.outputs.package_acceptance_package_spec || 'brikko-studio@beta' }}",
     );
     expect(workflow).toContain(".artifacts/docker-e2e-package/package-candidate.json");
     expect(workflow).toContain(
@@ -527,10 +527,10 @@ describe("package artifact reuse", () => {
     expect(workflow).toContain("ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}");
     expect(workflow).toContain("ANTHROPIC_API_TOKEN: ${{ secrets.ANTHROPIC_API_TOKEN }}");
     expect(workflow).toContain(
-      "OPENCLAW_QA_CONVEX_SITE_URL: ${{ secrets.OPENCLAW_QA_CONVEX_SITE_URL }}",
+      "BRIKKO_STUDIO_QA_CONVEX_SITE_URL: ${{ secrets.BRIKKO_STUDIO_QA_CONVEX_SITE_URL }}",
     );
     expect(workflow).toContain(
-      "OPENCLAW_QA_CONVEX_SECRET_CI: ${{ secrets.OPENCLAW_QA_CONVEX_SECRET_CI }}",
+      "BRIKKO_STUDIO_QA_CONVEX_SECRET_CI: ${{ secrets.BRIKKO_STUDIO_QA_CONVEX_SECRET_CI }}",
     );
     expect(workflow).toContain("rerun_group:");
     expect(workflow).toContain("live_suite_filter:");
@@ -553,11 +553,11 @@ describe("package artifact reuse", () => {
 
     expect(releaseWorkflow).toContain("matrix_args=(");
     expect(releaseWorkflow).toContain(
-      'pnpm openclaw qa matrix --help 2>/dev/null | grep -F -q -- "--fail-fast"',
+      'pnpm brikko-studio qa matrix --help 2>/dev/null | grep -F -q -- "--fail-fast"',
     );
     expect(releaseWorkflow).toContain("matrix_args+=(--fail-fast)");
     expect(releaseWorkflow).toContain(
-      'pnpm openclaw qa matrix --output-dir "${attempt_output_dir}" "${matrix_args[@]}"',
+      'pnpm brikko-studio qa matrix --output-dir "${attempt_output_dir}" "${matrix_args[@]}"',
     );
     expect(releaseWorkflow).toContain(
       'echo "Matrix live lane failed on attempt ${attempt}; retrying once..." >&2',
@@ -566,7 +566,7 @@ describe("package artifact reuse", () => {
       'echo "Telegram live lane failed on attempt ${attempt}; retrying once..." >&2',
     );
     expect(qaWorkflow).toContain(
-      'pnpm openclaw qa matrix --help 2>/dev/null | grep -F -q -- "--fail-fast"',
+      'pnpm brikko-studio qa matrix --help 2>/dev/null | grep -F -q -- "--fail-fast"',
     );
   });
 
@@ -598,7 +598,7 @@ describe("package artifact reuse", () => {
     expectTextToIncludeAll(
       workflowStep(preparePackageJob, "Resolve release package artifact").run,
       [
-        "scripts/resolve-openclaw-package-candidate.mjs",
+        "scripts/resolve-brikko-studio-package-candidate.mjs",
         "--source ref",
         '--package-ref "$PACKAGE_REF"',
         "release-package-under-test",
@@ -617,7 +617,7 @@ describe("package artifact reuse", () => {
     expectTextToIncludeAll(dispatchStep.run, [
       'gh workflow run npm-telegram-beta-e2e.yml --ref "$CHILD_WORKFLOW_REF" "${args[@]}"',
       '-f harness_ref="$TARGET_SHA"',
-      'args=(-f package_spec="${PACKAGE_SPEC:-openclaw@beta}"',
+      'args=(-f package_spec="${PACKAGE_SPEC:-brikko-studio@beta}"',
       'if [[ -z "${PACKAGE_SPEC// }" ]]; then',
       '-f package_artifact_name="$PACKAGE_ARTIFACT_NAME"',
       '-f package_artifact_run_id="${GITHUB_RUN_ID}"',
@@ -688,10 +688,10 @@ describe("package artifact reuse", () => {
     });
     expectTextToIncludeAll(validateStep.run, [
       'if [[ -z "${PACKAGE_ARTIFACT_NAME// }" ]]; then',
-      "package_spec must be openclaw@alpha",
+      "package_spec must be brikko-studio@alpha",
     ]);
     expectTextToIncludeAll(runStep.run, [
-      'export OPENCLAW_NPM_TELEGRAM_PACKAGE_TGZ="${package_tgzs[0]}"',
+      'export BRIKKO_STUDIO_NPM_TELEGRAM_PACKAGE_TGZ="${package_tgzs[0]}"',
     ]);
   });
 

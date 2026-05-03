@@ -1,14 +1,14 @@
 import type {
   ChannelDoctorConfigMutation,
   ChannelDoctorLegacyConfigRule,
-} from "openclaw/plugin-sdk/channel-contract";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/channel-contract";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   asObjectRecord,
   hasLegacyAccountStreamingAliases,
   hasLegacyStreamingAliases,
   normalizeLegacyChannelAliases,
-} from "openclaw/plugin-sdk/runtime-doctor";
+} from "brikko-studio/plugin-sdk/runtime-doctor";
 import { resolveTelegramPreviewStreamMode } from "./preview-streaming.js";
 
 function hasLegacyTelegramStreamingAliases(value: unknown): boolean {
@@ -37,7 +37,7 @@ export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
   {
     path: ["channels", "telegram", "groupMentionsOnly"],
     message:
-      'channels.telegram.groupMentionsOnly was removed; use channels.telegram.groups."*".requireMention instead. Run "openclaw doctor --fix".',
+      'channels.telegram.groupMentionsOnly was removed; use channels.telegram.groups."*".requireMention instead. Run "brikko-studio doctor --fix".',
   },
   {
     path: ["channels", "telegram"],
@@ -56,7 +56,7 @@ export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
 export function normalizeCompatibilityConfig({
   cfg,
 }: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
 }): ChannelDoctorConfigMutation {
   const rawEntry = asObjectRecord((cfg.channels as Record<string, unknown> | undefined)?.telegram);
   if (!rawEntry) {
@@ -113,8 +113,8 @@ export function normalizeCompatibilityConfig({
       ...cfg,
       channels: {
         ...cfg.channels,
-        telegram: updated as unknown as NonNullable<OpenClawConfig["channels"]>["telegram"],
-      } as OpenClawConfig["channels"],
+        telegram: updated as unknown as NonNullable<Brikko StudioConfig["channels"]>["telegram"],
+      } as Brikko StudioConfig["channels"],
     },
     changes,
   };

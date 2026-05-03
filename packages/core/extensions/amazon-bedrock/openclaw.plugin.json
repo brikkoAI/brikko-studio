@@ -50,7 +50,7 @@
     },
     "discovery.enabled": {
       "label": "Enable Discovery",
-      "help": "When false, OpenClaw keeps the Amazon Bedrock plugin available but skips implicit startup discovery. When true, discovery can run even without AWS auth env markers."
+      "help": "When false, Brikko Studio keeps the Amazon Bedrock plugin available but skips implicit startup discovery. When true, discovery can run even without AWS auth env markers."
     },
     "discovery.region": {
       "label": "Discovery Region",

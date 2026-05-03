@@ -25,7 +25,7 @@ gatewayConfigPatch:
 successCriteria:
   - The group policy removes the message tool for this room.
   - The mock provider returns a normal final answer with the marker.
-  - OpenClaw falls back to automatic delivery and posts the marker to the same group.
+  - Brikko Studio falls back to automatic delivery and posts the marker to the same group.
 docsRefs:
   - docs/channels/groups.md
   - docs/channels/qa-channel.md
@@ -38,7 +38,7 @@ execution:
   config:
     conversationId: qa-fallback-room
     promptSnippet: qa group message unavailable fallback check
-    prompt: "@openclaw qa group message unavailable fallback check. exact marker: `QA-GROUP-FALLBACK-OK`"
+    prompt: "@brikko-studio qa group message unavailable fallback check. exact marker: `QA-GROUP-FALLBACK-OK`"
     expectedMarker: QA-GROUP-FALLBACK-OK
 ```
 

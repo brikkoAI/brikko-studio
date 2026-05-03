@@ -2,7 +2,7 @@
 summary: "Cerebras setup (auth + model selection)"
 title: "Cerebras"
 read_when:
-  - You want to use Cerebras with OpenClaw
+  - You want to use Cerebras with Brikko Studio
   - You need the Cerebras API key env var or CLI auth choice
 ---
 
@@ -23,12 +23,12 @@ read_when:
   </Step>
   <Step title="Run onboarding">
     ```bash
-    openclaw onboard --auth-choice cerebras-api-key
+    brikko-studio onboard --auth-choice cerebras-api-key
     ```
   </Step>
   <Step title="Verify models are available">
     ```bash
-    openclaw models list --provider cerebras
+    brikko-studio models list --provider cerebras
     ```
   </Step>
 </Steps>
@@ -36,7 +36,7 @@ read_when:
 ### Non-Interactive Setup
 
 ```bash
-openclaw onboard --non-interactive \
+brikko-studio onboard --non-interactive \
   --mode local \
   --auth-choice cerebras-api-key \
   --cerebras-api-key "$CEREBRAS_API_KEY"
@@ -44,7 +44,7 @@ openclaw onboard --non-interactive \
 
 ## Built-In Catalog
 
-OpenClaw ships a static Cerebras catalog for the public OpenAI-compatible endpoint:
+Brikko Studio ships a static Cerebras catalog for the public OpenAI-compatible endpoint:
 
 | Model ref                                 | Name                 | Notes                                  |
 | ----------------------------------------- | -------------------- | -------------------------------------- |
@@ -89,6 +89,6 @@ The bundled plugin usually means you only need the API key. Use explicit
 
 <Note>
 If the Gateway runs as a daemon (launchd/systemd), make sure `CEREBRAS_API_KEY`
-is available to that process, for example in `~/.openclaw/.env` or through
+is available to that process, for example in `~/.brikko-studio/.env` or through
 `env.shellEnv`.
 </Note>

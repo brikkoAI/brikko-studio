@@ -16,7 +16,7 @@ function createTempCommandDir(
   tempDirs: string[],
   files: Array<{ name: string; executable?: boolean }>,
 ): string {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-shell-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-shell-"));
   tempDirs.push(dir);
   for (const file of files) {
     const filePath = path.join(dir, file.name);
@@ -169,7 +169,7 @@ describe("resolveShellFromPath", () => {
   });
 
   it("returns undefined when command does not exist", () => {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-shell-empty-"));
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-shell-empty-"));
     tempDirs.push(dir);
     process.env.PATH = dir;
     expect(resolveShellFromPath("bash")).toBeUndefined();
@@ -181,7 +181,7 @@ describe("detectRuntimeShell", () => {
 
   beforeEach(() => {
     envSnapshot = captureEnv([
-      "OPENCLAW_SHELL",
+      "BRIKKO_STUDIO_SHELL",
       "SHELL",
       "POWERSHELL_DISTRIBUTION_CHANNEL",
       "BASH_VERSION",
@@ -191,7 +191,7 @@ describe("detectRuntimeShell", () => {
       "NU_VERSION",
       "NUSHELL_VERSION",
     ]);
-    delete process.env.OPENCLAW_SHELL;
+    delete process.env.BRIKKO_STUDIO_SHELL;
     delete process.env.POWERSHELL_DISTRIBUTION_CHANNEL;
     delete process.env.BASH_VERSION;
     delete process.env.ZSH_VERSION;
@@ -238,7 +238,7 @@ describe("resolvePowerShellPath", () => {
   });
 
   it("prefers PowerShell 7 in ProgramFiles", () => {
-    const base = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-pfiles-"));
+    const base = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-pfiles-"));
     tempDirs.push(base);
     const pwsh7Dir = path.join(base, "PowerShell", "7");
     fs.mkdirSync(pwsh7Dir, { recursive: true });
@@ -255,8 +255,8 @@ describe("resolvePowerShellPath", () => {
   });
 
   it("prefers ProgramW6432 PowerShell 7 when ProgramFiles lacks pwsh", () => {
-    const programFiles = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-pfiles-"));
-    const programW6432 = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-pw6432-"));
+    const programFiles = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-pfiles-"));
+    const programW6432 = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-pw6432-"));
     tempDirs.push(programFiles, programW6432);
     const pwsh7Dir = path.join(programW6432, "PowerShell", "7");
     fs.mkdirSync(pwsh7Dir, { recursive: true });
@@ -273,8 +273,8 @@ describe("resolvePowerShellPath", () => {
   });
 
   it("finds pwsh on PATH when not in standard install locations", () => {
-    const programFiles = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-pfiles-"));
-    const binDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-bin-"));
+    const programFiles = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-pfiles-"));
+    const binDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-bin-"));
     tempDirs.push(programFiles, binDir);
     const pwshPath = path.join(binDir, "pwsh");
     fs.writeFileSync(pwshPath, "");
@@ -290,8 +290,8 @@ describe("resolvePowerShellPath", () => {
   });
 
   it("falls back to Windows PowerShell 5.1 path when pwsh is unavailable", () => {
-    const programFiles = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-pfiles-"));
-    const sysRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-sysroot-"));
+    const programFiles = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-pfiles-"));
+    const sysRoot = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-sysroot-"));
     tempDirs.push(programFiles, sysRoot);
     const ps51Dir = path.join(sysRoot, "System32", "WindowsPowerShell", "v1.0");
     fs.mkdirSync(ps51Dir, { recursive: true });

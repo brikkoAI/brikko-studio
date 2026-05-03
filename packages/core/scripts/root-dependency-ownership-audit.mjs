@@ -166,7 +166,7 @@ function collectInternalizedBundledExtensionRuntimeDependencies(repoRoot, rootPa
       continue;
     }
     const packageJsonPath = path.join(extensionsRoot, entry.name, "package.json");
-    const manifestPath = path.join(extensionsRoot, entry.name, "openclaw.plugin.json");
+    const manifestPath = path.join(extensionsRoot, entry.name, "brikko-studio.plugin.json");
     if (!fs.existsSync(packageJsonPath) || !fs.existsSync(manifestPath)) {
       continue;
     }

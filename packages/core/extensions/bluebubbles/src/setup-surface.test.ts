@@ -1,13 +1,13 @@
-import { adaptScopedAccountAccessor } from "openclaw/plugin-sdk/channel-config-helpers";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import { adaptScopedAccountAccessor } from "brikko-studio/plugin-sdk/channel-config-helpers";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createSetupWizardAdapter,
   createTestWizardPrompter,
   runSetupWizardConfigure,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import type { WizardPrompter } from "openclaw/plugin-sdk/plugin-test-runtime";
-import { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/routing";
-import { isPrivateNetworkOptInEnabled } from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import type { WizardPrompter } from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/routing";
+import { isPrivateNetworkOptInEnabled } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import { describe, expect, it, vi } from "vitest";
 import { resolveBlueBubblesAccount } from "./accounts.js";
 import { BlueBubblesConfigSchema } from "./config-schema.js";
@@ -201,7 +201,7 @@ describe("bluebubbles setup surface", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(blueBubblesSetupWizard.dmPolicy?.getCurrent(cfg)).toBe("allowlist");
     expect(blueBubblesSetupWizard.dmPolicy?.resolveConfigKeys?.(cfg)).toEqual({
@@ -236,7 +236,7 @@ describe("bluebubbles setup surface", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     expect(resolved.accountId).toBe("work");
@@ -265,7 +265,7 @@ describe("bluebubbles setup surface", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     expect(configured).toBe(false);

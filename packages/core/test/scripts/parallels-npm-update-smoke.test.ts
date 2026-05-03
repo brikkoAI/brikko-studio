@@ -24,10 +24,10 @@ describe("parallels npm update smoke", () => {
   it("runs Windows updates through a detached done-file runner", () => {
     const script = readFileSync(SCRIPT_PATH, "utf8");
 
-    expect(script).toContain("openclaw-parallels-npm-update-windows");
+    expect(script).toContain("brikko-studio-parallels-npm-update-windows");
     expect(script).toContain("runStreaming");
-    expect(script).toContain("__OPENCLAW_BACKGROUND_EXIT__");
-    expect(script).toContain("__OPENCLAW_BACKGROUND_DONE__");
+    expect(script).toContain("__BRIKKO_STUDIO_BACKGROUND_EXIT__");
+    expect(script).toContain("__BRIKKO_STUDIO_BACKGROUND_DONE__");
     expect(script).toContain("Windows update timed out");
   });
 
@@ -45,17 +45,17 @@ describe("parallels npm update smoke", () => {
     expect(script).toContain("scrub_future_plugin_entries");
     expect(script).toContain("delete plugins.entries.feishu");
     expect(script).toContain("delete plugins.entries.whatsapp");
-    expect(script).toContain("Remove-FuturePluginEntries\nStop-OpenClawGatewayProcesses");
-    expect(script).toContain("scrub_future_plugin_entries\nstop_openclaw_gateway_processes");
-    expect(script).toContain("$env:OPENCLAW_DISABLE_BUNDLED_PLUGINS = '1'");
+    expect(script).toContain("Remove-FuturePluginEntries\nStop-Brikko StudioGatewayProcesses");
+    expect(script).toContain("scrub_future_plugin_entries\nstop_brikko-studio_gateway_processes");
+    expect(script).toContain("$env:BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS = '1'");
     expect(script).toContain(
-      "OPENCLAW_DISABLE_BUNDLED_PLUGINS=1 /opt/homebrew/bin/openclaw update --tag",
+      "BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS=1 /opt/homebrew/bin/brikko-studio update --tag",
     );
-    expect(script).toContain("OPENCLAW_DISABLE_BUNDLED_PLUGINS=1 openclaw update --tag");
+    expect(script).toContain("BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS=1 brikko-studio update --tag");
     expect(script).toContain(
-      "OPENCLAW_DISABLE_BUNDLED_PLUGINS=1 /opt/homebrew/bin/openclaw gateway stop",
+      "BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS=1 /opt/homebrew/bin/brikko-studio gateway stop",
     );
-    expect(script).toContain("OPENCLAW_DISABLE_BUNDLED_PLUGINS=1 openclaw gateway stop");
+    expect(script).toContain("BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS=1 brikko-studio gateway stop");
   });
 
   it("generates a .NET-safe Windows stale import regex in the update-failure guard", () => {
@@ -77,13 +77,13 @@ describe("parallels npm update smoke", () => {
     expect(staleImportLine).toContain("$updateText -match 'ERR_MODULE_NOT_FOUND'");
     expect(staleImportLine).toContain(`$updateText -match '${staleImportPattern}'`);
     expect(staleImportPattern).toBe(
-      String.raw`node_modules\\openclaw\\dist\\[^\\]+-[A-Za-z0-9_-]+\.js`,
+      String.raw`node_modules\\brikko-studio\\dist\\[^\\]+-[A-Za-z0-9_-]+\.js`,
     );
-    expect(staleImportPattern).not.toContain("node_modules\\openclaw\\dist\\");
+    expect(staleImportPattern).not.toContain("node_modules\\brikko-studio\\dist\\");
     expect(staleImportPattern.match(/\\\\/g)).toHaveLength(4);
-    const representativeUpdateFailure = String.raw`Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\runner\AppData\Roaming\npm\node_modules\openclaw\dist\main-a1_B2.js' imported from C:\Users\runner\AppData\Roaming\npm\node_modules\openclaw\dist\cli.js`;
+    const representativeUpdateFailure = String.raw`Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\runner\AppData\Roaming\npm\node_modules\brikko-studio\dist\main-a1_B2.js' imported from C:\Users\runner\AppData\Roaming\npm\node_modules\brikko-studio\dist\cli.js`;
     const generatedRegex = new RegExp(staleImportPattern);
     expect(generatedRegex.test(representativeUpdateFailure)).toBe(true);
-    expect(generatedRegex.test(String.raw`node_modules\openclaw\dist\main.js`)).toBe(false);
+    expect(generatedRegex.test(String.raw`node_modules\brikko-studio\dist\main.js`)).toBe(false);
   });
 });

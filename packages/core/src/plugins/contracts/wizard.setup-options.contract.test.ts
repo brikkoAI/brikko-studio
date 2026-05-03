@@ -1,3 +1,3 @@
-import { describeProviderWizardSetupOptionsContract } from "openclaw/plugin-sdk/provider-test-contracts";
+import { describeProviderWizardSetupOptionsContract } from "brikko-studio/plugin-sdk/provider-test-contracts";
 
 describeProviderWizardSetupOptionsContract();

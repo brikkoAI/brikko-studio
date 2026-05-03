@@ -1,55 +1,55 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { createOpenClawTestState, withOpenClawTestState } from "./openclaw-test-state.js";
+import { createBrikko StudioTestState, withBrikko StudioTestState } from "./brikko-studio-test-state.js";
 
-describe("openclaw test state", () => {
+describe("brikko-studio test state", () => {
   it("creates an isolated home layout with spawn env and restores process env", async () => {
     const previousHome = process.env.HOME;
-    const previousOpenClawHome = process.env.OPENCLAW_HOME;
-    const previousStateDir = process.env.OPENCLAW_STATE_DIR;
-    const previousConfigPath = process.env.OPENCLAW_CONFIG_PATH;
+    const previousBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    const previousStateDir = process.env.BRIKKO_STUDIO_STATE_DIR;
+    const previousConfigPath = process.env.BRIKKO_STUDIO_CONFIG_PATH;
 
-    const state = await createOpenClawTestState({
+    const state = await createBrikko StudioTestState({
       label: "unit",
       scenario: "minimal",
     });
 
     try {
       expect(state.home).toBe(path.join(state.root, "home"));
-      expect(state.stateDir).toBe(path.join(state.home, ".openclaw"));
-      expect(state.configPath).toBe(path.join(state.stateDir, "openclaw.json"));
+      expect(state.stateDir).toBe(path.join(state.home, ".brikko-studio"));
+      expect(state.configPath).toBe(path.join(state.stateDir, "brikko-studio.json"));
       expect(state.workspaceDir).toBe(path.join(state.home, "workspace"));
       expect(state.env.HOME).toBe(state.home);
-      expect(state.env.OPENCLAW_HOME).toBe(state.home);
-      expect(state.env.OPENCLAW_STATE_DIR).toBe(state.stateDir);
-      expect(state.env.OPENCLAW_CONFIG_PATH).toBe(state.configPath);
+      expect(state.env.BRIKKO_STUDIO_HOME).toBe(state.home);
+      expect(state.env.BRIKKO_STUDIO_STATE_DIR).toBe(state.stateDir);
+      expect(state.env.BRIKKO_STUDIO_CONFIG_PATH).toBe(state.configPath);
       expect(process.env.HOME).toBe(state.home);
-      expect(process.env.OPENCLAW_HOME).toBe(state.home);
+      expect(process.env.BRIKKO_STUDIO_HOME).toBe(state.home);
       expect(JSON.parse(await fs.readFile(state.configPath, "utf8"))).toEqual({});
     } finally {
       await state.cleanup();
     }
 
     expect(process.env.HOME).toBe(previousHome);
-    expect(process.env.OPENCLAW_HOME).toBe(previousOpenClawHome);
-    expect(process.env.OPENCLAW_STATE_DIR).toBe(previousStateDir);
-    expect(process.env.OPENCLAW_CONFIG_PATH).toBe(previousConfigPath);
+    expect(process.env.BRIKKO_STUDIO_HOME).toBe(previousBrikko StudioHome);
+    expect(process.env.BRIKKO_STUDIO_STATE_DIR).toBe(previousStateDir);
+    expect(process.env.BRIKKO_STUDIO_CONFIG_PATH).toBe(previousConfigPath);
     await expect(fs.stat(state.root)).rejects.toThrow();
   });
 
   it("supports state-only layout without overriding HOME", async () => {
     const previousHome = process.env.HOME;
 
-    await withOpenClawTestState(
+    await withBrikko StudioTestState(
       {
         layout: "state-only",
         scenario: "empty",
       },
       async (state) => {
         expect(process.env.HOME).toBe(previousHome);
-        expect(process.env.OPENCLAW_STATE_DIR).toBe(state.stateDir);
-        expect(process.env.OPENCLAW_CONFIG_PATH).toBe(state.configPath);
+        expect(process.env.BRIKKO_STUDIO_STATE_DIR).toBe(state.stateDir);
+        expect(process.env.BRIKKO_STUDIO_CONFIG_PATH).toBe(state.configPath);
         expect(state.env.HOME).toBe(previousHome);
         await expect(fs.stat(state.configPath)).rejects.toThrow();
       },
@@ -57,33 +57,33 @@ describe("openclaw test state", () => {
   });
 
   it("clears inherited agent-dir overrides by default", async () => {
-    const previousAgentDir = process.env.OPENCLAW_AGENT_DIR;
+    const previousAgentDir = process.env.BRIKKO_STUDIO_AGENT_DIR;
     const previousPiAgentDir = process.env.PI_CODING_AGENT_DIR;
-    process.env.OPENCLAW_AGENT_DIR = "/tmp/outside-openclaw-agent";
+    process.env.BRIKKO_STUDIO_AGENT_DIR = "/tmp/outside-brikko-studio-agent";
     process.env.PI_CODING_AGENT_DIR = "/tmp/outside-pi-agent";
 
     try {
-      const state = await createOpenClawTestState({
+      const state = await createBrikko StudioTestState({
         layout: "state-only",
       });
 
       try {
-        expect(process.env.OPENCLAW_AGENT_DIR).toBeUndefined();
+        expect(process.env.BRIKKO_STUDIO_AGENT_DIR).toBeUndefined();
         expect(process.env.PI_CODING_AGENT_DIR).toBeUndefined();
-        expect(state.env.OPENCLAW_AGENT_DIR).toBeUndefined();
+        expect(state.env.BRIKKO_STUDIO_AGENT_DIR).toBeUndefined();
         expect(state.env.PI_CODING_AGENT_DIR).toBeUndefined();
         expect(state.agentDir()).toBe(path.join(state.stateDir, "agents", "main", "agent"));
       } finally {
         await state.cleanup();
       }
 
-      expect(process.env.OPENCLAW_AGENT_DIR).toBe("/tmp/outside-openclaw-agent");
+      expect(process.env.BRIKKO_STUDIO_AGENT_DIR).toBe("/tmp/outside-brikko-studio-agent");
       expect(process.env.PI_CODING_AGENT_DIR).toBe("/tmp/outside-pi-agent");
     } finally {
       if (previousAgentDir === undefined) {
-        delete process.env.OPENCLAW_AGENT_DIR;
+        delete process.env.BRIKKO_STUDIO_AGENT_DIR;
       } else {
-        process.env.OPENCLAW_AGENT_DIR = previousAgentDir;
+        process.env.BRIKKO_STUDIO_AGENT_DIR = previousAgentDir;
       }
       if (previousPiAgentDir === undefined) {
         delete process.env.PI_CODING_AGENT_DIR;
@@ -94,38 +94,38 @@ describe("openclaw test state", () => {
   });
 
   it("allows explicit agent-dir overrides when a test needs them", async () => {
-    await withOpenClawTestState(
+    await withBrikko StudioTestState(
       {
         env: {
-          OPENCLAW_AGENT_DIR: "/tmp/explicit-openclaw-agent",
+          BRIKKO_STUDIO_AGENT_DIR: "/tmp/explicit-brikko-studio-agent",
           PI_CODING_AGENT_DIR: "/tmp/explicit-pi-agent",
         },
       },
       async (state) => {
-        expect(process.env.OPENCLAW_AGENT_DIR).toBe("/tmp/explicit-openclaw-agent");
+        expect(process.env.BRIKKO_STUDIO_AGENT_DIR).toBe("/tmp/explicit-brikko-studio-agent");
         expect(process.env.PI_CODING_AGENT_DIR).toBe("/tmp/explicit-pi-agent");
-        expect(state.env.OPENCLAW_AGENT_DIR).toBe("/tmp/explicit-openclaw-agent");
+        expect(state.env.BRIKKO_STUDIO_AGENT_DIR).toBe("/tmp/explicit-brikko-studio-agent");
         expect(state.env.PI_CODING_AGENT_DIR).toBe("/tmp/explicit-pi-agent");
       },
     );
   });
 
   it("can route agent-dir env vars to the isolated main agent store", async () => {
-    await withOpenClawTestState(
+    await withBrikko StudioTestState(
       {
         agentEnv: "main",
       },
       async (state) => {
-        expect(process.env.OPENCLAW_AGENT_DIR).toBe(state.agentDir());
+        expect(process.env.BRIKKO_STUDIO_AGENT_DIR).toBe(state.agentDir());
         expect(process.env.PI_CODING_AGENT_DIR).toBe(state.agentDir());
-        expect(state.env.OPENCLAW_AGENT_DIR).toBe(state.agentDir());
+        expect(state.env.BRIKKO_STUDIO_AGENT_DIR).toBe(state.agentDir());
         expect(state.env.PI_CODING_AGENT_DIR).toBe(state.agentDir());
       },
     );
   });
 
   it("writes scenario configs and auth profile stores", async () => {
-    await withOpenClawTestState(
+    await withBrikko StudioTestState(
       {
         scenario: "update-stable",
       },
@@ -162,7 +162,7 @@ describe("openclaw test state", () => {
   });
 
   it("creates upgrade survivor fixture state", async () => {
-    await withOpenClawTestState(
+    await withBrikko StudioTestState(
       {
         scenario: "upgrade-survivor",
       },
@@ -182,18 +182,18 @@ describe("openclaw test state", () => {
   });
 
   it("keeps external-service env scoped to the fixture", async () => {
-    const previousPolicy = process.env.OPENCLAW_SERVICE_REPAIR_POLICY;
+    const previousPolicy = process.env.BRIKKO_STUDIO_SERVICE_REPAIR_POLICY;
 
-    await withOpenClawTestState(
+    await withBrikko StudioTestState(
       {
         scenario: "external-service",
       },
       async (state) => {
-        expect(process.env.OPENCLAW_SERVICE_REPAIR_POLICY).toBe("external");
-        expect(state.env.OPENCLAW_SERVICE_REPAIR_POLICY).toBe("external");
+        expect(process.env.BRIKKO_STUDIO_SERVICE_REPAIR_POLICY).toBe("external");
+        expect(state.env.BRIKKO_STUDIO_SERVICE_REPAIR_POLICY).toBe("external");
       },
     );
 
-    expect(process.env.OPENCLAW_SERVICE_REPAIR_POLICY).toBe(previousPolicy);
+    expect(process.env.BRIKKO_STUDIO_SERVICE_REPAIR_POLICY).toBe(previousPolicy);
   });
 });

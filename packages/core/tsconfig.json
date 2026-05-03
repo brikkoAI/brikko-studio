@@ -19,14 +19,14 @@
     "types": ["node"],
     "useDefineForClassFields": false,
     "paths": {
-      "openclaw/extension-api": ["./src/extensionAPI.ts"],
-      "openclaw/plugin-sdk": ["./src/plugin-sdk/index.ts"],
-      "openclaw/plugin-sdk/*": ["./src/plugin-sdk/*.ts"],
-      "@openclaw/sdk": ["./packages/sdk/src/index.ts"],
-      "@openclaw/plugin-sdk": ["./src/plugin-sdk/index.ts"],
-      "@openclaw/plugin-sdk/*": ["./src/plugin-sdk/*.ts"],
-      "openclaw/plugin-sdk/account-id": ["./src/plugin-sdk/account-id.ts"],
-      "@openclaw/*": ["./extensions/*"]
+      "brikko-studio/extension-api": ["./src/extensionAPI.ts"],
+      "brikko-studio/plugin-sdk": ["./src/plugin-sdk/index.ts"],
+      "brikko-studio/plugin-sdk/*": ["./src/plugin-sdk/*.ts"],
+      "@brikko-studio/sdk": ["./packages/sdk/src/index.ts"],
+      "@brikko-studio/plugin-sdk": ["./src/plugin-sdk/index.ts"],
+      "@brikko-studio/plugin-sdk/*": ["./src/plugin-sdk/*.ts"],
+      "brikko-studio/plugin-sdk/account-id": ["./src/plugin-sdk/account-id.ts"],
+      "@brikko-studio/*": ["./extensions/*"]
     }
   },
   "include": ["src/**/*", "ui/**/*", "extensions/**/*", "packages/**/*"],

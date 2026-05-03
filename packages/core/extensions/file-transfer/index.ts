@@ -1,8 +1,8 @@
 import {
   definePluginEntry,
   type AnyAgentTool,
-  type OpenClawPluginNodeHostCommand,
-} from "openclaw/plugin-sdk/plugin-entry";
+  type Brikko StudioPluginNodeHostCommand,
+} from "brikko-studio/plugin-sdk/plugin-entry";
 import { createFileTransferNodeInvokePolicy } from "./src/shared/node-invoke-policy.js";
 import {
   DIR_FETCH_TOOL_DESCRIPTOR,
@@ -38,7 +38,7 @@ function createLazyTool(
   };
 }
 
-const fileTransferNodeHostCommands: OpenClawPluginNodeHostCommand[] = [
+const fileTransferNodeHostCommands: Brikko StudioPluginNodeHostCommand[] = [
   {
     command: "file.fetch",
     cap: "file",

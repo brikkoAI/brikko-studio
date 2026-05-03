@@ -1,1 +1,1 @@
-export { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+export { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";

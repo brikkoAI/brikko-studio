@@ -1,4 +1,4 @@
-import type { ExecApprovalReplyDecision } from "openclaw/plugin-sdk/approval-runtime";
+import type { ExecApprovalReplyDecision } from "brikko-studio/plugin-sdk/approval-runtime";
 import { getOptionalMatrixRuntime } from "./runtime.js";
 
 const MATRIX_APPROVAL_REACTION_META = {

@@ -57,7 +57,7 @@ for indexed chunks. Configure those with `memorySearch.queryInputType` and
 
 ## How search works
 
-OpenClaw runs two retrieval paths in parallel and merges the results:
+Brikko Studio runs two retrieval paths in parallel and merges the results:
 
 ```mermaid
 flowchart LR
@@ -71,13 +71,13 @@ flowchart LR
 ```
 
 - **Vector search** finds notes with similar meaning ("gateway host" matches
-  "the machine running OpenClaw").
+  "the machine running Brikko Studio").
 - **BM25 keyword search** finds exact matches (IDs, error strings, config
   keys).
 
 If only one path is available (no embeddings or no FTS), the other runs alone.
 
-When embeddings are unavailable, OpenClaw still uses lexical ranking over FTS results instead of falling back to raw exact-match ordering only. That degraded mode boosts chunks with stronger query-term coverage and relevant file paths, which keeps recall useful even without `sqlite-vec` or an embedding provider.
+When embeddings are unavailable, Brikko Studio still uses lexical ranking over FTS results instead of falling back to raw exact-match ordering only. That degraded mode boosts chunks with stronger query-term coverage and relevant file paths, which keeps recall useful even without `sqlite-vec` or an embedding provider.
 
 ## Improving search quality
 
@@ -139,19 +139,19 @@ earlier conversations. This is opt-in via
 
 ## Troubleshooting
 
-**No results?** Run `openclaw memory status` to check the index. If empty, run
-`openclaw memory index --force`.
+**No results?** Run `brikko-studio memory status` to check the index. If empty, run
+`brikko-studio memory index --force`.
 
 **Only keyword matches?** Your embedding provider may not be configured. Check
-`openclaw memory status --deep`.
+`brikko-studio memory status --deep`.
 
 **Local embeddings time out?** `ollama`, `lmstudio`, and `local` use a longer
 inline batch timeout by default. If the host is simply slow, set
 `agents.defaults.memorySearch.sync.embeddingBatchTimeoutSeconds` and rerun
-`openclaw memory index --force`.
+`brikko-studio memory index --force`.
 
 **CJK text not found?** Rebuild the FTS index with
-`openclaw memory index --force`.
+`brikko-studio memory index --force`.
 
 ## Further reading
 

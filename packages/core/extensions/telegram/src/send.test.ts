@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import type { Bot } from "grammy";
-import { importFreshModule } from "openclaw/plugin-sdk/test-fixtures";
+import { importFreshModule } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   getTelegramSendTestMocks,
@@ -135,7 +135,7 @@ describe("sent-message-cache", () => {
   });
 
   it("keeps sent-message ownership across restart", async () => {
-    const persistedStorePath = `/tmp/openclaw-telegram-send-tests-${process.pid}-restart.json`;
+    const persistedStorePath = `/tmp/brikko-studio-telegram-send-tests-${process.pid}-restart.json`;
     const sentMessageCfg = { session: { store: persistedStorePath } };
 
     recordSentMessage(123, 1, sentMessageCfg);
@@ -156,7 +156,7 @@ describe("sent-message-cache", () => {
   });
 
   it("keeps expired custom-store cleanup away from the default store", () => {
-    const customStorePath = `/tmp/openclaw-telegram-send-tests-${process.pid}-custom-cleanup.json`;
+    const customStorePath = `/tmp/brikko-studio-telegram-send-tests-${process.pid}-custom-cleanup.json`;
     const customCfg = { session: { store: customStorePath } };
     const startedAt = new Date("2026-01-01T00:00:00.000Z");
     vi.useFakeTimers();
@@ -177,7 +177,7 @@ describe("sent-message-cache", () => {
   });
 
   it("keeps default and custom stores isolated while both are loaded", () => {
-    const customStorePath = `/tmp/openclaw-telegram-send-tests-${process.pid}-custom-isolated.json`;
+    const customStorePath = `/tmp/brikko-studio-telegram-send-tests-${process.pid}-custom-isolated.json`;
     const customCfg = { session: { store: customStorePath } };
 
     try {

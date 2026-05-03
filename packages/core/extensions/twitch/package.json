@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/twitch",
+  "name": "@brikko-studio/twitch",
   "version": "2026.5.3",
-  "description": "OpenClaw Twitch channel plugin",
+  "description": "Brikko Studio Twitch channel plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/brikko-studio/brikko-studio"
   },
   "type": "module",
   "dependencies": {
@@ -13,15 +13,15 @@
     "@twurple/chat": "^8.1.3"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],
     "setupEntry": "./setup-entry.ts",
     "install": {
-      "npmSpec": "@openclaw/twitch",
+      "npmSpec": "@brikko-studio/twitch",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -29,7 +29,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "brikko-studioVersion": "2026.5.3"
     },
     "channel": {
       "id": "twitch",

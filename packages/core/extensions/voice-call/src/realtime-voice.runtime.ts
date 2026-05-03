@@ -2,4 +2,4 @@ export {
   getRealtimeVoiceProvider,
   listRealtimeVoiceProviders,
   resolveConfiguredRealtimeVoiceProvider,
-} from "openclaw/plugin-sdk/realtime-voice";
+} from "brikko-studio/plugin-sdk/realtime-voice";

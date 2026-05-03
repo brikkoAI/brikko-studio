@@ -9,7 +9,7 @@ describe("check-deadcode-unused-files", () => {
   it("parses the compact Knip unused-file section", () => {
     expect(
       parseKnipCompactUnusedFiles(`
-> openclaw@2026.4.27 deadcode:knip /repo
+> brikko-studio@2026.4.27 deadcode:knip /repo
 > pnpm dlx knip --reporter compact --files
 
 Unused files (2)

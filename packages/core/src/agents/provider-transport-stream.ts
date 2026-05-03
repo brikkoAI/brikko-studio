@@ -1,6 +1,6 @@
 import type { StreamFn } from "@mariozechner/pi-agent-core";
 import type { Api, Model } from "@mariozechner/pi-ai";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { resolveProviderStreamFn } from "../plugins/provider-runtime.js";
 import { createAnthropicMessagesTransportStreamFn } from "./anthropic-transport-stream.js";
 import {
@@ -20,16 +20,16 @@ const SUPPORTED_TRANSPORT_APIS = new Set<Api>([
 ]);
 
 const SIMPLE_TRANSPORT_API_ALIAS: Record<string, Api> = {
-  "openai-responses": "openclaw-openai-responses-transport",
-  "openai-codex-responses": "openclaw-openai-responses-transport",
-  "openai-completions": "openclaw-openai-completions-transport",
-  "azure-openai-responses": "openclaw-azure-openai-responses-transport",
-  "anthropic-messages": "openclaw-anthropic-messages-transport",
-  "google-generative-ai": "openclaw-google-generative-ai-transport",
+  "openai-responses": "brikko-studio-openai-responses-transport",
+  "openai-codex-responses": "brikko-studio-openai-responses-transport",
+  "openai-completions": "brikko-studio-openai-completions-transport",
+  "azure-openai-responses": "brikko-studio-azure-openai-responses-transport",
+  "anthropic-messages": "brikko-studio-anthropic-messages-transport",
+  "google-generative-ai": "brikko-studio-google-generative-ai-transport",
 };
 
 type ProviderTransportStreamContext = {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
@@ -121,11 +121,11 @@ export function createTransportAwareStreamFnForModel(
   return createSupportedTransportStreamFn(model, ctx);
 }
 
-export function createOpenClawTransportStreamFnForModel(
+export function createBrikko StudioTransportStreamFnForModel(
   model: Model<Api>,
   ctx?: ProviderTransportStreamContext,
 ): StreamFn | undefined {
-  // Explicit fallback callers use this when they need OpenClaw's HTTP
+  // Explicit fallback callers use this when they need Brikko Studio's HTTP
   // transport semantics regardless of the default embedded-runner strategy.
   // Native OpenAI HTTP still depends on this path for strict tool shaping,
   // attribution, cache-boundary stripping, and runtime credential injection.
@@ -140,7 +140,7 @@ export function createBoundaryAwareStreamFnForModel(
   ctx?: ProviderTransportStreamContext,
 ): StreamFn | undefined {
   // Default embedded-runner fallback. Keep OpenAI-family APIs here until PI's
-  // native HTTP streams preserve the same OpenClaw request contract.
+  // native HTTP streams preserve the same Brikko Studio request contract.
   if (!isTransportAwareApiSupported(model.api)) {
     return undefined;
   }

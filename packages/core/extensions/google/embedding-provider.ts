@@ -1,4 +1,4 @@
-import { parseGeminiAuth } from "openclaw/plugin-sdk/image-generation-core";
+import { parseGeminiAuth } from "brikko-studio/plugin-sdk/image-generation-core";
 import {
   buildRemoteBaseUrlPolicy,
   debugEmbeddingsLog,
@@ -7,17 +7,17 @@ import {
   type EmbeddingInput,
   type MemoryEmbeddingProvider,
   type MemoryEmbeddingProviderCreateOptions,
-} from "openclaw/plugin-sdk/memory-core-host-engine-embeddings";
-import { resolveMemorySecretInputString } from "openclaw/plugin-sdk/memory-core-host-secret";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-embeddings";
+import { resolveMemorySecretInputString } from "brikko-studio/plugin-sdk/memory-core-host-secret";
 import {
   collectProviderApiKeysForExecution,
   executeWithApiKeyRotation,
   requireApiKey,
   resolveApiKeyForProvider,
-} from "openclaw/plugin-sdk/provider-auth-runtime";
-import { createProviderHttpError } from "openclaw/plugin-sdk/provider-http";
-import type { SsrFPolicy } from "openclaw/plugin-sdk/ssrf-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/provider-auth-runtime";
+import { createProviderHttpError } from "brikko-studio/plugin-sdk/provider-http";
+import type { SsrFPolicy } from "brikko-studio/plugin-sdk/ssrf-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 
 export type GeminiEmbeddingClient = {
   baseUrl: string;

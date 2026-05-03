@@ -8,7 +8,7 @@ import {
   makeTempDir,
   packageBuildCommitFromTgz,
   packageVersionFromTgz,
-  packOpenClaw,
+  packBrikko Studio,
   parseBoolEnv,
   parseMode,
   parseProvider,
@@ -89,7 +89,7 @@ const defaultOptions = (): LinuxOptions => ({
   hostIp: undefined,
   hostPort: 18427,
   hostPortExplicit: false,
-  installUrl: "https://openclaw.ai/install.sh",
+  installUrl: "https://brikko-studio.ai/install.sh",
   installVersion: "",
   json: false,
   keepServer: false,
@@ -116,7 +116,7 @@ Options:
   --model <provider/model>    Override the model used for the agent-turn smoke.
   --api-key-env <var>        Host env var name for provider API key.
   --openai-api-key-env <var> Alias for --api-key-env (backward compatible)
-  --install-url <url>        Installer URL for latest release. Default: https://openclaw.ai/install.sh
+  --install-url <url>        Installer URL for latest release. Default: https://brikko-studio.ai/install.sh
   --host-port <port>         Host HTTP port for current-main tgz. Default: 18427
   --host-ip <ip>             Override Parallels host IP.
   --latest-version <ver>     Override npm latest version lookup.
@@ -206,7 +206,7 @@ function parseArgs(argv: string[]): LinuxOptions {
 
 class LinuxSmoke {
   private auth: ProviderAuth;
-  private disableBonjour = parseBoolEnv(process.env.OPENCLAW_PARALLELS_LINUX_DISABLE_BONJOUR);
+  private disableBonjour = parseBoolEnv(process.env.BRIKKO_STUDIO_PARALLELS_LINUX_DISABLE_BONJOUR);
   private hostIp = "";
   private hostPort = 0;
   private server: HostServer | null = null;
@@ -240,9 +240,9 @@ class LinuxSmoke {
   }
 
   async run(): Promise<void> {
-    this.runDir = await makeTempDir("openclaw-parallels-linux.");
+    this.runDir = await makeTempDir("brikko-studio-parallels-linux.");
     this.phases = new PhaseRunner(this.runDir);
-    this.tgzDir = await makeTempDir("openclaw-parallels-linux-tgz.");
+    this.tgzDir = await makeTempDir("brikko-studio-parallels-linux-tgz.");
     try {
       this.options.vmName = this.resolveVmName();
       this.snapshot = resolveSnapshot(this.options.vmName, this.options.snapshotHint);
@@ -264,7 +264,7 @@ class LinuxSmoke {
       );
       say(`Run logs: ${this.runDir}`);
 
-      this.artifact = await packOpenClaw({
+      this.artifact = await packBrikko Studio({
         destination: this.tgzDir,
         packageSpec: this.options.targetPackageSpec,
         requireControlUi: false,
@@ -330,7 +330,7 @@ class LinuxSmoke {
     await this.phase("fresh.bootstrap-guest", 600, () => this.bootstrapGuest());
     await this.phase("fresh.install-latest-bootstrap", 420, () => this.installLatestRelease());
     await this.phase("fresh.install-main", 420, () =>
-      this.installMainTgz("openclaw-main-fresh.tgz"),
+      this.installMainTgz("brikko-studio-main-fresh.tgz"),
     );
     this.status.freshVersion = await this.extractLastVersion("fresh.install-main");
     await this.phase("fresh.verify-main-version", 90, () => this.verifyTargetVersion());
@@ -344,7 +344,7 @@ class LinuxSmoke {
     this.status.freshGateway = "pass";
     await this.phase(
       "fresh.first-local-agent-turn",
-      Number(process.env.OPENCLAW_PARALLELS_LINUX_AGENT_TIMEOUT_S || 1500),
+      Number(process.env.BRIKKO_STUDIO_PARALLELS_LINUX_AGENT_TIMEOUT_S || 1500),
       () => this.verifyLocalTurn(),
     );
     this.status.freshAgent = "pass";
@@ -359,7 +359,7 @@ class LinuxSmoke {
       this.verifyVersionContains(this.latestVersion),
     );
     await this.phase("upgrade.install-main", 420, () =>
-      this.installMainTgz("openclaw-main-upgrade.tgz"),
+      this.installMainTgz("brikko-studio-main-upgrade.tgz"),
     );
     this.status.upgradeVersion = await this.extractLastVersion("upgrade.install-main");
     await this.phase("upgrade.verify-main-version", 90, () => this.verifyTargetVersion());
@@ -373,7 +373,7 @@ class LinuxSmoke {
     this.status.upgradeGateway = "pass";
     await this.phase(
       "upgrade.first-local-agent-turn",
-      Number(process.env.OPENCLAW_PARALLELS_LINUX_AGENT_TIMEOUT_S || 1500),
+      Number(process.env.BRIKKO_STUDIO_PARALLELS_LINUX_AGENT_TIMEOUT_S || 1500),
       () => this.verifyLocalTurn(),
     );
     this.status.upgradeAgent = "pass";
@@ -459,13 +459,13 @@ class LinuxSmoke {
   }
 
   private installLatestRelease(): void {
-    this.guestExec(["curl", "-fsSL", this.options.installUrl, "-o", "/tmp/openclaw-install.sh"]);
+    this.guestExec(["curl", "-fsSL", this.options.installUrl, "-o", "/tmp/brikko-studio-install.sh"]);
     if (this.options.installVersion) {
       this.guestExec([
         "/usr/bin/env",
-        "OPENCLAW_NO_ONBOARD=1",
+        "BRIKKO_STUDIO_NO_ONBOARD=1",
         "bash",
-        "/tmp/openclaw-install.sh",
+        "/tmp/brikko-studio-install.sh",
         "--version",
         this.options.installVersion,
         "--no-onboard",
@@ -473,13 +473,13 @@ class LinuxSmoke {
     } else {
       this.guestExec([
         "/usr/bin/env",
-        "OPENCLAW_NO_ONBOARD=1",
+        "BRIKKO_STUDIO_NO_ONBOARD=1",
         "bash",
-        "/tmp/openclaw-install.sh",
+        "/tmp/brikko-studio-install.sh",
         "--no-onboard",
       ]);
     }
-    this.guestExec(["openclaw", "--version"]);
+    this.guestExec(["brikko-studio", "--version"]);
   }
 
   private installMainTgz(tempName: string): void {
@@ -489,7 +489,7 @@ class LinuxSmoke {
     const tgzUrl = this.server.urlFor(this.artifact.path);
     this.guestExec(["curl", "-fsSL", tgzUrl, "-o", `/tmp/${tempName}`]);
     this.guestExec(["npm", "install", "-g", `/tmp/${tempName}`, "--no-fund", "--no-audit"]);
-    this.guestExec(["openclaw", "--version"]);
+    this.guestExec(["brikko-studio", "--version"]);
   }
 
   private async verifyTargetVersion(): Promise<void> {
@@ -508,7 +508,7 @@ class LinuxSmoke {
   }
 
   private verifyVersionContains(needle: string): void {
-    const version = this.guestExec(["openclaw", "--version"]);
+    const version = this.guestExec(["brikko-studio", "--version"]);
     if (!version.includes(needle)) {
       throw new Error(`version mismatch: expected substring ${needle}`);
     }
@@ -518,7 +518,7 @@ class LinuxSmoke {
     this.guestExec([
       "/usr/bin/env",
       `${this.auth.apiKeyEnv}=${this.auth.apiKeyValue}`,
-      "openclaw",
+      "brikko-studio",
       "onboard",
       "--non-interactive",
       "--mode",
@@ -540,12 +540,12 @@ class LinuxSmoke {
 
   private injectBadPluginFixture(): void {
     this.guestBash(String.raw`set -euo pipefail
-plugin_dir=/root/.openclaw/test-bad-plugin
+plugin_dir=/root/.brikko-studio/test-bad-plugin
 mkdir -p "$plugin_dir"
 cat >"$plugin_dir/package.json" <<'JSON'
-{"name":"@openclaw/test-bad-plugin","version":"1.0.0","openclaw":{"extensions":["./index.cjs"],"setupEntry":"./setup-entry.cjs"}}
+{"name":"@brikko-studio/test-bad-plugin","version":"1.0.0","brikko-studio":{"extensions":["./index.cjs"],"setupEntry":"./setup-entry.cjs"}}
 JSON
-cat >"$plugin_dir/openclaw.plugin.json" <<'JSON'
+cat >"$plugin_dir/brikko-studio.plugin.json" <<'JSON'
 {"id":"test-bad-plugin","configSchema":{"type":"object","additionalProperties":false,"properties":{}},"channels":["test-bad-plugin"]}
 JSON
 cat >"$plugin_dir/index.cjs" <<'JS'
@@ -562,12 +562,12 @@ JS
 python3 - <<'PY'
 import json
 from pathlib import Path
-config_path = Path("/root/.openclaw/openclaw.json")
+config_path = Path("/root/.brikko-studio/brikko-studio.json")
 config = json.loads(config_path.read_text()) if config_path.exists() else {}
 plugins = config.setdefault("plugins", {})
 load = plugins.setdefault("load", {})
 paths = load.setdefault("paths", [])
-plugin_dir = "/root/.openclaw/test-bad-plugin"
+plugin_dir = "/root/.brikko-studio/test-bad-plugin"
 if plugin_dir not in paths:
     paths.append(plugin_dir)
 allow = plugins.get("allow")
@@ -581,15 +581,15 @@ PY`);
   }
 
   private startGatewayBackground(): void {
-    const bonjourEnv = this.disableBonjour ? " OPENCLAW_DISABLE_BONJOUR=1" : "";
+    const bonjourEnv = this.disableBonjour ? " BRIKKO_STUDIO_DISABLE_BONJOUR=1" : "";
     this.guestBash(
-      String.raw`pkill -f "openclaw gateway run" >/dev/null 2>&1 || true
-rm -f /tmp/openclaw-parallels-linux-gateway.log
+      String.raw`pkill -f "brikko-studio gateway run" >/dev/null 2>&1 || true
+rm -f /tmp/brikko-studio-parallels-linux-gateway.log
 setsid sh -lc ` +
         shellQuote(
-          `exec env OPENCLAW_HOME=/root OPENCLAW_STATE_DIR=/root/.openclaw OPENCLAW_CONFIG_PATH=/root/.openclaw/openclaw.json${bonjourEnv} ${this.auth.apiKeyEnv}=${shellQuote(
+          `exec env BRIKKO_STUDIO_HOME=/root BRIKKO_STUDIO_STATE_DIR=/root/.brikko-studio BRIKKO_STUDIO_CONFIG_PATH=/root/.brikko-studio/brikko-studio.json${bonjourEnv} ${this.auth.apiKeyEnv}=${shellQuote(
             this.auth.apiKeyValue,
-          )} openclaw gateway run --bind loopback --port 18789 --force >/tmp/openclaw-parallels-linux-gateway.log 2>&1`,
+          )} brikko-studio gateway run --bind loopback --port 18789 --force >/tmp/brikko-studio-parallels-linux-gateway.log 2>&1`,
         ) +
         String.raw` >/dev/null 2>&1 < /dev/null &`,
     );
@@ -604,10 +604,10 @@ setsid sh -lc ` +
   }
 
   private showGatewayStatusCompat(check = true): boolean {
-    const help = this.guestExec(["openclaw", "gateway", "status", "--help"], { check: false });
+    const help = this.guestExec(["brikko-studio", "gateway", "status", "--help"], { check: false });
     const args = help.includes("--require-rpc")
-      ? ["openclaw", "gateway", "status", "--deep", "--require-rpc"]
-      : ["openclaw", "gateway", "status", "--deep"];
+      ? ["brikko-studio", "gateway", "status", "--deep", "--require-rpc"]
+      : ["brikko-studio", "gateway", "status", "--deep"];
     const result = run(
       "prlctl",
       ["exec", this.options.vmName, "/usr/bin/env", "HOME=/root", ...args],
@@ -634,7 +634,7 @@ setsid sh -lc ` +
           this.options.vmName,
           "/usr/bin/env",
           "HOME=/root",
-          "openclaw",
+          "brikko-studio",
           "gateway",
           "status",
           "--deep",
@@ -672,51 +672,51 @@ setsid sh -lc ` +
 python3 - <<'PY'
 import json
 from pathlib import Path
-config_path = Path("/root/.openclaw/openclaw.json")
+config_path = Path("/root/.brikko-studio/brikko-studio.json")
 config = json.loads(config_path.read_text()) if config_path.exists() else {}
 plugins = config.setdefault("plugins", {})
 load = plugins.setdefault("load", {})
 paths = load.get("paths")
 if isinstance(paths, list):
-    load["paths"] = [path for path in paths if path != "/root/.openclaw/test-bad-plugin"]
+    load["paths"] = [path for path in paths if path != "/root/.brikko-studio/test-bad-plugin"]
 allow = plugins.get("allow")
 if isinstance(allow, list):
     plugins["allow"] = [plugin_id for plugin_id in allow if plugin_id != "test-bad-plugin"]
 config_path.write_text(json.dumps(config, indent=2) + "\n")
 PY
-rm -rf /root/.openclaw/test-bad-plugin`);
+rm -rf /root/.brikko-studio/test-bad-plugin`);
   }
 
   private verifyLocalTurn(): void {
-    this.guestExec(["openclaw", "models", "set", this.auth.modelId]);
+    this.guestExec(["brikko-studio", "models", "set", this.auth.modelId]);
     const modelProviderConfigBatch = modelProviderConfigBatchJson(this.auth.modelId, "linux");
     if (modelProviderConfigBatch) {
       this.guestBash(`provider_config_batch="$(mktemp)"
 cat >"$provider_config_batch" <<'JSON'
 ${modelProviderConfigBatch}
 JSON
-openclaw config set --batch-file "$provider_config_batch" --strict-json
+brikko-studio config set --batch-file "$provider_config_batch" --strict-json
 rm -f "$provider_config_batch"`);
     }
     this.guestExec([
-      "openclaw",
+      "brikko-studio",
       "config",
       "set",
       "agents.defaults.skipBootstrap",
       "true",
       "--strict-json",
     ]);
-    this.guestExec(["openclaw", "config", "set", "tools.profile", "minimal"]);
+    this.guestExec(["brikko-studio", "config", "set", "tools.profile", "minimal"]);
     this.prepareAgentWorkspace();
     this.guestBash(
       `agent_ok=false
 for attempt in 1 2; do
   session_id="parallels-linux-smoke"
   if [ "$attempt" -gt 1 ]; then session_id="parallels-linux-smoke-retry-$attempt"; fi
-  rm -f "$HOME/.openclaw/agents/main/sessions/$session_id.jsonl"
+  rm -f "$HOME/.brikko-studio/agents/main/sessions/$session_id.jsonl"
   output_file="$(mktemp)"
   set +e
-  /usr/bin/env ${shellQuote(`${this.auth.apiKeyEnv}=${this.auth.apiKeyValue}`)} openclaw agent --local --agent main --session-id "$session_id" --message ${shellQuote(
+  /usr/bin/env ${shellQuote(`${this.auth.apiKeyEnv}=${this.auth.apiKeyValue}`)} brikko-studio agent --local --agent main --session-id "$session_id" --message ${shellQuote(
     "Reply with exact ASCII text OK only.",
   )} --thinking minimal --timeout ${resolveParallelsModelTimeoutSeconds("linux")} --json >"$output_file" 2>&1
   rc=$?
@@ -738,7 +738,7 @@ for attempt in 1 2; do
   fi
 done
 if [ "$agent_ok" != true ]; then
-  echo "openclaw agent finished without OK response" >&2
+  echo "brikko-studio agent finished without OK response" >&2
   exit 1
 fi`,
     );
@@ -750,7 +750,7 @@ fi`,
 
   private async extractLastVersion(phaseId: string): Promise<string> {
     const text = await readFile(path.join(this.runDir, `${phaseId}.log`), "utf8").catch(() => "");
-    return [...text.matchAll(/OpenClaw [^\r\n]+ \([0-9a-f]{7,}\)/g)].at(-1)?.[0] ?? "";
+    return [...text.matchAll(/Brikko Studio [^\r\n]+ \([0-9a-f]{7,}\)/g)].at(-1)?.[0] ?? "";
   }
 
   private async writeSummary(): Promise<string> {

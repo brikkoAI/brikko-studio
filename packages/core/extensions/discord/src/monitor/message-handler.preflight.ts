@@ -1,18 +1,18 @@
-import { formatAllowlistMatchMeta } from "openclaw/plugin-sdk/allow-from";
-import { recordChannelActivity } from "openclaw/plugin-sdk/channel-activity-runtime";
+import { formatAllowlistMatchMeta } from "brikko-studio/plugin-sdk/allow-from";
+import { recordChannelActivity } from "brikko-studio/plugin-sdk/channel-activity-runtime";
 import {
   buildMentionRegexes,
   logInboundDrop,
   resolveInboundMentionDecision,
-} from "openclaw/plugin-sdk/channel-inbound";
-import { resolveControlCommandGate } from "openclaw/plugin-sdk/command-auth-native";
-import { hasControlCommand } from "openclaw/plugin-sdk/command-detection";
-import { shouldHandleTextCommands } from "openclaw/plugin-sdk/command-surface";
-import { isDangerousNameMatchingEnabled } from "openclaw/plugin-sdk/dangerous-name-runtime";
-import { recordPendingHistoryEntryIfEnabled } from "openclaw/plugin-sdk/reply-history";
-import { getChildLogger, logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { enqueueSystemEvent } from "openclaw/plugin-sdk/system-event-runtime";
-import { logDebug } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/channel-inbound";
+import { resolveControlCommandGate } from "brikko-studio/plugin-sdk/command-auth-native";
+import { hasControlCommand } from "brikko-studio/plugin-sdk/command-detection";
+import { shouldHandleTextCommands } from "brikko-studio/plugin-sdk/command-surface";
+import { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
+import { recordPendingHistoryEntryIfEnabled } from "brikko-studio/plugin-sdk/reply-history";
+import { getChildLogger, logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { enqueueSystemEvent } from "brikko-studio/plugin-sdk/system-event-runtime";
+import { logDebug } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveDefaultDiscordAccountId } from "../accounts.js";
 import { ChannelType, MessageType, type User } from "../internal/discord.js";
 import {

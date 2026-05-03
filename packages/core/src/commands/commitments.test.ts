@@ -6,7 +6,7 @@ import { commitmentsListCommand } from "./commitments.js";
 const mocks = vi.hoisted(() => ({
   listCommitments: vi.fn(),
   markCommitmentsStatus: vi.fn(),
-  resolveCommitmentStorePath: vi.fn(() => "/tmp/openclaw-commitments.json"),
+  resolveCommitmentStorePath: vi.fn(() => "/tmp/brikko-studio-commitments.json"),
   getRuntimeConfig: vi.fn(() => ({
     commitments: {
       enabled: true,

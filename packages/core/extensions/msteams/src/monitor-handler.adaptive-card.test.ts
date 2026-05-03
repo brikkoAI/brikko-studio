@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig, RuntimeEnv } from "../runtime-api.js";
+import type { Brikko StudioConfig, RuntimeEnv } from "../runtime-api.js";
 import type { MSTeamsConversationStore } from "./conversation-store.js";
 import {
   type MSTeamsActivityHandler,
@@ -17,7 +17,7 @@ const runtimeApiMockState = vi.hoisted(() => ({
   })),
 }));
 
-vi.mock("openclaw/plugin-sdk/inbound-reply-dispatch", () => {
+vi.mock("brikko-studio/plugin-sdk/inbound-reply-dispatch", () => {
   return {
     dispatchReplyFromConfigWithSettledDispatcher:
       runtimeApiMockState.dispatchReplyFromConfigWithSettledDispatcher,
@@ -36,7 +36,7 @@ function createDeps(): MSTeamsMessageHandlerDeps {
   installMSTeamsTestRuntime();
 
   return {
-    cfg: {} as OpenClawConfig,
+    cfg: {} as Brikko StudioConfig,
     runtime: { error: vi.fn() } as unknown as RuntimeEnv,
     appId: "test-app",
     adapter: {} as MSTeamsMessageHandlerDeps["adapter"],

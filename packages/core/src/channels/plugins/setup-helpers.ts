@@ -1,5 +1,5 @@
 import { z, type ZodType } from "zod";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.js";
 import type { ChannelSetupAdapter } from "./types.adapters.js";
 import type { ChannelSetupInput } from "./types.core.js";
@@ -85,14 +85,14 @@ const NAMED_ACCOUNT_PROMOTION_KEYS_BY_CHANNEL: Record<string, readonly string[]>
   telegram: ["botToken", "tokenFile"],
 };
 
-function channelHasAccounts(cfg: OpenClawConfig, channelKey: string): boolean {
+function channelHasAccounts(cfg: Brikko StudioConfig, channelKey: string): boolean {
   const channels = cfg.channels as Record<string, unknown> | undefined;
   const base = channels?.[channelKey] as ChannelSectionBase | undefined;
   return Boolean(base?.accounts && Object.keys(base.accounts).length > 0);
 }
 
 function shouldStoreNameInAccounts(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channelKey: string;
   accountId: string;
   alwaysUseAccounts?: boolean;
@@ -107,12 +107,12 @@ function shouldStoreNameInAccounts(params: {
 }
 
 export function applyAccountNameToChannelSection(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channelKey: string;
   accountId: string;
   name?: string;
   alwaysUseAccounts?: boolean;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   const trimmed = params.name?.trim();
   if (!trimmed) {
     return params.cfg;
@@ -139,7 +139,7 @@ export function applyAccountNameToChannelSection(params: {
           name: trimmed,
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
   }
   const baseAccounts: Record<string, Record<string, unknown>> = base?.accounts ?? {};
   const existingAccount = baseAccounts[accountId] ?? {};
@@ -162,14 +162,14 @@ export function applyAccountNameToChannelSection(params: {
         },
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 export function migrateBaseNameToDefaultAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channelKey: string;
   alwaysUseAccounts?: boolean;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   if (params.alwaysUseAccounts) {
     return params.cfg;
   }
@@ -196,17 +196,17 @@ export function migrateBaseNameToDefaultAccount(params: {
         accounts,
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 export function prepareScopedSetupConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channelKey: string;
   accountId: string;
   name?: string;
   alwaysUseAccounts?: boolean;
   migrateBaseName?: boolean;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   const namedConfig = applyAccountNameToChannelSection({
     cfg: params.cfg,
     channelKey: params.channelKey,
@@ -225,11 +225,11 @@ export function prepareScopedSetupConfig(params: {
 }
 
 export function applySetupAccountConfigPatch(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channelKey: string;
   accountId: string;
   patch: Record<string, unknown>;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   return patchScopedAccountConfig({
     cfg: params.cfg,
     channelKey: params.channelKey,
@@ -283,7 +283,7 @@ export function createPatchedAccountSetupAdapter(params: {
 
 export function createZodSetupInputValidator<T extends ChannelSetupInput>(params: {
   schema: ZodType<T>;
-  validate?: (params: { cfg: OpenClawConfig; accountId: string; input: T }) => string | null;
+  validate?: (params: { cfg: Brikko StudioConfig; accountId: string; input: T }) => string | null;
 }): NonNullable<ChannelSetupAdapter["validateInput"]> {
   return (inputParams) => {
     const parsed = params.schema.safeParse(inputParams.input);
@@ -321,7 +321,7 @@ export function createSetupInputPresenceValidator(params: {
   defaultAccountOnlyEnvError?: string;
   whenNotUseEnv?: SetupInputPresenceRequirement[];
   validate?: (params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     accountId: string;
     input: ChannelSetupInput;
   }) => string | null;
@@ -380,7 +380,7 @@ export function createEnvPatchedAccountSetupAdapter(params: {
 }
 
 export function patchScopedAccountConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channelKey: string;
   accountId: string;
   patch: Record<string, unknown>;
@@ -388,7 +388,7 @@ export function patchScopedAccountConfig(params: {
   ensureChannelEnabled?: boolean;
   ensureAccountEnabled?: boolean;
   scopeDefaultToAccounts?: boolean;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   const accountId = normalizeAccountId(params.accountId);
   const channels = params.cfg.channels as Record<string, unknown> | undefined;
   const channelConfig = channels?.[params.channelKey];
@@ -413,7 +413,7 @@ export function patchScopedAccountConfig(params: {
           ...patch,
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
   }
 
   const accounts = base?.accounts ?? {};
@@ -440,7 +440,7 @@ export function patchScopedAccountConfig(params: {
         },
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 type ChannelSectionRecord = Record<string, unknown> & {
@@ -455,14 +455,14 @@ function cloneIfObject<T>(value: T): T {
 }
 
 function moveSingleAccountKeysIntoAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channelKey: string;
   channel: ChannelSectionRecord;
   accounts: Record<string, Record<string, unknown>>;
   keysToMove: string[];
   targetAccountId: string;
   baseAccount?: Record<string, unknown>;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   const nextAccount: Record<string, unknown> = { ...params.baseAccount };
   for (const key of params.keysToMove) {
     nextAccount[key] = cloneIfObject(params.channel[key]);
@@ -483,7 +483,7 @@ function moveSingleAccountKeysIntoAccount(params: {
         },
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 function resolveExistingAccountKey(
@@ -542,9 +542,9 @@ function resolveSingleAccountPromotionTarget(params: { channel: ChannelSectionBa
 // move top-level account settings into accounts.default so the original
 // account keeps working without duplicate account values at channel root.
 export function moveSingleAccountChannelSectionToDefaultAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channelKey: string;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   const channels = params.cfg.channels as Record<string, unknown> | undefined;
   const baseConfig = channels?.[params.channelKey];
   const base =

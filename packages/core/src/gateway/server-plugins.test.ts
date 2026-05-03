@@ -6,7 +6,7 @@ import type { PluginRuntime } from "../plugins/runtime/types.js";
 import type { PluginDiagnostic } from "../plugins/types.js";
 import type { GatewayRequestContext, GatewayRequestOptions } from "./server-methods/types.js";
 
-const loadOpenClawPlugins = vi.hoisted(() => vi.fn());
+const loadBrikko StudioPlugins = vi.hoisted(() => vi.fn());
 const clearActivatedPluginRuntimeState = vi.hoisted(() => vi.fn());
 const loadPluginLookUpTable = vi.hoisted(() =>
   vi.fn(() => ({
@@ -36,7 +36,7 @@ const handleGatewayRequest = vi.hoisted(() =>
 
 vi.mock("../plugins/loader.js", () => ({
   clearActivatedPluginRuntimeState,
-  loadOpenClawPlugins,
+  loadBrikko StudioPlugins,
 }));
 
 vi.mock("../plugins/runtime/load-context.js", () => ({
@@ -220,7 +220,7 @@ function getLastPluginLoadLogger(): {
   error: (message: string) => void;
   debug?: (message: string) => void;
 } {
-  const call = loadOpenClawPlugins.mock.calls.at(-1)?.[0] as
+  const call = loadBrikko StudioPlugins.mock.calls.at(-1)?.[0] as
     | {
         logger?: {
           info: (message: string) => void;
@@ -252,7 +252,7 @@ async function createSubagentRuntime(
   cfg: Record<string, unknown> = {},
 ): Promise<PluginRuntime["subagent"]> {
   const log = createTestLog();
-  loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+  loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
   serverPluginBootstrapModule.loadGatewayStartupPlugins({
     cfg,
     workspaceDir: "/tmp",
@@ -260,7 +260,7 @@ async function createSubagentRuntime(
     coreGatewayHandlers: {},
     baseMethods: [],
   });
-  const call = loadOpenClawPlugins.mock.calls.at(-1)?.[0] as
+  const call = loadBrikko StudioPlugins.mock.calls.at(-1)?.[0] as
     | { runtimeOptions?: { allowGatewaySubagentBinding?: boolean } }
     | undefined;
   if (call?.runtimeOptions?.allowGatewaySubagentBinding !== true) {
@@ -310,7 +310,7 @@ beforeAll(async () => {
 
 beforeEach(() => {
   clearActivatedPluginRuntimeState.mockClear();
-  loadOpenClawPlugins.mockReset();
+  loadBrikko StudioPlugins.mockReset();
   loadPluginLookUpTable.mockReset().mockReturnValue({
     startup: {
       pluginIds: ["discord", "telegram"],
@@ -362,7 +362,7 @@ describe("loadGatewayPlugins", () => {
         message: "failed to load plugin: boom",
       },
     ];
-    loadOpenClawPlugins.mockReturnValue(createRegistry(diagnostics));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry(diagnostics));
     const log = loadGatewayStartupPluginsForTest();
 
     expect(log.error).toHaveBeenCalledWith(
@@ -372,7 +372,7 @@ describe("loadGatewayPlugins", () => {
   });
 
   test("loads only gateway startup plugin ids", async () => {
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
     loadGatewayPluginsForTest();
 
     expect(applyPluginAutoEnable).toHaveBeenCalledWith({
@@ -385,7 +385,7 @@ describe("loadGatewayPlugins", () => {
       workspaceDir: "/tmp",
       env: process.env,
     });
-    expect(loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         onlyPluginIds: ["discord", "telegram"],
         preferBuiltPluginArtifacts: true,
@@ -394,7 +394,7 @@ describe("loadGatewayPlugins", () => {
   });
 
   test("routes plugin registration logs through the plugin logger", async () => {
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
     const log = loadGatewayPluginsForTest();
 
     const logger = getLastPluginLoadLogger();
@@ -408,7 +408,7 @@ describe("loadGatewayPlugins", () => {
   });
 
   test("can suppress provisional plugin info logs while preserving warnings", async () => {
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
     loadGatewayPluginsForTest({
       suppressPluginInfoLogs: true,
     });
@@ -422,14 +422,14 @@ describe("loadGatewayPlugins", () => {
   });
 
   test("reuses the provided startup plugin scope without recomputing it", async () => {
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
 
     loadGatewayPluginsForTest({
       pluginIds: ["browser"],
     });
 
     expect(loadPluginLookUpTable).not.toHaveBeenCalled();
-    expect(loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         onlyPluginIds: ["browser"],
       }),
@@ -437,7 +437,7 @@ describe("loadGatewayPlugins", () => {
   });
 
   test("reuses a provided lookup table for startup scope and auto-enable manifests", async () => {
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
     const manifestRegistry = { plugins: [], diagnostics: [] };
 
     loadGatewayPluginsForTest({
@@ -453,7 +453,7 @@ describe("loadGatewayPlugins", () => {
       env: process.env,
       manifestRegistry,
     });
-    expect(loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         manifestRegistry,
         onlyPluginIds: ["telegram"],
@@ -463,7 +463,7 @@ describe("loadGatewayPlugins", () => {
 
   test("pins the initial startup channel registry against later active-registry churn", async () => {
     const startupRegistry = createRegistry([]);
-    loadOpenClawPlugins.mockReturnValue(startupRegistry);
+    loadBrikko StudioPlugins.mockReturnValue(startupRegistry);
 
     loadGatewayStartupPluginsForTest({
       pluginIds: ["slack"],
@@ -488,7 +488,7 @@ describe("loadGatewayPlugins", () => {
         slack: ["slack configured"],
       },
     });
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
 
     loadGatewayStartupPluginsForTest({
       cfg: resolvedConfig,
@@ -501,7 +501,7 @@ describe("loadGatewayPlugins", () => {
       config: rawConfig,
       env: process.env,
     });
-    expect(loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: resolvedConfig,
         activationSourceConfig: rawConfig,
@@ -573,7 +573,7 @@ describe("loadGatewayPlugins", () => {
         telegram: ["telegram configured"],
       },
     });
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
 
     loadGatewayStartupPluginsForTest({
       cfg: runtimeConfig,
@@ -581,7 +581,7 @@ describe("loadGatewayPlugins", () => {
       pluginIds: ["telegram"],
     });
 
-    expect(loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: expect.objectContaining({
           channels: expect.objectContaining({
@@ -634,7 +634,7 @@ describe("loadGatewayPlugins", () => {
     });
 
     expect(clearActivatedPluginRuntimeState).toHaveBeenCalledTimes(1);
-    expect(loadOpenClawPlugins).not.toHaveBeenCalled();
+    expect(loadBrikko StudioPlugins).not.toHaveBeenCalled();
     expect(result.pluginRegistry.plugins).toEqual([]);
     expect(result.gatewayMethods).toEqual(["sessions.get"]);
   });
@@ -666,7 +666,7 @@ describe("loadGatewayPlugins", () => {
         slack: ["slack configured"],
       },
     });
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
 
     loadGatewayPluginsForTest();
 
@@ -676,7 +676,7 @@ describe("loadGatewayPlugins", () => {
       workspaceDir: "/tmp",
       env: process.env,
     });
-    expect(loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: autoEnabledConfig,
         activationSourceConfig: {},
@@ -697,7 +697,7 @@ describe("loadGatewayPlugins", () => {
         slack: ["slack configured"],
       },
     });
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
 
     loadGatewayPluginsForTest({
       cfg: resolvedConfig,
@@ -714,7 +714,7 @@ describe("loadGatewayPlugins", () => {
       workspaceDir: "/tmp",
       env: process.env,
     });
-    expect(loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: resolvedConfig,
         activationSourceConfig: rawConfig,
@@ -726,10 +726,10 @@ describe("loadGatewayPlugins", () => {
   });
 
   test("provides subagent runtime with sessions.get method aliases", async () => {
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
     loadGatewayPluginsForTest();
 
-    const call = loadOpenClawPlugins.mock.calls.at(-1)?.[0] as
+    const call = loadBrikko StudioPlugins.mock.calls.at(-1)?.[0] as
       | { runtimeOptions?: { allowGatewaySubagentBinding?: boolean } }
       | undefined;
     expect(call?.runtimeOptions?.allowGatewaySubagentBinding).toBe(true);
@@ -741,7 +741,7 @@ describe("loadGatewayPlugins", () => {
   });
 
   test("filters connected plugin nodes locally without sending unsupported node.list params", async () => {
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
     loadGatewayStartupPluginsForTest();
     serverPluginsModule.setFallbackGatewayContext(createTestContext("nodes-list-filter"));
     handleGatewayRequest.mockImplementationOnce(async (opts: HandleGatewayRequestOptions) => {
@@ -941,7 +941,7 @@ describe("loadGatewayPlugins", () => {
         }),
       ),
     ).rejects.toThrow(
-      'plugin "voice-call" is not trusted for fallback provider/model override requests. See https://docs.openclaw.ai/tools/plugin#runtime-helpers and search for: plugins.entries.<id>.subagent.allowModelOverride',
+      'plugin "voice-call" is not trusted for fallback provider/model override requests. See https://docs.brikko-studio.ai/tools/plugin#runtime-helpers and search for: plugins.entries.<id>.subagent.allowModelOverride',
     );
   });
 
@@ -1171,12 +1171,12 @@ describe("loadGatewayPlugins", () => {
   });
 
   test("can prefer setup-runtime channel plugins during startup loads", async () => {
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
     loadGatewayPluginsForTest({
       preferSetupRuntimeForChannelPlugins: true,
     });
 
-    expect(loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         preferSetupRuntimeForChannelPlugins: true,
       }),
@@ -1184,7 +1184,7 @@ describe("loadGatewayPlugins", () => {
   });
 
   test("primes configured bindings during gateway startup", async () => {
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
     const cfg = {};
     const autoEnabledConfig = { channels: { slack: { enabled: true } }, autoEnabled: true };
     applyPluginAutoEnable.mockReturnValue({
@@ -1243,7 +1243,7 @@ describe("loadGatewayPlugins", () => {
         message: "failed to load plugin: boom",
       },
     ];
-    loadOpenClawPlugins.mockReturnValue(createRegistry(diagnostics));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry(diagnostics));
     const log = createTestLog();
 
     reloadDeferredGatewayPlugins({
@@ -1261,7 +1261,7 @@ describe("loadGatewayPlugins", () => {
 
   test("reuses the initial startup plugin scope during deferred reloads", async () => {
     const { reloadDeferredGatewayPlugins } = serverPluginBootstrapModule;
-    loadOpenClawPlugins.mockReturnValue(createRegistry([]));
+    loadBrikko StudioPlugins.mockReturnValue(createRegistry([]));
     const manifestRegistry = { plugins: [], diagnostics: [] };
 
     reloadDeferredGatewayPlugins({
@@ -1284,7 +1284,7 @@ describe("loadGatewayPlugins", () => {
       env: process.env,
       manifestRegistry,
     });
-    expect(loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         manifestRegistry,
         onlyPluginIds: ["discord"],
@@ -1296,7 +1296,7 @@ describe("loadGatewayPlugins", () => {
     const { prepareGatewayPluginLoad } = serverPluginBootstrapModule;
     const order: string[] = [];
     const pluginRegistry = createRegistry([]);
-    loadOpenClawPlugins.mockReturnValue(pluginRegistry);
+    loadBrikko StudioPlugins.mockReturnValue(pluginRegistry);
     primeConfiguredBindingRegistry.mockImplementation(() => {
       order.push("prime");
       return { bindingCount: 0, channelCount: 0 };

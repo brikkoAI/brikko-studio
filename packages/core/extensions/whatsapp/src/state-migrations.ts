@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/account-id";
-import type { ChannelLegacyStateMigrationPlan } from "openclaw/plugin-sdk/channel-contract";
+import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
+import type { ChannelLegacyStateMigrationPlan } from "brikko-studio/plugin-sdk/channel-contract";
 
 function fileExists(pathValue: string): boolean {
   try {

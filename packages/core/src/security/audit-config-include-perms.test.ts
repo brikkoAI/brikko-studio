@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { ConfigFileSnapshot } from "../config/types.openclaw.js";
+import type { ConfigFileSnapshot } from "../config/types.brikko-studio.js";
 import { collectIncludeFilePermFindings } from "./audit-extra.async.js";
 
 const inspectPathPermissionsMock = vi.hoisted(() => vi.fn());
@@ -20,7 +20,7 @@ describe("security audit config include permissions", () => {
   });
 
   it("flags group/world-readable config include files", async () => {
-    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-include-perms-"));
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-include-perms-"));
     const stateDir = path.join(tmp, "state");
     fs.mkdirSync(stateDir, { recursive: true, mode: 0o700 });
 
@@ -40,7 +40,7 @@ describe("security audit config include permissions", () => {
     });
 
     const configSnapshot: ConfigFileSnapshot = {
-      path: path.join(stateDir, "openclaw.json"),
+      path: path.join(stateDir, "brikko-studio.json"),
       exists: true,
       raw: `{ "$include": ${JSON.stringify(includePath)} }\n`,
       parsed: { $include: includePath },

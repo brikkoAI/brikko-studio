@@ -15,7 +15,7 @@ import type {
   MatrixVerificationMethod,
   MatrixVerificationSummary,
   MessageEventContent,
-} from "@openclaw/matrix/test-api.js";
+} from "@brikko-studio/matrix/test-api.js";
 import { buildMatrixQaMessageContent } from "./client.js";
 import { findMatrixQaObservedEventMatch, normalizeMatrixQaObservedEvent } from "./events.js";
 import type { MatrixQaObservedEvent } from "./events.js";
@@ -23,7 +23,7 @@ import type { MatrixQaRoomEventWaitResult } from "./sync.js";
 
 type MatrixQaE2eeActorId = "driver" | "observer" | `driver-${string}` | `cli-${string}`;
 
-type MatrixQaE2eeRuntime = typeof import("@openclaw/matrix/test-api.js");
+type MatrixQaE2eeRuntime = typeof import("@brikko-studio/matrix/test-api.js");
 
 type MatrixQaE2eeClientParams = {
   accessToken: string;
@@ -142,7 +142,7 @@ export type MatrixQaE2eeScenarioClient = {
 
 async function loadMatrixQaE2eeRuntime(): Promise<MatrixQaE2eeRuntime> {
   const { loadQaRunnerBundledPluginTestApi } =
-    await import("openclaw/plugin-sdk/qa-runner-runtime");
+    await import("brikko-studio/plugin-sdk/qa-runner-runtime");
   return loadQaRunnerBundledPluginTestApi<MatrixQaE2eeRuntime>("matrix");
 }
 

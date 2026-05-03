@@ -1,9 +1,9 @@
 import { ApplicationCommandOptionType } from "discord-api-types/v10";
-import { resolveNativeCommandSessionTargets } from "openclaw/plugin-sdk/command-auth-native";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { buildPairingReply } from "openclaw/plugin-sdk/conversation-runtime";
-import { isDangerousNameMatchingEnabled } from "openclaw/plugin-sdk/dangerous-name-runtime";
-import { getAgentScopedMediaLocalRoots } from "openclaw/plugin-sdk/media-runtime";
+import { resolveNativeCommandSessionTargets } from "brikko-studio/plugin-sdk/command-auth-native";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { buildPairingReply } from "brikko-studio/plugin-sdk/conversation-runtime";
+import { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
+import { getAgentScopedMediaLocalRoots } from "brikko-studio/plugin-sdk/media-runtime";
 import {
   buildCommandTextFromArgs,
   findCommandByNativeName,
@@ -12,10 +12,10 @@ import {
   serializeCommandArgs,
   type ChatCommandDefinition,
   type NativeCommandSpec,
-} from "openclaw/plugin-sdk/native-command-registry";
-import { resolveChunkMode, resolveTextChunkLimit } from "openclaw/plugin-sdk/reply-chunking";
-import { createSubsystemLogger, logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { resolveOpenProviderRuntimeGroupPolicy } from "openclaw/plugin-sdk/runtime-group-policy";
+} from "brikko-studio/plugin-sdk/native-command-registry";
+import { resolveChunkMode, resolveTextChunkLimit } from "brikko-studio/plugin-sdk/reply-chunking";
+import { createSubsystemLogger, logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { resolveOpenProviderRuntimeGroupPolicy } from "brikko-studio/plugin-sdk/runtime-group-policy";
 import {
   resolveDiscordAccountAllowFrom,
   resolveDiscordAccountDmPolicy,
@@ -87,7 +87,7 @@ export { __testing } from "./native-command.runtime.js";
 
 export function createDiscordNativeCommand(params: {
   command: NativeCommandSpec;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   discordConfig: DiscordConfig;
   accountId: string;
   sessionPrefix: string;
@@ -199,7 +199,7 @@ async function dispatchDiscordCommandInteraction(params: {
   prompt: string;
   command: ChatCommandDefinition;
   commandArgs?: DiscordCommandArgs;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   discordConfig: DiscordConfig;
   accountId: string;
   sessionPrefix: string;

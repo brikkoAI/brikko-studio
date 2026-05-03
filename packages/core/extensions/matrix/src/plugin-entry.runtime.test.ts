@@ -30,13 +30,13 @@ function writeFixtureFile(fixtureRoot: string, relativePath: string, value: stri
   fs.writeFileSync(fullPath, value, "utf8");
 }
 
-function writeOpenClawPackageFixture(fixtureRoot: string) {
+function writeBrikko StudioPackageFixture(fixtureRoot: string) {
   writeFixtureFile(
     fixtureRoot,
     "package.json",
     JSON.stringify(
       {
-        name: "openclaw",
+        name: "brikko-studio",
         type: "module",
         exports: {
           "./plugin-sdk": "./dist/plugin-sdk/index.js",
@@ -46,7 +46,7 @@ function writeOpenClawPackageFixture(fixtureRoot: string) {
       2,
     ) + "\n",
   );
-  writeFixtureFile(fixtureRoot, "openclaw.mjs", "export {};\n");
+  writeFixtureFile(fixtureRoot, "brikko-studio.mjs", "export {};\n");
   writeFixtureFile(fixtureRoot, "dist/plugin-sdk/index.js", "export {};\n");
 }
 
@@ -90,7 +90,7 @@ afterEach(() => {
 it("loads the source-checkout runtime wrapper through native ESM import", async () => {
   const fixtureRoot = makeFixtureRoot(".tmp-matrix-source-runtime-");
 
-  writeOpenClawPackageFixture(fixtureRoot);
+  writeBrikko StudioPackageFixture(fixtureRoot);
   writeSourceRuntimeWrapperFixture(fixtureRoot);
 
   expectRuntimeWrapperExports(
@@ -101,7 +101,7 @@ it("loads the source-checkout runtime wrapper through native ESM import", async 
 it("loads the packaged runtime wrapper without recursing through the stable root alias", async () => {
   const fixtureRoot = makeFixtureRoot(".tmp-matrix-runtime-");
 
-  writeOpenClawPackageFixture(fixtureRoot);
+  writeBrikko StudioPackageFixture(fixtureRoot);
   writeFixtureFile(
     fixtureRoot,
     "dist/plugin-entry.runtime-C88YIa_v.js",
@@ -126,7 +126,7 @@ it("loads the packaged runtime wrapper without recursing through the stable root
 it("does not load when only a TypeScript Matrix runtime shim exists", async () => {
   const fixtureRoot = makeFixtureRoot(".tmp-matrix-runtime-ts-only-");
 
-  writeOpenClawPackageFixture(fixtureRoot);
+  writeBrikko StudioPackageFixture(fixtureRoot);
   writeSourceRuntimeWrapperFixture(fixtureRoot, { runtimeExtension: ".ts" });
 
   await expect(

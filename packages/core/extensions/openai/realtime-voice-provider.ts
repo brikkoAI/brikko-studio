@@ -3,12 +3,12 @@ import { randomUUID } from "node:crypto";
 import {
   createProviderHttpError,
   resolveProviderRequestHeaders,
-} from "openclaw/plugin-sdk/provider-http";
+} from "brikko-studio/plugin-sdk/provider-http";
 import {
   captureWsEvent,
   createDebugProxyWebSocketAgent,
   resolveDebugProxySettings,
-} from "openclaw/plugin-sdk/proxy-capture";
+} from "brikko-studio/plugin-sdk/proxy-capture";
 import type {
   RealtimeVoiceAudioFormat,
   RealtimeVoiceBargeInOptions,
@@ -19,13 +19,13 @@ import type {
   RealtimeVoiceProviderConfig,
   RealtimeVoiceProviderPlugin,
   RealtimeVoiceTool,
-} from "openclaw/plugin-sdk/realtime-voice";
-import { REALTIME_VOICE_AUDIO_FORMAT_G711_ULAW_8KHZ } from "openclaw/plugin-sdk/realtime-voice";
+} from "brikko-studio/plugin-sdk/realtime-voice";
+import { REALTIME_VOICE_AUDIO_FORMAT_G711_ULAW_8KHZ } from "brikko-studio/plugin-sdk/realtime-voice";
 import {
   normalizeResolvedSecretInputString,
   normalizeSecretInputString,
-} from "openclaw/plugin-sdk/secret-input";
-import { fetchWithSsrFGuard } from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/secret-input";
+import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import WebSocket from "ws";
 import {
   asFiniteNumber,

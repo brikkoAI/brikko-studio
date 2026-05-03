@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { redactMigrationPlan } from "openclaw/plugin-sdk/migration";
+import { redactMigrationPlan } from "brikko-studio/plugin-sdk/migration";
 import { afterEach, describe, expect, it } from "vitest";
 import { buildClaudeMigrationProvider } from "./provider.js";
 import {

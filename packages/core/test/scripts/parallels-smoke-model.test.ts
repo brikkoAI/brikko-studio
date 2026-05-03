@@ -86,8 +86,8 @@ describe("Parallels smoke model selection", () => {
   it("keeps provider auth and model defaults in the shared TypeScript helper", () => {
     const providerAuth = readFileSync(TS_PATHS.providerAuth, "utf8");
 
-    expect(providerAuth).toContain("OPENCLAW_PARALLELS_OPENAI_MODEL");
-    expect(providerAuth).toContain("OPENCLAW_PARALLELS_WINDOWS_OPENAI_MODEL");
+    expect(providerAuth).toContain("BRIKKO_STUDIO_PARALLELS_OPENAI_MODEL");
+    expect(providerAuth).toContain("BRIKKO_STUDIO_PARALLELS_WINDOWS_OPENAI_MODEL");
     expect(providerAuth).toContain("openai/gpt-5.5");
     expect(providerAuth).toContain('authChoice: "openai-api-key"');
     expect(providerAuth).toContain('authChoice: "apiKey"');
@@ -134,7 +134,7 @@ console.log(result);
     expect(packageArtifact).toContain("withPackageLock");
     expect(packageArtifact).toContain("Wait for Parallels package lock");
     expect(packageArtifact).toContain("export async function packageVersionFromTgz");
-    expect(packageArtifact).toContain("export async function packOpenClaw");
+    expect(packageArtifact).toContain("export async function packBrikko Studio");
     expect(parallelsVm).toContain("export function resolveUbuntuVmName");
     expect(parallelsVm).toContain("export function waitForVmStatus");
     expect(hostServer).toContain("export async function startHostServer");
@@ -151,7 +151,7 @@ console.log(result);
   });
 
   it("quotes shell args and resolves fuzzy snapshot hints through the shared TypeScript helper", () => {
-    const tempDir = mkdtempSync(join(tmpdir(), "openclaw-parallels-helper-"));
+    const tempDir = mkdtempSync(join(tmpdir(), "brikko-studio-parallels-helper-"));
     const prlctlPath = join(tempDir, "prlctl");
     writeFileSync(
       prlctlPath,
@@ -191,7 +191,7 @@ console.log([snapshot.id, snapshot.state, snapshot.name].join("\\t"));
   });
 
   it("uses one Ubuntu VM fallback resolver for Linux lanes", () => {
-    const tempDir = mkdtempSync(join(tmpdir(), "openclaw-parallels-vm-helper-"));
+    const tempDir = mkdtempSync(join(tmpdir(), "brikko-studio-parallels-vm-helper-"));
     const prlctlPath = join(tempDir, "prlctl");
     writeFileSync(
       prlctlPath,
@@ -274,7 +274,7 @@ console.log(JSON.stringify(result));
       JSON.parse(
         runTsEval(source, {
           OPENAI_API_KEY: "sk-openai",
-          OPENCLAW_PARALLELS_WINDOWS_OPENAI_MODEL: "openai/custom-windows",
+          BRIKKO_STUDIO_PARALLELS_WINDOWS_OPENAI_MODEL: "openai/custom-windows",
         }),
       ),
     ).toMatchObject({
@@ -395,8 +395,8 @@ console.log(JSON.stringify(result));
 
     expect(macos).toContain('channel: "dev"');
     expect(windows).toContain("Name channel -Value 'dev'");
-    expect(macos).toContain("OPENCLAW_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS=1");
-    expect(windows).toContain("OPENCLAW_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS");
+    expect(macos).toContain("BRIKKO_STUDIO_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS=1");
+    expect(windows).toContain("BRIKKO_STUDIO_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS");
   });
 
   it("passes aggregate model overrides into each OS fresh lane", () => {
@@ -406,7 +406,7 @@ console.log(JSON.stringify(result));
     expect(script).toContain('"--model"');
     expect(script).toContain("auth.modelId");
     expect(script).toContain("authForPlatform");
-    expect(script).toContain("OPENCLAW_PARALLELS_LINUX_DISABLE_BONJOUR");
+    expect(script).toContain("BRIKKO_STUDIO_PARALLELS_LINUX_DISABLE_BONJOUR");
   });
 
   it("keeps aggregate update guest scripts isolated from the npm-update orchestrator", () => {
@@ -419,7 +419,7 @@ console.log(JSON.stringify(result));
     expect(orchestrator).not.toContain("Remove-FuturePluginEntries");
     expect(updateScripts).toContain("Remove-FuturePluginEntries");
     expect(updateScripts).toContain("scrub_future_plugin_entries");
-    expect(updateScripts).toContain("Invoke-OpenClaw update");
+    expect(updateScripts).toContain("Invoke-Brikko Studio update");
     expect(updateScripts).toContain("Parallels npm update smoke test assistant.");
   });
 
@@ -439,7 +439,7 @@ console.log(JSON.stringify(result));
   it("keeps Windows gateway reachability on a real deadline with start recovery", () => {
     const script = readFileSync(TS_PATHS.windows, "utf8");
 
-    expect(script).toContain("OPENCLAW_PARALLELS_WINDOWS_GATEWAY_RECOVERY_AFTER_S");
+    expect(script).toContain("BRIKKO_STUDIO_PARALLELS_WINDOWS_GATEWAY_RECOVERY_AFTER_S");
     expect(script).toContain("Date.now() < deadline");
     expect(script).toContain("gateway start");
     expect(script).toContain("gateway-reachable recovery");
@@ -450,9 +450,9 @@ console.log(JSON.stringify(result));
 
     expect(script).toContain("guestPowerShellBackground");
     expect(script).toContain("Join-Path $env:TEMP");
-    expect(script).toContain("__OPENCLAW_BACKGROUND_DONE__");
-    expect(script).toContain("__OPENCLAW_BACKGROUND_EXIT__");
-    expect(script).toContain("__OPENCLAW_LOG_OFFSET__");
+    expect(script).toContain("__BRIKKO_STUDIO_BACKGROUND_DONE__");
+    expect(script).toContain("__BRIKKO_STUDIO_BACKGROUND_EXIT__");
+    expect(script).toContain("__BRIKKO_STUDIO_LOG_OFFSET__");
     expect(script).toContain("result.status !== 0 && result.status !== 124");
     expect(script).toContain("Start-Process -FilePath powershell.exe");
     expect(script).toContain('launchLog.includes("started")');
@@ -480,8 +480,8 @@ console.log(JSON.stringify(result));
     const script = readFileSync(TS_PATHS.windows, "utf8");
 
     expect(script).toContain('guestPowerShellBackground(\n      "agent-turn"');
-    expect(script).toContain("OPENCLAW_PARALLELS_WINDOWS_AGENT_TIMEOUT_S");
-    expect(script).toContain("OPENCLAW_PARALLELS_WINDOWS_AGENT_TIMEOUT_S || 2700");
+    expect(script).toContain("BRIKKO_STUDIO_PARALLELS_WINDOWS_AGENT_TIMEOUT_S");
+    expect(script).toContain("BRIKKO_STUDIO_PARALLELS_WINDOWS_AGENT_TIMEOUT_S || 2700");
     expect(script).toContain("windowsAgentTurnConfigPatchScript(this.auth.modelId)");
     expect(script).toContain("--model");
     expect(script).toContain('resolveParallelsModelTimeoutSeconds("windows")');
@@ -508,7 +508,7 @@ console.log(JSON.stringify({
       windows: 1800,
     });
     expect(readFileSync(TS_PATHS.macos, "utf8")).toContain(
-      "OPENCLAW_PARALLELS_MACOS_AGENT_TIMEOUT_S || 2700",
+      "BRIKKO_STUDIO_PARALLELS_MACOS_AGENT_TIMEOUT_S || 2700",
     );
     expect(readFileSync(TS_PATHS.macos, "utf8")).toContain(
       '--timeout ${resolveParallelsModelTimeoutSeconds("macos")}',
@@ -526,22 +526,22 @@ console.log(JSON.stringify({
     expect(script).toContain("launch retry");
   });
 
-  it("resolves Windows OpenClaw commands without assuming the npm shim path", () => {
+  it("resolves Windows Brikko Studio commands without assuming the npm shim path", () => {
     const powershell = readFileSync(TS_PATHS.powershell, "utf8");
     const windows = readFileSync(TS_PATHS.windows, "utf8");
 
-    expect(powershell).toContain("windowsOpenClawResolver");
+    expect(powershell).toContain("windowsBrikko StudioResolver");
     expect(powershell).toContain("providerTimeoutConfigJson");
     expect(powershell).toContain("models.providers.${providerId}");
     expect(powershell).toContain("agents.defaults.models${configPathMapKey(modelId)}");
     expect(powershell).toContain("configPathMapKey");
     expect(powershell).toContain('transport: "sse"');
-    expect(powershell).toContain("Resolve-OpenClawCommand");
-    expect(powershell).toContain("npm\\node_modules\\openclaw\\openclaw.mjs");
+    expect(powershell).toContain("Resolve-Brikko StudioCommand");
+    expect(powershell).toContain("npm\\node_modules\\brikko-studio\\brikko-studio.mjs");
     expect(powershell).toContain("$ErrorActionPreference = 'Continue'");
     expect(powershell).toContain("$PSNativeCommandUseErrorActionPreference = $false");
-    expect(windows).toContain("windowsOpenClawResolver");
-    expect(windows).toContain("Invoke-OpenClaw gateway");
-    expect(windows).not.toContain("Join-Path $env:APPDATA 'npm\\\\openclaw.cmd'");
+    expect(windows).toContain("windowsBrikko StudioResolver");
+    expect(windows).toContain("Invoke-Brikko Studio gateway");
+    expect(windows).not.toContain("Join-Path $env:APPDATA 'npm\\\\brikko-studio.cmd'");
   });
 });

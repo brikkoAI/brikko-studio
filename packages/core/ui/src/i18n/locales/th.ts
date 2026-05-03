@@ -382,7 +382,7 @@ export const th: TranslationMap = {
     skills: "ทักษะและคีย์ API",
     nodes: "อุปกรณ์ที่จับคู่และคำสั่ง",
     chat: "แชตเกตเวย์สำหรับการดำเนินการอย่างรวดเร็ว",
-    config: "แก้ไข openclaw.json",
+    config: "แก้ไข brikko-studio.json",
     communications: "ช่องทาง ข้อความ และการตั้งค่าเสียง",
     appearance: "ธีม UI และการตั้งค่าตัวช่วยเริ่มต้น",
     automation: "คำสั่ง hooks cron และ plugins",
@@ -451,7 +451,7 @@ export const th: TranslationMap = {
       metadataUpgradeTitle: "การเปลี่ยนแปลงข้อมูลเมตาของอุปกรณ์รอการอนุมัติ",
       metadataUpgradeSummary: "อุปกรณ์นี้จับคู่แล้ว แต่การเปลี่ยนแปลงข้อมูลเมตากำลังรอการอนุมัติ",
       mobileHint:
-        "ใช้งานบนมือถืออยู่หรือไม่? คัดลอก URL แบบเต็ม (รวม #token=...) จาก openclaw dashboard --no-open บนเดสก์ท็อปของคุณ",
+        "ใช้งานบนมือถืออยู่หรือไม่? คัดลอก URL แบบเต็ม (รวม #token=...) จาก brikko-studio dashboard --no-open บนเดสก์ท็อปของคุณ",
       docsTitle: "เอกสารการจับคู่อุปกรณ์ (เปิดในแท็บใหม่)",
       docsLink: "เอกสาร: การจับคู่อุปกรณ์",
     },
@@ -489,7 +489,7 @@ export const th: TranslationMap = {
       modelAuthExpiresIn: "หมดอายุ {when}",
       modelAuthAttentionExpiredTitle: "การยืนยันตัวตนของโมเดลหมดอายุแล้ว",
       modelAuthAttentionExpiringTitle: "การยืนยันตัวตนของโมเดลกำลังจะหมดอายุเร็ว ๆ นี้",
-      modelAuthAttentionExpiredDesc: "{providers} — ยืนยันตัวตนใหม่ด้วย openclaw models auth",
+      modelAuthAttentionExpiredDesc: "{providers} — ยืนยันตัวตนใหม่ด้วย brikko-studio models auth",
       modelAuthAttentionExpiringEntry: "{provider} ({when})",
     },
     attention: {

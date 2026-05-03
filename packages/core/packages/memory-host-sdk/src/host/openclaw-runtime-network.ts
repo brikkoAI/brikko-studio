@@ -2,4 +2,4 @@ export {
   fetchWithSsrFGuard,
   shouldUseEnvHttpProxyForUrl,
   ssrfPolicyFromHttpBaseUrlAllowedHostname,
-} from "./openclaw-runtime.js";
+} from "./brikko-studio-runtime.js";

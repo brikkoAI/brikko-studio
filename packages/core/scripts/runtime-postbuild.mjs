@@ -196,7 +196,7 @@ export function writeLegacyCliExitCompatChunks(params = {}) {
 }
 
 export function runRuntimePostBuild(params = {}) {
-  const timingsEnabled = params.timings ?? process.env.OPENCLAW_RUNTIME_POSTBUILD_TIMINGS !== "0";
+  const timingsEnabled = params.timings ?? process.env.BRIKKO_STUDIO_RUNTIME_POSTBUILD_TIMINGS !== "0";
   const runPhase = (label, action) => {
     const startedAt = performance.now();
     try {

@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { sanitizeTerminalText } from "openclaw/plugin-sdk/test-fixtures";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { sanitizeTerminalText } from "brikko-studio/plugin-sdk/test-fixtures";
 import { describe, expect, it, vi } from "vitest";
 import {
   describeIMessageEchoDropLog,
@@ -8,7 +8,7 @@ import {
 import { createSelfChatCache } from "./self-chat-cache.js";
 
 describe("resolveIMessageInboundDecision echo detection", () => {
-  const cfg = {} as OpenClawConfig;
+  const cfg = {} as Brikko StudioConfig;
   type InboundDecisionParams = Parameters<typeof resolveIMessageInboundDecision>[0];
 
   function createInboundDecisionParams(
@@ -184,7 +184,7 @@ describe("resolveIMessageInboundDecision echo detection", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const createdAt = "2026-03-02T20:58:10.649Z";
 
     expect(
@@ -302,7 +302,7 @@ describe("describeIMessageEchoDropLog", () => {
 });
 
 describe("resolveIMessageInboundDecision command auth", () => {
-  const cfg = {} as OpenClawConfig;
+  const cfg = {} as Brikko StudioConfig;
   const resolveDmCommandDecision = (params: {
     messageId: number;
     storeAllowFrom: string[];

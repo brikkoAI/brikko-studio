@@ -145,7 +145,7 @@
     },
     "realtime.toolPolicy": {
       "label": "Realtime Tool Policy",
-      "help": "Controls the shared openclaw_agent_consult tool.",
+      "help": "Controls the shared brikko-studio_agent_consult tool.",
       "advanced": true
     },
     "realtime.fastContext.enabled": {

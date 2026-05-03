@@ -1,5 +1,5 @@
 ---
-summary: "Adds Venice model provider support to OpenClaw."
+summary: "Adds Venice model provider support to Brikko Studio."
 read_when:
   - You are installing, configuring, or auditing the venice plugin
 title: "Venice plugin"
@@ -7,12 +7,12 @@ title: "Venice plugin"
 
 # Venice plugin
 
-Adds Venice model provider support to OpenClaw.
+Adds Venice model provider support to Brikko Studio.
 
 ## Distribution
 
-- Package: `@openclaw/venice-provider`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/venice-provider`
+- Install route: included in Brikko Studio
 
 ## Surface
 

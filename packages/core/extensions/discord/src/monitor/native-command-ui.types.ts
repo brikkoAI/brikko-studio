@@ -1,10 +1,10 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ThreadBindingManager } from "./thread-bindings.js";
 
-type DiscordConfig = NonNullable<OpenClawConfig["channels"]>["discord"];
+type DiscordConfig = NonNullable<Brikko StudioConfig["channels"]>["discord"];
 
 export type DiscordCommandArgContext = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   discordConfig: DiscordConfig;
   accountId: string;
   sessionPrefix: string;

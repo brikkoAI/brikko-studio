@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { AnyAgentTool } from "./tools/common.js";
 
 const mocks = vi.hoisted(() => {
@@ -18,18 +18,18 @@ const mocks = vi.hoisted(() => {
     createCronToolOptions: vi.fn(),
     textToSpeech: vi.fn(async () => ({
       success: true,
-      audioPath: "/tmp/openclaw/tts-config-test.opus",
+      audioPath: "/tmp/brikko-studio/tts-config-test.opus",
       provider: "microsoft",
       voiceCompatible: true,
     })),
   };
 });
 
-vi.mock("./openclaw-plugin-tools.js", () => ({
-  resolveOpenClawPluginToolsForOptions: () => [],
+vi.mock("./brikko-studio-plugin-tools.js", () => ({
+  resolveBrikko StudioPluginToolsForOptions: () => [],
 }));
 
-vi.mock("./openclaw-tools.nodes-workspace-guard.js", () => ({
+vi.mock("./brikko-studio-tools.nodes-workspace-guard.js", () => ({
   applyNodesToolWorkspaceGuard: (tool: AnyAgentTool) => tool,
 }));
 
@@ -121,7 +121,7 @@ vi.mock("../tts/tts.js", () => ({
   textToSpeech: mocks.textToSpeech,
 }));
 
-describe("createOpenClawTools TTS config wiring", () => {
+describe("createBrikko StudioTools TTS config wiring", () => {
   beforeEach(() => {
     mocks.createCronToolOptions.mockClear();
     mocks.textToSpeech.mockClear();
@@ -140,13 +140,13 @@ describe("createOpenClawTools TTS config wiring", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
-    const { __testing, createOpenClawTools } = await import("./openclaw-tools.js");
+    const { __testing, createBrikko StudioTools } = await import("./brikko-studio-tools.js");
     __testing.setDepsForTest({ config: injectedConfig });
 
     try {
-      const tool = createOpenClawTools({
+      const tool = createBrikko StudioTools({
         disableMessageTool: true,
         disablePluginTools: true,
       }).find((candidate) => candidate.name === "tts");
@@ -169,11 +169,11 @@ describe("createOpenClawTools TTS config wiring", () => {
   });
 
   it("keeps direct TTS tool guidance explicit even when the tool is available", async () => {
-    const { __testing, createOpenClawTools } = await import("./openclaw-tools.js");
+    const { __testing, createBrikko StudioTools } = await import("./brikko-studio-tools.js");
     __testing.setDepsForTest({ config: {} });
 
     try {
-      const tool = createOpenClawTools({
+      const tool = createBrikko StudioTools({
         disableMessageTool: true,
         disablePluginTools: true,
       }).find((candidate) => candidate.name === "tts");
@@ -194,13 +194,13 @@ describe("createOpenClawTools TTS config wiring", () => {
       agents: {
         list: [{ id: "reader" }, { id: "main" }],
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
-    const { __testing, createOpenClawTools } = await import("./openclaw-tools.js");
+    const { __testing, createBrikko StudioTools } = await import("./brikko-studio-tools.js");
     __testing.setDepsForTest({ config: injectedConfig });
 
     try {
-      const tool = createOpenClawTools({
+      const tool = createBrikko StudioTools({
         agentSessionKey: "agent:reader:telegram:chat:123",
         disableMessageTool: true,
         disablePluginTools: true,
@@ -236,13 +236,13 @@ describe("createOpenClawTools TTS config wiring", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
-    const { __testing, createOpenClawTools } = await import("./openclaw-tools.js");
+    const { __testing, createBrikko StudioTools } = await import("./brikko-studio-tools.js");
     __testing.setDepsForTest({ config: injectedConfig });
 
     try {
-      const tool = createOpenClawTools({
+      const tool = createBrikko StudioTools({
         agentChannel: "feishu",
         agentAccountId: "feishu-main",
         disableMessageTool: true,
@@ -269,15 +269,15 @@ describe("createOpenClawTools TTS config wiring", () => {
   });
 });
 
-describe("createOpenClawTools cron context wiring", () => {
+describe("createBrikko StudioTools cron context wiring", () => {
   beforeEach(() => {
     mocks.createCronToolOptions.mockClear();
   });
 
   it("passes preserved channel delivery context into the cron tool", async () => {
-    const { createOpenClawTools } = await import("./openclaw-tools.js");
+    const { createBrikko StudioTools } = await import("./brikko-studio-tools.js");
 
-    createOpenClawTools({
+    createBrikko StudioTools({
       agentSessionKey: "agent:main:matrix:channel:!abcdef1234567890:example.org",
       agentChannel: "matrix",
       agentAccountId: "bot-a",
@@ -301,9 +301,9 @@ describe("createOpenClawTools cron context wiring", () => {
   });
 
   it("uses agent route context when auto-threading context is unavailable", async () => {
-    const { createOpenClawTools } = await import("./openclaw-tools.js");
+    const { createBrikko StudioTools } = await import("./brikko-studio-tools.js");
 
-    createOpenClawTools({
+    createBrikko StudioTools({
       agentSessionKey: "agent:main:matrix:channel:!abcdef1234567890:example.org",
       agentChannel: "matrix",
       agentAccountId: "bot-a",
@@ -325,9 +325,9 @@ describe("createOpenClawTools cron context wiring", () => {
   });
 
   it("passes self-remove scope into the cron tool", async () => {
-    const { createOpenClawTools } = await import("./openclaw-tools.js");
+    const { createBrikko StudioTools } = await import("./brikko-studio-tools.js");
 
-    createOpenClawTools({
+    createBrikko StudioTools({
       agentSessionKey: "agent:main:cron:job-current",
       cronSelfRemoveOnlyJobId: "job-current",
       disableMessageTool: true,

@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/zai-provider",
+  "name": "@brikko-studio/zai-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Z.AI provider plugin",
+  "description": "Brikko Studio Z.AI provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

@@ -2,7 +2,7 @@ import { formatCliCommand } from "../cli/command-format.js";
 import { replaceConfigFile } from "../config/config.js";
 import { readConfigFileSnapshot } from "../config/io.js";
 import { logConfigUpdated } from "../config/logging.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { defaultRuntime } from "../runtime.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -58,7 +58,7 @@ function createNonInteractiveMigrationPrompter(runtime: RuntimeEnv): WizardPromp
 async function runNonInteractiveMigrationImport(params: {
   opts: OnboardOptions;
   runtime: RuntimeEnv;
-  baseConfig: OpenClawConfig;
+  baseConfig: Brikko StudioConfig;
   baseHash?: string;
 }) {
   const providerId = params.opts.importFrom?.trim();
@@ -98,13 +98,13 @@ export async function runNonInteractiveSetup(
   const snapshot = await readConfigFileSnapshot();
   if (snapshot.exists && !snapshot.valid) {
     runtime.error(
-      `Config invalid. Run \`${formatCliCommand("openclaw doctor")}\` to repair it, then re-run setup.`,
+      `Config invalid. Run \`${formatCliCommand("brikko-studio doctor")}\` to repair it, then re-run setup.`,
     );
     runtime.exit(1);
     return;
   }
 
-  const baseConfig: OpenClawConfig = snapshot.valid
+  const baseConfig: Brikko StudioConfig = snapshot.valid
     ? snapshot.exists
       ? (snapshot.sourceConfig ?? snapshot.config)
       : {}

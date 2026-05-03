@@ -1,9 +1,9 @@
 import { join, parse } from "node:path";
 import { describe, expect, it, vi, beforeAll, beforeEach, afterEach } from "vitest";
 
-vi.mock("openclaw/plugin-sdk/runtime-env", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/runtime-env")>(
-    "openclaw/plugin-sdk/runtime-env",
+vi.mock("brikko-studio/plugin-sdk/runtime-env", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/runtime-env")>(
+    "brikko-studio/plugin-sdk/runtime-env",
   );
   return {
     ...actual,
@@ -11,9 +11,9 @@ vi.mock("openclaw/plugin-sdk/runtime-env", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/ssrf-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/ssrf-runtime")>(
-    "openclaw/plugin-sdk/ssrf-runtime",
+vi.mock("brikko-studio/plugin-sdk/ssrf-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/ssrf-runtime")>(
+    "brikko-studio/plugin-sdk/ssrf-runtime",
   );
   return {
     ...actual,
@@ -550,8 +550,8 @@ describe("loginGeminiCliOAuth", () => {
     "https://autopush-cloudcode-pa.sandbox.googleapis.com/v1internal:loadCodeAssist";
 
   const ENV_KEYS = [
-    "OPENCLAW_GEMINI_OAUTH_CLIENT_ID",
-    "OPENCLAW_GEMINI_OAUTH_CLIENT_SECRET",
+    "BRIKKO_STUDIO_GEMINI_OAUTH_CLIENT_ID",
+    "BRIKKO_STUDIO_GEMINI_OAUTH_CLIENT_SECRET",
     "GEMINI_CLI_OAUTH_CLIENT_ID",
     "GEMINI_CLI_OAUTH_CLIENT_SECRET",
     "GOOGLE_CLOUD_PROJECT",
@@ -604,7 +604,7 @@ describe("loginGeminiCliOAuth", () => {
   }
 
   function userInfoResponse(): Response {
-    return responseJson({ email: "lobster@openclaw.ai" });
+    return responseJson({ email: "lobster@brikko-studio.ai" });
   }
 
   type RecordedFetchRequest = {
@@ -696,8 +696,8 @@ describe("loginGeminiCliOAuth", () => {
 
   beforeEach(() => {
     envSnapshot = Object.fromEntries(ENV_KEYS.map((key) => [key, process.env[key]]));
-    process.env.OPENCLAW_GEMINI_OAUTH_CLIENT_ID = "test-client-id.apps.googleusercontent.com";
-    process.env.OPENCLAW_GEMINI_OAUTH_CLIENT_SECRET = "GOCSPX-test-client-secret"; // pragma: allowlist secret
+    process.env.BRIKKO_STUDIO_GEMINI_OAUTH_CLIENT_ID = "test-client-id.apps.googleusercontent.com";
+    process.env.BRIKKO_STUDIO_GEMINI_OAUTH_CLIENT_SECRET = "GOCSPX-test-client-secret"; // pragma: allowlist secret
     delete process.env.GEMINI_CLI_OAUTH_CLIENT_ID;
     delete process.env.GEMINI_CLI_OAUTH_CLIENT_SECRET;
     delete process.env.GOOGLE_CLOUD_PROJECT;

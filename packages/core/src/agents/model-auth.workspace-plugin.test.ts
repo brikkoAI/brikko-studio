@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import type { AuthProfileStore } from "./auth-profiles.js";
 import { resolveEnvApiKey } from "./model-auth-env.js";
@@ -14,11 +14,11 @@ import {
 import { hasAuthForModelProvider } from "./model-provider-auth.js";
 
 async function writeWorkspaceAuthEvidencePlugin(workspaceDir: string) {
-  const pluginDir = path.join(workspaceDir, ".openclaw", "extensions", "workspace-cloud");
+  const pluginDir = path.join(workspaceDir, ".brikko-studio", "extensions", "workspace-cloud");
   await fs.mkdir(pluginDir, { recursive: true });
   await fs.writeFile(path.join(pluginDir, "index.ts"), "export default {}\n", "utf8");
   await fs.writeFile(
-    path.join(pluginDir, "openclaw.plugin.json"),
+    path.join(pluginDir, "brikko-studio.plugin.json"),
     JSON.stringify({
       id: "workspace-cloud",
       configSchema: { type: "object" },
@@ -44,7 +44,7 @@ async function writeWorkspaceAuthEvidencePlugin(workspaceDir: string) {
 
 describe("workspace plugin model auth evidence", () => {
   it("uses trusted workspace plugin auth evidence across runtime and picker auth checks", async () => {
-    const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-workspace-auth-"));
+    const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-workspace-auth-"));
     const workspaceDir = path.join(tempRoot, "workspace");
     const bundledDir = path.join(tempRoot, "bundled");
     const stateDir = path.join(tempRoot, "state");
@@ -54,7 +54,7 @@ describe("workspace plugin model auth evidence", () => {
     await fs.writeFile(credentialsPath, "{}", "utf8");
     await writeWorkspaceAuthEvidencePlugin(workspaceDir);
 
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       plugins: {
         allow: ["workspace-cloud"],
       },
@@ -64,8 +64,8 @@ describe("workspace plugin model auth evidence", () => {
     try {
       await withEnvAsync(
         {
-          OPENCLAW_BUNDLED_PLUGINS_DIR: bundledDir,
-          OPENCLAW_STATE_DIR: stateDir,
+          BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledDir,
+          BRIKKO_STUDIO_STATE_DIR: stateDir,
           WORKSPACE_CLOUD_CREDENTIALS: credentialsPath,
         },
         async () => {

@@ -1,4 +1,4 @@
-import { resolveChannelGroupPolicy } from "openclaw/plugin-sdk/channel-policy";
+import { resolveChannelGroupPolicy } from "brikko-studio/plugin-sdk/channel-policy";
 import { describe, expect, it } from "vitest";
 import {
   resolveIrcGroupAccessGate,

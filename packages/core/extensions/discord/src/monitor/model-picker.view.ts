@@ -1,7 +1,7 @@
 import type { APISelectMenuOption } from "discord-api-types/v10";
 import { ButtonStyle } from "discord-api-types/v10";
-import type { ModelsProviderData } from "openclaw/plugin-sdk/models-provider-runtime";
-import { normalizeProviderId } from "openclaw/plugin-sdk/provider-model-shared";
+import type { ModelsProviderData } from "brikko-studio/plugin-sdk/models-provider-runtime";
+import { normalizeProviderId } from "brikko-studio/plugin-sdk/provider-model-shared";
 import {
   Button,
   Container,
@@ -174,8 +174,8 @@ function getRuntimeChoices(params: {
     params.data.runtimeChoicesByProvider?.get(normalizeProviderId(params.provider)) ?? [
       {
         id: "pi",
-        label: "OpenClaw Pi Default",
-        description: "Use the built-in OpenClaw Pi runtime.",
+        label: "Brikko Studio Pi Default",
+        description: "Use the built-in Brikko Studio Pi runtime.",
       },
     ]
   );

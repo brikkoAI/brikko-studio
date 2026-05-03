@@ -1,21 +1,21 @@
 import { type Block, type KnownBlock, type WebClient } from "@slack/web-api";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { withTrustedEnvProxyGuardedFetchMode } from "openclaw/plugin-sdk/fetch-runtime";
-import { resolveMarkdownTableMode } from "openclaw/plugin-sdk/markdown-table-runtime";
-import { requireRuntimeConfig } from "openclaw/plugin-sdk/plugin-config-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { withTrustedEnvProxyGuardedFetchMode } from "brikko-studio/plugin-sdk/fetch-runtime";
+import { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
+import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
 import {
   chunkMarkdownTextWithMode,
   isSilentReplyText,
   resolveChunkMode,
   resolveTextChunkLimit,
-} from "openclaw/plugin-sdk/reply-chunking";
-import { resolveTextChunksWithFallback } from "openclaw/plugin-sdk/reply-payload";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { fetchWithSsrFGuard } from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/reply-chunking";
+import { resolveTextChunksWithFallback } from "brikko-studio/plugin-sdk/reply-payload";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import type { SlackTokenSource } from "./accounts.js";
 import { resolveSlackAccount } from "./accounts.js";
 import { buildSlackBlocksFallbackText } from "./blocks-fallback.js";
@@ -55,7 +55,7 @@ export type SlackSendIdentity = {
 };
 
 type SlackSendOpts = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   token?: string;
   accountId?: string;
   mediaUrl?: string;
@@ -551,7 +551,7 @@ export async function sendMessageSlack(
 async function sendMessageSlackQueued(params: {
   trimmedMessage: string;
   opts: SlackSendOpts;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   account: ReturnType<typeof resolveSlackAccount>;
   token: string;
   recipient: SlackRecipient;
@@ -567,7 +567,7 @@ async function sendMessageSlackQueued(params: {
 async function sendMessageSlackQueuedInner(params: {
   trimmedMessage: string;
   opts: SlackSendOpts;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   account: ReturnType<typeof resolveSlackAccount>;
   token: string;
   recipient: SlackRecipient;

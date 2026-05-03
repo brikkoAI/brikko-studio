@@ -83,7 +83,7 @@ describe("web_search date normalization", () => {
 
 describe("web_search unsupported filter response", () => {
   it("returns undefined when no unsupported filter is set", () => {
-    expect(buildUnsupportedSearchFilterResponse({ query: "openclaw" }, "gemini")).toBeUndefined();
+    expect(buildUnsupportedSearchFilterResponse({ query: "brikko-studio" }, "gemini")).toBeUndefined();
   });
 
   it("maps non-date filters to provider-specific unsupported errors", () => {
@@ -91,7 +91,7 @@ describe("web_search unsupported filter response", () => {
       error: "unsupported_country",
       message:
         "country filtering is not supported by the grok provider. Only Brave and Perplexity support country filtering.",
-      docs: "https://docs.openclaw.ai/tools/web",
+      docs: "https://docs.brikko-studio.ai/tools/web",
     });
   });
 
@@ -100,7 +100,7 @@ describe("web_search unsupported filter response", () => {
       error: "unsupported_date_filter",
       message:
         "date_after/date_before filtering is not supported by the kimi provider. Only Brave and Perplexity support date filtering.",
-      docs: "https://docs.openclaw.ai/tools/web",
+      docs: "https://docs.brikko-studio.ai/tools/web",
     });
   });
 });

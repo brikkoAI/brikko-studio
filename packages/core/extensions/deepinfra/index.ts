@@ -1,11 +1,11 @@
-import { readConfiguredProviderCatalogEntries } from "openclaw/plugin-sdk/provider-catalog-shared";
-import { defineSingleProviderPluginEntry } from "openclaw/plugin-sdk/provider-entry";
-import { PASSTHROUGH_GEMINI_REPLAY_HOOKS } from "openclaw/plugin-sdk/provider-model-shared";
+import { readConfiguredProviderCatalogEntries } from "brikko-studio/plugin-sdk/provider-catalog-shared";
+import { defineSingleProviderPluginEntry } from "brikko-studio/plugin-sdk/provider-entry";
+import { PASSTHROUGH_GEMINI_REPLAY_HOOKS } from "brikko-studio/plugin-sdk/provider-model-shared";
 import {
   createOpenRouterSystemCacheWrapper,
   createOpenRouterWrapper,
   isProxyReasoningUnsupported,
-} from "openclaw/plugin-sdk/provider-stream";
+} from "brikko-studio/plugin-sdk/provider-stream";
 import { buildDeepInfraImageGenerationProvider } from "./image-generation-provider.js";
 import { deepinfraMediaUnderstandingProvider } from "./media-understanding-provider.js";
 import { deepinfraMemoryEmbeddingProviderAdapter } from "./memory-embedding-adapter.js";

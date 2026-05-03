@@ -3,17 +3,17 @@ import {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
   resolveMergedAccountConfig,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/account-resolution";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/account-resolution";
 import {
   mapAllowFromEntries,
   normalizeChannelDmPolicy,
   resolveChannelDmAllowFrom,
   resolveChannelDmPolicy,
   type ChannelDmPolicy,
-} from "openclaw/plugin-sdk/channel-config-helpers";
-import { resolveAccountEntry } from "openclaw/plugin-sdk/routing";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/channel-config-helpers";
+import { resolveAccountEntry } from "brikko-studio/plugin-sdk/routing";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import type { SlackAccountSurfaceFields } from "./account-surface-fields.js";
 import type { SlackAccountConfig } from "./runtime-api.js";
 import { resolveSlackAppToken, resolveSlackBotToken, resolveSlackUserToken } from "./token.js";
@@ -45,14 +45,14 @@ export const listSlackAccountIds = listAccountIds;
 export const resolveDefaultSlackAccountId = resolveDefaultAccountId;
 
 function resolveSlackAccountConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId: string,
 ): SlackAccountConfig | undefined {
   return resolveAccountEntry(cfg.channels?.slack?.accounts, accountId);
 }
 
 export function mergeSlackAccountConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId: string,
 ): SlackAccountConfig {
   return resolveMergedAccountConfig<SlackAccountConfig>({
@@ -63,7 +63,7 @@ export function mergeSlackAccountConfig(
 }
 
 export function resolveSlackAccountAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): string[] | undefined {
   const accountId = normalizeAccountId(
@@ -79,7 +79,7 @@ export function resolveSlackAccountAllowFrom(params: {
 }
 
 export function resolveSlackConfigAccessorAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): SlackConfigAccessorAccount {
   const accountId = normalizeAccountId(
@@ -93,7 +93,7 @@ export function resolveSlackConfigAccessorAccount(params: {
 }
 
 export function resolveSlackAccountDmPolicy(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): ChannelDmPolicy | undefined {
   const accountId = normalizeAccountId(
@@ -110,7 +110,7 @@ export function resolveSlackAccountDmPolicy(params: {
 }
 
 export function resolveSlackAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): ResolvedSlackAccount {
   const accountId = normalizeAccountId(
@@ -172,7 +172,7 @@ export function resolveSlackAccount(params: {
   };
 }
 
-export function listEnabledSlackAccounts(cfg: OpenClawConfig): ResolvedSlackAccount[] {
+export function listEnabledSlackAccounts(cfg: Brikko StudioConfig): ResolvedSlackAccount[] {
   return listSlackAccountIds(cfg)
     .map((accountId) => resolveSlackAccount({ cfg, accountId }))
     .filter((account) => account.enabled);

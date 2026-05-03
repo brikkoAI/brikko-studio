@@ -1,30 +1,30 @@
 import type { SlackActionMiddlewareArgs, SlackCommandMiddlewareArgs } from "@slack/bolt";
-import { resolveDefaultModelForAgent } from "openclaw/plugin-sdk/agent-runtime";
-import { createChannelReplyPipeline } from "openclaw/plugin-sdk/channel-reply-pipeline";
+import { resolveDefaultModelForAgent } from "brikko-studio/plugin-sdk/agent-runtime";
+import { createChannelReplyPipeline } from "brikko-studio/plugin-sdk/channel-reply-pipeline";
 import {
   formatCommandArgMenuTitle,
   resolveStoredModelOverride,
   type ChatCommandDefinition,
-} from "openclaw/plugin-sdk/command-auth";
+} from "brikko-studio/plugin-sdk/command-auth";
 import {
   type CommandArgs,
   resolveCommandAuthorizedFromAuthorizers,
   resolveNativeCommandSessionTargets,
-} from "openclaw/plugin-sdk/command-auth-native";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+} from "brikko-studio/plugin-sdk/command-auth-native";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import {
   resolveNativeCommandsEnabled,
   resolveNativeSkillsEnabled,
-} from "openclaw/plugin-sdk/native-command-config-runtime";
-import type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
-import type { ResolvedAgentRoute } from "openclaw/plugin-sdk/routing";
-import { danger, logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { loadSessionStore, resolveStorePath } from "openclaw/plugin-sdk/session-store-runtime";
+} from "brikko-studio/plugin-sdk/native-command-config-runtime";
+import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
+import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
+import { danger, logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { loadSessionStore, resolveStorePath } from "brikko-studio/plugin-sdk/session-store-runtime";
 import {
   chunkItems,
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import type { ResolvedSlackAccount } from "../accounts.js";
 import { SLACK_MAX_BLOCKS } from "../blocks-input.js";
 import { truncateSlackText } from "../truncate.js";
@@ -46,8 +46,8 @@ import { resolveSlackRoomContextHints } from "./room-context.js";
 
 type SlackBlock = { type: string; [key: string]: unknown };
 
-const SLACK_COMMAND_ARG_ACTION_ID = "openclaw_cmdarg";
-const SLACK_COMMAND_ARG_ACTION_LISTENER = /^openclaw_cmdarg/;
+const SLACK_COMMAND_ARG_ACTION_ID = "brikko-studio_cmdarg";
+const SLACK_COMMAND_ARG_ACTION_LISTENER = /^brikko-studio_cmdarg/;
 const SLACK_COMMAND_ARG_VALUE_PREFIX = "cmdarg";
 const SLACK_COMMAND_ARG_BUTTON_ROW_SIZE = 5;
 const SLACK_COMMAND_ARG_OVERFLOW_MIN = 3;

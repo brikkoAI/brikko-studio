@@ -145,7 +145,7 @@ export async function channelsResolveCommand(opts: ChannelsResolveOptions, runti
     : null;
   if (explicitChannel && resolvedExplicit?.catalogEntry && !resolvedExplicit.plugin) {
     throw new Error(
-      `Channel plugin "${resolvedExplicit.catalogEntry.id}" is not installed. Run "openclaw channels add --channel ${resolvedExplicit.catalogEntry.id}" first.`,
+      `Channel plugin "${resolvedExplicit.catalogEntry.id}" is not installed. Run "brikko-studio channels add --channel ${resolvedExplicit.catalogEntry.id}" first.`,
     );
   }
   if (resolvedExplicit?.configChanged) {

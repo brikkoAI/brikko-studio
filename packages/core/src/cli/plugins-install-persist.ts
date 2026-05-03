@@ -1,5 +1,5 @@
 import { replaceConfigFile } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { type HookInstallUpdate, recordHookInstall } from "../hooks/installs.js";
 import { isPathInside } from "../infra/path-guards.js";
 import { enablePluginInConfig } from "../plugins/enable.js";
@@ -23,7 +23,7 @@ import {
 import { commitPluginInstallRecordsWithConfig } from "./plugins-install-record-commit.js";
 import { refreshPluginRegistryAfterConfigMutation } from "./plugins-registry-refresh.js";
 
-function addInstalledPluginToAllowlist(cfg: OpenClawConfig, pluginId: string): OpenClawConfig {
+function addInstalledPluginToAllowlist(cfg: Brikko StudioConfig, pluginId: string): Brikko StudioConfig {
   const allow = cfg.plugins?.allow;
   if (!Array.isArray(allow) || allow.length === 0 || allow.includes(pluginId)) {
     return cfg;
@@ -37,7 +37,7 @@ function addInstalledPluginToAllowlist(cfg: OpenClawConfig, pluginId: string): O
   };
 }
 
-function removeInstalledPluginFromDenylist(cfg: OpenClawConfig, pluginId: string): OpenClawConfig {
+function removeInstalledPluginFromDenylist(cfg: Brikko StudioConfig, pluginId: string): Brikko StudioConfig {
   const deny = cfg.plugins?.deny;
   if (!Array.isArray(deny) || !deny.includes(pluginId)) {
     return cfg;
@@ -57,7 +57,7 @@ function removeInstalledPluginFromDenylist(cfg: OpenClawConfig, pluginId: string
 }
 
 export type ConfigSnapshotForInstallPersist = {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   baseHash: string | undefined;
 };
 
@@ -72,7 +72,7 @@ function sourceMatchesInstalledPath(params: {
 }
 
 function logShadowedNpmInstallWarning(params: {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   pluginId: string;
   install: Omit<PluginInstallUpdate, "pluginId">;
   runtime: RuntimeEnv;
@@ -104,7 +104,7 @@ function logShadowedNpmInstallWarning(params: {
         `Warning: installed plugin "${params.pluginId}" is not the active source because a config-selected plugin with the same id is currently selected:`,
         `  active config source: ${shortenHomePath(active.source)}`,
         `  installed npm source: ${shortenHomePath(installedSource)}`,
-        "Run `openclaw plugins doctor` for repair options.",
+        "Run `brikko-studio plugins doctor` for repair options.",
       ].join("\n"),
     ),
   );
@@ -118,7 +118,7 @@ export async function persistPluginInstall(params: {
   successMessage?: string;
   warningMessage?: string;
   runtime?: RuntimeEnv;
-}): Promise<OpenClawConfig> {
+}): Promise<Brikko StudioConfig> {
   const runtime = params.runtime ?? defaultRuntime;
   const installConfig =
     params.enable === false
@@ -196,7 +196,7 @@ export async function persistHookPackInstall(params: {
   install: Omit<HookInstallUpdate, "hookId" | "hooks">;
   successMessage?: string;
   runtime?: RuntimeEnv;
-}): Promise<OpenClawConfig> {
+}): Promise<Brikko StudioConfig> {
   const runtime = params.runtime ?? defaultRuntime;
   let next = enableInternalHookEntries(params.snapshot.config, params.hooks);
   next = recordHookInstall(next, {

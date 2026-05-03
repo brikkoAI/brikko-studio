@@ -29,11 +29,11 @@ let createMatrixClient: typeof import("./create-client.js").createMatrixClient;
 
 describe("createMatrixClient", () => {
   const storagePaths = {
-    rootDir: "/tmp/openclaw-matrix-create-client-test",
-    storagePath: "/tmp/openclaw-matrix-create-client-test/storage.json",
-    recoveryKeyPath: "/tmp/openclaw-matrix-create-client-test/recovery.key",
-    idbSnapshotPath: "/tmp/openclaw-matrix-create-client-test/idb.snapshot",
-    metaPath: "/tmp/openclaw-matrix-create-client-test/storage-meta.json",
+    rootDir: "/tmp/brikko-studio-matrix-create-client-test",
+    storagePath: "/tmp/brikko-studio-matrix-create-client-test/storage.json",
+    recoveryKeyPath: "/tmp/brikko-studio-matrix-create-client-test/recovery.key",
+    idbSnapshotPath: "/tmp/brikko-studio-matrix-create-client-test/idb.snapshot",
+    metaPath: "/tmp/brikko-studio-matrix-create-client-test/storage-meta.json",
     accountKey: "default",
     tokenHash: "token-hash",
   };
@@ -79,7 +79,7 @@ describe("createMatrixClient", () => {
       storagePath: storagePaths.storagePath,
       recoveryKeyPath: storagePaths.recoveryKeyPath,
       idbSnapshotPath: storagePaths.idbSnapshotPath,
-      cryptoDatabasePrefix: "openclaw-matrix-default-token-hash",
+      cryptoDatabasePrefix: "brikko-studio-matrix-default-token-hash",
       autoBootstrapCrypto: undefined,
       ssrfPolicy: undefined,
       dispatcherPolicy: undefined,

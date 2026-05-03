@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import {
   parseLiveCsvFilter,
   parseProviderModelMap,
@@ -18,7 +18,7 @@ export function parseCsvFilter(raw?: string): Set<string> | null {
   return parseLiveCsvFilter(raw);
 }
 
-export function resolveConfiguredLiveMusicModels(cfg: OpenClawConfig): Map<string, string> {
+export function resolveConfiguredLiveMusicModels(cfg: Brikko StudioConfig): Map<string, string> {
   return resolveConfiguredLiveProviderModels(cfg.agents?.defaults?.musicGenerationModel);
 }
 

@@ -2,7 +2,7 @@ import type {
   MigrationPlan,
   MigrationProviderContext,
   MigrationProviderPlugin,
-} from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/plugin-entry";
 import { applyClaudePlan } from "./apply.js";
 import { buildClaudePlan } from "./plan.js";
 import { discoverClaudeSource, hasClaudeSource } from "./source.js";

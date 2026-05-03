@@ -1,4 +1,4 @@
-import type { AgentHarness } from "openclaw/plugin-sdk/agent-harness-runtime";
+import type { AgentHarness } from "brikko-studio/plugin-sdk/agent-harness-runtime";
 import type {
   CodexAppServerListModelsOptions,
   CodexAppServerModel,

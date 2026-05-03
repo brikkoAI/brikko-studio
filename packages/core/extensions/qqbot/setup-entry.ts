@@ -1,4 +1,4 @@
-import { defineBundledChannelSetupEntry } from "openclaw/plugin-sdk/channel-entry-contract";
+import { defineBundledChannelSetupEntry } from "brikko-studio/plugin-sdk/channel-entry-contract";
 
 export default defineBundledChannelSetupEntry({
   importMetaUrl: import.meta.url,

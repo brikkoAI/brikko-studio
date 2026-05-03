@@ -1,6 +1,6 @@
 import { statSync } from "node:fs";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { withOpenClawTestState } from "../test-utils/openclaw-test-state.js";
+import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import {
   createManagedTaskFlow,
   getTaskFlowById,
@@ -38,14 +38,14 @@ function createStoredFlow(): TaskFlowRecord {
 }
 
 async function withFlowRegistryTempDir<T>(run: (root: string) => Promise<T>): Promise<T> {
-  return await withOpenClawTestState(
+  return await withBrikko StudioTestState(
     {
       layout: "state-only",
-      prefix: "openclaw-task-flow-store-",
+      prefix: "brikko-studio-task-flow-store-",
     },
     async (state) => {
       const root = state.stateDir;
-      process.env.OPENCLAW_STATE_DIR = root;
+      process.env.BRIKKO_STUDIO_STATE_DIR = root;
       resetTaskFlowRegistryForTests();
       try {
         return await run(root);
@@ -56,13 +56,13 @@ async function withFlowRegistryTempDir<T>(run: (root: string) => Promise<T>): Pr
   );
 }
 
-const ORIGINAL_STATE_DIR = process.env.OPENCLAW_STATE_DIR;
+const ORIGINAL_STATE_DIR = process.env.BRIKKO_STUDIO_STATE_DIR;
 
 function restoreOriginalStateDir(): void {
   if (ORIGINAL_STATE_DIR === undefined) {
-    delete process.env.OPENCLAW_STATE_DIR;
+    delete process.env.BRIKKO_STUDIO_STATE_DIR;
   } else {
-    process.env.OPENCLAW_STATE_DIR = ORIGINAL_STATE_DIR;
+    process.env.BRIKKO_STUDIO_STATE_DIR = ORIGINAL_STATE_DIR;
   }
 }
 
@@ -119,7 +119,7 @@ describe("task-flow-registry store runtime", () => {
 
   it("restores persisted wait-state, revision, and cancel intent from sqlite", async () => {
     await withFlowRegistryTempDir(async (root) => {
-      process.env.OPENCLAW_STATE_DIR = root;
+      process.env.BRIKKO_STUDIO_STATE_DIR = root;
       resetTaskFlowRegistryForTests();
 
       const created = createManagedTaskFlow({
@@ -167,7 +167,7 @@ describe("task-flow-registry store runtime", () => {
 
   it("round-trips explicit json null through sqlite", async () => {
     await withFlowRegistryTempDir(async (root) => {
-      process.env.OPENCLAW_STATE_DIR = root;
+      process.env.BRIKKO_STUDIO_STATE_DIR = root;
       resetTaskFlowRegistryForTests();
 
       const created = createManagedTaskFlow({
@@ -193,7 +193,7 @@ describe("task-flow-registry store runtime", () => {
       return;
     }
     await withFlowRegistryTempDir(async (root) => {
-      process.env.OPENCLAW_STATE_DIR = root;
+      process.env.BRIKKO_STUDIO_STATE_DIR = root;
       resetTaskFlowRegistryForTests();
 
       createManagedTaskFlow({

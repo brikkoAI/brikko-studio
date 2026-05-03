@@ -1,11 +1,11 @@
-import { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/account-id";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   applySetupAccountConfigPatch,
   createStandardChannelSetupStatus,
   formatDocsLink,
   type ChannelSetupWizard,
-} from "openclaw/plugin-sdk/setup";
+} from "brikko-studio/plugin-sdk/setup";
 import { isMattermostConfigured, resolveMattermostAccountWithSecrets } from "./setup-core.js";
 import { normalizeMattermostBaseUrl } from "./setup.client.runtime.js";
 import { hasConfiguredSecretInput } from "./setup.secret-input.runtime.js";
@@ -108,7 +108,7 @@ export const mattermostSetupWizard: ChannelSetupWizard = {
       normalizeValue: ({ value }) => normalizeMattermostBaseUrl(value) ?? value.trim(),
     },
   ],
-  disable: (cfg: OpenClawConfig) => ({
+  disable: (cfg: Brikko StudioConfig) => ({
     ...cfg,
     channels: {
       ...cfg.channels,

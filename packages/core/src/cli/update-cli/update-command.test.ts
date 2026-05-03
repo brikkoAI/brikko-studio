@@ -16,18 +16,18 @@ import {
 
 describe("resolveGatewayInstallEntrypointCandidates", () => {
   it("prefers index.js before legacy entry.js", () => {
-    expect(resolveGatewayInstallEntrypointCandidates("/tmp/openclaw-root")).toEqual([
-      path.join("/tmp/openclaw-root", "dist", "index.js"),
-      path.join("/tmp/openclaw-root", "dist", "index.mjs"),
-      path.join("/tmp/openclaw-root", "dist", "entry.js"),
-      path.join("/tmp/openclaw-root", "dist", "entry.mjs"),
+    expect(resolveGatewayInstallEntrypointCandidates("/tmp/brikko-studio-root")).toEqual([
+      path.join("/tmp/brikko-studio-root", "dist", "index.js"),
+      path.join("/tmp/brikko-studio-root", "dist", "index.mjs"),
+      path.join("/tmp/brikko-studio-root", "dist", "entry.js"),
+      path.join("/tmp/brikko-studio-root", "dist", "entry.mjs"),
     ]);
   });
 });
 
 describe("resolveGatewayInstallEntrypoint", () => {
   it("prefers dist/index.js over dist/entry.js when both exist", async () => {
-    const root = "/tmp/openclaw-root";
+    const root = "/tmp/brikko-studio-root";
     const indexPath = path.join(root, "dist", "index.js");
     const entryPath = path.join(root, "dist", "entry.js");
 
@@ -40,7 +40,7 @@ describe("resolveGatewayInstallEntrypoint", () => {
   });
 
   it("falls back to dist/entry.js when index.js is missing", async () => {
-    const root = "/tmp/openclaw-root";
+    const root = "/tmp/brikko-studio-root";
     const entryPath = path.join(root, "dist", "entry.js");
 
     await expect(
@@ -93,8 +93,8 @@ describe("resolveUpdatedGatewayRestartPort", () => {
     expect(
       resolveUpdatedGatewayRestartPort({
         config: { gateway: { port: 19000 } } as never,
-        processEnv: { OPENCLAW_GATEWAY_PORT: "19001" },
-        serviceEnv: { OPENCLAW_GATEWAY_PORT: "19002" },
+        processEnv: { BRIKKO_STUDIO_GATEWAY_PORT: "19001" },
+        serviceEnv: { BRIKKO_STUDIO_GATEWAY_PORT: "19002" },
       }),
     ).toBe(19002);
   });
@@ -113,61 +113,61 @@ describe("resolveUpdatedGatewayRestartPort", () => {
 describe("resolvePostInstallDoctorEnv", () => {
   it("uses the managed service profile paths for post-install doctor", () => {
     const env = resolvePostInstallDoctorEnv({
-      invocationCwd: "/srv/openclaw",
+      invocationCwd: "/srv/brikko-studio",
       baseEnv: {
         PATH: "/bin",
-        OPENCLAW_STATE_DIR: "/wrong/state",
-        OPENCLAW_CONFIG_PATH: "/wrong/openclaw.json",
-        OPENCLAW_PROFILE: "wrong",
+        BRIKKO_STUDIO_STATE_DIR: "/wrong/state",
+        BRIKKO_STUDIO_CONFIG_PATH: "/wrong/brikko-studio.json",
+        BRIKKO_STUDIO_PROFILE: "wrong",
       },
       serviceEnv: {
-        OPENCLAW_STATE_DIR: "daemon-state",
-        OPENCLAW_CONFIG_PATH: "daemon-state/openclaw.json",
-        OPENCLAW_PROFILE: "work",
+        BRIKKO_STUDIO_STATE_DIR: "daemon-state",
+        BRIKKO_STUDIO_CONFIG_PATH: "daemon-state/brikko-studio.json",
+        BRIKKO_STUDIO_PROFILE: "work",
       },
     });
 
     expect(env.PATH).toBe("/bin");
     expect(env.NODE_DISABLE_COMPILE_CACHE).toBe("1");
-    expect(env.OPENCLAW_STATE_DIR).toBe(path.join("/srv/openclaw", "daemon-state"));
-    expect(env.OPENCLAW_CONFIG_PATH).toBe(
-      path.join("/srv/openclaw", "daemon-state", "openclaw.json"),
+    expect(env.BRIKKO_STUDIO_STATE_DIR).toBe(path.join("/srv/brikko-studio", "daemon-state"));
+    expect(env.BRIKKO_STUDIO_CONFIG_PATH).toBe(
+      path.join("/srv/brikko-studio", "daemon-state", "brikko-studio.json"),
     );
-    expect(env.OPENCLAW_PROFILE).toBe("work");
+    expect(env.BRIKKO_STUDIO_PROFILE).toBe("work");
   });
 
   it("keeps the caller env when no managed service env is available", () => {
     const env = resolvePostInstallDoctorEnv({
       baseEnv: {
         PATH: "/bin",
-        OPENCLAW_STATE_DIR: "/caller/state",
-        OPENCLAW_PROFILE: "caller",
+        BRIKKO_STUDIO_STATE_DIR: "/caller/state",
+        BRIKKO_STUDIO_PROFILE: "caller",
       },
     });
 
     expect(env.PATH).toBe("/bin");
     expect(env.NODE_DISABLE_COMPILE_CACHE).toBe("1");
-    expect(env.OPENCLAW_STATE_DIR).toBe("/caller/state");
-    expect(env.OPENCLAW_PROFILE).toBe("caller");
+    expect(env.BRIKKO_STUDIO_STATE_DIR).toBe("/caller/state");
+    expect(env.BRIKKO_STUDIO_PROFILE).toBe("caller");
   });
 });
 
 describe("collectMissingPluginInstallPayloads", () => {
   it("reports tracked npm install records whose package payload is absent", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-update-plugin-payload-"));
-    const presentDir = path.join(tmpDir, "state", "npm", "node_modules", "@openclaw", "present");
-    const missingDir = path.join(tmpDir, "state", "npm", "node_modules", "@openclaw", "missing");
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-update-plugin-payload-"));
+    const presentDir = path.join(tmpDir, "state", "npm", "node_modules", "@brikko-studio", "present");
+    const missingDir = path.join(tmpDir, "state", "npm", "node_modules", "@brikko-studio", "missing");
     const noPackageJsonDir = path.join(
       tmpDir,
       "state",
       "npm",
       "node_modules",
-      "@openclaw",
+      "@brikko-studio",
       "no-package-json",
     );
     try {
       await fs.mkdir(presentDir, { recursive: true });
-      await fs.writeFile(path.join(presentDir, "package.json"), '{"name":"@openclaw/present"}\n');
+      await fs.writeFile(path.join(presentDir, "package.json"), '{"name":"@brikko-studio/present"}\n');
       await fs.mkdir(noPackageJsonDir, { recursive: true });
 
       await expect(
@@ -176,22 +176,22 @@ describe("collectMissingPluginInstallPayloads", () => {
           records: {
             present: {
               source: "npm",
-              spec: "@openclaw/present@beta",
+              spec: "@brikko-studio/present@beta",
               installPath: presentDir,
             },
             missing: {
               source: "npm",
-              spec: "@openclaw/missing@beta",
+              spec: "@brikko-studio/missing@beta",
               installPath: missingDir,
             },
             "no-package-json": {
               source: "npm",
-              spec: "@openclaw/no-package-json@beta",
+              spec: "@brikko-studio/no-package-json@beta",
               installPath: noPackageJsonDir,
             },
             "missing-install-path": {
               source: "npm",
-              spec: "@openclaw/missing-install-path@beta",
+              spec: "@brikko-studio/missing-install-path@beta",
             },
             local: {
               source: "path",

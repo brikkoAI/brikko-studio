@@ -386,7 +386,7 @@ export const nl: TranslationMap = {
     skills: "Skills en API-sleutels.",
     nodes: "Gekoppelde apparaten en commando's.",
     chat: "Gateway-chat voor snelle interventies.",
-    config: "Bewerk openclaw.json.",
+    config: "Bewerk brikko-studio.json.",
     communications: "Kanalen, berichten en audio-instellingen.",
     appearance: "Thema, UI en instellingen voor de installatiewizard.",
     automation: "Commando's, hooks, cron en plugins.",
@@ -462,7 +462,7 @@ export const nl: TranslationMap = {
       metadataUpgradeSummary:
         "Dit apparaat is al gekoppeld, maar de metadatawijziging wacht op goedkeuring.",
       mobileHint:
-        "Op mobiel? Kopieer de volledige URL (inclusief #token=...) vanuit openclaw dashboard --no-open op je desktop.",
+        "Op mobiel? Kopieer de volledige URL (inclusief #token=...) vanuit brikko-studio dashboard --no-open op je desktop.",
       docsTitle: "Docs voor apparaatkoppeling (opent in nieuw tabblad)",
       docsLink: "Docs: Apparaatkoppeling",
     },
@@ -500,7 +500,7 @@ export const nl: TranslationMap = {
       modelAuthExpiresIn: "verloopt {when}",
       modelAuthAttentionExpiredTitle: "Model-auth verlopen",
       modelAuthAttentionExpiringTitle: "Model-auth verloopt binnenkort",
-      modelAuthAttentionExpiredDesc: "{providers} — authenticeer opnieuw met openclaw models auth",
+      modelAuthAttentionExpiredDesc: "{providers} — authenticeer opnieuw met brikko-studio models auth",
       modelAuthAttentionExpiringEntry: "{provider} ({when})",
     },
     attention: {

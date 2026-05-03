@@ -1,15 +1,15 @@
 import {
   assertOkOrThrowProviderError,
   resolveProviderRequestHeaders,
-} from "openclaw/plugin-sdk/provider-http";
+} from "brikko-studio/plugin-sdk/provider-http";
 import {
   captureHttpExchange,
   isDebugProxyGlobalFetchPatchInstalled,
-} from "openclaw/plugin-sdk/proxy-capture";
+} from "brikko-studio/plugin-sdk/proxy-capture";
 import {
   fetchWithSsrFGuard,
   ssrfPolicyFromHttpBaseUrlAllowedHostname,
-} from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/ssrf-runtime";
 
 export const DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1";
 

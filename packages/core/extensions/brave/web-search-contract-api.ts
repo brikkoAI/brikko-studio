@@ -1,7 +1,7 @@
 import {
   createWebSearchProviderContractFields,
   type WebSearchProviderPlugin,
-} from "openclaw/plugin-sdk/provider-web-search-config-contract";
+} from "brikko-studio/plugin-sdk/provider-web-search-config-contract";
 
 export function createBraveWebSearchProvider(): WebSearchProviderPlugin {
   const credentialPath = "plugins.entries.brave.config.webSearch.apiKey";
@@ -15,7 +15,7 @@ export function createBraveWebSearchProvider(): WebSearchProviderPlugin {
     envVars: ["BRAVE_API_KEY"],
     placeholder: "BSA...",
     signupUrl: "https://brave.com/search/api/",
-    docsUrl: "https://docs.openclaw.ai/tools/brave-search",
+    docsUrl: "https://docs.brikko-studio.ai/tools/brave-search",
     autoDetectOrder: 10,
     credentialPath,
     ...createWebSearchProviderContractFields({

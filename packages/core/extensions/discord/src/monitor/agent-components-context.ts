@@ -1,6 +1,6 @@
 import { ChannelType } from "discord-api-types/v10";
-import { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
-import { logError } from "openclaw/plugin-sdk/text-runtime";
+import { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
+import { logError } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   type AgentComponentContext,
   type AgentComponentInteraction,

@@ -1,7 +1,7 @@
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "openclaw/plugin-sdk/account-id";
-import type { BaseTokenResolution } from "openclaw/plugin-sdk/channel-contract";
-import { tryReadSecretFileSync } from "openclaw/plugin-sdk/core";
-import { resolveAccountEntry } from "openclaw/plugin-sdk/routing";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
+import type { BaseTokenResolution } from "brikko-studio/plugin-sdk/channel-contract";
+import { tryReadSecretFileSync } from "brikko-studio/plugin-sdk/core";
+import { resolveAccountEntry } from "brikko-studio/plugin-sdk/routing";
 import { normalizeResolvedSecretInputString, normalizeSecretInputString } from "./secret-input.js";
 import type { ZaloConfig } from "./types.js";
 

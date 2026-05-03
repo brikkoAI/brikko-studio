@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { resolveGatewayProbeAuth as resolveStatusGatewayProbeAuth } from "../commands/status.gateway-probe.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { resolveGatewayAuth } from "./auth.js";
 import { resolveGatewayCredentialsFromConfig } from "./credentials.js";
 import { resolveGatewayProbeAuth } from "./probe-auth.js";
@@ -14,17 +14,17 @@ type ExpectedCredentialSet = {
 
 type TestCase = {
   name: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   expected: ExpectedCredentialSet;
 };
 
 const gatewayEnv = {
-  OPENCLAW_GATEWAY_TOKEN: "env-token", // pragma: allowlist secret
-  OPENCLAW_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+  BRIKKO_STUDIO_GATEWAY_TOKEN: "env-token", // pragma: allowlist secret
+  BRIKKO_STUDIO_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
 } as NodeJS.ProcessEnv;
 
-function makeRemoteGatewayConfig(remote: { token?: string; password?: string }): OpenClawConfig {
+function makeRemoteGatewayConfig(remote: { token?: string; password?: string }): Brikko StudioConfig {
   return {
     gateway: {
       mode: "remote",
@@ -34,14 +34,14 @@ function makeRemoteGatewayConfig(remote: { token?: string; password?: string }):
         password: "local-password", // pragma: allowlist secret
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 function withGatewayAuthEnv<T>(env: NodeJS.ProcessEnv, fn: () => T): T {
   const keys = [
-    "OPENCLAW_GATEWAY_TOKEN",
-    "OPENCLAW_GATEWAY_PASSWORD",
-    "OPENCLAW_SERVICE_KIND",
+    "BRIKKO_STUDIO_GATEWAY_TOKEN",
+    "BRIKKO_STUDIO_GATEWAY_PASSWORD",
+    "BRIKKO_STUDIO_SERVICE_KIND",
   ] as const;
   const previous = new Map<string, string | undefined>();
   for (const key of keys) {
@@ -79,10 +79,10 @@ describe("gateway credential precedence coverage", () => {
             password: "config-password", // pragma: allowlist secret
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       env: {
-        OPENCLAW_GATEWAY_TOKEN: "env-token", // pragma: allowlist secret
-        OPENCLAW_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+        BRIKKO_STUDIO_GATEWAY_TOKEN: "env-token", // pragma: allowlist secret
+        BRIKKO_STUDIO_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
       } as NodeJS.ProcessEnv,
       expected: {
         call: { token: "env-token", password: "env-password" }, // pragma: allowlist secret
@@ -128,11 +128,11 @@ describe("gateway credential precedence coverage", () => {
             password: "config-password", // pragma: allowlist secret
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       env: {
-        OPENCLAW_GATEWAY_TOKEN: "env-token",
-        OPENCLAW_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
-        OPENCLAW_SERVICE_KIND: "gateway",
+        BRIKKO_STUDIO_GATEWAY_TOKEN: "env-token",
+        BRIKKO_STUDIO_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+        BRIKKO_STUDIO_SERVICE_KIND: "gateway",
       } as NodeJS.ProcessEnv,
       expected: {
         call: { token: "config-token", password: "env-password" }, // pragma: allowlist secret

@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/azure-speech",
+  "name": "@brikko-studio/azure-speech",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Azure Speech plugin",
+  "description": "Brikko Studio Azure Speech plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

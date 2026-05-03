@@ -1,6 +1,6 @@
 import { isRestartEnabled } from "../../config/commands.flags.js";
 import { extractDeliveryInfo } from "../../config/sessions.js";
-import { resolveOpenClawPackageRoot } from "../../infra/openclaw-root.js";
+import { resolveBrikko StudioPackageRoot } from "../../infra/brikko-studio-root.js";
 import { readPackageVersion } from "../../infra/package-json.js";
 import {
   buildRestartSuccessContinuation,
@@ -59,7 +59,7 @@ export const updateHandlers: GatewayRequestHandlers = {
       const config = context.getRuntimeConfig();
       const configChannel = normalizeUpdateChannel(config.update?.channel);
       const root =
-        (await resolveOpenClawPackageRoot({
+        (await resolveBrikko StudioPackageRoot({
           moduleUrl: import.meta.url,
           argv1: process.argv[1],
           cwd: process.cwd(),

@@ -32,7 +32,7 @@ export function attachEmitterListener(
 
 export function closeInboundMonitorSocket(sock: ClosableSocket): void {
   if (typeof sock.end === "function") {
-    sock.end(new Error("OpenClaw WhatsApp listener close"));
+    sock.end(new Error("Brikko Studio WhatsApp listener close"));
     return;
   }
   sock.ws?.close?.();

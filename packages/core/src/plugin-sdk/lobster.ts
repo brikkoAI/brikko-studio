@@ -9,7 +9,7 @@ export {
 } from "./windows-spawn.js";
 export type {
   AnyAgentTool,
-  OpenClawPluginApi,
-  OpenClawPluginToolContext,
-  OpenClawPluginToolFactory,
+  Brikko StudioPluginApi,
+  Brikko StudioPluginToolContext,
+  Brikko StudioPluginToolFactory,
 } from "../plugins/types.js";

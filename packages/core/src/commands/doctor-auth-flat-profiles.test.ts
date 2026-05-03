@@ -2,13 +2,13 @@ import fs from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { clearRuntimeAuthProfileStoreSnapshots } from "../agents/auth-profiles/store.js";
 import {
-  createOpenClawTestState,
-  type OpenClawTestState,
-} from "../test-utils/openclaw-test-state.js";
+  createBrikko StudioTestState,
+  type Brikko StudioTestState,
+} from "../test-utils/brikko-studio-test-state.js";
 import { maybeRepairLegacyFlatAuthProfileStores } from "./doctor-auth-flat-profiles.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 
-const states: OpenClawTestState[] = [];
+const states: Brikko StudioTestState[] = [];
 
 function makePrompter(shouldRepair: boolean): DoctorPrompter {
   return {
@@ -29,12 +29,12 @@ function makePrompter(shouldRepair: boolean): DoctorPrompter {
   };
 }
 
-async function makeTestState(): Promise<OpenClawTestState> {
-  const state = await createOpenClawTestState({
+async function makeTestState(): Promise<Brikko StudioTestState> {
+  const state = await createBrikko StudioTestState({
     layout: "state-only",
-    prefix: "openclaw-doctor-flat-auth-",
+    prefix: "brikko-studio-doctor-flat-auth-",
     env: {
-      OPENCLAW_AGENT_DIR: undefined,
+      BRIKKO_STUDIO_AGENT_DIR: undefined,
     },
   });
   states.push(state);

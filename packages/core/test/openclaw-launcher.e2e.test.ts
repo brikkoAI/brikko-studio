@@ -5,10 +5,10 @@ import { afterEach, describe, expect, it } from "vitest";
 import { cleanupTempDirs, makeTempDir } from "./helpers/temp-dir.js";
 
 async function makeLauncherFixture(fixtureRoots: string[]): Promise<string> {
-  const fixtureRoot = makeTempDir(fixtureRoots, "openclaw-launcher-");
+  const fixtureRoot = makeTempDir(fixtureRoots, "brikko-studio-launcher-");
   await fs.copyFile(
-    path.resolve(process.cwd(), "openclaw.mjs"),
-    path.join(fixtureRoot, "openclaw.mjs"),
+    path.resolve(process.cwd(), "brikko-studio.mjs"),
+    path.join(fixtureRoot, "brikko-studio.mjs"),
   );
   await fs.mkdir(path.join(fixtureRoot, "dist"), { recursive: true });
   return fixtureRoot;
@@ -20,7 +20,7 @@ async function addSourceTreeMarker(fixtureRoot: string): Promise<void> {
 }
 
 async function addGitMarker(fixtureRoot: string): Promise<void> {
-  await fs.writeFile(path.join(fixtureRoot, ".git"), "gitdir: .git/worktrees/openclaw\n", "utf8");
+  await fs.writeFile(path.join(fixtureRoot, ".git"), "gitdir: .git/worktrees/brikko-studio\n", "utf8");
 }
 
 async function addCompileCacheProbe(fixtureRoot: string): Promise<void> {
@@ -29,7 +29,7 @@ async function addCompileCacheProbe(fixtureRoot: string): Promise<void> {
     [
       'import module from "node:module";',
       "process.stdout.write(",
-      '  `${module.getCompileCacheDir?.() ? "cache:enabled" : "cache:disabled"};respawn:${process.env.OPENCLAW_SOURCE_COMPILE_CACHE_RESPAWNED ?? "0"}`',
+      '  `${module.getCompileCacheDir?.() ? "cache:enabled" : "cache:disabled"};respawn:${process.env.BRIKKO_STUDIO_SOURCE_COMPILE_CACHE_RESPAWNED ?? "0"}`',
       ");",
     ].join("\n"),
     "utf8",
@@ -50,7 +50,7 @@ function launcherEnv(extra: NodeJS.ProcessEnv = {}): NodeJS.ProcessEnv {
   return env;
 }
 
-describe("openclaw launcher", () => {
+describe("brikko-studio launcher", () => {
   const fixtureRoots: string[] = [];
 
   afterEach(async () => {
@@ -61,25 +61,25 @@ describe("openclaw launcher", () => {
     const fixtureRoot = await makeLauncherFixture(fixtureRoots);
     await fs.writeFile(
       path.join(fixtureRoot, "dist", "entry.js"),
-      'import "missing-openclaw-launcher-dep";\nexport {};\n',
+      'import "missing-brikko-studio-launcher-dep";\nexport {};\n',
       "utf8",
     );
 
-    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "openclaw.mjs"), "--help"], {
+    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "brikko-studio.mjs"), "--help"], {
       cwd: fixtureRoot,
       env: launcherEnv(),
       encoding: "utf8",
     });
 
     expect(result.status).not.toBe(0);
-    expect(result.stderr).toContain("missing-openclaw-launcher-dep");
+    expect(result.stderr).toContain("missing-brikko-studio-launcher-dep");
     expect(result.stderr).not.toContain("missing dist/entry.(m)js");
   });
 
   it("keeps the friendly launcher error for a truly missing entry build output", async () => {
     const fixtureRoot = await makeLauncherFixture(fixtureRoots);
 
-    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "openclaw.mjs"), "--help"], {
+    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "brikko-studio.mjs"), "--help"], {
       cwd: fixtureRoot,
       env: launcherEnv(),
       encoding: "utf8",
@@ -93,7 +93,7 @@ describe("openclaw launcher", () => {
     const fixtureRoot = await makeLauncherFixture(fixtureRoots);
     await addSourceTreeMarker(fixtureRoot);
 
-    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "openclaw.mjs"), "--help"], {
+    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "brikko-studio.mjs"), "--help"], {
       cwd: fixtureRoot,
       env: launcherEnv(),
       encoding: "utf8",
@@ -103,7 +103,7 @@ describe("openclaw launcher", () => {
     expect(result.stderr).toContain("missing dist/entry.(m)js");
     expect(result.stderr).toContain("unbuilt source tree or GitHub source archive");
     expect(result.stderr).toContain("pnpm install && pnpm build");
-    expect(result.stderr).toContain("github:openclaw/openclaw#<ref>");
+    expect(result.stderr).toContain("github:brikko-studio/brikko-studio#<ref>");
   });
 
   it("keeps compile cache off for source-checkout launchers", async () => {
@@ -111,7 +111,7 @@ describe("openclaw launcher", () => {
     await addSourceTreeMarker(fixtureRoot);
     await addCompileCacheProbe(fixtureRoot);
 
-    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "openclaw.mjs")], {
+    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "brikko-studio.mjs")], {
       cwd: fixtureRoot,
       env: launcherEnv(),
       encoding: "utf8",
@@ -126,7 +126,7 @@ describe("openclaw launcher", () => {
     await addGitMarker(fixtureRoot);
     await addCompileCacheProbe(fixtureRoot);
 
-    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "openclaw.mjs")], {
+    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "brikko-studio.mjs")], {
       cwd: fixtureRoot,
       env: launcherEnv({
         NODE_COMPILE_CACHE: path.join(fixtureRoot, ".node-compile-cache"),
@@ -144,11 +144,11 @@ describe("openclaw launcher", () => {
       const fixtureRoot = await makeLauncherFixture(fixtureRoots);
       await addGitMarker(fixtureRoot);
       await addCompileCacheProbe(fixtureRoot);
-      const linkParent = makeTempDir(fixtureRoots, "openclaw-launcher-link-");
-      const linkedRoot = path.join(linkParent, "openclaw-linked");
+      const linkParent = makeTempDir(fixtureRoots, "brikko-studio-launcher-link-");
+      const linkedRoot = path.join(linkParent, "brikko-studio-linked");
       await fs.symlink(fixtureRoot, linkedRoot, "dir");
 
-      const result = spawnSync(process.execPath, [path.join(linkedRoot, "openclaw.mjs")], {
+      const result = spawnSync(process.execPath, [path.join(linkedRoot, "brikko-studio.mjs")], {
         cwd: linkParent,
         env: launcherEnv({
           NODE_COMPILE_CACHE: path.join(linkParent, ".node-compile-cache"),
@@ -165,7 +165,7 @@ describe("openclaw launcher", () => {
     const fixtureRoot = await makeLauncherFixture(fixtureRoots);
     await addCompileCacheProbe(fixtureRoot);
 
-    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "openclaw.mjs")], {
+    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "brikko-studio.mjs")], {
       cwd: fixtureRoot,
       env: launcherEnv({
         NODE_COMPILE_CACHE: path.join(fixtureRoot, ".node-compile-cache"),
@@ -189,7 +189,7 @@ describe("openclaw launcher", () => {
       "utf8",
     );
 
-    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "openclaw.mjs")], {
+    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "brikko-studio.mjs")], {
       cwd: fixtureRoot,
       env: launcherEnv({
         NODE_COMPILE_CACHE: path.join(fixtureRoot, ".node-compile-cache"),
@@ -198,12 +198,12 @@ describe("openclaw launcher", () => {
     });
 
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain(path.join(".node-compile-cache", "openclaw", "2026.4.29"));
+    expect(result.stdout).toContain(path.join(".node-compile-cache", "brikko-studio", "2026.4.29"));
   });
 
   it("falls back to the default packaged launcher compile cache when NODE_COMPILE_CACHE is empty", async () => {
     const fixtureRoot = await makeLauncherFixture(fixtureRoots);
-    const runCwd = makeTempDir(fixtureRoots, "openclaw-launcher-cwd-");
+    const runCwd = makeTempDir(fixtureRoots, "brikko-studio-launcher-cwd-");
     await fs.writeFile(path.join(fixtureRoot, "package.json"), '{"version":"2026.4.29"}\n');
     await fs.writeFile(
       path.join(fixtureRoot, "dist", "entry.js"),
@@ -214,7 +214,7 @@ describe("openclaw launcher", () => {
       "utf8",
     );
 
-    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "openclaw.mjs")], {
+    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "brikko-studio.mjs")], {
       cwd: runCwd,
       env: launcherEnv({
         NODE_COMPILE_CACHE: "",
@@ -223,15 +223,15 @@ describe("openclaw launcher", () => {
     });
 
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain(path.join("node-compile-cache", "openclaw", "2026.4.29"));
-    expect(result.stdout).not.toContain(path.join(runCwd, "openclaw"));
+    expect(result.stdout).toContain(path.join("node-compile-cache", "brikko-studio", "2026.4.29"));
+    expect(result.stdout).not.toContain(path.join(runCwd, "brikko-studio"));
   });
 
   it("enables compile cache for packaged launchers", async () => {
     const fixtureRoot = await makeLauncherFixture(fixtureRoots);
     await addCompileCacheProbe(fixtureRoot);
 
-    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "openclaw.mjs")], {
+    const result = spawnSync(process.execPath, [path.join(fixtureRoot, "brikko-studio.mjs")], {
       cwd: fixtureRoot,
       env: launcherEnv(),
       encoding: "utf8",

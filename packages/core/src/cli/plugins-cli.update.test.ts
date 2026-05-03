@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { beforeEach, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import {
   loadConfig,
   refreshPluginRegistry,
@@ -20,7 +20,7 @@ function createTrackedPluginConfig(params: {
   pluginId: string;
   spec: string;
   resolvedName?: string;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   return {
     plugins: {
       installs: {
@@ -32,7 +32,7 @@ function createTrackedPluginConfig(params: {
         },
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 describe("plugins cli update", () => {
@@ -67,7 +67,7 @@ describe("plugins cli update", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const nextConfig = {
       hooks: {
         internal: {
@@ -80,7 +80,7 @@ describe("plugins cli update", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     loadConfig.mockReturnValue(cfg);
     updateNpmInstalledPlugins.mockResolvedValue({
@@ -120,7 +120,7 @@ describe("plugins cli update", () => {
       plugins: {
         installs: {},
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     await expect(runPluginsCommand(["plugins", "update"])).rejects.toThrow("__exit__:1");
 
@@ -133,7 +133,7 @@ describe("plugins cli update", () => {
       plugins: {
         installs: {},
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     await runPluginsCommand(["plugins", "update", "--all"]);
 
@@ -144,8 +144,8 @@ describe("plugins cli update", () => {
 
   it("passes dangerous force unsafe install to plugin updates", async () => {
     const config = createTrackedPluginConfig({
-      pluginId: "openclaw-codex-app-server",
-      spec: "openclaw-codex-app-server@beta",
+      pluginId: "brikko-studio-codex-app-server",
+      spec: "brikko-studio-codex-app-server@beta",
     });
     loadConfig.mockReturnValue(config);
     setInstalledPluginIndexInstallRecords(config.plugins?.installs ?? {});
@@ -158,14 +158,14 @@ describe("plugins cli update", () => {
     await runPluginsCommand([
       "plugins",
       "update",
-      "openclaw-codex-app-server",
+      "brikko-studio-codex-app-server",
       "--dangerously-force-unsafe-install",
     ]);
 
     expect(updateNpmInstalledPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config,
-        pluginIds: ["openclaw-codex-app-server"],
+        pluginIds: ["brikko-studio-codex-app-server"],
         dangerouslyForceUnsafeInstall: true,
       }),
     );
@@ -177,21 +177,21 @@ describe("plugins cli update", () => {
         installs: {
           alpha: {
             source: "npm",
-            spec: "@openclaw/alpha@1.0.0",
+            spec: "@brikko-studio/alpha@1.0.0",
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const nextConfig = {
       plugins: {
         installs: {
           alpha: {
             source: "npm",
-            spec: "@openclaw/alpha@1.1.0",
+            spec: "@brikko-studio/alpha@1.1.0",
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     loadConfig.mockReturnValue(cfg);
     setInstalledPluginIndexInstallRecords(cfg.plugins?.installs ?? {});
     updateNpmInstalledPlugins.mockResolvedValue({
@@ -234,29 +234,29 @@ describe("plugins cli update", () => {
         installs: {
           alpha: {
             source: "npm",
-            spec: "@openclaw/alpha@1.0.0",
+            spec: "@brikko-studio/alpha@1.0.0",
           },
           beta: {
             source: "npm",
-            spec: "@openclaw/beta@1.0.0",
+            spec: "@brikko-studio/beta@1.0.0",
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const nextConfig = {
       plugins: {
         installs: {
           alpha: {
             source: "npm",
-            spec: "@openclaw/alpha@1.1.0",
+            spec: "@brikko-studio/alpha@1.1.0",
           },
           beta: {
             source: "npm",
-            spec: "@openclaw/beta@1.0.0",
+            spec: "@brikko-studio/beta@1.0.0",
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     loadConfig.mockReturnValue(cfg);
     setInstalledPluginIndexInstallRecords(cfg.plugins?.installs ?? {});
     updateNpmInstalledPlugins.mockResolvedValue({
@@ -300,7 +300,7 @@ describe("plugins cli update", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     loadConfig.mockReturnValue(cfg);
     updateNpmInstalledPlugins.mockResolvedValue({
       config: cfg,

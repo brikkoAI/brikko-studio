@@ -60,7 +60,7 @@ afterAll(async () => {
 
 async function createFreshOperatorDevice(scopes: string[], nonce: string) {
   const identity = loadOrCreateDeviceIdentity(
-    path.join(os.tmpdir(), `openclaw-talk-config-device-${process.pid}-${talkConfigDeviceSeq++}`),
+    path.join(os.tmpdir(), `brikko-studio-talk-config-device-${process.pid}-${talkConfigDeviceSeq++}`),
   );
   const signedAtMs = Date.now();
   const payload = buildDeviceAuthPayload({
@@ -202,7 +202,7 @@ describe("gateway talk.config", () => {
       expectTalkConfig(res.payload?.config?.talk, {
         provider: GENERIC_TALK_PROVIDER_ID,
         voiceId: "voice-123",
-        apiKey: "__OPENCLAW_REDACTED__",
+        apiKey: "__BRIKKO_STUDIO_REDACTED__",
         speechLocale: "ru-RU",
         silenceTimeoutMs: 1500,
       });
@@ -383,7 +383,7 @@ describe("gateway talk.config", () => {
             // sentinel so no credential material leaks to read-scope callers.
             const redactedApiKey = talk?.providers?.[GENERIC_TALK_PROVIDER_ID]?.apiKey;
             expect(redactedApiKey).toBeTypeOf("object");
-            expect((redactedApiKey as SecretRef).id).toBe("__OPENCLAW_REDACTED__");
+            expect((redactedApiKey as SecretRef).id).toBe("__BRIKKO_STUDIO_REDACTED__");
             expect(talk?.resolved?.config?.apiKey).toEqual(redactedApiKey);
           });
 

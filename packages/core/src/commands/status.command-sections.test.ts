@@ -50,8 +50,8 @@ describe("status.command-sections", () => {
     expect(lines).toContain("    critical detail");
     expect(lines).toContain("    muted(Fix: fix it)");
     expect(lines).toContain("muted(… +1 more)");
-    expect(lines.at(-2)).toBe("muted(Full report: cmd:openclaw security audit)");
-    expect(lines.at(-1)).toBe("muted(Deep probe: cmd:openclaw security audit --deep)");
+    expect(lines.at(-2)).toBe("muted(Full report: cmd:brikko-studio security audit)");
+    expect(lines.at(-1)).toBe("muted(Deep probe: cmd:brikko-studio security audit --deep)");
   });
 
   it("builds verbose sessions rows and empty fallback rows", () => {
@@ -177,14 +177,14 @@ describe("status.command-sections", () => {
         gatewayReachable: false,
       }),
     ).toEqual([
-      "FAQ: https://docs.openclaw.ai/faq",
-      "Troubleshooting: https://docs.openclaw.ai/troubleshooting",
+      "FAQ: https://docs.brikko-studio.ai/faq",
+      "Troubleshooting: https://docs.brikko-studio.ai/troubleshooting",
       "",
       "warn(upgrade ready)",
       "Next steps:",
-      "  Need to share?      cmd:openclaw status --all",
-      "  Need to debug live? cmd:openclaw logs --follow",
-      "  Fix reachability first: cmd:openclaw gateway probe",
+      "  Need to share?      cmd:brikko-studio status --all",
+      "  Need to debug live? cmd:brikko-studio logs --follow",
+      "  Fix reachability first: cmd:brikko-studio gateway probe",
     ]);
   });
 
@@ -218,9 +218,9 @@ describe("status.command-sections", () => {
       "warn(Gateway scope upgrade approval required.)",
       "muted(Reason: device is asking for more scopes than currently approved.)",
       "muted(Hint: Review the requested scopes, then approve the pending upgrade.)",
-      "muted(Recovery: cmd:openclaw devices approve req-123)",
-      "muted(Fallback: cmd:openclaw devices approve --latest)",
-      "muted(Inspect: cmd:openclaw devices list)",
+      "muted(Recovery: cmd:brikko-studio devices approve req-123)",
+      "muted(Fallback: cmd:brikko-studio devices approve --latest)",
+      "muted(Inspect: cmd:brikko-studio devices list)",
     ]);
   });
 

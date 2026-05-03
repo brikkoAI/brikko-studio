@@ -1,9 +1,9 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type {
-  OpenClawConfig,
+  Brikko StudioConfig,
   SecretInput,
   SecretInputMode,
-} from "openclaw/plugin-sdk/provider-auth";
+} from "brikko-studio/plugin-sdk/provider-auth";
 import {
   ensureApiKeyFromOptionEnvOrPrompt,
   isNonSecretApiKeyMarker,
@@ -11,15 +11,15 @@ import {
   normalizeOptionalSecretInput,
   upsertAuthProfileWithLock,
   validateApiKeyInput,
-} from "openclaw/plugin-sdk/provider-auth";
-import { applyAgentDefaultModelPrimary } from "openclaw/plugin-sdk/provider-onboard";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
-import { WizardCancelledError, type WizardPrompter } from "openclaw/plugin-sdk/setup";
-import { fetchWithSsrFGuard } from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/provider-auth";
+import { applyAgentDefaultModelPrimary } from "brikko-studio/plugin-sdk/provider-onboard";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
+import { WizardCancelledError, type WizardPrompter } from "brikko-studio/plugin-sdk/setup";
+import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import {
   OLLAMA_CLOUD_BASE_URL,
   OLLAMA_DEFAULT_BASE_URL,
@@ -52,7 +52,7 @@ type OllamaSetupOptions = {
 };
 
 type OllamaSetupResult = {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   credential: SecretInput;
   credentialMode?: SecretInputMode;
 };
@@ -62,7 +62,7 @@ function isTruthyEnvValue(value: string | undefined): boolean {
 }
 
 function resolveOllamaSetupDefaultBaseUrl(env: NodeJS.ProcessEnv = process.env): string {
-  return isTruthyEnvValue(env.OPENCLAW_DOCKER_SETUP)
+  return isTruthyEnvValue(env.BRIKKO_STUDIO_DOCKER_SETUP)
     ? OLLAMA_DOCKER_HOST_BASE_URL
     : OLLAMA_DEFAULT_BASE_URL;
 }
@@ -362,7 +362,7 @@ async function pullOllamaModelNonInteractive(
 }
 
 async function promptForOllamaCloudCredential(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   opts?: Record<string, unknown>;
   prompter: WizardPrompter;
@@ -464,12 +464,12 @@ function findAvailableOllamaModelName(modelName: string, availableModelNames: It
 }
 
 function applyOllamaProviderConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   baseUrl: string,
   modelNames: string[],
   discoveredModelsByName?: Map<string, OllamaModelWithContext>,
   apiKey: SecretInput = "OLLAMA_API_KEY",
-): OpenClawConfig {
+): Brikko StudioConfig {
   return {
     ...cfg,
     models: {
@@ -533,7 +533,7 @@ async function resolveHostBackedSuggestedModelNames(params: {
 }
 
 async function promptAndConfigureHostBackedOllama(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   mode: HostBackedOllamaInteractiveMode;
   prompter: WizardPrompter;
   env?: NodeJS.ProcessEnv;
@@ -570,7 +570,7 @@ async function promptAndConfigureHostBackedOllama(params: {
 }
 
 export async function promptAndConfigureOllama(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   opts?: Record<string, unknown>;
   prompter: WizardPrompter;
@@ -626,11 +626,11 @@ export async function promptAndConfigureOllama(params: {
 }
 
 export async function configureOllamaNonInteractive(params: {
-  nextConfig: OpenClawConfig;
+  nextConfig: Brikko StudioConfig;
   opts: OllamaSetupOptions;
   runtime: RuntimeEnv;
   agentDir?: string;
-}): Promise<OpenClawConfig> {
+}): Promise<Brikko StudioConfig> {
   const baseUrl = resolveOllamaApiBase(
     (params.opts.customBaseUrl?.trim() || resolveOllamaSetupDefaultBaseUrl()).replace(/\/+$/, ""),
   );
@@ -715,7 +715,7 @@ export async function configureOllamaNonInteractive(params: {
 }
 
 export async function ensureOllamaModelPulled(params: {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   model: string;
   prompter: WizardPrompter;
 }): Promise<void> {

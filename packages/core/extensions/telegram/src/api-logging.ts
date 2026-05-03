@@ -1,6 +1,6 @@
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { formatErrorMessage } from "openclaw/plugin-sdk/ssrf-runtime";
+import { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/ssrf-runtime";
 
 type TelegramApiLogger = (message: string) => void;
 

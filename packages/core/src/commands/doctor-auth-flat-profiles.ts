@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { resolveOpenClawAgentDir } from "../agents/agent-paths.js";
+import { resolveBrikko StudioAgentDir } from "../agents/agent-paths.js";
 import { resolveAgentDir, listAgentIds } from "../agents/agent-scope.js";
 import { AUTH_STORE_VERSION } from "../agents/auth-profiles/constants.js";
 import { resolveAuthStorePath } from "../agents/auth-profiles/paths.js";
@@ -11,7 +11,7 @@ import {
 import type { AuthProfileCredential, AuthProfileStore } from "../agents/auth-profiles/types.js";
 import { formatCliCommand } from "../cli/command-format.js";
 import { resolveStateDir } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { loadJsonFile } from "../infra/json-file.js";
 import { note } from "../terminal/note.js";
 import { shortenHomePath } from "../utils.js";
@@ -174,9 +174,9 @@ function listExistingAgentDirsFromState(): string[] {
     });
 }
 
-function listAuthProfileRepairCandidates(cfg: OpenClawConfig): AuthProfileRepairCandidate[] {
+function listAuthProfileRepairCandidates(cfg: Brikko StudioConfig): AuthProfileRepairCandidate[] {
   const candidates = new Map<string, AuthProfileRepairCandidate>();
-  addCandidate(candidates, resolveOpenClawAgentDir());
+  addCandidate(candidates, resolveBrikko StudioAgentDir());
   for (const agentId of listAgentIds(cfg)) {
     addCandidate(candidates, resolveAgentDir(cfg, agentId));
   }
@@ -213,7 +213,7 @@ function backupAuthProfileStore(authPath: string, now: () => number): string {
 }
 
 export async function maybeRepairLegacyFlatAuthProfileStores(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   prompter: DoctorPrompter;
   now?: () => number;
 }): Promise<LegacyFlatAuthProfileRepairResult> {
@@ -236,7 +236,7 @@ export async function maybeRepairLegacyFlatAuthProfileStores(params: {
       ...legacyStores.map(
         (entry) => `- ${shortenHomePath(entry.authPath)} uses the legacy flat auth profile format.`,
       ),
-      `- The gateway expects the canonical version/profiles store; ${formatCliCommand("openclaw doctor --fix")} rewrites this legacy shape with a backup.`,
+      `- The gateway expects the canonical version/profiles store; ${formatCliCommand("brikko-studio doctor --fix")} rewrites this legacy shape with a backup.`,
     ].join("\n"),
     "Auth profiles",
   );

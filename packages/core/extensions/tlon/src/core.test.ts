@@ -3,10 +3,10 @@ import {
   createPluginSetupWizardStatus,
   createTestWizardPrompter,
   runSetupWizardConfigure,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import type { WizardPrompter } from "openclaw/plugin-sdk/plugin-test-runtime";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import type { WizardPrompter } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../api.js";
+import type { Brikko StudioConfig } from "../api.js";
 import { TlonAuthorizationSchema, TlonConfigSchema } from "./config-schema.js";
 import { tlonSetupWizard } from "./setup-surface.js";
 import { normalizeShip, resolveTlonOutboundTarget } from "./targets.js";
@@ -19,17 +19,17 @@ const tlonTestPlugin = {
   config: {
     listAccountIds: listTlonAccountIds,
     defaultAccountId: () => "default",
-    resolveAllowFrom: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId?: string | null }) =>
+    resolveAllowFrom: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId?: string | null }) =>
       resolveTlonAccount(cfg, accountId).dmAllowlist,
     formatAllowFrom: ({
       allowFrom,
     }: {
-      cfg: OpenClawConfig;
+      cfg: Brikko StudioConfig;
       allowFrom: Array<string | number> | undefined | null;
     }) => (allowFrom ?? []).map((entry) => normalizeShip(String(entry))).filter(Boolean),
   },
   setup: {
-    resolveAccountId: ({ accountId }: { cfg: OpenClawConfig; accountId?: string | null }) =>
+    resolveAccountId: ({ accountId }: { cfg: Brikko StudioConfig; accountId?: string | null }) =>
       accountId ?? "default",
   },
 };
@@ -41,7 +41,7 @@ describe("tlon core", () => {
   it("formats dm allowlist entries through the shared hybrid adapter", () => {
     expect(
       tlonTestPlugin.config.formatAllowFrom?.({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         allowFrom: ["zod", " ~nec "],
       }),
     ).toEqual(["~zod", "~nec"]);
@@ -50,7 +50,7 @@ describe("tlon core", () => {
   it("returns an empty dm allowlist when the default account is unconfigured", () => {
     expect(
       tlonTestPlugin.config.resolveAllowFrom?.({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         accountId: "default",
       }),
     ).toEqual([]);
@@ -68,7 +68,7 @@ describe("tlon core", () => {
               dmAllowlist: ["~zod"],
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         accountId: "default",
       }),
     ).toEqual(["~zod"]);
@@ -137,7 +137,7 @@ describe("tlon core", () => {
 
     const result = await runSetupWizardConfigure({
       configure: tlonConfigure,
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       prompter,
       options: {},
     });
@@ -190,7 +190,7 @@ describe("tlon core", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(listTlonAccountIds(cfg)).toEqual(["alerts", "default", "work"]);
   });
@@ -216,7 +216,7 @@ describe("tlon core", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       "work",
     );
 
@@ -247,7 +247,7 @@ describe("tlon core", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       "default",
     );
 
@@ -268,7 +268,7 @@ describe("tlon core", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       accountOverrides: { tlon: "work" },
     });
 

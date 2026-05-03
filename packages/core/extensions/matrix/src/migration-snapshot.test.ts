@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { withTempHome } from "openclaw/plugin-sdk/test-env";
+import { withTempHome } from "brikko-studio/plugin-sdk/test-env";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const legacyCryptoInspectorAvailability = vi.hoisted(() => ({
@@ -37,7 +37,7 @@ function makeMatrixMigrationConfig() {
 }
 
 function seedLegacyMatrixCrypto(home: string) {
-  const stateDir = path.join(home, ".openclaw");
+  const stateDir = path.join(home, ".brikko-studio");
   const { rootDir } = resolveMatrixAccountStorageRoot({
     stateDir,
     ...MATRIX_CREDENTIALS,
@@ -74,8 +74,8 @@ describe("matrix migration snapshots", () => {
 
   it("creates a backup marker after writing a pre-migration snapshot", async () => {
     await withTempHome(async (home) => {
-      fs.writeFileSync(path.join(home, ".openclaw", "openclaw.json"), "{}\n", "utf8");
-      fs.writeFileSync(path.join(home, ".openclaw", "state.txt"), "state\n", "utf8");
+      fs.writeFileSync(path.join(home, ".brikko-studio", "brikko-studio.json"), "{}\n", "utf8");
+      fs.writeFileSync(path.join(home, ".brikko-studio", "state.txt"), "state\n", "utf8");
 
       const result = await maybeCreateMatrixMigrationSnapshot({
         trigger: "unit-test",
@@ -97,7 +97,7 @@ describe("matrix migration snapshots", () => {
 
   it("treats resolvable Matrix legacy state as actionable", async () => {
     await withTempHome(async (home) => {
-      const stateDir = path.join(home, ".openclaw");
+      const stateDir = path.join(home, ".brikko-studio");
       fs.mkdirSync(path.join(stateDir, "matrix"), { recursive: true });
       fs.writeFileSync(
         path.join(stateDir, "matrix", "bot-storage.json"),

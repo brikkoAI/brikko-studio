@@ -1,10 +1,10 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import { MSTeamsConfigSchema } from "../config-api.js";
 import { msTeamsApprovalAuth } from "./approval-auth.js";
 import { msteamsPlugin } from "./channel.js";
 
-function createConfiguredMSTeamsCfg(): OpenClawConfig {
+function createConfiguredMSTeamsCfg(): Brikko StudioConfig {
   return {
     channels: {
       msteams: {

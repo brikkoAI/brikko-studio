@@ -18,7 +18,7 @@ import { createMemoryWikiTestHarness } from "./test-helpers.js";
 
 const callGatewayFromCliMock = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/gateway-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/gateway-runtime", () => ({
   callGatewayFromCli: callGatewayFromCliMock,
 }));
 
@@ -189,9 +189,9 @@ describe("memory-wiki cli", () => {
         body: `# Alpha
 
 ## Notes
-<!-- openclaw:human:start -->
+<!-- brikko-studio:human:start -->
 cli note
-<!-- openclaw:human:end -->
+<!-- brikko-studio:human:end -->
 `,
       }),
       "utf8",

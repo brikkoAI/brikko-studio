@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/google-meet",
+  "name": "@brikko-studio/google-meet",
   "version": "2026.5.3",
-  "description": "OpenClaw Google Meet participant plugin",
+  "description": "Brikko Studio Google Meet participant plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/brikko-studio/brikko-studio"
   },
   "type": "module",
   "dependencies": {
@@ -12,23 +12,23 @@
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*",
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],
     "install": {
-      "npmSpec": "@openclaw/google-meet",
+      "npmSpec": "@brikko-studio/google-meet",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.20"
     },
@@ -36,7 +36,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "brikko-studioVersion": "2026.5.3"
     },
     "release": {
       "publishToClawHub": true,

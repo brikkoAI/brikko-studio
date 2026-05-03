@@ -7,7 +7,7 @@ export {
   parseNonNegativeByteSize,
   resolveSessionTranscriptsDirForAgent,
   resolveStateDir,
-} from "./openclaw-runtime.js";
+} from "./brikko-studio-runtime.js";
 export type {
   MemoryBackend,
   MemoryCitationsMode,
@@ -16,7 +16,7 @@ export type {
   MemoryQmdMcporterConfig,
   MemoryQmdSearchMode,
   MemorySearchConfig,
-  OpenClawConfig,
+  Brikko StudioConfig,
   SecretInput,
   SessionSendPolicyConfig,
-} from "./openclaw-runtime.js";
+} from "./brikko-studio-runtime.js";

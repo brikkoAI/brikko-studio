@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-export const FORBIDDEN_CHANGELOG_THANKS_HANDLES = ["codex", "openclaw", "steipete"];
+export const FORBIDDEN_CHANGELOG_THANKS_HANDLES = ["codex", "brikko-studio", "steipete"];
 
 const HANDLE_PATTERN = FORBIDDEN_CHANGELOG_THANKS_HANDLES.join("|");
 const FORBIDDEN_THANKS_PATTERN = new RegExp(

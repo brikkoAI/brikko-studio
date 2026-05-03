@@ -6,9 +6,9 @@ type PluginManifestShape = {
   id?: unknown;
 };
 
-type OpenClawPackageShape = {
+type Brikko StudioPackageShape = {
   name?: unknown;
-  openclaw?: {
+  brikko-studio?: {
     install?: {
       npmSpec?: unknown;
     };
@@ -61,13 +61,13 @@ function readBundledPluginRecords(): BundledPluginRecord[] {
     .flatMap((dirName) => {
       const rootDir = path.join(EXTENSIONS_ROOT, dirName);
       const packagePath = path.join(rootDir, "package.json");
-      const manifestPath = path.join(rootDir, "openclaw.plugin.json");
+      const manifestPath = path.join(rootDir, "brikko-studio.plugin.json");
       if (!fs.existsSync(packagePath) || !fs.existsSync(manifestPath)) {
         return [];
       }
 
       const manifest = readJsonFile<PluginManifestShape>(manifestPath);
-      const pkg = readJsonFile<OpenClawPackageShape>(packagePath);
+      const pkg = readJsonFile<Brikko StudioPackageShape>(packagePath);
       const manifestId = normalizeText(manifest.id);
       const packageName = normalizeText(pkg.name);
       if (!manifestId || !packageName) {
@@ -79,15 +79,15 @@ function readBundledPluginRecords(): BundledPluginRecord[] {
           dirName,
           packageName,
           manifestId,
-          installNpmSpec: normalizeText(pkg.openclaw?.install?.npmSpec),
-          channelId: normalizeText(pkg.openclaw?.channel?.id),
+          installNpmSpec: normalizeText(pkg.brikko-studio?.install?.npmSpec),
+          channelId: normalizeText(pkg.brikko-studio?.channel?.id),
         },
       ];
     });
 }
 
 function resolveAllowedPackageNamesForId(pluginId: string): string[] {
-  return ALLOWED_PACKAGE_SUFFIXES.map((suffix) => `@openclaw/${pluginId}${suffix}`);
+  return ALLOWED_PACKAGE_SUFFIXES.map((suffix) => `@brikko-studio/${pluginId}${suffix}`);
 }
 
 function resolveBundledPluginMismatches(
@@ -108,7 +108,7 @@ describe("bundled plugin naming guardrails", () => {
   it.each([
     {
       name: "keeps bundled workspace package names anchored to the plugin id",
-      message: `Bundled extension package names must stay anchored to the manifest id via @openclaw/<id> or an approved suffix (${ALLOWED_PACKAGE_SUFFIXES.join(", ")}). Update the plugin naming docs and this invariant before adding a new naming form.`,
+      message: `Bundled extension package names must stay anchored to the manifest id via @brikko-studio/<id> or an approved suffix (${ALLOWED_PACKAGE_SUFFIXES.join(", ")}). Update the plugin naming docs and this invariant before adding a new naming form.`,
       collectMismatches: (records: BundledPluginRecord[]) =>
         records
           .filter(
@@ -123,7 +123,7 @@ describe("bundled plugin naming guardrails", () => {
     {
       name: "keeps bundled workspace directories aligned with the plugin id unless explicitly allowlisted",
       message:
-        "Bundled extension directory names should match openclaw.plugin.json:id. If a legacy exception is unavoidable, add it to DIR_ID_EXCEPTIONS with a comment.",
+        "Bundled extension directory names should match brikko-studio.plugin.json:id. If a legacy exception is unavoidable, add it to DIR_ID_EXCEPTIONS with a comment.",
       collectMismatches: (records: BundledPluginRecord[]) =>
         records
           .filter(
@@ -132,9 +132,9 @@ describe("bundled plugin naming guardrails", () => {
           .map(({ dirName, manifestId }) => `${dirName} -> ${manifestId}`),
     },
     {
-      name: "keeps bundled openclaw.install.npmSpec aligned with the package name",
+      name: "keeps bundled brikko-studio.install.npmSpec aligned with the package name",
       message:
-        "Bundled openclaw.install.npmSpec values must match the package name so install/update paths stay deterministic.",
+        "Bundled brikko-studio.install.npmSpec values must match the package name so install/update paths stay deterministic.",
       collectMismatches: (records: BundledPluginRecord[]) =>
         records
           .filter(
@@ -149,7 +149,7 @@ describe("bundled plugin naming guardrails", () => {
     {
       name: "keeps non-packaged bundled plugins from advertising npm installs",
       message:
-        "Non-packaged bundled plugins are source-only/private and must not advertise openclaw.install.npmSpec.",
+        "Non-packaged bundled plugins are source-only/private and must not advertise brikko-studio.install.npmSpec.",
       collectMismatches: (records: BundledPluginRecord[]) =>
         records
           .filter(
@@ -161,7 +161,7 @@ describe("bundled plugin naming guardrails", () => {
     {
       name: "keeps bundled channel ids aligned with the canonical plugin id",
       message:
-        "Bundled openclaw.channel.id values must match openclaw.plugin.json:id for the owning plugin.",
+        "Bundled brikko-studio.channel.id values must match brikko-studio.plugin.json:id for the owning plugin.",
       collectMismatches: (records: BundledPluginRecord[]) =>
         records
           .filter(

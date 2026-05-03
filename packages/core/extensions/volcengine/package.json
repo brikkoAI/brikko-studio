@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/volcengine-provider",
+  "name": "@brikko-studio/volcengine-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Volcengine provider plugin",
+  "description": "Brikko Studio Volcengine provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

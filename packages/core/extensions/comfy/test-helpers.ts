@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import * as providerAuth from "openclaw/plugin-sdk/provider-auth-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import * as providerAuth from "brikko-studio/plugin-sdk/provider-auth-runtime";
 import { expect, vi } from "vitest";
 
 type FetchGuardMock = ReturnType<typeof vi.fn>;
@@ -19,24 +19,24 @@ type ComfyCloudJobResponseOptions = {
   redirectLocation: string;
 };
 
-export function buildComfyConfig(config: Record<string, unknown>): OpenClawConfig {
+export function buildComfyConfig(config: Record<string, unknown>): Brikko StudioConfig {
   return {
     plugins: {
       entries: {
         comfy: { config },
       },
     },
-  } as unknown as OpenClawConfig;
+  } as unknown as Brikko StudioConfig;
 }
 
-export function buildLegacyComfyConfig(config: Record<string, unknown>): OpenClawConfig {
+export function buildLegacyComfyConfig(config: Record<string, unknown>): Brikko StudioConfig {
   return {
     models: {
       providers: {
         comfy: config,
       },
     },
-  } as unknown as OpenClawConfig;
+  } as unknown as Brikko StudioConfig;
 }
 
 export function parseComfyJsonBody(

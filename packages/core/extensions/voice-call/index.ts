@@ -1,11 +1,11 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { ErrorCodes, errorShape } from "openclaw/plugin-sdk/gateway-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { ErrorCodes, errorShape } from "brikko-studio/plugin-sdk/gateway-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { Type } from "typebox";
 import {
   definePluginEntry,
   type GatewayRequestHandlerOptions,
-  type OpenClawPluginApi,
+  type Brikko StudioPluginApi,
 } from "./api.js";
 import { createVoiceCallRuntime, type VoiceCallRuntime } from "./runtime-entry.js";
 import { registerVoiceCallCli } from "./src/cli.js";
@@ -91,7 +91,7 @@ const voiceCallConfigSchema = {
     "realtime.instructions": { label: "Realtime Instructions", advanced: true },
     "realtime.toolPolicy": {
       label: "Realtime Tool Policy",
-      help: "Controls the shared openclaw_agent_consult tool.",
+      help: "Controls the shared brikko-studio_agent_consult tool.",
       advanced: true,
     },
     "realtime.fastContext.enabled": {
@@ -190,12 +190,12 @@ function asParamRecord(params: unknown): Record<string, unknown> {
 }
 
 function isCliOnlyProcess(): boolean {
-  return process.env.OPENCLAW_CLI === "1" && !process.argv.slice(2).includes("gateway");
+  return process.env.BRIKKO_STUDIO_CLI === "1" && !process.argv.slice(2).includes("gateway");
 }
 
-const VOICE_CALL_RUNTIME_KEY = Symbol.for("openclaw.voice-call.runtime");
-const VOICE_CALL_RUNTIME_PROMISE_KEY = Symbol.for("openclaw.voice-call.runtimePromise");
-const VOICE_CALL_RUNTIME_STOP_PROMISE_KEY = Symbol.for("openclaw.voice-call.runtimeStopPromise");
+const VOICE_CALL_RUNTIME_KEY = Symbol.for("brikko-studio.voice-call.runtime");
+const VOICE_CALL_RUNTIME_PROMISE_KEY = Symbol.for("brikko-studio.voice-call.runtimePromise");
+const VOICE_CALL_RUNTIME_STOP_PROMISE_KEY = Symbol.for("brikko-studio.voice-call.runtimeStopPromise");
 
 type VoiceCallRuntimeGlobalState = typeof globalThis & {
   [VOICE_CALL_RUNTIME_KEY]?: VoiceCallRuntime | null;
@@ -216,7 +216,7 @@ export default definePluginEntry({
   name: "Voice Call",
   description: "Voice-call plugin with Telnyx/Twilio/Plivo providers",
   configSchema: voiceCallConfigSchema,
-  register(api: OpenClawPluginApi) {
+  register(api: Brikko StudioPluginApi) {
     const config = resolveVoiceCallConfig(voiceCallConfigSchema.parse(api.pluginConfig));
     const validation = validateProviderConfig(config);
 
@@ -224,7 +224,7 @@ export default definePluginEntry({
       for (const warning of formatVoiceCallLegacyConfigWarnings({
         value: api.pluginConfig,
         configPathPrefix: "plugins.entries.voice-call.config",
-        doctorFixCommand: "openclaw doctor --fix",
+        doctorFixCommand: "brikko-studio doctor --fix",
       })) {
         api.logger.warn(warning);
       }

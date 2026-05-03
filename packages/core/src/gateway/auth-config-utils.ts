@@ -1,5 +1,5 @@
 import type { GatewayAuthConfig } from "../config/types.gateway.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { hasConfiguredSecretInput } from "../config/types.secrets.js";
 import { resolveRequiredConfiguredSecretRefInputString } from "./resolve-configured-secret-input-string.js";
 import {
@@ -14,7 +14,7 @@ type GatewayAuthSecretInputPath = Extract<
 >;
 
 type GatewayAuthSecretRefResolutionParams = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   mode?: GatewayAuthConfig["mode"];
   hasPasswordCandidate: boolean;
@@ -22,7 +22,7 @@ type GatewayAuthSecretRefResolutionParams = {
 };
 
 export function hasConfiguredGatewayAuthSecretInput(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   path: GatewayAuthSecretInputPath,
 ): boolean {
   return hasConfiguredSecretInput(readGatewaySecretInputValue(cfg, path), cfg.secrets?.defaults);
@@ -74,7 +74,7 @@ function shouldResolveGatewayPasswordSecretRef(
 }
 
 async function resolveGatewayAuthSecretRefValue(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   path: GatewayAuthSecretInputPath;
   shouldResolve: boolean;
@@ -117,11 +117,11 @@ export async function resolveGatewayPasswordSecretRefValue(
 }
 
 async function resolveGatewayAuthSecretRef(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   path: GatewayAuthSecretInputPath;
   shouldResolve: boolean;
-}): Promise<OpenClawConfig> {
+}): Promise<Brikko StudioConfig> {
   const value = await resolveGatewayAuthSecretRefValue(params);
   if (!value) {
     return params.cfg;
@@ -138,12 +138,12 @@ async function resolveGatewayAuthSecretRef(params: {
 }
 
 async function resolveGatewayPasswordSecretRef(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   mode?: GatewayAuthConfig["mode"];
   hasPasswordCandidate: boolean;
   hasTokenCandidate: boolean;
-}): Promise<OpenClawConfig> {
+}): Promise<Brikko StudioConfig> {
   return resolveGatewayAuthSecretRef({
     cfg: params.cfg,
     env: params.env,
@@ -154,7 +154,7 @@ async function resolveGatewayPasswordSecretRef(params: {
 
 export async function materializeGatewayAuthSecretRefs(
   params: GatewayAuthSecretRefResolutionParams,
-): Promise<OpenClawConfig> {
+): Promise<Brikko StudioConfig> {
   const cfgWithToken = await resolveGatewayAuthSecretRef({
     cfg: params.cfg,
     env: params.env,

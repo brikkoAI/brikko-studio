@@ -9,7 +9,7 @@ sidebarTitle: "Slash commands"
 
 Commands are handled by the Gateway. Most commands must be sent as a **standalone** message that starts with `/`. The host-only bash chat command uses `! <cmd>` (with `/bash <cmd>` as an alias).
 
-When a conversation or thread is bound to an ACP session, normal follow-up text routes to that ACP harness. Gateway management commands still stay local: `/acp ...` always reaches the OpenClaw ACP command handler, and `/status` plus `/unfocus` stay local whenever command handling is enabled for the surface.
+When a conversation or thread is bound to an ACP session, normal follow-up text routes to that ACP harness. Gateway management commands still stay local: `/acp ...` always reaches the Brikko Studio ACP command handler, and `/status` plus `/unfocus` stay local whenever command handling is enabled for the surface.
 
 There are two related systems:
 
@@ -67,7 +67,7 @@ There are two related systems:
 <ParamField path="commands.native" type='boolean | "auto"' default='"auto"'>
   Registers native commands. Auto: on for Discord/Telegram; off for Slack (until you add slash commands); ignored for providers without native support. Set `channels.discord.commands.native`, `channels.telegram.commands.native`, or `channels.slack.commands.native` to override per provider (bool or `"auto"`). `false` clears previously registered commands on Discord/Telegram at startup. Slack commands are managed in the Slack app and are not removed automatically.
 </ParamField>
-On Discord, native command specs may include `descriptionLocalizations`, which OpenClaw publishes as Discord `description_localizations` and includes in reconcile comparisons.
+On Discord, native command specs may include `descriptionLocalizations`, which Brikko Studio publishes as Discord `description_localizations` and includes in reconcile comparisons.
 <ParamField path="commands.nativeSkills" type='boolean | "auto"' default='"auto"'>
   Registers **skill** commands natively when supported. Auto: on for Discord/Telegram; off for Slack (Slack requires creating a slash command per skill). Set `channels.discord.commands.nativeSkills`, `channels.telegram.commands.nativeSkills`, or `channels.slack.commands.nativeSkills` to override per provider (bool or `"auto"`).
 </ParamField>
@@ -78,10 +78,10 @@ On Discord, native command specs may include `descriptionLocalizations`, which O
   Controls how long bash waits before switching to background mode (`0` backgrounds immediately).
 </ParamField>
 <ParamField path="commands.config" type="boolean" default="false">
-  Enables `/config` (reads/writes `openclaw.json`).
+  Enables `/config` (reads/writes `brikko-studio.json`).
 </ParamField>
 <ParamField path="commands.mcp" type="boolean" default="false">
-  Enables `/mcp` (reads/writes OpenClaw-managed MCP config under `mcp.servers`).
+  Enables `/mcp` (reads/writes Brikko Studio-managed MCP config under `mcp.servers`).
 </ParamField>
 <ParamField path="commands.plugins" type="boolean" default="false">
   Enables `/plugins` (plugin discovery/status plus install + enable/disable controls).
@@ -131,7 +131,7 @@ Current source-of-truth:
     - `/stop` aborts the current run.
     - `/session idle <duration|off>` and `/session max-age <duration|off>` manage thread-binding expiry.
     - `/export-session [path]` exports the current session to HTML. Alias: `/export`.
-    - `/export-trajectory [path]` asks for exec approval, then exports a JSONL [trajectory bundle](/tools/trajectory) for the current session. Use it when you need the prompt, tool, and transcript timeline for one OpenClaw session. In group chats, the approval prompt and export result go to the owner privately. Alias: `/trajectory`.
+    - `/export-trajectory [path]` asks for exec approval, then exports a JSONL [trajectory bundle](/tools/trajectory) for the current session. Use it when you need the prompt, tool, and transcript timeline for one Brikko Studio session. In group chats, the approval prompt and export result go to the owner privately. Alias: `/trajectory`.
 
   </Accordion>
   <Accordion title="Model and run controls">
@@ -152,7 +152,7 @@ Current source-of-truth:
     - `/commands` shows the generated command catalog.
     - `/tools [compact|verbose]` shows what the current agent can use right now.
     - `/status` shows execution/runtime status, including `Execution`/`Runtime` labels and provider usage/quota when available.
-    - `/diagnostics [note]` is the owner-only support-report flow for Gateway bugs and Codex harness runs. It asks for explicit exec approval every time before running `openclaw gateway diagnostics export --json`; do not approve diagnostics with an allow-all rule. After approval, it sends a pasteable report with the local bundle path, manifest summary, privacy notes, and relevant session ids. In group chats, the approval prompt and report go to the owner privately. When the active session uses the OpenAI Codex harness, the same approval also sends relevant Codex feedback to OpenAI servers and the completed reply lists the OpenClaw session ids, Codex thread ids, and `codex resume <thread-id>` commands. See [Diagnostics Export](/gateway/diagnostics).
+    - `/diagnostics [note]` is the owner-only support-report flow for Gateway bugs and Codex harness runs. It asks for explicit exec approval every time before running `brikko-studio gateway diagnostics export --json`; do not approve diagnostics with an allow-all rule. After approval, it sends a pasteable report with the local bundle path, manifest summary, privacy notes, and relevant session ids. In group chats, the approval prompt and report go to the owner privately. When the active session uses the OpenAI Codex harness, the same approval also sends relevant Codex feedback to OpenAI servers and the completed reply lists the Brikko Studio session ids, Codex thread ids, and `codex resume <thread-id>` commands. See [Diagnostics Export](/gateway/diagnostics).
     - `/crestodian <request>` runs the Crestodian setup and repair helper from an owner DM.
     - `/tasks` lists active/recent background tasks for the current session.
     - `/context [list|detail|json]` explains how context is assembled.
@@ -178,11 +178,11 @@ Current source-of-truth:
 
   </Accordion>
   <Accordion title="Owner-only writes and admin">
-    - `/config show|get|set|unset` reads or writes `openclaw.json`. Owner-only. Requires `commands.config: true`.
-    - `/mcp show|get|set|unset` reads or writes OpenClaw-managed MCP server config under `mcp.servers`. Owner-only. Requires `commands.mcp: true`.
+    - `/config show|get|set|unset` reads or writes `brikko-studio.json`. Owner-only. Requires `commands.config: true`.
+    - `/mcp show|get|set|unset` reads or writes Brikko Studio-managed MCP server config under `mcp.servers`. Owner-only. Requires `commands.mcp: true`.
     - `/plugins list|inspect|show|get|install|enable|disable` inspects or mutates plugin state. `/plugin` is an alias. Owner-only for writes. Requires `commands.plugins: true`.
     - `/debug show|set|unset|reset` manages runtime-only config overrides. Owner-only. Requires `commands.debug: true`.
-    - `/restart` restarts OpenClaw when enabled. Default: enabled; set `commands.restart: false` to disable it.
+    - `/restart` restarts Brikko Studio when enabled. Default: enabled; set `commands.restart: false` to disable it.
     - `/send on|off|inherit` sets send policy. Owner-only.
 
   </Accordion>
@@ -211,7 +211,7 @@ Dock commands are generated from channel plugins with native-command support. Cu
 
 Use dock commands from a direct chat to switch the current session's reply route to another linked channel. The agent keeps the same session context, but future replies for that session are delivered to the selected channel peer.
 
-Dock commands require `session.identityLinks`. The source sender and target peer must be in the same identity group, for example `["telegram:123", "discord:456"]`. If a Telegram user with id `123` sends `/dock_discord`, OpenClaw stores `lastChannel: "discord"` and `lastTo: "456"` on the active session. If the sender is not linked to a Discord peer, the command replies with a setup hint instead of falling through to normal chat.
+Dock commands require `session.identityLinks`. The source sender and target peer must be in the same identity group, for example `["telegram:123", "discord:456"]`. If a Telegram user with id `123` sends `/dock_discord`, Brikko Studio stores `lastChannel: "discord"` and `lastTo: "456"` on the active session. If the sender is not linked to a Discord peer, the command replies with a setup hint instead of falling through to normal chat.
 
 Docking changes the active session route only. It does not create channel accounts, grant access, bypass channel allowlists, or move transcript history to another session. Use `/dock-telegram`, `/dock-slack`, `/dock-mattermost`, or another generated dock command to switch the route again.
 
@@ -245,12 +245,12 @@ User-invocable skills are also exposed as slash commands:
   <Accordion title="Argument and parser notes">
     - Commands accept an optional `:` between the command and args (e.g. `/think: high`, `/send: on`, `/help:`).
     - `/new <model>` accepts a model alias, `provider/model`, or a provider name (fuzzy match); if no match, the text is treated as the message body.
-    - For full provider usage breakdown, use `openclaw status --usage`.
+    - For full provider usage breakdown, use `brikko-studio status --usage`.
     - `/allowlist add|remove` requires `commands.config=true` and honors channel `configWrites`.
     - In multi-account channels, config-targeted `/allowlist --account <id>` and `/config set channels.<provider>.accounts.<id>...` also honor the target account's `configWrites`.
-    - `/usage` controls the per-response usage footer; `/usage cost` prints a local cost summary from OpenClaw session logs.
+    - `/usage` controls the per-response usage footer; `/usage cost` prints a local cost summary from Brikko Studio session logs.
     - `/restart` is enabled by default; set `commands.restart: false` to disable it.
-    - `/plugins install <spec>` accepts the same plugin specs as `openclaw plugins install`: local path/archive, npm package, `git:<repo>`, or `clawhub:<pkg>`, then requests a Gateway restart because plugin source modules changed.
+    - `/plugins install <spec>` accepts the same plugin specs as `brikko-studio plugins install`: local path/archive, npm package, `git:<repo>`, or `clawhub:<pkg>`, then requests a Gateway restart because plugin source modules changed.
     - `/plugins enable|disable` updates plugin config and triggers Gateway plugin reload for new agent turns.
 
   </Accordion>
@@ -272,7 +272,7 @@ User-invocable skills are also exposed as slash commands:
   <Accordion title="Model switching">
     - `/model` persists the new session model immediately.
     - If the agent is idle, the next run uses it right away.
-    - If a run is already active, OpenClaw marks a live switch as pending and only restarts into the new model at a clean retry point.
+    - If a run is already active, Brikko Studio marks a live switch as pending and only restarts into the new model at a clean retry point.
     - If tool activity or reply output has already started, the pending switch can stay queued until a later retry opportunity or the next user turn.
     - In the local TUI, `/crestodian [request]` returns from the normal agent TUI to Crestodian. This is separate from message-channel rescue mode and does not grant remote config authority.
 
@@ -311,9 +311,9 @@ For profile and override editing, use the Control UI Tools panel or config/catal
 
 ## Usage surfaces (what shows where)
 
-- **Provider usage/quota** (example: "Claude 80% left") shows up in `/status` for the current model provider when usage tracking is enabled. OpenClaw normalizes provider windows to `% left`; for MiniMax, remaining-only percent fields are inverted before display, and `model_remains` responses prefer the chat-model entry plus a model-tagged plan label.
+- **Provider usage/quota** (example: "Claude 80% left") shows up in `/status` for the current model provider when usage tracking is enabled. Brikko Studio normalizes provider windows to `% left`; for MiniMax, remaining-only percent fields are inverted before display, and `model_remains` responses prefer the chat-model entry plus a model-tagged plan label.
 - **Token/cache lines** in `/status` can fall back to the latest transcript usage entry when the live session snapshot is sparse. Existing nonzero live values still win, and transcript fallback can also recover the active runtime model label plus a larger prompt-oriented total when stored totals are missing or smaller.
-- **Execution vs runtime:** `/status` reports `Execution` for the effective sandbox path and `Runtime` for who is actually running the session: `OpenClaw Pi Default`, `OpenAI Codex`, a CLI backend, or an ACP backend.
+- **Execution vs runtime:** `/status` reports `Execution` for the effective sandbox path and `Runtime` for who is actually running the session: `Brikko Studio Pi Default`, `OpenAI Codex`, a CLI backend, or an ACP backend.
 - **Per-response tokens/cost** is controlled by `/usage off|tokens|full` (appended to normal replies).
 - `/model status` is about **models/auth/endpoints**, not usage.
 
@@ -347,14 +347,14 @@ Examples:
 
 ```
 /debug show
-/debug set messages.responsePrefix="[openclaw]"
+/debug set messages.responsePrefix="[brikko-studio]"
 /debug set channels.whatsapp.allowFrom=["+1555","+4477"]
 /debug unset messages.responsePrefix
 /debug reset
 ```
 
 <Note>
-Overrides apply immediately to new config reads, but do **not** write to `openclaw.json`. Use `/debug reset` to clear all overrides and return to the on-disk config.
+Overrides apply immediately to new config reads, but do **not** write to `brikko-studio.json`. Use `/debug reset` to clear all overrides and return to the on-disk config.
 </Note>
 
 ## Plugin trace output
@@ -380,7 +380,7 @@ Notes:
 
 ## Config updates
 
-`/config` writes to your on-disk config (`openclaw.json`). Owner-only. Disabled by default; enable with `commands.config: true`.
+`/config` writes to your on-disk config (`brikko-studio.json`). Owner-only. Disabled by default; enable with `commands.config: true`.
 
 Examples:
 
@@ -388,7 +388,7 @@ Examples:
 /config show
 /config show messages.responsePrefix
 /config get messages.responsePrefix
-/config set messages.responsePrefix="[openclaw]"
+/config set messages.responsePrefix="[brikko-studio]"
 /config unset messages.responsePrefix
 ```
 
@@ -398,7 +398,7 @@ Config is validated before write; invalid changes are rejected. `/config` update
 
 ## MCP updates
 
-`/mcp` writes OpenClaw-managed MCP server definitions under `mcp.servers`. Owner-only. Disabled by default; enable with `commands.mcp: true`.
+`/mcp` writes Brikko Studio-managed MCP server definitions under `mcp.servers`. Owner-only. Disabled by default; enable with `commands.mcp: true`.
 
 Examples:
 
@@ -410,7 +410,7 @@ Examples:
 ```
 
 <Note>
-`/mcp` stores config in OpenClaw config, not Pi-owned project settings. Runtime adapters decide which transports are actually executable.
+`/mcp` stores config in Brikko Studio config, not Pi-owned project settings. Runtime adapters decide which transports are actually executable.
 </Note>
 
 ## Plugin updates
@@ -448,7 +448,7 @@ Examples:
 
   </Accordion>
   <Accordion title="Slack specifics">
-    `channels.slack.slashCommand` is still supported for a single `/openclaw`-style command. If you enable `commands.native`, you must create one Slack slash command per built-in command (same names as `/help`). Command argument menus for Slack are delivered as ephemeral Block Kit buttons.
+    `channels.slack.slashCommand` is still supported for a single `/brikko-studio`-style command. If you enable `commands.native`, you must create one Slack slash command per built-in command (same names as `/help`). Command argument menus for Slack are delivered as ephemeral Block Kit buttons.
 
     Slack native exception: register `/agentstatus` (not `/status`) because Slack reserves `/status`. Text `/status` still works in Slack messages.
 

@@ -6,7 +6,7 @@ type PackageJson = {
   version?: string;
   devDependencies?: Record<string, string>;
   peerDependencies?: Record<string, string>;
-  openclaw?: {
+  brikko-studio?: {
     install?: {
       minHostVersion?: string;
     };
@@ -14,7 +14,7 @@ type PackageJson = {
       pluginApi?: string;
     };
     build?: {
-      openclawVersion?: string;
+      brikko-studioVersion?: string;
     };
   };
 };
@@ -23,28 +23,28 @@ type SyncPluginVersionsOptions = {
   write?: boolean;
 };
 
-const OPENCLAW_VERSION_RANGE_RE = /^>=\d{4}\.\d{1,2}\.\d{1,2}(?:[-.][^"\s]+)?$/u;
+const BRIKKO_STUDIO_VERSION_RANGE_RE = /^>=\d{4}\.\d{1,2}\.\d{1,2}(?:[-.][^"\s]+)?$/u;
 
-function syncOpenClawDependencyRange(
+function syncBrikko StudioDependencyRange(
   deps: Record<string, string> | undefined,
   targetVersion: string,
 ): boolean {
-  const current = deps?.openclaw;
-  if (!current || current === "workspace:*" || !OPENCLAW_VERSION_RANGE_RE.test(current)) {
+  const current = deps?.brikko-studio;
+  if (!current || current === "workspace:*" || !BRIKKO_STUDIO_VERSION_RANGE_RE.test(current)) {
     return false;
   }
   const next = `>=${targetVersion}`;
   if (current === next) {
     return false;
   }
-  deps.openclaw = next;
+  deps.brikko-studio = next;
   return true;
 }
 
 function syncPluginApiVersion(pkg: PackageJson, targetVersion: string): boolean {
-  const compat = pkg.openclaw?.compat;
+  const compat = pkg.brikko-studio?.compat;
   const current = compat?.pluginApi;
-  if (!current || !OPENCLAW_VERSION_RANGE_RE.test(current)) {
+  if (!current || !BRIKKO_STUDIO_VERSION_RANGE_RE.test(current)) {
     return false;
   }
   const next = `>=${targetVersion}`;
@@ -55,16 +55,16 @@ function syncPluginApiVersion(pkg: PackageJson, targetVersion: string): boolean 
   return true;
 }
 
-function syncBuildOpenClawVersion(pkg: PackageJson, targetVersion: string): boolean {
-  const build = pkg.openclaw?.build;
-  const current = build?.openclawVersion;
+function syncBuildBrikko StudioVersion(pkg: PackageJson, targetVersion: string): boolean {
+  const build = pkg.brikko-studio?.build;
+  const current = build?.brikko-studioVersion;
   if (!current) {
     return false;
   }
   if (current === targetVersion) {
     return false;
   }
-  build.openclawVersion = targetVersion;
+  build.brikko-studioVersion = targetVersion;
   return true;
 }
 
@@ -76,7 +76,7 @@ function ensureChangelogEntry(changelogPath: string, version: string, write: boo
   if (content.includes(`## ${version}`)) {
     return false;
   }
-  const entry = `## ${version}\n\n### Changes\n- Version alignment with core OpenClaw release numbers.\n\n`;
+  const entry = `## ${version}\n\n### Changes\n- Version alignment with core Brikko Studio release numbers.\n\n`;
   if (content.startsWith("# Changelog\n\n")) {
     const next = content.replace("# Changelog\n\n", `# Changelog\n\n${entry}`);
     if (write) {
@@ -132,18 +132,18 @@ export function syncPluginVersions(
     }
 
     const versionChanged = pkg.version !== targetVersion;
-    const devDependencyChanged = syncOpenClawDependencyRange(pkg.devDependencies, targetVersion);
-    const peerDependencyChanged = syncOpenClawDependencyRange(pkg.peerDependencies, targetVersion);
+    const devDependencyChanged = syncBrikko StudioDependencyRange(pkg.devDependencies, targetVersion);
+    const peerDependencyChanged = syncBrikko StudioDependencyRange(pkg.peerDependencies, targetVersion);
     // minHostVersion is a compatibility floor, not release alignment metadata.
     // Keep it stable unless the owning plugin intentionally raises it.
     const pluginApiChanged = syncPluginApiVersion(pkg, targetVersion);
-    const buildOpenClawVersionChanged = syncBuildOpenClawVersion(pkg, targetVersion);
+    const buildBrikko StudioVersionChanged = syncBuildBrikko StudioVersion(pkg, targetVersion);
     const packageChanged =
       versionChanged ||
       devDependencyChanged ||
       peerDependencyChanged ||
       pluginApiChanged ||
-      buildOpenClawVersionChanged;
+      buildBrikko StudioVersionChanged;
     if (!packageChanged) {
       skipped.push(pkg.name);
       continue;

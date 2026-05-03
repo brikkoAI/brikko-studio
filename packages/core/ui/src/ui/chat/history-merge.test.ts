@@ -6,7 +6,7 @@ describe("preserveOptimisticTailMessages", () => {
     const persistedUser = {
       role: "user",
       content: [{ type: "text", text: "first" }],
-      __openclaw: { seq: 1 },
+      __brikko-studio: { seq: 1 },
     };
     const optimisticUser = {
       role: "user",
@@ -31,7 +31,7 @@ describe("preserveOptimisticTailMessages", () => {
     const persistedUser = {
       role: "user",
       content: [{ type: "text", text: "latest ask" }],
-      __openclaw: { seq: 1 },
+      __brikko-studio: { seq: 1 },
     };
     const streamedAssistant = {
       role: "assistant",
@@ -41,7 +41,7 @@ describe("preserveOptimisticTailMessages", () => {
     const historyAssistant = {
       role: "assistant",
       content: [{ type: "text", text: "complete persisted answer" }],
-      __openclaw: { seq: 2 },
+      __brikko-studio: { seq: 2 },
     };
 
     expect(

@@ -181,7 +181,7 @@ vi.mock("../plugins/manifest-registry.js", () => {
           hooks: [],
           rootDir: "/tmp/plugins/brave",
           source: "test",
-          manifestPath: "/tmp/plugins/brave/openclaw.plugin.json",
+          manifestPath: "/tmp/plugins/brave/brikko-studio.plugin.json",
           schemaCacheKey: "test:brave",
           configSchema: buildSchema(),
         },
@@ -200,7 +200,7 @@ vi.mock("../plugins/manifest-registry.js", () => {
             hooks: [],
             rootDir: `/tmp/plugins/${provider.pluginId}`,
             source: "test",
-            manifestPath: `/tmp/plugins/${provider.pluginId}/openclaw.plugin.json`,
+            manifestPath: `/tmp/plugins/${provider.pluginId}/brikko-studio.plugin.json`,
             schemaCacheKey: `test:${provider.pluginId}`,
             configSchema: buildSchema(),
           })),
@@ -217,7 +217,7 @@ vi.mock("../plugins/manifest-registry.js", () => {
           hooks: [],
           rootDir: "/tmp/plugins/acme-search",
           source: "test",
-          manifestPath: "/tmp/plugins/acme-search/openclaw.plugin.json",
+          manifestPath: "/tmp/plugins/acme-search/brikko-studio.plugin.json",
           schemaCacheKey: "test:acme-search",
           configSchema: buildSchema(),
         },
@@ -457,7 +457,7 @@ describe("web search provider config", () => {
       expect.objectContaining({
         path: "tools.web.search.provider",
         message:
-          'web_search provider is not available: brave (install or enable plugin "brave", then run openclaw doctor --fix)',
+          'web_search provider is not available: brave (install or enable plugin "brave", then run brikko-studio doctor --fix)',
         allowedValues: expect.arrayContaining(["brave"]),
       }),
     );

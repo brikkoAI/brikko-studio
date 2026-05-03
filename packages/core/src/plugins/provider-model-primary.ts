@@ -1,5 +1,5 @@
 import type { AgentModelListConfig } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 
 function resolvePrimaryModel(model?: AgentModelListConfig | string): string | undefined {
   if (typeof model === "string") {
@@ -12,10 +12,10 @@ function resolvePrimaryModel(model?: AgentModelListConfig | string): string | un
 }
 
 export function applyAgentDefaultPrimaryModel(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   model: string;
   legacyModels?: Set<string>;
-}): { next: OpenClawConfig; changed: boolean } {
+}): { next: Brikko StudioConfig; changed: boolean } {
   const current = resolvePrimaryModel(params.cfg.agents?.defaults?.model)?.trim();
   const normalizedCurrent = current && params.legacyModels?.has(current) ? params.model : current;
   if (normalizedCurrent === params.model) {
@@ -44,7 +44,7 @@ export function applyAgentDefaultPrimaryModel(params: {
   };
 }
 
-export function applyPrimaryModel(cfg: OpenClawConfig, model: string): OpenClawConfig {
+export function applyPrimaryModel(cfg: Brikko StudioConfig, model: string): Brikko StudioConfig {
   const defaults = cfg.agents?.defaults;
   const existingModel = defaults?.model;
   const existingModels = defaults?.models;

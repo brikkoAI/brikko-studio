@@ -1,4 +1,4 @@
-# Pre-commit hooks for openclaw
+# Pre-commit hooks for brikko-studio
 # Install: prek install
 # Run manually: prek run --all-files
 #
@@ -105,7 +105,7 @@ repos:
       # swiftformat --lint (same as CI)
       - id: swiftformat
         name: swiftformat
-        entry: swiftformat --lint apps/macos/Sources --config config/swiftformat --exclude '**/OpenClawProtocol,**/HostEnvSecurityPolicy.generated.swift'
+        entry: swiftformat --lint apps/macos/Sources --config config/swiftformat --exclude '**/Brikko StudioProtocol,**/HostEnvSecurityPolicy.generated.swift'
         language: system
         pass_filenames: false
         types: [swift]

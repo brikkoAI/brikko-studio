@@ -1,8 +1,8 @@
 export type { Command } from "commander";
-export type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-export { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
-export { callGatewayFromCli } from "openclaw/plugin-sdk/gateway-runtime";
-export type { PluginRuntime } from "openclaw/plugin-sdk/runtime-store";
+export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
+export { callGatewayFromCli } from "brikko-studio/plugin-sdk/gateway-runtime";
+export type { PluginRuntime } from "brikko-studio/plugin-sdk/runtime-store";
 export { defaultQaRuntimeModelForMode } from "./model-selection.runtime.js";
 export {
   buildQaTarget,
@@ -20,7 +20,7 @@ export {
   searchQaBusMessages,
   sendQaBusMessage,
   setQaChannelRuntime,
-} from "openclaw/plugin-sdk/qa-channel";
+} from "brikko-studio/plugin-sdk/qa-channel";
 export type {
   QaBusAttachment,
   QaBusConversation,

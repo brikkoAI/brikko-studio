@@ -49,7 +49,7 @@ let randomIntSpy: MockInstance<RandomIntSync>;
 let nextRandomInt = 0;
 
 beforeAll(() => {
-  fixtureRoot = fsSync.mkdtempSync(path.join(os.tmpdir(), "openclaw-pairing-"));
+  fixtureRoot = fsSync.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-pairing-"));
 });
 
 afterAll(() => {
@@ -81,7 +81,7 @@ function setDefaultRandomIntMock() {
 async function withTempStateDir<T>(fn: (stateDir: string) => Promise<T>) {
   const dir = path.join(fixtureRoot, `case-${caseId++}`);
   fsSync.mkdirSync(dir, { recursive: true });
-  return await withEnvAsync({ OPENCLAW_STATE_DIR: dir }, async () => await fn(dir));
+  return await withEnvAsync({ BRIKKO_STUDIO_STATE_DIR: dir }, async () => await fn(dir));
 }
 
 function writeJsonFixture(filePath: string, value: unknown) {

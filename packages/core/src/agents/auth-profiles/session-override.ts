@@ -1,5 +1,5 @@
 import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import { resolveAuthProfileOrder } from "../auth-profiles/order.js";
 import { ensureAuthProfileStore, hasAnyAuthProfileStoreSource } from "../auth-profiles/store.js";
@@ -15,7 +15,7 @@ function loadSessionStoreRuntime() {
 }
 
 function isProfileForProvider(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   provider: string;
   profileId: string;
   store: ReturnType<typeof ensureAuthProfileStore>;
@@ -50,7 +50,7 @@ export async function clearSessionAuthProfileOverride(params: {
 }
 
 export async function resolveSessionAuthProfileOverride(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   provider: string;
   agentDir: string;
   sessionEntry?: SessionEntry;

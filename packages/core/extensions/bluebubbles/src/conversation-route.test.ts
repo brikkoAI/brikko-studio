@@ -1,8 +1,8 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   __testing as sessionBindingTesting,
   registerSessionBindingAdapter,
-} from "openclaw/plugin-sdk/conversation-runtime";
+} from "brikko-studio/plugin-sdk/conversation-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { resolveBlueBubblesConversationRoute } from "./conversation-route.js";
 
@@ -11,7 +11,7 @@ const baseCfg = {
   agents: {
     list: [{ id: "main" }, { id: "codex" }],
   },
-} satisfies OpenClawConfig;
+} satisfies Brikko StudioConfig;
 
 describe("resolveBlueBubblesConversationRoute", () => {
   beforeEach(() => {

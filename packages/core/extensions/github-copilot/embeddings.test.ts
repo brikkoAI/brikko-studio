@@ -9,7 +9,7 @@ vi.mock("./auth.js", () => ({
   resolveFirstGithubToken: resolveFirstGithubTokenMock,
 }));
 
-vi.mock("openclaw/plugin-sdk/secret-input-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/secret-input-runtime", () => ({
   resolveConfiguredSecretInputString: resolveConfiguredSecretInputStringMock,
 }));
 
@@ -18,7 +18,7 @@ vi.mock("./token.js", () => ({
   resolveCopilotApiToken: resolveCopilotApiTokenMock,
 }));
 
-vi.mock("openclaw/plugin-sdk/ssrf-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/ssrf-runtime", () => ({
   fetchWithSsrFGuard: fetchWithSsrFGuardMock,
 }));
 

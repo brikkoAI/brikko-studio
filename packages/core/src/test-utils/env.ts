@@ -34,10 +34,10 @@ const PATH_RESOLUTION_ENV_KEYS = [
   "USERPROFILE",
   "HOMEDRIVE",
   "HOMEPATH",
-  "OPENCLAW_HOME",
-  "OPENCLAW_STATE_DIR",
-  "OPENCLAW_BUNDLED_PLUGINS_DIR",
-  "OPENCLAW_DISABLE_BUNDLED_PLUGINS",
+  "BRIKKO_STUDIO_HOME",
+  "BRIKKO_STUDIO_STATE_DIR",
+  "BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR",
+  "BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS",
 ] as const;
 
 function resolveWindowsHomeParts(homeDir: string): { homeDrive?: string; homePath?: string } {
@@ -63,10 +63,10 @@ export function createPathResolutionEnv(
     ...process.env,
     HOME: resolvedHome,
     USERPROFILE: resolvedHome,
-    OPENCLAW_HOME: undefined,
-    OPENCLAW_STATE_DIR: undefined,
-    OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
-    OPENCLAW_DISABLE_BUNDLED_PLUGINS: undefined,
+    BRIKKO_STUDIO_HOME: undefined,
+    BRIKKO_STUDIO_STATE_DIR: undefined,
+    BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
+    BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: undefined,
   };
 
   const windowsHome = resolveWindowsHomeParts(resolvedHome);

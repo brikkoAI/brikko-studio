@@ -5,8 +5,8 @@ import {
   createEmptyPluginRegistry,
   createRuntimeEnv,
   setActivePluginRegistry,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { PluginRuntime } from "../runtime-api.js";
 import {
@@ -35,8 +35,8 @@ vi.mock("./outbound-media.js", async () => {
 import { clearHostedZaloMediaForTest } from "./outbound-media.js";
 
 const ZALO_OUTBOUND_MEDIA_DIR = join(
-  resolvePreferredOpenClawTmpDir(),
-  "openclaw-zalo-outbound-media",
+  resolvePreferredBrikko StudioTmpDir(),
+  "brikko-studio-zalo-outbound-media",
 );
 
 async function writeHostedZaloMediaFixture(params: {

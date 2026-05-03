@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   clearCurrentPluginMetadataSnapshotState,
   getCurrentPluginMetadataSnapshotState,
@@ -12,7 +12,7 @@ import {
 import type { PluginMetadataSnapshot } from "./plugin-metadata-snapshot.types.js";
 
 export function resolvePluginMetadataControlPlaneFingerprint(
-  config?: OpenClawConfig,
+  config?: Brikko StudioConfig,
   options: Omit<ResolvePluginControlPlaneContextParams, "config"> = {},
 ): string {
   return resolvePluginControlPlaneFingerprint({
@@ -25,7 +25,7 @@ export function resolvePluginMetadataControlPlaneFingerprint(
 // never accumulate historical metadata snapshots here.
 export function setCurrentPluginMetadataSnapshot(
   snapshot: PluginMetadataSnapshot | undefined,
-  options: { config?: OpenClawConfig; env?: NodeJS.ProcessEnv; workspaceDir?: string } = {},
+  options: { config?: Brikko StudioConfig; env?: NodeJS.ProcessEnv; workspaceDir?: string } = {},
 ): void {
   setCurrentPluginMetadataSnapshotState(
     snapshot,
@@ -46,7 +46,7 @@ export function clearCurrentPluginMetadataSnapshot(): void {
 
 export function getCurrentPluginMetadataSnapshot(
   params: {
-    config?: OpenClawConfig;
+    config?: Brikko StudioConfig;
     env?: NodeJS.ProcessEnv;
     workspaceDir?: string;
   } = {},

@@ -11,7 +11,7 @@ import {
   extractRtt,
   readTelegramSummary,
   safeRunLabel,
-  validateOpenClawPackageSpec,
+  validateBrikko StudioPackageSpec,
 } from "../../scripts/lib/rtt-harness.ts";
 import { __testing as cliTesting } from "../../scripts/rtt.ts";
 
@@ -19,63 +19,63 @@ const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURE_PATH = path.resolve(TEST_DIR, "../fixtures/telegram-qa-summary-rtt.json");
 
 describe("RTT harness", () => {
-  it("validates OpenClaw package specs", () => {
-    expect(validateOpenClawPackageSpec("openclaw@main")).toBe("openclaw@main");
-    expect(validateOpenClawPackageSpec("openclaw@alpha")).toBe("openclaw@alpha");
-    expect(validateOpenClawPackageSpec("openclaw@beta")).toBe("openclaw@beta");
-    expect(validateOpenClawPackageSpec("openclaw@latest")).toBe("openclaw@latest");
-    expect(validateOpenClawPackageSpec("openclaw@2026.4.30")).toBe("openclaw@2026.4.30");
-    expect(validateOpenClawPackageSpec("openclaw@2026.4.30-beta.2")).toBe(
-      "openclaw@2026.4.30-beta.2",
+  it("validates Brikko Studio package specs", () => {
+    expect(validateBrikko StudioPackageSpec("brikko-studio@main")).toBe("brikko-studio@main");
+    expect(validateBrikko StudioPackageSpec("brikko-studio@alpha")).toBe("brikko-studio@alpha");
+    expect(validateBrikko StudioPackageSpec("brikko-studio@beta")).toBe("brikko-studio@beta");
+    expect(validateBrikko StudioPackageSpec("brikko-studio@latest")).toBe("brikko-studio@latest");
+    expect(validateBrikko StudioPackageSpec("brikko-studio@2026.4.30")).toBe("brikko-studio@2026.4.30");
+    expect(validateBrikko StudioPackageSpec("brikko-studio@2026.4.30-beta.2")).toBe(
+      "brikko-studio@2026.4.30-beta.2",
     );
-    expect(validateOpenClawPackageSpec("openclaw@2026.4.30-alpha.2")).toBe(
-      "openclaw@2026.4.30-alpha.2",
+    expect(validateBrikko StudioPackageSpec("brikko-studio@2026.4.30-alpha.2")).toBe(
+      "brikko-studio@2026.4.30-alpha.2",
     );
 
-    expect(() => validateOpenClawPackageSpec("@openclaw/openclaw@beta")).toThrow(
+    expect(() => validateBrikko StudioPackageSpec("@brikko-studio/brikko-studio@beta")).toThrow(
       /Package spec must be/,
     );
-    expect(() => validateOpenClawPackageSpec("openclaw@next")).toThrow(/Package spec must be/);
+    expect(() => validateBrikko StudioPackageSpec("brikko-studio@next")).toThrow(/Package spec must be/);
   });
 
   it("builds stable run labels", () => {
-    expect(safeRunLabel("openclaw@beta")).toBe("openclaw_beta");
+    expect(safeRunLabel("brikko-studio@beta")).toBe("brikko-studio_beta");
     expect(
       buildRunId({
         now: new Date("2026-05-01T03:04:05.678Z"),
-        spec: "openclaw@beta",
+        spec: "brikko-studio@beta",
         index: 1,
       }),
-    ).toBe("2026-05-01T030405678Z-openclaw_beta-2");
+    ).toBe("2026-05-01T030405678Z-brikko-studio_beta-2");
   });
 
   it("constructs harness env without dropping caller env", () => {
     const env = createHarnessEnv({
       baseEnv: {
-        OPENCLAW_QA_TELEGRAM_GROUP_ID: "-100123",
-        OPENCLAW_NPM_TELEGRAM_FAST: "0",
+        BRIKKO_STUDIO_QA_TELEGRAM_GROUP_ID: "-100123",
+        BRIKKO_STUDIO_NPM_TELEGRAM_FAST: "0",
       },
       providerMode: "mock-openai",
       rawOutputDir: ".artifacts/rtt/run/raw",
       samples: 20,
       sampleTimeoutMs: 30_000,
       scenarios: ["telegram-mentioned-message-reply"],
-      spec: "openclaw@beta",
+      spec: "brikko-studio@beta",
       timeoutMs: 180_000,
       version: "2026.4.30-beta.1",
     });
 
-    expect(env.OPENCLAW_QA_TELEGRAM_GROUP_ID).toBe("-100123");
-    expect(env.OPENCLAW_NPM_TELEGRAM_PACKAGE_SPEC).toBe("openclaw@beta");
-    expect(env.OPENCLAW_NPM_TELEGRAM_PACKAGE_LABEL).toBe("openclaw@beta (2026.4.30-beta.1)");
-    expect(env.OPENCLAW_NPM_TELEGRAM_PROVIDER_MODE).toBe("mock-openai");
-    expect(env.OPENCLAW_NPM_TELEGRAM_SCENARIOS).toBe("telegram-mentioned-message-reply");
-    expect(env.OPENCLAW_NPM_TELEGRAM_OUTPUT_DIR).toBe(".artifacts/rtt/run/raw");
-    expect(env.OPENCLAW_NPM_TELEGRAM_FAST).toBe("0");
-    expect(env.OPENCLAW_NPM_TELEGRAM_WARM_SAMPLES).toBe("20");
-    expect(env.OPENCLAW_NPM_TELEGRAM_SAMPLE_TIMEOUT_MS).toBe("30000");
-    expect(env.OPENCLAW_QA_TELEGRAM_CANARY_TIMEOUT_MS).toBe("180000");
-    expect(env.OPENCLAW_QA_TELEGRAM_SCENARIO_TIMEOUT_MS).toBe("180000");
+    expect(env.BRIKKO_STUDIO_QA_TELEGRAM_GROUP_ID).toBe("-100123");
+    expect(env.BRIKKO_STUDIO_NPM_TELEGRAM_PACKAGE_SPEC).toBe("brikko-studio@beta");
+    expect(env.BRIKKO_STUDIO_NPM_TELEGRAM_PACKAGE_LABEL).toBe("brikko-studio@beta (2026.4.30-beta.1)");
+    expect(env.BRIKKO_STUDIO_NPM_TELEGRAM_PROVIDER_MODE).toBe("mock-openai");
+    expect(env.BRIKKO_STUDIO_NPM_TELEGRAM_SCENARIOS).toBe("telegram-mentioned-message-reply");
+    expect(env.BRIKKO_STUDIO_NPM_TELEGRAM_OUTPUT_DIR).toBe(".artifacts/rtt/run/raw");
+    expect(env.BRIKKO_STUDIO_NPM_TELEGRAM_FAST).toBe("0");
+    expect(env.BRIKKO_STUDIO_NPM_TELEGRAM_WARM_SAMPLES).toBe("20");
+    expect(env.BRIKKO_STUDIO_NPM_TELEGRAM_SAMPLE_TIMEOUT_MS).toBe("30000");
+    expect(env.BRIKKO_STUDIO_QA_TELEGRAM_CANARY_TIMEOUT_MS).toBe("180000");
+    expect(env.BRIKKO_STUDIO_QA_TELEGRAM_SCENARIO_TIMEOUT_MS).toBe("180000");
   });
 
   it("extracts RTT values from Telegram QA summaries", async () => {
@@ -106,13 +106,13 @@ describe("RTT harness", () => {
       rawSummary: summary,
       runId: "run",
       scenarios: ["telegram-mentioned-message-reply"],
-      spec: "openclaw@beta",
+      spec: "brikko-studio@beta",
       startedAt: new Date("2026-05-01T00:00:00.000Z"),
       version: "2026.4.30-beta.1",
     });
 
     expect(result).toMatchObject({
-      package: { spec: "openclaw@beta", version: "2026.4.30-beta.1" },
+      package: { spec: "brikko-studio@beta", version: "2026.4.30-beta.1" },
       run: { durationMs: 12_000, id: "run", status: "pass" },
       mode: {
         providerMode: "mock-openai",
@@ -149,7 +149,7 @@ describe("RTT harness", () => {
       },
       runId: "run",
       scenarios: ["telegram-mentioned-message-reply"],
-      spec: "openclaw@latest",
+      spec: "brikko-studio@latest",
       startedAt: new Date("2026-05-01T00:00:00.000Z"),
       version: "2026.4.29",
     });
@@ -159,7 +159,7 @@ describe("RTT harness", () => {
   });
 
   it("appends JSONL rows", async () => {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-rtt-test-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-rtt-test-"));
     const jsonlPath = path.join(tempDir, "data/rtt.jsonl");
     await appendJsonl(jsonlPath, { run: 1 });
     await appendJsonl(jsonlPath, { run: 2 });
@@ -169,9 +169,9 @@ describe("RTT harness", () => {
 
   it("parses CLI options", () => {
     const parsed = cliTesting.parseArgs([
-      "openclaw@latest",
+      "brikko-studio@latest",
       "--package-tgz",
-      "/tmp/openclaw.tgz",
+      "/tmp/brikko-studio.tgz",
       "--provider",
       "live-frontier",
       "--runs",
@@ -183,19 +183,19 @@ describe("RTT harness", () => {
       "--timeout-ms",
       "240000",
       "--harness-root",
-      "/tmp/openclaw",
+      "/tmp/brikko-studio",
       "--output",
       "/tmp/runs",
     ]);
 
-    expect(parsed.spec).toBe("openclaw@latest");
+    expect(parsed.spec).toBe("brikko-studio@latest");
     expect(parsed.options).toMatchObject({
-      packageTgz: "/tmp/openclaw.tgz",
+      packageTgz: "/tmp/brikko-studio.tgz",
       providerMode: "live-frontier",
       runs: 3,
       samples: 5,
       sampleTimeoutMs: 30_000,
-      harnessRoot: "/tmp/openclaw",
+      harnessRoot: "/tmp/brikko-studio",
       output: "/tmp/runs",
       scenarios: ["telegram-mentioned-message-reply"],
       timeoutMs: 240_000,

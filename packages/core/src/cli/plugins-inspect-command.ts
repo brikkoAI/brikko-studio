@@ -283,7 +283,7 @@ export async function runPluginsInspectCommand(
   if (inspect.plugin.failedAt) {
     lines.push(`${theme.muted("Failed at:")} ${inspect.plugin.failedAt.toISOString()}`);
   }
-  lines.push(`${theme.muted("Format:")} ${inspect.plugin.format ?? "openclaw"}`);
+  lines.push(`${theme.muted("Format:")} ${inspect.plugin.format ?? "brikko-studio"}`);
   if (inspect.plugin.bundleFormat) {
     lines.push(`${theme.muted("Bundle format:")} ${inspect.plugin.bundleFormat}`);
   }

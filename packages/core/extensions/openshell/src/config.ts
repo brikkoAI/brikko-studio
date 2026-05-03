@@ -1,10 +1,10 @@
 import path from "node:path";
-import { buildPluginConfigSchema, type OpenClawPluginConfigSchema } from "openclaw/plugin-sdk/core";
+import { buildPluginConfigSchema, type Brikko StudioPluginConfigSchema } from "brikko-studio/plugin-sdk/core";
 import {
   formatPluginConfigIssue,
   mapPluginConfigIssues,
-} from "openclaw/plugin-sdk/extension-shared";
-import { z } from "openclaw/plugin-sdk/zod";
+} from "brikko-studio/plugin-sdk/extension-shared";
+import { z } from "brikko-studio/plugin-sdk/zod";
 
 type OpenShellPluginConfig = {
   mode?: "mirror" | "remote";
@@ -38,7 +38,7 @@ export type ResolvedOpenShellPluginConfig = {
 
 const DEFAULT_COMMAND = "openshell";
 const DEFAULT_MODE = "mirror";
-const DEFAULT_SOURCE = "openclaw";
+const DEFAULT_SOURCE = "brikko-studio";
 const DEFAULT_REMOTE_WORKSPACE_DIR = "/sandbox";
 const DEFAULT_REMOTE_AGENT_WORKSPACE_DIR = "/agent";
 const DEFAULT_TIMEOUT_MS = 120_000;
@@ -119,7 +119,7 @@ function normalizeOpenShellRemotePath(
   return normalized;
 }
 
-export function createOpenShellPluginConfigSchema(): OpenClawPluginConfigSchema {
+export function createOpenShellPluginConfigSchema(): Brikko StudioPluginConfigSchema {
   return buildPluginConfigSchema(OpenShellPluginConfigSchema, {
     safeParse(value) {
       if (value === undefined) {

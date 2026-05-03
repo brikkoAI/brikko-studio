@@ -33,11 +33,11 @@ describe("runEmbeddedPiAgent cron before_agent_reply seam", () => {
       ...overflowBaseRunParams,
       trigger: "cron",
       jobId: "cron-job-123",
-      prompt: "__openclaw_memory_core_short_term_promotion_dream__",
+      prompt: "__brikko-studio_memory_core_short_term_promotion_dream__",
     });
 
     expect(mockedGlobalHookRunner.runBeforeAgentReply).toHaveBeenCalledWith(
-      { cleanedBody: "__openclaw_memory_core_short_term_promotion_dream__" },
+      { cleanedBody: "__brikko-studio_memory_core_short_term_promotion_dream__" },
       expect.objectContaining({
         jobId: "cron-job-123",
         agentId: "main",

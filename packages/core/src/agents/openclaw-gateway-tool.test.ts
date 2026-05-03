@@ -140,11 +140,11 @@ describe("gateway tool", () => {
       );
     const sigusr1Handler = vi.fn();
     process.on("SIGUSR1", sigusr1Handler);
-    const stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-test-"));
+    const stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-test-"));
 
     try {
       await withEnvAsync(
-        { OPENCLAW_STATE_DIR: stateDir, OPENCLAW_PROFILE: "isolated" },
+        { BRIKKO_STUDIO_STATE_DIR: stateDir, BRIKKO_STUDIO_PROFILE: "isolated" },
         async () => {
           const tool = requireGatewayTool();
 
@@ -174,7 +174,7 @@ describe("gateway tool", () => {
           };
           expect(parsed.payload?.kind).toBe("restart");
           expect(parsed.payload?.doctorHint).toBe(
-            "Run: openclaw --profile isolated doctor --non-interactive",
+            "Run: brikko-studio --profile isolated doctor --non-interactive",
           );
         },
       );
@@ -204,7 +204,7 @@ describe("gateway tool", () => {
       if (method === "config.apply") {
         return {
           ok: true,
-          path: "/tmp/openclaw.json",
+          path: "/tmp/brikko-studio.json",
           config: { agents: { defaults: { systemPromptOverride: "You are a terse assistant." } } },
           restart: { ok: true, config: "nested field preserved" },
         };
@@ -225,7 +225,7 @@ describe("gateway tool", () => {
       ok: true,
       result: {
         ok: true,
-        path: "/tmp/openclaw.json",
+        path: "/tmp/brikko-studio.json",
         restart: { ok: true, config: "nested field preserved" },
       },
     });
@@ -256,7 +256,7 @@ describe("gateway tool", () => {
         return {
           ok: true,
           noop: true,
-          path: "/tmp/openclaw.json",
+          path: "/tmp/brikko-studio.json",
           config: { channels: { telegram: { groups: {} } } },
         };
       }
@@ -276,7 +276,7 @@ describe("gateway tool", () => {
       result: {
         ok: true,
         noop: true,
-        path: "/tmp/openclaw.json",
+        path: "/tmp/brikko-studio.json",
       },
     });
     expectConfigMutationCall({
@@ -339,7 +339,7 @@ describe("gateway tool", () => {
                     allowedValueFlags: ["-c"],
                   },
                 },
-                safeBinTrustedDirs: ["/tmp/openclaw-bin"],
+                safeBinTrustedDirs: ["/tmp/brikko-studio-bin"],
                 strictInlineEval: true,
               },
             },
@@ -359,7 +359,7 @@ describe("gateway tool", () => {
               allowedValueFlags: ["-c"],
             },
           },
-          safeBinTrustedDirs: ["/tmp/openclaw-bin"],
+          safeBinTrustedDirs: ["/tmp/brikko-studio-bin"],
           strictInlineEval: true,
         },
       },
@@ -496,7 +496,7 @@ describe("gateway tool", () => {
     await expect(
       tool.execute("call-protected-safe-bin-trust-apply", {
         action: "config.apply",
-        raw: '{ tools: { exec: { ask: "on-miss", security: "allowlist", safeBinTrustedDirs: ["/tmp/openclaw-bin"] } } }',
+        raw: '{ tools: { exec: { ask: "on-miss", security: "allowlist", safeBinTrustedDirs: ["/tmp/brikko-studio-bin"] } } }',
       }),
     ).rejects.toThrow(
       "gateway config.apply cannot change protected config paths: tools.exec.safeBinTrustedDirs",

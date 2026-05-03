@@ -1,5 +1,5 @@
 import { fileURLToPath } from "node:url";
-import { describeSglangProviderDiscoveryContract } from "openclaw/plugin-sdk/provider-test-contracts";
+import { describeSglangProviderDiscoveryContract } from "brikko-studio/plugin-sdk/provider-test-contracts";
 
 describeSglangProviderDiscoveryContract({
   load: () => import("./index.js"),

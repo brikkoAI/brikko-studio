@@ -1,8 +1,8 @@
-import { assertOkOrThrowProviderError } from "openclaw/plugin-sdk/provider-http";
+import { assertOkOrThrowProviderError } from "brikko-studio/plugin-sdk/provider-http";
 import {
   fetchWithSsrFGuard,
   ssrfPolicyFromHttpBaseUrlAllowedHostname,
-} from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/ssrf-runtime";
 
 export const DEFAULT_MINIMAX_TTS_BASE_URL = "https://api.minimax.io";
 

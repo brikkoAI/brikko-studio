@@ -1,7 +1,7 @@
 import {
   createPluginRegistryFixture,
   registerVirtualTestPlugin,
-} from "openclaw/plugin-sdk/plugin-test-contracts";
+} from "brikko-studio/plugin-sdk/plugin-test-contracts";
 import { describe, expect, it } from "vitest";
 import { getRegisteredMemoryEmbeddingProvider } from "../memory-embedding-providers.js";
 import { createPluginRecord } from "../status.test-helpers.js";

@@ -1,12 +1,12 @@
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "openclaw/plugin-sdk/account-id";
-import type { ChannelSetupAdapter } from "openclaw/plugin-sdk/channel-setup";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
+import type { ChannelSetupAdapter } from "brikko-studio/plugin-sdk/channel-setup";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   applyAccountNameToChannelSection,
   applySetupAccountConfigPatch,
   migrateBaseNameToDefaultAccount,
-} from "openclaw/plugin-sdk/setup";
-import { createSetupInputPresenceValidator } from "openclaw/plugin-sdk/setup-runtime";
+} from "brikko-studio/plugin-sdk/setup";
+import { createSetupInputPresenceValidator } from "brikko-studio/plugin-sdk/setup-runtime";
 import {
   resolveMattermostAccount,
   type ResolvedMattermostAccount,
@@ -22,7 +22,7 @@ export function isMattermostConfigured(account: ResolvedMattermostAccount): bool
   return tokenConfigured && Boolean(account.baseUrl);
 }
 
-export function resolveMattermostAccountWithSecrets(cfg: OpenClawConfig, accountId: string) {
+export function resolveMattermostAccountWithSecrets(cfg: Brikko StudioConfig, accountId: string) {
   return resolveMattermostAccount({
     cfg,
     accountId,

@@ -1,13 +1,13 @@
 {
   "entries": [
     {
-      "name": "@wecom/wecom-openclaw-plugin",
-      "description": "OpenClaw WeCom channel plugin by the Tencent WeCom team.",
+      "name": "@wecom/wecom-brikko-studio-plugin",
+      "description": "Brikko Studio WeCom channel plugin by the Tencent WeCom team.",
       "source": "external",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "plugin": {
-          "id": "wecom-openclaw-plugin",
+          "id": "wecom-brikko-studio-plugin",
           "label": "WeCom"
         },
         "channel": {
@@ -22,20 +22,20 @@
           "order": 45
         },
         "install": {
-          "npmSpec": "@wecom/wecom-openclaw-plugin@2026.4.23",
+          "npmSpec": "@wecom/wecom-brikko-studio-plugin@2026.4.23",
           "defaultChoice": "npm",
           "expectedIntegrity": "sha512-bnzfdIEEu1/LFvcdyjaTkyxt27w6c7dqhkPezU62OWaqmcdFsUGR3T55USK/O9pIKsNcnL1Tnu1pqKYCWHFgWQ=="
         }
       }
     },
     {
-      "name": "openclaw-plugin-yuanbao",
-      "description": "OpenClaw Yuanbao channel plugin by the Tencent Yuanbao team.",
+      "name": "brikko-studio-plugin-yuanbao",
+      "description": "Brikko Studio Yuanbao channel plugin by the Tencent Yuanbao team.",
       "source": "external",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "plugin": {
-          "id": "openclaw-plugin-yuanbao",
+          "id": "brikko-studio-plugin-yuanbao",
           "label": "Yuanbao"
         },
         "channel": {
@@ -50,18 +50,18 @@
           "order": 85
         },
         "install": {
-          "npmSpec": "openclaw-plugin-yuanbao@2.11.0",
+          "npmSpec": "brikko-studio-plugin-yuanbao@2.11.0",
           "defaultChoice": "npm",
           "expectedIntegrity": "sha512-lYmBrU71ox3v7dzRqaltvzTXPcMjjgYrNqpBj5HIBkXgEFkXRRG8wplXg9Fub41/FjsSPn3WAbYpdTc+k+jsHg=="
         }
       }
     },
     {
-      "name": "@openclaw/bluebubbles",
-      "description": "OpenClaw BlueBubbles channel plugin",
+      "name": "@brikko-studio/bluebubbles",
+      "description": "Brikko Studio BlueBubbles channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "bluebubbles",
           "label": "BlueBubbles",
@@ -76,18 +76,18 @@
           "order": 75
         },
         "install": {
-          "npmSpec": "@openclaw/bluebubbles",
+          "npmSpec": "@brikko-studio/bluebubbles",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }
       }
     },
     {
-      "name": "@openclaw/discord",
-      "description": "OpenClaw Discord channel plugin",
+      "name": "@brikko-studio/discord",
+      "description": "Brikko Studio Discord channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "discord",
           "label": "Discord",
@@ -101,7 +101,7 @@
           "preferSessionLookupForAnnounceTarget": true
         },
         "install": {
-          "npmSpec": "@openclaw/discord",
+          "npmSpec": "@brikko-studio/discord",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10",
           "allowInvalidConfigRecovery": true
@@ -109,11 +109,11 @@
       }
     },
     {
-      "name": "@openclaw/feishu",
-      "description": "OpenClaw Feishu/Lark channel plugin",
+      "name": "@brikko-studio/feishu",
+      "description": "Brikko Studio Feishu/Lark channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "feishu",
           "label": "Feishu",
@@ -126,18 +126,18 @@
           "quickstartAllowFrom": true
         },
         "install": {
-          "npmSpec": "@openclaw/feishu",
+          "npmSpec": "@brikko-studio/feishu",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.25"
         }
       }
     },
     {
-      "name": "@openclaw/googlechat",
-      "description": "OpenClaw Google Chat channel plugin",
+      "name": "@brikko-studio/googlechat",
+      "description": "Brikko Studio Google Chat channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "googlechat",
           "label": "Google Chat",
@@ -176,18 +176,18 @@
           ]
         },
         "install": {
-          "npmSpec": "@openclaw/googlechat",
+          "npmSpec": "@brikko-studio/googlechat",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }
       }
     },
     {
-      "name": "@openclaw/line",
-      "description": "OpenClaw LINE channel plugin",
+      "name": "@brikko-studio/line",
+      "description": "Brikko Studio LINE channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "line",
           "label": "LINE",
@@ -201,18 +201,18 @@
           "quickstartAllowFrom": true
         },
         "install": {
-          "npmSpec": "@openclaw/line",
+          "npmSpec": "@brikko-studio/line",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }
       }
     },
     {
-      "name": "@openclaw/msteams",
-      "description": "OpenClaw Microsoft Teams channel plugin",
+      "name": "@brikko-studio/msteams",
+      "description": "Brikko Studio Microsoft Teams channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "msteams",
           "label": "Microsoft Teams",
@@ -224,18 +224,18 @@
           "order": 60
         },
         "install": {
-          "npmSpec": "@openclaw/msteams",
+          "npmSpec": "@brikko-studio/msteams",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }
       }
     },
     {
-      "name": "@openclaw/nextcloud-talk",
-      "description": "OpenClaw Nextcloud Talk channel plugin",
+      "name": "@brikko-studio/nextcloud-talk",
+      "description": "Brikko Studio Nextcloud Talk channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "nextcloud-talk",
           "label": "Nextcloud Talk",
@@ -248,18 +248,18 @@
           "quickstartAllowFrom": true
         },
         "install": {
-          "npmSpec": "@openclaw/nextcloud-talk",
+          "npmSpec": "@brikko-studio/nextcloud-talk",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }
       }
     },
     {
-      "name": "@openclaw/nostr",
-      "description": "OpenClaw Nostr channel plugin for NIP-04 encrypted DMs",
+      "name": "@brikko-studio/nostr",
+      "description": "Brikko Studio Nostr channel plugin for NIP-04 encrypted DMs",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "nostr",
           "label": "Nostr",
@@ -271,18 +271,18 @@
           "quickstartAllowFrom": true
         },
         "install": {
-          "npmSpec": "@openclaw/nostr",
+          "npmSpec": "@brikko-studio/nostr",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }
       }
     },
     {
-      "name": "@openclaw/qqbot",
-      "description": "OpenClaw QQ Bot channel plugin",
+      "name": "@brikko-studio/qqbot",
+      "description": "Brikko Studio QQ Bot channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "qqbot",
           "label": "QQ Bot",
@@ -294,40 +294,40 @@
           "systemImage": "bubble.left.and.bubble.right"
         },
         "install": {
-          "npmSpec": "@openclaw/qqbot",
+          "npmSpec": "@brikko-studio/qqbot",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }
       }
     },
     {
-      "name": "@openclaw/synology-chat",
-      "description": "Synology Chat channel plugin for OpenClaw",
+      "name": "@brikko-studio/synology-chat",
+      "description": "Synology Chat channel plugin for Brikko Studio",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "synology-chat",
           "label": "Synology Chat",
           "selectionLabel": "Synology Chat (Webhook)",
           "docsPath": "/channels/synology-chat",
           "docsLabel": "synology-chat",
-          "blurb": "Connect your Synology NAS Chat to OpenClaw with full agent capabilities.",
+          "blurb": "Connect your Synology NAS Chat to Brikko Studio with full agent capabilities.",
           "order": 90
         },
         "install": {
-          "npmSpec": "@openclaw/synology-chat",
+          "npmSpec": "@brikko-studio/synology-chat",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }
       }
     },
     {
-      "name": "@openclaw/tlon",
-      "description": "OpenClaw Tlon/Urbit channel plugin",
+      "name": "@brikko-studio/tlon",
+      "description": "Brikko Studio Tlon/Urbit channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "tlon",
           "label": "Tlon",
@@ -339,18 +339,18 @@
           "quickstartAllowFrom": true
         },
         "install": {
-          "npmSpec": "@openclaw/tlon",
+          "npmSpec": "@brikko-studio/tlon",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }
       }
     },
     {
-      "name": "@openclaw/twitch",
-      "description": "OpenClaw Twitch channel plugin",
+      "name": "@brikko-studio/twitch",
+      "description": "Brikko Studio Twitch channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "twitch",
           "label": "Twitch",
@@ -360,18 +360,18 @@
           "aliases": ["twitch-chat"]
         },
         "install": {
-          "npmSpec": "@openclaw/twitch",
+          "npmSpec": "@brikko-studio/twitch",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }
       }
     },
     {
-      "name": "@openclaw/whatsapp",
-      "description": "OpenClaw WhatsApp channel plugin",
+      "name": "@brikko-studio/whatsapp",
+      "description": "Brikko Studio WhatsApp channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "whatsapp",
           "label": "WhatsApp",
@@ -383,18 +383,18 @@
           "systemImage": "message"
         },
         "install": {
-          "npmSpec": "@openclaw/whatsapp",
+          "npmSpec": "@brikko-studio/whatsapp",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.25"
         }
       }
     },
     {
-      "name": "@openclaw/zalo",
-      "description": "OpenClaw Zalo channel plugin",
+      "name": "@brikko-studio/zalo",
+      "description": "Brikko Studio Zalo channel plugin",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "zalo",
           "label": "Zalo",
@@ -407,18 +407,18 @@
           "quickstartAllowFrom": true
         },
         "install": {
-          "npmSpec": "@openclaw/zalo",
+          "npmSpec": "@brikko-studio/zalo",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }
       }
     },
     {
-      "name": "@openclaw/zalouser",
-      "description": "OpenClaw Zalo Personal Account plugin via native zca-js integration",
+      "name": "@brikko-studio/zalouser",
+      "description": "Brikko Studio Zalo Personal Account plugin via native zca-js integration",
       "source": "official",
       "kind": "channel",
-      "openclaw": {
+      "brikko-studio": {
         "channel": {
           "id": "zalouser",
           "label": "Zalo Personal",
@@ -431,7 +431,7 @@
           "quickstartAllowFrom": false
         },
         "install": {
-          "npmSpec": "@openclaw/zalouser",
+          "npmSpec": "@brikko-studio/zalouser",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.4.10"
         }

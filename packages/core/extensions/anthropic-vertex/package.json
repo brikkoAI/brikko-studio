@@ -1,8 +1,8 @@
 {
-  "name": "@openclaw/anthropic-vertex-provider",
+  "name": "@brikko-studio/anthropic-vertex-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Anthropic Vertex provider plugin",
+  "description": "Brikko Studio Anthropic Vertex provider plugin",
   "type": "module",
   "dependencies": {
     "@anthropic-ai/vertex-sdk": "^0.16.0",
@@ -10,9 +10,9 @@
     "@mariozechner/pi-ai": "0.71.1"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

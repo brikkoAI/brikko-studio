@@ -5,10 +5,10 @@ import { describe, expect, it, vi } from "vitest";
 import { normalizeCompatibilityConfigValues } from "../commands/doctor-legacy-config.js";
 import { createConfigIO } from "./io.js";
 import { normalizeExecSafeBinProfilesInConfig } from "./normalize-exec-safe-bin.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { Brikko StudioConfig } from "./types.brikko-studio.js";
 
 async function withTempHome(run: (home: string) => Promise<void>): Promise<void> {
-  const home = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-config-"));
+  const home = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-config-"));
   try {
     await run(home);
   } finally {
@@ -18,9 +18,9 @@ async function withTempHome(run: (home: string) => Promise<void>): Promise<void>
 
 async function writeConfig(
   home: string,
-  dirname: ".openclaw",
+  dirname: ".brikko-studio",
   port: number,
-  filename: string = "openclaw.json",
+  filename: string = "brikko-studio.json",
 ) {
   const dir = path.join(home, dirname);
   await fs.mkdir(dir, { recursive: true });
@@ -37,42 +37,42 @@ function createIoForHome(home: string, env: NodeJS.ProcessEnv = {} as NodeJS.Pro
 }
 
 describe("config io paths", () => {
-  it("uses ~/.openclaw/openclaw.json when config exists", async () => {
+  it("uses ~/.brikko-studio/brikko-studio.json when config exists", async () => {
     await withTempHome(async (home) => {
-      const configPath = await writeConfig(home, ".openclaw", 19001);
+      const configPath = await writeConfig(home, ".brikko-studio", 19001);
       const io = createIoForHome(home);
       expect(io.configPath).toBe(configPath);
     });
   });
 
-  it("defaults to ~/.openclaw/openclaw.json when config is missing", async () => {
+  it("defaults to ~/.brikko-studio/brikko-studio.json when config is missing", async () => {
     await withTempHome(async (home) => {
       const io = createIoForHome(home);
-      expect(io.configPath).toBe(path.join(home, ".openclaw", "openclaw.json"));
+      expect(io.configPath).toBe(path.join(home, ".brikko-studio", "brikko-studio.json"));
     });
   });
 
-  it("uses OPENCLAW_HOME for default config path", async () => {
+  it("uses BRIKKO_STUDIO_HOME for default config path", async () => {
     await withTempHome(async (home) => {
       const io = createConfigIO({
-        env: { OPENCLAW_HOME: path.join(home, "svc-home") } as NodeJS.ProcessEnv,
+        env: { BRIKKO_STUDIO_HOME: path.join(home, "svc-home") } as NodeJS.ProcessEnv,
         homedir: () => path.join(home, "ignored-home"),
       });
-      expect(io.configPath).toBe(path.join(home, "svc-home", ".openclaw", "openclaw.json"));
+      expect(io.configPath).toBe(path.join(home, "svc-home", ".brikko-studio", "brikko-studio.json"));
     });
   });
 
-  it("honors explicit OPENCLAW_CONFIG_PATH override", async () => {
+  it("honors explicit BRIKKO_STUDIO_CONFIG_PATH override", async () => {
     await withTempHome(async (home) => {
-      const customPath = await writeConfig(home, ".openclaw", 20002, "custom.json");
-      const io = createIoForHome(home, { OPENCLAW_CONFIG_PATH: customPath } as NodeJS.ProcessEnv);
+      const customPath = await writeConfig(home, ".brikko-studio", 20002, "custom.json");
+      const io = createIoForHome(home, { BRIKKO_STUDIO_CONFIG_PATH: customPath } as NodeJS.ProcessEnv);
       expect(io.configPath).toBe(customPath);
     });
   });
 
   it("logs validation warnings with real line breaks", async () => {
     await withTempHome(async (home) => {
-      const configPath = path.join(home, ".openclaw", "openclaw.json");
+      const configPath = path.join(home, ".brikko-studio", "brikko-studio.json");
       await fs.mkdir(path.dirname(configPath), { recursive: true });
       await fs.writeFile(
         configPath,
@@ -171,7 +171,7 @@ describe("config io paths", () => {
           },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
     expect(migrated.config.channels?.whatsapp?.accounts?.default).toMatchObject({
       dmPolicy: "allowlist",
       allowFrom: ["+15550001111"],

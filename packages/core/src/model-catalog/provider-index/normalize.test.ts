@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { loadOpenClawProviderIndex, normalizeOpenClawProviderIndex } from "./index.js";
+import { loadBrikko StudioProviderIndex, normalizeBrikko StudioProviderIndex } from "./index.js";
 
-describe("OpenClaw provider index", () => {
+describe("Brikko Studio provider index", () => {
   it("normalizes provider preview catalog rows through model catalog validation", () => {
-    const index = normalizeOpenClawProviderIndex({
+    const index = normalizeBrikko StudioProviderIndex({
       version: 1,
       providers: {
         Moonshot: {
@@ -11,10 +11,10 @@ describe("OpenClaw provider index", () => {
           name: "Moonshot AI",
           plugin: {
             id: "moonshot",
-            package: " @openclaw/plugin-moonshot ",
+            package: " @brikko-studio/plugin-moonshot ",
             install: {
-              clawhubSpec: " clawhub:openclaw/moonshot@2026.5.2 ",
-              npmSpec: " @openclaw/plugin-moonshot@1.2.3 ",
+              clawhubSpec: " clawhub:brikko-studio/moonshot@2026.5.2 ",
+              npmSpec: " @brikko-studio/plugin-moonshot@1.2.3 ",
               defaultChoice: "clawhub",
               expectedIntegrity: " sha512-moonshot ",
             },
@@ -62,10 +62,10 @@ describe("OpenClaw provider index", () => {
           name: "Moonshot AI",
           plugin: {
             id: "moonshot",
-            package: "@openclaw/plugin-moonshot",
+            package: "@brikko-studio/plugin-moonshot",
             install: {
-              clawhubSpec: "clawhub:openclaw/moonshot@2026.5.2",
-              npmSpec: "@openclaw/plugin-moonshot@1.2.3",
+              clawhubSpec: "clawhub:brikko-studio/moonshot@2026.5.2",
+              npmSpec: "@brikko-studio/plugin-moonshot@1.2.3",
               defaultChoice: "clawhub",
               expectedIntegrity: "sha512-moonshot",
             },
@@ -103,7 +103,7 @@ describe("OpenClaw provider index", () => {
   });
 
   it("drops unsafe providers and malformed preview catalog rows", () => {
-    const index = normalizeOpenClawProviderIndex({
+    const index = normalizeBrikko StudioProviderIndex({
       version: 1,
       providers: {
         ["__proto__"]: {
@@ -140,7 +140,7 @@ describe("OpenClaw provider index", () => {
   });
 
   it("loads the bundled provider index without runtime plugin loading", () => {
-    const index = loadOpenClawProviderIndex();
+    const index = loadBrikko StudioProviderIndex();
 
     expect(index.providers.moonshot?.previewCatalog).not.toHaveProperty("api");
     expect(index.providers.moonshot?.previewCatalog).not.toHaveProperty("baseUrl");

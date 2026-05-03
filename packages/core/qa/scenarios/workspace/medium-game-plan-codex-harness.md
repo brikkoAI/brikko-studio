@@ -25,7 +25,7 @@ codeRefs:
   - extensions/qa-lab/src/suite.ts
 execution:
   kind: flow
-  summary: Run with `pnpm openclaw qa suite --provider-mode live-frontier --model openai/gpt-5.5 --alt-model openai/gpt-5.5 --fast --thinking medium --scenario medium-game-plan-codex-harness`.
+  summary: Run with `pnpm brikko-studio qa suite --provider-mode live-frontier --model openai/gpt-5.5 --alt-model openai/gpt-5.5 --fast --thinking medium --scenario medium-game-plan-codex-harness`.
   config:
     requiredProvider: codex
     requiredModel: gpt-5.5

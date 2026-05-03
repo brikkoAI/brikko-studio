@@ -1,5 +1,5 @@
 ---
-summary: "How OpenClaw rotates auth profiles and falls back across models"
+summary: "How Brikko Studio rotates auth profiles and falls back across models"
 read_when:
   - Diagnosing auth profile rotation, cooldowns, or model fallback behavior
   - Updating failover rules for auth profiles or models
@@ -8,7 +8,7 @@ title: "Model failover"
 sidebarTitle: "Model failover"
 ---
 
-OpenClaw handles failures in two stages:
+Brikko Studio handles failures in two stages:
 
 1. **Auth profile rotation** within the current provider.
 2. **Model fallback** to the next model in `agents.defaults.model.fallbacks`.
@@ -17,7 +17,7 @@ This doc explains the runtime rules and the data that backs them.
 
 ## Runtime flow
 
-For a normal text run, OpenClaw evaluates candidates in this order:
+For a normal text run, Brikko Studio evaluates candidates in this order:
 
 <Steps>
   <Step title="Resolve session state">
@@ -56,23 +56,23 @@ That prevents a failed fallback retry from overwriting newer unrelated session m
 
 ## Selection source policy
 
-OpenClaw separates the selected provider/model from why it was selected. That source controls whether the fallback chain is allowed:
+Brikko Studio separates the selected provider/model from why it was selected. That source controls whether the fallback chain is allowed:
 
 - **Configured default**: `agents.defaults.model.primary` uses `agents.defaults.model.fallbacks`.
 - **Agent primary**: `agents.list[].model` is strict unless that agent model object includes its own `fallbacks`. Use `fallbacks: []` to make the strict behavior explicit, or provide a non-empty list to opt that agent into model fallback.
 - **Auto fallback override**: a runtime fallback writes `providerOverride`, `modelOverride`, and `modelOverrideSource: "auto"` before retrying. That auto override can keep walking the configured fallback chain and is cleared by `/new`, `/reset`, and `sessions.reset`.
-- **User session override**: `/model`, the model picker, `session_status(model=...)`, and `sessions.patch` write `modelOverrideSource: "user"`. That is an exact session selection. If the selected provider/model fails before producing a reply, OpenClaw reports the failure instead of answering from an unrelated configured fallback.
-- **Legacy session override**: older session entries may have `modelOverride` without `modelOverrideSource`. OpenClaw treats those as user overrides so an explicit old selection is not silently converted into fallback behavior.
+- **User session override**: `/model`, the model picker, `session_status(model=...)`, and `sessions.patch` write `modelOverrideSource: "user"`. That is an exact session selection. If the selected provider/model fails before producing a reply, Brikko Studio reports the failure instead of answering from an unrelated configured fallback.
+- **Legacy session override**: older session entries may have `modelOverride` without `modelOverrideSource`. Brikko Studio treats those as user overrides so an explicit old selection is not silently converted into fallback behavior.
 - **Cron payload model**: a cron job `payload.model` / `--model` is a job primary, not a user session override. It uses configured fallbacks unless the job provides `payload.fallbacks`; `payload.fallbacks: []` makes the cron run strict.
 
 ## Auth storage (keys + OAuth)
 
-OpenClaw uses **auth profiles** for both API keys and OAuth tokens.
+Brikko Studio uses **auth profiles** for both API keys and OAuth tokens.
 
-- Secrets live in `~/.openclaw/agents/<agentId>/agent/auth-profiles.json` (legacy: `~/.openclaw/agent/auth-profiles.json`).
-- Runtime auth-routing state lives in `~/.openclaw/agents/<agentId>/agent/auth-state.json`.
+- Secrets live in `~/.brikko-studio/agents/<agentId>/agent/auth-profiles.json` (legacy: `~/.brikko-studio/agent/auth-profiles.json`).
+- Runtime auth-routing state lives in `~/.brikko-studio/agents/<agentId>/agent/auth-state.json`.
 - Config `auth.profiles` / `auth.order` are **metadata + routing only** (no secrets).
-- Legacy import-only OAuth file: `~/.openclaw/credentials/oauth.json` (imported into `auth-profiles.json` on first use).
+- Legacy import-only OAuth file: `~/.brikko-studio/credentials/oauth.json` (imported into `auth-profiles.json` on first use).
 
 More detail: [OAuth](/concepts/oauth)
 
@@ -88,11 +88,11 @@ OAuth logins create distinct profiles so multiple accounts can coexist.
 - Default: `provider:default` when no email is available.
 - OAuth with email: `provider:<email>` (for example `google-antigravity:user@gmail.com`).
 
-Profiles live in `~/.openclaw/agents/<agentId>/agent/auth-profiles.json` under `profiles`.
+Profiles live in `~/.brikko-studio/agents/<agentId>/agent/auth-profiles.json` under `profiles`.
 
 ## Rotation order
 
-When a provider has multiple profiles, OpenClaw chooses an order like this:
+When a provider has multiple profiles, Brikko Studio chooses an order like this:
 
 <Steps>
   <Step title="Explicit config">
@@ -106,7 +106,7 @@ When a provider has multiple profiles, OpenClaw chooses an order like this:
   </Step>
 </Steps>
 
-If no explicit order is configured, OpenClaw uses a round‑robin order:
+If no explicit order is configured, Brikko Studio uses a round‑robin order:
 
 - **Primary key:** profile type (**OAuth before API keys**).
 - **Secondary key:** `usageStats.lastUsed` (oldest first, within each type).
@@ -114,7 +114,7 @@ If no explicit order is configured, OpenClaw uses a round‑robin order:
 
 ### Session stickiness (cache-friendly)
 
-OpenClaw **pins the chosen auth profile per session** to keep provider caches warm. It does **not** rotate on every request. The pinned profile is reused until:
+Brikko Studio **pins the chosen auth profile per session** to keep provider caches warm. It does **not** rotate on every request. The pinned profile is reused until:
 
 - the session is reset (`/new` / `/reset`)
 - a compaction completes (compaction count increments)
@@ -123,7 +123,7 @@ OpenClaw **pins the chosen auth profile per session** to keep provider caches wa
 Manual selection via `/model …@<profileId>` sets a **user override** for that session and is not auto-rotated until a new session starts.
 
 <Note>
-Auto-pinned profiles (selected by the session router) are treated as a **preference**: they are tried first, but OpenClaw may rotate to another profile on rate limits/timeouts. User-pinned profiles stay locked to that profile; if it fails and model fallbacks are configured, OpenClaw moves to the next model instead of switching profiles.
+Auto-pinned profiles (selected by the session router) are treated as a **preference**: they are tried first, but Brikko Studio may rotate to another profile on rate limits/timeouts. User-pinned profiles stay locked to that profile; if it fails and model fallbacks are configured, Brikko Studio moves to the next model instead of switching profiles.
 </Note>
 
 ### Why OAuth can "look lost"
@@ -135,7 +135,7 @@ If you have both an OAuth profile and an API key profile for the same provider, 
 
 ## Cooldowns
 
-When a profile fails due to auth/rate-limit errors (or a timeout that looks like rate limiting), OpenClaw marks it in cooldown and moves to the next profile.
+When a profile fails due to auth/rate-limit errors (or a timeout that looks like rate limiting), Brikko Studio marks it in cooldown and moves to the next profile.
 
 <AccordionGroup>
   <Accordion title="What lands in the rate-limit / timeout bucket">
@@ -149,12 +149,12 @@ When a profile fails due to auth/rate-limit errors (or a timeout that looks like
 
   </Accordion>
   <Accordion title="SDK retry-after caps">
-    Some provider SDKs may otherwise sleep for a long `Retry-After` window before returning control to OpenClaw. For Stainless-based SDKs such as Anthropic and OpenAI, OpenClaw caps SDK-internal `retry-after-ms` / `retry-after` waits at 60 seconds by default and surfaces longer retryable responses immediately so this failover path can run. Tune or disable the cap with `OPENCLAW_SDK_RETRY_MAX_WAIT_SECONDS`; see [Retry behavior](/concepts/retry).
+    Some provider SDKs may otherwise sleep for a long `Retry-After` window before returning control to Brikko Studio. For Stainless-based SDKs such as Anthropic and OpenAI, Brikko Studio caps SDK-internal `retry-after-ms` / `retry-after` waits at 60 seconds by default and surfaces longer retryable responses immediately so this failover path can run. Tune or disable the cap with `BRIKKO_STUDIO_SDK_RETRY_MAX_WAIT_SECONDS`; see [Retry behavior](/concepts/retry).
   </Accordion>
   <Accordion title="Model-scoped cooldowns">
     Rate-limit cooldowns can also be model-scoped:
 
-    - OpenClaw records `cooldownModel` for rate-limit failures when the failing model id is known.
+    - Brikko Studio records `cooldownModel` for rate-limit failures when the failing model id is known.
     - A sibling model on the same provider can still be tried when the cooldown is scoped to a different model.
     - Billing/disabled windows still block the whole profile across models.
 
@@ -184,10 +184,10 @@ State is stored in `auth-state.json` under `usageStats`:
 
 ## Billing disables
 
-Billing/credit failures (for example "insufficient credits" / "credit balance too low") are treated as failover-worthy, but they're usually not transient. Instead of a short cooldown, OpenClaw marks the profile as **disabled** (with a longer backoff) and rotates to the next profile/provider.
+Billing/credit failures (for example "insufficient credits" / "credit balance too low") are treated as failover-worthy, but they're usually not transient. Instead of a short cooldown, Brikko Studio marks the profile as **disabled** (with a longer backoff) and rotates to the next profile/provider.
 
 <Note>
-Not every billing-shaped response is `402`, and not every HTTP `402` lands here. OpenClaw keeps explicit billing text in the billing lane even when a provider returns `401` or `403` instead, but provider-specific matchers stay scoped to the provider that owns them (for example OpenRouter `403 Key limit exceeded`).
+Not every billing-shaped response is `402`, and not every HTTP `402` lands here. Brikko Studio keeps explicit billing text in the billing lane even when a provider returns `401` or `403` instead, but provider-specific matchers stay scoped to the provider that owns them (for example OpenRouter `403 Key limit exceeded`).
 
 Meanwhile temporary `402` usage-window and organization/workspace spend-limit errors are classified as `rate_limit` when the message looks retryable (for example `weekly usage limit exhausted`, `daily limit reached, resets tomorrow`, or `organization spending limit exceeded`). Those stay on the short cooldown/failover path instead of the long billing-disable path.
 </Note>
@@ -214,22 +214,22 @@ Defaults:
 
 ## Model fallback
 
-If all profiles for a provider fail, OpenClaw moves to the next model in `agents.defaults.model.fallbacks`. This applies to auth failures, rate limits, and timeouts that exhausted profile rotation (other errors do not advance fallback). Provider errors that do not expose enough detail are still labeled precisely in fallback state: `empty_response` means the provider returned no usable message or status, `no_error_details` means the provider explicitly returned `Unknown error (no error details in response)`, and `unclassified` means OpenClaw preserved the raw preview but no classifier matched it yet.
+If all profiles for a provider fail, Brikko Studio moves to the next model in `agents.defaults.model.fallbacks`. This applies to auth failures, rate limits, and timeouts that exhausted profile rotation (other errors do not advance fallback). Provider errors that do not expose enough detail are still labeled precisely in fallback state: `empty_response` means the provider returned no usable message or status, `no_error_details` means the provider explicitly returned `Unknown error (no error details in response)`, and `unclassified` means Brikko Studio preserved the raw preview but no classifier matched it yet.
 
-Overloaded and rate-limit errors are handled more aggressively than billing cooldowns. By default, OpenClaw allows one same-provider auth-profile retry, then switches to the next configured model fallback without waiting. Provider-busy signals such as `ModelNotReadyException` land in that overloaded bucket. Tune this with `auth.cooldowns.overloadedProfileRotations`, `auth.cooldowns.overloadedBackoffMs`, and `auth.cooldowns.rateLimitedProfileRotations`.
+Overloaded and rate-limit errors are handled more aggressively than billing cooldowns. By default, Brikko Studio allows one same-provider auth-profile retry, then switches to the next configured model fallback without waiting. Provider-busy signals such as `ModelNotReadyException` land in that overloaded bucket. Tune this with `auth.cooldowns.overloadedProfileRotations`, `auth.cooldowns.overloadedBackoffMs`, and `auth.cooldowns.rateLimitedProfileRotations`.
 
-When a run starts from the configured default primary, a cron job primary, an agent primary with explicit fallbacks, or an auto-selected fallback override, OpenClaw can walk the matching configured fallback chain. Agent primaries without explicit fallbacks and explicit user selections (for example `/model ollama/qwen3.5:27b`, the model picker, `sessions.patch`, or one-off CLI provider/model overrides) are strict: if that provider/model is unreachable or fails before producing a reply, OpenClaw reports the failure instead of answering from an unrelated fallback.
+When a run starts from the configured default primary, a cron job primary, an agent primary with explicit fallbacks, or an auto-selected fallback override, Brikko Studio can walk the matching configured fallback chain. Agent primaries without explicit fallbacks and explicit user selections (for example `/model ollama/qwen3.5:27b`, the model picker, `sessions.patch`, or one-off CLI provider/model overrides) are strict: if that provider/model is unreachable or fails before producing a reply, Brikko Studio reports the failure instead of answering from an unrelated fallback.
 
 ### Candidate chain rules
 
-OpenClaw builds the candidate list from the currently requested `provider/model` plus configured fallbacks.
+Brikko Studio builds the candidate list from the currently requested `provider/model` plus configured fallbacks.
 
 <AccordionGroup>
   <Accordion title="Rules">
     - The requested model is always first.
     - Explicit configured fallbacks are deduplicated but not filtered by the model allowlist. They are treated as explicit operator intent.
-    - If the current run is already on a configured fallback in the same provider family, OpenClaw keeps using the full configured chain.
-    - If the current run is on a different provider than config and that current model is not already part of the configured fallback chain, OpenClaw does not append unrelated configured fallbacks from another provider.
+    - If the current run is already on a configured fallback in the same provider family, Brikko Studio keeps using the full configured chain.
+    - If the current run is on a different provider than config and that current model is not already part of the configured fallback chain, Brikko Studio does not append unrelated configured fallbacks from another provider.
     - When no explicit fallback override is supplied to the fallback runner, the configured primary is appended at the end so the chain can settle back onto the normal default once earlier candidates are exhausted.
     - When a caller supplies `fallbacksOverride`, the runner uses exactly the requested model plus that override list. An empty list disables model fallback and prevents the configured primary from being appended as a hidden retry target.
 
@@ -259,7 +259,7 @@ OpenClaw builds the candidate list from the currently requested `provider/model`
 
 ### Cooldown skip vs probe behavior
 
-When every auth profile for a provider is already in cooldown, OpenClaw does not automatically skip that provider forever. It makes a per-candidate decision:
+When every auth profile for a provider is already in cooldown, Brikko Studio does not automatically skip that provider forever. It makes a per-candidate decision:
 
 <AccordionGroup>
   <Accordion title="Per-candidate decisions">
@@ -282,10 +282,10 @@ That means fallback retries have to coordinate with live model switching:
 - System-driven model changes such as fallback rotation, heartbeat overrides, or compaction never mark a pending live switch on their own.
 - User-driven model overrides are treated as exact selections for fallback policy, so an unreachable selected provider surfaces as a failure instead of being masked by `agents.defaults.model.fallbacks`.
 - Before a fallback retry starts, the reply runner persists the selected fallback override fields to the session entry.
-- Auto fallback overrides remain selected on subsequent turns so OpenClaw does not probe a known-bad primary on every message. `/new`, `/reset`, and `sessions.reset` clear auto-sourced overrides and return the session to the configured default.
+- Auto fallback overrides remain selected on subsequent turns so Brikko Studio does not probe a known-bad primary on every message. `/new`, `/reset`, and `sessions.reset` clear auto-sourced overrides and return the session to the configured default.
 - `/status` shows the selected model and, when fallback state differs, the active fallback model and reason.
 - Live-session reconciliation prefers persisted session overrides over stale runtime model fields.
-- If a live-switch error points at a later candidate in the active fallback chain, OpenClaw jumps directly to that selected model instead of walking unrelated candidates first.
+- If a live-switch error points at a later candidate in the active fallback chain, Brikko Studio jumps directly to that selected model instead of walking unrelated candidates first.
 - If the fallback attempt fails, the runner rolls back only the override fields it wrote, and only if they still match that failed candidate.
 
 This prevents the classic race:
@@ -321,12 +321,12 @@ The persisted fallback override closes that window, and the narrow rollback keep
 
 Structured `model_fallback_decision` logs also include flat `fallbackStep*` fields when a candidate fails, is skipped, or a later fallback succeeds. These fields make the attempted transition explicit (`fallbackStepFromModel`, `fallbackStepToModel`, `fallbackStepFromFailureReason`, `fallbackStepFromFailureDetail`, `fallbackStepFinalOutcome`) so log and diagnostic exporters can reconstruct the primary failure even when the terminal fallback also fails.
 
-When every candidate fails, OpenClaw throws `FallbackSummaryError`. The outer reply runner can use that to build a more specific message such as "all models are temporarily rate-limited" and include the soonest cooldown expiry when one is known.
+When every candidate fails, Brikko Studio throws `FallbackSummaryError`. The outer reply runner can use that to build a more specific message such as "all models are temporarily rate-limited" and include the soonest cooldown expiry when one is known.
 
 That cooldown summary is model-aware:
 
 - unrelated model-scoped rate limits are ignored for the attempted provider/model chain
-- if the remaining block is a matching model-scoped rate limit, OpenClaw reports the last matching expiry that still blocks that model
+- if the remaining block is a matching model-scoped rate limit, Brikko Studio reports the last matching expiry that still blocks that model
 
 ## Related config
 

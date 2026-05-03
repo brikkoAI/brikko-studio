@@ -1,6 +1,6 @@
 import path from "node:path";
 import { GrammyError } from "grammy";
-import { readFileWithinRoot } from "openclaw/plugin-sdk/file-access-runtime";
+import { readFileWithinRoot } from "brikko-studio/plugin-sdk/file-access-runtime";
 import type { TelegramTransport } from "../fetch.js";
 import { cacheSticker, getCachedSticker } from "../sticker-cache.js";
 import {

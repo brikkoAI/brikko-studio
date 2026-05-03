@@ -2,12 +2,12 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import { listOpenClawPluginManifestMetadata } from "./manifest-metadata-scan.js";
+import { listBrikko StudioPluginManifestMetadata } from "./manifest-metadata-scan.js";
 
 const tempRoots: string[] = [];
 
 function createTempRoot(): string {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-manifest-metadata-"));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-manifest-metadata-"));
   tempRoots.push(root);
   return root;
 }
@@ -17,7 +17,7 @@ function writeJson(filePath: string, value: unknown): void {
   fs.writeFileSync(filePath, JSON.stringify(value, null, 2), "utf8");
 }
 
-describe("listOpenClawPluginManifestMetadata", () => {
+describe("listBrikko StudioPluginManifestMetadata", () => {
   afterEach(() => {
     for (const root of tempRoots.splice(0)) {
       fs.rmSync(root, { recursive: true, force: true });
@@ -30,21 +30,21 @@ describe("listOpenClawPluginManifestMetadata", () => {
     const bundledRoot = path.join(root, "extensions");
     const staleBundledRoot = path.join(root, "stale", "extensions");
 
-    writeJson(path.join(bundledRoot, "openai", "openclaw.plugin.json"), {
+    writeJson(path.join(bundledRoot, "openai", "brikko-studio.plugin.json"), {
       id: "openai",
       providerEndpoints: [{ endpointClass: "openai-public", hosts: ["api.openai.com"] }],
     });
-    writeJson(path.join(staleBundledRoot, "openai", "openclaw.plugin.json"), {
+    writeJson(path.join(staleBundledRoot, "openai", "brikko-studio.plugin.json"), {
       id: "openai",
       providers: ["openai"],
     });
-    writeJson(path.join(home, ".openclaw", "plugins", "installs.json"), {
+    writeJson(path.join(home, ".brikko-studio", "plugins", "installs.json"), {
       plugins: [{ rootDir: path.join(staleBundledRoot, "openai"), origin: "bundled" }],
     });
 
-    const records = listOpenClawPluginManifestMetadata({
-      OPENCLAW_HOME: home,
-      OPENCLAW_BUNDLED_PLUGINS_DIR: bundledRoot,
+    const records = listBrikko StudioPluginManifestMetadata({
+      BRIKKO_STUDIO_HOME: home,
+      BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledRoot,
     });
 
     const openai = records.find((record) => record.manifest.id === "openai");

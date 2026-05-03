@@ -31,7 +31,7 @@ import {
   type SessionEntry,
   type SessionScope,
 } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { TtsAutoMode } from "../../config/types.tts.js";
 import { getSessionBindingService } from "../../infra/outbound/session-binding-service.js";
 import { deliverSessionMaintenanceWarning } from "../../infra/session-maintenance-warning.js";
@@ -99,7 +99,7 @@ function resolveExplicitSessionEndReason(
 }
 
 function resolveSessionDefaultAccountId(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channelRaw?: string;
   accountIdRaw?: string;
   persistedLastAccountId?: string;
@@ -167,7 +167,7 @@ export type SessionInitResult = {
 };
 
 function resolveSessionConversationBindingContext(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   ctx: MsgContext,
 ): {
   channel: string;
@@ -193,7 +193,7 @@ function resolveSessionConversationBindingContext(
 }
 
 function resolveBoundConversationSessionKey(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   ctx: MsgContext;
   bindingContext?: {
     channel: string;
@@ -226,7 +226,7 @@ function resolveBoundConversationSessionKey(params: {
 
 export async function initSessionState(params: {
   ctx: MsgContext;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   commandAuthorized: boolean;
 }): Promise<SessionInitResult> {
   const { ctx, cfg, commandAuthorized } = params;
@@ -272,7 +272,7 @@ export async function initSessionState(params: {
     : DEFAULT_RESET_TRIGGERS;
   const sessionScope = sessionCfg?.scope ?? "per-sender";
   const storePath = resolveStorePath(sessionCfg?.store, { agentId });
-  const ingressTimingEnabled = process.env.OPENCLAW_DEBUG_INGRESS_TIMING === "1";
+  const ingressTimingEnabled = process.env.BRIKKO_STUDIO_DEBUG_INGRESS_TIMING === "1";
 
   // CRITICAL: Skip cache to ensure fresh data when resolving session identity.
   // Stale cache (especially with multiple gateway processes or on Windows where

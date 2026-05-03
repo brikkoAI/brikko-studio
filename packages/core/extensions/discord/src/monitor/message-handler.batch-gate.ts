@@ -1,6 +1,6 @@
-import type { ReplyToMode } from "openclaw/plugin-sdk/config-types";
-import type { ReplyThreadingPolicy } from "openclaw/plugin-sdk/reply-reference";
-import { resolveBatchedReplyThreadingPolicy } from "openclaw/plugin-sdk/reply-reference";
+import type { ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import type { ReplyThreadingPolicy } from "brikko-studio/plugin-sdk/reply-reference";
+import { resolveBatchedReplyThreadingPolicy } from "brikko-studio/plugin-sdk/reply-reference";
 
 type ReplyThreadingContext = {
   ReplyThreading?: ReplyThreadingPolicy;

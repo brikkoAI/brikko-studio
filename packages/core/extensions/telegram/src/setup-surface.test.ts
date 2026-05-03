@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/setup";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/setup";
 import { describe, expect, it, vi } from "vitest";
 import {
   buildTelegramDmAccessWarningLines,
@@ -53,10 +53,10 @@ describe("telegram DM access warning helpers", () => {
     const lines = buildTelegramDmAccessWarningLines(DEFAULT_ACCOUNT_ID);
 
     expect(lines.join("\n")).toContain(
-      'openclaw config set channels.telegram.dmPolicy "allowlist"',
+      'brikko-studio config set channels.telegram.dmPolicy "allowlist"',
     );
     expect(lines.join("\n")).toContain(
-      `openclaw config set channels.telegram.allowFrom '["YOUR_USER_ID"]'`,
+      `brikko-studio config set channels.telegram.allowFrom '["YOUR_USER_ID"]'`,
     );
   });
 
@@ -64,10 +64,10 @@ describe("telegram DM access warning helpers", () => {
     const lines = buildTelegramDmAccessWarningLines("alerts");
 
     expect(lines.join("\n")).toContain(
-      'openclaw config set channels.telegram.accounts.alerts.dmPolicy "allowlist"',
+      'brikko-studio config set channels.telegram.accounts.alerts.dmPolicy "allowlist"',
     );
     expect(lines.join("\n")).toContain(
-      `openclaw config set channels.telegram.accounts.alerts.allowFrom '["YOUR_USER_ID"]'`,
+      `brikko-studio config set channels.telegram.accounts.alerts.allowFrom '["YOUR_USER_ID"]'`,
     );
   });
 
@@ -118,7 +118,7 @@ describe("telegramSetupDmPolicy", () => {
   });
 
   it("uses configured defaultAccount for omitted DM policy account context", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       channels: {
         telegram: {
           defaultAccount: "alerts",
@@ -146,7 +146,7 @@ describe("telegramSetupDmPolicy", () => {
   });
 
   it('writes open policy state to the named account and preserves inherited allowFrom with "*"', () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       channels: {
         telegram: {
           allowFrom: ["123"],

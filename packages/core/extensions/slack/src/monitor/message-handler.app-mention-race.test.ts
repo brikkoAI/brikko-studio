@@ -8,9 +8,9 @@ const prepareSlackMessageMock =
   >();
 const dispatchPreparedSlackMessageMock = vi.fn<(prepared: unknown) => Promise<void>>();
 
-vi.mock("openclaw/plugin-sdk/channel-inbound", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/channel-inbound")>(
-    "openclaw/plugin-sdk/channel-inbound",
+vi.mock("brikko-studio/plugin-sdk/channel-inbound", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/channel-inbound")>(
+    "brikko-studio/plugin-sdk/channel-inbound",
   );
   return {
     ...actual,

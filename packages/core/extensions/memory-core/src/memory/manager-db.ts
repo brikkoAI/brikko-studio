@@ -5,7 +5,7 @@ import {
   configureMemorySqliteWalMaintenance,
   ensureDir,
   requireNodeSqlite,
-} from "openclaw/plugin-sdk/memory-core-host-engine-storage";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-storage";
 
 export function openMemoryDatabaseAtPath(dbPath: string, allowExtension: boolean): DatabaseSync {
   const dir = path.dirname(dbPath);

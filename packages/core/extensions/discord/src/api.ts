@@ -1,9 +1,9 @@
-import { resolveFetch } from "openclaw/plugin-sdk/fetch-runtime";
+import { resolveFetch } from "brikko-studio/plugin-sdk/fetch-runtime";
 import {
   resolveRetryConfig,
   retryAsync,
   type RetryConfig,
-} from "openclaw/plugin-sdk/retry-runtime";
+} from "brikko-studio/plugin-sdk/retry-runtime";
 import { isDiscordHtmlResponseBody, summarizeDiscordResponseBody } from "./error-body.js";
 
 const DISCORD_API_BASE = "https://discord.com/api/v10";

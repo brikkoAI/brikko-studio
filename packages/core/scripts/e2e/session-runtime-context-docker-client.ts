@@ -53,15 +53,15 @@ function messageText(content: unknown): string {
 }
 
 async function verifyRuntimeContextTranscriptShape(root: string) {
-  const sessionFile = path.join(root, ".openclaw", "agents", "main", "sessions", "runtime.jsonl");
+  const sessionFile = path.join(root, ".brikko-studio", "agents", "main", "sessions", "runtime.jsonl");
   await fs.mkdir(path.dirname(sessionFile), { recursive: true });
   const sessionManager = SessionManager.open(sessionFile);
   const effectivePrompt = [
     "visible ask",
     "",
-    "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
+    "<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
     "secret docker context",
-    "<<<END_OPENCLAW_INTERNAL_CONTEXT>>>",
+    "<<<END_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
   ].join("\n");
   const promptSubmission = resolveRuntimeContextPromptParts({
     effectivePrompt,
@@ -102,7 +102,7 @@ async function verifyRuntimeContextTranscriptShape(root: string) {
   const entries = await readJsonl(sessionFile);
   const customEntry = entries.find((entry) => entry.type === "custom_message");
   assert(customEntry, "hidden runtime custom message was not persisted");
-  assert(customEntry.customType === "openclaw.runtime-context", "unexpected custom message type");
+  assert(customEntry.customType === "brikko-studio.runtime-context", "unexpected custom message type");
   assert(customEntry.display === false, "runtime custom message should be hidden");
   assert(
     customEntry.content?.includes("secret docker context"),
@@ -114,7 +114,7 @@ async function verifyRuntimeContextTranscriptShape(root: string) {
   const userText = messageText(userEntries[0]?.message?.content);
   assert(userText === "visible ask", `unexpected visible user text: ${JSON.stringify(userText)}`);
   assert(
-    !userText.includes("OPENCLAW_INTERNAL_CONTEXT") && !userText.includes("secret docker context"),
+    !userText.includes("BRIKKO_STUDIO_INTERNAL_CONTEXT") && !userText.includes("secret docker context"),
     "visible user transcript leaked runtime context",
   );
 }
@@ -140,9 +140,9 @@ async function seedBrokenSession(stateDir: string): Promise<string> {
         content: [
           "visible ask",
           "",
-          "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
+          "<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
           "secret doctor context",
-          "<<<END_OPENCLAW_INTERNAL_CONTEXT>>>",
+          "<<<END_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
         ].join("\n"),
       },
     },
@@ -190,8 +190,8 @@ async function seedBrokenSession(stateDir: string): Promise<string> {
 }
 
 async function verifyDoctorRepair(root: string) {
-  const stateDir = path.join(root, ".openclaw");
-  const configPath = path.join(stateDir, "openclaw.json");
+  const stateDir = path.join(root, ".brikko-studio");
+  const configPath = path.join(stateDir, "brikko-studio.json");
   const sessionFile = await seedBrokenSession(stateDir);
   await fs.mkdir(path.dirname(configPath), { recursive: true });
   await fs.writeFile(configPath, JSON.stringify({ plugins: { enabled: false } }, null, 2));
@@ -205,15 +205,15 @@ async function verifyDoctorRepair(root: string) {
     env: {
       ...process.env,
       HOME: root,
-      OPENCLAW_CONFIG_PATH: configPath,
-      OPENCLAW_DISABLE_BONJOUR: "1",
-      OPENCLAW_DISABLE_BUNDLED_PLUGINS: "1",
-      OPENCLAW_NO_ONBOARD: "1",
-      OPENCLAW_STATE_DIR: stateDir,
-      OPENCLAW_SKIP_CANVAS_HOST: "1",
-      OPENCLAW_SKIP_CHANNELS: "1",
-      OPENCLAW_SKIP_CRON: "1",
-      OPENCLAW_SKIP_GMAIL_WATCHER: "1",
+      BRIKKO_STUDIO_CONFIG_PATH: configPath,
+      BRIKKO_STUDIO_DISABLE_BONJOUR: "1",
+      BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: "1",
+      BRIKKO_STUDIO_NO_ONBOARD: "1",
+      BRIKKO_STUDIO_STATE_DIR: stateDir,
+      BRIKKO_STUDIO_SKIP_CANVAS_HOST: "1",
+      BRIKKO_STUDIO_SKIP_CHANNELS: "1",
+      BRIKKO_STUDIO_SKIP_CRON: "1",
+      BRIKKO_STUDIO_SKIP_GMAIL_WATCHER: "1",
     },
     encoding: "utf-8",
     timeout: 120_000,
@@ -243,16 +243,16 @@ async function verifyDoctorRepair(root: string) {
 }
 
 async function main() {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-session-runtime-context-"));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-session-runtime-context-"));
   process.env.HOME = root;
-  process.env.OPENCLAW_STATE_DIR = path.join(root, ".openclaw");
-  process.env.OPENCLAW_CONFIG_PATH = path.join(process.env.OPENCLAW_STATE_DIR, "openclaw.json");
+  process.env.BRIKKO_STUDIO_STATE_DIR = path.join(root, ".brikko-studio");
+  process.env.BRIKKO_STUDIO_CONFIG_PATH = path.join(process.env.BRIKKO_STUDIO_STATE_DIR, "brikko-studio.json");
   try {
     await verifyRuntimeContextTranscriptShape(root);
     await verifyDoctorRepair(root);
     console.log("session runtime context Docker E2E passed");
   } finally {
-    if (process.env.OPENCLAW_SESSION_RUNTIME_CONTEXT_KEEP_ARTIFACTS !== "1") {
+    if (process.env.BRIKKO_STUDIO_SESSION_RUNTIME_CONTEXT_KEEP_ARTIFACTS !== "1") {
       await fs.rm(root, { recursive: true, force: true });
     } else {
       console.error(`kept artifacts: ${root}`);

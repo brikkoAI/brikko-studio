@@ -1,6 +1,6 @@
 import type { SessionManager } from "@mariozechner/pi-coding-agent";
 
-const RAW_APPEND_MESSAGE = Symbol("openclaw.session.rawAppendMessage");
+const RAW_APPEND_MESSAGE = Symbol("brikko-studio.session.rawAppendMessage");
 
 type SessionManagerWithRawAppend = SessionManager & {
   [RAW_APPEND_MESSAGE]?: SessionManager["appendMessage"];

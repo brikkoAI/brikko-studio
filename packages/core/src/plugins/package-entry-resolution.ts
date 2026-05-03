@@ -26,8 +26,8 @@ function runtimeExtensionsLengthMismatchMessage(params: {
   extensionsLength: number;
 }): string {
   return (
-    `package.json openclaw.runtimeExtensions length (${params.runtimeExtensionsLength}) ` +
-    `must match openclaw.extensions length (${params.extensionsLength})`
+    `package.json brikko-studio.runtimeExtensions length (${params.runtimeExtensionsLength}) ` +
+    `must match brikko-studio.extensions length (${params.extensionsLength})`
   );
 }
 
@@ -210,7 +210,7 @@ export async function validatePackageExtensionEntriesForInstall(params: {
   if (runtimeSetupEntry && !setupEntry) {
     return {
       ok: false,
-      error: "package.json openclaw.runtimeSetupEntry requires openclaw.setupEntry",
+      error: "package.json brikko-studio.runtimeSetupEntry requires brikko-studio.setupEntry",
     };
   }
   if (setupEntry) {

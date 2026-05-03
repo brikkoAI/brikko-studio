@@ -1,8 +1,8 @@
 import {
   registerProviderPlugin,
   requireRegisteredProvider,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import { isLiveTestEnabled } from "openclaw/plugin-sdk/test-env";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { isLiveTestEnabled } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import plugin from "./index.js";
 
@@ -40,7 +40,7 @@ describeLive("inworld plugin live", () => {
     };
 
     const audioFile = await provider.synthesize({
-      text: "OpenClaw Inworld text to speech integration test OK.",
+      text: "Brikko Studio Inworld text to speech integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       target: "audio-file",
@@ -54,7 +54,7 @@ describeLive("inworld plugin live", () => {
     expect(audioFile.audioBuffer.subarray(0, 4).toString("ascii")).not.toBe("RIFF");
 
     const voiceNote = await provider.synthesize({
-      text: "OpenClaw Inworld voice note integration test OK.",
+      text: "Brikko Studio Inworld voice note integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       target: "voice-note",
@@ -68,7 +68,7 @@ describeLive("inworld plugin live", () => {
     expect(voiceNote.audioBuffer.subarray(0, 4).toString("ascii")).toBe("OggS");
 
     const telephony = await provider.synthesizeTelephony?.({
-      text: "OpenClaw Inworld telephony check OK.",
+      text: "Brikko Studio Inworld telephony check OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       timeoutMs: 90_000,

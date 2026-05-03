@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type {
   ExecSecretProviderConfig,
   FileSecretProviderConfig,
@@ -38,7 +38,7 @@ const WINDOWS_UNC_PATH_PATTERN = /^\\\\[^\\]+\\[^\\]+/;
 export type { SecretRefResolveCache } from "./resolve-types.js";
 
 type ResolveSecretRefOptions = {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   cache?: SecretRefResolveCache;
 };
@@ -158,7 +158,7 @@ function isAbsolutePathname(value: string): boolean {
   );
 }
 
-function resolveResolutionLimits(config: OpenClawConfig): ResolutionLimits {
+function resolveResolutionLimits(config: Brikko StudioConfig): ResolutionLimits {
   const resolution = config.secrets?.resolution;
   return {
     maxProviderConcurrency: normalizePositiveInt(
@@ -177,7 +177,7 @@ function toProviderKey(source: SecretRefSource, provider: string): string {
   return `${source}:${provider}`;
 }
 
-function resolveConfiguredProvider(ref: SecretRef, config: OpenClawConfig): SecretProviderConfig {
+function resolveConfiguredProvider(ref: SecretRef, config: Brikko StudioConfig): SecretProviderConfig {
   const providerConfig = config.secrets?.providers?.[ref.provider];
   if (!providerConfig) {
     if (ref.source === "env" && ref.provider === resolveDefaultSecretProviderAlias(config, "env")) {

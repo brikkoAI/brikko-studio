@@ -9,7 +9,7 @@ const hoisted = await vi.hoisted(async () => {
   return {
     ...createExportCommandSessionMocks(vi),
     exportTrajectoryBundleMock: vi.fn(() => ({
-      outputDir: "/tmp/workspace/.openclaw/trajectory-exports/openclaw-trajectory-session",
+      outputDir: "/tmp/workspace/.brikko-studio/trajectory-exports/brikko-studio-trajectory-session",
       manifest: {
         eventCount: 7,
         runtimeEventCount: 3,
@@ -20,7 +20,7 @@ const hoisted = await vi.hoisted(async () => {
       supplementalFiles: ["metadata.json", "artifacts.json", "prompts.json"],
     })),
     resolveDefaultTrajectoryExportDirMock: vi.fn(
-      () => "/tmp/workspace/.openclaw/trajectory-exports/openclaw-trajectory-session",
+      () => "/tmp/workspace/.brikko-studio/trajectory-exports/brikko-studio-trajectory-session",
     ),
     accessMock: vi.fn(
       async (file: fs.PathLike, actualAccess: (path: fs.PathLike) => Promise<void>) => {
@@ -69,7 +69,7 @@ vi.mock("node:fs/promises", async () => {
 const tempDirs: string[] = [];
 
 function makeTempDir(): string {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-export-command-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-export-command-"));
   tempDirs.push(dir);
   return dir;
 }
@@ -133,7 +133,7 @@ function createExecDeps(
           expiresAtMs: Date.now() + 60_000,
           allowedDecisions: ["allow-once", "deny"] as const,
           host: "gateway" as const,
-          command: "openclaw sessions export-trajectory --session-key agent:target:session",
+          command: "brikko-studio sessions export-trajectory --session-key agent:target:session",
           cwd: "/tmp",
         },
       };
@@ -195,7 +195,7 @@ describe("buildExportTrajectoryReply", () => {
       expect.objectContaining({
         sessionId: "session-1",
         sessionKey: "agent:target:session",
-        workspaceDir: expect.stringContaining("openclaw-export-command-"),
+        workspaceDir: expect.stringContaining("brikko-studio-export-command-"),
       }),
     );
   });
@@ -209,7 +209,7 @@ describe("buildExportTrajectoryReply", () => {
 
     expect(hoisted.exportTrajectoryBundleMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        outputDir: path.join(params.workspaceDir, ".openclaw", "trajectory-exports", "my-bundle"),
+        outputDir: path.join(params.workspaceDir, ".brikko-studio", "trajectory-exports", "my-bundle"),
       }),
     );
   });
@@ -258,8 +258,8 @@ describe("buildExportTrajectoryReply", () => {
     const { buildExportTrajectoryReply } = await import("./commands-export-trajectory.js");
     const workspaceDir = makeTempDir();
     const outsideDir = makeTempDir();
-    fs.mkdirSync(path.join(workspaceDir, ".openclaw"), { recursive: true });
-    fs.symlinkSync(outsideDir, path.join(workspaceDir, ".openclaw", "trajectory-exports"));
+    fs.mkdirSync(path.join(workspaceDir, ".brikko-studio"), { recursive: true });
+    fs.symlinkSync(outsideDir, path.join(workspaceDir, ".brikko-studio", "trajectory-exports"));
     const params = makeParams(workspaceDir);
     params.command.commandBodyNormalized = "/export-trajectory my-bundle";
 
@@ -273,8 +273,8 @@ describe("buildExportTrajectoryReply", () => {
     const { buildExportTrajectoryReply } = await import("./commands-export-trajectory.js");
     const workspaceDir = makeTempDir();
     const outsideDir = makeTempDir();
-    fs.mkdirSync(path.join(workspaceDir, ".openclaw"), { recursive: true });
-    fs.symlinkSync(outsideDir, path.join(workspaceDir, ".openclaw", "trajectory-exports"));
+    fs.mkdirSync(path.join(workspaceDir, ".brikko-studio"), { recursive: true });
+    fs.symlinkSync(outsideDir, path.join(workspaceDir, ".brikko-studio", "trajectory-exports"));
 
     const reply = await buildExportTrajectoryReply(makeParams(workspaceDir));
 
@@ -286,7 +286,7 @@ describe("buildExportTrajectoryReply", () => {
     const { buildExportTrajectoryReply } = await import("./commands-export-trajectory.js");
     const workspaceDir = makeTempDir();
     const outsideDir = makeTempDir();
-    fs.symlinkSync(outsideDir, path.join(workspaceDir, ".openclaw"));
+    fs.symlinkSync(outsideDir, path.join(workspaceDir, ".brikko-studio"));
     const params = makeParams(workspaceDir);
     params.command.commandBodyNormalized = "/export-trajectory my-bundle";
 
@@ -312,7 +312,7 @@ describe("buildExportTrajectoryCommandReply", () => {
     expect(reply.text).toContain(
       "Trajectory exports can include prompts, model messages, tool schemas",
     );
-    expect(reply.text).toContain("https://docs.openclaw.ai/tools/trajectory");
+    expect(reply.text).toContain("https://docs.brikko-studio.ai/tools/trajectory");
     expect(reply.text).toContain("do not use allow-all");
     expect(reply.text).toContain("Allowed decisions: allow-once, deny");
     expect(execCalls).toHaveLength(1);
@@ -335,11 +335,11 @@ describe("buildExportTrajectoryCommandReply", () => {
     expect(command).toContain("--request-json-base64");
     expect(command).toContain("--json");
     expect(command).not.toContain("--session-key");
-    expect(command).not.toContain("openclaw sessions export-trajectory");
+    expect(command).not.toContain("brikko-studio sessions export-trajectory");
     const request = readEncodedRequestFromCommand(command);
     expect(request).toMatchObject({
       sessionKey: "agent:target:session",
-      workspace: expect.stringContaining("openclaw-export-command-"),
+      workspace: expect.stringContaining("brikko-studio-export-command-"),
     });
   });
 
@@ -440,7 +440,7 @@ describe("buildExportTrajectoryCommandReply", () => {
       { channel: "telegram", to: "owner-dm", accountId: "account-1" },
     ]);
     expect(privateReplies[0]?.text).toContain("Trajectory exports can include prompts");
-    expect(privateReplies[0]?.text).toContain("openclaw sessions export-trajectory");
+    expect(privateReplies[0]?.text).toContain("brikko-studio sessions export-trajectory");
     expect(privateReplies[0]?.text).toContain("Session: agent:target:session");
     expect(execCalls).toHaveLength(1);
     expect(execCalls[0]?.defaults).toMatchObject({

@@ -1,17 +1,17 @@
 ---
-summary: "What the OpenClaw system prompt contains and how it is assembled"
+summary: "What the Brikko Studio system prompt contains and how it is assembled"
 read_when:
   - Editing system prompt text, tools list, or time/heartbeat sections
   - Changing workspace bootstrap or skills injection behavior
 title: "System prompt"
 ---
 
-OpenClaw builds a custom system prompt for every agent run. The prompt is **OpenClaw-owned** and does not use the pi-coding-agent default prompt.
+Brikko Studio builds a custom system prompt for every agent run. The prompt is **Brikko Studio-owned** and does not use the pi-coding-agent default prompt.
 
-The prompt is assembled by OpenClaw and injected into each agent run.
+The prompt is assembled by Brikko Studio and injected into each agent run.
 
 Provider plugins can contribute cache-aware prompt guidance without replacing
-the full OpenClaw-owned prompt. The provider runtime can:
+the full Brikko Studio-owned prompt. The provider runtime can:
 
 - replace a small set of named core sections (`interaction_style`,
   `tool_call_style`, `execution_bias`)
@@ -37,14 +37,14 @@ The prompt is intentionally compact and uses fixed sections:
   results, check mutable state live, and verify before finalizing.
 - **Safety**: short guardrail reminder to avoid power-seeking behavior or bypassing oversight.
 - **Skills** (when available): tells the model how to load skill instructions on demand.
-- **OpenClaw Self-Update**: how to inspect config safely with
+- **Brikko Studio Self-Update**: how to inspect config safely with
   `config.schema.lookup`, patch config with `config.patch`, replace the full
   config with `config.apply`, and run `update.run` only on explicit user
   request. The owner-only `gateway` tool also refuses to rewrite
   `tools.exec.ask` / `tools.exec.security`, including legacy `tools.bash.*`
   aliases that normalize to those protected exec paths.
 - **Workspace**: working directory (`agents.defaults.workspace`).
-- **Documentation**: local path to OpenClaw docs (repo or npm package) and when to read them.
+- **Documentation**: local path to Brikko Studio docs (repo or npm package) and when to read them.
 - **Workspace Files (injected)**: indicates bootstrap files are included below.
 - **Sandbox** (when enabled): indicates sandboxed runtime, sandbox paths, and whether elevated exec is available.
 - **Current Date & Time**: user-local time, timezone, and time format.
@@ -53,7 +53,7 @@ The prompt is intentionally compact and uses fixed sections:
 - **Runtime**: host, OS, node, model, repo root (when detected), thinking level (one line).
 - **Reasoning**: current visibility level + /reasoning toggle hint.
 
-OpenClaw keeps large stable content, including **Project Context**, above the
+Brikko Studio keeps large stable content, including **Project Context**, above the
 internal prompt cache boundary. Volatile channel/session sections such as
 Control UI embed guidance, **Messaging**, **Voice**, **Group Chat Context**,
 **Reactions**, **Heartbeats**, and **Runtime** are appended below that boundary
@@ -90,11 +90,11 @@ manual approval is the only path.
 
 ## Prompt modes
 
-OpenClaw can render smaller system prompts for sub-agents. The runtime sets a
+Brikko Studio can render smaller system prompts for sub-agents. The runtime sets a
 `promptMode` for each run (not a user-facing config):
 
 - `full` (default): includes all sections above.
-- `minimal`: used for sub-agents; omits **Skills**, **Memory Recall**, **OpenClaw
+- `minimal`: used for sub-agents; omits **Skills**, **Memory Recall**, **Brikko Studio
   Self-Update**, **Model Aliases**, **User Identity**, **Reply Tags**,
   **Messaging**, **Silent Replies**, and **Heartbeats**. Tooling, **Safety**,
   Workspace, Sandbox, Current Date & Time (when known), Runtime, and injected
@@ -104,20 +104,20 @@ OpenClaw can render smaller system prompts for sub-agents. The runtime sets a
 When `promptMode=minimal`, extra injected prompts are labeled **Subagent
 Context** instead of **Group Chat Context**.
 
-For channel auto-reply runs, OpenClaw can omit the generic **Silent Replies**
+For channel auto-reply runs, Brikko Studio can omit the generic **Silent Replies**
 section when the direct/group chat context already includes the resolved
 conversation-specific `NO_REPLY` behavior. This avoids repeating token mechanics
 in both the global system prompt and channel context.
 
 ## Prompt snapshots
 
-OpenClaw keeps committed prompt snapshots for the Codex runtime happy path under
+Brikko Studio keeps committed prompt snapshots for the Codex runtime happy path under
 `test/fixtures/agents/prompt-snapshots/codex-runtime-happy-path/`. They render
 selected app-server thread/turn params plus a reconstructed model-bound prompt
 layer stack for Telegram direct, Discord group, and heartbeat turns. That stack
 includes a pinned Codex `gpt-5.5` model prompt fixture generated from Codex's
 model catalog/cache shape, the Codex happy-path permission developer text,
-OpenClaw developer instructions, user turn input, and references to the dynamic
+Brikko Studio developer instructions, user turn input, and references to the dynamic
 tool specs.
 
 Refresh the pinned Codex model prompt fixture with
@@ -132,7 +132,7 @@ or `models.json` file.
 These snapshots are still not a byte-for-byte raw OpenAI request capture. Codex
 can add runtime-owned workspace context such as `AGENTS.md`, environment
 context, memories, app/plugin instructions, and future collaboration-mode
-instructions inside the Codex runtime after OpenClaw sends thread and turn
+instructions inside the Codex runtime after Brikko Studio sends thread and turn
 params.
 
 Regenerate them with `pnpm prompt:snapshots:gen` and verify drift with
@@ -161,7 +161,7 @@ files concise — especially `MEMORY.md`, which can grow over time and lead to
 unexpectedly high context usage and more frequent compaction.
 
 When a session runs on the native Codex harness, Codex loads `AGENTS.md`
-through its own project-doc discovery. OpenClaw still resolves the remaining
+through its own project-doc discovery. Brikko Studio still resolves the remaining
 bootstrap files and forwards them as Codex config instructions, so `SOUL.md`,
 `TOOLS.md`, `IDENTITY.md`, `USER.md`, `HEARTBEAT.md`, `BOOTSTRAP.md`, and
 `MEMORY.md` keep the same workspace-context role without duplicating
@@ -175,7 +175,7 @@ Large files are truncated with a marker. The max per-file size is controlled by
 `agents.defaults.bootstrapMaxChars` (default: 12000). Total injected bootstrap
 content across files is capped by `agents.defaults.bootstrapTotalMaxChars`
 (default: 60000). Missing files inject a short missing-file marker. When truncation
-occurs, OpenClaw can inject a warning block in Project Context; control this with
+occurs, Brikko Studio can inject a warning block in Project Context; control this with
 `agents.defaults.bootstrapPromptTruncationWarning` (`off`, `once`, `always`;
 default: `once`).
 
@@ -209,7 +209,7 @@ See [Date & Time](/date-time) for full behavior details.
 
 ## Skills
 
-When eligible skills exist, OpenClaw injects a compact **available skills list**
+When eligible skills exist, Brikko Studio injects a compact **available skills list**
 (`formatSkillsForPrompt`) that includes the **file path** for each skill. The
 prompt instructs the model to use `read` to load the SKILL.md at the listed
 location (workspace, managed, or bundled). If no skills are eligible, the
@@ -251,17 +251,17 @@ as `memory_get`, live tool results, and post-compaction AGENTS.md refreshes.
 ## Documentation
 
 The system prompt includes a **Documentation** section. When local docs are available, it
-points to the local OpenClaw docs directory (`docs/` in a Git checkout or the bundled npm
+points to the local Brikko Studio docs directory (`docs/` in a Git checkout or the bundled npm
 package docs). If local docs are unavailable, it falls back to
-[https://docs.openclaw.ai](https://docs.openclaw.ai).
+[https://docs.brikko-studio.ai](https://docs.brikko-studio.ai).
 
-The same section also includes the OpenClaw source location. Git checkouts expose the local
+The same section also includes the Brikko Studio source location. Git checkouts expose the local
 source root so the agent can inspect code directly. Package installs include the GitHub
 source URL and tell the agent to review source there whenever the docs are incomplete or
 stale. The prompt also notes the public docs mirror, community Discord, and ClawHub
 ([https://clawhub.ai](https://clawhub.ai)) for skills discovery. It tells the model to
-consult docs first for OpenClaw behavior, commands, configuration, or architecture, and to
-run `openclaw status` itself when possible (asking the user only when it lacks access).
+consult docs first for Brikko Studio behavior, commands, configuration, or architecture, and to
+run `brikko-studio status` itself when possible (asking the user only when it lacks access).
 For configuration specifically, it points agents to the `gateway` tool action
 `config.schema.lookup` for exact field-level docs and constraints, then to
 `docs/gateway/configuration.md` and `docs/gateway/configuration-reference.md`

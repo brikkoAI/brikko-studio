@@ -2,9 +2,9 @@ import {
   createStatusReactionController,
   logAckFailure,
   type StatusReactionAdapter,
-} from "openclaw/plugin-sdk/channel-feedback";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+} from "brikko-studio/plugin-sdk/channel-feedback";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { createDiscordRuntimeAccountContext } from "../client.js";
 import type { RequestClient } from "../internal/discord.js";
 import { reactMessageDiscord, removeReactionDiscord } from "../send.js";
@@ -12,7 +12,7 @@ import type { DiscordReactionRuntimeContext } from "../send.types.js";
 
 export function createDiscordAckReactionContext(params: {
   rest: RequestClient;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
 }): DiscordReactionRuntimeContext {
   return {

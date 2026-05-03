@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions.js";
 import { loadSessionStore } from "../../config/sessions.js";
 import type { EmbeddedPiRunResult } from "../pi-embedded.js";
@@ -10,7 +10,7 @@ import { clearCliSessionInStore, updateSessionStoreAfterAgentRun } from "./sessi
 import { resolveSession } from "./session.js";
 
 vi.mock("../model-selection.js", () => ({
-  isCliProvider: (provider: string, cfg?: OpenClawConfig) =>
+  isCliProvider: (provider: string, cfg?: Brikko StudioConfig) =>
     Object.hasOwn(cfg?.agents?.defaults?.cliBackends ?? {}, provider),
   normalizeProviderId: (provider: string) => provider.trim().toLowerCase(),
 }));
@@ -135,7 +135,7 @@ function acpMeta() {
 async function withTempSessionStore<T>(
   run: (params: { dir: string; storePath: string }) => Promise<T>,
 ): Promise<T> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-session-store-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-session-store-"));
   try {
     return await run({ dir, storePath: path.join(dir, "sessions.json") });
   } finally {
@@ -146,7 +146,7 @@ async function withTempSessionStore<T>(
 describe("updateSessionStoreAfterAgentRun", () => {
   it("persists the selected embedded harness id on the session", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-harness-pin";
       const sessionId = "test-harness-pin-session";
       const sessionStore: Record<string, SessionEntry> = {
@@ -187,7 +187,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("uses the runtime context budget from agent metadata instead of cold fallback", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-runtime-context";
       const sessionId = "test-runtime-context-session";
       const sessionStore: Record<string, SessionEntry> = {
@@ -238,7 +238,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
             },
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-harness-pin-cli";
       const sessionId = "test-harness-pin-cli-session";
       const sessionStore: Record<string, SessionEntry> = {
@@ -290,9 +290,9 @@ describe("updateSessionStoreAfterAgentRun", () => {
             },
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-claude-cli";
-      const sessionId = "test-openclaw-session";
+      const sessionId = "test-brikko-studio-session";
       const sessionStore: Record<string, SessionEntry> = {
         [sessionKey]: {
           sessionId,
@@ -390,7 +390,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("preserves terminal lifecycle state when caller has a stale running snapshot", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-lifecycle-preserve";
       const sessionId = "test-lifecycle-preserve-session";
       const terminalEntry: SessionEntry = {
@@ -576,7 +576,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("preserves previous totalTokens when provider returns no usage data (#67667)", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-no-usage";
       const sessionId = "test-session";
 
@@ -631,7 +631,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
             },
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-cli-cumulative-usage";
       const sessionId = "test-cli-cumulative-usage-session";
       const sessionStore: Record<string, SessionEntry> = {
@@ -680,7 +680,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("persists compaction tokensAfter when provider usage is unavailable", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-compaction-tokens-after";
       const sessionId = "test-compaction-tokens-after-session";
       const sessionStore: Record<string, SessionEntry> = {
@@ -727,7 +727,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("ignores non-finite compaction tokensAfter values", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-compaction-tokens-after-invalid";
       const sessionId = "test-compaction-tokens-after-invalid-session";
       const sessionStore: Record<string, SessionEntry> = {
@@ -787,7 +787,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
             },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-cost-snapshot";
       const sessionId = "test-cost-snapshot-session";
 
@@ -854,7 +854,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("preserves lastInteractionAt for non-interactive system runs", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-system-run";
       const sessionId = "test-system-run-session";
       const lastInteractionAt = Date.now() - 60 * 60_000;
@@ -898,7 +898,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("advances lastInteractionAt for interactive runs", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-user-run";
       const sessionId = "test-user-run-session";
       const lastInteractionAt = Date.now() - 60 * 60_000;
@@ -937,7 +937,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("preserves runtime model and contextTokens when preserveRuntimeModel is true (heartbeat bleed fix)", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-heartbeat-bleed";
       const sessionId = "test-heartbeat-bleed-session";
       const sessionStore: Record<string, SessionEntry> = {
@@ -990,7 +990,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("leaves contextTokens unset when entry has prior model but no contextTokens (heartbeat bleed guard)", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-heartbeat-no-context-tokens";
       const sessionId = "test-heartbeat-no-context-tokens-session";
       const sessionStore: Record<string, SessionEntry> = {
@@ -1039,7 +1039,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("does not set runtime model when preserveRuntimeModel is true and entry has no prior runtime model", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-heartbeat-new-session";
       const sessionId = "test-heartbeat-new-session-id";
       const sessionStore: Record<string, SessionEntry> = {
@@ -1083,7 +1083,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("preserves model without borrowing heartbeat provider when entry has model but no modelProvider", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-heartbeat-model-no-provider";
       const sessionId = "test-heartbeat-model-no-provider-session";
       const sessionStore: Record<string, SessionEntry> = {
@@ -1133,7 +1133,7 @@ describe("updateSessionStoreAfterAgentRun", () => {
 
   it("overwrites runtime model when preserveRuntimeModel is false (default behavior)", async () => {
     await withTempSessionStore(async ({ storePath }) => {
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const sessionKey = "agent:main:explicit:test-normal-overwrite";
       const sessionId = "test-normal-overwrite-session";
       const sessionStore: Record<string, SessionEntry> = {
@@ -1183,7 +1183,7 @@ describe("clearCliSessionInStore", () => {
     await withTempSessionStore(async ({ storePath }) => {
       const sessionKey = "agent:main:explicit:test-clear-claude-cli";
       const entry: SessionEntry = {
-        sessionId: "openclaw-session-1",
+        sessionId: "brikko-studio-session-1",
         updatedAt: 1,
         cliSessionBindings: {
           "claude-cli": {
@@ -1235,7 +1235,7 @@ describe("clearCliSessionInStore", () => {
       const existingKey = "agent:main:explicit:existing";
       const sessionStore: Record<string, SessionEntry> = {
         [existingKey]: {
-          sessionId: "openclaw-session-1",
+          sessionId: "brikko-studio-session-1",
           updatedAt: 1,
           claudeCliSessionId: "claude-session-1",
         },

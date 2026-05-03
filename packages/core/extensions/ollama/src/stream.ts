@@ -10,25 +10,25 @@ import type {
   Usage,
 } from "@mariozechner/pi-ai";
 import { createAssistantMessageEventStream, streamSimple } from "@mariozechner/pi-ai";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type {
-  OpenClawConfig,
+  Brikko StudioConfig,
   ProviderRuntimeModel,
   ProviderWrapStreamFnContext,
-} from "openclaw/plugin-sdk/plugin-entry";
-import { isNonSecretApiKeyMarker } from "openclaw/plugin-sdk/provider-auth";
+} from "brikko-studio/plugin-sdk/plugin-entry";
+import { isNonSecretApiKeyMarker } from "brikko-studio/plugin-sdk/provider-auth";
 import {
   DEFAULT_CONTEXT_TOKENS,
   normalizeProviderId,
-} from "openclaw/plugin-sdk/provider-model-shared";
+} from "brikko-studio/plugin-sdk/provider-model-shared";
 import {
   createMoonshotThinkingWrapper,
   resolveMoonshotThinkingType,
   streamWithPayloadPatch,
-} from "openclaw/plugin-sdk/provider-stream-shared";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import { fetchWithSsrFGuard } from "openclaw/plugin-sdk/ssrf-runtime";
-import { normalizeLowercaseStringOrEmpty, readStringValue } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/provider-stream-shared";
+import { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
+import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
+import { normalizeLowercaseStringOrEmpty, readStringValue } from "brikko-studio/plugin-sdk/text-runtime";
 import { OLLAMA_DEFAULT_BASE_URL } from "./defaults.js";
 import { normalizeOllamaWireModelId } from "./model-id.js";
 import {
@@ -105,7 +105,7 @@ export function resolveOllamaBaseUrlForRun(params: {
 }
 
 export function resolveConfiguredOllamaProviderConfig(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   providerId?: string;
 }) {
   const providerId = params.providerId?.trim();
@@ -165,7 +165,7 @@ export function isOllamaCompatProvider(model: {
 }
 
 export function resolveOllamaCompatNumCtxEnabled(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   providerId?: string;
 }): boolean {
   return resolveConfiguredOllamaProviderConfig(params)?.injectNumCtxForOpenAICompat ?? true;
@@ -173,7 +173,7 @@ export function resolveOllamaCompatNumCtxEnabled(params: {
 
 export function shouldInjectOllamaCompatNumCtx(params: {
   model: { api?: string; provider?: string; baseUrl?: string };
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   providerId?: string;
 }): boolean {
   if (params.model.api !== "openai-completions") {
@@ -294,7 +294,7 @@ function resolveOllamaNumCtx(model: ProviderRuntimeModel): number {
  * Resolves num_ctx for native /api/chat requests:
  *  1. explicit `params.num_ctx` set on the model wins,
  *  2. otherwise the catalog `contextWindow` / `maxTokens` is forwarded so
- *     OpenClaw's known model windows survive the trip and `/api/chat` does
+ *     Brikko Studio's known model windows survive the trip and `/api/chat` does
  *     not silently truncate to Ollama's small Modelfile default (typically
  *     2048 tokens) — which is too small for a system prompt plus tool
  *     definitions and produces "model picks wrong tools / says nonsense"

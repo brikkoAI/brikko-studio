@@ -29,10 +29,10 @@ let currentMockSocket:
     }
   | undefined;
 
-vi.mock("openclaw/plugin-sdk/runtime-config-snapshot", async () => {
+vi.mock("brikko-studio/plugin-sdk/runtime-config-snapshot", async () => {
   const actual = await vi.importActual<
-    typeof import("openclaw/plugin-sdk/runtime-config-snapshot")
-  >("openclaw/plugin-sdk/runtime-config-snapshot");
+    typeof import("brikko-studio/plugin-sdk/runtime-config-snapshot")
+  >("brikko-studio/plugin-sdk/runtime-config-snapshot");
   return {
     ...actual,
     getRuntimeConfig: vi.fn().mockReturnValue({
@@ -49,9 +49,9 @@ vi.mock("openclaw/plugin-sdk/runtime-config-snapshot", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/conversation-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/conversation-runtime")>(
-    "openclaw/plugin-sdk/conversation-runtime",
+vi.mock("brikko-studio/plugin-sdk/conversation-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/conversation-runtime")>(
+    "brikko-studio/plugin-sdk/conversation-runtime",
   );
   return {
     ...actual,
@@ -64,9 +64,9 @@ vi.mock("openclaw/plugin-sdk/conversation-runtime", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/channel-pairing", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/channel-pairing")>(
-    "openclaw/plugin-sdk/channel-pairing",
+vi.mock("brikko-studio/plugin-sdk/channel-pairing", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/channel-pairing")>(
+    "brikko-studio/plugin-sdk/channel-pairing",
   );
   return {
     ...actual,
@@ -76,9 +76,9 @@ vi.mock("openclaw/plugin-sdk/channel-pairing", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/media-store", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/media-store")>(
-    "openclaw/plugin-sdk/media-store",
+vi.mock("brikko-studio/plugin-sdk/media-store", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/media-store")>(
+    "brikko-studio/plugin-sdk/media-store",
   );
   return {
     ...actual,
@@ -89,7 +89,7 @@ vi.mock("openclaw/plugin-sdk/media-store", async () => {
   };
 });
 
-const HOME = path.join(os.tmpdir(), `openclaw-inbound-media-${crypto.randomUUID()}`);
+const HOME = path.join(os.tmpdir(), `brikko-studio-inbound-media-${crypto.randomUUID()}`);
 process.env.HOME = HOME;
 
 vi.mock("@whiskeysockets/baileys", async () => {

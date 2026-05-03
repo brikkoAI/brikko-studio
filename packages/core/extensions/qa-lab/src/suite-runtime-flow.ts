@@ -2,10 +2,10 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
-import { resolveSessionTranscriptsDirForAgent } from "openclaw/plugin-sdk/memory-host-core";
-import { formatMemoryDreamingDay } from "openclaw/plugin-sdk/memory-host-status";
-import { buildAgentSessionKey } from "openclaw/plugin-sdk/routing";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { resolveSessionTranscriptsDirForAgent } from "brikko-studio/plugin-sdk/memory-host-core";
+import { formatMemoryDreamingDay } from "brikko-studio/plugin-sdk/memory-host-status";
+import { buildAgentSessionKey } from "brikko-studio/plugin-sdk/routing";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   callQaBrowserRequest,
   qaBrowserAct,

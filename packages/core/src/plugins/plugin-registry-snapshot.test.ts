@@ -14,13 +14,13 @@ afterEach(() => {
 });
 
 function makeTempDir() {
-  return makeTrackedTempDir("openclaw-plugin-registry-snapshot", tempDirs);
+  return makeTrackedTempDir("brikko-studio-plugin-registry-snapshot", tempDirs);
 }
 
 function createHermeticEnv(rootDir: string): NodeJS.ProcessEnv {
   return {
-    OPENCLAW_BUNDLED_PLUGINS_DIR: path.join(rootDir, "bundled"),
-    OPENCLAW_VERSION: "2026.4.26",
+    BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: path.join(rootDir, "bundled"),
+    BRIKKO_STUDIO_VERSION: "2026.4.26",
     VITEST: "true",
   };
 }
@@ -34,7 +34,7 @@ function writePackagePlugin(rootDir: string) {
   fs.mkdirSync(rootDir, { recursive: true });
   fs.writeFileSync(path.join(rootDir, "index.ts"), "export default { register() {} };\n", "utf8");
   fs.writeFileSync(
-    path.join(rootDir, "openclaw.plugin.json"),
+    path.join(rootDir, "brikko-studio.plugin.json"),
     JSON.stringify({
       id: "demo",
       name: "Demo",
@@ -76,7 +76,7 @@ describe("loadPluginRegistrySnapshotWithMetadata", () => {
     const tempRoot = makeTempDir();
     const rootDir = path.join(tempRoot, "workspace");
     const stateDir = path.join(tempRoot, "state");
-    const env = { ...createHermeticEnv(tempRoot), OPENCLAW_DISABLE_BUNDLED_PLUGINS: "1" };
+    const env = { ...createHermeticEnv(tempRoot), BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: "1" };
     const config = {
       plugins: {
         load: { paths: [rootDir] },
@@ -100,7 +100,7 @@ describe("loadPluginRegistrySnapshotWithMetadata", () => {
     const tempRoot = makeTempDir();
     const rootDir = path.join(tempRoot, "workspace");
     const stateDir = path.join(tempRoot, "state");
-    const env = { ...createHermeticEnv(tempRoot), OPENCLAW_DISABLE_BUNDLED_PLUGINS: "1" };
+    const env = { ...createHermeticEnv(tempRoot), BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: "1" };
     const config = {
       plugins: {
         load: { paths: [rootDir] },
@@ -127,7 +127,7 @@ describe("loadPluginRegistrySnapshotWithMetadata", () => {
     const tempRoot = makeTempDir();
     const rootDir = path.join(tempRoot, "workspace");
     const stateDir = path.join(tempRoot, "state");
-    const env = { ...createHermeticEnv(tempRoot), OPENCLAW_DISABLE_BUNDLED_PLUGINS: "1" };
+    const env = { ...createHermeticEnv(tempRoot), BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: "1" };
     const config = {
       plugins: {
         load: { paths: [rootDir] },
@@ -138,7 +138,7 @@ describe("loadPluginRegistrySnapshotWithMetadata", () => {
     writePersistedInstalledPluginIndexSync(index, { stateDir });
 
     replaceFilePreservingSizeAndMtime(
-      path.join(rootDir, "openclaw.plugin.json"),
+      path.join(rootDir, "brikko-studio.plugin.json"),
       JSON.stringify({
         id: "demo",
         name: "Demo",
@@ -163,7 +163,7 @@ describe("loadPluginRegistrySnapshotWithMetadata", () => {
     const tempRoot = makeTempDir();
     const rootDir = path.join(tempRoot, "workspace");
     const stateDir = path.join(tempRoot, "state");
-    const env = { ...createHermeticEnv(tempRoot), OPENCLAW_DISABLE_BUNDLED_PLUGINS: "1" };
+    const env = { ...createHermeticEnv(tempRoot), BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: "1" };
     const config = {
       plugins: {
         load: { paths: [rootDir] },
@@ -194,7 +194,7 @@ describe("loadPluginRegistrySnapshotWithMetadata", () => {
     const tempRoot = makeTempDir();
     const rootDir = path.join(tempRoot, "workspace");
     const stateDir = path.join(tempRoot, "state");
-    const env = { ...createHermeticEnv(tempRoot), OPENCLAW_DISABLE_BUNDLED_PLUGINS: "1" };
+    const env = { ...createHermeticEnv(tempRoot), BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: "1" };
     const config = {
       plugins: {
         load: { paths: [rootDir] },

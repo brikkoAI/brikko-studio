@@ -9,23 +9,23 @@ import {
 } from "./current-plugin-metadata-snapshot.js";
 import { resolveInstalledPluginIndexPolicyHash } from "./installed-plugin-index-policy.js";
 import type { InstalledPluginIndex } from "./installed-plugin-index.js";
-import { listOpenClawPluginManifestMetadata } from "./manifest-metadata-scan.js";
+import { listBrikko StudioPluginManifestMetadata } from "./manifest-metadata-scan.js";
 import { normalizeProviderModelIdWithManifest } from "./manifest-model-id-normalization.js";
 import type { PluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
 import { createEmptyPluginRegistry } from "./registry-empty.js";
 import { resetPluginRuntimeStateForTest, setActivePluginRegistry } from "./runtime.js";
 
 const ORIGINAL_ENV = {
-  OPENCLAW_STATE_DIR: process.env.OPENCLAW_STATE_DIR,
-  OPENCLAW_HOME: process.env.OPENCLAW_HOME,
-  OPENCLAW_DISABLE_BUNDLED_PLUGINS: process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS,
-  OPENCLAW_BUNDLED_PLUGINS_DIR: process.env.OPENCLAW_BUNDLED_PLUGINS_DIR,
+  BRIKKO_STUDIO_STATE_DIR: process.env.BRIKKO_STUDIO_STATE_DIR,
+  BRIKKO_STUDIO_HOME: process.env.BRIKKO_STUDIO_HOME,
+  BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: process.env.BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS,
+  BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR,
 } as const;
 
 const tempDirs: string[] = [];
 
 function makeTempDir(): string {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-model-id-normalization-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-model-id-normalization-"));
   tempDirs.push(dir);
   return dir;
 }
@@ -66,7 +66,7 @@ function writeNormalizerManifest(params: { pluginDir: string; prefix: string }):
     "utf-8",
   );
   fs.writeFileSync(
-    path.join(params.pluginDir, "openclaw.plugin.json"),
+    path.join(params.pluginDir, "brikko-studio.plugin.json"),
     JSON.stringify({
       id: "normalizer",
       configSchema: { type: "object" },
@@ -100,7 +100,7 @@ function createCurrentSnapshot(params: {
     plugins: [
       {
         pluginId: "normalizer",
-        manifestPath: `/tmp/normalizer-${params.manifestHash}/openclaw.plugin.json`,
+        manifestPath: `/tmp/normalizer-${params.manifestHash}/brikko-studio.plugin.json`,
         manifestHash: params.manifestHash,
         source: `/tmp/normalizer-${params.manifestHash}/index.ts`,
         rootDir: `/tmp/normalizer-${params.manifestHash}`,
@@ -226,10 +226,10 @@ describe("manifest model id normalization", () => {
     writeInstallIndex({ stateDir: stateDirA, pluginDir: pluginDirA });
     writeNormalizerManifest({ pluginDir: pluginDirA, prefix: "alpha" });
 
-    process.env.OPENCLAW_STATE_DIR = stateDirA;
-    process.env.OPENCLAW_HOME = undefined;
-    process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS = "1";
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = undefined;
+    process.env.BRIKKO_STUDIO_STATE_DIR = stateDirA;
+    process.env.BRIKKO_STUDIO_HOME = undefined;
+    process.env.BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS = "1";
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = undefined;
 
     expect(normalizeDemoModel()).toBe("alpha/demo-model");
 
@@ -241,26 +241,26 @@ describe("manifest model id normalization", () => {
     writeInstallIndex({ stateDir: stateDirB, pluginDir: pluginDirB });
     writeNormalizerManifest({ pluginDir: pluginDirB, prefix: "charlie" });
 
-    process.env.OPENCLAW_STATE_DIR = stateDirB;
+    process.env.BRIKKO_STUDIO_STATE_DIR = stateDirB;
     expect(normalizeDemoModel()).toBe("charlie/demo-model");
   });
 
   it("reuses manifest metadata while file fingerprints are unchanged", () => {
     const stateDir = makeTempDir();
     const pluginDir = path.join(stateDir, "extensions", "normalizer");
-    const manifestPath = path.join(pluginDir, "openclaw.plugin.json");
+    const manifestPath = path.join(pluginDir, "brikko-studio.plugin.json");
     writeInstallIndex({ stateDir, pluginDir });
     writeNormalizerManifest({ pluginDir, prefix: "alpha" });
 
-    process.env.OPENCLAW_STATE_DIR = stateDir;
-    process.env.OPENCLAW_HOME = undefined;
-    process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS = "1";
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = undefined;
+    process.env.BRIKKO_STUDIO_STATE_DIR = stateDir;
+    process.env.BRIKKO_STUDIO_HOME = undefined;
+    process.env.BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS = "1";
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = undefined;
 
     const readFileSyncSpy = vi.spyOn(fs, "readFileSync");
 
-    expect(listOpenClawPluginManifestMetadata(process.env)).toHaveLength(1);
-    expect(listOpenClawPluginManifestMetadata(process.env)).toHaveLength(1);
+    expect(listBrikko StudioPluginManifestMetadata(process.env)).toHaveLength(1);
+    expect(listBrikko StudioPluginManifestMetadata(process.env)).toHaveLength(1);
 
     const manifestReads = readFileSyncSpy.mock.calls.filter(
       ([filePath]) => String(filePath) === manifestPath,

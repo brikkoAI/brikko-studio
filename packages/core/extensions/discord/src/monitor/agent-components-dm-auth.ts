@@ -1,6 +1,6 @@
-import { createChannelPairingChallengeIssuer } from "openclaw/plugin-sdk/channel-pairing";
-import { isDangerousNameMatchingEnabled } from "openclaw/plugin-sdk/dangerous-name-runtime";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+import { createChannelPairingChallengeIssuer } from "brikko-studio/plugin-sdk/channel-pairing";
+import { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { resolveDiscordDmAccessGroupEntries } from "./access-groups.js";
 import {
   resolveComponentInteractionContext,

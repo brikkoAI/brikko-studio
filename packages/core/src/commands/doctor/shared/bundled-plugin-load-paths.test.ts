@@ -1,5 +1,5 @@
 import path from "node:path";
-import { bundledDistPluginRootAt, bundledPluginRootAt } from "openclaw/plugin-sdk/test-fixtures";
+import { bundledDistPluginRootAt, bundledPluginRootAt } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { BundledPluginSource } from "../../../plugins/bundled-sources.js";
 import * as bundledSources from "../../../plugins/bundled-sources.js";
@@ -13,7 +13,7 @@ function bundled(pluginId: string, localPath: string): BundledPluginSource {
   return {
     pluginId,
     localPath,
-    npmSpec: `@openclaw/${pluginId}`,
+    npmSpec: `@brikko-studio/${pluginId}`,
   };
 }
 
@@ -37,7 +37,7 @@ function createPluginLoadPathConfig(
 
 describe("bundled plugin load path repair", () => {
   beforeEach(() => {
-    const packageRoot = "/app/node_modules/openclaw";
+    const packageRoot = "/app/node_modules/brikko-studio";
     mockBundledSource("feishu", bundledDistPluginRootAt(packageRoot, "feishu"));
   });
 
@@ -46,7 +46,7 @@ describe("bundled plugin load path repair", () => {
   });
 
   it("detects legacy bundled plugin paths that still point at source extensions", () => {
-    const packageRoot = path.resolve("app-node-modules", "openclaw");
+    const packageRoot = path.resolve("app-node-modules", "brikko-studio");
     const legacyPath = bundledPluginRootAt(packageRoot, "feishu");
     const bundledPath = bundledDistPluginRootAt(packageRoot, "feishu");
     vi.spyOn(bundledSources, "resolveBundledPluginSources").mockReturnValue(
@@ -72,7 +72,7 @@ describe("bundled plugin load path repair", () => {
   });
 
   it("removes legacy bundled paths during doctor repair", () => {
-    const packageRoot = path.resolve("app-node-modules", "openclaw");
+    const packageRoot = path.resolve("app-node-modules", "brikko-studio");
     const legacyPath = bundledPluginRootAt(packageRoot, "feishu");
     const bundledPath = bundledDistPluginRootAt(packageRoot, "feishu");
     vi.spyOn(bundledSources, "resolveBundledPluginSources").mockReturnValue(
@@ -94,7 +94,7 @@ describe("bundled plugin load path repair", () => {
   });
 
   it("removes current packaged bundled paths during doctor repair", () => {
-    const packageRoot = path.resolve("app-node-modules", "openclaw");
+    const packageRoot = path.resolve("app-node-modules", "brikko-studio");
     const bundledPath = bundledDistPluginRootAt(packageRoot, "feishu");
     mockBundledSource("feishu", bundledPath);
 
@@ -104,7 +104,7 @@ describe("bundled plugin load path repair", () => {
   });
 
   it("derives legacy paths from the bundled directory name instead of plugin id", () => {
-    const packageRoot = path.resolve("app-node-modules", "openclaw");
+    const packageRoot = path.resolve("app-node-modules", "brikko-studio");
     const legacyPath = bundledPluginRootAt(packageRoot, "kimi-coding");
     const bundledPath = bundledDistPluginRootAt(packageRoot, "kimi-coding");
     vi.spyOn(bundledSources, "resolveBundledPluginSources").mockReturnValue(
@@ -130,7 +130,7 @@ describe("bundled plugin load path repair", () => {
   });
 
   it("matches legacy bundled paths with a trailing slash", () => {
-    const packageRoot = path.resolve("app-node-modules", "openclaw");
+    const packageRoot = path.resolve("app-node-modules", "brikko-studio");
     const legacyPath = `${bundledPluginRootAt(packageRoot, "feishu")}${path.sep}`;
     const bundledPath = bundledDistPluginRootAt(packageRoot, "feishu");
     mockBundledSource("feishu", bundledPath);
@@ -141,7 +141,7 @@ describe("bundled plugin load path repair", () => {
   });
 
   it("removes dist-runtime bundled paths", () => {
-    const packageRoot = path.resolve("app-node-modules", "openclaw");
+    const packageRoot = path.resolve("app-node-modules", "brikko-studio");
     const legacyPath = path.join(packageRoot, "extensions", "feishu");
     const bundledPath = path.join(packageRoot, "dist-runtime", "extensions", "feishu");
     mockBundledSource("feishu", bundledPath);
@@ -152,7 +152,7 @@ describe("bundled plugin load path repair", () => {
   });
 
   it("preserves non-string path entries when repairing legacy bundled paths", () => {
-    const packageRoot = path.resolve("app-node-modules", "openclaw");
+    const packageRoot = path.resolve("app-node-modules", "brikko-studio");
     const legacyPath = path.join(packageRoot, "extensions", "feishu");
     const bundledPath = path.join(packageRoot, "dist", "extensions", "feishu");
     mockBundledSource("feishu", bundledPath);
@@ -165,7 +165,7 @@ describe("bundled plugin load path repair", () => {
   });
 
   it("formats a doctor hint for legacy bundled plugin paths", () => {
-    const packageRoot = path.resolve("app-node-modules", "openclaw");
+    const packageRoot = path.resolve("app-node-modules", "brikko-studio");
     const legacyPath = path.join(packageRoot, "extensions", "feishu");
     const bundledPath = path.join(packageRoot, "dist", "extensions", "feishu");
 
@@ -178,17 +178,17 @@ describe("bundled plugin load path repair", () => {
           pathLabel: "plugins.load.paths",
         },
       ],
-      doctorFixCommand: "openclaw doctor --fix",
+      doctorFixCommand: "brikko-studio doctor --fix",
     });
 
     expect(warnings).toEqual([
       expect.stringContaining(`plugins.load.paths: bundled plugin path "${legacyPath}"`),
-      expect.stringContaining('Run "openclaw doctor --fix"'),
+      expect.stringContaining('Run "brikko-studio doctor --fix"'),
     ]);
   });
 
   it("ignores bundled plugins that already resolve to source extensions", () => {
-    const sourcePath = path.resolve("repo", "openclaw", "extensions", "feishu");
+    const sourcePath = path.resolve("repo", "brikko-studio", "extensions", "feishu");
     vi.spyOn(bundledSources, "resolveBundledPluginSources").mockReturnValue(
       new Map([["feishu", bundled("feishu", sourcePath)]]),
     );

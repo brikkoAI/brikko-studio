@@ -95,7 +95,7 @@ describe("security CLI", () => {
       gateway: {
         auth: {
           mode: "token",
-          token: { source: "env", provider: "default", id: "OPENCLAW_GATEWAY_TOKEN" },
+          token: { source: "env", provider: "default", id: "BRIKKO_STUDIO_GATEWAY_TOKEN" },
         },
       },
       secrets: {

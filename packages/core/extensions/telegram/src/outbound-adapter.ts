@@ -1,22 +1,22 @@
-import type { ChannelOutboundAdapter } from "openclaw/plugin-sdk/channel-send-result";
+import type { ChannelOutboundAdapter } from "brikko-studio/plugin-sdk/channel-send-result";
 import {
   attachChannelToResult,
   createAttachedChannelResultAdapter,
-} from "openclaw/plugin-sdk/channel-send-result";
+} from "brikko-studio/plugin-sdk/channel-send-result";
 import {
   presentationToInteractiveReply,
   renderMessagePresentationFallbackText,
-} from "openclaw/plugin-sdk/interactive-runtime";
-import { sanitizeForPlainText } from "openclaw/plugin-sdk/outbound-runtime";
+} from "brikko-studio/plugin-sdk/interactive-runtime";
+import { sanitizeForPlainText } from "brikko-studio/plugin-sdk/outbound-runtime";
 import {
   resolveOutboundSendDep,
   type OutboundSendDeps,
-} from "openclaw/plugin-sdk/outbound-send-deps";
+} from "brikko-studio/plugin-sdk/outbound-send-deps";
 import {
   resolvePayloadMediaUrls,
   sendPayloadMediaSequenceOrFallback,
-} from "openclaw/plugin-sdk/reply-payload";
-import type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
+} from "brikko-studio/plugin-sdk/reply-payload";
+import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
 import type { TelegramInlineButtons } from "./button-types.js";
 import { resolveTelegramInlineButtons } from "./button-types.js";
 import { markdownToTelegramHtmlChunks } from "./format.js";

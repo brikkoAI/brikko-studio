@@ -1,23 +1,23 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { VERSION } from "../version.js";
-import { OpenClawChannelBridge } from "./channel-bridge.js";
+import { Brikko StudioChannelBridge } from "./channel-bridge.js";
 import { ClaudePermissionRequestSchema, type ClaudeChannelMode } from "./channel-shared.js";
 import { getChannelMcpCapabilities, registerChannelMcpTools } from "./channel-tools.js";
 
-export { OpenClawChannelBridge } from "./channel-bridge.js";
+export { Brikko StudioChannelBridge } from "./channel-bridge.js";
 
-export type OpenClawMcpServeOptions = {
+export type Brikko StudioMcpServeOptions = {
   gatewayUrl?: string;
   gatewayToken?: string;
   gatewayPassword?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   claudeChannelMode?: ClaudeChannelMode;
   verbose?: boolean;
 };
 
-async function resolveMcpConfig(config: OpenClawConfig | undefined): Promise<OpenClawConfig> {
+async function resolveMcpConfig(config: Brikko StudioConfig | undefined): Promise<Brikko StudioConfig> {
   if (config) {
     return config;
   }
@@ -25,9 +25,9 @@ async function resolveMcpConfig(config: OpenClawConfig | undefined): Promise<Ope
   return getRuntimeConfig();
 }
 
-export async function createOpenClawChannelMcpServer(opts: OpenClawMcpServeOptions = {}): Promise<{
+export async function createBrikko StudioChannelMcpServer(opts: Brikko StudioMcpServeOptions = {}): Promise<{
   server: McpServer;
-  bridge: OpenClawChannelBridge;
+  bridge: Brikko StudioChannelBridge;
   start: () => Promise<void>;
   close: () => Promise<void>;
 }> {
@@ -35,10 +35,10 @@ export async function createOpenClawChannelMcpServer(opts: OpenClawMcpServeOptio
   const claudeChannelMode = opts.claudeChannelMode ?? "auto";
   const capabilities = getChannelMcpCapabilities(claudeChannelMode);
   const server = new McpServer(
-    { name: "openclaw", version: VERSION },
+    { name: "brikko-studio", version: VERSION },
     capabilities ? { capabilities } : undefined,
   );
-  const bridge = new OpenClawChannelBridge(cfg, {
+  const bridge = new Brikko StudioChannelBridge(cfg, {
     gatewayUrl: opts.gatewayUrl,
     gatewayToken: opts.gatewayToken,
     gatewayPassword: opts.gatewayPassword,
@@ -70,8 +70,8 @@ export async function createOpenClawChannelMcpServer(opts: OpenClawMcpServeOptio
   };
 }
 
-export async function serveOpenClawChannelMcp(opts: OpenClawMcpServeOptions = {}): Promise<void> {
-  const { server, start, close } = await createOpenClawChannelMcpServer(opts);
+export async function serveBrikko StudioChannelMcp(opts: Brikko StudioMcpServeOptions = {}): Promise<void> {
+  const { server, start, close } = await createBrikko StudioChannelMcpServer(opts);
   const transport = new StdioServerTransport();
 
   let shuttingDown = false;

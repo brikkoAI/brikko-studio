@@ -1,8 +1,8 @@
-import type { BaseTokenResolution } from "openclaw/plugin-sdk/channel-contract";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "openclaw/plugin-sdk/routing";
-import { resolveAccountEntry } from "openclaw/plugin-sdk/routing";
-import { normalizeResolvedSecretInputString } from "openclaw/plugin-sdk/secret-input";
+import type { BaseTokenResolution } from "brikko-studio/plugin-sdk/channel-contract";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
+import { resolveAccountEntry } from "brikko-studio/plugin-sdk/routing";
+import { normalizeResolvedSecretInputString } from "brikko-studio/plugin-sdk/secret-input";
 
 type DiscordTokenSource = "env" | "config" | "none";
 
@@ -19,7 +19,7 @@ export function normalizeDiscordToken(raw: unknown, path: string): string | unde
 }
 
 export function resolveDiscordToken(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   opts: { accountId?: string | null; envToken?: string | null } = {},
 ): DiscordTokenResolution {
   const accountId = normalizeAccountId(opts.accountId);

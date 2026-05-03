@@ -1,10 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   enqueueSystemEvent,
   resetSystemEventsForTest,
-} from "openclaw/plugin-sdk/system-event-runtime";
+} from "brikko-studio/plugin-sdk/system-event-runtime";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   __testing,
@@ -31,7 +31,7 @@ type CronAddInput = Parameters<CronParam["add"]>[0];
 type CronPatch = Parameters<CronParam["update"]>[1];
 type DreamingPluginApi = Parameters<typeof registerShortTermPromotionDreaming>[0];
 type DreamingPluginApiTestDouble = {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   pluginConfig: Record<string, unknown>;
   logger: ReturnType<typeof createLogger>;
   runtime: unknown;
@@ -168,7 +168,7 @@ function getGatewayStartHandler(
   onMock: ReturnType<typeof vi.fn>,
 ): (
   event: { port: number },
-  ctx: { config?: OpenClawConfig; workspaceDir?: string; getCron?: () => unknown },
+  ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown },
 ) => Promise<unknown> {
   const call = onMock.mock.calls.find(([eventName]) => eventName === "gateway_start");
   if (!call) {
@@ -176,7 +176,7 @@ function getGatewayStartHandler(
   }
   return call[1] as (
     event: { port: number },
-    ctx: { config?: OpenClawConfig; workspaceDir?: string; getCron?: () => unknown },
+    ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown },
   ) => Promise<unknown>;
 }
 
@@ -184,7 +184,7 @@ function getGatewayStopHandler(
   onMock: ReturnType<typeof vi.fn>,
 ): (
   event: { reason?: string },
-  ctx: { config?: OpenClawConfig; workspaceDir?: string; getCron?: () => unknown },
+  ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown },
 ) => Promise<unknown> | void {
   const call = onMock.mock.calls.find(([eventName]) => eventName === "gateway_stop");
   if (!call) {
@@ -192,20 +192,20 @@ function getGatewayStopHandler(
   }
   return call[1] as (
     event: { reason?: string },
-    ctx: { config?: OpenClawConfig; workspaceDir?: string; getCron?: () => unknown },
+    ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown },
   ) => Promise<unknown> | void;
 }
 
 async function triggerGatewayStart(
   onMock: ReturnType<typeof vi.fn>,
-  ctx: { config?: OpenClawConfig; workspaceDir?: string; getCron?: () => unknown },
+  ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown },
 ): Promise<void> {
   await getGatewayStartHandler(onMock)({ port: 18789 }, ctx);
 }
 
 async function triggerGatewayStop(
   onMock: ReturnType<typeof vi.fn>,
-  ctx: { config?: OpenClawConfig; workspaceDir?: string; getCron?: () => unknown } = {},
+  ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown } = {},
 ): Promise<void> {
   await getGatewayStopHandler(onMock)({ reason: "test" }, ctx);
 }
@@ -222,7 +222,7 @@ describe("short-term dreaming config", () => {
           userTimezone: "America/Los_Angeles",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const resolved = resolveShortTermPromotionDreamingConfig({
       pluginConfig: {},
       cfg,
@@ -630,7 +630,7 @@ describe("short-term dreaming cron reconciliation", () => {
       schedule: { kind: "cron", expr: "0 */6 * * *" },
       sessionTarget: "main",
       wakeMode: "next-heartbeat",
-      payload: { kind: "systemEvent", text: "__openclaw_memory_core_light_sleep__" },
+      payload: { kind: "systemEvent", text: "__brikko-studio_memory_core_light_sleep__" },
       createdAtMs: 8,
     };
     const legacyRemJob: CronJobLike = {
@@ -641,7 +641,7 @@ describe("short-term dreaming cron reconciliation", () => {
       schedule: { kind: "cron", expr: "0 5 * * 0" },
       sessionTarget: "main",
       wakeMode: "next-heartbeat",
-      payload: { kind: "systemEvent", text: "__openclaw_memory_core_rem_sleep__" },
+      payload: { kind: "systemEvent", text: "__brikko-studio_memory_core_rem_sleep__" },
       createdAtMs: 9,
     };
     const harness = createCronHarness([legacyLightJob, legacyRemJob, deepManagedJob]);
@@ -679,7 +679,7 @@ describe("short-term dreaming cron reconciliation", () => {
       schedule: { kind: "cron", expr: "0 */6 * * *" },
       sessionTarget: "main",
       wakeMode: "next-heartbeat",
-      payload: { kind: "systemEvent", text: "__openclaw_memory_core_light_sleep__" },
+      payload: { kind: "systemEvent", text: "__brikko-studio_memory_core_light_sleep__" },
       createdAtMs: 8,
     };
     const harness = createCronHarness([legacyLightJob]);
@@ -810,7 +810,7 @@ describe("gateway startup reconciliation", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         getCron: () => harness.cron,
       });
 
@@ -883,7 +883,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
 
       const beforeAgentReply = getBeforeAgentReplyHandler(onMock);
       await beforeAgentReply(
@@ -969,7 +969,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
 
       const beforeAgentReply = getBeforeAgentReplyHandler(onMock);
       await beforeAgentReply(
@@ -1172,7 +1172,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       pluginConfig: {},
       logger,
       runtime: {},
@@ -1234,7 +1234,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       pluginConfig: {},
       logger,
       runtime: {},
@@ -1297,7 +1297,7 @@ describe("gateway startup reconciliation", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         getCron: () => undefined,
       });
 
@@ -1481,7 +1481,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
       cronAvailable = true;
 
       await vi.advanceTimersByTimeAsync(constants.STARTUP_CRON_RETRY_DELAY_MS);
@@ -1566,7 +1566,7 @@ describe("gateway startup reconciliation", () => {
               },
             },
           },
-        }) as OpenClawConfig,
+        }) as Brikko StudioConfig,
     );
     const api: DreamingPluginApiTestDouble = {
       config: {
@@ -1583,7 +1583,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       pluginConfig: {},
       logger,
       runtime: {
@@ -1649,7 +1649,7 @@ describe("gateway startup reconciliation", () => {
               },
             },
           },
-        }) as OpenClawConfig,
+        }) as Brikko StudioConfig,
     );
     const api: DreamingPluginApiTestDouble = {
       config: {
@@ -1667,7 +1667,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       pluginConfig: {},
       logger,
       runtime: {
@@ -1721,7 +1721,7 @@ describe("gateway startup reconciliation", () => {
           agents: {
             list: [{ id: "main", default: true }],
           },
-        }) as OpenClawConfig,
+        }) as Brikko StudioConfig,
     );
     const api: DreamingPluginApiTestDouble = {
       config: {
@@ -1738,7 +1738,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       pluginConfig: {},
       logger,
       runtime: {
@@ -1796,7 +1796,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       pluginConfig: {},
       logger,
       runtime: {},
@@ -1892,12 +1892,12 @@ describe("short-term dreaming trigger", () => {
     const result = await runShortTermDreamingPromotionIfTriggered({
       cleanedBody: [
         "System: rotate logs",
-        "System: __openclaw_memory_core_short_term_promotion_dream__",
+        "System: __brikko-studio_memory_core_short_term_promotion_dream__",
         "",
         "A scheduled reminder has been triggered. The reminder content is:",
         "",
         "rotate logs",
-        "__openclaw_memory_core_short_term_promotion_dream__",
+        "__brikko-studio_memory_core_short_term_promotion_dream__",
         "",
         "Handle this reminder internally. Do not relay it to the user unless explicitly requested.",
       ].join("\n"),
@@ -1943,7 +1943,7 @@ describe("short-term dreaming trigger", () => {
 
     const result = await runShortTermDreamingPromotionIfTriggered({
       cleanedBody: [
-        "[cron:e795558c-a273-4124-ba88-d4916688d977 Memory Dreaming Promotion] __openclaw_memory_core_short_term_promotion_dream__",
+        "[cron:e795558c-a273-4124-ba88-d4916688d977 Memory Dreaming Promotion] __brikko-studio_memory_core_short_term_promotion_dream__",
         "Current time: Thursday, April 16th, 2026 - 3:10 PM (America/Los_Angeles) / 2026-04-16 22:10 UTC",
       ].join("\n"),
       trigger: "cron",
@@ -2388,7 +2388,7 @@ describe("short-term dreaming trigger", () => {
             },
           ],
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       config: {
         enabled: true,
         cron: constants.DEFAULT_DREAMING_CRON_EXPR,

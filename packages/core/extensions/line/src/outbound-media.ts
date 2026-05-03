@@ -1,5 +1,5 @@
-import { resolvePinnedHostnameWithPolicy, type SsrFPolicy } from "openclaw/plugin-sdk/ssrf-runtime";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { resolvePinnedHostnameWithPolicy, type SsrFPolicy } from "brikko-studio/plugin-sdk/ssrf-runtime";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 
 type LineOutboundMediaKind = "image" | "video" | "audio";
 

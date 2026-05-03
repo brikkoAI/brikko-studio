@@ -102,7 +102,7 @@ function listRuntimeFiles(root: string): string[] {
 }
 
 function readManifestText(root: string): string {
-  const manifestPath = path.join(root, "openclaw.plugin.json");
+  const manifestPath = path.join(root, "brikko-studio.plugin.json");
   return fs.existsSync(manifestPath) ? fs.readFileSync(manifestPath, "utf8") : "";
 }
 
@@ -223,8 +223,8 @@ describe("extension runtime dependency manifests", () => {
       for (const filePath of listRuntimeFiles(extensionDir)) {
         for (const packageName of collectRuntimeImports(filePath)) {
           if (
-            packageName === "openclaw" ||
-            packageName.startsWith("@openclaw/") ||
+            packageName === "brikko-studio" ||
+            packageName.startsWith("@brikko-studio/") ||
             BUILTIN_MODULES.has(packageName) ||
             declared.has(packageName) ||
             allowedOptional.has(packageName)

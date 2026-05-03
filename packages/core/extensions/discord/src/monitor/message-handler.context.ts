@@ -1,17 +1,17 @@
 import {
   formatInboundEnvelope,
   resolveEnvelopeFormatOptions,
-} from "openclaw/plugin-sdk/channel-inbound";
-import { resolveChannelContextVisibilityMode } from "openclaw/plugin-sdk/context-visibility-runtime";
-import { resolvePinnedMainDmOwnerFromAllowlist } from "openclaw/plugin-sdk/conversation-runtime";
-import { isDangerousNameMatchingEnabled } from "openclaw/plugin-sdk/dangerous-name-runtime";
-import { finalizeInboundContext } from "openclaw/plugin-sdk/reply-dispatch-runtime";
-import { buildPendingHistoryContextFromMap } from "openclaw/plugin-sdk/reply-history";
-import { buildAgentSessionKey, resolveThreadSessionKeys } from "openclaw/plugin-sdk/routing";
-import { danger, logVerbose, shouldLogVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { evaluateSupplementalContextVisibility } from "openclaw/plugin-sdk/security-runtime";
-import { readSessionUpdatedAt, resolveStorePath } from "openclaw/plugin-sdk/session-store-runtime";
-import { truncateUtf16Safe } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/channel-inbound";
+import { resolveChannelContextVisibilityMode } from "brikko-studio/plugin-sdk/context-visibility-runtime";
+import { resolvePinnedMainDmOwnerFromAllowlist } from "brikko-studio/plugin-sdk/conversation-runtime";
+import { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
+import { finalizeInboundContext } from "brikko-studio/plugin-sdk/reply-dispatch-runtime";
+import { buildPendingHistoryContextFromMap } from "brikko-studio/plugin-sdk/reply-history";
+import { buildAgentSessionKey, resolveThreadSessionKeys } from "brikko-studio/plugin-sdk/routing";
+import { danger, logVerbose, shouldLogVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { evaluateSupplementalContextVisibility } from "brikko-studio/plugin-sdk/security-runtime";
+import { readSessionUpdatedAt, resolveStorePath } from "brikko-studio/plugin-sdk/session-store-runtime";
+import { truncateUtf16Safe } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveDiscordConversationIdentity } from "../conversation-identity.js";
 import { ChannelType } from "../internal/discord.js";
 import { normalizeDiscordAllowList, normalizeDiscordSlug } from "./allow-list.js";

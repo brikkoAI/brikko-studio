@@ -1,9 +1,9 @@
 import {
   createChannelInboundDebouncer,
   shouldDebounceTextInbound,
-} from "openclaw/plugin-sdk/channel-inbound";
-import { danger, logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { resolveOpenProviderRuntimeGroupPolicy } from "openclaw/plugin-sdk/runtime-group-policy";
+} from "brikko-studio/plugin-sdk/channel-inbound";
+import { danger, logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { resolveOpenProviderRuntimeGroupPolicy } from "brikko-studio/plugin-sdk/runtime-group-policy";
 import { createDiscordRestClient } from "../client.js";
 import type { Client } from "../internal/discord.js";
 import {

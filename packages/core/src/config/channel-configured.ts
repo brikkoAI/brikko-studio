@@ -4,10 +4,10 @@ import {
   hasMeaningfulChannelConfigShallow,
   resolveChannelConfigRecord,
 } from "./channel-configured-shared.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { Brikko StudioConfig } from "./types.brikko-studio.js";
 
 export function isChannelConfigured(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   channelId: string,
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {

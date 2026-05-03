@@ -1,18 +1,18 @@
 import { selectApplicableRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { resolvePluginTools } from "../plugins/tools.js";
 import { getActiveSecretsRuntimeSnapshot } from "../secrets/runtime.js";
 import { normalizeDeliveryContext } from "../utils/delivery-context.js";
 import { listProfilesForProvider } from "./auth-profiles.js";
 import type { AuthProfileStore } from "./auth-profiles/types.js";
 import {
-  resolveOpenClawPluginToolInputs,
-  type OpenClawPluginToolOptions,
-} from "./openclaw-tools.plugin-context.js";
+  resolveBrikko StudioPluginToolInputs,
+  type Brikko StudioPluginToolOptions,
+} from "./brikko-studio-tools.plugin-context.js";
 import { applyPluginToolDeliveryDefaults } from "./plugin-tool-delivery-defaults.js";
 import type { AnyAgentTool } from "./tools/common.js";
 
-type ResolveOpenClawPluginToolsOptions = OpenClawPluginToolOptions & {
+type ResolveBrikko StudioPluginToolsOptions = Brikko StudioPluginToolOptions & {
   pluginToolAllowlist?: string[];
   currentChannelId?: string;
   currentThreadTs?: string;
@@ -28,9 +28,9 @@ type ResolveOpenClawPluginToolsOptions = OpenClawPluginToolOptions & {
   authProfileStore?: AuthProfileStore;
 };
 
-export function resolveOpenClawPluginToolsForOptions(params: {
-  options?: ResolveOpenClawPluginToolsOptions;
-  resolvedConfig?: OpenClawConfig;
+export function resolveBrikko StudioPluginToolsForOptions(params: {
+  options?: ResolveBrikko StudioPluginToolsOptions;
+  resolvedConfig?: Brikko StudioConfig;
   existingToolNames?: Set<string>;
 }): AnyAgentTool[] {
   if (params.options?.disablePluginTools) {
@@ -54,7 +54,7 @@ export function resolveOpenClawPluginToolsForOptions(params: {
   };
   const authProfileStore = params.options?.authProfileStore;
   const pluginTools = resolvePluginTools({
-    ...resolveOpenClawPluginToolInputs({
+    ...resolveBrikko StudioPluginToolInputs({
       options: params.options,
       resolvedConfig: params.resolvedConfig,
       runtimeConfig: resolveCurrentRuntimeConfig(),

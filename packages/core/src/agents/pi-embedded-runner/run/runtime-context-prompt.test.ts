@@ -20,9 +20,9 @@ describe("runtime context prompt submission", () => {
     const effectivePrompt = [
       "visible ask",
       "",
-      "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
+      "<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
       "secret runtime context",
-      "<<<END_OPENCLAW_INTERNAL_CONTEXT>>>",
+      "<<<END_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
     ].join("\n");
 
     expect(
@@ -33,7 +33,7 @@ describe("runtime context prompt submission", () => {
     ).toEqual({
       prompt: "visible ask",
       runtimeContext:
-        "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>\nsecret runtime context\n<<<END_OPENCLAW_INTERNAL_CONTEXT>>>",
+        "<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>\nsecret runtime context\n<<<END_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
     });
   });
 
@@ -56,7 +56,7 @@ describe("runtime context prompt submission", () => {
         transcriptPrompt: "",
       }),
     ).toEqual({
-      prompt: "Continue the OpenClaw runtime event.",
+      prompt: "Continue the Brikko Studio runtime event.",
       runtimeContext: "internal event",
       runtimeOnly: true,
       runtimeSystemContext: expect.stringContaining("internal event"),
@@ -98,14 +98,14 @@ describe("runtime context prompt submission", () => {
 
     expect(sendCustomMessage).toHaveBeenCalledWith(
       expect.objectContaining({
-        customType: "openclaw.runtime-context",
+        customType: "brikko-studio.runtime-context",
         content: "secret runtime context",
         display: false,
       }),
       { deliverAs: "nextTurn" },
     );
     expect(sentMessages[0]?.content).not.toContain(
-      "OpenClaw runtime context for the immediately preceding user message.",
+      "Brikko Studio runtime context for the immediately preceding user message.",
     );
     expect(sentMessages[0]?.content).not.toContain("not user-authored");
   });
@@ -114,7 +114,7 @@ describe("runtime context prompt submission", () => {
     const systemContext = buildRuntimeContextSystemContext("secret runtime context");
 
     expect(systemContext).toContain(
-      "OpenClaw runtime context for the immediately preceding user message.",
+      "Brikko Studio runtime context for the immediately preceding user message.",
     );
     expect(systemContext).toContain("not user-authored");
     expect(systemContext).toContain("secret runtime context");
@@ -123,7 +123,7 @@ describe("runtime context prompt submission", () => {
   it("labels runtime-only events as system context", async () => {
     const { buildRuntimeEventSystemContext } = await import("./runtime-context-prompt.js");
 
-    expect(buildRuntimeEventSystemContext("internal event")).toContain("OpenClaw runtime event.");
+    expect(buildRuntimeEventSystemContext("internal event")).toContain("Brikko Studio runtime event.");
     expect(buildRuntimeEventSystemContext("internal event")).toContain("not user-authored");
   });
 });

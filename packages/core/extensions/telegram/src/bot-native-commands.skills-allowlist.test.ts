@@ -1,8 +1,8 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { listSkillCommandsForAgents as listActualSkillCommandsForAgents } from "openclaw/plugin-sdk/skill-commands-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { listSkillCommandsForAgents as listActualSkillCommandsForAgents } from "brikko-studio/plugin-sdk/skill-commands-runtime";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { registerTelegramNativeCommands } from "./bot-native-commands.js";
 import {
@@ -32,7 +32,7 @@ describe("registerTelegramNativeCommands skill allowlist integration", () => {
   });
 
   it("registers only allowlisted skills for the bound agent menu", async () => {
-    const workspaceDir = await makeWorkspace("openclaw-telegram-skills-");
+    const workspaceDir = await makeWorkspace("brikko-studio-telegram-skills-");
     await writeSkill({
       dir: path.join(workspaceDir, "skills", "alpha-skill"),
       name: "alpha-skill",
@@ -45,7 +45,7 @@ describe("registerTelegramNativeCommands skill allowlist integration", () => {
     });
 
     const setMyCommands = vi.fn().mockResolvedValue(undefined);
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       agents: {
         list: [
           { id: "alpha", workspace: workspaceDir, skills: ["alpha-skill"] },
@@ -60,7 +60,7 @@ describe("registerTelegramNativeCommands skill allowlist integration", () => {
       ],
     };
     listSkillCommandsForAgents.mockImplementation(
-      ({ cfg, agentIds }: { cfg: OpenClawConfig; agentIds?: string[] }) =>
+      ({ cfg, agentIds }: { cfg: Brikko StudioConfig; agentIds?: string[] }) =>
         listActualSkillCommandsForAgents({ cfg, agentIds }),
     );
 

@@ -1,5 +1,5 @@
-import { expectExplicitVideoGenerationCapabilities } from "openclaw/plugin-sdk/provider-test-contracts";
-import { installPinnedHostnameTestHooks } from "openclaw/plugin-sdk/test-env";
+import { expectExplicitVideoGenerationCapabilities } from "brikko-studio/plugin-sdk/provider-test-contracts";
+import { installPinnedHostnameTestHooks } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   binaryResponse,

@@ -30,7 +30,7 @@ const CHANNEL_HEARTBEAT_KEYS = new Set(["showOk", "showAlerts", "useIndicator"])
 const MEMORY_SEARCH_RULE: LegacyConfigRule = {
   path: ["memorySearch"],
   message:
-    'top-level memorySearch was moved; use agents.defaults.memorySearch instead. Run "openclaw doctor --fix".',
+    'top-level memorySearch was moved; use agents.defaults.memorySearch instead. Run "brikko-studio doctor --fix".',
 };
 
 const HEARTBEAT_RULE: LegacyConfigRule = {
@@ -43,13 +43,13 @@ const LEGACY_SANDBOX_SCOPE_RULES: LegacyConfigRule[] = [
   {
     path: ["agents", "defaults", "sandbox"],
     message:
-      'agents.defaults.sandbox.perSession is legacy; use agents.defaults.sandbox.scope instead. Run "openclaw doctor --fix".',
+      'agents.defaults.sandbox.perSession is legacy; use agents.defaults.sandbox.scope instead. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacySandboxPerSession(value),
   },
   {
     path: ["agents", "list"],
     message:
-      'agents.list[].sandbox.perSession is legacy; use agents.list[].sandbox.scope instead. Run "openclaw doctor --fix".',
+      'agents.list[].sandbox.perSession is legacy; use agents.list[].sandbox.scope instead. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyAgentListSandboxPerSession(value),
   },
 ];
@@ -58,24 +58,24 @@ const LEGACY_AGENT_RUNTIME_POLICY_RULES: LegacyConfigRule[] = [
   {
     path: ["agents", "defaults", "agentRuntime", "fallback"],
     message:
-      'agents.defaults.agentRuntime.fallback is no longer supported; explicit runtimes fail closed and auto mode owns PI fallback. Run "openclaw doctor --fix".',
+      'agents.defaults.agentRuntime.fallback is no longer supported; explicit runtimes fail closed and auto mode owns PI fallback. Run "brikko-studio doctor --fix".',
   },
   {
     path: ["agents", "defaults", "embeddedHarness"],
     message:
-      'agents.defaults.embeddedHarness is legacy; use agents.defaults.agentRuntime instead. Run "openclaw doctor --fix".',
+      'agents.defaults.embeddedHarness is legacy; use agents.defaults.agentRuntime instead. Run "brikko-studio doctor --fix".',
     match: (value) => getRecord(value) !== null,
   },
   {
     path: ["agents", "list"],
     message:
-      'agents.list[].agentRuntime.fallback is no longer supported; explicit runtimes fail closed and auto mode owns PI fallback. Run "openclaw doctor --fix".',
+      'agents.list[].agentRuntime.fallback is no longer supported; explicit runtimes fail closed and auto mode owns PI fallback. Run "brikko-studio doctor --fix".',
     match: (value) => hasAgentListRuntimeFallback(value),
   },
   {
     path: ["agents", "list"],
     message:
-      'agents.list[].embeddedHarness is legacy; use agents.list[].agentRuntime instead. Run "openclaw doctor --fix".',
+      'agents.list[].embeddedHarness is legacy; use agents.list[].agentRuntime instead. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyAgentListEmbeddedHarness(value),
   },
 ];
@@ -84,7 +84,7 @@ const LEGACY_AGENT_LLM_TIMEOUT_RULES: LegacyConfigRule[] = [
   {
     path: ["agents", "defaults", "llm"],
     message:
-      'agents.defaults.llm is legacy; use models.providers.<id>.timeoutSeconds for slow model/provider timeouts. Run "openclaw doctor --fix".',
+      'agents.defaults.llm is legacy; use models.providers.<id>.timeoutSeconds for slow model/provider timeouts. Run "brikko-studio doctor --fix".',
     match: (value) => getRecord(value) !== null,
   },
 ];

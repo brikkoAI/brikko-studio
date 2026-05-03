@@ -1,7 +1,7 @@
-import type { OpenClawConfig } from "../../config/types.js";
+import type { Brikko StudioConfig } from "../../config/types.js";
 
 export type DirectoryConfigParams = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
   query?: string | null;
   limit?: number | null;

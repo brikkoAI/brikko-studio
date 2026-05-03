@@ -1,10 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveDefaultAgentId, resolveSessionAgentId } from "openclaw/plugin-sdk/memory-host-core";
-import type { MemorySearchResult } from "openclaw/plugin-sdk/memory-host-files";
-import { getActiveMemorySearchManager } from "openclaw/plugin-sdk/memory-host-search";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
-import type { OpenClawConfig } from "../api.js";
+import { resolveDefaultAgentId, resolveSessionAgentId } from "brikko-studio/plugin-sdk/memory-host-core";
+import type { MemorySearchResult } from "brikko-studio/plugin-sdk/memory-host-files";
+import { getActiveMemorySearchManager } from "brikko-studio/plugin-sdk/memory-host-search";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
+import type { Brikko StudioConfig } from "../api.js";
 import { assessClaimFreshness, isClaimContestedStatus } from "./claim-health.js";
 import type { ResolvedMemoryWikiConfig, WikiSearchBackend, WikiSearchCorpus } from "./config.js";
 import {
@@ -17,10 +17,10 @@ import {
 import { initializeMemoryWikiVault } from "./vault.js";
 
 const QUERY_DIRS = ["entities", "concepts", "sources", "syntheses", "reports"] as const;
-const AGENT_DIGEST_PATH = ".openclaw-wiki/cache/agent-digest.json";
-const CLAIMS_DIGEST_PATH = ".openclaw-wiki/cache/claims.jsonl";
+const AGENT_DIGEST_PATH = ".brikko-studio-wiki/cache/agent-digest.json";
+const CLAIMS_DIGEST_PATH = ".brikko-studio-wiki/cache/claims.jsonl";
 const RELATED_BLOCK_PATTERN =
-  /<!-- openclaw:wiki:related:start -->[\s\S]*?<!-- openclaw:wiki:related:end -->/g;
+  /<!-- brikko-studio:wiki:related:start -->[\s\S]*?<!-- brikko-studio:wiki:related:end -->/g;
 const MARKDOWN_FRONTMATTER_PATTERN = /^\s*---\r?\n[\s\S]*?\r?\n---\r?\n?/;
 const ROUTE_QUESTION_STOP_WORDS = new Set([
   "a",
@@ -921,7 +921,7 @@ function shouldSearchWiki(config: ResolvedMemoryWikiConfig): boolean {
 
 function shouldSearchSharedMemory(
   config: ResolvedMemoryWikiConfig,
-  appConfig?: OpenClawConfig,
+  appConfig?: Brikko StudioConfig,
 ): boolean {
   return (
     config.search.backend === "shared" &&
@@ -931,7 +931,7 @@ function shouldSearchSharedMemory(
 }
 
 function resolveActiveMemoryAgentId(params: {
-  appConfig?: OpenClawConfig;
+  appConfig?: Brikko StudioConfig;
   agentId?: string;
   agentSessionKey?: string;
 }): string | null {
@@ -951,7 +951,7 @@ function resolveActiveMemoryAgentId(params: {
 }
 
 async function resolveActiveMemoryManager(params: {
-  appConfig?: OpenClawConfig;
+  appConfig?: Brikko StudioConfig;
   agentId?: string;
   agentSessionKey?: string;
 }) {
@@ -1183,7 +1183,7 @@ export function resolveQueryableWikiPageByLookup(
 
 export async function searchMemoryWiki(params: {
   config: ResolvedMemoryWikiConfig;
-  appConfig?: OpenClawConfig;
+  appConfig?: Brikko StudioConfig;
   agentId?: string;
   agentSessionKey?: string;
   query: string;
@@ -1231,7 +1231,7 @@ export async function searchMemoryWiki(params: {
 
 export async function getMemoryWikiPage(params: {
   config: ResolvedMemoryWikiConfig;
-  appConfig?: OpenClawConfig;
+  appConfig?: Brikko StudioConfig;
   agentId?: string;
   agentSessionKey?: string;
   lookup: string;

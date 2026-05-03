@@ -34,7 +34,7 @@ export async function ensureDebugProxyCa(certDir: string): Promise<{
     "-out",
     certPath,
     "-subj",
-    "/CN=OpenClaw Debug Proxy",
+    "/CN=Brikko Studio Debug Proxy",
   ]);
   return { certPath, keyPath };
 }

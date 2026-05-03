@@ -375,14 +375,14 @@ describe("isSilentOverflowProneModel", () => {
     ).toBe(true);
   });
 
-  // openclaw#75799 reporter's setup: an OpenAI-compatible in-house gateway
+  // brikko-studio#75799 reporter's setup: an OpenAI-compatible in-house gateway
   // exposing Zhipu's GLM family directly (model id `glm-5.1`, no `z-ai/`
   // qualifier, custom baseUrl that is not api.z.ai). Catch the bare GLM
   // family name so direct gateway deployments hit the guard regardless of
   // what `provider` field the user picked — gateways relabel the upstream
   // identity, so `provider` here can be anything from `openai` to a custom
   // string. False positives only disable Pi's secondary compaction path;
-  // OpenClaw's preemptive compaction continues to handle real overflow.
+  // Brikko Studio's preemptive compaction continues to handle real overflow.
   it("flags bare glm- model ids without a namespace prefix, regardless of provider", () => {
     expect(isSilentOverflowProneModel({ provider: "custom", modelId: "glm-5.1" })).toBe(true);
     expect(isSilentOverflowProneModel({ provider: "custom", modelId: "glm-4.7" })).toBe(true);
@@ -433,12 +433,12 @@ describe("isSilentOverflowProneModel", () => {
 });
 
 describe("applyPiAutoCompactionGuard", () => {
-  // Direct repro of openclaw#75799: pi-ai's silent-overflow detection misfires
+  // Direct repro of brikko-studio#75799: pi-ai's silent-overflow detection misfires
   // on a successful turn against z.ai-style providers, triggering Pi's
   // _runAutoCompaction from inside Session.prompt() and reassigning
   // agent.state.messages between the runner's prompt.submitted trajectory
   // event and the provider request. Disabling Pi auto-compaction here keeps
-  // state.messages intact; OpenClaw's preemptive compaction continues to
+  // state.messages intact; Brikko Studio's preemptive compaction continues to
   // handle real overflow on its own path.
   it("disables Pi auto-compaction for silent-overflow-prone providers", () => {
     const setCompactionEnabled = vi.fn();

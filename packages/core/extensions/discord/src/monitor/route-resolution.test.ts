@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { ResolvedAgentRoute } from "openclaw/plugin-sdk/routing";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { describe, expect, it } from "vitest";
 import {
   buildDiscordRoutePeer,
@@ -12,7 +12,7 @@ import {
 function buildWorkerBindingConfig(peer: {
   kind: "channel" | "direct";
   id: string;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   return {
     agents: {
       list: [{ id: "worker" }],

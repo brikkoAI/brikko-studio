@@ -5,7 +5,7 @@ describe("entry root help fast path", () => {
   it("prefers precomputed root help text when available", async () => {
     let outputPrecomputedRootHelpTextCalls = 0;
 
-    const handled = await tryHandleRootHelpFastPath(["node", "openclaw", "--help"], {
+    const handled = await tryHandleRootHelpFastPath(["node", "brikko-studio", "--help"], {
       env: {},
       outputPrecomputedRootHelpText: () => {
         outputPrecomputedRootHelpTextCalls += 1;
@@ -20,7 +20,7 @@ describe("entry root help fast path", () => {
   it("renders root help without importing the full program", async () => {
     let outputRootHelpCalls = 0;
 
-    const handled = await tryHandleRootHelpFastPath(["node", "openclaw", "--help"], {
+    const handled = await tryHandleRootHelpFastPath(["node", "brikko-studio", "--help"], {
       outputRootHelp: () => {
         outputRootHelpCalls += 1;
       },
@@ -34,7 +34,7 @@ describe("entry root help fast path", () => {
   it("ignores non-root help invocations", async () => {
     let outputRootHelpCalls = 0;
 
-    const handled = await tryHandleRootHelpFastPath(["node", "openclaw", "status", "--help"], {
+    const handled = await tryHandleRootHelpFastPath(["node", "brikko-studio", "status", "--help"], {
       outputRootHelp: () => {
         outputRootHelpCalls += 1;
       },
@@ -49,7 +49,7 @@ describe("entry root help fast path", () => {
     let outputRootHelpCalls = 0;
 
     const handled = await tryHandleRootHelpFastPath(
-      ["node", "openclaw", "--container", "demo", "--help"],
+      ["node", "brikko-studio", "--container", "demo", "--help"],
       {
         outputRootHelp: () => {
           outputRootHelpCalls += 1;

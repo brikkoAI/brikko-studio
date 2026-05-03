@@ -18,9 +18,9 @@ provider id `opencode-go` so upstream per-model routing stays correct.
 
 ## Built-in catalog
 
-OpenClaw sources most Go catalog rows from the bundled pi model registry and
+Brikko Studio sources most Go catalog rows from the bundled pi model registry and
 supplements current upstream rows while the registry catches up. Run
-`openclaw models list --provider opencode-go` for the current model list.
+`brikko-studio models list --provider opencode-go` for the current model list.
 
 The provider includes:
 
@@ -46,17 +46,17 @@ The provider includes:
     <Steps>
       <Step title="Run onboarding">
         ```bash
-        openclaw onboard --auth-choice opencode-go
+        brikko-studio onboard --auth-choice opencode-go
         ```
       </Step>
       <Step title="Set a Go model as default">
         ```bash
-        openclaw config set agents.defaults.model.primary "opencode-go/kimi-k2.6"
+        brikko-studio config set agents.defaults.model.primary "opencode-go/kimi-k2.6"
         ```
       </Step>
       <Step title="Verify models are available">
         ```bash
-        openclaw models list --provider opencode-go
+        brikko-studio models list --provider opencode-go
         ```
       </Step>
     </Steps>
@@ -66,12 +66,12 @@ The provider includes:
     <Steps>
       <Step title="Pass the key directly">
         ```bash
-        openclaw onboard --opencode-go-api-key "$OPENCODE_API_KEY"
+        brikko-studio onboard --opencode-go-api-key "$OPENCODE_API_KEY"
         ```
       </Step>
       <Step title="Verify models are available">
         ```bash
-        openclaw models list --provider opencode-go
+        brikko-studio models list --provider opencode-go
         ```
       </Step>
     </Steps>
@@ -91,7 +91,7 @@ The provider includes:
 
 <AccordionGroup>
   <Accordion title="Routing behavior">
-    OpenClaw handles per-model routing automatically when the model ref uses
+    Brikko Studio handles per-model routing automatically when the model ref uses
     `opencode-go/...`. No additional provider config is required.
   </Accordion>
 

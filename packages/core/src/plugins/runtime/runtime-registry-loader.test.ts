@@ -2,7 +2,7 @@ import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { createEmptyPluginRegistry } from "../registry.js";
 
 const mocks = vi.hoisted(() => ({
-  loadOpenClawPlugins: vi.fn<typeof import("../loader.js").loadOpenClawPlugins>(),
+  loadBrikko StudioPlugins: vi.fn<typeof import("../loader.js").loadBrikko StudioPlugins>(),
   resolveCompatibleRuntimePluginRegistry:
     vi.fn<typeof import("../loader.js").resolveCompatibleRuntimePluginRegistry>(),
   resolveRuntimePluginRegistry: vi.fn<typeof import("../loader.js").resolveRuntimePluginRegistry>(),
@@ -29,8 +29,8 @@ let ensurePluginRegistryLoaded: typeof import("./runtime-registry-loader.js").en
 let resetPluginRegistryLoadedForTests: typeof import("./runtime-registry-loader.js").__testing.resetPluginRegistryLoadedForTests;
 
 vi.mock("../loader.js", () => ({
-  loadOpenClawPlugins: (...args: Parameters<typeof mocks.loadOpenClawPlugins>) =>
-    mocks.loadOpenClawPlugins(...args),
+  loadBrikko StudioPlugins: (...args: Parameters<typeof mocks.loadBrikko StudioPlugins>) =>
+    mocks.loadBrikko StudioPlugins(...args),
   resolveCompatibleRuntimePluginRegistry: (
     ...args: Parameters<typeof mocks.resolveCompatibleRuntimePluginRegistry>
   ) => mocks.resolveCompatibleRuntimePluginRegistry(...args),
@@ -82,7 +82,7 @@ describe("ensurePluginRegistryLoaded", () => {
   });
 
   beforeEach(() => {
-    mocks.loadOpenClawPlugins.mockReset();
+    mocks.loadBrikko StudioPlugins.mockReset();
     mocks.resolveCompatibleRuntimePluginRegistry.mockReset();
     mocks.resolveRuntimePluginRegistry.mockReset();
     mocks.getActivePluginRegistry.mockReset();
@@ -97,9 +97,9 @@ describe("ensurePluginRegistryLoaded", () => {
 
     mocks.getActivePluginRegistry.mockReturnValue(null);
     mocks.resolveCompatibleRuntimePluginRegistry.mockReturnValue(undefined);
-    mocks.loadOpenClawPlugins.mockReturnValue(createEmptyPluginRegistry());
+    mocks.loadBrikko StudioPlugins.mockReturnValue(createEmptyPluginRegistry());
     mocks.resolveRuntimePluginRegistry.mockImplementation(
-      (...args: Parameters<typeof mocks.loadOpenClawPlugins>) => mocks.loadOpenClawPlugins(...args),
+      (...args: Parameters<typeof mocks.loadBrikko StudioPlugins>) => mocks.loadBrikko StudioPlugins(...args),
     );
     mocks.applyPluginAutoEnable.mockImplementation((params) => ({
       config:
@@ -132,7 +132,7 @@ describe("ensurePluginRegistryLoaded", () => {
         },
       },
     };
-    const env = { HOME: "/tmp/openclaw-home" } as NodeJS.ProcessEnv;
+    const env = { HOME: "/tmp/brikko-studio-home" } as NodeJS.ProcessEnv;
 
     mocks.resolveConfiguredChannelPluginIds.mockReturnValue(["demo-channel"]);
     ensurePluginRegistryLoaded({
@@ -154,7 +154,7 @@ describe("ensurePluginRegistryLoaded", () => {
       config: rawConfig,
       env,
     });
-    expect(mocks.loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: expect.objectContaining({
           ...resolvedConfig,
@@ -194,7 +194,7 @@ describe("ensurePluginRegistryLoaded", () => {
       config: rawConfig as never,
     });
 
-    expect(mocks.loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: expect.objectContaining({
           plugins: expect.objectContaining({
@@ -229,12 +229,12 @@ describe("ensurePluginRegistryLoaded", () => {
       onlyPluginIds: ["demo-b"],
     });
 
-    expect(mocks.loadOpenClawPlugins).toHaveBeenCalledTimes(2);
-    expect(mocks.loadOpenClawPlugins).toHaveBeenNthCalledWith(
+    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledTimes(2);
+    expect(mocks.loadBrikko StudioPlugins).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({ onlyPluginIds: ["demo-a"] }),
     );
-    expect(mocks.loadOpenClawPlugins).toHaveBeenNthCalledWith(
+    expect(mocks.loadBrikko StudioPlugins).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({ onlyPluginIds: ["demo-b"] }),
     );
@@ -265,7 +265,7 @@ describe("ensurePluginRegistryLoaded", () => {
         workspaceDir: "/resolved-workspace",
       }),
     );
-    expect(mocks.loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: expect.objectContaining({
           plugins: expect.objectContaining({
@@ -297,7 +297,7 @@ describe("ensurePluginRegistryLoaded", () => {
 
     expect(mocks.resolveConfiguredChannelPluginIds).not.toHaveBeenCalled();
     expect(mocks.resolveChannelPluginIds).not.toHaveBeenCalled();
-    expect(mocks.loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         onlyPluginIds: [],
       }),
@@ -312,7 +312,7 @@ describe("ensurePluginRegistryLoaded", () => {
       config: { channels: { demo: { enabled: true } } } as never,
     });
 
-    expect(mocks.loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         onlyPluginIds: [],
       }),
@@ -327,13 +327,13 @@ describe("ensurePluginRegistryLoaded", () => {
       config: {} as never,
     });
 
-    expect(mocks.loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.not.objectContaining({
         onlyPluginIds: [],
       }),
     );
     expect(
-      (mocks.loadOpenClawPlugins.mock.calls[0]?.[0] as { onlyPluginIds?: string[] }).onlyPluginIds,
+      (mocks.loadBrikko StudioPlugins.mock.calls[0]?.[0] as { onlyPluginIds?: string[] }).onlyPluginIds,
     ).toBeUndefined();
   });
 
@@ -342,7 +342,7 @@ describe("ensurePluginRegistryLoaded", () => {
       plugins: { enabled: true },
       channels: { "demo-channel-a": { enabled: true } },
     };
-    const env = { HOME: "/tmp/openclaw-home" } as NodeJS.ProcessEnv;
+    const env = { HOME: "/tmp/brikko-studio-home" } as NodeJS.ProcessEnv;
 
     mocks.resolveEffectivePluginIds.mockReturnValue(["demo-effective", "demo-hook"]);
 
@@ -353,7 +353,7 @@ describe("ensurePluginRegistryLoaded", () => {
       env,
       workspaceDir: "/resolved-workspace",
     });
-    expect(mocks.loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: expect.objectContaining({
           ...config,
@@ -378,7 +378,7 @@ describe("ensurePluginRegistryLoaded", () => {
       config: { plugins: { enabled: true } } as never,
     });
 
-    expect(mocks.loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         onlyPluginIds: [],
       }),
@@ -403,6 +403,6 @@ describe("ensurePluginRegistryLoaded", () => {
     });
 
     expect(mocks.resolveRuntimePluginRegistry).not.toHaveBeenCalled();
-    expect(mocks.loadOpenClawPlugins).not.toHaveBeenCalled();
+    expect(mocks.loadBrikko StudioPlugins).not.toHaveBeenCalled();
   });
 });

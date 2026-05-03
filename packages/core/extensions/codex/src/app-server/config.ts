@@ -10,7 +10,7 @@ export type CodexAppServerApprovalPolicy = "never" | "on-request" | "on-failure"
 export type CodexAppServerSandboxMode = "read-only" | "workspace-write" | "danger-full-access";
 type CodexAppServerApprovalsReviewer = "user" | "auto_review" | "guardian_subagent";
 type CodexAppServerCommandSource = "managed" | "resolved-managed" | "config" | "env";
-type CodexDynamicToolsProfile = "native-first" | "openclaw-compat";
+type CodexDynamicToolsProfile = "native-first" | "brikko-studio-compat";
 
 export type CodexComputerUseConfig = {
   enabled?: boolean;
@@ -123,7 +123,7 @@ const codexAppServerApprovalPolicySchema = z.enum([
 ]);
 const codexAppServerSandboxSchema = z.enum(["read-only", "workspace-write", "danger-full-access"]);
 const codexAppServerApprovalsReviewerSchema = z.enum(["user", "auto_review", "guardian_subagent"]);
-const codexDynamicToolsProfileSchema = z.enum(["native-first", "openclaw-compat"]);
+const codexDynamicToolsProfileSchema = z.enum(["native-first", "brikko-studio-compat"]);
 const codexAppServerServiceTierSchema = z
   .preprocess(
     (value) => (value === null ? null : resolveServiceTier(value)),
@@ -192,21 +192,21 @@ export function resolveCodexAppServerRuntimeOptions(
   const config = readCodexPluginConfig(params.pluginConfig).appServer ?? {};
   const transport = resolveTransport(config.transport);
   const configCommand = readNonEmptyString(config.command);
-  const envCommand = readNonEmptyString(env.OPENCLAW_CODEX_APP_SERVER_BIN);
+  const envCommand = readNonEmptyString(env.BRIKKO_STUDIO_CODEX_APP_SERVER_BIN);
   const command = configCommand ?? envCommand ?? "codex";
   const commandSource: CodexAppServerCommandSource = configCommand
     ? "config"
     : envCommand
       ? "env"
       : "managed";
-  const args = resolveArgs(config.args, env.OPENCLAW_CODEX_APP_SERVER_ARGS);
+  const args = resolveArgs(config.args, env.BRIKKO_STUDIO_CODEX_APP_SERVER_ARGS);
   const headers = normalizeHeaders(config.headers);
   const clearEnv = normalizeStringList(config.clearEnv);
   const authToken = readNonEmptyString(config.authToken);
   const url = readNonEmptyString(config.url);
   const policyMode =
     resolvePolicyMode(config.mode) ??
-    resolvePolicyMode(env.OPENCLAW_CODEX_APP_SERVER_MODE) ??
+    resolvePolicyMode(env.BRIKKO_STUDIO_CODEX_APP_SERVER_MODE) ??
     "yolo";
   const serviceTier = resolveServiceTier(config.serviceTier);
   if (transport === "websocket" && !url) {
@@ -229,11 +229,11 @@ export function resolveCodexAppServerRuntimeOptions(
     requestTimeoutMs: normalizePositiveNumber(config.requestTimeoutMs, 60_000),
     approvalPolicy:
       resolveApprovalPolicy(config.approvalPolicy) ??
-      resolveApprovalPolicy(env.OPENCLAW_CODEX_APP_SERVER_APPROVAL_POLICY) ??
+      resolveApprovalPolicy(env.BRIKKO_STUDIO_CODEX_APP_SERVER_APPROVAL_POLICY) ??
       (policyMode === "guardian" ? "on-request" : "never"),
     sandbox:
       resolveSandbox(config.sandbox) ??
-      resolveSandbox(env.OPENCLAW_CODEX_APP_SERVER_SANDBOX) ??
+      resolveSandbox(env.BRIKKO_STUDIO_CODEX_APP_SERVER_SANDBOX) ??
       (policyMode === "guardian" ? "workspace-write" : "danger-full-access"),
     approvalsReviewer:
       resolveApprovalsReviewer(config.approvalsReviewer) ??
@@ -254,30 +254,30 @@ export function resolveCodexComputerUseConfig(
   const marketplaceSource =
     readNonEmptyString(params.overrides?.marketplaceSource) ??
     readNonEmptyString(config.marketplaceSource) ??
-    readNonEmptyString(env.OPENCLAW_CODEX_COMPUTER_USE_MARKETPLACE_SOURCE);
+    readNonEmptyString(env.BRIKKO_STUDIO_CODEX_COMPUTER_USE_MARKETPLACE_SOURCE);
   const marketplacePath =
     readNonEmptyString(params.overrides?.marketplacePath) ??
     readNonEmptyString(config.marketplacePath) ??
-    readNonEmptyString(env.OPENCLAW_CODEX_COMPUTER_USE_MARKETPLACE_PATH);
+    readNonEmptyString(env.BRIKKO_STUDIO_CODEX_COMPUTER_USE_MARKETPLACE_PATH);
   const marketplaceName =
     readNonEmptyString(params.overrides?.marketplaceName) ??
     readNonEmptyString(config.marketplaceName) ??
-    readNonEmptyString(env.OPENCLAW_CODEX_COMPUTER_USE_MARKETPLACE_NAME);
+    readNonEmptyString(env.BRIKKO_STUDIO_CODEX_COMPUTER_USE_MARKETPLACE_NAME);
   const autoInstall =
     params.overrides?.autoInstall ??
     config.autoInstall ??
-    readBooleanEnv(env.OPENCLAW_CODEX_COMPUTER_USE_AUTO_INSTALL) ??
+    readBooleanEnv(env.BRIKKO_STUDIO_CODEX_COMPUTER_USE_AUTO_INSTALL) ??
     false;
   const marketplaceDiscoveryTimeoutMs = normalizePositiveNumber(
     params.overrides?.marketplaceDiscoveryTimeoutMs ??
       config.marketplaceDiscoveryTimeoutMs ??
-      readNumberEnv(env.OPENCLAW_CODEX_COMPUTER_USE_MARKETPLACE_DISCOVERY_TIMEOUT_MS),
+      readNumberEnv(env.BRIKKO_STUDIO_CODEX_COMPUTER_USE_MARKETPLACE_DISCOVERY_TIMEOUT_MS),
     DEFAULT_CODEX_COMPUTER_USE_MARKETPLACE_DISCOVERY_TIMEOUT_MS,
   );
   const enabled =
     params.overrides?.enabled ??
     config.enabled ??
-    readBooleanEnv(env.OPENCLAW_CODEX_COMPUTER_USE) ??
+    readBooleanEnv(env.BRIKKO_STUDIO_CODEX_COMPUTER_USE) ??
     Boolean(autoInstall || marketplaceSource || marketplacePath || marketplaceName);
 
   return {
@@ -287,12 +287,12 @@ export function resolveCodexComputerUseConfig(
     pluginName:
       readNonEmptyString(params.overrides?.pluginName) ??
       readNonEmptyString(config.pluginName) ??
-      readNonEmptyString(env.OPENCLAW_CODEX_COMPUTER_USE_PLUGIN_NAME) ??
+      readNonEmptyString(env.BRIKKO_STUDIO_CODEX_COMPUTER_USE_PLUGIN_NAME) ??
       DEFAULT_CODEX_COMPUTER_USE_PLUGIN_NAME,
     mcpServerName:
       readNonEmptyString(params.overrides?.mcpServerName) ??
       readNonEmptyString(config.mcpServerName) ??
-      readNonEmptyString(env.OPENCLAW_CODEX_COMPUTER_USE_MCP_SERVER_NAME) ??
+      readNonEmptyString(env.BRIKKO_STUDIO_CODEX_COMPUTER_USE_MCP_SERVER_NAME) ??
       DEFAULT_CODEX_COMPUTER_USE_MCP_SERVER_NAME,
     ...(marketplaceSource ? { marketplaceSource } : {}),
     ...(marketplacePath ? { marketplacePath } : {}),

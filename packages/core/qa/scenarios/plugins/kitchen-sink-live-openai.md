@@ -30,12 +30,12 @@ codeRefs:
   - scripts/e2e/kitchen-sink-plugin-docker.sh
 execution:
   kind: flow
-  summary: Install @openclaw/kitchen-sink, restart the gateway, exercise command inventory/tool/channel/OpenAI paths, and record CPU/RSS/log evidence.
+  summary: Install @brikko-studio/kitchen-sink, restart the gateway, exercise command inventory/tool/channel/OpenAI paths, and record CPU/RSS/log evidence.
   config:
     requiredProviderMode: live-frontier
     requiredProvider: openai
-    pluginSpec: npm:@openclaw/kitchen-sink@latest
-    pluginId: openclaw-kitchen-sink-fixture
+    pluginSpec: npm:@brikko-studio/kitchen-sink@latest
+    pluginId: brikko-studio-kitchen-sink-fixture
     pluginPersonality: conformance
     adversarialPersonality: adversarial
     channelId: kitchen-sink-channel

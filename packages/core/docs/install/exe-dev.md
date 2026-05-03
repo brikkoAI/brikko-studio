@@ -1,22 +1,22 @@
 ---
-summary: "Run OpenClaw Gateway on exe.dev (VM + HTTPS proxy) for remote access"
+summary: "Run Brikko Studio Gateway on exe.dev (VM + HTTPS proxy) for remote access"
 read_when:
   - You want a cheap always-on Linux host for the Gateway
   - You want remote Control UI access without running your own VPS
 title: "exe.dev"
 ---
 
-Goal: OpenClaw Gateway running on an exe.dev VM, reachable from your laptop via: `https://<vm-name>.exe.xyz`
+Goal: Brikko Studio Gateway running on an exe.dev VM, reachable from your laptop via: `https://<vm-name>.exe.xyz`
 
 This page assumes exe.dev's default **exeuntu** image. If you picked a different distro, map packages accordingly.
 
 ## Beginner quick path
 
-1. [https://exe.new/openclaw](https://exe.new/openclaw)
+1. [https://exe.new/brikko-studio](https://exe.new/brikko-studio)
 2. Fill in your auth key/token as needed
 3. Click on "Agent" next to your VM and wait for Shelley to finish provisioning
 4. Open `https://<vm-name>.exe.xyz/` and authenticate with the configured shared secret (this guide uses token auth by default, but password auth works too if you switch `gateway.auth.mode`)
-5. Approve any pending device pairing requests with `openclaw devices approve <requestId>`
+5. Approve any pending device pairing requests with `brikko-studio devices approve <requestId>`
 
 ## What you need
 
@@ -25,11 +25,11 @@ This page assumes exe.dev's default **exeuntu** image. If you picked a different
 
 ## Automated install with Shelley
 
-Shelley, [exe.dev](https://exe.dev)'s agent, can install OpenClaw instantly with our
+Shelley, [exe.dev](https://exe.dev)'s agent, can install Brikko Studio instantly with our
 prompt. The prompt used is as below:
 
 ```
-Set up OpenClaw (https://docs.openclaw.ai/install) on this VM. Use the non-interactive and accept-risk flags for openclaw onboarding. Add the supplied auth or token as needed. Configure nginx to forward from the default port 18789 to the root location on the default enabled site config, making sure to enable Websocket support. Pairing is done by "openclaw devices list" and "openclaw devices approve <request id>". Make sure the dashboard shows that OpenClaw's health is OK. exe.dev handles forwarding from port 8000 to port 80/443 and HTTPS for us, so the final "reachable" should be <vm-name>.exe.xyz, without port specification.
+Set up Brikko Studio (https://docs.brikko-studio.ai/install) on this VM. Use the non-interactive and accept-risk flags for brikko-studio onboarding. Add the supplied auth or token as needed. Configure nginx to forward from the default port 18789 to the root location on the default enabled site config, making sure to enable Websocket support. Pairing is done by "brikko-studio devices list" and "brikko-studio devices approve <request id>". Make sure the dashboard shows that Brikko Studio's health is OK. exe.dev handles forwarding from port 8000 to port 80/443 and HTTPS for us, so the final "reachable" should be <vm-name>.exe.xyz, without port specification.
 ```
 
 ## Manual installation
@@ -49,7 +49,7 @@ ssh <vm-name>.exe.xyz
 ```
 
 <Tip>
-Keep this VM **stateful**. OpenClaw stores `openclaw.json`, per-agent `auth-profiles.json`, sessions, and channel/provider state under `~/.openclaw/`, plus the workspace under `~/.openclaw/workspace/`.
+Keep this VM **stateful**. Brikko Studio stores `brikko-studio.json`, per-agent `auth-profiles.json`, sessions, and channel/provider state under `~/.brikko-studio/`, plus the workspace under `~/.brikko-studio/workspace/`.
 </Tip>
 
 ## 2) Install prerequisites (on the VM)
@@ -59,15 +59,15 @@ sudo apt-get update
 sudo apt-get install -y git curl jq ca-certificates openssl
 ```
 
-## 3) Install OpenClaw
+## 3) Install Brikko Studio
 
-Run the OpenClaw install script:
+Run the Brikko Studio install script:
 
 ```bash
-curl -fsSL https://openclaw.ai/install.sh | bash
+curl -fsSL https://brikko-studio.ai/install.sh | bash
 ```
 
-## 4) Setup nginx to proxy OpenClaw to port 8000
+## 4) Setup nginx to proxy Brikko Studio to port 8000
 
 Edit `/etc/nginx/sites-enabled/default` with
 
@@ -102,25 +102,25 @@ server {
 ```
 
 Overwrite forwarding headers instead of preserving client-supplied chains.
-OpenClaw trusts forwarded IP metadata only from explicitly configured proxies,
+Brikko Studio trusts forwarded IP metadata only from explicitly configured proxies,
 and append-style `X-Forwarded-For` chains are treated as a hardening risk.
 
-## 5) Access OpenClaw and grant privileges
+## 5) Access Brikko Studio and grant privileges
 
 Access `https://<vm-name>.exe.xyz/` (see the Control UI output from onboarding). If it prompts for auth, paste the
 configured shared secret from the VM. This guide uses token auth, so retrieve `gateway.auth.token`
-with `openclaw config get gateway.auth.token` (or generate one with `openclaw doctor --generate-gateway-token`).
-If you changed the gateway to password auth, use `gateway.auth.password` / `OPENCLAW_GATEWAY_PASSWORD` instead.
-Approve devices with `openclaw devices list` and `openclaw devices approve <requestId>`. When in doubt, use Shelley from your browser!
+with `brikko-studio config get gateway.auth.token` (or generate one with `brikko-studio doctor --generate-gateway-token`).
+If you changed the gateway to password auth, use `gateway.auth.password` / `BRIKKO_STUDIO_GATEWAY_PASSWORD` instead.
+Approve devices with `brikko-studio devices list` and `brikko-studio devices approve <requestId>`. When in doubt, use Shelley from your browser!
 
 ## Remote channel setup
 
-For remote hosts, prefer one `config patch` call over many SSH calls to `config set`. Keep real tokens in the VM environment or `~/.openclaw/.env`, and put only SecretRefs in `openclaw.json`.
+For remote hosts, prefer one `config patch` call over many SSH calls to `config set`. Keep real tokens in the VM environment or `~/.brikko-studio/.env`, and put only SecretRefs in `brikko-studio.json`.
 
 On the VM, make the service environment contain the secrets it needs:
 
 ```bash
-cat >> ~/.openclaw/.env <<'EOF'
+cat >> ~/.brikko-studio/.env <<'EOF'
 SLACK_BOT_TOKEN=xoxb-...
 SLACK_APP_TOKEN=xapp-...
 DISCORD_BOT_TOKEN=...
@@ -131,7 +131,7 @@ EOF
 From your local machine, create a patch file and pipe it to the VM:
 
 ```json5
-// openclaw.remote.patch.json5
+// brikko-studio.remote.patch.json5
 {
   secrets: {
     providers: {
@@ -167,15 +167,15 @@ From your local machine, create a patch file and pipe it to the VM:
 ```
 
 ```bash
-ssh <vm-name>.exe.xyz 'openclaw config patch --stdin --dry-run' < ./openclaw.remote.patch.json5
-ssh <vm-name>.exe.xyz 'openclaw config patch --stdin' < ./openclaw.remote.patch.json5
-ssh <vm-name>.exe.xyz 'openclaw gateway restart && openclaw health'
+ssh <vm-name>.exe.xyz 'brikko-studio config patch --stdin --dry-run' < ./brikko-studio.remote.patch.json5
+ssh <vm-name>.exe.xyz 'brikko-studio config patch --stdin' < ./brikko-studio.remote.patch.json5
+ssh <vm-name>.exe.xyz 'brikko-studio gateway restart && brikko-studio health'
 ```
 
 Use `--replace-path` when a nested allowlist should become exactly the patch value, for example when replacing a Discord channel allowlist:
 
 ```bash
-ssh <vm-name>.exe.xyz 'openclaw config patch --stdin --replace-path "channels.discord.guilds[\"123\"].channels"' < ./discord.patch.json5
+ssh <vm-name>.exe.xyz 'brikko-studio config patch --stdin --replace-path "channels.discord.guilds[\"123\"].channels"' < ./discord.patch.json5
 ```
 
 ## Remote access
@@ -187,10 +187,10 @@ with email auth.
 ## Updating
 
 ```bash
-npm i -g openclaw@latest
-openclaw doctor
-openclaw gateway restart
-openclaw health
+npm i -g brikko-studio@latest
+brikko-studio doctor
+brikko-studio gateway restart
+brikko-studio health
 ```
 
 Guide: [Updating](/install/updating)

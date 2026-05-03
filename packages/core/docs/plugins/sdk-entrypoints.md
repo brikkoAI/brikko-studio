@@ -16,7 +16,7 @@ JavaScript when available:
 
 ```json
 {
-  "openclaw": {
+  "brikko-studio": {
     "extensions": ["./src/index.ts"],
     "runtimeExtensions": ["./dist/index.js"],
     "setupEntry": "./src/setup-entry.ts",
@@ -27,11 +27,11 @@ JavaScript when available:
 
 `extensions` and `setupEntry` remain valid source entries for workspace and git
 checkout development. `runtimeExtensions` and `runtimeSetupEntry` are preferred
-when OpenClaw loads an installed package and let npm packages avoid runtime
+when Brikko Studio loads an installed package and let npm packages avoid runtime
 TypeScript compilation. Explicit runtime entries are required: `runtimeSetupEntry`
 requires `setupEntry`, and missing `runtimeExtensions` or `runtimeSetupEntry`
 artifacts fail install/discovery instead of silently falling back to source. If
-an installed package only declares a TypeScript source entry, OpenClaw will use a
+an installed package only declares a TypeScript source entry, Brikko Studio will use a
 matching built `dist/*.js` peer when one exists, then fall back to the TypeScript
 source.
 
@@ -46,13 +46,13 @@ and inferred built JavaScript peers do not make an escaping `extensions` or
 
 ## `definePluginEntry`
 
-**Import:** `openclaw/plugin-sdk/plugin-entry`
+**Import:** `brikko-studio/plugin-sdk/plugin-entry`
 
 For provider plugins, tool plugins, hook plugins, and anything that is **not**
 a messaging channel.
 
 ```typescript
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
+import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 
 export default definePluginEntry({
   id: "my-plugin",
@@ -75,25 +75,25 @@ export default definePluginEntry({
 | `name`         | `string`                                                         | Yes      | —                   |
 | `description`  | `string`                                                         | Yes      | —                   |
 | `kind`         | `string`                                                         | No       | —                   |
-| `configSchema` | `OpenClawPluginConfigSchema \| () => OpenClawPluginConfigSchema` | No       | Empty object schema |
-| `register`     | `(api: OpenClawPluginApi) => void`                               | Yes      | —                   |
+| `configSchema` | `Brikko StudioPluginConfigSchema \| () => Brikko StudioPluginConfigSchema` | No       | Empty object schema |
+| `register`     | `(api: Brikko StudioPluginApi) => void`                               | Yes      | —                   |
 
-- `id` must match your `openclaw.plugin.json` manifest.
+- `id` must match your `brikko-studio.plugin.json` manifest.
 - `kind` is for exclusive slots: `"memory"` or `"context-engine"`.
 - `configSchema` can be a function for lazy evaluation.
-- OpenClaw resolves and memoizes that schema on first access, so expensive schema
+- Brikko Studio resolves and memoizes that schema on first access, so expensive schema
   builders only run once.
 
 ## `defineChannelPluginEntry`
 
-**Import:** `openclaw/plugin-sdk/channel-core`
+**Import:** `brikko-studio/plugin-sdk/channel-core`
 
 Wraps `definePluginEntry` with channel-specific wiring. Automatically calls
 `api.registerChannel({ plugin })`, exposes an optional root-help CLI metadata
 seam, and gates `registerFull` on registration mode.
 
 ```typescript
-import { defineChannelPluginEntry } from "openclaw/plugin-sdk/channel-core";
+import { defineChannelPluginEntry } from "brikko-studio/plugin-sdk/channel-core";
 
 export default defineChannelPluginEntry({
   id: "my-channel",
@@ -116,10 +116,10 @@ export default defineChannelPluginEntry({
 | `name`                | `string`                                                         | Yes      | —                   |
 | `description`         | `string`                                                         | Yes      | —                   |
 | `plugin`              | `ChannelPlugin`                                                  | Yes      | —                   |
-| `configSchema`        | `OpenClawPluginConfigSchema \| () => OpenClawPluginConfigSchema` | No       | Empty object schema |
+| `configSchema`        | `Brikko StudioPluginConfigSchema \| () => Brikko StudioPluginConfigSchema` | No       | Empty object schema |
 | `setRuntime`          | `(runtime: PluginRuntime) => void`                               | No       | —                   |
-| `registerCliMetadata` | `(api: OpenClawPluginApi) => void`                               | No       | —                   |
-| `registerFull`        | `(api: OpenClawPluginApi) => void`                               | No       | —                   |
+| `registerCliMetadata` | `(api: Brikko StudioPluginApi) => void`                               | No       | —                   |
+| `registerFull`        | `(api: Brikko StudioPluginApi) => void`                               | No       | —                   |
 
 - `setRuntime` is called during registration so you can store the runtime reference
   (typically via `createPluginRuntimeStore`). It is skipped during CLI metadata
@@ -130,13 +130,13 @@ export default defineChannelPluginEntry({
   Use it as the canonical place for channel-owned CLI descriptors so root help
   stays non-activating, discovery snapshots include static command metadata, and
   normal CLI command registration remains compatible with full plugin loads.
-- Discovery registration is non-activating, not import-free. OpenClaw may
+- Discovery registration is non-activating, not import-free. Brikko Studio may
   evaluate the trusted plugin entry and channel plugin module to build the
   snapshot, so keep top-level imports side-effect-free and put sockets,
   clients, workers, and services behind `"full"`-only paths.
 - `registerFull` only runs when `api.registrationMode === "full"`. It is skipped
   during setup-only loading.
-- Like `definePluginEntry`, `configSchema` can be a lazy factory and OpenClaw
+- Like `definePluginEntry`, `configSchema` can be a lazy factory and Brikko Studio
   memoizes the resolved schema on first access.
 - For plugin-owned root CLI commands, prefer `api.registerCli(..., { descriptors: [...] })`
   when you want the command to stay lazy-loaded without disappearing from the
@@ -149,41 +149,41 @@ export default defineChannelPluginEntry({
 
 ## `defineSetupPluginEntry`
 
-**Import:** `openclaw/plugin-sdk/channel-core`
+**Import:** `brikko-studio/plugin-sdk/channel-core`
 
 For the lightweight `setup-entry.ts` file. Returns just `{ plugin }` with no
 runtime or CLI wiring.
 
 ```typescript
-import { defineSetupPluginEntry } from "openclaw/plugin-sdk/channel-core";
+import { defineSetupPluginEntry } from "brikko-studio/plugin-sdk/channel-core";
 
 export default defineSetupPluginEntry(myChannelPlugin);
 ```
 
-OpenClaw loads this instead of the full entry when a channel is disabled,
+Brikko Studio loads this instead of the full entry when a channel is disabled,
 unconfigured, or when deferred loading is enabled. See
 [Setup and Config](/plugins/sdk-setup#setup-entry) for when this matters.
 
 In practice, pair `defineSetupPluginEntry(...)` with the narrow setup helper
 families:
 
-- `openclaw/plugin-sdk/setup-runtime` for runtime-safe setup helpers such as
+- `brikko-studio/plugin-sdk/setup-runtime` for runtime-safe setup helpers such as
   import-safe setup patch adapters, lookup-note output,
   `promptResolvedAllowFrom`, `splitSetupEntries`, and delegated setup proxies
-- `openclaw/plugin-sdk/channel-setup` for optional-install setup surfaces
-- `openclaw/plugin-sdk/setup-tools` for setup/install CLI/archive/docs helpers
+- `brikko-studio/plugin-sdk/channel-setup` for optional-install setup surfaces
+- `brikko-studio/plugin-sdk/setup-tools` for setup/install CLI/archive/docs helpers
 
 Keep heavy SDKs, CLI registration, and long-lived runtime services in the full
 entry.
 
 Bundled workspace channels that split setup and runtime surfaces can use
 `defineBundledChannelSetupEntry(...)` from
-`openclaw/plugin-sdk/channel-entry-contract` instead. That contract lets the
+`brikko-studio/plugin-sdk/channel-entry-contract` instead. That contract lets the
 setup entry keep setup-safe plugin/secrets exports while still exposing a
 runtime setter:
 
 ```typescript
-import { defineBundledChannelSetupEntry } from "openclaw/plugin-sdk/channel-entry-contract";
+import { defineBundledChannelSetupEntry } from "brikko-studio/plugin-sdk/channel-entry-contract";
 
 export default defineBundledChannelSetupEntry({
   importMetaUrl: import.meta.url,
@@ -236,7 +236,7 @@ register(api) {
 ```
 
 Discovery mode builds a non-activating registry snapshot. It may still evaluate
-the plugin entry and the channel plugin object so OpenClaw can register channel
+the plugin entry and the channel plugin object so Brikko Studio can register channel
 capabilities and static CLI descriptors. Treat module evaluation in discovery as
 trusted but lightweight: no network clients, subprocesses, listeners, database
 connections, background workers, credential reads, or other live runtime side
@@ -251,18 +251,18 @@ provider/client SDK bootstraps still belong in `"full"`.
 For CLI registrars specifically:
 
 - use `descriptors` when the registrar owns one or more root commands and you
-  want OpenClaw to lazy-load the real CLI module on first invocation
+  want Brikko Studio to lazy-load the real CLI module on first invocation
 - make sure those descriptors cover every top-level command root exposed by the
   registrar
 - keep descriptor command names to letters, numbers, hyphen, and underscore,
-  starting with a letter or number; OpenClaw rejects descriptor names outside
+  starting with a letter or number; Brikko Studio rejects descriptor names outside
   that shape and strips terminal control sequences from descriptions before
   rendering help
 - use `commands` alone only for eager compatibility paths
 
 ## Plugin shapes
 
-OpenClaw classifies loaded plugins by their registration behavior:
+Brikko Studio classifies loaded plugins by their registration behavior:
 
 | Shape                 | Description                                        |
 | --------------------- | -------------------------------------------------- |
@@ -271,7 +271,7 @@ OpenClaw classifies loaded plugins by their registration behavior:
 | **hook-only**         | Only hooks, no capabilities                        |
 | **non-capability**    | Tools/commands/services but no capabilities        |
 
-Use `openclaw plugins inspect <id>` to see a plugin's shape.
+Use `brikko-studio plugins inspect <id>` to see a plugin's shape.
 
 ## Related
 

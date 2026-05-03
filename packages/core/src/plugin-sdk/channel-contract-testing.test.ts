@@ -1,4 +1,4 @@
-import { expectChannelTurnDispatchResultContract } from "openclaw/plugin-sdk/channel-contract-testing";
+import { expectChannelTurnDispatchResultContract } from "brikko-studio/plugin-sdk/channel-contract-testing";
 import { describe, it } from "vitest";
 
 describe("channel contract testing helpers", () => {

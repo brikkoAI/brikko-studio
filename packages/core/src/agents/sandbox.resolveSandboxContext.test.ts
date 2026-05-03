@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { registerSandboxBackend } from "./sandbox/backend.js";
 import { ensureSandboxWorkspaceForSession, resolveSandboxContext } from "./sandbox/context.js";
 
@@ -55,7 +55,7 @@ async function createSandboxFixtureDir(prefix: string): Promise<string> {
 }
 
 beforeAll(async () => {
-  sandboxFixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sandbox-context-"));
+  sandboxFixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-sandbox-context-"));
 });
 
 afterAll(async () => {
@@ -64,7 +64,7 @@ afterAll(async () => {
 
 describe("resolveSandboxContext", () => {
   it("does not sandbox the agent main session in non-main mode", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       agents: {
         defaults: {
           sandbox: { mode: "non-main", scope: "session" },
@@ -76,14 +76,14 @@ describe("resolveSandboxContext", () => {
     const result = await resolveSandboxContext({
       config: cfg,
       sessionKey: "agent:main:main",
-      workspaceDir: "/tmp/openclaw-test",
+      workspaceDir: "/tmp/brikko-studio-test",
     });
 
     expect(result).toBeNull();
   }, 15_000);
 
   it("does not create a sandbox workspace for the agent main session in non-main mode", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       agents: {
         defaults: {
           sandbox: { mode: "non-main", scope: "session" },
@@ -95,7 +95,7 @@ describe("resolveSandboxContext", () => {
     const result = await ensureSandboxWorkspaceForSession({
       config: cfg,
       sessionKey: "agent:main:main",
-      workspaceDir: "/tmp/openclaw-test",
+      workspaceDir: "/tmp/brikko-studio-test",
     });
 
     expect(result).toBeNull();
@@ -120,7 +120,7 @@ describe("resolveSandboxContext", () => {
     }));
     const restore = registerSandboxBackend("test-off-backend", backendFactory);
     try {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         agents: {
           defaults: {
             sandbox: {
@@ -136,14 +136,14 @@ describe("resolveSandboxContext", () => {
         resolveSandboxContext({
           config: cfg,
           sessionKey: "agent:main:cron:job:run:uuid",
-          workspaceDir: "/tmp/openclaw-test",
+          workspaceDir: "/tmp/brikko-studio-test",
         }),
       ).resolves.toBeNull();
       await expect(
         resolveSandboxContext({
           config: cfg,
           sessionKey: "agent:main:subagent:child",
-          workspaceDir: "/tmp/openclaw-test",
+          workspaceDir: "/tmp/brikko-studio-test",
         }),
       ).resolves.toBeNull();
 
@@ -154,7 +154,7 @@ describe("resolveSandboxContext", () => {
   }, 15_000);
 
   it("treats main session aliases as main in non-main mode", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       session: { mainKey: "work" },
       agents: {
         defaults: {
@@ -168,7 +168,7 @@ describe("resolveSandboxContext", () => {
       await resolveSandboxContext({
         config: cfg,
         sessionKey: "main",
-        workspaceDir: "/tmp/openclaw-test",
+        workspaceDir: "/tmp/brikko-studio-test",
       }),
     ).toBeNull();
 
@@ -176,7 +176,7 @@ describe("resolveSandboxContext", () => {
       await resolveSandboxContext({
         config: cfg,
         sessionKey: "agent:main:main",
-        workspaceDir: "/tmp/openclaw-test",
+        workspaceDir: "/tmp/brikko-studio-test",
       }),
     ).toBeNull();
 
@@ -184,7 +184,7 @@ describe("resolveSandboxContext", () => {
       await ensureSandboxWorkspaceForSession({
         config: cfg,
         sessionKey: "work",
-        workspaceDir: "/tmp/openclaw-test",
+        workspaceDir: "/tmp/brikko-studio-test",
       }),
     ).toBeNull();
 
@@ -192,7 +192,7 @@ describe("resolveSandboxContext", () => {
       await ensureSandboxWorkspaceForSession({
         config: cfg,
         sessionKey: "agent:main:main",
-        workspaceDir: "/tmp/openclaw-test",
+        workspaceDir: "/tmp/brikko-studio-test",
       }),
     ).toBeNull();
   }, 15_000);
@@ -215,7 +215,7 @@ describe("resolveSandboxContext", () => {
       }),
     }));
     try {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         agents: {
           defaults: {
             sandbox: {
@@ -232,7 +232,7 @@ describe("resolveSandboxContext", () => {
       const result = await resolveSandboxContext({
         config: cfg,
         sessionKey: "agent:worker:task",
-        workspaceDir: "/tmp/openclaw-test",
+        workspaceDir: "/tmp/brikko-studio-test",
       });
 
       expect(result?.backendId).toBe("test-backend");
@@ -264,7 +264,7 @@ describe("resolveSandboxContext", () => {
       }),
     }));
     try {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         browser: {
           ssrfPolicy: { dangerouslyAllowPrivateNetwork: true },
         },
@@ -285,7 +285,7 @@ describe("resolveSandboxContext", () => {
       await resolveSandboxContext({
         config: cfg,
         sessionKey: "agent:worker:browser",
-        workspaceDir: "/tmp/openclaw-test",
+        workspaceDir: "/tmp/brikko-studio-test",
       });
 
       expect(ensureSandboxBrowserMock).toHaveBeenCalledWith(
@@ -303,7 +303,7 @@ describe("resolveSandboxContext", () => {
     const bundledDir = await createSandboxFixtureDir("bundled");
     const workspaceDir = await createSandboxFixtureDir("workspace");
 
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       agents: {
         defaults: {
           sandbox: {

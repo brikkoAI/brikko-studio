@@ -1,3 +1,3 @@
-import { describeGithubCopilotProviderAuthContract } from "openclaw/plugin-sdk/provider-test-contracts";
+import { describeGithubCopilotProviderAuthContract } from "brikko-studio/plugin-sdk/provider-test-contracts";
 
 describeGithubCopilotProviderAuthContract(() => import("./index.js"));

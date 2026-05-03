@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../runtime-api.js";
+import type { Brikko StudioConfig } from "../runtime-api.js";
 
 const mocks = vi.hoisted(() => ({
   sendMessageMatrix: vi.fn(),
@@ -48,7 +48,7 @@ describe("matrixOutbound cfg threading", () => {
           accessToken: "resolved-token",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await matrixOutbound.sendText!({
       cfg,
@@ -78,14 +78,14 @@ describe("matrixOutbound cfg threading", () => {
           accessToken: "resolved-token",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await matrixOutbound.sendMedia!({
       cfg,
       to: "room:!room:example",
       text: "caption",
       mediaUrl: "file:///tmp/cat.png",
-      mediaLocalRoots: ["/tmp/openclaw"],
+      mediaLocalRoots: ["/tmp/brikko-studio"],
       accountId: "default",
       audioAsVoice: true,
     });
@@ -96,7 +96,7 @@ describe("matrixOutbound cfg threading", () => {
       expect.objectContaining({
         cfg,
         mediaUrl: "file:///tmp/cat.png",
-        mediaLocalRoots: ["/tmp/openclaw"],
+        mediaLocalRoots: ["/tmp/brikko-studio"],
         audioAsVoice: true,
       }),
     );
@@ -109,7 +109,7 @@ describe("matrixOutbound cfg threading", () => {
           accessToken: "resolved-token",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const matrix = vi.fn(async () => ({
       messageId: "evt-injected",
       roomId: "!room:example",
@@ -144,7 +144,7 @@ describe("matrixOutbound cfg threading", () => {
           accessToken: "resolved-token",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await matrixOutbound.sendPoll!({
       cfg,

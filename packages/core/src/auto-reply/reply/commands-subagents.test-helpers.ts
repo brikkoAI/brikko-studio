@@ -1,5 +1,5 @@
 import type { SubagentRunRecord } from "../../agents/subagent-registry.types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { handleSubagentsSendAction } from "./commands-subagents/action-send.js";
 import type { InlineDirectives } from "./directive-handling.js";
 
@@ -17,7 +17,7 @@ function buildSubagentRun(): SubagentRunRecord {
 }
 
 export function buildSubagentsSendContext(params?: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   handledPrefix?: string;
   requesterKey?: string;
   runs?: SubagentRunRecord[];
@@ -30,7 +30,7 @@ export function buildSubagentsSendContext(params?: {
         ({
           commands: { text: true },
           channels: { whatsapp: { allowFrom: ["*"] } },
-        } as OpenClawConfig),
+        } as Brikko StudioConfig),
       ctx: {},
       command: {
         channel: "whatsapp",

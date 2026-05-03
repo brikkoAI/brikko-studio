@@ -15,17 +15,17 @@ import { getFreeGatewayPort } from "./test-helpers.e2e.js";
 
 const NETWORK_GATEWAY_ENV_KEYS = [
   "HOME",
-  "OPENCLAW_STATE_DIR",
-  "OPENCLAW_CONFIG_PATH",
-  "OPENCLAW_GATEWAY_TOKEN",
-  "OPENCLAW_SKIP_CHANNELS",
-  "OPENCLAW_SKIP_GMAIL_WATCHER",
-  "OPENCLAW_SKIP_CRON",
-  "OPENCLAW_SKIP_CANVAS_HOST",
-  "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER",
-  "OPENCLAW_SKIP_PROVIDERS",
-  "OPENCLAW_BUNDLED_PLUGINS_DIR",
-  "OPENCLAW_TEST_MINIMAL_GATEWAY",
+  "BRIKKO_STUDIO_STATE_DIR",
+  "BRIKKO_STUDIO_CONFIG_PATH",
+  "BRIKKO_STUDIO_GATEWAY_TOKEN",
+  "BRIKKO_STUDIO_SKIP_CHANNELS",
+  "BRIKKO_STUDIO_SKIP_GMAIL_WATCHER",
+  "BRIKKO_STUDIO_SKIP_CRON",
+  "BRIKKO_STUDIO_SKIP_CANVAS_HOST",
+  "BRIKKO_STUDIO_SKIP_BROWSER_CONTROL_SERVER",
+  "BRIKKO_STUDIO_SKIP_PROVIDERS",
+  "BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR",
+  "BRIKKO_STUDIO_TEST_MINIMAL_GATEWAY",
   ...PROXY_ENV_KEYS,
   "NO_PROXY",
   "no_proxy",
@@ -60,7 +60,7 @@ describe("gateway network runtime", () => {
   it("bootstraps env proxy dispatching when the gateway starts directly", async () => {
     const envSnapshot = captureEnv([...NETWORK_GATEWAY_ENV_KEYS]);
     const originalDispatcher = getGlobalDispatcher();
-    const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-gw-proxy-home-"));
+    const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-gw-proxy-home-"));
     let server: Awaited<ReturnType<typeof startGatewayServer>> | undefined;
 
     try {
@@ -71,26 +71,26 @@ describe("gateway network runtime", () => {
       process.env.HTTPS_PROXY = "http://127.0.0.1:9";
 
       process.env.HOME = tempHome;
-      process.env.OPENCLAW_STATE_DIR = path.join(tempHome, ".openclaw");
-      process.env.OPENCLAW_SKIP_CHANNELS = "1";
-      process.env.OPENCLAW_SKIP_GMAIL_WATCHER = "1";
-      process.env.OPENCLAW_SKIP_CRON = "1";
-      process.env.OPENCLAW_SKIP_CANVAS_HOST = "1";
-      process.env.OPENCLAW_SKIP_BROWSER_CONTROL_SERVER = "1";
-      process.env.OPENCLAW_SKIP_PROVIDERS = "1";
-      process.env.OPENCLAW_TEST_MINIMAL_GATEWAY = "1";
-      process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = path.join(tempHome, "empty-bundled-plugins");
-      await fs.mkdir(process.env.OPENCLAW_BUNDLED_PLUGINS_DIR, { recursive: true });
+      process.env.BRIKKO_STUDIO_STATE_DIR = path.join(tempHome, ".brikko-studio");
+      process.env.BRIKKO_STUDIO_SKIP_CHANNELS = "1";
+      process.env.BRIKKO_STUDIO_SKIP_GMAIL_WATCHER = "1";
+      process.env.BRIKKO_STUDIO_SKIP_CRON = "1";
+      process.env.BRIKKO_STUDIO_SKIP_CANVAS_HOST = "1";
+      process.env.BRIKKO_STUDIO_SKIP_BROWSER_CONTROL_SERVER = "1";
+      process.env.BRIKKO_STUDIO_SKIP_PROVIDERS = "1";
+      process.env.BRIKKO_STUDIO_TEST_MINIMAL_GATEWAY = "1";
+      process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = path.join(tempHome, "empty-bundled-plugins");
+      await fs.mkdir(process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR, { recursive: true });
 
       const token = `proxy-token-${process.pid}-${process.env.VITEST_POOL_ID ?? "0"}`;
-      process.env.OPENCLAW_GATEWAY_TOKEN = token;
-      const configPath = path.join(tempHome, ".openclaw", "openclaw.json");
+      process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = token;
+      const configPath = path.join(tempHome, ".brikko-studio", "brikko-studio.json");
       await fs.mkdir(path.dirname(configPath), { recursive: true });
       await fs.writeFile(
         configPath,
         `${JSON.stringify({ gateway: { auth: { mode: "token", token } } }, null, 2)}\n`,
       );
-      process.env.OPENCLAW_CONFIG_PATH = configPath;
+      process.env.BRIKKO_STUDIO_CONFIG_PATH = configPath;
 
       server = await startGatewayServer(await getFreeGatewayPort(), {
         bind: "loopback",

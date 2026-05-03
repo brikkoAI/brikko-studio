@@ -13,7 +13,7 @@
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/app-render.ts",
-      "text": "OpenClaw"
+      "text": "Brikko Studio"
     },
     {
       "count": 1,
@@ -426,7 +426,7 @@
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/components/dashboard-header.ts",
-      "text": "OpenClaw"
+      "text": "Brikko Studio"
     },
     {
       "count": 1,
@@ -2274,7 +2274,7 @@
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/views/config-quick.ts",
-      "text": "Choose how much workspace context OpenClaw injects into each run. These profiles do not change your model, tools, channels, or theme."
+      "text": "Choose how much workspace context Brikko Studio injects into each run. These profiles do not change your model, tools, channels, or theme."
     },
     {
       "count": 1,
@@ -3324,7 +3324,7 @@
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/views/debug.ts",
-      "text": "openclaw security audit --deep"
+      "text": "brikko-studio security audit --deep"
     },
     {
       "count": 1,
@@ -3625,7 +3625,7 @@
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/views/login-gate.ts",
-      "text": "OpenClaw"
+      "text": "Brikko Studio"
     },
     {
       "count": 1,
@@ -4087,7 +4087,7 @@
       "kind": "html-attribute",
       "name": "placeholder",
       "path": "ui/src/ui/views/overview.ts",
-      "text": "OPENCLAW_GATEWAY_TOKEN"
+      "text": "BRIKKO_STUDIO_GATEWAY_TOKEN"
     },
     {
       "count": 1,
@@ -4150,21 +4150,21 @@
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/views/overview.ts",
-      "text": "openclaw dashboard --no-open"
+      "text": "brikko-studio dashboard --no-open"
     },
     {
       "count": 1,
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/views/overview.ts",
-      "text": "openclaw devices list"
+      "text": "brikko-studio devices list"
     },
     {
       "count": 2,
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/views/overview.ts",
-      "text": "openclaw doctor --generate-gateway-token"
+      "text": "brikko-studio doctor --generate-gateway-token"
     },
     {
       "count": 1,

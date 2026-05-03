@@ -2,7 +2,7 @@ import {
   type ImagesDescriptionRequest,
   type ImagesDescriptionResult,
   type MediaUnderstandingProvider,
-} from "openclaw/plugin-sdk/media-understanding";
+} from "brikko-studio/plugin-sdk/media-understanding";
 import { CODEX_PROVIDER_ID, FALLBACK_CODEX_MODELS } from "./provider-catalog.js";
 import { type CodexAppServerClientFactory } from "./src/app-server/client-factory.js";
 import type { CodexAppServerClient } from "./src/app-server/client.js";
@@ -111,9 +111,9 @@ async function describeCodexImages(
           cwd: req.agentDir || process.cwd(),
           approvalPolicy: "on-request",
           sandbox: "read-only",
-          serviceName: "OpenClaw",
+          serviceName: "Brikko Studio",
           developerInstructions:
-            "You are OpenClaw's bounded image-understanding worker. Describe only the provided image content. Do not call tools, edit files, or ask follow-up questions.",
+            "You are Brikko Studio's bounded image-understanding worker. Describe only the provided image content. Do not call tools, edit files, or ask follow-up questions.",
           dynamicTools: [],
           experimentalRawEvents: true,
           persistExtendedHistory: false,
@@ -170,7 +170,7 @@ function denyCodexImageApprovalRequest(request: { method: string }): JsonValue |
   ) {
     return {
       decision: "decline",
-      reason: "OpenClaw Codex image understanding does not grant tool or file approvals.",
+      reason: "Brikko Studio Codex image understanding does not grant tool or file approvals.",
     };
   }
   if (request.method === "item/permissions/requestApproval") {
@@ -179,7 +179,7 @@ function denyCodexImageApprovalRequest(request: { method: string }): JsonValue |
   if (request.method.includes("requestApproval")) {
     return {
       decision: "decline",
-      reason: "OpenClaw Codex image understanding does not grant native approvals.",
+      reason: "Brikko Studio Codex image understanding does not grant native approvals.",
     };
   }
   if (request.method === "mcpServer/elicitation/request") {

@@ -13,9 +13,9 @@ vi.mock("./openai-codex-provider.runtime.js", () => ({
   refreshOpenAICodexToken: mocks.refreshOpenAICodexToken,
 }));
 
-vi.mock("openclaw/plugin-sdk/provider-stream-family", async (importOriginal) => {
+vi.mock("brikko-studio/plugin-sdk/provider-stream-family", async (importOriginal) => {
   const actual =
-    await importOriginal<typeof import("openclaw/plugin-sdk/provider-stream-family")>();
+    await importOriginal<typeof import("brikko-studio/plugin-sdk/provider-stream-family")>();
   const wrapStreamFn: NonNullable<typeof actual.OPENAI_RESPONSES_STREAM_HOOKS.wrapStreamFn> = (
     ctx,
   ) => {
@@ -785,8 +785,8 @@ describe("buildOpenAIProvider", () => {
 
     expect(mocks.openAIResponsesTransportStreamFn).not.toHaveBeenCalled();
     expect(result.options?.headers).toMatchObject({
-      originator: "openclaw",
-      "User-Agent": expect.stringMatching(/^openclaw\//u),
+      originator: "brikko-studio",
+      "User-Agent": expect.stringMatching(/^brikko-studio\//u),
     });
     expect(result.payload.store).toBe(false);
     expect(result.payload.service_tier).toBe("priority");

@@ -1,8 +1,8 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { fetchWithSsrFGuard } from "openclaw/plugin-sdk/ssrf-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import { ensureRepoBoundDirectory, resolveRepoRelativeOutputDir } from "../cli-paths.js";
 
 export type MantisDiscordSmokeOptions = {
@@ -93,11 +93,11 @@ type MantisDiscordSmokeSummary = {
 };
 
 const DISCORD_API_BASE_URL = "https://discord.com/api/v10";
-const DEFAULT_MANTIS_TOKEN_ENV = "OPENCLAW_QA_DISCORD_MANTIS_BOT_TOKEN";
-const DEFAULT_MANTIS_TOKEN_FILE_ENV = "OPENCLAW_QA_DISCORD_MANTIS_BOT_TOKEN_FILE";
-const DEFAULT_GUILD_ID_ENV = "OPENCLAW_QA_DISCORD_GUILD_ID";
-const DEFAULT_CHANNEL_ID_ENV = "OPENCLAW_QA_DISCORD_CHANNEL_ID";
-const QA_REDACT_PUBLIC_METADATA_ENV = "OPENCLAW_QA_REDACT_PUBLIC_METADATA";
+const DEFAULT_MANTIS_TOKEN_ENV = "BRIKKO_STUDIO_QA_DISCORD_MANTIS_BOT_TOKEN";
+const DEFAULT_MANTIS_TOKEN_FILE_ENV = "BRIKKO_STUDIO_QA_DISCORD_MANTIS_BOT_TOKEN_FILE";
+const DEFAULT_GUILD_ID_ENV = "BRIKKO_STUDIO_QA_DISCORD_GUILD_ID";
+const DEFAULT_CHANNEL_ID_ENV = "BRIKKO_STUDIO_QA_DISCORD_CHANNEL_ID";
+const QA_REDACT_PUBLIC_METADATA_ENV = "BRIKKO_STUDIO_QA_REDACT_PUBLIC_METADATA";
 
 function trimToValue(value: string | undefined) {
   const trimmed = value?.trim();
@@ -166,12 +166,12 @@ function assertMantisDiscordChannelInGuild(params: {
 }) {
   if (!params.guildChannels.some((channel) => channel.id === params.channelId)) {
     throw new Error(
-      `OPENCLAW_QA_DISCORD_CHANNEL_ID ${params.channelId} is not in guild ${params.guildId}.`,
+      `BRIKKO_STUDIO_QA_DISCORD_CHANNEL_ID ${params.channelId} is not in guild ${params.guildId}.`,
     );
   }
   if (params.channel.guild_id && params.channel.guild_id !== params.guildId) {
     throw new Error(
-      `OPENCLAW_QA_DISCORD_CHANNEL_ID ${params.channelId} belongs to guild ${params.channel.guild_id}, not ${params.guildId}.`,
+      `BRIKKO_STUDIO_QA_DISCORD_CHANNEL_ID ${params.channelId} belongs to guild ${params.channel.guild_id}, not ${params.guildId}.`,
     );
   }
 }

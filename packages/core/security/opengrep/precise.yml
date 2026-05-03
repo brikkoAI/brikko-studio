@@ -7,7 +7,7 @@
 # Generated at  : 2026-04-29T07:10:35.427Z
 # Rule count    : 147
 rules:
-  - id: ghsa-25gx-x37c-7pph.openclaw-novnc-x11vnc-missing-auth
+  - id: ghsa-25gx-x37c-7pph.brikko-studio-novnc-x11vnc-missing-auth
     message: x11vnc starts without VNC authentication; avoid -nopw and require password auth when exposing noVNC observer access.
     severity: ERROR
     languages:
@@ -25,12 +25,12 @@ rules:
       likelihood: medium
       impact: medium
       references:
-        - https://github.com/openclaw/openclaw/security/advisories/GHSA-25gx-x37c-7pph
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-25GX-X37C-7PPH
+        - https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-25gx-x37c-7pph
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-25GX-X37C-7PPH
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-novnc-x11vnc-missing-auth
-  - id: ghsa-25pw-4h6w-qwvm.openclaw.imessage-group-allowlist-merged-with-pairing-store
+      source-rule-id: brikko-studio-novnc-x11vnc-missing-auth
+  - id: ghsa-25pw-4h6w-qwvm.brikko-studio.imessage-group-allowlist-merged-with-pairing-store
     languages:
       - typescript
     severity: ERROR
@@ -48,10 +48,10 @@ rules:
       ghsa: GHSA-25PW-4H6W-QWVM
       confidence: high
       note: Captures the original iMessage vulnerable merge shape exactly and generalizes to same-family explicit merge sites.
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-25PW-4H6W-QWVM
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-25PW-4H6W-QWVM
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.imessage-group-allowlist-merged-with-pairing-store
+      source-rule-id: brikko-studio.imessage-group-allowlist-merged-with-pairing-store
   - id: ghsa-2prf-9cw7-fq62.whatsapp-reaction-requires-allowfrom-guard
     message: WhatsApp reaction actions should validate chatJid with resolveWhatsAppOutboundTarget before sendReactionWhatsApp.
     severity: ERROR
@@ -89,11 +89,11 @@ rules:
         - CWE-862
         - CWE-20
       ghsa: GHSA-2PRF-9CW7-FQ62
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-2PRF-9CW7-FQ62
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-2PRF-9CW7-FQ62
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: whatsapp-reaction-requires-allowfrom-guard
-  - id: ghsa-2qj5-gwg2-xwc4.openclaw.prompt-unsanitized-literal-interpolation
+  - id: ghsa-2qj5-gwg2-xwc4.brikko-studio.prompt-unsanitized-literal-interpolation
     languages:
       - typescript
       - javascript
@@ -146,11 +146,11 @@ rules:
               regex: ^(build|render|compose|construct|format)[A-Z]\w*Prompt\w*$
     metadata:
       ghsa: GHSA-2QJ5-GWG2-XWC4
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-2QJ5-GWG2-XWC4
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-2QJ5-GWG2-XWC4
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.prompt-unsanitized-literal-interpolation
-  - id: ghsa-2qrv-rc5x-2g2h.openclaw-untrusted-workspace-channel-shadow-setup
+      source-rule-id: brikko-studio.prompt-unsanitized-literal-interpolation
+  - id: ghsa-2qrv-rc5x-2g2h.brikko-studio-untrusted-workspace-channel-shadow-setup
     languages:
       - typescript
       - javascript
@@ -162,10 +162,10 @@ rules:
       ghsas:
         - GHSA-2QRV-RC5X-2G2H
       ghsa: GHSA-2QRV-RC5X-2G2H
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-2QRV-RC5X-2G2H
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-2QRV-RC5X-2G2H
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-untrusted-workspace-channel-shadow-setup
+      source-rule-id: brikko-studio-untrusted-workspace-channel-shadow-setup
     paths:
       include:
         - src/commands/channel-setup/*.ts
@@ -216,7 +216,7 @@ rules:
         - CWE-345
         - CWE-807
       ghsa: GHSA-2RGF-HM63-5QPH
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-2RGF-HM63-5QPH
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-2RGF-HM63-5QPH
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: xff-last-hop-without-trusted-proxy-context
@@ -250,11 +250,11 @@ rules:
           - pattern: approveNodePairing($REQ, undefined, ...)
     metadata:
       ghsa: GHSA-2X4X-CC5G-QMMG
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-2X4X-CC5G-QMMG
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-2X4X-CC5G-QMMG
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: node-pair-approve-missing-callerscopes-object
-  - id: ghsa-3298-56p6-rpw2.openclaw-killprocesstree-from-shell-utils
+  - id: ghsa-3298-56p6-rpw2.brikko-studio-killprocesstree-from-shell-utils
     languages:
       - typescript
     severity: ERROR
@@ -266,10 +266,10 @@ rules:
       ghsas:
         - GHSA-3298-56P6-RPW2
       ghsa: GHSA-3298-56P6-RPW2
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-3298-56P6-RPW2
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-3298-56P6-RPW2
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-killprocesstree-from-shell-utils
+      source-rule-id: brikko-studio-killprocesstree-from-shell-utils
     paths:
       exclude:
         - "**/*.test.*"
@@ -283,11 +283,11 @@ rules:
       - pattern: import { ..., killProcessTree, ... } from "../../agents/shell-utils"
       - pattern: |
           export function killProcessTree($PID: number): void { ... process.kill($X, "SIGKILL"); ... }
-  - id: ghsa-33hm-cq8r-wc49.openclaw-sandbox-tmp-accepts-os-tmpdir
+  - id: ghsa-33hm-cq8r-wc49.brikko-studio-sandbox-tmp-accepts-os-tmpdir
     languages:
       - typescript
       - javascript
-    message: Sandbox tmp-path validation trusts any os.tmpdir() path instead of constraining paths to the active sandbox root or OpenClaw-managed temp roots.
+    message: Sandbox tmp-path validation trusts any os.tmpdir() path instead of constraining paths to the active sandbox root or Brikko Studio-managed temp roots.
     severity: ERROR
     patterns:
       - pattern-either:
@@ -313,10 +313,10 @@ rules:
         - CWE-22
         - CWE-284
       ghsa: GHSA-33HM-CQ8R-WC49
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-33HM-CQ8R-WC49
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-33HM-CQ8R-WC49
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-sandbox-tmp-accepts-os-tmpdir
+      source-rule-id: brikko-studio-sandbox-tmp-accepts-os-tmpdir
   - id: ghsa-354r-7mfh-7rh2.review-reaction-enqueue-without-dm-access-check
     languages:
       - typescript
@@ -345,7 +345,7 @@ rules:
       - pattern-not-regex: resolveDmGroupAccessWithLists
     metadata:
       ghsa: GHSA-354R-7MFH-7RH2
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-354R-7MFH-7RH2
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-354R-7MFH-7RH2
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: review-reaction-enqueue-without-dm-access-check
@@ -360,7 +360,7 @@ rules:
       cwe:
         - CWE-22
         - CWE-59
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-36H3-7C54-J27R
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-36H3-7C54-J27R
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: browser-route-tempdir-write-missing-symlink-guard
@@ -386,7 +386,7 @@ rules:
       - pattern-not-inside: |
           import { resolveWritablePathWithinRoot, ... } from "$X";
           ...
-  - id: ghsa-39mp-545q-w789.openclaw-owner-only-send-policy-mutation
+  - id: ghsa-39mp-545q-w789.brikko-studio-owner-only-send-policy-mutation
     message: Owner-only /send handlers must reject non-owner senders before mutating sessionEntry.sendPolicy.
     severity: ERROR
     languages:
@@ -430,10 +430,10 @@ rules:
       coverage_requirement: vulnerable_fix_diff_files
       review_surface: owner_only_send_policy
       rationale: catches /send policy mutations guarded only by general authorization
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-39MP-545Q-W789
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-39MP-545Q-W789
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-owner-only-send-policy-mutation
+      source-rule-id: brikko-studio-owner-only-send-policy-mutation
   - id: ghsa-3cw3-5vxw-g2h3.discovery-txt-hint-routing
     languages:
       - swift
@@ -447,7 +447,7 @@ rules:
           - pattern: let port = gatewayPort ?? 18789
     metadata:
       ghsa: GHSA-3CW3-5VXW-G2H3
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-3CW3-5VXW-G2H3
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-3CW3-5VXW-G2H3
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: discovery-txt-hint-routing
@@ -499,11 +499,11 @@ rules:
                   }
     metadata:
       ghsa: GHSA-3HCM-GGVF-RCH5
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-3HCM-GGVF-RCH5
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-3HCM-GGVF-RCH5
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: exec-allowlist-double-quoted-command-substitution
-  - id: ghsa-3q42-xmxv-9vfr.openclaw-talk-voice-set-without-admin-scope-check
+  - id: ghsa-3q42-xmxv-9vfr.brikko-studio-talk-voice-set-without-admin-scope-check
     message: Command handlers that persist talk voice config via writeConfigFile should reject gateway-scoped callers lacking operator.admin before writing the config.
     severity: ERROR
     languages:
@@ -514,10 +514,10 @@ rules:
       detector: A
       confidence: low
       category: security
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-3Q42-XMXV-9VFR
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-3Q42-XMXV-9VFR
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-talk-voice-set-without-admin-scope-check
+      source-rule-id: brikko-studio-talk-voice-set-without-admin-scope-check
     patterns:
       - pattern: |
           if ($ACTION === "set") {
@@ -569,7 +569,7 @@ rules:
           }
     metadata:
       ghsa: GHSA-4685-C5CP-VP95
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-4685-C5CP-VP95
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-4685-C5CP-VP95
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: safe-bin-missing-blocked-option-policy
@@ -594,7 +594,7 @@ rules:
       technology:
         - typescript
       ghsa: GHSA-49CG-279W-M73X
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-49CG-279W-M73X
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-49CG-279W-M73X
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: approval-auth-empty-approver-authorized
@@ -640,7 +640,7 @@ rules:
       family: discord-allowlist-name-matching
       review: reusable structural rule for missing dangerous opt-in
       ghsa: GHSA-4CQV-H74H-93J4
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-4CQV-H74H-93J4
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-4CQV-H74H-93J4
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: discord-allowlist-name-matching-without-dangerous-opt-in
@@ -670,7 +670,7 @@ rules:
       confidence: medium
       ghsa: GHSA-4G5X-2JFC-XM98
       detector: A
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-4G5X-2JFC-XM98
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-4G5X-2JFC-XM98
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: raw-fetch-to-disk-bypasses-media-runtime
@@ -694,7 +694,7 @@ rules:
       confidence: high
       cwe: CWE-287
       ghsa: GHSA-4RJ2-GPMH-QQ5X
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-4RJ2-GPMH-QQ5X
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-4RJ2-GPMH-QQ5X
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: inbound-allowlist-bidirectional-endswith
@@ -708,7 +708,7 @@ rules:
       category: security
       cwe:
         - CWE-918
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-527M-976R-JF79
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-527M-976R-JF79
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: browser-existing-session-interaction-missing-navigation-guard
@@ -731,7 +731,7 @@ rules:
       - pattern-not-inside: |
           import { assertBrowserNavigationResultAllowed } from "$X";
           ...
-  - id: ghsa-536q-mj95-h29h.openclaw-browser-interaction-navigation-guard
+  - id: ghsa-536q-mj95-h29h.brikko-studio-browser-interaction-navigation-guard
     languages:
       - typescript
     severity: ERROR
@@ -774,11 +774,11 @@ rules:
         - playwright
         - browser
       ghsa: GHSA-536Q-MJ95-H29H
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-536Q-MJ95-H29H
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-536Q-MJ95-H29H
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-browser-interaction-navigation-guard
-  - id: ghsa-56f2-hvwg-5743.openclaw-unguarded-remote-media-fetch
+      source-rule-id: brikko-studio-browser-interaction-navigation-guard
+  - id: ghsa-56f2-hvwg-5743.brikko-studio-unguarded-remote-media-fetch
     message: Remote media fetch should go through the SSRF guard instead of calling fetch directly.
     severity: ERROR
     languages:
@@ -804,11 +804,11 @@ rules:
       cwe: CWE-918
       ghsa: GHSA-56F2-HVWG-5743
       detector: A
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-56F2-HVWG-5743
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-56F2-HVWG-5743
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-unguarded-remote-media-fetch
-  - id: ghsa-5mx2-2mgw-x8rm.openclaw-webhook-loopback-passwordless-fallback
+      source-rule-id: brikko-studio-unguarded-remote-media-fetch
+  - id: ghsa-5mx2-2mgw-x8rm.brikko-studio-webhook-loopback-passwordless-fallback
     languages:
       - typescript
     severity: ERROR
@@ -822,11 +822,11 @@ rules:
             : [];
     metadata:
       ghsa: GHSA-5MX2-2MGW-X8RM
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-5MX2-2MGW-X8RM
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-5MX2-2MGW-X8RM
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-webhook-loopback-passwordless-fallback
-  - id: ghsa-5v6x-rfc3-7qfr.openclaw-system-run-approval-legacy-command-only-binding
+      source-rule-id: brikko-studio-webhook-loopback-passwordless-fallback
+  - id: ghsa-5v6x-rfc3-7qfr.brikko-studio-system-run-approval-legacy-command-only-binding
     message: system.run approval matching should bind to exact argv/canonical command data, not legacy command-only text.
     languages:
       - typescript
@@ -852,10 +852,10 @@ rules:
       ghsa: GHSA-5V6X-RFC3-7QFR
       detector: A
       rationale: Requires v1 structured approval binding before matching.
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-5V6X-RFC3-7QFR
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-5V6X-RFC3-7QFR
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-system-run-approval-legacy-command-only-binding
+      source-rule-id: brikko-studio-system-run-approval-legacy-command-only-binding
   - id: ghsa-5wcw-8jjv-m286.trusted-proxy-accept-without-origin-guard
     languages:
       - typescript
@@ -883,11 +883,11 @@ rules:
       category: security
       confidence: medium
       ghsa: GHSA-5WCW-8JJV-M286
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-5WCW-8JJV-M286
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-5WCW-8JJV-M286
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: trusted-proxy-accept-without-origin-guard
-  - id: ghsa-5xfq-5mr7-426q.openclaw-session-transcript-path-traversal
+  - id: ghsa-5xfq-5mr7-426q.brikko-studio-session-transcript-path-traversal
     message: Transcript path helper uses unvalidated sessionId or returns raw sessionFile without containment enforcement.
     severity: WARNING
     languages:
@@ -902,10 +902,10 @@ rules:
       ghsa: GHSA-5XFQ-5MR7-426Q
       confidence: low
       justification: Coverage-first detector for the vulnerable family in pre-fix session transcript path helpers.
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-5XFQ-5MR7-426Q
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-5XFQ-5MR7-426Q
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-session-transcript-path-traversal
+      source-rule-id: brikko-studio-session-transcript-path-traversal
   - id: ghsa-62f6-mrcj-v8h5.runtime-overrides-unsanitized-override-store
     languages:
       - typescript
@@ -925,11 +925,11 @@ rules:
           regex: ^set.*Override$
     metadata:
       ghsa: GHSA-62F6-MRCJ-V8H5
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-62F6-MRCJ-V8H5
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-62F6-MRCJ-V8H5
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: runtime-overrides-unsanitized-override-store
-  - id: ghsa-65rx-fvh6-r4h2.openclaw-unquoted-heredoc-body-missing-expansion-token-guard
+  - id: ghsa-65rx-fvh6-r4h2.brikko-studio-unquoted-heredoc-body-missing-expansion-token-guard
     languages:
       - typescript
     severity: ERROR
@@ -939,10 +939,10 @@ rules:
       category: security
       cwe:
         - CWE-78
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-65RX-FVH6-R4H2
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-65RX-FVH6-R4H2
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-unquoted-heredoc-body-missing-expansion-token-guard
+      source-rule-id: brikko-studio-unquoted-heredoc-body-missing-expansion-token-guard
     paths:
       include:
         - src/infra/exec-approvals-analysis.ts
@@ -989,7 +989,7 @@ rules:
           ...
     metadata:
       ghsa: GHSA-66R7-M7XM-V49H
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-66R7-M7XM-V49H
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-66R7-M7XM-V49H
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: qqbot-outbound-media-unvalidated-local-path
@@ -1020,11 +1020,11 @@ rules:
           regex: (?i).*(verifier|codeVerifier).*
     metadata:
       ghsa: GHSA-6G25-PC82-VFWP
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-6G25-PC82-VFWP
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-6G25-PC82-VFWP
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: oauth-state-reuses-pkce-verifier
-  - id: ghsa-6mqc-jqh6-x8fc.openclaw-canvas-auth-local-direct-bypass
+  - id: ghsa-6mqc-jqh6-x8fc.brikko-studio-canvas-auth-local-direct-bypass
     message: Canvas/A2UI auth helper allows local-direct requests before bearer-or-capability auth.
     severity: ERROR
     languages:
@@ -1051,10 +1051,10 @@ rules:
       regex: authorize.*
     metadata:
       ghsa: GHSA-6MQC-JQH6-X8FC
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-6MQC-JQH6-X8FC
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-6MQC-JQH6-X8FC
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-canvas-auth-local-direct-bypass
+      source-rule-id: brikko-studio-canvas-auth-local-direct-bypass
   - id: ghsa-767m-xrhc-fxm7.telegram-target-writeback-admin-scope-required
     message: Calls to maybePersistResolvedTelegramTarget should propagate gatewayClientScopes so the helper can enforce operator.admin before persisting Telegram target rewrites.
     severity: ERROR
@@ -1079,7 +1079,7 @@ rules:
       ghsa: GHSA-767M-XRHC-FXM7
       detector: A
       rationale: Structural callsite check for helper invocations that omit gatewayClientScopes, which disables the operator.admin gate inside Telegram target writeback persistence.
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-767M-XRHC-FXM7
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-767M-XRHC-FXM7
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: telegram-target-writeback-admin-scope-required
@@ -1113,7 +1113,7 @@ rules:
         - "**/*.js"
     metadata:
       ghsa: GHSA-77W2-CRQV-CMV3
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-77W2-CRQV-CMV3
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-77W2-CRQV-CMV3
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: feishu-structured-card-action-envelope-required
@@ -1143,7 +1143,7 @@ rules:
           ].filter(($ENTRY) => Boolean($ENTRY));
     metadata:
       ghsa: GHSA-782P-5FR5-7FJ8
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-782P-5FR5-7FJ8
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-782P-5FR5-7FJ8
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: channel-metadata-into-trusted-system-prompt
@@ -1164,7 +1164,7 @@ rules:
               }
     metadata:
       ghsa: GHSA-796M-2973-WC5Q
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-796M-2973-WC5Q
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-796M-2973-WC5Q
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: env-wrapper-transparent-unwrap
@@ -1225,11 +1225,11 @@ rules:
               ...
     metadata:
       ghsa: GHSA-7FCC-CW49-XM78
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-7FCC-CW49-XM78
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-7FCC-CW49-XM78
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: windows-shell-fallback-after-spawn-error
-  - id: ghsa-7ggg-pvrf-458v.openclaw-host-exec-python-index-override
+  - id: ghsa-7ggg-pvrf-458v.brikko-studio-host-exec-python-index-override
     message: Request-scoped host exec env overrides include Python package index redirect variables (PIP_*_INDEX, UV_*_INDEX) that can reroute package downloads.
     languages:
       - typescript
@@ -1379,11 +1379,11 @@ rules:
               })
     metadata:
       ghsa: GHSA-7GGG-PVRF-458V
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-7GGG-PVRF-458V
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-7GGG-PVRF-458V
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-host-exec-python-index-override
-  - id: ghsa-7h7g-x2px-94hj.openclaw-setup-bootstrap-issued-with-profile-argument
+      source-rule-id: brikko-studio-host-exec-python-index-override
+  - id: ghsa-7h7g-x2px-94hj.brikko-studio-setup-bootstrap-issued-with-profile-argument
     message: Pairing setup code should issue bootstrap tokens with a dedicated profile object, not ad hoc role/scopes arguments.
     severity: WARNING
     languages:
@@ -1414,11 +1414,11 @@ rules:
               return { ..., payload: { ..., bootstrapToken: $ISSUED.token, ... }, ... }
     metadata:
       ghsa: GHSA-7H7G-X2PX-94HJ
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-7H7G-X2PX-94HJ
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-7H7G-X2PX-94HJ
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-setup-bootstrap-issued-with-profile-argument
-  - id: ghsa-7jp6-r74r-995q.openclaw-matrix-set-profile-missing-owner-guard
+      source-rule-id: brikko-studio-setup-bootstrap-issued-with-profile-argument
+  - id: ghsa-7jp6-r74r-995q.brikko-studio-matrix-set-profile-missing-owner-guard
     languages:
       - typescript
     severity: WARNING
@@ -1428,10 +1428,10 @@ rules:
       category: security
       cwe:
         - CWE-862
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-7JP6-R74R-995Q
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-7JP6-R74R-995Q
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-matrix-set-profile-missing-owner-guard
+      source-rule-id: brikko-studio-matrix-set-profile-missing-owner-guard
     paths:
       include:
         - extensions/matrix/src/actions.ts
@@ -1484,7 +1484,7 @@ rules:
           expect(...)
     metadata:
       ghsa: GHSA-7QF6-H84J-8FQ4
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-7QF6-H84J-8FQ4
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-7QF6-H84J-8FQ4
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: msteams-safe-fetch-missing-resolvefn
@@ -1505,36 +1505,36 @@ rules:
       cwe: CWE-352
       ghsa: GHSA-7RCP-MXPQ-72PJ
       rationale: Detects catch blocks in OAuth callback parsers that fabricate a matching state while accepting non-URL code-only input.
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-7RCP-MXPQ-72PJ
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-7RCP-MXPQ-72PJ
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: oauth-manual-callback-code-only-acceptance
-  - id: ghsa-7wv4-cc7p-jhxc.openclaw.workspace-dotenv-runtime-guard-incomplete
+  - id: ghsa-7wv4-cc7p-jhxc.brikko-studio.workspace-dotenv-runtime-guard-incomplete
     languages:
       - typescript
       - javascript
     severity: WARNING
-    message: Workspace .env runtime-control blocklist looks incomplete. Guard helpers should block OPENCLAW_GATEWAY_URL/PORT, OPENCLAW_UPDATE_*, OPENCLAW_SKIP_*, and ClawHub/browser-control variables, not just auth keys and _BASE_URL redirects.
+    message: Workspace .env runtime-control blocklist looks incomplete. Guard helpers should block BRIKKO_STUDIO_GATEWAY_URL/PORT, BRIKKO_STUDIO_UPDATE_*, BRIKKO_STUDIO_SKIP_*, and ClawHub/browser-control variables, not just auth keys and _BASE_URL redirects.
     patterns:
       - pattern-either:
           - pattern: |
               const BLOCKED_WORKSPACE_DOTENV_KEYS = new Set([...]);
           - pattern: |
               const BLOCKED_WORKSPACE_DOTENV_KEYS = new Set([...,]);
-      - pattern-not-regex: OPENCLAW_GATEWAY_URL
-      - pattern-not-regex: OPENCLAW_GATEWAY_PORT
-      - pattern-not-regex: OPENCLAW_BROWSER_EXECUTABLE_PATH
-      - pattern-not-regex: OPENCLAW_SKIP_
-      - pattern-not-regex: OPENCLAW_UPDATE_
-      - pattern-not-regex: OPENCLAW_CLAWHUB_
+      - pattern-not-regex: BRIKKO_STUDIO_GATEWAY_URL
+      - pattern-not-regex: BRIKKO_STUDIO_GATEWAY_PORT
+      - pattern-not-regex: BRIKKO_STUDIO_BROWSER_EXECUTABLE_PATH
+      - pattern-not-regex: BRIKKO_STUDIO_SKIP_
+      - pattern-not-regex: BRIKKO_STUDIO_UPDATE_
+      - pattern-not-regex: BRIKKO_STUDIO_CLAWHUB_
       - pattern-not-regex: CLAWHUB_
     metadata:
       ghsa: GHSA-7WV4-CC7P-JHXC
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-7WV4-CC7P-JHXC
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-7WV4-CC7P-JHXC
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.workspace-dotenv-runtime-guard-incomplete
-  - id: ghsa-7xmq-g46g-f8pv.openclaw-sandbox-media-deferred-path-read
+      source-rule-id: brikko-studio.workspace-dotenv-runtime-guard-incomplete
+  - id: ghsa-7xmq-g46g-f8pv.brikko-studio-sandbox-media-deferred-path-read
     message: Sandbox media flows should use root-scoped read helpers at use time instead of deferring to raw bridge/fs pathname reads.
     severity: WARNING
     languages:
@@ -1544,10 +1544,10 @@ rules:
       category: security
       ghsa: GHSA-7XMQ-G46G-F8PV
       detector: A
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-7XMQ-G46G-F8PV
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-7XMQ-G46G-F8PV
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-sandbox-media-deferred-path-read
+      source-rule-id: brikko-studio-sandbox-media-deferred-path-read
     pattern-either:
       - patterns:
           - pattern: |
@@ -1583,7 +1583,7 @@ rules:
                 readFile: createRootScopedReadFile(...),
                 ...,
               };
-  - id: ghsa-82g8-464f-2mv7.openclaw-skill-env-host-injection
+  - id: ghsa-82g8-464f-2mv7.brikko-studio-skill-env-host-injection
     languages:
       - typescript
       - javascript
@@ -1613,10 +1613,10 @@ rules:
           ...
     metadata:
       ghsa: GHSA-82G8-464F-2MV7
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-82G8-464F-2MV7
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-82G8-464F-2MV7
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-skill-env-host-injection
+      source-rule-id: brikko-studio-skill-env-host-injection
   - id: ghsa-846p-hgpv-vphc.qqbot-outbound-local-read-without-boundary-check
     message: QQ Bot outbound local media handling reads a user-influenced path after resolveQQBotLocalMediaPath() without resolveOutboundMediaPath()/resolveQQBotPayloadLocalFilePath() boundary enforcement.
     severity: ERROR
@@ -1653,7 +1653,7 @@ rules:
         - qqbot
       confidence: medium
       ghsa: GHSA-846P-HGPV-VPHC
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-846P-HGPV-VPHC
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-846P-HGPV-VPHC
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: qqbot-outbound-local-read-without-boundary-check
@@ -1683,7 +1683,7 @@ rules:
       confidence: medium
       ghsa: GHSA-8689-GM9G-JGR6
       detector: A
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-8689-GM9G-JGR6
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-8689-GM9G-JGR6
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: plivo-v3-replay-key-uses-unsorted-url
@@ -1704,11 +1704,11 @@ rules:
       cwe: CWE-918
       ghsa: GHSA-8CP7-RP8R-MG77
       detector_kind: reusable-opengrep
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-8CP7-RP8R-MG77
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-8CP7-RP8R-MG77
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: ipv6-transition-special-use-ssrf-guard-bypass
-  - id: ghsa-8fmp-37rc-p5g7.openclaw-service-env-merges-unfiltered-dotenv-or-config-env
+  - id: ghsa-8fmp-37rc-p5g7.brikko-studio-service-env-merges-unfiltered-dotenv-or-config-env
     languages:
       - typescript
       - javascript
@@ -1719,10 +1719,10 @@ rules:
       ghsa: GHSA-8FMP-37RC-P5G7
       cwe: CWE-15
       detector: A
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-8FMP-37RC-P5G7
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-8FMP-37RC-P5G7
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-service-env-merges-unfiltered-dotenv-or-config-env
+      source-rule-id: brikko-studio-service-env-merges-unfiltered-dotenv-or-config-env
     patterns:
       - pattern-either:
           - pattern: |
@@ -1796,11 +1796,11 @@ rules:
               ...
     metadata:
       ghsa: GHSA-8JPQ-5H99-FF5R
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-8JPQ-5H99-FF5R
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-8JPQ-5H99-FF5R
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: ghsa-8jpq-local-path-media-send
-  - id: ghsa-8mf7-vv8w-hjr2.openclaw.safebin-profile-lookup-permissive-fallback
+  - id: ghsa-8mf7-vv8w-hjr2.brikko-studio.safebin-profile-lookup-permissive-fallback
     languages:
       - typescript
       - javascript
@@ -1815,10 +1815,10 @@ rules:
       ghsas:
         - GHSA-8MF7-VV8W-HJR2
       ghsa: GHSA-8MF7-VV8W-HJR2
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-8MF7-VV8W-HJR2
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-8MF7-VV8W-HJR2
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.safebin-profile-lookup-permissive-fallback
+      source-rule-id: brikko-studio.safebin-profile-lookup-permissive-fallback
     paths:
       include:
         - src/infra/exec-safe-bin-policy*.ts
@@ -1838,7 +1838,7 @@ rules:
           - metavariable-regex:
               metavariable: $PROFILES
               regex: ^(safeBinProfiles|SAFE_BIN_PROFILES|profiles)$
-  - id: ghsa-92jp-89mq-4374.openclaw-browser-bridge-preauth-helper-route
+  - id: ghsa-92jp-89mq-4374.brikko-studio-browser-bridge-preauth-helper-route
     message: Privileged browser bridge helper route is registered before auth middleware, so helper access can bypass bridge auth.
     severity: ERROR
     languages:
@@ -1876,11 +1876,11 @@ rules:
       confidence: medium
       ghsa: GHSA-92JP-89MQ-4374
       rationale: Helper routes like noVNC observer/token redemption should not be reachable before bridge auth is established.
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-92JP-89MQ-4374
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-92JP-89MQ-4374
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-browser-bridge-preauth-helper-route
-  - id: ghsa-94pw-c6m8-p9p9.openclaw-gateway-config-mutation-guard-missing-dangerous-flag-diff
+      source-rule-id: brikko-studio-browser-bridge-preauth-helper-route
+  - id: ghsa-94pw-c6m8-p9p9.brikko-studio-gateway-config-mutation-guard-missing-dangerous-flag-diff
     languages:
       - typescript
     severity: ERROR
@@ -1890,10 +1890,10 @@ rules:
       category: security
       cwe:
         - CWE-266
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-94PW-C6M8-P9P9
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-94PW-C6M8-P9P9
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-gateway-config-mutation-guard-missing-dangerous-flag-diff
+      source-rule-id: brikko-studio-gateway-config-mutation-guard-missing-dangerous-flag-diff
     paths:
       include:
         - src/agents/tools/gateway-tool.ts
@@ -1908,7 +1908,7 @@ rules:
             collectEnabledInsecureOrDangerousFlags(...)
             ...
           }
-  - id: ghsa-9528-x887-j2fp.openclaw-webhook-signature-missing-auth-rate-limit
+  - id: ghsa-9528-x887-j2fp.brikko-studio-webhook-signature-missing-auth-rate-limit
     languages:
       - typescript
     severity: WARNING
@@ -1918,10 +1918,10 @@ rules:
       category: security
       cwe:
         - CWE-307
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-9528-X887-J2FP
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-9528-X887-J2FP
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-webhook-signature-missing-auth-rate-limit
+      source-rule-id: brikko-studio-webhook-signature-missing-auth-rate-limit
     paths:
       include:
         - extensions/nextcloud-talk/src/monitor.ts
@@ -1934,7 +1934,7 @@ rules:
           ...
           $LIM.recordFailure(...)
           ...
-  - id: ghsa-98ch-45wp-ch47.openclaw.system-run-approval-binding-portable-normalization-regression
+  - id: ghsa-98ch-45wp-ch47.brikko-studio.system-run-approval-binding-portable-normalization-regression
     languages:
       - typescript
     severity: ERROR
@@ -1946,10 +1946,10 @@ rules:
       ghsas:
         - GHSA-98CH-45WP-CH47
       ghsa: GHSA-98CH-45WP-CH47
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-98CH-45WP-CH47
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-98CH-45WP-CH47
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.system-run-approval-binding-portable-normalization-regression
+      source-rule-id: brikko-studio.system-run-approval-binding-portable-normalization-regression
     paths:
       include:
         - src/infra/system-run-approval-binding.ts
@@ -1970,7 +1970,7 @@ rules:
       ghsa: GHSA-98HH-7GHG-X6RQ
       detector: A
       note: Reusable review surface for approval-resolution entrypoints; authorization must be verified manually.
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-98HH-7GHG-X6RQ
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-98HH-7GHG-X6RQ
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: approval-resolve-call-review
@@ -2003,11 +2003,11 @@ rules:
       confidence: medium
       rationale: Detects OAuth flows that directly reuse PKCE verifier material as the OAuth state token.
       ghsa: GHSA-9JPJ-G8VV-J5MF
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-9JPJ-G8VV-J5MF
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-9JPJ-G8VV-J5MF
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: oauth-state-reuses-pkce-verifier
-  - id: ghsa-9q7v-8mr7-g23p.openclaw.marketplace-plugin-download-unguarded-fetch
+  - id: ghsa-9q7v-8mr7-g23p.brikko-studio.marketplace-plugin-download-unguarded-fetch
     languages:
       - typescript
     severity: WARNING
@@ -2020,10 +2020,10 @@ rules:
       ghsas:
         - GHSA-9Q7V-8MR7-G23P
       ghsa: GHSA-9Q7V-8MR7-G23P
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-9Q7V-8MR7-G23P
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-9Q7V-8MR7-G23P
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.marketplace-plugin-download-unguarded-fetch
+      source-rule-id: brikko-studio.marketplace-plugin-download-unguarded-fetch
     paths:
       include:
         - src/plugins/marketplace.ts
@@ -2044,7 +2044,7 @@ rules:
       category: authorization
       cwe:
         - CWE-863
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-9WQX-G2CW-VC7R
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-9WQX-G2CW-VC7R
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: matrix-verification-notice-missing-dm-access-gate
@@ -2079,7 +2079,7 @@ rules:
           regex: ^(verificationUrl|url)$
     metadata:
       ghsa: GHSA-CG6C-Q2HX-69H7
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-CG6C-Q2HX-69H7
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-CG6C-Q2HX-69H7
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: plivo-v2-replay-key-uses-full-verification-url
@@ -2100,11 +2100,11 @@ rules:
           regex: .*[Ee]mail.*
     metadata:
       ghsa: GHSA-CHM2-M3W2-WCXM
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-CHM2-M3W2-WCXM
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-CHM2-M3W2-WCXM
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: googlechat-users-email-allowlist-mutable-principal
-  - id: ghsa-cv7m-c9jx-vg7q.openclaw-browser-upload-raw-paths-forwarded
+  - id: ghsa-cv7m-c9jx-vg7q.brikko-studio-browser-upload-raw-paths-forwarded
     message: Browser upload/file-chooser code forwards caller-controlled `paths` directly. Upload paths must first be resolved under DEFAULT_UPLOAD_DIR and then forwarded as validated/resolved paths. Raw paths can read arbitrary local files from the Gateway host. See GHSA-CV7M-C9JX-VG7Q.
     languages:
       - typescript
@@ -2114,10 +2114,10 @@ rules:
       category: security
       cwe:
         - CWE-22
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-CV7M-C9JX-VG7Q
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-CV7M-C9JX-VG7Q
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-browser-upload-raw-paths-forwarded
+      source-rule-id: brikko-studio-browser-upload-raw-paths-forwarded
     paths:
       include:
         - src/agents/tools/browser-tool.ts
@@ -2125,7 +2125,7 @@ rules:
         - extensions/browser/src/browser/routes/**/*.ts
         - extensions/browser/src/browser/pw-tools-core.interactions.ts
     pattern-regex: ^\s*paths\s*,\s*$
-  - id: ghsa-cwf8-44x6-32c2.openclaw-openshell-uploadpath-direct-localpath-upload
+  - id: ghsa-cwf8-44x6-32c2.brikko-studio-openshell-uploadpath-direct-localpath-upload
     languages:
       - typescript
     severity: ERROR
@@ -2135,15 +2135,15 @@ rules:
       category: security
       cwe:
         - CWE-22
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-CWF8-44X6-32C2
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-CWF8-44X6-32C2
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-openshell-uploadpath-direct-localpath-upload
+      source-rule-id: brikko-studio-openshell-uploadpath-direct-localpath-upload
     paths:
       include:
         - extensions/openshell/src/backend.ts
     pattern-regex: private async uploadPathToRemote[\s\S]*?"sandbox",[\s\S]*?"upload",[\s\S]*?localPath,[\s\S]*?remotePath,
-  - id: ghsa-cwq8-6f96-g3q4.openclaw-install-scan-fail-open
+  - id: ghsa-cwq8-6f96-g3q4.brikko-studio-install-scan-fail-open
     languages:
       - typescript
       - javascript
@@ -2155,10 +2155,10 @@ rules:
         - CWE-636
         - CWE-754
       ghsa: GHSA-CWQ8-6F96-G3Q4
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-CWQ8-6F96-G3Q4
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-CWQ8-6F96-G3Q4
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-install-scan-fail-open
+      source-rule-id: brikko-studio-install-scan-fail-open
     patterns:
       - pattern-either:
           - pattern: |
@@ -2228,9 +2228,9 @@ rules:
         - CWE-400
       category: security
       technology:
-        - openclaw
+        - brikko-studio
         - acp
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-CXPW-2G23-2VGW
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-CXPW-2G23-2VGW
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: acp-extract-text-from-prompt-without-size-limit
@@ -2274,11 +2274,11 @@ rules:
           })
     metadata:
       ghsa: GHSA-F5MF-3R52-R83W
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-F5MF-3R52-R83W
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-F5MF-3R52-R83W
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: zalouser-dangerous-group-name-auth-match
-  - id: ghsa-f7fh-qg34-x2xh.openclaw-direct-cdp-websocket-top-level-branch-missing-validation
+  - id: ghsa-f7fh-qg34-x2xh.brikko-studio-direct-cdp-websocket-top-level-branch-missing-validation
     languages:
       - typescript
       - javascript
@@ -2289,10 +2289,10 @@ rules:
       category: security
       cwe:
         - CWE-918
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-F7FH-QG34-X2XH
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-F7FH-QG34-X2XH
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-direct-cdp-websocket-top-level-branch-missing-validation
+      source-rule-id: brikko-studio-direct-cdp-websocket-top-level-branch-missing-validation
     paths:
       include:
         - extensions/browser/src/browser/cdp.ts
@@ -2317,7 +2317,7 @@ rules:
               }
     metadata:
       ghsa: GHSA-FG3M-VHRR-8GJ6
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-FG3M-VHRR-8GJ6
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-FG3M-VHRR-8GJ6
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: windows-shell-fallback-retry
@@ -2350,11 +2350,11 @@ rules:
       technology:
         - nodejs
       ghsa: GHSA-FH3F-Q9QW-93J9
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-FH3F-Q9QW-93J9
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-FH3F-Q9QW-93J9
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: sandbox-config-sha1-hash
-  - id: ghsa-fqcm-97m6-w7rm.openclaw-unconditional-sandboxvalidated-loadwebmedia
+  - id: ghsa-fqcm-97m6-w7rm.brikko-studio-unconditional-sandboxvalidated-loadwebmedia
     languages:
       - typescript
     severity: WARNING
@@ -2404,11 +2404,11 @@ rules:
           }
     metadata:
       ghsa: GHSA-FQCM-97M6-W7RM
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-FQCM-97M6-W7RM
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-FQCM-97M6-W7RM
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-unconditional-sandboxvalidated-loadwebmedia
-  - id: ghsa-fqrj-m88p-qf3v.openclaw-zalo-replay-dedupe-key-missing-target-scope
+      source-rule-id: brikko-studio-unconditional-sandboxvalidated-loadwebmedia
+  - id: ghsa-fqrj-m88p-qf3v.brikko-studio-zalo-replay-dedupe-key-missing-target-scope
     languages:
       - typescript
       - javascript
@@ -2419,10 +2419,10 @@ rules:
       category: security
       cwe:
         - CWE-667
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-FQRJ-M88P-QF3V
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-FQRJ-M88P-QF3V
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-zalo-replay-dedupe-key-missing-target-scope
+      source-rule-id: brikko-studio-zalo-replay-dedupe-key-missing-target-scope
     paths:
       include:
         - extensions/zalo/src/**/*.ts
@@ -2456,7 +2456,7 @@ rules:
       category: security
       confidence: medium
       ghsa: GHSA-FV94-QVG8-XQPW
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-FV94-QVG8-XQPW
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-FV94-QVG8-XQPW
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: ssh-sandbox-upload-missing-symlink-boundary-check
@@ -2474,7 +2474,7 @@ rules:
       confidence: low
       note: Review aid only; misses inherited/defaulted config and may not prove runtime exploitability.
       ghsa: GHSA-G353-MGV3-8PCJ
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-G353-MGV3-8PCJ
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-G353-MGV3-8PCJ
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: feishu-webhook-mode-missing-encrypt-key
@@ -2508,7 +2508,7 @@ rules:
             encryptKey: $KEY,
             ...
           }
-  - id: ghsa-g86v-f9qv-rh6m.openclaw-missing-discard-ipv6-special-use-range
+  - id: ghsa-g86v-f9qv-rh6m.brikko-studio-missing-discard-ipv6-special-use-range
     languages:
       - typescript
       - javascript
@@ -2557,10 +2557,10 @@ rules:
                   ]);
     metadata:
       ghsa: GHSA-G86V-F9QV-RH6M
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-G86V-F9QV-RH6M
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-G86V-F9QV-RH6M
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-missing-discard-ipv6-special-use-range
+      source-rule-id: brikko-studio-missing-discard-ipv6-special-use-range
   - id: ghsa-g8p2-7wf7-98mq.query-gatewayurl-applied-without-confirmation
     languages:
       - typescript
@@ -2594,11 +2594,11 @@ rules:
                   $HOST.pendingGatewayUrl = ...
     metadata:
       ghsa: GHSA-G8P2-7WF7-98MQ
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-G8P2-7WF7-98MQ
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-G8P2-7WF7-98MQ
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: query-gatewayurl-applied-without-confirmation
-  - id: ghsa-g99v-8hwm-g76g.openclaw-web-search-citation-redirect-private-network-policy
+  - id: ghsa-g99v-8hwm-g76g.brikko-studio-web-search-citation-redirect-private-network-policy
     languages:
       - typescript
       - javascript
@@ -2649,10 +2649,10 @@ rules:
       cwe: CWE-918
       ghsa: GHSA-G99V-8HWM-G76G
       rationale: HEAD-based citation redirect resolution must not opt into private-network SSRF policy.
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-G99V-8HWM-G76G
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-G99V-8HWM-G76G
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-web-search-citation-redirect-private-network-policy
+      source-rule-id: brikko-studio-web-search-citation-redirect-private-network-policy
   - id: ghsa-gcj7-r3hg-m7w6.replay-key-derived-from-idempotency-header
     message: Replay or dedupe key derived from an idempotency/replay header can let unsigned metadata control request identity.
     severity: WARNING
@@ -2691,11 +2691,11 @@ rules:
         - CWE-294
         - CWE-345
       ghsa: GHSA-GCJ7-R3HG-M7W6
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-GCJ7-R3HG-M7W6
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-GCJ7-R3HG-M7W6
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: replay-key-derived-from-idempotency-header
-  - id: ghsa-gfmx-pph7-g46x.openclaw.system-event-missing-explicit-trust
+  - id: ghsa-gfmx-pph7-g46x.brikko-studio.system-event-missing-explicit-trust
     languages:
       - typescript
       - javascript
@@ -2711,10 +2711,10 @@ rules:
       ghsas:
         - GHSA-GFMX-PPH7-G46X
       ghsa: GHSA-GFMX-PPH7-G46X
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-GFMX-PPH7-G46X
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-GFMX-PPH7-G46X
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.system-event-missing-explicit-trust
+      source-rule-id: brikko-studio.system-event-missing-explicit-trust
     paths:
       exclude:
         - "**/*.test.*"
@@ -2743,7 +2743,7 @@ rules:
           - metavariable-regex:
               metavariable: $TEXT
               regex: ^[a-zA-Z_$][a-zA-Z0-9_$]*$
-  - id: ghsa-gg9v-mgcp-v6m7.openclaw-bootstrap-token-legacy-acceptance-without-profile-record
+  - id: ghsa-gg9v-mgcp-v6m7.brikko-studio-bootstrap-token-legacy-acceptance-without-profile-record
     languages:
       - typescript
     severity: ERROR
@@ -2753,10 +2753,10 @@ rules:
       category: security
       cwe:
         - CWE-269
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-GG9V-MGCP-V6M7
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-GG9V-MGCP-V6M7
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-bootstrap-token-legacy-acceptance-without-profile-record
+      source-rule-id: brikko-studio-bootstrap-token-legacy-acceptance-without-profile-record
     paths:
       include:
         - src/infra/device-bootstrap.ts
@@ -2771,7 +2771,7 @@ rules:
       category: security
       cwe:
         - CWE-22
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-GQ9C-WG68-GWJ2
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-GQ9C-WG68-GWJ2
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: browser-writable-output-path-bypasses-resolveWritablePathWithinRoot
@@ -2783,7 +2783,7 @@ rules:
         - "**/paths.ts"
         - "**/path-output.ts"
     pattern: resolvePathWithinRoot(...)
-  - id: ghsa-h7f7-89mm-pqh6.openclaw-skill-download-targetdir-outside-tools-root
+  - id: ghsa-h7f7-89mm-pqh6.brikko-studio-skill-download-targetdir-outside-tools-root
     languages:
       - typescript
       - javascript
@@ -2811,10 +2811,10 @@ rules:
           })
     metadata:
       ghsa: GHSA-H7F7-89MM-PQH6
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-H7F7-89MM-PQH6
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-H7F7-89MM-PQH6
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-skill-download-targetdir-outside-tools-root
+      source-rule-id: brikko-studio-skill-download-targetdir-outside-tools-root
   - id: ghsa-h9xm-j4qg-fvpg.apply-patch-sandbox-hostpath-without-workspace-guard
     languages:
       - typescript
@@ -2854,7 +2854,7 @@ rules:
           }
     metadata:
       ghsa: GHSA-H9XM-J4QG-FVPG
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-H9XM-J4QG-FVPG
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-H9XM-J4QG-FVPG
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: apply-patch-sandbox-hostpath-without-workspace-guard
@@ -2897,11 +2897,11 @@ rules:
       detector_review: family_candidate
       rationale: Matches Teams fileConsent invoke handlers that both upload and remove pending uploads based on uploadId-controlled lookup without a same-handler conversation-binding guard.
       ghsa: GHSA-J26J-7QC4-3MRF
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-J26J-7QC4-3MRF
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-J26J-7QC4-3MRF
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: teams-file-consent-missing-conversation-binding
-  - id: ghsa-j425-whc4-4jgc.openclaw-dangerous-host-env-override-pivots
+  - id: ghsa-j425-whc4-4jgc.brikko-studio-dangerous-host-env-override-pivots
     message: Dangerous host env override pivot reaches host env sanitization boundary or policy.
     severity: ERROR
     languages:
@@ -2928,11 +2928,11 @@ rules:
               regex: ^(GIT_SSH_COMMAND|GIT_EXEC_PATH|GIT_TEMPLATE_DIR|YARN_RC_FILENAME|CC|CXX|CMAKE_C_COMPILER|CMAKE_CXX_COMPILER|RUSTC_WRAPPER|CARGO_BUILD_RUSTC|CARGO_BUILD_RUSTC_WRAPPER|MAKEFLAGS|MFLAGS|GIT_CONFIG_[A-Z0-9_]+|NPM_CONFIG_[A-Z0-9_]+|CARGO_REGISTRIES_[A-Z0-9_]+|TF_VAR_[A-Z0-9_]+)$
     metadata:
       ghsa: GHSA-J425-WHC4-4JGC
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-J425-WHC4-4JGC
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-J425-WHC4-4JGC
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-dangerous-host-env-override-pivots
-  - id: ghsa-jf25-7968-h2h5.openclaw-nodes-screen-record-outpath-guard-missing
+      source-rule-id: brikko-studio-dangerous-host-env-override-pivots
+  - id: ghsa-jf25-7968-h2h5.brikko-studio-nodes-screen-record-outpath-guard-missing
     message: The nodes tool (which contains screen_record) must be wrapped via applyNodesToolWorkspaceGuard, which adds outPath to the pathParamKeys. Without this, screen_record outPath bypasses the workspace boundary. See GHSA-JF25-7968-H2H5.
     severity: ERROR
     languages:
@@ -2942,13 +2942,13 @@ rules:
       category: security
       cwe:
         - CWE-22
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-JF25-7968-H2H5
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-JF25-7968-H2H5
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-nodes-screen-record-outpath-guard-missing
+      source-rule-id: brikko-studio-nodes-screen-record-outpath-guard-missing
     paths:
       include:
-        - src/agents/openclaw-tools.ts
+        - src/agents/brikko-studio-tools.ts
     patterns:
       - pattern: createNodesTool(...)
       - pattern-not-inside: |
@@ -2995,7 +2995,7 @@ rules:
           }
     metadata:
       ghsa: GHSA-JFV4-H8MC-JCP8
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-JFV4-H8MC-JCP8
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-JFV4-H8MC-JCP8
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: immediate-process-tree-sigkill
@@ -3024,11 +3024,11 @@ rules:
       category: security
       confidence: medium
       ghsa: GHSA-JJ6Q-RRRF-H66H
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-JJ6Q-RRRF-H66H
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-JJ6Q-RRRF-H66H
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: timing-safe-equal-length-short-circuit
-  - id: ghsa-jjw7-3vjf-fg5j.openclaw-config-private-key-string-field
+  - id: ghsa-jjw7-3vjf-fg5j.brikko-studio-config-private-key-string-field
     languages:
       - typescript
       - javascript
@@ -3046,10 +3046,10 @@ rules:
           })
     metadata:
       ghsa: GHSA-JJW7-3VJF-FG5J
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-JJW7-3VJF-FG5J
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-JJW7-3VJF-FG5J
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-config-private-key-string-field
+      source-rule-id: brikko-studio-config-private-key-string-field
   - id: ghsa-jmm5-fvh5-gf4p.ts-early-length-check-before-timingsafeequal
     message: Early length mismatch return before timingSafeEqual can leak secret length; hash or pad to fixed-length before comparing.
     severity: ERROR
@@ -3081,7 +3081,7 @@ rules:
       cwe:
         - CWE-208
       ghsa: GHSA-JMM5-FVH5-GF4P
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-JMM5-FVH5-GF4P
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-JMM5-FVH5-GF4P
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: ts-early-length-check-before-timingsafeequal
@@ -3103,7 +3103,7 @@ rules:
           })
     metadata:
       ghsa: GHSA-JP4J-Q5FC-58GV
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-JP4J-Q5FC-58GV
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-JP4J-Q5FC-58GV
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: discord-component-missing-group-policy
@@ -3133,11 +3133,11 @@ rules:
           const $BODY = await readJsonBodyWithLimit($REQ, ...);
     metadata:
       ghsa: GHSA-JQ3F-VJWW-8RQ7
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-JQ3F-VJWW-8RQ7
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-JQ3F-VJWW-8RQ7
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: webhook-body-read-before-secret-validation
-  - id: ghsa-jqpq-mgvm-f9r6.openclaw-project-local-node-modules-bin-prepended-to-path
+  - id: ghsa-jqpq-mgvm-f9r6.brikko-studio-project-local-node-modules-bin-prepended-to-path
     languages:
       - typescript
     severity: ERROR
@@ -3147,10 +3147,10 @@ rules:
       category: security
       cwe:
         - CWE-426
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-JQPQ-MGVM-F9R6
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-JQPQ-MGVM-F9R6
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-project-local-node-modules-bin-prepended-to-path
+      source-rule-id: brikko-studio-project-local-node-modules-bin-prepended-to-path
     paths:
       include:
         - src/infra/path-env.ts
@@ -3175,11 +3175,11 @@ rules:
       category: security
       ghsa: GHSA-M34Q-H93W-VG5X
       detector: A
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-M34Q-H93W-VG5X
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-M34Q-H93W-VG5X
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: openshell-unsafe-remote-path-normalization
-  - id: ghsa-m3mh-3mpg-37hw.openclaw-staged-package-install-without-hidden-project-npmrc
+  - id: ghsa-m3mh-3mpg-37hw.brikko-studio-staged-package-install-without-hidden-project-npmrc
     languages:
       - typescript
     message: Running npm install in a copied package directory without first hiding the staged project .npmrc can let attacker-controlled npm config influence install-time tool execution.
@@ -3218,10 +3218,10 @@ rules:
           }
     metadata:
       ghsa: GHSA-M3MH-3MPG-37HW
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-M3MH-3MPG-37HW
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-M3MH-3MPG-37HW
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-staged-package-install-without-hidden-project-npmrc
+      source-rule-id: brikko-studio-staged-package-install-without-hidden-project-npmrc
   - id: ghsa-m69h-jm2f-2pv8.feishu-reaction-chat-type-defaults-to-p2p
     languages:
       - typescript
@@ -3235,7 +3235,7 @@ rules:
               const $TYPE = $EVENT.chat_type === "group" ? "group" : "p2p";
     metadata:
       ghsa: GHSA-M69H-JM2F-2PV8
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-M69H-JM2F-2PV8
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-M69H-JM2F-2PV8
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: feishu-reaction-chat-type-defaults-to-p2p
@@ -3261,11 +3261,11 @@ rules:
               execSync('gh api users/' + $LOGIN + ..., ...)
     metadata:
       ghsa: GHSA-M7X8-2W3W-PR42
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-M7X8-2W3W-PR42
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-M7X8-2W3W-PR42
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: ghsa-m7x8-shell-interpolated-gh-api-login
-  - id: ghsa-mc68-q9jw-2h3v.openclaw-docker-path-env-shell-interpolation
+  - id: ghsa-mc68-q9jw-2h3v.brikko-studio-docker-path-env-shell-interpolation
     languages:
       - typescript
       - javascript
@@ -3276,10 +3276,10 @@ rules:
       category: security
       cwe:
         - CWE-78
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-MC68-Q9JW-2H3V
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-MC68-Q9JW-2H3V
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-docker-path-env-shell-interpolation
+      source-rule-id: brikko-studio-docker-path-env-shell-interpolation
     paths:
       include:
         - src/agents/bash-tools.shared.ts
@@ -3318,7 +3318,7 @@ rules:
       category: security
       ghsa: GHSA-MF5G-6R6F-GHHM
       detector: A
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-MF5G-6R6F-GHHM
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-MF5G-6R6F-GHHM
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: webhook-invalid-token-without-preauth-lockout
@@ -3358,7 +3358,7 @@ rules:
       - pattern: git add -- "${files[@]}"
     metadata:
       ghsa: GHSA-MMPF-JWF4-H3QV
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-MMPF-JWF4-H3QV
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-MMPF-JWF4-H3QV
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: shell-git-add-paths-must-use-double-dash
@@ -3372,7 +3372,7 @@ rules:
       ghsa: GHSA-MP66-RF4F-MHH8
       detector: A
       category: security
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-MP66-RF4F-MHH8
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-MP66-RF4F-MHH8
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: googlechat-app-url-addon-principal-missing-binding
@@ -3391,7 +3391,7 @@ rules:
       include:
         - "**/*.ts"
         - "**/*.js"
-  - id: ghsa-mwxv-35wr-4vvj.openclaw.gateway.api-channels-prefix-auth-gap
+  - id: ghsa-mwxv-35wr-4vvj.brikko-studio.gateway.api-channels-prefix-auth-gap
     languages:
       - typescript
     message: Gateway plugin routes that protect only /api/channels/* but not the exact /api/channels root can leave the channel namespace auth-bypassable.
@@ -3411,11 +3411,11 @@ rules:
           }
     metadata:
       ghsa: GHSA-MWXV-35WR-4VVJ
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-MWXV-35WR-4VVJ
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-MWXV-35WR-4VVJ
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.gateway.api-channels-prefix-auth-gap
-  - id: ghsa-p4x4-2r7f-wjxg.openclaw-wrapper-carrier-allow-always
+      source-rule-id: brikko-studio.gateway.api-channels-prefix-auth-gap
+  - id: ghsa-p4x4-2r7f-wjxg.brikko-studio-wrapper-carrier-allow-always
     message: Positional shell carrier persists a carried executable without first rejecting shell or dispatch wrappers.
     severity: ERROR
     languages:
@@ -3440,17 +3440,17 @@ rules:
           ...
     metadata:
       ghsa: GHSA-P4X4-2R7F-WJXG
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-P4X4-2R7F-WJXG
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-P4X4-2R7F-WJXG
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-wrapper-carrier-allow-always
-  - id: ghsa-p536-vvpp-9mc8.openclaw.web-fetch-or-media-unbounded-response-read
+      source-rule-id: brikko-studio-wrapper-carrier-allow-always
+  - id: ghsa-p536-vvpp-9mc8.brikko-studio.web-fetch-or-media-unbounded-response-read
     languages:
       - typescript
       - javascript
     severity: WARNING
     message: |
-      Inside the openclaw web-fetch / media / SSRF-guarded fetch family, calling .text() / .json() / .arrayBuffer() / .blob() etc. directly on a Response that may have come from an untrusted (model- or plugin-controlled) URL can OOM the process if the upstream returns a multi-GB body. Use readResponseWithLimit() / readResponseTextSnippet() (which stream-and-bound) instead. A pre-buffer Content-Length check is not sufficient — the upstream can lie or omit Content-Length.
+      Inside the brikko-studio web-fetch / media / SSRF-guarded fetch family, calling .text() / .json() / .arrayBuffer() / .blob() etc. directly on a Response that may have come from an untrusted (model- or plugin-controlled) URL can OOM the process if the upstream returns a multi-GB body. Use readResponseWithLimit() / readResponseTextSnippet() (which stream-and-bound) instead. A pre-buffer Content-Length check is not sufficient — the upstream can lie or omit Content-Length.
     metadata:
       category: security
       cwe:
@@ -3459,10 +3459,10 @@ rules:
         - GHSA-P536-VVPP-9MC8
         - GHSA-J27P-HQ53-9WGC
       ghsa: GHSA-P536-VVPP-9MC8
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-P536-VVPP-9MC8
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-P536-VVPP-9MC8
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.web-fetch-or-media-unbounded-response-read
+      source-rule-id: brikko-studio.web-fetch-or-media-unbounded-response-read
     paths:
       include:
         - src/web-fetch/**
@@ -3522,7 +3522,7 @@ rules:
           }
     metadata:
       ghsa: GHSA-PFV7-RR5M-QMV6
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-PFV7-RR5M-QMV6
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-PFV7-RR5M-QMV6
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: local-relay-json-endpoint-missing-auth-header-check
@@ -3555,11 +3555,11 @@ rules:
       category: authz-bypass
       confidence: medium
       detector: A
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-Q2QC-744P-66R2
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-Q2QC-744P-66R2
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: ghsa-q2qc-post-resolution-agent-prefix-guard
-  - id: ghsa-q447-rj3r-2cgh.openclaw.webhook-request-stream-read-without-shared-limit-helper
+  - id: ghsa-q447-rj3r-2cgh.brikko-studio.webhook-request-stream-read-without-shared-limit-helper
     languages:
       - typescript
     severity: ERROR
@@ -3569,10 +3569,10 @@ rules:
       category: security
       cwe:
         - CWE-400
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-Q447-RJ3R-2CGH
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-Q447-RJ3R-2CGH
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.webhook-request-stream-read-without-shared-limit-helper
+      source-rule-id: brikko-studio.webhook-request-stream-read-without-shared-limit-helper
     paths:
       include:
         - extensions/**/src/**/monitor*.ts
@@ -3599,7 +3599,7 @@ rules:
           readJsonBodyWithLimit(...)
       - pattern-not-inside: |
           installRequestBodyLimitGuard(...)
-  - id: ghsa-q6qf-4p5j-r25g.openclaw.sandbox-image-tool.workspace-only-omission
+  - id: ghsa-q6qf-4p5j-r25g.brikko-studio.sandbox-image-tool.workspace-only-omission
     languages:
       - typescript
     severity: WARNING
@@ -3617,41 +3617,41 @@ rules:
       category: security
       confidence: medium
       rationale: The vulnerable helper only accepted {root, bridge}, so any call to it in sandboxed image loading implies missing workspaceOnly enforcement.
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-Q6QF-4P5J-R25G
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-Q6QF-4P5J-R25G
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.sandbox-image-tool.workspace-only-omission
-  - id: ghsa-qcj9-wwgw-6gm8.openclaw-workspace-trust-root-env-read
+      source-rule-id: brikko-studio.sandbox-image-tool.workspace-only-omission
+  - id: ghsa-qcj9-wwgw-6gm8.brikko-studio-workspace-trust-root-env-read
     languages:
       - typescript
       - javascript
     severity: WARNING
-    message: Workspace dotenv loading should not be followed by reads of OpenClaw bundled trust-root env vars; block them in the workspace loader instead.
+    message: Workspace dotenv loading should not be followed by reads of Brikko Studio bundled trust-root env vars; block them in the workspace loader instead.
     patterns:
       - pattern-either:
           - pattern: |
               loadWorkspaceDotEnvFile(...)
               ...
-              process.env.OPENCLAW_BUNDLED_PLUGINS_DIR
+              process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR
           - pattern: |
               loadWorkspaceDotEnvFile(...)
               ...
-              process.env.OPENCLAW_BUNDLED_HOOKS_DIR
+              process.env.BRIKKO_STUDIO_BUNDLED_HOOKS_DIR
           - pattern: |
               loadWorkspaceDotEnvFile(...)
               ...
-              process.env.OPENCLAW_BUNDLED_SKILLS_DIR
+              process.env.BRIKKO_STUDIO_BUNDLED_SKILLS_DIR
           - pattern: |
               loadWorkspaceDotEnvFile(...)
               ...
-              process.env.OPENCLAW_BROWSER_CONTROL_MODULE
+              process.env.BRIKKO_STUDIO_BROWSER_CONTROL_MODULE
     metadata:
       ghsa: GHSA-QCJ9-WWGW-6GM8
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-QCJ9-WWGW-6GM8
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-QCJ9-WWGW-6GM8
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-workspace-trust-root-env-read
-  - id: ghsa-qf48-qfv4-jjm9.openclaw-extension-upload-direct-file-read-before-sandboxed-media-load
+      source-rule-id: brikko-studio-workspace-trust-root-env-read
+  - id: ghsa-qf48-qfv4-jjm9.brikko-studio-extension-upload-direct-file-read-before-sandboxed-media-load
     languages:
       - typescript
       - javascript
@@ -3662,10 +3662,10 @@ rules:
       category: security
       cwe:
         - CWE-22
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-QF48-QFV4-JJM9
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-QF48-QFV4-JJM9
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-extension-upload-direct-file-read-before-sandboxed-media-load
+      source-rule-id: brikko-studio-extension-upload-direct-file-read-before-sandboxed-media-load
     paths:
       include:
         - extensions/**/src/**/*.ts
@@ -3696,7 +3696,7 @@ rules:
           ...
           resolveExistingPathsWithinRoot(...)
           ...
-  - id: ghsa-qpjj-47vm-64pj.openclaw-browser-control-routes-missing-auth-middleware
+  - id: ghsa-qpjj-47vm-64pj.brikko-studio-browser-control-routes-missing-auth-middleware
     languages:
       - typescript
     severity: ERROR
@@ -3706,10 +3706,10 @@ rules:
       category: security
       cwe:
         - CWE-306
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-QPJJ-47VM-64PJ
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-QPJJ-47VM-64PJ
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-browser-control-routes-missing-auth-middleware
+      source-rule-id: brikko-studio-browser-control-routes-missing-auth-middleware
     paths:
       include:
         - extensions/browser/src/server.ts
@@ -3720,7 +3720,7 @@ rules:
           ...
           installBrowserAuthMiddleware(...)
           ...
-  - id: ghsa-qqq7-4hxc-x63c.openclaw-trusted-tool-media-alias-bypass
+  - id: ghsa-qqq7-4hxc-x63c.brikko-studio-trusted-tool-media-alias-bypass
     languages:
       - typescript
       - javascript
@@ -3753,10 +3753,10 @@ rules:
         - .artifacts/ghsa-detector-review-runs/**/*.ts
     metadata:
       ghsa: GHSA-QQQ7-4HXC-X63C
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-QQQ7-4HXC-X63C
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-QQQ7-4HXC-X63C
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-trusted-tool-media-alias-bypass
+      source-rule-id: brikko-studio-trusted-tool-media-alias-bypass
   - id: ghsa-qxgf-hmcj-3xw3.raw-image-download-fetch-without-ssrf-guard
     languages:
       - typescript
@@ -3784,7 +3784,7 @@ rules:
           const { response: $RESP, ...$REST } = await fetchWithSsrFGuard(...)
     metadata:
       ghsa: GHSA-QXGF-HMCJ-3XW3
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-QXGF-HMCJ-3XW3
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-QXGF-HMCJ-3XW3
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: raw-image-download-fetch-without-ssrf-guard
@@ -3831,7 +3831,7 @@ rules:
       cwe:
         - CWE-79
       ghsa: GHSA-R294-2894-92J3
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-R294-2894-92J3
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-R294-2894-92J3
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: exported-session-html-unsafe-marked-setup
@@ -3857,11 +3857,11 @@ rules:
               })
     metadata:
       ghsa: GHSA-R5H9-VJQC-HQ3R
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-R5H9-VJQC-HQ3R
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-R5H9-VJQC-HQ3R
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: nextcloud-talk-allowlist-display-name-match
-  - id: ghsa-rchv-x836-w7xp.openclaw-dashboard-auth-query-credentials
+  - id: ghsa-rchv-x836-w7xp.brikko-studio-dashboard-auth-query-credentials
     message: Dashboard gateway credentials are being placed into URL query parameters. Use URL fragments/session-only handoff instead, and never propagate the gateway password into browser URLs. See GHSA-RCHV-X836-W7XP.
     severity: ERROR
     languages:
@@ -3871,15 +3871,15 @@ rules:
       category: security
       cwe:
         - CWE-598
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-RCHV-X836-W7XP
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-RCHV-X836-W7XP
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-dashboard-auth-query-credentials
+      source-rule-id: brikko-studio-dashboard-auth-query-credentials
     paths:
       include:
-        - apps/macos/Sources/OpenClaw/**/*.swift
+        - apps/macos/Sources/Brikko Studio/**/*.swift
     pattern-regex: \bqueryItems\s*\.\s*append\s*\(\s*URLQueryItem\s*\(\s*name:\s*"(?:token|password)"
-  - id: ghsa-rhfg-j8jq-7v2h.openclaw.extension-configurable-baseurl-raw-fetch-bypasses-ssrf-guard
+  - id: ghsa-rhfg-j8jq-7v2h.brikko-studio.extension-configurable-baseurl-raw-fetch-bypasses-ssrf-guard
     languages:
       - typescript
       - javascript
@@ -3895,10 +3895,10 @@ rules:
       ghsas:
         - GHSA-RHFG-J8JQ-7V2H
       ghsa: GHSA-RHFG-J8JQ-7V2H
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-RHFG-J8JQ-7V2H
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-RHFG-J8JQ-7V2H
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.extension-configurable-baseurl-raw-fetch-bypasses-ssrf-guard
+      source-rule-id: brikko-studio.extension-configurable-baseurl-raw-fetch-bypasses-ssrf-guard
     paths:
       include:
         - extensions/**/*.ts
@@ -3987,11 +3987,11 @@ rules:
           })
     metadata:
       ghsa: GHSA-RM2P-J3R7-4X4J
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-RM2P-J3R7-4X4J
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-RM2P-J3R7-4X4J
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: slack-reaction-handler-missing-system-event-authorization
-  - id: ghsa-rqp8-q22p-5j9q.openclaw-multi-account-plugin-route-replacement
+  - id: ghsa-rqp8-q22p-5j9q.brikko-studio-multi-account-plugin-route-replacement
     languages:
       - typescript
       - javascript
@@ -4002,10 +4002,10 @@ rules:
       category: security
       cwe:
         - CWE-284
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-RQP8-Q22P-5J9Q
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-RQP8-Q22P-5J9Q
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-multi-account-plugin-route-replacement
+      source-rule-id: brikko-studio-multi-account-plugin-route-replacement
     paths:
       include:
         - extensions/**/src/**/*.ts
@@ -4068,7 +4068,7 @@ rules:
       category: security
       bug-family: unresolved-discovery-routing
       ghsa: GHSA-RVQR-HRCC-J9VV
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-RVQR-HRCC-J9VV
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-RVQR-HRCC-J9VV
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: unresolved-discovery-routing-from-txt-hints
@@ -4083,7 +4083,7 @@ rules:
       cwe: CWE-22
       category: security
       confidence: medium
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-RWJ8-P9VQ-25GV
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-RWJ8-P9VQ-25GV
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: bluebubbles-media-read-without-root-allowlist
@@ -4120,11 +4120,11 @@ rules:
       confidence: medium
       ghsa: GHSA-V3J7-34XH-6G3W
       detector: A
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-V3J7-34XH-6G3W
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-V3J7-34XH-6G3W
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: loopback-cdp-probe-copies-relay-auth-headers
-  - id: ghsa-v3qc-wrwx-j3pw.openclaw.gateway.config-write.missing-protected-path-guard
+  - id: ghsa-v3qc-wrwx-j3pw.brikko-studio.gateway.config-write.missing-protected-path-guard
     languages:
       - typescript
       - javascript
@@ -4154,10 +4154,10 @@ rules:
           }
     metadata:
       ghsa: GHSA-V3QC-WRWX-J3PW
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-V3QC-WRWX-J3PW
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-V3QC-WRWX-J3PW
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.gateway.config-write.missing-protected-path-guard
+      source-rule-id: brikko-studio.gateway.config-write.missing-protected-path-guard
   - id: ghsa-v6x2-2qvm-6gv8.prompt-hash-secret-falls-back-to-gateway-auth-token
     languages:
       - typescript
@@ -4168,7 +4168,7 @@ rules:
       category: security
       confidence: medium
       ghsa: GHSA-V6X2-2QVM-6GV8
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-V6X2-2QVM-6GV8
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-V6X2-2QVM-6GV8
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: prompt-hash-secret-falls-back-to-gateway-auth-token
@@ -4211,11 +4211,11 @@ rules:
       confidence: medium
       rationale: catches bounded repeated-decode canonicalizers that never fail closed on leftover encodings
       ghsa: GHSA-V865-P3GQ-HW6M
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-V865-P3GQ-HW6M
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-V865-P3GQ-HW6M
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: repeated-decode-without-limit-anomaly-check
-  - id: ghsa-v8cg-4474-49v8.openclaw-slack-system-event-missing-sender-authorization
+  - id: ghsa-v8cg-4474-49v8.brikko-studio-slack-system-event-missing-sender-authorization
     languages:
       - typescript
     severity: WARNING
@@ -4225,10 +4225,10 @@ rules:
       category: security
       cwe:
         - CWE-862
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-V8CG-4474-49V8
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-V8CG-4474-49V8
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-slack-system-event-missing-sender-authorization
+      source-rule-id: brikko-studio-slack-system-event-missing-sender-authorization
     paths:
       include:
         - extensions/slack/src/monitor/events/members.ts
@@ -4270,11 +4270,11 @@ rules:
               readStringParam($ARGS, "fileUrl", { trim: false })
     metadata:
       ghsa: GHSA-V8WV-JG3Q-QWPQ
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-V8WV-JG3Q-QWPQ
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-V8WV-JG3Q-QWPQ
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: outbound-media-alias-not-normalized
-  - id: ghsa-vfg3-pqpq-93m4.openclaw-tlon-cites-before-final-auth-general
+  - id: ghsa-vfg3-pqpq-93m4.brikko-studio-tlon-cites-before-final-auth-general
     message: Cite expansion happens before a final DM or channel authorization decision.
     severity: WARNING
     languages:
@@ -4303,11 +4303,11 @@ rules:
               }
     metadata:
       ghsa: GHSA-VFG3-PQPQ-93M4
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-VFG3-PQPQ-93M4
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-VFG3-PQPQ-93M4
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-tlon-cites-before-final-auth-general
-  - id: ghsa-vfw7-6rhc-6xxg.openclaw.cli-backend-unsanitized-env-merge
+      source-rule-id: brikko-studio-tlon-cites-before-final-auth-general
+  - id: ghsa-vfw7-6rhc-6xxg.brikko-studio.cli-backend-unsanitized-env-merge
     languages:
       - typescript
       - javascript
@@ -4319,10 +4319,10 @@ rules:
       cwe:
         - CWE-77
         - CWE-426
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-VFW7-6RHC-6XXG
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-VFW7-6RHC-6XXG
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.cli-backend-unsanitized-env-merge
+      source-rule-id: brikko-studio.cli-backend-unsanitized-env-merge
     patterns:
       - pattern-either:
           - pattern: |
@@ -4368,7 +4368,7 @@ rules:
               return spawn($CMD, $ARGS, { ..., env: $ENV, ... })
       - pattern-not-inside: |
           $ENV = sanitizeHostExecEnv($X);
-  - id: ghsa-vj3g-5px3-gr46.openclaw.untrusted-feishu-key-or-skill-name-into-temp-path-join
+  - id: ghsa-vj3g-5px3-gr46.brikko-studio.untrusted-feishu-key-or-skill-name-into-temp-path-join
     languages:
       - typescript
       - javascript
@@ -4383,10 +4383,10 @@ rules:
         - GHSA-VJ3G-5PX3-GR46
         - GHSA-XW4P-PW82-HQR7
       ghsa: GHSA-VJ3G-5PX3-GR46
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-VJ3G-5PX3-GR46
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-VJ3G-5PX3-GR46
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw.untrusted-feishu-key-or-skill-name-into-temp-path-join
+      source-rule-id: brikko-studio.untrusted-feishu-key-or-skill-name-into-temp-path-join
     mode: taint
     pattern-sources:
       - patterns:
@@ -4421,7 +4421,7 @@ rules:
           - pattern-either:
               - pattern: path.join($TMP, ...)
               - pattern: path.resolve($TMP, ...)
-  - id: ghsa-vmqr-rc7x-3446.openclaw-safe-bins-external-helper-flag
+  - id: ghsa-vmqr-rc7x-3446.brikko-studio-safe-bins-external-helper-flag
     languages:
       - typescript
       - javascript
@@ -4430,10 +4430,10 @@ rules:
     pattern-regex: (?s)sort\s*:\s*\{.*?valueFlags\s*:\s*\[[^\]]*["\']--compress-program["\'][^\]]*\]
     metadata:
       ghsa: GHSA-VMQR-RC7X-3446
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-VMQR-RC7X-3446
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-VMQR-RC7X-3446
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-safe-bins-external-helper-flag
+      source-rule-id: brikko-studio-safe-bins-external-helper-flag
   - id: ghsa-vvgp-4c28-m3jm.trusted-proxy-control-ui-bypass-without-operator-role
     message: Trusted-proxy Control UI pairing bypass should require an explicit operator-role guard on the trustedProxyAuthOk helper.
     severity: ERROR
@@ -4459,7 +4459,7 @@ rules:
             $AUTH_METHOD === "trusted-proxy";
     metadata:
       ghsa: GHSA-VVGP-4C28-M3JM
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-VVGP-4C28-M3JM
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-VVGP-4C28-M3JM
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: trusted-proxy-control-ui-bypass-without-operator-role
@@ -4490,7 +4490,7 @@ rules:
         - CWE-400
         - CWE-770
       ghsa: GHSA-VW3H-Q6XQ-JJM5
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-VW3H-Q6XQ-JJM5
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-VW3H-Q6XQ-JJM5
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: websocket-missing-maxpayload-noserver
@@ -4511,7 +4511,7 @@ rules:
       confidence: medium
       cwe: CWE-250
       ghsa: GHSA-W235-X559-36MG
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-W235-X559-36MG
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-W235-X559-36MG
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: docker-workspace-mount-ro-guard
@@ -4532,11 +4532,11 @@ rules:
       confidence: medium
       cwe: CWE-250
       ghsa: GHSA-W235-X559-36MG
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-W235-X559-36MG
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-W235-X559-36MG
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: docker-workspace-mount-ro-guard-let
-  - id: ghsa-w45g-5746-x9fp.openclaw-unguarded-cron-webhook-fetch
+  - id: ghsa-w45g-5746-x9fp.brikko-studio-unguarded-cron-webhook-fetch
     languages:
       - typescript
       - javascript
@@ -4567,10 +4567,10 @@ rules:
       category: security
       cwe: "CWE-918: Server-Side Request Forgery (SSRF)"
       ghsa: GHSA-W45G-5746-X9FP
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-W45G-5746-X9FP
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-W45G-5746-X9FP
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-unguarded-cron-webhook-fetch
+      source-rule-id: brikko-studio-unguarded-cron-webhook-fetch
   - id: ghsa-w76h-8m22-hpgh.msteams-shared-link-canonicalization-missing
     message: MSTeams attachment URLs should be canonicalized with tryBuildGraphSharesUrlForSharedLink before direct use as a download candidate URL.
     severity: WARNING
@@ -4606,7 +4606,7 @@ rules:
       cwe: CWE-918
       ghsa: GHSA-W76H-8M22-HPGH
       rationale: Directly returning MSTeams attachment contentUrl as a download candidate without Graph shared-link canonicalization can bypass the intended media host restrictions.
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-W76H-8M22-HPGH
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-W76H-8M22-HPGH
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: msteams-shared-link-canonicalization-missing
@@ -4621,7 +4621,7 @@ rules:
       category: security
       cwe: CWE-250
       confidence: medium
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-W7J5-J98M-W679
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-W7J5-J98M-W679
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: dockerfile-missing-user-directive
@@ -4632,7 +4632,7 @@ rules:
       exclude:
         - "**/vendor/**"
     pattern-regex: (?s)\AFROM\b(?:(?!\nUSER\b).)*\Z
-  - id: ghsa-w9j9-w4cp-6wgr.openclaw-host-exec-manual-env-merge
+  - id: ghsa-w9j9-w4cp-6wgr.brikko-studio-host-exec-manual-env-merge
     languages:
       - typescript
       - javascript
@@ -4684,11 +4684,11 @@ rules:
         - "**/*.js"
     metadata:
       ghsa: GHSA-W9J9-W4CP-6WGR
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-W9J9-W4CP-6WGR
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-W9J9-W4CP-6WGR
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-host-exec-manual-env-merge
-  - id: ghsa-wh94-p5m6-mr7j.openclaw-discord-moderation-dispatch-missing-sender-permission-check
+      source-rule-id: brikko-studio-host-exec-manual-env-merge
+  - id: ghsa-wh94-p5m6-mr7j.brikko-studio-discord-moderation-dispatch-missing-sender-permission-check
     languages:
       - typescript
     severity: WARNING
@@ -4698,10 +4698,10 @@ rules:
       category: security
       cwe:
         - CWE-862
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-WH94-P5M6-MR7J
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-WH94-P5M6-MR7J
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-discord-moderation-dispatch-missing-sender-permission-check
+      source-rule-id: brikko-studio-discord-moderation-dispatch-missing-sender-permission-check
     paths:
       include:
         - extensions/discord/src/actions/runtime.moderation.ts
@@ -4736,7 +4736,7 @@ rules:
       category: security
       ghsa: GHSA-WJ55-88GF-X564
       bug_family: stale-queued-node-actions
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-WJ55-88GF-X564
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-WJ55-88GF-X564
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: queued-node-action-delivery-without-current-policy-recheck
@@ -4789,7 +4789,7 @@ rules:
       confidence: medium
       review: family-detector
       ghsa: GHSA-WQ58-2PVG-5H4F
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-WQ58-2PVG-5H4F
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-WQ58-2PVG-5H4F
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: gateway-http-json-endpoint-missing-required-operator-method
@@ -4803,7 +4803,7 @@ rules:
       category: authorization
       cwe:
         - CWE-863
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-X2M8-53H4-6HCH
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-X2M8-53H4-6HCH
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: discord-voice-ingress-missing-authorize-review
@@ -4821,7 +4821,7 @@ rules:
       - pattern-not-inside: |
           import { authorizeDiscordVoiceIngress, ... } from "$X";
           ...
-  - id: ghsa-x9cf-3w63-rpq9.openclaw-remote-media-direct-scp-without-source-policy
+  - id: ghsa-x9cf-3w63-rpq9.brikko-studio-remote-media-direct-scp-without-source-policy
     languages:
       - typescript
     severity: ERROR
@@ -4831,10 +4831,10 @@ rules:
       category: security
       cwe:
         - CWE-22
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-X9CF-3W63-RPQ9
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-X9CF-3W63-RPQ9
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-remote-media-direct-scp-without-source-policy
+      source-rule-id: brikko-studio-remote-media-direct-scp-without-source-policy
     paths:
       include:
         - src/auto-reply/reply/stage-sandbox-media.ts
@@ -4850,7 +4850,7 @@ rules:
       category: authorization
       cwe:
         - CWE-863
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-XHQ5-45PM-2GJR
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-XHQ5-45PM-2GJR
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: nextcloud-talk-room-name-fallback-match
@@ -4862,7 +4862,7 @@ rules:
           - pattern: buildChannelKeyCandidates($TOKEN, $ROOM_NAME, ...)
           - pattern: buildChannelKeyCandidates($TOKEN, ..., normalizeChannelSlug($ROOM_NAME))
           - pattern: buildChannelKeyCandidates($TOKEN, ..., $ROOM_NAME, ...)
-  - id: ghsa-xp9r-prpg-373r.openclaw-browser-request-reset-profile-mutation
+  - id: ghsa-xp9r-prpg-373r.brikko-studio-browser-request-reset-profile-mutation
     languages:
       - typescript
     message: browser.request mutation guards should treat POST /reset-profile like other persistent-profile mutations
@@ -4907,10 +4907,10 @@ rules:
       category: security
       cwe: CWE-863
       ghsa: GHSA-XP9R-PRPG-373R
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-XP9R-PRPG-373R
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-XP9R-PRPG-373R
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
-      source-rule-id: openclaw-browser-request-reset-profile-mutation
+      source-rule-id: brikko-studio-browser-request-reset-profile-mutation
   - id: ghsa-xwcj-hwhf-h378.media-fetch-logs-unredacted-url
     languages:
       - typescript
@@ -4932,7 +4932,7 @@ rules:
       category: security
       ghsa: GHSA-XWCJ-HWHF-H378
       detector: A
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-XWCJ-HWHF-H378
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-XWCJ-HWHF-H378
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: media-fetch-logs-unredacted-url
@@ -4946,7 +4946,7 @@ rules:
       category: security
       cwe:
         - CWE-22
-      advisory-url: https://github.com/openclaw/openclaw/security/advisories/GHSA-XWJM-J929-XQ7C
+      advisory-url: https://github.com/brikko-studio/brikko-studio/security/advisories/GHSA-XWJM-J929-XQ7C
       detector-bucket: precise
       source-run: 2026-04-17T07-37-10Z
       source-rule-id: browser-download-route-missing-resolve-writable-output-path

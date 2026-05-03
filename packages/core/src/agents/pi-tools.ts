@@ -1,7 +1,7 @@
 import { createCodingTools, createReadTool } from "@mariozechner/pi-coding-agent";
 import { HEARTBEAT_RESPONSE_TOOL_NAME } from "../auto-reply/heartbeat-tool-response.js";
 import type { ModelCompatConfig } from "../config/types.models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { ToolLoopDetectionConfig } from "../config/types.tools.js";
 import type { DiagnosticTraceContext } from "../infra/diagnostic-trace-context.js";
 import { resolveMergedSafeBinProfileFixtures } from "../infra/exec-safe-bin-runtime-policy.js";
@@ -24,8 +24,8 @@ import { listChannelAgentTools } from "./channel-tools.js";
 import { shouldSuppressManagedWebSearchTool } from "./codex-native-web-search.js";
 import { resolveImageSanitizationLimits } from "./image-sanitization.js";
 import type { ModelAuthMode } from "./model-auth.js";
-import { resolveOpenClawPluginToolsForOptions } from "./openclaw-plugin-tools.js";
-import { createOpenClawTools } from "./openclaw-tools.js";
+import { resolveBrikko StudioPluginToolsForOptions } from "./brikko-studio-plugin-tools.js";
+import { createBrikko StudioTools } from "./brikko-studio-tools.js";
 import { wrapToolWithAbortSignal } from "./pi-tools.abort.js";
 import { wrapToolWithBeforeToolCallHook } from "./pi-tools.before-tool-call.js";
 import { applyDeferredFollowupToolDescriptions } from "./pi-tools.deferred-followup.js";
@@ -40,7 +40,7 @@ import {
   assertRequiredParams,
   createHostWorkspaceEditTool,
   createHostWorkspaceWriteTool,
-  createOpenClawReadTool,
+  createBrikko StudioReadTool,
   createSandboxedEditTool,
   createSandboxedReadTool,
   createSandboxedWriteTool,
@@ -143,7 +143,7 @@ function createLazyProcessTool(defaults?: ProcessToolDefaults): AnyAgentTool {
 function applyModelProviderToolPolicy(
   tools: AnyAgentTool[],
   params?: {
-    config?: OpenClawConfig;
+    config?: Brikko StudioConfig;
     modelProvider?: string;
     modelApi?: string;
     modelId?: string;
@@ -200,7 +200,7 @@ function isApplyPatchAllowedForModel(params: {
   });
 }
 
-function resolveExecConfig(params: { cfg?: OpenClawConfig; agentId?: string }) {
+function resolveExecConfig(params: { cfg?: Brikko StudioConfig; agentId?: string }) {
   const cfg = params.cfg;
   const globalExec = cfg?.tools?.exec;
   const agentExec =
@@ -231,7 +231,7 @@ function resolveExecConfig(params: { cfg?: OpenClawConfig; agentId?: string }) {
 }
 
 export function resolveToolLoopDetectionConfig(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   agentId?: string;
 }): ToolLoopDetectionConfig | undefined {
   const global = params.cfg?.tools?.loopDetection;
@@ -265,7 +265,7 @@ export const __testing = {
   applyModelProviderToolPolicy,
 } as const;
 
-export function createOpenClawCodingTools(options?: {
+export function createBrikko StudioCodingTools(options?: {
   agentId?: string;
   exec?: ExecToolDefaults & ProcessToolDefaults;
   messageProvider?: string;
@@ -295,7 +295,7 @@ export function createOpenClawCodingTools(options?: {
    * Defaults to workspaceDir when not set.
    */
   spawnWorkspaceDir?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   abortSignal?: AbortSignal;
   /**
    * Provider of the currently selected model (used for provider-specific tool quirks).
@@ -310,7 +310,7 @@ export function createOpenClawCodingTools(options?: {
   modelContextWindowTokens?: number;
   /** Resolved runtime model compatibility hints. */
   modelCompat?: ModelCompatConfig;
-  /** If false, keep OpenClaw web_search even when a provider-native search tool is active. */
+  /** If false, keep Brikko Studio web_search even when a provider-native search tool is active. */
   suppressManagedWebSearch?: boolean;
   /**
    * Auth mode for the current provider. We only need this for Anthropic OAuth
@@ -519,7 +519,7 @@ export function createOpenClawCodingTools(options?: {
             ];
           }
           const freshReadTool = createReadTool(workspaceRoot);
-          const wrapped = createOpenClawReadTool(freshReadTool, {
+          const wrapped = createBrikko StudioReadTool(freshReadTool, {
             modelContextWindowTokens: options?.modelContextWindowTokens,
             imageSanitization,
           });
@@ -631,7 +631,7 @@ export function createOpenClawCodingTools(options?: {
   ]);
   const pluginToolsOnly = includeCoreTools
     ? []
-    : resolveOpenClawPluginToolsForOptions({
+    : resolveBrikko StudioPluginToolsForOptions({
         options: {
           agentSessionKey: options?.sessionKey,
           agentChannel: resolveGatewayMessageChannel(options?.messageProvider),
@@ -693,7 +693,7 @@ export function createOpenClawCodingTools(options?: {
     // Channel docking: include channel-defined agent tools (login, etc.).
     ...(includeCoreTools ? listChannelAgentTools({ cfg: options?.config }) : []),
     ...(includeCoreTools
-      ? createOpenClawTools({
+      ? createBrikko StudioTools({
           sandboxBrowserBridgeUrl: sandbox?.browser?.bridgeUrl,
           allowHostBrowserControl: sandbox ? sandbox.browserAllowHostControl : true,
           agentSessionKey: options?.sessionKey,
@@ -741,7 +741,7 @@ export function createOpenClawCodingTools(options?: {
         })
       : pluginToolsOnly),
   ];
-  options?.recordToolPrepStage?.("openclaw-tools");
+  options?.recordToolPrepStage?.("brikko-studio-tools");
   const toolsForMemoryFlush =
     isMemoryFlushRun && memoryFlushWritePath
       ? tools.flatMap((tool) => {

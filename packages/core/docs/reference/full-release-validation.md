@@ -29,8 +29,8 @@ when validating an older release branch or tag.
 
 Package Acceptance normally builds the candidate tarball from the resolved
 `ref`, including full-SHA runs dispatched with `pnpm ci:full-release`. After
-publish, pass `package_acceptance_package_spec=openclaw@YYYY.M.D` (or
-`openclaw@beta`/`openclaw@latest`) to run the same package/update matrix against
+publish, pass `package_acceptance_package_spec=brikko-studio@YYYY.M.D` (or
+`brikko-studio@beta`/`brikko-studio@latest`) to run the same package/update matrix against
 the shipped npm package instead.
 
 ## Top-level stages
@@ -40,8 +40,8 @@ the shipped npm package instead.
 | Target resolution    | **Job:** `Resolve target ref`<br />**Child workflow:** none<br />**Proves:** resolves the release branch, tag, or full commit SHA and records selected inputs.<br />**Rerun:** rerun the umbrella if this fails.                                                                                                                                                                              |
 | Vitest and normal CI | **Job:** `Run normal full CI`<br />**Child workflow:** `CI`<br />**Proves:** manual full CI graph against the target ref, including Linux Node lanes, bundled plugin shards, channel contracts, Node 22 compatibility, `check`, `check-additional`, build smoke, docs checks, Python skills, Windows, macOS, Control UI i18n, and Android via the umbrella.<br />**Rerun:** `rerun_group=ci`. |
 | Plugin prerelease    | **Job:** `Run plugin prerelease validation`<br />**Child workflow:** `Plugin Prerelease`<br />**Proves:** release-only plugin static checks, agentic plugin coverage, full extension batch shards, and plugin prerelease Docker lanes.<br />**Rerun:** `rerun_group=plugin-prerelease`.                                                                                                       |
-| Release checks       | **Job:** `Run release/live/Docker/QA validation`<br />**Child workflow:** `OpenClaw Release Checks`<br />**Proves:** install smoke, cross-OS package checks, live/E2E suites, Docker release-path chunks, Package Acceptance, QA Lab parity, live Matrix, and live Telegram.<br />**Rerun:** `rerun_group=release-checks` or a narrower release-checks handle.                                |
-| Package artifact     | **Job:** `Prepare release package artifact`<br />**Child workflow:** none<br />**Proves:** creates the parent `release-package-under-test` tarball early enough for package-facing checks that do not need to wait for `OpenClaw Release Checks`.<br />**Rerun:** rerun the umbrella or provide `npm_telegram_package_spec` for `rerun_group=npm-telegram`.                                   |
+| Release checks       | **Job:** `Run release/live/Docker/QA validation`<br />**Child workflow:** `Brikko Studio Release Checks`<br />**Proves:** install smoke, cross-OS package checks, live/E2E suites, Docker release-path chunks, Package Acceptance, QA Lab parity, live Matrix, and live Telegram.<br />**Rerun:** `rerun_group=release-checks` or a narrower release-checks handle.                                |
+| Package artifact     | **Job:** `Prepare release package artifact`<br />**Child workflow:** none<br />**Proves:** creates the parent `release-package-under-test` tarball early enough for package-facing checks that do not need to wait for `Brikko Studio Release Checks`.<br />**Rerun:** rerun the umbrella or provide `npm_telegram_package_spec` for `rerun_group=npm-telegram`.                                   |
 | Package Telegram     | **Job:** `Run package Telegram E2E`<br />**Child workflow:** `NPM Telegram Beta E2E`<br />**Proves:** parent-artifact-backed Telegram package proof for `rerun_group=all` with `release_profile=full`, or published-package Telegram proof when `npm_telegram_package_spec` is set.<br />**Rerun:** `rerun_group=npm-telegram` with `npm_telegram_package_spec`.                              |
 | Umbrella verifier    | **Job:** `Verify full validation`<br />**Child workflow:** none<br />**Proves:** re-checks recorded child run conclusions and appends slowest-job tables from child workflows.<br />**Rerun:** rerun only this job after rerunning a failed child to green.                                                                                                                                   |
 
@@ -52,7 +52,7 @@ default.
 
 ## Release checks stages
 
-`OpenClaw Release Checks` is the largest child workflow. It resolves the target
+`Brikko Studio Release Checks` is the largest child workflow. It resolves the target
 once and prepares a shared `release-package-under-test` artifact when package
 or Docker-facing stages need it.
 
@@ -61,9 +61,9 @@ or Docker-facing stages need it.
 | Release target      | **Job:** `Resolve target ref`<br />**Backing workflow:** none<br />**Tests:** selected ref, optional expected SHA, profile, rerun group, and focused live suite filter.<br />**Rerun:** `rerun_group=release-checks`.                                                                                                                                                                           |
 | Package artifact    | **Job:** `Prepare release package artifact`<br />**Backing workflow:** none<br />**Tests:** packs or resolves one candidate tarball and uploads `release-package-under-test` for downstream package-facing checks.<br />**Rerun:** the affected package, cross-OS, or live/E2E group.                                                                                                           |
 | Install smoke       | **Job:** `Run install smoke`<br />**Backing workflow:** `Install Smoke`<br />**Tests:** full install path with root Dockerfile smoke image reuse, QR package install, root and gateway Docker smokes, installer Docker tests, Bun global install image-provider smoke, and fast bundled-plugin install/uninstall E2E.<br />**Rerun:** `rerun_group=install-smoke`.                              |
-| Cross-OS            | **Job:** `cross_os_release_checks`<br />**Backing workflow:** `OpenClaw Cross-OS Release Checks (Reusable)`<br />**Tests:** fresh and upgrade lanes on Linux, Windows, and macOS for the selected provider and mode, using the candidate tarball plus a baseline package.<br />**Rerun:** `rerun_group=cross-os`.                                                                               |
-| Repo and live E2E   | **Job:** `Run repo/live E2E validation`<br />**Backing workflow:** `OpenClaw Live And E2E Checks (Reusable)`<br />**Tests:** repository E2E, live cache, OpenAI websocket streaming, native live provider and plugin shards, and Docker-backed live model/backend/gateway harnesses selected by `release_profile`.<br />**Rerun:** `rerun_group=live-e2e`, optionally with `live_suite_filter`. |
-| Docker release path | **Job:** `Run Docker release-path validation`<br />**Backing workflow:** `OpenClaw Live And E2E Checks (Reusable)`<br />**Tests:** release-path Docker chunks against the shared package artifact.<br />**Rerun:** `rerun_group=live-e2e`.                                                                                                                                                      |
+| Cross-OS            | **Job:** `cross_os_release_checks`<br />**Backing workflow:** `Brikko Studio Cross-OS Release Checks (Reusable)`<br />**Tests:** fresh and upgrade lanes on Linux, Windows, and macOS for the selected provider and mode, using the candidate tarball plus a baseline package.<br />**Rerun:** `rerun_group=cross-os`.                                                                               |
+| Repo and live E2E   | **Job:** `Run repo/live E2E validation`<br />**Backing workflow:** `Brikko Studio Live And E2E Checks (Reusable)`<br />**Tests:** repository E2E, live cache, OpenAI websocket streaming, native live provider and plugin shards, and Docker-backed live model/backend/gateway harnesses selected by `release_profile`.<br />**Rerun:** `rerun_group=live-e2e`, optionally with `live_suite_filter`. |
+| Docker release path | **Job:** `Run Docker release-path validation`<br />**Backing workflow:** `Brikko Studio Live And E2E Checks (Reusable)`<br />**Tests:** release-path Docker chunks against the shared package artifact.<br />**Rerun:** `rerun_group=live-e2e`.                                                                                                                                                      |
 | Package Acceptance  | **Job:** `Run package acceptance`<br />**Backing workflow:** `Package Acceptance`<br />**Tests:** offline plugin package fixtures, plugin update, mock-OpenAI Telegram package acceptance, and published-upgrade survivor checks from every stable npm release at or after `2026.4.23` against the same tarball.<br />**Rerun:** `rerun_group=package`.                                         |
 | QA parity           | **Job:** `Run QA Lab parity lane` and `Run QA Lab parity report`<br />**Backing workflow:** direct jobs<br />**Tests:** candidate and baseline agentic parity packs, then the parity report.<br />**Rerun:** `rerun_group=qa-parity` or `rerun_group=qa`.                                                                                                                                       |
 | QA live Matrix      | **Job:** `Run QA Lab live Matrix lane`<br />**Backing workflow:** direct job<br />**Tests:** fast live Matrix QA profile in the `qa-live-shared` environment.<br />**Rerun:** `rerun_group=qa-live` or `rerun_group=qa`.                                                                                                                                                                        |
@@ -131,7 +131,7 @@ Use `rerun_group` to avoid repeating unrelated release boxes:
 | `all`               | All Full Release Validation stages.                                   |
 | `ci`                | Manual full CI child only.                                            |
 | `plugin-prerelease` | Plugin Prerelease child only.                                         |
-| `release-checks`    | All OpenClaw Release Checks stages.                                   |
+| `release-checks`    | All Brikko Studio Release Checks stages.                                   |
 | `install-smoke`     | Install Smoke through release checks.                                 |
 | `cross-os`          | Cross-OS release checks.                                              |
 | `live-e2e`          | Repo/live E2E and Docker release-path validation.                     |
@@ -160,7 +160,7 @@ workflow first, then rerun the smallest matching handle above.
 
 Useful artifacts:
 
-- `release-package-under-test` from the Full Release Validation parent and `OpenClaw Release Checks`
+- `release-package-under-test` from the Full Release Validation parent and `Brikko Studio Release Checks`
 - Docker release-path artifacts under `.artifacts/docker-tests/`
 - Package Acceptance `package-under-test` and Docker acceptance artifacts
 - Cross-OS release-check artifacts for each OS and suite
@@ -169,9 +169,9 @@ Useful artifacts:
 ## Workflow files
 
 - `.github/workflows/full-release-validation.yml`
-- `.github/workflows/openclaw-release-checks.yml`
-- `.github/workflows/openclaw-live-and-e2e-checks-reusable.yml`
+- `.github/workflows/brikko-studio-release-checks.yml`
+- `.github/workflows/brikko-studio-live-and-e2e-checks-reusable.yml`
 - `.github/workflows/plugin-prerelease.yml`
 - `.github/workflows/install-smoke.yml`
-- `.github/workflows/openclaw-cross-os-release-checks-reusable.yml`
+- `.github/workflows/brikko-studio-cross-os-release-checks-reusable.yml`
 - `.github/workflows/package-acceptance.yml`

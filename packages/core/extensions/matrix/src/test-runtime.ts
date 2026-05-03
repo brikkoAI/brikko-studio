@@ -1,7 +1,7 @@
 import {
   implicitMentionKindWhen,
   resolveInboundMentionDecision,
-} from "openclaw/plugin-sdk/channel-mention-gating";
+} from "brikko-studio/plugin-sdk/channel-mention-gating";
 import { vi } from "vitest";
 import type { PluginRuntime } from "./runtime-api.js";
 import { setMatrixRuntime } from "./runtime.js";

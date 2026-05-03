@@ -2,13 +2,13 @@ import {
   createAccountListHelpers,
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
   resolveAccountEntry,
   resolveMergedAccountConfig,
-} from "openclaw/plugin-sdk/account-resolution";
-import { safeParseJsonWithSchema, safeParseWithSchema } from "openclaw/plugin-sdk/extension-shared";
-import { isSecretRef } from "openclaw/plugin-sdk/secret-input";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/account-resolution";
+import { safeParseJsonWithSchema, safeParseWithSchema } from "brikko-studio/plugin-sdk/extension-shared";
+import { isSecretRef } from "brikko-studio/plugin-sdk/secret-input";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { z } from "zod";
 import type { GoogleChatAccountConfig } from "./types.config.js";
 
@@ -39,7 +39,7 @@ const {
 export { listGoogleChatAccountIds, resolveDefaultGoogleChatAccountId };
 
 function mergeGoogleChatAccountConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId: string,
 ): GoogleChatAccountConfig {
   const raw = cfg.channels?.["googlechat"] ?? {};
@@ -67,7 +67,7 @@ function mergeGoogleChatAccountConfig(
 }
 
 export function resolveGoogleChatConfigAccessorAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): GoogleChatConfigAccessorAccount {
   const accountId = normalizeAccountId(
@@ -139,7 +139,7 @@ function resolveCredentialsFromConfig(params: {
 }
 
 export function resolveGoogleChatAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): ResolvedGoogleChatAccount {
   const accountId = normalizeAccountId(
@@ -162,7 +162,7 @@ export function resolveGoogleChatAccount(params: {
   };
 }
 
-export function listEnabledGoogleChatAccounts(cfg: OpenClawConfig): ResolvedGoogleChatAccount[] {
+export function listEnabledGoogleChatAccounts(cfg: Brikko StudioConfig): ResolvedGoogleChatAccount[] {
   return listGoogleChatAccountIds(cfg)
     .map((accountId) => resolveGoogleChatAccount({ cfg, accountId }))
     .filter((account) => account.enabled);

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import {
   loadInstalledPluginIndexInstallRecords,
@@ -65,9 +65,9 @@ export function writePersistedInstalledPluginIndexInstallRecordsSync(
 }
 
 export function withPluginInstallRecords(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   records: Record<string, PluginInstallRecord>,
-): OpenClawConfig {
+): Brikko StudioConfig {
   return {
     ...config,
     plugins: {
@@ -77,7 +77,7 @@ export function withPluginInstallRecords(
   };
 }
 
-export function withoutPluginInstallRecords(config: OpenClawConfig): OpenClawConfig {
+export function withoutPluginInstallRecords(config: Brikko StudioConfig): Brikko StudioConfig {
   if (!config.plugins?.installs) {
     return config;
   }

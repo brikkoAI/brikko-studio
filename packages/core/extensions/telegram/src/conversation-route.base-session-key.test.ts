@@ -1,10 +1,10 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { resolveThreadSessionKeys } from "openclaw/plugin-sdk/routing";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { resolveThreadSessionKeys } from "brikko-studio/plugin-sdk/routing";
 import { describe, expect, it } from "vitest";
 import { resolveTelegramConversationBaseSessionKey } from "./conversation-route.js";
 
 describe("resolveTelegramConversationBaseSessionKey", () => {
-  const cfg: OpenClawConfig = {};
+  const cfg: Brikko StudioConfig = {};
 
   it("keeps default-account DMs on the route session key", () => {
     expect(

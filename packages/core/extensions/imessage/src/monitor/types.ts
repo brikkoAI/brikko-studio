@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 
 type IMessageAttachment = {
   original_path?: string | null;
@@ -33,7 +33,7 @@ export type MonitorIMessageOpts = {
   cliPath?: string;
   dbPath?: string;
   accountId?: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   allowFrom?: Array<string | number>;
   groupAllowFrom?: Array<string | number>;
   includeAttachments?: boolean;

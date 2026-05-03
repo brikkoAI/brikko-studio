@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { PluginRecord } from "../plugins/registry-types.js";
 import { createPluginRegistry } from "../plugins/registry.js";
 import { createPluginRuntime } from "../plugins/runtime/index.js";
-import { withOpenClawTestState } from "../test-utils/openclaw-test-state.js";
+import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import { resetPluginStateStoreForTests } from "./plugin-state-store.js";
 
 function createPluginRecord(id: string, origin: PluginRecord["origin"] = "bundled"): PluginRecord {
@@ -54,7 +54,7 @@ afterEach(() => {
 
 describe("plugin runtime state proxy", () => {
   it("binds openKeyedStore to the bundled plugin id and keeps resolveStateDir", async () => {
-    await withOpenClawTestState({ label: "plugin-state-runtime" }, async (state) => {
+    await withBrikko StudioTestState({ label: "plugin-state-runtime" }, async (state) => {
       const registry = createTestPluginRegistry();
       const record = createPluginRecord("discord", "bundled");
       registry.registry.plugins.push(record);

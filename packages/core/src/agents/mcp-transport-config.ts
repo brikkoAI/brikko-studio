@@ -1,4 +1,4 @@
-import { resolveOpenClawMcpTransportAlias } from "../config/mcp-config-normalize.js";
+import { resolveBrikko StudioMcpTransportAlias } from "../config/mcp-config-normalize.js";
 import { logWarn } from "../logger.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { sanitizeForLog } from "../terminal/ansi.js";
@@ -68,7 +68,7 @@ function getRequestedTransportAlias(rawServer: unknown): HttpMcpTransportType | 
   ) {
     return "";
   }
-  return resolveOpenClawMcpTransportAlias((rawServer as { type?: string }).type) ?? "";
+  return resolveBrikko StudioMcpTransportAlias((rawServer as { type?: string }).type) ?? "";
 }
 
 function resolveHttpTransportConfig(

@@ -1,13 +1,13 @@
-import { createPairingPrefixStripper } from "openclaw/plugin-sdk/channel-pairing";
-import { PAIRING_APPROVED_MESSAGE } from "openclaw/plugin-sdk/channel-status";
-import type { OpenClawConfig } from "./runtime-api.js";
+import { createPairingPrefixStripper } from "brikko-studio/plugin-sdk/channel-pairing";
+import { PAIRING_APPROVED_MESSAGE } from "brikko-studio/plugin-sdk/channel-status";
+import type { Brikko StudioConfig } from "./runtime-api.js";
 import { normalizeBlueBubblesHandle } from "./targets.js";
 
 type SendBlueBubblesMessage = (
   id: string,
   message: string,
   params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     accountId?: string;
   },
 ) => Promise<unknown>;
@@ -23,7 +23,7 @@ export function createBlueBubblesPairingText(sendMessageBlueBubbles: SendBlueBub
       message,
       accountId,
     }: {
-      cfg: OpenClawConfig;
+      cfg: Brikko StudioConfig;
       id: string;
       message: string;
       accountId?: string;

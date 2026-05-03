@@ -86,7 +86,7 @@ export function validateRuleMetadata(rules) {
 
     const advisoryUrl = String(metadata["advisory-url"] ?? "");
     const expectedGhsaUrl = GHSA_RE.test(advisoryId)
-      ? `https://github.com/openclaw/openclaw/security/advisories/${advisoryId}`
+      ? `https://github.com/brikko-studio/brikko-studio/security/advisories/${advisoryId}`
       : "";
     if (!hasNonEmptyString(advisoryUrl)) {
       violations.push(`${label}: missing metadata.advisory-url`);

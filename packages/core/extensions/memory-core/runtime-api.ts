@@ -12,9 +12,9 @@ export {
   resolveMemoryFtsState,
   resolveMemoryVectorState,
   type Tone,
-} from "openclaw/plugin-sdk/memory-core-host-status";
-export { checkQmdBinaryAvailability } from "openclaw/plugin-sdk/memory-core-host-engine-qmd";
-export { hasConfiguredMemorySecretInput } from "openclaw/plugin-sdk/memory-core-host-secret";
+} from "brikko-studio/plugin-sdk/memory-core-host-status";
+export { checkQmdBinaryAvailability } from "brikko-studio/plugin-sdk/memory-core-host-engine-qmd";
+export { hasConfiguredMemorySecretInput } from "brikko-studio/plugin-sdk/memory-core-host-secret";
 export { auditDreamingArtifacts, repairDreamingArtifacts } from "./src/dreaming-repair.js";
 export {
   auditShortTermPromotionArtifacts,

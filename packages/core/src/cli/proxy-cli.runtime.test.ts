@@ -38,22 +38,22 @@ vi.mock("../infra/net/proxy/proxy-validation.js", () => ({
 
 describe("proxy cli runtime", () => {
   const envKeys = [
-    "OPENCLAW_DEBUG_PROXY_DB_PATH",
-    "OPENCLAW_DEBUG_PROXY_BLOB_DIR",
-    "OPENCLAW_DEBUG_PROXY_CERT_DIR",
-    "OPENCLAW_DEBUG_PROXY_SESSION_ID",
-    "OPENCLAW_DEBUG_PROXY_ENABLED",
+    "BRIKKO_STUDIO_DEBUG_PROXY_DB_PATH",
+    "BRIKKO_STUDIO_DEBUG_PROXY_BLOB_DIR",
+    "BRIKKO_STUDIO_DEBUG_PROXY_CERT_DIR",
+    "BRIKKO_STUDIO_DEBUG_PROXY_SESSION_ID",
+    "BRIKKO_STUDIO_DEBUG_PROXY_ENABLED",
   ] as const;
   const savedEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
   let tempDir = "";
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), "openclaw-proxy-cli-runtime-"));
-    process.env.OPENCLAW_DEBUG_PROXY_DB_PATH = path.join(tempDir, "capture.sqlite");
-    process.env.OPENCLAW_DEBUG_PROXY_BLOB_DIR = path.join(tempDir, "blobs");
-    process.env.OPENCLAW_DEBUG_PROXY_CERT_DIR = path.join(tempDir, "certs");
-    delete process.env.OPENCLAW_DEBUG_PROXY_ENABLED;
-    delete process.env.OPENCLAW_DEBUG_PROXY_SESSION_ID;
+    tempDir = mkdtempSync(path.join(os.tmpdir(), "brikko-studio-proxy-cli-runtime-"));
+    process.env.BRIKKO_STUDIO_DEBUG_PROXY_DB_PATH = path.join(tempDir, "capture.sqlite");
+    process.env.BRIKKO_STUDIO_DEBUG_PROXY_BLOB_DIR = path.join(tempDir, "blobs");
+    process.env.BRIKKO_STUDIO_DEBUG_PROXY_CERT_DIR = path.join(tempDir, "certs");
+    delete process.env.BRIKKO_STUDIO_DEBUG_PROXY_ENABLED;
+    delete process.env.BRIKKO_STUDIO_DEBUG_PROXY_SESSION_ID;
     getRuntimeConfigMock.mockReset();
     getRuntimeConfigMock.mockReturnValue({
       proxy: {
@@ -214,7 +214,7 @@ describe("proxy cli runtime", () => {
         "Problems\n" +
         "  - proxy validation requires proxy.enabled to be true for configured proxy URLs\n\n" +
         "Next steps\n" +
-        "  Enable proxy.enabled with proxy.proxyUrl or OPENCLAW_PROXY_URL, or pass --proxy-url for an explicit one-off validation.\n",
+        "  Enable proxy.enabled with proxy.proxyUrl or BRIKKO_STUDIO_PROXY_URL, or pass --proxy-url for an explicit one-off validation.\n",
     );
   });
 
@@ -225,7 +225,7 @@ describe("proxy cli runtime", () => {
         enabled: false,
         source: "disabled",
         errors: [
-          "proxy validation requires proxy.enabled=true with proxy.proxyUrl or OPENCLAW_PROXY_URL, or --proxy-url",
+          "proxy validation requires proxy.enabled=true with proxy.proxyUrl or BRIKKO_STUDIO_PROXY_URL, or --proxy-url",
         ],
       },
       checks: [],
@@ -240,9 +240,9 @@ describe("proxy cli runtime", () => {
         "  Source: disabled\n" +
         "  URL:    not configured\n\n" +
         "Problems\n" +
-        "  - proxy validation requires proxy.enabled=true with proxy.proxyUrl or OPENCLAW_PROXY_URL, or --proxy-url\n\n" +
+        "  - proxy validation requires proxy.enabled=true with proxy.proxyUrl or BRIKKO_STUDIO_PROXY_URL, or --proxy-url\n\n" +
         "Next steps\n" +
-        "  Enable proxy.enabled with proxy.proxyUrl or OPENCLAW_PROXY_URL, or pass --proxy-url for an explicit one-off validation.\n",
+        "  Enable proxy.enabled with proxy.proxyUrl or BRIKKO_STUDIO_PROXY_URL, or pass --proxy-url for an explicit one-off validation.\n",
     );
     expect(process.exitCode).toBe(1);
   });
@@ -270,7 +270,7 @@ describe("proxy cli runtime", () => {
         "Problems\n" +
         "  - proxyUrl must use http://\n\n" +
         "Next steps\n" +
-        "  Fix proxy.proxyUrl, OPENCLAW_PROXY_URL, or --proxy-url so it uses a reachable http:// proxy.\n",
+        "  Fix proxy.proxyUrl, BRIKKO_STUDIO_PROXY_URL, or --proxy-url so it uses a reachable http:// proxy.\n",
     );
   });
 
@@ -357,7 +357,7 @@ describe("proxy cli runtime", () => {
       config: {
         enabled: true,
         source: "missing",
-        errors: ["proxy validation requires proxy.proxyUrl, --proxy-url, or OPENCLAW_PROXY_URL"],
+        errors: ["proxy validation requires proxy.proxyUrl, --proxy-url, or BRIKKO_STUDIO_PROXY_URL"],
       },
       checks: [],
     });
@@ -373,7 +373,7 @@ describe("proxy cli runtime", () => {
             enabled: true,
             source: "missing",
             errors: [
-              "proxy validation requires proxy.proxyUrl, --proxy-url, or OPENCLAW_PROXY_URL",
+              "proxy validation requires proxy.proxyUrl, --proxy-url, or BRIKKO_STUDIO_PROXY_URL",
             ],
           },
           checks: [],
@@ -406,8 +406,8 @@ describe("proxy cli runtime", () => {
     expect(serverStopSpy).toHaveBeenCalledTimes(1);
 
     const store = getDebugProxyCaptureStore(
-      process.env.OPENCLAW_DEBUG_PROXY_DB_PATH!,
-      process.env.OPENCLAW_DEBUG_PROXY_BLOB_DIR!,
+      process.env.BRIKKO_STUDIO_DEBUG_PROXY_DB_PATH!,
+      process.env.BRIKKO_STUDIO_DEBUG_PROXY_BLOB_DIR!,
     );
     const [session] = store.listSessions(5);
     expect(session?.mode).toBe("proxy-run");

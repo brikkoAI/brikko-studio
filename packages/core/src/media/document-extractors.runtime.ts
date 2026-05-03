@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type {
   DocumentExtractionRequest,
   DocumentExtractionResult,
@@ -7,13 +7,13 @@ import { resolvePluginDocumentExtractors } from "../plugins/document-extractors.
 import { createConfigScopedPromiseLoader } from "../plugins/plugin-cache-primitives.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 
-const documentExtractorLoader = createConfigScopedPromiseLoader((config?: OpenClawConfig) =>
+const documentExtractorLoader = createConfigScopedPromiseLoader((config?: Brikko StudioConfig) =>
   resolvePluginDocumentExtractors(config ? { config } : undefined),
 );
 
 export async function extractDocumentContent(
   params: DocumentExtractionRequest & {
-    config?: OpenClawConfig;
+    config?: Brikko StudioConfig;
   },
 ): Promise<(DocumentExtractionResult & { extractor: string }) | null> {
   const mimeType = normalizeLowercaseStringOrEmpty(params.mimeType);

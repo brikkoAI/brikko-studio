@@ -9,7 +9,7 @@
  *  - Connection lifecycle cleanup via releaseWsSession
  *
  * Run manually with a valid OPENAI_API_KEY:
- *   OPENCLAW_LIVE_TEST=1 pnpm test:e2e -- src/agents/openai-ws-stream.e2e.test.ts
+ *   BRIKKO_STUDIO_LIVE_TEST=1 pnpm test:e2e -- src/agents/openai-ws-stream.e2e.test.ts
  *
  * This now runs only in the keyed live/release lanes.
  */
@@ -27,7 +27,7 @@ import type { OutputItem, ResponseObject } from "./openai-ws-connection.js";
 
 const API_KEY = process.env.OPENAI_API_KEY;
 const LIVE = isLiveTestEnabled(["OPENAI_LIVE_TEST"]) && !!API_KEY;
-const LIVE_MODEL_ID = process.env.OPENCLAW_LIVE_OPENAI_MODEL || "gpt-5.4";
+const LIVE_MODEL_ID = process.env.BRIKKO_STUDIO_LIVE_OPENAI_MODEL || "gpt-5.4";
 const testFn = LIVE ? it : it.skip;
 
 type OpenAIWsStreamModule = typeof import("./openai-ws-stream.js");

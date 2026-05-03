@@ -8,7 +8,7 @@ import { createTranscriptFixtureSync } from "./chat.test-helpers.js";
 describe("gateway chat.inject transcript writes", () => {
   it("appends a Pi session entry that includes parentId", async () => {
     const { dir, transcriptPath } = createTranscriptFixtureSync({
-      prefix: "openclaw-chat-inject-",
+      prefix: "brikko-studio-chat-inject-",
       sessionId: "sess-1",
     });
 
@@ -37,7 +37,7 @@ describe("gateway chat.inject transcript writes", () => {
 
   it("uses raw append for oversized append-only transcripts", async () => {
     const { dir, transcriptPath } = createTranscriptFixtureSync({
-      prefix: "openclaw-chat-inject-large-",
+      prefix: "brikko-studio-chat-inject-large-",
       sessionId: "sess-1",
     });
 

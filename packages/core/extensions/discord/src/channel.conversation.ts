@@ -2,7 +2,7 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
   normalizeOptionalStringifiedId,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveDiscordCurrentConversationIdentity } from "./conversation-identity.js";
 import { normalizeDiscordMessagingTarget } from "./normalize.js";
 import { parseDiscordTarget } from "./target-parsing.js";

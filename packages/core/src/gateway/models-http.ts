@@ -5,8 +5,8 @@ import type { AuthRateLimiter } from "./auth-rate-limit.js";
 import type { ResolvedGatewayAuth } from "./auth.js";
 import { sendInvalidRequest, sendJson, sendMethodNotAllowed } from "./http-common.js";
 import {
-  OPENCLAW_DEFAULT_MODEL_ID,
-  OPENCLAW_MODEL_ID,
+  BRIKKO_STUDIO_DEFAULT_MODEL_ID,
+  BRIKKO_STUDIO_MODEL_ID,
   authorizeGatewayHttpRequestOrReply,
   type AuthorizedGatewayHttpRequest,
   resolveAgentIdFromModel,
@@ -34,7 +34,7 @@ function toOpenAiModel(id: string): OpenAiModelObject {
     id,
     object: "model",
     created: 0,
-    owned_by: "openclaw",
+    owned_by: "brikko-studio",
     permission: [],
   };
 }
@@ -57,10 +57,10 @@ async function authorizeRequest(
 function loadAgentModelIds(): string[] {
   const cfg = getRuntimeConfig();
   const defaultAgentId = resolveDefaultAgentId(cfg);
-  const ids = new Set<string>([OPENCLAW_MODEL_ID, OPENCLAW_DEFAULT_MODEL_ID]);
-  ids.add(`openclaw/${defaultAgentId}`);
+  const ids = new Set<string>([BRIKKO_STUDIO_MODEL_ID, BRIKKO_STUDIO_DEFAULT_MODEL_ID]);
+  ids.add(`brikko-studio/${defaultAgentId}`);
   for (const agentId of listAgentIds(cfg)) {
-    ids.add(`openclaw/${agentId}`);
+    ids.add(`brikko-studio/${agentId}`);
   }
   return Array.from(ids);
 }
@@ -125,7 +125,7 @@ export async function handleOpenAiModelsHttpRequest(
     return true;
   }
 
-  if (decodedId !== OPENCLAW_MODEL_ID && !resolveAgentIdFromModel(decodedId)) {
+  if (decodedId !== BRIKKO_STUDIO_MODEL_ID && !resolveAgentIdFromModel(decodedId)) {
     sendInvalidRequest(res, "Invalid model id.");
     return true;
   }

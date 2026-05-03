@@ -2,12 +2,12 @@
   "stateDirName": "crestodian-ring-zero-state",
   "defaultWorkspaceName": "crestodian-main-workspace",
   "agentWorkspaceName": "crestodian-reef-workspace",
-  "dockerDefaultWorkspace": "/tmp/openclaw-first-run",
-  "dockerAgentWorkspace": "/tmp/openclaw-reef",
+  "dockerDefaultWorkspace": "/tmp/brikko-studio-first-run",
+  "dockerAgentWorkspace": "/tmp/brikko-studio-reef",
   "agentId": "reef",
   "model": "openai/gpt-5.2",
   "discordEnv": "DISCORD_BOT_TOKEN",
-  "discordToken": "openclaw-crestodian-discord-e2e-token",
+  "discordToken": "brikko-studio-crestodian-discord-e2e-token",
   "commands": [
     {
       "id": "setup",

@@ -3,9 +3,9 @@ import os from "node:os";
 import path from "node:path";
 import { format } from "node:util";
 import type { Command } from "commander";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { callGatewayFromCli } from "openclaw/plugin-sdk/gateway-runtime";
-import { normalizeOptionalLowercaseString } from "openclaw/plugin-sdk/text-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { callGatewayFromCli } from "brikko-studio/plugin-sdk/gateway-runtime";
+import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
 import { sleep } from "../api.js";
 import { validateProviderConfig, type VoiceCallConfig } from "./config.js";
 import type { VoiceCallRuntime } from "./runtime.js";
@@ -207,7 +207,7 @@ function resolveMode(input: string): "off" | "serve" | "funnel" {
 }
 
 function resolveDefaultStorePath(config: VoiceCallConfig): string {
-  const preferred = path.join(os.homedir(), ".openclaw", "voice-calls");
+  const preferred = path.join(os.homedir(), ".brikko-studio", "voice-calls");
   const resolvedPreferred = resolveUserPath(preferred);
   const existing =
     [resolvedPreferred].find((dir) => {
@@ -396,7 +396,7 @@ export function registerVoiceCallCli(params: {
   const root = program
     .command("voicecall")
     .description("Voice call utilities")
-    .addHelpText("after", () => `\nDocs: https://docs.openclaw.ai/cli/voicecall\n`);
+    .addHelpText("after", () => `\nDocs: https://docs.brikko-studio.ai/cli/voicecall\n`);
 
   root
     .command("setup")
@@ -418,7 +418,7 @@ export function registerVoiceCallCli(params: {
     .option(
       "--message <text>",
       "Message to speak during the smoke call",
-      "OpenClaw voice call smoke test.",
+      "Brikko Studio voice call smoke test.",
     )
     .option("--mode <mode>", "Call mode: notify or conversation", "notify")
     .option("--yes", "Actually place the live outbound call")

@@ -1,4 +1,4 @@
-import { createFinalizableDraftLifecycle } from "openclaw/plugin-sdk/channel-lifecycle";
+import { createFinalizableDraftLifecycle } from "brikko-studio/plugin-sdk/channel-lifecycle";
 import {
   createMattermostPost,
   deleteMattermostPost,

@@ -185,9 +185,9 @@ function isTrustedSourceLinkedOfficialPackage(pkg: NonNullable<ClawHubPackageDet
     pkg.channel === "official" &&
     pkg.isOfficial &&
     pkg.verification?.tier === "source-linked" &&
-    (sourceRepo === "openclaw/openclaw" ||
-      sourceRepo === "github.com/openclaw/openclaw" ||
-      sourceRepo === "https://github.com/openclaw/openclaw")
+    (sourceRepo === "brikko-studio/brikko-studio" ||
+      sourceRepo === "github.com/brikko-studio/brikko-studio" ||
+      sourceRepo === "https://github.com/brikko-studio/brikko-studio")
   );
 }
 
@@ -948,7 +948,7 @@ function validateClawHubPluginPackage(params: {
   }
   if (pkg.family === "skill") {
     return buildClawHubInstallFailure(
-      `"${pkg.name}" is a skill. Use "openclaw skills install ${pkg.name}" instead.`,
+      `"${pkg.name}" is a skill. Use "brikko-studio skills install ${pkg.name}" instead.`,
       CLAWHUB_INSTALL_ERROR_CODE.SKILL_PACKAGE,
     );
   }
@@ -972,7 +972,7 @@ function validateClawHubPluginPackage(params: {
     !satisfiesPluginApiRange(runtimeVersion, compatibility.pluginApiRange)
   ) {
     return buildClawHubInstallFailure(
-      `Plugin "${pkg.name}" requires plugin API ${compatibility.pluginApiRange}, but this OpenClaw runtime exposes ${runtimeVersion}.`,
+      `Plugin "${pkg.name}" requires plugin API ${compatibility.pluginApiRange}, but this Brikko Studio runtime exposes ${runtimeVersion}.`,
       CLAWHUB_INSTALL_ERROR_CODE.INCOMPATIBLE_PLUGIN_API,
     );
   }
@@ -982,7 +982,7 @@ function validateClawHubPluginPackage(params: {
     !satisfiesGatewayMinimum(runtimeVersion, compatibility.minGatewayVersion)
   ) {
     return buildClawHubInstallFailure(
-      `Plugin "${pkg.name}" requires OpenClaw >=${compatibility.minGatewayVersion}, but this host is ${runtimeVersion}.`,
+      `Plugin "${pkg.name}" requires Brikko Studio >=${compatibility.minGatewayVersion}, but this host is ${runtimeVersion}.`,
       CLAWHUB_INSTALL_ERROR_CODE.INCOMPATIBLE_GATEWAY,
     );
   }
@@ -1232,7 +1232,7 @@ export async function installPluginFromClawHub(
         source: "clawhub",
         clawhubUrl:
           normalizeOptionalString(params.baseUrl) ||
-          normalizeOptionalString(process.env.OPENCLAW_CLAWHUB_URL) ||
+          normalizeOptionalString(process.env.BRIKKO_STUDIO_CLAWHUB_URL) ||
           "https://clawhub.ai",
         clawhubPackage: parsed.name,
         clawhubFamily,

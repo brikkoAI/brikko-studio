@@ -121,7 +121,7 @@ describe("oxlint config", () => {
     expect(ignorePatterns).toContain("**/build/**");
     expect(ignorePatterns).toContain("**/coverage/**");
     expect(ignorePatterns).toContain("**/.cache/**");
-    expect(ignorePatterns).toContain("**/.openclaw-runtime-deps-copy-*/**");
+    expect(ignorePatterns).toContain("**/.brikko-studio-runtime-deps-copy-*/**");
     expect(ignorePatterns).toContain("extensions/diffs/assets/viewer-runtime.js");
   });
 

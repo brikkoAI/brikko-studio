@@ -66,7 +66,7 @@ describe("memory host event journal helpers", () => {
 
 describe("createPersistentDedupe", () => {
   it("deduplicates keys, persists across instances, warms up, and checks recent keys", async () => {
-    const root = await createTempDir("openclaw-dedupe-");
+    const root = await createTempDir("brikko-studio-dedupe-");
     const first = createDedupe(root);
     expect(await first.checkAndRecord("m1", { namespace: "a" })).toBe(true);
     expect(await first.checkAndRecord("m1", { namespace: "a" })).toBe(false);
@@ -99,7 +99,7 @@ describe("createPersistentDedupe", () => {
   });
 
   it("warms empty namespaces and skips expired disk entries", async () => {
-    const root = await createTempDir("openclaw-dedupe-");
+    const root = await createTempDir("brikko-studio-dedupe-");
     const emptyReader = createDedupe(root, { ttlMs: 10_000 });
     expect(await emptyReader.warmup("nonexistent")).toBe(0);
 
@@ -165,7 +165,7 @@ describe("createClaimableDedupe", () => {
   });
 
   it("supports persistent-backed recent checks and warmup", async () => {
-    const root = await createTempDir("openclaw-claimable-dedupe-");
+    const root = await createTempDir("brikko-studio-claimable-dedupe-");
     const writer = createClaimableDedupe({
       ttlMs: 10_000,
       memoryMaxSize: 100,

@@ -1,6 +1,6 @@
 import { normalizeChatChannelId } from "../../../channels/ids.js";
 import { setCanonicalDmAllowFrom } from "../../../channels/plugins/dm-access.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
 import { readChannelAllowFromStore } from "../../../pairing/pairing-store.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../../routing/session-key.js";
 import { normalizeOptionalLowercaseString } from "../../../shared/string-coerce.js";
@@ -9,8 +9,8 @@ import { resolveAllowFromMode, type AllowFromMode } from "./allow-from-mode.js";
 import { hasAllowFromEntries } from "./allowlist.js";
 import { asObjectRecord } from "./object.js";
 
-export async function maybeRepairAllowlistPolicyAllowFrom(cfg: OpenClawConfig): Promise<{
-  config: OpenClawConfig;
+export async function maybeRepairAllowlistPolicyAllowFrom(cfg: Brikko StudioConfig): Promise<{
+  config: Brikko StudioConfig;
   changes: string[];
 }> {
   const channels = cfg.channels;

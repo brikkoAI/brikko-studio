@@ -1,6 +1,6 @@
 import type { ModelCatalogProvider } from "../types.js";
 
-export type OpenClawProviderIndexPluginInstall = {
+export type Brikko StudioProviderIndexPluginInstall = {
   clawhubSpec?: string;
   npmSpec?: string;
   defaultChoice?: "clawhub" | "npm";
@@ -8,14 +8,14 @@ export type OpenClawProviderIndexPluginInstall = {
   expectedIntegrity?: string;
 };
 
-export type OpenClawProviderIndexPlugin = {
+export type Brikko StudioProviderIndexPlugin = {
   id: string;
   package?: string;
   source?: string;
-  install?: OpenClawProviderIndexPluginInstall;
+  install?: Brikko StudioProviderIndexPluginInstall;
 };
 
-export type OpenClawProviderIndexProviderAuthChoice = {
+export type Brikko StudioProviderIndexProviderAuthChoice = {
   method: string;
   choiceId: string;
   choiceLabel: string;
@@ -32,17 +32,17 @@ export type OpenClawProviderIndexProviderAuthChoice = {
   onboardingScopes?: readonly ("text-inference" | "image-generation")[];
 };
 
-export type OpenClawProviderIndexProvider = {
+export type Brikko StudioProviderIndexProvider = {
   id: string;
   name: string;
-  plugin: OpenClawProviderIndexPlugin;
+  plugin: Brikko StudioProviderIndexPlugin;
   docs?: string;
   categories?: readonly string[];
-  authChoices?: readonly OpenClawProviderIndexProviderAuthChoice[];
+  authChoices?: readonly Brikko StudioProviderIndexProviderAuthChoice[];
   previewCatalog?: ModelCatalogProvider;
 };
 
-export type OpenClawProviderIndex = {
+export type Brikko StudioProviderIndex = {
   version: number;
-  providers: Readonly<Record<string, OpenClawProviderIndexProvider>>;
+  providers: Readonly<Record<string, Brikko StudioProviderIndexProvider>>;
 };

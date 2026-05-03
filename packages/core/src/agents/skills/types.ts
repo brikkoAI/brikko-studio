@@ -16,7 +16,7 @@ export type SkillInstallSpec = {
   targetDir?: string;
 };
 
-export type OpenClawSkillMetadata = {
+export type Brikko StudioSkillMetadata = {
   always?: boolean;
   skillKey?: string;
   primaryEnv?: string;
@@ -78,7 +78,7 @@ export type SkillExposure = {
 export type SkillEntry = {
   skill: Skill;
   frontmatter: ParsedSkillFrontmatter;
-  metadata?: OpenClawSkillMetadata;
+  metadata?: Brikko StudioSkillMetadata;
   invocation?: SkillInvocationPolicy;
   exposure?: SkillExposure;
 };

@@ -11,8 +11,8 @@ Captures repeatable workflows as workspace skills, with pending review, safe wri
 
 ## Distribution
 
-- Package: `@openclaw/skill-workshop`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/skill-workshop`
+- Install route: included in Brikko Studio
 
 ## Surface
 

@@ -2,15 +2,15 @@ import type {
   ImageGenerationProvider,
   ImageGenerationRequest,
   ImageGenerationSourceImage,
-} from "openclaw/plugin-sdk/image-generation";
+} from "brikko-studio/plugin-sdk/image-generation";
 import {
   createOpenAiCompatibleImageGenerationProvider,
   toImageDataUrl,
-} from "openclaw/plugin-sdk/image-generation";
+} from "brikko-studio/plugin-sdk/image-generation";
 import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import { XAI_BASE_URL, XAI_DEFAULT_IMAGE_MODEL, XAI_IMAGE_MODELS } from "./model-definitions.js";
 
 const DEFAULT_TIMEOUT_MS = 180_000;

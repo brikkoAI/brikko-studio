@@ -12,10 +12,10 @@ export async function doctorCommand(runtime?: RuntimeEnv, options: DoctorOptions
   const { printWizardHeader } = await import("../commands/onboard-helpers.js");
   const prompter = createDoctorPrompter({ runtime: effectiveRuntime, options });
   printWizardHeader(effectiveRuntime);
-  intro("OpenClaw doctor");
+  intro("Brikko Studio doctor");
 
-  const { resolveOpenClawPackageRoot } = await import("../infra/openclaw-root.js");
-  const root = await resolveOpenClawPackageRoot({
+  const { resolveBrikko StudioPackageRoot } = await import("../infra/brikko-studio-root.js");
+  const root = await resolveBrikko StudioPackageRoot({
     moduleUrl: import.meta.url,
     argv1: process.argv[1],
     cwd: process.cwd(),

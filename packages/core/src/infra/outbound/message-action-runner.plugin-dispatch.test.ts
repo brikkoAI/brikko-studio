@@ -7,7 +7,7 @@ import type {
   ChannelMessageActionName,
   ChannelPlugin,
 } from "../../channels/plugins/types.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import { getActivePluginRegistry, setActivePluginRegistry } from "../../plugins/runtime.js";
 import { createTestRegistry } from "../../test-utils/channel-plugins.js";
 import { runMessageAction } from "./message-action-runner.js";
@@ -252,7 +252,7 @@ describe("runMessageAction plugin dispatch", () => {
               enabled: true,
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "pin",
         params: {
           channel: "actionhub",
@@ -268,7 +268,7 @@ describe("runMessageAction plugin dispatch", () => {
               enabled: true,
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "list-pins",
         params: {
           channel: "actionhub",
@@ -298,9 +298,9 @@ describe("runMessageAction plugin dispatch", () => {
     });
 
     it("routes execution context ids into plugin handleAction", async () => {
-      const stateDir = path.join("/tmp", "openclaw-plugin-dispatch-media-roots");
+      const stateDir = path.join("/tmp", "brikko-studio-plugin-dispatch-media-roots");
       const expectedWorkspaceRoot = path.resolve(stateDir, "workspace-alpha");
-      vi.stubEnv("OPENCLAW_STATE_DIR", stateDir);
+      vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", stateDir);
 
       await runMessageAction({
         cfg: {
@@ -309,7 +309,7 @@ describe("runMessageAction plugin dispatch", () => {
               enabled: true,
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "pin",
         params: {
           channel: "actionhub",
@@ -384,7 +384,7 @@ describe("runMessageAction plugin dispatch", () => {
               enabled: true,
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "react",
         params: {
           channel: "gatewaychat",
@@ -474,7 +474,7 @@ describe("runMessageAction plugin dispatch", () => {
               enabled: true,
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "send",
         params: {
           channel: "gatewaychat",
@@ -575,7 +575,7 @@ describe("runMessageAction plugin dispatch", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "send",
         params: {
           channel: "policydest",
@@ -652,7 +652,7 @@ describe("runMessageAction plugin dispatch", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "send",
         params: {
           channel: "policydest",
@@ -744,7 +744,7 @@ describe("runMessageAction plugin dispatch", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "send",
         params: {
           channel: "policydest",
@@ -826,7 +826,7 @@ describe("runMessageAction plugin dispatch", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "send",
         params: {
           channel: "policychat",
@@ -899,7 +899,7 @@ describe("runMessageAction plugin dispatch", () => {
             enabled: true,
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
 
       const presentation = {
         blocks: [{ type: "text", text: "Presentation-only payload" }],
@@ -974,7 +974,7 @@ describe("runMessageAction plugin dispatch", () => {
               botToken: "tok",
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "poll",
         params: {
           channel: "pollchat",
@@ -1052,7 +1052,7 @@ describe("runMessageAction plugin dispatch", () => {
               botToken: "tok",
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "poll",
         params: {
           channel: "pollchat",
@@ -1144,7 +1144,7 @@ describe("runMessageAction plugin dispatch", () => {
               token: "tok",
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         action: "poll",
         params: {
           channel: "guildchat",
@@ -1224,7 +1224,7 @@ describe("runMessageAction plugin dispatch", () => {
         blocks: [{ type: "buttons", buttons: [{ label: "A", value: "a" }] }],
       };
       const result = await runMessageAction({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         action: "send",
         params: {
           channel: "componentchat",
@@ -1243,7 +1243,7 @@ describe("runMessageAction plugin dispatch", () => {
     it("throws on invalid presentation JSON strings", async () => {
       await expect(
         runMessageAction({
-          cfg: {} as OpenClawConfig,
+          cfg: {} as Brikko StudioConfig,
           action: "send",
           params: {
             channel: "componentchat",
@@ -1303,7 +1303,7 @@ describe("runMessageAction plugin dispatch", () => {
       {
         name: "uses defaultAccountId override",
         args: {
-          cfg: {} as OpenClawConfig,
+          cfg: {} as Brikko StudioConfig,
           defaultAccountId: "ops",
         },
         expectedAccountId: "ops",
@@ -1315,7 +1315,7 @@ describe("runMessageAction plugin dispatch", () => {
             bindings: [
               { agentId: "agent-b", match: { channel: "accountchat", accountId: "account-b" } },
             ],
-          } as OpenClawConfig,
+          } as Brikko StudioConfig,
           agentId: "agent-b",
         },
         expectedAccountId: "account-b",
@@ -1346,7 +1346,7 @@ describe("runMessageAction plugin dispatch", () => {
                 match: { channel: "accountchat", accountId: "agent-fallback" },
               },
             ],
-          } as OpenClawConfig,
+          } as Brikko StudioConfig,
           agentId: "agent-b",
           target: "channel:C_TARGET",
         },

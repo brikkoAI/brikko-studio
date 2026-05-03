@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../runtime-api.js";
+import type { Brikko StudioConfig } from "../runtime-api.js";
 import { collectFeishuSecurityAuditFindings } from "./security-audit.js";
 
 describe("Feishu security audit findings", () => {
@@ -13,7 +13,7 @@ describe("Feishu security audit findings", () => {
             appSecret: "secret_test",
           },
         },
-      } satisfies OpenClawConfig,
+      } satisfies Brikko StudioConfig,
       expectedFinding: "channels.feishu.doc_owner_open_id",
     },
     {
@@ -29,7 +29,7 @@ describe("Feishu security audit findings", () => {
             },
           },
         },
-      } satisfies OpenClawConfig,
+      } satisfies Brikko StudioConfig,
       expectedFinding: "channels.feishu.doc_owner_open_id",
     },
     {
@@ -42,7 +42,7 @@ describe("Feishu security audit findings", () => {
             tools: { doc: false },
           },
         },
-      } satisfies OpenClawConfig,
+      } satisfies Brikko StudioConfig,
       expectedNoFinding: "channels.feishu.doc_owner_open_id",
     },
   ])("$name", ({ cfg, expectedFinding, expectedNoFinding }) => {

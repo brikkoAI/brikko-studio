@@ -1,8 +1,8 @@
-import type { OpenClawPluginApi as MatrixEntryPluginApi } from "openclaw/plugin-sdk/channel-entry-contract";
+import type { Brikko StudioPluginApi as MatrixEntryPluginApi } from "brikko-studio/plugin-sdk/channel-entry-contract";
 import {
   getRequiredHookHandler,
   registerHookHandlersForTest,
-} from "openclaw/plugin-sdk/channel-test-helpers";
+} from "brikko-studio/plugin-sdk/channel-test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { registerMatrixSubagentHooks } from "../../subagent-hooks-api.js";
 
@@ -17,7 +17,7 @@ const removeBindingRecordMock = vi.hoisted(() => vi.fn(() => false));
 const resolveMatrixBaseConfigMock = vi.hoisted(() => vi.fn((): any => ({})));
 const findMatrixAccountConfigMock = vi.hoisted(() => vi.fn((): any => undefined));
 
-vi.mock("openclaw/plugin-sdk/conversation-binding-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/conversation-binding-runtime", () => ({
   getSessionBindingService: () => ({
     bind: bindMock,
     getCapabilities: getCapabilitiesMock,

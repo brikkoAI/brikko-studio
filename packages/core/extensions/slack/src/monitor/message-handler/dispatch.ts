@@ -1,4 +1,4 @@
-import { resolveHumanDelayConfig } from "openclaw/plugin-sdk/agent-runtime";
+import { resolveHumanDelayConfig } from "brikko-studio/plugin-sdk/agent-runtime";
 import {
   createStatusReactionController,
   DEFAULT_TIMING,
@@ -6,30 +6,30 @@ import {
   logTypingFailure,
   removeAckReactionAfterReply,
   type StatusReactionAdapter,
-} from "openclaw/plugin-sdk/channel-feedback";
-import { deliverFinalizableDraftPreview } from "openclaw/plugin-sdk/channel-lifecycle";
+} from "brikko-studio/plugin-sdk/channel-feedback";
+import { deliverFinalizableDraftPreview } from "brikko-studio/plugin-sdk/channel-lifecycle";
 import {
   createChannelReplyPipeline,
   resolveChannelSourceReplyDeliveryMode,
-} from "openclaw/plugin-sdk/channel-reply-pipeline";
+} from "brikko-studio/plugin-sdk/channel-reply-pipeline";
 import {
   resolveChannelStreamingBlockEnabled,
   resolveChannelStreamingNativeTransport,
   resolveChannelStreamingPreviewToolProgress,
-} from "openclaw/plugin-sdk/channel-streaming";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+} from "brikko-studio/plugin-sdk/channel-streaming";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import {
   type ChannelTurnRecordOptions,
   hasVisibleInboundReplyDispatch,
   runInboundReplyTurn,
-} from "openclaw/plugin-sdk/inbound-reply-dispatch";
-import { resolveAgentOutboundIdentity } from "openclaw/plugin-sdk/outbound-runtime";
-import { clearHistoryEntriesIfEnabled } from "openclaw/plugin-sdk/reply-history";
-import { resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-payload";
-import type { ReplyDispatchKind, ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
-import { danger, logVerbose, shouldLogVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { resolvePinnedMainDmOwnerFromAllowlist } from "openclaw/plugin-sdk/security-runtime";
-import { normalizeOptionalLowercaseString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/inbound-reply-dispatch";
+import { resolveAgentOutboundIdentity } from "brikko-studio/plugin-sdk/outbound-runtime";
+import { clearHistoryEntriesIfEnabled } from "brikko-studio/plugin-sdk/reply-history";
+import { resolveSendableOutboundReplyParts } from "brikko-studio/plugin-sdk/reply-payload";
+import type { ReplyDispatchKind, ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
+import { danger, logVerbose, shouldLogVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { resolvePinnedMainDmOwnerFromAllowlist } from "brikko-studio/plugin-sdk/security-runtime";
+import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
 import { reactSlackMessage, removeSlackReaction } from "../../actions.js";
 import { createSlackDraftStream } from "../../draft-stream.js";
 import { normalizeSlackOutboundText } from "../../format.js";

@@ -1,6 +1,6 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginRuntime } from "./runtime/types.js";
-import type { OpenClawPluginApi, PluginLogger } from "./types.js";
+import type { Brikko StudioPluginApi, PluginLogger } from "./types.js";
 
 export type BuildPluginApiParams = {
   id: string;
@@ -9,15 +9,15 @@ export type BuildPluginApiParams = {
   description?: string;
   source: string;
   rootDir?: string;
-  registrationMode: OpenClawPluginApi["registrationMode"];
-  config: OpenClawConfig;
+  registrationMode: Brikko StudioPluginApi["registrationMode"];
+  config: Brikko StudioConfig;
   pluginConfig?: Record<string, unknown>;
   runtime: PluginRuntime;
   logger: PluginLogger;
   resolvePath: (input: string) => string;
   handlers?: Partial<
     Pick<
-      OpenClawPluginApi,
+      Brikko StudioPluginApi,
       | "registerTool"
       | "registerHook"
       | "registerHttpRoute"
@@ -77,81 +77,81 @@ export type BuildPluginApiParams = {
   >;
 };
 
-const noopRegisterTool: OpenClawPluginApi["registerTool"] = () => {};
-const noopRegisterHook: OpenClawPluginApi["registerHook"] = () => {};
-const noopRegisterHttpRoute: OpenClawPluginApi["registerHttpRoute"] = () => {};
-const noopRegisterChannel: OpenClawPluginApi["registerChannel"] = () => {};
-const noopRegisterGatewayMethod: OpenClawPluginApi["registerGatewayMethod"] = () => {};
-const noopRegisterCli: OpenClawPluginApi["registerCli"] = () => {};
-const noopRegisterReload: OpenClawPluginApi["registerReload"] = () => {};
-const noopRegisterNodeHostCommand: OpenClawPluginApi["registerNodeHostCommand"] = () => {};
-const noopRegisterNodeInvokePolicy: OpenClawPluginApi["registerNodeInvokePolicy"] = () => {};
-const noopRegisterSecurityAuditCollector: OpenClawPluginApi["registerSecurityAuditCollector"] =
+const noopRegisterTool: Brikko StudioPluginApi["registerTool"] = () => {};
+const noopRegisterHook: Brikko StudioPluginApi["registerHook"] = () => {};
+const noopRegisterHttpRoute: Brikko StudioPluginApi["registerHttpRoute"] = () => {};
+const noopRegisterChannel: Brikko StudioPluginApi["registerChannel"] = () => {};
+const noopRegisterGatewayMethod: Brikko StudioPluginApi["registerGatewayMethod"] = () => {};
+const noopRegisterCli: Brikko StudioPluginApi["registerCli"] = () => {};
+const noopRegisterReload: Brikko StudioPluginApi["registerReload"] = () => {};
+const noopRegisterNodeHostCommand: Brikko StudioPluginApi["registerNodeHostCommand"] = () => {};
+const noopRegisterNodeInvokePolicy: Brikko StudioPluginApi["registerNodeInvokePolicy"] = () => {};
+const noopRegisterSecurityAuditCollector: Brikko StudioPluginApi["registerSecurityAuditCollector"] =
   () => {};
-const noopRegisterService: OpenClawPluginApi["registerService"] = () => {};
-const noopRegisterGatewayDiscoveryService: OpenClawPluginApi["registerGatewayDiscoveryService"] =
+const noopRegisterService: Brikko StudioPluginApi["registerService"] = () => {};
+const noopRegisterGatewayDiscoveryService: Brikko StudioPluginApi["registerGatewayDiscoveryService"] =
   () => {};
-const noopRegisterCliBackend: OpenClawPluginApi["registerCliBackend"] = () => {};
-const noopRegisterTextTransforms: OpenClawPluginApi["registerTextTransforms"] = () => {};
-const noopRegisterConfigMigration: OpenClawPluginApi["registerConfigMigration"] = () => {};
-const noopRegisterMigrationProvider: OpenClawPluginApi["registerMigrationProvider"] = () => {};
-const noopRegisterAutoEnableProbe: OpenClawPluginApi["registerAutoEnableProbe"] = () => {};
-const noopRegisterProvider: OpenClawPluginApi["registerProvider"] = () => {};
-const noopRegisterSpeechProvider: OpenClawPluginApi["registerSpeechProvider"] = () => {};
-const noopRegisterRealtimeTranscriptionProvider: OpenClawPluginApi["registerRealtimeTranscriptionProvider"] =
+const noopRegisterCliBackend: Brikko StudioPluginApi["registerCliBackend"] = () => {};
+const noopRegisterTextTransforms: Brikko StudioPluginApi["registerTextTransforms"] = () => {};
+const noopRegisterConfigMigration: Brikko StudioPluginApi["registerConfigMigration"] = () => {};
+const noopRegisterMigrationProvider: Brikko StudioPluginApi["registerMigrationProvider"] = () => {};
+const noopRegisterAutoEnableProbe: Brikko StudioPluginApi["registerAutoEnableProbe"] = () => {};
+const noopRegisterProvider: Brikko StudioPluginApi["registerProvider"] = () => {};
+const noopRegisterSpeechProvider: Brikko StudioPluginApi["registerSpeechProvider"] = () => {};
+const noopRegisterRealtimeTranscriptionProvider: Brikko StudioPluginApi["registerRealtimeTranscriptionProvider"] =
   () => {};
-const noopRegisterRealtimeVoiceProvider: OpenClawPluginApi["registerRealtimeVoiceProvider"] =
+const noopRegisterRealtimeVoiceProvider: Brikko StudioPluginApi["registerRealtimeVoiceProvider"] =
   () => {};
-const noopRegisterMediaUnderstandingProvider: OpenClawPluginApi["registerMediaUnderstandingProvider"] =
+const noopRegisterMediaUnderstandingProvider: Brikko StudioPluginApi["registerMediaUnderstandingProvider"] =
   () => {};
-const noopRegisterImageGenerationProvider: OpenClawPluginApi["registerImageGenerationProvider"] =
+const noopRegisterImageGenerationProvider: Brikko StudioPluginApi["registerImageGenerationProvider"] =
   () => {};
-const noopRegisterVideoGenerationProvider: OpenClawPluginApi["registerVideoGenerationProvider"] =
+const noopRegisterVideoGenerationProvider: Brikko StudioPluginApi["registerVideoGenerationProvider"] =
   () => {};
-const noopRegisterMusicGenerationProvider: OpenClawPluginApi["registerMusicGenerationProvider"] =
+const noopRegisterMusicGenerationProvider: Brikko StudioPluginApi["registerMusicGenerationProvider"] =
   () => {};
-const noopRegisterWebFetchProvider: OpenClawPluginApi["registerWebFetchProvider"] = () => {};
-const noopRegisterWebSearchProvider: OpenClawPluginApi["registerWebSearchProvider"] = () => {};
-const noopRegisterInteractiveHandler: OpenClawPluginApi["registerInteractiveHandler"] = () => {};
-const noopOnConversationBindingResolved: OpenClawPluginApi["onConversationBindingResolved"] =
+const noopRegisterWebFetchProvider: Brikko StudioPluginApi["registerWebFetchProvider"] = () => {};
+const noopRegisterWebSearchProvider: Brikko StudioPluginApi["registerWebSearchProvider"] = () => {};
+const noopRegisterInteractiveHandler: Brikko StudioPluginApi["registerInteractiveHandler"] = () => {};
+const noopOnConversationBindingResolved: Brikko StudioPluginApi["onConversationBindingResolved"] =
   () => {};
-const noopRegisterCommand: OpenClawPluginApi["registerCommand"] = () => {};
-const noopRegisterContextEngine: OpenClawPluginApi["registerContextEngine"] = () => {};
-const noopRegisterCompactionProvider: OpenClawPluginApi["registerCompactionProvider"] = () => {};
-const noopRegisterAgentHarness: OpenClawPluginApi["registerAgentHarness"] = () => {};
-const noopRegisterCodexAppServerExtensionFactory: OpenClawPluginApi["registerCodexAppServerExtensionFactory"] =
+const noopRegisterCommand: Brikko StudioPluginApi["registerCommand"] = () => {};
+const noopRegisterContextEngine: Brikko StudioPluginApi["registerContextEngine"] = () => {};
+const noopRegisterCompactionProvider: Brikko StudioPluginApi["registerCompactionProvider"] = () => {};
+const noopRegisterAgentHarness: Brikko StudioPluginApi["registerAgentHarness"] = () => {};
+const noopRegisterCodexAppServerExtensionFactory: Brikko StudioPluginApi["registerCodexAppServerExtensionFactory"] =
   () => {};
-const noopRegisterAgentToolResultMiddleware: OpenClawPluginApi["registerAgentToolResultMiddleware"] =
+const noopRegisterAgentToolResultMiddleware: Brikko StudioPluginApi["registerAgentToolResultMiddleware"] =
   () => {};
-const noopRegisterSessionExtension: OpenClawPluginApi["registerSessionExtension"] = () => {};
-const noopEnqueueNextTurnInjection: OpenClawPluginApi["enqueueNextTurnInjection"] = async (
+const noopRegisterSessionExtension: Brikko StudioPluginApi["registerSessionExtension"] = () => {};
+const noopEnqueueNextTurnInjection: Brikko StudioPluginApi["enqueueNextTurnInjection"] = async (
   injection,
 ) => ({ enqueued: false, id: "", sessionKey: injection.sessionKey });
-const noopRegisterTrustedToolPolicy: OpenClawPluginApi["registerTrustedToolPolicy"] = () => {};
-const noopRegisterToolMetadata: OpenClawPluginApi["registerToolMetadata"] = () => {};
-const noopRegisterControlUiDescriptor: OpenClawPluginApi["registerControlUiDescriptor"] = () => {};
-const noopRegisterRuntimeLifecycle: OpenClawPluginApi["registerRuntimeLifecycle"] = () => {};
-const noopRegisterAgentEventSubscription: OpenClawPluginApi["registerAgentEventSubscription"] =
+const noopRegisterTrustedToolPolicy: Brikko StudioPluginApi["registerTrustedToolPolicy"] = () => {};
+const noopRegisterToolMetadata: Brikko StudioPluginApi["registerToolMetadata"] = () => {};
+const noopRegisterControlUiDescriptor: Brikko StudioPluginApi["registerControlUiDescriptor"] = () => {};
+const noopRegisterRuntimeLifecycle: Brikko StudioPluginApi["registerRuntimeLifecycle"] = () => {};
+const noopRegisterAgentEventSubscription: Brikko StudioPluginApi["registerAgentEventSubscription"] =
   () => {};
-const noopSetRunContext: OpenClawPluginApi["setRunContext"] = () => false;
-const noopGetRunContext: OpenClawPluginApi["getRunContext"] = () => undefined;
-const noopClearRunContext: OpenClawPluginApi["clearRunContext"] = () => {};
-const noopRegisterSessionSchedulerJob: OpenClawPluginApi["registerSessionSchedulerJob"] = () =>
+const noopSetRunContext: Brikko StudioPluginApi["setRunContext"] = () => false;
+const noopGetRunContext: Brikko StudioPluginApi["getRunContext"] = () => undefined;
+const noopClearRunContext: Brikko StudioPluginApi["clearRunContext"] = () => {};
+const noopRegisterSessionSchedulerJob: Brikko StudioPluginApi["registerSessionSchedulerJob"] = () =>
   undefined;
-const noopRegisterDetachedTaskRuntime: OpenClawPluginApi["registerDetachedTaskRuntime"] = () => {};
-const noopRegisterMemoryCapability: OpenClawPluginApi["registerMemoryCapability"] = () => {};
-const noopRegisterMemoryPromptSection: OpenClawPluginApi["registerMemoryPromptSection"] = () => {};
-const noopRegisterMemoryPromptSupplement: OpenClawPluginApi["registerMemoryPromptSupplement"] =
+const noopRegisterDetachedTaskRuntime: Brikko StudioPluginApi["registerDetachedTaskRuntime"] = () => {};
+const noopRegisterMemoryCapability: Brikko StudioPluginApi["registerMemoryCapability"] = () => {};
+const noopRegisterMemoryPromptSection: Brikko StudioPluginApi["registerMemoryPromptSection"] = () => {};
+const noopRegisterMemoryPromptSupplement: Brikko StudioPluginApi["registerMemoryPromptSupplement"] =
   () => {};
-const noopRegisterMemoryCorpusSupplement: OpenClawPluginApi["registerMemoryCorpusSupplement"] =
+const noopRegisterMemoryCorpusSupplement: Brikko StudioPluginApi["registerMemoryCorpusSupplement"] =
   () => {};
-const noopRegisterMemoryFlushPlan: OpenClawPluginApi["registerMemoryFlushPlan"] = () => {};
-const noopRegisterMemoryRuntime: OpenClawPluginApi["registerMemoryRuntime"] = () => {};
-const noopRegisterMemoryEmbeddingProvider: OpenClawPluginApi["registerMemoryEmbeddingProvider"] =
+const noopRegisterMemoryFlushPlan: Brikko StudioPluginApi["registerMemoryFlushPlan"] = () => {};
+const noopRegisterMemoryRuntime: Brikko StudioPluginApi["registerMemoryRuntime"] = () => {};
+const noopRegisterMemoryEmbeddingProvider: Brikko StudioPluginApi["registerMemoryEmbeddingProvider"] =
   () => {};
-const noopOn: OpenClawPluginApi["on"] = () => {};
+const noopOn: Brikko StudioPluginApi["on"] = () => {};
 
-export function buildPluginApi(params: BuildPluginApiParams): OpenClawPluginApi {
+export function buildPluginApi(params: BuildPluginApiParams): Brikko StudioPluginApi {
   const handlers = params.handlers ?? {};
   return {
     id: params.id,

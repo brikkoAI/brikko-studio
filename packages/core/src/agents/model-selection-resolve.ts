@@ -1,5 +1,5 @@
 import { resolveAgentModelFallbackValues } from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { ModelCatalogEntry } from "./model-catalog.types.js";
 import type { ModelRef } from "./model-selection-normalize.js";
 import {
@@ -19,12 +19,12 @@ export {
 } from "./model-selection-shared.js";
 export type { ModelRefStatus } from "./model-selection-shared.js";
 
-function resolveDefaultFallbackModels(cfg: OpenClawConfig): string[] {
+function resolveDefaultFallbackModels(cfg: Brikko StudioConfig): string[] {
   return resolveAgentModelFallbackValues(cfg.agents?.defaults?.model);
 }
 
 export function getModelRefStatus(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   catalog: ModelCatalogEntry[];
   ref: ModelRef;
   defaultProvider: string;
@@ -42,7 +42,7 @@ export function getModelRefStatus(params: {
 }
 
 export function resolveAllowedModelRef(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   catalog: ModelCatalogEntry[];
   raw: string;
   defaultProvider: string;

@@ -1,4 +1,4 @@
-import { expectChannelPluginContract } from "openclaw/plugin-sdk/channel-test-helpers";
+import { expectChannelPluginContract } from "brikko-studio/plugin-sdk/channel-test-helpers";
 import { describe, it } from "vitest";
 import { getBundledChannelPluginAsync } from "./bundled-channel-plugin-loader.js";
 import { channelPluginSurfaceKeys } from "./manifest.js";

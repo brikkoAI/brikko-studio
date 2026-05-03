@@ -1,6 +1,6 @@
 import { setTimeout as sleep } from "node:timers/promises";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type { QaBusState } from "./bus-state.js";
 import { getQaProvider } from "./providers/index.js";
 import { QaStateBackedTransportAdapter } from "./qa-transport.js";
@@ -81,15 +81,15 @@ export function createQaChannelGatewayConfig(params: {
       [QA_CHANNEL_ID]: {
         enabled: true,
         baseUrl: params.baseUrl,
-        botUserId: "openclaw",
-        botDisplayName: "OpenClaw QA",
+        botUserId: "brikko-studio",
+        botDisplayName: "Brikko Studio QA",
         allowFrom: ["*"],
         pollTimeoutMs: 250,
       },
     },
     messages: {
       groupChat: {
-        mentionPatterns: ["\\b@?openclaw\\b"],
+        mentionPatterns: ["\\b@?brikko-studio\\b"],
         visibleReplies: "automatic",
       },
     },
@@ -112,7 +112,7 @@ function createQaChannelReportNotes(params: QaTransportReportParams) {
 async function handleQaChannelAction(params: {
   action: QaTransportActionName;
   args: Record<string, unknown>;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }) {
   return await qaChannelPlugin.actions?.handleAction?.({

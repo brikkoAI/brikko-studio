@@ -11,7 +11,7 @@ Join Google Meet calls through Chrome or Twilio transports.
 
 ## Distribution
 
-- Package: `@openclaw/google-meet`
+- Package: `@brikko-studio/google-meet`
 - Install route: npm; ClawHub
 
 ## Surface

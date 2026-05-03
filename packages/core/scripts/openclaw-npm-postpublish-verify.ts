@@ -23,7 +23,7 @@ import {
   packageNameFromSpecifier,
 } from "./lib/plugin-package-dependencies.mjs";
 import { runInstalledWorkspaceBootstrapSmoke } from "./lib/workspace-bootstrap-smoke.mjs";
-import { parseReleaseVersion, resolveNpmCommandInvocation } from "./openclaw-npm-release-check.ts";
+import { parseReleaseVersion, resolveNpmCommandInvocation } from "./brikko-studio-npm-release-check.ts";
 
 type InstalledPackageJson = {
   version?: string;
@@ -78,7 +78,7 @@ export function buildPublishedInstallScenarios(version: string): PublishedInstal
     throw new Error(`Unsupported release version "${version}".`);
   }
 
-  const exactSpec = `openclaw@${version}`;
+  const exactSpec = `brikko-studio@${version}`;
   const scenarios: PublishedInstallScenario[] = [
     {
       name: "fresh-exact",
@@ -90,7 +90,7 @@ export function buildPublishedInstallScenarios(version: string): PublishedInstal
   if (parsed.channel === "stable" && parsed.correctionNumber !== undefined) {
     scenarios.push({
       name: "upgrade-from-base-stable",
-      installSpecs: [`openclaw@${parsed.baseVersion}`, exactSpec],
+      installSpecs: [`brikko-studio@${parsed.baseVersion}`, exactSpec],
       expectedVersion: version,
     });
   }
@@ -394,8 +394,8 @@ function isBundledExtensionOwnedRuntimeImport(params: {
 
 export function resolveInstalledBinaryPath(prefixDir: string, platform = process.platform): string {
   return platform === "win32"
-    ? join(prefixDir, "openclaw.cmd")
-    : join(prefixDir, "bin", "openclaw");
+    ? join(prefixDir, "brikko-studio.cmd")
+    : join(prefixDir, "bin", "brikko-studio");
 }
 
 function collectExpectedBundledExtensionPackageIds(): ReadonlySet<string> {
@@ -509,7 +509,7 @@ function readInstalledBinaryVersion(prefixDir: string, cwd: string): string {
 }
 
 function verifyScenario(version: string, scenario: PublishedInstallScenario): void {
-  const workingDir = mkdtempSync(join(tmpdir(), `openclaw-postpublish-${scenario.name}.`));
+  const workingDir = mkdtempSync(join(tmpdir(), `brikko-studio-postpublish-${scenario.name}.`));
   const prefixDir = join(workingDir, "prefix");
 
   try {
@@ -518,7 +518,7 @@ function verifyScenario(version: string, scenario: PublishedInstallScenario): vo
     }
 
     const globalRoot = resolveGlobalRoot(prefixDir, workingDir);
-    const packageRoot = join(globalRoot, "openclaw");
+    const packageRoot = join(globalRoot, "brikko-studio");
     const pkg = JSON.parse(
       readFileSync(join(packageRoot, "package.json"), "utf8"),
     ) as InstalledPackageJson;
@@ -531,7 +531,7 @@ function verifyScenario(version: string, scenario: PublishedInstallScenario): vo
 
     if (normalizeInstalledBinaryVersion(installedBinaryVersion) !== scenario.expectedVersion) {
       errors.push(
-        `installed openclaw binary version mismatch: expected ${scenario.expectedVersion}, found ${installedBinaryVersion || "<missing>"}.`,
+        `installed brikko-studio binary version mismatch: expected ${scenario.expectedVersion}, found ${installedBinaryVersion || "<missing>"}.`,
       );
     }
 
@@ -543,7 +543,7 @@ function verifyScenario(version: string, scenario: PublishedInstallScenario): vo
       throw new Error(`${scenario.name} failed:\n- ${errors.join("\n- ")}`);
     }
 
-    console.log(`openclaw-npm-postpublish-verify: ${scenario.name} OK (${version})`);
+    console.log(`brikko-studio-npm-postpublish-verify: ${scenario.name} OK (${version})`);
   } finally {
     rmSync(workingDir, { force: true, recursive: true });
   }
@@ -553,7 +553,7 @@ function main(): void {
   const version = process.argv[2]?.trim();
   if (!version) {
     throw new Error(
-      "Usage: node --import tsx scripts/openclaw-npm-postpublish-verify.ts <version>",
+      "Usage: node --import tsx scripts/brikko-studio-npm-postpublish-verify.ts <version>",
     );
   }
 
@@ -563,7 +563,7 @@ function main(): void {
   }
 
   console.log(
-    `openclaw-npm-postpublish-verify: verified published npm install paths for ${version}.`,
+    `brikko-studio-npm-postpublish-verify: verified published npm install paths for ${version}.`,
   );
 }
 
@@ -572,7 +572,7 @@ if (entrypoint !== null && import.meta.url === entrypoint) {
   try {
     main();
   } catch (error) {
-    console.error(`openclaw-npm-postpublish-verify: ${formatErrorMessage(error)}`);
+    console.error(`brikko-studio-npm-postpublish-verify: ${formatErrorMessage(error)}`);
     process.exitCode = 1;
   }
 }

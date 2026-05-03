@@ -1,10 +1,10 @@
-import { buildThreadAwareOutboundSessionRoute } from "openclaw/plugin-sdk/channel-core";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { buildOutboundBaseSessionKey, type RoutePeer } from "openclaw/plugin-sdk/routing";
+import { buildThreadAwareOutboundSessionRoute } from "brikko-studio/plugin-sdk/channel-core";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { buildOutboundBaseSessionKey, type RoutePeer } from "brikko-studio/plugin-sdk/routing";
 import { parseDiscordTarget } from "./target-parsing.js";
 
 export type ResolveDiscordOutboundSessionRouteParams = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   accountId?: string | null;
   target: string;

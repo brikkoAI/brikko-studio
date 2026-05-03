@@ -1,5 +1,5 @@
 import "./lifecycle.test-support.js";
-import { createRuntimeEnv } from "openclaw/plugin-sdk/plugin-test-runtime";
+import { createRuntimeEnv } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ClawdbotConfig } from "../runtime-api.js";
 import {
@@ -31,7 +31,7 @@ const {
 
 let _handlers: Record<string, (data: unknown) => Promise<void>> = {};
 let lastRuntime = createRuntimeEnv();
-const originalStateDir = process.env.OPENCLAW_STATE_DIR;
+const originalStateDir = process.env.BRIKKO_STUDIO_STATE_DIR;
 const { cfg: lifecycleConfig, account: lifecycleAccount } = createFeishuLifecycleFixture({
   accountId: "acct-acp",
   appId: "cli_test",
@@ -79,7 +79,7 @@ describe("Feishu ACP-init failure lifecycle", () => {
     resetFeishuLifecycleTestMocks();
     _handlers = {};
     lastRuntime = createRuntimeEnv();
-    setFeishuLifecycleStateDir("openclaw-feishu-acp-failure");
+    setFeishuLifecycleStateDir("brikko-studio-feishu-acp-failure");
 
     resolveBoundConversationMock.mockReturnValue(null);
     resolveAgentRouteMock.mockReturnValue({

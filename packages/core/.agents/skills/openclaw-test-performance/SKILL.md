@@ -1,9 +1,9 @@
 ---
-name: openclaw-test-performance
-description: Benchmark, diagnose, and optimize OpenClaw test and plugin-suite runtime, import hotspots, CPU/RSS, heap growth, and slow coverage paths.
+name: brikko-studio-test-performance
+description: Benchmark, diagnose, and optimize Brikko Studio test and plugin-suite runtime, import hotspots, CPU/RSS, heap growth, and slow coverage paths.
 ---
 
-# OpenClaw Test Performance
+# Brikko Studio Test Performance
 
 Use evidence first. The goal is real `pnpm test`, plugin-suite, and
 plugin-inspector speed/RSS improvement with coverage intact, not runner tuning by
@@ -28,7 +28,7 @@ test:extensions:batch <plugin[,plugin...]>` or plugin-inspector command
    - For a scoped hotspot use:
      `/usr/bin/time -l pnpm test <file-or-files> --maxWorkers=1 --reporter=verbose`
    - For import-heavy suspicion add:
-     `OPENCLAW_VITEST_IMPORT_DURATIONS=1 OPENCLAW_VITEST_PRINT_IMPORT_BREAKDOWN=1`.
+     `BRIKKO_STUDIO_VITEST_IMPORT_DURATIONS=1 BRIKKO_STUDIO_VITEST_PRINT_IMPORT_BREAKDOWN=1`.
 3. Separate wall/runner noise from real file cost:
    - Compare Vitest duration, test body timing, import breakdown, wall time, and
      max RSS.
@@ -95,10 +95,10 @@ barrels, package-boundary tests, or extension suites.
 4. For broad or package-heavy plugin proof, use Blacksmith Testbox by default on
    maintainer machines. Warm once and reuse the same box:
    - `blacksmith testbox warmup ci-check-testbox.yml --ref main --idle-timeout 90`
-   - `blacksmith testbox run --id <ID> "OPENCLAW_TESTBOX=1 pnpm test:extensions:batch <ids>"`
+   - `blacksmith testbox run --id <ID> "BRIKKO_STUDIO_TESTBOX=1 pnpm test:extensions:batch <ids>"`
    - stop the box when done.
 5. If plugin performance is package-artifact sensitive, switch to
-   `openclaw-pre-release-plugin-testing` and Package Acceptance rather than
+   `brikko-studio-pre-release-plugin-testing` and Package Acceptance rather than
    trusting source-only timing.
 
 ## Metric Collection
@@ -110,10 +110,10 @@ same command. For Testbox comparisons, use the same `tbx_...` id when possible.
 | --------------- | ---------------------------------- | --------------------------------------------------------------------------- |
 | wall time       | user-visible suite cost            | `/usr/bin/time -l`, test wrapper duration, Testbox run time                 |
 | Vitest duration | test body/import cost              | Vitest output per file/shard                                                |
-| import duration | broad barrel/runtime loads         | `OPENCLAW_VITEST_IMPORT_DURATIONS=1`                                        |
+| import duration | broad barrel/runtime loads         | `BRIKKO_STUDIO_VITEST_IMPORT_DURATIONS=1`                                        |
 | max RSS         | memory pressure and OOM risk       | `/usr/bin/time -l`, `pnpm test:extensions:memory`, wrapper memory summaries |
 | CPU/user/sys    | CPU-bound vs wait-bound split      | `/usr/bin/time -l` locally, Testbox job timing when local CPU is noisy      |
-| heap snapshots  | real leak vs retained module graph | `openclaw-test-heap-leaks` workflow                                         |
+| heap snapshots  | real leak vs retained module graph | `brikko-studio-test-heap-leaks` workflow                                         |
 
 Local scoped command with CPU/RSS:
 
@@ -137,15 +137,15 @@ pnpm test:extensions:memory -- --extension discord --extension telegram --skip-c
 Heap/RSS escalation:
 
 ```bash
-OPENCLAW_TEST_MEMORY_TRACE=1 \
-OPENCLAW_TEST_HEAPSNAPSHOT_INTERVAL_MS=60000 \
-OPENCLAW_TEST_HEAPSNAPSHOT_DIR=.tmp/heapsnap \
-OPENCLAW_TEST_WORKERS=2 \
-OPENCLAW_TEST_MAX_OLD_SPACE_SIZE_MB=6144 \
+BRIKKO_STUDIO_TEST_MEMORY_TRACE=1 \
+BRIKKO_STUDIO_TEST_HEAPSNAPSHOT_INTERVAL_MS=60000 \
+BRIKKO_STUDIO_TEST_HEAPSNAPSHOT_DIR=.tmp/heapsnap \
+BRIKKO_STUDIO_TEST_WORKERS=2 \
+BRIKKO_STUDIO_TEST_MAX_OLD_SPACE_SIZE_MB=6144 \
 pnpm test
 ```
 
-Use `openclaw-test-heap-leaks` when RSS keeps growing across intervals, workers
+Use `brikko-studio-test-heap-leaks` when RSS keeps growing across intervals, workers
 OOM, or the suspect command has app-object retention. Do not call RSS growth a
 leak until snapshots or retainers support it.
 
@@ -173,7 +173,7 @@ leak until snapshots or retainers support it.
 - Timings missing from `test/fixtures/test-timings.unit.json`, causing hotspot
   files to stay in shared workers.
 - Parallel Vitest runs sharing `node_modules/.experimental-vitest-cache` without
-  distinct `OPENCLAW_VITEST_FS_MODULE_CACHE_PATH` values.
+  distinct `BRIKKO_STUDIO_VITEST_FS_MODULE_CACHE_PATH` values.
 
 ## Benchmark Commands
 
@@ -187,8 +187,8 @@ Scoped file with import breakdown:
 
 ```bash
 timeout 240 /usr/bin/time -l env \
-  OPENCLAW_VITEST_IMPORT_DURATIONS=1 \
-  OPENCLAW_VITEST_PRINT_IMPORT_BREAKDOWN=1 \
+  BRIKKO_STUDIO_VITEST_IMPORT_DURATIONS=1 \
+  BRIKKO_STUDIO_VITEST_PRINT_IMPORT_BREAKDOWN=1 \
   pnpm test <file> --maxWorkers=1 --reporter=verbose
 ```
 

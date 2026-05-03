@@ -1,11 +1,11 @@
-import { resolveHumanDelayConfig } from "openclaw/plugin-sdk/agent-runtime";
-import { createChannelReplyPipeline } from "openclaw/plugin-sdk/channel-reply-pipeline";
-import { resolveChannelStreamingBlockEnabled } from "openclaw/plugin-sdk/channel-streaming";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { getAgentScopedMediaLocalRoots } from "openclaw/plugin-sdk/media-runtime";
-import { resolveChunkMode, resolveTextChunkLimit } from "openclaw/plugin-sdk/reply-chunking";
-import type { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+import { resolveHumanDelayConfig } from "brikko-studio/plugin-sdk/agent-runtime";
+import { createChannelReplyPipeline } from "brikko-studio/plugin-sdk/channel-reply-pipeline";
+import { resolveChannelStreamingBlockEnabled } from "brikko-studio/plugin-sdk/channel-streaming";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { getAgentScopedMediaLocalRoots } from "brikko-studio/plugin-sdk/media-runtime";
+import { resolveChunkMode, resolveTextChunkLimit } from "brikko-studio/plugin-sdk/reply-chunking";
+import type { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { resolveDiscordMaxLinesPerMessage } from "../accounts.js";
 import type {
   ButtonInteraction,
@@ -29,7 +29,7 @@ type NativeCommandEffectiveRoute = {
 };
 
 export async function dispatchDiscordNativeAgentReply(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   discordConfig: DiscordConfig;
   accountId: string;
   interaction: CommandInteraction | ButtonInteraction | StringSelectMenuInteraction;

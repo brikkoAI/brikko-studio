@@ -86,7 +86,7 @@ describe("allow-from store file reads", () => {
       await expect(
         readAllowFromFileWithExists({
           cacheNamespace: "test-async-read-error",
-          filePath: "/tmp/openclaw-allowFrom.json",
+          filePath: "/tmp/brikko-studio-allowFrom.json",
           normalizeStore: () => [],
         }),
       ).rejects.toBe(error);
@@ -110,7 +110,7 @@ describe("allow-from store file reads", () => {
       expect(() =>
         readAllowFromFileSyncWithExists({
           cacheNamespace: "test-sync-read-error",
-          filePath: "/tmp/openclaw-allowFrom.json",
+          filePath: "/tmp/brikko-studio-allowFrom.json",
           normalizeStore: () => [],
         }),
       ).toThrow(error);
@@ -130,7 +130,7 @@ describe("allow-from store file reads", () => {
       expect(() =>
         readAllowFromFileSyncWithExists({
           cacheNamespace: "test",
-          filePath: "/tmp/openclaw-allowFrom.json",
+          filePath: "/tmp/brikko-studio-allowFrom.json",
           normalizeStore: () => [],
         }),
       ).toThrow(error);

@@ -12,7 +12,7 @@ describe("buildStatusScanResult", () => {
       label: "linux 6.8.0 (x64)",
     };
     const update = {
-      root: "/tmp/openclaw",
+      root: "/tmp/brikko-studio",
       installKind: "package" as const,
       packageManager: "npm" as const,
     };

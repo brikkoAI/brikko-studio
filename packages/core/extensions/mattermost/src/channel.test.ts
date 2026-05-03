@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../runtime-api.js";
+import type { Brikko StudioConfig } from "../runtime-api.js";
 import { createChannelReplyPipeline } from "../runtime-api.js";
 
 const { sendMessageMattermostMock, mockFetchGuard } = vi.hoisted(() => ({
@@ -14,8 +14,8 @@ vi.mock("./mattermost/send.js", () => ({
   sendMessageMattermost: sendMessageMattermostMock,
 }));
 
-vi.mock("openclaw/plugin-sdk/ssrf-runtime", async () => {
-  const original = (await vi.importActual("openclaw/plugin-sdk/ssrf-runtime")) as Record<
+vi.mock("brikko-studio/plugin-sdk/ssrf-runtime", async () => {
+  const original = (await vi.importActual("brikko-studio/plugin-sdk/ssrf-runtime")) as Record<
     string,
     unknown
   >;
@@ -39,7 +39,7 @@ type MattermostSendTextParams = Parameters<MattermostSendText>[0];
 type MattermostSendMedia = NonNullable<NonNullable<typeof mattermostPlugin.outbound>["sendMedia"]>;
 type MattermostSendMediaParams = Parameters<MattermostSendMedia>[0];
 
-function getDescribedActions(cfg: OpenClawConfig, accountId?: string): string[] {
+function getDescribedActions(cfg: Brikko StudioConfig, accountId?: string): string[] {
   return [...(mattermostPlugin.actions?.describeMessageTool?.({ cfg, accountId })?.actions ?? [])];
 }
 
@@ -143,7 +143,7 @@ describe("mattermostPlugin", () => {
     it("uses replyToMode for channel messages and keeps direct messages off", () => {
       const resolveReplyToMode = requireMattermostReplyToModeResolver();
 
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         channels: {
           mattermost: {
             replyToMode: "all",
@@ -170,7 +170,7 @@ describe("mattermostPlugin", () => {
     it("uses configured defaultAccount when accountId is omitted", () => {
       const resolveReplyToMode = requireMattermostReplyToModeResolver();
 
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         channels: {
           mattermost: {
             defaultAccount: "alerts",
@@ -221,7 +221,7 @@ describe("mattermostPlugin", () => {
     };
 
     it("exposes react when mattermost is configured", () => {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         channels: {
           mattermost: {
             enabled: true,
@@ -239,7 +239,7 @@ describe("mattermostPlugin", () => {
     });
 
     it("hides react when mattermost is not configured", () => {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         channels: {
           mattermost: {
             enabled: true,
@@ -252,7 +252,7 @@ describe("mattermostPlugin", () => {
     });
 
     it("declares presentation capability for message sends", () => {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         channels: {
           mattermost: {
             enabled: true,
@@ -268,7 +268,7 @@ describe("mattermostPlugin", () => {
     });
 
     it("hides react when actions.reactions is false", () => {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         channels: {
           mattermost: {
             enabled: true,
@@ -285,7 +285,7 @@ describe("mattermostPlugin", () => {
     });
 
     it("respects per-account actions.reactions in message discovery", () => {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         channels: {
           mattermost: {
             enabled: true,
@@ -307,7 +307,7 @@ describe("mattermostPlugin", () => {
     });
 
     it("honors the selected Mattermost account during discovery", () => {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         channels: {
           mattermost: {
             enabled: true,
@@ -335,7 +335,7 @@ describe("mattermostPlugin", () => {
     });
 
     it("blocks react when default account disables reactions and accountId is omitted", async () => {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         channels: {
           mattermost: {
             enabled: true,
@@ -488,7 +488,7 @@ describe("mattermostPlugin", () => {
             baseUrl: "https://chat.example.com",
           },
         },
-      } as OpenClawConfig;
+      } as Brikko StudioConfig;
 
       const params: MattermostSendTextParams = {
         cfg,
@@ -564,14 +564,14 @@ describe("mattermostPlugin", () => {
       const formatAllowFrom = mattermostPlugin.config.formatAllowFrom!;
 
       const formatted = formatAllowFrom({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         allowFrom: [" @Alice ", " user:USER123 ", " mattermost:BOT999 "],
       });
       expect(formatted).toEqual(["@alice", "user123", "bot999"]);
     });
 
     it("uses account responsePrefix overrides", () => {
-      const cfg: OpenClawConfig = {
+      const cfg: Brikko StudioConfig = {
         channels: {
           mattermost: {
             responsePrefix: "[Channel]",

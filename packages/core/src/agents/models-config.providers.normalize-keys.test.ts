@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { NON_ENV_SECRETREF_MARKER } from "./model-auth-markers.js";
 import { normalizeProviders } from "./models-config.providers.normalize.js";
 import { resolveApiKeyFromProfiles } from "./models-config.providers.secret-helpers.js";
@@ -30,7 +30,7 @@ vi.mock("./models-config.providers.policy.runtime.js", () => {
 describe("normalizeProviders", () => {
   const createModel = (
     overrides: Partial<
-      NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]>[string]["models"][number]
+      NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]>[string]["models"][number]
     > = {},
   ) => ({
     id: "config-model",
@@ -44,9 +44,9 @@ describe("normalizeProviders", () => {
   });
 
   it("trims provider keys so image models remain discoverable for custom providers", async () => {
-    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-agent-"));
+    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-agent-"));
     try {
-      const providers: NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]> = {
+      const providers: NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]> = {
         " dashscope-vision ": {
           baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
           api: "openai-completions",
@@ -74,9 +74,9 @@ describe("normalizeProviders", () => {
   });
 
   it("keeps the latest provider config when duplicate keys only differ by whitespace", async () => {
-    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-agent-"));
+    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-agent-"));
     try {
-      const providers: NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]> = {
+      const providers: NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]> = {
         openai: {
           baseUrl: "https://api.openai.com/v1",
           api: "openai-completions",
@@ -111,18 +111,18 @@ describe("normalizeProviders", () => {
     }
   });
   it("replaces resolved env var value with env var name to prevent plaintext persistence", async () => {
-    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-agent-"));
+    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-agent-"));
     const env = {
       ...process.env,
       OPENAI_API_KEY: "sk-test-secret-value-12345", // pragma: allowlist secret
-      OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
-      OPENCLAW_DISABLE_BUNDLED_PLUGINS: undefined,
-      OPENCLAW_SKIP_PROVIDERS: undefined,
-      OPENCLAW_TEST_MINIMAL_GATEWAY: undefined,
+      BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
+      BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: undefined,
+      BRIKKO_STUDIO_SKIP_PROVIDERS: undefined,
+      BRIKKO_STUDIO_TEST_MINIMAL_GATEWAY: undefined,
     };
     const secretRefManagedProviders = new Set<string>();
     try {
-      const providers: NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]> = {
+      const providers: NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]> = {
         openai: {
           baseUrl: "https://api.openai.com/v1",
           apiKey: "sk-test-secret-value-12345", // pragma: allowlist secret; simulates resolved ${OPENAI_API_KEY}
@@ -154,10 +154,10 @@ describe("normalizeProviders", () => {
   });
 
   it("normalizes SecretRef-managed provider apiKey values to env markers", async () => {
-    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-agent-"));
+    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-agent-"));
     const secretRefManagedProviders = new Set<string>();
     try {
-      const providers: NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]> = {
+      const providers: NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]> = {
         custom: {
           baseUrl: "https://config.example/v1",
           api: "openai-responses",
@@ -180,7 +180,7 @@ describe("normalizeProviders", () => {
   });
 
   it("reads provider apiKey markers from auth-profiles env refs", async () => {
-    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-agent-"));
+    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-agent-"));
     try {
       await fs.writeFile(
         path.join(agentDir, "auth-profiles.json"),
@@ -224,9 +224,9 @@ describe("normalizeProviders", () => {
   });
 
   it("normalizes SecretRef-backed provider headers to non-secret marker values", async () => {
-    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-agent-"));
+    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-agent-"));
     try {
-      const providers: NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]> = {
+      const providers: NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]> = {
         openai: {
           baseUrl: "https://api.openai.com/v1",
           api: "openai-completions",
@@ -258,9 +258,9 @@ describe("normalizeProviders", () => {
         apiKey: "sk-runtime-moonshot", // pragma: allowlist secret
         models: [],
       },
-    } as unknown as NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]>;
+    } as unknown as NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]>;
 
-    const sourceProviders: NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]> = {
+    const sourceProviders: NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]> = {
       openai: {
         baseUrl: "https://api.openai.com/v1",
         api: "openai-completions",
@@ -284,9 +284,9 @@ describe("normalizeProviders", () => {
   });
 
   it("canonicalizes LM Studio baseUrl after merge-style explicit overwrite", async () => {
-    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-agent-"));
+    const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-agent-"));
     try {
-      const providers: NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]> = {
+      const providers: NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]> = {
         lmstudio: {
           baseUrl: "http://localhost:1234/api/v1/",
           api: "openai-completions",

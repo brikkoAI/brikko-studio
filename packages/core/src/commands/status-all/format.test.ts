@@ -54,7 +54,7 @@ describe("status-all format", () => {
   });
 
   it("formats dashboard values consistently", () => {
-    expect(formatStatusDashboardValue("https://openclaw.local")).toBe("https://openclaw.local");
+    expect(formatStatusDashboardValue("https://brikko-studio.local")).toBe("https://brikko-studio.local");
     expect(formatStatusDashboardValue("")).toBe("disabled");
     expect(formatStatusDashboardValue(null)).toBe("disabled");
   });
@@ -160,7 +160,7 @@ describe("status-all format", () => {
       formatStatusServiceValue({
         label: "LaunchAgent",
         installed: true,
-        managedByOpenClaw: true,
+        managedByBrikko Studio: true,
         loadedText: "loaded",
         runtimeShort: "running",
       }),
@@ -220,7 +220,7 @@ describe("status-all format", () => {
         gatewayService: {
           label: "LaunchAgent",
           installed: true,
-          managedByOpenClaw: true,
+          managedByBrikko Studio: true,
           loadedText: "loaded",
           runtimeShort: "running",
         },
@@ -284,14 +284,14 @@ describe("status-all format", () => {
     expect(
       buildStatusOverviewRows({
         prefixRows: [{ Item: "Version", Value: "1.0.0" }],
-        dashboardValue: "https://openclaw.local",
+        dashboardValue: "https://brikko-studio.local",
         tailscaleValue: "serve · https://tail.example",
         channelLabel: "stable",
         gitLabel: "main @ v1.0.0",
         updateValue: "up to date",
         gatewayValue: "local · reachable",
         gatewayAuthWarning: "warning",
-        middleRows: [{ Item: "Security", Value: "Run: openclaw security audit --deep" }],
+        middleRows: [{ Item: "Security", Value: "Run: brikko-studio security audit --deep" }],
         gatewaySelfValue: "gateway-host",
         gatewayServiceValue: "launchd loaded",
         nodeServiceValue: "node loaded",
@@ -300,14 +300,14 @@ describe("status-all format", () => {
       }),
     ).toEqual([
       { Item: "Version", Value: "1.0.0" },
-      { Item: "Dashboard", Value: "https://openclaw.local" },
+      { Item: "Dashboard", Value: "https://brikko-studio.local" },
       { Item: "Tailscale exposure", Value: "serve · https://tail.example" },
       { Item: "Channel", Value: "stable" },
       { Item: "Git", Value: "main @ v1.0.0" },
       { Item: "Update", Value: "up to date" },
       { Item: "Gateway", Value: "local · reachable" },
       { Item: "Gateway auth warning", Value: "warning" },
-      { Item: "Security", Value: "Run: openclaw security audit --deep" },
+      { Item: "Security", Value: "Run: brikko-studio security audit --deep" },
       { Item: "Gateway self", Value: "gateway-host" },
       { Item: "Gateway service", Value: "launchd loaded" },
       { Item: "Node service", Value: "node loaded" },
@@ -353,7 +353,7 @@ describe("status-all format", () => {
         gatewayService: {
           label: "LaunchAgent",
           installed: true,
-          managedByOpenClaw: true,
+          managedByBrikko Studio: true,
           loadedText: "loaded",
           runtimeShort: "running",
         },

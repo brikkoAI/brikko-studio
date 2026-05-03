@@ -1,4 +1,4 @@
-import { importFreshModule } from "openclaw/plugin-sdk/test-fixtures";
+import { importFreshModule } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 afterEach(() => {
@@ -92,7 +92,7 @@ describe("getCachedPluginModuleLoader", () => {
       cache,
       modulePath: "/repo/extensions/demo/index.ts",
       importerUrl: "file:///repo/src/plugins/setup-registry.ts",
-      argvEntry: "/repo/openclaw.mjs",
+      argvEntry: "/repo/brikko-studio.mjs",
       loaderFilename: "file:///repo/src/plugins/source-loader.ts",
     } as const;
 
@@ -147,7 +147,7 @@ describe("getCachedPluginModuleLoader", () => {
       cache,
       modulePath: "/repo/dist/extensions/demo/api.ts",
       importerUrl: "file:///repo/src/plugins/public-surface-loader.ts",
-      argvEntry: "/repo/openclaw.mjs",
+      argvEntry: "/repo/brikko-studio.mjs",
       preferBuiltDist: true,
       loaderFilename: "file:///repo/src/plugins/public-surface-loader.ts",
     });
@@ -155,7 +155,7 @@ describe("getCachedPluginModuleLoader", () => {
       cache,
       modulePath: "/repo/dist/extensions/demo/api.ts",
       importerUrl: "file:///repo/src/plugins/public-surface-loader.ts",
-      argvEntry: "/repo/openclaw.mjs",
+      argvEntry: "/repo/brikko-studio.mjs",
       preferBuiltDist: true,
       loaderFilename: "file:///repo/src/plugins/bundled-channel-config-metadata.ts",
     });
@@ -451,20 +451,20 @@ describe("getCachedPluginModuleLoader", () => {
     const cache = new Map();
     const loader = getCachedPluginModuleLoader({
       cache,
-      modulePath: "C:\\Users\\alice\\openclaw\\dist\\extensions\\feishu\\api.js",
-      importerUrl: "file:///C:/Users/alice/openclaw/dist/src/plugins/public-surface-loader.js",
-      loaderFilename: "C:\\Users\\alice\\openclaw\\dist\\extensions\\feishu\\api.js",
+      modulePath: "C:\\Users\\alice\\brikko-studio\\dist\\extensions\\feishu\\api.js",
+      importerUrl: "file:///C:/Users/alice/brikko-studio/dist/src/plugins/public-surface-loader.js",
+      loaderFilename: "C:\\Users\\alice\\brikko-studio\\dist\\extensions\\feishu\\api.js",
       tryNative: true,
     });
 
-    loader("C:\\Users\\alice\\openclaw\\dist\\extensions\\feishu\\api.js");
+    loader("C:\\Users\\alice\\brikko-studio\\dist\\extensions\\feishu\\api.js");
 
     expect(createJiti).toHaveBeenCalledWith(
-      "file:///C:/Users/alice/openclaw/dist/extensions/feishu/api.js",
+      "file:///C:/Users/alice/brikko-studio/dist/extensions/feishu/api.js",
       expect.objectContaining({ tryNative: true }),
     );
     expect(fromSourceTransformer).toHaveBeenCalledWith(
-      "file:///C:/Users/alice/openclaw/dist/extensions/feishu/api.js",
+      "file:///C:/Users/alice/brikko-studio/dist/extensions/feishu/api.js",
     );
   });
 
@@ -487,7 +487,7 @@ describe("getCachedPluginModuleLoader", () => {
       modulePath: "/repo/dist/extensions/demo/api.js",
       importerUrl: "file:///repo/src/plugins/bundled-capability-runtime.ts",
       loaderFilename: "file:///repo/src/plugins/bundled-capability-runtime.ts",
-      aliasMap: { "openclaw/plugin-sdk": "/repo/shim.js" },
+      aliasMap: { "brikko-studio/plugin-sdk": "/repo/shim.js" },
       tryNative: false,
     });
 
@@ -524,21 +524,21 @@ describe("getCachedPluginModuleLoader", () => {
     const cache = new Map();
     const loader = getCachedPluginModuleLoader({
       cache,
-      modulePath: "C:\\Users\\alice\\openclaw\\extensions\\feishu\\api.ts",
-      importerUrl: "file:///C:/Users/alice/openclaw/src/plugins/loader.ts",
-      loaderFilename: "C:\\Users\\alice\\openclaw\\extensions\\feishu\\api.ts",
+      modulePath: "C:\\Users\\alice\\brikko-studio\\extensions\\feishu\\api.ts",
+      importerUrl: "file:///C:/Users/alice/brikko-studio/src/plugins/loader.ts",
+      loaderFilename: "C:\\Users\\alice\\brikko-studio\\extensions\\feishu\\api.ts",
       tryNative: false,
     });
 
-    loader("C:\\Users\\alice\\openclaw\\extensions\\feishu\\api.ts");
+    loader("C:\\Users\\alice\\brikko-studio\\extensions\\feishu\\api.ts");
 
     expect(nativeStub).not.toHaveBeenCalled();
     expect(createJiti).toHaveBeenCalledWith(
-      "file:///C:/Users/alice/openclaw/extensions/feishu/api.ts",
+      "file:///C:/Users/alice/brikko-studio/extensions/feishu/api.ts",
       expect.objectContaining({ tryNative: false }),
     );
     expect(fromSourceTransformer).toHaveBeenCalledWith(
-      "file:///C:/Users/alice/openclaw/extensions/feishu/api.ts",
+      "file:///C:/Users/alice/brikko-studio/extensions/feishu/api.ts",
     );
   });
 

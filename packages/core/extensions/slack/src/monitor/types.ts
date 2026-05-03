@@ -1,6 +1,6 @@
-import type { ChannelRuntimeSurface } from "openclaw/plugin-sdk/channel-contract";
-import type { OpenClawConfig, SlackSlashCommandConfig } from "openclaw/plugin-sdk/config-types";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+import type { ChannelRuntimeSurface } from "brikko-studio/plugin-sdk/channel-contract";
+import type { Brikko StudioConfig, SlackSlashCommandConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import type { SlackMessageEvent } from "../types.js";
 
 export type MonitorSlackOpts = {
@@ -8,7 +8,7 @@ export type MonitorSlackOpts = {
   appToken?: string;
   accountId?: string;
   mode?: "socket" | "http";
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   runtime?: RuntimeEnv;
   channelRuntime?: ChannelRuntimeSurface;
   abortSignal?: AbortSignal;

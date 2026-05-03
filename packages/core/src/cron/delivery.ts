@@ -1,6 +1,6 @@
 import type { CliDeps } from "../cli/deps.types.js";
 import { createOutboundSendDeps } from "../cli/outbound-send-deps.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { deliverOutboundPayloads } from "../infra/outbound/deliver.js";
 import { resolveAgentOutboundIdentity } from "../infra/outbound/identity.js";
@@ -41,7 +41,7 @@ export type CronAnnounceTarget = {
 type SuccessfulDeliveryTarget = Extract<DeliveryTargetResolution, { ok: true }>;
 
 async function resolveCronAnnounceDelivery(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   jobId: string;
   target: CronAnnounceTarget;
@@ -85,7 +85,7 @@ async function resolveCronAnnounceDelivery(params: {
 
 async function deliverCronAnnouncePayload(params: {
   deps: CliDeps;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   delivery: {
     resolvedTarget: SuccessfulDeliveryTarget;
     session: ReturnType<typeof buildOutboundSessionContext>;
@@ -111,7 +111,7 @@ async function deliverCronAnnouncePayload(params: {
 
 export async function sendCronAnnouncePayloadStrict(params: {
   deps: CliDeps;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   jobId: string;
   target: CronAnnounceTarget;
@@ -133,7 +133,7 @@ export async function sendCronAnnouncePayloadStrict(params: {
 
 export async function sendFailureNotificationAnnounce(
   deps: CliDeps,
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId: string,
   jobId: string,
   target: CronAnnounceTarget,

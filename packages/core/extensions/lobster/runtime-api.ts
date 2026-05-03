@@ -1,12 +1,12 @@
-export { definePluginEntry } from "openclaw/plugin-sdk/core";
+export { definePluginEntry } from "brikko-studio/plugin-sdk/core";
 export type {
   AnyAgentTool,
-  OpenClawPluginApi,
-  OpenClawPluginToolContext,
-  OpenClawPluginToolFactory,
-} from "openclaw/plugin-sdk/core";
+  Brikko StudioPluginApi,
+  Brikko StudioPluginToolContext,
+  Brikko StudioPluginToolFactory,
+} from "brikko-studio/plugin-sdk/core";
 export {
   applyWindowsSpawnProgramPolicy,
   materializeWindowsSpawnProgram,
   resolveWindowsSpawnProgramCandidate,
-} from "openclaw/plugin-sdk/windows-spawn";
+} from "brikko-studio/plugin-sdk/windows-spawn";

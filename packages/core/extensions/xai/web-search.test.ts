@@ -1,7 +1,7 @@
-import { createTestWizardPrompter } from "openclaw/plugin-sdk/plugin-test-runtime";
-import { NON_ENV_SECRETREF_MARKER } from "openclaw/plugin-sdk/provider-auth-runtime";
-import { createNonExitingRuntime } from "openclaw/plugin-sdk/runtime-env";
-import { withEnv, withEnvAsync, withFetchPreconnect } from "openclaw/plugin-sdk/test-env";
+import { createTestWizardPrompter } from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { NON_ENV_SECRETREF_MARKER } from "brikko-studio/plugin-sdk/provider-auth-runtime";
+import { createNonExitingRuntime } from "brikko-studio/plugin-sdk/runtime-env";
+import { withEnv, withEnvAsync, withFetchPreconnect } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { resolveXaiCatalogEntry } from "./model-definitions.js";
 import { isModernXaiModel, resolveXaiForwardCompatModel } from "./provider-models.js";
@@ -131,7 +131,7 @@ describe("xai web search config resolution", () => {
         throw new Error("expected xai web search tool");
       }
 
-      await expect(maybeTool.execute({ query: "OpenClaw" })).resolves.toMatchObject({
+      await expect(maybeTool.execute({ query: "Brikko Studio" })).resolves.toMatchObject({
         error: "missing_xai_api_key",
         message: expect.stringContaining("use web_fetch for a specific URL or the browser tool"),
       });
@@ -312,7 +312,7 @@ describe("xai web search config resolution", () => {
       searchConfig: { provider: "grok" },
     });
 
-    await tool?.execute({ query: "OpenClaw Grok proxy test" });
+    await tool?.execute({ query: "Brikko Studio Grok proxy test" });
 
     expect(String(mockFetch.mock.calls[0]?.[0])).toBe("https://api.x.ai/proxy/v1/responses");
   });

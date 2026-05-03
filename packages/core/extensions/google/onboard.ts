@@ -1,12 +1,12 @@
 import {
   applyAgentDefaultModelPrimary,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/provider-onboard";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/provider-onboard";
 
 export const GOOGLE_GEMINI_DEFAULT_MODEL = "google/gemini-3.1-pro-preview";
 
-export function applyGoogleGeminiModelDefault(cfg: OpenClawConfig): {
-  next: OpenClawConfig;
+export function applyGoogleGeminiModelDefault(cfg: Brikko StudioConfig): {
+  next: Brikko StudioConfig;
   changed: boolean;
 } {
   const current = cfg.agents?.defaults?.model as unknown;

@@ -1,16 +1,16 @@
 import {
   DEFAULT_ACCOUNT_ID,
   type ChannelSetupAdapter,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/setup";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/setup";
 import { resolveDefaultFeishuAccountId } from "./accounts.js";
 import type { FeishuConfig } from "./types.js";
 
 export function setFeishuNamedAccountEnabled(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId: string,
   enabled: boolean,
-): OpenClawConfig {
+): Brikko StudioConfig {
   const feishuCfg = cfg.channels?.feishu as FeishuConfig | undefined;
   return {
     ...cfg,

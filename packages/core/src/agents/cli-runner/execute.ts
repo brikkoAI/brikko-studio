@@ -116,7 +116,7 @@ const CLI_ENV_AUTH_LOG_KEYS = [
   "OPENROUTER_API_KEY",
 ] as const;
 
-const CLI_BACKEND_PRESERVE_ENV = "OPENCLAW_LIVE_CLI_BACKEND_PRESERVE_ENV";
+const CLI_BACKEND_PRESERVE_ENV = "BRIKKO_STUDIO_LIVE_CLI_BACKEND_PRESERVE_ENV";
 
 function parseCliBackendPreserveEnv(raw: string | undefined): Set<string> {
   const trimmed = raw?.trim();
@@ -156,12 +156,12 @@ function formatCliEnvKeyList(keys: readonly string[]): string {
 
 function buildCliEnvMcpLog(childEnv: Record<string, string>): string {
   return [
-    `token=${childEnv.OPENCLAW_MCP_TOKEN ? "set" : "missing"}`,
-    `sessionKey=${childEnv.OPENCLAW_MCP_SESSION_KEY ? "set" : "<empty>"}`,
-    `agentId=${childEnv.OPENCLAW_MCP_AGENT_ID || "<empty>"}`,
-    `accountId=${childEnv.OPENCLAW_MCP_ACCOUNT_ID || "<empty>"}`,
-    `messageChannel=${childEnv.OPENCLAW_MCP_MESSAGE_CHANNEL || "<empty>"}`,
-    `senderIsOwner=${childEnv.OPENCLAW_MCP_SENDER_IS_OWNER || "<empty>"}`,
+    `token=${childEnv.BRIKKO_STUDIO_MCP_TOKEN ? "set" : "missing"}`,
+    `sessionKey=${childEnv.BRIKKO_STUDIO_MCP_SESSION_KEY ? "set" : "<empty>"}`,
+    `agentId=${childEnv.BRIKKO_STUDIO_MCP_AGENT_ID || "<empty>"}`,
+    `accountId=${childEnv.BRIKKO_STUDIO_MCP_ACCOUNT_ID || "<empty>"}`,
+    `messageChannel=${childEnv.BRIKKO_STUDIO_MCP_MESSAGE_CHANNEL || "<empty>"}`,
+    `senderIsOwner=${childEnv.BRIKKO_STUDIO_MCP_SENDER_IS_OWNER || "<empty>"}`,
   ].join(" ");
 }
 
@@ -371,9 +371,9 @@ export async function executePreparedCliRun(
           cliBackendLog.info(`cli argv: ${backend.command} ${logArgs.join(" ")}`);
           cliBackendLog.info(`cli env auth: ${buildCliEnvAuthLog(env)}`);
           if (
-            env.OPENCLAW_MCP_TOKEN ||
-            env.OPENCLAW_MCP_SESSION_KEY ||
-            env.OPENCLAW_MCP_SENDER_IS_OWNER
+            env.BRIKKO_STUDIO_MCP_TOKEN ||
+            env.BRIKKO_STUDIO_MCP_SESSION_KEY ||
+            env.BRIKKO_STUDIO_MCP_SENDER_IS_OWNER
           ) {
             cliBackendLog.info(`cli env mcp: ${buildCliEnvMcpLog(env)}`);
           }

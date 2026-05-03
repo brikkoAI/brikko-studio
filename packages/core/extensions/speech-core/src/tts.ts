@@ -9,28 +9,28 @@ import {
   unlinkSync,
 } from "node:fs";
 import path from "node:path";
-import { resolveChannelTtsVoiceDelivery } from "openclaw/plugin-sdk/channel-targets";
+import { resolveChannelTtsVoiceDelivery } from "brikko-studio/plugin-sdk/channel-targets";
 import type {
-  OpenClawConfig,
+  Brikko StudioConfig,
   ResolvedTtsPersona,
   TtsAutoMode,
   TtsConfig,
   TtsModelOverrideConfig,
   TtsProvider,
-} from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { redactSensitiveText } from "openclaw/plugin-sdk/logging-core";
+} from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { redactSensitiveText } from "brikko-studio/plugin-sdk/logging-core";
 import {
   resolveSendableOutboundReplyParts,
   type ReplyPayload,
-} from "openclaw/plugin-sdk/reply-payload";
+} from "brikko-studio/plugin-sdk/reply-payload";
 import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
   selectApplicableRuntimeConfig,
-} from "openclaw/plugin-sdk/runtime-config-snapshot";
-import { isVerbose, logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/sandbox";
+} from "brikko-studio/plugin-sdk/runtime-config-snapshot";
+import { isVerbose, logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/sandbox";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
@@ -38,7 +38,7 @@ import {
   resolveConfigDir,
   resolveUserPath,
   stripMarkdown,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import {
   canonicalizeSpeechProviderId,
   getSpeechProvider,
@@ -185,7 +185,7 @@ function resolveTtsPrefsPathValue(prefsPath: string | undefined): string {
   if (prefsPath?.trim()) {
     return resolveUserPath(prefsPath.trim());
   }
-  const envPath = process.env.OPENCLAW_TTS_PREFS?.trim();
+  const envPath = process.env.BRIKKO_STUDIO_TTS_PREFS?.trim();
   if (envPath) {
     return resolveUserPath(envPath);
   }
@@ -221,7 +221,7 @@ function resolveModelOverridePolicy(
   };
 }
 
-function sortSpeechProvidersForAutoSelection(cfg?: OpenClawConfig) {
+function sortSpeechProvidersForAutoSelection(cfg?: Brikko StudioConfig) {
   return listSpeechProviders(cfg).toSorted((left, right) => {
     const leftOrder = left.autoSelectOrder ?? Number.MAX_SAFE_INTEGER;
     const rightOrder = right.autoSelectOrder ?? Number.MAX_SAFE_INTEGER;
@@ -232,11 +232,11 @@ function sortSpeechProvidersForAutoSelection(cfg?: OpenClawConfig) {
   });
 }
 
-function _resolveRegistryDefaultSpeechProviderId(cfg?: OpenClawConfig): TtsProvider {
+function _resolveRegistryDefaultSpeechProviderId(cfg?: Brikko StudioConfig): TtsProvider {
   return sortSpeechProvidersForAutoSelection(cfg)[0]?.id ?? "";
 }
 
-function resolveTtsRuntimeConfig(cfg: OpenClawConfig): OpenClawConfig {
+function resolveTtsRuntimeConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return (
     selectApplicableRuntimeConfig({
       inputConfig: cfg,
@@ -354,7 +354,7 @@ function resolveRawProviderConfig(
 function resolveLazyProviderConfig(
   config: ResolvedTtsConfig,
   providerId: string,
-  cfg?: OpenClawConfig,
+  cfg?: Brikko StudioConfig,
 ): SpeechProviderConfig {
   const canonical =
     normalizeConfiguredSpeechProviderId(providerId) ?? normalizeLowercaseStringOrEmpty(providerId);
@@ -417,7 +417,7 @@ function collectDirectProviderConfigEntries(raw: TtsConfig): Record<string, Spee
 export function getResolvedSpeechProviderConfig(
   config: ResolvedTtsConfig,
   providerId: string,
-  cfg?: OpenClawConfig,
+  cfg?: Brikko StudioConfig,
 ): SpeechProviderConfig {
   const effectiveCfg = cfg ? resolveTtsRuntimeConfig(cfg) : config.sourceConfig;
   const canonical =
@@ -428,7 +428,7 @@ export function getResolvedSpeechProviderConfig(
 }
 
 export function resolveTtsConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   contextOrAgentId?: string | TtsConfigResolutionContext,
 ): ResolvedTtsConfig {
   cfg = resolveTtsRuntimeConfig(cfg);
@@ -489,7 +489,7 @@ export function resolveTtsAutoMode(params: {
 }
 
 function resolveEffectiveTtsAutoState(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionAuto?: string;
   agentId?: string;
   channelId?: string;
@@ -519,7 +519,7 @@ function resolveEffectiveTtsAutoState(params: {
 }
 
 export function buildTtsSystemPromptHint(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId?: string,
 ): string | undefined {
   cfg = resolveTtsRuntimeConfig(cfg);
@@ -677,7 +677,7 @@ export function setTtsProvider(prefsPath: string, provider: TtsProvider): void {
 }
 
 export function resolveExplicitTtsOverrides(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   prefsPath?: string;
   provider?: string;
   modelId?: string;
@@ -831,7 +831,7 @@ function shouldDeliverTtsAsVoice(params: {
   return params.voiceCompatible === true || delivery.transcodesAudio === true;
 }
 
-export function resolveTtsProviderOrder(primary: TtsProvider, cfg?: OpenClawConfig): TtsProvider[] {
+export function resolveTtsProviderOrder(primary: TtsProvider, cfg?: Brikko StudioConfig): TtsProvider[] {
   const effectiveCfg = cfg ? resolveTtsRuntimeConfig(cfg) : undefined;
   const normalizedPrimary = canonicalizeSpeechProviderId(primary, effectiveCfg) ?? primary;
   const ordered = new Set<TtsProvider>([normalizedPrimary]);
@@ -847,7 +847,7 @@ export function resolveTtsProviderOrder(primary: TtsProvider, cfg?: OpenClawConf
 export function isTtsProviderConfigured(
   config: ResolvedTtsConfig,
   provider: TtsProvider,
-  cfg?: OpenClawConfig,
+  cfg?: Brikko StudioConfig,
 ): boolean {
   const effectiveCfg = cfg ? resolveTtsRuntimeConfig(cfg) : config.sourceConfig;
   const resolvedProvider = getSpeechProvider(provider, effectiveCfg);
@@ -915,7 +915,7 @@ type TtsProviderReadyResolution =
 
 function resolveReadySpeechProvider(params: {
   provider: TtsProvider;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   config: ResolvedTtsConfig;
   persona?: ResolvedTtsPersona;
   requireTelephony?: boolean;
@@ -982,7 +982,7 @@ function resolveReadySpeechProvider(params: {
 async function prepareSpeechSynthesis(params: {
   provider: NonNullable<ReturnType<typeof getSpeechProvider>>;
   text: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   providerConfig: SpeechProviderConfig;
   providerOverrides?: SpeechProviderOverrides;
   persona?: ResolvedTtsPersona;
@@ -1024,7 +1024,7 @@ async function prepareSpeechSynthesis(params: {
 
 function resolveTtsRequestSetup(params: {
   text: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   prefsPath?: string;
   providerOverride?: TtsProvider;
   disableFallback?: boolean;
@@ -1033,7 +1033,7 @@ function resolveTtsRequestSetup(params: {
   accountId?: string;
 }):
   | {
-      cfg: OpenClawConfig;
+      cfg: Brikko StudioConfig;
       config: ResolvedTtsConfig;
       persona?: ResolvedTtsPersona;
       providers: TtsProvider[];
@@ -1066,7 +1066,7 @@ function resolveTtsRequestSetup(params: {
 
 export async function textToSpeech(params: {
   text: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   prefsPath?: string;
   channel?: string;
   overrides?: TtsDirectiveOverrides;
@@ -1102,7 +1102,7 @@ export async function textToSpeech(params: {
     outputFormat = transcoded.outputFormat;
   }
 
-  const tempRoot = resolvePreferredOpenClawTmpDir();
+  const tempRoot = resolvePreferredBrikko StudioTmpDir();
   mkdirSync(tempRoot, { recursive: true, mode: 0o700 });
   const tempDir = mkdtempSync(path.join(tempRoot, "tts-"));
   const audioPath = path.join(tempDir, `voice-${Date.now()}${fileExtension}`);
@@ -1178,7 +1178,7 @@ async function maybePreTranscodeForVoiceDelivery(params: {
 
 export async function synthesizeSpeech(params: {
   text: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   prefsPath?: string;
   channel?: string;
   overrides?: TtsDirectiveOverrides;
@@ -1316,7 +1316,7 @@ export async function synthesizeSpeech(params: {
 
 export async function textToSpeechTelephony(params: {
   text: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   prefsPath?: string;
   overrides?: TtsDirectiveOverrides;
 }): Promise<TtsTelephonyResult> {
@@ -1444,7 +1444,7 @@ export async function textToSpeechTelephony(params: {
 
 export async function listSpeechVoices(params: {
   provider: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   config?: ResolvedTtsConfig;
   apiKey?: string;
   baseUrl?: string;
@@ -1475,7 +1475,7 @@ export async function listSpeechVoices(params: {
 
 export async function maybeApplyTtsToPayload(params: {
   payload: ReplyPayload;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel?: string;
   kind?: "tool" | "block" | "final";
   inboundAudio?: boolean;

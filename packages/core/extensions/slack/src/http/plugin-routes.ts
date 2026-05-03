@@ -1,10 +1,10 @@
-import { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/account-id";
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/channel-plugin-common";
+import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
+import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/channel-plugin-common";
 import { listSlackAccountIds, mergeSlackAccountConfig } from "../accounts.js";
 import { normalizeSlackWebhookPath } from "./paths.js";
 import { handleSlackHttpRequest } from "./registry.js";
 
-export function registerSlackPluginHttpRoutes(api: OpenClawPluginApi): void {
+export function registerSlackPluginHttpRoutes(api: Brikko StudioPluginApi): void {
   const accountIds = new Set<string>([DEFAULT_ACCOUNT_ID, ...listSlackAccountIds(api.config)]);
   const registeredPaths = new Set<string>();
   for (const accountId of accountIds) {

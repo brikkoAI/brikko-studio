@@ -9,8 +9,8 @@ export type BrowserProfileConfig = {
   mcpCommand?: string;
   /** Extra Chrome MCP arguments for existing-session profiles. */
   mcpArgs?: string[];
-  /** Profile driver (default: openclaw). */
-  driver?: "openclaw" | "clawd" | "existing-session";
+  /** Profile driver (default: brikko-studio). */
+  driver?: "brikko-studio" | "clawd" | "existing-session";
   /** If true, launch this profile in headless mode. Falls back to browser.headless. */
   headless?: boolean;
   /** Browser executable path for this profile. Falls back to browser.executablePath. */
@@ -64,7 +64,7 @@ export type BrowserConfig = {
   localCdpReadyTimeoutMs?: number;
   /** Default browser act timeout (ms). Default: 60000. */
   actionTimeoutMs?: number;
-  /** Accent color for the openclaw browser profile (hex). Default: #FF4500 */
+  /** Accent color for the brikko-studio browser profile (hex). Default: #FF4500 */
   color?: string;
   /** Override the browser executable path (all platforms). */
   executablePath?: string;

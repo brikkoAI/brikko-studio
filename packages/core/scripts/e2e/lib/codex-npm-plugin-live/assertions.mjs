@@ -4,14 +4,14 @@ import path from "node:path";
 const command = process.argv[2];
 const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
 const allowBetaCompatDiagnostics =
-  process.env.OPENCLAW_CODEX_NPM_PLUGIN_ALLOW_BETA_COMPAT_DIAGNOSTICS === "1";
+  process.env.BRIKKO_STUDIO_CODEX_NPM_PLUGIN_ALLOW_BETA_COMPAT_DIAGNOSTICS === "1";
 
 function stateDir() {
-  return process.env.OPENCLAW_STATE_DIR || path.join(process.env.HOME, ".openclaw");
+  return process.env.BRIKKO_STUDIO_STATE_DIR || path.join(process.env.HOME, ".brikko-studio");
 }
 
 function configPath() {
-  return process.env.OPENCLAW_CONFIG_PATH || path.join(stateDir(), "openclaw.json");
+  return process.env.BRIKKO_STUDIO_CONFIG_PATH || path.join(stateDir(), "brikko-studio.json");
 }
 
 function realPathMaybe(filePath) {
@@ -96,9 +96,9 @@ function readInstallRecords() {
 }
 
 function assertPlugin() {
-  const spec = process.argv[3] || "npm:@openclaw/codex";
-  const list = readJson("/tmp/openclaw-codex-plugins-list.json");
-  const inspect = readJson("/tmp/openclaw-codex-plugin-inspect.json");
+  const spec = process.argv[3] || "npm:@brikko-studio/codex";
+  const list = readJson("/tmp/brikko-studio-codex-plugins-list.json");
+  const inspect = readJson("/tmp/brikko-studio-codex-plugin-inspect.json");
   const plugin = (list.plugins || []).find((entry) => entry.id === "codex");
   if (!plugin) {
     throw new Error("codex plugin not found in plugins list --json output");
@@ -185,19 +185,19 @@ function assertNpmDeps() {
   const installPath = codexInstallPath();
   const pluginPackageJson = path.join(installPath, "package.json");
   if (!fs.existsSync(pluginPackageJson)) {
-    throw new Error(`missing npm-installed @openclaw/codex package.json: ${pluginPackageJson}`);
+    throw new Error(`missing npm-installed @brikko-studio/codex package.json: ${pluginPackageJson}`);
   }
   assertPathInside(npmRoot, installPath, "codex plugin install path");
   assertPathInside(npmRoot, pluginPackageJson, "codex plugin package");
 
   const pluginPackage = readJson(pluginPackageJson);
-  if (pluginPackage.name !== "@openclaw/codex") {
+  if (pluginPackage.name !== "@brikko-studio/codex") {
     throw new Error(`unexpected codex package name: ${pluginPackage.name}`);
   }
 
   const openAiCodexPackageJson = findPackageJson("@openai/codex");
   if (!openAiCodexPackageJson) {
-    throw new Error("missing @openai/codex dependency under .openclaw/npm");
+    throw new Error("missing @openai/codex dependency under .brikko-studio/npm");
   }
   assertPathInside(npmRoot, openAiCodexPackageJson, "@openai/codex dependency");
 
@@ -243,7 +243,7 @@ function printCodexBin() {
 
 function assertPreflight() {
   const marker = process.argv[3];
-  const output = fs.readFileSync("/tmp/openclaw-codex-preflight.log", "utf8");
+  const output = fs.readFileSync("/tmp/brikko-studio-codex-preflight.log", "utf8");
   if (!output.includes(marker)) {
     throw new Error(`Codex CLI preflight did not contain ${marker}:\n${output}`);
   }
@@ -296,15 +296,15 @@ function assertAgentTurn() {
   const marker = process.argv[3];
   const sessionId = process.argv[4];
   const modelRef = process.argv[5];
-  const stdout = fs.readFileSync("/tmp/openclaw-codex-agent.json", "utf8");
-  const stderr = fs.existsSync("/tmp/openclaw-codex-agent.err")
-    ? fs.readFileSync("/tmp/openclaw-codex-agent.err", "utf8")
+  const stdout = fs.readFileSync("/tmp/brikko-studio-codex-agent.json", "utf8");
+  const stderr = fs.existsSync("/tmp/brikko-studio-codex-agent.err")
+    ? fs.readFileSync("/tmp/brikko-studio-codex-agent.err", "utf8")
     : "";
   const response = JSON.parse(stdout);
   const text = (response.payloads || []).map((payload) => payload?.text || "").join("\n");
   if (!text.includes(marker)) {
     throw new Error(
-      `OpenClaw agent reply did not contain ${marker}:\nstdout=${stdout}\nstderr=${stderr}`,
+      `Brikko Studio agent reply did not contain ${marker}:\nstdout=${stdout}\nstderr=${stderr}`,
     );
   }
 
@@ -322,7 +322,7 @@ function assertAgentTurn() {
     throw new Error(`unexpected session model override: ${entry.modelOverride}`);
   }
   if (typeof entry.sessionFile !== "string" || !fs.existsSync(entry.sessionFile)) {
-    throw new Error(`missing OpenClaw session file: ${entry.sessionFile}`);
+    throw new Error(`missing Brikko Studio session file: ${entry.sessionFile}`);
   }
 
   const bindingPath = `${entry.sessionFile}.codex-app-server.json`;
@@ -359,7 +359,7 @@ function assertUninstalled() {
       `codex install record still exists after uninstall: ${JSON.stringify(records.codex)}`,
     );
   }
-  const list = readJson("/tmp/openclaw-codex-plugins-list-after-uninstall.json");
+  const list = readJson("/tmp/brikko-studio-codex-plugins-list-after-uninstall.json");
   const plugin = (list.plugins || []).find((entry) => entry.id === "codex");
   if (plugin?.status === "loaded" || plugin?.enabled === true) {
     throw new Error(`codex plugin still loaded/enabled after uninstall: ${JSON.stringify(plugin)}`);
@@ -377,14 +377,14 @@ function assertAgentError() {
   const status = Number(process.argv[3]);
   if (!Number.isInteger(status) || status === 0) {
     throw new Error(
-      `expected OpenClaw agent to fail after Codex uninstall, got status ${process.argv[3]}`,
+      `expected Brikko Studio agent to fail after Codex uninstall, got status ${process.argv[3]}`,
     );
   }
-  const stdout = fs.existsSync("/tmp/openclaw-codex-agent-after-uninstall.json")
-    ? fs.readFileSync("/tmp/openclaw-codex-agent-after-uninstall.json", "utf8")
+  const stdout = fs.existsSync("/tmp/brikko-studio-codex-agent-after-uninstall.json")
+    ? fs.readFileSync("/tmp/brikko-studio-codex-agent-after-uninstall.json", "utf8")
     : "";
-  const stderr = fs.existsSync("/tmp/openclaw-codex-agent-after-uninstall.err")
-    ? fs.readFileSync("/tmp/openclaw-codex-agent-after-uninstall.err", "utf8")
+  const stderr = fs.existsSync("/tmp/brikko-studio-codex-agent-after-uninstall.err")
+    ? fs.readFileSync("/tmp/brikko-studio-codex-agent-after-uninstall.err", "utf8")
     : "";
   const combined = `${stdout}\n${stderr}`;
   if (!combined.includes('Requested agent harness "codex" is not registered')) {

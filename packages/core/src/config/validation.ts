@@ -35,9 +35,9 @@ import { appendAllowedValuesHint, summarizeAllowedValues } from "./allowed-value
 import { GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA } from "./bundled-channel-config-metadata.generated.js";
 import { collectChannelSchemaMetadata } from "./channel-config-metadata.js";
 import { materializeRuntimeConfig } from "./materialize.js";
-import type { OpenClawConfig, ConfigValidationIssue } from "./types.js";
+import type { Brikko StudioConfig, ConfigValidationIssue } from "./types.js";
 import { coerceSecretRef } from "./types.secrets.js";
-import { OpenClawSchema } from "./zod-schema.js";
+import { Brikko StudioSchema } from "./zod-schema.js";
 
 const LEGACY_REMOVED_PLUGIN_IDS = new Set(["google-antigravity-auth", "google-gemini-cli-auth"]);
 
@@ -67,7 +67,7 @@ function stripDeprecatedValidationKeys(raw: unknown): unknown {
 }
 
 const CUSTOM_EXPECTED_ONE_OF_RE = /expected one of ((?:"[^"]+"(?:\|"?[^"]+"?)*)+)/i;
-const SECRETREF_POLICY_DOC_URL = "https://docs.openclaw.ai/reference/secretref-credential-surface";
+const SECRETREF_POLICY_DOC_URL = "https://docs.brikko-studio.ai/reference/secretref-credential-surface";
 const bundledChannelSchemaById = new Map<string, unknown>(
   GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA.map(
     (entry) => [entry.channelId, entry.schema] as const,
@@ -186,7 +186,7 @@ function collectAllowedValuesFromBundledChannelSchemaPath(
   return collectAllowedValuesFromJsonSchemaNode(targetNode);
 }
 
-function collectRawBundledChannelConfigIssues(config: OpenClawConfig): ConfigValidationIssue[] {
+function collectRawBundledChannelConfigIssues(config: Brikko StudioConfig): ConfigValidationIssue[] {
   if (!config.channels || !isRecord(config.channels)) {
     return [];
   }
@@ -538,7 +538,7 @@ function isWorkspaceAvatarPath(value: string, workspaceDir: string): boolean {
   return isPathWithinRoot(workspaceRoot, resolved);
 }
 
-function validateIdentityAvatar(config: OpenClawConfig): ConfigValidationIssue[] {
+function validateIdentityAvatar(config: Brikko StudioConfig): ConfigValidationIssue[] {
   const agents = config.agents?.list;
   if (!Array.isArray(agents) || agents.length === 0) {
     return [];
@@ -588,7 +588,7 @@ function validateIdentityAvatar(config: OpenClawConfig): ConfigValidationIssue[]
   return issues;
 }
 
-function validateGatewayTailscaleBind(config: OpenClawConfig): ConfigValidationIssue[] {
+function validateGatewayTailscaleBind(config: Brikko StudioConfig): ConfigValidationIssue[] {
   const tailscaleMode = config.gateway?.tailscale?.mode ?? "off";
   if (tailscaleMode !== "serve" && tailscaleMode !== "funnel") {
     return [];
@@ -626,10 +626,10 @@ export function validateConfigObjectRaw(
     touchedPaths?: ReadonlyArray<ReadonlyArray<string>>;
     validateBundledChannels?: boolean;
   },
-): { ok: true; config: OpenClawConfig } | { ok: false; issues: ConfigValidationIssue[] } {
+): { ok: true; config: Brikko StudioConfig } | { ok: false; issues: ConfigValidationIssue[] } {
   const normalizedRaw = stripDeprecatedValidationKeys(raw);
   const policyIssues = collectUnsupportedSecretRefPolicyIssues(normalizedRaw);
-  const validated = OpenClawSchema.safeParse(normalizedRaw);
+  const validated = Brikko StudioSchema.safeParse(normalizedRaw);
   if (!validated.success) {
     const schemaIssues = validated.error.issues.map((issue) => mapZodIssueToConfigIssue(issue));
     return {
@@ -637,7 +637,7 @@ export function validateConfigObjectRaw(
       issues: mergeUnsupportedMutableSecretRefIssues(policyIssues, schemaIssues),
     };
   }
-  const validatedConfig = validated.data as OpenClawConfig;
+  const validatedConfig = validated.data as Brikko StudioConfig;
   const channelIssues =
     policyIssues.length > 0 || opts?.validateBundledChannels
       ? collectRawBundledChannelConfigIssues(validatedConfig)
@@ -683,7 +683,7 @@ export function validateConfigObject(
     manifestRegistry?: Pick<PluginMetadataSnapshot, "manifestRegistry">["manifestRegistry"];
     sourceRaw?: unknown;
   },
-): { ok: true; config: OpenClawConfig } | { ok: false; issues: ConfigValidationIssue[] } {
+): { ok: true; config: Brikko StudioConfig } | { ok: false; issues: ConfigValidationIssue[] } {
   const result = validateConfigObjectRaw(raw, opts);
   if (!result.ok) {
     return result;
@@ -699,7 +699,7 @@ export function validateConfigObject(
 type ValidateConfigWithPluginsResult =
   | {
       ok: true;
-      config: OpenClawConfig;
+      config: Brikko StudioConfig;
       warnings: ConfigValidationIssue[];
     }
   | {
@@ -713,7 +713,7 @@ type ValidateConfigWithPluginsParams = {
   pluginValidation?: "full" | "skip";
   pluginMetadataSnapshot?: Pick<PluginMetadataSnapshot, "manifestRegistry">;
   loadPluginMetadataSnapshot?: (
-    config: OpenClawConfig,
+    config: Brikko StudioConfig,
   ) => Pick<PluginMetadataSnapshot, "manifestRegistry">;
   sourceRaw?: unknown;
 };
@@ -803,7 +803,7 @@ function validateConfigObjectWithPluginsBase(
     >;
   };
 
-  let compatConfig: OpenClawConfig | null | undefined;
+  let compatConfig: Brikko StudioConfig | null | undefined;
   let compatPluginIds: ReadonlySet<string> | null = null;
   let compatPluginIdsResolved = false;
   let registryDiagnosticsPushed = false;
@@ -874,7 +874,7 @@ function validateConfigObjectWithPluginsBase(
     return compatPluginIds;
   };
 
-  const ensureCompatConfig = (): OpenClawConfig => {
+  const ensureCompatConfig = (): Brikko StudioConfig => {
     if (compatConfig !== undefined) {
       return compatConfig ?? config;
     }
@@ -1085,7 +1085,7 @@ function validateConfigObjectWithPluginsBase(
     if (installCatalogEntry) {
       issues.push({
         path,
-        message: `web_search provider is not available: ${trimmed} (install or enable plugin "${installCatalogEntry.pluginId}", then run openclaw doctor --fix)`,
+        message: `web_search provider is not available: ${trimmed} (install or enable plugin "${installCatalogEntry.pluginId}", then run brikko-studio doctor --fix)`,
         allowedValues: collectKnownWebSearchProviderIds(),
       });
       return;
@@ -1102,7 +1102,7 @@ function validateConfigObjectWithPluginsBase(
     if (hasStalePluginEvidenceForUnknownWebSearchProvider(trimmed)) {
       warnings.push({
         ...issue,
-        message: `${issue.message} (stale web search plugin config ignored; run openclaw doctor --fix to remove stale config, or install the plugin)`,
+        message: `${issue.message} (stale web search plugin config ignored; run brikko-studio doctor --fix to remove stale config, or install the plugin)`,
       });
       return;
     }
@@ -1285,7 +1285,7 @@ function validateConfigObjectWithPluginsBase(
         if (hasStalePluginEvidenceForUnknownChannel(trimmed)) {
           warnings.push({
             ...issue,
-            message: `${issue.message} (stale channel plugin config ignored; run openclaw doctor --fix to remove stale config, or install the plugin)`,
+            message: `${issue.message} (stale channel plugin config ignored; run brikko-studio doctor --fix to remove stale config, or install the plugin)`,
           });
         } else {
           issues.push(issue);
@@ -1526,7 +1526,7 @@ function validateConfigObjectWithPluginsBase(
           replacePluginEntryConfig(pluginId, res.value as Record<string, unknown>);
         }
       } else if (record.format === "bundle") {
-        // Compatible bundles currently expose no native OpenClaw config schema.
+        // Compatible bundles currently expose no native Brikko Studio config schema.
         // Treat them as schema-less capability packs rather than failing validation.
       } else {
         issues.push({

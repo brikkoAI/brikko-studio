@@ -20,7 +20,7 @@ function createJsonResponse(body: unknown, init?: { status?: number }) {
 describe("loginOpenAICodexDeviceCode", () => {
   it("requests a device code, polls for authorization, and exchanges OAuth tokens", async () => {
     vi.useFakeTimers();
-    vi.stubEnv("OPENCLAW_VERSION", "2026.3.22");
+    vi.stubEnv("BRIKKO_STUDIO_VERSION", "2026.3.22");
     try {
       const fetchMock = vi
         .fn()
@@ -81,9 +81,9 @@ describe("loginOpenAICodexDeviceCode", () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            originator: "openclaw",
+            originator: "brikko-studio",
             version: "2026.3.22",
-            "User-Agent": "openclaw/2026.3.22",
+            "User-Agent": "brikko-studio/2026.3.22",
           },
         }),
       );
@@ -94,9 +94,9 @@ describe("loginOpenAICodexDeviceCode", () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            originator: "openclaw",
+            originator: "brikko-studio",
             version: "2026.3.22",
-            "User-Agent": "openclaw/2026.3.22",
+            "User-Agent": "brikko-studio/2026.3.22",
           },
         }),
       );
@@ -107,9 +107,9 @@ describe("loginOpenAICodexDeviceCode", () => {
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            originator: "openclaw",
+            originator: "brikko-studio",
             version: "2026.3.22",
-            "User-Agent": "openclaw/2026.3.22",
+            "User-Agent": "brikko-studio/2026.3.22",
           },
         }),
       );

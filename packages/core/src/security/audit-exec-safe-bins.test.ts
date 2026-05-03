@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { collectExecRuntimeFindings } from "./audit.js";
 
 function hasFinding(
@@ -34,7 +34,7 @@ describe("security audit exec safe-bin findings", () => {
             },
           ],
         },
-      } satisfies OpenClawConfig,
+      } satisfies Brikko StudioConfig,
       expected: true,
     },
     {
@@ -67,7 +67,7 @@ describe("security audit exec safe-bin findings", () => {
             },
           ],
         },
-      } satisfies OpenClawConfig,
+      } satisfies Brikko StudioConfig,
       expected: false,
     },
   ])(
@@ -88,7 +88,7 @@ describe("security audit exec safe-bin findings", () => {
             safeBins: ["jq"],
           },
         },
-      } satisfies OpenClawConfig,
+      } satisfies Brikko StudioConfig,
       expected: true,
     },
     {
@@ -99,7 +99,7 @@ describe("security audit exec safe-bin findings", () => {
             safeBins: ["cut"],
           },
         },
-      } satisfies OpenClawConfig,
+      } satisfies Brikko StudioConfig,
       expected: false,
     },
   ])(
@@ -115,7 +115,7 @@ describe("security audit exec safe-bin findings", () => {
     const riskyGlobalTrustedDirs =
       process.platform === "win32"
         ? [String.raw`C:\Users\ci-user\bin`, String.raw`C:\Users\ci-user\.local\bin`]
-        : ["/usr/local/bin", "/tmp/openclaw-safe-bins"];
+        : ["/usr/local/bin", "/tmp/brikko-studio-safe-bins"];
     const findings = collectExecRuntimeFindings({
       tools: {
         exec: {
@@ -134,7 +134,7 @@ describe("security audit exec safe-bin findings", () => {
           },
         ],
       },
-    } satisfies OpenClawConfig);
+    } satisfies Brikko StudioConfig);
 
     const riskyFinding = findings.find(
       (finding) => finding.checkId === "tools.exec.safe_bin_trusted_dirs_risky",
@@ -155,7 +155,7 @@ describe("security audit exec safe-bin findings", () => {
               safeBinTrustedDirs: ["/usr/libexec"],
             },
           },
-        } satisfies OpenClawConfig),
+        } satisfies Brikko StudioConfig),
       ),
     ).toBe(false);
   });

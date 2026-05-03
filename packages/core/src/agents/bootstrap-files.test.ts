@@ -82,7 +82,7 @@ function registerDuplicateBootstrapFileHook() {
 }
 
 async function createHeartbeatAgentsWorkspace() {
-  const workspaceDir = await makeTempWorkspace("openclaw-bootstrap-");
+  const workspaceDir = await makeTempWorkspace("brikko-studio-bootstrap-");
   await fs.writeFile(path.join(workspaceDir, "HEARTBEAT.md"), "check inbox", "utf8");
   await fs.writeFile(path.join(workspaceDir, "AGENTS.md"), "repo rules", "utf8");
   return workspaceDir;
@@ -100,7 +100,7 @@ describe("resolveBootstrapFilesForRun", () => {
   it("applies bootstrap hook overrides", async () => {
     registerExtraBootstrapFileHook();
 
-    const workspaceDir = await makeTempWorkspace("openclaw-bootstrap-");
+    const workspaceDir = await makeTempWorkspace("brikko-studio-bootstrap-");
     const files = await resolveBootstrapFilesForRun({ workspaceDir });
 
     expect(files.some((file) => file.path === path.join(workspaceDir, "EXTRA.md"))).toBe(true);
@@ -109,7 +109,7 @@ describe("resolveBootstrapFilesForRun", () => {
   it("drops malformed hook files with missing/invalid paths", async () => {
     registerMalformedBootstrapFileHook();
 
-    const workspaceDir = await makeTempWorkspace("openclaw-bootstrap-");
+    const workspaceDir = await makeTempWorkspace("brikko-studio-bootstrap-");
     const warnings: string[] = [];
     const files = await resolveBootstrapFilesForRun({
       workspaceDir,
@@ -126,7 +126,7 @@ describe("resolveBootstrapFilesForRun", () => {
   it("dedupes hook-injected bootstrap paths relative to the workspace", async () => {
     registerDuplicateBootstrapFileHook();
 
-    const workspaceDir = await makeTempWorkspace("openclaw-bootstrap-");
+    const workspaceDir = await makeTempWorkspace("brikko-studio-bootstrap-");
     const agentsPath = path.join(workspaceDir, "AGENTS.md");
     await fs.writeFile(agentsPath, "workspace rules", "utf8");
 
@@ -150,7 +150,7 @@ describe("resolveBootstrapContextForRun", () => {
   it("returns context files for hook-adjusted bootstrap files", async () => {
     registerExtraBootstrapFileHook();
 
-    const workspaceDir = await makeTempWorkspace("openclaw-bootstrap-");
+    const workspaceDir = await makeTempWorkspace("brikko-studio-bootstrap-");
     const result = await resolveBootstrapContextForRun({ workspaceDir });
     const extra = result.contextFiles.find(
       (file) => file.path === path.join(workspaceDir, "EXTRA.md"),
@@ -160,7 +160,7 @@ describe("resolveBootstrapContextForRun", () => {
   });
 
   it("keeps BOOTSTRAP.md available in shared injected context for non-attempt consumers", async () => {
-    const workspaceDir = await makeTempWorkspace("openclaw-bootstrap-");
+    const workspaceDir = await makeTempWorkspace("brikko-studio-bootstrap-");
     await fs.writeFile(path.join(workspaceDir, "BOOTSTRAP.md"), "ritual", "utf8");
     await fs.writeFile(path.join(workspaceDir, "AGENTS.md"), "rules", "utf8");
 
@@ -172,7 +172,7 @@ describe("resolveBootstrapContextForRun", () => {
   });
 
   it("uses heartbeat-only bootstrap files in lightweight heartbeat mode", async () => {
-    const workspaceDir = await makeTempWorkspace("openclaw-bootstrap-");
+    const workspaceDir = await makeTempWorkspace("brikko-studio-bootstrap-");
     await fs.writeFile(path.join(workspaceDir, "HEARTBEAT.md"), "check inbox", "utf8");
     await fs.writeFile(path.join(workspaceDir, "SOUL.md"), "persona", "utf8");
 
@@ -187,7 +187,7 @@ describe("resolveBootstrapContextForRun", () => {
   });
 
   it("keeps bootstrap context empty in lightweight cron mode", async () => {
-    const workspaceDir = await makeTempWorkspace("openclaw-bootstrap-");
+    const workspaceDir = await makeTempWorkspace("brikko-studio-bootstrap-");
     await fs.writeFile(path.join(workspaceDir, "HEARTBEAT.md"), "check inbox", "utf8");
 
     const files = await resolveBootstrapFilesForRun({
@@ -240,7 +240,7 @@ describe("resolveBootstrapContextForRun", () => {
   });
 
   it("keeps HEARTBEAT.md for actual heartbeat runs even when the prompt section is disabled", async () => {
-    const workspaceDir = await makeTempWorkspace("openclaw-bootstrap-");
+    const workspaceDir = await makeTempWorkspace("brikko-studio-bootstrap-");
     await fs.writeFile(path.join(workspaceDir, "HEARTBEAT.md"), "check inbox", "utf8");
 
     const files = await resolveBootstrapFilesForRun({
@@ -266,7 +266,7 @@ describe("hasCompletedBootstrapTurn", () => {
   let tmpDir: string;
 
   beforeEach(async () => {
-    tmpDir = await fs.mkdtemp(path.join(await fs.realpath("/tmp"), "openclaw-bootstrap-turn-"));
+    tmpDir = await fs.mkdtemp(path.join(await fs.realpath("/tmp"), "brikko-studio-bootstrap-turn-"));
   });
 
   afterEach(async () => {

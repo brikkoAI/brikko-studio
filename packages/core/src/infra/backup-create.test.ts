@@ -4,7 +4,7 @@ import * as tar from "tar";
 import { describe, expect, it, vi } from "vitest";
 import { backupVerifyCommand } from "../commands/backup-verify.js";
 import type { RuntimeEnv } from "../runtime.js";
-import { withOpenClawTestState } from "../test-utils/openclaw-test-state.js";
+import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import {
   buildExtensionsNodeModulesFilter,
   createBackupArchive,
@@ -15,8 +15,8 @@ import {
 function makeResult(overrides: Partial<BackupCreateResult> = {}): BackupCreateResult {
   return {
     createdAt: "2026-01-01T00:00:00.000Z",
-    archiveRoot: "openclaw-backup-2026-01-01",
-    archivePath: "/tmp/openclaw-backup.tar.gz",
+    archiveRoot: "brikko-studio-backup-2026-01-01",
+    archivePath: "/tmp/brikko-studio-backup.tar.gz",
     dryRun: false,
     includeWorkspace: true,
     onlyConfig: false,
@@ -41,7 +41,7 @@ async function listArchiveEntries(archivePath: string): Promise<string[]> {
 }
 
 describe("formatBackupCreateSummary", () => {
-  const backupArchiveLine = "Backup archive: /tmp/openclaw-backup.tar.gz";
+  const backupArchiveLine = "Backup archive: /tmp/brikko-studio-backup.tar.gz";
 
   it.each([
     {
@@ -53,26 +53,26 @@ describe("formatBackupCreateSummary", () => {
             kind: "state",
             sourcePath: "/state",
             archivePath: "archive/state",
-            displayPath: "~/.openclaw",
+            displayPath: "~/.brikko-studio",
           },
         ],
         skipped: [
           {
             kind: "workspace",
             sourcePath: "/workspace",
-            displayPath: "~/Projects/openclaw",
+            displayPath: "~/Projects/brikko-studio",
             reason: "covered",
-            coveredBy: "~/.openclaw",
+            coveredBy: "~/.brikko-studio",
           },
         ],
       }),
       expected: [
         backupArchiveLine,
         "Included 1 path:",
-        "- state: ~/.openclaw",
+        "- state: ~/.brikko-studio",
         "Skipped 1 path:",
-        "- workspace: ~/Projects/openclaw (covered by ~/.openclaw)",
-        "Created /tmp/openclaw-backup.tar.gz",
+        "- workspace: ~/Projects/brikko-studio (covered by ~/.brikko-studio)",
+        "Created /tmp/brikko-studio-backup.tar.gz",
         "Archive verification: passed",
       ],
     },
@@ -85,21 +85,21 @@ describe("formatBackupCreateSummary", () => {
             kind: "config",
             sourcePath: "/config",
             archivePath: "archive/config",
-            displayPath: "~/.openclaw/config.json",
+            displayPath: "~/.brikko-studio/config.json",
           },
           {
             kind: "credentials",
             sourcePath: "/oauth",
             archivePath: "archive/oauth",
-            displayPath: "~/.openclaw/oauth",
+            displayPath: "~/.brikko-studio/oauth",
           },
         ],
       }),
       expected: [
         backupArchiveLine,
         "Included 2 paths:",
-        "- config: ~/.openclaw/config.json",
-        "- credentials: ~/.openclaw/oauth",
+        "- config: ~/.brikko-studio/config.json",
+        "- credentials: ~/.brikko-studio/oauth",
         "Dry run only; archive was not written.",
       ],
     },
@@ -112,7 +112,7 @@ describe("buildExtensionsNodeModulesFilter", () => {
   it("excludes dependency trees only under state extensions", () => {
     const filter = buildExtensionsNodeModulesFilter("/state/");
 
-    expect(filter("/state/extensions/demo/openclaw.plugin.json")).toBe(true);
+    expect(filter("/state/extensions/demo/brikko-studio.plugin.json")).toBe(true);
     expect(filter("/state/extensions/demo/src/index.js")).toBe(true);
     expect(filter("/state/extensions/demo/node_modules/dep/index.js")).toBe(false);
     expect(filter("/state/extensions/demo/vendor/node_modules/dep/index.js")).toBe(false);
@@ -121,21 +121,21 @@ describe("buildExtensionsNodeModulesFilter", () => {
   });
 
   it("normalizes Windows path separators", () => {
-    const filter = buildExtensionsNodeModulesFilter("C:\\Users\\me\\.openclaw\\");
+    const filter = buildExtensionsNodeModulesFilter("C:\\Users\\me\\.brikko-studio\\");
 
-    expect(filter(String.raw`C:\Users\me\.openclaw\extensions\demo\index.js`)).toBe(true);
+    expect(filter(String.raw`C:\Users\me\.brikko-studio\extensions\demo\index.js`)).toBe(true);
     expect(
-      filter(String.raw`C:\Users\me\.openclaw\extensions\demo\node_modules\dep\index.js`),
+      filter(String.raw`C:\Users\me\.brikko-studio\extensions\demo\node_modules\dep\index.js`),
     ).toBe(false);
   });
 });
 
 describe("createBackupArchive", () => {
   it("omits installed plugin node_modules from the real archive while keeping plugin files", async () => {
-    await withOpenClawTestState(
+    await withBrikko StudioTestState(
       {
         layout: "state-only",
-        prefix: "openclaw-backup-plugin-deps-",
+        prefix: "brikko-studio-backup-plugin-deps-",
         scenario: "minimal",
       },
       async (state) => {
@@ -147,7 +147,7 @@ describe("createBackupArchive", () => {
         await fs.mkdir(path.join(stateDir, "extensions", "demo", "src"), { recursive: true });
         await fs.mkdir(path.join(stateDir, "node_modules", "root-dep"), { recursive: true });
         await fs.writeFile(
-          path.join(stateDir, "extensions", "demo", "openclaw.plugin.json"),
+          path.join(stateDir, "extensions", "demo", "brikko-studio.plugin.json"),
           '{"id":"demo"}\n',
           "utf8",
         );
@@ -176,7 +176,7 @@ describe("createBackupArchive", () => {
         const entries = await listArchiveEntries(result.archivePath);
 
         expect(
-          entries.some((entry) => entry.endsWith("/state/extensions/demo/openclaw.plugin.json")),
+          entries.some((entry) => entry.endsWith("/state/extensions/demo/brikko-studio.plugin.json")),
         ).toBe(true);
         expect(entries.some((entry) => entry.endsWith("/state/extensions/demo/src/index.js"))).toBe(
           true,

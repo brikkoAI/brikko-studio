@@ -1,5 +1,5 @@
-import { createStartAccountContext } from "openclaw/plugin-sdk/channel-test-helpers";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import { createStartAccountContext } from "brikko-studio/plugin-sdk/channel-test-helpers";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { PluginRuntime } from "../runtime-api.js";
 import { nostrOutboundAdapter, startNostrGatewayAccount } from "./gateway.js";
@@ -79,7 +79,7 @@ describe("nostr outbound cfg threading", () => {
 
     const cfg = createCfg();
     await nostrOutboundAdapter.sendText({
-      cfg: cfg as OpenClawConfig,
+      cfg: cfg as Brikko StudioConfig,
       to: "NPUB123",
       text: "|a|b|",
       accountId: "default",
@@ -111,7 +111,7 @@ describe("nostr outbound cfg threading", () => {
     };
 
     await nostrOutboundAdapter.sendText({
-      cfg: cfg as OpenClawConfig,
+      cfg: cfg as Brikko StudioConfig,
       to: "NPUB123",
       text: "hello",
     });

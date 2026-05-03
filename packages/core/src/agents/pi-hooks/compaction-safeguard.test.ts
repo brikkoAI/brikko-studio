@@ -5,7 +5,7 @@ import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import type { Api, Model } from "@mariozechner/pi-ai";
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import {
   clearCompactionProviders,
   registerCompactionProvider,
@@ -594,7 +594,7 @@ describe("compaction-safeguard runtime registry", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     buildEmbeddedExtensionFactories({
       cfg,
@@ -1435,7 +1435,7 @@ describe("compaction-safeguard recent-turn preservation", () => {
           { role: "user", content: "older context", timestamp: 1 },
           {
             role: "custom",
-            customType: "openclaw.runtime-context",
+            customType: "brikko-studio.runtime-context",
             content: "secret runtime context",
             display: false,
             timestamp: 1.5,
@@ -1839,7 +1839,7 @@ describe("compaction-safeguard recent-turn preservation", () => {
       }),
     );
     const providerMessages = providerSummarize.mock.calls[0]?.[0]?.messages ?? [];
-    expect(JSON.stringify(providerMessages)).not.toContain("openclaw.runtime-context");
+    expect(JSON.stringify(providerMessages)).not.toContain("brikko-studio.runtime-context");
     expect(JSON.stringify(providerMessages)).not.toContain("secret runtime context");
     expect(compaction.summary).toContain("provider summary body");
     expect(compaction.summary).toContain("**Turn Context (split turn):**");
@@ -2139,7 +2139,7 @@ describe("compaction-safeguard double-compaction guard", () => {
 async function expectWorkspaceSummaryEmptyForAgentsAlias(
   createAlias: (outsidePath: string, agentsPath: string) => void,
 ) {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-compaction-summary-"));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-compaction-summary-"));
   const cwdSpy = vi.spyOn(process, "cwd").mockReturnValue(root);
   try {
     const outside = path.join(root, "outside-secret.txt");

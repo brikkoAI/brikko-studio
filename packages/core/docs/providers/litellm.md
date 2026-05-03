@@ -1,19 +1,19 @@
 ---
-summary: "Run OpenClaw through LiteLLM Proxy for unified model access and cost tracking"
+summary: "Run Brikko Studio through LiteLLM Proxy for unified model access and cost tracking"
 title: "LiteLLM"
 read_when:
-  - You want to route OpenClaw through a LiteLLM proxy
+  - You want to route Brikko Studio through a LiteLLM proxy
   - You need cost tracking, logging, or model routing through LiteLLM
 ---
 
-[LiteLLM](https://litellm.ai) is an open-source LLM gateway that provides a unified API to 100+ model providers. Route OpenClaw through LiteLLM to get centralized cost tracking, logging, and the flexibility to switch backends without changing your OpenClaw config.
+[LiteLLM](https://litellm.ai) is an open-source LLM gateway that provides a unified API to 100+ model providers. Route Brikko Studio through LiteLLM to get centralized cost tracking, logging, and the flexibility to switch backends without changing your Brikko Studio config.
 
 <Tip>
-**Why use LiteLLM with OpenClaw?**
+**Why use LiteLLM with Brikko Studio?**
 
-- **Cost tracking** — See exactly what OpenClaw spends across all models
+- **Cost tracking** — See exactly what Brikko Studio spends across all models
 - **Model routing** — Switch between Claude, GPT-4, Gemini, Bedrock without config changes
-- **Virtual keys** — Create keys with spend limits for OpenClaw
+- **Virtual keys** — Create keys with spend limits for Brikko Studio
 - **Logging** — Full request/response logs for debugging
 - **Fallbacks** — Automatic failover if your primary provider is down
 
@@ -28,13 +28,13 @@ read_when:
     <Steps>
       <Step title="Run onboarding">
         ```bash
-        openclaw onboard --auth-choice litellm-api-key
+        brikko-studio onboard --auth-choice litellm-api-key
         ```
 
         For non-interactive setup against a remote proxy, pass the proxy URL explicitly:
 
         ```bash
-        openclaw onboard --non-interactive --auth-choice litellm-api-key --litellm-api-key "$LITELLM_API_KEY" --custom-base-url "https://litellm.example/v1"
+        brikko-studio onboard --non-interactive --auth-choice litellm-api-key --litellm-api-key "$LITELLM_API_KEY" --custom-base-url "https://litellm.example/v1"
         ```
       </Step>
     </Steps>
@@ -51,14 +51,14 @@ read_when:
         litellm --model claude-opus-4-6
         ```
       </Step>
-      <Step title="Point OpenClaw to LiteLLM">
+      <Step title="Point Brikko Studio to LiteLLM">
         ```bash
         export LITELLM_API_KEY="your-litellm-key"
 
-        openclaw
+        brikko-studio
         ```
 
-        That's it. OpenClaw now routes through LiteLLM.
+        That's it. Brikko Studio now routes through LiteLLM.
       </Step>
     </Steps>
 
@@ -148,14 +148,14 @@ will be sent to the configured proxy host.
 
 <AccordionGroup>
   <Accordion title="Virtual keys">
-    Create a dedicated key for OpenClaw with spend limits:
+    Create a dedicated key for Brikko Studio with spend limits:
 
     ```bash
     curl -X POST "http://localhost:4000/key/generate" \
       -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
       -H "Content-Type: application/json" \
       -d '{
-        "key_alias": "openclaw",
+        "key_alias": "brikko-studio",
         "max_budget": 50.00,
         "budget_duration": "monthly"
       }'
@@ -181,7 +181,7 @@ will be sent to the configured proxy host.
           api_key: os.environ/OPENAI_API_KEY
     ```
 
-    OpenClaw keeps requesting `claude-opus-4-6` — LiteLLM handles the routing.
+    Brikko Studio keeps requesting `claude-opus-4-6` — LiteLLM handles the routing.
 
   </Accordion>
 
@@ -202,12 +202,12 @@ will be sent to the configured proxy host.
 
   <Accordion title="Proxy behavior notes">
     - LiteLLM runs on `http://localhost:4000` by default
-    - OpenClaw connects through LiteLLM's proxy-style OpenAI-compatible `/v1`
+    - Brikko Studio connects through LiteLLM's proxy-style OpenAI-compatible `/v1`
       endpoint
     - Native OpenAI-only request shaping does not apply through LiteLLM:
       no `service_tier`, no Responses `store`, no prompt-cache hints, and no
       OpenAI reasoning-compat payload shaping
-    - Hidden OpenClaw attribution headers (`originator`, `version`, `User-Agent`)
+    - Hidden Brikko Studio attribution headers (`originator`, `version`, `User-Agent`)
       are not injected on custom LiteLLM base URLs
   </Accordion>
 </AccordionGroup>

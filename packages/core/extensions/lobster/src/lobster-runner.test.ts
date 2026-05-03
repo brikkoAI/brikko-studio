@@ -101,7 +101,7 @@ describe("createEmbeddedLobsterRunner", () => {
   });
 
   it("detects workflow files and parses argsJson", async () => {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-lobster-runner-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-lobster-runner-"));
     const workflowPath = path.join(tempDir, "workflow.lobster");
     await fs.writeFile(workflowPath, "steps: []\n", "utf8");
 
@@ -144,7 +144,7 @@ describe("createEmbeddedLobsterRunner", () => {
   });
 
   it("returns a parse error when workflow args are invalid JSON", async () => {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-lobster-runner-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-lobster-runner-"));
     const workflowPath = path.join(tempDir, "workflow.lobster");
     await fs.writeFile(workflowPath, "steps: []\n", "utf8");
 
@@ -229,7 +229,7 @@ describe("createEmbeddedLobsterRunner", () => {
         timeoutMs: 2000,
         maxStdoutBytes: 4096,
       }),
-    ).rejects.toThrow("Lobster input requests are not supported by the OpenClaw Lobster tool yet");
+    ).rejects.toThrow("Lobster input requests are not supported by the Brikko Studio Lobster tool yet");
   });
 
   it("routes resume through the embedded runtime", async () => {
@@ -438,7 +438,7 @@ describe("createEmbeddedLobsterRunner", () => {
   });
 
   it("falls back to the installed package core file when the core export is unavailable", async () => {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-lobster-package-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-lobster-package-"));
     const packageRoot = path.join(tempDir, "node_modules", "@clawdbot", "lobster");
     const packageEntryPath = path.join(packageRoot, "dist", "src", "sdk", "index.js");
     const packageCorePath = path.join(packageRoot, "dist", "src", "core", "index.js");

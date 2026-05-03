@@ -1,4 +1,4 @@
-import { loadWebMedia } from "openclaw/plugin-sdk/web-media";
+import { loadWebMedia } from "brikko-studio/plugin-sdk/web-media";
 
 export async function loadOutboundMediaFromUrl(
   mediaUrl: string,

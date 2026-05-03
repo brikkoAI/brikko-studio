@@ -113,15 +113,15 @@ describe("doctor command", () => {
     ]);
 
     const previousConfigWriteSupport =
-      process.env.OPENCLAW_UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE;
-    process.env.OPENCLAW_UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE = "1";
+      process.env.BRIKKO_STUDIO_UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE;
+    process.env.BRIKKO_STUDIO_UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE = "1";
     try {
       await doctorCommand(createDoctorRuntime(), { yes: true });
     } finally {
       if (previousConfigWriteSupport === undefined) {
-        delete process.env.OPENCLAW_UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE;
+        delete process.env.BRIKKO_STUDIO_UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE;
       } else {
-        process.env.OPENCLAW_UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE =
+        process.env.BRIKKO_STUDIO_UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE =
           previousConfigWriteSupport;
       }
     }

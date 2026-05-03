@@ -32,7 +32,7 @@ execution:
   config:
     conversationId: qa-visible-tool-room
     promptSnippet: qa group visible reply tool check
-    prompt: "@openclaw qa group visible reply tool check. Use the visible room reply path. exact marker: `QA-GROUP-TOOL-OK`"
+    prompt: "@brikko-studio qa group visible reply tool check. Use the visible room reply path. exact marker: `QA-GROUP-TOOL-OK`"
     expectedMarker: QA-GROUP-TOOL-OK
 ```
 

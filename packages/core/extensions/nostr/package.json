@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/nostr",
+  "name": "@brikko-studio/nostr",
   "version": "2026.5.3",
-  "description": "OpenClaw Nostr channel plugin for NIP-04 encrypted DMs",
+  "description": "Brikko Studio Nostr channel plugin for NIP-04 encrypted DMs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/brikko-studio/brikko-studio"
   },
   "type": "module",
   "dependencies": {
@@ -12,18 +12,18 @@
     "zod": "^4.4.1"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*",
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],
@@ -49,7 +49,7 @@
       ]
     },
     "install": {
-      "npmSpec": "@openclaw/nostr",
+      "npmSpec": "@brikko-studio/nostr",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -57,7 +57,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "brikko-studioVersion": "2026.5.3"
     },
     "release": {
       "publishToClawHub": true,

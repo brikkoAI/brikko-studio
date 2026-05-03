@@ -7,7 +7,7 @@ read_when:
 title: "MiniMax search"
 ---
 
-OpenClaw supports MiniMax as a `web_search` provider through the MiniMax
+Brikko Studio supports MiniMax as a `web_search` provider through the MiniMax
 Token Plan search API. It returns structured search results with titles, URLs,
 snippets, and related queries.
 
@@ -23,13 +23,13 @@ snippets, and related queries.
     Set `MINIMAX_CODE_PLAN_KEY` in the Gateway environment, or configure via:
 
     ```bash
-    openclaw configure --section web
+    brikko-studio configure --section web
     ```
 
   </Step>
 </Steps>
 
-OpenClaw also accepts `MINIMAX_CODING_API_KEY`, `MINIMAX_OAUTH_TOKEN`, and
+Brikko Studio also accepts `MINIMAX_CODING_API_KEY`, `MINIMAX_OAUTH_TOKEN`, and
 `MINIMAX_API_KEY` as env aliases. `MINIMAX_API_KEY` should point at a
 search-enabled Token Plan credential; ordinary MiniMax model API keys may not
 be accepted by the Token Plan search endpoint.
@@ -62,7 +62,7 @@ be accepted by the Token Plan search endpoint.
 
 **Environment alternative:** set `MINIMAX_CODE_PLAN_KEY`, `MINIMAX_CODING_API_KEY`,
 `MINIMAX_OAUTH_TOKEN`, or `MINIMAX_API_KEY` in the Gateway environment.
-For a gateway install, put it in `~/.openclaw/.env`.
+For a gateway install, put it in `~/.brikko-studio/.env`.
 
 ## Region selection
 
@@ -71,7 +71,7 @@ MiniMax Search uses these endpoints:
 - Global: `https://api.minimax.io/v1/coding_plan/search`
 - CN: `https://api.minimaxi.com/v1/coding_plan/search`
 
-If `plugins.entries.minimax.config.webSearch.region` is unset, OpenClaw resolves
+If `plugins.entries.minimax.config.webSearch.region` is unset, Brikko Studio resolves
 the region in this order:
 
 1. `tools.web.search.minimax.region` / plugin-owned `webSearch.region`
@@ -92,7 +92,7 @@ can satisfy the MiniMax Search bearer credential.
 MiniMax Search supports:
 
 - `query`
-- `count` (OpenClaw trims the returned result list to the requested count)
+- `count` (Brikko Studio trims the returned result list to the requested count)
 
 Provider-specific filters are not currently supported.
 

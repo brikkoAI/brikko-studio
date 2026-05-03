@@ -1,5 +1,5 @@
 import { normalizeProviderId } from "../agents/model-selection.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { isBlockedObjectKey } from "../infra/prototype-keys.js";
 import { resolvePluginCapabilityProviders } from "../plugins/capability-provider-runtime.js";
 import type { MusicGenerationProviderPlugin } from "../plugins/types.js";
@@ -20,7 +20,7 @@ function isSafeMusicGenerationProviderId(id: string | undefined): id is string {
 }
 
 function resolvePluginMusicGenerationProviders(
-  cfg?: OpenClawConfig,
+  cfg?: Brikko StudioConfig,
 ): MusicGenerationProviderPlugin[] {
   return resolvePluginCapabilityProviders({
     key: "musicGenerationProviders",
@@ -28,7 +28,7 @@ function resolvePluginMusicGenerationProviders(
   });
 }
 
-function buildProviderMaps(cfg?: OpenClawConfig): {
+function buildProviderMaps(cfg?: Brikko StudioConfig): {
   canonical: Map<string, MusicGenerationProviderPlugin>;
   aliases: Map<string, MusicGenerationProviderPlugin>;
 } {
@@ -60,14 +60,14 @@ function buildProviderMaps(cfg?: OpenClawConfig): {
 }
 
 export function listMusicGenerationProviders(
-  cfg?: OpenClawConfig,
+  cfg?: Brikko StudioConfig,
 ): MusicGenerationProviderPlugin[] {
   return [...buildProviderMaps(cfg).canonical.values()];
 }
 
 export function getMusicGenerationProvider(
   providerId: string | undefined,
-  cfg?: OpenClawConfig,
+  cfg?: Brikko StudioConfig,
 ): MusicGenerationProviderPlugin | undefined {
   const normalized = normalizeMusicGenerationProviderId(providerId);
   if (!normalized) {

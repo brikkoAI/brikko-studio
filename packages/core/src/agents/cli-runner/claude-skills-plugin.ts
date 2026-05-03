@@ -1,12 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredOpenClawTmpDir } from "../../infra/tmp-openclaw-dir.js";
+import { resolvePreferredBrikko StudioTmpDir } from "../../infra/tmp-brikko-studio-dir.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
 import type { SkillSnapshot } from "../skills.js";
 import { cliBackendLog } from "./log.js";
 
 const CLAUDE_CLI_BACKEND_ID = "claude-cli";
-const OPENCLAW_CLAUDE_PLUGIN_NAME = "openclaw-skills";
+const BRIKKO_STUDIO_CLAUDE_PLUGIN_NAME = "brikko-studio-skills";
 
 type MaterializedSkill = {
   name: string;
@@ -89,18 +89,18 @@ export async function prepareClaudeCliSkillsPlugin(params: {
   }
 
   const tempDir = await fs.mkdtemp(
-    path.join(resolvePreferredOpenClawTmpDir(), "openclaw-claude-skills-"),
+    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-claude-skills-"),
   );
-  const pluginDir = path.join(tempDir, OPENCLAW_CLAUDE_PLUGIN_NAME);
+  const pluginDir = path.join(tempDir, BRIKKO_STUDIO_CLAUDE_PLUGIN_NAME);
   const manifestDir = path.join(pluginDir, ".claude-plugin");
   const skillsDir = path.join(pluginDir, "skills");
   await fs.mkdir(manifestDir, { recursive: true, mode: 0o700 });
   await fs.mkdir(skillsDir, { recursive: true, mode: 0o700 });
 
   const manifest = {
-    name: OPENCLAW_CLAUDE_PLUGIN_NAME,
+    name: BRIKKO_STUDIO_CLAUDE_PLUGIN_NAME,
     version: "0.0.0",
-    description: "Session-scoped OpenClaw skills selected for this agent run.",
+    description: "Session-scoped Brikko Studio skills selected for this agent run.",
     skills: "./skills",
   };
   await fs.writeFile(

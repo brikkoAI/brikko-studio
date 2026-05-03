@@ -17,11 +17,11 @@ import {
   detectMime,
   estimateStringChars,
   runTasksWithConcurrency,
-} from "./openclaw-runtime-io.js";
+} from "./brikko-studio-runtime-io.js";
 import {
   resolveCanonicalRootMemoryFile,
   shouldSkipRootMemoryAuxiliaryPath,
-} from "./openclaw-runtime-memory.js";
+} from "./brikko-studio-runtime-memory.js";
 
 export { hashText } from "./hash.js";
 import { hashText } from "./hash.js";
@@ -119,7 +119,7 @@ async function walkDir(
       continue;
     }
     if (entry.isDirectory()) {
-      if (entry.name === ".openclaw-repair") {
+      if (entry.name === ".brikko-studio-repair") {
         continue;
       }
       await walkDir(full, files, multimodal, shouldSkipPath);

@@ -17,7 +17,7 @@ import type {
 } from "../agents/auth-profiles/types.js";
 import { readClaudeCliCredentialsCached } from "../agents/cli-credentials.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { resolveExecutablePath } from "../infra/executable-path.js";
 import {
   normalizeOptionalLowercaseString,
@@ -37,7 +37,7 @@ type ClaudeCliReadableCredential =
 
 type ClaudeCliDirHealth = "present" | "missing" | "not_directory" | "unreadable" | "readonly";
 
-function usesClaudeCliModelSelection(cfg: OpenClawConfig): boolean {
+function usesClaudeCliModelSelection(cfg: Brikko StudioConfig): boolean {
   const primary = resolvePrimaryStringValue(
     cfg.agents?.defaults?.model as string | { primary?: string; fallbacks?: string[] } | undefined,
   );
@@ -49,7 +49,7 @@ function usesClaudeCliModelSelection(cfg: OpenClawConfig): boolean {
   );
 }
 
-function resolveClaudeCliCommand(cfg: OpenClawConfig): string {
+function resolveClaudeCliCommand(cfg: Brikko StudioConfig): string {
   const configured = cfg.agents?.defaults?.cliBackends ?? {};
   for (const [key, entry] of Object.entries(configured)) {
     if (normalizeOptionalLowercaseString(key) !== CLAUDE_CLI_PROVIDER) {
@@ -141,7 +141,7 @@ function formatWorkspaceHealthLine(
     return `- ${label}: ${display} (writable).`;
   }
   if (health === "missing") {
-    return `- ${label}: ${display} (missing; OpenClaw will create it on first run).`;
+    return `- ${label}: ${display} (missing; Brikko Studio will create it on first run).`;
   }
   if (health === "not_directory") {
     return `- ${label}: ${display} exists but is not a directory.`;
@@ -174,7 +174,7 @@ function formatProjectDirHealthLine(
   return `- ${label}: ${display} is not writable by this user.`;
 }
 
-function resolveClaudeCliAgentIds(cfg: OpenClawConfig, env: NodeJS.ProcessEnv): string[] {
+function resolveClaudeCliAgentIds(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): string[] {
   const agentIds = listAgentIds(cfg);
   const runtimeAgentIds = agentIds.filter(
     (agentId) => resolveAgentRuntimeMetadata(cfg, agentId, env).id === CLAUDE_CLI_PROVIDER,
@@ -197,7 +197,7 @@ type ClaudeCliWorkspaceTarget = {
 };
 
 function resolveClaudeCliWorkspaceTargets(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   homeDir?: string;
   workspaceDir?: string;
@@ -233,7 +233,7 @@ function resolveClaudeCliWorkspaceTargets(params: {
 }
 
 export function noteClaudeCliHealth(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   deps?: {
     noteFn?: typeof note;
     env?: NodeJS.ProcessEnv;
@@ -291,30 +291,30 @@ export function noteClaudeCliHealth(
     lines.push("- Headless Claude auth: unavailable without interactive prompting.");
     fixHints.push(
       `- Fix: run ${formatCliCommand("claude auth login")}, then ${formatCliCommand(
-        "openclaw models auth login --provider anthropic --method cli --set-default",
+        "brikko-studio models auth login --provider anthropic --method cli --set-default",
       )}.`,
     );
   }
 
   if (!storedProfile) {
-    lines.push(`- OpenClaw auth profile: missing (${CLAUDE_CLI_PROFILE_ID}) in ${authStorePath}.`);
+    lines.push(`- Brikko Studio auth profile: missing (${CLAUDE_CLI_PROFILE_ID}) in ${authStorePath}.`);
     fixHints.push(
       `- Fix: run ${formatCliCommand(
-        "openclaw models auth login --provider anthropic --method cli --set-default",
+        "brikko-studio models auth login --provider anthropic --method cli --set-default",
       )}.`,
     );
   } else if (storedProfile.provider !== CLAUDE_CLI_PROVIDER) {
     lines.push(
-      `- OpenClaw auth profile: ${CLAUDE_CLI_PROFILE_ID} is wired to provider "${storedProfile.provider}" instead of "${CLAUDE_CLI_PROVIDER}".`,
+      `- Brikko Studio auth profile: ${CLAUDE_CLI_PROFILE_ID} is wired to provider "${storedProfile.provider}" instead of "${CLAUDE_CLI_PROVIDER}".`,
     );
     fixHints.push(
       `- Fix: rerun ${formatCliCommand(
-        "openclaw models auth login --provider anthropic --method cli --set-default",
+        "brikko-studio models auth login --provider anthropic --method cli --set-default",
       )} to rewrite the profile cleanly.`,
     );
   } else {
     lines.push(
-      `- OpenClaw auth profile: ${CLAUDE_CLI_PROFILE_ID} (provider ${CLAUDE_CLI_PROVIDER}).`,
+      `- Brikko Studio auth profile: ${CLAUDE_CLI_PROFILE_ID} (provider ${CLAUDE_CLI_PROVIDER}).`,
     );
   }
 

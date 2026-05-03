@@ -1,8 +1,8 @@
 import type { MarkdownTableMode } from "./types.base.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { Brikko StudioConfig } from "./types.brikko-studio.js";
 
 export type ResolveMarkdownTableModeParams = {
-  cfg?: Partial<OpenClawConfig>;
+  cfg?: Partial<Brikko StudioConfig>;
   channel?: string | null;
   accountId?: string | null;
 };

@@ -4,12 +4,12 @@ import {
   createMigrationManualItem,
   MIGRATION_REASON_TARGET_EXISTS,
   summarizeMigrationItems,
-} from "openclaw/plugin-sdk/migration";
+} from "brikko-studio/plugin-sdk/migration";
 import type {
   MigrationItem,
   MigrationPlan,
   MigrationProviderContext,
-} from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/plugin-entry";
 import { exists, sanitizeName } from "./helpers.js";
 import { discoverCodexSource, hasCodexSource, type CodexSkillSource } from "./source.js";
 import { resolveCodexMigrationTargets } from "./targets.js";
@@ -56,7 +56,7 @@ async function buildSkillItems(params: {
           : targetExists && !params.overwrite
             ? MIGRATION_REASON_TARGET_EXISTS
             : undefined,
-        message: `Copy ${item.skill.sourceLabel} into this OpenClaw agent workspace.`,
+        message: `Copy ${item.skill.sourceLabel} into this Brikko Studio agent workspace.`,
         details: {
           skillName: item.name,
           sourceLabel: item.skill.sourceLabel,
@@ -92,7 +92,7 @@ export async function buildCodexMigrationPlan(
         source: plugin.source,
         message: `Codex native plugin "${plugin.name}" was found but not activated automatically.`,
         recommendation:
-          "Review the plugin bundle first, then install trusted compatible plugins with openclaw plugins install <path>.",
+          "Review the plugin bundle first, then install trusted compatible plugins with brikko-studio plugins install <path>.",
       }),
     );
   }
@@ -118,12 +118,12 @@ export async function buildCodexMigrationPlan(
       : []),
     ...(source.plugins.length > 0
       ? [
-          "Codex native plugins are reported for manual review only. OpenClaw does not auto-activate plugin bundles, hooks, MCP servers, or apps from another Codex home.",
+          "Codex native plugins are reported for manual review only. Brikko Studio does not auto-activate plugin bundles, hooks, MCP servers, or apps from another Codex home.",
         ]
       : []),
     ...(source.archivePaths.length > 0
       ? [
-          "Codex config and hook files are archive-only. They are preserved in the migration report, not loaded into OpenClaw automatically.",
+          "Codex config and hook files are archive-only. They are preserved in the migration report, not loaded into Brikko Studio automatically.",
         ]
       : []),
   ];
@@ -135,8 +135,8 @@ export async function buildCodexMigrationPlan(
     items,
     warnings,
     nextSteps: [
-      "Run openclaw doctor after applying the migration.",
-      "Review skipped Codex plugin/config/hook items before installing or recreating them in OpenClaw.",
+      "Run brikko-studio doctor after applying the migration.",
+      "Review skipped Codex plugin/config/hook items before installing or recreating them in Brikko Studio.",
     ],
     metadata: {
       agentDir: targets.agentDir,

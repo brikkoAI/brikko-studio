@@ -1,4 +1,4 @@
-import { isLiveTestEnabled } from "openclaw/plugin-sdk/test-env";
+import { isLiveTestEnabled } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import { createKimiWebSearchProvider } from "./src/kimi-web-search-provider.js";
 
@@ -34,7 +34,7 @@ describeLive("moonshot plugin live", () => {
     let lastError: unknown;
     for (let attempt = 0; attempt < 2; attempt += 1) {
       try {
-        result = await tool?.execute({ query: "OpenClaw GitHub", count: 1 });
+        result = await tool?.execute({ query: "Brikko Studio GitHub", count: 1 });
         lastError = undefined;
         break;
       } catch (error) {

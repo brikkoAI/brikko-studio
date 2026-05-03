@@ -1,6 +1,6 @@
-import { expectChannelInboundContextContract } from "openclaw/plugin-sdk/channel-contract-testing";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { createTempHomeEnv } from "openclaw/plugin-sdk/test-env";
+import { expectChannelInboundContextContract } from "brikko-studio/plugin-sdk/channel-contract-testing";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { createTempHomeEnv } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import {
   createInboundSlackTestContext,
@@ -37,12 +37,12 @@ function createSlackMessage(overrides: Partial<SlackMessageEvent>): SlackMessage
 
 describe("Slack inbound context contract", () => {
   it("keeps inbound context finalized", async () => {
-    const tempHome = await createTempHomeEnv("openclaw-slack-inbound-contract-");
+    const tempHome = await createTempHomeEnv("brikko-studio-slack-inbound-contract-");
     try {
       const ctx = createInboundSlackTestContext({
         cfg: {
           channels: { slack: { enabled: true } },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
       });
       ctx.resolveUserName = async () => ({ name: "Alice" }) as never;
 

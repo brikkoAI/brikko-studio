@@ -2,13 +2,13 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { loadOutboundMediaFromUrl } from "openclaw/plugin-sdk/outbound-media";
-import { resolveStateDir as resolvePluginStateDir } from "openclaw/plugin-sdk/state-paths";
+import { loadOutboundMediaFromUrl } from "brikko-studio/plugin-sdk/outbound-media";
+import { resolveStateDir as resolvePluginStateDir } from "brikko-studio/plugin-sdk/state-paths";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import { normalizeZaloReactionIcon } from "./reaction.js";
 import type {
   ZaloAuthStatus,

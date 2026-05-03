@@ -165,7 +165,7 @@ export async function main(argv = process.argv.slice(2), runtimeEnv = process.en
   }
 
   const releaseLock =
-    env.OPENCLAW_OXLINT_SKIP_LOCK === "1"
+    env.BRIKKO_STUDIO_OXLINT_SKIP_LOCK === "1"
       ? () => {}
       : shouldAcquireLocalHeavyCheckLockForOxlint(finalArgs, {
             cwd: process.cwd(),
@@ -180,7 +180,7 @@ export async function main(argv = process.argv.slice(2), runtimeEnv = process.en
 
   try {
     if (
-      env.OPENCLAW_OXLINT_SKIP_PREPARE !== "1" &&
+      env.BRIKKO_STUDIO_OXLINT_SKIP_PREPARE !== "1" &&
       shouldPrepareExtensionPackageBoundaryArtifacts(finalArgs)
     ) {
       await prepareExtensionPackageBoundaryArtifacts(env);

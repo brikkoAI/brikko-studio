@@ -19,7 +19,7 @@ afterEach(() => {
 });
 
 function makeTempDir() {
-  return makeTrackedTempDir("openclaw-installed-plugin-index-store", tempDirs);
+  return makeTrackedTempDir("brikko-studio-installed-plugin-index-store", tempDirs);
 }
 
 function createIndex(overrides: Partial<InstalledPluginIndex> = {}): InstalledPluginIndex {
@@ -34,7 +34,7 @@ function createIndex(overrides: Partial<InstalledPluginIndex> = {}): InstalledPl
     plugins: [
       {
         pluginId: "demo",
-        manifestPath: "/plugins/demo/openclaw.plugin.json",
+        manifestPath: "/plugins/demo/brikko-studio.plugin.json",
         manifestHash: "manifest-hash",
         rootDir: "/plugins/demo",
         origin: "global",
@@ -62,7 +62,7 @@ function createCandidate(rootDir: string, options: { id?: string } = {}): Plugin
     "utf8",
   );
   fs.writeFileSync(
-    path.join(rootDir, "openclaw.plugin.json"),
+    path.join(rootDir, "brikko-studio.plugin.json"),
     JSON.stringify({
       id,
       name: id === "demo" ? "Demo" : "Next Demo",
@@ -169,8 +169,8 @@ describe("installed plugin index persistence", () => {
     fs.mkdirSync(pluginDir, { recursive: true });
     const candidate = createCandidate(pluginDir);
     const env = {
-      OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
-      OPENCLAW_VERSION: "2026.4.25",
+      BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
+      BRIKKO_STUDIO_VERSION: "2026.4.25",
       VITEST: "true",
     };
 
@@ -228,7 +228,7 @@ describe("installed plugin index persistence", () => {
     });
 
     fs.writeFileSync(
-      path.join(pluginDir, "openclaw.plugin.json"),
+      path.join(pluginDir, "brikko-studio.plugin.json"),
       JSON.stringify({
         id: "demo",
         name: "Demo",
@@ -265,8 +265,8 @@ describe("installed plugin index persistence", () => {
       stateDir,
       candidates: [candidate],
       env: {
-        OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
-        OPENCLAW_VERSION: "2026.4.25",
+        BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
+        BRIKKO_STUDIO_VERSION: "2026.4.25",
         VITEST: "true",
       },
     });
@@ -285,8 +285,8 @@ describe("installed plugin index persistence", () => {
     fs.mkdirSync(pluginDir, { recursive: true });
     const candidate = createCandidate(pluginDir);
     const env = {
-      OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
-      OPENCLAW_VERSION: "2026.4.25",
+      BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
+      BRIKKO_STUDIO_VERSION: "2026.4.25",
       VITEST: "true",
     };
     const initial = await refreshPersistedInstalledPluginIndex({
@@ -296,7 +296,7 @@ describe("installed plugin index persistence", () => {
       env,
     });
     fs.writeFileSync(
-      path.join(pluginDir, "openclaw.plugin.json"),
+      path.join(pluginDir, "brikko-studio.plugin.json"),
       JSON.stringify({
         id: "demo",
         name: "Demo",
@@ -341,8 +341,8 @@ describe("installed plugin index persistence", () => {
     const candidate = createCandidate(pluginDir);
     const nextCandidate = createCandidate(nextPluginDir, { id: "next-demo" });
     const env = {
-      OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
-      OPENCLAW_VERSION: "2026.4.25",
+      BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
+      BRIKKO_STUDIO_VERSION: "2026.4.25",
       VITEST: "true",
     };
     await refreshPersistedInstalledPluginIndex({
@@ -393,8 +393,8 @@ describe("installed plugin index persistence", () => {
       stateDir,
       candidates: [],
       env: {
-        OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
-        OPENCLAW_VERSION: "2026.4.25",
+        BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
+        BRIKKO_STUDIO_VERSION: "2026.4.25",
         VITEST: "true",
       },
     });
@@ -460,8 +460,8 @@ describe("installed plugin index persistence", () => {
       stateDir,
       candidates: [],
       env: {
-        OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
-        OPENCLAW_VERSION: "2026.4.25",
+        BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
+        BRIKKO_STUDIO_VERSION: "2026.4.25",
         VITEST: "true",
       },
     });

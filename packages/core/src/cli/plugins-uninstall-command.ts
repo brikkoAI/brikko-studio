@@ -2,7 +2,7 @@ import os from "node:os";
 import path from "node:path";
 import { readConfigFileSnapshot } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   tracePluginLifecyclePhase,
   tracePluginLifecyclePhaseAsync,
@@ -50,7 +50,7 @@ export async function runPluginUninstallCommand(
     () => readConfigFileSnapshot(),
     { command: "uninstall" },
   );
-  const sourceConfig = (snapshot.sourceConfig ?? snapshot.config) as OpenClawConfig;
+  const sourceConfig = (snapshot.sourceConfig ?? snapshot.config) as Brikko StudioConfig;
   const installRecords = await tracePluginLifecyclePhaseAsync(
     "install records load",
     () => loadInstalledPluginIndexInstallRecords(),

@@ -76,14 +76,14 @@ requester chat when the run finishes.
     - The spawn command is non-blocking; it returns a run id immediately.
     - On completion, the sub-agent announces a summary/result message back to the requester chat channel.
     - Completion is push-based. Once spawned, do **not** poll `/subagents list`, `sessions_list`, or `sessions_history` in a loop just to wait for it to finish; inspect status only on-demand for debugging or intervention.
-    - On completion, OpenClaw best-effort closes tracked browser tabs/processes opened by that sub-agent session before the announce cleanup flow continues.
+    - On completion, Brikko Studio best-effort closes tracked browser tabs/processes opened by that sub-agent session before the announce cleanup flow continues.
 
   </Accordion>
   <Accordion title="Manual-spawn delivery resilience">
-    - OpenClaw tries direct `agent` delivery first with a stable idempotency key.
+    - Brikko Studio tries direct `agent` delivery first with a stable idempotency key.
     - If direct delivery fails, it falls back to queue routing.
     - If queue routing is still not available, the announce is retried with a short exponential backoff before final give-up.
-    - Completion delivery keeps the resolved requester route: thread-bound or conversation-bound completion routes win when available; if the completion origin only provides a channel, OpenClaw fills the missing target/account from the requester session's resolved route (`lastChannel` / `lastTo` / `lastAccountId`) so direct delivery still works.
+    - Completion delivery keeps the resolved requester route: thread-bound or conversation-bound completion routes win when available; if the completion origin only provides a channel, Brikko Studio fills the missing target/account from the requester session's resolved route (`lastChannel` / `lastTo` / `lastAccountId`) so direct delivery still works.
 
   </Accordion>
   <Accordion title="Completion handoff metadata">
@@ -101,7 +101,7 @@ requester chat when the run finishes.
     - Use `info`/`log` to inspect details and output after completion.
     - `/subagents spawn` is one-shot mode (`mode: "run"`). For persistent thread-bound sessions, use `sessions_spawn` with `thread: true` and `mode: "session"`.
     - For ACP harness sessions (Claude Code, Gemini CLI, OpenCode, or explicit Codex ACP/acpx), use `sessions_spawn` with `runtime: "acp"` when the tool advertises that runtime. See [ACP delivery model](/tools/acp-agents#delivery-model) when debugging completions or agent-to-agent loops. When the `codex` plugin is enabled, Codex chat/thread control should prefer `/codex ...` over ACP unless the user explicitly asks for ACP/acpx.
-    - OpenClaw hides `runtime: "acp"` until ACP is enabled, the requester is not sandboxed, and a backend plugin such as `acpx` is loaded. `runtime: "acp"` expects an external ACP harness id, or an `agents.list[]` entry with `runtime.type="acp"`; use the default sub-agent runtime for normal OpenClaw config agents from `agents_list`.
+    - Brikko Studio hides `runtime: "acp"` until ACP is enabled, the requester is not sandboxed, and a backend plugin such as `acpx` is loaded. `runtime: "acp"` expects an external ACP harness id, or an `agents.list[]` entry with `runtime.type="acp"`; use the default sub-agent runtime for normal Brikko Studio config agents from `agents_list`.
 
   </Accordion>
 </AccordionGroup>
@@ -137,7 +137,7 @@ session to confirm the effective tool list.
 
 - **Model:** inherits the caller unless you set `agents.defaults.subagents.model` (or per-agent `agents.list[].subagents.model`); an explicit `sessions_spawn.model` still wins.
 - **Thinking:** inherits the caller unless you set `agents.defaults.subagents.thinking` (or per-agent `agents.list[].subagents.thinking`); an explicit `sessions_spawn.thinking` still wins.
-- **Run timeout:** if `sessions_spawn.runTimeoutSeconds` is omitted, OpenClaw uses `agents.defaults.subagents.runTimeoutSeconds` when set; otherwise it falls back to `0` (no timeout).
+- **Run timeout:** if `sessions_spawn.runTimeoutSeconds` is omitted, Brikko Studio uses `agents.defaults.subagents.runTimeoutSeconds` when set; otherwise it falls back to `0` (no timeout).
 
 ### Tool parameters
 
@@ -214,7 +214,7 @@ persistent thread-bound subagent sessions (`sessions_spawn` with
     `sessions_spawn` with `thread: true` (and optionally `mode: "session"`).
   </Step>
   <Step title="Bind">
-    OpenClaw creates or binds a thread to that session target in the active channel.
+    Brikko Studio creates or binds a thread to that session target in the active channel.
   </Step>
   <Step title="Route follow-ups">
     Replies and follow-up messages in that thread route to the bound session.
@@ -377,7 +377,7 @@ Delivery depends on requester depth:
 
 - Top-level requester sessions use a follow-up `agent` call with external delivery (`deliver=true`).
 - Nested requester subagent sessions receive an internal follow-up injection (`deliver=false`) so the orchestrator can synthesize child results in-session.
-- If a nested requester subagent session is gone, OpenClaw falls back to that session's requester when available.
+- If a nested requester subagent session is gone, Brikko Studio falls back to that session's requester when available.
 
 For top-level requester sessions, completion-mode direct delivery first
 resolves any bound conversation/thread route and hook override, then fills
@@ -433,7 +433,7 @@ should be rewritten in normal assistant voice.
 ## Tool policy
 
 Sub-agents use the same profile and tool-policy pipeline as the parent or
-target agent first. After that, OpenClaw applies the sub-agent restriction
+target agent first. After that, Brikko Studio applies the sub-agent restriction
 layer.
 
 With no restrictive `tools.profile`, sub-agents get **all tools except
@@ -503,7 +503,7 @@ Sub-agents use a dedicated in-process queue lane:
 
 ## Liveness and recovery
 
-OpenClaw does not treat `endedAt` absence as permanent proof that a
+Brikko Studio does not treat `endedAt` absence as permanent proof that a
 sub-agent is still alive. Unended runs older than the stale-run window
 stop counting as active/pending in `/subagents list`, status summaries,
 descendant completion gating, and per-session concurrency checks.
@@ -516,10 +516,10 @@ clearing the aborted marker.
 
 Automatic restart recovery is bounded per child session. If the same
 sub-agent child is accepted for orphan recovery repeatedly inside the
-rapid re-wedge window, OpenClaw persists a recovery tombstone on that
+rapid re-wedge window, Brikko Studio persists a recovery tombstone on that
 session and stops auto-resuming it on later restarts. Run
-`openclaw tasks maintenance --apply` to reconcile the task record, or
-`openclaw doctor --fix` to clear stale aborted recovery flags on
+`brikko-studio tasks maintenance --apply` to reconcile the task record, or
+`brikko-studio doctor --fix` to clear stale aborted recovery flags on
 tombstoned sessions.
 
 <Note>

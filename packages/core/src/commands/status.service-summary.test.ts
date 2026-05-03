@@ -17,18 +17,18 @@ function createService(overrides: Partial<GatewayService>): GatewayService {
 }
 
 describe("readServiceStatusSummary", () => {
-  it("marks OpenClaw-managed services as installed", async () => {
+  it("marks Brikko Studio-managed services as installed", async () => {
     const summary = await readServiceStatusSummary(
       createService({
         isLoaded: vi.fn(async () => true),
-        readCommand: vi.fn(async () => ({ programArguments: ["openclaw", "gateway", "run"] })),
+        readCommand: vi.fn(async () => ({ programArguments: ["brikko-studio", "gateway", "run"] })),
         readRuntime: vi.fn(async () => ({ status: "running" })),
       }),
       "Daemon",
     );
 
     expect(summary.installed).toBe(true);
-    expect(summary.managedByOpenClaw).toBe(true);
+    expect(summary.managedByBrikko Studio).toBe(true);
     expect(summary.externallyManaged).toBe(false);
     expect(summary.loadedText).toBe("enabled");
   });
@@ -42,7 +42,7 @@ describe("readServiceStatusSummary", () => {
     );
 
     expect(summary.installed).toBe(true);
-    expect(summary.managedByOpenClaw).toBe(false);
+    expect(summary.managedByBrikko Studio).toBe(false);
     expect(summary.externallyManaged).toBe(true);
     expect(summary.loadedText).toBe("running (externally managed)");
   });
@@ -51,25 +51,25 @@ describe("readServiceStatusSummary", () => {
     const summary = await readServiceStatusSummary(createService({}), "Daemon");
 
     expect(summary.installed).toBe(false);
-    expect(summary.managedByOpenClaw).toBe(false);
+    expect(summary.managedByBrikko Studio).toBe(false);
     expect(summary.externallyManaged).toBe(false);
     expect(summary.loadedText).toBe("disabled");
   });
 
   it("passes command environment to runtime and loaded checks", async () => {
     const isLoaded = vi.fn(async ({ env }: GatewayServiceEnvArgs) => {
-      return env?.OPENCLAW_GATEWAY_PORT === "18789";
+      return env?.BRIKKO_STUDIO_GATEWAY_PORT === "18789";
     });
     const readRuntime = vi.fn(async (env?: NodeJS.ProcessEnv) => ({
-      status: env?.OPENCLAW_GATEWAY_PORT === "18789" ? ("running" as const) : ("unknown" as const),
+      status: env?.BRIKKO_STUDIO_GATEWAY_PORT === "18789" ? ("running" as const) : ("unknown" as const),
     }));
 
     const summary = await readServiceStatusSummary(
       createService({
         isLoaded,
         readCommand: vi.fn(async () => ({
-          programArguments: ["openclaw", "gateway", "run", "--port", "18789"],
-          environment: { OPENCLAW_GATEWAY_PORT: "18789" },
+          programArguments: ["brikko-studio", "gateway", "run", "--port", "18789"],
+          environment: { BRIKKO_STUDIO_GATEWAY_PORT: "18789" },
         })),
         readRuntime,
       }),
@@ -79,13 +79,13 @@ describe("readServiceStatusSummary", () => {
     expect(isLoaded).toHaveBeenCalledWith(
       expect.objectContaining({
         env: expect.objectContaining({
-          OPENCLAW_GATEWAY_PORT: "18789",
+          BRIKKO_STUDIO_GATEWAY_PORT: "18789",
         }),
       }),
     );
     expect(readRuntime).toHaveBeenCalledWith(
       expect.objectContaining({
-        OPENCLAW_GATEWAY_PORT: "18789",
+        BRIKKO_STUDIO_GATEWAY_PORT: "18789",
       }),
     );
     expect(summary.installed).toBe(true);
@@ -94,18 +94,18 @@ describe("readServiceStatusSummary", () => {
   });
 
   it("includes service layout diagnostics and flags source checkout entrypoints", async () => {
-    await withTempDir({ prefix: "openclaw-status-service-layout-" }, async (root) => {
+    await withTempDir({ prefix: "brikko-studio-status-service-layout-" }, async (root) => {
       await fs.mkdir(path.join(root, ".git"), { recursive: true });
       await fs.mkdir(path.join(root, "src"), { recursive: true });
       await fs.mkdir(path.join(root, "extensions"), { recursive: true });
       await fs.mkdir(path.join(root, "dist"), { recursive: true });
       await fs.writeFile(
         path.join(root, "package.json"),
-        JSON.stringify({ name: "openclaw", version: "0.0.0-test" }),
+        JSON.stringify({ name: "brikko-studio", version: "0.0.0-test" }),
         "utf8",
       );
       const entrypoint = path.join(root, "dist", "index.js");
-      const serviceFile = path.join(root, "openclaw-gateway.service");
+      const serviceFile = path.join(root, "brikko-studio-gateway.service");
       await fs.writeFile(entrypoint, "export {};\n", "utf8");
       await fs.writeFile(serviceFile, "[Service]\n", "utf8");
       const realRoot = await fs.realpath(root);
@@ -124,7 +124,7 @@ describe("readServiceStatusSummary", () => {
 
       expect(summary.layout).toMatchObject({
         sourcePath: serviceFile,
-        sourcePathReal: path.join(realRoot, "openclaw-gateway.service"),
+        sourcePathReal: path.join(realRoot, "brikko-studio-gateway.service"),
         entrypoint,
         entrypointReal: path.join(realRoot, "dist", "index.js"),
         packageRoot: realRoot,

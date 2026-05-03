@@ -6,10 +6,10 @@ import {
   collectPluginSchemaMetadata,
 } from "./channel-config-metadata.js";
 import { getRuntimeConfig, readConfigFileSnapshot } from "./config.js";
-import type { OpenClawConfig } from "./config.js";
+import type { Brikko StudioConfig } from "./config.js";
 import { buildConfigSchema, type ConfigSchemaResponse } from "./schema.js";
 
-function loadManifestRegistry(config: OpenClawConfig, env?: NodeJS.ProcessEnv) {
+function loadManifestRegistry(config: Brikko StudioConfig, env?: NodeJS.ProcessEnv) {
   const workspaceDir = resolveAgentWorkspaceDir(config, resolveDefaultAgentId(config));
   const currentSnapshot = getCurrentPluginMetadataSnapshot({ config, env, workspaceDir });
   if (currentSnapshot) {

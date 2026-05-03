@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { danger } from "openclaw/plugin-sdk/runtime-env";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { danger } from "brikko-studio/plugin-sdk/runtime-env";
 import {
   type Client,
   InteractionCreateListener,
@@ -13,7 +13,7 @@ import { setPresence } from "./presence-cache.js";
 import { isThreadArchived } from "./thread-bindings.discord-api.js";
 import { closeDiscordThreadSessions } from "./thread-session-close.js";
 
-type Logger = ReturnType<typeof import("openclaw/plugin-sdk/runtime-env").createSubsystemLogger>;
+type Logger = ReturnType<typeof import("brikko-studio/plugin-sdk/runtime-env").createSubsystemLogger>;
 
 export type DiscordMessageEvent = Parameters<MessageCreateListener["handle"]>[0];
 export type DiscordInteractionEvent = Parameters<InteractionCreateListener["handle"]>[0];
@@ -108,7 +108,7 @@ type ThreadUpdateEvent = Parameters<ThreadUpdateListener["handle"]>[0];
 
 export class DiscordThreadUpdateListener extends ThreadUpdateListener {
   constructor(
-    private cfg: OpenClawConfig,
+    private cfg: Brikko StudioConfig,
     private accountId: string,
     private logger?: Logger,
   ) {

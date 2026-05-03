@@ -1,5 +1,5 @@
-import { buildChannelConfigSchema } from "openclaw/plugin-sdk/channel-config-schema";
-import { z } from "openclaw/plugin-sdk/zod";
+import { buildChannelConfigSchema } from "brikko-studio/plugin-sdk/channel-config-schema";
+import { z } from "brikko-studio/plugin-sdk/zod";
 
 export const SynologyChatChannelConfigSchema = buildChannelConfigSchema(
   z

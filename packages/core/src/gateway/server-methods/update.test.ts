@@ -12,8 +12,8 @@ const runGatewayUpdateMock = vi.fn<() => Promise<UpdateRunResult>>();
 const resolveUpdateInstallSurfaceMock = vi.fn<() => Promise<UpdateInstallSurface>>(async () => ({
   kind: "git",
   mode: "git",
-  root: "/tmp/openclaw",
-  packageRoot: "/tmp/openclaw",
+  root: "/tmp/brikko-studio",
+  packageRoot: "/tmp/brikko-studio",
 }));
 const getLatestUpdateRestartSentinelMock = vi.fn<() => RestartSentinelPayload | null>(() => null);
 const isRestartEnabledMock = vi.fn(() => true);
@@ -49,13 +49,13 @@ vi.mock("../../config/sessions.js", () => ({
   },
 }));
 
-vi.mock("../../infra/openclaw-root.js", async () => {
-  const actual = await vi.importActual<typeof import("../../infra/openclaw-root.js")>(
-    "../../infra/openclaw-root.js",
+vi.mock("../../infra/brikko-studio-root.js", async () => {
+  const actual = await vi.importActual<typeof import("../../infra/brikko-studio-root.js")>(
+    "../../infra/brikko-studio-root.js",
   );
   return {
     ...actual,
-    resolveOpenClawPackageRoot: async () => "/tmp/openclaw",
+    resolveBrikko StudioPackageRoot: async () => "/tmp/brikko-studio",
   };
 });
 
@@ -134,8 +134,8 @@ beforeEach(() => {
   resolveUpdateInstallSurfaceMock.mockResolvedValue({
     kind: "git",
     mode: "git",
-    root: "/tmp/openclaw",
-    packageRoot: "/tmp/openclaw",
+    root: "/tmp/brikko-studio",
+    packageRoot: "/tmp/brikko-studio",
   });
   getLatestUpdateRestartSentinelMock.mockClear();
   scheduleGatewaySigusr1RestartMock.mockClear();
@@ -311,8 +311,8 @@ describe("update.run restart scheduling", () => {
     resolveUpdateInstallSurfaceMock.mockResolvedValueOnce({
       kind: "global",
       mode: "npm",
-      root: "/tmp/openclaw-global",
-      packageRoot: "/tmp/openclaw-global",
+      root: "/tmp/brikko-studio-global",
+      packageRoot: "/tmp/brikko-studio-global",
     });
 
     let payload:
@@ -341,8 +341,8 @@ describe("update.run restart scheduling", () => {
     resolveUpdateInstallSurfaceMock.mockResolvedValueOnce({
       kind: "global",
       mode: "npm",
-      root: "/tmp/openclaw-global",
-      packageRoot: "/tmp/openclaw-global",
+      root: "/tmp/brikko-studio-global",
+      packageRoot: "/tmp/brikko-studio-global",
     });
 
     let payload:

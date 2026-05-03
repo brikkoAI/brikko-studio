@@ -5,7 +5,7 @@ import path from "node:path";
 import type { AssistantMessage } from "@mariozechner/pi-ai";
 import { CURRENT_SESSION_VERSION, SessionManager } from "@mariozechner/pi-coding-agent";
 import { afterEach, describe, expect, test, vi } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   captureCompactionCheckpointSnapshotAsync,
   cleanupCompactionCheckpointSnapshot,
@@ -23,7 +23,7 @@ afterEach(async () => {
 
 describe("session-compaction-checkpoints", () => {
   test("async capture stores the copied pre-compaction transcript without sync copy", async () => {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-checkpoint-async-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-checkpoint-async-"));
     tempDirs.push(dir);
 
     const session = SessionManager.create(dir, dir);
@@ -80,7 +80,7 @@ describe("session-compaction-checkpoints", () => {
   });
 
   test("async capture derives session metadata without synchronous SessionManager.open", async () => {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-checkpoint-async-metadata-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-checkpoint-async-metadata-"));
     tempDirs.push(dir);
 
     const session = SessionManager.create(dir, dir);
@@ -130,7 +130,7 @@ describe("session-compaction-checkpoints", () => {
   });
 
   test("async capture skips oversized pre-compaction transcripts without sync copy", async () => {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-checkpoint-async-oversized-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-checkpoint-async-oversized-"));
     tempDirs.push(dir);
 
     const session = SessionManager.create(dir, dir);
@@ -161,7 +161,7 @@ describe("session-compaction-checkpoints", () => {
   });
 
   test("async fork creates a checkpoint branch transcript without SessionManager sync reads", async () => {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-checkpoint-fork-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-checkpoint-fork-"));
     tempDirs.push(dir);
 
     const session = SessionManager.create(dir, dir);
@@ -227,7 +227,7 @@ describe("session-compaction-checkpoints", () => {
   });
 
   test("async fork migrates legacy checkpoint snapshots before writing a current header", async () => {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-checkpoint-legacy-fork-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-checkpoint-legacy-fork-"));
     tempDirs.push(dir);
 
     const legacySessionFile = path.join(dir, "legacy.jsonl");
@@ -305,7 +305,7 @@ describe("session-compaction-checkpoints", () => {
   });
 
   test("persist trims old checkpoint metadata and removes trimmed snapshot files", async () => {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-checkpoint-trim-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-checkpoint-trim-"));
     tempDirs.push(dir);
 
     const storePath = path.join(dir, "sessions.json");
@@ -356,7 +356,7 @@ describe("session-compaction-checkpoints", () => {
       cfg: {
         session: { store: storePath },
         agents: { list: [{ id: "main", default: true }] },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       sessionKey: "main",
       sessionId,
       reason: "manual",

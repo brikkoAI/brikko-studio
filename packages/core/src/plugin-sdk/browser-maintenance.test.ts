@@ -125,7 +125,7 @@ describe("browser maintenance", () => {
   it("refuses to trash paths outside allowed roots", async () => {
     const { movePathToTrash } = await import("./browser-maintenance.js");
 
-    await expect(movePathToTrash("/etc/openclaw-demo")).rejects.toThrow(
+    await expect(movePathToTrash("/etc/brikko-studio-demo")).rejects.toThrow(
       "Refusing to trash path outside allowed roots",
     );
   });

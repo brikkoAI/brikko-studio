@@ -1,5 +1,5 @@
 import { resolveRuntimeConfigCacheKey } from "../config/runtime-snapshot.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import { buildMediaUnderstandingManifestMetadataRegistry } from "./manifest-metadata.js";
 import { normalizeMediaProviderId } from "./provider-registry.js";
@@ -38,7 +38,7 @@ function cacheConfigRegistry(
   return registry;
 }
 
-function resolveDefaultRegistry(cfg?: OpenClawConfig, workspaceDir?: string) {
+function resolveDefaultRegistry(cfg?: Brikko StudioConfig, workspaceDir?: string) {
   if (!cfg) {
     defaultRegistryCache ??= buildMediaUnderstandingManifestMetadataRegistry();
     return defaultRegistryCache;
@@ -62,7 +62,7 @@ function providerHasDeclaredCapability(
 }
 
 function resolveConfiguredImageProviderModel(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   providerId: string;
 }): string | undefined {
   const providers = params.cfg?.models?.providers;
@@ -86,7 +86,7 @@ function resolveConfiguredImageProviderModel(params: {
   return undefined;
 }
 
-function resolveConfiguredImageProviderIds(cfg?: OpenClawConfig): string[] {
+function resolveConfiguredImageProviderIds(cfg?: Brikko StudioConfig): string[] {
   const providers = cfg?.models?.providers;
   if (!providers || typeof providers !== "object") {
     return [];
@@ -111,7 +111,7 @@ function resolveConfiguredImageProviderIds(cfg?: OpenClawConfig): string[] {
 export function resolveDefaultMediaModel(params: {
   providerId: string;
   capability: MediaUnderstandingCapability;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   workspaceDir?: string;
   providerRegistry?: Map<string, MediaUnderstandingProvider>;
 }): string | undefined {
@@ -135,7 +135,7 @@ export function resolveDefaultMediaModel(params: {
 
 export function resolveAutoMediaKeyProviders(params: {
   capability: MediaUnderstandingCapability;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   workspaceDir?: string;
   providerRegistry?: Map<string, MediaUnderstandingProvider>;
 }): string[] {
@@ -170,7 +170,7 @@ export function resolveAutoMediaKeyProviders(params: {
 
 export function providerSupportsNativePdfDocument(params: {
   providerId: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   workspaceDir?: string;
   providerRegistry?: Map<string, MediaUnderstandingProvider>;
 }): boolean {

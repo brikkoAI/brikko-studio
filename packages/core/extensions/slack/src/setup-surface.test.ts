@@ -1,10 +1,10 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createTestWizardPrompter,
   runSetupWizardPrepare,
   runSetupWizardFinalize,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import type { WizardPrompter } from "openclaw/plugin-sdk/plugin-test-runtime";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import type { WizardPrompter } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it, vi } from "vitest";
 import { createSlackSetupWizardBase } from "./setup-core.js";
 import { buildSlackSetupLines } from "./setup-shared.js";
@@ -27,7 +27,7 @@ const baseCfg = {
       appToken: "xapp-test",
     },
   },
-} as OpenClawConfig;
+} as Brikko StudioConfig;
 
 describe("slackSetupWizard.finalize", () => {
   it("prompts to enable interactive replies for newly configured Slack accounts", async () => {
@@ -92,7 +92,7 @@ describe("slackSetupWizard.prepare", () => {
 
     await runSetupWizardPrepare({
       prepare: slackSetupWizard.prepare,
-      cfg: { channels: { slack: {} } } as OpenClawConfig,
+      cfg: { channels: { slack: {} } } as Brikko StudioConfig,
       prompter: createTestWizardPrompter({
         plain,
         note: note as WizardPrompter["note"],
@@ -104,7 +104,7 @@ describe("slackSetupWizard.prepare", () => {
     const manifest = plain.mock.calls[0]?.[0];
     expect(typeof manifest).toBe("string");
     expect(JSON.parse(manifest)).toMatchObject({
-      display_information: { name: "OpenClaw" },
+      display_information: { name: "Brikko Studio" },
       settings: { socket_mode_enabled: true },
     });
   });
@@ -141,7 +141,7 @@ describe("slackSetupWizard.dmPolicy", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         "alerts",
       ),
     ).toBe("allowlist");
@@ -168,7 +168,7 @@ describe("slackSetupWizard.dmPolicy", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       "open",
       "alerts",
     );
@@ -200,7 +200,7 @@ describe("slackSetupWizard.status", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     expect(configured).toBe(false);

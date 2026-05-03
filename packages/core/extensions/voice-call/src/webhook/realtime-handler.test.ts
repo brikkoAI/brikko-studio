@@ -3,7 +3,7 @@ import type {
   RealtimeVoiceBridge,
   RealtimeVoiceProviderPlugin,
   RealtimeVoiceToolCallEvent,
-} from "openclaw/plugin-sdk/realtime-voice";
+} from "brikko-studio/plugin-sdk/realtime-voice";
 import { describe, expect, it, vi } from "vitest";
 import { WebSocket } from "ws";
 import type { VoiceCallRealtimeConfig } from "../config.js";
@@ -383,7 +383,7 @@ describe("RealtimeCallHandler path routing", () => {
       },
       realtimeProvider: makeRealtimeProvider(createBridge),
     });
-    handler.registerToolHandler("openclaw_agent_consult", (_args, _callId, context) => {
+    handler.registerToolHandler("brikko-studio_agent_consult", (_args, _callId, context) => {
       receivedPartialTranscript = context.partialUserTranscript;
       return new Promise((resolve) => {
         resolveConsult = resolve;
@@ -409,7 +409,7 @@ describe("RealtimeCallHandler path routing", () => {
         callbacks?.onToolCall?.({
           itemId: "item-1",
           callId: "consult-call",
-          name: "openclaw_agent_consult",
+          name: "brikko-studio_agent_consult",
           args: { question: "Are the basement lights on?" },
         });
         expect(receivedPartialTranscript).toBe("Are the basement");
@@ -419,7 +419,7 @@ describe("RealtimeCallHandler path routing", () => {
             "consult-call",
             expect.objectContaining({
               status: "working",
-              tool: "openclaw_agent_consult",
+              tool: "brikko-studio_agent_consult",
             }),
             { willContinue: true },
           );
@@ -510,7 +510,7 @@ describe("RealtimeCallHandler path routing", () => {
         realtimeProvider: makeRealtimeProvider(createBridge),
       },
     );
-    handler.registerToolHandler("openclaw_agent_consult", async () => ({ text: "Fast context." }));
+    handler.registerToolHandler("brikko-studio_agent_consult", async () => ({ text: "Fast context." }));
     const server = await startRealtimeServer(handler);
 
     try {
@@ -529,7 +529,7 @@ describe("RealtimeCallHandler path routing", () => {
         callbacks?.onToolCall?.({
           itemId: "item-1",
           callId: "consult-call",
-          name: "openclaw_agent_consult",
+          name: "brikko-studio_agent_consult",
           args: { question: "What do you remember?" },
         });
 

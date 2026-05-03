@@ -6,7 +6,7 @@ import type {
   TalkConfigResponse,
   TalkProviderConfig,
 } from "./types.gateway.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { Brikko StudioConfig } from "./types.brikko-studio.js";
 import { coerceSecretRef } from "./types.secrets.js";
 
 function normalizeTalkSecretInput(value: unknown): TalkProviderConfig["apiKey"] | undefined {
@@ -128,7 +128,7 @@ export function normalizeTalkSection(value: TalkConfig | undefined): TalkConfig 
   return Object.keys(normalized).length > 0 ? normalized : undefined;
 }
 
-export function normalizeTalkConfig(config: OpenClawConfig): OpenClawConfig {
+export function normalizeTalkConfig(config: Brikko StudioConfig): Brikko StudioConfig {
   if (!config.talk) {
     return config;
   }

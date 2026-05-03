@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createWizardPrompter as buildWizardPrompter } from "../../test/helpers/wizard-prompter.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import type { PluginWebSearchProviderEntry } from "../plugins/types.js";
 import type { RuntimeEnv } from "../runtime.js";
 
@@ -45,16 +45,16 @@ const resolveSetupSecretInputString = vi.hoisted(() =>
   vi.fn<() => Promise<string | undefined>>(async () => undefined),
 );
 const resolveExistingKey = vi.hoisted(() =>
-  vi.fn<(config: OpenClawConfig, provider: string) => string | undefined>(() => undefined),
+  vi.fn<(config: Brikko StudioConfig, provider: string) => string | undefined>(() => undefined),
 );
 const hasExistingKey = vi.hoisted(() =>
-  vi.fn<(config: OpenClawConfig, provider: string) => boolean>(() => false),
+  vi.fn<(config: Brikko StudioConfig, provider: string) => boolean>(() => false),
 );
 const hasKeyInEnv = vi.hoisted(() =>
   vi.fn<(entry: Pick<PluginWebSearchProviderEntry, "envVars">) => boolean>(() => false),
 );
 const listConfiguredWebSearchProviders = vi.hoisted(() =>
-  vi.fn<(params?: { config?: OpenClawConfig }) => PluginWebSearchProviderEntry[]>(() => []),
+  vi.fn<(params?: { config?: Brikko StudioConfig }) => PluginWebSearchProviderEntry[]>(() => []),
 );
 
 vi.mock("../commands/onboard-helpers.js", () => ({
@@ -185,7 +185,7 @@ function expectFirstOnboardingInstallPlanCallOmitsToken() {
 }
 
 type AdvancedFinalizeArgs = {
-  nextConfig?: OpenClawConfig;
+  nextConfig?: Brikko StudioConfig;
   prompter?: ReturnType<typeof buildWizardPrompter>;
   runtime?: RuntimeEnv;
   installDaemon?: boolean;
@@ -198,7 +198,7 @@ function createLaterPrompter() {
   });
 }
 
-function createEnabledFirecrawlSearchConfig(): OpenClawConfig {
+function createEnabledFirecrawlSearchConfig(): Brikko StudioConfig {
   return {
     tools: {
       web: {
@@ -272,8 +272,8 @@ describe("finalizeSetupWizard", () => {
   });
 
   it("resolves gateway password SecretRef for probe but omits auth from TUI hatch", async () => {
-    const previous = process.env.OPENCLAW_GATEWAY_PASSWORD;
-    process.env.OPENCLAW_GATEWAY_PASSWORD = "resolved-gateway-password"; // pragma: allowlist secret
+    const previous = process.env.BRIKKO_STUDIO_GATEWAY_PASSWORD;
+    process.env.BRIKKO_STUDIO_GATEWAY_PASSWORD = "resolved-gateway-password"; // pragma: allowlist secret
     resolveSetupSecretInputString.mockResolvedValueOnce("resolved-gateway-password");
     const select = vi.fn(async (params: { message: string }) => {
       if (params.message === "How do you want to hatch your bot?") {
@@ -305,7 +305,7 @@ describe("finalizeSetupWizard", () => {
               password: {
                 source: "env",
                 provider: "default",
-                id: "OPENCLAW_GATEWAY_PASSWORD",
+                id: "BRIKKO_STUDIO_GATEWAY_PASSWORD",
               },
             },
           },
@@ -331,9 +331,9 @@ describe("finalizeSetupWizard", () => {
       });
     } finally {
       if (previous === undefined) {
-        delete process.env.OPENCLAW_GATEWAY_PASSWORD;
+        delete process.env.BRIKKO_STUDIO_GATEWAY_PASSWORD;
       } else {
-        process.env.OPENCLAW_GATEWAY_PASSWORD = previous;
+        process.env.BRIKKO_STUDIO_GATEWAY_PASSWORD = previous;
       }
     }
 
@@ -464,7 +464,7 @@ describe("finalizeSetupWizard", () => {
             token: {
               source: "env",
               provider: "default",
-              id: "OPENCLAW_GATEWAY_TOKEN",
+              id: "BRIKKO_STUDIO_GATEWAY_TOKEN",
             },
           },
         },
@@ -609,7 +609,7 @@ describe("finalizeSetupWizard", () => {
   });
 
   it("uses the setup token for health checks to avoid local env token drift", async () => {
-    vi.stubEnv("OPENCLAW_GATEWAY_TOKEN", "env-token");
+    vi.stubEnv("BRIKKO_STUDIO_GATEWAY_TOKEN", "env-token");
     const prompter = createLaterPrompter();
 
     await finalizeSetupWizard({
@@ -662,7 +662,7 @@ describe("finalizeSetupWizard", () => {
   });
 
   it("uses the resolved setup password for health checks", async () => {
-    vi.stubEnv("OPENCLAW_GATEWAY_PASSWORD", "env-password");
+    vi.stubEnv("BRIKKO_STUDIO_GATEWAY_PASSWORD", "env-password");
     resolveSetupSecretInputString.mockResolvedValueOnce("session-password");
     const prompter = createLaterPrompter();
 
@@ -683,7 +683,7 @@ describe("finalizeSetupWizard", () => {
             password: {
               source: "env",
               provider: "default",
-              id: "OPENCLAW_GATEWAY_PASSWORD",
+              id: "BRIKKO_STUDIO_GATEWAY_PASSWORD",
             },
           },
         },

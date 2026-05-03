@@ -9,17 +9,17 @@ const { messageQueueMock, messageAllowMock } = vi.hoisted(() => ({
   messageAllowMock: vi.fn(),
 }));
 
-vi.mock("openclaw/plugin-sdk/system-event-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/system-event-runtime", () => ({
   enqueueSystemEvent: (...args: unknown[]) => messageQueueMock(...args),
 }));
-vi.mock("openclaw/plugin-sdk/system-event-runtime.js", () => ({
+vi.mock("brikko-studio/plugin-sdk/system-event-runtime.js", () => ({
   enqueueSystemEvent: (...args: unknown[]) => messageQueueMock(...args),
 }));
-vi.mock("openclaw/plugin-sdk/security-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/security-runtime", () => ({
   readStoreAllowFromForDmPolicy: async () => [],
 }));
 
-vi.mock("openclaw/plugin-sdk/conversation-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/conversation-runtime", () => ({
   readChannelAllowFromStore: (...args: unknown[]) => messageAllowMock(...args),
 }));
 

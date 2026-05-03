@@ -10,10 +10,10 @@
  * 6. Optionally sends a proactive follow-up to the user
  */
 
-import { normalizeOptionalLowercaseString } from "openclaw/plugin-sdk/text-runtime";
+import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   dispatchReplyFromConfigWithSettledDispatcher,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
 } from "../runtime-api.js";
 import type { StoredConversationReference } from "./conversation-store.js";
 import { formatUnknownError } from "./errors.js";
@@ -66,7 +66,7 @@ export function buildFeedbackEvent(params: {
 }
 
 type RunFeedbackReflectionParams = {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   adapter: MSTeamsAdapter;
   appId: string;
   conversationRef: StoredConversationReference;
@@ -80,7 +80,7 @@ type RunFeedbackReflectionParams = {
 };
 
 function buildReflectionContext(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   conversationId: string;
   sessionKey: string;
   reflectionPrompt: string;
@@ -118,7 +118,7 @@ function buildReflectionContext(params: {
 }
 
 function createReflectionCaptureDispatcher(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   log: MSTeamsMonitorLogger;
 }) {

@@ -1,7 +1,7 @@
 import {
   createModelCatalogPresetAppliers,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/provider-onboard";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildVeniceModelDefinition,
   VENICE_BASE_URL,
@@ -13,7 +13,7 @@ export { VENICE_DEFAULT_MODEL_REF };
 
 const venicePresetAppliers = createModelCatalogPresetAppliers({
   primaryModelRef: VENICE_DEFAULT_MODEL_REF,
-  resolveParams: (_cfg: OpenClawConfig) => ({
+  resolveParams: (_cfg: Brikko StudioConfig) => ({
     providerId: "venice",
     api: "openai-completions",
     baseUrl: VENICE_BASE_URL,
@@ -22,6 +22,6 @@ const venicePresetAppliers = createModelCatalogPresetAppliers({
   }),
 });
 
-export function applyVeniceConfig(cfg: OpenClawConfig): OpenClawConfig {
+export function applyVeniceConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return venicePresetAppliers.applyConfig(cfg);
 }

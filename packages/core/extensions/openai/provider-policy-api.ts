@@ -1,4 +1,4 @@
-import type { ModelProviderConfig } from "openclaw/plugin-sdk/provider-model-types";
+import type { ModelProviderConfig } from "brikko-studio/plugin-sdk/provider-model-types";
 import {
   resolveOpenAICodexThinkingProfile,
   resolveOpenAIThinkingProfile,

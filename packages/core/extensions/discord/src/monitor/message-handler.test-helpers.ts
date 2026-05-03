@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { vi } from "vitest";
 import type { createDiscordMessageHandler } from "./message-handler.js";
 import { createNoopThreadBindingManager } from "./thread-bindings.js";
@@ -10,7 +10,7 @@ export function createDiscordHandlerParams(overrides?: {
   setStatus?: (patch: Record<string, unknown>) => void;
   abortSignal?: AbortSignal;
 }): Parameters<typeof createDiscordMessageHandler>[0] {
-  const cfg: OpenClawConfig = {
+  const cfg: Brikko StudioConfig = {
     channels: {
       discord: {
         enabled: true,

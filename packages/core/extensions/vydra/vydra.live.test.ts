@@ -1,20 +1,20 @@
 import {
   registerProviderPlugin,
   requireRegisteredProvider,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import { isLiveTestEnabled } from "openclaw/plugin-sdk/test-env";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import { isLiveTestEnabled } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import plugin from "./index.js";
 
 const LIVE = isLiveTestEnabled();
 const VYDRA_API_KEY = process.env.VYDRA_API_KEY?.trim() ?? "";
-const ENABLE_VYDRA_VIDEO_LIVE = process.env.OPENCLAW_LIVE_VYDRA_VIDEO === "1";
-const LIVE_IMAGE_MODEL = process.env.OPENCLAW_LIVE_VYDRA_IMAGE_MODEL?.trim() || "grok-imagine";
-const LIVE_VIDEO_MODEL = process.env.OPENCLAW_LIVE_VYDRA_VIDEO_MODEL?.trim() || "veo3";
+const ENABLE_VYDRA_VIDEO_LIVE = process.env.BRIKKO_STUDIO_LIVE_VYDRA_VIDEO === "1";
+const LIVE_IMAGE_MODEL = process.env.BRIKKO_STUDIO_LIVE_VYDRA_IMAGE_MODEL?.trim() || "grok-imagine";
+const LIVE_VIDEO_MODEL = process.env.BRIKKO_STUDIO_LIVE_VYDRA_VIDEO_MODEL?.trim() || "veo3";
 const DEFAULT_LIVE_KLING_IMAGE_URL =
-  "https://raw.githubusercontent.com/openclaw/openclaw/main/docs/assets/showcase/roof-camera-sky.jpg";
+  "https://raw.githubusercontent.com/brikko-studio/brikko-studio/main/docs/assets/showcase/roof-camera-sky.jpg";
 const LIVE_KLING_IMAGE_URL =
-  process.env.OPENCLAW_LIVE_VYDRA_KLING_IMAGE_URL?.trim() || DEFAULT_LIVE_KLING_IMAGE_URL;
+  process.env.BRIKKO_STUDIO_LIVE_VYDRA_KLING_IMAGE_URL?.trim() || DEFAULT_LIVE_KLING_IMAGE_URL;
 const VYDRA_KLING_TIMEOUT_MS = 12 * 60_000;
 
 const registerVydraPlugin = () =>
@@ -47,7 +47,7 @@ describe.skipIf(!LIVE || !VYDRA_API_KEY)("vydra live", () => {
       model: LIVE_IMAGE_MODEL,
       prompt: "Create a minimal flat orange square centered on a white background.",
       cfg: { plugins: { enabled: true } } as never,
-      agentDir: "/tmp/openclaw-live-vydra-image",
+      agentDir: "/tmp/brikko-studio-live-vydra-image",
     });
 
     expect(result.images.length).toBeGreaterThan(0);
@@ -63,7 +63,7 @@ describe.skipIf(!LIVE || !VYDRA_API_KEY)("vydra live", () => {
     );
 
     const result = await provider.synthesize({
-      text: "OpenClaw integration test OK.",
+      text: "Brikko Studio integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig: { apiKey: VYDRA_API_KEY },
       target: "audio-file",
@@ -86,7 +86,7 @@ describe.skipIf(!LIVE || !VYDRA_API_KEY)("vydra live", () => {
         prompt:
           "A tiny paper diorama city at sunrise with slow cinematic camera motion and no text.",
         cfg: { plugins: { enabled: true } } as never,
-        agentDir: "/tmp/openclaw-live-vydra-video",
+        agentDir: "/tmp/brikko-studio-live-vydra-video",
       });
 
       expect(result.videos.length).toBeGreaterThan(0);
@@ -106,7 +106,7 @@ describe.skipIf(!LIVE || !VYDRA_API_KEY)("vydra live", () => {
         model: "kling",
         prompt: "Animate the scene with subtle camera drift and soft cloud motion.",
         cfg: { plugins: { enabled: true } } as never,
-        agentDir: "/tmp/openclaw-live-vydra-kling",
+        agentDir: "/tmp/brikko-studio-live-vydra-kling",
         inputImages: [{ url: LIVE_KLING_IMAGE_URL }],
         timeoutMs: VYDRA_KLING_TIMEOUT_MS,
       });

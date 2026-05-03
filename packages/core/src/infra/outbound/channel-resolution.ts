@@ -1,6 +1,6 @@
 import { getChannelPlugin, getLoadedChannelPlugin } from "../../channels/plugins/index.js";
 import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { getActivePluginRegistry } from "../../plugins/runtime.js";
 import {
   isDeliverableMessageChannel,
@@ -28,7 +28,7 @@ export function normalizeDeliverableOutboundChannel(
 
 function maybeBootstrapChannelPlugin(params: {
   channel: DeliverableMessageChannel;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
 }): void {
   bootstrapOutboundChannelPlugin(params);
 }
@@ -51,7 +51,7 @@ function resolveDirectFromActiveRegistry(
 
 export function resolveOutboundChannelPlugin(params: {
   channel: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
 }): ChannelPlugin | undefined {
   const normalized = normalizeDeliverableOutboundChannel(params.channel);
   if (!normalized) {

@@ -1,9 +1,9 @@
 import {
   getRuntimeConfig,
   getRuntimeConfigSourceSnapshot,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
 } from "../config/config.js";
 
-export function loadBrowserConfigForRuntimeRefresh(): OpenClawConfig {
+export function loadBrowserConfigForRuntimeRefresh(): Brikko StudioConfig {
   return getRuntimeConfigSourceSnapshot() ?? getRuntimeConfig();
 }

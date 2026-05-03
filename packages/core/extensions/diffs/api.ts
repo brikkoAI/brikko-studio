@@ -1,10 +1,10 @@
-export type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export {
   definePluginEntry,
   type AnyAgentTool,
-  type OpenClawPluginApi,
-  type OpenClawPluginConfigSchema,
-  type OpenClawPluginToolContext,
+  type Brikko StudioPluginApi,
+  type Brikko StudioPluginConfigSchema,
+  type Brikko StudioPluginToolContext,
   type PluginLogger,
-} from "openclaw/plugin-sdk/plugin-entry";
-export { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+} from "brikko-studio/plugin-sdk/plugin-entry";
+export { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";

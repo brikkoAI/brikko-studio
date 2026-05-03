@@ -5,9 +5,9 @@ import {
   GroupPolicySchema,
   MarkdownConfigSchema,
   ToolPolicySchema,
-} from "openclaw/plugin-sdk/channel-config-schema";
-import { buildSecretInputSchema } from "openclaw/plugin-sdk/secret-input";
-import { z } from "openclaw/plugin-sdk/zod";
+} from "brikko-studio/plugin-sdk/channel-config-schema";
+import { buildSecretInputSchema } from "brikko-studio/plugin-sdk/secret-input";
+import { z } from "brikko-studio/plugin-sdk/zod";
 
 const matrixActionSchema = z
   .object({

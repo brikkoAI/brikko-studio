@@ -1,4 +1,4 @@
-import { registerUnhandledRejectionHandler } from "openclaw/plugin-sdk/runtime-env";
+import { registerUnhandledRejectionHandler } from "brikko-studio/plugin-sdk/runtime-env";
 
 const PLAYWRIGHT_DIALOG_METHODS = new Set([
   "Page.handleJavaScriptDialog",

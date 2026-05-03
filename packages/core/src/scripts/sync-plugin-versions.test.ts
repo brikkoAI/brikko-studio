@@ -16,23 +16,23 @@ describe("syncPluginVersions", () => {
     cleanupTempDirs(tempDirs);
   });
 
-  it("preserves workspace openclaw devDependencies and plugin host floors", () => {
-    const rootDir = makeTempDir(tempDirs, "openclaw-sync-plugin-versions-");
+  it("preserves workspace brikko-studio devDependencies and plugin host floors", () => {
+    const rootDir = makeTempDir(tempDirs, "brikko-studio-sync-plugin-versions-");
 
     writeJson(path.join(rootDir, "package.json"), {
-      name: "openclaw",
+      name: "brikko-studio",
       version: "2026.4.1",
     });
     writeJson(path.join(rootDir, "extensions/bluebubbles/package.json"), {
-      name: "@openclaw/bluebubbles",
+      name: "@brikko-studio/bluebubbles",
       version: "2026.3.30",
       devDependencies: {
-        openclaw: "workspace:*",
+        brikko-studio: "workspace:*",
       },
       peerDependencies: {
-        openclaw: ">=2026.3.30",
+        brikko-studio: ">=2026.3.30",
       },
-      openclaw: {
+      brikko-studio: {
         install: {
           minHostVersion: ">=2026.3.30",
         },
@@ -40,7 +40,7 @@ describe("syncPluginVersions", () => {
           pluginApi: ">=2026.3.30",
         },
         build: {
-          openclawVersion: "2026.3.30",
+          brikko-studioVersion: "2026.3.30",
         },
       },
     });
@@ -52,7 +52,7 @@ describe("syncPluginVersions", () => {
       version?: string;
       devDependencies?: Record<string, string>;
       peerDependencies?: Record<string, string>;
-      openclaw?: {
+      brikko-studio?: {
         install?: {
           minHostVersion?: string;
         };
@@ -60,34 +60,34 @@ describe("syncPluginVersions", () => {
           pluginApi?: string;
         };
         build?: {
-          openclawVersion?: string;
+          brikko-studioVersion?: string;
         };
       };
     };
 
-    expect(summary.updated).toContain("@openclaw/bluebubbles");
+    expect(summary.updated).toContain("@brikko-studio/bluebubbles");
     expect(updatedPackage.version).toBe("2026.4.1");
-    expect(updatedPackage.devDependencies?.openclaw).toBe("workspace:*");
-    expect(updatedPackage.peerDependencies?.openclaw).toBe(">=2026.4.1");
-    expect(updatedPackage.openclaw?.install?.minHostVersion).toBe(">=2026.3.30");
-    expect(updatedPackage.openclaw?.compat?.pluginApi).toBe(">=2026.4.1");
-    expect(updatedPackage.openclaw?.build?.openclawVersion).toBe("2026.4.1");
+    expect(updatedPackage.devDependencies?.brikko-studio).toBe("workspace:*");
+    expect(updatedPackage.peerDependencies?.brikko-studio).toBe(">=2026.4.1");
+    expect(updatedPackage.brikko-studio?.install?.minHostVersion).toBe(">=2026.3.30");
+    expect(updatedPackage.brikko-studio?.compat?.pluginApi).toBe(">=2026.4.1");
+    expect(updatedPackage.brikko-studio?.build?.brikko-studioVersion).toBe("2026.4.1");
   });
 
   it("reports pending version sync without writing in check mode", () => {
-    const rootDir = makeTempDir(tempDirs, "openclaw-sync-plugin-versions-check-");
+    const rootDir = makeTempDir(tempDirs, "brikko-studio-sync-plugin-versions-check-");
 
     writeJson(path.join(rootDir, "package.json"), {
-      name: "openclaw",
+      name: "brikko-studio",
       version: "2026.4.2",
     });
     writeJson(path.join(rootDir, "extensions/discord/package.json"), {
-      name: "@openclaw/discord",
+      name: "@brikko-studio/discord",
       version: "2026.4.1",
       peerDependencies: {
-        openclaw: ">=2026.4.1",
+        brikko-studio: ">=2026.4.1",
       },
-      openclaw: {
+      brikko-studio: {
         compat: {
           pluginApi: ">=2026.4.1",
         },
@@ -100,16 +100,16 @@ describe("syncPluginVersions", () => {
     ) as {
       version?: string;
       peerDependencies?: Record<string, string>;
-      openclaw?: {
+      brikko-studio?: {
         compat?: {
           pluginApi?: string;
         };
       };
     };
 
-    expect(summary.updated).toEqual(["@openclaw/discord"]);
+    expect(summary.updated).toEqual(["@brikko-studio/discord"]);
     expect(unchangedPackage.version).toBe("2026.4.1");
-    expect(unchangedPackage.peerDependencies?.openclaw).toBe(">=2026.4.1");
-    expect(unchangedPackage.openclaw?.compat?.pluginApi).toBe(">=2026.4.1");
+    expect(unchangedPackage.peerDependencies?.brikko-studio).toBe(">=2026.4.1");
+    expect(unchangedPackage.brikko-studio?.compat?.pluginApi).toBe(">=2026.4.1");
   });
 });

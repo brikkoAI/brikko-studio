@@ -72,7 +72,7 @@ describe("subtitleForTab", () => {
 
   it("returns descriptive subtitles", () => {
     expect(subtitleForTab("chat")).toContain("quick interventions");
-    expect(subtitleForTab("config")).toContain("openclaw.json");
+    expect(subtitleForTab("config")).toContain("brikko-studio.json");
   });
 });
 
@@ -94,7 +94,7 @@ describe("normalizeBasePath", () => {
   });
 
   it("handles nested paths", () => {
-    expect(normalizeBasePath("/apps/openclaw")).toBe("/apps/openclaw");
+    expect(normalizeBasePath("/apps/brikko-studio")).toBe("/apps/brikko-studio");
   });
 });
 
@@ -121,7 +121,7 @@ describe("pathForTab", () => {
 
   it("prepends base path", () => {
     expect(pathForTab("chat", "/ui")).toBe("/ui/chat");
-    expect(pathForTab("sessions", "/apps/openclaw")).toBe("/apps/openclaw/sessions");
+    expect(pathForTab("sessions", "/apps/brikko-studio")).toBe("/apps/brikko-studio/sessions");
   });
 });
 
@@ -140,7 +140,7 @@ describe("tabFromPath", () => {
 
   it("handles base paths", () => {
     expect(tabFromPath("/ui/chat", "/ui")).toBe("chat");
-    expect(tabFromPath("/apps/openclaw/sessions", "/apps/openclaw")).toBe("sessions");
+    expect(tabFromPath("/apps/brikko-studio/sessions", "/apps/brikko-studio")).toBe("sessions");
   });
 
   it("returns null for unknown path", () => {
@@ -167,7 +167,7 @@ describe("inferBasePathFromPathname", () => {
 
   it("infers base path from nested paths", () => {
     expect(inferBasePathFromPathname("/ui/chat")).toBe("/ui");
-    expect(inferBasePathFromPathname("/apps/openclaw/sessions")).toBe("/apps/openclaw");
+    expect(inferBasePathFromPathname("/apps/brikko-studio/sessions")).toBe("/apps/brikko-studio");
   });
 
   it("handles index.html suffix", () => {

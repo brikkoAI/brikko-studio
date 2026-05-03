@@ -1,15 +1,15 @@
 import type { Chat, Message } from "@grammyjs/types";
-import { formatLocationText } from "openclaw/plugin-sdk/channel-inbound";
+import { formatLocationText } from "brikko-studio/plugin-sdk/channel-inbound";
 import type {
   TelegramAccountConfig,
   TelegramDirectConfig,
   TelegramGroupConfig,
   TelegramDmThreadReplies,
   TelegramTopicConfig,
-} from "openclaw/plugin-sdk/config-types";
-import { readChannelAllowFromStore } from "openclaw/plugin-sdk/conversation-runtime";
-import { normalizeAccountId } from "openclaw/plugin-sdk/routing";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/config-types";
+import { readChannelAllowFromStore } from "brikko-studio/plugin-sdk/conversation-runtime";
+import { normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { firstDefined, normalizeAllowFrom, type NormalizedAllowFrom } from "../bot-access.js";
 import { normalizeTelegramReplyToMessageId } from "../outbound-params.js";
 import { resolveTelegramPreviewStreamMode } from "../preview-streaming.js";

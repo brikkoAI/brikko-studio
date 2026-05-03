@@ -1,4 +1,4 @@
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
+import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 import { senseaudioMediaUnderstandingProvider } from "./media-understanding-provider.js";
 
 export default definePluginEntry({

@@ -5,7 +5,7 @@ import {
   bundledDistPluginFile,
   bundledPluginFile,
   bundledPluginRoot,
-} from "openclaw/plugin-sdk/test-fixtures";
+} from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterAll, describe, expect, it, vi } from "vitest";
 import { withEnv } from "../test-utils/env.js";
 import {
@@ -39,7 +39,7 @@ async function getCreateJiti() {
 }
 
 const fixtureTempDirs: string[] = [];
-const fixtureRoot = makeTrackedTempDir("openclaw-sdk-alias-root", fixtureTempDirs);
+const fixtureRoot = makeTrackedTempDir("brikko-studio-sdk-alias-root", fixtureTempDirs);
 let tempDirIndex = 0;
 
 function makeTempDir() {
@@ -75,12 +75,12 @@ function createPluginSdkAliasFixture(params?: {
     params?.trustedRootIndicatorMode ??
     (params?.trustedRootIndicators === false ? "none" : "bin+marker");
   const packageJson: Record<string, unknown> = {
-    name: "openclaw",
+    name: "brikko-studio",
     type: "module",
   };
   if (trustedRootIndicatorMode === "bin+marker") {
     packageJson.bin = {
-      openclaw: "openclaw.mjs",
+      brikko-studio: "brikko-studio.mjs",
     };
   }
   if (params?.packageExports || trustedRootIndicatorMode === "cli-entry-only") {
@@ -96,7 +96,7 @@ function createPluginSdkAliasFixture(params?: {
   }
   fs.writeFileSync(path.join(root, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
   if (trustedRootIndicatorMode === "bin+marker") {
-    fs.writeFileSync(path.join(root, "openclaw.mjs"), "export {};\n", "utf-8");
+    fs.writeFileSync(path.join(root, "brikko-studio.mjs"), "export {};\n", "utf-8");
   }
   mkdirSafeDir(path.join(root, "scripts", "lib"));
   fs.writeFileSync(
@@ -121,10 +121,10 @@ function createExtensionApiAliasFixture(params?: {
   mkdirSafeDir(path.dirname(distFile));
   fs.writeFileSync(
     path.join(root, "package.json"),
-    JSON.stringify({ name: "openclaw", type: "module" }, null, 2),
+    JSON.stringify({ name: "brikko-studio", type: "module" }, null, 2),
     "utf-8",
   );
-  fs.writeFileSync(path.join(root, "openclaw.mjs"), "export {};\n", "utf-8");
+  fs.writeFileSync(path.join(root, "brikko-studio.mjs"), "export {};\n", "utf-8");
   fs.writeFileSync(srcFile, params?.srcBody ?? "export {};\n", "utf-8");
   fs.writeFileSync(distFile, params?.distBody ?? "export {};\n", "utf-8");
   return { root, srcFile, distFile };
@@ -138,7 +138,7 @@ function createPluginRuntimeAliasFixture(params?: { srcBody?: string; distBody?:
   mkdirSafeDir(path.dirname(distFile));
   fs.writeFileSync(
     path.join(root, "package.json"),
-    JSON.stringify({ name: "openclaw", type: "module" }, null, 2),
+    JSON.stringify({ name: "brikko-studio", type: "module" }, null, 2),
     "utf-8",
   );
   fs.writeFileSync(
@@ -208,13 +208,13 @@ function writePluginEntry(root: string, relativePath: string) {
 function createUserInstalledPluginSdkAliasFixture() {
   const { fixture, sourcePluginEntryPath, sourceRootAlias, sourceChannelRuntimePath } =
     createPluginSdkAliasTargetFixture();
-  const externalPluginRoot = path.join(makeTempDir(), ".openclaw", "extensions", "demo");
+  const externalPluginRoot = path.join(makeTempDir(), ".brikko-studio", "extensions", "demo");
   const externalPluginEntry = path.join(externalPluginRoot, "index.ts");
   mkdirSafeDir(externalPluginRoot);
   fs.writeFileSync(
     externalPluginEntry,
     [
-      'import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";',
+      'import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";',
       'export default definePluginEntry({ id: "demo", register() {} });',
       "",
     ].join("\n"),
@@ -278,25 +278,25 @@ function expectPluginSdkAliasTargets(
     pluginEntryPath?: string;
   },
 ) {
-  expect(fs.realpathSync(aliases["openclaw/plugin-sdk"] ?? "")).toBe(
+  expect(fs.realpathSync(aliases["brikko-studio/plugin-sdk"] ?? "")).toBe(
     fs.realpathSync(params.rootAliasPath),
   );
-  expect(fs.realpathSync(aliases["@openclaw/plugin-sdk"] ?? "")).toBe(
+  expect(fs.realpathSync(aliases["@brikko-studio/plugin-sdk"] ?? "")).toBe(
     fs.realpathSync(params.rootAliasPath),
   );
   if (params.channelRuntimePath) {
-    expect(fs.realpathSync(aliases["openclaw/plugin-sdk/channel-runtime"] ?? "")).toBe(
+    expect(fs.realpathSync(aliases["brikko-studio/plugin-sdk/channel-runtime"] ?? "")).toBe(
       fs.realpathSync(params.channelRuntimePath),
     );
-    expect(fs.realpathSync(aliases["@openclaw/plugin-sdk/channel-runtime"] ?? "")).toBe(
+    expect(fs.realpathSync(aliases["@brikko-studio/plugin-sdk/channel-runtime"] ?? "")).toBe(
       fs.realpathSync(params.channelRuntimePath),
     );
   }
   if (params.pluginEntryPath) {
-    expect(fs.realpathSync(aliases["openclaw/plugin-sdk/plugin-entry"] ?? "")).toBe(
+    expect(fs.realpathSync(aliases["brikko-studio/plugin-sdk/plugin-entry"] ?? "")).toBe(
       fs.realpathSync(params.pluginEntryPath),
     );
-    expect(fs.realpathSync(aliases["@openclaw/plugin-sdk/plugin-entry"] ?? "")).toBe(
+    expect(fs.realpathSync(aliases["@brikko-studio/plugin-sdk/plugin-entry"] ?? "")).toBe(
       fs.realpathSync(params.pluginEntryPath),
     );
   }
@@ -367,7 +367,7 @@ function expectCwdFallbackPluginSdkAliasResolution(params: {
     resolvePluginSdkAlias({
       srcFile: "channel-runtime.ts",
       distFile: "channel-runtime.js",
-      modulePath: "/tmp/tsx-cache/openclaw-loader.js",
+      modulePath: "/tmp/tsx-cache/brikko-studio-loader.js",
       env: { NODE_ENV: undefined },
     }),
   );
@@ -455,8 +455,8 @@ describe("plugin sdk alias helpers", () => {
             "./plugin-sdk/index": { default: "./dist/plugin-sdk/index.js" },
           },
         }),
-      modulePath: () => "/tmp/tsx-cache/openclaw-loader.js",
-      argv1: (root: string) => path.join(root, "openclaw.mjs"),
+      modulePath: () => "/tmp/tsx-cache/brikko-studio-loader.js",
+      argv1: (root: string) => path.join(root, "brikko-studio.mjs"),
       srcFile: "index.ts",
       distFile: "index.js",
       env: { NODE_ENV: undefined },
@@ -489,8 +489,8 @@ describe("plugin sdk alias helpers", () => {
     },
     {
       name: "resolves extension-api alias from package root when loader runs from transpiler cache path",
-      modulePath: () => "/tmp/tsx-cache/openclaw-loader.js",
-      argv1: (root: string) => path.join(root, "openclaw.mjs"),
+      modulePath: () => "/tmp/tsx-cache/brikko-studio-loader.js",
+      argv1: (root: string) => path.join(root, "brikko-studio.mjs"),
       env: { NODE_ENV: undefined },
       expected: "src" as const,
     },
@@ -584,7 +584,7 @@ describe("plugin sdk alias helpers", () => {
       "utf-8",
     );
 
-    const subpaths = withEnv({ OPENCLAW_ENABLE_PRIVATE_QA_CLI: "1" }, () =>
+    const subpaths = withEnv({ BRIKKO_STUDIO_ENABLE_PRIVATE_QA_CLI: "1" }, () =>
       listPluginSdkExportedSubpaths({
         modulePath: path.join(fixture.root, "src", "plugins", "loader.ts"),
       }),
@@ -625,7 +625,7 @@ describe("plugin sdk alias helpers", () => {
       }),
     ).toEqual(["core"]);
 
-    const privateSubpaths = withEnv({ OPENCLAW_ENABLE_PRIVATE_QA_CLI: "1" }, () =>
+    const privateSubpaths = withEnv({ BRIKKO_STUDIO_ENABLE_PRIVATE_QA_CLI: "1" }, () =>
       listPluginSdkExportedSubpaths({
         modulePath: path.join(fixture.root, "src", "plugins", "loader.ts"),
       }),
@@ -641,7 +641,7 @@ describe("plugin sdk alias helpers", () => {
 
   it.each([
     {
-      name: "does not derive plugin-sdk subpaths from cwd fallback when package root is not an OpenClaw root",
+      name: "does not derive plugin-sdk subpaths from cwd fallback when package root is not an Brikko Studio root",
       fixture: () =>
         createPluginSdkAliasFixture({
           trustedRootIndicators: false,
@@ -669,7 +669,7 @@ describe("plugin sdk alias helpers", () => {
     expectExportedSubpaths({
       fixture,
       cwd: fixture.root,
-      modulePath: "/tmp/tsx-cache/openclaw-loader.js",
+      modulePath: "/tmp/tsx-cache/brikko-studio-loader.js",
       expected,
     });
   });
@@ -739,23 +739,23 @@ describe("plugin sdk alias helpers", () => {
       bundledPluginFile("qa-matrix", "src/index.ts"),
     );
 
-    const aliases = withEnv({ OPENCLAW_ENABLE_PRIVATE_QA_CLI: "1", NODE_ENV: undefined }, () =>
+    const aliases = withEnv({ BRIKKO_STUDIO_ENABLE_PRIVATE_QA_CLI: "1", NODE_ENV: undefined }, () =>
       buildPluginLoaderAliasMap(sourcePluginEntry),
     );
 
-    expect(fs.realpathSync(aliases["openclaw/plugin-sdk"] ?? "")).toBe(
+    expect(fs.realpathSync(aliases["brikko-studio/plugin-sdk"] ?? "")).toBe(
       fs.realpathSync(sourceRootAlias),
     );
-    expect(fs.realpathSync(aliases["openclaw/plugin-sdk/qa-runtime"] ?? "")).toBe(
+    expect(fs.realpathSync(aliases["brikko-studio/plugin-sdk/qa-runtime"] ?? "")).toBe(
       fs.realpathSync(sourceQaRuntimePath),
     );
-    expect(fs.realpathSync(aliases["openclaw/plugin-sdk/qa-channel"] ?? "")).toBe(
+    expect(fs.realpathSync(aliases["brikko-studio/plugin-sdk/qa-channel"] ?? "")).toBe(
       fs.realpathSync(sourceQaChannelPath),
     );
-    expect(fs.realpathSync(aliases["openclaw/plugin-sdk/qa-channel-protocol"] ?? "")).toBe(
+    expect(fs.realpathSync(aliases["brikko-studio/plugin-sdk/qa-channel-protocol"] ?? "")).toBe(
       fs.realpathSync(sourceQaChannelProtocolPath),
     );
-    expect(fs.realpathSync(aliases["openclaw/plugin-sdk/qa-lab"] ?? "")).toBe(
+    expect(fs.realpathSync(aliases["brikko-studio/plugin-sdk/qa-lab"] ?? "")).toBe(
       fs.realpathSync(distQaLabPath),
     );
   });
@@ -801,7 +801,7 @@ describe("plugin sdk alias helpers", () => {
       buildPluginLoaderAliasMap(sourcePluginEntry, undefined, undefined, "dist"),
     );
 
-    expect(fs.realpathSync(distAliases["openclaw/plugin-sdk/provider-entry"] ?? "")).toBe(
+    expect(fs.realpathSync(distAliases["brikko-studio/plugin-sdk/provider-entry"] ?? "")).toBe(
       fs.realpathSync(sourceProviderEntryPath),
     );
   });
@@ -826,7 +826,7 @@ describe("plugin sdk alias helpers", () => {
     });
   });
 
-  it("resolves plugin-sdk aliases for user-installed plugins via the running openclaw argv hint", () => {
+  it("resolves plugin-sdk aliases for user-installed plugins via the running brikko-studio argv hint", () => {
     const {
       externalPluginEntry,
       externalPluginRoot,
@@ -838,7 +838,7 @@ describe("plugin sdk alias helpers", () => {
 
     const aliases = withCwd(externalPluginRoot, () =>
       withEnv({ NODE_ENV: undefined }, () =>
-        buildPluginLoaderAliasMap(externalPluginEntry, path.join(fixture.root, "openclaw.mjs")),
+        buildPluginLoaderAliasMap(externalPluginEntry, path.join(fixture.root, "brikko-studio.mjs")),
       ),
     );
 
@@ -860,18 +860,18 @@ describe("plugin sdk alias helpers", () => {
     } = createUserInstalledPluginSdkAliasFixture();
 
     // Simulate loader.ts passing its own import.meta.url as the moduleUrl hint.
-    // This covers installations where argv1 does not resolve to the openclaw root
+    // This covers installations where argv1 does not resolve to the brikko-studio root
     // (e.g. single-binary distributions or custom process launchers).
-    // Use openclaw.mjs which is created by createPluginSdkAliasFixture (bin+marker mode).
+    // Use brikko-studio.mjs which is created by createPluginSdkAliasFixture (bin+marker mode).
     // Use fixture.root as cwd so process.cwd() fallback also resolves to fixture, not the
-    // real openclaw repo root in the test runner environment.
-    const loaderModuleUrl = pathToFileURL(path.join(fixture.root, "openclaw.mjs")).href;
+    // real brikko-studio repo root in the test runner environment.
+    const loaderModuleUrl = pathToFileURL(path.join(fixture.root, "brikko-studio.mjs")).href;
 
     // Use externalPluginRoot as cwd so process.cwd() fallback cannot accidentally
     // resolve to the fixture root — only the moduleUrl hint can bridge the gap.
     // Pass "" for argv1: undefined would trigger the STARTUP_ARGV1 default (the vitest
-    // runner binary, inside the openclaw repo), which resolves before moduleUrl is checked.
-    // An empty string is falsy so resolveTrustedOpenClawRootFromArgvHint returns null,
+    // runner binary, inside the brikko-studio repo), which resolves before moduleUrl is checked.
+    // An empty string is falsy so resolveTrustedBrikko StudioRootFromArgvHint returns null,
     // meaning only the moduleUrl hint can bridge the gap.
     const aliases = withCwd(externalPluginRoot, () =>
       withEnv({ NODE_ENV: undefined }, () =>
@@ -892,7 +892,7 @@ describe("plugin sdk alias helpers", () => {
 
   it.each([
     {
-      name: "does not resolve plugin-sdk alias files from cwd fallback when package root is not an OpenClaw root",
+      name: "does not resolve plugin-sdk alias files from cwd fallback when package root is not an Brikko Studio root",
       fixture: () =>
         createPluginSdkAliasFixture({
           srcFile: "channel-runtime.ts",
@@ -1045,13 +1045,13 @@ describe("plugin sdk alias helpers", () => {
   it("returns plugin loader module config with stable cache keys", () => {
     const first = resolvePluginLoaderModuleConfig({
       modulePath: `/repo/${bundledDistPluginFile("browser", "index.js")}`,
-      argv1: "/repo/openclaw.mjs",
+      argv1: "/repo/brikko-studio.mjs",
       moduleUrl: "file:///repo/src/plugins/public-surface-loader.ts",
       preferBuiltDist: true,
     });
     const second = resolvePluginLoaderModuleConfig({
       modulePath: `/repo/${bundledDistPluginFile("browser", "index.js")}`,
-      argv1: "/repo/openclaw.mjs",
+      argv1: "/repo/brikko-studio.mjs",
       moduleUrl: "file:///repo/src/plugins/public-surface-loader.ts",
       preferBuiltDist: true,
     });
@@ -1069,19 +1069,19 @@ describe("plugin sdk alias helpers", () => {
     const { auto, dist, distAgain } = withEnv({ NODE_ENV: undefined }, () => ({
       auto: resolvePluginLoaderModuleConfig({
         modulePath: sourcePluginEntry,
-        argv1: path.join(fixture.root, "openclaw.mjs"),
+        argv1: path.join(fixture.root, "brikko-studio.mjs"),
         moduleUrl: pathToFileURL(path.join(fixture.root, "src/plugins/loader.ts")).href,
         pluginSdkResolution: "auto",
       }),
       dist: resolvePluginLoaderModuleConfig({
         modulePath: sourcePluginEntry,
-        argv1: path.join(fixture.root, "openclaw.mjs"),
+        argv1: path.join(fixture.root, "brikko-studio.mjs"),
         moduleUrl: pathToFileURL(path.join(fixture.root, "src/plugins/loader.ts")).href,
         pluginSdkResolution: "dist",
       }),
       distAgain: resolvePluginLoaderModuleConfig({
         modulePath: sourcePluginEntry,
-        argv1: path.join(fixture.root, "openclaw.mjs"),
+        argv1: path.join(fixture.root, "brikko-studio.mjs"),
         moduleUrl: pathToFileURL(path.join(fixture.root, "src/plugins/loader.ts")).href,
         pluginSdkResolution: "dist",
       }),
@@ -1089,10 +1089,10 @@ describe("plugin sdk alias helpers", () => {
 
     expect(distAgain).toBe(dist);
     expect(auto).not.toBe(dist);
-    expect(fs.realpathSync(auto.aliasMap["openclaw/plugin-sdk"] ?? "")).toBe(
+    expect(fs.realpathSync(auto.aliasMap["brikko-studio/plugin-sdk"] ?? "")).toBe(
       fs.realpathSync(sourceRootAlias),
     );
-    expect(fs.realpathSync(dist.aliasMap["openclaw/plugin-sdk"] ?? "")).toBe(
+    expect(fs.realpathSync(dist.aliasMap["brikko-studio/plugin-sdk"] ?? "")).toBe(
       fs.realpathSync(distRootAlias),
     );
   });
@@ -1147,7 +1147,7 @@ describe("plugin sdk alias helpers", () => {
     fs.writeFileSync(sourceLoaderBaseFile, "export {};\n", "utf-8");
     fs.writeFileSync(
       path.join(copiedSourceDir, "channel.runtime.ts"),
-      `import { resolveOutboundSendDep } from "@openclaw/plugin-sdk/outbound-send-deps";
+      `import { resolveOutboundSendDep } from "@brikko-studio/plugin-sdk/outbound-send-deps";
 
 export const syntheticRuntimeMarker = {
   resolveOutboundSendDep,
@@ -1176,8 +1176,8 @@ export const syntheticRuntimeMarker = {
 
     const withAlias = createJiti(sourceLoaderBaseUrl, {
       ...buildPluginLoaderJitiOptions({
-        "openclaw/plugin-sdk/outbound-send-deps": copiedChannelRuntimeShim,
-        "@openclaw/plugin-sdk/outbound-send-deps": copiedChannelRuntimeShim,
+        "brikko-studio/plugin-sdk/outbound-send-deps": copiedChannelRuntimeShim,
+        "@brikko-studio/plugin-sdk/outbound-send-deps": copiedChannelRuntimeShim,
       }),
       tryNative: false,
     });
@@ -1196,8 +1196,8 @@ export const syntheticRuntimeMarker = {
     },
     {
       name: "resolves plugin runtime module from package root when loader runs from transpiler cache path",
-      modulePath: () => "/tmp/tsx-cache/openclaw-loader.js",
-      argv1: (root: string) => path.join(root, "openclaw.mjs"),
+      modulePath: () => "/tmp/tsx-cache/brikko-studio-loader.js",
+      argv1: (root: string) => path.join(root, "brikko-studio.mjs"),
       env: { NODE_ENV: undefined },
       expected: "src" as const,
     },
@@ -1248,7 +1248,7 @@ describe("buildPluginLoaderAliasMap memoization", () => {
     const aliasB = buildPluginLoaderAliasMap(entryB);
 
     expect(aliasA).not.toBe(aliasB);
-    expect(aliasA["openclaw/plugin-sdk"]).not.toBe(aliasB["openclaw/plugin-sdk"]);
+    expect(aliasA["brikko-studio/plugin-sdk"]).not.toBe(aliasB["brikko-studio/plugin-sdk"]);
   });
 
   it("returns different references when pluginSdkResolution differs", () => {
@@ -1293,16 +1293,16 @@ describe("buildPluginLoaderAliasMap memoization", () => {
     fs.writeFileSync(sourceQaRuntimePath, "export const qaRuntime = true;\n", "utf-8");
     const entry = writePluginEntry(fixture.root, bundledPluginFile("private-qa", "src/index.ts"));
 
-    const publicAliases = withEnv({ OPENCLAW_ENABLE_PRIVATE_QA_CLI: undefined }, () =>
+    const publicAliases = withEnv({ BRIKKO_STUDIO_ENABLE_PRIVATE_QA_CLI: undefined }, () =>
       buildPluginLoaderAliasMap(entry),
     );
-    const privateAliases = withEnv({ OPENCLAW_ENABLE_PRIVATE_QA_CLI: "1" }, () =>
+    const privateAliases = withEnv({ BRIKKO_STUDIO_ENABLE_PRIVATE_QA_CLI: "1" }, () =>
       buildPluginLoaderAliasMap(entry),
     );
 
     expect(publicAliases).not.toBe(privateAliases);
-    expect(publicAliases["openclaw/plugin-sdk/qa-runtime"]).toBeUndefined();
-    expect(fs.realpathSync(privateAliases["openclaw/plugin-sdk/qa-runtime"] ?? "")).toBe(
+    expect(publicAliases["brikko-studio/plugin-sdk/qa-runtime"]).toBeUndefined();
+    expect(fs.realpathSync(privateAliases["brikko-studio/plugin-sdk/qa-runtime"] ?? "")).toBe(
       fs.realpathSync(sourceQaRuntimePath),
     );
   });
@@ -1323,10 +1323,10 @@ describe("buildPluginLoaderAliasMap memoization", () => {
     );
 
     expect(developmentAliases).not.toBe(productionAliases);
-    expect(fs.realpathSync(developmentAliases["openclaw/plugin-sdk"] ?? "")).toBe(
+    expect(fs.realpathSync(developmentAliases["brikko-studio/plugin-sdk"] ?? "")).toBe(
       fs.realpathSync(sourceRootAlias),
     );
-    expect(fs.realpathSync(productionAliases["openclaw/plugin-sdk"] ?? "")).toBe(
+    expect(fs.realpathSync(productionAliases["brikko-studio/plugin-sdk"] ?? "")).toBe(
       fs.realpathSync(distRootAlias),
     );
   });
@@ -1356,9 +1356,9 @@ describe("buildPluginLoaderJitiOptions", () => {
   it("pre-normalizes and marks alias maps for source transforms", () => {
     const marker = Symbol.for("pathe:normalizedAlias");
     const aliasMap = {
-      "openclaw/plugin-sdk/core": "/repo/src/plugin-sdk/core.ts",
-      "openclaw/plugin-sdk": "/repo/src/plugin-sdk/root-alias.cjs",
-      "@openclaw/plugin-sdk": "/repo/src/plugin-sdk/root-alias.cjs",
+      "brikko-studio/plugin-sdk/core": "/repo/src/plugin-sdk/core.ts",
+      "brikko-studio/plugin-sdk": "/repo/src/plugin-sdk/root-alias.cjs",
+      "@brikko-studio/plugin-sdk": "/repo/src/plugin-sdk/root-alias.cjs",
     };
 
     const first = buildPluginLoaderJitiOptions(aliasMap).alias as Record<string, string>;

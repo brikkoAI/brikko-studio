@@ -1,5 +1,5 @@
 import { normalizeToolName } from "../../../agents/tool-policy-shared.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
 import { normalizePluginId } from "../../../plugins/config-state.js";
 import { loadManifestMetadataSnapshot } from "../../../plugins/manifest-contract-eligibility.js";
 import type { PluginManifestRegistry } from "../../../plugins/manifest-registry.js";
@@ -50,7 +50,7 @@ function collectToolPolicySources(policy: unknown, label: string, out: ToolAllow
   collectToolPolicySources(subagentTools, `${label}.subagents.tools`, out);
 }
 
-function collectToolAllowlistSources(cfg: OpenClawConfig): ToolAllowlistSource[] {
+function collectToolAllowlistSources(cfg: Brikko StudioConfig): ToolAllowlistSource[] {
   const sources: ToolAllowlistSource[] = [];
   collectToolPolicySources(cfg.tools, "tools", sources);
   const agentList = cfg.agents?.list;
@@ -106,7 +106,7 @@ function addIssue(issues: Map<string, Set<string>>, key: string, sourceLabel: st
 }
 
 export function collectPluginToolAllowlistWarnings(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   manifestRegistry?: PluginManifestRegistry;
 }): string[] {

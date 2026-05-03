@@ -17,7 +17,7 @@ describe("doctor startup channel maintenance", () => {
 
     await maybeRunDoctorStartupChannelMaintenance({
       cfg,
-      env: { OPENCLAW_TEST: "1" },
+      env: { BRIKKO_STUDIO_TEST: "1" },
       runChannelPluginStartupMaintenance: async (input) => {
         calls.push(input);
       },
@@ -29,7 +29,7 @@ describe("doctor startup channel maintenance", () => {
     expect(calls[0]).toEqual(
       expect.objectContaining({
         cfg,
-        env: { OPENCLAW_TEST: "1" },
+        env: { BRIKKO_STUDIO_TEST: "1" },
         trigger: "doctor-fix",
         logPrefix: "doctor",
         log: expect.objectContaining({

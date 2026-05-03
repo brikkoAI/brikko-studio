@@ -1,28 +1,28 @@
-import { resolveAckReaction, resolveHumanDelayConfig } from "openclaw/plugin-sdk/agent-runtime";
+import { resolveAckReaction, resolveHumanDelayConfig } from "brikko-studio/plugin-sdk/agent-runtime";
 import {
   createStatusReactionController,
   DEFAULT_TIMING,
   logAckFailure,
   logTypingFailure,
   shouldAckReaction as shouldAckReactionGate,
-} from "openclaw/plugin-sdk/channel-feedback";
-import { deliverFinalizableDraftPreview } from "openclaw/plugin-sdk/channel-lifecycle";
+} from "brikko-studio/plugin-sdk/channel-feedback";
+import { deliverFinalizableDraftPreview } from "brikko-studio/plugin-sdk/channel-lifecycle";
 import {
   createChannelReplyPipeline,
   resolveChannelSourceReplyDeliveryMode,
-} from "openclaw/plugin-sdk/channel-reply-pipeline";
-import { resolveChannelStreamingBlockEnabled } from "openclaw/plugin-sdk/channel-streaming";
-import { recordInboundSession } from "openclaw/plugin-sdk/conversation-runtime";
+} from "brikko-studio/plugin-sdk/channel-reply-pipeline";
+import { resolveChannelStreamingBlockEnabled } from "brikko-studio/plugin-sdk/channel-streaming";
+import { recordInboundSession } from "brikko-studio/plugin-sdk/conversation-runtime";
 import {
   hasFinalInboundReplyDispatch,
   runInboundReplyTurn,
-} from "openclaw/plugin-sdk/inbound-reply-dispatch";
-import { resolveMarkdownTableMode } from "openclaw/plugin-sdk/markdown-table-runtime";
-import { getAgentScopedMediaLocalRoots } from "openclaw/plugin-sdk/media-runtime";
-import { resolveChunkMode } from "openclaw/plugin-sdk/reply-chunking";
-import type { ReplyPayload } from "openclaw/plugin-sdk/reply-dispatch-runtime";
-import { resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-payload";
-import { danger, logVerbose, shouldLogVerbose } from "openclaw/plugin-sdk/runtime-env";
+} from "brikko-studio/plugin-sdk/inbound-reply-dispatch";
+import { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
+import { getAgentScopedMediaLocalRoots } from "brikko-studio/plugin-sdk/media-runtime";
+import { resolveChunkMode } from "brikko-studio/plugin-sdk/reply-chunking";
+import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-dispatch-runtime";
+import { resolveSendableOutboundReplyParts } from "brikko-studio/plugin-sdk/reply-payload";
+import { danger, logVerbose, shouldLogVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { resolveDiscordMaxLinesPerMessage } from "../accounts.js";
 import { createDiscordRestClient } from "../client.js";
 import { removeReactionDiscord } from "../send.js";
@@ -52,10 +52,10 @@ function sleep(ms: number): Promise<void> {
 }
 
 const DISCORD_TYPING_MAX_DURATION_MS = 20 * 60_000;
-let replyRuntimePromise: Promise<typeof import("openclaw/plugin-sdk/reply-runtime")> | undefined;
+let replyRuntimePromise: Promise<typeof import("brikko-studio/plugin-sdk/reply-runtime")> | undefined;
 
 async function loadReplyRuntime() {
-  replyRuntimePromise ??= import("openclaw/plugin-sdk/reply-runtime");
+  replyRuntimePromise ??= import("brikko-studio/plugin-sdk/reply-runtime");
   return await replyRuntimePromise;
 }
 

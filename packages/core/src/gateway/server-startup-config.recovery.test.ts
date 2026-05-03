@@ -1,10 +1,10 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { ConfigFileSnapshot, ModelDefinitionConfig, OpenClawConfig } from "../config/types.js";
+import type { ConfigFileSnapshot, ModelDefinitionConfig, Brikko StudioConfig } from "../config/types.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
 import { buildTestConfigSnapshot } from "./test-helpers.config-snapshots.js";
 
 const applyPluginAutoEnable = vi.hoisted(() =>
-  vi.fn((params: { config: OpenClawConfig }) => ({
+  vi.fn((params: { config: Brikko StudioConfig }) => ({
     config: params.config,
     changes: [] as string[],
     autoEnabledReasons: {} as Record<string, string[]>,
@@ -66,11 +66,11 @@ vi.mock("../config/paths.js", () => ({
   get isNixMode() {
     return configMocks.isNixMode.value;
   },
-  resolveStateDir: vi.fn(() => "/tmp/openclaw-state"),
+  resolveStateDir: vi.fn(() => "/tmp/brikko-studio-state"),
 }));
 
 vi.mock("../config/runtime-overrides.js", () => ({
-  applyConfigOverrides: vi.fn((config: OpenClawConfig) => config),
+  applyConfigOverrides: vi.fn((config: Brikko StudioConfig) => config),
 }));
 
 vi.mock("../config/recovery-policy.js", () => ({
@@ -97,7 +97,7 @@ vi.mock("../config/mutate.js", () => ({
 }));
 
 vi.mock("../config/validation.js", () => ({
-  validateConfigObjectWithPlugins: vi.fn((config: OpenClawConfig) => ({
+  validateConfigObjectWithPlugins: vi.fn((config: Brikko StudioConfig) => ({
     ok: true,
     config,
     warnings: [],
@@ -105,7 +105,7 @@ vi.mock("../config/validation.js", () => ({
 }));
 
 vi.mock("../config/plugin-auto-enable.js", () => ({
-  applyPluginAutoEnable: (params: { config: OpenClawConfig }) => applyPluginAutoEnable(params),
+  applyPluginAutoEnable: (params: { config: Brikko StudioConfig }) => applyPluginAutoEnable(params),
 }));
 
 vi.mock("./config-recovery-notice.js", () => ({
@@ -117,12 +117,12 @@ let configIo: typeof import("../config/io.js");
 let configMutate: typeof import("../config/mutate.js");
 let recoveryNotice: typeof import("./config-recovery-notice.js");
 
-const configPath = "/tmp/openclaw-startup-recovery.json";
+const configPath = "/tmp/brikko-studio-startup-recovery.json";
 const validConfig = {
   gateway: {
     mode: "local",
   },
-} as OpenClawConfig;
+} as Brikko StudioConfig;
 
 function testModel(id: string, name: string): ModelDefinitionConfig {
   return {
@@ -144,7 +144,7 @@ function testModel(id: string, name: string): ModelDefinitionConfig {
 function buildSnapshot(params: {
   valid: boolean;
   raw: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 }): ConfigFileSnapshot {
   return buildTestConfigSnapshot({
     path: configPath,
@@ -152,7 +152,7 @@ function buildSnapshot(params: {
     raw: params.raw,
     parsed: params.config ?? null,
     valid: params.valid,
-    config: params.config ?? ({} as OpenClawConfig),
+    config: params.config ?? ({} as Brikko StudioConfig),
     issues: params.valid ? [] : [{ path: "gateway.mode", message: "Expected 'local' or 'remote'" }],
     legacyIssues: [],
   });
@@ -222,7 +222,7 @@ describe("gateway startup config recovery", () => {
           browser: { enabled: false },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const runtimeConfig = {
       ...sourceConfig,
       plugins: {
@@ -238,7 +238,7 @@ describe("gateway startup config recovery", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const snapshot = {
       ...buildTestConfigSnapshot({
         path: configPath,
@@ -341,13 +341,13 @@ describe("gateway startup config recovery", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
     const autoEnabledConfig = {
       ...sourceConfig,
       channels: {
         telegram: { enabled: true },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
     const initialSnapshot = {
       ...buildTestConfigSnapshot({
         path: configPath,
@@ -487,7 +487,7 @@ describe("gateway startup config recovery", () => {
         log: { info: vi.fn(), warn: vi.fn() },
       }),
     ).rejects.toThrow(
-      `Invalid config at ${configPath}.\ngateway.mode: Expected 'local' or 'remote'\nRun "openclaw doctor --fix" to repair, then retry.`,
+      `Invalid config at ${configPath}.\ngateway.mode: Expected 'local' or 'remote'\nRun "brikko-studio doctor --fix" to repair, then retry.`,
     );
 
     expect(recoveryNotice.enqueueConfigRecoveryNotice).not.toHaveBeenCalled();
@@ -504,7 +504,7 @@ describe("gateway startup config recovery", () => {
         heartbeat: { model: "anthropic/claude-3-5-haiku-20241022", every: "30m" },
       },
       valid: false,
-      config: {} as OpenClawConfig,
+      config: {} as Brikko StudioConfig,
       issues: [
         {
           path: "heartbeat",
@@ -568,12 +568,12 @@ describe("gateway startup config recovery", () => {
             feishu: { enabled: true },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       issues: [
         {
           path: "plugins.entries.feishu",
           message:
-            "plugin feishu: plugin requires OpenClaw >=2026.4.23, but this host is 2026.4.22; skipping load",
+            "plugin feishu: plugin requires Brikko Studio >=2026.4.23, but this host is 2026.4.22; skipping load",
         },
       ],
       legacyIssues: [],
@@ -599,7 +599,7 @@ describe("gateway startup config recovery", () => {
     expect(configIo.recoverConfigFromLastKnownGood).not.toHaveBeenCalled();
     expect(configIo.recoverConfigFromJsonRootSuffix).not.toHaveBeenCalled();
     expect(log.warn).toHaveBeenCalledWith(
-      `gateway: skipped plugin config validation issue at plugins.entries.feishu: plugin feishu: plugin requires OpenClaw >=2026.4.23, but this host is 2026.4.22; skipping load. Run "openclaw doctor --fix" to quarantine the plugin config.`,
+      `gateway: skipped plugin config validation issue at plugins.entries.feishu: plugin feishu: plugin requires Brikko Studio >=2026.4.23, but this host is 2026.4.22; skipping load. Run "brikko-studio doctor --fix" to quarantine the plugin config.`,
     );
     expect(recoveryNotice.enqueueConfigRecoveryNotice).not.toHaveBeenCalled();
   });
@@ -632,7 +632,7 @@ describe("gateway startup config recovery", () => {
             feishu: { enabled: true },
           },
         },
-      } as unknown as OpenClawConfig,
+      } as unknown as Brikko StudioConfig,
       issues: [
         {
           path: "gateway.mode",
@@ -690,7 +690,7 @@ describe("gateway startup config recovery", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
     const invalidSnapshot = buildTestConfigSnapshot({
       path: configPath,
       exists: true,
@@ -730,7 +730,7 @@ describe("gateway startup config recovery", () => {
     expect(configIo.recoverConfigFromLastKnownGood).not.toHaveBeenCalled();
     expect(configMutate.replaceConfigFile).not.toHaveBeenCalled();
     expect(log.warn).toHaveBeenCalledWith(
-      'gateway: skipped model provider openrouter; configured provider api is invalid. Run "openclaw doctor --fix" to repair the config.',
+      'gateway: skipped model provider openrouter; configured provider api is invalid. Run "brikko-studio doctor --fix" to repair the config.',
     );
   });
 

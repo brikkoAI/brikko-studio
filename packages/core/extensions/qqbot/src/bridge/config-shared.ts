@@ -1,10 +1,10 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   applyAccountNameToChannelSection,
   deleteAccountFromConfigSection,
   setAccountEnabledInConfigSection,
-} from "openclaw/plugin-sdk/core";
-import type { ChannelSetupInput } from "openclaw/plugin-sdk/setup";
+} from "brikko-studio/plugin-sdk/core";
+import type { ChannelSetupInput } from "brikko-studio/plugin-sdk/setup";
 import {
   describeAccount as engineDescribeAccount,
   formatAllowFrom as engineFormatAllowFrom,
@@ -39,15 +39,15 @@ function validateQQBotSetupInput(params: {
 }
 
 function applyQQBotSetupAccountConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   input: ChannelSetupInput;
-}): OpenClawConfig {
+}): Brikko StudioConfig {
   return engineApplySetupAccountConfig(
     params.cfg as unknown as Record<string, unknown>,
     params.accountId,
     params.input,
-  ) as OpenClawConfig;
+  ) as Brikko StudioConfig;
 }
 
 function isQQBotConfigured(account: ResolvedQQBotAccount | undefined): boolean {
@@ -65,16 +65,16 @@ function formatQQBotAllowFrom(params: {
 }
 
 export const qqbotConfigAdapter = {
-  listAccountIds: (cfg: OpenClawConfig) => listQQBotAccountIds(cfg),
-  resolveAccount: (cfg: OpenClawConfig, accountId?: string | null) =>
+  listAccountIds: (cfg: Brikko StudioConfig) => listQQBotAccountIds(cfg),
+  resolveAccount: (cfg: Brikko StudioConfig, accountId?: string | null) =>
     resolveQQBotAccount(cfg, accountId, { allowUnresolvedSecretRef: true }),
-  defaultAccountId: (cfg: OpenClawConfig) => resolveDefaultQQBotAccountId(cfg),
+  defaultAccountId: (cfg: Brikko StudioConfig) => resolveDefaultQQBotAccountId(cfg),
   setAccountEnabled: ({
     cfg,
     accountId,
     enabled,
   }: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     accountId: string;
     enabled: boolean;
   }) =>
@@ -85,7 +85,7 @@ export const qqbotConfigAdapter = {
       enabled,
       allowTopLevel: true,
     }),
-  deleteAccount: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId: string }) =>
+  deleteAccount: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId: string }) =>
     deleteAccountFromConfigSection({
       cfg,
       sectionKey: "qqbot",
@@ -94,21 +94,21 @@ export const qqbotConfigAdapter = {
     }),
   isConfigured: isQQBotConfigured,
   describeAccount: describeQQBotAccount,
-  resolveAllowFrom: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId?: string | null }) =>
+  resolveAllowFrom: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId?: string | null }) =>
     resolveQQBotAccount(cfg, accountId, { allowUnresolvedSecretRef: true }).config?.allowFrom,
   formatAllowFrom: ({ allowFrom }: { allowFrom: Array<string | number> | undefined | null }) =>
     formatQQBotAllowFrom({ allowFrom }),
 };
 
 export const qqbotSetupAdapterShared = {
-  resolveAccountId: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId?: string | null }) =>
+  resolveAccountId: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId?: string | null }) =>
     normalizeLowercaseStringOrEmpty(accountId) || resolveDefaultQQBotAccountId(cfg),
   applyAccountName: ({
     cfg,
     accountId,
     name,
   }: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     accountId: string;
     name?: string;
   }) =>
@@ -125,7 +125,7 @@ export const qqbotSetupAdapterShared = {
     accountId,
     input,
   }: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     accountId: string;
     input: ChannelSetupInput;
   }) => applyQQBotSetupAccountConfig({ cfg, accountId, input }),

@@ -16,7 +16,7 @@ import {
 } from "../../config/redact-snapshot.js";
 import { loadGatewayRuntimeConfigSchema } from "../../config/runtime-schema.js";
 import { lookupConfigSchema, type ConfigSchemaResponse } from "../../config/schema.js";
-import type { ConfigValidationIssue, OpenClawConfig } from "../../config/types.openclaw.js";
+import type { ConfigValidationIssue, Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import {
   prepareSecretsRuntimeSnapshot,
@@ -187,7 +187,7 @@ function parseValidateConfigFromRawOrRespond(
   requestName: string,
   snapshot: Awaited<ReturnType<typeof readConfigFileSnapshot>>,
   respond: RespondFn,
-): { config: OpenClawConfig; schema: ConfigSchemaResponse } | null {
+): { config: Brikko StudioConfig; schema: ConfigSchemaResponse } | null {
   const rawValue = parseRawConfigOrRespond(params, requestName, respond);
   if (!rawValue) {
     return null;
@@ -236,7 +236,7 @@ function summarizeConfigValidationIssues(issues: ReadonlyArray<ConfigValidationI
 }
 
 async function ensureResolvableSecretRefsOrRespond(params: {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   respond: RespondFn;
 }): Promise<PreparedSecretsRuntimeSnapshot | null> {
   try {
@@ -260,7 +260,7 @@ async function ensureResolvableSecretRefsOrRespond(params: {
 
 function loadSchemaWithPlugins(): ConfigSchemaResponse {
   // Note: We can't easily cache this, as there are no callback that can invalidate
-  // our cache. However, getRuntimeConfig() and loadOpenClawPlugins() (called inside
+  // our cache. However, getRuntimeConfig() and loadBrikko StudioPlugins() (called inside
   // loadGatewayRuntimeConfigSchema) already cache their results, and buildConfigSchema()
   // is just a cheap transformation.
   return loadGatewayRuntimeConfigSchema();

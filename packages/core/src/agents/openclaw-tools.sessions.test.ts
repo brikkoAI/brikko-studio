@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ChannelMessagingAdapter } from "../channels/plugins/types.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { createTestRegistry } from "../test-utils/channel-plugins.js";
 
 const callGatewayMock = vi.fn();
@@ -31,7 +31,7 @@ vi.mock("../config/config.js", () => ({
   resolveGatewayPort: () => 18789,
 }));
 
-import "./test-helpers/fast-openclaw-tools-sessions.js";
+import "./test-helpers/fast-brikko-studio-tools-sessions.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { __testing as agentStepTesting } from "./tools/agent-step.js";
 import { createSessionsHistoryTool } from "./tools/sessions-history-tool.js";
@@ -50,7 +50,7 @@ const TEST_CONFIG = {
     sessions: { visibility: "all" },
     agentToAgent: { enabled: true },
   },
-} as OpenClawConfig;
+} as Brikko StudioConfig;
 
 const resolveSessionConversationStub: NonNullable<
   ChannelMessagingAdapter["resolveSessionConversation"]
@@ -117,11 +117,11 @@ function installMessagingTestRegistry() {
   );
 }
 
-function createOpenClawTools(options?: {
+function createBrikko StudioTools(options?: {
   agentSessionKey?: string;
   agentChannel?: string;
   sandboxed?: boolean;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 }) {
   const config = options?.config ?? TEST_CONFIG;
   const gatewayCall = (opts: unknown) => callGatewayMock(opts);
@@ -179,7 +179,7 @@ describe("sessions tools", () => {
   });
 
   it("uses number (not integer) in tool schemas for Gemini compatibility", () => {
-    const tools = createOpenClawTools();
+    const tools = createBrikko StudioTools();
     const byName = (name: string) => {
       const tool = tools.find((candidate) => candidate.name === name);
       expect(tool).toBeDefined();
@@ -290,7 +290,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools().find((candidate) => candidate.name === "sessions_list");
+    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_list");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_list tool");
@@ -369,7 +369,7 @@ describe("sessions tools", () => {
   });
 
   it("derives mailbox previews only after agent visibility filtering", async () => {
-    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-sessions-list-preview-"));
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-sessions-list-preview-"));
     const storePath = path.join(tmpDir, "sessions.json");
     try {
       fs.writeFileSync(
@@ -417,7 +417,7 @@ describe("sessions tools", () => {
         return {};
       });
 
-      const tool = createOpenClawTools({
+      const tool = createBrikko StudioTools({
         agentSessionKey: "agent:main:main",
         config: {
           ...TEST_CONFIG,
@@ -425,7 +425,7 @@ describe("sessions tools", () => {
             sessions: { visibility: "agent" },
             agentToAgent: { enabled: false },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
       }).find((candidate) => candidate.name === "sessions_list");
       expect(tool).toBeDefined();
       if (!tool) {
@@ -474,7 +474,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools().find((candidate) => candidate.name === "sessions_list");
+    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_list");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_list tool");
@@ -509,7 +509,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -558,7 +558,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -622,7 +622,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -671,7 +671,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -712,7 +712,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -750,7 +750,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -778,7 +778,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -851,7 +851,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools({
+    const tool = createBrikko StudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");
@@ -949,7 +949,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools({
+    const tool = createBrikko StudioTools({
       agentSessionKey: "main",
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");
@@ -1047,7 +1047,7 @@ describe("sessions tools", () => {
       callGateway: (opts: unknown) => callGatewayMock(opts),
     });
 
-    const tool = createOpenClawTools({
+    const tool = createBrikko StudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");
@@ -1156,7 +1156,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools({
+    const tool = createBrikko StudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
       config: {
@@ -1243,7 +1243,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools({
+    const tool = createBrikko StudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");
@@ -1311,7 +1311,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createOpenClawTools({
+    const tool = createBrikko StudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");
@@ -1447,7 +1447,7 @@ describe("sessions tools", () => {
       callGateway: (opts: unknown) => callGatewayMock(opts),
     });
 
-    const tool = createOpenClawTools({
+    const tool = createBrikko StudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");

@@ -53,10 +53,10 @@ function writePublishablePluginPackage(repoDir: string): string {
   const packageDir = join(repoDir, "extensions", "diffs");
   mkdirSync(packageDir, { recursive: true });
   writeJsonFile(join(packageDir, "package.json"), {
-    name: "@openclaw/diffs",
+    name: "@brikko-studio/diffs",
     version: "2026.5.3",
     type: "module",
-    openclaw: {
+    brikko-studio: {
       extensions: ["./index.ts"],
       setupEntry: "./setup-entry.ts",
       compat: {
@@ -67,7 +67,7 @@ function writePublishablePluginPackage(repoDir: string): string {
       },
     },
   });
-  writeJsonFile(join(packageDir, "openclaw.plugin.json"), { id: "diffs" });
+  writeJsonFile(join(packageDir, "brikko-studio.plugin.json"), { id: "diffs" });
   writeFileText(join(packageDir, "README.md"), "# Diffs\n");
   writeFileText(join(packageDir, "SKILL.md"), "# Diffs Skill\n");
   writeFileText(join(packageDir, "skills", "diffs", "SKILL.md"), "# Diffs Skill\n");
@@ -76,7 +76,7 @@ function writePublishablePluginPackage(repoDir: string): string {
 
 describe("plugin npm package manifest staging", () => {
   it("overlays generated channel configs while packing and restores source manifest", () => {
-    const repoDir = makeTempRepoRoot(tempDirs, "openclaw-plugin-npm-package-manifest-");
+    const repoDir = makeTempRepoRoot(tempDirs, "brikko-studio-plugin-npm-package-manifest-");
     const packageDir = join(repoDir, "extensions", "twitch");
     mkdirSync(packageDir, { recursive: true });
     const sourceManifest = {
@@ -88,7 +88,7 @@ describe("plugin npm package manifest staging", () => {
         properties: {},
       },
     };
-    writeJsonFile(join(packageDir, "openclaw.plugin.json"), sourceManifest);
+    writeJsonFile(join(packageDir, "brikko-studio.plugin.json"), sourceManifest);
     writeGeneratedChannelMetadata(repoDir);
 
     const resolved = resolveAugmentedPluginNpmManifest({
@@ -107,18 +107,18 @@ describe("plugin npm package manifest staging", () => {
       },
     });
 
-    const originalText = readFileSync(join(packageDir, "openclaw.plugin.json"), "utf8");
+    const originalText = readFileSync(join(packageDir, "brikko-studio.plugin.json"), "utf8");
     withAugmentedPluginNpmManifestForPackage({ repoRoot: repoDir, packageDir }, () => {
       const stagedManifest = JSON.parse(
-        readFileSync(join(packageDir, "openclaw.plugin.json"), "utf8"),
+        readFileSync(join(packageDir, "brikko-studio.plugin.json"), "utf8"),
       );
       expect(stagedManifest.channelConfigs.twitch.description).toBe("Twitch chat integration");
     });
-    expect(readFileSync(join(packageDir, "openclaw.plugin.json"), "utf8")).toBe(originalText);
+    expect(readFileSync(join(packageDir, "brikko-studio.plugin.json"), "utf8")).toBe(originalText);
   });
 
   it("overlays package-local runtime metadata while packing and restores source package json", () => {
-    const repoDir = makeTempRepoRoot(tempDirs, "openclaw-plugin-npm-package-runtime-");
+    const repoDir = makeTempRepoRoot(tempDirs, "brikko-studio-plugin-npm-package-runtime-");
     const packageDir = writePublishablePluginPackage(repoDir);
     writeFileText(join(packageDir, "dist", "index.js"), "export {};\n");
     writeFileText(join(packageDir, "dist", "setup-entry.js"), "export {};\n");
@@ -129,16 +129,16 @@ describe("plugin npm package manifest staging", () => {
     });
     expect(resolved.changed).toBe(true);
     expect(resolved.packageJson).toMatchObject({
-      files: ["dist/**", "openclaw.plugin.json", "README.md", "SKILL.md", "skills/**"],
+      files: ["dist/**", "brikko-studio.plugin.json", "README.md", "SKILL.md", "skills/**"],
       peerDependencies: {
-        openclaw: ">=2026.4.30",
+        brikko-studio: ">=2026.4.30",
       },
       peerDependenciesMeta: {
-        openclaw: {
+        brikko-studio: {
           optional: true,
         },
       },
-      openclaw: {
+      brikko-studio: {
         runtimeExtensions: ["./dist/index.js"],
         runtimeSetupEntry: "./dist/setup-entry.js",
       },
@@ -147,19 +147,19 @@ describe("plugin npm package manifest staging", () => {
     const originalText = readFileSync(join(packageDir, "package.json"), "utf8");
     withAugmentedPluginNpmManifestForPackage({ repoRoot: repoDir, packageDir }, () => {
       const stagedPackageJson = JSON.parse(readFileSync(join(packageDir, "package.json"), "utf8"));
-      expect(stagedPackageJson.openclaw.extensions).toEqual(["./index.ts"]);
-      expect(stagedPackageJson.openclaw.runtimeExtensions).toEqual(["./dist/index.js"]);
-      expect(stagedPackageJson.openclaw.runtimeSetupEntry).toBe("./dist/setup-entry.js");
+      expect(stagedPackageJson.brikko-studio.extensions).toEqual(["./index.ts"]);
+      expect(stagedPackageJson.brikko-studio.runtimeExtensions).toEqual(["./dist/index.js"]);
+      expect(stagedPackageJson.brikko-studio.runtimeSetupEntry).toBe("./dist/setup-entry.js");
       expect(stagedPackageJson.files).toContain("dist/**");
       expect(stagedPackageJson.files).toContain("skills/**");
-      expect(stagedPackageJson.peerDependencies.openclaw).toBe(">=2026.4.30");
-      expect(stagedPackageJson.peerDependenciesMeta.openclaw.optional).toBe(true);
+      expect(stagedPackageJson.peerDependencies.brikko-studio).toBe(">=2026.4.30");
+      expect(stagedPackageJson.peerDependenciesMeta.brikko-studio.optional).toBe(true);
     });
     expect(readFileSync(join(packageDir, "package.json"), "utf8")).toBe(originalText);
   });
 
   it("refuses to pack publishable plugins before package-local runtime files exist", () => {
-    const repoDir = makeTempRepoRoot(tempDirs, "openclaw-plugin-npm-package-runtime-missing-");
+    const repoDir = makeTempRepoRoot(tempDirs, "brikko-studio-plugin-npm-package-runtime-missing-");
     const packageDir = writePublishablePluginPackage(repoDir);
 
     expect(() =>

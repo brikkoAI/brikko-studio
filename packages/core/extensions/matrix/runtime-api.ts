@@ -38,22 +38,22 @@ export {
   ssrfPolicyFromAllowPrivateNetwork,
   type LookupFn,
   type SsrFPolicy,
-} from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/ssrf-runtime";
 export {
   setMatrixThreadBindingIdleTimeoutBySessionKey,
   setMatrixThreadBindingMaxAgeBySessionKey,
 } from "./src/matrix/thread-bindings-shared.js";
 export { setMatrixRuntime } from "./src/runtime.js";
-export { writeJsonFileAtomically } from "openclaw/plugin-sdk/json-store";
+export { writeJsonFileAtomically } from "brikko-studio/plugin-sdk/json-store";
 export type {
   ChannelDirectoryEntry,
   ChannelMessageActionContext,
-} from "openclaw/plugin-sdk/channel-contract";
-export type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-export { formatZonedTimestamp } from "openclaw/plugin-sdk/time-runtime";
-export type { PluginRuntime, RuntimeLogger } from "openclaw/plugin-sdk/plugin-runtime";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-export type { WizardPrompter } from "openclaw/plugin-sdk/setup";
+} from "brikko-studio/plugin-sdk/channel-contract";
+export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export { formatZonedTimestamp } from "brikko-studio/plugin-sdk/time-runtime";
+export type { PluginRuntime, RuntimeLogger } from "brikko-studio/plugin-sdk/plugin-runtime";
+export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
+export type { WizardPrompter } from "brikko-studio/plugin-sdk/setup";
 
 export function chunkTextForOutbound(text: string, limit: number): string[] {
   const chunks: string[] = [];

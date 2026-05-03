@@ -2,4 +2,4 @@ export {
   renderQrPngBase64,
   renderQrPngDataUrl,
   writeQrPngTempFile,
-} from "openclaw/plugin-sdk/media-runtime";
+} from "brikko-studio/plugin-sdk/media-runtime";

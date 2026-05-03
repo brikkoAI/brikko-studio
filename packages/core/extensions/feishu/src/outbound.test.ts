@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { MessagePresentation } from "openclaw/plugin-sdk/interactive-runtime";
+import type { MessagePresentation } from "brikko-studio/plugin-sdk/interactive-runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ClawdbotConfig } from "../runtime-api.js";
 
@@ -110,7 +110,7 @@ describe("feishuOutbound.sendText local-image auto-convert", () => {
   });
 
   async function createTmpImage(ext = ".png"): Promise<{ dir: string; file: string }> {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-feishu-outbound-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-feishu-outbound-"));
     const file = path.join(dir, `sample${ext}`);
     await fs.writeFile(file, "image-data");
     return { dir, file };
@@ -251,7 +251,7 @@ describe("feishuOutbound.sendPayload native cards", () => {
   });
 
   async function createTmpImage(ext = ".png"): Promise<{ dir: string; file: string }> {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-feishu-payload-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-feishu-payload-"));
     const file = path.join(dir, `sample${ext}`);
     await fs.writeFile(file, "image-data");
     return { dir, file };

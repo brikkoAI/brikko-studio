@@ -14,15 +14,15 @@ for the first time.
 
 ## What bootstrapping does
 
-On the first agent run, OpenClaw bootstraps the workspace (default
-`~/.openclaw/workspace`):
+On the first agent run, Brikko Studio bootstraps the workspace (default
+`~/.brikko-studio/workspace`):
 
 - Seeds `AGENTS.md`, `BOOTSTRAP.md`, `IDENTITY.md`, `USER.md`.
 - Runs a short Q&A ritual (one question at a time).
 - Writes identity + preferences to `IDENTITY.md`, `USER.md`, `SOUL.md`.
 - Removes `BOOTSTRAP.md` when finished so it only runs once.
 
-For embedded/local model runs, OpenClaw keeps `BOOTSTRAP.md` out of the
+For embedded/local model runs, Brikko Studio keeps `BOOTSTRAP.md` out of the
 privileged system context. On the primary interactive first run, it still passes
 the file contents in the user prompt so models that do not reliably call the
 `read` tool can complete the ritual. If the current run cannot safely access the
@@ -30,7 +30,7 @@ workspace, the agent gets a limited bootstrap note instead of a generic greeting
 
 ## Skipping bootstrapping
 
-To skip this for a pre-seeded workspace, run `openclaw onboard --skip-bootstrap`.
+To skip this for a pre-seeded workspace, run `brikko-studio onboard --skip-bootstrap`.
 
 ## Where it runs
 
@@ -40,7 +40,7 @@ machine.
 
 <Note>
 When the Gateway runs on another machine, edit workspace files on the gateway
-host (for example, `user@gateway-host:~/.openclaw/workspace`).
+host (for example, `user@gateway-host:~/.brikko-studio/workspace`).
 </Note>
 
 ## Related docs

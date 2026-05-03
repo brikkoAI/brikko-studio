@@ -17,7 +17,7 @@ function writeFile(filePath: string, content: string): void {
 
 describe("run-opengrep.sh", () => {
   it("validates the rulepack when only OpenGrep rulepack files changed", () => {
-    const repo = createTempDir("openclaw-run-opengrep-");
+    const repo = createTempDir("brikko-studio-run-opengrep-");
     git(repo, "init", "-q");
     git(repo, "config", "user.email", "test@example.com");
     git(repo, "config", "user.name", "Test User");
@@ -49,7 +49,7 @@ describe("run-opengrep.sh", () => {
       env: {
         ...process.env,
         PATH: `${binDir}${path.delimiter}${process.env.PATH ?? ""}`,
-        OPENCLAW_OPENGREP_BASE_REF: "HEAD",
+        BRIKKO_STUDIO_OPENGREP_BASE_REF: "HEAD",
       },
       encoding: "utf8",
     });

@@ -1,18 +1,18 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { getSessionBindingService } from "openclaw/plugin-sdk/conversation-runtime";
-import { resolveStateDir } from "openclaw/plugin-sdk/state-paths";
-import { importFreshModule } from "openclaw/plugin-sdk/test-fixtures";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { getSessionBindingService } from "brikko-studio/plugin-sdk/conversation-runtime";
+import { resolveStateDir } from "brikko-studio/plugin-sdk/state-paths";
+import { importFreshModule } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const writeJsonFileAtomicallyMock = vi.hoisted(() => vi.fn());
 const readAcpSessionEntryMock = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/acp-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/acp-runtime")>(
-    "openclaw/plugin-sdk/acp-runtime",
+vi.mock("brikko-studio/plugin-sdk/acp-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/acp-runtime")>(
+    "brikko-studio/plugin-sdk/acp-runtime",
   );
   readAcpSessionEntryMock.mockImplementation(actual.readAcpSessionEntry);
   return {
@@ -21,9 +21,9 @@ vi.mock("openclaw/plugin-sdk/acp-runtime", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/json-store", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/json-store")>(
-    "openclaw/plugin-sdk/json-store",
+vi.mock("brikko-studio/plugin-sdk/json-store", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/json-store")>(
+    "brikko-studio/plugin-sdk/json-store",
   );
   writeJsonFileAtomicallyMock.mockImplementation(actual.writeJsonFileAtomically);
   return {
@@ -45,7 +45,7 @@ const TELEGRAM_THREAD_BINDINGS_TEST_CFG = {
       token: "test-token",
     },
   },
-} as OpenClawConfig;
+} as Brikko StudioConfig;
 
 type TelegramThreadBindingManagerParams = Parameters<
   typeof createTelegramThreadBindingManagerImpl
@@ -71,8 +71,8 @@ describe("telegram thread bindings", () => {
   beforeEach(async () => {
     writeJsonFileAtomicallyMock.mockClear();
     readAcpSessionEntryMock.mockReset();
-    const acpRuntime = await vi.importActual<typeof import("openclaw/plugin-sdk/acp-runtime")>(
-      "openclaw/plugin-sdk/acp-runtime",
+    const acpRuntime = await vi.importActual<typeof import("brikko-studio/plugin-sdk/acp-runtime")>(
+      "brikko-studio/plugin-sdk/acp-runtime",
     );
     readAcpSessionEntryMock.mockImplementation(acpRuntime.readAcpSessionEntry);
     await __testing.resetTelegramThreadBindingsForTests();
@@ -82,7 +82,7 @@ describe("telegram thread bindings", () => {
     vi.useRealTimers();
     await __testing.resetTelegramThreadBindingsForTests();
     if (stateDirOverride) {
-      delete process.env.OPENCLAW_STATE_DIR;
+      delete process.env.BRIKKO_STUDIO_STATE_DIR;
       fs.rmSync(stateDirOverride, { recursive: true, force: true });
       stateDirOverride = undefined;
     }
@@ -258,8 +258,8 @@ describe("telegram thread bindings", () => {
   });
 
   it("does not persist lifecycle updates when manager persistence is disabled", async () => {
-    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-telegram-bindings-"));
-    process.env.OPENCLAW_STATE_DIR = stateDirOverride;
+    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-telegram-bindings-"));
+    process.env.BRIKKO_STUDIO_STATE_DIR = stateDirOverride;
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-03-06T10:00:00.000Z"));
 
@@ -299,8 +299,8 @@ describe("telegram thread bindings", () => {
   });
 
   it("persists unbinds before restart so removed bindings do not come back", async () => {
-    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-telegram-bindings-"));
-    process.env.OPENCLAW_STATE_DIR = stateDirOverride;
+    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-telegram-bindings-"));
+    process.env.BRIKKO_STUDIO_STATE_DIR = stateDirOverride;
 
     createTelegramThreadBindingManager({
       accountId: "default",
@@ -309,7 +309,7 @@ describe("telegram thread bindings", () => {
     });
 
     const bound = await getSessionBindingService().bind({
-      targetSessionKey: "plugin-binding:openclaw-codex-app-server:abc123",
+      targetSessionKey: "plugin-binding:brikko-studio-codex-app-server:abc123",
       targetKind: "session",
       conversation: {
         channel: "telegram",
@@ -335,8 +335,8 @@ describe("telegram thread bindings", () => {
   });
 
   it("cleans up stale ACP bindings before restart routing can reuse them", async () => {
-    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-telegram-bindings-"));
-    process.env.OPENCLAW_STATE_DIR = stateDirOverride;
+    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-telegram-bindings-"));
+    process.env.BRIKKO_STUDIO_STATE_DIR = stateDirOverride;
 
     createTelegramThreadBindingManager({
       accountId: "default",
@@ -389,8 +389,8 @@ describe("telegram thread bindings", () => {
   });
 
   it("keeps plugin-owned bindings when ACP cleanup runs on startup", async () => {
-    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-telegram-bindings-"));
-    process.env.OPENCLAW_STATE_DIR = stateDirOverride;
+    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-telegram-bindings-"));
+    process.env.BRIKKO_STUDIO_STATE_DIR = stateDirOverride;
 
     createTelegramThreadBindingManager({
       accountId: "default",
@@ -399,7 +399,7 @@ describe("telegram thread bindings", () => {
     });
 
     await getSessionBindingService().bind({
-      targetSessionKey: "plugin-binding:openclaw-codex-app-server:still-valid",
+      targetSessionKey: "plugin-binding:brikko-studio-codex-app-server:still-valid",
       targetKind: "session",
       conversation: {
         channel: "telegram",
@@ -417,14 +417,14 @@ describe("telegram thread bindings", () => {
     });
 
     expect(reloaded.getByConversationId("plugin-binding-convo")?.targetSessionKey).toBe(
-      "plugin-binding:openclaw-codex-app-server:still-valid",
+      "plugin-binding:brikko-studio-codex-app-server:still-valid",
     );
     expect(readAcpSessionEntryMock).not.toHaveBeenCalled();
   });
 
   it("keeps ACP bindings when the session store cannot be read during startup cleanup", async () => {
-    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-telegram-bindings-"));
-    process.env.OPENCLAW_STATE_DIR = stateDirOverride;
+    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-telegram-bindings-"));
+    process.env.BRIKKO_STUDIO_STATE_DIR = stateDirOverride;
 
     createTelegramThreadBindingManager({
       accountId: "default",
@@ -465,8 +465,8 @@ describe("telegram thread bindings", () => {
   });
 
   it("flushes pending lifecycle update persists before test reset", async () => {
-    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-telegram-bindings-"));
-    process.env.OPENCLAW_STATE_DIR = stateDirOverride;
+    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-telegram-bindings-"));
+    process.env.BRIKKO_STUDIO_STATE_DIR = stateDirOverride;
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-03-06T10:00:00.000Z"));
 
@@ -506,8 +506,8 @@ describe("telegram thread bindings", () => {
   });
 
   it("does not leak unhandled rejections when a persist write fails", async () => {
-    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-telegram-bindings-"));
-    process.env.OPENCLAW_STATE_DIR = stateDirOverride;
+    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-telegram-bindings-"));
+    process.env.BRIKKO_STUDIO_STATE_DIR = stateDirOverride;
     const unhandled: unknown[] = [];
     const onUnhandledRejection = (reason: unknown) => {
       unhandled.push(reason);

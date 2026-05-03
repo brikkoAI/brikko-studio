@@ -1,9 +1,9 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
-import { disposeRegisteredAgentHarnesses } from "openclaw/plugin-sdk/agent-harness";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { disposeRegisteredAgentHarnesses } from "brikko-studio/plugin-sdk/agent-harness";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { startQaGatewayChild, type QaCliBackendAuthMode } from "./gateway-child.js";
 import type {
   QaLabLatestReport,
@@ -103,7 +103,7 @@ function parseQaSuiteBooleanEnv(value: string | undefined): boolean | undefined 
 }
 
 function shouldLogQaSuiteProgress(env: NodeJS.ProcessEnv = process.env) {
-  const override = parseQaSuiteBooleanEnv(env.OPENCLAW_QA_SUITE_PROGRESS);
+  const override = parseQaSuiteBooleanEnv(env.BRIKKO_STUDIO_QA_SUITE_PROGRESS);
   if (override !== undefined) {
     return override;
   }
@@ -121,7 +121,7 @@ function resolveQaSuiteTransportReadyTimeoutMs(
   ) {
     return Math.floor(explicitTimeoutMs);
   }
-  const raw = env.OPENCLAW_QA_TRANSPORT_READY_TIMEOUT_MS;
+  const raw = env.BRIKKO_STUDIO_QA_TRANSPORT_READY_TIMEOUT_MS;
   if (!raw) {
     return 120_000;
   }
@@ -191,11 +191,11 @@ async function runScenario(name: string, steps: QaSuiteStep[]): Promise<QaSuiteS
   const stepResults: QaReportCheck[] = [];
   for (const step of steps) {
     try {
-      if (process.env.OPENCLAW_QA_DEBUG === "1") {
+      if (process.env.BRIKKO_STUDIO_QA_DEBUG === "1") {
         console.error(`[qa-suite] start scenario="${name}" step="${step.name}"`);
       }
       const details = await step.run();
-      if (process.env.OPENCLAW_QA_DEBUG === "1") {
+      if (process.env.BRIKKO_STUDIO_QA_DEBUG === "1") {
         console.error(`[qa-suite] pass scenario="${name}" step="${step.name}"`);
       }
       stepResults.push({
@@ -205,7 +205,7 @@ async function runScenario(name: string, steps: QaSuiteStep[]): Promise<QaSuiteS
       });
     } catch (error) {
       const details = formatErrorMessage(error);
-      if (process.env.OPENCLAW_QA_DEBUG === "1") {
+      if (process.env.BRIKKO_STUDIO_QA_DEBUG === "1") {
         console.error(`[qa-suite] fail scenario="${name}" step="${step.name}" details=${details}`);
       }
       stepResults.push({
@@ -362,7 +362,7 @@ async function writeQaSuiteArtifacts(params: {
   scenarioIds?: readonly string[];
 }) {
   const report = renderQaMarkdownReport({
-    title: "OpenClaw QA Scenario Suite",
+    title: "Brikko Studio QA Scenario Suite",
     startedAt: params.startedAt,
     finishedAt: params.finishedAt,
     checks: [],
@@ -741,7 +741,7 @@ export async function runQaSuite(params?: QaSuiteRunParams): Promise<QaSuiteResu
     enabledPluginIds,
     forwardHostHome: gatewayRuntimeOptions?.forwardHostHome,
     mutateConfig: gatewayConfigPatch
-      ? (cfg) => applyQaMergePatch(cfg, gatewayConfigPatch) as OpenClawConfig
+      ? (cfg) => applyQaMergePatch(cfg, gatewayConfigPatch) as Brikko StudioConfig
       : undefined,
   });
   writeQaSuiteProgress(
@@ -903,7 +903,7 @@ export async function runQaSuite(params?: QaSuiteRunParams): Promise<QaSuiteResu
     throw error;
   } finally {
     await closeQaWebSessions(env.webSessionIds);
-    const keepTemp = process.env.OPENCLAW_QA_KEEP_TEMP === "1" || false;
+    const keepTemp = process.env.BRIKKO_STUDIO_QA_KEEP_TEMP === "1" || false;
     await gateway.stop({
       keepTemp,
       preserveToDir: keepTemp ? undefined : preserveGatewayRuntimeDir,

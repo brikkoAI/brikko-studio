@@ -1,10 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   resolveMemoryDeepDreamingConfig,
   resolveMemoryRemDreamingConfig,
-} from "openclaw/plugin-sdk/memory-core-host-status";
+} from "brikko-studio/plugin-sdk/memory-core-host-status";
 import {
   filterRecallEntriesWithinLookback,
   previewRemDreaming,
@@ -24,7 +24,7 @@ type MemoryRemHarnessDeepConfig = ReturnType<typeof resolveMemoryDeepDreamingCon
 
 export type PreviewRemHarnessOptions = {
   workspaceDir: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   pluginConfig?: Record<string, unknown>;
   grounded?: boolean;
   groundedInputPaths?: string[];

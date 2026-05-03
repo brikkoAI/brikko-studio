@@ -1,6 +1,6 @@
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 
-export const QA_PARENT_PID_ENV = "OPENCLAW_QA_PARENT_PID";
+export const QA_PARENT_PID_ENV = "BRIKKO_STUDIO_QA_PARENT_PID";
 
 const DEFAULT_QA_PARENT_WATCHDOG_INTERVAL_MS = 1000;
 

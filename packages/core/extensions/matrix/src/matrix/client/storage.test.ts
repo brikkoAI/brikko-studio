@@ -15,7 +15,7 @@ import {
 const createBackupArchiveMock = vi.hoisted(() =>
   vi.fn(async (_params: unknown) => ({
     createdAt: "2026-03-17T00:00:00.000Z",
-    archiveRoot: "2026-03-17-openclaw-backup",
+    archiveRoot: "2026-03-17-brikko-studio-backup",
     archivePath: "/tmp/matrix-migration-snapshot.tar.gz",
     dryRun: false,
     includeWorkspace: false,
@@ -50,7 +50,7 @@ describe("matrix client storage paths", () => {
     createBackupArchiveMock.mockReset();
     createBackupArchiveMock.mockImplementation(async (_params: unknown) => ({
       createdAt: "2026-03-17T00:00:00.000Z",
-      archiveRoot: "2026-03-17-openclaw-backup",
+      archiveRoot: "2026-03-17-brikko-studio-backup",
       archivePath: "/tmp/matrix-migration-snapshot.tar.gz",
       dryRun: false,
       includeWorkspace: false,
@@ -77,8 +77,8 @@ describe("matrix client storage paths", () => {
       },
     },
   ): string {
-    const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-matrix-storage-"));
-    const stateDir = path.join(homeDir, ".openclaw");
+    const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-matrix-storage-"));
+    const stateDir = path.join(homeDir, ".brikko-studio");
     fs.mkdirSync(stateDir, { recursive: true });
     tempDirs.push(homeDir);
     installMatrixTestRuntime({
@@ -98,9 +98,9 @@ describe("matrix client storage paths", () => {
   function createMigrationEnv(stateDir: string): NodeJS.ProcessEnv {
     return {
       HOME: path.dirname(stateDir),
-      OPENCLAW_HOME: path.dirname(stateDir),
-      OPENCLAW_STATE_DIR: stateDir,
-      OPENCLAW_TEST_FAST: "1",
+      BRIKKO_STUDIO_HOME: path.dirname(stateDir),
+      BRIKKO_STUDIO_STATE_DIR: stateDir,
+      BRIKKO_STUDIO_TEST_FAST: "1",
     } as NodeJS.ProcessEnv;
   }
 

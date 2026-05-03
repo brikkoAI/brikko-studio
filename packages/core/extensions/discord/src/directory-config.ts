@@ -1,8 +1,8 @@
-import { normalizeAccountId } from "openclaw/plugin-sdk/account-id";
+import { normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
 import {
   createResolvedDirectoryEntriesLister,
   type DirectoryConfigParams,
-} from "openclaw/plugin-sdk/directory-config-runtime";
+} from "brikko-studio/plugin-sdk/directory-config-runtime";
 import {
   mergeDiscordAccountConfig,
   resolveDefaultDiscordAccountId,

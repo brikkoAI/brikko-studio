@@ -1,4 +1,4 @@
-import { isVerbose, type RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+import { isVerbose, type RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import type { GatewayPlugin } from "../internal/gateway.js";
 
 function formatDiscordStartupGatewayState(gateway?: GatewayPlugin): string {

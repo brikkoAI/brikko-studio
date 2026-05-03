@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../api.js";
+import type { Brikko StudioConfig } from "../api.js";
 import { compileMemoryWikiVault } from "./compile.js";
 import type { MemoryWikiPluginConfig } from "./config.js";
 import { renderWikiMarkdown } from "./markdown.js";
@@ -18,11 +18,11 @@ const { getActiveMemorySearchManagerMock, resolveDefaultAgentIdMock, resolveSess
     ),
   }));
 
-vi.mock("openclaw/plugin-sdk/memory-host-search", () => ({
+vi.mock("brikko-studio/plugin-sdk/memory-host-search", () => ({
   getActiveMemorySearchManager: getActiveMemorySearchManagerMock,
 }));
 
-vi.mock("openclaw/plugin-sdk/memory-host-core", () => ({
+vi.mock("brikko-studio/plugin-sdk/memory-host-core", () => ({
   resolveDefaultAgentId: resolveDefaultAgentIdMock,
   resolveSessionAgentId: resolveSessionAgentIdMock,
 }));
@@ -60,12 +60,12 @@ async function createQueryVault(options?: {
   });
 }
 
-function createAppConfig(): OpenClawConfig {
+function createAppConfig(): Brikko StudioConfig {
   return {
     agents: {
       list: [{ id: "main", default: true }],
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 function createMemoryManager(overrides?: {
@@ -136,10 +136,10 @@ describe("searchMemoryWiki", () => {
           "Alpha body.",
           "",
           "## Related",
-          "<!-- openclaw:wiki:related:start -->",
+          "<!-- brikko-studio:wiki:related:start -->",
           "### Related Pages",
           "- [Needle Person](entities/needle-person.md)",
-          "<!-- openclaw:wiki:related:end -->",
+          "<!-- brikko-studio:wiki:related:end -->",
           "",
         ].join("\n"),
       }),
@@ -185,7 +185,7 @@ describe("searchMemoryWiki", () => {
           "# Maintainer: Brad Groux",
           "",
           "## Agent Card",
-          "- Maintainer lane: CEO; Microsoft-facing OpenClaw maintainer",
+          "- Maintainer lane: CEO; Microsoft-facing Brikko Studio maintainer",
           "",
           "## AI Notes",
           "- Main sample theme is Microsoft ecosystem adoption: Teams, M365, Azure, Foundry, tenants, and pilots.",

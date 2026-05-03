@@ -44,9 +44,9 @@ export function createPackageManagerWarningMessage(packageManager) {
   }
 
   return [
-    `[openclaw] warning: detected ${packageManager} for install lifecycle.`,
-    "[openclaw] this repo works best with pnpm; npm-compatible installs are slower and much larger here.",
-    "[openclaw] prefer: corepack pnpm install",
+    `[brikko-studio] warning: detected ${packageManager} for install lifecycle.`,
+    "[brikko-studio] this repo works best with pnpm; npm-compatible installs are slower and much larger here.",
+    "[brikko-studio] prefer: corepack pnpm install",
   ].join("\n");
 }
 

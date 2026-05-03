@@ -7,7 +7,7 @@ import { CONFIG_PATH } from "../config/paths.js";
 import { isBlockedObjectKey } from "../config/prototype-keys.js";
 import { redactConfigObject } from "../config/redact-snapshot.js";
 import { readBestEffortRuntimeConfigSchema } from "../config/runtime-schema.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   coerceSecretRef,
   isValidEnvSecretRefId,
@@ -94,21 +94,21 @@ const GATEWAY_AUTH_MODE_PATH: PathSegment[] = ["gateway", "auth", "mode"];
 const SECRET_PROVIDER_PATH_PREFIX: PathSegment[] = ["secrets", "providers"];
 const PLUGIN_INSTALL_RECORD_PATH_PREFIX: PathSegment[] = ["plugins", "installs"];
 const CONFIG_SET_EXAMPLE_VALUE = formatCliCommand(
-  "openclaw config set gateway.port 19001 --strict-json",
+  "brikko-studio config set gateway.port 19001 --strict-json",
 );
 const CONFIG_SET_EXAMPLE_REF = formatCliCommand(
-  "openclaw config set channels.discord.token --ref-provider default --ref-source env --ref-id DISCORD_BOT_TOKEN",
+  "brikko-studio config set channels.discord.token --ref-provider default --ref-source env --ref-id DISCORD_BOT_TOKEN",
 );
 const CONFIG_SET_EXAMPLE_PROVIDER = formatCliCommand(
-  "openclaw config set secrets.providers.vault --provider-source file --provider-path /etc/openclaw/secrets.json --provider-mode json",
+  "brikko-studio config set secrets.providers.vault --provider-source file --provider-path /etc/brikko-studio/secrets.json --provider-mode json",
 );
 const CONFIG_SET_EXAMPLE_BATCH = formatCliCommand(
-  "openclaw config set --batch-file ./config-set.batch.json --dry-run",
+  "brikko-studio config set --batch-file ./config-set.batch.json --dry-run",
 );
 const CONFIG_PATCH_EXAMPLE_FILE = formatCliCommand(
-  "openclaw config patch --file ./openclaw.patch.json5 --dry-run",
+  "brikko-studio config patch --file ./brikko-studio.patch.json5 --dry-run",
 );
-const CONFIG_PATCH_EXAMPLE_STDIN = formatCliCommand("openclaw config patch --stdin");
+const CONFIG_PATCH_EXAMPLE_STDIN = formatCliCommand("brikko-studio config patch --stdin");
 const CONFIG_SET_DESCRIPTION = [
   "Set config values by path (value mode, ref/provider builder mode, or batch JSON mode).",
   "Examples:",
@@ -235,7 +235,7 @@ function isPlainRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function formatDoctorHint(message: string): string {
-  return `Run \`${formatCliCommand("openclaw doctor")}\` ${message}`;
+  return `Run \`${formatCliCommand("brikko-studio doctor")}\` ${message}`;
 }
 
 function formatUnsupportedSecretRefPolicyFailureMessage(issues: string[]): string {
@@ -1167,7 +1167,7 @@ function buildSingleSetOperations(params: {
 }
 
 function collectDryRunRefs(params: {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   operations: ConfigSetOperation[];
 }): SecretRef[] {
   const refsByKey = new Map<string, SecretRef>();
@@ -1212,7 +1212,7 @@ function collectDryRunRefs(params: {
 
 async function collectDryRunResolvabilityErrors(params: {
   refs: SecretRef[];
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
 }): Promise<ConfigSetDryRunError[]> {
   const failures: ConfigSetDryRunError[] = [];
   for (const ref of params.refs) {
@@ -1234,7 +1234,7 @@ async function collectDryRunResolvabilityErrors(params: {
 
 function collectDryRunStaticErrorsForSkippedExecRefs(params: {
   refs: SecretRef[];
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
 }): ConfigSetDryRunError[] {
   const failures: ConfigSetDryRunError[] = [];
   for (const ref of params.refs) {
@@ -1301,14 +1301,14 @@ function formatPluginInstallConfigSetError(): string {
     "plugins.installs is managed by the plugin index and cannot be edited with config set.",
     "",
     "Use plugin commands instead:",
-    `  ${formatCliCommand("openclaw plugins install <spec>")}`,
-    `  ${formatCliCommand("openclaw plugins update <plugin-id>")}`,
-    `  ${formatCliCommand("openclaw plugins uninstall <plugin-id>")}`,
+    `  ${formatCliCommand("brikko-studio plugins install <spec>")}`,
+    `  ${formatCliCommand("brikko-studio plugins update <plugin-id>")}`,
+    `  ${formatCliCommand("brikko-studio plugins uninstall <plugin-id>")}`,
   ].join("\n");
 }
 
 function collectDryRunSchemaErrors(params: {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   operations: ReadonlyArray<ConfigSetOperation>;
 }): ConfigSetDryRunError[] {
   const validated = validateConfigObjectRaw(params.config, {
@@ -1416,7 +1416,7 @@ async function runConfigOperations(params: {
     root: next,
     operations,
   });
-  const nextConfig = next as OpenClawConfig;
+  const nextConfig = next as Brikko StudioConfig;
   const policyIssues = collectUnsupportedSecretRefPolicyIssues(nextConfig);
   const policyIssueLines = formatConfigIssueLines(policyIssues, "", { normalizeRoot: true }).map(
     (line) => line.trim(),
@@ -1747,7 +1747,7 @@ export async function runConfigSchema(opts: { runtime?: RuntimeEnv } = {}) {
 
 export async function runConfigValidate(opts: { json?: boolean; runtime?: RuntimeEnv } = {}) {
   const runtime = opts.runtime ?? defaultRuntime;
-  let outputPath = CONFIG_PATH ?? "openclaw.json";
+  let outputPath = CONFIG_PATH ?? "brikko-studio.json";
 
   try {
     const snapshot = await readConfigFileSnapshot();
@@ -1805,7 +1805,7 @@ export function registerConfigCli(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/config", "docs.openclaw.ai/cli/config")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/config", "docs.brikko-studio.ai/cli/config")}\n`,
     )
     .option(
       "--section <section>",
@@ -1835,7 +1835,7 @@ export function registerConfigCli(program: Command) {
     .option("--json", "Legacy alias for --strict-json", false)
     .option(
       "--dry-run",
-      "Validate changes without writing openclaw.json (checks run in builder/json/batch modes; exec SecretRefs are skipped unless --allow-exec is set)",
+      "Validate changes without writing brikko-studio.json (checks run in builder/json/batch modes; exec SecretRefs are skipped unless --allow-exec is set)",
       false,
     )
     .option(
@@ -1918,7 +1918,7 @@ export function registerConfigCli(program: Command) {
     .option("--stdin", "Read a JSON5 config patch object from stdin", false)
     .option(
       "--dry-run",
-      "Validate changes without writing openclaw.json (checks schema and SecretRef resolvability; exec SecretRefs are skipped unless --allow-exec is set)",
+      "Validate changes without writing brikko-studio.json (checks schema and SecretRef resolvability; exec SecretRefs are skipped unless --allow-exec is set)",
       false,
     )
     .option(
@@ -1954,7 +1954,7 @@ export function registerConfigCli(program: Command) {
 
   cmd
     .command("schema")
-    .description("Print the JSON schema for openclaw.json")
+    .description("Print the JSON schema for brikko-studio.json")
     .action(async () => {
       await runConfigSchema({});
     });

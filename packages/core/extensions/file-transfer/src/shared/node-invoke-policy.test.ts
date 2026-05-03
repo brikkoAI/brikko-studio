@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { OpenClawPluginNodeInvokePolicyContext } from "openclaw/plugin-sdk/plugin-entry";
+import type { Brikko StudioPluginNodeInvokePolicyContext } from "brikko-studio/plugin-sdk/plugin-entry";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createFileTransferNodeInvokePolicy } from "./node-invoke-policy.js";
 
@@ -60,12 +60,12 @@ function createCtx(overrides: {
   command?: string;
   params?: Record<string, unknown>;
   pluginConfig?: Record<string, unknown>;
-  approvals?: OpenClawPluginNodeInvokePolicyContext["approvals"];
+  approvals?: Brikko StudioPluginNodeInvokePolicyContext["approvals"];
 }) {
-  const invokeNode = vi.fn<OpenClawPluginNodeInvokePolicyContext["invokeNode"]>(
+  const invokeNode = vi.fn<Brikko StudioPluginNodeInvokePolicyContext["invokeNode"]>(
     async ({
       params,
-    }: Parameters<OpenClawPluginNodeInvokePolicyContext["invokeNode"]>[0] = {}) => ({
+    }: Parameters<Brikko StudioPluginNodeInvokePolicyContext["invokeNode"]>[0] = {}) => ({
       ok: true,
       payload: {
         ok: true,

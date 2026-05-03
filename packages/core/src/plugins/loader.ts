@@ -6,7 +6,7 @@ import {
   listRegisteredAgentHarnesses,
   restoreRegisteredAgentHarnesses,
 } from "../agents/harness/registry.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import type { GatewayRequestHandler } from "../gateway/server-methods/types.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
@@ -46,7 +46,7 @@ import {
   type PluginActivationConfigSource,
   type NormalizedPluginsConfig,
 } from "./config-state.js";
-import { discoverOpenClawPlugins, type PluginCandidate } from "./discovery.js";
+import { discoverBrikko StudioPlugins, type PluginCandidate } from "./discovery.js";
 import { getGlobalHookRunner, initializeGlobalHookRunner } from "./hook-runner-global.js";
 import { toSafeImportPath } from "./import-specifier.js";
 import { collectPluginManifestCompatCodes } from "./installed-plugin-index-record-builder.js";
@@ -116,7 +116,7 @@ import {
   normalizePluginIdScope,
   serializePluginIdScope,
 } from "./plugin-scope.js";
-import { ensureOpenClawPluginSdkAlias } from "./plugin-sdk-dist-alias.js";
+import { ensureBrikko StudioPluginSdkAlias } from "./plugin-sdk-dist-alias.js";
 import { createEmptyPluginRegistry } from "./registry-empty.js";
 import { createPluginRegistry, type PluginRecord, type PluginRegistry } from "./registry.js";
 import {
@@ -144,9 +144,9 @@ import {
 } from "./sdk-alias.js";
 import { hasKind, kindsEqual } from "./slots.js";
 import type {
-  OpenClawPluginApi,
-  OpenClawPluginDefinition,
-  OpenClawPluginModule,
+  Brikko StudioPluginApi,
+  Brikko StudioPluginDefinition,
+  Brikko StudioPluginModule,
   PluginLogger,
   PluginRegistrationMode,
 } from "./types.js";
@@ -155,8 +155,8 @@ export type PluginLoadResult = PluginRegistry;
 export { PluginLoadReentryError } from "./loader-cache-state.js";
 
 export type PluginLoadOptions = {
-  config?: OpenClawConfig;
-  activationSourceConfig?: OpenClawConfig;
+  config?: Brikko StudioConfig;
+  activationSourceConfig?: Brikko StudioConfig;
   autoEnabledReasons?: Readonly<Record<string, string[]>>;
   workspaceDir?: string;
   // Allows callers to resolve plugin roots and load paths against an explicit env
@@ -198,7 +198,7 @@ const CLI_METADATA_ENTRY_BASENAMES = [
 ] as const;
 
 function resolveDreamingSidecarEngineId(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   memorySlot: string | null | undefined;
 }): string | null {
   const normalizedMemorySlot = normalizeLowercaseStringOrEmpty(params.memorySlot);
@@ -435,8 +435,8 @@ function restorePluginRegistry(registry: PluginRegistry, snapshot: PluginRegistr
   registry.coreGatewayMethodNames = snapshot.coreGatewayMethodNames;
 }
 
-function createGuardedPluginRegistrationApi(api: OpenClawPluginApi): {
-  api: OpenClawPluginApi;
+function createGuardedPluginRegistrationApi(api: Brikko StudioPluginApi): {
+  api: Brikko StudioPluginApi;
   close: () => void;
 } {
   let closed = false;
@@ -462,8 +462,8 @@ function createGuardedPluginRegistrationApi(api: OpenClawPluginApi): {
 }
 
 function runPluginRegisterSync(
-  register: NonNullable<OpenClawPluginDefinition["register"]>,
-  api: Parameters<NonNullable<OpenClawPluginDefinition["register"]>>[0],
+  register: NonNullable<Brikko StudioPluginDefinition["register"]>,
+  api: Parameters<NonNullable<Brikko StudioPluginDefinition["register"]>>[0],
 ): void {
   const guarded = createGuardedPluginRegistrationApi(api);
   try {
@@ -574,7 +574,7 @@ export const __testing = {
   resolvePluginSdkAliasCandidateOrder,
   resolvePluginSdkAliasFile,
   resolvePluginRuntimeModulePath,
-  ensureOpenClawPluginSdkAlias,
+  ensureBrikko StudioPluginSdkAlias,
   shouldLoadChannelPluginInSetupRuntime,
   shouldPreferNativeModuleLoad,
   toSafeImportPath,
@@ -988,7 +988,7 @@ function resolvePluginRegistrationPlan(params: {
   validateOnly: boolean;
   shouldActivate: boolean;
   manifestRecord: PluginManifestRecord;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   preferSetupRuntimeForChannelPlugins: boolean;
   toolDiscovery: boolean;
@@ -1294,12 +1294,12 @@ export function resolveRuntimePluginRegistry(
     return compatible;
   }
   // Helper/runtime callers should not recurse into the same snapshot load while
-  // plugin registration is still in flight. Let direct loadOpenClawPlugins(...)
+  // plugin registration is still in flight. Let direct loadBrikko StudioPlugins(...)
   // callers surface the hard error instead.
   if (isPluginRegistryLoadInFlight(options)) {
     return undefined;
   }
-  return loadOpenClawPlugins(options);
+  return loadBrikko StudioPlugins(options);
 }
 
 export function getRuntimePluginRegistryForLoadOptions(
@@ -1348,8 +1348,8 @@ function validatePluginConfig(params: {
 }
 
 function resolvePluginModuleExport(moduleExport: unknown): {
-  definition?: OpenClawPluginDefinition;
-  register?: OpenClawPluginDefinition["register"];
+  definition?: Brikko StudioPluginDefinition;
+  register?: Brikko StudioPluginDefinition["register"];
 } {
   const seen = new Set<unknown>();
   const candidates: unknown[] = [unwrapDefaultModuleExport(moduleExport), moduleExport];
@@ -1361,11 +1361,11 @@ function resolvePluginModuleExport(moduleExport: unknown): {
     seen.add(resolved);
     if (typeof resolved === "function") {
       return {
-        register: resolved as OpenClawPluginDefinition["register"],
+        register: resolved as Brikko StudioPluginDefinition["register"],
       };
     }
     if (resolved && typeof resolved === "object") {
-      const def = resolved as OpenClawPluginDefinition;
+      const def = resolved as Brikko StudioPluginDefinition;
       const register = def.register ?? def.activate;
       if (typeof register === "function") {
         return { definition: def, register };
@@ -1380,11 +1380,11 @@ function resolvePluginModuleExport(moduleExport: unknown): {
   const resolved = candidates[0];
   if (typeof resolved === "function") {
     return {
-      register: resolved as OpenClawPluginDefinition["register"],
+      register: resolved as Brikko StudioPluginDefinition["register"],
     };
   }
   if (resolved && typeof resolved === "object") {
-    const def = resolved as OpenClawPluginDefinition;
+    const def = resolved as Brikko StudioPluginDefinition;
     const register = def.register ?? def.activate;
     return { definition: def, register };
   }
@@ -1424,7 +1424,7 @@ function activatePluginRegistry(
   }
 }
 
-export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegistry {
+export function loadBrikko StudioPlugins(options: PluginLoadOptions = {}): PluginRegistry {
   const requestedOnlyPluginIds = normalizePluginIdScope(options.onlyPluginIds);
   const requestedOnlyPluginIdSet = createPluginIdScopeSet(requestedOnlyPluginIds);
   if (requestedOnlyPluginIdSet && requestedOnlyPluginIdSet.size === 0) {
@@ -1610,7 +1610,7 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
           candidates: createPluginCandidatesFromManifestRegistry(suppliedManifestRegistry),
           diagnostics: [] as PluginDiagnostic[],
         }
-      : discoverOpenClawPlugins({
+      : discoverBrikko StudioPlugins({
           workspaceDir: options.workspaceDir,
           extraPaths: normalized.loadPaths,
           env,
@@ -1849,7 +1849,7 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
             level: "warn",
             pluginId: record.id,
             source: record.source,
-            message: `bundle capability detected but not wired into OpenClaw yet: ${capability}`,
+            message: `bundle capability detected but not wired into Brikko Studio yet: ${capability}`,
           });
         }
         if (
@@ -1985,7 +1985,7 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
       const safeSource = opened.path;
       fs.closeSync(opened.fd);
 
-      let mod: OpenClawPluginModule | null = null;
+      let mod: Brikko StudioPluginModule | null = null;
       try {
         // Track the plugin as imported once module evaluation begins. Top-level
         // code may have already executed even if evaluation later throws.
@@ -1995,7 +1995,7 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
         mod = withProfile(
           { pluginId: record.id, source: safeSource },
           registrationMode,
-          () => loadPluginModule(safeSource) as OpenClawPluginModule,
+          () => loadPluginModule(safeSource) as Brikko StudioPluginModule,
         );
       } catch (err) {
         recordPluginError({
@@ -2075,12 +2075,12 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
             }
             const safeRuntimeSource = runtimeOpened.path;
             fs.closeSync(runtimeOpened.fd);
-            let runtimeMod: OpenClawPluginModule | null = null;
+            let runtimeMod: Brikko StudioPluginModule | null = null;
             try {
               runtimeMod = withProfile(
                 { pluginId: record.id, source: safeRuntimeSource },
                 "load-setup-runtime-entry",
-                () => loadPluginModule(safeRuntimeSource) as OpenClawPluginModule,
+                () => loadPluginModule(safeRuntimeSource) as Brikko StudioPluginModule,
               );
             } catch (err) {
               recordPluginError({
@@ -2380,7 +2380,7 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
         logger.warn(
           `[plugins] ${failedPlugins.length} plugin(s) failed to initialize (${formatPluginFailureSummary(
             failedPlugins,
-          )}). Run 'openclaw plugins list' for details.`,
+          )}). Run 'brikko-studio plugins list' for details.`,
         );
       }
     }
@@ -2412,7 +2412,7 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
   }
 }
 
-export async function loadOpenClawPluginCliRegistry(
+export async function loadBrikko StudioPluginCliRegistry(
   options: PluginLoadOptions = {},
 ): Promise<PluginRegistry> {
   const {
@@ -2441,7 +2441,7 @@ export async function loadOpenClawPluginCliRegistry(
     activateGlobalSideEffects: false,
   });
 
-  const discovery = discoverOpenClawPlugins({
+  const discovery = discoverBrikko StudioPlugins({
     workspaceDir: options.workspaceDir,
     extraPaths: normalized.loadPaths,
     env,
@@ -2653,12 +2653,12 @@ export async function loadOpenClawPluginCliRegistry(
     const safeSource = opened.path;
     fs.closeSync(opened.fd);
 
-    let mod: OpenClawPluginModule | null = null;
+    let mod: Brikko StudioPluginModule | null = null;
     try {
       mod = withProfile(
         { pluginId: record.id, source: safeSource },
         "cli-metadata",
-        () => loadPluginModule(safeSource) as OpenClawPluginModule,
+        () => loadPluginModule(safeSource) as Brikko StudioPluginModule,
       );
     } catch (err) {
       recordPluginError({

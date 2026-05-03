@@ -87,7 +87,7 @@ describe("compaction toolResult details stripping", () => {
       { role: "user", content: "visible ask", timestamp: 1 },
       {
         role: "custom",
-        customType: "openclaw.runtime-context",
+        customType: "brikko-studio.runtime-context",
         content: "secret runtime context",
         display: false,
         timestamp: 2,
@@ -110,7 +110,7 @@ describe("compaction toolResult details stripping", () => {
     )[0]?.[0];
     const serialized = JSON.stringify(chunk);
     expect(serialized).toContain("visible ask");
-    expect(serialized).not.toContain("openclaw.runtime-context");
+    expect(serialized).not.toContain("brikko-studio.runtime-context");
     expect(serialized).not.toContain("secret runtime context");
   });
 

@@ -1,8 +1,8 @@
 import {
   createDefaultModelsPresetAppliers,
   type ModelApi,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/provider-onboard";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildQianfanProvider,
   QIANFAN_BASE_URL,
@@ -11,7 +11,7 @@ import {
 
 export const QIANFAN_DEFAULT_MODEL_REF = `qianfan/${QIANFAN_DEFAULT_MODEL_ID}`;
 
-function resolveQianfanPreset(cfg: OpenClawConfig): {
+function resolveQianfanPreset(cfg: Brikko StudioConfig): {
   api: ModelApi;
   baseUrl: string;
   defaultModels: NonNullable<ReturnType<typeof buildQianfanProvider>["models"]>;
@@ -39,7 +39,7 @@ function resolveQianfanPreset(cfg: OpenClawConfig): {
 
 const qianfanPresetAppliers = createDefaultModelsPresetAppliers({
   primaryModelRef: QIANFAN_DEFAULT_MODEL_REF,
-  resolveParams: (cfg: OpenClawConfig) => {
+  resolveParams: (cfg: Brikko StudioConfig) => {
     const preset = resolveQianfanPreset(cfg);
     return {
       providerId: "qianfan",
@@ -52,10 +52,10 @@ const qianfanPresetAppliers = createDefaultModelsPresetAppliers({
   },
 });
 
-export function applyQianfanProviderConfig(cfg: OpenClawConfig): OpenClawConfig {
+export function applyQianfanProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return qianfanPresetAppliers.applyProviderConfig(cfg);
 }
 
-export function applyQianfanConfig(cfg: OpenClawConfig): OpenClawConfig {
+export function applyQianfanConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return qianfanPresetAppliers.applyConfig(cfg);
 }

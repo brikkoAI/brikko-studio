@@ -51,7 +51,7 @@
     },
     "discovery.enabled": {
       "label": "Enable Discovery",
-      "help": "When false, OpenClaw keeps the Hugging Face plugin available but skips implicit startup discovery from ambient Hugging Face credentials."
+      "help": "When false, Brikko Studio keeps the Hugging Face plugin available but skips implicit startup discovery from ambient Hugging Face credentials."
     }
   }
 }

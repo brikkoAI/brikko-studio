@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/mistral-provider",
+  "name": "@brikko-studio/mistral-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Mistral provider plugin",
+  "description": "Brikko Studio Mistral provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

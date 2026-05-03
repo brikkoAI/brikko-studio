@@ -9,15 +9,15 @@ import {
   normalizeSessionTranscriptPathForComparison,
   parseUsageCountedSessionIdFromFileName,
   sessionPathForFile,
-} from "openclaw/plugin-sdk/memory-core-host-engine-qmd";
-import type { MemorySearchResult } from "openclaw/plugin-sdk/memory-core-host-runtime-files";
+} from "brikko-studio/plugin-sdk/memory-core-host-engine-qmd";
+import type { MemorySearchResult } from "brikko-studio/plugin-sdk/memory-core-host-runtime-files";
 import {
   formatMemoryDreamingDay,
   resolveMemoryDreamingWorkspaces,
   resolveMemoryLightDreamingConfig,
   resolveMemoryRemDreamingConfig,
-} from "openclaw/plugin-sdk/memory-core-host-status";
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/memory-core-host-status";
+import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import { writeDailyDreamingPhaseBlock } from "./dreaming-markdown.js";
 import {
   generateAndAppendDreamNarrative,
@@ -33,7 +33,7 @@ import {
   type ShortTermRecallEntry,
 } from "./short-term-promotion.js";
 
-type Logger = Pick<OpenClawPluginApi["logger"], "info" | "warn" | "error">;
+type Logger = Pick<Brikko StudioPluginApi["logger"], "info" | "warn" | "error">;
 type DreamingHostConfig = unknown;
 type DreamingPhaseStorageConfig = {
   timezone?: string;
@@ -70,8 +70,8 @@ type RunPhaseIfTriggeredParams = {
       config: RemDreamingConfig;
     }
 );
-const LIGHT_SLEEP_EVENT_TEXT = "__openclaw_memory_core_light_sleep__";
-const REM_SLEEP_EVENT_TEXT = "__openclaw_memory_core_rem_sleep__";
+const LIGHT_SLEEP_EVENT_TEXT = "__brikko-studio_memory_core_light_sleep__";
+const REM_SLEEP_EVENT_TEXT = "__brikko-studio_memory_core_rem_sleep__";
 const DAILY_MEMORY_FILENAME_RE = /^(\d{4}-\d{2}-\d{2})\.md$/;
 const DAILY_INGESTION_STATE_RELATIVE_PATH = path.join("memory", ".dreams", "daily-ingestion.json");
 const DAILY_INGESTION_SCORE = 0.62;
@@ -98,13 +98,13 @@ const GENERIC_DAY_HEADING_RE =
 const MANAGED_DAILY_DREAMING_BLOCKS = [
   {
     heading: "## Light Sleep",
-    startMarker: "<!-- openclaw:dreaming:light:start -->",
-    endMarker: "<!-- openclaw:dreaming:light:end -->",
+    startMarker: "<!-- brikko-studio:dreaming:light:start -->",
+    endMarker: "<!-- brikko-studio:dreaming:light:end -->",
   },
   {
     heading: "## REM Sleep",
-    startMarker: "<!-- openclaw:dreaming:rem:start -->",
-    endMarker: "<!-- openclaw:dreaming:rem:end -->",
+    startMarker: "<!-- brikko-studio:dreaming:rem:start -->",
+    endMarker: "<!-- brikko-studio:dreaming:rem:end -->",
   },
 ] as const;
 

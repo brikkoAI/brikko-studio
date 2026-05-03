@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/webhooks",
+  "name": "@brikko-studio/webhooks",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw webhook bridge plugin",
+  "description": "Brikko Studio webhook bridge plugin",
   "type": "module",
   "dependencies": {
     "zod": "^4.4.1"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

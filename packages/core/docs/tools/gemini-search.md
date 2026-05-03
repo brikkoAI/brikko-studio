@@ -7,7 +7,7 @@ read_when:
 title: "Gemini search"
 ---
 
-OpenClaw supports Gemini models with built-in
+Brikko Studio supports Gemini models with built-in
 [Google Search grounding](https://ai.google.dev/gemini-api/docs/grounding),
 which returns AI-synthesized answers backed by live Google Search results with
 citations.
@@ -24,7 +24,7 @@ citations.
     `models.providers.google.apiKey`, or configure a dedicated web-search key via:
 
     ```bash
-    openclaw configure --section web
+    brikko-studio configure --section web
     ```
 
   </Step>
@@ -63,7 +63,7 @@ then `models.providers.google.apiKey`. For base URLs, the dedicated
 `plugins.entries.google.config.webSearch.baseUrl` wins before
 `models.providers.google.baseUrl`.
 
-For a gateway install, put env keys in `~/.openclaw/.env`.
+For a gateway install, put env keys in `~/.brikko-studio/.env`.
 
 ## How it works
 
@@ -88,7 +88,7 @@ still returns one synthesized answer with citations rather than an N-result
 list.
 
 `freshness` accepts `day`, `week`, `month`, `year`, and the shared shortcuts
-`pd`, `pw`, `pm`, and `py`. OpenClaw converts these values, or an explicit
+`pd`, `pw`, `pm`, and `py`. Brikko Studio converts these values, or an explicit
 `date_after`/`date_before` range, into Gemini Google Search grounding's
 `timeRangeFilter`. `country`, `language`, and `domain_filter` are not supported.
 

@@ -10,12 +10,12 @@ import { pipeline } from "node:stream/promises";
 import { fileURLToPath } from "node:url";
 
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const DEFAULT_OUTPUT_NAME = "openclaw-current.tgz";
-export const OPENCLAW_PACKAGE_SPEC_RE =
-  /^openclaw@(alpha|beta|latest|[0-9]{4}\.[1-9][0-9]*\.[1-9][0-9]*(-[1-9][0-9]*|-(alpha|beta)\.[1-9][0-9]*)?)$/u;
+const DEFAULT_OUTPUT_NAME = "brikko-studio-current.tgz";
+export const BRIKKO_STUDIO_PACKAGE_SPEC_RE =
+  /^brikko-studio@(alpha|beta|latest|[0-9]{4}\.[1-9][0-9]*\.[1-9][0-9]*(-[1-9][0-9]*|-(alpha|beta)\.[1-9][0-9]*)?)$/u;
 
 function usage() {
-  return `Usage: node scripts/resolve-openclaw-package-candidate.mjs --source <ref|npm|url|artifact> --output-dir <dir> [options]
+  return `Usage: node scripts/resolve-brikko-studio-package-candidate.mjs --source <ref|npm|url|artifact> --output-dir <dir> [options]
 
 Options:
   --package-spec <spec>       Published npm spec for source=npm.
@@ -79,10 +79,10 @@ export function parseArgs(argv) {
   return options;
 }
 
-export function validateOpenClawPackageSpec(spec) {
-  if (!OPENCLAW_PACKAGE_SPEC_RE.test(spec)) {
+export function validateBrikko StudioPackageSpec(spec) {
+  if (!BRIKKO_STUDIO_PACKAGE_SPEC_RE.test(spec)) {
     throw new Error(
-      `package_spec must be openclaw@alpha, openclaw@beta, openclaw@latest, or an exact OpenClaw release version; got: ${spec}`,
+      `package_spec must be brikko-studio@alpha, brikko-studio@beta, brikko-studio@latest, or an exact Brikko Studio release version; got: ${spec}`,
     );
   }
 }
@@ -276,7 +276,7 @@ async function resolveTrustedRepoRef(ref) {
   }
 
   throw new Error(
-    `package_ref ${ref} resolved to ${selectedSha}, which is not reachable from an OpenClaw branch or release tag`,
+    `package_ref ${ref} resolved to ${selectedSha}, which is not reachable from an Brikko Studio branch or release tag`,
   );
 }
 
@@ -284,7 +284,7 @@ async function preparePackageSourceWorktree(ref) {
   const { selectedSha, trustedReason } = await resolveTrustedRepoRef(ref);
   const sourceDir = path.join(
     process.env.RUNNER_TEMP || os.tmpdir(),
-    `openclaw-package-source-${process.pid}`,
+    `brikko-studio-package-source-${process.pid}`,
   );
   await fs.rm(sourceDir, { recursive: true, force: true });
   await run("git", ["worktree", "add", "--detach", sourceDir, selectedSha]);
@@ -316,7 +316,7 @@ async function moveNewestPackedTarball(outputDir, packOutput, outputName) {
   if (!filename) {
     for (const line of packOutput.split(/\r?\n/u)) {
       const trimmed = line.trim();
-      if (/^openclaw-.*\.tgz$/u.test(trimmed)) {
+      if (/^brikko-studio-.*\.tgz$/u.test(trimmed)) {
         filename = trimmed;
       }
     }
@@ -324,12 +324,12 @@ async function moveNewestPackedTarball(outputDir, packOutput, outputName) {
   if (!filename) {
     const entries = await fs.readdir(outputDir);
     filename = entries
-      .filter((entry) => /^openclaw-.*\.tgz$/u.test(entry))
+      .filter((entry) => /^brikko-studio-.*\.tgz$/u.test(entry))
       .toSorted((a, b) => a.localeCompare(b))
       .at(-1);
   }
   if (!filename) {
-    throw new Error(`npm pack produced no OpenClaw tarball in ${outputDir}`);
+    throw new Error(`npm pack produced no Brikko Studio tarball in ${outputDir}`);
   }
   const packed = path.join(outputDir, filename);
   const target = path.join(outputDir, outputName);
@@ -391,7 +391,7 @@ async function resolveCandidate(options) {
       packageTrustedReason = packageSource.trustedReason;
       await installPackageSourceDeps(packageSource.sourceDir);
       await run("node", [
-        "scripts/package-openclaw-for-docker.mjs",
+        "scripts/package-brikko-studio-for-docker.mjs",
         "--source-dir",
         packageSource.sourceDir,
         "--output-dir",
@@ -400,7 +400,7 @@ async function resolveCandidate(options) {
         options.outputName || DEFAULT_OUTPUT_NAME,
       ]);
     } else if (options.source === "npm") {
-      validateOpenClawPackageSpec(options.packageSpec);
+      validateBrikko StudioPackageSpec(options.packageSpec);
       const packOutput = await run(
         "npm",
         [
@@ -454,13 +454,13 @@ async function resolveCandidate(options) {
 
   const artifactSha256 = typeof artifactMetadata.sha256 === "string" ? artifactMetadata.sha256 : "";
   const digest = await assertExpectedSha256(target, options.packageSha256 || artifactSha256);
-  console.error(`Checking OpenClaw package tarball: ${target}`);
+  console.error(`Checking Brikko Studio package tarball: ${target}`);
   const checkStartedAt = Date.now();
-  await run("node", ["scripts/check-openclaw-package-tarball.mjs", target], {
+  await run("node", ["scripts/check-brikko-studio-package-tarball.mjs", target], {
     timeoutMs: 5 * 60 * 1000,
   });
   console.error(
-    `OpenClaw package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
+    `Brikko Studio package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
   );
   const pkg = await readPackageJson(target);
   const metadata = {
@@ -475,8 +475,8 @@ async function resolveCandidate(options) {
     version: pkg.version,
   };
 
-  if (pkg.name !== "openclaw") {
-    throw new Error(`package candidate must be named "openclaw"; got: ${pkg.name || "<missing>"}`);
+  if (pkg.name !== "brikko-studio") {
+    throw new Error(`package candidate must be named "brikko-studio"; got: ${pkg.name || "<missing>"}`);
   }
   if (!pkg.version) {
     throw new Error("package candidate package.json has no version");

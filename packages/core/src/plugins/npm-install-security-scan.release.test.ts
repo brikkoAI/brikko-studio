@@ -19,13 +19,13 @@ type PublishablePluginPackage = {
 };
 
 const REVIEWED_PUBLISHABLE_CRITICAL_FINDINGS = new Set([
-  "@openclaw/acpx:dangerous-exec:src/codex-auth-bridge.ts",
-  "@openclaw/acpx:dangerous-exec:src/runtime-internals/mcp-proxy.mjs",
-  "@openclaw/codex:dangerous-exec:src/app-server/transport-stdio.ts",
-  "@openclaw/google-meet:dangerous-exec:src/node-host.ts",
-  "@openclaw/google-meet:dangerous-exec:src/realtime.ts",
-  "@openclaw/voice-call:dangerous-exec:src/tunnel.ts",
-  "@openclaw/voice-call:dangerous-exec:src/webhook/tailscale.ts",
+  "@brikko-studio/acpx:dangerous-exec:src/codex-auth-bridge.ts",
+  "@brikko-studio/acpx:dangerous-exec:src/runtime-internals/mcp-proxy.mjs",
+  "@brikko-studio/codex:dangerous-exec:src/app-server/transport-stdio.ts",
+  "@brikko-studio/google-meet:dangerous-exec:src/node-host.ts",
+  "@brikko-studio/google-meet:dangerous-exec:src/realtime.ts",
+  "@brikko-studio/voice-call:dangerous-exec:src/tunnel.ts",
+  "@brikko-studio/voice-call:dangerous-exec:src/webhook/tailscale.ts",
 ]);
 
 const tempDirs: string[] = [];
@@ -76,7 +76,7 @@ function stageScannerRelevantPackedFiles(
   packageDir: string,
   packedFiles: readonly string[],
 ): string {
-  const stageDir = mkdtempSync(join(tmpdir(), "openclaw-plugin-npm-scan-"));
+  const stageDir = mkdtempSync(join(tmpdir(), "brikko-studio-plugin-npm-scan-"));
   tempDirs.push(stageDir);
 
   for (const packedPath of packedFiles) {
@@ -101,14 +101,14 @@ function collectPublishablePluginPackages(): PublishablePluginPackage[] {
       const packageJsonPath = join(packageDir, "package.json");
       let packageJson: {
         name?: unknown;
-        openclaw?: { release?: { publishToNpm?: unknown } };
+        brikko-studio?: { release?: { publishToNpm?: unknown } };
       };
       try {
         packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as typeof packageJson;
       } catch {
         return [];
       }
-      if (packageJson.openclaw?.release?.publishToNpm !== true) {
+      if (packageJson.brikko-studio?.release?.publishToNpm !== true) {
         return [];
       }
       if (typeof packageJson.name !== "string" || !packageJson.name.trim()) {

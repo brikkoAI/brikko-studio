@@ -1,1 +1,1 @@
-export { dispatchInboundDirectDmWithRuntime } from "openclaw/plugin-sdk/direct-dm";
+export { dispatchInboundDirectDmWithRuntime } from "brikko-studio/plugin-sdk/direct-dm";

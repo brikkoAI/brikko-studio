@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import { inspectChannelAccount } from "../account-inspection.js";
 import { projectSafeChannelAccountSnapshotFields } from "../account-snapshot-fields.js";
@@ -8,7 +8,7 @@ import type { ChannelAccountSnapshot } from "./types.public.js";
 // Channel docking: status snapshots flow through plugin.status hooks here.
 export async function buildChannelAccountSnapshotFromAccount<ResolvedAccount>(params: {
   plugin: ChannelPlugin<ResolvedAccount>;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   account: ResolvedAccount;
   runtime?: ChannelAccountSnapshot;
@@ -58,7 +58,7 @@ export async function buildChannelAccountSnapshotFromAccount<ResolvedAccount>(pa
 
 export async function buildReadOnlySourceChannelAccountSnapshot<ResolvedAccount>(params: {
   plugin: ChannelPlugin<ResolvedAccount>;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   runtime?: ChannelAccountSnapshot;
   probe?: unknown;
@@ -76,7 +76,7 @@ export async function buildReadOnlySourceChannelAccountSnapshot<ResolvedAccount>
 
 export async function buildChannelAccountSnapshot<ResolvedAccount>(params: {
   plugin: ChannelPlugin<ResolvedAccount>;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   runtime?: ChannelAccountSnapshot;
   probe?: unknown;

@@ -1,17 +1,17 @@
 {
-  "name": "@openclaw/openai-provider",
+  "name": "@brikko-studio/openai-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw OpenAI provider plugins",
+  "description": "Brikko Studio OpenAI provider plugins",
   "type": "module",
   "dependencies": {
     "@mariozechner/pi-ai": "0.71.1",
     "ws": "^8.20.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

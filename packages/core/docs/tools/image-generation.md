@@ -41,7 +41,7 @@ or sign in with OpenAI Codex OAuth.
     ```
 
     Codex OAuth uses the same `openai/gpt-image-2` model ref. When an
-    `openai-codex` OAuth profile is configured, OpenClaw routes image
+    `openai-codex` OAuth profile is configured, Brikko Studio routes image
     requests through that OAuth profile instead of first trying
     `OPENAI_API_KEY`. Explicit `models.providers.openai` config (API key,
     custom/Azure base URL) opts back into the direct OpenAI Images API
@@ -159,7 +159,7 @@ Use `action: "list"` to inspect available providers and models at runtime:
 
 <Note>
 Not all providers support all parameters. When a fallback provider supports a
-nearby geometry option instead of the exact requested one, OpenClaw remaps to
+nearby geometry option instead of the exact requested one, Brikko Studio remaps to
 the closest supported size, aspect ratio, or resolution before submission.
 Unsupported output hints are dropped for providers that do not declare
 support and reported in the tool result. Tool results report the applied
@@ -191,7 +191,7 @@ translation.
 
 ### Provider selection order
 
-OpenClaw tries providers in this order:
+Brikko Studio tries providers in this order:
 
 1. **`model` parameter** from the tool call (if the agent specifies one).
 2. **`imageGenerationModel.primary`** from config.
@@ -210,7 +210,7 @@ from each attempt.
     not continue to configured primary/fallback or auto-detected providers.
   </Accordion>
   <Accordion title="Auto-detection is auth-aware">
-    A provider default only enters the candidate list when OpenClaw can
+    A provider default only enters the candidate list when Brikko Studio can
     actually authenticate that provider. Set
     `agents.defaults.mediaGenerationAutoProviderFallback: false` to use only
     explicit `model`, `primary`, and `fallbacks` entries.
@@ -243,11 +243,11 @@ OpenAI, OpenRouter, Google, and xAI support up to 5 reference images via the
 <AccordionGroup>
   <Accordion title="OpenAI gpt-image-2 (and gpt-image-1.5)">
     OpenAI image generation defaults to `openai/gpt-image-2`. If an
-    `openai-codex` OAuth profile is configured, OpenClaw reuses the same
+    `openai-codex` OAuth profile is configured, Brikko Studio reuses the same
     OAuth profile used by Codex subscription chat models and sends the
     image request through the Codex Responses backend. Legacy Codex base
     URLs such as `https://chatgpt.com/backend-api` are canonicalized to
-    `https://chatgpt.com/backend-api/codex` for image requests. OpenClaw
+    `https://chatgpt.com/backend-api/codex` for image requests. Brikko Studio
     does **not** silently fall back to `OPENAI_API_KEY` for that request —
     to force direct OpenAI Images API routing, configure
     `models.providers.openai` explicitly with an API key, custom base URL,
@@ -260,9 +260,9 @@ OpenAI, OpenRouter, Google, and xAI support up to 5 reference images via the
 
     `gpt-image-2` supports both text-to-image generation and
     reference-image editing through the same `image_generate` tool.
-    OpenClaw forwards `prompt`, `count`, `size`, `quality`, `outputFormat`,
+    Brikko Studio forwards `prompt`, `count`, `size`, `quality`, `outputFormat`,
     and reference images to OpenAI. OpenAI does **not** receive
-    `aspectRatio` or `resolution` directly; when possible OpenClaw maps
+    `aspectRatio` or `resolution` directly; when possible Brikko Studio maps
     those into a supported `size`, otherwise the tool reports them as
     ignored overrides.
 
@@ -283,7 +283,7 @@ OpenAI, OpenRouter, Google, and xAI support up to 5 reference images via the
 
     `openai.background` accepts `transparent`, `opaque`, or `auto`;
     transparent outputs require `outputFormat` `png` or `webp` and a
-    transparency-capable OpenAI image model. OpenClaw routes default
+    transparency-capable OpenAI image model. Brikko Studio routes default
     `gpt-image-2` transparent-background requests to `gpt-image-1.5`.
     `openai.outputCompression` applies to JPEG/WebP outputs.
 
@@ -314,7 +314,7 @@ OpenAI, OpenRouter, Google, and xAI support up to 5 reference images via the
     }
     ```
 
-    OpenClaw forwards `prompt`, `count`, reference images, and
+    Brikko Studio forwards `prompt`, `count`, reference images, and
     Gemini-compatible `aspectRatio` / `resolution` hints to OpenRouter.
     Current built-in OpenRouter image model shortcuts include
     `google/gemini-3.1-flash-image-preview`,
@@ -339,9 +339,9 @@ OpenAI, OpenRouter, Google, and xAI support up to 5 reference images via the
     - References: one `image` or up to five `images`
     - Aspect ratios: `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `2:3`, `3:2`
     - Resolutions: `1K`, `2K`
-    - Outputs: returned as OpenClaw-managed image attachments
+    - Outputs: returned as Brikko Studio-managed image attachments
 
-    OpenClaw intentionally does not expose xAI-native `quality`, `mask`,
+    Brikko Studio intentionally does not expose xAI-native `quality`, `mask`,
     `user`, or extra native-only aspect ratios until those controls exist
     in the shared cross-provider `image_generate` contract.
 
@@ -353,7 +353,7 @@ OpenAI, OpenRouter, Google, and xAI support up to 5 reference images via the
 <Tabs>
   <Tab title="Generate (4K landscape)">
 ```text
-/tool image_generate action=generate model=openai/gpt-image-2 prompt="A clean editorial poster for OpenClaw image generation" size=3840x2160 count=1
+/tool image_generate action=generate model=openai/gpt-image-2 prompt="A clean editorial poster for Brikko Studio image generation" size=3840x2160 count=1
 ```
   </Tab>
   <Tab title="Generate (transparent PNG)">
@@ -364,7 +364,7 @@ OpenAI, OpenRouter, Google, and xAI support up to 5 reference images via the
 Equivalent CLI:
 
 ```bash
-openclaw infer image generate \
+brikko-studio infer image generate \
   --model openai/gpt-image-1.5 \
   --output-format png \
   --background transparent \
@@ -391,7 +391,7 @@ openclaw infer image generate \
 </Tabs>
 
 The same `--output-format` and `--background` flags are available on
-`openclaw infer image edit`; `--openai-background` remains as an
+`brikko-studio infer image edit`; `--openai-background` remains as an
 OpenAI-specific alias. Bundled providers other than OpenAI do not declare
 explicit background control today, so `background: "transparent"` is reported
 as ignored for them.

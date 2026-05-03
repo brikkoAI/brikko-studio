@@ -2,7 +2,7 @@ import {
   buildChannelOutboundSessionRoute,
   stripChannelTargetPrefix,
   type ChannelOutboundSessionRouteParams,
-} from "openclaw/plugin-sdk/channel-core";
+} from "brikko-studio/plugin-sdk/channel-core";
 import { resolveGroupFlagFromChatGuid } from "./monitor-normalize.js";
 import { extractHandleFromChatGuid, parseBlueBubblesTarget } from "./targets.js";
 

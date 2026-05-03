@@ -1,4 +1,4 @@
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { resolveDiscordConversationIdentity } from "../conversation-identity.js";
 import type { User } from "../internal/discord.js";
 import type { DiscordMessagePreflightParams } from "./message-handler.preflight.types.js";
@@ -10,11 +10,11 @@ import {
 } from "./route-resolution.js";
 
 let conversationRuntimePromise:
-  | Promise<typeof import("openclaw/plugin-sdk/conversation-binding-runtime")>
+  | Promise<typeof import("brikko-studio/plugin-sdk/conversation-binding-runtime")>
   | undefined;
 
 async function loadConversationRuntime() {
-  conversationRuntimePromise ??= import("openclaw/plugin-sdk/conversation-binding-runtime");
+  conversationRuntimePromise ??= import("brikko-studio/plugin-sdk/conversation-binding-runtime");
   return await conversationRuntimePromise;
 }
 

@@ -1,3 +1,3 @@
-export type { OpenClawConfig as ClawdbotConfig } from "openclaw/plugin-sdk/config-types";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
-export { createChannelPairingController } from "openclaw/plugin-sdk/channel-pairing";
+export type { Brikko StudioConfig as ClawdbotConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
+export { createChannelPairingController } from "brikko-studio/plugin-sdk/channel-pairing";

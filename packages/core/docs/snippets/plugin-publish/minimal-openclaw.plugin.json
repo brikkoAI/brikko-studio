@@ -1,7 +1,7 @@
 {
   "id": "my-plugin",
   "name": "My Plugin",
-  "description": "Adds a custom tool to OpenClaw",
+  "description": "Adds a custom tool to Brikko Studio",
   "activation": {
     "onStartup": true
   },

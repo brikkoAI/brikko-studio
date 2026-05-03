@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { resolveProviderRuntimePlugin } from "../plugins/provider-hook-runtime.js";
 
 vi.mock("../plugins/provider-hook-runtime.js", async () => {
@@ -50,8 +50,8 @@ vi.mock("../plugins/provider-hook-runtime.js", async () => {
           switch (provider) {
             case "env-sensitive":
               return {
-                sanitizeToolCallIds: context?.env?.OPENCLAW_TEST_TRANSCRIPT_POLICY === "strict",
-                ...(context?.env?.OPENCLAW_TEST_TRANSCRIPT_POLICY === "strict"
+                sanitizeToolCallIds: context?.env?.BRIKKO_STUDIO_TEST_TRANSCRIPT_POLICY === "strict",
+                ...(context?.env?.BRIKKO_STUDIO_TEST_TRANSCRIPT_POLICY === "strict"
                   ? { toolCallIdMode: "strict" as const }
                   : {}),
               };
@@ -241,7 +241,7 @@ describe("resolveTranscriptPolicy", () => {
   });
 
   it("memoizes replay policy resolution for the same config and process env", () => {
-    const config = {} as OpenClawConfig;
+    const config = {} as Brikko StudioConfig;
 
     resolveTranscriptPolicy({
       provider: "mistral",
@@ -260,14 +260,14 @@ describe("resolveTranscriptPolicy", () => {
   });
 
   it("does not reuse cached replay policies across custom env objects", () => {
-    const config = {} as OpenClawConfig;
+    const config = {} as Brikko StudioConfig;
     const strictEnv = {
       ...process.env,
-      OPENCLAW_TEST_TRANSCRIPT_POLICY: "strict",
+      BRIKKO_STUDIO_TEST_TRANSCRIPT_POLICY: "strict",
     };
     const looseEnv = {
       ...process.env,
-      OPENCLAW_TEST_TRANSCRIPT_POLICY: "loose",
+      BRIKKO_STUDIO_TEST_TRANSCRIPT_POLICY: "loose",
     };
 
     const strictPolicy = resolveTranscriptPolicy({

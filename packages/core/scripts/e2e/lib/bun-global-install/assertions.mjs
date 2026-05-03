@@ -29,7 +29,7 @@ if (mode === "run-with-timeout") {
 }
 
 if (mode === "assert-image-providers") {
-  const raw = process.env.OPENCLAW_IMAGE_PROVIDERS_JSON ?? "";
+  const raw = process.env.BRIKKO_STUDIO_IMAGE_PROVIDERS_JSON ?? "";
   let parsed;
   try {
     parsed = JSON.parse(raw);

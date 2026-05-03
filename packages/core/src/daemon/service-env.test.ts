@@ -561,28 +561,28 @@ describe("buildServiceEnvironment", () => {
     } else {
       expect(env.PATH).toContain("/usr/bin");
     }
-    expect(env.OPENCLAW_GATEWAY_PORT).toBe("18789");
-    expect(env.OPENCLAW_GATEWAY_TOKEN).toBeUndefined();
-    expect(env.OPENCLAW_SERVICE_MARKER).toBe("openclaw");
-    expect(env.OPENCLAW_SERVICE_KIND).toBe("gateway");
-    expect(typeof env.OPENCLAW_SERVICE_VERSION).toBe("string");
-    expect(env.OPENCLAW_SYSTEMD_UNIT).toBe("openclaw-gateway.service");
-    expect(env.OPENCLAW_WINDOWS_TASK_NAME).toBe("OpenClaw Gateway");
+    expect(env.BRIKKO_STUDIO_GATEWAY_PORT).toBe("18789");
+    expect(env.BRIKKO_STUDIO_GATEWAY_TOKEN).toBeUndefined();
+    expect(env.BRIKKO_STUDIO_SERVICE_MARKER).toBe("brikko-studio");
+    expect(env.BRIKKO_STUDIO_SERVICE_KIND).toBe("gateway");
+    expect(typeof env.BRIKKO_STUDIO_SERVICE_VERSION).toBe("string");
+    expect(env.BRIKKO_STUDIO_SYSTEMD_UNIT).toBe("brikko-studio-gateway.service");
+    expect(env.BRIKKO_STUDIO_WINDOWS_TASK_NAME).toBe("Brikko Studio Gateway");
     if (process.platform === "darwin") {
-      expect(env.OPENCLAW_LAUNCHD_LABEL).toBe("ai.openclaw.gateway");
+      expect(env.BRIKKO_STUDIO_LAUNCHD_LABEL).toBe("ai.brikko-studio.gateway");
     }
   });
 
-  it("passes through OPENCLAW_WRAPPER for gateway services", () => {
+  it("passes through BRIKKO_STUDIO_WRAPPER for gateway services", () => {
     const env = buildServiceEnvironment({
       env: {
         HOME: "/home/user",
-        OPENCLAW_WRAPPER: " /usr/local/bin/openclaw-doppler ",
+        BRIKKO_STUDIO_WRAPPER: " /usr/local/bin/brikko-studio-doppler ",
       },
       port: 18789,
     });
 
-    expect(env.OPENCLAW_WRAPPER).toBe("/usr/local/bin/openclaw-doppler");
+    expect(env.BRIKKO_STUDIO_WRAPPER).toBe("/usr/local/bin/brikko-studio-doppler");
   });
 
   it("forwards TMPDIR from the host environment on Linux", () => {
@@ -600,7 +600,7 @@ describe("buildServiceEnvironment", () => {
       port: 18789,
       platform: "darwin",
     });
-    expect(env.TMPDIR).toBe(path.join("/Users/user", ".openclaw", "tmp"));
+    expect(env.TMPDIR).toBe(path.join("/Users/user", ".brikko-studio", "tmp"));
   });
 
   it("uses a canonical system PATH for macOS LaunchAgents", () => {
@@ -630,13 +630,13 @@ describe("buildServiceEnvironment", () => {
 
   it("uses profile-specific unit and label", () => {
     const env = buildServiceEnvironment({
-      env: { HOME: "/home/user", OPENCLAW_PROFILE: "work" },
+      env: { HOME: "/home/user", BRIKKO_STUDIO_PROFILE: "work" },
       port: 18789,
     });
-    expect(env.OPENCLAW_SYSTEMD_UNIT).toBe("openclaw-gateway-work.service");
-    expect(env.OPENCLAW_WINDOWS_TASK_NAME).toBe("OpenClaw Gateway (work)");
+    expect(env.BRIKKO_STUDIO_SYSTEMD_UNIT).toBe("brikko-studio-gateway-work.service");
+    expect(env.BRIKKO_STUDIO_WINDOWS_TASK_NAME).toBe("Brikko Studio Gateway (work)");
     if (process.platform === "darwin") {
-      expect(env.OPENCLAW_LAUNCHD_LABEL).toBe("ai.openclaw.work");
+      expect(env.BRIKKO_STUDIO_LAUNCHD_LABEL).toBe("ai.brikko-studio.work");
     }
   });
 
@@ -664,12 +664,12 @@ describe("buildServiceEnvironment", () => {
     const env = buildServiceEnvironment({
       env: {
         HOME: "/home/user",
-        OPENCLAW_PROXY_URL: " http://127.0.0.1:3128 ",
+        BRIKKO_STUDIO_PROXY_URL: " http://127.0.0.1:3128 ",
       },
       port: 18789,
     });
 
-    expect(env.OPENCLAW_PROXY_URL).toBe("http://127.0.0.1:3128");
+    expect(env.BRIKKO_STUDIO_PROXY_URL).toBe("http://127.0.0.1:3128");
   });
 
   it("omits PATH on Windows so Scheduled Tasks can inherit the current shell path", () => {
@@ -683,7 +683,7 @@ describe("buildServiceEnvironment", () => {
     });
 
     expect(env).not.toHaveProperty("PATH");
-    expect(env.OPENCLAW_WINDOWS_TASK_NAME).toBe("OpenClaw Gateway");
+    expect(env.BRIKKO_STUDIO_WINDOWS_TASK_NAME).toBe("Brikko Studio Gateway");
   });
 
   it("prepends extra runtime directories to the gateway service PATH", () => {
@@ -721,28 +721,28 @@ describe("buildNodeServiceEnvironment", () => {
     expect(env.HOME).toBe("/home/user");
   });
 
-  it("passes through OPENCLAW_GATEWAY_TOKEN for node services", () => {
+  it("passes through BRIKKO_STUDIO_GATEWAY_TOKEN for node services", () => {
     const env = buildNodeServiceEnvironment({
-      env: { HOME: "/home/user", OPENCLAW_GATEWAY_TOKEN: " node-token " },
+      env: { HOME: "/home/user", BRIKKO_STUDIO_GATEWAY_TOKEN: " node-token " },
     });
-    expect(env.OPENCLAW_GATEWAY_TOKEN).toBe("node-token");
+    expect(env.BRIKKO_STUDIO_GATEWAY_TOKEN).toBe("node-token");
   });
 
-  it("passes through OPENCLAW_ALLOW_INSECURE_PRIVATE_WS for node services", () => {
+  it("passes through BRIKKO_STUDIO_ALLOW_INSECURE_PRIVATE_WS for node services", () => {
     const env = buildNodeServiceEnvironment({
-      env: { HOME: "/home/user", OPENCLAW_ALLOW_INSECURE_PRIVATE_WS: " 1 " },
+      env: { HOME: "/home/user", BRIKKO_STUDIO_ALLOW_INSECURE_PRIVATE_WS: " 1 " },
     });
-    expect(env.OPENCLAW_ALLOW_INSECURE_PRIVATE_WS).toBe("1");
+    expect(env.BRIKKO_STUDIO_ALLOW_INSECURE_PRIVATE_WS).toBe("1");
   });
 
-  it("omits OPENCLAW_GATEWAY_TOKEN when the env var is empty", () => {
+  it("omits BRIKKO_STUDIO_GATEWAY_TOKEN when the env var is empty", () => {
     const env = buildNodeServiceEnvironment({
       env: {
         HOME: "/home/user",
-        OPENCLAW_GATEWAY_TOKEN: "   ",
+        BRIKKO_STUDIO_GATEWAY_TOKEN: "   ",
       },
     });
-    expect(env.OPENCLAW_GATEWAY_TOKEN).toBeUndefined();
+    expect(env.BRIKKO_STUDIO_GATEWAY_TOKEN).toBeUndefined();
   });
 
   it("does not persist ambient proxy environment variables for node services", () => {
@@ -762,11 +762,11 @@ describe("buildNodeServiceEnvironment", () => {
     const env = buildNodeServiceEnvironment({
       env: {
         HOME: "/home/user",
-        OPENCLAW_PROXY_URL: " http://127.0.0.1:3128 ",
+        BRIKKO_STUDIO_PROXY_URL: " http://127.0.0.1:3128 ",
       },
     });
 
-    expect(env.OPENCLAW_PROXY_URL).toBe("http://127.0.0.1:3128");
+    expect(env.BRIKKO_STUDIO_PROXY_URL).toBe("http://127.0.0.1:3128");
   });
 
   it("forwards TMPDIR for node services on Linux", () => {
@@ -782,7 +782,7 @@ describe("buildNodeServiceEnvironment", () => {
       env: { HOME: "/Users/user", TMPDIR: "/var/folders/xw/abc123/T/" },
       platform: "darwin",
     });
-    expect(env.TMPDIR).toBe(path.join("/Users/user", ".openclaw", "tmp"));
+    expect(env.TMPDIR).toBe(path.join("/Users/user", ".brikko-studio", "tmp"));
   });
 
   it("falls back to os.tmpdir for node services when TMPDIR is not set on Linux", () => {
@@ -854,32 +854,32 @@ describe("shared Node TLS env defaults", () => {
 describe("resolveGatewayStateDir", () => {
   it("uses the default state dir when no overrides are set", () => {
     const env = { HOME: "/Users/test" };
-    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".openclaw"));
+    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".brikko-studio"));
   });
 
   it("appends the profile suffix when set", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_PROFILE: "rescue" };
-    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".openclaw-rescue"));
+    const env = { HOME: "/Users/test", BRIKKO_STUDIO_PROFILE: "rescue" };
+    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".brikko-studio-rescue"));
   });
 
   it("treats default profiles as the base state dir", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_PROFILE: "Default" };
-    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".openclaw"));
+    const env = { HOME: "/Users/test", BRIKKO_STUDIO_PROFILE: "Default" };
+    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".brikko-studio"));
   });
 
-  it("uses OPENCLAW_STATE_DIR when provided", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_STATE_DIR: "/var/lib/openclaw" };
-    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/var/lib/openclaw"));
+  it("uses BRIKKO_STUDIO_STATE_DIR when provided", () => {
+    const env = { HOME: "/Users/test", BRIKKO_STUDIO_STATE_DIR: "/var/lib/brikko-studio" };
+    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/var/lib/brikko-studio"));
   });
 
-  it("expands ~ in OPENCLAW_STATE_DIR", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_STATE_DIR: "~/openclaw-state" };
-    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/Users/test/openclaw-state"));
+  it("expands ~ in BRIKKO_STUDIO_STATE_DIR", () => {
+    const env = { HOME: "/Users/test", BRIKKO_STUDIO_STATE_DIR: "~/brikko-studio-state" };
+    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/Users/test/brikko-studio-state"));
   });
 
   it("preserves Windows absolute paths without HOME", () => {
-    const env = { OPENCLAW_STATE_DIR: "C:\\State\\openclaw" };
-    expect(resolveGatewayStateDir(env)).toBe("C:\\State\\openclaw");
+    const env = { BRIKKO_STUDIO_STATE_DIR: "C:\\State\\brikko-studio" };
+    expect(resolveGatewayStateDir(env)).toBe("C:\\State\\brikko-studio");
   });
 });
 

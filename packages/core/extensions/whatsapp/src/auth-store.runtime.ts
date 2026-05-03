@@ -1,1 +1,1 @@
-export { resolveOAuthDir } from "openclaw/plugin-sdk/state-paths";
+export { resolveOAuthDir } from "brikko-studio/plugin-sdk/state-paths";

@@ -1,10 +1,10 @@
-import type { OpenClawConfig, ReplyToMode } from "openclaw/plugin-sdk/config-types";
-import { createReplyToFanout, type ReplyToResolution } from "openclaw/plugin-sdk/outbound-runtime";
+import type { Brikko StudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import { createReplyToFanout, type ReplyToResolution } from "brikko-studio/plugin-sdk/outbound-runtime";
 import {
   resolveOutboundSendDep,
   type OutboundSendDeps,
-} from "openclaw/plugin-sdk/outbound-send-deps";
-import { normalizeOptionalStringifiedId } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/outbound-send-deps";
+import { normalizeOptionalStringifiedId } from "brikko-studio/plugin-sdk/text-runtime";
 import { withDiscordDeliveryRetry } from "./delivery-retry.js";
 
 type DiscordSendRuntime = typeof import("./send.js");
@@ -52,7 +52,7 @@ export function resolveDiscordFormattingOptions(ctx: {
 }
 
 export async function createDiscordPayloadSendContext(ctx: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   to: string;
   accountId?: string | null;
   deps?: OutboundSendDeps;

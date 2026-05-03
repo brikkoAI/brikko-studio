@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   resolveLivePluginConfigObject,
   resolvePluginConfigObject,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
 } from "./config-runtime.js";
 
 describe("resolvePluginConfigObject", () => {
@@ -19,7 +19,7 @@ describe("resolvePluginConfigObject", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     expect(resolvePluginConfigObject(config, "demo-plugin")).toEqual({
       enabled: false,
@@ -41,7 +41,7 @@ describe("resolvePluginConfigObject", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     expect(resolvePluginConfigObject(config, "missing-plugin")).toBeUndefined();
     expect(resolvePluginConfigObject(config, "demo-plugin")).toBeUndefined();
@@ -66,7 +66,7 @@ describe("resolveLivePluginConfigObject", () => {
       plugins: {
         entries: {},
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     expect(
       resolveLivePluginConfigObject(() => config, "demo-plugin", {

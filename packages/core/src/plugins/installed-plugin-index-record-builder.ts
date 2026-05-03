@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import type { PluginCompatCode } from "./compat/registry.js";
 import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.js";
 import type { PluginCandidate } from "./discovery.js";
@@ -197,7 +197,7 @@ function buildCandidateLookup(
 export function buildInstalledPluginIndexRecords(params: {
   candidates: readonly PluginCandidate[];
   registry: PluginManifestRegistry;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   diagnostics: PluginDiagnostic[];
   installRecords: Record<string, InstalledPluginInstallRecordInfo>;
 }): InstalledPluginIndexRecord[] {
@@ -240,7 +240,7 @@ export function buildInstalledPluginIndexRecords(params: {
       startup: buildStartupInfo(record),
       compat: collectPluginManifestCompatCodes(record),
     };
-    if (record.format && record.format !== "openclaw") {
+    if (record.format && record.format !== "brikko-studio") {
       indexRecord.format = record.format;
     }
     if (record.bundleFormat) {

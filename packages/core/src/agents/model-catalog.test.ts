@@ -1,5 +1,5 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { resetLogger, setLoggerOverride } from "../logging/logger.js";
 
 type PiSdkModule = typeof import("./pi-model-discovery.js");
@@ -12,7 +12,7 @@ let loadModelCatalog: typeof import("./model-catalog.js").loadModelCatalog;
 let modelSupportsInput: typeof import("./model-catalog.js").modelSupportsInput;
 let resetModelCatalogCacheForTest: typeof import("./model-catalog.js").resetModelCatalogCacheForTest;
 let augmentCatalogMock: ReturnType<typeof vi.fn>;
-let ensureOpenClawModelsJsonMock: ReturnType<typeof vi.fn>;
+let ensureBrikko StudioModelsJsonMock: ReturnType<typeof vi.fn>;
 let currentPluginMetadataSnapshotMock: ReturnType<typeof vi.fn>;
 let loadPluginMetadataSnapshotMock: ReturnType<typeof vi.fn>;
 let readFileMock: ReturnType<typeof vi.fn>;
@@ -88,12 +88,12 @@ describe("loadModelCatalog", () => {
       ...(await importOriginal<typeof import("node:fs/promises")>()),
       readFile: readFileMock,
     }));
-    ensureOpenClawModelsJsonMock = vi.fn().mockResolvedValue({ agentDir: "/tmp", wrote: false });
+    ensureBrikko StudioModelsJsonMock = vi.fn().mockResolvedValue({ agentDir: "/tmp", wrote: false });
     vi.doMock("./models-config.js", () => ({
-      ensureOpenClawModelsJson: ensureOpenClawModelsJsonMock,
+      ensureBrikko StudioModelsJson: ensureBrikko StudioModelsJsonMock,
     }));
     vi.doMock("./agent-paths.js", () => ({
-      resolveOpenClawAgentDir: () => "/tmp/openclaw",
+      resolveBrikko StudioAgentDir: () => "/tmp/brikko-studio",
     }));
     vi.doMock("../plugins/provider-runtime.runtime.js", () => ({
       augmentModelCatalogWithProviderPlugins: vi.fn().mockResolvedValue([]),
@@ -126,7 +126,7 @@ describe("loadModelCatalog", () => {
     readFileMock.mockRejectedValue(
       Object.assign(new Error("models.json missing"), { code: "ENOENT" }),
     );
-    ensureOpenClawModelsJsonMock.mockClear();
+    ensureBrikko StudioModelsJsonMock.mockClear();
     augmentCatalogMock.mockClear();
     currentPluginMetadataSnapshotMock.mockReset();
     currentPluginMetadataSnapshotMock.mockReturnValue(emptyPluginMetadataSnapshot());
@@ -154,7 +154,7 @@ describe("loadModelCatalog", () => {
     try {
       const getCallCount = mockCatalogImportFailThenRecover();
 
-      const cfg = {} as OpenClawConfig;
+      const cfg = {} as Brikko StudioConfig;
       const first = await loadModelCatalog({ config: cfg });
       expect(first).toEqual([]);
 
@@ -171,14 +171,14 @@ describe("loadModelCatalog", () => {
     const models = [{ id: "existing", name: "Existing", provider: "ollama" }];
     mockPiDiscoveryModels(models);
 
-    const first = await loadModelCatalog({ config: {} as OpenClawConfig });
+    const first = await loadModelCatalog({ config: {} as Brikko StudioConfig });
     expect(first).toContainEqual({ id: "existing", name: "Existing", provider: "ollama" });
 
     models.push({ id: "glm-5.1:cloud", name: "GLM 5.1 Cloud", provider: "ollama" });
     resetModelCatalogCacheForTest();
     mockPiDiscoveryModels(models);
 
-    const second = await loadModelCatalog({ config: {} as OpenClawConfig });
+    const second = await loadModelCatalog({ config: {} as Brikko StudioConfig });
     expect(second).toContainEqual({ id: "existing", name: "Existing", provider: "ollama" });
     expect(second).toContainEqual({
       id: "glm-5.1:cloud",
@@ -212,7 +212,7 @@ describe("loadModelCatalog", () => {
           }) as unknown as PiSdkModule,
       );
 
-      const result = await loadModelCatalog({ config: {} as OpenClawConfig });
+      const result = await loadModelCatalog({ config: {} as Brikko StudioConfig });
       expect(result).toEqual([{ id: "gpt-4.1", name: "GPT-4.1", provider: "openai" }]);
     } finally {
       setLoggerOverride(null);
@@ -250,14 +250,14 @@ describe("loadModelCatalog", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       readOnly: true,
     });
 
     expect(result).toContainEqual(
       expect.objectContaining({ id: "gpt-test", name: "GPT Test", provider: "openai" }),
     );
-    expect(ensureOpenClawModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
     expect(importPiSdk).not.toHaveBeenCalled();
     expect(loadPluginMetadataSnapshotMock).not.toHaveBeenCalled();
   });
@@ -296,7 +296,7 @@ describe("loadModelCatalog", () => {
       }),
     );
 
-    const result = await loadModelCatalog({ config: {} as OpenClawConfig, readOnly: true });
+    const result = await loadModelCatalog({ config: {} as Brikko StudioConfig, readOnly: true });
 
     expect(result).toEqual([
       {
@@ -309,7 +309,7 @@ describe("loadModelCatalog", () => {
         compat: undefined,
       },
     ]);
-    expect(ensureOpenClawModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
     expect(augmentCatalogMock).not.toHaveBeenCalled();
   });
 
@@ -358,7 +358,7 @@ describe("loadModelCatalog", () => {
     });
     __setModelCatalogImportForTest(importPiSdk as unknown as () => Promise<PiSdkModule>);
 
-    const result = await loadModelCatalog({ config: {} as OpenClawConfig, readOnly: true });
+    const result = await loadModelCatalog({ config: {} as Brikko StudioConfig, readOnly: true });
 
     expect(result).toEqual([
       {
@@ -369,7 +369,7 @@ describe("loadModelCatalog", () => {
         reasoning: false,
       },
     ]);
-    expect(ensureOpenClawModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
     expect(importPiSdk).not.toHaveBeenCalled();
   });
 
@@ -384,7 +384,7 @@ describe("loadModelCatalog", () => {
       }),
     );
 
-    const result = await loadModelCatalog({ config: {} as OpenClawConfig, readOnly: true });
+    const result = await loadModelCatalog({ config: {} as Brikko StudioConfig, readOnly: true });
 
     expect(result).toEqual([
       {
@@ -397,7 +397,7 @@ describe("loadModelCatalog", () => {
         compat: undefined,
       },
     ]);
-    expect(ensureOpenClawModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
     expect(augmentCatalogMock).not.toHaveBeenCalled();
   });
 
@@ -416,7 +416,7 @@ describe("loadModelCatalog", () => {
       }),
     );
 
-    const result = await loadModelCatalog({ config: {} as OpenClawConfig, readOnly: true });
+    const result = await loadModelCatalog({ config: {} as Brikko StudioConfig, readOnly: true });
 
     expect(result).toEqual([
       {
@@ -438,7 +438,7 @@ describe("loadModelCatalog", () => {
         compat: undefined,
       },
     ]);
-    expect(ensureOpenClawModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
     expect(augmentCatalogMock).not.toHaveBeenCalled();
   });
 
@@ -459,7 +459,7 @@ describe("loadModelCatalog", () => {
       },
     ]);
 
-    const result = await loadModelCatalog({ config: {} as OpenClawConfig });
+    const result = await loadModelCatalog({ config: {} as Brikko StudioConfig });
     expect(result).not.toContainEqual(
       expect.objectContaining({
         provider: "openai-codex",
@@ -503,7 +503,7 @@ describe("loadModelCatalog", () => {
       },
     ]);
 
-    const result = await loadModelCatalog({ config: {} as OpenClawConfig });
+    const result = await loadModelCatalog({ config: {} as Brikko StudioConfig });
     expect(result).not.toContainEqual(
       expect.objectContaining({
         provider: "openai",
@@ -568,7 +568,7 @@ describe("loadModelCatalog", () => {
       },
     ]);
 
-    const result = await loadModelCatalog({ config: {} as OpenClawConfig });
+    const result = await loadModelCatalog({ config: {} as Brikko StudioConfig });
 
     expect(
       result.some((entry) => entry.provider === "openai" && entry.id.startsWith("gpt-5.4")),
@@ -598,7 +598,7 @@ describe("loadModelCatalog", () => {
       },
     ]);
 
-    const result = await loadModelCatalog({ config: {} as OpenClawConfig });
+    const result = await loadModelCatalog({ config: {} as Brikko StudioConfig });
 
     expect(result).toContainEqual(
       expect.objectContaining({
@@ -646,7 +646,7 @@ describe("loadModelCatalog", () => {
     };
     currentPluginMetadataSnapshotMock.mockReturnValue(snapshot);
 
-    const result = loadManifestModelCatalog({ config: {} as OpenClawConfig });
+    const result = loadManifestModelCatalog({ config: {} as Brikko StudioConfig });
 
     expect(loadPluginMetadataSnapshotMock).not.toHaveBeenCalled();
     expect(augmentCatalogMock).not.toHaveBeenCalled();
@@ -680,7 +680,7 @@ describe("loadModelCatalog", () => {
       },
     ]);
 
-    const result = await loadModelCatalog({ config: {} as OpenClawConfig });
+    const result = await loadModelCatalog({ config: {} as Brikko StudioConfig });
 
     expect(result).toContainEqual(
       expect.objectContaining({ provider: "ollama", id: "llama3.2", name: "Llama 3.2" }),
@@ -713,7 +713,7 @@ describe("loadModelCatalog", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     expect(result).toContainEqual(
@@ -751,7 +751,7 @@ describe("loadModelCatalog", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     const matches = result.filter((entry) => findModelInCatalog([entry], "z-ai", "glm-5"));
@@ -762,7 +762,7 @@ describe("loadModelCatalog", () => {
   it("does not add unrelated models when provider plugins return nothing", async () => {
     mockSingleOpenAiCatalogModel();
 
-    const result = await loadModelCatalog({ config: {} as OpenClawConfig });
+    const result = await loadModelCatalog({ config: {} as Brikko StudioConfig });
 
     expect(
       result.some((entry) => entry.provider === "qianfan" && entry.id === "deepseek-v3.2"),
@@ -788,7 +788,7 @@ describe("loadModelCatalog", () => {
       },
     ]);
 
-    const result = await loadModelCatalog({ config: {} as OpenClawConfig });
+    const result = await loadModelCatalog({ config: {} as Brikko StudioConfig });
 
     const matches = result.filter(
       (entry) => entry.provider === "kilocode" && entry.id === "kilo/auto",

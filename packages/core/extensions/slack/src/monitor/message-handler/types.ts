@@ -1,5 +1,5 @@
-import type { FinalizedMsgContext } from "openclaw/plugin-sdk/reply-runtime";
-import type { ResolvedAgentRoute } from "openclaw/plugin-sdk/routing";
+import type { FinalizedMsgContext } from "brikko-studio/plugin-sdk/reply-runtime";
+import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import type { ResolvedSlackAccount } from "../../accounts.js";
 import type { SlackMessageEvent } from "../../types.js";
 import type { SlackChannelConfigResolved } from "../channel-config.js";

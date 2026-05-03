@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/moonshot-provider",
+  "name": "@brikko-studio/moonshot-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Moonshot provider plugin",
+  "description": "Brikko Studio Moonshot provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

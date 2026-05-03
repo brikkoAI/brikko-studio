@@ -14,8 +14,8 @@ const { postTranscriptionRequestMock } = vi.hoisted(() => ({
   ),
 }));
 
-vi.mock("openclaw/plugin-sdk/provider-http", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("openclaw/plugin-sdk/provider-http")>();
+vi.mock("brikko-studio/plugin-sdk/provider-http", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("brikko-studio/plugin-sdk/provider-http")>();
   return {
     ...actual,
     postTranscriptionRequest: postTranscriptionRequestMock,

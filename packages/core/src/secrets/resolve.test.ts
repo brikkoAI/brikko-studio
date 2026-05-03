@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { INVALID_EXEC_SECRET_REF_IDS } from "../test-utils/secret-ref-test-vectors.js";
 import {
   resolveSecretRefString,
@@ -109,7 +109,7 @@ describe("secret ref resolver", () => {
   }
 
   beforeAll(async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-secrets-resolve-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-secrets-resolve-"));
     const sharedExecDir = path.join(fixtureRoot, "shared-exec");
     await fs.mkdir(sharedExecDir, { recursive: true });
 
@@ -163,7 +163,7 @@ describe("secret ref resolver", () => {
   });
 
   it("resolves env refs via implicit default env provider", async () => {
-    const config: OpenClawConfig = {};
+    const config: Brikko StudioConfig = {};
     const value = await resolveSecretRefString(
       { source: "env", provider: "default", id: "OPENAI_API_KEY" },
       {

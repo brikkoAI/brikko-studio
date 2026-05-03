@@ -10,7 +10,7 @@ An agentic loop is the full “real” run of an agent: intake → context assem
 tool execution → streaming replies → persistence. It’s the authoritative path that turns a message
 into actions and a final reply, while keeping session state consistent.
 
-In OpenClaw, a loop is a single, serialized run per session that emits lifecycle and stream events
+In Brikko Studio, a loop is a single, serialized run per session that emits lifecycle and stream events
 as the model thinks, calls tools, and streams output. This doc explains how that authentic loop is
 wired end-to-end.
 
@@ -34,7 +34,7 @@ wired end-to-end.
    - enforces timeout -> aborts run if exceeded
    - for Codex app-server turns, aborts an accepted turn that stops producing app-server progress before a terminal event
    - returns payloads + usage metadata
-4. `subscribeEmbeddedPiSession` bridges pi-agent-core events to OpenClaw `agent` stream:
+4. `subscribeEmbeddedPiSession` bridges pi-agent-core events to Brikko Studio `agent` stream:
    - tool events => `stream: "tool"`
    - assistant deltas => `stream: "assistant"`
    - lifecycle events => `stream: "lifecycle"` (`phase: "start" | "end" | "error"`)
@@ -67,13 +67,13 @@ wired end-to-end.
 
 ## Prompt assembly + system prompt
 
-- System prompt is built from OpenClaw’s base prompt, skills prompt, bootstrap context, and per-run overrides.
+- System prompt is built from Brikko Studio’s base prompt, skills prompt, bootstrap context, and per-run overrides.
 - Model-specific limits and compaction reserve tokens are enforced.
 - See [System prompt](/concepts/system-prompt) for what the model sees.
 
 ## Hook points (where you can intercept)
 
-OpenClaw has two hook systems:
+Brikko Studio has two hook systems:
 
 - **Internal hooks** (Gateway hooks): event-driven scripts for commands and lifecycle events.
 - **Plugin hooks**: extension points inside the agent/tool lifecycle and gateway pipeline.
@@ -98,7 +98,7 @@ These run inside the agent loop or gateway pipeline:
 - **`before_compaction` / `after_compaction`**: observe or annotate compaction cycles.
 - **`before_tool_call` / `after_tool_call`**: intercept tool params/results.
 - **`before_install`**: inspect built-in scan findings and optionally block skill or plugin installs.
-- **`tool_result_persist`**: synchronously transform tool results before they are written to an OpenClaw-owned session transcript.
+- **`tool_result_persist`**: synchronously transform tool results before they are written to an Brikko Studio-owned session transcript.
 - **`message_received` / `message_sending` / `message_sent`**: inbound + outbound message hooks.
 - **`session_start` / `session_end`**: session lifecycle boundaries.
 - **`gateway_start` / `gateway_stop`**: gateway lifecycle events.
@@ -115,7 +115,7 @@ Hook decision rules for outbound/tool guards:
 See [Plugin hooks](/plugins/hooks) for the hook API and registration details.
 
 Harnesses may adapt these hooks differently. The Codex app-server harness keeps
-OpenClaw plugin hooks as the compatibility contract for documented mirrored
+Brikko Studio plugin hooks as the compatibility contract for documented mirrored
 surfaces, while Codex native hooks remain a separate lower-level Codex mechanism.
 
 ## Streaming + partial replies
@@ -166,7 +166,7 @@ surfaces, while Codex native hooks remain a separate lower-level Codex mechanism
 - Agent runtime: `agents.defaults.timeoutSeconds` default 172800s (48 hours); enforced in `runEmbeddedPiAgent` abort timer.
 - Cron runtime: isolated agent-turn `timeoutSeconds` is owned by cron. The scheduler starts that timer when execution begins, aborts the underlying run at the configured deadline, then runs bounded cleanup before recording the timeout so a stale child session cannot keep the lane stuck.
 - Session liveness diagnostics: with diagnostics enabled, `diagnostics.stuckSessionWarnMs` classifies long `processing` sessions that have no observed reply, tool, status, block, or ACP progress. Active embedded runs, model calls, and tool calls report as `session.long_running`; active work with no recent progress reports as `session.stalled`; `session.stuck` is reserved for stale session bookkeeping with no active work, and only that path releases the affected session lane so queued startup work can drain. Repeated `session.stuck` diagnostics back off while the session remains unchanged.
-- Model idle timeout: OpenClaw aborts a model request when no response chunks arrive before the idle window. `models.providers.<id>.timeoutSeconds` extends this idle watchdog for slow local/self-hosted providers; otherwise OpenClaw uses `agents.defaults.timeoutSeconds` when configured, capped at 120s by default. Cron-triggered runs with no explicit model or agent timeout disable the idle watchdog and rely on the cron outer timeout.
+- Model idle timeout: Brikko Studio aborts a model request when no response chunks arrive before the idle window. `models.providers.<id>.timeoutSeconds` extends this idle watchdog for slow local/self-hosted providers; otherwise Brikko Studio uses `agents.defaults.timeoutSeconds` when configured, capped at 120s by default. Cron-triggered runs with no explicit model or agent timeout disable the idle watchdog and rely on the cron outer timeout.
 - Provider HTTP request timeout: `models.providers.<id>.timeoutSeconds` applies to that provider's model HTTP fetches, including connect, headers, body, SDK request timeout, total guarded-fetch abort handling, and model stream idle watchdog. Use this for slow local/self-hosted providers such as Ollama before raising the whole agent runtime timeout.
 
 ## Where things can end early

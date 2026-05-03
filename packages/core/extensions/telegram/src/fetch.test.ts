@@ -1,4 +1,4 @@
-import { resolveFetch } from "openclaw/plugin-sdk/fetch-runtime";
+import { resolveFetch } from "brikko-studio/plugin-sdk/fetch-runtime";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 const setDefaultResultOrder = vi.hoisted(() => vi.fn());
@@ -69,7 +69,7 @@ vi.mock("undici", () => ({
   setGlobalDispatcher,
 }));
 
-vi.mock("openclaw/plugin-sdk/runtime-env", () => ({
+vi.mock("brikko-studio/plugin-sdk/runtime-env", () => ({
   createSubsystemLogger: () => ({
     info: loggerInfo,
     debug: loggerDebug,
@@ -116,8 +116,8 @@ beforeAll(async () => {
 beforeEach(() => {
   vi.unstubAllEnvs();
   for (const key of [
-    "OPENCLAW_DEBUG_PROXY_ENABLED",
-    "OPENCLAW_DEBUG_PROXY_URL",
+    "BRIKKO_STUDIO_DEBUG_PROXY_ENABLED",
+    "BRIKKO_STUDIO_DEBUG_PROXY_URL",
     "ALL_PROXY",
     "all_proxy",
     "HTTP_PROXY",
@@ -126,7 +126,7 @@ beforeEach(() => {
     "https_proxy",
     "NO_PROXY",
     "no_proxy",
-    "OPENCLAW_PROXY_URL",
+    "BRIKKO_STUDIO_PROXY_URL",
   ]) {
     vi.stubEnv(key, "");
   }
@@ -416,9 +416,9 @@ describe("resolveTelegramFetch", () => {
     );
   });
 
-  it("uses the OpenClaw debug proxy URL when no explicit proxy fetch is provided", async () => {
-    vi.stubEnv("OPENCLAW_DEBUG_PROXY_ENABLED", "1");
-    vi.stubEnv("OPENCLAW_DEBUG_PROXY_URL", "http://127.0.0.1:7777");
+  it("uses the Brikko Studio debug proxy URL when no explicit proxy fetch is provided", async () => {
+    vi.stubEnv("BRIKKO_STUDIO_DEBUG_PROXY_ENABLED", "1");
+    vi.stubEnv("BRIKKO_STUDIO_DEBUG_PROXY_URL", "http://127.0.0.1:7777");
     undiciFetch.mockResolvedValue({ ok: true } as Response);
 
     const resolved = resolveTelegramFetch(undefined);
@@ -433,8 +433,8 @@ describe("resolveTelegramFetch", () => {
     );
   });
 
-  it("uses OPENCLAW_PROXY_URL as a Telegram explicit proxy when proxy env is absent", async () => {
-    vi.stubEnv("OPENCLAW_PROXY_URL", "http://127.0.0.1:7788");
+  it("uses BRIKKO_STUDIO_PROXY_URL as a Telegram explicit proxy when proxy env is absent", async () => {
+    vi.stubEnv("BRIKKO_STUDIO_PROXY_URL", "http://127.0.0.1:7788");
     undiciFetch.mockResolvedValue({ ok: true } as Response);
 
     const transport = resolveTelegramTransport(undefined, {
@@ -466,8 +466,8 @@ describe("resolveTelegramFetch", () => {
     );
   });
 
-  it("preserves caller-provided custom fetch when OPENCLAW_PROXY_URL is present", async () => {
-    vi.stubEnv("OPENCLAW_PROXY_URL", "http://127.0.0.1:7788");
+  it("preserves caller-provided custom fetch when BRIKKO_STUDIO_PROXY_URL is present", async () => {
+    vi.stubEnv("BRIKKO_STUDIO_PROXY_URL", "http://127.0.0.1:7788");
     const proxyFetch = vi.fn(async () => ({ ok: true }) as Response) as unknown as typeof fetch;
 
     const transport = resolveTelegramTransport(proxyFetch, {
@@ -488,8 +488,8 @@ describe("resolveTelegramFetch", () => {
     expect(transport.dispatcherAttempts).toBeUndefined();
   });
 
-  it("prefers standard proxy env over OPENCLAW_PROXY_URL for Telegram", async () => {
-    vi.stubEnv("OPENCLAW_PROXY_URL", "http://127.0.0.1:7788");
+  it("prefers standard proxy env over BRIKKO_STUDIO_PROXY_URL for Telegram", async () => {
+    vi.stubEnv("BRIKKO_STUDIO_PROXY_URL", "http://127.0.0.1:7788");
     vi.stubEnv("https_proxy", "http://127.0.0.1:7890");
     undiciFetch.mockResolvedValue({ ok: true } as Response);
 
@@ -536,7 +536,7 @@ describe("resolveTelegramFetch", () => {
     );
   });
 
-  it("keeps resolver-scoped transport policy for OpenClaw proxy fetches", async () => {
+  it("keeps resolver-scoped transport policy for Brikko Studio proxy fetches", async () => {
     const { makeProxyFetch } = await import("./proxy.js");
     const proxyFetch = makeProxyFetch("http://127.0.0.1:7890");
     ProxyAgentCtor.mockClear();

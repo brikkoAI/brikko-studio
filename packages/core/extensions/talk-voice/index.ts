@@ -1,12 +1,12 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import type { SpeechVoiceOption } from "openclaw/plugin-sdk/speech";
-import { resolveActiveTalkProviderConfig } from "openclaw/plugin-sdk/talk-config-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import type { SpeechVoiceOption } from "brikko-studio/plugin-sdk/speech";
+import { resolveActiveTalkProviderConfig } from "brikko-studio/plugin-sdk/talk-config-runtime";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
-} from "openclaw/plugin-sdk/text-runtime";
-import { definePluginEntry, type OpenClawPluginApi } from "./api.js";
+} from "brikko-studio/plugin-sdk/text-runtime";
+import { definePluginEntry, type Brikko StudioPluginApi } from "./api.js";
 
 function mask(s: string, keep: number = 6): string {
   const trimmed = s.trim();
@@ -121,7 +121,7 @@ export default definePluginEntry({
   id: "talk-voice",
   name: "Talk Voice",
   description: "Command helpers for managing Talk voice configuration",
-  register(api: OpenClawPluginApi) {
+  register(api: Brikko StudioPluginApi) {
     api.registerCommand({
       name: "voice",
       nativeNames: {
@@ -135,7 +135,7 @@ export default definePluginEntry({
         const tokens = args.split(/\s+/).filter(Boolean);
         const action = normalizeLowercaseStringOrEmpty(tokens[0] ?? "status");
 
-        const cfg = api.runtime.config.current() as OpenClawConfig;
+        const cfg = api.runtime.config.current() as Brikko StudioConfig;
         const active = resolveActiveTalkProviderConfig(cfg.talk);
         if (!active) {
           return {

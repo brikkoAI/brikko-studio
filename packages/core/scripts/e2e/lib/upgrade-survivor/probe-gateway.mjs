@@ -33,7 +33,7 @@ const allowFailing = new Set(
     .filter(Boolean),
 );
 const timeoutMs = Number.parseInt(
-  option("--timeout-ms", process.env.OPENCLAW_UPGRADE_SURVIVOR_PROBE_TIMEOUT_MS || "60000"),
+  option("--timeout-ms", process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_PROBE_TIMEOUT_MS || "60000"),
   10,
 );
 const url = new URL(probePath, baseUrl).toString();

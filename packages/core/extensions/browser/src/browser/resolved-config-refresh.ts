@@ -8,9 +8,9 @@ function changedProfileInvariants(
 ): string[] {
   const changed: string[] = [];
   const currentUsesLocalManagedLaunch =
-    current.driver === "openclaw" && !current.attachOnly && current.cdpIsLoopback;
+    current.driver === "brikko-studio" && !current.attachOnly && current.cdpIsLoopback;
   const nextUsesLocalManagedLaunch =
-    next.driver === "openclaw" && !next.attachOnly && next.cdpIsLoopback;
+    next.driver === "brikko-studio" && !next.attachOnly && next.cdpIsLoopback;
   if (current.cdpUrl !== next.cdpUrl) {
     changed.push("cdpUrl");
   }

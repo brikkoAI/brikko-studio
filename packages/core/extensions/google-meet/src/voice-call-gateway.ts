@@ -1,8 +1,8 @@
 import {
   GatewayClient,
   startGatewayClientWhenEventLoopReady,
-} from "openclaw/plugin-sdk/gateway-runtime";
-import type { RuntimeLogger } from "openclaw/plugin-sdk/plugin-runtime";
+} from "brikko-studio/plugin-sdk/gateway-runtime";
+import type { RuntimeLogger } from "brikko-studio/plugin-sdk/plugin-runtime";
 import type { GoogleMeetConfig } from "./config.js";
 
 type VoiceCallGatewayClient = InstanceType<typeof GatewayClient>;

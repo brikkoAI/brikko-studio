@@ -11,8 +11,8 @@ Adds agent-callable tools. Adds web search provider support.
 
 ## Distribution
 
-- Package: `@openclaw/tavily-plugin`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/tavily-plugin`
+- Install route: included in Brikko Studio
 
 ## Surface
 

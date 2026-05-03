@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Builds the OpenClaw package artifact used by Docker E2E.
+// Builds the Brikko Studio package artifact used by Docker E2E.
 // The script owns the build/inventory/pack sequence so local scheduler, shell
 // helpers, and GitHub Actions all prepare the exact same npm tarball.
 import { spawn } from "node:child_process";
@@ -97,11 +97,11 @@ async function runCapture(command, args, cwd) {
   });
 }
 
-async function newestOpenClawTarball(outputDir, packOutput) {
+async function newestBrikko StudioTarball(outputDir, packOutput) {
   let fromOutput = "";
   for (const line of packOutput.split(/\r?\n/u)) {
     const trimmed = line.trim();
-    if (/^openclaw-.*\.tgz$/u.test(trimmed)) {
+    if (/^brikko-studio-.*\.tgz$/u.test(trimmed)) {
       fromOutput = trimmed;
     }
   }
@@ -111,11 +111,11 @@ async function newestOpenClawTarball(outputDir, packOutput) {
 
   const entries = await fs.readdir(outputDir);
   const packed = entries
-    .filter((entry) => /^openclaw-.*\.tgz$/u.test(entry))
+    .filter((entry) => /^brikko-studio-.*\.tgz$/u.test(entry))
     .toSorted()
     .at(-1);
   if (!packed) {
-    throw new Error(`missing packed OpenClaw tarball in ${outputDir}`);
+    throw new Error(`missing packed Brikko Studio tarball in ${outputDir}`);
   }
   return path.join(outputDir, packed);
 }
@@ -130,13 +130,13 @@ async function main() {
   await fs.mkdir(outputDir, { recursive: true });
 
   if (!options.skipBuild) {
-    console.error("==> Building OpenClaw package artifacts");
+    console.error("==> Building Brikko Studio package artifacts");
     await run("pnpm", ["build"], sourceDir);
-    console.error("==> Building OpenClaw Control UI artifacts");
+    console.error("==> Building Brikko Studio Control UI artifacts");
     await run("pnpm", ["ui:build"], sourceDir);
   }
 
-  console.error("==> Writing OpenClaw package inventory");
+  console.error("==> Writing Brikko Studio package inventory");
   await run(
     "node",
     [
@@ -149,13 +149,13 @@ async function main() {
     sourceDir,
   );
 
-  console.error("==> Packing OpenClaw package");
+  console.error("==> Packing Brikko Studio package");
   const packOutput = await runCapture(
     "npm",
     ["pack", "--silent", "--ignore-scripts", "--pack-destination", outputDir],
     sourceDir,
   );
-  let tarball = await newestOpenClawTarball(outputDir, packOutput);
+  let tarball = await newestBrikko StudioTarball(outputDir, packOutput);
 
   if (options.outputName) {
     const target = path.join(outputDir, options.outputName);
@@ -166,16 +166,16 @@ async function main() {
     }
   }
 
-  console.error("==> Checking OpenClaw package tarball");
+  console.error("==> Checking Brikko Studio package tarball");
   const checkStartedAt = Date.now();
   await run(
     "node",
-    [path.join(ROOT_DIR, "scripts/check-openclaw-package-tarball.mjs"), tarball],
+    [path.join(ROOT_DIR, "scripts/check-brikko-studio-package-tarball.mjs"), tarball],
     sourceDir,
     { timeoutMs: 5 * 60 * 1000 },
   );
   console.error(
-    `==> OpenClaw package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
+    `==> Brikko Studio package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
   );
 
   process.stdout.write(`${tarball}\n`);

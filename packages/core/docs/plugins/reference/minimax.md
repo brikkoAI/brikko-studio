@@ -1,5 +1,5 @@
 ---
-summary: "Adds MiniMax, MiniMax Portal model provider support to OpenClaw."
+summary: "Adds MiniMax, MiniMax Portal model provider support to Brikko Studio."
 read_when:
   - You are installing, configuring, or auditing the minimax plugin
 title: "MiniMax plugin"
@@ -7,12 +7,12 @@ title: "MiniMax plugin"
 
 # MiniMax plugin
 
-Adds MiniMax, MiniMax Portal model provider support to OpenClaw.
+Adds MiniMax, MiniMax Portal model provider support to Brikko Studio.
 
 ## Distribution
 
-- Package: `@openclaw/minimax-provider`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/minimax-provider`
+- Install route: included in Brikko Studio
 
 ## Surface
 

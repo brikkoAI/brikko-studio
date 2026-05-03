@@ -2,10 +2,10 @@ import {
   createAccountListHelpers,
   normalizeAccountId,
   resolveMergedAccountConfig,
-} from "openclaw/plugin-sdk/account-resolution";
-import { resolveChannelStreamingChunkMode } from "openclaw/plugin-sdk/channel-streaming";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/account-resolution";
+import { resolveChannelStreamingChunkMode } from "brikko-studio/plugin-sdk/channel-streaming";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   normalizeBlueBubblesAccountsMap,
   normalizeBlueBubblesPrivateNetworkAliases,
@@ -31,7 +31,7 @@ const {
 export { listBlueBubblesAccountIds, resolveDefaultBlueBubblesAccountId };
 
 function mergeBlueBubblesAccountConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId: string,
 ): BlueBubblesAccountConfig {
   const channelConfig = normalizeBlueBubblesPrivateNetworkAliases(
@@ -57,7 +57,7 @@ function mergeBlueBubblesAccountConfig(
 }
 
 export function resolveBlueBubblesAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): ResolvedBlueBubblesAccount {
   const accountId = normalizeAccountId(

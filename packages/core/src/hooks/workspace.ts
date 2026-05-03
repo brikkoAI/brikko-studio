@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { MANIFEST_KEY } from "../compat/legacy-names.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { isPathInsideWithRealpath } from "../security/scan-paths.js";
@@ -10,7 +10,7 @@ import { resolveBundledHooksDir } from "./bundled-dir.js";
 import {
   parseFrontmatter,
   resolveHookInvocationPolicy,
-  resolveOpenClawMetadata,
+  resolveBrikko StudioMetadata,
 } from "./frontmatter.js";
 import { resolvePluginHookDirs } from "./plugin-hooks.js";
 import { resolveHookEntries } from "./policy.js";
@@ -216,7 +216,7 @@ export function loadHookEntriesFromDir(params: {
         pluginId: params.pluginId,
       },
       frontmatter,
-      metadata: resolveOpenClawMetadata(frontmatter),
+      metadata: resolveBrikko StudioMetadata(frontmatter),
       invocation: resolveHookInvocationPolicy(frontmatter),
     };
     return entry;
@@ -226,7 +226,7 @@ export function loadHookEntriesFromDir(params: {
 function discoverWorkspaceHookEntries(
   workspaceDir: string,
   opts?: {
-    config?: OpenClawConfig;
+    config?: Brikko StudioConfig;
     managedHooksDir?: string;
     bundledHooksDir?: string;
   },
@@ -246,30 +246,30 @@ function discoverWorkspaceHookEntries(
   const bundledHooks = bundledHooksDir
     ? loadHookEntriesFromDir({
         dir: bundledHooksDir,
-        source: "openclaw-bundled",
+        source: "brikko-studio-bundled",
       })
     : [];
   const extraHooks = extraDirs.flatMap((dir) => {
     const resolved = resolveUserPath(dir);
     return loadHookEntriesFromDir({
       dir: resolved,
-      source: "openclaw-managed",
+      source: "brikko-studio-managed",
     });
   });
   const pluginHooks = pluginHookDirs.flatMap(({ dir, pluginId }) =>
     loadHookEntriesFromDir({
       dir,
-      source: "openclaw-plugin",
+      source: "brikko-studio-plugin",
       pluginId,
     }),
   );
   const managedHooks = loadHookEntriesFromDir({
     dir: managedHooksDir,
-    source: "openclaw-managed",
+    source: "brikko-studio-managed",
   });
   const workspaceHooks = loadHookEntriesFromDir({
     dir: workspaceHooksDir,
-    source: "openclaw-workspace",
+    source: "brikko-studio-workspace",
   });
 
   return [...extraHooks, ...bundledHooks, ...pluginHooks, ...managedHooks, ...workspaceHooks];
@@ -278,7 +278,7 @@ function discoverWorkspaceHookEntries(
 export function loadWorkspaceHookEntries(
   workspaceDir: string,
   opts?: {
-    config?: OpenClawConfig;
+    config?: Brikko StudioConfig;
     managedHooksDir?: string;
     bundledHooksDir?: string;
     entries?: HookEntry[];

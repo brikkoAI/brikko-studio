@@ -2,7 +2,7 @@ import path from "node:path";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { resolveSandboxConfigForAgent } from "../agents/sandbox/config.js";
 import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { ConfigFileSnapshot, OpenClawConfig } from "../config/config.js";
+import type { ConfigFileSnapshot, Brikko StudioConfig } from "../config/config.js";
 import { resolveConfigPath, resolveStateDir } from "../config/paths.js";
 import { type ExecApprovalsFile, loadExecApprovals } from "../infra/exec-approvals.js";
 import { isInterpreterLikeAllowlistPattern } from "../infra/exec-inline-eval.js";
@@ -43,8 +43,8 @@ export type {
 } from "./audit.types.js";
 
 export type SecurityAuditOptions = {
-  config: OpenClawConfig;
-  sourceConfig?: OpenClawConfig;
+  config: Brikko StudioConfig;
+  sourceConfig?: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   platform?: NodeJS.Platform;
   deep?: boolean;
@@ -77,8 +77,8 @@ export type SecurityAuditOptions = {
 };
 
 export type AuditExecutionContext = {
-  cfg: OpenClawConfig;
-  sourceConfig: OpenClawConfig;
+  cfg: Brikko StudioConfig;
+  sourceConfig: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   platform: NodeJS.Platform;
   includeFilesystem: boolean;
@@ -225,7 +225,7 @@ export async function collectFilesystemFindings(params: {
         checkId: "fs.state_dir.perms_world_writable",
         severity: "critical",
         title: "State dir is world-writable",
-        detail: `${formatPermissionDetail(params.stateDir, stateDirPerms)}; other users can write into your OpenClaw state.`,
+        detail: `${formatPermissionDetail(params.stateDir, stateDirPerms)}; other users can write into your Brikko Studio state.`,
         remediation: formatPermissionRemediation({
           targetPath: params.stateDir,
           perms: stateDirPerms,
@@ -239,7 +239,7 @@ export async function collectFilesystemFindings(params: {
         checkId: "fs.state_dir.perms_group_writable",
         severity: "warn",
         title: "State dir is group-writable",
-        detail: `${formatPermissionDetail(params.stateDir, stateDirPerms)}; group users can write into your OpenClaw state.`,
+        detail: `${formatPermissionDetail(params.stateDir, stateDirPerms)}; group users can write into your Brikko Studio state.`,
         remediation: formatPermissionRemediation({
           targetPath: params.stateDir,
           perms: stateDirPerms,
@@ -329,8 +329,8 @@ export async function collectFilesystemFindings(params: {
 }
 
 export function collectGatewayConfigFindings(
-  cfg: OpenClawConfig,
-  sourceConfig: OpenClawConfig,
+  cfg: Brikko StudioConfig,
+  sourceConfig: Brikko StudioConfig,
   env: NodeJS.ProcessEnv,
 ): SecurityAuditFinding[] {
   return collectGatewayConfigFindingsBase(cfg, sourceConfig, env, {
@@ -430,7 +430,7 @@ export async function collectPluginSecurityAuditFindings(
   return collectorResults.flat();
 }
 
-export function collectLoggingFindings(cfg: OpenClawConfig): SecurityAuditFinding[] {
+export function collectLoggingFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
   const redact = cfg.logging?.redactSensitive;
   if (redact !== "off") {
     return [];
@@ -446,7 +446,7 @@ export function collectLoggingFindings(cfg: OpenClawConfig): SecurityAuditFindin
   ];
 }
 
-export function collectElevatedFindings(cfg: OpenClawConfig): SecurityAuditFinding[] {
+export function collectElevatedFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const enabled = cfg.tools?.elevated?.enabled;
   const allowFrom = cfg.tools?.elevated?.allowFrom ?? {};
@@ -481,7 +481,7 @@ export function collectElevatedFindings(cfg: OpenClawConfig): SecurityAuditFindi
   return findings;
 }
 
-export function collectExecRuntimeFindings(cfg: OpenClawConfig): SecurityAuditFinding[] {
+export function collectExecRuntimeFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const globalExecHost = cfg.tools?.exec?.host;
   const globalStrictInlineEval = cfg.tools?.exec?.strictInlineEval === true;
@@ -789,7 +789,7 @@ export function collectExecRuntimeFindings(cfg: OpenClawConfig): SecurityAuditFi
   return findings;
 }
 
-function collectOpenExecSurfacePaths(cfg: OpenClawConfig): string[] {
+function collectOpenExecSurfacePaths(cfg: Brikko StudioConfig): string[] {
   const channels = asNullableRecord(cfg.channels);
   if (!channels) {
     return [];
@@ -857,7 +857,7 @@ function collectInterpreterAllowlistHits(params: {
 }
 
 async function maybeProbeGateway(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   timeoutMs: number;
   probe: ProbeGatewayFn;

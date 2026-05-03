@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/deepinfra-provider",
+  "name": "@brikko-studio/deepinfra-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw DeepInfra provider plugin",
+  "description": "Brikko Studio DeepInfra provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

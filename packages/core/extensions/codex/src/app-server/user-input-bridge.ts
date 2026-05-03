@@ -1,7 +1,7 @@
 import {
   embeddedAgentLog,
   type EmbeddedRunAttemptParams,
-} from "openclaw/plugin-sdk/agent-harness-runtime";
+} from "brikko-studio/plugin-sdk/agent-harness-runtime";
 import {
   isJsonObject,
   type CodexServerNotification,

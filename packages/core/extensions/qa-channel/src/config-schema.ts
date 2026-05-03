@@ -1,8 +1,8 @@
 import {
   ToolPolicySchema,
   buildChannelConfigSchema,
-} from "openclaw/plugin-sdk/channel-config-schema";
-import { z } from "openclaw/plugin-sdk/zod";
+} from "brikko-studio/plugin-sdk/channel-config-schema";
+import { z } from "brikko-studio/plugin-sdk/zod";
 
 const QaChannelActionConfigSchema = z
   .object({

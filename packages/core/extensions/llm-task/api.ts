@@ -1,6 +1,6 @@
-export { resolvePreferredOpenClawTmpDir } from "./src/runtime-api.js";
+export { resolvePreferredBrikko StudioTmpDir } from "./src/runtime-api.js";
 export {
   definePluginEntry,
   type AnyAgentTool,
-  type OpenClawPluginApi,
-} from "openclaw/plugin-sdk/plugin-entry";
+  type Brikko StudioPluginApi,
+} from "brikko-studio/plugin-sdk/plugin-entry";

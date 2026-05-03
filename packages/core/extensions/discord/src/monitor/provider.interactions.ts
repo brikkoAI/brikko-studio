@@ -1,9 +1,9 @@
-import { CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY } from "openclaw/plugin-sdk/approval-handler-adapter-runtime";
-import type { ChannelRuntimeSurface } from "openclaw/plugin-sdk/channel-contract";
-import { registerChannelRuntimeContext } from "openclaw/plugin-sdk/channel-runtime-context";
-import type { NativeCommandSpec } from "openclaw/plugin-sdk/command-auth";
-import type { DiscordAccountConfig, OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+import { CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY } from "brikko-studio/plugin-sdk/approval-handler-adapter-runtime";
+import type { ChannelRuntimeSurface } from "brikko-studio/plugin-sdk/channel-contract";
+import { registerChannelRuntimeContext } from "brikko-studio/plugin-sdk/channel-runtime-context";
+import type { NativeCommandSpec } from "brikko-studio/plugin-sdk/command-auth";
+import type { DiscordAccountConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { isDiscordExecApprovalClientEnabled } from "../exec-approvals.js";
 import {
   type BaseCommand,
@@ -31,7 +31,7 @@ import type { ThreadBindingManager } from "./thread-bindings.types.js";
 type DiscordVoiceManager = import("../voice/manager.js").DiscordVoiceManager;
 
 export function createDiscordProviderInteractionSurface(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   discordConfig: DiscordAccountConfig;
   accountId: string;
   token: string;

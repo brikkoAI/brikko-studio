@@ -2,7 +2,7 @@ import {
   isRecord,
   sanitizeTerminalText,
   truncateUtf16Safe,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 
 const MAX_WATCH_ERROR_MESSAGE_CHARS = 200;
 

@@ -1,25 +1,25 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { importFreshModule } from "openclaw/plugin-sdk/test-fixtures";
+import { importFreshModule } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ModelProviderConfig } from "../config/types.models.js";
 import { resolveBundledProviderPolicySurface } from "./provider-public-artifacts.js";
 
 describe("provider public artifacts", () => {
-  const originalBundledPluginsDir = process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
-  const originalTrustBundledPluginsDir = process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR;
+  const originalBundledPluginsDir = process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR;
+  const originalTrustBundledPluginsDir = process.env.BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR;
 
   afterEach(() => {
     if (originalBundledPluginsDir === undefined) {
-      delete process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
+      delete process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR;
     } else {
-      process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = originalBundledPluginsDir;
+      process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = originalBundledPluginsDir;
     }
     if (originalTrustBundledPluginsDir === undefined) {
-      delete process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR;
+      delete process.env.BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR;
     } else {
-      process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR = originalTrustBundledPluginsDir;
+      process.env.BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR = originalTrustBundledPluginsDir;
     }
     vi.doUnmock("./bundled-dir.js");
     vi.doUnmock("./public-surface-loader.js");
@@ -44,11 +44,11 @@ describe("provider public artifacts", () => {
   });
 
   it("resolves multi-provider policy artifacts by manifest-owned provider id", async () => {
-    const bundledPluginsDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-provider-policy-"));
+    const bundledPluginsDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-provider-policy-"));
     const pluginDir = path.join(bundledPluginsDir, "openai");
     fs.mkdirSync(pluginDir, { recursive: true });
     fs.writeFileSync(
-      path.join(pluginDir, "openclaw.plugin.json"),
+      path.join(pluginDir, "brikko-studio.plugin.json"),
       JSON.stringify({
         id: "openai",
         configSchema: { type: "object" },
@@ -78,8 +78,8 @@ describe("provider public artifacts", () => {
         resolveBundledPluginsDir: () => bundledPluginsDir,
       };
     });
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
-    process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR = "1";
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
+    process.env.BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR = "1";
     vi.doMock("./public-surface-loader.js", () => ({
       loadBundledPluginPublicArtifactModuleSync,
     }));
@@ -120,13 +120,13 @@ describe("provider public artifacts", () => {
 
   it("does not cache manifest-owned provider policy aliases across bundled metadata changes", async () => {
     const bundledPluginsDir = fs.mkdtempSync(
-      path.join(os.tmpdir(), "openclaw-provider-policy-refresh-"),
+      path.join(os.tmpdir(), "brikko-studio-provider-policy-refresh-"),
     );
     const writePlugin = (pluginId: string, providers: string[], version: number) => {
       const pluginDir = path.join(bundledPluginsDir, pluginId);
       fs.mkdirSync(pluginDir, { recursive: true });
       fs.writeFileSync(
-        path.join(pluginDir, "openclaw.plugin.json"),
+        path.join(pluginDir, "brikko-studio.plugin.json"),
         JSON.stringify({
           id: pluginId,
           name: `${pluginId} ${version}`,
@@ -153,8 +153,8 @@ describe("provider public artifacts", () => {
     vi.doMock("./public-surface-loader.js", () => ({
       loadBundledPluginPublicArtifactModuleSync,
     }));
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
-    process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR = "1";
+    process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
+    process.env.BRIKKO_STUDIO_TEST_TRUST_BUNDLED_PLUGINS_DIR = "1";
     vi.resetModules();
 
     try {
@@ -221,7 +221,7 @@ describe("provider public artifacts", () => {
             cliBackends: [],
             hooks: [],
             origin: "bundled",
-            manifestPath: "/tmp/owner/openclaw.plugin.json",
+            manifestPath: "/tmp/owner/brikko-studio.plugin.json",
             providers: ["alias"],
             rootDir: "/tmp/owner",
             skills: [],

@@ -1,35 +1,35 @@
 import fs from "node:fs/promises";
-import { resolveHumanDelayConfig } from "openclaw/plugin-sdk/agent-runtime";
+import { resolveHumanDelayConfig } from "brikko-studio/plugin-sdk/agent-runtime";
 import {
   createChannelInboundDebouncer,
   shouldDebounceTextInbound,
-} from "openclaw/plugin-sdk/channel-inbound";
-import { createChannelPairingChallengeIssuer } from "openclaw/plugin-sdk/channel-pairing";
-import { createChannelReplyPipeline } from "openclaw/plugin-sdk/channel-reply-pipeline";
+} from "brikko-studio/plugin-sdk/channel-inbound";
+import { createChannelPairingChallengeIssuer } from "brikko-studio/plugin-sdk/channel-pairing";
+import { createChannelReplyPipeline } from "brikko-studio/plugin-sdk/channel-reply-pipeline";
 import {
   readChannelAllowFromStore,
   upsertChannelPairingRequest,
-} from "openclaw/plugin-sdk/conversation-runtime";
-import { recordInboundSession } from "openclaw/plugin-sdk/conversation-runtime";
-import { normalizeScpRemoteHost } from "openclaw/plugin-sdk/host-runtime";
-import { runInboundReplyTurn } from "openclaw/plugin-sdk/inbound-reply-dispatch";
-import { isInboundPathAllowed, kindFromMime } from "openclaw/plugin-sdk/media-runtime";
-import { DEFAULT_GROUP_HISTORY_LIMIT, type HistoryEntry } from "openclaw/plugin-sdk/reply-history";
-import { resolveTextChunkLimit } from "openclaw/plugin-sdk/reply-runtime";
-import { dispatchInboundMessage } from "openclaw/plugin-sdk/reply-runtime";
-import { createReplyDispatcher } from "openclaw/plugin-sdk/reply-runtime";
-import { settleReplyDispatcher } from "openclaw/plugin-sdk/reply-runtime";
-import { getRuntimeConfig } from "openclaw/plugin-sdk/runtime-config-snapshot";
-import { danger, logVerbose, shouldLogVerbose, warn } from "openclaw/plugin-sdk/runtime-env";
+} from "brikko-studio/plugin-sdk/conversation-runtime";
+import { recordInboundSession } from "brikko-studio/plugin-sdk/conversation-runtime";
+import { normalizeScpRemoteHost } from "brikko-studio/plugin-sdk/host-runtime";
+import { runInboundReplyTurn } from "brikko-studio/plugin-sdk/inbound-reply-dispatch";
+import { isInboundPathAllowed, kindFromMime } from "brikko-studio/plugin-sdk/media-runtime";
+import { DEFAULT_GROUP_HISTORY_LIMIT, type HistoryEntry } from "brikko-studio/plugin-sdk/reply-history";
+import { resolveTextChunkLimit } from "brikko-studio/plugin-sdk/reply-runtime";
+import { dispatchInboundMessage } from "brikko-studio/plugin-sdk/reply-runtime";
+import { createReplyDispatcher } from "brikko-studio/plugin-sdk/reply-runtime";
+import { settleReplyDispatcher } from "brikko-studio/plugin-sdk/reply-runtime";
+import { getRuntimeConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
+import { danger, logVerbose, shouldLogVerbose, warn } from "brikko-studio/plugin-sdk/runtime-env";
 import {
   resolveOpenProviderRuntimeGroupPolicy,
   resolveDefaultGroupPolicy,
   warnMissingProviderGroupPolicyFallbackOnce,
-} from "openclaw/plugin-sdk/runtime-group-policy";
-import { resolvePinnedMainDmOwnerFromAllowlist } from "openclaw/plugin-sdk/security-runtime";
-import { readSessionUpdatedAt, resolveStorePath } from "openclaw/plugin-sdk/session-store-runtime";
-import { truncateUtf16Safe } from "openclaw/plugin-sdk/text-runtime";
-import { waitForTransportReady } from "openclaw/plugin-sdk/transport-ready-runtime";
+} from "brikko-studio/plugin-sdk/runtime-group-policy";
+import { resolvePinnedMainDmOwnerFromAllowlist } from "brikko-studio/plugin-sdk/security-runtime";
+import { readSessionUpdatedAt, resolveStorePath } from "brikko-studio/plugin-sdk/session-store-runtime";
+import { truncateUtf16Safe } from "brikko-studio/plugin-sdk/text-runtime";
+import { waitForTransportReady } from "brikko-studio/plugin-sdk/transport-ready-runtime";
 import { resolveIMessageAccount } from "../accounts.js";
 import { createIMessageRpcClient, type IMessageRpcClient } from "../client.js";
 import { DEFAULT_IMESSAGE_PROBE_TIMEOUT_MS } from "../constants.js";
@@ -59,7 +59,7 @@ const WATCH_SUBSCRIBE_RETRY_DELAY_MS = 1_000;
 
 /**
  * Try to detect remote host from an SSH wrapper script like:
- *   exec ssh -T openclaw@192.168.64.3 /opt/homebrew/bin/imsg "$@"
+ *   exec ssh -T brikko-studio@192.168.64.3 /opt/homebrew/bin/imsg "$@"
  *   exec ssh -T mac-mini imsg "$@"
  * Returns the user@host or host portion if found, undefined otherwise.
  */
@@ -71,7 +71,7 @@ async function detectRemoteHostFromCliPath(cliPath: string): Promise<string | un
       : cliPath;
     const content = await fs.readFile(expanded, "utf8");
 
-    // Match user@host pattern first (e.g., openclaw@192.168.64.3)
+    // Match user@host pattern first (e.g., brikko-studio@192.168.64.3)
     const userHostMatch = content.match(/\bssh\b[^\n]*?\s+([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+)/);
     if (userHostMatch) {
       return userHostMatch[1];

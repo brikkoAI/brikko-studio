@@ -1,4 +1,4 @@
-import type { HistoryEntry } from "openclaw/plugin-sdk/reply-history";
+import type { HistoryEntry } from "brikko-studio/plugin-sdk/reply-history";
 import { resolveTimestampMs } from "./format.js";
 import type { DiscordMessagePreflightContext } from "./message-handler.preflight.types.js";
 import { resolveDiscordMessageText } from "./message-utils.js";

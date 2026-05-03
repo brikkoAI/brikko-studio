@@ -5,7 +5,7 @@ import type {
   DocumentExtractionRequest,
   DocumentExtractionResult,
   DocumentExtractorPlugin,
-} from "openclaw/plugin-sdk/document-extractor";
+} from "brikko-studio/plugin-sdk/document-extractor";
 import type * as PdfJsLegacy from "pdfjs-dist/legacy/build/pdf.mjs";
 
 type CanvasLike = {

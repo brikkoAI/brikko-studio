@@ -20,7 +20,7 @@ vi.mock("../plugins/bundle-mcp.js", () => ({
 }));
 
 describe("loadMergedBundleMcpConfig", () => {
-  it("lets OpenClaw mcp.servers override bundle defaults while preserving raw transport shape", () => {
+  it("lets Brikko Studio mcp.servers override bundle defaults while preserving raw transport shape", () => {
     const merged = loadMergedBundleMcpConfig({
       workspaceDir: "/workspace",
       cfg: {
@@ -46,7 +46,7 @@ describe("loadMergedBundleMcpConfig", () => {
     });
   });
 
-  it("maps OpenClaw transports to downstream CLI types when requested", () => {
+  it("maps Brikko Studio transports to downstream CLI types when requested", () => {
     expect(
       toCliBundleMcpServerConfig({
         transport: "streamable-http",

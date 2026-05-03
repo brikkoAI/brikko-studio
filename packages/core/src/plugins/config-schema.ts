@@ -2,7 +2,7 @@ import { z, type ZodTypeAny } from "zod";
 import type { JsonSchemaObject } from "../shared/json-schema.types.js";
 import type { PluginConfigUiHint } from "./manifest-types.js";
 import { validateJsonSchemaValue } from "./schema-validator.js";
-import type { OpenClawPluginConfigSchema } from "./types.js";
+import type { Brikko StudioPluginConfigSchema } from "./types.js";
 
 type Issue = { path: Array<string | number>; message: string };
 
@@ -16,13 +16,13 @@ type ZodSchemaWithToJsonSchema = ZodTypeAny & {
 
 type BuildPluginConfigSchemaOptions = {
   uiHints?: Record<string, PluginConfigUiHint>;
-  safeParse?: OpenClawPluginConfigSchema["safeParse"];
+  safeParse?: Brikko StudioPluginConfigSchema["safeParse"];
 };
 
 type BuildJsonPluginConfigSchemaOptions = {
   cacheKey?: string;
   uiHints?: Record<string, PluginConfigUiHint>;
-  safeParse?: OpenClawPluginConfigSchema["safeParse"];
+  safeParse?: Brikko StudioPluginConfigSchema["safeParse"];
 };
 
 function error(message: string): SafeParseResult {
@@ -122,7 +122,7 @@ function safeParseJsonSchema(
 export function buildJsonPluginConfigSchema(
   schema: JsonSchemaObject,
   options?: BuildJsonPluginConfigSchemaOptions,
-): OpenClawPluginConfigSchema {
+): Brikko StudioPluginConfigSchema {
   const safeParse =
     options?.safeParse ??
     ((value: unknown) =>
@@ -137,7 +137,7 @@ export function buildJsonPluginConfigSchema(
 export function buildPluginConfigSchema(
   schema: ZodTypeAny,
   options?: BuildPluginConfigSchemaOptions,
-): OpenClawPluginConfigSchema {
+): Brikko StudioPluginConfigSchema {
   const schemaWithJson = schema as ZodSchemaWithToJsonSchema;
   const safeParse = options?.safeParse ?? ((value) => safeParseRuntimeSchema(schema, value));
   if (typeof schemaWithJson.toJSONSchema === "function") {
@@ -164,7 +164,7 @@ export function buildPluginConfigSchema(
   };
 }
 
-export function emptyPluginConfigSchema(): OpenClawPluginConfigSchema {
+export function emptyPluginConfigSchema(): Brikko StudioPluginConfigSchema {
   return {
     safeParse(value: unknown): SafeParseResult {
       if (value === undefined) {

@@ -2,7 +2,7 @@ import {
   getOAuthApiKey as getOAuthApiKeyFromPi,
   refreshOpenAICodexToken as refreshOpenAICodexTokenFromPi,
 } from "@mariozechner/pi-ai/oauth";
-import { ensureGlobalUndiciEnvProxyDispatcher } from "openclaw/plugin-sdk/runtime-env";
+import { ensureGlobalUndiciEnvProxyDispatcher } from "brikko-studio/plugin-sdk/runtime-env";
 
 type OpenAICodexProviderRuntimeDeps = {
   ensureGlobalUndiciEnvProxyDispatcher: typeof ensureGlobalUndiciEnvProxyDispatcher;

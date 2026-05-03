@@ -1,49 +1,49 @@
 ---
-summary: "Expose OpenClaw channel conversations over MCP and manage saved MCP server definitions"
+summary: "Expose Brikko Studio channel conversations over MCP and manage saved MCP server definitions"
 read_when:
-  - Connecting Codex, Claude Code, or another MCP client to OpenClaw-backed channels
-  - Running `openclaw mcp serve`
-  - Managing OpenClaw-saved MCP server definitions
+  - Connecting Codex, Claude Code, or another MCP client to Brikko Studio-backed channels
+  - Running `brikko-studio mcp serve`
+  - Managing Brikko Studio-saved MCP server definitions
 title: "MCP"
 sidebarTitle: "MCP"
 ---
 
-`openclaw mcp` has two jobs:
+`brikko-studio mcp` has two jobs:
 
-- run OpenClaw as an MCP server with `openclaw mcp serve`
-- manage OpenClaw-owned outbound MCP server definitions with `list`, `show`, `set`, and `unset`
+- run Brikko Studio as an MCP server with `brikko-studio mcp serve`
+- manage Brikko Studio-owned outbound MCP server definitions with `list`, `show`, `set`, and `unset`
 
 In other words:
 
-- `serve` is OpenClaw acting as an MCP server
-- `list` / `show` / `set` / `unset` is OpenClaw acting as an MCP client-side registry for other MCP servers its runtimes may consume later
+- `serve` is Brikko Studio acting as an MCP server
+- `list` / `show` / `set` / `unset` is Brikko Studio acting as an MCP client-side registry for other MCP servers its runtimes may consume later
 
-Use [`openclaw acp`](/cli/acp) when OpenClaw should host a coding harness session itself and route that runtime through ACP.
+Use [`brikko-studio acp`](/cli/acp) when Brikko Studio should host a coding harness session itself and route that runtime through ACP.
 
-## OpenClaw as an MCP server
+## Brikko Studio as an MCP server
 
-This is the `openclaw mcp serve` path.
+This is the `brikko-studio mcp serve` path.
 
 ### When to use `serve`
 
-Use `openclaw mcp serve` when:
+Use `brikko-studio mcp serve` when:
 
-- Codex, Claude Code, or another MCP client should talk directly to OpenClaw-backed channel conversations
-- you already have a local or remote OpenClaw Gateway with routed sessions
-- you want one MCP server that works across OpenClaw's channel backends instead of running separate per-channel bridges
+- Codex, Claude Code, or another MCP client should talk directly to Brikko Studio-backed channel conversations
+- you already have a local or remote Brikko Studio Gateway with routed sessions
+- you want one MCP server that works across Brikko Studio's channel backends instead of running separate per-channel bridges
 
-Use [`openclaw acp`](/cli/acp) instead when OpenClaw should host the coding runtime itself and keep the agent session inside OpenClaw.
+Use [`brikko-studio acp`](/cli/acp) instead when Brikko Studio should host the coding runtime itself and keep the agent session inside Brikko Studio.
 
 ### How it works
 
-`openclaw mcp serve` starts a stdio MCP server. The MCP client owns that process. While the client keeps the stdio session open, the bridge connects to a local or remote OpenClaw Gateway over WebSocket and exposes routed channel conversations over MCP.
+`brikko-studio mcp serve` starts a stdio MCP server. The MCP client owns that process. While the client keeps the stdio session open, the bridge connects to a local or remote Brikko Studio Gateway over WebSocket and exposes routed channel conversations over MCP.
 
 <Steps>
   <Step title="Client spawns the bridge">
-    The MCP client spawns `openclaw mcp serve`.
+    The MCP client spawns `brikko-studio mcp serve`.
   </Step>
   <Step title="Bridge connects to Gateway">
-    The bridge connects to the OpenClaw Gateway over WebSocket.
+    The bridge connects to the Brikko Studio Gateway over WebSocket.
   </Step>
   <Step title="Sessions become MCP conversations">
     Routed sessions become MCP conversations and transcript/history tools.
@@ -62,8 +62,8 @@ Use [`openclaw acp`](/cli/acp) instead when OpenClaw should host the coding runt
     - older transcript history is read with `messages_read`
     - Claude push notifications only exist while the MCP session is alive
     - when the client disconnects, the bridge exits and the live queue is gone
-    - one-shot agent entry points such as `openclaw agent` and `openclaw infer model run` retire any bundled MCP runtimes they open when the reply completes, so repeated scripted runs do not accumulate stdio MCP child processes
-    - stdio MCP servers launched by OpenClaw (bundled or user-configured) are torn down as a process tree on shutdown, so child subprocesses started by the server do not survive after the parent stdio client exits
+    - one-shot agent entry points such as `brikko-studio agent` and `brikko-studio infer model run` retire any bundled MCP runtimes they open when the reply completes, so repeated scripted runs do not accumulate stdio MCP child processes
+    - stdio MCP servers launched by Brikko Studio (bundled or user-configured) are torn down as a process tree on shutdown, so child subprocesses started by the server do not survive after the parent stdio client exits
     - deleting or resetting a session disposes that session's MCP clients through the shared runtime cleanup path, so there are no lingering stdio connections tied to a removed session
 
   </Accordion>
@@ -88,7 +88,7 @@ Today, `auto` behaves the same as `on`. There is no client capability detection 
 
 ### What `serve` exposes
 
-The bridge uses existing Gateway session route metadata to expose channel-backed conversations. A conversation appears when OpenClaw already has session state with a known route such as:
+The bridge uses existing Gateway session route metadata to expose channel-backed conversations. A conversation appears when Brikko Studio already has session state with a known route such as:
 
 - `channel`
 - recipient or destination metadata
@@ -108,23 +108,23 @@ This gives MCP clients one place to:
 <Tabs>
   <Tab title="Local Gateway">
     ```bash
-    openclaw mcp serve
+    brikko-studio mcp serve
     ```
   </Tab>
   <Tab title="Remote Gateway (token)">
     ```bash
-    openclaw mcp serve --url wss://gateway-host:18789 --token-file ~/.openclaw/gateway.token
+    brikko-studio mcp serve --url wss://gateway-host:18789 --token-file ~/.brikko-studio/gateway.token
     ```
   </Tab>
   <Tab title="Remote Gateway (password)">
     ```bash
-    openclaw mcp serve --url wss://gateway-host:18789 --password-file ~/.openclaw/gateway.password
+    brikko-studio mcp serve --url wss://gateway-host:18789 --password-file ~/.brikko-studio/gateway.password
     ```
   </Tab>
   <Tab title="Verbose / Claude off">
     ```bash
-    openclaw mcp serve --verbose
-    openclaw mcp serve --claude-channel-mode off
+    brikko-studio mcp serve --verbose
+    brikko-studio mcp serve --claude-channel-mode off
     ```
   </Tab>
 </Tabs>
@@ -209,7 +209,7 @@ Current event types:
 
 ### Claude channel notifications
 
-The bridge can also expose Claude-specific channel notifications. This is the OpenClaw equivalent of a Claude Code channel adapter: standard MCP tools remain available, but live inbound messages can also arrive as Claude-specific MCP notifications.
+The bridge can also expose Claude-specific channel notifications. This is the Brikko Studio equivalent of a Claude Code channel adapter: standard MCP tools remain available, but live inbound messages can also arrive as Claude-specific MCP notifications.
 
 <Tabs>
   <Tab title="off">
@@ -244,8 +244,8 @@ Example stdio client config:
 ```json
 {
   "mcpServers": {
-    "openclaw": {
-      "command": "openclaw",
+    "brikko-studio": {
+      "command": "brikko-studio",
       "args": [
         "mcp",
         "serve",
@@ -263,7 +263,7 @@ For most generic MCP clients, start with the standard tool surface and ignore Cl
 
 ### Options
 
-`openclaw mcp serve` supports:
+`brikko-studio mcp serve` supports:
 
 <ParamField path="--url" type="string">
   Gateway WebSocket URL.
@@ -297,7 +297,7 @@ The bridge does not invent routing. It only exposes conversations that Gateway a
 
 That means:
 
-- sender allowlists, pairing, and channel-level trust still belong to the underlying OpenClaw channel configuration
+- sender allowlists, pairing, and channel-level trust still belong to the underlying Brikko Studio channel configuration
 - `messages_send` can only reply through an existing stored route
 - approval state is live/in-memory only for the current bridge session
 - bridge auth should use the same Gateway token or password controls you would trust for any other remote Gateway client
@@ -306,7 +306,7 @@ If a conversation is missing from `conversations_list`, the usual cause is not M
 
 ### Testing
 
-OpenClaw ships a deterministic Docker smoke for this bridge:
+Brikko Studio ships a deterministic Docker smoke for this bridge:
 
 ```bash
 pnpm test:docker:mcp-channels
@@ -315,7 +315,7 @@ pnpm test:docker:mcp-channels
 That smoke:
 
 - starts a seeded Gateway container
-- starts a second container that spawns `openclaw mcp serve`
+- starts a second container that spawns `brikko-studio mcp serve`
 - verifies conversation discovery, transcript reads, attachment metadata reads, live event queue behavior, and outbound send routing
 - validates Claude-style channel and permission notifications over the real stdio MCP bridge
 
@@ -346,17 +346,17 @@ For broader testing context, see [Testing](/help/testing).
   </Accordion>
 </AccordionGroup>
 
-## OpenClaw as an MCP client registry
+## Brikko Studio as an MCP client registry
 
-This is the `openclaw mcp list`, `show`, `set`, and `unset` path.
+This is the `brikko-studio mcp list`, `show`, `set`, and `unset` path.
 
-These commands do not expose OpenClaw over MCP. They manage OpenClaw-owned MCP server definitions under `mcp.servers` in OpenClaw config.
+These commands do not expose Brikko Studio over MCP. They manage Brikko Studio-owned MCP server definitions under `mcp.servers` in Brikko Studio config.
 
-Those saved definitions are for runtimes that OpenClaw launches or configures later, such as embedded Pi and other runtime adapters. OpenClaw stores the definitions centrally so those runtimes do not need to keep their own duplicate MCP server lists.
+Those saved definitions are for runtimes that Brikko Studio launches or configures later, such as embedded Pi and other runtime adapters. Brikko Studio stores the definitions centrally so those runtimes do not need to keep their own duplicate MCP server lists.
 
 <AccordionGroup>
   <Accordion title="Important behavior">
-    - these commands only read or write OpenClaw config
+    - these commands only read or write Brikko Studio config
     - they do not connect to the target MCP server
     - they do not validate whether the command, URL, or remote transport is reachable right now
     - runtime adapters decide which transport shapes they actually support at execution time
@@ -366,35 +366,35 @@ Those saved definitions are for runtimes that OpenClaw launches or configures la
   </Accordion>
 </AccordionGroup>
 
-Runtime adapters may normalize this shared registry into the shape their downstream client expects. For example, embedded Pi consumes OpenClaw `transport` values directly, while Claude Code and Gemini receive CLI-native `type` values such as `http`, `sse`, or `stdio`.
+Runtime adapters may normalize this shared registry into the shape their downstream client expects. For example, embedded Pi consumes Brikko Studio `transport` values directly, while Claude Code and Gemini receive CLI-native `type` values such as `http`, `sse`, or `stdio`.
 
 ### Saved MCP server definitions
 
-OpenClaw also stores a lightweight MCP server registry in config for surfaces that want OpenClaw-managed MCP definitions.
+Brikko Studio also stores a lightweight MCP server registry in config for surfaces that want Brikko Studio-managed MCP definitions.
 
 Commands:
 
-- `openclaw mcp list`
-- `openclaw mcp show [name]`
-- `openclaw mcp set <name> <json>`
-- `openclaw mcp unset <name>`
+- `brikko-studio mcp list`
+- `brikko-studio mcp show [name]`
+- `brikko-studio mcp set <name> <json>`
+- `brikko-studio mcp unset <name>`
 
 Notes:
 
 - `list` sorts server names.
 - `show` without a name prints the full configured MCP server object.
 - `set` expects one JSON object value on the command line.
-- Use `transport: "streamable-http"` for Streamable HTTP MCP servers. `openclaw mcp set` also normalizes CLI-native `type: "http"` to the same canonical config shape for compatibility.
+- Use `transport: "streamable-http"` for Streamable HTTP MCP servers. `brikko-studio mcp set` also normalizes CLI-native `type: "http"` to the same canonical config shape for compatibility.
 - `unset` fails if the named server does not exist.
 
 Examples:
 
 ```bash
-openclaw mcp list
-openclaw mcp show context7 --json
-openclaw mcp set context7 '{"command":"uvx","args":["context7-mcp"]}'
-openclaw mcp set docs '{"url":"https://mcp.example.com","transport":"streamable-http"}'
-openclaw mcp unset context7
+brikko-studio mcp list
+brikko-studio mcp show context7 --json
+brikko-studio mcp set context7 '{"command":"uvx","args":["context7-mcp"]}'
+brikko-studio mcp set docs '{"url":"https://mcp.example.com","transport":"streamable-http"}'
+brikko-studio mcp unset context7
 ```
 
 Example config shape:
@@ -430,7 +430,7 @@ Launches a local child process and communicates over stdin/stdout.
 <Warning>
 **Stdio env safety filter**
 
-OpenClaw rejects interpreter-startup env keys that can alter how a stdio MCP server starts up before the first RPC, even if they appear in a server's `env` block. Blocked keys include `NODE_OPTIONS`, `PYTHONSTARTUP`, `PYTHONPATH`, `PERL5OPT`, `RUBYOPT`, `SHELLOPTS`, `PS4`, and similar runtime-control variables. Startup rejects these with a configuration error so they cannot inject an implicit prelude, swap the interpreter, or enable a debugger against the stdio process. Ordinary credential, proxy, and server-specific env vars (`GITHUB_TOKEN`, `HTTP_PROXY`, custom `*_API_KEY`, etc.) are unaffected.
+Brikko Studio rejects interpreter-startup env keys that can alter how a stdio MCP server starts up before the first RPC, even if they appear in a server's `env` block. Blocked keys include `NODE_OPTIONS`, `PYTHONSTARTUP`, `PYTHONPATH`, `PERL5OPT`, `RUBYOPT`, `SHELLOPTS`, `PS4`, and similar runtime-control variables. Startup rejects these with a configuration error so they cannot inject an implicit prelude, swap the interpreter, or enable a debugger against the stdio process. Ordinary credential, proxy, and server-specific env vars (`GITHUB_TOKEN`, `HTTP_PROXY`, custom `*_API_KEY`, etc.) are unaffected.
 
 If your MCP server genuinely needs one of the blocked variables, set it on the gateway host process instead of under the stdio server's `env`.
 </Warning>
@@ -471,11 +471,11 @@ Sensitive values in `url` (userinfo) and `headers` are redacted in logs and stat
 | Field                 | Description                                                                            |
 | --------------------- | -------------------------------------------------------------------------------------- |
 | `url`                 | HTTP or HTTPS URL of the remote server (required)                                      |
-| `transport`           | Set to `"streamable-http"` to select this transport; when omitted, OpenClaw uses `sse` |
+| `transport`           | Set to `"streamable-http"` to select this transport; when omitted, Brikko Studio uses `sse` |
 | `headers`             | Optional key-value map of HTTP headers (for example auth tokens)                       |
 | `connectionTimeoutMs` | Per-server connection timeout in ms (optional)                                         |
 
-OpenClaw config uses `transport: "streamable-http"` as the canonical spelling. CLI-native MCP `type: "http"` values are accepted when saved through `openclaw mcp set` and repaired by `openclaw doctor --fix` in existing config, but `transport` is what embedded Pi consumes directly.
+Brikko Studio config uses `transport: "streamable-http"` as the canonical spelling. CLI-native MCP `type: "http"` values are accepted when saved through `brikko-studio mcp set` and repaired by `brikko-studio doctor --fix` in existing config, but `transport` is what embedded Pi consumes directly.
 
 Example:
 

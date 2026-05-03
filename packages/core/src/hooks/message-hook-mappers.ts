@@ -1,6 +1,6 @@
 import type { FinalizedMsgContext } from "../auto-reply/templating.js";
 import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   freezeDiagnosticTraceContext,
   type DiagnosticTraceContext,
@@ -44,7 +44,7 @@ export type CanonicalInboundMessageHookContext = {
   provider?: string;
   surface?: string;
   threadId?: string | number;
-  // `mediaPath(s)` are files OpenClaw has already staged locally. `mediaUrl(s)`
+  // `mediaPath(s)` are files Brikko Studio has already staged locally. `mediaUrl(s)`
   // are provider/media-server references that may not exist on this host.
   mediaPath?: string;
   mediaUrl?: string;
@@ -435,8 +435,8 @@ export function toInternalMessageReceivedContext(
 
 export function toInternalMessageTranscribedContext(
   canonical: CanonicalInboundMessageHookContext,
-  cfg: OpenClawConfig,
-): MessageTranscribedHookContext & { cfg: OpenClawConfig } {
+  cfg: Brikko StudioConfig,
+): MessageTranscribedHookContext & { cfg: Brikko StudioConfig } {
   const shared = toInternalInboundMessageHookContextBase(canonical);
   return {
     ...shared,
@@ -447,8 +447,8 @@ export function toInternalMessageTranscribedContext(
 
 export function toInternalMessagePreprocessedContext(
   canonical: CanonicalInboundMessageHookContext,
-  cfg: OpenClawConfig,
-): MessagePreprocessedHookContext & { cfg: OpenClawConfig } {
+  cfg: Brikko StudioConfig,
+): MessagePreprocessedHookContext & { cfg: Brikko StudioConfig } {
   const shared = toInternalInboundMessageHookContextBase(canonical);
   return {
     ...shared,

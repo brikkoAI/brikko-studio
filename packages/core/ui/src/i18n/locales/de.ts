@@ -387,7 +387,7 @@ export const de: TranslationMap = {
     skills: "Skill-Verfügbarkeit und API-Schlüsselinjektion verwalten.",
     nodes: "Gekoppelte Geräte, Fähigkeiten und Befehlsfreigabe.",
     chat: "Direkte Gateway-Chat-Sitzung für schnelle Eingriffe.",
-    config: "~/.openclaw/openclaw.json sicher bearbeiten.",
+    config: "~/.brikko-studio/brikko-studio.json sicher bearbeiten.",
     communications: "Kanäle, Nachrichten und Audioeinstellungen.",
     appearance: "Design-, UI- und Einrichtungsassistent-Einstellungen.",
     automation: "Befehle, Hooks, Cron und Plugins.",
@@ -463,7 +463,7 @@ export const de: TranslationMap = {
       metadataUpgradeSummary:
         "Dieses Gerät ist bereits gekoppelt, aber die Änderung der Metadaten wartet auf Genehmigung.",
       mobileHint:
-        "Auf dem Mobilgerät? Kopieren Sie die vollständige URL (einschließlich #token=...) von openclaw dashboard --no-open auf Ihrem Desktop.",
+        "Auf dem Mobilgerät? Kopieren Sie die vollständige URL (einschließlich #token=...) von brikko-studio dashboard --no-open auf Ihrem Desktop.",
       docsTitle: "Gerätekopplungs-Dokumentation (öffnet sich in neuem Tab)",
       docsLink: "Docs: Gerätekopplung",
     },
@@ -503,7 +503,7 @@ export const de: TranslationMap = {
       modelAuthAttentionExpiredTitle: "Modell-Authentifizierung abgelaufen",
       modelAuthAttentionExpiringTitle: "Modell-Authentifizierung läuft bald ab",
       modelAuthAttentionExpiredDesc:
-        "{providers} — mit openclaw models auth erneut authentifizieren",
+        "{providers} — mit brikko-studio models auth erneut authentifizieren",
       modelAuthAttentionExpiringEntry: "{provider} ({when})",
     },
     attention: {

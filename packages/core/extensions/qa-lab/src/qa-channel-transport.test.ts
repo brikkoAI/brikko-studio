@@ -15,15 +15,15 @@ describe("qa channel transport", () => {
         "qa-channel": {
           enabled: true,
           baseUrl: "http://127.0.0.1:43123",
-          botUserId: "openclaw",
-          botDisplayName: "OpenClaw QA",
+          botUserId: "brikko-studio",
+          botDisplayName: "Brikko Studio QA",
           allowFrom: ["*"],
           pollTimeoutMs: 250,
         },
       },
       messages: {
         groupChat: {
-          mentionPatterns: ["\\b@?openclaw\\b"],
+          mentionPatterns: ["\\b@?brikko-studio\\b"],
           visibleReplies: "automatic",
         },
       },

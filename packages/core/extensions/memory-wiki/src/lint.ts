@@ -3,7 +3,7 @@ import path from "node:path";
 import {
   replaceManagedMarkdownBlock,
   withTrailingNewline,
-} from "openclaw/plugin-sdk/memory-host-markdown";
+} from "brikko-studio/plugin-sdk/memory-host-markdown";
 import {
   assessPageFreshness,
   buildClaimContradictionClusters,
@@ -341,8 +341,8 @@ async function writeLintReport(rootDir: string, issues: MemoryWikiLintIssue[]): 
   const updated = replaceManagedMarkdownBlock({
     original,
     heading: "## Generated",
-    startMarker: "<!-- openclaw:wiki:lint:start -->",
-    endMarker: "<!-- openclaw:wiki:lint:end -->",
+    startMarker: "<!-- brikko-studio:wiki:lint:start -->",
+    endMarker: "<!-- brikko-studio:wiki:lint:end -->",
     body: buildLintReportBody(issues),
   });
   await fs.writeFile(reportPath, withTrailingNewline(updated), "utf8");

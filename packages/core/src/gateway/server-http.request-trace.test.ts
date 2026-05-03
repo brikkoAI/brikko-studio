@@ -43,7 +43,7 @@ afterEach(() => {
 
 describe("gateway HTTP request trace scope", () => {
   it("threads active request trace through logs and diagnostics", async () => {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-gateway-request-trace-"));
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-gateway-request-trace-"));
     const logPath = path.join(dir, "gateway.log");
     const events: Array<{ trace?: DiagnosticTraceContext; type: string }> = [];
     const stop = onDiagnosticEvent((event) => {

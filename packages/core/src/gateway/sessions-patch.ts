@@ -18,7 +18,7 @@ import {
   resolveSupportedThinkingLevel,
 } from "../auto-reply/thinking.js";
 import type { SessionEntry } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeExecTarget } from "../infra/exec-approvals.js";
 import {
   isAcpSessionKey,
@@ -87,7 +87,7 @@ function normalizeSubagentControlScope(raw: string): "children" | "none" | undef
 }
 
 export async function applySessionsPatchToStore(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   store: Record<string, SessionEntry>;
   storeKey: string;
   patch: SessionsPatchParams;

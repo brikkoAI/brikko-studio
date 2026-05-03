@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
 import { collectCodexRouteWarnings } from "./codex-route-warnings.js";
 
-function codexPluginConfig(): Pick<OpenClawConfig, "plugins"> {
+function codexPluginConfig(): Pick<Brikko StudioConfig, "plugins"> {
   return {
     plugins: {
       entries: {
         codex: { enabled: true },
       },
     },
-  } as Pick<OpenClawConfig, "plugins">;
+  } as Pick<Brikko StudioConfig, "plugins">;
 }
 
 describe("collectCodexRouteWarnings", () => {
@@ -22,7 +22,7 @@ describe("collectCodexRouteWarnings", () => {
             model: "openai-codex/gpt-5.5",
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     expect(warnings).toEqual([expect.stringContaining("Codex plugin is enabled")]);
@@ -43,13 +43,13 @@ describe("collectCodexRouteWarnings", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     expect(warnings).toEqual([]);
   });
 
-  it("does not warn when OPENCLAW_AGENT_RUNTIME selects native Codex", () => {
+  it("does not warn when BRIKKO_STUDIO_AGENT_RUNTIME selects native Codex", () => {
     const warnings = collectCodexRouteWarnings({
       cfg: {
         ...codexPluginConfig(),
@@ -58,9 +58,9 @@ describe("collectCodexRouteWarnings", () => {
             model: "openai-codex/gpt-5.5",
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       env: {
-        OPENCLAW_AGENT_RUNTIME: "codex",
+        BRIKKO_STUDIO_AGENT_RUNTIME: "codex",
       },
     });
 
@@ -75,7 +75,7 @@ describe("collectCodexRouteWarnings", () => {
             model: "openai-codex/gpt-5.5",
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     expect(warnings).toEqual([]);

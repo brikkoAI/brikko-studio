@@ -1,4 +1,4 @@
-import type { BaseProbeResult } from "openclaw/plugin-sdk/core";
+import type { BaseProbeResult } from "brikko-studio/plugin-sdk/core";
 import type { FeishuConfigSchema, FeishuAccountConfigSchema, z } from "./config-schema.js";
 import type { MentionTarget } from "./mention-target.types.js";
 

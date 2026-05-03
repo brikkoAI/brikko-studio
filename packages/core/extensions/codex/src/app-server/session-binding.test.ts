@@ -13,7 +13,7 @@ let tempDir: string;
 
 describe("codex app-server session binding", () => {
   beforeEach(async () => {
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-codex-binding-"));
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-codex-binding-"));
   });
 
   afterEach(async () => {

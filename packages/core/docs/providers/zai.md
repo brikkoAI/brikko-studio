@@ -1,13 +1,13 @@
 ---
-summary: "Use Z.AI (GLM models) with OpenClaw"
+summary: "Use Z.AI (GLM models) with Brikko Studio"
 read_when:
-  - You want Z.AI / GLM models in OpenClaw
+  - You want Z.AI / GLM models in Brikko Studio
   - You need a simple ZAI_API_KEY setup
 title: "Z.AI"
 ---
 
 Z.AI is the API platform for **GLM** models. It provides REST APIs for GLM and uses API keys
-for authentication. Create your API key in the Z.AI console. OpenClaw uses the `zai` provider
+for authentication. Create your API key in the Z.AI console. Brikko Studio uses the `zai` provider
 with a Z.AI API key.
 
 - Provider: `zai`
@@ -18,12 +18,12 @@ with a Z.AI API key.
 
 <Tabs>
   <Tab title="Auto-detect endpoint">
-    **Best for:** most users. OpenClaw detects the matching Z.AI endpoint from the key and applies the correct base URL automatically.
+    **Best for:** most users. Brikko Studio detects the matching Z.AI endpoint from the key and applies the correct base URL automatically.
 
     <Steps>
       <Step title="Run onboarding">
         ```bash
-        openclaw onboard --auth-choice zai-api-key
+        brikko-studio onboard --auth-choice zai-api-key
         ```
       </Step>
       <Step title="Set a default model">
@@ -36,7 +36,7 @@ with a Z.AI API key.
       </Step>
       <Step title="Verify the model is listed">
         ```bash
-        openclaw models list --all --provider zai
+        brikko-studio models list --all --provider zai
         ```
       </Step>
     </Steps>
@@ -50,16 +50,16 @@ with a Z.AI API key.
       <Step title="Pick the right onboarding choice">
         ```bash
         # Coding Plan Global (recommended for Coding Plan users)
-        openclaw onboard --auth-choice zai-coding-global
+        brikko-studio onboard --auth-choice zai-coding-global
 
         # Coding Plan CN (China region)
-        openclaw onboard --auth-choice zai-coding-cn
+        brikko-studio onboard --auth-choice zai-coding-cn
 
         # General API
-        openclaw onboard --auth-choice zai-global
+        brikko-studio onboard --auth-choice zai-global
 
         # General API CN (China region)
-        openclaw onboard --auth-choice zai-cn
+        brikko-studio onboard --auth-choice zai-cn
         ```
       </Step>
       <Step title="Set a default model">
@@ -72,7 +72,7 @@ with a Z.AI API key.
       </Step>
       <Step title="Verify the model is listed">
         ```bash
-        openclaw models list --all --provider zai
+        brikko-studio models list --all --provider zai
         ```
       </Step>
     </Steps>
@@ -82,11 +82,11 @@ with a Z.AI API key.
 
 ## Built-in catalog
 
-OpenClaw ships the bundled `zai` provider catalog in the plugin manifest, so read-only
+Brikko Studio ships the bundled `zai` provider catalog in the plugin manifest, so read-only
 listing can show known GLM rows without loading provider runtime:
 
 ```bash
-openclaw models list --all --provider zai
+brikko-studio models list --all --provider zai
 ```
 
 The manifest-backed catalog currently includes:
@@ -140,8 +140,8 @@ GLM models are available as `zai/<model>` (example: `zai/glm-5`). The default bu
   </Accordion>
 
   <Accordion title="Thinking and preserved thinking">
-    Z.AI thinking follows OpenClaw's `/think` controls. With thinking off,
-    OpenClaw sends `thinking: { type: "disabled" }` to avoid responses that
+    Z.AI thinking follows Brikko Studio's `/think` controls. With thinking off,
+    Brikko Studio sends `thinking: { type: "disabled" }` to avoid responses that
     spend the output budget on `reasoning_content` before visible text.
 
     Preserved thinking is opt-in because Z.AI requires the full historical
@@ -162,7 +162,7 @@ GLM models are available as `zai/<model>` (example: `zai/glm-5`). The default bu
     }
     ```
 
-    When enabled and thinking is on, OpenClaw sends
+    When enabled and thinking is on, Brikko Studio sends
     `thinking: { type: "enabled", clear_thinking: false }` and replays prior
     `reasoning_content` for the same OpenAI-compatible transcript.
 

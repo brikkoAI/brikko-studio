@@ -1,26 +1,26 @@
 ---
-summary: "Step-by-step guide to building a messaging channel plugin for OpenClaw"
+summary: "Step-by-step guide to building a messaging channel plugin for Brikko Studio"
 title: "Building channel plugins"
 sidebarTitle: "Channel Plugins"
 read_when:
   - You are building a new messaging channel plugin
-  - You want to connect OpenClaw to a messaging platform
+  - You want to connect Brikko Studio to a messaging platform
   - You need to understand the ChannelPlugin adapter surface
 ---
 
-This guide walks through building a channel plugin that connects OpenClaw to a
+This guide walks through building a channel plugin that connects Brikko Studio to a
 messaging platform. By the end you will have a working channel with DM security,
 pairing, reply threading, and outbound messaging.
 
 <Info>
-  If you have not built any OpenClaw plugin before, read
+  If you have not built any Brikko Studio plugin before, read
   [Getting Started](/plugins/building-plugins) first for the basic package
   structure and manifest setup.
 </Info>
 
 ## How channel plugins work
 
-Channel plugins do not need their own send/edit/react tools. OpenClaw keeps one
+Channel plugins do not need their own send/edit/react tools. Brikko Studio keeps one
 shared `message` tool in core. Your plugin owns:
 
 - **Config** — account resolution and setup wizard
@@ -57,7 +57,7 @@ id, explicit `baseConversationId`, and any `parentConversationCandidates`.
 When you return `parentConversationCandidates`, keep them ordered from the
 narrowest parent to the broadest/base conversation.
 
-Use `openclaw/plugin-sdk/channel-route` when plugin code needs to normalize
+Use `brikko-studio/plugin-sdk/channel-route` when plugin code needs to normalize
 route-like fields, compare a child thread with its parent route, or build a
 stable dedupe key from `{ channel, to, accountId, threadId }`. The helper
 normalizes numeric thread ids the same way core does, so plugins should prefer
@@ -94,8 +94,8 @@ Most channel plugins do not need approval-specific code.
 - Use `approvalCapability.nativeRuntime` for channel-owned native approval facts. Keep it lazy on hot channel entrypoints with `createLazyChannelApprovalNativeRuntimeAdapter(...)`, which can import your runtime module on demand while still letting core assemble the approval lifecycle.
 - Use `approvalCapability.render` only when a channel truly needs custom approval payloads instead of the shared renderer.
 - Use `approvalCapability.describeExecApprovalSetup` when the channel wants the disabled-path reply to explain the exact config knobs needed to enable native exec approvals. The hook receives `{ channel, channelLabel, accountId }`; named-account channels should render account-scoped paths such as `channels.<channel>.accounts.<id>.execApprovals.*` instead of top-level defaults.
-- If a channel can infer stable owner-like DM identities from existing config, use `createResolvedApproverActionAuthAdapter` from `openclaw/plugin-sdk/approval-runtime` to restrict same-chat `/approve` without adding approval-specific core logic.
-- If a channel needs native approval delivery, keep channel code focused on target normalization plus transport/presentation facts. Use `createChannelExecApprovalProfile`, `createChannelNativeOriginTargetResolver`, `createChannelApproverDmTargetResolver`, and `createApproverRestrictedNativeApprovalCapability` from `openclaw/plugin-sdk/approval-runtime`. Put the channel-specific facts behind `approvalCapability.nativeRuntime`, ideally via `createChannelApprovalNativeRuntimeAdapter(...)` or `createLazyChannelApprovalNativeRuntimeAdapter(...)`, so core can assemble the handler and own request filtering, routing, dedupe, expiry, gateway subscription, and routed-elsewhere notices. `nativeRuntime` is split into a few smaller seams:
+- If a channel can infer stable owner-like DM identities from existing config, use `createResolvedApproverActionAuthAdapter` from `brikko-studio/plugin-sdk/approval-runtime` to restrict same-chat `/approve` without adding approval-specific core logic.
+- If a channel needs native approval delivery, keep channel code focused on target normalization plus transport/presentation facts. Use `createChannelExecApprovalProfile`, `createChannelNativeOriginTargetResolver`, `createChannelApproverDmTargetResolver`, and `createApproverRestrictedNativeApprovalCapability` from `brikko-studio/plugin-sdk/approval-runtime`. Put the channel-specific facts behind `approvalCapability.nativeRuntime`, ideally via `createChannelApprovalNativeRuntimeAdapter(...)` or `createLazyChannelApprovalNativeRuntimeAdapter(...)`, so core can assemble the handler and own request filtering, routing, dedupe, expiry, gateway subscription, and routed-elsewhere notices. `nativeRuntime` is split into a few smaller seams:
 - `createChannelNativeOriginTargetResolver` uses the shared channel-route matcher by default for `{ to, accountId, threadId }` targets. Pass `targetsMatch` only when a channel has provider-specific equivalence rules, such as Slack timestamp prefix matching.
 - Pass `normalizeTargetForMatch` to `createChannelNativeOriginTargetResolver` when the channel needs to canonicalize provider ids before the default route matcher or a custom `targetsMatch` callback runs, while preserving the original target for delivery. Use `normalizeTarget` only when the resolved delivery target itself should be canonicalized.
 - `availability` — whether the account is configured and whether a request should be handled
@@ -103,7 +103,7 @@ Most channel plugins do not need approval-specific code.
 - `transport` — prepare targets plus send/update/delete native approval messages
 - `interactions` — optional bind/unbind/clear-action hooks for native buttons or reactions
 - `observe` — optional delivery diagnostics hooks
-- If the channel needs runtime-owned objects such as a client, token, Bolt app, or webhook receiver, register them through `openclaw/plugin-sdk/channel-runtime-context`. The generic runtime-context registry lets core bootstrap capability-driven handlers from channel startup state without adding approval-specific wrapper glue.
+- If the channel needs runtime-owned objects such as a client, token, Bolt app, or webhook receiver, register them through `brikko-studio/plugin-sdk/channel-runtime-context`. The generic runtime-context registry lets core bootstrap capability-driven handlers from channel startup state without adding approval-specific wrapper glue.
 - Reach for the lower-level `createChannelApprovalHandler` or `createChannelNativeApprovalRuntime` only when the capability-driven seam is not expressive enough yet.
 - Native approval channels must route both `accountId` and `approvalKind` through those helpers. `accountId` keeps multi-account approval policy scoped to the right bot account, and `approvalKind` keeps exec vs plugin approval behavior available to the channel without hardcoded branches in core.
 - Core now owns approval reroute notices too. Channel plugins should not send their own "approval went to DMs / another channel" follow-up messages from `createChannelNativeApprovalRuntime`; instead, expose accurate origin + approver-DM routing through the shared approval capability helpers and let core aggregate actual deliveries before posting any notice back to the initiating chat.
@@ -119,35 +119,35 @@ Most channel plugins do not need approval-specific code.
 For hot channel entrypoints, prefer the narrower runtime subpaths when you only
 need one part of that family:
 
-- `openclaw/plugin-sdk/approval-auth-runtime`
-- `openclaw/plugin-sdk/approval-client-runtime`
-- `openclaw/plugin-sdk/approval-delivery-runtime`
-- `openclaw/plugin-sdk/approval-gateway-runtime`
-- `openclaw/plugin-sdk/approval-handler-adapter-runtime`
-- `openclaw/plugin-sdk/approval-handler-runtime`
-- `openclaw/plugin-sdk/approval-native-runtime`
-- `openclaw/plugin-sdk/approval-reply-runtime`
-- `openclaw/plugin-sdk/channel-runtime-context`
+- `brikko-studio/plugin-sdk/approval-auth-runtime`
+- `brikko-studio/plugin-sdk/approval-client-runtime`
+- `brikko-studio/plugin-sdk/approval-delivery-runtime`
+- `brikko-studio/plugin-sdk/approval-gateway-runtime`
+- `brikko-studio/plugin-sdk/approval-handler-adapter-runtime`
+- `brikko-studio/plugin-sdk/approval-handler-runtime`
+- `brikko-studio/plugin-sdk/approval-native-runtime`
+- `brikko-studio/plugin-sdk/approval-reply-runtime`
+- `brikko-studio/plugin-sdk/channel-runtime-context`
 
-Likewise, prefer `openclaw/plugin-sdk/setup-runtime`,
-`openclaw/plugin-sdk/setup-adapter-runtime`,
-`openclaw/plugin-sdk/reply-runtime`,
-`openclaw/plugin-sdk/reply-dispatch-runtime`,
-`openclaw/plugin-sdk/reply-reference`, and
-`openclaw/plugin-sdk/reply-chunking` when you do not need the broader umbrella
+Likewise, prefer `brikko-studio/plugin-sdk/setup-runtime`,
+`brikko-studio/plugin-sdk/setup-adapter-runtime`,
+`brikko-studio/plugin-sdk/reply-runtime`,
+`brikko-studio/plugin-sdk/reply-dispatch-runtime`,
+`brikko-studio/plugin-sdk/reply-reference`, and
+`brikko-studio/plugin-sdk/reply-chunking` when you do not need the broader umbrella
 surface.
 
 For setup specifically:
 
-- `openclaw/plugin-sdk/setup-runtime` covers the runtime-safe setup helpers:
+- `brikko-studio/plugin-sdk/setup-runtime` covers the runtime-safe setup helpers:
   import-safe setup patch adapters (`createPatchedAccountSetupAdapter`,
   `createEnvPatchedAccountSetupAdapter`,
   `createSetupInputPresenceValidator`), lookup-note output,
   `promptResolvedAllowFrom`, `splitSetupEntries`, and the delegated
   setup-proxy builders
-- `openclaw/plugin-sdk/setup-adapter-runtime` is the narrow env-aware adapter
+- `brikko-studio/plugin-sdk/setup-adapter-runtime` is the narrow env-aware adapter
   seam for `createEnvPatchedAccountSetupAdapter`
-- `openclaw/plugin-sdk/channel-setup` covers the optional-install setup
+- `brikko-studio/plugin-sdk/channel-setup` covers the optional-install setup
   builders plus a few setup-safe primitives:
   `createOptionalChannelSetupSurface`, `createOptionalChannelSetupAdapter`,
 
@@ -157,7 +157,7 @@ plugin manifest with `channelEnvVars`. Keep channel runtime `envVars` or local
 constants for operator-facing copy only.
 
 If your channel can appear in `status`, `channels list`, `channels status`, or
-SecretRef scans before the plugin runtime starts, add `openclaw.setupEntry` in
+SecretRef scans before the plugin runtime starts, add `brikko-studio.setupEntry` in
 `package.json`. That entrypoint should be safe to import in read-only command
 paths and should return the channel metadata, setup-safe config adapter, status
 adapter, and channel secret target metadata needed for those summaries. Do not
@@ -175,7 +175,7 @@ capability adapters.
 `createTopLevelChannelDmPolicy`, `setSetupChannelEnabled`, and
 `splitSetupEntries`
 
-- use the broader `openclaw/plugin-sdk/setup` seam only when you also need the
+- use the broader `brikko-studio/plugin-sdk/setup` seam only when you also need the
   heavier shared setup/config helpers such as
   `moveSingleAccountChannelSectionToDefaultAccount(...)`
 
@@ -188,29 +188,29 @@ copy.
 For other hot channel paths, prefer the narrow helpers over broader legacy
 surfaces:
 
-- `openclaw/plugin-sdk/account-core`,
-  `openclaw/plugin-sdk/account-id`,
-  `openclaw/plugin-sdk/account-resolution`, and
-  `openclaw/plugin-sdk/account-helpers` for multi-account config and
+- `brikko-studio/plugin-sdk/account-core`,
+  `brikko-studio/plugin-sdk/account-id`,
+  `brikko-studio/plugin-sdk/account-resolution`, and
+  `brikko-studio/plugin-sdk/account-helpers` for multi-account config and
   default-account fallback
-- `openclaw/plugin-sdk/inbound-envelope` and
-  `openclaw/plugin-sdk/inbound-reply-dispatch` for inbound route/envelope and
+- `brikko-studio/plugin-sdk/inbound-envelope` and
+  `brikko-studio/plugin-sdk/inbound-reply-dispatch` for inbound route/envelope and
   record-and-dispatch wiring
-- `openclaw/plugin-sdk/messaging-targets` for target parsing/matching
-- `openclaw/plugin-sdk/outbound-media` and
-  `openclaw/plugin-sdk/outbound-runtime` for media loading plus outbound
+- `brikko-studio/plugin-sdk/messaging-targets` for target parsing/matching
+- `brikko-studio/plugin-sdk/outbound-media` and
+  `brikko-studio/plugin-sdk/outbound-runtime` for media loading plus outbound
   identity/send delegates and payload planning
 - `buildThreadAwareOutboundSessionRoute(...)` from
-  `openclaw/plugin-sdk/channel-core` when an outbound route should preserve an
+  `brikko-studio/plugin-sdk/channel-core` when an outbound route should preserve an
   explicit `replyToId`/`threadId` or recover the current `:thread:` session
   after the base session key still matches. Provider plugins can override
   precedence, suffix behavior, and thread id normalization when their platform
   has native thread delivery semantics.
-- `openclaw/plugin-sdk/thread-bindings-runtime` for thread-binding lifecycle
+- `brikko-studio/plugin-sdk/thread-bindings-runtime` for thread-binding lifecycle
   and adapter registration
-- `openclaw/plugin-sdk/agent-media-payload` only when a legacy agent/media
+- `brikko-studio/plugin-sdk/agent-media-payload` only when a legacy agent/media
   payload field layout is still required
-- `openclaw/plugin-sdk/telegram-command-config` for Telegram custom-command
+- `brikko-studio/plugin-sdk/telegram-command-config` for Telegram custom-command
   normalization, duplicate/conflict validation, and a fallback-stable command
   config contract
 
@@ -223,8 +223,8 @@ Keep inbound mention handling split in two layers:
 - plugin-owned evidence gathering
 - shared policy evaluation
 
-Use `openclaw/plugin-sdk/channel-mention-gating` for mention-policy decisions.
-Use `openclaw/plugin-sdk/channel-inbound` only when you need the broader inbound
+Use `brikko-studio/plugin-sdk/channel-mention-gating` for mention-policy decisions.
+Use `brikko-studio/plugin-sdk/channel-inbound` only when you need the broader inbound
 helper barrel.
 
 Good fit for plugin-local logic:
@@ -254,7 +254,7 @@ import {
   implicitMentionKindWhen,
   matchesMentionWithExplicit,
   resolveInboundMentionDecision,
-} from "openclaw/plugin-sdk/channel-inbound";
+} from "brikko-studio/plugin-sdk/channel-inbound";
 
 const mentionMatch = matchesMentionWithExplicit(text, {
   mentionRegexes,
@@ -297,11 +297,11 @@ bundled channel plugins that already depend on runtime injection:
 
 If you only need `implicitMentionKindWhen` and
 `resolveInboundMentionDecision`, import from
-`openclaw/plugin-sdk/channel-mention-gating` to avoid loading unrelated inbound
+`brikko-studio/plugin-sdk/channel-mention-gating` to avoid loading unrelated inbound
 runtime helpers.
 
 The older `resolveMentionGating*` helpers remain on
-`openclaw/plugin-sdk/channel-inbound` as compatibility exports only. New code
+`brikko-studio/plugin-sdk/channel-inbound` as compatibility exports only. New code
 should use `resolveInboundMentionDecision({ facts, policy })`.
 
 ## Walkthrough
@@ -311,27 +311,27 @@ should use `resolveInboundMentionDecision({ facts, policy })`.
   <Step title="Package and manifest">
     Create the standard plugin files. The `channel` field in `package.json` is
     what makes this a channel plugin. For the full package-metadata surface,
-    see [Plugin Setup and Config](/plugins/sdk-setup#openclaw-channel):
+    see [Plugin Setup and Config](/plugins/sdk-setup#brikko-studio-channel):
 
     <CodeGroup>
     ```json package.json
     {
-      "name": "@myorg/openclaw-acme-chat",
+      "name": "@myorg/brikko-studio-acme-chat",
       "version": "1.0.0",
       "type": "module",
-      "openclaw": {
+      "brikko-studio": {
         "extensions": ["./index.ts"],
         "setupEntry": "./setup-entry.ts",
         "channel": {
           "id": "acme-chat",
           "label": "Acme Chat",
-          "blurb": "Connect OpenClaw to Acme Chat."
+          "blurb": "Connect Brikko Studio to Acme Chat."
         }
       }
     }
     ```
 
-    ```json openclaw.plugin.json
+    ```json brikko-studio.plugin.json
     {
       "id": "acme-chat",
       "kind": "channel",
@@ -385,8 +385,8 @@ should use `resolveInboundMentionDecision({ facts, policy })`.
     import {
       createChatChannelPlugin,
       createChannelPluginBase,
-    } from "openclaw/plugin-sdk/channel-core";
-    import type { OpenClawConfig } from "openclaw/plugin-sdk/channel-core";
+    } from "brikko-studio/plugin-sdk/channel-core";
+    import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/channel-core";
     import { acmeChatApi } from "./client.js"; // your platform API client
 
     type ResolvedAccount = {
@@ -397,7 +397,7 @@ should use `resolveInboundMentionDecision({ facts, policy })`.
     };
 
     function resolveAccount(
-      cfg: OpenClawConfig,
+      cfg: Brikko StudioConfig,
       accountId?: string | null,
     ): ResolvedAccount {
       const section = (cfg.channels as Record<string, any>)?.["acme-chat"];
@@ -503,7 +503,7 @@ should use `resolveInboundMentionDecision({ facts, policy })`.
     Create `index.ts`:
 
     ```typescript index.ts
-    import { defineChannelPluginEntry } from "openclaw/plugin-sdk/channel-core";
+    import { defineChannelPluginEntry } from "brikko-studio/plugin-sdk/channel-core";
     import { acmeChatPlugin } from "./src/channel.js";
 
     export default defineChannelPluginEntry({
@@ -535,7 +535,7 @@ should use `resolveInboundMentionDecision({ facts, policy })`.
     });
     ```
 
-    Put channel-owned CLI descriptors in `registerCliMetadata(...)` so OpenClaw
+    Put channel-owned CLI descriptors in `registerCliMetadata(...)` so Brikko Studio
     can show them in root help without activating the full channel runtime,
     while normal full loads still pick up the same descriptors for real command
     registration. Keep `registerFull(...)` for runtime-only work.
@@ -553,26 +553,26 @@ should use `resolveInboundMentionDecision({ facts, policy })`.
     Create `setup-entry.ts` for lightweight loading during onboarding:
 
     ```typescript setup-entry.ts
-    import { defineSetupPluginEntry } from "openclaw/plugin-sdk/channel-core";
+    import { defineSetupPluginEntry } from "brikko-studio/plugin-sdk/channel-core";
     import { acmeChatPlugin } from "./src/channel.js";
 
     export default defineSetupPluginEntry(acmeChatPlugin);
     ```
 
-    OpenClaw loads this instead of the full entry when the channel is disabled
+    Brikko Studio loads this instead of the full entry when the channel is disabled
     or unconfigured. It avoids pulling in heavy runtime code during setup flows.
     See [Setup and Config](/plugins/sdk-setup#setup-entry) for details.
 
     Bundled workspace channels that split setup-safe exports into sidecar
     modules can use `defineBundledChannelSetupEntry(...)` from
-    `openclaw/plugin-sdk/channel-entry-contract` when they also need an
+    `brikko-studio/plugin-sdk/channel-entry-contract` when they also need an
     explicit setup-time runtime setter.
 
   </Step>
 
   <Step title="Handle inbound messages">
     Your plugin needs to receive messages from the platform and forward them to
-    OpenClaw. The typical pattern is a webhook that verifies the request and
+    Brikko Studio. The typical pattern is a webhook that verifies the request and
     dispatches it through your channel's inbound handler:
 
     ```typescript
@@ -583,7 +583,7 @@ should use `resolveInboundMentionDecision({ facts, policy })`.
         handler: async (req, res) => {
           const event = parseWebhookPayload(req);
 
-          // Your inbound handler dispatches the message to OpenClaw.
+          // Your inbound handler dispatches the message to Brikko Studio.
           // The exact wiring depends on your platform SDK —
           // see a real example in the bundled Microsoft Teams or Google Chat plugin package.
           await handleAcmeChatInbound(api, event);
@@ -653,8 +653,8 @@ Write colocated tests in `src/channel.test.ts`:
 
 ```
 <bundled-plugin-root>/acme-chat/
-├── package.json              # openclaw.channel metadata
-├── openclaw.plugin.json      # Manifest with config schema
+├── package.json              # brikko-studio.channel metadata
+├── brikko-studio.plugin.json      # Manifest with config schema
 ├── index.ts                  # defineChannelPluginEntry
 ├── setup-entry.ts            # defineSetupPluginEntry
 ├── api.ts                    # Public exports (optional)

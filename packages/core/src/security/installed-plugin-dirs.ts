@@ -1,6 +1,6 @@
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 
-const IGNORED_INSTALLED_PLUGIN_DIR_NAMES = new Set(["node_modules", ".openclaw-install-backups"]);
+const IGNORED_INSTALLED_PLUGIN_DIR_NAMES = new Set(["node_modules", ".brikko-studio-install-backups"]);
 
 export function shouldIgnoreInstalledPluginDirName(name: string): boolean {
   const normalized = normalizeOptionalLowercaseString(name);

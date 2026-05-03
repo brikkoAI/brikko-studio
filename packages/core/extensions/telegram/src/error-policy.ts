@@ -3,7 +3,7 @@ import type {
   TelegramDirectConfig,
   TelegramGroupConfig,
   TelegramTopicConfig,
-} from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/config-types";
 
 type TelegramErrorPolicy = "always" | "once" | "silent";
 

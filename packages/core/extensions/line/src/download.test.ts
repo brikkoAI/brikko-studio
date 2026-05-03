@@ -13,7 +13,7 @@ vi.mock("@line/bot-sdk", () => ({
   },
 }));
 
-vi.mock("openclaw/plugin-sdk/runtime-env", () => ({
+vi.mock("brikko-studio/plugin-sdk/runtime-env", () => ({
   createSubsystemLogger: () => {
     const logger = {
       debug: () => {},
@@ -27,7 +27,7 @@ vi.mock("openclaw/plugin-sdk/runtime-env", () => ({
   logVerbose: () => {},
 }));
 
-vi.mock("openclaw/plugin-sdk/media-store", () => ({
+vi.mock("brikko-studio/plugin-sdk/media-store", () => ({
   saveMediaBuffer: saveMediaBufferMock,
 }));
 
@@ -50,7 +50,7 @@ describe("downloadLineMedia", () => {
     saveMediaBufferMock.mockReset();
     saveMediaBufferMock.mockImplementation(
       async (_buffer: Buffer, contentType?: string, subdir?: string) => ({
-        path: `/home/user/.openclaw/media/${subdir ?? "unknown"}/saved-media`,
+        path: `/home/user/.brikko-studio/media/${subdir ?? "unknown"}/saved-media`,
         contentType,
       }),
     );
@@ -69,7 +69,7 @@ describe("downloadLineMedia", () => {
     expect(call?.[2]).toBe("inbound");
     expect(call?.[3]).toBe(10 * 1024 * 1024);
     expect(result).toEqual({
-      path: "/home/user/.openclaw/media/inbound/saved-media",
+      path: "/home/user/.brikko-studio/media/inbound/saved-media",
       contentType: "image/jpeg",
       size: jpeg.length,
     });

@@ -3,14 +3,14 @@ import {
   resolveMemorySearchConfig,
   resolveSessionAgentIds,
   type MemoryPluginRuntime,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/memory-core-host-runtime-core";
-import { resolveMemoryBackendConfig } from "openclaw/plugin-sdk/memory-core-host-runtime-files";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/memory-core-host-runtime-core";
+import { resolveMemoryBackendConfig } from "brikko-studio/plugin-sdk/memory-core-host-runtime-files";
 import {
   definePluginEntry,
   type AnyAgentTool,
-  type OpenClawPluginToolContext,
-} from "openclaw/plugin-sdk/plugin-entry";
+  type Brikko StudioPluginToolContext,
+} from "brikko-studio/plugin-sdk/plugin-entry";
 import { Type } from "typebox";
 import { registerShortTermPromotionDreaming } from "./src/dreaming.js";
 import { buildMemoryFlushPlan } from "./src/flush-plan.js";
@@ -21,8 +21,8 @@ type MemoryToolsModule = typeof import("./src/tools.js");
 type RuntimeProviderModule = typeof import("./src/runtime-provider.js");
 
 type MemoryToolOptions = {
-  config?: OpenClawConfig;
-  getConfig?: () => OpenClawConfig | undefined;
+  config?: Brikko StudioConfig;
+  getConfig?: () => Brikko StudioConfig | undefined;
   agentId?: string;
   agentSessionKey?: string;
   sandboxed?: boolean;
@@ -41,7 +41,7 @@ function loadRuntimeProviderModule(): Promise<RuntimeProviderModule> {
   return runtimeProviderModulePromise;
 }
 
-function getToolConfig(options: MemoryToolOptions): OpenClawConfig | undefined {
+function getToolConfig(options: MemoryToolOptions): Brikko StudioConfig | undefined {
   return options.getConfig?.() ?? options.config;
 }
 
@@ -142,7 +142,7 @@ function createLazyMemoryGetTool(options: MemoryToolOptions): AnyAgentTool | nul
   });
 }
 
-function resolveMemoryToolOptions(ctx: OpenClawPluginToolContext): MemoryToolOptions {
+function resolveMemoryToolOptions(ctx: Brikko StudioPluginToolContext): MemoryToolOptions {
   const getConfig = () => ctx.getRuntimeConfig?.() ?? ctx.runtimeConfig ?? ctx.config;
   return {
     config: getConfig(),

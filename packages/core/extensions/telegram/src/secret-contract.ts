@@ -5,7 +5,7 @@ import {
   hasOwnProperty,
   type ResolverContext,
   type SecretDefaults,
-} from "openclaw/plugin-sdk/channel-secret-basic-runtime";
+} from "brikko-studio/plugin-sdk/channel-secret-basic-runtime";
 
 function normalizeOptionalString(value: unknown): string | undefined {
   if (typeof value !== "string") {
@@ -15,12 +15,12 @@ function normalizeOptionalString(value: unknown): string | undefined {
   return trimmed ? trimmed : undefined;
 }
 
-export const secretTargetRegistryEntries: import("openclaw/plugin-sdk/channel-secret-basic-runtime").SecretTargetRegistryEntry[] =
+export const secretTargetRegistryEntries: import("brikko-studio/plugin-sdk/channel-secret-basic-runtime").SecretTargetRegistryEntry[] =
   [
     {
       id: "channels.telegram.accounts.*.botToken",
       targetType: "channels.telegram.accounts.*.botToken",
-      configFile: "openclaw.json",
+      configFile: "brikko-studio.json",
       pathPattern: "channels.telegram.accounts.*.botToken",
       secretShape: "secret_input",
       expectedResolvedValue: "string",
@@ -31,7 +31,7 @@ export const secretTargetRegistryEntries: import("openclaw/plugin-sdk/channel-se
     {
       id: "channels.telegram.accounts.*.webhookSecret",
       targetType: "channels.telegram.accounts.*.webhookSecret",
-      configFile: "openclaw.json",
+      configFile: "brikko-studio.json",
       pathPattern: "channels.telegram.accounts.*.webhookSecret",
       secretShape: "secret_input",
       expectedResolvedValue: "string",
@@ -42,7 +42,7 @@ export const secretTargetRegistryEntries: import("openclaw/plugin-sdk/channel-se
     {
       id: "channels.telegram.botToken",
       targetType: "channels.telegram.botToken",
-      configFile: "openclaw.json",
+      configFile: "brikko-studio.json",
       pathPattern: "channels.telegram.botToken",
       secretShape: "secret_input",
       expectedResolvedValue: "string",
@@ -53,7 +53,7 @@ export const secretTargetRegistryEntries: import("openclaw/plugin-sdk/channel-se
     {
       id: "channels.telegram.webhookSecret",
       targetType: "channels.telegram.webhookSecret",
-      configFile: "openclaw.json",
+      configFile: "brikko-studio.json",
       pathPattern: "channels.telegram.webhookSecret",
       secretShape: "secret_input",
       expectedResolvedValue: "string",

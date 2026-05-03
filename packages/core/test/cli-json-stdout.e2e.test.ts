@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { withTempHome } from "openclaw/plugin-sdk/test-env";
+import { withTempHome } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 
 describe("cli json stdout contract", () => {
@@ -16,14 +16,14 @@ describe("cli json stdout contract", () => {
           ...process.env,
           HOME: tempHome,
           USERPROFILE: tempHome,
-          OPENCLAW_TEST_FAST: "1",
+          BRIKKO_STUDIO_TEST_FAST: "1",
         };
-        delete env.OPENCLAW_HOME;
-        delete env.OPENCLAW_STATE_DIR;
-        delete env.OPENCLAW_CONFIG_PATH;
+        delete env.BRIKKO_STUDIO_HOME;
+        delete env.BRIKKO_STUDIO_STATE_DIR;
+        delete env.BRIKKO_STUDIO_CONFIG_PATH;
         delete env.VITEST;
 
-        const entry = path.resolve(process.cwd(), "openclaw.mjs");
+        const entry = path.resolve(process.cwd(), "brikko-studio.mjs");
         const result = spawnSync(
           process.execPath,
           [entry, "update", "status", "--json", "--timeout", "1"],
@@ -38,7 +38,7 @@ describe("cli json stdout contract", () => {
         expect(stdout).not.toContain("Doctor changes");
         expect(stdout).not.toContain("Config invalid");
       },
-      { prefix: "openclaw-json-e2e-" },
+      { prefix: "brikko-studio-json-e2e-" },
     );
   });
 });

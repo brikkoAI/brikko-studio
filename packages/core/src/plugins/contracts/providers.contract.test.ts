@@ -1,5 +1,5 @@
-import { describeProviderContracts } from "openclaw/plugin-sdk/provider-test-contracts";
-import { describeWebSearchProviderContracts } from "openclaw/plugin-sdk/provider-test-contracts";
+import { describeProviderContracts } from "brikko-studio/plugin-sdk/provider-test-contracts";
+import { describeWebSearchProviderContracts } from "brikko-studio/plugin-sdk/provider-test-contracts";
 
 for (const providerId of [
   "anthropic",

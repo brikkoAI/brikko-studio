@@ -1,5 +1,5 @@
 import { DEFAULT_GATEWAY_PORT } from "./paths.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { Brikko StudioConfig } from "./types.brikko-studio.js";
 
 export type GatewayNonLoopbackBindMode = "lan" | "tailnet" | "custom" | "auto";
 
@@ -44,7 +44,7 @@ export function buildDefaultControlUiAllowedOrigins(params: {
 }
 
 export function ensureControlUiAllowedOriginsForNonLoopbackBind(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   opts?: {
     defaultPort?: number;
     requireControlUiEnabled?: boolean;
@@ -62,7 +62,7 @@ export function ensureControlUiAllowedOriginsForNonLoopbackBind(
     isContainerEnvironment?: () => boolean;
   },
 ): {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   seededOrigins: string[] | null;
   bind: GatewayNonLoopbackBindMode | null;
 } {

@@ -26,6 +26,6 @@ export {
   getFeishuThreadBindingManager,
 } from "./src/thread-bindings.js";
 export { __testing as feishuThreadBindingTesting } from "./src/thread-bindings.js";
-export { createClackPrompter } from "openclaw/plugin-sdk/setup-runtime";
+export { createClackPrompter } from "brikko-studio/plugin-sdk/setup-runtime";
 
 export const feishuSessionBindingAdapterChannels = ["feishu"] as const;

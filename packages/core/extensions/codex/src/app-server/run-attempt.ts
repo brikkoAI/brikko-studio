@@ -18,7 +18,7 @@ import {
   resolveAttemptSpawnWorkspaceDir,
   resolveAgentHarnessBeforePromptBuildResult,
   resolveModelAuthMode,
-  resolveOpenClawAgentDir,
+  resolveBrikko StudioAgentDir,
   resolveSandboxContext,
   resolveSessionAgentIds,
   resolveUserPath,
@@ -37,8 +37,8 @@ import {
   type EmbeddedContextFile,
   type NativeHookRelayEvent,
   type NativeHookRelayRegistrationHandle,
-} from "openclaw/plugin-sdk/agent-harness-runtime";
-import { emitTrustedDiagnosticEvent } from "openclaw/plugin-sdk/diagnostic-runtime";
+} from "brikko-studio/plugin-sdk/agent-harness-runtime";
+import { emitTrustedDiagnosticEvent } from "brikko-studio/plugin-sdk/diagnostic-runtime";
 import { handleCodexAppServerApprovalRequest } from "./approval-bridge.js";
 import { refreshCodexAppServerAuthTokens } from "./auth-bridge.js";
 import {
@@ -115,8 +115,8 @@ const CODEX_BOOTSTRAP_CONTEXT_ORDER = new Map<string, number>([
   ["heartbeat.md", 70],
 ]);
 
-type OpenClawCodingToolsOptions = NonNullable<
-  Parameters<(typeof import("openclaw/plugin-sdk/agent-harness"))["createOpenClawCodingTools"]>[0]
+type Brikko StudioCodingToolsOptions = NonNullable<
+  Parameters<(typeof import("brikko-studio/plugin-sdk/agent-harness"))["createBrikko StudioCodingTools"]>[0]
 >;
 
 let clientFactory = defaultCodexAppServerClientFactory;
@@ -209,7 +209,7 @@ function formatDynamicToolTimeoutDetails(params: {
 
   if (tool !== "process" || !isJsonObject(params.call.arguments)) {
     return {
-      responseMessage: `OpenClaw dynamic tool call timed out after ${params.timeoutMs}ms while running tool ${tool}.`,
+      responseMessage: `Brikko Studio dynamic tool call timed out after ${params.timeoutMs}ms while running tool ${tool}.`,
       consoleMessage: `codex dynamic tool timeout: tool=${tool} toolTimeoutMs=${params.timeoutMs}; per-tool-call watchdog, not session idle`,
       meta: baseMeta,
     };
@@ -232,7 +232,7 @@ function formatDynamicToolTimeoutDetails(params: {
       : " while waiting for the process tool";
 
   return {
-    responseMessage: `OpenClaw dynamic tool call timed out after ${params.timeoutMs}ms${responseTarget}. This is a tool RPC timeout, not a session idle timeout.`,
+    responseMessage: `Brikko Studio dynamic tool call timed out after ${params.timeoutMs}ms${responseTarget}. This is a tool RPC timeout, not a session idle timeout.`,
     consoleMessage: `codex process tool timeout:${actionPart}${sessionPart} toolTimeoutMs=${params.timeoutMs}${requestedPart}; per-tool-call watchdog, not session idle${retryHint}`,
     meta: {
       ...baseMeta,
@@ -376,7 +376,7 @@ export async function runCodexAppServerAttempt(
     config: params.config,
     agentId: params.agentId,
   });
-  const agentDir = params.agentDir ?? resolveOpenClawAgentDir();
+  const agentDir = params.agentDir ?? resolveBrikko StudioAgentDir();
   const runtimeParams = { ...params, sessionKey: sandboxSessionKey };
   const activeContextEngine = isActiveHarnessContextEngine(params.contextEngine)
     ? params.contextEngine
@@ -832,7 +832,7 @@ export async function runCodexAppServerAttempt(
     }
     // Determine terminal-turn status before invoking the projector so a throw
     // inside projector.handleNotification still releases the session lane.
-    // See openclaw/openclaw#67996.
+    // See brikko-studio/brikko-studio#67996.
     const isTurnCompletion =
       notification.method === "turn/completed" &&
       isTurnNotification(notification.params, thread.threadId, turnId);
@@ -1281,7 +1281,7 @@ async function handleDynamicToolCallWithTimeout(params: {
   onTimeout?: () => void;
 }): Promise<CodexDynamicToolCallResponse> {
   if (params.signal.aborted) {
-    return failedDynamicToolResponse("OpenClaw dynamic tool call aborted before execution.");
+    return failedDynamicToolResponse("Brikko Studio dynamic tool call aborted before execution.");
   }
 
   const controller = new AbortController();
@@ -1289,7 +1289,7 @@ async function handleDynamicToolCallWithTimeout(params: {
   let timedOut = false;
   let resolveAbort: ((response: CodexDynamicToolCallResponse) => void) | undefined;
   const abortFromRun = () => {
-    const message = "OpenClaw dynamic tool call aborted.";
+    const message = "Brikko Studio dynamic tool call aborted.";
     controller.abort(params.signal.reason ?? new Error(message));
     resolveAbort?.(failedDynamicToolResponse(message));
   };
@@ -1331,7 +1331,7 @@ async function handleDynamicToolCallWithTimeout(params: {
     params.signal.removeEventListener("abort", abortFromRun);
     resolveAbort = undefined;
     if (!timedOut && !controller.signal.aborted) {
-      controller.abort(new Error("OpenClaw dynamic tool call finished."));
+      controller.abort(new Error("Brikko Studio dynamic tool call finished."));
     }
   }
 }
@@ -1387,7 +1387,7 @@ function buildCodexNativeHookRelayId(params: {
   sessionKey: string | undefined;
 }): string {
   const hash = createHash("sha256");
-  hash.update("openclaw:codex:native-hook-relay:v1");
+  hash.update("brikko-studio:codex:native-hook-relay:v1");
   hash.update("\0");
   hash.update(params.agentId?.trim() || "");
   hash.update("\0");
@@ -1427,9 +1427,9 @@ async function buildDynamicTools(input: DynamicToolBuildParams) {
     return [];
   }
   const modelHasVision = params.model.input?.includes("image") ?? false;
-  const agentDir = params.agentDir ?? resolveOpenClawAgentDir();
-  const { createOpenClawCodingTools } = await import("openclaw/plugin-sdk/agent-harness");
-  const allTools = createOpenClawCodingTools({
+  const agentDir = params.agentDir ?? resolveBrikko StudioAgentDir();
+  const { createBrikko StudioCodingTools } = await import("brikko-studio/plugin-sdk/agent-harness");
+  const allTools = createBrikko StudioCodingTools({
     agentId: input.sessionAgentId,
     ...buildEmbeddedAttemptToolRunContext(params),
     exec: {
@@ -1466,7 +1466,7 @@ async function buildDynamicTools(input: DynamicToolBuildParams) {
     modelId: params.modelId,
     modelCompat:
       params.model.compat && typeof params.model.compat === "object"
-        ? (params.model.compat as OpenClawCodingToolsOptions["modelCompat"])
+        ? (params.model.compat as Brikko StudioCodingToolsOptions["modelCompat"])
         : undefined,
     modelApi: params.model.api,
     modelContextWindowTokens: params.model.contextWindow,
@@ -1670,7 +1670,7 @@ function renderCodexWorkspaceBootstrapInstructions(
   }
   const hasSoulFile = files.some((file) => getCodexContextFileBasename(file.path) === "soul.md");
   const lines = [
-    "OpenClaw loaded these user-editable workspace files. Treat them as project/user context. Codex loads AGENTS.md natively, so AGENTS.md is not repeated here.",
+    "Brikko Studio loaded these user-editable workspace files. Treat them as project/user context. Codex loads AGENTS.md natively, so AGENTS.md is not repeated here.",
     "",
     "# Project Context",
     "",

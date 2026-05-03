@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { activateSecretsRuntimeSnapshot, clearSecretsRuntimeSnapshot } from "../secrets/runtime.js";
-import { resolveOpenClawPluginToolsForOptions } from "./openclaw-plugin-tools.js";
+import { resolveBrikko StudioPluginToolsForOptions } from "./brikko-studio-plugin-tools.js";
 
 const hoisted = vi.hoisted(() => ({
   resolvePluginTools: vi.fn(),
@@ -11,7 +11,7 @@ vi.mock("../plugins/tools.js", () => ({
   resolvePluginTools: (...args: unknown[]) => hoisted.resolvePluginTools(...args),
 }));
 
-describe("createOpenClawTools browser plugin integration", () => {
+describe("createBrikko StudioTools browser plugin integration", () => {
   afterEach(() => {
     hoisted.resolvePluginTools.mockReset();
     clearSecretsRuntimeSnapshot();
@@ -38,9 +38,9 @@ describe("createOpenClawTools browser plugin integration", () => {
       plugins: {
         allow: ["browser"],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
-    const tools = resolveOpenClawPluginToolsForOptions({
+    const tools = resolveBrikko StudioPluginToolsForOptions({
       options: { config },
       resolvedConfig: config,
     });
@@ -60,9 +60,9 @@ describe("createOpenClawTools browser plugin integration", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
-    const tools = resolveOpenClawPluginToolsForOptions({
+    const tools = resolveBrikko StudioPluginToolsForOptions({
       options: { config },
       resolvedConfig: config,
     });
@@ -93,20 +93,20 @@ describe("createOpenClawTools browser plugin integration", () => {
       ];
     });
 
-    const tools = resolveOpenClawPluginToolsForOptions({
+    const tools = resolveBrikko StudioPluginToolsForOptions({
       options: {
         config: {
           plugins: {
             allow: ["browser"],
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         fsPolicy: { workspaceOnly: true },
       },
       resolvedConfig: {
         plugins: {
           allow: ["browser"],
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
 
     const browserTool = tools.find((tool) => tool.name === "browser");
@@ -126,9 +126,9 @@ describe("createOpenClawTools browser plugin integration", () => {
       plugins: {
         allow: ["browser"],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
-    resolveOpenClawPluginToolsForOptions({
+    resolveBrikko StudioPluginToolsForOptions({
       options: { config, allowGatewaySubagentBinding: true },
       resolvedConfig: config,
     });
@@ -145,12 +145,12 @@ describe("createOpenClawTools browser plugin integration", () => {
       plugins: {
         allow: ["old-plugin"],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const staleRuntimeConfig = {
       plugins: {
         allow: ["old-plugin"],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const resolvedRunConfig = {
       plugins: {
         allow: ["browser"],
@@ -160,10 +160,10 @@ describe("createOpenClawTools browser plugin integration", () => {
           planTool: true,
         },
       },
-    } as OpenClawConfig;
-    let capturedRuntimeConfig: OpenClawConfig | undefined;
+    } as Brikko StudioConfig;
+    let capturedRuntimeConfig: Brikko StudioConfig | undefined;
     hoisted.resolvePluginTools.mockImplementation((params: unknown) => {
-      capturedRuntimeConfig = (params as { context?: { runtimeConfig?: OpenClawConfig } }).context
+      capturedRuntimeConfig = (params as { context?: { runtimeConfig?: Brikko StudioConfig } }).context
         ?.runtimeConfig;
       return [];
     });
@@ -185,7 +185,7 @@ describe("createOpenClawTools browser plugin integration", () => {
       },
     });
 
-    resolveOpenClawPluginToolsForOptions({
+    resolveBrikko StudioPluginToolsForOptions({
       options: { config: resolvedRunConfig },
       resolvedConfig: resolvedRunConfig,
     });
@@ -198,23 +198,23 @@ describe("createOpenClawTools browser plugin integration", () => {
       plugins: {
         allow: ["memory-core"],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const firstRuntimeConfig = {
       plugins: {
         allow: ["memory-core"],
         entries: { "memory-core": { enabled: true } },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const nextRuntimeConfig = {
       plugins: {
         allow: ["memory-core"],
         entries: { "memory-core": { enabled: false } },
       },
-    } as OpenClawConfig;
-    let getRuntimeConfig: (() => OpenClawConfig | undefined) | undefined;
+    } as Brikko StudioConfig;
+    let getRuntimeConfig: (() => Brikko StudioConfig | undefined) | undefined;
     hoisted.resolvePluginTools.mockImplementation((params: unknown) => {
       getRuntimeConfig = (
-        params as { context?: { getRuntimeConfig?: () => OpenClawConfig | undefined } }
+        params as { context?: { getRuntimeConfig?: () => Brikko StudioConfig | undefined } }
       ).context?.getRuntimeConfig;
       return [];
     });
@@ -236,7 +236,7 @@ describe("createOpenClawTools browser plugin integration", () => {
       },
     });
 
-    resolveOpenClawPluginToolsForOptions({
+    resolveBrikko StudioPluginToolsForOptions({
       options: { config: sourceConfig },
       resolvedConfig: sourceConfig,
     });

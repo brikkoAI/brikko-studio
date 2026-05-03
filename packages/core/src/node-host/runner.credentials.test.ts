@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { ConnectErrorDetailCodes } from "../gateway/protocol/connect-error-details.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import {
@@ -8,7 +8,7 @@ import {
   shouldExitNodeHostOnReconnectPaused,
 } from "./runner.js";
 
-function createRemoteGatewayTokenRefConfig(tokenId: string): OpenClawConfig {
+function createRemoteGatewayTokenRefConfig(tokenId: string): Brikko StudioConfig {
   return {
     secrets: {
       providers: {
@@ -21,11 +21,11 @@ function createRemoteGatewayTokenRefConfig(tokenId: string): OpenClawConfig {
         token: { source: "env", provider: "default", id: tokenId },
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 async function expectNoGatewayCredentials(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   env: Record<string, string | undefined>,
 ) {
   await withEnvAsync(env, async () => {
@@ -42,11 +42,11 @@ describe("resolveNodeHostGatewayCredentials", () => {
         mode: "local",
         remote: { token: "remote-only-token" },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await expectNoGatewayCredentials(config, {
-      OPENCLAW_GATEWAY_TOKEN: undefined,
-      OPENCLAW_GATEWAY_PASSWORD: undefined,
+      BRIKKO_STUDIO_GATEWAY_TOKEN: undefined,
+      BRIKKO_STUDIO_GATEWAY_PASSWORD: undefined,
     });
   });
 
@@ -63,11 +63,11 @@ describe("resolveNodeHostGatewayCredentials", () => {
           token: { source: "env", provider: "default", id: "MISSING_REMOTE_GATEWAY_TOKEN" },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await expectNoGatewayCredentials(config, {
-      OPENCLAW_GATEWAY_TOKEN: undefined,
-      OPENCLAW_GATEWAY_PASSWORD: undefined,
+      BRIKKO_STUDIO_GATEWAY_TOKEN: undefined,
+      BRIKKO_STUDIO_GATEWAY_PASSWORD: undefined,
       MISSING_REMOTE_GATEWAY_TOKEN: undefined,
     });
   });
@@ -77,8 +77,8 @@ describe("resolveNodeHostGatewayCredentials", () => {
 
     await withEnvAsync(
       {
-        OPENCLAW_GATEWAY_TOKEN: undefined,
-        OPENCLAW_GATEWAY_PASSWORD: undefined,
+        BRIKKO_STUDIO_GATEWAY_TOKEN: undefined,
+        BRIKKO_STUDIO_GATEWAY_PASSWORD: undefined,
         REMOTE_GATEWAY_TOKEN: "token-from-ref",
       },
       async () => {
@@ -88,13 +88,13 @@ describe("resolveNodeHostGatewayCredentials", () => {
     );
   });
 
-  it("prefers OPENCLAW_GATEWAY_TOKEN over configured refs", async () => {
+  it("prefers BRIKKO_STUDIO_GATEWAY_TOKEN over configured refs", async () => {
     const config = createRemoteGatewayTokenRefConfig("REMOTE_GATEWAY_TOKEN");
 
     await withEnvAsync(
       {
-        OPENCLAW_GATEWAY_TOKEN: "token-from-env",
-        OPENCLAW_GATEWAY_PASSWORD: undefined,
+        BRIKKO_STUDIO_GATEWAY_TOKEN: "token-from-env",
+        BRIKKO_STUDIO_GATEWAY_PASSWORD: undefined,
         REMOTE_GATEWAY_TOKEN: "token-from-ref",
       },
       async () => {
@@ -109,8 +109,8 @@ describe("resolveNodeHostGatewayCredentials", () => {
 
     await withEnvAsync(
       {
-        OPENCLAW_GATEWAY_TOKEN: undefined,
-        OPENCLAW_GATEWAY_PASSWORD: undefined,
+        BRIKKO_STUDIO_GATEWAY_TOKEN: undefined,
+        BRIKKO_STUDIO_GATEWAY_PASSWORD: undefined,
         MISSING_REMOTE_GATEWAY_TOKEN: undefined,
       },
       async () => {
@@ -135,12 +135,12 @@ describe("resolveNodeHostGatewayCredentials", () => {
           password: { source: "env", provider: "default", id: "MISSING_REMOTE_GATEWAY_PASSWORD" },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await withEnvAsync(
       {
-        OPENCLAW_GATEWAY_TOKEN: undefined,
-        OPENCLAW_GATEWAY_PASSWORD: undefined,
+        BRIKKO_STUDIO_GATEWAY_TOKEN: undefined,
+        BRIKKO_STUDIO_GATEWAY_PASSWORD: undefined,
         REMOTE_GATEWAY_TOKEN: "token-from-ref",
         MISSING_REMOTE_GATEWAY_PASSWORD: undefined,
       },

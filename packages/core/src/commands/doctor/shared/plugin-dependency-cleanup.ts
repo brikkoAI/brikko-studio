@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { resolveStateDir } from "../../../config/paths.js";
-import { resolveOpenClawPackageRootSync } from "../../../infra/openclaw-root.js";
+import { resolveBrikko StudioPackageRootSync } from "../../../infra/brikko-studio-root.js";
 import { resolveConfigDir, resolveUserPath } from "../../../utils.js";
 
 const LEGACY_DIRECT_CHILD_NAMES = new Set(["plugin-runtime-deps", "bundled-plugin-runtime-deps"]);
@@ -36,18 +36,18 @@ async function pathExists(targetPath: string): Promise<boolean> {
 
 function isRuntimeDependencyMarkerName(name: string): boolean {
   return (
-    name === ".openclaw-runtime-deps.json" ||
-    name === ".openclaw-runtime-deps-stamp.json" ||
-    name.startsWith(".openclaw-runtime-deps-")
+    name === ".brikko-studio-runtime-deps.json" ||
+    name === ".brikko-studio-runtime-deps-stamp.json" ||
+    name.startsWith(".brikko-studio-runtime-deps-")
   );
 }
 
 function isLegacyDependencyDebrisName(name: string): boolean {
   return (
     isRuntimeDependencyMarkerName(name) ||
-    name === ".openclaw-pnpm-store" ||
-    name === ".openclaw-install-backups" ||
-    name.startsWith(".openclaw-install-stage-")
+    name === ".brikko-studio-pnpm-store" ||
+    name === ".brikko-studio-install-backups" ||
+    name.startsWith(".brikko-studio-install-stage-")
   );
 }
 
@@ -88,13 +88,13 @@ async function collectLegacyPluginDependencyTargets(
 ): Promise<string[]> {
   const packageRoot =
     options.packageRoot ??
-    resolveOpenClawPackageRootSync({
+    resolveBrikko StudioPackageRootSync({
       argv1: process.argv[1],
       moduleUrl: import.meta.url,
       cwd: process.cwd(),
     });
   const roots = uniqueSorted([resolveStateDir(env), resolveConfigDir(env), packageRoot]);
-  const explicitStageRoots = splitPathList(env.OPENCLAW_PLUGIN_STAGE_DIR).map((entry) =>
+  const explicitStageRoots = splitPathList(env.BRIKKO_STUDIO_PLUGIN_STAGE_DIR).map((entry) =>
     resolveUserPath(entry, env),
   );
   const stateDirectoryRoots = splitPathList(env.STATE_DIRECTORY).map((entry) =>

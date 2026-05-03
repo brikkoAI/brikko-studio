@@ -11,8 +11,8 @@ Adds text-to-speech provider support.
 
 ## Distribution
 
-- Package: `@openclaw/tts-local-cli`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/tts-local-cli`
+- Install route: included in Brikko Studio
 
 ## Surface
 

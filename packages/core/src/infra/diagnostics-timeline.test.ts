@@ -2,7 +2,7 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   emitDiagnosticsTimelineEvent,
   flushDiagnosticsTimelineForTest,
@@ -14,14 +14,14 @@ import {
 const tempDirs: string[] = [];
 
 async function createTimelineEnv() {
-  const dir = await mkdtemp(join(tmpdir(), "openclaw-diagnostics-timeline-"));
+  const dir = await mkdtemp(join(tmpdir(), "brikko-studio-diagnostics-timeline-"));
   tempDirs.push(dir);
   return {
     env: {
-      OPENCLAW_DIAGNOSTICS: "timeline",
-      OPENCLAW_DIAGNOSTICS_RUN_ID: "run-1",
-      OPENCLAW_DIAGNOSTICS_ENV: "env-1",
-      OPENCLAW_DIAGNOSTICS_TIMELINE_PATH: join(dir, "nested", "timeline.jsonl"),
+      BRIKKO_STUDIO_DIAGNOSTICS: "timeline",
+      BRIKKO_STUDIO_DIAGNOSTICS_RUN_ID: "run-1",
+      BRIKKO_STUDIO_DIAGNOSTICS_ENV: "env-1",
+      BRIKKO_STUDIO_DIAGNOSTICS_TIMELINE_PATH: join(dir, "nested", "timeline.jsonl"),
     } as NodeJS.ProcessEnv,
     path: join(dir, "nested", "timeline.jsonl"),
   };
@@ -44,31 +44,31 @@ describe("diagnostics timeline", () => {
     const { env } = await createTimelineEnv();
 
     expect(isDiagnosticsTimelineEnabled({ env })).toBe(true);
-    expect(isDiagnosticsTimelineEnabled({ env: { ...env, OPENCLAW_DIAGNOSTICS: "1" } })).toBe(true);
-    expect(isDiagnosticsTimelineEnabled({ env: { ...env, OPENCLAW_DIAGNOSTICS: "yes" } })).toBe(
+    expect(isDiagnosticsTimelineEnabled({ env: { ...env, BRIKKO_STUDIO_DIAGNOSTICS: "1" } })).toBe(true);
+    expect(isDiagnosticsTimelineEnabled({ env: { ...env, BRIKKO_STUDIO_DIAGNOSTICS: "yes" } })).toBe(
       true,
     );
-    expect(isDiagnosticsTimelineEnabled({ env: { ...env, OPENCLAW_DIAGNOSTICS: "on" } })).toBe(
+    expect(isDiagnosticsTimelineEnabled({ env: { ...env, BRIKKO_STUDIO_DIAGNOSTICS: "on" } })).toBe(
       true,
     );
-    expect(isDiagnosticsTimelineEnabled({ env: { ...env, OPENCLAW_DIAGNOSTICS: "all" } })).toBe(
+    expect(isDiagnosticsTimelineEnabled({ env: { ...env, BRIKKO_STUDIO_DIAGNOSTICS: "all" } })).toBe(
       true,
     );
-    expect(isDiagnosticsTimelineEnabled({ env: { ...env, OPENCLAW_DIAGNOSTICS: "*" } })).toBe(true);
+    expect(isDiagnosticsTimelineEnabled({ env: { ...env, BRIKKO_STUDIO_DIAGNOSTICS: "*" } })).toBe(true);
     expect(
       isDiagnosticsTimelineEnabled({
-        env: { ...env, OPENCLAW_DIAGNOSTICS: "diagnostics.timeline" },
+        env: { ...env, BRIKKO_STUDIO_DIAGNOSTICS: "diagnostics.timeline" },
       }),
     ).toBe(true);
     expect(
-      isDiagnosticsTimelineEnabled({ env: { ...env, OPENCLAW_DIAGNOSTICS: "telegram.http" } }),
+      isDiagnosticsTimelineEnabled({ env: { ...env, BRIKKO_STUDIO_DIAGNOSTICS: "telegram.http" } }),
     ).toBe(false);
-    expect(isDiagnosticsTimelineEnabled({ env: { ...env, OPENCLAW_DIAGNOSTICS: "0" } })).toBe(
+    expect(isDiagnosticsTimelineEnabled({ env: { ...env, BRIKKO_STUDIO_DIAGNOSTICS: "0" } })).toBe(
       false,
     );
     expect(
       isDiagnosticsTimelineEnabled({
-        env: { ...env, OPENCLAW_DIAGNOSTICS_TIMELINE_PATH: "" },
+        env: { ...env, BRIKKO_STUDIO_DIAGNOSTICS_TIMELINE_PATH: "" },
       }),
     ).toBe(false);
   });
@@ -76,10 +76,10 @@ describe("diagnostics timeline", () => {
   it("honors config diagnostics flags after config is available", async () => {
     const { env } = await createTimelineEnv();
     const envWithoutFlag = { ...env };
-    delete envWithoutFlag.OPENCLAW_DIAGNOSTICS;
-    const configWithTimeline = { diagnostics: { flags: ["timeline"] } } as OpenClawConfig;
-    const configWithWildcard = { diagnostics: { flags: ["*"] } } as OpenClawConfig;
-    const configWithoutTimeline = { diagnostics: { flags: ["telegram.http"] } } as OpenClawConfig;
+    delete envWithoutFlag.BRIKKO_STUDIO_DIAGNOSTICS;
+    const configWithTimeline = { diagnostics: { flags: ["timeline"] } } as Brikko StudioConfig;
+    const configWithWildcard = { diagnostics: { flags: ["*"] } } as Brikko StudioConfig;
+    const configWithoutTimeline = { diagnostics: { flags: ["telegram.http"] } } as Brikko StudioConfig;
 
     expect(isDiagnosticsTimelineEnabled({ config: configWithTimeline, env: envWithoutFlag })).toBe(
       true,
@@ -94,12 +94,12 @@ describe("diagnostics timeline", () => {
 
   it("lets false-like env diagnostics disable config-enabled timeline output", async () => {
     const { env } = await createTimelineEnv();
-    const configWithTimeline = { diagnostics: { flags: ["timeline"] } } as OpenClawConfig;
+    const configWithTimeline = { diagnostics: { flags: ["timeline"] } } as Brikko StudioConfig;
 
     expect(
       isDiagnosticsTimelineEnabled({
         config: configWithTimeline,
-        env: { ...env, OPENCLAW_DIAGNOSTICS: "0" },
+        env: { ...env, BRIKKO_STUDIO_DIAGNOSTICS: "0" },
       }),
     ).toBe(false);
   });
@@ -123,7 +123,7 @@ describe("diagnostics timeline", () => {
 
     const [event] = await readTimeline(path);
     expect(event).toMatchObject({
-      schemaVersion: "openclaw.diagnostics.v1",
+      schemaVersion: "brikko-studio.diagnostics.v1",
       type: "mark",
       name: "gateway.ready",
       runId: "run-1",
@@ -142,13 +142,13 @@ describe("diagnostics timeline", () => {
   it("records span start and end events around successful work", async () => {
     const { env, path } = await createTimelineEnv();
     const configOnlyEnv = { ...env };
-    delete configOnlyEnv.OPENCLAW_DIAGNOSTICS;
+    delete configOnlyEnv.BRIKKO_STUDIO_DIAGNOSTICS;
 
     await expect(
       measureDiagnosticsTimelineSpan("runtimeDeps.stage", () => "ok", {
         phase: "startup",
         attributes: { pluginCount: 3 },
-        config: { diagnostics: { flags: ["timeline"] } } as OpenClawConfig,
+        config: { diagnostics: { flags: ["timeline"] } } as Brikko StudioConfig,
         env: configOnlyEnv,
       }),
     ).resolves.toBe("ok");

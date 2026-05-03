@@ -1,23 +1,23 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import {
   resolveSourceReplyDeliveryMode,
   resolveSourceReplyVisibilityPolicy,
 } from "./source-reply-delivery-mode.js";
 
-const emptyConfig = {} as OpenClawConfig;
+const emptyConfig = {} as Brikko StudioConfig;
 const automaticGroupReplyConfig = {
   messages: {
     groupChat: {
       visibleReplies: "automatic",
     },
   },
-} as const satisfies OpenClawConfig;
+} as const satisfies Brikko StudioConfig;
 const globalToolOnlyReplyConfig = {
   messages: {
     visibleReplies: "message_tool",
   },
-} as const satisfies OpenClawConfig;
+} as const satisfies Brikko StudioConfig;
 
 describe("resolveSourceReplyDeliveryMode", () => {
   it("defaults groups and channels to message-tool-only delivery", () => {

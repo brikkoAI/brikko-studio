@@ -4,7 +4,7 @@ import {
 } from "./cdp-reachability-policy.js";
 import { usesFastLoopbackCdpProbeClass } from "./cdp-timeouts.js";
 import { listChromeMcpTabs } from "./chrome-mcp.js";
-import { isChromeReachable, resolveOpenClawUserDataDir } from "./chrome.js";
+import { isChromeReachable, resolveBrikko StudioUserDataDir } from "./chrome.js";
 import type { ResolvedBrowserProfile } from "./config.js";
 import { resolveProfile } from "./config.js";
 import { BrowserProfileNotFoundError, toBrowserErrorResponse } from "./errors.js";
@@ -108,7 +108,7 @@ function createProfileContext(
     getProfileState,
     stopRunningBrowser,
     isHttpReachable,
-    resolveOpenClawUserDataDir,
+    resolveBrikko StudioUserDataDir,
   });
 
   return {

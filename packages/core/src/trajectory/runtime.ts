@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { sanitizeDiagnosticPayload } from "../agents/payload-redaction.js";
 import { getQueuedFileWriter, type QueuedFileWriter } from "../agents/queued-file-writer.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { parseBooleanValue } from "../utils/boolean.js";
 import { safeJsonStringify } from "../utils/safe-json.js";
 import {
@@ -24,7 +24,7 @@ export {
 } from "./paths.js";
 
 type TrajectoryRuntimeInit = {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   env?: NodeJS.ProcessEnv;
   runId?: string;
   sessionId: string;
@@ -76,7 +76,7 @@ function writeTrajectoryPointerBestEffort(params: {
         fd,
         `${JSON.stringify(
           {
-            traceSchema: "openclaw-trajectory-pointer",
+            traceSchema: "brikko-studio-trajectory-pointer",
             schemaVersion: 1,
             sessionId: params.sessionId,
             runtimeFile: params.filePath,
@@ -153,8 +153,8 @@ export function createTrajectoryRuntimeRecorder(
 ): TrajectoryRuntimeRecorder | null {
   const env = params.env ?? process.env;
   // Trajectory capture is now default-on. The env var remains as an explicit
-  // override so operators can still disable recording with OPENCLAW_TRAJECTORY=0.
-  const enabled = parseBooleanValue(env.OPENCLAW_TRAJECTORY) ?? true;
+  // override so operators can still disable recording with BRIKKO_STUDIO_TRAJECTORY=0.
+  const enabled = parseBooleanValue(env.BRIKKO_STUDIO_TRAJECTORY) ?? true;
   if (!enabled) {
     return null;
   }
@@ -185,7 +185,7 @@ export function createTrajectoryRuntimeRecorder(
     filePath,
     recordEvent: (type, data) => {
       const event: TrajectoryEvent = {
-        traceSchema: "openclaw-trajectory",
+        traceSchema: "brikko-studio-trajectory",
         schemaVersion: 1,
         traceId,
         source: "runtime",

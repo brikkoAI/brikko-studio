@@ -1,5 +1,5 @@
 ---
-summary: "Adds fal model provider support to OpenClaw."
+summary: "Adds fal model provider support to Brikko Studio."
 read_when:
   - You are installing, configuring, or auditing the fal plugin
 title: "fal plugin"
@@ -7,12 +7,12 @@ title: "fal plugin"
 
 # fal plugin
 
-Adds fal model provider support to OpenClaw.
+Adds fal model provider support to Brikko Studio.
 
 ## Distribution
 
-- Package: `@openclaw/fal-provider`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/fal-provider`
+- Install route: included in Brikko Studio
 
 ## Surface
 

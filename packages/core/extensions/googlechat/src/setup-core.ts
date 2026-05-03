@@ -1,7 +1,7 @@
 import {
   createPatchedAccountSetupAdapter,
   createSetupInputPresenceValidator,
-} from "openclaw/plugin-sdk/setup-runtime";
+} from "brikko-studio/plugin-sdk/setup-runtime";
 
 const channel = "googlechat" as const;
 

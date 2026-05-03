@@ -1,5 +1,5 @@
 import { Routes } from "discord-api-types/v10";
-import { isLiveTestEnabled } from "openclaw/plugin-sdk/test-env";
+import { isLiveTestEnabled } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import { parseApplicationIdFromToken } from "../probe.js";
 import { RequestClient } from "./rest.js";

@@ -75,7 +75,7 @@ vi.mock("./runtime-config-snapshot.js", () => ({
 }));
 
 describe("discord plugin-sdk facade", () => {
-  it("exports the @openclaw/discord 2026.3.13 import surface", async () => {
+  it("exports the @brikko-studio/discord 2026.3.13 import surface", async () => {
     const discordSdk = await import("./discord.js");
 
     for (const exportName of [

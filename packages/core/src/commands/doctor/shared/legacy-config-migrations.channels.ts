@@ -167,25 +167,25 @@ const THREAD_BINDING_RULES: LegacyConfigRule[] = [
   {
     path: ["session", "threadBindings"],
     message:
-      'session.threadBindings.ttlHours was renamed to session.threadBindings.idleHours. Run "openclaw doctor --fix".',
+      'session.threadBindings.ttlHours was renamed to session.threadBindings.idleHours. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyThreadBindingTtl(value),
   },
   {
     path: ["channels"],
     message:
-      'channels.<id>.threadBindings.ttlHours was renamed to channels.<id>.threadBindings.idleHours. Run "openclaw doctor --fix".',
+      'channels.<id>.threadBindings.ttlHours was renamed to channels.<id>.threadBindings.idleHours. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyThreadBindingTtlInAnyChannel(value),
   },
   {
     path: ["session", "threadBindings"],
     message:
-      'session.threadBindings.spawnSubagentSessions/spawnAcpSessions were replaced by session.threadBindings.spawnSessions. Run "openclaw doctor --fix".',
+      'session.threadBindings.spawnSubagentSessions/spawnAcpSessions were replaced by session.threadBindings.spawnSessions. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyThreadBindingSpawnSplit(value),
   },
   {
     path: ["channels"],
     message:
-      'channels.<id>.threadBindings.spawnSubagentSessions/spawnAcpSessions were replaced by channels.<id>.threadBindings.spawnSessions. Run "openclaw doctor --fix".',
+      'channels.<id>.threadBindings.spawnSubagentSessions/spawnAcpSessions were replaced by channels.<id>.threadBindings.spawnSessions. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyThreadBindingSpawnSplitInAnyChannel(value),
   },
 ];

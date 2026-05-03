@@ -43,7 +43,7 @@ describe("resolveOfficialPluginOnboardingInstallEntries", () => {
           installs: {
             "diagnostics-otel": {
               source: "npm",
-              spec: "@openclaw/diagnostics-otel",
+              spec: "@brikko-studio/diagnostics-otel",
               installPath: "/tmp/diagnostics-otel",
             },
           },
@@ -62,8 +62,8 @@ describe("formatInstallHint", () => {
   it("describes dual-source npm-default installs as npm first", () => {
     expect(
       __testing.formatInstallHint({
-        clawhubSpec: "clawhub:@openclaw/diagnostics-otel",
-        npmSpec: "@openclaw/diagnostics-otel",
+        clawhubSpec: "clawhub:@brikko-studio/diagnostics-otel",
+        npmSpec: "@brikko-studio/diagnostics-otel",
         defaultChoice: "npm",
       }),
     ).toBe("npm, with ClawHub fallback");
@@ -72,8 +72,8 @@ describe("formatInstallHint", () => {
   it("keeps dual-source clawhub-default installs ClawHub first", () => {
     expect(
       __testing.formatInstallHint({
-        clawhubSpec: "clawhub:@openclaw/diagnostics-otel",
-        npmSpec: "@openclaw/diagnostics-otel",
+        clawhubSpec: "clawhub:@brikko-studio/diagnostics-otel",
+        npmSpec: "@brikko-studio/diagnostics-otel",
         defaultChoice: "clawhub",
       }),
     ).toBe("ClawHub, with npm fallback");
@@ -114,8 +114,8 @@ describe("setupOfficialPluginInstalls", () => {
           pluginId: "diagnostics-otel",
           trustedSourceLinkedOfficialInstall: true,
           install: expect.objectContaining({
-            clawhubSpec: "clawhub:@openclaw/diagnostics-otel",
-            npmSpec: "@openclaw/diagnostics-otel",
+            clawhubSpec: "clawhub:@brikko-studio/diagnostics-otel",
+            npmSpec: "@brikko-studio/diagnostics-otel",
             defaultChoice: "npm",
           }),
         }),

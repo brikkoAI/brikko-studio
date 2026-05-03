@@ -17,9 +17,9 @@ import {
   resolveExportCommandSessionTarget,
 } from "./commands-export-common.js";
 import {
-  buildCurrentOpenClawCliArgv,
-  buildCurrentOpenClawCliCommand,
-} from "./commands-openclaw-cli.js";
+  buildCurrentBrikko StudioCliArgv,
+  buildCurrentBrikko StudioCliCommand,
+} from "./commands-brikko-studio-cli.js";
 import {
   deliverPrivateCommandReply,
   readCommandDeliveryTarget,
@@ -29,7 +29,7 @@ import {
 } from "./commands-private-route.js";
 import type { HandleCommandsParams } from "./commands-types.js";
 
-const EXPORT_TRAJECTORY_DOCS_URL = "https://docs.openclaw.ai/tools/trajectory";
+const EXPORT_TRAJECTORY_DOCS_URL = "https://docs.brikko-studio.ai/tools/trajectory";
 const EXPORT_TRAJECTORY_EXEC_SCOPE_KEY = "chat:export-trajectory";
 const MAX_TRAJECTORY_EXPORT_ENCODED_REQUEST_CHARS = 8192;
 const EXPORT_TRAJECTORY_PRIVATE_ROUTE_UNAVAILABLE =
@@ -364,9 +364,9 @@ function buildTrajectoryExportExecRequest(
   }
   const args = ["sessions", "export-trajectory", "--request-json-base64", encodedRequest, "--json"];
   return {
-    argv: buildCurrentOpenClawCliArgv(args),
-    command: buildCurrentOpenClawCliCommand(args),
-    displayCommand: ["openclaw", ...args].join(" "),
+    argv: buildCurrentBrikko StudioCliArgv(args),
+    command: buildCurrentBrikko StudioCliCommand(args),
+    displayCommand: ["brikko-studio", ...args].join(" "),
     encodedRequest,
     request,
   };

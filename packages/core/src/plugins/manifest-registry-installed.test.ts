@@ -16,7 +16,7 @@ afterEach(() => {
 });
 
 function makeTempDir() {
-  return makeTrackedTempDir("openclaw-installed-manifest-registry", tempDirs);
+  return makeTrackedTempDir("brikko-studio-installed-manifest-registry", tempDirs);
 }
 
 function writePlugin(rootDir: string, pluginId: string, modelPrefix: string) {
@@ -26,7 +26,7 @@ function writePlugin(rootDir: string, pluginId: string, modelPrefix: string) {
     "utf8",
   );
   fs.writeFileSync(
-    path.join(rootDir, "openclaw.plugin.json"),
+    path.join(rootDir, "brikko-studio.plugin.json"),
     JSON.stringify({
       id: pluginId,
       configSchema: { type: "object" },
@@ -51,7 +51,7 @@ function createIndex(rootDir: string): InstalledPluginIndex {
     plugins: [
       {
         pluginId: "installed",
-        manifestPath: path.join(rootDir, "openclaw.plugin.json"),
+        manifestPath: path.join(rootDir, "brikko-studio.plugin.json"),
         manifestHash: "manifest-hash",
         source: path.join(rootDir, "index.ts"),
         rootDir,
@@ -73,11 +73,11 @@ function createIndex(rootDir: string): InstalledPluginIndex {
 describe("loadPluginManifestRegistryForInstalledIndex", () => {
   it("reconstructs installed-index manifest registries when manifest files change", () => {
     const rootDir = makeTempDir();
-    const manifestPath = path.join(rootDir, "openclaw.plugin.json");
+    const manifestPath = path.join(rootDir, "brikko-studio.plugin.json");
     writePlugin(rootDir, "installed", "installed-");
     const index = createIndex(rootDir);
     const env = {
-      OPENCLAW_VERSION: "2026.4.25",
+      BRIKKO_STUDIO_VERSION: "2026.4.25",
       VITEST: "true",
     };
 
@@ -115,7 +115,7 @@ describe("loadPluginManifestRegistryForInstalledIndex", () => {
     const registry = loadPluginManifestRegistryForInstalledIndex({
       index: createIndex(installedRoot),
       env: {
-        OPENCLAW_VERSION: "2026.4.25",
+        BRIKKO_STUDIO_VERSION: "2026.4.25",
         VITEST: "true",
       },
       includeDisabled: true,
@@ -156,7 +156,7 @@ describe("loadPluginManifestRegistryForInstalledIndex", () => {
         ],
       },
       env: {
-        OPENCLAW_VERSION: "2026.4.25",
+        BRIKKO_STUDIO_VERSION: "2026.4.25",
         VITEST: "true",
       },
       includeDisabled: true,
@@ -179,7 +179,7 @@ describe("loadPluginManifestRegistryForInstalledIndex", () => {
     fs.writeFileSync(
       path.join(rootDir, "package.json"),
       JSON.stringify({
-        openclaw: {
+        brikko-studio: {
           channel: {
             id: "installed",
             label: "Installed",
@@ -212,7 +212,7 @@ describe("loadPluginManifestRegistryForInstalledIndex", () => {
         ],
       },
       env: {
-        OPENCLAW_VERSION: "2026.4.25",
+        BRIKKO_STUDIO_VERSION: "2026.4.25",
         VITEST: "true",
       },
       includeDisabled: true,
@@ -273,7 +273,7 @@ describe("loadPluginManifestRegistryForInstalledIndex", () => {
     const registry = loadPluginManifestRegistryForInstalledIndex({
       index: persisted,
       env: {
-        OPENCLAW_VERSION: "2026.4.25",
+        BRIKKO_STUDIO_VERSION: "2026.4.25",
         VITEST: "true",
       },
       includeDisabled: true,

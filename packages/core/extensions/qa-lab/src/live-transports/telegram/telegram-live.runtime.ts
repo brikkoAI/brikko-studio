@@ -3,10 +3,10 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { fetchWithSsrFGuard } from "openclaw/plugin-sdk/ssrf-runtime";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
+import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { z } from "zod";
 import { startQaGatewayChild } from "../../gateway-child.js";
 import { DEFAULT_QA_LIVE_PROVIDER_MODE } from "../../providers/index.js";
@@ -304,13 +304,13 @@ const TELEGRAM_QA_STANDARD_SCENARIO_IDS = collectLiveTransportStandardScenarioCo
 });
 
 const TELEGRAM_QA_ENV_KEYS = [
-  "OPENCLAW_QA_TELEGRAM_GROUP_ID",
-  "OPENCLAW_QA_TELEGRAM_DRIVER_BOT_TOKEN",
-  "OPENCLAW_QA_TELEGRAM_SUT_BOT_TOKEN",
+  "BRIKKO_STUDIO_QA_TELEGRAM_GROUP_ID",
+  "BRIKKO_STUDIO_QA_TELEGRAM_DRIVER_BOT_TOKEN",
+  "BRIKKO_STUDIO_QA_TELEGRAM_SUT_BOT_TOKEN",
 ] as const;
-const TELEGRAM_QA_CAPTURE_CONTENT_ENV = "OPENCLAW_QA_TELEGRAM_CAPTURE_CONTENT";
-const QA_REDACT_PUBLIC_METADATA_ENV = "OPENCLAW_QA_REDACT_PUBLIC_METADATA";
-const QA_SUITE_PROGRESS_ENV = "OPENCLAW_QA_SUITE_PROGRESS";
+const TELEGRAM_QA_CAPTURE_CONTENT_ENV = "BRIKKO_STUDIO_QA_TELEGRAM_CAPTURE_CONTENT";
+const QA_REDACT_PUBLIC_METADATA_ENV = "BRIKKO_STUDIO_QA_REDACT_PUBLIC_METADATA";
+const QA_SUITE_PROGRESS_ENV = "BRIKKO_STUDIO_QA_SUITE_PROGRESS";
 const TELEGRAM_QA_PROGRESS_DETAIL_LIMIT = 240;
 const TELEGRAM_QA_PROGRESS_PREFIX = "[qa-telegram-live]";
 const execFileAsync = promisify(execFile);
@@ -371,7 +371,7 @@ function parsePositiveTelegramQaEnvMs(env: NodeJS.ProcessEnv, name: string, fall
 function resolveTelegramQaCanaryTimeoutMs(env: NodeJS.ProcessEnv = process.env) {
   return parsePositiveTelegramQaEnvMs(
     env,
-    "OPENCLAW_QA_TELEGRAM_CANARY_TIMEOUT_MS",
+    "BRIKKO_STUDIO_QA_TELEGRAM_CANARY_TIMEOUT_MS",
     DEFAULT_TELEGRAM_QA_CANARY_TIMEOUT_MS,
   );
 }
@@ -380,7 +380,7 @@ function resolveTelegramQaScenarioTimeoutMs(
   fallbackMs: number,
   env: NodeJS.ProcessEnv = process.env,
 ) {
-  return parsePositiveTelegramQaEnvMs(env, "OPENCLAW_QA_TELEGRAM_SCENARIO_TIMEOUT_MS", fallbackMs);
+  return parsePositiveTelegramQaEnvMs(env, "BRIKKO_STUDIO_QA_TELEGRAM_SCENARIO_TIMEOUT_MS", fallbackMs);
 }
 
 function formatTelegramQaTimeoutSeconds(timeoutMs: number) {
@@ -417,14 +417,14 @@ function formatTelegramQaProgressDetails(details: string): string {
 }
 
 function resolveTelegramQaRuntimeEnv(env: NodeJS.ProcessEnv = process.env): TelegramQaRuntimeEnv {
-  const groupId = resolveEnvValue(env, "OPENCLAW_QA_TELEGRAM_GROUP_ID");
+  const groupId = resolveEnvValue(env, "BRIKKO_STUDIO_QA_TELEGRAM_GROUP_ID");
   if (!/^-?\d+$/u.test(groupId)) {
-    throw new Error("OPENCLAW_QA_TELEGRAM_GROUP_ID must be a numeric Telegram chat id.");
+    throw new Error("BRIKKO_STUDIO_QA_TELEGRAM_GROUP_ID must be a numeric Telegram chat id.");
   }
   return {
     groupId,
-    driverToken: resolveEnvValue(env, "OPENCLAW_QA_TELEGRAM_DRIVER_BOT_TOKEN"),
-    sutToken: resolveEnvValue(env, "OPENCLAW_QA_TELEGRAM_SUT_BOT_TOKEN"),
+    driverToken: resolveEnvValue(env, "BRIKKO_STUDIO_QA_TELEGRAM_DRIVER_BOT_TOKEN"),
+    sutToken: resolveEnvValue(env, "BRIKKO_STUDIO_QA_TELEGRAM_SUT_BOT_TOKEN"),
   };
 }
 
@@ -492,14 +492,14 @@ function normalizeTelegramObservedMessage(update: TelegramUpdate): TelegramObser
 }
 
 function buildTelegramQaConfig(
-  baseCfg: OpenClawConfig,
+  baseCfg: Brikko StudioConfig,
   params: {
     groupId: string;
     sutToken: string;
     driverBotId: number;
     sutAccountId: string;
   },
-): OpenClawConfig {
+): Brikko StudioConfig {
   const pluginAllow = [...new Set([...(baseCfg.plugins?.allow ?? []), "telegram"])];
   const pluginEntries = {
     ...baseCfg.plugins?.entries,
@@ -1073,29 +1073,29 @@ function canaryFailureMessage(params: {
   ].join("\n");
 }
 
-async function runInstalledOpenClawTelegramOnboardingPreflight(params: {
+async function runInstalledBrikko StudioTelegramOnboardingPreflight(params: {
   openClawCommand: string;
   providerMode: ReturnType<typeof normalizeQaProviderMode>;
   sutToken: string;
 }) {
   const tempRoot = await fs.mkdtemp(
-    path.join(resolvePreferredOpenClawTmpDir(), "openclaw-npm-telegram-"),
+    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-npm-telegram-"),
   );
   const homeDir = path.join(tempRoot, "home");
-  const stateDir = path.join(homeDir, ".openclaw");
+  const stateDir = path.join(homeDir, ".brikko-studio");
   await fs.mkdir(stateDir, { recursive: true });
   const tokenPath = path.join(tempRoot, "sut-token.txt");
   await fs.writeFile(tokenPath, params.sutToken, { encoding: "utf8", mode: 0o600 });
   const env = {
     ...process.env,
     HOME: homeDir,
-    OPENCLAW_HOME: stateDir,
-    OPENCLAW_CONFIG_PATH: path.join(stateDir, "openclaw.json"),
-    OPENCLAW_STATE_DIR: stateDir,
-    OPENCLAW_GATEWAY_TOKEN: "npm-telegram-live-onboard",
+    BRIKKO_STUDIO_HOME: stateDir,
+    BRIKKO_STUDIO_CONFIG_PATH: path.join(stateDir, "brikko-studio.json"),
+    BRIKKO_STUDIO_STATE_DIR: stateDir,
+    BRIKKO_STUDIO_GATEWAY_TOKEN: "npm-telegram-live-onboard",
     ...(params.providerMode === "live-frontier"
       ? {}
-      : { OPENAI_API_KEY: process.env.OPENAI_API_KEY ?? "sk-openclaw-npm-telegram-preflight" }),
+      : { OPENAI_API_KEY: process.env.OPENAI_API_KEY ?? "sk-brikko-studio-npm-telegram-preflight" }),
   };
   try {
     await execFileAsync(
@@ -1136,7 +1136,7 @@ async function runInstalledOpenClawTelegramOnboardingPreflight(params: {
 export async function runTelegramQaLive(params: {
   repoRoot?: string;
   outputDir?: string;
-  sutOpenClawCommand?: string;
+  sutBrikko StudioCommand?: string;
   preflightInstalledOnboarding?: boolean;
   providerMode?: QaProviderModeInput;
   primaryModel?: string;
@@ -1197,10 +1197,10 @@ export async function runTelegramQaLive(params: {
   let preservedGatewayDebugArtifacts = false;
   let canaryFailure: string | null = null;
   try {
-    if (params.sutOpenClawCommand && params.preflightInstalledOnboarding === true) {
+    if (params.sutBrikko StudioCommand && params.preflightInstalledOnboarding === true) {
       writeTelegramQaProgress(progressEnabled, "installed package onboarding preflight start");
-      await runInstalledOpenClawTelegramOnboardingPreflight({
-        openClawCommand: params.sutOpenClawCommand,
+      await runInstalledBrikko StudioTelegramOnboardingPreflight({
+        openClawCommand: params.sutBrikko StudioCommand,
         providerMode,
         sutToken: runtimeEnv.sutToken,
       });
@@ -1225,9 +1225,9 @@ export async function runTelegramQaLive(params: {
 
     const gatewayHarness = await startQaLiveLaneGateway({
       repoRoot,
-      command: params.sutOpenClawCommand
+      command: params.sutBrikko StudioCommand
         ? {
-            executablePath: params.sutOpenClawCommand,
+            executablePath: params.sutBrikko StudioCommand,
             usePackagedPlugins: true,
           }
         : undefined,
@@ -1429,7 +1429,7 @@ export async function runTelegramQaLive(params: {
 
   const finishedAt = new Date().toISOString();
   const publishedCleanupIssues = redactPublicMetadata
-    ? cleanupIssues.map(() => "details redacted (OPENCLAW_QA_REDACT_PUBLIC_METADATA=1)")
+    ? cleanupIssues.map(() => "details redacted (BRIKKO_STUDIO_QA_REDACT_PUBLIC_METADATA=1)")
     : cleanupIssues;
   const passedCount = scenarioResults.filter((entry) => entry.status === "pass").length;
   const failedCount = scenarioResults.filter((entry) => entry.status === "fail").length;

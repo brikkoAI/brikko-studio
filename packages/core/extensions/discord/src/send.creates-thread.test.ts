@@ -1,10 +1,10 @@
 import { ChannelType, Routes } from "discord-api-types/v10";
-import { loadWebMediaRaw } from "openclaw/plugin-sdk/web-media";
+import { loadWebMediaRaw } from "brikko-studio/plugin-sdk/web-media";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { RateLimitError } from "./internal/discord.js";
 import { makeDiscordRest } from "./send.test-harness.js";
 
-vi.mock("openclaw/plugin-sdk/web-media", async () => {
+vi.mock("brikko-studio/plugin-sdk/web-media", async () => {
   const { discordWebMediaMockFactory } = await import("./send.test-harness.js");
   return discordWebMediaMockFactory();
 });
@@ -84,7 +84,7 @@ afterEach(() => {
 });
 
 afterAll(() => {
-  vi.doUnmock("openclaw/plugin-sdk/web-media");
+  vi.doUnmock("brikko-studio/plugin-sdk/web-media");
 });
 
 describe("sendMessageDiscord", () => {
@@ -393,8 +393,8 @@ describe("uploadStickerDiscord", () => {
     await uploadStickerDiscord(
       {
         guildId: "g1",
-        name: "openclaw_wave",
-        description: "OpenClaw waving",
+        name: "brikko-studio_wave",
+        description: "Brikko Studio waving",
         tags: "👋",
         mediaUrl: "file:///tmp/wave.png",
       },
@@ -404,8 +404,8 @@ describe("uploadStickerDiscord", () => {
       Routes.guildStickers("g1"),
       expect.objectContaining({
         body: {
-          name: "openclaw_wave",
-          description: "OpenClaw waving",
+          name: "brikko-studio_wave",
+          description: "Brikko Studio waving",
           tags: "👋",
           files: [
             expect.objectContaining({

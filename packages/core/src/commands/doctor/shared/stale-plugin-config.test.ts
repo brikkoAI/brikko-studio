@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { Brikko StudioConfig } from "../../../config/config.js";
 import type { PluginInstallRecord } from "../../../config/types.plugins.js";
 import type { PluginManifestRecord } from "../../../plugins/manifest-registry.js";
 import * as manifestRegistry from "../../../plugins/manifest-registry.js";
@@ -32,7 +32,7 @@ function manifest(id: string): PluginManifestRecord {
     origin: "bundled",
     rootDir: `/plugins/${id}`,
     source: `/plugins/${id}`,
-    manifestPath: `/plugins/${id}/openclaw.plugin.json`,
+    manifestPath: `/plugins/${id}/brikko-studio.plugin.json`,
   };
 }
 
@@ -59,7 +59,7 @@ describe("doctor stale plugin config helpers", () => {
           acpx: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     expect(hits).toEqual([
       {
@@ -84,7 +84,7 @@ describe("doctor stale plugin config helpers", () => {
           acpx: { enabled: true },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     expect(result.changes).toEqual([
       "- plugins.allow: removed 1 stale plugin id (acpx)",
@@ -105,12 +105,12 @@ describe("doctor stale plugin config helpers", () => {
           surface: "allow",
         },
       ],
-      doctorFixCommand: "openclaw doctor --fix",
+      doctorFixCommand: "brikko-studio doctor --fix",
     });
 
     expect(warnings).toEqual([
       expect.stringContaining('plugins.allow: stale plugin reference "acpx"'),
-      expect.stringContaining('Run "openclaw doctor --fix"'),
+      expect.stringContaining('Run "brikko-studio doctor --fix"'),
     ]);
   });
 
@@ -130,7 +130,7 @@ describe("doctor stale plugin config helpers", () => {
           allowFrom: ["+15555550123"],
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     expect(result.changes).toEqual([
       "- plugins.allow: removed 1 stale plugin id (acpx)",
@@ -150,14 +150,14 @@ describe("doctor stale plugin config helpers", () => {
   it("removes stale third-party channel config and dependent channel refs", () => {
     const result = maybeRepairStalePluginConfig({
       plugins: {
-        allow: ["discord", "openclaw-weixin"],
+        allow: ["discord", "brikko-studio-weixin"],
         entries: {
           discord: { enabled: true },
-          "openclaw-weixin": { enabled: true },
+          "brikko-studio-weixin": { enabled: true },
         },
       },
       channels: {
-        "openclaw-weixin": {
+        "brikko-studio-weixin": {
           enabled: true,
           token: "stale",
         },
@@ -166,7 +166,7 @@ describe("doctor stale plugin config helpers", () => {
         },
         modelByChannel: {
           openai: {
-            "openclaw-weixin": "openai/gpt-5.4",
+            "brikko-studio-weixin": "openai/gpt-5.4",
             telegram: "openai/gpt-5.4",
           },
         },
@@ -174,7 +174,7 @@ describe("doctor stale plugin config helpers", () => {
       agents: {
         defaults: {
           heartbeat: {
-            target: "openclaw-weixin",
+            target: "brikko-studio-weixin",
             every: "30m",
           },
         },
@@ -182,7 +182,7 @@ describe("doctor stale plugin config helpers", () => {
           {
             id: "pi",
             heartbeat: {
-              target: "openclaw-weixin",
+              target: "brikko-studio-weixin",
             },
           },
           {
@@ -193,20 +193,20 @@ describe("doctor stale plugin config helpers", () => {
           },
         ],
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     expect(result.changes).toEqual([
-      "- plugins.allow: removed 1 stale plugin id (openclaw-weixin)",
-      "- plugins.entries: removed 1 stale plugin entry (openclaw-weixin)",
-      "- channels: removed 1 stale channel config (openclaw-weixin)",
-      "- agents heartbeat: removed 2 stale heartbeat targets (openclaw-weixin)",
-      "- channels.modelByChannel: removed 1 stale channel model override (openclaw-weixin)",
+      "- plugins.allow: removed 1 stale plugin id (brikko-studio-weixin)",
+      "- plugins.entries: removed 1 stale plugin entry (brikko-studio-weixin)",
+      "- channels: removed 1 stale channel config (brikko-studio-weixin)",
+      "- agents heartbeat: removed 2 stale heartbeat targets (brikko-studio-weixin)",
+      "- channels.modelByChannel: removed 1 stale channel model override (brikko-studio-weixin)",
     ]);
     expect(result.config.plugins?.allow).toEqual(["discord"]);
     expect(result.config.plugins?.entries).toEqual({
       discord: { enabled: true },
     });
-    expect(result.config.channels?.["openclaw-weixin"]).toBeUndefined();
+    expect(result.config.channels?.["brikko-studio-weixin"]).toBeUndefined();
     expect(result.config.channels?.telegram).toEqual({ botToken: "keep" });
     expect(result.config.channels?.modelByChannel).toEqual({
       openai: {
@@ -225,7 +225,7 @@ describe("doctor stale plugin config helpers", () => {
           botToken: "typo",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(scanStalePluginConfig(cfg)).toEqual([]);
     expect(maybeRepairStalePluginConfig(cfg)).toEqual({ config: cfg, changes: [] });
@@ -241,11 +241,11 @@ describe("doctor stale plugin config helpers", () => {
         },
       },
       channels: {
-        "openclaw-weixin": {
+        "brikko-studio-weixin": {
           enabled: true,
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(scanStalePluginConfig(cfg)).toEqual([]);
     expect(maybeRepairStalePluginConfig(cfg)).toEqual({ config: cfg, changes: [] });
@@ -254,25 +254,25 @@ describe("doctor stale plugin config helpers", () => {
 
   it("uses missing persisted install records as stale channel evidence", () => {
     installedPluginIndexMocks.loadInstalledPluginIndexInstallRecordsSync.mockReturnValue({
-      "openclaw-weixin": {
+      "brikko-studio-weixin": {
         source: "npm",
-        resolvedName: "@tencent-weixin/openclaw-weixin",
+        resolvedName: "@tencent-weixin/brikko-studio-weixin",
         installedAt: "2026-04-12T00:00:00.000Z",
       },
     });
 
     const result = maybeRepairStalePluginConfig({
       channels: {
-        "openclaw-weixin": {
+        "brikko-studio-weixin": {
           enabled: true,
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
 
     expect(result.changes).toEqual([
-      "- channels: removed 1 stale channel config (openclaw-weixin)",
+      "- channels: removed 1 stale channel config (brikko-studio-weixin)",
     ]);
-    expect(result.config.channels?.["openclaw-weixin"]).toBeUndefined();
+    expect(result.config.channels?.["brikko-studio-weixin"]).toBeUndefined();
   });
 
   it("does not auto-repair stale refs while plugin discovery has errors", () => {
@@ -290,7 +290,7 @@ describe("doctor stale plugin config helpers", () => {
           acpx: { enabled: true },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const hits = scanStalePluginConfig(cfg);
     expect(hits).toEqual([
@@ -312,7 +312,7 @@ describe("doctor stale plugin config helpers", () => {
 
     const warnings = collectStalePluginConfigWarnings({
       hits,
-      doctorFixCommand: "openclaw doctor --fix",
+      doctorFixCommand: "brikko-studio doctor --fix",
       autoRepairBlocked: true,
     });
     expect(warnings[2]).toContain("Auto-removal is paused");
@@ -327,7 +327,7 @@ describe("doctor stale plugin config helpers", () => {
           acpx: { enabled: true },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(scanStalePluginConfig(cfg)).toEqual([
       {

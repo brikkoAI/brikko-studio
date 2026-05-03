@@ -1,11 +1,11 @@
-export { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/account-id";
+export { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
 export {
   PAIRING_APPROVED_MESSAGE,
   projectCredentialSnapshotFields,
   resolveConfiguredFromRequiredCredentialStatuses,
-} from "openclaw/plugin-sdk/channel-status";
-export type { ChannelPlugin } from "openclaw/plugin-sdk/channel-core";
-export type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/channel-status";
+export type { ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
+export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export { looksLikeSlackTargetId, normalizeSlackMessagingTarget } from "./target-parsing.js";
 
 const SLACK_CHANNEL_META = {

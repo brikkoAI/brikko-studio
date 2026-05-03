@@ -5,7 +5,7 @@ import { abortEmbeddedPiRun } from "../agents/pi-embedded-runner/runs.js";
 import { getTotalPendingReplies } from "../auto-reply/reply/dispatcher-registry.js";
 import type { CliDeps } from "../cli/deps.types.js";
 import { isRestartEnabled } from "../config/commands.flags.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import type { HeartbeatRunner } from "../infra/heartbeat-runner.js";
 import { resetDirectoryCache } from "../infra/outbound/target-resolver.js";
@@ -119,7 +119,7 @@ type GatewayReloadHandlerParams = {
   startChannel: (name: ChannelKind) => Promise<void>;
   stopChannel: (name: ChannelKind) => Promise<void>;
   reloadPlugins: (params: {
-    nextConfig: OpenClawConfig;
+    nextConfig: Brikko StudioConfig;
     changedPaths: readonly string[];
     beforeReplace: (channels: ReadonlySet<ChannelKind>) => Promise<void>;
   }) => Promise<GatewayPluginReloadResult>;
@@ -131,7 +131,7 @@ type GatewayReloadHandlerParams = {
   logChannels: { info: (msg: string) => void; error: (msg: string) => void };
   logCron: { error: (msg: string) => void };
   logReload: GatewayReloadLog;
-  createHealthMonitor: (config: OpenClawConfig) => ChannelHealthMonitor | null;
+  createHealthMonitor: (config: Brikko StudioConfig) => ChannelHealthMonitor | null;
 };
 
 type ManagedGatewayConfigReloaderParams = Omit<
@@ -139,8 +139,8 @@ type ManagedGatewayConfigReloaderParams = Omit<
   "createHealthMonitor" | "logReload"
 > & {
   minimalTestGateway: boolean;
-  initialConfig: OpenClawConfig;
-  initialCompareConfig?: OpenClawConfig;
+  initialConfig: Brikko StudioConfig;
+  initialCompareConfig?: Brikko StudioConfig;
   initialInternalWriteHash: string | null;
   watchPath: string;
   readSnapshot: typeof import("../config/config.js").readConfigFileSnapshot;
@@ -152,7 +152,7 @@ type ManagedGatewayConfigReloaderParams = Omit<
   };
   channelManager: GatewayChannelManager;
   activateRuntimeSecrets: ActivateRuntimeSecrets;
-  resolveSharedGatewaySessionGenerationForConfig: (config: OpenClawConfig) => string | undefined;
+  resolveSharedGatewaySessionGenerationForConfig: (config: Brikko StudioConfig) => string | undefined;
   sharedGatewaySessionGenerationState: SharedGatewaySessionGenerationState;
   clients: Iterable<SharedGatewayAuthClient>;
 };
@@ -209,7 +209,7 @@ export function createGatewayReloadHandlers(params: GatewayReloadHandlerParams) 
   };
   const waitForActiveWorkBeforeChannelReload = async (
     channels: Iterable<ChannelKind>,
-    nextConfig: OpenClawConfig,
+    nextConfig: Brikko StudioConfig,
   ) => {
     const initial = getActiveCounts();
     if (initial.totalActive <= 0) {
@@ -259,7 +259,7 @@ export function createGatewayReloadHandlers(params: GatewayReloadHandlerParams) 
     }
   };
 
-  const applyHotReload = async (plan: GatewayReloadPlan, nextConfig: OpenClawConfig) => {
+  const applyHotReload = async (plan: GatewayReloadPlan, nextConfig: Brikko StudioConfig) => {
     setGatewaySigusr1RestartPolicy({ allowExternal: isRestartEnabled(nextConfig) });
     const state = params.getState();
     const nextState = { ...state };
@@ -298,8 +298,8 @@ export function createGatewayReloadHandlers(params: GatewayReloadHandlerParams) 
     const channelsStoppedBeforePluginReload = new Set<ChannelKind>();
     let activePluginChannelsAfterReload: ReadonlySet<ChannelKind> | null = null;
     const shouldSkipChannelRestart = () =>
-      isTruthyEnvValue(process.env.OPENCLAW_SKIP_CHANNELS) ||
-      isTruthyEnvValue(process.env.OPENCLAW_SKIP_PROVIDERS);
+      isTruthyEnvValue(process.env.BRIKKO_STUDIO_SKIP_CHANNELS) ||
+      isTruthyEnvValue(process.env.BRIKKO_STUDIO_SKIP_PROVIDERS);
     if (plan.reloadPlugins) {
       const stopChannelsBeforePluginReplace = async (channels: ReadonlySet<ChannelKind>) => {
         for (const channel of channels) {
@@ -368,14 +368,14 @@ export function createGatewayReloadHandlers(params: GatewayReloadHandlerParams) 
         cfg: nextConfig,
         log: params.logHooks,
         onSkipped: () =>
-          params.logHooks.info("skipping gmail watcher restart (OPENCLAW_SKIP_GMAIL_WATCHER=1)"),
+          params.logHooks.info("skipping gmail watcher restart (BRIKKO_STUDIO_SKIP_GMAIL_WATCHER=1)"),
       });
     }
 
     if (channelsToRestart.size > 0) {
       if (shouldSkipChannelRestart()) {
         params.logChannels.info(
-          "skipping channel reload (OPENCLAW_SKIP_CHANNELS=1 or OPENCLAW_SKIP_PROVIDERS=1)",
+          "skipping channel reload (BRIKKO_STUDIO_SKIP_CHANNELS=1 or BRIKKO_STUDIO_SKIP_PROVIDERS=1)",
         );
       } else {
         if (!plan.reloadPlugins) {
@@ -410,7 +410,7 @@ export function createGatewayReloadHandlers(params: GatewayReloadHandlerParams) 
 
   let restartPending = false;
 
-  const requestGatewayRestart = (plan: GatewayReloadPlan, nextConfig: OpenClawConfig): boolean => {
+  const requestGatewayRestart = (plan: GatewayReloadPlan, nextConfig: Brikko StudioConfig): boolean => {
     setGatewaySigusr1RestartPolicy({ allowExternal: isRestartEnabled(nextConfig) });
     const reasons = plan.restartReasons.length
       ? plan.restartReasons.join(", ")

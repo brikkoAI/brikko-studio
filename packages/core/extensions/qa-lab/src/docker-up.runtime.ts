@@ -106,7 +106,7 @@ export async function runQaDockerUp(
     composeFile,
   });
   await waitForDockerServiceHealth(
-    "openclaw-qa-gateway",
+    "brikko-studio-qa-gateway",
     composeFile,
     repoRoot,
     runCommand,
@@ -119,7 +119,7 @@ export async function runQaDockerUp(
       .catch(() => false))
   ) {
     const containerGatewayUrl = await resolveComposeServiceUrl(
-      "openclaw-qa-gateway",
+      "brikko-studio-qa-gateway",
       18789,
       composeFile,
       repoRoot,

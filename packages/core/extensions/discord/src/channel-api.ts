@@ -1,12 +1,12 @@
-export { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/account-id";
+export { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
 export {
   buildTokenChannelStatusSummary,
   PAIRING_APPROVED_MESSAGE,
   projectCredentialSnapshotFields,
   resolveConfiguredFromCredentialStatuses,
-} from "openclaw/plugin-sdk/channel-status";
-export type { ChannelPlugin } from "openclaw/plugin-sdk/channel-core";
-export type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/channel-status";
+export type { ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
+export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 const DISCORD_CHANNEL_META = {
   id: "discord",

@@ -3,7 +3,7 @@ import {
   expectPendingUntilAbort,
   startAccountAndTrackLifecycle,
   waitForStartedMocks,
-} from "openclaw/plugin-sdk/channel-test-helpers";
+} from "brikko-studio/plugin-sdk/channel-test-helpers";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ResolvedZaloAccount } from "./accounts.js";
 

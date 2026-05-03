@@ -3,7 +3,7 @@ import path from "node:path";
 import {
   replaceManagedMarkdownBlock,
   withTrailingNewline,
-} from "openclaw/plugin-sdk/memory-host-markdown";
+} from "brikko-studio/plugin-sdk/memory-host-markdown";
 import { compileMemoryWikiVault, type CompileMemoryWikiResult } from "./compile.js";
 import type { ResolvedMemoryWikiConfig } from "./config.js";
 import {
@@ -21,10 +21,10 @@ import {
 } from "./query.js";
 import { initializeMemoryWikiVault } from "./vault.js";
 
-const GENERATED_START = "<!-- openclaw:wiki:generated:start -->";
-const GENERATED_END = "<!-- openclaw:wiki:generated:end -->";
-const HUMAN_START = "<!-- openclaw:human:start -->";
-const HUMAN_END = "<!-- openclaw:human:end -->";
+const GENERATED_START = "<!-- brikko-studio:wiki:generated:start -->";
+const GENERATED_END = "<!-- brikko-studio:wiki:generated:end -->";
+const HUMAN_START = "<!-- brikko-studio:human:start -->";
+const HUMAN_END = "<!-- brikko-studio:human:end -->";
 
 type CreateSynthesisMemoryWikiMutation = {
   op: "create_synthesis";

@@ -118,7 +118,7 @@ If Readability extraction fails, `web_fetch` can fall back to
 ```
 
 `plugins.entries.firecrawl.config.webFetch.apiKey` supports SecretRef objects.
-Legacy `tools.web.fetch.firecrawl.*` config is auto-migrated by `openclaw doctor --fix`.
+Legacy `tools.web.fetch.firecrawl.*` config is auto-migrated by `brikko-studio doctor --fix`.
 
 <Note>
   If Firecrawl is enabled and its SecretRef is unresolved with no
@@ -134,7 +134,7 @@ Legacy `tools.web.fetch.firecrawl.*` config is auto-migrated by `openclaw doctor
 Current runtime behavior:
 
 - `tools.web.fetch.provider` selects the fetch fallback provider explicitly.
-- If `provider` is omitted, OpenClaw auto-detects the first ready web-fetch
+- If `provider` is omitted, Brikko Studio auto-detects the first ready web-fetch
   provider from available credentials. Non-sandboxed `web_fetch` can use
   installed plugins that declare `contracts.webFetchProviders` and register a
   matching provider at runtime. Today the bundled provider is Firecrawl.

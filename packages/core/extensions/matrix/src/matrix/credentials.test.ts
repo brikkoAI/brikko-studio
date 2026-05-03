@@ -38,7 +38,7 @@ describe("matrix credentials storage", () => {
       },
     },
   ): string {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-matrix-creds-"));
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-matrix-creds-"));
     tempDirs.push(dir);
     installMatrixTestRuntime({ cfg, stateDir: dir });
     return dir;

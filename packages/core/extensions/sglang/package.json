@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/sglang-provider",
+  "name": "@brikko-studio/sglang-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw SGLang provider plugin",
+  "description": "Brikko Studio SGLang provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

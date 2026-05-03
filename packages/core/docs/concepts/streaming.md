@@ -7,7 +7,7 @@ read_when:
 title: "Streaming and chunking"
 ---
 
-OpenClaw has two separate streaming layers:
+Brikko Studio has two separate streaming layers:
 
 - **Block streaming (channels):** emit completed **blocks** as the assistant writes. These are normal channel messages (not token deltas).
 - **Preview streaming (Telegram/Discord/Slack):** update a temporary **preview message** while generating.
@@ -55,12 +55,12 @@ Legend:
 ### Media delivery with block streaming
 
 `MEDIA:` directives are normal delivery metadata. When block streaming sends a
-media block early, OpenClaw remembers that delivery for the turn. If the final
+media block early, Brikko Studio remembers that delivery for the turn. If the final
 assistant payload repeats the same media URL, the final delivery strips the
 duplicate media instead of sending the attachment again.
 
 Exact duplicate final payloads are suppressed. If the final payload adds
-distinct text around media that was already streamed, OpenClaw still sends the
+distinct text around media that was already streamed, Brikko Studio still sends the
 new text while keeping the media single-delivery. This prevents duplicate voice
 notes or files on channels such as Telegram when an agent emits `MEDIA:` during
 streaming and the provider also includes it in the completed reply.
@@ -78,7 +78,7 @@ Block chunking is implemented by `EmbeddedBlockChunker`:
 
 ## Coalescing (merge streamed blocks)
 
-When block streaming is enabled, OpenClaw can **merge consecutive block chunks**
+When block streaming is enabled, Brikko Studio can **merge consecutive block chunks**
 before sending them out. This reduces “single-line spam” while still providing
 progressive output.
 
@@ -194,7 +194,7 @@ Supported surfaces:
 - **Mattermost** already folds tool activity into its single draft preview post (see above).
 - Tool-progress edits follow the active preview streaming mode; they are skipped when preview streaming is `off` or when block streaming has taken over the message. On Telegram, `streaming.mode: "off"` is final-only: generic progress chatter is also suppressed instead of being delivered as standalone "Working..." messages, while approval prompts, media payloads, and errors still route normally.
 - To keep preview streaming but hide tool-progress lines, set `streaming.preview.toolProgress` to `false` for that channel. To disable preview edits entirely, set `streaming.mode` to `off`.
-- Telegram selected quote replies are an exception: when `replyToMode` is not `"off"` and selected quote text is present, OpenClaw skips the answer preview stream for that turn so tool-progress preview lines cannot render. Current-message replies without selected quote text still keep preview streaming. See [Telegram channel docs](/channels/telegram) for details.
+- Telegram selected quote replies are an exception: when `replyToMode` is not `"off"` and selected quote text is present, Brikko Studio skips the answer preview stream for that turn so tool-progress preview lines cannot render. Current-message replies without selected quote text still keep preview streaming. See [Telegram channel docs](/channels/telegram) for details.
 
 Example:
 

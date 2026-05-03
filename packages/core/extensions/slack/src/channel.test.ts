@@ -1,9 +1,9 @@
-import { createRuntimeEnv } from "openclaw/plugin-sdk/plugin-test-runtime";
+import { createRuntimeEnv } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { slackPlugin } from "./channel.js";
 import { slackOutbound } from "./outbound-adapter.js";
 import * as probeModule from "./probe.js";
-import type { OpenClawConfig } from "./runtime-api.js";
+import type { Brikko StudioConfig } from "./runtime-api.js";
 import { clearSlackRuntime, setSlackRuntime } from "./runtime.js";
 
 const { handleSlackActionMock } = vi.hoisted(() => ({
@@ -38,7 +38,7 @@ beforeEach(async () => {
   } as never);
 });
 
-async function getSlackConfiguredState(cfg: OpenClawConfig) {
+async function getSlackConfiguredState(cfg: Brikko StudioConfig) {
   const account = slackPlugin.config.resolveAccount(cfg, "default");
   return {
     configured: slackPlugin.config.isConfigured?.(account, cfg),
@@ -114,7 +114,7 @@ describe("slackPlugin actions", () => {
   });
 
   it("honors the selected Slack account during message tool discovery", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       channels: {
         slack: {
           botToken: "xoxb-root",
@@ -196,7 +196,7 @@ describe("slackPlugin actions", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     setSlackRuntime({
       config: {
         loadConfig: () => cfg,
@@ -233,7 +233,7 @@ describe("slackPlugin actions", () => {
             appToken: "xapp-test",
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
     });
     expect(discovery?.schema).toBeUndefined();
   });
@@ -331,8 +331,8 @@ describe("slackPlugin status", () => {
     const probeSpy = vi.spyOn(probeModule, "probeSlack").mockResolvedValueOnce({
       ok: true,
       status: 200,
-      bot: { id: "B1", name: "openclaw-bot" },
-      team: { id: "T1", name: "OpenClaw" },
+      bot: { id: "B1", name: "brikko-studio-bot" },
+      team: { id: "T1", name: "Brikko Studio" },
     });
     clearSlackRuntime();
     const cfg = {
@@ -342,7 +342,7 @@ describe("slackPlugin status", () => {
           appToken: "xapp-test",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const account = slackPlugin.config.resolveAccount(cfg, "default");
 
     const result = await slackPlugin.status!.probeAccount!({
@@ -355,8 +355,8 @@ describe("slackPlugin status", () => {
     expect(result).toEqual({
       ok: true,
       status: 200,
-      bot: { id: "B1", name: "openclaw-bot" },
-      team: { id: "T1", name: "OpenClaw" },
+      bot: { id: "B1", name: "brikko-studio-bot" },
+      team: { id: "T1", name: "Brikko Studio" },
     });
   });
 
@@ -367,7 +367,7 @@ describe("slackPlugin status", () => {
     }
 
     const route = await resolveRoute({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       agentId: "main",
       target: "channel:C1",
       currentSessionKey: "agent:main:slack:channel:C1:thread:1712345678.123456",
@@ -395,7 +395,7 @@ describe("slackPlugin security", () => {
             dm: { policy: "allowlist", allowFrom: ["  slack:U123  "] },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       account: slackPlugin.config.resolveAccount(
         {
           channels: {
@@ -405,7 +405,7 @@ describe("slackPlugin security", () => {
               dm: { policy: "allowlist", allowFrom: ["  slack:U123  "] },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         "default",
       ),
     });
@@ -923,7 +923,7 @@ describe("slackPlugin outbound new targets", () => {
 
 describe("slackPlugin config", () => {
   it("treats HTTP mode accounts with bot token + signing secret as configured", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       channels: {
         slack: {
           mode: "http",
@@ -940,7 +940,7 @@ describe("slackPlugin config", () => {
   });
 
   it("keeps socket mode requiring app token", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       channels: {
         slack: {
           mode: "socket",
@@ -968,7 +968,7 @@ describe("slackPlugin config", () => {
         appTokenSource: "none",
         config: {},
       } as never,
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       runtime: undefined,
     });
 
@@ -995,7 +995,7 @@ describe("slackPlugin config", () => {
           signingSecret: { source: "env", provider: "default", id: "SLACK_SIGNING_SECRET" },
         },
       } as never,
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       runtime: undefined,
     });
 

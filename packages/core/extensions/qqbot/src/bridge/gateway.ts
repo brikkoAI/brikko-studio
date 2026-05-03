@@ -6,8 +6,8 @@
  * All adapter dependencies are assembled here in one place.
  */
 
-import { resolveRuntimeServiceVersion } from "openclaw/plugin-sdk/cli-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import { resolveRuntimeServiceVersion } from "brikko-studio/plugin-sdk/cli-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { EngineAdapters } from "../engine/adapter/index.js";
 import {
   startGateway as coreStartGateway,
@@ -32,7 +32,7 @@ import { createSdkHistoryAdapter, createSdkMentionGateAdapter } from "./sdk-adap
 const _pluginVersion = resolveQQBotPluginVersion(import.meta.url);
 initSender({
   pluginVersion: _pluginVersion,
-  openclawVersion: resolveRuntimeServiceVersion(),
+  brikko-studioVersion: resolveRuntimeServiceVersion(),
 });
 
 // ============ Public types ============
@@ -40,7 +40,7 @@ initSender({
 export interface GatewayContext {
   account: ResolvedQQBotAccount;
   abortSignal: AbortSignal;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   onReady?: (data: unknown) => void;
   onResumed?: (data: unknown) => void;
   onError?: (error: Error) => void;

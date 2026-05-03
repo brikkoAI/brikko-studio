@@ -1,17 +1,17 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   applyResolvedAssignments,
   createResolverContext,
   resolveSecretRefValues,
-} from "openclaw/plugin-sdk/runtime-secret-resolution";
+} from "brikko-studio/plugin-sdk/runtime-secret-resolution";
 import { describe, expect, it } from "vitest";
 import { collectRuntimeConfigAssignments } from "./secret-contract.js";
 
 async function resolveQqbotSecretAssignments(
-  sourceConfig: OpenClawConfig,
+  sourceConfig: Brikko StudioConfig,
   env: NodeJS.ProcessEnv,
-): Promise<OpenClawConfig> {
-  const resolvedConfig: OpenClawConfig = structuredClone(sourceConfig);
+): Promise<Brikko StudioConfig> {
+  const resolvedConfig: Brikko StudioConfig = structuredClone(sourceConfig);
   const context = createResolverContext({ sourceConfig, env });
 
   collectRuntimeConfigAssignments({
@@ -46,7 +46,7 @@ describe("qqbot secret contract", () => {
             clientSecretFile: "/ignored/by/runtime",
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       { QQBOT_CLIENT_SECRET: "resolved-top-level-secret" },
     );
 
@@ -69,7 +69,7 @@ describe("qqbot secret contract", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       { QQBOT_BOT2_SECRET: "resolved-bot2-secret" },
     );
 
@@ -95,7 +95,7 @@ describe("qqbot secret contract", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       {
         QQBOT_DEFAULT_SECRET: "resolved-default-secret",
         QQBOT_BOT2_SECRET: "resolved-bot2-secret",

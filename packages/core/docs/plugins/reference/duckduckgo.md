@@ -11,8 +11,8 @@ Adds web search provider support.
 
 ## Distribution
 
-- Package: `@openclaw/duckduckgo-plugin`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/duckduckgo-plugin`
+- Install route: included in Brikko Studio
 
 ## Surface
 

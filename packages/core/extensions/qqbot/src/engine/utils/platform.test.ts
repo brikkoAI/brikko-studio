@@ -11,20 +11,20 @@ import {
 describe("qqbot local media path remapping", () => {
   const createdPaths: string[] = [];
 
-  function createOpenClawTestRoot() {
+  function createBrikko StudioTestRoot() {
     const actualHome = getHomeDir();
-    const openclawDir = path.join(actualHome, ".openclaw");
-    fs.mkdirSync(openclawDir, { recursive: true });
-    const testRoot = fs.mkdtempSync(path.join(openclawDir, "qqbot-platform-test-"));
+    const brikko-studioDir = path.join(actualHome, ".brikko-studio");
+    fs.mkdirSync(brikko-studioDir, { recursive: true });
+    const testRoot = fs.mkdtempSync(path.join(brikko-studioDir, "qqbot-platform-test-"));
     createdPaths.push(testRoot);
     return { actualHome, testRootName: path.basename(testRoot) };
   }
 
   function createQqbotMediaFile(fileName: string) {
-    const { actualHome, testRootName } = createOpenClawTestRoot();
+    const { actualHome, testRootName } = createBrikko StudioTestRoot();
     const mediaFile = path.join(
       actualHome,
-      ".openclaw",
+      ".brikko-studio",
       "media",
       "qqbot",
       "downloads",
@@ -49,7 +49,7 @@ describe("qqbot local media path remapping", () => {
 
     const missingWorkspacePath = path.join(
       actualHome,
-      ".openclaw",
+      ".brikko-studio",
       "workspace",
       "qqbot",
       "downloads",
@@ -79,7 +79,7 @@ describe("qqbot local media path remapping", () => {
   it("blocks structured payload paths that escape QQ Bot media via '..'", () => {
     const escapedPath = path.join(
       getHomeDir(),
-      ".openclaw",
+      ".brikko-studio",
       "media",
       "qqbot",
       "..",
@@ -96,13 +96,13 @@ describe("qqbot local media path remapping", () => {
     expect(resolveQQBotPayloadLocalFilePath(mediaFile)).toBe(fs.realpathSync(mediaFile));
   });
 
-  it("allows structured payload files inside sibling OpenClaw media subdirectories", () => {
+  it("allows structured payload files inside sibling Brikko Studio media subdirectories", () => {
     // Core helpers such as `saveMediaBuffer(..., "outbound", ...)` place framework
     // attachments under sibling directories of `media/qqbot/`. The plugin must
-    // trust the shared `~/.openclaw/media` root so auto-routed sends can access
+    // trust the shared `~/.brikko-studio/media` root so auto-routed sends can access
     // those files without the path-outside-storage guard firing.
     const actualHome = getHomeDir();
-    const outboundDir = path.join(actualHome, ".openclaw", "media", "outbound");
+    const outboundDir = path.join(actualHome, ".brikko-studio", "media", "outbound");
     fs.mkdirSync(outboundDir, { recursive: true });
     const outboundFile = fs.mkdtempSync(path.join(outboundDir, "qqbot-outbound-"));
     const mediaFile = path.join(outboundFile, "tts.mp3");
@@ -113,11 +113,11 @@ describe("qqbot local media path remapping", () => {
   });
 
   it("blocks structured payload files inside the QQ Bot data directory", () => {
-    const { actualHome, testRootName } = createOpenClawTestRoot();
+    const { actualHome, testRootName } = createBrikko StudioTestRoot();
 
     const dataFile = path.join(
       actualHome,
-      ".openclaw",
+      ".brikko-studio",
       "qqbot",
       "sessions",
       testRootName,
@@ -135,7 +135,7 @@ describe("qqbot local media path remapping", () => {
 
     const missingWorkspacePath = path.join(
       actualHome,
-      ".openclaw",
+      ".brikko-studio",
       "workspace",
       "qqbot",
       "downloads",

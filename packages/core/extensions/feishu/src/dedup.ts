@@ -12,14 +12,14 @@ const MEMORY_MAX_SIZE = 1_000;
 const FILE_MAX_ENTRIES = 10_000;
 
 function resolveStateDirFromEnv(env: NodeJS.ProcessEnv = process.env): string {
-  const stateOverride = env.OPENCLAW_STATE_DIR?.trim();
+  const stateOverride = env.BRIKKO_STUDIO_STATE_DIR?.trim();
   if (stateOverride) {
     return stateOverride;
   }
   if (env.VITEST || env.NODE_ENV === "test") {
-    return path.join(os.tmpdir(), ["openclaw-vitest", String(process.pid)].join("-"));
+    return path.join(os.tmpdir(), ["brikko-studio-vitest", String(process.pid)].join("-"));
   }
-  return path.join(os.homedir(), ".openclaw");
+  return path.join(os.homedir(), ".brikko-studio");
 }
 
 function resolveNamespaceFilePath(namespace: string): string {

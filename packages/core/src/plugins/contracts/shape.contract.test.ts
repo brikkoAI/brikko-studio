@@ -1,7 +1,7 @@
 import {
   createPluginRegistryFixture,
   registerVirtualTestPlugin,
-} from "openclaw/plugin-sdk/plugin-test-contracts";
+} from "brikko-studio/plugin-sdk/plugin-test-contracts";
 import { describe, expect, it } from "vitest";
 import { buildPluginShapeSummary } from "../inspect-shape.js";
 

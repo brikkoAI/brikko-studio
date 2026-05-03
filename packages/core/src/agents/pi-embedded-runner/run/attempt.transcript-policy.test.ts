@@ -37,7 +37,7 @@ describe("resolveAttemptTranscriptPolicy", () => {
       },
     } as unknown as AgentRuntimePlan;
     const runtimePlanModelContext = {
-      workspaceDir: "/tmp/openclaw-transcript-policy",
+      workspaceDir: "/tmp/brikko-studio-transcript-policy",
       modelApi: "anthropic-messages",
       model: {
         id: "claude-opus-4.6",
@@ -65,10 +65,10 @@ describe("resolveAttemptTranscriptPolicy", () => {
   });
 
   it("keeps the legacy provider transcript fallback when no RuntimePlan is available", () => {
-    const env = { OPENCLAW_TEST_TRANSCRIPT_POLICY: "1" } as NodeJS.ProcessEnv;
+    const env = { BRIKKO_STUDIO_TEST_TRANSCRIPT_POLICY: "1" } as NodeJS.ProcessEnv;
     const policy = resolveAttemptTranscriptPolicy({
       runtimePlanModelContext: {
-        workspaceDir: "/tmp/openclaw-transcript-policy",
+        workspaceDir: "/tmp/brikko-studio-transcript-policy",
         modelApi: "openai-responses",
       },
       provider: "custom-openai-compatible",
@@ -86,7 +86,7 @@ describe("resolveAttemptTranscriptPolicy", () => {
     expect(resolveProviderRuntimePluginMock).toHaveBeenCalledWith({
       provider: "custom-openai-compatible",
       config: undefined,
-      workspaceDir: "/tmp/openclaw-transcript-policy",
+      workspaceDir: "/tmp/brikko-studio-transcript-policy",
       env,
     });
   });

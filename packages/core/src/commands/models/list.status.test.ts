@@ -35,9 +35,9 @@ const mocks = vi.hoisted(() => {
 
   return {
     store,
-    resolveOpenClawAgentDir: vi.fn().mockReturnValue("/tmp/openclaw-agent"),
-    resolveAgentDir: vi.fn().mockReturnValue("/tmp/openclaw-agent"),
-    resolveAgentWorkspaceDir: vi.fn().mockReturnValue("/tmp/openclaw-agent/workspace"),
+    resolveBrikko StudioAgentDir: vi.fn().mockReturnValue("/tmp/brikko-studio-agent"),
+    resolveAgentDir: vi.fn().mockReturnValue("/tmp/brikko-studio-agent"),
+    resolveAgentWorkspaceDir: vi.fn().mockReturnValue("/tmp/brikko-studio-agent/workspace"),
     resolveDefaultAgentId: vi.fn().mockReturnValue("main"),
     resolveAgentExplicitModelPrimary: vi.fn().mockReturnValue(undefined),
     resolveAgentEffectiveModelPrimary: vi.fn().mockReturnValue(undefined),
@@ -52,7 +52,7 @@ const mocks = vi.hoisted(() => {
     loadPersistedAuthProfileStore: vi.fn().mockReturnValue(store),
     resolveAuthProfileDisplayLabel: vi.fn(({ profileId }: { profileId: string }) => profileId),
     resolveAuthStorePathForDisplay: vi.fn(
-      (agentDir?: string) => `${agentDir ?? "/tmp/openclaw-agent"}/auth-profiles.json`,
+      (agentDir?: string) => `${agentDir ?? "/tmp/brikko-studio-agent"}/auth-profiles.json`,
     ),
     resolveProfileUnusableUntilForDisplay: vi.fn().mockReturnValue(undefined),
     resolveEnvApiKey: vi.fn((provider: string) => {
@@ -121,7 +121,7 @@ const mocks = vi.hoisted(() => {
     getShellEnvAppliedKeys: vi.fn().mockReturnValue(["OPENAI_API_KEY", "ANTHROPIC_OAUTH_TOKEN"]),
     shouldEnableShellEnvFallback: vi.fn().mockReturnValue(true),
     createConfigIO: vi.fn().mockReturnValue({
-      configPath: "/tmp/openclaw-dev/openclaw.json",
+      configPath: "/tmp/brikko-studio-dev/brikko-studio.json",
     }),
     loadConfig: vi.fn().mockReturnValue({
       agents: {
@@ -140,7 +140,7 @@ const mocks = vi.hoisted(() => {
 });
 
 vi.mock("../../agents/agent-paths.js", () => ({
-  resolveOpenClawAgentDir: mocks.resolveOpenClawAgentDir,
+  resolveBrikko StudioAgentDir: mocks.resolveBrikko StudioAgentDir,
 }));
 vi.mock("../../agents/agent-scope.js", () => ({
   resolveAgentDir: mocks.resolveAgentDir,
@@ -152,7 +152,7 @@ vi.mock("../../agents/agent-scope.js", () => ({
   listAgentIds: mocks.listAgentIds,
 }));
 vi.mock("../../agents/workspace.js", () => ({
-  resolveDefaultAgentWorkspaceDir: vi.fn().mockReturnValue("/tmp/openclaw-agent/workspace"),
+  resolveDefaultAgentWorkspaceDir: vi.fn().mockReturnValue("/tmp/brikko-studio-agent/workspace"),
 }));
 vi.mock("../../agents/auth-profiles/display.js", () => ({
   resolveAuthProfileDisplayLabel: mocks.resolveAuthProfileDisplayLabel,
@@ -300,7 +300,7 @@ async function withAgentScopeOverrides<T>(
     if (originalAgentDir) {
       mocks.resolveAgentDir.mockImplementation(originalAgentDir);
     } else {
-      mocks.resolveAgentDir.mockReturnValue("/tmp/openclaw-agent");
+      mocks.resolveAgentDir.mockReturnValue("/tmp/brikko-studio-agent");
     }
   }
 }
@@ -310,11 +310,11 @@ describe("modelsStatusCommand auth overview", () => {
     await modelsStatusCommand({ json: true }, runtime as never);
     const payload = JSON.parse(String((runtime.log as Mock).mock.calls[0]?.[0]));
 
-    expect(mocks.resolveOpenClawAgentDir).toHaveBeenCalled();
+    expect(mocks.resolveBrikko StudioAgentDir).toHaveBeenCalled();
     expect(mocks.ensureAuthProfileStore).toHaveBeenCalled();
     expect(payload.defaultModel).toBe("anthropic/claude-opus-4-6");
-    expect(payload.configPath).toBe("/tmp/openclaw-dev/openclaw.json");
-    expect(payload.auth.storePath).toBe("/tmp/openclaw-agent/auth-profiles.json");
+    expect(payload.configPath).toBe("/tmp/brikko-studio-dev/brikko-studio.json");
+    expect(payload.auth.storePath).toBe("/tmp/brikko-studio-agent/auth-profiles.json");
     expect(payload.auth.shellEnvFallback.enabled).toBe(true);
     expect(payload.auth.shellEnvFallback.appliedKeys).toContain("OPENAI_API_KEY");
     expect(payload.auth.missingProvidersInUse).toEqual([]);
@@ -368,14 +368,14 @@ describe("modelsStatusCommand auth overview", () => {
       {
         primary: "openai/gpt-4",
         fallbacks: ["openai/gpt-3.5"],
-        agentDir: "/tmp/openclaw-agent-custom",
+        agentDir: "/tmp/brikko-studio-agent-custom",
       },
       async () => {
         await modelsStatusCommand({ json: true, agent: "Jeremiah" }, localRuntime as never);
         expect(mocks.resolveAgentDir).toHaveBeenCalledWith(expect.anything(), "jeremiah");
         const payload = JSON.parse(String((localRuntime.log as Mock).mock.calls[0]?.[0]));
         expect(payload.agentId).toBe("jeremiah");
-        expect(payload.agentDir).toBe("/tmp/openclaw-agent-custom");
+        expect(payload.agentDir).toBe("/tmp/brikko-studio-agent-custom");
         expect(payload.defaultModel).toBe("openai/gpt-4");
         expect(payload.fallbacks).toEqual(["openai/gpt-3.5"]);
         expect(payload.modelConfig).toEqual({
@@ -390,7 +390,7 @@ describe("modelsStatusCommand auth overview", () => {
         ).find((provider) => provider.provider === "openai-codex");
         expect(openAiCodex?.effective).toEqual({
           kind: "profiles",
-          detail: "/tmp/openclaw-agent-custom/auth-profiles.json",
+          detail: "/tmp/brikko-studio-agent-custom/auth-profiles.json",
         });
       },
     );
@@ -586,7 +586,7 @@ describe("modelsStatusCommand auth overview", () => {
     });
     mocks.resolveEnvApiKey.mockImplementation(
       (provider: string, _env?: NodeJS.ProcessEnv, options?: { workspaceDir?: string }) =>
-        provider === "workspace-cloud" && options?.workspaceDir === "/tmp/openclaw-agent/workspace"
+        provider === "workspace-cloud" && options?.workspaceDir === "/tmp/brikko-studio-agent/workspace"
           ? {
               apiKey: "workspace-cloud-local-credentials",
               source: "workspace cloud credentials",

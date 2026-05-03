@@ -1,3 +1,3 @@
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 
 export const trimNonEmptyString = normalizeOptionalString;

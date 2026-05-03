@@ -12,7 +12,7 @@ import type { ChannelAccountSnapshot } from "../channels/plugins/types.public.js
 import { withProgress } from "../cli/progress.js";
 import { getRuntimeConfig } from "../config/config.js";
 import { resolveStorePath } from "../config/sessions/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { buildGatewayConnectionDetails, callGateway } from "../gateway/call.js";
 import {
   DEFAULT_CHANNEL_CONNECT_GRACE_MS,
@@ -63,7 +63,7 @@ function loadConfigModule(): Promise<ConfigModule> {
 }
 
 const debugHealth = (...args: unknown[]) => {
-  if (isTruthyEnvValue(process.env.OPENCLAW_DEBUG_HEALTH)) {
+  if (isTruthyEnvValue(process.env.BRIKKO_STUDIO_DEBUG_HEALTH)) {
     console.warn("[health:debug]", ...args);
   }
 };
@@ -111,10 +111,10 @@ function formatEventLoopHealthLine(summary: HealthSummary): string | null {
   }`;
 }
 
-const resolveHeartbeatSummary = (cfg: OpenClawConfig, agentId: string) =>
+const resolveHeartbeatSummary = (cfg: Brikko StudioConfig, agentId: string) =>
   resolveHeartbeatSummaryForAgent(cfg, agentId);
 
-const resolveAgentOrder = (cfg: OpenClawConfig) => {
+const resolveAgentOrder = (cfg: Brikko StudioConfig) => {
   const defaultAgentId = resolveDefaultAgentId(cfg);
   const entries = Array.isArray(cfg.agents?.list) ? cfg.agents.list : [];
   const seen = new Set<string>();
@@ -213,7 +213,7 @@ const hasAccountValue = (account: unknown): boolean => account !== null && accou
 
 function resolveProbeAccountEnabled(params: {
   plugin: ChannelPlugin;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   account: unknown;
   diagnostics: string[];
@@ -235,7 +235,7 @@ function resolveProbeAccountEnabled(params: {
 
 async function resolveProbeAccountConfigured(params: {
   plugin: ChannelPlugin;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   account: unknown;
   diagnostics: string[];
@@ -258,7 +258,7 @@ async function resolveProbeAccountConfigured(params: {
 
 async function resolveHealthAccountContext(params: {
   plugin: ChannelPlugin;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
 }): Promise<{
   probeAccount: unknown;
@@ -535,7 +535,7 @@ export async function healthCommand(
     json?: boolean;
     timeoutMs?: number;
     verbose?: boolean;
-    config?: OpenClawConfig;
+    config?: Brikko StudioConfig;
     token?: string;
     password?: string;
   },
@@ -565,7 +565,7 @@ export async function healthCommand(
   if (opts.json) {
     writeRuntimeJson(runtime, summary);
   } else {
-    const debugEnabled = isTruthyEnvValue(process.env.OPENCLAW_DEBUG_HEALTH);
+    const debugEnabled = isTruthyEnvValue(process.env.BRIKKO_STUDIO_DEBUG_HEALTH);
     const rich = isRich();
     if (opts.verbose) {
       const details = buildGatewayConnectionDetails({ config: cfg });
@@ -798,7 +798,7 @@ export async function healthCommand(
   }
 }
 
-async function readBestEffortHealthConfig(): Promise<OpenClawConfig> {
+async function readBestEffortHealthConfig(): Promise<Brikko StudioConfig> {
   const { readBestEffortConfig } = await loadConfigModule();
   return await readBestEffortConfig();
 }

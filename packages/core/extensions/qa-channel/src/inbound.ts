@@ -1,10 +1,10 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { dispatchInboundReplyWithBase } from "openclaw/plugin-sdk/inbound-reply-dispatch";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { dispatchInboundReplyWithBase } from "brikko-studio/plugin-sdk/inbound-reply-dispatch";
 import {
   buildAgentMediaPayload,
   saveMediaBuffer,
   saveMediaSource,
-} from "openclaw/plugin-sdk/media-runtime";
+} from "brikko-studio/plugin-sdk/media-runtime";
 import { buildQaTarget, sendQaBusMessage, type QaBusMessage } from "./bus-client.js";
 import { getQaChannelRuntime } from "./runtime.js";
 import type { CoreConfig, ResolvedQaChannelAccount } from "./types.js";
@@ -73,7 +73,7 @@ export async function handleQaInbound(params: {
     threadId: inbound.threadId,
   });
   const route = runtime.channel.routing.resolveAgentRoute({
-    cfg: params.config as OpenClawConfig,
+    cfg: params.config as Brikko StudioConfig,
     channel: params.channelId,
     accountId: params.account.accountId,
     peer: {
@@ -91,7 +91,7 @@ export async function handleQaInbound(params: {
     ? runtime.channel.mentions.matchesMentionPatterns(
         inbound.text,
         runtime.channel.mentions.buildMentionRegexes(
-          params.config as OpenClawConfig,
+          params.config as Brikko StudioConfig,
           route.agentId,
         ),
       )
@@ -108,7 +108,7 @@ export async function handleQaInbound(params: {
     from: inbound.senderName || inbound.senderId,
     timestamp: inbound.timestamp,
     previousTimestamp,
-    envelope: runtime.channel.reply.resolveEnvelopeFormatOptions(params.config as OpenClawConfig),
+    envelope: runtime.channel.reply.resolveEnvelopeFormatOptions(params.config as Brikko StudioConfig),
     body: inbound.text,
   });
   const mediaPayload = await resolveQaInboundMediaPayload(inbound.attachments);
@@ -152,7 +152,7 @@ export async function handleQaInbound(params: {
   });
 
   await dispatchInboundReplyWithBase({
-    cfg: params.config as OpenClawConfig,
+    cfg: params.config as Brikko StudioConfig,
     channel: params.channelId,
     accountId: params.account.accountId,
     route,

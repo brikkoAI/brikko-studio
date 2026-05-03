@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveOpenClawPackageRootSync } from "../infra/openclaw-root.js";
+import { resolveBrikko StudioPackageRootSync } from "../infra/brikko-studio-root.js";
 
 type PluginPeerLinkLogger = {
   info?: (message: string) => void;
@@ -8,28 +8,28 @@ type PluginPeerLinkLogger = {
 };
 
 /**
- * Symlink the host openclaw package for plugins that declare it as a peer.
+ * Symlink the host brikko-studio package for plugins that declare it as a peer.
  * Plugin package managers still own third-party dependencies; this only wires
  * the host SDK package into the plugin-local Node graph.
  */
-export async function linkOpenClawPeerDependencies(params: {
+export async function linkBrikko StudioPeerDependencies(params: {
   installedDir: string;
   peerDependencies: Record<string, string>;
   logger: PluginPeerLinkLogger;
 }): Promise<void> {
-  const peers = Object.keys(params.peerDependencies).filter((name) => name === "openclaw");
+  const peers = Object.keys(params.peerDependencies).filter((name) => name === "brikko-studio");
   if (peers.length === 0) {
     return;
   }
 
-  const hostRoot = resolveOpenClawPackageRootSync({
+  const hostRoot = resolveBrikko StudioPackageRootSync({
     argv1: process.argv[1],
     moduleUrl: import.meta.url,
     cwd: process.cwd(),
   });
   if (!hostRoot) {
     params.logger.warn?.(
-      "Could not locate openclaw package root to symlink peerDependencies; plugin may fail to resolve openclaw at runtime.",
+      "Could not locate brikko-studio package root to symlink peerDependencies; plugin may fail to resolve brikko-studio at runtime.",
     );
     return;
   }

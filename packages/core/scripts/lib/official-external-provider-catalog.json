@@ -1,11 +1,11 @@
 {
   "entries": [
     {
-      "name": "@openclaw/codex",
-      "description": "OpenClaw Codex harness and model provider plugin",
+      "name": "@brikko-studio/codex",
+      "description": "Brikko Studio Codex harness and model provider plugin",
       "source": "official",
       "kind": "provider",
-      "openclaw": {
+      "brikko-studio": {
         "plugin": {
           "id": "codex",
           "label": "Codex"
@@ -32,7 +32,7 @@
           }
         ],
         "install": {
-          "npmSpec": "@openclaw/codex",
+          "npmSpec": "@brikko-studio/codex",
           "defaultChoice": "npm",
           "minHostVersion": ">=2026.5.1-beta.1"
         }

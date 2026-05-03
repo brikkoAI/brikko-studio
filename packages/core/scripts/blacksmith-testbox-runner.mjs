@@ -5,9 +5,9 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import {
   evaluateLocalTestboxKey,
-  evaluateOpenClawTestboxClaim,
+  evaluateBrikko StudioTestboxClaim,
   resolveTestboxId,
-  writeOpenClawTestboxClaim,
+  writeBrikko StudioTestboxClaim,
 } from "./blacksmith-testbox-state.mjs";
 
 function git(args, cwd) {
@@ -34,7 +34,7 @@ export function buildBlacksmithRunArgs({ commandArgs, testboxId }) {
 }
 
 export function resolveTestboxSyncTimeoutMs(env = process.env) {
-  const raw = env.OPENCLAW_TESTBOX_SYNC_TIMEOUT_MS;
+  const raw = env.BRIKKO_STUDIO_TESTBOX_SYNC_TIMEOUT_MS;
   if (raw === undefined || raw === "") {
     return 5 * 60 * 1000;
   }
@@ -105,7 +105,7 @@ function runBlacksmithWithSyncGuard({ args, cwd, env, spawn, stderr, stdout, syn
         }
         stderr.write(
           `Blacksmith Testbox sync produced no post-sync output for ${syncTimeoutMs}ms; terminating local runner. ` +
-            "Rerun with OPENCLAW_TESTBOX_SYNC_TIMEOUT_MS=0 to disable this guard.\n",
+            "Rerun with BRIKKO_STUDIO_TESTBOX_SYNC_TIMEOUT_MS=0 to disable this guard.\n",
         );
         timedOut = true;
         syncingSince = 0;
@@ -129,7 +129,7 @@ export async function runBlacksmithTestboxRunner({
   const testboxId = resolveTestboxId({ argv: stripRunnerOnlyFlags(runnerArgs), env });
   if (!testboxId) {
     stderr.write(
-      "Missing Testbox id. Pass `--id <tbx_id>` or set OPENCLAW_TESTBOX_ID from this session's warmup output.\n",
+      "Missing Testbox id. Pass `--id <tbx_id>` or set BRIKKO_STUDIO_TESTBOX_ID from this session's warmup output.\n",
     );
     return 2;
   }
@@ -153,10 +153,10 @@ export async function runBlacksmithTestboxRunner({
   }
 
   if (shouldClaim) {
-    const claim = writeOpenClawTestboxClaim({ cwd: root, env, testboxId });
-    stdout.write(`OpenClaw Testbox claim written: ${testboxId} -> ${claim.claimPath}\n`);
+    const claim = writeBrikko StudioTestboxClaim({ cwd: root, env, testboxId });
+    stdout.write(`Brikko Studio Testbox claim written: ${testboxId} -> ${claim.claimPath}\n`);
   } else {
-    const claimResult = evaluateOpenClawTestboxClaim({
+    const claimResult = evaluateBrikko StudioTestboxClaim({
       cwd: root,
       env,
       testboxId,
@@ -164,7 +164,7 @@ export async function runBlacksmithTestboxRunner({
     if (!claimResult.ok) {
       stderr.write(`${claimResult.problems.join("\n")}\n`);
       stderr.write(
-        "Refusing to run a Testbox that was not claimed by this OpenClaw checkout. Run:\n" +
+        "Refusing to run a Testbox that was not claimed by this Brikko Studio checkout. Run:\n" +
           "  blacksmith testbox warmup ci-check-testbox.yml --ref main --idle-timeout 90\n" +
           "  pnpm testbox:claim --id <new_tbx_id>\n",
       );
@@ -174,7 +174,7 @@ export async function runBlacksmithTestboxRunner({
 
   const blacksmithArgs = buildBlacksmithRunArgs({ commandArgs, testboxId });
   if (blacksmithArgs.length === 0) {
-    stdout.write(`Testbox local key and OpenClaw claim ok: ${testboxId}\n`);
+    stdout.write(`Testbox local key and Brikko Studio claim ok: ${testboxId}\n`);
     return 0;
   }
 

@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import type { QaRunnerCliContribution } from "openclaw/plugin-sdk/qa-runner-runtime";
+import type { QaRunnerCliContribution } from "brikko-studio/plugin-sdk/qa-runner-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const TEST_QA_RUNNER = {
@@ -66,7 +66,7 @@ const { listQaRunnerCliContributions } = vi.hoisted(() => ({
   ]),
 }));
 
-vi.mock("openclaw/plugin-sdk/qa-runner-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/qa-runner-runtime", () => ({
   listQaRunnerCliContributions,
 }));
 
@@ -129,12 +129,12 @@ describe("qa cli registration", () => {
   it("routes mantis discord-smoke flags into the mantis runtime command", async () => {
     await program.parseAsync([
       "node",
-      "openclaw",
+      "brikko-studio",
       "qa",
       "mantis",
       "discord-smoke",
       "--repo-root",
-      "/tmp/openclaw-repo",
+      "/tmp/brikko-studio-repo",
       "--output-dir",
       ".artifacts/qa-e2e/mantis/discord-smoke",
       "--guild-id",
@@ -149,7 +149,7 @@ describe("qa cli registration", () => {
     ]);
 
     expect(runMantisDiscordSmokeCommand).toHaveBeenCalledWith({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/brikko-studio-repo",
       outputDir: ".artifacts/qa-e2e/mantis/discord-smoke",
       guildId: "123456789012345678",
       channelId: "223456789012345678",
@@ -164,18 +164,18 @@ describe("qa cli registration", () => {
   it("routes coverage report flags into the qa runtime command", async () => {
     await program.parseAsync([
       "node",
-      "openclaw",
+      "brikko-studio",
       "qa",
       "coverage",
       "--repo-root",
-      "/tmp/openclaw-repo",
+      "/tmp/brikko-studio-repo",
       "--output",
       ".artifacts/qa-coverage.md",
       "--json",
     ]);
 
     expect(runQaCoverageReportCommand).toHaveBeenCalledWith({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/brikko-studio-repo",
       output: ".artifacts/qa-coverage.md",
       json: true,
     });
@@ -202,7 +202,7 @@ describe("qa cli registration", () => {
       expect.arrayContaining(["mock-openai", "aimock"]),
     );
 
-    await program.parseAsync(["node", "openclaw", "qa", "aimock", "--port", "44080"]);
+    await program.parseAsync(["node", "brikko-studio", "qa", "aimock", "--port", "44080"]);
 
     expect(runQaProviderServerCommand).toHaveBeenCalledWith("aimock", {
       host: "127.0.0.1",
@@ -216,7 +216,7 @@ describe("qa cli registration", () => {
     registerQaLabCli(blockedProgram);
 
     await expect(
-      blockedProgram.parseAsync(["node", "openclaw", "qa", TEST_QA_RUNNER.commandName]),
+      blockedProgram.parseAsync(["node", "brikko-studio", "qa", TEST_QA_RUNNER.commandName]),
     ).rejects.toThrow(`Enable or allow plugin "${TEST_QA_RUNNER.pluginId}"`);
   });
 
@@ -231,7 +231,7 @@ describe("qa cli registration", () => {
   });
 
   it("routes telegram CLI defaults into the lane runtime", async () => {
-    await program.parseAsync(["node", "openclaw", "qa", "telegram"]);
+    await program.parseAsync(["node", "brikko-studio", "qa", "telegram"]);
 
     expect(runQaTelegramCommand).toHaveBeenCalledWith({
       repoRoot: undefined,
@@ -249,7 +249,7 @@ describe("qa cli registration", () => {
   });
 
   it("forwards --allow-failures for telegram runs", async () => {
-    await program.parseAsync(["node", "openclaw", "qa", "telegram", "--allow-failures"]);
+    await program.parseAsync(["node", "brikko-studio", "qa", "telegram", "--allow-failures"]);
 
     expect(runQaTelegramCommand).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -259,7 +259,7 @@ describe("qa cli registration", () => {
   });
 
   it("forwards --allow-failures for suite runs", async () => {
-    await program.parseAsync(["node", "openclaw", "qa", "suite", "--allow-failures"]);
+    await program.parseAsync(["node", "brikko-studio", "qa", "suite", "--allow-failures"]);
 
     expect(runQaSuiteCommand).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -271,7 +271,7 @@ describe("qa cli registration", () => {
   it("routes credential add flags into the qa runtime command", async () => {
     await program.parseAsync([
       "node",
-      "openclaw",
+      "brikko-studio",
       "qa",
       "credentials",
       "add",
@@ -280,7 +280,7 @@ describe("qa cli registration", () => {
       "--payload-file",
       "qa/payload.json",
       "--repo-root",
-      "/tmp/openclaw-repo",
+      "/tmp/brikko-studio-repo",
       "--note",
       "shared lane",
       "--site-url",
@@ -295,7 +295,7 @@ describe("qa cli registration", () => {
     expect(runQaCredentialsAddCommand).toHaveBeenCalledWith({
       kind: "telegram",
       payloadFile: "qa/payload.json",
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/brikko-studio-repo",
       note: "shared lane",
       siteUrl: "https://first-schnauzer-821.convex.site",
       endpointPrefix: "/qa-credentials/v1",
@@ -307,7 +307,7 @@ describe("qa cli registration", () => {
   it("routes credential remove flags into the qa runtime command", async () => {
     await program.parseAsync([
       "node",
-      "openclaw",
+      "brikko-studio",
       "qa",
       "credentials",
       "remove",
@@ -332,7 +332,7 @@ describe("qa cli registration", () => {
   it("routes credential list defaults into the qa runtime command", async () => {
     await program.parseAsync([
       "node",
-      "openclaw",
+      "brikko-studio",
       "qa",
       "credentials",
       "list",

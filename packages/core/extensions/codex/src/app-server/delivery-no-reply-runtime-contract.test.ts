@@ -2,9 +2,9 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { SessionManager } from "@mariozechner/pi-coding-agent";
-import type { EmbeddedRunAttemptParams } from "openclaw/plugin-sdk/agent-harness";
-import { DELIVERY_NO_REPLY_RUNTIME_CONTRACT } from "openclaw/plugin-sdk/agent-runtime-test-contracts";
-import { isSilentReplyPayloadText } from "openclaw/plugin-sdk/reply-chunking";
+import type { EmbeddedRunAttemptParams } from "brikko-studio/plugin-sdk/agent-harness";
+import { DELIVERY_NO_REPLY_RUNTIME_CONTRACT } from "brikko-studio/plugin-sdk/agent-runtime-test-contracts";
+import { isSilentReplyPayloadText } from "brikko-studio/plugin-sdk/reply-chunking";
 import { afterEach, describe, expect, it } from "vitest";
 import { CodexAppServerEventProjector } from "./event-projector.js";
 import { createCodexTestModel } from "./test-support.js";
@@ -16,7 +16,7 @@ const tempDirs = new Set<string>();
 type ProjectorNotification = Parameters<CodexAppServerEventProjector["handleNotification"]>[0];
 
 async function createParams(): Promise<EmbeddedRunAttemptParams> {
-  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-codex-delivery-contract-"));
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-codex-delivery-contract-"));
   tempDirs.add(tempDir);
   const sessionFile = path.join(tempDir, "session.jsonl");
   SessionManager.open(sessionFile);

@@ -5,7 +5,7 @@ import {
   listBundledChannelIdsWithPersistedAuthState,
 } from "../channels/plugins/persisted-auth-state.js";
 import { resolveStateDir } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { hasNonEmptyString } from "../infra/outbound/channel-target.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 import { isRecord } from "../utils.js";
@@ -20,7 +20,7 @@ type ChannelPresenceOptions = {
     listChannelIds: () => readonly string[];
     hasState: (params: {
       channelId: string;
-      cfg: OpenClawConfig;
+      cfg: Brikko StudioConfig;
       env: NodeJS.ProcessEnv;
     }) => boolean;
   };
@@ -40,7 +40,7 @@ export function hasMeaningfulChannelConfig(value: unknown): boolean {
   return Object.keys(value).some((key) => key !== "enabled");
 }
 
-export function listExplicitlyDisabledChannelIdsForConfig(cfg: OpenClawConfig): string[] {
+export function listExplicitlyDisabledChannelIdsForConfig(cfg: Brikko StudioConfig): string[] {
   const channels = isRecord(cfg.channels) ? cfg.channels : null;
   if (!channels) {
     return [];
@@ -80,7 +80,7 @@ function listPersistedAuthStateChannelIds(options: ChannelPresenceOptions): read
 
 function hasPersistedAuthState(params: {
   channelId: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   env: NodeJS.ProcessEnv;
   options: ChannelPresenceOptions;
 }): boolean {
@@ -92,7 +92,7 @@ function hasPersistedAuthState(params: {
 }
 
 export function listPotentialConfiguredChannelIds(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   env: NodeJS.ProcessEnv = process.env,
   options: ChannelPresenceOptions = {},
 ): string[] {
@@ -106,7 +106,7 @@ export function listPotentialConfiguredChannelIds(
 }
 
 export function listPotentialConfiguredChannelPresenceSignals(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   env: NodeJS.ProcessEnv = process.env,
   options: ChannelPresenceOptions = {},
 ): ChannelPresenceSignal[] {
@@ -161,7 +161,7 @@ export function listPotentialConfiguredChannelPresenceSignals(
 }
 
 function hasEnvConfiguredChannel(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   env: NodeJS.ProcessEnv,
   options: ChannelPresenceOptions = {},
 ): boolean {
@@ -184,7 +184,7 @@ function hasEnvConfiguredChannel(
 }
 
 export function hasPotentialConfiguredChannels(
-  cfg: OpenClawConfig | null | undefined,
+  cfg: Brikko StudioConfig | null | undefined,
   env: NodeJS.ProcessEnv = process.env,
   options: ChannelPresenceOptions = {},
 ): boolean {

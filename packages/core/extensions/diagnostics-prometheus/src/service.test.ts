@@ -32,12 +32,12 @@ describe("diagnostics-prometheus service", () => {
 
     const rendered = __test__.renderPrometheusMetrics(store);
 
-    expect(rendered).toContain("# TYPE openclaw_run_completed_total counter");
+    expect(rendered).toContain("# TYPE brikko-studio_run_completed_total counter");
     expect(rendered).toContain(
-      'openclaw_run_completed_total{channel="discord",model="gpt-5.4",outcome="completed",provider="openai",trigger="message"} 1',
+      'brikko-studio_run_completed_total{channel="discord",model="gpt-5.4",outcome="completed",provider="openai",trigger="message"} 1',
     );
     expect(rendered).toContain(
-      'openclaw_run_duration_seconds_sum{channel="discord",model="gpt-5.4",outcome="completed",provider="openai",trigger="message"} 1.5',
+      'brikko-studio_run_duration_seconds_sum{channel="discord",model="gpt-5.4",outcome="completed",provider="openai",trigger="message"} 1.5',
     );
     expect(rendered).not.toContain("run-should-not-export");
     expect(rendered).not.toContain("session-should-not-export");
@@ -81,7 +81,7 @@ describe("diagnostics-prometheus service", () => {
     const rendered = __test__.renderPrometheusMetrics(store);
 
     expect(rendered).toContain(
-      'openclaw_tool_execution_total{error_category="other",outcome="error",params_kind="unknown",tool="tool"} 1',
+      'brikko-studio_tool_execution_total{error_category="other",outcome="error",params_kind="unknown",tool="tool"} 1',
     );
     expect(rendered).not.toContain("Bearer");
     expect(rendered).not.toContain("sk-secret");
@@ -108,8 +108,8 @@ describe("diagnostics-prometheus service", () => {
 
     const rendered = __test__.renderPrometheusMetrics(store);
 
-    expect(rendered).toContain("# TYPE openclaw_prometheus_series_dropped_total counter");
-    expect(rendered).toContain("openclaw_prometheus_series_dropped_total ");
+    expect(rendered).toContain("# TYPE brikko-studio_prometheus_series_dropped_total counter");
+    expect(rendered).toContain("brikko-studio_prometheus_series_dropped_total ");
   });
 
   it("subscribes to internal diagnostics and renders scrape text", () => {
@@ -122,7 +122,7 @@ describe("diagnostics-prometheus service", () => {
 
     exporter.service.start({
       config: {} as never,
-      stateDir: "/tmp/openclaw-prometheus-test",
+      stateDir: "/tmp/brikko-studio-prometheus-test",
       logger: {
         info: vi.fn(),
         warn: vi.fn(),
@@ -158,7 +158,7 @@ describe("diagnostics-prometheus service", () => {
       }),
     );
     expect(exporter.render()).toContain(
-      'openclaw_model_tokens_total{agent="unknown",channel="unknown",model="gpt-5.4",provider="openai",token_type="input"} 12',
+      'brikko-studio_model_tokens_total{agent="unknown",channel="unknown",model="gpt-5.4",provider="openai",token_type="input"} 12',
     );
 
     exporter.service.stop?.();

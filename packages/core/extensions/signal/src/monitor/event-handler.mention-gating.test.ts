@@ -1,6 +1,6 @@
-import { buildDispatchInboundCaptureMock } from "openclaw/plugin-sdk/channel-contract-testing";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { MsgContext } from "openclaw/plugin-sdk/reply-runtime";
+import { buildDispatchInboundCaptureMock } from "brikko-studio/plugin-sdk/channel-contract-testing";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { MsgContext } from "brikko-studio/plugin-sdk/reply-runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 type SignalMsgContext = Pick<MsgContext, "Body" | "WasMentioned"> & {
@@ -14,9 +14,9 @@ function getCapturedCtx() {
   return capturedCtx as SignalMsgContext;
 }
 
-vi.mock("openclaw/plugin-sdk/reply-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/reply-runtime")>(
-    "openclaw/plugin-sdk/reply-runtime",
+vi.mock("brikko-studio/plugin-sdk/reply-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/reply-runtime")>(
+    "brikko-studio/plugin-sdk/reply-runtime",
   );
   return buildDispatchInboundCaptureMock(actual, (ctx) => {
     capturedCtx = ctx as SignalMsgContext;
@@ -92,7 +92,7 @@ function createSignalConfig(params: { requireMention: boolean; mentionPattern?: 
         groups: { "*": { requireMention: params.requireMention } },
       },
     },
-  } as unknown as OpenClawConfig;
+  } as unknown as Brikko StudioConfig;
 }
 
 async function expectSkippedGroupHistory(opts: GroupEventOpts, expectedBody: string) {
@@ -149,7 +149,7 @@ describe("signal mention gating", () => {
               groups: { g1: {} },
             },
           },
-        } as unknown as OpenClawConfig,
+        } as unknown as Brikko StudioConfig,
         groupPolicy: "allowlist",
         groupAllowFrom: ["group:g1"],
       }),

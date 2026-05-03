@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/huggingface-provider",
+  "name": "@brikko-studio/huggingface-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Hugging Face provider plugin",
+  "description": "Brikko Studio Hugging Face provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

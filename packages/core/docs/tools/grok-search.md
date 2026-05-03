@@ -6,13 +6,13 @@ read_when:
 title: "Grok search"
 ---
 
-OpenClaw supports Grok as a `web_search` provider, using xAI web-grounded
+Brikko Studio supports Grok as a `web_search` provider, using xAI web-grounded
 responses to produce AI-synthesized answers backed by live search results
 with citations.
 
 The same `XAI_API_KEY` can also power the built-in `x_search` tool for X
 (formerly Twitter) post search. If you store the key under
-`plugins.entries.xai.config.webSearch.apiKey`, OpenClaw now reuses it as a
+`plugins.entries.xai.config.webSearch.apiKey`, Brikko Studio now reuses it as a
 fallback for the bundled xAI model provider too.
 
 For post-level X metrics such as reposts, replies, bookmarks, or views, prefer
@@ -23,10 +23,10 @@ query.
 
 If you choose **Grok** during:
 
-- `openclaw onboard`
-- `openclaw configure --section web`
+- `brikko-studio onboard`
+- `brikko-studio configure --section web`
 
-OpenClaw can show a separate follow-up step to enable `x_search` with the same
+Brikko Studio can show a separate follow-up step to enable `x_search` with the same
 `XAI_API_KEY`. That follow-up:
 
 - only appears after you choose Grok for `web_search`
@@ -45,7 +45,7 @@ If you skip it, you can enable or change `x_search` later in config.
     Set `XAI_API_KEY` in the Gateway environment, or configure via:
 
     ```bash
-    openclaw configure --section web
+    brikko-studio configure --section web
     ```
 
   </Step>
@@ -78,7 +78,7 @@ If you skip it, you can enable or change `x_search` later in config.
 ```
 
 **Environment alternative:** set `XAI_API_KEY` in the Gateway environment.
-For a gateway install, put it in `~/.openclaw/.env`.
+For a gateway install, put it in `~/.brikko-studio/.env`.
 
 ## How it works
 
@@ -101,7 +101,7 @@ web-grounded searches can run longer than the shared `web_search` default. Set
 ## Base URL overrides
 
 Set `plugins.entries.xai.config.webSearch.baseUrl` when Grok web search should
-route through an operator proxy or xAI-compatible Responses endpoint. OpenClaw
+route through an operator proxy or xAI-compatible Responses endpoint. Brikko Studio
 posts to `<baseUrl>/responses` after trimming trailing slashes. `x_search`
 uses the same `webSearch.baseUrl` fallback unless
 `plugins.entries.xai.config.xSearch.baseUrl` is set.

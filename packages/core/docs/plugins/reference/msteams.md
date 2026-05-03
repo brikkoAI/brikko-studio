@@ -1,5 +1,5 @@
 ---
-summary: "Adds the Microsoft Teams channel surface for sending and receiving OpenClaw messages."
+summary: "Adds the Microsoft Teams channel surface for sending and receiving Brikko Studio messages."
 read_when:
   - You are installing, configuring, or auditing the msteams plugin
 title: "Microsoft Teams plugin"
@@ -7,11 +7,11 @@ title: "Microsoft Teams plugin"
 
 # Microsoft Teams plugin
 
-Adds the Microsoft Teams channel surface for sending and receiving OpenClaw messages.
+Adds the Microsoft Teams channel surface for sending and receiving Brikko Studio messages.
 
 ## Distribution
 
-- Package: `@openclaw/msteams`
+- Package: `@brikko-studio/msteams`
 - Install route: npm; ClawHub
 
 ## Surface

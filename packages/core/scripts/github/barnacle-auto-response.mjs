@@ -3,7 +3,7 @@
 const activePrLimit = 20;
 
 const thirdPartyExtensionMessage =
-  "Please publish this as a third-party plugin on [ClawHub](https://clawhub.ai) instead of adding it to the core repo. Docs: https://docs.openclaw.ai/plugin and https://docs.openclaw.ai/tools/clawhub";
+  "Please publish this as a third-party plugin on [ClawHub](https://clawhub.ai) instead of adding it to the core repo. Docs: https://docs.brikko-studio.ai/plugin and https://docs.brikko-studio.ai/tools/clawhub";
 
 const rules = [
   {
@@ -16,13 +16,13 @@ const rules = [
     label: "r: support",
     close: true,
     message:
-      "Please use [our support server](https://discord.gg/clawd) and ask in #help or #users-helping-users to resolve this, or follow the stuck FAQ at https://docs.openclaw.ai/help/faq#im-stuck-whats-the-fastest-way-to-get-unstuck.",
+      "Please use [our support server](https://discord.gg/clawd) and ask in #help or #users-helping-users to resolve this, or follow the stuck FAQ at https://docs.brikko-studio.ai/help/faq#im-stuck-whats-the-fastest-way-to-get-unstuck.",
   },
   {
     label: "r: false-positive",
     close: true,
     message:
-      "Closing this because it looks like a false positive or reclassification-only report rather than an actionable OpenClaw bug. If this is still a real issue, please open a fresh report with concrete reproduction steps and current-version details.",
+      "Closing this because it looks like a false positive or reclassification-only report rather than an actionable Brikko Studio bug. If this is still a real issue, please open a fresh report with concrete reproduction steps and current-version details.",
   },
   {
     label: "r: no-ci-pr",
@@ -57,7 +57,7 @@ const rules = [
     lockReason: "off-topic",
     commentTriggers: ["moltbook"],
     message:
-      "OpenClaw is not affiliated with Moltbook, and issues related to Moltbook should not be submitted here.",
+      "Brikko Studio is not affiliated with Moltbook, and issues related to Moltbook should not be submitted here.",
   },
 ];
 
@@ -96,7 +96,7 @@ export const managedLabelSpecs = {
   },
   "r: moltbook": {
     color: "B60205",
-    description: "Auto-close and lock: Moltbook is off-topic for OpenClaw.",
+    description: "Auto-close and lock: Moltbook is off-topic for Brikko Studio.",
   },
   "r: spam": {
     color: "B60205",
@@ -226,7 +226,7 @@ const candidateActionRules = [
     label: candidateLabels.lowSignalDocs,
     close: true,
     message:
-      "Closing this PR because the docs-only change is too low-signal for the core repo. Please reopen or resubmit with a concrete OpenClaw docs gap and linked context.",
+      "Closing this PR because the docs-only change is too low-signal for the core repo. Please reopen or resubmit with a concrete Brikko Studio docs gap and linked context.",
   },
   {
     label: candidateLabels.testOnlyNoBug,
@@ -244,7 +244,7 @@ const candidateActionRules = [
     label: candidateLabels.blankTemplate,
     close: true,
     message:
-      "Closing this PR because the template is mostly blank and does not describe a concrete OpenClaw problem, fix, or test plan. Please reopen or resubmit with the missing context filled in.",
+      "Closing this PR because the template is mostly blank and does not describe a concrete Brikko Studio problem, fix, or test plan. Please reopen or resubmit with the missing context filled in.",
   },
 ];
 
@@ -282,7 +282,7 @@ function extractIssueFormValue(body, field) {
 }
 
 function hasLinkedReference(text) {
-  return /(?:#\d+|github\.com\/openclaw\/openclaw\/(?:issues|pull)\/\d+)/i.test(text);
+  return /(?:#\d+|github\.com\/brikko-studio\/brikko-studio\/(?:issues|pull)\/\d+)/i.test(text);
 }
 
 function hasFilledTemplateLine(body, field) {
@@ -486,7 +486,7 @@ export function classifyPullRequestCandidateLabels(pullRequest, files) {
 
   const addsPluginManifest = files.some(
     (file) =>
-      file.status === "added" && /^extensions\/[^/]+\/openclaw\.plugin\.json$/i.test(file.filename),
+      file.status === "added" && /^extensions\/[^/]+\/brikko-studio\.plugin\.json$/i.test(file.filename),
   );
   if (
     !clearDesignContext &&

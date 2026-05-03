@@ -5,7 +5,7 @@ import { createScopedVitestConfig } from "./vitest.scoped-config.ts";
 export function loadIncludePatternsFromEnv(
   env: Record<string, string | undefined> = process.env,
 ): string[] | null {
-  return loadPatternListFromEnv("OPENCLAW_VITEST_INCLUDE_FILE", env);
+  return loadPatternListFromEnv("BRIKKO_STUDIO_VITEST_INCLUDE_FILE", env);
 }
 
 export function createExtensionFeishuVitestConfig(
@@ -17,7 +17,7 @@ export function createExtensionFeishuVitestConfig(
     {
       dir: "extensions",
       env,
-      includeOpenClawRuntimeSetup: false,
+      includeBrikko StudioRuntimeSetup: false,
       name: "extension-feishu",
       passWithNoTests: true,
       setupFiles: ["test/setup.extensions.ts"],

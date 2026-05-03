@@ -11,7 +11,7 @@ import {
 } from "./defaults.js";
 import { normalizeExecSafeBinProfilesInConfig } from "./normalize-exec-safe-bin.js";
 import { normalizeConfigPaths } from "./normalize-paths.js";
-import type { OpenClawConfig, ResolvedSourceConfig, RuntimeConfig } from "./types.js";
+import type { Brikko StudioConfig, ResolvedSourceConfig, RuntimeConfig } from "./types.js";
 
 type ConfigMaterializationMode = "load" | "missing" | "snapshot";
 
@@ -43,16 +43,16 @@ const MATERIALIZATION_PROFILES: Record<ConfigMaterializationMode, Materializatio
   },
 };
 
-export function asResolvedSourceConfig(config: OpenClawConfig): ResolvedSourceConfig {
+export function asResolvedSourceConfig(config: Brikko StudioConfig): ResolvedSourceConfig {
   return config as ResolvedSourceConfig;
 }
 
-export function asRuntimeConfig(config: OpenClawConfig): RuntimeConfig {
+export function asRuntimeConfig(config: Brikko StudioConfig): RuntimeConfig {
   return config as RuntimeConfig;
 }
 
 export function materializeRuntimeConfig(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   mode: ConfigMaterializationMode,
   options: { manifestRegistry?: Pick<PluginManifestRegistry, "plugins"> } = {},
 ): RuntimeConfig {

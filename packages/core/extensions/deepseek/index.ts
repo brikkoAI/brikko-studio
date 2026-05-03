@@ -1,7 +1,7 @@
-import type { ProviderThinkingProfile } from "openclaw/plugin-sdk/plugin-entry";
-import { readConfiguredProviderCatalogEntries } from "openclaw/plugin-sdk/provider-catalog-shared";
-import { defineSingleProviderPluginEntry } from "openclaw/plugin-sdk/provider-entry";
-import { buildProviderReplayFamilyHooks } from "openclaw/plugin-sdk/provider-model-shared";
+import type { ProviderThinkingProfile } from "brikko-studio/plugin-sdk/plugin-entry";
+import { readConfiguredProviderCatalogEntries } from "brikko-studio/plugin-sdk/provider-catalog-shared";
+import { defineSingleProviderPluginEntry } from "brikko-studio/plugin-sdk/provider-entry";
+import { buildProviderReplayFamilyHooks } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { isDeepSeekV4ModelId } from "./models.js";
 import { applyDeepSeekConfig, DEEPSEEK_DEFAULT_MODEL_REF } from "./onboard.js";
 import { buildDeepSeekProvider } from "./provider-catalog.js";

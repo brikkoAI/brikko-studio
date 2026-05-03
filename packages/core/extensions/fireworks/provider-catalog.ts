@@ -1,9 +1,9 @@
-import { buildManifestModelProviderConfig } from "openclaw/plugin-sdk/provider-catalog-shared";
+import { buildManifestModelProviderConfig } from "brikko-studio/plugin-sdk/provider-catalog-shared";
 import type {
   ModelDefinitionConfig,
   ModelProviderConfig,
-} from "openclaw/plugin-sdk/provider-model-shared";
-import manifest from "./openclaw.plugin.json" with { type: "json" };
+} from "brikko-studio/plugin-sdk/provider-model-shared";
+import manifest from "./brikko-studio.plugin.json" with { type: "json" };
 
 const FIREWORKS_MANIFEST_PROVIDER = buildManifestModelProviderConfig({
   providerId: "fireworks",

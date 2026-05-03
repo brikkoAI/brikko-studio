@@ -82,7 +82,7 @@ describe("pairing cli", () => {
     readConfigFileSnapshotForWrite.mockClear();
     readConfigFileSnapshotForWrite.mockResolvedValue({
       snapshot: {
-        path: "/tmp/openclaw.json",
+        path: "/tmp/brikko-studio.json",
         exists: true,
         raw: "{}",
         parsed: {},
@@ -244,7 +244,7 @@ describe("pairing cli", () => {
   it("does not overwrite an existing command owner when approving pairing", async () => {
     readConfigFileSnapshotForWrite.mockResolvedValueOnce({
       snapshot: {
-        path: "/tmp/openclaw.json",
+        path: "/tmp/brikko-studio.json",
         exists: true,
         raw: "{}",
         parsed: {},

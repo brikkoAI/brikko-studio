@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: openclaw
+  name: brikko-studio
   labels:
-    app: openclaw
+    app: brikko-studio
 spec:
   type: ClusterIP
   selector:
-    app: openclaw
+    app: brikko-studio
   ports:
     - name: gateway
       port: 18789

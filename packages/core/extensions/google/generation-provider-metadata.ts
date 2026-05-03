@@ -1,9 +1,9 @@
-import type { MusicGenerationProvider } from "openclaw/plugin-sdk/music-generation";
-import { isProviderApiKeyConfigured } from "openclaw/plugin-sdk/provider-auth";
+import type { MusicGenerationProvider } from "brikko-studio/plugin-sdk/music-generation";
+import { isProviderApiKeyConfigured } from "brikko-studio/plugin-sdk/provider-auth";
 import type {
   VideoGenerationProvider,
   VideoGenerationProviderConfiguredContext,
-} from "openclaw/plugin-sdk/video-generation";
+} from "brikko-studio/plugin-sdk/video-generation";
 
 export const DEFAULT_GOOGLE_MUSIC_MODEL = "lyria-3-clip-preview";
 export const GOOGLE_PRO_MUSIC_MODEL = "lyria-3-pro-preview";

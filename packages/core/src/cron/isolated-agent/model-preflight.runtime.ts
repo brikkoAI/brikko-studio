@@ -1,6 +1,6 @@
 import { normalizeProviderId } from "../../agents/provider-id.js";
 import type { ModelProviderConfig } from "../../config/types.models.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { fetchWithSsrFGuard } from "../../infra/net/fetch-guard.js";
 import type { SsrFPolicy } from "../../infra/net/ssrf.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
@@ -36,7 +36,7 @@ type CachedEndpointPreflightResult = {
 const preflightCache = new Map<string, CachedEndpointPreflightResult>();
 
 function resolveProviderConfig(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   provider: string,
 ): ModelProviderConfig | undefined {
   const providers = cfg.models?.providers;
@@ -127,7 +127,7 @@ function formatUnavailableReason(params: {
 }): string {
   return [
     `Agent cron job uses ${params.provider}/${params.model} but the local provider endpoint is not reachable at ${params.baseUrl}.`,
-    `Skipping this cron run; OpenClaw will retry the provider preflight on a later scheduled run.`,
+    `Skipping this cron run; Brikko Studio will retry the provider preflight on a later scheduled run.`,
     `Last error: ${String(params.error)}`,
   ].join(" ");
 }
@@ -175,7 +175,7 @@ async function probeLocalProviderEndpoint(params: {
 }
 
 export async function preflightCronModelProvider(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   provider: string;
   model: string;
   nowMs?: number;

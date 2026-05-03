@@ -1,9 +1,9 @@
-import { bundledPluginFile } from "openclaw/plugin-sdk/test-fixtures";
+import { bundledPluginFile } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it } from "vitest";
 import { createPatternFileHelper } from "./helpers/pattern-file.js";
 import { loadIncludePatternsFromEnv } from "./vitest/vitest.extensions.config.ts";
 
-const patternFiles = createPatternFileHelper("openclaw-vitest-extensions-config-");
+const patternFiles = createPatternFileHelper("brikko-studio-vitest-extensions-config-");
 
 afterEach(() => {
   patternFiles.cleanup();
@@ -24,7 +24,7 @@ describe("extensions vitest include patterns", () => {
 
     expect(
       loadIncludePatternsFromEnv({
-        OPENCLAW_VITEST_INCLUDE_FILE: filePath,
+        BRIKKO_STUDIO_VITEST_INCLUDE_FILE: filePath,
       }),
     ).toEqual([
       bundledPluginFile("feishu", "index.test.ts"),
@@ -39,7 +39,7 @@ describe("extensions vitest include patterns", () => {
 
     expect(() =>
       loadIncludePatternsFromEnv({
-        OPENCLAW_VITEST_INCLUDE_FILE: filePath,
+        BRIKKO_STUDIO_VITEST_INCLUDE_FILE: filePath,
       }),
     ).toThrow(/JSON array/u);
   });

@@ -94,21 +94,21 @@ describe("command-startup-policy", () => {
     ).toBe(false);
     expect(
       shouldLoadPluginsForCommandPath({
-        argv: ["node", "openclaw", "agent", "--json"],
+        argv: ["node", "brikko-studio", "agent", "--json"],
         commandPath: ["agent"],
         jsonOutputMode: true,
       }),
     ).toBe(false);
     expect(
       shouldLoadPluginsForCommandPath({
-        argv: ["node", "openclaw", "agent", "--json", "--local"],
+        argv: ["node", "brikko-studio", "agent", "--json", "--local"],
         commandPath: ["agent"],
         jsonOutputMode: true,
       }),
     ).toBe(true);
     expect(
       shouldLoadPluginsForCommandPath({
-        argv: ["node", "openclaw", "agent"],
+        argv: ["node", "brikko-studio", "agent"],
         commandPath: ["agent"],
         jsonOutputMode: false,
       }),
@@ -169,16 +169,16 @@ describe("command-startup-policy", () => {
     expect(
       shouldHideCliBannerForCommandPath(["status"], {
         ...process.env,
-        OPENCLAW_HIDE_BANNER: "1",
+        BRIKKO_STUDIO_HIDE_BANNER: "1",
       }),
     ).toBe(true);
     expect(shouldHideCliBannerForCommandPath(["status"], {})).toBe(false);
   });
 
   it("uses process env banner suppression when startup env is omitted", () => {
-    const originalHideBanner = process.env.OPENCLAW_HIDE_BANNER;
+    const originalHideBanner = process.env.BRIKKO_STUDIO_HIDE_BANNER;
     try {
-      process.env.OPENCLAW_HIDE_BANNER = "1";
+      process.env.BRIKKO_STUDIO_HIDE_BANNER = "1";
 
       expect(
         resolveCliStartupPolicy({
@@ -195,9 +195,9 @@ describe("command-startup-policy", () => {
       ).toBe(false);
     } finally {
       if (originalHideBanner === undefined) {
-        delete process.env.OPENCLAW_HIDE_BANNER;
+        delete process.env.BRIKKO_STUDIO_HIDE_BANNER;
       } else {
-        process.env.OPENCLAW_HIDE_BANNER = originalHideBanner;
+        process.env.BRIKKO_STUDIO_HIDE_BANNER = originalHideBanner;
       }
     }
   });

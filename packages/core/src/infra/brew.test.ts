@@ -61,7 +61,7 @@ describe("brew helpers", () => {
   }
 
   it("resolves brew from ~/.linuxbrew/bin when executable exists", async () => {
-    await withTempDir({ prefix: "openclaw-brew-" }, async (tmp) => {
+    await withTempDir({ prefix: "brikko-studio-brew-" }, async (tmp) => {
       const homebrewBin = path.join(tmp, ".linuxbrew", "bin");
       const brewPath = path.join(homebrewBin, "brew");
       await writeExecutable(brewPath);
@@ -73,7 +73,7 @@ describe("brew helpers", () => {
   });
 
   it("resolves brew from absolute PATH entries for non-standard installs", async () => {
-    await withTempDir({ prefix: "openclaw-brew-" }, async (tmp) => {
+    await withTempDir({ prefix: "brikko-studio-brew-" }, async (tmp) => {
       const customBin = path.join(tmp, "custom-homebrew", "bin");
       const customBrew = path.join(customBin, "brew");
       await writeExecutable(customBrew);
@@ -85,7 +85,7 @@ describe("brew helpers", () => {
   });
 
   it("ignores HOMEBREW_BREW_FILE and HOMEBREW_PREFIX by default", async () => {
-    await withTempDir({ prefix: "openclaw-brew-" }, async (tmp) => {
+    await withTempDir({ prefix: "brikko-studio-brew-" }, async (tmp) => {
       const explicit = path.join(tmp, "custom", "brew");
       const prefix = path.join(tmp, "prefix");
       const prefixBin = path.join(prefix, "bin");
@@ -116,7 +116,7 @@ describe("brew helpers", () => {
   });
 
   it("ignores blank HOMEBREW_BREW_FILE and HOMEBREW_PREFIX values", async () => {
-    await withTempDir({ prefix: "openclaw-brew-" }, async (tmp) => {
+    await withTempDir({ prefix: "brikko-studio-brew-" }, async (tmp) => {
       const homebrewBin = path.join(tmp, ".linuxbrew", "bin");
       const brewPath = path.join(homebrewBin, "brew");
       await writeExecutable(brewPath);
@@ -140,7 +140,7 @@ describe("brew helpers", () => {
   });
 
   it("does not resolve brew from PATH entries", async () => {
-    await withTempDir({ prefix: "openclaw-brew-" }, async (tmp) => {
+    await withTempDir({ prefix: "brikko-studio-brew-" }, async (tmp) => {
       const pathBin = path.join(tmp, "path-bin");
       const pathBrew = path.join(pathBin, "brew");
       await writeExecutable(pathBrew);

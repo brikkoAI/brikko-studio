@@ -3,15 +3,15 @@ import { repairToolUseResultPairing } from "./session-transcript-repair.js";
 
 const SYNTHETIC_TOOL_RESULT_APIS = new Set<string>([
   "anthropic-messages",
-  "openclaw-anthropic-messages-transport",
+  "brikko-studio-anthropic-messages-transport",
   "bedrock-converse-stream",
   "google-generative-ai",
-  "openclaw-google-generative-ai-transport",
+  "brikko-studio-google-generative-ai-transport",
   "openai-responses",
   "openai-codex-responses",
   "azure-openai-responses",
-  "openclaw-openai-responses-transport",
-  "openclaw-azure-openai-responses-transport",
+  "brikko-studio-openai-responses-transport",
+  "brikko-studio-azure-openai-responses-transport",
 ]);
 
 // "aborted" is an OpenAI Responses-family convention from upstream Codex
@@ -22,8 +22,8 @@ const CODEX_STYLE_ABORTED_OUTPUT_APIS = new Set<string>([
   "openai-responses",
   "openai-codex-responses",
   "azure-openai-responses",
-  "openclaw-openai-responses-transport",
-  "openclaw-azure-openai-responses-transport",
+  "brikko-studio-openai-responses-transport",
+  "brikko-studio-azure-openai-responses-transport",
 ]);
 
 function defaultAllowSyntheticToolResults(modelApi: Api): boolean {

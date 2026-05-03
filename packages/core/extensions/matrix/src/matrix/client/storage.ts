@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { normalizeAccountId } from "openclaw/plugin-sdk/account-id";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import { normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   requiresExplicitMatrixDefaultAccount,
   resolveMatrixDefaultOrOnlyAccountId,
@@ -49,7 +49,7 @@ function resolveLegacyStoragePaths(env: NodeJS.ProcessEnv = process.env): {
 }
 
 function assertLegacyMigrationAccountSelection(params: { accountKey: string }): void {
-  const cfg = getMatrixRuntime().config.current() as OpenClawConfig;
+  const cfg = getMatrixRuntime().config.current() as Brikko StudioConfig;
   if (!cfg.channels?.matrix || typeof cfg.channels.matrix !== "object") {
     return;
   }

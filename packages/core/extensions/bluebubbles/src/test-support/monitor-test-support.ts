@@ -1,6 +1,6 @@
-import { createPluginRuntimeMock } from "openclaw/plugin-sdk/channel-test-helpers";
-import type { PluginRuntime } from "openclaw/plugin-sdk/core";
-import type { HistoryEntry } from "openclaw/plugin-sdk/reply-history";
+import { createPluginRuntimeMock } from "brikko-studio/plugin-sdk/channel-test-helpers";
+import type { PluginRuntime } from "brikko-studio/plugin-sdk/core";
+import type { HistoryEntry } from "brikko-studio/plugin-sdk/reply-history";
 import { vi } from "vitest";
 import { _resetBlueBubblesInboundDedupForTest } from "../inbound-dedupe.js";
 import {

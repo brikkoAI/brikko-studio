@@ -1,9 +1,9 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { isAcpEnabledByPolicy } from "../policy.js";
 import { getAcpRuntimeBackend } from "./registry.js";
 
 export function isAcpRuntimeSpawnAvailable(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   sandboxed?: boolean;
   backendId?: string;
 }): boolean {

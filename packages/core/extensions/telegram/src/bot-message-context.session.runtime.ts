@@ -1,5 +1,5 @@
-export { readSessionUpdatedAt, resolveStorePath } from "openclaw/plugin-sdk/session-store-runtime";
-export { recordInboundSession } from "openclaw/plugin-sdk/conversation-runtime";
-export { finalizeInboundContext } from "openclaw/plugin-sdk/reply-dispatch-runtime";
-export { resolveInboundLastRouteSessionKey } from "openclaw/plugin-sdk/routing";
-export { resolvePinnedMainDmOwnerFromAllowlist } from "openclaw/plugin-sdk/security-runtime";
+export { readSessionUpdatedAt, resolveStorePath } from "brikko-studio/plugin-sdk/session-store-runtime";
+export { recordInboundSession } from "brikko-studio/plugin-sdk/conversation-runtime";
+export { finalizeInboundContext } from "brikko-studio/plugin-sdk/reply-dispatch-runtime";
+export { resolveInboundLastRouteSessionKey } from "brikko-studio/plugin-sdk/routing";
+export { resolvePinnedMainDmOwnerFromAllowlist } from "brikko-studio/plugin-sdk/security-runtime";

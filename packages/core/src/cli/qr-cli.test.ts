@@ -167,8 +167,8 @@ describe("registerQrCli", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     resetRuntimeCapture();
-    vi.stubEnv("OPENCLAW_GATEWAY_TOKEN", "");
-    vi.stubEnv("OPENCLAW_GATEWAY_PASSWORD", "");
+    vi.stubEnv("BRIKKO_STUDIO_GATEWAY_TOKEN", "");
+    vi.stubEnv("BRIKKO_STUDIO_GATEWAY_PASSWORD", "");
     runtimeExit.mockImplementation(() => {
       throw new Error("exit");
     });
@@ -214,7 +214,7 @@ describe("registerQrCli", () => {
     expect(output).toContain("Pairing QR");
     expect(output).toContain("ASCII-QR");
     expect(output).toContain("Gateway:");
-    expect(output).toContain("openclaw devices approve <requestId>");
+    expect(output).toContain("brikko-studio devices approve <requestId>");
   });
 
   it("fails fast for insecure remote mobile pairing setup urls", async () => {
@@ -315,8 +315,8 @@ describe("registerQrCli", () => {
     expect(resolveCommandSecretRefsViaGateway).not.toHaveBeenCalled();
   });
 
-  it("uses OPENCLAW_GATEWAY_PASSWORD without resolving local password SecretRef", async () => {
-    vi.stubEnv("OPENCLAW_GATEWAY_PASSWORD", "password-from-env");
+  it("uses BRIKKO_STUDIO_GATEWAY_PASSWORD without resolving local password SecretRef", async () => {
+    vi.stubEnv("BRIKKO_STUDIO_GATEWAY_PASSWORD", "password-from-env");
     loadConfig.mockReturnValue(
       createLocalGatewayConfigWithAuth(
         createLocalGatewayPasswordRefAuth("MISSING_LOCAL_GATEWAY_PASSWORD"),

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import { handleStopCommand } from "./commands-session-abort.js";
 import "./commands-session-abort.test-support.js";
 import type { HandleCommandsParams } from "./commands-types.js";
@@ -53,7 +53,7 @@ function buildStopParams(): HandleCommandsParams {
     cfg: {
       commands: { text: true },
       channels: { telegram: { allowFrom: ["*"] } },
-    } as OpenClawConfig,
+    } as Brikko StudioConfig,
     ctx: {
       Provider: "telegram",
       Surface: "telegram",

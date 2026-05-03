@@ -1,4 +1,4 @@
-import { z } from "openclaw/plugin-sdk/zod";
+import { z } from "brikko-studio/plugin-sdk/zod";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MatrixConfig, MatrixStreamingMode } from "../../types.js";
 import type { MatrixRoomInfo } from "./room-info.js";
@@ -302,7 +302,7 @@ vi.mock("../config-update.js", () => ({
 
 vi.mock("../device-health.js", () => ({
   summarizeMatrixDeviceHealth: vi.fn(() => ({
-    staleOpenClawDevices: [],
+    staleBrikko StudioDevices: [],
   })),
 }));
 

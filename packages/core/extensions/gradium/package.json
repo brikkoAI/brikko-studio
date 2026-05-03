@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/gradium-speech",
+  "name": "@brikko-studio/gradium-speech",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Gradium speech plugin",
+  "description": "Brikko Studio Gradium speech plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

@@ -1,1 +1,1 @@
-export { expectChannelInboundContextContract } from "openclaw/plugin-sdk/channel-contract-testing";
+export { expectChannelInboundContextContract } from "brikko-studio/plugin-sdk/channel-contract-testing";

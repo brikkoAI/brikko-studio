@@ -1,7 +1,7 @@
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { bundledDistPluginFile, bundledPluginFile } from "openclaw/plugin-sdk/test-fixtures";
+import { bundledDistPluginFile, bundledPluginFile } from "brikko-studio/plugin-sdk/test-fixtures";
 import { describe, expect, it } from "vitest";
 import { listBundledPluginPackArtifacts } from "../scripts/lib/bundled-plugin-build-entries.mjs";
 import { listPluginSdkDistArtifacts } from "../scripts/lib/plugin-sdk-entries.mjs";
@@ -9,7 +9,7 @@ import {
   WORKSPACE_TEMPLATE_PACK_PATHS,
   createWorkspaceBootstrapSmokeEnv,
 } from "../scripts/lib/workspace-bootstrap-smoke.mjs";
-import { collectInstalledRootDependencyManifestErrors } from "../scripts/openclaw-npm-postpublish-verify.ts";
+import { collectInstalledRootDependencyManifestErrors } from "../scripts/brikko-studio-npm-postpublish-verify.ts";
 import {
   collectAppcastSparkleVersionErrors,
   collectBundledExtensionManifestErrors,
@@ -106,9 +106,9 @@ describe("packed CLI smoke", () => {
           SystemRoot: "C:\\Windows",
           GITHUB_TOKEN: "redacted",
           OPENAI_API_KEY: "real-secret",
-          OPENCLAW_CONFIG_PATH: "/tmp/leaky-config.json",
+          BRIKKO_STUDIO_CONFIG_PATH: "/tmp/leaky-config.json",
         },
-        { HOME: "/tmp/smoke-home", OPENCLAW_STATE_DIR: "/tmp/smoke-state" },
+        { HOME: "/tmp/smoke-home", BRIKKO_STUDIO_STATE_DIR: "/tmp/smoke-state" },
       ),
     ).toEqual({
       PATH:
@@ -125,11 +125,11 @@ describe("packed CLI smoke", () => {
       AWS_CONFIG_FILE: "/tmp/smoke-home/.aws/config",
       TMPDIR: "/tmp/original-tmp",
       SystemRoot: "C:\\Windows",
-      OPENCLAW_DISABLE_BUNDLED_ENTRY_SOURCE_FALLBACK: "1",
-      OPENCLAW_NO_ONBOARD: "1",
-      OPENCLAW_SERVICE_REPAIR_POLICY: "external",
-      OPENCLAW_SUPPRESS_NOTES: "1",
-      OPENCLAW_STATE_DIR: "/tmp/smoke-state",
+      BRIKKO_STUDIO_DISABLE_BUNDLED_ENTRY_SOURCE_FALLBACK: "1",
+      BRIKKO_STUDIO_NO_ONBOARD: "1",
+      BRIKKO_STUDIO_SERVICE_REPAIR_POLICY: "external",
+      BRIKKO_STUDIO_SUPPRESS_NOTES: "1",
+      BRIKKO_STUDIO_STATE_DIR: "/tmp/smoke-state",
     });
   });
 
@@ -138,19 +138,19 @@ describe("packed CLI smoke", () => {
       createPackedCompletionSmokeEnv(
         {
           PATH: "/usr/bin",
-          OPENCLAW_COMPLETION_SKIP_PLUGIN_COMMANDS: "0",
+          BRIKKO_STUDIO_COMPLETION_SKIP_PLUGIN_COMMANDS: "0",
         },
         {
           HOME: "/tmp/smoke-home",
-          OPENCLAW_STATE_DIR: "/tmp/smoke-state",
+          BRIKKO_STUDIO_STATE_DIR: "/tmp/smoke-state",
         },
       ),
     ).toMatchObject({
       PATH: "/usr/bin",
       HOME: "/tmp/smoke-home",
-      OPENCLAW_STATE_DIR: "/tmp/smoke-state",
-      OPENCLAW_SUPPRESS_NOTES: "1",
-      OPENCLAW_DISABLE_BUNDLED_ENTRY_SOURCE_FALLBACK: "1",
+      BRIKKO_STUDIO_STATE_DIR: "/tmp/smoke-state",
+      BRIKKO_STUDIO_SUPPRESS_NOTES: "1",
+      BRIKKO_STUDIO_DISABLE_BUNDLED_ENTRY_SOURCE_FALLBACK: "1",
       [COMPLETION_SKIP_PLUGIN_COMMANDS_ENV]: "1",
     });
   });
@@ -166,7 +166,7 @@ describe("workspace bootstrap smoke", () => {
           TMPDIR: "/tmp/original-tmp",
           OPENAI_API_KEY: "real-secret",
           ANTHROPIC_API_KEY: "real-secret",
-          OPENCLAW_CONFIG_PATH: "/tmp/leaky-config.json",
+          BRIKKO_STUDIO_CONFIG_PATH: "/tmp/leaky-config.json",
         },
         "/tmp/bootstrap-home",
       ),
@@ -177,12 +177,12 @@ describe("workspace bootstrap smoke", () => {
           : `${dirname(process.execPath)}:/usr/bin:/bin`,
       HOME: "/tmp/bootstrap-home",
       USERPROFILE: "/tmp/bootstrap-home",
-      OPENCLAW_HOME: "/tmp/bootstrap-home",
+      BRIKKO_STUDIO_HOME: "/tmp/bootstrap-home",
       TMPDIR: "/tmp/original-tmp",
-      OPENCLAW_NO_ONBOARD: "1",
-      OPENCLAW_SUPPRESS_NOTES: "1",
-      OPENCLAW_DISABLE_BUNDLED_PLUGINS: "1",
-      OPENCLAW_DISABLE_BUNDLED_ENTRY_SOURCE_FALLBACK: "1",
+      BRIKKO_STUDIO_NO_ONBOARD: "1",
+      BRIKKO_STUDIO_SUPPRESS_NOTES: "1",
+      BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: "1",
+      BRIKKO_STUDIO_DISABLE_BUNDLED_ENTRY_SOURCE_FALLBACK: "1",
       AWS_EC2_METADATA_DISABLED: "true",
       AWS_SHARED_CREDENTIALS_FILE: "/tmp/bootstrap-home/.aws/credentials",
       AWS_CONFIG_FILE: "/tmp/bootstrap-home/.aws/config",
@@ -197,14 +197,14 @@ describe("collectBundledExtensionManifestErrors", () => {
         {
           id: "broken",
           packageJson: {
-            openclaw: {
+            brikko-studio: {
               install: { npmSpec: "   " },
             },
           },
         },
       ]),
     ).toEqual([
-      "bundled extension 'broken' manifest invalid | openclaw.install.npmSpec must be a non-empty string",
+      "bundled extension 'broken' manifest invalid | brikko-studio.install.npmSpec must be a non-empty string",
     ]);
   });
 
@@ -214,14 +214,14 @@ describe("collectBundledExtensionManifestErrors", () => {
         {
           id: "broken",
           packageJson: {
-            openclaw: {
-              install: { npmSpec: "@openclaw/broken", minHostVersion: "2026.3.14" },
+            brikko-studio: {
+              install: { npmSpec: "@brikko-studio/broken", minHostVersion: "2026.3.14" },
             },
           },
         },
       ]),
     ).toEqual([
-      "bundled extension 'broken' manifest invalid | openclaw.install.minHostVersion must use a semver floor in the form \">=x.y.z[-prerelease][+build]\"",
+      "bundled extension 'broken' manifest invalid | brikko-studio.install.minHostVersion must use a semver floor in the form \">=x.y.z[-prerelease][+build]\"",
     ]);
   });
 
@@ -231,7 +231,7 @@ describe("collectBundledExtensionManifestErrors", () => {
         {
           id: "irc",
           packageJson: {
-            openclaw: {
+            brikko-studio: {
               install: { minHostVersion: ">=2026.3.14" },
             },
           },
@@ -246,13 +246,13 @@ describe("collectBundledExtensionManifestErrors", () => {
         {
           id: "broken",
           packageJson: {
-            openclaw: {
+            brikko-studio: {
               install: 123,
             },
           },
         },
       ]),
-    ).toEqual(["bundled extension 'broken' manifest invalid | openclaw.install must be an object"]);
+    ).toEqual(["bundled extension 'broken' manifest invalid | brikko-studio.install must be an object"]);
   });
 });
 
@@ -281,18 +281,18 @@ describe("bundled plugin package dependency checks", () => {
   });
 
   it("does not require root deps for root chunks sourced from the owning installed plugin", () => {
-    const tempRoot = mkdtempSync(join(tmpdir(), "openclaw-root-owned-installed-"));
+    const tempRoot = mkdtempSync(join(tmpdir(), "brikko-studio-root-owned-installed-"));
 
     try {
       mkdirSync(join(tempRoot, "dist", "extensions", "memory-lancedb"), { recursive: true });
       writeFileSync(
         join(tempRoot, "package.json"),
-        `{"name":"openclaw","dependencies":{}}\n`,
+        `{"name":"brikko-studio","dependencies":{}}\n`,
         "utf8",
       );
       writeFileSync(
         join(tempRoot, "dist", "extensions", "memory-lancedb", "package.json"),
-        `{"name":"@openclaw/memory-lancedb","dependencies":{"root-owned-test-dep":"^1.0.0"}}\n`,
+        `{"name":"@brikko-studio/memory-lancedb","dependencies":{"root-owned-test-dep":"^1.0.0"}}\n`,
         "utf8",
       );
       writeFileSync(
@@ -308,18 +308,18 @@ describe("bundled plugin package dependency checks", () => {
   });
 
   it("still requires root deps for root-owned installed chunks", () => {
-    const tempRoot = mkdtempSync(join(tmpdir(), "openclaw-root-owned-installed-missing-"));
+    const tempRoot = mkdtempSync(join(tmpdir(), "brikko-studio-root-owned-installed-missing-"));
 
     try {
       mkdirSync(join(tempRoot, "dist", "extensions", "memory-lancedb"), { recursive: true });
       writeFileSync(
         join(tempRoot, "package.json"),
-        `{"name":"openclaw","dependencies":{}}\n`,
+        `{"name":"brikko-studio","dependencies":{}}\n`,
         "utf8",
       );
       writeFileSync(
         join(tempRoot, "dist", "extensions", "memory-lancedb", "package.json"),
-        `{"name":"@openclaw/memory-lancedb","dependencies":{"root-owned-test-dep":"^1.0.0"}}\n`,
+        `{"name":"@brikko-studio/memory-lancedb","dependencies":{"root-owned-test-dep":"^1.0.0"}}\n`,
         "utf8",
       );
       writeFileSync(
@@ -344,12 +344,12 @@ describe("collectForbiddenPackPaths", () => {
         "dist/index.js",
         bundledDistPluginFile("discord", "node_modules/@discordjs/voice/index.js"),
         bundledPluginFile("tlon", "node_modules/.bin/tlon"),
-        "node_modules/.bin/openclaw",
+        "node_modules/.bin/brikko-studio",
       ]),
     ).toEqual([
       bundledDistPluginFile("discord", "node_modules/@discordjs/voice/index.js"),
       bundledPluginFile("tlon", "node_modules/.bin/tlon"),
-      "node_modules/.bin/openclaw",
+      "node_modules/.bin/brikko-studio",
     ]);
   });
 
@@ -389,14 +389,14 @@ describe("collectForbiddenPackPaths", () => {
     expect(
       collectForbiddenPackPaths([
         "dist/index.js",
-        "dist/extensions/browser/.OpenClaw-Install-Stage/package.json",
-        "dist/extensions/codex/.openclaw-runtime-deps-backup-node_modules-old/zod/index.js",
-        "dist/extensions/discord/.openclaw-runtime-deps-stamp.json",
+        "dist/extensions/browser/.Brikko Studio-Install-Stage/package.json",
+        "dist/extensions/codex/.brikko-studio-runtime-deps-backup-node_modules-old/zod/index.js",
+        "dist/extensions/discord/.brikko-studio-runtime-deps-stamp.json",
       ]),
     ).toEqual([
-      "dist/extensions/browser/.OpenClaw-Install-Stage/package.json",
-      "dist/extensions/codex/.openclaw-runtime-deps-backup-node_modules-old/zod/index.js",
-      "dist/extensions/discord/.openclaw-runtime-deps-stamp.json",
+      "dist/extensions/browser/.Brikko Studio-Install-Stage/package.json",
+      "dist/extensions/codex/.brikko-studio-runtime-deps-backup-node_modules-old/zod/index.js",
+      "dist/extensions/discord/.brikko-studio-runtime-deps-stamp.json",
     ]);
   });
 
@@ -432,7 +432,7 @@ describe("collectForbiddenPackPaths", () => {
   });
 
   it("blocks root dist chunks that still reference private qa lab sources", () => {
-    const tempRoot = mkdtempSync(join(tmpdir(), "openclaw-release-private-qa-"));
+    const tempRoot = mkdtempSync(join(tmpdir(), "brikko-studio-release-private-qa-"));
 
     try {
       mkdirSync(join(tempRoot, "dist"), { recursive: true });
@@ -452,7 +452,7 @@ describe("collectForbiddenPackPaths", () => {
   });
 
   it("blocks private QA paths in the generated dist inventory", () => {
-    const tempRoot = mkdtempSync(join(tmpdir(), "openclaw-release-inventory-"));
+    const tempRoot = mkdtempSync(join(tmpdir(), "brikko-studio-release-inventory-"));
 
     try {
       mkdirSync(join(tempRoot, "dist"), { recursive: true });
@@ -497,10 +497,10 @@ describe("collectMissingPackPaths", () => {
         "scripts/postinstall-bundled-plugins.mjs",
         "dist/task-registry-control.runtime.js",
         bundledDistPluginFile("slack", "runtime-api.js"),
-        bundledDistPluginFile("slack", "openclaw.plugin.json"),
+        bundledDistPluginFile("slack", "brikko-studio.plugin.json"),
         bundledDistPluginFile("slack", "package.json"),
         bundledDistPluginFile("telegram", "runtime-api.js"),
-        bundledDistPluginFile("telegram", "openclaw.plugin.json"),
+        bundledDistPluginFile("telegram", "brikko-studio.plugin.json"),
         bundledDistPluginFile("telegram", "package.json"),
       ]),
     );
@@ -573,23 +573,23 @@ describe("resolveMissingPackBuildHint", () => {
 describe("collectPackUnpackedSizeErrors", () => {
   it("accepts pack results within the unpacked size budget", () => {
     expect(
-      collectPackUnpackedSizeErrors([makePackResult("openclaw-2026.3.14.tgz", 120_354_302)]),
+      collectPackUnpackedSizeErrors([makePackResult("brikko-studio-2026.3.14.tgz", 120_354_302)]),
     ).toEqual([]);
   });
 
   it("flags oversized pack results that risk low-memory startup failures", () => {
     expect(
-      collectPackUnpackedSizeErrors([makePackResult("openclaw-2026.3.12.tgz", 224_002_564)]),
+      collectPackUnpackedSizeErrors([makePackResult("brikko-studio-2026.3.12.tgz", 224_002_564)]),
     ).toEqual([
-      "openclaw-2026.3.12.tgz unpackedSize 224002564 bytes (213.6 MiB) exceeds budget 211812352 bytes (202.0 MiB). Investigate duplicate channel shims, copied extension trees, or other accidental pack bloat before release.",
+      "brikko-studio-2026.3.12.tgz unpackedSize 224002564 bytes (213.6 MiB) exceeds budget 211812352 bytes (202.0 MiB). Investigate duplicate channel shims, copied extension trees, or other accidental pack bloat before release.",
     ]);
   });
 
   it("fails closed when npm pack output omits unpackedSize for every result", () => {
     expect(
       collectPackUnpackedSizeErrors([
-        { filename: "openclaw-2026.3.14.tgz" },
-        { filename: "openclaw-extra.tgz", unpackedSize: Number.NaN },
+        { filename: "brikko-studio-2026.3.14.tgz" },
+        { filename: "brikko-studio-extra.tgz", unpackedSize: Number.NaN },
       ]),
     ).toEqual([
       "npm pack --dry-run produced no unpackedSize data; pack size budget was not verified.",
@@ -625,7 +625,7 @@ describe("createPackedBundledPluginPostinstallEnv", () => {
   it("keeps packed postinstall on the lazy bundled dependency path", () => {
     expect(createPackedBundledPluginPostinstallEnv({ PATH: "/usr/bin" })).toEqual({
       PATH: "/usr/bin",
-      OPENCLAW_DISABLE_BUNDLED_ENTRY_SOURCE_FALLBACK: "1",
+      BRIKKO_STUDIO_DISABLE_BUNDLED_ENTRY_SOURCE_FALLBACK: "1",
     });
   });
 });

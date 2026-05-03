@@ -1,4 +1,4 @@
-import { REALTIME_VOICE_AUDIO_FORMAT_PCM16_24KHZ } from "openclaw/plugin-sdk/realtime-voice";
+import { REALTIME_VOICE_AUDIO_FORMAT_PCM16_24KHZ } from "brikko-studio/plugin-sdk/realtime-voice";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { buildOpenAIRealtimeVoiceProvider } from "./realtime-voice-provider.js";
 
@@ -70,7 +70,7 @@ vi.mock("ws", () => ({
   default: FakeWebSocket,
 }));
 
-vi.mock("openclaw/plugin-sdk/ssrf-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/ssrf-runtime", () => ({
   fetchWithSsrFGuard: fetchWithSsrFGuardMock,
 }));
 
@@ -111,8 +111,8 @@ describe("buildOpenAIRealtimeVoiceProvider", () => {
     vi.unstubAllEnvs();
   });
 
-  it("adds OpenClaw attribution headers to native realtime websocket requests", () => {
-    vi.stubEnv("OPENCLAW_VERSION", "2026.3.22");
+  it("adds Brikko Studio attribution headers to native realtime websocket requests", () => {
+    vi.stubEnv("BRIKKO_STUDIO_VERSION", "2026.3.22");
     const provider = buildOpenAIRealtimeVoiceProvider();
     const bridge = provider.createBridge({
       providerConfig: { apiKey: "sk-test" }, // pragma: allowlist secret
@@ -126,14 +126,14 @@ describe("buildOpenAIRealtimeVoiceProvider", () => {
     const socket = FakeWebSocket.instances[0];
     const options = socket?.args[1] as { headers?: Record<string, string> } | undefined;
     expect(options?.headers).toMatchObject({
-      originator: "openclaw",
+      originator: "brikko-studio",
       version: "2026.3.22",
-      "User-Agent": "openclaw/2026.3.22",
+      "User-Agent": "brikko-studio/2026.3.22",
     });
   });
 
-  it("returns browser-safe OpenClaw attribution headers for native WebRTC offers", async () => {
-    vi.stubEnv("OPENCLAW_VERSION", "2026.3.22");
+  it("returns browser-safe Brikko Studio attribution headers for native WebRTC offers", async () => {
+    vi.stubEnv("BRIKKO_STUDIO_VERSION", "2026.3.22");
     fetchWithSsrFGuardMock.mockResolvedValueOnce({
       response: createJsonResponse({
         client_secret: { value: "client-secret-123" },
@@ -159,9 +159,9 @@ describe("buildOpenAIRealtimeVoiceProvider", () => {
           headers: expect.objectContaining({
             Authorization: "Bearer sk-test", // pragma: allowlist secret
             "Content-Type": "application/json",
-            originator: "openclaw",
+            originator: "brikko-studio",
             version: "2026.3.22",
-            "User-Agent": "openclaw/2026.3.22",
+            "User-Agent": "brikko-studio/2026.3.22",
           }),
         }),
       }),
@@ -201,7 +201,7 @@ describe("buildOpenAIRealtimeVoiceProvider", () => {
   });
 
   it("resolves keychain OPENAI_API_KEY refs before creating browser sessions", async () => {
-    vi.stubEnv("OPENAI_API_KEY", "keychain:openclaw:OPENAI_REALTIME_BROWSER_TEST");
+    vi.stubEnv("OPENAI_API_KEY", "keychain:brikko-studio:OPENAI_REALTIME_BROWSER_TEST");
     execFileSyncMock.mockReturnValueOnce("sk-browser-env\n"); // pragma: allowlist secret
     fetchWithSsrFGuardMock.mockResolvedValueOnce({
       response: createJsonResponse({
@@ -221,7 +221,7 @@ describe("buildOpenAIRealtimeVoiceProvider", () => {
 
     expect(execFileSyncMock).toHaveBeenCalledWith(
       "/usr/bin/security",
-      ["find-generic-password", "-s", "openclaw", "-a", "OPENAI_REALTIME_BROWSER_TEST", "-w"],
+      ["find-generic-password", "-s", "brikko-studio", "-a", "OPENAI_REALTIME_BROWSER_TEST", "-w"],
       expect.objectContaining({
         encoding: "utf8",
         timeout: 5000,
@@ -239,7 +239,7 @@ describe("buildOpenAIRealtimeVoiceProvider", () => {
   });
 
   it("resolves and caches keychain OPENAI_API_KEY refs before creating bridges", () => {
-    vi.stubEnv("OPENAI_API_KEY", "keychain:openclaw:OPENAI_REALTIME_BRIDGE_TEST");
+    vi.stubEnv("OPENAI_API_KEY", "keychain:brikko-studio:OPENAI_REALTIME_BRIDGE_TEST");
     execFileSyncMock.mockReturnValue("sk-bridge-env\n"); // pragma: allowlist secret
     const provider = buildOpenAIRealtimeVoiceProvider();
 
@@ -268,7 +268,7 @@ describe("buildOpenAIRealtimeVoiceProvider", () => {
   });
 
   it("does not resolve keychain refs during configured checks", () => {
-    vi.stubEnv("OPENAI_API_KEY", "keychain:openclaw:OPENAI_REALTIME_CONFIGURED_TEST");
+    vi.stubEnv("OPENAI_API_KEY", "keychain:brikko-studio:OPENAI_REALTIME_CONFIGURED_TEST");
     const provider = buildOpenAIRealtimeVoiceProvider();
 
     expect(provider.isConfigured({ providerConfig: {} })).toBe(true);
@@ -276,7 +276,7 @@ describe("buildOpenAIRealtimeVoiceProvider", () => {
   });
 
   it("fails closed when keychain refs cannot be resolved", () => {
-    vi.stubEnv("OPENAI_API_KEY", "keychain:openclaw:OPENAI_REALTIME_MISSING_TEST");
+    vi.stubEnv("OPENAI_API_KEY", "keychain:brikko-studio:OPENAI_REALTIME_MISSING_TEST");
     execFileSyncMock.mockImplementationOnce(() => {
       throw new Error("keychain unavailable");
     });

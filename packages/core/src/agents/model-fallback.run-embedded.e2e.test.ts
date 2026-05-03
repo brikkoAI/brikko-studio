@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import type { AuthProfileFailureReason } from "./auth-profiles.js";
 import { runWithModelFallback } from "./model-fallback.js";
 import { classifyEmbeddedPiRunResultForModelFallback } from "./pi-embedded-runner/result-fallback-classifier.js";
@@ -33,7 +33,7 @@ vi.mock("./models-config.js", async () => {
   const mod = await vi.importActual<typeof import("./models-config.js")>("./models-config.js");
   return {
     ...mod,
-    ensureOpenClawModelsJson: vi.fn(async () => ({ wrote: false })),
+    ensureBrikko StudioModelsJson: vi.fn(async () => ({ wrote: false })),
   };
 });
 
@@ -77,7 +77,7 @@ type EmbeddedAttemptParams = {
   authProfileId?: string;
 };
 
-function makeConfig(): OpenClawConfig {
+function makeConfig(): Brikko StudioConfig {
   const apiKeyField = ["api", "Key"].join("");
   return {
     agents: {
@@ -124,13 +124,13 @@ function makeConfig(): OpenClawConfig {
         },
       },
     },
-  } satisfies OpenClawConfig;
+  } satisfies Brikko StudioConfig;
 }
 
 async function withAgentWorkspace<T>(
   fn: (ctx: { agentDir: string; workspaceDir: string }) => Promise<T>,
 ): Promise<T> {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-model-fallback-"));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-model-fallback-"));
   const agentDir = path.join(root, "agent");
   const workspaceDir = path.join(root, "workspace");
   await fs.mkdir(agentDir, { recursive: true });
@@ -217,7 +217,7 @@ async function runEmbeddedFallback(params: {
   sessionKey: string;
   runId: string;
   abortSignal?: AbortSignal;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
 }) {
   const cfg = params.config ?? makeConfig();
   return await runWithModelFallback({

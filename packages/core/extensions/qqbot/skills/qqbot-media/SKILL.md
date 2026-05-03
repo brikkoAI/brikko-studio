@@ -1,7 +1,7 @@
 ---
 name: qqbot-media
 description: QQBot 富媒体收发能力。使用 <qqmedia> 标签，系统根据文件扩展名自动识别类型（图片/语音/视频/文件）。
-metadata: { "openclaw": { "emoji": "📸", "requires": { "config": ["channels.qqbot"] } } }
+metadata: { "brikko-studio": { "emoji": "📸", "requires": { "config": ["channels.qqbot"] } } }
 ---
 
 # QQBot 富媒体收发
@@ -29,7 +29,7 @@ metadata: { "openclaw": { "emoji": "📸", "requires": { "config": ["channels.qq
 
 1. **路径必须是绝对路径**（以 `/` 或 `http` 开头）
 2. **标签必须用开闭标签包裹路径**：`<qqmedia>路径</qqmedia>`
-3. **待发送的本地文件须落在 OpenClaw 媒体目录下**：生成、下载或复制出的文件应写入 **`~/.openclaw/media/qqbot/`**（或其子目录），再写进 `<qqmedia>`。不要只放在 `~/.openclaw/workspace/` 等工作区根目录——平台安全策略只允许从 `~/.openclaw/media/`（含 `media/qqbot`）等受信根路径上传，否则会拦截、发不出去。
+3. **待发送的本地文件须落在 Brikko Studio 媒体目录下**：生成、下载或复制出的文件应写入 **`~/.brikko-studio/media/qqbot/`**（或其子目录），再写进 `<qqmedia>`。不要只放在 `~/.brikko-studio/workspace/` 等工作区根目录——平台安全策略只允许从 `~/.brikko-studio/media/`（含 `media/qqbot`）等受信根路径上传，否则会拦截、发不出去。
 4. **文件大小上限**：图片 30MB / 视频 100MB / 文件 100MB / 语音 20MB
 5. **你有能力发送本地图片/文件**，直接用标签包裹路径即可，**不要说"无法发送"**
 6. 发送语音时不要重复语音中已朗读的文字

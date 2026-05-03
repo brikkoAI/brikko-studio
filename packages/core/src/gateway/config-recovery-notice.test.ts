@@ -19,10 +19,10 @@ describe("config recovery notice", () => {
       formatConfigRecoveryNotice({
         phase: "startup",
         reason: "startup-invalid-config",
-        configPath: "/home/test/.openclaw/openclaw.json",
+        configPath: "/home/test/.brikko-studio/brikko-studio.json",
       }),
     ).toBe(
-      "Config recovery warning: OpenClaw restored openclaw.json from the last-known-good backup during startup (startup-invalid-config). The rejected config was invalid and was preserved as a timestamped .clobbered.* file. Do not write openclaw.json again unless you validate the full config first.",
+      "Config recovery warning: Brikko Studio restored brikko-studio.json from the last-known-good backup during startup (startup-invalid-config). The rejected config was invalid and was preserved as a timestamped .clobbered.* file. Do not write brikko-studio.json again unless you validate the full config first.",
     );
   });
 
@@ -31,7 +31,7 @@ describe("config recovery notice", () => {
       formatConfigRecoveryNotice({
         phase: "startup",
         reason: "startup-invalid-config",
-        configPath: "/home/test/.openclaw/openclaw.json",
+        configPath: "/home/test/.brikko-studio/brikko-studio.json",
         issues: [
           { path: "agents.defaults.execution", message: "Unrecognized key: execution" },
           { path: "gateway.auth.password.source", message: "Required" },
@@ -48,7 +48,7 @@ describe("config recovery notice", () => {
         cfg: {},
         phase: "reload",
         reason: "reload-invalid-config",
-        configPath: "/home/test/.openclaw/openclaw.json",
+        configPath: "/home/test/.brikko-studio/brikko-studio.json",
         issues: [{ path: "gateway.mode", message: "Expected string" }],
       }),
     ).toBe(true);
@@ -57,7 +57,7 @@ describe("config recovery notice", () => {
     const notice = drainSystemEvents("agent:main:main")[0];
     expect(notice).toContain("gateway.mode: Expected string");
     expect(notice).toContain(
-      "Do not write openclaw.json again unless you validate the full config first.",
+      "Do not write brikko-studio.json again unless you validate the full config first.",
     );
   });
 });

@@ -1,7 +1,7 @@
 import {
   createModelCatalogPresetAppliers,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/provider-onboard";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   QWEN_CN_BASE_URL,
   QWEN_DEFAULT_MODEL_REF,
@@ -13,7 +13,7 @@ import { buildQwenProvider } from "./provider-catalog.js";
 
 const qwenPresetAppliers = createModelCatalogPresetAppliers<[string]>({
   primaryModelRef: QWEN_DEFAULT_MODEL_REF,
-  resolveParams: (_cfg: OpenClawConfig, baseUrl: string) => {
+  resolveParams: (_cfg: Brikko StudioConfig, baseUrl: string) => {
     const provider = buildQwenProvider({ baseUrl });
     return {
       providerId: "qwen",
@@ -31,35 +31,35 @@ const qwenPresetAppliers = createModelCatalogPresetAppliers<[string]>({
   },
 });
 
-function applyQwenProviderConfig(cfg: OpenClawConfig): OpenClawConfig {
+function applyQwenProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return qwenPresetAppliers.applyProviderConfig(cfg, QWEN_GLOBAL_BASE_URL);
 }
 
-function applyQwenProviderConfigCn(cfg: OpenClawConfig): OpenClawConfig {
+function applyQwenProviderConfigCn(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return qwenPresetAppliers.applyProviderConfig(cfg, QWEN_CN_BASE_URL);
 }
 
-export function applyQwenConfig(cfg: OpenClawConfig): OpenClawConfig {
+export function applyQwenConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return qwenPresetAppliers.applyConfig(cfg, QWEN_GLOBAL_BASE_URL);
 }
 
-export function applyQwenConfigCn(cfg: OpenClawConfig): OpenClawConfig {
+export function applyQwenConfigCn(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return qwenPresetAppliers.applyConfig(cfg, QWEN_CN_BASE_URL);
 }
 
-function applyQwenStandardProviderConfig(cfg: OpenClawConfig): OpenClawConfig {
+function applyQwenStandardProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return qwenPresetAppliers.applyProviderConfig(cfg, QWEN_STANDARD_GLOBAL_BASE_URL);
 }
 
-function applyQwenStandardProviderConfigCn(cfg: OpenClawConfig): OpenClawConfig {
+function applyQwenStandardProviderConfigCn(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return qwenPresetAppliers.applyProviderConfig(cfg, QWEN_STANDARD_CN_BASE_URL);
 }
 
-export function applyQwenStandardConfig(cfg: OpenClawConfig): OpenClawConfig {
+export function applyQwenStandardConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return qwenPresetAppliers.applyConfig(cfg, QWEN_STANDARD_GLOBAL_BASE_URL);
 }
 
-export function applyQwenStandardConfigCn(cfg: OpenClawConfig): OpenClawConfig {
+export function applyQwenStandardConfigCn(cfg: Brikko StudioConfig): Brikko StudioConfig {
   return qwenPresetAppliers.applyConfig(cfg, QWEN_STANDARD_CN_BASE_URL);
 }
 

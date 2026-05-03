@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/skill-workshop",
+  "name": "@brikko-studio/skill-workshop",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw skill workshop plugin",
+  "description": "Brikko Studio skill workshop plugin",
   "type": "module",
   "dependencies": {
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

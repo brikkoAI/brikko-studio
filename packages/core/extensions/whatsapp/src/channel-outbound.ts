@@ -1,4 +1,4 @@
-import { chunkText } from "openclaw/plugin-sdk/reply-chunking";
+import { chunkText } from "brikko-studio/plugin-sdk/reply-chunking";
 import { createWhatsAppOutboundBase } from "./outbound-base.js";
 import { normalizeWhatsAppPayloadTextPreservingIndentation } from "./outbound-media-contract.js";
 import { resolveWhatsAppOutboundTarget } from "./resolve-outbound-target.js";

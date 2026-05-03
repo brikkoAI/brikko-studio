@@ -8,11 +8,11 @@ const resolveWebhookTargetWithAuthOrReject = vi.hoisted(() => vi.fn());
 const withResolvedWebhookRequestPipeline = vi.hoisted(() => vi.fn());
 const verifyGoogleChatRequest = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/webhook-request-guards", () => ({
+vi.mock("brikko-studio/plugin-sdk/webhook-request-guards", () => ({
   readJsonWebhookBodyOrReject,
 }));
 
-vi.mock("openclaw/plugin-sdk/webhook-targets", () => ({
+vi.mock("brikko-studio/plugin-sdk/webhook-targets", () => ({
   resolveWebhookTargetWithAuthOrReject,
   withResolvedWebhookRequestPipeline,
 }));

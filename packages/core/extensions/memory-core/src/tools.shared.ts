@@ -4,9 +4,9 @@ import {
   resolveSessionAgentIds,
   type MemoryCorpusSearchResult,
   type AnyAgentTool,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/memory-core-host-runtime-core";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/memory-core-host-runtime-core";
+import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { Type } from "typebox";
 
 type MemoryToolRuntime = typeof import("./tools.runtime.js");
@@ -14,8 +14,8 @@ type MemorySearchManagerResult = Awaited<
   ReturnType<(typeof import("./memory/index.js"))["getMemorySearchManager"]>
 >;
 type MemoryToolOptions = {
-  config?: OpenClawConfig;
-  getConfig?: () => OpenClawConfig | undefined;
+  config?: Brikko StudioConfig;
+  getConfig?: () => Brikko StudioConfig | undefined;
   agentId?: string;
   agentSessionKey?: string;
 };
@@ -67,7 +67,7 @@ function resolveMemoryToolContext(options: MemoryToolOptions) {
 }
 
 export async function getMemoryManagerContext(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
 }): Promise<
   | {
@@ -81,7 +81,7 @@ export async function getMemoryManagerContext(params: {
 }
 
 export async function getMemoryManagerContextWithPurpose(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId: string;
   purpose?: "default" | "status" | "cli";
 }): Promise<
@@ -107,7 +107,7 @@ export function createMemoryTool(params: {
   name: string;
   description: string;
   parameters: typeof MemorySearchSchema | typeof MemoryGetSchema;
-  execute: (ctx: { cfg: OpenClawConfig; agentId: string }) => AnyAgentTool["execute"];
+  execute: (ctx: { cfg: Brikko StudioConfig; agentId: string }) => AnyAgentTool["execute"];
 }): AnyAgentTool | null {
   const ctx = resolveMemoryToolContext(params.options);
   if (!ctx) {

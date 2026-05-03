@@ -332,7 +332,7 @@ function createArgMenusHarness() {
     channelsConfig: undefined,
     slashCommand: {
       enabled: true,
-      name: "openclaw",
+      name: "brikko-studio",
       ephemeral: true,
       sessionPrefix: "slack:slash",
     },
@@ -515,8 +515,8 @@ describe("Slack native command argument menus", () => {
     unsafeConfirmHandler = requireHandler(harness.commands, "/unsafeconfirm", "/unsafeconfirm");
     longConfirmHandler = requireHandler(harness.commands, "/longconfirm", "/longconfirm");
     agentStatusHandler = requireHandler(harness.commands, "/agentstatus", "/agentstatus");
-    argMenuHandler = requireHandler(harness.actions, /^openclaw_cmdarg/, "arg-menu action");
-    argMenuOptionsHandler = requireHandler(harness.options, "openclaw_cmdarg", "arg-menu options");
+    argMenuHandler = requireHandler(harness.actions, /^brikko-studio_cmdarg/, "arg-menu action");
+    argMenuOptionsHandler = requireHandler(harness.options, "brikko-studio_cmdarg", "arg-menu options");
   });
 
   beforeEach(() => {
@@ -529,10 +529,10 @@ describe("Slack native command argument menus", () => {
     expect(testHarness.commands.size).toBeGreaterThan(0);
     expect(
       Array.from(testHarness.actions.keys()).some(
-        (key) => key instanceof RegExp && String(key) === String(/^openclaw_cmdarg/),
+        (key) => key instanceof RegExp && String(key) === String(/^brikko-studio_cmdarg/),
       ),
     ).toBe(true);
-    expect(testHarness.options.has("openclaw_cmdarg")).toBe(true);
+    expect(testHarness.options.has("brikko-studio_cmdarg")).toBe(true);
     expect(testHarness.optionsReceiverContexts[0]).toBe(testHarness.app);
   });
 
@@ -570,7 +570,7 @@ describe("Slack native command argument menus", () => {
       channelsConfig: undefined,
       slashCommand: {
         enabled: true,
-        name: "openclaw",
+        name: "brikko-studio",
         ephemeral: true,
         sessionPrefix: "slack:slash",
       },
@@ -590,7 +590,7 @@ describe("Slack native command argument menus", () => {
     expect(commands.size).toBeGreaterThan(0);
     expect(
       Array.from(actions.keys()).some(
-        (key) => key instanceof RegExp && String(key) === String(/^openclaw_cmdarg/),
+        (key) => key instanceof RegExp && String(key) === String(/^brikko-studio_cmdarg/),
       ),
     ).toBe(true);
 
@@ -617,8 +617,8 @@ describe("Slack native command argument menus", () => {
     const actions = expectArgMenuLayout(respond);
     const elementType = actions?.elements?.[0]?.type;
     expect(elementType).toBe("button");
-    expect(actions?.elements?.[0]?.action_id).toBe("openclaw_cmdarg_0_0");
-    expect(actions?.elements?.[1]?.action_id).toBe("openclaw_cmdarg_0_1");
+    expect(actions?.elements?.[0]?.action_id).toBe("brikko-studio_cmdarg_0_0");
+    expect(actions?.elements?.[1]?.action_id).toBe("brikko-studio_cmdarg_0_1");
     expect(actions?.elements?.[0]?.confirm).toBeTruthy();
   });
 
@@ -627,7 +627,7 @@ describe("Slack native command argument menus", () => {
     const actions = expectArgMenuLayout(respond);
     const element = actions?.elements?.[0];
     expect(element?.type).toBe("static_select");
-    expect(element?.action_id).toBe("openclaw_cmdarg");
+    expect(element?.action_id).toBe("brikko-studio_cmdarg");
     expect(element?.confirm).toBeTruthy();
   });
 
@@ -690,7 +690,7 @@ describe("Slack native command argument menus", () => {
   it("shows an overflow menu when choices fit compact range", async () => {
     const element = await getFirstActionElementFromCommand(reportCompactHandler);
     expect(element?.type).toBe("overflow");
-    expect(element?.action_id).toBe("openclaw_cmdarg");
+    expect(element?.action_id).toBe("brikko-studio_cmdarg");
     expect(element?.confirm).toBeTruthy();
   });
 
@@ -778,15 +778,15 @@ describe("Slack native command argument menus", () => {
     const actions = findFirstActionsBlock(payload);
     const element = actions?.elements?.[0];
     expect(element?.type).toBe("external_select");
-    expect(element?.action_id).toBe("openclaw_cmdarg");
-    expect(blockId).toContain("openclaw_cmdarg_ext:");
-    const token = (blockId ?? "").slice("openclaw_cmdarg_ext:".length);
+    expect(element?.action_id).toBe("brikko-studio_cmdarg");
+    expect(blockId).toContain("brikko-studio_cmdarg_ext:");
+    const token = (blockId ?? "").slice("brikko-studio_cmdarg_ext:".length);
     expect(token).toMatch(/^[A-Za-z0-9_-]{24}$/);
   });
 
   it("serves filtered options for external_select menus", async () => {
     const { blockId } = await runCommandAndResolveActionsBlock(reportExternalHandler);
-    expect(blockId).toContain("openclaw_cmdarg_ext:");
+    expect(blockId).toContain("brikko-studio_cmdarg_ext:");
 
     const ackOptions = vi.fn().mockResolvedValue(undefined);
     await argMenuOptionsHandler({
@@ -817,7 +817,7 @@ describe("Slack native command argument menus", () => {
     );
     const argMenuOptionsTrackingHandler = requireHandler(
       trackingHarness.options,
-      "openclaw_cmdarg",
+      "brikko-studio_cmdarg",
       "arg-menu options",
     );
     const { blockId } = await runCommandAndResolveActionsBlock(reportExternalTrackingHandler);
@@ -838,7 +838,7 @@ describe("Slack native command argument menus", () => {
 
   it("rejects external_select option requests without user identity", async () => {
     const { blockId } = await runCommandAndResolveActionsBlock(reportExternalHandler);
-    expect(blockId).toContain("openclaw_cmdarg_ext:");
+    expect(blockId).toContain("brikko-studio_cmdarg_ext:");
 
     const ackOptions = vi.fn().mockResolvedValue(undefined);
     await argMenuOptionsHandler({
@@ -875,7 +875,7 @@ describe("Slack native command argument menus", () => {
     await registerCommands(trackingHarness.ctx, trackingHarness.account, trackEvent);
     const argMenuTrackingHandler = requireHandler(
       trackingHarness.actions,
-      /^openclaw_cmdarg/,
+      /^brikko-studio_cmdarg/,
       "arg-menu action",
     );
 
@@ -959,7 +959,7 @@ function createPolicyHarness(overrides?: {
     channelsConfig: overrides?.channelsConfig,
     slashCommand: {
       enabled: true,
-      name: "openclaw",
+      name: "brikko-studio",
       ephemeral: true,
       sessionPrefix: "slack:slash",
     },

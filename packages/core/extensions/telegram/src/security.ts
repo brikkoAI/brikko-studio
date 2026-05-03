@@ -1,6 +1,6 @@
-import { createScopedDmSecurityResolver } from "openclaw/plugin-sdk/channel-config-helpers";
-import type { ChannelPlugin } from "openclaw/plugin-sdk/channel-core";
-import { createAllowlistProviderRouteAllowlistWarningCollector } from "openclaw/plugin-sdk/channel-policy";
+import { createScopedDmSecurityResolver } from "brikko-studio/plugin-sdk/channel-config-helpers";
+import type { ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
+import { createAllowlistProviderRouteAllowlistWarningCollector } from "brikko-studio/plugin-sdk/channel-policy";
 import type { ResolvedTelegramAccount } from "./accounts.js";
 import { collectTelegramSecurityAuditFindings } from "./security-audit.js";
 

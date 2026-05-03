@@ -1,10 +1,10 @@
-import type { ReplyPayload } from "openclaw/plugin-sdk/reply-dispatch-runtime";
+import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-dispatch-runtime";
 import {
   resolveSendableOutboundReplyParts,
   resolveTextChunksWithFallback,
-} from "openclaw/plugin-sdk/reply-payload";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { loadWebMedia } from "openclaw/plugin-sdk/web-media";
+} from "brikko-studio/plugin-sdk/reply-payload";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { loadWebMedia } from "brikko-studio/plugin-sdk/web-media";
 import { chunkDiscordTextWithMode } from "../chunk.js";
 import type {
   ButtonInteraction,

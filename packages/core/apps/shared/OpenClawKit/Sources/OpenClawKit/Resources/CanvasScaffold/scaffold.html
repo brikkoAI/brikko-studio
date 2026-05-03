@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>OpenClaw</title>
+    <title>Brikko Studio</title>
     <script>
       (() => {
         try {
@@ -108,7 +108,7 @@
         z-index: 1;
       }
 
-      #openclaw-home {
+      #brikko-studio-home {
         position: fixed;
         inset: 0;
         z-index: 2;
@@ -179,7 +179,7 @@
         box-shadow: 0 0 18px color-mix(in srgb, var(--state) 68%, transparent);
       }
 
-      #openclaw-home-eyebrow {
+      #brikko-studio-home-eyebrow {
         min-width: 0;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -367,7 +367,7 @@
         line-height: 1.45;
       }
 
-      #openclaw-status {
+      #brikko-studio-status {
         position: fixed;
         inset: 0;
         display: none;
@@ -379,7 +379,7 @@
         z-index: 3;
       }
 
-      #openclaw-status .card {
+      #brikko-studio-status .card {
         text-align: center;
         padding: 16px 18px;
         border-radius: 14px;
@@ -390,19 +390,19 @@
         backdrop-filter: blur(14px);
       }
 
-      #openclaw-status .title {
+      #brikko-studio-status .title {
         font: 600 20px -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
         color: rgba(255, 255, 255, 0.92);
       }
 
-      #openclaw-status .subtitle {
+      #brikko-studio-status .subtitle {
         margin-top: 6px;
         font: 500 12px -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
         color: rgba(255, 255, 255, 0.58);
       }
 
       @media (max-width: 640px) {
-        #openclaw-home {
+        #brikko-studio-home {
           padding-left: 12px;
           padding-right: 12px;
         }
@@ -423,7 +423,7 @@
       }
 
       @media (max-height: 760px) {
-        #openclaw-home {
+        #brikko-studio-home {
           padding-top: calc(var(--safe-top) + 14px);
           padding-bottom: calc(var(--safe-bottom) + 12px);
         }
@@ -489,33 +489,33 @@
     </style>
   </head>
   <body data-state="offline">
-    <canvas id="openclaw-canvas"></canvas>
-    <div id="openclaw-home">
+    <canvas id="brikko-studio-canvas"></canvas>
+    <div id="brikko-studio-home">
       <div class="shell">
         <div class="hero">
           <div class="eyebrow">
             <span class="eyebrow-dot"></span>
-            <span id="openclaw-home-eyebrow">Welcome to OpenClaw</span>
+            <span id="brikko-studio-home-eyebrow">Welcome to Brikko Studio</span>
           </div>
-          <h1 id="openclaw-home-title">Your phone stays quiet until it is needed</h1>
-          <p id="openclaw-home-subtitle">
+          <h1 id="brikko-studio-home-title">Your phone stays quiet until it is needed</h1>
+          <p id="brikko-studio-home-subtitle">
             Pair this device to your gateway to wake it only for real work, keep a live agent overview handy, and avoid battery-draining background loops.
           </p>
 
           <div class="hero-grid">
             <div class="meta-card">
               <div class="meta-label">Gateway</div>
-              <div class="meta-value" id="openclaw-home-gateway">Gateway</div>
-              <div class="meta-subtitle" id="openclaw-home-gateway-caption">Connect to load your agents</div>
+              <div class="meta-value" id="brikko-studio-home-gateway">Gateway</div>
+              <div class="meta-subtitle" id="brikko-studio-home-gateway-caption">Connect to load your agents</div>
             </div>
 
             <div class="meta-card">
               <div class="meta-label">Active Agent</div>
               <div class="agent-focus">
-                <div class="agent-badge" id="openclaw-home-active-badge">OC</div>
+                <div class="agent-badge" id="brikko-studio-home-active-badge">OC</div>
                 <div>
-                  <div class="name" id="openclaw-home-active-name">Main</div>
-                  <div class="caption" id="openclaw-home-active-caption">Connect to load your agents</div>
+                  <div class="name" id="brikko-studio-home-active-name">Main</div>
+                  <div class="caption" id="brikko-studio-home-active-caption">Connect to load your agents</div>
                 </div>
               </div>
             </div>
@@ -525,43 +525,43 @@
         <div class="meta-card section">
           <div class="section-header">
             <div class="section-title">Live agents</div>
-            <div class="section-count" id="openclaw-home-agent-count">0 agents</div>
+            <div class="section-count" id="brikko-studio-home-agent-count">0 agents</div>
           </div>
-          <div class="agent-grid" id="openclaw-home-agent-grid"></div>
-          <div class="footer-note" id="openclaw-home-footer">
+          <div class="agent-grid" id="brikko-studio-home-agent-grid"></div>
+          <div class="footer-note" id="brikko-studio-home-footer">
             When connected, the gateway can wake the phone with a silent push instead of holding an always-on session.
           </div>
         </div>
       </div>
     </div>
 
-    <div id="openclaw-status">
+    <div id="brikko-studio-status">
       <div class="card">
-        <div class="title" id="openclaw-status-title">Ready</div>
-        <div class="subtitle" id="openclaw-status-subtitle">Waiting for agent</div>
+        <div class="title" id="brikko-studio-status-title">Ready</div>
+        <div class="subtitle" id="brikko-studio-status-subtitle">Waiting for agent</div>
       </div>
     </div>
 
     <script>
       (() => {
-        const canvas = document.getElementById('openclaw-canvas');
+        const canvas = document.getElementById('brikko-studio-canvas');
         const ctx = canvas.getContext('2d');
-        const statusEl = document.getElementById('openclaw-status');
-        const titleEl = document.getElementById('openclaw-status-title');
-        const subtitleEl = document.getElementById('openclaw-status-subtitle');
+        const statusEl = document.getElementById('brikko-studio-status');
+        const titleEl = document.getElementById('brikko-studio-status-title');
+        const subtitleEl = document.getElementById('brikko-studio-status-subtitle');
         const home = {
-          root: document.getElementById('openclaw-home'),
-          eyebrow: document.getElementById('openclaw-home-eyebrow'),
-          title: document.getElementById('openclaw-home-title'),
-          subtitle: document.getElementById('openclaw-home-subtitle'),
-          gateway: document.getElementById('openclaw-home-gateway'),
-          gatewayCaption: document.getElementById('openclaw-home-gateway-caption'),
-          activeBadge: document.getElementById('openclaw-home-active-badge'),
-          activeName: document.getElementById('openclaw-home-active-name'),
-          activeCaption: document.getElementById('openclaw-home-active-caption'),
-          agentCount: document.getElementById('openclaw-home-agent-count'),
-          agentGrid: document.getElementById('openclaw-home-agent-grid'),
-          footer: document.getElementById('openclaw-home-footer')
+          root: document.getElementById('brikko-studio-home'),
+          eyebrow: document.getElementById('brikko-studio-home-eyebrow'),
+          title: document.getElementById('brikko-studio-home-title'),
+          subtitle: document.getElementById('brikko-studio-home-subtitle'),
+          gateway: document.getElementById('brikko-studio-home-gateway'),
+          gatewayCaption: document.getElementById('brikko-studio-home-gateway-caption'),
+          activeBadge: document.getElementById('brikko-studio-home-active-badge'),
+          activeName: document.getElementById('brikko-studio-home-active-name'),
+          activeCaption: document.getElementById('brikko-studio-home-active-caption'),
+          agentCount: document.getElementById('brikko-studio-home-agent-count'),
+          agentGrid: document.getElementById('brikko-studio-home-agent-grid'),
+          footer: document.getElementById('brikko-studio-home-footer')
         };
         const debugStatusEnabledByQuery = (() => {
           try {
@@ -641,8 +641,8 @@
 
           document.body.dataset.state = state.gatewayState || 'offline';
           home.root.style.display = 'flex';
-          home.eyebrow.textContent = state.eyebrow || 'Welcome to OpenClaw';
-          home.title.textContent = state.title || 'OpenClaw';
+          home.eyebrow.textContent = state.eyebrow || 'Welcome to Brikko Studio';
+          home.title.textContent = state.title || 'Brikko Studio';
           home.subtitle.textContent = state.subtitle || '';
           home.gateway.textContent = state.gatewayLabel || 'Gateway';
           home.gatewayCaption.textContent = state.gatewayState === 'connected'
@@ -678,7 +678,7 @@
           statusEl.style.display = 'none';
         }
 
-        window.__openclaw = {
+        window.__brikko-studio = {
           canvas,
           ctx,
           setDebugStatusEnabled,

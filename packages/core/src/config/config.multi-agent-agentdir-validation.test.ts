@@ -7,7 +7,7 @@ import { validateConfigObject } from "./validation.js";
 
 describe("multi-agent agentDir validation", () => {
   it("rejects shared agents.list agentDir", async () => {
-    const shared = path.join(tmpdir(), "openclaw-shared-agentdir");
+    const shared = path.join(tmpdir(), "brikko-studio-shared-agentdir");
     const res = validateConfigObject({
       agents: {
         list: [
@@ -28,8 +28,8 @@ describe("multi-agent agentDir validation", () => {
       {
         agents: {
           list: [
-            { id: "a", agentDir: "~/.openclaw/agents/shared/agent" },
-            { id: "b", agentDir: "~/.openclaw/agents/shared/agent" },
+            { id: "a", agentDir: "~/.brikko-studio/agents/shared/agent" },
+            { id: "b", agentDir: "~/.brikko-studio/agents/shared/agent" },
           ],
         },
         bindings: [{ agentId: "a", match: { channel: "forum" } }],

@@ -1,7 +1,7 @@
 import {
   embeddedAgentLog,
   type EmbeddedRunAttemptParams,
-} from "openclaw/plugin-sdk/agent-harness-runtime";
+} from "brikko-studio/plugin-sdk/agent-harness-runtime";
 import { renderCodexPromptOverlay } from "../../prompt-overlay.js";
 import { isModernCodexModel } from "../../provider.js";
 import { isCodexAppServerConnectionClosedError, type CodexAppServerClient } from "./client.js";
@@ -153,7 +153,7 @@ export function buildThreadStartParams(
     approvalsReviewer: options.appServer.approvalsReviewer,
     sandbox: options.appServer.sandbox,
     ...(options.appServer.serviceTier ? { serviceTier: options.appServer.serviceTier } : {}),
-    serviceName: "OpenClaw",
+    serviceName: "Brikko Studio",
     ...(options.config ? { config: options.config } : {}),
     developerInstructions: options.developerInstructions ?? buildDeveloperInstructions(params),
     dynamicTools: options.dynamicTools,
@@ -247,8 +247,8 @@ function stabilizeJsonValue(value: JsonValue): JsonValue {
 export function buildDeveloperInstructions(params: EmbeddedRunAttemptParams): string {
   const promptOverlay = renderCodexRuntimePromptOverlay(params);
   const sections = [
-    "You are running inside OpenClaw. Use OpenClaw dynamic tools for OpenClaw-specific integrations such as messaging, cron, sessions, media, gateway, and nodes when available.",
-    "Preserve the user's existing channel/session context. If sending a channel reply, use the OpenClaw messaging tool instead of describing that you would reply.",
+    "You are running inside Brikko Studio. Use Brikko Studio dynamic tools for Brikko Studio-specific integrations such as messaging, cron, sessions, media, gateway, and nodes when available.",
+    "Preserve the user's existing channel/session context. If sending a channel reply, use the Brikko Studio messaging tool instead of describing that you would reply.",
     promptOverlay,
     params.extraSystemPrompt,
     params.skillsSnapshot?.prompt,
@@ -302,7 +302,7 @@ function buildUserInput(
 function resolveCodexAppServerModelProvider(provider: string): string | undefined {
   const normalized = provider.trim();
   if (!normalized || normalized === "codex") {
-    // `codex` is OpenClaw's virtual provider; let Codex app-server keep its
+    // `codex` is Brikko Studio's virtual provider; let Codex app-server keep its
     // native provider/auth selection instead of forcing the legacy OpenAI path.
     return undefined;
   }

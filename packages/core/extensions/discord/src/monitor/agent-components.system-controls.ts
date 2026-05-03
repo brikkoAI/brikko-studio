@@ -1,6 +1,6 @@
 import type { APIStringSelectComponent } from "discord-api-types/v10";
 import { ButtonStyle } from "discord-api-types/v10";
-import { logDebug, logError } from "openclaw/plugin-sdk/text-runtime";
+import { logDebug, logError } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   Button,
   StringSelectMenu,

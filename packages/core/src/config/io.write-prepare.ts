@@ -2,7 +2,7 @@ import { isDeepStrictEqual } from "node:util";
 import { isRecord } from "../utils.js";
 import { applyMergePatch } from "./merge-patch.js";
 import { isBlockedObjectKey } from "./prototype-keys.js";
-import type { OpenClawConfig } from "./types.js";
+import type { Brikko StudioConfig } from "./types.js";
 
 const OPEN_DM_POLICY_ALLOW_FROM_RE =
   /^(?<policyPath>[a-z0-9_.-]+)\s*=\s*"open"\s+requires\s+(?<allowPath>[a-z0-9_.-]+)(?:\s+\(or\s+[a-z0-9_.-]+\))?\s+to include "\*"$/i;
@@ -323,10 +323,10 @@ export function formatConfigValidationFailure(pathLabel: string, issueMessage: s
     `Configuration mismatch: ${policyPath} is "open", but ${allowPath} does not include "*".`,
     "",
     "Fix with:",
-    `  openclaw config set ${allowPath} '["*"]'`,
+    `  brikko-studio config set ${allowPath} '["*"]'`,
     "",
     "Or switch policy:",
-    `  openclaw config set ${policyPath} "pairing"`,
+    `  brikko-studio config set ${policyPath} "pairing"`,
   ].join("\n");
 }
 
@@ -344,11 +344,11 @@ function hasOwnObjectKey(value: Record<string, unknown>, key: string): boolean {
 
 const WRITE_PRUNED_OBJECT = Symbol("write-pruned-object");
 
-function coerceConfig(value: unknown): OpenClawConfig {
+function coerceConfig(value: unknown): Brikko StudioConfig {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return {};
   }
-  return value as OpenClawConfig;
+  return value as Brikko StudioConfig;
 }
 
 function unsetPathForWriteAt(
@@ -421,9 +421,9 @@ function unsetPathForWriteAt(
 }
 
 export function unsetPathForWrite(
-  root: OpenClawConfig,
+  root: Brikko StudioConfig,
   pathSegments: string[],
-): { changed: boolean; next: OpenClawConfig } {
+): { changed: boolean; next: Brikko StudioConfig } {
   if (pathSegments.length === 0) {
     return { changed: false, next: root };
   }
@@ -441,9 +441,9 @@ export function unsetPathForWrite(
 }
 
 export function applyUnsetPathsForWrite(
-  root: OpenClawConfig,
+  root: Brikko StudioConfig,
   unsetPaths: readonly string[][] | undefined,
-): OpenClawConfig {
+): Brikko StudioConfig {
   let next = root;
   for (const unsetPath of unsetPaths ?? []) {
     if (!Array.isArray(unsetPath) || unsetPath.length === 0) {

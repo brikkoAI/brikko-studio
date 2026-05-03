@@ -1,11 +1,11 @@
-import { REALTIME_VOICE_AGENT_CONSULT_TOOL_POLICIES } from "openclaw/plugin-sdk/realtime-voice";
+import { REALTIME_VOICE_AGENT_CONSULT_TOOL_POLICIES } from "brikko-studio/plugin-sdk/realtime-voice";
 import {
   buildSecretInputSchema,
   hasConfiguredSecretInput,
   normalizeResolvedSecretInputString,
   type SecretInput,
-} from "openclaw/plugin-sdk/secret-input";
-import { z } from "openclaw/plugin-sdk/zod";
+} from "brikko-studio/plugin-sdk/secret-input";
+import { z } from "brikko-studio/plugin-sdk/zod";
 import { TtsConfigSchema } from "../api.js";
 import { deepMergeDefined } from "./deep-merge.js";
 import { DEFAULT_VOICE_CALL_REALTIME_INSTRUCTIONS } from "./realtime-defaults.js";
@@ -272,7 +272,7 @@ const VoiceCallRealtimeConfigSchema = z
     streamPath: z.string().min(1).optional(),
     /** System instructions passed to the realtime provider. */
     instructions: z.string().default(DEFAULT_VOICE_CALL_REALTIME_INSTRUCTIONS),
-    /** Tool policy for the shared OpenClaw agent consult tool. */
+    /** Tool policy for the shared Brikko Studio agent consult tool. */
     toolPolicy: VoiceCallRealtimeToolPolicySchema.default("safe-read-only"),
     /** Tool definitions exposed to the realtime provider. */
     tools: z.array(RealtimeToolSchema).default([]),

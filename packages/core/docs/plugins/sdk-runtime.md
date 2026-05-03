@@ -44,13 +44,13 @@ The mutation helpers return `afterWrite` plus a typed `followUp` summary so call
 `api.runtime.config.loadConfig()` and `api.runtime.config.writeConfigFile(...)` are deprecated compatibility helpers under `runtime-config-load-write`. They warn once at runtime, and remain available for old external plugins during the migration window. Bundled plugins must not use them; the config boundary guards fail if plugin code calls them or imports those helpers from plugin SDK subpaths.
 
 For direct SDK imports, use the focused config subpaths instead of the broad
-`openclaw/plugin-sdk/config-runtime` compatibility barrel: `config-types` for
+`brikko-studio/plugin-sdk/config-runtime` compatibility barrel: `config-types` for
 types, `plugin-config-runtime` for already-loaded config assertions and plugin
 entry lookup, `runtime-config-snapshot` for current process snapshots, and
 `config-mutation` for writes. Bundled plugin tests should mock these focused
 subpaths directly instead of mocking the broad compatibility barrel.
 
-Internal OpenClaw runtime code has the same direction: load config once at the CLI, gateway, or process boundary, then pass that value through. Successful mutation writes refresh the process runtime snapshot and advance its internal revision; long-lived caches should key off the runtime-owned cache key instead of serializing config locally. Long-lived runtime modules have a zero-tolerance scanner for ambient `loadConfig()` calls; use a passed `cfg`, a request `context.getRuntimeConfig()`, or `getRuntimeConfig()` at an explicit process boundary.
+Internal Brikko Studio runtime code has the same direction: load config once at the CLI, gateway, or process boundary, then pass that value through. Successful mutation writes refresh the process runtime snapshot and advance its internal revision; long-lived caches should key off the runtime-owned cache key instead of serializing config locally. Long-lived runtime modules have a zero-tolerance scanner for ambient `loadConfig()` calls; use a passed `cfg`, a request `context.getRuntimeConfig()`, or `getRuntimeConfig()` at an explicit process boundary.
 
 Provider and channel execution paths must use the active runtime config snapshot, not a file snapshot returned for config readback or editing. File snapshots preserve source values such as SecretRef markers for UI and writes; provider callbacks need the resolved runtime view. When a helper may be called with either the active source snapshot or the active runtime snapshot, route through `selectApplicableRuntimeConfig()` before reading credentials.
 
@@ -102,7 +102,7 @@ Provider and channel execution paths must use the active runtime config snapshot
     });
     ```
 
-    `runEmbeddedAgent(...)` is the neutral helper for starting a normal OpenClaw agent turn from plugin code. It uses the same provider/model resolution and agent-harness selection as channel-triggered replies.
+    `runEmbeddedAgent(...)` is the neutral helper for starting a normal Brikko Studio agent turn from plugin code. It uses the same provider/model resolution and agent-harness selection as channel-triggered replies.
 
     `runEmbeddedPiAgent(...)` remains as a compatibility alias.
 
@@ -183,13 +183,13 @@ Provider and channel execution paths must use the active runtime config snapshot
     });
     ```
 
-    Inside the Gateway this runtime is in-process. In plugin CLI commands it calls the configured Gateway over RPC, so commands such as `openclaw googlemeet recover-tab` can inspect paired nodes from the terminal. Node commands still go through normal Gateway node pairing, command allowlists, plugin node-invoke policies, and node-local command handling.
+    Inside the Gateway this runtime is in-process. In plugin CLI commands it calls the configured Gateway over RPC, so commands such as `brikko-studio googlemeet recover-tab` can inspect paired nodes from the terminal. Node commands still go through normal Gateway node pairing, command allowlists, plugin node-invoke policies, and node-local command handling.
 
     Plugins that expose dangerous node-host commands should register a node-invoke policy with `api.registerNodeInvokePolicy(...)`. The policy runs in the Gateway after command allowlist checks and before the command is forwarded to the node, so direct `node.invoke` calls and higher-level plugin tools share the same enforcement path.
 
   </Accordion>
   <Accordion title="api.runtime.tasks.managedFlows">
-    Bind a Task Flow runtime to an existing OpenClaw session key or trusted tool context, then create and manage Task Flows without passing an owner on every call.
+    Bind a Task Flow runtime to an existing Brikko Studio session key or trusted tool context, then create and manage Task Flows without passing an owner on every call.
 
     ```typescript
     const taskFlow = api.runtime.tasks.managedFlows.fromToolContext(ctx);
@@ -216,7 +216,7 @@ Provider and channel execution paths must use the active runtime config snapshot
     });
     ```
 
-    Use `bindSession({ sessionKey, requesterOrigin })` when you already have a trusted OpenClaw session key from your own binding layer. Do not bind from raw user input.
+    Use `bindSession({ sessionKey, requesterOrigin })` when you already have a trusted Brikko Studio session key from your own binding layer. Do not bind from raw user input.
 
   </Accordion>
   <Accordion title="api.runtime.tts">
@@ -225,13 +225,13 @@ Provider and channel execution paths must use the active runtime config snapshot
     ```typescript
     // Standard TTS
     const clip = await api.runtime.tts.textToSpeech({
-      text: "Hello from OpenClaw",
+      text: "Hello from Brikko Studio",
       cfg: api.config,
     });
 
     // Telephony-optimized TTS
     const telephonyClip = await api.runtime.tts.textToSpeechTelephony({
-      text: "Hello from OpenClaw",
+      text: "Hello from Brikko Studio",
       cfg: api.config,
     });
 
@@ -304,7 +304,7 @@ Provider and channel execution paths must use the active runtime config snapshot
 
     const result = await api.runtime.webSearch.search({
       config: api.config,
-      args: { query: "OpenClaw plugin SDK", count: 5 },
+      args: { query: "Brikko Studio plugin SDK", count: 5 },
     });
     ```
 
@@ -319,14 +319,14 @@ Provider and channel execution paths must use the active runtime config snapshot
     const isVoice = api.runtime.media.isVoiceCompatibleAudio(filePath);
     const metadata = await api.runtime.media.getImageMetadata(filePath);
     const resized = await api.runtime.media.resizeToJpeg(buffer, { maxWidth: 800 });
-    const terminalQr = await api.runtime.media.renderQrTerminal("https://openclaw.ai");
-    const pngQr = await api.runtime.media.renderQrPngBase64("https://openclaw.ai", {
+    const terminalQr = await api.runtime.media.renderQrTerminal("https://brikko-studio.ai");
+    const pngQr = await api.runtime.media.renderQrPngBase64("https://brikko-studio.ai", {
       scale: 6, // 1-12
       marginModules: 4, // 0-16
     });
-    const pngQrDataUrl = await api.runtime.media.renderQrPngDataUrl("https://openclaw.ai");
-    const tmpRoot = resolvePreferredOpenClawTmpDir();
-    const pngQrFile = await api.runtime.media.writeQrPngTempFile("https://openclaw.ai", {
+    const pngQrDataUrl = await api.runtime.media.renderQrPngDataUrl("https://brikko-studio.ai");
+    const tmpRoot = resolvePreferredBrikko StudioTmpDir();
+    const pngQrFile = await api.runtime.media.writeQrPngTempFile("https://brikko-studio.ai", {
       tmpRoot,
       dirPrefix: "my-plugin-qr-",
       fileName: "qr.png",
@@ -489,8 +489,8 @@ Use `createPluginRuntimeStore` to store the runtime reference for use outside th
 <Steps>
   <Step title="Create the store">
     ```typescript
-    import { createPluginRuntimeStore } from "openclaw/plugin-sdk/runtime-store";
-    import type { PluginRuntime } from "openclaw/plugin-sdk/runtime-store";
+    import { createPluginRuntimeStore } from "brikko-studio/plugin-sdk/runtime-store";
+    import type { PluginRuntime } from "brikko-studio/plugin-sdk/runtime-store";
 
     const store = createPluginRuntimeStore<PluginRuntime>({
       pluginId: "my-plugin",
@@ -538,7 +538,7 @@ Beyond `api.runtime`, the API object also provides:
 <ParamField path="api.name" type="string">
   Plugin display name.
 </ParamField>
-<ParamField path="api.config" type="OpenClawConfig">
+<ParamField path="api.config" type="Brikko StudioConfig">
   Current config snapshot (active in-memory runtime snapshot when available).
 </ParamField>
 <ParamField path="api.pluginConfig" type="Record<string, unknown>">

@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/zalouser",
+  "name": "@brikko-studio/zalouser",
   "version": "2026.5.3",
-  "description": "OpenClaw Zalo Personal Account plugin via native zca-js integration",
+  "description": "Brikko Studio Zalo Personal Account plugin via native zca-js integration",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/brikko-studio/brikko-studio"
   },
   "type": "module",
   "dependencies": {
@@ -12,18 +12,18 @@
     "zca-js": "2.1.2"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*",
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],
@@ -48,7 +48,7 @@
       }
     },
     "install": {
-      "npmSpec": "@openclaw/zalouser",
+      "npmSpec": "@brikko-studio/zalouser",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -56,7 +56,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "brikko-studioVersion": "2026.5.3"
     },
     "release": {
       "publishToClawHub": true,

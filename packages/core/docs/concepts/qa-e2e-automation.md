@@ -8,7 +8,7 @@ read_when:
 title: "QA overview"
 ---
 
-The private QA stack is meant to exercise OpenClaw in a more realistic,
+The private QA stack is meant to exercise Brikko Studio in a more realistic,
 channel-shaped way than a single unit test can.
 
 Current pieces:
@@ -26,13 +26,13 @@ Current pieces:
 
 ## Command surface
 
-Every QA flow runs under `pnpm openclaw qa <subcommand>`. Many have `pnpm qa:*`
+Every QA flow runs under `pnpm brikko-studio qa <subcommand>`. Many have `pnpm qa:*`
 script aliases; both forms are supported.
 
 | Command                                             | Purpose                                                                                                                                                                |
 | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `qa run`                                            | Bundled QA self-check; writes a Markdown report.                                                                                                                       |
-| `qa suite`                                          | Run repo-backed scenarios against the QA gateway lane. Aliases: `pnpm openclaw qa suite --runner multipass` for a disposable Linux VM.                                 |
+| `qa suite`                                          | Run repo-backed scenarios against the QA gateway lane. Aliases: `pnpm brikko-studio qa suite --runner multipass` for a disposable Linux VM.                                 |
 | `qa coverage`                                       | Print the markdown scenario-coverage inventory (`--json` for machine output).                                                                                          |
 | `qa parity-report`                                  | Compare two `qa-suite-summary.json` files and write the agentic parity report.                                                                                         |
 | `qa character-eval`                                 | Run the character QA scenario across multiple live models with a judged report. See [Reporting](#reporting).                                                           |
@@ -71,7 +71,7 @@ For faster QA Lab UI iteration without rebuilding the Docker image each time,
 start the stack with a bind-mounted QA Lab bundle:
 
 ```bash
-pnpm openclaw qa docker-build-image
+pnpm brikko-studio qa docker-build-image
 pnpm qa:lab:build
 pnpm qa:lab:up:fast
 pnpm qa:lab:watch
@@ -91,10 +91,10 @@ pnpm qa:otel:smoke
 That script starts a local OTLP/HTTP trace receiver, runs the
 `otel-trace-smoke` QA scenario with the `diagnostics-otel` plugin enabled, then
 decodes the exported protobuf spans and asserts the release-critical shape:
-`openclaw.run`, `openclaw.harness.run`, `openclaw.model.call`,
-`openclaw.context.assembled`, and `openclaw.message.delivery` must be present;
+`brikko-studio.run`, `brikko-studio.harness.run`, `brikko-studio.model.call`,
+`brikko-studio.context.assembled`, and `brikko-studio.message.delivery` must be present;
 model calls must not export `StreamAbandoned` on successful turns; raw diagnostic IDs and
-`openclaw.content.*` attributes must stay out of the trace. It writes
+`brikko-studio.content.*` attributes must stay out of the trace. It writes
 `otel-smoke-summary.json` next to the QA suite artifacts.
 
 Observability QA stays source-checkout only. The npm tarball intentionally omits
@@ -105,7 +105,7 @@ instrumentation.
 For a transport-real Matrix smoke lane, run:
 
 ```bash
-pnpm openclaw qa matrix --profile fast --fail-fast
+pnpm brikko-studio qa matrix --profile fast --fail-fast
 ```
 
 The full CLI reference, profile/scenario catalog, env vars, and artifact layout for this lane live in [Matrix QA](/concepts/qa-matrix). At a glance: it provisions a disposable Tuwunel homeserver in Docker, registers temporary driver/SUT/observer users, runs the real Matrix plugin inside a child QA gateway scoped to that transport (no `qa-channel`), then writes a Markdown report, JSON summary, observed-events artifact, and combined output log under `.artifacts/qa-e2e/matrix-<timestamp>/`.
@@ -113,8 +113,8 @@ The full CLI reference, profile/scenario catalog, env vars, and artifact layout 
 For transport-real Telegram and Discord smoke lanes:
 
 ```bash
-pnpm openclaw qa telegram
-pnpm openclaw qa discord
+pnpm brikko-studio qa telegram
+pnpm brikko-studio qa discord
 ```
 
 Both target a pre-existing real channel with two bots (driver + SUT). Required env vars, scenario lists, output artifacts, and the Convex credential pool are documented in [Telegram and Discord QA reference](#telegram-and-discord-qa-reference) below.
@@ -122,7 +122,7 @@ Both target a pre-existing real channel with two bots (driver + SUT). Required e
 Before using pooled live credentials, run:
 
 ```bash
-pnpm openclaw qa credentials doctor
+pnpm brikko-studio qa credentials doctor
 ```
 
 The doctor checks Convex broker env, validates endpoint settings, and verifies admin/list reachability when the maintainer secret is present. It reports only set/missing status for secrets.
@@ -144,10 +144,10 @@ checklist.
 For a disposable Linux VM lane without bringing Docker into the QA path, run:
 
 ```bash
-pnpm openclaw qa suite --runner multipass --scenario channel-chat-baseline
+pnpm brikko-studio qa suite --runner multipass --scenario channel-chat-baseline
 ```
 
-This boots a fresh Multipass guest, installs dependencies, builds OpenClaw
+This boots a fresh Multipass guest, installs dependencies, builds Brikko Studio
 inside the guest, runs `qa suite`, then copies the normal QA report and
 summary back into `.artifacts/qa-e2e/...` on the host.
 It reuses the same scenario-selection behavior as `qa suite` on the host.
@@ -187,20 +187,20 @@ Both exit non-zero on any failed scenario. `--allow-failures` writes artifacts w
 ### Telegram QA
 
 ```bash
-pnpm openclaw qa telegram
+pnpm brikko-studio qa telegram
 ```
 
 Targets one real private Telegram group with two distinct bots (driver + SUT). The SUT bot must have a Telegram username; bot-to-bot observation works best when both bots have **Bot-to-Bot Communication Mode** enabled in `@BotFather`.
 
 Required env when `--credential-source env`:
 
-- `OPENCLAW_QA_TELEGRAM_GROUP_ID` — numeric chat id (string).
-- `OPENCLAW_QA_TELEGRAM_DRIVER_BOT_TOKEN`
-- `OPENCLAW_QA_TELEGRAM_SUT_BOT_TOKEN`
+- `BRIKKO_STUDIO_QA_TELEGRAM_GROUP_ID` — numeric chat id (string).
+- `BRIKKO_STUDIO_QA_TELEGRAM_DRIVER_BOT_TOKEN`
+- `BRIKKO_STUDIO_QA_TELEGRAM_SUT_BOT_TOKEN`
 
 Optional:
 
-- `OPENCLAW_QA_TELEGRAM_CAPTURE_CONTENT=1` keeps message bodies in observed-message artifacts (default redacts).
+- `BRIKKO_STUDIO_QA_TELEGRAM_CAPTURE_CONTENT=1` keeps message bodies in observed-message artifacts (default redacts).
 
 Scenarios (`extensions/qa-lab/src/live-transports/telegram/telegram-live.runtime.ts:44`):
 
@@ -217,27 +217,27 @@ Output artifacts:
 
 - `telegram-qa-report.md`
 - `telegram-qa-summary.json` — includes per-reply RTT (driver send → observed SUT reply) starting with the canary.
-- `telegram-qa-observed-messages.json` — bodies redacted unless `OPENCLAW_QA_TELEGRAM_CAPTURE_CONTENT=1`.
+- `telegram-qa-observed-messages.json` — bodies redacted unless `BRIKKO_STUDIO_QA_TELEGRAM_CAPTURE_CONTENT=1`.
 
 ### Discord QA
 
 ```bash
-pnpm openclaw qa discord
+pnpm brikko-studio qa discord
 ```
 
-Targets one real private Discord guild channel with two bots: a driver bot controlled by the harness and a SUT bot started by the child OpenClaw gateway through the bundled Discord plugin. Verifies channel mention handling, that the SUT bot has registered the native `/help` command with Discord, and opt-in Mantis evidence scenarios.
+Targets one real private Discord guild channel with two bots: a driver bot controlled by the harness and a SUT bot started by the child Brikko Studio gateway through the bundled Discord plugin. Verifies channel mention handling, that the SUT bot has registered the native `/help` command with Discord, and opt-in Mantis evidence scenarios.
 
 Required env when `--credential-source env`:
 
-- `OPENCLAW_QA_DISCORD_GUILD_ID`
-- `OPENCLAW_QA_DISCORD_CHANNEL_ID`
-- `OPENCLAW_QA_DISCORD_DRIVER_BOT_TOKEN`
-- `OPENCLAW_QA_DISCORD_SUT_BOT_TOKEN`
-- `OPENCLAW_QA_DISCORD_SUT_APPLICATION_ID` — must match the SUT bot user id returned by Discord (the lane fails fast otherwise).
+- `BRIKKO_STUDIO_QA_DISCORD_GUILD_ID`
+- `BRIKKO_STUDIO_QA_DISCORD_CHANNEL_ID`
+- `BRIKKO_STUDIO_QA_DISCORD_DRIVER_BOT_TOKEN`
+- `BRIKKO_STUDIO_QA_DISCORD_SUT_BOT_TOKEN`
+- `BRIKKO_STUDIO_QA_DISCORD_SUT_APPLICATION_ID` — must match the SUT bot user id returned by Discord (the lane fails fast otherwise).
 
 Optional:
 
-- `OPENCLAW_QA_DISCORD_CAPTURE_CONTENT=1` keeps message bodies in observed-message artifacts.
+- `BRIKKO_STUDIO_QA_DISCORD_CAPTURE_CONTENT=1` keeps message bodies in observed-message artifacts.
 
 Scenarios (`extensions/qa-lab/src/live-transports/discord/discord-live.runtime.ts:36`):
 
@@ -249,7 +249,7 @@ Scenarios (`extensions/qa-lab/src/live-transports/discord/discord-live.runtime.t
 Run the Mantis status-reaction scenario explicitly:
 
 ```bash
-pnpm openclaw qa discord \
+pnpm brikko-studio qa discord \
   --scenario discord-status-reactions-tool-only \
   --provider-mode live-frontier \
   --model openai/gpt-5.4 \
@@ -261,12 +261,12 @@ Output artifacts:
 
 - `discord-qa-report.md`
 - `discord-qa-summary.json`
-- `discord-qa-observed-messages.json` — bodies redacted unless `OPENCLAW_QA_DISCORD_CAPTURE_CONTENT=1`.
+- `discord-qa-observed-messages.json` — bodies redacted unless `BRIKKO_STUDIO_QA_DISCORD_CAPTURE_CONTENT=1`.
 - `discord-qa-reaction-timelines.json` and `discord-status-reactions-tool-only-timeline.png` when the status-reaction scenario runs.
 
 ### Convex credential pool
 
-Both Telegram and Discord lanes can lease credentials from a shared Convex pool instead of reading the env vars above. Pass `--credential-source convex` (or set `OPENCLAW_QA_CREDENTIAL_SOURCE=convex`); QA Lab acquires an exclusive lease, heartbeats it for the duration of the run, and releases it on shutdown. Pool kinds are `"telegram"` and `"discord"`.
+Both Telegram and Discord lanes can lease credentials from a shared Convex pool instead of reading the env vars above. Pass `--credential-source convex` (or set `BRIKKO_STUDIO_QA_CREDENTIAL_SOURCE=convex`); QA Lab acquires an exclusive lease, heartbeats it for the duration of the run, and releases it on shutdown. Pool kinds are `"telegram"` and `"discord"`.
 
 Payload shapes the broker validates on `admin/add`:
 
@@ -320,7 +320,7 @@ The baseline list should stay broad enough to cover:
 
 `qa suite` has two local provider mock lanes:
 
-- `mock-openai` is the scenario-aware OpenClaw mock. It remains the default
+- `mock-openai` is the scenario-aware Brikko Studio mock. It remains the default
   deterministic mock lane for repo-backed QA and parity gates.
 - `aimock` starts an AIMock-backed provider server for experimental protocol,
   fixture, record/replay, and chaos coverage. It is additive and does not
@@ -353,7 +353,7 @@ Do not add a new top-level QA command root when the shared `qa-lab` host can own
 
 `qa-lab` owns the shared host mechanics:
 
-- the `openclaw qa` command root
+- the `brikko-studio qa` command root
 - suite startup and teardown
 - worker concurrency
 - artifact writing
@@ -363,7 +363,7 @@ Do not add a new top-level QA command root when the shared `qa-lab` host can own
 
 Runner plugins own the transport contract:
 
-- how `openclaw qa <runner>` is mounted beneath the shared `qa` root
+- how `brikko-studio qa <runner>` is mounted beneath the shared `qa` root
 - how the gateway is configured for that transport
 - how readiness is checked
 - how inbound events are injected
@@ -377,7 +377,7 @@ The minimum adoption bar for a new channel:
 1. Keep `qa-lab` as the owner of the shared `qa` root.
 2. Implement the transport runner on the shared `qa-lab` host seam.
 3. Keep transport-specific mechanics inside the runner plugin or channel harness.
-4. Mount the runner as `openclaw qa <runner>` instead of registering a competing root command. Runner plugins should declare `qaRunners` in `openclaw.plugin.json` and export a matching `qaRunnerCliRegistrations` array from `runtime-api.ts`. Keep `runtime-api.ts` light; lazy CLI and runner execution should stay behind separate entrypoints.
+4. Mount the runner as `brikko-studio qa <runner>` instead of registering a competing root command. Runner plugins should declare `qaRunners` in `brikko-studio.plugin.json` and export a matching `qaRunnerCliRegistrations` array from `runtime-api.ts`. Keep `runtime-api.ts` light; lazy CLI and runner execution should stay behind separate entrypoints.
 5. Author or adapt markdown scenarios under the themed `qa/scenarios/` directories.
 6. Use the generic scenario helpers for new scenarios.
 7. Keep existing compatibility aliases working unless the repo is doing an intentional migration.
@@ -418,13 +418,13 @@ The report should answer:
 - What stayed blocked
 - What follow-up scenarios are worth adding
 
-For the inventory of available scenarios — useful when sizing follow-up work or wiring a new transport — run `pnpm openclaw qa coverage` (add `--json` for machine-readable output).
+For the inventory of available scenarios — useful when sizing follow-up work or wiring a new transport — run `pnpm brikko-studio qa coverage` (add `--json` for machine-readable output).
 
 For character and style checks, run the same scenario across multiple live model
 refs and write a judged Markdown report:
 
 ```bash
-pnpm openclaw qa character-eval \
+pnpm brikko-studio qa character-eval \
   --model openai/gpt-5.5,thinking=medium,fast \
   --model openai/gpt-5.2,thinking=xhigh \
   --model openai/gpt-5,thinking=xhigh \

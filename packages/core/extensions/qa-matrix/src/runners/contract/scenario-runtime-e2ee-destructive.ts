@@ -13,7 +13,7 @@ import {
   type MatrixQaE2eeScenarioId,
 } from "./scenario-catalog.js";
 import {
-  createMatrixQaOpenClawCliRuntime,
+  createMatrixQaBrikko StudioCliRuntime,
   formatMatrixQaCliCommand,
   redactMatrixQaCliOutput,
   type MatrixQaCliRunResult,
@@ -35,7 +35,7 @@ import {
 import { waitForMatrixSyncStoreWithCursor } from "./scenario-runtime-state-files.js";
 import type { MatrixQaScenarioExecution } from "./scenario-types.js";
 
-type MatrixQaCliRuntime = Awaited<ReturnType<typeof createMatrixQaOpenClawCliRuntime>>;
+type MatrixQaCliRuntime = Awaited<ReturnType<typeof createMatrixQaBrikko StudioCliRuntime>>;
 
 type MatrixQaCliBackupStatus = {
   backup?: {
@@ -111,7 +111,7 @@ function requireMatrixQaCliRuntimeEnv(context: MatrixQaScenarioContext) {
 }
 
 function requireMatrixQaGatewayConfigPath(context: MatrixQaScenarioContext) {
-  const configPath = requireMatrixQaCliRuntimeEnv(context).OPENCLAW_CONFIG_PATH?.trim();
+  const configPath = requireMatrixQaCliRuntimeEnv(context).BRIKKO_STUDIO_CONFIG_PATH?.trim();
   if (!configPath) {
     throw new Error("Matrix E2EE destructive QA scenarios require the gateway config path");
   }
@@ -162,7 +162,7 @@ async function registerMatrixQaDestructiveOwner(
     .replace(/^-+|-+$/g, "")
     .slice(0, 24);
   const account = await createMatrixQaClient({ baseUrl: context.baseUrl }).registerWithToken({
-    deviceName: "OpenClaw Matrix QA Destructive Owner",
+    deviceName: "Brikko Studio Matrix QA Destructive Owner",
     localpart: `qa-destructive-${localpartSuffix}-${randomUUID().replaceAll("-", "").slice(0, 8)}`,
     password: `matrix-qa-${randomUUID()}`,
     registrationToken: requireMatrixQaRegistrationToken(context),
@@ -306,7 +306,7 @@ async function createMatrixQaRecoveryCliRuntime(params: {
   label: string;
   userId: string;
 }) {
-  return await createMatrixQaOpenClawCliRuntime({
+  return await createMatrixQaBrikko StudioCliRuntime({
     accountId: params.accountId,
     accessToken: params.accessToken,
     artifactLabel: params.label,
@@ -608,7 +608,7 @@ export async function runMatrixQaE2eeStateLossExternalRecoveryKeyScenario(
   const { cli, device } = await runMatrixQaExternalKeyRestore({
     accountId: "external-key",
     context,
-    deviceName: "OpenClaw Matrix QA External Key Restore",
+    deviceName: "Brikko Studio Matrix QA External Key Restore",
     label: "state-loss-external-recovery-key",
     password: setup.ownerPassword,
     userId: setup.ownerUserId,
@@ -662,7 +662,7 @@ export async function runMatrixQaE2eeStateLossExternalRecoveryKeyScenario(
         verificationExitCode: diagnostics.result.exitCode,
       },
       details: [
-        "deleted Matrix state simulated with a fresh OpenClaw CLI state root",
+        "deleted Matrix state simulated with a fresh Brikko Studio CLI state root",
         `encrypted room id: ${setup.roomId}`,
         `seeded encrypted event: ${setup.seededEventId}`,
         `recovery device: ${device.deviceId}`,
@@ -695,7 +695,7 @@ export async function runMatrixQaE2eeStateLossStoredRecoveryKeyScenario(
   const { cli, device } = await runMatrixQaExternalKeyRestore({
     accountId: "stored-key",
     context,
-    deviceName: "OpenClaw Matrix QA Stored Key Restore",
+    deviceName: "Brikko Studio Matrix QA Stored Key Restore",
     label: "state-loss-stored-recovery-key",
     password: setup.ownerPassword,
     userId: setup.ownerUserId,
@@ -774,7 +774,7 @@ export async function runMatrixQaE2eeStateLossNoRecoveryKeyScenario(
   const { cli, device } = await runMatrixQaExternalKeyRestore({
     accountId: "no-key",
     context,
-    deviceName: "OpenClaw Matrix QA No Key Restore",
+    deviceName: "Brikko Studio Matrix QA No Key Restore",
     label: "state-loss-no-recovery-key",
     password: setup.ownerPassword,
     userId: setup.ownerUserId,
@@ -831,7 +831,7 @@ export async function runMatrixQaE2eeStaleRecoveryKeyAfterBackupResetScenario(
   const { cli, device } = await runMatrixQaExternalKeyRestore({
     accountId: "stale-key",
     context,
-    deviceName: "OpenClaw Matrix QA Stale Key Restore",
+    deviceName: "Brikko Studio Matrix QA Stale Key Restore",
     label: "stale-recovery-key-after-backup-reset",
     password: setup.ownerPassword,
     userId: setup.ownerUserId,
@@ -975,7 +975,7 @@ export async function runMatrixQaE2eeServerBackupDeletedLocalReuploadRestoresSce
   const { cli, device } = await runMatrixQaExternalKeyRestore({
     accountId: "backup-reupload",
     context,
-    deviceName: "OpenClaw Matrix QA Backup Reupload Restore",
+    deviceName: "Brikko Studio Matrix QA Backup Reupload Restore",
     label: "server-backup-deleted-local-reupload-restores",
     password: setup.ownerPassword,
     userId: setup.ownerUserId,
@@ -1049,7 +1049,7 @@ export async function runMatrixQaE2eeCorruptCryptoIdbSnapshotScenario(
   const { cli, device } = await runMatrixQaExternalKeyRestore({
     accountId: "corrupt-idb",
     context,
-    deviceName: "OpenClaw Matrix QA Corrupt IDB Restore",
+    deviceName: "Brikko Studio Matrix QA Corrupt IDB Restore",
     label: "corrupt-crypto-idb-snapshot",
     password: setup.ownerPassword,
     userId: setup.ownerUserId,
@@ -1123,7 +1123,7 @@ export async function runMatrixQaE2eeServerDeviceDeletedLocalStateIntactScenario
   const { cli, device } = await runMatrixQaExternalKeyRestore({
     accountId: "deleted-device",
     context,
-    deviceName: "OpenClaw Matrix QA Deleted Device",
+    deviceName: "Brikko Studio Matrix QA Deleted Device",
     label: "server-device-deleted-local-state-intact",
     password: setup.ownerPassword,
     userId: setup.ownerUserId,
@@ -1219,7 +1219,7 @@ export async function runMatrixQaE2eeServerDeviceDeletedReloginRecoversScenario(
   const deleted = await runMatrixQaExternalKeyRestore({
     accountId: "deleted-device-recovery",
     context,
-    deviceName: "OpenClaw Matrix QA Deleted Device Recovery Source",
+    deviceName: "Brikko Studio Matrix QA Deleted Device Recovery Source",
     label: "server-device-deleted-relogin-source",
     password: setup.ownerPassword,
     userId: setup.ownerUserId,
@@ -1267,7 +1267,7 @@ export async function runMatrixQaE2eeServerDeviceDeletedReloginRecoversScenario(
     replacement = await runMatrixQaExternalKeyRestore({
       accountId: "deleted-device-recovery-relogin",
       context,
-      deviceName: "OpenClaw Matrix QA Deleted Device Recovery Relogin",
+      deviceName: "Brikko Studio Matrix QA Deleted Device Recovery Relogin",
       label: "server-device-deleted-relogin-recovery",
       password: setup.ownerPassword,
       userId: setup.ownerUserId,
@@ -1530,7 +1530,7 @@ export async function runMatrixQaE2eeWrongAccountRecoveryKeyScenario(
     try {
       device = await loginMatrixQaRecoveryDevice({
         context,
-        deviceName: "OpenClaw Matrix QA Wrong Account Key",
+        deviceName: "Brikko Studio Matrix QA Wrong Account Key",
         password: observerPassword,
         userId: context.observerUserId,
       });
@@ -1606,7 +1606,7 @@ export async function runMatrixQaE2eeHistoryExistsBackupEmptyScenario(
   const { cli, device } = await runMatrixQaExternalKeyRestore({
     accountId: "empty-backup",
     context,
-    deviceName: "OpenClaw Matrix QA Empty Backup",
+    deviceName: "Brikko Studio Matrix QA Empty Backup",
     label: "history-exists-backup-empty",
     password: setup.ownerPassword,
     userId: setup.ownerUserId,

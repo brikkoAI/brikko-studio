@@ -1,6 +1,6 @@
-import * as providerAuth from "openclaw/plugin-sdk/provider-auth-runtime";
-import * as providerHttp from "openclaw/plugin-sdk/provider-http";
-import { expectExplicitVideoGenerationCapabilities } from "openclaw/plugin-sdk/provider-test-contracts";
+import * as providerAuth from "brikko-studio/plugin-sdk/provider-auth-runtime";
+import * as providerHttp from "brikko-studio/plugin-sdk/provider-http";
+import { expectExplicitVideoGenerationCapabilities } from "brikko-studio/plugin-sdk/provider-test-contracts";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   _setFalVideoFetchGuardForTesting,
@@ -196,7 +196,7 @@ describe("fal video generation provider", () => {
     const result = await provider.generateVideo({
       provider: "fal",
       model: "fal-ai/heygen/v2/video-agent",
-      prompt: "A founder explains OpenClaw in a concise studio video",
+      prompt: "A founder explains Brikko Studio in a concise studio video",
       durationSeconds: 8,
       aspectRatio: "16:9",
       resolution: "720P",
@@ -211,7 +211,7 @@ describe("fal video generation provider", () => {
       }),
     );
     expect(getSubmitBody()).toEqual({
-      prompt: "A founder explains OpenClaw in a concise studio video",
+      prompt: "A founder explains Brikko Studio in a concise studio video",
     });
     expect(result.metadata).toEqual({
       requestId: "heygen-req-123",

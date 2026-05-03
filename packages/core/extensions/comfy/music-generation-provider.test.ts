@@ -1,4 +1,4 @@
-import { expectExplicitMusicGenerationCapabilities } from "openclaw/plugin-sdk/provider-test-contracts";
+import { expectExplicitMusicGenerationCapabilities } from "brikko-studio/plugin-sdk/provider-test-contracts";
 import { describe, expect, it, vi } from "vitest";
 import { buildComfyMusicGenerationProvider } from "./music-generation-provider.js";
 import { _setComfyFetchGuardForTesting } from "./workflow-runtime.js";

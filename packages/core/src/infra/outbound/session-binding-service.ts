@@ -122,7 +122,7 @@ function resolveAdapterCapabilities(
   };
 }
 
-const SESSION_BINDING_ADAPTERS_KEY = Symbol.for("openclaw.sessionBinding.adapters");
+const SESSION_BINDING_ADAPTERS_KEY = Symbol.for("brikko-studio.sessionBinding.adapters");
 
 type SessionBindingAdapterRegistration = {
   adapter: SessionBindingAdapter;

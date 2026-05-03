@@ -27,7 +27,7 @@ async function confirmPendingGatewayChange(app: ReturnType<typeof mountApp>) {
 }
 
 function expectConfirmedGatewayChange(app: ReturnType<typeof mountApp>) {
-  expect(app.settings.gatewayUrl).toBe("wss://other-gateway.example/openclaw");
+  expect(app.settings.gatewayUrl).toBe("wss://other-gateway.example/brikko-studio");
   expect(app.settings.token).toBe("abc123");
   expect(window.location.search).toBe("");
   expect(window.location.hash).toBe("");
@@ -119,7 +119,7 @@ describe("control UI routing", () => {
     app.dreamDiaryContent = [
       "# Dream Diary",
       "",
-      "<!-- openclaw:dreaming:diary:start -->",
+      "<!-- brikko-studio:dreaming:diary:start -->",
       "",
       "---",
       "",
@@ -128,7 +128,7 @@ describe("control UI routing", () => {
       "What Happened",
       "1. Stable operator rule surfaced.",
       "",
-      "<!-- openclaw:dreaming:diary:end -->",
+      "<!-- brikko-studio:dreaming:diary:end -->",
     ].join("\n");
     app.requestUpdate();
     await app.updateComplete;
@@ -643,7 +643,7 @@ describe("control UI routing", () => {
     await app.updateComplete;
 
     expect(app.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("brikko-studio.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
     expect(window.location.pathname).toBe("/ui/overview");
@@ -654,7 +654,7 @@ describe("control UI routing", () => {
     await refreshed.updateComplete;
 
     expect(refreshed.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("brikko-studio.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
 
@@ -662,21 +662,21 @@ describe("control UI routing", () => {
       'input[placeholder="ws://100.x.y.z:18789"]',
     );
     expect(gatewayUrlInput).not.toBeNull();
-    gatewayUrlInput!.value = "wss://other-gateway.example/openclaw";
+    gatewayUrlInput!.value = "wss://other-gateway.example/brikko-studio";
     gatewayUrlInput!.dispatchEvent(new Event("input", { bubbles: true }));
     await refreshed.updateComplete;
 
-    expect(refreshed.settings.gatewayUrl).toBe("wss://other-gateway.example/openclaw");
+    expect(refreshed.settings.gatewayUrl).toBe("wss://other-gateway.example/brikko-studio");
     expect(refreshed.settings.token).toBe("");
   });
 
   it("keeps a hash token pending until the gateway URL change is confirmed", async () => {
     const app = mountApp(
-      "/ui/overview?gatewayUrl=wss://other-gateway.example/openclaw#token=abc123",
+      "/ui/overview?gatewayUrl=wss://other-gateway.example/brikko-studio#token=abc123",
     );
     await app.updateComplete;
 
-    expect(app.settings.gatewayUrl).not.toBe("wss://other-gateway.example/openclaw");
+    expect(app.settings.gatewayUrl).not.toBe("wss://other-gateway.example/brikko-studio");
     expect(app.settings.token).toBe("");
 
     await confirmPendingGatewayChange(app);

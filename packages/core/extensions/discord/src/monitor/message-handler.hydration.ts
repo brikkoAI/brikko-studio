@@ -1,5 +1,5 @@
 import type { APIMessage, APIUser } from "discord-api-types/v10";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { getChannelMessage, Message as DiscordMessage, type Message } from "../internal/discord.js";
 import { resolveDiscordMessageText, type DiscordChannelInfo } from "./message-utils.js";
 

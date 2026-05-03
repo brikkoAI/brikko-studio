@@ -17,7 +17,7 @@ afterEach(() => {
 });
 
 function makeTempRepo() {
-  const dir = mkdtempSync(path.join(tmpdir(), "openclaw-sbom-risk-"));
+  const dir = mkdtempSync(path.join(tmpdir(), "brikko-studio-sbom-risk-"));
   tempDirs.push(dir);
   return dir;
 }

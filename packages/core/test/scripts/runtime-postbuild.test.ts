@@ -27,14 +27,14 @@ describe("runtime postbuild static assets", () => {
   });
 
   it("discovers static assets from plugin package metadata", async () => {
-    const rootDir = createTempDir("openclaw-runtime-postbuild-");
+    const rootDir = createTempDir("brikko-studio-runtime-postbuild-");
     const packageDir = path.join(rootDir, "extensions", "demo");
     await fs.mkdir(packageDir, { recursive: true });
     await fs.writeFile(
       path.join(packageDir, "package.json"),
       JSON.stringify({
-        name: "@openclaw/demo",
-        openclaw: {
+        name: "@brikko-studio/demo",
+        brikko-studio: {
           build: {
             staticAssets: [
               {
@@ -58,7 +58,7 @@ describe("runtime postbuild static assets", () => {
   });
 
   it("copies declared static assets into dist", async () => {
-    const rootDir = createTempDir("openclaw-runtime-postbuild-");
+    const rootDir = createTempDir("brikko-studio-runtime-postbuild-");
     const src = "extensions/acpx/src/runtime-internals/mcp-proxy.mjs";
     const dest = "dist/extensions/acpx/mcp-proxy.mjs";
     const sourcePath = path.join(rootDir, src);
@@ -75,7 +75,7 @@ describe("runtime postbuild static assets", () => {
   });
 
   it("warns when a declared static asset is missing", async () => {
-    const rootDir = createTempDir("openclaw-runtime-postbuild-");
+    const rootDir = createTempDir("brikko-studio-runtime-postbuild-");
     const warn = vi.fn();
 
     copyStaticExtensionAssets({
@@ -90,7 +90,7 @@ describe("runtime postbuild static assets", () => {
   });
 
   it("writes stable aliases for hashed root runtime modules", async () => {
-    const rootDir = createTempDir("openclaw-runtime-postbuild-");
+    const rootDir = createTempDir("brikko-studio-runtime-postbuild-");
     const distDir = path.join(rootDir, "dist");
     await fs.mkdir(distDir, { recursive: true });
     await fs.writeFile(
@@ -121,7 +121,7 @@ describe("runtime postbuild static assets", () => {
   });
 
   it("does not write ambiguous stable aliases for colliding root runtime chunks", async () => {
-    const rootDir = createTempDir("openclaw-runtime-postbuild-");
+    const rootDir = createTempDir("brikko-studio-runtime-postbuild-");
     const distDir = path.join(rootDir, "dist");
     await fs.mkdir(distDir, { recursive: true });
     await fs.writeFile(
@@ -146,7 +146,7 @@ describe("runtime postbuild static assets", () => {
   });
 
   it("keeps stable aliases when one colliding root runtime chunk re-exports the implementation", async () => {
-    const rootDir = createTempDir("openclaw-runtime-postbuild-");
+    const rootDir = createTempDir("brikko-studio-runtime-postbuild-");
     const distDir = path.join(rootDir, "dist");
     await fs.mkdir(distDir, { recursive: true });
     await fs.writeFile(
@@ -168,7 +168,7 @@ describe("runtime postbuild static assets", () => {
   });
 
   it("rewrites root runtime imports to stable aliases", async () => {
-    const rootDir = createTempDir("openclaw-runtime-postbuild-");
+    const rootDir = createTempDir("brikko-studio-runtime-postbuild-");
     const distDir = path.join(rootDir, "dist");
     await fs.mkdir(distDir, { recursive: true });
     await fs.writeFile(
@@ -198,7 +198,7 @@ describe("runtime postbuild static assets", () => {
   });
 
   it("keeps hashed imports when a stable runtime alias would collide", async () => {
-    const rootDir = createTempDir("openclaw-runtime-postbuild-");
+    const rootDir = createTempDir("brikko-studio-runtime-postbuild-");
     const distDir = path.join(rootDir, "dist");
     await fs.mkdir(distDir, { recursive: true });
     await fs.writeFile(
@@ -233,7 +233,7 @@ describe("runtime postbuild static assets", () => {
   });
 
   it("leaves stable alias files pointing at their hashed runtime chunks", async () => {
-    const rootDir = createTempDir("openclaw-runtime-postbuild-");
+    const rootDir = createTempDir("brikko-studio-runtime-postbuild-");
     const distDir = path.join(rootDir, "dist");
     await fs.mkdir(distDir, { recursive: true });
     await fs.writeFile(
@@ -255,7 +255,7 @@ describe("runtime postbuild static assets", () => {
   });
 
   it("writes compatibility aliases for previous release runtime chunk names", async () => {
-    const rootDir = createTempDir("openclaw-runtime-postbuild-");
+    const rootDir = createTempDir("brikko-studio-runtime-postbuild-");
     const distDir = path.join(rootDir, "dist");
     await fs.mkdir(distDir, { recursive: true });
     await fs.writeFile(
@@ -275,7 +275,7 @@ describe("runtime postbuild static assets", () => {
   });
 
   it("writes legacy CLI exit compatibility chunks", async () => {
-    const rootDir = createTempDir("openclaw-runtime-postbuild-");
+    const rootDir = createTempDir("brikko-studio-runtime-postbuild-");
 
     writeLegacyCliExitCompatChunks({ rootDir });
 

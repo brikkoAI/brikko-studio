@@ -1,5 +1,5 @@
-import * as providerAuth from "openclaw/plugin-sdk/provider-auth-runtime";
-import { installPinnedHostnameTestHooks } from "openclaw/plugin-sdk/test-env";
+import * as providerAuth from "brikko-studio/plugin-sdk/provider-auth-runtime";
+import { installPinnedHostnameTestHooks } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   buildMinimaxImageGenerationProvider,

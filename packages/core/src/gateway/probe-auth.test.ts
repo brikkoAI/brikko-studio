@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import {
   resolveGatewayProbeAuthSafe,
   resolveGatewayProbeAuthSafeWithSecretInputs,
@@ -7,7 +7,7 @@ import {
   resolveGatewayProbeAuthWithSecretInputs,
 } from "./probe-auth.js";
 
-function expectUnresolvedProbeTokenWarning(cfg: OpenClawConfig) {
+function expectUnresolvedProbeTokenWarning(cfg: Brikko StudioConfig) {
   const result = resolveGatewayProbeAuthSafe({
     cfg,
     mode: "local",
@@ -28,7 +28,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
             token: "token-value",
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       mode: "local",
       env: {} as NodeJS.ProcessEnv,
     });
@@ -54,7 +54,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
           default: { source: "env" },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
   });
 
   it("does not fall through to remote token when local token SecretRef is unresolved", () => {
@@ -74,7 +74,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
           default: { source: "env" },
         },
       },
-    } as OpenClawConfig);
+    } as Brikko StudioConfig);
   });
 
   it("does not fall through to remote credentials for local probes", () => {
@@ -88,7 +88,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
             password: "remote-password", // pragma: allowlist secret
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       mode: "local",
       env: {} as NodeJS.ProcessEnv,
     });
@@ -119,7 +119,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
             default: { source: "env" },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       mode: "remote",
       env: {} as NodeJS.ProcessEnv,
     });
@@ -140,7 +140,7 @@ describe("resolveGatewayProbeTarget", () => {
         gateway: {
           mode: "remote",
         },
-      } as OpenClawConfig),
+      } as Brikko StudioConfig),
     ).toEqual({
       gatewayMode: "remote",
       mode: "local",
@@ -157,7 +157,7 @@ describe("resolveGatewayProbeTarget", () => {
             url: "wss://gateway.example",
           },
         },
-      } as OpenClawConfig),
+      } as Brikko StudioConfig),
     ).toEqual({
       gatewayMode: "remote",
       mode: "remote",
@@ -173,7 +173,7 @@ describe("resolveGatewayProbeAuthSafeWithSecretInputs", () => {
         gateway: {
           auth: {
             mode: "token",
-            token: { source: "env", provider: "default", id: "OPENCLAW_GATEWAY_TOKEN" },
+            token: { source: "env", provider: "default", id: "BRIKKO_STUDIO_GATEWAY_TOKEN" },
           },
         },
         secrets: {
@@ -181,10 +181,10 @@ describe("resolveGatewayProbeAuthSafeWithSecretInputs", () => {
             default: { source: "env" },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       mode: "local",
       env: {
-        OPENCLAW_GATEWAY_TOKEN: "test-token-from-env",
+        BRIKKO_STUDIO_GATEWAY_TOKEN: "test-token-from-env",
       } as NodeJS.ProcessEnv,
     });
 
@@ -210,7 +210,7 @@ describe("resolveGatewayProbeAuthSafeWithSecretInputs", () => {
             default: { source: "env" },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       mode: "local",
       env: {
         REMOTE_GATEWAY_TOKEN: "remote-token",
@@ -238,7 +238,7 @@ describe("resolveGatewayProbeAuthSafeWithSecretInputs", () => {
             default: { source: "env" },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       mode: "local",
       env: {} as NodeJS.ProcessEnv,
     });
@@ -264,7 +264,7 @@ describe("resolveGatewayProbeAuthWithSecretInputs", () => {
             default: { source: "env" },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       mode: "local",
       env: {
         DAEMON_GATEWAY_TOKEN: "resolved-daemon-token",

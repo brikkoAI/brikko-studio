@@ -1,33 +1,33 @@
 import { type Bot, GrammyError, InputFile } from "grammy";
-import type { ReplyToMode } from "openclaw/plugin-sdk/config-types";
-import type { MarkdownTableMode } from "openclaw/plugin-sdk/config-types";
-import { fireAndForgetHook } from "openclaw/plugin-sdk/hook-runtime";
-import { createInternalHookEvent, triggerInternalHook } from "openclaw/plugin-sdk/hook-runtime";
+import type { ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import type { MarkdownTableMode } from "brikko-studio/plugin-sdk/config-types";
+import { fireAndForgetHook } from "brikko-studio/plugin-sdk/hook-runtime";
+import { createInternalHookEvent, triggerInternalHook } from "brikko-studio/plugin-sdk/hook-runtime";
 import {
   buildCanonicalSentMessageHookContext,
   toInternalMessageSentContext,
   toPluginMessageContext,
   toPluginMessageSentEvent,
-} from "openclaw/plugin-sdk/hook-runtime";
-import type { ReplyPayloadDelivery } from "openclaw/plugin-sdk/interactive-runtime";
+} from "brikko-studio/plugin-sdk/hook-runtime";
+import type { ReplyPayloadDelivery } from "brikko-studio/plugin-sdk/interactive-runtime";
 import {
   buildOutboundMediaLoadOptions,
   isGifMedia,
   kindFromMime,
   probeVideoDimensions,
-} from "openclaw/plugin-sdk/media-runtime";
+} from "brikko-studio/plugin-sdk/media-runtime";
 import {
   createOutboundPayloadPlan,
   projectOutboundPayloadPlanForDelivery,
-} from "openclaw/plugin-sdk/outbound-runtime";
-import { getGlobalHookRunner } from "openclaw/plugin-sdk/plugin-runtime";
-import { chunkMarkdownTextWithMode, type ChunkMode } from "openclaw/plugin-sdk/reply-chunking";
-import type { ReplyPayload } from "openclaw/plugin-sdk/reply-payload";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { danger, logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import { formatErrorMessage } from "openclaw/plugin-sdk/ssrf-runtime";
-import { loadWebMedia } from "openclaw/plugin-sdk/web-media";
+} from "brikko-studio/plugin-sdk/outbound-runtime";
+import { getGlobalHookRunner } from "brikko-studio/plugin-sdk/plugin-runtime";
+import { chunkMarkdownTextWithMode, type ChunkMode } from "brikko-studio/plugin-sdk/reply-chunking";
+import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-payload";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
+import { danger, logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/ssrf-runtime";
+import { loadWebMedia } from "brikko-studio/plugin-sdk/web-media";
 import type { TelegramInlineButtons } from "../button-types.js";
 import { splitTelegramCaption } from "../caption.js";
 import {
@@ -667,7 +667,7 @@ export function emitTelegramMessageSentHooks(params: EmitMessageSentHookParams):
 
 export async function deliverReplies(params: {
   replies: ReplyPayload[];
-  cfg?: import("openclaw/plugin-sdk/config-types").OpenClawConfig;
+  cfg?: import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
   chatId: string;
   accountId?: string;
   sessionKeyForInternalHooks?: string;

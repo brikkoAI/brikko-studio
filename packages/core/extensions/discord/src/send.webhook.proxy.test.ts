@@ -1,12 +1,12 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { sendWebhookMessageDiscord } from "./send.webhook.js";
 
 const makeProxyFetchMock = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/fetch-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/fetch-runtime")>(
-    "openclaw/plugin-sdk/fetch-runtime",
+vi.mock("brikko-studio/plugin-sdk/fetch-runtime", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/fetch-runtime")>(
+    "brikko-studio/plugin-sdk/fetch-runtime",
   );
   return {
     ...actual,
@@ -35,7 +35,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           proxy: "bad-proxy",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await sendWebhookMessageDiscord("hello", {
       cfg,
@@ -63,7 +63,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           proxy: "http://127.0.0.1:8080",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await sendWebhookMessageDiscord("hello", {
       cfg,
@@ -89,7 +89,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           proxy: "http://proxy.test:8080",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await sendWebhookMessageDiscord("hello", {
       cfg,
@@ -116,7 +116,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           token: "Bot test-token",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await sendWebhookMessageDiscord("hello", {
       cfg,
@@ -143,7 +143,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           token: "Bot test-token",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await expect(
       sendWebhookMessageDiscord("hello", {
@@ -172,7 +172,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           token: "Bot test-token",
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     await expect(
       sendWebhookMessageDiscord("hello", {

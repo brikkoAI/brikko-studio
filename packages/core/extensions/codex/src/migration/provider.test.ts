@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { MigrationProviderContext } from "openclaw/plugin-sdk/plugin-entry";
+import type { MigrationProviderContext } from "brikko-studio/plugin-sdk/plugin-entry";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { buildCodexMigrationProvider } from "./provider.js";
 
@@ -15,7 +15,7 @@ const logger = {
 };
 
 async function makeTempRoot(): Promise<string> {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-migrate-codex-"));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-migrate-codex-"));
   tempRoots.add(root);
   return root;
 }

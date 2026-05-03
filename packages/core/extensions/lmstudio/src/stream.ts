@@ -1,8 +1,8 @@
 import type { StreamFn } from "@mariozechner/pi-agent-core";
 import { createAssistantMessageEventStream, streamSimple } from "@mariozechner/pi-ai";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/logging-core";
-import type { ProviderWrapStreamFnContext } from "openclaw/plugin-sdk/plugin-entry";
-import { ssrfPolicyFromHttpBaseUrlAllowedHostname } from "openclaw/plugin-sdk/ssrf-runtime";
+import { createSubsystemLogger } from "brikko-studio/plugin-sdk/logging-core";
+import type { ProviderWrapStreamFnContext } from "brikko-studio/plugin-sdk/plugin-entry";
+import { ssrfPolicyFromHttpBaseUrlAllowedHostname } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import { LMSTUDIO_PROVIDER_ID } from "./defaults.js";
 import { ensureLmstudioModelLoaded } from "./models.fetch.js";
 import { resolveLmstudioInferenceBase } from "./models.js";

@@ -2,7 +2,7 @@ import {
   createAuthCaptureJsonFetch,
   createRequestCaptureJsonFetch,
   installPinnedHostnameTestHooks,
-} from "openclaw/plugin-sdk/test-env";
+} from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import { transcribeOpenAiAudio } from "./media-understanding-provider.js";
 

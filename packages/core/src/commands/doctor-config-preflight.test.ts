@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { withTempHome, writeOpenClawConfig } from "../config/test-helpers.js";
+import { withTempHome, writeBrikko StudioConfig } from "../config/test-helpers.js";
 import { runDoctorConfigPreflight } from "./doctor-config-preflight.js";
 
 describe("runDoctorConfigPreflight", () => {
   it("collects legacy config issues outside the normal config read path", async () => {
     await withTempHome(async (home) => {
-      await writeOpenClawConfig(home, {
+      await writeBrikko StudioConfig(home, {
         memorySearch: {
           provider: "local",
           fallback: "none",

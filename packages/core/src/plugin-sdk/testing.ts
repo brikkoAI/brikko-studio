@@ -1,7 +1,7 @@
 /**
  * @deprecated Broad compatibility barrel for older plugin tests.
  *
- * New tests should import focused `openclaw/plugin-sdk/*` test subpaths such as
+ * New tests should import focused `brikko-studio/plugin-sdk/*` test subpaths such as
  * `plugin-test-runtime`, `channel-test-helpers`, `test-env`, or `test-fixtures`.
  */
 
@@ -32,7 +32,7 @@ export type { CliMockOutputRuntime, CliRuntimeCapture } from "../cli/test-runtim
 export { setDefaultChannelPluginRegistryForTests } from "../commands/channel-test-registry.js";
 export type { ChannelAccountSnapshot } from "../channels/plugins/types.public.js";
 export type { ChannelGatewayContext } from "../channels/plugins/types.adapters.js";
-export type { OpenClawConfig } from "../config/config.js";
+export type { Brikko StudioConfig } from "../config/config.js";
 export { isAtLeast, parseSemver } from "../infra/runtime-guard.js";
 export { callGateway } from "../gateway/call.js";
 export { deliverOutboundPayloads } from "../infra/outbound/deliver.js";

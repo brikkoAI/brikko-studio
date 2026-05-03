@@ -36,19 +36,19 @@ import type {
   ImageGenerationProviderPlugin,
   MediaUnderstandingProviderPlugin,
   MusicGenerationProviderPlugin,
-  OpenClawPluginChannelRegistration,
-  OpenClawPluginCliCommandDescriptor,
-  OpenClawPluginCliRegistrar,
-  OpenClawPluginCommandDefinition,
-  OpenClawPluginGatewayRuntimeScopeSurface,
-  OpenClawGatewayDiscoveryService,
-  OpenClawPluginHttpRouteAuth,
-  OpenClawPluginHttpRouteHandler,
-  OpenClawPluginHttpRouteMatch,
-  OpenClawPluginReloadRegistration,
-  OpenClawPluginSecurityAuditCollector,
-  OpenClawPluginService,
-  OpenClawPluginToolFactory,
+  Brikko StudioPluginChannelRegistration,
+  Brikko StudioPluginCliCommandDescriptor,
+  Brikko StudioPluginCliRegistrar,
+  Brikko StudioPluginCommandDefinition,
+  Brikko StudioPluginGatewayRuntimeScopeSurface,
+  Brikko StudioGatewayDiscoveryService,
+  Brikko StudioPluginHttpRouteAuth,
+  Brikko StudioPluginHttpRouteHandler,
+  Brikko StudioPluginHttpRouteMatch,
+  Brikko StudioPluginReloadRegistration,
+  Brikko StudioPluginSecurityAuditCollector,
+  Brikko StudioPluginService,
+  Brikko StudioPluginToolFactory,
   PluginConversationBindingResolvedEvent,
   PluginHookRegistration as TypedPluginHookRegistration,
   PluginLogger,
@@ -67,7 +67,7 @@ import type {
 export type PluginToolRegistration = {
   pluginId: string;
   pluginName?: string;
-  factory: OpenClawPluginToolFactory;
+  factory: Brikko StudioPluginToolFactory;
   names: string[];
   declaredNames?: string[];
   optional: boolean;
@@ -78,9 +78,9 @@ export type PluginToolRegistration = {
 export type PluginCliRegistration = {
   pluginId: string;
   pluginName?: string;
-  register: OpenClawPluginCliRegistrar;
+  register: Brikko StudioPluginCliRegistrar;
   commands: string[];
-  descriptors: OpenClawPluginCliCommandDescriptor[];
+  descriptors: Brikko StudioPluginCliCommandDescriptor[];
   source: string;
   rootDir?: string;
 };
@@ -88,10 +88,10 @@ export type PluginCliRegistration = {
 export type PluginHttpRouteRegistration = {
   pluginId?: string;
   path: string;
-  handler: OpenClawPluginHttpRouteHandler;
-  auth: OpenClawPluginHttpRouteAuth;
-  match: OpenClawPluginHttpRouteMatch;
-  gatewayRuntimeScopeSurface?: OpenClawPluginGatewayRuntimeScopeSurface;
+  handler: Brikko StudioPluginHttpRouteHandler;
+  auth: Brikko StudioPluginHttpRouteAuth;
+  match: Brikko StudioPluginHttpRouteMatch;
+  gatewayRuntimeScopeSurface?: Brikko StudioPluginGatewayRuntimeScopeSurface;
   source?: string;
 };
 
@@ -202,7 +202,7 @@ export type PluginHookRegistration = {
 export type PluginServiceRegistration = {
   pluginId: string;
   pluginName?: string;
-  service: OpenClawPluginService;
+  service: Brikko StudioPluginService;
   source: string;
   origin: PluginOrigin;
   rootDir?: string;
@@ -211,7 +211,7 @@ export type PluginServiceRegistration = {
 export type PluginGatewayDiscoveryServiceRegistration = {
   pluginId: string;
   pluginName?: string;
-  service: OpenClawGatewayDiscoveryService;
+  service: Brikko StudioGatewayDiscoveryService;
   source: string;
   rootDir?: string;
 };
@@ -219,7 +219,7 @@ export type PluginGatewayDiscoveryServiceRegistration = {
 export type PluginReloadRegistration = {
   pluginId: string;
   pluginName?: string;
-  registration: OpenClawPluginReloadRegistration;
+  registration: Brikko StudioPluginReloadRegistration;
   source: string;
   rootDir?: string;
 };
@@ -227,7 +227,7 @@ export type PluginReloadRegistration = {
 export type PluginNodeHostCommandRegistration = {
   pluginId: string;
   pluginName?: string;
-  command: import("./types.js").OpenClawPluginNodeHostCommand;
+  command: import("./types.js").Brikko StudioPluginNodeHostCommand;
   source: string;
   rootDir?: string;
 };
@@ -235,7 +235,7 @@ export type PluginNodeHostCommandRegistration = {
 export type PluginNodeInvokePolicyRegistration = {
   pluginId: string;
   pluginName?: string;
-  policy: import("./types.js").OpenClawPluginNodeInvokePolicy;
+  policy: import("./types.js").Brikko StudioPluginNodeInvokePolicy;
   pluginConfig?: Record<string, unknown>;
   source: string;
   rootDir?: string;
@@ -244,7 +244,7 @@ export type PluginNodeInvokePolicyRegistration = {
 export type PluginSecurityAuditCollectorRegistration = {
   pluginId: string;
   pluginName?: string;
-  collector: OpenClawPluginSecurityAuditCollector;
+  collector: Brikko StudioPluginSecurityAuditCollector;
   source: string;
   rootDir?: string;
 };
@@ -252,7 +252,7 @@ export type PluginSecurityAuditCollectorRegistration = {
 export type PluginCommandRegistration = {
   pluginId: string;
   pluginName?: string;
-  command: OpenClawPluginCommandDefinition;
+  command: Brikko StudioPluginCommandDefinition;
   source: string;
   rootDir?: string;
 };
@@ -437,11 +437,11 @@ export type PluginRegistryParams = {
 };
 
 export type PluginRegistrationMode = import("./types.js").PluginRegistrationMode;
-export type OpenClawPluginNodeHostCommand = import("./types.js").OpenClawPluginNodeHostCommand;
-export type OpenClawPluginToolContext = import("./types.js").OpenClawPluginToolContext;
-export type OpenClawPluginHttpRouteParams = import("./types.js").OpenClawPluginHttpRouteParams;
-export type OpenClawPluginHookOptions = import("./types.js").OpenClawPluginHookOptions;
+export type Brikko StudioPluginNodeHostCommand = import("./types.js").Brikko StudioPluginNodeHostCommand;
+export type Brikko StudioPluginToolContext = import("./types.js").Brikko StudioPluginToolContext;
+export type Brikko StudioPluginHttpRouteParams = import("./types.js").Brikko StudioPluginHttpRouteParams;
+export type Brikko StudioPluginHookOptions = import("./types.js").Brikko StudioPluginHookOptions;
 export type PluginHookHandlerMap = import("./types.js").PluginHookHandlerMap;
-export type OpenClawPluginApi = import("./types.js").OpenClawPluginApi;
+export type Brikko StudioPluginApi = import("./types.js").Brikko StudioPluginApi;
 export type TypedPluginHook = TypedPluginHookRegistration;
-export type OpenClawPluginChannelReg = OpenClawPluginChannelRegistration;
+export type Brikko StudioPluginChannelReg = Brikko StudioPluginChannelRegistration;

@@ -9,7 +9,7 @@ read_when:
   - You want to enable multimodal memory indexing
 ---
 
-This page lists every configuration knob for OpenClaw memory search. For conceptual overviews, see:
+This page lists every configuration knob for Brikko Studio memory search. For conceptual overviews, see:
 
 <CardGroup cols={2}>
   <Card title="Memory overview" href="/concepts/memory">
@@ -29,7 +29,7 @@ This page lists every configuration knob for OpenClaw memory search. For concept
   </Card>
 </CardGroup>
 
-All memory search settings live under `agents.defaults.memorySearch` in `openclaw.json` unless noted otherwise.
+All memory search settings live under `agents.defaults.memorySearch` in `brikko-studio.json` unless noted otherwise.
 
 <Note>
 If you are looking for the **active memory** feature toggle and sub-agent config, that lives under `plugins.entries.active-memory` instead of `memorySearch`.
@@ -55,7 +55,7 @@ See [Active Memory](/concepts/active-memory) for the activation model, plugin-ow
 
 ### Auto-detection order
 
-When `provider` is not set, OpenClaw selects the first available:
+When `provider` is not set, Brikko Studio selects the first available:
 
 <Steps>
   <Step title="local">
@@ -88,7 +88,7 @@ When `provider` is not set, OpenClaw selects the first available:
 
 ### Custom provider ids
 
-`memorySearch.provider` can point at a custom `models.providers.<id>` entry. OpenClaw resolves that provider's `api` owner for the embedding adapter while preserving the custom provider id for endpoint, auth, and model-prefix handling. This lets multi-GPU or multi-host setups dedicate memory embeddings to a specific local endpoint:
+`memorySearch.provider` can point at a custom `models.providers.<id>` entry. Brikko Studio resolves that provider's `api` owner for the embedding adapter while preserving the custom provider id for endpoint, auth, and model-prefix handling. This lets multi-GPU or multi-host setups dedicate memory embeddings to a specific local endpoint:
 
 ```json5
 {
@@ -215,7 +215,7 @@ For custom OpenAI-compatible endpoints or overriding provider defaults:
   <Accordion title="Bedrock">
     ### Bedrock embedding config
 
-    Bedrock uses the AWS SDK default credential chain — no API keys needed. If OpenClaw runs on EC2 with a Bedrock-enabled instance role, just set the provider and model:
+    Bedrock uses the AWS SDK default credential chain — no API keys needed. If Brikko Studio runs on EC2 with a Bedrock-enabled instance role, just set the provider and model:
 
     ```json5
     {
@@ -291,8 +291,8 @@ For custom OpenAI-compatible endpoints or overriding provider defaults:
     Use the standalone CLI to verify the same provider path the Gateway uses:
 
     ```bash
-    openclaw memory status --deep --agent main
-    openclaw memory index --force --agent main
+    brikko-studio memory status --deep --agent main
+    brikko-studio memory index --force --agent main
     ```
 
     If `provider` is `auto`, `local` is selected only when `local.modelPath` points to an existing local file. `hf:` and HTTP(S) model references can still be used explicitly with `provider: "local"`, but they do not make `auto` select local before the model is available on disk.
@@ -458,7 +458,7 @@ Session indexing is opt-in and runs asynchronously. Results can be slightly stal
 | `store.vector.enabled`       | `boolean` | `true`  | Use sqlite-vec for vector queries |
 | `store.vector.extensionPath` | `string`  | bundled | Override sqlite-vec path          |
 
-When sqlite-vec is unavailable, OpenClaw falls back to in-process cosine similarity automatically.
+When sqlite-vec is unavailable, Brikko Studio falls back to in-process cosine similarity automatically.
 
 ---
 
@@ -466,7 +466,7 @@ When sqlite-vec is unavailable, OpenClaw falls back to in-process cosine similar
 
 | Key                   | Type     | Default                               | Description                                 |
 | --------------------- | -------- | ------------------------------------- | ------------------------------------------- |
-| `store.path`          | `string` | `~/.openclaw/memory/{agentId}.sqlite` | Index location (supports `{agentId}` token) |
+| `store.path`          | `string` | `~/.brikko-studio/memory/{agentId}.sqlite` | Index location (supports `{agentId}` token) |
 | `store.fts.tokenizer` | `string` | `unicode61`                           | FTS5 tokenizer (`unicode61` or `trigram`)   |
 
 ---
@@ -485,12 +485,12 @@ Set `memory.backend = "qmd"` to enable. All QMD settings live under `memory.qmd`
 | `sessions.retentionDays` | `number`  | --       | Transcript retention                                                                  |
 | `sessions.exportDir`     | `string`  | --       | Export directory                                                                      |
 
-`searchMode: "search"` is lexical/BM25-only. OpenClaw does not run semantic vector readiness probes or QMD embedding maintenance for that mode, including during `memory status --deep`; `vsearch` and `query` continue to require QMD vector readiness and embeddings.
+`searchMode: "search"` is lexical/BM25-only. Brikko Studio does not run semantic vector readiness probes or QMD embedding maintenance for that mode, including during `memory status --deep`; `vsearch` and `query` continue to require QMD vector readiness and embeddings.
 
-OpenClaw prefers current QMD collection and MCP query shapes, but keeps older QMD releases working by trying compatible collection pattern flags and older MCP tool names when needed. When QMD advertises support for multiple collection filters, same-source collections are searched with one QMD process; older QMD builds keep the per-collection compatibility path. Same-source means durable memory collections are grouped together, while session transcript collections remain a separate group so source diversification still has both inputs.
+Brikko Studio prefers current QMD collection and MCP query shapes, but keeps older QMD releases working by trying compatible collection pattern flags and older MCP tool names when needed. When QMD advertises support for multiple collection filters, same-source collections are searched with one QMD process; older QMD builds keep the per-collection compatibility path. Same-source means durable memory collections are grouped together, while session transcript collections remain a separate group so source diversification still has both inputs.
 
 <Note>
-QMD model overrides stay on the QMD side, not OpenClaw config. If you need to override QMD's models globally, set environment variables such as `QMD_EMBED_MODEL`, `QMD_RERANK_MODEL`, and `QMD_GENERATE_MODEL` in the gateway runtime environment.
+QMD model overrides stay on the QMD side, not Brikko Studio config. If you need to override QMD's models globally, set environment variables such as `QMD_EMBED_MODEL`, `QMD_RERANK_MODEL`, and `QMD_GENERATE_MODEL` in the gateway runtime environment.
 </Note>
 
 <AccordionGroup>

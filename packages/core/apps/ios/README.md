@@ -1,6 +1,6 @@
-# OpenClaw iOS (Super Alpha)
+# Brikko Studio iOS (Super Alpha)
 
-This iPhone app is super-alpha and internal-use only. It connects to an OpenClaw Gateway as a `role: node`.
+This iPhone app is super-alpha and internal-use only. It connects to an Brikko Studio Gateway as a `role: node`.
 
 ## Distribution Status
 
@@ -29,11 +29,11 @@ pnpm install
 ./scripts/ios-configure-signing.sh
 cd apps/ios
 xcodegen generate
-open OpenClaw.xcodeproj
+open Brikko Studio.xcodeproj
 ```
 
 3. In Xcode:
-   - Scheme: `OpenClaw`
+   - Scheme: `Brikko Studio`
    - Destination: connected iPhone (recommended for real behavior)
    - Build configuration: `Debug`
    - Run (`Product` -> `Run`)
@@ -61,8 +61,8 @@ Prereqs:
 Release behavior:
 
 - Local development keeps using unique per-developer bundle IDs from `scripts/ios-configure-signing.sh`.
-- Beta release uses canonical `ai.openclaw.client*` bundle IDs through a temporary generated xcconfig in `apps/ios/build/BetaRelease.xcconfig`.
-- Beta release also switches the app to `OpenClawPushTransport=relay`, `OpenClawPushDistribution=official`, and `OpenClawPushAPNsEnvironment=production`.
+- Beta release uses canonical `ai.brikko-studio.client*` bundle IDs through a temporary generated xcconfig in `apps/ios/build/BetaRelease.xcconfig`.
+- Beta release also switches the app to `Brikko StudioPushTransport=relay`, `Brikko StudioPushDistribution=official`, and `Brikko StudioPushAPNsEnvironment=production`.
 - The beta flow does not modify `apps/ios/.local-signing.xcconfig` or `apps/ios/LocalSigning.xcconfig`.
 - `apps/ios/version.json` is the pinned iOS release version source.
 - `apps/ios/CHANGELOG.md` is the iOS-only changelog and release-note source.
@@ -75,7 +75,7 @@ Release behavior:
 
 Required env for beta builds:
 
-- `OPENCLAW_PUSH_RELAY_BASE_URL=https://relay.example.com`
+- `BRIKKO_STUDIO_PUSH_RELAY_BASE_URL=https://relay.example.com`
   This must be a plain `https://host[:port][/path]` base URL without whitespace, query params, fragments, or xcconfig metacharacters.
 
 Archive without upload:
@@ -121,7 +121,7 @@ This should create `apps/ios/fastlane/.env` with the non-secret ASC variables wh
 3. Set the official/TestFlight relay URL for the build:
 
 ```bash
-export OPENCLAW_PUSH_RELAY_BASE_URL=https://relay.example.com
+export BRIKKO_STUDIO_PUSH_RELAY_BASE_URL=https://relay.example.com
 ```
 
 4. If you are starting a brand-new production release train, pin iOS to the current gateway version first:
@@ -141,12 +141,12 @@ pnpm ios:beta
    - verifies synced iOS versioning artifacts
    - resolves the next TestFlight build number for that short version
    - generates `apps/ios/build/BetaRelease.xcconfig`
-   - archives `OpenClaw`
+   - archives `Brikko Studio`
    - uploads the IPA to TestFlight
 
 7. Expected outputs after a successful run:
-   - `apps/ios/build/beta/OpenClaw-<version>.ipa`
-   - `apps/ios/build/beta/OpenClaw-<version>.app.dSYM.zip`
+   - `apps/ios/build/beta/Brikko Studio-<version>.ipa`
+   - `apps/ios/build/beta/Brikko Studio-<version>.app.dSYM.zip`
    - Fastlane log line like `Uploaded iOS beta: version=<version> short=<short> build=<build>`
 
 8. If this is a fresh clone on a maintainer machine that already works elsewhere, it is OK to copy the non-secret `apps/ios/fastlane/.env` from another trusted local clone on the same Mac. The Keychain-backed private key remains machine-local and is not stored in the repo.
@@ -196,15 +196,15 @@ See `apps/ios/VERSIONING.md` for the detailed spec.
 ## APNs Expectations For Local/Manual Builds
 
 - The app calls `registerForRemoteNotifications()` at launch.
-- `apps/ios/Sources/OpenClaw.entitlements` sets `aps-environment` to `development`.
+- `apps/ios/Sources/Brikko Studio.entitlements` sets `aps-environment` to `development`.
 - APNs token registration to gateway happens only after gateway connection (`push.apns.register`).
-- Local/manual builds default to `OpenClawPushTransport=direct` and `OpenClawPushDistribution=local`.
+- Local/manual builds default to `Brikko StudioPushTransport=direct` and `Brikko StudioPushDistribution=local`.
 - Your selected team/profile must support Push Notifications for the app bundle ID you are signing.
 - If push capability or provisioning is wrong, APNs registration fails at runtime (check Xcode logs for `APNs registration failed`).
-- The gateway host also needs direct APNs auth configured separately with `OPENCLAW_APNS_TEAM_ID`, `OPENCLAW_APNS_KEY_ID`, and either `OPENCLAW_APNS_PRIVATE_KEY_P8` or `OPENCLAW_APNS_PRIVATE_KEY_PATH`.
-- Recommended gateway-host storage for the APNs `.p8` file is `~/.openclaw/credentials/apns/AuthKey_<KEYID>.p8` with restrictive permissions, then point `OPENCLAW_APNS_PRIVATE_KEY_PATH` at that file.
+- The gateway host also needs direct APNs auth configured separately with `BRIKKO_STUDIO_APNS_TEAM_ID`, `BRIKKO_STUDIO_APNS_KEY_ID`, and either `BRIKKO_STUDIO_APNS_PRIVATE_KEY_P8` or `BRIKKO_STUDIO_APNS_PRIVATE_KEY_PATH`.
+- Recommended gateway-host storage for the APNs `.p8` file is `~/.brikko-studio/credentials/apns/AuthKey_<KEYID>.p8` with restrictive permissions, then point `BRIKKO_STUDIO_APNS_PRIVATE_KEY_PATH` at that file.
 - `apps/ios/fastlane/.env` only covers App Store Connect / Fastlane auth; it does not provide gateway APNs credentials for local direct-push testing.
-- Debug builds default to `OpenClawPushAPNsEnvironment=sandbox`; Release builds default to `production`.
+- Debug builds default to `Brikko StudioPushAPNsEnvironment=sandbox`; Release builds default to `production`.
 
 ## APNs Expectations For Official Builds
 
@@ -214,7 +214,7 @@ See `apps/ios/VERSIONING.md` for the detailed spec.
 - The app persists the relay handle metadata locally so reconnects can republish the gateway registration without re-registering on every connect.
 - If the relay base URL changes in a later build, the app refreshes the relay registration instead of reusing the old relay origin.
 - Relay mode requires a reachable relay base URL and uses App Attest plus a StoreKit app transaction JWS during registration.
-- Gateway-side relay sending is configured through `gateway.push.apns.relay.baseUrl` in `openclaw.json`. `OPENCLAW_APNS_RELAY_BASE_URL` remains a temporary env override only.
+- Gateway-side relay sending is configured through `gateway.push.apns.relay.baseUrl` in `brikko-studio.json`. `BRIKKO_STUDIO_APNS_RELAY_BASE_URL` remains a temporary env override only.
 
 ## Official Build Relay Trust Model
 
@@ -236,7 +236,7 @@ See `apps/ios/VERSIONING.md` for the detailed spec.
   - Production APNs credentials and raw official-build APNs tokens stay in the relay deployment,
     not on the gateway.
 
-This exists to keep the hosted relay limited to genuine OpenClaw official builds and to ensure a
+This exists to keep the hosted relay limited to genuine Brikko Studio official builds and to ensure a
 gateway can only send pushes for iOS devices that paired with that gateway.
 
 ## What Works Now (Concrete)
@@ -250,7 +250,7 @@ gateway can only send pushes for iOS devices that paired with that gateway.
 
 ## Computer Use Relationship
 
-The iOS app is not a Codex Computer Use backend. Computer Use and `cua-driver mcp` are macOS desktop-control paths; iOS exposes device capabilities as OpenClaw node commands through the gateway. Agents can drive the iPhone canvas, camera, screen, location, voice, and other node capabilities with `node.invoke`, subject to iOS foreground/background limits.
+The iOS app is not a Codex Computer Use backend. Computer Use and `cua-driver mcp` are macOS desktop-control paths; iOS exposes device capabilities as Brikko Studio node commands through the gateway. Agents can drive the iPhone canvas, camera, screen, location, voice, and other node capabilities with `node.invoke`, subject to iOS foreground/background limits.
 
 ## Location Automation Use Case (Testing)
 
@@ -318,7 +318,7 @@ Automatic wake/reconnect hardening:
 5. If network path is unclear:
    - switch to manual host/port + TLS in Gateway Advanced settings
 6. In Xcode console, filter for subsystem/category signals:
-   - `ai.openclaw.ios`
+   - `ai.brikko-studio.ios`
    - `GatewayDiag`
    - `APNs registration failed`
 7. Validate background expectations:

@@ -1,6 +1,6 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { isRecord } from "../utils.js";
-import { discoverOpenClawPlugins } from "./discovery.js";
+import { discoverBrikko StudioPlugins } from "./discovery.js";
 import { loadPluginManifestRegistry } from "./manifest-registry.js";
 import type { PluginManifestConfigContracts } from "./manifest.js";
 import type { PluginOrigin } from "./plugin-origin.types.js";
@@ -99,7 +99,7 @@ export function collectPluginConfigContractMatches(params: {
 }
 
 export function resolvePluginConfigContractsById(params: {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   fallbackToBundledMetadata?: boolean;
@@ -124,7 +124,7 @@ export function resolvePluginConfigContractsById(params: {
     if (bundledContractFallbacks.has(pluginId)) {
       return bundledContractFallbacks.get(pluginId);
     }
-    const discovery = discoverOpenClawPlugins({
+    const discovery = discoverBrikko StudioPlugins({
       workspaceDir: params.workspaceDir,
       env: params.env,
     });

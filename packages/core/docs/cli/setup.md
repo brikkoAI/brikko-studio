@@ -1,14 +1,14 @@
 ---
-summary: "CLI reference for `openclaw setup` (initialize config + workspace)"
+summary: "CLI reference for `brikko-studio setup` (initialize config + workspace)"
 read_when:
   - You’re doing first-run setup without full CLI onboarding
   - You want to set the default workspace path
 title: "Setup"
 ---
 
-# `openclaw setup`
+# `brikko-studio setup`
 
-Initialize `~/.openclaw/openclaw.json` and the agent workspace.
+Initialize `~/.brikko-studio/brikko-studio.json` and the agent workspace.
 
 Related:
 
@@ -18,11 +18,11 @@ Related:
 ## Examples
 
 ```bash
-openclaw setup
-openclaw setup --workspace ~/.openclaw/workspace
-openclaw setup --wizard
-openclaw setup --wizard --import-from hermes --import-source ~/.hermes
-openclaw setup --non-interactive --mode remote --remote-url wss://gateway-host:18789 --remote-token <token>
+brikko-studio setup
+brikko-studio setup --workspace ~/.brikko-studio/workspace
+brikko-studio setup --wizard
+brikko-studio setup --wizard --import-from hermes --import-source ~/.hermes
+brikko-studio setup --non-interactive --mode remote --remote-url wss://gateway-host:18789 --remote-token <token>
 ```
 
 ## Options
@@ -40,13 +40,13 @@ openclaw setup --non-interactive --mode remote --remote-url wss://gateway-host:1
 To run onboarding via setup:
 
 ```bash
-openclaw setup --wizard
+brikko-studio setup --wizard
 ```
 
 Notes:
 
-- Plain `openclaw setup` initializes config + workspace without the full onboarding flow.
-- After plain setup, run `openclaw configure` to choose models, channels, Gateway, plugins, skills, or health checks.
+- Plain `brikko-studio setup` initializes config + workspace without the full onboarding flow.
+- After plain setup, run `brikko-studio configure` to choose models, channels, Gateway, plugins, skills, or health checks.
 - Onboarding auto-runs when any onboarding flags are present (`--wizard`, `--non-interactive`, `--mode`, `--import-from`, `--import-source`, `--import-secrets`, `--remote-url`, `--remote-token`).
 - If Hermes state is detected, interactive onboarding can offer migration automatically. Import onboarding requires a fresh setup; use [Migrate](/cli/migrate) for dry-run plans, backups, and overwrite mode outside onboarding.
 

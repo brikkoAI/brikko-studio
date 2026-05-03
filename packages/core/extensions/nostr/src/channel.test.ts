@@ -2,10 +2,10 @@ import {
   createPluginSetupWizardConfigure,
   createTestWizardPrompter,
   runSetupWizardConfigure,
-} from "openclaw/plugin-sdk/plugin-test-runtime";
-import type { WizardPrompter } from "openclaw/plugin-sdk/plugin-test-runtime";
+} from "brikko-studio/plugin-sdk/plugin-test-runtime";
+import type { WizardPrompter } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../runtime-api.js";
+import type { Brikko StudioConfig } from "../runtime-api.js";
 import { nostrSetupWizard } from "./setup-surface.js";
 import {
   TEST_HEX_PRIVATE_KEY,
@@ -23,7 +23,7 @@ function normalizeNostrTestEntry(entry: string): string {
 }
 
 function resolveNostrTestDmPolicy(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   account: ReturnType<typeof resolveNostrAccount>;
 }) {
   return {
@@ -48,7 +48,7 @@ const nostrTestPlugin = {
   },
   config: {
     listAccountIds: listNostrAccountIds,
-    resolveAccount: (cfg: OpenClawConfig, accountId?: string | null) =>
+    resolveAccount: (cfg: Brikko StudioConfig, accountId?: string | null) =>
       resolveNostrAccount({ cfg, accountId }),
   },
   messaging: {
@@ -86,7 +86,7 @@ const nostrTestPlugin = {
       cfg,
       accountId,
     }: {
-      cfg: OpenClawConfig;
+      cfg: Brikko StudioConfig;
       accountId?: string;
       input: unknown;
     }) => accountId?.trim() || resolveDefaultNostrAccountId(cfg),
@@ -273,7 +273,7 @@ describe("nostr setup wizard", () => {
 
     const result = await runSetupWizardConfigure({
       configure: nostrConfigure,
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       prompter,
       options: {},
     });
@@ -299,7 +299,7 @@ describe("nostr setup wizard", () => {
 
     const result = await runSetupWizardConfigure({
       configure: nostrConfigure,
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       prompter,
       options: {},
       accountOverrides: {
@@ -315,7 +315,7 @@ describe("nostr setup wizard", () => {
   it("uses configured defaultAccount when setup accountId is omitted", () => {
     expect(
       nostrTestPlugin.setup?.resolveAccountId?.({
-        cfg: createConfiguredNostrCfg({ defaultAccount: "work" }) as OpenClawConfig,
+        cfg: createConfiguredNostrCfg({ defaultAccount: "work" }) as Brikko StudioConfig,
         accountId: undefined,
         input: {},
       } as never),

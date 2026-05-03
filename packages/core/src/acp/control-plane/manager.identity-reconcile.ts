@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { logVerbose } from "../../globals.js";
 import { withAcpRuntimeErrorBoundary } from "../runtime/errors.js";
 import {
@@ -14,7 +14,7 @@ import type { SessionAcpMeta, SessionEntry } from "./manager.types.js";
 import { hasLegacyAcpIdentityProjection } from "./manager.utils.js";
 
 export async function reconcileManagerRuntimeSessionIdentifiers(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   sessionKey: string;
   runtime: AcpRuntime;
   handle: AcpRuntimeHandle;
@@ -23,7 +23,7 @@ export async function reconcileManagerRuntimeSessionIdentifiers(params: {
   failOnStatusError: boolean;
   setCachedHandle: (sessionKey: string, handle: AcpRuntimeHandle) => void;
   writeSessionMeta: (params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     sessionKey: string;
     mutate: (
       current: SessionAcpMeta | undefined,

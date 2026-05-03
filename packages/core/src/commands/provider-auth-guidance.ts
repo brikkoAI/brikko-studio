@@ -1,7 +1,7 @@
 import { normalizeProviderId } from "../agents/model-selection.js";
 import { resolveProviderAuthAliasMap } from "../agents/provider-auth-aliases.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { resolveManifestProviderAuthChoices } from "../plugins/provider-auth-choices.js";
 
 function normalizeProviderIdForAuth(
@@ -26,7 +26,7 @@ function matchesProviderAuthChoice(
 
 function resolveProviderAuthLoginCommand(params: {
   provider: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): string | undefined {
@@ -37,12 +37,12 @@ function resolveProviderAuthLoginCommand(params: {
   if (!choice) {
     return undefined;
   }
-  return formatCliCommand(`openclaw models auth login --provider ${choice.providerId}`);
+  return formatCliCommand(`brikko-studio models auth login --provider ${choice.providerId}`);
 }
 
 export function buildProviderAuthRecoveryHint(params: {
   provider: string;
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   includeConfigure?: boolean;
@@ -54,13 +54,13 @@ export function buildProviderAuthRecoveryHint(params: {
     parts.push(`Run \`${loginCommand}\``);
   }
   if (params.includeConfigure !== false) {
-    parts.push(`\`${formatCliCommand("openclaw configure")}\``);
+    parts.push(`\`${formatCliCommand("brikko-studio configure")}\``);
   }
   if (params.includeEnvVar) {
     parts.push("set an API key env var");
   }
   if (parts.length === 0) {
-    return `Run \`${formatCliCommand("openclaw configure")}\`.`;
+    return `Run \`${formatCliCommand("brikko-studio configure")}\`.`;
   }
   if (parts.length === 1) {
     return `${parts[0]}.`;

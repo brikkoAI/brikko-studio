@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/groq-provider",
+  "name": "@brikko-studio/groq-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Groq media-understanding provider",
+  "description": "Brikko Studio Groq media-understanding provider",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

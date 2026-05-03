@@ -382,7 +382,7 @@ export const zh_CN: TranslationMap = {
     skills: "技能和 API 密钥。",
     nodes: "配对设备和命令。",
     chat: "网关聊天，快速干预。",
-    config: "编辑 openclaw.json。",
+    config: "编辑 brikko-studio.json。",
     communications: "频道、消息和音频设置。",
     appearance: "主题、界面和设置向导设置。",
     automation: "命令、钩子、定时任务和插件设置。",
@@ -451,7 +451,7 @@ export const zh_CN: TranslationMap = {
       metadataUpgradeTitle: "设备元数据更改等待批准。",
       metadataUpgradeSummary: "此设备已配对，但元数据更改仍在等待批准。",
       mobileHint:
-        "在手机上？从桌面运行 openclaw dashboard --no-open 复制完整 URL（包括 #token=...）。",
+        "在手机上？从桌面运行 brikko-studio dashboard --no-open 复制完整 URL（包括 #token=...）。",
       docsTitle: "设备配对文档（在新标签页中打开）",
       docsLink: "文档：设备配对",
     },
@@ -489,7 +489,7 @@ export const zh_CN: TranslationMap = {
       modelAuthExpiresIn: "于 {when} 过期",
       modelAuthAttentionExpiredTitle: "模型认证已过期",
       modelAuthAttentionExpiringTitle: "模型认证即将过期",
-      modelAuthAttentionExpiredDesc: "{providers} — 使用 openclaw models auth 重新认证",
+      modelAuthAttentionExpiredDesc: "{providers} — 使用 brikko-studio models auth 重新认证",
       modelAuthAttentionExpiringEntry: "{provider}（{when}）",
     },
     attention: {

@@ -1,13 +1,13 @@
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { describe, expect, it } from "vitest";
 import {
   formatMatrixQaCliCommand,
   redactMatrixQaCliOutput,
-  resolveMatrixQaOpenClawCliEntryPath,
-  runMatrixQaOpenClawCli,
-  startMatrixQaOpenClawCli,
+  resolveMatrixQaBrikko StudioCliEntryPath,
+  runMatrixQaBrikko StudioCli,
+  startMatrixQaBrikko StudioCli,
 } from "./scenario-runtime-cli.js";
 
 describe("Matrix QA CLI runtime", () => {
@@ -21,13 +21,13 @@ describe("Matrix QA CLI runtime", () => {
         "--recovery-key",
         "abcdef1234567890ghij",
       ]),
-    ).toBe("openclaw matrix verify backup restore --recovery-key [REDACTED]");
+    ).toBe("brikko-studio matrix verify backup restore --recovery-key [REDACTED]");
     expect(formatMatrixQaCliCommand(["matrix", "account", "add", "--access-token=token-123"])).toBe(
-      "openclaw matrix account add --access-token=[REDACTED]",
+      "brikko-studio matrix account add --access-token=[REDACTED]",
     );
     expect(
       formatMatrixQaCliCommand(["matrix", "verify", "device", "abcdef1234567890ghij", "--json"]),
-    ).toBe("openclaw matrix verify device [REDACTED] --json");
+    ).toBe("brikko-studio matrix verify device [REDACTED] --json");
   });
 
   it("redacts Matrix token output before diagnostics and artifacts", () => {
@@ -36,12 +36,12 @@ describe("Matrix QA CLI runtime", () => {
     ).toBe("GET /_matrix/client/v3/sync?access_token=abcdef…ghij");
   });
 
-  it("prefers the ESM OpenClaw CLI entrypoint when present", async () => {
-    const root = await mkdtemp(path.join(resolvePreferredOpenClawTmpDir(), "matrix-qa-cli-entry-"));
+  it("prefers the ESM Brikko Studio CLI entrypoint when present", async () => {
+    const root = await mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), "matrix-qa-cli-entry-"));
     try {
       await mkdir(path.join(root, "dist"));
       await writeFile(path.join(root, "dist", "index.mjs"), "");
-      expect(resolveMatrixQaOpenClawCliEntryPath(root)).toBe(path.join(root, "dist", "index.mjs"));
+      expect(resolveMatrixQaBrikko StudioCliEntryPath(root)).toBe(path.join(root, "dist", "index.mjs"));
     } finally {
       await rm(root, { force: true, recursive: true });
     }
@@ -49,7 +49,7 @@ describe("Matrix QA CLI runtime", () => {
 
   it("can preserve expected non-zero CLI output for negative scenarios", async () => {
     const root = await mkdtemp(
-      path.join(resolvePreferredOpenClawTmpDir(), "matrix-qa-cli-nonzero-"),
+      path.join(resolvePreferredBrikko StudioTmpDir(), "matrix-qa-cli-nonzero-"),
     );
     try {
       await mkdir(path.join(root, "dist"));
@@ -60,7 +60,7 @@ describe("Matrix QA CLI runtime", () => {
           "process.exit(7);",
         ].join("\n"),
       );
-      const result = await runMatrixQaOpenClawCli({
+      const result = await runMatrixQaBrikko StudioCli({
         allowNonZero: true,
         args: ["matrix", "verify", "backup", "restore", "--json"],
         cwd: root,
@@ -75,7 +75,7 @@ describe("Matrix QA CLI runtime", () => {
   });
 
   it("can pass stdin to CLI commands", async () => {
-    const root = await mkdtemp(path.join(resolvePreferredOpenClawTmpDir(), "matrix-qa-cli-stdin-"));
+    const root = await mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), "matrix-qa-cli-stdin-"));
     try {
       await mkdir(path.join(root, "dist"));
       await writeFile(
@@ -89,7 +89,7 @@ describe("Matrix QA CLI runtime", () => {
           "});",
         ].join("\n"),
       );
-      const result = await runMatrixQaOpenClawCli({
+      const result = await runMatrixQaBrikko StudioCli({
         args: ["matrix", "verify", "backup", "restore", "--recovery-key-stdin", "--json"],
         cwd: root,
         env: process.env,
@@ -104,7 +104,7 @@ describe("Matrix QA CLI runtime", () => {
 
   it("can close stdin after interactive CLI prompts", async () => {
     const root = await mkdtemp(
-      path.join(resolvePreferredOpenClawTmpDir(), "matrix-qa-cli-interactive-"),
+      path.join(resolvePreferredBrikko StudioTmpDir(), "matrix-qa-cli-interactive-"),
     );
     try {
       await mkdir(path.join(root, "dist"));
@@ -119,7 +119,7 @@ describe("Matrix QA CLI runtime", () => {
           "});",
         ].join("\n"),
       );
-      const session = startMatrixQaOpenClawCli({
+      const session = startMatrixQaBrikko StudioCli({
         args: ["matrix", "verify", "self"],
         cwd: root,
         env: process.env,
@@ -143,7 +143,7 @@ describe("Matrix QA CLI runtime", () => {
 
   it("includes timed-out CLI output in diagnostics", async () => {
     const root = await mkdtemp(
-      path.join(resolvePreferredOpenClawTmpDir(), "matrix-qa-cli-timeout-"),
+      path.join(resolvePreferredBrikko StudioTmpDir(), "matrix-qa-cli-timeout-"),
     );
     try {
       await mkdir(path.join(root, "dist"));
@@ -157,7 +157,7 @@ describe("Matrix QA CLI runtime", () => {
       );
 
       await expect(
-        runMatrixQaOpenClawCli({
+        runMatrixQaBrikko StudioCli({
           args: ["matrix", "verify", "self"],
           cwd: root,
           env: process.env,
@@ -165,7 +165,7 @@ describe("Matrix QA CLI runtime", () => {
         }),
       ).rejects.toThrow(/stdout:\nwaiting for verification/);
       await expect(
-        runMatrixQaOpenClawCli({
+        runMatrixQaBrikko StudioCli({
           args: ["matrix", "verify", "self"],
           cwd: root,
           env: process.env,

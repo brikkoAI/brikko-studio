@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 import type { DoctorRepairMode } from "./doctor-repair-mode.js";
@@ -57,7 +57,7 @@ describe("maybeRepairSandboxImages", () => {
     migrateLegacySandboxRegistryFiles.mockResolvedValue([]);
   });
 
-  function createSandboxConfig(mode: "off" | "all" | "non-main"): OpenClawConfig {
+  function createSandboxConfig(mode: "off" | "all" | "non-main"): Brikko StudioConfig {
     return {
       agents: {
         defaults: {
@@ -140,8 +140,8 @@ describe("maybeRepairSandboxRegistryFiles", () => {
     inspectLegacySandboxRegistryFiles.mockResolvedValue([
       {
         kind: "containers",
-        registryPath: "/tmp/openclaw/sandbox/containers.json",
-        shardedDir: "/tmp/openclaw/sandbox/containers",
+        registryPath: "/tmp/brikko-studio/sandbox/containers.json",
+        shardedDir: "/tmp/brikko-studio/sandbox/containers",
         exists: true,
         valid: true,
         entries: 2,
@@ -151,15 +151,15 @@ describe("maybeRepairSandboxRegistryFiles", () => {
     await maybeRepairSandboxRegistryFiles(mockPrompter);
 
     expect(migrateLegacySandboxRegistryFiles).not.toHaveBeenCalled();
-    expect(note).toHaveBeenCalledWith(expect.stringContaining("openclaw doctor --fix"), "Sandbox");
+    expect(note).toHaveBeenCalledWith(expect.stringContaining("brikko-studio doctor --fix"), "Sandbox");
   });
 
   it("migrates legacy registry files during doctor --fix", async () => {
     inspectLegacySandboxRegistryFiles.mockResolvedValue([
       {
         kind: "containers",
-        registryPath: "/tmp/openclaw/sandbox/containers.json",
-        shardedDir: "/tmp/openclaw/sandbox/containers",
+        registryPath: "/tmp/brikko-studio/sandbox/containers.json",
+        shardedDir: "/tmp/brikko-studio/sandbox/containers",
         exists: true,
         valid: true,
         entries: 2,
@@ -168,8 +168,8 @@ describe("maybeRepairSandboxRegistryFiles", () => {
     migrateLegacySandboxRegistryFiles.mockResolvedValue([
       {
         kind: "containers",
-        registryPath: "/tmp/openclaw/sandbox/containers.json",
-        shardedDir: "/tmp/openclaw/sandbox/containers",
+        registryPath: "/tmp/brikko-studio/sandbox/containers.json",
+        shardedDir: "/tmp/brikko-studio/sandbox/containers",
         status: "migrated",
         entries: 2,
       },

@@ -1,13 +1,13 @@
 ---
-summary: "fal image and video generation setup in OpenClaw"
+summary: "fal image and video generation setup in Brikko Studio"
 title: "Fal"
 read_when:
-  - You want to use fal image generation in OpenClaw
+  - You want to use fal image generation in Brikko Studio
   - You need the FAL_KEY auth flow
   - You want fal defaults for image_generate or video_generate
 ---
 
-OpenClaw ships a bundled `fal` provider for hosted image and video generation.
+Brikko Studio ships a bundled `fal` provider for hosted image and video generation.
 
 | Property | Value                                                         |
 | -------- | ------------------------------------------------------------- |
@@ -20,7 +20,7 @@ OpenClaw ships a bundled `fal` provider for hosted image and video generation.
 <Steps>
   <Step title="Set the API key">
     ```bash
-    openclaw onboard --auth-choice fal-api-key
+    brikko-studio onboard --auth-choice fal-api-key
     ```
   </Step>
   <Step title="Set a default image model">
@@ -57,7 +57,7 @@ The fal image edit endpoint does **not** support `aspectRatio` overrides.
 </Warning>
 
 Use `outputFormat: "png"` when you want PNG output. fal does not declare an
-explicit transparent-background control in OpenClaw, so `background:
+explicit transparent-background control in Brikko Studio, so `background:
 "transparent"` is reported as an ignored override for fal models.
 
 To use fal as the default image provider:
@@ -150,7 +150,7 @@ The bundled `fal` video-generation provider defaults to
 </AccordionGroup>
 
 <Tip>
-Use `openclaw models list --provider fal` to see the full list of available fal
+Use `brikko-studio models list --provider fal` to see the full list of available fal
 models, including any recently added entries.
 </Tip>
 

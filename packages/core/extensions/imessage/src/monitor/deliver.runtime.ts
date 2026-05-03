@@ -1,3 +1,3 @@
-export { resolveMarkdownTableMode } from "openclaw/plugin-sdk/markdown-table-runtime";
-export { chunkTextWithMode, resolveChunkMode } from "openclaw/plugin-sdk/reply-runtime";
-export { convertMarkdownTables } from "openclaw/plugin-sdk/text-runtime";
+export { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
+export { chunkTextWithMode, resolveChunkMode } from "brikko-studio/plugin-sdk/reply-runtime";
+export { convertMarkdownTables } from "brikko-studio/plugin-sdk/text-runtime";

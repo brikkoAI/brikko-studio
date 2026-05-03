@@ -1,27 +1,27 @@
 ---
-summary: "Sign in to GitHub Copilot from OpenClaw using the device flow or non-interactive token import"
+summary: "Sign in to GitHub Copilot from Brikko Studio using the device flow or non-interactive token import"
 read_when:
   - You want to use GitHub Copilot as a model provider
-  - You need the `openclaw models auth login-github-copilot` flow
+  - You need the `brikko-studio models auth login-github-copilot` flow
 title: "GitHub Copilot"
 ---
 
 GitHub Copilot is GitHub's AI coding assistant. It provides access to Copilot
-models for your GitHub account and plan. OpenClaw can use Copilot as a model
+models for your GitHub account and plan. Brikko Studio can use Copilot as a model
 provider in two different ways.
 
-## Two ways to use Copilot in OpenClaw
+## Two ways to use Copilot in Brikko Studio
 
 <Tabs>
   <Tab title="Built-in provider (github-copilot)">
     Use the native device-login flow to obtain a GitHub token, then exchange it for
-    Copilot API tokens when OpenClaw runs. This is the **default** and simplest path
+    Copilot API tokens when Brikko Studio runs. This is the **default** and simplest path
     because it does not require VS Code.
 
     <Steps>
       <Step title="Run the login command">
         ```bash
-        openclaw models auth login-github-copilot
+        brikko-studio models auth login-github-copilot
         ```
 
         You will be prompted to visit a URL and enter a one-time code. Keep the
@@ -29,7 +29,7 @@ provider in two different ways.
       </Step>
       <Step title="Set a default model">
         ```bash
-        openclaw models set github-copilot/claude-opus-4.7
+        brikko-studio models set github-copilot/claude-opus-4.7
         ```
 
         Or in config:
@@ -47,7 +47,7 @@ provider in two different ways.
   </Tab>
 
   <Tab title="Copilot Proxy plugin (copilot-proxy)">
-    Use the **Copilot Proxy** VS Code extension as a local bridge. OpenClaw talks to
+    Use the **Copilot Proxy** VS Code extension as a local bridge. Brikko Studio talks to
     the proxy's `/v1` endpoint and uses the model list you configure there.
 
     <Note>
@@ -67,19 +67,19 @@ provider in two different ways.
 
 ```bash
 # Skip confirmation
-openclaw models auth login-github-copilot --yes
+brikko-studio models auth login-github-copilot --yes
 
 # Login and set the default model in one step
-openclaw models auth login --provider github-copilot --method device --set-default
+brikko-studio models auth login --provider github-copilot --method device --set-default
 ```
 
 ## Non-interactive onboarding
 
 If you already have a GitHub OAuth access token for Copilot, import it during
-headless setup with `openclaw onboard --non-interactive`:
+headless setup with `brikko-studio onboard --non-interactive`:
 
 ```bash
-openclaw onboard --non-interactive --accept-risk \
+brikko-studio onboard --non-interactive --accept-risk \
   --auth-choice github-copilot \
   --github-copilot-token "$COPILOT_GITHUB_TOKEN" \
   --skip-channels --skip-health
@@ -104,19 +104,19 @@ back to `COPILOT_GITHUB_TOKEN`, `GH_TOKEN`, then `GITHUB_TOKEN`. Use
 
   <Accordion title="Transport selection">
     Claude model IDs use the Anthropic Messages transport automatically. GPT,
-    o-series, and Gemini models keep the OpenAI Responses transport. OpenClaw
+    o-series, and Gemini models keep the OpenAI Responses transport. Brikko Studio
     selects the correct transport based on the model ref.
   </Accordion>
 
   <Accordion title="Request compatibility">
-    OpenClaw sends Copilot IDE-style request headers on Copilot transports,
+    Brikko Studio sends Copilot IDE-style request headers on Copilot transports,
     including built-in compaction, tool-result, and image follow-up turns. It
     does not enable provider-level Responses continuation for Copilot unless
     that behavior has been verified against Copilot's API.
   </Accordion>
 
   <Accordion title="Environment variable resolution order">
-    OpenClaw resolves Copilot auth from environment variables in the following
+    Brikko Studio resolves Copilot auth from environment variables in the following
     priority order:
 
     | Priority | Variable              | Notes                            |
@@ -125,8 +125,8 @@ back to `COPILOT_GITHUB_TOKEN`, `GH_TOKEN`, then `GITHUB_TOKEN`. Use
     | 2        | `GH_TOKEN`            | GitHub CLI token (fallback)      |
     | 3        | `GITHUB_TOKEN`        | Standard GitHub token (lowest)   |
 
-    When multiple variables are set, OpenClaw uses the highest-priority one.
-    The device-login flow (`openclaw models auth login-github-copilot`) stores
+    When multiple variables are set, Brikko Studio uses the highest-priority one.
+    The device-login flow (`brikko-studio models auth login-github-copilot`) stores
     its token in the auth profile store and takes precedence over all environment
     variables.
 
@@ -134,7 +134,7 @@ back to `COPILOT_GITHUB_TOKEN`, `GH_TOKEN`, then `GITHUB_TOKEN`. Use
 
   <Accordion title="Token storage">
     The login stores a GitHub token in the auth profile store and exchanges it
-    for a Copilot API token when OpenClaw runs. You do not need to manage the
+    for a Copilot API token when Brikko Studio runs. You do not need to manage the
     token manually.
   </Accordion>
 </AccordionGroup>
@@ -148,13 +148,13 @@ onboarding when you need headless setup.
 
 GitHub Copilot can also serve as an embedding provider for
 [memory search](/concepts/memory-search). If you have a Copilot subscription and
-have logged in, OpenClaw can use it for embeddings without a separate API key.
+have logged in, Brikko Studio can use it for embeddings without a separate API key.
 
 ### Auto-detection
 
 When `memorySearch.provider` is `"auto"` (the default), GitHub Copilot is tried
 at priority 15 -- after local embeddings but before OpenAI and other paid
-providers. If a GitHub token is available, OpenClaw discovers available
+providers. If a GitHub token is available, Brikko Studio discovers available
 embedding models from the Copilot API and picks the best one automatically.
 
 ### Explicit config
@@ -175,14 +175,14 @@ embedding models from the Copilot API and picks the best one automatically.
 
 ### How it works
 
-1. OpenClaw resolves your GitHub token (from env vars or auth profile).
+1. Brikko Studio resolves your GitHub token (from env vars or auth profile).
 2. Exchanges it for a short-lived Copilot API token.
 3. Queries the Copilot `/models` endpoint to discover available embedding models.
 4. Picks the best model (prefers `text-embedding-3-small`).
 5. Sends embedding requests to the Copilot `/embeddings` endpoint.
 
 Model availability depends on your GitHub plan. If no embedding models are
-available, OpenClaw skips Copilot and tries the next provider.
+available, Brikko Studio skips Copilot and tries the next provider.
 
 ## Related
 

@@ -3,11 +3,11 @@ import {
   loadModelCatalog,
   modelSupportsVision,
   resolveDefaultModelForAgent,
-} from "openclaw/plugin-sdk/agent-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/agent-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export async function resolveStickerVisionSupportRuntime(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   agentId?: string;
 }): Promise<boolean> {
   const catalog = await loadModelCatalog({ config: params.cfg });

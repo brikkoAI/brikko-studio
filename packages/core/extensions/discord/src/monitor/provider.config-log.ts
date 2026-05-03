@@ -1,5 +1,5 @@
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { summarizeStringEntries } from "openclaw/plugin-sdk/text-runtime";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { summarizeStringEntries } from "brikko-studio/plugin-sdk/text-runtime";
 import { formatThreadBindingDurationLabel } from "./thread-bindings.messages.js";
 
 function formatThreadBindingDurationForConfigLabel(durationMs: number): string {

@@ -41,7 +41,7 @@ afterEach(() => {
 });
 
 describe("extra-params: provider runtime handoff", () => {
-  it("keeps unsupported upstream transport values out of OpenClaw runtime hooks", () => {
+  it("keeps unsupported upstream transport values out of Brikko Studio runtime hooks", () => {
     const settingsManager = {
       getGlobalSettings: () => ({}),
       getProjectSettings: () => ({}),

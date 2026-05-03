@@ -2,9 +2,9 @@ import {
   buildManifestModelProviderConfig,
   applyProviderNativeStreamingUsageCompat,
   supportsNativeStreamingUsageCompat,
-} from "openclaw/plugin-sdk/provider-catalog-shared";
-import type { ModelProviderConfig } from "openclaw/plugin-sdk/provider-model-shared";
-import manifest from "./openclaw.plugin.json" with { type: "json" };
+} from "brikko-studio/plugin-sdk/provider-catalog-shared";
+import type { ModelProviderConfig } from "brikko-studio/plugin-sdk/provider-model-shared";
+import manifest from "./brikko-studio.plugin.json" with { type: "json" };
 
 export const MOONSHOT_BASE_URL = "https://api.moonshot.ai/v1";
 export const MOONSHOT_CN_BASE_URL = "https://api.moonshot.cn/v1";

@@ -11,7 +11,7 @@ const require = createRequire(import.meta.url);
 const tsdownModuleUrl = pathToFileURL(require.resolve("tsdown")).href;
 const bundledRepresentativeEntrypoints = ["browser-config"] as const;
 const bundleTempRootTracker = createSuiteTempRootTracker(
-  "openclaw-plugin-sdk-build",
+  "brikko-studio-plugin-sdk-build",
   path.join(process.cwd(), "node_modules", ".cache"),
 );
 const matrixRuntimeCoverageEntries = {

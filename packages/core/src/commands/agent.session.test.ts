@@ -1,16 +1,16 @@
 import fs from "node:fs";
 import path from "node:path";
-import { withTempHome as withTempHomeBase } from "openclaw/plugin-sdk/test-env";
+import { withTempHome as withTempHomeBase } from "brikko-studio/plugin-sdk/test-env";
 import { beforeEach, describe, expect, it } from "vitest";
 import { resolveAgentDir, resolveSessionAgentId } from "../agents/agent-scope.js";
 import { resolveSession } from "../agents/command/session.js";
 import { clearSessionStoreCacheForTest } from "../config/sessions/store.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { buildOutboundSessionContext } from "../infra/outbound/session-context.js";
 
 async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
   return withTempHomeBase(fn, {
-    prefix: "openclaw-agent-session-",
+    prefix: "brikko-studio-agent-session-",
     skipSessionCleanup: true,
   });
 }
@@ -19,18 +19,18 @@ function mockConfig(
   home: string,
   storePath: string,
   agentsList?: Array<{ id: string; default?: boolean }>,
-): OpenClawConfig {
+): Brikko StudioConfig {
   return {
     agents: {
       defaults: {
         model: { primary: "anthropic/claude-opus-4-6" },
         models: { "anthropic/claude-opus-4-6": {} },
-        workspace: path.join(home, "openclaw"),
+        workspace: path.join(home, "brikko-studio"),
       },
       list: agentsList,
     },
     session: { store: storePath, mainKey: "main" },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
 function writeSessionStoreSeed(
@@ -42,7 +42,7 @@ function writeSessionStoreSeed(
 }
 
 async function withCrossAgentResumeFixture(
-  run: (params: { sessionId: string; sessionKey: string; cfg: OpenClawConfig }) => Promise<void>,
+  run: (params: { sessionId: string; sessionKey: string; cfg: Brikko StudioConfig }) => Promise<void>,
 ): Promise<void> {
   await withTempHome(async (home) => {
     const storePattern = path.join(home, "sessions", "{agentId}", "sessions.json");

@@ -1,11 +1,11 @@
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { isPreflightAborted, loadPluralKitRuntime } from "./message-handler.preflight-runtime.js";
 import type { DiscordMessageEvent } from "./message-handler.preflight.types.js";
 
 export async function resolveDiscordPreflightPluralKitInfo(params: {
   message: DiscordMessageEvent["message"];
   config?: NonNullable<
-    NonNullable<import("openclaw/plugin-sdk/config-types").OpenClawConfig["channels"]>["discord"]
+    NonNullable<import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig["channels"]>["discord"]
   >["pluralkit"];
   abortSignal?: AbortSignal;
 }): Promise<Awaited<ReturnType<typeof import("../pluralkit.js").fetchPluralKitMessageInfo>>> {

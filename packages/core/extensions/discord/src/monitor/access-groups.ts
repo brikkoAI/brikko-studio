@@ -1,9 +1,9 @@
 import {
   resolveAccessGroupAllowFromMatches,
   type AccessGroupMembershipResolver,
-} from "openclaw/plugin-sdk/command-auth";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+} from "brikko-studio/plugin-sdk/command-auth";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import type { RequestClient } from "../internal/discord.js";
 import { canViewDiscordGuildChannel } from "../send.permissions.js";
 
@@ -32,7 +32,7 @@ export function createDiscordAccessGroupMembershipResolver(params: {
 }
 
 export async function resolveDiscordDmAccessGroupEntries(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   allowFrom: string[];
   sender: { id: string };
   accountId: string;

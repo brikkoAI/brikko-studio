@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/tlon",
+  "name": "@brikko-studio/tlon",
   "version": "2026.5.3",
-  "description": "OpenClaw Tlon/Urbit channel plugin",
+  "description": "Brikko Studio Tlon/Urbit channel plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/brikko-studio/brikko-studio"
   },
   "type": "module",
   "dependencies": {
@@ -14,18 +14,18 @@
     "@urbit/aura": "^3.0.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*",
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ],
@@ -67,7 +67,7 @@
       ]
     },
     "install": {
-      "npmSpec": "@openclaw/tlon",
+      "npmSpec": "@brikko-studio/tlon",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -75,7 +75,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "brikko-studioVersion": "2026.5.3"
     },
     "release": {
       "publishToClawHub": true,

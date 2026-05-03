@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ChannelPlugin } from "../../channels/plugins/types.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 import { formatAllowFromLowercase } from "../../plugin-sdk/allow-from.js";
 import {
   buildDmGroupAccountAllowlistAdapter,
@@ -60,7 +60,7 @@ function normalizeTelegramAllowFromEntries(values: Array<string | number>): stri
 }
 
 function resolveTelegramTestAccount(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId?: string | null,
 ): TelegramTestSectionConfig {
   const section = cfg.channels?.telegram as TelegramTestSectionConfig | undefined;
@@ -177,7 +177,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   setAllowlistPluginRegistry();
   readConfigFileSnapshotMock.mockImplementation(async () => {
-    const configPath = process.env.OPENCLAW_CONFIG_PATH;
+    const configPath = process.env.BRIKKO_STUDIO_CONFIG_PATH;
     if (!configPath) {
       return { valid: false, parsed: null };
     }
@@ -189,7 +189,7 @@ beforeEach(() => {
     config,
   }));
   replaceConfigFileMock.mockImplementation(async (params: { nextConfig: unknown }) => {
-    const configPath = process.env.OPENCLAW_CONFIG_PATH;
+    const configPath = process.env.BRIKKO_STUDIO_CONFIG_PATH;
     if (configPath) {
       await fs.writeFile(configPath, JSON.stringify(params.nextConfig, null, 2), "utf-8");
     }
@@ -203,18 +203,18 @@ async function withTempConfigPath<T>(
   initialConfig: Record<string, unknown>,
   run: (configPath: string) => Promise<T>,
 ): Promise<T> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-allowlist-config-"));
-  const configPath = path.join(dir, "openclaw.json");
-  const previous = process.env.OPENCLAW_CONFIG_PATH;
-  process.env.OPENCLAW_CONFIG_PATH = configPath;
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-allowlist-config-"));
+  const configPath = path.join(dir, "brikko-studio.json");
+  const previous = process.env.BRIKKO_STUDIO_CONFIG_PATH;
+  process.env.BRIKKO_STUDIO_CONFIG_PATH = configPath;
   await fs.writeFile(configPath, JSON.stringify(initialConfig, null, 2), "utf-8");
   try {
     return await run(configPath);
   } finally {
     if (previous === undefined) {
-      delete process.env.OPENCLAW_CONFIG_PATH;
+      delete process.env.BRIKKO_STUDIO_CONFIG_PATH;
     } else {
-      process.env.OPENCLAW_CONFIG_PATH = previous;
+      process.env.BRIKKO_STUDIO_CONFIG_PATH = previous;
     }
     await fs.rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 });
   }
@@ -226,7 +226,7 @@ async function readJsonFile<T>(filePath: string): Promise<T> {
 
 function buildAllowlistParams(
   commandBody: string,
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   ctxOverrides?: {
     Provider?: string;
     Surface?: string;
@@ -266,7 +266,7 @@ describe("handleAllowlistCommand", () => {
     const cfg = {
       commands: { text: true },
       channels: { telegram: { allowFrom: ["123", "@Alice"] } },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const result = await handleAllowlistCommand(
       buildAllowlistParams("/allowlist list dm", cfg),
       true,
@@ -302,12 +302,12 @@ describe("handleAllowlistCommand", () => {
               const params = buildAllowlistParams("/allowlist add dm 789", {
                 commands: { text: true, config: true },
                 channels: { telegram: { allowFrom: ["123"] } },
-              } as OpenClawConfig);
+              } as Brikko StudioConfig);
               params.command.senderIsOwner = true;
               const result = await handleAllowlistCommand(params, true);
 
               expect(result?.shouldContinue, "default account").toBe(false);
-              const written = await readJsonFile<OpenClawConfig>(configPath);
+              const written = await readJsonFile<Brikko StudioConfig>(configPath);
               expect(written.channels?.telegram?.allowFrom, "default account").toEqual([
                 "123",
                 "789",
@@ -341,7 +341,7 @@ describe("handleAllowlistCommand", () => {
             {
               commands: { text: true, config: true },
               channels: { telegram: { accounts: { work: { allowFrom: ["123"] } } } },
-            } as OpenClawConfig,
+            } as Brikko StudioConfig,
             { AccountId: "work" },
           );
           params.command.senderIsOwner = true;
@@ -372,7 +372,7 @@ describe("handleAllowlistCommand", () => {
             ...telegramAllowlistTestPlugin,
             config: {
               ...telegramAllowlistTestPlugin.config,
-              defaultAccountId: (cfg: OpenClawConfig) =>
+              defaultAccountId: (cfg: Brikko StudioConfig) =>
                 (cfg.channels?.telegram as TelegramTestSectionConfig | undefined)?.defaultAccount ??
                 DEFAULT_ACCOUNT_ID,
             },
@@ -389,7 +389,7 @@ describe("handleAllowlistCommand", () => {
           accounts: { work: { allowFrom: ["123"] } },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     readChannelAllowFromStoreMock.mockResolvedValueOnce([]);
 
     const result = await handleAllowlistCommand(
@@ -417,7 +417,7 @@ describe("handleAllowlistCommand", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     readConfigFileSnapshotMock.mockResolvedValueOnce({
       valid: true,
       parsed: structuredClone(cfg),
@@ -445,7 +445,7 @@ describe("handleAllowlistCommand", () => {
             ...telegramAllowlistTestPlugin,
             config: {
               ...telegramAllowlistTestPlugin.config,
-              defaultAccountId: (cfg: OpenClawConfig) =>
+              defaultAccountId: (cfg: Brikko StudioConfig) =>
                 (cfg.channels?.telegram as TelegramTestSectionConfig | undefined)?.defaultAccount ??
                 DEFAULT_ACCOUNT_ID,
             },
@@ -466,7 +466,7 @@ describe("handleAllowlistCommand", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     readConfigFileSnapshotMock.mockResolvedValueOnce({
       valid: true,
       parsed: structuredClone(cfg),
@@ -495,7 +495,7 @@ describe("handleAllowlistCommand", () => {
         telegram: { allowFrom: ["*"], configWrites: true },
         discord: { allowFrom: ["owner-discord-id"], configWrites: true },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const params = buildAllowlistParams(
       "/allowlist add dm --channel discord attacker-discord-id",
       cfg,
@@ -522,7 +522,7 @@ describe("handleAllowlistCommand", () => {
       channels: {
         telegram: { allowFrom: ["*"], configWrites: true },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const params = buildAllowlistParams("/allowlist add dm --channel unknown attacker-id", cfg, {
       Provider: "telegram",
       Surface: "telegram",
@@ -553,7 +553,7 @@ describe("handleAllowlistCommand", () => {
     const cfg = {
       commands: { text: true, config: true },
       channels: { telegram: { allowFrom: ["123"] } },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const params = buildAllowlistParams("/allowlist remove dm --store 789", cfg);
     params.command.senderIsOwner = true;
     const result = await handleAllowlistCommand(params, true);
@@ -576,7 +576,7 @@ describe("handleAllowlistCommand", () => {
     const cfg = {
       commands: { text: true, config: true },
       channels: { telegram: { allowFrom: ["123"] } },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const params = buildAllowlistParams("/allowlist add dm --account __proto__ 789", cfg);
     params.command.senderIsOwner = true;
     const result = await handleAllowlistCommand(params, true);
@@ -628,7 +628,7 @@ describe("handleAllowlistCommand", () => {
               configWrites: true,
             },
           },
-        } as OpenClawConfig;
+        } as Brikko StudioConfig;
 
         const params = buildAllowlistParams(`/allowlist remove dm ${testCase.removeId}`, cfg, {
           Provider: testCase.provider,
@@ -638,7 +638,7 @@ describe("handleAllowlistCommand", () => {
         const result = await handleAllowlistCommand(params, true);
 
         expect(result?.shouldContinue).toBe(false);
-        const written = await readJsonFile<OpenClawConfig>(configPath);
+        const written = await readJsonFile<Brikko StudioConfig>(configPath);
         const channelConfig = written.channels?.[testCase.provider];
         expect(channelConfig?.allowFrom).toEqual(testCase.expectedAllowFrom);
         expect(channelConfig?.dm?.allowFrom).toBeUndefined();

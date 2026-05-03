@@ -1,1 +1,1 @@
-export { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+export { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";

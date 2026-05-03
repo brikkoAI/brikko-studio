@@ -1,11 +1,11 @@
 ---
 name: crabbox
-description: Use Crabbox for OpenClaw remote Linux validation. Default to Blacksmith Testbox; includes direct Blacksmith and owned AWS/Hetzner fallback notes when Crabbox fails.
+description: Use Crabbox for Brikko Studio remote Linux validation. Default to Blacksmith Testbox; includes direct Blacksmith and owned AWS/Hetzner fallback notes when Crabbox fails.
 ---
 
 # Crabbox
 
-Use Crabbox when OpenClaw needs remote Linux proof for broad tests, CI-parity
+Use Crabbox when Brikko Studio needs remote Linux proof for broad tests, CI-parity
 checks, secrets, hosted services, Docker/E2E/package lanes, warmed reusable
 boxes, sync timing, logs/results, cache inspection, or lease cleanup.
 
@@ -24,7 +24,7 @@ command -v crabbox
 pnpm crabbox:run -- --help | sed -n '1,120p'
 ```
 
-- OpenClaw scripts prefer `../crabbox/bin/crabbox` when present. The user PATH
+- Brikko Studio scripts prefer `../crabbox/bin/crabbox` when present. The user PATH
   shim can be stale.
 - Check `.crabbox.yaml` for repo defaults, but override provider explicitly.
   Even if config still says AWS, maintainer validation should normally pass
@@ -41,7 +41,7 @@ Changed gate:
 
 ```sh
 pnpm crabbox:run -- --provider blacksmith-testbox \
-  --blacksmith-org openclaw \
+  --blacksmith-org brikko-studio \
   --blacksmith-workflow .github/workflows/ci-check-testbox.yml \
   --blacksmith-job check \
   --blacksmith-ref main \
@@ -49,14 +49,14 @@ pnpm crabbox:run -- --provider blacksmith-testbox \
   --ttl 240m \
   --timing-json \
   --shell -- \
-  "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 OPENCLAW_TEST_PROJECTS_PARALLEL=6 OPENCLAW_VITEST_MAX_WORKERS=1 OPENCLAW_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test:changed"
+  "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL=6 BRIKKO_STUDIO_VITEST_MAX_WORKERS=1 BRIKKO_STUDIO_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test:changed"
 ```
 
 Full suite:
 
 ```sh
 pnpm crabbox:run -- --provider blacksmith-testbox \
-  --blacksmith-org openclaw \
+  --blacksmith-org brikko-studio \
   --blacksmith-workflow .github/workflows/ci-check-testbox.yml \
   --blacksmith-job check \
   --blacksmith-ref main \
@@ -64,14 +64,14 @@ pnpm crabbox:run -- --provider blacksmith-testbox \
   --ttl 240m \
   --timing-json \
   --shell -- \
-  "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 OPENCLAW_TEST_PROJECTS_PARALLEL=6 OPENCLAW_VITEST_MAX_WORKERS=1 OPENCLAW_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test"
+  "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL=6 BRIKKO_STUDIO_VITEST_MAX_WORKERS=1 BRIKKO_STUDIO_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test"
 ```
 
 Focused rerun:
 
 ```sh
 pnpm crabbox:run -- --provider blacksmith-testbox \
-  --blacksmith-org openclaw \
+  --blacksmith-org brikko-studio \
   --blacksmith-workflow .github/workflows/ci-check-testbox.yml \
   --blacksmith-job check \
   --blacksmith-ref main \
@@ -79,7 +79,7 @@ pnpm crabbox:run -- --provider blacksmith-testbox \
   --ttl 240m \
   --timing-json \
   --shell -- \
-  "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 OPENCLAW_VITEST_MAX_WORKERS=1 OPENCLAW_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test <path-or-filter>"
+  "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 BRIKKO_STUDIO_VITEST_MAX_WORKERS=1 BRIKKO_STUDIO_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test <path-or-filter>"
 ```
 
 Read the JSON summary. Useful fields:
@@ -150,20 +150,20 @@ use direct Blacksmith from the repo root:
 
 ```sh
 blacksmith testbox warmup ci-check-testbox.yml --ref main --idle-timeout 90
-blacksmith testbox run --id <tbx_id> "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 OPENCLAW_TEST_PROJECTS_PARALLEL=6 OPENCLAW_VITEST_MAX_WORKERS=1 OPENCLAW_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test:changed"
+blacksmith testbox run --id <tbx_id> "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL=6 BRIKKO_STUDIO_VITEST_MAX_WORKERS=1 BRIKKO_STUDIO_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test:changed"
 blacksmith testbox stop --id <tbx_id>
 ```
 
 Direct full suite:
 
 ```sh
-blacksmith testbox run --id <tbx_id> "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 OPENCLAW_TEST_PROJECTS_PARALLEL=6 OPENCLAW_VITEST_MAX_WORKERS=1 OPENCLAW_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test"
+blacksmith testbox run --id <tbx_id> "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL=6 BRIKKO_STUDIO_VITEST_MAX_WORKERS=1 BRIKKO_STUDIO_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test"
 ```
 
 Auth fallback, only when `blacksmith` says auth is missing:
 
 ```sh
-blacksmith auth login --non-interactive --organization openclaw
+blacksmith auth login --non-interactive --organization brikko-studio
 ```
 
 Raw Blacksmith footguns:
@@ -183,7 +183,7 @@ Owned Cloud Fallback section below.
 
 Crabbox Blacksmith backend delegates setup to:
 
-- org: `openclaw`
+- org: `brikko-studio`
 - workflow: `.github/workflows/ci-check-testbox.yml`
 - job: `check`
 - ref: `main` unless testing a branch/tag intentionally
@@ -196,7 +196,7 @@ Minimal direct Blacksmith fallback, from repo root:
 
 ```sh
 blacksmith testbox warmup ci-check-testbox.yml --ref main --idle-timeout 90
-blacksmith testbox run --id <tbx_id> "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 OPENCLAW_TEST_PROJECTS_PARALLEL=6 OPENCLAW_VITEST_MAX_WORKERS=1 pnpm test:changed"
+blacksmith testbox run --id <tbx_id> "env CI=1 NODE_OPTIONS=--max-old-space-size=4096 BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL=6 BRIKKO_STUDIO_VITEST_MAX_WORKERS=1 pnpm test:changed"
 blacksmith testbox stop --id <tbx_id>
 ```
 
@@ -211,7 +211,7 @@ Important Blacksmith footguns:
 - If auth is missing and browser auth is acceptable:
 
 ```sh
-blacksmith auth login --non-interactive --organization openclaw
+blacksmith auth login --non-interactive --organization brikko-studio
 ```
 
 ## Owned Cloud Fallback
@@ -222,15 +222,15 @@ environment, or owned capacity is explicitly the goal.
 ```sh
 pnpm crabbox:warmup -- --provider aws --class beast --market on-demand --idle-timeout 90m
 pnpm crabbox:hydrate -- --id <cbx_id-or-slug>
-pnpm crabbox:run -- --id <cbx_id-or-slug> --timing-json --shell -- "env NODE_OPTIONS=--max-old-space-size=4096 OPENCLAW_TEST_PROJECTS_PARALLEL=6 OPENCLAW_VITEST_MAX_WORKERS=1 OPENCLAW_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test:changed"
+pnpm crabbox:run -- --id <cbx_id-or-slug> --timing-json --shell -- "env NODE_OPTIONS=--max-old-space-size=4096 BRIKKO_STUDIO_TEST_PROJECTS_PARALLEL=6 BRIKKO_STUDIO_VITEST_MAX_WORKERS=1 BRIKKO_STUDIO_VITEST_NO_OUTPUT_TIMEOUT_MS=900000 pnpm test:changed"
 pnpm crabbox:stop -- <cbx_id-or-slug>
 ```
 
 Install/auth for owned Crabbox if needed:
 
 ```sh
-brew install openclaw/tap/crabbox
-printf '%s' "$CRABBOX_COORDINATOR_TOKEN" | crabbox login --url https://crabbox.openclaw.ai --provider aws --token-stdin
+brew install brikko-studio/tap/crabbox
+printf '%s' "$CRABBOX_COORDINATOR_TOKEN" | crabbox login --url https://crabbox.brikko-studio.ai --provider aws --token-stdin
 ```
 
 macOS config lives at:
@@ -240,7 +240,7 @@ macOS config lives at:
 ```
 
 It should include `broker.url`, `broker.token`, and usually `provider: aws`
-for owned-cloud lanes. Do not let that config override the OpenClaw default
+for owned-cloud lanes. Do not let that config override the Brikko Studio default
 when Blacksmith proof is requested; pass `--provider blacksmith-testbox`.
 
 ## Diagnostics
@@ -278,6 +278,6 @@ Use `--market spot|on-demand` only on AWS warmup/one-shot runs.
 
 ## Boundary
 
-Do not add OpenClaw-specific setup to Crabbox itself. Put repo setup in the
+Do not add Brikko Studio-specific setup to Crabbox itself. Put repo setup in the
 hydration workflow and keep Crabbox generic around lease, sync, command
 execution, logs/results, timing, and cleanup.

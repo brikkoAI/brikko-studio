@@ -1,15 +1,15 @@
-import type { OpenClawPluginApi } from "./plugin-runtime.js";
+import type { Brikko StudioPluginApi } from "./plugin-runtime.js";
 
-export type TestPluginApiInput = Partial<OpenClawPluginApi>;
+export type TestPluginApiInput = Partial<Brikko StudioPluginApi>;
 
-export function createTestPluginApi(api: TestPluginApiInput = {}): OpenClawPluginApi {
+export function createTestPluginApi(api: TestPluginApiInput = {}): Brikko StudioPluginApi {
   return {
     id: "test-plugin",
     name: "test-plugin",
     source: "test",
     registrationMode: "full",
     config: {},
-    runtime: {} as OpenClawPluginApi["runtime"],
+    runtime: {} as Brikko StudioPluginApi["runtime"],
     logger: { info() {}, warn() {}, error() {}, debug() {} },
     registerTool() {},
     registerHook() {},

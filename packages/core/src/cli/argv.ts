@@ -348,7 +348,7 @@ export function buildParseArgv(params: {
   const normalizedArgv =
     programName && baseArgv[0] === programName
       ? baseArgv.slice(1)
-      : baseArgv[0]?.endsWith("openclaw")
+      : baseArgv[0]?.endsWith("brikko-studio")
         ? baseArgv.slice(1)
         : baseArgv;
   const looksLikeNode =
@@ -357,7 +357,7 @@ export function buildParseArgv(params: {
   if (looksLikeNode) {
     return normalizedArgv;
   }
-  return ["node", programName || "openclaw", ...normalizedArgv];
+  return ["node", programName || "brikko-studio", ...normalizedArgv];
 }
 
 export function shouldMigrateStateFromPath(path: string[]): boolean {

@@ -146,7 +146,7 @@ type ChannelOutboundAdapter = {
   deliveryCapabilities?: ChannelDeliveryCapabilities;
 
   pinDeliveredMessage?: (params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     accountId?: string | null;
     to: string;
     threadId?: string | number | null;

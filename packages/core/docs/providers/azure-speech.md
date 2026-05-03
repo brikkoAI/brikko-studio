@@ -1,16 +1,16 @@
 ---
-summary: "Azure AI Speech text-to-speech for OpenClaw replies"
+summary: "Azure AI Speech text-to-speech for Brikko Studio replies"
 read_when:
   - You want Azure Speech synthesis for outbound replies
   - You need native Ogg Opus voice-note output from Azure Speech
 title: "Azure Speech"
 ---
 
-Azure Speech is an Azure AI Speech text-to-speech provider. In OpenClaw it
+Azure Speech is an Azure AI Speech text-to-speech provider. In Brikko Studio it
 synthesizes outbound reply audio as MP3 by default, native Ogg/Opus for voice
 notes, and 8 kHz mulaw audio for telephony channels such as Voice Call.
 
-OpenClaw uses the Azure Speech REST API directly with SSML and sends the
+Brikko Studio uses the Azure Speech REST API directly with SSML and sends the
 provider-owned output format through `X-Microsoft-OutputFormat`.
 
 | Detail                  | Value                                                                                                          |
@@ -55,7 +55,7 @@ provider-owned output format through `X-Microsoft-OutputFormat`.
     ```
   </Step>
   <Step title="Send a message">
-    Send a reply through any connected channel. OpenClaw synthesizes the audio
+    Send a reply through any connected channel. Brikko Studio synthesizes the audio
     with Azure Speech and delivers MP3 for standard audio, or Ogg/Opus when
     the channel expects a voice note.
   </Step>
@@ -79,7 +79,7 @@ provider-owned output format through `X-Microsoft-OutputFormat`.
 <AccordionGroup>
   <Accordion title="Authentication">
     Azure Speech uses a Speech resource key, not an Azure OpenAI key. The key
-    is sent as `Ocp-Apim-Subscription-Key`; OpenClaw derives
+    is sent as `Ocp-Apim-Subscription-Key`; Brikko Studio derives
     `https://<region>.tts.speech.microsoft.com` from `region` unless you
     provide `endpoint` or `baseUrl`.
   </Accordion>
@@ -90,7 +90,7 @@ provider-owned output format through `X-Microsoft-OutputFormat`.
   </Accordion>
   <Accordion title="Audio outputs">
     Azure accepts output formats such as `audio-24khz-48kbitrate-mono-mp3`,
-    `ogg-24khz-16bit-mono-opus`, and `riff-24khz-16bit-mono-pcm`. OpenClaw
+    `ogg-24khz-16bit-mono-opus`, and `riff-24khz-16bit-mono-pcm`. Brikko Studio
     requests Ogg/Opus for `voice-note` targets so channels can send native
     voice bubbles without an extra MP3 conversion.
   </Accordion>
@@ -111,7 +111,7 @@ provider-owned output format through `X-Microsoft-OutputFormat`.
     Full config reference including `messages.tts` settings.
   </Card>
   <Card title="Providers" href="/providers" icon="grid">
-    All bundled OpenClaw providers.
+    All bundled Brikko Studio providers.
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     Common issues and debugging steps.

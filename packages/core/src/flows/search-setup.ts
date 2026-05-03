@@ -1,5 +1,5 @@
 import type { SecretInputMode } from "../commands/onboard-types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   DEFAULT_SECRET_PROVIDER_ALIAS,
   type SecretInput,
@@ -23,9 +23,9 @@ import type { FlowContribution, FlowOption } from "./types.js";
 import { sortFlowContributionsByLabel } from "./types.js";
 
 export type SearchProvider = NonNullable<
-  NonNullable<NonNullable<NonNullable<OpenClawConfig["tools"]>["web"]>["search"]>["provider"]
+  NonNullable<NonNullable<NonNullable<Brikko StudioConfig["tools"]>["web"]>["search"]>["provider"]
 >;
-type SearchConfig = NonNullable<NonNullable<NonNullable<OpenClawConfig["tools"]>["web"]>["search"]>;
+type SearchConfig = NonNullable<NonNullable<NonNullable<Brikko StudioConfig["tools"]>["web"]>["search"]>;
 type MutableSearchConfig = SearchConfig & Record<string, unknown>;
 
 type SearchProviderSetupOption = FlowOption & {
@@ -56,7 +56,7 @@ function resolveSearchProviderCredentialLabel(
 }
 
 export function listSearchProviderOptions(
-  config?: OpenClawConfig,
+  config?: Brikko StudioConfig,
 ): readonly PluginWebSearchProviderEntry[] {
   return resolveSearchProviderOptions(config);
 }
@@ -68,7 +68,7 @@ function showsSearchProviderInSetup(
 }
 
 export function resolveSearchProviderOptions(
-  config?: OpenClawConfig,
+  config?: Brikko StudioConfig,
 ): readonly PluginWebSearchProviderEntry[] {
   return resolveSearchProviderSetupContributions(config).map(
     (contribution) => contribution.provider,
@@ -95,7 +95,7 @@ function buildSearchProviderSetupContribution(params: {
 }
 
 function resolveSearchProviderSetupContributions(
-  config?: OpenClawConfig,
+  config?: Brikko StudioConfig,
 ): SearchProviderSetupContribution[] {
   const runtimeProviders = sortWebSearchProviders(
     resolvePluginWebSearchProviders({
@@ -136,7 +136,7 @@ function resolveSearchProviderSetupContributions(
 }
 
 function resolveSearchProviderEntry(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   provider: SearchProvider,
 ): PluginWebSearchProviderEntry | undefined {
   return resolveSearchProviderOptions(config).find((entry) => entry.id === provider);
@@ -153,7 +153,7 @@ function providerNeedsCredential(
 }
 
 function providerIsReady(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   entry: Pick<PluginWebSearchProviderEntry, "id" | "envVars" | "requiresCredential">,
 ): boolean {
   if (!providerNeedsCredential(entry)) {
@@ -162,23 +162,23 @@ function providerIsReady(
   return hasExistingKey(config, entry.id) || hasKeyInEnv(entry);
 }
 
-function rawKeyValue(config: OpenClawConfig, provider: SearchProvider): unknown {
+function rawKeyValue(config: Brikko StudioConfig, provider: SearchProvider): unknown {
   const entry = resolveSearchProviderEntry(config, provider);
   return entry?.getConfiguredCredentialValue?.(config);
 }
 
 export function resolveExistingKey(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   provider: SearchProvider,
 ): string | undefined {
   return normalizeSecretInputString(rawKeyValue(config, provider));
 }
 
-export function hasExistingKey(config: OpenClawConfig, provider: SearchProvider): boolean {
+export function hasExistingKey(config: Brikko StudioConfig, provider: SearchProvider): boolean {
   return hasConfiguredSecretInput(rawKeyValue(config, provider));
 }
 
-function buildSearchEnvRef(config: OpenClawConfig, provider: SearchProvider): SecretRef {
+function buildSearchEnvRef(config: Brikko StudioConfig, provider: SearchProvider): SecretRef {
   const entry =
     resolveSearchProviderEntry(config, provider) ??
     listSearchProviderOptions(config).find((candidate) => candidate.id === provider) ??
@@ -195,7 +195,7 @@ function buildSearchEnvRef(config: OpenClawConfig, provider: SearchProvider): Se
 }
 
 function resolveSearchSecretInput(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   provider: SearchProvider,
   key: string,
   secretInputMode?: SecretInputMode,
@@ -208,10 +208,10 @@ function resolveSearchSecretInput(
 }
 
 export function applySearchKey(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   provider: SearchProvider,
   key: SecretInput,
-): OpenClawConfig {
+): Brikko StudioConfig {
   const providerEntry = resolveSearchProviderEntry(config, provider);
   if (!providerEntry) {
     return config;
@@ -220,7 +220,7 @@ export function applySearchKey(
   if (!providerEntry.setConfiguredCredentialValue) {
     providerEntry.setCredentialValue(search, key);
   }
-  const nextBase: OpenClawConfig = {
+  const nextBase: Brikko StudioConfig = {
     ...config,
     tools: {
       ...config.tools,
@@ -233,9 +233,9 @@ export function applySearchKey(
 }
 
 function applySearchProviderSelectionConfig(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   providerEntry: Pick<PluginWebSearchProviderEntry, "pluginId" | "applySelectionConfig">,
-): OpenClawConfig {
+): Brikko StudioConfig {
   if (providerEntry.applySelectionConfig) {
     return providerEntry.applySelectionConfig(config);
   }
@@ -246,9 +246,9 @@ function applySearchProviderSelectionConfig(
 }
 
 export function applySearchProviderSelection(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   provider: SearchProvider,
-): OpenClawConfig {
+): Brikko StudioConfig {
   const providerEntry = resolveSearchProviderEntry(config, provider);
   if (!providerEntry) {
     return config;
@@ -258,7 +258,7 @@ export function applySearchProviderSelection(
     provider,
     enabled: true,
   };
-  const nextBase: OpenClawConfig = {
+  const nextBase: Brikko StudioConfig = {
     ...config,
     tools: {
       ...config.tools,
@@ -271,12 +271,12 @@ export function applySearchProviderSelection(
   return applySearchProviderSelectionConfig(nextBase, providerEntry);
 }
 
-function preserveDisabledState(original: OpenClawConfig, result: OpenClawConfig): OpenClawConfig {
+function preserveDisabledState(original: Brikko StudioConfig, result: Brikko StudioConfig): Brikko StudioConfig {
   if (original.tools?.web?.search?.enabled !== false) {
     return result;
   }
 
-  const next: OpenClawConfig = {
+  const next: Brikko StudioConfig = {
     ...result,
     tools: {
       ...result.tools,
@@ -325,7 +325,7 @@ function preserveDisabledState(original: OpenClawConfig, result: OpenClawConfig)
 
   return {
     ...next,
-    plugins: nextPlugins as OpenClawConfig["plugins"],
+    plugins: nextPlugins as Brikko StudioConfig["plugins"],
   };
 }
 
@@ -335,13 +335,13 @@ export type SetupSearchOptions = {
 };
 
 async function finalizeSearchProviderSetup(params: {
-  originalConfig: OpenClawConfig;
-  nextConfig: OpenClawConfig;
+  originalConfig: Brikko StudioConfig;
+  nextConfig: Brikko StudioConfig;
   entry: SearchProviderEntryWithInstall;
   runtime: RuntimeEnv;
   prompter: WizardPrompter;
   opts?: SetupSearchOptions;
-}): Promise<OpenClawConfig> {
+}): Promise<Brikko StudioConfig> {
   let next = params.nextConfig;
   const installEntry = params.entry[SEARCH_INSTALL_CATALOG_ENTRY];
   if (installEntry && next.tools?.web?.search?.enabled !== false) {
@@ -381,18 +381,18 @@ async function finalizeSearchProviderSetup(params: {
 }
 
 export async function runSearchSetupFlow(
-  config: OpenClawConfig,
+  config: Brikko StudioConfig,
   runtime: RuntimeEnv,
   prompter: WizardPrompter,
   opts?: SetupSearchOptions,
-): Promise<OpenClawConfig> {
+): Promise<Brikko StudioConfig> {
   const providerOptions = resolveSearchProviderOptions(config);
   if (providerOptions.length === 0) {
     await prompter.note(
       [
         "No web search providers are currently available under this plugin policy.",
         "Enable plugins or remove deny rules, then run setup again.",
-        "Docs: https://docs.openclaw.ai/tools/web",
+        "Docs: https://docs.brikko-studio.ai/tools/web",
       ].join("\n"),
       "Web search",
     );
@@ -403,7 +403,7 @@ export async function runSearchSetupFlow(
     [
       "Web search lets your agent look things up online.",
       "Choose a provider. Some providers need an API key, and some work key-free.",
-      "Docs: https://docs.openclaw.ai/tools/web",
+      "Docs: https://docs.brikko-studio.ai/tools/web",
     ].join("\n"),
     "Web search",
   );
@@ -438,7 +438,7 @@ export async function runSearchSetupFlow(
       {
         value: "__skip__" as const,
         label: "Skip for now",
-        hint: "Configure later with openclaw configure --section web",
+        hint: "Configure later with brikko-studio configure --section web",
       },
     ],
     initialValue: defaultProvider,
@@ -478,8 +478,8 @@ export async function runSearchSetupFlow(
     await prompter.note(
       [
         `${entry.label} works without an API key.`,
-        "OpenClaw will enable the plugin and use it as your web_search provider.",
-        `Docs: ${entry.docsUrl ?? "https://docs.openclaw.ai/tools/web"}`,
+        "Brikko Studio will enable the plugin and use it as your web_search provider.",
+        `Docs: ${entry.docsUrl ?? "https://docs.brikko-studio.ai/tools/web"}`,
       ].join("\n"),
       "Web search",
     );
@@ -512,10 +512,10 @@ export async function runSearchSetupFlow(
     const ref = buildSearchEnvRef(config, choice);
     await prompter.note(
       [
-        "Secret references enabled — OpenClaw will store a reference instead of the API key.",
+        "Secret references enabled — Brikko Studio will store a reference instead of the API key.",
         `Env var: ${ref.id}${envAvailable ? " (detected)" : ""}.`,
         ...(envAvailable ? [] : [`Set ${ref.id} in the Gateway environment.`]),
-        "Docs: https://docs.openclaw.ai/tools/web",
+        "Docs: https://docs.brikko-studio.ai/tools/web",
       ].join("\n"),
       "Web search",
     );
@@ -578,7 +578,7 @@ export async function runSearchSetupFlow(
     [
       `No ${credentialLabel} stored — web_search won't work until a key is available.`,
       `Get your key at: ${entry.signupUrl}`,
-      "Docs: https://docs.openclaw.ai/tools/web",
+      "Docs: https://docs.brikko-studio.ai/tools/web",
     ].join("\n"),
     "Web search",
   );

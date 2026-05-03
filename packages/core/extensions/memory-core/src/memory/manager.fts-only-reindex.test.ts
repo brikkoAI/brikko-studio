@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MemoryIndexManager } from "./manager.js";
 import "./test-runtime-mocks.js";
@@ -30,7 +30,7 @@ describe("memory manager FTS-only reindex", () => {
   beforeAll(async () => {
     vi.resetModules();
     ({ getMemorySearchManager, closeAllMemorySearchManagers } = await import("./index.js"));
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-mem-fts-only-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-mem-fts-only-"));
   });
 
   beforeEach(async () => {
@@ -75,7 +75,7 @@ describe("memory manager FTS-only reindex", () => {
         },
         list: [{ id: "main", default: true }],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
     const result = await getMemorySearchManager({ cfg, agentId: "main" });
     if (!result.manager) {
       throw new Error(result.error ?? "manager missing");

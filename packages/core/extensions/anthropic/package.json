@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/anthropic-provider",
+  "name": "@brikko-studio/anthropic-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Anthropic provider plugin",
+  "description": "Brikko Studio Anthropic provider plugin",
   "type": "module",
   "dependencies": {
     "@mariozechner/pi-ai": "0.71.1"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

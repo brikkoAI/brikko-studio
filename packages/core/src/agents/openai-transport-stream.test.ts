@@ -14,7 +14,7 @@ import { attachModelProviderRequestTransport } from "./provider-request-config.j
 import {
   buildTransportAwareSimpleStreamFn,
   createBoundaryAwareStreamFnForModel,
-  createOpenClawTransportStreamFnForModel,
+  createBrikko StudioTransportStreamFnForModel,
   isTransportAwareApiSupported,
   prepareTransportAwareSimpleModel,
   resolveTransportAwareSimpleApi,
@@ -22,8 +22,8 @@ import {
 import { SYSTEM_PROMPT_CACHE_BOUNDARY } from "./system-prompt-cache-boundary.js";
 
 describe("openai transport stream", () => {
-  it("adds OpenClaw attribution to native OpenAI transport headers and protects it from pi", () => {
-    vi.stubEnv("OPENCLAW_VERSION", "2026.3.22");
+  it("adds Brikko Studio attribution to native OpenAI transport headers and protects it from pi", () => {
+    vi.stubEnv("BRIKKO_STUDIO_VERSION", "2026.3.22");
     const headers = __testing.buildOpenAIClientHeaders(
       {
         id: "gpt-5.4",
@@ -51,16 +51,16 @@ describe("openai transport stream", () => {
     );
 
     expect(headers).toMatchObject({
-      originator: "openclaw",
+      originator: "brikko-studio",
       version: "2026.3.22",
-      "User-Agent": "openclaw/2026.3.22",
+      "User-Agent": "brikko-studio/2026.3.22",
       "X-Provider": "model",
       "X-Caller": "request",
     });
   });
 
-  it("adds OpenClaw attribution to native OpenAI Codex transport headers", () => {
-    vi.stubEnv("OPENCLAW_VERSION", "2026.3.22");
+  it("adds Brikko Studio attribution to native OpenAI Codex transport headers", () => {
+    vi.stubEnv("BRIKKO_STUDIO_VERSION", "2026.3.22");
     const headers = __testing.buildOpenAIClientHeaders(
       {
         id: "gpt-5.4-codex",
@@ -82,9 +82,9 @@ describe("openai transport stream", () => {
     );
 
     expect(headers).toMatchObject({
-      originator: "openclaw",
+      originator: "brikko-studio",
       version: "2026.3.22",
-      "User-Agent": "openclaw/2026.3.22",
+      "User-Agent": "brikko-studio/2026.3.22",
     });
   });
 
@@ -181,7 +181,7 @@ describe("openai transport stream", () => {
       } satisfies Model<"openai-responses">),
     ).toBeTypeOf("function");
     expect(
-      createOpenClawTransportStreamFnForModel({
+      createBrikko StudioTransportStreamFnForModel({
         id: "gpt-5.4",
         name: "GPT-5.4",
         api: "openai-responses",
@@ -248,9 +248,9 @@ describe("openai transport stream", () => {
 
     const prepared = prepareTransportAwareSimpleModel(model);
 
-    expect(resolveTransportAwareSimpleApi(model.api)).toBe("openclaw-openai-responses-transport");
+    expect(resolveTransportAwareSimpleApi(model.api)).toBe("brikko-studio-openai-responses-transport");
     expect(prepared).toMatchObject({
-      api: "openclaw-openai-responses-transport",
+      api: "brikko-studio-openai-responses-transport",
       provider: "openai",
       id: "gpt-5.4",
     });
@@ -281,9 +281,9 @@ describe("openai transport stream", () => {
 
     const prepared = prepareTransportAwareSimpleModel(model);
 
-    expect(resolveTransportAwareSimpleApi(model.api)).toBe("openclaw-openai-responses-transport");
+    expect(resolveTransportAwareSimpleApi(model.api)).toBe("brikko-studio-openai-responses-transport");
     expect(prepared).toMatchObject({
-      api: "openclaw-openai-responses-transport",
+      api: "brikko-studio-openai-responses-transport",
       provider: "openai-codex",
       id: "codex-mini-latest",
     });
@@ -314,9 +314,9 @@ describe("openai transport stream", () => {
 
     const prepared = prepareTransportAwareSimpleModel(model);
 
-    expect(resolveTransportAwareSimpleApi(model.api)).toBe("openclaw-anthropic-messages-transport");
+    expect(resolveTransportAwareSimpleApi(model.api)).toBe("brikko-studio-anthropic-messages-transport");
     expect(prepared).toMatchObject({
-      api: "openclaw-anthropic-messages-transport",
+      api: "brikko-studio-anthropic-messages-transport",
       provider: "anthropic",
       id: "claude-sonnet-4-6",
     });
@@ -346,7 +346,7 @@ describe("openai transport stream", () => {
     );
 
     expect(resolveTransportAwareSimpleApi(model.api)).toBe(
-      "openclaw-google-generative-ai-transport",
+      "brikko-studio-google-generative-ai-transport",
     );
   });
 
@@ -372,9 +372,9 @@ describe("openai transport stream", () => {
       },
     );
 
-    expect(resolveTransportAwareSimpleApi(model.api)).toBe("openclaw-openai-responses-transport");
+    expect(resolveTransportAwareSimpleApi(model.api)).toBe("brikko-studio-openai-responses-transport");
     expect(prepareTransportAwareSimpleModel(model)).toMatchObject({
-      api: "openclaw-openai-responses-transport",
+      api: "brikko-studio-openai-responses-transport",
       provider: "github-copilot",
       id: "gpt-5.4",
     });
@@ -403,9 +403,9 @@ describe("openai transport stream", () => {
       },
     );
 
-    expect(resolveTransportAwareSimpleApi(model.api)).toBe("openclaw-anthropic-messages-transport");
+    expect(resolveTransportAwareSimpleApi(model.api)).toBe("brikko-studio-anthropic-messages-transport");
     expect(prepareTransportAwareSimpleModel(model)).toMatchObject({
-      api: "openclaw-anthropic-messages-transport",
+      api: "brikko-studio-anthropic-messages-transport",
       provider: "github-copilot",
       id: "claude-sonnet-4.6",
     });
@@ -816,7 +816,7 @@ describe("openai transport stream", () => {
       {
         id: "anthropic/claude-sonnet-4",
         name: "Claude Sonnet 4",
-        api: "openclaw-openai-completions-transport",
+        api: "brikko-studio-openai-completions-transport",
         provider: "openrouter",
         baseUrl: "https://proxy.example.com/v1",
         reasoning: true,
@@ -824,7 +824,7 @@ describe("openai transport stream", () => {
         cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
         contextWindow: 200000,
         maxTokens: 8192,
-      } as Model<"openclaw-openai-completions-transport">,
+      } as Model<"brikko-studio-openai-completions-transport">,
       {
         systemPrompt: "system",
         messages: [],
@@ -884,7 +884,7 @@ describe("openai transport stream", () => {
       {
         id: "anthropic/claude-sonnet-4",
         name: "Claude Sonnet 4",
-        api: "openclaw-openai-completions-transport",
+        api: "brikko-studio-openai-completions-transport",
         provider: "custom-openrouter",
         baseUrl: "https://openrouter.ai/api/v1",
         reasoning: true,
@@ -892,7 +892,7 @@ describe("openai transport stream", () => {
         cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
         contextWindow: 200000,
         maxTokens: 8192,
-      } as Model<"openclaw-openai-completions-transport">,
+      } as Model<"brikko-studio-openai-completions-transport">,
       {
         systemPrompt: "system",
         messages: [],
@@ -1047,8 +1047,8 @@ describe("openai transport stream", () => {
         temperature: 0.2,
       },
       {
-        openclaw_session_id: "session-123",
-        openclaw_turn_id: "turn-123",
+        brikko-studio_session_id: "session-123",
+        brikko-studio_turn_id: "turn-123",
       },
     ) as Record<string, unknown> & {
       input?: Array<{ role?: string }>;
@@ -1074,7 +1074,7 @@ describe("openai transport stream", () => {
       input: [],
       stream: true,
       max_output_tokens: 1024,
-      metadata: { openclaw_session_id: "session-123" },
+      metadata: { brikko-studio_session_id: "session-123" },
       prompt_cache_key: "session-123",
       prompt_cache_retention: "24h",
       service_tier: "auto",
@@ -1131,16 +1131,16 @@ describe("openai transport stream", () => {
         temperature: 0.2,
       },
       {
-        openclaw_session_id: "session-123",
-        openclaw_turn_id: "turn-123",
+        brikko-studio_session_id: "session-123",
+        brikko-studio_turn_id: "turn-123",
       },
     ) as Record<string, unknown>;
 
     expect(params.instructions).toBe("Stable prefix\nDynamic suffix");
     expect(params.prompt_cache_key).toBe("session-123");
     expect(params.metadata).toEqual({
-      openclaw_session_id: "session-123",
-      openclaw_turn_id: "turn-123",
+      brikko-studio_session_id: "session-123",
+      brikko-studio_turn_id: "turn-123",
     });
     expect(params.max_output_tokens).toBe(1024);
     expect(params.temperature).toBe(0.2);
@@ -1152,7 +1152,7 @@ describe("openai transport stream", () => {
       input: [],
       stream: true,
       max_output_tokens: 1024,
-      metadata: { openclaw_session_id: "session-123" },
+      metadata: { brikko-studio_session_id: "session-123" },
       prompt_cache_key: "session-123",
       prompt_cache_retention: "24h",
       service_tier: "auto",
@@ -1779,18 +1779,18 @@ describe("openai transport stream", () => {
       } as never,
       { sessionId: "session-123" } as never,
       {
-        openclaw_session_id: "session-123",
-        openclaw_turn_id: "turn-123",
-        openclaw_turn_attempt: "1",
-        openclaw_transport: "stream",
+        brikko-studio_session_id: "session-123",
+        brikko-studio_turn_id: "turn-123",
+        brikko-studio_turn_attempt: "1",
+        brikko-studio_transport: "stream",
       },
     ) as { metadata?: Record<string, string> };
 
     expect(params.metadata).toMatchObject({
-      openclaw_session_id: "session-123",
-      openclaw_turn_id: "turn-123",
-      openclaw_turn_attempt: "1",
-      openclaw_transport: "stream",
+      brikko-studio_session_id: "session-123",
+      brikko-studio_turn_id: "turn-123",
+      brikko-studio_turn_attempt: "1",
+      brikko-studio_transport: "stream",
     });
   });
 

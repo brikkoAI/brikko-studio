@@ -1,1 +1,1 @@
-export { buildSecretInputSchema, hasConfiguredSecretInput } from "openclaw/plugin-sdk/secret-input";
+export { buildSecretInputSchema, hasConfiguredSecretInput } from "brikko-studio/plugin-sdk/secret-input";

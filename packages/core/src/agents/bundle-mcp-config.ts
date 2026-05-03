@@ -1,5 +1,5 @@
 import { normalizeConfiguredMcpServers } from "../config/mcp-config-normalize.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   loadEnabledBundleMcpConfig,
   type BundleMcpConfig,
@@ -14,7 +14,7 @@ type MergedBundleMcpConfig = {
 
 type BundleMcpServerMapper = (server: BundleMcpServerConfig, name: string) => BundleMcpServerConfig;
 
-const OPENCLAW_TRANSPORT_TO_CLI_BUNDLE_TYPE: Record<string, string> = {
+const BRIKKO_STUDIO_TRANSPORT_TO_CLI_BUNDLE_TYPE: Record<string, string> = {
   "streamable-http": "http",
   http: "http",
   sse: "sse",
@@ -22,10 +22,10 @@ const OPENCLAW_TRANSPORT_TO_CLI_BUNDLE_TYPE: Record<string, string> = {
 };
 
 /**
- * User config stores OpenClaw MCP transport names, while CLI backends such as
+ * User config stores Brikko Studio MCP transport names, while CLI backends such as
  * Claude Code and Gemini expect a downstream `type` field. Keep this adapter
  * out of the generic merge path because embedded Pi still consumes the raw
- * OpenClaw `transport` shape directly.
+ * Brikko Studio `transport` shape directly.
  */
 export function toCliBundleMcpServerConfig(server: BundleMcpServerConfig): BundleMcpServerConfig {
   const next = { ...server } as Record<string, unknown>;
@@ -35,7 +35,7 @@ export function toCliBundleMcpServerConfig(server: BundleMcpServerConfig): Bundl
     return next as BundleMcpServerConfig;
   }
   if (typeof rawTransport === "string") {
-    const mapped = OPENCLAW_TRANSPORT_TO_CLI_BUNDLE_TYPE[rawTransport];
+    const mapped = BRIKKO_STUDIO_TRANSPORT_TO_CLI_BUNDLE_TYPE[rawTransport];
     if (mapped) {
       next.type = mapped;
     }
@@ -45,7 +45,7 @@ export function toCliBundleMcpServerConfig(server: BundleMcpServerConfig): Bundl
 
 export function loadMergedBundleMcpConfig(params: {
   workspaceDir: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   mapConfiguredServer?: BundleMcpServerMapper;
 }): MergedBundleMcpConfig {
   const bundleMcp = loadEnabledBundleMcpConfig({
@@ -57,7 +57,7 @@ export function loadMergedBundleMcpConfig(params: {
 
   return {
     config: {
-      // OpenClaw config is the owner-managed layer, so it overrides bundle defaults.
+      // Brikko Studio config is the owner-managed layer, so it overrides bundle defaults.
       mcpServers: {
         ...bundleMcp.config.mcpServers,
         ...Object.fromEntries(

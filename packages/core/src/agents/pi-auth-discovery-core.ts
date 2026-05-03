@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { isRecord } from "../utils.js";
 import {
   listProviderEnvAuthLookupKeys,
@@ -10,7 +10,7 @@ import { resolveEnvApiKey } from "./model-auth-env.js";
 import type { PiCredentialMap } from "./pi-auth-credentials.js";
 
 export type PiDiscoveryAuthLookupOptions = {
-  config?: OpenClawConfig;
+  config?: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 };
@@ -56,7 +56,7 @@ export function addEnvBackedPiCredentials(
 }
 
 export function scrubLegacyStaticAuthJsonEntriesForDiscovery(pathname: string): void {
-  if (process.env.OPENCLAW_AUTH_STORE_READONLY === "1") {
+  if (process.env.BRIKKO_STUDIO_AUTH_STORE_READONLY === "1") {
     return;
   }
   if (!fs.existsSync(pathname)) {

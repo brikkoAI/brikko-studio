@@ -22,7 +22,7 @@ vi.mock("./dm-command-decision.js", () => ({
 import {
   __testing as sessionBindingTesting,
   registerSessionBindingAdapter,
-} from "openclaw/plugin-sdk/conversation-runtime";
+} from "brikko-studio/plugin-sdk/conversation-runtime";
 import {
   createDiscordMessage,
   createDiscordPreflightArgs,
@@ -54,7 +54,7 @@ beforeEach(() => {
 });
 
 function createThreadBinding(
-  overrides?: Partial<import("openclaw/plugin-sdk/conversation-runtime").SessionBindingRecord>,
+  overrides?: Partial<import("brikko-studio/plugin-sdk/conversation-runtime").SessionBindingRecord>,
 ) {
   return {
     bindingId: "default:thread-1",
@@ -75,11 +75,11 @@ function createThreadBinding(
       webhookToken: "tok-1",
     },
     ...overrides,
-  } satisfies import("openclaw/plugin-sdk/conversation-runtime").SessionBindingRecord;
+  } satisfies import("brikko-studio/plugin-sdk/conversation-runtime").SessionBindingRecord;
 }
 
 function createPreflightArgs(params: {
-  cfg: import("openclaw/plugin-sdk/config-types").OpenClawConfig;
+  cfg: import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
   discordConfig: DiscordConfig;
   data: DiscordMessageEvent;
   client: DiscordClient;
@@ -135,7 +135,7 @@ async function runThreadBoundPreflight(params: {
   threadId: string;
   parentId: string;
   message: import("../internal/discord.js").Message;
-  threadBinding: import("openclaw/plugin-sdk/conversation-runtime").SessionBindingRecord;
+  threadBinding: import("brikko-studio/plugin-sdk/conversation-runtime").SessionBindingRecord;
   discordConfig: DiscordConfig;
   registerBindingAdapter?: boolean;
 }) {
@@ -177,7 +177,7 @@ async function runGuildPreflight(params: {
   guildId: string;
   message: import("../internal/discord.js").Message;
   discordConfig: DiscordConfig;
-  cfg?: import("openclaw/plugin-sdk/config-types").OpenClawConfig;
+  cfg?: import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
   guildEntries?: Parameters<typeof preflightDiscordMessage>[0]["guildEntries"];
   includeGuildObject?: boolean;
 }) {
@@ -218,7 +218,7 @@ async function runDmPreflight(params: {
 }
 
 async function runUnresolvedDmPreflight(params: {
-  cfg?: import("openclaw/plugin-sdk/config-types").OpenClawConfig;
+  cfg?: import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
   channelId: string;
   message: import("../internal/discord.js").Message;
   discordConfig: DiscordConfig;
@@ -329,7 +329,7 @@ describe("preflightDiscordMessage", () => {
       author: {
         id: "relay-bot-1",
         bot: true,
-        username: "OpenClaw",
+        username: "Brikko Studio",
       },
     });
 
@@ -361,8 +361,8 @@ describe("preflightDiscordMessage", () => {
               },
               metadata: {
                 pluginBindingOwner: "plugin",
-                pluginId: "openclaw-codex-app-server",
-                pluginRoot: "/Users/huntharo/github/openclaw-app-server",
+                pluginId: "brikko-studio-codex-app-server",
+                pluginRoot: "/Users/huntharo/github/brikko-studio-app-server",
               },
             })
           : null,
@@ -395,7 +395,7 @@ describe("preflightDiscordMessage", () => {
       },
       metadata: {
         pluginBindingOwner: "plugin",
-        pluginId: "openclaw-codex-app-server",
+        pluginId: "brikko-studio-codex-app-server",
       },
     });
   });
@@ -476,7 +476,7 @@ describe("preflightDiscordMessage", () => {
   });
 
   it("preflights direct-message voice notes without mention gating", async () => {
-    transcribeFirstAudioMock.mockResolvedValue("hello openclaw from dm audio");
+    transcribeFirstAudioMock.mockResolvedValue("hello brikko-studio from dm audio");
 
     const result = await runDmPreflight({
       channelId: "dm-channel-audio-1",
@@ -514,7 +514,7 @@ describe("preflightDiscordMessage", () => {
     );
     expect(result).not.toBeNull();
     expect(result?.isDirectMessage).toBe(true);
-    expect(result?.preflightAudioTranscript).toBe("hello openclaw from dm audio");
+    expect(result?.preflightAudioTranscript).toBe("hello brikko-studio from dm audio");
   });
 
   it("keeps no-guild messages direct when channel lookup is unavailable", async () => {
@@ -739,14 +739,14 @@ describe("preflightDiscordMessage", () => {
       message: createDiscordMessage({
         id: "proxy-456",
         channelId: "c1",
-        content: "<@openclaw-bot> hello",
+        content: "<@brikko-studio-bot> hello",
         webhookId: "pluralkit-webhook-1",
         author: {
           id: "webhook-author",
           bot: true,
           username: "PluralKit",
         },
-        mentionedUsers: [{ id: "openclaw-bot" }],
+        mentionedUsers: [{ id: "brikko-studio-bot" }],
       }),
       discordConfig: {
         pluralkit: { enabled: true },
@@ -823,7 +823,7 @@ describe("preflightDiscordMessage", () => {
       createPreflightArgs({
         cfg: {
           ...DEFAULT_PREFLIGHT_CFG,
-        } as import("openclaw/plugin-sdk/config-types").OpenClawConfig,
+        } as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig,
         discordConfig: {
           allowBots: true,
         } as DiscordConfig,
@@ -867,8 +867,8 @@ describe("preflightDiscordMessage", () => {
     const message = createDiscordMessage({
       id: "m-bot-mentions-on",
       channelId,
-      content: "hi <@openclaw-bot>",
-      mentionedUsers: [{ id: "openclaw-bot" }],
+      content: "hi <@brikko-studio-bot>",
+      mentionedUsers: [{ id: "brikko-studio-bot" }],
       author: {
         id: "relay-bot-1",
         bot: true,
@@ -901,7 +901,7 @@ describe("preflightDiscordMessage", () => {
       get: vi.fn(async () => ({
         id: message.id,
         content: message.content,
-        mentions: [{ id: botId, username: "OpenClaw", bot: true }],
+        mentions: [{ id: botId, username: "Brikko Studio", bot: true }],
         mention_roles: [],
         mention_everyone: false,
       })),
@@ -952,8 +952,8 @@ describe("preflightDiscordMessage", () => {
     const message = createDiscordMessage({
       id: "m-bot-command-with-mention",
       channelId,
-      content: "<@openclaw-bot> /new incident room",
-      mentionedUsers: [{ id: "openclaw-bot" }],
+      content: "<@brikko-studio-bot> /new incident room",
+      mentionedUsers: [{ id: "brikko-studio-bot" }],
       author: {
         id: "relay-bot-1",
         bot: true,
@@ -986,10 +986,10 @@ describe("preflightDiscordMessage", () => {
           ...DEFAULT_PREFLIGHT_CFG,
           messages: {
             groupChat: {
-              mentionPatterns: ["openclaw"],
+              mentionPatterns: ["brikko-studio"],
             },
           },
-        } as import("openclaw/plugin-sdk/config-types").OpenClawConfig,
+        } as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig,
         discordConfig: {} as DiscordConfig,
         data: createGuildEvent({
           channelId,
@@ -1035,7 +1035,7 @@ describe("preflightDiscordMessage", () => {
       guildId,
       message,
       discordConfig: {
-        botId: "openclaw-bot",
+        botId: "brikko-studio-bot",
       } as DiscordConfig,
       guildEntries: {
         [guildId]: {
@@ -1324,7 +1324,7 @@ describe("preflightDiscordMessage", () => {
   });
 
   it("uses attachment content_type for guild audio preflight mention detection", async () => {
-    transcribeFirstAudioMock.mockResolvedValue("hey openclaw");
+    transcribeFirstAudioMock.mockResolvedValue("hey brikko-studio");
 
     const channelId = "channel-audio-1";
     const client = createGuildTextClient(channelId);
@@ -1354,10 +1354,10 @@ describe("preflightDiscordMessage", () => {
           ...DEFAULT_PREFLIGHT_CFG,
           messages: {
             groupChat: {
-              mentionPatterns: ["openclaw"],
+              mentionPatterns: ["brikko-studio"],
             },
           },
-        } as import("openclaw/plugin-sdk/config-types").OpenClawConfig,
+        } as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig,
         discordConfig: {} as DiscordConfig,
         data: createGuildEvent({
           channelId,
@@ -1390,7 +1390,7 @@ describe("preflightDiscordMessage", () => {
     );
     expect(result).not.toBeNull();
     expect(result?.wasMentioned).toBe(true);
-    expect(result?.preflightAudioTranscript).toBe("hey openclaw");
+    expect(result?.preflightAudioTranscript).toBe("hey brikko-studio");
   });
 
   it("does not transcribe guild audio from unauthorized members", async () => {
@@ -1423,10 +1423,10 @@ describe("preflightDiscordMessage", () => {
           ...DEFAULT_PREFLIGHT_CFG,
           messages: {
             groupChat: {
-              mentionPatterns: ["openclaw"],
+              mentionPatterns: ["brikko-studio"],
             },
           },
-        } as import("openclaw/plugin-sdk/config-types").OpenClawConfig,
+        } as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig,
         discordConfig: {} as DiscordConfig,
         data: createGuildEvent({
           channelId,
@@ -1454,7 +1454,7 @@ describe("preflightDiscordMessage", () => {
   });
 
   it("drops guild message without mention when channel has configuredBinding and requireMention: true", async () => {
-    const conversationRuntime = await import("openclaw/plugin-sdk/conversation-runtime");
+    const conversationRuntime = await import("brikko-studio/plugin-sdk/conversation-runtime");
     const channelId = "ch-binding-1";
     const bindingRoute = {
       bindingResolution: {
@@ -1497,7 +1497,7 @@ describe("preflightDiscordMessage", () => {
   });
 
   it("allows guild message with mention when channel has configuredBinding and requireMention: true", async () => {
-    const conversationRuntime = await import("openclaw/plugin-sdk/conversation-runtime");
+    const conversationRuntime = await import("brikko-studio/plugin-sdk/conversation-runtime");
     const channelId = "ch-binding-2";
     const bindingRoute = {
       bindingResolution: {
@@ -1524,9 +1524,9 @@ describe("preflightDiscordMessage", () => {
         message: createDiscordMessage({
           id: "m-binding-2",
           channelId,
-          content: "hello <@openclaw-bot>",
+          content: "hello <@brikko-studio-bot>",
           author: { id: "user-1", bot: false, username: "alice" },
-          mentionedUsers: [{ id: "openclaw-bot" }],
+          mentionedUsers: [{ id: "brikko-studio-bot" }],
         }),
         discordConfig: {} as DiscordConfig,
         guildEntries: {

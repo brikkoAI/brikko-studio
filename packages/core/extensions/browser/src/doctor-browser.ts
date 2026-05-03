@@ -1,4 +1,4 @@
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   parseBrowserMajorVersion,
   readBrowserVersion,
@@ -6,7 +6,7 @@ import {
   resolveGoogleChromeExecutableForPlatform,
 } from "./browser/chrome.executables.js";
 import { resolveBrowserConfig } from "./browser/config.js";
-import type { OpenClawConfig } from "./config/config.js";
+import type { Brikko StudioConfig } from "./config/config.js";
 import { asRecord } from "./record-shared.js";
 import { note } from "./sdk-setup-tools.js";
 
@@ -26,7 +26,7 @@ type ManagedProfile = {
   name: string;
 };
 
-function collectChromeMcpProfiles(cfg: OpenClawConfig): ExistingSessionProfile[] {
+function collectChromeMcpProfiles(cfg: Brikko StudioConfig): ExistingSessionProfile[] {
   const browser = asRecord(cfg.browser);
   if (!browser) {
     return [];
@@ -57,7 +57,7 @@ function collectChromeMcpProfiles(cfg: OpenClawConfig): ExistingSessionProfile[]
   return [...profiles.values()].toSorted((a, b) => a.name.localeCompare(b.name));
 }
 
-function collectManagedProfiles(cfg: OpenClawConfig): ManagedProfile[] {
+function collectManagedProfiles(cfg: Brikko StudioConfig): ManagedProfile[] {
   const browser = asRecord(cfg.browser);
   if (!browser) {
     return [];
@@ -76,7 +76,7 @@ function collectManagedProfiles(cfg: OpenClawConfig): ManagedProfile[] {
 
   for (const [profileName, rawProfile] of Object.entries(configuredProfiles)) {
     const profile = asRecord(rawProfile);
-    const driver = normalizeOptionalString(profile?.driver) ?? "openclaw";
+    const driver = normalizeOptionalString(profile?.driver) ?? "brikko-studio";
     if (driver !== "existing-session") {
       profiles.set(profileName, { name: profileName });
     }
@@ -86,7 +86,7 @@ function collectManagedProfiles(cfg: OpenClawConfig): ManagedProfile[] {
 }
 
 export async function noteChromeMcpBrowserReadiness(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   deps?: {
     platform?: NodeJS.Platform;
     noteFn?: typeof note;
@@ -123,8 +123,8 @@ export async function noteChromeMcpBrowserReadiness(
   if (!browserExecutable && managedProfiles.length > 0) {
     noteFn(
       [
-        `- OpenClaw-managed browser profile(s) are configured: ${managedProfileLabel}.`,
-        "- No Chromium-based browser executable was found on this host for OpenClaw-managed launch.",
+        `- Brikko Studio-managed browser profile(s) are configured: ${managedProfileLabel}.`,
+        "- No Chromium-based browser executable was found on this host for Brikko Studio-managed launch.",
         "- Install Chrome, Chromium, Brave, Edge, or set browser.executablePath explicitly.",
       ].join("\n"),
       "Browser",
@@ -132,7 +132,7 @@ export async function noteChromeMcpBrowserReadiness(
   }
 
   if (missingDisplay || shouldWarnRootNoSandbox) {
-    const lines = [`- OpenClaw-managed browser profile(s) are configured: ${managedProfileLabel}.`];
+    const lines = [`- Brikko Studio-managed browser profile(s) are configured: ${managedProfileLabel}.`];
     if (missingDisplay) {
       lines.push(
         "- No DISPLAY or WAYLAND_DISPLAY is set, and browser.headless is false. Managed browser launch needs a desktop session, Xvfb, or browser.headless: true.",
@@ -162,7 +162,7 @@ export async function noteChromeMcpBrowserReadiness(
         "- These profiles use an explicit Chromium user data directory instead of Chrome's default auto-connect path.",
         `- Verify the matching Chromium-based browser is version ${CHROME_MCP_MIN_MAJOR}+ on the same host as the Gateway or node.`,
         `- Enable remote debugging in that browser's inspect page (${REMOTE_DEBUGGING_PAGES}).`,
-        "- Keep the browser running and accept the attach consent prompt the first time OpenClaw connects.",
+        "- Keep the browser running and accept the attach consent prompt the first time Brikko Studio connects.",
       ].join("\n"),
       "Browser",
     );
@@ -175,10 +175,10 @@ export async function noteChromeMcpBrowserReadiness(
   if (!chrome) {
     const lines = [
       `- Chrome MCP existing-session is configured for profile(s): ${profileLabel}.`,
-      `- Google Chrome was not found on this host for auto-connect profile(s): ${autoProfileLabel}. OpenClaw does not bundle Chrome.`,
+      `- Google Chrome was not found on this host for auto-connect profile(s): ${autoProfileLabel}. Brikko Studio does not bundle Chrome.`,
       `- Install Google Chrome ${CHROME_MCP_MIN_MAJOR}+ on the same host as the Gateway or node, or set browser.profiles.<name>.userDataDir for a different Chromium-based browser.`,
       `- Enable remote debugging in the browser inspect page (${REMOTE_DEBUGGING_PAGES}).`,
-      "- Keep the browser running and accept the attach consent prompt the first time OpenClaw connects.",
+      "- Keep the browser running and accept the attach consent prompt the first time Brikko Studio connects.",
       "- Docker, headless, and sandbox browser flows stay on raw CDP; this check only applies to host-local Chrome MCP attach.",
     ];
     if (explicitProfiles.length > 0) {
@@ -213,7 +213,7 @@ export async function noteChromeMcpBrowserReadiness(
 
   lines.push(`- Enable remote debugging in the browser inspect page (${REMOTE_DEBUGGING_PAGES}).`);
   lines.push(
-    "- Keep the browser running and accept the attach consent prompt the first time OpenClaw connects.",
+    "- Keep the browser running and accept the attach consent prompt the first time Brikko Studio connects.",
   );
   if (explicitProfiles.length > 0) {
     lines.push(

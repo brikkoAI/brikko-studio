@@ -1,4 +1,4 @@
-import type { ProviderPlugin } from "openclaw/plugin-sdk/provider-model-shared";
+import type { ProviderPlugin } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { readClaudeCliCredentialsForRuntime } from "./cli-auth-seam.js";
 
 const CLAUDE_CLI_BACKEND_ID = "claude-cli";

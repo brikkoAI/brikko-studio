@@ -1,5 +1,5 @@
 ---
-summary: "Adds Vydra model provider support to OpenClaw."
+summary: "Adds Vydra model provider support to Brikko Studio."
 read_when:
   - You are installing, configuring, or auditing the vydra plugin
 title: "Vydra plugin"
@@ -7,12 +7,12 @@ title: "Vydra plugin"
 
 # Vydra plugin
 
-Adds Vydra model provider support to OpenClaw.
+Adds Vydra model provider support to Brikko Studio.
 
 ## Distribution
 
-- Package: `@openclaw/vydra-provider`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/vydra-provider`
+- Install route: included in Brikko Studio
 
 ## Surface
 

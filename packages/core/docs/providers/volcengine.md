@@ -2,7 +2,7 @@
 summary: "Volcano Engine setup (Doubao models, coding endpoints, and Seed Speech TTS)"
 title: "Volcengine (Doubao)"
 read_when:
-  - You want to use Volcano Engine or Doubao models with OpenClaw
+  - You want to use Volcano Engine or Doubao models with Brikko Studio
   - You need the Volcengine API key setup
   - You want to use Volcengine Speech text-to-speech
 ---
@@ -26,7 +26,7 @@ provider.
     Run interactive onboarding:
 
     ```bash
-    openclaw onboard --auth-choice volcengine-api-key
+    brikko-studio onboard --auth-choice volcengine-api-key
     ```
 
     This registers both the general (`volcengine`) and coding (`volcengine-plan`) providers from a single API key.
@@ -45,8 +45,8 @@ provider.
   </Step>
   <Step title="Verify the model is available">
     ```bash
-    openclaw models list --provider volcengine
-    openclaw models list --provider volcengine-plan
+    brikko-studio models list --provider volcengine
+    brikko-studio models list --provider volcengine-plan
     ```
   </Step>
 </Steps>
@@ -55,7 +55,7 @@ provider.
 For non-interactive setup (CI, scripting), pass the key directly:
 
 ```bash
-openclaw onboard --non-interactive \
+brikko-studio onboard --non-interactive \
   --mode local \
   --auth-choice volcengine-api-key \
   --volcengine-api-key "$VOLCANO_ENGINE_API_KEY"
@@ -109,7 +109,7 @@ export VOLCENGINE_TTS_API_KEY="byteplus_seed_speech_api_key"
 export VOLCENGINE_TTS_RESOURCE_ID="seed-tts-1.0"
 ```
 
-Then enable it in `openclaw.json`:
+Then enable it in `brikko-studio.json`:
 
 ```json5
 {
@@ -129,7 +129,7 @@ Then enable it in `openclaw.json`:
 }
 ```
 
-For voice-note targets, OpenClaw asks Volcengine for provider-native
+For voice-note targets, Brikko Studio asks Volcengine for provider-native
 `ogg_opus`. For normal audio attachments, it asks for `mp3`. Provider aliases
 `bytedance` and `doubao` also resolve to the same speech provider.
 
@@ -155,7 +155,7 @@ export VOLCENGINE_TTS_CLUSTER="volcano_tts"
 
 <AccordionGroup>
   <Accordion title="Default model after onboarding">
-    `openclaw onboard --auth-choice volcengine-api-key` currently sets
+    `brikko-studio onboard --auth-choice volcengine-api-key` currently sets
     `volcengine-plan/ark-code-latest` as the default model while also registering
     the general `volcengine` catalog.
   </Accordion>
@@ -163,7 +163,7 @@ export VOLCENGINE_TTS_CLUSTER="volcano_tts"
   <Accordion title="Model picker fallback behavior">
     During onboarding/configure model selection, the Volcengine auth choice prefers
     both `volcengine/*` and `volcengine-plan/*` rows. If those models are not
-    loaded yet, OpenClaw falls back to the unfiltered catalog instead of showing an
+    loaded yet, Brikko Studio falls back to the unfiltered catalog instead of showing an
     empty provider-scoped picker.
   </Accordion>
 
@@ -172,12 +172,12 @@ export VOLCENGINE_TTS_CLUSTER="volcano_tts"
     env vars such as `VOLCANO_ENGINE_API_KEY`, `VOLCENGINE_TTS_API_KEY`,
     `BYTEPLUS_SEED_SPEECH_API_KEY`, `VOLCENGINE_TTS_APPID`, and
     `VOLCENGINE_TTS_TOKEN` are available to that process (for example, in
-    `~/.openclaw/.env` or via `env.shellEnv`).
+    `~/.brikko-studio/.env` or via `env.shellEnv`).
   </Accordion>
 </AccordionGroup>
 
 <Warning>
-When running OpenClaw as a background service, environment variables set in your
+When running Brikko Studio as a background service, environment variables set in your
 interactive shell are not automatically inherited. See the daemon note above.
 </Warning>
 
@@ -194,6 +194,6 @@ interactive shell are not automatically inherited. See the daemon note above.
     Common issues and debugging steps.
   </Card>
   <Card title="FAQ" href="/help/faq" icon="circle-question">
-    Frequently asked questions about OpenClaw setup.
+    Frequently asked questions about Brikko Studio setup.
   </Card>
 </CardGroup>

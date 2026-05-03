@@ -9,7 +9,7 @@ function createHost() {
     connectGeneration: 0,
     connected: true,
     tab: "chat",
-    assistantName: "OpenClaw",
+    assistantName: "Brikko Studio",
     assistantAvatar: null,
     assistantAgentId: null,
     localMediaPreviewRoots: [],

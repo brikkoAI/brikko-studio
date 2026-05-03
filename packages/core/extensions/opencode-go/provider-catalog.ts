@@ -1,6 +1,6 @@
-import type { ModelCatalogEntry } from "openclaw/plugin-sdk/agent-runtime";
-import type { ProviderRuntimeModel } from "openclaw/plugin-sdk/plugin-entry";
-import { normalizeModelCompat } from "openclaw/plugin-sdk/provider-model-shared";
+import type { ModelCatalogEntry } from "brikko-studio/plugin-sdk/agent-runtime";
+import type { ProviderRuntimeModel } from "brikko-studio/plugin-sdk/plugin-entry";
+import { normalizeModelCompat } from "brikko-studio/plugin-sdk/provider-model-shared";
 
 const PROVIDER_ID = "opencode-go";
 

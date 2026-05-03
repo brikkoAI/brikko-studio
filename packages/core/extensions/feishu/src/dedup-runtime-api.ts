@@ -1,1 +1,1 @@
-export { createPersistentDedupe } from "openclaw/plugin-sdk/persistent-dedupe";
+export { createPersistentDedupe } from "brikko-studio/plugin-sdk/persistent-dedupe";

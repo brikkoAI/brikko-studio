@@ -21,7 +21,7 @@ import {
   loadPluginManifest,
   type PluginManifest,
   resolvePackageExtensionEntries,
-  type OpenClawPackageManifest,
+  type Brikko StudioPackageManifest,
   type PackageManifest,
 } from "./manifest.js";
 import {
@@ -64,7 +64,7 @@ export type PluginCandidate = {
   packageVersion?: string;
   packageDescription?: string;
   packageDir?: string;
-  packageManifest?: OpenClawPackageManifest;
+  packageManifest?: Brikko StudioPackageManifest;
   packageDependencies?: PluginDependencySpecMap;
   packageOptionalDependencies?: PluginDependencySpecMap;
   bundledManifest?: PluginManifest;
@@ -437,7 +437,7 @@ function deriveIdHint(params: {
   }
 
   // Prefer the unscoped name so config keys stay stable even when the npm
-  // package is scoped (example: @openclaw/voice-call -> voice-call).
+  // package is scoped (example: @brikko-studio/voice-call -> voice-call).
   const unscoped = rawPackageName.includes("/")
     ? (rawPackageName.split("/").pop() ?? rawPackageName)
     : rawPackageName;
@@ -510,7 +510,7 @@ function addCandidate(params: {
     setupSource: params.setupSource,
     rootDir: resolvedRoot,
     origin: params.origin,
-    format: params.format ?? "openclaw",
+    format: params.format ?? "brikko-studio",
     bundleFormat: params.bundleFormat,
     workspaceDir: params.workspaceDir,
     packageName: normalizeOptionalString(manifest?.name),
@@ -748,7 +748,7 @@ function hasDiscoverablePluginTree(pluginsDir: string): boolean {
       const pluginDir = path.join(pluginsDir, entry.name);
       return (
         fs.existsSync(path.join(pluginDir, "package.json")) ||
-        fs.existsSync(path.join(pluginDir, "openclaw.plugin.json"))
+        fs.existsSync(path.join(pluginDir, "brikko-studio.plugin.json"))
       );
     });
   } catch {
@@ -945,7 +945,7 @@ function discoverFromPath(params: {
   }
 }
 
-export function discoverOpenClawPlugins(params: {
+export function discoverBrikko StudioPlugins(params: {
   workspaceDir?: string;
   extraPaths?: string[];
   installRecords?: Record<string, PluginInstallRecord>;
@@ -979,7 +979,7 @@ export function discoverOpenClawPlugins(params: {
           result.diagnostics.push({
             level: "warn",
             source: trimmed,
-            message: `ignored plugins.load.paths entry that points at OpenClaw's ${bundledAlias.kind} bundled plugin directory; remove this redundant path or run openclaw doctor --fix`,
+            message: `ignored plugins.load.paths entry that points at Brikko Studio's ${bundledAlias.kind} bundled plugin directory; remove this redundant path or run brikko-studio doctor --fix`,
           });
           continue;
         }
@@ -1001,7 +1001,7 @@ export function discoverOpenClawPlugins(params: {
         realpathCache,
       );
       if (roots.workspace && workspaceRoot && !workspaceMatchesBundledRoot) {
-        // Keep workspace auto-discovery constrained to the OpenClaw extensions root.
+        // Keep workspace auto-discovery constrained to the Brikko Studio extensions root.
         // Recursively scanning the full workspace treats arbitrary project folders as
         // plugin candidates and causes noisy "plugin manifest not found" validation failures.
         discoverInDirectory({

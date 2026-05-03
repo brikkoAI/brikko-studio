@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { loadOpenClawPlugins } from "./loader.js";
+import { loadBrikko StudioPlugins } from "./loader.js";
 
 describe("source checkout bundled plugin runtime", () => {
   it("loads enabled bundled plugins from built dist or source checkout", () => {
-    const registry = loadOpenClawPlugins({
+    const registry = loadBrikko StudioPlugins({
       cache: false,
       onlyPluginIds: ["twitch"],
       config: {

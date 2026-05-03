@@ -14,7 +14,7 @@ vi.mock("../../config/config.js", () => ({
   getRuntimeConfig: mocks.getRuntimeConfig,
   readConfigFileSnapshot: vi.fn(async () => ({
     config: {},
-    path: "openclaw.config.json",
+    path: "brikko-studio.config.json",
     raw: "{}",
   })),
 }));

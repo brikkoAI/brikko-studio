@@ -1,4 +1,4 @@
-import { bundledPluginRootAt } from "openclaw/plugin-sdk/test-fixtures";
+import { bundledPluginRootAt } from "brikko-studio/plugin-sdk/test-fixtures";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   findBundledPluginSource,
@@ -12,11 +12,11 @@ function appBundledPluginRoot(pluginId: string): string {
   return bundledPluginRootAt(APP_ROOT, pluginId);
 }
 
-const discoverOpenClawPluginsMock = vi.fn();
+const discoverBrikko StudioPluginsMock = vi.fn();
 const loadPluginManifestMock = vi.fn();
 
 vi.mock("./discovery.js", () => ({
-  discoverOpenClawPlugins: (...args: unknown[]) => discoverOpenClawPluginsMock(...args),
+  discoverBrikko StudioPlugins: (...args: unknown[]) => discoverBrikko StudioPluginsMock(...args),
 }));
 
 vi.mock("./manifest.js", () => ({
@@ -42,7 +42,7 @@ function createBundledCandidate(params: {
 }
 
 function setBundledDiscoveryCandidates(candidates: unknown[]) {
-  discoverOpenClawPluginsMock.mockReturnValue({
+  discoverBrikko StudioPluginsMock.mockReturnValue({
     candidates,
     diagnostics: [],
   });
@@ -69,7 +69,7 @@ function setBundledManifestIdsByRoot(
       : {
           ok: false,
           error: "invalid manifest",
-          manifestPath: `${rootDir}/openclaw.plugin.json`,
+          manifestPath: `${rootDir}/brikko-studio.plugin.json`,
         },
   );
 }
@@ -78,11 +78,11 @@ function setBundledLookupFixture() {
   setBundledDiscoveryCandidates([
     createBundledCandidate({
       rootDir: appBundledPluginRoot("feishu"),
-      packageName: "@openclaw/feishu",
+      packageName: "@brikko-studio/feishu",
     }),
     createBundledCandidate({
       rootDir: appBundledPluginRoot("diffs"),
-      packageName: "@openclaw/diffs",
+      packageName: "@brikko-studio/diffs",
     }),
   ]);
   setBundledManifestIdsByRoot({
@@ -101,7 +101,7 @@ function createResolvedBundledSource(params: {
   return {
     pluginId: params.pluginId,
     localPath: params.localPath,
-    npmSpec: params.npmSpec ?? `@openclaw/${params.pluginId}`,
+    npmSpec: params.npmSpec ?? `@brikko-studio/${params.pluginId}`,
     ...(params.configSchema ? { configSchema: params.configSchema } : {}),
     requiresConfig: params.requiresConfig ?? false,
   };
@@ -140,7 +140,7 @@ function expectBundledSourceLookupCase(params: {
 
 describe("bundled plugin sources", () => {
   beforeEach(() => {
-    discoverOpenClawPluginsMock.mockReset();
+    discoverBrikko StudioPluginsMock.mockReset();
     loadPluginManifestMock.mockReset();
   });
 
@@ -149,19 +149,19 @@ describe("bundled plugin sources", () => {
       createBundledCandidate({
         origin: "global",
         rootDir: "/global/feishu",
-        packageName: "@openclaw/feishu",
+        packageName: "@brikko-studio/feishu",
       }),
       createBundledCandidate({
         rootDir: appBundledPluginRoot("feishu"),
-        packageName: "@openclaw/feishu",
+        packageName: "@brikko-studio/feishu",
       }),
       createBundledCandidate({
         rootDir: appBundledPluginRoot("feishu-dup"),
-        packageName: "@openclaw/feishu",
+        packageName: "@brikko-studio/feishu",
       }),
       createBundledCandidate({
         rootDir: appBundledPluginRoot("msteams"),
-        packageName: "@openclaw/msteams",
+        packageName: "@brikko-studio/msteams",
       }),
     ]);
     setBundledManifestIdsByRoot({
@@ -183,12 +183,12 @@ describe("bundled plugin sources", () => {
   it.each([
     [
       "finds bundled source by npm spec",
-      { kind: "npmSpec", value: "@openclaw/feishu" } as const,
+      { kind: "npmSpec", value: "@brikko-studio/feishu" } as const,
       { pluginId: "feishu", localPath: appBundledPluginRoot("feishu") },
     ],
     [
       "returns undefined for missing npm spec",
-      { kind: "npmSpec", value: "@openclaw/not-found" } as const,
+      { kind: "npmSpec", value: "@brikko-studio/not-found" } as const,
       undefined,
     ],
     [
@@ -208,7 +208,7 @@ describe("bundled plugin sources", () => {
   it("forwards an explicit env to bundled discovery helpers", () => {
     setBundledDiscoveryCandidates([]);
 
-    const env = { HOME: "/tmp/openclaw-home" } as NodeJS.ProcessEnv;
+    const env = { HOME: "/tmp/brikko-studio-home" } as NodeJS.ProcessEnv;
 
     resolveBundledPluginSources({
       workspaceDir: "/workspace",
@@ -220,11 +220,11 @@ describe("bundled plugin sources", () => {
       env,
     });
 
-    expect(discoverOpenClawPluginsMock).toHaveBeenNthCalledWith(1, {
+    expect(discoverBrikko StudioPluginsMock).toHaveBeenNthCalledWith(1, {
       workspaceDir: "/workspace",
       env,
     });
-    expect(discoverOpenClawPluginsMock).toHaveBeenNthCalledWith(2, {
+    expect(discoverBrikko StudioPluginsMock).toHaveBeenNthCalledWith(2, {
       workspaceDir: "/workspace",
       env,
     });
@@ -234,7 +234,7 @@ describe("bundled plugin sources", () => {
     setBundledDiscoveryCandidates([
       createBundledCandidate({
         rootDir: appBundledPluginRoot("memory-lancedb"),
-        packageName: "@openclaw/memory-lancedb",
+        packageName: "@brikko-studio/memory-lancedb",
       }),
     ]);
     setBundledManifestIdsByRoot({
@@ -282,7 +282,7 @@ describe("bundled plugin sources", () => {
     expect(
       findBundledPluginSourceInMap({
         bundled,
-        lookup: { kind: "npmSpec", value: "@openclaw/feishu" },
+        lookup: { kind: "npmSpec", value: "@brikko-studio/feishu" },
       })?.pluginId,
     ).toBe("feishu");
   });

@@ -3,7 +3,7 @@ import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "n
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { normalizeOptionalString } from "../../src/shared/string-coerce.ts";
-import { parseReleaseVersion } from "../openclaw-npm-release-check.ts";
+import { parseReleaseVersion } from "../brikko-studio-npm-release-check.ts";
 import { resolveNpmPublishPlan } from "./npm-publish-plan.mjs";
 
 export type PluginPackageJson = {
@@ -16,7 +16,7 @@ export type PluginPackageJson = {
         type?: string;
         url?: string;
       };
-  openclaw?: {
+  brikko-studio?: {
     extensions?: string[];
     install?: {
       defaultChoice?: string;
@@ -72,7 +72,7 @@ export type PublishablePluginPackageCandidate<
   packageJson: TPackageJson;
 };
 
-export const OPENCLAW_PLUGIN_NPM_REPOSITORY_URL = "https://github.com/openclaw/openclaw";
+export const BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL = "https://github.com/brikko-studio/brikko-studio";
 
 // oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Release helper preserves caller-specific package.json shape.
 function readPluginPackageJson<TPackageJson extends PluginPackageJson = PluginPackageJson>(
@@ -220,24 +220,24 @@ export function collectPublishablePluginPackageErrors(
   const errors: string[] = [];
   const packageName = packageJson.name?.trim() ?? "";
   const packageVersion = packageJson.version?.trim() ?? "";
-  const installNpmSpec = normalizeOptionalString(packageJson.openclaw?.install?.npmSpec);
+  const installNpmSpec = normalizeOptionalString(packageJson.brikko-studio?.install?.npmSpec);
   const repositoryUrl =
     typeof packageJson.repository === "string"
       ? packageJson.repository.trim()
       : (packageJson.repository?.url?.trim() ?? "");
-  const extensions = packageJson.openclaw?.extensions ?? [];
+  const extensions = packageJson.brikko-studio?.extensions ?? [];
 
-  if (!packageName.startsWith("@openclaw/")) {
+  if (!packageName.startsWith("@brikko-studio/")) {
     errors.push(
-      `package name must start with "@openclaw/"; found "${packageName || "<missing>"}".`,
+      `package name must start with "@brikko-studio/"; found "${packageName || "<missing>"}".`,
     );
   }
   if (packageJson.private === true) {
     errors.push("package.json private must not be true.");
   }
-  if (repositoryUrl !== OPENCLAW_PLUGIN_NPM_REPOSITORY_URL) {
+  if (repositoryUrl !== BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL) {
     errors.push(
-      `package.json repository.url must be "${OPENCLAW_PLUGIN_NPM_REPOSITORY_URL}" so npm provenance can validate GitHub trusted publishing; found "${repositoryUrl || "<missing>"}".`,
+      `package.json repository.url must be "${BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL}" so npm provenance can validate GitHub trusted publishing; found "${repositoryUrl || "<missing>"}".`,
     );
   }
   if (!packageVersion) {
@@ -248,13 +248,13 @@ export function collectPublishablePluginPackageErrors(
     );
   }
   if (!Array.isArray(extensions) || extensions.length === 0) {
-    errors.push("openclaw.extensions must contain at least one entry.");
+    errors.push("brikko-studio.extensions must contain at least one entry.");
   }
   if (extensions.some((entry) => typeof entry !== "string" || !entry.trim())) {
-    errors.push("openclaw.extensions must contain only non-empty strings.");
+    errors.push("brikko-studio.extensions must contain only non-empty strings.");
   }
   if (!installNpmSpec) {
-    errors.push("openclaw.install.npmSpec must be a non-empty string for publishable plugins.");
+    errors.push("brikko-studio.install.npmSpec must be a non-empty string for publishable plugins.");
   }
 
   return errors;
@@ -285,7 +285,7 @@ export function collectPublishablePluginPackages(
     if (hasSelectedPackageNames && !selectedPackageNames.has(packageName)) {
       continue;
     }
-    if (packageJson.openclaw?.release?.publishToNpm !== true) {
+    if (packageJson.brikko-studio?.release?.publishToNpm !== true) {
       continue;
     }
 
@@ -312,7 +312,7 @@ export function collectPublishablePluginPackages(
       version,
       channel: parsedVersion.channel,
       publishTag: resolveNpmPublishPlan(version).publishTag,
-      installNpmSpec: normalizeOptionalString(packageJson.openclaw?.install?.npmSpec),
+      installNpmSpec: normalizeOptionalString(packageJson.brikko-studio?.install?.npmSpec),
     });
   }
 
@@ -456,7 +456,7 @@ export function resolveChangedPublishablePluginPackages(params: {
 }
 
 function isPluginVersionPublished(packageName: string, version: string): boolean {
-  const tempDir = mkdtempSync(join(tmpdir(), "openclaw-plugin-npm-view-"));
+  const tempDir = mkdtempSync(join(tmpdir(), "brikko-studio-plugin-npm-view-"));
   const userconfigPath = join(tempDir, "npmrc");
   writeFileSync(userconfigPath, "");
 

@@ -10,7 +10,7 @@ import {
   type ISyncResponse,
   type IStoredClientOpts,
 } from "matrix-js-sdk/lib/matrix.js";
-import { writeJsonFileAtomically } from "openclaw/plugin-sdk/json-store";
+import { writeJsonFileAtomically } from "brikko-studio/plugin-sdk/json-store";
 import { isRecord } from "../../record-shared.js";
 import { createAsyncLock } from "../async-lock.js";
 import { LogService } from "../sdk/logger.js";

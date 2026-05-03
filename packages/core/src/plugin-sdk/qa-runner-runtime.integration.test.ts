@@ -5,9 +5,9 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { resetFacadeRuntimeStateForTest } from "./facade-runtime.js";
 
 const ORIGINAL_ENV = {
-  OPENCLAW_DISABLE_BUNDLED_PLUGINS: process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS,
-  OPENCLAW_CONFIG_PATH: process.env.OPENCLAW_CONFIG_PATH,
-  OPENCLAW_TEST_FAST: process.env.OPENCLAW_TEST_FAST,
+  BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: process.env.BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS,
+  BRIKKO_STUDIO_CONFIG_PATH: process.env.BRIKKO_STUDIO_CONFIG_PATH,
+  BRIKKO_STUDIO_TEST_FAST: process.env.BRIKKO_STUDIO_TEST_FAST,
 } as const;
 
 const tempDirs: string[] = [];
@@ -25,8 +25,8 @@ function resetQaRunnerRuntimeState() {
 describe("plugin-sdk qa-runner-runtime linked plugin smoke", () => {
   beforeEach(() => {
     resetQaRunnerRuntimeState();
-    process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS = "1";
-    process.env.OPENCLAW_TEST_FAST = "1";
+    process.env.BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS = "1";
+    process.env.BRIKKO_STUDIO_TEST_FAST = "1";
   });
 
   afterEach(() => {
@@ -44,9 +44,9 @@ describe("plugin-sdk qa-runner-runtime linked plugin smoke", () => {
   });
 
   it("loads an activated qa runner from a linked plugin path without a bundled install fallback", async () => {
-    const stateDir = makeTempDir("openclaw-qa-runner-state-");
+    const stateDir = makeTempDir("brikko-studio-qa-runner-state-");
     const pluginDir = path.join(stateDir, "extensions", "qa-linked");
-    const configPath = path.join(stateDir, "openclaw.json");
+    const configPath = path.join(stateDir, "brikko-studio.json");
 
     fs.writeFileSync(
       configPath,
@@ -55,11 +55,11 @@ describe("plugin-sdk qa-runner-runtime linked plugin smoke", () => {
       }),
       "utf8",
     );
-    process.env.OPENCLAW_CONFIG_PATH = configPath;
+    process.env.BRIKKO_STUDIO_CONFIG_PATH = configPath;
 
     fs.mkdirSync(pluginDir, { recursive: true });
     fs.writeFileSync(
-      path.join(pluginDir, "openclaw.plugin.json"),
+      path.join(pluginDir, "brikko-studio.plugin.json"),
       JSON.stringify({
         id: "qa-linked",
         qaRunners: [
@@ -79,12 +79,12 @@ describe("plugin-sdk qa-runner-runtime linked plugin smoke", () => {
     fs.writeFileSync(
       path.join(pluginDir, "package.json"),
       JSON.stringify({
-        name: "@openclaw/qa-linked",
+        name: "@brikko-studio/qa-linked",
         type: "module",
-        openclaw: {
+        brikko-studio: {
           extensions: ["./index.js"],
           install: {
-            npmSpec: "@openclaw/qa-linked",
+            npmSpec: "@brikko-studio/qa-linked",
           },
         },
       }),

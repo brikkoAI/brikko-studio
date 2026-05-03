@@ -10,7 +10,7 @@ import type { FollowupRun, QueueDedupeMode, QueueSettings } from "./types.js";
  * Keep queued message-id dedupe shared across bundled chunks so redeliveries
  * are rejected no matter which chunk receives the enqueue call.
  */
-const RECENT_QUEUE_MESSAGE_IDS_KEY = Symbol.for("openclaw.recentQueueMessageIds");
+const RECENT_QUEUE_MESSAGE_IDS_KEY = Symbol.for("brikko-studio.recentQueueMessageIds");
 
 const RECENT_QUEUE_MESSAGE_IDS = resolveGlobalDedupeCache(RECENT_QUEUE_MESSAGE_IDS_KEY, {
   ttlMs: 5 * 60 * 1000,

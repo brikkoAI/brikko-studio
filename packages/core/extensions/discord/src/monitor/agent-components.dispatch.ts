@@ -1,14 +1,14 @@
-import { resolveHumanDelayConfig } from "openclaw/plugin-sdk/agent-runtime";
+import { resolveHumanDelayConfig } from "brikko-studio/plugin-sdk/agent-runtime";
 import {
   formatInboundEnvelope,
   resolveEnvelopeFormatOptions,
-} from "openclaw/plugin-sdk/channel-inbound";
-import { isDangerousNameMatchingEnabled } from "openclaw/plugin-sdk/dangerous-name-runtime";
-import { runInboundReplyTurn } from "openclaw/plugin-sdk/inbound-reply-dispatch";
-import { resolveMarkdownTableMode } from "openclaw/plugin-sdk/markdown-table-runtime";
-import { getAgentScopedMediaLocalRoots } from "openclaw/plugin-sdk/media-runtime";
-import { createNonExitingRuntime, logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { logError } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/channel-inbound";
+import { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
+import { runInboundReplyTurn } from "brikko-studio/plugin-sdk/inbound-reply-dispatch";
+import { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
+import { getAgentScopedMediaLocalRoots } from "brikko-studio/plugin-sdk/media-runtime";
+import { createNonExitingRuntime, logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { logError } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveDiscordMaxLinesPerMessage } from "../accounts.js";
 import { createDiscordRestClient } from "../client.js";
 import { resolveDiscordConversationIdentity } from "../conversation-identity.js";
@@ -37,7 +37,7 @@ import { deliverDiscordReply } from "./reply-delivery.js";
 
 let conversationRuntimePromise: Promise<typeof import("./agent-components.runtime.js")> | undefined;
 let replyPipelineRuntimePromise:
-  | Promise<typeof import("openclaw/plugin-sdk/channel-reply-pipeline")>
+  | Promise<typeof import("brikko-studio/plugin-sdk/channel-reply-pipeline")>
   | undefined;
 let typingRuntimePromise: Promise<typeof import("./typing.js")> | undefined;
 
@@ -47,7 +47,7 @@ async function loadConversationRuntime() {
 }
 
 async function loadReplyPipelineRuntime() {
-  replyPipelineRuntimePromise ??= import("openclaw/plugin-sdk/channel-reply-pipeline");
+  replyPipelineRuntimePromise ??= import("brikko-studio/plugin-sdk/channel-reply-pipeline");
   return await replyPipelineRuntimePromise;
 }
 

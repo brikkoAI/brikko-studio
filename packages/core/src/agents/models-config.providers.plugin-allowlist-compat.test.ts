@@ -20,14 +20,14 @@ function createProviderManifestRecord(pluginId: string): PluginManifestRecord {
     origin: "bundled",
     rootDir: `/virtual/${pluginId}`,
     source: `/virtual/${pluginId}/index.ts`,
-    manifestPath: `/virtual/${pluginId}/openclaw.plugin.json`,
+    manifestPath: `/virtual/${pluginId}/brikko-studio.plugin.json`,
   };
 }
 
 function createProviderRegistryRecord(pluginId: string): PluginRegistrySnapshot["plugins"][number] {
   return {
     pluginId,
-    manifestPath: `/virtual/${pluginId}/openclaw.plugin.json`,
+    manifestPath: `/virtual/${pluginId}/brikko-studio.plugin.json`,
     manifestHash: `${pluginId}-manifest-hash`,
     rootDir: `/virtual/${pluginId}`,
     origin: "bundled",

@@ -96,7 +96,7 @@ async function writeFileAtomicInVault(params: {
   const noFollow = fsConstants.O_NOFOLLOW ?? 0;
   await assertWritablePageDir(params);
 
-  const tempPath = path.join(params.pageDir, `.openclaw-wiki-${process.pid}-${randomUUID()}.tmp`);
+  const tempPath = path.join(params.pageDir, `.brikko-studio-wiki-${process.pid}-${randomUUID()}.tmp`);
   let shouldRemoveTemp = true;
   try {
     const handle = await fs.open(

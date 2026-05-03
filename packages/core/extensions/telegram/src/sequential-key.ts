@@ -1,14 +1,14 @@
 import type { Message, UserFromGetMe } from "@grammyjs/types";
-import { parseExecApprovalCommandText } from "openclaw/plugin-sdk/approval-reply-runtime";
+import { parseExecApprovalCommandText } from "brikko-studio/plugin-sdk/approval-reply-runtime";
 import {
   listChatCommands,
   maybeResolveTextAlias,
   normalizeCommandBody,
-} from "openclaw/plugin-sdk/command-auth";
+} from "brikko-studio/plugin-sdk/command-auth";
 import {
   isAbortRequestText,
   isBtwRequestText,
-} from "openclaw/plugin-sdk/command-primitives-runtime";
+} from "brikko-studio/plugin-sdk/command-primitives-runtime";
 import { resolveTelegramForumThreadId } from "./bot/helpers.js";
 
 type TelegramSequentialKeyContext = {

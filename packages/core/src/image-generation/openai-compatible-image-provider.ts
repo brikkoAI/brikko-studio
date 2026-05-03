@@ -1,6 +1,6 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { isProviderApiKeyConfigured } from "openclaw/plugin-sdk/provider-auth";
-import { resolveApiKeyForProvider } from "openclaw/plugin-sdk/provider-auth-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { isProviderApiKeyConfigured } from "brikko-studio/plugin-sdk/provider-auth";
+import { resolveApiKeyForProvider } from "brikko-studio/plugin-sdk/provider-auth-runtime";
 import {
   assertOkOrThrowHttpError,
   createProviderOperationDeadline,
@@ -9,8 +9,8 @@ import {
   resolveProviderHttpRequestConfig,
   resolveProviderOperationTimeoutMs,
   sanitizeConfiguredModelProviderRequest,
-} from "openclaw/plugin-sdk/provider-http";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/provider-http";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   parseOpenAiCompatibleImageResponse,
   type OpenAiCompatibleImageResponsePayload,
@@ -23,7 +23,7 @@ import type {
   ImageGenerationSourceImage,
 } from "./types.js";
 
-type ModelProviderConfig = NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]>[string];
+type ModelProviderConfig = NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]>[string];
 
 export type OpenAiCompatibleImageRequestMode = "generate" | "edit";
 
@@ -86,7 +86,7 @@ export type OpenAiCompatibleImageProviderOptions = {
 };
 
 function readProviderConfig(
-  cfg: OpenClawConfig | undefined,
+  cfg: Brikko StudioConfig | undefined,
   providerConfigKey: string,
 ): ModelProviderConfig | undefined {
   return cfg?.models?.providers?.[providerConfigKey];

@@ -1,5 +1,5 @@
-import { installChannelActionsContractSuite } from "openclaw/plugin-sdk/channel-test-helpers";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import { installChannelActionsContractSuite } from "brikko-studio/plugin-sdk/channel-test-helpers";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe } from "vitest";
 import { telegramPlugin } from "../api.js";
 
@@ -15,7 +15,7 @@ describe("telegram actions contract", () => {
               botToken: "123:telegram-test-token",
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         expectedActions: ["send", "poll", "react", "delete", "edit", "topic-create", "topic-edit"],
         expectedCapabilities: ["delivery-pin", "presentation"],
       },

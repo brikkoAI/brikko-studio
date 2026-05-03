@@ -1,15 +1,15 @@
 import type { MsgContext } from "../auto-reply/templating.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { loadBundledPluginPublicArtifactModuleSync } from "../plugins/public-surface-loader.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 
 type ChannelMediaContractApi = {
   resolveInboundAttachmentRoots?: (params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     accountId?: string;
   }) => readonly string[] | undefined;
   resolveRemoteInboundAttachmentRoots?: (params: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     accountId?: string;
   }) => readonly string[] | undefined;
 };
@@ -63,7 +63,7 @@ function findChannelMediaContractApi(
 }
 
 export function resolveChannelInboundAttachmentRoots(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   ctx: MsgContext;
 }): readonly string[] | undefined {
   const contractApi = findChannelMediaContractApi(
@@ -80,7 +80,7 @@ export function resolveChannelInboundAttachmentRoots(params: {
 }
 
 export function resolveChannelRemoteInboundAttachmentRoots(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   ctx: MsgContext;
 }): readonly string[] | undefined {
   const contractApi = findChannelMediaContractApi(

@@ -261,8 +261,8 @@ describe("qa suite runtime flow", () => {
       imageUnderstandingValidPngBase64: "valid",
     });
 
-    await call.deps.webOpenPage({ url: "https://openclaw.ai" });
-    expect(webOpenPage).toHaveBeenCalledWith({ url: "https://openclaw.ai" });
+    await call.deps.webOpenPage({ url: "https://brikko-studio.ai" });
+    expect(webOpenPage).toHaveBeenCalledWith({ url: "https://brikko-studio.ai" });
     expect(env.webSessionIds.has("page-1")).toBe(true);
   });
 });

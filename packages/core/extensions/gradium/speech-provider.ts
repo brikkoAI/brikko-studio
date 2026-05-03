@@ -1,10 +1,10 @@
-import { normalizeResolvedSecretInputString } from "openclaw/plugin-sdk/secret-input";
+import { normalizeResolvedSecretInputString } from "brikko-studio/plugin-sdk/secret-input";
 import type {
   SpeechDirectiveTokenParseContext,
   SpeechProviderConfig,
   SpeechProviderPlugin,
-} from "openclaw/plugin-sdk/speech";
-import { asObject, trimToUndefined } from "openclaw/plugin-sdk/speech";
+} from "brikko-studio/plugin-sdk/speech";
+import { asObject, trimToUndefined } from "brikko-studio/plugin-sdk/speech";
 import { DEFAULT_GRADIUM_VOICE_ID, GRADIUM_VOICES, normalizeGradiumBaseUrl } from "./shared.js";
 import { gradiumTTS } from "./tts.js";
 

@@ -1,6 +1,6 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { ModelsProviderData } from "openclaw/plugin-sdk/models-provider-runtime";
-import { normalizeProviderId } from "openclaw/plugin-sdk/provider-model-shared";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { ModelsProviderData } from "brikko-studio/plugin-sdk/models-provider-runtime";
+import { normalizeProviderId } from "brikko-studio/plugin-sdk/provider-model-shared";
 import type { ComponentData } from "../internal/discord.js";
 
 export const DISCORD_MODEL_PICKER_CUSTOM_ID_KEY = "mdlpk";
@@ -69,11 +69,11 @@ export type DiscordModelPickerModelPage = DiscordModelPickerPage<string> & {
 };
 
 let modelsProviderRuntimePromise:
-  | Promise<typeof import("openclaw/plugin-sdk/models-provider-runtime")>
+  | Promise<typeof import("brikko-studio/plugin-sdk/models-provider-runtime")>
   | undefined;
 
 async function loadModelsProviderRuntime() {
-  modelsProviderRuntimePromise ??= import("openclaw/plugin-sdk/models-provider-runtime");
+  modelsProviderRuntimePromise ??= import("brikko-studio/plugin-sdk/models-provider-runtime");
   return await modelsProviderRuntimePromise;
 }
 
@@ -167,7 +167,7 @@ function paginateItems<T>(params: {
 }
 
 export async function loadDiscordModelPickerData(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   agentId?: string,
 ): Promise<ModelsProviderData> {
   const { buildModelsProviderData } = await loadModelsProviderRuntime();

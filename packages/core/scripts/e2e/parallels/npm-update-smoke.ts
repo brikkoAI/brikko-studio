@@ -6,7 +6,7 @@ import {
   die,
   ensureValue,
   makeTempDir,
-  packOpenClaw,
+  packBrikko Studio,
   parsePlatformList,
   parseProvider,
   repoRoot,
@@ -65,14 +65,14 @@ interface NpmUpdateSummary {
 const macosVm = "macOS Tahoe";
 const windowsVm = "Windows 11";
 const linuxVmDefault = "Ubuntu 24.04.3 ARM64";
-const updateTimeoutSeconds = Number(process.env.OPENCLAW_PARALLELS_NPM_UPDATE_TIMEOUT_S || 1200);
+const updateTimeoutSeconds = Number(process.env.BRIKKO_STUDIO_PARALLELS_NPM_UPDATE_TIMEOUT_S || 1200);
 
 function usage(): string {
   return `Usage: bash scripts/e2e/parallels-npm-update-smoke.sh [options]
 
 Options:
-  --package-spec <npm-spec>  Baseline npm package spec. Default: openclaw@latest
-  --update-target <target>    Target passed to guest 'openclaw update --tag'.
+  --package-spec <npm-spec>  Baseline npm package spec. Default: brikko-studio@latest
+  --update-target <target>    Target passed to guest 'brikko-studio update --tag'.
                              Default: host-served tgz packed from current checkout.
   --platform <list>           Comma-separated platforms to run: all, macos, windows, linux.
                              Default: all
@@ -178,11 +178,11 @@ class NpmUpdateSmoke {
   }
 
   async run(): Promise<void> {
-    this.runDir = await makeTempDir("openclaw-parallels-npm-update.");
-    this.tgzDir = await makeTempDir("openclaw-parallels-npm-update-tgz.");
+    this.runDir = await makeTempDir("brikko-studio-parallels-npm-update.");
+    this.tgzDir = await makeTempDir("brikko-studio-parallels-npm-update-tgz.");
     try {
       this.latestVersion = resolveLatestVersion();
-      this.packageSpec = this.options.packageSpec || `openclaw@${this.latestVersion}`;
+      this.packageSpec = this.options.packageSpec || `brikko-studio@${this.latestVersion}`;
       this.currentHead = run("git", ["rev-parse", "HEAD"], { quiet: true }).stdout.trim();
       this.currentHeadShort = run("git", ["rev-parse", "--short=7", "HEAD"], {
         quiet: true,
@@ -200,7 +200,7 @@ class NpmUpdateSmoke {
       await this.runFreshBaselines();
 
       await this.prepareUpdateTarget();
-      say(`Run same-guest openclaw update to ${this.updateTargetEffective}`);
+      say(`Run same-guest brikko-studio update to ${this.updateTargetEffective}`);
       await this.runSameGuestUpdates();
 
       const summaryPath = await this.writeSummary();
@@ -227,7 +227,7 @@ class NpmUpdateSmoke {
     if (this.options.platforms.has("linux")) {
       jobs.push(
         this.spawnFresh("Linux", "linux", ["--vm", this.linuxVm], {
-          OPENCLAW_PARALLELS_LINUX_DISABLE_BONJOUR: "1",
+          BRIKKO_STUDIO_PARALLELS_LINUX_DISABLE_BONJOUR: "1",
         }),
       );
     }
@@ -282,7 +282,7 @@ class NpmUpdateSmoke {
 
   private async prepareUpdateTarget(): Promise<void> {
     if (!this.options.updateTarget || this.options.updateTarget === "local-main") {
-      this.artifact = await packOpenClaw({
+      this.artifact = await packBrikko Studio({
         destination: this.tgzDir,
         requireControlUi: true,
       });
@@ -455,7 +455,7 @@ class NpmUpdateSmoke {
     const scriptPath = this.writeGuestScript(
       macosVm,
       script,
-      "openclaw-parallels-npm-update-macos",
+      "brikko-studio-parallels-npm-update-macos",
     );
     const macosExecArgs = this.resolveMacosUpdateExecArgs(ctx);
     const sudoUserArgIndex = macosExecArgs.indexOf("-u");
@@ -572,7 +572,7 @@ class NpmUpdateSmoke {
     timeoutMs: number,
     ctx: UpdateJobContext,
   ): Promise<void> {
-    const fileBase = `openclaw-parallels-npm-update-windows-${process.pid}-${Date.now()}`;
+    const fileBase = `brikko-studio-parallels-npm-update-windows-${process.pid}-${Date.now()}`;
     const pathsScript = `$base = Join-Path $env:TEMP '${fileBase}'
 $scriptPath = "$base.ps1"
 $logPath = "$base.log"
@@ -660,14 +660,14 @@ $offset = ${lastLogOffset}
 if (Test-Path $logPath) {
   $bytes = [System.IO.File]::ReadAllBytes($logPath)
   if ($bytes.Length -gt $offset) {
-    "__OPENCLAW_LOG_OFFSET__:$($bytes.Length)"
+    "__BRIKKO_STUDIO_LOG_OFFSET__:$($bytes.Length)"
     [System.Text.Encoding]::UTF8.GetString($bytes, $offset, $bytes.Length - $offset)
   }
 }
 if (Test-Path $donePath) {
   $backgroundExit = if (Test-Path $exitPath) { (Get-Content -Path $exitPath -Raw).Trim() } else { '0' }
-  "__OPENCLAW_BACKGROUND_EXIT__:$backgroundExit"
-  '__OPENCLAW_BACKGROUND_DONE__'
+  "__BRIKKO_STUDIO_BACKGROUND_EXIT__:$backgroundExit"
+  '__BRIKKO_STUDIO_BACKGROUND_DONE__'
   if ($backgroundExit -ne '0') { exit 23 }
   exit 0
 }`),
@@ -680,12 +680,12 @@ if (Test-Path $donePath) {
       if (poll.stderr) {
         ctx.append(poll.stderr);
       }
-      const offsetMatch = poll.stdout.match(/__OPENCLAW_LOG_OFFSET__:(\d+)/);
+      const offsetMatch = poll.stdout.match(/__BRIKKO_STUDIO_LOG_OFFSET__:(\d+)/);
       if (offsetMatch) {
         lastLogOffset = Number(offsetMatch[1]);
       }
-      if (poll.stdout.includes("__OPENCLAW_BACKGROUND_DONE__")) {
-        const exitMatch = poll.stdout.match(/__OPENCLAW_BACKGROUND_EXIT__:(\S+)/);
+      if (poll.stdout.includes("__BRIKKO_STUDIO_BACKGROUND_DONE__")) {
+        const exitMatch = poll.stdout.match(/__BRIKKO_STUDIO_BACKGROUND_EXIT__:(\S+)/);
         const backgroundExit = exitMatch?.[1] ?? "0";
         if (backgroundExit !== "0" || (poll.status !== 0 && poll.status !== 124)) {
           throw new Error("Windows update failed");
@@ -721,7 +721,7 @@ Remove-Item -Path $scriptPath, $logPath, $donePath, $exitPath -Force -ErrorActio
     const scriptPath = this.writeGuestScript(
       this.linuxVm,
       script,
-      "openclaw-parallels-npm-update-linux",
+      "brikko-studio-parallels-npm-update-linux",
     );
     try {
       const status = await this.runStreamingToJobLog(
@@ -812,7 +812,7 @@ Remove-Item -Path $scriptPath, $logPath, $donePath, $exitPath -Force -ErrorActio
   }
 
   private resolveRegistryTargetVersion(target: string): string {
-    const spec = target.startsWith("openclaw@") ? target : `openclaw@${target}`;
+    const spec = target.startsWith("brikko-studio@") ? target : `brikko-studio@${target}`;
     return (
       run("npm", ["view", spec, "version"], { check: false, quiet: true })
         .stdout.trim()
@@ -841,7 +841,7 @@ Remove-Item -Path $scriptPath, $logPath, $donePath, $exitPath -Force -ErrorActio
     const target = this.resolveRegistryTargetVersion(this.options.updateTarget);
     if (baseline && target && baseline === target) {
       die(
-        `--update-target ${this.options.updateTarget} resolves to openclaw@${target}, same as baseline ${this.packageSpec}; publish or choose a newer --update-target before running VM update coverage`,
+        `--update-target ${this.options.updateTarget} resolves to brikko-studio@${target}, same as baseline ${this.packageSpec}; publish or choose a newer --update-target before running VM update coverage`,
       );
     }
   }
@@ -855,7 +855,7 @@ Remove-Item -Path $scriptPath, $logPath, $donePath, $exitPath -Force -ErrorActio
 
   private async extractLastVersion(logPath: string): Promise<string> {
     const log = await readFile(logPath, "utf8").catch(() => "");
-    const matches = [...log.matchAll(/openclaw\s+([0-9][^\s]*)/g)];
+    const matches = [...log.matchAll(/brikko-studio\s+([0-9][^\s]*)/g)];
     return matches.at(-1)?.[1] ?? "";
   }
 

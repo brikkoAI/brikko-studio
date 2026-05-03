@@ -1,20 +1,20 @@
-import { resolveApprovalApprovers } from "openclaw/plugin-sdk/approval-auth-runtime";
+import { resolveApprovalApprovers } from "brikko-studio/plugin-sdk/approval-auth-runtime";
 import {
   createChannelExecApprovalProfile,
   isChannelExecApprovalClientEnabledFromConfig,
   matchesApprovalRequestFilters,
-} from "openclaw/plugin-sdk/approval-client-runtime";
-import { resolveApprovalRequestChannelAccountId } from "openclaw/plugin-sdk/approval-native-runtime";
+} from "brikko-studio/plugin-sdk/approval-client-runtime";
+import { resolveApprovalRequestChannelAccountId } from "brikko-studio/plugin-sdk/approval-native-runtime";
 import type {
   ExecApprovalRequest,
   PluginApprovalRequest,
-} from "openclaw/plugin-sdk/approval-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { normalizeAccountId } from "openclaw/plugin-sdk/routing";
+} from "brikko-studio/plugin-sdk/approval-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import { listQQBotAccountIds, resolveQQBotAccount } from "./bridge/config.js";
 import type { QQBotExecApprovalConfig } from "./types.js";
 
@@ -24,7 +24,7 @@ function normalizeApproverId(value: string | number): string | undefined {
 }
 
 export function resolveQQBotExecApprovalConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): QQBotExecApprovalConfig | undefined {
   const account = resolveQQBotAccount(params.cfg, params.accountId);
@@ -39,7 +39,7 @@ export function resolveQQBotExecApprovalConfig(params: {
 }
 
 function getQQBotExecApprovalApprovers(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
 }): string[] {
   const accountConfig = resolveQQBotAccount(params.cfg, params.accountId).config;
@@ -51,7 +51,7 @@ function getQQBotExecApprovalApprovers(params: {
 }
 
 function countQQBotExecApprovalEligibleAccounts(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   request: ExecApprovalRequest | PluginApprovalRequest;
 }): number {
   return listQQBotAccountIds(params.cfg).filter((accountId) => {
@@ -79,7 +79,7 @@ function countQQBotExecApprovalEligibleAccounts(params: {
 }
 
 function matchesQQBotRequestAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
   request: ExecApprovalRequest | PluginApprovalRequest;
 }): boolean {
@@ -113,7 +113,7 @@ function matchesQQBotRequestAccount(params: {
  * must not contribute to the single-account shortcut in the fallback
  * ownership check below.
  */
-function countQQBotFallbackEligibleAccounts(cfg: OpenClawConfig): number {
+function countQQBotFallbackEligibleAccounts(cfg: Brikko StudioConfig): number {
   return listQQBotAccountIds(cfg).filter((accountId) => {
     const account = resolveQQBotAccount(cfg, accountId);
     return account.enabled && account.secretSource !== "none";
@@ -140,7 +140,7 @@ function countQQBotFallbackEligibleAccounts(cfg: OpenClawConfig): number {
  *     a mismatched token and fails.
  */
 function matchesQQBotFallbackRequestAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
   request: ExecApprovalRequest | PluginApprovalRequest;
 }): boolean {
@@ -189,7 +189,7 @@ type QQBotApprovalAccountOwnershipRequest = {
  * gate (shouldHandle) and the lazy native runtime adapter.
  */
 export function matchesQQBotApprovalAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId?: string | null;
   request: QQBotApprovalAccountOwnershipRequest;
 }): boolean {

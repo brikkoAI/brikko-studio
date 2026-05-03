@@ -2,7 +2,7 @@ import type { ReplyPayload } from "./reply-payload.js";
 import { HEARTBEAT_TOKEN } from "./tokens.js";
 
 export const HEARTBEAT_RESPONSE_TOOL_NAME = "heartbeat_respond";
-const HEARTBEAT_RESPONSE_CHANNEL_DATA_KEY = "openclawHeartbeatResponse";
+const HEARTBEAT_RESPONSE_CHANNEL_DATA_KEY = "brikko-studioHeartbeatResponse";
 
 export const HEARTBEAT_TOOL_OUTCOMES = [
   "no_change",

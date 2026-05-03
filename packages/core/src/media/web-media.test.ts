@@ -4,7 +4,7 @@ import { pathToFileURL } from "node:url";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { CANVAS_HOST_PATH } from "../canvas-host/a2ui.js";
 import { resolveStateDir } from "../config/paths.js";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
+import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 
 let loadWebMedia: typeof import("./web-media.js").loadWebMedia;
 let optimizeImageToJpeg: typeof import("./web-media.js").optimizeImageToJpeg;
@@ -21,7 +21,7 @@ let workspacePngFile = "";
 
 beforeAll(async () => {
   ({ loadWebMedia, optimizeImageToJpeg } = await import("./web-media.js"));
-  fixtureRoot = await fs.mkdtemp(path.join(resolvePreferredOpenClawTmpDir(), "web-media-core-"));
+  fixtureRoot = await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), "web-media-core-"));
   tinyPngFile = path.join(fixtureRoot, "tiny.png");
   await fs.writeFile(tinyPngFile, Buffer.from(TINY_PNG_BASE64, "base64"));
   workspaceDir = path.join(fixtureRoot, "workspace");
@@ -174,7 +174,7 @@ describe("loadWebMedia", () => {
   });
 
   it("resolves home-relative local media paths through allowed local roots", async () => {
-    vi.stubEnv("OPENCLAW_HOME", fixtureRoot);
+    vi.stubEnv("BRIKKO_STUDIO_HOME", fixtureRoot);
     try {
       const result = await loadWebMedia("~/workspace/chart.png", {
         maxBytes: 1024 * 1024,

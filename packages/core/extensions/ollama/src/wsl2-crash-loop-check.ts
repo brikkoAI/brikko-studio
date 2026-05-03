@@ -1,8 +1,8 @@
 import { execFile } from "node:child_process";
 import { access } from "node:fs/promises";
 import { promisify } from "node:util";
-import type { PluginLogger } from "openclaw/plugin-sdk/plugin-entry";
-import { isWSL2Sync } from "openclaw/plugin-sdk/runtime-env";
+import type { PluginLogger } from "brikko-studio/plugin-sdk/plugin-entry";
+import { isWSL2Sync } from "brikko-studio/plugin-sdk/runtime-env";
 
 const execFileAsync = promisify(execFile);
 const SYSTEMCTL_TIMEOUT_MS = 5_000;

@@ -68,7 +68,7 @@ describe("engine/utils/stt", () => {
   });
 
   it("posts audio to OpenAI-compatible transcription endpoint", async () => {
-    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-qqbot-stt-"));
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-qqbot-stt-"));
     const audioPath = path.join(tmpDir, "voice.wav");
     fs.writeFileSync(audioPath, Buffer.from([1, 2, 3, 4]));
 

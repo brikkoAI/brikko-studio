@@ -1,12 +1,12 @@
 ---
 summary: "Matrix support status, setup, and configuration examples"
 read_when:
-  - Setting up Matrix in OpenClaw
+  - Setting up Matrix in Brikko Studio
   - Configuring Matrix E2EE and verification
 title: "Matrix"
 ---
 
-Matrix is a downloadable channel plugin for OpenClaw.
+Matrix is a downloadable channel plugin for Brikko Studio.
 It uses the official `matrix-js-sdk` and supports DMs, rooms, threads, media, reactions, polls, location, and E2EE.
 
 ## Install
@@ -14,16 +14,16 @@ It uses the official `matrix-js-sdk` and supports DMs, rooms, threads, media, re
 Install Matrix before configuring the channel:
 
 ```bash
-openclaw plugins install @openclaw/matrix
+brikko-studio plugins install @brikko-studio/matrix
 ```
 
 From a local checkout:
 
 ```bash
-openclaw plugins install ./path/to/local/matrix-plugin
+brikko-studio plugins install ./path/to/local/matrix-plugin
 ```
 
-`plugins install` registers and enables the plugin, so no separate `openclaw plugins enable matrix` step is needed. The plugin still does nothing until you configure the channel below. See [Plugins](/tools/plugin) for general plugin behavior and install rules.
+`plugins install` registers and enables the plugin, so no separate `brikko-studio plugins enable matrix` step is needed. The plugin still does nothing until you configure the channel below. See [Plugins](/tools/plugin) for general plugin behavior and install rules.
 
 ## Setup
 
@@ -35,13 +35,13 @@ openclaw plugins install ./path/to/local/matrix-plugin
 ### Interactive setup
 
 ```bash
-openclaw channels add
-openclaw configure --section channels
+brikko-studio channels add
+brikko-studio configure --section channels
 ```
 
 The wizard asks for: homeserver URL, auth method (access token or password), user ID (password auth only), optional device name, whether to enable E2EE, and whether to configure room access and auto-join.
 
-If matching `MATRIX_*` env vars already exist and the selected account has no saved auth, the wizard offers an env-var shortcut. To resolve room names before saving an allowlist, run `openclaw channels resolve --channel matrix "Project Room"`. When E2EE is enabled, the wizard writes the config and runs the same bootstrap as [`openclaw matrix encryption setup`](#encryption-and-verification).
+If matching `MATRIX_*` env vars already exist and the selected account has no saved auth, the wizard offers an env-var shortcut. To resolve room names before saving an allowlist, run `brikko-studio channels resolve --channel matrix "Project Room"`. When E2EE is enabled, the wizard writes the config and runs the same bootstrap as [`brikko-studio matrix encryption setup`](#encryption-and-verification).
 
 ### Minimal config
 
@@ -70,7 +70,7 @@ Password-based (the token is cached after first login):
       homeserver: "https://matrix.example.org",
       userId: "@bot:example.org",
       password: "replace-me", // pragma: allowlist secret
-      deviceName: "OpenClaw Gateway",
+      deviceName: "Brikko Studio Gateway",
     },
   },
 }
@@ -80,7 +80,7 @@ Password-based (the token is cached after first login):
 
 `channels.matrix.autoJoin` defaults to `off`. With the default, the bot will not appear in new rooms or DMs from fresh invites until you join manually.
 
-OpenClaw cannot tell at invite time whether an invited room is a DM or a group, so all invites — including DM-style invites — go through `autoJoin` first. `dm.policy` only applies later, after the bot has joined and the room has been classified.
+Brikko Studio cannot tell at invite time whether an invited room is a DM or a group, so all invites — including DM-style invites — go through `autoJoin` first. `dm.policy` only applies later, after the bot has joined and the room has been classified.
 
 <Warning>
 Set `autoJoin: "allowlist"` plus `autoJoinAllowlist` to restrict which invites the bot accepts, or `autoJoin: "always"` to accept every invite.
@@ -117,12 +117,12 @@ The wizard converts a friendly name into a normalized account ID. For example, `
 
 ### Cached credentials
 
-Matrix stores cached credentials under `~/.openclaw/credentials/matrix/`:
+Matrix stores cached credentials under `~/.brikko-studio/credentials/matrix/`:
 
 - default account: `credentials.json`
 - named accounts: `credentials-<account>.json`
 
-When cached credentials exist there, OpenClaw treats Matrix as configured even if the access token is not in the config file — that covers setup, `openclaw doctor`, and channel-status probes.
+When cached credentials exist there, Brikko Studio treats Matrix as configured even if the access token is not in the config file — that covers setup, `brikko-studio doctor`, and channel-status probes.
 
 ### Environment variables
 
@@ -179,7 +179,7 @@ A practical baseline with DM pairing, room allowlist, and E2EE:
 
 ## Streaming previews
 
-Matrix reply streaming is opt-in. `streaming` controls how OpenClaw delivers the in-flight assistant reply; `blockStreaming` controls whether each completed block is preserved as its own Matrix message.
+Matrix reply streaming is opt-in. `streaming` controls how Brikko Studio delivers the in-flight assistant reply; `blockStreaming` controls whether each completed block is preserved as its own Matrix message.
 
 ```json5
 {
@@ -224,16 +224,16 @@ form:
 
 Notes:
 
-- If a preview grows past Matrix's per-event size limit, OpenClaw stops preview streaming and falls back to final-only delivery.
-- Media replies always send attachments normally. If a stale preview can no longer be reused safely, OpenClaw redacts it before sending the final media reply.
+- If a preview grows past Matrix's per-event size limit, Brikko Studio stops preview streaming and falls back to final-only delivery.
+- Media replies always send attachments normally. If a stale preview can no longer be reused safely, Brikko Studio redacts it before sending the final media reply.
 - Tool-progress preview updates are enabled by default when Matrix preview streaming is active. Set `streaming.preview.toolProgress: false` to keep preview edits for answer text but leave tool progress on the normal delivery path.
 - Preview edits cost extra Matrix API calls. Leave `streaming: "off"` if you want the most conservative rate-limit profile.
 
 ## Approval metadata
 
-Matrix native approval prompts are normal `m.room.message` events with OpenClaw-specific custom event content under `com.openclaw.approval`. Matrix permits custom event-content keys, so stock clients still render the text body while OpenClaw-aware clients can read the structured approval id, kind, state, available decisions, and exec/plugin details.
+Matrix native approval prompts are normal `m.room.message` events with Brikko Studio-specific custom event content under `com.brikko-studio.approval`. Matrix permits custom event-content keys, so stock clients still render the text body while Brikko Studio-aware clients can read the structured approval id, kind, state, available decisions, and exec/plugin details.
 
-When an approval prompt is too long for one Matrix event, OpenClaw chunks the visible text and attaches `com.openclaw.approval` to the first chunk only. Reactions for allow/deny decisions are bound to that first event, so long prompts keep the same approval target as single-event prompts.
+When an approval prompt is too long for one Matrix event, Brikko Studio chunks the visible text and attaches `com.brikko-studio.approval` to the first chunk only. Reactions for allow/deny decisions are bound to that first event, so long prompts keep the same approval target as single-event prompts.
 
 ### Self-hosted push rules for quiet finalized previews
 
@@ -241,7 +241,7 @@ When an approval prompt is too long for one Matrix event, OpenClaw chunks the vi
 
 ## Bot-to-bot rooms
 
-By default, Matrix messages from other configured OpenClaw Matrix accounts are ignored.
+By default, Matrix messages from other configured Brikko Studio Matrix accounts are ignored.
 
 Use `allowBots` when you intentionally want inter-agent Matrix traffic:
 
@@ -263,8 +263,8 @@ Use `allowBots` when you intentionally want inter-agent Matrix traffic:
 - `allowBots: true` accepts messages from other configured Matrix bot accounts in allowed rooms and DMs.
 - `allowBots: "mentions"` accepts those messages only when they visibly mention this bot in rooms. DMs are still allowed.
 - `groups.<room>.allowBots` overrides the account-level setting for one room.
-- OpenClaw still ignores messages from the same Matrix user ID to avoid self-reply loops.
-- Matrix does not expose a native bot flag here; OpenClaw treats "bot-authored" as "sent by another configured Matrix account on this OpenClaw gateway".
+- Brikko Studio still ignores messages from the same Matrix user ID to avoid self-reply loops.
+- Matrix does not expose a native bot flag here; Brikko Studio treats "bot-authored" as "sent by another configured Matrix account on this Brikko Studio gateway".
 
 Use strict room allowlists and mention requirements when enabling bot-to-bot traffic in shared rooms.
 
@@ -272,12 +272,12 @@ Use strict room allowlists and mention requirements when enabling bot-to-bot tra
 
 In encrypted (E2EE) rooms, outbound image events use `thumbnail_file` so image previews are encrypted alongside the full attachment. Unencrypted rooms still use plain `thumbnail_url`. No configuration is needed — the plugin detects E2EE state automatically.
 
-All `openclaw matrix` commands accept `--verbose` (full diagnostics), `--json` (machine-readable output), and `--account <id>` (multi-account setups). Output is concise by default with quiet internal SDK logging. The examples below show the canonical form; add the flags as needed.
+All `brikko-studio matrix` commands accept `--verbose` (full diagnostics), `--json` (machine-readable output), and `--account <id>` (multi-account setups). Output is concise by default with quiet internal SDK logging. The examples below show the canonical form; add the flags as needed.
 
 ### Enable encryption
 
 ```bash
-openclaw matrix encryption setup
+brikko-studio matrix encryption setup
 ```
 
 Bootstraps secret storage and cross-signing, creates a room-key backup if needed, then prints status and next steps. Useful flags:
@@ -288,7 +288,7 @@ Bootstraps secret storage and cross-signing, creates a room-key backup if needed
 For a new account, enable E2EE at creation time:
 
 ```bash
-openclaw matrix account add \
+brikko-studio matrix account add \
   --homeserver https://matrix.example.org \
   --access-token syt_xxx \
   --enable-e2ee
@@ -315,8 +315,8 @@ Manual config equivalent:
 ### Status and trust signals
 
 ```bash
-openclaw matrix verify status
-openclaw matrix verify status --include-recovery-key --json
+brikko-studio matrix verify status
+brikko-studio matrix verify status --include-recovery-key --json
 ```
 
 `verify status` reports three independent trust signals (`--verbose` shows all of them):
@@ -334,7 +334,7 @@ openclaw matrix verify status --include-recovery-key --json
 The recovery key is sensitive — pipe it via stdin instead of passing it on the command line. Set `MATRIX_RECOVERY_KEY` (or `MATRIX_<ID>_RECOVERY_KEY` for a named account):
 
 ```bash
-printf '%s\n' "$MATRIX_RECOVERY_KEY" | openclaw matrix verify device --recovery-key-stdin
+printf '%s\n' "$MATRIX_RECOVERY_KEY" | brikko-studio matrix verify device --recovery-key-stdin
 ```
 
 The command reports three states:
@@ -346,17 +346,17 @@ The command reports three states:
 It exits non-zero when full identity trust is incomplete, even if the recovery key unlocked backup material. In that case, finish self-verification from another Matrix client:
 
 ```bash
-openclaw matrix verify self
+brikko-studio matrix verify self
 ```
 
 `verify self` waits for `Cross-signing verified: yes` before it exits successfully. Use `--timeout-ms <ms>` to tune the wait.
 
-The literal-key form `openclaw matrix verify device "<recovery-key>"` is also accepted, but the key ends up in your shell history.
+The literal-key form `brikko-studio matrix verify device "<recovery-key>"` is also accepted, but the key ends up in your shell history.
 
 ### Bootstrap or repair cross-signing
 
 ```bash
-openclaw matrix verify bootstrap
+brikko-studio matrix verify bootstrap
 ```
 
 `verify bootstrap` is the repair and setup command for encrypted accounts. In order, it:
@@ -366,7 +366,7 @@ openclaw matrix verify bootstrap
 - marks and cross-signs the current device
 - creates a server-side room-key backup if one does not already exist
 
-If the homeserver requires UIA to upload cross-signing keys, OpenClaw tries no-auth first, then `m.login.dummy`, then `m.login.password` (requires `channels.matrix.password`).
+If the homeserver requires UIA to upload cross-signing keys, Brikko Studio tries no-auth first, then `m.login.dummy`, then `m.login.password` (requires `channels.matrix.password`).
 
 Useful flags:
 
@@ -376,8 +376,8 @@ Useful flags:
 ### Room-key backup
 
 ```bash
-openclaw matrix verify backup status
-printf '%s\n' "$MATRIX_RECOVERY_KEY" | openclaw matrix verify backup restore --recovery-key-stdin
+brikko-studio matrix verify backup status
+printf '%s\n' "$MATRIX_RECOVERY_KEY" | brikko-studio matrix verify backup restore --recovery-key-stdin
 ```
 
 `backup status` shows whether a server-side backup exists and whether this device can decrypt it. `backup restore` imports backed-up room keys into the local crypto store; if the recovery key is already on disk you can omit `--recovery-key-stdin`.
@@ -385,7 +385,7 @@ printf '%s\n' "$MATRIX_RECOVERY_KEY" | openclaw matrix verify backup restore --r
 To replace a broken backup with a fresh baseline (accepts losing unrecoverable old history; can also recreate secret storage if the current backup secret is unloadable):
 
 ```bash
-openclaw matrix verify backup reset --yes
+brikko-studio matrix verify backup reset --yes
 ```
 
 Add `--rotate-recovery-key` only when you intentionally want the previous recovery key to stop unlocking the fresh backup baseline.
@@ -393,28 +393,28 @@ Add `--rotate-recovery-key` only when you intentionally want the previous recove
 ### Listing, requesting, and responding to verifications
 
 ```bash
-openclaw matrix verify list
+brikko-studio matrix verify list
 ```
 
 Lists pending verification requests for the selected account.
 
 ```bash
-openclaw matrix verify request --own-user
-openclaw matrix verify request --user-id @ops:example.org --device-id ABCDEF
+brikko-studio matrix verify request --own-user
+brikko-studio matrix verify request --user-id @ops:example.org --device-id ABCDEF
 ```
 
-Sends a verification request from this OpenClaw account. `--own-user` requests self-verification (you accept the prompt in another Matrix client of the same user); `--user-id`/`--device-id`/`--room-id` target someone else. `--own-user` cannot be combined with the other targeting flags.
+Sends a verification request from this Brikko Studio account. `--own-user` requests self-verification (you accept the prompt in another Matrix client of the same user); `--user-id`/`--device-id`/`--room-id` target someone else. `--own-user` cannot be combined with the other targeting flags.
 
 For lower-level lifecycle handling — typically while shadowing inbound requests from another client — these commands act on a specific request `<id>` (printed by `verify list` and `verify request`):
 
 | Command                                    | Purpose                                                             |
 | ------------------------------------------ | ------------------------------------------------------------------- |
-| `openclaw matrix verify accept <id>`       | Accept an inbound request                                           |
-| `openclaw matrix verify start <id>`        | Start the SAS flow                                                  |
-| `openclaw matrix verify sas <id>`          | Print the SAS emoji or decimals                                     |
-| `openclaw matrix verify confirm-sas <id>`  | Confirm that the SAS matches what the other client shows            |
-| `openclaw matrix verify mismatch-sas <id>` | Reject the SAS when the emoji or decimals do not match              |
-| `openclaw matrix verify cancel <id>`       | Cancel; takes optional `--reason <text>` and `--code <matrix-code>` |
+| `brikko-studio matrix verify accept <id>`       | Accept an inbound request                                           |
+| `brikko-studio matrix verify start <id>`        | Start the SAS flow                                                  |
+| `brikko-studio matrix verify sas <id>`          | Print the SAS emoji or decimals                                     |
+| `brikko-studio matrix verify confirm-sas <id>`  | Confirm that the SAS matches what the other client shows            |
+| `brikko-studio matrix verify mismatch-sas <id>` | Reject the SAS when the emoji or decimals do not match              |
+| `brikko-studio matrix verify cancel <id>`       | Cancel; takes optional `--reason <text>` and `--code <matrix-code>` |
 
 `accept`, `start`, `sas`, `confirm-sas`, `mismatch-sas`, and `cancel` all accept `--user-id` and `--room-id` as DM follow-up hints when the verification is anchored to a specific direct-message room.
 
@@ -426,7 +426,7 @@ Without `--account <id>`, Matrix CLI commands use the implicit default account. 
   <Accordion title="Startup behavior">
     With `encryption: true`, `startupVerification` defaults to `"if-unverified"`. On startup an unverified device requests self-verification in another Matrix client, skipping duplicates and applying a cooldown (24 hours by default). Tune with `startupVerificationCooldownHours` or disable with `startupVerification: "off"`.
 
-    Startup also runs a conservative crypto bootstrap pass that reuses the current secret storage and cross-signing identity. If bootstrap state is broken, OpenClaw attempts a guarded repair even without `channels.matrix.password`; if the homeserver requires password UIA, startup logs a warning and stays non-fatal. Already-owner-signed devices are preserved.
+    Startup also runs a conservative crypto bootstrap pass that reuses the current secret storage and cross-signing identity. If bootstrap state is broken, Brikko Studio attempts a guarded repair even without `channels.matrix.password`; if the homeserver requires password UIA, startup logs a warning and stays non-fatal. Already-owner-signed devices are preserved.
 
     See [Matrix migration](/channels/matrix-migration) for the full upgrade flow.
 
@@ -435,28 +435,28 @@ Without `--account <id>`, Matrix CLI commands use the implicit default account. 
   <Accordion title="Verification notices">
     Matrix posts verification lifecycle notices into the strict DM verification room as `m.notice` messages: request, ready (with "Verify by emoji" guidance), start/completion, and SAS (emoji/decimal) details when available.
 
-    Incoming requests from another Matrix client are tracked and auto-accepted. For self-verification, OpenClaw starts the SAS flow automatically and confirms its own side once emoji verification is available — you still need to compare and confirm "They match" in your Matrix client.
+    Incoming requests from another Matrix client are tracked and auto-accepted. For self-verification, Brikko Studio starts the SAS flow automatically and confirms its own side once emoji verification is available — you still need to compare and confirm "They match" in your Matrix client.
 
     Verification system notices are not forwarded to the agent chat pipeline.
 
   </Accordion>
 
   <Accordion title="Deleted or invalid Matrix device">
-    If `verify status` says the current device is no longer listed on the homeserver, create a new OpenClaw Matrix device. For password login:
+    If `verify status` says the current device is no longer listed on the homeserver, create a new Brikko Studio Matrix device. For password login:
 
 ```bash
-openclaw matrix account add \
+brikko-studio matrix account add \
   --account assistant \
   --homeserver https://matrix.example.org \
   --user-id '@assistant:example.org' \
   --password '<password>' \
-  --device-name OpenClaw-Gateway
+  --device-name Brikko Studio-Gateway
 ```
 
-    For token auth, create a fresh access token in your Matrix client or admin UI, then update OpenClaw:
+    For token auth, create a fresh access token in your Matrix client or admin UI, then update Brikko Studio:
 
 ```bash
-openclaw matrix account add \
+brikko-studio matrix account add \
   --account assistant \
   --homeserver https://matrix.example.org \
   --access-token '<token>'
@@ -467,11 +467,11 @@ openclaw matrix account add \
   </Accordion>
 
   <Accordion title="Device hygiene">
-    Old OpenClaw-managed devices can accumulate. List and prune:
+    Old Brikko Studio-managed devices can accumulate. List and prune:
 
 ```bash
-openclaw matrix devices list
-openclaw matrix devices prune-stale
+brikko-studio matrix devices list
+brikko-studio matrix devices prune-stale
 ```
 
   </Accordion>
@@ -479,7 +479,7 @@ openclaw matrix devices prune-stale
   <Accordion title="Crypto store">
     Matrix E2EE uses the official `matrix-js-sdk` Rust crypto path with `fake-indexeddb` as the IndexedDB shim. Crypto state persists to `crypto-idb-snapshot.json` (restrictive file permissions).
 
-    Encrypted runtime state lives under `~/.openclaw/matrix/accounts/<account>/<homeserver>__<user>/<token-hash>/` and includes the sync store, crypto store, recovery key, IDB snapshot, thread bindings, and startup verification state. When the token changes but the account identity stays the same, OpenClaw reuses the best existing root so prior state remains visible.
+    Encrypted runtime state lives under `~/.brikko-studio/matrix/accounts/<account>/<homeserver>__<user>/<token-hash>/` and includes the sync store, crypto store, recovery key, IDB snapshot, thread bindings, and startup verification state. When the token changes but the account identity stays the same, Brikko Studio reuses the best existing root so prior state remains visible.
 
   </Accordion>
 </AccordionGroup>
@@ -489,11 +489,11 @@ openclaw matrix devices prune-stale
 Update the Matrix self-profile for the selected account:
 
 ```bash
-openclaw matrix profile set --name "OpenClaw Assistant"
-openclaw matrix profile set --avatar-url https://cdn.example.org/avatar.png
+brikko-studio matrix profile set --name "Brikko Studio Assistant"
+brikko-studio matrix profile set --avatar-url https://cdn.example.org/avatar.png
 ```
 
-You can pass both options in one call. Matrix accepts `mxc://` avatar URLs directly; when you pass `http://` or `https://`, OpenClaw uploads the file first and stores the resolved `mxc://` URL into `channels.matrix.avatarUrl` (or the per-account override).
+You can pass both options in one call. Matrix accepts `mxc://` avatar URLs directly; when you pass `http://` or `https://`, Brikko Studio uploads the file first and stores the resolved `mxc://` URL into `channels.matrix.avatarUrl` (or the per-account override).
 
 ## Threads
 
@@ -501,7 +501,7 @@ Matrix supports native Matrix threads for both automatic replies and message-too
 
 ### Session routing (`sessionScope`)
 
-`dm.sessionScope` decides how Matrix DM rooms map to OpenClaw sessions:
+`dm.sessionScope` decides how Matrix DM rooms map to Brikko Studio sessions:
 
 - `"per-user"` (default): all DM rooms with the same routed peer share one session.
 - `"per-room"`: each Matrix DM room gets its own session key, even when the peer is the same.
@@ -522,12 +522,12 @@ Explicit conversation bindings always win over `sessionScope`, so bound rooms an
 
 - Inbound threaded messages include the thread root message as extra agent context.
 - Message-tool sends auto-inherit the current Matrix thread when targeting the same room (or the same DM user target), unless an explicit `threadId` is provided.
-- DM user-target reuse only kicks in when the current session metadata proves the same DM peer on the same Matrix account; otherwise OpenClaw falls back to normal user-scoped routing.
+- DM user-target reuse only kicks in when the current session metadata proves the same DM peer on the same Matrix account; otherwise Brikko Studio falls back to normal user-scoped routing.
 - `/focus`, `/unfocus`, `/agents`, `/session idle`, `/session max-age`, and thread-bound `/acp spawn` all work in Matrix rooms and DMs.
 - Top-level `/focus` creates a new Matrix thread and binds it to the target session when `threadBindings.spawnSessions` is enabled.
 - Running `/focus` or `/acp spawn --thread here` inside an existing Matrix thread binds that thread in place.
 
-When OpenClaw detects a Matrix DM room colliding with another DM room on the same shared session, it posts a one-time `m.notice` in that room pointing to the `/focus` escape hatch and suggesting a `dm.sessionScope` change. The notice only appears when thread bindings are enabled.
+When Brikko Studio detects a Matrix DM room colliding with another DM room on the same shared session, it posts a one-time `m.notice` in that room pointing to the `/focus` escape hatch and suggesting a `dm.sessionScope` change. The notice only appears when thread bindings are enabled.
 
 ## ACP conversation bindings
 
@@ -544,7 +544,7 @@ Fast operator flow:
 Notes:
 
 - `--bind here` does not create a child Matrix thread.
-- `threadBindings.spawnSessions` gates `/acp spawn --thread auto|here`, where OpenClaw needs to create or bind a child Matrix thread.
+- `threadBindings.spawnSessions` gates `/acp spawn --thread auto|here`, where Brikko Studio needs to create or bind a child Matrix thread.
 
 ### Thread binding config
 
@@ -586,7 +586,7 @@ Outbound reaction tooling is gated by `channels.matrix.actions.reactions`:
 
 - `channels.matrix.historyLimit` controls how many recent room messages are included as `InboundHistory` when a Matrix room message triggers the agent. Falls back to `messages.groupChat.historyLimit`; if both are unset, the effective default is `0`. Set `0` to disable.
 - Matrix room history is room-only. DMs keep using normal session history.
-- Matrix room history is pending-only: OpenClaw buffers room messages that did not trigger a reply yet, then snapshots that window when a mention or other trigger arrives.
+- Matrix room history is pending-only: Brikko Studio buffers room messages that did not trigger a reply yet, then snapshots that window when a mention or other trigger arrives.
 - The current trigger message is not included in `InboundHistory`; it stays in the main inbound body for that turn.
 - Retries of the same Matrix event reuse the original history snapshot instead of drifting forward to newer room messages.
 
@@ -641,26 +641,26 @@ See [Groups](/channels/groups) for mention-gating and allowlist behavior.
 Pairing example for Matrix DMs:
 
 ```bash
-openclaw pairing list matrix
-openclaw pairing approve matrix <CODE>
+brikko-studio pairing list matrix
+brikko-studio pairing approve matrix <CODE>
 ```
 
-If an unapproved Matrix user keeps messaging you before approval, OpenClaw reuses the same pending pairing code and may send a reminder reply after a short cooldown instead of minting a new code.
+If an unapproved Matrix user keeps messaging you before approval, Brikko Studio reuses the same pending pairing code and may send a reminder reply after a short cooldown instead of minting a new code.
 
 See [Pairing](/channels/pairing) for the shared DM pairing flow and storage layout.
 
 ## Direct room repair
 
-If direct-message state drifts out of sync, OpenClaw can end up with stale `m.direct` mappings that point at old solo rooms instead of the live DM. Inspect the current mapping for a peer:
+If direct-message state drifts out of sync, Brikko Studio can end up with stale `m.direct` mappings that point at old solo rooms instead of the live DM. Inspect the current mapping for a peer:
 
 ```bash
-openclaw matrix direct inspect --user-id @alice:example.org
+brikko-studio matrix direct inspect --user-id @alice:example.org
 ```
 
 Repair it:
 
 ```bash
-openclaw matrix direct repair --user-id @alice:example.org
+brikko-studio matrix direct repair --user-id @alice:example.org
 ```
 
 Both commands accept `--account <id>` for multi-account setups. The repair flow:
@@ -699,7 +699,7 @@ Related: [Exec approvals](/tools/exec-approvals).
 
 ## Slash commands
 
-Slash commands (`/new`, `/reset`, `/model`, `/focus`, `/unfocus`, `/agents`, `/session`, `/acp`, `/approve`, etc.) work directly in DMs. In rooms, OpenClaw also recognizes commands that are prefixed with the bot's own Matrix mention, so `@bot:server /new` triggers the command path without a custom mention regex. This keeps the bot responsive to the room-style `@mention /command` posts that Element and similar clients emit when a user tab-completes the bot before typing the command.
+Slash commands (`/new`, `/reset`, `/model`, `/focus`, `/unfocus`, `/agents`, `/session`, `/acp`, `/approve`, etc.) work directly in DMs. In rooms, Brikko Studio also recognizes commands that are prefixed with the bot's own Matrix mention, so `@bot:server /new` triggers the command path without a custom mention regex. This keeps the bot responsive to the room-style `@mention /command` posts that Element and similar clients emit when a user tab-completes the bot before typing the command.
 
 Authorization rules still apply: command senders must satisfy the same DM or room allowlist/owner policies as plain messages.
 
@@ -741,19 +741,19 @@ Authorization rules still apply: command senders must satisfy the same DM or roo
 **Default account selection:**
 
 - Set `defaultAccount` to pick the named account that implicit routing, probing, and CLI commands prefer.
-- If you have multiple accounts and one is literally named `default`, OpenClaw uses it implicitly even when `defaultAccount` is unset.
+- If you have multiple accounts and one is literally named `default`, Brikko Studio uses it implicitly even when `defaultAccount` is unset.
 - If you have multiple named accounts and no default is selected, CLI commands refuse to guess — set `defaultAccount` or pass `--account <id>`.
 - The top-level `channels.matrix.*` block is only treated as the implicit `default` account when its auth is complete (`homeserver` + `accessToken`, or `homeserver` + `userId` + `password`). Named accounts remain discoverable from `homeserver` + `userId` once cached credentials cover auth.
 
 **Promotion:**
 
-- When OpenClaw promotes a single-account config to multi-account during repair or setup, it preserves the existing named account if one exists or `defaultAccount` already points at one. Only Matrix auth/bootstrap keys move into the promoted account; shared delivery-policy keys stay at the top level.
+- When Brikko Studio promotes a single-account config to multi-account during repair or setup, it preserves the existing named account if one exists or `defaultAccount` already points at one. Only Matrix auth/bootstrap keys move into the promoted account; shared delivery-policy keys stay at the top level.
 
 See [Configuration reference](/gateway/config-channels#multi-account-all-channels) for the shared multi-account pattern.
 
 ## Private/LAN homeservers
 
-By default, OpenClaw blocks private/internal Matrix homeservers for SSRF protection unless you
+By default, Brikko Studio blocks private/internal Matrix homeservers for SSRF protection unless you
 explicitly opt in per account.
 
 If your homeserver runs on localhost, a LAN/Tailscale IP, or an internal hostname, enable
@@ -776,7 +776,7 @@ If your homeserver runs on localhost, a LAN/Tailscale IP, or an internal hostnam
 CLI setup example:
 
 ```bash
-openclaw matrix account add \
+brikko-studio matrix account add \
   --account ops \
   --homeserver http://matrix-synapse:8008 \
   --allow-private-network \
@@ -803,11 +803,11 @@ If your Matrix deployment needs an explicit outbound HTTP(S) proxy, set `channel
 ```
 
 Named accounts can override the top-level default with `channels.matrix.accounts.<id>.proxy`.
-OpenClaw uses the same proxy setting for runtime Matrix traffic and account status probes.
+Brikko Studio uses the same proxy setting for runtime Matrix traffic and account status probes.
 
 ## Target resolution
 
-Matrix accepts these target forms anywhere OpenClaw asks you for a room or user target:
+Matrix accepts these target forms anywhere Brikko Studio asks you for a room or user target:
 
 - Users: `@user:server`, `user:@user:server`, or `matrix:user:@user:server`
 - Rooms: `!room:server`, `room:!room:server`, or `matrix:room:!room:server`
@@ -815,7 +815,7 @@ Matrix accepts these target forms anywhere OpenClaw asks you for a room or user 
 
 Matrix room IDs are case-sensitive. Use the exact room ID casing from Matrix
 when configuring explicit delivery targets, cron jobs, bindings, or allowlists.
-OpenClaw keeps internal session keys canonical for storage, so those lowercase
+Brikko Studio keeps internal session keys canonical for storage, so those lowercase
 keys are not a reliable source for Matrix delivery IDs.
 
 Live directory lookup uses the logged-in Matrix account:

@@ -45,7 +45,7 @@ Supported keys:
 - `seed`, `normalize`, `lang`, `output_format`, `latency_tier`
 - `once`
 
-## Config (`~/.openclaw/openclaw.json`)
+## Config (`~/.brikko-studio/brikko-studio.json`)
 
 ```json5
 {
@@ -105,7 +105,7 @@ Defaults:
 - Requires Speech + Microphone permissions.
 - Uses `chat.send` against session key `main`.
 - The gateway resolves Talk playback through `talk.speak` using the active Talk provider. Android falls back to local system TTS only when that RPC is unavailable.
-- macOS local MLX playback uses the bundled `openclaw-mlx-tts` helper when present, or an executable on `PATH`. Set `OPENCLAW_MLX_TTS_BIN` to point at a custom helper binary during development.
+- macOS local MLX playback uses the bundled `brikko-studio-mlx-tts` helper when present, or an executable on `PATH`. Set `BRIKKO_STUDIO_MLX_TTS_BIN` to point at a custom helper binary during development.
 - `stability` for `eleven_v3` is validated to `0.0`, `0.5`, or `1.0`; other models accept `0..1`.
 - `latency_tier` is validated to `0..4` when set.
 - Android supports `pcm_16000`, `pcm_22050`, `pcm_24000`, and `pcm_44100` output formats for low-latency AudioTrack streaming.

@@ -1,14 +1,14 @@
 {
-  "name": "@openclaw/media-understanding-core",
+  "name": "@brikko-studio/media-understanding-core",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw media understanding runtime package",
+  "description": "Brikko Studio media understanding runtime package",
   "type": "module",
   "dependencies": {
     "sharp": "^0.34.5"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {}
+  "brikko-studio": {}
 }

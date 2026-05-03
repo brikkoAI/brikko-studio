@@ -1,4 +1,4 @@
-import { getRuntimeConfig } from "openclaw/plugin-sdk/runtime-config-snapshot";
+import { getRuntimeConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const { defaultRouteConfig } = vi.hoisted(() => ({
@@ -11,10 +11,10 @@ const { defaultRouteConfig } = vi.hoisted(() => ({
   },
 }));
 
-vi.mock("openclaw/plugin-sdk/runtime-config-snapshot", async () => {
+vi.mock("brikko-studio/plugin-sdk/runtime-config-snapshot", async () => {
   const actual = await vi.importActual<
-    typeof import("openclaw/plugin-sdk/runtime-config-snapshot")
-  >("openclaw/plugin-sdk/runtime-config-snapshot");
+    typeof import("brikko-studio/plugin-sdk/runtime-config-snapshot")
+  >("brikko-studio/plugin-sdk/runtime-config-snapshot");
   return {
     ...actual,
     getRuntimeConfig: vi.fn(() => defaultRouteConfig),

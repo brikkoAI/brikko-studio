@@ -1,27 +1,27 @@
 ---
-summary: "Reference design for the public OpenClaw App SDK API, event taxonomy, artifacts, approvals, and package structure"
-title: "OpenClaw App SDK API design"
+summary: "Reference design for the public Brikko Studio App SDK API, event taxonomy, artifacts, approvals, and package structure"
+title: "Brikko Studio App SDK API design"
 sidebarTitle: "App SDK API design"
 read_when:
-  - You are implementing the proposed public OpenClaw app SDK
+  - You are implementing the proposed public Brikko Studio app SDK
   - You need the draft namespace, event, result, artifact, approval, or security contract for the app SDK
-  - You are comparing Gateway protocol resources with the high-level OpenClaw App SDK wrapper
+  - You are comparing Gateway protocol resources with the high-level Brikko Studio App SDK wrapper
 ---
 
 This page is the detailed API reference design for the public
-[OpenClaw App SDK](/concepts/openclaw-sdk). It is intentionally separate from
+[Brikko Studio App SDK](/concepts/brikko-studio-sdk). It is intentionally separate from
 the [Plugin SDK](/plugins/sdk-overview).
 
 <Note>
-  `@openclaw/sdk` is the external app/client package for talking to the
-  Gateway. `openclaw/plugin-sdk/*` is the in-process plugin authoring contract.
+  `@brikko-studio/sdk` is the external app/client package for talking to the
+  Gateway. `brikko-studio/plugin-sdk/*` is the in-process plugin authoring contract.
   Do not import Plugin SDK subpaths from apps that only need to run agents.
 </Note>
 
 The public app SDK should be built in two layers:
 
 1. A low-level generated Gateway client.
-2. A high-level ergonomic wrapper with `OpenClaw`, `Agent`, `Session`, `Run`,
+2. A high-level ergonomic wrapper with `Brikko Studio`, `Agent`, `Session`, `Run`,
    `Task`, `Artifact`, `Approval`, and `Environment` objects.
 
 ## Namespace design
@@ -93,11 +93,11 @@ const session = await run.session();
 The public SDK should expose versioned, replayable, normalized events.
 
 ```typescript
-type OpenClawEvent = {
+type Brikko StudioEvent = {
   version: 1;
   id: string;
   ts: number;
-  type: OpenClawEventType;
+  type: Brikko StudioEventType;
   runId?: string;
   sessionId?: string;
   sessionKey?: string;
@@ -229,7 +229,7 @@ for (const tool of tools.list()) {
 The SDK should expose:
 
 - normalized tool metadata
-- source: OpenClaw, MCP, plugin, channel, runtime, or app
+- source: Brikko Studio, MCP, plugin, channel, runtime, or app
 - schema summary
 - approval policy
 - runtime compatibility
@@ -350,11 +350,11 @@ Recommended packages:
 
 | Package                 | Purpose                                                       |
 | ----------------------- | ------------------------------------------------------------- |
-| `@openclaw/sdk`         | Public high-level SDK and generated low-level Gateway client. |
-| `@openclaw/sdk-react`   | Optional React hooks for dashboards and app builders.         |
-| `@openclaw/sdk-testing` | Test helpers and fake Gateway server for app integrations.    |
+| `@brikko-studio/sdk`         | Public high-level SDK and generated low-level Gateway client. |
+| `@brikko-studio/sdk-react`   | Optional React hooks for dashboards and app builders.         |
+| `@brikko-studio/sdk-testing` | Test helpers and fake Gateway server for app integrations.    |
 
-The repo already has `openclaw/plugin-sdk/*` for plugins. Keep that namespace
+The repo already has `brikko-studio/plugin-sdk/*` for plugins. Keep that namespace
 separate to avoid confusing plugin authors with app developers.
 
 ## Generated client strategy
@@ -367,7 +367,7 @@ Layering:
 1. Gateway schema source of truth.
 2. Generated low-level TypeScript client.
 3. Runtime validators for external inputs and event payloads.
-4. High-level `OpenClaw`, `Agent`, `Session`, `Run`, `Task`, and `Artifact`
+4. High-level `Brikko Studio`, `Agent`, `Session`, `Run`, `Task`, and `Artifact`
    wrappers.
 5. Cookbook examples and integration tests.
 
@@ -381,7 +381,7 @@ Benefits:
 
 ## Related docs
 
-- [OpenClaw App SDK](/concepts/openclaw-sdk)
+- [Brikko Studio App SDK](/concepts/brikko-studio-sdk)
 - [Gateway RPC reference](/reference/rpc)
 - [Agent loop](/concepts/agent-loop)
 - [Agent runtimes](/concepts/agent-runtimes)

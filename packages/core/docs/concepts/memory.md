@@ -1,12 +1,12 @@
 ---
-summary: "How OpenClaw remembers things across sessions"
+summary: "How Brikko Studio remembers things across sessions"
 title: "Memory overview"
 read_when:
   - You want to understand how memory works
   - You want to know what memory files to write
 ---
 
-OpenClaw remembers things by writing **plain Markdown files** in your agent's
+Brikko Studio remembers things by writing **plain Markdown files** in your agent's
 workspace. The model only "remembers" what gets saved to disk — there is no
 hidden state.
 
@@ -21,7 +21,7 @@ Your agent has three memory-related files:
 - **`DREAMS.md`** (optional) — Dream Diary and dreaming sweep
   summaries for human review, including grounded historical backfill entries.
 
-These files live in the agent workspace (default `~/.openclaw/workspace`).
+These files live in the agent workspace (default `~/.brikko-studio/workspace`).
 
 <Tip>
 If you want your agent to remember something, just ask it: "Remember that I
@@ -35,7 +35,7 @@ tomorrow, the useful memory may be "check in after the interview," not "store
 this forever in `MEMORY.md`."
 
 [Commitments](/concepts/commitments) are opt-in, short-lived follow-up memories
-for that case. OpenClaw infers them in a hidden background pass, scopes them to
+for that case. Brikko Studio infers them in a hidden background pass, scopes them to
 the same agent and channel, and delivers due check-ins through heartbeat.
 Explicit reminders still use [scheduled tasks](/automation/cron-jobs).
 
@@ -77,7 +77,7 @@ search** — combining vector similarity (semantic meaning) with keyword matchin
 an API key for any supported provider.
 
 <Info>
-OpenClaw auto-detects your embedding provider from available API keys. If you
+Brikko Studio auto-detects your embedding provider from available API keys. If you
 have an OpenAI, Gemini, Voyage, or Mistral key configured, memory search is
 enabled automatically.
 </Info>
@@ -117,7 +117,7 @@ dashboards, bridge mode, and Obsidian-friendly workflows.
 
 ## Automatic memory flush
 
-Before [compaction](/concepts/compaction) summarizes your conversation, OpenClaw
+Before [compaction](/concepts/compaction) summarizes your conversation, Brikko Studio
 runs a silent turn that reminds the agent to save important context to memory
 files. This is on by default — you do not need to configure anything.
 
@@ -182,7 +182,7 @@ the system thinks is durable without manually editing `MEMORY.md`.
 When you use:
 
 ```bash
-openclaw memory rem-backfill --path ./memory --stage-short-term
+brikko-studio memory rem-backfill --path ./memory --stage-short-term
 ```
 
 the grounded durable candidates are not promoted directly. They are staged into
@@ -197,16 +197,16 @@ If you decide the replay was not useful, you can remove the staged artifacts
 without touching ordinary diary entries or normal recall state:
 
 ```bash
-openclaw memory rem-backfill --rollback
-openclaw memory rem-backfill --rollback-short-term
+brikko-studio memory rem-backfill --rollback
+brikko-studio memory rem-backfill --rollback-short-term
 ```
 
 ## CLI
 
 ```bash
-openclaw memory status          # Check index status and provider
-openclaw memory search "query"  # Search from the command line
-openclaw memory index --force   # Rebuild the index
+brikko-studio memory status          # Check index status and provider
+brikko-studio memory search "query"  # Search from the command line
+brikko-studio memory index --force   # Rebuild the index
 ```
 
 ## Further reading

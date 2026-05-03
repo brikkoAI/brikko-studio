@@ -229,8 +229,8 @@ async function confirmGatewayReachable(params: {
   port: number;
   includeHealthDetails?: boolean;
 }): Promise<GatewayReachability> {
-  const token = normalizeOptionalString(process.env.OPENCLAW_GATEWAY_TOKEN);
-  const password = normalizeOptionalString(process.env.OPENCLAW_GATEWAY_PASSWORD);
+  const token = normalizeOptionalString(process.env.BRIKKO_STUDIO_GATEWAY_TOKEN);
+  const password = normalizeOptionalString(process.env.BRIKKO_STUDIO_GATEWAY_PASSWORD);
   const probe = await probeGateway({
     url: `ws://127.0.0.1:${params.port}`,
     auth: token || password ? { token, password } : undefined,

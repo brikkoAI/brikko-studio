@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { createPluginSetupWizardStatus } from "openclaw/plugin-sdk/plugin-test-runtime";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { createPluginSetupWizardStatus } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it, vi } from "vitest";
 import { signalPlugin } from "./channel.js";
 import * as clientModule from "./client.js";
@@ -199,7 +199,7 @@ describe("probeSignal", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       accountOverrides: {},
     });
 
@@ -324,7 +324,7 @@ describe("signal setup parsing", () => {
   });
 
   it("uses configured defaultAccount for omitted DM policy account context", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       channels: {
         signal: {
           defaultAccount: "work",
@@ -354,7 +354,7 @@ describe("signal setup parsing", () => {
   });
 
   it('writes open policy state to the named account and stores inherited allowFrom with "*"', () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       channels: {
         signal: {
           allowFrom: ["+15555550123"],

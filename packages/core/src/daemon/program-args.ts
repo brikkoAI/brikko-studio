@@ -16,7 +16,7 @@ type GatewayProgramArgs = {
 
 type GatewayRuntimePreference = "auto" | "node" | "bun";
 
-export const OPENCLAW_WRAPPER_ENV_KEY = "OPENCLAW_WRAPPER";
+export const BRIKKO_STUDIO_WRAPPER_ENV_KEY = "BRIKKO_STUDIO_WRAPPER";
 
 async function resolveCliEntrypointPathForService(): Promise<string> {
   const argv1 = process.argv[1];
@@ -44,7 +44,7 @@ async function resolveCliEntrypointPathForService(): Promise<string> {
     }
     // Prefer the original (possibly symlinked) path over the resolved realpath.
     // This keeps LaunchAgent/systemd paths stable across package version updates,
-    // since symlinks like node_modules/openclaw -> .pnpm/openclaw@X.Y.Z/...
+    // since symlinks like node_modules/brikko-studio -> .pnpm/brikko-studio@X.Y.Z/...
     // are automatically updated by pnpm, while the resolved path contains
     // version-specific directories that break after updates.
     const normalizedLooksLikeDist = isGatewayDistEntrypointPath(normalized);
@@ -180,7 +180,7 @@ async function resolveBinaryPath(binary: string): Promise<string> {
   }
 }
 
-export async function resolveOpenClawWrapperPath(
+export async function resolveBrikko StudioWrapperPath(
   inputPath: string | undefined,
 ): Promise<string | undefined> {
   const trimmed = inputPath?.trim();
@@ -197,7 +197,7 @@ export async function resolveOpenClawWrapperPath(
   } catch (error) {
     const detail = error instanceof Error ? ` (${error.message})` : "";
     throw new Error(
-      `${OPENCLAW_WRAPPER_ENV_KEY} must point to an executable file: ${resolved}${detail}`,
+      `${BRIKKO_STUDIO_WRAPPER_ENV_KEY} must point to an executable file: ${resolved}${detail}`,
       { cause: error },
     );
   }
@@ -211,7 +211,7 @@ async function resolveCliProgramArguments(params: {
   nodePath?: string;
   wrapperPath?: string;
 }): Promise<GatewayProgramArgs> {
-  const wrapperPath = await resolveOpenClawWrapperPath(params.wrapperPath);
+  const wrapperPath = await resolveBrikko StudioWrapperPath(params.wrapperPath);
   if (wrapperPath) {
     return { programArguments: [wrapperPath, ...params.args] };
   }

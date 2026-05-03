@@ -2,12 +2,12 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import type {
-  OpenClawPluginCommandDefinition,
+  Brikko StudioPluginCommandDefinition,
   PluginCommandContext,
-} from "openclaw/plugin-sdk/core";
-import { createTestPluginApi } from "openclaw/plugin-sdk/plugin-test-api";
+} from "brikko-studio/plugin-sdk/core";
+import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawPluginApi } from "./api.js";
+import type { Brikko StudioPluginApi } from "./api.js";
 
 const pluginApiMocks = vi.hoisted(() => ({
   clearDeviceBootstrapTokens: vi.fn(async () => ({ removed: 2 })),
@@ -18,7 +18,7 @@ const pluginApiMocks = vi.hoisted(() => ({
   revokeDeviceBootstrapToken: vi.fn(async () => ({ removed: true })),
   renderQrPngDataUrl: vi.fn(async () => "data:image/png;base64,ZmFrZXBuZw=="),
   resolveGatewayPort: vi.fn(() => 18789),
-  resolvePreferredOpenClawTmpDir: vi.fn(() => path.join(os.tmpdir(), "openclaw-device-pair-tests")),
+  resolvePreferredBrikko StudioTmpDir: vi.fn(() => path.join(os.tmpdir(), "brikko-studio-device-pair-tests")),
   writeQrPngTempFile: vi.fn(async (_data: string, opts: { tmpRoot: string }) => {
     const dirPath = await fs.mkdtemp(path.join(opts.tmpRoot, "device-pair-qr-"));
     const filePath = path.join(dirPath, "pair-qr.png");
@@ -40,7 +40,7 @@ vi.mock("./api.js", () => {
     listDevicePairing: vi.fn(async () => ({ pending: [] })),
     renderQrPngDataUrl: pluginApiMocks.renderQrPngDataUrl,
     revokeDeviceBootstrapToken: pluginApiMocks.revokeDeviceBootstrapToken,
-    resolvePreferredOpenClawTmpDir: pluginApiMocks.resolvePreferredOpenClawTmpDir,
+    resolvePreferredBrikko StudioTmpDir: pluginApiMocks.resolvePreferredBrikko StudioTmpDir,
     resolveGatewayBindUrl: vi.fn(),
     resolveGatewayPort: pluginApiMocks.resolveGatewayPort,
     resolveTailnetHostWithRunner: vi.fn(),
@@ -69,11 +69,11 @@ type ApprovedPairingDevice = ApprovedPairingResult["device"];
 const INTERNAL_PAIRING_SCOPES = ["operator.write", "operator.pairing"];
 
 function createApi(params?: {
-  config?: OpenClawPluginApi["config"];
-  runtime?: OpenClawPluginApi["runtime"];
+  config?: Brikko StudioPluginApi["config"];
+  runtime?: Brikko StudioPluginApi["runtime"];
   pluginConfig?: Record<string, unknown>;
-  registerCommand?: (command: OpenClawPluginCommandDefinition) => void;
-}): OpenClawPluginApi {
+  registerCommand?: (command: Brikko StudioPluginCommandDefinition) => void;
+}): Brikko StudioPluginApi {
   return createTestPluginApi({
     id: "device-pair",
     name: "device-pair",
@@ -90,17 +90,17 @@ function createApi(params?: {
       publicUrl: "ws://51.79.175.165:18789",
       ...params?.pluginConfig,
     },
-    runtime: (params?.runtime ?? {}) as OpenClawPluginApi["runtime"],
+    runtime: (params?.runtime ?? {}) as Brikko StudioPluginApi["runtime"],
     registerCommand: params?.registerCommand,
   });
 }
 
 function registerPairCommand(params?: {
-  config?: OpenClawPluginApi["config"];
-  runtime?: OpenClawPluginApi["runtime"];
+  config?: Brikko StudioPluginApi["config"];
+  runtime?: Brikko StudioPluginApi["runtime"];
   pluginConfig?: Record<string, unknown>;
-}): OpenClawPluginCommandDefinition {
-  let command: OpenClawPluginCommandDefinition | undefined;
+}): Brikko StudioPluginCommandDefinition {
+  let command: Brikko StudioPluginCommandDefinition | undefined;
   registerDevicePair.register(
     createApi({
       ...params,
@@ -126,7 +126,7 @@ function createChannelRuntime(
   runtimeKey: string,
   sendKey: string,
   sendMessage: (...args: unknown[]) => Promise<unknown>,
-): OpenClawPluginApi["runtime"] {
+): Brikko StudioPluginApi["runtime"] {
   return {
     channel: {
       outbound: {
@@ -141,7 +141,7 @@ function createChannelRuntime(
             : undefined,
       },
     },
-  } as unknown as OpenClawPluginApi["runtime"];
+  } as unknown as Brikko StudioPluginApi["runtime"];
 }
 
 function createCommandContext(params?: Partial<PluginCommandContext>): PluginCommandContext {
@@ -244,11 +244,11 @@ describe("device-pair /pair qr", () => {
       token: "boot-token",
       expiresAtMs: Date.now() + 10 * 60_000,
     });
-    await fs.mkdir(pluginApiMocks.resolvePreferredOpenClawTmpDir(), { recursive: true });
+    await fs.mkdir(pluginApiMocks.resolvePreferredBrikko StudioTmpDir(), { recursive: true });
   });
 
   afterEach(async () => {
-    await fs.rm(pluginApiMocks.resolvePreferredOpenClawTmpDir(), { recursive: true, force: true });
+    await fs.rm(pluginApiMocks.resolvePreferredBrikko StudioTmpDir(), { recursive: true, force: true });
   });
 
   it("returns an inline QR image for webchat surfaces", async () => {
@@ -269,13 +269,13 @@ describe("device-pair /pair qr", () => {
         scopes: [],
       },
     });
-    expect(text).toContain("Scan this QR code with the OpenClaw iOS app:");
+    expect(text).toContain("Scan this QR code with the Brikko Studio iOS app:");
     expect(payload.mediaUrl).toBe("data:image/png;base64,ZmFrZXBuZw==");
     expect(payload.sensitiveMedia).toBe(true);
     expect(text).toContain("- Security: single-use bootstrap token");
     expect(text).toContain("**Important:** Run `/pair cleanup` after pairing finishes.");
     expect(text).toContain("If this QR code leaks, run `/pair cleanup` immediately.");
-    expect(text).not.toContain("![OpenClaw pairing QR]");
+    expect(text).not.toContain("![Brikko Studio pairing QR]");
   });
 
   it("rejects qr setup for internal gateway callers without operator.pairing", async () => {
@@ -442,7 +442,7 @@ describe("device-pair /pair qr", () => {
       } & Record<string, unknown>,
     ];
     expect(target).toBe(testCase.expectedTarget);
-    expect(caption).toContain("Scan this QR code with the OpenClaw iOS app:");
+    expect(caption).toContain("Scan this QR code with the Brikko Studio iOS app:");
     expect(caption).toContain("IMPORTANT: After pairing finishes, run /pair cleanup.");
     expect(caption).toContain("If this QR code leaks, run /pair cleanup immediately.");
     expect(opts.mediaUrl).toMatch(/pair-qr\.png$/);

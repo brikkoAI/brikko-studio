@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { type OpenClawConfig, DEFAULT_GATEWAY_PORT } from "../config/config.js";
+import { type Brikko StudioConfig, DEFAULT_GATEWAY_PORT } from "../config/config.js";
 import {
   buildDefaultHookUrl,
   buildGogWatchServeLogArgs,
@@ -12,23 +12,23 @@ const baseConfig = {
   hooks: {
     token: "hook-token",
     gmail: {
-      account: "openclaw@gmail.com",
+      account: "brikko-studio@gmail.com",
       topic: "projects/demo/topics/gog-gmail-watch",
       pushToken: "push-token",
     },
   },
-} satisfies OpenClawConfig;
+} satisfies Brikko StudioConfig;
 
 describe("gmail hook config", () => {
   function resolveWithGmailOverrides(
-    overrides: Partial<NonNullable<OpenClawConfig["hooks"]>["gmail"]>,
+    overrides: Partial<NonNullable<Brikko StudioConfig["hooks"]>["gmail"]>,
   ) {
     return resolveGmailHookRuntimeConfig(
       {
         hooks: {
           token: "hook-token",
           gmail: {
-            account: "openclaw@gmail.com",
+            account: "brikko-studio@gmail.com",
             topic: "projects/demo/topics/gog-gmail-watch",
             pushToken: "push-token",
             ...overrides,
@@ -72,7 +72,7 @@ describe("gmail hook config", () => {
     const result = resolveGmailHookRuntimeConfig(baseConfig, {});
     expect(result.ok).toBe(true);
     if (result.ok) {
-      expect(result.value.account).toBe("openclaw@gmail.com");
+      expect(result.value.account).toBe("brikko-studio@gmail.com");
       expect(result.value.label).toBe("INBOX");
       expect(result.value.includeBody).toBe(true);
       expect(result.value.serve.port).toBe(8788);
@@ -98,7 +98,7 @@ describe("gmail hook config", () => {
       "watch",
       "serve",
       "--account",
-      "openclaw@gmail.com",
+      "brikko-studio@gmail.com",
       "--bind",
       "127.0.0.1",
       "--port",
@@ -116,7 +116,7 @@ describe("gmail hook config", () => {
       {
         hooks: {
           gmail: {
-            account: "openclaw@gmail.com",
+            account: "brikko-studio@gmail.com",
             topic: "projects/demo/topics/gog-gmail-watch",
             pushToken: "push-token",
           },

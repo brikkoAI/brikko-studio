@@ -117,7 +117,7 @@ describe("channel plugin blockers", () => {
           enabledByDefault: true,
         },
         {
-          id: "openclaw-lark",
+          id: "brikko-studio-lark",
           origin: "config",
           channels: ["feishu"],
           enabledByDefault: false,
@@ -139,7 +139,7 @@ describe("channel plugin blockers", () => {
           feishu: {
             enabled: false,
           },
-          "openclaw-lark": {
+          "brikko-studio-lark": {
             enabled: true,
           },
         },
@@ -166,7 +166,7 @@ describe("channel plugin blockers", () => {
           enabledByDefault: true,
         },
         {
-          id: "openclaw-lark",
+          id: "brikko-studio-lark",
           origin: "config",
           channels: ["feishu"],
           enabledByDefault: false,

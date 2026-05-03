@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import type { ConversationRef } from "../infra/outbound/session-binding-service.js";
 import { stringifyRouteThreadId } from "../plugin-sdk/channel-route.js";
 import { normalizeAccountId } from "../routing/session-key.js";
@@ -158,12 +158,12 @@ function resolveRequesterSessionActivity(requesterSessionKey: string) {
 }
 
 function resolveDirectAnnounceTransientRetryDelaysMs() {
-  return process.env.OPENCLAW_TEST_FAST === "1"
+  return process.env.BRIKKO_STUDIO_TEST_FAST === "1"
     ? ([8, 16, 32] as const)
     : ([5_000, 10_000, 20_000] as const);
 }
 
-export function resolveSubagentAnnounceTimeoutMs(cfg: OpenClawConfig): number {
+export function resolveSubagentAnnounceTimeoutMs(cfg: Brikko StudioConfig): number {
   const configured = cfg.agents?.defaults?.subagents?.announceTimeoutMs;
   if (typeof configured !== "number" || !Number.isFinite(configured)) {
     return DEFAULT_SUBAGENT_ANNOUNCE_TIMEOUT_MS;
@@ -566,7 +566,7 @@ function hasVisibleGatewayAgentPayload(response: unknown): boolean {
 }
 
 async function sendCompletionFallback(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   channel?: string;
   to?: string;
   accountId?: string;

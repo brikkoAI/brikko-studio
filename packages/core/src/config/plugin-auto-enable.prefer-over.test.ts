@@ -9,7 +9,7 @@ vi.mock("../plugins/bundled-dir.js", async (importOriginal) => {
   return {
     ...actual,
     resolveBundledPluginsDir: (env: NodeJS.ProcessEnv = process.env) =>
-      env.OPENCLAW_BUNDLED_PLUGINS_DIR,
+      env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR,
   };
 });
 
@@ -18,7 +18,7 @@ const tempDirs: string[] = [];
 function makeTempDir(): string {
   const trustedRoot = path.resolve("dist-runtime", "extensions");
   fs.mkdirSync(trustedRoot, { recursive: true });
-  const dir = fs.mkdtempSync(path.join(trustedRoot, ".openclaw-plugin-prefer-over-"));
+  const dir = fs.mkdtempSync(path.join(trustedRoot, ".brikko-studio-plugin-prefer-over-"));
   tempDirs.push(dir);
   return dir;
 }
@@ -29,7 +29,7 @@ function writeBundledChannelPackage(rootDir: string, channelId: string): void {
   fs.writeFileSync(
     path.join(pluginDir, "package.json"),
     JSON.stringify({
-      openclaw: {
+      brikko-studio: {
         channel: {
           id: channelId,
           label: "Cache Drift",
@@ -42,7 +42,7 @@ function writeBundledChannelPackage(rootDir: string, channelId: string): void {
     "utf-8",
   );
   fs.writeFileSync(
-    path.join(pluginDir, "openclaw.plugin.json"),
+    path.join(pluginDir, "brikko-studio.plugin.json"),
     JSON.stringify({
       id: channelId,
       configSchema: { type: "object" },
@@ -81,12 +81,12 @@ describe("plugin auto-enable preferOver", () => {
     const channelId = "cache-drift-channel";
     writeBundledChannelPackage(rootDir, channelId);
 
-    vi.stubEnv("OPENCLAW_BUNDLED_PLUGINS_DIR", rootDir);
+    vi.stubEnv("BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR", rootDir);
     await setBundledPluginsDirFixture(rootDir);
     const { normalizeChatChannelId } = await import("../channels/ids.js");
     expect(normalizeChatChannelId(channelId)).toBe(channelId);
 
-    vi.stubEnv("OPENCLAW_BUNDLED_PLUGINS_DIR", path.join(rootDir, "missing"));
+    vi.stubEnv("BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR", path.join(rootDir, "missing"));
     await setBundledPluginsDirFixture(undefined);
     const { materializePluginAutoEnableCandidates } = await import("./plugin-auto-enable.js");
 
@@ -110,8 +110,8 @@ describe("plugin auto-enable preferOver", () => {
         },
       ],
       env: {
-        OPENCLAW_STATE_DIR: path.join(rootDir, "state"),
-        OPENCLAW_BUNDLED_PLUGINS_DIR: path.join(rootDir, "missing"),
+        BRIKKO_STUDIO_STATE_DIR: path.join(rootDir, "state"),
+        BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: path.join(rootDir, "missing"),
       },
       manifestRegistry: EMPTY_MANIFEST_REGISTRY,
     });

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { resolveAgentScopedOutboundMediaAccess } from "./read-capability.js";
 
 vi.mock("../channels/plugins/index.js", () => ({
@@ -13,7 +13,7 @@ describe("resolveAgentScopedOutboundMediaAccess", () => {
 
   it("preserves caller-provided workspaceDir from mediaAccess", () => {
     const result = resolveAgentScopedOutboundMediaAccess({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       mediaAccess: { workspaceDir: "/tmp/media-workspace" },
     });
 
@@ -22,7 +22,7 @@ describe("resolveAgentScopedOutboundMediaAccess", () => {
 
   it("prefers explicit workspaceDir over mediaAccess.workspaceDir", () => {
     const result = resolveAgentScopedOutboundMediaAccess({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       workspaceDir: "/tmp/explicit-workspace",
       mediaAccess: { workspaceDir: "/tmp/media-workspace" },
     });
@@ -31,7 +31,7 @@ describe("resolveAgentScopedOutboundMediaAccess", () => {
   });
 
   it("does not enable host reads when sender group policy denies read", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       tools: {
         allow: ["read"],
       },
@@ -64,7 +64,7 @@ describe("resolveAgentScopedOutboundMediaAccess", () => {
   });
 
   it("keeps host reads enabled when sender group policy allows read", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: Brikko StudioConfig = {
       tools: {
         allow: ["read"],
       },
@@ -100,7 +100,7 @@ describe("resolveAgentScopedOutboundMediaAccess", () => {
         tools: {
           allow: ["read"],
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       messageProvider: "requestchat",
       requesterSenderId: "trusted-user",
     });
@@ -127,7 +127,7 @@ describe("resolveAgentScopedOutboundMediaAccess", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       messageProvider: "requestchat",
       requesterSenderId: "dm-sender",
     });

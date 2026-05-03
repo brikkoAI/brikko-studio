@@ -4,7 +4,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import type { RootHelpRenderOptions } from "../src/cli/program/root-help.js";
-import type { OpenClawConfig } from "../src/config/config.js";
+import type { Brikko StudioConfig } from "../src/config/config.js";
 
 function dedupe(values: string[]): string[] {
   const seen = new Set<string>();
@@ -108,7 +108,7 @@ export function readBundledChannelCatalog(
       const raw = readFileSync(packageJsonPath, "utf8");
       signature.update(`${dirEntry.name}\0${raw}\0`);
       const parsed = JSON.parse(raw) as {
-        openclaw?: {
+        brikko-studio?: {
           channel?: {
             id?: unknown;
             order?: unknown;
@@ -116,12 +116,12 @@ export function readBundledChannelCatalog(
           };
         };
       };
-      const id = parsed.openclaw?.channel?.id;
+      const id = parsed.brikko-studio?.channel?.id;
       if (typeof id !== "string" || !id.trim()) {
         continue;
       }
-      const orderRaw = parsed.openclaw?.channel?.order;
-      const labelRaw = parsed.openclaw?.channel?.label;
+      const orderRaw = parsed.brikko-studio?.channel?.order;
+      const labelRaw = parsed.brikko-studio?.channel?.label;
       entries.push({
         id: id.trim(),
         order: typeof orderRaw === "number" ? orderRaw : 999,
@@ -150,24 +150,24 @@ export function readBundledChannelCatalogIds(
 function createIsolatedRootHelpRenderContext(
   bundledPluginsDir: string = extensionsDir,
 ): RootHelpRenderContext {
-  const stateDir = path.join(rootDir, ".openclaw-build-root-help");
+  const stateDir = path.join(rootDir, ".brikko-studio-build-root-help");
   const workspaceDir = path.join(stateDir, "workspace");
   const homeDir = path.join(stateDir, "home");
   const env: NodeJS.ProcessEnv = {
     HOME: homeDir,
-    LOGNAME: process.env.LOGNAME ?? process.env.USER ?? "openclaw-build",
-    USER: process.env.USER ?? process.env.LOGNAME ?? "openclaw-build",
+    LOGNAME: process.env.LOGNAME ?? process.env.USER ?? "brikko-studio-build",
+    USER: process.env.USER ?? process.env.LOGNAME ?? "brikko-studio-build",
     PATH: process.env.PATH ?? "",
     TMPDIR: process.env.TMPDIR ?? "/tmp",
     LANG: process.env.LANG ?? "C.UTF-8",
     LC_ALL: process.env.LC_ALL ?? "C.UTF-8",
     TERM: process.env.TERM ?? "dumb",
     NO_COLOR: "1",
-    OPENCLAW_BUNDLED_PLUGINS_DIR: bundledPluginsDir,
-    OPENCLAW_DISABLE_BUNDLED_PLUGINS: "",
-    OPENCLAW_STATE_DIR: stateDir,
+    BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledPluginsDir,
+    BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: "",
+    BRIKKO_STUDIO_STATE_DIR: stateDir,
   };
-  const config: OpenClawConfig = {
+  const config: Brikko StudioConfig = {
     agents: {
       defaults: {
         workspace: workspaceDir,
@@ -280,7 +280,7 @@ function renderSourceBrowserHelpText(
     `const { createProgramContext } = await import(${JSON.stringify(contextUrl)});`,
     `const program = new Command();`,
     `configureProgramHelp(program, createProgramContext());`,
-    `registerBrowserCli(program, ["node", "openclaw", "browser", "--help"]);`,
+    `registerBrowserCli(program, ["node", "brikko-studio", "browser", "--help"]);`,
     `const browser = program.commands.find((cmd) => cmd.name() === "browser");`,
     `if (!browser) throw new Error("Browser command was not registered.");`,
     `browser.outputHelp();`,
@@ -294,7 +294,7 @@ function renderSourceBrowserHelpText(
       encoding: "utf8",
       env: {
         ...renderContext.env,
-        OPENCLAW_DISABLE_CLI_STARTUP_HELP_FAST_PATH: "1",
+        BRIKKO_STUDIO_DISABLE_CLI_STARTUP_HELP_FAST_PATH: "1",
       },
       timeout: BROWSER_HELP_RENDER_TIMEOUT_MS,
     },

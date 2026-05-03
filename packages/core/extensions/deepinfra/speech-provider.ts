@@ -2,7 +2,7 @@ import {
   asObject,
   createOpenAiCompatibleSpeechProvider,
   type SpeechProviderPlugin,
-} from "openclaw/plugin-sdk/speech";
+} from "brikko-studio/plugin-sdk/speech";
 import {
   DEEPINFRA_BASE_URL,
   DEEPINFRA_TTS_MODELS,

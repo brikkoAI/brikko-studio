@@ -22,17 +22,17 @@ describe("gateway handshake timeouts", () => {
     expect(clampConnectChallengeTimeoutMs(30_000, 30_000)).toBe(30_000);
   });
 
-  test("prefers OPENCLAW_HANDSHAKE_TIMEOUT_MS and falls back on the test-only env", () => {
+  test("prefers BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS and falls back on the test-only env", () => {
     expect(
       getPreauthHandshakeTimeoutMsFromEnv({
-        OPENCLAW_HANDSHAKE_TIMEOUT_MS: "75",
-        OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS: "20",
+        BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS: "75",
+        BRIKKO_STUDIO_TEST_HANDSHAKE_TIMEOUT_MS: "20",
       }),
     ).toBe(75);
     expect(
       getPreauthHandshakeTimeoutMsFromEnv({
-        OPENCLAW_HANDSHAKE_TIMEOUT_MS: "",
-        OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS: "20",
+        BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS: "",
+        BRIKKO_STUDIO_TEST_HANDSHAKE_TIMEOUT_MS: "20",
         VITEST: "1",
       }),
     ).toBe(20);
@@ -41,7 +41,7 @@ describe("gateway handshake timeouts", () => {
   test("resolves preauth handshake timeout with env over config over default", () => {
     expect(
       resolvePreauthHandshakeTimeoutMs({
-        env: { OPENCLAW_HANDSHAKE_TIMEOUT_MS: "75000" },
+        env: { BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS: "75000" },
         configuredTimeoutMs: 30_000,
       }),
     ).toBe(75_000);
@@ -53,7 +53,7 @@ describe("gateway handshake timeouts", () => {
     ).toBe(30_000);
     expect(
       resolvePreauthHandshakeTimeoutMs({
-        env: { OPENCLAW_HANDSHAKE_TIMEOUT_MS: "garbage" },
+        env: { BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS: "garbage" },
         configuredTimeoutMs: 30_000,
       }),
     ).toBe(30_000);
@@ -65,7 +65,7 @@ describe("gateway handshake timeouts", () => {
   test("resolves preauth handshake timeout from the test-only env before config", () => {
     expect(
       resolvePreauthHandshakeTimeoutMs({
-        env: { VITEST: "1", OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS: "50" },
+        env: { VITEST: "1", BRIKKO_STUDIO_TEST_HANDSHAKE_TIMEOUT_MS: "50" },
         configuredTimeoutMs: 30_000,
       }),
     ).toBe(50);
@@ -74,59 +74,59 @@ describe("gateway handshake timeouts", () => {
   test("ignores invalid handshake timeout overrides and falls back safely", () => {
     expect(
       getPreauthHandshakeTimeoutMsFromEnv({
-        OPENCLAW_HANDSHAKE_TIMEOUT_MS: "abc",
+        BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS: "abc",
       }),
     ).toBe(DEFAULT_PREAUTH_HANDSHAKE_TIMEOUT_MS);
     expect(
       getPreauthHandshakeTimeoutMsFromEnv({
-        OPENCLAW_HANDSHAKE_TIMEOUT_MS: "-1",
+        BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS: "-1",
       }),
     ).toBe(DEFAULT_PREAUTH_HANDSHAKE_TIMEOUT_MS);
     expect(
       getPreauthHandshakeTimeoutMsFromEnv({
-        OPENCLAW_HANDSHAKE_TIMEOUT_MS: "0",
+        BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS: "0",
       }),
     ).toBe(DEFAULT_PREAUTH_HANDSHAKE_TIMEOUT_MS);
     expect(
       getPreauthHandshakeTimeoutMsFromEnv({
-        OPENCLAW_HANDSHAKE_TIMEOUT_MS: " ",
-        OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS: "20",
+        BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS: " ",
+        BRIKKO_STUDIO_TEST_HANDSHAKE_TIMEOUT_MS: "20",
         VITEST: "1",
       }),
     ).toBe(DEFAULT_PREAUTH_HANDSHAKE_TIMEOUT_MS);
   });
 
-  test("getConnectChallengeTimeoutMsFromEnv reads OPENCLAW_CONNECT_CHALLENGE_TIMEOUT_MS", () => {
+  test("getConnectChallengeTimeoutMsFromEnv reads BRIKKO_STUDIO_CONNECT_CHALLENGE_TIMEOUT_MS", () => {
     expect(getConnectChallengeTimeoutMsFromEnv({})).toBeUndefined();
     expect(
-      getConnectChallengeTimeoutMsFromEnv({ OPENCLAW_CONNECT_CHALLENGE_TIMEOUT_MS: "15000" }),
+      getConnectChallengeTimeoutMsFromEnv({ BRIKKO_STUDIO_CONNECT_CHALLENGE_TIMEOUT_MS: "15000" }),
     ).toBe(15_000);
     expect(
-      getConnectChallengeTimeoutMsFromEnv({ OPENCLAW_CONNECT_CHALLENGE_TIMEOUT_MS: "garbage" }),
+      getConnectChallengeTimeoutMsFromEnv({ BRIKKO_STUDIO_CONNECT_CHALLENGE_TIMEOUT_MS: "garbage" }),
     ).toBeUndefined();
   });
 
   test("resolveConnectChallengeTimeoutMs falls back to env override", () => {
-    const original = process.env.OPENCLAW_CONNECT_CHALLENGE_TIMEOUT_MS;
-    const originalHandshake = process.env.OPENCLAW_HANDSHAKE_TIMEOUT_MS;
+    const original = process.env.BRIKKO_STUDIO_CONNECT_CHALLENGE_TIMEOUT_MS;
+    const originalHandshake = process.env.BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS;
     try {
-      process.env.OPENCLAW_CONNECT_CHALLENGE_TIMEOUT_MS = "5000";
+      process.env.BRIKKO_STUDIO_CONNECT_CHALLENGE_TIMEOUT_MS = "5000";
       expect(resolveConnectChallengeTimeoutMs()).toBe(5_000);
       // Explicit value still takes precedence over env
       expect(resolveConnectChallengeTimeoutMs(3_000)).toBe(3_000);
-      process.env.OPENCLAW_CONNECT_CHALLENGE_TIMEOUT_MS = "";
-      process.env.OPENCLAW_HANDSHAKE_TIMEOUT_MS = "30000";
+      process.env.BRIKKO_STUDIO_CONNECT_CHALLENGE_TIMEOUT_MS = "";
+      process.env.BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS = "30000";
       expect(resolveConnectChallengeTimeoutMs()).toBe(30_000);
     } finally {
       if (original === undefined) {
-        delete process.env.OPENCLAW_CONNECT_CHALLENGE_TIMEOUT_MS;
+        delete process.env.BRIKKO_STUDIO_CONNECT_CHALLENGE_TIMEOUT_MS;
       } else {
-        process.env.OPENCLAW_CONNECT_CHALLENGE_TIMEOUT_MS = original;
+        process.env.BRIKKO_STUDIO_CONNECT_CHALLENGE_TIMEOUT_MS = original;
       }
       if (originalHandshake === undefined) {
-        delete process.env.OPENCLAW_HANDSHAKE_TIMEOUT_MS;
+        delete process.env.BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS;
       } else {
-        process.env.OPENCLAW_HANDSHAKE_TIMEOUT_MS = originalHandshake;
+        process.env.BRIKKO_STUDIO_HANDSHAKE_TIMEOUT_MS = originalHandshake;
       }
     }
   });

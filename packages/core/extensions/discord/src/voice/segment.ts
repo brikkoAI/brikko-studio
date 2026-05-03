@@ -1,9 +1,9 @@
 import path from "node:path";
-import { agentCommandFromIngress } from "openclaw/plugin-sdk/agent-runtime";
-import type { DiscordAccountConfig, OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { agentCommandFromIngress } from "brikko-studio/plugin-sdk/agent-runtime";
+import type { DiscordAccountConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
+import { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { formatMention } from "../mentions.js";
 import { normalizeDiscordSlug } from "../monitor/allow-list.js";
 import { buildDiscordGroupSystemPrompt } from "../monitor/inbound-context.js";
@@ -27,7 +27,7 @@ export async function processDiscordVoiceSegment(params: {
   wavPath: string;
   userId: string;
   durationSeconds: number;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   discordConfig: DiscordAccountConfig;
   runtime: RuntimeEnv;
   ownerAllowFrom?: string[];

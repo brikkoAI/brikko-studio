@@ -1,11 +1,11 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
-import { danger, logVerbose } from "openclaw/plugin-sdk/runtime-env";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
+import { danger, logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import {
   readStoreAllowFromForDmPolicy,
   resolveDmGroupAccessWithLists,
-} from "openclaw/plugin-sdk/security-runtime";
-import { enqueueSystemEvent } from "openclaw/plugin-sdk/system-event-runtime";
+} from "brikko-studio/plugin-sdk/security-runtime";
+import { enqueueSystemEvent } from "brikko-studio/plugin-sdk/system-event-runtime";
 import {
   ChannelType,
   type Client,
@@ -28,8 +28,8 @@ import { formatDiscordReactionEmoji, formatDiscordUserTag } from "./format.js";
 import { runDiscordListenerWithSlowLog, type DiscordListenerLogger } from "./listeners.queue.js";
 import { resolveFetchedDiscordThreadLikeChannelContext } from "./thread-channel-context.js";
 
-type LoadedConfig = OpenClawConfig;
-type RuntimeEnv = import("openclaw/plugin-sdk/runtime-env").RuntimeEnv;
+type LoadedConfig = Brikko StudioConfig;
+type RuntimeEnv = import("brikko-studio/plugin-sdk/runtime-env").RuntimeEnv;
 
 type DiscordReactionEvent = Parameters<MessageReactionAddListener["handle"]>[0];
 

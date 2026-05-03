@@ -1,6 +1,6 @@
-import { createDraftStreamLoop } from "openclaw/plugin-sdk/channel-lifecycle";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { createDraftStreamLoop } from "brikko-studio/plugin-sdk/channel-lifecycle";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { deleteSlackMessage, editSlackMessage } from "./actions.js";
 import { SLACK_TEXT_LIMIT } from "./limits.js";
 import { sendMessageSlack } from "./send.js";
@@ -21,7 +21,7 @@ type SlackDraftStream = {
 
 export function createSlackDraftStream(params: {
   target: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   token: string;
   accountId?: string;
   maxChars?: number;

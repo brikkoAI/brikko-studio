@@ -1,22 +1,22 @@
 {
-  "name": "@openclaw/migrate-claude",
+  "name": "@brikko-studio/migrate-claude",
   "version": "2026.5.3",
   "private": true,
-  "description": "Claude to OpenClaw migration provider",
+  "description": "Claude to Brikko Studio migration provider",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*",
+    "brikko-studio": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "brikko-studio": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "brikko-studio": {
       "optional": true
     }
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

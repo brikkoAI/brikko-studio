@@ -3,7 +3,7 @@ import {
   QUEUED_USER_MESSAGE_MARKER,
   structuredOrphanLeaf,
   textOrphanLeaf,
-} from "openclaw/plugin-sdk/agent-runtime-test-contracts";
+} from "brikko-studio/plugin-sdk/agent-runtime-test-contracts";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mergeOrphanedTrailingUserPrompt } from "./attempt.prompt-helpers.js";
 import {

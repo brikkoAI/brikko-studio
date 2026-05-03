@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/provider-auth";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
 import { afterEach, describe, expect, it } from "vitest";
 import { HERMES_REASON_AUTH_PROFILE_EXISTS } from "./items.js";
 import { buildHermesMigrationProvider } from "./provider.js";
@@ -31,7 +31,7 @@ describe("Hermes migration secret items", () => {
           },
         ],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const provider = buildHermesMigrationProvider();
     const plan = await provider.plan(

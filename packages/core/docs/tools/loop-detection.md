@@ -7,7 +7,7 @@ read_when:
   - You are editing agent tool/runtime policies
 ---
 
-OpenClaw can keep agents from getting stuck in repeated tool-call patterns.
+Brikko Studio can keep agents from getting stuck in repeated tool-call patterns.
 The guard is **disabled by default**.
 
 Enable it only where needed, because it can block legitimate repeated calls with strict settings.
@@ -88,7 +88,7 @@ When a run id is available, recent tool-call history is evaluated only within th
 
 ## Logs and expected behavior
 
-When a loop is detected, OpenClaw reports a loop event and blocks or dampens the next tool-cycle depending on severity.
+When a loop is detected, Brikko Studio reports a loop event and blocks or dampens the next tool-cycle depending on severity.
 This protects users from runaway token spend and lockups while preserving normal tool access.
 
 - Prefer warning and temporary suppression first.

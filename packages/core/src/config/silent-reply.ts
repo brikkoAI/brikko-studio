@@ -8,10 +8,10 @@ import {
   type SilentReplyRewriteShape,
 } from "../shared/silent-reply-policy.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { Brikko StudioConfig } from "./types.brikko-studio.js";
 
 type ResolveSilentReplyParams = {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   sessionKey?: string;
   surface?: string;
   conversationType?: SilentReplyConversationType;

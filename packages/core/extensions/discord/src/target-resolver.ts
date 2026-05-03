@@ -1,5 +1,5 @@
-import type { DirectoryConfigParams } from "openclaw/plugin-sdk/directory-runtime";
-import { buildMessagingTarget, type MessagingTarget } from "openclaw/plugin-sdk/messaging-targets";
+import type { DirectoryConfigParams } from "brikko-studio/plugin-sdk/directory-runtime";
+import { buildMessagingTarget, type MessagingTarget } from "brikko-studio/plugin-sdk/messaging-targets";
 import { resolveDiscordAccount, resolveDiscordAccountAllowFrom } from "./accounts.js";
 import { rememberDiscordDirectoryUser } from "./directory-cache.js";
 import { listDiscordDirectoryPeersLive } from "./directory-live.js";

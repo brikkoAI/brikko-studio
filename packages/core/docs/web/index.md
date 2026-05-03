@@ -10,7 +10,7 @@ The Gateway serves a small **browser Control UI** (Vite + Lit) from the same por
 
 - default: `http://<host>:18789/`
 - with `gateway.tls.enabled: true`: `https://<host>:18789/`
-- optional prefix: set `gateway.controlUi.basePath` (e.g. `/openclaw`)
+- optional prefix: set `gateway.controlUi.basePath` (e.g. `/brikko-studio`)
 
 Capabilities live in [Control UI](/web/control-ui). The rest of this page focuses on bind modes, security, and web-facing surfaces.
 
@@ -27,7 +27,7 @@ You can control it via config:
 ```json5
 {
   gateway: {
-    controlUi: { enabled: true, basePath: "/openclaw" }, // basePath optional
+    controlUi: { enabled: true, basePath: "/brikko-studio" }, // basePath optional
   },
 }
 ```
@@ -50,7 +50,7 @@ Keep the Gateway on loopback and let Tailscale Serve proxy it:
 Then start the gateway:
 
 ```bash
-openclaw gateway
+brikko-studio gateway
 ```
 
 Open:
@@ -73,7 +73,7 @@ Then start the gateway (this non-loopback example uses shared-secret token
 auth):
 
 ```bash
-openclaw gateway
+brikko-studio gateway
 ```
 
 Open:
@@ -87,7 +87,7 @@ Open:
   gateway: {
     bind: "loopback",
     tailscale: { mode: "funnel" },
-    auth: { mode: "password" }, // or OPENCLAW_GATEWAY_PASSWORD
+    auth: { mode: "password" }, // or BRIKKO_STUDIO_GATEWAY_PASSWORD
   },
 }
 ```

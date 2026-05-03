@@ -1,19 +1,19 @@
 // Public auth/onboarding helpers for provider plugins.
 
 import path from "node:path";
-import { resolveOpenClawAgentDir } from "../agents/agent-paths.js";
+import { resolveBrikko StudioAgentDir } from "../agents/agent-paths.js";
 import { resolveApiKeyForProfile } from "../agents/auth-profiles/oauth.js";
 import { resolveAuthProfileOrder } from "../agents/auth-profiles/order.js";
 import { listProfilesForProvider } from "../agents/auth-profiles/profiles.js";
 import { ensureAuthProfileStore } from "../agents/auth-profiles/store.js";
 import { resolveEnvApiKey } from "../agents/model-auth-env.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
 import { loadJsonFile, saveJsonFile } from "../infra/json-file.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { resolveProviderEndpoint } from "./provider-model-shared.js";
 
-export type { OpenClawConfig } from "../config/config.js";
+export type { Brikko StudioConfig } from "../config/config.js";
 export type { SecretInput } from "../config/types.secrets.js";
 export type { SecretInputMode } from "../plugins/provider-auth-types.js";
 export type { ProviderAuthResult } from "../plugins/types.js";
@@ -72,7 +72,7 @@ export { createProviderApiKeyAuthMethod } from "../plugins/provider-api-key-auth
 export { coerceSecretRef, hasConfiguredSecretInput } from "../config/types.secrets.js";
 export { resolveDefaultSecretProviderAlias } from "../secrets/ref-contract.js";
 export { resolveRequiredHomeDir } from "../infra/home-dir.js";
-export { resolveOpenClawAgentDir } from "../agents/agent-paths.js";
+export { resolveBrikko StudioAgentDir } from "../agents/agent-paths.js";
 export {
   normalizeOptionalSecretInput,
   normalizeSecretInput,
@@ -275,11 +275,11 @@ export function isProviderApiKeyConfigured(params: {
 
 export function listUsableProviderAuthProfileIds(params: {
   provider: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   agentDir?: string;
 }): { agentDir: string; profileIds: string[] } {
   try {
-    const agentDir = params.agentDir?.trim() || resolveOpenClawAgentDir();
+    const agentDir = params.agentDir?.trim() || resolveBrikko StudioAgentDir();
     const store = ensureAuthProfileStore(agentDir, {
       allowKeychainPrompt: false,
     });
@@ -298,7 +298,7 @@ export function listUsableProviderAuthProfileIds(params: {
 
 export function isProviderAuthProfileConfigured(params: {
   provider: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   agentDir?: string;
 }): boolean {
   return listUsableProviderAuthProfileIds(params).profileIds.length > 0;
@@ -306,7 +306,7 @@ export function isProviderAuthProfileConfigured(params: {
 
 export async function resolveProviderAuthProfileApiKey(params: {
   provider: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   agentDir?: string;
 }): Promise<string | undefined> {
   const { agentDir, profileIds } = listUsableProviderAuthProfileIds(params);

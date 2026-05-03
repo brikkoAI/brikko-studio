@@ -36,7 +36,7 @@ afterEach(async () => {
 });
 
 async function makeTempDir(label: string): Promise<string> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), `openclaw-${label}-`));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), `brikko-studio-${label}-`));
   tempDirs.push(dir);
   return dir;
 }
@@ -56,7 +56,7 @@ async function packPlugin(params: {
         name: params.packageName,
         version: params.version,
         type: "module",
-        openclaw: { extensions: ["./dist/index.js"] },
+        brikko-studio: { extensions: ["./dist/index.js"] },
       },
       null,
       2,
@@ -64,7 +64,7 @@ async function packPlugin(params: {
     "utf8",
   );
   await fs.writeFile(
-    path.join(packageDir, "openclaw.plugin.json"),
+    path.join(packageDir, "brikko-studio.plugin.json"),
     `${JSON.stringify(
       {
         id: params.pluginId,

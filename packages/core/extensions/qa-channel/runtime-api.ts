@@ -13,7 +13,7 @@ export {
   dispatchInboundReplyWithBase,
   getChatChannelMeta,
   jsonResult,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
   type PluginRuntime,
   readStringParam,
   type RuntimeEnv,

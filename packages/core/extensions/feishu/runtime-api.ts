@@ -11,45 +11,45 @@ export type {
   ChannelOutboundAdapter,
   ChannelPlugin,
   HistoryEntry,
-  OpenClawConfig,
-  OpenClawPluginApi,
+  Brikko StudioConfig,
+  Brikko StudioPluginApi,
   OutboundIdentity,
   PluginRuntime,
   ReplyPayload,
-} from "openclaw/plugin-sdk/core";
-export type { OpenClawConfig as ClawdbotConfig } from "openclaw/plugin-sdk/core";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
-export type { GroupToolPolicyConfig } from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/core";
+export type { Brikko StudioConfig as ClawdbotConfig } from "brikko-studio/plugin-sdk/core";
+export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
+export type { GroupToolPolicyConfig } from "brikko-studio/plugin-sdk/config-types";
 export {
   DEFAULT_ACCOUNT_ID,
   buildChannelConfigSchema,
   createActionGate,
   createDedupeCache,
-} from "openclaw/plugin-sdk/core";
+} from "brikko-studio/plugin-sdk/core";
 export {
   PAIRING_APPROVED_MESSAGE,
   buildProbeChannelStatusSummary,
   createDefaultChannelRuntimeState,
-} from "openclaw/plugin-sdk/channel-status";
-export { buildAgentMediaPayload } from "openclaw/plugin-sdk/agent-media-payload";
-export { createChannelPairingController } from "openclaw/plugin-sdk/channel-pairing";
-export { createReplyPrefixContext } from "openclaw/plugin-sdk/channel-reply-pipeline";
+} from "brikko-studio/plugin-sdk/channel-status";
+export { buildAgentMediaPayload } from "brikko-studio/plugin-sdk/agent-media-payload";
+export { createChannelPairingController } from "brikko-studio/plugin-sdk/channel-pairing";
+export { createReplyPrefixContext } from "brikko-studio/plugin-sdk/channel-reply-pipeline";
 export {
   evaluateSupplementalContextVisibility,
   filterSupplementalContextItems,
   resolveChannelContextVisibilityMode,
-} from "openclaw/plugin-sdk/context-visibility-runtime";
+} from "brikko-studio/plugin-sdk/context-visibility-runtime";
 export {
   loadSessionStore,
   resolveSessionStoreEntry,
-} from "openclaw/plugin-sdk/session-store-runtime";
-export { readJsonFileWithFallback } from "openclaw/plugin-sdk/json-store";
-export { createPersistentDedupe } from "openclaw/plugin-sdk/persistent-dedupe";
-export { normalizeAgentId } from "openclaw/plugin-sdk/routing";
-export { chunkTextForOutbound } from "openclaw/plugin-sdk/text-chunking";
+} from "brikko-studio/plugin-sdk/session-store-runtime";
+export { readJsonFileWithFallback } from "brikko-studio/plugin-sdk/json-store";
+export { createPersistentDedupe } from "brikko-studio/plugin-sdk/persistent-dedupe";
+export { normalizeAgentId } from "brikko-studio/plugin-sdk/routing";
+export { chunkTextForOutbound } from "brikko-studio/plugin-sdk/text-chunking";
 export {
   isRequestBodyLimitError,
   readRequestBodyWithLimit,
   requestBodyErrorToText,
-} from "openclaw/plugin-sdk/webhook-ingress";
+} from "brikko-studio/plugin-sdk/webhook-ingress";
 export { setFeishuRuntime } from "./src/runtime.js";

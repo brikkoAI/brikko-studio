@@ -36,6 +36,6 @@ export {
 export { isNotFoundPathError, isPathInside } from "../infra/path-guards.js";
 export { ensurePortAvailable } from "../infra/ports.js";
 export { generateSecureToken } from "../infra/secure-random.js";
-export { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
+export { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 export { redactSensitiveText } from "../logging/redact.js";
 export { safeEqualSecret } from "../security/secret-equal.js";

@@ -1,31 +1,31 @@
 import fs from "node:fs";
-import { createTestPluginApi } from "openclaw/plugin-sdk/plugin-test-api";
+import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { tokenjuiceFactory, createTokenjuiceOpenClawEmbeddedExtension } = vi.hoisted(() => {
+const { tokenjuiceFactory, createTokenjuiceBrikko StudioEmbeddedExtension } = vi.hoisted(() => {
   const tokenjuiceFactory = vi.fn();
-  const createTokenjuiceOpenClawEmbeddedExtension = vi.fn(() => tokenjuiceFactory);
+  const createTokenjuiceBrikko StudioEmbeddedExtension = vi.fn(() => tokenjuiceFactory);
   return {
     tokenjuiceFactory,
-    createTokenjuiceOpenClawEmbeddedExtension,
+    createTokenjuiceBrikko StudioEmbeddedExtension,
   };
 });
 
 vi.mock("./runtime-api.js", () => ({
-  createTokenjuiceOpenClawEmbeddedExtension,
+  createTokenjuiceBrikko StudioEmbeddedExtension,
 }));
 
 import plugin from "./index.js";
 
 describe("tokenjuice bundled plugin", () => {
   beforeEach(() => {
-    createTokenjuiceOpenClawEmbeddedExtension.mockClear();
+    createTokenjuiceBrikko StudioEmbeddedExtension.mockClear();
     tokenjuiceFactory.mockClear();
   });
 
   it("is opt-in by default", () => {
     const manifest = JSON.parse(
-      fs.readFileSync(new URL("./openclaw.plugin.json", import.meta.url), "utf8"),
+      fs.readFileSync(new URL("./brikko-studio.plugin.json", import.meta.url), "utf8"),
     ) as { enabledByDefault?: unknown };
 
     expect(manifest.enabledByDefault).toBeUndefined();
@@ -46,7 +46,7 @@ describe("tokenjuice bundled plugin", () => {
       }),
     );
 
-    expect(createTokenjuiceOpenClawEmbeddedExtension).toHaveBeenCalledTimes(1);
+    expect(createTokenjuiceBrikko StudioEmbeddedExtension).toHaveBeenCalledTimes(1);
     expect(tokenjuiceFactory).toHaveBeenCalledTimes(1);
     expect(registerAgentToolResultMiddleware).toHaveBeenCalledWith(expect.any(Function), {
       runtimes: ["pi", "codex"],

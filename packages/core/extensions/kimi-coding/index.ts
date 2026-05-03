@@ -1,8 +1,8 @@
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
-import { createProviderApiKeyAuthMethod } from "openclaw/plugin-sdk/provider-auth-api-key";
-import { normalizeProviderId } from "openclaw/plugin-sdk/provider-model-shared";
-import type { SecretInput } from "openclaw/plugin-sdk/secret-input";
-import { isRecord, normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
+import { createProviderApiKeyAuthMethod } from "brikko-studio/plugin-sdk/provider-auth-api-key";
+import { normalizeProviderId } from "brikko-studio/plugin-sdk/provider-model-shared";
+import type { SecretInput } from "brikko-studio/plugin-sdk/secret-input";
+import { isRecord, normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { applyKimiCodeConfig, KIMI_CODING_MODEL_REF } from "./onboard.js";
 import { buildKimiCodingProvider } from "./provider-catalog.js";
 import { KIMI_REPLAY_POLICY } from "./replay-policy.js";

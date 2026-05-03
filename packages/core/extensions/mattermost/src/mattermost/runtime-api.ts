@@ -4,49 +4,49 @@ export type {
   ChannelDirectoryEntry,
   ChatType,
   HistoryEntry,
-  OpenClawConfig,
-  OpenClawPluginApi,
+  Brikko StudioConfig,
+  Brikko StudioPluginApi,
   ReplyPayload,
-} from "openclaw/plugin-sdk/core";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
-export { buildAgentMediaPayload } from "openclaw/plugin-sdk/agent-media-payload";
-export { resolveAllowlistMatchSimple } from "openclaw/plugin-sdk/allow-from";
-export { logInboundDrop } from "openclaw/plugin-sdk/channel-inbound";
-export { createChannelPairingController } from "openclaw/plugin-sdk/channel-pairing";
+} from "brikko-studio/plugin-sdk/core";
+export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
+export { buildAgentMediaPayload } from "brikko-studio/plugin-sdk/agent-media-payload";
+export { resolveAllowlistMatchSimple } from "brikko-studio/plugin-sdk/allow-from";
+export { logInboundDrop } from "brikko-studio/plugin-sdk/channel-inbound";
+export { createChannelPairingController } from "brikko-studio/plugin-sdk/channel-pairing";
 export {
   DM_GROUP_ACCESS_REASON,
   readStoreAllowFromForDmPolicy,
   resolveDmGroupAccessWithLists,
   resolveEffectiveAllowFromLists,
-} from "openclaw/plugin-sdk/channel-policy";
-export { createChannelReplyPipeline } from "openclaw/plugin-sdk/channel-reply-pipeline";
-export { logTypingFailure } from "openclaw/plugin-sdk/channel-feedback";
+} from "brikko-studio/plugin-sdk/channel-policy";
+export { createChannelReplyPipeline } from "brikko-studio/plugin-sdk/channel-reply-pipeline";
+export { logTypingFailure } from "brikko-studio/plugin-sdk/channel-feedback";
 export {
   buildModelsProviderData,
   listSkillCommandsForAgents,
   resolveControlCommandGate,
-} from "openclaw/plugin-sdk/command-auth";
-export { isDangerousNameMatchingEnabled } from "openclaw/plugin-sdk/dangerous-name-runtime";
+} from "brikko-studio/plugin-sdk/command-auth";
+export { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
 export {
   resolveAllowlistProviderRuntimeGroupPolicy,
   resolveDefaultGroupPolicy,
   warnMissingProviderGroupPolicyFallbackOnce,
-} from "openclaw/plugin-sdk/runtime-group-policy";
-export { evaluateSenderGroupAccessForPolicy } from "openclaw/plugin-sdk/group-access";
-export { resolveChannelMediaMaxBytes } from "openclaw/plugin-sdk/media-runtime";
-export { loadOutboundMediaFromUrl } from "openclaw/plugin-sdk/outbound-media";
+} from "brikko-studio/plugin-sdk/runtime-group-policy";
+export { evaluateSenderGroupAccessForPolicy } from "brikko-studio/plugin-sdk/group-access";
+export { resolveChannelMediaMaxBytes } from "brikko-studio/plugin-sdk/media-runtime";
+export { loadOutboundMediaFromUrl } from "brikko-studio/plugin-sdk/outbound-media";
 export {
   DEFAULT_GROUP_HISTORY_LIMIT,
   buildPendingHistoryContextFromMap,
   recordPendingHistoryEntryIfEnabled,
-} from "openclaw/plugin-sdk/reply-history";
-export { registerPluginHttpRoute } from "openclaw/plugin-sdk/webhook-targets";
+} from "brikko-studio/plugin-sdk/reply-history";
+export { registerPluginHttpRoute } from "brikko-studio/plugin-sdk/webhook-targets";
 export {
   isRequestBodyLimitError,
   readRequestBodyWithLimit,
-} from "openclaw/plugin-sdk/webhook-ingress";
+} from "brikko-studio/plugin-sdk/webhook-ingress";
 export {
   isTrustedProxyAddress,
   parseStrictPositiveInteger,
   resolveClientIp,
-} from "openclaw/plugin-sdk/core";
+} from "brikko-studio/plugin-sdk/core";

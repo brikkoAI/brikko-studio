@@ -1,21 +1,21 @@
-import { resolveAgentAvatar } from "openclaw/plugin-sdk/agent-runtime";
+import { resolveAgentAvatar } from "brikko-studio/plugin-sdk/agent-runtime";
 import type {
   MarkdownTableMode,
-  OpenClawConfig,
+  Brikko StudioConfig,
   ReplyToMode,
-} from "openclaw/plugin-sdk/config-types";
-import type { OutboundMediaAccess } from "openclaw/plugin-sdk/media-runtime";
+} from "brikko-studio/plugin-sdk/config-types";
+import type { OutboundMediaAccess } from "brikko-studio/plugin-sdk/media-runtime";
 import {
   buildOutboundSessionContext,
   deliverOutboundPayloads,
   type OutboundDeliveryFormattingOptions,
   type OutboundIdentity,
   type OutboundSendDeps,
-} from "openclaw/plugin-sdk/outbound-runtime";
-import type { ChunkMode } from "openclaw/plugin-sdk/reply-chunking";
-import type { ReplyPayload } from "openclaw/plugin-sdk/reply-dispatch-runtime";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/outbound-runtime";
+import type { ChunkMode } from "brikko-studio/plugin-sdk/reply-chunking";
+import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-dispatch-runtime";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import type { RequestClient } from "../internal/discord.js";
 import { sendMessageDiscord, sendVoiceMessageDiscord } from "../send.js";
 
@@ -61,7 +61,7 @@ function resolveBoundThreadBinding(params: {
 }
 
 function resolveBindingIdentity(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   binding: DiscordThreadBindingLookupRecord | undefined,
 ): OutboundIdentity | undefined {
   if (!binding) {
@@ -83,7 +83,7 @@ function resolveBindingIdentity(
 }
 
 function createDiscordDeliveryDeps(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   token: string;
   rest?: RequestClient;
 }): OutboundSendDeps {
@@ -120,7 +120,7 @@ type DiscordDeliveryOptions = {
 };
 
 function resolveDiscordDeliveryOptions(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   target: string;
   sessionKey?: string;
   threadBindings?: DiscordThreadBindingLookup;
@@ -155,7 +155,7 @@ function resolveDiscordDeliveryOptions(params: {
 }
 
 export async function deliverDiscordReply(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   replies: ReplyPayload[];
   target: string;
   token: string;

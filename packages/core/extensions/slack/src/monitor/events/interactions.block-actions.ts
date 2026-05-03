@@ -1,9 +1,9 @@
 import type { SlackActionMiddlewareArgs } from "@slack/bolt";
 import type { Block, KnownBlock } from "@slack/web-api";
-import { resolveApprovalOverGateway } from "openclaw/plugin-sdk/approval-gateway-runtime";
-import { parseExecApprovalCommandText } from "openclaw/plugin-sdk/approval-reply-runtime";
-import { enqueueSystemEvent } from "openclaw/plugin-sdk/system-event-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { resolveApprovalOverGateway } from "brikko-studio/plugin-sdk/approval-gateway-runtime";
+import { parseExecApprovalCommandText } from "brikko-studio/plugin-sdk/approval-reply-runtime";
+import { enqueueSystemEvent } from "brikko-studio/plugin-sdk/system-event-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   isSlackExecApprovalApprover,
   isSlackExecApprovalAuthorizedSender,

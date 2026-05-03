@@ -205,7 +205,7 @@ describe("formatUpdateAvailableHint", () => {
     });
 
     expect(formatUpdateAvailableHint(update)).toBe(
-      `Update available (git behind 2 · npm ${latestVersion}). Run: openclaw update`,
+      `Update available (git behind 2 · npm ${latestVersion}). Run: brikko-studio update`,
     );
   });
 });

@@ -1,5 +1,5 @@
 import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import {
   buildMediaGenerationNormalizationMetadata,
@@ -27,7 +27,7 @@ export type MusicGenerationRuntimeDeps = {
 export type { GenerateMusicParams, GenerateMusicRuntimeResult } from "./runtime-types.js";
 
 export function listRuntimeMusicGenerationProviders(
-  params?: { config?: OpenClawConfig },
+  params?: { config?: Brikko StudioConfig },
   deps: MusicGenerationRuntimeDeps = {},
 ) {
   return (deps.listProviders ?? listMusicGenerationProviders)(params?.config);

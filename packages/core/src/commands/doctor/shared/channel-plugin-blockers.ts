@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
 import {
   listExplicitConfiguredChannelIdsForConfig,
   resolveConfiguredChannelPresencePolicy,
@@ -17,7 +17,7 @@ export type ChannelPluginBlockerHit = {
   reason: "disabled in config" | "plugins disabled";
 };
 
-function hasExplicitChannelPluginBlockerConfig(cfg: OpenClawConfig): boolean {
+function hasExplicitChannelPluginBlockerConfig(cfg: Brikko StudioConfig): boolean {
   if (cfg.plugins?.enabled === false) {
     return true;
   }
@@ -37,7 +37,7 @@ function hasExplicitChannelPluginBlockerConfig(cfg: OpenClawConfig): boolean {
 }
 
 export function scanConfiguredChannelPluginBlockers(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): ChannelPluginBlockerHit[] {
   if (!hasExplicitChannelPluginBlockerConfig(cfg)) {

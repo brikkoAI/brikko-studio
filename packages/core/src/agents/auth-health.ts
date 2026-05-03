@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import {
   DEFAULT_OAUTH_REFRESH_MARGIN_MS,
   type AuthCredentialReasonCode,
@@ -106,7 +106,7 @@ function buildProfileHealth(params: {
   credential: AuthProfileCredential;
   runtimeCredential?: AuthProfileCredential;
   store: AuthProfileStore;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   now: number;
   warnAfterMs: number;
 }): AuthProfileHealth {
@@ -195,7 +195,7 @@ function buildProfileHealth(params: {
 
 export function buildAuthHealthSummary(params: {
   store: AuthProfileStore;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   warnAfterMs?: number;
   providers?: string[];
   runtimeCredentialsByProvider?: ReadonlyMap<string, AuthProfileCredential>;

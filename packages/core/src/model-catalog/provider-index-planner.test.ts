@@ -13,7 +13,7 @@ describe("provider index model catalog planner", () => {
             name: "Moonshot AI",
             plugin: {
               id: "moonshot",
-              package: "@openclaw/plugin-moonshot",
+              package: "@brikko-studio/plugin-moonshot",
             },
             previewCatalog: {
               models: [{ id: "kimi-k2.6", name: "Kimi K2.6", contextWindow: 262144 }],

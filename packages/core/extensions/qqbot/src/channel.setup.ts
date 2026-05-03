@@ -1,4 +1,4 @@
-import type { ChannelPlugin } from "openclaw/plugin-sdk/core";
+import type { ChannelPlugin } from "brikko-studio/plugin-sdk/core";
 import "./bridge/bootstrap.js";
 import { qqbotConfigAdapter, qqbotMeta, qqbotSetupAdapterShared } from "./bridge/config-shared.js";
 import { qqbotSetupWizard } from "./bridge/setup/surface.js";
@@ -6,8 +6,8 @@ import { qqbotChannelConfigSchema } from "./config-schema.js";
 import type { ResolvedQQBotAccount } from "./types.js";
 
 /**
- * Setup-only QQBot plugin — lightweight subset used during `openclaw onboard`
- * and `openclaw configure` without pulling the full runtime dependencies.
+ * Setup-only QQBot plugin — lightweight subset used during `brikko-studio onboard`
+ * and `brikko-studio configure` without pulling the full runtime dependencies.
  */
 export const qqbotSetupPlugin: ChannelPlugin<ResolvedQQBotAccount> = {
   id: "qqbot",

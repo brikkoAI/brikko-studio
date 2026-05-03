@@ -6,11 +6,11 @@ import { writePackedBundledPluginActivationConfig } from "../../scripts/release-
 
 describe("release-check", () => {
   it("seeds packaged activation smoke with an included channel plugin", () => {
-    const homeDir = mkdtempSync(join(tmpdir(), "openclaw-release-check-test-"));
+    const homeDir = mkdtempSync(join(tmpdir(), "brikko-studio-release-check-test-"));
     try {
       writePackedBundledPluginActivationConfig(homeDir);
       const config = JSON.parse(
-        readFileSync(join(homeDir, ".openclaw", "openclaw.json"), "utf8"),
+        readFileSync(join(homeDir, ".brikko-studio", "brikko-studio.json"), "utf8"),
       ) as {
         channels?: Record<string, unknown>;
         plugins?: { entries?: Record<string, unknown> };

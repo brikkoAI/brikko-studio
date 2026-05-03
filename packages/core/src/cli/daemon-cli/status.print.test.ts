@@ -89,7 +89,7 @@ describe("printDaemonStatus", () => {
           notLoadedText: "not loaded",
           runtime: { status: "running", pid: 8000 },
         },
-        logFile: "/tmp/openclaw.log",
+        logFile: "/tmp/brikko-studio.log",
         gateway: {
           bindMode: "loopback",
           bindHost: "127.0.0.1",
@@ -121,7 +121,7 @@ describe("printDaemonStatus", () => {
       expect.stringContaining("Gateway runtime PID does not own the listening port"),
     );
     expect(runtime.error).toHaveBeenCalledWith(
-      expect.stringContaining(formatCliCommand("openclaw gateway restart")),
+      expect.stringContaining(formatCliCommand("brikko-studio gateway restart")),
     );
   });
 
@@ -169,12 +169,12 @@ describe("printDaemonStatus", () => {
         },
         config: {
           cli: {
-            path: "/tmp/openclaw-cli/openclaw.json",
+            path: "/tmp/brikko-studio-cli/brikko-studio.json",
             exists: true,
             valid: true,
           },
           daemon: {
-            path: "/tmp/openclaw-daemon/openclaw.json",
+            path: "/tmp/brikko-studio-daemon/brikko-studio.json",
             exists: true,
             valid: true,
             controlUi: { basePath: "/ui" },

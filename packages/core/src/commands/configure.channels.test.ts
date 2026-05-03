@@ -52,7 +52,7 @@ function expectUnknownChannelRemovalPrompt(unsafeChannel: string, label: string)
   );
   expect(confirm).toHaveBeenCalledWith(
     expect.objectContaining({
-      message: `Delete ${label} configuration from ~/.openclaw/openclaw.json?`,
+      message: `Delete ${label} configuration from ~/.brikko-studio/brikko-studio.json?`,
     }),
   );
   expect(note).toHaveBeenCalledWith(
@@ -71,7 +71,7 @@ describe("removeChannelConfigWizard", () => {
     confirm.mockResolvedValue(true);
   });
 
-  it("lists configured channels from openclaw.json even when no plugins are loaded", async () => {
+  it("lists configured channels from brikko-studio.json even when no plugins are loaded", async () => {
     select.mockResolvedValue(doneChoice);
 
     await removeChannelConfigWizard(
@@ -100,7 +100,7 @@ describe("removeChannelConfigWizard", () => {
     );
   });
 
-  it("deletes the selected channel block from openclaw.json", async () => {
+  it("deletes the selected channel block from brikko-studio.json", async () => {
     select.mockResolvedValueOnce(channelChoice("telegram")).mockResolvedValueOnce(doneChoice);
 
     const next = await removeChannelConfigWizard(
@@ -115,7 +115,7 @@ describe("removeChannelConfigWizard", () => {
 
     expect(confirm).toHaveBeenCalledWith(
       expect.objectContaining({
-        message: "Delete Telegram configuration from ~/.openclaw/openclaw.json?",
+        message: "Delete Telegram configuration from ~/.brikko-studio/brikko-studio.json?",
       }),
     );
     expect(next.channels).toEqual({ twitch: { token: "secret" } });
@@ -140,7 +140,7 @@ describe("removeChannelConfigWizard", () => {
 
     expect(confirm).toHaveBeenCalledWith(
       expect.objectContaining({
-        message: "Delete done configuration from ~/.openclaw/openclaw.json?",
+        message: "Delete done configuration from ~/.brikko-studio/brikko-studio.json?",
       }),
     );
     expect(next.channels).toEqual({ telegram: { token: "secret" } });
@@ -220,7 +220,7 @@ describe("removeChannelConfigWizard", () => {
     );
     expect(confirm).toHaveBeenCalledWith(
       expect.objectContaining({
-        message: "Delete Telegram\\nBot configuration from ~/.openclaw/openclaw.json?",
+        message: "Delete Telegram\\nBot configuration from ~/.brikko-studio/brikko-studio.json?",
       }),
     );
     expect(note).toHaveBeenCalledWith(

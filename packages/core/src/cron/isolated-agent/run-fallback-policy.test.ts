@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import type { CronJob } from "../types.js";
 import { resolveCronFallbacksOverride } from "./run-fallback-policy.js";
 
@@ -14,7 +14,7 @@ function makeJob(payload: CronJob["payload"]): CronJob {
   } as CronJob;
 }
 
-function makeConfig(fallbacks?: string[]): OpenClawConfig {
+function makeConfig(fallbacks?: string[]): Brikko StudioConfig {
   return {
     agents: {
       defaults: {

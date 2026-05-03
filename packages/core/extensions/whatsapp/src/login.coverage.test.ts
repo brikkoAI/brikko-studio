@@ -6,17 +6,17 @@ import { createWaSocket, formatError, waitForWaConnection } from "./session.js";
 
 const rmMock = vi.spyOn(fs, "rm");
 const testState = vi.hoisted(() => ({
-  authDir: `${(process.env.TMPDIR ?? "/tmp").replace(/\/+$/, "")}/openclaw-wa-creds-${process.pid}-${Math.random().toString(16).slice(2)}`,
+  authDir: `${(process.env.TMPDIR ?? "/tmp").replace(/\/+$/, "")}/brikko-studio-wa-creds-${process.pid}-${Math.random().toString(16).slice(2)}`,
 }));
 
 function resolveTestAuthDir() {
   return testState.authDir;
 }
 
-vi.mock("openclaw/plugin-sdk/runtime-config-snapshot", async () => {
+vi.mock("brikko-studio/plugin-sdk/runtime-config-snapshot", async () => {
   const actual = await vi.importActual<
-    typeof import("openclaw/plugin-sdk/runtime-config-snapshot")
-  >("openclaw/plugin-sdk/runtime-config-snapshot");
+    typeof import("brikko-studio/plugin-sdk/runtime-config-snapshot")
+  >("brikko-studio/plugin-sdk/runtime-config-snapshot");
   return {
     ...actual,
     getRuntimeConfig: () =>

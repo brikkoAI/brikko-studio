@@ -211,7 +211,7 @@ describe("createOpenAIThinkingLevelWrapper", () => {
 });
 
 describe("createOpenAIAttributionHeadersWrapper", () => {
-  it("routes native Codex traffic through the OpenClaw transport so attribution survives PI defaults", () => {
+  it("routes native Codex traffic through the Brikko Studio transport so attribution survives PI defaults", () => {
     let codexCalls = 0;
     let capturedHeaders: Record<string, string> | undefined;
     const codexTransport: StreamFn = (_model, _context, options) => {
@@ -239,8 +239,8 @@ describe("createOpenAIAttributionHeadersWrapper", () => {
 
     expect(codexCalls).toBe(1);
     expect(capturedHeaders).toMatchObject({
-      originator: "openclaw",
-      "User-Agent": expect.stringMatching(/^openclaw\//),
+      originator: "brikko-studio",
+      "User-Agent": expect.stringMatching(/^brikko-studio\//),
     });
   });
 
@@ -286,8 +286,8 @@ describe("createOpenAIAttributionHeadersWrapper", () => {
     expect(capturedOptions).toMatchObject({
       apiKey: "oauth-bearer-token",
       headers: {
-        originator: "openclaw",
-        "User-Agent": expect.stringMatching(/^openclaw\//),
+        originator: "brikko-studio",
+        "User-Agent": expect.stringMatching(/^brikko-studio\//),
       },
     });
   });

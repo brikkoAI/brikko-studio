@@ -176,7 +176,7 @@ describe("scripts/lib/docker-e2e-plan", () => {
         }),
         expect.objectContaining({
           name: "upgrade-survivor",
-          command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:upgrade-survivor",
+          command: "BRIKKO_STUDIO_SKIP_DOCKER_BUILD=1 pnpm test:docker:upgrade-survivor",
           stateScenario: "upgrade-survivor",
         }),
         expect.objectContaining({
@@ -304,7 +304,7 @@ describe("scripts/lib/docker-e2e-plan", () => {
     const plan = planFor({
       selectedLaneNames: ["published-upgrade-survivor"],
       upgradeSurvivorBaselines:
-        "openclaw@2026.4.29 2026.4.23 openclaw@2026.4.23 openclaw@2026.3.13-1",
+        "brikko-studio@2026.4.29 2026.4.23 brikko-studio@2026.4.23 brikko-studio@2026.3.13-1",
     });
 
     expect(plan.lanes.map((lane) => lane.name)).toEqual([
@@ -315,24 +315,24 @@ describe("scripts/lib/docker-e2e-plan", () => {
     expect(plan.lanes).toEqual([
       expect.objectContaining({
         command: expect.stringContaining(
-          "OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC='openclaw@2026.4.29'",
+          "BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC='brikko-studio@2026.4.29'",
         ),
         imageKind: "bare",
         stateScenario: "upgrade-survivor",
       }),
       expect.objectContaining({
         command: expect.stringContaining(
-          "OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC='openclaw@2026.4.23'",
+          "BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC='brikko-studio@2026.4.23'",
         ),
       }),
       expect.objectContaining({
         command: expect.stringContaining(
-          "OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC='openclaw@2026.3.13-1'",
+          "BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC='brikko-studio@2026.3.13-1'",
         ),
       }),
     ]);
     expect(plan.lanes[0]?.command).toContain(
-      'OPENCLAW_UPGRADE_SURVIVOR_ARTIFACT_DIR="$PWD/.artifacts/upgrade-survivor/published-upgrade-survivor-2026.4.29"',
+      'BRIKKO_STUDIO_UPGRADE_SURVIVOR_ARTIFACT_DIR="$PWD/.artifacts/upgrade-survivor/published-upgrade-survivor-2026.4.29"',
     );
   });
 
@@ -354,10 +354,10 @@ describe("scripts/lib/docker-e2e-plan", () => {
     expect(plan.lanes).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          command: expect.stringContaining("OPENCLAW_UPGRADE_SURVIVOR_SCENARIO='feishu-channel'"),
+          command: expect.stringContaining("BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIO='feishu-channel'"),
         }),
         expect.objectContaining({
-          command: expect.stringContaining("OPENCLAW_UPGRADE_SURVIVOR_SCENARIO='tilde-log-path'"),
+          command: expect.stringContaining("BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIO='tilde-log-path'"),
         }),
       ]),
     );
@@ -365,7 +365,7 @@ describe("scripts/lib/docker-e2e-plan", () => {
       plan.lanes.find((lane) => lane.name === "published-upgrade-survivor-2026.4.29-tilde-log-path")
         ?.command,
     ).toContain(
-      'OPENCLAW_UPGRADE_SURVIVOR_ARTIFACT_DIR="$PWD/.artifacts/upgrade-survivor/published-upgrade-survivor-2026.4.29-tilde-log-path"',
+      'BRIKKO_STUDIO_UPGRADE_SURVIVOR_ARTIFACT_DIR="$PWD/.artifacts/upgrade-survivor/published-upgrade-survivor-2026.4.29-tilde-log-path"',
     );
   });
 
@@ -431,7 +431,7 @@ describe("scripts/lib/docker-e2e-plan", () => {
         }),
         expect.objectContaining({
           command: expect.stringContaining(
-            "OPENCLAW_UPGRADE_SURVIVOR_SCENARIO='plugin-deps-cleanup'",
+            "BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIO='plugin-deps-cleanup'",
           ),
         }),
       ]),
@@ -457,7 +457,7 @@ describe("scripts/lib/docker-e2e-plan", () => {
     expect(plan.credentials).toEqual(["openai"]);
     expect(plan.lanes).toEqual([
       expect.objectContaining({
-        command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:live-codex-npm-plugin",
+        command: "BRIKKO_STUDIO_SKIP_DOCKER_BUILD=1 pnpm test:docker:live-codex-npm-plugin",
         imageKind: "bare",
         live: true,
         name: "live-codex-npm-plugin",
@@ -604,11 +604,11 @@ describe("scripts/lib/docker-e2e-plan", () => {
     expect(selectedLaneNames).toEqual(["install-e2e-openai", "install-e2e-anthropic"]);
     expect(plan.lanes).toEqual([
       expect.objectContaining({
-        command: expect.stringContaining("OPENCLAW_E2E_MODELS=openai"),
+        command: expect.stringContaining("BRIKKO_STUDIO_E2E_MODELS=openai"),
         name: "install-e2e-openai",
       }),
       expect.objectContaining({
-        command: expect.stringContaining("OPENCLAW_E2E_MODELS=anthropic"),
+        command: expect.stringContaining("BRIKKO_STUDIO_E2E_MODELS=anthropic"),
         name: "install-e2e-anthropic",
       }),
     ]);
@@ -628,7 +628,7 @@ describe("scripts/lib/docker-e2e-plan", () => {
     expect(plan.lanes).toHaveLength(BUNDLED_PLUGIN_INSTALL_UNINSTALL_SHARDS);
     expect(plan.lanes[0]).toEqual(
       expect.objectContaining({
-        command: expect.stringContaining("OPENCLAW_BUNDLED_PLUGIN_SWEEP_INDEX=0"),
+        command: expect.stringContaining("BRIKKO_STUDIO_BUNDLED_PLUGIN_SWEEP_INDEX=0"),
         imageKind: "functional",
         live: false,
         name: "bundled-plugin-install-uninstall-0",
@@ -637,7 +637,7 @@ describe("scripts/lib/docker-e2e-plan", () => {
     );
     expect(plan.lanes[23]).toEqual(
       expect.objectContaining({
-        command: expect.stringContaining("OPENCLAW_BUNDLED_PLUGIN_SWEEP_INDEX=23"),
+        command: expect.stringContaining("BRIKKO_STUDIO_BUNDLED_PLUGIN_SWEEP_INDEX=23"),
         imageKind: "functional",
         live: false,
         name: "bundled-plugin-install-uninstall-23",
@@ -652,7 +652,7 @@ describe("scripts/lib/docker-e2e-plan", () => {
 
   it("rejects unknown selected lanes with the available lane names", () => {
     expect(() => planFor({ selectedLaneNames: ["missing-lane"] })).toThrow(
-      /OPENCLAW_DOCKER_ALL_LANES unknown lane\(s\): missing-lane/u,
+      /BRIKKO_STUDIO_DOCKER_ALL_LANES unknown lane\(s\): missing-lane/u,
     );
   });
 });

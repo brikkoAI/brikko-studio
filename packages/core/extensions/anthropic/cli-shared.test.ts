@@ -110,7 +110,7 @@ describe("normalizeClaudeBackendConfig", () => {
     expect(normalized.input).toBe("stdin");
   });
 
-  it("derives Claude bypass from OpenClaw YOLO policy and disables it for safer policy", () => {
+  it("derives Claude bypass from Brikko Studio YOLO policy and disables it for safer policy", () => {
     expect(resolveClaudePermissionMode({ backendId: "claude-cli" })).toEqual({
       mode: "bypassPermissions",
       overrideExisting: false,
@@ -123,7 +123,7 @@ describe("normalizeClaudeBackendConfig", () => {
     ).toEqual({ overrideExisting: false });
   });
 
-  it("derives Claude bypass from per-agent OpenClaw exec policy", () => {
+  it("derives Claude bypass from per-agent Brikko Studio exec policy", () => {
     expect(
       resolveClaudePermissionMode({
         backendId: "claude-cli",

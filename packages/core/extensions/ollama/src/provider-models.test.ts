@@ -1,4 +1,4 @@
-import { jsonResponse, requestBodyText, requestUrl } from "openclaw/plugin-sdk/test-env";
+import { jsonResponse, requestBodyText, requestUrl } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   buildOllamaModelDefinition,

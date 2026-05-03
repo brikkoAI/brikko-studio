@@ -1,14 +1,14 @@
 import {
   registerSessionBindingAdapter,
   unregisterSessionBindingAdapter,
-} from "openclaw/plugin-sdk/conversation-runtime";
-import { normalizeAccountId, resolveAgentIdFromSessionKey } from "openclaw/plugin-sdk/routing";
+} from "brikko-studio/plugin-sdk/conversation-runtime";
+import { normalizeAccountId, resolveAgentIdFromSessionKey } from "brikko-studio/plugin-sdk/routing";
 import {
   getRuntimeConfigSnapshot,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/runtime-config-snapshot";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/runtime-config-snapshot";
+import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { createDiscordRestClient } from "../client.js";
 import { getChannel } from "../internal/discord.js";
 import {
@@ -99,7 +99,7 @@ function isDirectConversationBindingId(value?: string | null): boolean {
 export function createThreadBindingManager(params: {
   accountId?: string;
   token?: string;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   persist?: boolean;
   enableSweeper?: boolean;
   idleTimeoutMs?: number;

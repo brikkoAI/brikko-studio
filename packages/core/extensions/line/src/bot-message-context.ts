@@ -1,23 +1,23 @@
 import type { webhook } from "@line/bot-sdk";
-import { recordChannelActivity } from "openclaw/plugin-sdk/channel-activity-runtime";
+import { recordChannelActivity } from "brikko-studio/plugin-sdk/channel-activity-runtime";
 import {
   formatInboundEnvelope,
   formatLocationText,
   resolveInboundSessionEnvelopeContext,
   toLocationContext,
-} from "openclaw/plugin-sdk/channel-inbound";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/channel-inbound";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   ensureConfiguredBindingRouteReady,
   resolvePinnedMainDmOwnerFromAllowlist,
   resolveConfiguredBindingRoute,
   resolveRuntimeConversationBindingRoute,
-} from "openclaw/plugin-sdk/conversation-runtime";
-import { finalizeInboundContext } from "openclaw/plugin-sdk/reply-dispatch-runtime";
-import type { HistoryEntry } from "openclaw/plugin-sdk/reply-history";
-import { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
-import { logVerbose, shouldLogVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/conversation-runtime";
+import { finalizeInboundContext } from "brikko-studio/plugin-sdk/reply-dispatch-runtime";
+import type { HistoryEntry } from "brikko-studio/plugin-sdk/reply-history";
+import { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
+import { logVerbose, shouldLogVerbose } from "brikko-studio/plugin-sdk/runtime-env";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { normalizeAllowFrom } from "./bot-access.js";
 import { resolveLineGroupConfigEntry } from "./group-keys.js";
 import type { ResolvedLineAccount } from "./types.js";
@@ -35,7 +35,7 @@ interface MediaRef {
 interface BuildLineMessageContextParams {
   event: MessageEvent;
   allMedia: MediaRef[];
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   account: ResolvedLineAccount;
   commandAuthorized: boolean;
   groupHistories?: Map<string, HistoryEntry[]>;
@@ -86,7 +86,7 @@ function buildPeerId(source: EventSource): string {
 
 async function resolveLineInboundRoute(params: {
   source: EventSource;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   account: ResolvedLineAccount;
 }): Promise<{
   userId?: string;
@@ -275,7 +275,7 @@ function resolveLineAddresses(params: {
 }
 
 async function finalizeLineInboundContext(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   account: ResolvedLineAccount;
   event: MessageEvent | PostbackEvent;
   route: LineRouteInfo;
@@ -516,7 +516,7 @@ export async function buildLineMessageContext(params: BuildLineMessageContextPar
 
 export async function buildLinePostbackContext(params: {
   event: PostbackEvent;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   account: ResolvedLineAccount;
   commandAuthorized: boolean;
 }) {

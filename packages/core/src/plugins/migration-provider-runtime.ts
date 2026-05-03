@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
 import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
 import {
   withBundledPluginAllowlistCompat,
@@ -17,9 +17,9 @@ function findMigrationProviderById(
 }
 
 function resolveMigrationProviderConfig(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   bundledCompatPluginIds: readonly string[];
-}): OpenClawConfig | undefined {
+}): Brikko StudioConfig | undefined {
   const allowlistCompat = withBundledPluginAllowlistCompat({
     config: params.cfg,
     pluginIds: [...params.bundledCompatPluginIds],
@@ -56,7 +56,7 @@ function mergeMigrationProviders(
 
 export function ensureStandaloneMigrationProviderRegistryLoaded(
   params: {
-    cfg?: OpenClawConfig;
+    cfg?: Brikko StudioConfig;
   } = {},
 ): void {
   const resolution = resolveManifestContractRuntimePluginResolution({
@@ -83,7 +83,7 @@ export function ensureStandaloneMigrationProviderRegistryLoaded(
 
 export function resolvePluginMigrationProvider(params: {
   providerId: string;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
 }): MigrationProviderPlugin | undefined {
   const activeRegistry = getLoadedRuntimePluginRegistry();
   const activeProvider = findMigrationProviderById(
@@ -111,7 +111,7 @@ export function resolvePluginMigrationProvider(params: {
 
 export function resolvePluginMigrationProviders(
   params: {
-    cfg?: OpenClawConfig;
+    cfg?: Brikko StudioConfig;
   } = {},
 ): MigrationProviderPlugin[] {
   const activeRegistry = getLoadedRuntimePluginRegistry();

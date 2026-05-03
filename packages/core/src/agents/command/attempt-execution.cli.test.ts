@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { FailoverError } from "../failover-error.js";
 import { runEmbeddedPiAgent, type EmbeddedPiRunResult } from "../pi-embedded.js";
 import { persistCliTurnTranscript, runAgentAttempt } from "./attempt-execution.js";
@@ -95,7 +95,7 @@ describe("CLI attempt execution", () => {
   let storePath: string;
 
   beforeEach(async () => {
-    tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-cli-attempt-"));
+    tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-cli-attempt-"));
     storePath = path.join(tmpDir, "sessions.json");
     runCliAgentMock.mockReset();
     runEmbeddedPiAgentMock.mockReset();
@@ -121,7 +121,7 @@ describe("CLI attempt execution", () => {
       providerOverride: "claude-cli",
       originalProvider: "claude-cli",
       modelOverride: "opus",
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       sessionEntry: params.sessionEntry,
       sessionId: params.sessionEntry.sessionId,
       sessionKey: params.sessionKey,
@@ -186,7 +186,7 @@ describe("CLI attempt execution", () => {
       providerOverride: "claude-cli",
       originalProvider: "claude-cli",
       modelOverride: "opus",
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey,
@@ -231,7 +231,7 @@ describe("CLI attempt execution", () => {
     const homeDir = path.join(tmpDir, "home");
     process.env.HOME = homeDir;
     const sessionEntry: SessionEntry = {
-      sessionId: "openclaw-session-123",
+      sessionId: "brikko-studio-session-123",
       updatedAt: Date.now(),
       cliSessionBindings: {
         "claude-cli": {
@@ -289,7 +289,7 @@ describe("CLI attempt execution", () => {
       "utf-8",
     );
     const sessionEntry: SessionEntry = {
-      sessionId: "openclaw-session-456",
+      sessionId: "brikko-studio-session-456",
       updatedAt: Date.now(),
       cliSessionBindings: {
         "claude-cli": {
@@ -325,7 +325,7 @@ describe("CLI attempt execution", () => {
   it("passes session-bound OpenAI Codex auth profile to codex-cli aliases", async () => {
     const sessionKey = "agent:main:direct:codex-cli-auth-alias";
     const sessionEntry: SessionEntry = {
-      sessionId: "openclaw-session-codex",
+      sessionId: "brikko-studio-session-codex",
       updatedAt: Date.now(),
       authProfileOverride: "openai-codex:work",
       authProfileOverrideSource: "user",
@@ -338,7 +338,7 @@ describe("CLI attempt execution", () => {
       providerOverride: "codex-cli",
       originalProvider: "codex-cli",
       modelOverride: "gpt-5.4",
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey,
@@ -429,9 +429,9 @@ describe("CLI attempt execution", () => {
 
     const updatedEntry = await persistCliTurnTranscript({
       body: [
-        "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
+        "<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
         "secret runtime context",
-        "<<<END_OPENCLAW_INTERNAL_CONTEXT>>>",
+        "<<<END_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
         "",
         "visible ask",
       ].join("\n"),
@@ -457,7 +457,7 @@ describe("CLI attempt execution", () => {
   it("forwards separate user trigger, channel, and provider context to CLI runs", async () => {
     const sessionKey = "agent:main:direct:claude-channel-context";
     const sessionEntry: SessionEntry = {
-      sessionId: "openclaw-session-channel",
+      sessionId: "brikko-studio-session-channel",
       updatedAt: Date.now(),
     };
     const sessionStore: Record<string, SessionEntry> = { [sessionKey]: sessionEntry };
@@ -468,7 +468,7 @@ describe("CLI attempt execution", () => {
       providerOverride: "claude-cli",
       originalProvider: "claude-cli",
       modelOverride: "opus",
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey,
@@ -510,7 +510,7 @@ describe("CLI attempt execution", () => {
   it("routes canonical Anthropic models through the configured Claude CLI runtime", async () => {
     const sessionKey = "agent:main:direct:canonical-claude-cli";
     const sessionEntry: SessionEntry = {
-      sessionId: "openclaw-session-canonical-cli",
+      sessionId: "brikko-studio-session-canonical-cli",
       updatedAt: Date.now(),
     };
     const sessionStore: Record<string, SessionEntry> = { [sessionKey]: sessionEntry };
@@ -527,7 +527,7 @@ describe("CLI attempt execution", () => {
             agentRuntime: { id: "claude-cli" },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey,
@@ -565,7 +565,7 @@ describe("CLI attempt execution", () => {
   it("routes canonical OpenAI models through the configured Codex CLI runtime", async () => {
     const sessionKey = "agent:main:direct:canonical-codex-cli";
     const sessionEntry: SessionEntry = {
-      sessionId: "openclaw-session-canonical-codex-cli",
+      sessionId: "brikko-studio-session-canonical-codex-cli",
       updatedAt: Date.now(),
     };
     const sessionStore: Record<string, SessionEntry> = { [sessionKey]: sessionEntry };
@@ -582,7 +582,7 @@ describe("CLI attempt execution", () => {
             agentRuntime: { id: "codex-cli" },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey,
@@ -620,7 +620,7 @@ describe("CLI attempt execution", () => {
   it("keeps one-shot model runs on the raw embedded provider path", async () => {
     const sessionKey = "agent:main:direct:model-run-raw";
     const sessionEntry: SessionEntry = {
-      sessionId: "openclaw-session-model-run-raw",
+      sessionId: "brikko-studio-session-model-run-raw",
       updatedAt: Date.now(),
     };
     const sessionStore: Record<string, SessionEntry> = { [sessionKey]: sessionEntry };
@@ -639,7 +639,7 @@ describe("CLI attempt execution", () => {
             agentRuntime: { id: "claude-cli" },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey,
@@ -697,7 +697,7 @@ describe("CLI attempt execution", () => {
   it("forwards one-shot CLI cleanup to CLI providers", async () => {
     const sessionKey = "agent:main:direct:cleanup-claude-cli";
     const sessionEntry: SessionEntry = {
-      sessionId: "openclaw-session-cleanup-cli",
+      sessionId: "brikko-studio-session-cleanup-cli",
       updatedAt: Date.now(),
     };
     const sessionStore: Record<string, SessionEntry> = { [sessionKey]: sessionEntry };
@@ -708,7 +708,7 @@ describe("CLI attempt execution", () => {
       providerOverride: "claude-cli",
       originalProvider: "claude-cli",
       modelOverride: "claude-opus-4-7",
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey,
@@ -752,7 +752,7 @@ describe("embedded attempt harness pinning", () => {
   let tmpDir: string;
 
   beforeEach(async () => {
-    tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-embedded-attempt-"));
+    tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-embedded-attempt-"));
     runCliAgentMock.mockReset();
     runEmbeddedPiAgentMock.mockReset();
   });
@@ -774,7 +774,7 @@ describe("embedded attempt harness pinning", () => {
       providerOverride: "openai",
       originalProvider: "openai",
       modelOverride: "gpt-5.4",
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey: "agent:main:main",
@@ -824,7 +824,7 @@ describe("embedded attempt harness pinning", () => {
             agentRuntime: { id: "codex" },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey: "agent:main:main",
@@ -889,7 +889,7 @@ describe("embedded attempt harness pinning", () => {
             agentRuntime: { id: "codex" },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey: "agent:main:main",
@@ -935,7 +935,7 @@ describe("embedded attempt harness pinning", () => {
       providerOverride: "openai",
       originalProvider: "openai",
       modelOverride: "gpt-5.4",
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey: "agent:main:main",
@@ -985,7 +985,7 @@ describe("embedded attempt harness pinning", () => {
             agentRuntime: { id: "claude-cli" },
           },
         },
-      } as OpenClawConfig,
+      } as Brikko StudioConfig,
       sessionEntry,
       sessionId: sessionEntry.sessionId,
       sessionKey: "agent:main:main",

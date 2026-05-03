@@ -1,34 +1,34 @@
-import { describeAccountSnapshot } from "openclaw/plugin-sdk/account-helpers";
+import { describeAccountSnapshot } from "brikko-studio/plugin-sdk/account-helpers";
 import {
   adaptScopedAccountAccessor,
   createScopedDmSecurityResolver,
-} from "openclaw/plugin-sdk/channel-config-helpers";
-import { buildChannelConfigSchema } from "openclaw/plugin-sdk/channel-config-primitives";
-import type { ChannelDoctorAdapter } from "openclaw/plugin-sdk/channel-contract";
-import { createChatChannelPlugin, type ChannelPlugin } from "openclaw/plugin-sdk/channel-core";
+} from "brikko-studio/plugin-sdk/channel-config-helpers";
+import { buildChannelConfigSchema } from "brikko-studio/plugin-sdk/channel-config-primitives";
+import type { ChannelDoctorAdapter } from "brikko-studio/plugin-sdk/channel-contract";
+import { createChatChannelPlugin, type ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
 import {
   createAllowlistProviderOpenWarningCollector,
   projectAccountConfigWarningCollector,
-} from "openclaw/plugin-sdk/channel-policy";
-import { createScopedAccountReplyToModeResolver } from "openclaw/plugin-sdk/conversation-runtime";
+} from "brikko-studio/plugin-sdk/channel-policy";
+import { createScopedAccountReplyToModeResolver } from "brikko-studio/plugin-sdk/conversation-runtime";
 import {
   createChannelDirectoryAdapter,
   createResolvedDirectoryEntriesLister,
   createRuntimeDirectoryLiveAdapter,
-} from "openclaw/plugin-sdk/directory-runtime";
-import { createLazyRuntimeNamedExport } from "openclaw/plugin-sdk/lazy-runtime";
-import { createRuntimeOutboundDelegates } from "openclaw/plugin-sdk/outbound-runtime";
+} from "brikko-studio/plugin-sdk/directory-runtime";
+import { createLazyRuntimeNamedExport } from "brikko-studio/plugin-sdk/lazy-runtime";
+import { createRuntimeOutboundDelegates } from "brikko-studio/plugin-sdk/outbound-runtime";
 import {
   buildProbeChannelStatusSummary,
   collectStatusIssuesFromLastError,
   createComputedAccountStatusAdapter,
   createDefaultChannelRuntimeState,
-} from "openclaw/plugin-sdk/status-helpers";
+} from "brikko-studio/plugin-sdk/status-helpers";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/string-coerce-runtime";
-import { chunkTextForOutbound } from "openclaw/plugin-sdk/text-chunking";
+} from "brikko-studio/plugin-sdk/string-coerce-runtime";
+import { chunkTextForOutbound } from "brikko-studio/plugin-sdk/text-chunking";
 import { matrixMessageActions } from "./actions.js";
 import { matrixApprovalCapability } from "./approval-native.js";
 import { createMatrixPairingText, createMatrixProbeAccount } from "./channel-account-paths.js";

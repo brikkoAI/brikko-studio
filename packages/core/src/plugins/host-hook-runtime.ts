@@ -31,7 +31,7 @@ type PluginHostRuntimeState = {
   closedRunIds: Set<string>;
 };
 
-const PLUGIN_HOST_RUNTIME_STATE_KEY = Symbol.for("openclaw.pluginHostRuntimeState");
+const PLUGIN_HOST_RUNTIME_STATE_KEY = Symbol.for("brikko-studio.pluginHostRuntimeState");
 const CLOSED_RUN_IDS_MAX = 512;
 const log = createSubsystemLogger("plugins/host-hooks");
 

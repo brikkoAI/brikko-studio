@@ -1,5 +1,5 @@
 export const QA_CREDENTIALS_DEFAULT_ENDPOINT_PREFIX = "/qa-credentials/v1";
-const QA_CREDENTIALS_ALLOW_INSECURE_HTTP_ENV_KEY = "OPENCLAW_QA_ALLOW_INSECURE_HTTP";
+const QA_CREDENTIALS_ALLOW_INSECURE_HTTP_ENV_KEY = "BRIKKO_STUDIO_QA_ALLOW_INSECURE_HTTP";
 
 type ErrorFactory = (message: string) => Error;
 
@@ -44,7 +44,7 @@ export function normalizeQaCredentialConvexSiteUrl(params: {
     url = new URL(params.raw);
   } catch {
     throw toError(
-      `OPENCLAW_QA_CONVEX_SITE_URL must be a valid URL, got "${params.raw || "<empty>"}".`,
+      `BRIKKO_STUDIO_QA_CONVEX_SITE_URL must be a valid URL, got "${params.raw || "<empty>"}".`,
     );
   }
   if (url.protocol === "https:") {
@@ -52,14 +52,14 @@ export function normalizeQaCredentialConvexSiteUrl(params: {
     return text.endsWith("/") ? text.slice(0, -1) : text;
   }
   if (url.protocol !== "http:") {
-    throw toError("OPENCLAW_QA_CONVEX_SITE_URL must use https://.");
+    throw toError("BRIKKO_STUDIO_QA_CONVEX_SITE_URL must use https://.");
   }
   const allowInsecureHttp = isQaCredentialTruthyOptIn(
     params.env[QA_CREDENTIALS_ALLOW_INSECURE_HTTP_ENV_KEY],
   );
   if (!allowInsecureHttp || !isQaCredentialLoopbackHostname(url.hostname)) {
     throw toError(
-      `OPENCLAW_QA_CONVEX_SITE_URL must use https://. http:// is only allowed for loopback hosts when ${QA_CREDENTIALS_ALLOW_INSECURE_HTTP_ENV_KEY}=1.`,
+      `BRIKKO_STUDIO_QA_CONVEX_SITE_URL must use https://. http:// is only allowed for loopback hosts when ${QA_CREDENTIALS_ALLOW_INSECURE_HTTP_ENV_KEY}=1.`,
     );
   }
   const text = url.toString();

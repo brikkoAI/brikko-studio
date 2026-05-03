@@ -13,7 +13,7 @@ import {
 } from "../scripts/lib/plugin-clawhub-release.ts";
 import {
   collectPublishablePluginPackages,
-  OPENCLAW_PLUGIN_NPM_REPOSITORY_URL,
+  BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL,
 } from "../scripts/lib/plugin-npm-release.ts";
 import { cleanupTempDirs, makeTempRepoRoot } from "./helpers/temp-repo.js";
 
@@ -28,7 +28,7 @@ describe("resolveChangedClawHubPublishablePluginPackages", () => {
     {
       extensionId: "feishu",
       packageDir: "extensions/feishu",
-      packageName: "@openclaw/feishu",
+      packageName: "@brikko-studio/feishu",
       version: "2026.4.1",
       channel: "stable",
       publishTag: "latest",
@@ -36,7 +36,7 @@ describe("resolveChangedClawHubPublishablePluginPackages", () => {
     {
       extensionId: "zalo",
       packageDir: "extensions/zalo",
-      packageName: "@openclaw/zalo",
+      packageName: "@brikko-studio/zalo",
       version: "2026.4.1-beta.1",
       channel: "beta",
       publishTag: "beta",
@@ -60,7 +60,7 @@ describe("collectClawHubPublishablePluginPackages", () => {
     });
 
     expect(() => collectClawHubPublishablePluginPackages(repoDir)).toThrow(
-      "openclaw.compat.pluginApi is required for external code plugins published to ClawHub.",
+      "brikko-studio.compat.pluginApi is required for external code plugins published to ClawHub.",
     );
   });
 
@@ -82,9 +82,9 @@ describe("collectClawHubPublishablePluginPackages", () => {
       join(repoDir, "extensions", "broken-plugin", "package.json"),
       JSON.stringify(
         {
-          name: "@openclaw/broken-plugin",
+          name: "@brikko-studio/broken-plugin",
           version: "2026.4.1",
-          openclaw: {
+          brikko-studio: {
             extensions: ["./index.ts"],
             release: {
               publishToClawHub: true,
@@ -98,21 +98,21 @@ describe("collectClawHubPublishablePluginPackages", () => {
 
     expect(
       collectClawHubPublishablePluginPackages(repoDir, {
-        packageNames: ["@openclaw/demo-plugin"],
+        packageNames: ["@brikko-studio/demo-plugin"],
       }).map((plugin) => plugin.packageName),
-    ).toEqual(["@openclaw/demo-plugin"]);
+    ).toEqual(["@brikko-studio/demo-plugin"]);
   });
 });
 
-describe("OpenClaw dual-published plugin metadata", () => {
+describe("Brikko Studio dual-published plugin metadata", () => {
   const dualPublishedPlugins = [
     {
       extensionId: "diagnostics-otel",
-      packageName: "@openclaw/diagnostics-otel",
+      packageName: "@brikko-studio/diagnostics-otel",
     },
     {
       extensionId: "diagnostics-prometheus",
-      packageName: "@openclaw/diagnostics-prometheus",
+      packageName: "@brikko-studio/diagnostics-prometheus",
     },
   ] as const;
 
@@ -132,7 +132,7 @@ describe("OpenClaw dual-published plugin metadata", () => {
       const packageJson = JSON.parse(
         readFileSync(`extensions/${plugin.extensionId}/package.json`, "utf8"),
       ) as {
-        openclaw?: {
+        brikko-studio?: {
           install?: {
             clawhubSpec?: string;
             defaultChoice?: string;
@@ -145,12 +145,12 @@ describe("OpenClaw dual-published plugin metadata", () => {
         };
       };
 
-      expect(packageJson.openclaw?.install).toMatchObject({
+      expect(packageJson.brikko-studio?.install).toMatchObject({
         clawhubSpec: `clawhub:${plugin.packageName}`,
         defaultChoice: "npm",
         npmSpec: plugin.packageName,
       });
-      expect(packageJson.openclaw?.release).toMatchObject({
+      expect(packageJson.brikko-studio?.release).toMatchObject({
         publishToClawHub: true,
         publishToNpm: true,
       });
@@ -186,7 +186,7 @@ describe("collectClawHubVersionGateErrors", () => {
     });
 
     expect(errors).toEqual([
-      "@openclaw/demo-plugin@2026.4.1: changed publishable plugin still has the same version in package.json.",
+      "@brikko-studio/demo-plugin@2026.4.1: changed publishable plugin still has the same version in package.json.",
     ]);
   });
 
@@ -200,22 +200,22 @@ describe("collectClawHubVersionGateErrors", () => {
       join(repoDir, "extensions", "demo-plugin", "package.json"),
       JSON.stringify(
         {
-          name: "@openclaw/demo-plugin",
+          name: "@brikko-studio/demo-plugin",
           version: "2026.4.1",
           repository: {
             type: "git",
-            url: OPENCLAW_PLUGIN_NPM_REPOSITORY_URL,
+            url: BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL,
           },
-          openclaw: {
+          brikko-studio: {
             extensions: ["./index.ts"],
             compat: {
               pluginApi: ">=2026.4.1",
             },
             install: {
-              npmSpec: "@openclaw/demo-plugin",
+              npmSpec: "@brikko-studio/demo-plugin",
             },
             build: {
-              openclawVersion: "2026.4.1",
+              brikko-studioVersion: "2026.4.1",
             },
             release: {
               publishToClawHub: true,
@@ -316,7 +316,7 @@ describe("collectPluginClawHubReleasePlan", () => {
 
     const plan = await collectPluginClawHubReleasePlan({
       rootDir: repoDir,
-      selection: ["@openclaw/demo-plugin"],
+      selection: ["@brikko-studio/demo-plugin"],
       fetchImpl: async () => new Response("{}", { status: 200 }),
       registryBaseUrl: "https://clawhub.ai",
     });
@@ -324,7 +324,7 @@ describe("collectPluginClawHubReleasePlan", () => {
     expect(plan.candidates).toEqual([]);
     expect(plan.skippedPublished).toHaveLength(1);
     expect(plan.skippedPublished[0]).toMatchObject({
-      packageName: "@openclaw/demo-plugin",
+      packageName: "@brikko-studio/demo-plugin",
       version: "2026.4.1",
     });
   });
@@ -337,9 +337,9 @@ describe("collectPluginClawHubReleasePlan", () => {
       join(repoDir, "extensions", "broken-plugin", "package.json"),
       JSON.stringify(
         {
-          name: "@openclaw/broken-plugin",
+          name: "@brikko-studio/broken-plugin",
           version: "2026.4.1",
-          openclaw: {
+          brikko-studio: {
             extensions: ["./index.ts"],
             release: {
               publishToClawHub: true,
@@ -353,12 +353,12 @@ describe("collectPluginClawHubReleasePlan", () => {
 
     const plan = await collectPluginClawHubReleasePlan({
       rootDir: repoDir,
-      selection: ["@openclaw/demo-plugin"],
+      selection: ["@brikko-studio/demo-plugin"],
       fetchImpl: async () => new Response("{}", { status: 404 }),
       registryBaseUrl: "https://clawhub.ai",
     });
 
-    expect(plan.candidates.map((plugin) => plugin.packageName)).toEqual(["@openclaw/demo-plugin"]);
+    expect(plan.candidates.map((plugin) => plugin.packageName)).toEqual(["@brikko-studio/demo-plugin"]);
   });
 });
 
@@ -422,13 +422,13 @@ function createTempPluginRepo(
     includeClawHubContract?: boolean;
   } = {},
 ) {
-  const repoDir = makeTempRepoRoot(tempDirs, "openclaw-clawhub-release-");
+  const repoDir = makeTempRepoRoot(tempDirs, "brikko-studio-clawhub-release-");
   const extensionId = options.extensionId ?? "demo-plugin";
   const extensionIds = [extensionId, ...(options.extraExtensionIds ?? [])];
 
   writeFileSync(
     join(repoDir, "package.json"),
-    JSON.stringify({ name: "openclaw-test-root" }, null, 2),
+    JSON.stringify({ name: "brikko-studio-test-root" }, null, 2),
   );
   writeFileSync(join(repoDir, "pnpm-lock.yaml"), "lockfileVersion: '9.0'\n");
   for (const currentExtensionId of extensionIds) {
@@ -437,13 +437,13 @@ function createTempPluginRepo(
       join(repoDir, "extensions", currentExtensionId, "package.json"),
       JSON.stringify(
         {
-          name: `@openclaw/${currentExtensionId}`,
+          name: `@brikko-studio/${currentExtensionId}`,
           version: "2026.4.1",
           repository: {
             type: "git",
-            url: OPENCLAW_PLUGIN_NPM_REPOSITORY_URL,
+            url: BRIKKO_STUDIO_PLUGIN_NPM_REPOSITORY_URL,
           },
-          openclaw: {
+          brikko-studio: {
             extensions: ["./index.ts"],
             ...(options.includeClawHubContract === false
               ? {}
@@ -452,11 +452,11 @@ function createTempPluginRepo(
                     pluginApi: ">=2026.4.1",
                   },
                   build: {
-                    openclawVersion: "2026.4.1",
+                    brikko-studioVersion: "2026.4.1",
                   },
                 }),
             install: {
-              npmSpec: `@openclaw/${currentExtensionId}`,
+              npmSpec: `@brikko-studio/${currentExtensionId}`,
             },
             release: {
               publishToClawHub: options.publishToClawHub ?? true,

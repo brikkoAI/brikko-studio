@@ -24,11 +24,11 @@ describe("resolveLocalVitestMaxWorkers", () => {
     ).toBe(6);
   });
 
-  it("lets OPENCLAW_VITEST_MAX_WORKERS override the inferred cap", () => {
+  it("lets BRIKKO_STUDIO_VITEST_MAX_WORKERS override the inferred cap", () => {
     expect(
       resolveLocalVitestMaxWorkers(
         {
-          OPENCLAW_VITEST_MAX_WORKERS: "2",
+          BRIKKO_STUDIO_VITEST_MAX_WORKERS: "2",
         },
         {
           cpuCount: 10,
@@ -40,11 +40,11 @@ describe("resolveLocalVitestMaxWorkers", () => {
     ).toBe(2);
   });
 
-  it("respects the legacy OPENCLAW_TEST_WORKERS override too", () => {
+  it("respects the legacy BRIKKO_STUDIO_TEST_WORKERS override too", () => {
     expect(
       resolveLocalVitestMaxWorkers(
         {
-          OPENCLAW_TEST_WORKERS: "3",
+          BRIKKO_STUDIO_TEST_WORKERS: "3",
         },
         {
           cpuCount: 16,
@@ -154,7 +154,7 @@ describe("resolveLocalVitestScheduling", () => {
     expect(
       resolveLocalVitestScheduling(
         {
-          OPENCLAW_VITEST_DISABLE_SYSTEM_THROTTLE: "1",
+          BRIKKO_STUDIO_VITEST_DISABLE_SYSTEM_THROTTLE: "1",
         },
         {
           cpuCount: 16,
@@ -222,7 +222,7 @@ describe("test scripts", () => {
     };
 
     expect(pkg.scripts?.["test:serial"]).toBe(
-      "OPENCLAW_TEST_PROJECTS_SERIAL=1 OPENCLAW_VITEST_MAX_WORKERS=1 node scripts/test-projects.mjs",
+      "BRIKKO_STUDIO_TEST_PROJECTS_SERIAL=1 BRIKKO_STUDIO_VITEST_MAX_WORKERS=1 node scripts/test-projects.mjs",
     );
     expect(pkg.scripts?.["test:fast"]).toBe(
       "node scripts/run-vitest.mjs run --config test/vitest/vitest.unit.config.ts",
@@ -237,7 +237,7 @@ describe("test scripts", () => {
     expect(pkg.scripts?.["test"]).toBe("node scripts/test-projects.mjs");
     expect(pkg.scripts?.["test:force"]).toBe("node --import tsx scripts/test-force.ts");
     expect(pkg.scripts?.["test:gateway"]).toBe(
-      "OPENCLAW_GATEWAY_PROJECT_SHARDS=1 node scripts/run-vitest.mjs run --config test/vitest/vitest.gateway.config.ts",
+      "BRIKKO_STUDIO_GATEWAY_PROJECT_SHARDS=1 node scripts/run-vitest.mjs run --config test/vitest/vitest.gateway.config.ts",
     );
     expect(pkg.scripts?.["test:single"]).toBeUndefined();
   });

@@ -6,7 +6,7 @@ read_when:
 title: "Agent send"
 ---
 
-`openclaw agent` runs a single agent turn from the command line without needing
+`brikko-studio agent` runs a single agent turn from the command line without needing
 an inbound chat message. Use it for scripted workflows, testing, and
 programmatic delivery.
 
@@ -15,7 +15,7 @@ programmatic delivery.
 <Steps>
   <Step title="Run a simple agent turn">
     ```bash
-    openclaw agent --message "What is the weather today?"
+    brikko-studio agent --message "What is the weather today?"
     ```
 
     This sends the message through the Gateway and prints the reply.
@@ -25,13 +25,13 @@ programmatic delivery.
   <Step title="Target a specific agent or session">
     ```bash
     # Target a specific agent
-    openclaw agent --agent ops --message "Summarize logs"
+    brikko-studio agent --agent ops --message "Summarize logs"
 
     # Target a phone number (derives session key)
-    openclaw agent --to +15555550123 --message "Status update"
+    brikko-studio agent --to +15555550123 --message "Status update"
 
     # Reuse an existing session
-    openclaw agent --session-id abc123 --message "Continue the task"
+    brikko-studio agent --session-id abc123 --message "Continue the task"
     ```
 
   </Step>
@@ -39,10 +39,10 @@ programmatic delivery.
   <Step title="Deliver the reply to a channel">
     ```bash
     # Deliver to WhatsApp (default channel)
-    openclaw agent --to +15555550123 --message "Report ready" --deliver
+    brikko-studio agent --to +15555550123 --message "Report ready" --deliver
 
     # Deliver to Slack
-    openclaw agent --agent ops --message "Generate report" \
+    brikko-studio agent --agent ops --message "Generate report" \
       --deliver --reply-channel slack --reply-to "#reports"
     ```
 
@@ -82,13 +82,13 @@ programmatic delivery.
 
 ```bash
 # Simple turn with JSON output
-openclaw agent --to +15555550123 --message "Trace logs" --verbose on --json
+brikko-studio agent --to +15555550123 --message "Trace logs" --verbose on --json
 
 # Turn with thinking level
-openclaw agent --session-id 1234 --message "Summarize inbox" --thinking medium
+brikko-studio agent --session-id 1234 --message "Summarize inbox" --thinking medium
 
 # Deliver to a different channel than the session
-openclaw agent --agent ops --message "Alert" --deliver --reply-channel telegram --reply-to "@admin"
+brikko-studio agent --agent ops --message "Alert" --deliver --reply-channel telegram --reply-to "@admin"
 ```
 
 ## Related

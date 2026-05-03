@@ -2,8 +2,8 @@ import type { Bot } from "grammy";
 import {
   createFinalizableDraftStreamControlsForState,
   takeMessageIdAfterStop,
-} from "openclaw/plugin-sdk/channel-lifecycle";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+} from "brikko-studio/plugin-sdk/channel-lifecycle";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { buildTelegramThreadParams, type TelegramThreadSpec } from "./bot/helpers.js";
 import { isSafeToRetrySendError, isTelegramClientRejection } from "./network-errors.js";
 import { normalizeTelegramReplyToMessageId } from "./outbound-params.js";

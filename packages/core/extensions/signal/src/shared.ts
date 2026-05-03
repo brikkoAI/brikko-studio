@@ -1,15 +1,15 @@
-import { describeAccountSnapshot } from "openclaw/plugin-sdk/account-helpers";
+import { describeAccountSnapshot } from "brikko-studio/plugin-sdk/account-helpers";
 import {
   adaptScopedAccountAccessor,
   createScopedChannelConfigAdapter,
-} from "openclaw/plugin-sdk/channel-config-helpers";
-import { createRestrictSendersChannelSecurity } from "openclaw/plugin-sdk/channel-policy";
-import { createChannelPluginBase, getChatChannelMeta } from "openclaw/plugin-sdk/core";
-import type { ChannelPlugin } from "openclaw/plugin-sdk/core";
+} from "brikko-studio/plugin-sdk/channel-config-helpers";
+import { createRestrictSendersChannelSecurity } from "brikko-studio/plugin-sdk/channel-policy";
+import { createChannelPluginBase, getChatChannelMeta } from "brikko-studio/plugin-sdk/core";
+import type { ChannelPlugin } from "brikko-studio/plugin-sdk/core";
 import {
   normalizeE164,
   normalizeStringifiedOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import {
   listSignalAccountIds,
   resolveDefaultSignalAccountId,

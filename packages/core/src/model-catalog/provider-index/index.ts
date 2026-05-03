@@ -1,9 +1,9 @@
-export { loadOpenClawProviderIndex } from "./load.js";
-export { normalizeOpenClawProviderIndex } from "./normalize.js";
+export { loadBrikko StudioProviderIndex } from "./load.js";
+export { normalizeBrikko StudioProviderIndex } from "./normalize.js";
 export type {
-  OpenClawProviderIndex,
-  OpenClawProviderIndexPluginInstall,
-  OpenClawProviderIndexPlugin,
-  OpenClawProviderIndexProviderAuthChoice,
-  OpenClawProviderIndexProvider,
+  Brikko StudioProviderIndex,
+  Brikko StudioProviderIndexPluginInstall,
+  Brikko StudioProviderIndexPlugin,
+  Brikko StudioProviderIndexProviderAuthChoice,
+  Brikko StudioProviderIndexProvider,
 } from "./types.js";

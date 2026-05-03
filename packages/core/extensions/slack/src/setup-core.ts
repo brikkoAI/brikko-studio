@@ -1,4 +1,4 @@
-import { hasConfiguredSecretInput } from "openclaw/plugin-sdk/secret-input";
+import { hasConfiguredSecretInput } from "brikko-studio/plugin-sdk/secret-input";
 import {
   createAccountScopedAllowFromSection,
   createAccountScopedGroupAccessSection,
@@ -13,13 +13,13 @@ import {
   type ChannelSetupAdapter,
   type ChannelSetupDmPolicy,
   type ChannelSetupWizard,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/setup-runtime";
-import { formatDocsLink } from "openclaw/plugin-sdk/setup-tools";
+  type Brikko StudioConfig,
+} from "brikko-studio/plugin-sdk/setup-runtime";
+import { formatDocsLink } from "brikko-studio/plugin-sdk/setup-tools";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "brikko-studio/plugin-sdk/text-runtime";
 import { inspectSlackAccount } from "./account-inspect.js";
 import { resolveSlackAccount } from "./accounts.js";
 import {
@@ -30,7 +30,7 @@ import {
   setSlackChannelAllowlist,
 } from "./setup-shared.js";
 
-function enableSlackAccount(cfg: OpenClawConfig, accountId: string): OpenClawConfig {
+function enableSlackAccount(cfg: Brikko StudioConfig, accountId: string): Brikko StudioConfig {
   return patchChannelConfigForAccount({
     cfg,
     channel,
@@ -39,7 +39,7 @@ function enableSlackAccount(cfg: OpenClawConfig, accountId: string): OpenClawCon
   });
 }
 
-function hasSlackInteractiveRepliesConfig(cfg: OpenClawConfig, accountId: string): boolean {
+function hasSlackInteractiveRepliesConfig(cfg: Brikko StudioConfig, accountId: string): boolean {
   const capabilities = resolveSlackAccount({ cfg, accountId }).config.capabilities;
   if (Array.isArray(capabilities)) {
     return capabilities.some(
@@ -53,10 +53,10 @@ function hasSlackInteractiveRepliesConfig(cfg: OpenClawConfig, accountId: string
 }
 
 function setSlackInteractiveReplies(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   accountId: string,
   interactiveReplies: boolean,
-): OpenClawConfig {
+): Brikko StudioConfig {
   const capabilities = resolveSlackAccount({ cfg, accountId }).config.capabilities;
   const nextCapabilities = Array.isArray(capabilities)
     ? interactiveReplies
@@ -96,7 +96,7 @@ function createSlackTokenCredential(params: {
     keepPrompt: params.keepPrompt,
     inputPrompt: params.inputPrompt,
     allowEnv: ({ accountId }: { accountId: string }) => accountId === DEFAULT_ACCOUNT_ID,
-    inspect: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId: string }) => {
+    inspect: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId: string }) => {
       const resolved = resolveSlackAccount({ cfg, accountId });
       const configuredValue =
         params.inputKey === "botToken" ? resolved.config.botToken : resolved.config.appToken;
@@ -111,14 +111,14 @@ function createSlackTokenCredential(params: {
             : undefined,
       };
     },
-    applyUseEnv: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId: string }) =>
+    applyUseEnv: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId: string }) =>
       enableSlackAccount(cfg, accountId),
     applySet: ({
       cfg,
       accountId,
       value,
     }: {
-      cfg: OpenClawConfig;
+      cfg: Brikko StudioConfig;
       accountId: string;
       value: unknown;
     }) =>
@@ -247,13 +247,13 @@ export function createSlackSetupWizardBase(handlers: {
       channel,
       label: "Slack channels",
       placeholder: "#general, #private, C123",
-      currentPolicy: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId: string }) =>
+      currentPolicy: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId: string }) =>
         resolveSlackAccount({ cfg, accountId }).config.groupPolicy ?? "allowlist",
-      currentEntries: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId: string }) =>
+      currentEntries: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId: string }) =>
         Object.entries(resolveSlackAccount({ cfg, accountId }).config.channels ?? {})
           .filter(([, value]) => value?.enabled !== false)
           .map(([key]) => key),
-      updatePrompt: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId: string }) =>
+      updatePrompt: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId: string }) =>
         Boolean(resolveSlackAccount({ cfg, accountId }).config.channels),
       resolveAllowlist: handlers.resolveGroupAllowlist,
       fallbackResolved: (entries) => entries,
@@ -262,7 +262,7 @@ export function createSlackSetupWizardBase(handlers: {
         accountId,
         resolved,
       }: {
-        cfg: OpenClawConfig;
+        cfg: Brikko StudioConfig;
         accountId: string;
         resolved: unknown;
       }) => setSlackChannelAllowlist(cfg, accountId, resolved as string[]),
@@ -284,7 +284,7 @@ export function createSlackSetupWizardBase(handlers: {
         cfg: setSlackInteractiveReplies(cfg, accountId, enableInteractiveReplies),
       };
     },
-    disable: (cfg: OpenClawConfig) => setSetupChannelEnabled(cfg, channel, false),
+    disable: (cfg: Brikko StudioConfig) => setSetupChannelEnabled(cfg, channel, false),
   } satisfies ChannelSetupWizard;
 }
 export function createSlackSetupWizardProxy(

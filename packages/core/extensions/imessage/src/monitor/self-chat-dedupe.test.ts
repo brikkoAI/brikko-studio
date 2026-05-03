@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createSentMessageCache } from "./echo-cache.js";
 import { resolveIMessageInboundDecision } from "./inbound-processing.js";
@@ -22,7 +22,7 @@ import { createSelfChatCache } from "./self-chat-cache.js";
 
 type InboundDecisionParams = Parameters<typeof resolveIMessageInboundDecision>[0];
 
-const cfg = {} as OpenClawConfig;
+const cfg = {} as Brikko StudioConfig;
 
 function createParams(
   overrides: Omit<Partial<InboundDecisionParams>, "message"> & {

@@ -162,10 +162,10 @@ describe("executeZalouserTool", () => {
     const linkResult = await executeZalouserTool("tool-1", {
       action: "link",
       threadId: "t-2",
-      url: "https://openclaw.ai",
+      url: "https://brikko-studio.ai",
       message: "read this",
     });
-    expect(mockSendLink).toHaveBeenCalledWith("t-2", "https://openclaw.ai", {
+    expect(mockSendLink).toHaveBeenCalledWith("t-2", "https://brikko-studio.ai", {
       profile: undefined,
       caption: "read this",
       isGroup: undefined,

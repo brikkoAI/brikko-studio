@@ -2,9 +2,9 @@ import {
   AllowFromListSchema,
   DmPolicySchema,
   MarkdownConfigSchema,
-} from "openclaw/plugin-sdk/channel-config-primitives";
-import { buildSecretInputSchema } from "openclaw/plugin-sdk/secret-input";
-import { z } from "openclaw/plugin-sdk/zod";
+} from "brikko-studio/plugin-sdk/channel-config-primitives";
+import { buildSecretInputSchema } from "brikko-studio/plugin-sdk/secret-input";
+import { z } from "brikko-studio/plugin-sdk/zod";
 
 /**
  * Validates https:// URLs only (no javascript:, data:, file:, etc.)

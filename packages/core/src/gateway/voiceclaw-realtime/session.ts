@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import type { IncomingMessage } from "node:http";
 import WebSocket, { type RawData } from "ws";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import type { AuthRateLimiter } from "../auth-rate-limit.js";
 import {
@@ -30,7 +30,7 @@ type VoiceClawRealtimeSessionOptions = {
   ws: WebSocket;
   req: IncomingMessage;
   auth: ResolvedGatewayAuth;
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   trustedProxies: string[];
   allowRealIpFallback: boolean;
   rateLimiter?: AuthRateLimiter;
@@ -44,7 +44,7 @@ export class VoiceClawRealtimeSession {
   private readonly ws: WebSocket;
   private readonly req: IncomingMessage;
   private readonly auth: ResolvedGatewayAuth;
-  private readonly gatewayConfig: OpenClawConfig;
+  private readonly gatewayConfig: Brikko StudioConfig;
   private readonly trustedProxies: string[];
   private readonly allowRealIpFallback: boolean;
   private readonly rateLimiter: AuthRateLimiter | undefined;
@@ -155,7 +155,7 @@ export class VoiceClawRealtimeSession {
     this.releasePreauthBudget();
 
     if (!authResult.ok) {
-      this.send({ type: "error", message: "OpenClaw gateway authentication failed", code: 401 });
+      this.send({ type: "error", message: "Brikko Studio gateway authentication failed", code: 401 });
       this.ws.close(1008, "unauthorized");
       return;
     }
@@ -167,7 +167,7 @@ export class VoiceClawRealtimeSession {
     if (config.brainAgent !== "none" && this.auth.mode === "none" && !localDirect) {
       this.send({
         type: "error",
-        message: "OpenClaw real-time brain requires gateway auth for non-local connections",
+        message: "Brikko Studio real-time brain requires gateway auth for non-local connections",
         code: 403,
       });
       this.ws.close(1008, "auth required");
@@ -177,7 +177,7 @@ export class VoiceClawRealtimeSession {
     if (config.brainAgent !== "none" && !senderIsOwner) {
       this.send({
         type: "error",
-        message: "OpenClaw real-time brain requires owner-equivalent gateway auth",
+        message: "Brikko Studio real-time brain requires owner-equivalent gateway auth",
         code: 403,
       });
       this.ws.close(1008, "owner auth required");

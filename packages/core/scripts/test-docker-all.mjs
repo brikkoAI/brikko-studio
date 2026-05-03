@@ -1,5 +1,5 @@
 // Docker E2E aggregate scheduler.
-// Builds shared Docker images, prepares one OpenClaw npm tarball, assigns lanes
+// Builds shared Docker images, prepares one Brikko Studio npm tarball, assigns lanes
 // to bare/functional images, and runs lanes through weighted resource pools.
 import { spawn } from "node:child_process";
 import fs from "node:fs";
@@ -21,7 +21,7 @@ import {
   laneSummary,
   laneWeight,
   lanesNeedE2eImageKind,
-  lanesNeedOpenClawPackage,
+  lanesNeedBrikko StudioPackage,
   parseLaneSelection,
   parseLiveMode,
   parseProfile,
@@ -29,14 +29,14 @@ import {
 } from "./lib/docker-e2e-plan.mjs";
 
 const SCRIPT_ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const ROOT_DIR = path.resolve(process.env.OPENCLAW_DOCKER_E2E_REPO_ROOT || SCRIPT_ROOT_DIR);
+const ROOT_DIR = path.resolve(process.env.BRIKKO_STUDIO_DOCKER_E2E_REPO_ROOT || SCRIPT_ROOT_DIR);
 const DEFAULT_FAILURE_TAIL_LINES = 80;
 const DEFAULT_LANE_TIMEOUT_MS = 120 * 60 * 1000;
 const DEFAULT_LANE_START_STAGGER_MS = 2_000;
 const DEFAULT_STATUS_INTERVAL_MS = 30_000;
 const DEFAULT_PREFLIGHT_RUN_TIMEOUT_MS = 60_000;
 const DEFAULT_TIMINGS_FILE = path.join(ROOT_DIR, ".artifacts/docker-tests/lane-timings.json");
-const DEFAULT_GITHUB_WORKFLOW = "openclaw-live-and-e2e-checks-reusable.yml";
+const DEFAULT_GITHUB_WORKFLOW = "brikko-studio-live-and-e2e-checks-reusable.yml";
 const IS_MAIN = process.argv[1]
   ? path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
   : false;
@@ -85,7 +85,7 @@ function resourceLimitsSummary(resourceLimits) {
 }
 
 function resourceLimitEnvName(resource) {
-  return `OPENCLAW_DOCKER_ALL_${resource.toUpperCase().replace(/[^A-Z0-9]+/g, "_")}_LIMIT`;
+  return `BRIKKO_STUDIO_DOCKER_ALL_${resource.toUpperCase().replace(/[^A-Z0-9]+/g, "_")}_LIMIT`;
 }
 
 export function describeDockerSchedulerLimits(parallelism, options) {
@@ -101,9 +101,9 @@ function parseResourceLimit(env, resource, parallelism, fallback) {
 
 function parseSchedulerOptions(env, parallelism) {
   const weightLimit = parsePositiveInt(
-    env.OPENCLAW_DOCKER_ALL_WEIGHT_LIMIT,
+    env.BRIKKO_STUDIO_DOCKER_ALL_WEIGHT_LIMIT,
     parallelism,
-    "OPENCLAW_DOCKER_ALL_WEIGHT_LIMIT",
+    "BRIKKO_STUDIO_DOCKER_ALL_WEIGHT_LIMIT",
   );
   const resourceLimits = {};
   for (const [resource, fallback] of Object.entries(DEFAULT_RESOURCE_LIMITS)) {
@@ -165,12 +165,12 @@ function utcStamp() {
 }
 
 function appendExtension(env, extension) {
-  const current = env.OPENCLAW_DOCKER_BUILD_EXTENSIONS ?? env.OPENCLAW_EXTENSIONS ?? "";
+  const current = env.BRIKKO_STUDIO_DOCKER_BUILD_EXTENSIONS ?? env.BRIKKO_STUDIO_EXTENSIONS ?? "";
   const tokens = current.split(/\s+/).filter(Boolean);
   if (!tokens.includes(extension)) {
     tokens.push(extension);
   }
-  env.OPENCLAW_DOCKER_BUILD_EXTENSIONS = tokens.join(" ");
+  env.BRIKKO_STUDIO_DOCKER_BUILD_EXTENSIONS = tokens.join(" ");
 }
 
 function commandEnv(extra = {}) {
@@ -195,7 +195,7 @@ function shellQuote(value) {
 }
 
 function githubWorkflowRef() {
-  const explicit = process.env.OPENCLAW_DOCKER_E2E_WORKFLOW_REF;
+  const explicit = process.env.BRIKKO_STUDIO_DOCKER_E2E_WORKFLOW_REF;
   if (explicit) {
     return explicit;
   }
@@ -215,10 +215,10 @@ function githubWorkflowRef() {
 
 function githubWorkflowRerunCommand(laneNames, ref) {
   const workflowRef = githubWorkflowRef();
-  const releasePath = process.env.OPENCLAW_DOCKER_ALL_PROFILE === RELEASE_PATH_PROFILE;
+  const releasePath = process.env.BRIKKO_STUDIO_DOCKER_ALL_PROFILE === RELEASE_PATH_PROFILE;
   const fields = [
     "gh workflow run",
-    shellQuote(process.env.OPENCLAW_DOCKER_E2E_WORKFLOW || DEFAULT_GITHUB_WORKFLOW),
+    shellQuote(process.env.BRIKKO_STUDIO_DOCKER_E2E_WORKFLOW || DEFAULT_GITHUB_WORKFLOW),
     ...(workflowRef ? ["--ref", shellQuote(workflowRef)] : []),
     "-f",
     `ref=${shellQuote(ref)}`,
@@ -240,38 +240,38 @@ function githubWorkflowRerunCommand(laneNames, ref) {
     fields.push(
       "-f",
       `package_artifact_name=${shellQuote(
-        process.env.OPENCLAW_DOCKER_E2E_PACKAGE_ARTIFACT_NAME || "docker-e2e-package",
+        process.env.BRIKKO_STUDIO_DOCKER_E2E_PACKAGE_ARTIFACT_NAME || "docker-e2e-package",
       )}`,
     );
   }
-  if (process.env.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC) {
+  if (process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC) {
     fields.push(
       "-f",
-      `published_upgrade_survivor_baseline=${shellQuote(process.env.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC)}`,
+      `published_upgrade_survivor_baseline=${shellQuote(process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC)}`,
     );
   }
-  if (process.env.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPECS) {
+  if (process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPECS) {
     fields.push(
       "-f",
-      `published_upgrade_survivor_baselines=${shellQuote(process.env.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPECS)}`,
+      `published_upgrade_survivor_baselines=${shellQuote(process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPECS)}`,
     );
   }
-  if (process.env.OPENCLAW_UPGRADE_SURVIVOR_SCENARIOS) {
+  if (process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIOS) {
     fields.push(
       "-f",
-      `published_upgrade_survivor_scenarios=${shellQuote(process.env.OPENCLAW_UPGRADE_SURVIVOR_SCENARIOS)}`,
+      `published_upgrade_survivor_scenarios=${shellQuote(process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIOS)}`,
     );
   }
-  if (process.env.OPENCLAW_DOCKER_E2E_BARE_IMAGE) {
+  if (process.env.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE) {
     fields.push(
       "-f",
-      `docker_e2e_bare_image=${shellQuote(process.env.OPENCLAW_DOCKER_E2E_BARE_IMAGE)}`,
+      `docker_e2e_bare_image=${shellQuote(process.env.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE)}`,
     );
   }
-  if (process.env.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE) {
+  if (process.env.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE) {
     fields.push(
       "-f",
-      `docker_e2e_functional_image=${shellQuote(process.env.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE)}`,
+      `docker_e2e_functional_image=${shellQuote(process.env.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE)}`,
     );
   }
   return fields.join(" ");
@@ -280,22 +280,22 @@ function githubWorkflowRerunCommand(laneNames, ref) {
 function buildLaneRerunCommand(name, baseEnv) {
   const poolLane = findLaneByName(name);
   const build = name.startsWith("live-") ? "1" : "0";
-  const image = poolLane ? e2eImageForLane(poolLane, baseEnv) : baseEnv.OPENCLAW_DOCKER_E2E_IMAGE;
+  const image = poolLane ? e2eImageForLane(poolLane, baseEnv) : baseEnv.BRIKKO_STUDIO_DOCKER_E2E_IMAGE;
   const env = [
-    ["OPENCLAW_DOCKER_ALL_LANES", name],
-    ["OPENCLAW_DOCKER_ALL_BUILD", build],
-    ["OPENCLAW_DOCKER_ALL_PREFLIGHT", "0"],
-    ["OPENCLAW_SKIP_DOCKER_BUILD", "1"],
-    ["OPENCLAW_DOCKER_E2E_IMAGE", image || DEFAULT_E2E_IMAGE],
-    ["OPENCLAW_DOCKER_E2E_BARE_IMAGE", baseEnv.OPENCLAW_DOCKER_E2E_BARE_IMAGE],
-    ["OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE", baseEnv.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE],
-    ["OPENCLAW_CURRENT_PACKAGE_TGZ", baseEnv.OPENCLAW_CURRENT_PACKAGE_TGZ],
-    ["OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC", baseEnv.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPEC],
-    ["OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPECS", baseEnv.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPECS],
-    ["OPENCLAW_UPGRADE_SURVIVOR_SCENARIOS", baseEnv.OPENCLAW_UPGRADE_SURVIVOR_SCENARIOS],
+    ["BRIKKO_STUDIO_DOCKER_ALL_LANES", name],
+    ["BRIKKO_STUDIO_DOCKER_ALL_BUILD", build],
+    ["BRIKKO_STUDIO_DOCKER_ALL_PREFLIGHT", "0"],
+    ["BRIKKO_STUDIO_SKIP_DOCKER_BUILD", "1"],
+    ["BRIKKO_STUDIO_DOCKER_E2E_IMAGE", image || DEFAULT_E2E_IMAGE],
+    ["BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE", baseEnv.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE],
+    ["BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE", baseEnv.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE],
+    ["BRIKKO_STUDIO_CURRENT_PACKAGE_TGZ", baseEnv.BRIKKO_STUDIO_CURRENT_PACKAGE_TGZ],
+    ["BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC", baseEnv.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPEC],
+    ["BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPECS", baseEnv.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPECS],
+    ["BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIOS", baseEnv.BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIOS],
   ];
-  if (baseEnv.OPENCLAW_DOCKER_ALL_PNPM_COMMAND) {
-    env.push(["OPENCLAW_DOCKER_ALL_PNPM_COMMAND", baseEnv.OPENCLAW_DOCKER_ALL_PNPM_COMMAND]);
+  if (baseEnv.BRIKKO_STUDIO_DOCKER_ALL_PNPM_COMMAND) {
+    env.push(["BRIKKO_STUDIO_DOCKER_ALL_PNPM_COMMAND", baseEnv.BRIKKO_STUDIO_DOCKER_ALL_PNPM_COMMAND]);
   }
   return `${env
     .filter(([, value]) => value !== undefined && value !== "")
@@ -304,7 +304,7 @@ function buildLaneRerunCommand(name, baseEnv) {
 }
 
 function withResolvedPnpmCommand(command, env) {
-  const pnpmCommand = env.OPENCLAW_DOCKER_ALL_PNPM_COMMAND?.trim();
+  const pnpmCommand = env.BRIKKO_STUDIO_DOCKER_ALL_PNPM_COMMAND?.trim();
   if (!pnpmCommand) {
     return command;
   }
@@ -312,7 +312,7 @@ function withResolvedPnpmCommand(command, env) {
 }
 
 function liveDockerHarnessScriptCommand(script) {
-  return `bash -c 'harness="\${OPENCLAW_DOCKER_E2E_TRUSTED_HARNESS_DIR:-}"; if [ -z "$harness" ]; then if [ -d .release-harness/scripts ]; then harness=.release-harness; else harness=.; fi; fi; OPENCLAW_LIVE_DOCKER_REPO_ROOT="\${OPENCLAW_DOCKER_E2E_REPO_ROOT:-$PWD}" bash "$harness/scripts/${script}"'`;
+  return `bash -c 'harness="\${BRIKKO_STUDIO_DOCKER_E2E_TRUSTED_HARNESS_DIR:-}"; if [ -z "$harness" ]; then if [ -d .release-harness/scripts ]; then harness=.release-harness; else harness=.; fi; fi; BRIKKO_STUDIO_LIVE_DOCKER_REPO_ROOT="\${BRIKKO_STUDIO_DOCKER_E2E_REPO_ROOT:-$PWD}" bash "$harness/scripts/${script}"'`;
 }
 
 async function loadTimingStore(file, enabled) {
@@ -371,7 +371,7 @@ async function writeRunSummary(logDir, summary) {
   const file = path.join(logDir, "summary.json");
   const payload = {
     ...summary,
-    packageArtifactName: process.env.OPENCLAW_DOCKER_E2E_PACKAGE_ARTIFACT_NAME || undefined,
+    packageArtifactName: process.env.BRIKKO_STUDIO_DOCKER_E2E_PACKAGE_ARTIFACT_NAME || undefined,
     finishedAt: new Date().toISOString(),
     github: {
       ref: process.env.GITHUB_REF_NAME || undefined,
@@ -381,7 +381,7 @@ async function writeRunSummary(logDir, summary) {
         process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID
           ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
           : undefined,
-      selectedSha: process.env.OPENCLAW_DOCKER_E2E_SELECTED_SHA || undefined,
+      selectedSha: process.env.BRIKKO_STUDIO_DOCKER_E2E_SELECTED_SHA || undefined,
       sha: process.env.GITHUB_SHA || undefined,
       workflow: process.env.GITHUB_WORKFLOW || undefined,
     },
@@ -395,7 +395,7 @@ async function writeRunSummary(logDir, summary) {
 async function writeFailureIndex(logDir, summary) {
   const ref =
     summary.github?.selectedSha ||
-    process.env.OPENCLAW_DOCKER_E2E_SELECTED_SHA ||
+    process.env.BRIKKO_STUDIO_DOCKER_E2E_SELECTED_SHA ||
     summary.github?.sha ||
     summary.github?.ref ||
     process.env.GITHUB_SHA ||
@@ -427,12 +427,12 @@ async function writeFailureIndex(logDir, summary) {
     lanes,
     note: "Targeted GitHub reruns reuse this run's package artifact and shared Docker images when the generated command includes package_artifact_run_id and docker_e2e_*_image inputs.",
     images: summary.images,
-    packageArtifactName: process.env.OPENCLAW_DOCKER_E2E_PACKAGE_ARTIFACT_NAME || undefined,
+    packageArtifactName: process.env.BRIKKO_STUDIO_DOCKER_E2E_PACKAGE_ARTIFACT_NAME || undefined,
     ref,
     runUrl: summary.github?.runUrl,
     status: summary.status,
     version: 1,
-    workflow: process.env.OPENCLAW_DOCKER_E2E_WORKFLOW || DEFAULT_GITHUB_WORKFLOW,
+    workflow: process.env.BRIKKO_STUDIO_DOCKER_E2E_WORKFLOW || DEFAULT_GITHUB_WORKFLOW,
   };
   await fs.promises.writeFile(
     path.join(logDir, "failures.json"),
@@ -481,7 +481,7 @@ function dockerPreflightContainerNames(raw) {
     .split(/\r?\n/)
     .map((line) => line.trim().split(/\s+/, 1)[0])
     .filter((name) =>
-      /^(?:openclaw-(?:gateway-e2e|openwebui|openwebui-gateway|config-reload-e2e)-)/.test(name),
+      /^(?:brikko-studio-(?:gateway-e2e|openwebui|openwebui-gateway|config-reload-e2e)-)/.test(name),
     );
 }
 
@@ -717,38 +717,38 @@ async function runDockerPreflight(baseEnv, options) {
   console.log(`==> Docker preflight run: ${elapsedSeconds}s`);
 }
 
-async function prepareOpenClawPackage(baseEnv, logDir) {
-  const existing = baseEnv.OPENCLAW_CURRENT_PACKAGE_TGZ;
+async function prepareBrikko StudioPackage(baseEnv, logDir) {
+  const existing = baseEnv.BRIKKO_STUDIO_CURRENT_PACKAGE_TGZ;
   if (existing) {
     const packageTgz = path.resolve(existing);
-    baseEnv.OPENCLAW_CURRENT_PACKAGE_TGZ = packageTgz;
-    baseEnv.OPENCLAW_BUNDLED_CHANNEL_HOST_BUILD = "0";
-    baseEnv.OPENCLAW_NPM_ONBOARD_HOST_BUILD = "0";
-    console.log(`==> OpenClaw package: ${packageTgz}`);
+    baseEnv.BRIKKO_STUDIO_CURRENT_PACKAGE_TGZ = packageTgz;
+    baseEnv.BRIKKO_STUDIO_BUNDLED_CHANNEL_HOST_BUILD = "0";
+    baseEnv.BRIKKO_STUDIO_NPM_ONBOARD_HOST_BUILD = "0";
+    console.log(`==> Brikko Studio package: ${packageTgz}`);
     return;
   }
 
-  const packDir = path.join(logDir, "openclaw-package");
+  const packDir = path.join(logDir, "brikko-studio-package");
   await mkdir(packDir, { recursive: true });
-  const packageTgz = path.join(packDir, "openclaw-current.tgz");
+  const packageTgz = path.join(packDir, "brikko-studio-current.tgz");
   await runForeground(
-    "Prepare OpenClaw package once",
-    `node scripts/package-openclaw-for-docker.mjs --output-dir ${shellQuote(packDir)} --output-name openclaw-current.tgz`,
+    "Prepare Brikko Studio package once",
+    `node scripts/package-brikko-studio-for-docker.mjs --output-dir ${shellQuote(packDir)} --output-name brikko-studio-current.tgz`,
     baseEnv,
   );
   await fs.promises.access(packageTgz);
-  baseEnv.OPENCLAW_CURRENT_PACKAGE_TGZ = packageTgz;
-  baseEnv.OPENCLAW_BUNDLED_CHANNEL_HOST_BUILD = "0";
-  baseEnv.OPENCLAW_NPM_ONBOARD_HOST_BUILD = "0";
-  console.log(`==> OpenClaw package: ${baseEnv.OPENCLAW_CURRENT_PACKAGE_TGZ}`);
+  baseEnv.BRIKKO_STUDIO_CURRENT_PACKAGE_TGZ = packageTgz;
+  baseEnv.BRIKKO_STUDIO_BUNDLED_CHANNEL_HOST_BUILD = "0";
+  baseEnv.BRIKKO_STUDIO_NPM_ONBOARD_HOST_BUILD = "0";
+  console.log(`==> Brikko Studio package: ${baseEnv.BRIKKO_STUDIO_CURRENT_PACKAGE_TGZ}`);
 }
 
 function e2eImageForLane(poolLane, baseEnv) {
   if (poolLane.e2eImageKind === "bare") {
-    return baseEnv.OPENCLAW_DOCKER_E2E_BARE_IMAGE;
+    return baseEnv.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE;
   }
   if (poolLane.e2eImageKind === "functional") {
-    return baseEnv.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE;
+    return baseEnv.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE;
   }
   return undefined;
 }
@@ -758,20 +758,20 @@ function laneEnv(poolLane, baseEnv, logDir, cacheKey) {
     ...baseEnv,
   };
   const name = poolLane.name;
-  env.OPENCLAW_DOCKER_ALL_LANE_NAME = name;
+  env.BRIKKO_STUDIO_DOCKER_ALL_LANE_NAME = name;
   const image = e2eImageForLane(poolLane, baseEnv);
   if (image) {
-    env.OPENCLAW_DOCKER_E2E_IMAGE = image;
+    env.BRIKKO_STUDIO_DOCKER_E2E_IMAGE = image;
   }
   if (poolLane.e2eImageKind) {
-    env.OPENCLAW_DOCKER_E2E_IMAGE_KIND = poolLane.e2eImageKind;
+    env.BRIKKO_STUDIO_DOCKER_E2E_IMAGE_KIND = poolLane.e2eImageKind;
   }
   const cacheName = cacheKey || name;
-  if (!process.env.OPENCLAW_DOCKER_CLI_TOOLS_DIR) {
-    env.OPENCLAW_DOCKER_CLI_TOOLS_DIR = path.join(logDir, `${cacheName}-cli-tools`);
+  if (!process.env.BRIKKO_STUDIO_DOCKER_CLI_TOOLS_DIR) {
+    env.BRIKKO_STUDIO_DOCKER_CLI_TOOLS_DIR = path.join(logDir, `${cacheName}-cli-tools`);
   }
-  if (!process.env.OPENCLAW_DOCKER_CACHE_HOME_DIR) {
-    env.OPENCLAW_DOCKER_CACHE_HOME_DIR = path.join(logDir, `${cacheName}-cache`);
+  if (!process.env.BRIKKO_STUDIO_DOCKER_CACHE_HOME_DIR) {
+    env.BRIKKO_STUDIO_DOCKER_CACHE_HOME_DIR = path.join(logDir, `${cacheName}-cache`);
   }
   return env;
 }
@@ -783,18 +783,18 @@ async function runLane(lane, baseEnv, logDir, fallbackTimeoutMs) {
   const logFile = path.join(logDir, `${name}.log`);
   const env = laneEnv(lane, baseEnv, logDir, lane.cacheKey);
   const command = withResolvedPnpmCommand(lane.command, env);
-  await mkdir(env.OPENCLAW_DOCKER_CLI_TOOLS_DIR, { recursive: true });
-  await mkdir(env.OPENCLAW_DOCKER_CACHE_HOME_DIR, { recursive: true });
+  await mkdir(env.BRIKKO_STUDIO_DOCKER_CLI_TOOLS_DIR, { recursive: true });
+  await mkdir(env.BRIKKO_STUDIO_DOCKER_CACHE_HOME_DIR, { recursive: true });
   await fs.promises.writeFile(
     logFile,
     [
-      `==> [${name}] cli tools dir: ${env.OPENCLAW_DOCKER_CLI_TOOLS_DIR}`,
-      `==> [${name}] cache dir: ${env.OPENCLAW_DOCKER_CACHE_HOME_DIR}`,
+      `==> [${name}] cli tools dir: ${env.BRIKKO_STUDIO_DOCKER_CLI_TOOLS_DIR}`,
+      `==> [${name}] cache dir: ${env.BRIKKO_STUDIO_DOCKER_CACHE_HOME_DIR}`,
       `==> [${name}] timeout: ${timeoutMs}ms`,
       `==> [${name}] no output timeout: ${noOutputTimeoutMs ?? 0}ms`,
       `==> [${name}] retries: ${lane.retries ?? 0}`,
       `==> [${name}] e2e image kind: ${lane.e2eImageKind ?? "none"}`,
-      `==> [${name}] e2e image: ${env.OPENCLAW_DOCKER_E2E_IMAGE ?? ""}`,
+      `==> [${name}] e2e image: ${env.BRIKKO_STUDIO_DOCKER_E2E_IMAGE ?? ""}`,
       "",
     ].join("\n"),
   );
@@ -849,7 +849,7 @@ async function runLane(lane, baseEnv, logDir, fallbackTimeoutMs) {
     command,
     attempts,
     finishedAt: new Date().toISOString(),
-    image: env.OPENCLAW_DOCKER_E2E_IMAGE,
+    image: env.BRIKKO_STUDIO_DOCKER_E2E_IMAGE,
     imageKind: lane.e2eImageKind,
     logFile,
     name,
@@ -977,7 +977,7 @@ async function runLanePool(poolLanes, baseEnv, logDir, parallelism, options) {
           `No Docker lanes fit scheduler limits (${describeDockerSchedulerLimits(
             parallelism,
             options,
-          )}): ${blocked}. Tune OPENCLAW_DOCKER_ALL_PARALLELISM, OPENCLAW_DOCKER_ALL_WEIGHT_LIMIT, or OPENCLAW_DOCKER_ALL_<RESOURCE>_LIMIT.`,
+          )}): ${blocked}. Tune BRIKKO_STUDIO_DOCKER_ALL_PARALLELISM, BRIKKO_STUDIO_DOCKER_ALL_WEIGHT_LIMIT, or BRIKKO_STUDIO_DOCKER_ALL_<RESOURCE>_LIMIT.`,
         );
       }
 
@@ -1065,88 +1065,88 @@ async function main() {
   const runStartedAt = new Date().toISOString();
   const phases = [];
   const parallelism = parsePositiveInt(
-    process.env.OPENCLAW_DOCKER_ALL_PARALLELISM,
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_PARALLELISM,
     DEFAULT_PARALLELISM,
-    "OPENCLAW_DOCKER_ALL_PARALLELISM",
+    "BRIKKO_STUDIO_DOCKER_ALL_PARALLELISM",
   );
   const tailParallelism = parsePositiveInt(
-    process.env.OPENCLAW_DOCKER_ALL_TAIL_PARALLELISM,
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_TAIL_PARALLELISM,
     Math.min(parallelism, DEFAULT_TAIL_PARALLELISM),
-    "OPENCLAW_DOCKER_ALL_TAIL_PARALLELISM",
+    "BRIKKO_STUDIO_DOCKER_ALL_TAIL_PARALLELISM",
   );
   const tailLines = parsePositiveInt(
-    process.env.OPENCLAW_DOCKER_ALL_FAILURE_TAIL_LINES,
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_FAILURE_TAIL_LINES,
     DEFAULT_FAILURE_TAIL_LINES,
-    "OPENCLAW_DOCKER_ALL_FAILURE_TAIL_LINES",
+    "BRIKKO_STUDIO_DOCKER_ALL_FAILURE_TAIL_LINES",
   );
   const laneTimeoutMs = parsePositiveInt(
-    process.env.OPENCLAW_DOCKER_ALL_LANE_TIMEOUT_MS,
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_LANE_TIMEOUT_MS,
     DEFAULT_LANE_TIMEOUT_MS,
-    "OPENCLAW_DOCKER_ALL_LANE_TIMEOUT_MS",
+    "BRIKKO_STUDIO_DOCKER_ALL_LANE_TIMEOUT_MS",
   );
   const laneStartStaggerMs = parseNonNegativeInt(
-    process.env.OPENCLAW_DOCKER_ALL_START_STAGGER_MS,
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_START_STAGGER_MS,
     DEFAULT_LANE_START_STAGGER_MS,
-    "OPENCLAW_DOCKER_ALL_START_STAGGER_MS",
+    "BRIKKO_STUDIO_DOCKER_ALL_START_STAGGER_MS",
   );
   const statusIntervalMs = parseNonNegativeInt(
-    process.env.OPENCLAW_DOCKER_ALL_STATUS_INTERVAL_MS,
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_STATUS_INTERVAL_MS,
     DEFAULT_STATUS_INTERVAL_MS,
-    "OPENCLAW_DOCKER_ALL_STATUS_INTERVAL_MS",
+    "BRIKKO_STUDIO_DOCKER_ALL_STATUS_INTERVAL_MS",
   );
   const preflightRunTimeoutMs = parsePositiveInt(
-    process.env.OPENCLAW_DOCKER_ALL_PREFLIGHT_RUN_TIMEOUT_MS,
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_PREFLIGHT_RUN_TIMEOUT_MS,
     DEFAULT_PREFLIGHT_RUN_TIMEOUT_MS,
-    "OPENCLAW_DOCKER_ALL_PREFLIGHT_RUN_TIMEOUT_MS",
+    "BRIKKO_STUDIO_DOCKER_ALL_PREFLIGHT_RUN_TIMEOUT_MS",
   );
-  const failFast = parseBool(process.env.OPENCLAW_DOCKER_ALL_FAIL_FAST, true);
-  const dryRun = parseBool(process.env.OPENCLAW_DOCKER_ALL_DRY_RUN, false);
-  const preflightEnabled = parseBool(process.env.OPENCLAW_DOCKER_ALL_PREFLIGHT, true);
-  const preflightCleanup = parseBool(process.env.OPENCLAW_DOCKER_ALL_PREFLIGHT_CLEANUP, true);
-  const timingsEnabled = parseBool(process.env.OPENCLAW_DOCKER_ALL_TIMINGS, true);
-  const buildEnabled = parseBool(process.env.OPENCLAW_DOCKER_ALL_BUILD, true);
+  const failFast = parseBool(process.env.BRIKKO_STUDIO_DOCKER_ALL_FAIL_FAST, true);
+  const dryRun = parseBool(process.env.BRIKKO_STUDIO_DOCKER_ALL_DRY_RUN, false);
+  const preflightEnabled = parseBool(process.env.BRIKKO_STUDIO_DOCKER_ALL_PREFLIGHT, true);
+  const preflightCleanup = parseBool(process.env.BRIKKO_STUDIO_DOCKER_ALL_PREFLIGHT_CLEANUP, true);
+  const timingsEnabled = parseBool(process.env.BRIKKO_STUDIO_DOCKER_ALL_TIMINGS, true);
+  const buildEnabled = parseBool(process.env.BRIKKO_STUDIO_DOCKER_ALL_BUILD, true);
   const planJson =
-    cliArgs.has("--plan-json") || parseBool(process.env.OPENCLAW_DOCKER_ALL_PLAN_JSON, false);
-  const planReleaseAll = parseBool(process.env.OPENCLAW_DOCKER_ALL_PLAN_RELEASE_ALL, false);
-  const profile = parseProfile(process.env.OPENCLAW_DOCKER_ALL_PROFILE);
-  const releaseChunk = process.env.OPENCLAW_DOCKER_ALL_CHUNK || process.env.DOCKER_E2E_CHUNK || "";
+    cliArgs.has("--plan-json") || parseBool(process.env.BRIKKO_STUDIO_DOCKER_ALL_PLAN_JSON, false);
+  const planReleaseAll = parseBool(process.env.BRIKKO_STUDIO_DOCKER_ALL_PLAN_RELEASE_ALL, false);
+  const profile = parseProfile(process.env.BRIKKO_STUDIO_DOCKER_ALL_PROFILE);
+  const releaseChunk = process.env.BRIKKO_STUDIO_DOCKER_ALL_CHUNK || process.env.DOCKER_E2E_CHUNK || "";
   const includeOpenWebUI = parseBool(
-    process.env.OPENCLAW_DOCKER_ALL_INCLUDE_OPENWEBUI ?? process.env.INCLUDE_OPENWEBUI,
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_INCLUDE_OPENWEBUI ?? process.env.INCLUDE_OPENWEBUI,
     true,
   );
   const selectedLaneNamesRaw =
-    process.env.OPENCLAW_DOCKER_ALL_LANES || process.env.DOCKER_E2E_LANES || "";
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_LANES || process.env.DOCKER_E2E_LANES || "";
   const selectedLaneNames = parseLaneSelection(selectedLaneNamesRaw);
   if (selectedLaneNamesRaw && selectedLaneNames.length === 0) {
-    throw new Error("OPENCLAW_DOCKER_ALL_LANES must include at least one lane name");
+    throw new Error("BRIKKO_STUDIO_DOCKER_ALL_LANES must include at least one lane name");
   }
-  const liveMode = parseLiveMode(process.env.OPENCLAW_DOCKER_ALL_LIVE_MODE);
+  const liveMode = parseLiveMode(process.env.BRIKKO_STUDIO_DOCKER_ALL_LIVE_MODE);
   const liveRetries = parseNonNegativeInt(
-    process.env.OPENCLAW_DOCKER_ALL_LIVE_RETRIES,
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_LIVE_RETRIES,
     DEFAULT_LIVE_RETRIES,
-    "OPENCLAW_DOCKER_ALL_LIVE_RETRIES",
+    "BRIKKO_STUDIO_DOCKER_ALL_LIVE_RETRIES",
   );
   const timingsFile = path.resolve(
-    process.env.OPENCLAW_DOCKER_ALL_TIMINGS_FILE || DEFAULT_TIMINGS_FILE,
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_TIMINGS_FILE || DEFAULT_TIMINGS_FILE,
   );
-  const runId = process.env.OPENCLAW_DOCKER_ALL_RUN_ID || utcStampForPath();
+  const runId = process.env.BRIKKO_STUDIO_DOCKER_ALL_RUN_ID || utcStampForPath();
   const logDir = path.resolve(
-    process.env.OPENCLAW_DOCKER_ALL_LOG_DIR ||
+    process.env.BRIKKO_STUDIO_DOCKER_ALL_LOG_DIR ||
       path.join(ROOT_DIR, ".artifacts/docker-tests", runId),
   );
 
   const baseEnv = commandEnv({
-    OPENCLAW_DOCKER_E2E_BARE_IMAGE:
-      process.env.OPENCLAW_DOCKER_E2E_BARE_IMAGE ||
-      process.env.OPENCLAW_DOCKER_E2E_IMAGE ||
+    BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE:
+      process.env.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE ||
+      process.env.BRIKKO_STUDIO_DOCKER_E2E_IMAGE ||
       DEFAULT_E2E_BARE_IMAGE,
-    OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE:
-      process.env.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE ||
-      process.env.OPENCLAW_DOCKER_E2E_IMAGE ||
+    BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE:
+      process.env.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE ||
+      process.env.BRIKKO_STUDIO_DOCKER_E2E_IMAGE ||
       DEFAULT_E2E_FUNCTIONAL_IMAGE,
   });
-  baseEnv.OPENCLAW_DOCKER_E2E_IMAGE =
-    process.env.OPENCLAW_DOCKER_E2E_IMAGE || baseEnv.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE;
+  baseEnv.BRIKKO_STUDIO_DOCKER_E2E_IMAGE =
+    process.env.BRIKKO_STUDIO_DOCKER_E2E_IMAGE || baseEnv.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE;
   appendExtension(baseEnv, "matrix");
   appendExtension(baseEnv, "acpx");
   appendExtension(baseEnv, "codex");
@@ -1162,8 +1162,8 @@ async function main() {
     releaseChunk,
     selectedLaneNames,
     timingStore,
-    upgradeSurvivorBaselines: process.env.OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPECS,
-    upgradeSurvivorScenarios: process.env.OPENCLAW_UPGRADE_SURVIVOR_SCENARIOS,
+    upgradeSurvivorBaselines: process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_BASELINE_SPECS,
+    upgradeSurvivorScenarios: process.env.BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIOS,
   });
 
   if (planJson) {
@@ -1189,8 +1189,8 @@ async function main() {
     }`,
   );
   console.log(`==> Build shared Docker images: ${buildEnabled ? "yes" : "no"}`);
-  console.log(`==> Docker E2E bare image: ${baseEnv.OPENCLAW_DOCKER_E2E_BARE_IMAGE}`);
-  console.log(`==> Docker E2E functional image: ${baseEnv.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE}`);
+  console.log(`==> Docker E2E bare image: ${baseEnv.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE}`);
+  console.log(`==> Docker E2E functional image: ${baseEnv.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE}`);
   if (profile === RELEASE_PATH_PROFILE) {
     console.log(`==> Include Open WebUI: ${includeOpenWebUI ? "yes" : "no"}`);
   }
@@ -1198,7 +1198,7 @@ async function main() {
     console.log(`==> Selected lanes: ${selectedLaneNames.join(", ")}`);
   }
   console.log(`==> Docker lane timings: ${timingStore.enabled ? timingsFile : "disabled"}`);
-  console.log(`==> Live-test bundled plugins: ${baseEnv.OPENCLAW_DOCKER_BUILD_EXTENSIONS}`);
+  console.log(`==> Live-test bundled plugins: ${baseEnv.BRIKKO_STUDIO_DOCKER_BUILD_EXTENSIONS}`);
   const schedulerOptions = parseSchedulerOptions(process.env, parallelism);
   const tailSchedulerOptions = parseSchedulerOptions(process.env, tailParallelism);
   console.log(
@@ -1226,12 +1226,12 @@ async function main() {
       });
     },
   );
-  if (lanesNeedOpenClawPackage(scheduledLanes)) {
-    await runPhase(phases, "prepare-openclaw-package", {}, async () => {
-      await prepareOpenClawPackage(baseEnv, logDir);
+  if (lanesNeedBrikko StudioPackage(scheduledLanes)) {
+    await runPhase(phases, "prepare-brikko-studio-package", {}, async () => {
+      await prepareBrikko StudioPackage(baseEnv, logDir);
     });
   } else {
-    console.log("==> OpenClaw package: not needed for selected lanes");
+    console.log("==> Brikko Studio package: not needed for selected lanes");
   }
 
   if (buildEnabled) {
@@ -1248,11 +1248,11 @@ async function main() {
       buildEntries.push({
         command: "pnpm test:docker:e2e-build",
         env: {
-          OPENCLAW_DOCKER_E2E_IMAGE: baseEnv.OPENCLAW_DOCKER_E2E_BARE_IMAGE,
-          OPENCLAW_DOCKER_E2E_TARGET: "bare",
+          BRIKKO_STUDIO_DOCKER_E2E_IMAGE: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE,
+          BRIKKO_STUDIO_DOCKER_E2E_TARGET: "bare",
         },
-        label: `shared bare Docker E2E image once: ${baseEnv.OPENCLAW_DOCKER_E2E_BARE_IMAGE}`,
-        phaseDetails: { image: baseEnv.OPENCLAW_DOCKER_E2E_BARE_IMAGE, imageKind: "bare" },
+        label: `shared bare Docker E2E image once: ${baseEnv.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE}`,
+        phaseDetails: { image: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE, imageKind: "bare" },
         phases,
       });
     }
@@ -1260,12 +1260,12 @@ async function main() {
       buildEntries.push({
         command: "pnpm test:docker:e2e-build",
         env: {
-          OPENCLAW_DOCKER_E2E_IMAGE: baseEnv.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE,
-          OPENCLAW_DOCKER_E2E_TARGET: "functional",
+          BRIKKO_STUDIO_DOCKER_E2E_IMAGE: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE,
+          BRIKKO_STUDIO_DOCKER_E2E_TARGET: "functional",
         },
-        label: `shared functional Docker E2E image once: ${baseEnv.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE}`,
+        label: `shared functional Docker E2E image once: ${baseEnv.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE}`,
         phaseDetails: {
-          image: baseEnv.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE,
+          image: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE,
           imageKind: "functional",
         },
         phases,
@@ -1294,10 +1294,10 @@ async function main() {
     await writeRunSummary(logDir, {
       chunk: releaseChunk || undefined,
       failures,
-      image: baseEnv.OPENCLAW_DOCKER_E2E_IMAGE,
+      image: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_IMAGE,
       images: {
-        bare: baseEnv.OPENCLAW_DOCKER_E2E_BARE_IMAGE,
-        functional: baseEnv.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE,
+        bare: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE,
+        functional: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE,
       },
       lanes: allResults,
       phases,
@@ -1333,10 +1333,10 @@ async function main() {
     await writeRunSummary(logDir, {
       chunk: releaseChunk || undefined,
       failures,
-      image: baseEnv.OPENCLAW_DOCKER_E2E_IMAGE,
+      image: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_IMAGE,
       images: {
-        bare: baseEnv.OPENCLAW_DOCKER_E2E_BARE_IMAGE,
-        functional: baseEnv.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE,
+        bare: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE,
+        functional: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE,
       },
       lanes: allResults,
       phases,
@@ -1364,10 +1364,10 @@ async function main() {
   await writeRunSummary(logDir, {
     chunk: releaseChunk || undefined,
     failures,
-    image: baseEnv.OPENCLAW_DOCKER_E2E_IMAGE,
+    image: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_IMAGE,
     images: {
-      bare: baseEnv.OPENCLAW_DOCKER_E2E_BARE_IMAGE,
-      functional: baseEnv.OPENCLAW_DOCKER_E2E_FUNCTIONAL_IMAGE,
+      bare: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_BARE_IMAGE,
+      functional: baseEnv.BRIKKO_STUDIO_DOCKER_E2E_FUNCTIONAL_IMAGE,
     },
     lanes: allResults,
     phases,

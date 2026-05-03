@@ -1,4 +1,4 @@
-import { resolveChannelGroupRequireMention } from "openclaw/plugin-sdk/channel-policy";
+import { resolveChannelGroupRequireMention } from "brikko-studio/plugin-sdk/channel-policy";
 import { resolveMattermostAccount } from "./mattermost/accounts.js";
 import type { ChannelGroupContext } from "./runtime-api.js";
 

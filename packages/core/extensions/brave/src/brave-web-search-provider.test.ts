@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { validateJsonSchemaValue } from "openclaw/plugin-sdk/config-schema";
+import { validateJsonSchemaValue } from "brikko-studio/plugin-sdk/config-schema";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { __testing } from "../test-api.js";
 import { createBraveWebSearchProvider as createBraveWebSearchContractProvider } from "../web-search-contract-api.js";
@@ -7,7 +7,7 @@ import { createBraveWebSearchProvider } from "./brave-web-search-provider.js";
 
 const loggerInfoMock = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/runtime-env", () => ({
+vi.mock("brikko-studio/plugin-sdk/runtime-env", () => ({
   createSubsystemLogger: () => ({
     info: loggerInfoMock,
     debug: vi.fn(),
@@ -32,7 +32,7 @@ vi.mock("openclaw/plugin-sdk/runtime-env", () => ({
 }));
 
 const braveManifest = JSON.parse(
-  fs.readFileSync(new URL("../openclaw.plugin.json", import.meta.url), "utf-8"),
+  fs.readFileSync(new URL("../brikko-studio.plugin.json", import.meta.url), "utf-8"),
 ) as {
   configSchema?: Record<string, unknown>;
 };
@@ -78,10 +78,10 @@ describe("brave web search provider", () => {
 
   it("points provider metadata at the canonical Brave docs page", () => {
     expect(createBraveWebSearchProvider().docsUrl).toBe(
-      "https://docs.openclaw.ai/tools/brave-search",
+      "https://docs.brikko-studio.ai/tools/brave-search",
     );
     expect(createBraveWebSearchContractProvider().docsUrl).toBe(
-      "https://docs.openclaw.ai/tools/brave-search",
+      "https://docs.brikko-studio.ai/tools/brave-search",
     );
   });
 
@@ -93,7 +93,7 @@ describe("brave web search provider", () => {
       throw new Error("Expected tool definition");
     }
 
-    const result = await tool.execute({ query: "OpenClaw docs" });
+    const result = await tool.execute({ query: "Brikko Studio docs" });
 
     expect(result).toMatchObject({
       error: "missing_brave_api_key",

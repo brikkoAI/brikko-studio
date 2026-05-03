@@ -22,7 +22,7 @@ export {
   splitShellArgs,
   truncateUtf16Safe,
   writeFileWithinRoot,
-} from "./openclaw-runtime.js";
+} from "./brikko-studio-runtime.js";
 
 export type {
   ProcessWarning,
@@ -35,4 +35,4 @@ export type {
   WindowsSpawnProgram,
   WindowsSpawnProgramCandidate,
   WindowsSpawnResolution,
-} from "./openclaw-runtime.js";
+} from "./brikko-studio-runtime.js";

@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { LegacyConfigRule } from "../config/legacy.shared.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import { asNullableRecord } from "../shared/record-coerce.js";
 import type { PluginManifestRegistry } from "./manifest-registry.js";
 import {
@@ -24,12 +24,12 @@ type PluginDoctorContractModule = {
 };
 
 type PluginDoctorCompatibilityMutation = {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   changes: string[];
 };
 
 type PluginDoctorCompatibilityNormalizer = (params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
 }) => PluginDoctorCompatibilityMutation;
 
 type PluginDoctorContractEntry = {
@@ -244,14 +244,14 @@ export function listPluginDoctorLegacyConfigRules(params?: {
 }
 
 export function applyPluginDoctorCompatibilityMigrations(
-  cfg: OpenClawConfig,
+  cfg: Brikko StudioConfig,
   params?: {
     workspaceDir?: string;
     env?: NodeJS.ProcessEnv;
     pluginIds?: readonly string[];
   },
 ): {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   changes: string[];
 } {
   let nextCfg = cfg;

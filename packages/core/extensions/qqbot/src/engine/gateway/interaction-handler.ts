@@ -63,7 +63,7 @@ function buildClawCfgSnapshot(
   return {
     channel_type: "qqbot",
     channel_ver: getPluginVersion(),
-    claw_type: "openclaw",
+    claw_type: "brikko-studio",
     claw_ver: getFrameworkVersion(),
     require_mention: requireMentionMode,
     group_policy: policies.groupPolicy,

@@ -25,8 +25,8 @@ vi.mock("./google-genai-runtime.js", () => ({
   createGoogleGenAI: createGoogleGenAIMock,
 }));
 
-import * as providerAuthRuntime from "openclaw/plugin-sdk/provider-auth-runtime";
-import { expectExplicitVideoGenerationCapabilities } from "openclaw/plugin-sdk/provider-test-contracts";
+import * as providerAuthRuntime from "brikko-studio/plugin-sdk/provider-auth-runtime";
+import { expectExplicitVideoGenerationCapabilities } from "brikko-studio/plugin-sdk/provider-test-contracts";
 import { buildGoogleVideoGenerationProvider } from "./video-generation-provider.js";
 
 describe("google video generation provider", () => {

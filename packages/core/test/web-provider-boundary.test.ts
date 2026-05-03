@@ -1,4 +1,4 @@
-import { BUNDLED_PLUGIN_PATH_PREFIX } from "openclaw/plugin-sdk/test-fixtures";
+import { BUNDLED_PLUGIN_PATH_PREFIX } from "brikko-studio/plugin-sdk/test-fixtures";
 import { describe, expect, it } from "vitest";
 import {
   collectWebFetchProviderBoundaryViolations,

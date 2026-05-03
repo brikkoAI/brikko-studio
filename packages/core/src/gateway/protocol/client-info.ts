@@ -2,18 +2,18 @@ import { normalizeOptionalLowercaseString } from "../../shared/string-coerce.js"
 
 export const GATEWAY_CLIENT_IDS = {
   WEBCHAT_UI: "webchat-ui",
-  CONTROL_UI: "openclaw-control-ui",
-  TUI: "openclaw-tui",
+  CONTROL_UI: "brikko-studio-control-ui",
+  TUI: "brikko-studio-tui",
   WEBCHAT: "webchat",
   CLI: "cli",
   GATEWAY_CLIENT: "gateway-client",
-  MACOS_APP: "openclaw-macos",
-  IOS_APP: "openclaw-ios",
-  ANDROID_APP: "openclaw-android",
+  MACOS_APP: "brikko-studio-macos",
+  IOS_APP: "brikko-studio-ios",
+  ANDROID_APP: "brikko-studio-android",
   NODE_HOST: "node-host",
   TEST: "test",
   FINGERPRINT: "fingerprint",
-  PROBE: "openclaw-probe",
+  PROBE: "brikko-studio-probe",
 } as const;
 
 export type GatewayClientId = (typeof GATEWAY_CLIENT_IDS)[keyof typeof GATEWAY_CLIENT_IDS];

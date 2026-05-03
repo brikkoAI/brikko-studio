@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import type { UpdateCheckResult } from "../infra/update-check.js";
 import { runExec } from "../process/exec.js";
 import { createEmptyTaskAuditSummary } from "../tasks/task-registry.audit.shared.js";
@@ -59,7 +59,7 @@ type StatusScanExecRunner = (
 
 type StatusScanCoreBootstrapParams<TAgentStatus> = {
   coldStart: boolean;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   hasConfiguredChannels: boolean;
   opts: { timeoutMs?: number; all?: boolean };
   getTailnetHostname: (runner: StatusScanExecRunner) => Promise<string | null>;
@@ -69,7 +69,7 @@ type StatusScanCoreBootstrapParams<TAgentStatus> = {
     includeRegistry: boolean;
     updateConfigChannel?: string | null;
   }) => Promise<UpdateCheckResult>;
-  getAgentLocalStatuses: (cfg: OpenClawConfig) => Promise<TAgentStatus>;
+  getAgentLocalStatuses: (cfg: Brikko StudioConfig) => Promise<TAgentStatus>;
 };
 
 export async function createStatusScanCoreBootstrap<TAgentStatus>(

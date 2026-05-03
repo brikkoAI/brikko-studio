@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-import { createTestPluginApi } from "openclaw/plugin-sdk/plugin-test-api";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getAccessTokenResultAsync } from "./cli.js";
 import plugin from "./index.js";
@@ -30,9 +30,9 @@ vi.mock("node:child_process", async () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/provider-auth", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/provider-auth")>(
-    "openclaw/plugin-sdk/provider-auth",
+vi.mock("brikko-studio/plugin-sdk/provider-auth", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/provider-auth")>(
+    "brikko-studio/plugin-sdk/provider-auth",
   );
   return {
     ...actual,
@@ -123,7 +123,7 @@ function buildFoundryConfig(params?: {
         },
       },
     },
-  } satisfies OpenClawConfig;
+  } satisfies Brikko StudioConfig;
 }
 
 function buildEntraProfileStore(
@@ -362,7 +362,7 @@ describe("microsoft-foundry plugin", () => {
 
   it("keeps other configured Foundry models when switching the selected model", async () => {
     const provider = registerProvider();
-    const config: OpenClawConfig = {
+    const config: Brikko StudioConfig = {
       auth: {
         profiles: {
           "microsoft-foundry:default": {
@@ -552,7 +552,7 @@ describe("microsoft-foundry plugin", () => {
 
   it("keeps persisted response-mode routing for custom deployment aliases", async () => {
     const provider = registerProvider();
-    const config: OpenClawConfig = {
+    const config: Brikko StudioConfig = {
       auth: {
         profiles: {
           "microsoft-foundry:entra": {

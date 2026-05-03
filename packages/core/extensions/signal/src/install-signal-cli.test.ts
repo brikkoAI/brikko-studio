@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import JSZip from "jszip";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import * as tar from "tar";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ReleaseAsset } from "./install-signal-cli.js";
@@ -11,7 +11,7 @@ const { fetchWithSsrFGuardMock } = vi.hoisted(() => ({
   fetchWithSsrFGuardMock: vi.fn(),
 }));
 
-vi.mock("openclaw/plugin-sdk/ssrf-runtime", () => ({
+vi.mock("brikko-studio/plugin-sdk/ssrf-runtime", () => ({
   fetchWithSsrFGuard: fetchWithSsrFGuardMock,
 }));
 
@@ -63,7 +63,7 @@ function okDownloadResponse(body: BodyInit, init: ResponseInit = {}) {
 }
 
 async function withTempFile(run: (filePath: string) => Promise<void>) {
-  const workDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-signal-download-"));
+  const workDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-signal-download-"));
   try {
     await run(path.join(workDir, "signal-cli.tgz"));
   } finally {
@@ -257,7 +257,7 @@ describe("installSignalCliFromRelease", () => {
 
 describe("extractSignalCliArchive", () => {
   async function withArchiveWorkspace(run: (workDir: string) => Promise<void>) {
-    const workDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-signal-install-"));
+    const workDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-signal-install-"));
     try {
       await run(workDir);
     } finally {

@@ -16,7 +16,7 @@ let collectRelevantDoctorPluginIdsForTouchedPaths: typeof import("./doctor-contr
 let listPluginDoctorLegacyConfigRules: typeof import("./doctor-contract-registry.js").listPluginDoctorLegacyConfigRules;
 
 function makeTempDir(): string {
-  return makeTrackedTempDir("openclaw-doctor-contract-registry", tempDirs);
+  return makeTrackedTempDir("brikko-studio-doctor-contract-registry", tempDirs);
 }
 
 afterEach(() => {

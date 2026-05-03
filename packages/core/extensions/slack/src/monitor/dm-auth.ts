@@ -1,6 +1,6 @@
-import { formatAllowlistMatchMeta } from "openclaw/plugin-sdk/allow-from";
-import { createChannelPairingChallengeIssuer } from "openclaw/plugin-sdk/channel-pairing";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatAllowlistMatchMeta } from "brikko-studio/plugin-sdk/allow-from";
+import { createChannelPairingChallengeIssuer } from "brikko-studio/plugin-sdk/channel-pairing";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { resolveSlackAllowListMatch } from "./allow-list.js";
 import type { SlackMonitorContext } from "./context.js";
 import { upsertChannelPairingRequest } from "./conversation.runtime.js";

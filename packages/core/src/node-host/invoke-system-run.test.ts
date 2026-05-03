@@ -41,17 +41,17 @@ type MockedSendNodeEvent = Mock<HandleSystemRunInvokeOptions["sendNodeEvent"]>;
 
 describe("handleSystemRunInvoke mac app exec host routing", () => {
   let sharedFixtureRoot = "";
-  let sharedOpenClawHome = "";
+  let sharedBrikko StudioHome = "";
   let sharedRuntimeBinDir = "";
   let sharedFixtureId = 0;
-  let previousOpenClawHome: string | undefined;
+  let previousBrikko StudioHome: string | undefined;
   const sharedRuntimeBins = new Set<string>();
 
   beforeAll(() => {
-    sharedFixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-node-host-fixtures-"));
-    sharedOpenClawHome = path.join(sharedFixtureRoot, "openclaw-home");
+    sharedFixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-node-host-fixtures-"));
+    sharedBrikko StudioHome = path.join(sharedFixtureRoot, "brikko-studio-home");
     sharedRuntimeBinDir = path.join(sharedFixtureRoot, "bin");
-    fs.mkdirSync(sharedOpenClawHome, { recursive: true });
+    fs.mkdirSync(sharedBrikko StudioHome, { recursive: true });
     fs.mkdirSync(sharedRuntimeBinDir, { recursive: true });
   });
 
@@ -68,18 +68,18 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   }
 
   beforeEach(() => {
-    previousOpenClawHome = process.env.OPENCLAW_HOME;
-    process.env.OPENCLAW_HOME = sharedOpenClawHome;
+    previousBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    process.env.BRIKKO_STUDIO_HOME = sharedBrikko StudioHome;
     fs.rmSync(resolveExecApprovalsPath(), { force: true });
     clearRuntimeConfigSnapshot();
   });
 
   afterEach(() => {
     clearRuntimeConfigSnapshot();
-    if (previousOpenClawHome === undefined) {
-      delete process.env.OPENCLAW_HOME;
+    if (previousBrikko StudioHome === undefined) {
+      delete process.env.BRIKKO_STUDIO_HOME;
     } else {
-      process.env.OPENCLAW_HOME = previousOpenClawHome;
+      process.env.BRIKKO_STUDIO_HOME = previousBrikko StudioHome;
     }
   });
 
@@ -266,17 +266,17 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
     approvals: Parameters<typeof saveExecApprovals>[0];
     run: (ctx: { tempHome: string }) => Promise<T>;
   }): Promise<T> {
-    const tempHome = sharedOpenClawHome;
-    const previousOpenClawHome = process.env.OPENCLAW_HOME;
-    process.env.OPENCLAW_HOME = tempHome;
+    const tempHome = sharedBrikko StudioHome;
+    const previousBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    process.env.BRIKKO_STUDIO_HOME = tempHome;
     saveExecApprovals(params.approvals);
     try {
       return await params.run({ tempHome });
     } finally {
-      if (previousOpenClawHome === undefined) {
-        delete process.env.OPENCLAW_HOME;
+      if (previousBrikko StudioHome === undefined) {
+        delete process.env.BRIKKO_STUDIO_HOME;
       } else {
-        process.env.OPENCLAW_HOME = previousOpenClawHome;
+        process.env.BRIKKO_STUDIO_HOME = previousBrikko StudioHome;
       }
     }
   }
@@ -547,7 +547,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
     "preserves wrapper argv for approved env shell commands",
     async () => {
       for (const testCase of approvedEnvShellWrapperCases) {
-        const tmp = createFixtureDir("openclaw-approved-wrapper-");
+        const tmp = createFixtureDir("brikko-studio-approved-wrapper-");
         const marker = path.join(tmp, "marker");
         const attackerScript = path.join(tmp, "sh");
         fs.writeFileSync(attackerScript, "#!/bin/sh\necho exploited > marker\n");
@@ -672,16 +672,16 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
         label: "semicolon chain simple command",
         command:
           process.platform === "win32"
-            ? ["cmd.exe", "/d", "/s", "/c", "openclaw status; id"]
-            : ["/bin/sh", "-lc", "openclaw status; id"],
+            ? ["cmd.exe", "/d", "/s", "/c", "brikko-studio status; id"]
+            : ["/bin/sh", "-lc", "brikko-studio status; id"],
         approvalRequired: true,
       },
       {
         label: "semicolon chain path read",
         command:
           process.platform === "win32"
-            ? ["cmd.exe", "/d", "/s", "/c", "openclaw status; cat /etc/passwd"]
-            : ["/bin/sh", "-lc", "openclaw status; cat /etc/passwd"],
+            ? ["cmd.exe", "/d", "/s", "/c", "brikko-studio status; cat /etc/passwd"]
+            : ["/bin/sh", "-lc", "brikko-studio status; cat /etc/passwd"],
         approvalRequired: true,
       },
       {
@@ -711,7 +711,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
     "pins PATH-token executable to canonical path",
     async () => {
       await withPathTokenCommand({
-        tmpPrefix: "openclaw-approval-path-pin-",
+        tmpPrefix: "brikko-studio-approval-path-pin-",
         run: async ({ expected }) => {
           const { runCommand, sendInvokeResult } = await runSystemInvoke({
             preferMacAppExecHost: false,
@@ -739,7 +739,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
       }));
       const sendInvokeResult = vi.fn(async () => {});
       await withPathTokenCommand({
-        tmpPrefix: "openclaw-allowlist-path-pin-",
+        tmpPrefix: "brikko-studio-allowlist-path-pin-",
         run: async ({ link, expected }) => {
           await withTempApprovalsHome({
             approvals: {
@@ -784,7 +784,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
         {
           label: "cwd symlink",
           setup: () => {
-            const tmp = createFixtureDir("openclaw-approval-cwd-link-");
+            const tmp = createFixtureDir("brikko-studio-approval-cwd-link-");
             const safeDir = path.join(tmp, "safe");
             const linkDir = path.join(tmp, "cwd-link");
             const script = path.join(safeDir, "run.sh");
@@ -801,7 +801,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
         {
           label: "parent symlink",
           setup: () => {
-            const tmp = createFixtureDir("openclaw-approval-cwd-parent-link-");
+            const tmp = createFixtureDir("brikko-studio-approval-cwd-parent-link-");
             const safeRoot = path.join(tmp, "safe-root");
             const safeSub = path.join(safeRoot, "sub");
             const linkRoot = path.join(tmp, "approved-link");
@@ -830,7 +830,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   );
 
   it("uses canonical executable path for approval-based relative command execution", async () => {
-    const tmp = createFixtureDir("openclaw-approval-cwd-real-");
+    const tmp = createFixtureDir("brikko-studio-approval-cwd-real-");
     const script = path.join(tmp, "run.sh");
     fs.writeFileSync(script, "#!/bin/sh\necho SAFE\n");
     fs.chmodSync(script, 0o755);
@@ -860,8 +860,8 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   });
 
   it("denies approval-based execution when cwd identity drifts before execution", async () => {
-    const tmp = createFixtureDir("openclaw-approval-cwd-drift-");
-    const fallback = createFixtureDir("openclaw-approval-cwd-drift-alt-");
+    const tmp = createFixtureDir("brikko-studio-approval-cwd-drift-");
+    const fallback = createFixtureDir("brikko-studio-approval-cwd-drift-alt-");
     const script = path.join(tmp, "run.sh");
     fs.writeFileSync(script, "#!/bin/sh\necho SAFE\n");
     fs.chmodSync(script, 0o755);
@@ -897,7 +897,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   it("validates approved script operand bindings at dispatch", async () => {
     for (const mutate of [true, false]) {
       const tmp = createFixtureDir(
-        mutate ? "openclaw-approval-script-drift-" : "openclaw-approval-script-stable-",
+        mutate ? "brikko-studio-approval-script-drift-" : "brikko-studio-approval-script-stable-",
       );
       const fixture = createMutableScriptOperandFixture(tmp);
       fs.writeFileSync(fixture.scriptPath, fixture.initialBody);
@@ -944,7 +944,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
     await withFakeRuntimeOnPath({
       runtime: "tsx",
       run: async () => {
-        const tmp = createFixtureDir("openclaw-approval-tsx-script-drift-");
+        const tmp = createFixtureDir("brikko-studio-approval-tsx-script-drift-");
         const fixture = createRuntimeScriptOperandFixture({ tmp, runtime: "tsx" });
         fs.writeFileSync(fixture.scriptPath, fixture.initialBody);
         const prepared = buildSystemRunApprovalPlan({
@@ -973,7 +973,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
           message: "SYSTEM_RUN_DENIED: approval script operand changed before execution",
           exact: true,
         });
-        const missingBindingTmp = createFixtureDir("openclaw-approval-tsx-missing-binding-");
+        const missingBindingTmp = createFixtureDir("brikko-studio-approval-tsx-missing-binding-");
         const missingBindingFixture = createRuntimeScriptOperandFixture({
           tmp: missingBindingTmp,
           runtime: "tsx",
@@ -1011,7 +1011,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   });
 
   it("denies ./sh wrapper spoof in allowlist on-miss mode before execution", async () => {
-    const marker = path.join(os.tmpdir(), `openclaw-wrapper-spoof-${process.pid}-${Date.now()}`);
+    const marker = path.join(os.tmpdir(), `brikko-studio-wrapper-spoof-${process.pid}-${Date.now()}`);
     const runCommand = vi.fn(async () => {
       fs.writeFileSync(marker, "executed");
       return createLocalRunResult();
@@ -1134,7 +1134,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
       ask: "off",
       command: ["/bin/sh", "./script.sh"],
       env: {
-        OPENCLAW_TEST: "1",
+        BRIKKO_STUDIO_TEST: "1",
         LANG: "C",
         LC_TIME: "C",
       },
@@ -1295,7 +1295,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
       await withTempApprovalsHome({
         approvals: createAllowlistOnMissApprovals(),
         run: async () => {
-          const tempDir = createFixtureDir("openclaw-inline-eval-bin-");
+          const tempDir = createFixtureDir("brikko-studio-inline-eval-bin-");
           const executablePath = createTempExecutable({
             dir: tempDir,
             name: "python3",
@@ -1332,7 +1332,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
       await withTempApprovalsHome({
         approvals: createAllowlistOnMissApprovals(),
         run: async () => {
-          const tempDir = createFixtureDir("openclaw-inline-eval-awk-");
+          const tempDir = createFixtureDir("brikko-studio-inline-eval-awk-");
           const executablePath = createTempExecutable({
             dir: tempDir,
             name: "awk",
@@ -1385,7 +1385,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
       await withTempApprovalsHome({
         approvals: createAllowlistOnMissApprovals(),
         run: async () => {
-          const tempDir = createFixtureDir("openclaw-inline-eval-make-");
+          const tempDir = createFixtureDir("brikko-studio-inline-eval-make-");
           const executablePath = createTempExecutable({
             dir: tempDir,
             name: "make",
@@ -1427,7 +1427,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   it.runIf(process.platform !== "win32")(
     "auto-runs allowlisted inner scripts through transport shell wrappers",
     async () => {
-      const tempDir = createFixtureDir("openclaw-shell-wrapper-inner-");
+      const tempDir = createFixtureDir("brikko-studio-shell-wrapper-inner-");
       const scriptsDir = path.join(tempDir, "scripts");
       fs.mkdirSync(scriptsDir, { recursive: true });
       const scriptPath = path.join(scriptsDir, "check_mail.sh");
@@ -1471,7 +1471,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
           commandPrefix: ["env", "FOO=bar", "cmd.exe", "/d", "/s", "/c"],
         },
       ]) {
-        const tempDir = createFixtureDir("openclaw-cmd-wrapper-allow-");
+        const tempDir = createFixtureDir("brikko-studio-cmd-wrapper-allow-");
         const scriptPath = path.join(tempDir, "check_mail.cmd");
         fs.writeFileSync(scriptPath, "@echo off\r\necho ok\r\n");
         const command = [...testCase.commandPrefix, `${scriptPath} --limit 5`];
@@ -1528,7 +1528,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
       return;
     }
 
-    const tempDir = createFixtureDir("openclaw-shell-wrapper-allow-");
+    const tempDir = createFixtureDir("brikko-studio-shell-wrapper-allow-");
     const prepared = buildSystemRunApprovalPlan({
       command: ["/bin/sh", "-lc", "cd ."],
       cwd: tempDir,

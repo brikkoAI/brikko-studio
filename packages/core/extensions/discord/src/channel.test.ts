@@ -1,10 +1,10 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { createStartAccountContext } from "openclaw/plugin-sdk/channel-test-helpers";
-import type { PluginRuntime } from "openclaw/plugin-sdk/core";
+import { createStartAccountContext } from "brikko-studio/plugin-sdk/channel-test-helpers";
+import type { PluginRuntime } from "brikko-studio/plugin-sdk/core";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ResolvedDiscordAccount } from "./accounts.js";
-import type { OpenClawConfig } from "./runtime-api.js";
+import type { Brikko StudioConfig } from "./runtime-api.js";
 import * as sendModule from "./send.js";
 import { EMPTY_DISCORD_TEST_CONFIG } from "./test-support/config.js";
 let discordPlugin: typeof import("./channel.js").discordPlugin;
@@ -18,9 +18,9 @@ const collectDiscordAuditChannelIdsMock = vi.hoisted(() =>
 );
 const sleepWithAbortMock = vi.hoisted(() => vi.fn(async () => undefined));
 
-vi.mock("openclaw/plugin-sdk/runtime-env", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/runtime-env")>(
-    "openclaw/plugin-sdk/runtime-env",
+vi.mock("brikko-studio/plugin-sdk/runtime-env", async () => {
+  const actual = await vi.importActual<typeof import("brikko-studio/plugin-sdk/runtime-env")>(
+    "brikko-studio/plugin-sdk/runtime-env",
   );
   return {
     ...actual,
@@ -47,7 +47,7 @@ vi.mock("./audit.js", () => {
   };
 });
 
-function createCfg(): OpenClawConfig {
+function createCfg(): Brikko StudioConfig {
   return {
     channels: {
       discord: {
@@ -55,14 +55,14 @@ function createCfg(): OpenClawConfig {
         token: "discord-token",
       },
     },
-  } as OpenClawConfig;
+  } as Brikko StudioConfig;
 }
 
-function resolveAccount(cfg: OpenClawConfig, accountId = "default"): ResolvedDiscordAccount {
+function resolveAccount(cfg: Brikko StudioConfig, accountId = "default"): ResolvedDiscordAccount {
   return discordPlugin.config.resolveAccount(cfg, accountId);
 }
 
-function startDiscordAccount(cfg: OpenClawConfig, accountId = "default") {
+function startDiscordAccount(cfg: Brikko StudioConfig, accountId = "default") {
   return discordPlugin.gateway!.startAccount!(
     createStartAccountContext({
       account: resolveAccount(cfg, accountId),
@@ -182,7 +182,7 @@ describe("discordPlugin outbound", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(resolveReplyToMode({ cfg, accountId: "work" })).toBe("first");
     expect(resolveReplyToMode({ cfg, accountId: "default" })).toBe("all");
@@ -203,7 +203,7 @@ describe("discordPlugin outbound", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(resolveAccount(cfg).config).toMatchObject({
       gatewayReadyTimeoutMs: 90_000,
@@ -446,7 +446,7 @@ describe("discordPlugin outbound", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     // First account (index 0) — no delay
     await startDiscordAccount(cfg, "alpha");
@@ -524,7 +524,7 @@ describe("discordPlugin security", () => {
           dm: { policy: "allowlist", allowFrom: ["  discord:<@!123456789>  "] },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const result = resolveDmPolicy({
       cfg,
@@ -563,7 +563,7 @@ describe("discordPlugin groups", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     expect(
       discordPlugin.groups?.resolveRequireMention?.({

@@ -1,4 +1,4 @@
-import type { OutputRuntimeEnv, RuntimeEnv } from "openclaw/plugin-sdk/runtime";
+import type { OutputRuntimeEnv, RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
 import { vi } from "vitest";
 
 type RuntimeEnvOptions = {

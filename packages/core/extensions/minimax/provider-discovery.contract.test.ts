@@ -1,3 +1,3 @@
-import { describeMinimaxProviderDiscoveryContract } from "openclaw/plugin-sdk/provider-test-contracts";
+import { describeMinimaxProviderDiscoveryContract } from "brikko-studio/plugin-sdk/provider-test-contracts";
 
 describeMinimaxProviderDiscoveryContract(() => import("./index.js"));

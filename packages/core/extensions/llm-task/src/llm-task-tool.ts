@@ -1,10 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import Ajv from "ajv";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { Type } from "typebox";
-import { resolvePreferredOpenClawTmpDir } from "../api.js";
-import type { OpenClawPluginApi } from "../api.js";
+import { resolvePreferredBrikko StudioTmpDir } from "../api.js";
+import type { Brikko StudioPluginApi } from "../api.js";
 
 const AjvCtor = Ajv as unknown as typeof import("ajv").default;
 
@@ -65,7 +65,7 @@ type LlmTaskParams = {
   timeoutMs?: unknown;
 };
 
-type ThinkingPolicy = ReturnType<OpenClawPluginApi["runtime"]["agent"]["resolveThinkingPolicy"]>;
+type ThinkingPolicy = ReturnType<Brikko StudioPluginApi["runtime"]["agent"]["resolveThinkingPolicy"]>;
 
 function formatThinkingPolicy(policy: ThinkingPolicy): string {
   return policy.levels.map((level) => level.label).join(", ");
@@ -73,17 +73,17 @@ function formatThinkingPolicy(policy: ThinkingPolicy): string {
 
 function supportsThinkingPolicyLevel(
   policy: ThinkingPolicy,
-  level: ReturnType<OpenClawPluginApi["runtime"]["agent"]["normalizeThinkingLevel"]>,
+  level: ReturnType<Brikko StudioPluginApi["runtime"]["agent"]["normalizeThinkingLevel"]>,
 ): boolean {
   return !!level && policy.levels.some((entry) => entry.id === level);
 }
 
-export function createLlmTaskTool(api: OpenClawPluginApi) {
+export function createLlmTaskTool(api: Brikko StudioPluginApi) {
   return {
     name: "llm-task",
     label: "LLM Task",
     description:
-      "Run a generic JSON-only LLM task and return schema-validated JSON. Designed for orchestration from Lobster workflows via openclaw.invoke.",
+      "Run a generic JSON-only LLM task and return schema-validated JSON. Designed for orchestration from Lobster workflows via brikko-studio.invoke.",
     parameters: Type.Object({
       prompt: Type.String({ description: "Task instruction for the LLM." }),
       input: Type.Optional(Type.Unknown({ description: "Optional input payload for the task." })),
@@ -153,7 +153,7 @@ export function createLlmTaskTool(api: OpenClawPluginApi) {
 
       const thinkingRaw =
         typeof params.thinking === "string" && params.thinking.trim() ? params.thinking : undefined;
-      let thinkLevel: ReturnType<OpenClawPluginApi["runtime"]["agent"]["normalizeThinkingLevel"]> =
+      let thinkLevel: ReturnType<Brikko StudioPluginApi["runtime"]["agent"]["normalizeThinkingLevel"]> =
         undefined;
       if (thinkingRaw) {
         const thinkingPolicy = api.runtime.agent.resolveThinkingPolicy({ provider, model });
@@ -211,7 +211,7 @@ export function createLlmTaskTool(api: OpenClawPluginApi) {
       let tmpDir: string | null = null;
       try {
         tmpDir = await fs.mkdtemp(
-          path.join(resolvePreferredOpenClawTmpDir(), "openclaw-llm-task-"),
+          path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-llm-task-"),
         );
         const sessionId = `llm-task-${Date.now()}`;
         const sessionFile = path.join(tmpDir, "session.json");

@@ -5,13 +5,13 @@ describe("resolveLiveTransportQaRunOptions", () => {
   it("drops blank model refs so live transports can use provider defaults", () => {
     expect(
       resolveLiveTransportQaRunOptions({
-        repoRoot: "/tmp/openclaw-repo",
+        repoRoot: "/tmp/brikko-studio-repo",
         providerMode: "live-frontier",
         primaryModel: " ",
         alternateModel: "",
       }),
     ).toMatchObject({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/brikko-studio-repo",
       providerMode: "live-frontier",
       primaryModel: undefined,
       alternateModel: undefined,

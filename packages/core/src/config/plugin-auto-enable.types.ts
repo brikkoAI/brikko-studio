@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { Brikko StudioConfig } from "./types.brikko-studio.js";
 
 export type PluginAutoEnableCandidate =
   | {
@@ -45,7 +45,7 @@ export type PluginAutoEnableCandidate =
     };
 
 export type PluginAutoEnableResult = {
-  config: OpenClawConfig;
+  config: Brikko StudioConfig;
   changes: string[];
   autoEnabledReasons: Record<string, string[]>;
 };

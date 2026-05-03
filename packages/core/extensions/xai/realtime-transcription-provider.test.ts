@@ -40,7 +40,7 @@ async function createRealtimeSttServer(params?: {
           ws.send(
             JSON.stringify({
               type: "transcript.partial",
-              text: "hello openclaw",
+              text: "hello brikko-studio",
               is_final: false,
               speech_final: false,
             }),
@@ -48,7 +48,7 @@ async function createRealtimeSttServer(params?: {
           ws.send(
             JSON.stringify({
               type: "transcript.partial",
-              text: "hello openclaw final",
+              text: "hello brikko-studio final",
               is_final: true,
               speech_final: true,
             }),
@@ -57,7 +57,7 @@ async function createRealtimeSttServer(params?: {
         }
         const event = JSON.parse(buffer.toString()) as { type?: string };
         if (event.type === "audio.done") {
-          ws.send(JSON.stringify({ type: "transcript.done", text: "hello openclaw final" }));
+          ws.send(JSON.stringify({ type: "transcript.done", text: "hello brikko-studio final" }));
           done();
         }
       });
@@ -151,7 +151,7 @@ describe("xai realtime transcription provider", () => {
     session.sendAudio(Buffer.from("queued-before-ready"));
     await session.connect();
     session.sendAudio(Buffer.from("after-ready"));
-    await waitFor(() => expect(onTranscript).toHaveBeenCalledWith("hello openclaw final"));
+    await waitFor(() => expect(onTranscript).toHaveBeenCalledWith("hello brikko-studio final"));
     session.close();
     await waitFor(() => expect(server.done).toHaveBeenCalled());
 
@@ -163,7 +163,7 @@ describe("xai realtime transcription provider", () => {
     expect(Buffer.concat(binaryFrames).toString()).toContain("queued-before-ready");
     expect(Buffer.concat(binaryFrames).toString()).toContain("after-ready");
     expect(onSpeechStart).toHaveBeenCalled();
-    expect(onPartial).toHaveBeenCalledWith("hello openclaw");
+    expect(onPartial).toHaveBeenCalledWith("hello brikko-studio");
   });
 
   it("rejects setup errors before the stream is ready", async () => {

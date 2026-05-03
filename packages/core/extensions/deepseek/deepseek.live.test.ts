@@ -10,13 +10,13 @@ import {
   createSingleUserPromptMessage,
   extractNonEmptyAssistantText,
   isLiveTestEnabled,
-} from "openclaw/plugin-sdk/test-env";
+} from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import { buildDeepSeekProvider } from "./provider-catalog.js";
 import { createDeepSeekV4ThinkingWrapper } from "./stream.js";
 
 const DEEPSEEK_KEY = process.env.DEEPSEEK_API_KEY ?? "";
-const DEEPSEEK_LIVE_MODEL = process.env.OPENCLAW_LIVE_DEEPSEEK_MODEL?.trim() || "deepseek-v4-flash";
+const DEEPSEEK_LIVE_MODEL = process.env.BRIKKO_STUDIO_LIVE_DEEPSEEK_MODEL?.trim() || "deepseek-v4-flash";
 const LIVE = isLiveTestEnabled(["DEEPSEEK_LIVE_TEST"]);
 
 const describeLive = LIVE && DEEPSEEK_KEY ? describe : describe.skip;

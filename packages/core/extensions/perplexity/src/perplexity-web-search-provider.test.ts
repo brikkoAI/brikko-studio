@@ -1,4 +1,4 @@
-import { withEnv, withEnvAsync } from "openclaw/plugin-sdk/test-env";
+import { withEnv, withEnvAsync } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import { createPerplexityWebSearchProvider } from "./perplexity-web-search-provider.js";
 import { __testing } from "./perplexity-web-search-provider.runtime.js";
@@ -20,7 +20,7 @@ describe("perplexity web search provider", () => {
           throw new Error("Expected tool definition");
         }
 
-        await expect(tool.execute({ query: "OpenClaw docs" })).resolves.toMatchObject({
+        await expect(tool.execute({ query: "Brikko Studio docs" })).resolves.toMatchObject({
           error: "missing_perplexity_api_key",
           message: expect.stringContaining("use web_fetch for a specific URL or the browser tool"),
         });

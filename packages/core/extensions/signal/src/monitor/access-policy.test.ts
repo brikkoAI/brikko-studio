@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { handleSignalDirectMessageAccess, resolveSignalAccessState } from "./access-policy.js";
 
-vi.mock("openclaw/plugin-sdk/security-runtime", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("openclaw/plugin-sdk/security-runtime")>()),
+vi.mock("brikko-studio/plugin-sdk/security-runtime", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("brikko-studio/plugin-sdk/security-runtime")>()),
   readStoreAllowFromForDmPolicy: vi.fn(async () => []),
 }));
 

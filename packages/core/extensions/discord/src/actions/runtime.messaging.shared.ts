@@ -4,7 +4,7 @@ import {
   type ActionGate,
   readStringParam,
   type DiscordActionConfig,
-  type OpenClawConfig,
+  type Brikko StudioConfig,
   withNormalizedTimestamp,
 } from "../runtime-api.js";
 import type { DiscordReactOpts } from "../send.types.js";
@@ -25,12 +25,12 @@ export type DiscordMessagingActionContext = {
   action: string;
   params: Record<string, unknown>;
   isActionEnabled: ActionGate<DiscordActionConfig>;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   options?: DiscordMessagingActionOptions;
   accountId?: string;
   resolveChannelId: () => string;
   resolveReactionChannelId: () => Promise<string>;
-  withOpts: (extra?: Record<string, unknown>) => { cfg: OpenClawConfig; accountId?: string };
+  withOpts: (extra?: Record<string, unknown>) => { cfg: Brikko StudioConfig; accountId?: string };
   withReactionRuntimeOptions: <T extends Record<string, unknown> = Record<string, never>>(
     extra?: T,
   ) => DiscordReactOpts & T;
@@ -41,7 +41,7 @@ export function createDiscordMessagingActionContext(params: {
   action: string;
   input: Record<string, unknown>;
   isActionEnabled: ActionGate<DiscordActionConfig>;
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   options?: DiscordMessagingActionOptions;
 }): DiscordMessagingActionContext {
   const accountId = readStringParam(params.input, "accountId");

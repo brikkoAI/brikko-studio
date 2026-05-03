@@ -13,7 +13,7 @@ const knownDeprecatedSurfaceMarkers = [
   {
     code: "legacy-extension-api-import",
     file: "src/extensionAPI.ts",
-    marker: "openclaw/extension-api is deprecated",
+    marker: "brikko-studio/extension-api is deprecated",
   },
   {
     code: "memory-split-registration",
@@ -93,7 +93,7 @@ const knownDeprecatedSurfaceMarkers = [
   {
     code: "plugin-sdk-test-utils-alias",
     file: "src/plugin-sdk/test-utils.ts",
-    marker: "focused `openclaw/plugin-sdk/*` test subpaths",
+    marker: "focused `brikko-studio/plugin-sdk/*` test subpaths",
   },
   {
     code: "plugin-install-config-ledger",
@@ -133,7 +133,7 @@ const knownDeprecatedSurfaceMarkers = [
   {
     code: "legacy-root-sdk-import",
     file: "src/plugin-sdk/compat.ts",
-    marker: "@deprecated Use `openclaw/plugin-sdk/channel-reply-pipeline`.",
+    marker: "@deprecated Use `brikko-studio/plugin-sdk/channel-reply-pipeline`.",
   },
   {
     code: "channel-route-key-aliases",

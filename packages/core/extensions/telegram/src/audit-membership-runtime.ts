@@ -1,6 +1,6 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { isRecord } from "openclaw/plugin-sdk/text-runtime";
-import { fetchWithTimeout } from "openclaw/plugin-sdk/text-runtime";
+import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
+import { isRecord } from "brikko-studio/plugin-sdk/text-runtime";
+import { fetchWithTimeout } from "brikko-studio/plugin-sdk/text-runtime";
 import type {
   AuditTelegramGroupMembershipParams,
   TelegramGroupMembershipAudit,

@@ -1,8 +1,8 @@
 {
-  "name": "@openclaw/amazon-bedrock-mantle-provider",
+  "name": "@brikko-studio/amazon-bedrock-mantle-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Amazon Bedrock Mantle (OpenAI-compatible) provider plugin",
+  "description": "Brikko Studio Amazon Bedrock Mantle (OpenAI-compatible) provider plugin",
   "type": "module",
   "dependencies": {
     "@anthropic-ai/sdk": "0.92.0",
@@ -10,9 +10,9 @@
     "@mariozechner/pi-ai": "0.71.1"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@brikko-studio/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "brikko-studio": {
     "extensions": [
       "./index.ts"
     ]

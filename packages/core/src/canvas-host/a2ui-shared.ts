@@ -1,10 +1,10 @@
 import { lowercasePreservingWhitespace } from "../shared/string-coerce.js";
 
-export const A2UI_PATH = "/__openclaw__/a2ui";
+export const A2UI_PATH = "/__brikko-studio__/a2ui";
 
-export const CANVAS_HOST_PATH = "/__openclaw__/canvas";
+export const CANVAS_HOST_PATH = "/__brikko-studio__/canvas";
 
-export const CANVAS_WS_PATH = "/__openclaw__/ws";
+export const CANVAS_WS_PATH = "/__brikko-studio__/ws";
 
 export function isA2uiPath(pathname: string): boolean {
   return pathname === A2UI_PATH || pathname.startsWith(`${A2UI_PATH}/`);
@@ -16,9 +16,9 @@ export function injectCanvasLiveReload(html: string): string {
 (() => {
   // Cross-platform action bridge helper.
   // Works on:
-  // - iOS: window.webkit.messageHandlers.openclawCanvasA2UIAction.postMessage(...)
-  // - Android: window.openclawCanvasA2UIAction.postMessage(...)
-  const handlerNames = ["openclawCanvasA2UIAction"];
+  // - iOS: window.webkit.messageHandlers.brikko-studioCanvasA2UIAction.postMessage(...)
+  // - Android: window.brikko-studioCanvasA2UIAction.postMessage(...)
+  const handlerNames = ["brikko-studioCanvasA2UIAction"];
   function postToNode(payload) {
     try {
       const raw = typeof payload === "string" ? payload : JSON.stringify(payload);
@@ -45,11 +45,11 @@ export function injectCanvasLiveReload(html: string): string {
     const action = { ...userAction, id };
     return postToNode({ userAction: action });
   }
-  globalThis.OpenClaw = globalThis.OpenClaw ?? {};
-  globalThis.OpenClaw.postMessage = postToNode;
-  globalThis.OpenClaw.sendUserAction = sendUserAction;
-  globalThis.openclawPostMessage = postToNode;
-  globalThis.openclawSendUserAction = sendUserAction;
+  globalThis.Brikko Studio = globalThis.Brikko Studio ?? {};
+  globalThis.Brikko Studio.postMessage = postToNode;
+  globalThis.Brikko Studio.sendUserAction = sendUserAction;
+  globalThis.brikko-studioPostMessage = postToNode;
+  globalThis.brikko-studioSendUserAction = sendUserAction;
 
   try {
     const cap = new URLSearchParams(location.search).get("oc_cap");

@@ -1,11 +1,11 @@
-import { expandAllowFromWithAccessGroups } from "openclaw/plugin-sdk/command-auth";
-import { resolveCommandAuthorizedFromAuthorizers } from "openclaw/plugin-sdk/command-auth-native";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import { expandAllowFromWithAccessGroups } from "brikko-studio/plugin-sdk/command-auth";
+import { resolveCommandAuthorizedFromAuthorizers } from "brikko-studio/plugin-sdk/command-auth-native";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   readStoreAllowFromForDmPolicy,
   resolveDmGroupAccessWithLists,
   type DmGroupAccessDecision,
-} from "openclaw/plugin-sdk/security-runtime";
+} from "brikko-studio/plugin-sdk/security-runtime";
 import type { RequestClient } from "../internal/discord.js";
 import { createDiscordAccessGroupMembershipResolver } from "./access-groups.js";
 import { normalizeDiscordAllowList, resolveDiscordAllowListMatch } from "./allow-list.js";
@@ -44,7 +44,7 @@ function resolveDmPolicyCommandAuthorization(params: {
 }
 
 async function expandAllowFromWithDiscordAccessGroups(params: {
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   allowFrom: string[];
   sender: { id: string };
   accountId: string;
@@ -78,7 +78,7 @@ export async function resolveDiscordDmCommandAccess(params: {
   sender: { id: string; name?: string; tag?: string };
   allowNameMatching: boolean;
   useAccessGroups: boolean;
-  cfg?: OpenClawConfig;
+  cfg?: Brikko StudioConfig;
   token?: string;
   rest?: RequestClient;
   readStoreAllowFrom?: () => Promise<string[]>;

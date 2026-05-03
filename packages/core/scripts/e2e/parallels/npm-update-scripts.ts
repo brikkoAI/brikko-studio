@@ -3,7 +3,7 @@ import { shellQuote } from "./host-command.ts";
 import {
   psSingleQuote,
   windowsAgentTurnConfigPatchScript,
-  windowsOpenClawResolver,
+  windowsBrikko StudioResolver,
 } from "./powershell.ts";
 import {
   modelProviderConfigBatchJson,
@@ -17,7 +17,7 @@ export interface NpmUpdateScriptInput {
   updateTarget: string;
 }
 
-const windowsStalePostSwapImportRegex = String.raw`node_modules\\openclaw\\dist\\[^\\]+-[A-Za-z0-9_-]+\.js`;
+const windowsStalePostSwapImportRegex = String.raw`node_modules\\brikko-studio\\dist\\[^\\]+-[A-Za-z0-9_-]+\.js`;
 
 function posixModelProviderConfigCommands(
   command: string,
@@ -45,7 +45,7 @@ function posixAssertAgentOkScript(command: string, input: NpmUpdateScriptInput, 
 for attempt in 1 2; do
   session_id=${shellQuote(sessionId)}
   if [ "$attempt" -gt 1 ]; then session_id=${shellQuote(`${sessionId}-retry`)}"-$attempt"; fi
-  rm -f "$HOME/.openclaw/agents/main/sessions/$session_id.jsonl"
+  rm -f "$HOME/.brikko-studio/agents/main/sessions/$session_id.jsonl"
   output_file="$(mktemp)"
   set +e
   ${input.auth.apiKeyEnv}=${shellQuote(input.auth.apiKeyValue)} ${command} agent --local --agent main --session-id "$session_id" --message 'Reply with exact ASCII text OK only.' --thinking minimal --json >"$output_file" 2>&1
@@ -68,7 +68,7 @@ for attempt in 1 2; do
   fi
 done
 if [ "$agent_ok" != true ]; then
-  echo "openclaw agent finished without OK response" >&2
+  echo "brikko-studio agent finished without OK response" >&2
   exit 1
 fi`;
 }
@@ -80,7 +80,7 @@ scrub_future_plugin_entries() {
   python3 - <<'PY'
 import json
 from pathlib import Path
-path = Path.home() / ".openclaw" / "openclaw.json"
+path = Path.home() / ".brikko-studio" / "brikko-studio.json"
 if not path.exists():
     raise SystemExit(0)
 try:
@@ -101,52 +101,52 @@ if isinstance(allow, list):
 path.write_text(json.dumps(config, indent=2) + "\n")
 PY
 }
-stop_openclaw_gateway_processes() {
-  OPENCLAW_DISABLE_BUNDLED_PLUGINS=1 /opt/homebrew/bin/openclaw gateway stop || true
-  pkill -f 'openclaw.*gateway' >/dev/null 2>&1 || true
+stop_brikko-studio_gateway_processes() {
+  BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS=1 /opt/homebrew/bin/brikko-studio gateway stop || true
+  pkill -f 'brikko-studio.*gateway' >/dev/null 2>&1 || true
 }
-start_openclaw_gateway() {
-  if /opt/homebrew/bin/openclaw gateway restart; then
+start_brikko-studio_gateway() {
+  if /opt/homebrew/bin/brikko-studio gateway restart; then
     return
   fi
-  pkill -f 'openclaw.*gateway' >/dev/null 2>&1 || true
-  rm -f /tmp/openclaw-parallels-macos-gateway.log
-  nohup env OPENCLAW_HOME="$HOME" OPENCLAW_STATE_DIR="$HOME/.openclaw" OPENCLAW_CONFIG_PATH="$HOME/.openclaw/openclaw.json" ${input.auth.apiKeyEnv}=${shellQuote(
+  pkill -f 'brikko-studio.*gateway' >/dev/null 2>&1 || true
+  rm -f /tmp/brikko-studio-parallels-macos-gateway.log
+  nohup env BRIKKO_STUDIO_HOME="$HOME" BRIKKO_STUDIO_STATE_DIR="$HOME/.brikko-studio" BRIKKO_STUDIO_CONFIG_PATH="$HOME/.brikko-studio/brikko-studio.json" ${input.auth.apiKeyEnv}=${shellQuote(
     input.auth.apiKeyValue,
-  )} /opt/homebrew/bin/openclaw gateway run --bind loopback --port 18789 --force >/tmp/openclaw-parallels-macos-gateway.log 2>&1 </dev/null &
+  )} /opt/homebrew/bin/brikko-studio gateway run --bind loopback --port 18789 --force >/tmp/brikko-studio-parallels-macos-gateway.log 2>&1 </dev/null &
 }
 wait_for_gateway() {
   deadline=$((SECONDS + 240))
   while [ "$SECONDS" -lt "$deadline" ]; do
-    if /opt/homebrew/bin/openclaw gateway status --deep --require-rpc --timeout 15000; then
+    if /opt/homebrew/bin/brikko-studio gateway status --deep --require-rpc --timeout 15000; then
       return
     fi
     sleep 2
   done
-  cat /tmp/openclaw-parallels-macos-gateway.log >&2 || true
+  cat /tmp/brikko-studio-parallels-macos-gateway.log >&2 || true
   echo "gateway did not become ready after update" >&2
   exit 1
 }
 scrub_future_plugin_entries
-stop_openclaw_gateway_processes
-OPENCLAW_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS=1 OPENCLAW_DISABLE_BUNDLED_PLUGINS=1 /opt/homebrew/bin/openclaw update --tag ${shellQuote(input.updateTarget)} --yes --json --no-restart
-${posixVersionCheck("/opt/homebrew/bin/openclaw", input.expectedNeedle)}
-start_openclaw_gateway
+stop_brikko-studio_gateway_processes
+BRIKKO_STUDIO_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS=1 BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS=1 /opt/homebrew/bin/brikko-studio update --tag ${shellQuote(input.updateTarget)} --yes --json --no-restart
+${posixVersionCheck("/opt/homebrew/bin/brikko-studio", input.expectedNeedle)}
+start_brikko-studio_gateway
 wait_for_gateway
-/opt/homebrew/bin/openclaw models set ${shellQuote(input.auth.modelId)}
-${posixModelProviderConfigCommands("/opt/homebrew/bin/openclaw", input.auth.modelId, "macos")}
-/opt/homebrew/bin/openclaw config set agents.defaults.skipBootstrap true --strict-json
-/opt/homebrew/bin/openclaw config set tools.profile minimal
+/opt/homebrew/bin/brikko-studio models set ${shellQuote(input.auth.modelId)}
+${posixModelProviderConfigCommands("/opt/homebrew/bin/brikko-studio", input.auth.modelId, "macos")}
+/opt/homebrew/bin/brikko-studio config set agents.defaults.skipBootstrap true --strict-json
+/opt/homebrew/bin/brikko-studio config set tools.profile minimal
 ${posixAgentWorkspaceScript("Parallels npm update smoke test assistant.")}
-${posixAssertAgentOkScript("/opt/homebrew/bin/openclaw", input, "parallels-npm-update-macos")}`;
+${posixAssertAgentOkScript("/opt/homebrew/bin/brikko-studio", input, "parallels-npm-update-macos")}`;
 }
 
 export function windowsUpdateScript(input: NpmUpdateScriptInput): string {
   return `$ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $false
-${windowsOpenClawResolver}
+${windowsBrikko StudioResolver}
 function Remove-FuturePluginEntries {
-  $configPath = Join-Path $env:USERPROFILE '.openclaw\\openclaw.json'
+  $configPath = Join-Path $env:USERPROFILE '.brikko-studio\\brikko-studio.json'
   if (-not (Test-Path $configPath)) { return }
   try { $config = Get-Content $configPath -Raw | ConvertFrom-Json -AsHashtable } catch { return }
   $plugins = $config['plugins']
@@ -163,10 +163,10 @@ function Remove-FuturePluginEntries {
   }
   $config | ConvertTo-Json -Depth 100 | Set-Content -Path $configPath -Encoding UTF8
 }
-function Stop-OpenClawGatewayProcesses {
-  Invoke-OpenClaw gateway stop *>&1 | Out-Host
+function Stop-Brikko StudioGatewayProcesses {
+  Invoke-Brikko Studio gateway stop *>&1 | Out-Host
   Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
-    Where-Object { $_.CommandLine -match 'openclaw.*gateway' } |
+    Where-Object { $_.CommandLine -match 'brikko-studio.*gateway' } |
     ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
   Get-NetTCPConnection -LocalPort 18789 -State Listen -ErrorAction SilentlyContinue |
     Select-Object -ExpandProperty OwningProcess -Unique |
@@ -174,50 +174,50 @@ function Stop-OpenClawGatewayProcesses {
   Start-Sleep -Seconds 2
 }
 Remove-FuturePluginEntries
-Stop-OpenClawGatewayProcesses
-$env:OPENCLAW_DISABLE_BUNDLED_PLUGINS = '1'
-$env:OPENCLAW_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS = '1'
-$updateOutput = Invoke-OpenClaw update --tag ${psSingleQuote(input.updateTarget)} --yes --json --no-restart 2>&1
+Stop-Brikko StudioGatewayProcesses
+$env:BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS = '1'
+$env:BRIKKO_STUDIO_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS = '1'
+$updateOutput = Invoke-Brikko Studio update --tag ${psSingleQuote(input.updateTarget)} --yes --json --no-restart 2>&1
 $updateExit = $LASTEXITCODE
 $updateOutput
 if ($updateExit -ne 0) {
   $updateText = $updateOutput | Out-String
   $stalePostSwapImport = $updateText -match 'ERR_MODULE_NOT_FOUND' -and $updateText -match ${psSingleQuote(windowsStalePostSwapImportRegex)}
-  if (-not $stalePostSwapImport) { throw "openclaw update failed with exit code $updateExit" }
-  Write-Host "openclaw update returned a stale post-swap module import; continuing to post-update health checks"
+  if (-not $stalePostSwapImport) { throw "brikko-studio update failed with exit code $updateExit" }
+  Write-Host "brikko-studio update returned a stale post-swap module import; continuing to post-update health checks"
 }
 ${windowsVersionCheck(input.expectedNeedle)}
-function Wait-OpenClawGateway {
+function Wait-Brikko StudioGateway {
   $deadline = (Get-Date).AddSeconds(180)
   $attempt = 0
   while ((Get-Date) -lt $deadline) {
-    Invoke-OpenClaw gateway status --deep --require-rpc --timeout 15000
+    Invoke-Brikko Studio gateway status --deep --require-rpc --timeout 15000
     if ($LASTEXITCODE -eq 0) { return }
     $attempt += 1
     if ($attempt -eq 4) {
-      Invoke-OpenClaw gateway start *>&1 | Out-Host
+      Invoke-Brikko Studio gateway start *>&1 | Out-Host
     }
     Start-Sleep -Seconds 5
   }
   throw "gateway did not become ready after update"
 }
-Invoke-OpenClaw gateway restart *>&1 | Out-Host
+Invoke-Brikko Studio gateway restart *>&1 | Out-Host
 if ($LASTEXITCODE -ne 0) {
   "gateway restart exited with code $LASTEXITCODE; probing readiness before failing" | Out-Host
 }
-Wait-OpenClawGateway
+Wait-Brikko StudioGateway
 ${windowsAgentTurnConfigPatchScript(input.auth.modelId)}
-$sessionPath = Join-Path $env:USERPROFILE '.openclaw\\agents\\main\\sessions\\parallels-npm-update-windows.jsonl'
+$sessionPath = Join-Path $env:USERPROFILE '.brikko-studio\\agents\\main\\sessions\\parallels-npm-update-windows.jsonl'
 Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
 ${windowsAgentWorkspaceScript("Parallels npm update smoke test assistant.")}
 Set-Item -Path ('Env:' + ${psSingleQuote(input.auth.apiKeyEnv)}) -Value ${psSingleQuote(input.auth.apiKeyValue)}
 $agentOk = $false
 for ($attempt = 1; $attempt -le 2; $attempt++) {
   $sessionId = if ($attempt -eq 1) { 'parallels-npm-update-windows' } else { "parallels-npm-update-windows-retry-$attempt" }
-  $sessionsDir = Join-Path $env:USERPROFILE '.openclaw\\agents\\main\\sessions'
+  $sessionsDir = Join-Path $env:USERPROFILE '.brikko-studio\\agents\\main\\sessions'
   $sessionPath = Join-Path $sessionsDir "$sessionId.jsonl"
   Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
-  $output = Invoke-OpenClaw agent --local --agent main --session-id $sessionId --model ${psSingleQuote(input.auth.modelId)} --message 'Reply with exact ASCII text OK only.' --thinking minimal --timeout ${resolveParallelsModelTimeoutSeconds("windows")} --json 2>&1
+  $output = Invoke-Brikko Studio agent --local --agent main --session-id $sessionId --model ${psSingleQuote(input.auth.modelId)} --message 'Reply with exact ASCII text OK only.' --thinking minimal --timeout ${resolveParallelsModelTimeoutSeconds("windows")} --json 2>&1
   if ($null -ne $output) { $output | ForEach-Object { $_ } }
   if ($LASTEXITCODE -ne 0) { throw "agent failed with exit code $LASTEXITCODE" }
   if (($output | Out-String) -match '"finalAssistant(Raw|Visible)Text":\\s*"OK"') {
@@ -229,7 +229,7 @@ for ($attempt = 1; $attempt -le 2; $attempt++) {
     Start-Sleep -Seconds 3
   }
 }
-if (-not $agentOk) { throw 'openclaw agent finished without OK response' }`;
+if (-not $agentOk) { throw 'brikko-studio agent finished without OK response' }`;
 }
 
 export function linuxUpdateScript(input: NpmUpdateScriptInput): string {
@@ -239,7 +239,7 @@ scrub_future_plugin_entries() {
   node - <<'JS'
 const fs = require("node:fs");
 const path = require("node:path");
-const configPath = path.join(process.env.HOME || "/root", ".openclaw", "openclaw.json");
+const configPath = path.join(process.env.HOME || "/root", ".brikko-studio", "brikko-studio.json");
 if (!fs.existsSync(configPath)) process.exit(0);
 let config;
 try { config = JSON.parse(fs.readFileSync(configPath, "utf8")); } catch { process.exit(0); }
@@ -256,43 +256,43 @@ if (Array.isArray(plugins.allow)) {
 fs.writeFileSync(configPath, JSON.stringify(config, null, 2) + "\n");
 JS
 }
-stop_openclaw_gateway_processes() {
-  OPENCLAW_DISABLE_BUNDLED_PLUGINS=1 openclaw gateway stop || true
-  pkill -f 'openclaw.*gateway' >/dev/null 2>&1 || true
+stop_brikko-studio_gateway_processes() {
+  BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS=1 brikko-studio gateway stop || true
+  pkill -f 'brikko-studio.*gateway' >/dev/null 2>&1 || true
 }
-start_openclaw_gateway() {
-  pkill -f "openclaw gateway run" >/dev/null 2>&1 || true
-  rm -f /tmp/openclaw-parallels-linux-gateway.log
+start_brikko-studio_gateway() {
+  pkill -f "brikko-studio gateway run" >/dev/null 2>&1 || true
+  rm -f /tmp/brikko-studio-parallels-linux-gateway.log
   setsid sh -lc ${shellQuote(
-    `exec env OPENCLAW_HOME=/root OPENCLAW_STATE_DIR=/root/.openclaw OPENCLAW_CONFIG_PATH=/root/.openclaw/openclaw.json OPENCLAW_DISABLE_BONJOUR=1 ${input.auth.apiKeyEnv}=${shellQuote(
+    `exec env BRIKKO_STUDIO_HOME=/root BRIKKO_STUDIO_STATE_DIR=/root/.brikko-studio BRIKKO_STUDIO_CONFIG_PATH=/root/.brikko-studio/brikko-studio.json BRIKKO_STUDIO_DISABLE_BONJOUR=1 ${input.auth.apiKeyEnv}=${shellQuote(
       input.auth.apiKeyValue,
-    )} openclaw gateway run --bind loopback --port 18789 --force >/tmp/openclaw-parallels-linux-gateway.log 2>&1`,
+    )} brikko-studio gateway run --bind loopback --port 18789 --force >/tmp/brikko-studio-parallels-linux-gateway.log 2>&1`,
   )} >/dev/null 2>&1 < /dev/null &
 }
 wait_for_gateway() {
   deadline=$((SECONDS + 240))
   while [ "$SECONDS" -lt "$deadline" ]; do
-    if openclaw gateway status --deep --require-rpc --timeout 15000; then
+    if brikko-studio gateway status --deep --require-rpc --timeout 15000; then
       return
     fi
     sleep 2
   done
-  cat /tmp/openclaw-parallels-linux-gateway.log >&2 || true
+  cat /tmp/brikko-studio-parallels-linux-gateway.log >&2 || true
   echo "gateway did not become ready after update" >&2
   exit 1
 }
 scrub_future_plugin_entries
-stop_openclaw_gateway_processes
-OPENCLAW_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS=1 OPENCLAW_DISABLE_BUNDLED_PLUGINS=1 openclaw update --tag ${shellQuote(input.updateTarget)} --yes --json --no-restart
-${posixVersionCheck("openclaw", input.expectedNeedle)}
-start_openclaw_gateway
+stop_brikko-studio_gateway_processes
+BRIKKO_STUDIO_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS=1 BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS=1 brikko-studio update --tag ${shellQuote(input.updateTarget)} --yes --json --no-restart
+${posixVersionCheck("brikko-studio", input.expectedNeedle)}
+start_brikko-studio_gateway
 wait_for_gateway
-openclaw models set ${shellQuote(input.auth.modelId)}
-${posixModelProviderConfigCommands("openclaw", input.auth.modelId, "linux")}
-openclaw config set agents.defaults.skipBootstrap true --strict-json
-openclaw config set tools.profile minimal
+brikko-studio models set ${shellQuote(input.auth.modelId)}
+${posixModelProviderConfigCommands("brikko-studio", input.auth.modelId, "linux")}
+brikko-studio config set agents.defaults.skipBootstrap true --strict-json
+brikko-studio config set tools.profile minimal
 ${posixAgentWorkspaceScript("Parallels npm update smoke test assistant.")}
-${posixAssertAgentOkScript("openclaw", input, "parallels-npm-update-linux")}`;
+${posixAssertAgentOkScript("brikko-studio", input, "parallels-npm-update-linux")}`;
 }
 
 function posixVersionCheck(command: string, expectedNeedle: string): string {
@@ -341,10 +341,10 @@ function windowsVersionCheck(expectedNeedle: string): string {
   if (!expectedNeedle) {
     return `$versionDeadline = (Get-Date).AddSeconds(60)
 while ($true) {
-  $version = Invoke-OpenClaw --version
+  $version = Invoke-Brikko Studio --version
   $version
   if ($LASTEXITCODE -eq 0) { break }
-  if ((Get-Date) -ge $versionDeadline) { throw "openclaw --version failed with exit code $LASTEXITCODE" }
+  if ((Get-Date) -ge $versionDeadline) { throw "brikko-studio --version failed with exit code $LASTEXITCODE" }
   Start-Sleep -Seconds 2
 }`;
   }
@@ -352,11 +352,11 @@ while ($true) {
   const mismatch = psSingleQuote(`version mismatch: expected ${expectedNeedle}`);
   return `$versionDeadline = (Get-Date).AddSeconds(60)
 while ($true) {
-  $version = Invoke-OpenClaw --version
+  $version = Invoke-Brikko Studio --version
   $version
   if ($LASTEXITCODE -eq 0 -and (($version | Out-String) -like ${expectedPattern})) { break }
   if ((Get-Date) -ge $versionDeadline) {
-    if ($LASTEXITCODE -ne 0) { throw "openclaw --version failed with exit code $LASTEXITCODE" }
+    if ($LASTEXITCODE -ne 0) { throw "brikko-studio --version failed with exit code $LASTEXITCODE" }
     throw ${mismatch}
   }
   Start-Sleep -Seconds 2

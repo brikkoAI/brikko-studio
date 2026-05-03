@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import type { CliBackendConfig } from "../config/types.js";
 import type {
   CliBackendAuthEpochMode,
@@ -90,7 +90,7 @@ function createRuntimeBackendEntry(params: Parameters<typeof createBackendEntry>
   } satisfies RuntimeBackendEntry;
 }
 
-function createClaudeCliOverrideConfig(config: CliBackendConfig): OpenClawConfig {
+function createClaudeCliOverrideConfig(config: CliBackendConfig): Brikko StudioConfig {
   return {
     agents: {
       defaults: {
@@ -99,7 +99,7 @@ function createClaudeCliOverrideConfig(config: CliBackendConfig): OpenClawConfig
         },
       },
     },
-  } satisfies OpenClawConfig;
+  } satisfies Brikko StudioConfig;
 }
 
 const NORMALIZED_CLAUDE_FALLBACK_ARGS = [
@@ -228,7 +228,7 @@ beforeEach(() => {
           "--setting-sources",
           "user",
           "--allowedTools",
-          "mcp__openclaw__*",
+          "mcp__brikko-studio__*",
         ],
         resumeArgs: [
           "stream-json",
@@ -237,7 +237,7 @@ beforeEach(() => {
           "--setting-sources",
           "user",
           "--allowedTools",
-          "mcp__openclaw__*",
+          "mcp__brikko-studio__*",
           "--resume",
           "{sessionId}",
         ],
@@ -418,7 +418,7 @@ describe("resolveCliBackendConfig reliability merge", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("codex-cli", cfg);
 
@@ -462,7 +462,7 @@ describe("resolveCliBackendConfig reliability merge", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("test-cli", cfg);
 
@@ -507,7 +507,7 @@ describe("resolveCliBackendLiveTest", () => {
 });
 
 describe("resolveCliBackendConfig claude-cli defaults", () => {
-  it("derives bypassPermissions from OpenClaw's default YOLO exec policy", () => {
+  it("derives bypassPermissions from Brikko Studio's default YOLO exec policy", () => {
     const resolved = resolveCliBackendConfig("claude-cli");
 
     expect(resolved).not.toBeNull();
@@ -520,7 +520,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
     expect(resolved?.config.args).toContain("--setting-sources");
     expect(resolved?.config.args).toContain("user");
     expect(resolved?.config.args).toContain("--allowedTools");
-    expect(resolved?.config.args).toContain("mcp__openclaw__*");
+    expect(resolved?.config.args).toContain("mcp__brikko-studio__*");
     expect(resolved?.config.args).toContain("--permission-mode");
     expect(resolved?.config.args).toContain("bypassPermissions");
     expect(resolved?.config.args).not.toContain("--dangerously-skip-permissions");
@@ -533,13 +533,13 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
     expect(resolved?.config.resumeArgs).toContain("--setting-sources");
     expect(resolved?.config.resumeArgs).toContain("user");
     expect(resolved?.config.resumeArgs).toContain("--allowedTools");
-    expect(resolved?.config.resumeArgs).toContain("mcp__openclaw__*");
+    expect(resolved?.config.resumeArgs).toContain("mcp__brikko-studio__*");
     expect(resolved?.config.resumeArgs).toContain("--permission-mode");
     expect(resolved?.config.resumeArgs).toContain("bypassPermissions");
     expect(resolved?.config.resumeArgs).not.toContain("--dangerously-skip-permissions");
   });
 
-  it("keeps Claude permission mode unset when OpenClaw exec policy is not YOLO", () => {
+  it("keeps Claude permission mode unset when Brikko Studio exec policy is not YOLO", () => {
     const resolved = resolveCliBackendConfig("claude-cli", {
       tools: { exec: { security: "allowlist", ask: "on-miss" } },
     });
@@ -566,7 +566,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
           },
         ],
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const reviewer = resolveCliBackendConfig("claude-cli", cfg, { agentId: "reviewer" });
     const builder = resolveCliBackendConfig("claude-cli", cfg, { agentId: "builder" });
@@ -626,7 +626,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -674,7 +674,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
         },
       },
       tools: { exec: { security: "allowlist", ask: "on-miss" } },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -704,7 +704,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -749,7 +749,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -778,7 +778,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
         resumeArgs: ["-p", "--setting-sources", "--resume", "{sessionId}"],
       }),
       tools: { exec: { security: "allowlist", ask: "on-miss" } },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -795,7 +795,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
         resumeArgs: ["-p", "--permission-mode=--resume", "--resume", "{sessionId}"],
       }),
       tools: { exec: { security: "allowlist", ask: "on-miss" } },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -825,7 +825,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
         },
       },
       tools: { exec: { security: "allowlist", ask: "on-miss" } },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -854,7 +854,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -889,7 +889,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -998,7 +998,7 @@ describe("resolveCliBackendConfig alias precedence", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies Brikko StudioConfig;
 
     const resolved = resolveCliBackendConfig("kimi", cfg);
 

@@ -1,10 +1,10 @@
 // Private runtime barrel for the bundled Tlon extension.
 // Keep this barrel thin and aligned with the local extension surface.
 
-export type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
-export type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
-export { createDedupeCache } from "openclaw/plugin-sdk/core";
+export type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
+export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
+export { createDedupeCache } from "brikko-studio/plugin-sdk/core";
 export { createLoggerBackedRuntime } from "./src/logger-runtime.js";
 export {
   fetchWithSsrFGuard,
@@ -13,5 +13,5 @@ export {
   ssrfPolicyFromDangerouslyAllowPrivateNetwork,
   type LookupFn,
   type SsrFPolicy,
-} from "openclaw/plugin-sdk/ssrf-runtime";
-export { SsrFBlockedError } from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/ssrf-runtime";
+export { SsrFBlockedError } from "brikko-studio/plugin-sdk/ssrf-runtime";

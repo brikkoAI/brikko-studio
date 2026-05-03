@@ -1,9 +1,9 @@
-import { describeWebhookAccountSnapshot } from "openclaw/plugin-sdk/account-helpers";
-import { formatNormalizedAllowFromEntries } from "openclaw/plugin-sdk/allow-from";
+import { describeWebhookAccountSnapshot } from "brikko-studio/plugin-sdk/account-helpers";
+import { formatNormalizedAllowFromEntries } from "brikko-studio/plugin-sdk/allow-from";
 import {
   adaptScopedAccountAccessor,
   createScopedChannelConfigAdapter,
-} from "openclaw/plugin-sdk/channel-config-helpers";
+} from "brikko-studio/plugin-sdk/channel-config-helpers";
 import {
   listBlueBubblesAccountIds,
   type ResolvedBlueBubblesAccount,

@@ -140,7 +140,7 @@ describe("openai codex provider", () => {
         store: { version: 1, profiles: {} },
       }),
     ).toBe(
-      "Deprecated profile. Run `openclaw models auth login --provider openai-codex` or `openclaw configure`.",
+      "Deprecated profile. Run `brikko-studio models auth login --provider openai-codex` or `brikko-studio configure`.",
     );
   });
 
@@ -213,7 +213,7 @@ describe("openai codex provider", () => {
     expect(loginOpenAICodexDeviceCodeMock).toHaveBeenCalledOnce();
     expect(runtime.error).not.toHaveBeenCalled();
     expect(note).not.toHaveBeenCalledWith(
-      "Trouble with device code login? See https://docs.openclaw.ai/start/faq",
+      "Trouble with device code login? See https://docs.brikko-studio.ai/start/faq",
       "OAuth help",
     );
     expect(result).toMatchObject({

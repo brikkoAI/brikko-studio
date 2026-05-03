@@ -18,7 +18,7 @@ const hoisted = vi.hoisted(() => ({
   waitForCredsSaveQueueWithTimeout: vi.fn<() => Promise<CredsQueueWaitResult>>(
     async () => "drained",
   ),
-  oauthDir: "/tmp/openclaw-wa-auth-store-test-oauth",
+  oauthDir: "/tmp/brikko-studio-wa-auth-store-test-oauth",
 }));
 
 vi.mock("./creds-persistence.js", async () => {
@@ -61,7 +61,7 @@ describe("auth-store", () => {
   });
 
   it("does not restore creds from backup on ordinary reads", async () => {
-    const authDir = createTempAuthDir("openclaw-wa-auth-read");
+    const authDir = createTempAuthDir("brikko-studio-wa-auth-read");
     const credsPath = path.join(authDir, "creds.json");
     const backupPath = path.join(authDir, "creds.json.bak");
     fsSync.writeFileSync(backupPath, JSON.stringify({ me: { id: "123@s.whatsapp.net" } }), "utf-8");
@@ -71,7 +71,7 @@ describe("auth-store", () => {
   });
 
   it("restores creds from a regular backup file", async () => {
-    const authDir = createTempAuthDir("openclaw-wa-auth-restore");
+    const authDir = createTempAuthDir("brikko-studio-wa-auth-restore");
     const credsPath = path.join(authDir, "creds.json");
     fsSync.writeFileSync(credsPath, "{", "utf-8");
     fsSync.writeFileSync(
@@ -87,7 +87,7 @@ describe("auth-store", () => {
   });
 
   it("refuses to restore creds from a symlinked backup path", async () => {
-    const authDir = createTempAuthDir("openclaw-wa-auth-restore-symlink");
+    const authDir = createTempAuthDir("brikko-studio-wa-auth-restore-symlink");
     const targetPath = path.join(authDir, "backup-target.json");
     const backupPath = path.join(authDir, "creds.json.bak");
     const credsPath = path.join(authDir, "creds.json");
@@ -100,7 +100,7 @@ describe("auth-store", () => {
   });
 
   it("reports linked auth state and snapshot from the shared read helper", async () => {
-    const authDir = createTempAuthDir("openclaw-wa-auth-linked");
+    const authDir = createTempAuthDir("brikko-studio-wa-auth-linked");
     fsSync.writeFileSync(
       path.join(authDir, "creds.json"),
       JSON.stringify({ me: { id: "15551234567@s.whatsapp.net" } }),
@@ -116,7 +116,7 @@ describe("auth-store", () => {
   });
 
   it("reports unstable auth state when the shared barrier read times out", async () => {
-    const authDir = createTempAuthDir("openclaw-wa-auth-unstable-state");
+    const authDir = createTempAuthDir("brikko-studio-wa-auth-unstable-state");
     fsSync.writeFileSync(
       path.join(authDir, "creds.json"),
       JSON.stringify({ me: { id: "15551234567@s.whatsapp.net" } }),
@@ -135,7 +135,7 @@ describe("auth-store", () => {
   });
 
   it("clears unreadable auth state on explicit logout", async () => {
-    await withOwnedOAuthAuthDir("openclaw-wa-auth-logout", async (authDir) => {
+    await withOwnedOAuthAuthDir("brikko-studio-wa-auth-logout", async (authDir) => {
       fsSync.writeFileSync(path.join(authDir, "creds.json"), "{", "utf-8");
       fsSync.writeFileSync(
         path.join(authDir, "creds.json.bak"),
@@ -155,7 +155,7 @@ describe("auth-store", () => {
   });
 
   it("does not delete the whole legacy auth root when targeted cleanup fails", async () => {
-    const authDir = createTempAuthDir("openclaw-wa-auth-legacy-failure");
+    const authDir = createTempAuthDir("brikko-studio-wa-auth-legacy-failure");
     const previousOAuthDir = hoisted.oauthDir;
     fsSync.writeFileSync(path.join(authDir, "creds.json"), "{}", "utf-8");
     fsSync.writeFileSync(path.join(authDir, "oauth.json"), '{"token":true}', "utf-8");
@@ -188,7 +188,7 @@ describe("auth-store", () => {
   });
 
   it("clears auth state even when directory enumeration fails", async () => {
-    await withOwnedOAuthAuthDir("openclaw-wa-auth-readdir", async (authDir) => {
+    await withOwnedOAuthAuthDir("brikko-studio-wa-auth-readdir", async (authDir) => {
       fsSync.writeFileSync(path.join(authDir, "creds.json"), "{}", "utf-8");
       const readdirSpy = vi
         .spyOn(fs, "readdir")
@@ -205,8 +205,8 @@ describe("auth-store", () => {
     });
   });
 
-  it("does not delete custom auth directories outside the OpenClaw auth root", async () => {
-    const authDir = createTempAuthDir("openclaw-wa-auth-custom");
+  it("does not delete custom auth directories outside the Brikko Studio auth root", async () => {
+    const authDir = createTempAuthDir("brikko-studio-wa-auth-custom");
     const nestedDir = path.join(authDir, "nested");
     fsSync.mkdirSync(nestedDir);
     fsSync.writeFileSync(path.join(authDir, "creds.json"), "{}", "utf-8");
@@ -227,8 +227,8 @@ describe("auth-store", () => {
 
   it("does not clear auth files through a symlinked owned auth directory", async () => {
     const previousOAuthDir = hoisted.oauthDir;
-    const oauthDir = createTempAuthDir("openclaw-wa-auth-symlink-oauth");
-    const externalDir = createTempAuthDir("openclaw-wa-auth-symlink-target");
+    const oauthDir = createTempAuthDir("brikko-studio-wa-auth-symlink-oauth");
+    const externalDir = createTempAuthDir("brikko-studio-wa-auth-symlink-target");
     const authDir = path.join(oauthDir, "whatsapp", "default");
     try {
       fsSync.mkdirSync(path.dirname(authDir), { recursive: true });
@@ -255,8 +255,8 @@ describe("auth-store", () => {
 
   it("does not clear auth files through an intermediate symlink in the owned auth tree", async () => {
     const previousOAuthDir = hoisted.oauthDir;
-    const oauthDir = createTempAuthDir("openclaw-wa-auth-symlink-parent-oauth");
-    const externalRoot = createTempAuthDir("openclaw-wa-auth-symlink-parent-target");
+    const oauthDir = createTempAuthDir("brikko-studio-wa-auth-symlink-parent-oauth");
+    const externalRoot = createTempAuthDir("brikko-studio-wa-auth-symlink-parent-target");
     const externalAuthDir = path.join(externalRoot, "default");
     const linkedParent = path.join(oauthDir, "whatsapp", "linked");
     const authDir = path.join(linkedParent, "default");
@@ -285,7 +285,7 @@ describe("auth-store", () => {
   });
 
   it("does not delete unrelated non-empty directories on logout", async () => {
-    const authDir = createTempAuthDir("openclaw-wa-auth-unrelated");
+    const authDir = createTempAuthDir("brikko-studio-wa-auth-unrelated");
     fsSync.writeFileSync(path.join(authDir, "notes.txt"), "keep me", "utf-8");
     const runtime = {
       log: vi.fn(),
@@ -301,7 +301,7 @@ describe("auth-store", () => {
   it("throws a typed unstable-auth error when channel selection times out", async () => {
     hoisted.waitForCredsSaveQueueWithTimeout.mockResolvedValueOnce("timed_out");
 
-    await expect(pickWebChannel("auto", "/tmp/openclaw-wa-auth-unstable")).rejects.toEqual(
+    await expect(pickWebChannel("auto", "/tmp/brikko-studio-wa-auth-unstable")).rejects.toEqual(
       expect.objectContaining({
         code: WHATSAPP_AUTH_UNSTABLE_CODE,
         name: WhatsAppAuthUnstableError.name,

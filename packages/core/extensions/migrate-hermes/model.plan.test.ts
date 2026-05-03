@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/provider-auth";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
 import { afterEach, describe, expect, it } from "vitest";
 import { HERMES_REASON_DEFAULT_MODEL_CONFIGURED } from "./items.js";
 import { buildHermesMigrationProvider } from "./provider.js";
@@ -89,7 +89,7 @@ describe("Hermes migration model planning", () => {
           },
         ],
       },
-    } as OpenClawConfig;
+    } as Brikko StudioConfig;
 
     const provider = buildHermesMigrationProvider();
     const plan = await provider.plan(makeContext({ source, stateDir, workspaceDir, config }));

@@ -1,4 +1,4 @@
-import { getSessionBindingService } from "openclaw/plugin-sdk/session-binding-runtime";
+import { getSessionBindingService } from "brikko-studio/plugin-sdk/session-binding-runtime";
 import {
   resolveMatrixApprovalReactionTargetWithPersistence,
   unregisterMatrixApprovalReactionTarget,

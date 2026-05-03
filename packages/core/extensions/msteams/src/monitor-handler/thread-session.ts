@@ -1,4 +1,4 @@
-import { resolveThreadSessionKeys } from "openclaw/plugin-sdk/routing";
+import { resolveThreadSessionKeys } from "brikko-studio/plugin-sdk/routing";
 
 export function resolveMSTeamsRouteSessionKey(params: {
   baseSessionKey: string;

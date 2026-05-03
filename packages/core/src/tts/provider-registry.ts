@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.js";
+import type { Brikko StudioConfig } from "../config/types.js";
 import {
   resolvePluginCapabilityProvider,
   resolvePluginCapabilityProviders,
@@ -10,7 +10,7 @@ import {
   type SpeechProviderRegistryResolver,
 } from "./provider-registry-core.js";
 
-function resolveSpeechProviderPluginEntries(cfg?: OpenClawConfig): SpeechProviderPlugin[] {
+function resolveSpeechProviderPluginEntries(cfg?: Brikko StudioConfig): SpeechProviderPlugin[] {
   return resolvePluginCapabilityProviders({
     key: "speechProviders",
     cfg,

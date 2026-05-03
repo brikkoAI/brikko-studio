@@ -7,7 +7,7 @@ import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
 import type { ChannelMeta } from "../../channels/plugins/types.public.js";
 import { isStaticallyChannelConfigured } from "../../config/channel-configured-shared.js";
 import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
 import { listManifestChannelContributionIds } from "../../plugins/manifest-contribution-ids.js";
 import type { ChannelChoice } from "../onboard-types.js";
 import {
@@ -34,12 +34,12 @@ export type ResolvedChannelSetupEntries = {
   installableCatalogById: Map<ChannelChoice, ChannelPluginCatalogEntry>;
 };
 
-function resolveWorkspaceDir(cfg: OpenClawConfig, workspaceDir?: string): string | undefined {
+function resolveWorkspaceDir(cfg: Brikko StudioConfig, workspaceDir?: string): string | undefined {
   return workspaceDir ?? resolveAgentWorkspaceDir(cfg, resolveDefaultAgentId(cfg));
 }
 
 export function listManifestInstalledChannelIds(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): Set<ChannelChoice> {
@@ -58,7 +58,7 @@ export function listManifestInstalledChannelIds(params: {
 }
 
 export function isCatalogChannelInstalled(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   entry: ChannelPluginCatalogEntry;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
@@ -67,7 +67,7 @@ export function isCatalogChannelInstalled(params: {
 }
 
 export function resolveChannelSetupEntries(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   installedPlugins: ChannelPlugin[];
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;

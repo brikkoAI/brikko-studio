@@ -1,1 +1,1 @@
-export { createOpenClawTools } from "./openclaw-tools.js";
+export { createBrikko StudioTools } from "./brikko-studio-tools.js";

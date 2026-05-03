@@ -1,5 +1,5 @@
 ---
-summary: "Adds Together model provider support to OpenClaw."
+summary: "Adds Together model provider support to Brikko Studio."
 read_when:
   - You are installing, configuring, or auditing the together plugin
 title: "Together plugin"
@@ -7,12 +7,12 @@ title: "Together plugin"
 
 # Together plugin
 
-Adds Together model provider support to OpenClaw.
+Adds Together model provider support to Brikko Studio.
 
 ## Distribution
 
-- Package: `@openclaw/together-provider`
-- Install route: included in OpenClaw
+- Package: `@brikko-studio/together-provider`
+- Install route: included in Brikko Studio
 
 ## Surface
 

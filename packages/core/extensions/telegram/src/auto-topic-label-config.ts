@@ -1,4 +1,4 @@
-import type { TelegramAccountConfig, TelegramDirectConfig } from "openclaw/plugin-sdk/config-types";
+import type { TelegramAccountConfig, TelegramDirectConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export const AUTO_TOPIC_LABEL_DEFAULT_PROMPT =
   "Generate a very short topic label (2-4 words, max 25 chars) for a chat conversation based on the user's first message below. No emoji. Use the same language as the message. Be concise and descriptive. Return ONLY the topic name, nothing else.";

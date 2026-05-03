@@ -19,8 +19,8 @@ type DiaryEntryNav = {
   page: number;
 };
 
-const DIARY_START_RE = /<!--\s*openclaw:dreaming:diary:start\s*-->/;
-const DIARY_END_RE = /<!--\s*openclaw:dreaming:diary:end\s*-->/;
+const DIARY_START_RE = /<!--\s*brikko-studio:dreaming:diary:start\s*-->/;
+const DIARY_END_RE = /<!--\s*brikko-studio:dreaming:diary:end\s*-->/;
 
 function parseDiaryEntries(raw: string): DiaryEntry[] {
   // Extract content between diary markers, or use full content.

@@ -29,8 +29,8 @@ export {
   type ResolvedGatewayAuthModeSource,
 } from "./auth-resolve.js";
 
-const LEGACY_OPENCLAW_ENV_NOTE =
-  " Legacy CLAWDBOT_* and MOLTBOT_* environment variables are ignored; use OPENCLAW_* names.";
+const LEGACY_BRIKKO_STUDIO_ENV_NOTE =
+  " Legacy CLAWDBOT_* and MOLTBOT_* environment variables are ignored; use BRIKKO_STUDIO_* names.";
 
 export type GatewayAuthResult = {
   ok: boolean;
@@ -226,7 +226,7 @@ export function assertGatewayAuthConfigured(
       return;
     }
     throw new Error(
-      `gateway auth mode is token, but no token was configured (set gateway.auth.token or OPENCLAW_GATEWAY_TOKEN).${LEGACY_OPENCLAW_ENV_NOTE}`,
+      `gateway auth mode is token, but no token was configured (set gateway.auth.token or BRIKKO_STUDIO_GATEWAY_TOKEN).${LEGACY_BRIKKO_STUDIO_ENV_NOTE}`,
     );
   }
   if (auth.mode === "password" && !auth.password) {
@@ -235,11 +235,11 @@ export function assertGatewayAuthConfigured(
       typeof rawAuthConfig.password !== "string" // pragma: allowlist secret
     ) {
       throw new Error(
-        "gateway auth mode is password, but gateway.auth.password contains a provider reference object instead of a resolved string — bootstrap secrets (gateway.auth.password) must be plaintext strings or set via the OPENCLAW_GATEWAY_PASSWORD environment variable because the secrets provider system has not initialised yet at gateway startup", // pragma: allowlist secret
+        "gateway auth mode is password, but gateway.auth.password contains a provider reference object instead of a resolved string — bootstrap secrets (gateway.auth.password) must be plaintext strings or set via the BRIKKO_STUDIO_GATEWAY_PASSWORD environment variable because the secrets provider system has not initialised yet at gateway startup", // pragma: allowlist secret
       );
     }
     throw new Error(
-      `gateway auth mode is password, but no password was configured.${LEGACY_OPENCLAW_ENV_NOTE}`,
+      `gateway auth mode is password, but no password was configured.${LEGACY_BRIKKO_STUDIO_ENV_NOTE}`,
     );
   }
   if (auth.mode === "trusted-proxy") {
@@ -255,7 +255,7 @@ export function assertGatewayAuthConfigured(
     }
     if (auth.token) {
       throw new Error(
-        "gateway auth mode is trusted-proxy, but a shared token is also configured; remove gateway.auth.token / OPENCLAW_GATEWAY_TOKEN because trusted-proxy and token auth are mutually exclusive",
+        "gateway auth mode is trusted-proxy, but a shared token is also configured; remove gateway.auth.token / BRIKKO_STUDIO_GATEWAY_TOKEN because trusted-proxy and token auth are mutually exclusive",
       );
     }
   }

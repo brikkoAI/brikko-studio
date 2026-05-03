@@ -4,7 +4,7 @@ import path from "node:path";
 import type { AgentTool, AgentToolResult } from "@mariozechner/pi-agent-core";
 import { Type } from "typebox";
 import { describe, expect, it, vi } from "vitest";
-import { createOpenClawReadTool, createSandboxedReadTool } from "./pi-tools.read.js";
+import { createBrikko StudioReadTool, createSandboxedReadTool } from "./pi-tools.read.js";
 import { createHostSandboxFsBridge } from "./test-helpers/host-sandbox-fs-bridge.js";
 
 function extractToolText(result: unknown): string {
@@ -26,10 +26,10 @@ function extractToolText(result: unknown): string {
   return textBlock?.text ?? "";
 }
 
-describe("createOpenClawCodingTools read behavior", () => {
+describe("createBrikko StudioCodingTools read behavior", () => {
   it("applies sandbox path guards to canonical path", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sbx-"));
-    const outsidePath = path.join(os.tmpdir(), "openclaw-outside.txt");
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-sbx-"));
+    const outsidePath = path.join(os.tmpdir(), "brikko-studio-outside.txt");
     await fs.writeFile(outsidePath, "outside", "utf8");
     try {
       const readTool = createSandboxedReadTool({
@@ -46,7 +46,7 @@ describe("createOpenClawCodingTools read behavior", () => {
   });
 
   it("auto-pages read output across chunks when context window budget allows", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-read-autopage-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-read-autopage-"));
     const filePath = path.join(tmpDir, "big.txt");
     const lines = Array.from(
       { length: 5000 },
@@ -71,7 +71,7 @@ describe("createOpenClawCodingTools read behavior", () => {
   });
 
   it("adds capped continuation guidance when aggregated read output reaches budget", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-read-cap-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-read-cap-"));
     const filePath = path.join(tmpDir, "huge.txt");
     const lines = Array.from(
       { length: 8000 },
@@ -117,8 +117,8 @@ describe("createOpenClawCodingTools read behavior", () => {
       execute: vi.fn(async () => readResult),
     };
 
-    const wrapped = createOpenClawReadTool(
-      baseRead as unknown as Parameters<typeof createOpenClawReadTool>[0],
+    const wrapped = createBrikko StudioReadTool(
+      baseRead as unknown as Parameters<typeof createBrikko StudioReadTool>[0],
     );
     const result = await wrapped.execute("read-strip-1", { path: "demo.txt", limit: 1 });
 

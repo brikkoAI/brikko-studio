@@ -7,7 +7,7 @@ import {
   runAgentHarnessBeforeMessageWriteHook,
   type AgentMessage,
   type SessionWriteLockAcquireTimeoutConfig,
-} from "openclaw/plugin-sdk/agent-harness-runtime";
+} from "brikko-studio/plugin-sdk/agent-harness-runtime";
 
 export async function mirrorCodexAppServerTranscript(params: {
   sessionFile: string;

@@ -38,7 +38,7 @@ async function writePluginFixture(params: {
     manifest.channels = params.channels;
   }
   await fs.writeFile(
-    path.join(params.dir, "openclaw.plugin.json"),
+    path.join(params.dir, "brikko-studio.plugin.json"),
     JSON.stringify(manifest, null, 2),
     "utf-8",
   );
@@ -105,10 +105,10 @@ describe("config plugin validation", () => {
   const suiteEnv = () =>
     ({
       HOME: suiteHome,
-      OPENCLAW_HOME: undefined,
-      OPENCLAW_STATE_DIR: path.join(suiteHome, ".openclaw"),
-      OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
-      OPENCLAW_VERSION: undefined,
+      BRIKKO_STUDIO_HOME: undefined,
+      BRIKKO_STUDIO_STATE_DIR: path.join(suiteHome, ".brikko-studio"),
+      BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
+      BRIKKO_STUDIO_VERSION: undefined,
       VITEST: "true",
     }) satisfies NodeJS.ProcessEnv;
 
@@ -128,7 +128,7 @@ describe("config plugin validation", () => {
     });
 
   beforeAll(async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-config-plugin-validation-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-config-plugin-validation-"));
     await chmodSafeDir(fixtureRoot);
     suiteHome = path.join(fixtureRoot, "home");
     await mkdirSafe(suiteHome);
@@ -193,7 +193,7 @@ describe("config plugin validation", () => {
       process.cwd(),
       "extensions",
       "voice-call",
-      "openclaw.plugin.json",
+      "brikko-studio.plugin.json",
     );
     const voiceCallManifest = JSON.parse(await fs.readFile(voiceCallManifestPath, "utf-8")) as {
       configSchema?: Record<string, unknown>;
@@ -265,7 +265,7 @@ describe("config plugin validation", () => {
     expect(res.warnings).toContainEqual({
       path: "channels.missing-chat",
       message:
-        "unknown channel id: missing-chat (stale channel plugin config ignored; run openclaw doctor --fix to remove stale config, or install the plugin)",
+        "unknown channel id: missing-chat (stale channel plugin config ignored; run brikko-studio doctor --fix to remove stale config, or install the plugin)",
     });
     expect(res.warnings).toContainEqual({
       path: "plugins.allow",
@@ -302,7 +302,7 @@ describe("config plugin validation", () => {
   });
 
   it("uses persisted installed-plugin records as stale channel evidence", async () => {
-    const installedPluginIndexPath = path.join(suiteHome, ".openclaw", "plugins", "installs.json");
+    const installedPluginIndexPath = path.join(suiteHome, ".brikko-studio", "plugins", "installs.json");
     await mkdirSafe(path.dirname(installedPluginIndexPath));
     await fs.writeFile(
       installedPluginIndexPath,
@@ -337,7 +337,7 @@ describe("config plugin validation", () => {
       expect(res.warnings).toContainEqual({
         path: "channels.missing-sms",
         message:
-          "unknown channel id: missing-sms (stale channel plugin config ignored; run openclaw doctor --fix to remove stale config, or install the plugin)",
+          "unknown channel id: missing-sms (stale channel plugin config ignored; run brikko-studio doctor --fix to remove stale config, or install the plugin)",
       });
     } finally {
       await fs.rm(installedPluginIndexPath, { force: true });
@@ -384,7 +384,7 @@ describe("config plugin validation", () => {
       {
         env: {
           ...suiteEnv(),
-          OPENCLAW_BUNDLED_PLUGINS_DIR: path.join(suiteHome, "missing-bundled-plugins"),
+          BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: path.join(suiteHome, "missing-bundled-plugins"),
         },
       },
     );

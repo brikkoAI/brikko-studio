@@ -14,9 +14,9 @@ export type {
   ChannelResolveKind,
   ChannelResolveResult,
   ChannelStatusAdapter,
-} from "openclaw/plugin-sdk/channel-contract";
-export type { ChannelPlugin } from "openclaw/plugin-sdk/channel-core";
-export type { OutboundDeliveryResult } from "openclaw/plugin-sdk/channel-send-result";
-export type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
-export type { WizardPrompter } from "openclaw/plugin-sdk/setup";
+} from "brikko-studio/plugin-sdk/channel-contract";
+export type { ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
+export type { OutboundDeliveryResult } from "brikko-studio/plugin-sdk/channel-send-result";
+export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
+export type { WizardPrompter } from "brikko-studio/plugin-sdk/setup";

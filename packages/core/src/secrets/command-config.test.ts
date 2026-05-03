@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { Brikko StudioConfig } from "../config/config.js";
 import {
   buildTalkTestProviderConfig,
   TALK_TEST_PROVIDER_API_KEY_PATH,
@@ -61,7 +61,7 @@ describe("collectCommandSecretAssignmentsFromSnapshot", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
     const resolvedConfig = {
       agents: {
         defaults: {
@@ -72,7 +72,7 @@ describe("collectCommandSecretAssignmentsFromSnapshot", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as Brikko StudioConfig;
 
     const result = collectCommandSecretAssignmentsFromSnapshot({
       sourceConfig,

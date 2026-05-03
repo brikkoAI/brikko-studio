@@ -1,6 +1,6 @@
-import { createChannelPairingController } from "openclaw/plugin-sdk/channel-pairing";
-import { attachChannelToResult } from "openclaw/plugin-sdk/channel-send-result";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+import { createChannelPairingController } from "brikko-studio/plugin-sdk/channel-pairing";
+import { attachChannelToResult } from "brikko-studio/plugin-sdk/channel-send-result";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createPreCryptoDirectDmAuthorizer,
   type ChannelOutboundAdapter,
@@ -53,7 +53,7 @@ function isNostrSenderAllowed(senderPubkey: string, allowFrom: string[]): boolea
 }
 
 async function resolveNostrDirectAccess(params: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
   accountId: string;
   dmPolicy: "pairing" | "allowlist" | "open" | "disabled";
   allowFrom: Array<string | number> | undefined;
@@ -260,7 +260,7 @@ export const nostrPairingTextAdapter = {
     message,
     accountId,
   }: {
-    cfg: OpenClawConfig;
+    cfg: Brikko StudioConfig;
     id: string;
     message: string;
     accountId?: string;

@@ -2,7 +2,7 @@
 /**
  * compile-rules.mjs
  *
- * Compiles source OpenGrep rule YAML files from a folder into OpenClaw's shipped
+ * Compiles source OpenGrep rule YAML files from a folder into Brikko Studio's shipped
  * precise super-config. The input folder is intentionally generic: any nested
  * .yml/.yaml file containing a top-level `rules` array can be compiled as long
  * as each rule carries metadata.ghsa or metadata.advisory-id.
@@ -15,7 +15,7 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseDocument, stringify } from "yaml";
 
-const REPO_BASENAME = "openclaw/openclaw";
+const REPO_BASENAME = "brikko-studio/brikko-studio";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(SCRIPT_DIR, "..", "..");
 const DEFAULT_OUT_DIR = path.resolve(REPO_ROOT, "security", "opengrep");

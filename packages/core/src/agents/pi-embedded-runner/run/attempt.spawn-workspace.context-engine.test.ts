@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../../config/types.js";
+import type { Brikko StudioConfig } from "../../../config/types.js";
 import { buildMemorySystemPromptAddition } from "../../../context-engine/delegate.js";
 import {
   clearMemoryPluginState,
@@ -148,9 +148,9 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
         prompt: [
           "visible ask",
           "",
-          "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
+          "<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
           "secret runtime context",
-          "<<<END_OPENCLAW_INTERNAL_CONTEXT>>>",
+          "<<<END_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
         ].join("\n"),
         transcriptPrompt: "visible ask",
       },
@@ -170,15 +170,15 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
       expect.arrayContaining([
         expect.objectContaining({
           role: "custom",
-          customType: "openclaw.runtime-context",
+          customType: "brikko-studio.runtime-context",
           display: false,
           content:
-            "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>\nsecret runtime context\n<<<END_OPENCLAW_INTERNAL_CONTEXT>>>",
+            "<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>\nsecret runtime context\n<<<END_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
         }),
       ]),
     );
     expect(JSON.stringify(seen.messages)).not.toContain(
-      "OpenClaw runtime context for the immediately preceding user message.",
+      "Brikko Studio runtime context for the immediately preceding user message.",
     );
     expect(JSON.stringify(seen.messages)).not.toContain("not user-authored");
     const trajectoryEvents = (
@@ -202,7 +202,7 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
       modelCompleted?.data?.finalPromptText,
       traceArtifacts?.data?.finalPromptText,
     ]) {
-      expect(String(value)).not.toContain("OPENCLAW_INTERNAL_CONTEXT");
+      expect(String(value)).not.toContain("BRIKKO_STUDIO_INTERNAL_CONTEXT");
       expect(String(value)).not.toContain("secret runtime context");
     }
   });
@@ -218,9 +218,9 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
         prompt: [
           "what does this mean?",
           "",
-          "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
+          "<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
           "secret runtime context",
-          "<<<END_OPENCLAW_INTERNAL_CONTEXT>>>",
+          "<<<END_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
         ].join("\n"),
         transcriptPrompt: "what does this mean?",
         currentTurnContext: {
@@ -245,7 +245,7 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
     expect(seenPrompt).toContain("WT daily plan - Sat May 2");
     expect(seenPrompt).toContain("./quoted-secret.png");
     expect(seenPrompt).toContain("media://inbound/quoted.png");
-    expect(seenPrompt).not.toContain("OPENCLAW_INTERNAL_CONTEXT");
+    expect(seenPrompt).not.toContain("BRIKKO_STUDIO_INTERNAL_CONTEXT");
     expect(seenPrompt).not.toContain("secret runtime context");
     expect(result.finalPromptText).toBe(seenPrompt);
     expect(hoisted.detectAndLoadPromptImagesMock).toHaveBeenCalledTimes(1);
@@ -275,9 +275,9 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
         prompt: [
           "visible ask",
           "",
-          "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
+          "<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
           "secret runtime context",
-          "<<<END_OPENCLAW_INTERNAL_CONTEXT>>>",
+          "<<<END_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
         ].join("\n"),
         transcriptPrompt: "visible ask",
         inputProvenance: {
@@ -321,8 +321,8 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
       },
     });
 
-    expect(seenPrompt).toBe("Continue the OpenClaw runtime event.");
-    expect(result.finalPromptText).toBe("Continue the OpenClaw runtime event.");
+    expect(seenPrompt).toBe("Continue the Brikko Studio runtime event.");
+    expect(result.finalPromptText).toBe("Continue the Brikko Studio runtime event.");
     expect(result.messagesSnapshot).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -338,7 +338,7 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
       .split("\n")
       .map((line) => JSON.parse(line) as TrajectoryEvent);
     const contextCompiled = trajectoryEvents.find((event) => event.type === "context.compiled");
-    expect(contextCompiled?.data?.prompt).toBe("Continue the OpenClaw runtime event.");
+    expect(contextCompiled?.data?.prompt).toBe("Continue the Brikko Studio runtime event.");
     expect(contextCompiled?.data?.systemPrompt).toContain("internal heartbeat event");
   });
 
@@ -1019,7 +1019,7 @@ describe("runEmbeddedAttempt context engine mid-turn precheck integration", () =
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
       },
     });
 
@@ -1064,7 +1064,7 @@ describe("runEmbeddedAttempt context engine mid-turn precheck integration", () =
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
       },
       sessionMessages: [seedMessage],
       sessionPrompt: async (session) => {

@@ -8,7 +8,7 @@ title: "Brave search"
 
 # Brave Search API
 
-OpenClaw supports Brave Search API as a `web_search` provider.
+Brikko Studio supports Brave Search API as a `web_search` provider.
 
 ## Get an API key
 
@@ -54,7 +54,7 @@ Legacy `tools.web.search.apiKey` still loads through the compatibility shim, but
 - `llm-context`: Brave LLM Context API with pre-extracted text chunks and sources for grounding
 
 `webSearch.baseUrl` can point Brave requests at a trusted Brave-compatible proxy
-or gateway. OpenClaw appends `/res/v1/web/search` or `/res/v1/llm/context` to
+or gateway. Brikko Studio appends `/res/v1/web/search` or `/res/v1/llm/context` to
 the configured base URL and keeps the base URL in the cache key. Public
 endpoints must use `https://`; `http://` is accepted only for trusted loopback
 or private-network proxy hosts.
@@ -123,7 +123,7 @@ await web_search({
 
 ## Notes
 
-- OpenClaw uses the Brave **Search** plan. If you have a legacy subscription (e.g. the original Free plan with 2,000 queries/month), it remains valid but does not include newer features like LLM Context or higher rate limits.
+- Brikko Studio uses the Brave **Search** plan. If you have a legacy subscription (e.g. the original Free plan with 2,000 queries/month), it remains valid but does not include newer features like LLM Context or higher rate limits.
 - Each Brave plan includes **\$5/month in free credit** (renewing). The Search plan costs \$5 per 1,000 requests, so the credit covers 1,000 queries/month. Set your usage limit in the Brave dashboard to avoid unexpected charges. See the [Brave API portal](https://brave.com/search/api/) for current plans.
 - The Search plan includes the LLM Context endpoint and AI inference rights. Storing results to train or tune models requires a plan with explicit storage rights. See the Brave [Terms of Service](https://api-dashboard.search.brave.com/terms-of-service).
 - `llm-context` mode returns grounded source entries instead of the normal web-search snippet shape.

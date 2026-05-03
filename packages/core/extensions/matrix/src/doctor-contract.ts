@@ -1,12 +1,12 @@
 import type {
   ChannelDoctorConfigMutation,
   ChannelDoctorLegacyConfigRule,
-} from "openclaw/plugin-sdk/channel-contract";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-types";
+} from "brikko-studio/plugin-sdk/channel-contract";
+import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   hasLegacyFlatAllowPrivateNetworkAlias,
   migrateLegacyFlatAllowPrivateNetworkAlias,
-} from "openclaw/plugin-sdk/ssrf-runtime";
+} from "brikko-studio/plugin-sdk/ssrf-runtime";
 import { isRecord } from "./record-shared.js";
 
 function hasLegacyMatrixRoomAllowAlias(value: unknown): boolean {
@@ -122,43 +122,43 @@ export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
   {
     path: ["channels", "matrix"],
     message:
-      'channels.matrix.allowPrivateNetwork is legacy; use channels.matrix.network.dangerouslyAllowPrivateNetwork instead. Run "openclaw doctor --fix".',
+      'channels.matrix.allowPrivateNetwork is legacy; use channels.matrix.network.dangerouslyAllowPrivateNetwork instead. Run "brikko-studio doctor --fix".',
     match: (value) => hasLegacyFlatAllowPrivateNetworkAlias(isRecord(value) ? value : {}),
   },
   {
     path: ["channels", "matrix", "accounts"],
     message:
-      'channels.matrix.accounts.<id>.allowPrivateNetwork is legacy; use channels.matrix.accounts.<id>.network.dangerouslyAllowPrivateNetwork instead. Run "openclaw doctor --fix".',
+      'channels.matrix.accounts.<id>.allowPrivateNetwork is legacy; use channels.matrix.accounts.<id>.network.dangerouslyAllowPrivateNetwork instead. Run "brikko-studio doctor --fix".',
     match: hasLegacyMatrixAccountPrivateNetworkAliases,
   },
   {
     path: ["channels", "matrix", "groups"],
     message:
-      'channels.matrix.groups.<room>.allow is legacy; use channels.matrix.groups.<room>.enabled instead. Run "openclaw doctor --fix".',
+      'channels.matrix.groups.<room>.allow is legacy; use channels.matrix.groups.<room>.enabled instead. Run "brikko-studio doctor --fix".',
     match: hasLegacyMatrixRoomMapAllowAliases,
   },
   {
     path: ["channels", "matrix", "rooms"],
     message:
-      'channels.matrix.rooms.<room>.allow is legacy; use channels.matrix.rooms.<room>.enabled instead. Run "openclaw doctor --fix".',
+      'channels.matrix.rooms.<room>.allow is legacy; use channels.matrix.rooms.<room>.enabled instead. Run "brikko-studio doctor --fix".',
     match: hasLegacyMatrixRoomMapAllowAliases,
   },
   {
     path: ["channels", "matrix", "accounts"],
     message:
-      'channels.matrix.accounts.<id>.{groups,rooms}.<room>.allow is legacy; use channels.matrix.accounts.<id>.{groups,rooms}.<room>.enabled instead. Run "openclaw doctor --fix".',
+      'channels.matrix.accounts.<id>.{groups,rooms}.<room>.allow is legacy; use channels.matrix.accounts.<id>.{groups,rooms}.<room>.enabled instead. Run "brikko-studio doctor --fix".',
     match: hasLegacyMatrixAccountRoomAllowAliases,
   },
   {
     path: ["channels", "matrix"],
     message:
-      'channels.matrix.dm.policy "trusted" is legacy; use "allowlist" (with allowFrom entries) or "pairing" instead. Run "openclaw doctor --fix".',
+      'channels.matrix.dm.policy "trusted" is legacy; use "allowlist" (with allowFrom entries) or "pairing" instead. Run "brikko-studio doctor --fix".',
     match: hasLegacyTrustedDmPolicy,
   },
   {
     path: ["channels", "matrix", "accounts"],
     message:
-      'channels.matrix.accounts.<id>.dm.policy "trusted" is legacy; use "allowlist" (with allowFrom entries) or "pairing" instead. Run "openclaw doctor --fix".',
+      'channels.matrix.accounts.<id>.dm.policy "trusted" is legacy; use "allowlist" (with allowFrom entries) or "pairing" instead. Run "brikko-studio doctor --fix".',
     match: hasLegacyMatrixAccountTrustedDmPolicies,
   },
 ];
@@ -166,7 +166,7 @@ export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
 export function normalizeCompatibilityConfig({
   cfg,
 }: {
-  cfg: OpenClawConfig;
+  cfg: Brikko StudioConfig;
 }): ChannelDoctorConfigMutation {
   const channels = isRecord(cfg.channels) ? cfg.channels : null;
   const matrix = isRecord(channels?.matrix) ? channels.matrix : null;
@@ -279,7 +279,7 @@ export function normalizeCompatibilityConfig({
       ...cfg,
       channels: {
         ...cfg.channels,
-        matrix: updatedMatrix as NonNullable<OpenClawConfig["channels"]>["matrix"],
+        matrix: updatedMatrix as NonNullable<Brikko StudioConfig["channels"]>["matrix"],
       },
     },
     changes,

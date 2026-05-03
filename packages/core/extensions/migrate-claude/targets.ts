@@ -3,8 +3,8 @@ import {
   resolveAgentConfig,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "openclaw/plugin-sdk/agent-runtime";
-import type { MigrationProviderContext } from "openclaw/plugin-sdk/plugin-entry";
+} from "brikko-studio/plugin-sdk/agent-runtime";
+import type { MigrationProviderContext } from "brikko-studio/plugin-sdk/plugin-entry";
 import { resolveHomePath } from "./helpers.js";
 
 export type PlannedTargets = {

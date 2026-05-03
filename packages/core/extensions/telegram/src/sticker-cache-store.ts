@@ -1,6 +1,6 @@
 import path from "node:path";
-import { loadJsonFile, saveJsonFile } from "openclaw/plugin-sdk/json-store";
-import { resolveStateDir } from "openclaw/plugin-sdk/state-paths";
+import { loadJsonFile, saveJsonFile } from "brikko-studio/plugin-sdk/json-store";
+import { resolveStateDir } from "brikko-studio/plugin-sdk/state-paths";
 
 const CACHE_VERSION = 1;
 

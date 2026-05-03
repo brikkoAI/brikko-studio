@@ -8,7 +8,7 @@ const STATUS_MESSAGE_RUNTIME_RE = /^status-message\.runtime(?:-[A-Za-z0-9_-]+)?\
 
 const { packageRoot } = parsePackageRootArg(
   process.argv.slice(2),
-  "OPENCLAW_STATUS_MESSAGE_RUNTIME_ROOT",
+  "BRIKKO_STUDIO_STATUS_MESSAGE_RUNTIME_ROOT",
 );
 
 function findBuiltStatusMessageRuntimePath(distDir) {

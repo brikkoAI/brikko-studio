@@ -1,9 +1,9 @@
 import {
   getRequiredHookHandler,
   registerHookHandlersForTest,
-} from "openclaw/plugin-sdk/channel-test-helpers";
+} from "brikko-studio/plugin-sdk/channel-test-helpers";
 import { beforeEach, describe, expect, it } from "vitest";
-import type { ClawdbotConfig, OpenClawPluginApi } from "../runtime-api.js";
+import type { ClawdbotConfig, Brikko StudioPluginApi } from "../runtime-api.js";
 import { registerFeishuSubagentHooks } from "../subagent-hooks-api.js";
 import {
   createFeishuThreadBindingManager,
@@ -16,7 +16,7 @@ const baseConfig: ClawdbotConfig = {
 };
 
 function registerHandlersForTest(config: Record<string, unknown> = baseConfig) {
-  return registerHookHandlersForTest<OpenClawPluginApi>({
+  return registerHookHandlersForTest<Brikko StudioPluginApi>({
     config,
     register: registerFeishuSubagentHooks,
   });

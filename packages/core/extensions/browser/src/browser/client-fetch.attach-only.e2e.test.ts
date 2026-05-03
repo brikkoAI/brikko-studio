@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import net from "node:net";
 import path from "node:path";
-import { clearRuntimeConfigSnapshot } from "openclaw/plugin-sdk/runtime-config-snapshot";
+import { clearRuntimeConfigSnapshot } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createTempHomeEnv } from "../../test-support.js";
 import { stopBrowserControlService } from "../control-service.js";
@@ -30,7 +30,7 @@ describe("browser client fetch attachOnly diagnostics", () => {
   });
 
   it("does not suggest gateway restart when an attachOnly CDP endpoint hangs", async () => {
-    tempHome = await createTempHomeEnv("openclaw-browser-client-fetch-live-");
+    tempHome = await createTempHomeEnv("brikko-studio-browser-client-fetch-live-");
     const sockets = new Set<net.Socket>();
     const server = net.createServer((socket) => {
       sockets.add(socket);
@@ -39,7 +39,7 @@ describe("browser client fetch attachOnly diagnostics", () => {
     });
     await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
     const port = (server.address() as { port: number }).port;
-    const configPath = path.join(tempHome.home, ".openclaw", "openclaw.json");
+    const configPath = path.join(tempHome.home, ".brikko-studio", "brikko-studio.json");
     await fs.writeFile(
       configPath,
       JSON.stringify(
@@ -61,7 +61,7 @@ describe("browser client fetch attachOnly diagnostics", () => {
         2,
       ),
     );
-    process.env.OPENCLAW_CONFIG_PATH = configPath;
+    process.env.BRIKKO_STUDIO_CONFIG_PATH = configPath;
     clearRuntimeConfigSnapshot();
 
     try {
@@ -70,9 +70,9 @@ describe("browser client fetch attachOnly diagnostics", () => {
       );
       expect(thrown).toBeInstanceOf(Error);
       const message = thrown instanceof Error ? thrown.message : String(thrown);
-      expect(message).toContain("browser profile is external to OpenClaw");
-      expect(message).toContain("Restarting the OpenClaw gateway will not launch it");
-      expect(message).not.toContain("Restart the OpenClaw gateway");
+      expect(message).toContain("browser profile is external to Brikko Studio");
+      expect(message).toContain("Restarting the Brikko Studio gateway will not launch it");
+      expect(message).not.toContain("Restart the Brikko Studio gateway");
       expect(message).not.toContain("Do NOT retry the browser tool");
     } finally {
       for (const socket of sockets) {

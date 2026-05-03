@@ -1,8 +1,8 @@
 import { format } from "node:util";
-import { CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY } from "openclaw/plugin-sdk/approval-handler-adapter-runtime";
-import type { ChannelRuntimeSurface } from "openclaw/plugin-sdk/channel-contract";
-import { waitUntilAbort } from "openclaw/plugin-sdk/channel-lifecycle";
-import { registerChannelRuntimeContext } from "openclaw/plugin-sdk/channel-runtime-context";
+import { CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY } from "brikko-studio/plugin-sdk/approval-handler-adapter-runtime";
+import type { ChannelRuntimeSurface } from "brikko-studio/plugin-sdk/channel-contract";
+import { waitUntilAbort } from "brikko-studio/plugin-sdk/channel-lifecycle";
+import { registerChannelRuntimeContext } from "brikko-studio/plugin-sdk/channel-runtime-context";
 import {
   GROUP_POLICY_BLOCKED_LABEL,
   resolveThreadBindingIdleTimeoutMsForChannel,
@@ -63,7 +63,7 @@ export type MonitorMatrixOpts = {
   initialSyncLimit?: number;
   replyToMode?: ReplyToMode;
   accountId?: string | null;
-  setStatus?: (next: import("openclaw/plugin-sdk/channel-contract").ChannelAccountSnapshot) => void;
+  setStatus?: (next: import("brikko-studio/plugin-sdk/channel-contract").ChannelAccountSnapshot) => void;
 };
 
 function isMatrixStreamingConfig(

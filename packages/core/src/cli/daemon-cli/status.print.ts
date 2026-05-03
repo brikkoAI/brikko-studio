@@ -109,7 +109,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
     }
     defaultRuntime.error(
       warnText(
-        `Recommendation: run "${formatCliCommand("openclaw doctor")}" (or "${formatCliCommand("openclaw doctor --repair")}").`,
+        `Recommendation: run "${formatCliCommand("brikko-studio doctor")}" (or "${formatCliCommand("brikko-studio doctor --repair")}").`,
       ),
     );
   }
@@ -143,7 +143,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
       );
       defaultRuntime.error(
         errorText(
-          `Fix: rerun \`${formatCliCommand("openclaw gateway install --force")}\` from the same --profile / OPENCLAW_STATE_DIR you expect.`,
+          `Fix: rerun \`${formatCliCommand("brikko-studio gateway install --force")}\` from the same --profile / BRIKKO_STUDIO_STATE_DIR you expect.`,
         ),
       );
     }
@@ -223,7 +223,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
     );
     defaultRuntime.error(
       errorText(
-        `Fix: run ${formatCliCommand("openclaw gateway restart")} and re-check with ${formatCliCommand("openclaw gateway status --deep")}.`,
+        `Fix: run ${formatCliCommand("brikko-studio gateway restart")} and re-check with ${formatCliCommand("brikko-studio gateway status --deep")}.`,
       ),
     );
     spacer();
@@ -276,14 +276,14 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
 
   if (service.runtime?.cachedLabel) {
     const env = service.command?.environment ?? process.env;
-    const labelValue = resolveGatewayLaunchAgentLabel(env.OPENCLAW_PROFILE);
+    const labelValue = resolveGatewayLaunchAgentLabel(env.BRIKKO_STUDIO_PROFILE);
     defaultRuntime.error(
       errorText(
         `LaunchAgent label cached but plist missing. Clear with: launchctl bootout gui/$UID/${labelValue}`,
       ),
     );
     defaultRuntime.error(
-      errorText(`Then reinstall: ${formatCliCommand("openclaw gateway install")}`),
+      errorText(`Then reinstall: ${formatCliCommand("brikko-studio gateway install")}`),
     );
     spacer();
   }
@@ -319,7 +319,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
       defaultRuntime.error(`${errorText("Last gateway error:")} ${status.lastError}`);
     }
     if (process.platform === "linux") {
-      const unit = resolveGatewaySystemdServiceName(serviceEnv.OPENCLAW_PROFILE);
+      const unit = resolveGatewaySystemdServiceName(serviceEnv.BRIKKO_STUDIO_PROFILE);
       defaultRuntime.error(
         errorText(`Logs: journalctl --user -u ${unit}.service -n 200 --no-pager`),
       );
@@ -359,6 +359,6 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
     spacer();
   }
 
-  defaultRuntime.log(`${label("Troubles:")} run ${formatCliCommand("openclaw status")}`);
-  defaultRuntime.log(`${label("Troubleshooting:")} https://docs.openclaw.ai/troubleshooting`);
+  defaultRuntime.log(`${label("Troubles:")} run ${formatCliCommand("brikko-studio status")}`);
+  defaultRuntime.log(`${label("Troubleshooting:")} https://docs.brikko-studio.ai/troubleshooting`);
 }

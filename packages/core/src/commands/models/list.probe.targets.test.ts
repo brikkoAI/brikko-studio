@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { AuthProfileStore } from "../../agents/auth-profiles.js";
 import type { ModelCatalogEntry } from "../../agents/model-catalog.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { Brikko StudioConfig } from "../../config/config.js";
 
 let mockStore: AuthProfileStore;
 let mockAgentStore: AuthProfileStore | undefined;
@@ -19,7 +19,7 @@ vi.mock("../../agents/model-catalog.js", () => ({
   loadModelCatalog: loadModelCatalogMock,
 }));
 vi.mock("../../agents/model-auth.js", () => ({
-  hasUsableCustomProviderApiKey: (cfg: OpenClawConfig, provider: string) => {
+  hasUsableCustomProviderApiKey: (cfg: Brikko StudioConfig, provider: string) => {
     const raw = cfg.models?.providers?.[provider]?.apiKey;
     return typeof raw === "string" && raw.trim().length > 0 && raw !== "ollama-local";
   },
@@ -102,7 +102,7 @@ async function buildAnthropicProbePlan(order: string[]) {
           anthropic: order,
         },
       },
-    } as OpenClawConfig,
+    } as Brikko StudioConfig,
     providers: ["anthropic"],
     modelCandidates: ["anthropic/claude-sonnet-4-6"],
     options: {
@@ -168,7 +168,7 @@ async function buildAnthropicPlanFromModelsJsonApiKey(apiKey: string) {
           },
         },
       },
-    } as OpenClawConfig,
+    } as Brikko StudioConfig,
     providers: ["anthropic"],
     modelCandidates: ["anthropic/claude-sonnet-4-6"],
     options: {
@@ -319,7 +319,7 @@ describe("buildProbeTargets reason codes", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as Brikko StudioConfig,
         providers: ["zai"],
         modelCandidates: [],
         options: {
@@ -353,7 +353,7 @@ describe("buildProbeTargets reason codes", () => {
     ]);
 
     const withoutWorkspace = await buildProbeTargets({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       providers: ["workspace-cloud"],
       modelCandidates: [],
       options: {
@@ -363,7 +363,7 @@ describe("buildProbeTargets reason codes", () => {
       },
     });
     const withWorkspace = await buildProbeTargets({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as Brikko StudioConfig,
       workspaceDir: "/tmp/workspace",
       providers: ["workspace-cloud"],
       modelCandidates: [],
@@ -406,7 +406,7 @@ describe("buildProbeTargets reason codes", () => {
 
     const { defaultPlan, agentPlan } = await withClearedAnthropicEnv(async () => ({
       defaultPlan: await buildProbeTargets({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         providers: ["anthropic"],
         modelCandidates: ["anthropic/claude-sonnet-4-6"],
         options: {
@@ -416,7 +416,7 @@ describe("buildProbeTargets reason codes", () => {
         },
       }),
       agentPlan: await buildProbeTargets({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as Brikko StudioConfig,
         agentDir: "/tmp/coder-agent",
         providers: ["anthropic"],
         modelCandidates: ["anthropic/claude-sonnet-4-6"],
