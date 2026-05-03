@@ -1663,6 +1663,7 @@
     "@agentclientprotocol/sdk": "0.21.0",
     "@anthropic-ai/sdk": "0.92.0",
     "@brikko/oauth-client": "workspace:*",
+    "@fastify/static": "^7.0.3",
     "fastify": "^4.27.0",
     "@anthropic-ai/vertex-sdk": "^0.16.0",
     "@aws-sdk/client-bedrock": "3.1041.0",

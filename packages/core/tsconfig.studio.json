@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
+  "include": ["src/auth-api/**/*", "src/studio/**/*", "src/i18n/**/*"],
+  "exclude": ["**/__tests__/**", "**/*.test.ts"]
+}
