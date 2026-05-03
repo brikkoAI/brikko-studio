@@ -1,6 +1,6 @@
 import path from "node:path";
 import { describe, expect, it, test, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { applyAgentDefaultPrimaryModel } from "../plugins/provider-model-primary.js";
 import type { RuntimeEnv } from "../runtime.js";
 import {
@@ -19,7 +19,7 @@ describe("buildCleanupPlan", () => {
       },
     };
     const plan = buildCleanupPlan({
-      cfg: cfg as unknown as Brikko StudioConfig,
+      cfg: cfg as unknown as BrikkoStudioConfig,
       stateDir: path.join(tmpRoot, "brikko-studio-state"),
       configPath: path.join(tmpRoot, "brikko-studio-state", "brikko-studio.json"),
       oauthDir: path.join(tmpRoot, "brikko-studio-oauth"),
@@ -38,14 +38,14 @@ describe("buildCleanupPlan", () => {
 
 describe("applyAgentDefaultPrimaryModel", () => {
   it("does not mutate when already set", () => {
-    const cfg = { agents: { defaults: { model: { primary: "a/b" } } } } as Brikko StudioConfig;
+    const cfg = { agents: { defaults: { model: { primary: "a/b" } } } } as BrikkoStudioConfig;
     const result = applyAgentDefaultPrimaryModel({ cfg, model: "a/b" });
     expect(result.changed).toBe(false);
     expect(result.next).toBe(cfg);
   });
 
   it("normalizes legacy models", () => {
-    const cfg = { agents: { defaults: { model: { primary: "legacy" } } } } as Brikko StudioConfig;
+    const cfg = { agents: { defaults: { model: { primary: "legacy" } } } } as BrikkoStudioConfig;
     const result = applyAgentDefaultPrimaryModel({
       cfg,
       model: "a/b",

@@ -5,9 +5,9 @@ import {
   setRuntimeConfigSnapshotRefreshHandler,
   setRuntimeConfigSnapshot,
 } from "./io.js";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
-function createSourceConfig(): Brikko StudioConfig {
+function createSourceConfig(): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -21,7 +21,7 @@ function createSourceConfig(): Brikko StudioConfig {
   };
 }
 
-function createRuntimeConfig(): Brikko StudioConfig {
+function createRuntimeConfig(): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -50,7 +50,7 @@ describe("runtime config snapshot writes", () => {
   });
 
   it("skips source projection for non-runtime-derived configs", () => {
-    const sourceConfig: Brikko StudioConfig = {
+    const sourceConfig: BrikkoStudioConfig = {
       ...createSourceConfig(),
       gateway: {
         auth: {
@@ -58,7 +58,7 @@ describe("runtime config snapshot writes", () => {
         },
       },
     };
-    const runtimeConfig: Brikko StudioConfig = {
+    const runtimeConfig: BrikkoStudioConfig = {
       ...createRuntimeConfig(),
       gateway: {
         auth: {
@@ -66,7 +66,7 @@ describe("runtime config snapshot writes", () => {
         },
       },
     };
-    const independentConfig: Brikko StudioConfig = {
+    const independentConfig: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: {

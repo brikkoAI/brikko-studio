@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveVisibleModelCatalog } from "./model-catalog-visibility.js";
 import type { ModelCatalogEntry } from "./model-catalog.types.js";
 import { createProviderAuthChecker } from "./model-provider-auth.js";
@@ -24,7 +24,7 @@ describe("resolveVisibleModelCatalog", () => {
     ];
 
     const result = resolveVisibleModelCatalog({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       catalog,
       defaultProvider: "openai",
       runtimeAuthDiscovery: false,

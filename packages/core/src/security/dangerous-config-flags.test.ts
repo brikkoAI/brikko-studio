@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { collectEnabledInsecureOrDangerousFlagsFromContracts } from "./dangerous-config-flags-core.js";
 
-function asConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+function asConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
 describe("collectEnabledInsecureOrDangerousFlags", () => {

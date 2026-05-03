@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { MsgContext } from "../templating.js";
 import type { InlineDirectives } from "./directive-handling.parse.js";
 import { stripMentions, stripStructuralPrefixes } from "./mentions.js";
@@ -7,7 +7,7 @@ export function isDirectiveOnly(params: {
   directives: InlineDirectives;
   cleanedBody: string;
   ctx: MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   isGroup: boolean;
 }): boolean {

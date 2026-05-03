@@ -1,6 +1,6 @@
 import { createRequire } from "node:module";
 import { normalizeProviderId } from "../agents/provider-id.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.js";
 import { isInstalledPluginEnabled } from "./installed-plugin-index.js";
 import {
@@ -23,7 +23,7 @@ type SetupCliBackendRuntimeEntry = {
 
 type SetupCliBackendRuntimeLookupParams = {
   backend: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 };

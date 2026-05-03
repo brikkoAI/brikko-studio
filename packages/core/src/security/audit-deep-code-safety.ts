@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { SecurityAuditFinding } from "./audit.types.js";
 
 let auditDeepModulePromise: Promise<typeof import("./audit.deep.runtime.js")> | undefined;
@@ -9,7 +9,7 @@ async function loadAuditDeepModule() {
 }
 
 export async function collectDeepCodeSafetyFindings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   stateDir: string;
   deep: boolean;
   summaryCache?: Map<string, Promise<unknown>>;

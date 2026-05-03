@@ -80,8 +80,8 @@ function expectedDiagnosticsTargetBlock(params: {
   return [
     `Session ${params.index ?? 1}`,
     ...(params.channel ? [`Channel: ${params.channel}`] : []),
-    ...(params.sessionKey ? [`Brikko Studio session key: \`${params.sessionKey}\``] : []),
-    ...(params.sessionId ? [`Brikko Studio session id: \`${params.sessionId}\``] : []),
+    ...(params.sessionKey ? [`BrikkoStudio session key: \`${params.sessionKey}\``] : []),
+    ...(params.sessionId ? [`BrikkoStudio session id: \`${params.sessionId}\``] : []),
     `Codex thread id: \`${params.threadId}\``,
     `Inspect locally: \`codex resume ${params.threadId}\``,
   ];
@@ -117,7 +117,7 @@ describe("codex command", () => {
     await expect(
       handleCodexCommand(createContext("resume thread-123", sessionFile), { deps }),
     ).resolves.toEqual({
-      text: "Attached this Brikko Studio session to Codex thread thread-123.",
+      text: "Attached this BrikkoStudio session to Codex thread thread-123.",
     });
 
     expect(requests).toEqual([
@@ -367,7 +367,7 @@ describe("codex command", () => {
     await expect(
       handleCodexCommand(createContext("compact", sessionFile), { deps: createDeps() }),
     ).resolves.toEqual({
-      text: "No Codex thread is attached to this Brikko Studio session yet.",
+      text: "No Codex thread is attached to this BrikkoStudio session yet.",
     });
   });
 
@@ -490,7 +490,7 @@ describe("codex command", () => {
       [
         "Codex runtime thread detected.",
         "Approving diagnostics will also send this thread's feedback bundle to OpenAI servers.",
-        "The completed diagnostics reply will list the Brikko Studio session ids and Codex thread ids that were sent.",
+        "The completed diagnostics reply will list the BrikkoStudio session ids and Codex thread ids that were sent.",
         "Note: flaky tool call",
         "Included: Codex logs and spawned Codex subthreads when available.",
       ].join("\n"),
@@ -602,11 +602,11 @@ describe("codex command", () => {
     );
     const token = readDiagnosticsConfirmationToken(request);
     expect(request.text).toContain("Codex runtime threads detected.");
-    expect(request.text).toContain("Brikko Studio session key: `agent:main:whatsapp:one`");
-    expect(request.text).toContain("Brikko Studio session id: `session-one`");
+    expect(request.text).toContain("BrikkoStudio session key: `agent:main:whatsapp:one`");
+    expect(request.text).toContain("BrikkoStudio session id: `session-one`");
     expect(request.text).toContain("Codex thread id: `thread-111`");
-    expect(request.text).toContain("Brikko Studio session key: `agent:main:discord:two`");
-    expect(request.text).toContain("Brikko Studio session id: `session-two`");
+    expect(request.text).toContain("BrikkoStudio session key: `agent:main:discord:two`");
+    expect(request.text).toContain("BrikkoStudio session id: `session-two`");
     expect(request.text).toContain("Codex thread id: `thread-222`");
     expect(safeCodexControlRequest).not.toHaveBeenCalled();
 
@@ -1343,7 +1343,7 @@ describe("codex command", () => {
       handleCodexCommand(createContext("diagnostics", sessionFile), { deps: createDeps() }),
     ).resolves.toEqual({
       text: [
-        "No Codex thread is attached to this Brikko Studio session yet.",
+        "No Codex thread is attached to this BrikkoStudio session yet.",
         "Use /codex threads to find a thread, then /codex resume <thread-id> before sending diagnostics.",
       ].join("\n"),
     });

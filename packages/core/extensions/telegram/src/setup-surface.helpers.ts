@@ -3,7 +3,7 @@ import {
   applySetupAccountConfigPatch,
   type ChannelSetupDmPolicy,
   DEFAULT_ACCOUNT_ID,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   patchChannelConfigForAccount,
 } from "brikko-studio/plugin-sdk/setup";
 import { formatCliCommand, formatDocsLink } from "brikko-studio/plugin-sdk/setup-tools";
@@ -18,9 +18,9 @@ import { promptTelegramAllowFromForAccount } from "./setup-core.js";
 const channel = "telegram" as const;
 
 export function ensureTelegramDefaultGroupMentionGate(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const resolved = resolveTelegramAccount({ cfg, accountId });
   const wildcardGroup = resolved.config.groups?.["*"];
   if (wildcardGroup?.requireMention !== undefined) {
@@ -42,7 +42,7 @@ export function ensureTelegramDefaultGroupMentionGate(
   });
 }
 
-export function shouldShowTelegramDmAccessWarning(cfg: Brikko StudioConfig, accountId: string): boolean {
+export function shouldShowTelegramDmAccessWarning(cfg: BrikkoStudioConfig, accountId: string): boolean {
   const merged = mergeTelegramAccountConfig(cfg, accountId);
   const policy = merged.dmPolicy ?? "pairing";
   const hasAllowFrom =

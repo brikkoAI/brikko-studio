@@ -1,10 +1,10 @@
-import type { Brikko StudioPluginApi } from "../plugin-entry.js";
+import type { BrikkoStudioPluginApi } from "../plugin-entry.js";
 import {
   createPluginRecord,
   createPluginRegistry,
   registerProviderPlugins as registerProviders,
   requireRegisteredProvider as requireProvider,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type PluginRecord,
   type PluginRuntime,
 } from "../testing.js";
@@ -13,7 +13,7 @@ import { uniqueSortedStrings } from "./string-utils.js";
 
 export { registerProviders, requireProvider, uniqueSortedStrings };
 
-export function createPluginRegistryFixture(config = {} as Brikko StudioConfig) {
+export function createPluginRegistryFixture(config = {} as BrikkoStudioConfig) {
   return {
     config,
     registry: createPluginRegistry({
@@ -30,9 +30,9 @@ export function createPluginRegistryFixture(config = {} as Brikko StudioConfig) 
 
 export function registerTestPlugin(params: {
   registry: ReturnType<typeof createPluginRegistry>;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   record: PluginRecord;
-  register(api: Brikko StudioPluginApi): void;
+  register(api: BrikkoStudioPluginApi): void;
 }) {
   params.registry.registry.plugins.push(params.record);
   params.register(
@@ -44,13 +44,13 @@ export function registerTestPlugin(params: {
 
 export function registerVirtualTestPlugin(params: {
   registry: ReturnType<typeof createPluginRegistry>;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   id: string;
   name: string;
   source?: string;
   kind?: PluginRecord["kind"];
   contracts?: PluginRecord["contracts"];
-  register(this: void, api: Brikko StudioPluginApi): void;
+  register(this: void, api: BrikkoStudioPluginApi): void;
 }) {
   registerTestPlugin({
     registry: params.registry,

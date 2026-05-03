@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { resolveQueueSettings } from "./settings.js";
 
 describe("resolveQueueSettings", () => {
   it("defaults inbound channels to steer with a short followup debounce", () => {
-    expect(resolveQueueSettings({ cfg: {} as Brikko StudioConfig })).toEqual({
+    expect(resolveQueueSettings({ cfg: {} as BrikkoStudioConfig })).toEqual({
       mode: "steer",
       debounceMs: 500,
       cap: 20,
@@ -21,7 +21,7 @@ describe("resolveQueueSettings", () => {
               mode: "collect",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       }),
     ).toEqual({
       mode: "collect",
@@ -44,7 +44,7 @@ describe("resolveQueueSettings", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         channel: "discord",
       }),
     ).toEqual({
@@ -64,7 +64,7 @@ describe("resolveQueueSettings", () => {
               mode: "queue",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       }),
     ).toMatchObject({
       mode: "queue",

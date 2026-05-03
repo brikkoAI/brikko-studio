@@ -1,5 +1,5 @@
 import type { SecretInputMode } from "../commands/onboard-types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   DEFAULT_SECRET_PROVIDER_ALIAS,
   type SecretInput,
@@ -23,9 +23,9 @@ import type { FlowContribution, FlowOption } from "./types.js";
 import { sortFlowContributionsByLabel } from "./types.js";
 
 export type SearchProvider = NonNullable<
-  NonNullable<NonNullable<NonNullable<Brikko StudioConfig["tools"]>["web"]>["search"]>["provider"]
+  NonNullable<NonNullable<NonNullable<BrikkoStudioConfig["tools"]>["web"]>["search"]>["provider"]
 >;
-type SearchConfig = NonNullable<NonNullable<NonNullable<Brikko StudioConfig["tools"]>["web"]>["search"]>;
+type SearchConfig = NonNullable<NonNullable<NonNullable<BrikkoStudioConfig["tools"]>["web"]>["search"]>;
 type MutableSearchConfig = SearchConfig & Record<string, unknown>;
 
 type SearchProviderSetupOption = FlowOption & {
@@ -56,7 +56,7 @@ function resolveSearchProviderCredentialLabel(
 }
 
 export function listSearchProviderOptions(
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): readonly PluginWebSearchProviderEntry[] {
   return resolveSearchProviderOptions(config);
 }
@@ -68,7 +68,7 @@ function showsSearchProviderInSetup(
 }
 
 export function resolveSearchProviderOptions(
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): readonly PluginWebSearchProviderEntry[] {
   return resolveSearchProviderSetupContributions(config).map(
     (contribution) => contribution.provider,
@@ -95,7 +95,7 @@ function buildSearchProviderSetupContribution(params: {
 }
 
 function resolveSearchProviderSetupContributions(
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): SearchProviderSetupContribution[] {
   const runtimeProviders = sortWebSearchProviders(
     resolvePluginWebSearchProviders({
@@ -136,7 +136,7 @@ function resolveSearchProviderSetupContributions(
 }
 
 function resolveSearchProviderEntry(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   provider: SearchProvider,
 ): PluginWebSearchProviderEntry | undefined {
   return resolveSearchProviderOptions(config).find((entry) => entry.id === provider);
@@ -153,7 +153,7 @@ function providerNeedsCredential(
 }
 
 function providerIsReady(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   entry: Pick<PluginWebSearchProviderEntry, "id" | "envVars" | "requiresCredential">,
 ): boolean {
   if (!providerNeedsCredential(entry)) {
@@ -162,23 +162,23 @@ function providerIsReady(
   return hasExistingKey(config, entry.id) || hasKeyInEnv(entry);
 }
 
-function rawKeyValue(config: Brikko StudioConfig, provider: SearchProvider): unknown {
+function rawKeyValue(config: BrikkoStudioConfig, provider: SearchProvider): unknown {
   const entry = resolveSearchProviderEntry(config, provider);
   return entry?.getConfiguredCredentialValue?.(config);
 }
 
 export function resolveExistingKey(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   provider: SearchProvider,
 ): string | undefined {
   return normalizeSecretInputString(rawKeyValue(config, provider));
 }
 
-export function hasExistingKey(config: Brikko StudioConfig, provider: SearchProvider): boolean {
+export function hasExistingKey(config: BrikkoStudioConfig, provider: SearchProvider): boolean {
   return hasConfiguredSecretInput(rawKeyValue(config, provider));
 }
 
-function buildSearchEnvRef(config: Brikko StudioConfig, provider: SearchProvider): SecretRef {
+function buildSearchEnvRef(config: BrikkoStudioConfig, provider: SearchProvider): SecretRef {
   const entry =
     resolveSearchProviderEntry(config, provider) ??
     listSearchProviderOptions(config).find((candidate) => candidate.id === provider) ??
@@ -195,7 +195,7 @@ function buildSearchEnvRef(config: Brikko StudioConfig, provider: SearchProvider
 }
 
 function resolveSearchSecretInput(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   provider: SearchProvider,
   key: string,
   secretInputMode?: SecretInputMode,
@@ -208,10 +208,10 @@ function resolveSearchSecretInput(
 }
 
 export function applySearchKey(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   provider: SearchProvider,
   key: SecretInput,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const providerEntry = resolveSearchProviderEntry(config, provider);
   if (!providerEntry) {
     return config;
@@ -220,7 +220,7 @@ export function applySearchKey(
   if (!providerEntry.setConfiguredCredentialValue) {
     providerEntry.setCredentialValue(search, key);
   }
-  const nextBase: Brikko StudioConfig = {
+  const nextBase: BrikkoStudioConfig = {
     ...config,
     tools: {
       ...config.tools,
@@ -233,9 +233,9 @@ export function applySearchKey(
 }
 
 function applySearchProviderSelectionConfig(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   providerEntry: Pick<PluginWebSearchProviderEntry, "pluginId" | "applySelectionConfig">,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   if (providerEntry.applySelectionConfig) {
     return providerEntry.applySelectionConfig(config);
   }
@@ -246,9 +246,9 @@ function applySearchProviderSelectionConfig(
 }
 
 export function applySearchProviderSelection(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   provider: SearchProvider,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const providerEntry = resolveSearchProviderEntry(config, provider);
   if (!providerEntry) {
     return config;
@@ -258,7 +258,7 @@ export function applySearchProviderSelection(
     provider,
     enabled: true,
   };
-  const nextBase: Brikko StudioConfig = {
+  const nextBase: BrikkoStudioConfig = {
     ...config,
     tools: {
       ...config.tools,
@@ -271,12 +271,12 @@ export function applySearchProviderSelection(
   return applySearchProviderSelectionConfig(nextBase, providerEntry);
 }
 
-function preserveDisabledState(original: Brikko StudioConfig, result: Brikko StudioConfig): Brikko StudioConfig {
+function preserveDisabledState(original: BrikkoStudioConfig, result: BrikkoStudioConfig): BrikkoStudioConfig {
   if (original.tools?.web?.search?.enabled !== false) {
     return result;
   }
 
-  const next: Brikko StudioConfig = {
+  const next: BrikkoStudioConfig = {
     ...result,
     tools: {
       ...result.tools,
@@ -325,7 +325,7 @@ function preserveDisabledState(original: Brikko StudioConfig, result: Brikko Stu
 
   return {
     ...next,
-    plugins: nextPlugins as Brikko StudioConfig["plugins"],
+    plugins: nextPlugins as BrikkoStudioConfig["plugins"],
   };
 }
 
@@ -335,13 +335,13 @@ export type SetupSearchOptions = {
 };
 
 async function finalizeSearchProviderSetup(params: {
-  originalConfig: Brikko StudioConfig;
-  nextConfig: Brikko StudioConfig;
+  originalConfig: BrikkoStudioConfig;
+  nextConfig: BrikkoStudioConfig;
   entry: SearchProviderEntryWithInstall;
   runtime: RuntimeEnv;
   prompter: WizardPrompter;
   opts?: SetupSearchOptions;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   let next = params.nextConfig;
   const installEntry = params.entry[SEARCH_INSTALL_CATALOG_ENTRY];
   if (installEntry && next.tools?.web?.search?.enabled !== false) {
@@ -381,11 +381,11 @@ async function finalizeSearchProviderSetup(params: {
 }
 
 export async function runSearchSetupFlow(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   runtime: RuntimeEnv,
   prompter: WizardPrompter,
   opts?: SetupSearchOptions,
-): Promise<Brikko StudioConfig> {
+): Promise<BrikkoStudioConfig> {
   const providerOptions = resolveSearchProviderOptions(config);
   if (providerOptions.length === 0) {
     await prompter.note(
@@ -478,7 +478,7 @@ export async function runSearchSetupFlow(
     await prompter.note(
       [
         `${entry.label} works without an API key.`,
-        "Brikko Studio will enable the plugin and use it as your web_search provider.",
+        "BrikkoStudio will enable the plugin and use it as your web_search provider.",
         `Docs: ${entry.docsUrl ?? "https://docs.brikko-studio.ai/tools/web"}`,
       ].join("\n"),
       "Web search",
@@ -512,7 +512,7 @@ export async function runSearchSetupFlow(
     const ref = buildSearchEnvRef(config, choice);
     await prompter.note(
       [
-        "Secret references enabled — Brikko Studio will store a reference instead of the API key.",
+        "Secret references enabled — BrikkoStudio will store a reference instead of the API key.",
         `Env var: ${ref.id}${envAvailable ? " (detected)" : ""}.`,
         ...(envAvailable ? [] : [`Set ${ref.id} in the Gateway environment.`]),
         "Docs: https://docs.brikko-studio.ai/tools/web",

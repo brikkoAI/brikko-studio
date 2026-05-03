@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   buildTalkTestProviderConfig,
   TALK_TEST_PROVIDER_API_KEY_PATH,
@@ -20,7 +20,7 @@ describe("secret target registry", () => {
           token: { source: "env" as const, provider: "default", id: "REMOTE_TOKEN" },
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const targets = discoverConfigSecretTargetsByIds(config, new Set(["talk.providers.*.apiKey"]));
 

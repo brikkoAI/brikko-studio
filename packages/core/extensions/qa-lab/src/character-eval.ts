@@ -320,7 +320,7 @@ ${run.transcript}
     })
     .join("\n\n");
 
-  const prompt = `You are grading Brikko Studio natural character conversation transcripts for naturalness, vibes, and funniness.
+  const prompt = `You are grading BrikkoStudio natural character conversation transcripts for naturalness, vibes, and funniness.
 
 Scenario id: ${params.scenarioId}
 
@@ -431,7 +431,7 @@ function renderCharacterEvalReport(params: {
   judgments: readonly QaCharacterEvalJudgeResult[];
 }) {
   const lines = [
-    "# Brikko Studio Character Eval Report",
+    "# BrikkoStudio Character Eval Report",
     "",
     `- Started: ${params.startedAt.toISOString()}`,
     `- Finished: ${params.finishedAt.toISOString()}`,

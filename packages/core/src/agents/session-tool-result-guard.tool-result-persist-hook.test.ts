@@ -8,7 +8,7 @@ import {
   initializeGlobalHookRunner,
   resetGlobalHookRunner,
 } from "../plugins/hook-runner-global.js";
-import { loadBrikko StudioPlugins } from "../plugins/loader.js";
+import { loadBrikkoStudioPlugins } from "../plugins/loader.js";
 import { guardSessionManager } from "./session-tool-result-guard-wrapper.js";
 
 const EMPTY_PLUGIN_SCHEMA = { type: "object", additionalProperties: false, properties: {} };
@@ -67,7 +67,7 @@ function initializeTempPlugin(params: { tmpPrefix: string; id: string; body: str
     id: params.id,
     body: params.body,
   });
-  const registry = loadBrikko StudioPlugins({
+  const registry = loadBrikkoStudioPlugins({
     cache: false,
     workspaceDir: tmp,
     config: {
@@ -328,7 +328,7 @@ describe("tool_result_persist hook", () => {
 } };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: tmp,
       config: {

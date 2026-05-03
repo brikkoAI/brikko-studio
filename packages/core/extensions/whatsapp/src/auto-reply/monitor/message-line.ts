@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { getPrimaryIdentityId, getReplyContext, getSenderIdentity } from "../../identity.js";
 import type { WebInboundMsg } from "../types.js";
 import {
@@ -18,7 +18,7 @@ export function formatReplyContext(msg: WebInboundMsg) {
 }
 
 export function buildInboundLine(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   msg: WebInboundMsg;
   agentId: string;
   previousTimestamp?: number;

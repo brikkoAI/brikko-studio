@@ -7,7 +7,7 @@ import {
   DEFAULT_ACCOUNT_ID,
   listCombinedAccountIds,
   resolveMergedAccountConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/account-resolution";
 import { resolveDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
 import type {
@@ -16,8 +16,8 @@ import type {
   SynologyWebhookPathSource,
 } from "./types.js";
 
-/** Extract the channel config from the full Brikko Studio config object. */
-function getChannelConfig(cfg: Brikko StudioConfig): SynologyChatChannelConfig | undefined {
+/** Extract the channel config from the full BrikkoStudio config object. */
+function getChannelConfig(cfg: BrikkoStudioConfig): SynologyChatChannelConfig | undefined {
   return cfg?.channels?.["synology-chat"] as SynologyChatChannelConfig | undefined;
 }
 
@@ -82,7 +82,7 @@ function parseRateLimitPerMinute(raw: string | undefined): number {
  * List all configured account IDs for this channel.
  * Returns ["default"] if there's a base config, plus any named accounts.
  */
-export function listAccountIds(cfg: Brikko StudioConfig): string[] {
+export function listAccountIds(cfg: BrikkoStudioConfig): string[] {
   const channelCfg = getChannelConfig(cfg);
   if (!channelCfg) {
     return [];
@@ -99,7 +99,7 @@ export function listAccountIds(cfg: Brikko StudioConfig): string[] {
  * Falls back to env vars for the "default" account.
  */
 export function resolveAccount(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string | null,
 ): ResolvedSynologyChatAccount {
   const channelCfg = getChannelConfig(cfg) ?? {};
@@ -121,7 +121,7 @@ export function resolveAccount(
   const envNasHost = process.env.SYNOLOGY_NAS_HOST ?? "localhost";
   const envAllowedUserIds = process.env.SYNOLOGY_ALLOWED_USER_IDS ?? "";
   const envRateLimitValue = parseRateLimitPerMinute(process.env.SYNOLOGY_RATE_LIMIT);
-  const envBotName = process.env.BRIKKO_STUDIO_BOT_NAME ?? "Brikko Studio";
+  const envBotName = process.env.BRIKKO_STUDIO_BOT_NAME ?? "BrikkoStudio";
   const webhookPathSource = resolveWebhookPathSource({ accountId: id, channelCfg, rawAccount });
   const dangerouslyAllowInheritedWebhookPath =
     rawAccount.dangerouslyAllowInheritedWebhookPath ??

@@ -6,7 +6,7 @@ import {
   resolveAllAgentSessionStoreTargetsSync,
   type SessionStoreTarget,
 } from "../config/sessions/targets.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveSessionStoreAgentId,
   resolveSessionStoreKey,
@@ -116,7 +116,7 @@ function findFreshestStoreMatch(
 }
 
 function resolveSessionStoreCandidates(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
 }): SessionStoreTarget[] {
   const storeConfig = params.cfg.session?.store;
@@ -138,7 +138,7 @@ function resolveSessionStoreCandidates(params: {
 }
 
 function buildSessionStoreScanTargets(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   key: string;
   canonicalKey: string;
   agentId: string;
@@ -163,7 +163,7 @@ function buildSessionStoreScanTargets(params: {
   return [...targets];
 }
 
-function loadPluginHostHookSessionEntry(params: { cfg: Brikko StudioConfig; sessionKey: string }): {
+function loadPluginHostHookSessionEntry(params: { cfg: BrikkoStudioConfig; sessionKey: string }): {
   storePath: string;
   entry?: SessionEntry;
   canonicalKey: string;
@@ -203,7 +203,7 @@ function loadPluginHostHookSessionEntry(params: { cfg: Brikko StudioConfig; sess
   };
 }
 
-function isPluginPromptInjectionEnabled(cfg: Brikko StudioConfig, pluginId: string): boolean {
+function isPluginPromptInjectionEnabled(cfg: BrikkoStudioConfig, pluginId: string): boolean {
   const entry = cfg.plugins?.entries?.[pluginId];
   return entry?.hooks?.allowPromptInjection !== false;
 }
@@ -228,7 +228,7 @@ function toPluginNextTurnInjectionRecord(params: {
 }
 
 export async function enqueuePluginNextTurnInjection(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   pluginId: string;
   pluginName?: string;
   injection: PluginNextTurnInjection;
@@ -324,7 +324,7 @@ export async function enqueuePluginNextTurnInjection(params: {
 }
 
 export async function drainPluginNextTurnInjections(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey?: string;
   now?: number;
 }): Promise<PluginNextTurnInjectionRecord[]> {
@@ -384,7 +384,7 @@ export async function drainPluginNextTurnInjections(params: {
 }
 
 export async function drainPluginNextTurnInjectionContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey?: string;
   now?: number;
 }): Promise<PluginAgentTurnPrepareResult & { queuedInjections: PluginNextTurnInjectionRecord[] }> {
@@ -396,7 +396,7 @@ export async function drainPluginNextTurnInjectionContext(params: {
 }
 
 export async function patchPluginSessionExtension(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
   pluginId: string;
   namespace: string;

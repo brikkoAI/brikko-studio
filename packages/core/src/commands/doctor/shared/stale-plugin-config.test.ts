@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/config.js";
+import type { BrikkoStudioConfig } from "../../../config/config.js";
 import type { PluginInstallRecord } from "../../../config/types.plugins.js";
 import type { PluginManifestRecord } from "../../../plugins/manifest-registry.js";
 import * as manifestRegistry from "../../../plugins/manifest-registry.js";
@@ -59,7 +59,7 @@ describe("doctor stale plugin config helpers", () => {
           acpx: { enabled: true },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(hits).toEqual([
       {
@@ -84,7 +84,7 @@ describe("doctor stale plugin config helpers", () => {
           acpx: { enabled: true },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(result.changes).toEqual([
       "- plugins.allow: removed 1 stale plugin id (acpx)",
@@ -130,7 +130,7 @@ describe("doctor stale plugin config helpers", () => {
           allowFrom: ["+15555550123"],
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(result.changes).toEqual([
       "- plugins.allow: removed 1 stale plugin id (acpx)",
@@ -193,7 +193,7 @@ describe("doctor stale plugin config helpers", () => {
           },
         ],
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(result.changes).toEqual([
       "- plugins.allow: removed 1 stale plugin id (brikko-studio-weixin)",
@@ -225,7 +225,7 @@ describe("doctor stale plugin config helpers", () => {
           botToken: "typo",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(scanStalePluginConfig(cfg)).toEqual([]);
     expect(maybeRepairStalePluginConfig(cfg)).toEqual({ config: cfg, changes: [] });
@@ -245,7 +245,7 @@ describe("doctor stale plugin config helpers", () => {
           enabled: true,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(scanStalePluginConfig(cfg)).toEqual([]);
     expect(maybeRepairStalePluginConfig(cfg)).toEqual({ config: cfg, changes: [] });
@@ -267,7 +267,7 @@ describe("doctor stale plugin config helpers", () => {
           enabled: true,
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(result.changes).toEqual([
       "- channels: removed 1 stale channel config (brikko-studio-weixin)",
@@ -290,7 +290,7 @@ describe("doctor stale plugin config helpers", () => {
           acpx: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const hits = scanStalePluginConfig(cfg);
     expect(hits).toEqual([
@@ -327,7 +327,7 @@ describe("doctor stale plugin config helpers", () => {
           acpx: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(scanStalePluginConfig(cfg)).toEqual([
       {

@@ -1,5 +1,5 @@
 import type { TalkProviderConfig } from "../config/types.gateway.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { ResolvedTtsPersona } from "../config/types.tts.js";
 
 export type SpeechProviderId = string;
@@ -36,14 +36,14 @@ export type TtsDirectiveParseResult = {
 };
 
 export type SpeechProviderConfiguredContext = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   providerConfig: SpeechProviderConfig;
   timeoutMs: number;
 };
 
 export type SpeechSynthesisRequest = {
   text: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerConfig: SpeechProviderConfig;
   target: SpeechSynthesisTarget;
   providerOverrides?: SpeechProviderOverrides;
@@ -59,7 +59,7 @@ export type SpeechSynthesisResult = {
 
 export type SpeechTelephonySynthesisRequest = {
   text: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerConfig: SpeechProviderConfig;
   providerOverrides?: SpeechProviderOverrides;
   timeoutMs: number;
@@ -73,7 +73,7 @@ export type SpeechTelephonySynthesisResult = {
 
 export type SpeechProviderPrepareSynthesisContext = {
   text: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerConfig: SpeechProviderConfig;
   providerOverrides?: SpeechProviderOverrides;
   persona?: ResolvedTtsPersona;
@@ -99,14 +99,14 @@ export type SpeechVoiceOption = {
 };
 
 export type SpeechListVoicesRequest = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   providerConfig?: SpeechProviderConfig;
   apiKey?: string;
   baseUrl?: string;
 };
 
 export type SpeechProviderResolveConfigContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   rawConfig: Record<string, unknown>;
   timeoutMs: number;
 };
@@ -127,7 +127,7 @@ export type SpeechDirectiveTokenParseResult = {
 };
 
 export type SpeechProviderResolveTalkConfigContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   baseTtsConfig: Record<string, unknown>;
   talkProviderConfig: TalkProviderConfig;
   timeoutMs: number;

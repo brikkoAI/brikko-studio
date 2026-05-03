@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/sandbox";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/sandbox";
 
 type TranscodeOutcome =
   | { ok: true; buffer: Buffer }
@@ -54,7 +54,7 @@ export async function transcodeAudioBuffer(params: {
     return { ok: false, reason: "platform-unsupported" };
   }
 
-  const tmpRoot = resolvePreferredBrikko StudioTmpDir();
+  const tmpRoot = resolvePreferredBrikkoStudioTmpDir();
   mkdirSync(tmpRoot, { recursive: true, mode: 0o700 });
   const tmpDir = mkdtempSync(join(tmpRoot, "tts-transcode-"));
   const inPath = join(tmpDir, `in.${source}`);

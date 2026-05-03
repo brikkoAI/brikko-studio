@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   isDiagnosticFlagEnabled,
   matchesDiagnosticFlag,
@@ -10,7 +10,7 @@ describe("resolveDiagnosticFlags", () => {
   it("normalizes and dedupes config and env flags", () => {
     const cfg = {
       diagnostics: { flags: [" Telegram.Http ", "cache.*", "CACHE.*"] },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const env = {
       BRIKKO_STUDIO_DIAGNOSTICS: " foo, Cache.*  telegram.http  ",
     } as NodeJS.ProcessEnv;
@@ -21,7 +21,7 @@ describe("resolveDiagnosticFlags", () => {
   it("treats blank env values as no extra flags", () => {
     const cfg = {
       diagnostics: { flags: ["telegram.http"] },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       resolveDiagnosticFlags(cfg, {
@@ -33,7 +33,7 @@ describe("resolveDiagnosticFlags", () => {
   it("treats false-like env values as disable overrides", () => {
     const cfg = {
       diagnostics: { flags: ["telegram.http"] },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     for (const raw of ["0", "false", "off", "none"]) {
       expect(
@@ -65,7 +65,7 @@ describe("isDiagnosticFlagEnabled", () => {
   it("resolves config and env together before matching", () => {
     const cfg = {
       diagnostics: { flags: ["gateway.*"] },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const env = {
       BRIKKO_STUDIO_DIAGNOSTICS: "telegram.http",
     } as NodeJS.ProcessEnv;

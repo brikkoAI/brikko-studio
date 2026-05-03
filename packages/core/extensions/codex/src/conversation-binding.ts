@@ -213,7 +213,7 @@ async function createThread(params: {
       sandbox: runtime.sandbox,
       ...(runtime.serviceTier ? { serviceTier: runtime.serviceTier } : {}),
       developerInstructions:
-        "This Codex thread is bound to an Brikko Studio conversation. Answer normally; Brikko Studio will deliver your final response back to the conversation.",
+        "This Codex thread is bound to an BrikkoStudio conversation. Answer normally; BrikkoStudio will deliver your final response back to the conversation.",
       experimentalRawEvents: true,
       persistExtendedHistory: true,
     },
@@ -260,7 +260,7 @@ async function runBoundTurn(params: {
           contentItems: [
             {
               type: "inputText",
-              text: "Brikko Studio native Codex conversation binding does not expose dynamic Brikko Studio tools yet.",
+              text: "BrikkoStudio native Codex conversation binding does not expose dynamic BrikkoStudio tools yet.",
             },
           ],
           success: false,
@@ -273,7 +273,7 @@ async function runBoundTurn(params: {
         return {
           decision: "decline",
           reason:
-            "Brikko Studio native Codex conversation binding cannot route interactive approvals yet; use the Codex harness or explicit /acp spawn codex for that workflow.",
+            "BrikkoStudio native Codex conversation binding cannot route interactive approvals yet; use the Codex harness or explicit /acp spawn codex for that workflow.",
         };
       }
       if (request.method === "item/permissions/requestApproval") {
@@ -283,7 +283,7 @@ async function runBoundTurn(params: {
         return {
           decision: "decline",
           reason:
-            "Brikko Studio native Codex conversation binding cannot route interactive approvals yet; use the Codex harness or explicit /acp spawn codex for that workflow.",
+            "BrikkoStudio native Codex conversation binding cannot route interactive approvals yet; use the Codex harness or explicit /acp spawn codex for that workflow.",
         };
       }
       return undefined;

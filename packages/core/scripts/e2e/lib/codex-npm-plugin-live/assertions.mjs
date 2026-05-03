@@ -304,7 +304,7 @@ function assertAgentTurn() {
   const text = (response.payloads || []).map((payload) => payload?.text || "").join("\n");
   if (!text.includes(marker)) {
     throw new Error(
-      `Brikko Studio agent reply did not contain ${marker}:\nstdout=${stdout}\nstderr=${stderr}`,
+      `BrikkoStudio agent reply did not contain ${marker}:\nstdout=${stdout}\nstderr=${stderr}`,
     );
   }
 
@@ -322,7 +322,7 @@ function assertAgentTurn() {
     throw new Error(`unexpected session model override: ${entry.modelOverride}`);
   }
   if (typeof entry.sessionFile !== "string" || !fs.existsSync(entry.sessionFile)) {
-    throw new Error(`missing Brikko Studio session file: ${entry.sessionFile}`);
+    throw new Error(`missing BrikkoStudio session file: ${entry.sessionFile}`);
   }
 
   const bindingPath = `${entry.sessionFile}.codex-app-server.json`;
@@ -377,7 +377,7 @@ function assertAgentError() {
   const status = Number(process.argv[3]);
   if (!Number.isInteger(status) || status === 0) {
     throw new Error(
-      `expected Brikko Studio agent to fail after Codex uninstall, got status ${process.argv[3]}`,
+      `expected BrikkoStudio agent to fail after Codex uninstall, got status ${process.argv[3]}`,
     );
   }
   const stdout = fs.existsSync("/tmp/brikko-studio-codex-agent-after-uninstall.json")

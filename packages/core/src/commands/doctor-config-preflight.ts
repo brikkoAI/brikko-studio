@@ -3,7 +3,7 @@ import path from "node:path";
 import { readConfigFileSnapshot, recoverConfigFromJsonRootSuffix } from "../config/io.js";
 import { formatConfigIssueLines } from "../config/issue-format.js";
 import type { LegacyConfigIssue } from "../config/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { note } from "../terminal/note.js";
 import { resolveHomeDir } from "../utils.js";
 import { noteIncludeConfinementWarning } from "./doctor-config-analysis.js";
@@ -54,7 +54,7 @@ async function maybeMigrateLegacyConfig(): Promise<string[]> {
 
 export type DoctorConfigPreflightResult = {
   snapshot: Awaited<ReturnType<typeof readConfigFileSnapshot>>;
-  baseConfig: Brikko StudioConfig;
+  baseConfig: BrikkoStudioConfig;
 };
 
 function collectDoctorLegacyIssues(

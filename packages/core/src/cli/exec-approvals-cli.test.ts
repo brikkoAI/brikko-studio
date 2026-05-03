@@ -487,7 +487,7 @@ describe("exec approvals CLI", () => {
           }),
           askFallback: expect.objectContaining({
             effective: "full",
-            source: "Brikko Studio default (full)",
+            source: "BrikkoStudio default (full)",
           }),
         }),
         expect.objectContaining({
@@ -504,7 +504,7 @@ describe("exec approvals CLI", () => {
           }),
           askFallback: expect.objectContaining({
             effective: "allowlist",
-            source: "Brikko Studio default (full)",
+            source: "BrikkoStudio default (full)",
           }),
         }),
       ]),

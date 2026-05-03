@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "../runtime-api.js";
+import type { BrikkoStudioPluginApi } from "../runtime-api.js";
 import type { LobsterEnvelope, LobsterRunner, LobsterRunnerParams } from "./lobster-runner.js";
 
 type JsonLike =
@@ -12,7 +12,7 @@ type JsonLike =
     };
 
 type BoundTaskFlow = ReturnType<
-  NonNullable<Brikko StudioPluginApi["runtime"]>["tasks"]["managedFlows"]["bindSession"]
+  NonNullable<BrikkoStudioPluginApi["runtime"]>["tasks"]["managedFlows"]["bindSession"]
 >;
 
 type FlowRecord = ReturnType<BoundTaskFlow["createManaged"]>;

@@ -69,7 +69,7 @@ vi.mock("../agents/brikko-studio-tools.js", () => {
     },
   ];
   return {
-    createBrikko StudioTools: () => tools,
+    createBrikkoStudioTools: () => tools,
   };
 });
 

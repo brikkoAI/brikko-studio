@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { maybeRepairLegacyCronStore, noteLegacyWhatsAppCrontabHealthCheck } from "./doctor-cron.js";
 
 type TerminalNote = (message: string, title?: string) => void;
@@ -34,7 +34,7 @@ function makePrompter(confirmResult = true) {
   };
 }
 
-function createCronConfig(storePath: string): Brikko StudioConfig {
+function createCronConfig(storePath: string): BrikkoStudioConfig {
   return {
     cron: {
       store: storePath,

@@ -1,5 +1,5 @@
 /**
- * Brikko Studio Memory (LanceDB) Plugin
+ * BrikkoStudio Memory (LanceDB) Plugin
  *
  * Long-term memory with vector search for AI conversations.
  * Uses LanceDB for storage and OpenAI for embeddings.
@@ -10,7 +10,7 @@ import { Buffer } from "node:buffer";
 import { randomUUID } from "node:crypto";
 import type * as LanceDB from "@lancedb/lancedb";
 import OpenAI from "openai";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   getMemoryEmbeddingProvider,
   type MemoryEmbeddingProvider,
@@ -23,7 +23,7 @@ import {
   truncateUtf16Safe,
 } from "brikko-studio/plugin-sdk/text-runtime";
 import { Type } from "typebox";
-import { definePluginEntry, type Brikko StudioPluginApi } from "./api.js";
+import { definePluginEntry, type BrikkoStudioPluginApi } from "./api.js";
 import {
   DEFAULT_CAPTURE_MAX_CHARS,
   DEFAULT_RECALL_MAX_CHARS,
@@ -350,7 +350,7 @@ class ProviderAdapterEmbeddings implements Embeddings {
   private providerPromise: Promise<MemoryEmbeddingProvider> | undefined;
 
   constructor(
-    private api: Brikko StudioPluginApi,
+    private api: BrikkoStudioPluginApi,
     private embedding: MemoryConfig["embedding"],
   ) {}
 
@@ -365,7 +365,7 @@ class ProviderAdapterEmbeddings implements Embeddings {
   }
 
   private async createProvider(): Promise<MemoryEmbeddingProvider> {
-    const cfg = (this.api.runtime.config?.current?.() ?? this.api.config) as Brikko StudioConfig;
+    const cfg = (this.api.runtime.config?.current?.() ?? this.api.config) as BrikkoStudioConfig;
     const providerId = this.embedding.provider;
     const adapter = getMemoryEmbeddingProvider(providerId, cfg);
     if (!adapter) {
@@ -428,7 +428,7 @@ async function runWithTimeout<T>(params: {
   }
 }
 
-function createEmbeddings(api: Brikko StudioPluginApi, cfg: MemoryConfig): Embeddings {
+function createEmbeddings(api: BrikkoStudioPluginApi, cfg: MemoryConfig): Embeddings {
   const { provider, model, dimensions, apiKey, baseUrl } = cfg.embedding;
   if (provider === "openai" && apiKey) {
     return new OpenAiCompatibleEmbeddings(apiKey, model, baseUrl, dimensions);
@@ -578,7 +578,7 @@ export default definePluginEntry({
   kind: "memory" as const,
   configSchema: memoryConfigSchema,
 
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     let cfg: MemoryConfig;
     try {
       cfg = memoryConfigSchema.parse(api.pluginConfig);
@@ -604,7 +604,7 @@ export default definePluginEntry({
     const resolveCurrentHookConfig = () => {
       const runtimePluginConfig = resolveLivePluginConfigObject(
         api.runtime.config?.current
-          ? () => api.runtime.config.current() as Brikko StudioConfig
+          ? () => api.runtime.config.current() as BrikkoStudioConfig
           : undefined,
         "memory-lancedb",
         api.pluginConfig as Record<string, unknown>,

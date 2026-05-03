@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createPluginSetupWizardConfigure,
   createTestWizardPrompter,
@@ -25,7 +25,7 @@ const synologyChatSetupPlugin = {
   config: {
     listAccountIds,
     defaultAccountId: () => "default",
-    resolveAllowFrom: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId?: string }) =>
+    resolveAllowFrom: ({ cfg, accountId }: { cfg: BrikkoStudioConfig; accountId?: string }) =>
       resolveAccount(cfg, accountId).allowedUserIds,
   },
 };
@@ -107,7 +107,7 @@ describe("synology-chat core", () => {
 
     const result = await runSetupWizardConfigure({
       configure: synologyChatConfigure,
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       prompter,
       options: {},
     });
@@ -127,7 +127,7 @@ describe("synology-chat core", () => {
 
     const result = await runSetupWizardConfigure({
       configure: synologyChatConfigure,
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       prompter,
       options: {},
       forceAllowFrom: true,
@@ -182,7 +182,7 @@ describe("synology-chat account resolution", () => {
     expect(account.dangerouslyAllowInheritedWebhookPath).toBe(false);
     expect(account.dmPolicy).toBe("allowlist");
     expect(account.rateLimitPerMinute).toBe(30);
-    expect(account.botName).toBe("Brikko Studio");
+    expect(account.botName).toBe("BrikkoStudio");
   });
 
   it("uses env var fallbacks", () => {

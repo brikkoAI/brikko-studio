@@ -2,7 +2,7 @@
 // Keep this barrel thin and aligned with the local extension surface.
 
 export { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
-export type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+export type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 export type { GatewayRequestHandlerOptions } from "brikko-studio/plugin-sdk/gateway-runtime";
 export {
   isRequestBodyLimitError,

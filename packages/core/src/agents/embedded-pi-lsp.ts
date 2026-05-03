@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { BundleLspServerConfig } from "../plugins/bundle-lsp.js";
 import { loadEnabledBundleLspConfig } from "../plugins/bundle-lsp.js";
 
@@ -9,7 +9,7 @@ type EmbeddedPiLspConfig = {
 
 export function loadEmbeddedPiLspConfig(params: {
   workspaceDir: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): EmbeddedPiLspConfig {
   const bundleLsp = loadEnabledBundleLspConfig({
     workspaceDir: params.workspaceDir,

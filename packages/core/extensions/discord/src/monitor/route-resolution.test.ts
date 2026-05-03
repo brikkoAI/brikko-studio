@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { describe, expect, it } from "vitest";
 import {
@@ -12,7 +12,7 @@ import {
 function buildWorkerBindingConfig(peer: {
   kind: "channel" | "direct";
   id: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     agents: {
       list: [{ id: "worker" }],

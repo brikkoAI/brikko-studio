@@ -220,14 +220,14 @@ describe("DiscordMessageListener", () => {
 
 describe("discord allowlist helpers", () => {
   it("normalizes slugs", () => {
-    expect(normalizeDiscordSlug("Friends of Brikko Studio")).toBe("friends-of-brikko-studio");
+    expect(normalizeDiscordSlug("Friends of BrikkoStudio")).toBe("friends-of-brikko-studio");
     expect(normalizeDiscordSlug("#General")).toBe("general");
     expect(normalizeDiscordSlug("Dev__Chat")).toBe("dev-chat");
   });
 
   it("matches ids by default and names only when enabled", () => {
     const allow = normalizeDiscordAllowList(
-      ["123", "steipete", "Friends of Brikko Studio"],
+      ["123", "steipete", "Friends of BrikkoStudio"],
       ["discord:", "user:", "guild:", "channel:"],
     );
     expect(allow).not.toBeNull();
@@ -277,7 +277,7 @@ describe("discord guild/channel resolution", () => {
       "123": { slug: "friends-of-brikko-studio" },
     });
     const resolved = resolveDiscordGuildEntry({
-      guild: fakeGuild("123", "Friends of Brikko Studio"),
+      guild: fakeGuild("123", "Friends of BrikkoStudio"),
       guildEntries,
     });
     expect(resolved?.id).toBe("123");
@@ -301,7 +301,7 @@ describe("discord guild/channel resolution", () => {
       "friends-of-brikko-studio": { slug: "friends-of-brikko-studio" },
     });
     const resolved = resolveDiscordGuildEntry({
-      guild: fakeGuild("123", "Friends of Brikko Studio"),
+      guild: fakeGuild("123", "Friends of BrikkoStudio"),
       guildEntries,
     });
     expect(resolved?.id).toBe("123");
@@ -313,7 +313,7 @@ describe("discord guild/channel resolution", () => {
       "*": { requireMention: false },
     });
     const resolved = resolveDiscordGuildEntry({
-      guild: fakeGuild("123", "Friends of Brikko Studio"),
+      guild: fakeGuild("123", "Friends of BrikkoStudio"),
       guildEntries,
     });
     expect(resolved?.id).toBe("123");
@@ -662,7 +662,7 @@ describe("discord group DM gating", () => {
       resolveGroupDmAllow({
         channels: ["brikko-studio-dm"],
         channelId: "1",
-        channelName: "Brikko Studio DM",
+        channelName: "BrikkoStudio DM",
         channelSlug: "brikko-studio-dm",
       }),
     ).toBe(true);
@@ -1017,7 +1017,7 @@ function makeReactionListenerParams(overrides?: {
   guildEntries?: Record<string, DiscordGuildEntryResolved>;
 }) {
   return {
-    cfg: {} as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig,
+    cfg: {} as import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig,
     accountId: "acc-1",
     runtime: {} as import("brikko-studio/plugin-sdk/runtime-env").RuntimeEnv,
     botUserId: overrides?.botUserId ?? "bot-1",

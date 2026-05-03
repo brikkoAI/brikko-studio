@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   NODE_BROWSER_PROXY_COMMAND,
   NODE_SYSTEM_NOTIFY_COMMAND,
@@ -198,7 +198,7 @@ export function listDangerousPluginNodeCommands(): string[] {
 }
 
 export function resolveNodeCommandAllowlist(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   node?: Pick<NodeSession, "platform" | "deviceFamily">,
 ): Set<string> {
   const platformId = normalizePlatformId(node?.platform, node?.deviceFamily);

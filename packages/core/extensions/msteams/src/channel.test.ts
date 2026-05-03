@@ -1,10 +1,10 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import { MSTeamsConfigSchema } from "../config-api.js";
 import { msTeamsApprovalAuth } from "./approval-auth.js";
 import { msteamsPlugin } from "./channel.js";
 
-function createConfiguredMSTeamsCfg(): Brikko StudioConfig {
+function createConfiguredMSTeamsCfg(): BrikkoStudioConfig {
   return {
     channels: {
       msteams: {

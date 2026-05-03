@@ -6,7 +6,7 @@ import {
   resolveAgentWorkspaceDir,
   resolveGlobalSingleton,
   resolveMemorySearchSyncConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import { checkQmdBinaryAvailability } from "brikko-studio/plugin-sdk/memory-core-host-engine-qmd";
 import {
@@ -146,7 +146,7 @@ function clearQmdManagerOpenFailure(scopeKey: string, identityKey: string): void
 }
 
 export async function getMemorySearchManager(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   purpose?: MemorySearchManagerPurpose;
 }): Promise<MemorySearchManagerResult> {
@@ -310,7 +310,7 @@ export async function getMemorySearchManager(params: {
 }
 
 async function getBuiltinMemorySearchManager(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   purpose?: MemorySearchManagerPurpose;
 }): Promise<MemorySearchManagerResult> {
@@ -619,7 +619,7 @@ function buildQmdManagerIdentityKey(
 }
 
 function resolveQmdManagerRuntimeConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
 ): QmdManagerRuntimeConfig {
   return {

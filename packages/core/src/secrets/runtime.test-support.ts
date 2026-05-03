@@ -1,6 +1,6 @@
 import { afterEach, beforeAll, beforeEach, vi } from "vitest";
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { createEmptyPluginRegistry } from "../plugins/registry.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import type { PluginWebSearchProviderEntry } from "../plugins/types.js";
@@ -20,8 +20,8 @@ vi.mock("../plugins/installed-plugin-index-records.js", () => ({
   loadInstalledPluginIndexInstallRecordsSync: () => ({}),
 }));
 
-export function asConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+export function asConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
 export function loadAuthStoreWithProfiles(

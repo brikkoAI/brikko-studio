@@ -174,8 +174,8 @@ function getRuntimeChoices(params: {
     params.data.runtimeChoicesByProvider?.get(normalizeProviderId(params.provider)) ?? [
       {
         id: "pi",
-        label: "Brikko Studio Pi Default",
-        description: "Use the built-in Brikko Studio Pi runtime.",
+        label: "BrikkoStudio Pi Default",
+        description: "Use the built-in BrikkoStudio Pi runtime.",
       },
     ]
   );

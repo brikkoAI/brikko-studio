@@ -1,8 +1,8 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { buildAgentSessionKey, type RoutePeer } from "../../routing/resolve-route.js";
 
 export function buildOutboundBaseSessionKey(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   channel: string;
   accountId?: string | null;

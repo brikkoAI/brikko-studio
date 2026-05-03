@@ -38,7 +38,7 @@ export class DashboardHeader extends LitElement {
             href=${pathForTab("overview", this.basePath)}
             @click=${this.handleOverviewClick}
           >
-            Brikko Studio
+            BrikkoStudio
           </a>
           <span class="dashboard-header__breadcrumb-sep">›</span>
           <span class="dashboard-header__breadcrumb-current">${label}</span>

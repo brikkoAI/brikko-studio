@@ -1,6 +1,6 @@
 import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.public.js";
 import type { SessionEntry } from "../../config/sessions.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import { normalizeAccountId } from "../../utils/account-id.js";
 import {
@@ -131,7 +131,7 @@ export function resolveAgentDeliveryPlan(params: {
 }
 
 export function resolveAgentOutboundTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   plan: AgentDeliveryPlan;
   targetMode?: ChannelOutboundTargetMode;
   validateExplicitTarget?: boolean;

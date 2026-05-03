@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { getTailnetHostname } from "../infra/tailscale.js";
 import type { MemoryProviderStatus } from "../memory-host-sdk/engine-storage.js";
 import { getActiveMemorySearchManager } from "../plugins/memory-runtime.js";
@@ -13,7 +13,7 @@ type StatusMemoryManager = {
 };
 
 export async function getMemorySearchManager(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   purpose: "status";
 }): Promise<{ manager: StatusMemoryManager | null }> {

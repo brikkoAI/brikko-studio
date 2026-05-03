@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 
 const mocks = vi.hoisted(() => ({
   sendMessageMSTeams: vi.fn(),
@@ -44,7 +44,7 @@ describe("msteamsOutbound cfg threading", () => {
           appId: "resolved-app-id",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await msteamsOutbound.sendText!({
       cfg,
@@ -66,7 +66,7 @@ describe("msteamsOutbound cfg threading", () => {
           appId: "resolved-app-id",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await msteamsOutbound.sendMedia!({
       cfg,
@@ -92,7 +92,7 @@ describe("msteamsOutbound cfg threading", () => {
           appId: "resolved-app-id",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await msteamsOutbound.sendPoll!({
       cfg,

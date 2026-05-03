@@ -6,7 +6,7 @@ import {
 } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import type { WizardPrompter } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import { listZaloAccountIds, resolveDefaultZaloAccountId, resolveZaloAccount } from "./accounts.js";
 import { zaloDmPolicy } from "./setup-core.js";
 import { zaloSetupAdapter, zaloSetupWizard } from "./setup-surface.js";
@@ -54,7 +54,7 @@ describe("zalo setup wizard", () => {
 
     const result = await runSetupWizardConfigure({
       configure: zaloConfigure,
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       prompter,
       options: { secretInputMode: "plaintext" as const },
     });
@@ -80,14 +80,14 @@ describe("zalo setup wizard", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         "work",
       ),
     ).toBe("allowlist");
   });
 
   it("reports account-scoped config keys for named accounts", () => {
-    expect(zaloDmPolicy.resolveConfigKeys?.({} as Brikko StudioConfig, "work")).toEqual({
+    expect(zaloDmPolicy.resolveConfigKeys?.({} as BrikkoStudioConfig, "work")).toEqual({
       policyKey: "channels.zalo.accounts.work.dmPolicy",
       allowFromKey: "channels.zalo.accounts.work.allowFrom",
     });
@@ -108,7 +108,7 @@ describe("zalo setup wizard", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(zaloDmPolicy.getCurrent(cfg)).toBe("allowlist");
     expect(zaloDmPolicy.resolveConfigKeys?.(cfg)).toEqual({
@@ -137,7 +137,7 @@ describe("zalo setup wizard", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       "open",
       "work",
     );
@@ -167,7 +167,7 @@ describe("zalo setup wizard", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(configured).toBe(false);

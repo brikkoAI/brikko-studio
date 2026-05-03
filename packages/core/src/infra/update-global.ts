@@ -284,7 +284,7 @@ async function resolvePortableGitPathPrepend(
   if (!localAppData) {
     return [];
   }
-  const portableGitRoot = path.join(localAppData, "Brikko Studio", "deps", "portable-git");
+  const portableGitRoot = path.join(localAppData, "BrikkoStudio", "deps", "portable-git");
   const candidates = [
     path.join(portableGitRoot, "mingw64", "bin"),
     path.join(portableGitRoot, "usr", "bin"),

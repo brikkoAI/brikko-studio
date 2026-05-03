@@ -6,7 +6,7 @@ export function createUtilsVitestConfig(env?: Record<string, string | undefined>
     dir: "src",
     env,
     exclude: getUnitFastTestFiles(),
-    includeBrikko StudioRuntimeSetup: false,
+    includeBrikkoStudioRuntimeSetup: false,
     name: "utils",
     passWithNoTests: true,
   });

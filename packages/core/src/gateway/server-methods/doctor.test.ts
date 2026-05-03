@@ -2,15 +2,15 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 
-const getRuntimeConfig = vi.hoisted(() => vi.fn(() => ({}) as Brikko StudioConfig));
+const getRuntimeConfig = vi.hoisted(() => vi.fn(() => ({}) as BrikkoStudioConfig));
 const resolveDefaultAgentId = vi.hoisted(() => vi.fn(() => "main"));
 const resolveAgentWorkspaceDir = vi.hoisted(() =>
-  vi.fn((_cfg: Brikko StudioConfig, _agentId: string) => "/tmp/brikko-studio"),
+  vi.fn((_cfg: BrikkoStudioConfig, _agentId: string) => "/tmp/brikko-studio"),
 );
 const resolveMemorySearchConfig = vi.hoisted(() =>
-  vi.fn<(_cfg: Brikko StudioConfig, _agentId: string) => { enabled: boolean } | null>(() => ({
+  vi.fn<(_cfg: BrikkoStudioConfig, _agentId: string) => { enabled: boolean } | null>(() => ({
     enabled: true,
   })),
 );
@@ -492,8 +492,8 @@ describe("doctor.memory.status", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
-    resolveAgentWorkspaceDir.mockImplementation((cfg: Brikko StudioConfig, agentId: string) => {
+    } as BrikkoStudioConfig);
+    resolveAgentWorkspaceDir.mockImplementation((cfg: BrikkoStudioConfig, agentId: string) => {
       if (agentId === "alpha") {
         return alphaWorkspaceDir;
       }
@@ -627,7 +627,7 @@ describe("doctor.memory.status", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     const close = vi.fn().mockResolvedValue(undefined);
     getMemorySearchManager.mockResolvedValue({
@@ -685,7 +685,7 @@ describe("doctor.memory.status", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     const close = vi.fn().mockResolvedValue(undefined);
     getMemorySearchManager.mockResolvedValue({
@@ -763,8 +763,8 @@ describe("doctor.memory.status", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
-    resolveAgentWorkspaceDir.mockImplementation((_cfg: Brikko StudioConfig, agentId: string) =>
+    } as BrikkoStudioConfig);
+    resolveAgentWorkspaceDir.mockImplementation((_cfg: BrikkoStudioConfig, agentId: string) =>
       agentId === "alpha" ? alphaWorkspaceDir : mainWorkspaceDir,
     );
 
@@ -1145,7 +1145,7 @@ describe("doctor.memory.remHarness", () => {
   });
 
   beforeEach(() => {
-    getRuntimeConfig.mockClear().mockReturnValue({} as Brikko StudioConfig);
+    getRuntimeConfig.mockClear().mockReturnValue({} as BrikkoStudioConfig);
     resolveDefaultAgentId.mockClear().mockReturnValue("main");
     resolveAgentWorkspaceDir.mockReset().mockReturnValue("/tmp/brikko-studio");
     previewRemHarness.mockReset().mockResolvedValue(makeHarnessPreview());

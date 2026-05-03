@@ -21,7 +21,7 @@ vi.mock("./logger.js", () => ({
 
 let loadConfigCalls = 0;
 let originalIsTty: boolean | undefined;
-let originalBrikko StudioTestConsole: string | undefined;
+let originalBrikkoStudioTestConsole: string | undefined;
 let snapshot: ConsoleSnapshot;
 let logging: typeof import("../logging.js");
 let state: typeof import("./state.js");
@@ -37,7 +37,7 @@ beforeEach(() => {
   shouldSkipMutatingLoggingConfigReadMock.mockReturnValue(false);
   snapshot = captureConsoleSnapshot();
   originalIsTty = process.stdout.isTTY;
-  originalBrikko StudioTestConsole = process.env.BRIKKO_STUDIO_TEST_CONSOLE;
+  originalBrikkoStudioTestConsole = process.env.BRIKKO_STUDIO_TEST_CONSOLE;
   process.env.BRIKKO_STUDIO_TEST_CONSOLE = "1";
   Object.defineProperty(process.stdout, "isTTY", { value: false, configurable: true });
 });
@@ -49,10 +49,10 @@ afterEach(() => {
   console.error = snapshot.error;
   console.debug = snapshot.debug;
   console.trace = snapshot.trace;
-  if (originalBrikko StudioTestConsole === undefined) {
+  if (originalBrikkoStudioTestConsole === undefined) {
     delete process.env.BRIKKO_STUDIO_TEST_CONSOLE;
   } else {
-    process.env.BRIKKO_STUDIO_TEST_CONSOLE = originalBrikko StudioTestConsole;
+    process.env.BRIKKO_STUDIO_TEST_CONSOLE = originalBrikkoStudioTestConsole;
   }
   Object.defineProperty(process.stdout, "isTTY", { value: originalIsTty, configurable: true });
   logging.setConsoleConfigLoaderForTests();

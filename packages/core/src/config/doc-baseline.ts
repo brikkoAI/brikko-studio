@@ -3,7 +3,7 @@ import fsSync from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveBrikko StudioPackageRootSync } from "../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../infra/brikko-studio-root.js";
 import type { ConfigSchemaResponse } from "./schema.js";
 import { schemaHasChildren } from "./schema.shared.js";
 
@@ -106,7 +106,7 @@ function logConfigDocBaselineDebug(message: string): void {
 }
 
 function resolveRepoRoot(): string {
-  const fromPackage = resolveBrikko StudioPackageRootSync({
+  const fromPackage = resolveBrikkoStudioPackageRootSync({
     cwd: path.dirname(fileURLToPath(import.meta.url)),
     moduleUrl: import.meta.url,
   });

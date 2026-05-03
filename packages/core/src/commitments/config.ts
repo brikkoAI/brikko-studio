@@ -1,5 +1,5 @@
 import { resolveUserTimezone } from "../agents/date-time.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
 const DEFAULT_COMMITMENT_EXTRACTION_DEBOUNCE_MS = 15_000;
 const DEFAULT_COMMITMENT_BATCH_MAX_ITEMS = 8;
@@ -30,7 +30,7 @@ function positiveInt(value: unknown, fallback: number): number {
     : fallback;
 }
 
-export function resolveCommitmentsConfig(cfg?: Brikko StudioConfig): ResolvedCommitmentsConfig {
+export function resolveCommitmentsConfig(cfg?: BrikkoStudioConfig): ResolvedCommitmentsConfig {
   const raw = cfg?.commitments;
   return {
     enabled: raw?.enabled === true,
@@ -46,6 +46,6 @@ export function resolveCommitmentsConfig(cfg?: Brikko StudioConfig): ResolvedCom
   };
 }
 
-export function resolveCommitmentTimezone(cfg?: Brikko StudioConfig): string {
+export function resolveCommitmentTimezone(cfg?: BrikkoStudioConfig): string {
   return resolveUserTimezone(cfg?.agents?.defaults?.userTimezone);
 }

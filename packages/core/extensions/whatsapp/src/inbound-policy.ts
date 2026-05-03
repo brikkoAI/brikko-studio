@@ -6,7 +6,7 @@ import type {
   ChannelGroupPolicy,
   DmPolicy,
   GroupPolicy,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/config-types";
 import { resolveDefaultGroupPolicy } from "brikko-studio/plugin-sdk/runtime-group-policy";
 import {
@@ -68,7 +68,7 @@ function isNormalizedSenderAllowed(allowEntries: string[], sender?: string | nul
 function buildResolvedWhatsAppGroupConfig(params: {
   groupPolicy: GroupPolicy;
   groups: ResolvedWhatsAppAccount["groups"];
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     channels: {
       whatsapp: {
@@ -76,11 +76,11 @@ function buildResolvedWhatsAppGroupConfig(params: {
         groups: params.groups,
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 export function resolveWhatsAppInboundPolicy(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   selfE164?: string | null;
 }): ResolvedWhatsAppInboundPolicy {
@@ -143,7 +143,7 @@ export function resolveWhatsAppInboundPolicy(params: {
 }
 
 export async function resolveWhatsAppCommandAuthorized(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   msg: WebInboundMessage;
   policy?: ResolvedWhatsAppInboundPolicy;
 }): Promise<boolean> {

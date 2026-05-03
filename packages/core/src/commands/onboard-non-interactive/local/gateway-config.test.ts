@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import type { OnboardOptions } from "../../onboard-types.js";
 import { applyNonInteractiveGatewayConfig } from "./gateway-config.js";
 
@@ -33,18 +33,18 @@ const SAMPLE_SECRET_REF = {
   id: "BRIKKO_STUDIO_GATEWAY_TOKEN_REF",
 };
 
-function createTokenConfig(token: unknown): Brikko StudioConfig {
+function createTokenConfig(token: unknown): BrikkoStudioConfig {
   return {
     gateway: { auth: { mode: "token", token } },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 function applyGatewayConfig({
-  nextConfig = {} as Brikko StudioConfig,
+  nextConfig = {} as BrikkoStudioConfig,
   opts = baseOpts,
   runtime = createRuntime(),
 }: {
-  nextConfig?: Brikko StudioConfig;
+  nextConfig?: BrikkoStudioConfig;
   opts?: OnboardOptions;
   runtime?: ReturnType<typeof createRuntime>;
 } = {}) {

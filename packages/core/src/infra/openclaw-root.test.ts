@@ -32,9 +32,9 @@ function setPackageRoot(root: string, name = "brikko-studio") {
 }
 
 function expectResolvedPackageRoot(
-  syncResolver: typeof import("./brikko-studio-root.js").resolveBrikko StudioPackageRootSync,
-  asyncResolver: typeof import("./brikko-studio-root.js").resolveBrikko StudioPackageRoot,
-  opts: Parameters<typeof import("./brikko-studio-root.js").resolveBrikko StudioPackageRootSync>[0],
+  syncResolver: typeof import("./brikko-studio-root.js").resolveBrikkoStudioPackageRootSync,
+  asyncResolver: typeof import("./brikko-studio-root.js").resolveBrikkoStudioPackageRoot,
+  opts: Parameters<typeof import("./brikko-studio-root.js").resolveBrikkoStudioPackageRootSync>[0],
   expected: string | null,
 ) {
   expect(syncResolver(opts)).toBe(expected);
@@ -105,21 +105,21 @@ vi.mock("./brikko-studio-root.fs.runtime.js", () => ({
   openClawRootFs: mockFsPromisesModule(),
 }));
 
-describe("resolveBrikko StudioPackageRoot", () => {
-  let resolveBrikko StudioPackageRoot: typeof import("./brikko-studio-root.js").resolveBrikko StudioPackageRoot;
-  let resolveBrikko StudioPackageRootSync: typeof import("./brikko-studio-root.js").resolveBrikko StudioPackageRootSync;
-  let clearBrikko StudioPackageRootCaches: typeof import("./brikko-studio-root.js").__testing.clearBrikko StudioPackageRootCaches;
+describe("resolveBrikkoStudioPackageRoot", () => {
+  let resolveBrikkoStudioPackageRoot: typeof import("./brikko-studio-root.js").resolveBrikkoStudioPackageRoot;
+  let resolveBrikkoStudioPackageRootSync: typeof import("./brikko-studio-root.js").resolveBrikkoStudioPackageRootSync;
+  let clearBrikkoStudioPackageRootCaches: typeof import("./brikko-studio-root.js").__testing.clearBrikkoStudioPackageRootCaches;
 
   beforeAll(async () => {
     ({
-      resolveBrikko StudioPackageRoot,
-      resolveBrikko StudioPackageRootSync,
-      __testing: { clearBrikko StudioPackageRootCaches },
+      resolveBrikkoStudioPackageRoot,
+      resolveBrikkoStudioPackageRootSync,
+      __testing: { clearBrikkoStudioPackageRootCaches },
     } = await import("./brikko-studio-root.js"));
   });
 
   beforeEach(() => {
-    clearBrikko StudioPackageRootCaches();
+    clearBrikkoStudioPackageRootCaches();
     state.entries.clear();
     state.realpaths.clear();
     state.realpathErrors.clear();
@@ -228,8 +228,8 @@ describe("resolveBrikko StudioPackageRoot", () => {
   ])("$name", async ({ setup }) => {
     const { opts, expected } = setup();
     await expectResolvedPackageRoot(
-      resolveBrikko StudioPackageRootSync,
-      resolveBrikko StudioPackageRoot,
+      resolveBrikkoStudioPackageRootSync,
+      resolveBrikkoStudioPackageRoot,
       opts,
       expected,
     );

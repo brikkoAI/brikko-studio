@@ -1,10 +1,10 @@
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioPluginApi, Brikko StudioPluginToolContext } from "../runtime-api.js";
+import type { BrikkoStudioPluginApi, BrikkoStudioPluginToolContext } from "../runtime-api.js";
 import { createLobsterTool } from "./lobster-tool.js";
 import { createFakeTaskFlow } from "./taskflow-test-helpers.js";
 
-function fakeApi(overrides: Partial<Brikko StudioPluginApi> = {}): Brikko StudioPluginApi {
+function fakeApi(overrides: Partial<BrikkoStudioPluginApi> = {}): BrikkoStudioPluginApi {
   return createTestPluginApi({
     id: "lobster",
     name: "lobster",
@@ -15,7 +15,7 @@ function fakeApi(overrides: Partial<Brikko StudioPluginApi> = {}): Brikko Studio
   });
 }
 
-function fakeCtx(overrides: Partial<Brikko StudioPluginToolContext> = {}): Brikko StudioPluginToolContext {
+function fakeCtx(overrides: Partial<BrikkoStudioPluginToolContext> = {}): BrikkoStudioPluginToolContext {
   return {
     config: {},
     workspaceDir: "/tmp",
@@ -338,7 +338,7 @@ describe("lobster plugin tool", () => {
 
   it("can be gated off in sandboxed contexts", async () => {
     const api = fakeApi();
-    const factoryTool = (ctx: Brikko StudioPluginToolContext) => {
+    const factoryTool = (ctx: BrikkoStudioPluginToolContext) => {
       if (ctx.sandboxed) {
         return null;
       }

@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginEnableResult } from "../plugins/enable.js";
 import { withTempDir } from "../test-helpers/temp-dir.js";
 
@@ -41,7 +41,7 @@ vi.mock("../plugins/clawhub.js", () => ({
 }));
 
 const enablePluginInConfig = vi.hoisted(() =>
-  vi.fn<(cfg: Brikko StudioConfig, pluginId: string) => PluginEnableResult>((cfg, pluginId) => ({
+  vi.fn<(cfg: BrikkoStudioConfig, pluginId: string) => PluginEnableResult>((cfg, pluginId) => ({
     config: cfg,
     enabled: true,
     pluginId,
@@ -52,7 +52,7 @@ vi.mock("../plugins/enable.js", () => ({
 }));
 
 const recordPluginInstall = vi.hoisted(() =>
-  vi.fn((cfg: Brikko StudioConfig, update: { pluginId: string }) => ({
+  vi.fn((cfg: BrikkoStudioConfig, update: { pluginId: string }) => ({
     ...cfg,
     plugins: {
       ...cfg.plugins,

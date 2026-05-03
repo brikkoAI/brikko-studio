@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { AuthProfileStore } from "./types.js";
 
 vi.mock("../cli-credentials.js", () => ({
@@ -28,7 +28,7 @@ function cfgFor(profileId: string, provider: string, mode: "api_key" | "token" |
         [profileId]: { provider, mode },
       },
     },
-  } satisfies Brikko StudioConfig;
+  } satisfies BrikkoStudioConfig;
 }
 
 function tokenStore(params: {

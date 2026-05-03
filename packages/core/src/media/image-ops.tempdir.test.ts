@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 import { getImageMetadata } from "./image-ops.js";
 
 describe("image-ops temp dir", () => {
@@ -21,8 +21,8 @@ describe("image-ops temp dir", () => {
     vi.restoreAllMocks();
   });
 
-  it("creates sips temp dirs under the secured Brikko Studio tmp root", async () => {
-    const secureRoot = resolvePreferredBrikko StudioTmpDir();
+  it("creates sips temp dirs under the secured BrikkoStudio tmp root", async () => {
+    const secureRoot = resolvePreferredBrikkoStudioTmpDir();
 
     await getImageMetadata(Buffer.from("image"));
 

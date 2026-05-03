@@ -12,7 +12,7 @@ const describeLive =
 describeLive("Volcengine TTS live", () => {
   it("synthesizes mp3 audio with .profile credentials", async () => {
     const audio = await volcengineTTS({
-      text: "Brikko Studio live test.",
+      text: "BrikkoStudio live test.",
       apiKey: seedSpeechApiKey,
       appId: process.env.VOLCENGINE_TTS_APPID,
       token: process.env.VOLCENGINE_TTS_TOKEN,

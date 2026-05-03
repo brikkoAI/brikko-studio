@@ -1,15 +1,15 @@
-import type { Brikko StudioPluginApi } from "./plugin-runtime.js";
+import type { BrikkoStudioPluginApi } from "./plugin-runtime.js";
 
-export type TestPluginApiInput = Partial<Brikko StudioPluginApi>;
+export type TestPluginApiInput = Partial<BrikkoStudioPluginApi>;
 
-export function createTestPluginApi(api: TestPluginApiInput = {}): Brikko StudioPluginApi {
+export function createTestPluginApi(api: TestPluginApiInput = {}): BrikkoStudioPluginApi {
   return {
     id: "test-plugin",
     name: "test-plugin",
     source: "test",
     registrationMode: "full",
     config: {},
-    runtime: {} as Brikko StudioPluginApi["runtime"],
+    runtime: {} as BrikkoStudioPluginApi["runtime"],
     logger: { info() {}, warn() {}, error() {}, debug() {} },
     registerTool() {},
     registerHook() {},

@@ -3,7 +3,7 @@ import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   clearInternalHooks,
   createInternalHookEvent,
@@ -81,7 +81,7 @@ describe("bundle plugin hooks", () => {
     return bundleRoot;
   }
 
-  function createConfig(enabled: boolean): Brikko StudioConfig {
+  function createConfig(enabled: boolean): BrikkoStudioConfig {
     return {
       hooks: {
         internal: {
@@ -135,7 +135,7 @@ describe("bundle plugin hooks", () => {
     expect(entries).toHaveLength(0);
   });
 
-  it("does not treat Claude hooks.json bundles as Brikko Studio hook packs", async () => {
+  it("does not treat Claude hooks.json bundles as BrikkoStudio hook packs", async () => {
     const bundleRoot = path.join(workspaceDir, ".brikko-studio", "extensions", "claude-bundle");
     await fsp.mkdir(path.join(bundleRoot, ".claude-plugin"), { recursive: true });
     await fsp.mkdir(path.join(bundleRoot, "hooks"), { recursive: true });

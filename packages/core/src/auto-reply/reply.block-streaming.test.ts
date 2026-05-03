@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { withFastReplyConfig } from "./reply/get-reply-fast-path.js";
 import { loadGetReplyModuleForTest } from "./reply/get-reply.test-loader.js";
 import { createMockTypingController } from "./reply/reply.test-helpers.js";
@@ -103,7 +103,7 @@ function createTelegramMessage(messageSid: string): MsgContext {
   };
 }
 
-function createReplyConfig(streamMode?: "block"): Brikko StudioConfig {
+function createReplyConfig(streamMode?: "block"): BrikkoStudioConfig {
   return withFastReplyConfig({
     agents: {
       defaults: {
@@ -118,7 +118,7 @@ function createReplyConfig(streamMode?: "block"): Brikko StudioConfig {
       },
     },
     session: { store: "/tmp/sessions.json" },
-  } as Brikko StudioConfig);
+  } as BrikkoStudioConfig);
 }
 
 function createContinueDirectivesResult() {

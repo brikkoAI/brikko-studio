@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.js";
 import type { PluginManifestRecord } from "./manifest-registry.js";
 import type { PluginMetadataRegistryView } from "./plugin-metadata-snapshot.types.js";
@@ -69,7 +69,7 @@ function dedupeSorted(values: Iterable<string>): string[] {
 }
 
 function resolveProviderDiscoveryEntryPlugins(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   onlyPluginIds?: string[];
@@ -139,7 +139,7 @@ function resolveSelectiveFullPluginIds(params: {
 }
 
 export function resolvePluginDiscoveryProvidersRuntime(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   onlyPluginIds?: string[];

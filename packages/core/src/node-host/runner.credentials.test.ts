@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { ConnectErrorDetailCodes } from "../gateway/protocol/connect-error-details.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import {
@@ -8,7 +8,7 @@ import {
   shouldExitNodeHostOnReconnectPaused,
 } from "./runner.js";
 
-function createRemoteGatewayTokenRefConfig(tokenId: string): Brikko StudioConfig {
+function createRemoteGatewayTokenRefConfig(tokenId: string): BrikkoStudioConfig {
   return {
     secrets: {
       providers: {
@@ -21,11 +21,11 @@ function createRemoteGatewayTokenRefConfig(tokenId: string): Brikko StudioConfig
         token: { source: "env", provider: "default", id: tokenId },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 async function expectNoGatewayCredentials(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   env: Record<string, string | undefined>,
 ) {
   await withEnvAsync(env, async () => {
@@ -42,7 +42,7 @@ describe("resolveNodeHostGatewayCredentials", () => {
         mode: "local",
         remote: { token: "remote-only-token" },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await expectNoGatewayCredentials(config, {
       BRIKKO_STUDIO_GATEWAY_TOKEN: undefined,
@@ -63,7 +63,7 @@ describe("resolveNodeHostGatewayCredentials", () => {
           token: { source: "env", provider: "default", id: "MISSING_REMOTE_GATEWAY_TOKEN" },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await expectNoGatewayCredentials(config, {
       BRIKKO_STUDIO_GATEWAY_TOKEN: undefined,
@@ -135,7 +135,7 @@ describe("resolveNodeHostGatewayCredentials", () => {
           password: { source: "env", provider: "default", id: "MISSING_REMOTE_GATEWAY_PASSWORD" },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await withEnvAsync(
       {

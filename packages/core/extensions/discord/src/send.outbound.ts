@@ -1,6 +1,6 @@
 import { ChannelType } from "discord-api-types/v10";
 import { recordChannelActivity } from "brikko-studio/plugin-sdk/channel-activity-runtime";
-import type { MarkdownTableMode, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { MarkdownTableMode, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
 import type { OutboundMediaAccess, PollInput } from "brikko-studio/plugin-sdk/media-runtime";
 import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
@@ -30,7 +30,7 @@ import {
 } from "./send.shared.js";
 import type { DiscordSendResult } from "./send.types.js";
 type DiscordSendOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token?: string;
   accountId?: string;
   mediaUrl?: string;

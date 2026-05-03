@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
 import { danger } from "brikko-studio/plugin-sdk/runtime-env";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
@@ -244,7 +244,7 @@ export async function fetchDiscordBotIdentity(params: {
 }
 
 export function registerDiscordMonitorListeners(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   client: Pick<Client, "listeners">;
   accountId: string;
   discordConfig: DiscordListenerConfig;

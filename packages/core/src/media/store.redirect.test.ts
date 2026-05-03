@@ -172,7 +172,7 @@ describe("media store redirects", () => {
       Cookie: "session=abc",
       "X-Api-Key": "custom-secret",
       Accept: "text/plain",
-      "User-Agent": "Brikko Studio-Test/1.0",
+      "User-Agent": "BrikkoStudio-Test/1.0",
     });
 
     expect(mockRequest).toHaveBeenCalledTimes(2);
@@ -181,7 +181,7 @@ describe("media store redirects", () => {
     expect(secondHeaders.get("cookie")).toBeNull();
     expect(secondHeaders.get("x-api-key")).toBeNull();
     expect(secondHeaders.get("accept")).toBe("text/plain");
-    expect(secondHeaders.get("user-agent")).toBe("Brikko Studio-Test/1.0");
+    expect(secondHeaders.get("user-agent")).toBe("BrikkoStudio-Test/1.0");
   });
 
   it("keeps headers when a redirect stays on the same origin", async () => {

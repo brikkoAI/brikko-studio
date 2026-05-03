@@ -1,6 +1,6 @@
 import { formatCliCommand, parseDurationMs } from "brikko-studio/plugin-sdk/cli-runtime";
 import type {
-  Brikko StudioPluginApi,
+  BrikkoStudioPluginApi,
   ProviderAuthContext,
   ProviderAuthMethodNonInteractiveContext,
   ProviderResolveDynamicModelContext,
@@ -13,7 +13,7 @@ import {
   buildTokenProfileId,
   createProviderApiKeyAuthMethod,
   listProfilesForProvider,
-  type Brikko StudioConfig as ProviderAuthConfig,
+  type BrikkoStudioConfig as ProviderAuthConfig,
   type ProviderAuthResult,
   suggestOAuthProfileIdForLegacyDefault,
   upsertAuthProfile,
@@ -69,9 +69,9 @@ const ANTHROPIC_MODERN_MODEL_PREFIXES = [
   "claude-haiku-4-5",
 ] as const;
 const ANTHROPIC_SETUP_TOKEN_NOTE_LINES = [
-  "Anthropic setup-token auth is supported in Brikko Studio.",
-  "Brikko Studio prefers Claude CLI reuse when it is available on the host.",
-  "Anthropic staff told us this Brikko Studio path is allowed again.",
+  "Anthropic setup-token auth is supported in BrikkoStudio.",
+  "BrikkoStudio prefers Claude CLI reuse when it is available on the host.",
+  "Anthropic staff told us this BrikkoStudio path is allowed again.",
   `If you want a direct API billing path instead, use ${formatCliCommand("brikko-studio models auth login --provider anthropic --method api-key --set-default")} or ${formatCliCommand("brikko-studio models auth login --provider anthropic --method cli --set-default")}.`,
 ] as const;
 
@@ -591,7 +591,7 @@ export function buildAnthropicProvider(): ProviderPlugin {
   };
 }
 
-export function registerAnthropicPlugin(api: Brikko StudioPluginApi): void {
+export function registerAnthropicPlugin(api: BrikkoStudioPluginApi): void {
   api.registerCliBackend(buildAnthropicCliBackend());
   api.registerProvider(buildAnthropicProvider());
   api.registerMediaUnderstandingProvider(anthropicMediaUnderstandingProvider);

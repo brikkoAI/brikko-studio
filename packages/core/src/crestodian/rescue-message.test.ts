@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { CommandContext } from "../auto-reply/reply/commands-types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { extractCrestodianRescueMessage, runCrestodianRescueMessage } from "./rescue-message.js";
 
@@ -129,7 +129,7 @@ function commandContext(overrides: Partial<CommandContext> = {}): CommandContext
 
 async function runRescue(
   commandBody: string,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   ctx = commandContext(),
   deps?: Parameters<typeof runCrestodianRescueMessage>[0]["deps"],
 ) {
@@ -181,7 +181,7 @@ describe("Crestodian rescue message", () => {
   });
 
   it("refuses TUI handoff from remote rescue", async () => {
-    const cfg: Brikko StudioConfig = { crestodian: { rescue: { enabled: true } } };
+    const cfg: BrikkoStudioConfig = { crestodian: { rescue: { enabled: true } } };
     const deps = {
       runTui: vi.fn(async () => {
         throw new Error("remote rescue must not open the TUI");
@@ -198,7 +198,7 @@ describe("Crestodian rescue message", () => {
   });
 
   it("refuses plugin install from remote rescue", async () => {
-    const cfg: Brikko StudioConfig = { crestodian: { rescue: { enabled: true } } };
+    const cfg: BrikkoStudioConfig = { crestodian: { rescue: { enabled: true } } };
     const deps = {
       runPluginInstall: vi.fn(async () => {
         throw new Error("remote rescue must not install plugins");
@@ -212,7 +212,7 @@ describe("Crestodian rescue message", () => {
   });
 
   it("allows plugin list and search from remote rescue", async () => {
-    const cfg: Brikko StudioConfig = { crestodian: { rescue: { enabled: true } } };
+    const cfg: BrikkoStudioConfig = { crestodian: { rescue: { enabled: true } } };
     const deps = {
       runPluginsList: vi.fn(async (runtime: RuntimeEnv) => {
         runtime.log("plugin rows");
@@ -236,7 +236,7 @@ describe("Crestodian rescue message", () => {
     const tempDir = await makeStateDir("models-");
     vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tempDir);
 
-    const cfg: Brikko StudioConfig = { crestodian: { rescue: { enabled: true } } };
+    const cfg: BrikkoStudioConfig = { crestodian: { rescue: { enabled: true } } };
     await expect(runRescue("/crestodian set default model openai/gpt-5.2", cfg)).resolves.toContain(
       "Reply /crestodian yes to apply",
     );
@@ -259,7 +259,7 @@ describe("Crestodian rescue message", () => {
   it("queues and applies gateway restart through conversational approval", async () => {
     const tempDir = await makeStateDir("gateway-");
     vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tempDir);
-    const cfg: Brikko StudioConfig = { crestodian: { rescue: { enabled: true } } };
+    const cfg: BrikkoStudioConfig = { crestodian: { rescue: { enabled: true } } };
     const deps = { runGatewayRestart: vi.fn(async () => {}) };
 
     await expect(
@@ -285,7 +285,7 @@ describe("Crestodian rescue message", () => {
   it("queues and applies agent creation through conversational approval", async () => {
     const tempDir = await makeStateDir("agent-");
     vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tempDir);
-    const cfg: Brikko StudioConfig = { crestodian: { rescue: { enabled: true } } };
+    const cfg: BrikkoStudioConfig = { crestodian: { rescue: { enabled: true } } };
     const deps = { runAgentsAdd: vi.fn(async () => {}) };
 
     await expect(

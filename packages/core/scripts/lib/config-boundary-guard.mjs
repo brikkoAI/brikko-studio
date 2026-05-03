@@ -285,7 +285,7 @@ export function collectDeprecatedInternalConfigApiViolations({
       {
         pattern:
           /ReturnType<typeof import\(["']brikko-studio\/plugin-sdk\/(?:config-runtime|memory-core-host-runtime-core)["']\)\.(?:loadConfig|writeConfigFile)>/,
-        replacement: "use Brikko StudioConfig or the explicit mutation helper type",
+        replacement: "use BrikkoStudioConfig or the explicit mutation helper type",
       },
     ];
     for (const guard of guards) {

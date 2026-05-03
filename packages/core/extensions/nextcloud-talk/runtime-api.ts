@@ -15,7 +15,7 @@ export type {
   DmPolicy,
   GroupPolicy,
   GroupToolPolicyConfig,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/config-types";
 export {
   GROUP_POLICY_BLOCKED_LABEL,

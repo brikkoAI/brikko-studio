@@ -17,7 +17,7 @@ export type {
   NodeSession,
 } from "brikko-studio/plugin-sdk/gateway-runtime";
 export { runCommandWithRuntime } from "brikko-studio/plugin-sdk/cli-runtime";
-export type { Brikko StudioPluginService } from "brikko-studio/plugin-sdk/plugin-entry";
+export type { BrikkoStudioPluginService } from "brikko-studio/plugin-sdk/plugin-entry";
 export {
   startLazyPluginServiceModule,
   type LazyPluginServiceHandle,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   deletePathStrict,
   getPath,
@@ -7,11 +7,11 @@ import {
   setPathExistingStrict,
 } from "./path-utils.js";
 
-function asConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+function asConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
-function createAgentListConfig(): Brikko StudioConfig {
+function createAgentListConfig(): BrikkoStudioConfig {
   return asConfig({
     agents: {
       list: [{ id: "a" }],

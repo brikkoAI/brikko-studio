@@ -1,5 +1,5 @@
 import { expect, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../runtime-api.js";
+import type { BrikkoStudioConfig } from "../../runtime-api.js";
 import type { MattermostFetch } from "./client.js";
 
 export function requestUrl(url: string | URL | Request): string {
@@ -12,7 +12,7 @@ export function requestUrl(url: string | URL | Request): string {
   return url.url;
 }
 
-export function createMattermostTestConfig(): Brikko StudioConfig {
+export function createMattermostTestConfig(): BrikkoStudioConfig {
   return {
     channels: {
       mattermost: {

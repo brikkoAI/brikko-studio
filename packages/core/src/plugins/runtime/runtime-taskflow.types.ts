@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { JsonValue, TaskFlowRecord } from "../../tasks/task-flow-registry.types.js";
 import type {
   TaskDeliveryState,
@@ -8,7 +8,7 @@ import type {
   TaskRegistrySummary,
   TaskRuntime,
 } from "../../tasks/task-registry.types.js";
-import type { Brikko StudioPluginToolContext } from "../tool-types.js";
+import type { BrikkoStudioPluginToolContext } from "../tool-types.js";
 
 export type ManagedTaskFlowRecord = TaskFlowRecord & {
   syncMode: "managed";
@@ -109,7 +109,7 @@ export type BoundTaskFlowRuntime = {
     expectedRevision: number;
     cancelRequestedAt?: number;
   }) => ManagedTaskFlowMutationResult;
-  cancel: (params: { flowId: string; cfg: Brikko StudioConfig }) => Promise<BoundTaskFlowCancelResult>;
+  cancel: (params: { flowId: string; cfg: BrikkoStudioConfig }) => Promise<BoundTaskFlowCancelResult>;
   runTask: (params: {
     flowId: string;
     runtime: TaskRuntime;
@@ -136,6 +136,6 @@ export type PluginRuntimeTaskFlow = {
     requesterOrigin?: TaskDeliveryState["requesterOrigin"];
   }) => BoundTaskFlowRuntime;
   fromToolContext: (
-    ctx: Pick<Brikko StudioPluginToolContext, "sessionKey" | "deliveryContext">,
+    ctx: Pick<BrikkoStudioPluginToolContext, "sessionKey" | "deliveryContext">,
   ) => BoundTaskFlowRuntime;
 };

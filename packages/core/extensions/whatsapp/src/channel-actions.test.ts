@@ -3,15 +3,15 @@ import {
   describeWhatsAppMessageActions,
   resolveWhatsAppAgentReactionGuidance,
 } from "./channel-actions.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 
 const hoisted = vi.hoisted(() => ({
-  listWhatsAppAccountIds: vi.fn((cfg: Brikko StudioConfig) => {
+  listWhatsAppAccountIds: vi.fn((cfg: BrikkoStudioConfig) => {
     const accountIds = Object.keys(cfg.channels?.whatsapp?.accounts ?? {});
     return accountIds.length > 0 ? accountIds : ["default"];
   }),
   resolveWhatsAppAccount: vi.fn(
-    ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId?: string | null }) => ({
+    ({ cfg, accountId }: { cfg: BrikkoStudioConfig; accountId?: string | null }) => ({
       enabled:
         accountId == null ? true : cfg.channels?.whatsapp?.accounts?.[accountId]?.enabled !== false,
     }),
@@ -35,7 +35,7 @@ vi.mock("./channel-actions.runtime.js", async () => {
       cfg,
       accountId,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       accountId?: string;
     }) => {
       const accountLevel =
@@ -65,7 +65,7 @@ describe("whatsapp channel action helpers", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveWhatsAppAgentReactionGuidance({ cfg, accountId: "default" })).toBe("minimal");
   });
@@ -73,7 +73,7 @@ describe("whatsapp channel action helpers", () => {
   it("omits reaction guidance when WhatsApp is not configured", () => {
     expect(
       resolveWhatsAppAgentReactionGuidance({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: "default",
       }),
     ).toBeUndefined();
@@ -87,7 +87,7 @@ describe("whatsapp channel action helpers", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveWhatsAppAgentReactionGuidance({ cfg, accountId: "default" })).toBe("minimal");
   });
@@ -100,7 +100,7 @@ describe("whatsapp channel action helpers", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveWhatsAppAgentReactionGuidance({ cfg, accountId: "default" })).toBeUndefined();
   });
@@ -113,7 +113,7 @@ describe("whatsapp channel action helpers", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveWhatsAppAgentReactionGuidance({ cfg, accountId: "default" })).toBeUndefined();
   });
@@ -125,7 +125,7 @@ describe("whatsapp channel action helpers", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(describeWhatsAppMessageActions({ cfg, accountId: "default" })?.actions).toEqual([
       "react",
@@ -135,7 +135,7 @@ describe("whatsapp channel action helpers", () => {
 
   it("returns null when WhatsApp is not configured", () => {
     expect(
-      describeWhatsAppMessageActions({ cfg: {} as Brikko StudioConfig, accountId: "default" }),
+      describeWhatsAppMessageActions({ cfg: {} as BrikkoStudioConfig, accountId: "default" }),
     ).toBeNull();
   });
 
@@ -147,7 +147,7 @@ describe("whatsapp channel action helpers", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(describeWhatsAppMessageActions({ cfg, accountId: "default" })?.actions).toEqual([
       "poll",
@@ -167,7 +167,7 @@ describe("whatsapp channel action helpers", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(describeWhatsAppMessageActions({ cfg, accountId: "work" })?.actions).toEqual([
       "react",
@@ -188,7 +188,7 @@ describe("whatsapp channel action helpers", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     hoisted.listWhatsAppAccountIds.mockReturnValue(["default", "work"]);
 
     expect(describeWhatsAppMessageActions({ cfg })?.actions).toEqual(["react", "poll"]);
@@ -208,7 +208,7 @@ describe("whatsapp channel action helpers", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     hoisted.listWhatsAppAccountIds.mockReturnValue(["default", "work"]);
 
     expect(describeWhatsAppMessageActions({ cfg })?.actions).toEqual(["poll"]);

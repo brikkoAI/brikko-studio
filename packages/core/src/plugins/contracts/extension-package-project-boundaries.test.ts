@@ -97,7 +97,7 @@ function collectCoreReferenceFiles(relativeDir: string): string[] {
   });
 }
 
-function collectBrikko StudioRuntimeDirectImportFiles(relativeDir: string): string[] {
+function collectBrikkoStudioRuntimeDirectImportFiles(relativeDir: string): string[] {
   return collectCodeFiles(relativeDir).filter((file) => {
     const source = readFileSync(resolve(REPO_ROOT, file), "utf8");
     return source.includes('"./brikko-studio-runtime.js"');
@@ -256,7 +256,7 @@ describe("opt-in extension package boundaries", () => {
     expect(collectCoreReferenceFiles("packages/memory-host-sdk/src")).toEqual([
       ...MEMORY_HOST_SDK_ALLOWED_CORE_BRIDGE_FILES,
     ]);
-    expect(collectBrikko StudioRuntimeDirectImportFiles("packages/memory-host-sdk/src")).toEqual([
+    expect(collectBrikkoStudioRuntimeDirectImportFiles("packages/memory-host-sdk/src")).toEqual([
       ...MEMORY_HOST_SDK_RUNTIME_ADAPTER_FILES,
     ]);
   });

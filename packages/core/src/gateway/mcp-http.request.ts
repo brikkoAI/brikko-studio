@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { resolveMainSessionKey } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import { safeEqualSecret } from "../security/secret-equal.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
@@ -32,7 +32,7 @@ type McpRequestContext = {
   senderIsOwner: boolean;
 };
 
-function resolveScopedSessionKey(cfg: Brikko StudioConfig, rawSessionKey: string | undefined): string {
+function resolveScopedSessionKey(cfg: BrikkoStudioConfig, rawSessionKey: string | undefined): string {
   const trimmed = normalizeOptionalString(rawSessionKey);
   return !trimmed || trimmed === "main" ? resolveMainSessionKey(cfg) : trimmed;
 }
@@ -165,7 +165,7 @@ export async function readMcpHttpBody(req: IncomingMessage): Promise<string> {
 
 export function resolveMcpRequestContext(
   req: IncomingMessage,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   auth: { senderIsOwner: boolean },
 ): McpRequestContext {
   return {

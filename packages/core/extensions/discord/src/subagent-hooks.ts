@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/channel-plugin-common";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/channel-plugin-common";
 import {
   formatThreadBindingDisabledError,
   formatThreadBindingSpawnDisabledError,
@@ -82,7 +82,7 @@ function normalizeThreadBindingTargetKind(raw?: string): ThreadBindingTargetKind
 }
 
 export async function handleDiscordSubagentSpawning(
-  api: Brikko StudioPluginApi,
+  api: BrikkoStudioPluginApi,
   event: DiscordSubagentSpawningEvent,
 ): Promise<DiscordSubagentSpawningResult> {
   if (!event.threadRequested) {

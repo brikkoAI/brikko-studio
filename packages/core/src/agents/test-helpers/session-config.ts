@@ -1,8 +1,8 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
 export function createPerSenderSessionConfig(
-  overrides: Partial<NonNullable<Brikko StudioConfig["session"]>> = {},
-): NonNullable<Brikko StudioConfig["session"]> {
+  overrides: Partial<NonNullable<BrikkoStudioConfig["session"]>> = {},
+): NonNullable<BrikkoStudioConfig["session"]> {
   return {
     mainKey: "main",
     scope: "per-sender",

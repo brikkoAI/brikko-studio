@@ -1,6 +1,6 @@
 import type { Command } from "commander";
 import { getRuntimeConfig, readConfigFileSnapshot } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   createPluginCliLogger,
   loadPluginCliDescriptors,
@@ -8,7 +8,7 @@ import {
   type PluginCliLoaderOptions,
 } from "./cli-registry-loader.js";
 import { registerPluginCliCommandGroups } from "./register-plugin-cli-command-groups.js";
-import type { Brikko StudioPluginCliCommandDescriptor } from "./types.js";
+import type { BrikkoStudioPluginCliCommandDescriptor } from "./types.js";
 
 type PluginCliRegistrationMode = "eager" | "lazy";
 
@@ -33,7 +33,7 @@ interface ProgramWithEntriesCache {
 const logger = createPluginCliLogger();
 
 export const loadValidatedConfigForPluginRegistration =
-  async (): Promise<Brikko StudioConfig | null> => {
+  async (): Promise<BrikkoStudioConfig | null> => {
     const snapshot = await readConfigFileSnapshot();
     if (!snapshot.valid) {
       return null;
@@ -42,16 +42,16 @@ export const loadValidatedConfigForPluginRegistration =
   };
 
 export async function getPluginCliCommandDescriptors(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   env?: NodeJS.ProcessEnv,
   loaderOptions?: PluginCliLoaderOptions,
-): Promise<Brikko StudioPluginCliCommandDescriptor[]> {
+): Promise<BrikkoStudioPluginCliCommandDescriptor[]> {
   return loadPluginCliDescriptors({ cfg, env, loaderOptions });
 }
 
 export async function registerPluginCliCommands(
   program: Command,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   env?: NodeJS.ProcessEnv,
   loaderOptions?: PluginCliLoaderOptions,
   options?: RegisterPluginCliOptions,
@@ -87,7 +87,7 @@ export async function registerPluginCliCommandsFromValidatedConfig(
   env?: NodeJS.ProcessEnv,
   loaderOptions?: PluginCliLoaderOptions,
   options?: RegisterPluginCliOptions,
-): Promise<Brikko StudioConfig | null> {
+): Promise<BrikkoStudioConfig | null> {
   const config = await loadValidatedConfigForPluginRegistration();
   if (!config) {
     return null;

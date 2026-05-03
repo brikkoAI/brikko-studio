@@ -7,7 +7,7 @@ import {
   type AcpRuntimeDoctorReport,
   type AcpRuntimeStatus,
 } from "brikko-studio/plugin-sdk/acp-runtime-backend";
-import type { Brikko StudioPluginService, Brikko StudioPluginServiceContext } from "brikko-studio/plugin-sdk/core";
+import type { BrikkoStudioPluginService, BrikkoStudioPluginServiceContext } from "brikko-studio/plugin-sdk/core";
 
 const ACPX_BACKEND_ID = "acpx";
 const ENABLE_STARTUP_PROBE_ENV = "BRIKKO_STUDIO_ACPX_RUNTIME_STARTUP_PROBE";
@@ -24,10 +24,10 @@ type AcpxRuntimeLike = AcpRuntime & {
 };
 
 type DeferredServiceState = {
-  ctx: Brikko StudioPluginServiceContext | null;
+  ctx: BrikkoStudioPluginServiceContext | null;
   params: CreateAcpxRuntimeServiceParams;
   realRuntime: AcpxRuntimeLike | null;
-  realService: Brikko StudioPluginService | null;
+  realService: BrikkoStudioPluginService | null;
   startPromise: Promise<AcpxRuntimeLike> | null;
 };
 
@@ -53,7 +53,7 @@ async function startRealService(state: DeferredServiceState): Promise<AcpxRuntim
     const { createAcpxRuntimeService } = await loadServiceModule();
     const service = createAcpxRuntimeService(state.params);
     state.realService = service;
-    await service.start(state.ctx as Brikko StudioPluginServiceContext);
+    await service.start(state.ctx as BrikkoStudioPluginServiceContext);
     const backend = getAcpRuntimeBackend(ACPX_BACKEND_ID);
     if (!backend?.runtime) {
       throw new Error("ACPX runtime service did not register an ACP backend");
@@ -110,7 +110,7 @@ function createDeferredRuntime(state: DeferredServiceState): AcpxRuntimeLike {
 
 export function createAcpxRuntimeService(
   params: CreateAcpxRuntimeServiceParams = {},
-): Brikko StudioPluginService {
+): BrikkoStudioPluginService {
   const state: DeferredServiceState = {
     ctx: null,
     params,

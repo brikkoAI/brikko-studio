@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { canResolveEnvSecretRefInReadOnlyPath } from "brikko-studio/plugin-sdk/extension-shared";
 import { resolveSecretInputString, normalizeSecretInput } from "brikko-studio/plugin-sdk/secret-input";
 
@@ -8,13 +8,13 @@ export const DEFAULT_FIRECRAWL_SCRAPE_TIMEOUT_SECONDS = 60;
 export const DEFAULT_FIRECRAWL_MAX_AGE_MS = 172_800_000;
 const FIRECRAWL_API_KEY_ENV_VAR = "FIRECRAWL_API_KEY";
 
-type WebSearchConfig = NonNullable<Brikko StudioConfig["tools"]>["web"] extends infer Web
+type WebSearchConfig = NonNullable<BrikkoStudioConfig["tools"]>["web"] extends infer Web
   ? Web extends { search?: infer Search }
     ? Search
     : undefined
   : undefined;
 
-type WebFetchConfig = NonNullable<Brikko StudioConfig["tools"]>["web"] extends infer Web
+type WebFetchConfig = NonNullable<BrikkoStudioConfig["tools"]>["web"] extends infer Web
   ? Web extends { fetch?: infer Fetch }
     ? Fetch
     : undefined
@@ -53,7 +53,7 @@ type FirecrawlFetchConfig =
     }
   | undefined;
 
-function resolveSearchConfig(cfg?: Brikko StudioConfig): WebSearchConfig {
+function resolveSearchConfig(cfg?: BrikkoStudioConfig): WebSearchConfig {
   const search = cfg?.tools?.web?.search;
   if (!search || typeof search !== "object") {
     return undefined;
@@ -61,7 +61,7 @@ function resolveSearchConfig(cfg?: Brikko StudioConfig): WebSearchConfig {
   return search;
 }
 
-function resolveFetchConfig(cfg?: Brikko StudioConfig): WebFetchConfig {
+function resolveFetchConfig(cfg?: BrikkoStudioConfig): WebFetchConfig {
   const fetch = cfg?.tools?.web?.fetch;
   if (!fetch || typeof fetch !== "object") {
     return undefined;
@@ -69,7 +69,7 @@ function resolveFetchConfig(cfg?: Brikko StudioConfig): WebFetchConfig {
   return fetch;
 }
 
-export function resolveFirecrawlSearchConfig(cfg?: Brikko StudioConfig): FirecrawlSearchConfig {
+export function resolveFirecrawlSearchConfig(cfg?: BrikkoStudioConfig): FirecrawlSearchConfig {
   const pluginConfig = cfg?.plugins?.entries?.firecrawl?.config as PluginEntryConfig;
   const pluginWebSearch = pluginConfig?.webSearch;
   if (pluginWebSearch && typeof pluginWebSearch === "object" && !Array.isArray(pluginWebSearch)) {
@@ -86,7 +86,7 @@ export function resolveFirecrawlSearchConfig(cfg?: Brikko StudioConfig): Firecra
   return firecrawl as FirecrawlSearchConfig;
 }
 
-function resolveFirecrawlFetchConfig(cfg?: Brikko StudioConfig): FirecrawlFetchConfig {
+function resolveFirecrawlFetchConfig(cfg?: BrikkoStudioConfig): FirecrawlFetchConfig {
   const pluginConfig = cfg?.plugins?.entries?.firecrawl?.config as PluginEntryConfig;
   const pluginWebFetch = pluginConfig?.webFetch;
   if (pluginWebFetch && typeof pluginWebFetch === "object" && !Array.isArray(pluginWebFetch)) {
@@ -111,7 +111,7 @@ type ConfiguredSecretResolution =
 function resolveConfiguredSecret(
   value: unknown,
   path: string,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): ConfiguredSecretResolution {
   const resolved = resolveSecretInputString({
     value,
@@ -146,7 +146,7 @@ function resolveConfiguredSecret(
   return envValue ? { status: "available", value: envValue } : { status: "missing" };
 }
 
-export function resolveFirecrawlApiKey(cfg?: Brikko StudioConfig): string | undefined {
+export function resolveFirecrawlApiKey(cfg?: BrikkoStudioConfig): string | undefined {
   const pluginConfig = cfg?.plugins?.entries?.firecrawl?.config as PluginEntryConfig;
   const search = resolveFirecrawlSearchConfig(cfg);
   const fetch = resolveFirecrawlFetchConfig(cfg);
@@ -184,7 +184,7 @@ export function resolveFirecrawlApiKey(cfg?: Brikko StudioConfig): string | unde
   return normalizeSecretInput(process.env[FIRECRAWL_API_KEY_ENV_VAR]) || undefined;
 }
 
-export function resolveFirecrawlBaseUrl(cfg?: Brikko StudioConfig): string {
+export function resolveFirecrawlBaseUrl(cfg?: BrikkoStudioConfig): string {
   const search = resolveFirecrawlSearchConfig(cfg);
   const fetch = resolveFirecrawlFetchConfig(cfg);
   const configured =
@@ -195,7 +195,7 @@ export function resolveFirecrawlBaseUrl(cfg?: Brikko StudioConfig): string {
   return configured || DEFAULT_FIRECRAWL_BASE_URL;
 }
 
-export function resolveFirecrawlOnlyMainContent(cfg?: Brikko StudioConfig, override?: boolean): boolean {
+export function resolveFirecrawlOnlyMainContent(cfg?: BrikkoStudioConfig, override?: boolean): boolean {
   if (typeof override === "boolean") {
     return override;
   }
@@ -206,7 +206,7 @@ export function resolveFirecrawlOnlyMainContent(cfg?: Brikko StudioConfig, overr
   return true;
 }
 
-export function resolveFirecrawlMaxAgeMs(cfg?: Brikko StudioConfig, override?: number): number {
+export function resolveFirecrawlMaxAgeMs(cfg?: BrikkoStudioConfig, override?: number): number {
   if (typeof override === "number" && Number.isFinite(override) && override >= 0) {
     return Math.floor(override);
   }
@@ -222,7 +222,7 @@ export function resolveFirecrawlMaxAgeMs(cfg?: Brikko StudioConfig, override?: n
 }
 
 export function resolveFirecrawlScrapeTimeoutSeconds(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   override?: number,
 ): number {
   if (typeof override === "number" && Number.isFinite(override) && override > 0) {

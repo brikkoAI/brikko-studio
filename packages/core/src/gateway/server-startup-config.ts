@@ -17,7 +17,7 @@ import {
 } from "../config/recovery-policy.js";
 import { applyConfigOverrides } from "../config/runtime-overrides.js";
 import type { GatewayAuthConfig, GatewayTailscaleConfig } from "../config/types.gateway.js";
-import type { ConfigFileSnapshot, Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { ConfigFileSnapshot, BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { validateConfigObjectWithPlugins } from "../config/validation.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
@@ -47,7 +47,7 @@ type GatewayStartupLog = {
 type GatewaySecretsStateEventCode = "SECRETS_RELOADER_DEGRADED" | "SECRETS_RELOADER_RECOVERED";
 
 export type ActivateRuntimeSecrets = (
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   params: { reason: "startup" | "reload" | "restart-check"; activate: boolean },
 ) => Promise<Awaited<ReturnType<typeof prepareSecretsRuntimeSnapshot>>>;
 
@@ -86,9 +86,9 @@ function resolveInvalidModelProviderApiIssueProviderId(issue: {
 }
 
 function cloneConfigWithoutModelProviders(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   providerIds: ReadonlySet<string>,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const providers = config.models?.providers;
   if (!providers) {
     return config;
@@ -347,7 +347,7 @@ export function createRuntimeSecretsActivator(params: {
   emitStateEvent: (
     code: GatewaySecretsStateEventCode,
     message: string,
-    cfg: Brikko StudioConfig,
+    cfg: BrikkoStudioConfig,
   ) => void;
   prepareRuntimeSecretsSnapshot?: PrepareRuntimeSecretsSnapshot;
   activateRuntimeSecretsSnapshot?: ActivateRuntimeSecretsSnapshot;
@@ -498,7 +498,7 @@ export async function prepareGatewayStartupConfig(params: {
   };
 }
 
-function hasActiveGatewayAuthSecretRef(config: Brikko StudioConfig): boolean {
+function hasActiveGatewayAuthSecretRef(config: BrikkoStudioConfig): boolean {
   const states = evaluateGatewayAuthSurfaceStates({
     config,
     defaults: config.secrets?.defaults,
@@ -510,7 +510,7 @@ function hasActiveGatewayAuthSecretRef(config: Brikko StudioConfig): boolean {
   });
 }
 
-function pruneSkippedStartupSecretSurfaces(config: Brikko StudioConfig): Brikko StudioConfig {
+function pruneSkippedStartupSecretSurfaces(config: BrikkoStudioConfig): BrikkoStudioConfig {
   const skipChannels =
     isTruthyEnvValue(process.env.BRIKKO_STUDIO_SKIP_CHANNELS) ||
     isTruthyEnvValue(process.env.BRIKKO_STUDIO_SKIP_PROVIDERS);
@@ -523,7 +523,7 @@ function pruneSkippedStartupSecretSurfaces(config: Brikko StudioConfig): Brikko 
   };
 }
 
-function assertRuntimeGatewayAuthNotKnownWeak(config: Brikko StudioConfig): void {
+function assertRuntimeGatewayAuthNotKnownWeak(config: BrikkoStudioConfig): void {
   assertGatewayAuthNotKnownWeak(
     resolveGatewayAuth({
       authConfig: config.gateway?.auth,
@@ -535,7 +535,7 @@ function assertRuntimeGatewayAuthNotKnownWeak(config: Brikko StudioConfig): void
 
 function logGatewayAuthSurfaceDiagnostics(
   prepared: {
-    sourceConfig: Brikko StudioConfig;
+    sourceConfig: BrikkoStudioConfig;
     warnings: Array<{ code: string; path: string; message: string }>;
   },
   logSecrets: GatewayStartupLog,
@@ -566,9 +566,9 @@ function logGatewayAuthSurfaceDiagnostics(
 }
 
 function applyGatewayAuthOverridesForStartupPreflight(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   overrides: GatewayStartupConfigOverrides,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   if (!overrides.auth && !overrides.tailscale) {
     return config;
   }

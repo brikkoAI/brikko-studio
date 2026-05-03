@@ -6,7 +6,7 @@ import {
   resolveSubagentMaxConcurrent,
 } from "./agent-limits.js";
 import { applyAgentDefaults } from "./defaults.js";
-import { Brikko StudioSchema } from "./zod-schema.js";
+import { BrikkoStudioSchema } from "./zod-schema.js";
 
 describe("agent concurrency defaults", () => {
   it("resolves defaults when unset", () => {
@@ -28,7 +28,7 @@ describe("agent concurrency defaults", () => {
   });
 
   it("accepts subagent spawn depth and per-agent child limits", () => {
-    const parsed = Brikko StudioSchema.parse({
+    const parsed = BrikkoStudioSchema.parse({
       agents: {
         defaults: {
           subagents: {

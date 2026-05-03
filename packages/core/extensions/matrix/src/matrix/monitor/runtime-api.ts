@@ -5,7 +5,7 @@
 export type { NormalizedLocation } from "brikko-studio/plugin-sdk/channel-location";
 export type { PluginRuntime, RuntimeLogger } from "brikko-studio/plugin-sdk/plugin-runtime";
 export type { BlockReplyContext, ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
-export type { MarkdownTableMode, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { MarkdownTableMode, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
 export {
   addAllowlistUserEntriesFromConfigEntry,

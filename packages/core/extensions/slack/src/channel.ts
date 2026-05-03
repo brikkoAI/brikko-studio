@@ -40,7 +40,7 @@ import {
   projectCredentialSnapshotFields,
   resolveConfiguredFromRequiredCredentialStatuses,
   type ChannelPlugin,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "./channel-api.js";
 import { resolveSlackChannelType } from "./channel-type.js";
 import { shouldSuppressLocalSlackExecApprovalPrompt } from "./exec-approvals.js";
@@ -236,7 +236,7 @@ function parseSlackExplicitTarget(raw: string) {
 }
 
 function buildSlackBaseSessionKey(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   accountId?: string | null;
   peer: RoutePeer;
@@ -245,7 +245,7 @@ function buildSlackBaseSessionKey(params: {
 }
 
 function shouldRecoverSlackThreadFromCurrentSession(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   peerKind: RoutePeer["kind"];
 }): boolean {
   // Shared DM sessions (dmScope="main") do not encode the DM peer in the base key,
@@ -257,7 +257,7 @@ function shouldRecoverSlackThreadFromCurrentSession(params: {
 }
 
 async function resolveSlackOutboundSessionRoute(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   accountId?: string | null;
   target: string;
@@ -488,7 +488,7 @@ export const slackPlugin: ChannelPlugin<ResolvedSlackAccount, SlackProbe> = crea
       invoke: async (action, cfg, toolContext) =>
         await (
           await resolveSlackHandleAction()
-        )(action, cfg as Brikko StudioConfig, toolContext as SlackActionContext | undefined),
+        )(action, cfg as BrikkoStudioConfig, toolContext as SlackActionContext | undefined),
     }),
     status: createComputedAccountStatusAdapter<ResolvedSlackAccount, SlackProbe>({
       defaultRuntime: createDefaultChannelRuntimeState(DEFAULT_ACCOUNT_ID),

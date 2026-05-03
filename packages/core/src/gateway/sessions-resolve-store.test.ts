@@ -1,7 +1,7 @@
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { resolveStorePath, saveSessionStore } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { withStateDirEnv } from "../test-helpers/state-dir-env.js";
 import { ErrorCodes } from "./protocol/index.js";
 import { resolveSessionKeyFromResolveParams } from "./sessions-resolve.js";
@@ -15,7 +15,7 @@ describe("resolveSessionKeyFromResolveParams store canonicalization", () => {
       const cfg = {
         session: { store: storePath, mainKey: "main" },
         agents: { list: [{ id: "ops", default: true }] },
-      } satisfies Brikko StudioConfig;
+      } satisfies BrikkoStudioConfig;
       await saveSessionStore(storePath, {
         "agent:main:main": {
           sessionId: "sess-default-alias",
@@ -46,7 +46,7 @@ describe("resolveSessionKeyFromResolveParams store canonicalization", () => {
       const cfg = {
         session: { store: storePath, mainKey: "main" },
         agents: { list: [{ id: "ops", default: true }] },
-      } satisfies Brikko StudioConfig;
+      } satisfies BrikkoStudioConfig;
       await saveSessionStore(storePath, {
         "agent:main:guildchat:direct:u1": {
           sessionId: "sess-stale-main",
@@ -72,7 +72,7 @@ describe("resolveSessionKeyFromResolveParams store canonicalization", () => {
 
   it("does not adopt legacy main aliases from discovered deleted-agent stores", async () => {
     await withStateDirEnv("brikko-studio-sessions-resolve-discovered-main-", async () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { list: [{ id: "ops", default: true }] },
       };
       const staleMainStorePath = resolveStorePath(cfg.session?.store, { agentId: "main" });
@@ -114,7 +114,7 @@ describe("resolveSessionKeyFromResolveParams store canonicalization", () => {
 
   it("rejects an explicit listed deleted main key instead of remapping to the live default main", async () => {
     await withStateDirEnv("brikko-studio-sessions-resolve-key-deleted-main-", async () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { list: [{ id: "ops", default: true }] },
       };
       const liveDefaultStorePath = resolveStorePath(cfg.session?.store, { agentId: "ops" });

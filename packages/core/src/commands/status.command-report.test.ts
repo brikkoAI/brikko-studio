@@ -32,7 +32,7 @@ describe("buildStatusCommandReportLines", () => {
     });
 
     expect(lines).toEqual([
-      "# Brikko Studio status",
+      "# BrikkoStudio status",
       "",
       "# Overview",
       "table:Item:1",

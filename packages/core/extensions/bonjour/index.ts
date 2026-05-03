@@ -3,18 +3,18 @@ import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 function formatBonjourInstanceName(displayName: string) {
   const trimmed = displayName.trim();
   if (!trimmed) {
-    return "Brikko Studio";
+    return "BrikkoStudio";
   }
   if (/brikko-studio/i.test(trimmed)) {
     return trimmed;
   }
-  return `${trimmed} (Brikko Studio)`;
+  return `${trimmed} (BrikkoStudio)`;
 }
 
 export default definePluginEntry({
   id: "bonjour",
   name: "Bonjour Gateway Discovery",
-  description: "Advertise the local Brikko Studio gateway over Bonjour/mDNS.",
+  description: "Advertise the local BrikkoStudio gateway over Bonjour/mDNS.",
   register(api) {
     api.registerGatewayDiscoveryService({
       id: "bonjour",

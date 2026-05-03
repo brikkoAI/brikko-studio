@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { isLiveTestEnabled } from "../agents/live-test-helpers.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { extractFirstTextBlock } from "../shared/chat-message-content.js";
 import { GatewayClient } from "./client.js";
 import {
@@ -47,7 +47,7 @@ async function writeLiveGatewayConfig(params: {
   token: string;
   workspace: string;
 }): Promise<void> {
-  const cfg: Brikko StudioConfig = {
+  const cfg: BrikkoStudioConfig = {
     gateway: {
       mode: "local",
       port: params.port,

@@ -2,7 +2,7 @@ import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 const loadConfigMock = vi.fn();
 const applyPluginAutoEnableMock = vi.fn();
-const loadBrikko StudioPluginsMock = vi.fn();
+const loadBrikkoStudioPluginsMock = vi.fn();
 
 let loadPluginMetadataRegistrySnapshot: typeof import("./metadata-registry-loader.js").loadPluginMetadataRegistrySnapshot;
 
@@ -16,7 +16,7 @@ vi.mock("../../config/plugin-auto-enable.js", () => ({
 }));
 
 vi.mock("../loader.js", () => ({
-  loadBrikko StudioPlugins: (...args: unknown[]) => loadBrikko StudioPluginsMock(...args),
+  loadBrikkoStudioPlugins: (...args: unknown[]) => loadBrikkoStudioPluginsMock(...args),
 }));
 
 vi.mock("../../agents/agent-scope.js", () => ({
@@ -32,14 +32,14 @@ describe("loadPluginMetadataRegistrySnapshot", () => {
   beforeEach(() => {
     loadConfigMock.mockReset();
     applyPluginAutoEnableMock.mockReset();
-    loadBrikko StudioPluginsMock.mockReset();
+    loadBrikkoStudioPluginsMock.mockReset();
     loadConfigMock.mockReturnValue({ plugins: {} });
     applyPluginAutoEnableMock.mockImplementation((params: { config: unknown }) => ({
       config: params.config,
       changes: [],
       autoEnabledReasons: {},
     }));
-    loadBrikko StudioPluginsMock.mockReturnValue({ plugins: [], diagnostics: [] });
+    loadBrikkoStudioPluginsMock.mockReturnValue({ plugins: [], diagnostics: [] });
   });
 
   it("defaults to a non-activating validate snapshot", () => {
@@ -51,7 +51,7 @@ describe("loadPluginMetadataRegistrySnapshot", () => {
       onlyPluginIds: ["demo"],
     });
 
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         config: { plugins: {} },
         activationSourceConfig: { plugins: { allow: ["demo"] } },
@@ -72,7 +72,7 @@ describe("loadPluginMetadataRegistrySnapshot", () => {
       loadModules: false,
     });
 
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         loadModules: false,
         mode: "validate",
@@ -93,7 +93,7 @@ describe("loadPluginMetadataRegistrySnapshot", () => {
       workspaceDir: "/workspace",
     });
 
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         config: { plugins: {} },
         logger,
@@ -131,7 +131,7 @@ describe("loadPluginMetadataRegistrySnapshot", () => {
     });
 
     expect(applyPluginAutoEnableMock).not.toHaveBeenCalled();
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         config: { plugins: { allow: ["compat-provider"] } },
         activationSourceConfig: { plugins: { allow: ["raw-plugin"] } },
@@ -150,7 +150,7 @@ describe("loadPluginMetadataRegistrySnapshot", () => {
       onlyPluginIds: [],
     });
 
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         onlyPluginIds: [],
         mode: "validate",

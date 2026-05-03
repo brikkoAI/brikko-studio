@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 
 const mocks = vi.hoisted(() => ({
@@ -50,7 +50,7 @@ describe("commitConfigWithPendingPluginInstalls", () => {
       },
     };
     mocks.loadInstalledPluginIndexInstallRecords.mockResolvedValue(existingRecords);
-    const nextConfig: Brikko StudioConfig = {
+    const nextConfig: BrikkoStudioConfig = {
       plugins: {
         entries: {
           demo: { enabled: true },
@@ -167,7 +167,7 @@ describe("commitConfigWithPendingPluginInstalls", () => {
   });
 
   it("uses a plain config write when no pending plugin install records exist", async () => {
-    const nextConfig: Brikko StudioConfig = {
+    const nextConfig: BrikkoStudioConfig = {
       gateway: {
         mode: "local",
       },
@@ -189,7 +189,7 @@ describe("commitConfigWithPendingPluginInstalls", () => {
 
   it("supports non-replace config writers without adding an undefined write options argument", async () => {
     const writeConfigFile = vi.fn(async () => undefined);
-    const nextConfig: Brikko StudioConfig = {
+    const nextConfig: BrikkoStudioConfig = {
       gateway: {
         mode: "local",
       },

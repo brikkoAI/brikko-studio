@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   startQaGatewayChild,
   type QaCliBackendAuthMode,
@@ -42,7 +42,7 @@ function omitMemoryCoreEntry<T extends Record<string, unknown> | undefined>(entr
   return rest as T;
 }
 
-function prepareLiveTransportGatewayConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function prepareLiveTransportGatewayConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const defaults = cfg.agents?.defaults ?? {};
   return {
     ...cfg,
@@ -87,7 +87,7 @@ export async function startQaLiveLaneGateway(params: {
     requiredPluginIds: readonly string[];
     createGatewayConfig: (params: {
       baseUrl: string;
-    }) => Pick<Brikko StudioConfig, "channels" | "messages">;
+    }) => Pick<BrikkoStudioConfig, "channels" | "messages">;
   };
   transportBaseUrl: string;
   controlUiAllowedOrigins?: string[];
@@ -98,7 +98,7 @@ export async function startQaLiveLaneGateway(params: {
   thinkingDefault?: QaThinkingLevel;
   claudeCliAuthMode?: QaCliBackendAuthMode;
   controlUiEnabled?: boolean;
-  mutateConfig?: (cfg: Brikko StudioConfig) => Brikko StudioConfig;
+  mutateConfig?: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig;
 }) {
   const mock = await startQaProviderServer(params.providerMode);
   try {

@@ -1,11 +1,11 @@
 import type { ChannelId } from "../channels/plugins/types.public.js";
 import type { AccessGroupConfig } from "../config/types.access-groups.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export const ACCESS_GROUP_ALLOW_FROM_PREFIX = "accessGroup:";
 
 export type AccessGroupMembershipResolver = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   name: string;
   group: AccessGroupConfig;
   channel: ChannelId;
@@ -33,7 +33,7 @@ function resolveMessageSenderGroupEntries(params: {
 }
 
 export async function resolveAccessGroupAllowFromMatches(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   allowFrom: Array<string | number> | null | undefined;
   channel: ChannelId;
   accountId: string;
@@ -99,7 +99,7 @@ export async function resolveAccessGroupAllowFromMatches(params: {
 }
 
 export async function expandAllowFromWithAccessGroups(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   allowFrom: Array<string | number> | null | undefined;
   channel: ChannelId;
   accountId: string;

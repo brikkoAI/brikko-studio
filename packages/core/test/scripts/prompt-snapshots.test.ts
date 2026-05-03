@@ -69,7 +69,7 @@ describe("happy path prompt snapshots", () => {
       "Approval policy is currently never. Do not provide the `sandbox_permissions`",
     );
     expect(telegram?.content).toContain(
-      "### User: Codex Config Instructions (Brikko Studio Workspace Bootstrap Context)",
+      "### User: Codex Config Instructions (BrikkoStudio Workspace Bootstrap Context)",
     );
     expect(telegram?.content).toContain("<SOUL.md contents will be here>");
     expect(telegram?.content).toContain("<TOOLS.md contents will be here>");

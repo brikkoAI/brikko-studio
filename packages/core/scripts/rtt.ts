@@ -13,7 +13,7 @@ import {
   resolveMainVersion,
   resolvePublishedVersion,
   runHarness,
-  validateBrikko StudioPackageSpec,
+  validateBrikkoStudioPackageSpec,
   writeJson,
   type RttProviderMode,
 } from "./lib/rtt-harness.ts";
@@ -134,7 +134,7 @@ function parseArgs(argv: string[]) {
   }
 
   return {
-    spec: validateBrikko StudioPackageSpec(spec),
+    spec: validateBrikkoStudioPackageSpec(spec),
     options: {
       packageTgz,
       providerMode,

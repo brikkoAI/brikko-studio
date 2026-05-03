@@ -1,5 +1,5 @@
 import { buildDispatchInboundCaptureMock } from "brikko-studio/plugin-sdk/channel-contract-testing";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { MsgContext } from "brikko-studio/plugin-sdk/reply-runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -92,7 +92,7 @@ function createSignalConfig(params: { requireMention: boolean; mentionPattern?: 
         groups: { "*": { requireMention: params.requireMention } },
       },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 async function expectSkippedGroupHistory(opts: GroupEventOpts, expectedBody: string) {
@@ -149,7 +149,7 @@ describe("signal mention gating", () => {
               groups: { g1: {} },
             },
           },
-        } as unknown as Brikko StudioConfig,
+        } as unknown as BrikkoStudioConfig,
         groupPolicy: "allowlist",
         groupAllowFrom: ["group:g1"],
       }),

@@ -4,7 +4,7 @@ import {
   resolveAuthProfileOrder,
 } from "../../agents/auth-profiles.js";
 import { resolveEnvApiKey } from "../../agents/model-auth.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../../runtime.js";
 import { normalizeOptionalSecretInput } from "../../utils/normalize-secret-input.js";
 import type { SecretInputMode } from "../onboard-types.js";
@@ -21,7 +21,7 @@ function parseEnvVarNameFromSourceLabel(source: string | undefined): string | un
 
 async function resolveApiKeyFromProfiles(params: {
   provider: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
 }): Promise<string | null> {
   const store = ensureAuthProfileStore(params.agentDir);
@@ -50,7 +50,7 @@ async function resolveApiKeyFromProfiles(params: {
 
 export async function resolveNonInteractiveApiKey(params: {
   provider: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   flagValue?: string;
   flagName: string;
   envVar: string;

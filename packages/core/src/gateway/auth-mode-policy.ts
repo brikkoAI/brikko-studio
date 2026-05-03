@@ -1,10 +1,10 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { hasConfiguredSecretInput } from "../config/types.secrets.js";
 
 export const EXPLICIT_GATEWAY_AUTH_MODE_REQUIRED_ERROR =
   "Invalid config: gateway.auth.token and gateway.auth.password are both configured, but gateway.auth.mode is unset. Set gateway.auth.mode to token or password.";
 
-export function hasAmbiguousGatewayAuthModeConfig(cfg: Brikko StudioConfig): boolean {
+export function hasAmbiguousGatewayAuthModeConfig(cfg: BrikkoStudioConfig): boolean {
   const auth = cfg.gateway?.auth;
   if (!auth) {
     return false;
@@ -18,7 +18,7 @@ export function hasAmbiguousGatewayAuthModeConfig(cfg: Brikko StudioConfig): boo
   return tokenConfigured && passwordConfigured;
 }
 
-export function assertExplicitGatewayAuthModeWhenBothConfigured(cfg: Brikko StudioConfig): void {
+export function assertExplicitGatewayAuthModeWhenBothConfigured(cfg: BrikkoStudioConfig): void {
   if (!hasAmbiguousGatewayAuthModeConfig(cfg)) {
     return;
   }

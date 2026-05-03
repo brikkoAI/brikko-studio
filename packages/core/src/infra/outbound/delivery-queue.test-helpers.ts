@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { afterAll, beforeAll, beforeEach, vi } from "vitest";
-import { resolvePreferredBrikko StudioTmpDir } from "../tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../tmp-brikko-studio-dir.js";
 import type { DeliverFn, RecoveryLogger } from "./delivery-queue.js";
 
 export function installDeliveryQueueTmpDirHooks(): { readonly tmpDir: () => string } {
@@ -10,7 +10,7 @@ export function installDeliveryQueueTmpDirHooks(): { readonly tmpDir: () => stri
   let fixtureCount = 0;
 
   beforeAll(() => {
-    fixtureRoot = fs.mkdtempSync(path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-dq-suite-"));
+    fixtureRoot = fs.mkdtempSync(path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-dq-suite-"));
   });
 
   beforeEach(() => {

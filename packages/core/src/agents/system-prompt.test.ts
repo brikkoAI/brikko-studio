@@ -237,7 +237,7 @@ describe("buildAgentSystemPrompt", () => {
       workspaceDir: "/tmp/brikko-studio",
     });
 
-    expect(prompt).toContain("## Brikko Studio CLI Quick Reference");
+    expect(prompt).toContain("## BrikkoStudio CLI Quick Reference");
     expect(prompt).toContain("use the first-class `gateway` tool");
     expect(prompt).toContain(
       "Only use CLI service lifecycle commands when the user explicitly asks",
@@ -417,7 +417,7 @@ describe("buildAgentSystemPrompt", () => {
     expect(prompt).not.toContain('runtime="acp" requires `agentId`');
     expect(prompt).not.toContain("not ACP harness ids");
     expect(prompt).toContain("- sessions_spawn: Spawn an isolated sub-agent session");
-    expect(prompt).toContain("- agents_list: List Brikko Studio agent ids allowed for sessions_spawn");
+    expect(prompt).toContain("- agents_list: List BrikkoStudio agent ids allowed for sessions_spawn");
   });
 
   it("omits ACP harness spawn guidance for sandboxed sessions and shows ACP block note", () => {
@@ -457,9 +457,9 @@ describe("buildAgentSystemPrompt", () => {
     expect(prompt).toContain(
       "- If exactly one skill clearly applies: read its SKILL.md at <location> with `Read`, then follow it.",
     );
-    expect(prompt).toContain("Brikko Studio docs: /tmp/brikko-studio/docs");
+    expect(prompt).toContain("BrikkoStudio docs: /tmp/brikko-studio/docs");
     expect(prompt).toContain(
-      "For Brikko Studio behavior, commands, config, or architecture: consult local docs first.",
+      "For BrikkoStudio behavior, commands, config, or architecture: consult local docs first.",
     );
   });
 
@@ -471,13 +471,13 @@ describe("buildAgentSystemPrompt", () => {
     });
 
     expect(prompt).toContain("## Documentation");
-    expect(prompt).toContain("Brikko Studio docs: /tmp/brikko-studio/docs");
+    expect(prompt).toContain("BrikkoStudio docs: /tmp/brikko-studio/docs");
     expect(prompt).toContain("Local source: /tmp/brikko-studio");
     expect(prompt).toContain(
-      "For Brikko Studio behavior, commands, config, or architecture: consult local docs first.",
+      "For BrikkoStudio behavior, commands, config, or architecture: consult local docs first.",
     );
     expect(prompt).toContain(
-      "If docs are incomplete or stale, inspect the local Brikko Studio source code before answering.",
+      "If docs are incomplete or stale, inspect the local BrikkoStudio source code before answering.",
     );
   });
 
@@ -486,10 +486,10 @@ describe("buildAgentSystemPrompt", () => {
       workspaceDir: "/tmp/work",
     });
 
-    expect(prompt).toContain("Brikko Studio docs: https://docs.brikko-studio.ai");
+    expect(prompt).toContain("BrikkoStudio docs: https://docs.brikko-studio.ai");
     expect(prompt).toContain("Source: https://github.com/brikko-studio/brikko-studio");
     expect(prompt).toContain(
-      "If docs are incomplete or stale, review the Brikko Studio source on GitHub before answering.",
+      "If docs are incomplete or stale, review the BrikkoStudio source on GitHub before answering.",
     );
   });
 
@@ -619,7 +619,7 @@ describe("buildAgentSystemPrompt", () => {
       toolNames: ["gateway", "exec"],
     });
 
-    expect(prompt).toContain("## Brikko Studio Self-Update");
+    expect(prompt).toContain("## BrikkoStudio Self-Update");
     expect(prompt).toContain("config.schema.lookup");
     expect(prompt).toContain("config.apply");
     expect(prompt).toContain("config.patch");
@@ -1122,7 +1122,7 @@ describe("buildSubagentSystemPrompt", () => {
     expect(prompt).toContain("set `agentId` unless `acp.defaultAgent` is configured");
     expect(prompt).toContain("Do not ask users to run slash commands or CLI");
     expect(prompt).toContain("Do not use `exec` (`brikko-studio ...`, `acpx ...`)");
-    expect(prompt).toContain("Use `subagents` only for Brikko Studio subagents");
+    expect(prompt).toContain("Use `subagents` only for BrikkoStudio subagents");
     expect(prompt).toContain("Subagent results auto-announce back to you");
     expect(prompt).toContain(
       "After spawning children, do NOT call sessions_list, sessions_history, exec sleep, or any polling tool.",

@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import type { ChunkMode } from "brikko-studio/plugin-sdk/reply-runtime";
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig, PluginRuntime } from "../../runtime-api.js";
+import type { BrikkoStudioConfig, PluginRuntime } from "../../runtime-api.js";
 import { deliverMattermostReplyPayload } from "./reply-delivery.js";
 
 type DeliverMattermostReplyPayloadParams = Parameters<typeof deliverMattermostReplyPayload>[0];
@@ -24,7 +24,7 @@ function createReplyDeliveryCore(): DeliverMattermostReplyPayloadParams["core"] 
         resolveChunkMode: vi.fn<() => ChunkMode>(() => "length"),
         resolveTextChunkLimit: vi.fn(
           (
-            _cfg?: Brikko StudioConfig,
+            _cfg?: BrikkoStudioConfig,
             _provider?: string,
             _accountId?: string | null,
             opts?: { fallbackLimit?: number },
@@ -40,7 +40,7 @@ function createReplyDeliveryCore(): DeliverMattermostReplyPayloadParams["core"] 
 describe("deliverMattermostReplyPayload", () => {
   it("suppresses payloads flagged as reasoning", async () => {
     const sendMessage = vi.fn(async () => undefined);
-    const cfg = {} satisfies Brikko StudioConfig;
+    const cfg = {} satisfies BrikkoStudioConfig;
     const core = createReplyDeliveryCore();
 
     await deliverMattermostReplyPayload({
@@ -61,7 +61,7 @@ describe("deliverMattermostReplyPayload", () => {
 
   it("suppresses reasoning-prefixed payloads even without an explicit flag", async () => {
     const sendMessage = vi.fn(async () => undefined);
-    const cfg = {} satisfies Brikko StudioConfig;
+    const cfg = {} satisfies BrikkoStudioConfig;
     const core = createReplyDeliveryCore();
 
     await deliverMattermostReplyPayload({
@@ -82,7 +82,7 @@ describe("deliverMattermostReplyPayload", () => {
 
   it("suppresses reasoning payloads formatted as a Mattermost blockquote", async () => {
     const sendMessage = vi.fn(async () => undefined);
-    const cfg = {} satisfies Brikko StudioConfig;
+    const cfg = {} satisfies BrikkoStudioConfig;
     const core = createReplyDeliveryCore();
 
     await deliverMattermostReplyPayload({
@@ -103,7 +103,7 @@ describe("deliverMattermostReplyPayload", () => {
 
   it("does not suppress messages that mention Reasoning: mid-text", async () => {
     const sendMessage = vi.fn(async () => undefined);
-    const cfg = {} satisfies Brikko StudioConfig;
+    const cfg = {} satisfies BrikkoStudioConfig;
     const core = createReplyDeliveryCore();
 
     await deliverMattermostReplyPayload({
@@ -142,7 +142,7 @@ describe("deliverMattermostReplyPayload", () => {
 
       const agentId = "agent-1";
       const mediaUrl = `file://${path.join(stateDir, `workspace-${agentId}`, "photo.png")}`;
-      const cfg = {} satisfies Brikko StudioConfig;
+      const cfg = {} satisfies BrikkoStudioConfig;
 
       await deliverMattermostReplyPayload({
         core,
@@ -181,7 +181,7 @@ describe("deliverMattermostReplyPayload", () => {
 
   it("forwards replyToId for text-only chunked replies", async () => {
     const sendMessage = vi.fn(async () => undefined);
-    const cfg = {} satisfies Brikko StudioConfig;
+    const cfg = {} satisfies BrikkoStudioConfig;
     const core = createReplyDeliveryCore();
     core.channel.text.chunkMarkdownTextWithMode = vi.fn(() => ["hello"]);
 

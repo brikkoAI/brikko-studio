@@ -63,7 +63,7 @@ function createBaseParams(
 }
 
 describe("status-all diagnosis port checks", () => {
-  it("labels Brikko Studio Tailscale exposure separately from daemon state", async () => {
+  it("labels BrikkoStudio Tailscale exposure separately from daemon state", async () => {
     const params = createBaseParams([]);
     params.tailscale.backendState = "Running";
     params.tailscale.dnsName = "box.tail.ts.net";

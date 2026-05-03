@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { resolveAgentDir, resolveSessionAgentId } from "../agents/agent-scope.js";
 import { resolveSession } from "../agents/command/session.js";
 import { clearSessionStoreCacheForTest } from "../config/sessions/store.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { buildOutboundSessionContext } from "../infra/outbound/session-context.js";
 
 async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
@@ -19,7 +19,7 @@ function mockConfig(
   home: string,
   storePath: string,
   agentsList?: Array<{ id: string; default?: boolean }>,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -30,7 +30,7 @@ function mockConfig(
       list: agentsList,
     },
     session: { store: storePath, mainKey: "main" },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function writeSessionStoreSeed(
@@ -42,7 +42,7 @@ function writeSessionStoreSeed(
 }
 
 async function withCrossAgentResumeFixture(
-  run: (params: { sessionId: string; sessionKey: string; cfg: Brikko StudioConfig }) => Promise<void>,
+  run: (params: { sessionId: string; sessionKey: string; cfg: BrikkoStudioConfig }) => Promise<void>,
 ): Promise<void> {
   await withTempHome(async (home) => {
     const storePattern = path.join(home, "sessions", "{agentId}", "sessions.json");

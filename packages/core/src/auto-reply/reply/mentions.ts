@@ -3,7 +3,7 @@ import type { ChannelId } from "../../channels/plugins/channel-id.types.js";
 import { getLoadedChannelPluginById } from "../../channels/plugins/registry-loaded.js";
 import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
 import { normalizeAnyChannelId } from "../../channels/registry.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { compileConfigRegexes, type ConfigRegexRejectReason } from "../../security/config-regex.js";
 import {
@@ -110,7 +110,7 @@ function compileMentionPatternsCached(params: {
   return cacheMentionRegexes(params.cache, cacheKey, compiled.regexes);
 }
 
-function resolveMentionPatterns(cfg: Brikko StudioConfig | undefined, agentId?: string): string[] {
+function resolveMentionPatterns(cfg: BrikkoStudioConfig | undefined, agentId?: string): string[] {
   if (!cfg) {
     return [];
   }
@@ -127,7 +127,7 @@ function resolveMentionPatterns(cfg: Brikko StudioConfig | undefined, agentId?: 
   return derived.length > 0 ? derived : [];
 }
 
-export function buildMentionRegexes(cfg: Brikko StudioConfig | undefined, agentId?: string): RegExp[] {
+export function buildMentionRegexes(cfg: BrikkoStudioConfig | undefined, agentId?: string): RegExp[] {
   const patterns = normalizeMentionPatterns(resolveMentionPatterns(cfg, agentId));
   return compileMentionPatternsCached({
     patterns,
@@ -199,7 +199,7 @@ export function stripStructuralPrefixes(text: string): string {
 export function stripMentions(
   text: string,
   ctx: MsgContext,
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   agentId?: string,
 ): string {
   let result = text;

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { UpdateCheckResult } from "../infra/update-check.js";
 import {
   buildGatewayStatusJsonPayload,
@@ -37,7 +37,7 @@ type StatusGatewaySelf =
 type StatusServiceSummary = {
   label: string;
   installed: boolean | null;
-  managedByBrikko Studio?: boolean;
+  managedByBrikkoStudio?: boolean;
   loadedText: string;
   runtimeShort?: string | null;
   runtime?: {
@@ -47,7 +47,7 @@ type StatusServiceSummary = {
 };
 
 export type StatusOverviewSurface = {
-  cfg: Pick<Brikko StudioConfig, "update" | "gateway">;
+  cfg: Pick<BrikkoStudioConfig, "update" | "gateway">;
   update: UpdateCheckResult;
   tailscaleMode: string;
   tailscaleDns?: string | null;

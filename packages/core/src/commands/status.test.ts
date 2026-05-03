@@ -181,7 +181,7 @@ async function createStatusServiceSummary(
     label: service.label,
     installed: Boolean(command) || runtime?.status === "running",
     loaded,
-    managedByBrikko Studio: Boolean(command),
+    managedByBrikkoStudio: Boolean(command),
     externallyManaged: !command && runtime?.status === "running",
     loadedText: service.loadedText,
     runtime,
@@ -652,8 +652,8 @@ vi.mock("../gateway/agent-list.js", () => ({
   listGatewayAgentsBasic: mocks.listGatewayAgentsBasic,
 }));
 vi.mock("../infra/brikko-studio-root.js", () => ({
-  resolveBrikko StudioPackageRoot: vi.fn().mockResolvedValue("/tmp/brikko-studio"),
-  resolveBrikko StudioPackageRootSync: vi.fn(() => "/tmp/brikko-studio"),
+  resolveBrikkoStudioPackageRoot: vi.fn().mockResolvedValue("/tmp/brikko-studio"),
+  resolveBrikkoStudioPackageRootSync: vi.fn(() => "/tmp/brikko-studio"),
 }));
 vi.mock("../infra/os-summary.js", () => ({
   resolveOsSummary: () => ({
@@ -833,7 +833,7 @@ vi.mock("./status.daemon.js", () => ({
       label: service.label,
       installed: Boolean(command) || runtime?.status === "running",
       loaded,
-      managedByBrikko Studio: Boolean(command),
+      managedByBrikkoStudio: Boolean(command),
       externallyManaged: !command && runtime?.status === "running",
       loadedText: loaded ? service.loadedText : service.notLoadedText,
       runtimeShort: runtime?.pid ? `pid ${runtime.pid}` : null,
@@ -848,7 +848,7 @@ vi.mock("./status.daemon.js", () => ({
       label: service.label,
       installed: Boolean(command) || runtime?.status === "running",
       loaded,
-      managedByBrikko Studio: Boolean(command),
+      managedByBrikkoStudio: Boolean(command),
       externallyManaged: !command && runtime?.status === "running",
       loadedText: loaded ? service.loadedText : service.notLoadedText,
       runtimeShort: runtime?.pid ? `pid ${runtime.pid}` : null,
@@ -1067,7 +1067,7 @@ describe("statusCommand", () => {
     ]);
     const logs = await runStatusAndGetLogs({ verbose: true });
     for (const token of [
-      "Brikko Studio status",
+      "BrikkoStudio status",
       "Overview",
       "Security audit",
       "Skipped in fast status",

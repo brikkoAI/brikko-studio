@@ -1,6 +1,6 @@
-import type { Brikko StudioProviderIndex } from "./types.js";
+import type { BrikkoStudioProviderIndex } from "./types.js";
 
-// Brikko Studio-owned preview metadata for providers whose plugins may not be
+// BrikkoStudio-owned preview metadata for providers whose plugins may not be
 // installed yet. Installed plugin manifests remain authoritative; this index is
 // a fallback for installable-provider and pre-install model picker surfaces.
 // Preview catalogs use the shared model catalog type, but intentionally keep to
@@ -58,4 +58,4 @@ export const BRIKKO_STUDIO_PROVIDER_INDEX = {
       },
     },
   },
-} satisfies Brikko StudioProviderIndex;
+} satisfies BrikkoStudioProviderIndex;

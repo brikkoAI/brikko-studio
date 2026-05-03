@@ -541,8 +541,8 @@ describe("Discord model picker rendering", () => {
         [
           {
             id: "pi",
-            label: "Brikko Studio Pi Default",
-            description: "Use the built-in Brikko Studio Pi runtime.",
+            label: "BrikkoStudio Pi Default",
+            description: "Use the built-in BrikkoStudio Pi runtime.",
           },
           {
             id: "codex",
@@ -577,7 +577,7 @@ describe("Discord model picker rendering", () => {
     }
     expect(runtimeSelect.options?.map((option) => option.value)).toEqual(["pi", "codex"]);
     expect(runtimeSelect.options?.find((option) => option.value === "pi")?.label).toBe(
-      "Brikko Studio Pi Default",
+      "BrikkoStudio Pi Default",
     );
     expect(runtimeSelect.options?.find((option) => option.value === "codex")?.default).toBe(true);
 

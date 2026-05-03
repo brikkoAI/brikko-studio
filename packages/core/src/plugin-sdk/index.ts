@@ -44,8 +44,8 @@ export type {
   AnyAgentTool,
   CliBackendPlugin,
   MediaUnderstandingProviderPlugin,
-  Brikko StudioPluginApi,
-  Brikko StudioPluginConfigSchema,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginConfigSchema,
   PluginLogger,
   ProviderAuthContext,
   ProviderAuthResult,
@@ -77,11 +77,11 @@ export type {
   TaskRunDetail,
   TaskRunView,
 } from "../plugins/runtime/task-domain-types.js";
-export type { Brikko StudioConfig } from "../config/config.js";
-/** @deprecated Use Brikko StudioConfig instead */
-export type { Brikko StudioConfig as ClawdbotConfig } from "../config/config.js";
-/** @deprecated Use Brikko StudioConfig instead */
-export type { Brikko StudioConfig as Brikko StudioSchemaType } from "../config/config.js";
+export type { BrikkoStudioConfig } from "../config/config.js";
+/** @deprecated Use BrikkoStudioConfig instead */
+export type { BrikkoStudioConfig as ClawdbotConfig } from "../config/config.js";
+/** @deprecated Use BrikkoStudioConfig instead */
+export type { BrikkoStudioConfig as BrikkoStudioSchemaType } from "../config/config.js";
 export type {
   MemoryPluginCapability,
   MemoryPluginPublicArtifact,

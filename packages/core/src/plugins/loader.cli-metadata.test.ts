@@ -4,9 +4,9 @@ import { pathToFileURL } from "node:url";
 import { afterAll, afterEach, describe, expect, it } from "vitest";
 import {
   defineBundledChannelEntry,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
 } from "../plugin-sdk/channel-entry-contract.js";
-import { loadBrikko StudioPluginCliRegistry, loadBrikko StudioPlugins } from "./loader.js";
+import { loadBrikkoStudioPluginCliRegistry, loadBrikkoStudioPlugins } from "./loader.js";
 import {
   cleanupPluginLoaderFixturesForTest,
   EMPTY_PLUGIN_SCHEMA,
@@ -52,7 +52,7 @@ describe("plugin loader CLI metadata", () => {
     });
 
     const warnings: string[] = [];
-    const registry = await loadBrikko StudioPluginCliRegistry({
+    const registry = await loadBrikkoStudioPluginCliRegistry({
       env: { ...process.env, BRIKKO_STUDIO_STATE_DIR: stateDir },
       logger: {
         info: () => {},
@@ -114,7 +114,7 @@ describe("plugin loader CLI metadata", () => {
       "utf-8",
     );
 
-    const registry = await loadBrikko StudioPluginCliRegistry({
+    const registry = await loadBrikkoStudioPluginCliRegistry({
       config: {
         plugins: {
           load: { paths: [plugin.file] },
@@ -223,7 +223,7 @@ module.exports = {
       "utf-8",
     );
 
-    const registry = await loadBrikko StudioPluginCliRegistry({
+    const registry = await loadBrikkoStudioPluginCliRegistry({
       config: {
         plugins: {
           load: { paths: [pluginDir] },
@@ -285,7 +285,7 @@ module.exports = {
       "utf-8",
     );
 
-    const registry = await loadBrikko StudioPluginCliRegistry({
+    const registry = await loadBrikkoStudioPluginCliRegistry({
       config: {
         plugins: {
           allow: ["bundled-skip-channel"],
@@ -372,7 +372,7 @@ module.exports = {
       "utf-8",
     );
 
-    const registry = await loadBrikko StudioPluginCliRegistry({
+    const registry = await loadBrikkoStudioPluginCliRegistry({
       config: {
         plugins: {
           allow: ["bundled-cli-channel"],
@@ -436,7 +436,7 @@ module.exports = {
       "utf-8",
     );
 
-    const registry = await loadBrikko StudioPluginCliRegistry({
+    const registry = await loadBrikkoStudioPluginCliRegistry({
       config: {
         plugins: {
           allow: ["bundled-skip-provider"],
@@ -537,7 +537,7 @@ module.exports = {
       "utf-8",
     );
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -637,7 +637,7 @@ module.exports = {
       "utf-8",
     );
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       activate: false,
       cache: false,
       config: {
@@ -727,7 +727,7 @@ module.exports = {
 
     entry.register({
       registrationMode: "discovery",
-      runtime: {} as Brikko StudioPluginApi["runtime"],
+      runtime: {} as BrikkoStudioPluginApi["runtime"],
       registerChannel: (registration) => {
         const plugin = "plugin" in registration ? registration.plugin : registration;
         channels.push(plugin.id);
@@ -735,7 +735,7 @@ module.exports = {
       registerCli: (_register, options) => {
         commands.push(...(options?.descriptors ?? []).map((descriptor) => descriptor.name));
       },
-    } as Brikko StudioPluginApi);
+    } as BrikkoStudioPluginApi);
 
     expect(channels).toEqual(["bundled-discovery-cli"]);
     expect(fs.existsSync(runtimeMarker)).toBe(true);
@@ -771,7 +771,7 @@ module.exports = {
 };`,
     });
 
-    const registry = await loadBrikko StudioPluginCliRegistry({
+    const registry = await loadBrikkoStudioPluginCliRegistry({
       cache: false,
       config: {
         plugins: {
@@ -818,7 +818,7 @@ module.exports = {
 };`,
     });
 
-    const registry = await loadBrikko StudioPluginCliRegistry({
+    const registry = await loadBrikkoStudioPluginCliRegistry({
       config: {
         plugins: {
           load: { paths: [plugin.file] },
@@ -869,7 +869,7 @@ module.exports = {
       "utf-8",
     );
 
-    const registry = await loadBrikko StudioPluginCliRegistry({
+    const registry = await loadBrikkoStudioPluginCliRegistry({
       config: {
         plugins: {
           load: { paths: [plugin.file] },
@@ -909,7 +909,7 @@ module.exports = {
 };`,
     });
 
-    const registry = await loadBrikko StudioPluginCliRegistry({
+    const registry = await loadBrikkoStudioPluginCliRegistry({
       config: {
         plugins: {
           load: { paths: [plugin.file] },

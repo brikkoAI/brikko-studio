@@ -3,7 +3,7 @@ import type {
   ChannelApprovalNativeSurface,
   ChannelApprovalNativeTarget,
 } from "../channels/plugins/approval-native.types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { buildChannelApprovalNativeTargetKey } from "./approval-native-target-key.js";
 import type { ChannelApprovalKind } from "./approval-types.js";
 import type { ExecApprovalRequest } from "./exec-approvals.js";
@@ -40,7 +40,7 @@ function dedupeTargets(
 }
 
 export async function resolveChannelNativeApprovalDeliveryPlan(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   approvalKind: ChannelApprovalKind;
   request: ApprovalRequest;

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { VIDEO_GENERATION_TASK_KIND } from "../video-generation-task-status.js";
 import {
   createMediaGenerationTaskLifecycle,
@@ -36,7 +36,7 @@ export const failVideoGenerationTaskRun = (
 ) => videoGenerationTaskLifecycle.failTaskRun(...params);
 
 export async function wakeVideoGenerationTaskCompletion(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   handle: VideoGenerationTaskHandle | null;
   status: "ok" | "error";
   statusLabel: string;

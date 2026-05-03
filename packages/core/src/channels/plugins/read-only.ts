@@ -1,7 +1,7 @@
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { isBlockedObjectKey } from "../../infra/prototype-keys.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
@@ -44,9 +44,9 @@ const moduleLoaders: PluginModuleLoaderCache = new Map();
 const log = createSubsystemLogger("channels");
 
 type PluginLoaderModule = {
-  loadBrikko StudioPlugins: (params: {
-    config: Brikko StudioConfig;
-    activationSourceConfig?: Brikko StudioConfig;
+  loadBrikkoStudioPlugins: (params: {
+    config: BrikkoStudioConfig;
+    activationSourceConfig?: BrikkoStudioConfig;
     env?: NodeJS.ProcessEnv;
     workspaceDir?: string;
     cache?: boolean;
@@ -121,7 +121,7 @@ type ReadOnlyChannelPluginOptions = {
   env?: NodeJS.ProcessEnv;
   stateDir?: string;
   workspaceDir?: string;
-  activationSourceConfig?: Brikko StudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   includePersistedAuthState?: boolean;
   includeSetupFallbackPlugins?: boolean;
 };
@@ -175,10 +175,10 @@ function normalizeManifestText(value: string | undefined, fallback: string): str
 }
 
 function rebindChannelConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   sourceChannelId: string,
   targetChannelId: string,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   if (sourceChannelId === targetChannelId || !cfg.channels) {
     return cfg;
   }
@@ -192,11 +192,11 @@ function rebindChannelConfig(
 }
 
 function restoreReboundChannelConfig(params: {
-  original: Brikko StudioConfig;
-  updated: Brikko StudioConfig;
+  original: BrikkoStudioConfig;
+  updated: BrikkoStudioConfig;
   sourceChannelId: string;
   targetChannelId: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   if (params.sourceChannelId === params.targetChannelId || !params.updated.channels) {
     return params.updated;
   }
@@ -220,7 +220,7 @@ function restoreReboundChannelConfig(params: {
   };
 }
 
-function getChannelConfigRecord(cfg: Brikko StudioConfig, channelId: string): Record<string, unknown> {
+function getChannelConfigRecord(cfg: BrikkoStudioConfig, channelId: string): Record<string, unknown> {
   if (!isSafeManifestChannelId(channelId)) {
     return {};
   }
@@ -234,7 +234,7 @@ function getChannelConfigRecord(cfg: Brikko StudioConfig, channelId: string): Re
     : {};
 }
 
-function listManifestChannelAccountIds(cfg: Brikko StudioConfig, channelId: string): string[] {
+function listManifestChannelAccountIds(cfg: BrikkoStudioConfig, channelId: string): string[] {
   const channelConfig = getChannelConfigRecord(cfg, channelId);
   const accounts = channelConfig.accounts;
   if (accounts && typeof accounts === "object" && !Array.isArray(accounts)) {
@@ -251,7 +251,7 @@ function listManifestChannelAccountIds(cfg: Brikko StudioConfig, channelId: stri
 }
 
 function resolveManifestChannelAccountConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelId: string;
   accountId?: string | null;
 }): Record<string, unknown> {
@@ -416,7 +416,7 @@ function rebindChannelPluginConfig(
   sourceChannelId: string,
   targetChannelId: string,
 ): ChannelPlugin["config"] {
-  const rebind = (cfg: Brikko StudioConfig) =>
+  const rebind = (cfg: BrikkoStudioConfig) =>
     rebindChannelConfig(cfg, sourceChannelId, targetChannelId);
   return {
     ...config,
@@ -620,7 +620,7 @@ function addManifestChannelPlugins(
 }
 
 function resolveReadOnlyWorkspaceDir(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options: ReadOnlyChannelPluginOptions,
 ): string | undefined {
   return options.workspaceDir ?? resolveAgentWorkspaceDir(cfg, resolveDefaultAgentId(cfg));
@@ -650,8 +650,8 @@ function listPluginIdsForChannels(
 }
 
 function resolveExternalReadOnlyChannelPluginIds(params: {
-  cfg: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   channelIds: readonly string[];
   records: readonly PluginManifestRecord[];
   workspaceDir?: string;
@@ -685,14 +685,14 @@ function resolveExternalReadOnlyChannelPluginIds(params: {
 }
 
 export function listReadOnlyChannelPluginsForConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options?: ReadOnlyChannelPluginOptions,
 ): ChannelPlugin[] {
   return resolveReadOnlyChannelPluginsForConfig(cfg, options).plugins;
 }
 
 export function resolveReadOnlyChannelPluginsForConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options: ReadOnlyChannelPluginOptions = {},
 ): ReadOnlyChannelPluginResolution {
   const env = options.env ?? process.env;
@@ -779,7 +779,7 @@ export function resolveReadOnlyChannelPluginsForConfig(
             ] as const,
         ),
       );
-      const registry = loadPluginLoaderModule().loadBrikko StudioPlugins({
+      const registry = loadPluginLoaderModule().loadBrikkoStudioPlugins({
         config: cfg,
         activationSourceConfig: options.activationSourceConfig ?? cfg,
         env,

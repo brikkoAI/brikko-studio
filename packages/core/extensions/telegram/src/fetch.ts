@@ -230,7 +230,7 @@ function hasEnvHttpProxyForTelegramApi(env: NodeJS.ProcessEnv = process.env): bo
   return hasEnvHttpProxyAgentConfigured(env);
 }
 
-function resolveBrikko StudioProxyUrlForTelegram(
+function resolveBrikkoStudioProxyUrlForTelegram(
   env: NodeJS.ProcessEnv = process.env,
 ): string | undefined {
   const proxyUrl = env.BRIKKO_STUDIO_PROXY_URL?.trim();
@@ -594,7 +594,7 @@ export function resolveTelegramTransport(
     : undefined;
   const hasEnvProxy = !explicitProxyUrl && hasEnvHttpProxyForTelegramApi();
   const managedProxyUrl =
-    !effectiveProxyFetch && !hasEnvProxy ? resolveBrikko StudioProxyUrlForTelegram() : undefined;
+    !effectiveProxyFetch && !hasEnvProxy ? resolveBrikkoStudioProxyUrlForTelegram() : undefined;
   const resolvedExplicitProxyUrl = explicitProxyUrl ?? managedProxyUrl;
   const undiciSourceFetch = resolveWrappedFetch(undiciFetch as unknown as typeof fetch);
   const sourceFetch = resolvedExplicitProxyUrl

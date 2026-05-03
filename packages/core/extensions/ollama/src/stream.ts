@@ -12,7 +12,7 @@ import type {
 import { createAssistantMessageEventStream, streamSimple } from "@mariozechner/pi-ai";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type {
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   ProviderRuntimeModel,
   ProviderWrapStreamFnContext,
 } from "brikko-studio/plugin-sdk/plugin-entry";
@@ -105,7 +105,7 @@ export function resolveOllamaBaseUrlForRun(params: {
 }
 
 export function resolveConfiguredOllamaProviderConfig(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   providerId?: string;
 }) {
   const providerId = params.providerId?.trim();
@@ -165,7 +165,7 @@ export function isOllamaCompatProvider(model: {
 }
 
 export function resolveOllamaCompatNumCtxEnabled(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   providerId?: string;
 }): boolean {
   return resolveConfiguredOllamaProviderConfig(params)?.injectNumCtxForOpenAICompat ?? true;
@@ -173,7 +173,7 @@ export function resolveOllamaCompatNumCtxEnabled(params: {
 
 export function shouldInjectOllamaCompatNumCtx(params: {
   model: { api?: string; provider?: string; baseUrl?: string };
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   providerId?: string;
 }): boolean {
   if (params.model.api !== "openai-completions") {
@@ -294,7 +294,7 @@ function resolveOllamaNumCtx(model: ProviderRuntimeModel): number {
  * Resolves num_ctx for native /api/chat requests:
  *  1. explicit `params.num_ctx` set on the model wins,
  *  2. otherwise the catalog `contextWindow` / `maxTokens` is forwarded so
- *     Brikko Studio's known model windows survive the trip and `/api/chat` does
+ *     BrikkoStudio's known model windows survive the trip and `/api/chat` does
  *     not silently truncate to Ollama's small Modelfile default (typically
  *     2048 tokens) — which is too small for a system prompt plus tool
  *     definitions and produces "model picks wrong tools / says nonsense"

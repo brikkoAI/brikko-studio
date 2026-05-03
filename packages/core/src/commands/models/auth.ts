@@ -20,7 +20,7 @@ import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.js";
 import { formatCliCommand } from "../../cli/command-format.js";
 import { parseDurationMs } from "../../cli/parse-duration.js";
 import { logConfigUpdated } from "../../config/logging.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   applyProviderAuthConfigPatch,
   applyDefaultModel,
@@ -84,7 +84,7 @@ function resolveDefaultTokenProfileId(provider: string): string {
 }
 
 type ResolvedModelsAuthContext = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentDir: string;
   workspaceDir: string;
   providers: ProviderPlugin[];
@@ -288,7 +288,7 @@ async function persistProviderAuthResult(params: {
 }
 
 async function runProviderAuthMethod(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentDir: string;
   workspaceDir: string;
   provider: ProviderPlugin;
@@ -437,9 +437,9 @@ export async function modelsAuthPasteTokenCommand(
   logConfigUpdated(runtime);
   runtime.log(`Auth profile: ${profileId} (${provider}/token)`);
   if (provider === "anthropic") {
-    runtime.log("Anthropic setup-token auth is supported in Brikko Studio.");
-    runtime.log("Brikko Studio prefers Claude CLI reuse when it is available on the host.");
-    runtime.log("Anthropic staff told us this Brikko Studio path is allowed again.");
+    runtime.log("Anthropic setup-token auth is supported in BrikkoStudio.");
+    runtime.log("BrikkoStudio prefers Claude CLI reuse when it is available on the host.");
+    runtime.log("Anthropic staff told us this BrikkoStudio path is allowed again.");
   }
 }
 

@@ -1,6 +1,6 @@
 import type { BaseProbeResult, BaseTokenResolution } from "brikko-studio/plugin-sdk/channel-contract";
 import { expectDirectoryIds } from "brikko-studio/plugin-sdk/channel-test-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, expectTypeOf, it } from "vitest";
 import {
   listDiscordDirectoryGroupsFromConfig,
@@ -35,7 +35,7 @@ describe("Discord directory contract", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     await expectDirectoryIds(
       listDiscordDirectoryPeersFromConfig,
@@ -71,7 +71,7 @@ describe("Discord directory contract", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     await expectDirectoryIds(listDiscordDirectoryPeersFromConfig, cfg, ["user:111"]);
     await expectDirectoryIds(listDiscordDirectoryGroupsFromConfig, cfg, ["channel:555"]);
@@ -89,7 +89,7 @@ describe("Discord directory contract", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const entries = await listDiscordDirectoryPeersFromConfig({
       cfg,
@@ -116,7 +116,7 @@ describe("Discord directory contract", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const groups = await listDiscordDirectoryGroupsFromConfig({
       cfg,

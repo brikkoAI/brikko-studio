@@ -47,7 +47,7 @@ describe("shared/node-match", () => {
     ).toBe("mac-studio");
   });
 
-  it("prefers a unique current Brikko Studio client over a legacy clawdbot client", () => {
+  it("prefers a unique current BrikkoStudio client over a legacy clawdbot client", () => {
     expect(
       resolveNodeIdFromCandidates(
         [

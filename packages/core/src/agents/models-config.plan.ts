@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
 import { isRecord } from "../utils.js";
 import {
@@ -14,10 +14,10 @@ import {
   type ProviderConfig,
 } from "./models-config.providers.js";
 
-type ModelsConfig = NonNullable<Brikko StudioConfig["models"]>;
+type ModelsConfig = NonNullable<BrikkoStudioConfig["models"]>;
 export type ResolveImplicitProvidersForModelsJson = (params: {
   agentDir: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   workspaceDir?: string;
   explicitProviders: Record<string, ProviderConfig>;
@@ -41,7 +41,7 @@ export type ModelsJsonPlan =
 
 export async function resolveProvidersForModelsJsonWithDeps(
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     agentDir: string;
     env: NodeJS.ProcessEnv;
     workspaceDir?: string;
@@ -104,10 +104,10 @@ function resolveProvidersForMode(params: {
   });
 }
 
-export async function planBrikko StudioModelsJsonWithDeps(
+export async function planBrikkoStudioModelsJsonWithDeps(
   params: {
-    cfg: Brikko StudioConfig;
-    sourceConfigForSecrets?: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
+    sourceConfigForSecrets?: BrikkoStudioConfig;
     agentDir: string;
     env: NodeJS.ProcessEnv;
     workspaceDir?: string;
@@ -187,8 +187,8 @@ export async function planBrikko StudioModelsJsonWithDeps(
   };
 }
 
-export async function planBrikko StudioModelsJson(
-  params: Parameters<typeof planBrikko StudioModelsJsonWithDeps>[0],
+export async function planBrikkoStudioModelsJson(
+  params: Parameters<typeof planBrikkoStudioModelsJsonWithDeps>[0],
 ): Promise<ModelsJsonPlan> {
-  return planBrikko StudioModelsJsonWithDeps(params);
+  return planBrikkoStudioModelsJsonWithDeps(params);
 }

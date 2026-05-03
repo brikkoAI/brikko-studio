@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Builds the Brikko Studio package artifact used by Docker E2E.
+// Builds the BrikkoStudio package artifact used by Docker E2E.
 // The script owns the build/inventory/pack sequence so local scheduler, shell
 // helpers, and GitHub Actions all prepare the exact same npm tarball.
 import { spawn } from "node:child_process";
@@ -97,7 +97,7 @@ async function runCapture(command, args, cwd) {
   });
 }
 
-async function newestBrikko StudioTarball(outputDir, packOutput) {
+async function newestBrikkoStudioTarball(outputDir, packOutput) {
   let fromOutput = "";
   for (const line of packOutput.split(/\r?\n/u)) {
     const trimmed = line.trim();
@@ -115,7 +115,7 @@ async function newestBrikko StudioTarball(outputDir, packOutput) {
     .toSorted()
     .at(-1);
   if (!packed) {
-    throw new Error(`missing packed Brikko Studio tarball in ${outputDir}`);
+    throw new Error(`missing packed BrikkoStudio tarball in ${outputDir}`);
   }
   return path.join(outputDir, packed);
 }
@@ -130,13 +130,13 @@ async function main() {
   await fs.mkdir(outputDir, { recursive: true });
 
   if (!options.skipBuild) {
-    console.error("==> Building Brikko Studio package artifacts");
+    console.error("==> Building BrikkoStudio package artifacts");
     await run("pnpm", ["build"], sourceDir);
-    console.error("==> Building Brikko Studio Control UI artifacts");
+    console.error("==> Building BrikkoStudio Control UI artifacts");
     await run("pnpm", ["ui:build"], sourceDir);
   }
 
-  console.error("==> Writing Brikko Studio package inventory");
+  console.error("==> Writing BrikkoStudio package inventory");
   await run(
     "node",
     [
@@ -149,13 +149,13 @@ async function main() {
     sourceDir,
   );
 
-  console.error("==> Packing Brikko Studio package");
+  console.error("==> Packing BrikkoStudio package");
   const packOutput = await runCapture(
     "npm",
     ["pack", "--silent", "--ignore-scripts", "--pack-destination", outputDir],
     sourceDir,
   );
-  let tarball = await newestBrikko StudioTarball(outputDir, packOutput);
+  let tarball = await newestBrikkoStudioTarball(outputDir, packOutput);
 
   if (options.outputName) {
     const target = path.join(outputDir, options.outputName);
@@ -166,7 +166,7 @@ async function main() {
     }
   }
 
-  console.error("==> Checking Brikko Studio package tarball");
+  console.error("==> Checking BrikkoStudio package tarball");
   const checkStartedAt = Date.now();
   await run(
     "node",
@@ -175,7 +175,7 @@ async function main() {
     { timeoutMs: 5 * 60 * 1000 },
   );
   console.error(
-    `==> Brikko Studio package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
+    `==> BrikkoStudio package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
   );
 
   process.stdout.write(`${tarball}\n`);

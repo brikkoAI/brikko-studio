@@ -17,8 +17,8 @@ export class MacosDiscordSmoke {
       config: MacosDiscordConfig;
       guest: MacosGuest;
       guestNode: string;
-      guestBrikko Studio: string;
-      guestBrikko StudioEntry: string;
+      guestBrikkoStudio: string;
+      guestBrikkoStudioEntry: string;
       runDir: string;
       vmName: string;
     },
@@ -36,13 +36,13 @@ export class MacosDiscordSmoke {
       },
     });
     this.input.guest.sh(`set -eu
-${this.input.guestNode} ${this.input.guestBrikko StudioEntry} config set channels.discord.token ${shellQuote(this.input.config.token)}
-${this.input.guestNode} ${this.input.guestBrikko StudioEntry} config set channels.discord.enabled true
-${this.input.guestNode} ${this.input.guestBrikko StudioEntry} config set channels.discord.groupPolicy allowlist
-${this.input.guestNode} ${this.input.guestBrikko StudioEntry} config set channels.discord.guilds ${shellQuote(guilds)} --strict-json
-${this.input.guestNode} ${this.input.guestBrikko StudioEntry} doctor --fix --yes --non-interactive
-${this.input.guestNode} ${this.input.guestBrikko StudioEntry} gateway restart
-${this.input.guestNode} ${this.input.guestBrikko StudioEntry} channels status --probe --json`);
+${this.input.guestNode} ${this.input.guestBrikkoStudioEntry} config set channels.discord.token ${shellQuote(this.input.config.token)}
+${this.input.guestNode} ${this.input.guestBrikkoStudioEntry} config set channels.discord.enabled true
+${this.input.guestNode} ${this.input.guestBrikkoStudioEntry} config set channels.discord.groupPolicy allowlist
+${this.input.guestNode} ${this.input.guestBrikkoStudioEntry} config set channels.discord.guilds ${shellQuote(guilds)} --strict-json
+${this.input.guestNode} ${this.input.guestBrikkoStudioEntry} doctor --fix --yes --non-interactive
+${this.input.guestNode} ${this.input.guestBrikkoStudioEntry} gateway restart
+${this.input.guestNode} ${this.input.guestBrikkoStudioEntry} channels status --probe --json`);
   }
 
   async runRoundtrip(phase: DiscordSmokePhase): Promise<void> {
@@ -53,7 +53,7 @@ ${this.input.guestNode} ${this.input.guestBrikko StudioEntry} channels status --
     const sentIdFile = path.join(this.input.runDir, `${phase}.discord-sent-message-id`);
     const hostIdFile = path.join(this.input.runDir, `${phase}.discord-host-message-id`);
     const outbound = this.input.guest.exec([
-      this.input.guestBrikko Studio,
+      this.input.guestBrikkoStudio,
       "message",
       "send",
       "--channel",
@@ -178,7 +178,7 @@ ${this.input.guestNode} ${this.input.guestBrikko StudioEntry} channels status --
     while (Date.now() < deadline) {
       const result = this.input.guest.run(
         [
-          this.input.guestBrikko Studio,
+          this.input.guestBrikkoStudio,
           "message",
           "read",
           "--channel",

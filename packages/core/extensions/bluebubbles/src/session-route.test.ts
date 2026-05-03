@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import { resolveBlueBubblesOutboundSessionRoute } from "./session-route.js";
 
-const EMPTY_CFG = {} as Brikko StudioConfig;
+const EMPTY_CFG = {} as BrikkoStudioConfig;
 const PER_PEER_CFG = {
   session: { dmScope: "per-peer" },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 function call(target: string, cfg = EMPTY_CFG) {
   return resolveBlueBubblesOutboundSessionRoute({

@@ -1,6 +1,6 @@
 import { createPluginSetupWizardStatus } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import { zaloSetupWizard } from "./setup-surface.js";
 
 const zaloGetStatus = createPluginSetupWizardStatus({
@@ -24,7 +24,7 @@ describe("zalo setup wizard status", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       accountOverrides: {},
     });
 

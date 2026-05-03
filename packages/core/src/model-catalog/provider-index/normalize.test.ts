@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { loadBrikko StudioProviderIndex, normalizeBrikko StudioProviderIndex } from "./index.js";
+import { loadBrikkoStudioProviderIndex, normalizeBrikkoStudioProviderIndex } from "./index.js";
 
-describe("Brikko Studio provider index", () => {
+describe("BrikkoStudio provider index", () => {
   it("normalizes provider preview catalog rows through model catalog validation", () => {
-    const index = normalizeBrikko StudioProviderIndex({
+    const index = normalizeBrikkoStudioProviderIndex({
       version: 1,
       providers: {
         Moonshot: {
@@ -103,7 +103,7 @@ describe("Brikko Studio provider index", () => {
   });
 
   it("drops unsafe providers and malformed preview catalog rows", () => {
-    const index = normalizeBrikko StudioProviderIndex({
+    const index = normalizeBrikkoStudioProviderIndex({
       version: 1,
       providers: {
         ["__proto__"]: {
@@ -140,7 +140,7 @@ describe("Brikko Studio provider index", () => {
   });
 
   it("loads the bundled provider index without runtime plugin loading", () => {
-    const index = loadBrikko StudioProviderIndex();
+    const index = loadBrikkoStudioProviderIndex();
 
     expect(index.providers.moonshot?.previewCatalog).not.toHaveProperty("api");
     expect(index.providers.moonshot?.previewCatalog).not.toHaveProperty("baseUrl");

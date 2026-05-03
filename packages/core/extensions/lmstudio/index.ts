@@ -1,7 +1,7 @@
 import {
   definePluginEntry,
-  Brikko StudioConfig,
-  type Brikko StudioPluginApi,
+  BrikkoStudioConfig,
+  type BrikkoStudioPluginApi,
   type ProviderAuthContext,
   type ProviderAuthMethodNonInteractiveContext,
   type ProviderAuthResult,
@@ -25,7 +25,7 @@ const PROVIDER_ID = "lmstudio";
 // Intentional: dynamic models are cached per LM Studio endpoint (`baseUrl`) only.
 const cachedDynamicModels = new Map<string, ProviderRuntimeModel[]>();
 
-function resolveLmstudioAugmentedCatalogEntries(config: Brikko StudioConfig | undefined) {
+function resolveLmstudioAugmentedCatalogEntries(config: BrikkoStudioConfig | undefined) {
   if (!config) {
     return [];
   }
@@ -52,7 +52,7 @@ export default definePluginEntry({
   id: PROVIDER_ID,
   name: "LM Studio Provider",
   description: "Bundled LM Studio provider plugin",
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     api.registerMemoryEmbeddingProvider(lmstudioMemoryEmbeddingProviderAdapter);
     api.registerProvider({
       id: PROVIDER_ID,

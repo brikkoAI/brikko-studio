@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import {
   parseLiveCsvFilter,
   parseProviderModelMap,
@@ -47,7 +47,7 @@ export function parseCsvFilter(raw?: string): Set<string> | null {
   return parseLiveCsvFilter(raw);
 }
 
-export function resolveConfiguredLiveVideoModels(cfg: Brikko StudioConfig): Map<string, string> {
+export function resolveConfiguredLiveVideoModels(cfg: BrikkoStudioConfig): Map<string, string> {
   return resolveConfiguredLiveProviderModels(cfg.agents?.defaults?.videoGenerationModel);
 }
 

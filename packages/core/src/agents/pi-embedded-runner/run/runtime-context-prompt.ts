@@ -8,7 +8,7 @@ import {
 import type { CurrentTurnPromptContext } from "./params.js";
 export { BRIKKO_STUDIO_RUNTIME_CONTEXT_CUSTOM_TYPE };
 
-const BRIKKO_STUDIO_RUNTIME_EVENT_USER_PROMPT = "Continue the Brikko Studio runtime event.";
+const BRIKKO_STUDIO_RUNTIME_EVENT_USER_PROMPT = "Continue the BrikkoStudio runtime event.";
 const MAX_CURRENT_TURN_CONTEXT_STRING_CHARS = 2_000;
 
 type RuntimeContextSession = {

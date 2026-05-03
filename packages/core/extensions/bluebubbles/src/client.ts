@@ -18,7 +18,7 @@ import { resolveBlueBubblesServerAccount } from "./account-resolve.js";
 import { extractAttachments } from "./monitor-normalize.js";
 import { postMultipartFormData } from "./multipart.js";
 import { resolveRequestUrl } from "./request-url.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import { getBlueBubblesRuntime } from "./runtime.js";
 import {
   blueBubblesFetchWithTimeout,
@@ -150,7 +150,7 @@ export function resolveBlueBubblesClientSsrfPolicy(params: {
 // --- Client ----------------------------------------------------------------
 
 type BlueBubblesClientOptions = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   accountId?: string;
   serverUrl?: string;
   password?: string;

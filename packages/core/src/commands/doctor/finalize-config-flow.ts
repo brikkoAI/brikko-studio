@@ -1,14 +1,14 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
 export async function finalizeDoctorConfigFlow(params: {
-  cfg: Brikko StudioConfig;
-  candidate: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  candidate: BrikkoStudioConfig;
   pendingChanges: boolean;
   shouldRepair: boolean;
   fixHints: string[];
   confirm: (p: { message: string; initialValue: boolean }) => Promise<boolean>;
   note: (message: string, title?: string) => void;
-}): Promise<{ cfg: Brikko StudioConfig; shouldWriteConfig: boolean }> {
+}): Promise<{ cfg: BrikkoStudioConfig; shouldWriteConfig: boolean }> {
   if (!params.shouldRepair && params.pendingChanges) {
     const shouldApply = await params.confirm({
       message: "Apply recommended config repairs now?",

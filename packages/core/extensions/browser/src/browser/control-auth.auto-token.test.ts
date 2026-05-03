@@ -1,18 +1,18 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { expectGeneratedTokenPersistedToGatewayAuth } from "../../test-support.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
 const mocks = vi.hoisted(() => ({
-  getRuntimeConfig: vi.fn<() => Brikko StudioConfig>(),
-  writeConfigFile: vi.fn<(cfg: Brikko StudioConfig) => Promise<void>>(async (_cfg) => {}),
-  replaceConfigFile: vi.fn(async ({ nextConfig }: { nextConfig: Brikko StudioConfig }) => {
+  getRuntimeConfig: vi.fn<() => BrikkoStudioConfig>(),
+  writeConfigFile: vi.fn<(cfg: BrikkoStudioConfig) => Promise<void>>(async (_cfg) => {}),
+  replaceConfigFile: vi.fn(async ({ nextConfig }: { nextConfig: BrikkoStudioConfig }) => {
     await mocks.writeConfigFile(nextConfig);
   }),
   resolveGatewayAuth: vi.fn(
     ({
       authConfig,
     }: {
-      authConfig?: NonNullable<NonNullable<Brikko StudioConfig["gateway"]>["auth"]>;
+      authConfig?: NonNullable<NonNullable<BrikkoStudioConfig["gateway"]>["auth"]>;
     }) => {
       const token =
         typeof authConfig?.token === "string"
@@ -29,7 +29,7 @@ const mocks = vi.hoisted(() => ({
       };
     },
   ),
-  ensureGatewayStartupAuth: vi.fn(async ({ cfg }: { cfg: Brikko StudioConfig }) => ({
+  ensureGatewayStartupAuth: vi.fn(async ({ cfg }: { cfg: BrikkoStudioConfig }) => ({
     cfg: {
       ...cfg,
       gateway: {
@@ -63,7 +63,7 @@ vi.mock("../gateway/auth.js", () => ({
   resolveGatewayAuth: mocks.resolveGatewayAuth,
 }));
 
-function readPersistedConfig(): Brikko StudioConfig {
+function readPersistedConfig(): BrikkoStudioConfig {
   const persistedCfg = mocks.writeConfigFile.mock.calls[0]?.[0];
   if (!persistedCfg) {
     throw new Error("expected persisted config");
@@ -72,7 +72,7 @@ function readPersistedConfig(): Brikko StudioConfig {
 }
 
 async function expectGeneratedBrowserAuthPersistence(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   mode: "none" | "trusted-proxy";
   generatedAuthField: "token" | "password";
 }) {
@@ -90,7 +90,7 @@ async function expectGeneratedBrowserAuthPersistence(params: {
   expect(mocks.ensureGatewayStartupAuth).not.toHaveBeenCalled();
 }
 
-async function expectUnresolvedBrowserSecretRefSkipsPersistence(cfg: Brikko StudioConfig) {
+async function expectUnresolvedBrowserSecretRefSkipsPersistence(cfg: BrikkoStudioConfig) {
   mocks.getRuntimeConfig.mockReturnValue(cfg);
 
   const result = await ensureBrowserControlAuth({ cfg, env: {} as NodeJS.ProcessEnv });
@@ -105,7 +105,7 @@ let resolveBrowserControlAuth: typeof import("./control-auth.js").resolveBrowser
 
 describe("ensureBrowserControlAuth", () => {
   const expectExplicitModeSkipsAutoAuth = async (mode: "password") => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: { mode },
       },
@@ -147,7 +147,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("returns existing auth and skips writes", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           token: "already-set",
@@ -164,7 +164,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("returns only the active credential in password mode", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "password",
@@ -180,7 +180,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("returns only the resolved active credential when mode is inferred", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           token: "inactive-token",
@@ -195,7 +195,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("returns only the browser token in none mode", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "none",
@@ -211,7 +211,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("returns only the active token in token mode", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "token",
@@ -227,7 +227,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("returns only the browser password in trusted-proxy mode", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "trusted-proxy",
@@ -244,7 +244,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("does not accept an inactive token in trusted-proxy mode", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "trusted-proxy",
@@ -258,7 +258,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("auto-generates and persists a token when auth is missing", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       browser: {
         enabled: true,
       },
@@ -275,7 +275,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("skips auto-generation in test env", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       browser: {
         enabled: true,
       },
@@ -297,7 +297,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("auto-generates and persists browser auth token in none mode", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: { mode: "none" },
       },
@@ -313,7 +313,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("does not persist over unresolved token SecretRef in none mode", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "none",
@@ -328,7 +328,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("still auto-generates in none mode when only password SecretRef is set", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "none",
@@ -347,7 +347,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("auto-generates in trusted-proxy mode and persists browser auth password", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: { mode: "trusted-proxy", trustedProxy: { userHeader: "x-forwarded-user" } },
       },
@@ -363,7 +363,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("still auto-generates in trusted-proxy mode when only token SecretRef is set", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "trusted-proxy",
@@ -383,7 +383,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("does not persist over unresolved password SecretRef in trusted-proxy mode", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "trusted-proxy",
@@ -399,7 +399,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("reuses auth from latest config snapshot", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       browser: {
         enabled: true,
       },
@@ -423,7 +423,7 @@ describe("ensureBrowserControlAuth", () => {
   });
 
   it("fails when gateway.auth.token SecretRef is unresolved", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "token",

@@ -1,8 +1,8 @@
 import { vi } from "vitest";
-import type { Brikko StudioPluginApi } from "../runtime-api.js";
+import type { BrikkoStudioPluginApi } from "../runtime-api.js";
 
 type BoundTaskFlow = ReturnType<
-  NonNullable<Brikko StudioPluginApi["runtime"]>["tasks"]["managedFlows"]["bindSession"]
+  NonNullable<BrikkoStudioPluginApi["runtime"]>["tasks"]["managedFlows"]["bindSession"]
 >;
 
 export function createFakeTaskFlow(overrides?: Partial<BoundTaskFlow>): BoundTaskFlow {

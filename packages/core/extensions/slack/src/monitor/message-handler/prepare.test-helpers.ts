@@ -1,15 +1,15 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { App } from "@slack/bolt";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import type { ResolvedSlackAccount } from "../../accounts.js";
 import type { SlackChannelConfigEntries } from "../channel-config.js";
 import { createSlackMonitorContext } from "../context.js";
 
 export function createInboundSlackTestContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   appClient?: App["client"];
   defaultRequireMention?: boolean;
   replyToMode?: "off" | "all" | "first" | "batched";
@@ -83,7 +83,7 @@ export function createSlackSessionStoreFixture(prefix: string) {
 
   return {
     setup() {
-      fixtureRoot = fs.mkdtempSync(path.join(resolvePreferredBrikko StudioTmpDir(), prefix));
+      fixtureRoot = fs.mkdtempSync(path.join(resolvePreferredBrikkoStudioTmpDir(), prefix));
     },
     cleanup() {
       if (!fixtureRoot) {

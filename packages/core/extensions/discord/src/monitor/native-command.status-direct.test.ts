@@ -1,5 +1,5 @@
 import { ChannelType } from "discord-api-types/v10";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { createMockCommandInteraction as createInteraction } from "./native-command.test-helpers.js";
 import { createNoopThreadBindingManager } from "./thread-bindings.js";
@@ -33,7 +33,7 @@ vi.mock("brikko-studio/plugin-sdk/web-media", () => ({
 let createDiscordNativeCommand: typeof import("./native-command.js").createDiscordNativeCommand;
 let discordNativeCommandTesting: typeof import("./native-command.js").__testing;
 
-function createConfig(params?: { requireMention?: boolean }): Brikko StudioConfig {
+function createConfig(params?: { requireMention?: boolean }): BrikkoStudioConfig {
   return {
     commands: {
       useAccessGroups: false,
@@ -54,10 +54,10 @@ function createConfig(params?: { requireMention?: boolean }): Brikko StudioConfi
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-async function createStatusCommand(cfg: Brikko StudioConfig) {
+async function createStatusCommand(cfg: BrikkoStudioConfig) {
   return createDiscordNativeCommand({
     command: {
       name: "status",
@@ -101,7 +101,7 @@ function setDefaultRouteState() {
 }
 
 function firstStatusCall(): {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
   channel: string;
   isGroup: boolean;
@@ -112,7 +112,7 @@ function firstStatusCall(): {
     throw new Error("expected resolveDirectStatusReplyForSession to be called");
   }
   return call as {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     sessionKey: string;
     channel: string;
     isGroup: boolean;

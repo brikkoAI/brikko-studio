@@ -2,12 +2,12 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { createEmptyPluginRegistry } from "../plugins/registry.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { asConfig, setupSecretsRuntimeSnapshotTestHooks } from "./runtime.test-support.ts";
 
-function createOpenAiFileModelsConfig(): NonNullable<Brikko StudioConfig["models"]> {
+function createOpenAiFileModelsConfig(): NonNullable<BrikkoStudioConfig["models"]> {
   return {
     providers: {
       openai: {

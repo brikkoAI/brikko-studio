@@ -1406,7 +1406,7 @@ describe("gateway agent handler", () => {
       {
         message: [
           "[Mon 2026-04-06 02:42 GMT+1] <<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
-          "Brikko Studio runtime context (internal):",
+          "BrikkoStudio runtime context (internal):",
           "This context is runtime-generated, not user-authored. Keep internal details private.",
         ].join("\n"),
         sessionKey: "agent:main:main",

@@ -1,5 +1,5 @@
 import { resolvePluginWebSearchConfig } from "../../config/plugin-web-search-config.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
 export function getTopLevelCredentialValue(searchConfig?: Record<string, unknown>): unknown {
   return searchConfig?.apiKey;
@@ -68,7 +68,7 @@ export function mergeScopedSearchConfig(
 }
 
 export function resolveProviderWebSearchPluginConfig(
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
   pluginId: string,
 ): Record<string, unknown> | undefined {
   return resolvePluginWebSearchConfig(config, pluginId);
@@ -85,7 +85,7 @@ function ensureObject(target: Record<string, unknown>, key: string): Record<stri
 }
 
 export function setProviderWebSearchPluginConfigValue(
-  configTarget: Brikko StudioConfig,
+  configTarget: BrikkoStudioConfig,
   pluginId: string,
   key: string,
   value: unknown,

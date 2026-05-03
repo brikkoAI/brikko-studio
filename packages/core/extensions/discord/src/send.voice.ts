@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { recordChannelActivity } from "brikko-studio/plugin-sdk/channel-activity-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   extensionForMime,
   maxBytesForKind,
@@ -10,7 +10,7 @@ import {
 } from "brikko-studio/plugin-sdk/media-runtime";
 import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
 import type { RetryConfig } from "brikko-studio/plugin-sdk/retry-runtime";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { loadWebMediaRaw } from "brikko-studio/plugin-sdk/web-media";
 import { resolveDiscordAccount } from "./accounts.js";
 import type { RequestClient } from "./internal/discord.js";
@@ -24,7 +24,7 @@ import {
 } from "./voice-message.js";
 
 type VoiceMessageOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token?: string;
   accountId?: string;
   verbose?: boolean;
@@ -51,7 +51,7 @@ async function materializeVoiceMessageInput(mediaUrl: string): Promise<{ filePat
   const extFromName = media.fileName ? path.extname(media.fileName) : "";
   const extFromMime = media.contentType ? extensionForMime(media.contentType) : "";
   const ext = extFromName || extFromMime || ".bin";
-  const tempDir = resolvePreferredBrikko StudioTmpDir();
+  const tempDir = resolvePreferredBrikkoStudioTmpDir();
   const filePath = path.join(tempDir, `voice-src-${crypto.randomUUID()}${ext}`);
   await fs.writeFile(filePath, media.buffer, { mode: 0o600 });
   return { filePath };

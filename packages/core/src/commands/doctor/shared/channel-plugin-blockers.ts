@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import {
   listExplicitConfiguredChannelIdsForConfig,
   resolveConfiguredChannelPresencePolicy,
@@ -17,7 +17,7 @@ export type ChannelPluginBlockerHit = {
   reason: "disabled in config" | "plugins disabled";
 };
 
-function hasExplicitChannelPluginBlockerConfig(cfg: Brikko StudioConfig): boolean {
+function hasExplicitChannelPluginBlockerConfig(cfg: BrikkoStudioConfig): boolean {
   if (cfg.plugins?.enabled === false) {
     return true;
   }
@@ -37,7 +37,7 @@ function hasExplicitChannelPluginBlockerConfig(cfg: Brikko StudioConfig): boolea
 }
 
 export function scanConfiguredChannelPluginBlockers(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): ChannelPluginBlockerHit[] {
   if (!hasExplicitChannelPluginBlockerConfig(cfg)) {

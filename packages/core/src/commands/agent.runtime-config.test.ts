@@ -3,23 +3,23 @@ import { withTempHome as withTempHomeBase } from "brikko-studio/plugin-sdk/test-
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { resolveAgentRuntimeConfig } from "../agents/agent-runtime-config.js";
 import { resolveSession } from "../agents/command/session.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { createThrowingTestRuntime } from "./test-runtime-config-helpers.js";
 
 type ConfigSnapshotForWrite = {
-  snapshot: { valid: boolean; resolved: Brikko StudioConfig };
+  snapshot: { valid: boolean; resolved: BrikkoStudioConfig };
   writeOptions: Record<string, never>;
 };
 
 type ResolveCommandConfigParams = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   commandName: string;
   targetIds: Set<string>;
   runtime: RuntimeEnv;
 };
 
-const loadConfigMock = vi.hoisted(() => vi.fn<() => Brikko StudioConfig>());
+const loadConfigMock = vi.hoisted(() => vi.fn<() => BrikkoStudioConfig>());
 const readConfigFileSnapshotForWriteMock = vi.hoisted(() =>
   vi.fn<() => Promise<ConfigSnapshotForWrite>>(),
 );
@@ -38,7 +38,7 @@ vi.mock("../cli/command-secret-targets.js", () => ({
 }));
 
 const setRuntimeConfigSnapshotMock = vi.hoisted(() =>
-  vi.fn<(cfg: Brikko StudioConfig, sourceConfig: Brikko StudioConfig) => void>(),
+  vi.fn<(cfg: BrikkoStudioConfig, sourceConfig: BrikkoStudioConfig) => void>(),
 );
 vi.mock("../config/runtime-snapshot.js", () => ({
   setRuntimeConfigSnapshot: setRuntimeConfigSnapshotMock,
@@ -47,8 +47,8 @@ vi.mock("../config/runtime-snapshot.js", () => ({
 const resolveCommandConfigWithSecretsMock = vi.hoisted(() =>
   vi.fn<
     (params: ResolveCommandConfigParams) => Promise<{
-      resolvedConfig: Brikko StudioConfig;
-      effectiveConfig: Brikko StudioConfig;
+      resolvedConfig: BrikkoStudioConfig;
+      effectiveConfig: BrikkoStudioConfig;
       diagnostics: never[];
     }>
   >(),
@@ -63,7 +63,7 @@ async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
   return withTempHomeBase(fn, { prefix: "brikko-studio-agent-" });
 }
 
-function mockConfig(home: string, storePath: string): Brikko StudioConfig {
+function mockConfig(home: string, storePath: string): BrikkoStudioConfig {
   const cfg = {
     agents: {
       defaults: {
@@ -73,7 +73,7 @@ function mockConfig(home: string, storePath: string): Brikko StudioConfig {
       },
     },
     session: { store: storePath, mainKey: "main" },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
   loadConfigMock.mockReturnValue(cfg);
   return cfg;
 }
@@ -81,7 +81,7 @@ function mockConfig(home: string, storePath: string): Brikko StudioConfig {
 beforeEach(() => {
   vi.clearAllMocks();
   readConfigFileSnapshotForWriteMock.mockResolvedValue({
-    snapshot: { valid: false, resolved: {} as Brikko StudioConfig },
+    snapshot: { valid: false, resolved: {} as BrikkoStudioConfig },
     writeOptions: {},
   });
 });
@@ -108,7 +108,7 @@ describe("agentCommand runtime config", () => {
             },
           },
         },
-      } as unknown as Brikko StudioConfig;
+      } as unknown as BrikkoStudioConfig;
       const sourceConfig = {
         ...loadedConfig,
         models: {
@@ -120,7 +120,7 @@ describe("agentCommand runtime config", () => {
             },
           },
         },
-      } as unknown as Brikko StudioConfig;
+      } as unknown as BrikkoStudioConfig;
       const resolvedConfig = {
         ...loadedConfig,
         models: {
@@ -132,7 +132,7 @@ describe("agentCommand runtime config", () => {
             },
           },
         },
-      } as unknown as Brikko StudioConfig;
+      } as unknown as BrikkoStudioConfig;
 
       loadConfigMock.mockReturnValue(loadedConfig);
       readConfigFileSnapshotForWriteMock.mockResolvedValue({
@@ -171,7 +171,7 @@ describe("agentCommand runtime config", () => {
         telegram: {
           botToken: { source: "env", provider: "default", id: "TELEGRAM_BOT_TOKEN" },
         },
-      } as unknown as Brikko StudioConfig["channels"];
+      } as unknown as BrikkoStudioConfig["channels"];
       resolveCommandConfigWithSecretsMock.mockResolvedValueOnce({
         resolvedConfig: loadedConfig,
         effectiveConfig: loadedConfig,

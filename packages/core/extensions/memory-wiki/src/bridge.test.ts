@@ -11,7 +11,7 @@ import {
   resolveMemoryHostEventLogPath,
 } from "brikko-studio/plugin-sdk/memory-host-events";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 import { syncMemoryWikiBridgeSources } from "./bridge.js";
 import { createMemoryWikiTestHarness } from "./test-helpers.js";
 
@@ -111,7 +111,7 @@ describe("syncMemoryWikiBridgeSources", () => {
       },
     ]);
 
-    const appConfig: Brikko StudioConfig = {
+    const appConfig: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main", default: true, workspace: workspaceDir }],
       },
@@ -179,7 +179,7 @@ describe("syncMemoryWikiBridgeSources", () => {
 
     await fs.writeFile(path.join(workspaceDir, "MEMORY.md"), "# Durable Memory\n", "utf8");
 
-    const appConfig: Brikko StudioConfig = {
+    const appConfig: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main", default: true, workspace: workspaceDir }],
       },
@@ -236,7 +236,7 @@ describe("syncMemoryWikiBridgeSources", () => {
       },
     ]);
 
-    const appConfig: Brikko StudioConfig = {
+    const appConfig: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main", default: true, workspace: workspaceDir }],
       },
@@ -279,7 +279,7 @@ describe("syncMemoryWikiBridgeSources", () => {
         contentType: "markdown",
       },
     ]);
-    const appConfig: Brikko StudioConfig = {
+    const appConfig: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main", default: true, workspace: workspaceDir }],
       },
@@ -325,7 +325,7 @@ describe("syncMemoryWikiBridgeSources", () => {
         contentType: "markdown",
       },
     ]);
-    const appConfig: Brikko StudioConfig = {
+    const appConfig: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main", default: true, workspace: workspaceDir }],
       },
@@ -370,7 +370,7 @@ describe("syncMemoryWikiBridgeSources", () => {
         contentType: "markdown",
       },
     ]);
-    const appConfig: Brikko StudioConfig = {
+    const appConfig: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main", default: true, workspace: workspaceDir }],
       },
@@ -420,7 +420,7 @@ describe("syncMemoryWikiBridgeSources", () => {
       },
     ]);
 
-    const appConfig: Brikko StudioConfig = {
+    const appConfig: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main", default: true, workspace: workspaceDir }],
       },

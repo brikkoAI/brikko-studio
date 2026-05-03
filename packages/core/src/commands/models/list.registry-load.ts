@@ -1,15 +1,15 @@
 import type { Api, Model } from "@mariozechner/pi-ai";
 import type { ModelRegistry } from "@mariozechner/pi-coding-agent";
-import { resolveBrikko StudioAgentDir } from "../../agents/agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../../agents/agent-paths.js";
 import { shouldSuppressBuiltInModel } from "../../agents/model-suppression.js";
 import { discoverAuthStorage, discoverModels } from "../../agents/pi-model-discovery.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { loadModelRegistry } from "./list.registry.js";
 import type { ConfiguredEntry } from "./list.types.js";
 import { modelKey } from "./shared.js";
 
 export async function loadListModelRegistry(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts?: {
     providerFilter?: string;
     normalizeModels?: boolean;
@@ -27,7 +27,7 @@ export async function loadListModelRegistry(
 function findConfiguredRegistryModel(params: {
   registry: ModelRegistry;
   entry: ConfiguredEntry;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): Model<Api> | undefined {
   const model = params.registry.find(params.entry.ref.provider, params.entry.ref.model);
   if (!model) {
@@ -47,11 +47,11 @@ function findConfiguredRegistryModel(params: {
 }
 
 export function loadConfiguredListModelRegistry(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   entries: ConfiguredEntry[],
   opts?: { providerFilter?: string; workspaceDir?: string },
 ) {
-  const agentDir = resolveBrikko StudioAgentDir();
+  const agentDir = resolveBrikkoStudioAgentDir();
   const authStorage = discoverAuthStorage(agentDir, {
     readOnly: true,
     config: cfg,

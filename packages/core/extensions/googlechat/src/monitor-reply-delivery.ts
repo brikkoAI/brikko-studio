@@ -2,7 +2,7 @@ import {
   deliverTextOrMediaReply,
   resolveSendableOutboundReplyParts,
 } from "brikko-studio/plugin-sdk/reply-payload";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import type { ResolvedGoogleChatAccount } from "./accounts.js";
 import {
   deleteGoogleChatMessage,
@@ -18,7 +18,7 @@ export async function deliverGoogleChatReply(params: {
   spaceId: string;
   runtime: GoogleChatRuntimeEnv;
   core: GoogleChatCoreRuntime;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   statusSink?: (patch: { lastInboundAt?: number; lastOutboundAt?: number }) => void;
   typingMessageName?: string;
 }): Promise<void> {

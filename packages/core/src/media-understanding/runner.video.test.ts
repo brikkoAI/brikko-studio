@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { withTempDir } from "../test-helpers/temp-dir.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import { runCapability } from "./runner.js";
@@ -58,7 +58,7 @@ describe("runCapability video provider wiring", () => {
               },
             },
           },
-        } as unknown as Brikko StudioConfig;
+        } as unknown as BrikkoStudioConfig;
 
         const result = await runCapability({
           capability: "video",
@@ -124,7 +124,7 @@ describe("runCapability video provider wiring", () => {
                   },
                 },
               },
-            } as unknown as Brikko StudioConfig;
+            } as unknown as BrikkoStudioConfig;
 
             const result = await runCapability({
               capability: "video",

@@ -5,7 +5,7 @@ import type {
   ChannelOutboundAdapter,
   ChannelPlugin,
 } from "../../channels/plugins/types.public.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { createChannelTestPluginBase } from "../../test-utils/channel-plugins.js";
 import { runMessageAction } from "./message-action-runner.js";
 
@@ -16,7 +16,7 @@ export const workspaceConfig = {
       appToken: "workspace-app-test",
     },
   },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 export const directChatConfig = {
   channels: {
@@ -24,12 +24,12 @@ export const directChatConfig = {
       allowFrom: ["*"],
     },
   },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 export const directOutbound: ChannelOutboundAdapter = { deliveryMode: "direct" };
 
 export const runDryAction = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   action: ChannelMessageActionName;
   actionParams: Record<string, unknown>;
   toolContext?: Record<string, unknown>;
@@ -47,7 +47,7 @@ export const runDryAction = (params: {
   });
 
 export const runDrySend = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   actionParams: Record<string, unknown>;
   toolContext?: Record<string, unknown>;
   abortSignal?: AbortSignal;
@@ -83,7 +83,7 @@ function normalizeWorkspaceTarget(raw: string): string {
 
 function createConfiguredTestPlugin(params: {
   id: string;
-  isConfigured: (cfg: Brikko StudioConfig) => boolean;
+  isConfigured: (cfg: BrikkoStudioConfig) => boolean;
   normalizeTarget: (raw: string) => string | undefined;
   resolveTarget: (input: string) => ResolvedTestTarget | null;
 }): ChannelPlugin {

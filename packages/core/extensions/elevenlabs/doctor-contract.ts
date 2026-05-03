@@ -1,5 +1,5 @@
 import type { ChannelDoctorLegacyConfigRule } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { isRecord } from "brikko-studio/plugin-sdk/text-runtime";
 import { ELEVENLABS_TALK_PROVIDER_ID, migrateElevenLabsLegacyTalkConfig } from "./config-compat.js";
 
@@ -24,8 +24,8 @@ export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
 
 export const ELEVENLABS_TALK_LEGACY_CONFIG_RULES = legacyConfigRules;
 
-export function normalizeCompatibilityConfig({ cfg }: { cfg: Brikko StudioConfig }): {
-  config: Brikko StudioConfig;
+export function normalizeCompatibilityConfig({ cfg }: { cfg: BrikkoStudioConfig }): {
+  config: BrikkoStudioConfig;
   changes: string[];
 } {
   return migrateElevenLabsLegacyTalkConfig(cfg);

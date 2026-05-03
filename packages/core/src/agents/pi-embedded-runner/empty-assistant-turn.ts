@@ -15,7 +15,7 @@ type UsageFieldMap = {
 };
 
 // Upstream badlogic/pi-mono should normalize Anthropic zero-token empty `stop`
-// turns before Brikko Studio sees them. Downstream: brikko-studio/brikko-studio#71880.
+// turns before BrikkoStudio sees them. Downstream: brikko-studio/brikko-studio#71880.
 function readFiniteTokenCount(value: unknown): number | undefined {
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
 }

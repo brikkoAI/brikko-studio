@@ -1,5 +1,5 @@
 import { readAcpSessionEntry, type AcpSessionStoreEntry } from "brikko-studio/plugin-sdk/acp-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
@@ -37,7 +37,7 @@ export type AcpThreadBindingReconciliationResult = {
 export type AcpThreadBindingHealthStatus = "healthy" | "stale" | "uncertain";
 
 export type AcpThreadBindingHealthProbe = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   sessionKey: string;
   binding: ThreadBindingRecord;
@@ -98,7 +98,7 @@ export function listThreadBindingsBySessionKey(params: {
 }
 
 export async function autoBindSpawnedDiscordSubagent(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   channel?: string;
   to?: string;
@@ -233,7 +233,7 @@ function resolveStoredAcpBindingHealth(params: {
 }
 
 export async function reconcileAcpThreadBindingsOnStartup(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   sendFarewell?: boolean;
   healthProbe?: AcpThreadBindingHealthProbe;

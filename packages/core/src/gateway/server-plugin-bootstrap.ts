@@ -1,6 +1,6 @@
 import { primeConfiguredBindingRegistry } from "../channels/plugins/binding-registry.js";
 import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginLookUpTable } from "../plugins/plugin-lookup-table.js";
 import type { PluginRegistry } from "../plugins/registry.js";
 import { pinActivePluginChannelRegistry } from "../plugins/runtime.js";
@@ -29,8 +29,8 @@ type GatewayStartupTrace = {
 };
 
 type GatewayPluginBootstrapParams = {
-  cfg: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   workspaceDir: string;
   log: GatewayPluginBootstrapLog;
   coreGatewayHandlers?: Record<string, GatewayRequestHandler>;
@@ -45,7 +45,7 @@ type GatewayPluginBootstrapParams = {
   beforePrimeRegistry?: (pluginRegistry: PluginRegistry) => void;
 };
 
-function installGatewayPluginRuntimeEnvironment(cfg: Brikko StudioConfig) {
+function installGatewayPluginRuntimeEnvironment(cfg: BrikkoStudioConfig) {
   setPluginSubagentOverridePolicies(cfg);
   setGatewaySubagentRuntime(createGatewaySubagentRuntime());
   setGatewayNodesRuntime(createGatewayNodesRuntime());

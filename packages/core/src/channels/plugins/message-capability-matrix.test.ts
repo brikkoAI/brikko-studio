@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { ChannelMessageActionAdapter, ChannelPlugin } from "./types.js";
 
 const telegramDescribeMessageToolMock = vi.fn();
@@ -121,7 +121,7 @@ describe("channel action capability matrix", () => {
     discordDescribeMessageToolMock.mockReset();
   });
 
-  function getCapabilities(plugin: Pick<ChannelPlugin, "actions">, cfg: Brikko StudioConfig) {
+  function getCapabilities(plugin: Pick<ChannelPlugin, "actions">, cfg: BrikkoStudioConfig) {
     const describeMessageTool: ChannelMessageActionAdapter["describeMessageTool"] | undefined =
       plugin.actions?.describeMessageTool;
     return [...(describeMessageTool?.({ cfg })?.capabilities ?? [])];
@@ -135,7 +135,7 @@ describe("channel action capability matrix", () => {
           appToken: "xapp-test",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const interactiveCfg = {
       channels: {
         slack: {
@@ -144,7 +144,7 @@ describe("channel action capability matrix", () => {
           capabilities: { interactiveReplies: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(getCapabilities(slackPlugin, baseCfg)).toEqual(["presentation"]);
     expect(getCapabilities(slackPlugin, interactiveCfg)).toEqual(["presentation"]);
@@ -155,7 +155,7 @@ describe("channel action capability matrix", () => {
       capabilities: ["presentation"],
     });
 
-    const result = getCapabilities(telegramPlugin, {} as Brikko StudioConfig);
+    const result = getCapabilities(telegramPlugin, {} as BrikkoStudioConfig);
 
     expect(result).toEqual(["presentation"]);
     expect(telegramDescribeMessageToolMock).toHaveBeenCalledWith({ cfg: {} });
@@ -163,7 +163,7 @@ describe("channel action capability matrix", () => {
       capabilities: ["presentation"],
     });
 
-    const discordResult = getCapabilities(discordPlugin, {} as Brikko StudioConfig);
+    const discordResult = getCapabilities(discordPlugin, {} as BrikkoStudioConfig);
 
     expect(discordResult).toEqual(["presentation"]);
     expect(discordDescribeMessageToolMock).toHaveBeenCalledWith({ cfg: {} });
@@ -178,14 +178,14 @@ describe("channel action capability matrix", () => {
           baseUrl: "https://chat.example.com",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const unconfiguredCfg = {
       channels: {
         mattermost: {
           enabled: true,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const configuredFeishuCfg = {
       channels: {
         feishu: {
@@ -194,7 +194,7 @@ describe("channel action capability matrix", () => {
           appSecret: "secret",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const disabledFeishuCfg = {
       channels: {
         feishu: {
@@ -203,7 +203,7 @@ describe("channel action capability matrix", () => {
           appSecret: "secret",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const configuredMsteamsCfg = {
       channels: {
         msteams: {
@@ -213,7 +213,7 @@ describe("channel action capability matrix", () => {
           appPassword: "secret",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const disabledMsteamsCfg = {
       channels: {
         msteams: {
@@ -223,7 +223,7 @@ describe("channel action capability matrix", () => {
           appPassword: "secret",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(getCapabilities(mattermostPlugin, configuredCfg)).toEqual(["presentation"]);
     expect(getCapabilities(mattermostPlugin, unconfiguredCfg)).toEqual([]);
@@ -241,7 +241,7 @@ describe("channel action capability matrix", () => {
           botToken: "zl-token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(getCapabilities(zaloPlugin, cfg)).toEqual([]);
   });

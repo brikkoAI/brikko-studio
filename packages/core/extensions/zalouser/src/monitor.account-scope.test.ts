@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig, PluginRuntime } from "../runtime-api.js";
+import type { BrikkoStudioConfig, PluginRuntime } from "../runtime-api.js";
 import "./monitor.send-mocks.js";
 import { __testing } from "./monitor.js";
 import "./zalo-js.test-mocks.js";
@@ -59,7 +59,7 @@ describe("zalouser monitor pairing account scoping", () => {
       },
     };
 
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       channels: {
         zalouser: {
           accounts: {

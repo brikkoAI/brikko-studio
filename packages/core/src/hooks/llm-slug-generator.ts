@@ -13,14 +13,14 @@ import {
 import { resolveDefaultModelForAgent } from "../agents/model-selection.js";
 import { runEmbeddedPiAgent } from "../agents/pi-embedded.js";
 import { resolveAgentTimeoutMs } from "../agents/timeout.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 
 const log = createSubsystemLogger("llm-slug-generator");
 const DEFAULT_SLUG_GENERATOR_TIMEOUT_MS = 15_000;
 
-function resolveSlugGeneratorTimeoutMs(cfg: Brikko StudioConfig): number {
+function resolveSlugGeneratorTimeoutMs(cfg: BrikkoStudioConfig): number {
   const configuredTimeoutSeconds = cfg.agents?.defaults?.timeoutSeconds;
   if (typeof configuredTimeoutSeconds !== "number" || !Number.isFinite(configuredTimeoutSeconds)) {
     return DEFAULT_SLUG_GENERATOR_TIMEOUT_MS;
@@ -33,7 +33,7 @@ function resolveSlugGeneratorTimeoutMs(cfg: Brikko StudioConfig): number {
  */
 export async function generateSlugViaLLM(params: {
   sessionContent: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): Promise<string | null> {
   let tempSessionFile: string | null = null;
 

@@ -8,7 +8,7 @@ import type {
 } from "./server-chat.js";
 import { resolveSessionKeyForTranscriptFile } from "./session-transcript-key.js";
 import {
-  attachBrikko StudioTranscriptMeta,
+  attachBrikkoStudioTranscriptMeta,
   loadGatewaySessionRow,
   loadSessionEntry,
   readSessionMessageCountAsync,
@@ -126,7 +126,7 @@ async function handleTranscriptUpdateBroadcast(
     sessionRow: loadGatewaySessionRow(sessionKey, { transcriptUsageMaxBytes: 64 * 1024 }),
     includeSession: true,
   });
-  const rawMessage = attachBrikko StudioTranscriptMeta(update.message, {
+  const rawMessage = attachBrikkoStudioTranscriptMeta(update.message, {
     ...(typeof update.messageId === "string" ? { id: update.messageId } : {}),
     ...(typeof messageSeq === "number" ? { seq: messageSeq } : {}),
   });

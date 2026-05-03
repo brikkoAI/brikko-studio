@@ -7,7 +7,7 @@ const VERSION_ONLY_TEXT_PATHS = new Set([
   "apps/android/app/build.gradle.kts",
   "apps/ios/Config/Version.xcconfig",
   "apps/ios/version.json",
-  "apps/macos/Sources/Brikko Studio/Resources/Info.plist",
+  "apps/macos/Sources/BrikkoStudio/Resources/Info.plist",
   "src/config/schema.base.generated.ts",
 ]);
 

@@ -1,5 +1,5 @@
 import { resolveGatewayPort } from "../../config/config.js";
-import type { Brikko StudioConfig } from "../../config/types.js";
+import type { BrikkoStudioConfig } from "../../config/types.js";
 import { resolveControlUiLinks } from "../../gateway/control-ui-links.js";
 import { formatDurationPrecise } from "../../infra/format-time/format-duration.ts";
 import {
@@ -48,7 +48,7 @@ type StatusGatewaySelf =
 type StatusManagedService = {
   label: string;
   installed: boolean | null;
-  managedByBrikko Studio?: boolean;
+  managedByBrikkoStudio?: boolean;
   loadedText: string;
   runtimeShort?: string | null;
   runtime?: {
@@ -142,7 +142,7 @@ export function formatStatusTailscaleValue(params: {
 export function formatStatusServiceValue(params: {
   label: string;
   installed: boolean;
-  managedByBrikko Studio?: boolean;
+  managedByBrikkoStudio?: boolean;
   loadedText: string;
   runtimeShort?: string | null;
   runtimeStatus?: string | null;
@@ -151,7 +151,7 @@ export function formatStatusServiceValue(params: {
   if (!params.installed) {
     return `${params.label} not installed`;
   }
-  const installedPrefix = params.managedByBrikko Studio ? "installed · " : "";
+  const installedPrefix = params.managedByBrikkoStudio ? "installed · " : "";
   const runtimeSuffix = params.runtimeShort
     ? ` · ${params.runtimeShort}`
     : [
@@ -162,7 +162,7 @@ export function formatStatusServiceValue(params: {
 }
 
 export function resolveStatusDashboardUrl(params: {
-  cfg: Pick<Brikko StudioConfig, "gateway">;
+  cfg: Pick<BrikkoStudioConfig, "gateway">;
 }): string | null {
   if (!(params.cfg.gateway?.controlUi?.enabled ?? true)) {
     return null;
@@ -225,7 +225,7 @@ export function buildStatusOverviewRows(params: {
 }
 
 export function buildStatusOverviewSurfaceRows(params: {
-  cfg: Pick<Brikko StudioConfig, "update" | "gateway">;
+  cfg: Pick<BrikkoStudioConfig, "update" | "gateway">;
   update: StatusUpdateLike;
   tailscaleMode: string;
   tailscaleDns?: string | null;
@@ -384,7 +384,7 @@ export function buildGatewayStatusSummaryParts(params: {
 }
 
 export function buildStatusGatewaySurfaceValues(params: {
-  cfg: Pick<Brikko StudioConfig, "gateway">;
+  cfg: Pick<BrikkoStudioConfig, "gateway">;
   gatewayMode: "local" | "remote";
   remoteUrlMissing: boolean;
   gatewayConnection: StatusGatewayConnection;
@@ -434,7 +434,7 @@ export function buildStatusGatewaySurfaceValues(params: {
     gatewayServiceValue: formatStatusServiceValue({
       label: params.gatewayService.label,
       installed: params.gatewayService.installed !== false,
-      managedByBrikko Studio: params.gatewayService.managedByBrikko Studio,
+      managedByBrikkoStudio: params.gatewayService.managedByBrikkoStudio,
       loadedText: params.gatewayService.loadedText,
       runtimeShort: params.gatewayService.runtimeShort,
       runtimeStatus: params.gatewayService.runtime?.status,
@@ -443,7 +443,7 @@ export function buildStatusGatewaySurfaceValues(params: {
     nodeServiceValue: formatStatusServiceValue({
       label: params.nodeService.label,
       installed: params.nodeService.installed !== false,
-      managedByBrikko Studio: params.nodeService.managedByBrikko Studio,
+      managedByBrikkoStudio: params.nodeService.managedByBrikkoStudio,
       loadedText: params.nodeService.loadedText,
       runtimeShort: params.nodeService.runtimeShort,
       runtimeStatus: params.nodeService.runtime?.status,

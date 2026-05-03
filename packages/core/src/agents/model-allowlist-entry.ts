@@ -1,12 +1,12 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { DEFAULT_PROVIDER } from "./defaults.js";
 import { resolveStaticAllowlistModelKey } from "./model-ref-shared.js";
 
 export function ensureStaticModelAllowlistEntry(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   modelRef: string;
   defaultProvider?: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const rawModelRef = params.modelRef.trim();
   if (!rawModelRef) {
     return params.cfg;

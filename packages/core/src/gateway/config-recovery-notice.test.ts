@@ -22,7 +22,7 @@ describe("config recovery notice", () => {
         configPath: "/home/test/.brikko-studio/brikko-studio.json",
       }),
     ).toBe(
-      "Config recovery warning: Brikko Studio restored brikko-studio.json from the last-known-good backup during startup (startup-invalid-config). The rejected config was invalid and was preserved as a timestamped .clobbered.* file. Do not write brikko-studio.json again unless you validate the full config first.",
+      "Config recovery warning: BrikkoStudio restored brikko-studio.json from the last-known-good backup during startup (startup-invalid-config). The rejected config was invalid and was preserved as a timestamped .clobbered.* file. Do not write brikko-studio.json again unless you validate the full config first.",
     );
   });
 

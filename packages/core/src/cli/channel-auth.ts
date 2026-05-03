@@ -5,7 +5,7 @@ import {
   normalizeChannelId,
 } from "../channels/plugins/index.js";
 import { resolveInstallableChannelPlugin } from "../commands/channel-setup/channel-plugin-resolution.js";
-import { getRuntimeConfig, readConfigFileSnapshot, type Brikko StudioConfig } from "../config/config.js";
+import { getRuntimeConfig, readConfigFileSnapshot, type BrikkoStudioConfig } from "../config/config.js";
 import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
 import { callGateway } from "../gateway/call.js";
 import { setVerbose } from "../globals.js";
@@ -30,7 +30,7 @@ function supportsChannelAuthMode(plugin: ChannelPlugin, mode: ChannelAuthMode): 
   return mode === "login" ? Boolean(plugin.auth?.login) : Boolean(plugin.gateway?.logoutAccount);
 }
 
-function isConfiguredAuthPlugin(plugin: ChannelPlugin, cfg: Brikko StudioConfig): boolean {
+function isConfiguredAuthPlugin(plugin: ChannelPlugin, cfg: BrikkoStudioConfig): boolean {
   const key = plugin.id;
   if (isBlockedObjectKey(key)) {
     return false;
@@ -64,7 +64,7 @@ function isConfiguredAuthPlugin(plugin: ChannelPlugin, cfg: Brikko StudioConfig)
   return false;
 }
 
-function resolveConfiguredAuthChannelInput(cfg: Brikko StudioConfig, mode: ChannelAuthMode): string {
+function resolveConfiguredAuthChannelInput(cfg: BrikkoStudioConfig, mode: ChannelAuthMode): string {
   const configured = listChannelPlugins()
     .filter((plugin): plugin is ChannelPlugin => supportsChannelAuthMode(plugin, mode))
     .filter((plugin) => isConfiguredAuthPlugin(plugin, cfg))
@@ -85,10 +85,10 @@ function resolveConfiguredAuthChannelInput(cfg: Brikko StudioConfig, mode: Chann
 async function resolveChannelPluginForMode(
   opts: ChannelAuthOptions,
   mode: ChannelAuthMode,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   runtime: RuntimeEnv,
 ): Promise<{
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   configChanged: boolean;
   channelInput: string;
   channelId: string;
@@ -126,7 +126,7 @@ async function resolveChannelPluginForMode(
 function resolveAccountContext(
   plugin: ChannelPlugin,
   opts: ChannelAuthOptions,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ) {
   const accountId =
     normalizeOptionalString(opts.account) || resolveChannelDefaultAccountId({ plugin, cfg });
@@ -134,7 +134,7 @@ function resolveAccountContext(
 }
 
 async function reconcileGatewayRuntimeAfterLocalLogin(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   plugin: ChannelPlugin;
   channelId: string;
   accountId: string;
@@ -169,7 +169,7 @@ async function reconcileGatewayRuntimeAfterLocalLogin(params: {
 }
 
 async function logoutViaGatewayRuntime(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelId: string;
   accountId: string;
   runtime: RuntimeEnv;

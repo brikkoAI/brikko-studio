@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { ProviderExternalAuthProfile } from "../../plugins/provider-external-auth.types.js";
 import { resolveExternalAuthProfilesWithPlugins } from "../../plugins/provider-runtime.js";
 import * as externalCliSync from "./external-cli-sync.js";
@@ -13,7 +13,7 @@ type ExternalAuthProfileMap = Map<string, ProviderExternalAuthProfile>;
 type ResolveExternalAuthProfiles = typeof resolveExternalAuthProfilesWithPlugins;
 type ExternalCliOverlayOptions = {
   allowKeychainPrompt?: boolean;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   externalCliProviderIds?: Iterable<string>;
   externalCliProfileIds?: Iterable<string>;
 };
@@ -121,7 +121,7 @@ export function shouldPersistExternalAuthProfile(params: {
   credential: OAuthCredential;
   agentDir?: string;
   env?: NodeJS.ProcessEnv;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   externalCliProviderIds?: Iterable<string>;
   externalCliProfileIds?: Iterable<string>;
 }): boolean {

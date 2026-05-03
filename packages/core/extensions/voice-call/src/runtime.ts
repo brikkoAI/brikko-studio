@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import {
   consultRealtimeVoiceAgent,
@@ -254,7 +254,7 @@ async function resolveProvider(config: VoiceCallConfig): Promise<VoiceCallProvid
 
 async function resolveRealtimeProvider(params: {
   config: VoiceCallConfig;
-  fullConfig: Brikko StudioConfig;
+  fullConfig: BrikkoStudioConfig;
 }): Promise<ResolvedRealtimeProvider> {
   const { resolveConfiguredRealtimeVoiceProvider } = await loadRealtimeVoiceRuntime();
   return resolveConfiguredRealtimeVoiceProvider({
@@ -267,7 +267,7 @@ async function resolveRealtimeProvider(params: {
 export async function createVoiceCallRuntime(params: {
   config: VoiceCallConfig;
   coreConfig: CoreConfig;
-  fullConfig?: Brikko StudioConfig;
+  fullConfig?: BrikkoStudioConfig;
   agentRuntime: CoreAgentDeps;
   ttsRuntime?: TelephonyTtsRuntime;
   logger?: Logger;
@@ -281,7 +281,7 @@ export async function createVoiceCallRuntime(params: {
   };
 
   const config = resolveVoiceCallConfig(rawConfig);
-  const cfg = fullConfig ?? (coreConfig as Brikko StudioConfig);
+  const cfg = fullConfig ?? (coreConfig as BrikkoStudioConfig);
 
   if (!config.enabled) {
     throw new Error("Voice call disabled. Enable the plugin entry in config.");
@@ -311,7 +311,7 @@ export async function createVoiceCallRuntime(params: {
     manager,
     provider,
     coreConfig,
-    fullConfig ?? (coreConfig as Brikko StudioConfig),
+    fullConfig ?? (coreConfig as BrikkoStudioConfig),
     agentRuntime,
     log,
   );

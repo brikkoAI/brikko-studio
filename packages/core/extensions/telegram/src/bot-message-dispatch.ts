@@ -12,7 +12,7 @@ import {
 } from "brikko-studio/plugin-sdk/channel-streaming";
 import { isAbortRequestText } from "brikko-studio/plugin-sdk/command-primitives-runtime";
 import type {
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   ReplyToMode,
   TelegramAccountConfig,
 } from "brikko-studio/plugin-sdk/config-types";
@@ -94,7 +94,7 @@ const silentReplyDispatchLogger = createSubsystemLogger("telegram/silent-reply-d
 /** Minimum chars before sending first streaming message (improves push notification UX) */
 const DRAFT_MIN_INITIAL_CHARS = 30;
 
-async function resolveStickerVisionSupport(cfg: Brikko StudioConfig, agentId: string) {
+async function resolveStickerVisionSupport(cfg: BrikkoStudioConfig, agentId: string) {
   try {
     const catalog = await loadModelCatalog({ config: cfg });
     const defaultModel = resolveDefaultModelForAgent({ cfg, agentId });
@@ -111,7 +111,7 @@ async function resolveStickerVisionSupport(cfg: Brikko StudioConfig, agentId: st
 type DispatchTelegramMessageParams = {
   context: TelegramMessageContext;
   bot: Bot;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime: RuntimeEnv;
   replyToMode: ReplyToMode;
   streamMode: TelegramStreamMode;
@@ -199,7 +199,7 @@ export function resetTelegramReplyFenceForTests(): void {
 }
 
 function resolveTelegramReasoningLevel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey?: string;
   agentId: string;
   telegramDeps: TelegramBotDeps;

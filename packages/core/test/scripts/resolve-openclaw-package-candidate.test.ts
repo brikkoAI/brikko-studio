@@ -5,32 +5,32 @@ import { describe, expect, it } from "vitest";
 import {
   parseArgs,
   readArtifactPackageCandidateMetadata,
-  validateBrikko StudioPackageSpec,
+  validateBrikkoStudioPackageSpec,
 } from "../../scripts/resolve-brikko-studio-package-candidate.mjs";
 
 describe("resolve-brikko-studio-package-candidate", () => {
-  it("accepts only Brikko Studio release package specs for npm candidates", () => {
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@beta")).not.toThrow();
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@alpha")).not.toThrow();
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@latest")).not.toThrow();
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@2026.4.27")).not.toThrow();
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@2026.4.27-1")).not.toThrow();
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@2026.4.27-beta.2")).not.toThrow();
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@2026.4.27-alpha.2")).not.toThrow();
+  it("accepts only BrikkoStudio release package specs for npm candidates", () => {
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@beta")).not.toThrow();
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@alpha")).not.toThrow();
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@latest")).not.toThrow();
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@2026.4.27")).not.toThrow();
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@2026.4.27-1")).not.toThrow();
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@2026.4.27-beta.2")).not.toThrow();
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@2026.4.27-alpha.2")).not.toThrow();
 
-    expect(() => validateBrikko StudioPackageSpec("@evil/brikko-studio@1.0.0")).toThrow(
+    expect(() => validateBrikkoStudioPackageSpec("@evil/brikko-studio@1.0.0")).toThrow(
       "package_spec must be brikko-studio@alpha",
     );
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@canary")).toThrow(
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@canary")).toThrow(
       "package_spec must be brikko-studio@alpha",
     );
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@2026.04.27")).toThrow(
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@2026.04.27")).toThrow(
       "package_spec must be brikko-studio@alpha",
     );
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@npm:other-package")).toThrow(
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@npm:other-package")).toThrow(
       "package_spec must be brikko-studio@alpha",
     );
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@file:../other-package.tgz")).toThrow(
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@file:../other-package.tgz")).toThrow(
       "package_spec must be brikko-studio@alpha",
     );
   });

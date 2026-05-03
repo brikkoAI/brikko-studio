@@ -3,7 +3,7 @@ import type { ChannelConfigUiHint } from "brikko-studio/plugin-sdk/core";
 export const ircChannelConfigUiHints = {
   "": {
     label: "IRC",
-    help: "IRC channel provider configuration and compatibility settings for classic IRC transport workflows. Use this section when bridging legacy chat infrastructure into Brikko Studio.",
+    help: "IRC channel provider configuration and compatibility settings for classic IRC transport workflows. Use this section when bridging legacy chat infrastructure into BrikkoStudio.",
   },
   dmPolicy: {
     label: "IRC DM Policy",

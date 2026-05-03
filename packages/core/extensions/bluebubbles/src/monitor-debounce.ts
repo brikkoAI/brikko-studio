@@ -1,7 +1,7 @@
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/string-coerce-runtime";
 import type { NormalizedWebhookMessage } from "./monitor-normalize.js";
 import type { BlueBubblesCoreRuntime, WebhookTarget } from "./monitor-shared.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 
 /**
  * Entry type for debouncing inbound messages.
@@ -174,7 +174,7 @@ function combineDebounceEntries(entries: BlueBubblesDebounceEntry[]): Normalized
 }
 
 function resolveBlueBubblesDebounceMs(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   core: BlueBubblesCoreRuntime,
   accountConfig: { coalesceSameSenderDms?: boolean },
 ): number {

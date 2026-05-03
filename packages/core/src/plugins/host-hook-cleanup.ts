@@ -2,7 +2,7 @@ import fs from "node:fs";
 import { updateSessionStore } from "../config/sessions/store.js";
 import { resolveAllAgentSessionStoreTargetsSync } from "../config/sessions/targets.js";
 import type { SessionEntry } from "../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { cleanupPluginSessionSchedulerJobs, clearPluginRunContext } from "./host-hook-runtime.js";
 import type { PluginHostCleanupReason } from "./host-hooks.js";
@@ -66,7 +66,7 @@ function matchesCleanupSession(
 }
 
 async function clearPluginOwnedSessionStores(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   pluginId?: string;
   sessionKey?: string;
 }): Promise<number> {
@@ -101,7 +101,7 @@ async function clearPluginOwnedSessionStores(params: {
 }
 
 export async function runPluginHostCleanup(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   registry?: PluginRegistry | null;
   pluginId?: string;
   reason: PluginHostCleanupReason;
@@ -222,7 +222,7 @@ function collectSchedulerJobIds(
 }
 
 export async function cleanupReplacedPluginHostRegistry(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   previousRegistry?: PluginRegistry | null;
   nextRegistry?: PluginRegistry | null;
 }): Promise<PluginHostCleanupResult> {

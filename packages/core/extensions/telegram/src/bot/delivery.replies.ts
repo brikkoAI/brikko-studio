@@ -667,7 +667,7 @@ export function emitTelegramMessageSentHooks(params: EmitMessageSentHookParams):
 
 export async function deliverReplies(params: {
   replies: ReplyPayload[];
-  cfg?: import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
+  cfg?: import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig;
   chatId: string;
   accountId?: string;
   sessionKeyForInternalHooks?: string;

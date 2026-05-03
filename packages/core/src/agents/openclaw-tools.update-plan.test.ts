@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
-import { isUpdatePlanToolEnabledForBrikko StudioTools } from "./brikko-studio-tools.registration.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
+import { isUpdatePlanToolEnabledForBrikkoStudioTools } from "./brikko-studio-tools.registration.js";
 import { createUpdatePlanTool } from "./tools/update-plan-tool.js";
 
-type UpdatePlanGatingParams = Parameters<typeof isUpdatePlanToolEnabledForBrikko StudioTools>[0];
+type UpdatePlanGatingParams = Parameters<typeof isUpdatePlanToolEnabledForBrikkoStudioTools>[0];
 
 function expectUpdatePlanEnabled(params: UpdatePlanGatingParams, expected: boolean): void {
-  expect(isUpdatePlanToolEnabledForBrikko StudioTools(params)).toBe(expected);
+  expect(isUpdatePlanToolEnabledForBrikkoStudioTools(params)).toBe(expected);
 }
 
 function openAiGpt5Params(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   overrides: Partial<UpdatePlanGatingParams> = {},
 ): UpdatePlanGatingParams {
   const params: UpdatePlanGatingParams = {
@@ -28,7 +28,7 @@ function openAiGpt5Params(
 
 describe("brikko-studio-tools update_plan gating", () => {
   it("keeps update_plan disabled by default", () => {
-    expectUpdatePlanEnabled({ config: {} as Brikko StudioConfig }, false);
+    expectUpdatePlanEnabled({ config: {} as BrikkoStudioConfig }, false);
   });
 
   it("registers update_plan when explicitly enabled", () => {
@@ -38,7 +38,7 @@ describe("brikko-studio-tools update_plan gating", () => {
           planTool: true,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectUpdatePlanEnabled({ config }, true);
     expect(createUpdatePlanTool().displaySummary).toBe("Track a short structured work plan.");
@@ -54,7 +54,7 @@ describe("brikko-studio-tools update_plan gating", () => {
       agents: {
         list: [{ id: "main" }],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectUpdatePlanEnabled(openAiGpt5Params(cfg), true);
     expectUpdatePlanEnabled(openAiGpt5Params(cfg, { modelProvider: "openai-codex" }), true);
@@ -72,7 +72,7 @@ describe("brikko-studio-tools update_plan gating", () => {
         },
         list: [{ id: "main" }],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectUpdatePlanEnabled(openAiGpt5Params(cfg), false);
   });
@@ -82,7 +82,7 @@ describe("brikko-studio-tools update_plan gating", () => {
       agents: {
         list: [{ id: "main" }],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectUpdatePlanEnabled(
       openAiGpt5Params(cfg, { modelProvider: "anthropic", modelId: "claude-sonnet-4-6" }),
@@ -101,7 +101,7 @@ describe("brikko-studio-tools update_plan gating", () => {
         },
         list: [{ id: "main" }],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectUpdatePlanEnabled(openAiGpt5Params(cfg), true);
   });
@@ -116,7 +116,7 @@ describe("brikko-studio-tools update_plan gating", () => {
         },
         list: [{ id: "main" }],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectUpdatePlanEnabled(
       openAiGpt5Params(cfg, { modelProvider: "anthropic", modelId: "claude-sonnet-4-6" }),
@@ -140,7 +140,7 @@ describe("brikko-studio-tools update_plan gating", () => {
         },
         list: [{ id: "main" }],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectUpdatePlanEnabled(openAiGpt5Params(cfg), false);
   });
@@ -163,7 +163,7 @@ describe("brikko-studio-tools update_plan gating", () => {
           },
         ],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectUpdatePlanEnabled(openAiGpt5Params(cfg, { agentId: "research" }), true);
   });
@@ -188,7 +188,7 @@ describe("brikko-studio-tools update_plan gating", () => {
           },
         ],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectUpdatePlanEnabled(openAiGpt5Params(cfg, { agentId: "main" }), false);
     expectUpdatePlanEnabled(openAiGpt5Params(cfg, { agentId: "research" }), true);

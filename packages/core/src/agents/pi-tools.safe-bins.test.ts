@@ -2,13 +2,13 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { ExecApprovalsResolved } from "../infra/exec-approvals.js";
 import type { SafeBinProfileFixture } from "../infra/exec-safe-bin-policy.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import { resetProcessRegistryForTests } from "./bash-process-registry.js";
 
-let createBrikko StudioCodingTools: typeof import("./pi-tools.js").createBrikko StudioCodingTools;
+let createBrikkoStudioCodingTools: typeof import("./pi-tools.js").createBrikkoStudioCodingTools;
 
 const { mockExecApprovals, supervisorSpawnMock } = vi.hoisted(() => {
   const execApprovals = {
@@ -78,7 +78,7 @@ beforeAll(async () => {
       BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: path.join(os.tmpdir(), "brikko-studio-test-no-bundled-extensions"),
     },
     async () => {
-      ({ createBrikko StudioCodingTools } = await import("./pi-tools.js"));
+      ({ createBrikkoStudioCodingTools } = await import("./pi-tools.js"));
     },
   );
 });
@@ -113,7 +113,7 @@ vi.mock("./channel-tools.js", () => ({
 }));
 
 vi.mock("./brikko-studio-tools.js", () => ({
-  createBrikko StudioTools: () => [],
+  createBrikkoStudioTools: () => [],
 }));
 
 vi.mock("./bash-tools.exec-host-shared.js", async () => {
@@ -190,7 +190,7 @@ async function createSafeBinsExecTool(params: {
     fs.writeFileSync(path.join(tmpDir, file.name), file.contents, "utf8");
   }
 
-  const cfg: Brikko StudioConfig = {
+  const cfg: BrikkoStudioConfig = {
     tools: {
       exec: {
         host: "gateway",
@@ -202,7 +202,7 @@ async function createSafeBinsExecTool(params: {
     },
   };
 
-  const tools = createBrikko StudioCodingTools({
+  const tools = createBrikkoStudioCodingTools({
     config: cfg,
     exec: {
       notifyOnExit: false,
@@ -243,7 +243,7 @@ async function withSafeBinsExecTool(
   }
 }
 
-describe("createBrikko StudioCodingTools safeBins", () => {
+describe("createBrikkoStudioCodingTools safeBins", () => {
   it("threads tools.exec.safeBins into exec allowlist checks", async () => {
     await withSafeBinsExecTool(
       {

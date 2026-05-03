@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/config.js";
+import type { BrikkoStudioConfig } from "../../../config/config.js";
 import type { DoctorConfigPreflightResult } from "../../doctor-config-preflight.js";
 
 const { migrateLegacyConfigMock, stripUnknownConfigKeysMock } = vi.hoisted(() => ({
@@ -37,7 +37,7 @@ function createLegacyStepResult(
 describe("doctor config flow steps", () => {
   beforeEach(() => {
     migrateLegacyConfigMock.mockReset();
-    migrateLegacyConfigMock.mockImplementation((config: Brikko StudioConfig) => ({
+    migrateLegacyConfigMock.mockImplementation((config: BrikkoStudioConfig) => ({
       config,
       changes: [],
     }));
@@ -110,7 +110,7 @@ describe("doctor config flow steps", () => {
     const result = applyUnknownConfigKeyStep({
       state: {
         cfg: {},
-        candidate: { bogus: true } as unknown as Brikko StudioConfig,
+        candidate: { bogus: true } as unknown as BrikkoStudioConfig,
         pendingChanges: false,
         fixHints: [],
       },

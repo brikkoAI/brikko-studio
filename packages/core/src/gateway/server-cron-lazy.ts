@@ -1,11 +1,11 @@
 import type { CliDeps } from "../cli/deps.types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { CronServiceContract } from "../cron/service-contract.js";
 import { resolveCronStorePath } from "../cron/store.js";
 import type { GatewayCronState } from "./server-cron.js";
 
 type LazyGatewayCronParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   deps: CliDeps;
   broadcast: (event: string, payload: unknown, opts?: { dropIfSlow?: boolean }) => void;
 };

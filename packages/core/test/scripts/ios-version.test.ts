@@ -17,7 +17,7 @@ describe("resolveIosVersion", () => {
   it("parses pinned CalVer versions and derives Apple marketing fields", () => {
     const rootDir = writeIosFixture({
       version: "2026.4.6",
-      changelog: "# Brikko Studio iOS Changelog\n\n## 2026.4.6\n\nStable notes.\n",
+      changelog: "# BrikkoStudio iOS Changelog\n\n## 2026.4.6\n\nStable notes.\n",
     });
 
     expect(resolveIosVersion(rootDir)).toMatchObject({
@@ -30,7 +30,7 @@ describe("resolveIosVersion", () => {
   it("rejects semver-only versions", () => {
     const rootDir = writeIosFixture({
       version: "1.2.3",
-      changelog: "# Brikko Studio iOS Changelog\n\n## Unreleased\n\nNotes.\n",
+      changelog: "# BrikkoStudio iOS Changelog\n\n## Unreleased\n\nNotes.\n",
     });
 
     expect(() => resolveIosVersion(rootDir)).toThrow("Expected pinned CalVer like 2026.4.6");
@@ -39,7 +39,7 @@ describe("resolveIosVersion", () => {
   it("rejects prerelease suffixes in the pinned iOS version file", () => {
     const rootDir = writeIosFixture({
       version: "2026.4.6-beta.1",
-      changelog: "# Brikko Studio iOS Changelog\n\n## Unreleased\n\nNotes.\n",
+      changelog: "# BrikkoStudio iOS Changelog\n\n## Unreleased\n\nNotes.\n",
     });
 
     expect(() => resolveIosVersion(rootDir)).toThrow("Expected pinned CalVer like 2026.4.6");
@@ -67,7 +67,7 @@ describe("gateway version normalization", () => {
     const rootDir = writeIosFixture({
       version: "2026.4.6",
       packageVersion: "2026.4.7-beta.5",
-      changelog: "# Brikko Studio iOS Changelog\n\n## Unreleased\n\nNotes.\n",
+      changelog: "# BrikkoStudio iOS Changelog\n\n## Unreleased\n\nNotes.\n",
     });
 
     expect(resolveGatewayVersionForIosRelease(rootDir)).toEqual({
@@ -81,7 +81,7 @@ describe("renderIosVersionXcconfig", () => {
   it("renders checked-in defaults from the pinned iOS version", () => {
     const rootDir = writeIosFixture({
       version: "2026.4.8",
-      changelog: "# Brikko Studio iOS Changelog\n\n## 2026.4.8\n\nNotes.\n",
+      changelog: "# BrikkoStudio iOS Changelog\n\n## 2026.4.8\n\nNotes.\n",
     });
     const version = resolveIosVersion(rootDir);
 
@@ -95,7 +95,7 @@ describe("release note extraction", () => {
   it("extracts exact pinned version sections first", () => {
     const rootDir = writeIosFixture({
       version: "2026.4.6",
-      changelog: `# Brikko Studio iOS Changelog
+      changelog: `# BrikkoStudio iOS Changelog
 
 ## Unreleased
 
@@ -115,7 +115,7 @@ Draft notes.
   it("falls back to Unreleased when the release section does not exist yet", () => {
     const rootDir = writeIosFixture({
       version: "2026.4.6",
-      changelog: `# Brikko Studio iOS Changelog
+      changelog: `# BrikkoStudio iOS Changelog
 
 ## Unreleased
 
@@ -134,7 +134,7 @@ Draft notes.
   it("extracts markdown bodies without the version heading", () => {
     expect(
       extractChangelogSection(
-        `# Brikko Studio iOS Changelog\n\n## 2026.4.6 - 2026-04-06\n\nLine one.\n\n## 2026.4.5\n`,
+        `# BrikkoStudio iOS Changelog\n\n## 2026.4.6 - 2026-04-06\n\nLine one.\n\n## 2026.4.5\n`,
         "2026.4.6",
       ),
     ).toBe("Line one.");

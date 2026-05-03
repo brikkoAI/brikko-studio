@@ -43,9 +43,9 @@ const mocks = vi.hoisted(() => {
     sourceConfig,
     resolvedConfig,
     loadModelsConfigWithSource: vi.fn(),
-    ensureBrikko StudioModelsJson: vi.fn(),
+    ensureBrikkoStudioModelsJson: vi.fn(),
     ensureAuthProfileStore: vi.fn(),
-    resolveBrikko StudioAgentDir: vi.fn(),
+    resolveBrikkoStudioAgentDir: vi.fn(),
     loadModelRegistry: vi.fn(),
     loadModelCatalog: vi.fn(),
     loadProviderCatalogModelsForList: vi.fn(),
@@ -67,9 +67,9 @@ function resetMocks() {
     resolvedConfig: mocks.resolvedConfig,
     diagnostics: [],
   });
-  mocks.ensureBrikko StudioModelsJson.mockResolvedValue({ wrote: false });
+  mocks.ensureBrikkoStudioModelsJson.mockResolvedValue({ wrote: false });
   mocks.ensureAuthProfileStore.mockReturnValue({ version: 1, profiles: {}, order: {} });
-  mocks.resolveBrikko StudioAgentDir.mockReturnValue("/tmp/brikko-studio-agent");
+  mocks.resolveBrikkoStudioAgentDir.mockReturnValue("/tmp/brikko-studio-agent");
   mocks.loadModelRegistry.mockResolvedValue({
     models: [],
     availableKeys: new Set(),
@@ -202,7 +202,7 @@ function installModelsListCommandForwardCompatMocks() {
   }));
 
   vi.doMock("../../agents/agent-paths.js", () => ({
-    resolveBrikko StudioAgentDir: mocks.resolveBrikko StudioAgentDir,
+    resolveBrikkoStudioAgentDir: mocks.resolveBrikkoStudioAgentDir,
   }));
 
   vi.doMock("../../agents/model-catalog.js", () => ({
@@ -693,7 +693,7 @@ describe("modelsListCommand forward-compat", () => {
 
       await modelsListCommand({ all: true, provider: "codex", json: true }, runtime as never);
 
-      expect(mocks.ensureBrikko StudioModelsJson).not.toHaveBeenCalled();
+      expect(mocks.ensureBrikkoStudioModelsJson).not.toHaveBeenCalled();
       expect(mocks.loadModelRegistry).not.toHaveBeenCalled();
       expect(mocks.loadProviderCatalogModelsForList).toHaveBeenCalledWith({
         cfg: mocks.resolvedConfig,

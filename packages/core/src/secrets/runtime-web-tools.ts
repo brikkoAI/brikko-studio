@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveSecretInputRef } from "../config/types.secrets.js";
 import { loadInstalledPluginIndexInstallRecordsSync } from "../plugins/installed-plugin-index-records.js";
 import type {
@@ -56,7 +56,7 @@ const loadRuntimeWebToolsManifest = createLazyRuntimeSurface(
   (mod) => mod,
 );
 
-type FetchConfig = NonNullable<Brikko StudioConfig["tools"]>["web"] extends infer Web
+type FetchConfig = NonNullable<BrikkoStudioConfig["tools"]>["web"] extends infer Web
   ? Web extends { fetch?: infer Fetch }
     ? Fetch
     : undefined
@@ -117,7 +117,7 @@ function needsRuntimeWebFetchProviderDiscovery(params: {
 }
 
 function hasPluginScopedWebToolConfig(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   key: "webSearch" | "webFetch",
 ): boolean {
   const entries = config.plugins?.entries;
@@ -134,7 +134,7 @@ function hasPluginScopedWebToolConfig(
 }
 
 function inferSingleBundledPluginScopedWebToolConfigOwner(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   key: "webSearch" | "webFetch",
 ): string | undefined {
   const entries = config.plugins?.entries;
@@ -159,7 +159,7 @@ function inferSingleBundledPluginScopedWebToolConfigOwner(
 }
 
 function inferExactBundledPluginScopedWebToolConfigOwner(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   key: "webSearch" | "webFetch";
   pluginId: string;
 }): string | undefined {
@@ -175,7 +175,7 @@ type WebProviderContract = "webSearchProviders" | "webFetchProviders";
 
 async function hasCustomWebProviderPluginRisk(params: {
   contract: WebProviderContract;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 }): Promise<boolean> {
   const installRecords = loadInstalledPluginIndexInstallRecordsSync({ env: params.env });
@@ -241,7 +241,7 @@ function buildUnresolvedReason(params: {
 }
 
 async function resolveSecretInputWithEnvFallback(params: {
-  sourceConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   context: ResolverContext;
   defaults: SecretDefaults | undefined;
   value: unknown;
@@ -354,7 +354,7 @@ async function resolveSecretInputWithEnvFallback(params: {
 }
 
 function setResolvedWebSearchApiKey(params: {
-  resolvedConfig: Brikko StudioConfig;
+  resolvedConfig: BrikkoStudioConfig;
   provider: PluginWebSearchProviderEntry;
   value: string;
 }): void {
@@ -369,7 +369,7 @@ function setResolvedWebSearchApiKey(params: {
 }
 
 async function resolveBundledWebSearchProviders(params: {
-  sourceConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   context: ResolverContext;
   configuredBundledPluginId?: string;
   onlyPluginIds?: readonly string[];
@@ -424,7 +424,7 @@ async function resolveBundledWebSearchProviders(params: {
 }
 
 async function resolveBundledWebFetchProviders(params: {
-  sourceConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   context: ResolverContext;
   configuredBundledPluginId?: string;
   hasCustomWebFetchPluginRisk: boolean;
@@ -476,7 +476,7 @@ async function resolveBundledWebFetchProviders(params: {
 
 function readConfiguredProviderCredential(params: {
   provider: PluginWebSearchProviderEntry;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   search: Record<string, unknown> | undefined;
 }): unknown {
   return params.provider.getConfiguredCredentialValue?.(params.config);
@@ -484,7 +484,7 @@ function readConfiguredProviderCredential(params: {
 
 function readConfiguredProviderCredentialFallback(params: {
   provider: PluginWebSearchProviderEntry;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   search: Record<string, unknown> | undefined;
 }): { path: string; value: unknown } | undefined {
   return params.provider.getConfiguredCredentialFallback?.(params.config);
@@ -500,7 +500,7 @@ function inactivePathsForProvider(provider: PluginWebSearchProviderEntry): strin
 }
 
 function setResolvedWebFetchApiKey(params: {
-  resolvedConfig: Brikko StudioConfig;
+  resolvedConfig: BrikkoStudioConfig;
   provider: PluginWebFetchProviderEntry;
   value: string;
 }): void {
@@ -516,7 +516,7 @@ function setResolvedWebFetchApiKey(params: {
 
 function readConfiguredFetchProviderCredential(params: {
   provider: PluginWebFetchProviderEntry;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   fetch: Record<string, unknown> | undefined;
 }): unknown {
   const configuredValue = params.provider.getConfiguredCredentialValue?.(params.config);
@@ -533,8 +533,8 @@ function inactivePathsForFetchProvider(provider: PluginWebFetchProviderEntry): s
 }
 
 export async function resolveRuntimeWebTools(params: {
-  sourceConfig: Brikko StudioConfig;
-  resolvedConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
+  resolvedConfig: BrikkoStudioConfig;
   context: ResolverContext;
 }): Promise<RuntimeWebToolsMetadata> {
   const defaults = params.sourceConfig.secrets?.defaults;

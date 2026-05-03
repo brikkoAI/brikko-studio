@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { withAudioFixture } from "./runner.test-utils.js";
 
 const runExecMock = vi.hoisted(() => vi.fn());
@@ -45,7 +45,7 @@ describe("media-understanding CLI audio entry", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         ctx,
         attachmentIndex: 0,
         cache,

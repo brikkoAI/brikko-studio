@@ -12,7 +12,7 @@ import {
   getOrCreateSessionMcpRuntime,
 } from "../../dist/agents/pi-bundle-mcp-runtime.js";
 import { applyFinalEffectiveToolPolicy } from "../../dist/agents/pi-embedded-runner/effective-tool-policy.js";
-import type { Brikko StudioConfig } from "../../dist/config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../dist/config/types.brikko-studio.js";
 import { getPluginToolMeta } from "../../dist/plugins/tools.js";
 
 const require = createRequire(import.meta.url);
@@ -45,7 +45,7 @@ await server.connect(new StdioServerTransport());
 
 function applyPolicy(params: {
   tools: Awaited<ReturnType<typeof materializeBundleMcpToolsForRun>>["tools"];
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
 }) {
   const warnings: string[] = [];
   return {
@@ -72,7 +72,7 @@ async function main() {
   await fs.mkdir(probeDir, { recursive: true });
   await writeProbeServer(serverPath);
 
-  const cfg: Brikko StudioConfig = {
+  const cfg: BrikkoStudioConfig = {
     tools: {
       profile: "coding",
     },

@@ -38,7 +38,7 @@ export type EmbeddedRunAttemptParams = EmbeddedRunAttemptBase & {
   modelId: string;
   /** Session-pinned embedded harness id. Prevents runtime hot-switching. */
   agentHarnessId?: string;
-  /** Brikko Studio-owned runtime policy prepared by the orchestrator for this attempt. */
+  /** BrikkoStudio-owned runtime policy prepared by the orchestrator for this attempt. */
   runtimePlan?: AgentRuntimePlan;
   model: Model<Api>;
   authStorage: AuthStorage;

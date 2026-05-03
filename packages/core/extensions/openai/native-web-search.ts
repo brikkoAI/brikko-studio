@@ -1,6 +1,6 @@
 import type { StreamFn } from "@mariozechner/pi-agent-core";
 import { streamSimple } from "@mariozechner/pi-ai";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeProviderId } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { streamWithPayloadPatch } from "brikko-studio/plugin-sdk/provider-stream-shared";
 import { isOpenAIApiBaseUrl } from "./base-url.js";
@@ -29,7 +29,7 @@ function isOpenAINativeWebSearchEligibleModel(model: {
   return !baseUrl || isOpenAIApiBaseUrl(baseUrl);
 }
 
-function shouldUseOpenAINativeWebSearchProvider(config: Brikko StudioConfig | undefined): boolean {
+function shouldUseOpenAINativeWebSearchProvider(config: BrikkoStudioConfig | undefined): boolean {
   const provider = config?.tools?.web?.search?.provider;
   if (typeof provider !== "string") {
     return true;
@@ -39,7 +39,7 @@ function shouldUseOpenAINativeWebSearchProvider(config: Brikko StudioConfig | un
 }
 
 function shouldEnableOpenAINativeWebSearch(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   model: { api?: unknown; provider?: unknown; baseUrl?: unknown };
 }): boolean {
   return (
@@ -89,7 +89,7 @@ export function patchOpenAINativeWebSearchPayload(
 
 export function createOpenAINativeWebSearchWrapper(
   baseStreamFn: StreamFn | undefined,
-  params: { config?: Brikko StudioConfig },
+  params: { config?: BrikkoStudioConfig },
 ): StreamFn {
   const underlying = baseStreamFn ?? streamSimple;
   return (model, context, options) => {

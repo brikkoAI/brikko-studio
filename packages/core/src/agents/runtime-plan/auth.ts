@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeEmbeddedAgentRuntime } from "../pi-embedded-runner/runtime.js";
 import { resolveProviderIdForAuth } from "../provider-auth-aliases.js";
 import type { AgentRuntimeAuthPlan } from "./types.js";
@@ -18,7 +18,7 @@ export function buildAgentRuntimeAuthPlan(params: {
   provider: string;
   authProfileProvider?: string;
   sessionAuthProfileId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   harnessId?: string;
   harnessRuntime?: string;

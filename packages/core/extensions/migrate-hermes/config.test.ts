@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
 import { afterEach, describe, expect, it } from "vitest";
 import { buildHermesMigrationProvider } from "./provider.js";
 import {
@@ -119,7 +119,7 @@ describe("Hermes migration config mapping", () => {
     const stateDir = path.join(root, "state");
     const config = {
       agents: { defaults: { workspace: workspaceDir } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     await writeFile(
       path.join(source, "config.yaml"),
       [

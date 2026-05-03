@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { QaBusState } from "./bus-state.js";
 import { createQaTransportAdapter, type QaTransportId } from "./qa-transport-registry.js";
 import { renderQaMarkdownReport } from "./report.js";
@@ -24,7 +24,7 @@ export function resolveQaSelfCheckOutputPath(params?: { outputPath?: string; rep
 
 export async function runQaSelfCheckAgainstState(params: {
   state: QaBusState;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   transportId?: QaTransportId;
   outputPath?: string;
   repoRoot?: string;
@@ -66,7 +66,7 @@ export async function runQaSelfCheckAgainstState(params: {
     }
   });
   const report = renderQaMarkdownReport({
-    title: "Brikko Studio QA E2E Self-Check",
+    title: "BrikkoStudio QA E2E Self-Check",
     startedAt,
     finishedAt,
     checks,

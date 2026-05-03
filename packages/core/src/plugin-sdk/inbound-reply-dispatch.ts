@@ -16,7 +16,7 @@ import {
 } from "../channels/turn/kernel.js";
 import type { PreparedChannelTurn, RunChannelTurnParams } from "../channels/turn/types.js";
 export type { ChannelTurnRecordOptions } from "../channels/turn/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createChannelReplyPipeline } from "./channel-reply-pipeline.js";
 import { createNormalizedOutboundDeliverer, type OutboundReplyPayload } from "./reply-payload.js";
 
@@ -50,12 +50,12 @@ export {
 
 /** Run `dispatchReplyFromConfig` with a dispatcher that always gets its settled callback. */
 export async function dispatchReplyFromConfigWithSettledDispatcher(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   ctxPayload: FinalizedMsgContext;
   dispatcher: ReplyDispatcher;
   onSettled: () => void | Promise<void>;
   replyOptions?: ReplyDispatchFromConfigOptions;
-  configOverride?: Brikko StudioConfig;
+  configOverride?: BrikkoStudioConfig;
 }): Promise<DispatchFromConfigResult> {
   return await withReplyDispatcher({
     dispatcher: params.dispatcher,
@@ -73,7 +73,7 @@ export async function dispatchReplyFromConfigWithSettledDispatcher(params: {
 
 /** Assemble the common inbound reply dispatch dependencies for a resolved route. */
 export function buildInboundReplyDispatchBase(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: string;
   accountId?: string;
   route: {
@@ -132,7 +132,7 @@ export async function dispatchInboundReplyWithBase(
 
 /** Record the inbound session first, then dispatch the reply using normalized outbound delivery. */
 export async function recordInboundSessionAndDispatchReply(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: string;
   accountId?: string;
   agentId: string;

@@ -1,17 +1,17 @@
 import { expect } from "vitest";
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 import { createMemoryGetTool, createMemorySearchTool } from "./tools.js";
 
-export function asBrikko StudioConfig(config: Partial<Brikko StudioConfig>): Brikko StudioConfig {
+export function asBrikkoStudioConfig(config: Partial<BrikkoStudioConfig>): BrikkoStudioConfig {
   return config;
 }
 
-export function createDefaultMemoryToolConfig(): Brikko StudioConfig {
-  return asBrikko StudioConfig({ agents: { list: [{ id: "main", default: true }] } });
+export function createDefaultMemoryToolConfig(): BrikkoStudioConfig {
+  return asBrikkoStudioConfig({ agents: { list: [{ id: "main", default: true }] } });
 }
 
 export function createMemorySearchToolOrThrow(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
   agentSessionKey?: string;
 }) {
@@ -27,7 +27,7 @@ export function createMemorySearchToolOrThrow(params?: {
 }
 
 export function createMemoryGetToolOrThrow(
-  config: Brikko StudioConfig = createDefaultMemoryToolConfig(),
+  config: BrikkoStudioConfig = createDefaultMemoryToolConfig(),
 ) {
   const tool = createMemoryGetTool({ config });
   if (!tool) {
@@ -38,7 +38,7 @@ export function createMemoryGetToolOrThrow(
 
 export function createAutoCitationsMemorySearchTool(agentSessionKey: string) {
   return createMemorySearchToolOrThrow({
-    config: asBrikko StudioConfig({
+    config: asBrikkoStudioConfig({
       memory: { citations: "auto" },
       agents: { list: [{ id: "main", default: true }] },
     }),

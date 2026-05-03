@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioPluginApi } from "../api.js";
+import type { BrikkoStudioPluginApi } from "../api.js";
 import type { DiffScreenshotter } from "./browser.js";
 import { DEFAULT_DIFFS_TOOL_DEFAULTS } from "./config.js";
 import { createDiffStoreHarness } from "./test-helpers.js";
@@ -67,7 +67,7 @@ describe("diffs tool rendered output guards", () => {
   });
 });
 
-function createApi(): Brikko StudioPluginApi {
+function createApi(): BrikkoStudioPluginApi {
   return createTestPluginApi({
     id: "diffs",
     name: "Diffs",
@@ -79,7 +79,7 @@ function createApi(): Brikko StudioPluginApi {
         bind: "loopback",
       },
     },
-    runtime: {} as Brikko StudioPluginApi["runtime"],
+    runtime: {} as BrikkoStudioPluginApi["runtime"],
   });
 }
 

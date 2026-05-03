@@ -4,7 +4,7 @@ import path from "node:path";
 import { CURRENT_SESSION_VERSION } from "@mariozechner/pi-coding-agent";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { SessionEntry } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { ContextEngine } from "../../context-engine/types.js";
 import {
   resetCliCompactionTestDeps,
@@ -131,7 +131,7 @@ describe("runCliTurnCompactionLifecycle", () => {
     });
 
     const updatedEntry = await runCliTurnCompactionLifecycle({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       sessionId,
       sessionKey,
       sessionEntry,

@@ -211,7 +211,7 @@ describe("Google speech provider", () => {
     );
   });
 
-  it("does not wrap an Brikko Studio audio-profile-v1 prompt twice", async () => {
+  it("does not wrap an BrikkoStudio audio-profile-v1 prompt twice", async () => {
     const provider = buildGoogleSpeechProvider();
     const text = [
       "Synthesize speech from the TRANSCRIPT section only. Use the other sections only",

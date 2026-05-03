@@ -85,7 +85,7 @@ export function createCodexDynamicToolBridge(params: {
       const tool = toolMap.get(call.tool);
       if (!tool) {
         return {
-          contentItems: [{ type: "inputText", text: `Unknown Brikko Studio tool: ${call.tool}` }],
+          contentItems: [{ type: "inputText", text: `Unknown BrikkoStudio tool: ${call.tool}` }],
           success: false,
         };
       }

@@ -14,7 +14,7 @@ import {
   type LegacySandboxRegistryMigrationResult,
 } from "../agents/sandbox/registry.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { runCommandWithTimeout, runExec } from "../process/exec.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { note } from "../terminal/note.js";
@@ -101,22 +101,22 @@ async function dockerImageExists(image: string): Promise<boolean> {
   }
 }
 
-function resolveSandboxDockerImage(cfg: Brikko StudioConfig): string {
+function resolveSandboxDockerImage(cfg: BrikkoStudioConfig): string {
   const image = cfg.agents?.defaults?.sandbox?.docker?.image?.trim();
   return image ? image : DEFAULT_SANDBOX_IMAGE;
 }
 
-function resolveSandboxBackend(cfg: Brikko StudioConfig): string {
+function resolveSandboxBackend(cfg: BrikkoStudioConfig): string {
   const backend = cfg.agents?.defaults?.sandbox?.backend?.trim();
   return backend || "docker";
 }
 
-function resolveSandboxBrowserImage(cfg: Brikko StudioConfig): string {
+function resolveSandboxBrowserImage(cfg: BrikkoStudioConfig): string {
   const image = cfg.agents?.defaults?.sandbox?.browser?.image?.trim();
   return image ? image : DEFAULT_SANDBOX_BROWSER_IMAGE;
 }
 
-function updateSandboxDockerImage(cfg: Brikko StudioConfig, image: string): Brikko StudioConfig {
+function updateSandboxDockerImage(cfg: BrikkoStudioConfig, image: string): BrikkoStudioConfig {
   return {
     ...cfg,
     agents: {
@@ -135,7 +135,7 @@ function updateSandboxDockerImage(cfg: Brikko StudioConfig, image: string): Brik
   };
 }
 
-function updateSandboxBrowserImage(cfg: Brikko StudioConfig, image: string): Brikko StudioConfig {
+function updateSandboxBrowserImage(cfg: BrikkoStudioConfig, image: string): BrikkoStudioConfig {
   return {
     ...cfg,
     agents: {
@@ -193,10 +193,10 @@ async function handleMissingSandboxImage(
 }
 
 export async function maybeRepairSandboxImages(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   runtime: RuntimeEnv,
   prompter: DoctorPrompter,
-): Promise<Brikko StudioConfig> {
+): Promise<BrikkoStudioConfig> {
   const sandbox = cfg.agents?.defaults?.sandbox;
   const mode = sandbox?.mode ?? "off";
   if (!sandbox || mode === "off") {
@@ -321,7 +321,7 @@ export async function maybeRepairSandboxRegistryFiles(prompter: DoctorPrompter):
   }
 }
 
-export function noteSandboxScopeWarnings(cfg: Brikko StudioConfig) {
+export function noteSandboxScopeWarnings(cfg: BrikkoStudioConfig) {
   const globalSandbox = cfg.agents?.defaults?.sandbox;
   const agents = Array.isArray(cfg.agents?.list) ? cfg.agents.list : [];
   const warnings: string[] = [];

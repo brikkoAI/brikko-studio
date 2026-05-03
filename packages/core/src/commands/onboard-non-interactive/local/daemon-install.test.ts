@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/config.js";
+import type { BrikkoStudioConfig } from "../../../config/config.js";
 import { installGatewayDaemonNonInteractive } from "./daemon-install.js";
 
 const buildGatewayInstallPlan = vi.hoisted(() => vi.fn());
@@ -68,7 +68,7 @@ describe("installGatewayDaemonNonInteractive", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       opts: { installDaemon: true },
       runtime,
       port: 18789,
@@ -90,7 +90,7 @@ describe("installGatewayDaemonNonInteractive", () => {
     const runtime = { log: vi.fn(), error: vi.fn(), exit: vi.fn() };
 
     await installGatewayDaemonNonInteractive({
-      nextConfig: {} as Brikko StudioConfig,
+      nextConfig: {} as BrikkoStudioConfig,
       opts: { installDaemon: true },
       runtime,
       port: 18789,
@@ -114,7 +114,7 @@ describe("installGatewayDaemonNonInteractive", () => {
 
     try {
       const result = await installGatewayDaemonNonInteractive({
-        nextConfig: {} as Brikko StudioConfig,
+        nextConfig: {} as BrikkoStudioConfig,
         opts: { installDaemon: true },
         runtime,
         port: 18789,

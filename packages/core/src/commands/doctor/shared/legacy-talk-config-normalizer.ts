@@ -1,6 +1,6 @@
 import { isDeepStrictEqual } from "node:util";
 import { normalizeTalkSection } from "../../../config/talk.js";
-import type { Brikko StudioConfig } from "../../../config/types.js";
+import type { BrikkoStudioConfig } from "../../../config/types.js";
 
 function buildLegacyTalkProviderCompat(
   talk: Record<string, unknown>,
@@ -18,13 +18,13 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
 }
 
-export function normalizeLegacyTalkConfig(cfg: Brikko StudioConfig, changes: string[]): Brikko StudioConfig {
+export function normalizeLegacyTalkConfig(cfg: BrikkoStudioConfig, changes: string[]): BrikkoStudioConfig {
   const rawTalk = cfg.talk;
   if (!isRecord(rawTalk)) {
     return cfg;
   }
 
-  const normalizedTalk = normalizeTalkSection(rawTalk as Brikko StudioConfig["talk"]) ?? {};
+  const normalizedTalk = normalizeTalkSection(rawTalk as BrikkoStudioConfig["talk"]) ?? {};
   const legacyProviderCompat = buildLegacyTalkProviderCompat(rawTalk);
   if (legacyProviderCompat) {
     normalizedTalk.providers = {

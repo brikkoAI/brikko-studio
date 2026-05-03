@@ -28,7 +28,7 @@ function createPlugin(
     id: string;
     packageName: string;
     manifest?: Record<string, unknown>;
-    packageBrikko Studio?: Record<string, unknown>;
+    packageBrikkoStudio?: Record<string, unknown>;
   },
 ) {
   const pluginDir = path.join(repoRoot, "extensions", params.id);
@@ -40,7 +40,7 @@ function createPlugin(
   });
   writeJson(path.join(pluginDir, "package.json"), {
     name: params.packageName,
-    ...(params.packageBrikko Studio ? { brikko-studio: params.packageBrikko Studio } : {}),
+    ...(params.packageBrikkoStudio ? { brikko-studio: params.packageBrikkoStudio } : {}),
   });
   return pluginDir;
 }
@@ -77,7 +77,7 @@ function createTlonSkillPlugin(repoRoot: string, skillPath = "node_modules/@tlon
     id: "tlon",
     packageName: "@brikko-studio/tlon",
     manifest: { skills: [skillPath] },
-    packageBrikko Studio: { extensions: ["./index.ts"] },
+    packageBrikkoStudio: { extensions: ["./index.ts"] },
   });
 }
 
@@ -101,7 +101,7 @@ describe("copyBundledPluginMetadata", () => {
       id: "acpx",
       packageName: "@brikko-studio/acpx",
       manifest: { skills: ["./skills"] },
-      packageBrikko Studio: { extensions: ["./index.ts"] },
+      packageBrikkoStudio: { extensions: ["./index.ts"] },
     });
     fs.mkdirSync(path.join(pluginDir, "skills", "acp-router"), { recursive: true });
     fs.writeFileSync(
@@ -142,7 +142,7 @@ describe("copyBundledPluginMetadata", () => {
           },
         },
       },
-      packageBrikko Studio: { extensions: ["./index.ts"] },
+      packageBrikkoStudio: { extensions: ["./index.ts"] },
     });
     fs.mkdirSync(path.join(repoRoot, "src", "config"), { recursive: true });
     fs.writeFileSync(
@@ -288,7 +288,7 @@ describe("copyBundledPluginMetadata", () => {
       id: "diffs",
       packageName: "@brikko-studio/diffs",
       manifest: { skills: ["./skills"] },
-      packageBrikko Studio: { extensions: ["./index.ts"] },
+      packageBrikkoStudio: { extensions: ["./index.ts"] },
     });
     fs.mkdirSync(path.join(pluginDir, "skills", "diffs"), { recursive: true });
     fs.writeFileSync(path.join(pluginDir, "skills", "diffs", "SKILL.md"), "# Diffs\n", "utf8");
@@ -385,7 +385,7 @@ describe("copyBundledPluginMetadata", () => {
     createPlugin(repoRoot, {
       id: "qa-lab",
       packageName: "@brikko-studio/qa-lab",
-      packageBrikko Studio: { extensions: ["./index.ts"] },
+      packageBrikkoStudio: { extensions: ["./index.ts"] },
     });
     const staleDistDir = path.join(repoRoot, "dist", "extensions", "qa-lab");
     fs.mkdirSync(staleDistDir, { recursive: true });
@@ -409,7 +409,7 @@ describe("copyBundledPluginMetadata", () => {
       name: "skips metadata for optional bundled clusters only when explicitly disabled",
       pluginId: "acpx",
       packageName: "@brikko-studio/acpx-plugin",
-      packageBrikko Studio: { extensions: ["./index.ts"] },
+      packageBrikkoStudio: { extensions: ["./index.ts"] },
       env: excludeOptionalEnv,
       expectedExists: false,
     },
@@ -417,19 +417,19 @@ describe("copyBundledPluginMetadata", () => {
       name: "still bundles previously released optional plugins without the opt-in env",
       pluginId: "whatsapp",
       packageName: "@brikko-studio/whatsapp",
-      packageBrikko Studio: {
+      packageBrikkoStudio: {
         extensions: ["./index.ts"],
         install: { npmSpec: "@brikko-studio/whatsapp" },
       },
       env: {},
       expectedExists: true,
     },
-  ] as const)("$name", ({ pluginId, packageName, packageBrikko Studio, env, expectedExists }) => {
+  ] as const)("$name", ({ pluginId, packageName, packageBrikkoStudio, env, expectedExists }) => {
     const repoRoot = makeRepoRoot(`brikko-studio-bundled-plugin-${pluginId}-`);
     createPlugin(repoRoot, {
       id: pluginId,
       packageName,
-      packageBrikko Studio,
+      packageBrikkoStudio,
     });
 
     copyBundledPluginMetadataWithEnv({ repoRoot, env });

@@ -17,7 +17,7 @@ function createService(overrides: Partial<GatewayService>): GatewayService {
 }
 
 describe("readServiceStatusSummary", () => {
-  it("marks Brikko Studio-managed services as installed", async () => {
+  it("marks BrikkoStudio-managed services as installed", async () => {
     const summary = await readServiceStatusSummary(
       createService({
         isLoaded: vi.fn(async () => true),
@@ -28,7 +28,7 @@ describe("readServiceStatusSummary", () => {
     );
 
     expect(summary.installed).toBe(true);
-    expect(summary.managedByBrikko Studio).toBe(true);
+    expect(summary.managedByBrikkoStudio).toBe(true);
     expect(summary.externallyManaged).toBe(false);
     expect(summary.loadedText).toBe("enabled");
   });
@@ -42,7 +42,7 @@ describe("readServiceStatusSummary", () => {
     );
 
     expect(summary.installed).toBe(true);
-    expect(summary.managedByBrikko Studio).toBe(false);
+    expect(summary.managedByBrikkoStudio).toBe(false);
     expect(summary.externallyManaged).toBe(true);
     expect(summary.loadedText).toBe("running (externally managed)");
   });
@@ -51,7 +51,7 @@ describe("readServiceStatusSummary", () => {
     const summary = await readServiceStatusSummary(createService({}), "Daemon");
 
     expect(summary.installed).toBe(false);
-    expect(summary.managedByBrikko Studio).toBe(false);
+    expect(summary.managedByBrikkoStudio).toBe(false);
     expect(summary.externallyManaged).toBe(false);
     expect(summary.loadedText).toBe("disabled");
   });

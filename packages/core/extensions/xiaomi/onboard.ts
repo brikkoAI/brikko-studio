@@ -1,6 +1,6 @@
 import {
   createDefaultModelsPresetAppliers,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import { buildXiaomiProvider, XIAOMI_DEFAULT_MODEL_ID } from "./provider-catalog.js";
 
@@ -8,7 +8,7 @@ export const XIAOMI_DEFAULT_MODEL_REF = `xiaomi/${XIAOMI_DEFAULT_MODEL_ID}`;
 
 const xiaomiPresetAppliers = createDefaultModelsPresetAppliers({
   primaryModelRef: XIAOMI_DEFAULT_MODEL_REF,
-  resolveParams: (_cfg: Brikko StudioConfig) => {
+  resolveParams: (_cfg: BrikkoStudioConfig) => {
     const defaultProvider = buildXiaomiProvider();
     return {
       providerId: "xiaomi",
@@ -21,10 +21,10 @@ const xiaomiPresetAppliers = createDefaultModelsPresetAppliers({
   },
 });
 
-export function applyXiaomiProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyXiaomiProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return xiaomiPresetAppliers.applyProviderConfig(cfg);
 }
 
-export function applyXiaomiConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyXiaomiConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return xiaomiPresetAppliers.applyConfig(cfg);
 }

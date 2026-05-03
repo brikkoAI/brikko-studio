@@ -11,7 +11,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const hashFile = path.join(rootDir, "src", "canvas-host", "a2ui", ".bundle.hash");
 const outputFile = path.join(rootDir, "src", "canvas-host", "a2ui", "a2ui.bundle.js");
 const a2uiRendererDir = path.join(rootDir, "vendor", "a2ui", "renderers", "lit");
-const a2uiAppDir = path.join(rootDir, "apps", "shared", "Brikko StudioKit", "Tools", "CanvasA2UI");
+const a2uiAppDir = path.join(rootDir, "apps", "shared", "BrikkoStudioKit", "Tools", "CanvasA2UI");
 const uiPackageFile = path.join(rootDir, "ui", "package.json");
 const repoInputPaths = [uiPackageFile, a2uiRendererDir, a2uiAppDir];
 const ignoredBundleHashInputPrefixes = ["vendor/a2ui/renderers/lit/dist"];
@@ -67,7 +67,7 @@ export function getBundleHashRepoInputPaths(repoRoot = rootDir) {
   return [
     path.join(repoRoot, "ui", "package.json"),
     path.join(repoRoot, "vendor", "a2ui", "renderers", "lit"),
-    path.join(repoRoot, "apps", "shared", "Brikko StudioKit", "Tools", "CanvasA2UI"),
+    path.join(repoRoot, "apps", "shared", "BrikkoStudioKit", "Tools", "CanvasA2UI"),
   ];
 }
 

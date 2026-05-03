@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export type SupportedGatewaySecretInputPath =
   | "gateway.auth.token"
@@ -20,7 +20,7 @@ export function isSupportedGatewaySecretInputPath(
 }
 
 export function readGatewaySecretInputValue(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   path: SupportedGatewaySecretInputPath,
 ): unknown {
   if (path === "gateway.auth.token") {
@@ -36,7 +36,7 @@ export function readGatewaySecretInputValue(
 }
 
 export function assignResolvedGatewaySecretInput(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   path: SupportedGatewaySecretInputPath;
   value: string | undefined;
 }): void {

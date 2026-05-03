@@ -3,7 +3,7 @@ import path from "node:path";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { resolveInstalledPluginIndexPolicyHash } from "../plugins/installed-plugin-index-policy.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import { resolveBrikko StudioAgentDir } from "./agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "./agent-paths.js";
 import {
   CUSTOM_PROXY_MODELS_CONFIG,
   installModelsConfigTestHooks,
@@ -11,11 +11,11 @@ import {
 } from "./models-config.e2e-harness.js";
 import { readGeneratedModelsJson } from "./models-config.test-utils.js";
 
-const planBrikko StudioModelsJsonMock = vi.fn();
+const planBrikkoStudioModelsJsonMock = vi.fn();
 
 installModelsConfigTestHooks();
 
-let ensureBrikko StudioModelsJson: typeof import("./models-config.js").ensureBrikko StudioModelsJson;
+let ensureBrikkoStudioModelsJson: typeof import("./models-config.js").ensureBrikkoStudioModelsJson;
 let clearCurrentPluginMetadataSnapshot: typeof import("../plugins/current-plugin-metadata-snapshot.js").clearCurrentPluginMetadataSnapshot;
 let setCurrentPluginMetadataSnapshot: typeof import("../plugins/current-plugin-metadata-snapshot.js").setCurrentPluginMetadataSnapshot;
 
@@ -64,16 +64,16 @@ function createPluginMetadataSnapshot(workspaceDir: string): PluginMetadataSnaps
 
 beforeAll(async () => {
   vi.doMock("./models-config.plan.js", () => ({
-    planBrikko StudioModelsJson: (...args: unknown[]) => planBrikko StudioModelsJsonMock(...args),
+    planBrikkoStudioModelsJson: (...args: unknown[]) => planBrikkoStudioModelsJsonMock(...args),
   }));
-  ({ ensureBrikko StudioModelsJson } = await import("./models-config.js"));
+  ({ ensureBrikkoStudioModelsJson } = await import("./models-config.js"));
   ({ clearCurrentPluginMetadataSnapshot, setCurrentPluginMetadataSnapshot } =
     await import("../plugins/current-plugin-metadata-snapshot.js"));
 });
 
 beforeEach(() => {
   clearCurrentPluginMetadataSnapshot();
-  planBrikko StudioModelsJsonMock
+  planBrikkoStudioModelsJsonMock
     .mockReset()
     .mockImplementation(async (params: { cfg?: typeof CUSTOM_PROXY_MODELS_CONFIG }) => ({
       action: "write",
@@ -88,9 +88,9 @@ describe("models-config write serialization", () => {
       setCurrentPluginMetadataSnapshot(snapshot, { config: {} });
       const agentDir = path.join(home, "agent-non-default");
 
-      await ensureBrikko StudioModelsJson({}, agentDir);
+      await ensureBrikkoStudioModelsJson({}, agentDir);
 
-      expect(planBrikko StudioModelsJsonMock).toHaveBeenCalledWith(
+      expect(planBrikkoStudioModelsJsonMock).toHaveBeenCalledWith(
         expect.not.objectContaining({ pluginMetadataSnapshot: snapshot }),
       );
     });
@@ -103,9 +103,9 @@ describe("models-config write serialization", () => {
       setCurrentPluginMetadataSnapshot(snapshot, { config: {} });
       const agentDir = path.join(home, "agent-non-default");
 
-      await ensureBrikko StudioModelsJson({}, agentDir, { workspaceDir });
+      await ensureBrikkoStudioModelsJson({}, agentDir, { workspaceDir });
 
-      expect(planBrikko StudioModelsJsonMock).toHaveBeenCalledWith(
+      expect(planBrikkoStudioModelsJsonMock).toHaveBeenCalledWith(
         expect.objectContaining({
           workspaceDir,
           pluginMetadataSnapshot: snapshot,
@@ -116,19 +116,19 @@ describe("models-config write serialization", () => {
 
   it("does not reuse scoped startup discovery cache for a different provider scope", async () => {
     await withModelsTempHome(async (home) => {
-      planBrikko StudioModelsJsonMock.mockImplementation(async () => ({ action: "skip" }));
+      planBrikkoStudioModelsJsonMock.mockImplementation(async () => ({ action: "skip" }));
       const agentDir = path.join(home, "agent");
-      await ensureBrikko StudioModelsJson({}, agentDir, {
+      await ensureBrikkoStudioModelsJson({}, agentDir, {
         providerDiscoveryProviderIds: ["openai"],
         providerDiscoveryTimeoutMs: 5000,
       });
-      await ensureBrikko StudioModelsJson({}, agentDir, {
+      await ensureBrikkoStudioModelsJson({}, agentDir, {
         providerDiscoveryProviderIds: ["anthropic"],
         providerDiscoveryTimeoutMs: 5000,
       });
 
-      expect(planBrikko StudioModelsJsonMock).toHaveBeenCalledTimes(2);
-      expect(planBrikko StudioModelsJsonMock).toHaveBeenLastCalledWith(
+      expect(planBrikkoStudioModelsJsonMock).toHaveBeenCalledTimes(2);
+      expect(planBrikkoStudioModelsJsonMock).toHaveBeenLastCalledWith(
         expect.objectContaining({
           providerDiscoveryProviderIds: ["anthropic"],
           providerDiscoveryTimeoutMs: 5000,
@@ -139,41 +139,41 @@ describe("models-config write serialization", () => {
 
   it("keeps the ready cache warm after models.json is written", async () => {
     await withModelsTempHome(async () => {
-      await ensureBrikko StudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
-      await ensureBrikko StudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
+      await ensureBrikkoStudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
+      await ensureBrikkoStudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
 
-      expect(planBrikko StudioModelsJsonMock).toHaveBeenCalledTimes(1);
+      expect(planBrikkoStudioModelsJsonMock).toHaveBeenCalledTimes(1);
     });
   });
 
   it("invalidates the ready cache when models.json changes externally", async () => {
     await withModelsTempHome(async () => {
-      await ensureBrikko StudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
-      await ensureBrikko StudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
+      await ensureBrikkoStudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
+      await ensureBrikkoStudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
 
-      const modelPath = path.join(resolveBrikko StudioAgentDir(), "models.json");
+      const modelPath = path.join(resolveBrikkoStudioAgentDir(), "models.json");
       await fs.writeFile(modelPath, `${JSON.stringify({ external: true })}\n`, "utf8");
       const externalMtime = new Date(Date.now() + 2000);
       await fs.utimes(modelPath, externalMtime, externalMtime);
-      await ensureBrikko StudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
+      await ensureBrikkoStudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
 
-      expect(planBrikko StudioModelsJsonMock).toHaveBeenCalledTimes(2);
+      expect(planBrikkoStudioModelsJsonMock).toHaveBeenCalledTimes(2);
     });
   });
 
   it("keeps distinct config fingerprints cached without evicting each other", async () => {
     await withModelsTempHome(async () => {
-      planBrikko StudioModelsJsonMock.mockImplementation(async () => ({ action: "noop" }));
+      planBrikkoStudioModelsJsonMock.mockImplementation(async () => ({ action: "noop" }));
       const first = structuredClone(CUSTOM_PROXY_MODELS_CONFIG);
       const second = structuredClone(CUSTOM_PROXY_MODELS_CONFIG);
       first.agents = { defaults: { model: "openai/gpt-5.4" } };
       second.agents = { defaults: { model: "anthropic/claude-sonnet-4-5" } };
 
-      await ensureBrikko StudioModelsJson(first);
-      await ensureBrikko StudioModelsJson(second);
-      await ensureBrikko StudioModelsJson(first);
+      await ensureBrikkoStudioModelsJson(first);
+      await ensureBrikkoStudioModelsJson(second);
+      await ensureBrikkoStudioModelsJson(first);
 
-      expect(planBrikko StudioModelsJsonMock).toHaveBeenCalledTimes(2);
+      expect(planBrikkoStudioModelsJsonMock).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -221,7 +221,7 @@ describe("models-config write serialization", () => {
       });
 
       try {
-        await Promise.all([ensureBrikko StudioModelsJson(first), ensureBrikko StudioModelsJson(second)]);
+        await Promise.all([ensureBrikkoStudioModelsJson(first), ensureBrikkoStudioModelsJson(second)]);
       } finally {
         writeSpy.mockRestore();
       }

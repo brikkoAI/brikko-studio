@@ -15,7 +15,7 @@ import {
   resolveGlobalSingleton,
   resolveStateDir,
   writeFileWithinRoot,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import {
   buildSessionEntry,
@@ -153,7 +153,7 @@ function _hasHanScript(value: string): boolean {
 
 function normalizeHanBm25Query(query: string): string {
   const trimmed = query.trim();
-  // Keep Han/CJK BM25 queries intact so Brikko Studio search semantics match direct qmd search.
+  // Keep Han/CJK BM25 queries intact so BrikkoStudio search semantics match direct qmd search.
   return trimmed;
 }
 
@@ -274,7 +274,7 @@ type QmdMcporterAcrossCollectionsParams =
 
 export class QmdMemoryManager implements MemorySearchManager {
   static async create(params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     agentId: string;
     resolved: ResolvedMemoryBackendConfig;
     mode?: QmdManagerMode;
@@ -3124,7 +3124,7 @@ export class QmdMemoryManager implements MemorySearchManager {
 }
 
 function resolveQmdManagerRuntimeConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
 ): QmdManagerRuntimeConfig {
   return {

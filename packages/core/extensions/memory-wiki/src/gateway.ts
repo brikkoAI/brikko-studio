@@ -1,5 +1,5 @@
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
-import type { Brikko StudioConfig, Brikko StudioPluginApi } from "../api.js";
+import type { BrikkoStudioConfig, BrikkoStudioPluginApi } from "../api.js";
 import { applyMemoryWikiMutation, normalizeMemoryWikiMutationInput } from "./apply.js";
 import { compileMemoryWikiVault } from "./compile.js";
 import {
@@ -27,7 +27,7 @@ import { initializeMemoryWikiVault } from "./vault.js";
 const READ_SCOPE = "operator.read" as const;
 const WRITE_SCOPE = "operator.write" as const;
 type GatewayMethodContext = Parameters<
-  Parameters<Brikko StudioPluginApi["registerGatewayMethod"]>[1]
+  Parameters<BrikkoStudioPluginApi["registerGatewayMethod"]>[1]
 >[0];
 type GatewayRespond = GatewayMethodContext["respond"];
 
@@ -88,15 +88,15 @@ function respondError(respond: GatewayRespond, error: unknown) {
 
 async function syncImportedSourcesIfNeeded(
   config: ResolvedMemoryWikiConfig,
-  appConfig?: Brikko StudioConfig,
+  appConfig?: BrikkoStudioConfig,
 ) {
   await syncMemoryWikiImportedSources({ config, appConfig });
 }
 
 export function registerMemoryWikiGatewayMethods(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   config: ResolvedMemoryWikiConfig;
-  appConfig?: Brikko StudioConfig;
+  appConfig?: BrikkoStudioConfig;
 }) {
   const { api, config, appConfig } = params;
 

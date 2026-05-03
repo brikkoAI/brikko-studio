@@ -373,7 +373,7 @@ describe("registerSlackInteractionEvents", () => {
     expect(app.client.chat.update).toHaveBeenCalledTimes(1);
   });
 
-  it("registers a matcher that accepts plugin action ids beyond the Brikko Studio prefix", () => {
+  it("registers a matcher that accepts plugin action ids beyond the BrikkoStudio prefix", () => {
     const { ctx, getActionMatcher } = createContext();
     registerSlackInteractionEvents({ ctx: ctx as never });
 

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { withEnv } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import { inspectTelegramAccount } from "./account-inspect.js";
@@ -9,7 +9,7 @@ import { inspectTelegramAccount } from "./account-inspect.js";
 describe("inspectTelegramAccount SecretRef resolution", () => {
   it("resolves default env SecretRef templates in read-only status paths", () => {
     withEnv({ TG_STATUS_TOKEN: "123:token" }, () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           telegram: {
             botToken: "${TG_STATUS_TOKEN}",
@@ -26,7 +26,7 @@ describe("inspectTelegramAccount SecretRef resolution", () => {
 
   it("respects env provider allowlists in read-only status paths", () => {
     withEnv({ TG_NOT_ALLOWED: "123:token" }, () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         secrets: {
           defaults: {
             env: "secure-env",
@@ -54,7 +54,7 @@ describe("inspectTelegramAccount SecretRef resolution", () => {
 
   it("does not read env values for non-env providers", () => {
     withEnv({ TG_EXEC_PROVIDER: "123:token" }, () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         secrets: {
           defaults: {
             env: "exec-provider",
@@ -89,7 +89,7 @@ describe("inspectTelegramAccount SecretRef resolution", () => {
       fs.writeFileSync(tokenFile, "123:token\n", "utf8");
       fs.symlinkSync(tokenFile, tokenLink);
 
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           telegram: {
             tokenFile: tokenLink,

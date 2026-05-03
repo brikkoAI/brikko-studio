@@ -5,9 +5,9 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import {
   evaluateLocalTestboxKey,
-  evaluateBrikko StudioTestboxClaim,
+  evaluateBrikkoStudioTestboxClaim,
   resolveTestboxId,
-  writeBrikko StudioTestboxClaim,
+  writeBrikkoStudioTestboxClaim,
 } from "./blacksmith-testbox-state.mjs";
 
 function git(args, cwd) {
@@ -153,10 +153,10 @@ export async function runBlacksmithTestboxRunner({
   }
 
   if (shouldClaim) {
-    const claim = writeBrikko StudioTestboxClaim({ cwd: root, env, testboxId });
-    stdout.write(`Brikko Studio Testbox claim written: ${testboxId} -> ${claim.claimPath}\n`);
+    const claim = writeBrikkoStudioTestboxClaim({ cwd: root, env, testboxId });
+    stdout.write(`BrikkoStudio Testbox claim written: ${testboxId} -> ${claim.claimPath}\n`);
   } else {
-    const claimResult = evaluateBrikko StudioTestboxClaim({
+    const claimResult = evaluateBrikkoStudioTestboxClaim({
       cwd: root,
       env,
       testboxId,
@@ -164,7 +164,7 @@ export async function runBlacksmithTestboxRunner({
     if (!claimResult.ok) {
       stderr.write(`${claimResult.problems.join("\n")}\n`);
       stderr.write(
-        "Refusing to run a Testbox that was not claimed by this Brikko Studio checkout. Run:\n" +
+        "Refusing to run a Testbox that was not claimed by this BrikkoStudio checkout. Run:\n" +
           "  blacksmith testbox warmup ci-check-testbox.yml --ref main --idle-timeout 90\n" +
           "  pnpm testbox:claim --id <new_tbx_id>\n",
       );
@@ -174,7 +174,7 @@ export async function runBlacksmithTestboxRunner({
 
   const blacksmithArgs = buildBlacksmithRunArgs({ commandArgs, testboxId });
   if (blacksmithArgs.length === 0) {
-    stdout.write(`Testbox local key and Brikko Studio claim ok: ${testboxId}\n`);
+    stdout.write(`Testbox local key and BrikkoStudio claim ok: ${testboxId}\n`);
     return 0;
   }
 

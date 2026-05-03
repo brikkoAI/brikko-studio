@@ -359,7 +359,7 @@ function formatSetupPlanDescription(
 ): string {
   const workspace = shortenHomePath(resolveUserPath(operation.workspace ?? process.cwd()));
   const model = operation.model ? ` and default model ${operation.model}` : "";
-  return `bootstrap Brikko Studio setup for workspace ${workspace}${model}`;
+  return `bootstrap BrikkoStudio setup for workspace ${workspace}${model}`;
 }
 
 function chooseSetupModel(

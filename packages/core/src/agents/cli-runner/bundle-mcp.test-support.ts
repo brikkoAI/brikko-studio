@@ -1,5 +1,5 @@
 import { afterAll, beforeAll } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   createBundleMcpTempHarness,
   createBundleProbePlugin,
@@ -42,7 +42,7 @@ export function setupCliBundleMcpTestHarness(): void {
   });
 }
 
-function createEnabledBundleProbeConfig(): Brikko StudioConfig {
+function createEnabledBundleProbeConfig(): BrikkoStudioConfig {
   return {
     plugins: {
       entries: {

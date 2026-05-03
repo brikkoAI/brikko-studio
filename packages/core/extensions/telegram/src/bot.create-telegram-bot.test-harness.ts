@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { MockFn } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import type { GetReplyOptions, MsgContext } from "brikko-studio/plugin-sdk/reply-runtime";
 import { beforeEach, vi } from "vitest";
@@ -111,7 +111,7 @@ const replySpyHoisted = vi.hoisted(() => ({
     (
       ctx: MsgContext,
       opts?: GetReplyOptions,
-      configOverride?: Brikko StudioConfig,
+      configOverride?: BrikkoStudioConfig,
     ) => Promise<ReplyPayloadLike | ReplyPayloadLike[] | undefined>
   >,
 }));
@@ -191,7 +191,7 @@ function normalizeLowercaseStringOrEmptyForTest(value: string | undefined): stri
   return value?.trim().toLowerCase() ?? "";
 }
 
-function resolveDefaultModelForAgentForTest(params: { cfg: Brikko StudioConfig }): {
+function resolveDefaultModelForAgentForTest(params: { cfg: BrikkoStudioConfig }): {
   provider: string;
   model: string;
 } {
@@ -206,7 +206,7 @@ function resolveDefaultModelForAgentForTest(params: { cfg: Brikko StudioConfig }
   };
 }
 
-function createModelsProviderDataFromConfig(cfg: Brikko StudioConfig): {
+function createModelsProviderDataFromConfig(cfg: BrikkoStudioConfig): {
   byProvider: Map<string, Set<string>>;
   providers: string[];
   resolvedDefault: { provider: string; model: string };
@@ -395,7 +395,7 @@ export const getOnHandler = (event: string) => {
   return handler as (ctx: Record<string, unknown>) => Promise<void>;
 };
 
-const DEFAULT_TELEGRAM_TEST_CONFIG: Brikko StudioConfig = {
+const DEFAULT_TELEGRAM_TEST_CONFIG: BrikkoStudioConfig = {
   agents: {
     defaults: {
       envelopeTimezone: "utc",
@@ -526,7 +526,7 @@ beforeEach(() => {
   listSkillCommandsForAgents.mockReset();
   listSkillCommandsForAgents.mockReturnValue([]);
   buildModelsProviderData.mockReset();
-  buildModelsProviderData.mockImplementation(async (cfg: Brikko StudioConfig) => {
+  buildModelsProviderData.mockImplementation(async (cfg: BrikkoStudioConfig) => {
     return createModelsProviderDataFromConfig(cfg);
   });
   middlewareUseSpy.mockReset();

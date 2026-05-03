@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { resolveGatewayInstallToken } from "./gateway-install-token.js";
 
 const readConfigFileSnapshotMock = vi.hoisted(() => vi.fn());
@@ -89,7 +89,7 @@ describe("resolveGatewayInstallToken", () => {
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { token: "config-token" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {} as NodeJS.ProcessEnv,
     });
 
@@ -111,7 +111,7 @@ describe("resolveGatewayInstallToken", () => {
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { mode: "token", token: tokenRef } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: { BRIKKO_STUDIO_GATEWAY_TOKEN: "resolved-token" } as NodeJS.ProcessEnv,
     });
 
@@ -130,7 +130,7 @@ describe("resolveGatewayInstallToken", () => {
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { mode: "token", token: "${MISSING_GATEWAY_TOKEN}" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {} as NodeJS.ProcessEnv,
     });
 
@@ -147,7 +147,7 @@ describe("resolveGatewayInstallToken", () => {
             password: "password-value", // pragma: allowlist secret
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {} as NodeJS.ProcessEnv,
       autoGenerateWhenMissing: true,
       persistGeneratedToken: true,
@@ -165,7 +165,7 @@ describe("resolveGatewayInstallToken", () => {
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { mode: "token" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {} as NodeJS.ProcessEnv,
       autoGenerateWhenMissing: true,
     });
@@ -182,7 +182,7 @@ describe("resolveGatewayInstallToken", () => {
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { mode: "token" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {} as NodeJS.ProcessEnv,
       autoGenerateWhenMissing: true,
       persistGeneratedToken: true,
@@ -228,7 +228,7 @@ describe("resolveGatewayInstallToken", () => {
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { mode: "token" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {} as NodeJS.ProcessEnv,
       autoGenerateWhenMissing: true,
       persistGeneratedToken: true,
@@ -256,7 +256,7 @@ describe("resolveGatewayInstallToken", () => {
             default: { source: "env" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {} as NodeJS.ProcessEnv,
       autoGenerateWhenMissing: true,
       persistGeneratedToken: true,
@@ -283,7 +283,7 @@ describe("resolveGatewayInstallToken", () => {
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: {} },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env,
       autoGenerateWhenMissing: true,
       persistGeneratedToken: true,
@@ -313,7 +313,7 @@ describe("resolveGatewayInstallToken", () => {
             token: tokenRef,
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {} as NodeJS.ProcessEnv,
     });
 

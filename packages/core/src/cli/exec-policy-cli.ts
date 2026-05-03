@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import type { Command } from "commander";
 import { readConfigFileSnapshot, replaceConfigFile } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { sanitizeExecApprovalDisplayText } from "../infra/exec-approval-command-display.js";
 import {
   collectExecPolicyScopeSnapshots,
@@ -213,9 +213,9 @@ function applyApprovalsDefaults(
 }
 
 function buildNextExecPolicyConfig(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   policy: ExecPolicyResolved,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const draft = structuredClone(config);
   applyConfigExecPolicy(draft as Record<string, unknown>, policy);
   return draft;

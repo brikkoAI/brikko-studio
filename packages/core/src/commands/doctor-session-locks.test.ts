@@ -2,8 +2,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
-  createBrikko StudioTestState,
-  type Brikko StudioTestState,
+  createBrikkoStudioTestState,
+  type BrikkoStudioTestState,
 } from "../test-utils/brikko-studio-test-state.js";
 
 const note = vi.hoisted(() => vi.fn());
@@ -15,11 +15,11 @@ vi.mock("../terminal/note.js", () => ({
 import { noteSessionLockHealth } from "./doctor-session-locks.js";
 
 describe("noteSessionLockHealth", () => {
-  let state: Brikko StudioTestState;
+  let state: BrikkoStudioTestState;
 
   beforeEach(async () => {
     note.mockClear();
-    state = await createBrikko StudioTestState({
+    state = await createBrikkoStudioTestState({
       layout: "state-only",
       prefix: "brikko-studio-doctor-locks-",
     });

@@ -1,13 +1,13 @@
 import { createPairingPrefixStripper } from "brikko-studio/plugin-sdk/channel-pairing";
 import { PAIRING_APPROVED_MESSAGE } from "brikko-studio/plugin-sdk/channel-status";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import { normalizeBlueBubblesHandle } from "./targets.js";
 
 type SendBlueBubblesMessage = (
   id: string,
   message: string,
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string;
   },
 ) => Promise<unknown>;
@@ -23,7 +23,7 @@ export function createBlueBubblesPairingText(sendMessageBlueBubbles: SendBlueBub
       message,
       accountId,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       id: string;
       message: string;
       accountId?: string;

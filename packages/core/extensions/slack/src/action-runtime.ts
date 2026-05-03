@@ -9,7 +9,7 @@ import {
   readNumberParam,
   readReactionParams,
   readStringParam,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   withNormalizedTimestamp,
 } from "./runtime-api.js";
 import { recordSlackThreadParticipation } from "./sent-thread-cache.js";
@@ -149,7 +149,7 @@ function isImageContentType(value: string | undefined): boolean {
 
 export async function handleSlackAction(
   params: Record<string, unknown>,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   context?: SlackActionContext,
 ): Promise<AgentToolResult<unknown>> {
   const resolveChannelId = () =>

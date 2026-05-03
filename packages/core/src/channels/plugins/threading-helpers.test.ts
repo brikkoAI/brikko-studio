@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   createScopedAccountReplyToModeResolver,
   createStaticReplyToModeResolver,
@@ -8,7 +8,7 @@ import {
 
 describe("createStaticReplyToModeResolver", () => {
   it.each(["off", "all"] as const)("always returns the configured mode %s", (mode) => {
-    expect(createStaticReplyToModeResolver(mode)({ cfg: {} as Brikko StudioConfig })).toBe(mode);
+    expect(createStaticReplyToModeResolver(mode)({ cfg: {} as BrikkoStudioConfig })).toBe(mode);
   });
 });
 
@@ -18,12 +18,12 @@ describe("createTopLevelChannelReplyToModeResolver", () => {
   it.each([
     {
       name: "reads the top-level channel config",
-      cfg: { channels: { "demo-top-level": { replyToMode: "first" } } } as Brikko StudioConfig,
+      cfg: { channels: { "demo-top-level": { replyToMode: "first" } } } as BrikkoStudioConfig,
       expected: "first",
     },
     {
       name: "falls back to off",
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       expected: "off",
     },
   ])("$name", ({ cfg, expected }) => {
@@ -61,7 +61,7 @@ describe("createScopedAccountReplyToModeResolver", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolver({ cfg, accountId })).toBe(expected);
   });
@@ -76,7 +76,7 @@ describe("createScopedAccountReplyToModeResolver", () => {
       },
     });
 
-    expect(resolver({ cfg: {} as Brikko StudioConfig, chatType: "group" })).toBe("first");
+    expect(resolver({ cfg: {} as BrikkoStudioConfig, chatType: "group" })).toBe("first");
     expect(seen).toEqual(["group"]);
   });
 });

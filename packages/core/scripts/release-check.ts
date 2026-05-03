@@ -77,7 +77,7 @@ const requiredPathGroups = [
 const forbiddenPrefixes = [
   ...LOCAL_BUILD_METADATA_DIST_PATHS,
   "dist-runtime/",
-  "dist/Brikko Studio.app/",
+  "dist/BrikkoStudio.app/",
   "dist/extensions/qa-channel/",
   "dist/extensions/qa-lab/",
   "dist/plugin-sdk/extensions/qa-channel/",

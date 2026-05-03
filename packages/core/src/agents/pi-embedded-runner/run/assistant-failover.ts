@@ -1,5 +1,5 @@
 import type { AssistantMessage } from "@mariozechner/pi-ai";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { sanitizeForLog } from "../../../terminal/ansi.js";
 import type { AuthProfileFailureReason } from "../../auth-profiles.js";
 import { FailoverError, resolveFailoverStatus } from "../../failover-error.js";
@@ -50,7 +50,7 @@ export async function handleAssistantFailover(params: {
   provider: string;
   activeErrorContext: { provider: string; model: string };
   lastAssistant: AssistantMessage | undefined;
-  config: Brikko StudioConfig | undefined;
+  config: BrikkoStudioConfig | undefined;
   sessionKey?: string;
   authFailure: boolean;
   rateLimitFailure: boolean;
@@ -253,7 +253,7 @@ export async function handleAssistantFailover(params: {
 
 function resolveAssistantFailoverErrorMessage(params: {
   lastAssistant: AssistantMessage | undefined;
-  config: Brikko StudioConfig | undefined;
+  config: BrikkoStudioConfig | undefined;
   sessionKey?: string;
   activeErrorContext: { provider: string; model: string };
   timedOut: boolean;

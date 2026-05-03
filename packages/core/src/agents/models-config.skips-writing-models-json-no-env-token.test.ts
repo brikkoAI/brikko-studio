@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { resolveBrikko StudioAgentDir } from "./agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "./agent-paths.js";
 import {
   CUSTOM_PROXY_MODELS_CONFIG,
   installModelsConfigTestHooks,
@@ -87,7 +87,7 @@ installModelsConfigTestHooks();
 let clearConfigCache: typeof import("../config/config.js").clearConfigCache;
 let clearRuntimeConfigSnapshot: typeof import("../config/config.js").clearRuntimeConfigSnapshot;
 let clearRuntimeAuthProfileStoreSnapshots: typeof import("./auth-profiles/store.js").clearRuntimeAuthProfileStoreSnapshots;
-let ensureBrikko StudioModelsJson: typeof import("./models-config.js").ensureBrikko StudioModelsJson;
+let ensureBrikkoStudioModelsJson: typeof import("./models-config.js").ensureBrikkoStudioModelsJson;
 let resetModelsJsonReadyCacheForTest: typeof import("./models-config.js").resetModelsJsonReadyCacheForTest;
 
 type ParsedProviderConfig = {
@@ -105,9 +105,9 @@ async function runEnvProviderCase(params: {
   const previousValue = process.env[params.envVar];
   process.env[params.envVar] = params.envValue;
   try {
-    await ensureBrikko StudioModelsJson({});
+    await ensureBrikkoStudioModelsJson({});
 
-    const modelPath = path.join(resolveBrikko StudioAgentDir(), "models.json");
+    const modelPath = path.join(resolveBrikkoStudioAgentDir(), "models.json");
     const raw = await fs.readFile(modelPath, "utf8");
     const parsed = JSON.parse(raw) as { providers: Record<string, ParsedProviderConfig> };
     const provider = parsed.providers[params.providerKey];
@@ -126,7 +126,7 @@ describe("models-config", () => {
   beforeAll(async () => {
     ({ clearConfigCache, clearRuntimeConfigSnapshot } = await import("../config/config.js"));
     ({ clearRuntimeAuthProfileStoreSnapshots } = await import("./auth-profiles/store.js"));
-    ({ ensureBrikko StudioModelsJson, resetModelsJsonReadyCacheForTest } =
+    ({ ensureBrikkoStudioModelsJson, resetModelsJsonReadyCacheForTest } =
       await import("./models-config.js"));
   });
 
@@ -154,7 +154,7 @@ describe("models-config", () => {
         process.env.BRIKKO_STUDIO_AGENT_DIR = agentDir;
         process.env.PI_CODING_AGENT_DIR = agentDir;
 
-        const result = await ensureBrikko StudioModelsJson(
+        const result = await ensureBrikkoStudioModelsJson(
           {
             models: { providers: {} },
           },
@@ -175,9 +175,9 @@ describe("models-config", () => {
 
   it("writes models.json for configured providers", async () => {
     await withTempHome(async () => {
-      await ensureBrikko StudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
+      await ensureBrikkoStudioModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
 
-      const modelPath = path.join(resolveBrikko StudioAgentDir(), "models.json");
+      const modelPath = path.join(resolveBrikkoStudioAgentDir(), "models.json");
       const raw = await fs.readFile(modelPath, "utf8");
       const parsed = JSON.parse(raw) as {
         providers: Record<

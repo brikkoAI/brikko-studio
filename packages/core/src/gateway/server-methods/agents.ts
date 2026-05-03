@@ -32,7 +32,7 @@ import {
   resolveSessionTranscriptsDirForAgent,
 } from "../../config/sessions.js";
 import type { IdentityConfig } from "../../config/types.base.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { sameFileIdentity } from "../../infra/file-identity.js";
 import {
   openFileWithinRoot,
@@ -104,9 +104,9 @@ const ALLOWED_FILE_NAMES = new Set<string>([...BOOTSTRAP_FILE_NAMES, ...MEMORY_F
 function resolveAgentWorkspaceFileOrRespondError(
   params: Record<string, unknown>,
   respond: RespondFn,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   workspaceDir: string;
   name: string;
@@ -225,7 +225,7 @@ async function listAgentFiles(workspaceDir: string, options?: { hideBootstrap?: 
   return files;
 }
 
-function resolveAgentIdOrError(agentIdRaw: string, cfg: Brikko StudioConfig) {
+function resolveAgentIdOrError(agentIdRaw: string, cfg: BrikkoStudioConfig) {
   const agentId = normalizeAgentId(agentIdRaw);
   const allowed = new Set(listAgentIds(cfg));
   if (!allowed.has(agentId)) {
@@ -257,7 +257,7 @@ function respondInvalidMethodParams(
   );
 }
 
-function isConfiguredAgent(cfg: Brikko StudioConfig, agentId: string): boolean {
+function isConfiguredAgent(cfg: BrikkoStudioConfig, agentId: string): boolean {
   return findAgentEntryIndex(listAgentEntries(cfg), agentId) >= 0;
 }
 

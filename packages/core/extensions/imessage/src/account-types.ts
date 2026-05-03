@@ -1,6 +1,6 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export type IMessageAccountConfig = Omit<
-  NonNullable<NonNullable<Brikko StudioConfig["channels"]>["imessage"]>,
+  NonNullable<NonNullable<BrikkoStudioConfig["channels"]>["imessage"]>,
   "accounts" | "defaultAccount"
 >;

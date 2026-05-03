@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { discoverBrikko StudioPlugins } from "../src/plugins/discovery.js";
+import { discoverBrikkoStudioPlugins } from "../src/plugins/discovery.js";
 import { collectFilesSync, isCodeFile, relativeToCwd } from "./check-file-utils.js";
 
 // Match exact monolithic-root specifier in any code path:
@@ -73,7 +73,7 @@ function collectBundledExtensionSourceFiles(): string[] {
 }
 
 function main() {
-  const discovery = discoverBrikko StudioPlugins({});
+  const discovery = discoverBrikkoStudioPlugins({});
   const bundledCandidates = discovery.candidates.filter((c) => c.origin === "bundled");
   const filesToCheck = new Set<string>();
   for (const candidate of bundledCandidates) {

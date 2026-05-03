@@ -11,7 +11,7 @@ vi.mock("./config.js", () => ({
 }));
 
 let originalTestFileLog: string | undefined;
-let originalBrikko StudioLogLevel: string | undefined;
+let originalBrikkoStudioLogLevel: string | undefined;
 let logging: typeof import("../logging.js");
 
 beforeAll(async () => {
@@ -20,7 +20,7 @@ beforeAll(async () => {
 
 beforeEach(() => {
   originalTestFileLog = process.env.BRIKKO_STUDIO_TEST_FILE_LOG;
-  originalBrikko StudioLogLevel = process.env.BRIKKO_STUDIO_LOG_LEVEL;
+  originalBrikkoStudioLogLevel = process.env.BRIKKO_STUDIO_LOG_LEVEL;
   delete process.env.BRIKKO_STUDIO_TEST_FILE_LOG;
   delete process.env.BRIKKO_STUDIO_LOG_LEVEL;
   readLoggingConfigMock.mockReset();
@@ -37,10 +37,10 @@ afterEach(() => {
   } else {
     process.env.BRIKKO_STUDIO_TEST_FILE_LOG = originalTestFileLog;
   }
-  if (originalBrikko StudioLogLevel === undefined) {
+  if (originalBrikkoStudioLogLevel === undefined) {
     delete process.env.BRIKKO_STUDIO_LOG_LEVEL;
   } else {
-    process.env.BRIKKO_STUDIO_LOG_LEVEL = originalBrikko StudioLogLevel;
+    process.env.BRIKKO_STUDIO_LOG_LEVEL = originalBrikkoStudioLogLevel;
   }
   logging.resetLogger();
   logging.setLoggerOverride(null);

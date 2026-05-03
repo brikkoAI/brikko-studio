@@ -1,5 +1,5 @@
 /**
- * Twitch channel plugin for Brikko Studio.
+ * Twitch channel plugin for BrikkoStudio.
  *
  * Main plugin export combining all adapters (outbound, actions, status, gateway).
  * This is the primary entry point for the Twitch channel integration.
@@ -12,7 +12,7 @@ import {
   createLoggedPairingApprovalNotifier,
   createPairingPrefixStripper,
 } from "brikko-studio/plugin-sdk/channel-pairing";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { buildPassiveProbedChannelStatusSummary } from "brikko-studio/plugin-sdk/extension-shared";
 import {
   createComputedAccountStatusAdapter,
@@ -49,7 +49,7 @@ type ResolvedTwitchAccount = TwitchAccountConfig & { accountId?: string | null }
  * Twitch channel plugin.
  *
  * Implements the ChannelPlugin interface to provide Twitch chat integration
- * for Brikko Studio. Supports message sending, receiving, access control, and
+ * for BrikkoStudio. Supports message sending, receiving, access control, and
  * status monitoring.
  */
 export const twitchPlugin: ChannelPlugin<ResolvedTwitchAccount> =
@@ -80,8 +80,8 @@ export const twitchPlugin: ChannelPlugin<ResolvedTwitchAccount> =
       },
       configSchema: buildChannelConfigSchema(TwitchConfigSchema),
       config: {
-        listAccountIds: (cfg: Brikko StudioConfig): string[] => listAccountIds(cfg),
-        resolveAccount: (cfg: Brikko StudioConfig, accountId?: string | null): ResolvedTwitchAccount => {
+        listAccountIds: (cfg: BrikkoStudioConfig): string[] => listAccountIds(cfg),
+        resolveAccount: (cfg: BrikkoStudioConfig, accountId?: string | null): ResolvedTwitchAccount => {
           const resolvedAccountId = accountId ?? resolveDefaultTwitchAccountId(cfg);
           const account = getAccountConfig(cfg, resolvedAccountId);
           if (!account) {
@@ -99,8 +99,8 @@ export const twitchPlugin: ChannelPlugin<ResolvedTwitchAccount> =
             ...account,
           };
         },
-        defaultAccountId: (cfg: Brikko StudioConfig): string => resolveDefaultTwitchAccountId(cfg),
-        isConfigured: (_account: unknown, cfg: Brikko StudioConfig): boolean =>
+        defaultAccountId: (cfg: BrikkoStudioConfig): string => resolveDefaultTwitchAccountId(cfg),
+        isConfigured: (_account: unknown, cfg: BrikkoStudioConfig): boolean =>
           resolveTwitchAccountContext(cfg).configured,
         isEnabled: (account: ResolvedTwitchAccount | undefined): boolean =>
           account?.enabled !== false,
@@ -125,7 +125,7 @@ export const twitchPlugin: ChannelPlugin<ResolvedTwitchAccount> =
           kind,
           runtime,
         }: {
-          cfg: Brikko StudioConfig;
+          cfg: BrikkoStudioConfig;
           accountId?: string | null;
           inputs: string[];
           kind: ChannelResolveKind;

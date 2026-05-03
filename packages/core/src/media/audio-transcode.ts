@@ -1,6 +1,6 @@
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 import { runFfmpeg } from "./ffmpeg-exec.js";
 
 const DEFAULT_OPUS_SAMPLE_RATE_HZ = 48_000;
@@ -50,7 +50,7 @@ export async function transcodeAudioBufferToOpus(params: {
   bitrate?: string;
   channels?: number;
 }): Promise<Buffer> {
-  const tempRoot = resolvePreferredBrikko StudioTmpDir();
+  const tempRoot = resolvePreferredBrikkoStudioTmpDir();
   await mkdir(tempRoot, { recursive: true, mode: 0o700 });
   const tempDir = await mkdtemp(path.join(tempRoot, normalizeTempPrefix(params.tempPrefix)));
   try {

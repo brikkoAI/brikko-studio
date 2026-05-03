@@ -25,7 +25,7 @@ const mocks = vi.hoisted(() => ({
     }>
   >(async () => ({ messageId: "poll-1" })),
   getChannelPlugin: vi.fn(),
-  loadBrikko StudioPlugins: vi.fn(),
+  loadBrikkoStudioPlugins: vi.fn(),
   applyPluginAutoEnable: vi.fn(),
 }));
 
@@ -75,7 +75,7 @@ vi.mock("../../config/plugin-auto-enable.js", () => ({
 }));
 
 vi.mock("../../plugins/loader.js", () => ({
-  loadBrikko StudioPlugins: mocks.loadBrikko StudioPlugins,
+  loadBrikkoStudioPlugins: mocks.loadBrikkoStudioPlugins,
   resolveRuntimePluginRegistry: vi.fn(),
 }));
 

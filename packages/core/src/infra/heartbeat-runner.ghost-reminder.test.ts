@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveMainSessionKey } from "../config/sessions/main-session.js";
 import { runHeartbeatOnce } from "./heartbeat-runner.js";
 import {
@@ -35,8 +35,8 @@ describe("Ghost reminder bug (issue #13317)", () => {
     storePath: string;
     target?: "telegram" | "none";
     isolatedSession?: boolean;
-  }): Promise<{ cfg: Brikko StudioConfig; sessionKey: string }> => {
-    const cfg: Brikko StudioConfig = {
+  }): Promise<{ cfg: BrikkoStudioConfig; sessionKey: string }> => {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           workspace: params.tmpDir,
@@ -63,7 +63,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
     tmpDir: string;
     storePath: string;
     isolatedSession?: boolean;
-  }): Brikko StudioConfig => ({
+  }): BrikkoStudioConfig => ({
     agents: {
       defaults: {
         workspace: params.tmpDir,
@@ -470,7 +470,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("routes wake-triggered heartbeat replies using queued system-event delivery context", async () => {
     await withTempHeartbeatSandbox(async ({ tmpDir, storePath, replySpy }) => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             workspace: tmpDir,
@@ -578,7 +578,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
   });
   it("keeps output-bearing exec-event delivery pinned to the original Telegram topic when session route drifts", async () => {
     await withTempHeartbeatSandbox(async ({ tmpDir, storePath }) => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             workspace: tmpDir,
@@ -645,7 +645,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("suppresses metadata-only successful exec completions", async () => {
     await withTempHeartbeatSandbox(async ({ tmpDir, storePath }) => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             workspace: tmpDir,

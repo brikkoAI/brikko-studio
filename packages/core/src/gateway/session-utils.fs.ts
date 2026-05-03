@@ -118,7 +118,7 @@ async function yieldTranscriptScan(): Promise<void> {
   await new Promise<void>((resolve) => setImmediate(resolve));
 }
 
-export function attachBrikko StudioTranscriptMeta(
+export function attachBrikkoStudioTranscriptMeta(
   message: unknown,
   meta: Record<string, unknown>,
 ): unknown {
@@ -615,7 +615,7 @@ export function readRecentSessionMessagesWithStats(
   const messages = readRecentSessionMessages(sessionId, storePath, sessionFile, opts);
   const firstSeq = Math.max(1, totalMessages - messages.length + 1);
   const messagesWithSeq = messages.map((message, index) =>
-    attachBrikko StudioTranscriptMeta(message, { seq: firstSeq + index }),
+    attachBrikkoStudioTranscriptMeta(message, { seq: firstSeq + index }),
   );
   return { messages: messagesWithSeq, totalMessages };
 }
@@ -662,7 +662,7 @@ export async function readRecentSessionMessagesWithStatsAsync(
   const messages = await readRecentSessionMessagesAsync(sessionId, storePath, sessionFile, opts);
   const firstSeq = Math.max(1, totalMessages - messages.length + 1);
   const messagesWithSeq = messages.map((message, index) =>
-    attachBrikko StudioTranscriptMeta(message, { seq: firstSeq + index }),
+    attachBrikkoStudioTranscriptMeta(message, { seq: firstSeq + index }),
   );
   return { messages: messagesWithSeq, totalMessages };
 }
@@ -709,7 +709,7 @@ function parsedSessionEntryToMessage(parsed: unknown, seq: number): unknown {
   }
   const entry = parsed as Record<string, unknown>;
   if (entry.message) {
-    return attachBrikko StudioTranscriptMeta(entry.message, {
+    return attachBrikkoStudioTranscriptMeta(entry.message, {
       ...(typeof entry.id === "string" ? { id: entry.id } : {}),
       seq,
     });

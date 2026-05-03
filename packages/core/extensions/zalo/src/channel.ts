@@ -23,7 +23,7 @@ import {
   createRawChannelSendResultAdapter,
 } from "brikko-studio/plugin-sdk/channel-send-result";
 import { buildTokenChannelStatusSummary } from "brikko-studio/plugin-sdk/channel-status";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { createStaticReplyToModeResolver } from "brikko-studio/plugin-sdk/conversation-runtime";
 import { createChannelDirectoryAdapter } from "brikko-studio/plugin-sdk/directory-runtime";
 import { listResolvedDirectoryUserEntriesFromAllowFrom } from "brikko-studio/plugin-sdk/directory-runtime";
@@ -121,7 +121,7 @@ const resolveZaloDmPolicy = createScopedDmSecurityResolver<ResolvedZaloAccount>(
 });
 
 const collectZaloSecurityWarnings = createOpenProviderGroupPolicyWarningCollector<{
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedZaloAccount;
 }>({
   providerConfigPresent: (cfg) => cfg.channels?.zalo !== undefined,

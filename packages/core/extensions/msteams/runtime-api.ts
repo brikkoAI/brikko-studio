@@ -46,7 +46,7 @@ export type {
   MSTeamsReplyStyle,
   MSTeamsTeamConfig,
   MarkdownTableMode,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/config-types";
 export { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
 export { resolveDefaultGroupPolicy } from "brikko-studio/plugin-sdk/runtime-group-policy";

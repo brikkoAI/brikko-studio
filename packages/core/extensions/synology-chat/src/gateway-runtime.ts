@@ -1,4 +1,4 @@
-import { DEFAULT_ACCOUNT_ID, type Brikko StudioConfig } from "brikko-studio/plugin-sdk/account-resolution";
+import { DEFAULT_ACCOUNT_ID, type BrikkoStudioConfig } from "brikko-studio/plugin-sdk/account-resolution";
 import { registerPluginHttpRoute } from "brikko-studio/plugin-sdk/webhook-ingress";
 import { listAccountIds, resolveAccount } from "./accounts.js";
 import { dispatchSynologyChatInboundTurn } from "./inbound-turn.js";
@@ -69,7 +69,7 @@ function createUnknownArgsLogAdapter(
 }
 
 function collectSynologyGatewayStartupIssues(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedSynologyChatAccount;
   accountId: string;
 }): SynologyGatewayStartupIssue[] {
@@ -143,7 +143,7 @@ function collectSynologyGatewayStartupIssues(params: {
 }
 
 export function collectSynologyGatewayRoutingWarnings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedSynologyChatAccount;
 }): string[] {
   return collectSynologyGatewayStartupIssues({
@@ -159,7 +159,7 @@ export function collectSynologyGatewayRoutingWarnings(params: {
 }
 
 export function validateSynologyGatewayAccountStartup(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedSynologyChatAccount;
   accountId: string;
   log?: SynologyGatewayLog;

@@ -2,7 +2,7 @@ import { getChannelPlugin } from "../../channels/plugins/index.js";
 import type { ChannelThreadingAdapter } from "../../channels/plugins/types.core.js";
 import { normalizeAnyChannelId } from "../../channels/registry.js";
 import type { ReplyToMode } from "../../config/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeOptionalLowercaseString } from "../../shared/string-coerce.js";
 import type { OriginatingChannelType } from "../templating.js";
 import type { ReplyPayload, ReplyThreadingPolicy } from "../types.js";
@@ -25,7 +25,7 @@ function normalizeReplyToModeChatType(
 }
 
 export function resolveConfiguredReplyToMode(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   channel?: OriginatingChannelType,
   chatType?: string | null,
 ): ReplyToMode {
@@ -53,7 +53,7 @@ export function resolveConfiguredReplyToMode(
 }
 
 export function resolveReplyToModeWithThreading(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   threading: ChannelThreadingAdapter | undefined,
   params: {
     channel?: OriginatingChannelType;
@@ -70,7 +70,7 @@ export function resolveReplyToModeWithThreading(
 }
 
 export function resolveReplyToMode(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   channel?: OriginatingChannelType,
   accountId?: string | null,
   chatType?: string | null,

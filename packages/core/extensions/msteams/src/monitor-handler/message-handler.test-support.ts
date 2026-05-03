@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import type { Brikko StudioConfig, RuntimeEnv } from "../../runtime-api.js";
+import type { BrikkoStudioConfig, RuntimeEnv } from "../../runtime-api.js";
 import type { MSTeamsMessageHandlerDeps } from "../monitor-handler.js";
 import { installMSTeamsTestRuntime } from "../monitor-handler.test-helpers.js";
 
@@ -14,7 +14,7 @@ type MessageHandlerDepsOptions = {
 };
 
 export function createMessageHandlerDeps(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options: MessageHandlerDepsOptions = {},
 ) {
   const enqueueSystemEvent = options.enqueueSystemEvent ?? vi.fn();

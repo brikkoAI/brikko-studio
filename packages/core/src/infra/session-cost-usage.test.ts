@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { createSuiteTempRootTracker } from "../test-helpers/temp-dir.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import {
@@ -118,7 +118,7 @@ describe("session cost usage", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     await withStateDir(root, async () => {
       const summary = await loadCostUsageSummary({ days: 30, config });

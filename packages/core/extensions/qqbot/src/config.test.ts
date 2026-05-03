@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { type JsonSchemaObject, validateJsonSchemaValue } from "brikko-studio/plugin-sdk/config-schema";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import { qqbotSetupAdapterShared } from "./bridge/config-shared.js";
 import {
@@ -67,7 +67,7 @@ describe("qqbot config", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveDefaultQQBotAccountId(cfg)).toBe("bot2");
   });
@@ -137,7 +137,7 @@ describe("qqbot config", () => {
           upgradeMode: "hot-reload",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const resolved = resolveQQBotAccount(cfg, DEFAULT_ACCOUNT_ID);
 
@@ -166,7 +166,7 @@ describe("qqbot config", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const resolved = resolveQQBotAccount(cfg);
 
@@ -207,7 +207,7 @@ describe("qqbot config", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(() => resolveQQBotAccount(cfg, DEFAULT_ACCOUNT_ID)).toThrow(
       'channels.qqbot.clientSecret: unresolved SecretRef "file:default:/qqbot/clientSecret"',
@@ -222,7 +222,7 @@ describe("qqbot config", () => {
           clientSecret: "secretref:/QQBOT_CLIENT_SECRET",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(() => resolveQQBotAccount(cfg, DEFAULT_ACCOUNT_ID)).toThrow(
       "channels.qqbot.clientSecret: legacy SecretRef marker strings are not valid QQ Bot clientSecret values; use a structured SecretRef object instead.",
@@ -258,7 +258,7 @@ describe("qqbot config", () => {
     expect(setup).toBeDefined();
 
     const next = setup!.applyAccountConfig?.({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       accountId: inputAccountId,
       input: {
         token: "102905186:Oi2Mg1Mh2Ni3:Pl7TpBXuHe1OmAYwKi7W",
@@ -289,28 +289,28 @@ describe("qqbot config", () => {
 
     expect(
       runtimeSetup.validateInput?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: DEFAULT_ACCOUNT_ID,
         input,
       } as never),
     ).toBe("QQBot --token must be in appId:clientSecret format");
     expect(
       lightweightSetup!.validateInput?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: DEFAULT_ACCOUNT_ID,
         input,
       } as never),
     ).toBe("QQBot --token must be in appId:clientSecret format");
     expect(
       runtimeSetup.applyAccountConfig?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: DEFAULT_ACCOUNT_ID,
         input,
       } as never),
     ).toEqual({});
     expect(
       lightweightSetup!.applyAccountConfig?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: DEFAULT_ACCOUNT_ID,
         input,
       } as never),
@@ -327,7 +327,7 @@ describe("qqbot config", () => {
 
     expect(
       runtimeSetup.applyAccountConfig?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: DEFAULT_ACCOUNT_ID,
         input,
       } as never),
@@ -342,7 +342,7 @@ describe("qqbot config", () => {
     });
     expect(
       lightweightSetup!.applyAccountConfig?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: DEFAULT_ACCOUNT_ID,
         input,
       } as never),
@@ -379,28 +379,28 @@ describe("qqbot config", () => {
 
     expect(
       runtimeSetup.validateInput?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: "bot2",
         input,
       } as never),
     ).toBe("QQBot --use-env only supports the default account");
     expect(
       lightweightSetup!.validateInput?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: "bot2",
         input,
       } as never),
     ).toBe("QQBot --use-env only supports the default account");
     expect(
       runtimeSetup.applyAccountConfig?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: "bot2",
         input,
       } as never),
     ).toEqual({});
     expect(
       lightweightSetup!.applyAccountConfig?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: "bot2",
         input,
       } as never),

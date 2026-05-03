@@ -127,7 +127,7 @@ export function createPluginSdkScope(_repoRoot: string): TopologyScope {
     importSpecifier:
       entrypoint === "index" ? "brikko-studio/plugin-sdk" : `brikko-studio/plugin-sdk/${entrypoint}`,
   }));
-  return buildScopeFromEntrypoints("plugin-sdk", "Brikko Studio plugin-sdk public surface", entrypoints);
+  return buildScopeFromEntrypoints("plugin-sdk", "BrikkoStudio plugin-sdk public surface", entrypoints);
 }
 
 export function createFilesystemPublicSurfaceScope(

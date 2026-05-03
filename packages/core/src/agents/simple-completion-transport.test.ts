@@ -1,6 +1,6 @@
 import type { Model } from "@mariozechner/pi-ai";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
 const createAnthropicVertexStreamFnForModel = vi.fn();
 const ensureCustomApiRegistered = vi.fn();
@@ -64,7 +64,7 @@ describe("prepareModelForSimpleCompletion", () => {
       maxTokens: 4096,
       headers: {},
     };
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       models: {
         providers: {
           ollama: {

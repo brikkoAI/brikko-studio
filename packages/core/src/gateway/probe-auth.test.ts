@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   resolveGatewayProbeAuthSafe,
   resolveGatewayProbeAuthSafeWithSecretInputs,
@@ -7,7 +7,7 @@ import {
   resolveGatewayProbeAuthWithSecretInputs,
 } from "./probe-auth.js";
 
-function expectUnresolvedProbeTokenWarning(cfg: Brikko StudioConfig) {
+function expectUnresolvedProbeTokenWarning(cfg: BrikkoStudioConfig) {
   const result = resolveGatewayProbeAuthSafe({
     cfg,
     mode: "local",
@@ -28,7 +28,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
             token: "token-value",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       mode: "local",
       env: {} as NodeJS.ProcessEnv,
     });
@@ -54,7 +54,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
           default: { source: "env" },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
   });
 
   it("does not fall through to remote token when local token SecretRef is unresolved", () => {
@@ -74,7 +74,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
           default: { source: "env" },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
   });
 
   it("does not fall through to remote credentials for local probes", () => {
@@ -88,7 +88,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
             password: "remote-password", // pragma: allowlist secret
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       mode: "local",
       env: {} as NodeJS.ProcessEnv,
     });
@@ -119,7 +119,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
             default: { source: "env" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       mode: "remote",
       env: {} as NodeJS.ProcessEnv,
     });
@@ -140,7 +140,7 @@ describe("resolveGatewayProbeTarget", () => {
         gateway: {
           mode: "remote",
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ).toEqual({
       gatewayMode: "remote",
       mode: "local",
@@ -157,7 +157,7 @@ describe("resolveGatewayProbeTarget", () => {
             url: "wss://gateway.example",
           },
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ).toEqual({
       gatewayMode: "remote",
       mode: "remote",
@@ -181,7 +181,7 @@ describe("resolveGatewayProbeAuthSafeWithSecretInputs", () => {
             default: { source: "env" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       mode: "local",
       env: {
         BRIKKO_STUDIO_GATEWAY_TOKEN: "test-token-from-env",
@@ -210,7 +210,7 @@ describe("resolveGatewayProbeAuthSafeWithSecretInputs", () => {
             default: { source: "env" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       mode: "local",
       env: {
         REMOTE_GATEWAY_TOKEN: "remote-token",
@@ -238,7 +238,7 @@ describe("resolveGatewayProbeAuthSafeWithSecretInputs", () => {
             default: { source: "env" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       mode: "local",
       env: {} as NodeJS.ProcessEnv,
     });
@@ -264,7 +264,7 @@ describe("resolveGatewayProbeAuthWithSecretInputs", () => {
             default: { source: "env" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       mode: "local",
       env: {
         DAEMON_GATEWAY_TOKEN: "resolved-daemon-token",

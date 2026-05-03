@@ -12,7 +12,7 @@ import type { ChannelAccountSnapshot } from "../channels/plugins/types.public.js
 import { withProgress } from "../cli/progress.js";
 import { getRuntimeConfig } from "../config/config.js";
 import { resolveStorePath } from "../config/sessions/paths.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { buildGatewayConnectionDetails, callGateway } from "../gateway/call.js";
 import {
   DEFAULT_CHANNEL_CONNECT_GRACE_MS,
@@ -111,10 +111,10 @@ function formatEventLoopHealthLine(summary: HealthSummary): string | null {
   }`;
 }
 
-const resolveHeartbeatSummary = (cfg: Brikko StudioConfig, agentId: string) =>
+const resolveHeartbeatSummary = (cfg: BrikkoStudioConfig, agentId: string) =>
   resolveHeartbeatSummaryForAgent(cfg, agentId);
 
-const resolveAgentOrder = (cfg: Brikko StudioConfig) => {
+const resolveAgentOrder = (cfg: BrikkoStudioConfig) => {
   const defaultAgentId = resolveDefaultAgentId(cfg);
   const entries = Array.isArray(cfg.agents?.list) ? cfg.agents.list : [];
   const seen = new Set<string>();
@@ -213,7 +213,7 @@ const hasAccountValue = (account: unknown): boolean => account !== null && accou
 
 function resolveProbeAccountEnabled(params: {
   plugin: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   account: unknown;
   diagnostics: string[];
@@ -235,7 +235,7 @@ function resolveProbeAccountEnabled(params: {
 
 async function resolveProbeAccountConfigured(params: {
   plugin: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   account: unknown;
   diagnostics: string[];
@@ -258,7 +258,7 @@ async function resolveProbeAccountConfigured(params: {
 
 async function resolveHealthAccountContext(params: {
   plugin: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
 }): Promise<{
   probeAccount: unknown;
@@ -535,7 +535,7 @@ export async function healthCommand(
     json?: boolean;
     timeoutMs?: number;
     verbose?: boolean;
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     token?: string;
     password?: string;
   },
@@ -798,7 +798,7 @@ export async function healthCommand(
   }
 }
 
-async function readBestEffortHealthConfig(): Promise<Brikko StudioConfig> {
+async function readBestEffortHealthConfig(): Promise<BrikkoStudioConfig> {
   const { readBestEffortConfig } = await loadConfigModule();
   return await readBestEffortConfig();
 }

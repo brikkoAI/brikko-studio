@@ -14,29 +14,29 @@ const mocks = vi.hoisted(() => {
     }) satisfies AnyAgentTool;
 
   return {
-    createBrikko StudioToolsOptions: vi.fn(),
+    createBrikkoStudioToolsOptions: vi.fn(),
     stubTool,
   };
 });
 
 vi.mock("./brikko-studio-tools.js", () => ({
-  createBrikko StudioTools: (options: unknown) => {
-    mocks.createBrikko StudioToolsOptions(options);
+  createBrikkoStudioTools: (options: unknown) => {
+    mocks.createBrikkoStudioToolsOptions(options);
     return [mocks.stubTool("cron", true)];
   },
 }));
 
 import "./test-helpers/fast-bash-tools.js";
 import "./test-helpers/fast-coding-tools.js";
-import { createBrikko StudioCodingTools } from "./pi-tools.js";
+import { createBrikkoStudioCodingTools } from "./pi-tools.js";
 
-describe("createBrikko StudioCodingTools cron scope", () => {
+describe("createBrikkoStudioCodingTools cron scope", () => {
   beforeEach(() => {
-    mocks.createBrikko StudioToolsOptions.mockClear();
+    mocks.createBrikkoStudioToolsOptions.mockClear();
   });
 
   it("scopes the cron owner-only runtime grant to self-removal", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       trigger: "cron",
       jobId: "job-current",
       senderIsOwner: false,
@@ -44,7 +44,7 @@ describe("createBrikko StudioCodingTools cron scope", () => {
     });
 
     expect(tools.map((tool) => tool.name)).toContain("cron");
-    expect(mocks.createBrikko StudioToolsOptions).toHaveBeenCalledWith(
+    expect(mocks.createBrikkoStudioToolsOptions).toHaveBeenCalledWith(
       expect.objectContaining({
         cronSelfRemoveOnlyJobId: "job-current",
       }),
@@ -52,13 +52,13 @@ describe("createBrikko StudioCodingTools cron scope", () => {
   });
 
   it("does not scope ordinary owner cron sessions", () => {
-    createBrikko StudioCodingTools({
+    createBrikkoStudioCodingTools({
       trigger: "cron",
       jobId: "job-current",
       senderIsOwner: true,
     });
 
-    expect(mocks.createBrikko StudioToolsOptions).toHaveBeenCalledWith(
+    expect(mocks.createBrikkoStudioToolsOptions).toHaveBeenCalledWith(
       expect.not.objectContaining({
         cronSelfRemoveOnlyJobId: expect.any(String),
       }),

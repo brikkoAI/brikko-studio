@@ -6,7 +6,7 @@ import {
   resetConfigRuntimeState,
   setRuntimeConfigSnapshot,
 } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { clearSecretsRuntimeSnapshot } from "../secrets/runtime.js";
 
 function withStableOwnerDisplaySecretForTest(cfg: unknown): unknown {
@@ -37,7 +37,7 @@ export async function withTempConfig(params: {
 }): Promise<void> {
   const prevConfigPath = process.env.BRIKKO_STUDIO_CONFIG_PATH;
 
-  const testConfig = withStableOwnerDisplaySecretForTest(params.cfg) as Brikko StudioConfig;
+  const testConfig = withStableOwnerDisplaySecretForTest(params.cfg) as BrikkoStudioConfig;
   const dir = await mkdtemp(path.join(os.tmpdir(), params.prefix ?? "brikko-studio-test-config-"));
   const configPath = path.join(dir, "brikko-studio.json");
 

@@ -23,7 +23,7 @@ describeLive("xiaomi plugin live", () => {
     const provider = requireRegisteredProvider(speechProviders, "xiaomi");
 
     const audioFile = await provider.synthesize({
-      text: "Brikko Studio Xiaomi MiMo text to speech integration test OK.",
+      text: "BrikkoStudio Xiaomi MiMo text to speech integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig: { apiKey: XIAOMI_API_KEY, format: "mp3", voice: "mimo_default" },
       target: "audio-file",
@@ -40,7 +40,7 @@ describeLive("xiaomi plugin live", () => {
     const provider = requireRegisteredProvider(speechProviders, "xiaomi");
 
     const voiceNote = await provider.synthesize({
-      text: "Brikko Studio Xiaomi MiMo voice note test OK.",
+      text: "BrikkoStudio Xiaomi MiMo voice note test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig: { apiKey: XIAOMI_API_KEY, format: "mp3", voice: "mimo_default" },
       target: "voice-note",

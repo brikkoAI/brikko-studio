@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveExternalCliAuthScopeFromConfig } from "./auth-profiles/external-cli-scope.js";
 
 describe("external CLI auth scope", () => {
@@ -67,7 +67,7 @@ describe("external CLI auth scope", () => {
           },
         ],
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const scope = resolveExternalCliAuthScopeFromConfig(cfg);
 

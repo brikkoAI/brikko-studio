@@ -50,7 +50,7 @@ import { buildTtsSystemPromptHint } from "../../../tts/tts.js";
 import { resolveUserPath } from "../../../utils.js";
 import { normalizeMessageChannel } from "../../../utils/message-channel.js";
 import { isReasoningTagProvider } from "../../../utils/provider-utils.js";
-import { resolveBrikko StudioAgentDir } from "../../agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../../agent-paths.js";
 import { resolveSessionAgentIds } from "../../agent-scope.js";
 import { createAnthropicPayloadLogger } from "../../anthropic-payload-log.js";
 import {
@@ -75,7 +75,7 @@ import {
   resolveChannelReactionGuidance,
 } from "../../channel-tools.js";
 import { DEFAULT_CONTEXT_TOKENS } from "../../defaults.js";
-import { resolveBrikko StudioReferencePaths } from "../../docs-path.js";
+import { resolveBrikkoStudioReferencePaths } from "../../docs-path.js";
 import { isTimeoutError } from "../../failover-error.js";
 import { resolveHeartbeatPromptForSystemPrompt } from "../../heartbeat-system-prompt.js";
 import { resolveImageSanitizationLimits } from "../../image-sanitization.js";
@@ -114,7 +114,7 @@ import {
   findClientToolNameConflicts,
   toClientToolDefinitions,
 } from "../../pi-tool-definition-adapter.js";
-import { createBrikko StudioCodingTools, resolveToolLoopDetectionConfig } from "../../pi-tools.js";
+import { createBrikkoStudioCodingTools, resolveToolLoopDetectionConfig } from "../../pi-tools.js";
 import {
   resolveEffectiveToolPolicy,
   resolveGroupToolPolicy,
@@ -826,7 +826,7 @@ export async function runEmbeddedAttempt(
       );
     }
     const activeContextEngine = isRawModelRun ? undefined : params.contextEngine;
-    const agentDir = params.agentDir ?? resolveBrikko StudioAgentDir();
+    const agentDir = params.agentDir ?? resolveBrikkoStudioAgentDir();
     const diagnosticTrace = freezeDiagnosticTraceContext(
       createDiagnosticTraceContextFromActiveScope(),
     );
@@ -869,7 +869,7 @@ export async function runEmbeddedAttempt(
       params.disableTools || isRawModelRun
         ? []
         : (() => {
-            const allTools = createBrikko StudioCodingTools({
+            const allTools = createBrikkoStudioCodingTools({
               agentId: sessionAgentId,
               ...buildEmbeddedAttemptToolRunContext({ ...params, trace: runTrace }),
               exec: {
@@ -1240,7 +1240,7 @@ export async function runEmbeddedAttempt(
     // When toolsAllow is set, use minimal prompt and strip skills catalog
     const effectivePromptMode = params.toolsAllow?.length ? ("minimal" as const) : promptMode;
     const effectiveSkillsPrompt = params.toolsAllow?.length ? undefined : skillsPrompt;
-    const openClawReferences = await resolveBrikko StudioReferencePaths({
+    const openClawReferences = await resolveBrikkoStudioReferencePaths({
       workspaceDir: effectiveWorkspace,
       argv1: process.argv[1],
       cwd: effectiveWorkspace,
@@ -1510,7 +1510,7 @@ export async function runEmbeddedAttempt(
         extensionFactories,
       });
       await resourceLoader.reload();
-      // DefaultResourceLoader.reload() rehydrates settings from disk and can drop Brikko Studio
+      // DefaultResourceLoader.reload() rehydrates settings from disk and can drop BrikkoStudio
       // compaction overrides applied in createPreparedEmbeddedPiSettingsManager — same
       // rehydration also restores Pi's auto-compaction (brikko-studio#75799), so re-apply
       // both guards.
@@ -1630,7 +1630,7 @@ export async function runEmbeddedAttempt(
 
       const allCustomTools = [...customTools, ...clientToolDefs];
       // Pi treats `tools` as a name allowlist during session creation. Pass the
-      // exact Brikko Studio-managed registrations so custom tools survive startup and
+      // exact BrikkoStudio-managed registrations so custom tools survive startup and
       // client-provided names do not broaden the prompt/runtime boundary.
       const sessionToolAllowlist = toSessionToolAllowlist(
         collectRegisteredToolNames(allCustomTools),
@@ -1667,7 +1667,7 @@ export async function runEmbeddedAttempt(
         // Raw model probes should measure exactly the requested prompt against
         // the selected provider/model. Reset clears restored transcript state
         // and queues; the empty system override prevents Pi from rebuilding the
-        // normal Brikko Studio agent/tool prompt when `session.prompt()` starts.
+        // normal BrikkoStudio agent/tool prompt when `session.prompt()` starts.
         activeSession.agent.reset();
         applySystemPromptOverrideToSession(activeSession, "");
         systemPromptText = "";

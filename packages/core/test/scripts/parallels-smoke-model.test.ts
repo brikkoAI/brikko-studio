@@ -134,7 +134,7 @@ console.log(result);
     expect(packageArtifact).toContain("withPackageLock");
     expect(packageArtifact).toContain("Wait for Parallels package lock");
     expect(packageArtifact).toContain("export async function packageVersionFromTgz");
-    expect(packageArtifact).toContain("export async function packBrikko Studio");
+    expect(packageArtifact).toContain("export async function packBrikkoStudio");
     expect(parallelsVm).toContain("export function resolveUbuntuVmName");
     expect(parallelsVm).toContain("export function waitForVmStatus");
     expect(hostServer).toContain("export async function startHostServer");
@@ -419,7 +419,7 @@ console.log(JSON.stringify(result));
     expect(orchestrator).not.toContain("Remove-FuturePluginEntries");
     expect(updateScripts).toContain("Remove-FuturePluginEntries");
     expect(updateScripts).toContain("scrub_future_plugin_entries");
-    expect(updateScripts).toContain("Invoke-Brikko Studio update");
+    expect(updateScripts).toContain("Invoke-BrikkoStudio update");
     expect(updateScripts).toContain("Parallels npm update smoke test assistant.");
   });
 
@@ -526,22 +526,22 @@ console.log(JSON.stringify({
     expect(script).toContain("launch retry");
   });
 
-  it("resolves Windows Brikko Studio commands without assuming the npm shim path", () => {
+  it("resolves Windows BrikkoStudio commands without assuming the npm shim path", () => {
     const powershell = readFileSync(TS_PATHS.powershell, "utf8");
     const windows = readFileSync(TS_PATHS.windows, "utf8");
 
-    expect(powershell).toContain("windowsBrikko StudioResolver");
+    expect(powershell).toContain("windowsBrikkoStudioResolver");
     expect(powershell).toContain("providerTimeoutConfigJson");
     expect(powershell).toContain("models.providers.${providerId}");
     expect(powershell).toContain("agents.defaults.models${configPathMapKey(modelId)}");
     expect(powershell).toContain("configPathMapKey");
     expect(powershell).toContain('transport: "sse"');
-    expect(powershell).toContain("Resolve-Brikko StudioCommand");
+    expect(powershell).toContain("Resolve-BrikkoStudioCommand");
     expect(powershell).toContain("npm\\node_modules\\brikko-studio\\brikko-studio.mjs");
     expect(powershell).toContain("$ErrorActionPreference = 'Continue'");
     expect(powershell).toContain("$PSNativeCommandUseErrorActionPreference = $false");
-    expect(windows).toContain("windowsBrikko StudioResolver");
-    expect(windows).toContain("Invoke-Brikko Studio gateway");
+    expect(windows).toContain("windowsBrikkoStudioResolver");
+    expect(windows).toContain("Invoke-BrikkoStudio gateway");
     expect(windows).not.toContain("Join-Path $env:APPDATA 'npm\\\\brikko-studio.cmd'");
   });
 });

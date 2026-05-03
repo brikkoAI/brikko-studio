@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveHumanDelayConfig } from "./identity.js";
 
 describe("resolveHumanDelayConfig", () => {
   it("returns undefined when no humanDelay config is set", () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     expect(resolveHumanDelayConfig(cfg, "main")).toBeUndefined();
   });
 
   it("merges defaults with per-agent overrides", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           humanDelay: { mode: "natural", minMs: 800, maxMs: 1800 },

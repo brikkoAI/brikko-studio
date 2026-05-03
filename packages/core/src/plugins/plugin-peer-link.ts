@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveBrikko StudioPackageRootSync } from "../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../infra/brikko-studio-root.js";
 
 type PluginPeerLinkLogger = {
   info?: (message: string) => void;
@@ -12,7 +12,7 @@ type PluginPeerLinkLogger = {
  * Plugin package managers still own third-party dependencies; this only wires
  * the host SDK package into the plugin-local Node graph.
  */
-export async function linkBrikko StudioPeerDependencies(params: {
+export async function linkBrikkoStudioPeerDependencies(params: {
   installedDir: string;
   peerDependencies: Record<string, string>;
   logger: PluginPeerLinkLogger;
@@ -22,7 +22,7 @@ export async function linkBrikko StudioPeerDependencies(params: {
     return;
   }
 
-  const hostRoot = resolveBrikko StudioPackageRootSync({
+  const hostRoot = resolveBrikkoStudioPackageRootSync({
     argv1: process.argv[1],
     moduleUrl: import.meta.url,
     cwd: process.cwd(),

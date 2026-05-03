@@ -3,7 +3,7 @@ import {
   expectDirectorySurface,
 } from "brikko-studio/plugin-sdk/channel-test-helpers";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import {
   googlechatDirectoryAdapter,
   googlechatOutboundAdapter,
@@ -45,7 +45,7 @@ function normalizeGoogleChatTarget(raw?: string | null): string | undefined {
   return normalized;
 }
 
-function resolveGoogleChatAccountImpl(params: { cfg: Brikko StudioConfig; accountId?: string | null }) {
+function resolveGoogleChatAccountImpl(params: { cfg: BrikkoStudioConfig; accountId?: string | null }) {
   const accountId = params.accountId?.trim() || DEFAULT_ACCOUNT_ID;
   const channelConfig = (params.cfg.channels?.googlechat ?? {}) as Record<string, unknown>;
   const accounts =
@@ -127,7 +127,7 @@ vi.mock("./channel.deps.runtime.js", () => {
     getChatChannelMeta: (id: string) => ({ id, name: id }),
     isGoogleChatSpaceTarget: (value: string) => value.toLowerCase().startsWith("spaces/"),
     isGoogleChatUserTarget: (value: string) => value.toLowerCase().startsWith("users/"),
-    listGoogleChatAccountIds: (cfg: Brikko StudioConfig) => {
+    listGoogleChatAccountIds: (cfg: BrikkoStudioConfig) => {
       const ids = Object.keys(cfg.channels?.googlechat?.accounts ?? {});
       return ids.length > 0 ? ids : ["default"];
     },
@@ -137,9 +137,9 @@ vi.mock("./channel.deps.runtime.js", () => {
     normalizeGoogleChatTarget,
     PAIRING_APPROVED_MESSAGE: "approved",
     resolveChannelMediaMaxBytes: (params: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       resolveChannelLimitMb: (args: {
-        cfg: Brikko StudioConfig;
+        cfg: BrikkoStudioConfig;
         accountId?: string;
       }) => number | undefined;
       accountId?: string;
@@ -171,7 +171,7 @@ afterEach(() => {
   mockGoogleChatMediaLoaders();
 });
 
-function createGoogleChatCfg(): Brikko StudioConfig {
+function createGoogleChatCfg(): BrikkoStudioConfig {
   return {
     channels: {
       googlechat: {
@@ -325,7 +325,7 @@ describe("googlechatPlugin threading", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const workAccount = googlechatThreadingAdapter.scopedAccountReplyToMode.resolveAccount(
       cfg,
@@ -601,7 +601,7 @@ describe("googlechat directory", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const directory = expectDirectorySurface(googlechatDirectoryAdapter);
 
@@ -644,7 +644,7 @@ describe("googlechat directory", () => {
           dm: { allowFrom: [" users/alice ", " googlechat:user:Bob@Example.com "] },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const directory = expectDirectorySurface(googlechatDirectoryAdapter);
 
@@ -677,7 +677,7 @@ describe("googlechatPlugin security", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const account = resolveGoogleChatAccountImpl({ cfg, accountId: "default" });
 

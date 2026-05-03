@@ -8,14 +8,14 @@ describe("check-changelog-attributions", () => {
       "- Internal cleanup. Thanks @codex.",
       "- Org-owned fix. Thanks @brikko-studio.",
       "- Maintainer-owned fix. Thanks @steipete.",
-      "- Mixed credit. Thanks @contributor and @Brikko Studio.",
+      "- Mixed credit. Thanks @contributor and @BrikkoStudio.",
     ].join("\n");
 
     expect(findForbiddenChangelogThanks(content)).toEqual([
       { line: 1, handle: "codex", text: "- Internal cleanup. Thanks @codex." },
       { line: 2, handle: "brikko-studio", text: "- Org-owned fix. Thanks @brikko-studio." },
       { line: 3, handle: "steipete", text: "- Maintainer-owned fix. Thanks @steipete." },
-      { line: 4, handle: "brikko-studio", text: "- Mixed credit. Thanks @contributor and @Brikko Studio." },
+      { line: 4, handle: "brikko-studio", text: "- Mixed credit. Thanks @contributor and @BrikkoStudio." },
     ]);
   });
 

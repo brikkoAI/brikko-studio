@@ -58,9 +58,9 @@ vi.mock("../agents/workspace.js", () => ({
   resolveDefaultAgentWorkspaceDir,
 }));
 
-const resolveBrikko StudioAgentDir = vi.hoisted(() => vi.fn(() => "/tmp/agent"));
+const resolveBrikkoStudioAgentDir = vi.hoisted(() => vi.fn(() => "/tmp/agent"));
 vi.mock("../agents/agent-paths.js", () => ({
-  resolveBrikko StudioAgentDir,
+  resolveBrikkoStudioAgentDir,
 }));
 
 const applyAuthProfileConfig = vi.hoisted(() => vi.fn((config) => config));

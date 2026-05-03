@@ -21,7 +21,7 @@ const mocks = vi.hoisted(() => ({
   scheduleGatewaySigusr1Restart: vi.fn((_opts?: ScheduleGatewayRestartArgs) => ({
     scheduled: true,
   })),
-  triggerBrikko StudioRestart: vi.fn(() => ({ ok: true, method: "launchctl" })),
+  triggerBrikkoStudioRestart: vi.fn(() => ({ ok: true, method: "launchctl" })),
 }));
 
 vi.mock("node:fs/promises", () => ({
@@ -70,7 +70,7 @@ vi.mock("../../infra/restart-sentinel.js", async () => {
 
 vi.mock("../../infra/restart.js", () => ({
   scheduleGatewaySigusr1Restart: mocks.scheduleGatewaySigusr1Restart,
-  triggerBrikko StudioRestart: mocks.triggerBrikko StudioRestart,
+  triggerBrikkoStudioRestart: mocks.triggerBrikkoStudioRestart,
 }));
 
 const { handleRestartCommand } = await import("./commands-session.js");
@@ -116,8 +116,8 @@ describe("handleRestartCommand", () => {
     mocks.formatDoctorNonInteractiveHint.mockClear();
     mocks.writeRestartSentinel.mockClear();
     mocks.scheduleGatewaySigusr1Restart.mockClear();
-    mocks.triggerBrikko StudioRestart.mockReset();
-    mocks.triggerBrikko StudioRestart.mockReturnValue({ ok: true, method: "launchctl" });
+    mocks.triggerBrikkoStudioRestart.mockReset();
+    mocks.triggerBrikkoStudioRestart.mockReturnValue({ ok: true, method: "launchctl" });
   });
 
   it("writes a routed restart sentinel before restarting from chat", async () => {
@@ -145,7 +145,7 @@ describe("handleRestartCommand", () => {
         },
       }),
     );
-    expect(mocks.triggerBrikko StudioRestart).toHaveBeenCalledTimes(1);
+    expect(mocks.triggerBrikkoStudioRestart).toHaveBeenCalledTimes(1);
   });
 
   it("prepares the routed sentinel only when SIGUSR1 restart emits", async () => {
@@ -156,7 +156,7 @@ describe("handleRestartCommand", () => {
 
       expect(result?.reply?.text).toContain("SIGUSR1");
       expect(mocks.writeRestartSentinel).not.toHaveBeenCalled();
-      expect(mocks.triggerBrikko StudioRestart).not.toHaveBeenCalled();
+      expect(mocks.triggerBrikkoStudioRestart).not.toHaveBeenCalled();
 
       const scheduledArgs = mocks.scheduleGatewaySigusr1Restart.mock.calls.at(-1)?.[0];
       await scheduledArgs?.emitHooks?.beforeEmit?.();
@@ -190,7 +190,7 @@ describe("handleRestartCommand", () => {
 
     expect(result).toEqual({ shouldContinue: false });
     expect(mocks.writeRestartSentinel).not.toHaveBeenCalled();
-    expect(mocks.triggerBrikko StudioRestart).not.toHaveBeenCalled();
+    expect(mocks.triggerBrikkoStudioRestart).not.toHaveBeenCalled();
   });
 
   it("does not restart when the sentinel cannot be written", async () => {
@@ -199,11 +199,11 @@ describe("handleRestartCommand", () => {
     const result = await handleRestartCommand(restartCommandParams(), true);
 
     expect(result?.reply?.text).toContain("could not persist");
-    expect(mocks.triggerBrikko StudioRestart).not.toHaveBeenCalled();
+    expect(mocks.triggerBrikkoStudioRestart).not.toHaveBeenCalled();
   });
 
   it("removes the success sentinel when fallback restart fails", async () => {
-    mocks.triggerBrikko StudioRestart.mockReturnValueOnce({
+    mocks.triggerBrikkoStudioRestart.mockReturnValueOnce({
       ok: false,
       method: "launchctl",
     });

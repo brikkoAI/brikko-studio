@@ -1,6 +1,6 @@
 // Shared MCP-channel Docker E2E harness helpers.
 // The mounted test harness imports packaged dist modules so bridge assertions run
-// against the Brikko Studio npm tarball installed in the functional image.
+// against the BrikkoStudio npm tarball installed in the functional image.
 import { randomUUID } from "node:crypto";
 import { mkdirSync, writeFileSync } from "node:fs";
 import process from "node:process";

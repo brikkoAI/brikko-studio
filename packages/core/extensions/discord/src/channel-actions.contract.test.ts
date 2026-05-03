@@ -1,5 +1,5 @@
 import { installChannelActionsContractSuite } from "brikko-studio/plugin-sdk/channel-test-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe } from "vitest";
 import { discordPlugin } from "../api.js";
 
@@ -36,7 +36,7 @@ describe("discord actions contract", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         expectedActions: ["send", "poll", "react", "reactions", "emoji-list"],
         expectedCapabilities: ["presentation"],
       },

@@ -109,7 +109,7 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `Codex app-server generated protocol matches Brikko Studio bridge assumptions: ${schemaRoot}`,
+  `Codex app-server generated protocol matches BrikkoStudio bridge assumptions: ${schemaRoot}`,
 );
 
 async function compareGeneratedProtocolMirror(): Promise<void> {

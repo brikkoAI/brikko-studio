@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { FIELD_HELP } from "./schema.help.js";
 import { FIELD_LABELS } from "./schema.labels.js";
-import { Brikko StudioSchema } from "./zod-schema.js";
+import { BrikkoStudioSchema } from "./zod-schema.js";
 
 function hasLegacyPluginsRuntimeKeys(keys: string[]): boolean {
   return keys.some((key) => key === "plugins.runtime" || key.startsWith("plugins.runtime."));
@@ -14,7 +14,7 @@ describe("plugins runtime boundary config", () => {
   });
 
   it("omits plugins.runtime from the generated config schema", () => {
-    const schema = Brikko StudioSchema.toJSONSchema({
+    const schema = BrikkoStudioSchema.toJSONSchema({
       target: "draft-7",
       io: "input",
       reused: "ref",
@@ -26,7 +26,7 @@ describe("plugins runtime boundary config", () => {
   });
 
   it("rejects legacy plugins.runtime config entries", () => {
-    const result = Brikko StudioSchema.safeParse({
+    const result = BrikkoStudioSchema.safeParse({
       plugins: {
         runtime: {
           allowLegacyExec: true,

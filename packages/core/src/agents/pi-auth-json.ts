@@ -38,14 +38,14 @@ async function readAuthJson(filePath: string): Promise<AuthJsonShape> {
 /**
  * pi-coding-agent's ModelRegistry/AuthStorage expects credentials in auth.json.
  *
- * Brikko Studio stores credentials in auth-profiles.json instead. This helper
+ * BrikkoStudio stores credentials in auth-profiles.json instead. This helper
  * bridges all credentials into agentDir/auth.json so pi-coding-agent can
  * (a) consider providers authenticated and (b) include built-in models in its
  * registry/catalog output.
  *
  * Syncs all credential types: api_key, token (as api_key), and oauth.
  *
- * @deprecated Runtime auth now comes from Brikko Studio auth-profiles snapshots.
+ * @deprecated Runtime auth now comes from BrikkoStudio auth-profiles snapshots.
  */
 export async function ensurePiAuthJsonFromAuthProfiles(agentDir: string): Promise<{
   wrote: boolean;

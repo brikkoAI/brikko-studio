@@ -12,7 +12,7 @@ const FOCUSABLE_SELECTOR = [
   "[tabindex]:not([tabindex='-1'])",
 ].join(",");
 
-export class Brikko StudioModalDialog extends LitElement {
+export class BrikkoStudioModalDialog extends LitElement {
   @property() label = "";
   @property() description = "";
 
@@ -269,11 +269,11 @@ export class Brikko StudioModalDialog extends LitElement {
 }
 
 if (!customElements.get("brikko-studio-modal-dialog")) {
-  customElements.define("brikko-studio-modal-dialog", Brikko StudioModalDialog);
+  customElements.define("brikko-studio-modal-dialog", BrikkoStudioModalDialog);
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    "brikko-studio-modal-dialog": Brikko StudioModalDialog;
+    "brikko-studio-modal-dialog": BrikkoStudioModalDialog;
   }
 }

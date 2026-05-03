@@ -38,7 +38,7 @@ describe("handleQaInbound", () => {
         configured: true,
         baseUrl: "http://127.0.0.1:43123",
         botUserId: "brikko-studio",
-        botDisplayName: "Brikko Studio QA",
+        botDisplayName: "BrikkoStudio QA",
         pollTimeoutMs: 250,
         config: {},
       },

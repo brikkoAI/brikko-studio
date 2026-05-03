@@ -7,7 +7,7 @@ import {
 import {
   listSkillCommandsForAgents,
   parseStrictPositiveInteger,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type RuntimeEnv,
 } from "./runtime-api.js";
 import {
@@ -27,7 +27,7 @@ function isLoopbackHost(hostname: string): boolean {
 }
 
 function buildSlashCommands(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime: RuntimeEnv;
   nativeSkills: boolean;
 }): MattermostCommandSpec[] {
@@ -136,7 +136,7 @@ async function registerSlashCommandsAcrossTeams(params: {
 
 export async function registerMattermostMonitorSlashCommands(params: {
   client: MattermostClient;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime: RuntimeEnv;
   account: ResolvedMattermostAccount;
   baseUrl: string;

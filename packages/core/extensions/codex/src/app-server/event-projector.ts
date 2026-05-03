@@ -192,7 +192,7 @@ export class CodexAppServerEventProjector {
       },
     ];
     // Codex owns the canonical thread. These mirror records keep enough local
-    // context for Brikko Studio history, search, and future harness switching.
+    // context for BrikkoStudio history, search, and future harness switching.
     if (reasoningText) {
       messagesSnapshot.push(this.createAssistantMirrorMessage("Codex reasoning", reasoningText));
     }

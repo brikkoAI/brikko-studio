@@ -4,7 +4,7 @@ import {
   postJsonRequest,
   sanitizeConfiguredModelProviderRequest,
 } from "brikko-studio/plugin-sdk/provider-http";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-onboard";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/provider-onboard";
 import { normalizeResolvedSecretInputString } from "brikko-studio/plugin-sdk/secret-input";
 import type {
   SpeechDirectiveTokenParseContext,
@@ -159,7 +159,7 @@ function resolveGoogleTtsEnvApiKey(): string | undefined {
   );
 }
 
-function resolveGoogleTtsModelProviderApiKey(cfg?: Brikko StudioConfig): string | undefined {
+function resolveGoogleTtsModelProviderApiKey(cfg?: BrikkoStudioConfig): string | undefined {
   return normalizeResolvedSecretInputString({
     value: cfg?.models?.providers?.google?.apiKey,
     path: "models.providers.google.apiKey",
@@ -167,7 +167,7 @@ function resolveGoogleTtsModelProviderApiKey(cfg?: Brikko StudioConfig): string 
 }
 
 function resolveGoogleTtsApiKey(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   providerConfig: SpeechProviderConfig;
 }): string | undefined {
   return (
@@ -178,7 +178,7 @@ function resolveGoogleTtsApiKey(params: {
 }
 
 function resolveGoogleTtsBaseUrl(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   providerConfig: GoogleTtsProviderConfig;
 }): string | undefined {
   return (
@@ -328,7 +328,7 @@ function normalizePromptList(values: readonly string[] | undefined): string[] {
     .filter((value): value is string => Boolean(value));
 }
 
-function isBrikko StudioGoogleAudioProfilePrompt(text: string): boolean {
+function isBrikkoStudioGoogleAudioProfilePrompt(text: string): boolean {
   return (
     text.includes("# AUDIO PROFILE:") &&
     text.includes("### TRANSCRIPT") &&
@@ -584,7 +584,7 @@ export function buildGoogleSpeechProvider(): SpeechProviderPlugin {
       const shouldWrap =
         config.promptTemplate === GOOGLE_AUDIO_PROFILE_PROMPT_TEMPLATE ||
         Boolean(config.personaPrompt);
-      if (!shouldWrap || isBrikko StudioGoogleAudioProfilePrompt(ctx.text)) {
+      if (!shouldWrap || isBrikkoStudioGoogleAudioProfilePrompt(ctx.text)) {
         return undefined;
       }
       return {

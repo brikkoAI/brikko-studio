@@ -3,7 +3,7 @@ import {
   resolveMergedAccountConfig,
 } from "brikko-studio/plugin-sdk/account-helpers";
 import { normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveZaloToken } from "./token.js";
 import type { ResolvedZaloAccount, ZaloAccountConfig, ZaloConfig } from "./types.js";
@@ -14,7 +14,7 @@ const { listAccountIds: listZaloAccountIds, resolveDefaultAccountId: resolveDefa
   createAccountListHelpers("zalo");
 export { listZaloAccountIds, resolveDefaultZaloAccountId };
 
-function mergeZaloAccountConfig(cfg: Brikko StudioConfig, accountId: string): ZaloAccountConfig {
+function mergeZaloAccountConfig(cfg: BrikkoStudioConfig, accountId: string): ZaloAccountConfig {
   return resolveMergedAccountConfig<ZaloAccountConfig>({
     channelConfig: cfg.channels?.zalo as ZaloAccountConfig | undefined,
     accounts: (cfg.channels?.zalo as ZaloConfig | undefined)?.accounts as
@@ -26,7 +26,7 @@ function mergeZaloAccountConfig(cfg: Brikko StudioConfig, accountId: string): Za
 }
 
 export function resolveZaloAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   allowUnresolvedSecretRef?: boolean;
 }): ResolvedZaloAccount {
@@ -53,7 +53,7 @@ export function resolveZaloAccount(params: {
   };
 }
 
-export function listEnabledZaloAccounts(cfg: Brikko StudioConfig): ResolvedZaloAccount[] {
+export function listEnabledZaloAccounts(cfg: BrikkoStudioConfig): ResolvedZaloAccount[] {
   return listZaloAccountIds(cfg)
     .map((accountId) => resolveZaloAccount({ cfg, accountId }))
     .filter((account) => account.enabled);

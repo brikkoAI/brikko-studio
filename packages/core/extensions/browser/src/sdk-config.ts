@@ -9,7 +9,7 @@ export { replaceConfigFile } from "brikko-studio/plugin-sdk/config-mutation";
 export {
   type BrowserConfig,
   type BrowserProfileConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/config-types";
 export {
   normalizePluginsConfig,

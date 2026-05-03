@@ -4,9 +4,9 @@ import path from "node:path";
 import { captureEnv } from "./env.js";
 import { cleanupSessionStateForTest } from "./session-state-cleanup.js";
 
-type Brikko StudioTestStateLayout = "home" | "state-only" | "split";
+type BrikkoStudioTestStateLayout = "home" | "state-only" | "split";
 
-type Brikko StudioTestStateScenario =
+type BrikkoStudioTestStateScenario =
   | "empty"
   | "minimal"
   | "update-stable"
@@ -14,11 +14,11 @@ type Brikko StudioTestStateScenario =
   | "gateway-loopback"
   | "external-service";
 
-export type Brikko StudioTestStateOptions = {
+export type BrikkoStudioTestStateOptions = {
   prefix?: string;
   label?: string;
-  layout?: Brikko StudioTestStateLayout;
-  scenario?: Brikko StudioTestStateScenario;
+  layout?: BrikkoStudioTestStateLayout;
+  scenario?: BrikkoStudioTestStateScenario;
   agentEnv?: "clear" | "main";
   applyEnv?: boolean;
   env?: Record<string, string | undefined>;
@@ -28,7 +28,7 @@ export type Brikko StudioTestStateOptions = {
   };
 };
 
-export type Brikko StudioTestState = {
+export type BrikkoStudioTestState = {
   root: string;
   home: string;
   stateDir: string;
@@ -85,7 +85,7 @@ function resolveWindowsHomeEnv(
 
 function resolveLayout(
   root: string,
-  layout: Brikko StudioTestStateLayout,
+  layout: BrikkoStudioTestStateLayout,
 ): {
   home: string;
   stateDir: string;
@@ -121,7 +121,7 @@ function resolveLayout(
   };
 }
 
-function scenarioConfig(options: Brikko StudioTestStateOptions): Record<string, unknown> | undefined {
+function scenarioConfig(options: BrikkoStudioTestStateOptions): Record<string, unknown> | undefined {
   const scenario = options.scenario ?? "empty";
   if (scenario === "minimal" || scenario === "external-service") {
     return {};
@@ -178,7 +178,7 @@ function scenarioConfig(options: Brikko StudioTestStateOptions): Record<string, 
   return undefined;
 }
 
-function scenarioEnv(options: Brikko StudioTestStateOptions): Record<string, string | undefined> {
+function scenarioEnv(options: BrikkoStudioTestStateOptions): Record<string, string | undefined> {
   if ((options.scenario ?? "empty") === "external-service") {
     return {
       BRIKKO_STUDIO_SERVICE_REPAIR_POLICY: "external",
@@ -188,7 +188,7 @@ function scenarioEnv(options: Brikko StudioTestStateOptions): Record<string, str
 }
 
 function buildEnvVars(params: {
-  layout: Brikko StudioTestStateLayout;
+  layout: BrikkoStudioTestStateLayout;
   home: string;
   stateDir: string;
   configPath: string;
@@ -243,9 +243,9 @@ async function writeJsonFile(filePath: string, value: unknown): Promise<string> 
   return filePath;
 }
 
-export async function createBrikko StudioTestState(
-  options: Brikko StudioTestStateOptions = {},
-): Promise<Brikko StudioTestState> {
+export async function createBrikkoStudioTestState(
+  options: BrikkoStudioTestStateOptions = {},
+): Promise<BrikkoStudioTestState> {
   const label = normalizeLabel(options.label ?? options.scenario);
   const prefix = options.prefix ?? `${DEFAULT_PREFIX}${label}-`;
   const root = await fs.mkdtemp(path.join(os.tmpdir(), prefix));
@@ -282,7 +282,7 @@ export async function createBrikko StudioTestState(
   const sessionsDir = (agentId = "main") =>
     path.join(paths.stateDir, "agents", agentId, "sessions");
 
-  const state: Brikko StudioTestState = {
+  const state: BrikkoStudioTestState = {
     root,
     ...paths,
     env,
@@ -338,11 +338,11 @@ export async function createBrikko StudioTestState(
   return state;
 }
 
-export async function withBrikko StudioTestState<T>(
-  options: Brikko StudioTestStateOptions,
-  fn: (state: Brikko StudioTestState) => Promise<T>,
+export async function withBrikkoStudioTestState<T>(
+  options: BrikkoStudioTestStateOptions,
+  fn: (state: BrikkoStudioTestState) => Promise<T>,
 ): Promise<T> {
-  const state = await createBrikko StudioTestState(options);
+  const state = await createBrikkoStudioTestState(options);
   try {
     return await fn(state);
   } finally {

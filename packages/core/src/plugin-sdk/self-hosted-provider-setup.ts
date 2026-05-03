@@ -1,6 +1,6 @@
 // Focused self-hosted provider setup helpers for OpenAI-compatible backends.
 export type {
-  Brikko StudioPluginApi,
+  BrikkoStudioPluginApi,
   ProviderAuthContext,
   ProviderAuthMethodNonInteractiveContext,
   ProviderAuthResult,

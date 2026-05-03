@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import {
@@ -13,7 +13,7 @@ import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import { loadChannelPluginModule, resolveExistingPluginModulePath } from "./module-loader.js";
 
 type ChannelPackageStateChecker = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }) => boolean;
 
@@ -146,7 +146,7 @@ export function listBundledChannelIdsForPackageState(
 export function hasBundledChannelPackageState(params: {
   metadataKey: ChannelPackageStateMetadataKey;
   channelId: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): boolean {
   const entry = listChannelPackageStateCatalog(params.metadataKey).find(

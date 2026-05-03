@@ -1,6 +1,6 @@
-import type { Brikko StudioPluginApi } from "../types.js";
+import type { BrikkoStudioPluginApi } from "../types.js";
 
-export function registerHostHookFixture(api: Brikko StudioPluginApi) {
+export function registerHostHookFixture(api: BrikkoStudioPluginApi) {
   api.registerSessionExtension({
     namespace: "workflow",
     description: "Generic approval-workflow state projection",
@@ -59,7 +59,7 @@ export function registerHostHookFixture(api: Brikko StudioPluginApi) {
   }));
 }
 
-export function registerTrustedHostHookFixture(api: Brikko StudioPluginApi) {
+export function registerTrustedHostHookFixture(api: BrikkoStudioPluginApi) {
   registerHostHookFixture(api);
   api.registerTrustedToolPolicy({
     id: "budget-policy",

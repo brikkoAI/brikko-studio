@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { AgentContextInjection } from "../config/types.agent-defaults.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import { resolveSessionAgentIds } from "./agent-scope.js";
 import { getOrLoadBootstrapFiles } from "./bootstrap-cache.js";
@@ -51,7 +51,7 @@ export function _resetBootstrapWarningCacheForTest(): void {
   bootstrapWarningOrder.length = 0;
 }
 
-export function resolveContextInjectionMode(config?: Brikko StudioConfig): AgentContextInjection {
+export function resolveContextInjectionMode(config?: BrikkoStudioConfig): AgentContextInjection {
   return config?.agents?.defaults?.contextInjection ?? "always";
 }
 
@@ -192,7 +192,7 @@ function applyContextModeFilter(params: {
 }
 
 function shouldExcludeHeartbeatBootstrapFile(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sessionKey?: string;
   sessionId?: string;
   agentId?: string;
@@ -228,7 +228,7 @@ function filterHeartbeatBootstrapFile(
 
 export async function resolveBootstrapFilesForRun(params: {
   workspaceDir: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sessionKey?: string;
   sessionId?: string;
   agentId?: string;
@@ -267,7 +267,7 @@ export async function resolveBootstrapFilesForRun(params: {
 
 export async function resolveBootstrapContextForRun(params: {
   workspaceDir: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sessionKey?: string;
   sessionId?: string;
   agentId?: string;

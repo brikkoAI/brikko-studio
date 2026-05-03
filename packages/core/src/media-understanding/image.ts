@@ -7,7 +7,7 @@ import {
   resolveApiKeyForProvider,
 } from "../agents/model-auth.js";
 import { findNormalizedProviderValue, normalizeModelRef } from "../agents/model-selection.js";
-import { ensureBrikko StudioModelsJson } from "../agents/models-config.js";
+import { ensureBrikkoStudioModelsJson } from "../agents/models-config.js";
 import { resolveModelWithRegistry } from "../agents/pi-embedded-runner/model.js";
 import { resolveProviderRequestCapabilities } from "../agents/provider-attribution.js";
 import { registerProviderStreamForModel } from "../agents/provider-stream.js";
@@ -142,7 +142,7 @@ async function resolveImageRuntime(params: {
   preferredProfile?: string;
   authStore?: ImageDescriptionRequest["authStore"];
 }): Promise<{ apiKey: string; model: Model<Api> }> {
-  await ensureBrikko StudioModelsJson(params.cfg, params.agentDir);
+  await ensureBrikkoStudioModelsJson(params.cfg, params.agentDir);
   const { discoverAuthStorage, discoverModels } = await loadPiModelDiscoveryRuntime();
   const authStorage = discoverAuthStorage(params.agentDir);
   const modelRegistry = discoverModels(authStorage, params.agentDir);

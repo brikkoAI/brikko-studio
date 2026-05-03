@@ -22,15 +22,15 @@ function resolveInstallerVersionCases(params: { stdinCwd: string }): string[] {
     [
       "-c",
       `${versionHelperSource}
-fake_brikko-studio_decorated() { printf '%s\\n' 'Brikko Studio 2026.3.10 (abcdef0)'; }
-fake_brikko-studio_raw() { printf '%s\\n' "Brikko Studio dev's build"; }
+fake_brikko-studio_decorated() { printf '%s\\n' 'BrikkoStudio 2026.3.10 (abcdef0)'; }
+fake_brikko-studio_raw() { printf '%s\\n' "BrikkoStudio dev's build"; }
 BRIKKO_STUDIO_BIN=fake_brikko-studio_decorated resolve_brikko-studio_version
 BRIKKO_STUDIO_BIN=fake_brikko-studio_raw resolve_brikko-studio_version
 (
   cd "$1"
   source /dev/stdin <<'BRIKKO_STUDIO_STDIN_INSTALLER'
 ${versionHelperSource}
-fake_brikko-studio_stdin() { printf '%s\\n' 'Brikko Studio 2026.3.10 (abcdef0)'; }
+fake_brikko-studio_stdin() { printf '%s\\n' 'BrikkoStudio 2026.3.10 (abcdef0)'; }
 BRIKKO_STUDIO_BIN=fake_brikko-studio_stdin
 resolve_brikko-studio_version
 BRIKKO_STUDIO_STDIN_INSTALLER
@@ -80,7 +80,7 @@ extract_brikko-studio_semver() {
         resolveInstallerVersionCases({
           stdinCwd: hostileCwd,
         }),
-      ).toEqual(["2026.3.10", "Brikko Studio dev's build", "2026.3.10"]);
+      ).toEqual(["2026.3.10", "BrikkoStudio dev's build", "2026.3.10"]);
     },
   );
 });

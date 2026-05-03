@@ -1,7 +1,7 @@
 import { transcodeAudioBufferToOpus } from "brikko-studio/plugin-sdk/media-runtime";
 import {
   isProviderAuthProfileConfigured,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   resolveProviderAuthProfileApiKey,
 } from "brikko-studio/plugin-sdk/provider-auth";
 import { normalizeResolvedSecretInputString } from "brikko-studio/plugin-sdk/secret-input";
@@ -45,7 +45,7 @@ type MinimaxTtsProviderOverrides = {
   pitch?: number;
 };
 
-function resolveConfiguredPortalTtsBaseUrl(cfg: Brikko StudioConfig | undefined): string | undefined {
+function resolveConfiguredPortalTtsBaseUrl(cfg: BrikkoStudioConfig | undefined): string | undefined {
   const providers = asObject(asObject(cfg?.models)?.providers);
   const portalProvider = asObject(providers?.[MINIMAX_PORTAL_PROVIDER_ID]);
   const portalBaseUrl = trimToUndefined(portalProvider?.baseUrl);
@@ -63,7 +63,7 @@ function resolveMinimaxTokenPlanEnvKey(): string | undefined {
 }
 
 async function resolveMinimaxPortalProfileToken(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
 ): Promise<string | undefined> {
   return await resolveProviderAuthProfileApiKey({
     cfg,
@@ -72,7 +72,7 @@ async function resolveMinimaxPortalProfileToken(
 }
 
 async function resolveMinimaxTtsApiKey(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   configApiKey?: string;
 }): Promise<string | undefined> {
   return (
@@ -85,7 +85,7 @@ async function resolveMinimaxTtsApiKey(params: {
 
 function normalizeMinimaxProviderConfig(
   rawConfig: Record<string, unknown>,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): MinimaxTtsProviderConfig {
   const providers = asObject(rawConfig.providers);
   const raw = asObject(providers?.minimax) ?? asObject(rawConfig.minimax);
@@ -116,7 +116,7 @@ function normalizeMinimaxProviderConfig(
 
 function readMinimaxProviderConfig(
   config: SpeechProviderConfig,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): MinimaxTtsProviderConfig {
   const normalized = normalizeMinimaxProviderConfig({}, cfg);
   return {

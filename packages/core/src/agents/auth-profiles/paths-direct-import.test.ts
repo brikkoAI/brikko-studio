@@ -41,8 +41,8 @@ describe("path-resolve helpers (direct-import coverage attribution)", () => {
     expect(path.basename(resolved)).toMatch(/auth-profiles/);
   });
 
-  it("resolveAuthStorePath falls back to resolveBrikko StudioAgentDir when agentDir is omitted", () => {
-    // Omitting agentDir exercises the `agentDir ?? resolveBrikko StudioAgentDir()`
+  it("resolveAuthStorePath falls back to resolveBrikkoStudioAgentDir when agentDir is omitted", () => {
+    // Omitting agentDir exercises the `agentDir ?? resolveBrikkoStudioAgentDir()`
     // nullish branch. With BRIKKO_STUDIO_STATE_DIR set to our tempdir, the
     // resolved path must live under it.
     const resolved = resolveAuthStorePath();

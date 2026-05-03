@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { withTempHome } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -27,7 +27,7 @@ import {
   writeMatrixCredentials,
 } from "./test-helpers.js";
 
-function createDefaultMatrixConfig(): Brikko StudioConfig {
+function createDefaultMatrixConfig(): BrikkoStudioConfig {
   return {
     channels: {
       matrix: {
@@ -173,7 +173,7 @@ describe("matrix legacy encrypted-state migration", () => {
         home,
         includeStoredCredentials: true,
       });
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           matrix: {
             accounts: {

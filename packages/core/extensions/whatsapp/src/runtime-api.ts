@@ -15,7 +15,7 @@ export {
 } from "brikko-studio/plugin-sdk/channel-actions";
 export { normalizeE164 } from "brikko-studio/plugin-sdk/account-resolution";
 export type { DmPolicy, GroupPolicy } from "brikko-studio/plugin-sdk/config-types";
-import type { Brikko StudioConfig as RuntimeBrikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig as RuntimeBrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export { type ChannelMessageActionName } from "brikko-studio/plugin-sdk/channel-contract";
 export { loadOutboundMediaFromUrl } from "./outbound-media.runtime.js";
@@ -39,7 +39,7 @@ export {
 export { resolveWhatsAppOutboundTarget } from "./resolve-outbound-target.js";
 export { resolveWhatsAppReactionLevel } from "./reaction-level.js";
 
-export type Brikko StudioConfig = RuntimeBrikko StudioConfig;
+export type BrikkoStudioConfig = RuntimeBrikkoStudioConfig;
 export type { WhatsAppAccountConfig } from "./account-types.js";
 
 type MonitorWebChannel = typeof import("./channel.runtime.js").monitorWebChannel;

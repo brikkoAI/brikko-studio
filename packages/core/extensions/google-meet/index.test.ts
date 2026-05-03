@@ -317,7 +317,7 @@ describe("google-meet plugin", () => {
       chrome: {
         audioBackend: "blackhole-2ch",
         launch: true,
-        guestName: "Brikko Studio Agent",
+        guestName: "BrikkoStudio Agent",
         reuseExistingTab: true,
         autoJoin: true,
         waitForInCallMs: 20000,
@@ -2100,7 +2100,7 @@ describe("google-meet plugin", () => {
         allowMicrophone: false,
         autoJoin: false,
         captureCaptions: true,
-        guestName: "Brikko Studio Agent",
+        guestName: "BrikkoStudio Agent",
       })})`,
     ).runInContext(context) as () => string;
 
@@ -2391,7 +2391,7 @@ describe("google-meet plugin", () => {
                     inCall: false,
                     manualActionRequired: true,
                     manualActionReason: "meet-admission-required",
-                    manualActionMessage: "Admit the Brikko Studio browser participant in Google Meet.",
+                    manualActionMessage: "Admit the BrikkoStudio browser participant in Google Meet.",
                     title: "Meet",
                     url: "https://meet.google.com/abc-defg-hij?authuser=me@example.com",
                   }),
@@ -2467,7 +2467,7 @@ describe("google-meet plugin", () => {
               inCall: false,
               manualActionRequired: true,
               manualActionReason: "meet-admission-required",
-              manualActionMessage: "Admit the Brikko Studio browser participant in Google Meet.",
+              manualActionMessage: "Admit the BrikkoStudio browser participant in Google Meet.",
               title: "Meet",
               url: "https://meet.google.com/abc-defg-hij?authuser=me@example.com",
             }),
@@ -2682,7 +2682,7 @@ describe("google-meet plugin", () => {
           manualActionRequired: true,
           manualActionReason: "google-login-required",
           manualActionMessage:
-            "Sign in to Google in the Brikko Studio browser profile, then retry the Meet join.",
+            "Sign in to Google in the BrikkoStudio browser profile, then retry the Meet join.",
           title: "Sign in - Google Accounts",
           url: "https://accounts.google.com/signin",
         },
@@ -2799,7 +2799,7 @@ describe("google-meet plugin", () => {
                             manualActionRequired: true,
                             manualActionReason: "google-login-required",
                             manualActionMessage:
-                              "Sign in to Google in the Brikko Studio browser profile, then retry the Meet join.",
+                              "Sign in to Google in the BrikkoStudio browser profile, then retry the Meet join.",
                             title: "Sign in - Google Accounts",
                             url: "https://accounts.google.com/signin",
                           },

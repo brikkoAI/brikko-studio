@@ -133,7 +133,7 @@ export function loadBundledPluginPublicArtifactModuleSync<T extends object>(para
     absolutePath: location.modulePath,
     rootPath: location.boundaryRoot,
     boundaryLabel:
-      location.boundaryRoot === BRIKKO_STUDIO_PACKAGE_ROOT ? "Brikko Studio package root" : "plugin root",
+      location.boundaryRoot === BRIKKO_STUDIO_PACKAGE_ROOT ? "BrikkoStudio package root" : "plugin root",
     rejectHardlinks: true,
   });
   if (!opened.ok) {

@@ -66,7 +66,7 @@ describe("blacksmith testbox runner", () => {
 
     expect(code).toBe(2);
     expect(spawned).toBe(false);
-    expect(stderrText).toContain("Brikko Studio Testbox claim missing");
+    expect(stderrText).toContain("BrikkoStudio Testbox claim missing");
   });
 
   it("claims a keyed id without spawning when no remote command is supplied", async () => {
@@ -90,7 +90,7 @@ describe("blacksmith testbox runner", () => {
 
     expect(code).toBe(0);
     expect(spawned).toBe(false);
-    expect(stdoutText).toContain("Brikko Studio Testbox claim written");
+    expect(stdoutText).toContain("BrikkoStudio Testbox claim written");
     expect(JSON.parse(fs.readFileSync(claimPath, "utf8")).repoRoot).toBe(process.cwd());
   });
 

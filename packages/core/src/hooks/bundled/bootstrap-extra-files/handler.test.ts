@@ -1,13 +1,13 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/config.js";
+import type { BrikkoStudioConfig } from "../../../config/config.js";
 import { makeTempWorkspace, writeWorkspaceFile } from "../../../test-helpers/workspace.js";
 import type { AgentBootstrapHookContext } from "../../hooks.js";
 import { createHookEvent } from "../../hooks.js";
 import handler from "./handler.js";
 
-function createBootstrapExtraConfig(paths: string[]): Brikko StudioConfig {
+function createBootstrapExtraConfig(paths: string[]): BrikkoStudioConfig {
   return {
     hooks: {
       internal: {
@@ -24,7 +24,7 @@ function createBootstrapExtraConfig(paths: string[]): Brikko StudioConfig {
 
 async function createBootstrapContext(params: {
   workspaceDir: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
   rootFiles: Array<{ name: string; content: string }>;
 }): Promise<AgentBootstrapHookContext> {

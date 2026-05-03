@@ -7,12 +7,12 @@ const ESCAPED_INTERNAL_RUNTIME_CONTEXT_END = "[[BRIKKO_STUDIO_INTERNAL_CONTEXT_E
 export const BRIKKO_STUDIO_RUNTIME_CONTEXT_NOTICE =
   "This context is runtime-generated, not user-authored. Keep internal details private.";
 export const BRIKKO_STUDIO_NEXT_TURN_RUNTIME_CONTEXT_HEADER =
-  "Brikko Studio runtime context for the immediately preceding user message.";
-export const BRIKKO_STUDIO_RUNTIME_EVENT_HEADER = "Brikko Studio runtime event.";
+  "BrikkoStudio runtime context for the immediately preceding user message.";
+export const BRIKKO_STUDIO_RUNTIME_EVENT_HEADER = "BrikkoStudio runtime event.";
 export const BRIKKO_STUDIO_RUNTIME_CONTEXT_CUSTOM_TYPE = "brikko-studio.runtime-context";
 
 const LEGACY_INTERNAL_CONTEXT_HEADER =
-  ["Brikko Studio runtime context (internal):", BRIKKO_STUDIO_RUNTIME_CONTEXT_NOTICE, ""].join("\n") + "\n";
+  ["BrikkoStudio runtime context (internal):", BRIKKO_STUDIO_RUNTIME_CONTEXT_NOTICE, ""].join("\n") + "\n";
 
 const LEGACY_INTERNAL_EVENT_MARKER = "[Internal task completion event]";
 const LEGACY_INTERNAL_EVENT_SEPARATOR = "\n\n---\n\n";
@@ -221,7 +221,7 @@ export function hasInternalRuntimeContext(text: string): boolean {
   );
 }
 
-function isBrikko StudioRuntimeContextCustomMessage(message: unknown): boolean {
+function isBrikkoStudioRuntimeContextCustomMessage(message: unknown): boolean {
   if (!message || typeof message !== "object") {
     return false;
   }
@@ -232,8 +232,8 @@ function isBrikko StudioRuntimeContextCustomMessage(message: unknown): boolean {
 }
 
 export function stripRuntimeContextCustomMessages<T>(messages: T[]): T[] {
-  if (!messages.some(isBrikko StudioRuntimeContextCustomMessage)) {
+  if (!messages.some(isBrikkoStudioRuntimeContextCustomMessage)) {
     return messages;
   }
-  return messages.filter((message) => !isBrikko StudioRuntimeContextCustomMessage(message));
+  return messages.filter((message) => !isBrikkoStudioRuntimeContextCustomMessage(message));
 }

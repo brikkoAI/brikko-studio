@@ -5,7 +5,7 @@ export {
   resolveConfiguredFromRequiredCredentialStatuses,
 } from "brikko-studio/plugin-sdk/channel-status";
 export type { ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
-export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export { looksLikeSlackTargetId, normalizeSlackMessagingTarget } from "./target-parsing.js";
 
 const SLACK_CHANNEL_META = {

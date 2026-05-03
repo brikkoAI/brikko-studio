@@ -3,11 +3,11 @@ import {
   resolveWhatsAppAccount,
   createActionGate,
   type ChannelMessageActionName,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   resolveWhatsAppReactionLevel,
 } from "./channel-actions.runtime.js";
 
-function areWhatsAppAgentReactionsEnabled(params: { cfg: Brikko StudioConfig; accountId?: string }) {
+function areWhatsAppAgentReactionsEnabled(params: { cfg: BrikkoStudioConfig; accountId?: string }) {
   if (!params.cfg.channels?.whatsapp) {
     return false;
   }
@@ -21,7 +21,7 @@ function areWhatsAppAgentReactionsEnabled(params: { cfg: Brikko StudioConfig; ac
   }).agentReactionsEnabled;
 }
 
-function hasAnyWhatsAppAccountWithAgentReactionsEnabled(cfg: Brikko StudioConfig) {
+function hasAnyWhatsAppAccountWithAgentReactionsEnabled(cfg: BrikkoStudioConfig) {
   if (!cfg.channels?.whatsapp) {
     return false;
   }
@@ -38,7 +38,7 @@ function hasAnyWhatsAppAccountWithAgentReactionsEnabled(cfg: Brikko StudioConfig
 }
 
 export function resolveWhatsAppAgentReactionGuidance(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
 }) {
   if (!params.cfg.channels?.whatsapp) {
@@ -59,7 +59,7 @@ export function resolveWhatsAppAgentReactionGuidance(params: {
 }
 
 export function describeWhatsAppMessageActions(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): { actions: ChannelMessageActionName[] } | null {
   if (!params.cfg.channels?.whatsapp) {

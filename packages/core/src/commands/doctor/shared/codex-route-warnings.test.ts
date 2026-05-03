@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { collectCodexRouteWarnings } from "./codex-route-warnings.js";
 
-function codexPluginConfig(): Pick<Brikko StudioConfig, "plugins"> {
+function codexPluginConfig(): Pick<BrikkoStudioConfig, "plugins"> {
   return {
     plugins: {
       entries: {
         codex: { enabled: true },
       },
     },
-  } as Pick<Brikko StudioConfig, "plugins">;
+  } as Pick<BrikkoStudioConfig, "plugins">;
 }
 
 describe("collectCodexRouteWarnings", () => {
@@ -22,7 +22,7 @@ describe("collectCodexRouteWarnings", () => {
             model: "openai-codex/gpt-5.5",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(warnings).toEqual([expect.stringContaining("Codex plugin is enabled")]);
@@ -43,7 +43,7 @@ describe("collectCodexRouteWarnings", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(warnings).toEqual([]);
@@ -58,7 +58,7 @@ describe("collectCodexRouteWarnings", () => {
             model: "openai-codex/gpt-5.5",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {
         BRIKKO_STUDIO_AGENT_RUNTIME: "codex",
       },
@@ -75,7 +75,7 @@ describe("collectCodexRouteWarnings", () => {
             model: "openai-codex/gpt-5.5",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(warnings).toEqual([]);

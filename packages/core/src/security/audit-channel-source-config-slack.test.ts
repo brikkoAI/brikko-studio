@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { stubAuditChannelPlugin } from "./audit-channel-test-helpers.js";
 import { collectChannelSecurityFindings } from "./audit-channel.js";
 
 function stubSlackPlugin(params: {
-  resolveAccount: (cfg: Brikko StudioConfig, accountId: string | null | undefined) => unknown;
-  inspectAccount?: (cfg: Brikko StudioConfig, accountId: string | null | undefined) => unknown;
-  isConfigured?: (account: unknown, cfg: Brikko StudioConfig) => boolean;
+  resolveAccount: (cfg: BrikkoStudioConfig, accountId: string | null | undefined) => unknown;
+  inspectAccount?: (cfg: BrikkoStudioConfig, accountId: string | null | undefined) => unknown;
+  isConfigured?: (account: unknown, cfg: BrikkoStudioConfig) => boolean;
 }) {
   return stubAuditChannelPlugin({
     id: "slack",
@@ -38,7 +38,7 @@ function stubSlackPlugin(params: {
   });
 }
 
-function makeSlackHttpConfig(): Brikko StudioConfig {
+function makeSlackHttpConfig(): BrikkoStudioConfig {
   return {
     channels: {
       slack: {
@@ -48,7 +48,7 @@ function makeSlackHttpConfig(): Brikko StudioConfig {
         slashCommand: { enabled: true },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function makeSlackInspection(
@@ -80,7 +80,7 @@ describe("security audit channel source-config fallback slack", () => {
         name: "slack resolved inspection only exposes signingSecret status",
         sourceConfig: makeSlackHttpConfig(),
         resolvedConfig: makeSlackHttpConfig(),
-        plugin: (sourceConfig: Brikko StudioConfig) =>
+        plugin: (sourceConfig: BrikkoStudioConfig) =>
           stubSlackPlugin({
             inspectAccount: (cfg) => {
               const channel = cfg.channels?.slack ?? {};
@@ -102,7 +102,7 @@ describe("security audit channel source-config fallback slack", () => {
         name: "slack source config still wins when resolved inspection is unconfigured",
         sourceConfig: makeSlackHttpConfig(),
         resolvedConfig: makeSlackHttpConfig(),
-        plugin: (sourceConfig: Brikko StudioConfig) =>
+        plugin: (sourceConfig: BrikkoStudioConfig) =>
           stubSlackPlugin({
             inspectAccount: (cfg) => {
               const channel = cfg.channels?.slack ?? {};

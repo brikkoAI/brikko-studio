@@ -8,7 +8,7 @@ import {
 } from "brikko-studio/plugin-sdk/agent-runtime-test-contracts";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { SessionEntry } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type * as ManifestRegistryModule from "../plugins/manifest-registry.js";
 import { runAgentAttempt } from "./command/attempt-execution.js";
 import type { EmbeddedPiRunResult } from "./pi-embedded.js";
@@ -130,10 +130,10 @@ async function runAuthContractAttempt(params: {
   providerOverride: string;
   authProfileProvider: string;
   authProfileOverride: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   sessionHasHistory?: boolean;
 }) {
-  const cfg = params.cfg ?? ({} as Brikko StudioConfig);
+  const cfg = params.cfg ?? ({} as BrikkoStudioConfig);
   const sessionEntry: SessionEntry = {
     sessionId: AUTH_PROFILE_RUNTIME_CONTRACT.sessionId,
     updatedAt: Date.now(),
@@ -220,7 +220,7 @@ describe("Auth profile runtime contract - Pi and CLI adapter", () => {
     (provider, expectedAuthProvider) => {
       expect(
         resolveProviderIdForAuth(provider, {
-          config: {} as Brikko StudioConfig,
+          config: {} as BrikkoStudioConfig,
           workspaceDir: tmpDir,
         }),
       ).toBe(expectedAuthProvider);
@@ -306,7 +306,7 @@ describe("Auth profile runtime contract - Pi and CLI adapter", () => {
             agentRuntime: { id: "codex" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(runCliAgentMock).toHaveBeenCalledTimes(1);
@@ -389,7 +389,7 @@ describe("Auth profile runtime contract - Pi and CLI adapter", () => {
             agentRuntime: { id: "codex" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(runEmbeddedPiAgentMock).toHaveBeenCalledTimes(1);
@@ -412,7 +412,7 @@ describe("Auth profile runtime contract - Pi and CLI adapter", () => {
             agentRuntime: { id: "codex" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(runEmbeddedPiAgentMock).toHaveBeenCalledTimes(1);
@@ -439,7 +439,7 @@ describe("Auth profile runtime contract - Pi and CLI adapter", () => {
             },
           ],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(runEmbeddedPiAgentMock).toHaveBeenCalledTimes(1);

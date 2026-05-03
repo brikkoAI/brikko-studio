@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveGatewayReloadSettings } from "./config-reload-settings.js";
 
 export type SharedGatewayAuthClient = {
@@ -69,7 +69,7 @@ export function setCurrentSharedGatewaySessionGeneration(
 
 export function enforceSharedGatewaySessionGenerationForConfigWrite(params: {
   state: SharedGatewaySessionGenerationState;
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   resolveRuntimeSnapshotGeneration: () => string | undefined;
   clients: Iterable<SharedGatewayAuthClient>;
 }): void {

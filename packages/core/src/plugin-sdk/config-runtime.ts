@@ -102,7 +102,7 @@ export type {
   MSTeamsConfig,
   MSTeamsReplyStyle,
   MSTeamsTeamConfig,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   ReplyToMode,
   SignalReactionNotificationMode,
   SlackAccountConfig,

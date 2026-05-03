@@ -3,7 +3,7 @@ import {
   listNativeCommandSpecsForConfig,
 } from "brikko-studio/plugin-sdk/native-command-registry";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 
 const {
   getLoadConfigMock,
@@ -99,7 +99,7 @@ describe("createTelegramBot command menu", () => {
           ],
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
     loadConfig.mockReturnValue(config);
     const commandsSynced = waitForNextSetMyCommands();
 
@@ -140,7 +140,7 @@ describe("createTelegramBot command menu", () => {
           ],
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
     loadConfig.mockReturnValue(config);
     const commandsSynced = waitForNextSetMyCommands();
 
@@ -192,7 +192,7 @@ describe("createTelegramBot command menu", () => {
           ],
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
     loadConfig.mockReturnValue(config);
     const commandsSynced = waitForNextSetMyCommands();
 

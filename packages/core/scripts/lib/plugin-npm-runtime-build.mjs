@@ -131,7 +131,7 @@ export function resolvePluginNpmRuntimePackageFiles(plan) {
   return [...merged];
 }
 
-function normalizeBrikko StudioPeerRange(value) {
+function normalizeBrikkoStudioPeerRange(value) {
   const normalized = normalizePackageEntry(value);
   if (!normalized) {
     return "";
@@ -141,18 +141,18 @@ function normalizeBrikko StudioPeerRange(value) {
     : `>=${normalized}`;
 }
 
-function resolveBrikko StudioPeerRange(packageJson, rootPackageJson) {
+function resolveBrikkoStudioPeerRange(packageJson, rootPackageJson) {
   return (
-    normalizeBrikko StudioPeerRange(packageJson.brikko-studio?.compat?.pluginApi) ||
-    normalizeBrikko StudioPeerRange(packageJson.peerDependencies?.brikko-studio) ||
-    normalizeBrikko StudioPeerRange(packageJson.brikko-studio?.build?.brikko-studioVersion) ||
-    normalizeBrikko StudioPeerRange(rootPackageJson?.version) ||
-    normalizeBrikko StudioPeerRange(packageJson.version)
+    normalizeBrikkoStudioPeerRange(packageJson.brikko-studio?.compat?.pluginApi) ||
+    normalizeBrikkoStudioPeerRange(packageJson.peerDependencies?.brikko-studio) ||
+    normalizeBrikkoStudioPeerRange(packageJson.brikko-studio?.build?.brikko-studioVersion) ||
+    normalizeBrikkoStudioPeerRange(rootPackageJson?.version) ||
+    normalizeBrikkoStudioPeerRange(packageJson.version)
   );
 }
 
 export function resolvePluginNpmRuntimePackagePeerMetadata(plan) {
-  const brikko-studioPeerRange = resolveBrikko StudioPeerRange(plan.packageJson, plan.rootPackageJson);
+  const brikko-studioPeerRange = resolveBrikkoStudioPeerRange(plan.packageJson, plan.rootPackageJson);
   if (!brikko-studioPeerRange) {
     throw new Error(
       `cannot infer brikko-studio peerDependency range for ${plan.pluginDir}; set brikko-studio.compat.pluginApi or package version`,
@@ -160,7 +160,7 @@ export function resolvePluginNpmRuntimePackagePeerMetadata(plan) {
   }
   const existingPeerDependencies = getStringRecord(plan.packageJson.peerDependencies);
   const existingPeerDependenciesMeta = getRecord(plan.packageJson.peerDependenciesMeta);
-  const existingBrikko StudioMeta = getRecord(existingPeerDependenciesMeta.brikko-studio);
+  const existingBrikkoStudioMeta = getRecord(existingPeerDependenciesMeta.brikko-studio);
   return {
     peerDependencies: {
       ...existingPeerDependencies,
@@ -169,7 +169,7 @@ export function resolvePluginNpmRuntimePackagePeerMetadata(plan) {
     peerDependenciesMeta: {
       ...existingPeerDependenciesMeta,
       brikko-studio: {
-        ...existingBrikko StudioMeta,
+        ...existingBrikkoStudioMeta,
         optional: true,
       },
     },

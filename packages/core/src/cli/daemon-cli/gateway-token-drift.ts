@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { resolveGatewayAuthToken } from "../../gateway/auth-token-resolution.js";
 import { createGatewayCredentialPlan } from "../../gateway/credential-planner.js";
 import { GatewaySecretRefUnavailableError } from "../../gateway/credentials.js";
@@ -8,7 +8,7 @@ function authModeDisablesToken(mode: string | undefined): boolean {
 }
 
 function isPasswordFallbackActive(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 }): boolean {
   const plan = createGatewayCredentialPlan({
@@ -22,7 +22,7 @@ function isPasswordFallbackActive(params: {
 }
 
 export async function resolveGatewayTokenForDriftCheck(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): Promise<string | undefined> {
   const env = params.env ?? process.env;

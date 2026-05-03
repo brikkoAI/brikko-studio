@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   parseLiveCsvFilter,
   parseProviderModelMap,
@@ -37,7 +37,7 @@ export function parseCsvFilter(raw?: string): Set<string> | null {
   return parseLiveCsvFilter(raw, { lowercase: false });
 }
 
-export function resolveConfiguredLiveImageModels(cfg: Brikko StudioConfig): Map<string, string> {
+export function resolveConfiguredLiveImageModels(cfg: BrikkoStudioConfig): Map<string, string> {
   return resolveConfiguredLiveProviderModels(cfg.agents?.defaults?.imageGenerationModel);
 }
 

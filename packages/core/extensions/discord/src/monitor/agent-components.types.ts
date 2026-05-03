@@ -1,4 +1,4 @@
-import type { DiscordAccountConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { DiscordAccountConfig, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type {
   ButtonInteraction,
   ChannelSelectMenuInteraction,
@@ -35,7 +35,7 @@ export type DiscordChannelContext = {
 };
 
 export type AgentComponentContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   discordConfig?: DiscordAccountConfig;
   runtime?: import("brikko-studio/plugin-sdk/runtime-env").RuntimeEnv;

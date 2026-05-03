@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions.js";
 import type { HookRunner } from "../../plugins/hooks.js";
 import { initSessionState } from "./session.js";
@@ -110,7 +110,7 @@ async function createStoredSession(params: {
   return { storePath, transcriptPath };
 }
 
-type SessionResetConfig = NonNullable<NonNullable<Brikko StudioConfig["session"]>["reset"]>;
+type SessionResetConfig = NonNullable<NonNullable<BrikkoStudioConfig["session"]>["reset"]>;
 
 async function initStoredSessionState(params: {
   prefix: string;
@@ -126,7 +126,7 @@ async function initStoredSessionState(params: {
       store: storePath,
       ...(params.reset ? { reset: params.reset } : {}),
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 
   await initSessionState({
     ctx: { Body: "hello", SessionKey: params.sessionKey },
@@ -158,7 +158,7 @@ describe("session hook context wiring", () => {
     const sessionKey = "agent:main:telegram:direct:123";
     const storePath = await createStorePath("brikko-studio-session-hook-start");
     await writeStore(storePath, {});
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     await initSessionState({
       ctx: { Body: "hello", SessionKey: sessionKey },
@@ -180,7 +180,7 @@ describe("session hook context wiring", () => {
       sessionKey,
       sessionId: "old-session",
     });
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     await initSessionState({
       ctx: { Body: "/new", SessionKey: sessionKey },
@@ -214,7 +214,7 @@ describe("session hook context wiring", () => {
       sessionId: "reset-session",
       text: "reset me",
     });
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     await initSessionState({
       ctx: { Body: "/reset", SessionKey: sessionKey },
@@ -239,7 +239,7 @@ describe("session hook context wiring", () => {
         store: storePath,
         resetTriggers: ["/fresh"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await initSessionState({
       ctx: { Body: "/fresh", SessionKey: sessionKey },

@@ -1,5 +1,5 @@
 import { DANGEROUS_SANDBOX_DOCKER_BOOLEAN_KEYS } from "../agents/sandbox/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isRecord } from "../utils.js";
 import { collectCoreInsecureOrDangerousFlags } from "./core-dangerous-config-flags.js";
 
@@ -58,7 +58,7 @@ function collectExactPluginConfigContractMatches({
 }
 
 export function collectEnabledInsecureOrDangerousFlagsFromContracts(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   inputs: DangerousConfigFlagContractInputs = {},
 ): string[] {
   const enabledFlags = collectCoreInsecureOrDangerousFlags(cfg);

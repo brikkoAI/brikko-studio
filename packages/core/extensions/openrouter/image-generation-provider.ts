@@ -229,7 +229,7 @@ export function buildOpenRouterImageGenerationProvider(): ImageGenerationProvide
           defaultHeaders: {
             Authorization: `Bearer ${auth.apiKey}`,
             "HTTP-Referer": "https://brikko-studio.ai",
-            "X-OpenRouter-Title": "Brikko Studio",
+            "X-OpenRouter-Title": "BrikkoStudio",
           },
           provider: "openrouter",
           capability: "image",

@@ -151,7 +151,7 @@ if [ "$status" -eq 0 ]; then
 else
   printf '[%s] brikko-studio restart failed source=update status=%s\\n' "$(date -u +%FT%TZ)" "$status" >&2
 fi
-# Self-cleanup (log is retained under the Brikko Studio state logs directory).
+# Self-cleanup (log is retained under the BrikkoStudio state logs directory).
 rm -f "$0"
 exit "$status"
 `;
@@ -198,7 +198,7 @@ function Write-RestartLog {
   }
 }
 
-function Join-Brikko StudioProcessArguments {
+function Join-BrikkoStudioProcessArguments {
   param([string[]]$Arguments)
   ($Arguments | ForEach-Object {
     if ($_ -match "\\s") {
@@ -209,7 +209,7 @@ function Join-Brikko StudioProcessArguments {
   }) -join " "
 }
 
-function Invoke-Brikko StudioSchtasksWithTimeout {
+function Invoke-BrikkoStudioSchtasksWithTimeout {
   param(
     [string[]]$Arguments,
     [int]$TimeoutSeconds
@@ -218,7 +218,7 @@ function Invoke-Brikko StudioSchtasksWithTimeout {
   try {
     $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
     $startInfo.FileName = "schtasks.exe"
-    $startInfo.Arguments = Join-Brikko StudioProcessArguments -Arguments $Arguments
+    $startInfo.Arguments = Join-BrikkoStudioProcessArguments -Arguments $Arguments
     $startInfo.UseShellExecute = $false
     $startInfo.RedirectStandardOutput = $true
     $startInfo.RedirectStandardError = $true
@@ -246,7 +246,7 @@ function Invoke-Brikko StudioSchtasksWithTimeout {
   }
 }
 
-function Get-Brikko StudioScheduledTaskState {
+function Get-BrikkoStudioScheduledTaskState {
   param([string]$TaskName)
   try {
     $task = Get-ScheduledTask -TaskName $TaskName -ErrorAction Stop
@@ -269,7 +269,7 @@ function Get-Brikko StudioScheduledTaskState {
   return "Unknown"
 }
 
-function Get-Brikko StudioListenerPids {
+function Get-BrikkoStudioListenerPids {
   param([int]$Port)
   $listenerPids = @()
 
@@ -297,7 +297,7 @@ function Get-Brikko StudioListenerPids {
   $listenerPids | Sort-Object -Unique
 }
 
-function Invoke-Brikko StudioStartupLauncher {
+function Invoke-BrikkoStudioStartupLauncher {
   $launcherPath = Join-Path $env:USERPROFILE ".brikko-studio\\gateway.cmd"
   if (-not (Test-Path -LiteralPath $launcherPath)) {
     Write-RestartLog "brikko-studio restart startup launcher missing source=update path=$launcherPath"
@@ -318,9 +318,9 @@ $taskName = ${quotedTaskName}
 $port = ${port}
 Write-RestartLog "brikko-studio restart attempt source=update target=$taskName"
 
-$taskState = Get-Brikko StudioScheduledTaskState -TaskName $taskName
+$taskState = Get-BrikkoStudioScheduledTaskState -TaskName $taskName
 if ($taskState -eq "Running") {
-  $endStatus = Invoke-Brikko StudioSchtasksWithTimeout -Arguments @("/End", "/TN", $taskName) -TimeoutSeconds 10
+  $endStatus = Invoke-BrikkoStudioSchtasksWithTimeout -Arguments @("/End", "/TN", $taskName) -TimeoutSeconds 10
   if ($endStatus -ne 0) {
     Write-RestartLog "brikko-studio restart schtasks end did not complete cleanly source=update status=$endStatus"
   }
@@ -329,7 +329,7 @@ if ($taskState -eq "Running") {
 }
 
 for ($attempt = 1; $attempt -le 10; $attempt++) {
-  $listeners = @(Get-Brikko StudioListenerPids -Port $port)
+  $listeners = @(Get-BrikkoStudioListenerPids -Port $port)
   if ($listeners.Count -eq 0) {
     break
   }
@@ -349,9 +349,9 @@ for ($attempt = 1; $attempt -le 10; $attempt++) {
   Start-Sleep -Seconds 1
 }
 
-$status = Invoke-Brikko StudioSchtasksWithTimeout -Arguments @("/Run", "/TN", $taskName) -TimeoutSeconds 30
+$status = Invoke-BrikkoStudioSchtasksWithTimeout -Arguments @("/Run", "/TN", $taskName) -TimeoutSeconds 30
 if ($status -ne 0) {
-  $status = Invoke-Brikko StudioStartupLauncher
+  $status = Invoke-BrikkoStudioStartupLauncher
 }
 if ($status -eq 0) {
   Write-RestartLog "brikko-studio restart done source=update"

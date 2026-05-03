@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { updateSessionStore } from "../config/sessions/store.js";
 import { buildSubagentList } from "./subagent-list.js";
 import {
@@ -36,7 +36,7 @@ describe("buildSubagentList", () => {
     const cfg = {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const list = buildSubagentList({
       cfg,
       runs: [],
@@ -64,7 +64,7 @@ describe("buildSubagentList", () => {
     const cfg = {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const list = buildSubagentList({
       cfg,
       runs: [run],
@@ -106,7 +106,7 @@ describe("buildSubagentList", () => {
     const cfg = {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const list = buildSubagentList({
       cfg,
       runs: [orchestratorRun],
@@ -149,7 +149,7 @@ describe("buildSubagentList", () => {
     const cfg = {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const list = buildSubagentList({
       cfg,
@@ -188,7 +188,7 @@ describe("buildSubagentList", () => {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
       session: { store: storePath },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const list = buildSubagentList({
       cfg,
       runs: [run],
@@ -217,7 +217,7 @@ describe("buildSubagentList", () => {
     const cfg = {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const list = buildSubagentList({
       cfg,
@@ -260,7 +260,7 @@ describe("buildSubagentList", () => {
     const cfg = {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const list = buildSubagentList({
       cfg,

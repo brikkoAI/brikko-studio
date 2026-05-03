@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveDefaultWhatsAppAccountId } from "./account-ids.js";
 import { getRegisteredWhatsAppConnectionController } from "./connection-controller-registry.js";
 import type { ActiveWebListener, ActiveWebSendOptions } from "./inbound/types.js";
@@ -6,7 +6,7 @@ import type { ActiveWebListener, ActiveWebSendOptions } from "./inbound/types.js
 export type { ActiveWebListener, ActiveWebSendOptions } from "./inbound/types.js";
 
 export function resolveWebAccountId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): string {
   return (params.accountId ?? "").trim() || resolveDefaultWhatsAppAccountId(params.cfg);

@@ -3,7 +3,7 @@ import { getFinishedSession, getSession } from "../../agents/bash-process-regist
 import { createExecTool } from "../../agents/bash-tools.js";
 import { resolveSandboxRuntimeStatus } from "../../agents/sandbox.js";
 import { isCommandFlagEnabled } from "../../config/commands.flags.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { logVerbose } from "../../globals.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import {
@@ -40,7 +40,7 @@ type ActiveBashJob =
 
 let activeJob: ActiveBashJob | null = null;
 
-function resolveForegroundMs(cfg: Brikko StudioConfig): number {
+function resolveForegroundMs(cfg: BrikkoStudioConfig): number {
   const raw = cfg.commands?.bashForegroundMs;
   if (typeof raw !== "number" || Number.isNaN(raw)) {
     return DEFAULT_FOREGROUND_MS;
@@ -104,7 +104,7 @@ function parseBashRequest(raw: string): BashRequest | null {
 
 function resolveRawCommandBody(params: {
   ctx: MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   isGroup: boolean;
 }) {
@@ -183,7 +183,7 @@ function buildUsageReply(): ReplyPayload {
 
 export async function handleBashChatCommand(params: {
   ctx: MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   sessionKey: string;
   isGroup: boolean;

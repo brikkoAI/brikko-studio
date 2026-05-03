@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 import { runExec } from "../process/exec.js";
 import { createLazyPromiseLoader } from "../shared/lazy-promise.js";
 
@@ -358,7 +358,7 @@ function readJpegExifOrientation(buffer: Buffer): number | null {
 }
 
 async function withTempDir<T>(fn: (dir: string) => Promise<T>): Promise<T> {
-  const dir = await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-img-"));
+  const dir = await fs.mkdtemp(path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-img-"));
   try {
     return await fn(dir);
   } finally {

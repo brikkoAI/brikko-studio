@@ -1,8 +1,8 @@
 /**
- * High-level lifecycle management for Brikko Studio's operator-managed network
+ * High-level lifecycle management for BrikkoStudio's operator-managed network
  * proxy routing.
  *
- * Brikko Studio does not spawn or configure the filtering proxy. When enabled, it
+ * BrikkoStudio does not spawn or configure the filtering proxy. When enabled, it
  * routes process-wide HTTP clients through the configured forward proxy URL and
  * restores the previous process state on shutdown.
  */

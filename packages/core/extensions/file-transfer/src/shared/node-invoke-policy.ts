@@ -1,8 +1,8 @@
 import { spawn } from "node:child_process";
 import type {
-  Brikko StudioPluginNodeInvokePolicy,
-  Brikko StudioPluginNodeInvokePolicyContext,
-  Brikko StudioPluginNodeInvokePolicyResult,
+  BrikkoStudioPluginNodeInvokePolicy,
+  BrikkoStudioPluginNodeInvokePolicyContext,
+  BrikkoStudioPluginNodeInvokePolicyResult,
 } from "brikko-studio/plugin-sdk/plugin-entry";
 import { appendFileTransferAudit, type FileTransferAuditOp } from "./audit.js";
 import { evaluateFilePolicy, persistAllowAlways, type FilePolicyKind } from "./policy.js";
@@ -61,7 +61,7 @@ function promptVerb(command: FileTransferCommand): string {
 }
 
 async function requestApproval(input: {
-  ctx: Brikko StudioPluginNodeInvokePolicyContext;
+  ctx: BrikkoStudioPluginNodeInvokePolicyContext;
   op: FileTransferAuditOp;
   kind: FilePolicyKind;
   path: string;
@@ -377,14 +377,14 @@ async function listDirFetchArchiveEntries(
 }
 
 async function validateDirFetchEntries(input: {
-  ctx: Brikko StudioPluginNodeInvokePolicyContext;
+  ctx: BrikkoStudioPluginNodeInvokePolicyContext;
   op: FileTransferAuditOp;
   requestedPath: string;
   canonicalPath: string;
   entries: unknown;
   startedAt: number;
   phase: "preflight" | "archive";
-}): Promise<Brikko StudioPluginNodeInvokePolicyResult | null> {
+}): Promise<BrikkoStudioPluginNodeInvokePolicyResult | null> {
   const nodeDisplayName = input.ctx.node?.displayName;
   const missingCode =
     input.phase === "preflight" ? "PREFLIGHT_ENTRIES_MISSING" : "ARCHIVE_ENTRIES_MISSING";
@@ -497,7 +497,7 @@ function policyDeniedResult(input: {
   code: string;
   message: string;
   details?: Record<string, unknown>;
-}): Brikko StudioPluginNodeInvokePolicyResult {
+}): BrikkoStudioPluginNodeInvokePolicyResult {
   return {
     ok: false,
     code: input.code,
@@ -514,11 +514,11 @@ type PreflightResult =
     }
   | {
       ok: false;
-      result: Brikko StudioPluginNodeInvokePolicyResult;
+      result: BrikkoStudioPluginNodeInvokePolicyResult;
     };
 
 async function invokePreflight(input: {
-  ctx: Brikko StudioPluginNodeInvokePolicyContext;
+  ctx: BrikkoStudioPluginNodeInvokePolicyContext;
   op: FileTransferAuditOp;
   params: Record<string, unknown>;
   requestedPath: string;
@@ -578,13 +578,13 @@ async function invokePreflight(input: {
 }
 
 async function runPathPreflight(input: {
-  ctx: Brikko StudioPluginNodeInvokePolicyContext;
+  ctx: BrikkoStudioPluginNodeInvokePolicyContext;
   op: FileTransferAuditOp;
   kind: FilePolicyKind;
   params: Record<string, unknown>;
   requestedPath: string;
   startedAt: number;
-}): Promise<Brikko StudioPluginNodeInvokePolicyResult | null> {
+}): Promise<BrikkoStudioPluginNodeInvokePolicyResult | null> {
   const preflight = await invokePreflight(input);
   if (!preflight.ok) {
     return preflight.result;
@@ -626,12 +626,12 @@ async function runPathPreflight(input: {
 }
 
 async function runDirFetchPreflight(input: {
-  ctx: Brikko StudioPluginNodeInvokePolicyContext;
+  ctx: BrikkoStudioPluginNodeInvokePolicyContext;
   op: FileTransferAuditOp;
   params: Record<string, unknown>;
   requestedPath: string;
   startedAt: number;
-}): Promise<Brikko StudioPluginNodeInvokePolicyResult | null> {
+}): Promise<BrikkoStudioPluginNodeInvokePolicyResult | null> {
   const preflight = await invokePreflight(input);
   if (!preflight.ok) {
     return preflight.result;
@@ -649,8 +649,8 @@ async function runDirFetchPreflight(input: {
 }
 
 async function handleFileTransferInvoke(
-  ctx: Brikko StudioPluginNodeInvokePolicyContext,
-): Promise<Brikko StudioPluginNodeInvokePolicyResult> {
+  ctx: BrikkoStudioPluginNodeInvokePolicyContext,
+): Promise<BrikkoStudioPluginNodeInvokePolicyResult> {
   if (!COMMANDS.includes(ctx.command as FileTransferCommand)) {
     return { ok: false, code: "UNSUPPORTED_COMMAND", message: "unsupported file-transfer command" };
   }
@@ -835,7 +835,7 @@ async function handleFileTransferInvoke(
   return result;
 }
 
-export function createFileTransferNodeInvokePolicy(): Brikko StudioPluginNodeInvokePolicy {
+export function createFileTransferNodeInvokePolicy(): BrikkoStudioPluginNodeInvokePolicy {
   return {
     commands: COMMANDS,
     handle: handleFileTransferInvoke,

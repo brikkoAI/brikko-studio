@@ -23,7 +23,7 @@ import {
   resolveControlUiLinks,
 } from "../commands/onboard-helpers.js";
 import type { OnboardOptions } from "../commands/onboard-types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { describeGatewayServiceRestart, resolveGatewayService } from "../daemon/service.js";
 import { isSystemdUserServiceAvailable } from "../daemon/systemd.js";
 import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
@@ -41,8 +41,8 @@ import type { GatewayWizardSettings, WizardFlow } from "./setup.types.js";
 type FinalizeOnboardingOptions = {
   flow: WizardFlow;
   opts: OnboardOptions;
-  baseConfig: Brikko StudioConfig;
-  nextConfig: Brikko StudioConfig;
+  baseConfig: BrikkoStudioConfig;
+  nextConfig: BrikkoStudioConfig;
   workspaceDir: string;
   settings: GatewayWizardSettings;
   prompter: WizardPrompter;
@@ -275,7 +275,7 @@ export async function finalizeSetupWizard(
     });
     if (gatewayProbe.ok) {
       try {
-        const healthConfig: Brikko StudioConfig =
+        const healthConfig: BrikkoStudioConfig =
           settings.authMode === "token" && settings.gatewayToken
             ? {
                 ...nextConfig,
@@ -487,8 +487,8 @@ export async function finalizeSetupWizard(
         [
           `Dashboard link (with token): ${authedUrl}`,
           controlUiOpened
-            ? "Opened in your browser. Keep that tab to control Brikko Studio."
-            : "Copy/paste this URL in a browser on this machine to control Brikko Studio.",
+            ? "Opened in your browser. Keep that tab to control BrikkoStudio."
+            : "Copy/paste this URL in a browser on this machine to control BrikkoStudio.",
           controlUiOpenHint,
         ]
           .filter(Boolean)
@@ -549,8 +549,8 @@ export async function finalizeSetupWizard(
       [
         `Dashboard link (with token): ${authedUrl}`,
         controlUiOpened
-          ? "Opened in your browser. Keep that tab to control Brikko Studio."
-          : "Copy/paste this URL in a browser on this machine to control Brikko Studio.",
+          ? "Opened in your browser. Keep that tab to control BrikkoStudio."
+          : "Copy/paste this URL in a browser on this machine to control BrikkoStudio.",
         controlUiOpenHint,
       ]
         .filter(Boolean)
@@ -678,10 +678,10 @@ export async function finalizeSetupWizard(
 
   await prompter.outro(
     controlUiOpened
-      ? "Onboarding complete. Dashboard opened; keep that tab to control Brikko Studio."
+      ? "Onboarding complete. Dashboard opened; keep that tab to control BrikkoStudio."
       : seededInBackground
         ? "Onboarding complete. Web UI seeded in the background; open it anytime with the dashboard link above."
-        : "Onboarding complete. Use the dashboard link above to control Brikko Studio.",
+        : "Onboarding complete. Use the dashboard link above to control BrikkoStudio.",
   );
 
   return { launchedTui };

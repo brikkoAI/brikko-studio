@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { getRuntimeConfig } from "../config/io.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
@@ -106,7 +106,7 @@ export async function checkGatewayHttpRequestAuth(params: {
   trustedProxies?: string[];
   allowRealIpFallback?: boolean;
   rateLimiter?: AuthRateLimiter;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): Promise<GatewayHttpRequestAuthCheckResult> {
   const token = getBearerToken(params.req);
   const browserOriginPolicy = resolveHttpBrowserOriginPolicy(params.req, params.cfg);
@@ -150,7 +150,7 @@ export async function authorizeScopedGatewayHttpRequestOrReply(params: {
     req: IncomingMessage,
     requestAuth: AuthorizedGatewayHttpRequest,
   ) => string[];
-}): Promise<{ cfg: Brikko StudioConfig; requestAuth: AuthorizedGatewayHttpRequest } | null> {
+}): Promise<{ cfg: BrikkoStudioConfig; requestAuth: AuthorizedGatewayHttpRequest } | null> {
   const cfg = getRuntimeConfig();
   const requestAuth = await authorizeGatewayHttpRequestOrReply({
     req: params.req,

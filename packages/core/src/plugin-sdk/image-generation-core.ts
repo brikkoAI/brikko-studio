@@ -12,7 +12,7 @@ export type {
   ImageGenerationResult,
   ImageGenerationSourceImage,
 } from "../image-generation/types.js";
-export type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+export type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export { describeFailoverError, isFailoverError } from "../agents/failover-error.js";
 export {

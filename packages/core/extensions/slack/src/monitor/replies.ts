@@ -1,4 +1,4 @@
-import type { MarkdownTableMode, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { MarkdownTableMode, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   chunkMarkdownTextWithMode,
   isSilentReplyText,
@@ -33,7 +33,7 @@ export function resolveDeliveredSlackReplyThreadTs(params: {
 }
 
 export async function deliverReplies(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   replies: ReplyPayload[];
   target: string;
   token: string;

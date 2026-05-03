@@ -10,7 +10,7 @@ type WebFetchProvidersSharedModule = typeof import("./web-fetch-providers.shared
 let loaderModule: LoaderModule;
 let manifestRegistryModule: ManifestRegistryModule;
 let webFetchProvidersSharedModule: WebFetchProvidersSharedModule;
-let loadBrikko StudioPluginsMock: ReturnType<typeof vi.fn>;
+let loadBrikkoStudioPluginsMock: ReturnType<typeof vi.fn>;
 let setActivePluginRegistry: RuntimeModule["setActivePluginRegistry"];
 let resetPluginRuntimeStateForTest: RuntimeModule["resetPluginRuntimeStateForTest"];
 let resolvePluginWebFetchProviders: WebFetchProvidersRuntimeModule["resolvePluginWebFetchProviders"];
@@ -123,8 +123,8 @@ describe("resolvePluginWebFetchProviders", () => {
         ? R
         : never,
     );
-    loadBrikko StudioPluginsMock = vi
-      .spyOn(loaderModule, "loadBrikko StudioPlugins")
+    loadBrikkoStudioPluginsMock = vi
+      .spyOn(loaderModule, "loadBrikkoStudioPlugins")
       .mockImplementation(() => {
         const registry = createEmptyPluginRegistry();
         registry.webFetchProviders = [createRuntimeWebFetchProvider()];
@@ -144,7 +144,7 @@ describe("resolvePluginWebFetchProviders", () => {
     expect(providers.map((provider) => `${provider.pluginId}:${provider.id}`)).toEqual([
       "firecrawl:firecrawl",
     ]);
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledTimes(1);
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledTimes(1);
   });
 
   it("loads manifest-declared web-fetch providers in setup mode without the plugin loader", () => {
@@ -156,14 +156,14 @@ describe("resolvePluginWebFetchProviders", () => {
     expect(providers.map((provider) => `${provider.pluginId}:${provider.id}`)).toEqual([
       "firecrawl:firecrawl",
     ]);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("does not force a fresh snapshot load when the same web-provider load is already in flight", () => {
     const inFlightSpy = vi
       .spyOn(loaderModule, "isPluginRegistryLoadInFlight")
       .mockReturnValue(true);
-    loadBrikko StudioPluginsMock.mockImplementation(() => {
+    loadBrikkoStudioPluginsMock.mockImplementation(() => {
       throw new Error("resolvePluginWebFetchProviders should not bypass the in-flight guard");
     });
 
@@ -183,7 +183,7 @@ describe("resolvePluginWebFetchProviders", () => {
         workspaceDir: DEFAULT_WORKSPACE,
       }),
     );
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("reuses a compatible active registry for snapshot resolution when config is provided", () => {
@@ -219,7 +219,7 @@ describe("resolvePluginWebFetchProviders", () => {
     expect(providers.map((provider) => `${provider.pluginId}:${provider.id}`)).toEqual([
       "firecrawl:firecrawl",
     ]);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("inherits workspaceDir from the active registry for compatible web-fetch snapshot reuse", () => {
@@ -255,7 +255,7 @@ describe("resolvePluginWebFetchProviders", () => {
     expect(providers.map((provider) => `${provider.pluginId}:${provider.id}`)).toEqual([
       "firecrawl:firecrawl",
     ]);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("uses the active registry workspace for candidate discovery when workspaceDir is omitted", () => {
@@ -280,7 +280,7 @@ describe("resolvePluginWebFetchProviders", () => {
         workspaceDir: "/tmp/runtime-workspace",
       }),
     );
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         workspaceDir: "/tmp/runtime-workspace",
         onlyPluginIds: ["firecrawl"],
@@ -306,6 +306,6 @@ describe("resolvePluginWebFetchProviders", () => {
       env,
     });
 
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledTimes(2);
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledTimes(2);
   });
 });

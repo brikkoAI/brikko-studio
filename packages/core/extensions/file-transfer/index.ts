@@ -1,7 +1,7 @@
 import {
   definePluginEntry,
   type AnyAgentTool,
-  type Brikko StudioPluginNodeHostCommand,
+  type BrikkoStudioPluginNodeHostCommand,
 } from "brikko-studio/plugin-sdk/plugin-entry";
 import { createFileTransferNodeInvokePolicy } from "./src/shared/node-invoke-policy.js";
 import {
@@ -38,7 +38,7 @@ function createLazyTool(
   };
 }
 
-const fileTransferNodeHostCommands: Brikko StudioPluginNodeHostCommand[] = [
+const fileTransferNodeHostCommands: BrikkoStudioPluginNodeHostCommand[] = [
   {
     command: "file.fetch",
     cap: "file",

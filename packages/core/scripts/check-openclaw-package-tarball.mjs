@@ -28,7 +28,7 @@ if (!tarball || process.argv.length > 3) {
   fail(usage());
 }
 if (!fs.existsSync(tarball)) {
-  fail(`Brikko Studio package tarball does not exist: ${tarball}`);
+  fail(`BrikkoStudio package tarball does not exist: ${tarball}`);
 }
 
 const phaseTimingsEnabled = process.env.BRIKKO_STUDIO_PACKAGE_TARBALL_CHECK_TIMINGS !== "0";
@@ -263,11 +263,11 @@ errors.push(
 
 if (errors.length > 0) {
   fs.rmSync(extractDir, { recursive: true, force: true });
-  fail(`Brikko Studio package tarball integrity failed:\n${errors.join("\n")}`);
+  fail(`BrikkoStudio package tarball integrity failed:\n${errors.join("\n")}`);
 }
 
 for (const warning of warnings) {
-  console.warn(`Brikko Studio package tarball integrity warning: ${warning}`);
+  console.warn(`BrikkoStudio package tarball integrity warning: ${warning}`);
 }
 fs.rmSync(extractDir, { recursive: true, force: true });
-console.log("Brikko Studio package tarball integrity passed.");
+console.log("BrikkoStudio package tarball integrity passed.");

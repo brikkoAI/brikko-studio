@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { mockPinnedHostnameResolution } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -254,7 +254,7 @@ describe("firecrawl tools", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         url: "http://169.254.169.254/latest/meta-data/",
         extractMode: "markdown",
       }),
@@ -507,7 +507,7 @@ describe("firecrawl tools", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveFirecrawlSearchConfig(cfg)).toEqual({
       apiKey: "plugin-key",
@@ -527,7 +527,7 @@ describe("firecrawl tools", () => {
     expect(resolveFirecrawlMaxAgeMs()).toBe(DEFAULT_FIRECRAWL_MAX_AGE_MS);
     expect(resolveFirecrawlScrapeTimeoutSeconds()).toBe(DEFAULT_FIRECRAWL_SCRAPE_TIMEOUT_SECONDS);
     expect(resolveFirecrawlSearchTimeoutSeconds()).toBe(DEFAULT_FIRECRAWL_SEARCH_TIMEOUT_SECONDS);
-    expect(resolveFirecrawlBaseUrl({} as Brikko StudioConfig)).not.toBe(DEFAULT_FIRECRAWL_BASE_URL);
+    expect(resolveFirecrawlBaseUrl({} as BrikkoStudioConfig)).not.toBe(DEFAULT_FIRECRAWL_BASE_URL);
   });
 
   it("resolves env SecretRefs for Firecrawl API key without requiring a runtime snapshot", () => {
@@ -548,7 +548,7 @@ describe("firecrawl tools", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveFirecrawlApiKey(cfg)).toBe("firecrawl-env-ref-key");
   });
@@ -571,7 +571,7 @@ describe("firecrawl tools", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveFirecrawlApiKey(cfg)).toBeUndefined();
   });
@@ -594,7 +594,7 @@ describe("firecrawl tools", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveFirecrawlApiKey(cfg)).toBeUndefined();
   });
@@ -625,7 +625,7 @@ describe("firecrawl tools", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveFirecrawlApiKey(cfg)).toBeUndefined();
   });
@@ -656,7 +656,7 @@ describe("firecrawl tools", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveFirecrawlApiKey(cfg)).toBeUndefined();
   });
@@ -734,7 +734,7 @@ describe("firecrawl tools", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveFirecrawlOnlyMainContent(cfg)).toBe(false);
     expect(resolveFirecrawlMaxAgeMs(cfg)).toBe(1234);

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
-const loadConfigMock = vi.fn<() => Brikko StudioConfig>();
+const loadConfigMock = vi.fn<() => BrikkoStudioConfig>();
 
 vi.mock("../../config/config.js", async () => {
   const actual =
@@ -36,7 +36,7 @@ describe("agents_list tool", () => {
           },
         ],
       },
-    } satisfies Brikko StudioConfig);
+    } satisfies BrikkoStudioConfig);
 
     const { createAgentsListTool } = await import("./agents-list-tool.js");
     const result = await createAgentsListTool({ agentSessionKey: "agent:main:main" }).execute(
@@ -63,7 +63,7 @@ describe("agents_list tool", () => {
       agents: {
         list: [{ id: "main", default: true }, { id: "codex" }],
       },
-    } satisfies Brikko StudioConfig);
+    } satisfies BrikkoStudioConfig);
 
     const { createAgentsListTool } = await import("./agents-list-tool.js");
     const result = await createAgentsListTool({ agentSessionKey: "agent:main:main" }).execute(
@@ -92,7 +92,7 @@ describe("agents_list tool", () => {
         },
         list: [{ id: "main", default: true }],
       },
-    } satisfies Brikko StudioConfig);
+    } satisfies BrikkoStudioConfig);
 
     const { createAgentsListTool } = await import("./agents-list-tool.js");
     const result = await createAgentsListTool({ agentSessionKey: "agent:main:main" }).execute(
@@ -122,7 +122,7 @@ describe("agents_list tool", () => {
           { id: "strict", agentRuntime: { id: "codex" } },
         ],
       },
-    } satisfies Brikko StudioConfig);
+    } satisfies BrikkoStudioConfig);
 
     const { createAgentsListTool } = await import("./agents-list-tool.js");
     const result = await createAgentsListTool({ agentSessionKey: "agent:main:main" }).execute(

@@ -1,13 +1,13 @@
 import { Command } from "commander";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
 const mocks = vi.hoisted(() => ({
   memoryRegister: vi.fn(),
   otherRegister: vi.fn(),
   memoryListAction: vi.fn(),
-  loadBrikko StudioPluginCliRegistry: vi.fn(),
-  loadBrikko StudioPlugins: vi.fn(),
+  loadBrikkoStudioPluginCliRegistry: vi.fn(),
+  loadBrikkoStudioPlugins: vi.fn(),
   resolveManifestActivationPluginIds: vi.fn(),
   applyPluginAutoEnable: vi.fn(),
   loadConfig: vi.fn(),
@@ -15,9 +15,9 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock("./loader.js", () => ({
-  loadBrikko StudioPluginCliRegistry: (...args: unknown[]) =>
-    mocks.loadBrikko StudioPluginCliRegistry(...args),
-  loadBrikko StudioPlugins: (...args: unknown[]) => mocks.loadBrikko StudioPlugins(...args),
+  loadBrikkoStudioPluginCliRegistry: (...args: unknown[]) =>
+    mocks.loadBrikkoStudioPluginCliRegistry(...args),
+  loadBrikkoStudioPlugins: (...args: unknown[]) => mocks.loadBrikkoStudioPlugins(...args),
 }));
 
 vi.mock("./activation-planner.js", () => ({
@@ -86,7 +86,7 @@ function createAutoEnabledCliFixture() {
   const rawConfig = {
     plugins: {},
     channels: { demo: { enabled: true } },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
   const autoEnabledConfig = {
     ...rawConfig,
     plugins: {
@@ -94,20 +94,20 @@ function createAutoEnabledCliFixture() {
         demo: { enabled: true },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
   return { rawConfig, autoEnabledConfig };
 }
 
 function expectAutoEnabledCliLoad(params: {
-  rawConfig: Brikko StudioConfig;
-  autoEnabledConfig: Brikko StudioConfig;
+  rawConfig: BrikkoStudioConfig;
+  autoEnabledConfig: BrikkoStudioConfig;
   autoEnabledReasons?: Record<string, string[]>;
 }) {
   expect(mocks.applyPluginAutoEnable).toHaveBeenCalledWith({
     config: params.rawConfig,
     env: process.env,
   });
-  expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+  expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
     expect.objectContaining({
       config: params.autoEnabledConfig,
       activationSourceConfig: params.rawConfig,
@@ -137,10 +137,10 @@ describe("registerPluginCliCommands", () => {
       program.command("other").description("Other commands");
     });
     mocks.memoryListAction.mockReset();
-    mocks.loadBrikko StudioPluginCliRegistry.mockReset();
-    mocks.loadBrikko StudioPluginCliRegistry.mockResolvedValue(createCliRegistry());
-    mocks.loadBrikko StudioPlugins.mockReset();
-    mocks.loadBrikko StudioPlugins.mockReturnValue({
+    mocks.loadBrikkoStudioPluginCliRegistry.mockReset();
+    mocks.loadBrikkoStudioPluginCliRegistry.mockResolvedValue(createCliRegistry());
+    mocks.loadBrikkoStudioPlugins.mockReset();
+    mocks.loadBrikkoStudioPlugins.mockReturnValue({
       ...createCliRegistry(),
       diagnostics: [],
     });
@@ -153,7 +153,7 @@ describe("registerPluginCliCommands", () => {
       autoEnabledReasons: {},
     }));
     mocks.loadConfig.mockReset();
-    mocks.loadConfig.mockReturnValue({} as Brikko StudioConfig);
+    mocks.loadConfig.mockReturnValue({} as BrikkoStudioConfig);
     mocks.readConfigFileSnapshot.mockReset();
     mocks.readConfigFileSnapshot.mockResolvedValue({
       valid: true,
@@ -164,7 +164,7 @@ describe("registerPluginCliCommands", () => {
   it("skips plugin CLI registrars when commands already exist", async () => {
     const program = createProgram("memory");
 
-    await registerPluginCliCommands(program, {} as Brikko StudioConfig);
+    await registerPluginCliCommands(program, {} as BrikkoStudioConfig);
 
     expect(mocks.memoryRegister).not.toHaveBeenCalled();
     expect(mocks.otherRegister).toHaveBeenCalledTimes(1);
@@ -173,9 +173,9 @@ describe("registerPluginCliCommands", () => {
   it("forwards an explicit env to plugin loading", async () => {
     const env = { BRIKKO_STUDIO_HOME: "/srv/brikko-studio-home" } as NodeJS.ProcessEnv;
 
-    await registerPluginCliCommands(createProgram(), {} as Brikko StudioConfig, env);
+    await registerPluginCliCommands(createProgram(), {} as BrikkoStudioConfig, env);
 
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         env,
       }),
@@ -183,9 +183,9 @@ describe("registerPluginCliCommands", () => {
   });
 
   it("injects gateway-backed node runtime into plugin CLI commands", async () => {
-    await registerPluginCliCommands(createProgram(), {} as Brikko StudioConfig);
+    await registerPluginCliCommands(createProgram(), {} as BrikkoStudioConfig);
 
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         runtimeOptions: {
           nodes: {
@@ -200,21 +200,21 @@ describe("registerPluginCliCommands", () => {
   it("reuses loaded plugin CLI entries on repeat calls for the same program", async () => {
     const program = createProgram();
 
-    await registerPluginCliCommands(program, {} as Brikko StudioConfig);
-    await registerPluginCliCommands(program, {} as Brikko StudioConfig);
+    await registerPluginCliCommands(program, {} as BrikkoStudioConfig);
+    await registerPluginCliCommands(program, {} as BrikkoStudioConfig);
 
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledTimes(1);
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledTimes(1);
   });
 
   it("reloads plugin CLI entries when the requested primary command changes", async () => {
     const program = createProgram();
 
-    await registerPluginCliCommands(program, {} as Brikko StudioConfig, undefined, undefined, {
+    await registerPluginCliCommands(program, {} as BrikkoStudioConfig, undefined, undefined, {
       primary: "memory",
     });
-    await registerPluginCliCommands(program, {} as Brikko StudioConfig);
+    await registerPluginCliCommands(program, {} as BrikkoStudioConfig);
 
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledTimes(2);
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledTimes(2);
   });
 
   it("loads plugin CLI commands from the auto-enabled config snapshot", async () => {
@@ -252,7 +252,7 @@ describe("registerPluginCliCommands", () => {
         demo: ["demo configured"],
       },
     });
-    mocks.loadBrikko StudioPluginCliRegistry.mockResolvedValue({
+    mocks.loadBrikkoStudioPluginCliRegistry.mockResolvedValue({
       cliRegistrars: [
         {
           pluginId: "matrix",
@@ -290,7 +290,7 @@ describe("registerPluginCliCommands", () => {
         hasSubcommands: true,
       },
     ]);
-    expect(mocks.loadBrikko StudioPluginCliRegistry).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPluginCliRegistry).toHaveBeenCalledWith(
       expect.objectContaining({
         config: autoEnabledConfig,
         activationSourceConfig: rawConfig,
@@ -310,7 +310,7 @@ describe("registerPluginCliCommands", () => {
         demo: ["demo configured"],
       },
     });
-    mocks.loadBrikko StudioPlugins.mockReturnValue(
+    mocks.loadBrikkoStudioPlugins.mockReturnValue(
       createCliRegistry({
         memoryCommands: ["legacy-channel"],
         memoryDescriptors: [
@@ -327,7 +327,7 @@ describe("registerPluginCliCommands", () => {
       mode: "lazy",
     });
 
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: autoEnabledConfig,
         activationSourceConfig: rawConfig,
@@ -338,14 +338,14 @@ describe("registerPluginCliCommands", () => {
         cache: false,
       }),
     );
-    expect(mocks.loadBrikko StudioPluginCliRegistry).not.toHaveBeenCalled();
+    expect(mocks.loadBrikkoStudioPluginCliRegistry).not.toHaveBeenCalled();
   });
 
   it("lazy-registers descriptor-backed plugin commands on first invocation", async () => {
     const program = createProgram();
     program.exitOverride();
 
-    await registerPluginCliCommands(program, {} as Brikko StudioConfig, undefined, undefined, {
+    await registerPluginCliCommands(program, {} as BrikkoStudioConfig, undefined, undefined, {
       mode: "lazy",
     });
 
@@ -360,7 +360,7 @@ describe("registerPluginCliCommands", () => {
   });
 
   it("falls back to eager registration when descriptors do not cover every command root", async () => {
-    mocks.loadBrikko StudioPlugins.mockReturnValue(
+    mocks.loadBrikkoStudioPlugins.mockReturnValue(
       createCliRegistry({
         memoryCommands: ["memory", "memory-admin"],
         memoryDescriptors: [
@@ -377,7 +377,7 @@ describe("registerPluginCliCommands", () => {
       program.command("memory-admin");
     });
 
-    await registerPluginCliCommands(createProgram(), {} as Brikko StudioConfig, undefined, undefined, {
+    await registerPluginCliCommands(createProgram(), {} as BrikkoStudioConfig, undefined, undefined, {
       mode: "lazy",
     });
 
@@ -389,13 +389,13 @@ describe("registerPluginCliCommands", () => {
     program.exitOverride();
     mocks.resolveManifestActivationPluginIds.mockReturnValue(["memory-core"]);
 
-    await registerPluginCliCommands(program, {} as Brikko StudioConfig, undefined, undefined, {
+    await registerPluginCliCommands(program, {} as BrikkoStudioConfig, undefined, undefined, {
       mode: "lazy",
       primary: "memory",
     });
 
     expect(program.commands.filter((command) => command.name() === "memory")).toHaveLength(1);
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         onlyPluginIds: ["memory-core"],
       }),
@@ -411,12 +411,12 @@ describe("registerPluginCliCommands", () => {
     const program = createProgram();
     program.exitOverride();
 
-    await registerPluginCliCommands(program, {} as Brikko StudioConfig, undefined, undefined, {
+    await registerPluginCliCommands(program, {} as BrikkoStudioConfig, undefined, undefined, {
       mode: "lazy",
       primary: "memory",
     });
 
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
       expect.not.objectContaining({
         onlyPluginIds: expect.anything(),
       }),
@@ -434,7 +434,7 @@ describe("registerPluginCliCommands", () => {
   });
 
   it("loads validated plugin CLI config when the snapshot is valid", async () => {
-    const loadedConfig = { plugins: { enabled: true } } as Brikko StudioConfig;
+    const loadedConfig = { plugins: { enabled: true } } as BrikkoStudioConfig;
     mocks.readConfigFileSnapshot.mockResolvedValueOnce({
       valid: true,
       config: loadedConfig,
@@ -452,6 +452,6 @@ describe("registerPluginCliCommands", () => {
     });
 
     await expect(registerPluginCliCommandsFromValidatedConfig(createProgram())).resolves.toBeNull();
-    expect(mocks.loadBrikko StudioPlugins).not.toHaveBeenCalled();
+    expect(mocks.loadBrikkoStudioPlugins).not.toHaveBeenCalled();
   });
 });

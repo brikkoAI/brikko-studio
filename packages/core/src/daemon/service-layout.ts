@@ -86,7 +86,7 @@ async function isSourceCheckoutRoot(candidate: string): Promise<boolean> {
   );
 }
 
-async function resolveBrikko StudioPackageRoot(entrypoint: string): Promise<string | undefined> {
+async function resolveBrikkoStudioPackageRoot(entrypoint: string): Promise<string | undefined> {
   let current = path.dirname(path.resolve(entrypoint));
   for (let depth = 0; depth < 8; depth += 1) {
     const packageJson = path.join(current, "package.json");
@@ -117,7 +117,7 @@ export async function summarizeGatewayServiceLayout(
     tryRealpath(sourcePath),
     tryRealpath(entrypoint),
   ]);
-  const packageRoot = entrypointReal ? await resolveBrikko StudioPackageRoot(entrypointReal) : undefined;
+  const packageRoot = entrypointReal ? await resolveBrikkoStudioPackageRoot(entrypointReal) : undefined;
   const packageRootReal = await tryRealpath(packageRoot);
   const packageVersion = packageRoot
     ? ((await readPackageVersion(packageRoot)) ?? undefined)

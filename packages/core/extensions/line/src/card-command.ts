@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/core";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/core";
 import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import {
@@ -157,7 +157,7 @@ function parseCardArgs(argsStr: string): {
   return result;
 }
 
-export function registerLineCardCommand(api: Brikko StudioPluginApi): void {
+export function registerLineCardCommand(api: BrikkoStudioPluginApi): void {
   api.registerCommand({
     name: "card",
     description: "Send a rich card message (LINE).",

@@ -1,6 +1,6 @@
 import { resolveAgentAvatar } from "../../agents/identity-avatar.js";
 import { resolveAgentIdentity } from "../../agents/identity.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import type { OutboundIdentity } from "./identity-types.js";
 
@@ -23,7 +23,7 @@ export function normalizeOutboundIdentity(
 }
 
 export function resolveAgentOutboundIdentity(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
 ): OutboundIdentity | undefined {
   const agentIdentity = resolveAgentIdentity(cfg, agentId);

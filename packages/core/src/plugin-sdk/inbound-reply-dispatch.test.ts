@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import type { DispatchReplyWithBufferedBlockDispatcher } from "../auto-reply/reply/provider-dispatcher.types.js";
 import type { FinalizedMsgContext } from "../auto-reply/templating.js";
 import type { RecordInboundSession } from "../channels/session.types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   hasFinalInboundReplyDispatch,
   hasVisibleInboundReplyDispatch,
@@ -39,7 +39,7 @@ describe("recordInboundSessionAndDispatchReply", () => {
     } as FinalizedMsgContext;
 
     await recordInboundSessionAndDispatchReply({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       channel: "test",
       accountId: "default",
       agentId: "main",

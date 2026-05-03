@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { resolveAgentWorkspaceDir } from "../agents/agent-scope.js";
 import { runEmbeddedPiAgent, type EmbeddedPiRunResult } from "../agents/pi-embedded.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
@@ -23,7 +23,7 @@ type TimerHandle = ReturnType<typeof setTimeout>;
 type ModelRef = { provider: string; model: string };
 
 type CommitmentExtractionEnqueueInput = CommitmentScope & {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   nowMs?: number;
   userText: string;
   assistantText?: string;
@@ -33,10 +33,10 @@ type CommitmentExtractionEnqueueInput = CommitmentScope & {
 
 type CommitmentExtractionRuntime = {
   extractBatch?: (params: {
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
     items: CommitmentExtractionItem[];
   }) => Promise<CommitmentExtractionBatchResult>;
-  resolveDefaultModel?: (params: { cfg: Brikko StudioConfig; agentId?: string }) => ModelRef;
+  resolveDefaultModel?: (params: { cfg: BrikkoStudioConfig; agentId?: string }) => ModelRef;
   setTimer?: (callback: () => void, delayMs: number) => TimerHandle;
   clearTimer?: (timer: TimerHandle) => void;
   forceInTests?: boolean;
@@ -46,7 +46,7 @@ const log = createSubsystemLogger("commitments");
 const TERMINAL_EXTRACTION_FAILURE_COOLDOWN_MS = 15 * 60_000;
 
 let runtime: CommitmentExtractionRuntime = {};
-let queue: Array<Omit<CommitmentExtractionItem, "existingPending"> & { cfg?: Brikko StudioConfig }> = [];
+let queue: Array<Omit<CommitmentExtractionItem, "existingPending"> & { cfg?: BrikkoStudioConfig }> = [];
 let timer: TimerHandle | null = null;
 let draining = false;
 let queueOverflowWarned = false;
@@ -202,7 +202,7 @@ function joinPayloadText(result: EmbeddedPiRunResult): string {
 }
 
 async function resolveDefaultModel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
 }): Promise<ModelRef> {
   if (runtime.resolveDefaultModel) {
@@ -213,7 +213,7 @@ async function resolveDefaultModel(params: {
 }
 
 async function defaultExtractBatch(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   items: CommitmentExtractionItem[];
 }): Promise<CommitmentExtractionBatchResult> {
   const cfg = params.cfg ?? {};
@@ -250,7 +250,7 @@ async function defaultExtractBatch(params: {
 }
 
 async function hydrateBatch(
-  batch: Array<Omit<CommitmentExtractionItem, "existingPending"> & { cfg?: Brikko StudioConfig }>,
+  batch: Array<Omit<CommitmentExtractionItem, "existingPending"> & { cfg?: BrikkoStudioConfig }>,
 ): Promise<CommitmentExtractionItem[]> {
   return Promise.all(
     batch.map(async (item) =>

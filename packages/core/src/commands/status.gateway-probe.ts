@@ -1,11 +1,11 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveGatewayProbeAuthSafeWithSecretInputs,
   resolveGatewayProbeTarget,
 } from "../gateway/probe-auth.js";
 export { pickGatewaySelfPresence } from "./gateway-presence.js";
 
-export async function resolveGatewayProbeAuthResolution(cfg: Brikko StudioConfig): Promise<{
+export async function resolveGatewayProbeAuthResolution(cfg: BrikkoStudioConfig): Promise<{
   auth: {
     token?: string;
     password?: string;
@@ -20,7 +20,7 @@ export async function resolveGatewayProbeAuthResolution(cfg: Brikko StudioConfig
   });
 }
 
-export async function resolveGatewayProbeAuth(cfg: Brikko StudioConfig): Promise<{
+export async function resolveGatewayProbeAuth(cfg: BrikkoStudioConfig): Promise<{
   token?: string;
   password?: string;
 }> {

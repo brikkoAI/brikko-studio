@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
 import {
-  ensureBrikko StudioExecMarkerOnProcess,
-  markBrikko StudioExecEnv,
+  ensureBrikkoStudioExecMarkerOnProcess,
+  markBrikkoStudioExecEnv,
   BRIKKO_STUDIO_CLI_ENV_VALUE,
   BRIKKO_STUDIO_CLI_ENV_VAR,
 } from "./brikko-studio-exec-env.js";
 
-describe("markBrikko StudioExecEnv", () => {
+describe("markBrikkoStudioExecEnv", () => {
   it("returns a cloned env object with the exec marker set", () => {
     const env = { PATH: "/usr/bin", BRIKKO_STUDIO_CLI: "0" };
-    const marked = markBrikko StudioExecEnv(env);
+    const marked = markBrikkoStudioExecEnv(env);
 
     expect(marked).toEqual({
       PATH: "/usr/bin",
@@ -20,7 +20,7 @@ describe("markBrikko StudioExecEnv", () => {
   });
 });
 
-describe("ensureBrikko StudioExecMarkerOnProcess", () => {
+describe("ensureBrikkoStudioExecMarkerOnProcess", () => {
   it.each([
     {
       name: "mutates and returns the provided process env",
@@ -31,7 +31,7 @@ describe("ensureBrikko StudioExecMarkerOnProcess", () => {
       env: { PATH: "/usr/bin", [BRIKKO_STUDIO_CLI_ENV_VAR]: "0" } as NodeJS.ProcessEnv,
     },
   ])("$name", ({ env }) => {
-    expect(ensureBrikko StudioExecMarkerOnProcess(env)).toBe(env);
+    expect(ensureBrikkoStudioExecMarkerOnProcess(env)).toBe(env);
     expect(env[BRIKKO_STUDIO_CLI_ENV_VAR]).toBe(BRIKKO_STUDIO_CLI_ENV_VALUE);
   });
 
@@ -40,7 +40,7 @@ describe("ensureBrikko StudioExecMarkerOnProcess", () => {
     delete process.env[BRIKKO_STUDIO_CLI_ENV_VAR];
 
     try {
-      expect(ensureBrikko StudioExecMarkerOnProcess()).toBe(process.env);
+      expect(ensureBrikkoStudioExecMarkerOnProcess()).toBe(process.env);
       expect(process.env[BRIKKO_STUDIO_CLI_ENV_VAR]).toBe(BRIKKO_STUDIO_CLI_ENV_VALUE);
     } finally {
       if (previous === undefined) {

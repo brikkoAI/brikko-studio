@@ -3,7 +3,7 @@ import {
   mergeAccountConfig,
   resolveAccountEntry,
   resolveMergedAccountConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/account-core";
 import {
   resolveChannelStreamingBlockEnabled,
@@ -12,7 +12,7 @@ import {
 import type { WhatsAppAccountConfig } from "./account-types.js";
 
 function resolveWhatsAppDefaultAccountSharedConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): Partial<WhatsAppAccountConfig> | undefined {
   const defaultAccount = resolveAccountEntry(cfg.channels?.whatsapp?.accounts, DEFAULT_ACCOUNT_ID);
   if (!defaultAccount) {
@@ -29,14 +29,14 @@ function resolveWhatsAppDefaultAccountSharedConfig(
 }
 
 function _resolveWhatsAppAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): WhatsAppAccountConfig | undefined {
   return resolveAccountEntry(cfg.channels?.whatsapp?.accounts, accountId);
 }
 
 function resolveMergedNamedWhatsAppAccountConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
 }): WhatsAppAccountConfig {
   const rootCfg = params.cfg.channels?.whatsapp;
@@ -53,7 +53,7 @@ function resolveMergedNamedWhatsAppAccountConfig(params: {
 }
 
 export function resolveMergedWhatsAppAccountConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): WhatsAppAccountConfig & { accountId: string } {
   const rootCfg = params.cfg.channels?.whatsapp;

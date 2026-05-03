@@ -9,7 +9,7 @@ import {
 import { DEFAULT_AGENT_ID, normalizeAgentId } from "../../routing/session-key.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
 import { resolveStateDir } from "../paths.js";
-import type { Brikko StudioConfig } from "../types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../types.brikko-studio.js";
 import { resolveAgentsDirFromSessionStorePath, resolveStorePath } from "./paths.js";
 
 export type SessionStoreSelectionOptions = {
@@ -105,7 +105,7 @@ async function resolveValidatedDiscoveredStorePath(params: {
 }
 
 function resolveSessionStoreDiscoveryState(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv,
 ): {
   configuredTargets: SessionStoreTarget[];
@@ -144,7 +144,7 @@ function toDiscoveredSessionStoreTarget(
 }
 
 export function resolveAllAgentSessionStoreTargetsSync(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   params: { env?: NodeJS.ProcessEnv } = {},
 ): SessionStoreTarget[] {
   const env = params.env ?? process.env;
@@ -210,7 +210,7 @@ export function resolveAllAgentSessionStoreTargetsSync(
 }
 
 export function resolveAgentSessionStoreTargetsSync(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
   params: { env?: NodeJS.ProcessEnv } = {},
 ): SessionStoreTarget[] {
@@ -295,7 +295,7 @@ export function resolveAgentSessionStoreTargetsSync(
 }
 
 export async function resolveAllAgentSessionStoreTargets(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   params: { env?: NodeJS.ProcessEnv } = {},
 ): Promise<SessionStoreTarget[]> {
   const env = params.env ?? process.env;
@@ -377,7 +377,7 @@ export async function resolveAllAgentSessionStoreTargets(
 }
 
 export function resolveSessionStoreTargets(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts: SessionStoreSelectionOptions,
   params: { env?: NodeJS.ProcessEnv } = {},
 ): SessionStoreTarget[] {

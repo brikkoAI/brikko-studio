@@ -1,5 +1,5 @@
 import { type ChannelDoctorAdapter } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   detectPluginInstallPathIssue,
   formatPluginInstallPathIssue,
@@ -19,12 +19,12 @@ import {
 } from "./matrix-migration.runtime.js";
 import { isRecord } from "./record-shared.js";
 
-function hasConfiguredMatrixChannel(cfg: Brikko StudioConfig): boolean {
+function hasConfiguredMatrixChannel(cfg: BrikkoStudioConfig): boolean {
   const channels = cfg.channels as Record<string, unknown> | undefined;
   return isRecord(channels?.matrix);
 }
 
-function hasConfiguredMatrixPluginSurface(cfg: Brikko StudioConfig): boolean {
+function hasConfiguredMatrixPluginSurface(cfg: BrikkoStudioConfig): boolean {
   return Boolean(
     cfg.plugins?.installs?.matrix ||
     cfg.plugins?.entries?.matrix ||
@@ -39,7 +39,7 @@ function hasConfiguredMatrixEnv(env: NodeJS.ProcessEnv): boolean {
   );
 }
 
-function configMayNeedMatrixDoctorSequence(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): boolean {
+function configMayNeedMatrixDoctorSequence(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): boolean {
   return (
     hasConfiguredMatrixChannel(cfg) ||
     hasConfiguredMatrixPluginSurface(cfg) ||
@@ -80,7 +80,7 @@ export function formatMatrixLegacyCryptoPreview(
   return notes;
 }
 
-export async function collectMatrixInstallPathWarnings(cfg: Brikko StudioConfig): Promise<string[]> {
+export async function collectMatrixInstallPathWarnings(cfg: BrikkoStudioConfig): Promise<string[]> {
   const issue = await detectPluginInstallPathIssue({
     pluginId: "matrix",
     install: cfg.plugins?.installs?.matrix,
@@ -95,7 +95,7 @@ export async function collectMatrixInstallPathWarnings(cfg: Brikko StudioConfig)
   }).map((entry) => `- ${entry}`);
 }
 
-export async function cleanStaleMatrixPluginConfig(cfg: Brikko StudioConfig) {
+export async function cleanStaleMatrixPluginConfig(cfg: BrikkoStudioConfig) {
   const issue = await detectPluginInstallPathIssue({
     pluginId: "matrix",
     install: cfg.plugins?.installs?.matrix,
@@ -129,7 +129,7 @@ export async function cleanStaleMatrixPluginConfig(cfg: Brikko StudioConfig) {
 }
 
 export async function applyMatrixDoctorRepair(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 }): Promise<{ changes: string[]; warnings: string[] }> {
   const changes: string[] = [];
@@ -205,7 +205,7 @@ export async function applyMatrixDoctorRepair(params: {
 }
 
 export async function runMatrixDoctorSequence(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   shouldRepair: boolean;
 }): Promise<{ changeNotes: string[]; warningNotes: string[] }> {

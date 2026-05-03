@@ -8,9 +8,9 @@ export {
 export { DELIVERY_NO_REPLY_RUNTIME_CONTRACT } from "./test-helpers/agents/delivery-no-reply-runtime-contract.js";
 export {
   installCodexToolResultMiddleware,
-  installBrikko StudioOwnedToolHooks,
+  installBrikkoStudioOwnedToolHooks,
   mediaToolResult,
-  resetBrikko StudioOwnedToolHooks,
+  resetBrikkoStudioOwnedToolHooks,
   textToolResult,
 } from "./test-helpers/agents/brikko-studio-owned-tool-runtime-contract.js";
 export {

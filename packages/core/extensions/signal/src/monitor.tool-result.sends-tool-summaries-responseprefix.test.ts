@@ -1,5 +1,5 @@
 import { expectPairingReplyText } from "brikko-studio/plugin-sdk/channel-test-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { normalizeE164 } from "brikko-studio/plugin-sdk/text-runtime";
 import { describe, expect, it, vi } from "vitest";
@@ -32,7 +32,7 @@ type MonitorSignalProviderOptions = NonNullable<Parameters<typeof monitorSignalP
 
 async function runMonitorWithMocks(opts: MonitorSignalProviderOptions) {
   return monitorSignalProvider({
-    config: config as Brikko StudioConfig,
+    config: config as BrikkoStudioConfig,
     waitForTransportReady:
       waitForTransportReadyMock as MonitorSignalProviderOptions["waitForTransportReady"],
     ...opts,
@@ -66,7 +66,7 @@ async function receiveSignalPayloads(params: {
 
 function hasQueuedReactionEventFor(sender: string) {
   const route = resolveAgentRoute({
-    cfg: config as Brikko StudioConfig,
+    cfg: config as BrikkoStudioConfig,
     channel: "signal",
     accountId: "default",
     peer: { kind: "direct", id: normalizeE164(sender) },

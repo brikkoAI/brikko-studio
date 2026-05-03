@@ -19,7 +19,7 @@ export type {
   ChannelStatusIssue,
 } from "brikko-studio/plugin-sdk/channel-contract";
 export type {
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   GroupToolPolicyConfig,
   MarkdownTableMode,
 } from "brikko-studio/plugin-sdk/config-types";
@@ -27,7 +27,7 @@ export type {
   PluginRuntime,
   AnyAgentTool,
   ChannelPlugin,
-  Brikko StudioPluginToolContext,
+  BrikkoStudioPluginToolContext,
 } from "brikko-studio/plugin-sdk/core";
 export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
 export {
@@ -64,4 +64,4 @@ export {
   sendPayloadWithChunkedTextAndMedia,
   type OutboundReplyPayload,
 } from "brikko-studio/plugin-sdk/reply-payload";
-export { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+export { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";

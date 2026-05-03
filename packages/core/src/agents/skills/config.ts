@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { SkillConfig } from "../../config/types.skills.js";
 import {
   evaluateRuntimeEligibility,
@@ -19,12 +19,12 @@ const DEFAULT_CONFIG_VALUES: Record<string, boolean> = {
 
 export { hasBinary, resolveConfigPath, resolveRuntimePlatform };
 
-export function isConfigPathTruthy(config: Brikko StudioConfig | undefined, pathStr: string): boolean {
+export function isConfigPathTruthy(config: BrikkoStudioConfig | undefined, pathStr: string): boolean {
   return isConfigPathTruthyWithDefaults(config, pathStr, DEFAULT_CONFIG_VALUES);
 }
 
 export function resolveSkillConfig(
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
   skillKey: string,
 ): SkillConfig | undefined {
   const skills = config?.skills?.entries;
@@ -55,7 +55,7 @@ function isBundledSkill(entry: SkillEntry): boolean {
   return BUNDLED_SOURCES.has(resolveSkillSource(entry.skill));
 }
 
-export function resolveBundledAllowlist(config?: Brikko StudioConfig): string[] | undefined {
+export function resolveBundledAllowlist(config?: BrikkoStudioConfig): string[] | undefined {
   return normalizeAllowlist(config?.skills?.allowBundled);
 }
 
@@ -72,7 +72,7 @@ export function isBundledSkillAllowed(entry: SkillEntry, allowlist?: string[]): 
 
 export function shouldIncludeSkill(params: {
   entry: SkillEntry;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   eligibility?: SkillEligibilityContext;
 }): boolean {
   const { entry, config, eligibility } = params;

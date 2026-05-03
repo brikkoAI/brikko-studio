@@ -351,7 +351,7 @@ export function renderShellFunction() {
   case "$scenario" in
     empty|minimal|update-stable|upgrade-survivor|gateway-loopback|external-service) ;;
     *)
-      echo "unknown Brikko Studio test-state scenario: $scenario" >&2
+      echo "unknown BrikkoStudio test-state scenario: $scenario" >&2
       return 1
       ;;
   esac

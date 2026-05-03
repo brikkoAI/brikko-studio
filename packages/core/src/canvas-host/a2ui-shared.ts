@@ -45,9 +45,9 @@ export function injectCanvasLiveReload(html: string): string {
     const action = { ...userAction, id };
     return postToNode({ userAction: action });
   }
-  globalThis.Brikko Studio = globalThis.Brikko Studio ?? {};
-  globalThis.Brikko Studio.postMessage = postToNode;
-  globalThis.Brikko Studio.sendUserAction = sendUserAction;
+  globalThis.BrikkoStudio = globalThis.BrikkoStudio ?? {};
+  globalThis.BrikkoStudio.postMessage = postToNode;
+  globalThis.BrikkoStudio.sendUserAction = sendUserAction;
   globalThis.brikko-studioPostMessage = postToNode;
   globalThis.brikko-studioSendUserAction = sendUserAction;
 

@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveGatewayHealthProbeToken } from "./onboard-non-interactive/local.js";
 
 async function withTempDir<T>(run: (dir: string) => Promise<T>): Promise<T> {
@@ -62,7 +62,7 @@ describe("resolveGatewayHealthProbeToken", () => {
             },
           },
         },
-      } as Brikko StudioConfig);
+      } as BrikkoStudioConfig);
 
       expect(resolved).toEqual({ token: "file-secret-token" });
     });
@@ -92,7 +92,7 @@ describe("resolveGatewayHealthProbeToken", () => {
             },
           },
         },
-      } as Brikko StudioConfig);
+      } as BrikkoStudioConfig);
 
       expect(resolved.token).toBeUndefined();
       expect(resolved.unresolvedRefReason).toContain("gateway.auth.token SecretRef is unresolved");
@@ -114,7 +114,7 @@ describe("resolveGatewayHealthProbeToken", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(resolved).toEqual({ password: "resolved-password" });
   });

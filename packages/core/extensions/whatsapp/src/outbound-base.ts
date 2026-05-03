@@ -8,7 +8,7 @@ import {
   createAttachedChannelResultAdapter,
   type ChannelOutboundAdapter,
 } from "brikko-studio/plugin-sdk/channel-send-result";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveOutboundSendDep } from "brikko-studio/plugin-sdk/outbound-send-deps";
 import { sendTextMediaPayload } from "brikko-studio/plugin-sdk/reply-payload";
 import {
@@ -22,7 +22,7 @@ import { toWhatsappJid } from "./text-runtime.js";
 type WhatsAppChunker = NonNullable<ChannelOutboundAdapter["chunker"]>;
 type WhatsAppSendTextOptions = {
   verbose: boolean;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   mediaUrl?: string;
   mediaAccess?: {
     localRoots?: readonly string[];
@@ -50,7 +50,7 @@ type WhatsAppSendMessage = (
 type WhatsAppSendPoll = (
   to: string,
   poll: Parameters<NonNullable<ChannelOutboundAdapter["sendPoll"]>>[0]["poll"],
-  options: { verbose: boolean; accountId?: string; cfg: Brikko StudioConfig },
+  options: { verbose: boolean; accountId?: string; cfg: BrikkoStudioConfig },
 ) => Promise<{ messageId: string; toJid: string }>;
 
 type CreateWhatsAppOutboundBaseParams = {
@@ -63,7 +63,7 @@ type CreateWhatsAppOutboundBaseParams = {
   skipEmptyText?: boolean;
 };
 
-function resolveQuoteLookupAccountId(cfg?: Brikko StudioConfig, accountId?: string | null): string {
+function resolveQuoteLookupAccountId(cfg?: BrikkoStudioConfig, accountId?: string | null): string {
   const explicitAccountId = normalizeOptionalAccountId(accountId);
   if (explicitAccountId) {
     return explicitAccountId;

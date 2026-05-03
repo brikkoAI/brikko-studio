@@ -1,5 +1,5 @@
 /**
- * Bundled-channel config schemas for Brikko Studio-maintained plugins.
+ * Bundled-channel config schemas for BrikkoStudio-maintained plugins.
  *
  * Third-party plugins should define plugin-local schemas and import primitives
  * from brikko-studio/plugin-sdk/channel-config-schema instead of depending on these

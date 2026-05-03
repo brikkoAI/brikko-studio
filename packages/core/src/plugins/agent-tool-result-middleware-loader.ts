@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
 import type {
@@ -9,12 +9,12 @@ import {
   listAgentToolResultMiddlewares,
   normalizeAgentToolResultMiddlewareRuntimeIds,
 } from "./agent-tool-result-middleware.js";
-import { loadBrikko StudioPlugins } from "./loader.js";
+import { loadBrikkoStudioPlugins } from "./loader.js";
 import { loadPluginManifestRegistry, type PluginManifestRegistry } from "./manifest-registry.js";
 
 const log = createSubsystemLogger("plugins/agent-tool-result-middleware");
 
-async function resolveRuntimeConfig(): Promise<Brikko StudioConfig> {
+async function resolveRuntimeConfig(): Promise<BrikkoStudioConfig> {
   const { getRuntimeConfig } = await import("../config/config.js");
   return getRuntimeConfig();
 }
@@ -40,7 +40,7 @@ function listMiddlewareOwnerPluginIds(params: {
 
 export async function loadAgentToolResultMiddlewaresForRuntime(params: {
   runtime: AgentToolResultMiddlewareRuntime;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   manifestRegistry?: PluginManifestRegistry;
@@ -74,7 +74,7 @@ export async function loadAgentToolResultMiddlewaresForRuntime(params: {
         env,
         requiredPluginIds: pluginIds,
       }) ??
-      loadBrikko StudioPlugins({
+      loadBrikkoStudioPlugins({
         config,
         workspaceDir: params.workspaceDir,
         env,

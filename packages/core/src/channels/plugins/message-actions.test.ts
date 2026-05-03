@@ -1,6 +1,6 @@
 import { Type } from "typebox";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
 import { defaultRuntime } from "../../runtime.js";
 import {
@@ -82,12 +82,12 @@ describe("message action capability checks", () => {
   it("aggregates capabilities across plugins", () => {
     activateMessageActionTestRegistry();
 
-    expect(listChannelMessageCapabilities({} as Brikko StudioConfig).toSorted()).toEqual([
+    expect(listChannelMessageCapabilities({} as BrikkoStudioConfig).toSorted()).toEqual([
       "delivery-pin",
       "presentation",
     ]);
-    expect(channelSupportsMessageCapability({} as Brikko StudioConfig, "presentation")).toBe(true);
-    expect(channelSupportsMessageCapability({} as Brikko StudioConfig, "delivery-pin")).toBe(true);
+    expect(channelSupportsMessageCapability({} as BrikkoStudioConfig, "presentation")).toBe(true);
+    expect(channelSupportsMessageCapability({} as BrikkoStudioConfig, "delivery-pin")).toBe(true);
   });
 
   it("checks per-channel capabilities", () => {
@@ -95,42 +95,42 @@ describe("message action capability checks", () => {
 
     expect(
       listChannelMessageCapabilitiesForChannel({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         channel: "demo-buttons",
       }),
     ).toEqual(["presentation"]);
     expect(
       listChannelMessageCapabilitiesForChannel({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         channel: "demo-cards",
       }),
     ).toEqual(["delivery-pin"]);
     expect(
       channelSupportsMessageCapabilityForChannel(
-        { cfg: {} as Brikko StudioConfig, channel: "demo-buttons" },
+        { cfg: {} as BrikkoStudioConfig, channel: "demo-buttons" },
         "presentation",
       ),
     ).toBe(true);
     expect(
       channelSupportsMessageCapabilityForChannel(
-        { cfg: {} as Brikko StudioConfig, channel: "demo-cards" },
+        { cfg: {} as BrikkoStudioConfig, channel: "demo-cards" },
         "presentation",
       ),
     ).toBe(false);
     expect(
       channelSupportsMessageCapabilityForChannel(
-        { cfg: {} as Brikko StudioConfig, channel: "demo-buttons" },
+        { cfg: {} as BrikkoStudioConfig, channel: "demo-buttons" },
         "delivery-pin",
       ),
     ).toBe(false);
     expect(
       channelSupportsMessageCapabilityForChannel(
-        { cfg: {} as Brikko StudioConfig, channel: "demo-cards" },
+        { cfg: {} as BrikkoStudioConfig, channel: "demo-cards" },
         "delivery-pin",
       ),
     ).toBe(true);
     expect(
-      channelSupportsMessageCapabilityForChannel({ cfg: {} as Brikko StudioConfig }, "delivery-pin"),
+      channelSupportsMessageCapabilityForChannel({ cfg: {} as BrikkoStudioConfig }, "delivery-pin"),
     ).toBe(false);
   });
 
@@ -151,7 +151,7 @@ describe("message action capability checks", () => {
 
     expect(
       listChannelMessageCapabilitiesForChannel({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         channel: "demo-cards-alias",
       }),
     ).toEqual(["delivery-pin"]);
@@ -183,11 +183,11 @@ describe("message action capability checks", () => {
       createTestRegistry([{ pluginId: "demo-unified", source: "test", plugin: unifiedPlugin }]),
     );
 
-    expect(listChannelMessageActions({} as Brikko StudioConfig)).toEqual(["send", "broadcast", "react"]);
-    expect(listChannelMessageCapabilities({} as Brikko StudioConfig)).toEqual(["presentation"]);
+    expect(listChannelMessageActions({} as BrikkoStudioConfig)).toEqual(["send", "broadcast", "react"]);
+    expect(listChannelMessageCapabilities({} as BrikkoStudioConfig)).toEqual(["presentation"]);
     expect(
       resolveChannelMessageToolSchemaProperties({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         channel: "demo-unified",
       }),
     ).toHaveProperty("components");
@@ -223,7 +223,7 @@ describe("message action capability checks", () => {
 
     expect(
       listCrossChannelSchemaSupportedMessageActions({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         channel: "demo-scoped-schema",
       }),
     ).toEqual(["read", "list-pins"]);
@@ -258,7 +258,7 @@ describe("message action capability checks", () => {
 
     expect(
       listCrossChannelSchemaSupportedMessageActions({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         channel: "demo-unscoped-schema",
       }),
     ).toEqual([]);
@@ -298,7 +298,7 @@ describe("message action capability checks", () => {
 
     expect(
       listCrossChannelSchemaSupportedMessageActions({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         channel: "demo-empty-scoped-schema",
       }),
     ).toEqual(["read", "list-pins"]);
@@ -336,14 +336,14 @@ describe("message action capability checks", () => {
 
     expect(
       resolveChannelMessageToolMediaSourceParamKeys({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         action: "set-profile",
         channel: "demo-media",
       }),
     ).toEqual(["avatarUrl", "avatarPath"]);
     expect(
       resolveChannelMessageToolMediaSourceParamKeys({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         action: "send",
         channel: "demo-media",
       }),
@@ -373,7 +373,7 @@ describe("message action capability checks", () => {
 
     expect(
       resolveChannelMessageToolMediaSourceParamKeys({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         action: "set-profile",
         channel: "demo-media-flat",
       }),
@@ -400,12 +400,12 @@ describe("message action capability checks", () => {
       createTestRegistry([{ pluginId: "demo-crashing", source: "test", plugin: crashingPlugin }]),
     );
 
-    expect(listChannelMessageActions({} as Brikko StudioConfig)).toEqual(["send", "broadcast"]);
-    expect(listChannelMessageCapabilities({} as Brikko StudioConfig)).toEqual([]);
+    expect(listChannelMessageActions({} as BrikkoStudioConfig)).toEqual(["send", "broadcast"]);
+    expect(listChannelMessageCapabilities({} as BrikkoStudioConfig)).toEqual([]);
     expect(errorSpy).toHaveBeenCalledTimes(1);
 
-    expect(listChannelMessageActions({} as Brikko StudioConfig)).toEqual(["send", "broadcast"]);
-    expect(listChannelMessageCapabilities({} as Brikko StudioConfig)).toEqual([]);
+    expect(listChannelMessageActions({} as BrikkoStudioConfig)).toEqual(["send", "broadcast"]);
+    expect(listChannelMessageCapabilities({} as BrikkoStudioConfig)).toEqual([]);
     expect(errorSpy).toHaveBeenCalledTimes(1);
   });
 });

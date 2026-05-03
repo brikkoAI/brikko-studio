@@ -3,7 +3,7 @@ import {
   normalizeLegacyDotBetaVersion,
 } from "../infra/semver-compare.js";
 
-type Brikko StudioVersion = {
+type BrikkoStudioVersion = {
   major: number;
   minor: number;
   patch: number;
@@ -13,7 +13,7 @@ type Brikko StudioVersion = {
 
 const VERSION_RE = /^v?(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?$/;
 
-export function parseBrikko StudioVersion(raw: string | null | undefined): Brikko StudioVersion | null {
+export function parseBrikkoStudioVersion(raw: string | null | undefined): BrikkoStudioVersion | null {
   if (!raw) {
     return null;
   }
@@ -33,20 +33,20 @@ export function parseBrikko StudioVersion(raw: string | null | undefined): Brikk
   };
 }
 
-export function normalizeBrikko StudioVersionBase(raw: string | null | undefined): string | null {
-  const parsed = parseBrikko StudioVersion(raw);
+export function normalizeBrikkoStudioVersionBase(raw: string | null | undefined): string | null {
+  const parsed = parseBrikkoStudioVersion(raw);
   if (!parsed) {
     return null;
   }
   return `${parsed.major}.${parsed.minor}.${parsed.patch}`;
 }
 
-export function isSameBrikko StudioStableFamily(
+export function isSameBrikkoStudioStableFamily(
   a: string | null | undefined,
   b: string | null | undefined,
 ): boolean {
-  const parsedA = parseBrikko StudioVersion(a);
-  const parsedB = parseBrikko StudioVersion(b);
+  const parsedA = parseBrikkoStudioVersion(a);
+  const parsedB = parseBrikkoStudioVersion(b);
   if (!parsedA || !parsedB) {
     return false;
   }
@@ -60,12 +60,12 @@ export function isSameBrikko StudioStableFamily(
   );
 }
 
-export function compareBrikko StudioVersions(
+export function compareBrikkoStudioVersions(
   a: string | null | undefined,
   b: string | null | undefined,
 ): number | null {
-  const parsedA = parseBrikko StudioVersion(a);
-  const parsedB = parseBrikko StudioVersion(b);
+  const parsedA = parseBrikkoStudioVersion(a);
+  const parsedB = parseBrikkoStudioVersion(b);
   if (!parsedA || !parsedB) {
     return null;
   }
@@ -104,8 +104,8 @@ export function shouldWarnOnTouchedVersion(
   current: string | null | undefined,
   touched: string | null | undefined,
 ): boolean {
-  const parsedCurrent = parseBrikko StudioVersion(current);
-  const parsedTouched = parseBrikko StudioVersion(touched);
+  const parsedCurrent = parseBrikkoStudioVersion(current);
+  const parsedTouched = parseBrikkoStudioVersion(touched);
   if (
     parsedCurrent &&
     parsedTouched &&
@@ -117,14 +117,14 @@ export function shouldWarnOnTouchedVersion(
       return false;
     }
   }
-  if (isSameBrikko StudioStableFamily(current, touched)) {
+  if (isSameBrikkoStudioStableFamily(current, touched)) {
     return false;
   }
-  const cmp = compareBrikko StudioVersions(current, touched);
+  const cmp = compareBrikkoStudioVersions(current, touched);
   return cmp !== null && cmp < 0;
 }
 
-function releaseRank(version: Brikko StudioVersion): number {
+function releaseRank(version: BrikkoStudioVersion): number {
   if (version.prerelease?.length) {
     return 0;
   }

@@ -42,7 +42,7 @@ import {
   resolveBrowserExecutableForPlatform,
 } from "./chrome.executables.js";
 import {
-  decorateBrikko StudioProfile,
+  decorateBrikkoStudioProfile,
   ensureProfileCleanExit,
   isProfileDecorated,
 } from "./chrome.profile-decoration.js";
@@ -84,7 +84,7 @@ export {
   resolveBrowserExecutableForPlatform,
 } from "./chrome.executables.js";
 export {
-  decorateBrikko StudioProfile,
+  decorateBrikkoStudioProfile,
   ensureProfileCleanExit,
   isProfileDecorated,
 } from "./chrome.profile-decoration.js";
@@ -227,7 +227,7 @@ function resolveBrowserExecutable(
   );
 }
 
-export function resolveBrikko StudioUserDataDir(profileName = DEFAULT_BRIKKO_STUDIO_BROWSER_PROFILE_NAME) {
+export function resolveBrikkoStudioUserDataDir(profileName = DEFAULT_BRIKKO_STUDIO_BROWSER_PROFILE_NAME) {
   return path.join(CONFIG_DIR, "browser", profileName, "user-data");
 }
 
@@ -235,7 +235,7 @@ function cdpUrlForPort(cdpPort: number) {
   return `http://127.0.0.1:${cdpPort}`;
 }
 
-export function buildBrikko StudioChromeLaunchArgs(params: {
+export function buildBrikkoStudioChromeLaunchArgs(params: {
   resolved: ResolvedBrowserConfig;
   profile: ResolvedBrowserProfile;
   userDataDir: string;
@@ -395,7 +395,7 @@ export async function isChromeCdpReady(
   return diagnostic.ok;
 }
 
-export async function launchBrikko StudioChrome(
+export async function launchBrikkoStudioChrome(
   resolved: ResolvedBrowserConfig,
   profile: ResolvedBrowserProfile,
   launchOptions: ManagedBrowserHeadlessOptions = {},
@@ -421,7 +421,7 @@ export async function launchBrikko StudioChrome(
     );
   }
 
-  const userDataDir = resolveBrikko StudioUserDataDir(profile.name);
+  const userDataDir = resolveBrikkoStudioUserDataDir(profile.name);
   fs.mkdirSync(userDataDir, { recursive: true });
   fs.mkdirSync(DEFAULT_DOWNLOAD_DIR, { recursive: true });
 
@@ -434,7 +434,7 @@ export async function launchBrikko StudioChrome(
 
   // First launch to create preference files if missing, then decorate and relaunch.
   const spawnOnce = () => {
-    const args = buildBrikko StudioChromeLaunchArgs({
+    const args = buildBrikkoStudioChromeLaunchArgs({
       resolved,
       profile,
       userDataDir,
@@ -490,7 +490,7 @@ export async function launchBrikko StudioChrome(
 
   if (needsDecorate) {
     try {
-      decorateBrikko StudioProfile(userDataDir, {
+      decorateBrikkoStudioProfile(userDataDir, {
         name: profile.name,
         color: profile.color,
         downloadDir: DEFAULT_DOWNLOAD_DIR,
@@ -586,7 +586,7 @@ export async function launchBrikko StudioChrome(
   return await launchOnceAndWait(true);
 }
 
-export async function stopBrikko StudioChrome(
+export async function stopBrikkoStudioChrome(
   running: RunningChrome,
   timeoutMs = CHROME_STOP_TIMEOUT_MS,
 ) {

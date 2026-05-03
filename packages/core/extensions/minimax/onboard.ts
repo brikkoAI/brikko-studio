@@ -2,7 +2,7 @@ import {
   applyAgentDefaultModelPrimary,
   applyOnboardAuthAgentModelsAndProviders,
   type ModelProviderConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildMinimaxApiModelDefinition,
@@ -17,9 +17,9 @@ type MinimaxApiProviderConfigParams = {
 };
 
 function applyMinimaxApiProviderConfigWithBaseUrl(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   params: MinimaxApiProviderConfigParams,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const providers = { ...cfg.models?.providers } as Record<string, ModelProviderConfig>;
   const existingProvider = providers[params.providerId];
   const existingModels = existingProvider?.models ?? [];
@@ -52,17 +52,17 @@ function applyMinimaxApiProviderConfigWithBaseUrl(
 }
 
 function applyMinimaxApiConfigWithBaseUrl(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   params: MinimaxApiProviderConfigParams,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const next = applyMinimaxApiProviderConfigWithBaseUrl(cfg, params);
   return applyAgentDefaultModelPrimary(next, `${params.providerId}/${params.modelId}`);
 }
 
 export function applyMinimaxApiProviderConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   modelId: string = "MiniMax-M2.7",
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return applyMinimaxApiProviderConfigWithBaseUrl(cfg, {
     providerId: "minimax",
     modelId,
@@ -71,9 +71,9 @@ export function applyMinimaxApiProviderConfig(
 }
 
 export function applyMinimaxApiConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   modelId: string = "MiniMax-M2.7",
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return applyMinimaxApiConfigWithBaseUrl(cfg, {
     providerId: "minimax",
     modelId,
@@ -82,9 +82,9 @@ export function applyMinimaxApiConfig(
 }
 
 export function applyMinimaxApiProviderConfigCn(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   modelId: string = "MiniMax-M2.7",
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return applyMinimaxApiProviderConfigWithBaseUrl(cfg, {
     providerId: "minimax",
     modelId,
@@ -93,9 +93,9 @@ export function applyMinimaxApiProviderConfigCn(
 }
 
 export function applyMinimaxApiConfigCn(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   modelId: string = "MiniMax-M2.7",
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return applyMinimaxApiConfigWithBaseUrl(cfg, {
     providerId: "minimax",
     modelId,

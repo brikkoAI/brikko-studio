@@ -9,7 +9,7 @@ import {
   resolveDefaultDiscordAccountId,
   resolveDiscordAccountConfig,
 } from "./accounts.js";
-import type { DiscordAccountConfig, Brikko StudioConfig } from "./runtime-api.js";
+import type { DiscordAccountConfig, BrikkoStudioConfig } from "./runtime-api.js";
 
 export type DiscordCredentialStatus = "available" | "configured_unavailable" | "missing";
 
@@ -48,7 +48,7 @@ function inspectDiscordTokenValue(value: unknown): {
 }
 
 export function inspectDiscordAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   envToken?: string | null;
 }): InspectedDiscordAccount {

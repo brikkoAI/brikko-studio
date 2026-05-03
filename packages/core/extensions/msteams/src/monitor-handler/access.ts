@@ -9,7 +9,7 @@ import {
   resolveDmGroupAccessWithLists,
   resolveEffectiveAllowFromLists,
   resolveSenderScopedGroupPolicy,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../../runtime-api.js";
 import { normalizeMSTeamsConversationId } from "../inbound.js";
 import { resolveMSTeamsAllowlistMatch, resolveMSTeamsRouteConfig } from "../policy.js";
@@ -17,7 +17,7 @@ import { getMSTeamsRuntime } from "../runtime.js";
 import type { MSTeamsTurnContext } from "../sdk-types.js";
 
 export async function resolveMSTeamsSenderAccess(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   activity: MSTeamsTurnContext["activity"];
 }) {
   const activity = params.activity;

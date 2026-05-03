@@ -1,6 +1,6 @@
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
 import { listCombinedAccountIds } from "brikko-studio/plugin-sdk/account-resolution";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   hasConfiguredSecretInput,
   normalizeSecretInputString,
@@ -43,7 +43,7 @@ function inspectConfiguredToken(value: unknown): {
   return null;
 }
 
-export function listDiscordSetupAccountIds(cfg: Brikko StudioConfig): string[] {
+export function listDiscordSetupAccountIds(cfg: BrikkoStudioConfig): string[] {
   const accounts = cfg.channels?.discord?.accounts;
   return listCombinedAccountIds({
     configuredAccountIds:
@@ -54,12 +54,12 @@ export function listDiscordSetupAccountIds(cfg: Brikko StudioConfig): string[] {
   });
 }
 
-export function resolveDefaultDiscordSetupAccountId(cfg: Brikko StudioConfig): string {
+export function resolveDefaultDiscordSetupAccountId(cfg: BrikkoStudioConfig): string {
   return resolveDefaultDiscordAccountId(cfg);
 }
 
 export function resolveDiscordSetupAccountConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): { accountId: string; config: DiscordAccountConfig } {
   const accountId = normalizeAccountId(
@@ -72,7 +72,7 @@ export function resolveDiscordSetupAccountConfig(params: {
 }
 
 export function inspectDiscordSetupAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): InspectedDiscordSetupAccount {
   const { accountId, config } = resolveDiscordSetupAccountConfig(params);

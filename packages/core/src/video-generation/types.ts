@@ -1,5 +1,5 @@
 import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { MediaNormalizationEntry } from "../media-generation/normalization.types.js";
 
 export type GeneratedVideoAsset = {
@@ -47,7 +47,7 @@ export type VideoGenerationSourceAsset = {
 };
 
 export type VideoGenerationProviderConfiguredContext = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
 };
 
@@ -55,7 +55,7 @@ export type VideoGenerationRequest = {
   provider: string;
   model: string;
   prompt: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   authStore?: AuthProfileStore;
   timeoutMs?: number;

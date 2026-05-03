@@ -1,5 +1,5 @@
 import type { MsgContext } from "../auto-reply/templating.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 let inboundSessionRuntimePromise: Promise<
   typeof import("../config/sessions/inbound.runtime.js")
@@ -11,7 +11,7 @@ function loadInboundSessionRuntime() {
 }
 
 export async function recordInboundSessionMetaSafe(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   sessionKey: string;
   ctx: MsgContext;

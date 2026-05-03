@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 const runEmbeddedPiAgentMock = vi.fn();
 
@@ -7,7 +7,7 @@ vi.mock("../agents/agent-scope.js", () => ({
   resolveDefaultAgentId: vi.fn(() => "main"),
   resolveAgentWorkspaceDir: vi.fn(() => "/tmp/brikko-studio-agent"),
   resolveAgentDir: vi.fn(() => "/tmp/brikko-studio-agent/.brikko-studio-agent"),
-  resolveAgentEffectiveModelPrimary: vi.fn((cfg: Brikko StudioConfig) => {
+  resolveAgentEffectiveModelPrimary: vi.fn((cfg: BrikkoStudioConfig) => {
     const model = cfg.agents?.defaults?.model;
     if (typeof model === "string") {
       return model;
@@ -33,7 +33,7 @@ describe("generateSlugViaLLM", () => {
   it("keeps the helper default timeout when no agent timeout is configured", async () => {
     await generateSlugViaLLM({
       sessionContent: "hello",
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
     });
 
     expect(runEmbeddedPiAgentMock).toHaveBeenCalledOnce();
@@ -54,7 +54,7 @@ describe("generateSlugViaLLM", () => {
             timeoutSeconds: 500,
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(runEmbeddedPiAgentMock).toHaveBeenCalledOnce();
@@ -92,7 +92,7 @@ describe("generateSlugViaLLM", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(runEmbeddedPiAgentMock).toHaveBeenCalledOnce();

@@ -59,7 +59,7 @@ function resolveRepoAcpxPluginRoot(currentRoot: string): string | null {
   return isAcpxPluginRoot(workspaceRoot) ? workspaceRoot : null;
 }
 
-function resolveAcpxPluginRootFromBrikko StudioLayout(moduleUrl: string): string | null {
+function resolveAcpxPluginRootFromBrikkoStudioLayout(moduleUrl: string): string | null {
   let cursor = path.dirname(fileURLToPath(moduleUrl));
   for (let i = 0; i < 5; i += 1) {
     const candidates = [
@@ -88,8 +88,8 @@ export function resolveAcpxPluginRoot(moduleUrl: string = import.meta.url): stri
     resolveWorkspaceAcpxPluginRoot(resolvedRoot) ??
     resolveRepoAcpxPluginRoot(resolvedRoot) ??
     // Shared dist/dist-runtime chunks can load this module outside the plugin tree.
-    // Scan common Brikko Studio layouts before falling back to the nearest path guess.
-    resolveAcpxPluginRootFromBrikko StudioLayout(moduleUrl) ??
+    // Scan common BrikkoStudio layouts before falling back to the nearest path guess.
+    resolveAcpxPluginRootFromBrikkoStudioLayout(moduleUrl) ??
     resolvedRoot
   );
 }
@@ -117,7 +117,7 @@ function parseAcpxPluginConfig(value: unknown): ParseResult {
   };
 }
 
-function resolveBrikko StudioRoot(currentRoot: string): string {
+function resolveBrikkoStudioRoot(currentRoot: string): string {
   if (
     path.basename(currentRoot) === "acpx" &&
     path.basename(path.dirname(currentRoot)) === "extensions"
@@ -141,7 +141,7 @@ function resolveTsxImportSpecifier(): string {
 
 function resolvePluginToolsMcpServerConfig(moduleUrl: string = import.meta.url): McpServerConfig {
   const pluginRoot = resolveAcpxPluginRoot(moduleUrl);
-  const openClawRoot = resolveBrikko StudioRoot(pluginRoot);
+  const openClawRoot = resolveBrikkoStudioRoot(pluginRoot);
   const distEntry = path.join(openClawRoot, "dist", "mcp", "plugin-tools-serve.js");
   if (fs.existsSync(distEntry)) {
     return {
@@ -156,9 +156,9 @@ function resolvePluginToolsMcpServerConfig(moduleUrl: string = import.meta.url):
   };
 }
 
-function resolveBrikko StudioToolsMcpServerConfig(moduleUrl: string = import.meta.url): McpServerConfig {
+function resolveBrikkoStudioToolsMcpServerConfig(moduleUrl: string = import.meta.url): McpServerConfig {
   const pluginRoot = resolveAcpxPluginRoot(moduleUrl);
-  const openClawRoot = resolveBrikko StudioRoot(pluginRoot);
+  const openClawRoot = resolveBrikkoStudioRoot(pluginRoot);
   const distEntry = path.join(openClawRoot, "dist", "mcp", "brikko-studio-tools-serve.js");
   if (fs.existsSync(distEntry)) {
     return {
@@ -196,7 +196,7 @@ function resolveConfiguredMcpServers(params: {
     );
   }
   if (params.openClawToolsMcpBridge) {
-    resolved[ACPX_BRIKKO_STUDIO_TOOLS_MCP_SERVER_NAME] = resolveBrikko StudioToolsMcpServerConfig(
+    resolved[ACPX_BRIKKO_STUDIO_TOOLS_MCP_SERVER_NAME] = resolveBrikkoStudioToolsMcpServerConfig(
       params.moduleUrl,
     );
   }

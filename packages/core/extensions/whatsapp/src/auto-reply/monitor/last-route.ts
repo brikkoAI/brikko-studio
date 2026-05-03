@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { MsgContext } from "brikko-studio/plugin-sdk/reply-runtime";
 import { formatError } from "../../session.js";
 import { resolveStorePath, updateLastRoute } from "../config.runtime.js";
@@ -15,7 +15,7 @@ export function trackBackgroundTask(
 }
 
 export function updateLastRouteInBackground(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   backgroundTasks: Set<Promise<unknown>>;
   storeAgentId: string;
   sessionKey: string;

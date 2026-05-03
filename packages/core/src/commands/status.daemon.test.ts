@@ -25,7 +25,7 @@ describe("status daemon summary", () => {
       label: "systemd",
       installed: true,
       loaded: true,
-      managedByBrikko Studio: true,
+      managedByBrikkoStudio: true,
       externallyManaged: false,
       loadedText: "enabled",
       runtime: { status: "running", pid: 1234 },

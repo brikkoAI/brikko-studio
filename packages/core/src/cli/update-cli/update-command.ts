@@ -16,7 +16,7 @@ import {
 } from "../../config/config.js";
 import { formatConfigIssueLines } from "../../config/issue-format.js";
 import { asResolvedSourceConfig, asRuntimeConfig } from "../../config/materialize.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../../config/types.plugins.js";
 import { GATEWAY_SERVICE_KIND, GATEWAY_SERVICE_MARKER } from "../../daemon/constants.js";
 import { resolveGatewayInstallEntrypoint } from "../../daemon/gateway-entrypoint.js";
@@ -515,7 +515,7 @@ export function resolvePostInstallDoctorEnv(params?: {
 }
 
 export function resolveUpdatedGatewayRestartPort(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   processEnv?: NodeJS.ProcessEnv;
   serviceEnv?: NodeJS.ProcessEnv;
 }): number {
@@ -1420,7 +1420,7 @@ async function persistRequestedUpdateChannel(params: {
 
 function createUpdatedChannelSnapshot(
   snapshot: Awaited<ReturnType<typeof readConfigFileSnapshot>>,
-  next: Brikko StudioConfig,
+  next: BrikkoStudioConfig,
 ): Awaited<ReturnType<typeof readConfigFileSnapshot>> {
   if (!snapshot.valid) {
     return snapshot;
@@ -1830,7 +1830,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
 
   const showProgress = !opts.json && process.stdout.isTTY;
   if (!opts.json) {
-    defaultRuntime.log(theme.heading("Updating Brikko Studio..."));
+    defaultRuntime.log(theme.heading("Updating BrikkoStudio..."));
     defaultRuntime.log("");
   }
 
@@ -1863,7 +1863,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
       defaultRuntime.error(
         [
           "Package updates cannot run from inside the gateway service process.",
-          "That path replaces the active Brikko Studio dist tree while the live gateway may still lazy-load old chunks.",
+          "That path replaces the active BrikkoStudio dist tree while the live gateway may still lazy-load old chunks.",
           `Run \`${replaceCliName(formatCliCommand("brikko-studio update"), CLI_NAME)}\` from a shell outside the gateway service, or stop the gateway service first and then update.`,
         ].join("\n"),
       );
@@ -1943,7 +1943,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
     if (result.reason === "not-git-install") {
       defaultRuntime.log(
         theme.warn(
-          `Skipped: this Brikko Studio install isn't a git checkout, and the package manager couldn't be detected. Update via your package manager, then run \`${replaceCliName(formatCliCommand("brikko-studio doctor"), CLI_NAME)}\` and \`${replaceCliName(formatCliCommand("brikko-studio gateway restart"), CLI_NAME)}\`.`,
+          `Skipped: this BrikkoStudio install isn't a git checkout, and the package manager couldn't be detected. Update via your package manager, then run \`${replaceCliName(formatCliCommand("brikko-studio doctor"), CLI_NAME)}\` and \`${replaceCliName(formatCliCommand("brikko-studio gateway restart"), CLI_NAME)}\`.`,
         ),
       );
       defaultRuntime.log(

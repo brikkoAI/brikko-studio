@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { EventEmitter } from "node:events";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { WEBHOOK_IN_FLIGHT_DEFAULTS } from "brikko-studio/plugin-sdk/webhook-request-guards";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
@@ -166,7 +166,7 @@ describe("monitorLineProvider lifecycle", () => {
     const task = monitorLineProvider({
       channelAccessToken: "token",
       channelSecret: "secret", // pragma: allowlist secret
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       runtime: {} as RuntimeEnv,
       abortSignal: abort.signal,
     }).then((monitor) => {
@@ -190,7 +190,7 @@ describe("monitorLineProvider lifecycle", () => {
       channelAccessToken: "token",
       channelSecret: "secret", // pragma: allowlist secret
       accountId: "work",
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       runtime: {} as RuntimeEnv,
     });
 
@@ -217,7 +217,7 @@ describe("monitorLineProvider lifecycle", () => {
     await monitorLineProvider({
       channelAccessToken: "token",
       channelSecret: "secret", // pragma: allowlist secret
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       runtime: {} as RuntimeEnv,
       abortSignal: abort.signal,
     });
@@ -229,7 +229,7 @@ describe("monitorLineProvider lifecycle", () => {
     const monitor = await monitorLineProvider({
       channelAccessToken: "token",
       channelSecret: "secret", // pragma: allowlist secret
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       runtime: {} as RuntimeEnv,
     });
 
@@ -255,7 +255,7 @@ describe("monitorLineProvider lifecycle", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       runtime: {} as RuntimeEnv,
     });
 
@@ -274,14 +274,14 @@ describe("monitorLineProvider lifecycle", () => {
       channelAccessToken: "first-token",
       channelSecret: "first-secret", // pragma: allowlist secret
       accountId: "first",
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       runtime: {} as RuntimeEnv,
     });
     const secondMonitor = await monitorLineProvider({
       channelAccessToken: "second-token",
       channelSecret: "second-secret", // pragma: allowlist secret
       accountId: "second",
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       runtime: {} as RuntimeEnv,
     });
 
@@ -319,14 +319,14 @@ describe("monitorLineProvider lifecycle", () => {
       channelAccessToken: "first-token",
       channelSecret: "shared-secret", // pragma: allowlist secret
       accountId: "first",
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       runtime: {} as RuntimeEnv,
     });
     const secondMonitor = await monitorLineProvider({
       channelAccessToken: "second-token",
       channelSecret: "shared-secret", // pragma: allowlist secret
       accountId: "second",
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       runtime: {} as RuntimeEnv,
     });
 
@@ -367,7 +367,7 @@ describe("monitorLineProvider lifecycle", () => {
     const monitor = await monitorLineProvider({
       channelAccessToken: "token",
       channelSecret: "secret", // pragma: allowlist secret
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       runtime: {} as RuntimeEnv,
     });
 

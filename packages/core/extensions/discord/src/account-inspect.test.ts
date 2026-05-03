@@ -1,9 +1,9 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import { inspectDiscordAccount } from "./account-inspect.js";
 
-function asConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+function asConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
 describe("inspectDiscordAccount", () => {

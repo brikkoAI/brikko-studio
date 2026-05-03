@@ -1,6 +1,6 @@
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { expect, vi, type Mock } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import type { TelegramNativeCommandDeps } from "./bot-native-command-deps.runtime.js";
 import {
   createNativeCommandTestParams as createBaseNativeCommandTestParams,
@@ -90,7 +90,7 @@ export function createCommandBot(params: CreateCommandBotParams = {}): CreateCom
 }
 
 export function createNativeCommandTestParams(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   params: Partial<RegisterTelegramNativeCommandsParams> = {},
 ): RegisterTelegramNativeCommandsParams {
   const dispatchResult: Awaited<

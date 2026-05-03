@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveMemorySlotDecisionShared,
   resolvePluginActivationDecisionShared,
@@ -23,7 +23,7 @@ export type PluginActivationState = PluginActivationStateLike;
 export type NormalizedPluginsConfig = SharedNormalizedPluginsConfig;
 
 export function normalizePluginsConfigWithResolver(
-  config?: Brikko StudioConfig["plugins"],
+  config?: BrikkoStudioConfig["plugins"],
   normalizePluginId: NormalizePluginId = identityNormalizePluginId,
 ): NormalizedPluginsConfig {
   return normalizePluginsConfigWithResolverShared(config, normalizePluginId);
@@ -33,10 +33,10 @@ export function resolvePluginActivationState(params: {
   id: string;
   origin: PluginOrigin;
   config: NormalizedPluginsConfig;
-  rootConfig?: Brikko StudioConfig;
+  rootConfig?: BrikkoStudioConfig;
   enabledByDefault?: boolean;
   sourceConfig?: NormalizedPluginsConfig;
-  sourceRootConfig?: Brikko StudioConfig;
+  sourceRootConfig?: BrikkoStudioConfig;
   autoEnabledReason?: string;
 }): PluginActivationState {
   return toPluginActivationState(
@@ -58,10 +58,10 @@ type PolicyEffectiveActivationParams = {
   id: string;
   origin: PluginOrigin;
   config: NormalizedPluginsConfig;
-  rootConfig?: Brikko StudioConfig;
+  rootConfig?: BrikkoStudioConfig;
   enabledByDefault?: boolean;
   sourceConfig?: NormalizedPluginsConfig;
-  sourceRootConfig?: Brikko StudioConfig;
+  sourceRootConfig?: BrikkoStudioConfig;
   autoEnabledReason?: string;
 };
 

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   applyExclusiveSlotSelection,
   buildPluginDiagnosticsReport,
@@ -26,7 +26,7 @@ describe("persistPluginInstall", () => {
       plugins: {
         allow: ["memory-core"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledConfig = {
       plugins: {
         allow: ["alpha", "memory-core"],
@@ -34,9 +34,9 @@ describe("persistPluginInstall", () => {
           alpha: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     enablePluginInConfig.mockImplementation((...args: unknown[]) => {
-      const [cfg, pluginId] = args as [Brikko StudioConfig, string];
+      const [cfg, pluginId] = args as [BrikkoStudioConfig, string];
       expect(pluginId).toBe("alpha");
       expect(cfg.plugins?.allow).toEqual(["alpha", "memory-core"]);
       return { config: enabledConfig };
@@ -92,14 +92,14 @@ describe("persistPluginInstall", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledConfig = {
       plugins: {
         entries: {
           alpha: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     enablePluginInConfig.mockReturnValue({ config: enabledConfig });
     clearPluginRegistryLoadCache.mockImplementation(() => {
       throw new Error("cache unavailable");
@@ -131,14 +131,14 @@ describe("persistPluginInstall", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledConfig = {
       plugins: {
         entries: {
           discord: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     enablePluginInConfig.mockReturnValue({ config: enabledConfig });
     buildPluginSnapshotReport.mockReturnValue({
       plugins: [
@@ -189,14 +189,14 @@ describe("persistPluginInstall", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledConfig = {
       plugins: {
         entries: {
           discord: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     enablePluginInConfig.mockReturnValue({ config: enabledConfig });
     buildPluginSnapshotReport.mockReturnValue({
       plugins: [
@@ -232,14 +232,14 @@ describe("persistPluginInstall", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledConfig = {
       plugins: {
         entries: {
           alpha: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     enablePluginInConfig.mockReturnValue({ config: enabledConfig });
     refreshPluginRegistry.mockRejectedValueOnce(new Error("registry unavailable"));
 
@@ -268,7 +268,7 @@ describe("persistPluginInstall", () => {
       plugins: {
         deny: ["alpha", "other"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledConfig = {
       plugins: {
         deny: ["other"],
@@ -276,9 +276,9 @@ describe("persistPluginInstall", () => {
           alpha: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     enablePluginInConfig.mockImplementation((...args: unknown[]) => {
-      const [cfg, pluginId] = args as [Brikko StudioConfig, string];
+      const [cfg, pluginId] = args as [BrikkoStudioConfig, string];
       expect(pluginId).toBe("alpha");
       expect(cfg.plugins?.deny).toEqual(["other"]);
       return { config: enabledConfig };
@@ -308,7 +308,7 @@ describe("persistPluginInstall", () => {
           "legacy-memory-a": { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledConfig = {
       plugins: {
         entries: {
@@ -316,7 +316,7 @@ describe("persistPluginInstall", () => {
           "legacy-memory": { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     enablePluginInConfig.mockReturnValue({ config: enabledConfig });
     loadPluginManifestRegistry.mockReturnValue({
       plugins: [{ id: "legacy-memory" }],
@@ -327,7 +327,7 @@ describe("persistPluginInstall", () => {
       diagnostics: [],
     });
     applyExclusiveSlotSelection.mockImplementation(((params: {
-      config: Brikko StudioConfig;
+      config: BrikkoStudioConfig;
       selectedId: string;
       selectedKind?: string;
       registry?: { plugins: Array<{ id: string; kind?: string }> };
@@ -386,7 +386,7 @@ describe("persistPluginInstall", () => {
           "legacy-memory-a": { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledConfig = {
       plugins: {
         entries: {
@@ -394,14 +394,14 @@ describe("persistPluginInstall", () => {
           "memory-b": { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     enablePluginInConfig.mockReturnValue({ config: enabledConfig });
     loadPluginManifestRegistry.mockReturnValue({
       plugins: [{ id: "memory-b", kind: "memory" }],
       diagnostics: [],
     });
     applyExclusiveSlotSelection.mockImplementation(((params: {
-      config: Brikko StudioConfig;
+      config: BrikkoStudioConfig;
       selectedId: string;
       selectedKind?: string;
       registry?: { plugins: Array<{ id: string; kind?: string }> };
@@ -454,14 +454,14 @@ describe("persistPluginInstall", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledConfig = {
       plugins: {
         entries: {
           plain: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     enablePluginInConfig.mockReturnValue({ config: enabledConfig });
     loadPluginManifestRegistry.mockReturnValue({
       plugins: [{ id: "plain" }],
@@ -509,7 +509,7 @@ describe("persistPluginInstall", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const next = await persistPluginInstall({
       snapshot: {
@@ -545,7 +545,7 @@ describe("persistPluginInstall", () => {
         allow: ["memory-core"],
         deny: ["memory-lancedb"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const next = await persistPluginInstall({
       snapshot: {

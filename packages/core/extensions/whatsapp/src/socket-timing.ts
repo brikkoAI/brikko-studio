@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export type WhatsAppSocketTimingOptions = {
   keepAliveIntervalMs?: number;
@@ -17,7 +17,7 @@ function positiveInteger(value: number | undefined): number | undefined {
 }
 
 export function resolveWhatsAppSocketTiming(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   overrides?: WhatsAppSocketTimingOptions,
 ): Required<WhatsAppSocketTimingOptions> {
   const configured = cfg.web?.whatsapp;

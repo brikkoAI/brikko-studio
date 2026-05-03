@@ -1,5 +1,5 @@
 import { resolveProviderAuthAliasMap } from "../agents/provider-auth-aliases.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isInstalledPluginEnabled } from "../plugins/installed-plugin-index.js";
 import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
 import {
@@ -24,7 +24,7 @@ const CORE_PROVIDER_SETUP_ENV_VAR_OVERRIDES = {
 } as const;
 
 export type ProviderEnvVarLookupParams = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   includeUntrustedWorkspacePlugins?: boolean;
@@ -42,7 +42,7 @@ export type ProviderAuthEvidence = {
 
 function isWorkspacePluginTrustedForProviderEnvVars(
   plugin: PluginManifestRecord,
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
 ): boolean {
   return isWorkspacePluginAllowedByConfig({
     config,
@@ -298,7 +298,7 @@ export function getProviderEnvVars(
   return Array.isArray(envVars) ? [...envVars] : [];
 }
 
-// BRIKKO_STUDIO_API_KEY authenticates the local Brikko Studio bridge itself and must
+// BRIKKO_STUDIO_API_KEY authenticates the local BrikkoStudio bridge itself and must
 // remain available to child bridge/runtime processes.
 export function listKnownProviderAuthEnvVarNames(params?: ProviderEnvVarLookupParams): string[] {
   return [

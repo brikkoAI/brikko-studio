@@ -2,7 +2,7 @@ import { assertMediaNotDataUrl, resolveSandboxedMediaSource } from "../../agents
 import { readStringParam } from "../../agents/tools/common.js";
 import { resolveChannelMessageToolMediaSourceParamKeys } from "../../channels/plugins/message-action-discovery.js";
 import type { ChannelId, ChannelMessageActionName } from "../../channels/plugins/types.public.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { createRootScopedReadFile } from "../../infra/fs-safe.js";
 import { basenameFromMediaSource } from "../../infra/local-file-access.js";
 import { resolveChannelAccountMediaMaxMb } from "../../media/configured-max-bytes.js";
@@ -60,7 +60,7 @@ function buildActionMediaSourceParamKeys(extraParamKeys?: readonly string[]): st
 }
 
 export function resolveExtraActionMediaSourceParamKeys(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   action?: ChannelMessageActionName;
   args: Record<string, unknown>;
   channel?: string;
@@ -114,7 +114,7 @@ function readAttachmentFileHint(args: Record<string, unknown>): string | undefin
 }
 
 function resolveAttachmentMaxBytes(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChannelId;
   accountId?: string | null;
 }): number | undefined {
@@ -233,7 +233,7 @@ function buildAttachmentMediaLoadOptions(params: {
 }
 
 async function hydrateAttachmentPayload(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChannelId;
   accountId?: string | null;
   args: Record<string, unknown>;
@@ -336,7 +336,7 @@ export async function normalizeSandboxMediaList(params: {
 }
 
 async function hydrateAttachmentActionPayload(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChannelId;
   accountId?: string | null;
   args: Record<string, unknown>;
@@ -372,7 +372,7 @@ async function hydrateAttachmentActionPayload(params: {
 }
 
 export async function hydrateAttachmentParamsForAction(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChannelId;
   accountId?: string | null;
   args: Record<string, unknown>;

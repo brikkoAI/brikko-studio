@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { parseInlineDirectives } from "./directive-handling.parse.js";
 import {
   reserveSkillCommandNames,
   resolveConfiguredDirectiveAliases,
 } from "./get-reply-directive-aliases.js";
 
-function configWithModelAlias(alias: string): Brikko StudioConfig {
+function configWithModelAlias(alias: string): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -15,7 +15,7 @@ function configWithModelAlias(alias: string): Brikko StudioConfig {
         },
       },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 describe("reply directive aliases", () => {

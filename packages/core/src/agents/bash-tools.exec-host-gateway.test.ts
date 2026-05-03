@@ -360,7 +360,7 @@ describe("processGatewayAllowlist", () => {
         "Codex diagnostics sent to OpenAI servers:",
         "Session 1",
         "Channel: telegram",
-        "Brikko Studio session id: `session-1`",
+        "BrikkoStudio session id: `session-1`",
         "Codex thread id: `thread-1`",
       ].join("\n"),
     );

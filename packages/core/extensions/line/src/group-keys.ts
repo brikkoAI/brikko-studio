@@ -1,5 +1,5 @@
 import { normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/account-resolution";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/account-resolution";
 import { resolveAccountEntry } from "brikko-studio/plugin-sdk/account-resolution";
 import type { LineConfig, LineGroupConfig } from "./types.js";
 
@@ -38,7 +38,7 @@ export function resolveLineGroupConfigEntry<T>(
 }
 
 export function resolveLineGroupsConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string | null,
 ): Record<string, LineGroupConfig | undefined> | undefined {
   const lineConfig = cfg.channels?.line as LineConfig | undefined;
@@ -51,7 +51,7 @@ export function resolveLineGroupsConfig(
 }
 
 export function resolveExactLineGroupConfigKey(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   groupId?: string | null;
 }): string | undefined {

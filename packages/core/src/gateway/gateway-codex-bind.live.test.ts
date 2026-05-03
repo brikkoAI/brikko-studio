@@ -5,7 +5,7 @@ import path from "node:path";
 import { describe, it } from "vitest";
 import { isLiveTestEnabled } from "../agents/live-test-helpers.js";
 import { clearConfigCache, clearRuntimeConfigSnapshot } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import { getSessionBindingService } from "../infra/outbound/session-binding-service.js";
 import { resolveBundledPluginWorkspaceSourcePath } from "../plugins/bundled-plugin-metadata.js";
@@ -264,7 +264,7 @@ async function writeGatewayConfig(params: {
   token: string;
   workspace: string;
 }): Promise<void> {
-  const cfg: Brikko StudioConfig = {
+  const cfg: BrikkoStudioConfig = {
     gateway: {
       mode: "local",
       port: params.port,

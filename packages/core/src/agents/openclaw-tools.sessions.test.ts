@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ChannelMessagingAdapter } from "../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { createTestRegistry } from "../test-utils/channel-plugins.js";
 
 const callGatewayMock = vi.fn();
@@ -50,7 +50,7 @@ const TEST_CONFIG = {
     sessions: { visibility: "all" },
     agentToAgent: { enabled: true },
   },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 const resolveSessionConversationStub: NonNullable<
   ChannelMessagingAdapter["resolveSessionConversation"]
@@ -117,11 +117,11 @@ function installMessagingTestRegistry() {
   );
 }
 
-function createBrikko StudioTools(options?: {
+function createBrikkoStudioTools(options?: {
   agentSessionKey?: string;
   agentChannel?: string;
   sandboxed?: boolean;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }) {
   const config = options?.config ?? TEST_CONFIG;
   const gatewayCall = (opts: unknown) => callGatewayMock(opts);
@@ -179,7 +179,7 @@ describe("sessions tools", () => {
   });
 
   it("uses number (not integer) in tool schemas for Gemini compatibility", () => {
-    const tools = createBrikko StudioTools();
+    const tools = createBrikkoStudioTools();
     const byName = (name: string) => {
       const tool = tools.find((candidate) => candidate.name === name);
       expect(tool).toBeDefined();
@@ -290,7 +290,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_list");
+    const tool = createBrikkoStudioTools().find((candidate) => candidate.name === "sessions_list");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_list tool");
@@ -417,7 +417,7 @@ describe("sessions tools", () => {
         return {};
       });
 
-      const tool = createBrikko StudioTools({
+      const tool = createBrikkoStudioTools({
         agentSessionKey: "agent:main:main",
         config: {
           ...TEST_CONFIG,
@@ -425,7 +425,7 @@ describe("sessions tools", () => {
             sessions: { visibility: "agent" },
             agentToAgent: { enabled: false },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       }).find((candidate) => candidate.name === "sessions_list");
       expect(tool).toBeDefined();
       if (!tool) {
@@ -474,7 +474,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_list");
+    const tool = createBrikkoStudioTools().find((candidate) => candidate.name === "sessions_list");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_list tool");
@@ -509,7 +509,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikkoStudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -558,7 +558,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikkoStudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -622,7 +622,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikkoStudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -671,7 +671,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikkoStudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -712,7 +712,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikkoStudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -750,7 +750,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikkoStudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -778,7 +778,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_history");
+    const tool = createBrikkoStudioTools().find((candidate) => candidate.name === "sessions_history");
     expect(tool).toBeDefined();
     if (!tool) {
       throw new Error("missing sessions_history tool");
@@ -851,7 +851,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools({
+    const tool = createBrikkoStudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");
@@ -949,7 +949,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools({
+    const tool = createBrikkoStudioTools({
       agentSessionKey: "main",
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");
@@ -1047,7 +1047,7 @@ describe("sessions tools", () => {
       callGateway: (opts: unknown) => callGatewayMock(opts),
     });
 
-    const tool = createBrikko StudioTools({
+    const tool = createBrikkoStudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");
@@ -1156,7 +1156,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools({
+    const tool = createBrikkoStudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
       config: {
@@ -1243,7 +1243,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools({
+    const tool = createBrikkoStudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");
@@ -1311,7 +1311,7 @@ describe("sessions tools", () => {
       return {};
     });
 
-    const tool = createBrikko StudioTools({
+    const tool = createBrikkoStudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");
@@ -1447,7 +1447,7 @@ describe("sessions tools", () => {
       callGateway: (opts: unknown) => callGatewayMock(opts),
     });
 
-    const tool = createBrikko StudioTools({
+    const tool = createBrikkoStudioTools({
       agentSessionKey: requesterKey,
       agentChannel: "discord",
     }).find((candidate) => candidate.name === "sessions_send");

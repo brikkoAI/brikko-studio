@@ -27,7 +27,7 @@ import {
   type PluginToolDescriptorConfigCacheKeyMemo,
   writeCachedPluginToolDescriptors,
 } from "./tool-descriptor-cache.js";
-import type { Brikko StudioPluginToolContext } from "./types.js";
+import type { BrikkoStudioPluginToolContext } from "./types.js";
 
 export {
   resetPluginToolDescriptorCache,
@@ -184,7 +184,7 @@ function createPluginToolFactoryTiming(params: {
 
 function resolvePluginToolFactoryEntry(params: {
   entry: PluginToolRegistration;
-  ctx: Brikko StudioPluginToolContext;
+  ctx: BrikkoStudioPluginToolContext;
   declaredNames: string[];
   factoryTimingStartedAt: number;
   logError: (message: string) => void;
@@ -408,7 +408,7 @@ function readPluginCacheSource(plugin: PluginManifestRecord): string {
 
 function buildPluginDescriptorCacheKey(params: {
   plugin: PluginManifestRecord;
-  ctx: Brikko StudioPluginToolContext;
+  ctx: BrikkoStudioPluginToolContext;
   currentRuntimeConfig?: PluginLoadOptions["config"] | null;
   configCacheKeyMemo?: PluginToolDescriptorConfigCacheKeyMemo;
 }): string {
@@ -435,7 +435,7 @@ function cachedDescriptorsCoverToolNames(params: {
 
 function createCachedDescriptorPluginTool(params: {
   descriptor: CachedPluginToolDescriptor;
-  ctx: Brikko StudioPluginToolContext;
+  ctx: BrikkoStudioPluginToolContext;
   loadContext: ReturnType<typeof resolvePluginRuntimeLoadContext>;
   runtimeOptions: PluginLoadOptions["runtimeOptions"];
 }): AnyAgentTool {
@@ -506,7 +506,7 @@ function resolveCachedPluginTools(params: {
   onlyPluginIds: readonly string[];
   existing: Set<string>;
   existingNormalized: Set<string>;
-  ctx: Brikko StudioPluginToolContext;
+  ctx: BrikkoStudioPluginToolContext;
   loadContext: ReturnType<typeof resolvePluginRuntimeLoadContext>;
   runtimeOptions: PluginLoadOptions["runtimeOptions"];
   currentRuntimeConfig?: PluginLoadOptions["config"] | null;
@@ -674,7 +674,7 @@ function registryHasScopedPluginTools(
 }
 
 function resolvePluginToolLoadState(params: {
-  context: Brikko StudioPluginToolContext;
+  context: BrikkoStudioPluginToolContext;
   toolAllowlist?: string[];
   allowGatewaySubagentBinding?: boolean;
   hasAuthForProvider?: (providerId: string) => boolean;
@@ -728,7 +728,7 @@ function resolvePluginToolLoadState(params: {
 }
 
 export function ensureStandalonePluginToolRegistryLoaded(params: {
-  context: Brikko StudioPluginToolContext;
+  context: BrikkoStudioPluginToolContext;
   toolAllowlist?: string[];
   allowGatewaySubagentBinding?: boolean;
   hasAuthForProvider?: (providerId: string) => boolean;
@@ -746,7 +746,7 @@ export function ensureStandalonePluginToolRegistryLoaded(params: {
 }
 
 export function resolvePluginTools(params: {
-  context: Brikko StudioPluginToolContext;
+  context: BrikkoStudioPluginToolContext;
   existingToolNames?: Set<string>;
   toolAllowlist?: string[];
   suppressNameConflicts?: boolean;

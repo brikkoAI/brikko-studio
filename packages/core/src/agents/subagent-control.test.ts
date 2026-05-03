@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { SessionEntry } from "../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { CallGatewayOptions } from "../gateway/call.js";
 import {
   __testing,
@@ -141,10 +141,10 @@ function nextSessionStorePath(label: string) {
   return path.join(tempRoot, `${tempStoreIndex}-${label}.json`);
 }
 
-function cfgWithSessionStore(storePath = nextSessionStorePath("sessions")): Brikko StudioConfig {
+function cfgWithSessionStore(storePath = nextSessionStorePath("sessions")): BrikkoStudioConfig {
   return {
     session: { store: storePath },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function writeSessionStoreFixture(label: string, store: Record<string, unknown>) {
@@ -185,7 +185,7 @@ describe("sendControlledSubagentMessage", () => {
     const result = await sendControlledSubagentMessage({
       cfg: {
         channels: { whatsapp: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       controller: {
         controllerSessionKey: "agent:main:subagent:leaf",
         callerSessionKey: "agent:main:subagent:leaf",
@@ -239,7 +239,7 @@ describe("sendControlledSubagentMessage", () => {
     const result = await sendControlledSubagentMessage({
       cfg: {
         channels: { whatsapp: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       controller: {
         controllerSessionKey: "agent:main:main",
         callerSessionKey: "agent:main:main",
@@ -283,7 +283,7 @@ describe("sendControlledSubagentMessage", () => {
     const result = await sendControlledSubagentMessage({
       cfg: {
         channels: { whatsapp: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       controller: {
         controllerSessionKey: "agent:main:main",
         callerSessionKey: "agent:main:main",
@@ -344,7 +344,7 @@ describe("sendControlledSubagentMessage", () => {
     const result = await sendControlledSubagentMessage({
       cfg: {
         channels: { whatsapp: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       controller: {
         controllerSessionKey: "agent:main:main",
         callerSessionKey: "agent:main:main",
@@ -419,7 +419,7 @@ describe("sendControlledSubagentMessage", () => {
     const result = await sendControlledSubagentMessage({
       cfg: {
         channels: { whatsapp: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       controller: {
         controllerSessionKey: "agent:main:main",
         callerSessionKey: "agent:main:main",
@@ -489,7 +489,7 @@ describe("sendControlledSubagentMessage", () => {
     const result = await sendControlledSubagentMessage({
       cfg: {
         channels: { whatsapp: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       controller: {
         controllerSessionKey: "agent:main:main",
         callerSessionKey: "agent:main:main",

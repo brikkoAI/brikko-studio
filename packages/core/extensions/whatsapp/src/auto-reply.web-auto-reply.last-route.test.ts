@@ -1,5 +1,5 @@
 import "./test-helpers.js";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   createAcceptedWhatsAppSendResult,
@@ -23,7 +23,7 @@ vi.mock("./auto-reply/monitor/last-route.js", async () => {
   };
 });
 
-function makeCfg(storePath: string): Brikko StudioConfig {
+function makeCfg(storePath: string): BrikkoStudioConfig {
   return {
     channels: { whatsapp: { allowFrom: ["*"] } },
     session: { store: storePath },
@@ -39,7 +39,7 @@ function makeReplyLogger() {
   } as unknown as Parameters<typeof createWebOnMessageHandler>[0]["replyLogger"];
 }
 
-function createHandlerForTest(opts: { cfg: Brikko StudioConfig; replyResolver: unknown }) {
+function createHandlerForTest(opts: { cfg: BrikkoStudioConfig; replyResolver: unknown }) {
   const backgroundTasks = new Set<Promise<unknown>>();
   const handler = createWebOnMessageHandler({
     cfg: opts.cfg,

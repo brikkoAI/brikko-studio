@@ -3,7 +3,7 @@ import {
   resolveAgentModelPrimaryValue,
   toAgentModelListLike,
 } from "../config/model-input.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import {
   resolveAgentConfig,
@@ -192,13 +192,13 @@ export function normalizeStoredOverrideModel(params: {
 export function resolveAllowlistModelKey(
   raw: string,
   defaultProvider: string,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): string | null {
   return resolveAllowlistModelKeyFromShared({ cfg, raw, defaultProvider });
 }
 
 export function resolveDefaultModelForAgent(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
 }): ModelRef {
   const agentModelOverride = params.agentId
@@ -227,7 +227,7 @@ export function resolveDefaultModelForAgent(params: {
   });
 }
 
-function resolveAllowedFallbacks(params: { cfg: Brikko StudioConfig; agentId?: string }): string[] {
+function resolveAllowedFallbacks(params: { cfg: BrikkoStudioConfig; agentId?: string }): string[] {
   if (params.agentId) {
     const override = resolveAgentModelFallbacksOverride(params.cfg, params.agentId);
     if (override !== undefined) {
@@ -238,7 +238,7 @@ function resolveAllowedFallbacks(params: { cfg: Brikko StudioConfig; agentId?: s
 }
 
 export function resolveSubagentConfiguredModelSelection(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
 }): string | undefined {
   const agentConfig = resolveAgentConfig(params.cfg, params.agentId);
@@ -270,7 +270,7 @@ function resolveModelThroughAliases(value: string, aliasIndex: ModelAliasIndex):
 }
 
 export function resolveSubagentSpawnModelSelection(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   modelOverride?: unknown;
 }): string {
@@ -294,7 +294,7 @@ export function resolveSubagentSpawnModelSelection(params: {
 }
 
 export function buildAllowedModelSet(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   catalog: ModelCatalogEntry[];
   defaultProvider: string;
   defaultModel?: string;
@@ -317,7 +317,7 @@ export function buildAllowedModelSet(params: {
 }
 
 export function getModelRefStatus(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   catalog: ModelCatalogEntry[];
   ref: ModelRef;
   defaultProvider: string;
@@ -337,7 +337,7 @@ export function getModelRefStatus(params: {
 
 function getModelRefStatusForResolve(
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     catalog: ModelCatalogEntry[];
     defaultProvider: string;
     defaultModel?: string;
@@ -354,7 +354,7 @@ function getModelRefStatusForResolve(
 }
 
 export function resolveAllowedModelRef(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   catalog: ModelCatalogEntry[];
   raw: string;
   defaultProvider: string;

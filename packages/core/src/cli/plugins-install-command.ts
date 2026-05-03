@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { collectChannelDoctorStaleConfigMutations } from "../commands/doctor/shared/channel-doctor.js";
 import { readConfigFileSnapshot } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { installHooksFromNpmSpec, installHooksFromPath } from "../hooks/install.js";
 import { resolveArchiveKind } from "../infra/archive.js";
 import { parseClawHubPluginSpec } from "../infra/clawhub.js";
@@ -96,9 +96,9 @@ function hasValidBundledPluginConfig(params: {
 }
 
 function prepareConfigForDisabledBundledInstall(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   pluginId: string,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const entries = config.plugins?.entries ?? {};
   const { [pluginId]: _removedEntry, ...nextEntries } = entries;
   return {

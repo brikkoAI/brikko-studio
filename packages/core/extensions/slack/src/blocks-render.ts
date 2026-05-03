@@ -55,7 +55,7 @@ function readSlackBlockId(block: SlackBlock): string | undefined {
   return typeof value === "string" ? value : undefined;
 }
 
-function readSlackBrikko StudioBlockIndex(blockId: string, prefix: string): number | undefined {
+function readSlackBrikkoStudioBlockIndex(blockId: string, prefix: string): number | undefined {
   if (!blockId.startsWith(prefix)) {
     return undefined;
   }
@@ -75,11 +75,11 @@ export function resolveSlackInteractiveBlockOffsets(
     }
     buttonIndexOffset = Math.max(
       buttonIndexOffset,
-      readSlackBrikko StudioBlockIndex(blockId, "brikko-studio_reply_buttons_") ?? 0,
+      readSlackBrikkoStudioBlockIndex(blockId, "brikko-studio_reply_buttons_") ?? 0,
     );
     selectIndexOffset = Math.max(
       selectIndexOffset,
-      readSlackBrikko StudioBlockIndex(blockId, "brikko-studio_reply_select_") ?? 0,
+      readSlackBrikkoStudioBlockIndex(blockId, "brikko-studio_reply_select_") ?? 0,
     );
   }
   return { buttonIndexOffset, selectIndexOffset };

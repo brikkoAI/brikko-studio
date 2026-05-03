@@ -1,7 +1,7 @@
 import { normalizeChatType, type ChatType } from "../channels/chat-type.js";
 import { listRouteBindings } from "../config/bindings.js";
 import type { AgentRouteBinding } from "../config/types.agents.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   normalizeRouteBindingChannelId,
   normalizeRouteBindingId,
@@ -58,7 +58,7 @@ function buildExactPeerIdSet(params: {
 }
 
 export function resolveFirstBoundAccountId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelId: string;
   agentId: string;
   peerId?: string;

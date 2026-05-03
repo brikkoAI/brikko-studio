@@ -12,11 +12,11 @@ function appBundledPluginRoot(pluginId: string): string {
   return bundledPluginRootAt(APP_ROOT, pluginId);
 }
 
-const discoverBrikko StudioPluginsMock = vi.fn();
+const discoverBrikkoStudioPluginsMock = vi.fn();
 const loadPluginManifestMock = vi.fn();
 
 vi.mock("./discovery.js", () => ({
-  discoverBrikko StudioPlugins: (...args: unknown[]) => discoverBrikko StudioPluginsMock(...args),
+  discoverBrikkoStudioPlugins: (...args: unknown[]) => discoverBrikkoStudioPluginsMock(...args),
 }));
 
 vi.mock("./manifest.js", () => ({
@@ -42,7 +42,7 @@ function createBundledCandidate(params: {
 }
 
 function setBundledDiscoveryCandidates(candidates: unknown[]) {
-  discoverBrikko StudioPluginsMock.mockReturnValue({
+  discoverBrikkoStudioPluginsMock.mockReturnValue({
     candidates,
     diagnostics: [],
   });
@@ -140,7 +140,7 @@ function expectBundledSourceLookupCase(params: {
 
 describe("bundled plugin sources", () => {
   beforeEach(() => {
-    discoverBrikko StudioPluginsMock.mockReset();
+    discoverBrikkoStudioPluginsMock.mockReset();
     loadPluginManifestMock.mockReset();
   });
 
@@ -220,11 +220,11 @@ describe("bundled plugin sources", () => {
       env,
     });
 
-    expect(discoverBrikko StudioPluginsMock).toHaveBeenNthCalledWith(1, {
+    expect(discoverBrikkoStudioPluginsMock).toHaveBeenNthCalledWith(1, {
       workspaceDir: "/workspace",
       env,
     });
-    expect(discoverBrikko StudioPluginsMock).toHaveBeenNthCalledWith(2, {
+    expect(discoverBrikkoStudioPluginsMock).toHaveBeenNthCalledWith(2, {
       workspaceDir: "/workspace",
       env,
     });

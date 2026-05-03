@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { getSessionBindingService } from "brikko-studio/plugin-sdk/conversation-runtime";
 import { resolveStateDir } from "brikko-studio/plugin-sdk/state-paths";
 import { importFreshModule } from "brikko-studio/plugin-sdk/test-fixtures";
@@ -45,7 +45,7 @@ const TELEGRAM_THREAD_BINDINGS_TEST_CFG = {
       token: "test-token",
     },
   },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 type TelegramThreadBindingManagerParams = Parameters<
   typeof createTelegramThreadBindingManagerImpl

@@ -9,7 +9,7 @@ describe("runObsidianSearch", () => {
         obsidian: {
           enabled: true,
           useOfficialCli: true,
-          vaultName: "Brikko Studio Wiki",
+          vaultName: "BrikkoStudio Wiki",
         },
       },
       { homedir: "/Users/tester" },
@@ -35,7 +35,7 @@ describe("runObsidianSearch", () => {
     expect(calls).toEqual([
       {
         command: "/usr/local/bin/obsidian",
-        argv: ["vault=Brikko Studio Wiki", "search", "query=agent memory"],
+        argv: ["vault=BrikkoStudio Wiki", "search", "query=agent memory"],
       },
     ]);
     expect(result.stdout).toBe("search output\n");

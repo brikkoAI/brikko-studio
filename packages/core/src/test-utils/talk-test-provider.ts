@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export const TALK_TEST_PROVIDER_ID = "acme-speech";
 export const TALK_TEST_PROVIDER_LABEL = "Acme Speech";
@@ -10,7 +10,7 @@ export const TALK_TEST_PROVIDER_API_KEY_PATH_SEGMENTS = [
   "apiKey",
 ] as const;
 
-export function buildTalkTestProviderConfig(apiKey: unknown): Brikko StudioConfig {
+export function buildTalkTestProviderConfig(apiKey: unknown): BrikkoStudioConfig {
   return {
     talk: {
       providers: {
@@ -19,9 +19,9 @@ export function buildTalkTestProviderConfig(apiKey: unknown): Brikko StudioConfi
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-export function readTalkTestProviderApiKey(config: Brikko StudioConfig): unknown {
+export function readTalkTestProviderApiKey(config: BrikkoStudioConfig): unknown {
   return config.talk?.providers?.[TALK_TEST_PROVIDER_ID]?.apiKey;
 }

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { CronJob } from "../types.js";
 import {
   DEFAULT_MODEL,
@@ -17,8 +17,8 @@ type CronSessionModelOverrides = {
 };
 
 export type ResolveCronModelSelectionParams = {
-  cfg: Brikko StudioConfig;
-  cfgWithAgentDefaults: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  cfgWithAgentDefaults: BrikkoStudioConfig;
   agentConfigOverride?: {
     model?: unknown;
     subagents?: {

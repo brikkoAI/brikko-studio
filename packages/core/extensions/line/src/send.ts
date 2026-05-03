@@ -1,6 +1,6 @@
 import { messagingApi } from "@line/bot-sdk";
 import { recordChannelActivity } from "brikko-studio/plugin-sdk/channel-activity-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { resolveLineAccount } from "./accounts.js";
@@ -27,7 +27,7 @@ const userProfileCache = new Map<
 const PROFILE_CACHE_TTL_MS = 5 * 60 * 1000;
 
 interface LineSendOpts {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelAccessToken?: string;
   accountId?: string;
   verbose?: boolean;

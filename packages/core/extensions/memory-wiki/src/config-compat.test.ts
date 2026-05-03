@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 import {
   legacyConfigRules,
   migrateMemoryWikiLegacyConfig,
@@ -29,7 +29,7 @@ describe("memory-wiki config compatibility", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const migration = migrateMemoryWikiLegacyConfig(config);
 
@@ -62,7 +62,7 @@ describe("memory-wiki config compatibility", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const migration = normalizeCompatibilityConfig({ cfg: config });
 

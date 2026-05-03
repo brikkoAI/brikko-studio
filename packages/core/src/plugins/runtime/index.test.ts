@@ -3,7 +3,7 @@ import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../../agents/defaults.js";
 import {
   resetConfigRuntimeState,
   setRuntimeConfigSnapshot,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../../config/config.js";
 import { onAgentEvent } from "../../infra/agent-events.js";
 import {
@@ -226,7 +226,7 @@ describe("plugin runtime command execution", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     const runtime = createPluginRuntime();
     const policy = runtime.agent.resolveThinkingPolicy({
@@ -347,7 +347,7 @@ describe("plugin runtime command execution", () => {
       api: "openai-responses",
       baseUrl: "https://workspace-cloud.example/v1",
     };
-    const cfg = { plugins: { allow: ["workspace-cloud"] } } as Brikko StudioConfig;
+    const cfg = { plugins: { allow: ["workspace-cloud"] } } as BrikkoStudioConfig;
     runtimeModelAuthMocks.getApiKeyForModel.mockResolvedValue({
       apiKey: "model-key",
       source: "workspace cloud credentials",

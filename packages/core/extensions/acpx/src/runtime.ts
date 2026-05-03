@@ -182,7 +182,7 @@ function unwrapEnvCommand(parts: string[]): string[] {
   return parts.slice(index);
 }
 
-function isBrikko StudioBridgeCommand(command: string | undefined): boolean {
+function isBrikkoStudioBridgeCommand(command: string | undefined): boolean {
   if (!command) {
     return false;
   }
@@ -384,7 +384,7 @@ function resolveAgentCommandForName(params: {
 }
 
 function shouldUseBridgeSafeDelegateForCommand(command: string | undefined): boolean {
-  return isBrikko StudioBridgeCommand(command);
+  return isBrikkoStudioBridgeCommand(command);
 }
 
 function shouldUseDistinctBridgeDelegate(options: AcpRuntimeOptions): boolean {

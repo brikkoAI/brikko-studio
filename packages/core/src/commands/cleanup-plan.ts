@@ -4,11 +4,11 @@ import {
   resolveOAuthDir,
   resolveStateDir,
 } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { buildCleanupPlan } from "./cleanup-utils.js";
 
 export function resolveCleanupPlanFromDisk(): {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   stateDir: string;
   configPath: string;
   oauthDir: string;

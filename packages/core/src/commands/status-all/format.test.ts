@@ -160,7 +160,7 @@ describe("status-all format", () => {
       formatStatusServiceValue({
         label: "LaunchAgent",
         installed: true,
-        managedByBrikko Studio: true,
+        managedByBrikkoStudio: true,
         loadedText: "loaded",
         runtimeShort: "running",
       }),
@@ -220,7 +220,7 @@ describe("status-all format", () => {
         gatewayService: {
           label: "LaunchAgent",
           installed: true,
-          managedByBrikko Studio: true,
+          managedByBrikkoStudio: true,
           loadedText: "loaded",
           runtimeShort: "running",
         },
@@ -353,7 +353,7 @@ describe("status-all format", () => {
         gatewayService: {
           label: "LaunchAgent",
           installed: true,
-          managedByBrikko Studio: true,
+          managedByBrikkoStudio: true,
           loadedText: "loaded",
           runtimeShort: "running",
         },

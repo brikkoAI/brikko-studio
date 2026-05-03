@@ -1,13 +1,13 @@
 import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
 import type { ChannelDoctorConfigMutation } from "brikko-studio/plugin-sdk/channel-contract";
 import { readChannelAllowFromStore } from "brikko-studio/plugin-sdk/channel-pairing";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 function applyGroupAllowFromFromStore(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   storeAllowFrom: string[];
   changes: string[];
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const next = structuredClone(params.cfg ?? {});
   const section = next.channels?.whatsapp as Record<string, unknown> | undefined;
   if (!section || typeof section !== "object" || params.storeAllowFrom.length === 0) {
@@ -48,7 +48,7 @@ function applyGroupAllowFromFromStore(params: {
 }
 
 export async function applyWhatsAppSecurityConfigFixes(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 }): Promise<ChannelDoctorConfigMutation> {
   const fromStore = await readChannelAllowFromStore(

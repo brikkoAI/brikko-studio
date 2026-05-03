@@ -1,8 +1,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveBrikko StudioAgentDir } from "./agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "./agent-paths.js";
 
-export async function readGeneratedModelsJson<T>(agentDir = resolveBrikko StudioAgentDir()): Promise<T> {
+export async function readGeneratedModelsJson<T>(agentDir = resolveBrikkoStudioAgentDir()): Promise<T> {
   const modelPath = path.join(agentDir, "models.json");
   const raw = await fs.readFile(modelPath, "utf8");
   return JSON.parse(raw) as T;

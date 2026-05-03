@@ -85,7 +85,7 @@ describe("prompt composition invariants", () => {
 
     expect(first.systemPrompt).toContain("You are in a Slack direct conversation.");
     expect(first.systemPrompt).toContain('reply with exactly "NO_REPLY"');
-    expect(first.systemPrompt).toContain("so Brikko Studio can send a short fallback reply");
+    expect(first.systemPrompt).toContain("so BrikkoStudio can send a short fallback reply");
     expect(first.systemPrompt).not.toContain("## Silent Replies");
   });
 

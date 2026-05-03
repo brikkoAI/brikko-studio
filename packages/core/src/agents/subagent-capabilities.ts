@@ -1,6 +1,6 @@
 import { DEFAULT_SUBAGENT_MAX_SPAWN_DEPTH } from "../config/agent-limits.js";
 import { loadSessionStore, resolveStorePath } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   isAcpSessionKey,
   isSubagentSessionKey,
@@ -90,7 +90,7 @@ function findEntryBySessionId(
 
 function resolveSessionCapabilityEntry(params: {
   sessionKey: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   store?: SessionCapabilityStore;
 }): SessionCapabilityEntry | undefined {
   if (params.store) {
@@ -111,7 +111,7 @@ function resolveSessionCapabilityEntry(params: {
 export function resolveSubagentCapabilityStore(
   sessionKey: string | undefined | null,
   opts?: {
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
     store?: SessionCapabilityStore;
   },
 ): SessionCapabilityStore | undefined {
@@ -167,7 +167,7 @@ export function resolveSubagentCapabilities(params: { depth: number; maxSpawnDep
 function isStoredSubagentEnvelopeSession(
   params: {
     sessionKey: string;
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
     store?: SessionCapabilityStore;
     entry?: SessionCapabilityEntry;
   },
@@ -220,7 +220,7 @@ function isStoredSubagentEnvelopeSession(
 export function isSubagentEnvelopeSession(
   sessionKey: string | undefined | null,
   opts?: {
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
     store?: SessionCapabilityStore;
     entry?: SessionCapabilityEntry;
   },
@@ -247,7 +247,7 @@ export function isSubagentEnvelopeSession(
 export function resolveStoredSubagentCapabilities(
   sessionKey: string | undefined | null,
   opts?: {
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
     store?: SessionCapabilityStore;
   },
 ) {

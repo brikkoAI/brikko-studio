@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createDiscordPluginBase, discordConfigAdapter } from "./shared.js";
 
@@ -77,7 +77,7 @@ describe("discordConfigAdapter", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(discordConfigAdapter.resolveAllowFrom?.({ cfg, accountId: "default" })).toEqual(["123"]);
   });
@@ -93,7 +93,7 @@ describe("discordConfigAdapter", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(discordConfigAdapter.resolveAllowFrom?.({ cfg, accountId: "default" })).toEqual(["456"]);
   });
@@ -110,7 +110,7 @@ describe("discordConfigAdapter", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(discordConfigAdapter.resolveAllowFrom?.({ cfg, accountId: "work" })).toEqual([
       "account-legacy",
@@ -128,7 +128,7 @@ describe("discordConfigAdapter", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(discordConfigAdapter.resolveAllowFrom?.({ cfg, accountId: "default" })).toEqual([
       "123456789",
@@ -153,7 +153,7 @@ describe("discordConfigAdapter", () => {
           defaultTo: "1498959610751750304",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(discordConfigAdapter.resolveAllowFrom?.({ cfg, accountId: "default" })).toEqual([
       "1128540374256849009",

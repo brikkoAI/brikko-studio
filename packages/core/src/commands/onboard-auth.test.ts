@@ -27,7 +27,7 @@ const providerEnvVarsById = vi.hoisted(
 );
 
 vi.mock("../agents/agent-paths.js", () => ({
-  resolveBrikko StudioAgentDir: () => process.env.BRIKKO_STUDIO_AGENT_DIR ?? "/tmp/brikko-studio-agent",
+  resolveBrikkoStudioAgentDir: () => process.env.BRIKKO_STUDIO_AGENT_DIR ?? "/tmp/brikko-studio-agent",
 }));
 
 vi.mock("../config/paths.js", () => ({

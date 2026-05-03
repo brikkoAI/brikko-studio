@@ -4,7 +4,7 @@ import {
   mergeAllowFromEntries,
   type ChannelSetupDmPolicy,
   type ChannelSetupWizard,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/setup";
 import { resolveDefaultZaloAccountId, resolveZaloAccount } from "./accounts.js";
 
@@ -28,10 +28,10 @@ export async function noteZaloTokenHelp(
 }
 
 export async function promptZaloAllowFrom(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: Parameters<NonNullable<ChannelSetupDmPolicy["promptAllowFrom"]>>[0]["prompter"];
   accountId?: string;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const { cfg, prompter } = params;
   const accountId = params.accountId ?? resolveDefaultZaloAccountId(cfg);
   const resolved = resolveZaloAccount({ cfg, accountId });
@@ -66,7 +66,7 @@ export async function promptZaloAllowFrom(params: {
           allowFrom: unique,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
   const currentAccount = cfg.channels?.zalo?.accounts?.[accountId] as
@@ -90,5 +90,5 @@ export async function promptZaloAllowFrom(params: {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }

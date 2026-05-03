@@ -4,7 +4,7 @@ import { resolveGroupToolPolicy } from "../agents/pi-tools.policy.js";
 import { resolveEffectiveToolFsRootExpansionAllowed } from "../agents/tool-fs-policy.js";
 import { isToolAllowedByPolicies } from "../agents/tool-policy-match.js";
 import { resolveWorkspaceRoot } from "../agents/workspace-dir.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { readLocalFileSafely } from "../infra/fs-safe.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import type { OutboundMediaAccess, OutboundMediaReadFile } from "./load-options.js";
@@ -28,7 +28,7 @@ type OutboundHostMediaPolicyContext = {
 
 function isAgentScopedHostMediaReadAllowed(
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     agentId?: string;
   } & OutboundHostMediaPolicyContext,
 ): boolean {
@@ -62,7 +62,7 @@ function isAgentScopedHostMediaReadAllowed(
 
 export function createAgentScopedHostMediaReadFile(
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     agentId?: string;
     workspaceDir?: string;
   } & OutboundHostMediaPolicyContext,
@@ -82,7 +82,7 @@ export function createAgentScopedHostMediaReadFile(
 
 export function resolveAgentScopedOutboundMediaAccess(
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     agentId?: string;
     mediaSources?: readonly string[];
     workspaceDir?: string;

@@ -1,6 +1,6 @@
 import type { Api, Model } from "@mariozechner/pi-ai";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type {
   EmbeddedRunAttemptParams,
   EmbeddedRunAttemptResult,
@@ -36,7 +36,7 @@ afterEach(() => {
   }
 });
 
-function createAttemptParams(config?: Brikko StudioConfig): EmbeddedRunAttemptParams {
+function createAttemptParams(config?: BrikkoStudioConfig): EmbeddedRunAttemptParams {
   return {
     prompt: "hello",
     sessionId: "session-1",
@@ -293,7 +293,7 @@ describe("selectAgentHarness", () => {
   });
 
   it("allows per-agent runtime policy overrides", () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       agents: {
         defaults: { agentRuntime: { id: "auto" } },
         list: [
@@ -317,7 +317,7 @@ describe("selectAgentHarness", () => {
   });
 
   it("uses agentRuntime as the runtime policy source", () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       agents: {
         defaults: {
           agentRuntime: { id: "auto" },
@@ -335,7 +335,7 @@ describe("selectAgentHarness", () => {
   });
 
   it("does not treat CLI runtime aliases as embedded harness ids", async () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       agents: {
         defaults: {
           agentRuntime: { id: "claude-cli" },

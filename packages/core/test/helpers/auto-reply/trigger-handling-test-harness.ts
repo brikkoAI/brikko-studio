@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { afterAll, afterEach, beforeAll, expect, vi } from "vitest";
 import { clearRuntimeAuthProfileStoreSnapshots } from "../../../src/agents/auth-profiles.js";
 import { withFastReplyConfig } from "../../../src/auto-reply/reply/get-reply-fast-path.js";
-import type { Brikko StudioConfig } from "../../../src/config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../src/config/types.brikko-studio.js";
 
 // Avoid exporting vitest mock types (TS2742 under pnpm + d.ts emit).
 type AnyMock = any;
@@ -256,7 +256,7 @@ export async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise
   }
 }
 
-export function makeCfg(home: string): Brikko StudioConfig {
+export function makeCfg(home: string): BrikkoStudioConfig {
   return withFastReplyConfig({
     agents: {
       defaults: {
@@ -279,7 +279,7 @@ export function makeCfg(home: string): Brikko StudioConfig {
       },
     },
     session: { store: join(home, "sessions.json") },
-  } as Brikko StudioConfig);
+  } as BrikkoStudioConfig);
 }
 
 export async function loadGetReplyFromConfig() {

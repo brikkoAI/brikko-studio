@@ -1,6 +1,6 @@
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/channel-plugin-common";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/channel-plugin-common";
 
-export function registerMatrixCliMetadata(api: Brikko StudioPluginApi) {
+export function registerMatrixCliMetadata(api: BrikkoStudioPluginApi) {
   api.registerCli(
     async ({ program }) => {
       const { registerMatrixCli } = await import("./cli.js");

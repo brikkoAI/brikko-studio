@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import {
   mergeImplicitMantleProvider,
   resolveImplicitMantleProvider,
@@ -7,7 +7,7 @@ import {
 } from "./discovery.js";
 import { createMantleAnthropicStreamFn } from "./mantle-anthropic.runtime.js";
 
-export function registerBedrockMantlePlugin(api: Brikko StudioPluginApi): void {
+export function registerBedrockMantlePlugin(api: BrikkoStudioPluginApi): void {
   const providerId = "amazon-bedrock-mantle";
 
   api.registerProvider({

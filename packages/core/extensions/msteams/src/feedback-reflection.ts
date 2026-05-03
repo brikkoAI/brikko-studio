@@ -13,7 +13,7 @@
 import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   dispatchReplyFromConfigWithSettledDispatcher,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../runtime-api.js";
 import type { StoredConversationReference } from "./conversation-store.js";
 import { formatUnknownError } from "./errors.js";
@@ -66,7 +66,7 @@ export function buildFeedbackEvent(params: {
 }
 
 type RunFeedbackReflectionParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   adapter: MSTeamsAdapter;
   appId: string;
   conversationRef: StoredConversationReference;
@@ -80,7 +80,7 @@ type RunFeedbackReflectionParams = {
 };
 
 function buildReflectionContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   conversationId: string;
   sessionKey: string;
   reflectionPrompt: string;
@@ -118,7 +118,7 @@ function buildReflectionContext(params: {
 }
 
 function createReflectionCaptureDispatcher(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   log: MSTeamsMonitorLogger;
 }) {

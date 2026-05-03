@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   createChannelOnboardingPostWriteHook,
   createChannelOnboardingPostWriteHookCollector,
@@ -10,12 +10,12 @@ import { createExitThrowingRuntime } from "./test-wizard-helpers.js";
 describe("setupChannels post-write hooks", () => {
   it("collects onboarding post-write hooks and runs them against the final config", async () => {
     const afterConfigWritten = vi.fn(async () => {});
-    const previousCfg = {} as Brikko StudioConfig;
+    const previousCfg = {} as BrikkoStudioConfig;
     const cfg = {
       channels: {
         telegram: { botToken: "new-token" },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const adapter = {
       afterConfigWritten,
     };
@@ -62,7 +62,7 @@ describe("setupChannels post-write hooks", () => {
           },
         },
       ],
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       runtime,
     });
 

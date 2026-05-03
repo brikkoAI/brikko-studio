@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import { googlechatPlugin } from "./channel.js";
 
@@ -27,7 +27,7 @@ describe("googlechatPlugin config adapter", () => {
           defaultTo: "spaces/AAA",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(googlechatPlugin.config.resolveAllowFrom?.({ cfg, accountId: "default" })).toEqual([
       "users/123",

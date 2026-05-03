@@ -2,11 +2,11 @@ import crypto from "node:crypto";
 import { mkdtemp, rm } from "node:fs/promises";
 import path from "node:path";
 import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolvePreferredBrikko StudioTmpDir } from "./tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "./tmp-brikko-studio-dir.js";
 
 const logger = createSubsystemLogger("infra:temp-download");
 
-export { resolvePreferredBrikko StudioTmpDir } from "./tmp-brikko-studio-dir.js";
+export { resolvePreferredBrikkoStudioTmpDir } from "./tmp-brikko-studio-dir.js";
 
 type TempDownloadTarget = {
   dir: string;
@@ -36,7 +36,7 @@ export function sanitizeTempFileName(fileName: string): string {
 }
 
 function resolveTempRoot(tmpDir?: string): string {
-  return tmpDir ?? resolvePreferredBrikko StudioTmpDir();
+  return tmpDir ?? resolvePreferredBrikkoStudioTmpDir();
 }
 
 function isNodeErrorWithCode(err: unknown, code: string): boolean {

@@ -2,9 +2,9 @@ import fs from "node:fs";
 import JSON5 from "json5";
 import { getCommandPathWithRootOptions } from "../cli/argv.js";
 import { resolveConfigPath } from "../config/paths.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
-type LoggingConfig = Brikko StudioConfig["logging"];
+type LoggingConfig = BrikkoStudioConfig["logging"];
 
 let cachedLoggingConfig:
   | {

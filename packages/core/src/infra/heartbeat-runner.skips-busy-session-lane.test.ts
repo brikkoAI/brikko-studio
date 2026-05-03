@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { resolveNestedAgentLaneForSession } from "../agents/lanes.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { markCronJobActive, resetCronActiveJobsForTests } from "../cron/active-jobs.js";
 import { getActivePluginRegistry, setActivePluginRegistry } from "../plugins/runtime.js";
 import type { CommandLaneSnapshot } from "../process/command-queue.js";
@@ -45,7 +45,7 @@ beforeEach(() => {
   resetCronActiveJobsForTests();
 });
 
-function createHeartbeatTelegramConfig(): Brikko StudioConfig {
+function createHeartbeatTelegramConfig(): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -60,10 +60,10 @@ function createHeartbeatTelegramConfig(): Brikko StudioConfig {
         allowFrom: ["123"],
       },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
-async function seedHeartbeatTelegramSession(storePath: string, cfg: Brikko StudioConfig) {
+async function seedHeartbeatTelegramSession(storePath: string, cfg: BrikkoStudioConfig) {
   return seedMainSessionStore(storePath, cfg, {
     lastChannel: "telegram",
     lastProvider: "telegram",

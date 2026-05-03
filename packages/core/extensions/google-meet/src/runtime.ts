@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type { PluginRuntime, RuntimeLogger } from "brikko-studio/plugin-sdk/plugin-runtime";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
@@ -140,7 +140,7 @@ function evaluateSpeechReadiness(session: GoogleMeetSession): {
       reason: health.manualActionReason ?? "browser-unverified",
       message:
         health.manualActionMessage ??
-        "Resolve the Google Meet browser prompt before asking Brikko Studio to speak.",
+        "Resolve the Google Meet browser prompt before asking BrikkoStudio to speak.",
     };
   }
   if (health?.inCall === true) {
@@ -195,7 +195,7 @@ export class GoogleMeetRuntime {
   constructor(
     private readonly params: {
       config: GoogleMeetConfig;
-      fullConfig: Brikko StudioConfig;
+      fullConfig: BrikkoStudioConfig;
       runtime: PluginRuntime;
       logger: RuntimeLogger;
     },

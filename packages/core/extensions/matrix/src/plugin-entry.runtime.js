@@ -21,27 +21,27 @@ function normalizeLowercaseStringOrEmpty(value) {
   return typeof value === "string" ? value.toLowerCase() : "";
 }
 
-function hasTrustedBrikko StudioRootIndicator(packageRoot, packageJson) {
+function hasTrustedBrikkoStudioRootIndicator(packageRoot, packageJson) {
   const packageExports = packageJson?.exports ?? {};
   if (!Object.prototype.hasOwnProperty.call(packageExports, "./plugin-sdk")) {
     return false;
   }
   const hasCliEntryExport = Object.prototype.hasOwnProperty.call(packageExports, "./cli-entry");
-  const hasBrikko StudioBin =
+  const hasBrikkoStudioBin =
     (typeof packageJson?.bin === "string" &&
       normalizeLowercaseStringOrEmpty(packageJson.bin).includes("brikko-studio")) ||
     (typeof packageJson?.bin === "object" &&
       packageJson.bin !== null &&
       typeof packageJson.bin.brikko-studio === "string");
-  const hasBrikko StudioEntrypoint = fs.existsSync(path.join(packageRoot, "brikko-studio.mjs"));
-  return hasCliEntryExport || hasBrikko StudioBin || hasBrikko StudioEntrypoint;
+  const hasBrikkoStudioEntrypoint = fs.existsSync(path.join(packageRoot, "brikko-studio.mjs"));
+  return hasCliEntryExport || hasBrikkoStudioBin || hasBrikkoStudioEntrypoint;
 }
 
-function findBrikko StudioPackageRoot(startDir) {
+function findBrikkoStudioPackageRoot(startDir) {
   let cursor = path.resolve(startDir);
   for (let i = 0; i < 12; i += 1) {
     const pkg = readPackageJson(cursor);
-    if (pkg?.name === "brikko-studio" && hasTrustedBrikko StudioRootIndicator(cursor, pkg)) {
+    if (pkg?.name === "brikko-studio" && hasTrustedBrikkoStudioRootIndicator(cursor, pkg)) {
       return { packageRoot: cursor, packageJson: pkg };
     }
     const parent = path.dirname(cursor);
@@ -78,7 +78,7 @@ function resolveBundledPluginRuntimeModulePath(moduleUrl, params) {
     }
   }
 
-  const location = findBrikko StudioPackageRoot(moduleDir);
+  const location = findBrikkoStudioPackageRoot(moduleDir);
   if (location) {
     const { packageRoot } = location;
     const packageCandidates = [

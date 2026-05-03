@@ -4,7 +4,7 @@ import path from "node:path";
 import { Command } from "commander";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioPluginApi } from "./api.js";
+import type { BrikkoStudioPluginApi } from "./api.js";
 import type { VoiceCallRuntime } from "./runtime-entry.js";
 import type { CallRecord } from "./src/types.js";
 
@@ -30,7 +30,7 @@ const callGatewayFromCliMock = vi.fn();
 type Registered = {
   methods: Map<string, unknown>;
   tools: unknown[];
-  service?: Parameters<Brikko StudioPluginApi["registerService"]>[0];
+  service?: Parameters<BrikkoStudioPluginApi["registerService"]>[0];
 };
 type RegisterVoiceCall = (api: Record<string, unknown>) => void;
 type RegisterCliContext = {
@@ -118,7 +118,7 @@ function setup(config: Record<string, unknown>): Registered {
     source: "test",
     config: {},
     pluginConfig: config,
-    runtime: { tts: { textToSpeechTelephony: vi.fn() } } as unknown as Brikko StudioPluginApi["runtime"],
+    runtime: { tts: { textToSpeechTelephony: vi.fn() } } as unknown as BrikkoStudioPluginApi["runtime"],
     logger: noopLogger,
     registerGatewayMethod: (method: string, handler: unknown) => methods.set(method, handler),
     registerTool: (tool: unknown) => tools.push(tool),
@@ -932,7 +932,7 @@ describe("voice-call plugin", () => {
         from: "user",
       });
       expect(runtimeStub.manager.initiateCall).toHaveBeenCalledWith("+15550009999", undefined, {
-        message: "Brikko Studio voice call smoke test.",
+        message: "BrikkoStudio voice call smoke test.",
         mode: "notify",
       });
       expect(stdout.output()).toContain("live-call: started call-1");

@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MsgContext } from "../auto-reply/templating.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import {
   withBundledPluginAllowlistCompat,
   withBundledPluginEnablementCompat,
@@ -66,7 +66,7 @@ let runCapability: typeof import("./runner.js").runCapability;
 
 function setCompatibleActiveMediaUnderstandingRegistry(
   pluginRegistry: ReturnType<typeof createEmptyPluginRegistry>,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ) {
   const pluginIds = loadPluginManifestRegistry({
     config: cfg,
@@ -122,7 +122,7 @@ describe("runCapability image skip", () => {
     const ctx: MsgContext = { MediaPath: "/tmp/image.png", MediaType: "image/png" };
     const media = normalizeMediaAttachments(ctx);
     const cache = createMediaAttachmentCache(media);
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
 
     try {
       const result = await runCapability({
@@ -157,7 +157,7 @@ describe("runCapability image skip", () => {
         fileContents: Buffer.from("image"),
       },
       async ({ ctx, media, cache }) => {
-        const cfg = {} as Brikko StudioConfig;
+        const cfg = {} as BrikkoStudioConfig;
 
         const result = await runCapability({
           capability: "image",
@@ -202,7 +202,7 @@ describe("runCapability image skip", () => {
       },
       async ({ ctx, media, cache }) => {
         let seenPrompt: string | undefined;
-        const cfg = {} as Brikko StudioConfig;
+        const cfg = {} as BrikkoStudioConfig;
 
         const result = await runCapability({
           capability: "image",
@@ -250,7 +250,7 @@ describe("runCapability image skip", () => {
           imageModel: { primary: "openrouter/google/gemini-2.5-flash" },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await expect(
       resolveAutoImageModel({
@@ -279,7 +279,7 @@ describe("runCapability image skip", () => {
       },
     ];
     vi.stubEnv("MINIMAX_API_KEY", "test-minimax-key");
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const pluginRegistry = createEmptyPluginRegistry();
     pluginRegistry.mediaUnderstandingProviders.push({
       pluginId: "minimax",
@@ -312,7 +312,7 @@ describe("runCapability image skip", () => {
 
   it("uses active OpenRouter image models for auto image resolution", async () => {
     vi.stubEnv("OPENROUTER_API_KEY", "test-openrouter-key");
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const pluginRegistry = createEmptyPluginRegistry();
     pluginRegistry.mediaUnderstandingProviders.push({
       pluginId: "openrouter",
@@ -360,7 +360,7 @@ describe("runCapability image skip", () => {
               },
             },
           },
-        } as unknown as Brikko StudioConfig;
+        } as unknown as BrikkoStudioConfig;
 
         const result = await runCapability({
           capability: "image",
@@ -411,7 +411,7 @@ describe("runCapability image skip", () => {
               },
             },
           },
-        } as unknown as Brikko StudioConfig;
+        } as unknown as BrikkoStudioConfig;
 
         const result = await runCapability({
           capability: "image",

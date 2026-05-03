@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getAccessTokenResultAsync } from "./cli.js";
@@ -123,7 +123,7 @@ function buildFoundryConfig(params?: {
         },
       },
     },
-  } satisfies Brikko StudioConfig;
+  } satisfies BrikkoStudioConfig;
 }
 
 function buildEntraProfileStore(
@@ -362,7 +362,7 @@ describe("microsoft-foundry plugin", () => {
 
   it("keeps other configured Foundry models when switching the selected model", async () => {
     const provider = registerProvider();
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       auth: {
         profiles: {
           "microsoft-foundry:default": {
@@ -552,7 +552,7 @@ describe("microsoft-foundry plugin", () => {
 
   it("keeps persisted response-mode routing for custom deployment aliases", async () => {
     const provider = registerProvider();
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       auth: {
         profiles: {
           "microsoft-foundry:entra": {

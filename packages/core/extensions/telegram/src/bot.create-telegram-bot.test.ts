@@ -282,7 +282,7 @@ describe("createTelegramBot", () => {
     const botInfo = {
       id: 123456,
       is_bot: true,
-      first_name: "Brikko Studio",
+      first_name: "BrikkoStudio",
       username: "brikko-studio_bot",
       can_join_groups: true,
       can_read_all_group_messages: false,
@@ -863,16 +863,16 @@ describe("createTelegramBot", () => {
         chat: { id: 1234, type: "private", first_name: "Harold" },
         message_id: 1884,
         date: 1736380800,
-        from: { id: 7, is_bot: true, first_name: "Brikko Studio", username: "brikko-studio_bot" },
+        from: { id: 7, is_bot: true, first_name: "BrikkoStudio", username: "brikko-studio_bot" },
         pinned_message: {
           message_id: 1883,
           date: 1736380799,
           chat: { id: 1234, type: "private", first_name: "Harold" },
-          from: { id: 7, is_bot: true, first_name: "Brikko Studio", username: "brikko-studio_bot" },
+          from: { id: 7, is_bot: true, first_name: "BrikkoStudio", username: "brikko-studio_bot" },
           text: "Binding: Review pull request 54118 (brikko-studio)",
         },
       },
-      me: { id: 7, is_bot: true, first_name: "Brikko Studio", username: "brikko-studio_bot" },
+      me: { id: 7, is_bot: true, first_name: "BrikkoStudio", username: "brikko-studio_bot" },
       getFile: async () => ({ download: async () => new Uint8Array() }),
     });
 
@@ -945,13 +945,13 @@ describe("createTelegramBot", () => {
 
     await handler({
       message: {
-        chat: { id: -1001234, type: "supergroup", title: "Brikko Studio Ops" },
+        chat: { id: -1001234, type: "supergroup", title: "BrikkoStudio Ops" },
         message_id: 1884,
         date: 1736380800,
-        from: { id: 7, is_bot: true, first_name: "Brikko Studio", username: "brikko-studio_bot" },
+        from: { id: 7, is_bot: true, first_name: "BrikkoStudio", username: "brikko-studio_bot" },
         text: "approval card update",
       },
-      me: { id: 7, is_bot: true, first_name: "Brikko Studio", username: "brikko-studio_bot" },
+      me: { id: 7, is_bot: true, first_name: "BrikkoStudio", username: "brikko-studio_bot" },
       getFile: async () => ({ download: async () => new Uint8Array() }),
     });
 

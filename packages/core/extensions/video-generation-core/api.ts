@@ -16,7 +16,7 @@ export {
 export type {
   FallbackAttempt,
   GeneratedVideoAsset,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   VideoGenerationIgnoredOverride,
   VideoGenerationMode,
   VideoGenerationModeCapabilities,

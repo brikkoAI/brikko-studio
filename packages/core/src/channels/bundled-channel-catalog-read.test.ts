@@ -15,12 +15,12 @@ vi.mock("../plugins/bundled-dir.js", () => ({
 }));
 
 // The channel-catalog.json fallback still walks package roots via
-// resolveBrikko StudioPackageRootSync. Isolate from the real repo by mocking
+// resolveBrikkoStudioPackageRootSync. Isolate from the real repo by mocking
 // moduleUrl/argv1 resolution to null and deriving only from the tmp cwd.
 vi.mock("../infra/brikko-studio-root.js", () => ({
-  resolveBrikko StudioPackageRootSync: (opts: { cwd?: string; argv1?: string; moduleUrl?: string }) =>
+  resolveBrikkoStudioPackageRootSync: (opts: { cwd?: string; argv1?: string; moduleUrl?: string }) =>
     opts.cwd ?? null,
-  resolveBrikko StudioPackageRoot: async (opts: { cwd?: string; argv1?: string; moduleUrl?: string }) =>
+  resolveBrikkoStudioPackageRoot: async (opts: { cwd?: string; argv1?: string; moduleUrl?: string }) =>
     opts.cwd ?? null,
 }));
 

@@ -20,7 +20,7 @@ describe("perplexity web search provider", () => {
           throw new Error("Expected tool definition");
         }
 
-        await expect(tool.execute({ query: "Brikko Studio docs" })).resolves.toMatchObject({
+        await expect(tool.execute({ query: "BrikkoStudio docs" })).resolves.toMatchObject({
           error: "missing_perplexity_api_key",
           message: expect.stringContaining("use web_fetch for a specific URL or the browser tool"),
         });

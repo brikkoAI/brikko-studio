@@ -7,7 +7,7 @@ import {
   collectLegacyPluginRuntimeDepsStateRoots,
   isSourceCheckoutRoot,
   isDirectPostinstallInvocation,
-  pruneBrikko StudioCompileCache,
+  pruneBrikkoStudioCompileCache,
   pruneInstalledPackageDist,
   pruneLegacyPluginRuntimeDepsState,
   pruneBundledPluginSourceNodeModules,
@@ -87,7 +87,7 @@ describe("bundled plugin postinstall", () => {
       removed.push(value);
     });
 
-    pruneBrikko StudioCompileCache({
+    pruneBrikkoStudioCompileCache({
       env: { NODE_COMPILE_CACHE: configuredBase },
       existsSync,
       readdirSync,
@@ -123,7 +123,7 @@ describe("bundled plugin postinstall", () => {
       }
     });
 
-    pruneBrikko StudioCompileCache({
+    pruneBrikkoStudioCompileCache({
       env: { NODE_COMPILE_CACHE: configuredBase },
       existsSync: vi.fn((value: string) => value === configuredBase),
       readdirSync: vi.fn(() => [
@@ -136,7 +136,7 @@ describe("bundled plugin postinstall", () => {
 
     expect(attempted).toEqual([firstCacheDir, secondCacheDir]);
     expect(warn).toHaveBeenCalledWith(
-      "[postinstall] could not prune Brikko Studio compile cache: Error: locked",
+      "[postinstall] could not prune BrikkoStudio compile cache: Error: locked",
     );
   });
 
@@ -470,7 +470,7 @@ describe("bundled plugin postinstall", () => {
     );
   });
 
-  it("resolves legacy plugin runtime deps roots from Brikko Studio state env", () => {
+  it("resolves legacy plugin runtime deps roots from BrikkoStudio state env", () => {
     expect(
       collectLegacyPluginRuntimeDepsStateRoots({
         env: {

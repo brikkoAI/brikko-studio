@@ -4,7 +4,7 @@ import type {
   ChannelDirectoryEntryKind,
   ChannelId,
 } from "../../channels/plugins/types.public.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { defaultRuntime, type RuntimeEnv } from "../../runtime.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
 import { buildDirectoryCacheKey, DirectoryCache } from "./directory-cache.js";
@@ -43,7 +43,7 @@ function asResolvedMessagingTarget(
 export { maybeResolveIdLikeTarget } from "./target-id-resolution.js";
 
 export async function resolveChannelTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChannelId;
   input: string;
   accountId?: string | null;
@@ -213,7 +213,7 @@ function resolveMatch(params: {
 }
 
 async function listDirectoryEntries(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChannelId;
   accountId?: string | null;
   kind: ChannelDirectoryEntryKind;
@@ -249,7 +249,7 @@ async function listDirectoryEntries(params: {
 }
 
 async function getDirectoryEntries(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChannelId;
   accountId?: string | null;
   kind: ChannelDirectoryEntryKind;
@@ -336,7 +336,7 @@ function pickAmbiguousMatch(
 }
 
 export async function resolveMessagingTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChannelId;
   input: string;
   accountId?: string | null;
@@ -448,7 +448,7 @@ export async function resolveMessagingTarget(params: {
 }
 
 export async function lookupDirectoryDisplay(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChannelId;
   targetId: string;
   accountId?: string | null;

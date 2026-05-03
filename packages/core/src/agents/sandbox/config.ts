@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { SandboxSshSettings } from "../../config/types.sandbox.js";
 import { normalizeSecretInputString } from "../../config/types.secrets.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
@@ -219,7 +219,7 @@ export function resolveSandboxSshConfig(params: {
 }
 
 export function resolveSandboxConfigForAgent(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   agentId?: string,
 ): SandboxConfig {
   const agent = cfg?.agents?.defaults?.sandbox;

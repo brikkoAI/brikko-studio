@@ -28,7 +28,7 @@ let resolveExecApprovalsSocketPath: ExecApprovalsModule["resolveExecApprovalsSoc
 let saveExecApprovals: ExecApprovalsModule["saveExecApprovals"];
 
 const tempDirs: string[] = [];
-const originalBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+const originalBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
 
 beforeAll(async () => {
   ({
@@ -54,10 +54,10 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.restoreAllMocks();
-  if (originalBrikko StudioHome === undefined) {
+  if (originalBrikkoStudioHome === undefined) {
     delete process.env.BRIKKO_STUDIO_HOME;
   } else {
-    process.env.BRIKKO_STUDIO_HOME = originalBrikko StudioHome;
+    process.env.BRIKKO_STUDIO_HOME = originalBrikkoStudioHome;
   }
   for (const dir of tempDirs.splice(0)) {
     fs.rmSync(dir, { recursive: true, force: true });

@@ -1,5 +1,5 @@
 import type { ModelApi } from "../provider-model-shared.js";
-import type { Brikko StudioConfig } from "../testing.js";
+import type { BrikkoStudioConfig } from "../testing.js";
 
 export const EXPECTED_FALLBACKS = ["anthropic/claude-opus-4-5"] as const;
 
@@ -10,7 +10,7 @@ export function createLegacyProviderConfig(params: {
   modelName?: string;
   baseUrl?: string;
   apiKey?: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -32,10 +32,10 @@ export function createLegacyProviderConfig(params: {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-export function createConfigWithFallbacks(): Brikko StudioConfig {
+export function createConfigWithFallbacks(): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {

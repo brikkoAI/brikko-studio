@@ -3,12 +3,12 @@ import {
   requireRegisteredProvider,
 } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it } from "vitest";
-import { resolveBrikko StudioAgentDir } from "../src/agents/agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../src/agents/agent-paths.js";
 import { collectProviderApiKeys } from "../src/agents/live-auth-keys.js";
 import { isLiveProfileKeyModeEnabled, isLiveTestEnabled } from "../src/agents/live-test-helpers.js";
 import { resolveApiKeyForProvider } from "../src/agents/model-auth.js";
 import { isBillingErrorMessage } from "../src/agents/pi-embedded-helpers/failover-matches.js";
-import { loadConfig, type Brikko StudioConfig } from "../src/config/config.js";
+import { loadConfig, type BrikkoStudioConfig } from "../src/config/config.js";
 import {
   DEFAULT_LIVE_IMAGE_MODELS,
   parseCaseFilter,
@@ -138,7 +138,7 @@ function createEditReferencePng(): Buffer {
   return encodePngRgba(buf, width, height);
 }
 
-function withPluginsEnabled(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function withPluginsEnabled(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return {
     ...cfg,
     plugins: {
@@ -199,7 +199,7 @@ describeLive("image generation live (provider sweep)", () => {
     async () => {
       const cfg = withPluginsEnabled(loadConfig());
       const configuredModels = resolveConfiguredLiveImageModels(cfg);
-      const agentDir = resolveBrikko StudioAgentDir();
+      const agentDir = resolveBrikkoStudioAgentDir();
       const attempted: string[] = [];
       const skipped: string[] = [];
       const failures: string[] = [];

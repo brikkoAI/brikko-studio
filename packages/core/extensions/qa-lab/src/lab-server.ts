@@ -38,7 +38,7 @@ import {
   createQaRunOutputDir,
   normalizeQaRunSelection,
 } from "./run-config.js";
-import { qaChannelPlugin, setQaChannelRuntime, type Brikko StudioConfig } from "./runtime-api.js";
+import { qaChannelPlugin, setQaChannelRuntime, type BrikkoStudioConfig } from "./runtime-api.js";
 import { readQaBootstrapScenarioCatalog } from "./scenario-catalog.js";
 import { runQaSelfCheckAgainstState, type QaSelfCheckResult } from "./self-check.js";
 
@@ -120,7 +120,7 @@ function createBootstrapDefaults(autoKickoffTarget?: string): QaLabBootstrapDefa
   };
 }
 
-function createQaLabConfig(baseUrl: string): Brikko StudioConfig {
+function createQaLabConfig(baseUrl: string): BrikkoStudioConfig {
   return createQaChannelGatewayConfig({ baseUrl });
 }
 
@@ -192,7 +192,7 @@ export async function startQaLabServer(
   let controlUiToken = params?.controlUiToken?.trim() || null;
   let gateway:
     | {
-        cfg: Brikko StudioConfig;
+        cfg: BrikkoStudioConfig;
         stop: () => Promise<void>;
       }
     | undefined;

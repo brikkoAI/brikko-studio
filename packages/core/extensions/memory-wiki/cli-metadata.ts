@@ -3,7 +3,7 @@ import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 export default definePluginEntry({
   id: "memory-wiki",
   name: "Memory Wiki",
-  description: "Persistent wiki compiler and Obsidian-friendly knowledge vault for Brikko Studio.",
+  description: "Persistent wiki compiler and Obsidian-friendly knowledge vault for BrikkoStudio.",
   register(api) {
     api.registerCli(
       async ({ program, config: appConfig }) => {

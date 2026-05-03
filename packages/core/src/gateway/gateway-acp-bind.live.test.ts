@@ -29,7 +29,7 @@ import {
   assertLiveImageProbeReply,
   buildLiveCronProbeMessage,
   createLiveCronProbeSpec,
-  runBrikko StudioCliJson,
+  runBrikkoStudioCliJson,
 } from "./live-agent-probes.js";
 import { renderCatFacePngBase64 } from "./live-image-probe.js";
 import { startGatewayServer } from "./server.js";
@@ -1054,7 +1054,7 @@ describeLive("gateway live (ACP bind)", () => {
           }
           throw new Error(`acp cron cli verify did not create job ${lastCronProbeName}`);
         }
-        await runBrikko StudioCliJson(
+        await runBrikkoStudioCliJson(
           ["cron", "rm", cronJobId, "--json", "--url", `ws://127.0.0.1:${port}`, "--token", token],
           process.env,
         );

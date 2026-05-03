@@ -3,7 +3,7 @@ import { normalizeChatType, type ChatType } from "../../channels/chat-type.js";
 import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.core.js";
 import type { SessionEntry } from "../../config/sessions.js";
 import type { AgentDefaultsConfig } from "../../config/types.agent-defaults.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeAccountId } from "../../routing/session-key.js";
 import {
   deliveryContextFromSession,
@@ -56,7 +56,7 @@ export function resolveOutboundTarget(params: {
   channel: GatewayMessageChannel;
   to?: string;
   allowFrom?: string[];
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   accountId?: string | null;
   mode?: ChannelOutboundTargetMode;
 }): OutboundTargetResolution {
@@ -82,7 +82,7 @@ export function resolveOutboundTarget(params: {
 }
 
 export function resolveHeartbeatDeliveryTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   entry?: SessionEntry;
   heartbeat?: AgentDefaultsConfig["heartbeat"];
   turnSource?: DeliveryContext;
@@ -299,7 +299,7 @@ function resolveHeartbeatDeliveryChatType(params: {
 }
 
 function shouldReuseHeartbeatRouteThreadId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   target: HeartbeatTarget;
   heartbeat?: AgentDefaultsConfig["heartbeat"];
   turnSource?: DeliveryContext;
@@ -357,7 +357,7 @@ function resolveHeartbeatSenderId(params: {
 }
 
 export function resolveHeartbeatSenderContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   entry?: SessionEntry;
   delivery: OutboundTarget;
 }): HeartbeatSenderContext {

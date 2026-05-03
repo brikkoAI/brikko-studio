@@ -4,7 +4,7 @@ import {
   isChannelExecApprovalTargetRecipient,
 } from "brikko-studio/plugin-sdk/approval-client-runtime";
 import { doesApprovalRequestMatchChannelAccount } from "brikko-studio/plugin-sdk/approval-native-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeStringifiedOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveSlackAccount } from "./accounts.js";
 
@@ -24,7 +24,7 @@ export function normalizeSlackApproverId(value: string | number): string | undef
   return /^[UW][A-Z0-9]+$/i.test(trimmed) ? trimmed : undefined;
 }
 
-function resolveSlackOwnerApprovers(cfg: Brikko StudioConfig): string[] {
+function resolveSlackOwnerApprovers(cfg: BrikkoStudioConfig): string[] {
   const ownerAllowFrom = cfg.commands?.ownerAllowFrom;
   if (!Array.isArray(ownerAllowFrom) || ownerAllowFrom.length === 0) {
     return [];
@@ -35,7 +35,7 @@ function resolveSlackOwnerApprovers(cfg: Brikko StudioConfig): string[] {
   });
 }
 export function getSlackExecApprovalApprovers(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): string[] {
   const account = resolveSlackAccount(params).config;
@@ -46,7 +46,7 @@ export function getSlackExecApprovalApprovers(params: {
 }
 
 export function isSlackExecApprovalTargetRecipient(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   senderId?: string | null;
   accountId?: string | null;
 }): boolean {

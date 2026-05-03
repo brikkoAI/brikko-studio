@@ -5,14 +5,14 @@ import {
 } from "../../../config/legacy.shared.js";
 import {
   isKnownCliMcpTypeAlias,
-  resolveBrikko StudioMcpTransportAlias,
+  resolveBrikkoStudioMcpTransportAlias,
 } from "../../../config/mcp-config-normalize.js";
 import { isRecord } from "./legacy-config-record-shared.js";
 
 const MCP_SERVER_TYPE_RULE: LegacyConfigRule = {
   path: ["mcp", "servers"],
   message:
-    'mcp.servers entries use Brikko Studio transport names; CLI-native type aliases are legacy here. Run "brikko-studio doctor --fix".',
+    'mcp.servers entries use BrikkoStudio transport names; CLI-native type aliases are legacy here. Run "brikko-studio doctor --fix".',
   match: (value) =>
     isRecord(value) &&
     Object.values(value).some((server) => isRecord(server) && isKnownCliMcpTypeAlias(server.type)),
@@ -21,7 +21,7 @@ const MCP_SERVER_TYPE_RULE: LegacyConfigRule = {
 export const LEGACY_CONFIG_MIGRATIONS_RUNTIME_MCP: LegacyConfigMigrationSpec[] = [
   defineLegacyConfigMigration({
     id: "mcp.servers.type->transport",
-    describe: "Move CLI-native MCP server type aliases to Brikko Studio transport",
+    describe: "Move CLI-native MCP server type aliases to BrikkoStudio transport",
     legacyRules: [MCP_SERVER_TYPE_RULE],
     apply: (raw, changes) => {
       const mcp = isRecord(raw.mcp) ? raw.mcp : undefined;
@@ -35,7 +35,7 @@ export const LEGACY_CONFIG_MIGRATIONS_RUNTIME_MCP: LegacyConfigMigrationSpec[] =
           continue;
         }
         const rawType = typeof rawServer.type === "string" ? rawServer.type : "";
-        const alias = resolveBrikko StudioMcpTransportAlias(rawServer.type);
+        const alias = resolveBrikkoStudioMcpTransportAlias(rawServer.type);
         if (typeof rawServer.transport !== "string" && alias) {
           rawServer.transport = alias;
           changes.push(`Moved mcp.servers.${serverName}.type "${rawType}" → transport "${alias}".`);

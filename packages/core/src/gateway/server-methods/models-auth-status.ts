@@ -1,4 +1,4 @@
-import { resolveBrikko StudioAgentDir } from "../../agents/agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../../agents/agent-paths.js";
 import {
   type AuthHealthSummary,
   type AuthProfileHealthStatus,
@@ -12,7 +12,7 @@ import {
   externalCliDiscoveryForConfigStatus,
 } from "../../agents/auth-profiles.js";
 import { normalizeProviderId } from "../../agents/provider-id.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { isSecretRef } from "../../config/types.secrets.js";
 import { loadProviderUsageSummary } from "../../infra/provider-usage.load.js";
 import { PROVIDER_LABELS, resolveUsageProviderId } from "../../infra/provider-usage.shared.js";
@@ -197,7 +197,7 @@ function mapProvider(
  * for a working auth path. They can still show up with real status if the
  * profile store has an entry for them.
  */
-function resolveConfiguredProviders(cfg: Brikko StudioConfig): {
+function resolveConfiguredProviders(cfg: BrikkoStudioConfig): {
   providers: string[];
   expectsOAuth: Set<string>;
 } {
@@ -291,7 +291,7 @@ export const modelsAuthStatusHandlers: GatewayRequestHandlers = {
     }
     try {
       const cfg = context.getRuntimeConfig();
-      const agentDir = resolveBrikko StudioAgentDir();
+      const agentDir = resolveBrikkoStudioAgentDir();
       const store = ensureAuthProfileStore(agentDir, {
         externalCli: externalCliDiscoveryForConfigStatus({ cfg }),
       });

@@ -7,7 +7,7 @@ import {
   waitProviderOperationPollInterval,
 } from "brikko-studio/plugin-sdk/provider-http";
 import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import type {
   GeneratedVideoAsset,
@@ -152,7 +152,7 @@ async function downloadGeneratedVideo(params: {
   index: number;
 }): Promise<GeneratedVideoAsset> {
   const tempDir = await mkdtemp(
-    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-google-video-"),
+    path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-google-video-"),
   );
   const downloadPath = path.join(tempDir, `video-${params.index + 1}.mp4`);
   try {

@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ClawdbotConfig } from "../runtime-api.js";
 
@@ -61,7 +61,7 @@ function expectPathIsolatedToTmpRoot(pathValue: string, key: string): void {
   expect(pathValue).not.toContain(key);
   expect(pathValue).not.toContain("..");
 
-  const tmpRoot = path.resolve(resolvePreferredBrikko StudioTmpDir());
+  const tmpRoot = path.resolve(resolvePreferredBrikkoStudioTmpDir());
   const resolved = path.resolve(pathValue);
   const rel = path.relative(tmpRoot, resolved);
   expect(rel === ".." || rel.startsWith(`..${path.sep}`)).toBe(false);

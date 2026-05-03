@@ -6,7 +6,7 @@ import {
   addSubagentRunForTests,
   resetSubagentRegistryForTests,
 } from "../agents/subagent-registry.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { SessionEntry } from "../config/sessions.js";
 import { registerAgentRunContext, resetAgentRunContextForTest } from "../infra/agent-events.js";
 import { listSessionsFromStore } from "./session-utils.js";
@@ -14,7 +14,7 @@ import { listSessionsFromStore } from "./session-utils.js";
 function createModelDefaultsConfig(params: {
   primary: string;
   models?: Record<string, Record<string, never>>;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -22,12 +22,12 @@ function createModelDefaultsConfig(params: {
         models: params.models,
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createLegacyRuntimeListConfig(
   models?: Record<string, Record<string, never>>,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return createModelDefaultsConfig({
     primary: "google-gemini-cli/gemini-3-pro-preview",
     ...(models ? { models } : {}),
@@ -86,7 +86,7 @@ function withTranscriptStoreFixture<T>(params: {
   }
 }
 
-function createAnthropicContext1mConfig(): Brikko StudioConfig {
+function createAnthropicContext1mConfig(): BrikkoStudioConfig {
   return {
     session: { mainKey: "main" },
     agents: {
@@ -97,11 +97,11 @@ function createAnthropicContext1mConfig(): Brikko StudioConfig {
         },
       },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 function listSingleSession(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   storePath: string;
   key: string;
   entry: SessionEntry;
@@ -125,7 +125,7 @@ describe("listSessionsFromStore search", () => {
   const baseCfg = {
     session: { mainKey: "main" },
     agents: { list: [{ id: "main", default: true }] },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 
   const makeStore = (): Record<string, SessionEntry> => ({
     "agent:main:work-project": {
@@ -306,7 +306,7 @@ describe("listSessionsFromStore search", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     const result = listSessionsFromStore({
       cfg,
       storePath: "/tmp/sessions.json",
@@ -378,7 +378,7 @@ describe("listSessionsFromStore search", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     const result = listSessionsFromStore({
       cfg,
       storePath: "/tmp/sessions.json",
@@ -632,7 +632,7 @@ describe("listSessionsFromStore search", () => {
             agents: {
               list: [{ id: "main", default: true }],
             },
-          } as unknown as Brikko StudioConfig,
+          } as unknown as BrikkoStudioConfig,
           storePath,
           key: "agent:main:main",
           entry: {

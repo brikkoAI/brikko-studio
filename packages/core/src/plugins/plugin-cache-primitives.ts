@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export type PluginLruCacheResult<T> = { hit: true; value: T } | { hit: false };
 
@@ -66,16 +66,16 @@ export class PluginLruCache<T> {
   }
 }
 
-export type ConfigScopedRuntimeCache<T> = WeakMap<Brikko StudioConfig, Map<string, T>>;
+export type ConfigScopedRuntimeCache<T> = WeakMap<BrikkoStudioConfig, Map<string, T>>;
 
 export type ConfigScopedPromiseLoader<T> = {
-  load(config?: Brikko StudioConfig): Promise<T>;
+  load(config?: BrikkoStudioConfig): Promise<T>;
   clear(): void;
 };
 
 export function resolveConfigScopedRuntimeCacheValue<T>(params: {
   cache: ConfigScopedRuntimeCache<T>;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   key: string;
   load: () => T;
 }): T {
@@ -100,12 +100,12 @@ export function createPluginCacheKey(parts: readonly unknown[]): string {
 }
 
 export function createConfigScopedPromiseLoader<T>(
-  load: (config?: Brikko StudioConfig) => T | Promise<T>,
+  load: (config?: BrikkoStudioConfig) => T | Promise<T>,
 ): ConfigScopedPromiseLoader<T> {
   let defaultPromise: Promise<T> | undefined;
-  let promisesByConfig = new WeakMap<Brikko StudioConfig, Promise<T>>();
+  let promisesByConfig = new WeakMap<BrikkoStudioConfig, Promise<T>>();
 
-  const createPromise = (config?: Brikko StudioConfig): Promise<T> => {
+  const createPromise = (config?: BrikkoStudioConfig): Promise<T> => {
     const promise = Promise.resolve().then(() => load(config));
     void promise.catch(() => {
       if (config) {
@@ -118,7 +118,7 @@ export function createConfigScopedPromiseLoader<T>(
   };
 
   return {
-    async load(config?: Brikko StudioConfig): Promise<T> {
+    async load(config?: BrikkoStudioConfig): Promise<T> {
       if (!config) {
         defaultPromise ??= createPromise();
         return await defaultPromise;
@@ -133,7 +133,7 @@ export function createConfigScopedPromiseLoader<T>(
     },
     clear(): void {
       defaultPromise = undefined;
-      promisesByConfig = new WeakMap<Brikko StudioConfig, Promise<T>>();
+      promisesByConfig = new WeakMap<BrikkoStudioConfig, Promise<T>>();
     },
   };
 }

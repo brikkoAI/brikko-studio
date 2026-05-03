@@ -1,6 +1,6 @@
 import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
 import { isChannelConfigured } from "../config/channel-configured.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { unwrapDefaultModuleExport } from "./module-export.js";
 import type { PluginRuntime } from "./runtime/types.js";
 
@@ -187,7 +187,7 @@ export function shouldLoadChannelPluginInSetupRuntime(params: {
   manifestChannels: string[];
   setupSource?: string;
   startupDeferConfiguredChannelFullLoadUntilAfterListen?: boolean;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   preferSetupRuntimeForChannelPlugins?: boolean;
 }): boolean {

@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { collectMissingExplicitDefaultAccountWarnings } from "./doctor/shared/default-account-warnings.js";
 
 describe("collectMissingExplicitDefaultAccountWarnings", () => {
   it("warns when multiple named accounts are configured without default selection", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           accounts: {
@@ -22,7 +22,7 @@ describe("collectMissingExplicitDefaultAccountWarnings", () => {
   });
 
   it("does not warn for a single named account without default", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           accounts: {
@@ -36,7 +36,7 @@ describe("collectMissingExplicitDefaultAccountWarnings", () => {
   });
 
   it("does not warn when accounts.default exists", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           accounts: {
@@ -51,7 +51,7 @@ describe("collectMissingExplicitDefaultAccountWarnings", () => {
   });
 
   it("does not warn when defaultAccount points to a configured account", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           defaultAccount: "work",
@@ -67,7 +67,7 @@ describe("collectMissingExplicitDefaultAccountWarnings", () => {
   });
 
   it("normalizes defaultAccount before validating configured account ids", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           defaultAccount: "Router D",
@@ -83,7 +83,7 @@ describe("collectMissingExplicitDefaultAccountWarnings", () => {
   });
 
   it("warns when defaultAccount is invalid for configured accounts", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           defaultAccount: "missing",
@@ -102,7 +102,7 @@ describe("collectMissingExplicitDefaultAccountWarnings", () => {
   });
 
   it("warns across channels that support account maps", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           accounts: {

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { handleSlackAction, slackActionRuntime } from "./action-runtime.js";
 import { parseSlackBlocksInput } from "./blocks-input.js";
@@ -21,7 +21,7 @@ const sendSlackMessage = vi.fn(async (..._args: unknown[]) => ({ channelId: "C12
 const unpinSlackMessage = vi.fn(async (..._args: unknown[]) => ({}));
 
 describe("handleSlackAction", () => {
-  function slackConfig(overrides?: Record<string, unknown>): Brikko StudioConfig {
+  function slackConfig(overrides?: Record<string, unknown>): BrikkoStudioConfig {
     return {
       channels: {
         slack: {
@@ -29,7 +29,7 @@ describe("handleSlackAction", () => {
           ...overrides,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
   function createReplyToFirstContext(hasRepliedRef: { value: boolean }) {
@@ -42,7 +42,7 @@ describe("handleSlackAction", () => {
   }
 
   function createReplyToFirstScenario() {
-    const cfg = { channels: { slack: { botToken: "tok" } } } as Brikko StudioConfig;
+    const cfg = { channels: { slack: { botToken: "tok" } } } as BrikkoStudioConfig;
     sendSlackMessage.mockClear();
     const hasRepliedRef = { value: false };
     const context = createReplyToFirstContext(hasRepliedRef);
@@ -63,7 +63,7 @@ describe("handleSlackAction", () => {
   }
 
   async function sendSecondMessageAndExpectNoThread(params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     context: ReturnType<typeof createReplyToFirstContext>;
   }) {
     await handleSlackAction(
@@ -74,7 +74,7 @@ describe("handleSlackAction", () => {
     expectLastSlackSend("Second");
   }
 
-  async function resolveReadToken(cfg: Brikko StudioConfig): Promise<string | undefined> {
+  async function resolveReadToken(cfg: BrikkoStudioConfig): Promise<string | undefined> {
     readSlackMessages.mockClear();
     readSlackMessages.mockResolvedValueOnce({ messages: [], hasMore: false });
     await handleSlackAction({ action: "readMessages", channelId: "C1" }, cfg);
@@ -82,7 +82,7 @@ describe("handleSlackAction", () => {
     return opts?.token;
   }
 
-  async function resolveSendToken(cfg: Brikko StudioConfig): Promise<string | undefined> {
+  async function resolveSendToken(cfg: BrikkoStudioConfig): Promise<string | undefined> {
     sendSlackMessage.mockClear();
     await handleSlackAction({ action: "sendMessage", to: "channel:C1", content: "Hello" }, cfg);
     const opts = sendSlackMessage.mock.calls[0]?.[2] as { token?: string } | undefined;
@@ -815,7 +815,7 @@ describe("handleSlackAction", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
     expect(token).toBe("xoxp-user");
   });
 

@@ -177,7 +177,7 @@ export function buildConfigItems(params: {
         target: "memory",
         path: ["memory"],
         value: { backend: "builtin" },
-        message: "Use Brikko Studio built-in file memory for imported Hermes memory files.",
+        message: "Use BrikkoStudio built-in file memory for imported Hermes memory files.",
         conflict:
           !params.ctx.overwrite &&
           hasMigrationConfigPatchConflict(params.ctx.config, ["memory"], { backend: true }),
@@ -189,7 +189,7 @@ export function buildConfigItems(params: {
         target: "plugins.slots",
         path: ["plugins", "slots"],
         value: { memory: "memory-core" },
-        message: "Select the default Brikko Studio memory plugin for imported file memory.",
+        message: "Select the default BrikkoStudio memory plugin for imported file memory.",
         conflict:
           !params.ctx.overwrite &&
           hasMigrationConfigPatchConflict(params.ctx.config, ["plugins", "slots"], {
@@ -223,7 +223,7 @@ export function buildConfigItems(params: {
         id: "manual:memory-provider:honcho",
         source: "config.yaml:memory.provider",
         message:
-          "Hermes used Honcho memory. Brikko Studio keeps built-in memory selected until the matching plugin is installed and reviewed.",
+          "Hermes used Honcho memory. BrikkoStudio keeps built-in memory selected until the matching plugin is installed and reviewed.",
         recommendation:
           "Install or review the Honcho memory plugin before selecting it for plugins.slots.memory.",
       }),
@@ -233,8 +233,8 @@ export function buildConfigItems(params: {
       createMigrationManualItem({
         id: `manual:memory-provider:${memoryProvider}`,
         source: "config.yaml:memory.provider",
-        message: `Hermes memory provider "${memoryProvider}" does not have a known Brikko Studio mapping.`,
-        recommendation: "Install or configure an equivalent Brikko Studio memory plugin manually.",
+        message: `Hermes memory provider "${memoryProvider}" does not have a known BrikkoStudio mapping.`,
+        recommendation: "Install or configure an equivalent BrikkoStudio memory plugin manually.",
       }),
     );
   }

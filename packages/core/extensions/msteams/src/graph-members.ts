@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import { fetchGraphJson, resolveGraphToken } from "./graph.js";
 
 type GraphUserProfile = {
@@ -11,7 +11,7 @@ type GraphUserProfile = {
 };
 
 type GetMemberInfoMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   userId: string;
 };
 

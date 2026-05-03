@@ -1,10 +1,10 @@
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/config.js";
+import type { BrikkoStudioConfig } from "../../../config/config.js";
 import { resolveAcpInstallCommandHint } from "./install-hints.js";
 
-function withAcpConfig(acp: Brikko StudioConfig["acp"]): Brikko StudioConfig {
-  return { acp } as Brikko StudioConfig;
+function withAcpConfig(acp: BrikkoStudioConfig["acp"]): BrikkoStudioConfig {
+  return { acp } as BrikkoStudioConfig;
 }
 
 afterEach(() => {

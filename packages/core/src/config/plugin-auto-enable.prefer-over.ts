@@ -6,7 +6,7 @@ import { normalizeOptionalString } from "../shared/string-coerce.js";
 import { normalizeStringEntries } from "../shared/string-normalization.js";
 import { isRecord, resolveConfigDir, resolveUserPath } from "../utils.js";
 import type { PluginAutoEnableCandidate } from "./plugin-auto-enable.types.js";
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 
 type ExternalCatalogChannelEntry = {
   id: string;
@@ -127,13 +127,13 @@ function getPluginAutoEnableCandidateCacheKey(candidate: PluginAutoEnableCandida
 }
 
 export function shouldSkipPreferredPluginAutoEnable(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   entry: PluginAutoEnableCandidate;
   configured: readonly PluginAutoEnableCandidate[];
   env: NodeJS.ProcessEnv;
   registry: PluginManifestRegistry;
-  isPluginDenied: (config: Brikko StudioConfig, pluginId: string) => boolean;
-  isPluginExplicitlyDisabled: (config: Brikko StudioConfig, pluginId: string) => boolean;
+  isPluginDenied: (config: BrikkoStudioConfig, pluginId: string) => boolean;
+  isPluginExplicitlyDisabled: (config: BrikkoStudioConfig, pluginId: string) => boolean;
   preferOverCache: Map<string, string[]>;
 }): boolean {
   const getPreferredOverIds = (candidate: PluginAutoEnableCandidate): string[] => {

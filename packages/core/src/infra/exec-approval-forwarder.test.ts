@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ReplyPayload } from "../auto-reply/types.js";
 import type { ChannelPlugin } from "../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { createChannelTestPluginBase, createTestRegistry } from "../test-utils/channel-plugins.js";
 import { createExecApprovalForwarder } from "./exec-approval-forwarder.js";
@@ -35,7 +35,7 @@ async function flushPendingDelivery(): Promise<void> {
 }
 
 function isDiscordExecApprovalClientEnabledForTest(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): boolean {
   const accountId = params.accountId?.trim();
@@ -53,7 +53,7 @@ function isDiscordExecApprovalClientEnabledForTest(params: {
 }
 
 function isTelegramExecApprovalClientEnabledForTest(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): boolean {
   const accountId = params.accountId?.trim();
@@ -71,7 +71,7 @@ function isTelegramExecApprovalClientEnabledForTest(params: {
 }
 
 function shouldSuppressTelegramExecApprovalForwardingFallbackForTest(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   target: { channel: string; accountId?: string | null };
   request: { request: { turnSourceChannel?: string | null; turnSourceAccountId?: string | null } };
 }): boolean {
@@ -140,7 +140,7 @@ const telegramApprovalPlugin: Pick<
   approvalCapability: {
     delivery: {
       shouldSuppressForwardingFallback: (params: {
-        cfg: Brikko StudioConfig;
+        cfg: BrikkoStudioConfig;
         target: { channel: string; accountId?: string | null };
         request: {
           request: { turnSourceChannel?: string | null; turnSourceAccountId?: string | null };
@@ -166,7 +166,7 @@ const discordApprovalPlugin: Pick<
         cfg,
         target,
       }: {
-        cfg: Brikko StudioConfig;
+        cfg: BrikkoStudioConfig;
         target: { channel: string; accountId?: string | null };
       }) =>
         target.channel === "discord" &&
@@ -194,7 +194,7 @@ function getFirstDeliveryText(deliver: ReturnType<typeof vi.fn>): string {
   return firstCall?.payloads?.[0]?.text ?? "";
 }
 
-function makeTargetsCfg(targets: Array<{ channel: string; to: string }>): Brikko StudioConfig {
+function makeTargetsCfg(targets: Array<{ channel: string; to: string }>): BrikkoStudioConfig {
   return {
     approvals: {
       exec: {
@@ -203,13 +203,13 @@ function makeTargetsCfg(targets: Array<{ channel: string; to: string }>): Brikko
         targets,
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 const TARGETS_CFG = makeTargetsCfg([{ channel: "slack", to: "U123" }]);
 
 function createForwarder(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   deliver?: ReturnType<typeof vi.fn>;
   resolveSessionTarget?: () => {
     channel: string;
@@ -234,7 +234,7 @@ function createForwarder(params: {
   return { deliver, forwarder };
 }
 
-function makeSessionCfg(options: { discordExecApprovalsEnabled?: boolean } = {}): Brikko StudioConfig {
+function makeSessionCfg(options: { discordExecApprovalsEnabled?: boolean } = {}): BrikkoStudioConfig {
   return {
     ...(options.discordExecApprovalsEnabled
       ? {
@@ -249,11 +249,11 @@ function makeSessionCfg(options: { discordExecApprovalsEnabled?: boolean } = {})
         }
       : {}),
     approvals: { exec: { enabled: true, mode: "session" } },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 async function expectDiscordSessionTargetRequest(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   expectedAccepted: boolean;
   expectedDeliveryCount: number;
 }) {
@@ -285,7 +285,7 @@ async function expectSessionFilterRequestResult(params: {
         sessionFilter: params.sessionFilter,
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 
   const { deliver, forwarder } = createForwarder({
     cfg,
@@ -333,7 +333,7 @@ describe("exec approval forwarder", () => {
     vi.useFakeTimers();
     const cfg = {
       approvals: { exec: { enabled: true, mode: "session" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { deliver, forwarder } = createForwarder({
       cfg,
@@ -377,7 +377,7 @@ describe("exec approval forwarder", () => {
           targets: [{ channel: "telegram", to: "-100999", accountId: "bot", threadId: "77" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { deliver, forwarder } = createForwarder({
       cfg,
@@ -451,7 +451,7 @@ describe("exec approval forwarder", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { deliver, forwarder } = createForwarder({
       cfg,
@@ -608,7 +608,7 @@ describe("exec approval forwarder", () => {
 
   it("returns false when forwarding is disabled", async () => {
     const { deliver, forwarder } = createForwarder({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
     });
     await expect(forwarder.handleRequested(baseRequest)).resolves.toBe(false);
     expect(deliver).not.toHaveBeenCalled();

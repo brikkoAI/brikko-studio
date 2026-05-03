@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.js";
 import type { PluginManifestRecord } from "./manifest-registry.js";
 
@@ -22,7 +22,7 @@ function hasConfiguredSearchCredentialCandidate(searchConfig: unknown): boolean 
   );
 }
 
-function hasConfiguredPluginWebSearchCandidate(config: Brikko StudioConfig): boolean {
+function hasConfiguredPluginWebSearchCandidate(config: BrikkoStudioConfig): boolean {
   const entries = isRecord(config.plugins?.entries) ? config.plugins.entries : undefined;
   if (!entries) {
     return false;
@@ -34,7 +34,7 @@ function hasConfiguredPluginWebSearchCandidate(config: Brikko StudioConfig): boo
 }
 
 function hasManifestWebSearchEnvCredentialCandidate(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   origin?: PluginManifestRecord["origin"];
 }): boolean {
@@ -63,7 +63,7 @@ function hasManifestWebSearchEnvCredentialCandidate(params: {
 }
 
 export function hasConfiguredWebSearchCredential(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   searchConfig?: Record<string, unknown>;
   origin?: PluginManifestRecord["origin"];

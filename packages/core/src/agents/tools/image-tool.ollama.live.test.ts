@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { createImageTool } from "./image-tool.js";
 
 const LIVE =
@@ -42,7 +42,7 @@ describe.skipIf(!LIVE)("image tool Ollama live", () => {
   it("describes a local image through a providerless configured Ollama image model", async () => {
     process.env.OLLAMA_API_KEY ||= "ollama-local";
     await withLiveImageWorkspace(async ({ agentDir, workspaceDir, imagePath }) => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             imageModel: { primary: OLLAMA_IMAGE_MODEL },

@@ -6,7 +6,7 @@ import {
   listActiveMemoryPublicArtifacts,
   type MemoryPluginPublicArtifact,
 } from "brikko-studio/plugin-sdk/memory-host-core";
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 import type { ResolvedMemoryWikiConfig } from "./config.js";
 import { appendMemoryWikiLog } from "./log.js";
 import {
@@ -202,7 +202,7 @@ async function writeBridgeSourcePage(params: {
 
 export async function syncMemoryWikiBridgeSources(params: {
   config: ResolvedMemoryWikiConfig;
-  appConfig?: Brikko StudioConfig;
+  appConfig?: BrikkoStudioConfig;
 }): Promise<BridgeMemoryWikiResult> {
   await initializeMemoryWikiVault(params.config);
   if (

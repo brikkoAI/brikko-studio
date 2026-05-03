@@ -11,7 +11,7 @@ import {
 describe("qqbot local media path remapping", () => {
   const createdPaths: string[] = [];
 
-  function createBrikko StudioTestRoot() {
+  function createBrikkoStudioTestRoot() {
     const actualHome = getHomeDir();
     const brikko-studioDir = path.join(actualHome, ".brikko-studio");
     fs.mkdirSync(brikko-studioDir, { recursive: true });
@@ -21,7 +21,7 @@ describe("qqbot local media path remapping", () => {
   }
 
   function createQqbotMediaFile(fileName: string) {
-    const { actualHome, testRootName } = createBrikko StudioTestRoot();
+    const { actualHome, testRootName } = createBrikkoStudioTestRoot();
     const mediaFile = path.join(
       actualHome,
       ".brikko-studio",
@@ -96,7 +96,7 @@ describe("qqbot local media path remapping", () => {
     expect(resolveQQBotPayloadLocalFilePath(mediaFile)).toBe(fs.realpathSync(mediaFile));
   });
 
-  it("allows structured payload files inside sibling Brikko Studio media subdirectories", () => {
+  it("allows structured payload files inside sibling BrikkoStudio media subdirectories", () => {
     // Core helpers such as `saveMediaBuffer(..., "outbound", ...)` place framework
     // attachments under sibling directories of `media/qqbot/`. The plugin must
     // trust the shared `~/.brikko-studio/media` root so auto-routed sends can access
@@ -113,7 +113,7 @@ describe("qqbot local media path remapping", () => {
   });
 
   it("blocks structured payload files inside the QQ Bot data directory", () => {
-    const { actualHome, testRootName } = createBrikko StudioTestRoot();
+    const { actualHome, testRootName } = createBrikkoStudioTestRoot();
 
     const dataFile = path.join(
       actualHome,

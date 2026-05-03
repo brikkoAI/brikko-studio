@@ -25,7 +25,7 @@ type SyncPluginVersionsOptions = {
 
 const BRIKKO_STUDIO_VERSION_RANGE_RE = /^>=\d{4}\.\d{1,2}\.\d{1,2}(?:[-.][^"\s]+)?$/u;
 
-function syncBrikko StudioDependencyRange(
+function syncBrikkoStudioDependencyRange(
   deps: Record<string, string> | undefined,
   targetVersion: string,
 ): boolean {
@@ -55,7 +55,7 @@ function syncPluginApiVersion(pkg: PackageJson, targetVersion: string): boolean 
   return true;
 }
 
-function syncBuildBrikko StudioVersion(pkg: PackageJson, targetVersion: string): boolean {
+function syncBuildBrikkoStudioVersion(pkg: PackageJson, targetVersion: string): boolean {
   const build = pkg.brikko-studio?.build;
   const current = build?.brikko-studioVersion;
   if (!current) {
@@ -76,7 +76,7 @@ function ensureChangelogEntry(changelogPath: string, version: string, write: boo
   if (content.includes(`## ${version}`)) {
     return false;
   }
-  const entry = `## ${version}\n\n### Changes\n- Version alignment with core Brikko Studio release numbers.\n\n`;
+  const entry = `## ${version}\n\n### Changes\n- Version alignment with core BrikkoStudio release numbers.\n\n`;
   if (content.startsWith("# Changelog\n\n")) {
     const next = content.replace("# Changelog\n\n", `# Changelog\n\n${entry}`);
     if (write) {
@@ -132,18 +132,18 @@ export function syncPluginVersions(
     }
 
     const versionChanged = pkg.version !== targetVersion;
-    const devDependencyChanged = syncBrikko StudioDependencyRange(pkg.devDependencies, targetVersion);
-    const peerDependencyChanged = syncBrikko StudioDependencyRange(pkg.peerDependencies, targetVersion);
+    const devDependencyChanged = syncBrikkoStudioDependencyRange(pkg.devDependencies, targetVersion);
+    const peerDependencyChanged = syncBrikkoStudioDependencyRange(pkg.peerDependencies, targetVersion);
     // minHostVersion is a compatibility floor, not release alignment metadata.
     // Keep it stable unless the owning plugin intentionally raises it.
     const pluginApiChanged = syncPluginApiVersion(pkg, targetVersion);
-    const buildBrikko StudioVersionChanged = syncBuildBrikko StudioVersion(pkg, targetVersion);
+    const buildBrikkoStudioVersionChanged = syncBuildBrikkoStudioVersion(pkg, targetVersion);
     const packageChanged =
       versionChanged ||
       devDependencyChanged ||
       peerDependencyChanged ||
       pluginApiChanged ||
-      buildBrikko StudioVersionChanged;
+      buildBrikkoStudioVersionChanged;
     if (!packageChanged) {
       skipped.push(pkg.name);
       continue;

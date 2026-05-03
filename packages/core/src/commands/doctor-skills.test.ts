@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { SkillStatusEntry, SkillStatusReport } from "../agents/skills-status.js";
 import { createEmptyInstallChecks } from "../cli/requirements-test-fixtures.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   collectUnavailableAgentSkills,
   disableUnavailableSkillsInConfig,
@@ -88,7 +88,7 @@ describe("doctor skills", () => {
   });
 
   it("disables unavailable skills through skills.entries without dropping existing config", () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       skills: {
         entries: {
           gog: { env: { EXISTING: "1" } },

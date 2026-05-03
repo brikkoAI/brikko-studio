@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import { listBrikko StudioPluginManifestMetadata } from "./manifest-metadata-scan.js";
+import { listBrikkoStudioPluginManifestMetadata } from "./manifest-metadata-scan.js";
 
 const tempRoots: string[] = [];
 
@@ -17,7 +17,7 @@ function writeJson(filePath: string, value: unknown): void {
   fs.writeFileSync(filePath, JSON.stringify(value, null, 2), "utf8");
 }
 
-describe("listBrikko StudioPluginManifestMetadata", () => {
+describe("listBrikkoStudioPluginManifestMetadata", () => {
   afterEach(() => {
     for (const root of tempRoots.splice(0)) {
       fs.rmSync(root, { recursive: true, force: true });
@@ -42,7 +42,7 @@ describe("listBrikko StudioPluginManifestMetadata", () => {
       plugins: [{ rootDir: path.join(staleBundledRoot, "openai"), origin: "bundled" }],
     });
 
-    const records = listBrikko StudioPluginManifestMetadata({
+    const records = listBrikkoStudioPluginManifestMetadata({
       BRIKKO_STUDIO_HOME: home,
       BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledRoot,
     });

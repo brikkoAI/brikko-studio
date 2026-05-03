@@ -14,7 +14,7 @@ import { stageSandboxMedia } from "../../auto-reply/reply/stage-sandbox-media.js
 import type { MsgContext, TemplateContext } from "../../auto-reply/templating.js";
 import { extractCanvasFromText } from "../../chat/canvas-render.js";
 import { resolveSessionFilePath } from "../../config/sessions.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage, formatUncaughtError } from "../../infra/errors.js";
 import { jsonUtf8Bytes } from "../../infra/json-utf8-bytes.js";
 import { normalizeReplyPayloadsForDelivery } from "../../infra/outbound/payloads.js";
@@ -851,7 +851,7 @@ function stripTrailingOffloadedMediaMarkers(message: string, refs: OffloadedRef[
 async function prestageMediaPathOffloads(params: {
   offloadedRefs: OffloadedRef[];
   includeImageRefs?: boolean;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
   agentId: string;
 }): Promise<{ paths: string[]; types: string[]; workspaceDir?: string }> {
@@ -980,7 +980,7 @@ async function rewriteChatSendUserTurnMediaPaths(params: {
   sessionKey: string;
   message: string;
   savedImages: SavedMedia[];
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }) {
   const mediaFields = resolveChatSendTranscriptMediaFields(params.savedImages);
   if (!("MediaPath" in mediaFields)) {
@@ -1345,7 +1345,7 @@ async function appendAssistantTranscriptMessage(params: {
     origin: AbortOrigin;
     runId: string;
   };
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): Promise<TranscriptAppendResult> {
   const transcriptPath = resolveTranscriptPath({
     sessionId: params.sessionId,
@@ -2026,7 +2026,7 @@ export const chatHandlers: GatewayRequestHandlers = {
         model: modelRef.model,
       });
       // Bound plugin sessions own the real recipient model, so keep image
-      // attachments even when the parent Brikko Studio session model is text-only.
+      // attachments even when the parent BrikkoStudio session model is text-only.
       const supportsImages =
         supportsSessionModelImages ||
         explicitOriginTargetsAcpSession(explicitOriginResult.value) ||

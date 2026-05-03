@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   buildGetReplyCtx,
   createGetReplySessionState,
@@ -52,7 +52,7 @@ describe("getReplyFromConfig configOverride", () => {
           userTimezone: "UTC",
         },
       },
-    } satisfies Brikko StudioConfig);
+    } satisfies BrikkoStudioConfig);
 
     await getReplyFromConfig(buildGetReplyCtx(), undefined, {
       agents: {
@@ -60,7 +60,7 @@ describe("getReplyFromConfig configOverride", () => {
           userTimezone: "America/New_York",
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expectResolvedTelegramTimezone(mocks.resolveReplyDirectives);
   });
@@ -85,7 +85,7 @@ describe("getReplyFromConfig configOverride", () => {
             userTimezone: "America/New_York",
           },
         },
-      } satisfies Brikko StudioConfig),
+      } satisfies BrikkoStudioConfig),
     );
 
     expect(loadConfigMock).not.toHaveBeenCalled();

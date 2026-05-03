@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { MsgContext } from "../auto-reply/templating.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 
 const publicSurfaceLoaderMocks = vi.hoisted(() => ({
   loadBundledPluginPublicArtifactModuleSync: vi.fn(),
@@ -15,7 +15,7 @@ import {
 
 const cfg = {
   channels: {},
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 function unableToResolve(dirName: string, artifactBasename: string): Error {
   return new Error(

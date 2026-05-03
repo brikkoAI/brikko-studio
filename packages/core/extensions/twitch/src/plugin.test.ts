@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 import { twitchPlugin } from "./plugin.js";
 
 describe("twitchPlugin pairing", () => {
@@ -34,7 +34,7 @@ describe("twitchPlugin.status.buildAccountSnapshot", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const snapshot = await twitchPlugin.status?.buildAccountSnapshot?.({
       account: secondary,
@@ -69,7 +69,7 @@ describe("twitchPlugin.config", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(twitchPlugin.config.defaultAccountId?.(cfg)).toBe("secondary");
     expect(twitchPlugin.config.resolveAccount(cfg).accountId).toBe("secondary");

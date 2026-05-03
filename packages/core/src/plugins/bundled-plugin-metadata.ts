@@ -14,7 +14,7 @@ import {
 import {
   getPackageManifestMetadata,
   loadPluginManifest,
-  type Brikko StudioPackageManifest,
+  type BrikkoStudioPackageManifest,
   type PackageManifest,
   type PluginManifest,
 } from "./manifest.js";
@@ -45,7 +45,7 @@ export type BundledPluginMetadata = {
   packageName?: string;
   packageVersion?: string;
   packageDescription?: string;
-  packageManifest?: Brikko StudioPackageManifest;
+  packageManifest?: BrikkoStudioPackageManifest;
   manifest: PluginManifest;
 };
 

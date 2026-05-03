@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import type { ResolvedTelegramAccount } from "./accounts.js";
 import { createTelegramPluginBase, telegramConfigAdapter } from "./shared.js";
@@ -8,7 +8,7 @@ const telegramPluginBase = createTelegramPluginBase({
   setup: {} as never,
 });
 
-function createCfg(): Brikko StudioConfig {
+function createCfg(): BrikkoStudioConfig {
   return {
     channels: {
       telegram: {
@@ -20,10 +20,10 @@ function createCfg(): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-function resolveAccount(cfg: Brikko StudioConfig, accountId: string): ResolvedTelegramAccount {
+function resolveAccount(cfg: BrikkoStudioConfig, accountId: string): ResolvedTelegramAccount {
   return telegramPluginBase.config.resolveAccount(cfg, accountId);
 }
 
@@ -94,7 +94,7 @@ describe("createTelegramPluginBase config duplicate token guard", () => {
           enabled: true,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const account = resolveAccount(cfg, "default");
     expect(await telegramPluginBase.config.isConfigured!(account, cfg)).toBe(true);
@@ -108,7 +108,7 @@ describe("createTelegramPluginBase config duplicate token guard", () => {
           enabled: true,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const account = resolveAccount(cfg, "bot-main");
     expect(account.token).toBe("single-bot-token");
@@ -126,7 +126,7 @@ describe("createTelegramPluginBase config duplicate token guard", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const account = resolveAccount(cfg, "unknownBot");
     expect(await telegramPluginBase.config.isConfigured!(account, cfg)).toBe(false);
@@ -146,7 +146,7 @@ describe("createTelegramPluginBase config duplicate token guard", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const account = resolveAccount(cfg, "carey-notifications");
     expect(await telegramPluginBase.config.isConfigured!(account, cfg)).toBe(true);
@@ -160,7 +160,7 @@ describe("createTelegramPluginBase config duplicate token guard", () => {
           enabled: true,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const account = resolveAccount(cfg, "default");
     expect(await telegramPluginBase.config.isConfigured!(account, cfg)).toBe(false);
@@ -185,7 +185,7 @@ describe("createTelegramPluginBase config duplicate token guard", () => {
           defaultTo: "1498959610751750304",
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(telegramConfigAdapter.resolveAllowFrom?.({ cfg, accountId: "default" })).toEqual([
       "1128540374256849009",

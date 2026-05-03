@@ -1,5 +1,5 @@
 import http from "node:http";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { fetch as undiciFetch } from "undici";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createDiscordRestClient } from "./client.js";
@@ -36,7 +36,7 @@ describe("createDiscordRestClient proxy support", () => {
           proxy: "http://127.0.0.1:8080",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { rest } = createDiscordRestClient({ cfg });
     const requestClient = rest as unknown as {
@@ -55,7 +55,7 @@ describe("createDiscordRestClient proxy support", () => {
           token: "Bot test-token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { rest } = createDiscordRestClient({ cfg });
     const requestClient = rest as unknown as {
@@ -73,7 +73,7 @@ describe("createDiscordRestClient proxy support", () => {
           proxy: "bad-proxy",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { rest } = createDiscordRestClient({ cfg });
     const requestClient = rest as unknown as {
@@ -92,7 +92,7 @@ describe("createDiscordRestClient proxy support", () => {
           proxy: "http://proxy.test:8080",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { rest } = createDiscordRestClient({ cfg });
     const requestClient = rest as unknown as {
@@ -111,7 +111,7 @@ describe("createDiscordRestClient proxy support", () => {
           proxy: "http://[::1]:8080",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { rest } = createDiscordRestClient({ cfg });
     const requestClient = rest as unknown as {

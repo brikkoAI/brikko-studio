@@ -12,7 +12,7 @@ const mocks = vi.hoisted(() => ({
   resolveSystemNodeInfo: vi.fn(),
   renderSystemNodeWarning: vi.fn(),
   buildServiceEnvironment: vi.fn(),
-  resolveBrikko StudioWrapperPath: vi.fn(),
+  resolveBrikkoStudioWrapperPath: vi.fn(),
 }));
 
 vi.mock("./daemon-install-auth-profiles-source.runtime.js", () => ({
@@ -32,7 +32,7 @@ vi.mock("../daemon/runtime-paths.js", () => ({
 vi.mock("../daemon/program-args.js", () => ({
   BRIKKO_STUDIO_WRAPPER_ENV_KEY: "BRIKKO_STUDIO_WRAPPER",
   resolveGatewayProgramArguments: mocks.resolveGatewayProgramArguments,
-  resolveBrikko StudioWrapperPath: mocks.resolveBrikko StudioWrapperPath,
+  resolveBrikkoStudioWrapperPath: mocks.resolveBrikkoStudioWrapperPath,
 }));
 
 vi.mock("../daemon/service-env.js", () => ({
@@ -78,7 +78,7 @@ function mockNodeGatewayPlanFixture(
     ? params.workingDirectory
     : "/Users/me";
   mocks.resolvePreferredNodePath.mockResolvedValue("/opt/node");
-  mocks.resolveBrikko StudioWrapperPath.mockImplementation(async (value: string | undefined) =>
+  mocks.resolveBrikkoStudioWrapperPath.mockImplementation(async (value: string | undefined) =>
     value?.trim() ? path.resolve(value) : undefined,
   );
   mocks.resolveGatewayProgramArguments.mockResolvedValue({

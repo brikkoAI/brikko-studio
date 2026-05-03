@@ -1,5 +1,5 @@
 import { applyOwnerOnlyToolPolicy } from "../agents/tool-policy.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   buildMcpToolSchema,
   type McpLoopbackTool,
@@ -14,7 +14,7 @@ type CachedScopedTools = {
   agentId: string | undefined;
   tools: McpLoopbackTool[];
   toolSchema: McpToolSchemaEntry[];
-  configRef: Brikko StudioConfig;
+  configRef: BrikkoStudioConfig;
   time: number;
 };
 
@@ -22,7 +22,7 @@ export class McpLoopbackToolCache {
   #entries = new Map<string, CachedScopedTools>();
 
   resolve(params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     sessionKey: string;
     messageProvider: string | undefined;
     accountId: string | undefined;

@@ -1,6 +1,6 @@
 import { request as httpRequest } from "node:http";
 import { expect, vi } from "vitest";
-import type { Brikko StudioConfig, PluginRuntime } from "../runtime-api.js";
+import type { BrikkoStudioConfig, PluginRuntime } from "../runtime-api.js";
 import type { ResolvedZaloAccount } from "../types.js";
 
 function resolveLifecycleAllowFrom(params: {
@@ -16,7 +16,7 @@ function createLifecycleConfig(params: {
   allowFrom?: string[];
   webhookUrl?: string;
   webhookSecret?: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const webhookUrl = params.webhookUrl ?? "https://example.com/hooks/zalo";
   const webhookSecret = params.webhookSecret ?? "supersecret";
   const allowFrom = resolveLifecycleAllowFrom(params);
@@ -35,7 +35,7 @@ function createLifecycleConfig(params: {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createLifecycleAccount(params: {

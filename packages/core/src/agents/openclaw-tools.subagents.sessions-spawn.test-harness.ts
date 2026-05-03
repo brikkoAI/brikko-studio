@@ -13,7 +13,7 @@ type CreateSessionsSpawnTool =
   (typeof import("./tools/sessions-spawn-tool.js"))["createSessionsSpawnTool"];
 type SubagentRegistryTesting = (typeof import("./subagent-registry.js"))["__testing"];
 type SubagentSpawnTesting = (typeof import("./subagent-spawn.js"))["__testing"];
-type CreateBrikko StudioToolsOpts = Parameters<CreateSessionsSpawnTool>[0];
+type CreateBrikkoStudioToolsOpts = Parameters<CreateSessionsSpawnTool>[0];
 type GatewayRequest = { method?: string; params?: unknown; timeoutMs?: number };
 type AgentWaitCall = { runId?: string; timeoutMs?: number };
 type SessionsSpawnGatewayMockOptions = {
@@ -177,7 +177,7 @@ export function setSessionsSpawnAnnounceFlowOverride(next: RunSubagentAnnounceFl
   hoisted.state.runSubagentAnnounceFlowOverride = next;
 }
 
-export async function getSessionsSpawnTool(opts: CreateBrikko StudioToolsOpts) {
+export async function getSessionsSpawnTool(opts: CreateBrikkoStudioToolsOpts) {
   if (!cachedSubagentSpawnTesting || !cachedSubagentRegistryTesting) {
     const [{ __testing: subagentSpawnTesting }, { __testing: subagentRegistryTesting }] =
       await Promise.all([import("./subagent-spawn.js"), import("./subagent-registry.js")]);

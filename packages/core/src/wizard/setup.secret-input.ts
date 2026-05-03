@@ -1,8 +1,8 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeSecretInputString, resolveSecretInputRef } from "../config/types.secrets.js";
 import { resolveSecretRefString } from "../secrets/resolve.js";
 
-type SecretDefaults = NonNullable<Brikko StudioConfig["secrets"]>["defaults"];
+type SecretDefaults = NonNullable<BrikkoStudioConfig["secrets"]>["defaults"];
 
 function formatSecretResolutionError(error: unknown): string {
   if (error instanceof Error && error.message.trim().length > 0) {
@@ -12,7 +12,7 @@ function formatSecretResolutionError(error: unknown): string {
 }
 
 export async function resolveSetupSecretInputString(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   value: unknown;
   path: string;
   defaults?: SecretDefaults;

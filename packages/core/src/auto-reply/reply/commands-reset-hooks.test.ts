@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as bootstrapCache from "../../agents/bootstrap-cache.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { MsgContext } from "../templating.js";
 import { maybeHandleResetCommand } from "./commands-reset.js";
 import type { HandleCommandsParams } from "./commands-types.js";
@@ -59,7 +59,7 @@ vi.mock("./route-reply.runtime.js", () => ({
 
 function buildResetParams(
   commandBody: string,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   ctxOverrides?: Partial<MsgContext>,
 ): HandleCommandsParams {
   const ctx = {
@@ -127,7 +127,7 @@ describe("handleCommands reset hooks", () => {
         params: buildResetParams("/new take notes", {
           commands: { text: true },
           channels: { whatsapp: { allowFrom: ["*"] } },
-        } as Brikko StudioConfig),
+        } as BrikkoStudioConfig),
         expectedCall: expect.objectContaining({ type: "command", action: "new" }),
       },
       {
@@ -138,7 +138,7 @@ describe("handleCommands reset hooks", () => {
             {
               commands: { text: true },
               channels: { telegram: { allowFrom: ["*"] } },
-            } as Brikko StudioConfig,
+            } as BrikkoStudioConfig,
             {
               Provider: "telegram",
               Surface: "telegram",
@@ -181,7 +181,7 @@ describe("handleCommands reset hooks", () => {
       {
         commands: { text: true },
         channels: { discord: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       {
         Provider: "discord",
         Surface: "discord",
@@ -214,7 +214,7 @@ describe("handleCommands reset hooks", () => {
       {
         commands: { text: true },
         channels: { discord: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       {
         Provider: "discord",
         Surface: "discord",
@@ -239,7 +239,7 @@ describe("handleCommands reset hooks", () => {
       {
         commands: { text: true },
         channels: { whatsapp: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       {
         SenderId: "id:whatsapp:123",
         SenderName: "Alice",
@@ -269,7 +269,7 @@ describe("handleCommands reset hooks", () => {
     const params = buildResetParams("/reset", {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
     params.sessionEntry = {
       sessionId: "wrapper-session",
       updatedAt: Date.now(),
@@ -298,7 +298,7 @@ describe("handleCommands reset hooks", () => {
     const params = buildResetParams("/reset soft", {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
     params.sessionEntry = {
       sessionId: "session-1",
       updatedAt: Date.now(),
@@ -341,7 +341,7 @@ describe("handleCommands reset hooks", () => {
       {
         commands: { text: true },
         channels: { webchat: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       {
         Provider: "webchat",
         Surface: "webchat",
@@ -366,7 +366,7 @@ describe("handleCommands reset hooks", () => {
     const params = buildResetParams("/reset soft", {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
     params.sessionEntry = {
       sessionId: "session-direct",
       updatedAt: 1,
@@ -414,7 +414,7 @@ describe("handleCommands reset hooks", () => {
       {
         commands: { text: true },
         channels: { discord: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       {
         Provider: "discord",
         Surface: "discord",
@@ -436,7 +436,7 @@ describe("handleCommands reset hooks", () => {
     const params = buildResetParams("/reset", {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     const result = await maybeHandleResetCommand(params);
 
@@ -453,7 +453,7 @@ describe("handleCommands reset hooks", () => {
     const params = buildResetParams("/new", {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     const result = await maybeHandleResetCommand(params);
 
@@ -470,7 +470,7 @@ describe("handleCommands reset hooks", () => {
     const params = buildResetParams("/new take notes", {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     const result = await maybeHandleResetCommand(params);
 

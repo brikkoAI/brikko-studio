@@ -63,7 +63,7 @@ describe("renderChatAvatar", () => {
   it("uses the assistant fallback while authenticated avatar routes are loading", () => {
     const avatar = renderAvatar([
       "assistant",
-      { avatar: "/avatar/main", name: "Brikko Studio" },
+      { avatar: "/avatar/main", name: "BrikkoStudio" },
       undefined,
       "",
       "session-token",

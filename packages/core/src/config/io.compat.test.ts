@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import { normalizeCompatibilityConfigValues } from "../commands/doctor-legacy-config.js";
 import { createConfigIO } from "./io.js";
 import { normalizeExecSafeBinProfilesInConfig } from "./normalize-exec-safe-bin.js";
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 
 async function withTempHome(run: (home: string) => Promise<void>): Promise<void> {
   const home = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-config-"));
@@ -171,7 +171,7 @@ describe("config io paths", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
     expect(migrated.config.channels?.whatsapp?.accounts?.default).toMatchObject({
       dmPolicy: "allowlist",
       allowFrom: ["+15550001111"],

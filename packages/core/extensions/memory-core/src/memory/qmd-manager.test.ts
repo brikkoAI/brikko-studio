@@ -125,7 +125,7 @@ vi.mock("brikko-studio/plugin-sdk/file-lock", async () => {
 });
 
 import { spawn as mockedSpawn } from "node:child_process";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import {
   requireNodeSqlite,
   resolveMemoryBackendConfig,
@@ -143,7 +143,7 @@ describe("QmdMemoryManager", () => {
   let tmpRoot: string;
   let workspaceDir: string;
   let stateDir: string;
-  let cfg: Brikko StudioConfig;
+  let cfg: BrikkoStudioConfig;
   const agentId = "main";
   const openManagers = new Set<QmdMemoryManager>();
   let embedStartupJitterSpy: { mockRestore: () => void } | null = null;
@@ -173,7 +173,7 @@ describe("QmdMemoryManager", () => {
 
   async function createManager(params?: {
     mode?: "full" | "status" | "cli";
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
   }) {
     const cfgToUse = params?.cfg ?? cfg;
     const resolved = resolveMemoryBackendConfig({ cfg: cfgToUse, agentId });
@@ -239,7 +239,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     seedMemoryEmbeddingProviders();
     embedStartupJitterSpy = vi
       .spyOn(
@@ -324,7 +324,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       const child = createMockChild({ autoClose: false });
@@ -368,7 +368,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     let releaseUpdate: (() => void) | null = null;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
@@ -423,7 +423,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { manager } = await createManager({ mode: "full" });
     expect(watchMock).toHaveBeenCalledTimes(1);
@@ -468,7 +468,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     let releaseUpdate: (() => void) | null = null;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
@@ -497,7 +497,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { manager } = await createManager({ mode: "status" });
     expect(spawnMock).not.toHaveBeenCalled();
@@ -515,7 +515,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { manager } = await createManager({ mode: "cli" });
 
@@ -544,7 +544,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const updateSpawned = createDeferred<void>();
     let releaseUpdate: (() => void) | null = null;
@@ -588,7 +588,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "collection" && args[1] === "list") {
@@ -622,7 +622,7 @@ describe("QmdMemoryManager", () => {
           sessions: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const sessionCollectionName = `sessions-${devAgentId}`;
     const wrongSessionsPath = path.join(stateDir, "agents", agentId, "qmd", "sessions");
@@ -683,7 +683,7 @@ describe("QmdMemoryManager", () => {
           sessions: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const sessionCollectionName = `sessions-${agentId}`;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
@@ -721,7 +721,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "collection" && args[1] === "list") {
@@ -770,7 +770,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const legacyCollections = new Map<
       string,
@@ -854,7 +854,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const listedCollections = new Map<
       string,
@@ -932,7 +932,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const listedCollections = new Map<
       string,
@@ -1012,7 +1012,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "collection" && args[1] === "list") {
@@ -1049,7 +1049,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const removed: string[] = [];
     const added = new Map<string, string>();
@@ -1116,7 +1116,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const removed: string[] = [];
     const added = new Map<string, string>();
@@ -1181,7 +1181,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const addFlagCalls: string[] = [];
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
@@ -1223,7 +1223,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const removeCalls: string[] = [];
     const addCalls: string[] = [];
@@ -1279,7 +1279,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const differentPath = path.join(tmpRoot, "other-memory");
     await fs.mkdir(differentPath, { recursive: true });
@@ -1330,7 +1330,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "update") {
         return createMockChild({ autoClose: false });
@@ -1364,7 +1364,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     let updateCalls = 0;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
@@ -1421,7 +1421,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     let updateCalls = 0;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
@@ -1478,7 +1478,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     let updateCalls = 0;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
@@ -1535,7 +1535,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "update") {
@@ -1570,7 +1570,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "update") {
@@ -1611,7 +1611,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search") {
         const child = createMockChild({ autoClose: false });
@@ -1662,7 +1662,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const expectedDocId = "abc123";
     let missingCollectionSeen = false;
@@ -1796,7 +1796,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search") {
         const child = createMockChild({ autoClose: false });
@@ -1843,7 +1843,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search") {
         const child = createMockChild({ autoClose: false });
@@ -1877,7 +1877,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search") {
         const child = createMockChild({ autoClose: false });
@@ -1912,7 +1912,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "query") {
         const child = createMockChild({ autoClose: false });
@@ -1946,7 +1946,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search") {
         const child = createMockChild({ autoClose: false });
@@ -2000,7 +2000,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const firstUpdateSpawned = createDeferred<void>();
     let updateCalls = 0;
@@ -2052,7 +2052,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const firstUpdateSpawned = createDeferred<void>();
     const secondUpdateSpawned = createDeferred<void>();
@@ -2118,7 +2118,7 @@ describe("QmdMemoryManager", () => {
           ],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search") {
@@ -2160,7 +2160,7 @@ describe("QmdMemoryManager", () => {
           ],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "--help") {
@@ -2218,7 +2218,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "--help") {
@@ -2267,7 +2267,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search") {
@@ -2308,7 +2308,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: sharedMirrorDir, pattern: "**/*.md", name: "notion-mirror" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search") {
@@ -2350,7 +2350,7 @@ describe("QmdMemoryManager", () => {
           ],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "query") {
@@ -2396,7 +2396,7 @@ describe("QmdMemoryManager", () => {
           ],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search") {
@@ -2445,7 +2445,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((cmd: string, args: string[]) => {
       const child = createMockChild({ autoClose: false });
@@ -2489,7 +2489,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((cmd: string, args: string[]) => {
       const child = createMockChild({ autoClose: false });
@@ -2539,7 +2539,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     let callCount = 0;
     spawnMock.mockImplementation((cmd: string, args: string[]) => {
@@ -2601,7 +2601,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     let expectedLimit = 0;
     spawnMock.mockImplementation((cmd: string, args: string[]) => {
@@ -2644,7 +2644,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((cmd: string, args: string[]) => {
       const child = createMockChild({ autoClose: false });
@@ -2718,7 +2718,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((cmd: string, args: string[]) => {
       const child = createMockChild({ autoClose: false });
@@ -2791,7 +2791,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((cmd: string, args: string[]) => {
       const child = createMockChild({ autoClose: false });
@@ -2832,7 +2832,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const selectors: string[] = [];
     let expectedLimit = 0;
@@ -2888,7 +2888,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const selectors: string[] = [];
     const collections: string[] = [];
@@ -2936,7 +2936,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const selectors: string[] = [];
     let firstQueryCall = true;
@@ -2991,7 +2991,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const selectors: string[] = [];
     let firstQueryCall = true;
@@ -3078,7 +3078,7 @@ describe("QmdMemoryManager", () => {
             mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
           },
         },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       spawnMock.mockImplementation((_cmd: string, args: string[]) => {
         const child = createMockChild({ autoClose: false });
@@ -3129,7 +3129,7 @@ describe("QmdMemoryManager", () => {
             mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
           },
         },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       let firstCallCommand: string | null = null;
       spawnMock.mockImplementation((cmd: string, args: string[]) => {
@@ -3182,7 +3182,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((cmd: string, args: string[]) => {
       const child = createMockChild({ autoClose: false });
@@ -3225,7 +3225,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     let daemonAttempts = 0;
     spawnMock.mockImplementation((cmd: string, args: string[]) => {
@@ -3269,7 +3269,7 @@ describe("QmdMemoryManager", () => {
           mcporter: { enabled: true, serverName: "qmd", startDaemon: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((cmd: string, args: string[]) => {
       const child = createMockChild({ autoClose: false });
@@ -3309,7 +3309,7 @@ describe("QmdMemoryManager", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { manager } = await createManager();
 
@@ -3333,7 +3333,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search" && args.includes("workspace-main")) {
@@ -3418,7 +3418,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "embed") {
         return createMockChild({ autoClose: false });
@@ -3459,7 +3459,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { manager } = await createManager({ mode: "full" });
 
@@ -3497,7 +3497,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { manager } = await createManager({ mode: "full" });
 
@@ -3529,7 +3529,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { manager } = await createManager({ mode: "full" });
 
@@ -3561,7 +3561,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { manager } = await createManager({ mode: "full" });
 
@@ -3602,7 +3602,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { manager } = await createManager({ mode: "full" });
 
@@ -3634,7 +3634,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const embedChildren: MockChild[] = [];
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "embed") {
@@ -3695,7 +3695,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const sessionsDir = path.join(stateDir, "agents", agentId, "sessions");
     await fs.mkdir(sessionsDir, { recursive: true });
@@ -3765,7 +3765,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const sessionsDir = path.join(stateDir, "agents", agentId, "sessions");
     await fs.mkdir(sessionsDir, { recursive: true });
@@ -3831,7 +3831,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { manager } = await createManager({ mode: "status" });
     await manager.sync({ reason: "manual", force: true });
@@ -3860,7 +3860,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     let updateCalls = 0;
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
@@ -3933,7 +3933,7 @@ describe("QmdMemoryManager", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const { manager } = await createManager();
 
     const isAllowed = (key?: string) =>
@@ -3962,7 +3962,7 @@ describe("QmdMemoryManager", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const { manager } = await createManager();
 
     logWarnMock.mockClear();
@@ -4134,7 +4134,7 @@ describe("QmdMemoryManager", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const { manager } = await createManager();
 
@@ -4307,7 +4307,7 @@ describe("QmdMemoryManager", () => {
           ],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const duplicateDocid = "dup-123";
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
@@ -4374,7 +4374,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search") {
@@ -4429,7 +4429,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search") {
@@ -4520,7 +4520,7 @@ describe("QmdMemoryManager", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search" && args.includes("workspace-main")) {
@@ -4598,7 +4598,7 @@ describe("QmdMemoryManager", () => {
           ],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     spawnMock.mockImplementation((_cmd: string, args: string[]) => {
       if (args[0] === "search" && args.includes("workspace-main")) {
@@ -4761,7 +4761,7 @@ describe("QmdMemoryManager", () => {
           ...cfg.memory,
           qmd: { ...cfg.memory?.qmd, searchMode: "query" },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     await expect(manager.probeVectorAvailability()).resolves.toBe(false);
@@ -4795,7 +4795,7 @@ describe("QmdMemoryManager", () => {
           ...cfg.memory,
           qmd: { ...cfg.memory?.qmd, searchMode: "query" },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     await expect(manager.probeVectorAvailability()).resolves.toBe(true);
@@ -4834,7 +4834,7 @@ describe("QmdMemoryManager", () => {
           ...cfg.memory,
           qmd: { ...cfg.memory?.qmd, searchMode: "query" },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     await expect(manager.probeVectorAvailability()).resolves.toBe(true);
@@ -4858,7 +4858,7 @@ describe("QmdMemoryManager", () => {
           ...cfg.memory,
           qmd: { ...cfg.memory?.qmd, searchMode: "query" },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     await expect(manager.probeVectorAvailability()).resolves.toBe(false);
@@ -4879,7 +4879,7 @@ describe("QmdMemoryManager", () => {
           ...cfg.memory,
           qmd: { ...cfg.memory?.qmd, searchMode: "search" },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
     const baselineCalls = spawnMock.mock.calls.length;
 

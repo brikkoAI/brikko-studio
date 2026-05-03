@@ -5,7 +5,7 @@ import {
 } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import type { WizardPrompter } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import { nostrSetupWizard } from "./setup-surface.js";
 import {
   TEST_HEX_PRIVATE_KEY,
@@ -23,7 +23,7 @@ function normalizeNostrTestEntry(entry: string): string {
 }
 
 function resolveNostrTestDmPolicy(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ReturnType<typeof resolveNostrAccount>;
 }) {
   return {
@@ -48,7 +48,7 @@ const nostrTestPlugin = {
   },
   config: {
     listAccountIds: listNostrAccountIds,
-    resolveAccount: (cfg: Brikko StudioConfig, accountId?: string | null) =>
+    resolveAccount: (cfg: BrikkoStudioConfig, accountId?: string | null) =>
       resolveNostrAccount({ cfg, accountId }),
   },
   messaging: {
@@ -86,7 +86,7 @@ const nostrTestPlugin = {
       cfg,
       accountId,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       accountId?: string;
       input: unknown;
     }) => accountId?.trim() || resolveDefaultNostrAccountId(cfg),
@@ -273,7 +273,7 @@ describe("nostr setup wizard", () => {
 
     const result = await runSetupWizardConfigure({
       configure: nostrConfigure,
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       prompter,
       options: {},
     });
@@ -299,7 +299,7 @@ describe("nostr setup wizard", () => {
 
     const result = await runSetupWizardConfigure({
       configure: nostrConfigure,
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       prompter,
       options: {},
       accountOverrides: {
@@ -315,7 +315,7 @@ describe("nostr setup wizard", () => {
   it("uses configured defaultAccount when setup accountId is omitted", () => {
     expect(
       nostrTestPlugin.setup?.resolveAccountId?.({
-        cfg: createConfiguredNostrCfg({ defaultAccount: "work" }) as Brikko StudioConfig,
+        cfg: createConfiguredNostrCfg({ defaultAccount: "work" }) as BrikkoStudioConfig,
         accountId: undefined,
         input: {},
       } as never),

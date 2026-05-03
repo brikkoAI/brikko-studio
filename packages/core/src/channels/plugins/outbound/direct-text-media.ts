@@ -7,14 +7,14 @@ import {
   sendTextMediaPayload,
 } from "brikko-studio/plugin-sdk/reply-payload";
 import { chunkText } from "../../../auto-reply/chunk.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import type { OutboundSendDeps } from "../../../infra/outbound/deliver.js";
 import type { OutboundMediaAccess } from "../../../media/load-options.js";
 import { resolveChannelMediaMaxBytes } from "../media-limits.js";
 import type { ChannelOutboundAdapter } from "../types.adapters.js";
 
 type DirectSendOptions = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   replyToId?: string | null;
   mediaUrl?: string;
@@ -40,9 +40,9 @@ export {
 } from "brikko-studio/plugin-sdk/reply-payload";
 
 export function resolveScopedChannelMediaMaxBytes(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
-  resolveChannelLimitMb: (params: { cfg: Brikko StudioConfig; accountId: string }) => number | undefined;
+  resolveChannelLimitMb: (params: { cfg: BrikkoStudioConfig; accountId: string }) => number | undefined;
 }): number | undefined {
   return resolveChannelMediaMaxBytes({
     cfg: params.cfg,
@@ -52,7 +52,7 @@ export function resolveScopedChannelMediaMaxBytes(params: {
 }
 
 export function createScopedChannelMediaMaxBytesResolver(channel: string) {
-  return (params: { cfg: Brikko StudioConfig; accountId?: string | null }) =>
+  return (params: { cfg: BrikkoStudioConfig; accountId?: string | null }) =>
     resolveScopedChannelMediaMaxBytes({
       cfg: params.cfg,
       accountId: params.accountId,
@@ -69,14 +69,14 @@ export function createDirectTextMediaOutbound<
   channel: string;
   resolveSender: (deps: OutboundSendDeps | undefined) => DirectSendFn<TOpts, TResult>;
   resolveMaxBytes: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
   }) => number | undefined;
   buildTextOptions: (params: DirectSendOptions) => TOpts;
   buildMediaOptions: (params: DirectSendOptions) => TOpts;
 }): ChannelOutboundAdapter {
   const sendDirect = async (sendParams: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     to: string;
     text: string;
     accountId?: string | null;

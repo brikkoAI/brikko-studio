@@ -1,5 +1,5 @@
 import type { ApiKeyCredential } from "../../../agents/auth-profiles/types.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import type { SecretInput } from "../../../config/types.secrets.js";
 import { formatErrorMessage } from "../../../infra/errors.js";
 import { resolveManifestDeprecatedProviderAuthChoice } from "../../../plugins/provider-auth-choices.js";
@@ -26,12 +26,12 @@ type ResolvedNonInteractiveApiKey = NonNullable<
 >;
 
 export async function applyNonInteractiveAuthChoice(params: {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   authChoice: AuthChoice;
   opts: OnboardOptions;
   runtime: RuntimeEnv;
-  baseConfig: Brikko StudioConfig;
-}): Promise<Brikko StudioConfig | null> {
+  baseConfig: BrikkoStudioConfig;
+}): Promise<BrikkoStudioConfig | null> {
   const { opts, runtime, baseConfig } = params;
   const authChoice = normalizeApiKeyTokenProviderAuthChoice({
     authChoice: params.authChoice,

@@ -24,7 +24,7 @@ describe("talk silence timeout defaults", () => {
   });
 
   it("matches the Apple and Android runtime constants", () => {
-    const macDefaults = readRepoFile("apps/macos/Sources/Brikko Studio/TalkDefaults.swift");
+    const macDefaults = readRepoFile("apps/macos/Sources/BrikkoStudio/TalkDefaults.swift");
     const iosDefaults = readRepoFile("apps/ios/Sources/Voice/TalkDefaults.swift");
     const androidDefaults = readRepoFile(
       "apps/android/app/src/main/java/ai/brikko-studio/app/voice/TalkDefaults.kt",

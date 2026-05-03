@@ -19,10 +19,10 @@ export type {
   AcpSessionUpdateTag,
 } from "brikko-studio/plugin-sdk/acp-runtime-backend";
 export type {
-  Brikko StudioPluginApi,
-  Brikko StudioPluginConfigSchema,
-  Brikko StudioPluginService,
-  Brikko StudioPluginServiceContext,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginConfigSchema,
+  BrikkoStudioPluginService,
+  BrikkoStudioPluginServiceContext,
   PluginLogger,
 } from "brikko-studio/plugin-sdk/core";
 export type {

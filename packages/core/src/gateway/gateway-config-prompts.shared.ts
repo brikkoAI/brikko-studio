@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { getTailnetHostname } from "../infra/tailscale.js";
 import { isIpv6Address, parseCanonicalIpAddress } from "../shared/net/ip.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
@@ -65,10 +65,10 @@ function appendAllowedOrigin(existing: string[] | undefined, origin: string): st
 }
 
 export async function maybeAddTailnetOriginToControlUiAllowedOrigins(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   tailscaleMode: string;
   tailscaleBin?: string | null;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   if (params.tailscaleMode !== "serve" && params.tailscaleMode !== "funnel") {
     return params.config;
   }

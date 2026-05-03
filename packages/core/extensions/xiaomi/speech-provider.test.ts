@@ -142,7 +142,7 @@ describe("buildXiaomiSpeechProvider", () => {
       );
 
       const result = await provider.synthesize({
-        text: "Hello from Brikko Studio.",
+        text: "Hello from BrikkoStudio.",
         cfg: {} as never,
         providerConfig: {
           apiKey: "sk-test",
@@ -167,7 +167,7 @@ describe("buildXiaomiSpeechProvider", () => {
       expect(body.model).toBe("mimo-v2-tts");
       expect(body.messages).toEqual([
         { role: "user", content: "Bright." },
-        { role: "assistant", content: "Hello from Brikko Studio." },
+        { role: "assistant", content: "Hello from BrikkoStudio." },
       ]);
       expect(body.audio).toEqual({ format: "mp3", voice: "default_en" });
       expect(transcodeAudioBufferToOpusMock).not.toHaveBeenCalled();
@@ -184,7 +184,7 @@ describe("buildXiaomiSpeechProvider", () => {
       transcodeAudioBufferToOpusMock.mockResolvedValueOnce(Buffer.from("fake-opus-audio"));
 
       const result = await provider.synthesize({
-        text: "Hello from Brikko Studio.",
+        text: "Hello from BrikkoStudio.",
         cfg: {} as never,
         providerConfig: { apiKey: "sk-test" },
         target: "voice-note",

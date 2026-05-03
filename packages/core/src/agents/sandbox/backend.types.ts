@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { SandboxBackendHandle, SandboxBackendId } from "./backend-handle.types.js";
 import type { SandboxRegistryEntry } from "./registry.js";
 import type { SandboxConfig } from "./types.js";
@@ -12,12 +12,12 @@ export type SandboxBackendRuntimeInfo = {
 export type SandboxBackendManager = {
   describeRuntime(params: {
     entry: SandboxRegistryEntry;
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     agentId?: string;
   }): Promise<SandboxBackendRuntimeInfo>;
   removeRuntime(params: {
     entry: SandboxRegistryEntry;
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     agentId?: string;
   }): Promise<void>;
 };

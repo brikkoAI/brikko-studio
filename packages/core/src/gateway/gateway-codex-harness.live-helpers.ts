@@ -71,7 +71,7 @@ export const EXPECTED_CODEX_MODELS_COMMAND_TEXT = [
   "Active model: `codex/",
   "Current active model is `openai/",
   "Current active model is `codex/",
-  "Current Brikko Studio session status reports the active model as:",
+  "Current BrikkoStudio session status reports the active model as:",
 ] as const;
 
 export const EXPECTED_CODEX_STATUS_COMMAND_TEXT = [
@@ -80,8 +80,8 @@ export const EXPECTED_CODEX_STATUS_COMMAND_TEXT = [
   "Model: codex/",
   "Session: `agent:dev:live-codex-harness`",
   "Session: agent:dev:live-codex-harness",
-  "Brikko Studio `",
-  "Brikko Studio status:",
+  "BrikkoStudio `",
+  "BrikkoStudio status:",
   "Status: running on",
   "model `codex/",
   "session `agent:dev:live-codex-harness`",
@@ -91,7 +91,7 @@ export const EXPECTED_CODEX_STATUS_COMMAND_TEXT = [
 
 export function isExpectedCodexStatusCommandText(text: string): boolean {
   const normalized = text.toLowerCase();
-  const mentionsBrikko StudioStatus =
+  const mentionsBrikkoStudioStatus =
     normalized.includes("brikko-studio is running on") ||
     /brikko-studio\s+\S+\s+is running on/u.test(normalized) ||
     normalized.includes("brikko-studio status:") ||
@@ -133,7 +133,7 @@ export function isExpectedCodexStatusCommandText(text: string): boolean {
     isCurrentSessionStatus ||
     isCompactSessionStatus ||
     isRunningSessionStatus ||
-    (mentionsBrikko StudioStatus && mentionsHarnessSession && mentionsModel)
+    (mentionsBrikkoStudioStatus && mentionsHarnessSession && mentionsModel)
   );
 }
 

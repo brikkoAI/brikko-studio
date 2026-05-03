@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { loadSessionStore, saveSessionStore } from "../../config/sessions/store.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
 import type { MsgContext } from "../templating.js";
@@ -24,7 +24,7 @@ describe("initSessionState - heartbeat should not trigger session reset", () => 
     await fs.rm(tempDir, { recursive: true, force: true });
   });
 
-  const createBaseConfig = (): Brikko StudioConfig => ({
+  const createBaseConfig = (): BrikkoStudioConfig => ({
     agents: {
       defaults: {
         workspace: tempDir,

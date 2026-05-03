@@ -57,7 +57,7 @@ function formatLocalSetupError(err: unknown): string {
     "To enable local embeddings:",
     "1) Use Node 24 (recommended for installs/updates; Node 22 LTS, currently 22.14+, remains supported)",
     missing
-      ? `2) Install ${NODE_LLAMA_CPP_RUNTIME_PACKAGE} next to the Brikko Studio package or source checkout`
+      ? `2) Install ${NODE_LLAMA_CPP_RUNTIME_PACKAGE} next to the BrikkoStudio package or source checkout`
       : null,
     `3) If you use pnpm: pnpm approve-builds (select ${NODE_LLAMA_CPP_RUNTIME_PACKAGE}), then pnpm rebuild ${NODE_LLAMA_CPP_RUNTIME_PACKAGE}`,
     ...listRemoteEmbeddingSetupHints(),

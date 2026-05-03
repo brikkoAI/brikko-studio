@@ -1,12 +1,12 @@
 import { resolveAckReaction } from "brikko-studio/plugin-sdk/channel-feedback";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { CoreConfig } from "../../types.js";
 import { resolveMatrixAccountConfig } from "../account-config.js";
 
 type MatrixAckReactionScope = "group-mentions" | "group-all" | "direct" | "all" | "none" | "off";
 
 export function resolveMatrixAckReactionConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   accountId?: string | null;
 }): { ackReaction: string; ackReactionScope: MatrixAckReactionScope } {

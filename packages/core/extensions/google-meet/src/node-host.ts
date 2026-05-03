@@ -343,7 +343,7 @@ function startChrome(params: Record<string, unknown>) {
             status: "chrome-opened",
             browserUrl: url,
             notes: [
-              "Browser page control is handled by Brikko Studio browser automation when using chrome-node.",
+              "Browser page control is handled by BrikkoStudio browser automation when using chrome-node.",
             ],
           }
         : undefined,

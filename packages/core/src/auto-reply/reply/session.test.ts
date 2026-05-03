@@ -7,7 +7,7 @@ import {
   __testing as sessionMcpTesting,
   getOrCreateSessionMcpRuntime,
 } from "../../agents/pi-bundle-mcp-tools.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions.js";
 import { formatZonedTimestamp } from "../../infra/format-time/format-datetime.ts";
 import {
@@ -362,7 +362,7 @@ describe("initSessionState thread forking", () => {
 
     const cfg = {
       session: { store: storePath },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const threadSessionKey = "agent:main:slack:channel:c1:thread:123";
     const threadLabel = "Slack thread #general: starter";
@@ -455,7 +455,7 @@ describe("initSessionState thread forking", () => {
 
     const cfg = {
       session: { store: storePath },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const first = await initSessionState({
       ctx: {
@@ -533,7 +533,7 @@ describe("initSessionState thread forking", () => {
 
     const cfg = {
       session: { store: storePath },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const threadSessionKey = "agent:main:slack:channel:c1:thread:456";
     const result = await initSessionState({
@@ -588,7 +588,7 @@ describe("initSessionState thread forking", () => {
 
     const cfg = {
       session: { store: storePath },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const threadSessionKey = "agent:main:slack:channel:c1:thread:estimated";
     const result = await initSessionState({
@@ -620,7 +620,7 @@ describe("initSessionState thread forking", () => {
 
     const cfg = {
       session: { store: storePath },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -645,7 +645,7 @@ describe("initSessionState thread forking", () => {
 
     const cfg = {
       session: { store: storePath },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     setActivePluginRegistry(createSessionConversationTestRegistry());
     try {
@@ -673,7 +673,7 @@ describe("initSessionState RawBody", () => {
   it("uses RawBody for command extraction and reset triggers when Body contains wrapped context", async () => {
     const root = await makeCaseDir("brikko-studio-rawbody-");
     const storePath = path.join(root, "sessions.json");
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const statusResult = await initSessionState({
       ctx: {
@@ -710,7 +710,7 @@ describe("initSessionState RawBody", () => {
         store: storePath,
         resetTriggers: ["/new"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const ctx = {
       RawBody: "/NEW KeepThisCase",
@@ -750,7 +750,7 @@ describe("initSessionState RawBody", () => {
         store: storePath,
         resetTriggers: ["/new"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -810,7 +810,7 @@ describe("initSessionState RawBody", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -854,7 +854,7 @@ describe("initSessionState RawBody", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -914,7 +914,7 @@ describe("initSessionState RawBody", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -958,7 +958,7 @@ describe("initSessionState RawBody", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -1016,7 +1016,7 @@ describe("initSessionState RawBody", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     sessionBindingTesting.resetSessionBindingAdaptersForTests();
     registerSessionBindingAdapter({
@@ -1101,7 +1101,7 @@ describe("initSessionState RawBody", () => {
           allowFrom: ["*"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -1129,7 +1129,7 @@ describe("initSessionState RawBody", () => {
     const targetSessionKey = "agent:main:main";
     const cfg = {
       session: { store: storePath },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     setMinimalCurrentConversationBindingRegistryForTests();
     registerCurrentConversationBindingAdapterForTest({
@@ -1190,7 +1190,7 @@ describe("initSessionState RawBody", () => {
         },
       });
 
-      const cfg = {} as Brikko StudioConfig;
+      const cfg = {} as BrikkoStudioConfig;
       const result = await initSessionState({
         ctx: {
           Body: "hello",
@@ -1286,7 +1286,7 @@ describe("initSessionState RawBody", () => {
       },
       cfg: {
         session: { store: storePath },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       commandAuthorized: true,
     });
 
@@ -1328,7 +1328,7 @@ describe("initSessionState reset policy", () => {
       sessionKey: existingSessionId,
     });
 
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: { Body: "hello", SessionKey: sessionKey },
       cfg,
@@ -1366,7 +1366,7 @@ describe("initSessionState reset policy", () => {
       },
     });
 
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: { Body: "hello", SessionKey: sessionKey },
       cfg,
@@ -1396,7 +1396,7 @@ describe("initSessionState reset policy", () => {
         store: storePath,
         reset: { mode: "daily", atHour: 4, idleMinutes: 30 },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: { Body: "hello", SessionKey: sessionKey },
       cfg,
@@ -1430,7 +1430,7 @@ describe("initSessionState reset policy", () => {
         store: storePath,
         reset: { mode: "idle", idleMinutes: 30 },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: { Body: "hello", SessionKey: sessionKey },
       cfg,
@@ -1470,7 +1470,7 @@ describe("initSessionState reset policy", () => {
         store: storePath,
         reset: { mode: "daily", atHour: 4, idleMinutes: 30 },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: {
         Body: "/reset soft",
@@ -1510,7 +1510,7 @@ describe("initSessionState reset policy", () => {
         store: storePath,
         reset: { mode: "daily", atHour: 4, idleMinutes: 30 },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: {
         Body: "/reset: soft",
@@ -1550,7 +1550,7 @@ describe("initSessionState reset policy", () => {
         store: storePath,
         reset: { mode: "daily", atHour: 4, idleMinutes: 30 },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: {
         Body: "/reset soft\nre-read persona files",
@@ -1590,7 +1590,7 @@ describe("initSessionState reset policy", () => {
         store: storePath,
         reset: { mode: "daily", atHour: 4, idleMinutes: 30 },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: {
         Body: "/reset soft",
@@ -1633,7 +1633,7 @@ describe("initSessionState reset policy", () => {
         reset: { mode: "daily", atHour: 4 },
         resetByType: { thread: { mode: "idle", idleMinutes: 180 } },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: { Body: "reply", SessionKey: sessionKey, ThreadLabel: "Slack thread" },
       cfg,
@@ -1663,7 +1663,7 @@ describe("initSessionState reset policy", () => {
         store: storePath,
         resetByType: { thread: { mode: "idle", idleMinutes: 180 } },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: { Body: "reply", SessionKey: sessionKey, ThreadLabel: "Discord thread" },
       cfg,
@@ -1693,7 +1693,7 @@ describe("initSessionState reset policy", () => {
         store: storePath,
         resetByType: { thread: { mode: "idle", idleMinutes: 60 } },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: { Body: "hello", SessionKey: sessionKey },
       cfg,
@@ -1723,7 +1723,7 @@ describe("initSessionState reset policy", () => {
         store: storePath,
         idleMinutes: 240,
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: { Body: "hello", SessionKey: sessionKey },
       cfg,
@@ -1758,7 +1758,7 @@ describe("initSessionState browser tab cleanup", () => {
         store: storePath,
         reset: { mode: "daily", atHour: 4, idleMinutes: 30 },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: { Body: "hello", SessionKey: sessionKey },
       cfg,
@@ -1787,7 +1787,7 @@ describe("initSessionState browser tab cleanup", () => {
 
     const cfg = {
       session: { store: storePath, idleMinutes: 999 },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: {
         Body: "/new",
@@ -1813,7 +1813,7 @@ describe("initSessionState browser tab cleanup", () => {
 
     const cfg = {
       session: { store: storePath, idleMinutes: 999 },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await initSessionState({
       ctx: {
         Body: "hello",
@@ -1850,7 +1850,7 @@ describe("initSessionState channel reset overrides", () => {
         resetByType: { direct: { mode: "idle", idleMinutes: 10 } },
         resetByChannel: { discord: { mode: "idle", idleMinutes: 10080 } },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -1881,7 +1881,7 @@ describe("initSessionState reset triggers in WhatsApp groups", () => {
     });
   }
 
-  function makeCfg(params: { storePath: string; allowFrom: string[] }): Brikko StudioConfig {
+  function makeCfg(params: { storePath: string; allowFrom: string[] }): BrikkoStudioConfig {
     return {
       session: { store: params.storePath, idleMinutes: 999 },
       channels: {
@@ -1890,7 +1890,7 @@ describe("initSessionState reset triggers in WhatsApp groups", () => {
           groupPolicy: "open",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
   it("applies WhatsApp group reset authorization across sender variants", async () => {
@@ -2029,7 +2029,7 @@ describe("initSessionState reset triggers in Slack channels", () => {
     });
     const cfg = {
       session: { store: storePath, idleMinutes: 999 },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -2105,7 +2105,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
 
       const cfg = {
         session: { store: storePath, idleMinutes: 999 },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       const result = await initSessionState({
         ctx: {
@@ -2170,7 +2170,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
 
       const cfg = {
         session: { store: storePath, idleMinutes: 999 },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       const result = await initSessionState({
         ctx: {
@@ -2237,7 +2237,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
 
       const cfg = {
         session: { store: storePath, idleMinutes: 999 },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       const result = await initSessionState({
         ctx: {
@@ -2298,7 +2298,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
 
       const cfg = {
         session: { store: storePath, idleMinutes: 999 },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       const result = await initSessionState({
         ctx: {
@@ -2337,7 +2337,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
 
     const cfg = {
       session: { store: storePath, idleMinutes: 999 },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -2382,7 +2382,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
 
     const cfg = {
       session: { store: storePath, idleMinutes: 999 },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -2417,7 +2417,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
 
     const cfg = {
       session: { store: storePath, idleMinutes: 999 },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -2453,7 +2453,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
 
     const cfg = {
       session: { store: storePath, idleMinutes: 999 },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -2501,7 +2501,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
       });
       await fs.writeFile(transcriptPath, '{"type":"message"}\n', "utf8");
 
-      const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+      const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
       const result = await initSessionState({
         ctx: {
           Body: "hello",
@@ -2562,7 +2562,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
       });
       await fs.writeFile(transcriptPath, '{"type":"message"}\n', "utf8");
 
-      const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+      const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
       const result = await initSessionState({
         ctx: {
           Body: "hello",
@@ -2601,7 +2601,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
         store: storePath,
         reset: { mode: "idle", idleMinutes: 1 },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await writeSessionStoreFast(storePath, {
       [sessionKey]: {
@@ -2646,7 +2646,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
         store: storePath,
         reset: { mode: "idle", idleMinutes: 1 },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await writeSessionStoreFast(storePath, {
       [sessionKey]: {
@@ -2689,7 +2689,7 @@ describe("initSessionState preserves behavior overrides across /new and /reset",
 
     const cfg = {
       session: { store: storePath, idleMinutes: 0 },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -2725,7 +2725,7 @@ describe("drainFormattedSystemEvents", () => {
       enqueueSystemEvent("Model switched.", { sessionKey: "agent:main:main" });
 
       const result = await drainFormattedSystemEvents({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         sessionKey: "agent:main:main",
         isMainSession: true,
         isNewSession: false,
@@ -2745,7 +2745,7 @@ describe("drainFormattedSystemEvents", () => {
     ]);
 
     const result = await drainFormattedSystemEvents({
-      cfg: { channels: {} } as Brikko StudioConfig,
+      cfg: { channels: {} } as BrikkoStudioConfig,
       sessionKey: "agent:main:main",
       isMainSession: true,
       isNewSession: true,
@@ -2975,7 +2975,7 @@ describe("persistSessionUsageUpdate", () => {
       },
     });
 
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: {
@@ -3065,7 +3065,7 @@ describe("persistSessionUsageUpdate", () => {
             },
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       usage: { input: 5_107, output: 1_827, cacheRead: 1_536, cacheWrite: 0 },
       lastCallUsage: { input: 5_107, output: 1_827, cacheRead: 1_536, cacheWrite: 0 },
       providerUsed: "openai-codex",
@@ -3081,7 +3081,7 @@ describe("persistSessionUsageUpdate", () => {
 describe("initSessionState stale threadId fallback", () => {
   it("does not inherit lastThreadId from a previous thread interaction in non-thread sessions", async () => {
     const storePath = await createStorePath("stale-thread-");
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     // First interaction: inside a DM topic (thread session)
     const threadResult = await initSessionState({
@@ -3111,7 +3111,7 @@ describe("initSessionState stale threadId fallback", () => {
 
   it("preserves lastThreadId within the same thread session", async () => {
     const storePath = await createStorePath("preserve-thread-");
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     // First message in thread
     await initSessionState({
@@ -3157,7 +3157,7 @@ describe("initSessionState dmScope delivery migration", () => {
     });
     const cfg = {
       session: { store: storePath, dmScope: "per-channel-peer" },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3203,7 +3203,7 @@ describe("initSessionState dmScope delivery migration", () => {
     });
     const cfg = {
       session: { store: storePath, dmScope: "per-channel-peer" },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await initSessionState({
       ctx: {
@@ -3256,7 +3256,7 @@ describe("initSessionState internal channel routing preservation", () => {
         },
       },
     });
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3310,7 +3310,7 @@ describe("initSessionState internal channel routing preservation", () => {
         updatedAt: Date.now(),
       },
     });
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3352,7 +3352,7 @@ describe("initSessionState internal channel routing preservation", () => {
         },
       },
     });
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3399,7 +3399,7 @@ describe("initSessionState internal channel routing preservation", () => {
         },
       },
     });
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3438,7 +3438,7 @@ describe("initSessionState internal channel routing preservation", () => {
     });
     const cfg = {
       session: { store: storePath, dmScope: "per-channel-peer" },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3472,7 +3472,7 @@ describe("initSessionState internal channel routing preservation", () => {
     });
     const cfg = {
       session: { store: storePath, dmScope: "per-channel-peer" },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3507,7 +3507,7 @@ describe("initSessionState internal channel routing preservation", () => {
         },
       },
     });
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3529,7 +3529,7 @@ describe("initSessionState internal channel routing preservation", () => {
   it("uses session key channel hint when first turn is internal webchat", async () => {
     const storePath = await createStorePath("session-key-channel-hint-");
     const sessionKey = "agent:main:telegram:group:98765";
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3547,7 +3547,7 @@ describe("initSessionState internal channel routing preservation", () => {
 
   it("keeps internal route when there is no persisted external fallback", async () => {
     const storePath = await createStorePath("no-external-fallback-");
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3566,7 +3566,7 @@ describe("initSessionState internal channel routing preservation", () => {
 
   it("keeps webchat channel for webchat/main sessions", async () => {
     const storePath = await createStorePath("preserve-webchat-main-");
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3598,7 +3598,7 @@ describe("initSessionState internal channel routing preservation", () => {
         },
       },
     });
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3631,7 +3631,7 @@ describe("initSessionState internal channel routing preservation", () => {
         },
       },
     });
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -3659,7 +3659,7 @@ describe("initSessionState internal channel routing preservation", () => {
           defaultAccount: "work",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {

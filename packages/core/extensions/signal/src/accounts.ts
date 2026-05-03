@@ -2,7 +2,7 @@ import {
   createAccountListHelpers,
   normalizeAccountId,
   resolveMergedAccountConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/account-resolution";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import type { SignalAccountConfig } from "./account-types.js";
@@ -20,7 +20,7 @@ const { listAccountIds, resolveDefaultAccountId } = createAccountListHelpers("si
 export const listSignalAccountIds = listAccountIds;
 export const resolveDefaultSignalAccountId = resolveDefaultAccountId;
 
-function mergeSignalAccountConfig(cfg: Brikko StudioConfig, accountId: string): SignalAccountConfig {
+function mergeSignalAccountConfig(cfg: BrikkoStudioConfig, accountId: string): SignalAccountConfig {
   return resolveMergedAccountConfig<SignalAccountConfig>({
     channelConfig: cfg.channels?.signal as SignalAccountConfig | undefined,
     accounts: cfg.channels?.signal?.accounts as
@@ -31,7 +31,7 @@ function mergeSignalAccountConfig(cfg: Brikko StudioConfig, accountId: string): 
 }
 
 export function resolveSignalAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ResolvedSignalAccount {
   const accountId = normalizeAccountId(
@@ -62,7 +62,7 @@ export function resolveSignalAccount(params: {
   };
 }
 
-export function listEnabledSignalAccounts(cfg: Brikko StudioConfig): ResolvedSignalAccount[] {
+export function listEnabledSignalAccounts(cfg: BrikkoStudioConfig): ResolvedSignalAccount[] {
   return listSignalAccountIds(cfg)
     .map((accountId) => resolveSignalAccount({ cfg, accountId }))
     .filter((account) => account.enabled);

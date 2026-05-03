@@ -13,7 +13,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
           lastTouchedVersion: {
             type: "string",
             title: "Config Last Touched Version",
-            description: "Auto-set when Brikko Studio writes the config.",
+            description: "Auto-set when BrikkoStudio writes the config.",
           },
           lastTouchedAt: {
             anyOf: [
@@ -29,7 +29,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
         additionalProperties: false,
         title: "Metadata",
         description:
-          "Metadata fields automatically maintained by Brikko Studio to record write/version history for this config file. Keep these values system-managed and avoid manual edits unless debugging migration history.",
+          "Metadata fields automatically maintained by BrikkoStudio to record write/version history for this config file. Keep these values system-managed and avoid manual edits unless debugging migration history.",
       },
       env: {
         type: "object",
@@ -67,7 +67,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
             },
             title: "Environment Variable Overrides",
             description:
-              "Explicit key/value environment variable overrides merged into runtime process environment for Brikko Studio. Use this for deterministic env configuration instead of relying only on shell profile side effects.",
+              "Explicit key/value environment variable overrides merged into runtime process environment for BrikkoStudio. Use this for deterministic env configuration instead of relying only on shell profile side effects.",
           },
         },
         additionalProperties: {
@@ -90,7 +90,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
             type: "string",
             title: "Wizard Last Run Version",
             description:
-              "Brikko Studio version recorded at the time of the most recent wizard run on this config. Use this when diagnosing behavior differences across version-to-version setup changes.",
+              "BrikkoStudio version recorded at the time of the most recent wizard run on this config. Use this when diagnosing behavior differences across version-to-version setup changes.",
           },
           lastRunCommit: {
             type: "string",
@@ -613,7 +613,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
         additionalProperties: false,
         title: "Updates",
         description:
-          "Update-channel and startup-check behavior for keeping Brikko Studio runtime versions current. Use conservative channels in production and more experimental channels only in controlled environments.",
+          "Update-channel and startup-check behavior for keeping BrikkoStudio runtime versions current. Use conservative channels in production and more experimental channels only in controlled environments.",
       },
       browser: {
         type: "object",
@@ -1686,7 +1686,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                   type: "boolean",
                   title: "Model Provider Inject num_ctx (OpenAI Compat)",
                   description:
-                    "Controls whether Brikko Studio injects `options.num_ctx` for Ollama providers configured with the OpenAI-compatible adapter (`openai-completions`). Default is true. Set false only if your proxy/upstream rejects unknown `options` payload fields.",
+                    "Controls whether BrikkoStudio injects `options.num_ctx` for Ollama providers configured with the OpenAI-compatible adapter (`openai-completions`). Default is true. Set false only if your proxy/upstream rejects unknown `options` payload fields.",
                 },
                 params: {
                   type: "object",
@@ -3327,7 +3327,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                 },
                 title: "Node Browser Proxy Allowed Profiles",
                 description:
-                  "Optional allowlist of browser profile names exposed through node proxy routing. Leave empty to preserve the default full profile surface, including profile create/delete routes. When set, Brikko Studio enforces least-privilege profile access and blocks persistent profile create/delete through the proxy.",
+                  "Optional allowlist of browser profile names exposed through node proxy routing. Leave empty to preserve the default full profile surface, including profile create/delete routes. When set, BrikkoStudio enforces least-privilege profile access and blocks persistent profile create/delete through the proxy.",
               },
             },
             additionalProperties: false,
@@ -3361,13 +3361,13 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                     type: "string",
                     title: "Default Agent Runtime",
                     description:
-                      "Agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id uses built-in Brikko Studio Pi.",
+                      "Agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id uses built-in BrikkoStudio Pi.",
                   },
                 },
                 additionalProperties: false,
                 title: "Default Agent Runtime Settings",
                 description:
-                  "Default agent runtime policy. Omitted id uses built-in Brikko Studio Pi. Use id=auto for plugin harness selection, a registered harness id such as codex, or a supported CLI backend alias such as claude-cli.",
+                  "Default agent runtime policy. Omitted id uses built-in BrikkoStudio Pi. Use id=auto for plugin harness selection, a registered harness id such as codex, or a supported CLI backend alias such as claude-cli.",
               },
               embeddedHarness: {
                 type: "object",
@@ -3798,7 +3798,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                     type: "boolean",
                     title: "Enable Lean Local Model Mode (Experimental)",
                     description:
-                      "Experimental local-model prompt trim. When enabled, Brikko Studio drops heavyweight default tools like browser, cron, and message for weaker or smaller local-model backends.",
+                      "Experimental local-model prompt trim. When enabled, BrikkoStudio drops heavyweight default tools like browser, cron, and message for weaker or smaller local-model backends.",
                   },
                 },
                 additionalProperties: false,
@@ -5120,7 +5120,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                     additionalProperties: false,
                     title: "Compaction Mid-turn Precheck",
                     description:
-                      "Optional Pi tool-loop precheck that detects context pressure after a tool result is appended and before the next model call. When enabled, Brikko Studio reuses existing precheck recovery to truncate tool results or compact before retrying.",
+                      "Optional Pi tool-loop precheck that detects context pressure after a tool result is appended and before the next model call. When enabled, BrikkoStudio reuses existing precheck recovery to truncate tool results or compact before retrying.",
                   },
                   postIndexSync: {
                     type: "string",
@@ -5282,7 +5282,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                 additionalProperties: false,
                 title: "Embedded Pi",
                 description:
-                  "Embedded Pi runner hardening controls for how workspace-local Pi settings are trusted and applied in Brikko Studio sessions.",
+                  "Embedded Pi runner hardening controls for how workspace-local Pi settings are trusted and applied in BrikkoStudio sessions.",
               },
               thinkingDefault: {
                 anyOf: [
@@ -6283,7 +6283,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                       type: "string",
                       title: "Agent Runtime",
                       description:
-                        "Per-agent agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id inherits the default Brikko Studio Pi behavior.",
+                        "Per-agent agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id inherits the default BrikkoStudio Pi behavior.",
                     },
                   },
                   additionalProperties: false,
@@ -8350,7 +8350,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                           const: "embedded",
                           title: "Agent Runtime Type",
                           description:
-                            'Runtime type for this agent: "embedded" (default Brikko Studio runtime) or "acp" (ACP harness defaults).',
+                            'Runtime type for this agent: "embedded" (default BrikkoStudio runtime) or "acp" (ACP harness defaults).',
                         },
                       },
                       required: ["type"],
@@ -8364,7 +8364,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                           const: "acp",
                           title: "Agent Runtime Type",
                           description:
-                            'Runtime type for this agent: "embedded" (default Brikko Studio runtime) or "acp" (ACP harness defaults).',
+                            'Runtime type for this agent: "embedded" (default BrikkoStudio runtime) or "acp" (ACP harness defaults).',
                         },
                         acp: {
                           type: "object",
@@ -8373,7 +8373,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                               type: "string",
                               title: "Agent ACP Harness Agent",
                               description:
-                                "Optional ACP harness agent id to use for this Brikko Studio agent (for example codex, claude, cursor, gemini, brikko-studio).",
+                                "Optional ACP harness agent id to use for this BrikkoStudio agent (for example codex, claude, cursor, gemini, brikko-studio).",
                             },
                             backend: {
                               type: "string",
@@ -8407,7 +8407,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                   ],
                   title: "Agent Runtime",
                   description:
-                    "Optional runtime descriptor for this agent. Use embedded for default Brikko Studio execution or acp for external ACP harness defaults.",
+                    "Optional runtime descriptor for this agent. Use embedded for default BrikkoStudio execution or acp for external ACP harness defaults.",
                 },
               },
               required: ["id"],
@@ -20074,7 +20074,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
             type: "boolean",
             title: "Allow /mcp",
             description:
-              "Allow /mcp chat command to manage Brikko Studio MCP server config under mcp.servers (default: false).",
+              "Allow /mcp chat command to manage BrikkoStudio MCP server config under mcp.servers (default: false).",
           },
           plugins: {
             type: "boolean",
@@ -20916,7 +20916,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                 ],
                 title: "Deprecated Session Rotate Size",
                 description:
-                  'Deprecated and ignored. Do not use for `sessions.json` growth control; Brikko Studio no longer creates automatic rotation backups, and "brikko-studio doctor --fix" removes this key.',
+                  'Deprecated and ignored. Do not use for `sessions.json` growth control; BrikkoStudio no longer creates automatic rotation backups, and "brikko-studio doctor --fix" removes this key.',
               },
               resetArchiveRetention: {
                 anyOf: [
@@ -21884,7 +21884,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
         additionalProperties: false,
         title: "Hooks",
         description:
-          "Inbound webhook automation surface for mapping external events into wake or agent actions in Brikko Studio. Keep this locked down with explicit token/session/agent controls before exposing it beyond trusted networks.",
+          "Inbound webhook automation surface for mapping external events into wake or agent actions in BrikkoStudio. Keep this locked down with explicit token/session/agent controls before exposing it beyond trusted networks.",
       },
       web: {
         type: "object",
@@ -23342,7 +23342,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
             ],
             title: "Memory Backend",
             description:
-              'Selects the global memory engine: "builtin" uses Brikko Studio memory internals, while "qmd" uses the QMD sidecar pipeline. Keep "builtin" unless you intentionally operate QMD.',
+              'Selects the global memory engine: "builtin" uses BrikkoStudio memory internals, while "qmd" uses the QMD sidecar pipeline. Keep "builtin" unless you intentionally operate QMD.',
           },
           citations: {
             anyOf: [
@@ -23765,7 +23765,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
             },
             title: "MCP Servers",
             description:
-              "Named MCP server definitions. Brikko Studio stores them in its own config and runtime adapters decide which transports are supported at execution time.",
+              "Named MCP server definitions. BrikkoStudio stores them in its own config and runtime adapters decide which transports are supported at execution time.",
           },
           sessionIdleTtlMs: {
             type: "number",
@@ -23778,7 +23778,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
         additionalProperties: false,
         title: "MCP",
         description:
-          "Global MCP server definitions managed by Brikko Studio. Embedded Pi and other runtime adapters can consume these servers without storing them inside Pi-owned project settings.",
+          "Global MCP server definitions managed by BrikkoStudio. Embedded Pi and other runtime adapters can consume these servers without storing them inside Pi-owned project settings.",
       },
       skills: {
         type: "object",
@@ -24208,7 +24208,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     required: ["commands"],
     additionalProperties: false,
-    title: "Brikko StudioConfig",
+    title: "BrikkoStudioConfig",
   },
   uiHints: {
     wizard: {
@@ -24222,7 +24222,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
       label: "Updates",
       group: "Update",
       order: 25,
-      help: "Update-channel and startup-check behavior for keeping Brikko Studio runtime versions current. Use conservative channels in production and more experimental channels only in controlled environments.",
+      help: "Update-channel and startup-check behavior for keeping BrikkoStudio runtime versions current. Use conservative channels in production and more experimental channels only in controlled environments.",
       tags: ["advanced"],
     },
     cli: {
@@ -24327,7 +24327,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
       label: "Hooks",
       group: "Hooks",
       order: 110,
-      help: "Inbound webhook automation surface for mapping external events into wake or agent actions in Brikko Studio. Keep this locked down with explicit token/session/agent controls before exposing it beyond trusted networks.",
+      help: "Inbound webhook automation surface for mapping external events into wake or agent actions in BrikkoStudio. Keep this locked down with explicit token/session/agent controls before exposing it beyond trusted networks.",
       tags: ["advanced"],
     },
     ui: {
@@ -24392,12 +24392,12 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     meta: {
       label: "Metadata",
-      help: "Metadata fields automatically maintained by Brikko Studio to record write/version history for this config file. Keep these values system-managed and avoid manual edits unless debugging migration history.",
+      help: "Metadata fields automatically maintained by BrikkoStudio to record write/version history for this config file. Keep these values system-managed and avoid manual edits unless debugging migration history.",
       tags: ["advanced"],
     },
     "meta.lastTouchedVersion": {
       label: "Config Last Touched Version",
-      help: "Auto-set when Brikko Studio writes the config.",
+      help: "Auto-set when BrikkoStudio writes the config.",
       tags: ["media"],
     },
     "meta.lastTouchedAt": {
@@ -24427,7 +24427,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "env.vars": {
       label: "Environment Variable Overrides",
-      help: "Explicit key/value environment variable overrides merged into runtime process environment for Brikko Studio. Use this for deterministic env configuration instead of relying only on shell profile side effects.",
+      help: "Explicit key/value environment variable overrides merged into runtime process environment for BrikkoStudio. Use this for deterministic env configuration instead of relying only on shell profile side effects.",
       tags: ["advanced"],
     },
     "wizard.lastRunAt": {
@@ -24437,7 +24437,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "wizard.lastRunVersion": {
       label: "Wizard Last Run Version",
-      help: "Brikko Studio version recorded at the time of the most recent wizard run on this config. Use this when diagnosing behavior differences across version-to-version setup changes.",
+      help: "BrikkoStudio version recorded at the time of the most recent wizard run on this config. Use this when diagnosing behavior differences across version-to-version setup changes.",
       tags: ["advanced"],
     },
     "wizard.lastRunCommit": {
@@ -24702,12 +24702,12 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "agents.list[].runtime": {
       label: "Agent Runtime",
-      help: "Optional runtime descriptor for this agent. Use embedded for default Brikko Studio execution or acp for external ACP harness defaults.",
+      help: "Optional runtime descriptor for this agent. Use embedded for default BrikkoStudio execution or acp for external ACP harness defaults.",
       tags: ["advanced"],
     },
     "agents.list[].runtime.type": {
       label: "Agent Runtime Type",
-      help: 'Runtime type for this agent: "embedded" (default Brikko Studio runtime) or "acp" (ACP harness defaults).',
+      help: 'Runtime type for this agent: "embedded" (default BrikkoStudio runtime) or "acp" (ACP harness defaults).',
       tags: ["advanced"],
     },
     "agents.list[].runtime.acp": {
@@ -24717,7 +24717,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "agents.list[].runtime.acp.agent": {
       label: "Agent ACP Harness Agent",
-      help: "Optional ACP harness agent id to use for this Brikko Studio agent (for example codex, claude, cursor, gemini, brikko-studio).",
+      help: "Optional ACP harness agent id to use for this BrikkoStudio agent (for example codex, claude, cursor, gemini, brikko-studio).",
       tags: ["advanced"],
     },
     "agents.list[].runtime.acp.backend": {
@@ -24782,12 +24782,12 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "agents.defaults.agentRuntime": {
       label: "Default Agent Runtime Settings",
-      help: "Default agent runtime policy. Omitted id uses built-in Brikko Studio Pi. Use id=auto for plugin harness selection, a registered harness id such as codex, or a supported CLI backend alias such as claude-cli.",
+      help: "Default agent runtime policy. Omitted id uses built-in BrikkoStudio Pi. Use id=auto for plugin harness selection, a registered harness id such as codex, or a supported CLI backend alias such as claude-cli.",
       tags: ["advanced"],
     },
     "agents.defaults.agentRuntime.id": {
       label: "Default Agent Runtime",
-      help: "Agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id uses built-in Brikko Studio Pi.",
+      help: "Agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id uses built-in BrikkoStudio Pi.",
       tags: ["advanced"],
     },
     "agents.defaults.embeddedHarness": {
@@ -24847,7 +24847,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "agents.list.*.agentRuntime.id": {
       label: "Agent Runtime",
-      help: "Per-agent agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id inherits the default Brikko Studio Pi behavior.",
+      help: "Per-agent agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id inherits the default BrikkoStudio Pi behavior.",
       tags: ["advanced"],
     },
     "agents.list.*.embeddedHarness": {
@@ -26150,7 +26150,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "nodeHost.browserProxy.allowProfiles": {
       label: "Node Browser Proxy Allowed Profiles",
-      help: "Optional allowlist of browser profile names exposed through node proxy routing. Leave empty to preserve the default full profile surface, including profile create/delete routes. When set, Brikko Studio enforces least-privilege profile access and blocks persistent profile create/delete through the proxy.",
+      help: "Optional allowlist of browser profile names exposed through node proxy routing. Leave empty to preserve the default full profile surface, including profile create/delete routes. When set, BrikkoStudio enforces least-privilege profile access and blocks persistent profile create/delete through the proxy.",
       tags: ["access", "network", "storage"],
     },
     media: {
@@ -26355,7 +26355,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "agents.defaults.experimental.localModelLean": {
       label: "Enable Lean Local Model Mode (Experimental)",
-      help: "Experimental local-model prompt trim. When enabled, Brikko Studio drops heavyweight default tools like browser, cron, and message for weaker or smaller local-model backends.",
+      help: "Experimental local-model prompt trim. When enabled, BrikkoStudio drops heavyweight default tools like browser, cron, and message for weaker or smaller local-model backends.",
       tags: ["security", "advanced"],
     },
     "agents.defaults.bootstrapPromptTruncationWarning": {
@@ -26706,7 +26706,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "memory.backend": {
       label: "Memory Backend",
-      help: 'Selects the global memory engine: "builtin" uses Brikko Studio memory internals, while "qmd" uses the QMD sidecar pipeline. Keep "builtin" unless you intentionally operate QMD.',
+      help: 'Selects the global memory engine: "builtin" uses BrikkoStudio memory internals, while "qmd" uses the QMD sidecar pipeline. Keep "builtin" unless you intentionally operate QMD.',
       tags: ["storage"],
     },
     "memory.citations": {
@@ -27037,7 +27037,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "models.providers.*.injectNumCtxForOpenAICompat": {
       label: "Model Provider Inject num_ctx (OpenAI Compat)",
-      help: "Controls whether Brikko Studio injects `options.num_ctx` for Ollama providers configured with the OpenAI-compatible adapter (`openai-completions`). Default is true. Set false only if your proxy/upstream rejects unknown `options` payload fields.",
+      help: "Controls whether BrikkoStudio injects `options.num_ctx` for Ollama providers configured with the OpenAI-compatible adapter (`openai-completions`). Default is true. Set false only if your proxy/upstream rejects unknown `options` payload fields.",
       tags: ["models"],
     },
     "models.providers.*.params": {
@@ -27422,7 +27422,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "agents.defaults.compaction.midTurnPrecheck": {
       label: "Compaction Mid-turn Precheck",
-      help: "Optional Pi tool-loop precheck that detects context pressure after a tool result is appended and before the next model call. When enabled, Brikko Studio reuses existing precheck recovery to truncate tool results or compact before retrying.",
+      help: "Optional Pi tool-loop precheck that detects context pressure after a tool result is appended and before the next model call. When enabled, BrikkoStudio reuses existing precheck recovery to truncate tool results or compact before retrying.",
       tags: ["advanced"],
     },
     "agents.defaults.compaction.midTurnPrecheck.enabled": {
@@ -27502,7 +27502,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "agents.defaults.embeddedPi": {
       label: "Embedded Pi",
-      help: "Embedded Pi runner hardening controls for how workspace-local Pi settings are trusted and applied in Brikko Studio sessions.",
+      help: "Embedded Pi runner hardening controls for how workspace-local Pi settings are trusted and applied in BrikkoStudio sessions.",
       tags: ["advanced"],
     },
     "agents.defaults.embeddedPi.projectSettingsPolicy": {
@@ -27625,7 +27625,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "commands.mcp": {
       label: "Allow /mcp",
-      help: "Allow /mcp chat command to manage Brikko Studio MCP server config under mcp.servers (default: false).",
+      help: "Allow /mcp chat command to manage BrikkoStudio MCP server config under mcp.servers (default: false).",
       tags: ["advanced"],
     },
     "commands.plugins": {
@@ -27671,12 +27671,12 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     mcp: {
       label: "MCP",
-      help: "Global MCP server definitions managed by Brikko Studio. Embedded Pi and other runtime adapters can consume these servers without storing them inside Pi-owned project settings.",
+      help: "Global MCP server definitions managed by BrikkoStudio. Embedded Pi and other runtime adapters can consume these servers without storing them inside Pi-owned project settings.",
       tags: ["advanced"],
     },
     "mcp.servers": {
       label: "MCP Servers",
-      help: "Named MCP server definitions. Brikko Studio stores them in its own config and runtime adapters decide which transports are supported at execution time.",
+      help: "Named MCP server definitions. BrikkoStudio stores them in its own config and runtime adapters decide which transports are supported at execution time.",
       tags: ["advanced"],
     },
     "mcp.sessionIdleTtlMs": {
@@ -27991,7 +27991,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     },
     "session.maintenance.rotateBytes": {
       label: "Deprecated Session Rotate Size",
-      help: 'Deprecated and ignored. Do not use for `sessions.json` growth control; Brikko Studio no longer creates automatic rotation backups, and "brikko-studio doctor --fix" removes this key.',
+      help: 'Deprecated and ignored. Do not use for `sessions.json` growth control; BrikkoStudio no longer creates automatic rotation backups, and "brikko-studio doctor --fix" removes this key.',
       tags: ["storage"],
     },
     "session.maintenance.resetArchiveRetention": {

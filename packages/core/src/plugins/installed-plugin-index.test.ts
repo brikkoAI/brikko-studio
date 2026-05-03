@@ -18,7 +18,7 @@ import {
 } from "./installed-plugin-index.js";
 import { recordPluginInstall } from "./installs.js";
 import type { PluginManifestRecord } from "./manifest-registry.js";
-import type { Brikko StudioPackageManifest } from "./manifest.js";
+import type { BrikkoStudioPackageManifest } from "./manifest.js";
 import { cleanupTrackedTempDirs, makeTrackedTempDir } from "./test-helpers/fs-fixtures.js";
 
 vi.unmock("../version.js");
@@ -72,7 +72,7 @@ function createPluginCandidate(params: {
   packageName?: string;
   packageVersion?: string;
   packageDir?: string;
-  packageManifest?: Brikko StudioPackageManifest;
+  packageManifest?: BrikkoStudioPackageManifest;
   format?: PluginCandidate["format"];
   bundleFormat?: PluginCandidate["bundleFormat"];
 }): PluginCandidate {

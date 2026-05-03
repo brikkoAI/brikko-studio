@@ -2,7 +2,7 @@ import type { Dirent } from "node:fs";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 
 export type CodexNativeAssetHit = {
   kind: "skill" | "plugin" | "config" | "hooks";
@@ -112,7 +112,7 @@ async function discoverPluginHits(root: string): Promise<CodexNativeAssetHit[]> 
   return [...hits.values()];
 }
 
-function isCodexRuntimeConfigured(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): boolean {
+function isCodexRuntimeConfigured(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): boolean {
   if (normalizeString(env.BRIKKO_STUDIO_AGENT_RUNTIME) === "codex") {
     return true;
   }
@@ -125,7 +125,7 @@ function isCodexRuntimeConfigured(cfg: Brikko StudioConfig, env: NodeJS.ProcessE
   );
 }
 
-function isCodexPluginConfigured(cfg: Brikko StudioConfig): boolean {
+function isCodexPluginConfigured(cfg: BrikkoStudioConfig): boolean {
   const plugins = cfg.plugins;
   if (plugins?.enabled === false) {
     return false;
@@ -141,12 +141,12 @@ function isCodexPluginConfigured(cfg: Brikko StudioConfig): boolean {
   return hasRecord(plugins?.entries?.codex) && plugins.entries.codex.enabled !== false;
 }
 
-function shouldScanCodexNativeAssets(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): boolean {
+function shouldScanCodexNativeAssets(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): boolean {
   return isCodexRuntimeConfigured(cfg, env) || isCodexPluginConfigured(cfg);
 }
 
 export async function scanCodexNativeAssets(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): Promise<CodexNativeAssetHit[]> {
   const env = params.env ?? process.env;
@@ -190,7 +190,7 @@ function plural(count: number, singular: string): string {
 }
 
 export async function collectCodexNativeAssetWarnings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): Promise<string[]> {
   const env = params.env ?? process.env;
@@ -206,10 +206,10 @@ export async function collectCodexNativeAssetWarnings(params: {
   ];
   return [
     [
-      "- Personal Codex CLI assets were found, but native Codex-mode Brikko Studio agents use isolated per-agent Codex homes.",
+      "- Personal Codex CLI assets were found, but native Codex-mode BrikkoStudio agents use isolated per-agent Codex homes.",
       `- Sources: ${resolveCodexHome(env)} and ${resolvePersonalAgentSkillsDir(env)} (${counts.join(", ")}).`,
       "- These assets will not be loaded by the Codex app-server child unless you intentionally promote them.",
-      "- Run `brikko-studio migrate codex --dry-run` to inventory them. Applying that migration copies skills into the current Brikko Studio agent workspace; Codex plugins, hooks, and config stay manual-review only.",
+      "- Run `brikko-studio migrate codex --dry-run` to inventory them. Applying that migration copies skills into the current BrikkoStudio agent workspace; Codex plugins, hooks, and config stay manual-review only.",
     ].join("\n"),
   ];
 }

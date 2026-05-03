@@ -1,12 +1,12 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { DEFAULT_ACCOUNT_ID } from "./accounts.js";
 import type { CoreConfig } from "./types.js";
 
 export function applyQaSetup(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   input: Record<string, unknown>;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const nextCfg = structuredClone(params.cfg) as CoreConfig;
   const section = nextCfg.channels?.["qa-channel"] ?? {};
   const accounts = { ...section.accounts };
@@ -34,5 +34,5 @@ export function applyQaSetup(params: {
       accounts,
     };
   }
-  return nextCfg as Brikko StudioConfig;
+  return nextCfg as BrikkoStudioConfig;
 }

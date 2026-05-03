@@ -3,7 +3,7 @@ import {
   getApiKeyForModel as resolveModelApiKey,
   resolveApiKeyForProvider as resolveProviderApiKey,
 } from "../../agents/model-auth.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { prepareProviderRuntimeAuth } from "../provider-runtime.runtime.js";
 import type { ResolvedProviderRuntimeAuth } from "./model-auth-types.js";
 
@@ -25,7 +25,7 @@ export async function resolveApiKeyForProvider(
  */
 export async function getRuntimeAuthForModel(params: {
   model: Model<Api>;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   workspaceDir?: string;
 }): Promise<ResolvedProviderRuntimeAuth> {
   const resolvedAuth = await resolveModelApiKey({

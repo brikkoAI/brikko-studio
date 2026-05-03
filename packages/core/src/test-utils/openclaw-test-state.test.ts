@@ -1,16 +1,16 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { createBrikko StudioTestState, withBrikko StudioTestState } from "./brikko-studio-test-state.js";
+import { createBrikkoStudioTestState, withBrikkoStudioTestState } from "./brikko-studio-test-state.js";
 
 describe("brikko-studio test state", () => {
   it("creates an isolated home layout with spawn env and restores process env", async () => {
     const previousHome = process.env.HOME;
-    const previousBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    const previousBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
     const previousStateDir = process.env.BRIKKO_STUDIO_STATE_DIR;
     const previousConfigPath = process.env.BRIKKO_STUDIO_CONFIG_PATH;
 
-    const state = await createBrikko StudioTestState({
+    const state = await createBrikkoStudioTestState({
       label: "unit",
       scenario: "minimal",
     });
@@ -32,7 +32,7 @@ describe("brikko-studio test state", () => {
     }
 
     expect(process.env.HOME).toBe(previousHome);
-    expect(process.env.BRIKKO_STUDIO_HOME).toBe(previousBrikko StudioHome);
+    expect(process.env.BRIKKO_STUDIO_HOME).toBe(previousBrikkoStudioHome);
     expect(process.env.BRIKKO_STUDIO_STATE_DIR).toBe(previousStateDir);
     expect(process.env.BRIKKO_STUDIO_CONFIG_PATH).toBe(previousConfigPath);
     await expect(fs.stat(state.root)).rejects.toThrow();
@@ -41,7 +41,7 @@ describe("brikko-studio test state", () => {
   it("supports state-only layout without overriding HOME", async () => {
     const previousHome = process.env.HOME;
 
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         layout: "state-only",
         scenario: "empty",
@@ -63,7 +63,7 @@ describe("brikko-studio test state", () => {
     process.env.PI_CODING_AGENT_DIR = "/tmp/outside-pi-agent";
 
     try {
-      const state = await createBrikko StudioTestState({
+      const state = await createBrikkoStudioTestState({
         layout: "state-only",
       });
 
@@ -94,7 +94,7 @@ describe("brikko-studio test state", () => {
   });
 
   it("allows explicit agent-dir overrides when a test needs them", async () => {
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         env: {
           BRIKKO_STUDIO_AGENT_DIR: "/tmp/explicit-brikko-studio-agent",
@@ -111,7 +111,7 @@ describe("brikko-studio test state", () => {
   });
 
   it("can route agent-dir env vars to the isolated main agent store", async () => {
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         agentEnv: "main",
       },
@@ -125,7 +125,7 @@ describe("brikko-studio test state", () => {
   });
 
   it("writes scenario configs and auth profile stores", async () => {
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         scenario: "update-stable",
       },
@@ -162,7 +162,7 @@ describe("brikko-studio test state", () => {
   });
 
   it("creates upgrade survivor fixture state", async () => {
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         scenario: "upgrade-survivor",
       },
@@ -184,7 +184,7 @@ describe("brikko-studio test state", () => {
   it("keeps external-service env scoped to the fixture", async () => {
     const previousPolicy = process.env.BRIKKO_STUDIO_SERVICE_REPAIR_POLICY;
 
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         scenario: "external-service",
       },

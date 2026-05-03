@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import { createDoctorPrompter } from "./doctor-prompter.js";
 import {
@@ -145,12 +145,12 @@ function mockProcessPlatform(platform: NodeJS.Platform) {
   });
 }
 
-async function runRepair(cfg: Brikko StudioConfig) {
+async function runRepair(cfg: BrikkoStudioConfig) {
   await maybeRepairGatewayServiceConfig(cfg, "local", makeDoctorIo(), makeDoctorPrompts());
 }
 
 async function runNonInteractiveRepair(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   updateInProgress?: boolean;
 }) {
   Object.defineProperty(process.stdin, "isTTY", {
@@ -247,7 +247,7 @@ describe("maybeRepairGatewayServiceConfig", () => {
     fsMocks.realpath.mockImplementation(async (value: string) => value);
     mocks.resolveGatewayPort.mockReturnValue(18789);
     mocks.isSystemdUnitActive.mockResolvedValue(false);
-    mocks.resolveGatewayAuthTokenForService.mockImplementation(async (cfg: Brikko StudioConfig, env) => {
+    mocks.resolveGatewayAuthTokenForService.mockImplementation(async (cfg: BrikkoStudioConfig, env) => {
       const configToken =
         typeof cfg.gateway?.auth?.token === "string" ? cfg.gateway.auth.token.trim() : undefined;
       const envToken = env.BRIKKO_STUDIO_GATEWAY_TOKEN?.trim() || undefined;
@@ -271,7 +271,7 @@ describe("maybeRepairGatewayServiceConfig", () => {
   it("treats gateway.auth.token as source of truth for service token repairs", async () => {
     setupGatewayTokenRepairScenario();
 
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "token",
@@ -420,7 +420,7 @@ describe("maybeRepairGatewayServiceConfig", () => {
     await withEnvAsync({ BRIKKO_STUDIO_GATEWAY_TOKEN: "env-token" }, async () => {
       setupGatewayTokenRepairScenario();
 
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         gateway: {},
       };
 
@@ -726,7 +726,7 @@ describe("maybeRepairGatewayServiceConfig", () => {
     });
     mocks.install.mockResolvedValue(undefined);
 
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "token",
@@ -763,7 +763,7 @@ describe("maybeRepairGatewayServiceConfig", () => {
       async () => {
         setupGatewayTokenRepairScenario();
 
-        const cfg: Brikko StudioConfig = {
+        const cfg: BrikkoStudioConfig = {
           gateway: {},
         };
 
@@ -817,7 +817,7 @@ describe("maybeRepairGatewayServiceConfig", () => {
       async () => {
         setupGatewayTokenRepairScenario();
 
-        const cfg: Brikko StudioConfig = {
+        const cfg: BrikkoStudioConfig = {
           gateway: {},
         };
 
@@ -867,7 +867,7 @@ describe("maybeRepairGatewayServiceConfig", () => {
         });
         mocks.install.mockResolvedValue(undefined);
 
-        const cfg: Brikko StudioConfig = {
+        const cfg: BrikkoStudioConfig = {
           gateway: {},
         };
 
@@ -1057,7 +1057,7 @@ describe("maybeScanExtraGatewayServices", () => {
       "Legacy gateway removed",
     );
     expect(runtime.log).toHaveBeenCalledWith(
-      "Legacy gateway services removed. Installing Brikko Studio gateway next.",
+      "Legacy gateway services removed. Installing BrikkoStudio gateway next.",
     );
   });
 
@@ -1086,7 +1086,7 @@ describe("maybeScanExtraGatewayServices", () => {
       );
       expect(mocks.uninstallLegacySystemdUnits).not.toHaveBeenCalled();
       expect(runtime.log).not.toHaveBeenCalledWith(
-        "Legacy gateway services removed. Installing Brikko Studio gateway next.",
+        "Legacy gateway services removed. Installing BrikkoStudio gateway next.",
       );
     });
   });

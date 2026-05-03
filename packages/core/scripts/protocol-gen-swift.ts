@@ -15,14 +15,14 @@ type JsonSchema = {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
 const outPaths = [
-  path.join(repoRoot, "apps", "macos", "Sources", "Brikko StudioProtocol", "GatewayModels.swift"),
+  path.join(repoRoot, "apps", "macos", "Sources", "BrikkoStudioProtocol", "GatewayModels.swift"),
   path.join(
     repoRoot,
     "apps",
     "shared",
-    "Brikko StudioKit",
+    "BrikkoStudioKit",
     "Sources",
-    "Brikko StudioProtocol",
+    "BrikkoStudioProtocol",
     "GatewayModels.swift",
   ),
 ];

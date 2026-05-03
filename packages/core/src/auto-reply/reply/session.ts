@@ -31,7 +31,7 @@ import {
   type SessionEntry,
   type SessionScope,
 } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { TtsAutoMode } from "../../config/types.tts.js";
 import { getSessionBindingService } from "../../infra/outbound/session-binding-service.js";
 import { deliverSessionMaintenanceWarning } from "../../infra/session-maintenance-warning.js";
@@ -99,7 +99,7 @@ function resolveExplicitSessionEndReason(
 }
 
 function resolveSessionDefaultAccountId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelRaw?: string;
   accountIdRaw?: string;
   persistedLastAccountId?: string;
@@ -167,7 +167,7 @@ export type SessionInitResult = {
 };
 
 function resolveSessionConversationBindingContext(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   ctx: MsgContext,
 ): {
   channel: string;
@@ -193,7 +193,7 @@ function resolveSessionConversationBindingContext(
 }
 
 function resolveBoundConversationSessionKey(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   ctx: MsgContext;
   bindingContext?: {
     channel: string;
@@ -226,7 +226,7 @@ function resolveBoundConversationSessionKey(params: {
 
 export async function initSessionState(params: {
   ctx: MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   commandAuthorized: boolean;
 }): Promise<SessionInitResult> {
   const { ctx, cfg, commandAuthorized } = params;

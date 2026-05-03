@@ -1,5 +1,5 @@
 import { ChannelType } from "discord-api-types/v10";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 const { logVerboseMock } = vi.hoisted(() => ({
@@ -37,8 +37,8 @@ let createNoopThreadBindingManager: typeof import("./thread-bindings.js").create
 function createNativeCommand(
   name: string,
   opts?: {
-    cfg?: Brikko StudioConfig;
-    discordConfig?: NonNullable<Brikko StudioConfig["channels"]>["discord"];
+    cfg?: BrikkoStudioConfig;
+    discordConfig?: NonNullable<BrikkoStudioConfig["channels"]>["discord"];
   },
 ): ReturnType<typeof import("./native-command.js").createDiscordNativeCommand> {
   const command = listNativeCommandSpecs({ provider: "discord" }).find(
@@ -47,8 +47,8 @@ function createNativeCommand(
   if (!command) {
     throw new Error(`missing native command: ${name}`);
   }
-  const baseCfg: Brikko StudioConfig = opts?.cfg ?? {};
-  const discordConfig: NonNullable<Brikko StudioConfig["channels"]>["discord"] =
+  const baseCfg: BrikkoStudioConfig = opts?.cfg ?? {};
+  const discordConfig: NonNullable<BrikkoStudioConfig["channels"]>["discord"] =
     opts?.discordConfig ?? baseCfg.channels?.discord ?? {};
   const cfg =
     opts?.discordConfig === undefined
@@ -211,7 +211,7 @@ describe("createDiscordNativeCommand option wiring", () => {
             discord: ["user:allowed-user"],
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
     const level = requireOption(command, "level");
     const autocomplete = requireAutocomplete(level, "think level option did not wire autocomplete");
@@ -250,7 +250,7 @@ describe("createDiscordNativeCommand option wiring", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
     const level = requireOption(command, "level");
     const autocomplete = requireAutocomplete(level, "think level option did not wire autocomplete");
@@ -276,7 +276,7 @@ describe("createDiscordNativeCommand option wiring", () => {
         groupEnabled: true,
         groupChannels: ["allowed-group"],
       },
-    } satisfies NonNullable<Brikko StudioConfig["channels"]>["discord"];
+    } satisfies NonNullable<BrikkoStudioConfig["channels"]>["discord"];
     const command = createNativeCommand("think", {
       cfg: {
         commands: {
@@ -284,7 +284,7 @@ describe("createDiscordNativeCommand option wiring", () => {
             discord: ["user:allowed-user"],
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       discordConfig,
     });
     const level = requireOption(command, "level");
@@ -304,8 +304,8 @@ describe("createDiscordNativeCommand option wiring", () => {
 
   it("truncates Discord command and option descriptions to Discord's limit", () => {
     const longDescription = "x".repeat(140);
-    const cfg = {} as Brikko StudioConfig;
-    const discordConfig = {} as NonNullable<Brikko StudioConfig["channels"]>["discord"];
+    const cfg = {} as BrikkoStudioConfig;
+    const discordConfig = {} as NonNullable<BrikkoStudioConfig["channels"]>["discord"];
     const command = createDiscordNativeCommand({
       command: {
         name: "longdesc",
@@ -346,7 +346,7 @@ describe("createDiscordNativeCommand option wiring", () => {
         },
         acceptsArgs: false,
       },
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       discordConfig: {},
       accountId: "default",
       sessionPrefix: "discord:slash",

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveLivePluginConfigObject } from "brikko-studio/plugin-sdk/plugin-config-runtime";
 import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 import { createCodexAppServerAgentHarness } from "./harness.js";
@@ -19,7 +19,7 @@ export default definePluginEntry({
     const resolveCurrentPluginConfig = () =>
       resolveLivePluginConfigObject(
         api.runtime.config?.current
-          ? () => api.runtime.config.current() as Brikko StudioConfig
+          ? () => api.runtime.config.current() as BrikkoStudioConfig
           : undefined,
         "codex",
         api.pluginConfig as Record<string, unknown>,

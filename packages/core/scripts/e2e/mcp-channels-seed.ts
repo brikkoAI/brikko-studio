@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { applyDockerOpenAiProviderConfig, type Brikko StudioConfig } from "./docker-openai-seed.ts";
+import { applyDockerOpenAiProviderConfig, type BrikkoStudioConfig } from "./docker-openai-seed.ts";
 
 async function main() {
   const stateDir = process.env.BRIKKO_STUDIO_STATE_DIR?.trim() || path.join(os.homedir(), ".brikko-studio");
@@ -33,7 +33,7 @@ async function main() {
       plugins: {
         enabled: false,
       },
-    } satisfies Brikko StudioConfig,
+    } satisfies BrikkoStudioConfig,
     "sk-docker-smoke-test",
   );
 

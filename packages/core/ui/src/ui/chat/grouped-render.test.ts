@@ -125,7 +125,7 @@ function renderAssistantMessages(
     renderMessageGroup(group, {
       showReasoning: true,
       showToolCalls: true,
-      assistantName: "Brikko Studio",
+      assistantName: "BrikkoStudio",
       assistantAvatar: null,
       ...opts,
     }),
@@ -157,7 +157,7 @@ function renderGroupedMessage(
     renderMessageGroup(group, {
       showReasoning: true,
       showToolCalls: true,
-      assistantName: "Brikko Studio",
+      assistantName: "BrikkoStudio",
       assistantAvatar: null,
       ...opts,
     }),
@@ -230,7 +230,7 @@ function renderMessageGroups(
       renderMessageGroup(group, {
         showReasoning: true,
         showToolCalls: true,
-        assistantName: "Brikko Studio",
+        assistantName: "BrikkoStudio",
         assistantAvatar: null,
         ...opts,
       }),

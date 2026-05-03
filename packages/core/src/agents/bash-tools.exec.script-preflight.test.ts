@@ -24,7 +24,7 @@ const isWin = process.platform === "win32";
 
 const describeNonWin = isWin ? describe.skip : describe;
 const describeWin = isWin ? describe : describe.skip;
-const parseBrikko StudioChannelsLoginShellCommand = __testing.parseBrikko StudioChannelsLoginShellCommand;
+const parseBrikkoStudioChannelsLoginShellCommand = __testing.parseBrikkoStudioChannelsLoginShellCommand;
 const validateExecScriptPreflight = __testing.validateScriptFileForShellBleed;
 const createPreflightTool = () =>
   createExecTool({ host: "gateway", security: "full", ask: "on-miss" });
@@ -67,17 +67,17 @@ async function expectSymlinkSwapDuringPreflightToAvoidErrors(params: {
   });
 }
 
-describe("exec interactive Brikko Studio channel login guard", () => {
+describe("exec interactive BrikkoStudio channel login guard", () => {
   it("recognizes direct and package-runner channel login commands before execution", () => {
     expect(
-      parseBrikko StudioChannelsLoginShellCommand("brikko-studio channels login --channel whatsapp"),
+      parseBrikkoStudioChannelsLoginShellCommand("brikko-studio channels login --channel whatsapp"),
     ).toBe(true);
     expect(
-      parseBrikko StudioChannelsLoginShellCommand(
+      parseBrikkoStudioChannelsLoginShellCommand(
         "pnpm exec brikko-studio channels login --channel whatsapp --verbose",
       ),
     ).toBe(true);
-    expect(parseBrikko StudioChannelsLoginShellCommand("brikko-studio channels status --deep")).toBe(false);
+    expect(parseBrikkoStudioChannelsLoginShellCommand("brikko-studio channels status --deep")).toBe(false);
   });
 
   it("blocks interactive channel login commands from exec", async () => {
@@ -87,12 +87,12 @@ describe("exec interactive Brikko Studio channel login guard", () => {
       tool.execute("call-brikko-studio-channel-login", {
         command: "brikko-studio channels login --channel whatsapp --verbose",
       }),
-    ).rejects.toThrow(/exec cannot run interactive Brikko Studio channel login commands/);
+    ).rejects.toThrow(/exec cannot run interactive BrikkoStudio channel login commands/);
     await expect(
       tool.execute("call-wrapped-brikko-studio-channel-login", {
         command: "sudo -u brikko-studio bash -lc 'brikko-studio channels login --channel whatsapp'",
       }),
-    ).rejects.toThrow(/exec cannot run interactive Brikko Studio channel login commands/);
+    ).rejects.toThrow(/exec cannot run interactive BrikkoStudio channel login commands/);
   });
 });
 

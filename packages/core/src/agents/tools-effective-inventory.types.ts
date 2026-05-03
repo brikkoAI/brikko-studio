@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export type EffectiveToolSource = "core" | "plugin" | "channel";
 
@@ -35,7 +35,7 @@ export type EffectiveToolInventoryResult = {
 };
 
 export type ResolveEffectiveToolInventoryParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   sessionKey?: string;
   workspaceDir?: string;

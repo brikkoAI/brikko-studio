@@ -114,7 +114,7 @@ export function isProfileDecorated(
  * Best-effort profile decoration (name + lobster-orange). Chrome preference keys
  * vary by version; we keep this conservative and idempotent.
  */
-export function decorateBrikko StudioProfile(
+export function decorateBrikkoStudioProfile(
   userDataDir: string,
   opts?: { name?: string; color?: string; downloadDir?: string },
 ) {

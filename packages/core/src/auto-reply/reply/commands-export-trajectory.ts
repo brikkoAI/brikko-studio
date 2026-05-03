@@ -17,8 +17,8 @@ import {
   resolveExportCommandSessionTarget,
 } from "./commands-export-common.js";
 import {
-  buildCurrentBrikko StudioCliArgv,
-  buildCurrentBrikko StudioCliCommand,
+  buildCurrentBrikkoStudioCliArgv,
+  buildCurrentBrikkoStudioCliCommand,
 } from "./commands-brikko-studio-cli.js";
 import {
   deliverPrivateCommandReply,
@@ -364,8 +364,8 @@ function buildTrajectoryExportExecRequest(
   }
   const args = ["sessions", "export-trajectory", "--request-json-base64", encodedRequest, "--json"];
   return {
-    argv: buildCurrentBrikko StudioCliArgv(args),
-    command: buildCurrentBrikko StudioCliCommand(args),
+    argv: buildCurrentBrikkoStudioCliArgv(args),
+    command: buildCurrentBrikkoStudioCliCommand(args),
     displayCommand: ["brikko-studio", ...args].join(" "),
     encodedRequest,
     request,

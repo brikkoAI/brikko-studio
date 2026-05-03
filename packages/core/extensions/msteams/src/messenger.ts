@@ -9,7 +9,7 @@ import {
 } from "brikko-studio/plugin-sdk/reply-payload";
 import { normalizeOptionalLowercaseString, sleep } from "brikko-studio/plugin-sdk/text-runtime";
 import { loadWebMedia } from "brikko-studio/plugin-sdk/web-media";
-import type { MarkdownTableMode, MSTeamsReplyStyle, Brikko StudioConfig } from "../runtime-api.js";
+import type { MarkdownTableMode, MSTeamsReplyStyle, BrikkoStudioConfig } from "../runtime-api.js";
 import type { MSTeamsAccessTokenProvider } from "./attachments/types.js";
 import type { StoredConversationReference } from "./conversation-store.js";
 import { classifyMSTeamsSendError } from "./errors.js";
@@ -238,7 +238,7 @@ export function renderReplyPayloadsToMessages(
   const tableMode =
     options.tableMode ??
     getMSTeamsRuntime().channel.text.resolveMarkdownTableMode({
-      cfg: getMSTeamsRuntime().config.current() as Brikko StudioConfig,
+      cfg: getMSTeamsRuntime().config.current() as BrikkoStudioConfig,
       channel: "msteams",
     });
 

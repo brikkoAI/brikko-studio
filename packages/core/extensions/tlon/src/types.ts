@@ -4,7 +4,7 @@ import {
   normalizeAccountId,
   resolveMergedAccountConfig,
 } from "brikko-studio/plugin-sdk/account-resolution";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   hasLegacyFlatAllowPrivateNetworkAlias,
   isPrivateNetworkOptInEnabled,
@@ -53,12 +53,12 @@ export type TlonResolvedAccount = {
   ownerShip: string | null;
 };
 
-function resolveTlonChannelConfig(cfg: Brikko StudioConfig): TlonAccountConfig | undefined {
+function resolveTlonChannelConfig(cfg: BrikkoStudioConfig): TlonAccountConfig | undefined {
   return cfg.channels?.tlon as TlonAccountConfig | undefined;
 }
 
 function resolveMergedTlonAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): Record<string, unknown> & TlonAccountConfig {
   const channel = resolveTlonChannelConfig(cfg);
@@ -76,7 +76,7 @@ function resolveMergedTlonAccountConfig(
 }
 
 export function resolveTlonAccount(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string | null,
 ): TlonResolvedAccount {
   const resolvedAccountId = normalizeAccountId(accountId);
@@ -148,7 +148,7 @@ export function resolveTlonAccount(
   };
 }
 
-export function listTlonAccountIds(cfg: Brikko StudioConfig): string[] {
+export function listTlonAccountIds(cfg: BrikkoStudioConfig): string[] {
   const base = resolveTlonChannelConfig(cfg);
   if (!base) {
     return [];

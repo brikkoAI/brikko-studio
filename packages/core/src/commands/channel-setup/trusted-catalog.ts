@@ -4,10 +4,10 @@ import {
   type ChannelPluginCatalogEntry,
 } from "../../channels/plugins/catalog.js";
 import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizePluginsConfig, resolveEnableState } from "../../plugins/config-state.js";
 
-function resolveEffectiveTrustConfig(cfg: Brikko StudioConfig, env?: NodeJS.ProcessEnv): Brikko StudioConfig {
+function resolveEffectiveTrustConfig(cfg: BrikkoStudioConfig, env?: NodeJS.ProcessEnv): BrikkoStudioConfig {
   return applyPluginAutoEnable({
     config: cfg,
     env: env ?? process.env,
@@ -16,7 +16,7 @@ function resolveEffectiveTrustConfig(cfg: Brikko StudioConfig, env?: NodeJS.Proc
 
 function isTrustedWorkspaceChannelCatalogEntry(
   entry: ChannelPluginCatalogEntry | undefined,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env?: NodeJS.ProcessEnv,
 ): boolean {
   if (entry?.origin !== "workspace") {
@@ -36,7 +36,7 @@ function isTrustedWorkspaceChannelCatalogEntry(
 export function getTrustedChannelPluginCatalogEntry(
   channelId: string,
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     workspaceDir?: string;
     env?: NodeJS.ProcessEnv;
   },
@@ -55,7 +55,7 @@ export function getTrustedChannelPluginCatalogEntry(
 
 function listChannelPluginCatalogEntriesWithTrustedFallback(
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     workspaceDir?: string;
     env?: NodeJS.ProcessEnv;
   },
@@ -80,7 +80,7 @@ function listChannelPluginCatalogEntriesWithTrustedFallback(
 }
 
 export function listTrustedChannelPluginCatalogEntries(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): ChannelPluginCatalogEntry[] {
@@ -88,7 +88,7 @@ export function listTrustedChannelPluginCatalogEntries(params: {
 }
 
 export function listSetupDiscoveryChannelPluginCatalogEntries(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): ChannelPluginCatalogEntry[] {

@@ -1,15 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-type LoadBrikko StudioProviderIndex =
-  typeof import("../model-catalog/index.js").loadBrikko StudioProviderIndex;
+type LoadBrikkoStudioProviderIndex =
+  typeof import("../model-catalog/index.js").loadBrikkoStudioProviderIndex;
 type LoadPluginRegistrySnapshot = typeof import("./plugin-registry.js").loadPluginRegistrySnapshot;
 type ResolveManifestProviderAuthChoices =
   typeof import("./provider-auth-choices.js").resolveManifestProviderAuthChoices;
 type ListOfficialExternalProviderCatalogEntries =
   typeof import("./official-external-plugin-catalog.js").listOfficialExternalProviderCatalogEntries;
 
-const loadBrikko StudioProviderIndex = vi.hoisted(() =>
-  vi.fn<LoadBrikko StudioProviderIndex>(() => ({ version: 1, providers: {} })),
+const loadBrikkoStudioProviderIndex = vi.hoisted(() =>
+  vi.fn<LoadBrikkoStudioProviderIndex>(() => ({ version: 1, providers: {} })),
 );
 vi.mock("../model-catalog/index.js", async () => {
   const actual = await vi.importActual<typeof import("../model-catalog/index.js")>(
@@ -17,7 +17,7 @@ vi.mock("../model-catalog/index.js", async () => {
   );
   return {
     ...actual,
-    loadBrikko StudioProviderIndex,
+    loadBrikkoStudioProviderIndex,
   };
 });
 
@@ -66,7 +66,7 @@ import {
 describe("provider install catalog", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    loadBrikko StudioProviderIndex.mockReturnValue({ version: 1, providers: {} });
+    loadBrikkoStudioProviderIndex.mockReturnValue({ version: 1, providers: {} });
     loadPluginRegistrySnapshot.mockReturnValue({
       version: 1,
       hostContractVersion: "test",
@@ -453,7 +453,7 @@ describe("provider install catalog", () => {
   });
 
   it("surfaces provider-index install metadata when the provider plugin is not installed", () => {
-    loadBrikko StudioProviderIndex.mockReturnValue({
+    loadBrikkoStudioProviderIndex.mockReturnValue({
       version: 1,
       providers: {
         moonshot: {
@@ -566,7 +566,7 @@ describe("provider install catalog", () => {
   });
 
   it("surfaces provider-index ClawHub install metadata as the preferred source", () => {
-    loadBrikko StudioProviderIndex.mockReturnValue({
+    loadBrikkoStudioProviderIndex.mockReturnValue({
       version: 1,
       providers: {
         moonshot: {
@@ -661,7 +661,7 @@ describe("provider install catalog", () => {
       ],
       diagnostics: [],
     });
-    loadBrikko StudioProviderIndex.mockReturnValue({
+    loadBrikkoStudioProviderIndex.mockReturnValue({
       version: 1,
       providers: {
         moonshot: {
@@ -717,7 +717,7 @@ describe("provider install catalog", () => {
       ],
       diagnostics: [],
     });
-    loadBrikko StudioProviderIndex.mockReturnValue({
+    loadBrikkoStudioProviderIndex.mockReturnValue({
       version: 1,
       providers: {
         groq: {

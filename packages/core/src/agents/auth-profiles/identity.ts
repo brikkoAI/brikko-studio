@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import type { AuthProfileStore } from "./types.js";
 
@@ -25,7 +25,7 @@ export function buildAuthProfileId(params: {
 }
 
 export function resolveAuthProfileMetadata(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   store?: AuthProfileStore;
   profileId: string;
 }): { displayName?: string; email?: string } {

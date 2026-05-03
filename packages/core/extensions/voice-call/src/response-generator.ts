@@ -14,7 +14,7 @@ import { resolveVoiceResponseModel } from "./response-model.js";
 export type VoiceResponseParams = {
   /** Voice call config */
   voiceConfig: VoiceCallConfig;
-  /** Core Brikko Studio config */
+  /** Core BrikkoStudio config */
   coreConfig: CoreConfig;
   /** Injected host agent runtime */
   agentRuntime: CoreAgentDeps;

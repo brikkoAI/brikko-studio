@@ -6,7 +6,7 @@ import os from "node:os";
 import path from "node:path";
 import { runCli, shouldStartCrestodianForBareRoot } from "../../dist/cli/run-main.js";
 import { clearConfigCache } from "../../dist/config/config.js";
-import type { Brikko StudioConfig } from "../../dist/config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../dist/config/types.brikko-studio.js";
 import { runCrestodian } from "../../dist/crestodian/crestodian.js";
 import type { RuntimeEnv } from "../../dist/runtime.js";
 
@@ -123,7 +123,7 @@ async function main() {
     );
   }
 
-  const config = JSON.parse(await fs.readFile(configPath, "utf8")) as Brikko StudioConfig;
+  const config = JSON.parse(await fs.readFile(configPath, "utf8")) as BrikkoStudioConfig;
   assert(
     config.agents?.defaults?.workspace === spec.dockerDefaultWorkspace,
     "first-run setup did not write default workspace",

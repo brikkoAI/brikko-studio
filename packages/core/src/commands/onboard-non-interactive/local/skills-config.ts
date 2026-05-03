@@ -1,9 +1,9 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../../../runtime.js";
 import type { OnboardOptions } from "../../onboard-types.js";
 
 export function applyNonInteractiveSkillsConfig(params: {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   opts: OnboardOptions;
   runtime: RuntimeEnv;
 }) {

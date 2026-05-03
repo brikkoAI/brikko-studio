@@ -4,7 +4,7 @@ import {
   ensureApiKeyFromEnvOrPrompt,
   hasConfiguredSecretInput,
   normalizeOptionalSecretInput,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type SecretInput,
   type SecretInputMode,
 } from "brikko-studio/plugin-sdk/provider-auth";
@@ -84,7 +84,7 @@ function resolveLmstudioSetupDefaultInferenceBaseUrl(env: NodeJS.ProcessEnv = pr
     : LMSTUDIO_DEFAULT_INFERENCE_BASE_URL;
 }
 
-function stripLmstudioStoredAuthConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function stripLmstudioStoredAuthConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const { profiles: _profiles, order: _order, ...restAuth } = cfg.auth ?? {};
   const nextProfiles = Object.fromEntries(
     Object.entries(cfg.auth?.profiles ?? {}).filter(
@@ -323,7 +323,7 @@ function isLmstudioDiscoveryConfigResolutionError(error: unknown): boolean {
 
 /** Preserves existing allowlist metadata and appends discovered LM Studio model refs. */
 function mergeDiscoveredLmstudioAllowlistEntries(params: {
-  existing?: NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]>["models"];
+  existing?: NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["defaults"]>["models"];
   discoveredModels: ModelDefinitionConfig[];
 }) {
   return withAgentModelAliases(
@@ -381,7 +381,7 @@ async function discoverLmstudioSetupModels(params: {
 
 /** Interactive LM Studio setup with connectivity and model-availability checks. */
 export async function promptAndConfigureLmstudioInteractive(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentDir?: string;
   prompter?: WizardPrompter;
   secretInputMode?: SecretInputMode;
@@ -564,7 +564,7 @@ export async function promptAndConfigureLmstudioInteractive(params: {
 /** Non-interactive setup path backed by the shared self-hosted helper. */
 export async function configureLmstudioNonInteractive(
   ctx: ProviderAuthMethodNonInteractiveContext,
-): Promise<Brikko StudioConfig | null> {
+): Promise<BrikkoStudioConfig | null> {
   const customBaseUrl = normalizeOptionalSecretInput(ctx.opts.customBaseUrl);
   const baseUrl = resolveLmstudioInferenceBase(
     customBaseUrl || resolveLmstudioSetupDefaultInferenceBaseUrl(),

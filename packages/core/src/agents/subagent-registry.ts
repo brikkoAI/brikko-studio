@@ -6,7 +6,7 @@ import {
   resolveStorePath,
   type SessionEntry,
 } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { ResolveContextEngineOptions } from "../context-engine/registry.js";
 import type { ContextEngine, SubagentEndReason } from "../context-engine/types.js";
 import { callGateway } from "../gateway/call.js";
@@ -100,7 +100,7 @@ type SubagentRegistryDeps = {
   ensureContextEnginesInitialized?: () => void;
   ensureRuntimePluginsLoaded?: typeof ensureRuntimePluginsLoadedFn;
   resolveContextEngine?: (
-    cfg?: Brikko StudioConfig,
+    cfg?: BrikkoStudioConfig,
     options?: ResolveContextEngineOptions,
   ) => Promise<ContextEngine>;
 };
@@ -148,7 +148,7 @@ type ContextEngineInitModule = Pick<
 type ContextEngineRegistryModule = Pick<
   {
     resolveContextEngine: (
-      cfg?: Brikko StudioConfig,
+      cfg?: BrikkoStudioConfig,
       options?: ResolveContextEngineOptions,
     ) => Promise<ContextEngine>;
   },
@@ -300,7 +300,7 @@ function loadRuntimePluginsModule(): Promise<RuntimePluginsModule> {
 }
 
 async function ensureSubagentRegistryPluginRuntimeLoaded(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   workspaceDir?: string;
   allowGatewaySubagentBinding?: boolean;
 }) {
@@ -313,7 +313,7 @@ async function ensureSubagentRegistryPluginRuntimeLoaded(params: {
 }
 
 async function resolveSubagentRegistryContextEngine(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options?: ResolveContextEngineOptions,
 ) {
   const initModule = await loadContextEngineInitModule();
@@ -715,7 +715,7 @@ function restoreSubagentRunsOnce() {
   }
 }
 
-function resolveSubagentWaitTimeoutMs(cfg: Brikko StudioConfig, runTimeoutSeconds?: number) {
+function resolveSubagentWaitTimeoutMs(cfg: BrikkoStudioConfig, runTimeoutSeconds?: number) {
   return subagentRegistryDeps.resolveAgentTimeoutMs({
     cfg,
     overrideSeconds: runTimeoutSeconds ?? 0,
@@ -978,7 +978,7 @@ const subagentRunManager = createSubagentRunManager({
   callGateway: (request) => subagentRegistryDeps.callGateway(request),
   getRuntimeConfig: () => subagentRegistryDeps.getRuntimeConfig(),
   ensureRuntimePluginsLoaded: (args: {
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     workspaceDir?: string;
     allowGatewaySubagentBinding?: boolean;
   }) => ensureSubagentRegistryPluginRuntimeLoaded(args),

@@ -8,7 +8,7 @@ vi.mock("./preflight-audio.runtime.js", () => ({
 
 import { resolveDiscordPreflightAudioMentionContext } from "./preflight-audio.js";
 
-const cfg = {} as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
+const cfg = {} as import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig;
 
 describe("resolveDiscordPreflightAudioMentionContext", () => {
   beforeEach(() => {

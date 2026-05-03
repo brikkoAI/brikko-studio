@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { resolveManifestProviderOnboardAuthFlags } from "../../../plugins/provider-auth-choices.js";
 import { normalizeOptionalString } from "../../../shared/string-coerce.js";
 import { CORE_ONBOARD_AUTH_FLAGS } from "../../onboard-core-auth-flags.js";
@@ -23,7 +23,7 @@ function hasStringValue(value: unknown): boolean {
 export function inferAuthChoiceFromFlags(
   opts: OnboardOptions,
   params?: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     workspaceDir?: string;
     env?: NodeJS.ProcessEnv;
   },

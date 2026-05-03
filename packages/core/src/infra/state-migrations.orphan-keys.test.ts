@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { withTempDir } from "../test-helpers/temp-dir.js";
 import { migrateOrphanedSessionKeys } from "./state-migrations.js";
 
@@ -27,20 +27,20 @@ async function withStateFixture(
 const OPS_WORK_CONFIG = {
   session: { mainKey: "work" },
   agents: { list: [{ id: "ops", default: true }] },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 function opsSessionStorePath(stateDir: string): string {
   return path.join(stateDir, "agents", "ops", "sessions", "sessions.json");
 }
 
-function sharedMainOpsConfig(sharedStorePath: string): Brikko StudioConfig {
+function sharedMainOpsConfig(sharedStorePath: string): BrikkoStudioConfig {
   return {
     session: { mainKey: "work", store: sharedStorePath },
     agents: { list: [{ id: "main" }, { id: "ops", default: true }] },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-async function migrateFixtureState(stateDir: string, cfg: Brikko StudioConfig = OPS_WORK_CONFIG) {
+async function migrateFixtureState(stateDir: string, cfg: BrikkoStudioConfig = OPS_WORK_CONFIG) {
   return migrateOrphanedSessionKeys({
     cfg,
     env: { BRIKKO_STUDIO_STATE_DIR: stateDir },
@@ -170,7 +170,7 @@ describe("migrateOrphanedSessionKeys", () => {
         "agent:main:main": { sessionId: "abc-123", updatedAt: 1000 },
       });
 
-      const cfg = {} as Brikko StudioConfig;
+      const cfg = {} as BrikkoStudioConfig;
 
       const result = await migrateOrphanedSessionKeys({
         cfg,

@@ -58,7 +58,7 @@ describe("check-brikko-studio-package-tarball", () => {
 
         expect(result.status, result.stderr).toBe(0);
         expect(result.stderr).toContain("legacy inventory references omitted private QA");
-        expect(result.stdout).toContain("Brikko Studio package tarball integrity passed.");
+        expect(result.stdout).toContain("BrikkoStudio package tarball integrity passed.");
       },
       "2026.4.25-beta.10",
     );
@@ -121,7 +121,7 @@ describe("check-brikko-studio-package-tarball", () => {
         const result = spawnSync("node", [CHECK_SCRIPT, tarball], { encoding: "utf8" });
 
         expect(result.status, result.stderr).toBe(0);
-        expect(result.stdout).toContain("Brikko Studio package tarball integrity passed.");
+        expect(result.stdout).toContain("BrikkoStudio package tarball integrity passed.");
       },
       "2026.4.27",
     );
@@ -203,7 +203,7 @@ describe("check-brikko-studio-package-tarball", () => {
         expect(result.stderr).toContain(
           "legacy package includes local build metadata tar entry dist/.runtime-postbuildstamp",
         );
-        expect(result.stdout).toContain("Brikko Studio package tarball integrity passed.");
+        expect(result.stdout).toContain("BrikkoStudio package tarball integrity passed.");
       },
       "2026.4.26",
     );

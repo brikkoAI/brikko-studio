@@ -1,5 +1,5 @@
 import type { ModelProviderConfig } from "../config/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 /**
  * Provider-owned config normalization for `models.providers.<id>` entries.
@@ -31,6 +31,6 @@ export type ProviderResolveConfigApiKeyContext = {
  */
 export type ProviderApplyConfigDefaultsContext = {
   provider: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 };

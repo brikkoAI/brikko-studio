@@ -414,7 +414,7 @@ function renderSessionExportLines(label: string, text: string): string[] {
 }
 
 /**
- * Strip Brikko Studio-injected inbound metadata envelopes from a raw text block.
+ * Strip BrikkoStudio-injected inbound metadata envelopes from a raw text block.
  *
  * User-role messages arriving from external channels (Telegram, Discord,
  * Slack, …) are stored with a multi-line prefix containing Conversation info,

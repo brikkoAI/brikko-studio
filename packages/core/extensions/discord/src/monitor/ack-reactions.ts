@@ -3,7 +3,7 @@ import {
   logAckFailure,
   type StatusReactionAdapter,
 } from "brikko-studio/plugin-sdk/channel-feedback";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { createDiscordRuntimeAccountContext } from "../client.js";
 import type { RequestClient } from "../internal/discord.js";
@@ -12,7 +12,7 @@ import type { DiscordReactionRuntimeContext } from "../send.types.js";
 
 export function createDiscordAckReactionContext(params: {
   rest: RequestClient;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
 }): DiscordReactionRuntimeContext {
   return {

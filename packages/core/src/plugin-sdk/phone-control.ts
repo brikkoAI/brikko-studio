@@ -3,8 +3,8 @@
 
 export { definePluginEntry } from "./plugin-entry.js";
 export type {
-  Brikko StudioPluginApi,
-  Brikko StudioPluginCommandDefinition,
-  Brikko StudioPluginService,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginCommandDefinition,
+  BrikkoStudioPluginService,
   PluginCommandContext,
 } from "../plugins/types.js";

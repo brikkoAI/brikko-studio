@@ -1,5 +1,5 @@
 import type { AssistantMessage } from "@mariozechner/pi-ai";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { estimateBase64DecodedBytes } from "../../media/base64.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
 import { findNormalizedProviderValue, normalizeProviderId } from "../model-selection.js";
@@ -130,7 +130,7 @@ export function coerceImageAssistantText(params: {
   throw new Error(`Image model returned no text (${params.provider}/${params.model}).`);
 }
 
-export function coerceImageModelConfig(cfg?: Brikko StudioConfig): ImageModelConfig {
+export function coerceImageModelConfig(cfg?: BrikkoStudioConfig): ImageModelConfig {
   return coerceToolModelConfig(cfg?.agents?.defaults?.imageModel);
 }
 
@@ -161,7 +161,7 @@ function modelIdMatchesProviderlessRef(params: {
   return false;
 }
 
-function findConfiguredImageModelMatches(params: { cfg?: Brikko StudioConfig; ref: string }): string[] {
+function findConfiguredImageModelMatches(params: { cfg?: BrikkoStudioConfig; ref: string }): string[] {
   const providers = params.cfg?.models?.providers;
   if (!providers || typeof providers !== "object") {
     return [];
@@ -188,7 +188,7 @@ function findConfiguredImageModelMatches(params: { cfg?: Brikko StudioConfig; re
 }
 
 function resolveProviderlessConfiguredImageModelRef(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   ref: string;
 }): string {
   const ref = params.ref.trim();
@@ -211,7 +211,7 @@ function resolveProviderlessConfiguredImageModelRef(params: {
 }
 
 export function resolveConfiguredImageModelRefs(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   imageModelConfig: ImageModelConfig;
 }): ImageModelConfig {
   const primary = params.imageModelConfig.primary?.trim();
@@ -235,7 +235,7 @@ export function resolveConfiguredImageModelRefs(params: {
 }
 
 export function resolveProviderVisionModelFromConfig(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   provider: string;
 }): string | null {
   const providerCfg = findNormalizedProviderValue(

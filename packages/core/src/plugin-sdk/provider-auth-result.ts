@@ -1,6 +1,6 @@
 import { buildAuthProfileId } from "../agents/auth-profiles/identity.js";
 import type { AuthProfileCredential } from "../agents/auth-profiles/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { ProviderAuthResult } from "../plugins/types.js";
 
 /** Build the standard auth result payload for OAuth-style provider login flows. */
@@ -15,7 +15,7 @@ export function buildOauthProviderAuthResult(params: {
   profileName?: string | null;
   profilePrefix?: string;
   credentialExtra?: Record<string, unknown>;
-  configPatch?: Partial<Brikko StudioConfig>;
+  configPatch?: Partial<BrikkoStudioConfig>;
   notes?: string[];
 }): ProviderAuthResult {
   const email = params.email ?? undefined;
@@ -49,7 +49,7 @@ export function buildOauthProviderAuthResult(params: {
             },
           },
         },
-      } as Partial<Brikko StudioConfig>),
+      } as Partial<BrikkoStudioConfig>),
     defaultModel: params.defaultModel,
     notes: params.notes,
   };

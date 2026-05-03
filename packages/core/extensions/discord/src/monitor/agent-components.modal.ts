@@ -15,7 +15,7 @@ import { dispatchDiscordComponentEvent } from "./agent-components.dispatch.js";
 import { dispatchPluginDiscordInteractiveEvent } from "./agent-components.plugin-interactive.js";
 
 export class DiscordComponentModal extends Modal {
-  title = "Brikko Studio form";
+  title = "BrikkoStudio form";
   customId = "__brikko-studio_discord_component_modal_wildcard__";
   components = [];
   customIdParser = parseDiscordModalCustomIdForInteraction;

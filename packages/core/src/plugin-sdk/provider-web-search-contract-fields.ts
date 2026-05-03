@@ -7,7 +7,7 @@ import {
   setProviderWebSearchPluginConfigValue,
   setTopLevelCredentialValue,
 } from "../agents/tools/web-search-provider-config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { WebSearchProviderPlugin } from "../plugins/types.js";
 
 export type WebSearchProviderContractCredential =
@@ -73,9 +73,9 @@ function createConfiguredCredentialFields(
   const field = configuredCredential.field ?? "apiKey";
 
   return {
-    getConfiguredCredentialValue: (config?: Brikko StudioConfig) =>
+    getConfiguredCredentialValue: (config?: BrikkoStudioConfig) =>
       resolveProviderWebSearchPluginConfig(config, configuredCredential.pluginId)?.[field],
-    setConfiguredCredentialValue: (configTarget: Brikko StudioConfig, value: unknown) => {
+    setConfiguredCredentialValue: (configTarget: BrikkoStudioConfig, value: unknown) => {
       setProviderWebSearchPluginConfigValue(
         configTarget,
         configuredCredential.pluginId,

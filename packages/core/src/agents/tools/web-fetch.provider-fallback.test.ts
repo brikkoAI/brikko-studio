@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { withFetchPreconnect } from "../../test-utils/fetch-mock.js";
 import { createWebFetchTool } from "./web-fetch.js";
 
@@ -56,7 +56,7 @@ describe("web_fetch provider fallback normalization", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       sandboxed: false,
     });
 
@@ -109,7 +109,7 @@ describe("web_fetch provider fallback normalization", () => {
     });
 
     const tool = createWebFetchTool({
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       sandboxed: false,
     });
 

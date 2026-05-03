@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import type { ResolvedGoogleChatAccount } from "./accounts.js";
 import type { GoogleChatCoreRuntime, GoogleChatRuntimeEnv } from "./monitor-types.js";
 
@@ -24,7 +24,7 @@ const account = {
   config: {},
 } as ResolvedGoogleChatAccount;
 
-const config = {} as Brikko StudioConfig;
+const config = {} as BrikkoStudioConfig;
 
 function createCore(params?: {
   chunks?: readonly string[];

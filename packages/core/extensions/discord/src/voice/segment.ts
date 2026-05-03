@@ -1,6 +1,6 @@
 import path from "node:path";
 import { agentCommandFromIngress } from "brikko-studio/plugin-sdk/agent-runtime";
-import type { DiscordAccountConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { DiscordAccountConfig, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
@@ -27,7 +27,7 @@ export async function processDiscordVoiceSegment(params: {
   wavPath: string;
   userId: string;
   durationSeconds: number;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   discordConfig: DiscordAccountConfig;
   runtime: RuntimeEnv;
   ownerAllowFrom?: string[];

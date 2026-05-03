@@ -1,6 +1,6 @@
 import { resolve, isAbsolute } from "node:path";
 import { Type } from "typebox";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { MediaUnderstandingModelConfig } from "../../config/types.tools.js";
 import {
   DEFAULT_TIMEOUT_SECONDS,
@@ -116,7 +116,7 @@ function resolveImageToolMaxTokens(modelMaxTokens: number | undefined, requested
  *   - fall back to OpenAI/Anthropic when available
  */
 export function resolveImageModelConfigForTool(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir: string;
   workspaceDir?: string;
   authStore?: AuthProfileStore;
@@ -182,7 +182,7 @@ export function resolveImageModelConfigForTool(params: {
   });
 }
 
-function pickMaxBytes(cfg?: Brikko StudioConfig, maxBytesMb?: number): number | undefined {
+function pickMaxBytes(cfg?: BrikkoStudioConfig, maxBytesMb?: number): number | undefined {
   if (typeof maxBytesMb === "number" && Number.isFinite(maxBytesMb) && maxBytesMb > 0) {
     return Math.floor(maxBytesMb * 1024 * 1024);
   }
@@ -227,7 +227,7 @@ function matchesImageTimeoutEntry(params: {
 }
 
 function resolveImageToolTimeoutMs(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   provider: string;
   model: string;
   providerRegistry: Map<string, MediaUnderstandingProvider>;
@@ -263,7 +263,7 @@ type ImageSandboxConfig = {
 };
 
 async function runImagePrompt(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir: string;
   imageModelConfig: ImageModelConfig;
   modelOverride?: string;
@@ -276,7 +276,7 @@ async function runImagePrompt(params: {
   attempts: Array<{ provider: string; model: string; error: string }>;
 }> {
   const effectiveCfg = applyImageModelConfigDefaults(params.cfg, params.imageModelConfig);
-  const providerCfg: Brikko StudioConfig = effectiveCfg ?? {};
+  const providerCfg: BrikkoStudioConfig = effectiveCfg ?? {};
   const providerRegistry = imageToolProviderDeps.buildProviderRegistry(undefined, providerCfg);
 
   const result = await runWithImageModelFallback({
@@ -371,7 +371,7 @@ async function runImagePrompt(params: {
 }
 
 export function createImageTool(options?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   authProfileStore?: AuthProfileStore;
   workspaceDir?: string;

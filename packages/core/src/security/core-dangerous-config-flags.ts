@@ -1,6 +1,6 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
-export function collectCoreInsecureOrDangerousFlags(cfg: Brikko StudioConfig): string[] {
+export function collectCoreInsecureOrDangerousFlags(cfg: BrikkoStudioConfig): string[] {
   const enabledFlags: string[] = [];
   if (cfg.gateway?.controlUi?.allowInsecureAuth === true) {
     enabledFlags.push("gateway.controlUi.allowInsecureAuth=true");

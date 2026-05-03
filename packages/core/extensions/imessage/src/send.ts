@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
 import { kindFromMime } from "brikko-studio/plugin-sdk/media-runtime";
 import { resolveOutboundAttachmentFromUrl } from "brikko-studio/plugin-sdk/media-runtime";
@@ -23,7 +23,7 @@ type IMessageSendOpts = {
   timeoutMs?: number;
   chatId?: number;
   client?: IMessageRpcClient;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   account?: ResolvedIMessageAccount;
   resolveAttachmentImpl?: (
     mediaUrl: string,

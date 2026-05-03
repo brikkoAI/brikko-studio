@@ -4,13 +4,13 @@ import {
   normalizeEnvVarKey,
 } from "../infra/host-env-security.js";
 import { containsEnvVarReference } from "./env-substitution.js";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
 function isBlockedConfigEnvVar(key: string): boolean {
   return isDangerousHostEnvVarName(key) || isDangerousHostEnvOverrideVarName(key);
 }
 
-function collectConfigEnvVarsByTarget(cfg?: Brikko StudioConfig): Record<string, string> {
+function collectConfigEnvVarsByTarget(cfg?: BrikkoStudioConfig): Record<string, string> {
   const envConfig = cfg?.env;
   if (!envConfig) {
     return {};
@@ -54,16 +54,16 @@ function collectConfigEnvVarsByTarget(cfg?: Brikko StudioConfig): Record<string,
   return entries;
 }
 
-export function collectConfigRuntimeEnvVars(cfg?: Brikko StudioConfig): Record<string, string> {
+export function collectConfigRuntimeEnvVars(cfg?: BrikkoStudioConfig): Record<string, string> {
   return collectConfigEnvVarsByTarget(cfg);
 }
 
-export function collectConfigServiceEnvVars(cfg?: Brikko StudioConfig): Record<string, string> {
+export function collectConfigServiceEnvVars(cfg?: BrikkoStudioConfig): Record<string, string> {
   return collectConfigEnvVarsByTarget(cfg);
 }
 
 export function createConfigRuntimeEnv(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   baseEnv: NodeJS.ProcessEnv = process.env,
 ): NodeJS.ProcessEnv {
   const env = { ...baseEnv };
@@ -72,7 +72,7 @@ export function createConfigRuntimeEnv(
 }
 
 export function applyConfigEnvVars(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): void {
   const entries = collectConfigRuntimeEnvVars(cfg);

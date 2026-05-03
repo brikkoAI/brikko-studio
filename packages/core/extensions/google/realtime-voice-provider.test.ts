@@ -142,7 +142,7 @@ describe("buildGoogleRealtimeVoiceProvider", () => {
         {
           type: "function",
           name: "brikko-studio_agent_consult",
-          description: "Ask Brikko Studio",
+          description: "Ask BrikkoStudio",
           parameters: {
             type: "object",
             properties: {
@@ -197,7 +197,7 @@ describe("buildGoogleRealtimeVoiceProvider", () => {
               },
               {
                 name: "brikko-studio_agent_consult",
-                description: "Ask Brikko Studio",
+                description: "Ask BrikkoStudio",
                 parametersJsonSchema: {
                   type: "object",
                   properties: {
@@ -245,7 +245,7 @@ describe("buildGoogleRealtimeVoiceProvider", () => {
         {
           type: "function",
           name: "brikko-studio_agent_consult",
-          description: "Ask Brikko Studio",
+          description: "Ask BrikkoStudio",
           parameters: {
             type: "object",
             properties: {

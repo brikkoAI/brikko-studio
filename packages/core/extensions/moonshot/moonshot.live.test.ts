@@ -34,7 +34,7 @@ describeLive("moonshot plugin live", () => {
     let lastError: unknown;
     for (let attempt = 0; attempt < 2; attempt += 1) {
       try {
-        result = await tool?.execute({ query: "Brikko Studio GitHub", count: 1 });
+        result = await tool?.execute({ query: "BrikkoStudio GitHub", count: 1 });
         lastError = undefined;
         break;
       } catch (error) {

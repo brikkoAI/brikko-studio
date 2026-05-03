@@ -98,7 +98,7 @@ describe("unit vitest config", () => {
     expect(unitConfig.test?.passWithNoTests).toBe(true);
   });
 
-  it("adds the Brikko Studio runtime setup hooks on top of the base setup", () => {
+  it("adds the BrikkoStudio runtime setup hooks on top of the base setup", () => {
     const unitConfig = createUnitVitestConfig({});
     expect(normalizeConfigPaths(unitConfig.test?.setupFiles)).toEqual([
       "test/setup.ts",

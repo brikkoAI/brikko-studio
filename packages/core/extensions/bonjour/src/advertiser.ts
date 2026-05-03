@@ -197,7 +197,7 @@ function resolveSystemMdnsHostname(): string | null {
 const MAX_DNS_LABEL_BYTES = 63;
 const utf8Encoder = new TextEncoder();
 
-function truncateToDnsLabel(name: string, fallback = "Brikko Studio"): string {
+function truncateToDnsLabel(name: string, fallback = "BrikkoStudio"): string {
   const encoded = utf8Encoder.encode(name);
   if (encoded.byteLength <= MAX_DNS_LABEL_BYTES) {
     return name;
@@ -215,12 +215,12 @@ function truncateToDnsLabel(name: string, fallback = "Brikko Studio"): string {
 
 function safeServiceName(name: string) {
   const trimmed = name.trim();
-  return trimmed.length > 0 ? truncateToDnsLabel(trimmed) : "Brikko Studio";
+  return trimmed.length > 0 ? truncateToDnsLabel(trimmed) : "BrikkoStudio";
 }
 
 function prettifyInstanceName(name: string) {
   const normalized = name.trim().replace(/\s+/g, " ");
-  return normalized.replace(/\s+\(Brikko Studio\)\s*$/i, "").trim() || normalized;
+  return normalized.replace(/\s+\(BrikkoStudio\)\s*$/i, "").trim() || normalized;
 }
 
 function serviceSummary(label: string, svc: BonjourService): string {
@@ -427,7 +427,7 @@ export async function startGatewayBonjourAdvertiser(
     const instanceName =
       typeof opts.instanceName === "string" && opts.instanceName.trim()
         ? opts.instanceName.trim()
-        : `${hostname} (Brikko Studio)`;
+        : `${hostname} (BrikkoStudio)`;
     const displayName = prettifyInstanceName(instanceName);
 
     const txtBase: Record<string, string> = {

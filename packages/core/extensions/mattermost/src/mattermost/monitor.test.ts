@@ -1,6 +1,6 @@
 import { createClaimableDedupe } from "brikko-studio/plugin-sdk/persistent-dedupe";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../runtime-api.js";
+import type { BrikkoStudioConfig } from "../../runtime-api.js";
 import { resolveMattermostAccount } from "./accounts.js";
 import * as clientModule from "./client.js";
 import type { MattermostClient } from "./client.js";
@@ -76,7 +76,7 @@ beforeEach(() => {
   updateMattermostPostSpy.mockResolvedValue({ id: "patched" } as never);
 });
 
-function evaluateMentionGateForMessage(params: { cfg: Brikko StudioConfig; threadRootId?: string }) {
+function evaluateMentionGateForMessage(params: { cfg: BrikkoStudioConfig; threadRootId?: string }) {
   const account = resolveMattermostAccount({ cfg: params.cfg, accountId: "default" });
   const resolver = vi.fn(resolveRequireMentionForTest);
   const input: MattermostMentionGateInput = {
@@ -100,7 +100,7 @@ function evaluateMentionGateForMessage(params: { cfg: Brikko StudioConfig; threa
 
 describe("mattermost mention gating", () => {
   it("accepts unmentioned root channel posts in onmessage mode", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         mattermost: {
           chatmode: "onmessage",
@@ -121,7 +121,7 @@ describe("mattermost mention gating", () => {
   });
 
   it("accepts unmentioned thread replies in onmessage mode", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         mattermost: {
           chatmode: "onmessage",
@@ -141,7 +141,7 @@ describe("mattermost mention gating", () => {
   });
 
   it("rejects unmentioned channel posts in oncall mode", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         mattermost: {
           chatmode: "oncall",

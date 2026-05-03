@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveDefaultSecretProviderAlias } from "brikko-studio/plugin-sdk/provider-auth";
 import { coerceSecretRef, normalizeSecretInputString } from "brikko-studio/plugin-sdk/secret-input";
 import { getPlatformAdapter } from "../engine/adapter/index.js";
@@ -30,7 +30,7 @@ function assertNotLegacySecretRefMarker(value: unknown, path: string): void {
 }
 
 function resolveEnvSecretRefValue(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   value: unknown;
   env?: NodeJS.ProcessEnv;
 }): string | undefined {
@@ -61,7 +61,7 @@ function resolveEnvSecretRefValue(params: {
 }
 
 function resolveQQBotClientSecretInput(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   value: unknown;
   path: string;
 }): string | undefined {
@@ -82,18 +82,18 @@ function resolveQQBotClientSecretInput(params: {
 }
 
 /** List all configured QQBot account IDs. */
-export function listQQBotAccountIds(cfg: Brikko StudioConfig): string[] {
+export function listQQBotAccountIds(cfg: BrikkoStudioConfig): string[] {
   return listAccountIds(cfg as unknown as Record<string, unknown>);
 }
 
 /** Resolve the default QQBot account ID. */
-export function resolveDefaultQQBotAccountId(cfg: Brikko StudioConfig): string {
+export function resolveDefaultQQBotAccountId(cfg: BrikkoStudioConfig): string {
   return resolveDefaultAccountId(cfg as unknown as Record<string, unknown>);
 }
 
 /** Resolve QQBot account config for runtime or setup flows. */
 export function resolveQQBotAccount(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string | null,
   opts?: { allowUnresolvedSecretRef?: boolean },
 ): ResolvedQQBotAccount {
@@ -157,9 +157,9 @@ export function resolveQQBotAccount(
   };
 }
 
-/** Apply account config updates back into the Brikko Studio config object. */
+/** Apply account config updates back into the BrikkoStudio config object. */
 export function applyQQBotAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   input: {
     appId?: string;
@@ -167,10 +167,10 @@ export function applyQQBotAccountConfig(
     clientSecretFile?: string;
     name?: string;
   },
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return applyAccountConfig(
     cfg as unknown as Record<string, unknown>,
     accountId,
     input,
-  ) as Brikko StudioConfig;
+  ) as BrikkoStudioConfig;
 }

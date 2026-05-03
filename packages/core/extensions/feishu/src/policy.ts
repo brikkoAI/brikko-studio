@@ -2,7 +2,7 @@ import {
   normalizeAccountId,
   resolveMergedAccountConfig,
 } from "brikko-studio/plugin-sdk/account-resolution";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/core";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/core";
 import { evaluateSenderGroupAccessForPolicy } from "brikko-studio/plugin-sdk/group-access";
 import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
 import type { AllowlistMatch, ChannelGroupContext } from "../runtime-api.js";
@@ -198,7 +198,7 @@ export function isFeishuGroupAllowed(params: {
 
 export function resolveFeishuReplyPolicy(params: {
   isDirectMessage: boolean;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   groupId?: string | null;
   /**

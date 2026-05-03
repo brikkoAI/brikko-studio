@@ -1,5 +1,5 @@
 import { type Block, type KnownBlock, type WebClient } from "@slack/web-api";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { withTrustedEnvProxyGuardedFetchMode } from "brikko-studio/plugin-sdk/fetch-runtime";
 import { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
 import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
@@ -55,7 +55,7 @@ export type SlackSendIdentity = {
 };
 
 type SlackSendOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token?: string;
   accountId?: string;
   mediaUrl?: string;
@@ -551,7 +551,7 @@ export async function sendMessageSlack(
 async function sendMessageSlackQueued(params: {
   trimmedMessage: string;
   opts: SlackSendOpts;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ReturnType<typeof resolveSlackAccount>;
   token: string;
   recipient: SlackRecipient;
@@ -567,7 +567,7 @@ async function sendMessageSlackQueued(params: {
 async function sendMessageSlackQueuedInner(params: {
   trimmedMessage: string;
   opts: SlackSendOpts;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ReturnType<typeof resolveSlackAccount>;
   token: string;
   recipient: SlackRecipient;

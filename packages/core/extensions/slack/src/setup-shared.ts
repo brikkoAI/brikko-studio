@@ -3,16 +3,16 @@ import { hasConfiguredSecretInput } from "brikko-studio/plugin-sdk/secret-input"
 import { patchChannelConfigForAccount } from "brikko-studio/plugin-sdk/setup-runtime";
 import { formatDocsLink } from "brikko-studio/plugin-sdk/setup-tools";
 import type { ResolvedSlackAccount } from "./accounts.js";
-import type { Brikko StudioConfig } from "./channel-api.js";
+import type { BrikkoStudioConfig } from "./channel-api.js";
 
 export const SLACK_CHANNEL = "slack" as const;
 
-export function buildSlackManifest(botName = "Brikko Studio") {
-  const safeName = botName.trim() || "Brikko Studio";
+export function buildSlackManifest(botName = "BrikkoStudio") {
+  const safeName = botName.trim() || "BrikkoStudio";
   const manifest = {
     display_information: {
       name: safeName,
-      description: `${safeName} connector for Brikko Studio`,
+      description: `${safeName} connector for BrikkoStudio`,
     },
     features: {
       bot_user: {
@@ -27,7 +27,7 @@ export function buildSlackManifest(botName = "Brikko Studio") {
       slash_commands: [
         {
           command: "/brikko-studio",
-          description: "Send a message to Brikko Studio",
+          description: "Send a message to BrikkoStudio",
           should_escape: false,
         },
       ],
@@ -99,10 +99,10 @@ export function buildSlackSetupLines(): string[] {
 }
 
 export function setSlackChannelAllowlist(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   channelKeys: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const channels = Object.fromEntries(channelKeys.map((key) => [key, { enabled: true }]));
   return patchChannelConfigForAccount({
     cfg,

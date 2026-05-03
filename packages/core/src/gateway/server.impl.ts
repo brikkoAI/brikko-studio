@@ -21,7 +21,7 @@ import { isNixMode } from "../config/paths.js";
 import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
 import { applyConfigOverrides } from "../config/runtime-overrides.js";
 import { resolveMainSessionKey } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { clearAgentRunContext } from "../infra/agent-events.js";
 import {
   isDiagnosticsEnabled,
@@ -32,7 +32,7 @@ import {
   isDiagnosticsTimelineEnabled,
 } from "../infra/diagnostics-timeline.js";
 import { isTruthyEnvValue, isVitestRuntimeEnv, logAcceptedEnvOption } from "../infra/env.js";
-import { ensureBrikko StudioCliOnPath } from "../infra/path-env.js";
+import { ensureBrikkoStudioCliOnPath } from "../infra/path-env.js";
 import { setGatewaySigusr1RestartPolicy, setPreRestartDeferralCheck } from "../infra/restart.js";
 import { enqueueSystemEvent } from "../infra/system-events.js";
 import type { VoiceWakeRoutingConfig } from "../infra/voicewake-routing.js";
@@ -107,7 +107,7 @@ import { maybeSeedControlUiAllowedOriginsAtStartup } from "./startup-control-ui-
 
 export { __resetModelCatalogCacheForTest } from "./server-model-catalog.js";
 
-ensureBrikko StudioCliOnPath();
+ensureBrikkoStudioCliOnPath();
 
 const MAX_MEDIA_TTL_HOURS = 24 * 7;
 
@@ -181,7 +181,7 @@ const canvasRuntime = runtimeForLogger(logCanvas);
 
 function createGatewayStartupTrace() {
   const logEnabled = isTruthyEnvValue(process.env.BRIKKO_STUDIO_GATEWAY_STARTUP_TRACE);
-  let timelineConfig: Brikko StudioConfig | undefined;
+  let timelineConfig: BrikkoStudioConfig | undefined;
   let eventLoopDelay: ReturnType<typeof monitorEventLoopDelay> | undefined;
   const timelineOptions = () => ({
     ...(timelineConfig ? { config: timelineConfig } : {}),
@@ -276,7 +276,7 @@ function createGatewayStartupTrace() {
     }
   };
   return {
-    setConfig(config: Brikko StudioConfig) {
+    setConfig(config: BrikkoStudioConfig) {
       timelineConfig = config;
       ensureEventLoopDelay();
     },
@@ -520,7 +520,7 @@ export async function startGatewayServer(
   const emitSecretsStateEvent = (
     code: "SECRETS_RELOADER_DEGRADED" | "SECRETS_RELOADER_RECOVERED",
     message: string,
-    cfg: Brikko StudioConfig,
+    cfg: BrikkoStudioConfig,
   ) => {
     enqueueSystemEvent(`[${code}] ${message}`, {
       sessionKey: resolveMainSessionKey(cfg),
@@ -533,7 +533,7 @@ export async function startGatewayServer(
     emitStateEvent: emitSecretsStateEvent,
   });
 
-  let cfgAtStart: Brikko StudioConfig;
+  let cfgAtStart: BrikkoStudioConfig;
   let startupInternalWriteHash: string | null = null;
   let startupLastGoodSnapshot = configSnapshot;
   const startupActivationSourceConfig = configSnapshot.sourceConfig;
@@ -694,7 +694,7 @@ export async function startGatewayServer(
       env: process.env,
       tailscaleMode,
     });
-  const resolveSharedGatewaySessionGenerationForConfig = (config: Brikko StudioConfig) =>
+  const resolveSharedGatewaySessionGenerationForConfig = (config: BrikkoStudioConfig) =>
     resolveSharedGatewaySessionGeneration(
       resolveGatewayAuth({
         authConfig: config.gateway?.auth,
@@ -1088,7 +1088,7 @@ export async function startGatewayServer(
         ]),
       );
     const reloadAttachedGatewayPlugins = async (params: {
-      nextConfig: Brikko StudioConfig;
+      nextConfig: BrikkoStudioConfig;
       changedPaths: readonly string[];
       beforeReplace: (channels: ReadonlySet<ChannelId>) => Promise<void>;
     }): Promise<GatewayPluginReloadResult> => {
@@ -1208,7 +1208,7 @@ export async function startGatewayServer(
       nodeUnsubscribeAll,
       hasConnectedMobileNode: hasMobileNodeConnected,
       clients,
-      enforceSharedGatewayAuthGenerationForConfigWrite: (nextConfig: Brikko StudioConfig) => {
+      enforceSharedGatewayAuthGenerationForConfigWrite: (nextConfig: BrikkoStudioConfig) => {
         enforceSharedGatewaySessionGenerationForConfigWrite({
           state: sharedGatewaySessionGenerationState,
           nextConfig,

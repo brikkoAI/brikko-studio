@@ -70,11 +70,11 @@ export function makeBrowserServerState(params?: {
 }
 
 export function mockLaunchedChrome(
-  launchBrikko StudioChrome: { mockResolvedValue: (value: RunningChrome) => unknown },
+  launchBrikkoStudioChrome: { mockResolvedValue: (value: RunningChrome) => unknown },
   pid: number,
 ) {
   const proc = new EventEmitter() as unknown as ChildProcessWithoutNullStreams;
-  launchBrikko StudioChrome.mockResolvedValue({
+  launchBrikkoStudioChrome.mockResolvedValue({
     pid,
     exe: { kind: "chromium", path: "/usr/bin/chromium" },
     userDataDir: "/tmp/brikko-studio-test",

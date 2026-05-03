@@ -9,8 +9,8 @@ import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.js";
 import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
 import type { ThinkLevel } from "../../auto-reply/thinking.js";
 import type { CliBackendConfig } from "../../config/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
-import { resolvePreferredBrikko StudioTmpDir } from "../../infra/tmp-brikko-studio-dir.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../../infra/tmp-brikko-studio-dir.js";
 import { MAX_IMAGE_BYTES } from "../../media/constants.js";
 import { extensionForMime } from "../../media/mime.js";
 import {
@@ -68,7 +68,7 @@ export function resolveCliRunQueueKey(params: {
 
 export function buildSystemPrompt(params: {
   workspaceDir: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   defaultThinkLevel?: ThinkLevel;
   extraSystemPrompt?: string;
   sourceReplyDeliveryMode?: SourceReplyDeliveryMode;
@@ -217,14 +217,14 @@ function resolveCliImagePath(image: ImageContent): string {
     .update("\0")
     .update(image.data)
     .digest("hex");
-  return path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-cli-images", `${digest}${ext}`);
+  return path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-cli-images", `${digest}${ext}`);
 }
 
 function resolveCliImageRoot(params: { backend: CliBackendConfig; workspaceDir: string }): string {
   if (params.backend.imagePathScope === "workspace") {
     return path.join(params.workspaceDir, ".brikko-studio-cli-images");
   }
-  return path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-cli-images");
+  return path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-cli-images");
 }
 
 function appendImagePathsToPrompt(prompt: string, paths: string[], prefix = ""): string {
@@ -309,7 +309,7 @@ export async function writeCliSystemPromptFile(params: {
     return { cleanup: async () => {} };
   }
   const tempDir = await fs.mkdtemp(
-    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-cli-system-prompt-"),
+    path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-cli-system-prompt-"),
   );
   const filePath = path.join(tempDir, "system-prompt.md");
   await fs.writeFile(filePath, stripSystemPromptCacheBoundary(params.systemPrompt), {

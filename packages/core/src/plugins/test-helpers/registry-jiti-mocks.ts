@@ -2,7 +2,7 @@ import { vi } from "vitest";
 
 const registryJitiMocks = vi.hoisted(() => ({
   createJiti: vi.fn(),
-  discoverBrikko StudioPlugins: vi.fn(),
+  discoverBrikkoStudioPlugins: vi.fn(),
   loadPluginManifestRegistry: vi.fn(),
   loadPluginRegistrySnapshot: vi.fn(),
 }));
@@ -13,9 +13,9 @@ vi.mock("jiti", () => ({
 }));
 
 vi.mock("../discovery.js", () => ({
-  discoverBrikko StudioPlugins: (
-    ...args: Parameters<typeof registryJitiMocks.discoverBrikko StudioPlugins>
-  ) => registryJitiMocks.discoverBrikko StudioPlugins(...args),
+  discoverBrikkoStudioPlugins: (
+    ...args: Parameters<typeof registryJitiMocks.discoverBrikkoStudioPlugins>
+  ) => registryJitiMocks.discoverBrikkoStudioPlugins(...args),
 }));
 
 vi.mock("../manifest-registry.js", () => ({
@@ -44,10 +44,10 @@ vi.mock("../plugin-registry.js", async (importOriginal) => {
 });
 export function resetRegistryJitiMocks(): void {
   registryJitiMocks.createJiti.mockReset();
-  registryJitiMocks.discoverBrikko StudioPlugins.mockReset();
+  registryJitiMocks.discoverBrikkoStudioPlugins.mockReset();
   registryJitiMocks.loadPluginManifestRegistry.mockReset();
   registryJitiMocks.loadPluginRegistrySnapshot.mockReset();
-  registryJitiMocks.discoverBrikko StudioPlugins.mockReturnValue({
+  registryJitiMocks.discoverBrikkoStudioPlugins.mockReturnValue({
     candidates: [],
     diagnostics: [],
   });

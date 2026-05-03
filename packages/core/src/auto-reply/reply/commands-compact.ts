@@ -1,5 +1,5 @@
 import { resolveAgentDir, resolveSessionAgentId } from "../../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { logVerbose } from "../../globals.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import {
@@ -19,7 +19,7 @@ function loadCompactRuntime(): Promise<typeof import("./commands-compact.runtime
 function extractCompactInstructions(params: {
   rawBody?: string;
   ctx: import("../templating.js").MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   isGroup: boolean;
 }): string | undefined {

@@ -9,7 +9,7 @@ import type {
 } from "../../channels/plugins/types.adapters.js";
 import { resolveMirroredTranscriptText } from "../../config/sessions/transcript-mirror.js";
 import type { ReplyToMode } from "../../config/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { fireAndForgetHook } from "../../hooks/fire-and-forget.js";
 import { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.js";
 import {
@@ -131,7 +131,7 @@ type ChannelHandler = {
 };
 
 type ChannelHandlerParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: Exclude<OutboundChannel, "none">;
   to: string;
   accountId?: string;
@@ -150,7 +150,7 @@ type ChannelHandlerParams = {
 
 // Channel docking: outbound delivery delegates to plugin.outbound adapters.
 async function resolveChannelOutboundDirectiveOptions(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: Exclude<OutboundChannel, "none">;
 }): Promise<{ extractMarkdownImages?: boolean }> {
   let outbound = await loadChannelOutboundAdapter(params.channel);
@@ -351,7 +351,7 @@ function createChannelOutboundContextBase(
 const isAbortError = (err: unknown): boolean => err instanceof Error && err.name === "AbortError";
 
 type DeliverOutboundPayloadsCoreParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: Exclude<OutboundChannel, "none">;
   to: string;
   accountId?: string;

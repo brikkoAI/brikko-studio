@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { resolveRemoteEmbeddingBearerClient } from "./embeddings-remote-client.js";
 
 describe("resolveRemoteEmbeddingBearerClient", () => {
-  it("adds Brikko Studio attribution to native OpenAI embedding requests", async () => {
+  it("adds BrikkoStudio attribution to native OpenAI embedding requests", async () => {
     vi.stubEnv("BRIKKO_STUDIO_VERSION", "2026.3.22");
     const client = await resolveRemoteEmbeddingBearerClient({
       provider: "openai",

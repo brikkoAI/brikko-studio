@@ -5,7 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import type { Api, Model } from "@mariozechner/pi-ai";
 import { afterEach, describe, expect, it } from "vitest";
-import { resolveBrikko StudioAgentDir } from "../agents/agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../agents/agent-paths.js";
 import { resolveAgentWorkspaceDir } from "../agents/agent-scope.js";
 import { ensureAuthProfileStore, saveAuthProfileStore } from "../agents/auth-profiles/store.js";
 import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
@@ -28,13 +28,13 @@ import { isLiveProfileKeyModeEnabled, isLiveTestEnabled } from "../agents/live-t
 import { getApiKeyForModel, resolveEnvApiKey } from "../agents/model-auth.js";
 import { normalizeProviderId } from "../agents/model-selection.js";
 import { shouldSuppressBuiltInModel } from "../agents/model-suppression.js";
-import { ensureBrikko StudioModelsJson } from "../agents/models-config.js";
+import { ensureBrikkoStudioModelsJson } from "../agents/models-config.js";
 import { isRateLimitErrorMessage } from "../agents/pi-embedded-helpers/errors.js";
 import { isBillingErrorMessage } from "../agents/pi-embedded-helpers/failover-matches.js";
 import { discoverAuthStorage, discoverModels } from "../agents/pi-model-discovery.js";
 import { STREAM_ERROR_FALLBACK_TEXT } from "../agents/stream-message-shared.js";
 import { clearRuntimeConfigSnapshot, getRuntimeConfig } from "../config/io.js";
-import type { ModelsConfig, ModelProviderConfig, Brikko StudioConfig } from "../config/types.js";
+import type { ModelsConfig, ModelProviderConfig, BrikkoStudioConfig } from "../config/types.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import { normalizeGoogleModelId } from "../plugin-sdk/google-model-id.js";
 import { DEFAULT_AGENT_ID } from "../routing/session-key.js";
@@ -1256,7 +1256,7 @@ async function requestGatewayAgentText(params: {
 
 type GatewayModelSuiteParams = {
   label: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   candidates: Array<Model<Api>>;
   allowNotFoundSkip: boolean;
   extraToolProbes: boolean;
@@ -1266,10 +1266,10 @@ type GatewayModelSuiteParams = {
 };
 
 function buildLiveGatewayConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   candidates: Array<Model<Api>>;
   providerOverrides?: Record<string, ModelProviderConfig>;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const providerOverrides = params.providerOverrides ?? {};
   const lmstudioProvider = params.cfg.models?.providers?.lmstudio;
   const baseProviders = params.cfg.models?.providers ?? {};
@@ -1310,9 +1310,9 @@ function buildLiveGatewayConfig(params: {
 }
 
 async function sanitizeAuthConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir: string;
-}): Promise<Brikko StudioConfig["auth"] | undefined> {
+}): Promise<BrikkoStudioConfig["auth"] | undefined> {
   const auth = params.cfg.auth;
   if (!auth) {
     return auth;
@@ -1321,7 +1321,7 @@ async function sanitizeAuthConfig(params: {
     allowKeychainPrompt: false,
   });
 
-  let profiles: NonNullable<Brikko StudioConfig["auth"]>["profiles"] | undefined;
+  let profiles: NonNullable<BrikkoStudioConfig["auth"]>["profiles"] | undefined;
   if (auth.profiles) {
     profiles = {};
     for (const [profileId, profile] of Object.entries(auth.profiles)) {
@@ -1361,7 +1361,7 @@ async function sanitizeAuthConfig(params: {
 }
 
 function buildMinimaxProviderOverride(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   api: "openai-completions" | "anthropic-messages";
   baseUrl: string;
 }): ModelProviderConfig | null {
@@ -1408,7 +1408,7 @@ async function runGatewayModelSuite(params: GatewayModelSuiteParams) {
   process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = token;
   const agentId = "dev";
 
-  const hostAgentDir = resolveBrikko StudioAgentDir();
+  const hostAgentDir = resolveBrikkoStudioAgentDir();
   const hostStore = ensureAuthProfileStore(hostAgentDir, {
     allowKeychainPrompt: false,
   });
@@ -1452,8 +1452,8 @@ async function runGatewayModelSuite(params: GatewayModelSuiteParams) {
   const toolProbePath = path.join(workspaceDir, `.brikko-studio-live-tool-probe.${nonceA}.txt`);
   await fs.writeFile(toolProbePath, `nonceA=${nonceA}\nnonceB=${nonceB}\n`);
 
-  const agentDir = resolveBrikko StudioAgentDir();
-  const sanitizedCfg: Brikko StudioConfig = {
+  const agentDir = resolveBrikkoStudioAgentDir();
+  const sanitizedCfg: BrikkoStudioConfig = {
     ...params.cfg,
     auth: await sanitizeAuthConfig({ cfg: params.cfg, agentDir }),
   };
@@ -1675,10 +1675,10 @@ async function runGatewayModelSuite(params: GatewayModelSuiteParams) {
                   idempotencyKey: `idem-${runIdTool}-tool-${toolReadAttempt + 1}`,
                   modelKey,
                   message: strictReply
-                    ? "Brikko Studio live tool probe (local, safe): " +
+                    ? "BrikkoStudio live tool probe (local, safe): " +
                       `use the tool named \`read\` (or \`Read\`) with JSON arguments {"path":"${toolProbePath}"}. ` +
                       `Then reply with exactly: ${nonceA} ${nonceB}. No extra text.`
-                    : "Brikko Studio live tool probe (local, safe): " +
+                    : "BrikkoStudio live tool probe (local, safe): " +
                       `use the tool named \`read\` (or \`Read\`) with JSON arguments {"path":"${toolProbePath}"}. ` +
                       "Then reply with the two nonce values you read (include both).",
                   thinkingLevel: params.thinkingLevel,
@@ -1742,12 +1742,12 @@ async function runGatewayModelSuite(params: GatewayModelSuiteParams) {
                     idempotencyKey: `idem-${runIdTool}-exec-read-${execReadAttempt + 1}`,
                     modelKey,
                     message: strictReply
-                      ? "Brikko Studio live tool probe (local, safe): " +
+                      ? "BrikkoStudio live tool probe (local, safe): " +
                         "use the tool named `exec` (or `Exec`) to run this command: " +
                         `mkdir -p "${tempDir}" && printf '%s' '${nonceC}' > "${toolWritePath}". ` +
                         `Then use the tool named \`read\` (or \`Read\`) with JSON arguments {"path":"${toolWritePath}"}. ` +
                         `Then reply with exactly: ${nonceC}. No extra text.`
-                      : "Brikko Studio live tool probe (local, safe): " +
+                      : "BrikkoStudio live tool probe (local, safe): " +
                         "use the tool named `exec` (or `Exec`) to run this command: " +
                         `mkdir -p "${tempDir}" && printf '%s' '${nonceC}' > "${toolWritePath}". ` +
                         `Then use the tool named \`read\` (or \`Read\`) with JSON arguments {"path":"${toolWritePath}"}. ` +
@@ -2150,9 +2150,9 @@ describeLive("gateway live (dev agent, profile keys)", () => {
       await withSuppressedGatewayLiveWarnings(async () => {
         clearRuntimeConfigSnapshot();
         const cfg = getRuntimeConfig();
-        await ensureBrikko StudioModelsJson(cfg);
+        await ensureBrikkoStudioModelsJson(cfg);
 
-        const agentDir = resolveBrikko StudioAgentDir();
+        const agentDir = resolveBrikkoStudioAgentDir();
         const authStorage = discoverAuthStorage(agentDir);
         const modelRegistry = discoverModels(authStorage, agentDir);
         const all = modelRegistry.getAll();
@@ -2300,9 +2300,9 @@ describeLive("gateway live (dev agent, profile keys)", () => {
     process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = token;
 
     const cfg = getRuntimeConfig();
-    await ensureBrikko StudioModelsJson(cfg);
+    await ensureBrikkoStudioModelsJson(cfg);
 
-    const agentDir = resolveBrikko StudioAgentDir();
+    const agentDir = resolveBrikkoStudioAgentDir();
     const authStorage = discoverAuthStorage(agentDir);
     const modelRegistry = discoverModels(authStorage, agentDir);
     const anthropic = modelRegistry.find("anthropic", "claude-opus-4-6") as Model<Api> | null;

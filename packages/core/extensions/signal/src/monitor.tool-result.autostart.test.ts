@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it, vi } from "vitest";
 import type { SignalDaemonExitEvent } from "./daemon.js";
 import {
@@ -45,7 +45,7 @@ function createAutoAbortController() {
 
 async function runMonitorWithMocks(opts: MonitorSignalProviderOptions) {
   return monitorSignalProvider({
-    config: config as Brikko StudioConfig,
+    config: config as BrikkoStudioConfig,
     waitForTransportReady:
       waitForTransportReadyMock as MonitorSignalProviderOptions["waitForTransportReady"],
     ...opts,

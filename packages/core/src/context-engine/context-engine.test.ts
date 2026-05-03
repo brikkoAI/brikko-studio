@@ -1,7 +1,7 @@
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MemoryCitationsMode } from "../config/types.memory.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { clearMemoryPluginState, registerMemoryPromptSection } from "../plugins/memory-state.js";
 // ---------------------------------------------------------------------------
 // We dynamically import the registry so we can get a fresh module per test
@@ -59,7 +59,7 @@ function installCompactRuntimeSpy() {
 // ---------------------------------------------------------------------------
 
 /** Build a config object with a contextEngine slot for testing. */
-function configWithSlot(engineId: string): Brikko StudioConfig {
+function configWithSlot(engineId: string): BrikkoStudioConfig {
   return { plugins: { slots: { contextEngine: engineId } } };
 }
 

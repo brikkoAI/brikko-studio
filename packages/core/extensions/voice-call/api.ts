@@ -4,7 +4,7 @@ export {
   type GatewayRequestHandlerOptions,
   isBlockedHostnameOrIp,
   isRequestBodyLimitError,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
   readRequestBodyWithLimit,
   requestBodyErrorToText,
   type SessionEntry,

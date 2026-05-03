@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   hasMeaningfulChannelConfig,
   hasPotentialConfiguredChannels,
@@ -29,7 +29,7 @@ function makeTempStateDir() {
 }
 
 function expectPotentialConfiguredChannelCase(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   expectedIds: string[];
   expectedConfigured: boolean;
@@ -82,7 +82,7 @@ describe("config presence", () => {
         slack: { botToken: "token" },
         discord: false,
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(listExplicitlyDisabledChannelIdsForConfig(cfg)).toEqual(["matrix"]);
   });

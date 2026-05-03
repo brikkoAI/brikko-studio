@@ -1,11 +1,11 @@
 import {
   defineBundledChannelEntry,
   loadBundledEntryExportSync,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
 } from "brikko-studio/plugin-sdk/channel-entry-contract";
 
-function registerQQBotFull(api: Brikko StudioPluginApi): void {
-  const register = loadBundledEntryExportSync<(api: Brikko StudioPluginApi) => void>(import.meta.url, {
+function registerQQBotFull(api: BrikkoStudioPluginApi): void {
+  const register = loadBundledEntryExportSync<(api: BrikkoStudioPluginApi) => void>(import.meta.url, {
     specifier: "./api.js",
     exportName: "registerQQBotFull",
   });

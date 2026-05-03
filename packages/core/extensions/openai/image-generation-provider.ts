@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type {
   ImageGenerationOutputFormat,
   ImageGenerationProvider,
@@ -264,7 +264,7 @@ function resolveOpenAIImageRequestSize(params: {
 
 function shouldAllowPrivateImageEndpoint(req: {
   provider: string;
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
 }) {
   if (req.provider === MOCK_OPENAI_PROVIDER_ID) {
     return true;
@@ -283,7 +283,7 @@ function normalizeProviderId(value: string | undefined): string {
   return value?.trim().toLowerCase() ?? "";
 }
 
-function hasExplicitOpenAIDirectAuthConfig(cfg: Brikko StudioConfig | undefined): boolean {
+function hasExplicitOpenAIDirectAuthConfig(cfg: BrikkoStudioConfig | undefined): boolean {
   const profiles = cfg?.auth?.profiles;
   if (!profiles) {
     return false;
@@ -293,7 +293,7 @@ function hasExplicitOpenAIDirectAuthConfig(cfg: Brikko StudioConfig | undefined)
   );
 }
 
-function hasExplicitOpenAIDirectProviderConfig(cfg: Brikko StudioConfig | undefined): boolean {
+function hasExplicitOpenAIDirectProviderConfig(cfg: BrikkoStudioConfig | undefined): boolean {
   if (hasExplicitOpenAIDirectAuthConfig(cfg)) {
     return true;
   }

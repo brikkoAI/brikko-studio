@@ -1,6 +1,6 @@
 import {
   defineBundledChannelEntry,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
 } from "brikko-studio/plugin-sdk/channel-entry-contract";
 import { registerMatrixCliMetadata } from "./cli-metadata.js";
 import { registerMatrixSubagentHooks } from "./subagent-hooks-api.js";
@@ -14,7 +14,7 @@ function loadMatrixHandlersRuntimeModule() {
   return matrixHandlersRuntimePromise;
 }
 
-export function registerMatrixFullRuntime(api: Brikko StudioPluginApi): void {
+export function registerMatrixFullRuntime(api: BrikkoStudioPluginApi): void {
   api.registerGatewayMethod("matrix.verify.recoveryKey", async (ctx) => {
     const { handleVerifyRecoveryKey } = await loadMatrixHandlersRuntimeModule();
     await handleVerifyRecoveryKey(ctx);

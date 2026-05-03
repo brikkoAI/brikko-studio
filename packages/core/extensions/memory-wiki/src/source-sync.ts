@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 import { syncMemoryWikiBridgeSources, type BridgeMemoryWikiResult } from "./bridge.js";
 import {
   refreshMemoryWikiIndexesAfterImport,
@@ -15,7 +15,7 @@ export type MemoryWikiImportedSourceSyncResult = BridgeMemoryWikiResult & {
 
 export async function syncMemoryWikiImportedSources(params: {
   config: ResolvedMemoryWikiConfig;
-  appConfig?: Brikko StudioConfig;
+  appConfig?: BrikkoStudioConfig;
 }): Promise<MemoryWikiImportedSourceSyncResult> {
   let syncResult: BridgeMemoryWikiResult;
   if (params.config.vaultMode === "bridge") {

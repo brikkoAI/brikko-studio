@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { clearPluginCommands, registerPluginCommand } from "../../plugins/commands.js";
 import { createPluginRegistry, type PluginRecord } from "../../plugins/registry.js";
 import type { PluginRuntime } from "../../plugins/runtime/types.js";
@@ -18,7 +18,7 @@ function buildDiagnosticsParams(
   overrides: Partial<HandleCommandsParams> = {},
 ): HandleCommandsParams {
   return {
-    cfg: { commands: { text: true } } as Brikko StudioConfig,
+    cfg: { commands: { text: true } } as BrikkoStudioConfig,
     ctx: {
       Provider: "whatsapp",
       Surface: "whatsapp",
@@ -120,7 +120,7 @@ function registerCodexDiagnosticsCommandForTest(
         text: [
           "Codex runtime thread detected.",
           "Approving diagnostics will also send this thread's feedback bundle to OpenAI servers.",
-          "The completed diagnostics reply will list the Brikko Studio session ids and Codex thread ids that were sent.",
+          "The completed diagnostics reply will list the BrikkoStudio session ids and Codex thread ids that were sent.",
           "Included: Codex logs and spawned Codex subthreads when available.",
         ].join("\n"),
       };
@@ -131,7 +131,7 @@ function registerCodexDiagnosticsCommandForTest(
           "Codex diagnostics sent to OpenAI servers:",
           "Session 1",
           "Channel: whatsapp",
-          "Brikko Studio session id: `session-1`",
+          "BrikkoStudio session id: `session-1`",
           "Codex thread id: `codex-thread-1`",
           "Inspect locally: `codex resume codex-thread-1`",
           "Included Codex logs and spawned Codex subthreads when available.",
@@ -440,7 +440,7 @@ describe("diagnostics command", () => {
       ownership: "reserved",
       handler: vi.fn(async () => ({
         text: [
-          "No Codex thread is attached to this Brikko Studio session yet.",
+          "No Codex thread is attached to this BrikkoStudio session yet.",
           "Use /codex threads to find a thread, then /codex resume <thread-id> before sending diagnostics.",
         ].join("\n"),
       })),
@@ -536,7 +536,7 @@ describe("diagnostics command", () => {
     const commandHandler = vi.fn(async () => ({
       text: [
         "Codex diagnostics sent to OpenAI servers:",
-        "- channel whatsapp, Brikko Studio session session-1, Codex thread codex-thread-1",
+        "- channel whatsapp, BrikkoStudio session session-1, Codex thread codex-thread-1",
       ].join("\n"),
     }));
     registerHostTrustedReservedCommandForTest({

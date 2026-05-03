@@ -235,7 +235,7 @@ describe("OpenAIWebSocketManager", () => {
       await connectPromise;
     });
 
-    it("adds Brikko Studio attribution headers on the native OpenAI websocket", async () => {
+    it("adds BrikkoStudio attribution headers on the native OpenAI websocket", async () => {
       const manager = buildManager();
       const connectPromise = manager.connect("sk-test-key");
 

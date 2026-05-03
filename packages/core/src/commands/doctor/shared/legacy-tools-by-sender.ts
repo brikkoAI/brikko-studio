@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { parseToolsBySenderTypedKey } from "../../../config/types.tools.js";
 import { sanitizeForLog } from "../../../terminal/ansi.js";
 import { formatConfigPath, resolveConfigPathTarget } from "../../doctor-config-analysis.js";
@@ -53,7 +53,7 @@ function collectLegacyToolsBySenderKeyHits(
   }
 }
 
-export function scanLegacyToolsBySenderKeys(cfg: Brikko StudioConfig): LegacyToolsBySenderKeyHit[] {
+export function scanLegacyToolsBySenderKeys(cfg: BrikkoStudioConfig): LegacyToolsBySenderKeyHit[] {
   const hits: LegacyToolsBySenderKeyHit[] = [];
   collectLegacyToolsBySenderKeyHits(cfg, [], hits);
   return hits;
@@ -77,8 +77,8 @@ export function collectLegacyToolsBySenderWarnings(params: {
   ];
 }
 
-export function maybeRepairLegacyToolsBySenderKeys(cfg: Brikko StudioConfig): {
-  config: Brikko StudioConfig;
+export function maybeRepairLegacyToolsBySenderKeys(cfg: BrikkoStudioConfig): {
+  config: BrikkoStudioConfig;
   changes: string[];
 } {
   const hits = scanLegacyToolsBySenderKeys(cfg);

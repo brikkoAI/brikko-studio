@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { DeliverableMessageChannel } from "../../utils/message-channel.js";
 
 export function resetOutboundChannelBootstrapStateForTests(): void {
@@ -7,7 +7,7 @@ export function resetOutboundChannelBootstrapStateForTests(): void {
 
 export function bootstrapOutboundChannelPlugin(params: {
   channel: DeliverableMessageChannel;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): void {
   void params;
 }

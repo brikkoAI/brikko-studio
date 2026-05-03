@@ -2,7 +2,7 @@ import { describeAccountSnapshot } from "brikko-studio/plugin-sdk/account-helper
 import { formatAllowFromLowercase } from "brikko-studio/plugin-sdk/allow-from";
 import { createTopLevelChannelConfigAdapter } from "brikko-studio/plugin-sdk/channel-config-helpers";
 import type { ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { MSTeamsChannelConfigSchema } from "./config-schema.js";
 import { msteamsSetupAdapter } from "./setup-core.js";
 import { msteamsSetupWizard } from "./setup-surface.js";
@@ -25,7 +25,7 @@ const meta = {
   order: 60,
 } as const;
 
-const resolveMSTeamsChannelConfig = (cfg: Brikko StudioConfig) => ({
+const resolveMSTeamsChannelConfig = (cfg: BrikkoStudioConfig) => ({
   allowFrom: cfg.channels?.msteams?.allowFrom,
   defaultTo: cfg.channels?.msteams?.defaultTo,
 });

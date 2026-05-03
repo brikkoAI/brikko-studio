@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { writeJsonFileAtomically as writeJsonFileAtomicallyImpl } from "brikko-studio/plugin-sdk/json-store";
 import { resolveStateDir } from "brikko-studio/plugin-sdk/state-paths";
 import { resolveConfiguredMatrixAccountIds } from "./account-selection.js";
@@ -126,7 +126,7 @@ function detectLegacyBotSdkCryptoStore(cryptoRootDir: string): {
         detected: false,
         warning:
           `Legacy Matrix encrypted state path exists but is not a directory: ${cryptoRootDir}. ` +
-          "Brikko Studio skipped automatic crypto migration for that path.",
+          "BrikkoStudio skipped automatic crypto migration for that path.",
       };
     }
   } catch (err) {
@@ -134,7 +134,7 @@ function detectLegacyBotSdkCryptoStore(cryptoRootDir: string): {
       detected: false,
       warning:
         `Failed reading legacy Matrix encrypted state path (${cryptoRootDir}): ${String(err)}. ` +
-        "Brikko Studio skipped automatic crypto migration for that path.",
+        "BrikkoStudio skipped automatic crypto migration for that path.",
     };
   }
 
@@ -156,17 +156,17 @@ function detectLegacyBotSdkCryptoStore(cryptoRootDir: string): {
       detected: false,
       warning:
         `Failed scanning legacy Matrix encrypted state path (${cryptoRootDir}): ${String(err)}. ` +
-        "Brikko Studio skipped automatic crypto migration for that path.",
+        "BrikkoStudio skipped automatic crypto migration for that path.",
     };
   }
 }
 
-function resolveMatrixAccountIds(cfg: Brikko StudioConfig): string[] {
+function resolveMatrixAccountIds(cfg: BrikkoStudioConfig): string[] {
   return resolveConfiguredMatrixAccountIds(cfg);
 }
 
 function resolveLegacyMatrixFlatStorePlan(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 }): MatrixLegacyCryptoPlan | { warning: string } | null {
   const legacy = resolveMatrixLegacyFlatStoragePaths(resolveStateDir(params.env, os.homedir));
@@ -225,7 +225,7 @@ function loadLegacyBotSdkMetadata(cryptoRootDir: string): MatrixLegacyBotSdkMeta
 }
 
 function resolveMatrixLegacyCryptoPlans(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 }): Omit<MatrixLegacyCryptoDetection, "inspectorAvailable"> {
   const warnings: string[] = [];
@@ -318,7 +318,7 @@ async function persistLegacyMigrationState(params: {
 }
 
 export function detectLegacyMatrixCrypto(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): MatrixLegacyCryptoDetection {
   const detection = resolveMatrixLegacyCryptoPlans({
@@ -342,7 +342,7 @@ export function detectLegacyMatrixCrypto(params: {
 }
 
 export async function autoPrepareLegacyMatrixCrypto(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   log?: { info?: (message: string) => void; warn?: (message: string) => void };
   deps?: Partial<MatrixLegacyCryptoPrepareDeps>;
@@ -419,7 +419,7 @@ export async function autoPrepareLegacyMatrixCrypto(params: {
     if (!plan.deviceId) {
       warnings.push(
         `Legacy Matrix encrypted state detected at ${plan.legacyCryptoPath}, but no device ID was found for account "${plan.accountId}". ` +
-          `Brikko Studio will continue, but old encrypted history cannot be recovered automatically.`,
+          `BrikkoStudio will continue, but old encrypted history cannot be recovered automatically.`,
       );
       continue;
     }

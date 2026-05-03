@@ -1,10 +1,10 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { resolveUserPath } from "../../../utils.js";
 import type { OnboardOptions } from "../../onboard-types.js";
 
 export function resolveNonInteractiveWorkspaceDir(params: {
   opts: OnboardOptions;
-  baseConfig: Brikko StudioConfig;
+  baseConfig: BrikkoStudioConfig;
   defaultWorkspaceDir: string;
 }) {
   const raw = (

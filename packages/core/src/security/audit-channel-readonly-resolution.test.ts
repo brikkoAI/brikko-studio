@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import type { ChannelPlugin } from "../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { collectChannelSecurityFindings } from "./audit-channel.js";
 
 function stubChannelPlugin(params: {
   id: "zalouser";
   label: string;
-  resolveAccount: (cfg: Brikko StudioConfig, accountId: string | null | undefined) => unknown;
+  resolveAccount: (cfg: BrikkoStudioConfig, accountId: string | null | undefined) => unknown;
 }): ChannelPlugin {
   return {
     id: params.id,
@@ -41,7 +41,7 @@ describe("security audit channel read-only resolution", () => {
       },
     });
 
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         zalouser: {
           enabled: true,

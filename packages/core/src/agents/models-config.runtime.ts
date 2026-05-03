@@ -1,1 +1,1 @@
-export { ensureBrikko StudioModelsJson } from "./models-config.js";
+export { ensureBrikkoStudioModelsJson } from "./models-config.js";

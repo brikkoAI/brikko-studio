@@ -1,7 +1,7 @@
 import { setTimeout as scheduleNativeTimeout } from "node:timers";
 import { setTimeout as sleep } from "node:timers/promises";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { AcpSessionRuntimeOptions, SessionAcpMeta } from "../../config/sessions/types.js";
 import { resetHeartbeatWakeStateForTests } from "../../infra/heartbeat-wake.js";
 import { withTempDir } from "../../test-helpers/temp-dir.js";
@@ -282,7 +282,7 @@ describe("AcpSessionManager", () => {
       ...baseCfg,
       session: { mainKey: "main" },
       agents: { list: [{ id: "main", default: true }] },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await manager.runTurn({
       cfg,
@@ -544,7 +544,7 @@ describe("AcpSessionManager", () => {
             timeoutSeconds: 1,
           },
         },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       const first = manager.runTurn({
         cfg,
@@ -647,7 +647,7 @@ describe("AcpSessionManager", () => {
             timeoutSeconds: 1,
           },
         },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       const first = manager.runTurn({
         cfg,
@@ -1303,7 +1303,7 @@ describe("AcpSessionManager", () => {
         ...baseCfg.acp,
         maxConcurrentSessions: 1,
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const manager = new AcpSessionManager();
     await manager.runTurn({
@@ -1345,7 +1345,7 @@ describe("AcpSessionManager", () => {
         ...baseCfg.acp,
         maxConcurrentSessions: 1,
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const manager = new AcpSessionManager();
     await manager.initializeSession({
@@ -1488,7 +1488,7 @@ describe("AcpSessionManager", () => {
           ...baseCfg.acp,
           maxConcurrentSessions: 1,
         },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       const manager = new AcpSessionManager();
       await manager.runTurn({
@@ -1823,7 +1823,7 @@ describe("AcpSessionManager", () => {
             ttlMinutes: 0.01,
           },
         },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       const manager = new AcpSessionManager();
       await manager.runTurn({

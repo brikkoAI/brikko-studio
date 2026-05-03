@@ -6,7 +6,7 @@ import {
   die,
   ensureValue,
   makeTempDir,
-  packBrikko Studio,
+  packBrikkoStudio,
   parsePlatformList,
   parseProvider,
   repoRoot,
@@ -282,7 +282,7 @@ class NpmUpdateSmoke {
 
   private async prepareUpdateTarget(): Promise<void> {
     if (!this.options.updateTarget || this.options.updateTarget === "local-main") {
-      this.artifact = await packBrikko Studio({
+      this.artifact = await packBrikkoStudio({
         destination: this.tgzDir,
         requireControlUi: true,
       });

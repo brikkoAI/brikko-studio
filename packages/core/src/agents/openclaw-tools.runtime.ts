@@ -1,1 +1,1 @@
-export { createBrikko StudioTools } from "./brikko-studio-tools.js";
+export { createBrikkoStudioTools } from "./brikko-studio-tools.js";

@@ -1,10 +1,10 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { getChannelPlugin } from "./registry.js";
 import type { ChannelId } from "./types.public.js";
 
 export async function createChannelConversationBindingManager(params: {
   channelId: ChannelId;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): Promise<{ stop: () => void | Promise<void> } | null> {
   const createManager = getChannelPlugin(params.channelId)?.conversationBindings?.createManager;

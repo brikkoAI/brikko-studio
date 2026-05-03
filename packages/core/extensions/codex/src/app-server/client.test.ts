@@ -162,7 +162,7 @@ describe("CodexAppServerClient", () => {
       params: {
         clientInfo: {
           name: "brikko-studio",
-          title: "Brikko Studio",
+          title: "BrikkoStudio",
           version: expect.any(String),
         },
       },
@@ -399,7 +399,7 @@ describe("CodexAppServerClient", () => {
         contentItems: [
           {
             type: "inputText",
-            text: `Brikko Studio dynamic tool call timed out after ${__testing.CODEX_DYNAMIC_TOOL_SERVER_REQUEST_TIMEOUT_MS}ms before sending a response to Codex.`,
+            text: `BrikkoStudio dynamic tool call timed out after ${__testing.CODEX_DYNAMIC_TOOL_SERVER_REQUEST_TIMEOUT_MS}ms before sending a response to Codex.`,
           },
         ],
       },

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   resolveRuntimeConversationBindingRoute,
   type RuntimeConversationBindingRouteResult,
@@ -12,7 +12,7 @@ import { resolveSlackThreadContext } from "../../threading.js";
 import type { SlackMessageEvent } from "../../types.js";
 
 export type SlackRoutingContextDeps = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   teamId: string;
   threadInheritParent: boolean;
   threadHistoryScope: "thread" | "channel";
@@ -32,12 +32,12 @@ type SlackRoutingContext = {
   historyKey: string;
 };
 
-type SlackRouteBinding = NonNullable<Brikko StudioConfig["bindings"]>[number];
+type SlackRouteBinding = NonNullable<BrikkoStudioConfig["bindings"]>[number];
 type SlackRouteBindingPeer = NonNullable<SlackRouteBinding["match"]["peer"]>;
 
 const slackRouteBindingConfigCache = new WeakMap<
-  Brikko StudioConfig,
-  { bindingsRef: Brikko StudioConfig["bindings"]; normalizedCfg: Brikko StudioConfig }
+  BrikkoStudioConfig,
+  { bindingsRef: BrikkoStudioConfig["bindings"]; normalizedCfg: BrikkoStudioConfig }
 >();
 
 function slackTargetDefaultKindForPeer(kind: SlackRouteBindingPeer["kind"]): SlackTargetKind {
@@ -75,7 +75,7 @@ function normalizeSlackRouteBindingPeer(peer: SlackRouteBindingPeer): SlackRoute
   return { ...peer, id: target.id };
 }
 
-function normalizeSlackRouteBindingConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function normalizeSlackRouteBindingConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const bindings = cfg.bindings;
   const cached = slackRouteBindingConfigCache.get(cfg);
   if (cached && cached.bindingsRef === bindings) {
@@ -109,7 +109,7 @@ function normalizeSlackRouteBindingConfig(cfg: Brikko StudioConfig): Brikko Stud
   });
 
   const normalizedCfg = changed
-    ? ({ ...cfg, bindings: normalizedBindings } as Brikko StudioConfig)
+    ? ({ ...cfg, bindings: normalizedBindings } as BrikkoStudioConfig)
     : cfg;
   slackRouteBindingConfigCache.set(cfg, { bindingsRef: bindings, normalizedCfg });
   return normalizedCfg;

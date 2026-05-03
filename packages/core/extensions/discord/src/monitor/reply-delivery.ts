@@ -1,7 +1,7 @@
 import { resolveAgentAvatar } from "brikko-studio/plugin-sdk/agent-runtime";
 import type {
   MarkdownTableMode,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   ReplyToMode,
 } from "brikko-studio/plugin-sdk/config-types";
 import type { OutboundMediaAccess } from "brikko-studio/plugin-sdk/media-runtime";
@@ -61,7 +61,7 @@ function resolveBoundThreadBinding(params: {
 }
 
 function resolveBindingIdentity(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   binding: DiscordThreadBindingLookupRecord | undefined,
 ): OutboundIdentity | undefined {
   if (!binding) {
@@ -83,7 +83,7 @@ function resolveBindingIdentity(
 }
 
 function createDiscordDeliveryDeps(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token: string;
   rest?: RequestClient;
 }): OutboundSendDeps {
@@ -120,7 +120,7 @@ type DiscordDeliveryOptions = {
 };
 
 function resolveDiscordDeliveryOptions(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   target: string;
   sessionKey?: string;
   threadBindings?: DiscordThreadBindingLookup;
@@ -155,7 +155,7 @@ function resolveDiscordDeliveryOptions(params: {
 }
 
 export async function deliverDiscordReply(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   replies: ReplyPayload[];
   target: string;
   token: string;

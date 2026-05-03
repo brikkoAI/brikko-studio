@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { PluginSlotsConfig } from "../config/types.plugins.js";
 import type { PluginKind } from "./plugin-kind.types.js";
 
@@ -57,13 +57,13 @@ export function defaultSlotIdForKey(slotKey: PluginSlotKey): string {
 }
 
 export type SlotSelectionResult = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   warnings: string[];
   changed: boolean;
 };
 
 export function applyExclusiveSlotSelection(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   selectedId: string;
   selectedKind?: PluginKind | PluginKind[];
   registry?: { plugins: SlotPluginRecord[] };

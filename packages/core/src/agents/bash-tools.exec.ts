@@ -1084,7 +1084,7 @@ function normalizeCommandBaseName(token: string | undefined): string {
   return base.replace(/\.(?:cmd|exe)$/u, "");
 }
 
-function stripBrikko StudioPackageRunner(argv: string[]): string[] {
+function stripBrikkoStudioPackageRunner(argv: string[]): string[] {
   const commandName = normalizeCommandBaseName(argv[0]);
   if (commandName === "brikko-studio") {
     return argv;
@@ -1125,12 +1125,12 @@ function stripBrikko StudioPackageRunner(argv: string[]): string[] {
   return argv;
 }
 
-function parseBrikko StudioChannelsLoginShellCommand(raw: string): boolean {
+function parseBrikkoStudioChannelsLoginShellCommand(raw: string): boolean {
   const argv = splitShellArgs(raw);
   if (!argv) {
     return false;
   }
-  const brikko-studioArgv = stripBrikko StudioPackageRunner(argv);
+  const brikko-studioArgv = stripBrikkoStudioPackageRunner(argv);
   return (
     normalizeCommandBaseName(brikko-studioArgv[0]) === "brikko-studio" &&
     (brikko-studioArgv[1] === "channels" || brikko-studioArgv[1] === "channel") &&
@@ -1367,10 +1367,10 @@ function rejectUnsafeControlShellCommand(command: string): void {
         ].join(" "),
       );
     }
-    if (parseBrikko StudioChannelsLoginShellCommand(candidate)) {
+    if (parseBrikkoStudioChannelsLoginShellCommand(candidate)) {
       throw new Error(
         [
-          "exec cannot run interactive Brikko Studio channel login commands.",
+          "exec cannot run interactive BrikkoStudio channel login commands.",
           "Run `brikko-studio channels login` in a terminal on the gateway host, or use the channel-specific login agent tool when available (for WhatsApp: `whatsapp_login`).",
         ].join(" "),
       );
@@ -1892,6 +1892,6 @@ export function createExecTool(
 export const execTool = createExecTool();
 
 export const __testing = {
-  parseBrikko StudioChannelsLoginShellCommand,
+  parseBrikkoStudioChannelsLoginShellCommand,
   validateScriptFileForShellBleed,
 };

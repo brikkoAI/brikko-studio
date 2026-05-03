@@ -851,19 +851,19 @@ export async function provisionMatrixQaRoom(params: {
   });
   const [driver, sut, observer] = await Promise.all([
     anonClient.registerWithToken({
-      deviceName: "Brikko Studio Matrix QA Driver",
+      deviceName: "BrikkoStudio Matrix QA Driver",
       localpart: params.driverLocalpart,
       password: `driver-${randomUUID()}`,
       registrationToken: params.registrationToken,
     }),
     anonClient.registerWithToken({
-      deviceName: "Brikko Studio Matrix QA SUT",
+      deviceName: "BrikkoStudio Matrix QA SUT",
       localpart: params.sutLocalpart,
       password: `sut-${randomUUID()}`,
       registrationToken: params.registrationToken,
     }),
     anonClient.registerWithToken({
-      deviceName: "Brikko Studio Matrix QA Observer",
+      deviceName: "BrikkoStudio Matrix QA Observer",
       localpart: params.observerLocalpart,
       password: `observer-${randomUUID()}`,
       registrationToken: params.registrationToken,

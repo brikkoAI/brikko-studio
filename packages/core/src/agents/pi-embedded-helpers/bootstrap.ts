@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { sanitizeGoogleAssistantFirstOrdering } from "../../shared/google-turn-ordering.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import { truncateUtf16Safe } from "../../utils.js";
@@ -103,7 +103,7 @@ type TrimBootstrapResult = {
   originalLength: number;
 };
 
-export function resolveBootstrapMaxChars(cfg?: Brikko StudioConfig): number {
+export function resolveBootstrapMaxChars(cfg?: BrikkoStudioConfig): number {
   const raw = cfg?.agents?.defaults?.bootstrapMaxChars;
   if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) {
     return Math.floor(raw);
@@ -111,7 +111,7 @@ export function resolveBootstrapMaxChars(cfg?: Brikko StudioConfig): number {
   return DEFAULT_BOOTSTRAP_MAX_CHARS;
 }
 
-export function resolveBootstrapTotalMaxChars(cfg?: Brikko StudioConfig): number {
+export function resolveBootstrapTotalMaxChars(cfg?: BrikkoStudioConfig): number {
   const raw = cfg?.agents?.defaults?.bootstrapTotalMaxChars;
   if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) {
     return Math.floor(raw);
@@ -120,7 +120,7 @@ export function resolveBootstrapTotalMaxChars(cfg?: Brikko StudioConfig): number
 }
 
 export function resolveBootstrapPromptTruncationWarningMode(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): "off" | "once" | "always" {
   const raw = cfg?.agents?.defaults?.bootstrapPromptTruncationWarning;
   if (raw === "off" || raw === "once" || raw === "always") {

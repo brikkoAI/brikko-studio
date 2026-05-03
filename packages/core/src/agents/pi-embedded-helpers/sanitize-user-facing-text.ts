@@ -184,7 +184,7 @@ export function formatDiskSpaceErrorCopy(raw: string): string | undefined {
     lower.includes("disk full")
   ) {
     return (
-      "Brikko Studio could not write local session data because the disk is full. " +
+      "BrikkoStudio could not write local session data because the disk is full. " +
       "Free some disk space and try again."
     );
   }

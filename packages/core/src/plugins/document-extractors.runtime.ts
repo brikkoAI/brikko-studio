@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveEnabledBundledManifestContractPlugins } from "./bundled-manifest-contract-plugins.js";
 import { loadBundledDocumentExtractorEntriesFromDir } from "./document-extractor-public-artifacts.js";
 import type { PluginDocumentExtractorEntry } from "./document-extractor-types.js";
@@ -16,7 +16,7 @@ function compareExtractors(
 }
 
 function resolveExplicitAllowedDocumentExtractorPluginIds(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   onlyPluginIds?: readonly string[];
 }): string[] | null {
   const allow = params.config?.plugins?.allow;
@@ -40,7 +40,7 @@ function resolveExplicitAllowedDocumentExtractorPluginIds(params: {
 }
 
 export function resolvePluginDocumentExtractors(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   onlyPluginIds?: readonly string[];

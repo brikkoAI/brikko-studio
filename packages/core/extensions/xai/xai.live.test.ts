@@ -1,14 +1,14 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { encodePngRgba, fillPixel } from "brikko-studio/plugin-sdk/media-runtime";
 import {
   registerProviderPlugin,
   requireRegisteredProvider,
 } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import {
-  expectBrikko StudioLiveTranscriptMarker,
+  expectBrikkoStudioLiveTranscriptMarker,
   runRealtimeSttLiveTest,
 } from "brikko-studio/plugin-sdk/provider-test-contracts";
 import { getRuntimeConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
@@ -23,7 +23,7 @@ const liveEnabled = XAI_API_KEY.trim().length > 0 && process.env.BRIKKO_STUDIO_L
 const describeLive = liveEnabled ? describe : describe.skip;
 const EMPTY_AUTH_STORE = { version: 1, profiles: {} } as const;
 
-function createLiveConfig(): Brikko StudioConfig {
+function createLiveConfig(): BrikkoStudioConfig {
   const cfg = getRuntimeConfig();
   return {
     ...cfg,
@@ -38,7 +38,7 @@ function createLiveConfig(): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createReferencePng(): Buffer {
@@ -100,7 +100,7 @@ describeLive("xai plugin live", () => {
       expect(voices).toEqual(expect.arrayContaining([expect.objectContaining({ id: "eve" })]));
 
       const audioFile = await speechProvider.synthesize({
-        text: "Brikko Studio xAI text to speech integration test OK.",
+        text: "BrikkoStudio xAI text to speech integration test OK.",
         cfg,
         providerConfig: {
           apiKey: XAI_API_KEY,
@@ -117,7 +117,7 @@ describeLive("xai plugin live", () => {
       expect(audioFile.audioBuffer.byteLength).toBeGreaterThan(512);
 
       const telephony = await speechProvider.synthesizeTelephony?.({
-        text: "Brikko Studio xAI telephony check OK.",
+        text: "BrikkoStudio xAI telephony check OK.",
         cfg,
         providerConfig: {
           apiKey: XAI_API_KEY,
@@ -141,7 +141,7 @@ describeLive("xai plugin live", () => {
       const mediaProvider = requireRegisteredProvider(mediaProviders, "xai");
       const speechProvider = requireRegisteredProvider(speechProviders, "xai");
       const cfg = createLiveConfig();
-      const phrase = "Brikko Studio xAI speech to text integration test OK.";
+      const phrase = "BrikkoStudio xAI speech to text integration test OK.";
 
       const audioFile = await speechProvider.synthesize({
         text: phrase,
@@ -167,7 +167,7 @@ describeLive("xai plugin live", () => {
 
       const normalized = transcript?.text.toLowerCase() ?? "";
       expect(transcript?.model).toBe(XAI_DEFAULT_STT_MODEL);
-      expectBrikko StudioLiveTranscriptMarker(normalized);
+      expectBrikkoStudioLiveTranscriptMarker(normalized);
       expect(normalized).toContain("speech");
       expect(normalized).toContain("text");
       expect(normalized).toContain("integration");
@@ -222,7 +222,7 @@ describeLive("xai plugin live", () => {
       const realtimeProvider = requireRegisteredProvider(realtimeTranscriptionProviders, "xai");
       const speechProvider = requireRegisteredProvider(speechProviders, "xai");
       const cfg = createLiveConfig();
-      const phrase = "Brikko Studio xAI realtime transcription integration test OK.";
+      const phrase = "BrikkoStudio xAI realtime transcription integration test OK.";
 
       const telephony = await speechProvider.synthesizeTelephony?.({
         text: phrase,
@@ -259,7 +259,7 @@ describeLive("xai plugin live", () => {
       });
 
       const normalized = transcripts.join(" ").toLowerCase();
-      expectBrikko StudioLiveTranscriptMarker(normalized);
+      expectBrikkoStudioLiveTranscriptMarker(normalized);
       expect(normalized).toContain("transcription");
       expect(partials.length + transcripts.length).toBeGreaterThan(0);
     });

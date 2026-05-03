@@ -119,7 +119,7 @@ export async function fetchLmstudioModels(params: {
   }
 }
 
-/** Discovers LLM models from LM Studio and maps them to Brikko Studio model definitions. */
+/** Discovers LLM models from LM Studio and maps them to BrikkoStudio model definitions. */
 export async function discoverLmstudioModels(
   params: DiscoverLmstudioModelsParams,
 ): Promise<ModelDefinitionConfig[]> {

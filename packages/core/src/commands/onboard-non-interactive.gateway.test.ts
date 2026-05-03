@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { MigrationApplyResult, MigrationPlan } from "../plugins/types.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { makeTempWorkspace } from "../test-helpers/workspace.js";
@@ -10,7 +10,7 @@ import { createThrowingRuntime } from "./onboard-non-interactive.test-helpers.js
 import type { installGatewayDaemonNonInteractive } from "./onboard-non-interactive/local/daemon-install.js";
 
 const ensureWorkspaceAndSessionsMock = vi.fn(async (..._args: unknown[]) => {});
-const testConfigStore = new Map<string, Brikko StudioConfig>();
+const testConfigStore = new Map<string, BrikkoStudioConfig>();
 type InstallGatewayDaemonResult = Awaited<ReturnType<typeof installGatewayDaemonNonInteractive>>;
 const installGatewayDaemonNonInteractiveMock = vi.hoisted(() =>
   vi.fn(async (): Promise<InstallGatewayDaemonResult> => ({ installed: true })),
@@ -63,7 +63,7 @@ function resolveTestConfigPath() {
 }
 
 // oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Test helper lets assertions ascribe stored config shape.
-function readTestConfig<T = Brikko StudioConfig>(): T {
+function readTestConfig<T = BrikkoStudioConfig>(): T {
   return (testConfigStore.get(resolveTestConfigPath()) ?? {}) as T;
 }
 
@@ -98,10 +98,10 @@ vi.mock("../config/io.js", () => ({
 }));
 
 vi.mock("../config/config.js", () => ({
-  replaceConfigFile: async ({ nextConfig }: { nextConfig: Brikko StudioConfig }) => {
+  replaceConfigFile: async ({ nextConfig }: { nextConfig: BrikkoStudioConfig }) => {
     testConfigStore.set(resolveTestConfigPath(), nextConfig);
   },
-  resolveGatewayPort: (cfg: Brikko StudioConfig) => cfg.gateway?.port ?? 18789,
+  resolveGatewayPort: (cfg: BrikkoStudioConfig) => cfg.gateway?.port ?? 18789,
 }));
 
 vi.mock("./onboard-helpers.js", () => {

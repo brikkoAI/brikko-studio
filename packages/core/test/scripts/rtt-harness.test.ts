@@ -11,7 +11,7 @@ import {
   extractRtt,
   readTelegramSummary,
   safeRunLabel,
-  validateBrikko StudioPackageSpec,
+  validateBrikkoStudioPackageSpec,
 } from "../../scripts/lib/rtt-harness.ts";
 import { __testing as cliTesting } from "../../scripts/rtt.ts";
 
@@ -19,23 +19,23 @@ const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURE_PATH = path.resolve(TEST_DIR, "../fixtures/telegram-qa-summary-rtt.json");
 
 describe("RTT harness", () => {
-  it("validates Brikko Studio package specs", () => {
-    expect(validateBrikko StudioPackageSpec("brikko-studio@main")).toBe("brikko-studio@main");
-    expect(validateBrikko StudioPackageSpec("brikko-studio@alpha")).toBe("brikko-studio@alpha");
-    expect(validateBrikko StudioPackageSpec("brikko-studio@beta")).toBe("brikko-studio@beta");
-    expect(validateBrikko StudioPackageSpec("brikko-studio@latest")).toBe("brikko-studio@latest");
-    expect(validateBrikko StudioPackageSpec("brikko-studio@2026.4.30")).toBe("brikko-studio@2026.4.30");
-    expect(validateBrikko StudioPackageSpec("brikko-studio@2026.4.30-beta.2")).toBe(
+  it("validates BrikkoStudio package specs", () => {
+    expect(validateBrikkoStudioPackageSpec("brikko-studio@main")).toBe("brikko-studio@main");
+    expect(validateBrikkoStudioPackageSpec("brikko-studio@alpha")).toBe("brikko-studio@alpha");
+    expect(validateBrikkoStudioPackageSpec("brikko-studio@beta")).toBe("brikko-studio@beta");
+    expect(validateBrikkoStudioPackageSpec("brikko-studio@latest")).toBe("brikko-studio@latest");
+    expect(validateBrikkoStudioPackageSpec("brikko-studio@2026.4.30")).toBe("brikko-studio@2026.4.30");
+    expect(validateBrikkoStudioPackageSpec("brikko-studio@2026.4.30-beta.2")).toBe(
       "brikko-studio@2026.4.30-beta.2",
     );
-    expect(validateBrikko StudioPackageSpec("brikko-studio@2026.4.30-alpha.2")).toBe(
+    expect(validateBrikkoStudioPackageSpec("brikko-studio@2026.4.30-alpha.2")).toBe(
       "brikko-studio@2026.4.30-alpha.2",
     );
 
-    expect(() => validateBrikko StudioPackageSpec("@brikko-studio/brikko-studio@beta")).toThrow(
+    expect(() => validateBrikkoStudioPackageSpec("@brikko-studio/brikko-studio@beta")).toThrow(
       /Package spec must be/,
     );
-    expect(() => validateBrikko StudioPackageSpec("brikko-studio@next")).toThrow(/Package spec must be/);
+    expect(() => validateBrikkoStudioPackageSpec("brikko-studio@next")).toThrow(/Package spec must be/);
   });
 
   it("builds stable run labels", () => {

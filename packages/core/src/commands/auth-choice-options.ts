@@ -1,5 +1,5 @@
 import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveProviderSetupFlowContributions } from "../flows/provider-flow.js";
 import {
   CORE_AUTH_CHOICE_OPTIONS,
@@ -24,7 +24,7 @@ function compareGroupLabels(a: AuthChoiceGroup, b: AuthChoiceGroup): number {
 }
 
 function resolveProviderChoiceOptions(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): AuthChoiceOption[] {
@@ -58,7 +58,7 @@ function resolveProviderChoiceOptions(params?: {
 export function formatAuthChoiceChoicesForCli(params?: {
   includeSkip?: boolean;
   includeLegacyAliases?: boolean;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): string {
@@ -77,7 +77,7 @@ export function buildAuthChoiceOptions(params: {
   store: AuthProfileStore;
   includeSkip: boolean;
   assistantVisibleOnly?: boolean;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): AuthChoiceOption[] {
@@ -110,7 +110,7 @@ export function buildAuthChoiceOptions(params: {
 export function buildAuthChoiceGroups(params: {
   store: AuthProfileStore;
   includeSkip: boolean;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): {

@@ -1,7 +1,7 @@
 import { isDeepStrictEqual } from "node:util";
 import { replaceConfigFile } from "../config/config.js";
 import type { ConfigWriteOptions } from "../config/io.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import {
   loadInstalledPluginIndexInstallRecords,
@@ -18,13 +18,13 @@ function mergeUnsetPaths(
   return merged.length > 0 ? merged : undefined;
 }
 
-type ConfigCommit = (config: Brikko StudioConfig, writeOptions?: ConfigWriteOptions) => Promise<void>;
+type ConfigCommit = (config: BrikkoStudioConfig, writeOptions?: ConfigWriteOptions) => Promise<void>;
 const PLUGIN_SOURCE_CHANGED_RESTART_REASON = "plugin source changed";
 
 async function commitPluginInstallRecordsWithWriter(params: {
   previousInstallRecords?: Record<string, PluginInstallRecord>;
   nextInstallRecords: Record<string, PluginInstallRecord>;
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   writeOptions?: ConfigWriteOptions;
   commit: ConfigCommit;
 }): Promise<void> {
@@ -61,7 +61,7 @@ async function commitPluginInstallRecordsWithWriter(params: {
 export async function commitPluginInstallRecordsWithConfig(params: {
   previousInstallRecords?: Record<string, PluginInstallRecord>;
   nextInstallRecords: Record<string, PluginInstallRecord>;
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   baseHash?: string;
   writeOptions?: ConfigWriteOptions;
 }): Promise<void> {
@@ -78,11 +78,11 @@ export async function commitPluginInstallRecordsWithConfig(params: {
 }
 
 export async function commitConfigWriteWithPendingPluginInstalls(params: {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   writeOptions?: ConfigWriteOptions;
   commit: ConfigCommit;
 }): Promise<{
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   installRecords: Record<string, PluginInstallRecord>;
   movedInstallRecords: boolean;
 }> {
@@ -121,11 +121,11 @@ export async function commitConfigWriteWithPendingPluginInstalls(params: {
 }
 
 export async function commitConfigWithPendingPluginInstalls(params: {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   baseHash?: string;
   writeOptions?: ConfigWriteOptions;
 }): Promise<{
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   installRecords: Record<string, PluginInstallRecord>;
   movedInstallRecords: boolean;
 }> {

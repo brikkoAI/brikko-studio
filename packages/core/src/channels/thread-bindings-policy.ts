@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeAccountId } from "../routing/session-key.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import {
@@ -134,7 +134,7 @@ export function resolveThreadBindingsEnabled(params: {
 }
 
 function resolveChannelThreadBindings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: string;
   accountId: string;
 }): {
@@ -163,7 +163,7 @@ function normalizeSpawnContext(value: unknown): ThreadBindingSpawnContext | unde
 }
 
 export function resolveThreadBindingSpawnPolicy(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: string;
   accountId?: string;
   kind: ThreadBindingSpawnKind;
@@ -203,7 +203,7 @@ export function resolveThreadBindingSpawnPolicy(params: {
 }
 
 export function resolveThreadBindingIdleTimeoutMsForChannel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: string;
   accountId?: string;
 }): number {
@@ -215,7 +215,7 @@ export function resolveThreadBindingIdleTimeoutMsForChannel(params: {
 }
 
 export function resolveThreadBindingMaxAgeMsForChannel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: string;
   accountId?: string;
 }): number {
@@ -227,7 +227,7 @@ export function resolveThreadBindingMaxAgeMsForChannel(params: {
 }
 
 function resolveThreadBindingChannelScope(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: string;
   accountId?: string;
 }) {

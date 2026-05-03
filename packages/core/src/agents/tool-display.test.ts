@@ -81,11 +81,11 @@ describe("tool display details", () => {
     const detail = formatToolDetail(
       resolveToolDisplay({
         name: "web_search",
-        args: { query: "Brikko Studio docs", count: 3 },
+        args: { query: "BrikkoStudio docs", count: 3 },
       }),
     );
 
-    expect(detail).toBe('for "Brikko Studio docs" (top 3)');
+    expect(detail).toBe('for "BrikkoStudio docs" (top 3)');
   });
 
   it("summarizes exec commands with context", () => {

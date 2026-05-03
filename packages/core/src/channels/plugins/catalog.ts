@@ -2,13 +2,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { MANIFEST_KEY } from "../../compat/legacy-names.js";
 import { isPrereleaseSemverVersion, parseRegistryNpmSpec } from "../../infra/npm-registry-spec.js";
-import { resolveBrikko StudioPackageRootSync } from "../../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../../infra/brikko-studio-root.js";
 import { listChannelCatalogEntries } from "../../plugins/channel-catalog-registry.js";
 import {
   describePluginInstallSource,
   type PluginInstallSourceInfo,
 } from "../../plugins/install-source-info.js";
-import type { Brikko StudioPackageManifest } from "../../plugins/manifest.js";
+import type { BrikkoStudioPackageManifest } from "../../plugins/manifest.js";
 import type { PluginPackageChannel, PluginPackageInstall } from "../../plugins/manifest.js";
 import { listOfficialExternalChannelCatalogEntries } from "../../plugins/official-external-plugin-catalog.js";
 import type { PluginOrigin } from "../../plugins/plugin-origin.types.js";
@@ -68,7 +68,7 @@ type ExternalCatalogEntry = {
   name?: string;
   version?: string;
   description?: string;
-} & Partial<Record<ManifestKey, Brikko StudioPackageManifest>>;
+} & Partial<Record<ManifestKey, BrikkoStudioPackageManifest>>;
 
 const ENV_CATALOG_PATHS = ["BRIKKO_STUDIO_PLUGIN_CATALOG_PATHS", "BRIKKO_STUDIO_MPM_CATALOG_PATHS"];
 const OFFICIAL_CHANNEL_CATALOG_RELATIVE_PATH = path.join("dist", "channel-catalog.json");
@@ -180,8 +180,8 @@ function resolveOfficialCatalogPaths(options: CatalogOptions): string[] {
   }
 
   const packageRoots = [
-    resolveBrikko StudioPackageRootSync({ cwd: process.cwd() }),
-    resolveBrikko StudioPackageRootSync({ moduleUrl: import.meta.url }),
+    resolveBrikkoStudioPackageRootSync({ cwd: process.cwd() }),
+    resolveBrikkoStudioPackageRootSync({ moduleUrl: import.meta.url }),
   ].filter((entry, index, all): entry is string => Boolean(entry) && all.indexOf(entry) === index);
 
   const candidates = packageRoots.map((packageRoot) =>
@@ -210,7 +210,7 @@ function loadOfficialCatalogEntries(options: CatalogOptions): ChannelPluginCatal
 }
 
 function toChannelMeta(params: {
-  channel: NonNullable<Brikko StudioPackageManifest["channel"]>;
+  channel: NonNullable<BrikkoStudioPackageManifest["channel"]>;
   id: string;
 }): ChannelMeta | null {
   const label = params.channel.label?.trim();

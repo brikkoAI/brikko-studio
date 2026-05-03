@@ -1,7 +1,7 @@
 import type { Api, Model } from "@mariozechner/pi-ai";
 import type { SessionManager } from "@mariozechner/pi-coding-agent";
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { getCompactionSafeguardRuntime } from "../pi-hooks/compaction-safeguard-runtime.js";
 import compactionSafeguardExtension from "../pi-hooks/compaction-safeguard.js";
 import contextPruningExtension from "../pi-hooks/context-pruning.js";
@@ -16,7 +16,7 @@ vi.mock("../../plugins/provider-hook-runtime.js", () => ({
   resolveProviderRuntimePlugin: () => undefined,
 }));
 
-function buildSafeguardFactories(cfg: Brikko StudioConfig) {
+function buildSafeguardFactories(cfg: BrikkoStudioConfig) {
   const sessionManager = {} as SessionManager;
   const model = {
     id: "claude-sonnet-4-20250514",
@@ -35,7 +35,7 @@ function buildSafeguardFactories(cfg: Brikko StudioConfig) {
 }
 
 function expectSafeguardRuntime(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   expectedRuntime: { qualityGuardEnabled: boolean; qualityGuardMaxRetries?: number },
 ) {
   const { factories, sessionManager } = buildSafeguardFactories(cfg);
@@ -54,7 +54,7 @@ describe("buildEmbeddedExtensionFactories", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     expectSafeguardRuntime(cfg, {
       qualityGuardEnabled: true,
     });
@@ -72,7 +72,7 @@ describe("buildEmbeddedExtensionFactories", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     expectSafeguardRuntime(cfg, {
       qualityGuardEnabled: false,
     });
@@ -91,7 +91,7 @@ describe("buildEmbeddedExtensionFactories", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     expectSafeguardRuntime(cfg, {
       qualityGuardEnabled: true,
       qualityGuardMaxRetries: 2,
@@ -108,7 +108,7 @@ describe("buildEmbeddedExtensionFactories", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       sessionManager: {} as SessionManager,
       provider: "litellm",
       modelId: "claude-sonnet-4-6",

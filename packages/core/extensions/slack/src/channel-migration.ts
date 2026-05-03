@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { SlackChannelConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
@@ -14,7 +14,7 @@ type SlackChannelMigrationResult = {
 };
 
 function resolveAccountChannels(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string | null,
 ): { channels?: SlackChannels } {
   if (!accountId) {
@@ -58,7 +58,7 @@ export function migrateSlackChannelsInPlace(
 }
 
 export function migrateSlackChannelConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   oldChannelId: string;
   newChannelId: string;

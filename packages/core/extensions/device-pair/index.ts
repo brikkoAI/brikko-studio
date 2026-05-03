@@ -16,10 +16,10 @@ import {
   revokeDeviceBootstrapToken,
   resolveGatewayBindUrl,
   resolveGatewayPort,
-  resolvePreferredBrikko StudioTmpDir,
+  resolvePreferredBrikkoStudioTmpDir,
   runPluginCommandWithTimeout,
   resolveTailnetHostWithRunner,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
 } from "./api.js";
 import {
   armPairNotifyOnce,
@@ -172,7 +172,7 @@ function parseNormalizedGatewayUrl(raw: string): string | null {
 }
 
 function resolveScheme(
-  cfg: Brikko StudioPluginApi["config"],
+  cfg: BrikkoStudioPluginApi["config"],
   opts?: { forceSecure?: boolean },
 ): "ws" | "wss" {
   if (opts?.forceSecure) {
@@ -262,7 +262,7 @@ async function resolveTailnetHost(): Promise<string | null> {
   );
 }
 
-function resolveAuthLabel(cfg: Brikko StudioPluginApi["config"]): ResolveAuthLabelResult {
+function resolveAuthLabel(cfg: BrikkoStudioPluginApi["config"]): ResolveAuthLabelResult {
   const mode = cfg.gateway?.auth?.mode;
   const token =
     pickFirstDefined([process.env.BRIKKO_STUDIO_GATEWAY_TOKEN, cfg.gateway?.auth?.token]) ?? undefined;
@@ -306,7 +306,7 @@ function resolveRequiredAuthLabel(
     : { error: "Gateway auth is set to password, but no password is configured." };
 }
 
-async function resolveGatewayUrl(api: Brikko StudioPluginApi): Promise<ResolveUrlResult> {
+async function resolveGatewayUrl(api: BrikkoStudioPluginApi): Promise<ResolveUrlResult> {
   const cfg = api.config;
   const pluginCfg = (api.pluginConfig ?? {}) as DevicePairPluginConfig;
   const scheme = resolveScheme(cfg);
@@ -522,7 +522,7 @@ async function issueSetupPayload(url: string): Promise<SetupPayload> {
 }
 
 async function sendQrPngToSupportedChannel(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   ctx: QrCommandContext;
   target: string;
   caption: string;
@@ -556,8 +556,8 @@ async function sendQrPngToSupportedChannel(params: {
 export default definePluginEntry({
   id: "device-pair",
   name: "Device Pair",
-  description: "QR/bootstrap pairing helpers for Brikko Studio devices",
-  register(api: Brikko StudioPluginApi) {
+  description: "QR/bootstrap pairing helpers for BrikkoStudio devices",
+  register(api: BrikkoStudioPluginApi) {
     registerPairingNotifierService(api);
 
     api.registerCommand({
@@ -674,7 +674,7 @@ export default definePluginEntry({
             try {
               qrFilePath = (
                 await writeQrPngTempFile(setupCode, {
-                  tmpRoot: resolvePreferredBrikko StudioTmpDir(),
+                  tmpRoot: resolvePreferredBrikkoStudioTmpDir(),
                   dirPrefix: "device-pair-qr-",
                   fileName: "pair-qr.png",
                 })
@@ -683,7 +683,7 @@ export default definePluginEntry({
                 api,
                 ctx,
                 target,
-                caption: ["Scan this QR code with the Brikko Studio iOS app:", "", ...infoLines].join(
+                caption: ["Scan this QR code with the BrikkoStudio iOS app:", "", ...infoLines].join(
                   "\n",
                 ),
                 qrFilePath,
@@ -731,7 +731,7 @@ export default definePluginEntry({
             }
             return {
               text: [
-                "Scan this QR code with the Brikko Studio iOS app:",
+                "Scan this QR code with the BrikkoStudio iOS app:",
                 "",
                 formatQrInfoMarkdown({
                   payload,

@@ -3,9 +3,9 @@ import {
   type ModelAliasIndex,
   resolveDefaultModelForAgent,
 } from "../../agents/model-selection.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
-export function resolveDefaultModel(params: { cfg: Brikko StudioConfig; agentId?: string }): {
+export function resolveDefaultModel(params: { cfg: BrikkoStudioConfig; agentId?: string }): {
   defaultProvider: string;
   defaultModel: string;
   aliasIndex: ModelAliasIndex;

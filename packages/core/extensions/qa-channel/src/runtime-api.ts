@@ -4,7 +4,7 @@ export type {
   ChannelGatewayContext,
 } from "brikko-studio/plugin-sdk/channel-contract";
 export type { ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
-export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
 export type { PluginRuntime } from "brikko-studio/plugin-sdk/runtime-store";
 export {

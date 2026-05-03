@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { SessionBindingRecord } from "../../infra/outbound/session-binding-service.js";
 import type { HandleCommandsParams } from "./commands-types.js";
 import { parseInlineDirectives } from "./directive-handling.parse.js";
@@ -283,7 +283,7 @@ vi.mock("../../infra/outbound/session-binding-service.js", () => {
 let handleSessionCommand: (typeof import("./commands-session.js"))["handleSessionCommand"];
 const baseCfg = {
   session: { mainKey: "main", scope: "per-sender" },
-} satisfies Brikko StudioConfig;
+} satisfies BrikkoStudioConfig;
 
 function buildSessionCommandParams(
   commandBody: string,

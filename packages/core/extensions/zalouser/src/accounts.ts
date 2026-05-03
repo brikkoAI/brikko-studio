@@ -4,7 +4,7 @@ import {
   normalizeAccountId,
   resolveMergedAccountConfig,
 } from "brikko-studio/plugin-sdk/account-resolution";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import type { ResolvedZalouserAccount, ZalouserAccountConfig, ZalouserConfig } from "./types.js";
 
@@ -21,7 +21,7 @@ const {
 } = createAccountListHelpers("zalouser");
 export { listZalouserAccountIds, resolveDefaultZalouserAccountId };
 
-function mergeZalouserAccountConfig(cfg: Brikko StudioConfig, accountId: string): ZalouserAccountConfig {
+function mergeZalouserAccountConfig(cfg: BrikkoStudioConfig, accountId: string): ZalouserAccountConfig {
   const merged = resolveMergedAccountConfig<ZalouserAccountConfig>({
     channelConfig: cfg.channels?.zalouser as ZalouserAccountConfig | undefined,
     accounts: (cfg.channels?.zalouser as ZalouserConfig | undefined)?.accounts as
@@ -53,7 +53,7 @@ function resolveProfile(config: ZalouserAccountConfig, accountId: string): strin
   return "default";
 }
 
-function resolveZalouserAccountBase(params: { cfg: Brikko StudioConfig; accountId?: string | null }) {
+function resolveZalouserAccountBase(params: { cfg: BrikkoStudioConfig; accountId?: string | null }) {
   const accountId = normalizeAccountId(
     params.accountId ?? resolveDefaultZalouserAccountId(params.cfg),
   );
@@ -69,7 +69,7 @@ function resolveZalouserAccountBase(params: { cfg: Brikko StudioConfig; accountI
 }
 
 export async function resolveZalouserAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): Promise<ResolvedZalouserAccount> {
   const { accountId, enabled, merged, profile } = resolveZalouserAccountBase(params);
@@ -86,7 +86,7 @@ export async function resolveZalouserAccount(params: {
 }
 
 export function resolveZalouserAccountSync(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ResolvedZalouserAccount {
   const { accountId, enabled, merged, profile } = resolveZalouserAccountBase(params);
@@ -102,7 +102,7 @@ export function resolveZalouserAccountSync(params: {
 }
 
 export async function listEnabledZalouserAccounts(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): Promise<ResolvedZalouserAccount[]> {
   const ids = listZalouserAccountIds(cfg);
   const accounts = await Promise.all(

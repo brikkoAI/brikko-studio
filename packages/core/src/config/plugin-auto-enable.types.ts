@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 
 export type PluginAutoEnableCandidate =
   | {
@@ -45,7 +45,7 @@ export type PluginAutoEnableCandidate =
     };
 
 export type PluginAutoEnableResult = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
   autoEnabledReasons: Record<string, string[]>;
 };

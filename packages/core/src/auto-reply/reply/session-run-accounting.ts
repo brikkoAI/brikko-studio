@@ -1,5 +1,5 @@
 import { deriveSessionTotalTokens, type NormalizedUsage } from "../../agents/usage.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { incrementCompactionCount } from "./session-updates.js";
 import { persistSessionUsageUpdate } from "./session-usage.js";
 
@@ -10,7 +10,7 @@ type IncrementRunCompactionCountParams = Omit<
   "tokensAfter"
 > & {
   amount?: number;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   compactionTokensAfter?: number;
   lastCallUsage?: NormalizedUsage;
   contextTokensUsed?: number;

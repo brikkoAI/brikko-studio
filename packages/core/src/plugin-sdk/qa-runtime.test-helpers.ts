@@ -60,10 +60,10 @@ export async function expectPrivateQaLabRuntimeSurfaceLoad(params: {
   tempDirs: string[];
   importRuntime: () => Promise<QaRuntimeModule>;
   loadBundledPluginPublicSurfaceModuleSync: SurfaceLoaderMock;
-  resolveBrikko StudioPackageRootSync: SurfaceLoaderMock;
+  resolveBrikkoStudioPackageRootSync: SurfaceLoaderMock;
 }) {
   const sourceRoot = makePrivateQaSourceRoot(params.tempDirs, "brikko-studio-qa-runtime-root-");
-  params.resolveBrikko StudioPackageRootSync.mockReturnValue(sourceRoot);
+  params.resolveBrikkoStudioPackageRootSync.mockReturnValue(sourceRoot);
 
   const runtimeSurface = makeQaRuntimeSurface();
   params.loadBundledPluginPublicSurfaceModuleSync.mockReturnValue(runtimeSurface);

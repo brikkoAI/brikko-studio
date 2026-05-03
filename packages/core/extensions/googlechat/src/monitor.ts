@@ -1,5 +1,5 @@
 import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import {
   createChannelReplyPipeline,
   resolveInboundRouteEnvelopeBuilderWithRuntime,
@@ -71,12 +71,12 @@ async function processGoogleChatEvent(event: GoogleChatEvent, target: WebhookTar
  * Resolve bot display name with fallback chain:
  * 1. Account config name
  * 2. Agent name from config
- * 3. "Brikko Studio" as generic fallback
+ * 3. "BrikkoStudio" as generic fallback
  */
 function resolveBotDisplayName(params: {
   accountName?: string;
   agentId: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
 }): string {
   const { accountName, agentId, config } = params;
   if (accountName?.trim()) {
@@ -86,13 +86,13 @@ function resolveBotDisplayName(params: {
   if (agent?.name?.trim()) {
     return agent.name.trim();
   }
-  return "Brikko Studio";
+  return "BrikkoStudio";
 }
 
 async function processMessageWithPipeline(params: {
   event: GoogleChatEvent;
   account: ResolvedGoogleChatAccount;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   runtime: GoogleChatRuntimeEnv;
   core: GoogleChatCoreRuntime;
   statusSink?: (patch: { lastInboundAt?: number; lastOutboundAt?: number }) => void;

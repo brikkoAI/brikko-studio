@@ -9,7 +9,7 @@ import {
   resolveShellFromEnv,
   usesSlowDynamicCompletion,
 } from "../cli/completion-runtime.js";
-import { resolveBrikko StudioPackageRoot } from "../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRoot } from "../infra/brikko-studio-root.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { note } from "../terminal/note.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
@@ -20,7 +20,7 @@ const COMPLETION_CACHE_WRITE_TIMEOUT_MS = 30_000;
 
 /** Generate the completion cache by spawning the CLI. */
 async function generateCompletionCache(): Promise<boolean> {
-  const root = await resolveBrikko StudioPackageRoot({
+  const root = await resolveBrikkoStudioPackageRoot({
     moduleUrl: import.meta.url,
     argv1: process.argv[1],
     cwd: process.cwd(),

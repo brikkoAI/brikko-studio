@@ -1,7 +1,7 @@
 import path from "node:path";
 import { finalizeInboundContext } from "../auto-reply/reply/inbound-context.js";
 import type { MsgContext } from "../auto-reply/templating.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { logVerbose, shouldLogVerbose } from "../globals.js";
 import { renderFileContextBlock } from "../media/file-context.js";
 import {
@@ -97,7 +97,7 @@ export function sanitizeMimeType(value?: string): string | undefined {
   return match?.[1]?.toLowerCase();
 }
 
-function resolveFileLimits(cfg: Brikko StudioConfig) {
+function resolveFileLimits(cfg: BrikkoStudioConfig) {
   const files = cfg.gateway?.http?.endpoints?.responses?.files;
   const allowedMimesConfigured = Boolean(files?.allowedMimes?.length);
   return {
@@ -385,7 +385,7 @@ function isBinaryMediaMime(mime?: string): boolean {
 async function extractFileBlocks(params: {
   attachments: ReturnType<typeof normalizeMediaAttachments>;
   cache: ReturnType<typeof createMediaAttachmentCache>;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   limits: ReturnType<typeof resolveFileLimits>;
   skipAttachmentIndexes?: Set<number>;
 }): Promise<string[]> {
@@ -521,7 +521,7 @@ async function extractFileBlocks(params: {
 
 export async function applyMediaUnderstanding(params: {
   ctx: MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   providers?: Record<string, MediaUnderstandingProvider>;
   activeModel?: ActiveMediaModel;

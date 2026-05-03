@@ -92,7 +92,7 @@ describe("openshell backend manager", () => {
     vi.clearAllMocks();
   });
 
-  it("checks runtime status with config override from Brikko Studio config", async () => {
+  it("checks runtime status with config override from BrikkoStudio config", async () => {
     cliMocks.runOpenShellCli.mockResolvedValue({
       code: 0,
       stdout: "{}",

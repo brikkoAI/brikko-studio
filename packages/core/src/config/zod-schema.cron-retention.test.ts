@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { Brikko StudioSchema } from "./zod-schema.js";
+import { BrikkoStudioSchema } from "./zod-schema.js";
 
-describe("Brikko StudioSchema cron retention and run-log validation", () => {
+describe("BrikkoStudioSchema cron retention and run-log validation", () => {
   it("accepts valid cron.sessionRetention and runLog values", () => {
     expect(() =>
-      Brikko StudioSchema.parse({
+      BrikkoStudioSchema.parse({
         cron: {
           sessionRetention: "1h30m",
           runLog: {
@@ -18,7 +18,7 @@ describe("Brikko StudioSchema cron retention and run-log validation", () => {
 
   it("rejects invalid cron.sessionRetention", () => {
     expect(() =>
-      Brikko StudioSchema.parse({
+      BrikkoStudioSchema.parse({
         cron: {
           sessionRetention: "abc",
         },
@@ -28,7 +28,7 @@ describe("Brikko StudioSchema cron retention and run-log validation", () => {
 
   it("rejects invalid cron.runLog.maxBytes", () => {
     expect(() =>
-      Brikko StudioSchema.parse({
+      BrikkoStudioSchema.parse({
         cron: {
           runLog: {
             maxBytes: "wat",

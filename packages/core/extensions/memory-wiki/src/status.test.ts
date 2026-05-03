@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 import { resolveMemoryWikiConfig } from "./config.js";
 import { renderWikiMarkdown } from "./markdown.js";
 import {
@@ -31,7 +31,7 @@ async function resolveBridgeMissingArtifactsStatus() {
       agents: {
         list: [{ id: "main", default: true, workspace: "/tmp/workspace" }],
       },
-    } as Brikko StudioConfig,
+    } as BrikkoStudioConfig,
     listPublicArtifacts: async () => [],
     pathExists: async () => true,
     resolveCommand: async () => null,

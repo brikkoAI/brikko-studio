@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { loadInstalledPluginIndexInstallRecords } from "../plugins/installed-plugin-index-records.js";
 import type { InstalledPluginIndexRefreshReason } from "../plugins/installed-plugin-index.js";
@@ -10,7 +10,7 @@ export type PluginRegistryRefreshLogger = {
 };
 
 export async function refreshPluginRegistryAfterConfigMutation(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   reason: InstalledPluginIndexRefreshReason;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;

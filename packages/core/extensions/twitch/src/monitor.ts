@@ -6,7 +6,7 @@
  */
 
 import { createChannelReplyPipeline } from "brikko-studio/plugin-sdk/channel-reply-pipeline";
-import type { MarkdownTableMode, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { MarkdownTableMode, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
@@ -24,7 +24,7 @@ export type TwitchRuntimeEnv = {
 export type TwitchMonitorOptions = {
   account: TwitchAccountConfig;
   accountId: string;
-  config: unknown; // Brikko StudioConfig
+  config: unknown; // BrikkoStudioConfig
   runtime: TwitchRuntimeEnv;
   abortSignal: AbortSignal;
   statusSink?: (patch: { lastInboundAt?: number; lastOutboundAt?: number }) => void;
@@ -49,7 +49,7 @@ async function processTwitchMessage(params: {
   statusSink?: (patch: { lastInboundAt?: number; lastOutboundAt?: number }) => void;
 }): Promise<void> {
   const { message, account, accountId, config, runtime, core, statusSink } = params;
-  const cfg = config as Brikko StudioConfig;
+  const cfg = config as BrikkoStudioConfig;
 
   await core.channel.turn.run({
     channel: "twitch",

@@ -9,7 +9,7 @@ import {
   normalizeAccountId,
   normalizeOptionalAccountId,
 } from "brikko-studio/plugin-sdk/account-id";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { hasConfiguredSecretInput } from "brikko-studio/plugin-sdk/secret-input-runtime";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/string-coerce-runtime";
 import {
@@ -136,12 +136,12 @@ function hasConfiguredDefaultMatrixAccountSource(params: {
   });
 }
 
-export function resolveMatrixChannelConfig(cfg: Brikko StudioConfig): Record<string, unknown> | null {
+export function resolveMatrixChannelConfig(cfg: BrikkoStudioConfig): Record<string, unknown> | null {
   return isRecord(cfg.channels?.matrix) ? cfg.channels.matrix : null;
 }
 
 export function findMatrixAccountEntry(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): Record<string, unknown> | null {
   const channel = resolveMatrixChannelConfig(cfg);
@@ -158,7 +158,7 @@ export function findMatrixAccountEntry(
 }
 
 export function resolveConfiguredMatrixAccountIds(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): string[] {
   const channel = resolveMatrixChannelConfig(cfg);
@@ -182,7 +182,7 @@ export function resolveConfiguredMatrixAccountIds(
 }
 
 export function resolveMatrixDefaultOrOnlyAccountId(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): string {
   const channel = resolveMatrixChannelConfig(cfg);
@@ -202,7 +202,7 @@ export function resolveMatrixDefaultOrOnlyAccountId(
 }
 
 export function requiresExplicitMatrixDefaultAccount(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
   const channel = resolveMatrixChannelConfig(cfg);

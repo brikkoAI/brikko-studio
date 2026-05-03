@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import type { ModelsProviderData } from "brikko-studio/plugin-sdk/command-auth";
 import { resolveStoredModelOverride } from "brikko-studio/plugin-sdk/command-auth";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/core";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/core";
 import { normalizeProviderId } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { loadSessionStore, resolveStorePath } from "brikko-studio/plugin-sdk/session-store-runtime";
 import {
@@ -233,7 +233,7 @@ export function buildMattermostAllowedModelRefs(data: ModelsProviderData): Set<s
 }
 
 export function resolveMattermostModelPickerCurrentModel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   route: { agentId: string; sessionKey: string };
   data: ModelsProviderData;
   skipCache?: boolean;

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import { createExecApprovalForwarder } from "../infra/exec-approval-forwarder.js";
 import { type PluginApprovalRequestPayload } from "../infra/plugin-approvals.js";
@@ -56,7 +56,7 @@ export function createGatewayAuxHandlers(params: {
   activateRuntimeSecrets: ActivateRuntimeSecrets;
   buildReloadPlan?: (changedPaths: string[]) => GatewayReloadPlan;
   sharedGatewaySessionGenerationState: SharedGatewaySessionGenerationState;
-  resolveSharedGatewaySessionGenerationForConfig: (config: Brikko StudioConfig) => string | undefined;
+  resolveSharedGatewaySessionGenerationForConfig: (config: BrikkoStudioConfig) => string | undefined;
   clients: Iterable<SharedGatewayAuthClient>;
   startChannel: (name: ChannelKind) => Promise<void>;
   stopChannel: (name: ChannelKind) => Promise<void>;

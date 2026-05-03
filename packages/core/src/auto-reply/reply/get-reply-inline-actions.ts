@@ -4,7 +4,7 @@ import type { SkillCommandSpec } from "../../agents/skills.js";
 import { applyOwnerOnlyToolPolicy } from "../../agents/tool-policy.js";
 import { getChannelPlugin } from "../../channels/plugins/index.js";
 import type { SessionEntry } from "../../config/sessions.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { logVerbose } from "../../globals.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { generateSecureToken } from "../../infra/secure-random.js";
@@ -37,14 +37,14 @@ import { extractInlineSimpleCommand } from "./reply-inline.js";
 import type { TypingController } from "./typing.js";
 
 type SkillCommandsRuntime = typeof import("../skill-commands.runtime.js");
-type Brikko StudioToolsRuntime = typeof import("../../agents/brikko-studio-tools.runtime.js");
+type BrikkoStudioToolsRuntime = typeof import("../../agents/brikko-studio-tools.runtime.js");
 type AbortCutoffRuntime = typeof import("./abort-cutoff.runtime.js");
 type CommandsRuntime = typeof import("./commands.runtime.js");
 
 const skillCommandsRuntimeLoader = createLazyImportLoader<SkillCommandsRuntime>(
   () => import("../skill-commands.runtime.js"),
 );
-const openClawToolsRuntimeLoader = createLazyImportLoader<Brikko StudioToolsRuntime>(
+const openClawToolsRuntimeLoader = createLazyImportLoader<BrikkoStudioToolsRuntime>(
   () => import("../../agents/brikko-studio-tools.runtime.js"),
 );
 const abortCutoffRuntimeLoader = createLazyImportLoader<AbortCutoffRuntime>(
@@ -59,7 +59,7 @@ function loadSkillCommandsRuntime(): Promise<SkillCommandsRuntime> {
   return skillCommandsRuntimeLoader.load();
 }
 
-function loadBrikko StudioToolsRuntime(): Promise<Brikko StudioToolsRuntime> {
+function loadBrikkoStudioToolsRuntime(): Promise<BrikkoStudioToolsRuntime> {
   return openClawToolsRuntimeLoader.load();
 }
 
@@ -147,7 +147,7 @@ function extractTextFromToolResult(result: unknown): string | null {
 export async function handleInlineActions(params: {
   ctx: MsgContext;
   sessionCtx: TemplateContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   agentDir?: string;
   sessionEntry?: SessionEntry;
@@ -271,8 +271,8 @@ export async function handleInlineActions(params: {
         resolveGatewayMessageChannel(ctx.Provider) ??
         undefined;
 
-      const { createBrikko StudioTools } = await loadBrikko StudioToolsRuntime();
-      const tools = createBrikko StudioTools({
+      const { createBrikkoStudioTools } = await loadBrikkoStudioToolsRuntime();
+      const tools = createBrikkoStudioTools({
         agentSessionKey: sessionKey,
         agentChannel: channel,
         agentAccountId: (ctx as { AccountId?: string }).AccountId,

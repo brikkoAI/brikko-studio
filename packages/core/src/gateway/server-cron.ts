@@ -9,7 +9,7 @@ import {
   resolveAgentMainSessionKey,
 } from "../config/sessions.js";
 import { resolveStorePath } from "../config/sessions/paths.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { runCronIsolatedAgentTurn } from "../cron/isolated-agent.js";
 import {
   appendCronRunLog,
@@ -85,7 +85,7 @@ function toPluginCronJob(job: CronJob): PluginHookGatewayCronJob {
 }
 
 export function buildGatewayCronService(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   deps: CliDeps;
   broadcast: (event: string, payload: unknown, opts?: { dropIfSlow?: boolean }) => void;
 }): GatewayCronState {
@@ -93,7 +93,7 @@ export function buildGatewayCronService(params: {
   const storePath = resolveCronStorePath(params.cfg.cron?.store);
   const cronEnabled = process.env.BRIKKO_STUDIO_SKIP_CRON !== "1" && params.cfg.cron?.enabled !== false;
 
-  const findAgentEntry = (cfg: Brikko StudioConfig, agentId: string) =>
+  const findAgentEntry = (cfg: BrikkoStudioConfig, agentId: string) =>
     Array.isArray(cfg.agents?.list)
       ? cfg.agents.list.find(
           (entry) =>
@@ -101,10 +101,10 @@ export function buildGatewayCronService(params: {
         )
       : undefined;
 
-  const hasConfiguredAgent = (cfg: Brikko StudioConfig, agentId: string) =>
+  const hasConfiguredAgent = (cfg: BrikkoStudioConfig, agentId: string) =>
     Boolean(findAgentEntry(cfg, agentId));
 
-  const mergeRuntimeAgentConfig = (runtimeConfig: Brikko StudioConfig, requestedAgentId: string) => {
+  const mergeRuntimeAgentConfig = (runtimeConfig: BrikkoStudioConfig, requestedAgentId: string) => {
     if (hasConfiguredAgent(runtimeConfig, requestedAgentId)) {
       return runtimeConfig;
     }
@@ -142,7 +142,7 @@ export function buildGatewayCronService(params: {
   };
 
   const resolveCronSessionKey = (params: {
-    runtimeConfig: Brikko StudioConfig;
+    runtimeConfig: BrikkoStudioConfig;
     agentId: string;
     requestedSessionKey?: string | null;
   }) => {

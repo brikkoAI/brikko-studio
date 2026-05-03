@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { resolvePreferredBrikko StudioTmpDir } from "../../../../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../../../../infra/tmp-brikko-studio-dir.js";
 import { getChannelPluginCatalogEntry, listChannelPluginCatalogEntries } from "../../catalog.js";
 
 type CatalogEntryMeta = {
@@ -59,7 +59,7 @@ export function describeBundledMetadataOnlyChannelCatalogContract(params: {
   describe(`${params.pluginId} bundled metadata-only channel catalog contract`, () => {
     it("includes the bundled metadata-only channel entry when the runtime entrypoint is omitted", () => {
       const workspaceDir = fs.mkdtempSync(
-        path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-bundled-catalog-"),
+        path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-bundled-catalog-"),
       );
       const bundledDir = path.join(workspaceDir, ".brikko-studio", "extensions", params.pluginId);
       fs.mkdirSync(bundledDir, { recursive: true });
@@ -113,7 +113,7 @@ export function describeOfficialFallbackChannelCatalogContract(params: {
   describe(`${params.channelId} official fallback channel catalog contract`, () => {
     it("includes shipped official channel catalog entries when bundled metadata is omitted", () => {
       const dir = fs.mkdtempSync(
-        path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-official-catalog-"),
+        path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-official-catalog-"),
       );
       const catalogPath = path.join(dir, "channel-catalog.json");
       fs.writeFileSync(
@@ -146,7 +146,7 @@ export function describeOfficialFallbackChannelCatalogContract(params: {
 
     it("lets external catalogs override shipped fallback channel metadata", () => {
       const dir = fs.mkdtempSync(
-        path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-fallback-catalog-"),
+        path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-fallback-catalog-"),
       );
       const bundledDir = path.join(dir, "dist", "extensions", params.pluginId);
       const officialCatalogPath = path.join(dir, "channel-catalog.json");
@@ -223,7 +223,7 @@ export function describeOfficialFallbackChannelCatalogContract(params: {
 
     it("surfaces package-name drift in external channel catalog install metadata", () => {
       const dir = fs.mkdtempSync(
-        path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-drifted-catalog-"),
+        path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-drifted-catalog-"),
       );
       const catalogPath = path.join(dir, "catalog.json");
       fs.writeFileSync(

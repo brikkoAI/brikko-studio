@@ -3,7 +3,7 @@ import {
   getLoadedRuntimePluginRegistry,
 } from "../active-runtime-registry.js";
 import {
-  loadBrikko StudioPlugins,
+  loadBrikkoStudioPlugins,
   resolvePluginRegistryLoadCacheKey,
   type PluginLoadOptions,
 } from "../loader.js";
@@ -66,7 +66,7 @@ export function ensureStandaloneRuntimePluginRegistryLoaded(params: {
     return existing;
   }
 
-  const registry = loadBrikko StudioPlugins(params.loadOptions);
+  const registry = loadBrikkoStudioPlugins(params.loadOptions);
   if (params.loadOptions.activate !== false) {
     switch (surface) {
       case "active":

@@ -1,5 +1,5 @@
 import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   applySetupAccountConfigPatch,
   createStandardChannelSetupStatus,
@@ -108,7 +108,7 @@ export const mattermostSetupWizard: ChannelSetupWizard = {
       normalizeValue: ({ value }) => normalizeMattermostBaseUrl(value) ?? value.trim(),
     },
   ],
-  disable: (cfg: Brikko StudioConfig) => ({
+  disable: (cfg: BrikkoStudioConfig) => ({
     ...cfg,
     channels: {
       ...cfg.channels,

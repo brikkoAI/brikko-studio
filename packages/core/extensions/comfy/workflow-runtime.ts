@@ -1,5 +1,5 @@
 import fs from "node:fs/promises";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { canResolveEnvSecretRefInReadOnlyPath } from "brikko-studio/plugin-sdk/extension-shared";
 import {
   isProviderApiKeyConfigured,
@@ -120,7 +120,7 @@ function readConfigInteger(config: ComfyProviderConfig, key: string): number | u
   return typeof value === "number" && Number.isInteger(value) && value > 0 ? value : undefined;
 }
 
-export function getComfyConfig(cfg?: Brikko StudioConfig): ComfyProviderConfig {
+export function getComfyConfig(cfg?: BrikkoStudioConfig): ComfyProviderConfig {
   const pluginConfig = cfg?.plugins?.entries?.comfy?.config;
   if (isRecord(pluginConfig)) {
     return pluginConfig;
@@ -155,7 +155,7 @@ function resolveComfyMode(config: ComfyProviderConfig): ComfyMode {
 
 function resolveComfyApiKey(
   config: ComfyProviderConfig,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): ComfyApiKeyResolution {
   const resolved = resolveSecretInputString({
     value: config.apiKey,
@@ -588,7 +588,7 @@ async function downloadOutputFile(params: {
 }
 
 export function isComfyCapabilityConfigured(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   capability: ComfyCapability;
 }): boolean {
@@ -619,7 +619,7 @@ export function isComfyCapabilityConfigured(params: {
 }
 
 export async function runComfyWorkflow(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   authStore?: AuthProfileStore;
   prompt: string;

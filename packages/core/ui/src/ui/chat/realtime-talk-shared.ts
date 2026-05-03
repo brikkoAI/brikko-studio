@@ -116,7 +116,7 @@ function waitForChatResult(params: {
   return new Promise((resolve, reject) => {
     const timer = window.setTimeout(() => {
       unsubscribe();
-      reject(new Error("Brikko Studio tool call timed out"));
+      reject(new Error("BrikkoStudio tool call timed out"));
     }, params.timeoutMs);
     const unsubscribe = params.client.addEventListener((evt: GatewayEventFrame) => {
       if (evt.event !== "chat") {
@@ -129,11 +129,11 @@ function waitForChatResult(params: {
       if (payload.state === "final") {
         window.clearTimeout(timer);
         unsubscribe();
-        resolve(extractTextFromMessage(payload.message) || "Brikko Studio finished with no text.");
+        resolve(extractTextFromMessage(payload.message) || "BrikkoStudio finished with no text.");
       } else if (payload.state === "error") {
         window.clearTimeout(timer);
         unsubscribe();
-        reject(new Error(payload.errorMessage ?? "Brikko Studio tool call failed"));
+        reject(new Error(payload.errorMessage ?? "BrikkoStudio tool call failed"));
       }
     });
   });

@@ -12,10 +12,10 @@ export async function doctorCommand(runtime?: RuntimeEnv, options: DoctorOptions
   const { printWizardHeader } = await import("../commands/onboard-helpers.js");
   const prompter = createDoctorPrompter({ runtime: effectiveRuntime, options });
   printWizardHeader(effectiveRuntime);
-  intro("Brikko Studio doctor");
+  intro("BrikkoStudio doctor");
 
-  const { resolveBrikko StudioPackageRoot } = await import("../infra/brikko-studio-root.js");
-  const root = await resolveBrikko StudioPackageRoot({
+  const { resolveBrikkoStudioPackageRoot } = await import("../infra/brikko-studio-root.js");
+  const root = await resolveBrikkoStudioPackageRoot({
     moduleUrl: import.meta.url,
     argv1: process.argv[1],
     cwd: process.cwd(),

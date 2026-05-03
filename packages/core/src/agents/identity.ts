@@ -1,18 +1,18 @@
 import type { HumanDelayConfig, IdentityConfig } from "../config/types.base.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveAgentConfig } from "./agent-scope.js";
 
 const DEFAULT_ACK_REACTION = "👀";
 
 export function resolveAgentIdentity(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
 ): IdentityConfig | undefined {
   return resolveAgentConfig(cfg, agentId)?.identity;
 }
 
 export function resolveAckReaction(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
   opts?: { channel?: string; accountId?: string },
 ): string {
@@ -47,7 +47,7 @@ export function resolveAckReaction(
 }
 
 export function resolveIdentityNamePrefix(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
 ): string | undefined {
   const name = resolveAgentIdentity(cfg, agentId)?.name?.trim();
@@ -58,7 +58,7 @@ export function resolveIdentityNamePrefix(
 }
 
 export function resolveMessagePrefix(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
   opts?: { configured?: string; hasAllowFrom?: boolean; fallback?: string },
 ): string {
@@ -77,7 +77,7 @@ export function resolveMessagePrefix(
 
 /** Helper to extract a channel config value by dynamic key. */
 function getChannelConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   channel: string,
 ): Record<string, unknown> | undefined {
   const channels = cfg.channels as Record<string, unknown> | undefined;
@@ -88,7 +88,7 @@ function getChannelConfig(
 }
 
 export function resolveResponsePrefix(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
   opts?: { channel?: string; accountId?: string },
 ): string | undefined {
@@ -129,7 +129,7 @@ export function resolveResponsePrefix(
 }
 
 export function resolveEffectiveMessagesConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
   opts?: {
     hasAllowFrom?: boolean;
@@ -151,7 +151,7 @@ export function resolveEffectiveMessagesConfig(
 }
 
 export function resolveHumanDelayConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
 ): HumanDelayConfig | undefined {
   const defaults = cfg.agents?.defaults?.humanDelay;

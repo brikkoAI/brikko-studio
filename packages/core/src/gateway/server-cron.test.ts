@@ -2,7 +2,7 @@ import os from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { CliDeps } from "../cli/deps.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { SsrFBlockedError } from "../infra/net/ssrf.js";
 import { mergeMockedModule } from "../test-utils/vitest-module-mocks.js";
 
@@ -98,7 +98,7 @@ vi.mock("../plugins/hook-runner-global.js", () => ({
 
 import { buildGatewayCronService } from "./server-cron.js";
 
-function createCronConfig(name: string): Brikko StudioConfig {
+function createCronConfig(name: string): BrikkoStudioConfig {
   const tmpDir = path.join(os.tmpdir(), `${name}-${Date.now()}`);
   return {
     session: {
@@ -107,7 +107,7 @@ function createCronConfig(name: string): Brikko StudioConfig {
     cron: {
       store: path.join(tmpDir, "cron.json"),
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("buildGatewayCronService", () => {
@@ -420,7 +420,7 @@ describe("buildGatewayCronService", () => {
       cron: {
         store: path.join(tmpDir, "cron.json"),
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     loadConfigMock.mockReturnValue(cfg);
 
     const state = buildGatewayCronService({
@@ -518,7 +518,7 @@ describe("buildGatewayCronService", () => {
           { id: "yinze", workspace: path.join(tmpDir, "workspace-yinze") },
         ],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const reloadedCfg = {
       session: {
         mainKey: "main",
@@ -532,7 +532,7 @@ describe("buildGatewayCronService", () => {
         },
         list: [{ id: "main", default: true }],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     loadConfigMock.mockReturnValue(reloadedCfg);
 
     const state = buildGatewayCronService({
@@ -602,7 +602,7 @@ describe("buildGatewayCronService", () => {
           },
         ],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const reloadedCfg = {
       session: {
         mainKey: "main",
@@ -620,7 +620,7 @@ describe("buildGatewayCronService", () => {
         },
         list: [{ id: "main", default: true }],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     loadConfigMock.mockReturnValue(reloadedCfg);
 
     const state = buildGatewayCronService({

@@ -55,7 +55,7 @@ vi.mock("../../infra/brikko-studio-root.js", async () => {
   );
   return {
     ...actual,
-    resolveBrikko StudioPackageRoot: async () => "/tmp/brikko-studio",
+    resolveBrikkoStudioPackageRoot: async () => "/tmp/brikko-studio",
   };
 });
 

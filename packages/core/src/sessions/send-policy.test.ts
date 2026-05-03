@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { SessionEntry } from "../config/sessions.js";
 import { resolveSendPolicy } from "./send-policy.js";
 
 describe("resolveSendPolicy", () => {
   const cfgWithRules = (
-    rules: NonNullable<NonNullable<Brikko StudioConfig["session"]>["sendPolicy"]>["rules"],
+    rules: NonNullable<NonNullable<BrikkoStudioConfig["session"]>["sendPolicy"]>["rules"],
   ) =>
     ({
       session: {
@@ -14,17 +14,17 @@ describe("resolveSendPolicy", () => {
           rules,
         },
       },
-    }) as Brikko StudioConfig;
+    }) as BrikkoStudioConfig;
 
   it("defaults to allow", () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     expect(resolveSendPolicy({ cfg })).toBe("allow");
   });
 
   it("entry override wins", () => {
     const cfg = {
       session: { sendPolicy: { default: "allow" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const entry: SessionEntry = {
       sessionId: "s",
       updatedAt: 0,

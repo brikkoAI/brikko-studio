@@ -15,7 +15,7 @@ const describeLive = LIVE && MISTRAL_KEY && ELEVENLABS_KEY ? describe : describe
 
 describeLive("mistral plugin live", () => {
   it("transcribes synthesized speech through the media provider", async () => {
-    const phrase = "Testing Brikko Studio Mistral speech to text integration OK.";
+    const phrase = "Testing BrikkoStudio Mistral speech to text integration OK.";
     const audio = await synthesizeElevenLabsLiveSpeech({
       text: phrase,
       apiKey: ELEVENLABS_KEY,
@@ -38,7 +38,7 @@ describeLive("mistral plugin live", () => {
 
   it("streams realtime STT through the registered transcription provider", async () => {
     const provider = buildMistralRealtimeTranscriptionProvider();
-    const phrase = "Testing Brikko Studio Mistral realtime transcription integration OK.";
+    const phrase = "Testing BrikkoStudio Mistral realtime transcription integration OK.";
     const speech = await synthesizeElevenLabsLiveSpeech({
       text: phrase,
       apiKey: ELEVENLABS_KEY,

@@ -73,7 +73,7 @@ function writeJsonFile(targetPath, value) {
   fs.writeFileSync(targetPath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
 }
 
-function ensureBrikko StudioExtensionAlias(params) {
+function ensureBrikkoStudioExtensionAlias(params) {
   const pluginSdkDir = path.join(params.repoRoot, "dist", "plugin-sdk");
   if (!fs.existsSync(pluginSdkDir)) {
     return;
@@ -220,7 +220,7 @@ export function stageBundledPluginRuntime(params = {}) {
 
   removePathIfExists(runtimeRoot);
   fs.mkdirSync(runtimeExtensionsRoot, { recursive: true });
-  ensureBrikko StudioExtensionAlias({ repoRoot, distExtensionsRoot });
+  ensureBrikkoStudioExtensionAlias({ repoRoot, distExtensionsRoot });
 
   for (const dirent of fs.readdirSync(distExtensionsRoot, { withFileTypes: true })) {
     if (!dirent.isDirectory() || dirent.name === "node_modules") {

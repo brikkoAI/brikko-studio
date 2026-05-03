@@ -8,7 +8,7 @@ import { runPluginCommandWithTimeout } from "brikko-studio/plugin-sdk/run-comman
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { CONFIG_DIR, extractArchive, resolveBrewExecutable } from "brikko-studio/plugin-sdk/setup-tools";
 import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 
 export type ReleaseAsset = {
@@ -312,7 +312,7 @@ export async function installSignalCliFromRelease(
     };
   }
 
-  const tmpDir = await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-signal-"));
+  const tmpDir = await fs.mkdtemp(path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-signal-"));
   const archivePath = path.join(tmpDir, asset.name);
 
   runtime.log(`Downloading signal-cli ${version} (${asset.name})…`);

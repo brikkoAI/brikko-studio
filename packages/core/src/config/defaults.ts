@@ -8,7 +8,7 @@ import {
 } from "./provider-policy.js";
 import { normalizeTalkConfig } from "./talk.js";
 import type { ModelDefinitionConfig } from "./types.models.js";
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 
 type WarnState = { warned: boolean };
 type ProviderPolicyDefaultsOptions = {
@@ -93,7 +93,7 @@ type SessionDefaultsOptions = {
   warnState?: WarnState;
 };
 
-export function applyMessageDefaults(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyMessageDefaults(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const messages = cfg.messages;
   const hasAckScope = messages?.ackReactionScope !== undefined;
   if (hasAckScope) {
@@ -109,9 +109,9 @@ export function applyMessageDefaults(cfg: Brikko StudioConfig): Brikko StudioCon
 }
 
 export function applySessionDefaults(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options: SessionDefaultsOptions = {},
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const session = cfg.session;
   if (!session || session.mainKey === undefined) {
     return cfg;
@@ -121,7 +121,7 @@ export function applySessionDefaults(
   const warn = options.warn ?? console.warn;
   const warnState = options.warnState ?? defaultWarnState;
 
-  const next: Brikko StudioConfig = {
+  const next: BrikkoStudioConfig = {
     ...cfg,
     session: { ...session, mainKey: "main" },
   };
@@ -134,14 +134,14 @@ export function applySessionDefaults(
   return next;
 }
 
-export function applyTalkConfigNormalization(config: Brikko StudioConfig): Brikko StudioConfig {
+export function applyTalkConfigNormalization(config: BrikkoStudioConfig): BrikkoStudioConfig {
   return normalizeTalkConfig(config);
 }
 
 export function applyModelDefaults(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options: ProviderPolicyDefaultsOptions = {},
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   let mutated = false;
   let nextCfg = cfg;
 
@@ -289,7 +289,7 @@ export function applyModelDefaults(
   };
 }
 
-export function applyAgentDefaults(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyAgentDefaults(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const agents = cfg.agents;
   const defaults = agents?.defaults;
   const hasMax =
@@ -330,7 +330,7 @@ export function applyAgentDefaults(cfg: Brikko StudioConfig): Brikko StudioConfi
   };
 }
 
-export function applyLoggingDefaults(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyLoggingDefaults(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const logging = cfg.logging;
   if (!logging) {
     return cfg;
@@ -347,7 +347,7 @@ export function applyLoggingDefaults(cfg: Brikko StudioConfig): Brikko StudioCon
   };
 }
 
-function hasAnthropicDefaultSignal(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): boolean {
+function hasAnthropicDefaultSignal(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): boolean {
   if (env.ANTHROPIC_API_KEY?.trim() || env.ANTHROPIC_OAUTH_TOKEN?.trim()) {
     return true;
   }
@@ -374,9 +374,9 @@ function hasAnthropicDefaultSignal(cfg: Brikko StudioConfig, env: NodeJS.Process
 }
 
 export function applyContextPruningDefaults(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options: ProviderPolicyDefaultsOptions = {},
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   if (!cfg.agents?.defaults) {
     return cfg;
   }
@@ -393,7 +393,7 @@ export function applyContextPruningDefaults(
   );
 }
 
-export function applyCompactionDefaults(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyCompactionDefaults(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const defaults = cfg.agents?.defaults;
   if (!defaults) {
     return cfg;

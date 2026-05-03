@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { listSkillCommandsForAgents as listActualSkillCommandsForAgents } from "brikko-studio/plugin-sdk/skill-commands-runtime";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { registerTelegramNativeCommands } from "./bot-native-commands.js";
@@ -45,7 +45,7 @@ describe("registerTelegramNativeCommands skill allowlist integration", () => {
     });
 
     const setMyCommands = vi.fn().mockResolvedValue(undefined);
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [
           { id: "alpha", workspace: workspaceDir, skills: ["alpha-skill"] },
@@ -60,7 +60,7 @@ describe("registerTelegramNativeCommands skill allowlist integration", () => {
       ],
     };
     listSkillCommandsForAgents.mockImplementation(
-      ({ cfg, agentIds }: { cfg: Brikko StudioConfig; agentIds?: string[] }) =>
+      ({ cfg, agentIds }: { cfg: BrikkoStudioConfig; agentIds?: string[] }) =>
         listActualSkillCommandsForAgents({ cfg, agentIds }),
     );
 

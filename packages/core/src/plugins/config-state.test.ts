@@ -158,7 +158,7 @@ describe("normalizePluginsConfig", () => {
   it("normalizes unknown plugin ids without loading discovery", async () => {
     vi.resetModules();
     const discovery = await import("./discovery.js");
-    const discoverPlugins = vi.spyOn(discovery, "discoverBrikko StudioPlugins");
+    const discoverPlugins = vi.spyOn(discovery, "discoverBrikkoStudioPlugins");
     const { normalizePluginsConfig: normalizeFreshPluginsConfig } =
       await import("./config-state.js");
     discoverPlugins.mockClear();
@@ -183,7 +183,7 @@ describe("normalizePluginsConfig", () => {
     vi.resetModules();
     const discovery = await import("./discovery.js");
     const manifest = await import("./manifest.js");
-    const discoverPlugins = vi.spyOn(discovery, "discoverBrikko StudioPlugins").mockReturnValue({
+    const discoverPlugins = vi.spyOn(discovery, "discoverBrikkoStudioPlugins").mockReturnValue({
       candidates: [
         {
           idHint: "anthropic",

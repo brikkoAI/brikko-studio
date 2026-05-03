@@ -3,5 +3,5 @@ export {
   getRuntimeConfig,
   getRuntimeConfigSourceSnapshot,
   setRuntimeConfigSnapshot,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../../config/config.js";

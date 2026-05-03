@@ -6,7 +6,7 @@ import {
   formatDocsLink,
   type ChannelSetupDmPolicy,
   type ChannelSetupWizard,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/setup";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveBlueBubblesAccount, resolveDefaultBlueBubblesAccountId } from "./accounts.js";
@@ -93,14 +93,14 @@ function validateBlueBubblesServerUrlInput(value: unknown): string | undefined {
 }
 
 function applyBlueBubblesSetupPatch(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   patch: {
     serverUrl?: string;
     password?: unknown;
     webhookPath?: string;
   },
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return applyBlueBubblesConnectionConfig({
     cfg,
     accountId,
@@ -255,7 +255,7 @@ export const blueBubblesSetupWizard: ChannelSetupWizard = {
     lines: [
       "Configure the webhook URL in BlueBubbles Server:",
       "1. Open BlueBubbles Server -> Settings -> Webhooks",
-      "2. Add your Brikko Studio gateway URL + webhook path",
+      "2. Add your BrikkoStudio gateway URL + webhook path",
       `   Example: https://your-gateway-host:3000${DEFAULT_WEBHOOK_PATH}`,
       "3. Enable the webhook and save",
       "",

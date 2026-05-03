@@ -1,17 +1,17 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   buildAccountScopedDmSecurityPolicy,
   formatPairingApproveHint,
   parseOptionalDelimitedEntries,
 } from "./helpers.js";
 
-function cfgWithChannel(channelKey: string, accounts?: Record<string, unknown>): Brikko StudioConfig {
+function cfgWithChannel(channelKey: string, accounts?: Record<string, unknown>): BrikkoStudioConfig {
   return {
     channels: {
       [channelKey]: accounts ? { accounts } : {},
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 describe("buildAccountScopedDmSecurityPolicy", () => {
@@ -118,7 +118,7 @@ describe("buildAccountScopedDmSecurityPolicy", () => {
               },
             },
           },
-        } as unknown as Brikko StudioConfig,
+        } as unknown as BrikkoStudioConfig,
         channelKey: "demo-root",
         accountId: "work",
         fallbackAccountId: "default",

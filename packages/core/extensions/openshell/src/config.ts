@@ -1,5 +1,5 @@
 import path from "node:path";
-import { buildPluginConfigSchema, type Brikko StudioPluginConfigSchema } from "brikko-studio/plugin-sdk/core";
+import { buildPluginConfigSchema, type BrikkoStudioPluginConfigSchema } from "brikko-studio/plugin-sdk/core";
 import {
   formatPluginConfigIssue,
   mapPluginConfigIssues,
@@ -119,7 +119,7 @@ function normalizeOpenShellRemotePath(
   return normalized;
 }
 
-export function createOpenShellPluginConfigSchema(): Brikko StudioPluginConfigSchema {
+export function createOpenShellPluginConfigSchema(): BrikkoStudioPluginConfigSchema {
   return buildPluginConfigSchema(OpenShellPluginConfigSchema, {
     safeParse(value) {
       if (value === undefined) {

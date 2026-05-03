@@ -1,7 +1,7 @@
 import { ensureModelAllowlistEntry } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   applyAgentDefaultModelPrimary,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 
 export const OPENAI_DEFAULT_MODEL = "openai/gpt-5.5";
@@ -12,7 +12,7 @@ export const OPENAI_DEFAULT_TTS_VOICE = "alloy";
 export const OPENAI_DEFAULT_AUDIO_TRANSCRIPTION_MODEL = "gpt-4o-transcribe";
 export const OPENAI_DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small";
 
-export function applyOpenAIProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyOpenAIProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const next = ensureModelAllowlistEntry({
     cfg,
     modelRef: OPENAI_DEFAULT_MODEL,
@@ -35,6 +35,6 @@ export function applyOpenAIProviderConfig(cfg: Brikko StudioConfig): Brikko Stud
   };
 }
 
-export function applyOpenAIConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyOpenAIConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return applyAgentDefaultModelPrimary(applyOpenAIProviderConfig(cfg), OPENAI_DEFAULT_MODEL);
 }

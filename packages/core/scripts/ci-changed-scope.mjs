@@ -29,7 +29,7 @@ const DOCS_PATH_RE = /^(docs\/|.*\.mdx?$)/;
 const SKILLS_PYTHON_SCOPE_RE = /^(skills\/|skills\/pyproject\.toml$)/;
 const INSTALL_SMOKE_WORKFLOW_SCOPE_RE = /^\.github\/workflows\/install-smoke\.yml$/;
 const MACOS_PROTOCOL_GEN_RE =
-  /^(apps\/macos\/Sources\/Brikko StudioProtocol\/|apps\/shared\/Brikko StudioKit\/Sources\/Brikko StudioProtocol\/)/;
+  /^(apps\/macos\/Sources\/BrikkoStudioProtocol\/|apps\/shared\/BrikkoStudioKit\/Sources\/BrikkoStudioProtocol\/)/;
 const MACOS_NATIVE_RE =
   /^(apps\/macos\/|apps\/macos-mlx-tts\/|apps\/ios\/|apps\/shared\/|apps\/swabble\/|Swabble\/)/;
 const ANDROID_NATIVE_RE = /^(apps\/android\/|apps\/shared\/)/;

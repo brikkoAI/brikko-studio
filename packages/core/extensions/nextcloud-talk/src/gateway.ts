@@ -5,7 +5,7 @@ import {
   clearAccountEntryFields,
   DEFAULT_ACCOUNT_ID,
   type ChannelPlugin,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "./channel-api.js";
 import { monitorNextcloudTalkProvider } from "./monitor-runtime.js";
 import { getNextcloudTalkRuntime } from "./runtime.js";
@@ -42,7 +42,7 @@ export const nextcloudTalkGatewayAdapter: NonNullable<
     });
   },
   logoutAccount: async ({ accountId, cfg }) => {
-    const nextCfg = { ...cfg } as Brikko StudioConfig;
+    const nextCfg = { ...cfg } as BrikkoStudioConfig;
     const nextSection = cfg.channels?.["nextcloud-talk"]
       ? { ...cfg.channels["nextcloud-talk"] }
       : undefined;
@@ -80,7 +80,7 @@ export const nextcloudTalkGatewayAdapter: NonNullable<
         const nextChannels = { ...nextCfg.channels } as Record<string, unknown>;
         delete nextChannels["nextcloud-talk"];
         if (Object.keys(nextChannels).length > 0) {
-          nextCfg.channels = nextChannels as Brikko StudioConfig["channels"];
+          nextCfg.channels = nextChannels as BrikkoStudioConfig["channels"];
         } else {
           delete nextCfg.channels;
         }

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import * as conversationRuntime from "brikko-studio/plugin-sdk/conversation-binding-runtime";
 import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
@@ -27,7 +27,7 @@ type DiscordNativeInteractionRouteState = {
 };
 
 export async function resolveDiscordNativeInteractionRouteState(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   guildId?: string;
   memberRoleIds?: string[];

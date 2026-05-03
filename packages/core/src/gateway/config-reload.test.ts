@@ -9,7 +9,7 @@ import type { ChannelPlugin } from "../channels/plugins/types.js";
 import type {
   ConfigFileSnapshot,
   ConfigWriteNotification,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
 } from "../config/config.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import {
@@ -576,7 +576,7 @@ function makeZeroDebounceHookWrite(persistedHash: string): ConfigWriteNotificati
 function createReloaderHarness(
   readSnapshot: () => Promise<ConfigFileSnapshot>,
   options: {
-    initialCompareConfig?: Brikko StudioConfig;
+    initialCompareConfig?: BrikkoStudioConfig;
     initialInternalWriteHash?: string | null;
     recoverSnapshot?: (snapshot: ConfigFileSnapshot, reason: string) => Promise<boolean>;
     promoteSnapshot?: (snapshot: ConfigFileSnapshot, reason: string) => Promise<boolean>;
@@ -798,7 +798,7 @@ describe("startGatewayConfigReloader", () => {
   });
 
   it("queues restart in degraded mode for plugin-local invalid reloads", async () => {
-    const activeConfig: Brikko StudioConfig = {
+    const activeConfig: BrikkoStudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       agents: { defaults: { model: "gpt-5.4" } },
       plugins: {
@@ -830,7 +830,7 @@ describe("startGatewayConfigReloader", () => {
       .mockResolvedValueOnce(invalidSnapshot);
     const recoverSnapshot = vi.fn(async () => true);
     const promoteSnapshot = vi.fn(async () => true);
-    const previousConfig: Brikko StudioConfig = {
+    const previousConfig: BrikkoStudioConfig = {
       ...activeConfig,
       plugins: {
         entries: {
@@ -1077,7 +1077,7 @@ describe("startGatewayConfigReloader", () => {
       installedAt: "2026-04-22T00:00:00.000Z",
       resolvedAt: "2026-04-22T00:00:00.000Z",
     };
-    const sourceConfig: Brikko StudioConfig = {
+    const sourceConfig: BrikkoStudioConfig = {
       gateway: { reload: { debounceMs: 0 }, auth: { mode: "token" } },
       plugins: {
         installs: {
@@ -1157,7 +1157,7 @@ describe("startGatewayConfigReloader", () => {
   });
 
   it("does not suppress functional install changes that collide with timestamp paths", async () => {
-    const sourceConfig: Brikko StudioConfig = {
+    const sourceConfig: BrikkoStudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         installs: {
@@ -1168,7 +1168,7 @@ describe("startGatewayConfigReloader", () => {
         },
       },
     };
-    const nextSourceConfig: Brikko StudioConfig = {
+    const nextSourceConfig: BrikkoStudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         installs: {
@@ -1233,7 +1233,7 @@ describe("startGatewayConfigReloader", () => {
   });
 
   it("queues restart when an external plugin source write only changes the managed index", async () => {
-    const activeConfig: Brikko StudioConfig = {
+    const activeConfig: BrikkoStudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         allow: ["lossless-claw"],
@@ -1282,7 +1282,7 @@ describe("startGatewayConfigReloader", () => {
   });
 
   it("keeps external plugin policy-only writes on the hot reload path", async () => {
-    const previousConfig: Brikko StudioConfig = {
+    const previousConfig: BrikkoStudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         entries: {
@@ -1290,7 +1290,7 @@ describe("startGatewayConfigReloader", () => {
         },
       },
     };
-    const nextConfig: Brikko StudioConfig = {
+    const nextConfig: BrikkoStudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         entries: {
@@ -1339,13 +1339,13 @@ describe("startGatewayConfigReloader", () => {
   });
 
   it("queues restart when an external plugin source write also changes plugin config", async () => {
-    const previousConfig: Brikko StudioConfig = {
+    const previousConfig: BrikkoStudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         allow: ["lossless-claw"],
       },
     };
-    const nextConfig: Brikko StudioConfig = {
+    const nextConfig: BrikkoStudioConfig = {
       gateway: { reload: { debounceMs: 0 } },
       plugins: {
         allow: ["lossless-claw"],

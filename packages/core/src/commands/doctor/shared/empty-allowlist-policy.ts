@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { getDoctorChannelCapabilities } from "../channel-capabilities.js";
 import type { DoctorAccountRecord, DoctorAllowFromList } from "../types.js";
 import { hasAllowFromEntries } from "./allowlist.js";
@@ -7,7 +7,7 @@ import { shouldSkipChannelDoctorDefaultEmptyGroupAllowlistWarning } from "./chan
 type CollectEmptyAllowlistPolicyWarningsParams = {
   account: DoctorAccountRecord;
   channelName?: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   doctorFixCommand: string;
   parent?: DoctorAccountRecord;
   prefix: string;

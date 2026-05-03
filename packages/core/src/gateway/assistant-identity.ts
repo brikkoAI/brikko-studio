@@ -1,7 +1,7 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { resolveAgentIdentity } from "../agents/identity.js";
 import { loadAgentIdentity } from "../commands/agents.config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeAgentId } from "../routing/session-key.js";
 import { coerceIdentityValue } from "../shared/assistant-identity-values.js";
 import {
@@ -82,7 +82,7 @@ function normalizeEmojiValue(value: string | undefined): string | undefined {
 }
 
 export function resolveAssistantIdentity(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string | null;
   workspaceDir?: string | null;
 }): AssistantIdentity {

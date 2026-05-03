@@ -1,5 +1,5 @@
 import { formatCliCommand } from "../cli/command-format.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { InstalledPluginIndexRecordStoreOptions } from "../plugins/installed-plugin-index-records.js";
 import { refreshPluginRegistry } from "../plugins/plugin-registry.js";
 import { note } from "../terminal/note.js";
@@ -14,13 +14,13 @@ import {
 
 type PluginRegistryDoctorRepairParams = Omit<PluginRegistryInstallMigrationParams, "config"> &
   InstalledPluginIndexRecordStoreOptions & {
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     prompter: Pick<DoctorPrompter, "shouldRepair">;
   };
 
 export async function maybeRepairPluginRegistryState(
   params: PluginRegistryDoctorRepairParams,
-): Promise<Brikko StudioConfig> {
+): Promise<BrikkoStudioConfig> {
   const preflight = preflightPluginRegistryInstallMigration(params);
   for (const warning of preflight.deprecationWarnings) {
     note(warning, "Plugin registry");

@@ -2,9 +2,9 @@ import type {
   ChannelDoctorConfigMutation,
   ChannelDoctorLegacyConfigRule,
 } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
-type ZalouserChannelsConfig = NonNullable<Brikko StudioConfig["channels"]>;
+type ZalouserChannelsConfig = NonNullable<BrikkoStudioConfig["channels"]>;
 
 function asObjectRecord(value: unknown): Record<string, unknown> | null {
   return value && typeof value === "object" && !Array.isArray(value)
@@ -61,7 +61,7 @@ function normalizeZalouserGroupAllowAliases(params: {
   return { groups: nextGroups, changed };
 }
 
-function normalizeZalouserCompatibilityConfig(cfg: Brikko StudioConfig): ChannelDoctorConfigMutation {
+function normalizeZalouserCompatibilityConfig(cfg: BrikkoStudioConfig): ChannelDoctorConfigMutation {
   const channels = asObjectRecord(cfg.channels);
   const zalouser = asObjectRecord(channels?.zalouser);
   if (!zalouser) {
@@ -150,7 +150,7 @@ export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
 ];
 
 export function normalizeCompatibilityConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): ChannelDoctorConfigMutation {
   return normalizeZalouserCompatibilityConfig(params.cfg);
 }

@@ -1,7 +1,7 @@
 import { describeFailoverError, isFailoverError } from "../agents/failover-error.js";
 import type { FallbackAttempt } from "../agents/model-fallback.types.js";
 import { resolveAgentModelTimeoutMsValue } from "../config/model-input.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import {
@@ -29,7 +29,7 @@ export type ImageGenerationRuntimeDeps = {
 export type { GenerateImageParams, GenerateImageRuntimeResult } from "./runtime-types.js";
 
 function buildNoImageGenerationModelConfiguredMessage(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   deps: ImageGenerationRuntimeDeps,
 ): string {
   const listProviders = deps.listProviders ?? listImageGenerationProviders;
@@ -42,7 +42,7 @@ function buildNoImageGenerationModelConfiguredMessage(
 }
 
 export function listRuntimeImageGenerationProviders(
-  params?: { config?: Brikko StudioConfig },
+  params?: { config?: BrikkoStudioConfig },
   deps: ImageGenerationRuntimeDeps = {},
 ) {
   return (deps.listProviders ?? listImageGenerationProviders)(params?.config);

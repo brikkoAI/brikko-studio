@@ -151,7 +151,7 @@ function createBasePreflightParams(overrides?: Record<string, unknown>) {
       discordConfig: {
         allowBots: true,
       } as NonNullable<
-        import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig["channels"]
+        import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig["channels"]
       >["discord"],
       data: createGuildEvent({
         channelId: CHANNEL_ID,
@@ -165,7 +165,7 @@ function createBasePreflightParams(overrides?: Record<string, unknown>) {
     discordConfig: {
       allowBots: true,
     } as NonNullable<
-      import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig["channels"]
+      import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig["channels"]
     >["discord"],
     ...overrides,
   } satisfies Parameters<typeof preflightDiscordMessage>[0];

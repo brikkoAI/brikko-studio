@@ -136,6 +136,6 @@ describe("resolveNpmRunner", () => {
         existsSync: () => false,
         platform: "win32",
       }),
-    ).toThrow("Brikko Studio refuses to shell out to bare npm on Windows");
+    ).toThrow("BrikkoStudio refuses to shell out to bare npm on Windows");
   });
 });

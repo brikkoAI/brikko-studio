@@ -2,7 +2,7 @@
 
 import { html, nothing, render } from "lit";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { type Brikko StudioModalDialog } from "./modal-dialog.ts";
+import { type BrikkoStudioModalDialog } from "./modal-dialog.ts";
 import "./modal-dialog.ts";
 
 let container: HTMLDivElement;
@@ -59,7 +59,7 @@ async function renderModal() {
     `,
     container,
   );
-  const modal = container.querySelector<Brikko StudioModalDialog>("brikko-studio-modal-dialog");
+  const modal = container.querySelector<BrikkoStudioModalDialog>("brikko-studio-modal-dialog");
   expect(modal).not.toBeNull();
   await modal!.updateComplete;
   await nextFrame();

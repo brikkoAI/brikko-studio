@@ -45,7 +45,7 @@ describe("parallels npm update smoke", () => {
     expect(script).toContain("scrub_future_plugin_entries");
     expect(script).toContain("delete plugins.entries.feishu");
     expect(script).toContain("delete plugins.entries.whatsapp");
-    expect(script).toContain("Remove-FuturePluginEntries\nStop-Brikko StudioGatewayProcesses");
+    expect(script).toContain("Remove-FuturePluginEntries\nStop-BrikkoStudioGatewayProcesses");
     expect(script).toContain("scrub_future_plugin_entries\nstop_brikko-studio_gateway_processes");
     expect(script).toContain("$env:BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS = '1'");
     expect(script).toContain(

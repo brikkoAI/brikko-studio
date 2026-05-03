@@ -16,7 +16,7 @@ import * as piAi from "@mariozechner/pi-ai";
  * Key behaviours:
  *  - Per-session `OpenAIWebSocketManager` (keyed by sessionId)
  *  - Tracks `previous_response_id` to send only incremental tool-result inputs
- *  - Falls back to the Brikko Studio HTTP transport if the WebSocket connection fails
+ *  - Falls back to the BrikkoStudio HTTP transport if the WebSocket connection fails
  *  - Cleanup helpers for releasing sessions after the run completes
  *
  * Complexity budget & risk mitigation:
@@ -63,7 +63,7 @@ import type { ResponseCreateEvent } from "./openai-ws-types.js";
 import { log } from "./pi-embedded-runner/logger.js";
 import { resolveProviderEndpoint } from "./provider-attribution.js";
 import { normalizeProviderId } from "./provider-id.js";
-import { createBrikko StudioTransportStreamFnForModel } from "./provider-transport-stream.js";
+import { createBrikkoStudioTransportStreamFnForModel } from "./provider-transport-stream.js";
 import {
   buildAssistantMessageWithZeroUsage,
   buildStreamErrorAssistantMessage,
@@ -124,9 +124,9 @@ type AssistantMessageWithPhase = AssistantMessage & { phase?: OpenAIResponsesAss
 
 const defaultOpenAIWsStreamDeps: OpenAIWsStreamDeps = {
   createManager: (options) => new OpenAIWebSocketManager(options),
-  // WebSocket auto-mode HTTP fallback must keep the Brikko Studio transport path so
+  // WebSocket auto-mode HTTP fallback must keep the BrikkoStudio transport path so
   // degraded sessions do not leak cache-boundary markers or lose strict tools.
-  createHttpFallbackStreamFn: (model) => createBrikko StudioTransportStreamFnForModel(model),
+  createHttpFallbackStreamFn: (model) => createBrikkoStudioTransportStreamFnForModel(model),
   streamSimple: (...args) => piAi.streamSimple(...args),
 };
 
@@ -700,7 +700,7 @@ async function runWarmUp(params: {
  * inputs with `previous_response_id`.
  *
  * If the WebSocket connection is unavailable, the function falls back to an
- * Brikko Studio HTTP transport when available, or the standard `streamSimple` path.
+ * BrikkoStudio HTTP transport when available, or the standard `streamSimple` path.
  *
  * @param apiKey     OpenAI API key
  * @param sessionId  Agent session ID (used as the registry key)

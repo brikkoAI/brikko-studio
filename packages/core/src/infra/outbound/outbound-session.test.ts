@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { ensureOutboundSessionEntry, resolveOutboundSessionRoute } from "./outbound-session.js";
 import { setMinimalOutboundSessionPluginRegistryForTests } from "./outbound-session.test-helpers.js";
 
@@ -22,8 +22,8 @@ describe("resolveOutboundSessionRoute", () => {
     setMinimalOutboundSessionPluginRegistryForTests();
   });
 
-  const baseConfig = {} as Brikko StudioConfig;
-  const perChannelPeerCfg = { session: { dmScope: "per-channel-peer" } } as Brikko StudioConfig;
+  const baseConfig = {} as BrikkoStudioConfig;
+  const perChannelPeerCfg = { session: { dmScope: "per-channel-peer" } } as BrikkoStudioConfig;
   const identityLinksCfg = {
     session: {
       dmScope: "per-peer",
@@ -31,7 +31,7 @@ describe("resolveOutboundSessionRoute", () => {
         alice: ["guildchat:123"],
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
   const workspaceMpimCfg = {
     channels: {
       workspace: {
@@ -40,10 +40,10 @@ describe("resolveOutboundSessionRoute", () => {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 
   async function expectResolvedRoute(params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     channel: string;
     target: string;
     replyToId?: string;
@@ -82,7 +82,7 @@ describe("resolveOutboundSessionRoute", () => {
   type RouteCase = Parameters<typeof expectResolvedRoute>[0];
   type NamedRouteCase = RouteCase & { name: string };
 
-  const perChannelPeerSessionCfg = { session: { dmScope: "per-channel-peer" } } as Brikko StudioConfig;
+  const perChannelPeerSessionCfg = { session: { dmScope: "per-channel-peer" } } as BrikkoStudioConfig;
 
   it.each([
     {
@@ -421,7 +421,7 @@ describe("ensureOutboundSessionEntry", () => {
         session: {
           store: "/stores/{agentId}.json",
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       channel: "workspace",
       route: {
         sessionKey: "agent:main:workspace:channel:c1",

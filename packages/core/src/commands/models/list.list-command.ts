@@ -71,7 +71,7 @@ export async function modelsListCommand(
   }
   const [
     { loadAuthProfileStoreWithoutExternalProfiles },
-    { resolveBrikko StudioAgentDir },
+    { resolveBrikkoStudioAgentDir },
     { resolveAgentWorkspaceDir, resolveDefaultAgentId },
     { resolveDefaultAgentWorkspaceDir },
   ] = await Promise.all([
@@ -85,7 +85,7 @@ export async function modelsListCommand(
     runtime,
   });
   const authStore = loadAuthProfileStoreWithoutExternalProfiles();
-  const agentDir = resolveBrikko StudioAgentDir();
+  const agentDir = resolveBrikkoStudioAgentDir();
   const workspaceDir =
     resolveAgentWorkspaceDir(cfg, resolveDefaultAgentId(cfg)) ?? resolveDefaultAgentWorkspaceDir();
   const authIndex = createModelListAuthIndex({ cfg, authStore, workspaceDir });

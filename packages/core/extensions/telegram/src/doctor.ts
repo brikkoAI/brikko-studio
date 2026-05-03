@@ -6,7 +6,7 @@ import {
   resolveChannelStreamingBlockEnabled,
   resolveChannelStreamingPreviewToolProgress,
 } from "brikko-studio/plugin-sdk/channel-streaming";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { inspectTelegramAccount } from "./account-inspect.js";
@@ -57,7 +57,7 @@ function hasAllowFromEntries(values?: DoctorAllowFromList): boolean {
 }
 
 function collectTelegramAccountScopes(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): Array<{ prefix: string; pathSegments: string[]; account: Record<string, unknown> }> {
   const scopes: Array<{
     prefix: string;
@@ -132,7 +132,7 @@ function collectTelegramAllowFromLists(
 }
 
 export function scanTelegramInvalidAllowFromEntries(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): TelegramAllowFromInvalidHit[] {
   const hits: TelegramAllowFromInvalidHit[] = [];
   const scanList = (pathLabel: string, list: unknown) => {
@@ -171,7 +171,7 @@ export function collectTelegramInvalidAllowFromWarnings(params: {
 }
 
 export function scanTelegramBotEndpointApiRoots(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): TelegramApiRootBotEndpointHit[] {
   const hits: TelegramApiRootBotEndpointHit[] = [];
   for (const scope of collectTelegramAccountScopes(cfg)) {
@@ -203,7 +203,7 @@ export function collectTelegramApiRootWarnings(params: {
   ];
 }
 
-function formatTelegramAccountConfigPath(cfg: Brikko StudioConfig, accountId: string): string {
+function formatTelegramAccountConfigPath(cfg: BrikkoStudioConfig, accountId: string): string {
   const telegram = asObjectRecord((cfg.channels as Record<string, unknown> | undefined)?.telegram);
   const accounts = asObjectRecord(telegram?.accounts);
   if (!accounts || Object.keys(accounts).length === 0) {
@@ -213,7 +213,7 @@ function formatTelegramAccountConfigPath(cfg: Brikko StudioConfig, accountId: st
 }
 
 export function scanTelegramSelectedQuoteToolProgressWarnings(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): TelegramSelectedQuoteToolProgressHit[] {
   if (!asObjectRecord((cfg.channels as Record<string, unknown> | undefined)?.telegram)) {
     return [];
@@ -255,8 +255,8 @@ export function collectTelegramSelectedQuoteToolProgressWarnings(params: {
   ];
 }
 
-export function maybeRepairTelegramApiRoots(cfg: Brikko StudioConfig): {
-  config: Brikko StudioConfig;
+export function maybeRepairTelegramApiRoots(cfg: BrikkoStudioConfig): {
+  config: BrikkoStudioConfig;
   changes: string[];
 } {
   const hits = scanTelegramBotEndpointApiRoots(cfg);
@@ -288,7 +288,7 @@ export function maybeRepairTelegramApiRoots(cfg: Brikko StudioConfig): {
 }
 
 export function collectTelegramMissingEnvTokenWarnings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): string[] {
   if (resolveDefaultTelegramAccountId(params.cfg) !== "default") {
@@ -307,8 +307,8 @@ export function collectTelegramMissingEnvTokenWarnings(params: {
   ];
 }
 
-async function repairTelegramConfig(params: { cfg: Brikko StudioConfig }): Promise<{
-  config: Brikko StudioConfig;
+async function repairTelegramConfig(params: { cfg: BrikkoStudioConfig }): Promise<{
+  config: BrikkoStudioConfig;
   changes: string[];
 }> {
   const apiRootRepair = maybeRepairTelegramApiRoots(params.cfg);
@@ -319,8 +319,8 @@ async function repairTelegramConfig(params: { cfg: Brikko StudioConfig }): Promi
   };
 }
 
-export async function maybeRepairTelegramAllowFromUsernames(cfg: Brikko StudioConfig): Promise<{
-  config: Brikko StudioConfig;
+export async function maybeRepairTelegramAllowFromUsernames(cfg: BrikkoStudioConfig): Promise<{
+  config: BrikkoStudioConfig;
   changes: string[];
 }> {
   const hits = scanTelegramInvalidAllowFromEntries(cfg);

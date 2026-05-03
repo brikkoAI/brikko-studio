@@ -41,22 +41,22 @@ vi.mock("./cdp-timeouts.js", async () => {
 });
 
 import {
-  buildBrikko StudioChromeLaunchArgs,
+  buildBrikkoStudioChromeLaunchArgs,
   getChromeWebSocketUrl,
   isChromeCdpReady,
   isChromeReachable,
-  launchBrikko StudioChrome,
-  resolveBrikko StudioUserDataDir,
-  stopBrikko StudioChrome,
+  launchBrikkoStudioChrome,
+  resolveBrikkoStudioUserDataDir,
+  stopBrikkoStudioChrome,
 } from "./chrome.js";
 import type { ResolvedBrowserConfig, ResolvedBrowserProfile } from "./config.js";
 
 /**
  * Covers the parts of chrome.ts that the mainline chrome.test.ts does
- * not exercise: launchBrikko StudioChrome (with child_process.spawn mocked),
+ * not exercise: launchBrikkoStudioChrome (with child_process.spawn mocked),
  * canRunCdpHealthCommand all branches, canOpenWebSocket failure,
- * stopBrikko StudioChrome SIGKILL fallback, fs.exists() catch, default
- * profile name, buildBrikko StudioChromeLaunchArgs branches, and friends.
+ * stopBrikkoStudioChrome SIGKILL fallback, fs.exists() catch, default
+ * profile name, buildBrikkoStudioChromeLaunchArgs branches, and friends.
  */
 
 type FakeProc = EventEmitter & {
@@ -153,19 +153,19 @@ describe("chrome.ts internal", () => {
     ensurePortAvailableMock.mockImplementation(async () => {});
   });
 
-  describe("resolveBrikko StudioUserDataDir", () => {
+  describe("resolveBrikkoStudioUserDataDir", () => {
     it("falls back to the default profile name when none is supplied", () => {
-      const dir = resolveBrikko StudioUserDataDir();
+      const dir = resolveBrikkoStudioUserDataDir();
       expect(dir.endsWith(path.join("brikko-studio", "user-data"))).toBe(true);
     });
 
     it("respects an explicit profile name", () => {
-      const dir = resolveBrikko StudioUserDataDir("my-profile");
+      const dir = resolveBrikkoStudioUserDataDir("my-profile");
       expect(dir.endsWith(path.join("my-profile", "user-data"))).toBe(true);
     });
   });
 
-  describe("buildBrikko StudioChromeLaunchArgs branches", () => {
+  describe("buildBrikkoStudioChromeLaunchArgs branches", () => {
     const baseResolved = (overrides: Partial<ResolvedBrowserConfig> = {}): ResolvedBrowserConfig =>
       ({
         headless: false,
@@ -188,7 +188,7 @@ describe("chrome.ts internal", () => {
     } as unknown as ResolvedBrowserProfile;
 
     it("toggles headless args", () => {
-      const args = buildBrikko StudioChromeLaunchArgs({
+      const args = buildBrikkoStudioChromeLaunchArgs({
         resolved: baseResolved({ headless: false }),
         profile: { ...baseProfile, headless: true, headlessSource: "profile" },
         userDataDir: "/tmp/foo",
@@ -198,7 +198,7 @@ describe("chrome.ts internal", () => {
     });
 
     it("lets profile headless=false override global headless=true", () => {
-      const args = buildBrikko StudioChromeLaunchArgs({
+      const args = buildBrikkoStudioChromeLaunchArgs({
         resolved: baseResolved({ headless: true, headlessSource: "config" }),
         profile: { ...baseProfile, headless: false, headlessSource: "profile" },
         userDataDir: "/tmp/foo",
@@ -208,7 +208,7 @@ describe("chrome.ts internal", () => {
     });
 
     it("lets a request headless override beat env and profile headed settings", () => {
-      const args = buildBrikko StudioChromeLaunchArgs({
+      const args = buildBrikkoStudioChromeLaunchArgs({
         resolved: baseResolved({ headless: false, headlessSource: "config" }),
         profile: { ...baseProfile, headless: false, headlessSource: "profile" },
         userDataDir: "/tmp/foo",
@@ -220,7 +220,7 @@ describe("chrome.ts internal", () => {
     });
 
     it("adds headless args for Linux local managed profiles without a display", () => {
-      const args = buildBrikko StudioChromeLaunchArgs({
+      const args = buildBrikkoStudioChromeLaunchArgs({
         resolved: baseResolved(),
         profile: baseProfile,
         userDataDir: "/tmp/foo",
@@ -232,7 +232,7 @@ describe("chrome.ts internal", () => {
     });
 
     it("does not apply Linux no-display fallback to remote profiles", () => {
-      const args = buildBrikko StudioChromeLaunchArgs({
+      const args = buildBrikkoStudioChromeLaunchArgs({
         resolved: baseResolved(),
         profile: {
           ...baseProfile,
@@ -249,7 +249,7 @@ describe("chrome.ts internal", () => {
     });
 
     it("toggles no-sandbox args", () => {
-      const args = buildBrikko StudioChromeLaunchArgs({
+      const args = buildBrikkoStudioChromeLaunchArgs({
         resolved: baseResolved({ noSandbox: true }),
         profile: baseProfile,
         userDataDir: "/tmp/foo",
@@ -262,7 +262,7 @@ describe("chrome.ts internal", () => {
       const originalPlatform = process.platform;
       Object.defineProperty(process, "platform", { value: "linux" });
       try {
-        const args = buildBrikko StudioChromeLaunchArgs({
+        const args = buildBrikkoStudioChromeLaunchArgs({
           resolved: baseResolved(),
           profile: baseProfile,
           userDataDir: "/tmp/foo",
@@ -274,7 +274,7 @@ describe("chrome.ts internal", () => {
     });
 
     it("propagates extraArgs", () => {
-      const args = buildBrikko StudioChromeLaunchArgs({
+      const args = buildBrikkoStudioChromeLaunchArgs({
         resolved: baseResolved({
           extraArgs: ["--proxy-server=http://localhost:3128", "--mute-audio"],
         }),
@@ -287,7 +287,7 @@ describe("chrome.ts internal", () => {
     });
 
     it("launches managed Chrome direct by default", () => {
-      const args = buildBrikko StudioChromeLaunchArgs({
+      const args = buildBrikkoStudioChromeLaunchArgs({
         resolved: baseResolved(),
         profile: baseProfile,
         userDataDir: "/tmp/foo",
@@ -301,7 +301,7 @@ describe("chrome.ts internal", () => {
       // Make existsSync throw ONLY for Local State / Preferences checks
       // — other candidate-executable probes still return true so
       // resolveBrowserExecutable succeeds and we actually reach the
-      // exists() invocation inside launchBrikko StudioChrome.
+      // exists() invocation inside launchBrikkoStudioChrome.
       let prefsProbeCount = 0;
       const existsSpy = vi.spyOn(fs, "existsSync").mockImplementation((p) => {
         const s = String(p);
@@ -339,7 +339,7 @@ describe("chrome.ts internal", () => {
             noSandbox: true,
             extraArgs: [],
           } as unknown as ResolvedBrowserConfig;
-          const running = await launchBrikko StudioChrome(resolved, profile);
+          const running = await launchBrikkoStudioChrome(resolved, profile);
           running.proc.kill?.("SIGTERM");
         },
       });
@@ -347,7 +347,7 @@ describe("chrome.ts internal", () => {
     });
   });
 
-  describe("launchBrikko StudioChrome", () => {
+  describe("launchBrikkoStudioChrome", () => {
     let tmpDir = "";
 
     beforeEach(async () => {
@@ -386,7 +386,7 @@ describe("chrome.ts internal", () => {
         cdpUrl: "http://example.com:19222",
         cdpIsLoopback: false,
       } as unknown as ResolvedBrowserProfile;
-      await expect(launchBrikko StudioChrome(makeResolved(), profile)).rejects.toThrow(
+      await expect(launchBrikkoStudioChrome(makeResolved(), profile)).rejects.toThrow(
         /is remote; cannot launch local Chrome/,
       );
       expect(spawnMock).not.toHaveBeenCalled();
@@ -397,7 +397,7 @@ describe("chrome.ts internal", () => {
       // path is set, then mock existsSync to return false for everything.
       vi.spyOn(fs, "existsSync").mockReturnValue(false);
       const profile = makeProfile(51111);
-      await expect(launchBrikko StudioChrome(makeResolved(), profile)).rejects.toThrow(
+      await expect(launchBrikkoStudioChrome(makeResolved(), profile)).rejects.toThrow(
         /No supported browser found/,
       );
     });
@@ -435,7 +435,7 @@ describe("chrome.ts internal", () => {
         run: async (baseUrl) => {
           const port = new URL(baseUrl).port;
           const profile = makeProfile(Number(port));
-          const running = await launchBrikko StudioChrome(makeResolved(), profile);
+          const running = await launchBrikkoStudioChrome(makeResolved(), profile);
           expect(running.pid).toBe(4242);
           expect(spawnCalls).toBeGreaterThanOrEqual(1);
           const spawnOptions = spawnMock.mock.calls[0]?.[2] as { env?: NodeJS.ProcessEnv };
@@ -470,7 +470,7 @@ describe("chrome.ts internal", () => {
               ...makeResolved(),
               executablePath: "/tmp/global-chrome",
             } as ResolvedBrowserConfig;
-            const running = await launchBrikko StudioChrome(resolved, profile);
+            const running = await launchBrikkoStudioChrome(resolved, profile);
             expect(effectiveSpawnCommand(spawnMock.mock.calls[0])).toBe("/tmp/profile-chrome");
             running.proc.kill?.("SIGTERM");
           },
@@ -521,14 +521,14 @@ describe("chrome.ts internal", () => {
       });
 
       const profile = { ...makeProfile(18888), executablePath: "/tmp/profile-chrome" };
-      const userDataDir = resolveBrikko StudioUserDataDir(profile.name);
+      const userDataDir = resolveBrikkoStudioUserDataDir(profile.name);
       await fsp.mkdir(userDataDir, { recursive: true });
       await fsp.writeFile(path.join(userDataDir, "SingletonCookie"), "cookie");
       await fsp.writeFile(path.join(userDataDir, "SingletonSocket"), "socket");
       await fsp.symlink("remote-host-535", path.join(userDataDir, "SingletonLock"));
 
       try {
-        const running = await launchBrikko StudioChrome(makeResolved(), profile);
+        const running = await launchBrikkoStudioChrome(makeResolved(), profile);
         expect(running.proc).toBe(secondProc);
         expect(firstProc.kill).toHaveBeenCalledWith("SIGKILL");
         expect(spawnCalls).toBe(2);
@@ -572,7 +572,7 @@ describe("chrome.ts internal", () => {
           extraArgs: [],
         } as unknown as ResolvedBrowserConfig;
         const profile = makeProfile(55555);
-        await expect(launchBrikko StudioChrome(resolved, profile)).rejects.toThrow(
+        await expect(launchBrikkoStudioChrome(resolved, profile)).rejects.toThrow(
           /Failed to start Chrome CDP/,
         );
         expect(fakeProc.kill).toHaveBeenCalledWith("SIGKILL");
@@ -604,7 +604,7 @@ describe("chrome.ts internal", () => {
           localLaunchTimeoutMs: 1,
         };
         const profile = makeProfile(55556);
-        const rejection = expect(launchBrikko StudioChrome(resolved, profile)).rejects.toThrow(
+        const rejection = expect(launchBrikkoStudioChrome(resolved, profile)).rejects.toThrow(
           /Failed to start Chrome CDP/,
         );
 
@@ -617,7 +617,7 @@ describe("chrome.ts internal", () => {
     });
   });
 
-  describe("stopBrikko StudioChrome SIGKILL fallback", () => {
+  describe("stopBrikkoStudioChrome SIGKILL fallback", () => {
     it("escalates to SIGKILL when CDP keeps reporting reachable past the deadline", async () => {
       vi.stubGlobal(
         "fetch",
@@ -627,8 +627,8 @@ describe("chrome.ts internal", () => {
         } as unknown as Response),
       );
       const proc = makeFakeProc();
-      await stopBrikko StudioChrome(
-        { proc, cdpPort: 12345 } as unknown as Parameters<typeof stopBrikko StudioChrome>[0],
+      await stopBrikkoStudioChrome(
+        { proc, cdpPort: 12345 } as unknown as Parameters<typeof stopBrikkoStudioChrome>[0],
         1,
       );
       expect(proc.kill).toHaveBeenNthCalledWith(1, "SIGTERM");
@@ -858,7 +858,7 @@ describe("chrome.ts internal", () => {
     });
   });
 
-  describe("launchBrikko StudioChrome remaining branches", () => {
+  describe("launchBrikkoStudioChrome remaining branches", () => {
     it("skips decoration entirely when the profile is already decorated", async () => {
       // Covers the `needsDecorate` false branch by writing a real,
       // properly-shaped Local State + Preferences pair that matches
@@ -869,7 +869,7 @@ describe("chrome.ts internal", () => {
         const profileName = path.basename(stageDir);
         const colorHex = "#FF4500";
         const colorInt = ((0xff << 24) | 0xff4500) >> 0;
-        const userDataDir = path.join(resolveBrikko StudioUserDataDir(profileName));
+        const userDataDir = path.join(resolveBrikkoStudioUserDataDir(profileName));
         await fsp.mkdir(path.join(userDataDir, "Default"), { recursive: true });
         await fsp.writeFile(
           path.join(userDataDir, "Local State"),
@@ -920,13 +920,13 @@ describe("chrome.ts internal", () => {
               noSandbox: true,
               extraArgs: [],
             } as unknown as ResolvedBrowserConfig;
-            const running = await launchBrikko StudioChrome(resolved, profile);
+            const running = await launchBrikkoStudioChrome(resolved, profile);
             running.proc.kill?.("SIGTERM");
           },
         });
       } finally {
         await fsp.rm(stageDir, { recursive: true, force: true });
-        const staged = resolveBrikko StudioUserDataDir(path.basename(stageDir));
+        const staged = resolveBrikkoStudioUserDataDir(path.basename(stageDir));
         await fsp.rm(staged, { recursive: true, force: true }).catch(() => {});
       }
     });
@@ -964,7 +964,7 @@ describe("chrome.ts internal", () => {
             noSandbox: true,
             extraArgs: [],
           } as unknown as ResolvedBrowserConfig;
-          const running = await launchBrikko StudioChrome(resolved, profile);
+          const running = await launchBrikkoStudioChrome(resolved, profile);
           running.proc.kill?.("SIGTERM");
         },
       });
@@ -1006,7 +1006,7 @@ describe("chrome.ts internal", () => {
         noSandbox: true,
         extraArgs: [],
       } as unknown as ResolvedBrowserConfig;
-      await expect(launchBrikko StudioChrome(resolved, profile)).rejects.toThrow(/Chrome stderr:/);
+      await expect(launchBrikkoStudioChrome(resolved, profile)).rejects.toThrow(/Chrome stderr:/);
     });
 
     it("omits the sandbox hint on non-linux platforms", async () => {
@@ -1044,7 +1044,7 @@ describe("chrome.ts internal", () => {
         } as unknown as ResolvedBrowserConfig;
         let caught: unknown;
         try {
-          await launchBrikko StudioChrome(resolved, profile);
+          await launchBrikkoStudioChrome(resolved, profile);
         } catch (e) {
           caught = e;
         }
@@ -1101,7 +1101,7 @@ describe("chrome.ts internal", () => {
             noSandbox: true,
             extraArgs: [],
           } as unknown as ResolvedBrowserConfig;
-          const running = await launchBrikko StudioChrome(resolved, profile);
+          const running = await launchBrikkoStudioChrome(resolved, profile);
           running.proc.kill?.("SIGTERM");
         },
       });
@@ -1155,15 +1155,15 @@ describe("chrome.ts internal", () => {
             noSandbox: true,
             extraArgs: [],
           } as unknown as ResolvedBrowserConfig;
-          const running = await launchBrikko StudioChrome(resolved, profile);
+          const running = await launchBrikkoStudioChrome(resolved, profile);
           running.proc.kill?.("SIGTERM");
         },
       });
     });
 
-    it("logs a warning when decorateBrikko StudioProfile throws and still returns a running Chrome", async () => {
+    it("logs a warning when decorateBrikkoStudioProfile throws and still returns a running Chrome", async () => {
       // Covers the decoration catch branch (log.warn).
-      const { decorateBrikko StudioProfile } = await import("./chrome.profile-decoration.js");
+      const { decorateBrikkoStudioProfile } = await import("./chrome.profile-decoration.js");
       vi.spyOn(fs, "existsSync").mockImplementation((p) => {
         const s = String(p);
         if (
@@ -1179,7 +1179,7 @@ describe("chrome.ts internal", () => {
         return false;
       });
       const decorationSpy = vi
-        .spyOn({ decorateBrikko StudioProfile }, "decorateBrikko StudioProfile")
+        .spyOn({ decorateBrikkoStudioProfile }, "decorateBrikkoStudioProfile")
         .mockImplementation(() => {
           throw new Error("decoration blew up");
         });
@@ -1208,7 +1208,7 @@ describe("chrome.ts internal", () => {
             noSandbox: true,
             extraArgs: [],
           } as unknown as ResolvedBrowserConfig;
-          const running = await launchBrikko StudioChrome(resolved, profile);
+          const running = await launchBrikkoStudioChrome(resolved, profile);
           running.proc.kill?.("SIGTERM");
         },
       });
@@ -1253,7 +1253,7 @@ describe("chrome.ts internal", () => {
             noSandbox: true,
             extraArgs: [],
           } as unknown as ResolvedBrowserConfig;
-          const running = await launchBrikko StudioChrome(resolved, profile);
+          const running = await launchBrikkoStudioChrome(resolved, profile);
           expect(running.pid).toBe(-1);
           running.proc.kill?.("SIGTERM");
         },

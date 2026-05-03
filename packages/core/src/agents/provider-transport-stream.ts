@@ -1,6 +1,6 @@
 import type { StreamFn } from "@mariozechner/pi-agent-core";
 import type { Api, Model } from "@mariozechner/pi-ai";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveProviderStreamFn } from "../plugins/provider-runtime.js";
 import { createAnthropicMessagesTransportStreamFn } from "./anthropic-transport-stream.js";
 import {
@@ -29,7 +29,7 @@ const SIMPLE_TRANSPORT_API_ALIAS: Record<string, Api> = {
 };
 
 type ProviderTransportStreamContext = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
@@ -121,11 +121,11 @@ export function createTransportAwareStreamFnForModel(
   return createSupportedTransportStreamFn(model, ctx);
 }
 
-export function createBrikko StudioTransportStreamFnForModel(
+export function createBrikkoStudioTransportStreamFnForModel(
   model: Model<Api>,
   ctx?: ProviderTransportStreamContext,
 ): StreamFn | undefined {
-  // Explicit fallback callers use this when they need Brikko Studio's HTTP
+  // Explicit fallback callers use this when they need BrikkoStudio's HTTP
   // transport semantics regardless of the default embedded-runner strategy.
   // Native OpenAI HTTP still depends on this path for strict tool shaping,
   // attribution, cache-boundary stripping, and runtime credential injection.
@@ -140,7 +140,7 @@ export function createBoundaryAwareStreamFnForModel(
   ctx?: ProviderTransportStreamContext,
 ): StreamFn | undefined {
   // Default embedded-runner fallback. Keep OpenAI-family APIs here until PI's
-  // native HTTP streams preserve the same Brikko Studio request contract.
+  // native HTTP streams preserve the same BrikkoStudio request contract.
   if (!isTransportAwareApiSupported(model.api)) {
     return undefined;
   }

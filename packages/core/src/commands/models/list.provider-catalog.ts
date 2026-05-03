@@ -1,7 +1,7 @@
 import type { Api, Model } from "@mariozechner/pi-ai";
 import { normalizeProviderId } from "../../agents/provider-id.js";
 import type { ModelProviderConfig } from "../../config/types.models.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import {
@@ -41,7 +41,7 @@ function collectMatchingContributionOwners(
   index: PluginRegistrySnapshot,
   contribution: "providers" | "cliBackends",
   providerFilter: string,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options: { includeDisabled?: boolean } = {},
 ): string[] {
   if (contribution === "providers") {
@@ -66,7 +66,7 @@ function collectMatchingContributionOwners(
 }
 
 function resolveInstalledIndexPluginIdsForProviderFilter(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   providerFilter: string;
 }): string[] | undefined {
@@ -97,7 +97,7 @@ function resolveInstalledIndexPluginIdsForProviderFilter(params: {
 }
 
 export async function resolveProviderCatalogPluginIdsForFilter(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   providerFilter: string;
 }): Promise<string[] | undefined> {
@@ -131,7 +131,7 @@ export async function resolveProviderCatalogPluginIdsForFilter(params: {
 }
 
 export async function hasProviderStaticCatalogForFilter(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   providerFilter: string;
 }): Promise<boolean> {
@@ -194,7 +194,7 @@ function modelFromProviderCatalog(params: {
 }
 
 export async function loadProviderCatalogModelsForList(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir: string;
   env?: NodeJS.ProcessEnv;
   providerFilter?: string;

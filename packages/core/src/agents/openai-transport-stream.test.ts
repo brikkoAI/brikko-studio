@@ -14,7 +14,7 @@ import { attachModelProviderRequestTransport } from "./provider-request-config.j
 import {
   buildTransportAwareSimpleStreamFn,
   createBoundaryAwareStreamFnForModel,
-  createBrikko StudioTransportStreamFnForModel,
+  createBrikkoStudioTransportStreamFnForModel,
   isTransportAwareApiSupported,
   prepareTransportAwareSimpleModel,
   resolveTransportAwareSimpleApi,
@@ -22,7 +22,7 @@ import {
 import { SYSTEM_PROMPT_CACHE_BOUNDARY } from "./system-prompt-cache-boundary.js";
 
 describe("openai transport stream", () => {
-  it("adds Brikko Studio attribution to native OpenAI transport headers and protects it from pi", () => {
+  it("adds BrikkoStudio attribution to native OpenAI transport headers and protects it from pi", () => {
     vi.stubEnv("BRIKKO_STUDIO_VERSION", "2026.3.22");
     const headers = __testing.buildOpenAIClientHeaders(
       {
@@ -59,7 +59,7 @@ describe("openai transport stream", () => {
     });
   });
 
-  it("adds Brikko Studio attribution to native OpenAI Codex transport headers", () => {
+  it("adds BrikkoStudio attribution to native OpenAI Codex transport headers", () => {
     vi.stubEnv("BRIKKO_STUDIO_VERSION", "2026.3.22");
     const headers = __testing.buildOpenAIClientHeaders(
       {
@@ -181,7 +181,7 @@ describe("openai transport stream", () => {
       } satisfies Model<"openai-responses">),
     ).toBeTypeOf("function");
     expect(
-      createBrikko StudioTransportStreamFnForModel({
+      createBrikkoStudioTransportStreamFnForModel({
         id: "gpt-5.4",
         name: "GPT-5.4",
         api: "openai-responses",

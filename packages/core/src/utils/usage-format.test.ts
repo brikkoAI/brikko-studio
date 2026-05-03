@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   __resetGatewayModelPricingCacheForTest,
   __setGatewayModelPricingForTest,
@@ -67,7 +67,7 @@ describe("usage-format", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const cost = resolveModelCostConfig({
       provider: "test",
@@ -120,7 +120,7 @@ describe("usage-format", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     await fs.writeFile(
       path.join(agentDir, "models.json"),
@@ -179,7 +179,7 @@ describe("usage-format", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     __setGatewayModelPricingForTest([
       {
@@ -239,7 +239,7 @@ describe("usage-format", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(
       resolveModelCostConfig({

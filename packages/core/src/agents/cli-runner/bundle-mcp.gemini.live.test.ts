@@ -25,7 +25,7 @@ async function startLocalStreamableHttpMcpServer(): Promise<{
   close: () => Promise<void>;
 }> {
   const mcpServer = new McpServer({ name: "brikko-studio-gemini-live-probe", version: "1.0.0" });
-  mcpServer.tool("brikko-studio_live_probe", "Brikko Studio Gemini MCP live probe", async () => ({
+  mcpServer.tool("brikko-studio_live_probe", "BrikkoStudio Gemini MCP live probe", async () => ({
     content: [{ type: "text", text: "ok" }],
   }));
 
@@ -57,7 +57,7 @@ async function startLocalStreamableHttpMcpServer(): Promise<{
 }
 
 describeLive("Gemini CLI MCP settings smoke", () => {
-  it("connects to an Brikko Studio-configured streamable-http server", async () => {
+  it("connects to an BrikkoStudio-configured streamable-http server", async () => {
     const geminiCommand = process.env.BRIKKO_STUDIO_LIVE_GEMINI_COMMAND ?? "gemini";
     if (!(await canRunGemini(geminiCommand))) {
       console.warn(`Skipping Gemini MCP live smoke: ${geminiCommand} is not runnable.`);

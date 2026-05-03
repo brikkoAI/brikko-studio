@@ -17,7 +17,7 @@ import {
   getCachedBlueBubblesPrivateApiStatus,
   isBlueBubblesPrivateApiStatusEnabled,
 } from "./probe.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import { warnBlueBubbles } from "./runtime.js";
 import { extractBlueBubblesMessageId, resolveBlueBubblesSendTarget } from "./send-helpers.js";
 import { createChatForHandle, resolveChatGuidForTarget } from "./send.js";
@@ -28,7 +28,7 @@ type BlueBubblesAttachmentOpts = {
   password?: string;
   accountId?: string;
   timeoutMs?: number;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 };
 
 const AUDIO_MIME_MP3 = new Set(["audio/mpeg", "audio/mp3"]);

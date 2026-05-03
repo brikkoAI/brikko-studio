@@ -4,7 +4,7 @@ import {
   extractShortModelName,
   type ResponsePrefixContext,
 } from "../auto-reply/reply/response-prefix-template.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 
 type ModelSelectionContext = Parameters<NonNullable<GetReplyOptions["onModelSelected"]>>[0];
@@ -22,7 +22,7 @@ export type ReplyPrefixOptions = Pick<
 >;
 
 export function createReplyPrefixContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   channel?: string;
   accountId?: string;
@@ -52,7 +52,7 @@ export function createReplyPrefixContext(params: {
 }
 
 export function createReplyPrefixOptions(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   channel?: string;
   accountId?: string;

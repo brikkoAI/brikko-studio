@@ -5,7 +5,7 @@ import {
   resolveGatewayPort as resolveGatewayPortFromPaths,
   resolveStateDir as resolveStateDirFromPaths,
 } from "../config/paths.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { loadOrCreateDeviceIdentity, type DeviceIdentity } from "../infra/device-identity.js";
 import { loadGatewayTlsRuntime } from "../infra/tls/gateway.js";
 import { isLoopbackIpAddress } from "../shared/net/ip.js";
@@ -49,7 +49,7 @@ type CallGatewayBaseOptions = {
   token?: string;
   password?: string;
   tlsFingerprint?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   method: string;
   params?: unknown;
   expectFinal?: boolean;
@@ -166,7 +166,7 @@ function resolveGatewayClientDisplayName(opts: CallGatewayBaseOptions): string |
   return method ? `gateway:${method}` : "gateway:request";
 }
 
-function loadGatewayConfig(): Brikko StudioConfig {
+function loadGatewayConfig(): BrikkoStudioConfig {
   const loadConfigFn =
     typeof gatewayCallDeps.getRuntimeConfig === "function"
       ? gatewayCallDeps.getRuntimeConfig
@@ -192,7 +192,7 @@ function resolveGatewayConfigPath(env: NodeJS.ProcessEnv): string {
   return resolveConfigPathFn(env, resolveGatewayStateDir(env));
 }
 
-function resolveGatewayPortValue(config?: Brikko StudioConfig, env?: NodeJS.ProcessEnv): number {
+function resolveGatewayPortValue(config?: BrikkoStudioConfig, env?: NodeJS.ProcessEnv): number {
   const resolveGatewayPortFn =
     typeof gatewayCallDeps.resolveGatewayPort === "function"
       ? gatewayCallDeps.resolveGatewayPort
@@ -202,7 +202,7 @@ function resolveGatewayPortValue(config?: Brikko StudioConfig, env?: NodeJS.Proc
 
 export function buildGatewayConnectionDetails(
   options: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     url?: string;
     configPath?: string;
     urlSource?: "cli" | "env";
@@ -351,7 +351,7 @@ type GatewayRemoteSettings = {
 };
 
 type ResolvedGatewayCallContext = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   configPath: string;
   isRemoteMode: boolean;
   remote?: GatewayRemoteSettings;
@@ -409,7 +409,7 @@ function resolveGatewayCallContext(opts: CallGatewayBaseOptions): ResolvedGatewa
     urlOverride,
     explicitAuth,
   });
-  const config = opts.config ?? (canSkipConfigLoad ? ({} as Brikko StudioConfig) : loadGatewayConfig());
+  const config = opts.config ?? (canSkipConfigLoad ? ({} as BrikkoStudioConfig) : loadGatewayConfig());
   const configPath = opts.configPath ?? resolveGatewayConfigPath(process.env);
   const isRemoteMode = config.gateway?.mode === "remote";
   const remote = isRemoteMode

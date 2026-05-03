@@ -6,7 +6,7 @@ import {
 } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { createMockServerResponse } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig, PluginRuntime } from "../runtime-api.js";
+import type { BrikkoStudioConfig, PluginRuntime } from "../runtime-api.js";
 import type { ResolvedGoogleChatAccount } from "./accounts.js";
 import { verifyGoogleChatRequest } from "./auth.js";
 import {
@@ -93,7 +93,7 @@ function registerTwoTargets() {
   const logA = vi.fn();
   const logB = vi.fn();
   const core = {} as PluginRuntime;
-  const config = {} as Brikko StudioConfig;
+  const config = {} as BrikkoStudioConfig;
 
   const unregisterA = registerGoogleChatWebhookTarget({
     account: baseAccount("A"),

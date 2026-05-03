@@ -159,12 +159,12 @@ function resolveDescription({ manifest, packageJson }) {
   if (channels.length > 0) {
     const channelLabel = displayList(channels);
     const channelNoun = channelLabel.toLowerCase().includes("channel") ? "" : " channel";
-    return `Adds the ${channelLabel}${channelNoun} surface for sending and receiving Brikko Studio messages.`;
+    return `Adds the ${channelLabel}${channelNoun} surface for sending and receiving BrikkoStudio messages.`;
   }
 
   const providers = Array.isArray(manifest.providers) ? manifest.providers : [];
   if (providers.length > 0) {
-    return `Adds ${displayList(providers)} model provider support to Brikko Studio.`;
+    return `Adds ${displayList(providers)} model provider support to BrikkoStudio.`;
   }
 
   const contracts = Object.keys(manifest.contracts ?? {}).toSorted((left, right) =>
@@ -195,7 +195,7 @@ function resolveDescription({ manifest, packageJson }) {
   }
 
   const packageDescription = normalizePackageDescription(packageJson.description);
-  return packageDescription ? `${packageDescription}.` : "Provides an Brikko Studio plugin.";
+  return packageDescription ? `${packageDescription}.` : "Provides an BrikkoStudio plugin.";
 }
 
 function pushUniqueDocLink(values, value) {
@@ -293,7 +293,7 @@ function resolveInstallRoute(packageJson, status) {
     return "source checkout only";
   }
   if (status === "core") {
-    return "included in Brikko Studio";
+    return "included in BrikkoStudio";
   }
   const install = packageJson.brikko-studio?.install;
   const release = packageJson.brikko-studio?.release;
@@ -400,9 +400,9 @@ ${record.surface}${relatedDocs ? `\n\n${relatedDocs}` : ""}
 
 function renderReferenceIndex(records) {
   return `---
-summary: "Generated index of Brikko Studio plugin reference pages"
+summary: "Generated index of BrikkoStudio plugin reference pages"
 read_when:
-  - You need a reference page for a specific Brikko Studio plugin
+  - You need a reference page for a specific BrikkoStudio plugin
   - You are auditing plugin docs coverage
 title: "Plugin reference"
 ---
@@ -517,7 +517,7 @@ function renderDocument() {
   };
 
   return `---
-summary: "Generated inventory of Brikko Studio plugins shipped in core, published externally, or kept source-only"
+summary: "Generated inventory of BrikkoStudio plugins shipped in core, published externally, or kept source-only"
 read_when:
   - You are deciding whether a plugin ships in the core npm package or installs separately
   - You are updating bundled plugin package metadata or release automation
@@ -537,7 +537,7 @@ pnpm plugins:inventory:gen
 ## Definitions
 
 - **Core npm package:** built into the \`brikko-studio\` npm package and available without a separate plugin install.
-- **Official external package:** Brikko Studio-maintained plugin omitted from the core npm package, kept in this official inventory, and installed on demand through ClawHub and/or npm.
+- **Official external package:** BrikkoStudio-maintained plugin omitted from the core npm package, kept in this official inventory, and installed on demand through ClawHub and/or npm.
 - **Source checkout only:** repo-local plugin omitted from published npm artifacts and not advertised as an installable package.
 
 Source checkouts are different from npm installs: after \`pnpm install\`, bundled

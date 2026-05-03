@@ -1,5 +1,5 @@
 import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type {
   PluginHookSessionEndEvent,
   PluginHookSessionEndReason,
@@ -15,7 +15,7 @@ export type SessionHookContext = {
 function buildSessionHookContext(params: {
   sessionId: string;
   sessionKey: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): SessionHookContext {
   return {
     sessionId: params.sessionId,
@@ -27,7 +27,7 @@ function buildSessionHookContext(params: {
 export function buildSessionStartHookPayload(params: {
   sessionId: string;
   sessionKey: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   resumedFrom?: string;
 }): {
   event: PluginHookSessionStartEvent;
@@ -50,7 +50,7 @@ export function buildSessionStartHookPayload(params: {
 export function buildSessionEndHookPayload(params: {
   sessionId: string;
   sessionKey: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   messageCount?: number;
   durationMs?: number;
   reason?: PluginHookSessionEndReason;

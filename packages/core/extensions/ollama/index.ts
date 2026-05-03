@@ -1,8 +1,8 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolvePluginConfigObject } from "brikko-studio/plugin-sdk/plugin-config-runtime";
 import {
   definePluginEntry,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
   type ProviderAuthContext,
   type ProviderAuthMethodNonInteractiveContext,
   type ProviderAuthResult,
@@ -130,14 +130,14 @@ export default definePluginEntry({
   id: "ollama",
   name: "Ollama Provider",
   description: "Bundled Ollama provider plugin",
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     if (api.registrationMode === "full") {
       void checkWsl2CrashLoopRisk(api.logger);
     }
     api.registerMemoryEmbeddingProvider(ollamaMemoryEmbeddingProviderAdapter);
     api.registerMediaUnderstandingProvider(ollamaMediaUnderstandingProvider);
     const startupPluginConfig = (api.pluginConfig ?? {}) as OllamaPluginConfig;
-    const resolveCurrentPluginConfig = (config?: Brikko StudioConfig): OllamaPluginConfig => {
+    const resolveCurrentPluginConfig = (config?: BrikkoStudioConfig): OllamaPluginConfig => {
       const runtimePluginConfig = resolvePluginConfigObject(config, "ollama");
       if (runtimePluginConfig) {
         return runtimePluginConfig as OllamaPluginConfig;

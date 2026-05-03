@@ -3421,7 +3421,7 @@ describe("createOpenAIWebSocketStreamFn", () => {
     });
   });
 
-  it("keeps the default websocket HTTP fallback on the Brikko Studio transport", () => {
+  it("keeps the default websocket HTTP fallback on the BrikkoStudio transport", () => {
     expect(
       openAIWsStreamTesting.getDefaultHttpFallbackStreamFnForTest(modelStub as never),
     ).toBeTypeOf("function");

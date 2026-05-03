@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   resolveThreadBindingIdleTimeoutMsForChannel,
   resolveThreadBindingMaxAgeMsForChannel,
@@ -122,7 +122,7 @@ function toSessionBindingRecord(
 
 export function createFeishuThreadBindingManager(params: {
   accountId?: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): FeishuThreadBindingManager {
   const accountId = normalizeAccountId(params.accountId);
   const existing = getState().managersByAccountId.get(accountId);

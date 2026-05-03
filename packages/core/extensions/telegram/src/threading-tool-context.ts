@@ -2,7 +2,7 @@ import type {
   ChannelThreadingContext,
   ChannelThreadingToolContext,
 } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { parseTelegramTarget } from "./targets.js";
 
@@ -19,7 +19,7 @@ function resolveTelegramToolContextThreadId(context: ChannelThreadingContext): s
 }
 
 export function buildTelegramThreadingToolContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   context: ChannelThreadingContext;
   hasRepliedRef?: { value: boolean };

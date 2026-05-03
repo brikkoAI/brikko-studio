@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { applyCompactionDefaults } from "./defaults.js";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
 function materializeCompactionConfig(
-  compaction: NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]>["compaction"],
+  compaction: NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["defaults"]>["compaction"],
 ) {
   const cfg = applyCompactionDefaults({
     agents: {

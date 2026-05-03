@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import { createMSTeamsConversationStoreFs } from "./conversation-store-fs.js";
 import {
   type GraphResponse,
@@ -129,7 +129,7 @@ export function resolveConversationPath(to: string): {
 }
 
 export type GetMessageMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   messageId: string;
 };
@@ -161,7 +161,7 @@ export async function getMessageMSTeams(
 }
 
 export type PinMessageMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   messageId: string;
 };
@@ -206,7 +206,7 @@ export async function pinMessageMSTeams(
 }
 
 export type UnpinMessageMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   /** The pinned-message resource ID returned by pin or list-pins (not the message ID). */
   pinnedMessageId: string;
@@ -238,7 +238,7 @@ export async function unpinMessageMSTeams(
 }
 
 export type ListPinsMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
 };
 
@@ -324,14 +324,14 @@ type GraphMessageWithReactions = GraphMessage & {
 };
 
 export type ReactMessageMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   messageId: string;
   reactionType: string;
 };
 
 export type ListReactionsMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   messageId: string;
 };
@@ -467,7 +467,7 @@ export async function listReactionsMSTeams(
 // ---------------------------------------------------------------------------
 
 export type SearchMessagesMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   query: string;
   from?: string;

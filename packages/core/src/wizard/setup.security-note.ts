@@ -9,15 +9,15 @@ export const SECURITY_CONFIRM_MESSAGE =
 const heading = (text: string) => chalk.bold(text);
 
 export const SECURITY_NOTE_MESSAGE = [
-  "Brikko Studio is a hobby project and still in beta. Expect sharp edges.",
-  "By default, Brikko Studio is a personal agent: one trusted operator boundary.",
+  "BrikkoStudio is a hobby project and still in beta. Expect sharp edges.",
+  "By default, BrikkoStudio is a personal agent: one trusted operator boundary.",
   "This bot can read files and run actions if tools are enabled.",
   "A bad prompt can trick it into doing unsafe things.",
   "",
-  "Brikko Studio is not a hostile multi-tenant boundary by default.",
+  "BrikkoStudio is not a hostile multi-tenant boundary by default.",
   "If multiple users can message one tool-enabled agent, they share that delegated tool authority.",
   "",
-  "If you’re not comfortable with security hardening and access control, don’t run Brikko Studio.",
+  "If you’re not comfortable with security hardening and access control, don’t run BrikkoStudio.",
   "Ask someone experienced to help before enabling tools or exposing it to the internet.",
   "",
   heading("Recommended baseline"),

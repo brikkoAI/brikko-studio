@@ -16,7 +16,7 @@ describe("qa channel transport", () => {
           enabled: true,
           baseUrl: "http://127.0.0.1:43123",
           botUserId: "brikko-studio",
-          botDisplayName: "Brikko Studio QA",
+          botDisplayName: "BrikkoStudio QA",
           allowFrom: ["*"],
           pollTimeoutMs: 250,
         },

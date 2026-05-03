@@ -1,7 +1,7 @@
 import type { StreamFn } from "@mariozechner/pi-agent-core";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolvePluginConfigObject } from "brikko-studio/plugin-sdk/plugin-config-runtime";
-import type { Brikko StudioPluginApi, ProviderThinkingProfile } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginApi, ProviderThinkingProfile } from "brikko-studio/plugin-sdk/plugin-entry";
 import {
   ANTHROPIC_BY_MODEL_REPLAY_HOOKS,
   normalizeProviderId,
@@ -104,7 +104,7 @@ function isBedrockAppInferenceProfile(modelId: string): boolean {
 /**
  * pi-ai's internal `supportsPromptCaching` checks `model.id` for specific Claude
  * model name patterns, which fails for application inference profile ARNs (opaque
- * IDs that may not contain the model name). When Brikko Studio's `isAnthropicBedrockModel`
+ * IDs that may not contain the model name). When BrikkoStudio's `isAnthropicBedrockModel`
  * identifies the model but pi-ai won't inject cache points, we do it via onPayload.
  *
  * Gated to application inference profile ARNs only — regular Claude model IDs and
@@ -119,7 +119,7 @@ function needsCachePointInjection(modelId: string): boolean {
   if (piAiWouldInjectCachePoints(modelId)) {
     return false;
   }
-  // Check if Brikko Studio identifies this as an Anthropic model via the ARN heuristic.
+  // Check if BrikkoStudio identifies this as an Anthropic model via the ARN heuristic.
   if (isAnthropicBedrockModel(modelId)) {
     return true;
   }
@@ -157,7 +157,7 @@ function isOpus47BedrockModelRef(modelRef: string): boolean {
  * otherwise opaque.
  *
  * Region is extracted from the profile ARN itself to avoid mismatches when
- * the Brikko Studio config region differs from the profile's home region.
+ * the BrikkoStudio config region differs from the profile's home region.
  */
 type BedrockAppProfileTraits = {
   cacheEligible: boolean;
@@ -301,7 +301,7 @@ function patchOpus47MaxThinkingEffort(payload: Record<string, unknown>): void {
   payload.additionalModelRequestFields = fields;
 }
 
-export function registerAmazonBedrockPlugin(api: Brikko StudioPluginApi): void {
+export function registerAmazonBedrockPlugin(api: BrikkoStudioPluginApi): void {
   // Keep registration-local constants inside the function so partial module
   // initialization during test bootstrap cannot trip TDZ reads.
   const providerId = "amazon-bedrock";
@@ -344,7 +344,7 @@ export function registerAmazonBedrockPlugin(api: Brikko StudioPluginApi): void {
   }
 
   function resolveCurrentPluginConfig(
-    config: Brikko StudioConfig | undefined,
+    config: BrikkoStudioConfig | undefined,
   ): AmazonBedrockPluginConfig | undefined {
     const runtimePluginConfig = resolvePluginConfigObject(config, providerId);
     return (

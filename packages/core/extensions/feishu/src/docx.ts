@@ -6,7 +6,7 @@ import type * as Lark from "@larksuiteoapi/node-sdk";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { Type } from "typebox";
-import type { Brikko StudioPluginApi } from "../runtime-api.js";
+import type { BrikkoStudioPluginApi } from "../runtime-api.js";
 import { listEnabledFeishuAccounts } from "./accounts.js";
 import { FeishuDocSchema, type FeishuDocParams } from "./doc-schema.js";
 import { BATCH_SIZE, insertBlocksInBatches } from "./docx-batch-insert.js";
@@ -1384,7 +1384,7 @@ async function listAppScopes(client: Lark.Client) {
 
 // ============ Tool Registration ============
 
-export function registerFeishuDocTools(api: Brikko StudioPluginApi) {
+export function registerFeishuDocTools(api: BrikkoStudioPluginApi) {
   if (!api.config) {
     return;
   }

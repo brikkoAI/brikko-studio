@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   buildManifestBuiltInModelSuppressionResolver,
   resolveManifestBuiltInModelSuppression,
@@ -10,7 +10,7 @@ function resolveBuiltInModelSuppressionFromManifest(params: {
   provider?: string | null;
   id?: string | null;
   baseUrl?: string | null;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   unconditionalOnly?: boolean;
 }) {
   const provider = normalizeProviderId(params.provider ?? "");
@@ -32,7 +32,7 @@ function resolveBuiltInModelSuppression(params: {
   provider?: string | null;
   id?: string | null;
   baseUrl?: string | null;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }) {
   const manifestResult = resolveBuiltInModelSuppressionFromManifest(params);
   if (manifestResult?.suppress) {
@@ -49,7 +49,7 @@ function resolveBuiltInModelSuppression(params: {
 export function shouldSuppressBuiltInModelFromManifest(params: {
   provider?: string | null;
   id?: string | null;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }) {
   return resolveBuiltInModelSuppressionFromManifest(params)?.suppress ?? false;
 }
@@ -58,7 +58,7 @@ export function shouldSuppressBuiltInModel(params: {
   provider?: string | null;
   id?: string | null;
   baseUrl?: string | null;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }) {
   return resolveBuiltInModelSuppression(params)?.suppress ?? false;
 }
@@ -69,7 +69,7 @@ export function shouldSuppressBuiltInModel(params: {
 export function shouldUnconditionallySuppress(params: {
   provider?: string | null;
   id?: string | null;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): boolean {
   return (
     resolveBuiltInModelSuppressionFromManifest({ ...params, unconditionalOnly: true })?.suppress ??
@@ -81,13 +81,13 @@ export function buildSuppressedBuiltInModelError(params: {
   provider?: string | null;
   id?: string | null;
   baseUrl?: string | null;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): string | undefined {
   return resolveBuiltInModelSuppression(params)?.errorMessage;
 }
 
 export function buildShouldSuppressBuiltInModel(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): (input: { provider?: string | null; id?: string | null; baseUrl?: string | null }) => boolean {
   const resolver = buildManifestBuiltInModelSuppressionResolver({
     config: params.config,

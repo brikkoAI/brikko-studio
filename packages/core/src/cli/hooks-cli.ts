@@ -1,7 +1,7 @@
 import type { Command } from "commander";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { getRuntimeConfig, readConfigFileSnapshot, replaceConfigFile } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   buildWorkspaceHookStatus,
   type HookStatusEntry,
@@ -45,7 +45,7 @@ function mergeHookEntries(pluginEntries: HookEntry[], workspaceEntries: HookEntr
   return resolveHookEntries([...pluginEntries, ...workspaceEntries]);
 }
 
-function buildHooksReport(config: Brikko StudioConfig): HookStatusReport {
+function buildHooksReport(config: BrikkoStudioConfig): HookStatusReport {
   const workspaceDir = resolveAgentWorkspaceDir(config, resolveDefaultAgentId(config));
   const workspaceEntries = loadWorkspaceHookEntries(workspaceDir, { config });
   const pluginReport = buildPluginDiagnosticsReport({ config, workspaceDir });
@@ -75,11 +75,11 @@ function resolveHookForToggle(
 }
 
 function buildConfigWithHookEnabled(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   hookName: string;
   enabled: boolean;
   ensureHooksEnabled?: boolean;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const entries = { ...params.config.hooks?.internal?.entries };
   entries[params.hookName] = { ...entries[params.hookName], enabled: params.enabled };
 
@@ -418,7 +418,7 @@ export function formatHooksCheck(report: HookStatusReport, opts: HooksCheckOptio
 
 export async function enableHook(hookName: string): Promise<void> {
   const snapshot = await readConfigFileSnapshot();
-  const config = (snapshot.sourceConfig ?? snapshot.config) as Brikko StudioConfig;
+  const config = (snapshot.sourceConfig ?? snapshot.config) as BrikkoStudioConfig;
   const hook = resolveHookForToggle(buildHooksReport(config), hookName, { requireEligible: true });
   const nextConfig = buildConfigWithHookEnabled({
     config,
@@ -438,7 +438,7 @@ export async function enableHook(hookName: string): Promise<void> {
 
 export async function disableHook(hookName: string): Promise<void> {
   const snapshot = await readConfigFileSnapshot();
-  const config = (snapshot.sourceConfig ?? snapshot.config) as Brikko StudioConfig;
+  const config = (snapshot.sourceConfig ?? snapshot.config) as BrikkoStudioConfig;
   const hook = resolveHookForToggle(buildHooksReport(config), hookName);
   const nextConfig = buildConfigWithHookEnabled({ config, hookName, enabled: false });
 

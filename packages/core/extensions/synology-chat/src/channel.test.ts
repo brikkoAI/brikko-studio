@@ -220,7 +220,7 @@ describe("createSynologyChatPlugin", () => {
 
       expect(mockSendMessage).toHaveBeenCalledWith(
         "https://nas/incoming",
-        "Brikko Studio: your access has been approved.",
+        "BrikkoStudio: your access has been approved.",
         "USER1",
         true,
       );

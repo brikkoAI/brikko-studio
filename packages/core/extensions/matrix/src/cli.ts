@@ -25,7 +25,7 @@ import { resolveMatrixRoomKeyBackupIssue } from "./matrix/backup-health.js";
 import { resolveMatrixAuthContext } from "./matrix/client.js";
 import { setMatrixSdkConsoleLogging, setMatrixSdkLogMode } from "./matrix/client/logging.js";
 import { resolveMatrixConfigPath, updateMatrixAccountConfig } from "./matrix/config-update.js";
-import { isBrikko StudioManagedMatrixDevice } from "./matrix/device-health.js";
+import { isBrikkoStudioManagedMatrixDevice } from "./matrix/device-health.js";
 import type { MatrixDirectRoomCandidate } from "./matrix/direct-management.js";
 import { formatMatrixErrorMessage } from "./matrix/errors.js";
 import { applyMatrixProfileUpdate, type MatrixProfileUpdateResult } from "./profile-update.js";
@@ -248,7 +248,7 @@ type MatrixCliAccountAddResult = {
   encryptionEnabled: boolean;
   deviceHealth: {
     currentDeviceId: string | null;
-    staleBrikko StudioDeviceIds: string[];
+    staleBrikkoStudioDeviceIds: string[];
     error?: string;
   };
   verificationBootstrap: {
@@ -396,20 +396,20 @@ async function addMatrixAccount(params: {
 
   let deviceHealth: MatrixCliAccountAddResult["deviceHealth"] = {
     currentDeviceId: null,
-    staleBrikko StudioDeviceIds: [],
+    staleBrikkoStudioDeviceIds: [],
   };
   try {
     const addedDevices = await listMatrixOwnDevices({ accountId, cfg: updated });
     deviceHealth = {
       currentDeviceId: addedDevices.find((device) => device.current)?.deviceId ?? null,
-      staleBrikko StudioDeviceIds: addedDevices
-        .filter((device) => !device.current && isBrikko StudioManagedMatrixDevice(device.displayName))
+      staleBrikkoStudioDeviceIds: addedDevices
+        .filter((device) => !device.current && isBrikkoStudioManagedMatrixDevice(device.displayName))
         .map((device) => device.deviceId),
     };
   } catch (err) {
     deviceHealth = {
       currentDeviceId: null,
-      staleBrikko StudioDeviceIds: [],
+      staleBrikkoStudioDeviceIds: [],
       error: toErrorMessage(err),
     };
   }
@@ -972,7 +972,7 @@ function printMatrixVerificationSummary(summary: MatrixCliVerificationSummary): 
   console.log(`Other user: ${sanitizeMatrixCliText(summary.otherUserId)}`);
   console.log(`Other device: ${sanitizeMatrixCliText(summary.otherDeviceId ?? "unknown")}`);
   console.log(`Self-verification: ${summary.isSelfVerification ? "yes" : "no"}`);
-  console.log(`Initiated by Brikko Studio: ${summary.initiatedByMe ? "yes" : "no"}`);
+  console.log(`Initiated by BrikkoStudio: ${summary.initiatedByMe ? "yes" : "no"}`);
   console.log(`Phase: ${sanitizeMatrixCliText(summary.phaseName)}`);
   console.log(`Pending: ${summary.pending ? "yes" : "no"}`);
   console.log(`Completed: ${summary.completed ? "yes" : "no"}`);
@@ -1244,7 +1244,7 @@ function buildVerificationGuidance(
   }
   if (status.serverDeviceKnown === false) {
     nextSteps.add(
-      `This Matrix device is no longer listed on the homeserver. Create a new Brikko Studio Matrix device with ${formatMatrixCliCommand("account add --homeserver <url> --user-id <@user:server> --password <password> --device-name Brikko Studio-Gateway", accountId)}. If you use token auth, create a fresh Matrix access token in your Matrix client or admin UI, then run ${formatMatrixCliCommand("account add --homeserver <url> --access-token <token>", accountId)}.`,
+      `This Matrix device is no longer listed on the homeserver. Create a new BrikkoStudio Matrix device with ${formatMatrixCliCommand("account add --homeserver <url> --user-id <@user:server> --password <password> --device-name BrikkoStudio-Gateway", accountId)}. If you use token auth, create a fresh Matrix access token in your Matrix client or admin UI, then run ${formatMatrixCliCommand("account add --homeserver <url> --access-token <token>", accountId)}.`,
     );
   }
   for (const step of buildBackupGuidance(backup, accountId, {
@@ -1479,12 +1479,12 @@ export function registerMatrixCli(params: { program: Command }): void {
               console.error(
                 `Matrix device health warning: ${formatMatrixCliText(result.deviceHealth.error)}`,
               );
-            } else if (result.deviceHealth.staleBrikko StudioDeviceIds.length > 0) {
-              const staleDeviceIds = result.deviceHealth.staleBrikko StudioDeviceIds
+            } else if (result.deviceHealth.staleBrikkoStudioDeviceIds.length > 0) {
+              const staleDeviceIds = result.deviceHealth.staleBrikkoStudioDeviceIds
                 .map((deviceId) => formatMatrixCliText(deviceId))
                 .join(", ");
               console.log(
-                `Matrix device hygiene warning: stale Brikko Studio devices detected (${staleDeviceIds}). Run ${formatMatrixCliCommand("devices prune-stale", result.accountId)}.`,
+                `Matrix device hygiene warning: stale BrikkoStudio devices detected (${staleDeviceIds}). Run ${formatMatrixCliCommand("devices prune-stale", result.accountId)}.`,
               );
             }
             if (result.profile.attempted) {
@@ -2262,7 +2262,7 @@ export function registerMatrixCli(params: { program: Command }): void {
 
   devices
     .command("prune-stale")
-    .description("Delete stale Brikko Studio-managed devices for this account")
+    .description("Delete stale BrikkoStudio-managed devices for this account")
     .option("--account <id>", "Account ID (for multi-account setups)")
     .option("--verbose", "Show detailed diagnostics")
     .option("--json", "Output as JSON")
@@ -2275,7 +2275,7 @@ export function registerMatrixCli(params: { program: Command }): void {
         onText: (result, verbose) => {
           printAccountLabel(accountId);
           console.log(
-            `Deleted stale Brikko Studio devices: ${
+            `Deleted stale BrikkoStudio devices: ${
               result.deletedDeviceIds.length
                 ? result.deletedDeviceIds
                     .map((deviceId) => formatMatrixCliText(deviceId))

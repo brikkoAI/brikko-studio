@@ -6,7 +6,7 @@ import {
 } from "../agents/agent-scope.js";
 import { canExecRequestNode } from "../agents/exec-defaults.js";
 import { buildWorkspaceSkillCommandSpecs, type SkillCommandSpec } from "../agents/skills.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { logVerbose } from "../globals.js";
 import { getRemoteSkillEligibility } from "../infra/skills-remote.js";
 import {
@@ -21,7 +21,7 @@ export {
 
 export function listSkillCommandsForWorkspace(params: {
   workspaceDir: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   skillFilter?: string[];
 }): SkillCommandSpec[] {
@@ -58,7 +58,7 @@ function dedupeBySkillName(commands: SkillCommandSpec[]): SkillCommandSpec[] {
 }
 
 export function listSkillCommandsForAgents(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentIds?: string[];
 }): SkillCommandSpec[] {
   const mergeSkillFilters = (existing?: string[], incoming?: string[]): string[] | undefined => {

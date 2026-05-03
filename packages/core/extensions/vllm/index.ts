@@ -1,6 +1,6 @@
 import {
   definePluginEntry,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
   type ProviderAuthMethodNonInteractiveContext,
 } from "brikko-studio/plugin-sdk/plugin-entry";
 import {
@@ -22,7 +22,7 @@ export default definePluginEntry({
   id: "vllm",
   name: "vLLM Provider",
   description: "Bundled vLLM provider plugin",
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     api.registerProvider({
       id: PROVIDER_ID,
       label: "vLLM",

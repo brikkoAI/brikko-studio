@@ -8,7 +8,7 @@ import {
   resolveSandboxedMediaSource,
 } from "../../agents/sandbox-paths.js";
 import { ensureSandboxWorkspaceForSession } from "../../agents/sandbox.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { logVerbose } from "../../globals.js";
 import { resolveChannelAccountMediaMaxMb } from "../../media/configured-max-bytes.js";
 import { isPassThroughRemoteMediaSource } from "../../media/media-source-url.js";
@@ -41,7 +41,7 @@ function getPayloadMediaList(payload: ReplyPayload): string[] {
 }
 
 function resolveReplyMediaMaxBytes(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel?: string;
   accountId?: string;
 }): number {
@@ -57,7 +57,7 @@ function formatBlockedReplyMediaWarning(): string {
 }
 
 export function createReplyMediaPathNormalizer(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey?: string;
   agentId?: string;
   workspaceDir: string;

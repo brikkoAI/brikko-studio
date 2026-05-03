@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { HookNpmIntegrityDriftParams } from "./install.js";
 
 const installHooksFromNpmSpecMock = vi.fn();
@@ -15,7 +15,7 @@ function createHookInstallConfig(params: {
   hookId: string;
   spec: string;
   integrity?: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     hooks: {
       internal: {
@@ -29,7 +29,7 @@ function createHookInstallConfig(params: {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("updateNpmInstalledHookPacks", () => {

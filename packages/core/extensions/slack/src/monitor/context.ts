@@ -2,7 +2,7 @@ import type { App } from "@slack/bolt";
 import { resolveDefaultAgentId } from "brikko-studio/plugin-sdk/agent-runtime";
 import { formatAllowlistMatchMeta } from "brikko-studio/plugin-sdk/allow-from";
 import type {
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   SlackReactionNotificationMode,
 } from "brikko-studio/plugin-sdk/config-types";
 import type { SessionScope } from "brikko-studio/plugin-sdk/config-types";
@@ -29,7 +29,7 @@ import { isSlackChannelAllowedByPolicy } from "./policy.js";
 export { normalizeSlackChannelType, resolveSlackChatType } from "./channel-type.js";
 
 export type SlackMonitorContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   botToken: string;
   app: App;
@@ -99,7 +99,7 @@ export type SlackMonitorContext = {
 };
 
 export function createSlackMonitorContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   botToken: string;
   app: App;

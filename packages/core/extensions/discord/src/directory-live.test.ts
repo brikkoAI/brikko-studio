@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { DirectoryConfigParams } from "brikko-studio/plugin-sdk/directory-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { listDiscordDirectoryGroupsLive, listDiscordDirectoryPeersLive } from "./directory-live.js";
@@ -11,7 +11,7 @@ function makeParams(overrides: Partial<DirectoryConfigParams> = {}): DirectoryCo
           token: "test-token",
         },
       },
-    } as Brikko StudioConfig,
+    } as BrikkoStudioConfig,
     accountId: "default",
     ...overrides,
   };
@@ -41,7 +41,7 @@ describe("discord directory live lookups", () => {
   it("returns empty group directory when token is missing", async () => {
     const rows = await listDiscordDirectoryGroupsLive({
       ...makeParams(),
-      cfg: { channels: { discord: { token: "" } } } as Brikko StudioConfig,
+      cfg: { channels: { discord: { token: "" } } } as BrikkoStudioConfig,
       query: "general",
     });
 

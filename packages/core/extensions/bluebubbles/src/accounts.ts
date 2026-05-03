@@ -4,7 +4,7 @@ import {
   resolveMergedAccountConfig,
 } from "brikko-studio/plugin-sdk/account-resolution";
 import { resolveChannelStreamingChunkMode } from "brikko-studio/plugin-sdk/channel-streaming";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   normalizeBlueBubblesAccountsMap,
@@ -31,7 +31,7 @@ const {
 export { listBlueBubblesAccountIds, resolveDefaultBlueBubblesAccountId };
 
 function mergeBlueBubblesAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): BlueBubblesAccountConfig {
   const channelConfig = normalizeBlueBubblesPrivateNetworkAliases(
@@ -57,7 +57,7 @@ function mergeBlueBubblesAccountConfig(
 }
 
 export function resolveBlueBubblesAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ResolvedBlueBubblesAccount {
   const accountId = normalizeAccountId(

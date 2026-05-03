@@ -1,5 +1,5 @@
 import path from "node:path";
-import { resolveBrikko StudioAgentDir } from "../../agents/agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../../agents/agent-paths.js";
 import {
   resolveAgentDir,
   resolveAgentExplicitModelPrimary,
@@ -173,7 +173,7 @@ export async function modelsStatusCommand(
   const configPath = createConfigIO().configPath;
   const cfg = await loadModelsConfig({ commandName: "models status", runtime });
   const agentId = resolveKnownAgentId({ cfg, rawAgentId: opts.agent });
-  const agentDir = agentId ? resolveAgentDir(cfg, agentId) : resolveBrikko StudioAgentDir();
+  const agentDir = agentId ? resolveAgentDir(cfg, agentId) : resolveBrikkoStudioAgentDir();
   const workspaceAgentId = agentId ?? resolveDefaultAgentId(cfg);
   const workspaceDir =
     resolveAgentWorkspaceDir(cfg, workspaceAgentId) ?? resolveDefaultAgentWorkspaceDir();

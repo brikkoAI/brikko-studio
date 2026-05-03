@@ -2,7 +2,7 @@ import {
   type ChannelOutboundAdapter,
   createAttachedChannelResultAdapter,
 } from "brikko-studio/plugin-sdk/channel-send-result";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { OutboundIdentity } from "brikko-studio/plugin-sdk/outbound-runtime";
 import { resolveOutboundSendDep } from "brikko-studio/plugin-sdk/outbound-send-deps";
 import {
@@ -61,7 +61,7 @@ function resolveDiscordWebhookIdentity(params: {
 }
 
 async function maybeSendDiscordWebhookText(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   text: string;
   threadId?: string | number | null;
   accountId?: string | null;

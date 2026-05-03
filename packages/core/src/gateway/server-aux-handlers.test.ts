@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   activateSecretsRuntimeSnapshot,
   clearSecretsRuntimeSnapshot,
@@ -9,8 +9,8 @@ import {
 import type { GatewayReloadPlan } from "./config-reload.js";
 import { createGatewayAuxHandlers } from "./server-aux-handlers.js";
 
-function asConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+function asConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
 function createReloadPlan(overrides?: Partial<GatewayReloadPlan>): GatewayReloadPlan {
@@ -31,7 +31,7 @@ function createReloadPlan(overrides?: Partial<GatewayReloadPlan>): GatewayReload
   };
 }
 
-function createSnapshot(config: Brikko StudioConfig): PreparedSecretsRuntimeSnapshot {
+function createSnapshot(config: BrikkoStudioConfig): PreparedSecretsRuntimeSnapshot {
   return {
     sourceConfig: asConfig({}),
     config,

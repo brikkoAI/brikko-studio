@@ -14,7 +14,7 @@ import { resolveCommandSecretRefsViaGateway } from "../../cli/command-secret-gat
 import { getScopedChannelsCommandSecretTargets } from "../../cli/command-secret-targets.js";
 import { resolveMessageSecretScope } from "../../cli/message-secret-scope.js";
 import { getRuntimeConfig } from "../../config/config.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { GATEWAY_CLIENT_IDS, GATEWAY_CLIENT_MODES } from "../../gateway/protocol/client-info.js";
 import { getToolResult, runMessageAction } from "../../infra/outbound/message-action-runner.js";
 import { POLL_CREATION_PARAM_DEFS, SHARED_POLL_CREATION_PARAM_NAMES } from "../../poll-params.js";
@@ -436,8 +436,8 @@ type MessageToolOptions = {
   agentAccountId?: string;
   agentSessionKey?: string;
   sessionId?: string;
-  config?: Brikko StudioConfig;
-  getRuntimeConfig?: () => Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
+  getRuntimeConfig?: () => BrikkoStudioConfig;
   getScopedChannelsCommandSecretTargets?: typeof getScopedChannelsCommandSecretTargets;
   resolveCommandSecretRefsViaGateway?: typeof resolveCommandSecretRefsViaGateway;
   runMessageAction?: typeof runMessageAction;
@@ -454,7 +454,7 @@ type MessageToolOptions = {
 };
 
 type MessageToolDiscoveryParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   currentChannelProvider?: string;
   currentChannelId?: string;
   currentThreadTs?: string;
@@ -468,7 +468,7 @@ type MessageToolDiscoveryParams = {
 };
 
 type MessageActionDiscoveryInput = Omit<ChannelMessageActionDiscoveryInput, "cfg" | "channel"> & {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel?: string;
 };
 
@@ -568,7 +568,7 @@ function resolveAgentAccountId(value?: string): string | undefined {
 }
 
 function buildMessageToolDescription(options?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   currentChannel?: string;
   currentChannelId?: string;
   currentThreadTs?: string;

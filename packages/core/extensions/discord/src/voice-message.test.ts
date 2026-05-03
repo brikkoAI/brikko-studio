@@ -7,7 +7,7 @@ const runFfmpegMock = vi.hoisted(() => vi.fn<(...args: unknown[]) => Promise<voi
 
 vi.mock("brikko-studio/plugin-sdk/temp-path", async () => {
   return {
-    resolvePreferredBrikko StudioTmpDir: () => "/tmp",
+    resolvePreferredBrikkoStudioTmpDir: () => "/tmp",
   };
 });
 

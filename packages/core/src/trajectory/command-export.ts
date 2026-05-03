@@ -57,7 +57,7 @@ async function resolveTrajectoryExportBaseDir(workspaceDir: string): Promise<{
   const stateDir = path.join(workspacePath, ".brikko-studio");
   await mkdirIfMissingThenValidate({
     dir: stateDir,
-    label: "Brikko Studio state directory",
+    label: "BrikkoStudio state directory",
     realWorkspace,
   });
   const baseDir = path.join(stateDir, "trajectory-exports");

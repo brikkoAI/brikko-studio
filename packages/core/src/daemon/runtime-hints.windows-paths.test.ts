@@ -26,7 +26,7 @@ describe("buildPlatformRuntimeLogHints", () => {
       buildPlatformRuntimeLogHints({
         platform: "darwin",
         systemdServiceName: "brikko-studio-gateway",
-        windowsTaskName: "Brikko Studio Gateway",
+        windowsTaskName: "BrikkoStudio Gateway",
       }),
     ).toEqual([
       "Launchd stdout (if installed): /tmp/brikko-studio-state/logs/gateway.log",

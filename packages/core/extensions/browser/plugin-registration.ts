@@ -1,17 +1,17 @@
 import type {
   AnyAgentTool,
-  Brikko StudioPluginApi,
-  Brikko StudioPluginNodeHostCommand,
-  Brikko StudioPluginSecurityAuditCollector,
-  Brikko StudioPluginService,
-  Brikko StudioPluginToolContext,
-  Brikko StudioPluginToolFactory,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginNodeHostCommand,
+  BrikkoStudioPluginSecurityAuditCollector,
+  BrikkoStudioPluginService,
+  BrikkoStudioPluginToolContext,
+  BrikkoStudioPluginToolFactory,
 } from "brikko-studio/plugin-sdk/plugin-entry";
 import { BrowserToolSchema } from "./src/browser-tool.schema.js";
 
 const BROWSER_CLI_DESCRIPTOR = {
   name: "browser",
-  description: "Manage Brikko Studio's dedicated browser (Chrome/Chromium)",
+  description: "Manage BrikkoStudio's dedicated browser (Chrome/Chromium)",
   hasSubcommands: true,
 };
 
@@ -27,8 +27,8 @@ function createLazyBrowserTool(opts?: {
     label: "Browser",
     name: "browser",
     description: [
-      "Control the browser via Brikko Studio's browser control server (status/start/stop/profiles/tabs/open/snapshot/screenshot/actions).",
-      "Browser choice: omit profile by default for the isolated Brikko Studio-managed browser (`brikko-studio`).",
+      "Control the browser via BrikkoStudio's browser control server (status/start/stop/profiles/tabs/open/snapshot/screenshot/actions).",
+      "Browser choice: omit profile by default for the isolated BrikkoStudio-managed browser (`brikko-studio`).",
       'For the logged-in user browser, use profile="user". A supported Chromium-based browser (v144+) must be running on the selected host or browser node. Use only when existing logins/cookies matter and the user is present.',
       'For profile="user" or other existing-session profiles, omit timeoutMs on act:type, evaluate, hover, scrollIntoView, drag, select, and fill; that driver rejects per-call timeout overrides for those actions.',
       'When a node-hosted browser proxy is available, the tool may auto-route to it. Pin a node with node=<id|name> or target="node".',
@@ -50,7 +50,7 @@ function createLazyBrowserTool(opts?: {
 
 export const browserPluginReload = { restartPrefixes: ["browser"] };
 
-export const browserPluginNodeHostCommands: Brikko StudioPluginNodeHostCommand[] = [
+export const browserPluginNodeHostCommands: BrikkoStudioPluginNodeHostCommand[] = [
   {
     command: "browser.proxy",
     cap: "browser",
@@ -61,15 +61,15 @@ export const browserPluginNodeHostCommands: Brikko StudioPluginNodeHostCommand[]
   },
 ];
 
-export const browserSecurityAuditCollectors: Brikko StudioPluginSecurityAuditCollector[] = [
+export const browserSecurityAuditCollectors: BrikkoStudioPluginSecurityAuditCollector[] = [
   async (ctx) => {
     const { collectBrowserSecurityAuditFindings } = await import("./register.runtime.js");
     return collectBrowserSecurityAuditFindings(ctx);
   },
 ];
 
-function createLazyBrowserPluginService(): Brikko StudioPluginService {
-  let service: Brikko StudioPluginService | null = null;
+function createLazyBrowserPluginService(): BrikkoStudioPluginService {
+  let service: BrikkoStudioPluginService | null = null;
   const loadService = async () => {
     if (!service) {
       const { createBrowserPluginService } = await import("./register.runtime.js");
@@ -92,13 +92,13 @@ function createLazyBrowserPluginService(): Brikko StudioPluginService {
   };
 }
 
-export function registerBrowserPlugin(api: Brikko StudioPluginApi) {
-  api.registerTool(((ctx: Brikko StudioPluginToolContext) =>
+export function registerBrowserPlugin(api: BrikkoStudioPluginApi) {
+  api.registerTool(((ctx: BrikkoStudioPluginToolContext) =>
     createLazyBrowserTool({
       sandboxBridgeUrl: ctx.browser?.sandboxBridgeUrl,
       allowHostControl: ctx.browser?.allowHostControl,
       agentSessionKey: ctx.sessionKey,
-    })) as Brikko StudioPluginToolFactory);
+    })) as BrikkoStudioPluginToolFactory);
   api.registerCli(
     async ({ program }) => {
       const { registerBrowserCli } = await import("./src/cli/browser-cli.js");

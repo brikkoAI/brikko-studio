@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { normalizeResolvedSecretInputString } from "../../config/types.secrets.js";
 import { talkHandlers } from "./talk.js";
 
 const mocks = vi.hoisted(() => ({
-  getRuntimeConfig: vi.fn<() => Brikko StudioConfig>(),
+  getRuntimeConfig: vi.fn<() => BrikkoStudioConfig>(),
   readConfigFileSnapshot: vi.fn(),
   canonicalizeSpeechProviderId: vi.fn((providerId: string | undefined) => providerId),
   getSpeechProvider: vi.fn(),
@@ -43,7 +43,7 @@ vi.mock("../talk-realtime-relay.js", async (importOriginal) => {
   };
 });
 
-function createTalkConfig(apiKey: unknown): Brikko StudioConfig {
+function createTalkConfig(apiKey: unknown): BrikkoStudioConfig {
   return {
     talk: {
       provider: "acme",
@@ -54,7 +54,7 @@ function createTalkConfig(apiKey: unknown): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("talk.speak handler", () => {
@@ -87,7 +87,7 @@ describe("talk.speak handler", () => {
       }) => talkProviderConfig,
     });
     mocks.synthesizeSpeech.mockImplementation(
-      async ({ cfg }: { cfg: Brikko StudioConfig; text: string; disableFallback: boolean }) => {
+      async ({ cfg }: { cfg: BrikkoStudioConfig; text: string; disableFallback: boolean }) => {
         expect(cfg.messages?.tts?.provider).toBe("acme");
         expect(cfg.messages?.tts?.providers?.acme?.apiKey).toBe("env-acme-key");
         return {
@@ -159,7 +159,7 @@ describe("talk.config handler", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const runtimeConfig = {
       ...sourceConfig,
       messages: {
@@ -173,7 +173,7 @@ describe("talk.config handler", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     mocks.readConfigFileSnapshot.mockResolvedValue({
       path: "/tmp/brikko-studio.json",
@@ -287,7 +287,7 @@ describe("talk.realtime.session handler", () => {
               provider: "google",
               providers: { google: { apiKey: "gemini-key" } },
             },
-          }) as Brikko StudioConfig,
+          }) as BrikkoStudioConfig,
       } as never,
     });
 

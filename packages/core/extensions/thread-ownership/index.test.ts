@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioPluginApi } from "./api.js";
+import type { BrikkoStudioPluginApi } from "./api.js";
 import register from "./index.js";
 
 describe("thread-ownership plugin", () => {
@@ -51,7 +51,7 @@ describe("thread-ownership plugin", () => {
 
   describe("message_sending", () => {
     beforeEach(() => {
-      register.register(api as unknown as Brikko StudioPluginApi);
+      register.register(api as unknown as BrikkoStudioPluginApi);
     });
 
     async function sendSlackThreadMessage() {
@@ -158,7 +158,7 @@ describe("thread-ownership plugin", () => {
 
     it("canonicalizes configured ab-test channel allowlists before matching", async () => {
       api.pluginConfig = { abTestChannels: ["channel:c123"] };
-      register.register(api as unknown as Brikko StudioPluginApi);
+      register.register(api as unknown as BrikkoStudioPluginApi);
       vi.mocked(globalThis.fetch).mockResolvedValue(
         new Response(JSON.stringify({ owner: "test-agent" }), { status: 200 }),
       );
@@ -196,7 +196,7 @@ describe("thread-ownership plugin", () => {
           },
         },
       };
-      register.register(api as unknown as Brikko StudioPluginApi);
+      register.register(api as unknown as BrikkoStudioPluginApi);
 
       const result = await hooks.message_sending(
         {
@@ -213,7 +213,7 @@ describe("thread-ownership plugin", () => {
 
     it("does not fall back to startup allowlists when live plugin config is removed", async () => {
       api.pluginConfig = { abTestChannels: ["C999"] };
-      register.register(api as unknown as Brikko StudioPluginApi);
+      register.register(api as unknown as BrikkoStudioPluginApi);
       vi.mocked(globalThis.fetch).mockResolvedValue(
         new Response(JSON.stringify({ owner: "test-agent" }), { status: 200 }),
       );
@@ -262,7 +262,7 @@ describe("thread-ownership plugin", () => {
 
   describe("message_received @-mention tracking", () => {
     beforeEach(() => {
-      register.register(api as unknown as Brikko StudioPluginApi);
+      register.register(api as unknown as BrikkoStudioPluginApi);
     });
 
     it("tracks @-mentions and skips ownership check for mentioned threads", async () => {

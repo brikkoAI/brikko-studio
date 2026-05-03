@@ -12,7 +12,7 @@ import http from "node:http";
 import os from "node:os";
 import path from "node:path";
 import process from "node:process";
-import { resolveBrikko StudioAgentDir } from "../src/agents/agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../src/agents/agent-paths.js";
 import { ensureAuthProfileStore, type AuthProfileCredential } from "../src/agents/auth-profiles.js";
 import { normalizeProviderId } from "../src/agents/model-selection.js";
 import { validateAnthropicSetupToken } from "../src/commands/auth-token.js";
@@ -185,7 +185,7 @@ function resolveSetupTokenSource(): TokenSource {
     };
   }
 
-  const agentDir = resolveBrikko StudioAgentDir();
+  const agentDir = resolveBrikkoStudioAgentDir();
   const store = ensureAuthProfileStore(agentDir, {
     allowKeychainPrompt: false,
   });

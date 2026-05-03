@@ -184,7 +184,7 @@ describe("push APNs send semantics", () => {
       aps: {
         alert: {
           title: "Exec approval required",
-          body: "Open Brikko Studio to review this request.",
+          body: "Open BrikkoStudio to review this request.",
         },
         sound: "default",
         category: "brikko-studio.exec-approval",
@@ -452,7 +452,7 @@ describe("push APNs send semantics", () => {
       aps: {
         alert: {
           title: "Exec approval required",
-          body: "Open Brikko Studio to review this request.",
+          body: "Open BrikkoStudio to review this request.",
         },
         category: "brikko-studio.exec-approval",
         "content-available": 1,

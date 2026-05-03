@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { loadSessionEntry as loadSessionEntryType } from "./session-utils.js";
 
 const buildSessionLookup = (
@@ -18,7 +18,7 @@ const buildSessionLookup = (
     parentSessionKey?: string;
   } = {},
 ): ReturnType<typeof loadSessionEntryType> => ({
-  cfg: { session: { mainKey: "agent:main:main" } } as Brikko StudioConfig,
+  cfg: { session: { mainKey: "agent:main:main" } } as BrikkoStudioConfig,
   storePath: "/tmp/sessions.json",
   store: {} as ReturnType<typeof loadSessionEntryType>["store"],
   entry: {
@@ -118,7 +118,7 @@ const runtimeMocks = vi.hoisted(() => ({
   resolveOutboundTarget: vi.fn(({ to }: { to: string }) => ({ ok: true, to })),
   resolveSessionAgentId: vi.fn(() => "main"),
   resolveSessionModelRef: vi.fn(
-    (_cfg: Brikko StudioConfig, entry?: { model?: string; modelProvider?: string }) => ({
+    (_cfg: BrikkoStudioConfig, entry?: { model?: string; modelProvider?: string }) => ({
       provider: entry?.modelProvider ?? "test-provider",
       model: entry?.model ?? "default-model",
     }),

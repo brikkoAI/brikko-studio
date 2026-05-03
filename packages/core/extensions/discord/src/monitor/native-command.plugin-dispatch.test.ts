@@ -1,7 +1,7 @@
 import { ChannelType } from "discord-api-types/v10";
 import type { NativeCommandSpec } from "brikko-studio/plugin-sdk/command-auth";
 import { resolveDirectStatusReplyForSession } from "brikko-studio/plugin-sdk/command-status-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   clearPluginCommands,
   executePluginCommand,
@@ -31,14 +31,14 @@ const runtimeModuleMocks = vi.hoisted(() => ({
   resolveDirectStatusReplyForSession: vi.fn(),
 }));
 
-function createConfig(): Brikko StudioConfig {
+function createConfig(): BrikkoStudioConfig {
   return {
     channels: {
       discord: {
         dm: { enabled: true, policy: "open", allowFrom: ["*"] },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createConfiguredAcpBinding(params: {
@@ -104,7 +104,7 @@ function createConfiguredAcpCase(params: {
           agentId: params.agentId,
         }),
       ],
-    } as Brikko StudioConfig,
+    } as BrikkoStudioConfig,
     interaction: createInteraction({
       channelType: params.channelType,
       channelId: params.channelId,
@@ -114,7 +114,7 @@ function createConfiguredAcpCase(params: {
   };
 }
 
-async function createNativeCommand(cfg: Brikko StudioConfig, commandSpec: NativeCommandSpec) {
+async function createNativeCommand(cfg: BrikkoStudioConfig, commandSpec: NativeCommandSpec) {
   return createDiscordNativeCommand({
     command: commandSpec,
     cfg,
@@ -192,7 +192,7 @@ function createUnboundRouteState(params: {
   >;
 }
 
-async function createPluginCommand(params: { cfg: Brikko StudioConfig; name: string }) {
+async function createPluginCommand(params: { cfg: BrikkoStudioConfig; name: string }) {
   return createDiscordNativeCommand({
     command: {
       name: params.name,
@@ -229,7 +229,7 @@ function registerPairPlugin(params?: { discordNativeName?: string }) {
 }
 
 async function expectPairCommandReply(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   commandName: string;
   interaction: MockCommandInteraction;
   expectedRegisteredName?: string;
@@ -265,7 +265,7 @@ async function expectPairCommandReply(params: {
   expect(params.interaction.reply).not.toHaveBeenCalled();
 }
 
-async function createStatusCommand(cfg: Brikko StudioConfig) {
+async function createStatusCommand(cfg: BrikkoStudioConfig) {
   return await createNativeCommand(cfg, {
     name: "status",
     description: "Status",
@@ -284,7 +284,7 @@ function createDispatchSpy() {
 }
 
 async function expectBoundStatusCommandDirectReply(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   interaction: MockCommandInteraction;
   expectedPattern: RegExp;
 }) {
@@ -411,7 +411,7 @@ describe("Discord native plugin command dispatch", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const commandSpec: NativeCommandSpec = {
       name: "pair",
       description: "Pair",
@@ -472,7 +472,7 @@ describe("Discord native plugin command dispatch", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const interaction = createInteraction({
       channelType: ChannelType.GroupDM,
       channelId: "blocked-group",
@@ -637,7 +637,7 @@ describe("Discord native plugin command dispatch", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const commandSpec: NativeCommandSpec = {
       name: "cron_jobs",
       description: "List cron jobs",
@@ -707,7 +707,7 @@ describe("Discord native plugin command dispatch", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const commandSpec: NativeCommandSpec = {
       name: "cron_jobs",
       description: "List cron jobs",
@@ -815,7 +815,7 @@ describe("Discord native plugin command dispatch", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const interaction = createInteraction({
       channelType: ChannelType.GuildText,
       channelId,

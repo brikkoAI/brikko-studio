@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { resolveCronDeliveryPreviews } from "../../cron/delivery-preview.js";
 import { normalizeCronJobCreate, normalizeCronJobPatch } from "../../cron/normalize.js";
 import {
@@ -32,7 +32,7 @@ import {
 } from "../protocol/index.js";
 import type { GatewayRequestHandlers } from "./types.js";
 
-function listConfiguredAnnounceChannelIds(cfg: Brikko StudioConfig): string[] {
+function listConfiguredAnnounceChannelIds(cfg: BrikkoStudioConfig): string[] {
   return listConfiguredAnnounceChannelIdsForConfig({
     config: cfg,
     env: process.env,
@@ -40,7 +40,7 @@ function listConfiguredAnnounceChannelIds(cfg: Brikko StudioConfig): string[] {
 }
 
 function assertConfiguredAnnounceChannel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel?: string;
   field: "delivery.channel" | "delivery.failureDestination.channel";
 }) {
@@ -97,7 +97,7 @@ function assertCompatibleAnnounceTarget(params: {
   }
 }
 
-function assertValidCronAnnounceDelivery(params: { cfg: Brikko StudioConfig; delivery?: CronDelivery }) {
+function assertValidCronAnnounceDelivery(params: { cfg: BrikkoStudioConfig; delivery?: CronDelivery }) {
   if (params.delivery && (params.delivery.mode ?? "announce") === "announce") {
     assertCompatibleAnnounceTarget({
       channel: params.delivery.channel,
@@ -132,7 +132,7 @@ function assertValidCronAnnounceDelivery(params: { cfg: Brikko StudioConfig; del
   }
 }
 
-function assertValidCronCreateDelivery(cfg: Brikko StudioConfig, jobCreate: CronJobCreate) {
+function assertValidCronCreateDelivery(cfg: BrikkoStudioConfig, jobCreate: CronJobCreate) {
   assertValidCronAnnounceDelivery({
     cfg,
     delivery: jobCreate.delivery,
@@ -140,7 +140,7 @@ function assertValidCronCreateDelivery(cfg: Brikko StudioConfig, jobCreate: Cron
 }
 
 function assertValidCronUpdateDelivery(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   defaultAgentId?: string;
   currentJob: CronJob | undefined;
   patch: CronJobPatch;

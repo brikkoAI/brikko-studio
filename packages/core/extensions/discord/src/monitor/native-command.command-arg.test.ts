@@ -1,6 +1,6 @@
 import type { ChatCommandDefinition } from "brikko-studio/plugin-sdk/command-auth";
 import * as commandRegistryModule from "brikko-studio/plugin-sdk/command-auth";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   createDiscordCommandArgFallbackButton,
@@ -34,13 +34,13 @@ function createCommandDefinition(): ChatCommandDefinition {
 }
 
 function createContext(
-  discordConfig: NonNullable<Brikko StudioConfig["channels"]>["discord"],
+  discordConfig: NonNullable<BrikkoStudioConfig["channels"]>["discord"],
 ): CommandArgContext {
   const cfg = {
     channels: {
       discord: discordConfig,
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
   return {
     cfg,
     discordConfig,

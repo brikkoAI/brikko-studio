@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/config.js";
+import type { BrikkoStudioConfig } from "../../../config/config.js";
 
 vi.mock("../../../plugins/plugin-metadata-snapshot.js", () => ({
   loadPluginMetadataSnapshot: () => ({
@@ -30,7 +30,7 @@ import {
 
 describe("legacy web search config", () => {
   it("migrates legacy provider config through bundled web search ownership metadata", () => {
-    const res = migrateLegacyWebSearchConfig<Brikko StudioConfig>({
+    const res = migrateLegacyWebSearchConfig<BrikkoStudioConfig>({
       tools: {
         web: {
           search: {

@@ -3,7 +3,7 @@ import path from "node:path";
 import * as tar from "tar";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { safePathSegmentHashed } from "../infra/install-safe-path.js";
-import { resolveBrikko StudioPackageRootSync } from "../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../infra/brikko-studio-root.js";
 import { runCommandWithTimeout } from "../process/exec.js";
 import { initializeGlobalHookRunner, resetGlobalHookRunner } from "./hook-runner-global.js";
 import { createMockPluginRegistry } from "./hooks.test-helpers.js";
@@ -21,7 +21,7 @@ vi.mock("../process/exec.js", () => ({
 }));
 
 vi.mock("../infra/brikko-studio-root.js", () => ({
-  resolveBrikko StudioPackageRootSync: vi.fn(),
+  resolveBrikkoStudioPackageRootSync: vi.fn(),
 }));
 
 const resolveCompatibilityHostVersionMock = vi.fn();
@@ -773,7 +773,7 @@ describe("installPluginFromArchive", () => {
     expect(result.ok).toBe(true);
     expect(
       warnings.some((warning) =>
-        warning.includes("allowed because it is an official Brikko Studio package"),
+        warning.includes("allowed because it is an official BrikkoStudio package"),
       ),
     ).toBe(true);
   });
@@ -1582,7 +1582,7 @@ describe("installPluginFromArchive", () => {
       const hostRoot = path.join(tmpDir, "host-brikko-studio");
       fs.mkdirSync(hostRoot, { recursive: true });
       fs.writeFileSync(path.join(hostRoot, "package.json"), '{"name":"brikko-studio"}\n');
-      vi.mocked(resolveBrikko StudioPackageRootSync).mockReturnValue(hostRoot);
+      vi.mocked(resolveBrikkoStudioPackageRootSync).mockReturnValue(hostRoot);
       writeMinimalPackagePlugin(pluginDir, "brikko-studio-peer-plugin");
 
       const nodeModulesDir = path.join(pluginDir, "node_modules");
@@ -1604,7 +1604,7 @@ describe("installPluginFromArchive", () => {
       fs.writeFileSync(path.join(hostRoot, "package.json"), '{"name":"brikko-studio"}\n');
       const hostBin = path.join(hostRoot, "brikko-studio.mjs");
       fs.writeFileSync(hostBin, "#!/usr/bin/env node\n");
-      vi.mocked(resolveBrikko StudioPackageRootSync).mockReturnValue(hostRoot);
+      vi.mocked(resolveBrikkoStudioPackageRootSync).mockReturnValue(hostRoot);
       writeMinimalPackagePlugin(pluginDir, "brikko-studio-bin-peer-plugin");
 
       const binDir = path.join(pluginDir, "node_modules", ".bin");
@@ -1627,7 +1627,7 @@ describe("installPluginFromArchive", () => {
       fs.mkdirSync(spoofedRoot, { recursive: true });
       fs.writeFileSync(path.join(hostRoot, "package.json"), '{"name":"brikko-studio"}\n');
       fs.writeFileSync(path.join(spoofedRoot, "package.json"), '{"name":"brikko-studio"}\n');
-      vi.mocked(resolveBrikko StudioPackageRootSync).mockReturnValue(hostRoot);
+      vi.mocked(resolveBrikkoStudioPackageRootSync).mockReturnValue(hostRoot);
       writeMinimalPackagePlugin(pluginDir, "spoofed-brikko-studio-peer-plugin");
 
       const nodeModulesDir = path.join(pluginDir, "node_modules");
@@ -1654,7 +1654,7 @@ describe("installPluginFromArchive", () => {
         },
         {
           pluginName: "uppercase-brikko-studio-peer-plugin",
-          relativePath: path.join("node_modules", "Brikko Studio"),
+          relativePath: path.join("node_modules", "BrikkoStudio"),
         },
         {
           pluginName: "trailing-space-brikko-studio-peer-plugin",
@@ -1667,7 +1667,7 @@ describe("installPluginFromArchive", () => {
         const hostRoot = path.join(tmpDir, "host-brikko-studio");
         fs.mkdirSync(hostRoot, { recursive: true });
         fs.writeFileSync(path.join(hostRoot, "package.json"), '{"name":"brikko-studio"}\n');
-        vi.mocked(resolveBrikko StudioPackageRootSync).mockReturnValue(hostRoot);
+        vi.mocked(resolveBrikkoStudioPackageRootSync).mockReturnValue(hostRoot);
         writeMinimalPackagePlugin(pluginDir, testCase.pluginName);
 
         const symlinkPath = path.join(pluginDir, testCase.relativePath);
@@ -1961,7 +1961,7 @@ describe("installPluginFromArchive", () => {
     expect(result.ok).toBe(true);
     expect(
       warnings.some((warning) =>
-        warning.includes("allowed because it is an official Brikko Studio package"),
+        warning.includes("allowed because it is an official BrikkoStudio package"),
       ),
     ).toBe(true);
   });
@@ -1974,7 +1974,7 @@ describe("installPluginFromArchive", () => {
       filter: (entryPath) =>
         !path.relative(sourcePluginDir, entryPath).split(path.sep).includes("node_modules"),
     });
-    vi.mocked(resolveBrikko StudioPackageRootSync).mockReturnValue(process.cwd());
+    vi.mocked(resolveBrikkoStudioPackageRootSync).mockReturnValue(process.cwd());
 
     const scanResult = await installSecurityScan.scanPackageInstallSource({
       extensions: ["./index.ts"],
@@ -2710,7 +2710,7 @@ describe("installPluginFromDir", () => {
       hostVersion: "2026.3.21",
       minHostVersion: ">=2026.3.22",
       expectedCode: PLUGIN_INSTALL_ERROR_CODE.INCOMPATIBLE_HOST_VERSION,
-      expectedMessageIncludes: ["requires Brikko Studio >=2026.3.22, but this host is 2026.3.21"],
+      expectedMessageIncludes: ["requires BrikkoStudio >=2026.3.22, but this host is 2026.3.21"],
     },
     {
       name: "rejects plugins with invalid minHostVersion metadata",
@@ -2911,8 +2911,8 @@ describe("installPluginFromDir", () => {
   });
 });
 
-describe("linkBrikko StudioPeerDependencies (via installPluginFromDir)", () => {
-  const resolveRootMock = vi.mocked(resolveBrikko StudioPackageRootSync);
+describe("linkBrikkoStudioPeerDependencies (via installPluginFromDir)", () => {
+  const resolveRootMock = vi.mocked(resolveBrikkoStudioPackageRootSync);
 
   function writePluginWithPeerDeps(
     pluginDir: string,
@@ -3028,7 +3028,7 @@ describe("linkBrikko StudioPeerDependencies (via installPluginFromDir)", () => {
     expect(fs.lstatSync(symlinkPath).isSymbolicLink()).toBe(true);
   });
 
-  it("warns and skips when resolveBrikko StudioPackageRootSync returns null", async () => {
+  it("warns and skips when resolveBrikkoStudioPackageRootSync returns null", async () => {
     const { pluginDir, extensionsDir } = setupPluginInstallDirs();
     resolveRootMock.mockReturnValue(null);
 

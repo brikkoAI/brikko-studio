@@ -65,7 +65,7 @@ vi.mock("../gateway/probe-auth.js", () => ({
 vi.mock("../daemon/program-args.js", () => ({
   BRIKKO_STUDIO_WRAPPER_ENV_KEY: "BRIKKO_STUDIO_WRAPPER",
   resolveGatewayProgramArguments: (opts: unknown) => resolveGatewayProgramArguments(opts),
-  resolveBrikko StudioWrapperPath: async (value: string | undefined) => value?.trim() || undefined,
+  resolveBrikkoStudioWrapperPath: async (value: string | undefined) => value?.trim() || undefined,
 }));
 
 vi.mock("../daemon/service.js", async () => {

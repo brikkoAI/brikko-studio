@@ -684,7 +684,7 @@ export function registerDevicesCli(program: Command) {
               break;
             case "re-approval":
               defaultRuntime.log(
-                "  Note:   Already paired. Approval-bound device details changed, so Brikko Studio created a fresh request instead of silently reusing the old approval.",
+                "  Note:   Already paired. Approval-bound device details changed, so BrikkoStudio created a fresh request instead of silently reusing the old approval.",
               );
               break;
             case "new-pairing":

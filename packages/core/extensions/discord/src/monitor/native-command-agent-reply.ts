@@ -1,7 +1,7 @@
 import { resolveHumanDelayConfig } from "brikko-studio/plugin-sdk/agent-runtime";
 import { createChannelReplyPipeline } from "brikko-studio/plugin-sdk/channel-reply-pipeline";
 import { resolveChannelStreamingBlockEnabled } from "brikko-studio/plugin-sdk/channel-streaming";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { getAgentScopedMediaLocalRoots } from "brikko-studio/plugin-sdk/media-runtime";
 import { resolveChunkMode, resolveTextChunkLimit } from "brikko-studio/plugin-sdk/reply-chunking";
 import type { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
@@ -29,7 +29,7 @@ type NativeCommandEffectiveRoute = {
 };
 
 export async function dispatchDiscordNativeAgentReply(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   discordConfig: DiscordConfig;
   accountId: string;
   interaction: CommandInteraction | ButtonInteraction | StringSelectMenuInteraction;

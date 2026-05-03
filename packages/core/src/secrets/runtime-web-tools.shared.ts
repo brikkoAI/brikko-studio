@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveSecretInputRef } from "../config/types.secrets.js";
 import { createLazyRuntimeNamedExport } from "../shared/lazy-runtime.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
@@ -51,8 +51,8 @@ export type RuntimeWebProviderSelectionParams<
   configuredProvider?: string;
   metadata: TMetadata;
   diagnostics: RuntimeWebDiagnostic[];
-  sourceConfig: Brikko StudioConfig;
-  resolvedConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
+  resolvedConfig: BrikkoStudioConfig;
   context: ResolverContext;
   defaults: SecretDefaults | undefined;
   deferKeylessFallback: boolean;
@@ -61,12 +61,12 @@ export type RuntimeWebProviderSelectionParams<
   autoDetectSelectedCode: RuntimeWebWarningCode;
   readConfiguredCredential: (params: {
     provider: TProvider;
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     toolConfig: TToolConfig;
   }) => unknown;
   readConfiguredCredentialFallback?: (params: {
     provider: TProvider;
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     toolConfig: TToolConfig;
   }) => { path: string; value: unknown } | undefined;
   resolveSecretInput: (params: {
@@ -75,7 +75,7 @@ export type RuntimeWebProviderSelectionParams<
     envVars: string[];
   }) => Promise<SecretResolutionResult<TSource>>;
   setResolvedCredential: (params: {
-    resolvedConfig: Brikko StudioConfig;
+    resolvedConfig: BrikkoStudioConfig;
     provider: TProvider;
     value: string;
   }) => void;
@@ -181,19 +181,19 @@ export type ResolveRuntimeWebProviderSurfaceParams<
   diagnostics: RuntimeWebDiagnostic[];
   metadataDiagnostics: RuntimeWebDiagnostic[];
   invalidAutoDetectCode: RuntimeWebWarningCode;
-  sourceConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   context: ResolverContext;
   configuredBundledPluginIdHint?: string;
   resolveProviders: (params: { configuredBundledPluginId?: string }) => Promise<TProvider[]>;
   sortProviders: (providers: TProvider[]) => TProvider[];
   readConfiguredCredential: (params: {
     provider: TProvider;
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     toolConfig: TToolConfig;
   }) => unknown;
   readConfiguredCredentialFallback?: (params: {
     provider: TProvider;
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     toolConfig: TToolConfig;
   }) => { path: string; value: unknown } | undefined;
   ignoreKeylessProvidersForConfiguredSurface?: boolean;

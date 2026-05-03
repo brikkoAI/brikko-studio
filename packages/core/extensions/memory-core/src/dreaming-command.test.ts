@@ -1,9 +1,9 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type {
-  Brikko StudioPluginCommandDefinition,
+  BrikkoStudioPluginCommandDefinition,
   PluginCommandContext,
 } from "brikko-studio/plugin-sdk/core";
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import { describe, expect, it, vi } from "vitest";
 import { registerDreamingCommand } from "./dreaming-command.js";
 
@@ -14,35 +14,35 @@ function asRecord(value: unknown): Record<string, unknown> | null {
   return value as Record<string, unknown>;
 }
 
-function resolveStoredDreaming(config: Brikko StudioConfig): Record<string, unknown> {
+function resolveStoredDreaming(config: BrikkoStudioConfig): Record<string, unknown> {
   const entry = asRecord(config.plugins?.entries?.["memory-core"]);
   const pluginConfig = asRecord(entry?.config);
   return asRecord(pluginConfig?.dreaming) ?? {};
 }
 
-function createHarness(initialConfig: Brikko StudioConfig = {}) {
-  const registered: { command?: Brikko StudioPluginCommandDefinition } = {};
-  let runtimeConfig: Brikko StudioConfig = initialConfig;
+function createHarness(initialConfig: BrikkoStudioConfig = {}) {
+  const registered: { command?: BrikkoStudioPluginCommandDefinition } = {};
+  let runtimeConfig: BrikkoStudioConfig = initialConfig;
 
   const runtime = {
     config: {
       current: vi.fn(() => runtimeConfig),
       loadConfig: vi.fn(() => runtimeConfig),
-      replaceConfigFile: vi.fn(async ({ nextConfig }: { nextConfig: Brikko StudioConfig }) => {
+      replaceConfigFile: vi.fn(async ({ nextConfig }: { nextConfig: BrikkoStudioConfig }) => {
         runtimeConfig = nextConfig;
       }),
-      writeConfigFile: vi.fn(async (nextConfig: Brikko StudioConfig) => {
+      writeConfigFile: vi.fn(async (nextConfig: BrikkoStudioConfig) => {
         runtimeConfig = nextConfig;
       }),
     },
-  } as unknown as Brikko StudioPluginApi["runtime"];
+  } as unknown as BrikkoStudioPluginApi["runtime"];
 
   const api = {
     runtime,
-    registerCommand: vi.fn((definition: Brikko StudioPluginCommandDefinition) => {
+    registerCommand: vi.fn((definition: BrikkoStudioPluginCommandDefinition) => {
       registered.command = definition;
     }),
-  } as unknown as Brikko StudioPluginApi;
+  } as unknown as BrikkoStudioPluginApi;
 
   registerDreamingCommand(api);
 

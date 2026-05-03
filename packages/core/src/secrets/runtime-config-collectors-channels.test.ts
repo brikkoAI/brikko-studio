@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { ResolverContext } from "./runtime-shared.js";
 
 const getBootstrapChannelSecrets = vi.fn();
@@ -37,7 +37,7 @@ describe("runtime channel config collectors", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       defaults: undefined,
       context: {} as ResolverContext,
     });
@@ -66,7 +66,7 @@ describe("runtime channel config collectors", () => {
         channels: {
           legacy: {},
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       defaults: undefined,
       context: {} as ResolverContext,
     });

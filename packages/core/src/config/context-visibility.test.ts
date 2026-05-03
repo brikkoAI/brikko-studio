@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "./config.js";
+import type { BrikkoStudioConfig } from "./config.js";
 import {
   resolveChannelContextVisibilityMode,
   resolveDefaultContextVisibility,
@@ -45,7 +45,7 @@ describe("resolveChannelContextVisibilityMode", () => {
           },
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
     expect(
       resolveChannelContextVisibilityMode({
         cfg,
@@ -66,7 +66,7 @@ describe("resolveChannelContextVisibilityMode", () => {
           channels: {
             defaults: { contextVisibility: "allowlist_quote" },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         channel: "signal",
       }),
     ).toBe("allowlist_quote");

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { DiscordActionConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { clearPresences, setPresence } from "../monitor/presence-cache.js";
@@ -91,7 +91,7 @@ function handleMessagingAction(
   action: string,
   params: Record<string, unknown>,
   isActionEnabled: (key: keyof DiscordActionConfig) => boolean,
-  cfg: Brikko StudioConfig = DISCORD_TEST_CFG,
+  cfg: BrikkoStudioConfig = DISCORD_TEST_CFG,
   options?: {
     mediaAccess?: {
       localRoots?: readonly string[];
@@ -109,7 +109,7 @@ function handleGuildAction(
   action: string,
   params: Record<string, unknown>,
   isActionEnabled: (key: keyof DiscordActionConfig) => boolean,
-  cfg: Brikko StudioConfig = DISCORD_TEST_CFG,
+  cfg: BrikkoStudioConfig = DISCORD_TEST_CFG,
   options?: { mediaLocalRoots?: readonly string[] },
 ) {
   return handleDiscordGuildAction(action, params, isActionEnabled, cfg, options);
@@ -119,7 +119,7 @@ function handleModerationAction(
   action: string,
   params: Record<string, unknown>,
   isActionEnabled: (key: keyof DiscordActionConfig, defaultValue?: boolean) => boolean,
-  cfg: Brikko StudioConfig = DISCORD_TEST_CFG,
+  cfg: BrikkoStudioConfig = DISCORD_TEST_CFG,
 ) {
   return handleDiscordModerationAction(action, params, isActionEnabled, cfg);
 }
@@ -194,7 +194,7 @@ describe("handleDiscordMessagingAction", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     );
 
     expect(reactMessageDiscord).toHaveBeenCalledWith(
@@ -368,7 +368,7 @@ describe("handleDiscordMessagingAction", () => {
           token: "token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     await handleMessagingAction("readMessages", { channelId: "C1" }, enableAllActions, cfg);
     expect(readMessagesDiscord).toHaveBeenCalledWith("C1", expect.any(Object), { cfg });
   });
@@ -398,7 +398,7 @@ describe("handleDiscordMessagingAction", () => {
           token: "token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     await handleMessagingAction(
       "fetchMessage",
       { guildId: "G1", channelId: "C1", messageId: "M1" },
@@ -656,7 +656,7 @@ describe("handleDiscordGuildAction", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const result = await handleGuildAction(
       "memberInfo",
       {
@@ -988,7 +988,7 @@ describe("handleDiscordAction per-account gating", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await handleDiscordAction(
       { action: "timeout", guildId: "G1", userId: "U1", durationMinutes: 5, accountId: "ops" },
@@ -1009,7 +1009,7 @@ describe("handleDiscordAction per-account gating", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await expect(
       handleDiscordAction(
@@ -1030,7 +1030,7 @@ describe("handleDiscordAction per-account gating", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await handleDiscordAction(
       { action: "kick", guildId: "G1", userId: "U1", accountId: "ops" },
@@ -1049,7 +1049,7 @@ describe("handleDiscordAction per-account gating", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await expect(
       handleDiscordAction(
@@ -1072,7 +1072,7 @@ describe("handleDiscordAction per-account gating", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await handleDiscordAction(
       { action: "channelCreate", guildId: "G1", name: "alerts", accountId: "ops" },

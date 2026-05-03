@@ -1,8 +1,8 @@
 import { getRuntimeConfigSnapshot } from "../../config/runtime-snapshot.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { coerceSecretRef } from "../../config/types.secrets.js";
 
-function hasConfiguredSkillApiKeyRef(config?: Brikko StudioConfig): boolean {
+function hasConfiguredSkillApiKeyRef(config?: BrikkoStudioConfig): boolean {
   const entries = config?.skills?.entries;
   if (!entries || typeof entries !== "object") {
     return false;
@@ -18,7 +18,7 @@ function hasConfiguredSkillApiKeyRef(config?: Brikko StudioConfig): boolean {
   return false;
 }
 
-export function resolveSkillRuntimeConfig(config?: Brikko StudioConfig): Brikko StudioConfig | undefined {
+export function resolveSkillRuntimeConfig(config?: BrikkoStudioConfig): BrikkoStudioConfig | undefined {
   const runtimeConfig = getRuntimeConfigSnapshot();
   if (!runtimeConfig) {
     return config;

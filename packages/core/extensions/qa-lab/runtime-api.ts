@@ -10,7 +10,7 @@ export {
   getQaBusState,
   injectQaBusInboundMessage,
   normalizeQaTarget,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   parseQaTarget,
   type PluginRuntime,
   pollQaBus,

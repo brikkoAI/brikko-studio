@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isVitestRuntimeEnv } from "../infra/env.js";
 import { startHeartbeatRunner, type HeartbeatRunner } from "../infra/heartbeat-runner.js";
 import type { PluginMetadataRegistryView } from "../plugins/plugin-metadata-snapshot.types.js";
@@ -22,12 +22,12 @@ export type GatewayChannelManager = Parameters<
 function createNoopHeartbeatRunner(): HeartbeatRunner {
   return {
     stop: () => {},
-    updateConfig: (_cfg: Brikko StudioConfig) => {},
+    updateConfig: (_cfg: BrikkoStudioConfig) => {},
   };
 }
 
 export function startGatewayChannelHealthMonitor(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelManager: GatewayChannelManager;
 }): ChannelHealthMonitor | null {
   const healthCheckMinutes = params.cfg.gateway?.channelHealthCheckMinutes;
@@ -54,7 +54,7 @@ export function startGatewayCronWithLogging(params: {
 }
 
 function recoverPendingOutboundDeliveries(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   log: GatewayRuntimeServiceLogger;
 }): void {
   void (async () => {
@@ -90,7 +90,7 @@ function recoverPendingSessionDeliveries(params: {
 }
 
 function startGatewayModelPricingRefreshOnDemand(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   pluginLookUpTable?: PluginMetadataRegistryView;
   log: GatewayRuntimeServiceLogger;
 }): () => void {
@@ -122,7 +122,7 @@ function startGatewayModelPricingRefreshOnDemand(params: {
 
 export function startGatewayRuntimeServices(params: {
   minimalTestGateway: boolean;
-  cfgAtStart: Brikko StudioConfig;
+  cfgAtStart: BrikkoStudioConfig;
   channelManager: GatewayChannelManager;
   log: GatewayRuntimeServiceLogger;
 }): {
@@ -144,7 +144,7 @@ export function startGatewayRuntimeServices(params: {
 
 export function activateGatewayScheduledServices(params: {
   minimalTestGateway: boolean;
-  cfgAtStart: Brikko StudioConfig;
+  cfgAtStart: BrikkoStudioConfig;
   deps: import("../cli/deps.types.js").CliDeps;
   sessionDeliveryRecoveryMaxEnqueuedAt: number;
   cron: { start: () => Promise<void> };

@@ -6,7 +6,7 @@ import {
   pathExists,
   splitSetupEntries,
   type DmPolicy,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/setup";
 import type { ChannelSetupWizard } from "brikko-studio/plugin-sdk/setup";
 import { formatCliCommand, formatDocsLink } from "brikko-studio/plugin-sdk/setup-tools";
@@ -19,7 +19,7 @@ import { whatsappSetupAdapter } from "./setup-core.js";
 
 type SetupPrompter = Parameters<NonNullable<ChannelSetupWizard["finalize"]>>[0]["prompter"];
 type SetupRuntime = Parameters<NonNullable<ChannelSetupWizard["finalize"]>>[0]["runtime"];
-type WhatsAppConfig = NonNullable<NonNullable<Brikko StudioConfig["channels"]>["whatsapp"]>;
+type WhatsAppConfig = NonNullable<NonNullable<BrikkoStudioConfig["channels"]>["whatsapp"]>;
 type WhatsAppAccountConfig = NonNullable<NonNullable<WhatsAppConfig["accounts"]>[string]>;
 
 function trimPromptText(value: string | null | undefined): string {
@@ -30,7 +30,7 @@ function isDefaultWhatsAppAccountKey(accountId: string): boolean {
   return accountId.trim().toLowerCase() === DEFAULT_ACCOUNT_ID;
 }
 
-function shouldWriteDefaultWhatsAppAccountConfigAtAccountScope(cfg: Brikko StudioConfig): boolean {
+function shouldWriteDefaultWhatsAppAccountConfigAtAccountScope(cfg: BrikkoStudioConfig): boolean {
   const accounts = cfg.channels?.whatsapp?.accounts;
   if (!accounts) {
     return false;
@@ -41,7 +41,7 @@ function shouldWriteDefaultWhatsAppAccountConfigAtAccountScope(cfg: Brikko Studi
   return Object.keys(accounts).some((accountId) => !isDefaultWhatsAppAccountKey(accountId));
 }
 
-function resolveDefaultWhatsAppAccountWriteKey(cfg: Brikko StudioConfig): string {
+function resolveDefaultWhatsAppAccountWriteKey(cfg: BrikkoStudioConfig): string {
   const accounts = cfg.channels?.whatsapp?.accounts;
   if (!accounts) {
     return DEFAULT_ACCOUNT_ID;
@@ -50,7 +50,7 @@ function resolveDefaultWhatsAppAccountWriteKey(cfg: Brikko StudioConfig): string
   return match ?? DEFAULT_ACCOUNT_ID;
 }
 
-function resolveWhatsAppConfigPathPrefix(cfg: Brikko StudioConfig, accountId: string): string {
+function resolveWhatsAppConfigPathPrefix(cfg: BrikkoStudioConfig, accountId: string): string {
   if (
     accountId === DEFAULT_ACCOUNT_ID &&
     shouldWriteDefaultWhatsAppAccountConfigAtAccountScope(cfg)
@@ -63,11 +63,11 @@ function resolveWhatsAppConfigPathPrefix(cfg: Brikko StudioConfig, accountId: st
 }
 
 function mergeWhatsAppConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   patch: Partial<WhatsAppAccountConfig>,
   options?: { unsetOnUndefined?: string[] },
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const channelConfig: WhatsAppConfig = { ...cfg.channels?.whatsapp };
   const mutableChannelConfig = channelConfig as Record<string, unknown>;
   const targetPathPrefix = resolveWhatsAppConfigPathPrefix(cfg, accountId);
@@ -129,30 +129,30 @@ function mergeWhatsAppConfig(
 }
 
 function setWhatsAppDmPolicy(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   dmPolicy: DmPolicy,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return mergeWhatsAppConfig(cfg, accountId, { dmPolicy });
 }
 
 function setWhatsAppAllowFrom(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   allowFrom?: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return mergeWhatsAppConfig(cfg, accountId, { allowFrom }, { unsetOnUndefined: ["allowFrom"] });
 }
 
 function setWhatsAppSelfChatMode(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   selfChatMode: boolean,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return mergeWhatsAppConfig(cfg, accountId, { selfChatMode });
 }
 
-async function detectWhatsAppLinked(cfg: Brikko StudioConfig, accountId: string): Promise<boolean> {
+async function detectWhatsAppLinked(cfg: BrikkoStudioConfig, accountId: string): Promise<boolean> {
   const { authDir } = resolveWhatsAppAuthDir({ cfg, accountId });
   const credsPath = path.join(authDir, "creds.json");
   return await pathExists(credsPath);
@@ -165,7 +165,7 @@ async function promptWhatsAppOwnerAllowFrom(params: {
   const { prompter, existingAllowFrom } = params;
 
   await prompter.note(
-    "We need the sender/owner number so Brikko Studio can allowlist you.",
+    "We need the sender/owner number so BrikkoStudio can allowlist you.",
     "WhatsApp number",
   );
   const entry = await prompter.text({
@@ -197,13 +197,13 @@ async function promptWhatsAppOwnerAllowFrom(params: {
 }
 
 async function applyWhatsAppOwnerAllowlist(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   existingAllowFrom: string[];
   messageLines: string[];
   prompter: SetupPrompter;
   title: string;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const { normalized, allowFrom } = await promptWhatsAppOwnerAllowFrom({
     prompter: params.prompter,
     existingAllowFrom: params.existingAllowFrom,
@@ -239,11 +239,11 @@ function parseWhatsAppAllowFromEntries(raw: string): { entries: string[]; invali
 }
 
 async function promptWhatsAppDmAccess(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   forceAllowFrom: boolean;
   prompter: SetupPrompter;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const accountId = params.accountId.trim() || DEFAULT_ACCOUNT_ID;
   const account = resolveWhatsAppAccount({ cfg: params.cfg, accountId });
   const existingPolicy = account.dmPolicy ?? "pairing";
@@ -282,7 +282,7 @@ async function promptWhatsAppDmAccess(params: {
     message: "WhatsApp phone setup",
     options: [
       { value: "personal", label: "This is my personal phone number" },
-      { value: "separate", label: "Separate phone just for Brikko Studio" },
+      { value: "separate", label: "Separate phone just for BrikkoStudio" },
     ],
   });
 
@@ -381,7 +381,7 @@ async function promptWhatsAppDmAccess(params: {
 }
 
 export async function finalizeWhatsAppSetup(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   forceAllowFrom: boolean;
   prompter: SetupPrompter;

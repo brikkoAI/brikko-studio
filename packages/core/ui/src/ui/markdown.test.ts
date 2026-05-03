@@ -202,9 +202,9 @@ describe("toSanitizedMarkdownHtml", () => {
     });
 
     it("does NOT rewrite explicit markdown links with CJK display text", () => {
-      const html = toSanitizedMarkdownHtml("[Brikko Studio中文](https://docs.brikko-studio.ai)");
+      const html = toSanitizedMarkdownHtml("[BrikkoStudio中文](https://docs.brikko-studio.ai)");
       expect(html).toContain('href="https://docs.brikko-studio.ai"');
-      expect(html).toContain("Brikko Studio中文</a>");
+      expect(html).toContain("BrikkoStudio中文</a>");
     });
 
     it("preserves mailto: scheme when trimming CJK from email links", () => {

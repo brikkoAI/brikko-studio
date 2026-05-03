@@ -53,7 +53,7 @@ describeLive("google plugin live", () => {
     const provider = requireRegisteredProvider(speechProviders, "google");
 
     const audioFile = await provider.synthesize({
-      text: "Brikko Studio Google text to speech integration test OK.",
+      text: "BrikkoStudio Google text to speech integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig: { apiKey: GOOGLE_API_KEY },
       target: "audio-file",
@@ -70,7 +70,7 @@ describeLive("google plugin live", () => {
     const provider = requireRegisteredProvider(speechProviders, "google");
 
     const audioFile = await provider.synthesize({
-      text: "Brikko Studio Google voice note integration test OK.",
+      text: "BrikkoStudio Google voice note integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig: { apiKey: GOOGLE_API_KEY },
       target: "voice-note",
@@ -121,7 +121,7 @@ describeLive("google plugin live", () => {
     let lastError: unknown;
     for (let attempt = 0; attempt < 2; attempt += 1) {
       try {
-        result = await tool?.execute({ query: "Brikko Studio GitHub", count: 1 });
+        result = await tool?.execute({ query: "BrikkoStudio GitHub", count: 1 });
         lastError = undefined;
         break;
       } catch (error) {
@@ -157,7 +157,7 @@ describeLive("google plugin live", () => {
         searchConfig: { provider: "gemini", cacheTtlMinutes: 0, timeoutSeconds: 90 },
       } as never);
 
-      const result = await tool?.execute({ query: "Brikko Studio GitHub", count: 1 });
+      const result = await tool?.execute({ query: "BrikkoStudio GitHub", count: 1 });
 
       expect(process.env.GEMINI_API_KEY).toBeUndefined();
       expect(process.env.GOOGLE_API_KEY).toBeUndefined();

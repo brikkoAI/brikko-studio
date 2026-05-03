@@ -79,7 +79,7 @@ function resolveStartupEntryPath(env: Record<string, string>) {
     "Start Menu",
     "Programs",
     "Startup",
-    "Brikko Studio Gateway.cmd",
+    "BrikkoStudio Gateway.cmd",
   );
 }
 

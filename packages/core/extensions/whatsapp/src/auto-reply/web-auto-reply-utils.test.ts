@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeMainKey } from "brikko-studio/plugin-sdk/routing";
 import { saveSessionStore } from "brikko-studio/plugin-sdk/session-store-runtime";
 import { withTempDir } from "brikko-studio/plugin-sdk/test-env";
@@ -52,7 +52,7 @@ const makeMsg = (overrides: Partial<WebInboundMsg>): WebInboundMsg =>
   }) as WebInboundMsg;
 
 function getSessionSnapshotForTest(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   from: string,
   ctx?: {
     sessionKey?: string | null;
@@ -119,7 +119,7 @@ describe("isBotMentionedFromTargets", () => {
 
   it("ignores regex matches when other mentions are present", () => {
     const msg = makeMsg({
-      body: "@Brikko Studio please help",
+      body: "@BrikkoStudio please help",
       mentionedJids: ["19998887777@s.whatsapp.net"],
       selfE164: "+15551234567",
       selfJid: "15551234567@s.whatsapp.net",
@@ -280,7 +280,7 @@ describe("getSessionSnapshot", () => {
               whatsapp: { mode: "idle", idleMinutes: 360 },
             },
           },
-        } as Brikko StudioConfig;
+        } as BrikkoStudioConfig;
 
         const snapshot = getSessionSnapshotForTest(cfg, "whatsapp:+15550001111", {
           sessionKey,

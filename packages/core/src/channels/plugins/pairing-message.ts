@@ -1,2 +1,2 @@
 export const PAIRING_APPROVED_MESSAGE =
-  "✅ Brikko Studio access approved. Send a message to start chatting.";
+  "✅ BrikkoStudio access approved. Send a message to start chatting.";

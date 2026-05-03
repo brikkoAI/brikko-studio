@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/memory-core-host-runtime-core";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/memory-core-host-runtime-core";
 import type { MemorySearchResult } from "brikko-studio/plugin-sdk/memory-core-host-runtime-files";
 import {
   extractTranscriptIdentityFromSessionsMemoryHit,
@@ -12,7 +12,7 @@ import {
 } from "brikko-studio/plugin-sdk/session-visibility";
 
 export async function filterMemorySearchHitsBySessionVisibility(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   requesterSessionKey: string | undefined;
   sandboxed: boolean;
   hits: MemorySearchResult[];

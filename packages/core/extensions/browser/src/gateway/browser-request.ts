@@ -21,7 +21,7 @@ import {
   withTimeout,
   type GatewayRequestHandlers,
   type NodeSession,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../core-api.js";
 
 type BrowserRequestParams = {
@@ -89,7 +89,7 @@ function resolveBrowserNode(nodes: NodeSession[], query: string): NodeSession | 
 }
 
 function resolveBrowserNodeTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   nodes: NodeSession[];
 }): NodeSession | null {
   const policy = params.cfg.gateway?.nodes?.browser;

@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../runtime-api.js";
+import type { BrikkoStudioConfig } from "../../runtime-api.js";
 import {
   buildMattermostAllowedModelRefs,
   parseMattermostModelPickerContext,
@@ -129,7 +129,7 @@ describe("Mattermost model picker", () => {
   it("falls back to the routed agent default model when no override is stored", async () => {
     const testDir = fs.mkdtempSync(path.join(os.tmpdir(), "mm-model-picker-"));
     try {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         session: {
           store: path.join(testDir, "{agentId}.json"),
         },

@@ -1,14 +1,14 @@
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { createBlueBubblesClient } from "./client.js";
 import { getCachedBlueBubblesPrivateApiStatus } from "./probe.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 
 export type BlueBubblesReactionOpts = {
   serverUrl?: string;
   password?: string;
   accountId?: string;
   timeoutMs?: number;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 };
 
 const REACTION_TYPES = new Set(["love", "like", "dislike", "laugh", "emphasize", "question"]);

@@ -14,8 +14,8 @@ import { makeBrowserServerState, mockLaunchedChrome } from "./server-context.tes
 function setupEnsureBrowserAvailableHarness() {
   vi.useFakeTimers();
 
-  const launchBrikko StudioChrome = vi.mocked(chromeModule.launchBrikko StudioChrome);
-  const stopBrikko StudioChrome = vi.mocked(chromeModule.stopBrikko StudioChrome);
+  const launchBrikkoStudioChrome = vi.mocked(chromeModule.launchBrikkoStudioChrome);
+  const stopBrikkoStudioChrome = vi.mocked(chromeModule.stopBrikkoStudioChrome);
   const isChromeReachable = vi.mocked(chromeModule.isChromeReachable);
   const isChromeCdpReady = vi.mocked(chromeModule.isChromeCdpReady);
   isChromeReachable.mockResolvedValue(false);
@@ -24,7 +24,7 @@ function setupEnsureBrowserAvailableHarness() {
   const ctx = createBrowserRouteContext({ getState: () => state });
   const profile = ctx.forProfile("brikko-studio");
 
-  return { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, profile, state };
+  return { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, profile, state };
 }
 
 function createAttachOnlyLoopbackProfile(cdpUrl: string) {
@@ -57,25 +57,25 @@ afterEach(() => {
 
 describe("browser server-context ensureBrowserAvailable", () => {
   it("waits for CDP readiness after launching to avoid follow-up PortInUseError races (#21149)", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, profile } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, profile } =
       setupEnsureBrowserAvailableHarness();
     isChromeCdpReady.mockResolvedValueOnce(false).mockResolvedValue(true);
-    mockLaunchedChrome(launchBrikko StudioChrome, 123);
+    mockLaunchedChrome(launchBrikkoStudioChrome, 123);
 
     const promise = profile.ensureBrowserAvailable();
     await vi.advanceTimersByTimeAsync(100);
     await expect(promise).resolves.toBeUndefined();
 
-    expect(launchBrikko StudioChrome).toHaveBeenCalledTimes(1);
+    expect(launchBrikkoStudioChrome).toHaveBeenCalledTimes(1);
     expect(isChromeCdpReady).toHaveBeenCalled();
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 
   it("stops launched chrome when CDP readiness never arrives", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, profile } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, profile } =
       setupEnsureBrowserAvailableHarness();
     isChromeCdpReady.mockResolvedValue(false);
-    mockLaunchedChrome(launchBrikko StudioChrome, 321);
+    mockLaunchedChrome(launchBrikkoStudioChrome, 321);
 
     const promise = profile.ensureBrowserAvailable();
     const rejected = expect(promise).rejects.toThrow("not reachable after start");
@@ -86,46 +86,46 @@ describe("browser server-context ensureBrowserAvailable", () => {
     await rejected;
     await diagnosticRejected;
 
-    expect(launchBrikko StudioChrome).toHaveBeenCalledTimes(1);
-    expect(stopBrikko StudioChrome).toHaveBeenCalledTimes(1);
+    expect(launchBrikkoStudioChrome).toHaveBeenCalledTimes(1);
+    expect(stopBrikkoStudioChrome).toHaveBeenCalledTimes(1);
   });
 
   it("uses configured local CDP readiness timeout after launching", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, profile, state } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, profile, state } =
       setupEnsureBrowserAvailableHarness();
     state.resolved.localCdpReadyTimeoutMs = 250;
     isChromeCdpReady.mockResolvedValue(false);
-    mockLaunchedChrome(launchBrikko StudioChrome, 322);
+    mockLaunchedChrome(launchBrikkoStudioChrome, 322);
 
     const promise = profile.ensureBrowserAvailable();
     const rejected = expect(promise).rejects.toThrow("not reachable after start");
     await vi.advanceTimersByTimeAsync(300);
     await rejected;
 
-    expect(launchBrikko StudioChrome).toHaveBeenCalledTimes(1);
-    expect(stopBrikko StudioChrome).toHaveBeenCalledTimes(1);
+    expect(launchBrikkoStudioChrome).toHaveBeenCalledTimes(1);
+    expect(stopBrikkoStudioChrome).toHaveBeenCalledTimes(1);
   });
 
   it("deduplicates concurrent lazy-start calls to prevent PortInUseError", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, profile } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, profile } =
       setupEnsureBrowserAvailableHarness();
     isChromeCdpReady.mockResolvedValue(true);
-    mockLaunchedChrome(launchBrikko StudioChrome, 456);
+    mockLaunchedChrome(launchBrikkoStudioChrome, 456);
 
     const first = profile.ensureBrowserAvailable();
     const second = profile.ensureBrowserAvailable();
     await vi.advanceTimersByTimeAsync(100);
     await expect(Promise.all([first, second])).resolves.toEqual([undefined, undefined]);
 
-    expect(launchBrikko StudioChrome).toHaveBeenCalledTimes(1);
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(launchBrikkoStudioChrome).toHaveBeenCalledTimes(1);
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 
   it("deduplicates concurrent lazy-start calls across fresh profile contexts", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, state } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, state } =
       setupEnsureBrowserAvailableHarness();
     isChromeCdpReady.mockResolvedValue(true);
-    mockLaunchedChrome(launchBrikko StudioChrome, 457);
+    mockLaunchedChrome(launchBrikkoStudioChrome, 457);
 
     const firstCtx = createBrowserRouteContext({ getState: () => state });
     const secondCtx = createBrowserRouteContext({ getState: () => state });
@@ -134,27 +134,27 @@ describe("browser server-context ensureBrowserAvailable", () => {
     await vi.advanceTimersByTimeAsync(100);
     await expect(Promise.all([first, second])).resolves.toEqual([undefined, undefined]);
 
-    expect(launchBrikko StudioChrome).toHaveBeenCalledTimes(1);
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(launchBrikkoStudioChrome).toHaveBeenCalledTimes(1);
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 
   it("passes request-local headless override to initial launch", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, profile } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, profile } =
       setupEnsureBrowserAvailableHarness();
     isChromeCdpReady.mockResolvedValue(true);
-    mockLaunchedChrome(launchBrikko StudioChrome, 654);
+    mockLaunchedChrome(launchBrikkoStudioChrome, 654);
 
     const promise = profile.ensureBrowserAvailable({ headless: true });
     await vi.advanceTimersByTimeAsync(100);
     await expect(promise).resolves.toBeUndefined();
 
-    expect(launchBrikko StudioChrome).toHaveBeenCalledTimes(1);
-    expect(launchBrikko StudioChrome.mock.calls[0]?.[2]).toEqual({ headlessOverride: true });
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(launchBrikkoStudioChrome).toHaveBeenCalledTimes(1);
+    expect(launchBrikkoStudioChrome.mock.calls[0]?.[2]).toEqual({ headlessOverride: true });
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 
   it("passes request-local headless override to the owned restart path", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, profile, state } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, profile, state } =
       setupEnsureBrowserAvailableHarness();
     const isChromeReachable = vi.mocked(chromeModule.isChromeReachable);
     const existingProc = new EventEmitter() as unknown as ChildProcessWithoutNullStreams;
@@ -173,37 +173,37 @@ describe("browser server-context ensureBrowserAvailable", () => {
     });
     isChromeReachable.mockResolvedValue(true);
     isChromeCdpReady.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
-    mockLaunchedChrome(launchBrikko StudioChrome, 987);
+    mockLaunchedChrome(launchBrikkoStudioChrome, 987);
 
     await expect(profile.ensureBrowserAvailable({ headless: true })).resolves.toBeUndefined();
 
-    expect(stopBrikko StudioChrome).toHaveBeenCalledTimes(1);
-    expect(launchBrikko StudioChrome).toHaveBeenCalledTimes(1);
-    expect(launchBrikko StudioChrome.mock.calls[0]?.[2]).toEqual({ headlessOverride: true });
+    expect(stopBrikkoStudioChrome).toHaveBeenCalledTimes(1);
+    expect(launchBrikkoStudioChrome).toHaveBeenCalledTimes(1);
+    expect(launchBrikkoStudioChrome.mock.calls[0]?.[2]).toEqual({ headlessOverride: true });
   });
 
   it("does not share inflight lazy-start promises across different headless overrides", async () => {
-    const { launchBrikko StudioChrome, isChromeCdpReady, profile } =
+    const { launchBrikkoStudioChrome, isChromeCdpReady, profile } =
       setupEnsureBrowserAvailableHarness();
     const isChromeReachable = vi.mocked(chromeModule.isChromeReachable);
     isChromeReachable.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
     isChromeCdpReady.mockResolvedValue(true);
-    mockLaunchedChrome(launchBrikko StudioChrome, 456);
+    mockLaunchedChrome(launchBrikkoStudioChrome, 456);
 
     const first = profile.ensureBrowserAvailable();
     const second = profile.ensureBrowserAvailable({ headless: true });
     await vi.advanceTimersByTimeAsync(100);
     await expect(Promise.all([first, second])).resolves.toEqual([undefined, undefined]);
 
-    expect(launchBrikko StudioChrome).toHaveBeenCalledTimes(1);
+    expect(launchBrikkoStudioChrome).toHaveBeenCalledTimes(1);
     expect(isChromeReachable.mock.calls.length).toBeGreaterThan(1);
   });
 
   it("clears the concurrent lazy-start guard after launch failure", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, profile } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, profile } =
       setupEnsureBrowserAvailableHarness();
     isChromeCdpReady.mockResolvedValue(true);
-    launchBrikko StudioChrome.mockRejectedValueOnce(
+    launchBrikkoStudioChrome.mockRejectedValueOnce(
       new Error("PortInUseError: listen EADDRINUSE 127.0.0.1:18800"),
     );
 
@@ -211,20 +211,20 @@ describe("browser server-context ensureBrowserAvailable", () => {
     const second = profile.ensureBrowserAvailable();
     await expect(Promise.all([first, second])).rejects.toThrow("PortInUseError");
 
-    mockLaunchedChrome(launchBrikko StudioChrome, 789);
+    mockLaunchedChrome(launchBrikkoStudioChrome, 789);
     const retry = profile.ensureBrowserAvailable();
     await vi.advanceTimersByTimeAsync(100);
     await expect(retry).resolves.toBeUndefined();
 
-    expect(launchBrikko StudioChrome).toHaveBeenCalledTimes(2);
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(launchBrikkoStudioChrome).toHaveBeenCalledTimes(2);
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 
   it("cools down repeated managed Chrome launch failures across route contexts", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, state } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, state } =
       setupEnsureBrowserAvailableHarness();
     isChromeCdpReady.mockResolvedValue(true);
-    launchBrikko StudioChrome.mockRejectedValue(new Error("Failed to start Chrome CDP"));
+    launchBrikkoStudioChrome.mockRejectedValue(new Error("Failed to start Chrome CDP"));
 
     for (let attempt = 0; attempt < 3; attempt += 1) {
       const ctx = createBrowserRouteContext({ getState: () => state });
@@ -241,14 +241,14 @@ describe("browser server-context ensureBrowserAvailable", () => {
       "set browser.enabled=false if the browser tool is not needed",
     );
 
-    expect(launchBrikko StudioChrome).toHaveBeenCalledTimes(3);
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(launchBrikkoStudioChrome).toHaveBeenCalledTimes(3);
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 
   it("allows one managed Chrome launch attempt after the cooldown expires", async () => {
-    const { launchBrikko StudioChrome, isChromeCdpReady, state } = setupEnsureBrowserAvailableHarness();
+    const { launchBrikkoStudioChrome, isChromeCdpReady, state } = setupEnsureBrowserAvailableHarness();
     isChromeCdpReady.mockResolvedValue(true);
-    launchBrikko StudioChrome.mockRejectedValue(new Error("Failed to start Chrome CDP"));
+    launchBrikkoStudioChrome.mockRejectedValue(new Error("Failed to start Chrome CDP"));
 
     for (let attempt = 0; attempt < 3; attempt += 1) {
       const ctx = createBrowserRouteContext({ getState: () => state });
@@ -263,11 +263,11 @@ describe("browser server-context ensureBrowserAvailable", () => {
       "Failed to start Chrome CDP",
     );
 
-    expect(launchBrikko StudioChrome).toHaveBeenCalledTimes(4);
+    expect(launchBrikkoStudioChrome).toHaveBeenCalledTimes(4);
   });
 
   it("reuses a pre-existing loopback browser after an initial short probe miss", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, profile, state } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, profile, state } =
       setupEnsureBrowserAvailableHarness();
     const isChromeReachable = vi.mocked(chromeModule.isChromeReachable);
     state.resolved.ssrfPolicy = {};
@@ -289,12 +289,12 @@ describe("browser server-context ensureBrowserAvailable", () => {
       PROFILE_ATTACH_RETRY_TIMEOUT_MS,
       undefined,
     );
-    expect(launchBrikko StudioChrome).not.toHaveBeenCalled();
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(launchBrikkoStudioChrome).not.toHaveBeenCalled();
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 
   it("explains attachOnly for externally managed loopback CDP services", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady, profile } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady, profile } =
       setupEnsureBrowserAvailableHarness();
     const isChromeReachable = vi.mocked(chromeModule.isChromeReachable);
 
@@ -306,18 +306,18 @@ describe("browser server-context ensureBrowserAvailable", () => {
       'Port 18800 is in use for profile "brikko-studio" but not by brikko-studio.',
     );
     await expect(promise).rejects.toThrow(
-      "set browser.profiles.brikko-studio.attachOnly=true so Brikko Studio attaches without trying to manage the local process",
+      "set browser.profiles.brikko-studio.attachOnly=true so BrikkoStudio attaches without trying to manage the local process",
     );
     await expect(promise).rejects.toThrow(
-      "For Browserless Docker, set EXTERNAL to the same WebSocket endpoint Brikko Studio can reach via browser.profiles.<name>.cdpUrl.",
+      "For Browserless Docker, set EXTERNAL to the same WebSocket endpoint BrikkoStudio can reach via browser.profiles.<name>.cdpUrl.",
     );
 
-    expect(launchBrikko StudioChrome).not.toHaveBeenCalled();
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(launchBrikkoStudioChrome).not.toHaveBeenCalled();
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 
   it("retries remote CDP websocket reachability once before failing", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome, isChromeCdpReady } =
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome, isChromeCdpReady } =
       setupEnsureBrowserAvailableHarness();
     const isChromeReachable = vi.mocked(chromeModule.isChromeReachable);
 
@@ -356,12 +356,12 @@ describe("browser server-context ensureBrowserAvailable", () => {
         allowPrivateNetwork: true,
       },
     );
-    expect(launchBrikko StudioChrome).not.toHaveBeenCalled();
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(launchBrikkoStudioChrome).not.toHaveBeenCalled();
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 
   it("treats attachOnly loopback CDP as local control with remote-class probe timeouts", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome } = setupEnsureBrowserAvailableHarness();
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome } = setupEnsureBrowserAvailableHarness();
     const isChromeReachable = vi.mocked(chromeModule.isChromeReachable);
     const isChromeCdpReady = vi.mocked(chromeModule.isChromeCdpReady);
 
@@ -383,8 +383,8 @@ describe("browser server-context ensureBrowserAvailable", () => {
       state.resolved.remoteCdpHandshakeTimeoutMs,
       undefined,
     );
-    expect(launchBrikko StudioChrome).not.toHaveBeenCalled();
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(launchBrikkoStudioChrome).not.toHaveBeenCalled();
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 
   it("resolves for attachOnly loopback profile with a bare ws:// cdpUrl when CDP is reachable (#68027)", async () => {
@@ -397,7 +397,7 @@ describe("browser server-context ensureBrowserAvailable", () => {
     // ensureBrowserAvailable() so future refactors of the availability flow
     // cannot silently reintroduce the bug by munging/short-circuiting bare
     // ws:// URLs before they reach the helpers.
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome } = setupEnsureBrowserAvailableHarness();
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome } = setupEnsureBrowserAvailableHarness();
     const isChromeReachable = vi.mocked(chromeModule.isChromeReachable);
     const isChromeCdpReady = vi.mocked(chromeModule.isChromeCdpReady);
 
@@ -421,12 +421,12 @@ describe("browser server-context ensureBrowserAvailable", () => {
       state.resolved.remoteCdpHandshakeTimeoutMs,
       undefined,
     );
-    expect(launchBrikko StudioChrome).not.toHaveBeenCalled();
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(launchBrikkoStudioChrome).not.toHaveBeenCalled();
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 
   it("redacts credentials in remote CDP availability errors", async () => {
-    const { launchBrikko StudioChrome, stopBrikko StudioChrome } = setupEnsureBrowserAvailableHarness();
+    const { launchBrikkoStudioChrome, stopBrikkoStudioChrome } = setupEnsureBrowserAvailableHarness();
     const isChromeReachable = vi.mocked(chromeModule.isChromeReachable);
 
     const state = makeBrowserServerState({
@@ -457,7 +457,7 @@ describe("browser server-context ensureBrowserAvailable", () => {
       'Remote CDP for profile "remote" is not reachable at https://browserless.example.com/?token=***.',
     );
 
-    expect(launchBrikko StudioChrome).not.toHaveBeenCalled();
-    expect(stopBrikko StudioChrome).not.toHaveBeenCalled();
+    expect(launchBrikkoStudioChrome).not.toHaveBeenCalled();
+    expect(stopBrikkoStudioChrome).not.toHaveBeenCalled();
   });
 });

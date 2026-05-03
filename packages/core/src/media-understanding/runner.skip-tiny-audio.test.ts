@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import type { MsgContext } from "../auto-reply/templating.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { MIN_AUDIO_FILE_BYTES } from "./defaults.js";
 import type {
   createMediaAttachmentCache,
@@ -51,7 +51,7 @@ const AUDIO_CAPABILITY_CFG = {
       },
     },
   },
-} as unknown as Brikko StudioConfig;
+} as unknown as BrikkoStudioConfig;
 
 async function runAudioCapabilityWithTranscriber(params: {
   ctx: MsgContext;

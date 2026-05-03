@@ -1,6 +1,6 @@
 import { bundledPluginRootAt, repoInstallSpec } from "brikko-studio/plugin-sdk/test-fixtures";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { ConfigFileSnapshot } from "../config/types.brikko-studio.js";
 import {
   resolvePluginInstallRequestContext,
@@ -22,7 +22,7 @@ vi.mock("../config/config.js", () => ({
 }));
 
 vi.mock("../commands/doctor/shared/channel-doctor.js", () => ({
-  collectChannelDoctorStaleConfigMutations: (cfg: Brikko StudioConfig) =>
+  collectChannelDoctorStaleConfigMutations: (cfg: BrikkoStudioConfig) =>
     collectChannelDoctorStaleConfigMutationsMock(cfg),
 }));
 
@@ -35,10 +35,10 @@ function makeSnapshot(overrides: Partial<ConfigFileSnapshot> = {}): ConfigFileSn
     raw: '{ "plugins": {} }',
     parsed: { plugins: {} },
     sourceConfig: { plugins: {} } as ConfigFileSnapshot["sourceConfig"],
-    resolved: { plugins: {} } as Brikko StudioConfig,
+    resolved: { plugins: {} } as BrikkoStudioConfig,
     valid: false,
     runtimeConfig: { plugins: {} } as ConfigFileSnapshot["runtimeConfig"],
-    config: { plugins: {} } as Brikko StudioConfig,
+    config: { plugins: {} } as BrikkoStudioConfig,
     hash: "abc",
     issues: [{ path: "plugins.installs.discord", message: "stale path" }],
     warnings: [],
@@ -59,7 +59,7 @@ describe("loadConfigForInstall", () => {
     readConfigFileSnapshotMock.mockReset();
     collectChannelDoctorStaleConfigMutationsMock.mockReset();
 
-    collectChannelDoctorStaleConfigMutationsMock.mockImplementation(async (cfg: Brikko StudioConfig) => [
+    collectChannelDoctorStaleConfigMutationsMock.mockImplementation(async (cfg: BrikkoStudioConfig) => [
       {
         config: cfg,
         changes: [],
@@ -68,7 +68,7 @@ describe("loadConfigForInstall", () => {
   });
 
   it("returns the source config and base hash when the snapshot is valid", async () => {
-    const cfg = { plugins: { entries: { discord: { enabled: true } } } } as Brikko StudioConfig;
+    const cfg = { plugins: { entries: { discord: { enabled: true } } } } as BrikkoStudioConfig;
     readConfigFileSnapshotMock.mockResolvedValue(
       makeSnapshot({
         valid: true,
@@ -84,7 +84,7 @@ describe("loadConfigForInstall", () => {
   });
 
   it("does not run stale Discord cleanup on the happy path", async () => {
-    const cfg = { plugins: {} } as Brikko StudioConfig;
+    const cfg = { plugins: {} } as BrikkoStudioConfig;
     readConfigFileSnapshotMock.mockResolvedValue(
       makeSnapshot({
         valid: true,
@@ -102,7 +102,7 @@ describe("loadConfigForInstall", () => {
   it("falls back to snapshot config for explicit bundled-plugin reinstall when issues match the known upgrade failure", async () => {
     const snapshotCfg = {
       plugins: { installs: { discord: { source: "path", installPath: "/gone" } } },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     readConfigFileSnapshotMock.mockResolvedValue(
       makeSnapshot({
         parsed: { plugins: { installs: { discord: {} } } },
@@ -123,7 +123,7 @@ describe("loadConfigForInstall", () => {
   it("allows npm:-prefixed bundled-plugin reinstall recovery", async () => {
     const snapshotCfg = {
       plugins: { installs: { discord: { source: "path", installPath: "/gone" } } },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     readConfigFileSnapshotMock.mockResolvedValue(
       makeSnapshot({
         parsed: { plugins: { installs: { discord: {} } } },
@@ -152,7 +152,7 @@ describe("loadConfigForInstall", () => {
   });
 
   it("allows explicit repo-checkout bundled-plugin reinstall recovery", async () => {
-    const snapshotCfg = { plugins: {} } as Brikko StudioConfig;
+    const snapshotCfg = { plugins: {} } as BrikkoStudioConfig;
     readConfigFileSnapshotMock.mockResolvedValue(
       makeSnapshot({
         config: snapshotCfg,
@@ -201,7 +201,7 @@ describe("loadConfigForInstall", () => {
     readConfigFileSnapshotMock.mockResolvedValue(
       makeSnapshot({
         parsed: {},
-        config: {} as Brikko StudioConfig,
+        config: {} as BrikkoStudioConfig,
       }),
     );
 

@@ -8,11 +8,11 @@
  * under `src/bridge/` (or `src/bootstrap/` in the standalone variant).
  */
 
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import { registerQQBotFrameworkCommands } from "./commands/framework-registration.js";
 import { registerQQBotTools } from "./tools/index.js";
 
-export function registerQQBotFull(api: Brikko StudioPluginApi): void {
+export function registerQQBotFull(api: BrikkoStudioPluginApi): void {
   registerQQBotTools(api);
   registerQQBotFrameworkCommands(api);
 }

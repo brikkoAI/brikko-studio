@@ -33,7 +33,7 @@ let loadInstalledPluginManifestRegistryMock: ReturnType<
 let setActivePluginRegistry: RuntimeModule["setActivePluginRegistry"];
 let resolvePluginWebSearchProviders: WebSearchProvidersRuntimeModule["resolvePluginWebSearchProviders"];
 let resolveRuntimeWebSearchProviders: WebSearchProvidersRuntimeModule["resolveRuntimeWebSearchProviders"];
-let loadBrikko StudioPluginsMock: ReturnType<typeof vi.fn>;
+let loadBrikkoStudioPluginsMock: ReturnType<typeof vi.fn>;
 let loaderModule: typeof import("./loader.js");
 let pluginAutoEnableModule: PluginAutoEnableModule;
 let applyPluginAutoEnableSpy: ReturnType<typeof vi.fn>;
@@ -183,12 +183,12 @@ function createManifestRegistryFixture(): PluginManifestRegistry {
 }
 
 function expectLoaderCallCount(count: number) {
-  expect(loadBrikko StudioPluginsMock).toHaveBeenCalledTimes(count);
+  expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledTimes(count);
 }
 
 function expectScopedWebSearchCandidates(pluginIds: readonly string[]) {
   expect(loadInstalledPluginManifestRegistryMock).toHaveBeenCalled();
-  expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+  expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
     expect.objectContaining({
       onlyPluginIds: [...pluginIds],
     }),
@@ -203,7 +203,7 @@ function expectAutoEnabledWebSearchLoad(params: {
     config: params.rawConfig,
     env: createWebSearchEnv(),
   });
-  expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+  expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
     expect.objectContaining({
       config: expect.objectContaining({
         plugins: expect.objectContaining({
@@ -320,7 +320,7 @@ function expectRuntimeProviderResolution(
   expected: readonly string[],
 ) {
   expect(toRuntimeProviderKeys(providers)).toEqual([...expected]);
-  expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+  expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
 }
 
 describe("resolvePluginWebSearchProviders", () => {
@@ -397,8 +397,8 @@ describe("resolvePluginWebSearchProviders", () => {
     loadPluginManifestRegistryMock.mockReturnValue(createManifestRegistryFixture());
     loadInstalledPluginManifestRegistryMock.mockReset();
     loadInstalledPluginManifestRegistryMock.mockReturnValue(createManifestRegistryFixture());
-    loadBrikko StudioPluginsMock = vi
-      .spyOn(loaderModule, "loadBrikko StudioPlugins")
+    loadBrikkoStudioPluginsMock = vi
+      .spyOn(loaderModule, "loadBrikkoStudioPlugins")
       .mockImplementation((params) => {
         const registry = createEmptyPluginRegistry();
         registry.webSearchProviders = buildMockedWebSearchProviders(params);
@@ -431,7 +431,7 @@ describe("resolvePluginWebSearchProviders", () => {
     });
 
     expect(toRuntimeProviderKeys(providers)).toEqual(["brave:brave"]);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("loads plugin web-search providers from the auto-enabled config snapshot", () => {
@@ -483,7 +483,7 @@ describe("resolvePluginWebSearchProviders", () => {
         workspaceDir: "/tmp/runtime-workspace",
       }),
     );
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         workspaceDir: "/tmp/runtime-workspace",
         onlyPluginIds: ["brave"],
@@ -501,7 +501,7 @@ describe("resolvePluginWebSearchProviders", () => {
     });
 
     expectRuntimeProviderResolution(providers, ["brave:brave"]);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("inherits workspaceDir from the active registry for compatible web-search snapshot reuse", () => {
@@ -517,7 +517,7 @@ describe("resolvePluginWebSearchProviders", () => {
     });
 
     expectRuntimeProviderResolution(providers, ["brave:brave"]);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("uses the inherited active workspace for each web-search resolution", () => {
@@ -588,7 +588,7 @@ describe("resolvePluginWebSearchProviders", () => {
       }
     }
 
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledTimes(2);
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledTimes(2);
   });
 
   it.each([

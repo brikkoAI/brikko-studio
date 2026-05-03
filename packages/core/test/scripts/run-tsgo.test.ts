@@ -119,7 +119,7 @@ describe("run-tsgo sparse guard", () => {
       }),
     ).toMatchInlineSnapshot(`
       "tsconfig.core.json cannot be typechecked from this sparse checkout because tracked project inputs are missing or only partially included:
-      - apps/shared/Brikko StudioKit/Sources/Brikko StudioKit/Resources/tool-display.json
+      - apps/shared/BrikkoStudioKit/Sources/BrikkoStudioKit/Resources/tool-display.json
       Expand this worktree's sparse checkout to include those paths, or rerun in a full worktree."
     `);
   });

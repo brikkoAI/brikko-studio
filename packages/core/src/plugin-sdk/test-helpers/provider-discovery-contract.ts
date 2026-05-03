@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { AuthProfileStore, Brikko StudioConfig } from "../provider-auth.js";
+import type { AuthProfileStore, BrikkoStudioConfig } from "../provider-auth.js";
 import {
   registerProviderPlugins as registerProviders,
   requireRegisteredProvider as requireProvider,
@@ -81,7 +81,7 @@ function runCatalog(
   state: DiscoveryState,
   params: {
     provider: ProviderHandle;
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     env?: NodeJS.ProcessEnv;
     resolveProviderApiKey?: () => { apiKey: string | undefined };
     resolveProviderAuth?: (
@@ -125,7 +125,7 @@ function installDiscoveryHooks(state: DiscoveryState, options: DiscoveryContract
       return {
         DEFAULT_COPILOT_API_BASE_URL: "https://api.individual.githubcopilot.com",
         MINIMAX_OAUTH_MARKER: "minimax-oauth",
-        applyAuthProfileConfig: (config: Brikko StudioConfig) => config,
+        applyAuthProfileConfig: (config: BrikkoStudioConfig) => config,
         buildApiKeyCredential: (
           provider: string,
           key: unknown,

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
 import type { PluginRuntime } from "../plugins/runtime/types.js";
-import type { Brikko StudioPluginApi, PluginRegistrationMode } from "../plugins/types.js";
+import type { BrikkoStudioPluginApi, PluginRegistrationMode } from "../plugins/types.js";
 import { defineChannelPluginEntry } from "./core.js";
 
 function createChannelPlugin(id: string): ChannelPlugin {
@@ -23,20 +23,20 @@ function createChannelPlugin(id: string): ChannelPlugin {
   };
 }
 
-function createApi(registrationMode: PluginRegistrationMode): Brikko StudioPluginApi {
+function createApi(registrationMode: PluginRegistrationMode): BrikkoStudioPluginApi {
   return {
     registrationMode,
     runtime: { registrationMode } as unknown as PluginRuntime,
     registerChannel: vi.fn(),
     registerTool: vi.fn(),
-  } as unknown as Brikko StudioPluginApi;
+  } as unknown as BrikkoStudioPluginApi;
 }
 
 describe("defineChannelPluginEntry", () => {
   it("runs tool registrations without channel runtime wiring during tool discovery", () => {
     const setRuntime = vi.fn<(runtime: PluginRuntime) => void>();
-    const registerCliMetadata = vi.fn<(api: Brikko StudioPluginApi) => void>();
-    const registerFull = vi.fn<(api: Brikko StudioPluginApi) => void>((api) => {
+    const registerCliMetadata = vi.fn<(api: BrikkoStudioPluginApi) => void>();
+    const registerFull = vi.fn<(api: BrikkoStudioPluginApi) => void>((api) => {
       api.registerTool(
         {
           name: "channel_tool",
@@ -70,8 +70,8 @@ describe("defineChannelPluginEntry", () => {
 
   it("wires runtime helpers during discovery registration", () => {
     const setRuntime = vi.fn<(runtime: PluginRuntime) => void>();
-    const registerCliMetadata = vi.fn<(api: Brikko StudioPluginApi) => void>();
-    const registerFull = vi.fn<(api: Brikko StudioPluginApi) => void>();
+    const registerCliMetadata = vi.fn<(api: BrikkoStudioPluginApi) => void>();
+    const registerFull = vi.fn<(api: BrikkoStudioPluginApi) => void>();
     const entry = defineChannelPluginEntry({
       id: "runtime-discovery",
       name: "Runtime Discovery",
@@ -93,8 +93,8 @@ describe("defineChannelPluginEntry", () => {
 
   it("keeps setup-runtime and full registration wired to runtime helpers", () => {
     const setRuntime = vi.fn<(runtime: PluginRuntime) => void>();
-    const registerCliMetadata = vi.fn<(api: Brikko StudioPluginApi) => void>();
-    const registerFull = vi.fn<(api: Brikko StudioPluginApi) => void>();
+    const registerCliMetadata = vi.fn<(api: BrikkoStudioPluginApi) => void>();
+    const registerFull = vi.fn<(api: BrikkoStudioPluginApi) => void>();
     const entry = defineChannelPluginEntry({
       id: "runtime-activation",
       name: "Runtime Activation",

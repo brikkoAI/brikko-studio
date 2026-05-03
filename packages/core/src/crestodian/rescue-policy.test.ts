@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveCrestodianRescuePolicy } from "./rescue-policy.js";
 
-function decide(cfg: Brikko StudioConfig, overrides = {}) {
+function decide(cfg: BrikkoStudioConfig, overrides = {}) {
   return resolveCrestodianRescuePolicy({
     cfg,
     senderIsOwner: true,

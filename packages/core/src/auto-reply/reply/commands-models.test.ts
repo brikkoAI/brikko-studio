@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ChannelPlugin } from "../../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
 import {
   createChannelTestPluginBase,
@@ -130,7 +130,7 @@ beforeEach(() => {
 
 function buildParams(
   commandBodyNormalized: string,
-  cfgOverrides: Partial<Brikko StudioConfig> = {},
+  cfgOverrides: Partial<BrikkoStudioConfig> = {},
 ): HandleCommandsParams {
   return {
     cfg: {
@@ -143,7 +143,7 @@ function buildParams(
         text: true,
       },
       ...cfgOverrides,
-    } as Brikko StudioConfig,
+    } as BrikkoStudioConfig,
     ctx: {
       Surface: "discord",
     },
@@ -235,19 +235,19 @@ describe("handleModelsCommand", () => {
     expect(result?.reply?.text).not.toContain("- google-gemini-cli");
   });
 
-  it("labels the default runtime choice as Brikko Studio Pi", async () => {
+  it("labels the default runtime choice as BrikkoStudio Pi", async () => {
     const data = await buildModelsProviderData({
       agents: {
         defaults: {
           model: { primary: "openai/gpt-5.5" },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(data.runtimeChoicesByProvider?.get("openai")?.[0]).toEqual({
       id: "pi",
-      label: "Brikko Studio Pi Default",
-      description: "Use the built-in Brikko Studio Pi runtime.",
+      label: "BrikkoStudio Pi Default",
+      description: "Use the built-in BrikkoStudio Pi runtime.",
     });
   });
 
@@ -315,7 +315,7 @@ describe("handleModelsCommand", () => {
           },
         },
       },
-    } satisfies Partial<Brikko StudioConfig>;
+    } satisfies Partial<BrikkoStudioConfig>;
 
     const defaultProviderResult = await handleModelsCommand(
       buildParams("/models openai-codex", cfg),

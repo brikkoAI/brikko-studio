@@ -5,11 +5,11 @@ import { beforeEach, describe, expect, it } from "vitest";
 import "./test-helpers/fast-bash-tools.js";
 import "./test-helpers/fast-coding-tools.js";
 import "./test-helpers/fast-brikko-studio-tools.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveChannelGroupToolsPolicy } from "../config/group-policy.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { createSessionConversationTestRegistry } from "../test-utils/session-conversation-registry.js";
-import { createBrikko StudioCodingTools } from "./pi-tools.js";
+import { createBrikkoStudioCodingTools } from "./pi-tools.js";
 import { resolveEffectiveToolPolicy } from "./pi-tools.policy.js";
 import type { SandboxDockerConfig } from "./sandbox.js";
 import type { SandboxFsBridge } from "./sandbox/fs-bridge.js";
@@ -64,7 +64,7 @@ describe("Agent-specific tool filtering", () => {
     const relativeEscape = path.relative(workspaceDir, escapedPath);
 
     try {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         tools: {
           allow: ["read", "write", "exec"],
           exec: {
@@ -73,7 +73,7 @@ describe("Agent-specific tool filtering", () => {
         },
       };
 
-      const tools = createBrikko StudioCodingTools({
+      const tools = createBrikkoStudioCodingTools({
         config: cfg,
         sessionKey: "agent:main:main",
         workspaceDir,
@@ -103,8 +103,8 @@ describe("Agent-specific tool filtering", () => {
     }
   }
 
-  function createMainSessionTools(cfg: Brikko StudioConfig) {
-    return createBrikko StudioCodingTools({
+  function createMainSessionTools(cfg: BrikkoStudioConfig) {
+    return createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:main:main",
       workspaceDir: "/tmp/test",
@@ -113,9 +113,9 @@ describe("Agent-specific tool filtering", () => {
   }
 
   function createMainAgentConfig(params: {
-    tools: NonNullable<Brikko StudioConfig["tools"]>;
-    agentTools?: NonNullable<NonNullable<Brikko StudioConfig["agents"]>["list"]>[number]["tools"];
-  }): Brikko StudioConfig {
+    tools: NonNullable<BrikkoStudioConfig["tools"]>;
+    agentTools?: NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["list"]>[number]["tools"];
+  }): BrikkoStudioConfig {
     return {
       tools: params.tools,
       agents: {
@@ -168,13 +168,13 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should allow apply_patch for OpenAI models when write is allow-listed", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: {
         allow: ["read", "write", "exec"],
       },
     };
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:main:main",
       workspaceDir: "/tmp/test",
@@ -190,7 +190,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should allow disabling apply_patch explicitly", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: {
         allow: ["read", "write", "exec"],
         exec: {
@@ -199,7 +199,7 @@ describe("Agent-specific tool filtering", () => {
       },
     };
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:main:main",
       workspaceDir: "/tmp/test",
@@ -234,7 +234,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should apply agent-specific tool policy", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: {
         allow: ["read", "write", "exec"],
         deny: [],
@@ -253,7 +253,7 @@ describe("Agent-specific tool filtering", () => {
       },
     };
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:restricted:main",
       workspaceDir: "/tmp/test-restricted",
@@ -267,7 +267,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should apply provider-specific tool policy", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: {
         allow: ["read", "write", "exec"],
         byProvider: {
@@ -278,7 +278,7 @@ describe("Agent-specific tool filtering", () => {
       },
     };
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:main:main",
       workspaceDir: "/tmp/test-provider",
@@ -291,7 +291,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should apply provider-specific tool profile overrides", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: {
         profile: "coding",
         byProvider: {
@@ -302,7 +302,7 @@ describe("Agent-specific tool filtering", () => {
       },
     };
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:main:main",
       workspaceDir: "/tmp/test-provider-profile",
@@ -316,7 +316,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should resolve different tool policies for different agents", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [
           {
@@ -357,7 +357,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should resolve group tool policy overrides (group-specific beats wildcard)", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         whatsapp: {
           groups: {
@@ -382,7 +382,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should apply per-sender tool policies for group tools", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         whatsapp: {
           groups: {
@@ -417,7 +417,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should not let default sender policy override group tools", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         whatsapp: {
           groups: {
@@ -445,7 +445,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should resolve telegram group tool policy for topic session keys", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           groups: {
@@ -463,7 +463,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should not apply forged caller group tool policy for non-group sessions", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: { allow: ["read"] },
       channels: {
         whatsapp: {
@@ -476,7 +476,7 @@ describe("Agent-specific tool filtering", () => {
       },
     };
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:main:main",
       messageProvider: "whatsapp",
@@ -493,7 +493,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should resolve feishu group tool policy for sender-scoped session keys", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         feishu: {
           groups: {
@@ -505,7 +505,7 @@ describe("Agent-specific tool filtering", () => {
       },
     };
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:main:feishu:group:oc_group_chat:topic:om_topic_root:sender:ou_topic_user",
       messageProvider: "feishu",
@@ -518,7 +518,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should prefer scoped group candidates before wildcard tool policy", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         feishu: {
           groups: {
@@ -533,7 +533,7 @@ describe("Agent-specific tool filtering", () => {
       },
     };
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:main:feishu:group:oc_group_chat:topic:om_topic_root:sender:ou_topic_user",
       messageProvider: "feishu",
@@ -546,7 +546,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should resolve inherited group tool policy for subagent parent groups", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         whatsapp: {
           groups: {
@@ -564,7 +564,7 @@ describe("Agent-specific tool filtering", () => {
   });
 
   it("should apply global tool policy before agent-specific policy", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: {
         deny: ["browser"], // Global deny
       },
@@ -581,7 +581,7 @@ describe("Agent-specific tool filtering", () => {
       },
     };
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:work:slack:dm:user123",
       workspaceDir: "/tmp/test-work",
@@ -608,7 +608,7 @@ describe("Agent-specific tool filtering", () => {
       },
     });
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:restricted:main",
       workspaceDir: "/tmp/test-restricted",

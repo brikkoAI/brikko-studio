@@ -95,7 +95,7 @@ describe("ports helpers", () => {
     expect(runtime.exit).toHaveBeenCalledWith(1);
   });
 
-  it("prints an Brikko Studio-specific hint when port details look like another Brikko Studio instance", async () => {
+  it("prints an BrikkoStudio-specific hint when port details look like another BrikkoStudio instance", async () => {
     const runtime = {
       error: vi.fn(),
       log: vi.fn(),
@@ -110,7 +110,7 @@ describe("ports helpers", () => {
     ).catch(() => {});
 
     const messages = runtime.error.mock.calls.map((call) => stripAnsi(String(call[0] ?? "")));
-    expect(messages.join("\n")).toContain("another Brikko Studio instance is already running");
+    expect(messages.join("\n")).toContain("another BrikkoStudio instance is already running");
   });
 });
 
@@ -199,7 +199,7 @@ describeUnix("inspectPortUsage", () => {
 });
 
 describe("inspectPortUsage on Windows", () => {
-  it("uses PowerShell process command lines to classify Brikko Studio listeners", async () => {
+  it("uses PowerShell process command lines to classify BrikkoStudio listeners", async () => {
     setPlatform("win32");
     runCommandWithTimeoutMock.mockImplementation(async (argv: string[]) => {
       const [command] = argv;

@@ -11,7 +11,7 @@ import {
   type RequestPermissionRequest,
   type SessionNotification,
 } from "@agentclientprotocol/sdk";
-import { ensureBrikko StudioCliOnPath } from "../infra/path-env.js";
+import { ensureBrikkoStudioCliOnPath } from "../infra/path-env.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import {
   buildAcpClientStripKeys,
@@ -109,7 +109,7 @@ async function createAcpClient(opts: AcpClientOptions = {}): Promise<AcpClientHa
   const verbose = Boolean(opts.verbose);
   const log = verbose ? (msg: string) => console.error(`[acp-client] ${msg}`) : () => {};
 
-  ensureBrikko StudioCliOnPath();
+  ensureBrikkoStudioCliOnPath();
   const serverArgs = buildServerArgs(opts);
 
   const entryPath = resolveSelfEntryPath();
@@ -199,7 +199,7 @@ export async function runAcpClientInteractive(opts: AcpClientOptions = {}): Prom
     output: process.stdout,
   });
 
-  console.log("Brikko Studio ACP client");
+  console.log("BrikkoStudio ACP client");
   console.log(`Session: ${sessionId}`);
   console.log('Type a prompt, or "exit" to quit.\n');
 

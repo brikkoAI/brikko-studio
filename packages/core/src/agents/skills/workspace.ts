@@ -1,7 +1,7 @@
 import fs, { type Dirent } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { resolveOsHomeDir } from "../../infra/home-dir.js";
 import { isPathInside } from "../../infra/path-guards.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
@@ -15,7 +15,7 @@ import {
 import { resolveBundledSkillsDir } from "./bundled-dir.js";
 import { shouldIncludeSkill } from "./config.js";
 import { normalizeSkillFilter } from "./filter.js";
-import { resolveBrikko StudioMetadata, resolveSkillInvocationPolicy } from "./frontmatter.js";
+import { resolveBrikkoStudioMetadata, resolveSkillInvocationPolicy } from "./frontmatter.js";
 import { loadSkillsFromDirSafe, readSkillFrontmatterSafe } from "./local-loader.js";
 import { resolvePluginSkillDirs } from "./plugin-skills.js";
 import { serializeByKey } from "./serialize.js";
@@ -100,7 +100,7 @@ function isSkillVisibleInAvailableSkillsPrompt(entry: SkillEntry): boolean {
 
 function filterSkillEntries(
   entries: SkillEntry[],
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
   skillFilter?: string[],
   eligibility?: SkillEligibilityContext,
 ): SkillEntry[] {
@@ -154,7 +154,7 @@ type ChildDirectoryScan = {
   truncated: boolean;
 };
 
-function resolveSkillsLimits(config?: Brikko StudioConfig, agentId?: string): ResolvedSkillsLimits {
+function resolveSkillsLimits(config?: BrikkoStudioConfig, agentId?: string): ResolvedSkillsLimits {
   const limits = config?.skills?.limits;
   const agentSkillsLimits = resolveEffectiveAgentSkillsLimits(config, agentId);
   return {
@@ -408,7 +408,7 @@ function loadContainedSkillRecords(params: {
 function loadSkillEntries(
   workspaceDir: string,
   opts?: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     agentId?: string;
     managedSkillsDir?: string;
     bundledSkillsDir?: string;
@@ -711,7 +711,7 @@ function loadSkillEntries(
       return {
         skill,
         frontmatter,
-        metadata: resolveBrikko StudioMetadata(frontmatter),
+        metadata: resolveBrikkoStudioMetadata(frontmatter),
         invocation,
         exposure: {
           includeInRuntimeRegistry: true,
@@ -764,7 +764,7 @@ const COMPACT_WARNING_OVERHEAD = 150;
 
 function applySkillsPromptLimits(params: {
   skills: Skill[];
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
 }): {
   skillsForPrompt: Skill[];
@@ -841,7 +841,7 @@ export function buildWorkspaceSkillsPrompt(
 }
 
 type WorkspaceSkillBuildOptions = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   managedSkillsDir?: string;
   bundledSkillsDir?: string;
   entries?: SkillEntry[];
@@ -912,7 +912,7 @@ function resolveWorkspaceSkillPromptState(
 export function resolveSkillsPromptForRun(params: {
   skillsSnapshot?: SkillSnapshot;
   entries?: SkillEntry[];
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir: string;
   agentId?: string;
 }): string {
@@ -934,7 +934,7 @@ export function resolveSkillsPromptForRun(params: {
 export function loadWorkspaceSkillEntries(
   workspaceDir: string,
   opts?: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     managedSkillsDir?: string;
     bundledSkillsDir?: string;
     skillFilter?: string[];
@@ -953,7 +953,7 @@ export function loadWorkspaceSkillEntries(
 export function loadVisibleWorkspaceSkillEntries(
   workspaceDir: string,
   opts?: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     managedSkillsDir?: string;
     bundledSkillsDir?: string;
     skillFilter?: string[];
@@ -1008,7 +1008,7 @@ function resolveSyncedSkillDestinationPath(params: {
 export async function syncSkillsToWorkspace(params: {
   sourceWorkspaceDir: string;
   targetWorkspaceDir: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   skillFilter?: string[];
   agentId?: string;
   eligibility?: SkillEligibilityContext;
@@ -1075,7 +1075,7 @@ export async function syncSkillsToWorkspace(params: {
 
 export function filterWorkspaceSkillEntries(
   entries: SkillEntry[],
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): SkillEntry[] {
   return filterSkillEntries(entries, config);
 }
@@ -1083,7 +1083,7 @@ export function filterWorkspaceSkillEntries(
 export function filterWorkspaceSkillEntriesWithOptions(
   entries: SkillEntry[],
   opts?: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     skillFilter?: string[];
     eligibility?: SkillEligibilityContext;
   },

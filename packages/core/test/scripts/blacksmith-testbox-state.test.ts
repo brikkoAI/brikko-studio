@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   evaluateLocalTestboxKey,
-  evaluateBrikko StudioTestboxClaim,
+  evaluateBrikkoStudioTestboxClaim,
   parseTestboxIdArg,
   resolveTestboxId,
-  writeBrikko StudioTestboxClaim,
+  writeBrikkoStudioTestboxClaim,
 } from "../../scripts/blacksmith-testbox-state.mjs";
 
 describe("blacksmith testbox state", () => {
@@ -39,8 +39,8 @@ describe("blacksmith testbox state", () => {
     expect(result.checked).toBe(true);
   });
 
-  it("fails when a keyed Testbox id has no Brikko Studio claim", () => {
-    const result = evaluateBrikko StudioTestboxClaim({
+  it("fails when a keyed Testbox id has no BrikkoStudio claim", () => {
+    const result = evaluateBrikkoStudioTestboxClaim({
       cwd: "/repo",
       env: { BRIKKO_STUDIO_BLACKSMITH_TESTBOX_STATE_DIR: "/state/testboxes" },
       exists: () => false,
@@ -51,11 +51,11 @@ describe("blacksmith testbox state", () => {
     expect(result.claimPath).toBe(
       "/state/testboxes/tbx_01kqap50t9fqggzw1akg5dtmmq/brikko-studio-runner.json",
     );
-    expect(result.problems[0]).toContain("Brikko Studio Testbox claim missing");
+    expect(result.problems[0]).toContain("BrikkoStudio Testbox claim missing");
   });
 
-  it("fails when an Brikko Studio claim belongs to a different checkout", () => {
-    const result = evaluateBrikko StudioTestboxClaim({
+  it("fails when an BrikkoStudio claim belongs to a different checkout", () => {
+    const result = evaluateBrikkoStudioTestboxClaim({
       cwd: "/repo/current",
       env: { BRIKKO_STUDIO_BLACKSMITH_TESTBOX_STATE_DIR: "/state/testboxes" },
       exists: () => true,
@@ -68,8 +68,8 @@ describe("blacksmith testbox state", () => {
     expect(result.problems[0]).toContain("claim repo mismatch");
   });
 
-  it("fails when an Brikko Studio claim is stale after a crash or long pause", () => {
-    const result = evaluateBrikko StudioTestboxClaim({
+  it("fails when an BrikkoStudio claim is stale after a crash or long pause", () => {
+    const result = evaluateBrikkoStudioTestboxClaim({
       cwd: "/repo/current",
       env: {
         BRIKKO_STUDIO_BLACKSMITH_TESTBOX_STATE_DIR: "/state/testboxes",
@@ -89,9 +89,9 @@ describe("blacksmith testbox state", () => {
     expect(result.problems[0]).toContain("claim is stale");
   });
 
-  it("writes and accepts an Brikko Studio Testbox claim for the current checkout", () => {
+  it("writes and accepts an BrikkoStudio Testbox claim for the current checkout", () => {
     const writes = new Map<string, string>();
-    const claim = writeBrikko StudioTestboxClaim({
+    const claim = writeBrikkoStudioTestboxClaim({
       cwd: "/repo/current",
       env: { BRIKKO_STUDIO_BLACKSMITH_TESTBOX_STATE_DIR: "/state/testboxes" },
       mkdir: () => undefined,
@@ -106,7 +106,7 @@ describe("blacksmith testbox state", () => {
       runnerVersion: 1,
     });
     expect(
-      evaluateBrikko StudioTestboxClaim({
+      evaluateBrikkoStudioTestboxClaim({
         cwd: "/repo/current",
         env: { BRIKKO_STUDIO_BLACKSMITH_TESTBOX_STATE_DIR: "/state/testboxes" },
         exists: (file) => writes.has(file),

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { buildGatewayConnectionDetails, callGateway } from "../gateway/call.js";
 import type { DoctorMemoryStatusPayload } from "../gateway/server-methods/doctor.js";
 import { collectChannelStatusIssues } from "../infra/channels-status-issues.js";
@@ -26,7 +26,7 @@ function isGatewayCallTimeout(message: string): boolean {
 
 export async function checkGatewayHealth(params: {
   runtime: RuntimeEnv;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   timeoutMs?: number;
 }) {
   const gatewayDetails = buildGatewayConnectionDetails({ config: params.cfg });
@@ -81,7 +81,7 @@ export async function checkGatewayHealth(params: {
 }
 
 export async function probeGatewayMemoryStatus(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   timeoutMs?: number;
 }): Promise<GatewayMemoryProbe> {
   const timeoutMs =

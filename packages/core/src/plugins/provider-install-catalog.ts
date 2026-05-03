@@ -1,6 +1,6 @@
 import {
-  loadBrikko StudioProviderIndex,
-  type Brikko StudioProviderIndexProvider,
+  loadBrikkoStudioProviderIndex,
+  type BrikkoStudioProviderIndexProvider,
 } from "../model-catalog/index.js";
 import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.js";
 import {
@@ -30,7 +30,7 @@ export type ProviderInstallCatalogEntry = ProviderAuthChoiceMetadata & {
 };
 
 type ProviderInstallCatalogParams = {
-  config?: import("../config/types.brikko-studio.js").Brikko StudioConfig;
+  config?: import("../config/types.brikko-studio.js").BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   includeUntrustedWorkspacePlugins?: boolean;
@@ -139,7 +139,7 @@ function resolveInstallInfoFromRegistryRecord(params: {
 }
 
 function resolveInstallInfoFromProviderIndex(
-  provider: Brikko StudioProviderIndexProvider,
+  provider: BrikkoStudioProviderIndexProvider,
 ): PluginPackageInstall | null {
   const install = provider.plugin.install;
   if (!install) {
@@ -210,7 +210,7 @@ function resolveProviderIndexInstallCatalogEntries(params: {
   seenChoiceIds: ReadonlySet<string>;
 }): ProviderInstallCatalogEntry[] {
   const entries: ProviderInstallCatalogEntry[] = [];
-  const index = loadBrikko StudioProviderIndex();
+  const index = loadBrikkoStudioProviderIndex();
   for (const provider of Object.values(index.providers)) {
     if (params.installedPluginIds.has(provider.plugin.id)) {
       continue;

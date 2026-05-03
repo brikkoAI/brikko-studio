@@ -2,7 +2,7 @@ import fs from "node:fs";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import path from "node:path";
 import { resolveAgentAvatar, resolvePublicAgentAvatarSource } from "../agents/identity-avatar.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { matchBoundaryFileOpenFailure, openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import {
   isPackageProvenControlUiRootSync,
@@ -63,7 +63,7 @@ const CONTROL_UI_OPERATOR_ROLE = "operator";
 
 export type ControlUiRequestOptions = {
   basePath?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
   root?: ControlUiRootState;
   auth?: ResolvedGatewayAuth;
@@ -443,7 +443,7 @@ export async function handleControlUiAssistantMediaRequest(
   res: ServerResponse,
   opts?: {
     basePath?: string;
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     agentId?: string;
     auth?: ResolvedGatewayAuth;
     trustedProxies?: string[];

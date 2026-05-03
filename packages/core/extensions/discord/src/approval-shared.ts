@@ -3,7 +3,7 @@ import type {
   ExecApprovalRequest,
   PluginApprovalRequest,
 } from "brikko-studio/plugin-sdk/approval-runtime";
-import type { DiscordExecApprovalConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { DiscordExecApprovalConfig, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveDiscordAccount } from "./accounts.js";
 import {
   isChannelExecApprovalClientEnabledFromConfig,
@@ -14,7 +14,7 @@ import { getDiscordExecApprovalApprovers } from "./exec-approvals.js";
 type ApprovalRequest = ExecApprovalRequest | PluginApprovalRequest;
 
 export function shouldHandleDiscordApprovalRequest(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   request: ApprovalRequest;
   configOverride?: DiscordExecApprovalConfig | null;

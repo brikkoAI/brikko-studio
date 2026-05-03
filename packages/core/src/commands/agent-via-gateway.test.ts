@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { loggingState } from "../logging/state.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { agentCliCommand } from "./agent-via-gateway.js";
@@ -35,7 +35,7 @@ const jsonRuntime = {
   exit: vi.fn(),
 };
 
-function mockConfig(storePath: string, overrides?: Partial<Brikko StudioConfig>) {
+function mockConfig(storePath: string, overrides?: Partial<BrikkoStudioConfig>) {
   loadConfig.mockReturnValue({
     agents: {
       defaults: {
@@ -54,7 +54,7 @@ function mockConfig(storePath: string, overrides?: Partial<Brikko StudioConfig>)
 
 async function withTempStore(
   fn: (ctx: { dir: string; store: string }) => Promise<void>,
-  overrides?: Partial<Brikko StudioConfig>,
+  overrides?: Partial<BrikkoStudioConfig>,
 ) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-agent-cli-"));
   const store = path.join(dir, "sessions.json");

@@ -5,7 +5,7 @@ type LegacyEnvPrefix = (typeof LEGACY_ENV_PREFIXES)[number];
 
 let warned = false;
 
-export function warnLegacyBrikko StudioEnvVars(env: NodeJS.ProcessEnv = process.env): void {
+export function warnLegacyBrikkoStudioEnvVars(env: NodeJS.ProcessEnv = process.env): void {
   if (warned || isVitestRuntimeEnv(env)) {
     return;
   }
@@ -29,7 +29,7 @@ export function warnLegacyBrikko StudioEnvVars(env: NodeJS.ProcessEnv = process.
 
   process.emitWarning(
     [
-      `Legacy ${detectedPrefixes} environment variables were detected (${legacyVarCount} total), but Brikko Studio only reads BRIKKO_STUDIO_* names now.`,
+      `Legacy ${detectedPrefixes} environment variables were detected (${legacyVarCount} total), but BrikkoStudio only reads BRIKKO_STUDIO_* names now.`,
       "Rename them by replacing the legacy prefix with BRIKKO_STUDIO_; the old names are ignored.",
     ].join("\n"),
     { code: "BRIKKO_STUDIO_LEGACY_ENV_VARS", type: "DeprecationWarning" },
@@ -37,6 +37,6 @@ export function warnLegacyBrikko StudioEnvVars(env: NodeJS.ProcessEnv = process.
   warned = true;
 }
 
-export function resetLegacyBrikko StudioEnvWarningForTest(): void {
+export function resetLegacyBrikkoStudioEnvWarningForTest(): void {
   warned = false;
 }

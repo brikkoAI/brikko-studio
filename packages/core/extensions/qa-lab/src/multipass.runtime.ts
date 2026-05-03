@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs";
 import { access, appendFile, mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import type { QaProviderMode } from "./model-selection.js";
 import { resolveQaForwardedLiveEnv, resolveQaLiveProviderConfigPath } from "./providers/env.js";
 import { DEFAULT_QA_LIVE_PROVIDER_MODE, getQaProvider } from "./providers/index.js";
@@ -562,7 +562,7 @@ export async function runQaMultipass(params: {
   await mkdir(plan.outputDir, { recursive: true });
   await writeFile(
     plan.hostLogPath,
-    `# Brikko Studio QA Multipass host log\nvmName=${plan.vmName}\noutputDir=${plan.outputDir}\n\n`,
+    `# BrikkoStudio QA Multipass host log\nvmName=${plan.vmName}\noutputDir=${plan.outputDir}\n\n`,
     "utf8",
   );
   await writeFile(
@@ -590,7 +590,7 @@ export async function runQaMultipass(params: {
   }
 
   const hostTransferDirPath = await fs.promises.mkdtemp(
-    path.join(resolvePreferredBrikko StudioTmpDir(), `${plan.vmName}-qa-suite-`),
+    path.join(resolvePreferredBrikkoStudioTmpDir(), `${plan.vmName}-qa-suite-`),
   );
   const hostTransferScriptPath = path.join(hostTransferDirPath, "guest-run.sh");
   await writeFile(hostTransferScriptPath, renderQaMultipassGuestScript(plan), {

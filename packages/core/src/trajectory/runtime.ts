@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { sanitizeDiagnosticPayload } from "../agents/payload-redaction.js";
 import { getQueuedFileWriter, type QueuedFileWriter } from "../agents/queued-file-writer.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { parseBooleanValue } from "../utils/boolean.js";
 import { safeJsonStringify } from "../utils/safe-json.js";
 import {
@@ -24,7 +24,7 @@ export {
 } from "./paths.js";
 
 type TrajectoryRuntimeInit = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   runId?: string;
   sessionId: string;

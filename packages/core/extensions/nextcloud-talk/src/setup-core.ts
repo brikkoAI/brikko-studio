@@ -1,5 +1,5 @@
 import type { ChannelSetupAdapter, ChannelSetupInput } from "brikko-studio/plugin-sdk/channel-setup";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
 import {
   applyAccountNameToChannelSection,
@@ -147,10 +147,10 @@ async function promptNextcloudTalkAllowFrom(params: {
 }
 
 async function promptNextcloudTalkAllowFromForAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const accountId = resolveSetupAccountId({
     accountId: params.accountId,
     defaultAccountId: resolveDefaultNextcloudTalkAccountId(params.cfg as CoreConfig),

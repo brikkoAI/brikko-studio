@@ -8,7 +8,7 @@ import type {
 } from "../commands/channel-setup/types.js";
 import type { ChannelChoice } from "../commands/onboard-types.js";
 import type { DmPolicy } from "../config/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.js";
 import { formatDocsLink } from "../terminal/links.js";
 import type { WizardPrompter, WizardSelectOption } from "../wizard/prompts.js";
@@ -60,7 +60,7 @@ export async function promptConfiguredAction(params: {
 }
 
 export async function promptRemovalAccountId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: WizardPrompter;
   label: string;
   channel: ChannelChoice;
@@ -88,12 +88,12 @@ export async function promptRemovalAccountId(params: {
 }
 
 export async function maybeConfigureDmPolicies(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   selection: ChannelChoice[];
   prompter: WizardPrompter;
   accountIdsByChannel?: Map<ChannelChoice, string>;
   resolveAdapter?: (channel: ChannelChoice) => ChannelSetupWizardAdapter | undefined;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const { selection, prompter, accountIdsByChannel } = params;
   const resolve = params.resolveAdapter ?? (() => undefined);
   const dmPolicies = selection

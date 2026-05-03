@@ -35,7 +35,7 @@ const mocks = vi.hoisted(() => {
 
   return {
     store,
-    resolveBrikko StudioAgentDir: vi.fn().mockReturnValue("/tmp/brikko-studio-agent"),
+    resolveBrikkoStudioAgentDir: vi.fn().mockReturnValue("/tmp/brikko-studio-agent"),
     resolveAgentDir: vi.fn().mockReturnValue("/tmp/brikko-studio-agent"),
     resolveAgentWorkspaceDir: vi.fn().mockReturnValue("/tmp/brikko-studio-agent/workspace"),
     resolveDefaultAgentId: vi.fn().mockReturnValue("main"),
@@ -140,7 +140,7 @@ const mocks = vi.hoisted(() => {
 });
 
 vi.mock("../../agents/agent-paths.js", () => ({
-  resolveBrikko StudioAgentDir: mocks.resolveBrikko StudioAgentDir,
+  resolveBrikkoStudioAgentDir: mocks.resolveBrikkoStudioAgentDir,
 }));
 vi.mock("../../agents/agent-scope.js", () => ({
   resolveAgentDir: mocks.resolveAgentDir,
@@ -310,7 +310,7 @@ describe("modelsStatusCommand auth overview", () => {
     await modelsStatusCommand({ json: true }, runtime as never);
     const payload = JSON.parse(String((runtime.log as Mock).mock.calls[0]?.[0]));
 
-    expect(mocks.resolveBrikko StudioAgentDir).toHaveBeenCalled();
+    expect(mocks.resolveBrikkoStudioAgentDir).toHaveBeenCalled();
     expect(mocks.ensureAuthProfileStore).toHaveBeenCalled();
     expect(payload.defaultModel).toBe("anthropic/claude-opus-4-6");
     expect(payload.configPath).toBe("/tmp/brikko-studio-dev/brikko-studio.json");

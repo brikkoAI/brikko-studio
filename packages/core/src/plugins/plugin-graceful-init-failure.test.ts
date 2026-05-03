@@ -48,10 +48,10 @@ function readPluginId(pluginPath: string): string {
 }
 
 async function loadPlugins(pluginPaths: string[], warnings?: string[]) {
-  const { loadBrikko StudioPlugins, clearPluginLoaderCache } = await import("./loader.js");
+  const { loadBrikkoStudioPlugins, clearPluginLoaderCache } = await import("./loader.js");
   clearPluginLoaderCache();
   const allow = pluginPaths.map((pluginPath) => readPluginId(pluginPath));
-  return loadBrikko StudioPlugins({
+  return loadBrikkoStudioPlugins({
     cache: false,
     config: {
       plugins: {

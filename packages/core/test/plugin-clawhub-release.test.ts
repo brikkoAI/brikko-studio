@@ -104,7 +104,7 @@ describe("collectClawHubPublishablePluginPackages", () => {
   });
 });
 
-describe("Brikko Studio dual-published plugin metadata", () => {
+describe("BrikkoStudio dual-published plugin metadata", () => {
   const dualPublishedPlugins = [
     {
       extensionId: "diagnostics-otel",

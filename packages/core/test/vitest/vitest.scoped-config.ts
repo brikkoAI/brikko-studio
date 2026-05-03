@@ -149,7 +149,7 @@ export function createScopedVitestConfig(
     environment?: string;
     exclude?: string[];
     argv?: string[];
-    includeBrikko StudioRuntimeSetup?: boolean;
+    includeBrikkoStudioRuntimeSetup?: boolean;
     isolate?: boolean;
     name?: string;
     fileParallelism?: boolean;
@@ -178,7 +178,7 @@ export function createScopedVitestConfig(
     ...new Set([
       ...(baseTest.setupFiles ?? []),
       ...(options?.setupFiles ?? []),
-      ...(options?.includeBrikko StudioRuntimeSetup === false ? [] : ["test/setup-brikko-studio-runtime.ts"]),
+      ...(options?.includeBrikkoStudioRuntimeSetup === false ? [] : ["test/setup-brikko-studio-runtime.ts"]),
     ]),
   ].map(resolveRepoRootPath);
   const useNonIsolatedRunner = options?.useNonIsolatedRunner ?? !isolate;

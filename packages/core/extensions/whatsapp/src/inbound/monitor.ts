@@ -16,7 +16,7 @@ import { readWebSelfIdentityForDecision, WhatsAppAuthUnstableError } from "../au
 import { getPrimaryIdentityId, resolveComparableIdentity } from "../identity.js";
 import { cacheInboundMessageMeta } from "../quoted-message.js";
 import { DEFAULT_RECONNECT_POLICY, computeBackoff, sleepWithAbort } from "../reconnect.js";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import { createWaSocket, formatError, getStatusCode, waitForWaConnection } from "../session.js";
 import { resolveWhatsAppSocketTiming } from "../socket-timing.js";
 import { resolveJidToE164 } from "../text-runtime.js";
@@ -126,7 +126,7 @@ function isNonEmptyString(value: string | undefined): value is string {
 }
 
 type MonitorWebInboxOptions = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   verbose: boolean;
   accountId: string;
   authDir: string;

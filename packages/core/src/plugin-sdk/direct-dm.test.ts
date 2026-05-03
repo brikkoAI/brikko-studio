@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   createDirectDmPreCryptoGuardPolicy,
   createPreCryptoDirectDmAuthorizer,
@@ -9,7 +9,7 @@ import {
 
 const baseCfg = {
   commands: { useAccessGroups: true },
-} as unknown as Brikko StudioConfig;
+} as unknown as BrikkoStudioConfig;
 
 function createDirectDmRuntime() {
   const recordInboundSession = vi.fn(async () => {});
@@ -106,7 +106,7 @@ describe("plugin-sdk/direct-dm", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       channel: "nostr",
       accountId: "default",
       dmPolicy: "allowlist",

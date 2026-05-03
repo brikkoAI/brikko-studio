@@ -2,7 +2,7 @@ import {
   createPluginRuntimeMock,
   createStartAccountContext,
 } from "brikko-studio/plugin-sdk/channel-test-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { telegramPlugin } from "./channel.js";
 import type { TelegramMonitorFn } from "./monitor.types.js";
@@ -30,7 +30,7 @@ function installTelegramRuntime() {
 function createTelegramConfig(
   accountId = "default",
   telegramOverrides: Record<string, unknown> = {},
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   if (accountId === "default") {
     return {
       channels: {
@@ -39,7 +39,7 @@ function createTelegramConfig(
           ...telegramOverrides,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
   return {
@@ -53,7 +53,7 @@ function createTelegramConfig(
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function startTelegramAccount(
@@ -161,7 +161,7 @@ describe("telegramPlugin gateway startup", () => {
     const botInfo = {
       id: 123456,
       is_bot: true,
-      first_name: "Brikko Studio",
+      first_name: "BrikkoStudio",
       username: "brikko-studio_bot",
       can_join_groups: true,
       can_read_all_group_messages: false,

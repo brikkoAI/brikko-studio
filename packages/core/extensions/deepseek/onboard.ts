@@ -1,13 +1,13 @@
 import {
   applyAgentDefaultModelPrimary,
   applyProviderConfigWithModelCatalog,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import { buildDeepSeekModelDefinition, DEEPSEEK_BASE_URL, DEEPSEEK_MODEL_CATALOG } from "./api.js";
 
 export const DEEPSEEK_DEFAULT_MODEL_REF = "deepseek/deepseek-v4-flash";
 
-function applyDeepSeekProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function applyDeepSeekProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[DEEPSEEK_DEFAULT_MODEL_REF] = {
     ...models[DEEPSEEK_DEFAULT_MODEL_REF],
@@ -23,7 +23,7 @@ function applyDeepSeekProviderConfig(cfg: Brikko StudioConfig): Brikko StudioCon
   });
 }
 
-export function applyDeepSeekConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyDeepSeekConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return applyAgentDefaultModelPrimary(
     applyDeepSeekProviderConfig(cfg),
     DEEPSEEK_DEFAULT_MODEL_REF,

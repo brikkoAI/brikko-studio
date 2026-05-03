@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
 export type RuntimeConfigSnapshotRefreshParams = {
-  sourceConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
 };
 
 export type ConfigWriteAfterWrite =
@@ -63,8 +63,8 @@ export type RuntimeConfigSnapshotRefreshHandler = {
 
 export type RuntimeConfigWriteNotification = {
   configPath: string;
-  sourceConfig: Brikko StudioConfig;
-  runtimeConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
+  runtimeConfig: BrikkoStudioConfig;
   persistedHash: string;
   revision: number;
   fingerprint: string;
@@ -80,8 +80,8 @@ export type RuntimeConfigSnapshotMetadata = {
   updatedAtMs: number;
 };
 
-let runtimeConfigSnapshot: Brikko StudioConfig | null = null;
-let runtimeConfigSourceSnapshot: Brikko StudioConfig | null = null;
+let runtimeConfigSnapshot: BrikkoStudioConfig | null = null;
+let runtimeConfigSourceSnapshot: BrikkoStudioConfig | null = null;
 let runtimeConfigSnapshotMetadata: RuntimeConfigSnapshotMetadata | null = null;
 let runtimeConfigSnapshotRevision = 0;
 let runtimeConfigSnapshotRefreshHandler: RuntimeConfigSnapshotRefreshHandler | null = null;
@@ -101,7 +101,7 @@ function stableConfigStringify(value: unknown): string {
     .join(",")}}`;
 }
 
-function configSnapshotsMatch(left: Brikko StudioConfig, right: Brikko StudioConfig): boolean {
+function configSnapshotsMatch(left: BrikkoStudioConfig, right: BrikkoStudioConfig): boolean {
   if (left === right) {
     return true;
   }
@@ -112,13 +112,13 @@ function configSnapshotsMatch(left: Brikko StudioConfig, right: Brikko StudioCon
   }
 }
 
-export function hashRuntimeConfigValue(value: Brikko StudioConfig): string {
+export function hashRuntimeConfigValue(value: BrikkoStudioConfig): string {
   return createHash("sha256").update(stableConfigStringify(value)).digest("base64url");
 }
 
 function createRuntimeConfigSnapshotMetadata(
-  config: Brikko StudioConfig,
-  sourceConfig?: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
+  sourceConfig?: BrikkoStudioConfig,
 ): RuntimeConfigSnapshotMetadata {
   runtimeConfigSnapshotRevision += 1;
   return {
@@ -130,8 +130,8 @@ function createRuntimeConfigSnapshotMetadata(
 }
 
 export function setRuntimeConfigSnapshot(
-  config: Brikko StudioConfig,
-  sourceConfig?: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
+  sourceConfig?: BrikkoStudioConfig,
 ): void {
   runtimeConfigSnapshot = config;
   runtimeConfigSourceSnapshot = sourceConfig ?? null;
@@ -149,11 +149,11 @@ export function clearRuntimeConfigSnapshot(): void {
   resetConfigRuntimeState();
 }
 
-export function getRuntimeConfigSnapshot(): Brikko StudioConfig | null {
+export function getRuntimeConfigSnapshot(): BrikkoStudioConfig | null {
   return runtimeConfigSnapshot;
 }
 
-export function getRuntimeConfigSourceSnapshot(): Brikko StudioConfig | null {
+export function getRuntimeConfigSourceSnapshot(): BrikkoStudioConfig | null {
   return runtimeConfigSourceSnapshot;
 }
 
@@ -161,7 +161,7 @@ export function getRuntimeConfigSnapshotMetadata(): RuntimeConfigSnapshotMetadat
   return runtimeConfigSnapshotMetadata;
 }
 
-export function resolveRuntimeConfigCacheKey(config: Brikko StudioConfig): string {
+export function resolveRuntimeConfigCacheKey(config: BrikkoStudioConfig): string {
   const metadata = runtimeConfigSnapshotMetadata;
   if (metadata && config === runtimeConfigSnapshot) {
     return `runtime:${metadata.revision}:${metadata.fingerprint}`;
@@ -171,8 +171,8 @@ export function resolveRuntimeConfigCacheKey(config: Brikko StudioConfig): strin
 
 export function createRuntimeConfigWriteNotification(params: {
   configPath: string;
-  sourceConfig: Brikko StudioConfig;
-  runtimeConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
+  runtimeConfig: BrikkoStudioConfig;
   persistedHash: string;
   writtenAtMs?: number;
   afterWrite?: ConfigWriteAfterWrite;
@@ -200,10 +200,10 @@ export function createRuntimeConfigWriteNotification(params: {
 }
 
 export function selectApplicableRuntimeConfig(params: {
-  inputConfig?: Brikko StudioConfig;
-  runtimeConfig?: Brikko StudioConfig | null;
-  runtimeSourceConfig?: Brikko StudioConfig | null;
-}): Brikko StudioConfig | undefined {
+  inputConfig?: BrikkoStudioConfig;
+  runtimeConfig?: BrikkoStudioConfig | null;
+  runtimeSourceConfig?: BrikkoStudioConfig | null;
+}): BrikkoStudioConfig | undefined {
   const runtimeConfig = params.runtimeConfig ?? null;
   if (!runtimeConfig) {
     return params.inputConfig;
@@ -254,7 +254,7 @@ export function notifyRuntimeConfigWriteListeners(event: RuntimeConfigWriteNotif
   }
 }
 
-export function loadPinnedRuntimeConfig(loadFresh: () => Brikko StudioConfig): Brikko StudioConfig {
+export function loadPinnedRuntimeConfig(loadFresh: () => BrikkoStudioConfig): BrikkoStudioConfig {
   if (runtimeConfigSnapshot) {
     return runtimeConfigSnapshot;
   }
@@ -264,10 +264,10 @@ export function loadPinnedRuntimeConfig(loadFresh: () => Brikko StudioConfig): B
 }
 
 export async function finalizeRuntimeSnapshotWrite(params: {
-  nextSourceConfig: Brikko StudioConfig;
+  nextSourceConfig: BrikkoStudioConfig;
   hadRuntimeSnapshot: boolean;
   hadBothSnapshots: boolean;
-  loadFreshConfig: () => Brikko StudioConfig;
+  loadFreshConfig: () => BrikkoStudioConfig;
   notifyCommittedWrite: () => void;
   createRefreshError: (detail: string, cause: unknown) => Error;
   formatRefreshError: (error: unknown) => string;

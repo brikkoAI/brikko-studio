@@ -9,7 +9,7 @@ import { cliBundleMcpHarness, setupCliBundleMcpTestHarness } from "./bundle-mcp.
 setupCliBundleMcpTestHarness();
 
 describe("prepareCliBundleMcpConfig user mcp.servers", () => {
-  it("merges user-configured mcp.servers from Brikko Studio config", async () => {
+  it("merges user-configured mcp.servers from BrikkoStudio config", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
       "brikko-studio-cli-bundle-mcp-user-servers-",
     );
@@ -48,7 +48,7 @@ describe("prepareCliBundleMcpConfig user mcp.servers", () => {
     await prepared.cleanup?.();
   });
 
-  it("translates Brikko Studio transport field on user mcp.servers into Claude type", async () => {
+  it("translates BrikkoStudio transport field on user mcp.servers into Claude type", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
       "brikko-studio-cli-bundle-mcp-user-servers-transport-",
     );

@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   hasConfiguredModelFallbacks,
   resolveAgentConfig,
@@ -27,13 +27,13 @@ afterEach(() => {
 
 describe("resolveAgentConfig", () => {
   it("should return undefined when no agents config exists", () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const result = resolveAgentConfig(cfg, "main");
     expect(result).toBeUndefined();
   });
 
   it("should return undefined when agent id does not exist", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main", workspace: "~/brikko-studio" }],
       },
@@ -43,7 +43,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("should return basic agent config", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [
           {
@@ -72,7 +72,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("prefers per-agent verbose defaults over global defaults", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           verboseDefault: "full",
@@ -89,7 +89,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("merges contextLimits from defaults with per-agent overrides", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           contextLimits: {
@@ -127,13 +127,13 @@ describe("resolveAgentConfig", () => {
         },
         list: [{ id: "main" }],
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     expect(resolveAgentExplicitModelPrimary(cfgWithStringDefault, "main")).toBeUndefined();
     expect(resolveAgentEffectiveModelPrimary(cfgWithStringDefault, "main")).toBe(
       "anthropic/claude-sonnet-4-6",
     );
 
-    const cfgWithObjectDefault: Brikko StudioConfig = {
+    const cfgWithObjectDefault: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: {
@@ -147,7 +147,7 @@ describe("resolveAgentConfig", () => {
     expect(resolveAgentExplicitModelPrimary(cfgWithObjectDefault, "main")).toBeUndefined();
     expect(resolveAgentEffectiveModelPrimary(cfgWithObjectDefault, "main")).toBe("openai/gpt-5.4");
 
-    const cfgNoDefaults: Brikko StudioConfig = {
+    const cfgNoDefaults: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main" }],
       },
@@ -157,7 +157,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("supports per-agent model primary+fallbacks", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: {
@@ -183,7 +183,7 @@ describe("resolveAgentConfig", () => {
     expect(resolveAgentModelFallbacksOverride(cfg, "linus")).toEqual(["openai/gpt-5.4"]);
 
     // If an agent owns a primary, missing fallbacks means no model fallback.
-    const cfgNoOverride: Brikko StudioConfig = {
+    const cfgNoOverride: BrikkoStudioConfig = {
       agents: {
         list: [
           {
@@ -204,7 +204,7 @@ describe("resolveAgentConfig", () => {
       }),
     ).toEqual([]);
 
-    const cfgStringModel: Brikko StudioConfig = {
+    const cfgStringModel: BrikkoStudioConfig = {
       agents: {
         list: [
           {
@@ -216,7 +216,7 @@ describe("resolveAgentConfig", () => {
     };
     expect(resolveAgentModelFallbacksOverride(cfgStringModel, "linus")).toEqual([]);
 
-    const cfgStrictAgentWithDefaultFallbacks: Brikko StudioConfig = {
+    const cfgStrictAgentWithDefaultFallbacks: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: {
@@ -246,7 +246,7 @@ describe("resolveAgentConfig", () => {
     ).toEqual([]);
 
     // Explicit empty list disables global fallbacks for that agent.
-    const cfgDisable: Brikko StudioConfig = {
+    const cfgDisable: BrikkoStudioConfig = {
       agents: {
         list: [
           {
@@ -299,7 +299,7 @@ describe("resolveAgentConfig", () => {
       }),
     ).toEqual([]);
 
-    const cfgInheritDefaultsWithoutAgentModel: Brikko StudioConfig = {
+    const cfgInheritDefaultsWithoutAgentModel: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: {
@@ -328,7 +328,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("updates the effective model primary at the winning config layer", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: {
@@ -359,7 +359,7 @@ describe("resolveAgentConfig", () => {
       fallbacks: ["anthropic/claude-sonnet-4-6"],
     });
 
-    const inheritedCfg: Brikko StudioConfig = {
+    const inheritedCfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: {
@@ -398,7 +398,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("resolves run fallback overrides via shared helper", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: {
@@ -433,7 +433,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("computes whether any model fallbacks are configured via shared helper", () => {
-    const cfgDefaultsOnly: Brikko StudioConfig = {
+    const cfgDefaultsOnly: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: {
@@ -450,7 +450,7 @@ describe("resolveAgentConfig", () => {
       }),
     ).toBe(true);
 
-    const cfgAgentOverrideOnly: Brikko StudioConfig = {
+    const cfgAgentOverrideOnly: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: {
@@ -500,7 +500,7 @@ describe("resolveAgentConfig", () => {
           },
         ],
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     const result = resolveAgentConfig(cfg, "work");
     expect(result?.sandbox).toEqual({
       mode: "all",
@@ -512,7 +512,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("should return agent-specific tools config", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [
           {
@@ -542,7 +542,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("should return both sandbox and tools config", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [
           {
@@ -566,7 +566,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("should normalize agent id", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main", workspace: "~/brikko-studio" }],
       },
@@ -581,7 +581,7 @@ describe("resolveAgentConfig", () => {
     const home = path.join(path.sep, "srv", "brikko-studio-home");
     vi.stubEnv("BRIKKO_STUDIO_HOME", home);
 
-    const workspace = resolveAgentWorkspaceDir({} as Brikko StudioConfig, "main");
+    const workspace = resolveAgentWorkspaceDir({} as BrikkoStudioConfig, "main");
     expect(workspace).toBe(path.join(path.resolve(home), ".brikko-studio", "workspace"));
   });
 
@@ -591,12 +591,12 @@ describe("resolveAgentConfig", () => {
     // Clear state dir so it falls back to BRIKKO_STUDIO_HOME
     vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", "");
 
-    const agentDir = resolveAgentDir({} as Brikko StudioConfig, "main");
+    const agentDir = resolveAgentDir({} as BrikkoStudioConfig, "main");
     expect(agentDir).toBe(path.join(path.resolve(home), ".brikko-studio", "agents", "main", "agent"));
   });
 
   it("non-default agent uses agents.defaults.workspace as base (#59789)", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: { workspace: "/shared-ws" },
         list: [{ id: "main" }, { id: "work", default: true, workspace: "/work-ws" }],
@@ -607,7 +607,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("default agent without per-agent workspace uses agents.defaults.workspace directly", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: { workspace: "/shared-ws" },
         list: [{ id: "main" }, { id: "work", default: true }],
@@ -620,7 +620,7 @@ describe("resolveAgentConfig", () => {
   it("non-default agent without defaults.workspace falls back to stateDir", () => {
     const stateDir = path.join(path.sep, "tmp", "test-state");
     vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", stateDir);
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main" }, { id: "work", default: true, workspace: "/work-ws" }],
       },
@@ -634,7 +634,7 @@ describe("resolveAgentIdByWorkspacePath", () => {
   it("returns the most specific workspace match for a directory", () => {
     const workspaceRoot = `/tmp/brikko-studio-agent-scope-${Date.now()}-root`;
     const opsWorkspace = `${workspaceRoot}/projects/ops`;
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [
           { id: "main", workspace: workspaceRoot },
@@ -648,7 +648,7 @@ describe("resolveAgentIdByWorkspacePath", () => {
 
   it("returns undefined when directory has no matching workspace", () => {
     const workspaceRoot = `/tmp/brikko-studio-agent-scope-${Date.now()}-root`;
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [
           { id: "main", workspace: workspaceRoot },
@@ -675,7 +675,7 @@ describe("resolveAgentIdByWorkspacePath", () => {
         process.platform === "win32" ? "junction" : "dir",
       );
 
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           list: [
             { id: "main", workspace: realWorkspaceRoot },
@@ -701,7 +701,7 @@ describe("resolveAgentIdsByWorkspacePath", () => {
     const workspaceRoot = `/tmp/brikko-studio-agent-scope-${Date.now()}-root`;
     const opsWorkspace = `${workspaceRoot}/projects/ops`;
     const opsDevWorkspace = `${opsWorkspace}/dev`;
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [
           { id: "main", workspace: workspaceRoot },
@@ -721,7 +721,7 @@ describe("resolveAgentIdsByWorkspacePath", () => {
 
 describe("resolveAgentSkillsFilter", () => {
   it("inherits agents.defaults.skills when the agent omits skills", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           skills: ["github", "weather"],
@@ -734,7 +734,7 @@ describe("resolveAgentSkillsFilter", () => {
   });
 
   it("uses agents.list[].skills as a full replacement", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           skills: ["github", "weather"],
@@ -747,7 +747,7 @@ describe("resolveAgentSkillsFilter", () => {
   });
 
   it("keeps explicit empty agent skills as no skills", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           skills: ["github", "weather"],

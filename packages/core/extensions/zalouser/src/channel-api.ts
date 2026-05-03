@@ -9,7 +9,7 @@ export type { ChannelPlugin } from "brikko-studio/plugin-sdk/core";
 export {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/core";
 export { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
 export type { GroupToolPolicyConfig } from "brikko-studio/plugin-sdk/config-types";

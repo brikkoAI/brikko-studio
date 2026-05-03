@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   hasManifestContractValue,
   listAvailableManifestContractPlugins,
@@ -16,7 +16,7 @@ const DEMAND_ONLY_CONTRACT_LOOKUP_OPTIONS = {
 } as const;
 
 export function resolveManifestContractRuntimePluginResolution(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   contract: PluginManifestContractListKey;
   value?: string;
 }): ManifestContractRuntimePluginResolution {

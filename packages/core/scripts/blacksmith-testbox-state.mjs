@@ -90,12 +90,12 @@ export function evaluateLocalTestboxKey({
   };
 }
 
-function resolveBrikko StudioTestboxClaimPath({ testboxId, env = process.env, homeDir } = {}) {
+function resolveBrikkoStudioTestboxClaimPath({ testboxId, env = process.env, homeDir } = {}) {
   const stateDir = resolveBlacksmithTestboxStateDir({ env, homeDir });
   return path.join(stateDir, testboxId, BRIKKO_STUDIO_TESTBOX_CLAIM_FILE);
 }
 
-export function evaluateBrikko StudioTestboxClaim({
+export function evaluateBrikkoStudioTestboxClaim({
   testboxId,
   cwd,
   env = process.env,
@@ -108,7 +108,7 @@ export function evaluateBrikko StudioTestboxClaim({
     return { ok: true, checked: false, problems: [] };
   }
 
-  const claimPath = resolveBrikko StudioTestboxClaimPath({ testboxId, env, homeDir });
+  const claimPath = resolveBrikkoStudioTestboxClaimPath({ testboxId, env, homeDir });
   const expectedRepoRoot = path.resolve(cwd || process.cwd());
   const maxAgeMinutes = parsePositiveInteger(
     env.BRIKKO_STUDIO_TESTBOX_CLAIM_TTL_MINUTES,
@@ -118,7 +118,7 @@ export function evaluateBrikko StudioTestboxClaim({
 
   if (!exists(claimPath)) {
     problems.push(
-      `Brikko Studio Testbox claim missing for ${testboxId}: expected ${claimPath}. ` +
+      `BrikkoStudio Testbox claim missing for ${testboxId}: expected ${claimPath}. ` +
         "Do not reuse ids from `blacksmith testbox list`; warm a fresh box and claim it with `pnpm testbox:claim --id <id>`.",
     );
     return {
@@ -135,27 +135,27 @@ export function evaluateBrikko StudioTestboxClaim({
   try {
     claim = JSON.parse(readFile(claimPath, "utf8"));
   } catch (error) {
-    problems.push(`Brikko Studio Testbox claim is unreadable for ${testboxId}: ${error.message}`);
+    problems.push(`BrikkoStudio Testbox claim is unreadable for ${testboxId}: ${error.message}`);
   }
 
   const claimedRepoRoot = claim?.repoRoot ? path.resolve(claim.repoRoot) : "";
   if (!claimedRepoRoot) {
-    problems.push(`Brikko Studio Testbox claim is missing repoRoot for ${testboxId}: ${claimPath}`);
+    problems.push(`BrikkoStudio Testbox claim is missing repoRoot for ${testboxId}: ${claimPath}`);
   } else if (claimedRepoRoot !== expectedRepoRoot) {
     problems.push(
-      `Brikko Studio Testbox claim repo mismatch for ${testboxId}: claimed ${claimedRepoRoot}, current ${expectedRepoRoot}. ` +
+      `BrikkoStudio Testbox claim repo mismatch for ${testboxId}: claimed ${claimedRepoRoot}, current ${expectedRepoRoot}. ` +
         "Warm and claim a fresh box for this checkout.",
     );
   }
 
   const claimedAtMs = Date.parse(claim?.claimedAt ?? "");
   if (!Number.isFinite(claimedAtMs)) {
-    problems.push(`Brikko Studio Testbox claim is missing claimedAt for ${testboxId}: ${claimPath}`);
+    problems.push(`BrikkoStudio Testbox claim is missing claimedAt for ${testboxId}: ${claimPath}`);
   } else {
     const ageMinutes = Math.floor((now().getTime() - claimedAtMs) / 60000);
     if (ageMinutes > maxAgeMinutes) {
       problems.push(
-        `Brikko Studio Testbox claim is stale for ${testboxId}: ${ageMinutes}m old, limit ${maxAgeMinutes}m. ` +
+        `BrikkoStudio Testbox claim is stale for ${testboxId}: ${ageMinutes}m old, limit ${maxAgeMinutes}m. ` +
           "Warm and claim a fresh box after crashes or long pauses.",
       );
     }
@@ -172,7 +172,7 @@ export function evaluateBrikko StudioTestboxClaim({
   };
 }
 
-export function writeBrikko StudioTestboxClaim({
+export function writeBrikkoStudioTestboxClaim({
   testboxId,
   cwd,
   env = process.env,
@@ -181,7 +181,7 @@ export function writeBrikko StudioTestboxClaim({
   writeFile = fs.writeFileSync,
   now = () => new Date(),
 } = {}) {
-  const claimPath = resolveBrikko StudioTestboxClaimPath({ testboxId, env, homeDir });
+  const claimPath = resolveBrikkoStudioTestboxClaimPath({ testboxId, env, homeDir });
   const repoRoot = path.resolve(cwd || process.cwd());
   const payload = {
     claimedAt: now().toISOString(),

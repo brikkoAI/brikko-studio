@@ -1,9 +1,9 @@
 import {
   getRuntimeConfig,
   getRuntimeConfigSourceSnapshot,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../config/config.js";
 
-export function loadBrowserConfigForRuntimeRefresh(): Brikko StudioConfig {
+export function loadBrowserConfigForRuntimeRefresh(): BrikkoStudioConfig {
   return getRuntimeConfigSourceSnapshot() ?? getRuntimeConfig();
 }

@@ -135,13 +135,13 @@ function resolveBrowserFetchOperatorHint(
 ): string {
   if (opts?.ownership === "external-browser") {
     return (
-      "The browser profile is external to Brikko Studio; make sure its browser/CDP endpoint " +
-      "is running and reachable. Restarting the Brikko Studio gateway will not launch it."
+      "The browser profile is external to BrikkoStudio; make sure its browser/CDP endpoint " +
+      "is running and reachable. Restarting the BrikkoStudio gateway will not launch it."
     );
   }
   const isLocal = !isAbsoluteHttp(url);
   return isLocal
-    ? `Restart the Brikko Studio gateway (Brikko Studio.app menubar, or \`${formatCliCommand("brikko-studio gateway")}\`).`
+    ? `Restart the BrikkoStudio gateway (BrikkoStudio.app menubar, or \`${formatCliCommand("brikko-studio gateway")}\`).`
     : "If this is a sandboxed session, ensure the sandbox browser is running.";
 }
 
@@ -206,7 +206,7 @@ function enhanceBrowserFetchError(url: string, err: unknown, timeoutMs: number):
   const kind = classifyBrowserFetchFailure(err);
   if (kind === "timeout") {
     return new Error(
-      `Can't reach the Brikko Studio browser control service (timed out after ${timeoutMs}ms). ${operatorHint}`,
+      `Can't reach the BrikkoStudio browser control service (timed out after ${timeoutMs}ms). ${operatorHint}`,
       err instanceof Error ? { cause: err } : undefined,
     );
   }
@@ -218,7 +218,7 @@ function enhanceBrowserFetchError(url: string, err: unknown, timeoutMs: number):
   }
   return new Error(
     appendBrowserToolModelHint(
-      `Can't reach the Brikko Studio browser control service. ${operatorHint} (${msg})`,
+      `Can't reach the BrikkoStudio browser control service. ${operatorHint} (${msg})`,
     ),
     err instanceof Error ? { cause: err } : undefined,
   );

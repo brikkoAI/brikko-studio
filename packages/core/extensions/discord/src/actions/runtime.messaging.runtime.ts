@@ -1,5 +1,5 @@
 import { readDiscordComponentSpec } from "../components.js";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import { sendDiscordComponentMessage } from "../send.components.js";
 import {
   createThreadDiscord,
@@ -53,7 +53,7 @@ export const discordMessagingActionRuntime = {
 
 async function resolveDiscordReactionTargetChannelId(params: {
   target: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
 }): Promise<string> {
   try {

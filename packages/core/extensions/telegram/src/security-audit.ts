@@ -1,6 +1,6 @@
 import { readChannelAllowFromStore } from "brikko-studio/plugin-sdk/conversation-runtime";
 import { resolveNativeSkillsEnabled } from "brikko-studio/plugin-sdk/native-command-config-runtime";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import type { ResolvedTelegramAccount } from "./accounts.js";
 import { isNumericTelegramSenderUserId, normalizeTelegramAllowFromEntry } from "./allow-from.js";
 
@@ -55,7 +55,7 @@ function appendInvalidTelegramAllowFromFinding(
 }
 
 export async function collectTelegramSecurityAuditFindings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   account: ResolvedTelegramAccount;
 }) {

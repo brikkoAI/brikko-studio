@@ -8,11 +8,11 @@ import { normalizeModelCatalog } from "../normalize.js";
 import { normalizeModelCatalogProviderId } from "../refs.js";
 import type { ModelCatalogProvider } from "../types.js";
 import type {
-  Brikko StudioProviderIndex,
-  Brikko StudioProviderIndexPluginInstall,
-  Brikko StudioProviderIndexPlugin,
-  Brikko StudioProviderIndexProviderAuthChoice,
-  Brikko StudioProviderIndexProvider,
+  BrikkoStudioProviderIndex,
+  BrikkoStudioProviderIndexPluginInstall,
+  BrikkoStudioProviderIndexPlugin,
+  BrikkoStudioProviderIndexProviderAuthChoice,
+  BrikkoStudioProviderIndexProvider,
 } from "./types.js";
 
 const BRIKKO_STUDIO_PROVIDER_INDEX_VERSION = 1;
@@ -22,7 +22,7 @@ function normalizeSafeKey(value: unknown): string {
   return key && !isBlockedObjectKey(key) ? key : "";
 }
 
-function normalizeInstall(value: unknown): Brikko StudioProviderIndexPluginInstall | undefined {
+function normalizeInstall(value: unknown): BrikkoStudioProviderIndexPluginInstall | undefined {
   if (!isRecord(value)) {
     return undefined;
   }
@@ -50,7 +50,7 @@ function normalizeInstall(value: unknown): Brikko StudioProviderIndexPluginInsta
   };
 }
 
-function normalizePlugin(value: unknown): Brikko StudioProviderIndexPlugin | undefined {
+function normalizePlugin(value: unknown): BrikkoStudioProviderIndexPlugin | undefined {
   if (!isRecord(value)) {
     return undefined;
   }
@@ -93,7 +93,7 @@ function normalizePreviewCatalog(params: {
 
 function normalizeOnboardingScopes(
   value: unknown,
-): Brikko StudioProviderIndexProviderAuthChoice["onboardingScopes"] | undefined {
+): BrikkoStudioProviderIndexProviderAuthChoice["onboardingScopes"] | undefined {
   const scopes = normalizeTrimmedStringList(value).filter(
     (scope): scope is "text-inference" | "image-generation" =>
       scope === "text-inference" || scope === "image-generation",
@@ -103,7 +103,7 @@ function normalizeOnboardingScopes(
 
 function normalizeAssistantVisibility(
   value: unknown,
-): Brikko StudioProviderIndexProviderAuthChoice["assistantVisibility"] | undefined {
+): BrikkoStudioProviderIndexProviderAuthChoice["assistantVisibility"] | undefined {
   return value === "visible" || value === "manual-only" ? value : undefined;
 }
 
@@ -115,7 +115,7 @@ function normalizeAuthChoice(params: {
   providerId: string;
   providerName: string;
   value: unknown;
-}): Brikko StudioProviderIndexProviderAuthChoice | undefined {
+}): BrikkoStudioProviderIndexProviderAuthChoice | undefined {
   if (!isRecord(params.value)) {
     return undefined;
   }
@@ -158,20 +158,20 @@ function normalizeAuthChoices(params: {
   providerId: string;
   providerName: string;
   value: unknown;
-}): readonly Brikko StudioProviderIndexProviderAuthChoice[] | undefined {
+}): readonly BrikkoStudioProviderIndexProviderAuthChoice[] | undefined {
   if (!Array.isArray(params.value)) {
     return undefined;
   }
   const choices = params.value
     .map((value) => normalizeAuthChoice({ ...params, value }))
-    .filter((choice): choice is Brikko StudioProviderIndexProviderAuthChoice => Boolean(choice));
+    .filter((choice): choice is BrikkoStudioProviderIndexProviderAuthChoice => Boolean(choice));
   return choices.length > 0 ? choices : undefined;
 }
 
 function normalizeProvider(
   rawProviderId: string,
   value: unknown,
-): Brikko StudioProviderIndexProvider | undefined {
+): BrikkoStudioProviderIndexProvider | undefined {
   if (!isRecord(value)) {
     return undefined;
   }
@@ -210,14 +210,14 @@ function normalizeProvider(
   };
 }
 
-export function normalizeBrikko StudioProviderIndex(value: unknown): Brikko StudioProviderIndex | undefined {
+export function normalizeBrikkoStudioProviderIndex(value: unknown): BrikkoStudioProviderIndex | undefined {
   if (!isRecord(value) || value.version !== BRIKKO_STUDIO_PROVIDER_INDEX_VERSION) {
     return undefined;
   }
   if (!isRecord(value.providers)) {
     return undefined;
   }
-  const providers: Record<string, Brikko StudioProviderIndexProvider> = {};
+  const providers: Record<string, BrikkoStudioProviderIndexProvider> = {};
   for (const [rawProviderId, rawProvider] of Object.entries(value.providers)) {
     const providerId = normalizeModelCatalogProviderId(rawProviderId);
     if (!providerId || isBlockedObjectKey(providerId)) {

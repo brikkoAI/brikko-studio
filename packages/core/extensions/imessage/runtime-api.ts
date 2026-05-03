@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig as RuntimeApiBrikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig as RuntimeApiBrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export {
   DEFAULT_ACCOUNT_ID,
@@ -31,6 +31,6 @@ export { sendMessageIMessage } from "./src/send.js";
 export { setIMessageRuntime } from "./src/runtime.js";
 export { chunkTextForOutbound } from "./src/channel-api.js";
 export type IMessageAccountConfig = Omit<
-  NonNullable<NonNullable<RuntimeApiBrikko StudioConfig["channels"]>["imessage"]>,
+  NonNullable<NonNullable<RuntimeApiBrikkoStudioConfig["channels"]>["imessage"]>,
   "accounts" | "defaultAccount"
 >;

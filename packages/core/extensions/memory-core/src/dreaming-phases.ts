@@ -17,7 +17,7 @@ import {
   resolveMemoryLightDreamingConfig,
   resolveMemoryRemDreamingConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-status";
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import { writeDailyDreamingPhaseBlock } from "./dreaming-markdown.js";
 import {
   generateAndAppendDreamNarrative,
@@ -33,7 +33,7 @@ import {
   type ShortTermRecallEntry,
 } from "./short-term-promotion.js";
 
-type Logger = Pick<Brikko StudioPluginApi["logger"], "info" | "warn" | "error">;
+type Logger = Pick<BrikkoStudioPluginApi["logger"], "info" | "warn" | "error">;
 type DreamingHostConfig = unknown;
 type DreamingPhaseStorageConfig = {
   timezone?: string;

@@ -106,7 +106,7 @@ function candidateDirsFromArgv1(argv1: string): string[] {
   return [...deduped];
 }
 
-export async function resolveBrikko StudioPackageRoot(opts: {
+export async function resolveBrikkoStudioPackageRoot(opts: {
   cwd?: string;
   argv1?: string;
   moduleUrl?: string;
@@ -128,7 +128,7 @@ export async function resolveBrikko StudioPackageRoot(opts: {
   return null;
 }
 
-export function resolveBrikko StudioPackageRootSync(opts: {
+export function resolveBrikkoStudioPackageRootSync(opts: {
   cwd?: string;
   argv1?: string;
   moduleUrl?: string;
@@ -189,7 +189,7 @@ function createPackageRootCacheKey(candidates: readonly string[]): string {
 }
 
 export const __testing = {
-  clearBrikko StudioPackageRootCaches(): void {
+  clearBrikkoStudioPackageRootCaches(): void {
     packageNameCache.clear();
     packageRootCache.clear();
     argv1CandidateCache.clear();

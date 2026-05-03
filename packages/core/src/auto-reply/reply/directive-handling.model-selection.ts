@@ -5,7 +5,7 @@ import {
   resolveModelRefFromString,
 } from "../../agents/model-selection.js";
 import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { resolveProfileOverride } from "./directive-handling.auth-profile.js";
 import type { InlineDirectives } from "./directive-handling.parse.js";
 import { type ModelDirectiveSelection, resolveModelDirectiveSelection } from "./model-selection.js";
@@ -45,7 +45,7 @@ function resolveStoredNumericProfileModelDirective(params: { raw: string; agentD
 
 export function resolveModelSelectionFromDirective(params: {
   directives: InlineDirectives;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir: string;
   defaultProvider: string;
   defaultModel: string;

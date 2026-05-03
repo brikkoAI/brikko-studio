@@ -104,7 +104,7 @@ describe("embedded acpx plugin config", () => {
     expect(server.args?.length).toBeGreaterThan(0);
   });
 
-  it("injects the built-in Brikko Studio tools MCP server only when explicitly enabled", () => {
+  it("injects the built-in BrikkoStudio tools MCP server only when explicitly enabled", () => {
     const resolved = resolveAcpxPluginConfig({
       rawConfig: {
         openClawToolsMcpBridge: true,

@@ -1,5 +1,5 @@
 import { expectChannelInboundContextContract } from "brikko-studio/plugin-sdk/channel-contract-testing";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, it } from "vitest";
 import { buildTelegramMessageContextForTest } from "./bot-message-context.test-harness.js";
 
@@ -18,7 +18,7 @@ describe("Telegram inbound context contract", () => {
             groups: { "*": { requireMention: false } },
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       message: {
         chat: { id: 42, type: "group", title: "Ops" },
         text: "hello",

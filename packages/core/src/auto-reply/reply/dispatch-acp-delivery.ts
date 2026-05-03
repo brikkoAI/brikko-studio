@@ -1,5 +1,5 @@
 import { hasOutboundReplyContent } from "brikko-studio/plugin-sdk/reply-payload";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { TtsAutoMode } from "../../config/types.tts.js";
 import { logVerbose } from "../../globals.js";
 import { formatErrorMessage } from "../../infra/errors.js";
@@ -87,7 +87,7 @@ async function shouldTreatDeliveredTextAsVisible(params: {
 
 async function maybeApplyAcpTts(params: {
   payload: ReplyPayload;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   channel?: string;
   accountId?: string;
@@ -171,7 +171,7 @@ export type AcpDispatchDeliveryCoordinator = {
 };
 
 export function createAcpDispatchDeliveryCoordinator(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   ctx: FinalizedMsgContext;
   dispatcher: ReplyDispatcher;

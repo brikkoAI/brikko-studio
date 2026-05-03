@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { TelegramInlineButtonsScope } from "brikko-studio/plugin-sdk/config-types";
 import {
   normalizeLowercaseStringOrEmpty,
@@ -57,7 +57,7 @@ export function resolveTelegramInlineButtonsScopeFromCapabilities(
 }
 
 export function resolveTelegramInlineButtonsScope(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): TelegramInlineButtonsScope {
   const account = resolveTelegramAccount({ cfg: params.cfg, accountId: params.accountId });
@@ -65,7 +65,7 @@ export function resolveTelegramInlineButtonsScope(params: {
 }
 
 export function isTelegramInlineButtonsEnabled(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): boolean {
   if (params.accountId) {

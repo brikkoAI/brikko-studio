@@ -9,4 +9,4 @@ export {
   getRuntimeConfig,
   getRuntimeConfigSourceSnapshot,
 } from "../config/io.js";
-export type { Brikko StudioConfig } from "../config/types.js";
+export type { BrikkoStudioConfig } from "../config/types.js";

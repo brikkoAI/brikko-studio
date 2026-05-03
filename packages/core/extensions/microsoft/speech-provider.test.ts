@@ -1,7 +1,7 @@
 import { mkdtempSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   finalizeDebugProxyCapture,
   getDebugProxyCaptureStore,
@@ -23,7 +23,7 @@ import {
 } from "./speech-provider.js";
 import * as ttsModule from "./tts.js";
 
-const TEST_CFG = {} as Brikko StudioConfig;
+const TEST_CFG = {} as BrikkoStudioConfig;
 
 describe("listMicrosoftVoices", () => {
   const proxyReset = installDebugProxyTestResetHooks();

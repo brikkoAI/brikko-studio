@@ -22,7 +22,7 @@ import {
   type SessionEntry,
   updateSessionStore,
 } from "../../config/sessions.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   hasInternalHookListeners,
   triggerInternalHook,
@@ -194,7 +194,7 @@ function rejectPluginRuntimeDeleteMismatch(params: {
   return true;
 }
 
-function resolveGatewaySessionTargetFromKey(key: string, cfg: Brikko StudioConfig) {
+function resolveGatewaySessionTargetFromKey(key: string, cfg: BrikkoStudioConfig) {
   const target = resolveGatewaySessionStoreTarget({ cfg, key });
   return { cfg, target, storePath: target.storePath };
 }

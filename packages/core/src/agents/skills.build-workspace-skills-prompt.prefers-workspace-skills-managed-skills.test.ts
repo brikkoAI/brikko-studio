@@ -4,7 +4,7 @@ import { withEnv } from "../test-utils/env.js";
 import { createFixtureSuite } from "../test-utils/fixture-suite.js";
 import { writeSkill } from "./skills.e2e-test-helpers.js";
 import { createSyntheticSourceInfo } from "./skills/skill-contract.js";
-import type { Brikko StudioSkillMetadata, SkillEntry } from "./skills/types.js";
+import type { BrikkoStudioSkillMetadata, SkillEntry } from "./skills/types.js";
 import { buildWorkspaceSkillsPrompt } from "./skills/workspace.js";
 
 vi.mock("./skills/plugin-skills.js", () => ({
@@ -24,7 +24,7 @@ afterAll(async () => {
 function createSkillEntry(params: {
   name: string;
   description?: string;
-  metadata?: Brikko StudioSkillMetadata;
+  metadata?: BrikkoStudioSkillMetadata;
 }): SkillEntry {
   const filePath = `/skills/${params.name}/SKILL.md`;
   return {

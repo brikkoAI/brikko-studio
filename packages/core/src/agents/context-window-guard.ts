@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveProviderEndpoint } from "./provider-attribution.js";
 import { findNormalizedProviderValue } from "./provider-id.js";
 
@@ -24,7 +24,7 @@ function normalizePositiveInt(value: unknown): number | null {
 }
 
 export function resolveContextWindowInfo(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
   modelId: string;
   modelContextTokens?: number;
@@ -118,13 +118,13 @@ export function formatContextWindowWarningMessage(params: {
   }
   if (params.guard.source === "agentContextTokens") {
     return (
-      `${base}; Brikko Studio is capped by agents.defaults.contextTokens, so raise that cap ` +
+      `${base}; BrikkoStudio is capped by agents.defaults.contextTokens, so raise that cap ` +
       `if you want to use more of the model context window`
     );
   }
   if (params.guard.source === "modelsConfig") {
     return (
-      `${base}; Brikko Studio is using the configured model context limit for this model, ` +
+      `${base}; BrikkoStudio is using the configured model context limit for this model, ` +
       `so raise contextWindow/contextTokens if it is set too low`
     );
   }
@@ -146,18 +146,18 @@ export function formatContextWindowBlockMessage(params: {
     return base;
   }
   if (params.guard.source === "agentContextTokens") {
-    return `${base} Brikko Studio is capped by agents.defaults.contextTokens. Raise that cap.`;
+    return `${base} BrikkoStudio is capped by agents.defaults.contextTokens. Raise that cap.`;
   }
   if (params.guard.source === "modelsConfig") {
     return (
-      `${base} Brikko Studio is using the configured model context limit for this model. ` +
+      `${base} BrikkoStudio is using the configured model context limit for this model. ` +
       `Raise contextWindow/contextTokens or choose a larger model.`
     );
   }
   return (
     `${base} This looks like a local model endpoint. ` +
     `Raise the server/model context limit or choose a larger model. ` +
-    `Brikko Studio local/self-hosted runs work best at ${params.guard.warnBelowTokens}+ tokens.`
+    `BrikkoStudio local/self-hosted runs work best at ${params.guard.warnBelowTokens}+ tokens.`
   );
 }
 

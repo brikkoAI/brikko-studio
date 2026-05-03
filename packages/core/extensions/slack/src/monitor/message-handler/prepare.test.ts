@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import type { App } from "@slack/bolt";
 import { expectChannelInboundContextContract as expectInboundContextContract } from "brikko-studio/plugin-sdk/channel-contract-testing";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   registerSessionBindingAdapter,
   unregisterSessionBindingAdapter,
@@ -64,7 +64,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
     const slackCtx = createInboundSlackCtx({
       cfg: {
         channels: { slack: { enabled: true } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
     slackCtx.resolveUserName = async () => ({ name: "Alice" }) as any;
     return slackCtx;
@@ -124,7 +124,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
         channels: {
           slack: { enabled: true },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: { conversations: { members } } as unknown as App["client"],
       defaultRequireMention: false,
     });
@@ -159,7 +159,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
     );
   });
 
-  function createThreadSlackCtx(params: { cfg: Brikko StudioConfig; replies: unknown }) {
+  function createThreadSlackCtx(params: { cfg: BrikkoStudioConfig; replies: unknown }) {
     return createInboundSlackCtx({
       cfg: params.cfg,
       appClient: { conversations: { replies: params.replies } } as App["client"],
@@ -244,7 +244,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
             contextVisibility: "allowlist",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: { conversations: { replies } } as unknown as App["client"],
       defaultRequireMention: false,
       replyToMode: "all",
@@ -298,7 +298,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
       cfg: {
         channels: { slack: { enabled: true } },
         session: { dmScope: "main" },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
     slackCtx.resolveUserName = async () => ({ name: "Alice" }) as any;
     // Simulate API returning correct type for DM channel
@@ -344,7 +344,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
             ...(params?.groupPolicy ? { groupPolicy: params.groupPolicy } : {}),
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       replyToMode: "all",
       ...(params?.defaultRequireMention === undefined
         ? {}
@@ -382,7 +382,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
           statusReactions: { enabled: true },
         },
         channels: { slack: { enabled: true } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
     slackCtx.resolveUserName = async () => ({ name: "Alice" }) as any;
 
@@ -414,7 +414,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
             replyToMode: "all",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       replyToMode: "all",
     });
     slackCtx.resolveUserName = async () => ({ name: "Alice" }) as any;
@@ -524,7 +524,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
         channels: {
           slack: { enabled: true },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       defaultRequireMention: false,
     });
     slackCtx.resolveUserName = async () => ({ name: "Bot" }) as any;
@@ -588,7 +588,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
         channels: {
           slack: { enabled: true },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: { conversations: { members } } as unknown as App["client"],
       defaultRequireMention: false,
       channelsConfig: {
@@ -614,7 +614,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
         channels: {
           slack: { enabled: true },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: { conversations: { members } } as unknown as App["client"],
       defaultRequireMention: false,
     });
@@ -637,7 +637,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
             enabled: true,
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       defaultRequireMention: false,
       channelsConfig: {
         C123: { systemPrompt: "Config prompt" },
@@ -773,7 +773,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
             },
           ],
           channels: { slack: { enabled: true, groupPolicy: "open" } },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         defaultRequireMention: false,
       });
       slackCtx.resolveChannelName = async () => ({ name: "strategy", type: "channel" });
@@ -848,7 +848,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
       cfg: {
         session: { store: storePath },
         channels: { slack: { enabled: true, replyToMode: "all", groupPolicy: "open" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       replies,
     });
     slackCtx.resolveUserName = async (id: string) => ({
@@ -882,7 +882,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
       cfg: {
         session: { store: storePath },
         channels: { slack: { enabled: true, dmHistoryLimit: 2 } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: { conversations: { history } } as unknown as App["client"],
       dmHistoryLimit: 2,
     });
@@ -934,7 +934,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
           dms: { U1: { historyLimit: 1 } },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const history = vi.fn().mockResolvedValue({
       messages: [
         { text: "current", user: "U1", ts: "400.000" },
@@ -1083,7 +1083,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
     const cfg = {
       session: { store: storePath },
       channels: { slack: { enabled: true, replyToMode: "all", groupPolicy: "open" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const route = resolveAgentRoute({
       cfg,
       channel: "slack",
@@ -1172,7 +1172,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
       cfg: {
         session: { store: storePath, dmScope: "per-channel-peer" },
         channels: { slack: { enabled: true, replyToMode: "all" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       replyToMode: "all",
     });
     slackCtx.resolveUserName = async () => ({ name: "Alice" }) as any;
@@ -1230,7 +1230,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
       const slackCtx = createThreadSlackCtx({
         cfg: {
           channels: { slack: { enabled: true, replyToMode: "all", groupPolicy: "open" } },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         replies,
       });
       slackCtx.resolveUserName = async () => ({ name: "Alice" });
@@ -1277,7 +1277,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
       cfg: {
         session: { store: storePath },
         channels: { slack: { enabled: true, replyToMode: "all", groupPolicy: "open" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: { conversations: { replies } } as unknown as App["client"],
       defaultRequireMention: true,
       replyToMode: "all",
@@ -1341,7 +1341,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
       cfg: {
         session: { store: storePath },
         channels: { slack: { enabled: true, replyToMode: "all", groupPolicy: "open" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: { conversations: { replies } } as unknown as App["client"],
       defaultRequireMention: true,
       replyToMode: "all",
@@ -1402,7 +1402,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
             channels: { C0AGENTS: { requireMention: true } },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: {
         usergroups: { users: { list: usergroupsUsersList } },
       } as unknown as App["client"],
@@ -1447,7 +1447,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
             channels: { C0AGENTS: { requireMention: true } },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: {
         usergroups: { users: { list: usergroupsUsersList } },
       } as unknown as App["client"],
@@ -1496,7 +1496,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
         session: { store: storePath },
         messages: { groupChat: { mentionPatterns: ["\\bbill\\b"] } },
         channels: { slack: { enabled: true, replyToMode: "all", groupPolicy: "open" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: { conversations: { replies } } as unknown as App["client"],
       defaultRequireMention: true,
       replyToMode: "all",
@@ -1579,7 +1579,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
             ],
           },
           channels: { slack: { enabled: true, replyToMode: "all", groupPolicy: "open" } },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         defaultRequireMention: true,
         replyToMode: "all",
       });
@@ -1668,7 +1668,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
           session: { store: storePath },
           messages: { groupChat: { mentionPatterns: ["\\bbill\\b"] } },
           channels: { slack: { enabled: true, replyToMode: "all", groupPolicy: "open" } },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         defaultRequireMention: true,
         replyToMode: "all",
       });
@@ -1736,7 +1736,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
       cfg: {
         session: { store: storePath },
         channels: { slack: { enabled: true, replyToMode: "all", groupPolicy: "open" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: { conversations: { replies } } as unknown as App["client"],
       defaultRequireMention: true,
       replyToMode: "all",
@@ -1778,7 +1778,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
         cfg: {
           session: { store: storePath },
           channels: { slack: { enabled: true, replyToMode, groupPolicy: "open" } },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         defaultRequireMention: true,
         replyToMode,
       });
@@ -2039,7 +2039,7 @@ describe("slack thread.requireExplicitMention", () => {
       cfg: {
         channels: { slack: { enabled: true } },
         session: {},
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       threadRequireExplicitMention: requireExplicitMention,
     });
     ctx.resolveUserName = async () => ({ name: "Alice" }) as any;

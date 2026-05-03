@@ -10,7 +10,7 @@ import { formatHelpExamples } from "../help-format.js";
 export function registerBackupCommand(program: Command) {
   const backup = program
     .command("backup")
-    .description("Create and verify local backup archives for Brikko Studio state")
+    .description("Create and verify local backup archives for BrikkoStudio state")
     .addHelpText(
       "after",
       () =>

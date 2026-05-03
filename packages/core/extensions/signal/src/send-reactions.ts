@@ -2,7 +2,7 @@
  * Signal reactions via signal-cli JSON-RPC API
  */
 
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveSignalAccount } from "./accounts.js";
@@ -10,7 +10,7 @@ import { signalRpcRequest } from "./client.js";
 import { resolveSignalRpcContext } from "./rpc-context.js";
 
 export type SignalReactionOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   baseUrl?: string;
   account?: string;
   accountId?: string;

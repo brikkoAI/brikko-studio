@@ -91,7 +91,7 @@ export async function minimaxUnderstandImage(params: {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
-      "MM-API-Source": "Brikko Studio",
+      "MM-API-Source": "BrikkoStudio",
     },
     signal: AbortSignal.timeout(timeoutMs),
     body: JSON.stringify({

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeAgentId } from "../routing/session-key.js";
 import { AcpRuntimeError } from "./runtime/errors.js";
 
@@ -8,11 +8,11 @@ const ACP_DISPATCH_DISABLED_MESSAGE =
 
 export type AcpDispatchPolicyState = "enabled" | "acp_disabled" | "dispatch_disabled";
 
-export function isAcpEnabledByPolicy(cfg: Brikko StudioConfig): boolean {
+export function isAcpEnabledByPolicy(cfg: BrikkoStudioConfig): boolean {
   return cfg.acp?.enabled !== false;
 }
 
-export function resolveAcpDispatchPolicyState(cfg: Brikko StudioConfig): AcpDispatchPolicyState {
+export function resolveAcpDispatchPolicyState(cfg: BrikkoStudioConfig): AcpDispatchPolicyState {
   if (!isAcpEnabledByPolicy(cfg)) {
     return "acp_disabled";
   }
@@ -23,11 +23,11 @@ export function resolveAcpDispatchPolicyState(cfg: Brikko StudioConfig): AcpDisp
   return "enabled";
 }
 
-export function isAcpDispatchEnabledByPolicy(cfg: Brikko StudioConfig): boolean {
+export function isAcpDispatchEnabledByPolicy(cfg: BrikkoStudioConfig): boolean {
   return resolveAcpDispatchPolicyState(cfg) === "enabled";
 }
 
-export function resolveAcpDispatchPolicyMessage(cfg: Brikko StudioConfig): string | null {
+export function resolveAcpDispatchPolicyMessage(cfg: BrikkoStudioConfig): string | null {
   const state = resolveAcpDispatchPolicyState(cfg);
   if (state === "acp_disabled") {
     return ACP_DISABLED_MESSAGE;
@@ -38,7 +38,7 @@ export function resolveAcpDispatchPolicyMessage(cfg: Brikko StudioConfig): strin
   return null;
 }
 
-export function resolveAcpDispatchPolicyError(cfg: Brikko StudioConfig): AcpRuntimeError | null {
+export function resolveAcpDispatchPolicyError(cfg: BrikkoStudioConfig): AcpRuntimeError | null {
   const message = resolveAcpDispatchPolicyMessage(cfg);
   if (!message) {
     return null;
@@ -46,14 +46,14 @@ export function resolveAcpDispatchPolicyError(cfg: Brikko StudioConfig): AcpRunt
   return new AcpRuntimeError("ACP_DISPATCH_DISABLED", message);
 }
 
-export function resolveAcpExplicitTurnPolicyError(cfg: Brikko StudioConfig): AcpRuntimeError | null {
+export function resolveAcpExplicitTurnPolicyError(cfg: BrikkoStudioConfig): AcpRuntimeError | null {
   if (isAcpEnabledByPolicy(cfg)) {
     return null;
   }
   return new AcpRuntimeError("ACP_DISPATCH_DISABLED", ACP_DISABLED_MESSAGE);
 }
 
-export function isAcpAgentAllowedByPolicy(cfg: Brikko StudioConfig, agentId: string): boolean {
+export function isAcpAgentAllowedByPolicy(cfg: BrikkoStudioConfig, agentId: string): boolean {
   const allowed = (cfg.acp?.allowedAgents ?? [])
     .map((entry) => normalizeAgentId(entry))
     .filter(Boolean);
@@ -64,7 +64,7 @@ export function isAcpAgentAllowedByPolicy(cfg: Brikko StudioConfig, agentId: str
 }
 
 export function resolveAcpAgentPolicyError(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
 ): AcpRuntimeError | null {
   if (isAcpAgentAllowedByPolicy(cfg, agentId)) {

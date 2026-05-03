@@ -5,7 +5,7 @@ import {
   readReactionParams,
   readStringParam,
 } from "brikko-studio/plugin-sdk/channel-actions";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveAuthorizedWhatsAppOutboundTarget } from "./action-runtime-target-auth.js";
 import { resolveWhatsAppReactionLevel } from "./reaction-level.js";
 import { sendReactionWhatsApp } from "./send.js";
@@ -17,7 +17,7 @@ export const whatsAppActionRuntime = {
 
 export async function handleWhatsAppAction(
   params: Record<string, unknown>,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): Promise<AgentToolResult<unknown>> {
   const action = readStringParam(params, "action", { required: true });
   const whatsAppConfig = cfg.channels?.whatsapp;

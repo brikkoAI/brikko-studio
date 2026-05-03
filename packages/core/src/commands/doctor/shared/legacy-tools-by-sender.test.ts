@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/config.js";
+import type { BrikkoStudioConfig } from "../../../config/config.js";
 import {
   collectLegacyToolsBySenderWarnings,
   maybeRepairLegacyToolsBySenderKeys,
@@ -22,7 +22,7 @@ describe("doctor legacy toolsBySender helpers", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(hits).toEqual([
       {
@@ -49,7 +49,7 @@ describe("doctor legacy toolsBySender helpers", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(result.changes).toEqual([
       expect.stringContaining("migrated 1 legacy key to typed id: entries"),

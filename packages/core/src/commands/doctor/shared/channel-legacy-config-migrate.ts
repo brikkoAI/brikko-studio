@@ -1,16 +1,16 @@
 import { getBootstrapChannelPlugin } from "../../../channels/plugins/bootstrap-registry.js";
 import { loadBundledChannelDoctorContractApi } from "../../../channels/plugins/doctor-contract-api.js";
-import type { Brikko StudioConfig } from "../../../config/types.js";
+import type { BrikkoStudioConfig } from "../../../config/types.js";
 import { applyPluginDoctorCompatibilityMigrations } from "../../../plugins/doctor-contract-registry.js";
 import { isRecord } from "./legacy-config-record-shared.js";
 
 type ChannelDoctorCompatibilityMutation = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
 };
 
 type ChannelDoctorCompatibilityNormalizer = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }) => ChannelDoctorCompatibilityMutation;
 
 function collectRelevantDoctorChannelIds(raw: unknown): string[] {
@@ -38,7 +38,7 @@ export function applyChannelDoctorCompatibilityMigrations(cfg: Record<string, un
   next: Record<string, unknown>;
   changes: string[];
 } {
-  let nextCfg = cfg as Brikko StudioConfig;
+  let nextCfg = cfg as BrikkoStudioConfig;
   const changes: string[] = [];
   const unresolvedChannelIds: string[] = [];
 
@@ -65,7 +65,7 @@ export function applyChannelDoctorCompatibilityMigrations(cfg: Record<string, un
   }
 
   return {
-    next: nextCfg as Brikko StudioConfig & Record<string, unknown>,
+    next: nextCfg as BrikkoStudioConfig & Record<string, unknown>,
     changes,
   };
 }

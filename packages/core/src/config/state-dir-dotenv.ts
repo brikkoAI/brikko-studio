@@ -8,7 +8,7 @@ import {
 } from "../infra/host-env-security.js";
 import { collectConfigServiceEnvVars } from "./config-env-vars.js";
 import { resolveStateDir } from "./paths.js";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
 function isBlockedServiceEnvVar(key: string): boolean {
   return isDangerousHostEnvVarName(key) || isDangerousHostEnvOverrideVarName(key);
@@ -64,7 +64,7 @@ export function readStateDirDotEnvVars(
  */
 export function collectDurableServiceEnvVars(params: {
   env: Record<string, string | undefined>;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): Record<string, string> {
   return {
     ...readStateDirDotEnvVars(params.env),

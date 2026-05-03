@@ -56,7 +56,7 @@ describe("live-agent-probes", () => {
         attempt: 1,
         exactReply: spec.name,
       }),
-    ).toContain("previous Brikko Studio cron MCP tool call was cancelled");
+    ).toContain("previous BrikkoStudio cron MCP tool call was cancelled");
     expect(JSON.parse(spec.argsJson)).toEqual(
       expect.objectContaining({
         job: expect.objectContaining({

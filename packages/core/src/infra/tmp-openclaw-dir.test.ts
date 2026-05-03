@@ -1,8 +1,8 @@
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import { POSIX_BRIKKO_STUDIO_TMP_DIR, resolvePreferredBrikko StudioTmpDir } from "./tmp-brikko-studio-dir.js";
+import { POSIX_BRIKKO_STUDIO_TMP_DIR, resolvePreferredBrikkoStudioTmpDir } from "./tmp-brikko-studio-dir.js";
 
-type TmpDirOptions = NonNullable<Parameters<typeof resolvePreferredBrikko StudioTmpDir>[0]>;
+type TmpDirOptions = NonNullable<Parameters<typeof resolvePreferredBrikkoStudioTmpDir>[0]>;
 
 function fallbackTmp(uid = 501) {
   return path.join("/var/fallback", `brikko-studio-${uid}`);
@@ -51,7 +51,7 @@ function resolveWithReadOnlyTmpFallback(params: {
   chmodSync?: NonNullable<TmpDirOptions["chmodSync"]>;
   warn?: NonNullable<TmpDirOptions["warn"]>;
 }) {
-  return resolvePreferredBrikko StudioTmpDir({
+  return resolvePreferredBrikkoStudioTmpDir({
     accessSync: readOnlyTmpAccessSync(),
     lstatSync: vi.fn((target: string) => {
       if (target === POSIX_BRIKKO_STUDIO_TMP_DIR) {
@@ -130,7 +130,7 @@ function resolveWithMocks(params: {
   const mkdirSync = vi.fn();
   const getuid = vi.fn(() => uid);
   const tmpdir = vi.fn(() => params.tmpdirPath ?? "/var/fallback");
-  const resolved = resolvePreferredBrikko StudioTmpDir({
+  const resolved = resolvePreferredBrikkoStudioTmpDir({
     accessSync,
     chmodSync,
     lstatSync: wrappedLstatSync,
@@ -142,7 +142,7 @@ function resolveWithMocks(params: {
   return { resolved, accessSync, lstatSync: wrappedLstatSync, mkdirSync, tmpdir };
 }
 
-describe("resolvePreferredBrikko StudioTmpDir", () => {
+describe("resolvePreferredBrikkoStudioTmpDir", () => {
   it("prefers /tmp/brikko-studio when it already exists and is writable", () => {
     const lstatSync: NonNullable<TmpDirOptions["lstatSync"]> = vi.fn(() => ({
       isDirectory: () => true,
@@ -283,7 +283,7 @@ describe("resolvePreferredBrikko StudioTmpDir", () => {
         lstatSync,
         fallbackLstatSync,
       }),
-    ).toThrow(/Unsafe fallback Brikko Studio temp dir/);
+    ).toThrow(/Unsafe fallback BrikkoStudio temp dir/);
   });
 
   it("creates fallback directory when missing, then validates ownership and mode", () => {
@@ -303,7 +303,7 @@ describe("resolvePreferredBrikko StudioTmpDir", () => {
     const tmpdirPath = "/var/fallback";
     const fallbackPath = path.join(tmpdirPath, "brikko-studio");
 
-    const resolved = resolvePreferredBrikko StudioTmpDir({
+    const resolved = resolvePreferredBrikkoStudioTmpDir({
       accessSync: vi.fn((target: string) => {
         if (target === "/tmp") {
           throw new Error("read-only");
@@ -406,7 +406,7 @@ describe("resolvePreferredBrikko StudioTmpDir", () => {
       return secureDirStat();
     });
 
-    const resolved = resolvePreferredBrikko StudioTmpDir({
+    const resolved = resolvePreferredBrikkoStudioTmpDir({
       accessSync: vi.fn(),
       lstatSync,
       chmodSync,
@@ -455,7 +455,7 @@ describe("resolvePreferredBrikko StudioTmpDir", () => {
       return secureDirStat();
     });
 
-    const resolved = resolvePreferredBrikko StudioTmpDir({
+    const resolved = resolvePreferredBrikkoStudioTmpDir({
       accessSync: vi.fn(),
       lstatSync,
       chmodSync,
@@ -494,7 +494,7 @@ describe("resolvePreferredBrikko StudioTmpDir", () => {
 
   it("throws when the fallback directory cannot be created", () => {
     expect(() =>
-      resolvePreferredBrikko StudioTmpDir({
+      resolvePreferredBrikkoStudioTmpDir({
         accessSync: readOnlyTmpAccessSync(),
         lstatSync: vi.fn((target: string) => {
           if (target === POSIX_BRIKKO_STUDIO_TMP_DIR || target === fallbackTmp()) {
@@ -510,6 +510,6 @@ describe("resolvePreferredBrikko StudioTmpDir", () => {
         tmpdir: vi.fn(() => "/var/fallback"),
         warn: vi.fn(),
       }),
-    ).toThrow(/Unable to create fallback Brikko Studio temp dir/);
+    ).toThrow(/Unable to create fallback BrikkoStudio temp dir/);
   });
 });

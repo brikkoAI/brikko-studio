@@ -1,35 +1,35 @@
 import { describe, expect, it } from "vitest";
 import {
-  compareBrikko StudioVersions,
-  isSameBrikko StudioStableFamily,
-  parseBrikko StudioVersion,
+  compareBrikkoStudioVersions,
+  isSameBrikkoStudioStableFamily,
+  parseBrikkoStudioVersion,
   shouldWarnOnTouchedVersion,
 } from "./version.js";
 
-describe("parseBrikko StudioVersion", () => {
+describe("parseBrikkoStudioVersion", () => {
   it("parses stable, correction, and beta forms", () => {
-    expect(parseBrikko StudioVersion("2026.3.23")).toEqual({
+    expect(parseBrikkoStudioVersion("2026.3.23")).toEqual({
       major: 2026,
       minor: 3,
       patch: 23,
       revision: null,
       prerelease: null,
     });
-    expect(parseBrikko StudioVersion("2026.3.23-1")).toEqual({
+    expect(parseBrikkoStudioVersion("2026.3.23-1")).toEqual({
       major: 2026,
       minor: 3,
       patch: 23,
       revision: 1,
       prerelease: null,
     });
-    expect(parseBrikko StudioVersion("2026.3.23-beta.1")).toEqual({
+    expect(parseBrikkoStudioVersion("2026.3.23-beta.1")).toEqual({
       major: 2026,
       minor: 3,
       patch: 23,
       revision: null,
       prerelease: ["beta", "1"],
     });
-    expect(parseBrikko StudioVersion("v2026.3.23.beta.2")).toEqual({
+    expect(parseBrikkoStudioVersion("v2026.3.23.beta.2")).toEqual({
       major: 2026,
       minor: 3,
       patch: 23,
@@ -39,31 +39,31 @@ describe("parseBrikko StudioVersion", () => {
   });
 
   it("rejects invalid versions", () => {
-    expect(parseBrikko StudioVersion("2026.3")).toBeNull();
-    expect(parseBrikko StudioVersion("latest")).toBeNull();
+    expect(parseBrikkoStudioVersion("2026.3")).toBeNull();
+    expect(parseBrikkoStudioVersion("latest")).toBeNull();
   });
 });
 
-describe("compareBrikko StudioVersions", () => {
+describe("compareBrikkoStudioVersions", () => {
   it("treats correction publishes as newer than the base stable release", () => {
-    expect(compareBrikko StudioVersions("2026.3.23", "2026.3.23-1")).toBe(-1);
-    expect(compareBrikko StudioVersions("2026.3.23-1", "2026.3.23")).toBe(1);
-    expect(compareBrikko StudioVersions("2026.3.23-2", "2026.3.23-1")).toBe(1);
+    expect(compareBrikkoStudioVersions("2026.3.23", "2026.3.23-1")).toBe(-1);
+    expect(compareBrikkoStudioVersions("2026.3.23-1", "2026.3.23")).toBe(1);
+    expect(compareBrikkoStudioVersions("2026.3.23-2", "2026.3.23-1")).toBe(1);
   });
 
   it("treats stable as newer than beta and compares beta identifiers", () => {
-    expect(compareBrikko StudioVersions("2026.3.23", "2026.3.23-beta.1")).toBe(1);
-    expect(compareBrikko StudioVersions("2026.3.23-beta.2", "2026.3.23-beta.1")).toBe(1);
-    expect(compareBrikko StudioVersions("2026.3.23.beta.1", "2026.3.23-beta.2")).toBe(-1);
+    expect(compareBrikkoStudioVersions("2026.3.23", "2026.3.23-beta.1")).toBe(1);
+    expect(compareBrikkoStudioVersions("2026.3.23-beta.2", "2026.3.23-beta.1")).toBe(1);
+    expect(compareBrikkoStudioVersions("2026.3.23.beta.1", "2026.3.23-beta.2")).toBe(-1);
   });
 });
 
-describe("isSameBrikko StudioStableFamily", () => {
+describe("isSameBrikkoStudioStableFamily", () => {
   it("treats same-base stable and correction versions as one family", () => {
-    expect(isSameBrikko StudioStableFamily("2026.3.23", "2026.3.23-1")).toBe(true);
-    expect(isSameBrikko StudioStableFamily("2026.3.23-1", "2026.3.23-2")).toBe(true);
-    expect(isSameBrikko StudioStableFamily("2026.3.23", "2026.3.24")).toBe(false);
-    expect(isSameBrikko StudioStableFamily("2026.3.23-beta.1", "2026.3.23")).toBe(false);
+    expect(isSameBrikkoStudioStableFamily("2026.3.23", "2026.3.23-1")).toBe(true);
+    expect(isSameBrikkoStudioStableFamily("2026.3.23-1", "2026.3.23-2")).toBe(true);
+    expect(isSameBrikkoStudioStableFamily("2026.3.23", "2026.3.24")).toBe(false);
+    expect(isSameBrikkoStudioStableFamily("2026.3.23-beta.1", "2026.3.23")).toBe(false);
   });
 });
 

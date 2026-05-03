@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createOpenAiCompatibleImageGenerationProvider,
   type ImageGenerationProvider,
@@ -26,16 +26,16 @@ const LITELLM_SUPPORTED_SIZES = [
 const LITELLM_MAX_INPUT_IMAGES = 5;
 
 type LitellmProviderConfig = NonNullable<
-  NonNullable<Brikko StudioConfig["models"]>["providers"]
+  NonNullable<BrikkoStudioConfig["models"]>["providers"]
 >[string];
 
 function resolveLitellmProviderConfig(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
 ): LitellmProviderConfig | undefined {
   return cfg?.models?.providers?.litellm;
 }
 
-function resolveConfiguredLitellmBaseUrl(cfg: Brikko StudioConfig | undefined): string {
+function resolveConfiguredLitellmBaseUrl(cfg: BrikkoStudioConfig | undefined): string {
   return normalizeOptionalString(resolveLitellmProviderConfig(cfg)?.baseUrl) ?? LITELLM_BASE_URL;
 }
 

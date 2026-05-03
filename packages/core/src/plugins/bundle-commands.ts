@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import { parseFrontmatterBlock } from "../markdown/frontmatter.js";
 import { isPathInsideWithRealpath } from "../security/scan-paths.js";
@@ -171,7 +171,7 @@ function loadBundleCommandsFromRoot(params: {
 
 export function loadEnabledClaudeBundleCommands(params: {
   workspaceDir: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): ClaudeBundleCommandSpec[] {
   if (!hasExplicitPluginConfig(params.cfg?.plugins)) {
     return [];

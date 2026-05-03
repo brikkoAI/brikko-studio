@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/setup";
 import { describe, expect, it, vi } from "vitest";
 import {
@@ -118,7 +118,7 @@ describe("telegramSetupDmPolicy", () => {
   });
 
   it("uses configured defaultAccount for omitted DM policy account context", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           defaultAccount: "alerts",
@@ -146,7 +146,7 @@ describe("telegramSetupDmPolicy", () => {
   });
 
   it('writes open policy state to the named account and preserves inherited allowFrom with "*"', () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           allowFrom: ["123"],

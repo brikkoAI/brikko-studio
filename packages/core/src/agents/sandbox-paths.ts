@@ -9,7 +9,7 @@ import {
 } from "../infra/local-file-access.js";
 import { assertNoPathAliasEscape, type PathAliasPolicy } from "../infra/path-alias-guards.js";
 import { isPathInside } from "../infra/path-guards.js";
-import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 import { isPassThroughRemoteMediaSource } from "../media/media-source-url.js";
 import { resolveConfigDir } from "../utils.js";
 
@@ -267,7 +267,7 @@ async function resolveAllowedTmpMediaPath(params: {
     return undefined;
   }
   const resolved = path.resolve(resolveSandboxInputPath(params.candidate, params.sandboxRoot));
-  const openClawTmpDir = path.resolve(resolvePreferredBrikko StudioTmpDir());
+  const openClawTmpDir = path.resolve(resolvePreferredBrikkoStudioTmpDir());
   if (!isPathInside(openClawTmpDir, resolved)) {
     return undefined;
   }

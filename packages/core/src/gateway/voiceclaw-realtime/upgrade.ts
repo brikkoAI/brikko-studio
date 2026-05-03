@@ -1,7 +1,7 @@
 import type { IncomingMessage } from "node:http";
 import type { Duplex } from "node:stream";
 import { WebSocketServer } from "ws";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { AuthRateLimiter } from "../auth-rate-limit.js";
 import type { ResolvedGatewayAuth } from "../auth.js";
 import { MAX_PAYLOAD_BYTES } from "../server-constants.js";
@@ -22,7 +22,7 @@ export function handleVoiceClawRealtimeUpgrade(opts: {
   socket: Duplex;
   head: Buffer;
   auth: ResolvedGatewayAuth;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   trustedProxies: string[];
   allowRealIpFallback: boolean;
   rateLimiter?: AuthRateLimiter;

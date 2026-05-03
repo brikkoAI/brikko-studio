@@ -1,7 +1,7 @@
 import {
   createDefaultModelPresetAppliers,
   type ModelDefinitionConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 
 export const LITELLM_BASE_URL = "http://localhost:4000";
@@ -30,7 +30,7 @@ export function buildLitellmModelDefinition(): ModelDefinitionConfig {
 
 const litellmPresetAppliers = createDefaultModelPresetAppliers({
   primaryModelRef: LITELLM_DEFAULT_MODEL_REF,
-  resolveParams: (cfg: Brikko StudioConfig) => {
+  resolveParams: (cfg: BrikkoStudioConfig) => {
     const existingProvider = cfg.models?.providers?.litellm as { baseUrl?: unknown } | undefined;
     const resolvedBaseUrl =
       typeof existingProvider?.baseUrl === "string" ? existingProvider.baseUrl.trim() : "";
@@ -46,10 +46,10 @@ const litellmPresetAppliers = createDefaultModelPresetAppliers({
   },
 });
 
-export function applyLitellmProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyLitellmProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return litellmPresetAppliers.applyProviderConfig(cfg);
 }
 
-export function applyLitellmConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyLitellmConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return litellmPresetAppliers.applyConfig(cfg);
 }

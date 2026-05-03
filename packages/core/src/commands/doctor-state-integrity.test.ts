@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   resolveStorePath,
   resolveSessionTranscriptsDirForAgent,
@@ -47,7 +47,7 @@ function restoreEnv(snapshot: EnvSnapshot) {
   }
 }
 
-function setupSessionState(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv, homeDir: string) {
+function setupSessionState(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv, homeDir: string) {
   const agentId = "main";
   const sessionsDir = resolveSessionTranscriptsDirForAgent(agentId, env, () => homeDir);
   const storePath = resolveStorePath(cfg.session?.store, { agentId });
@@ -84,7 +84,7 @@ const OAUTH_PROMPT_MATCHER = expect.objectContaining({
   message: expect.stringContaining("Create OAuth dir at"),
 });
 
-async function runStateIntegrity(cfg: Brikko StudioConfig) {
+async function runStateIntegrity(cfg: BrikkoStudioConfig) {
   setupSessionState(cfg, process.env, process.env.HOME ?? "");
   const confirmRuntimeRepair = vi.fn(async () => false);
   await noteStateIntegrity(cfg, { confirmRuntimeRepair, note: noteMock });
@@ -92,7 +92,7 @@ async function runStateIntegrity(cfg: Brikko StudioConfig) {
 }
 
 function writeSessionStore(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   sessions: Record<string, { sessionId: string; updatedAt: number } & Record<string, unknown>>,
 ) {
   setupSessionState(cfg, process.env, process.env.HOME ?? "");
@@ -100,13 +100,13 @@ function writeSessionStore(
   fs.writeFileSync(storePath, JSON.stringify(sessions, null, 2));
 }
 
-async function runStateIntegrityText(cfg: Brikko StudioConfig): Promise<string> {
+async function runStateIntegrityText(cfg: BrikkoStudioConfig): Promise<string> {
   await noteStateIntegrity(cfg, { confirmRuntimeRepair: vi.fn(async () => false), note: noteMock });
   return stateIntegrityText();
 }
 
 async function runOrphanTranscriptCheckWithQmdSessions(enabled: boolean, homeDir: string) {
-  const cfg: Brikko StudioConfig = {
+  const cfg: BrikkoStudioConfig = {
     memory: {
       backend: "qmd",
       qmd: {
@@ -143,7 +143,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("does not prompt for oauth dir when no whatsapp/pairing config is active", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const confirmRuntimeRepair = await runStateIntegrity(cfg);
     expect(confirmRuntimeRepair).not.toHaveBeenCalledWith(OAUTH_PROMPT_MATCHER);
     const text = stateIntegrityText();
@@ -152,7 +152,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("does not prompt for oauth dir when whatsapp is configured without persisted auth state", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         whatsapp: {},
       },
@@ -164,7 +164,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("prompts for oauth dir when a channel dmPolicy is pairing", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           dmPolicy: "pairing",
@@ -177,7 +177,7 @@ describe("doctor state integrity oauth dir checks", () => {
 
   it("prompts for oauth dir when BRIKKO_STUDIO_OAUTH_DIR is explicitly configured", async () => {
     process.env.BRIKKO_STUDIO_OAUTH_DIR = path.join(tempHome, ".oauth");
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const confirmRuntimeRepair = await runStateIntegrity(cfg);
     expect(confirmRuntimeRepair).toHaveBeenCalledWith(OAUTH_PROMPT_MATCHER);
     expect(stateIntegrityText()).toContain("CRITICAL: OAuth dir missing");
@@ -227,7 +227,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("warns about tombstoned subagent restart recovery sessions", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     writeSessionStore(cfg, {
       "agent:main:subagent:wedged-child": {
         sessionId: "session-wedged-child",
@@ -258,7 +258,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("clears stale aborted recovery flags for tombstoned subagent sessions when approved", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const sessionKey = "agent:main:subagent:wedged-child";
     writeSessionStore(cfg, {
       [sessionKey]: {
@@ -352,7 +352,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("detects orphan transcripts and offers archival remediation", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     setupSessionState(cfg, process.env, process.env.HOME ?? "");
     const sessionsDir = resolveSessionTranscriptsDirForAgent("main", process.env, () => tempHome);
     fs.writeFileSync(path.join(sessionsDir, "orphan-session.jsonl"), '{"type":"session"}\n');
@@ -375,7 +375,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("does not auto-archive orphan transcripts from non-interactive repair mode", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     setupSessionState(cfg, process.env, process.env.HOME ?? "");
     const sessionsDir = resolveSessionTranscriptsDirForAgent("main", process.env, () => tempHome);
     fs.writeFileSync(path.join(sessionsDir, "orphan-session.jsonl"), '{"type":"session"}\n');
@@ -399,7 +399,7 @@ describe("doctor state integrity oauth dir checks", () => {
   it.skipIf(process.platform === "win32")(
     "does not archive referenced transcripts when the state dir path resolves through a symlink",
     async () => {
-      const cfg: Brikko StudioConfig = {};
+      const cfg: BrikkoStudioConfig = {};
       const originalHome = tempHome;
       const symlinkHome = path.join(
         path.dirname(originalHome),
@@ -459,7 +459,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("prints brikko-studio-only verification hints when recent sessions are missing transcripts", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     writeSessionStore(cfg, {
       "agent:main:main": {
         sessionId: "missing-transcript",
@@ -478,7 +478,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("ignores slash-routing sessions for recent missing transcript warnings", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     writeSessionStore(cfg, {
       "agent:main:telegram:slash:6790081233": {
         sessionId: "missing-slash-transcript",

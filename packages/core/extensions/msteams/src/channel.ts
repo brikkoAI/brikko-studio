@@ -22,7 +22,7 @@ import { createRuntimeOutboundDelegates } from "brikko-studio/plugin-sdk/outboun
 import { createComputedAccountStatusAdapter } from "brikko-studio/plugin-sdk/status-helpers";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { Type } from "typebox";
-import type { ChannelMessageActionName, ChannelPlugin, Brikko StudioConfig } from "../runtime-api.js";
+import type { ChannelMessageActionName, ChannelPlugin, BrikkoStudioConfig } from "../runtime-api.js";
 import {
   buildProbeChannelStatusSummary,
   chunkTextForOutbound,
@@ -78,7 +78,7 @@ const TEAMS_GRAPH_PERMISSION_HINTS: Record<string, string> = {
 };
 
 const collectMSTeamsSecurityWarnings = createAllowlistProviderGroupPolicyWarningCollector<{
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }>({
   providerConfigPresent: (cfg) => cfg.channels?.msteams !== undefined,
   resolveGroupPolicy: ({ cfg }) => cfg.channels?.msteams?.groupPolicy,
@@ -95,7 +95,7 @@ const loadMSTeamsChannelRuntime = createLazyRuntimeNamedExport(
   "msTeamsChannelRuntime",
 );
 
-const resolveMSTeamsChannelConfig = (cfg: Brikko StudioConfig) => ({
+const resolveMSTeamsChannelConfig = (cfg: BrikkoStudioConfig) => ({
   allowFrom: cfg.channels?.msteams?.allowFrom,
   defaultTo: cfg.channels?.msteams?.defaultTo,
 });
@@ -1089,7 +1089,7 @@ export const msteamsPlugin: ChannelPlugin<ResolvedMSTeamsAccount, ProbeMSTeamsRe
       },
     },
     security: {
-      collectWarnings: projectConfigWarningCollector<{ cfg: Brikko StudioConfig }>(
+      collectWarnings: projectConfigWarningCollector<{ cfg: BrikkoStudioConfig }>(
         collectMSTeamsSecurityWarnings,
       ),
     },

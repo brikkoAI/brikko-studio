@@ -1,14 +1,14 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 
 export type DoctorConfigMutationState = {
-  cfg: Brikko StudioConfig;
-  candidate: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  candidate: BrikkoStudioConfig;
   pendingChanges: boolean;
   fixHints: string[];
 };
 
 export type DoctorConfigMutationResult = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
 };
 

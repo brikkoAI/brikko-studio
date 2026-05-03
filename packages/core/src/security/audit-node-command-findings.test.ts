@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   collectNodeDangerousAllowCommandFindings,
   collectNodeDenyCommandPatternFindings,
@@ -30,7 +30,7 @@ describe("security audit node command findings", () => {
               denyCommands: ["system.*", "system.runx"],
             },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         detailIncludes: ["system.*", "system.runx", "did you mean", "system.run"],
       },
       {
@@ -41,7 +41,7 @@ describe("security audit node command findings", () => {
               denyCommands: ["system.run.prep"],
             },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         detailIncludes: ["system.run.prep", "did you mean", "system.run.prepare"],
       },
       {
@@ -52,7 +52,7 @@ describe("security audit node command findings", () => {
               denyCommands: ["zzzzzzzzzzzzzz"],
             },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         detailIncludes: ["zzzzzzzzzzzzzz"],
         detailExcludes: ["did you mean"],
       },
@@ -64,7 +64,7 @@ describe("security audit node command findings", () => {
               denyCommands: ["camera.snap", "screen.record", "camera.snapp", "system.*"],
             },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         detailIncludes: ["camera.snapp", "system.*", "did you mean", "camera.snap"],
         detailExcludes: ["screen.record"],
       },
@@ -92,7 +92,7 @@ describe("security audit node command findings", () => {
           denyCommands: ["camera.snap", "camera.clip", "screen.record", "sms.send"],
         },
       },
-    } satisfies Brikko StudioConfig);
+    } satisfies BrikkoStudioConfig);
 
     expect(findings).toEqual([]);
   });
@@ -100,7 +100,7 @@ describe("security audit node command findings", () => {
   it("evaluates dangerous gateway.nodes.allowCommands findings", () => {
     const cases: Array<{
       name: string;
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       expectedSeverity?: "warn" | "critical";
       expectedAbsent?: boolean;
     }> = [
@@ -111,7 +111,7 @@ describe("security audit node command findings", () => {
             bind: "loopback",
             nodes: { allowCommands: ["camera.snap", "screen.record"] },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         expectedSeverity: "warn" as const,
       },
       {
@@ -121,7 +121,7 @@ describe("security audit node command findings", () => {
             bind: "lan",
             nodes: { allowCommands: ["camera.snap", "screen.record"] },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         expectedSeverity: "critical" as const,
       },
       {
@@ -133,7 +133,7 @@ describe("security audit node command findings", () => {
               denyCommands: ["camera.snap", "screen.record"],
             },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         expectedAbsent: true,
       },
     ];

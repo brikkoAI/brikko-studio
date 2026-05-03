@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
 import { updateSessionStore } from "brikko-studio/plugin-sdk/session-store-runtime";
 import { resolveWhatsAppLegacyGroupSessionKey } from "../../group-session-key.js";
@@ -6,7 +6,7 @@ import { resolveWhatsAppInboundPolicy } from "../../inbound-policy.js";
 import { loadSessionStore, resolveStorePath } from "../config.runtime.js";
 import { normalizeGroupActivation } from "./group-activation.runtime.js";
 
-function hasNamedWhatsAppAccounts(cfg: Brikko StudioConfig) {
+function hasNamedWhatsAppAccounts(cfg: BrikkoStudioConfig) {
   const accountIds = Object.keys(cfg.channels?.whatsapp?.accounts ?? {});
   return accountIds.some((accountId) => normalizeAccountId(accountId) !== DEFAULT_ACCOUNT_ID);
 }
@@ -28,7 +28,7 @@ function isActivationOnlyEntry(
 }
 
 export async function resolveGroupActivationFor(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   agentId: string;
   sessionKey: string;

@@ -1,5 +1,5 @@
 import { getExecApprovalReplyMetadata } from "brikko-studio/plugin-sdk/approval-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ChannelPlugin } from "brikko-studio/plugin-sdk/core";
 // Register the PlatformAdapter before any core/ module is used.
 import "./bridge/bootstrap.js";
@@ -11,7 +11,7 @@ import {
   resolveQQBotAccount,
 } from "./bridge/config.js";
 import type { GatewayContext } from "./bridge/gateway.js";
-import { toGatewayAccount, writeBrikko StudioConfigThroughRuntime } from "./bridge/narrowing.js";
+import { toGatewayAccount, writeBrikkoStudioConfigThroughRuntime } from "./bridge/narrowing.js";
 import { getQQBotRuntime } from "./bridge/runtime.js";
 import { qqbotSetupWizard } from "./bridge/setup/surface.js";
 import { qqbotChannelConfigSchema } from "./config-schema.js";
@@ -41,7 +41,7 @@ function persistAccountCredentialSnapshot(account: ResolvedQQBotAccount): void {
 }
 
 function shouldSuppressLocalQQBotApprovalPrompt(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   payload: { text?: string; channelData?: unknown };
   hint?: { kind: "approval-pending" | "approval-resolved"; approvalKind: "exec" | "plugin" };
@@ -176,7 +176,7 @@ export const qqbotPlugin: ChannelPlugin<ResolvedQQBotAccount> = {
               appId: backup.appId,
               clientSecret: backup.clientSecret,
             });
-            await writeBrikko StudioConfigThroughRuntime(getQQBotRuntime(), nextCfg);
+            await writeBrikkoStudioConfigThroughRuntime(getQQBotRuntime(), nextCfg);
             cfg = nextCfg;
             account = resolveQQBotAccount(nextCfg, account.accountId);
             log?.info(
@@ -243,10 +243,10 @@ export const qqbotPlugin: ChannelPlugin<ResolvedQQBotAccount> = {
       );
 
       if (changed) {
-        await writeBrikko StudioConfigThroughRuntime(getQQBotRuntime(), nextCfg as Brikko StudioConfig);
+        await writeBrikkoStudioConfigThroughRuntime(getQQBotRuntime(), nextCfg as BrikkoStudioConfig);
       }
 
-      const resolved = resolveQQBotAccount((changed ? nextCfg : cfg) as Brikko StudioConfig, accountId);
+      const resolved = resolveQQBotAccount((changed ? nextCfg : cfg) as BrikkoStudioConfig, accountId);
       const loggedOut = resolved.secretSource === "none";
       const envToken = Boolean(process.env.QQBOT_CLIENT_SECRET);
 

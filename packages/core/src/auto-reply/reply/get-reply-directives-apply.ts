@@ -1,5 +1,5 @@
 import type { SessionEntry, SessionScope } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { enqueueSystemEvent } from "../../infra/system-events.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import type { MsgContext } from "../templating.js";
@@ -14,8 +14,8 @@ import { clearInlineDirectives } from "./get-reply-directives-utils.js";
 import type { createModelSelectionState } from "./model-selection.js";
 import type { TypingController } from "./typing.js";
 
-type AgentDefaults = NonNullable<Brikko StudioConfig["agents"]>["defaults"];
-type AgentEntry = NonNullable<NonNullable<Brikko StudioConfig["agents"]>["list"]>[number];
+type AgentDefaults = NonNullable<BrikkoStudioConfig["agents"]>["defaults"];
+type AgentEntry = NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["list"]>[number];
 
 const commandsStatusLoader = createLazyImportLoader(() => import("./commands-status.runtime.js"));
 const directiveLevelsLoader = createLazyImportLoader(
@@ -93,7 +93,7 @@ export type ApplyDirectiveResult =
 
 export async function applyInlineDirectiveOverrides(params: {
   ctx: MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   agentDir: string;
   workspaceDir: string;

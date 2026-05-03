@@ -44,7 +44,7 @@ import {
 import {
   __testing,
   clearPluginLoaderCache,
-  loadBrikko StudioPlugins,
+  loadBrikkoStudioPlugins,
   PluginLoadReentryError,
   resolveRuntimePluginRegistry,
 } from "./loader.js";
@@ -78,7 +78,7 @@ import {
   registerMemoryPromptSupplement,
   resolveMemoryFlushPlan,
 } from "./memory-state.js";
-import { ensureBrikko StudioPluginSdkAlias } from "./plugin-sdk-dist-alias.js";
+import { ensureBrikkoStudioPluginSdkAlias } from "./plugin-sdk-dist-alias.js";
 import { createEmptyPluginRegistry } from "./registry.js";
 import {
   getActivePluginRegistry,
@@ -204,7 +204,7 @@ function loadBundledMemoryPluginRegistry(options?: {
 }) {
   if (!options && cachedBundledMemoryDir) {
     process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = cachedBundledMemoryDir;
-    return loadBrikko StudioPlugins({
+    return loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: cachedBundledMemoryDir,
       config: {
@@ -254,7 +254,7 @@ function loadBundledMemoryPluginRegistry(options?: {
   }
   process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-  return loadBrikko StudioPlugins({
+  return loadBrikkoStudioPlugins({
     cache: false,
     workspaceDir: bundledDir,
     config: {
@@ -280,7 +280,7 @@ function setupBundledTelegramPlugin() {
   process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = cachedBundledTelegramDir;
 }
 
-function expectTelegramLoaded(registry: ReturnType<typeof loadBrikko StudioPlugins>) {
+function expectTelegramLoaded(registry: ReturnType<typeof loadBrikkoStudioPlugins>) {
   const telegram = registry.plugins.find((entry) => entry.id === "telegram");
   expect(telegram?.status).toBe("loaded");
   expect(registry.channels.some((entry) => entry.plugin.id === "telegram")).toBe(true);
@@ -290,10 +290,10 @@ function loadRegistryFromSinglePlugin(params: {
   plugin: TempPlugin;
   pluginConfig?: Record<string, unknown>;
   includeWorkspaceDir?: boolean;
-  options?: Omit<Parameters<typeof loadBrikko StudioPlugins>[0], "cache" | "workspaceDir" | "config">;
+  options?: Omit<Parameters<typeof loadBrikkoStudioPlugins>[0], "cache" | "workspaceDir" | "config">;
 }) {
   const pluginConfig = params.pluginConfig ?? {};
-  return loadBrikko StudioPlugins({
+  return loadBrikkoStudioPlugins({
     cache: false,
     ...(params.includeWorkspaceDir === false ? {} : { workspaceDir: params.plugin.dir }),
     ...params.options,
@@ -308,9 +308,9 @@ function loadRegistryFromSinglePlugin(params: {
 
 function loadRegistryFromAllowedPlugins(
   plugins: TempPlugin[],
-  options?: Omit<Parameters<typeof loadBrikko StudioPlugins>[0], "cache" | "config">,
+  options?: Omit<Parameters<typeof loadBrikkoStudioPlugins>[0], "cache" | "config">,
 ) {
-  return loadBrikko StudioPlugins({
+  return loadBrikkoStudioPlugins({
     cache: false,
     ...options,
     config: {
@@ -546,7 +546,7 @@ function createEscapingEntryFixture(params: { id: string; sourceBody: string }) 
 }
 
 function resolveLoadedPluginSource(
-  registry: ReturnType<typeof loadBrikko StudioPlugins>,
+  registry: ReturnType<typeof loadBrikkoStudioPlugins>,
   pluginId: string,
 ) {
   return fs.realpathSync(registry.plugins.find((entry) => entry.id === pluginId)?.source ?? "");
@@ -554,8 +554,8 @@ function resolveLoadedPluginSource(
 
 function expectCachePartitionByPluginSource(params: {
   pluginId: string;
-  loadFirst: () => ReturnType<typeof loadBrikko StudioPlugins>;
-  loadSecond: () => ReturnType<typeof loadBrikko StudioPlugins>;
+  loadFirst: () => ReturnType<typeof loadBrikkoStudioPlugins>;
+  loadSecond: () => ReturnType<typeof loadBrikkoStudioPlugins>;
   expectedFirstSource: string;
   expectedSecondSource: string;
 }) {
@@ -572,8 +572,8 @@ function expectCachePartitionByPluginSource(params: {
 }
 
 function expectCacheMissThenHit(params: {
-  loadFirst: () => ReturnType<typeof loadBrikko StudioPlugins>;
-  loadVariant: () => ReturnType<typeof loadBrikko StudioPlugins>;
+  loadFirst: () => ReturnType<typeof loadBrikkoStudioPlugins>;
+  loadVariant: () => ReturnType<typeof loadBrikkoStudioPlugins>;
 }) {
   const first = params.loadFirst();
   const second = params.loadVariant();
@@ -834,7 +834,7 @@ function expectEscapingEntryRejected(params: {
     throw err;
   }
 
-  const registry = loadBrikko StudioPlugins({
+  const registry = loadBrikkoStudioPlugins({
     cache: false,
     config: {
       plugins: {
@@ -862,7 +862,7 @@ afterAll(() => {
   cachedBundledMemoryDir = "";
 });
 
-describe("loadBrikko StudioPlugins", () => {
+describe("loadBrikkoStudioPlugins", () => {
   it("can load scoped plugins from a supplied manifest registry without rereading manifests", () => {
     useNoBundledPlugins();
     const plugin = writePlugin({
@@ -878,7 +878,7 @@ describe("loadBrikko StudioPlugins", () => {
     const manifestRegistry = loadPluginManifestRegistry({ config });
     fs.rmSync(path.join(plugin.dir, "brikko-studio.plugin.json"));
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config,
       manifestRegistry,
@@ -909,7 +909,7 @@ describe("loadBrikko StudioPlugins", () => {
     );
 
     const registry = withEnv({ BRIKKO_STUDIO_STATE_DIR: stateDir }, () =>
-      loadBrikko StudioPlugins({
+      loadBrikkoStudioPlugins({
         cache: false,
         config: {
           plugins: {
@@ -938,9 +938,9 @@ describe("loadBrikko StudioPlugins", () => {
     fs.writeFileSync(path.join(pluginSdkDir, "core.js"), "export const core = 1;\n", "utf8");
     fs.writeFileSync(path.join(aliasDir, "sentinel.txt"), "keep\n", "utf8");
 
-    ensureBrikko StudioPluginSdkAlias(distRoot);
+    ensureBrikkoStudioPluginSdkAlias(distRoot);
     fs.writeFileSync(path.join(pluginSdkDir, "core.js"), "export const core = 2;\n", "utf8");
-    ensureBrikko StudioPluginSdkAlias(distRoot);
+    ensureBrikkoStudioPluginSdkAlias(distRoot);
 
     expect(fs.existsSync(path.join(aliasDir, "sentinel.txt"))).toBe(true);
     expect(fs.readFileSync(path.join(aliasDir, "core.js"), "utf8")).toContain("core.js");
@@ -956,7 +956,7 @@ describe("loadBrikko StudioPlugins", () => {
     });
     process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -984,7 +984,7 @@ describe("loadBrikko StudioPlugins", () => {
       "export const normalizeLowercaseStringOrEmpty = (value) => String(value).toLowerCase();\n",
       "utf-8",
     );
-    ensureBrikko StudioPluginSdkAlias(path.join(packageRoot, "dist"));
+    ensureBrikkoStudioPluginSdkAlias(path.join(packageRoot, "dist"));
     fs.writeFileSync(
       path.join(pluginRoot, "index.js"),
       [
@@ -1028,7 +1028,7 @@ describe("loadBrikko StudioPlugins", () => {
     );
     process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1081,7 +1081,7 @@ describe("loadBrikko StudioPlugins", () => {
           },
         },
       } satisfies PluginLoadConfig,
-      assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+      assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
         expectTelegramLoaded(registry);
       },
     },
@@ -1097,7 +1097,7 @@ describe("loadBrikko StudioPlugins", () => {
           enabled: true,
         },
       } satisfies PluginLoadConfig,
-      assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+      assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
         expectTelegramLoaded(registry);
       },
     },
@@ -1113,7 +1113,7 @@ describe("loadBrikko StudioPlugins", () => {
           allow: ["browser"],
         },
       } satisfies PluginLoadConfig,
-      assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+      assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
         const telegram = registry.plugins.find((entry) => entry.id === "telegram");
         expect(telegram?.status).toBe("loaded");
         expect(telegram?.error).toBeUndefined();
@@ -1134,7 +1134,7 @@ describe("loadBrikko StudioPlugins", () => {
           },
         },
       } satisfies PluginLoadConfig,
-      assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+      assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
         const telegram = registry.plugins.find((entry) => entry.id === "telegram");
         expect(telegram?.status).toBe("disabled");
         expect(telegram?.error).toBe("disabled in config");
@@ -1144,7 +1144,7 @@ describe("loadBrikko StudioPlugins", () => {
     "handles bundled telegram plugin enablement and override rules: $name",
     ({ config, assert }) => {
       setupBundledTelegramPlugin();
-      const registry = loadBrikko StudioPlugins({
+      const registry = loadBrikkoStudioPlugins({
         cache: false,
         workspaceDir: cachedBundledTelegramDir,
         config,
@@ -1170,7 +1170,7 @@ describe("loadBrikko StudioPlugins", () => {
       env: {},
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: autoEnabled.config,
@@ -1203,7 +1203,7 @@ describe("loadBrikko StudioPlugins", () => {
       env: {},
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: autoEnabled.config,
@@ -1236,7 +1236,7 @@ describe("loadBrikko StudioPlugins", () => {
       },
     } satisfies PluginLoadConfig;
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: {
@@ -1278,7 +1278,7 @@ describe("loadBrikko StudioPlugins", () => {
       },
     } satisfies PluginLoadConfig;
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: bundledDir,
       config,
@@ -1326,7 +1326,7 @@ describe("loadBrikko StudioPlugins", () => {
 };`,
         });
 
-        const registry = loadBrikko StudioPlugins({
+        const registry = loadBrikkoStudioPlugins({
           cache: false,
           workspaceDir: plugin.dir,
           config: {
@@ -1361,7 +1361,7 @@ describe("loadBrikko StudioPlugins", () => {
 };`,
         });
 
-        const registry = loadBrikko StudioPlugins({
+        const registry = loadBrikkoStudioPlugins({
           cache: false,
           workspaceDir: plugin.dir,
           config: {
@@ -1399,7 +1399,7 @@ describe("loadBrikko StudioPlugins", () => {
 };`,
         });
 
-        const registry = loadBrikko StudioPlugins({
+        const registry = loadBrikkoStudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -1433,7 +1433,7 @@ describe("loadBrikko StudioPlugins", () => {
 module.exports = { id: "skipped-scoped-only", register() { throw new Error("skipped plugin should not load"); } };`,
         });
 
-        const registry = loadBrikko StudioPlugins({
+        const registry = loadBrikkoStudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -1460,7 +1460,7 @@ module.exports = { id: "skipped-scoped-only", register() { throw new Error("skip
 module.exports = { id: "manifest-only-plugin", register() { throw new Error("manifest-only snapshot should not register"); } };`,
         });
 
-        const registry = loadBrikko StudioPlugins({
+        const registry = loadBrikkoStudioPlugins({
           cache: false,
           activate: false,
           loadModules: false,
@@ -1515,7 +1515,7 @@ module.exports = { id: "manifest-surfaces-plugin", register() { throw new Error(
           "utf-8",
         );
 
-        const registry = loadBrikko StudioPlugins({
+        const registry = loadBrikkoStudioPlugins({
           cache: false,
           activate: false,
           loadModules: false,
@@ -1569,7 +1569,7 @@ module.exports = { id: "manifest-surfaces-plugin", register() { throw new Error(
           "utf-8",
         );
 
-        const registry = loadBrikko StudioPlugins({
+        const registry = loadBrikkoStudioPlugins({
           cache: false,
           activate: false,
           loadModules: false,
@@ -1616,7 +1616,7 @@ throw new Error("boom after import");
 module.exports = { id: "throws-after-import", register() {} };`,
         });
 
-        const registry = loadBrikko StudioPlugins({
+        const registry = loadBrikkoStudioPlugins({
           cache: false,
           activate: false,
           config: {
@@ -1653,7 +1653,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         Reflect.set(
           globalThis,
           reenterFnMarker,
-          (options: Parameters<typeof loadBrikko StudioPlugins>[0]) => loadBrikko StudioPlugins(options),
+          (options: Parameters<typeof loadBrikkoStudioPlugins>[0]) => loadBrikkoStudioPlugins(options),
         );
         const pluginDir = makeTempDir();
         const pluginFile = path.join(pluginDir, "reentrant-snapshot.cjs");
@@ -1667,7 +1667,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
               allow: ["reentrant-snapshot"],
             },
           },
-        } satisfies Parameters<typeof loadBrikko StudioPlugins>[0];
+        } satisfies Parameters<typeof loadBrikkoStudioPlugins>[0];
         writePlugin({
           id: "reentrant-snapshot",
           dir: pluginDir,
@@ -1688,7 +1688,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 };`,
         });
 
-        const registry = loadBrikko StudioPlugins(nestedOptions);
+        const registry = loadBrikkoStudioPlugins(nestedOptions);
 
         try {
           expect(Reflect.get(globalThis, marker)).toMatchObject({
@@ -1733,7 +1733,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
               allow: ["runtime-registry-reentry"],
             },
           },
-        } satisfies Parameters<typeof loadBrikko StudioPlugins>[0];
+        } satisfies Parameters<typeof loadBrikkoStudioPlugins>[0];
         writePlugin({
           id: "runtime-registry-reentry",
           dir: pluginDir,
@@ -1747,7 +1747,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 };`,
         });
 
-        const registry = loadBrikko StudioPlugins(nestedOptions);
+        const registry = loadBrikkoStudioPlugins(nestedOptions);
 
         try {
           expect(Reflect.get(globalThis, marker)).toBe("undefined");
@@ -1785,12 +1785,12 @@ module.exports = { id: "throws-after-import", register() {} };`,
           },
         };
 
-        const full = loadBrikko StudioPlugins(options);
-        const scoped = loadBrikko StudioPlugins({
+        const full = loadBrikkoStudioPlugins(options);
+        const scoped = loadBrikkoStudioPlugins({
           ...options,
           onlyPluginIds: ["allowed-cache-scope"],
         });
-        const scopedAgain = loadBrikko StudioPlugins({
+        const scopedAgain = loadBrikkoStudioPlugins({
           ...options,
           onlyPluginIds: ["allowed-cache-scope"],
         });
@@ -1817,7 +1817,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         setActivePluginRegistry(previousRegistry, "existing-registry");
         resetGlobalHookRunner();
 
-        const scoped = loadBrikko StudioPlugins({
+        const scoped = loadBrikkoStudioPlugins({
           cache: false,
           activate: false,
           workspaceDir: plugin.dir,
@@ -1853,7 +1853,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       body: `module.exports = { id: "extra-empty-scope", register() {} };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       activate: false,
       config: {
@@ -1878,10 +1878,10 @@ module.exports = { id: "throws-after-import", register() {} };`,
 
     const discovery = await import("./discovery.js");
     const manifestRegistry = await import("./manifest-registry.js");
-    const discoverySpy = vi.spyOn(discovery, "discoverBrikko StudioPlugins");
+    const discoverySpy = vi.spyOn(discovery, "discoverBrikkoStudioPlugins");
     const manifestSpy = vi.spyOn(manifestRegistry, "loadPluginManifestRegistry");
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       activate: false,
       config: {
@@ -1920,7 +1920,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     });
     clearPluginCommands();
 
-    const scoped = loadBrikko StudioPlugins({
+    const scoped = loadBrikkoStudioPlugins({
       cache: false,
       activate: false,
       workspaceDir: plugin.dir,
@@ -1937,7 +1937,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     expect(scoped.commands.map((entry) => entry.command.name)).toEqual(["pair"]);
     expect(getPluginCommandSpecs("telegram")).toEqual([]);
 
-    const active = loadBrikko StudioPlugins({
+    const active = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -1979,7 +1979,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    loadBrikko StudioPlugins({
+    loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -1992,7 +1992,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     });
     expect(listAgentHarnessIds()).toEqual(["codex"]);
 
-    loadBrikko StudioPlugins({
+    loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: makeTempDir(),
       config: {
@@ -2020,7 +2020,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2056,7 +2056,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     });
 
     clearInternalHooks();
-    const scoped = loadBrikko StudioPlugins({
+    const scoped = loadBrikkoStudioPlugins({
       cache: false,
       activate: false,
       workspaceDir: plugin.dir,
@@ -2111,8 +2111,8 @@ module.exports = { id: "throws-after-import", register() {} };`,
       onlyPluginIds: ["internal-hook-reload"],
     };
 
-    loadBrikko StudioPlugins(loadOptions);
-    loadBrikko StudioPlugins(loadOptions);
+    loadBrikkoStudioPlugins(loadOptions);
+    loadBrikkoStudioPlugins(loadOptions);
 
     const event = createInternalHookEvent("gateway", "startup", "gateway:startup");
     await triggerInternalHook(event);
@@ -2154,7 +2154,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 
     clearInternalHooks();
 
-    loadBrikko StudioPlugins({
+    loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2236,7 +2236,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     clearPluginCommands();
     clearPluginInteractiveHandlers();
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2285,7 +2285,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 
     clearInternalHooks();
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2330,7 +2330,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2358,7 +2358,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
   });
 
   it("can scope bundled provider loads to deepseek without hanging", () => {
-    const scoped = loadBrikko StudioPlugins({
+    const scoped = loadBrikkoStudioPlugins({
       cache: false,
       activate: false,
       pluginSdkResolution: "dist",
@@ -2439,7 +2439,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const scoped = loadBrikko StudioPlugins({
+    const scoped = loadBrikkoStudioPlugins({
       cache: false,
       activate: false,
       workspaceDir: plugin.dir,
@@ -2504,7 +2504,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2551,7 +2551,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const scoped = loadBrikko StudioPlugins({
+    const scoped = loadBrikkoStudioPlugins({
       cache: false,
       activate: false,
       workspaceDir: plugin.dir,
@@ -2597,7 +2597,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -2647,15 +2647,15 @@ module.exports = { id: "throws-after-import", register() {} };`,
         },
       },
       onlyPluginIds: ["cached-detached-runtime"],
-    } satisfies Parameters<typeof loadBrikko StudioPlugins>[0];
+    } satisfies Parameters<typeof loadBrikkoStudioPlugins>[0];
 
-    loadBrikko StudioPlugins(loadOptions);
+    loadBrikkoStudioPlugins(loadOptions);
     expect(getDetachedTaskLifecycleRuntimeRegistration()?.pluginId).toBe("cached-detached-runtime");
 
     clearDetachedTaskLifecycleRuntimeRegistration();
     expect(getDetachedTaskLifecycleRuntimeRegistration()).toBeUndefined();
 
-    loadBrikko StudioPlugins(loadOptions);
+    loadBrikkoStudioPlugins(loadOptions);
 
     expect(getDetachedTaskLifecycleRuntimeRegistration()?.pluginId).toBe("cached-detached-runtime");
   });
@@ -2691,9 +2691,9 @@ module.exports = { id: "throws-after-import", register() {} };`,
         },
       },
       onlyPluginIds: ["cached-command-interactive"],
-    } satisfies Parameters<typeof loadBrikko StudioPlugins>[0];
+    } satisfies Parameters<typeof loadBrikkoStudioPlugins>[0];
 
-    loadBrikko StudioPlugins(loadOptions);
+    loadBrikkoStudioPlugins(loadOptions);
     expect(getPluginCommandSpecs()).toEqual([
       { name: "hue", description: "Control Hue lights", acceptsArgs: false },
     ]);
@@ -2704,7 +2704,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     commitPluginInteractiveCallbackDedupe(dedupeKey, 1_000);
     expect(claimPluginInteractiveCallbackDedupe(dedupeKey, 1_001)).toBe(false);
 
-    loadBrikko StudioPlugins(loadOptions);
+    loadBrikkoStudioPlugins(loadOptions);
     expect(claimPluginInteractiveCallbackDedupe(dedupeKey, 1_002)).toBe(false);
 
     clearPluginCommands();
@@ -2712,7 +2712,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     expect(getPluginCommandSpecs()).toEqual([]);
     expect(resolvePluginInteractiveNamespaceMatch("telegram", "hue:on")).toBeNull();
 
-    loadBrikko StudioPlugins(loadOptions);
+    loadBrikkoStudioPlugins(loadOptions);
 
     expect(getPluginCommandSpecs()).toEqual([
       { name: "hue", description: "Control Hue lights", acceptsArgs: false },
@@ -2731,7 +2731,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     useNoBundledPlugins();
     registerDetachedTaskLifecycleRuntime("stale-runtime", createDetachedTaskRuntimeStub("stale"));
 
-    loadBrikko StudioPlugins({
+    loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -2797,14 +2797,14 @@ module.exports = { id: "throws-after-import", register() {} };`,
       },
     ];
 
-    const first = loadBrikko StudioPlugins(options);
+    const first = loadBrikkoStudioPlugins(options);
     await expect(listActiveMemoryPublicArtifacts({ cfg: {} as never })).resolves.toEqual(
       expectedArtifacts,
     );
 
     clearMemoryPluginState();
 
-    const second = loadBrikko StudioPlugins(options);
+    const second = loadBrikkoStudioPlugins(options);
     expect(second).toBe(first);
     await expect(listActiveMemoryPublicArtifacts({ cfg: {} as never })).resolves.toEqual(
       expectedArtifacts,
@@ -2856,7 +2856,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         slots: { memory: "capability-survives-memory" },
       },
     };
-    loadBrikko StudioPlugins({
+    loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: memoryPlugin.dir,
       config: activateConfig,
@@ -2880,7 +2880,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     // Simulate what resolvePluginWebSearchProviders and similar read-only paths do:
     // load plugins again with activate:false. Each per-plugin snapshot/rollback must
     // preserve the previously registered memory capability.
-    loadBrikko StudioPlugins({
+    loadBrikkoStudioPlugins({
       cache: false,
       activate: false,
       workspaceDir: memoryPlugin.dir,
@@ -2921,7 +2921,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       },
     };
 
-    const snapshot = loadBrikko StudioPlugins({
+    const snapshot = loadBrikkoStudioPlugins({
       activate: false,
       cache: false,
       workspaceDir: plugin.dir,
@@ -2931,7 +2931,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     expect(snapshot.providers.map((entry) => entry.provider.id)).toEqual(["discovery-provider"]);
     expect(snapshot.tools.flatMap((entry) => entry.names)).toContain("discovery_tool");
 
-    loadBrikko StudioPlugins({
+    loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config,
@@ -2958,7 +2958,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       activate: false,
       cache: false,
       workspaceDir: plugin.dir,
@@ -3000,7 +3000,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     });
     updatePluginManifest(plugin, { contracts: { tools: ["manifest_tool"] } });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       activate: false,
       cache: false,
       workspaceDir: plugin.dir,
@@ -3054,15 +3054,15 @@ module.exports = { id: "throws-after-import", register() {} };`,
       onlyPluginIds: ["snapshot-cache"],
     };
 
-    const first = loadBrikko StudioPlugins(options);
-    const second = loadBrikko StudioPlugins(options);
+    const first = loadBrikkoStudioPlugins(options);
+    const second = loadBrikkoStudioPlugins(options);
 
     expect(second).toBe(first);
     expect((globalThis as Record<string, unknown>)[marker]).toBe(1);
     expect(first.commands.map((entry) => entry.command.name)).toEqual(["snapshot-command"]);
     expect(getPluginCommandSpecs()).toEqual([]);
 
-    const active = loadBrikko StudioPlugins({
+    const active = loadBrikkoStudioPlugins({
       workspaceDir: plugin.dir,
       config: options.config,
       onlyPluginIds: ["snapshot-cache"],
@@ -3102,7 +3102,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       },
     };
 
-    loadBrikko StudioPlugins({
+    loadBrikkoStudioPlugins({
       workspaceDir: plugin.dir,
       config,
       runtimeOptions: {
@@ -3145,13 +3145,13 @@ module.exports = { id: "throws-after-import", register() {} };`,
       },
     };
 
-    const gatewayBindable = loadBrikko StudioPlugins({
+    const gatewayBindable = loadBrikkoStudioPlugins({
       ...options,
       runtimeOptions: {
         allowGatewaySubagentBinding: true,
       },
     });
-    const defaultMode = loadBrikko StudioPlugins(options);
+    const defaultMode = loadBrikkoStudioPlugins(options);
 
     expect(defaultMode).toBe(gatewayBindable);
     expect((globalThis as Record<string, unknown>)[marker]).toBe(1);
@@ -3176,13 +3176,13 @@ module.exports = { id: "throws-after-import", register() {} };`,
       },
     };
 
-    const first = loadBrikko StudioPlugins(options);
+    const first = loadBrikkoStudioPlugins(options);
     expect(getGlobalHookRunner()).not.toBeNull();
 
     resetGlobalHookRunner();
     expect(getGlobalHookRunner()).toBeNull();
 
-    const second = loadBrikko StudioPlugins(options);
+    const second = loadBrikkoStudioPlugins(options);
     expect(second).toBe(first);
     expect(getGlobalHookRunner()).not.toBeNull();
 
@@ -3206,7 +3206,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       } };`,
     });
 
-    const gatewayRegistry = loadBrikko StudioPlugins({
+    const gatewayRegistry = loadBrikkoStudioPlugins({
       workspaceDir: gatewayPlugin.dir,
       config: {
         plugins: {
@@ -3227,7 +3227,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     expect(getGlobalPluginRegistry()).toBe(gatewayRegistry);
     expect(getGlobalHookRunner()?.hasHooks("subagent_ended")).toBe(true);
 
-    const defaultRegistry = loadBrikko StudioPlugins({
+    const defaultRegistry = loadBrikkoStudioPlugins({
       workspaceDir: defaultPlugin.dir,
       config: {
         plugins: {
@@ -3284,7 +3284,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
           expectedFirstSource: pluginA.file,
           expectedSecondSource: pluginB.file,
           loadFirst: () =>
-            loadBrikko StudioPlugins({
+            loadBrikkoStudioPlugins({
               ...options,
               env: {
                 ...process.env,
@@ -3292,7 +3292,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
               },
             }),
           loadSecond: () =>
-            loadBrikko StudioPlugins({
+            loadBrikkoStudioPlugins({
               ...options,
               env: {
                 ...process.env,
@@ -3341,7 +3341,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
           expectedFirstSource: pluginA.file,
           expectedSecondSource: pluginB.file,
           loadFirst: () =>
-            loadBrikko StudioPlugins({
+            loadBrikkoStudioPlugins({
               ...options,
               env: {
                 ...process.env,
@@ -3352,7 +3352,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
               },
             }),
           loadSecond: () =>
-            loadBrikko StudioPlugins({
+            loadBrikkoStudioPlugins({
               ...options,
               env: {
                 ...process.env,
@@ -3416,7 +3416,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         const secondHome = makeTempDir();
         return {
           loadFirst: () =>
-            loadBrikko StudioPlugins({
+            loadBrikkoStudioPlugins({
               ...options,
               env: {
                 ...process.env,
@@ -3427,7 +3427,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
               },
             }),
           loadVariant: () =>
-            loadBrikko StudioPlugins({
+            loadBrikkoStudioPlugins({
               ...options,
               env: {
                 ...process.env,
@@ -3463,9 +3463,9 @@ module.exports = { id: "throws-after-import", register() {} };`,
         };
 
         return {
-          loadFirst: () => loadBrikko StudioPlugins(options),
+          loadFirst: () => loadBrikkoStudioPlugins(options),
           loadVariant: () =>
-            loadBrikko StudioPlugins({
+            loadBrikkoStudioPlugins({
               ...options,
               pluginSdkResolution: "workspace" as PluginSdkResolutionPreference,
             }),
@@ -3495,9 +3495,9 @@ module.exports = { id: "throws-after-import", register() {} };`,
         };
 
         return {
-          loadFirst: () => loadBrikko StudioPlugins(options),
+          loadFirst: () => loadBrikkoStudioPlugins(options),
           loadVariant: () =>
-            loadBrikko StudioPlugins({
+            loadBrikkoStudioPlugins({
               ...options,
               runtimeOptions: {
                 allowGatewaySubagentBinding: true,
@@ -3524,7 +3524,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     );
 
     const loadWithStateDir = (stateDir: string) =>
-      loadBrikko StudioPlugins({
+      loadBrikkoStudioPlugins({
         env: {
           ...process.env,
           BRIKKO_STUDIO_STATE_DIR: stateDir,
@@ -3568,7 +3568,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       body: `module.exports = { id: "tilde-bundled", register() {} };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       env: {
         ...process.env,
         HOME: homeDir,
@@ -3602,7 +3602,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       body: `module.exports = { id: "brikko-studio-home-demo", register() {} };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       env: {
         ...process.env,
         HOME: ignoredHome,
@@ -3751,7 +3751,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     });
 
     expect(() =>
-      loadBrikko StudioPlugins({
+      loadBrikkoStudioPlugins({
         cache: false,
         throwOnLoadError: true,
         config: {
@@ -3853,7 +3853,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     }
   });
 } };`,
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           const channel = registry.channels.find((entry) => entry.plugin.id === "demo");
           expect(channel).toBeDefined();
         },
@@ -3899,7 +3899,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
     }
   });
 } };`,
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expect(registry.channels.filter((entry) => entry.plugin.id === "demo")).toHaveLength(1);
           expect(
             registry.channels.find((entry) => entry.plugin.id === "demo")?.plugin.meta?.label,
@@ -3912,7 +3912,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         body: `module.exports = { id: "context-engine-malformed", register(api) {
   api.registerContextEngine({ id: "broken-context" });
 } };`,
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expectRegistryErrorDiagnostic({
             registry,
             pluginId: "context-engine-malformed",
@@ -3927,7 +3927,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         body: `module.exports = { id: "context-engine-core-collision", register(api) {
   api.registerContextEngine("legacy", () => ({}));
 } };`,
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expectRegistryErrorDiagnostic({
             registry,
             pluginId: "context-engine-core-collision",
@@ -3941,7 +3941,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         body: `module.exports = { id: "compaction-provider-malformed", register(api) {
   api.registerCompactionProvider({ id: "broken-compaction", label: "Broken" });
 } };`,
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expectRegistryErrorDiagnostic({
             registry,
             pluginId: "compaction-provider-malformed",
@@ -3956,7 +3956,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         body: `module.exports = { id: "memory-prompt-supplement-malformed", register(api) {
   api.registerMemoryPromptSupplement({ id: "broken-memory-prompt" });
 } };`,
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expectRegistryErrorDiagnostic({
             registry,
             pluginId: "memory-prompt-supplement-malformed",
@@ -3971,7 +3971,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         body: `module.exports = { id: "cli-missing-metadata", register(api) {
   api.registerCli(() => {});
 } };`,
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expect(registry.cliRegistrars).toHaveLength(0);
           expectRegistryErrorDiagnostic({
             registry,
@@ -4031,7 +4031,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         buildBody: (ownerId: string) => `module.exports = { id: "${ownerId}", register(api) {
   api.registerHook("gateway:startup", () => {}, { name: "shared-hook" });
 } };`,
-        selectCount: (registry: ReturnType<typeof loadBrikko StudioPlugins>) =>
+        selectCount: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) =>
           registry.hooks.filter((entry) => entry.entry.hook.name === "shared-hook").length,
         duplicateMessage: "hook already registered: shared-hook (hook-owner-a)",
         assert: expectDuplicateRegistrationResult,
@@ -4043,7 +4043,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         buildBody: (ownerId: string) => `module.exports = { id: "${ownerId}", register(api) {
   api.registerService({ id: "shared-service", start() {} });
 } };`,
-        selectCount: (registry: ReturnType<typeof loadBrikko StudioPlugins>) =>
+        selectCount: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) =>
           registry.services.filter((entry) => entry.service.id === "shared-service").length,
         duplicateMessage: "service already registered: shared-service (service-owner-a)",
         assert: expectDuplicateRegistrationResult,
@@ -4055,13 +4055,13 @@ module.exports = { id: "throws-after-import", register() {} };`,
         buildBody: (ownerId: string) => `module.exports = { id: "${ownerId}", register(api) {
   api.registerGatewayDiscoveryService({ id: "shared-discovery", advertise() {} });
 } };`,
-        selectCount: (registry: ReturnType<typeof loadBrikko StudioPlugins>) =>
+        selectCount: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) =>
           registry.gatewayDiscoveryServices.filter(
             (entry) => entry.service.id === "shared-discovery",
           ).length,
         duplicateMessage:
           "gateway discovery service already registered: shared-discovery (discovery-owner-a)",
-        assertPrimaryOwner: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assertPrimaryOwner: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expect(
             registry.plugins.find((entry) => entry.id === "discovery-owner-a")
               ?.gatewayDiscoveryServiceIds,
@@ -4079,7 +4079,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
         selectCount: () => 1,
         duplicateMessage:
           "context engine already registered: shared-context-engine-loader-test (plugin:context-engine-owner-a)",
-        assertPrimaryOwner: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assertPrimaryOwner: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expect(
             registry.plugins.find((entry) => entry.id === "context-engine-owner-a")
               ?.contextEngineIds,
@@ -4094,10 +4094,10 @@ module.exports = { id: "throws-after-import", register() {} };`,
         buildBody: (ownerId: string) => `module.exports = { id: "${ownerId}", register(api) {
   api.registerCli(() => {}, { commands: ["shared-cli"] });
 } };`,
-        selectCount: (registry: ReturnType<typeof loadBrikko StudioPlugins>) =>
+        selectCount: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) =>
           registry.cliRegistrars.length,
         duplicateMessage: "cli command already registered: shared-cli (cli-owner-a)",
-        assertPrimaryOwner: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assertPrimaryOwner: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expect(registry.cliRegistrars[0]?.pluginId).toBe("cli-owner-a");
         },
         assert: expectDuplicateRegistrationResult,
@@ -4246,7 +4246,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 } };`,
           }),
         ],
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expect(
             registry.httpRoutes.find((entry) => entry.pluginId === "http-route-missing-auth"),
           ).toBeUndefined();
@@ -4269,7 +4269,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 } };`,
           }),
         ],
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           const routes = registry.httpRoutes.filter(
             (entry) => entry.pluginId === "http-route-replace-self",
           );
@@ -4296,7 +4296,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 } };`,
           }),
         ],
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           const route = registry.httpRoutes.find((entry) => entry.path === "/demo");
           expect(route?.pluginId).toBe("http-route-owner-a");
           expect(
@@ -4318,7 +4318,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 } };`,
           }),
         ],
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           const routes = registry.httpRoutes.filter(
             (entry) => entry.pluginId === "http-route-overlap",
           );
@@ -4343,7 +4343,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
 } };`,
           }),
         ],
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           const routes = registry.httpRoutes.filter(
             (entry) => entry.pluginId === "http-route-overlap-same-auth",
           );
@@ -4365,7 +4365,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       body: `module.exports = { id: "config-disable", register() {} };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -4449,7 +4449,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       "utf-8",
     );
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         channels: {
@@ -4500,7 +4500,7 @@ module.exports = { id: "throws-after-import", register() {} };`,
       "utf-8",
     );
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -4572,7 +4572,7 @@ module.exports = {
       },
     };
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config,
     });
@@ -4583,7 +4583,7 @@ module.exports = {
       "disabled",
     );
 
-    const broadSetupRegistry = loadBrikko StudioPlugins({
+    const broadSetupRegistry = loadBrikkoStudioPlugins({
       cache: false,
       config,
       includeSetupOnlyChannelPlugins: true,
@@ -4596,7 +4596,7 @@ module.exports = {
       broadSetupRegistry.plugins.find((entry) => entry.id === "lazy-channel-plugin")?.status,
     ).toBe("disabled");
 
-    const scopedSetupRegistry = loadBrikko StudioPlugins({
+    const scopedSetupRegistry = loadBrikkoStudioPlugins({
       cache: false,
       config,
       includeSetupOnlyChannelPlugins: true,
@@ -4623,7 +4623,7 @@ module.exports = {
         configured: false,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadBrikko StudioPlugins({
+        loadBrikkoStudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4653,7 +4653,7 @@ module.exports = {
         useBundledSetupEntryContract: true,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadBrikko StudioPlugins({
+        loadBrikkoStudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4682,7 +4682,7 @@ module.exports = {
         configured: false,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadBrikko StudioPlugins({
+        loadBrikkoStudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4707,7 +4707,7 @@ module.exports = {
         useBundledSetupEntryContract: true,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadBrikko StudioPlugins({
+        loadBrikkoStudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4733,7 +4733,7 @@ module.exports = {
         splitBundledSetupSecrets: true,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadBrikko StudioPlugins({
+        loadBrikkoStudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4760,7 +4760,7 @@ module.exports = {
         bundledSetupRuntimeMarker: path.join(makeTempDir(), "setup-runtime-applied.txt"),
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadBrikko StudioPlugins({
+        loadBrikkoStudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4788,7 +4788,7 @@ module.exports = {
         bundledFullRuntimeMarker: path.join(makeTempDir(), "bundled-runtime-applied.txt"),
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadBrikko StudioPlugins({
+        loadBrikkoStudioPlugins({
           cache: false,
           config: {
             plugins: {
@@ -4813,7 +4813,7 @@ module.exports = {
         configured: true,
       },
       load: ({ pluginDir }: { pluginDir: string }) =>
-        loadBrikko StudioPlugins({
+        loadBrikkoStudioPlugins({
           cache: false,
           preferSetupRuntimeForChannelPlugins: true,
           config: {
@@ -4896,7 +4896,7 @@ module.exports = {
       requireBundledFullRuntimeBeforeLoad: true,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -4929,7 +4929,7 @@ module.exports = {
       body: `module.exports = { id: "setup-runtime-helper-test", register() {} };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -4965,7 +4965,7 @@ module.exports = {
       bundledFullRuntimeMarker: runtimeMarker,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -5000,7 +5000,7 @@ module.exports = {
       bundledFullRuntimeMarker: runtimeMarker,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -5070,7 +5070,7 @@ module.exports = {
       "utf-8",
     );
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -5161,7 +5161,7 @@ module.exports = {
 } };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -5245,7 +5245,7 @@ module.exports = {
         BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: undefined,
       },
       () =>
-        loadBrikko StudioPlugins({
+        loadBrikkoStudioPlugins({
           cache: false,
           preferBuiltPluginArtifacts: true,
           onlyPluginIds: ["startup-artifact-test"],
@@ -5508,7 +5508,7 @@ module.exports = {
               BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
             },
             () =>
-              loadBrikko StudioPlugins({
+              loadBrikkoStudioPlugins({
                 cache: false,
                 config: {
                   plugins: {
@@ -5519,7 +5519,7 @@ module.exports = {
               }),
           );
         },
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           const a = registry.plugins.find((entry) => entry.id === "memory-a");
           const b = registry.plugins.find((entry) => entry.id === "memory-b");
           expect(b?.status).toBe("loaded");
@@ -5574,7 +5574,7 @@ module.exports = {
           );
           process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-          return loadBrikko StudioPlugins({
+          return loadBrikkoStudioPlugins({
             cache: false,
             config: {
               plugins: {
@@ -5588,7 +5588,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           const a = registry.plugins.find((entry) => entry.id === "memory-a");
           const b = registry.plugins.find((entry) => entry.id === "memory-b");
           expect(a?.status).toBe("disabled");
@@ -5638,7 +5638,7 @@ module.exports = {
           );
           process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-          return loadBrikko StudioPlugins({
+          return loadBrikkoStudioPlugins({
             cache: false,
             config: {
               plugins: {
@@ -5652,7 +5652,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           const core = registry.plugins.find((entry) => entry.id === "memory-core");
           const lance = registry.plugins.find((entry) => entry.id === "memory-lancedb");
           expect(core?.status).toBe("loaded");
@@ -5701,7 +5701,7 @@ module.exports = {
           );
           process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-          return loadBrikko StudioPlugins({
+          return loadBrikkoStudioPlugins({
             cache: false,
             config: {
               plugins: {
@@ -5715,7 +5715,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           const core = registry.plugins.find((entry) => entry.id === "memory-core");
           const lance = registry.plugins.find((entry) => entry.id === "memory-lancedb");
           expect(core?.status).toBe("disabled");
@@ -5745,7 +5745,7 @@ module.exports = {
           );
           process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
 
-          return loadBrikko StudioPlugins({
+          return loadBrikkoStudioPlugins({
             cache: false,
             config: {
               plugins: {
@@ -5758,7 +5758,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           const core = registry.plugins.find((entry) => entry.id === "memory-core");
           expect(core?.status).toBe("disabled");
         },
@@ -5777,7 +5777,7 @@ module.exports = {
               BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: undefined,
             },
             () =>
-              loadBrikko StudioPlugins({
+              loadBrikkoStudioPlugins({
                 cache: false,
                 config: {
                   plugins: {
@@ -5788,7 +5788,7 @@ module.exports = {
               }),
           );
         },
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           const entry = registry.plugins.find((item) => item.id === "memory-off");
           expect(entry?.status).toBe("disabled");
         },
@@ -5816,7 +5816,7 @@ module.exports = {
             body: simplePluginBody("shadow"),
           });
 
-          return loadBrikko StudioPlugins({
+          return loadBrikkoStudioPlugins({
             cache: false,
             config: {
               plugins: {
@@ -5851,7 +5851,7 @@ module.exports = {
               filename: "index.cjs",
             });
 
-            return loadBrikko StudioPlugins({
+            return loadBrikkoStudioPlugins({
               cache: false,
               config: {
                 plugins: {
@@ -5897,7 +5897,7 @@ module.exports = {
               { stateDir },
             );
 
-            return loadBrikko StudioPlugins({
+            return loadBrikkoStudioPlugins({
               cache: false,
               config: {
                 plugins: {
@@ -5935,7 +5935,7 @@ module.exports = {
             id: "warn-open-allow-config",
             body: simplePluginBody("warn-open-allow-config"),
           });
-          return loadBrikko StudioPlugins({
+          return loadBrikkoStudioPlugins({
             cache: false,
             logger: createWarningLogger(warnings),
             config: {
@@ -5956,7 +5956,7 @@ module.exports = {
             id: "warn-open-allow-workspace",
           });
           return (warnings: string[]) =>
-            loadBrikko StudioPlugins({
+            loadBrikkoStudioPlugins({
               cache: false,
               workspaceDir,
               logger: createWarningLogger(warnings),
@@ -5997,7 +5997,7 @@ module.exports = {
             id: "workspace-helper",
           });
 
-          return loadBrikko StudioPlugins({
+          return loadBrikkoStudioPlugins({
             cache: false,
             workspaceDir,
             config: {
@@ -6007,7 +6007,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expectPluginOriginAndStatus({
             registry,
             pluginId: "workspace-helper",
@@ -6026,7 +6026,7 @@ module.exports = {
             id: "workspace-helper",
           });
 
-          return loadBrikko StudioPlugins({
+          return loadBrikkoStudioPlugins({
             cache: false,
             workspaceDir,
             config: {
@@ -6037,7 +6037,7 @@ module.exports = {
             },
           });
         },
-        assert: (registry: ReturnType<typeof loadBrikko StudioPlugins>) => {
+        assert: (registry: ReturnType<typeof loadBrikkoStudioPlugins>) => {
           expectPluginOriginAndStatus({
             registry,
             pluginId: "workspace-helper",
@@ -6061,7 +6061,7 @@ module.exports = {
             id: "shadowed",
           });
 
-          return loadBrikko StudioPlugins({
+          return loadBrikkoStudioPlugins({
             cache: false,
             workspaceDir,
             config: {
@@ -6109,7 +6109,7 @@ module.exports = {
       "utf-8",
     );
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: bundledDir,
       config: {
@@ -6137,7 +6137,7 @@ module.exports = {
       filename: "unscoped.cjs",
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {
@@ -6171,7 +6171,7 @@ module.exports = {
             });
 
             const warnings: string[] = [];
-            const registry = loadBrikko StudioPlugins({
+            const registry = loadBrikkoStudioPlugins({
               cache: false,
               logger: createWarningLogger(warnings),
               config: {
@@ -6200,7 +6200,7 @@ module.exports = {
             });
 
             const warnings: string[] = [];
-            const registry = loadBrikko StudioPlugins({
+            const registry = loadBrikkoStudioPlugins({
               cache: false,
               logger: createWarningLogger(warnings),
               config: {
@@ -6219,7 +6219,7 @@ module.exports = {
         loadRegistry: () => {
           const { plugin, env } = createEnvResolvedPluginFixture("tracked-load-path");
           const warnings: string[] = [];
-          const registry = loadBrikko StudioPlugins({
+          const registry = loadBrikkoStudioPlugins({
             cache: false,
             logger: createWarningLogger(warnings),
             env,
@@ -6245,7 +6245,7 @@ module.exports = {
         loadRegistry: () => {
           const { plugin, env } = createEnvResolvedPluginFixture("tracked-install-path");
           const warnings: string[] = [];
-          const registry = loadBrikko StudioPlugins({
+          const registry = loadBrikkoStudioPlugins({
             cache: false,
             logger: createWarningLogger(warnings),
             env,
@@ -6318,7 +6318,7 @@ module.exports = {
           );
 
           const warnings: string[] = [];
-          const registry = loadBrikko StudioPlugins({
+          const registry = loadBrikkoStudioPlugins({
             cache: false,
             logger: createWarningLogger(warnings),
             env: {
@@ -6392,7 +6392,7 @@ module.exports = {
       setRuntimeConfigSnapshot(runtimeConfig, sourceConfig);
 
       const warnings: string[] = [];
-      const registry = loadBrikko StudioPlugins({
+      const registry = loadBrikkoStudioPlugins({
         cache: false,
         logger: createWarningLogger(warnings),
         config: runtimeConfig,
@@ -6471,7 +6471,7 @@ module.exports = {
     }
 
     process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledDir;
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: bundledDir,
       config: {
@@ -6541,7 +6541,7 @@ module.exports = {
     });
 
     const registry = withEnv({ BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins" }, () =>
-      loadBrikko StudioPlugins({
+      loadBrikkoStudioPlugins({
         cache: false,
         workspaceDir: plugin.dir,
         config: {
@@ -6587,7 +6587,7 @@ module.exports = {
       const registry = withEnv(
         { BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins" },
         () =>
-          loadBrikko StudioPlugins({
+          loadBrikkoStudioPlugins({
             cache: false,
             workspaceDir: plugin.dir,
             config: {
@@ -6634,7 +6634,7 @@ module.exports = {
       });
 
       const warnings: string[] = [];
-      const registry = loadBrikko StudioPlugins({
+      const registry = loadBrikkoStudioPlugins({
         activate: false,
         cache: false,
         logger: createWarningLogger(warnings),
@@ -6681,7 +6681,7 @@ export const runtimeValue = helperValue;`,
       "utf-8",
     );
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {

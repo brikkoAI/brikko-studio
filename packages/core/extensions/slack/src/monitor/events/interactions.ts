@@ -7,7 +7,7 @@ import {
   type RegisterSlackModalHandler,
 } from "./interactions.modal.js";
 
-// Prefix for Brikko Studio-generated action IDs to scope our handler
+// Prefix for BrikkoStudio-generated action IDs to scope our handler
 const BRIKKO_STUDIO_ACTION_PREFIX = "brikko-studio:";
 const SLACK_INTERACTION_EVENT_PREFIX = "Slack interaction: ";
 const REDACTED_INTERACTION_VALUE = "[redacted]";
@@ -191,7 +191,7 @@ export function registerSlackInteractionEvents(params: {
   }
   const modalMatcher = new RegExp(`^${BRIKKO_STUDIO_ACTION_PREFIX}`);
 
-  // Handle Brikko Studio modal submissions with callback_ids scoped by our prefix.
+  // Handle BrikkoStudio modal submissions with callback_ids scoped by our prefix.
   registerModalLifecycleHandler({
     register: (matcher, handler) => ctx.app.view(matcher, handler),
     matcher: modalMatcher,

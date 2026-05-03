@@ -1,6 +1,6 @@
 import { messagingApi } from "@line/bot-sdk";
 import { getAgentScopedMediaLocalRoots } from "brikko-studio/plugin-sdk/agent-media-payload";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { loadWebMediaRaw } from "brikko-studio/plugin-sdk/web-media";
@@ -38,7 +38,7 @@ export interface CreateRichMenuParams {
 }
 
 interface RichMenuOpts {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelAccessToken?: string;
   accountId?: string;
   verbose?: boolean;

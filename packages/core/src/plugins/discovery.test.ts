@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { bundledDistPluginFile } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { discoverBrikko StudioPlugins } from "./discovery.js";
+import { discoverBrikkoStudioPlugins } from "./discovery.js";
 import { listBuiltRuntimeEntryCandidates } from "./package-entrypoints.js";
 import {
   cleanupTrackedTempDirs,
@@ -28,7 +28,7 @@ function makeTempDir() {
 
 const mkdirSafe = mkdirSafeDir;
 
-function withBrikko StudioPackageArgv<T>(packageRoot: string, fn: () => T): T {
+function withBrikkoStudioPackageArgv<T>(packageRoot: string, fn: () => T): T {
   mkdirSafe(path.join(packageRoot, "bin"));
   fs.writeFileSync(path.join(packageRoot, "package.json"), '{"name":"brikko-studio"}\n', "utf-8");
   const originalArgv = process.argv;
@@ -111,13 +111,13 @@ function buildBundledDiscoveryEnv(stateDir: string): NodeJS.ProcessEnv {
 
 async function discoverWithStateDir(
   stateDir: string,
-  params: Parameters<typeof discoverBrikko StudioPlugins>[0],
+  params: Parameters<typeof discoverBrikkoStudioPlugins>[0],
 ) {
-  return discoverBrikko StudioPlugins({ ...params, env: buildDiscoveryEnv(stateDir) });
+  return discoverBrikkoStudioPlugins({ ...params, env: buildDiscoveryEnv(stateDir) });
 }
 
-function discoverWithEnv(params: Parameters<typeof discoverBrikko StudioPlugins>[0]) {
-  return discoverBrikko StudioPlugins(params);
+function discoverWithEnv(params: Parameters<typeof discoverBrikkoStudioPlugins>[0]) {
+  return discoverBrikkoStudioPlugins(params);
 }
 
 function writePluginPackageManifest(params: {
@@ -261,7 +261,7 @@ function expectEscapesPackageDiagnostic(diagnostics: Array<{ message: string }>)
 }
 
 function expectCandidatePresence(
-  result: Awaited<ReturnType<typeof discoverBrikko StudioPlugins>>,
+  result: Awaited<ReturnType<typeof discoverBrikkoStudioPlugins>>,
   params: { present?: readonly string[]; absent?: readonly string[] },
 ) {
   const ids = result.candidates.map((candidate) => candidate.idHint);
@@ -346,7 +346,7 @@ afterEach(() => {
   cleanupTrackedTempDirs(tempDirs);
 });
 
-describe("discoverBrikko StudioPlugins", () => {
+describe("discoverBrikkoStudioPlugins", () => {
   it("discovers global and workspace extensions", async () => {
     const stateDir = makeTempDir();
     const workspaceDir = path.join(stateDir, "workspace");
@@ -447,7 +447,7 @@ describe("discoverBrikko StudioPlugins", () => {
       packageName: "@brikko-studio/stray-workspace-plugin",
     });
 
-    const result = discoverBrikko StudioPlugins({
+    const result = discoverBrikkoStudioPlugins({
       workspaceDir,
       env: buildDiscoveryEnv(stateDir),
     });
@@ -467,7 +467,7 @@ describe("discoverBrikko StudioPlugins", () => {
     mkdirSafe(workspaceExt);
     fs.writeFileSync(path.join(workspaceExt, "tilde-workspace.ts"), "export default {}", "utf-8");
 
-    const result = discoverBrikko StudioPlugins({
+    const result = discoverBrikkoStudioPlugins({
       workspaceDir: "~/workspace",
       env: {
         ...buildDiscoveryEnv(stateDir),
@@ -525,8 +525,8 @@ describe("discoverBrikko StudioPlugins", () => {
     );
     fs.writeFileSync(path.join(extensionDir, "brikko-studio.plugin.json"), '{"id":"twitch"}\n', "utf-8");
 
-    const result = withBrikko StudioPackageArgv(packageRoot, () =>
-      discoverBrikko StudioPlugins({ env: buildDiscoveryEnv(stateDir) }),
+    const result = withBrikkoStudioPackageArgv(packageRoot, () =>
+      discoverBrikkoStudioPlugins({ env: buildDiscoveryEnv(stateDir) }),
     );
 
     expect(result.diagnostics.map((entry) => entry.message)).not.toContainEqual(
@@ -550,8 +550,8 @@ describe("discoverBrikko StudioPlugins", () => {
     );
     writeStandalonePlugin(path.join(bundledDir, "real-plugin.ts"), "export default {}");
 
-    const { candidates, diagnostics } = withBrikko StudioPackageArgv(packageRoot, () =>
-      discoverBrikko StudioPlugins({
+    const { candidates, diagnostics } = withBrikkoStudioPackageArgv(packageRoot, () =>
+      discoverBrikkoStudioPlugins({
         env: {
           ...buildDiscoveryEnv(stateDir),
           BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: undefined,
@@ -573,8 +573,8 @@ describe("discoverBrikko StudioPlugins", () => {
     writePluginManifest({ pluginDir: bundledPluginDir, id: "feishu" });
     writePluginEntry(path.join(bundledPluginDir, "index.js"));
 
-    const { candidates, diagnostics } = withBrikko StudioPackageArgv(packageRoot, () =>
-      discoverBrikko StudioPlugins({
+    const { candidates, diagnostics } = withBrikkoStudioPackageArgv(packageRoot, () =>
+      discoverBrikkoStudioPlugins({
         extraPaths: [bundledPluginDir],
         env: {
           ...buildDiscoveryEnv(stateDir),
@@ -610,8 +610,8 @@ describe("discoverBrikko StudioPlugins", () => {
     writePluginEntry(path.join(bundledPluginDir, "index.js"));
     writePluginEntry(path.join(legacyPluginDir, "index.js"));
 
-    const { candidates, diagnostics } = withBrikko StudioPackageArgv(packageRoot, () =>
-      discoverBrikko StudioPlugins({
+    const { candidates, diagnostics } = withBrikkoStudioPackageArgv(packageRoot, () =>
+      discoverBrikkoStudioPlugins({
         extraPaths: [legacyPluginDir],
         env: {
           ...buildDiscoveryEnv(stateDir),
@@ -654,8 +654,8 @@ describe("discoverBrikko StudioPlugins", () => {
     const sourceEntryPath = path.join(sourcePluginDir, "src", "index.ts");
     const bundledEntryPath = path.join(bundledPluginDir, "index.js");
 
-    const { candidates, diagnostics } = withBrikko StudioPackageArgv(packageRoot, () =>
-      discoverBrikko StudioPlugins({
+    const { candidates, diagnostics } = withBrikkoStudioPackageArgv(packageRoot, () =>
+      discoverBrikkoStudioPlugins({
         env: {
           ...buildDiscoveryEnv(stateDir),
           BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: undefined,
@@ -708,8 +708,8 @@ describe("discoverBrikko StudioPlugins", () => {
     mockLinuxMountInfo([]);
     const bundledEntryPath = path.join(bundledPluginDir, "index.js");
 
-    const { candidates, diagnostics } = withBrikko StudioPackageArgv(packageRoot, () =>
-      discoverBrikko StudioPlugins({
+    const { candidates, diagnostics } = withBrikkoStudioPackageArgv(packageRoot, () =>
+      discoverBrikkoStudioPlugins({
         env: {
           ...buildDiscoveryEnv(stateDir),
           BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: undefined,
@@ -790,7 +790,7 @@ describe("discoverBrikko StudioPlugins", () => {
     writePluginEntry(path.join(packageDir, "dist", "two.js"));
 
     const realpathSync = vi.spyOn(fs, "realpathSync");
-    const { candidates } = discoverBrikko StudioPlugins({
+    const { candidates } = discoverBrikkoStudioPlugins({
       env: buildDiscoveryEnv(stateDir),
     });
 
@@ -821,7 +821,7 @@ describe("discoverBrikko StudioPlugins", () => {
       const canonicalPackageDir = fs.realpathSync(realPackageDir);
 
       const realpathSync = vi.spyOn(fs, "realpathSync");
-      const { candidates } = discoverBrikko StudioPlugins({
+      const { candidates } = discoverBrikkoStudioPlugins({
         extraPaths: [linkedPackageDir, canonicalPackageDir],
         env: buildDiscoveryEnv(stateDir),
       });
@@ -993,7 +993,7 @@ describe("discoverBrikko StudioPlugins", () => {
     writePluginEntry(path.join(pluginDir, "src", "index.ts"));
     writePluginEntry(path.join(pluginDir, "dist", "index.js"));
 
-    const { candidates } = discoverBrikko StudioPlugins({
+    const { candidates } = discoverBrikkoStudioPlugins({
       workspaceDir,
       env: buildDiscoveryEnv(stateDir),
     });
@@ -1020,7 +1020,7 @@ describe("discoverBrikko StudioPlugins", () => {
     writePluginManifest({ pluginDir, id: "downloadable" });
     writePluginEntry(path.join(pluginDir, "index.ts"));
 
-    const { candidates } = discoverBrikko StudioPlugins({
+    const { candidates } = discoverBrikkoStudioPlugins({
       env: buildDiscoveryEnvWithOverrides(stateDir, {
         BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledDir,
       }),
@@ -1071,7 +1071,7 @@ describe("discoverBrikko StudioPlugins", () => {
     writePluginManifest({ pluginDir: sourceOnlyPluginDir, id: "downloadable" });
     writePluginEntry(path.join(sourceOnlyPluginDir, "index.ts"));
 
-    const { candidates } = discoverBrikko StudioPlugins({
+    const { candidates } = discoverBrikkoStudioPlugins({
       env: buildDiscoveryEnvWithOverrides(stateDir, {
         BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledDir,
       }),
@@ -1164,7 +1164,7 @@ describe("discoverBrikko StudioPlugins", () => {
       "utf-8",
     );
 
-    const { candidates } = discoverBrikko StudioPlugins({
+    const { candidates } = discoverBrikkoStudioPlugins({
       workspaceDir,
       env: buildDiscoveryEnv(stateDir),
     });
@@ -1570,8 +1570,8 @@ describe("discoverBrikko StudioPlugins", () => {
       fs.writeFileSync(path.join(packDir, "index.ts"), "export default function () {}", "utf-8");
       fs.chmodSync(packDir, 0o777);
 
-      const result = withBrikko StudioPackageArgv(packageRoot, () =>
-        discoverBrikko StudioPlugins({
+      const result = withBrikkoStudioPackageArgv(packageRoot, () =>
+        discoverBrikkoStudioPlugins({
           env: { ...process.env, ...buildBundledDiscoveryEnv(stateDir) },
         }),
       );
@@ -1659,7 +1659,7 @@ describe("discoverBrikko StudioPlugins", () => {
       BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: undefined,
       BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: bundledDir,
     };
-    const first = withBrikko StudioPackageArgv(packageRoot, () =>
+    const first = withBrikkoStudioPackageArgv(packageRoot, () =>
       discoverWithEnv({ workspaceDir: workspaceA, env }),
     );
     expectCandidatePresence(first, {
@@ -1667,7 +1667,7 @@ describe("discoverBrikko StudioPlugins", () => {
       absent: ["workspace-b-plugin"],
     });
 
-    const second = withBrikko StudioPackageArgv(packageRoot, () =>
+    const second = withBrikkoStudioPackageArgv(packageRoot, () =>
       discoverWithEnv({ workspaceDir: workspaceB, env }),
     );
     expectCandidatePresence(second, {

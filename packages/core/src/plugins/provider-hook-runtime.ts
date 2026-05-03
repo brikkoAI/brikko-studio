@@ -1,5 +1,5 @@
 import { normalizeProviderId } from "../agents/provider-id.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
 import {
@@ -25,7 +25,7 @@ const providerRuntimePluginCache: ConfigScopedRuntimeCache<ProviderPlugin | null
 
 type ProviderRuntimePluginLookupParams = {
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   applyAutoEnable?: boolean;
@@ -96,7 +96,7 @@ function findProviderRuntimePluginInRegistry(params: {
 }
 
 export function resolveProviderPluginsForHooks(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   onlyPluginIds?: string[];
@@ -182,7 +182,7 @@ export function resolveProviderRuntimePlugin(
 
 export function resolveProviderHookPlugin(params: {
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): ProviderPlugin | undefined {
@@ -198,7 +198,7 @@ export function resolveProviderHookPlugin(params: {
 
 export function prepareProviderExtraParams(params: {
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   context: ProviderPrepareExtraParamsContext;
@@ -208,7 +208,7 @@ export function prepareProviderExtraParams(params: {
 
 export function resolveProviderExtraParamsForTransport(params: {
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   context: ProviderExtraParamsForTransportContext;
@@ -220,7 +220,7 @@ export function resolveProviderExtraParamsForTransport(params: {
 
 export function resolveProviderAuthProfileId(params: {
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   context: ProviderResolveAuthProfileIdContext;
@@ -231,7 +231,7 @@ export function resolveProviderAuthProfileId(params: {
 
 export function resolveProviderFollowupFallbackRoute(params: {
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   context: ProviderFollowupFallbackRouteContext;
@@ -241,7 +241,7 @@ export function resolveProviderFollowupFallbackRoute(params: {
 
 export function wrapProviderStreamFn(params: {
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   context: ProviderWrapStreamFnContext;

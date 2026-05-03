@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { zaloMessageActions } from "./actions.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 
 describe("zaloMessageActions.describeMessageTool", () => {
   it("honors the selected Zalo account during discovery", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         zalo: {
           enabled: true,

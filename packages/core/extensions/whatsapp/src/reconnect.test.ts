@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import {
   computeBackoff,
@@ -10,7 +10,7 @@ import {
 } from "./reconnect.js";
 
 describe("web reconnect helpers", () => {
-  const cfg: Brikko StudioConfig = {};
+  const cfg: BrikkoStudioConfig = {};
 
   it("resolves sane reconnect defaults with clamps", () => {
     const policy = resolveReconnectPolicy(cfg, {

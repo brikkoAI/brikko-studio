@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { DEFAULT_AGENT_ID } from "../routing/session-key.js";
 import {
   DEFAULT_EXEC_APPROVAL_ASK_FALLBACK,
@@ -88,7 +88,7 @@ function formatRequestedSource(params: {
   defaultValue: ExecSecurity | ExecAsk;
 }): string {
   return params.sourcePath === "__default__"
-    ? `Brikko Studio default (${params.defaultValue})`
+    ? `BrikkoStudio default (${params.defaultValue})`
     : `${params.sourcePath}.${params.field}`;
 }
 
@@ -132,7 +132,7 @@ function formatHostFieldSource(params: {
     return `${params.hostPath} ${params.sourceSuffix}`;
   }
   if (params.field === "askFallback") {
-    return `Brikko Studio default (${DEFAULT_EXEC_APPROVAL_ASK_FALLBACK})`;
+    return `BrikkoStudio default (${DEFAULT_EXEC_APPROVAL_ASK_FALLBACK})`;
   }
   return "inherits requested tool policy";
 }
@@ -149,7 +149,7 @@ function resolveAskNote(params: {
 }
 
 export function collectExecPolicyScopeSnapshots(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   approvals: ExecApprovalsFile;
   hostPath?: string;
 }): ExecPolicyScopeSnapshot[] {
@@ -246,7 +246,7 @@ export function resolveExecPolicyScopeSnapshot(params: {
       requested: requestedHost.value,
       requestedSource:
         requestedHost.sourcePath === "__default__"
-          ? "Brikko Studio default (auto)"
+          ? "BrikkoStudio default (auto)"
           : `${requestedHost.sourcePath === "scope" ? params.configPath : requestedHost.sourcePath}.host`,
     },
     security: {

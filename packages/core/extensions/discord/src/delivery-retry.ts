@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   resolveRetryConfig,
   retryAsync,
@@ -42,7 +42,7 @@ function getDiscordDeliveryRetryAfterMs(err: unknown): number | undefined {
 }
 
 export async function withDiscordDeliveryRetry<T>(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   fn: () => Promise<T>;
 }): Promise<T> {

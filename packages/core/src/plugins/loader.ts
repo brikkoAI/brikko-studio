@@ -6,7 +6,7 @@ import {
   listRegisteredAgentHarnesses,
   restoreRegisteredAgentHarnesses,
 } from "../agents/harness/registry.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import type { GatewayRequestHandler } from "../gateway/server-methods/types.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
@@ -46,7 +46,7 @@ import {
   type PluginActivationConfigSource,
   type NormalizedPluginsConfig,
 } from "./config-state.js";
-import { discoverBrikko StudioPlugins, type PluginCandidate } from "./discovery.js";
+import { discoverBrikkoStudioPlugins, type PluginCandidate } from "./discovery.js";
 import { getGlobalHookRunner, initializeGlobalHookRunner } from "./hook-runner-global.js";
 import { toSafeImportPath } from "./import-specifier.js";
 import { collectPluginManifestCompatCodes } from "./installed-plugin-index-record-builder.js";
@@ -116,7 +116,7 @@ import {
   normalizePluginIdScope,
   serializePluginIdScope,
 } from "./plugin-scope.js";
-import { ensureBrikko StudioPluginSdkAlias } from "./plugin-sdk-dist-alias.js";
+import { ensureBrikkoStudioPluginSdkAlias } from "./plugin-sdk-dist-alias.js";
 import { createEmptyPluginRegistry } from "./registry-empty.js";
 import { createPluginRegistry, type PluginRecord, type PluginRegistry } from "./registry.js";
 import {
@@ -144,9 +144,9 @@ import {
 } from "./sdk-alias.js";
 import { hasKind, kindsEqual } from "./slots.js";
 import type {
-  Brikko StudioPluginApi,
-  Brikko StudioPluginDefinition,
-  Brikko StudioPluginModule,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginDefinition,
+  BrikkoStudioPluginModule,
   PluginLogger,
   PluginRegistrationMode,
 } from "./types.js";
@@ -155,8 +155,8 @@ export type PluginLoadResult = PluginRegistry;
 export { PluginLoadReentryError } from "./loader-cache-state.js";
 
 export type PluginLoadOptions = {
-  config?: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   autoEnabledReasons?: Readonly<Record<string, string[]>>;
   workspaceDir?: string;
   // Allows callers to resolve plugin roots and load paths against an explicit env
@@ -198,7 +198,7 @@ const CLI_METADATA_ENTRY_BASENAMES = [
 ] as const;
 
 function resolveDreamingSidecarEngineId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   memorySlot: string | null | undefined;
 }): string | null {
   const normalizedMemorySlot = normalizeLowercaseStringOrEmpty(params.memorySlot);
@@ -435,8 +435,8 @@ function restorePluginRegistry(registry: PluginRegistry, snapshot: PluginRegistr
   registry.coreGatewayMethodNames = snapshot.coreGatewayMethodNames;
 }
 
-function createGuardedPluginRegistrationApi(api: Brikko StudioPluginApi): {
-  api: Brikko StudioPluginApi;
+function createGuardedPluginRegistrationApi(api: BrikkoStudioPluginApi): {
+  api: BrikkoStudioPluginApi;
   close: () => void;
 } {
   let closed = false;
@@ -462,8 +462,8 @@ function createGuardedPluginRegistrationApi(api: Brikko StudioPluginApi): {
 }
 
 function runPluginRegisterSync(
-  register: NonNullable<Brikko StudioPluginDefinition["register"]>,
-  api: Parameters<NonNullable<Brikko StudioPluginDefinition["register"]>>[0],
+  register: NonNullable<BrikkoStudioPluginDefinition["register"]>,
+  api: Parameters<NonNullable<BrikkoStudioPluginDefinition["register"]>>[0],
 ): void {
   const guarded = createGuardedPluginRegistrationApi(api);
   try {
@@ -574,7 +574,7 @@ export const __testing = {
   resolvePluginSdkAliasCandidateOrder,
   resolvePluginSdkAliasFile,
   resolvePluginRuntimeModulePath,
-  ensureBrikko StudioPluginSdkAlias,
+  ensureBrikkoStudioPluginSdkAlias,
   shouldLoadChannelPluginInSetupRuntime,
   shouldPreferNativeModuleLoad,
   toSafeImportPath,
@@ -988,7 +988,7 @@ function resolvePluginRegistrationPlan(params: {
   validateOnly: boolean;
   shouldActivate: boolean;
   manifestRecord: PluginManifestRecord;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   preferSetupRuntimeForChannelPlugins: boolean;
   toolDiscovery: boolean;
@@ -1294,12 +1294,12 @@ export function resolveRuntimePluginRegistry(
     return compatible;
   }
   // Helper/runtime callers should not recurse into the same snapshot load while
-  // plugin registration is still in flight. Let direct loadBrikko StudioPlugins(...)
+  // plugin registration is still in flight. Let direct loadBrikkoStudioPlugins(...)
   // callers surface the hard error instead.
   if (isPluginRegistryLoadInFlight(options)) {
     return undefined;
   }
-  return loadBrikko StudioPlugins(options);
+  return loadBrikkoStudioPlugins(options);
 }
 
 export function getRuntimePluginRegistryForLoadOptions(
@@ -1348,8 +1348,8 @@ function validatePluginConfig(params: {
 }
 
 function resolvePluginModuleExport(moduleExport: unknown): {
-  definition?: Brikko StudioPluginDefinition;
-  register?: Brikko StudioPluginDefinition["register"];
+  definition?: BrikkoStudioPluginDefinition;
+  register?: BrikkoStudioPluginDefinition["register"];
 } {
   const seen = new Set<unknown>();
   const candidates: unknown[] = [unwrapDefaultModuleExport(moduleExport), moduleExport];
@@ -1361,11 +1361,11 @@ function resolvePluginModuleExport(moduleExport: unknown): {
     seen.add(resolved);
     if (typeof resolved === "function") {
       return {
-        register: resolved as Brikko StudioPluginDefinition["register"],
+        register: resolved as BrikkoStudioPluginDefinition["register"],
       };
     }
     if (resolved && typeof resolved === "object") {
-      const def = resolved as Brikko StudioPluginDefinition;
+      const def = resolved as BrikkoStudioPluginDefinition;
       const register = def.register ?? def.activate;
       if (typeof register === "function") {
         return { definition: def, register };
@@ -1380,11 +1380,11 @@ function resolvePluginModuleExport(moduleExport: unknown): {
   const resolved = candidates[0];
   if (typeof resolved === "function") {
     return {
-      register: resolved as Brikko StudioPluginDefinition["register"],
+      register: resolved as BrikkoStudioPluginDefinition["register"],
     };
   }
   if (resolved && typeof resolved === "object") {
-    const def = resolved as Brikko StudioPluginDefinition;
+    const def = resolved as BrikkoStudioPluginDefinition;
     const register = def.register ?? def.activate;
     return { definition: def, register };
   }
@@ -1424,7 +1424,7 @@ function activatePluginRegistry(
   }
 }
 
-export function loadBrikko StudioPlugins(options: PluginLoadOptions = {}): PluginRegistry {
+export function loadBrikkoStudioPlugins(options: PluginLoadOptions = {}): PluginRegistry {
   const requestedOnlyPluginIds = normalizePluginIdScope(options.onlyPluginIds);
   const requestedOnlyPluginIdSet = createPluginIdScopeSet(requestedOnlyPluginIds);
   if (requestedOnlyPluginIdSet && requestedOnlyPluginIdSet.size === 0) {
@@ -1610,7 +1610,7 @@ export function loadBrikko StudioPlugins(options: PluginLoadOptions = {}): Plugi
           candidates: createPluginCandidatesFromManifestRegistry(suppliedManifestRegistry),
           diagnostics: [] as PluginDiagnostic[],
         }
-      : discoverBrikko StudioPlugins({
+      : discoverBrikkoStudioPlugins({
           workspaceDir: options.workspaceDir,
           extraPaths: normalized.loadPaths,
           env,
@@ -1849,7 +1849,7 @@ export function loadBrikko StudioPlugins(options: PluginLoadOptions = {}): Plugi
             level: "warn",
             pluginId: record.id,
             source: record.source,
-            message: `bundle capability detected but not wired into Brikko Studio yet: ${capability}`,
+            message: `bundle capability detected but not wired into BrikkoStudio yet: ${capability}`,
           });
         }
         if (
@@ -1985,7 +1985,7 @@ export function loadBrikko StudioPlugins(options: PluginLoadOptions = {}): Plugi
       const safeSource = opened.path;
       fs.closeSync(opened.fd);
 
-      let mod: Brikko StudioPluginModule | null = null;
+      let mod: BrikkoStudioPluginModule | null = null;
       try {
         // Track the plugin as imported once module evaluation begins. Top-level
         // code may have already executed even if evaluation later throws.
@@ -1995,7 +1995,7 @@ export function loadBrikko StudioPlugins(options: PluginLoadOptions = {}): Plugi
         mod = withProfile(
           { pluginId: record.id, source: safeSource },
           registrationMode,
-          () => loadPluginModule(safeSource) as Brikko StudioPluginModule,
+          () => loadPluginModule(safeSource) as BrikkoStudioPluginModule,
         );
       } catch (err) {
         recordPluginError({
@@ -2075,12 +2075,12 @@ export function loadBrikko StudioPlugins(options: PluginLoadOptions = {}): Plugi
             }
             const safeRuntimeSource = runtimeOpened.path;
             fs.closeSync(runtimeOpened.fd);
-            let runtimeMod: Brikko StudioPluginModule | null = null;
+            let runtimeMod: BrikkoStudioPluginModule | null = null;
             try {
               runtimeMod = withProfile(
                 { pluginId: record.id, source: safeRuntimeSource },
                 "load-setup-runtime-entry",
-                () => loadPluginModule(safeRuntimeSource) as Brikko StudioPluginModule,
+                () => loadPluginModule(safeRuntimeSource) as BrikkoStudioPluginModule,
               );
             } catch (err) {
               recordPluginError({
@@ -2412,7 +2412,7 @@ export function loadBrikko StudioPlugins(options: PluginLoadOptions = {}): Plugi
   }
 }
 
-export async function loadBrikko StudioPluginCliRegistry(
+export async function loadBrikkoStudioPluginCliRegistry(
   options: PluginLoadOptions = {},
 ): Promise<PluginRegistry> {
   const {
@@ -2441,7 +2441,7 @@ export async function loadBrikko StudioPluginCliRegistry(
     activateGlobalSideEffects: false,
   });
 
-  const discovery = discoverBrikko StudioPlugins({
+  const discovery = discoverBrikkoStudioPlugins({
     workspaceDir: options.workspaceDir,
     extraPaths: normalized.loadPaths,
     env,
@@ -2653,12 +2653,12 @@ export async function loadBrikko StudioPluginCliRegistry(
     const safeSource = opened.path;
     fs.closeSync(opened.fd);
 
-    let mod: Brikko StudioPluginModule | null = null;
+    let mod: BrikkoStudioPluginModule | null = null;
     try {
       mod = withProfile(
         { pluginId: record.id, source: safeSource },
         "cli-metadata",
-        () => loadPluginModule(safeSource) as Brikko StudioPluginModule,
+        () => loadPluginModule(safeSource) as BrikkoStudioPluginModule,
       );
     } catch (err) {
       recordPluginError({

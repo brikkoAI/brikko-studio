@@ -15,7 +15,7 @@ export function expectPairingReplyText(
   },
 ): string {
   const code = params.code ?? extractPairingCode(text);
-  expect(text).toContain("Brikko Studio: access not configured.");
+  expect(text).toContain("BrikkoStudio: access not configured.");
   expect(text).toContain(params.idLine);
   expect(text).toContain("Pairing code:");
   expect(text).toContain(`\n\`\`\`\n${code}\n\`\`\`\n`);

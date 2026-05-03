@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { expectGeneratedTokenPersistedToGatewayAuth } from "../test-utils/auth-token-assertions.js";
 import { KNOWN_WEAK_GATEWAY_TOKEN_PLACEHOLDERS } from "./known-weak-gateway-secrets.js";
 import {
@@ -9,7 +9,7 @@ import {
 } from "./startup-auth.js";
 
 const mocks = vi.hoisted(() => ({
-  replaceConfigFile: vi.fn(async (_params: { nextConfig: Brikko StudioConfig }) => {}),
+  replaceConfigFile: vi.fn(async (_params: { nextConfig: BrikkoStudioConfig }) => {}),
 }));
 
 vi.mock("../config/mutate.js", () => ({
@@ -25,7 +25,7 @@ vi.mock("../config/mutate.js", async () => {
 });
 
 describe("ensureGatewayStartupAuth", () => {
-  async function expectEphemeralGeneratedTokenWhenOverridden(cfg: Brikko StudioConfig) {
+  async function expectEphemeralGeneratedTokenWhenOverridden(cfg: BrikkoStudioConfig) {
     const result = await ensureGatewayStartupAuth({
       cfg,
       env: {} as NodeJS.ProcessEnv,
@@ -45,7 +45,7 @@ describe("ensureGatewayStartupAuth", () => {
     mocks.replaceConfigFile.mockClear();
   });
 
-  async function expectNoTokenGeneration(cfg: Brikko StudioConfig, mode: string) {
+  async function expectNoTokenGeneration(cfg: BrikkoStudioConfig, mode: string) {
     const result = await ensureGatewayStartupAuth({
       cfg,
       env: {} as NodeJS.ProcessEnv,
@@ -59,7 +59,7 @@ describe("ensureGatewayStartupAuth", () => {
   }
 
   async function expectResolvedToken(params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     env: NodeJS.ProcessEnv;
     expectedToken: string;
     expectedConfiguredToken?: unknown;
@@ -80,7 +80,7 @@ describe("ensureGatewayStartupAuth", () => {
     expect(mocks.replaceConfigFile).not.toHaveBeenCalled();
   }
 
-  function createMissingGatewayTokenSecretRefConfig(): Brikko StudioConfig {
+  function createMissingGatewayTokenSecretRefConfig(): BrikkoStudioConfig {
     return {
       gateway: {
         auth: {
@@ -108,7 +108,7 @@ describe("ensureGatewayStartupAuth", () => {
     expect(result.auth.mode).toBe("token");
     expect(mocks.replaceConfigFile).toHaveBeenCalledTimes(1);
     const persistedParams = mocks.replaceConfigFile.mock.calls[0]?.[0] as
-      | { nextConfig: Brikko StudioConfig }
+      | { nextConfig: BrikkoStudioConfig }
       | undefined;
     expectGeneratedTokenPersistedToGatewayAuth({
       generatedToken: result.generatedToken,
@@ -287,7 +287,7 @@ describe("ensureGatewayStartupAuth", () => {
   });
 
   it("does not resolve gateway.auth.password SecretRef when token mode is explicit", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "token",
@@ -341,7 +341,7 @@ describe("ensureGatewayStartupAuth", () => {
   });
 
   it("treats undefined token override as no override", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         auth: {
           mode: "token",

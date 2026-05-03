@@ -11,7 +11,7 @@ import type { GetReplyOptions } from "../auto-reply/get-reply-options.types.js";
 import type { ReplyPayload } from "../auto-reply/reply-payload.js";
 import type { ReasoningLevel, ThinkLevel } from "../auto-reply/thinking.js";
 import type { SessionEntry as StoredSessionEntry } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { prepareProviderRuntimeAuth } from "../plugins/provider-runtime.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { resolveAgentWorkspaceDir, resolveSessionAgentId } from "./agent-scope.js";
@@ -22,7 +22,7 @@ import {
   type ImageSanitizationLimits,
 } from "./image-sanitization.js";
 import { getApiKeyForModel, requireApiKey } from "./model-auth.js";
-import { ensureBrikko StudioModelsJson } from "./models-config.js";
+import { ensureBrikkoStudioModelsJson } from "./models-config.js";
 import { EmbeddedBlockChunker, type BlockReplyChunking } from "./pi-embedded-block-chunker.js";
 import { resolveModelWithRegistry } from "./pi-embedded-runner/model.js";
 import { getActiveEmbeddedRunSnapshot } from "./pi-embedded-runner/runs.js";
@@ -212,7 +212,7 @@ async function toSimpleContextMessages(params: {
 }
 
 async function resolveRuntimeModel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   provider: string;
   model: string;
   agentDir: string;
@@ -226,7 +226,7 @@ async function resolveRuntimeModel(params: {
   authProfileId?: string;
   authProfileIdSource?: "auto" | "user";
 }> {
-  await ensureBrikko StudioModelsJson(params.cfg, params.agentDir);
+  await ensureBrikkoStudioModelsJson(params.cfg, params.agentDir);
   const authStorage = discoverAuthStorage(params.agentDir);
   const modelRegistry = discoverModels(authStorage, params.agentDir);
   const model = resolveModelWithRegistry({
@@ -257,7 +257,7 @@ async function resolveRuntimeModel(params: {
 }
 
 type RunBtwSideQuestionParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir: string;
   provider: string;
   model: string;

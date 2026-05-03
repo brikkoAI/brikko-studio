@@ -32,7 +32,7 @@ import {
   type SessionEntry,
   type SessionScope,
 } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { readRecentSessionUsageFromTranscript } from "../gateway/session-utils.fs.js";
 import { formatTimeAgo } from "../infra/format-time/format-relative.ts";
 import { resolveCommitHash } from "../infra/git-commit.js";
@@ -59,7 +59,7 @@ import { VERSION } from "../version.js";
 import { resolveActiveFallbackState } from "./fallback-notice-state.js";
 import { formatFastModeLabel } from "./status-labels.js";
 
-type AgentDefaults = NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]>;
+type AgentDefaults = NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["defaults"]>;
 type AgentConfig = Partial<AgentDefaults> & {
   model?: AgentDefaults["model"] | string;
 };
@@ -76,7 +76,7 @@ type QueueStatus = {
 };
 
 export type StatusArgs = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agent: AgentConfig;
   agentId?: string;
   runtimeContextTokens?: number;
@@ -134,7 +134,7 @@ function normalizeAuthMode(value?: string): NormalizedAuthMode | undefined {
 }
 
 function resolveConfiguredTextVerbosity(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
   provider?: string | null;
   model?: string | null;
@@ -199,7 +199,7 @@ function resolveExecutionLabel(
 }
 
 const AGENT_RUNTIME_LABELS: Readonly<Record<string, string>> = {
-  pi: "Brikko Studio Pi Default",
+  pi: "BrikkoStudio Pi Default",
   codex: "OpenAI Codex",
   "codex-cli": "OpenAI Codex",
   "claude-cli": "Claude CLI",
@@ -451,7 +451,7 @@ const formatMediaUnderstandingLine = (decisions?: ReadonlyArray<MediaUnderstandi
 };
 
 const formatVoiceModeLine = (
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
   sessionEntry?: SessionEntry,
   agentId?: string,
 ): string | null => {
@@ -491,7 +491,7 @@ const formatVoiceModeLine = (
 };
 
 function resolveChannelModelNote(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   entry?: SessionEntry;
   selectedProvider: string;
   selectedModel: string;
@@ -548,7 +548,7 @@ export function buildStatusMessage(args: StatusArgs): string {
     agents: {
       defaults: args.agent ?? {},
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
   const contextConfig = args.config
     ? ({
         ...args.config,
@@ -559,12 +559,12 @@ export function buildStatusMessage(args: StatusArgs): string {
             ...args.agent,
           },
         },
-      } as Brikko StudioConfig)
+      } as BrikkoStudioConfig)
     : ({
         agents: {
           defaults: args.agent ?? {},
         },
-      } as Brikko StudioConfig);
+      } as BrikkoStudioConfig);
   const resolved = resolveConfiguredModelRef({
     cfg: selectionConfig,
     defaultProvider: DEFAULT_PROVIDER,
@@ -949,7 +949,7 @@ export function buildStatusMessage(args: StatusArgs): string {
       } (${fallbackState.reason ?? "selected model unavailable"})`
     : null;
   const commit = resolveCommitHash({ moduleUrl: import.meta.url });
-  const versionLine = `🦞 Brikko Studio ${VERSION}${commit ? ` (${commit})` : ""}`;
+  const versionLine = `🦞 BrikkoStudio ${VERSION}${commit ? ` (${commit})` : ""}`;
   const usagePair = formatUsagePair(inputTokens, outputTokens);
   const cacheLine = formatCacheLine(inputTokens, cacheRead, cacheWrite);
   const costLine = costLabel ? `💵 Cost: ${costLabel}` : null;

@@ -1,5 +1,5 @@
 import type { SubagentRunRecord } from "../../agents/subagent-registry.types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { handleSubagentsSendAction } from "./commands-subagents/action-send.js";
 import type { InlineDirectives } from "./directive-handling.js";
 
@@ -17,7 +17,7 @@ function buildSubagentRun(): SubagentRunRecord {
 }
 
 export function buildSubagentsSendContext(params?: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   handledPrefix?: string;
   requesterKey?: string;
   runs?: SubagentRunRecord[];
@@ -30,7 +30,7 @@ export function buildSubagentsSendContext(params?: {
         ({
           commands: { text: true },
           channels: { whatsapp: { allowFrom: ["*"] } },
-        } as Brikko StudioConfig),
+        } as BrikkoStudioConfig),
       ctx: {},
       command: {
         channel: "whatsapp",

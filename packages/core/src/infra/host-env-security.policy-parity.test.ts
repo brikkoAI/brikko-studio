@@ -23,11 +23,11 @@ describe("host env security policy parity", () => {
     const policyPath = path.join(repoRoot, "src/infra/host-env-security-policy.json");
     const generatedSwiftPath = path.join(
       repoRoot,
-      "apps/macos/Sources/Brikko Studio/HostEnvSecurityPolicy.generated.swift",
+      "apps/macos/Sources/BrikkoStudio/HostEnvSecurityPolicy.generated.swift",
     );
     const sanitizerSwiftPath = path.join(
       repoRoot,
-      "apps/macos/Sources/Brikko Studio/HostEnvSanitizer.swift",
+      "apps/macos/Sources/BrikkoStudio/HostEnvSanitizer.swift",
     );
 
     const rawPolicy = JSON.parse(fs.readFileSync(policyPath, "utf8"));

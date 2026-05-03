@@ -1,5 +1,5 @@
 import { resolveChannelStreamingPreviewChunk } from "brikko-studio/plugin-sdk/channel-streaming";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveTextChunkLimit } from "brikko-studio/plugin-sdk/reply-chunking";
 import { resolveAccountEntry } from "brikko-studio/plugin-sdk/routing";
 import { normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
@@ -9,7 +9,7 @@ const DEFAULT_DISCORD_DRAFT_STREAM_MIN = 200;
 const DEFAULT_DISCORD_DRAFT_STREAM_MAX = 800;
 
 export function resolveDiscordDraftStreamingChunking(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string | null,
 ): {
   minChars: number;

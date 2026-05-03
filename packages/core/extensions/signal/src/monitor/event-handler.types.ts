@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type {
   DmPolicy,
   GroupPolicy,
@@ -77,7 +77,7 @@ export type SignalReceivePayload = {
 
 export type SignalEventHandlerDeps = {
   runtime: RuntimeEnv;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   baseUrl: string;
   account?: string;
   accountUuid?: string;
@@ -105,7 +105,7 @@ export type SignalEventHandlerDeps = {
     maxBytes: number;
   }) => Promise<{ path: string; contentType?: string } | null>;
   deliverReplies: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     replies: ReplyPayload[];
     target: string;
     baseUrl: string;

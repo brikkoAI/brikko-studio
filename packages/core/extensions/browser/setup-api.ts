@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/plugin-entry";
 import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
 import { isRecord } from "./src/record-shared.js";
@@ -16,7 +16,7 @@ function toolPolicyReferencesBrowser(value: unknown): boolean {
   );
 }
 
-function hasBrowserToolReference(config: Brikko StudioConfig): boolean {
+function hasBrowserToolReference(config: BrikkoStudioConfig): boolean {
   if (toolPolicyReferencesBrowser(config.tools)) {
     return true;
   }

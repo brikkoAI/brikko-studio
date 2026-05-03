@@ -1,5 +1,5 @@
 import type { ChannelOutboundPayloadHint } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { DiscordExecApprovalConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-dispatch-runtime";
 import { resolveDiscordAccount } from "./accounts.js";
@@ -27,7 +27,7 @@ function normalizeDiscordApproverId(value: string): string | undefined {
   }
 }
 
-function resolveDiscordOwnerApprovers(cfg: Brikko StudioConfig): string[] {
+function resolveDiscordOwnerApprovers(cfg: BrikkoStudioConfig): string[] {
   const ownerAllowFrom = cfg.commands?.ownerAllowFrom;
   if (!Array.isArray(ownerAllowFrom) || ownerAllowFrom.length === 0) {
     return [];
@@ -39,7 +39,7 @@ function resolveDiscordOwnerApprovers(cfg: Brikko StudioConfig): string[] {
 }
 
 export function getDiscordExecApprovalApprovers(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   configOverride?: DiscordExecApprovalConfig | null;
 }): string[] {
@@ -53,7 +53,7 @@ export function getDiscordExecApprovalApprovers(params: {
 }
 
 export function isDiscordExecApprovalClientEnabled(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   configOverride?: DiscordExecApprovalConfig | null;
 }): boolean {
@@ -69,7 +69,7 @@ export function isDiscordExecApprovalClientEnabled(params: {
 }
 
 export function isDiscordExecApprovalApprover(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   senderId?: string | null;
   configOverride?: DiscordExecApprovalConfig | null;
@@ -86,7 +86,7 @@ export function isDiscordExecApprovalApprover(params: {
 }
 
 export function shouldSuppressLocalDiscordExecApprovalPrompt(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   payload: ReplyPayload;
   hint?: ChannelOutboundPayloadHint;

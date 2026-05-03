@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createBlueBubblesPairingText } from "./pairing.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 
 const sendMessageBlueBubblesMock = vi.fn();
 const bluebubblesPairingText = createBlueBubblesPairingText(sendMessageBlueBubblesMock);
@@ -23,7 +23,7 @@ describe("bluebubblesPlugin.pairing.notifyApproval", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(bluebubblesPairingText.normalizeAllowEntry("  bluebubbles:+15551234567  ")).toBe(
       "+15551234567",

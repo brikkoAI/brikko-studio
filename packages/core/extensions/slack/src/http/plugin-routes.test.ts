@@ -1,11 +1,11 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig, Brikko StudioPluginApi } from "../runtime-api.js";
+import type { BrikkoStudioConfig, BrikkoStudioPluginApi } from "../runtime-api.js";
 import { registerSlackPluginHttpRoutes } from "./plugin-routes.js";
 import { registerSlackHttpHandler } from "./registry.js";
 
-function createApi(config: Brikko StudioConfig, registerHttpRoute = vi.fn()): Brikko StudioPluginApi {
+function createApi(config: BrikkoStudioConfig, registerHttpRoute = vi.fn()): BrikkoStudioPluginApi {
   return createTestPluginApi({
     id: "slack",
     config,
@@ -16,7 +16,7 @@ function createApi(config: Brikko StudioConfig, registerHttpRoute = vi.fn()): Br
 describe("registerSlackPluginHttpRoutes", () => {
   it("registers account webhook paths without resolving unresolved token refs", () => {
     const registerHttpRoute = vi.fn();
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         slack: {
           accounts: {

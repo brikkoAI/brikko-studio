@@ -3,7 +3,7 @@ import {
   installChannelSetupContractSuite,
   installChannelStatusContractSuite,
 } from "brikko-studio/plugin-sdk/channel-test-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect } from "vitest";
 import { mattermostPlugin, mattermostSetupPlugin } from "../channel-plugin-api.js";
 
@@ -22,7 +22,7 @@ describe("mattermost actions contract", () => {
               baseUrl: "https://chat.example.com",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         expectedActions: ["send", "react"],
         expectedCapabilities: ["presentation"],
       },
@@ -37,7 +37,7 @@ describe("mattermost actions contract", () => {
               actions: { reactions: false },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         expectedActions: ["send"],
         expectedCapabilities: ["presentation"],
       },
@@ -49,7 +49,7 @@ describe("mattermost actions contract", () => {
               enabled: true,
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         expectedActions: [],
         expectedCapabilities: [],
       },
@@ -63,7 +63,7 @@ describe("mattermost setup contract", () => {
     cases: [
       {
         name: "default account stores token and normalized base URL",
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         input: {
           botToken: "test-token",
           httpUrl: "https://chat.example.com/",
@@ -77,7 +77,7 @@ describe("mattermost setup contract", () => {
       },
       {
         name: "missing credentials are rejected",
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         input: {
           httpUrl: "",
         },
@@ -102,7 +102,7 @@ describe("mattermost status contract", () => {
               baseUrl: "https://chat.example.com",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         runtime: {
           accountId: "default",
           connected: true,

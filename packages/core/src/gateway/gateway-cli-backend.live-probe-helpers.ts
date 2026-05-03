@@ -12,7 +12,7 @@ import {
   assertLiveImageProbeReply,
   buildLiveCronProbeMessage,
   createLiveCronProbeSpec,
-  runBrikko StudioCliJson,
+  runBrikkoStudioCliJson,
   type CronListJob,
 } from "./live-agent-probes.js";
 import { renderCatFacePngBase64 } from "./live-image-probe.js";
@@ -81,7 +81,7 @@ async function removeCliCronJobBestEffort(params: {
   env: NodeJS.ProcessEnv;
 }): Promise<void> {
   try {
-    await runBrikko StudioCliJson(
+    await runBrikkoStudioCliJson(
       [
         "cron",
         "rm",

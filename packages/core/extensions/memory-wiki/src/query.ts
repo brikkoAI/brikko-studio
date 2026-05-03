@@ -4,7 +4,7 @@ import { resolveDefaultAgentId, resolveSessionAgentId } from "brikko-studio/plug
 import type { MemorySearchResult } from "brikko-studio/plugin-sdk/memory-host-files";
 import { getActiveMemorySearchManager } from "brikko-studio/plugin-sdk/memory-host-search";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 import { assessClaimFreshness, isClaimContestedStatus } from "./claim-health.js";
 import type { ResolvedMemoryWikiConfig, WikiSearchBackend, WikiSearchCorpus } from "./config.js";
 import {
@@ -921,7 +921,7 @@ function shouldSearchWiki(config: ResolvedMemoryWikiConfig): boolean {
 
 function shouldSearchSharedMemory(
   config: ResolvedMemoryWikiConfig,
-  appConfig?: Brikko StudioConfig,
+  appConfig?: BrikkoStudioConfig,
 ): boolean {
   return (
     config.search.backend === "shared" &&
@@ -931,7 +931,7 @@ function shouldSearchSharedMemory(
 }
 
 function resolveActiveMemoryAgentId(params: {
-  appConfig?: Brikko StudioConfig;
+  appConfig?: BrikkoStudioConfig;
   agentId?: string;
   agentSessionKey?: string;
 }): string | null {
@@ -951,7 +951,7 @@ function resolveActiveMemoryAgentId(params: {
 }
 
 async function resolveActiveMemoryManager(params: {
-  appConfig?: Brikko StudioConfig;
+  appConfig?: BrikkoStudioConfig;
   agentId?: string;
   agentSessionKey?: string;
 }) {
@@ -1183,7 +1183,7 @@ export function resolveQueryableWikiPageByLookup(
 
 export async function searchMemoryWiki(params: {
   config: ResolvedMemoryWikiConfig;
-  appConfig?: Brikko StudioConfig;
+  appConfig?: BrikkoStudioConfig;
   agentId?: string;
   agentSessionKey?: string;
   query: string;
@@ -1231,7 +1231,7 @@ export async function searchMemoryWiki(params: {
 
 export async function getMemoryWikiPage(params: {
   config: ResolvedMemoryWikiConfig;
-  appConfig?: Brikko StudioConfig;
+  appConfig?: BrikkoStudioConfig;
   agentId?: string;
   agentSessionKey?: string;
   lookup: string;

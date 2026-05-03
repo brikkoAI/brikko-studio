@@ -9,7 +9,7 @@ import type {
   ChannelMessageCapability,
   ChannelPlugin,
 } from "../../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 
 function sortStrings(values: readonly string[]) {
   return [...values].toSorted((left, right) => left.localeCompare(right));
@@ -17,7 +17,7 @@ function sortStrings(values: readonly string[]) {
 
 function resolveContractMessageDiscovery(params: {
   plugin: Pick<ChannelPlugin, "actions">;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }) {
   const actions = params.plugin.actions;
   if (!actions) {
@@ -61,7 +61,7 @@ export function expectChannelPluginContract(
 
 type ChannelActionsContractCase = {
   name: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   expectedActions: readonly ChannelMessageActionName[];
   expectedCapabilities?: readonly ChannelMessageCapability[];
   beforeTest?: () => void;
@@ -112,14 +112,14 @@ export function installChannelActionsContractSuite(params: {
 
 type ChannelSetupContractCase<ResolvedAccount> = {
   name: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   input: ChannelSetupInput;
   expectedAccountId?: string;
   expectedValidation?: string | null;
   beforeTest?: () => void;
-  assertPatchedConfig?: (cfg: Brikko StudioConfig) => void;
-  assertResolvedAccount?: (account: ResolvedAccount, cfg: Brikko StudioConfig) => void;
+  assertPatchedConfig?: (cfg: BrikkoStudioConfig) => void;
+  assertResolvedAccount?: (account: ResolvedAccount, cfg: BrikkoStudioConfig) => void;
 };
 
 export function installChannelSetupContractSuite<ResolvedAccount>(params: {
@@ -170,7 +170,7 @@ export function installChannelSetupContractSuite<ResolvedAccount>(params: {
 
 type ChannelStatusContractCase<Probe> = {
   name: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   runtime?: ChannelAccountSnapshot;
   probe?: Probe;

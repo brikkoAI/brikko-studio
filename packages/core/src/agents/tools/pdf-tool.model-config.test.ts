@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { resolvePdfModelConfigForTool } from "./pdf-tool.model-config.js";
 import { resetPdfToolAuthEnv } from "./pdf-tool.test-support.js";
 
@@ -30,7 +30,7 @@ vi.mock("./model-config.helpers.js", () => ({
     }
     return false;
   },
-  resolveDefaultModelRef: (cfg?: Brikko StudioConfig) => {
+  resolveDefaultModelRef: (cfg?: BrikkoStudioConfig) => {
     const modelCfg = cfg?.agents?.defaults?.model;
     const primary =
       (typeof modelCfg === "string"
@@ -41,10 +41,10 @@ vi.mock("./model-config.helpers.js", () => ({
   },
 }));
 
-function withDefaultModel(primary: string): Brikko StudioConfig {
+function withDefaultModel(primary: string): BrikkoStudioConfig {
   return {
     agents: { defaults: { model: { primary } } },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("resolvePdfModelConfigForTool", () => {
@@ -69,7 +69,7 @@ describe("resolvePdfModelConfigForTool", () => {
           pdfModel: { primary: ANTHROPIC_PDF_MODEL },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     expect(resolvePdfModelConfigForTool({ cfg, agentDir: TEST_AGENT_DIR })).toEqual({
       primary: ANTHROPIC_PDF_MODEL,
     });
@@ -83,7 +83,7 @@ describe("resolvePdfModelConfigForTool", () => {
           imageModel: { primary: "openai/gpt-5.4-mini" },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     expect(resolvePdfModelConfigForTool({ cfg, agentDir: TEST_AGENT_DIR })).toEqual({
       primary: "openai/gpt-5.4-mini",
     });

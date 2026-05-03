@@ -9,7 +9,7 @@ import {
   loadSessionStore,
   updateSessionStore,
 } from "brikko-studio/plugin-sdk/session-store-runtime";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { buildTelegramMessageContextForTest } from "./bot-message-context.test-harness.js";
 
@@ -20,7 +20,7 @@ function createSuiteTempRootTracker(params: { prefix: string }) {
   const children: string[] = [];
   return {
     async setup() {
-      root = await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), params.prefix));
+      root = await fs.mkdtemp(path.join(resolvePreferredBrikkoStudioTmpDir(), params.prefix));
     },
     async make(name: string) {
       if (!root) {

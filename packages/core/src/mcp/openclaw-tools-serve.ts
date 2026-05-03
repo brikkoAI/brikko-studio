@@ -1,5 +1,5 @@
 /**
- * Standalone MCP server for selected built-in Brikko Studio tools.
+ * Standalone MCP server for selected built-in BrikkoStudio tools.
  *
  * Run via: node --import tsx src/mcp/brikko-studio-tools-serve.ts
  * Or: bun src/mcp/brikko-studio-tools-serve.ts
@@ -11,26 +11,26 @@ import { createCronTool } from "../agents/tools/cron-tool.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { connectToolsMcpServerToStdio, createToolsMcpServer } from "./tools-stdio-server.js";
 
-export function resolveBrikko StudioToolsForMcp(): AnyAgentTool[] {
+export function resolveBrikkoStudioToolsForMcp(): AnyAgentTool[] {
   return [createCronTool()];
 }
 
-function createBrikko StudioToolsMcpServer(
+function createBrikkoStudioToolsMcpServer(
   params: {
     tools?: AnyAgentTool[];
   } = {},
 ): Server {
-  const tools = params.tools ?? resolveBrikko StudioToolsForMcp();
+  const tools = params.tools ?? resolveBrikkoStudioToolsForMcp();
   return createToolsMcpServer({ name: "brikko-studio-tools", tools });
 }
 
-async function serveBrikko StudioToolsMcp(): Promise<void> {
-  const server = createBrikko StudioToolsMcpServer();
+async function serveBrikkoStudioToolsMcp(): Promise<void> {
+  const server = createBrikkoStudioToolsMcpServer();
   await connectToolsMcpServerToStdio(server);
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
-  serveBrikko StudioToolsMcp().catch((err) => {
+  serveBrikkoStudioToolsMcp().catch((err) => {
     process.stderr.write(`brikko-studio-tools-serve: ${formatErrorMessage(err)}\n`);
     process.exit(1);
   });

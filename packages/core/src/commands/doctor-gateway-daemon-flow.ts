@@ -1,6 +1,6 @@
 import { formatCliCommand } from "../cli/command-format.js";
 import { resolveGatewayPort } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveGatewayLaunchAgentLabel,
   resolveNodeLaunchAgentLabel,
@@ -95,16 +95,16 @@ async function maybeRepairLaunchAgentBootstrap(params: {
 
 function renderBlockingSystemGatewayServices(services: ExtraGatewayService[]): string {
   return [
-    "System-level Brikko Studio gateway service detected while the user gateway service is not installed.",
+    "System-level BrikkoStudio gateway service detected while the user gateway service is not installed.",
     ...services.map((svc) => `- ${svc.label} (${svc.detail})`),
-    "Brikko Studio will not install a second user-level gateway service automatically.",
+    "BrikkoStudio will not install a second user-level gateway service automatically.",
     "Run `brikko-studio gateway status --deep` or `brikko-studio doctor --deep` to inspect duplicate services.",
     `Set ${SERVICE_REPAIR_POLICY_ENV}=external if a system supervisor owns the gateway lifecycle.`,
   ].join("\n");
 }
 
 export async function maybeRepairGatewayDaemon(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime: RuntimeEnv;
   prompter: DoctorPrompter;
   options: DoctorOptions;

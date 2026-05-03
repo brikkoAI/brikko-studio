@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { writePluginWithSkill } from "../test-helpers/skill-plugin-fixtures.js";
 import { resolveEmbeddedRunSkillEntries } from "./skills-runtime.js";
 
@@ -38,7 +38,7 @@ async function setupBundledDiffsPlugin() {
   return { bundledPluginsDir, workspaceDir };
 }
 
-async function resolveBundledDiffsSkillEntries(config?: Brikko StudioConfig) {
+async function resolveBundledDiffsSkillEntries(config?: BrikkoStudioConfig) {
   const { bundledPluginsDir, workspaceDir } = await setupBundledDiffsPlugin();
   process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
 
@@ -52,7 +52,7 @@ afterEach(async () => {
 
 describe("resolveEmbeddedRunSkillEntries (integration)", () => {
   it("loads bundled diffs skill when explicitly enabled in config", async () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         entries: {
           diffs: { enabled: true },

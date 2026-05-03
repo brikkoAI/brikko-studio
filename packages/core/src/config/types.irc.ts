@@ -12,7 +12,7 @@ export type IrcAccountConfig = CommonChannelMessagingConfig & {
   nick?: string;
   /** IRC USER field username (defaults to nick). */
   username?: string;
-  /** IRC USER field realname (default: Brikko Studio). */
+  /** IRC USER field realname (default: BrikkoStudio). */
   realname?: string;
   /** Optional IRC server password (sensitive). */
   password?: string;

@@ -2,7 +2,7 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   emitDiagnosticsTimelineEvent,
   flushDiagnosticsTimelineForTest,
@@ -77,9 +77,9 @@ describe("diagnostics timeline", () => {
     const { env } = await createTimelineEnv();
     const envWithoutFlag = { ...env };
     delete envWithoutFlag.BRIKKO_STUDIO_DIAGNOSTICS;
-    const configWithTimeline = { diagnostics: { flags: ["timeline"] } } as Brikko StudioConfig;
-    const configWithWildcard = { diagnostics: { flags: ["*"] } } as Brikko StudioConfig;
-    const configWithoutTimeline = { diagnostics: { flags: ["telegram.http"] } } as Brikko StudioConfig;
+    const configWithTimeline = { diagnostics: { flags: ["timeline"] } } as BrikkoStudioConfig;
+    const configWithWildcard = { diagnostics: { flags: ["*"] } } as BrikkoStudioConfig;
+    const configWithoutTimeline = { diagnostics: { flags: ["telegram.http"] } } as BrikkoStudioConfig;
 
     expect(isDiagnosticsTimelineEnabled({ config: configWithTimeline, env: envWithoutFlag })).toBe(
       true,
@@ -94,7 +94,7 @@ describe("diagnostics timeline", () => {
 
   it("lets false-like env diagnostics disable config-enabled timeline output", async () => {
     const { env } = await createTimelineEnv();
-    const configWithTimeline = { diagnostics: { flags: ["timeline"] } } as Brikko StudioConfig;
+    const configWithTimeline = { diagnostics: { flags: ["timeline"] } } as BrikkoStudioConfig;
 
     expect(
       isDiagnosticsTimelineEnabled({
@@ -148,7 +148,7 @@ describe("diagnostics timeline", () => {
       measureDiagnosticsTimelineSpan("runtimeDeps.stage", () => "ok", {
         phase: "startup",
         attributes: { pluginCount: 3 },
-        config: { diagnostics: { flags: ["timeline"] } } as Brikko StudioConfig,
+        config: { diagnostics: { flags: ["timeline"] } } as BrikkoStudioConfig,
         env: configOnlyEnv,
       }),
     ).resolves.toBe("ok");

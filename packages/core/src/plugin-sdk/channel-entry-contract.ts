@@ -6,7 +6,7 @@ import { emptyChannelConfigSchema } from "../channels/plugins/config-schema.js";
 import type { ChannelConfigSchema } from "../channels/plugins/types.config.js";
 import type { ChannelLegacyStateMigrationPlan } from "../channels/plugins/types.core.js";
 import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import {
   createProfiler,
@@ -21,8 +21,8 @@ import type { PluginRuntime } from "../plugins/runtime/types.js";
 import { resolveLoaderPackageRoot } from "../plugins/sdk-alias.js";
 import type {
   AnyAgentTool,
-  Brikko StudioPluginApi,
-  Brikko StudioPluginCommandDefinition,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginCommandDefinition,
   PluginCommandContext,
 } from "../plugins/types.js";
 import { toSafeImportPath } from "../shared/import-specifier.js";
@@ -30,8 +30,8 @@ import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 
 export type {
   AnyAgentTool,
-  Brikko StudioPluginApi,
-  Brikko StudioPluginCommandDefinition,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginCommandDefinition,
   PluginCommandContext,
 };
 
@@ -56,8 +56,8 @@ type DefineBundledChannelEntryOptions<TPlugin = ChannelPlugin> = {
   runtime?: BundledEntryModuleRef;
   accountInspect?: BundledEntryModuleRef;
   features?: BundledChannelEntryFeatures;
-  registerCliMetadata?: (api: Brikko StudioPluginApi) => void;
-  registerFull?: (api: Brikko StudioPluginApi) => void;
+  registerCliMetadata?: (api: BrikkoStudioPluginApi) => void;
+  registerFull?: (api: BrikkoStudioPluginApi) => void;
 };
 
 type DefineBundledChannelSetupEntryOptions = {
@@ -88,7 +88,7 @@ export type BundledChannelLegacySessionSurface = {
 };
 
 export type BundledChannelLegacyStateMigrationDetector = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   stateDir: string;
   oauthDir: string;
@@ -105,7 +105,7 @@ export type BundledChannelEntryContract<TPlugin = ChannelPlugin> = {
   description: string;
   configSchema: ChannelEntryConfigSchema<TPlugin>;
   features?: BundledChannelEntryFeatures;
-  register: (api: Brikko StudioPluginApi) => void;
+  register: (api: BrikkoStudioPluginApi) => void;
   loadChannelPlugin: (options?: BundledEntryModuleLoadOptions) => TPlugin;
   loadChannelSecrets?: (
     options?: BundledEntryModuleLoadOptions,
@@ -480,7 +480,7 @@ export function defineBundledChannelEntry<TPlugin = ChannelPlugin>({
     ...(features || accountInspect
       ? { features: { ...features, ...(accountInspect ? { accountInspect: true } : {}) } }
       : {}),
-    register(api: Brikko StudioPluginApi) {
+    register(api: BrikkoStudioPluginApi) {
       if (api.registrationMode === "cli-metadata") {
         registerCliMetadata?.(api);
         return;

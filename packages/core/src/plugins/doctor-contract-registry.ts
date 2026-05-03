@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { LegacyConfigRule } from "../config/legacy.shared.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { asNullableRecord } from "../shared/record-coerce.js";
 import type { PluginManifestRegistry } from "./manifest-registry.js";
 import {
@@ -24,12 +24,12 @@ type PluginDoctorContractModule = {
 };
 
 type PluginDoctorCompatibilityMutation = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
 };
 
 type PluginDoctorCompatibilityNormalizer = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }) => PluginDoctorCompatibilityMutation;
 
 type PluginDoctorContractEntry = {
@@ -244,14 +244,14 @@ export function listPluginDoctorLegacyConfigRules(params?: {
 }
 
 export function applyPluginDoctorCompatibilityMigrations(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   params?: {
     workspaceDir?: string;
     env?: NodeJS.ProcessEnv;
     pluginIds?: readonly string[];
   },
 ): {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
 } {
   let nextCfg = cfg;

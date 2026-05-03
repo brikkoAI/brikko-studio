@@ -14,7 +14,7 @@ import {
   resolveThinkingDefault,
 } from "../../agents/model-selection.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import type { ThinkLevel } from "./directives.js";
@@ -41,7 +41,7 @@ type ModelSelectionState = {
 };
 
 export function createFastTestModelSelectionState(params: {
-  agentCfg: NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]> | undefined;
+  agentCfg: NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["defaults"]> | undefined;
   provider: string;
   model: string;
 }): ModelSelectionState {
@@ -79,9 +79,9 @@ function loadSessionStoreRuntime() {
 }
 
 export async function createModelSelectionState(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
-  agentCfg: NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]> | undefined;
+  agentCfg: NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["defaults"]> | undefined;
   sessionEntry?: SessionEntry;
   sessionStore?: Record<string, SessionEntry>;
   sessionKey?: string;
@@ -323,8 +323,8 @@ export async function createModelSelectionState(params: {
 }
 
 export function resolveContextTokens(params: {
-  cfg: Brikko StudioConfig;
-  agentCfg: NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]> | undefined;
+  cfg: BrikkoStudioConfig;
+  agentCfg: NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["defaults"]> | undefined;
   provider: string;
   model: string;
 }): number {

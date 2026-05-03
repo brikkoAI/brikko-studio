@@ -1,7 +1,7 @@
 import { formatCliCommand } from "../cli/command-format.js";
 import {
   type ConfigFileSnapshot,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   readConfigFileSnapshot,
 } from "../config/config.js";
 import { formatConfigIssueLines } from "../config/issue-format.js";
@@ -48,6 +48,6 @@ export async function requireValidConfigFileSnapshot(
 export async function requireValidConfigSnapshot(
   runtime: RuntimeEnv,
   opts?: { includeCompatibilityAdvisory?: boolean },
-): Promise<Brikko StudioConfig | null> {
+): Promise<BrikkoStudioConfig | null> {
   return (await requireValidConfigFileSnapshot(runtime, opts))?.config ?? null;
 }

@@ -1,7 +1,7 @@
 import { resolveNormalizedAccountEntry } from "brikko-studio/plugin-sdk/account-core";
 import type { BaseTokenResolution } from "brikko-studio/plugin-sdk/channel-contract";
 import { tryReadSecretFileSync } from "brikko-studio/plugin-sdk/channel-core";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveDefaultSecretProviderAlias } from "brikko-studio/plugin-sdk/provider-auth";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
@@ -22,7 +22,7 @@ type RuntimeTokenValueResolution =
   | { status: "missing" };
 
 function resolveEnvSecretRefValue(params: {
-  cfg?: Pick<Brikko StudioConfig, "secrets">;
+  cfg?: Pick<BrikkoStudioConfig, "secrets">;
   provider: string;
   id: string;
   env?: NodeJS.ProcessEnv;
@@ -50,7 +50,7 @@ function resolveEnvSecretRefValue(params: {
 }
 
 function resolveRuntimeTokenValue(params: {
-  cfg?: Pick<Brikko StudioConfig, "secrets">;
+  cfg?: Pick<BrikkoStudioConfig, "secrets">;
   value: unknown;
   path: string;
 }): RuntimeTokenValueResolution {
@@ -100,7 +100,7 @@ type ResolveTelegramTokenOpts = {
 };
 
 export function resolveTelegramToken(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   opts: ResolveTelegramTokenOpts = {},
 ): TelegramTokenResolution {
   const accountId = normalizeAccountId(opts.accountId);

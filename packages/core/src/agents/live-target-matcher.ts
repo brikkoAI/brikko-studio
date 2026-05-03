@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
@@ -54,7 +54,7 @@ function parseModelTarget(raw: string): ModelTarget | null {
 export function createLiveTargetMatcher(params: {
   providerFilter: Set<string> | null;
   modelFilter: Set<string> | null;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }) {

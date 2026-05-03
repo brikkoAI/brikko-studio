@@ -2,7 +2,7 @@ export type JsonObject = Record<string, unknown>;
 
 export type ExternalPluginCompatibility = {
   pluginApiRange?: string;
-  builtWithBrikko StudioVersion?: string;
+  builtWithBrikkoStudioVersion?: string;
   pluginSdkVersion?: string;
   minGatewayVersion?: string;
 };
@@ -34,7 +34,7 @@ function normalizeOptionalString(value: unknown): string | undefined {
   return trimmed ? trimmed : undefined;
 }
 
-function readBrikko StudioBlock(packageJson: unknown) {
+function readBrikkoStudioBlock(packageJson: unknown) {
   const root = isRecord(packageJson) ? packageJson : undefined;
   const brikko-studio = isRecord(root?.brikko-studio) ? root.brikko-studio : undefined;
   const compat = isRecord(brikko-studio?.compat) ? brikko-studio.compat : undefined;
@@ -46,7 +46,7 @@ function readBrikko StudioBlock(packageJson: unknown) {
 export function normalizeExternalPluginCompatibility(
   packageJson: unknown,
 ): ExternalPluginCompatibility | undefined {
-  const { root, compat, build, install } = readBrikko StudioBlock(packageJson);
+  const { root, compat, build, install } = readBrikkoStudioBlock(packageJson);
   const version = normalizeOptionalString(root?.version);
   const minHostVersion = normalizeOptionalString(install?.minHostVersion);
   const compatibility: ExternalPluginCompatibility = {};
@@ -61,9 +61,9 @@ export function normalizeExternalPluginCompatibility(
     compatibility.minGatewayVersion = minGatewayVersion;
   }
 
-  const builtWithBrikko StudioVersion = normalizeOptionalString(build?.brikko-studioVersion) ?? version;
-  if (builtWithBrikko StudioVersion) {
-    compatibility.builtWithBrikko StudioVersion = builtWithBrikko StudioVersion;
+  const builtWithBrikkoStudioVersion = normalizeOptionalString(build?.brikko-studioVersion) ?? version;
+  if (builtWithBrikkoStudioVersion) {
+    compatibility.builtWithBrikkoStudioVersion = builtWithBrikkoStudioVersion;
   }
 
   const pluginSdkVersion = normalizeOptionalString(build?.pluginSdkVersion);
@@ -75,7 +75,7 @@ export function normalizeExternalPluginCompatibility(
 }
 
 export function listMissingExternalCodePluginFieldPaths(packageJson: unknown): string[] {
-  const { compat, build } = readBrikko StudioBlock(packageJson);
+  const { compat, build } = readBrikkoStudioBlock(packageJson);
   const missing: string[] = [];
   if (!normalizeOptionalString(compat?.pluginApi)) {
     missing.push("brikko-studio.compat.pluginApi");

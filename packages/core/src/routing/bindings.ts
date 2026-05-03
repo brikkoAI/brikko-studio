@@ -1,18 +1,18 @@
 import { resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { listRouteBindings } from "../config/bindings.js";
 import type { AgentRouteBinding } from "../config/types.agents.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   normalizeRouteBindingChannelId,
   resolveNormalizedRouteBindingMatch,
 } from "./binding-scope.js";
 import { normalizeAgentId } from "./session-key.js";
 
-export function listBindings(cfg: Brikko StudioConfig): AgentRouteBinding[] {
+export function listBindings(cfg: BrikkoStudioConfig): AgentRouteBinding[] {
   return listRouteBindings(cfg);
 }
 
-export function listBoundAccountIds(cfg: Brikko StudioConfig, channelId: string): string[] {
+export function listBoundAccountIds(cfg: BrikkoStudioConfig, channelId: string): string[] {
   const normalizedChannel = normalizeRouteBindingChannelId(channelId);
   if (!normalizedChannel) {
     return [];
@@ -29,7 +29,7 @@ export function listBoundAccountIds(cfg: Brikko StudioConfig, channelId: string)
 }
 
 export function resolveDefaultAgentBoundAccountId(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   channelId: string,
 ): string | null {
   const normalizedChannel = normalizeRouteBindingChannelId(channelId);
@@ -51,7 +51,7 @@ export function resolveDefaultAgentBoundAccountId(
   return null;
 }
 
-export function buildChannelAccountBindings(cfg: Brikko StudioConfig) {
+export function buildChannelAccountBindings(cfg: BrikkoStudioConfig) {
   const map = new Map<string, Map<string, string[]>>();
   for (const binding of listBindings(cfg)) {
     const resolved = resolveNormalizedRouteBindingMatch(binding);

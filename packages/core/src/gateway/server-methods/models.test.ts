@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { ErrorCodes } from "../protocol/index.js";
 import { modelsHandlers } from "./models.js";
 
@@ -50,7 +50,7 @@ describe("models.list", () => {
                 },
               },
             };
-            return config as unknown as Brikko StudioConfig;
+            return config as unknown as BrikkoStudioConfig;
           },
           loadGatewayModelCatalog,
           logGateway: {
@@ -100,7 +100,7 @@ describe("models.list", () => {
         client: null,
         isWebchatConnect: () => false,
         context: {
-          getRuntimeConfig: () => ({}) as Brikko StudioConfig,
+          getRuntimeConfig: () => ({}) as BrikkoStudioConfig,
           loadGatewayModelCatalog,
           logGateway: {
             debug: vi.fn(),
@@ -140,7 +140,7 @@ describe("models.list", () => {
       client: null,
       isWebchatConnect: () => false,
       context: {
-        getRuntimeConfig: () => ({}) as Brikko StudioConfig,
+        getRuntimeConfig: () => ({}) as BrikkoStudioConfig,
         loadGatewayModelCatalog: vi.fn(() => Promise.reject(new Error("catalog failed"))),
         logGateway: {
           debug: vi.fn(),

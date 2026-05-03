@@ -1,6 +1,6 @@
 import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
-import type { Brikko StudioConfig } from "../../runtime-api.js";
+import type { BrikkoStudioConfig } from "../../runtime-api.js";
 import { createLoggerBackedRuntime } from "../../runtime-api.js";
 import { getTlonRuntime } from "../runtime.js";
 import { createSettingsManager, type TlonSettingsStore } from "../settings.js";
@@ -58,7 +58,7 @@ function readNumber(record: Record<string, unknown> | null, key: string): number
 
 export async function monitorTlonProvider(opts: MonitorTlonOpts = {}): Promise<void> {
   const core = getTlonRuntime();
-  const cfg = core.config.current() as Brikko StudioConfig;
+  const cfg = core.config.current() as BrikkoStudioConfig;
   if (cfg.channels?.tlon?.enabled === false) {
     return;
   }
@@ -442,7 +442,7 @@ export async function monitorTlonProvider(opts: MonitorTlonOpts = {}): Promise<v
         // Log warning
         runtime.log?.(
           `[tlon] ⚠️ SECURITY: Multiple users sharing DM session. ` +
-            `Configure "session.dmScope: per-channel-peer" in Brikko Studio config.`,
+            `Configure "session.dmScope: per-channel-peer" in BrikkoStudio config.`,
         );
 
         // Notify owner via DM (once per monitor session)
@@ -451,7 +451,7 @@ export async function monitorTlonProvider(opts: MonitorTlonOpts = {}): Promise<v
           const warningMsg =
             `⚠️ Security Warning: Multiple users are sharing a DM session with this bot. ` +
             `This can leak conversation context between users.\n\n` +
-            `Fix: Add to your Brikko Studio config:\n` +
+            `Fix: Add to your BrikkoStudio config:\n` +
             `session:\n  dmScope: "per-channel-peer"\n\n` +
             `Docs: https://docs.brikko-studio.ai/concepts/session#secure-dm-mode`;
 

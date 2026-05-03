@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeAll, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 
 type UnknownMock = Mock<(...args: unknown[]) => unknown>;
@@ -60,7 +60,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
 
     it("skips writeback when target is already numeric", async () => {
       await maybePersistResolvedTelegramTarget({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         rawTarget: "-100123",
         resolvedChatId: "-100123",
       });
@@ -74,7 +74,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
         await maybePersistResolvedTelegramTarget({
           cfg: {
             cron: { store: "/tmp/cron/jobs.json" },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
           rawTarget: "t.me/mychannel",
           resolvedChatId: "-100123",
           gatewayClientScopes: ["operator.write"],
@@ -90,7 +90,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
         await maybePersistResolvedTelegramTarget({
           cfg: {
             cron: { store: "/tmp/cron/jobs.json" },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
           rawTarget: "t.me/mychannel",
           resolvedChatId: "-100123",
           gatewayClientScopes: [],
@@ -132,7 +132,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
       await maybePersistResolvedTelegramTarget({
         cfg: {
           cron: { store: "/tmp/cron/jobs.json" },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         rawTarget: "t.me/mychannel",
         resolvedChatId: "-100123",
       });
@@ -181,7 +181,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
       loadCronStore.mockResolvedValue({ version: 1, jobs: [] });
 
       await maybePersistResolvedTelegramTarget({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         rawTarget: "t.me/mychannel:topic:9",
         resolvedChatId: "-100123",
       });
@@ -217,7 +217,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
       });
 
       await maybePersistResolvedTelegramTarget({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         rawTarget: "@MyChannel",
         resolvedChatId: "-100123",
       });

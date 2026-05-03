@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { ImageGenerationProviderPlugin } from "../plugins/types.js";
 import type * as ProviderRegistry from "./provider-registry.js";
 
@@ -40,7 +40,7 @@ describe("image-generation provider registry", () => {
   });
 
   it("delegates provider resolution to the capability provider boundary", () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
 
     expect(listImageGenerationProviders(cfg)).toEqual([]);
     expect(resolvePluginCapabilityProvidersMock).toHaveBeenCalledWith({

@@ -1,9 +1,9 @@
 import { expect } from "vitest";
 import type { ChannelDirectoryEntry } from "../channel-contract.js";
-import type { Brikko StudioConfig } from "../config-types.js";
+import type { BrikkoStudioConfig } from "../config-types.js";
 
 export type DirectoryListFn = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   query?: string | null;
   limit?: number | null;
@@ -11,7 +11,7 @@ export type DirectoryListFn = (params: {
 
 export async function expectDirectoryIds(
   listFn: DirectoryListFn,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   expected: string[],
   options?: { sorted?: boolean },
 ) {

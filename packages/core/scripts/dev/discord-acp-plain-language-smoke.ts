@@ -166,7 +166,7 @@ function usage(): string {
     "Usage: bun scripts/dev/discord-acp-plain-language-smoke.ts " +
     "--channel <discord-channel-id> [--token <driver-token> | --driver webhook --bot-token <bot-token> | --driver brikko-studio] [options]\n\n" +
     "Manual live smoke only (not CI). Sends a plain-language instruction in Discord and verifies:\n" +
-    "1) Brikko Studio spawned an ACP thread binding\n" +
+    "1) BrikkoStudio spawned an ACP thread binding\n" +
     "2) agent replied in that bound thread with the expected ACK token\n\n" +
     "Options:\n" +
     "  --channel <id>               Parent Discord channel id (required)\n" +
@@ -181,7 +181,7 @@ function usage(): string {
     "  --timeout-ms <n>             Total timeout in ms (default: 240000)\n" +
     "  --poll-ms <n>                Poll interval in ms (default: 1500)\n" +
     "  --thread-bindings-path <p>   Override thread-bindings json path\n" +
-    "  --brikko-studio-bin <path>        Brikko Studio CLI binary for driver=brikko-studio (default: brikko-studio)\n" +
+    "  --brikko-studio-bin <path>        BrikkoStudio CLI binary for driver=brikko-studio (default: brikko-studio)\n" +
     "  --json                       Emit JSON output\n" +
     "\n" +
     "Environment fallbacks:\n" +
@@ -766,7 +766,7 @@ async function run(): Promise<SuccessResult | FailureResult> {
         ok: false,
         stage: "wait-ack",
         smokeId,
-        error: `Thread bound (${threadId}) but timed out waiting for ACK token "${ackToken}" from Brikko Studio.`,
+        error: `Thread bound (${threadId}) but timed out waiting for ACK token "${ackToken}" from BrikkoStudio.`,
         diagnostics: {
           bindingCandidates: [
             {

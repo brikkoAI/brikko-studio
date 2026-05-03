@@ -1,12 +1,12 @@
-export type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+export type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 export type { ChannelMessageActionAdapter } from "brikko-studio/plugin-sdk/channel-contract";
 export type { TelegramApiOverride } from "./src/send.js";
 export type {
-  Brikko StudioPluginService,
-  Brikko StudioPluginServiceContext,
+  BrikkoStudioPluginService,
+  BrikkoStudioPluginServiceContext,
   PluginLogger,
 } from "brikko-studio/plugin-sdk/plugin-entry";
-import type { Brikko StudioConfig as RuntimeBrikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig as RuntimeBrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export type { PluginRuntime } from "brikko-studio/plugin-sdk/runtime-store";
 export type {
   AcpRuntime,
@@ -86,9 +86,9 @@ export {
 export { resolveTelegramToken } from "./src/token.js";
 export { setTelegramRuntime } from "./src/runtime.js";
 export type { ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
-export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export type TelegramAccountConfig = NonNullable<
-  NonNullable<RuntimeBrikko StudioConfig["channels"]>["telegram"]
+  NonNullable<RuntimeBrikkoStudioConfig["channels"]>["telegram"]
 >;
 export type TelegramActionConfig = NonNullable<TelegramAccountConfig["actions"]>;
 export type TelegramNetworkConfig = NonNullable<TelegramAccountConfig["network"]>;

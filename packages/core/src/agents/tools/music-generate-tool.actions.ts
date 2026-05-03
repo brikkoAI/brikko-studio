@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { listSupportedMusicGenerationModes } from "../../music-generation/capabilities.js";
 import { listRuntimeMusicGenerationProviders } from "../../music-generation/runtime.js";
 import {
@@ -44,7 +44,7 @@ function summarizeMusicGenerationCapabilities(
 }
 
 export function createMusicGenerateListActionResult(
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): MusicGenerateActionResult {
   const providers = listRuntimeMusicGenerationProviders({ config });
   return createMediaGenerateProviderListActionResult({

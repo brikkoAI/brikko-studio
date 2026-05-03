@@ -1,6 +1,6 @@
-export { resolvePreferredBrikko StudioTmpDir } from "./src/runtime-api.js";
+export { resolvePreferredBrikkoStudioTmpDir } from "./src/runtime-api.js";
 export {
   definePluginEntry,
   type AnyAgentTool,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
 } from "brikko-studio/plugin-sdk/plugin-entry";

@@ -154,7 +154,7 @@ function createHost(): TestGatewayHost {
     agentsList: null,
     agentsError: null,
     debugHealth: null,
-    assistantName: "Brikko Studio",
+    assistantName: "BrikkoStudio",
     assistantAvatar: null,
     assistantAgentId: null,
     localMediaPreviewRoots: [],

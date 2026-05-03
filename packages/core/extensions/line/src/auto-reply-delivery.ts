@@ -1,5 +1,5 @@
 import type { messagingApi } from "@line/bot-sdk";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveSendableOutboundReplyParts } from "brikko-studio/plugin-sdk/reply-payload";
 import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
 import type { FlexContainer } from "./flex-templates.js";
@@ -19,7 +19,7 @@ export type LineAutoReplyDeps = {
   pushMessagesLine: (
     to: string,
     messages: messagingApi.Message[],
-    opts: { cfg: Brikko StudioConfig; accountId?: string },
+    opts: { cfg: BrikkoStudioConfig; accountId?: string },
   ) => Promise<unknown>;
   createFlexMessage: (altText: string, contents: FlexContainer) => messagingApi.FlexMessage;
   createImageMessage: (
@@ -48,7 +48,7 @@ export async function deliverLineAutoReply(params: {
   replyToken?: string | null;
   replyTokenUsed: boolean;
   accountId?: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   textLimit: number;
   deps: LineAutoReplyDeps;
 }): Promise<{ replyTokenUsed: boolean }> {

@@ -8,10 +8,10 @@ import {
   browserSecurityAuditCollectors,
   registerBrowserPlugin,
 } from "./plugin-registration.js";
-import type { Brikko StudioPluginApi } from "./runtime-api.js";
+import type { BrikkoStudioPluginApi } from "./runtime-api.js";
 import setupPlugin from "./setup-api.js";
 
-type BrowserAutoEnableProbe = Parameters<Brikko StudioPluginApi["registerAutoEnableProbe"]>[0];
+type BrowserAutoEnableProbe = Parameters<BrikkoStudioPluginApi["registerAutoEnableProbe"]>[0];
 
 const runtimeApiMocks = vi.hoisted(() => ({
   createBrowserPluginService: vi.fn(() => ({ id: "browser-control", start: vi.fn() })),
@@ -54,7 +54,7 @@ function createApi() {
     name: "Browser",
     source: "test",
     config: {},
-    runtime: {} as Brikko StudioPluginApi["runtime"],
+    runtime: {} as BrikkoStudioPluginApi["runtime"],
     registerCli,
     registerGatewayMethod,
     registerService,
@@ -142,7 +142,7 @@ describe("browser plugin", () => {
         descriptors: [
           {
             name: "browser",
-            description: "Manage Brikko Studio's dedicated browser (Chrome/Chromium)",
+            description: "Manage BrikkoStudio's dedicated browser (Chrome/Chromium)",
             hasSubcommands: true,
           },
         ],

@@ -18,7 +18,7 @@ function makeRepoRoot(prefix: string): string {
   return makeTrackedTempDir(prefix, tempDirs);
 }
 
-function createBrikko StudioRoot(params: {
+function createBrikkoStudioRoot(params: {
   prefix: string;
   hasExtensions?: boolean;
   hasSrc?: boolean;
@@ -256,7 +256,7 @@ describe("resolveBundledPluginsDir", () => {
       },
     ],
   ] as const)("%s", (_name, layout, expectation) => {
-    const repoRoot = createBrikko StudioRoot(layout);
+    const repoRoot = createBrikkoStudioRoot(layout);
     if (expectation.expectedRelativeDir === path.join("dist-runtime", "extensions")) {
       seedBundledPluginTree(repoRoot, path.join("dist", "extensions"));
       seedBundledPluginTree(repoRoot, path.join("dist-runtime", "extensions"));
@@ -274,7 +274,7 @@ describe("resolveBundledPluginsDir", () => {
   });
 
   it("falls back to source extensions when dist trees exist but do not contain real plugin manifests", () => {
-    const repoRoot = createBrikko StudioRoot({
+    const repoRoot = createBrikkoStudioRoot({
       prefix: "brikko-studio-bundled-dir-incomplete-built-",
       hasExtensions: true,
       hasSrc: true,
@@ -296,7 +296,7 @@ describe("resolveBundledPluginsDir", () => {
   });
 
   it("keeps built bundled plugins for git-looking trees without pnpm workspace metadata", () => {
-    const repoRoot = createBrikko StudioRoot({
+    const repoRoot = createBrikkoStudioRoot({
       prefix: "brikko-studio-bundled-dir-git-no-pnpm-",
       hasExtensions: true,
       hasSrc: true,
@@ -315,7 +315,7 @@ describe("resolveBundledPluginsDir", () => {
   });
 
   it("reports missing pnpm workspace deps for source checkouts", () => {
-    const repoRoot = createBrikko StudioRoot({
+    const repoRoot = createBrikkoStudioRoot({
       prefix: "brikko-studio-bundled-dir-source-deps-",
       hasExtensions: true,
       hasSrc: true,
@@ -340,7 +340,7 @@ describe("resolveBundledPluginsDir", () => {
   });
 
   it("returns a stable empty bundled plugin directory when bundled plugins are disabled", () => {
-    const repoRoot = createBrikko StudioRoot({
+    const repoRoot = createBrikkoStudioRoot({
       prefix: "brikko-studio-bundled-dir-disabled-",
       hasExtensions: true,
       hasSrc: true,
@@ -377,7 +377,7 @@ describe("resolveBundledPluginsDir", () => {
   });
 
   it("ignores an existing override under an argv1-derived fake package root", () => {
-    const installedRoot = createBrikko StudioRoot({
+    const installedRoot = createBrikkoStudioRoot({
       prefix: "brikko-studio-bundled-dir-argv-override-reject-",
       hasDistExtensions: true,
     });
@@ -419,7 +419,7 @@ describe("resolveBundledPluginsDir", () => {
   });
 
   it("does not let VITEST add cwd to bundled plugin resolution candidates", () => {
-    const cwdRepoRoot = createBrikko StudioRoot({
+    const cwdRepoRoot = createBrikkoStudioRoot({
       prefix: "brikko-studio-bundled-dir-vitest-cwd-",
       hasExtensions: true,
       hasSrc: true,
@@ -461,7 +461,7 @@ describe("resolveBundledPluginsDir", () => {
   });
 
   it("falls back to argv root when an existing rejected override is unrelated", () => {
-    const installedRoot = createBrikko StudioRoot({
+    const installedRoot = createBrikkoStudioRoot({
       prefix: "brikko-studio-bundled-dir-rejected-override-argv-",
       hasDistExtensions: true,
     });
@@ -484,7 +484,7 @@ describe("resolveBundledPluginsDir", () => {
   });
 
   it("does not resolve bundled plugins from cwd when argv1 is not a package root", () => {
-    const cwdRepoRoot = createBrikko StudioRoot({
+    const cwdRepoRoot = createBrikkoStudioRoot({
       prefix: "brikko-studio-bundled-dir-untrusted-cwd-",
       hasExtensions: true,
       hasSrc: true,
@@ -515,12 +515,12 @@ describe("resolveBundledPluginsDir", () => {
     {
       name: "prefers the running CLI package root over an unrelated cwd checkout",
       createScenario: () => {
-        const installedRoot = createBrikko StudioRoot({
+        const installedRoot = createBrikkoStudioRoot({
           prefix: "brikko-studio-bundled-dir-installed-",
           hasDistExtensions: true,
         });
         seedBundledPluginTree(installedRoot, path.join("dist", "extensions"));
-        const cwdRepoRoot = createBrikko StudioRoot({
+        const cwdRepoRoot = createBrikkoStudioRoot({
           prefix: "brikko-studio-bundled-dir-cwd-",
           hasExtensions: true,
           hasSrc: true,
@@ -536,7 +536,7 @@ describe("resolveBundledPluginsDir", () => {
     {
       name: "falls back to the running installed package when the override path is stale",
       createScenario: () => {
-        const installedRoot = createBrikko StudioRoot({
+        const installedRoot = createBrikkoStudioRoot({
           prefix: "brikko-studio-bundled-dir-override-",
           hasDistExtensions: true,
         });

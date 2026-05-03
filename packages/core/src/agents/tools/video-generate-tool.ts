@@ -1,6 +1,6 @@
 import { Type } from "typebox";
 import { getRuntimeConfig } from "../../config/config.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import type { SsrFPolicy } from "../../infra/net/ssrf.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
@@ -173,7 +173,7 @@ const VideoGenerateToolSchema = Type.Object({
   filename: Type.Optional(
     Type.String({
       description:
-        "Optional output filename hint. Brikko Studio preserves the basename and saves under its managed media directory.",
+        "Optional output filename hint. BrikkoStudio preserves the basename and saves under its managed media directory.",
     }),
   ),
   size: Type.Optional(
@@ -195,7 +195,7 @@ const VideoGenerateToolSchema = Type.Object({
   durationSeconds: Type.Optional(
     Type.Number({
       description:
-        "Optional target duration in seconds. Brikko Studio may round this to the nearest provider-supported duration.",
+        "Optional target duration in seconds. BrikkoStudio may round this to the nearest provider-supported duration.",
       minimum: 1,
     }),
   ),
@@ -228,7 +228,7 @@ const VideoGenerateToolSchema = Type.Object({
 });
 
 export function resolveVideoGenerationModelConfigForTool(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   authStore?: AuthProfileStore;
 }): ToolModelConfig | null {
@@ -241,7 +241,7 @@ export function resolveVideoGenerationModelConfigForTool(params: {
   });
 }
 
-function hasExplicitVideoGenerationModelConfig(cfg?: Brikko StudioConfig): boolean {
+function hasExplicitVideoGenerationModelConfig(cfg?: BrikkoStudioConfig): boolean {
   return hasToolModelConfig(coerceToolModelConfig(cfg?.agents?.defaults?.videoGenerationModel));
 }
 
@@ -328,7 +328,7 @@ function normalizeReferenceInputs(params: {
 }
 
 function resolveSelectedVideoGenerationProvider(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   videoGenerationModelConfig: ToolModelConfig;
   modelOverride?: string;
 }): VideoGenerationProvider | undefined {
@@ -578,7 +578,7 @@ function isGeneratedMediaSizeLimitError(error: unknown): boolean {
 }
 
 async function executeVideoGenerationJob(params: {
-  effectiveCfg: Brikko StudioConfig;
+  effectiveCfg: BrikkoStudioConfig;
   prompt: string;
   agentDir?: string;
   model?: string;
@@ -806,7 +806,7 @@ async function executeVideoGenerationJob(params: {
 }
 
 export function createVideoGenerateTool(options?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   authProfileStore?: AuthProfileStore;
   agentSessionKey?: string;
@@ -816,7 +816,7 @@ export function createVideoGenerateTool(options?: {
   fsPolicy?: ToolFsPolicy;
   scheduleBackgroundWork?: VideoGenerateBackgroundScheduler;
 }): AnyAgentTool | null {
-  const cfg: Brikko StudioConfig = options?.config ?? getRuntimeConfig();
+  const cfg: BrikkoStudioConfig = options?.config ?? getRuntimeConfig();
   if (
     !hasGenerationToolAvailability({
       cfg,
@@ -845,7 +845,7 @@ export function createVideoGenerateTool(options?: {
     name: "video_generate",
     displaySummary: "Generate videos",
     description:
-      "Generate videos using configured providers. Generated videos are saved under Brikko Studio-managed media storage and delivered automatically as attachments. Duration requests may be rounded to the nearest provider-supported value.",
+      "Generate videos using configured providers. Generated videos are saved under BrikkoStudio-managed media storage and delivered automatically as attachments. Duration requests may be rounded to the nearest provider-supported value.",
     parameters: VideoGenerateToolSchema,
     execute: async (_toolCallId, rawArgs) => {
       const args = rawArgs as Record<string, unknown>;

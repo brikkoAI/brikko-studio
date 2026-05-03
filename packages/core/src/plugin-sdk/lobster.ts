@@ -9,7 +9,7 @@ export {
 } from "./windows-spawn.js";
 export type {
   AnyAgentTool,
-  Brikko StudioPluginApi,
-  Brikko StudioPluginToolContext,
-  Brikko StudioPluginToolFactory,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginToolContext,
+  BrikkoStudioPluginToolFactory,
 } from "../plugins/types.js";

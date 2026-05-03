@@ -16,7 +16,7 @@ const createTelegramBot = (opts: import("./bot.types.js").TelegramBotOptions) =>
 
 function createWrappedTelegramClientFetch(
   proxyFetch: typeof fetch,
-  config?: import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig,
+  config?: import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig,
 ) {
   const shutdown = new AbortController();
   botCtorSpy.mockClear();

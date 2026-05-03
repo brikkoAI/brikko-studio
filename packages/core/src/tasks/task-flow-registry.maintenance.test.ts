@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
+import { withBrikkoStudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import { createRunningTaskRun } from "./task-executor.js";
 import {
   createFlowRecord,
@@ -24,7 +24,7 @@ const ORIGINAL_STATE_DIR = process.env.BRIKKO_STUDIO_STATE_DIR;
 async function withTaskFlowMaintenanceStateDir(
   run: (root: string) => Promise<void>,
 ): Promise<void> {
-  await withBrikko StudioTestState(
+  await withBrikkoStudioTestState(
     {
       layout: "state-only",
       prefix: "brikko-studio-task-flow-maintenance-",

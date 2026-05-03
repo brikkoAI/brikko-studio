@@ -3,9 +3,9 @@ import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { withEnv } from "../test-utils/env.js";
-import { resolveBrikko StudioAgentDir } from "./agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "./agent-paths.js";
 
-describe("resolveBrikko StudioAgentDir", () => {
+describe("resolveBrikkoStudioAgentDir", () => {
   const withTempStateDir = async (run: (stateDir: string) => void) => {
     const stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-agent-"));
     try {
@@ -24,7 +24,7 @@ describe("resolveBrikko StudioAgentDir", () => {
           PI_CODING_AGENT_DIR: undefined,
         },
         () => {
-          const resolved = resolveBrikko StudioAgentDir();
+          const resolved = resolveBrikkoStudioAgentDir();
           expect(resolved).toBe(path.join(stateDir, "agents", "main", "agent"));
         },
       );
@@ -41,7 +41,7 @@ describe("resolveBrikko StudioAgentDir", () => {
           PI_CODING_AGENT_DIR: undefined,
         },
         () => {
-          const resolved = resolveBrikko StudioAgentDir();
+          const resolved = resolveBrikkoStudioAgentDir();
           expect(resolved).toBe(path.resolve(override));
         },
       );
@@ -58,7 +58,7 @@ describe("resolveBrikko StudioAgentDir", () => {
           PI_CODING_AGENT_DIR: override,
         },
         () => {
-          const resolved = resolveBrikko StudioAgentDir();
+          const resolved = resolveBrikkoStudioAgentDir();
           expect(resolved).toBe(path.resolve(override));
         },
       );
@@ -76,7 +76,7 @@ describe("resolveBrikko StudioAgentDir", () => {
           PI_CODING_AGENT_DIR: fallbackOverride,
         },
         () => {
-          const resolved = resolveBrikko StudioAgentDir();
+          const resolved = resolveBrikkoStudioAgentDir();
           expect(resolved).toBe(path.resolve(primaryOverride));
         },
       );

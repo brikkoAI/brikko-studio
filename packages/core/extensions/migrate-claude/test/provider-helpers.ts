@@ -1,8 +1,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { MigrationProviderContext } from "brikko-studio/plugin-sdk/plugin-entry";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 
 const tempRoots = new Set<string>();
 
@@ -15,7 +15,7 @@ const logger = {
 
 export async function makeTempRoot() {
   const root = await fs.mkdtemp(
-    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-migrate-claude-"),
+    path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-migrate-claude-"),
   );
   tempRoots.add(root);
   return root;
@@ -34,11 +34,11 @@ export async function writeFile(filePath: string, content: string) {
 }
 
 export function makeConfigRuntime(
-  config: Brikko StudioConfig,
-  onWrite?: (next: Brikko StudioConfig) => void,
+  config: BrikkoStudioConfig,
+  onWrite?: (next: BrikkoStudioConfig) => void,
 ): NonNullable<MigrationProviderContext["runtime"]> {
-  const commitConfig = (next: Brikko StudioConfig) => {
-    for (const key of Object.keys(config) as Array<keyof Brikko StudioConfig>) {
+  const commitConfig = (next: BrikkoStudioConfig) => {
+    for (const key of Object.keys(config) as Array<keyof BrikkoStudioConfig>) {
       delete config[key];
     }
     Object.assign(config, next);
@@ -53,7 +53,7 @@ export function makeConfigRuntime(
         mutate,
       }: {
         afterWrite?: unknown;
-        mutate: (draft: Brikko StudioConfig, context: unknown) => Promise<unknown> | void;
+        mutate: (draft: BrikkoStudioConfig, context: unknown) => Promise<unknown> | void;
       }) => {
         const next = structuredClone(config);
         const result = await mutate(next, {
@@ -86,7 +86,7 @@ export function makeConfigRuntime(
         nextConfig,
       }: {
         afterWrite?: unknown;
-        nextConfig: Brikko StudioConfig;
+        nextConfig: BrikkoStudioConfig;
       }) => {
         commitConfig(nextConfig);
         return {
@@ -103,7 +103,7 @@ export function makeContext(params: {
   source: string;
   stateDir: string;
   workspaceDir: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   includeSecrets?: boolean;
   overwrite?: boolean;
   reportDir?: string;
@@ -117,7 +117,7 @@ export function makeContext(params: {
           workspace: params.workspaceDir,
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
   return {
     config,
     stateDir: params.stateDir,

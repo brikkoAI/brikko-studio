@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import type { AgentRouteBinding } from "../config/types.agents.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveFirstBoundAccountId } from "./bound-account-read.js";
 
-function cfgWithBindings(bindings: AgentRouteBinding[]): Brikko StudioConfig {
-  return { bindings } as unknown as Brikko StudioConfig;
+function cfgWithBindings(bindings: AgentRouteBinding[]): BrikkoStudioConfig {
+  return { bindings } as unknown as BrikkoStudioConfig;
 }
 
 describe("resolveFirstBoundAccountId", () => {

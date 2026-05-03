@@ -13,7 +13,7 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { slackPlugin } from "./channel.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import { setSlackRuntime } from "./runtime.js";
 
 // --- Hoisted mocks for lazy seams ------------------------------------------------
@@ -60,7 +60,7 @@ beforeEach(() => {
 
 function makeMinimalSlackConfig(
   opts: { botToken?: string; userToken?: string } = {},
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const slack: Record<string, unknown> = {};
   if (opts.botToken !== undefined) {
     slack.botToken = opts.botToken;
@@ -68,7 +68,7 @@ function makeMinimalSlackConfig(
   if (opts.userToken !== undefined) {
     slack.userToken = opts.userToken;
   }
-  return { channels: { slack } } as Brikko StudioConfig;
+  return { channels: { slack } } as BrikkoStudioConfig;
 }
 
 // --- Status: buildChannelSummary -------------------------------------------------

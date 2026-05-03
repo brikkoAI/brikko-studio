@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { NormalizedModelCatalogRow } from "../../model-catalog/index.js";
 
 export type ModelListSourcePlanKind =
@@ -46,7 +46,7 @@ export async function planAllModelListSources(params: {
   all?: boolean;
   enableCascade?: boolean;
   providerFilter?: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): Promise<ModelListSourcePlan> {
   const enableCascade = params.enableCascade ?? params.all;
   if (!enableCascade) {

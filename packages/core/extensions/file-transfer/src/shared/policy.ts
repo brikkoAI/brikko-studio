@@ -349,7 +349,7 @@ export async function persistAllowAlways(input: {
   await mutateConfigFile({
     afterWrite: { mode: "none", reason: "file-transfer allow-always policy update" },
     mutate: (draft) => {
-      // Plugin config is intentionally plugin-owned; the root Brikko StudioConfig
+      // Plugin config is intentionally plugin-owned; the root BrikkoStudioConfig
       // type only guarantees `Record<string, unknown>` here.
       const root = draft as unknown as Record<string, unknown>;
       const plugins = (root.plugins ??= {}) as Record<string, unknown>;

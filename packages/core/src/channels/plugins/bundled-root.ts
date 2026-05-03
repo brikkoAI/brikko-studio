@@ -1,10 +1,10 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveBrikko StudioPackageRootSync } from "../../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../../infra/brikko-studio-root.js";
 import { resolveBundledPluginsDir } from "../../plugins/bundled-dir.js";
 
 const BRIKKO_STUDIO_PACKAGE_ROOT =
-  resolveBrikko StudioPackageRootSync({
+  resolveBrikkoStudioPackageRootSync({
     argv1: process.argv[1],
     cwd: process.cwd(),
     moduleUrl: import.meta.url.startsWith("file:") ? import.meta.url : undefined,

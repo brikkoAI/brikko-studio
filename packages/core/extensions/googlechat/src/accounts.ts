@@ -2,7 +2,7 @@ import {
   createAccountListHelpers,
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   resolveAccountEntry,
   resolveMergedAccountConfig,
 } from "brikko-studio/plugin-sdk/account-resolution";
@@ -39,7 +39,7 @@ const {
 export { listGoogleChatAccountIds, resolveDefaultGoogleChatAccountId };
 
 function mergeGoogleChatAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): GoogleChatAccountConfig {
   const raw = cfg.channels?.["googlechat"] ?? {};
@@ -67,7 +67,7 @@ function mergeGoogleChatAccountConfig(
 }
 
 export function resolveGoogleChatConfigAccessorAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): GoogleChatConfigAccessorAccount {
   const accountId = normalizeAccountId(
@@ -139,7 +139,7 @@ function resolveCredentialsFromConfig(params: {
 }
 
 export function resolveGoogleChatAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ResolvedGoogleChatAccount {
   const accountId = normalizeAccountId(
@@ -162,7 +162,7 @@ export function resolveGoogleChatAccount(params: {
   };
 }
 
-export function listEnabledGoogleChatAccounts(cfg: Brikko StudioConfig): ResolvedGoogleChatAccount[] {
+export function listEnabledGoogleChatAccounts(cfg: BrikkoStudioConfig): ResolvedGoogleChatAccount[] {
   return listGoogleChatAccountIds(cfg)
     .map((accountId) => resolveGoogleChatAccount({ cfg, accountId }))
     .filter((account) => account.enabled);

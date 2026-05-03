@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { Brikko StudioSchema } from "../../../../src/config/zod-schema.js";
+import { BrikkoStudioSchema } from "../../../../src/config/zod-schema.js";
 import { CONFIG_PRESETS, detectActivePreset } from "./config-presets.ts";
 
 describe("detectActivePreset", () => {
@@ -7,7 +7,7 @@ describe("detectActivePreset", () => {
     for (const preset of CONFIG_PRESETS) {
       const defaults = preset.patch.agents.defaults;
 
-      expect(() => Brikko StudioSchema.parse(preset.patch), preset.id).not.toThrow();
+      expect(() => BrikkoStudioSchema.parse(preset.patch), preset.id).not.toThrow();
       expect(defaults.bootstrapMaxChars, preset.id).toBeGreaterThan(0);
       expect(defaults.bootstrapTotalMaxChars, preset.id).toBeGreaterThan(0);
       expect(defaults.bootstrapTotalMaxChars, preset.id).toBeGreaterThanOrEqual(

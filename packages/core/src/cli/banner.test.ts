@@ -23,7 +23,7 @@ describe("formatCliBannerLine", () => {
       richTty: false,
     });
 
-    expect(line).toBe("🦞 Brikko Studio 2026.3.7 (abc1234)");
+    expect(line).toBe("🦞 BrikkoStudio 2026.3.7 (abc1234)");
   });
 
   it("uses default tagline when cli.banner.taglineMode is default", () => {
@@ -34,7 +34,7 @@ describe("formatCliBannerLine", () => {
       richTty: false,
     });
 
-    expect(line).toBe("🦞 Brikko Studio 2026.3.7 (abc1234) — All your chats, one Brikko Studio.");
+    expect(line).toBe("🦞 BrikkoStudio 2026.3.7 (abc1234) — All your chats, one BrikkoStudio.");
   });
 
   it("prefers explicit tagline mode over config", () => {
@@ -46,6 +46,6 @@ describe("formatCliBannerLine", () => {
       mode: "default",
     });
 
-    expect(line).toBe("🦞 Brikko Studio 2026.3.7 (abc1234) — All your chats, one Brikko Studio.");
+    expect(line).toBe("🦞 BrikkoStudio 2026.3.7 (abc1234) — All your chats, one BrikkoStudio.");
   });
 });

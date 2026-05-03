@@ -121,7 +121,7 @@ describe("env test utils", () => {
   it("createPathResolutionEnv clears leaked path overrides before applying explicit ones", () => {
     const homeDir = path.join(path.sep, "tmp", "brikko-studio-home");
     const resolvedHomeDir = path.resolve(homeDir);
-    const previousBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    const previousBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
     const previousStateDir = process.env.BRIKKO_STUDIO_STATE_DIR;
     const previousBundledDir = process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR;
     process.env.BRIKKO_STUDIO_HOME = "/srv/brikko-studio-home";
@@ -138,7 +138,7 @@ describe("env test utils", () => {
       expect(env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR).toBeUndefined();
       expect(env.BRIKKO_STUDIO_STATE_DIR).toBe("~/state");
     } finally {
-      restoreEnvKey("BRIKKO_STUDIO_HOME", previousBrikko StudioHome);
+      restoreEnvKey("BRIKKO_STUDIO_HOME", previousBrikkoStudioHome);
       restoreEnvKey("BRIKKO_STUDIO_STATE_DIR", previousStateDir);
       restoreEnvKey("BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR", previousBundledDir);
     }
@@ -147,7 +147,7 @@ describe("env test utils", () => {
   it("withPathResolutionEnv only applies the explicit path env inside the callback", () => {
     const homeDir = path.join(path.sep, "tmp", "brikko-studio-home");
     const resolvedHomeDir = path.resolve(homeDir);
-    const previousBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    const previousBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
     process.env.BRIKKO_STUDIO_HOME = "/srv/brikko-studio-home";
 
     try {
@@ -156,7 +156,7 @@ describe("env test utils", () => {
         { BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: "~/bundled" },
         (env) => ({
           processHome: process.env.HOME,
-          processBrikko StudioHome: process.env.BRIKKO_STUDIO_HOME,
+          processBrikkoStudioHome: process.env.BRIKKO_STUDIO_HOME,
           processBundledDir: process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR,
           envBundledDir: env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR,
         }),
@@ -164,13 +164,13 @@ describe("env test utils", () => {
 
       expect(seen).toEqual({
         processHome: resolvedHomeDir,
-        processBrikko StudioHome: undefined,
+        processBrikkoStudioHome: undefined,
         processBundledDir: "~/bundled",
         envBundledDir: "~/bundled",
       });
       expect(process.env.BRIKKO_STUDIO_HOME).toBe("/srv/brikko-studio-home");
     } finally {
-      restoreEnvKey("BRIKKO_STUDIO_HOME", previousBrikko StudioHome);
+      restoreEnvKey("BRIKKO_STUDIO_HOME", previousBrikkoStudioHome);
     }
   });
 });

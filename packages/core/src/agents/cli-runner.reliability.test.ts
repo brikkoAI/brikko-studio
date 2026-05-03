@@ -8,7 +8,7 @@ import {
   createReplyOperation,
   replyRunRegistry,
 } from "../auto-reply/reply/reply-run-registry.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
 import { runPreparedCliAgent } from "./cli-runner.js";
 import {
@@ -383,7 +383,7 @@ describe("runCliAgent reliability", () => {
     });
   });
 
-  it("seeds fresh CLI sessions from the Brikko Studio transcript", async () => {
+  it("seeds fresh CLI sessions from the BrikkoStudio transcript", async () => {
     supervisorSpawnMock.mockResolvedValueOnce(
       createManagedRun({
         reason: "exit",
@@ -400,7 +400,7 @@ describe("runCliAgent reliability", () => {
     const result = await runPreparedCliAgent(
       buildPreparedContext({
         openClawHistoryPrompt:
-          "Continue this conversation using the Brikko Studio transcript below.\n\nUser: earlier ask\n\nAssistant: earlier answer\n\n<next_user_message>\nhi\n</next_user_message>",
+          "Continue this conversation using the BrikkoStudio transcript below.\n\nUser: earlier ask\n\nAssistant: earlier answer\n\n<next_user_message>\nhi\n</next_user_message>",
       }),
     );
 
@@ -825,7 +825,7 @@ describe("runCliAgent reliability", () => {
       })}\n`,
       "utf-8",
     );
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       agents: {
         defaults: {
           workspace: dir,

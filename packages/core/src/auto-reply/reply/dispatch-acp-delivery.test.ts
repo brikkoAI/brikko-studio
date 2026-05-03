@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { createAcpDispatchDeliveryCoordinator } from "./dispatch-acp-delivery.js";
 import type { ReplyDispatcher } from "./reply-dispatcher.js";
 import { buildTestCtx } from "./test-ctx.js";
@@ -87,7 +87,7 @@ function createCoordinator(onReplyStart?: (...args: unknown[]) => Promise<void>)
   });
 }
 
-function createVisibleChatAcpCoordinator(cfg: Brikko StudioConfig) {
+function createVisibleChatAcpCoordinator(cfg: BrikkoStudioConfig) {
   return createAcpDispatchDeliveryCoordinator({
     cfg,
     ctx: buildTestCtx({
@@ -104,7 +104,7 @@ function createVisibleChatAcpCoordinator(cfg: Brikko StudioConfig) {
 }
 
 async function expectVisibleChatBlockRoutesToAccount(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string | undefined,
 ): Promise<void> {
   const coordinator = createVisibleChatAcpCoordinator(cfg);
@@ -499,7 +499,7 @@ describe("createAcpDispatchDeliveryCoordinator", () => {
   });
 
   it("routes ACP replies when cfg.channels is missing", async () => {
-    await expectVisibleChatBlockRoutesToAccount({} as Brikko StudioConfig, undefined);
+    await expectVisibleChatBlockRoutesToAccount({} as BrikkoStudioConfig, undefined);
   });
 
   it("treats routed plugin-owned block text as visible", async () => {

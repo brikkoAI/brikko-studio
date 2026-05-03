@@ -1,5 +1,5 @@
 import type { Block, KnownBlock, WebClient } from "@slack/web-api";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { resolveSlackAccount } from "./accounts.js";
@@ -12,7 +12,7 @@ import { sendMessageSlack } from "./send.js";
 import { resolveSlackBotToken } from "./token.js";
 
 export type SlackActionClientOpts = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   accountId?: string;
   token?: string;
   client?: WebClient;
@@ -43,7 +43,7 @@ export type SlackPin = {
   file?: { id?: string; name?: string };
 };
 
-function resolveToken(explicit?: string, accountId?: string, cfg?: Brikko StudioConfig): string {
+function resolveToken(explicit?: string, accountId?: string, cfg?: BrikkoStudioConfig): string {
   if (explicit?.trim()) {
     const token = resolveSlackBotToken(explicit);
     if (token) {
@@ -198,7 +198,7 @@ export async function sendSlackMessage(
   to: string,
   content: string,
   opts: Omit<SlackActionClientOpts, "cfg"> & {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     mediaUrl?: string;
     mediaAccess?: {
       localRoots?: readonly string[];

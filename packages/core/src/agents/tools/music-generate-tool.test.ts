@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import * as mediaStore from "../../media/store.js";
 import * as webMedia from "../../media/web-media.js";
 import * as musicGenerationRuntime from "../../music-generation/runtime.js";
@@ -107,8 +107,8 @@ vi.mock("./music-generate-background.js", () => musicGenerateBackgroundMocks);
 vi.mock("../../tasks/runtime-internal.js", () => taskRuntimeInternalMocks);
 vi.mock("../../tasks/detached-task-runtime.js", () => taskExecutorMocks);
 
-function asConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+function asConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
 function resetMusicGenerateMocks() {
@@ -579,7 +579,7 @@ describe("createMusicGenerateTool", () => {
     }
 
     const result = await tool.execute("call-google-generate", {
-      prompt: "Brikko Studio anthem",
+      prompt: "BrikkoStudio anthem",
       instrumental: true,
       durationSeconds: 30,
       format: "wav",

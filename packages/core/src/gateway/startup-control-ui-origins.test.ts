@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { maybeSeedControlUiAllowedOriginsAtStartup } from "./startup-control-ui-origins.js";
 
 describe("maybeSeedControlUiAllowedOriginsAtStartup", () => {
   it("persists origins seeded from runtime bind and port", async () => {
-    const written: Brikko StudioConfig[] = [];
+    const written: BrikkoStudioConfig[] = [];
     const log = { info: vi.fn(), warn: vi.fn() };
 
     const result = await maybeSeedControlUiAllowedOriginsAtStartup({
@@ -27,7 +27,7 @@ describe("maybeSeedControlUiAllowedOriginsAtStartup", () => {
   });
 
   it("does not rewrite config when origins already exist", async () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       gateway: {
         controlUi: { allowedOrigins: ["https://control.example.com"] },
       },

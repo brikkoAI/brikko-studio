@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import type { ChannelAccountSnapshot } from "brikko-studio/plugin-sdk/channel-contract";
 import type { ChannelOutboundAdapter } from "brikko-studio/plugin-sdk/channel-send-result";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ChannelPlugin } from "brikko-studio/plugin-sdk/core";
 import { monitorTlonProvider } from "./monitor/index.js";
 import { tlonSetupWizard } from "./setup-surface.js";
@@ -91,7 +91,7 @@ async function createHttpPokeApi(params: {
 }
 
 function resolveOutboundContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   to: string;
 }) {

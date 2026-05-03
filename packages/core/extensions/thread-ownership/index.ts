@@ -4,8 +4,8 @@ import {
   definePluginEntry,
   fetchWithSsrFGuard,
   ssrfPolicyFromDangerouslyAllowPrivateNetwork,
-  type Brikko StudioConfig,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioConfig,
+  type BrikkoStudioPluginApi,
 } from "./api.js";
 
 type ThreadOwnershipConfig = {
@@ -13,7 +13,7 @@ type ThreadOwnershipConfig = {
   abTestChannels?: string[];
 };
 
-type AgentEntry = NonNullable<NonNullable<Brikko StudioConfig["agents"]>["list"]>[number];
+type AgentEntry = NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["list"]>[number];
 type ThreadOwnershipMessageSendingResult = { cancel: true } | undefined;
 
 // In-memory set of {channel}:{thread} keys where this agent was @-mentioned.
@@ -61,7 +61,7 @@ function containsAgentNameMention(text: string, agentName: string): boolean {
   return new RegExp(`(^|[^\\w])@${escapeRegExp(trimmedName)}(?=$|[^\\w])`, "i").test(text);
 }
 
-function resolveOwnershipAgent(config: Brikko StudioConfig): { id: string; name: string } {
+function resolveOwnershipAgent(config: BrikkoStudioConfig): { id: string; name: string } {
   const list = Array.isArray(config.agents?.list)
     ? config.agents.list.filter(
         (entry): entry is AgentEntry => entry !== null && typeof entry === "object",
@@ -81,12 +81,12 @@ export default definePluginEntry({
   id: "thread-ownership",
   name: "Thread Ownership",
   description: "Slack thread claim coordination for multi-agent setups",
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     const resolveCurrentState = () => {
-      const currentConfig = (api.runtime.config?.current?.() ?? api.config) as Brikko StudioConfig;
+      const currentConfig = (api.runtime.config?.current?.() ?? api.config) as BrikkoStudioConfig;
       const livePluginCfg = resolveLivePluginConfigObject(
         api.runtime.config?.current
-          ? () => api.runtime.config.current() as Brikko StudioConfig
+          ? () => api.runtime.config.current() as BrikkoStudioConfig
           : undefined,
         "thread-ownership",
         isThreadOwnershipConfig(api.pluginConfig)

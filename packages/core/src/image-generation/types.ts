@@ -1,5 +1,5 @@
 import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { MediaNormalizationEntry } from "../media-generation/normalization.types.js";
 
 export type GeneratedImageAsset = {
@@ -54,7 +54,7 @@ export type ImageGenerationSourceImage = {
 };
 
 export type ImageGenerationProviderConfiguredContext = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
 };
 
@@ -62,7 +62,7 @@ export type ImageGenerationRequest = {
   provider: string;
   model: string;
   prompt: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   authStore?: AuthProfileStore;
   timeoutMs?: number;

@@ -1,5 +1,5 @@
 import { normalizeChatChannelId } from "../channels/ids.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
@@ -142,7 +142,7 @@ function normalizePluginEntries(
 }
 
 export function normalizePluginsConfigWithResolver(
-  config?: Brikko StudioConfig["plugins"],
+  config?: BrikkoStudioConfig["plugins"],
   normalizePluginId: NormalizePluginId = identityNormalizePluginId,
 ): NormalizedPluginsConfig {
   const memorySlot = normalizeSlotValue(config?.slots?.memory);
@@ -159,7 +159,7 @@ export function normalizePluginsConfigWithResolver(
   };
 }
 
-export function hasExplicitPluginConfig(plugins?: Brikko StudioConfig["plugins"]): boolean {
+export function hasExplicitPluginConfig(plugins?: BrikkoStudioConfig["plugins"]): boolean {
   if (!plugins) {
     return false;
   }
@@ -185,7 +185,7 @@ export function hasExplicitPluginConfig(plugins?: Brikko StudioConfig["plugins"]
 }
 
 export function isBundledChannelEnabledByChannelConfig(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   pluginId: string,
 ): boolean {
   if (!cfg) {

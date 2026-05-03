@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { RequestScopedSubagentRuntimeError } from "brikko-studio/plugin-sdk/error-runtime";
 import { resolveSessionTranscriptsDirForAgent } from "brikko-studio/plugin-sdk/memory-core-host-runtime-core";
 import {
@@ -27,7 +27,7 @@ import { createMemoryCoreTestHarness } from "./test-helpers.js";
 const { createTempWorkspace } = createMemoryCoreTestHarness();
 const DREAMING_TEST_BASE_TIME = new Date("2026-04-05T10:00:00.000Z");
 const DREAMING_TEST_DAY = "2026-04-05";
-const LIGHT_DREAMING_TEST_CONFIG: Brikko StudioConfig = {
+const LIGHT_DREAMING_TEST_CONFIG: BrikkoStudioConfig = {
   plugins: {
     entries: {
       "memory-core": {
@@ -55,7 +55,7 @@ const LIGHT_DREAMING_TEST_CONFIG: Brikko StudioConfig = {
 };
 
 function createHarness(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   workspaceDir?: string,
   subagent?: Parameters<typeof __testing.runPhaseIfTriggered>[0]["subagent"],
 ) {
@@ -203,7 +203,7 @@ describe("memory-core dreaming phases", () => {
       "- Move backups to S3 Glacier.",
       "- Keep retention at 365 days.",
     ]);
-    const testConfig: Brikko StudioConfig = {
+    const testConfig: BrikkoStudioConfig = {
       ...LIGHT_DREAMING_TEST_CONFIG,
       agents: {
         defaults: {
@@ -267,7 +267,7 @@ describe("memory-core dreaming phases", () => {
       "- Move backups to S3 Glacier.",
       "- Keep retention at 365 days.",
     ]);
-    const testConfig: Brikko StudioConfig = {
+    const testConfig: BrikkoStudioConfig = {
       ...LIGHT_DREAMING_TEST_CONFIG,
       agents: {
         defaults: {
@@ -2544,7 +2544,7 @@ describe("memory-core dreaming phases", () => {
       "utf-8",
     );
 
-    const configForTest: Brikko StudioConfig = {
+    const configForTest: BrikkoStudioConfig = {
       plugins: {
         entries: {
           "memory-core": {

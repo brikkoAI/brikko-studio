@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolvePluginCapabilityProviders } from "../plugins/capability-provider-runtime.js";
 import {
   buildCapabilityProviderMaps,
@@ -14,7 +14,7 @@ export function normalizeRealtimeTranscriptionProviderId(
 }
 
 function resolveRealtimeTranscriptionProviderEntries(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): RealtimeTranscriptionProviderPlugin[] {
   return resolvePluginCapabilityProviders({
     key: "realtimeTranscriptionProviders",
@@ -22,7 +22,7 @@ function resolveRealtimeTranscriptionProviderEntries(
   });
 }
 
-function buildProviderMaps(cfg?: Brikko StudioConfig): {
+function buildProviderMaps(cfg?: BrikkoStudioConfig): {
   canonical: Map<string, RealtimeTranscriptionProviderPlugin>;
   aliases: Map<string, RealtimeTranscriptionProviderPlugin>;
 } {
@@ -30,14 +30,14 @@ function buildProviderMaps(cfg?: Brikko StudioConfig): {
 }
 
 export function listRealtimeTranscriptionProviders(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): RealtimeTranscriptionProviderPlugin[] {
   return [...buildProviderMaps(cfg).canonical.values()];
 }
 
 export function getRealtimeTranscriptionProvider(
   providerId: string | undefined,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): RealtimeTranscriptionProviderPlugin | undefined {
   const normalized = normalizeRealtimeTranscriptionProviderId(providerId);
   if (!normalized) {
@@ -48,7 +48,7 @@ export function getRealtimeTranscriptionProvider(
 
 export function canonicalizeRealtimeTranscriptionProviderId(
   providerId: string | undefined,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): RealtimeTranscriptionProviderId | undefined {
   const normalized = normalizeRealtimeTranscriptionProviderId(providerId);
   if (!normalized) {

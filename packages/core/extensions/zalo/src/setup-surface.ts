@@ -6,7 +6,7 @@ import {
   promptSingleChannelSecretInput,
   runSingleChannelSecretStep,
   type ChannelSetupWizard,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type SecretInput,
 } from "brikko-studio/plugin-sdk/setup";
 import { resolveZaloAccount } from "./accounts.js";
@@ -18,13 +18,13 @@ const channel = "zalo" as const;
 type UpdateMode = "polling" | "webhook";
 
 function setZaloUpdateMode(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   mode: UpdateMode,
   webhookUrl?: string,
   webhookSecret?: SecretInput,
   webhookPath?: string,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const isDefault = accountId === DEFAULT_ACCOUNT_ID;
   if (mode === "polling") {
     if (isDefault) {
@@ -40,7 +40,7 @@ function setZaloUpdateMode(
           ...cfg.channels,
           zalo: rest,
         },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
     }
     const accounts = { ...cfg.channels?.zalo?.accounts } as Record<string, Record<string, unknown>>;
     const existing = accounts[accountId] ?? {};
@@ -55,7 +55,7 @@ function setZaloUpdateMode(
           accounts,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
   if (isDefault) {
@@ -70,7 +70,7 @@ function setZaloUpdateMode(
           webhookPath,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
   const accounts = { ...cfg.channels?.zalo?.accounts } as Record<string, Record<string, unknown>>;
@@ -89,7 +89,7 @@ function setZaloUpdateMode(
         accounts,
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 export { zaloSetupAdapter } from "./setup-core.js";
@@ -157,7 +157,7 @@ export const zaloSetupWizard: ChannelSetupWizard = {
                   enabled: true,
                 },
               },
-            } as Brikko StudioConfig)
+            } as BrikkoStudioConfig)
           : currentCfg,
       applySet: async (currentCfg, value) =>
         accountId === DEFAULT_ACCOUNT_ID
@@ -171,7 +171,7 @@ export const zaloSetupWizard: ChannelSetupWizard = {
                   botToken: value,
                 },
               },
-            } as Brikko StudioConfig)
+            } as BrikkoStudioConfig)
           : ({
               ...currentCfg,
               channels: {
@@ -191,7 +191,7 @@ export const zaloSetupWizard: ChannelSetupWizard = {
                   },
                 },
               },
-            } as Brikko StudioConfig),
+            } as BrikkoStudioConfig),
     });
     next = tokenStep.cfg;
 

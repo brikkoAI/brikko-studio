@@ -4,7 +4,7 @@ import {
   isNonSecretApiKeyMarker,
   normalizeApiKeyConfig,
   normalizeOptionalSecretInput,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-auth";
 import { resolveApiKeyForProvider } from "brikko-studio/plugin-sdk/provider-auth-runtime";
 import { resolveConfiguredSecretInputString } from "brikko-studio/plugin-sdk/secret-input-runtime";
@@ -71,7 +71,7 @@ function shouldSuppressResolvedRuntimeApiKeyForHeaderAuth(
 }
 
 export async function resolveLmstudioConfiguredApiKey(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   path?: string;
 }): Promise<string | undefined> {
@@ -120,7 +120,7 @@ export async function resolveLmstudioConfiguredApiKey(params: {
 }
 
 export async function resolveLmstudioProviderHeaders(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   headers?: unknown;
   path?: string;
@@ -161,7 +161,7 @@ export async function resolveLmstudioProviderHeaders(params: {
  * Use this as the standard auth setup step before discovery or model load calls.
  */
 export async function resolveLmstudioRequestContext(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   env?: NodeJS.ProcessEnv;
   providerHeaders?: unknown;
@@ -188,7 +188,7 @@ export async function resolveLmstudioRequestContext(params: {
  * Resolves LM Studio runtime API key from config.
  */
 export async function resolveLmstudioRuntimeApiKey(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   env?: NodeJS.ProcessEnv;
   headers?: unknown;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { collectGatewayConfigFindings } from "./audit-gateway-config.js";
 
 function hasFinding(
@@ -22,7 +22,7 @@ describe("security audit gateway HTTP tool findings", () => {
           auth: { token: "secret" },
           tools: { allow: ["sessions_spawn"] },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       expectedSeverity: "warn" as const,
     },
     {
@@ -33,7 +33,7 @@ describe("security audit gateway HTTP tool findings", () => {
           auth: { token: "secret" },
           tools: { allow: ["sessions_spawn", "gateway"] },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       expectedSeverity: "critical" as const,
     },
     {
@@ -44,7 +44,7 @@ describe("security audit gateway HTTP tool findings", () => {
           auth: { token: "secret" },
           tools: { allow: ["exec"] },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       expectedSeverity: "critical" as const,
     },
   ])(

@@ -1,5 +1,5 @@
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeOptionalLowercaseString } from "../../shared/string-coerce.js";
 import { normalizeProviderId } from "../provider-id.js";
 
@@ -44,7 +44,7 @@ export function limitHistoryTurns(
  */
 export function getHistoryLimitFromSessionKey(
   sessionKey: string | undefined,
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
 ): number | undefined {
   if (!sessionKey || !config) {
     return undefined;
@@ -63,7 +63,7 @@ export function getHistoryLimitFromSessionKey(
   const userId = stripThreadSuffix(userIdRaw);
 
   const resolveProviderConfig = (
-    cfg: Brikko StudioConfig | undefined,
+    cfg: BrikkoStudioConfig | undefined,
     providerId: string,
   ):
     | {

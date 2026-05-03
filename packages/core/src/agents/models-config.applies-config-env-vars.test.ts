@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { createConfigRuntimeEnv } from "../config/env-vars.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
 import { unsetEnv, withTempEnv } from "./models-config.e2e-harness.js";
 import {
-  planBrikko StudioModelsJsonWithDeps,
+  planBrikkoStudioModelsJsonWithDeps,
   resolveProvidersForModelsJsonWithDeps,
 } from "./models-config.plan.js";
 import type { ProviderConfig } from "./models-config.providers.secrets.js";
@@ -31,7 +31,7 @@ function createImplicitOpenRouterProvider(): ProviderConfig {
 }
 
 async function resolveProvidersForConfigEnvTest(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   onResolveImplicitProviders: (env: NodeJS.ProcessEnv) => void;
 }) {
   const env = createConfigRuntimeEnv(params.cfg);
@@ -52,7 +52,7 @@ async function resolveProvidersForConfigEnvTest(params: {
   );
 }
 
-function createConfigEnvVarsConfig(): Brikko StudioConfig {
+function createConfigEnvVarsConfig(): BrikkoStudioConfig {
   return {
     models: { providers: {} },
     env: {
@@ -64,7 +64,7 @@ function createConfigEnvVarsConfig(): Brikko StudioConfig {
   };
 }
 
-async function resolveProvidersAndCaptureDiscoveryEnv(cfg: Brikko StudioConfig) {
+async function resolveProvidersAndCaptureDiscoveryEnv(cfg: BrikkoStudioConfig) {
   let discoveryEnv: NodeJS.ProcessEnv | undefined;
   const providers = await resolveProvidersForConfigEnvTest({
     cfg,
@@ -168,7 +168,7 @@ describe("models-config", () => {
       | Pick<PluginMetadataSnapshot, "index" | "manifestRegistry" | "owners">
       | undefined;
 
-    await planBrikko StudioModelsJsonWithDeps(
+    await planBrikkoStudioModelsJsonWithDeps(
       {
         cfg: { models: { providers: {} } },
         agentDir: "/tmp/brikko-studio-models-config-env-vars-test",

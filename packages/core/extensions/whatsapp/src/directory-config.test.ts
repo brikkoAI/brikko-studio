@@ -4,7 +4,7 @@ import {
   listWhatsAppDirectoryGroupsFromConfig,
   listWhatsAppDirectoryPeersFromConfig,
 } from "./directory-config.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 
 describe("whatsapp directory", () => {
   const runtimeEnv = createDirectoryTestRuntime() as never;
@@ -25,7 +25,7 @@ describe("whatsapp directory", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     await expect(
       listWhatsAppDirectoryPeersFromConfig({

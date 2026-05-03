@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
 const pluginRegistry = vi.hoisted(() => ({ list: [] as unknown[] }));
 
@@ -33,7 +33,7 @@ describe("resolveLinkChannelContext", () => {
       },
     ];
 
-    const result = await resolveLinkChannelContext({} as Brikko StudioConfig);
+    const result = await resolveLinkChannelContext({} as BrikkoStudioConfig);
     expect(result?.linked).toBe(true);
     expect(result?.authAgeMs).toBe(1234);
     expect(result?.account).toBe(account);
@@ -53,7 +53,7 @@ describe("resolveLinkChannelContext", () => {
       },
     ];
 
-    const result = await resolveLinkChannelContext({} as Brikko StudioConfig);
+    const result = await resolveLinkChannelContext({} as BrikkoStudioConfig);
     expect(result).toBeNull();
   });
 });

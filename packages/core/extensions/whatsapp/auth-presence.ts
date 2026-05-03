@@ -2,16 +2,16 @@ import fs from "node:fs";
 import path from "node:path";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
 import { resolveUserPath } from "brikko-studio/plugin-sdk/account-resolution";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveOAuthDir } from "brikko-studio/plugin-sdk/state-paths";
 import { hasWebCredsSync } from "./src/creds-files.js";
 
 type WhatsAppAuthPresenceParams =
   | {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       env?: NodeJS.ProcessEnv;
     }
-  | Brikko StudioConfig;
+  | BrikkoStudioConfig;
 
 function addAccountAuthDirs(
   authDirs: Set<string>,
@@ -28,7 +28,7 @@ function addAccountAuthDirs(
 }
 
 function listWhatsAppAuthDirs(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): readonly string[] {
   const oauthDir = resolveOAuthDir(env);

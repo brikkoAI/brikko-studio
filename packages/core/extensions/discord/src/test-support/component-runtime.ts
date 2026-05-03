@@ -165,7 +165,7 @@ export function resetDiscordComponentRuntimeMocks() {
     binding: {
       bindingId: "binding-1",
       pluginId: "brikko-studio-codex-app-server",
-      pluginName: "Brikko Studio App Server",
+      pluginName: "BrikkoStudio App Server",
       pluginRoot: "/plugins/codex",
       channel: "discord",
       accountId: "default",
@@ -175,7 +175,7 @@ export function resetDiscordComponentRuntimeMocks() {
     request: {
       id: "approval-1",
       pluginId: "brikko-studio-codex-app-server",
-      pluginName: "Brikko Studio App Server",
+      pluginName: "BrikkoStudio App Server",
       pluginRoot: "/plugins/codex",
       requestedAt: Date.now(),
       conversation: {

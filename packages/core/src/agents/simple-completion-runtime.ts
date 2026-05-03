@@ -1,5 +1,5 @@
 import { complete, type Api, type Model } from "@mariozechner/pi-ai";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { prepareProviderRuntimeAuth } from "../plugins/provider-runtime.runtime.js";
 import { resolveAgentDir, resolveAgentEffectiveModelPrimary } from "./agent-scope.js";
@@ -64,7 +64,7 @@ export type PreparedSimpleCompletionModelForAgent =
     };
 
 export function resolveSimpleCompletionSelectionForAgent(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   modelRef?: string;
 }): AgentSimpleCompletionSelection | null {
@@ -104,7 +104,7 @@ async function setRuntimeApiKeyForCompletion(params: {
   model: Model<Api>;
   apiKey: string;
   authMode: ResolvedProviderAuth["mode"];
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   workspaceDir?: string;
   profileId?: string;
 }): Promise<CompletionRuntimeCredential> {
@@ -152,7 +152,7 @@ function hasMissingApiKeyAllowance(params: {
 }
 
 export async function prepareSimpleCompletionModel(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
   modelId: string;
   agentDir?: string;
@@ -234,7 +234,7 @@ export async function prepareSimpleCompletionModel(params: {
 }
 
 export async function prepareSimpleCompletionModelForAgent(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   modelRef?: string;
   preferredProfile?: string;
@@ -278,7 +278,7 @@ export async function completeWithPreparedSimpleCompletionModel(params: {
   model: Model<Api>;
   auth: ResolvedProviderAuth;
   context: Parameters<typeof complete>[1];
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   options?: SimpleCompletionModelOptions;
 }) {
   const completionModel = prepareModelForSimpleCompletion({ model: params.model, cfg: params.cfg });

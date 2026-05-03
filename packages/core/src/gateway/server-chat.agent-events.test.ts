@@ -247,7 +247,7 @@ describe("agent event handler", () => {
         "Visible before.",
         "",
         "<<<BEGIN_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",
-        "Brikko Studio runtime context (internal):",
+        "BrikkoStudio runtime context (internal):",
         "[Internal task completion event]",
         "secret child result",
         "<<<END_BRIKKO_STUDIO_INTERNAL_CONTEXT>>>",

@@ -11,7 +11,7 @@ describe("buildPlatformRuntimeLogHints", () => {
           BRIKKO_STUDIO_LOG_PREFIX: "gateway",
         },
         systemdServiceName: "brikko-studio-gateway",
-        windowsTaskName: "Brikko Studio Gateway",
+        windowsTaskName: "BrikkoStudio Gateway",
       }),
     ).toEqual([
       "Launchd stdout (if installed): /tmp/brikko-studio-state/logs/gateway.log",
@@ -28,7 +28,7 @@ describe("buildPlatformRuntimeLogHints", () => {
           BRIKKO_STUDIO_STATE_DIR: "/tmp/brikko-studio-state",
         },
         systemdServiceName: "brikko-studio-gateway",
-        windowsTaskName: "Brikko Studio Gateway",
+        windowsTaskName: "BrikkoStudio Gateway",
       }),
     ).toEqual([
       "Logs: journalctl --user -u brikko-studio-gateway.service -n 200 --no-pager",
@@ -41,10 +41,10 @@ describe("buildPlatformRuntimeLogHints", () => {
           BRIKKO_STUDIO_STATE_DIR: "/tmp/brikko-studio-state",
         },
         systemdServiceName: "brikko-studio-gateway",
-        windowsTaskName: "Brikko Studio Gateway",
+        windowsTaskName: "BrikkoStudio Gateway",
       }),
     ).toEqual([
-      'Logs: schtasks /Query /TN "Brikko Studio Gateway" /V /FO LIST',
+      'Logs: schtasks /Query /TN "BrikkoStudio Gateway" /V /FO LIST',
       "Restart attempts: /tmp/brikko-studio-state/logs/gateway-restart.log",
     ]);
   });
@@ -59,7 +59,7 @@ describe("buildPlatformServiceStartHints", () => {
         startCommand: "brikko-studio gateway",
         launchAgentPlistPath: "~/Library/LaunchAgents/com.brikko-studio.gateway.plist",
         systemdServiceName: "brikko-studio-gateway",
-        windowsTaskName: "Brikko Studio Gateway",
+        windowsTaskName: "BrikkoStudio Gateway",
       }),
     ).toEqual([
       "brikko-studio gateway install",
@@ -73,7 +73,7 @@ describe("buildPlatformServiceStartHints", () => {
         startCommand: "brikko-studio gateway",
         launchAgentPlistPath: "~/Library/LaunchAgents/com.brikko-studio.gateway.plist",
         systemdServiceName: "brikko-studio-gateway",
-        windowsTaskName: "Brikko Studio Gateway",
+        windowsTaskName: "BrikkoStudio Gateway",
       }),
     ).toEqual([
       "brikko-studio gateway install",

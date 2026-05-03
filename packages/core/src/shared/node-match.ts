@@ -42,7 +42,7 @@ function formatNodeCandidateLabel(node: NodeMatchCandidate): string {
   return `${label} [${details.join(", ")}]`;
 }
 
-function isCurrentBrikko StudioClient(clientId: string | undefined): boolean {
+function isCurrentBrikkoStudioClient(clientId: string | undefined): boolean {
   const normalized = normalizeOptionalLowercaseString(clientId) ?? "";
   return normalized.startsWith("brikko-studio-");
 }
@@ -55,7 +55,7 @@ function isLegacyClawdbotClient(clientId: string | undefined): boolean {
 function pickPreferredLegacyMigrationMatch(
   matches: NodeMatchCandidate[],
 ): NodeMatchCandidate | undefined {
-  const current = matches.filter((match) => isCurrentBrikko StudioClient(match.clientId));
+  const current = matches.filter((match) => isCurrentBrikkoStudioClient(match.clientId));
   if (current.length !== 1) {
     return undefined;
   }
@@ -92,7 +92,7 @@ function scoreNodeCandidate(node: NodeMatchCandidate, matchScore: number): numbe
   if (node.connected === true) {
     score += 100;
   }
-  if (isCurrentBrikko StudioClient(node.clientId)) {
+  if (isCurrentBrikkoStudioClient(node.clientId)) {
     score += 10;
   } else if (isLegacyClawdbotClient(node.clientId)) {
     score -= 10;

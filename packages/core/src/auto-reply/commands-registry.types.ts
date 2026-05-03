@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { CommandArgValues } from "./commands-args.types.js";
 import type { ThinkingCatalogEntry } from "./thinking.shared.js";
 
@@ -26,7 +26,7 @@ export type CommandCategory =
 type CommandArgType = "string" | "number" | "boolean";
 
 export type CommandArgChoiceContext = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   provider?: string;
   model?: string;
   catalog?: ThinkingCatalogEntry[];
@@ -91,7 +91,7 @@ export type CommandDetection = {
 };
 
 export type ShouldHandleTextCommandsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   surface: string;
   commandSource?: "text" | "native";
 };

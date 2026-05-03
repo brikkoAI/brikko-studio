@@ -14,7 +14,7 @@ import {
 } from "brikko-studio/plugin-sdk/channel-policy";
 import { hasControlCommand } from "brikko-studio/plugin-sdk/command-auth";
 import { resolveDualTextControlCommandGate } from "brikko-studio/plugin-sdk/command-auth";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveChannelContextVisibilityMode } from "brikko-studio/plugin-sdk/context-visibility-runtime";
 import {
   buildPendingHistoryContextFromMap,
@@ -138,7 +138,7 @@ type IMessageInboundDecision =
   | IMessageInboundDispatchDecision;
 
 export function resolveIMessageInboundDecision(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   message: IMessagePayload;
   opts?: Pick<MonitorIMessageOpts, "requireMention">;
@@ -524,7 +524,7 @@ export function resolveIMessageInboundDecision(params: {
 }
 
 export function buildIMessageInboundContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   decision: IMessageInboundDispatchDecision;
   message: IMessagePayload;
   envelopeOptions?: EnvelopeFormatOptions;

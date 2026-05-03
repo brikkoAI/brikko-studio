@@ -15,7 +15,7 @@ import {
   type CreateTypingCallbacksParams,
   type TypingCallbacks,
 } from "../channels/typing.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { ReplyPayload } from "./reply-payload.js";
 
 export type ReplyPrefixContext = ReplyPrefixContextBundle["prefixContext"];
@@ -25,7 +25,7 @@ export { createReplyPrefixContext, createReplyPrefixOptions, createTypingCallbac
 export type { SourceReplyDeliveryMode };
 
 export function resolveChannelSourceReplyDeliveryMode(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   ctx: SourceReplyDeliveryModeContext;
   requested?: SourceReplyDeliveryMode;
   messageToolAvailable?: boolean;

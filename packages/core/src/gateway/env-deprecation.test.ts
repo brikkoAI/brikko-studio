@@ -1,16 +1,16 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
-  resetLegacyBrikko StudioEnvWarningForTest,
-  warnLegacyBrikko StudioEnvVars,
+  resetLegacyBrikkoStudioEnvWarningForTest,
+  warnLegacyBrikkoStudioEnvVars,
 } from "./env-deprecation.js";
 
-describe("warnLegacyBrikko StudioEnvVars", () => {
+describe("warnLegacyBrikkoStudioEnvVars", () => {
   const originalNodeEnv = process.env.NODE_ENV;
   const originalVitest = process.env.VITEST;
   let emitWarning: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
-    resetLegacyBrikko StudioEnvWarningForTest();
+    resetLegacyBrikkoStudioEnvWarningForTest();
     emitWarning = vi.spyOn(process, "emitWarning").mockImplementation(() => {});
     delete process.env.NODE_ENV;
     delete process.env.VITEST;
@@ -18,13 +18,13 @@ describe("warnLegacyBrikko StudioEnvVars", () => {
 
   afterEach(() => {
     emitWarning.mockRestore();
-    resetLegacyBrikko StudioEnvWarningForTest();
+    resetLegacyBrikkoStudioEnvWarningForTest();
     restoreEnv("NODE_ENV", originalNodeEnv);
     restoreEnv("VITEST", originalVitest);
   });
 
   it("warns with counts and prefixes instead of secret-shaped env names", () => {
-    warnLegacyBrikko StudioEnvVars({
+    warnLegacyBrikkoStudioEnvVars({
       CLAWDBOT_GATEWAY_TOKEN: "old-token",
       MOLTBOT_GATEWAY_PASSWORD: "old-password", // pragma: allowlist secret
       "CLAWDBOT_MALICIOUS\nforged": "old-value",
@@ -48,14 +48,14 @@ describe("warnLegacyBrikko StudioEnvVars", () => {
   });
 
   it("does not warn for current BRIKKO_STUDIO names", () => {
-    warnLegacyBrikko StudioEnvVars({ BRIKKO_STUDIO_GATEWAY_TOKEN: "token" });
+    warnLegacyBrikkoStudioEnvVars({ BRIKKO_STUDIO_GATEWAY_TOKEN: "token" });
 
     expect(emitWarning).not.toHaveBeenCalled();
   });
 
   it("warns only once after a successful emit", () => {
-    warnLegacyBrikko StudioEnvVars({ CLAWDBOT_GATEWAY_TOKEN: "old-token" });
-    warnLegacyBrikko StudioEnvVars({ MOLTBOT_GATEWAY_TOKEN: "old-token" });
+    warnLegacyBrikkoStudioEnvVars({ CLAWDBOT_GATEWAY_TOKEN: "old-token" });
+    warnLegacyBrikkoStudioEnvVars({ MOLTBOT_GATEWAY_TOKEN: "old-token" });
 
     expect(emitWarning).toHaveBeenCalledOnce();
   });
@@ -67,16 +67,16 @@ describe("warnLegacyBrikko StudioEnvVars", () => {
       })
       .mockImplementationOnce(() => {});
 
-    expect(() => warnLegacyBrikko StudioEnvVars({ CLAWDBOT_GATEWAY_TOKEN: "old-token" })).toThrow(
+    expect(() => warnLegacyBrikkoStudioEnvVars({ CLAWDBOT_GATEWAY_TOKEN: "old-token" })).toThrow(
       "warning sink failed",
     );
-    warnLegacyBrikko StudioEnvVars({ CLAWDBOT_GATEWAY_TOKEN: "old-token" });
+    warnLegacyBrikkoStudioEnvVars({ CLAWDBOT_GATEWAY_TOKEN: "old-token" });
 
     expect(emitWarning).toHaveBeenCalledTimes(2);
   });
 
   it("suppresses warning noise based on the passed env", () => {
-    warnLegacyBrikko StudioEnvVars({
+    warnLegacyBrikkoStudioEnvVars({
       CLAWDBOT_GATEWAY_TOKEN: "old-token",
       VITEST: "true",
     });
@@ -87,7 +87,7 @@ describe("warnLegacyBrikko StudioEnvVars", () => {
   it("does not let process.env test flags suppress a synthetic env", () => {
     process.env.VITEST = "true";
 
-    warnLegacyBrikko StudioEnvVars({ CLAWDBOT_GATEWAY_TOKEN: "old-token" });
+    warnLegacyBrikkoStudioEnvVars({ CLAWDBOT_GATEWAY_TOKEN: "old-token" });
 
     expect(emitWarning).toHaveBeenCalledOnce();
   });

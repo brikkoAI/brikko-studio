@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveBrikko StudioPackageRootSync } from "../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../infra/brikko-studio-root.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 import { resolveUserPath } from "../utils.js";
 
@@ -94,8 +94,8 @@ function trustedBundledPluginRootsForPackageRoot(packageRoot: string): string[] 
 }
 
 function resolvePackageRootsForBundledPlugins(): string[] {
-  const argvRoot = resolveBrikko StudioPackageRootSync({ argv1: process.argv[1] });
-  const moduleRoot = resolveBrikko StudioPackageRootSync({ moduleUrl: import.meta.url });
+  const argvRoot = resolveBrikkoStudioPackageRootSync({ argv1: process.argv[1] });
+  const moduleRoot = resolveBrikkoStudioPackageRootSync({ moduleUrl: import.meta.url });
   return [argvRoot, moduleRoot].filter(
     (entry, index, all): entry is string => Boolean(entry) && all.indexOf(entry) === index,
   );
@@ -121,7 +121,7 @@ export function resolveSourceCheckoutDependencyDiagnostic(
     return {
       source: packageRoot,
       message:
-        "Brikko Studio source checkout detected without pnpm workspace dependencies; run `pnpm install` from the repo root so bundled plugins can load package-local dependencies.",
+        "BrikkoStudio source checkout detected without pnpm workspace dependencies; run `pnpm install` from the repo root so bundled plugins can load package-local dependencies.",
     };
   }
   return null;
@@ -133,7 +133,7 @@ function resolveTrustedExistingOverride(resolvedOverride: string): string | null
     return null;
   }
 
-  const modulePackageRoot = resolveBrikko StudioPackageRootSync({ moduleUrl: import.meta.url });
+  const modulePackageRoot = resolveBrikkoStudioPackageRootSync({ moduleUrl: import.meta.url });
   const packageRoots = modulePackageRoot ? [modulePackageRoot] : [];
   const trustedRoots = packageRoots
     .flatMap((packageRoot) => trustedBundledPluginRootsForPackageRoot(packageRoot))
@@ -239,7 +239,7 @@ function resolveBundledPluginsDirUncached(env: NodeJS.ProcessEnv): string | unde
   }
 
   try {
-    const argvRoot = resolveBrikko StudioPackageRootSync({ argv1: process.argv[1] });
+    const argvRoot = resolveBrikkoStudioPackageRootSync({ argv1: process.argv[1] });
     const rejectedOverrideUsesArgvRoot = Boolean(
       argvRoot &&
       rejectedExistingOverride &&
@@ -249,7 +249,7 @@ function resolveBundledPluginsDirUncached(env: NodeJS.ProcessEnv): string | unde
       }),
     );
     const safeArgvRoot = rejectedOverrideUsesArgvRoot ? null : argvRoot;
-    const moduleRoot = resolveBrikko StudioPackageRootSync({ moduleUrl: import.meta.url });
+    const moduleRoot = resolveBrikkoStudioPackageRootSync({ moduleUrl: import.meta.url });
     const packageRoots = [safeArgvRoot, moduleRoot].filter(
       (entry, index, all): entry is string => Boolean(entry) && all.indexOf(entry) === index,
     );

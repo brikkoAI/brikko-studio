@@ -45,7 +45,7 @@ export function tryHandleRootVersionFastPath(
   resolveVersion()
     .then(({ VERSION, resolveCommitHash }) => {
       const commit = resolveCommitHash({ moduleUrl: deps.moduleUrl ?? import.meta.url });
-      output(commit ? `Brikko Studio ${VERSION} (${commit})` : `Brikko Studio ${VERSION}`);
+      output(commit ? `BrikkoStudio ${VERSION} (${commit})` : `BrikkoStudio ${VERSION}`);
       exit(0);
     })
     .catch(onError);

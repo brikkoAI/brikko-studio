@@ -1,4 +1,4 @@
-import { listBrikko StudioPluginManifestMetadata } from "../plugins/manifest-metadata-scan.js";
+import { listBrikkoStudioPluginManifestMetadata } from "../plugins/manifest-metadata-scan.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
@@ -121,7 +121,7 @@ function readCompatBoolean(
   return typeof value === "boolean" ? value : undefined;
 }
 
-const BRIKKO_STUDIO_ATTRIBUTION_PRODUCT = "Brikko Studio";
+const BRIKKO_STUDIO_ATTRIBUTION_PRODUCT = "BrikkoStudio";
 const BRIKKO_STUDIO_ATTRIBUTION_ORIGINATOR = "brikko-studio";
 
 const LOCAL_ENDPOINT_HOSTS = new Set(["localhost", "127.0.0.1", "::1", "[::1]"]);
@@ -167,7 +167,7 @@ type ManifestProviderRequestCacheEntry = {
 let manifestProviderEndpointCache: ManifestProviderEndpointCacheEntry[] | null = null;
 let manifestProviderRequestCache: Map<string, ManifestProviderRequestCacheEntry> | null = null;
 
-function formatBrikko StudioUserAgent(version: string): string {
+function formatBrikkoStudioUserAgent(version: string): string {
   return `${BRIKKO_STUDIO_ATTRIBUTION_ORIGINATOR}/${version}`;
 }
 
@@ -316,7 +316,7 @@ function readManifestProviderRequests(
 
 function collectManifestProviderEndpoints(): ManifestProviderEndpointCacheEntry[] {
   const entries: ManifestProviderEndpointCacheEntry[] = [];
-  for (const { manifest } of listBrikko StudioPluginManifestMetadata()) {
+  for (const { manifest } of listBrikkoStudioPluginManifestMetadata()) {
     entries.push(...readManifestProviderEndpoints(manifest));
   }
   return entries;
@@ -324,7 +324,7 @@ function collectManifestProviderEndpoints(): ManifestProviderEndpointCacheEntry[
 
 function collectManifestProviderRequests(): Map<string, ManifestProviderRequestCacheEntry> {
   const entries = new Map<string, ManifestProviderRequestCacheEntry>();
-  for (const { manifest } of listBrikko StudioPluginManifestMetadata()) {
+  for (const { manifest } of listBrikkoStudioPluginManifestMetadata()) {
     for (const [provider, request] of readManifestProviderRequests(manifest)) {
       entries.set(provider, request);
     }
@@ -468,7 +468,7 @@ function buildOpenRouterAttributionPolicy(
     verification: "vendor-documented",
     hook: "request-headers",
     docsUrl: "https://openrouter.ai/docs/app-attribution",
-    reviewNote: "Documented app attribution headers. Verified in Brikko Studio runtime wrapper.",
+    reviewNote: "Documented app attribution headers. Verified in BrikkoStudio runtime wrapper.",
     ...identity,
     headers: {
       "HTTP-Referer": "https://brikko-studio.ai",
@@ -493,7 +493,7 @@ function buildOpenAIAttributionPolicy(
     headers: {
       originator: BRIKKO_STUDIO_ATTRIBUTION_ORIGINATOR,
       version: identity.version,
-      "User-Agent": formatBrikko StudioUserAgent(identity.version),
+      "User-Agent": formatBrikkoStudioUserAgent(identity.version),
     },
   };
 }
@@ -513,7 +513,7 @@ function buildOpenAICodexAttributionPolicy(
     headers: {
       originator: BRIKKO_STUDIO_ATTRIBUTION_ORIGINATOR,
       version: identity.version,
-      "User-Agent": formatBrikko StudioUserAgent(identity.version),
+      "User-Agent": formatBrikkoStudioUserAgent(identity.version),
     },
   };
 }

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   cleanupPluginLoaderFixturesForTest,
   EMPTY_PLUGIN_SCHEMA,
@@ -110,7 +110,7 @@ describe("channelsStatusCommand external env-only channel fallback", () => {
         load: { paths: [pluginDir] },
         allow: ["external-env-channel-plugin"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     mocks.requireValidConfigSnapshot.mockResolvedValue(config);
     mocks.resolveCommandConfigWithSecrets.mockResolvedValue({
       resolvedConfig: config,

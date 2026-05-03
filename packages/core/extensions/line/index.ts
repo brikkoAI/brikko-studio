@@ -1,14 +1,14 @@
 import {
   defineBundledChannelEntry,
-  type Brikko StudioPluginCommandDefinition,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginCommandDefinition,
+  type BrikkoStudioPluginApi,
 } from "brikko-studio/plugin-sdk/channel-entry-contract";
 
-type RegisteredLineCardCommand = Brikko StudioPluginCommandDefinition;
+type RegisteredLineCardCommand = BrikkoStudioPluginCommandDefinition;
 
 let lineCardCommandPromise: Promise<RegisteredLineCardCommand> | null = null;
 
-async function loadLineCardCommand(api: Brikko StudioPluginApi): Promise<RegisteredLineCardCommand> {
+async function loadLineCardCommand(api: BrikkoStudioPluginApi): Promise<RegisteredLineCardCommand> {
   lineCardCommandPromise ??= (async () => {
     let registered: RegisteredLineCardCommand | null = null;
     const { registerLineCardCommand } = await import("./src/card-command.js");

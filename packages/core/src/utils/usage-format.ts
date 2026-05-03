@@ -1,10 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
-import { resolveBrikko StudioAgentDir } from "../agents/agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../agents/agent-paths.js";
 import { modelKey, normalizeModelRef, normalizeProviderId } from "../agents/model-selection.js";
 import type { NormalizedUsage } from "../agents/usage.js";
 import type { ModelProviderConfig } from "../config/types.models.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { getCachedGatewayModelPricing } from "../gateway/model-pricing-cache.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 
@@ -203,7 +203,7 @@ function loadModelsJsonCostIndex(options?: {
   allowPluginNormalization?: boolean;
 }): Map<string, ModelCostConfig> {
   const useRawEntries = options?.allowPluginNormalization === false;
-  const modelsPath = path.join(resolveBrikko StudioAgentDir(), "models.json");
+  const modelsPath = path.join(resolveBrikkoStudioAgentDir(), "models.json");
   try {
     const stat = fs.statSync(modelsPath);
     if (
@@ -248,7 +248,7 @@ function loadModelsJsonCostIndex(options?: {
 function findConfiguredProviderCost(params: {
   provider?: string;
   model?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   allowPluginNormalization?: boolean;
 }): ModelCostConfig | undefined {
   const key = toResolvedModelKey(params);
@@ -263,7 +263,7 @@ function findConfiguredProviderCost(params: {
 export function resolveModelCostConfig(params: {
   provider?: string;
   model?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   allowPluginNormalization?: boolean;
 }): ModelCostConfig | undefined {
   const rawKey = toDirectModelKey(params);

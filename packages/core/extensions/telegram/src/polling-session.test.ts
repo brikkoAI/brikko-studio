@@ -312,7 +312,7 @@ describe("TelegramPollingSession", () => {
     await session.runUntilAbort();
 
     // Offset confirmation was removed because it could self-conflict with the runner.
-    // Brikko Studio middleware still skips duplicates using the persisted update offset.
+    // BrikkoStudio middleware still skips duplicates using the persisted update offset.
     expect(bot.api.getUpdates).not.toHaveBeenCalled();
   });
 
@@ -1048,7 +1048,7 @@ describe("TelegramPollingSession", () => {
     await session.runUntilAbort();
 
     expect(log).toHaveBeenCalledWith(
-      expect.stringContaining("Another Brikko Studio gateway, script, or Telegram poller"),
+      expect.stringContaining("Another BrikkoStudio gateway, script, or Telegram poller"),
     );
   });
 

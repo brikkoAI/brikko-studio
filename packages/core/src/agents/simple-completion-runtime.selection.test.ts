@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveSimpleCompletionSelectionForAgent } from "./simple-completion-runtime.js";
 
 describe("resolveSimpleCompletionSelectionForAgent", () => {
@@ -8,7 +8,7 @@ describe("resolveSimpleCompletionSelectionForAgent", () => {
       agents: {
         defaults: { model: "openrouter/anthropic/claude-sonnet-4-6" },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const selection = resolveSimpleCompletionSelectionForAgent({ cfg, agentId: "main" });
     expect(selection).toEqual(
@@ -25,7 +25,7 @@ describe("resolveSimpleCompletionSelectionForAgent", () => {
         defaults: { model: "anthropic/claude-opus-4-6" },
         list: [{ id: "ops", model: "openrouter/aurora-alpha" }],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const selection = resolveSimpleCompletionSelectionForAgent({ cfg, agentId: "ops" });
     expect(selection).toEqual(
@@ -41,7 +41,7 @@ describe("resolveSimpleCompletionSelectionForAgent", () => {
       agents: {
         defaults: { model: "anthropic/claude-opus-4-6@work" },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const selection = resolveSimpleCompletionSelectionForAgent({ cfg, agentId: "main" });
     expect(selection).toEqual(
@@ -63,7 +63,7 @@ describe("resolveSimpleCompletionSelectionForAgent", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const selection = resolveSimpleCompletionSelectionForAgent({ cfg, agentId: "main" });
     expect(selection).toEqual(
@@ -76,7 +76,7 @@ describe("resolveSimpleCompletionSelectionForAgent", () => {
   });
 
   it("falls back to runtime default model when no explicit model is configured", () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
 
     const selection = resolveSimpleCompletionSelectionForAgent({ cfg, agentId: "main" });
     expect(selection).toEqual(
@@ -112,7 +112,7 @@ describe("resolveSimpleCompletionSelectionForAgent", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const selection = resolveSimpleCompletionSelectionForAgent({ cfg, agentId: "main" });
     expect(selection).toEqual(

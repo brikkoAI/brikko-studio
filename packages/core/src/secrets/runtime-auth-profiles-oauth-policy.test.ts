@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   loadAuthStoreWithProfiles,
   setupSecretsRuntimeSnapshotTestHooks,
@@ -7,7 +7,7 @@ import {
 
 const { prepareSecretsRuntimeSnapshot } = setupSecretsRuntimeSnapshotTestHooks();
 
-function withAuthProfileMode(mode: "api_key" | "oauth" | "token"): Brikko StudioConfig {
+function withAuthProfileMode(mode: "api_key" | "oauth" | "token"): BrikkoStudioConfig {
   return {
     auth: {
       profiles: {
@@ -22,7 +22,7 @@ function withAuthProfileMode(mode: "api_key" | "oauth" | "token"): Brikko Studio
         default: { source: "env" },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("secrets runtime oauth auth-profile SecretRef policy", () => {

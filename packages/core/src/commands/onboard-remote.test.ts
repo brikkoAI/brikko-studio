@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { GatewayBonjourBeacon } from "../infra/bonjour-discovery.js";
 import { captureEnv } from "../test-utils/env.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -62,7 +62,7 @@ describe("promptRemoteGatewayConfig", () => {
     selectResponses: Partial<Record<string, string>>;
     confirm: boolean;
   }) {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const prompter = createPrompter({
       confirm: vi.fn(async () => params.confirm),
       select: createSelectPrompter(params.selectResponses),
@@ -162,7 +162,7 @@ describe("promptRemoteGatewayConfig", () => {
       text,
     });
 
-    const next = await promptRemoteGatewayConfig({} as Brikko StudioConfig, prompter);
+    const next = await promptRemoteGatewayConfig({} as BrikkoStudioConfig, prompter);
 
     expect(next.gateway?.mode).toBe("remote");
     expect(next.gateway?.remote?.url).toBe(manualUrl);
@@ -261,7 +261,7 @@ describe("promptRemoteGatewayConfig", () => {
       text,
     });
 
-    const next = await promptRemoteGatewayConfig({} as Brikko StudioConfig, prompter);
+    const next = await promptRemoteGatewayConfig({} as BrikkoStudioConfig, prompter);
 
     expect(next.gateway?.remote?.url).toBe("ws://127.0.0.1:18789");
     expect(select).not.toHaveBeenCalledWith(
@@ -340,7 +340,7 @@ describe("promptRemoteGatewayConfig", () => {
       return (params.options[0]?.value ?? "") as never;
     });
 
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const prompter = createPrompter({
       confirm: vi.fn(async () => false),
       select,
@@ -385,7 +385,7 @@ describe("promptRemoteGatewayConfig", () => {
 
     const cfg = {
       gateway: { remote: { token: "preexisting-remote-token" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const prompter = createPrompter({ confirm, select, text });
 
     const next = await promptRemoteGatewayConfig(cfg, prompter);
@@ -423,7 +423,7 @@ describe("promptRemoteGatewayConfig", () => {
 
     const cfg = {
       gateway: { remote: { password: "preexisting-remote-password" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const prompter = createPrompter({ confirm, select, text });
 
     const next = await promptRemoteGatewayConfig(cfg, prompter);

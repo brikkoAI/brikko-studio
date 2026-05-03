@@ -382,7 +382,7 @@ describe("isSilentOverflowProneModel", () => {
   // what `provider` field the user picked — gateways relabel the upstream
   // identity, so `provider` here can be anything from `openai` to a custom
   // string. False positives only disable Pi's secondary compaction path;
-  // Brikko Studio's preemptive compaction continues to handle real overflow.
+  // BrikkoStudio's preemptive compaction continues to handle real overflow.
   it("flags bare glm- model ids without a namespace prefix, regardless of provider", () => {
     expect(isSilentOverflowProneModel({ provider: "custom", modelId: "glm-5.1" })).toBe(true);
     expect(isSilentOverflowProneModel({ provider: "custom", modelId: "glm-4.7" })).toBe(true);
@@ -438,7 +438,7 @@ describe("applyPiAutoCompactionGuard", () => {
   // _runAutoCompaction from inside Session.prompt() and reassigning
   // agent.state.messages between the runner's prompt.submitted trajectory
   // event and the provider request. Disabling Pi auto-compaction here keeps
-  // state.messages intact; Brikko Studio's preemptive compaction continues to
+  // state.messages intact; BrikkoStudio's preemptive compaction continues to
   // handle real overflow on its own path.
   it("disables Pi auto-compaction for silent-overflow-prone providers", () => {
     const setCompactionEnabled = vi.fn();

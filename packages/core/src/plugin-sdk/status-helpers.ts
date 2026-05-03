@@ -1,7 +1,7 @@
 import type { ChannelStatusAdapter } from "../channels/plugins/types.adapters.js";
 import type { ChannelAccountSnapshot } from "../channels/plugins/types.core.js";
 import type { ChannelStatusIssue } from "../channels/plugins/types.public.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 export type { ChannelAccountSnapshot } from "../channels/plugins/types.core.js";
 export type { ChannelStatusIssue } from "../channels/plugins/types.public.js";
@@ -50,7 +50,7 @@ type ComputedAccountStatusBase = {
 
 type ComputedAccountStatusAdapterParams<ResolvedAccount, Probe, Audit> = {
   account: ResolvedAccount;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime?: ChannelAccountSnapshot;
   probe?: Probe;
   audit?: Audit;

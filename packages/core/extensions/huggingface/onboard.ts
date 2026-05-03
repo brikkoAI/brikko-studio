@@ -1,6 +1,6 @@
 import {
   createModelCatalogPresetAppliers,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildHuggingfaceModelDefinition,
@@ -12,7 +12,7 @@ export const HUGGINGFACE_DEFAULT_MODEL_REF = "huggingface/deepseek-ai/DeepSeek-R
 
 const huggingfacePresetAppliers = createModelCatalogPresetAppliers({
   primaryModelRef: HUGGINGFACE_DEFAULT_MODEL_REF,
-  resolveParams: (_cfg: Brikko StudioConfig) => ({
+  resolveParams: (_cfg: BrikkoStudioConfig) => ({
     providerId: "huggingface",
     api: "openai-completions",
     baseUrl: HUGGINGFACE_BASE_URL,
@@ -21,6 +21,6 @@ const huggingfacePresetAppliers = createModelCatalogPresetAppliers({
   }),
 });
 
-export function applyHuggingfaceConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyHuggingfaceConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return huggingfacePresetAppliers.applyConfig(cfg);
 }

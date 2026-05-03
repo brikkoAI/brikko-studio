@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   resolveAgentDirMock,
   resolveSessionAgentIdMock,
@@ -26,7 +26,7 @@ const { handleCompactCommand } = await import("./commands-compact.js");
 
 function buildCompactParams(
   commandBodyNormalized: string,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): HandleCommandsParams {
   return {
     cfg,
@@ -64,7 +64,7 @@ describe("handleCompactCommand", () => {
       buildCompactParams("/status", {
         commands: { text: true },
         channels: { whatsapp: { allowFrom: ["*"] } },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
       true,
     );
 
@@ -76,7 +76,7 @@ describe("handleCompactCommand", () => {
     const params = buildCompactParams("/compact", {
       commands: { text: true },
       channels: { whatsapp: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     const result = await handleCompactCommand(
       {
@@ -106,7 +106,7 @@ describe("handleCompactCommand", () => {
           commands: { text: true },
           channels: { whatsapp: { allowFrom: ["*"] } },
           session: { store: "/tmp/brikko-studio-session-store.json" },
-        } as Brikko StudioConfig),
+        } as BrikkoStudioConfig),
         ctx: {
           Provider: "whatsapp",
           Surface: "whatsapp",
@@ -168,7 +168,7 @@ describe("handleCompactCommand", () => {
           commands: { text: true },
           channels: { whatsapp: { allowFrom: ["*"] } },
           session: { store: "/tmp/brikko-studio-session-store.json" },
-        } as Brikko StudioConfig),
+        } as BrikkoStudioConfig),
         agentId: "main",
         sessionKey: "agent:target:whatsapp:direct:12345",
         sessionEntry: {
@@ -202,7 +202,7 @@ describe("handleCompactCommand", () => {
         ...buildCompactParams("/compact", {
           commands: { text: true },
           channels: { whatsapp: { allowFrom: ["*"] } },
-        } as Brikko StudioConfig),
+        } as BrikkoStudioConfig),
         agentId: "main",
         agentDir: "/tmp/main-agent",
         sessionKey: "agent:target:whatsapp:direct:12345",
@@ -233,7 +233,7 @@ describe("handleCompactCommand", () => {
         ...buildCompactParams("/compact", {
           commands: { text: true },
           channels: { whatsapp: { allowFrom: ["*"] } },
-        } as Brikko StudioConfig),
+        } as BrikkoStudioConfig),
         sessionKey: "agent:target:whatsapp:direct:12345",
         sessionEntry: {
           sessionId: "wrapper-session",
@@ -290,7 +290,7 @@ describe("handleCompactCommand", () => {
         ...buildCompactParams("/compact", {
           commands: { text: true },
           channels: { whatsapp: { allowFrom: ["*"] } },
-        } as Brikko StudioConfig),
+        } as BrikkoStudioConfig),
         sessionKey: "agent:target:whatsapp:direct:12345",
         sessionEntry: {
           sessionId: "wrapper-session",

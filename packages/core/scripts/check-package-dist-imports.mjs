@@ -49,7 +49,7 @@ const errors = collectPackageDistImportErrors({
 });
 
 if (errors.length > 0) {
-  fail(`Brikko Studio package dist import closure failed:\n${errors.join("\n")}`);
+  fail(`BrikkoStudio package dist import closure failed:\n${errors.join("\n")}`);
 }
 
-console.log("Brikko Studio package dist import closure passed.");
+console.log("BrikkoStudio package dist import closure passed.");

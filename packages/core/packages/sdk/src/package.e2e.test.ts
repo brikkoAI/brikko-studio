@@ -61,7 +61,7 @@ function runCommand(
   });
 }
 
-describe("Brikko Studio SDK package e2e", () => {
+describe("BrikkoStudio SDK package e2e", () => {
   afterEach(async () => {
     await Promise.all(
       tempDirs.splice(0).map((dir) => fs.rm(dir, { recursive: true, force: true })),
@@ -95,9 +95,9 @@ describe("Brikko Studio SDK package e2e", () => {
     });
 
     const importScript = `
-      import { GatewayClientTransport, Brikko Studio, normalizeGatewayEvent } from "@brikko-studio/sdk";
+      import { GatewayClientTransport, BrikkoStudio, normalizeGatewayEvent } from "@brikko-studio/sdk";
       if (typeof GatewayClientTransport !== "function") throw new Error("missing transport export");
-      if (typeof Brikko Studio !== "function") throw new Error("missing client export");
+      if (typeof BrikkoStudio !== "function") throw new Error("missing client export");
       const event = normalizeGatewayEvent({
         event: "agent",
         payload: { runId: "pack-smoke", stream: "lifecycle", data: { phase: "start" } }

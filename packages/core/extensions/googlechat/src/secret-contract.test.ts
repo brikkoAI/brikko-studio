@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   applyResolvedAssignments,
   createResolverContext,
@@ -25,8 +25,8 @@ describe("googlechat secret contract", () => {
           },
         },
       },
-    } satisfies Brikko StudioConfig;
-    const resolvedConfig: Brikko StudioConfig = structuredClone(sourceConfig);
+    } satisfies BrikkoStudioConfig;
+    const resolvedConfig: BrikkoStudioConfig = structuredClone(sourceConfig);
     const context = createResolverContext({
       sourceConfig,
       env: {

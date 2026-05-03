@@ -73,40 +73,40 @@ export function buildLiveCronProbeMessage(params: {
   const claudeLike = isClaudeLikeLiveAgent(params.agent);
   if (params.attempt === 0) {
     return (
-      "Use the Brikko Studio MCP tool `brikko-studio-tools/cron` (server `brikko-studio-tools`, tool `cron`). " +
+      "Use the BrikkoStudio MCP tool `brikko-studio-tools/cron` (server `brikko-studio-tools`, tool `cron`). " +
       "If the harness shows Claude-style MCP names, use `mcp__brikko-studio-tools__cron` or `mcp__brikko-studio_tools__cron`. " +
       `Call it with JSON arguments ${params.argsJson}. ` +
       "Preserve the JSON exactly, including job.sessionTarget and job.sessionKey; do not omit, rename, or flatten those fields. " +
-      "Do the actual tool call; I will verify externally with the Brikko Studio cron CLI. " +
+      "Do the actual tool call; I will verify externally with the BrikkoStudio cron CLI. " +
       `After the cron job is created, reply exactly: ${params.exactReply}`
     );
   }
   if (claudeLike) {
     return (
-      "Retry the Brikko Studio MCP tool `brikko-studio-tools/cron` now. " +
+      "Retry the BrikkoStudio MCP tool `brikko-studio-tools/cron` now. " +
       "If the harness shows Claude-style MCP names, use `mcp__brikko-studio-tools__cron` or `mcp__brikko-studio_tools__cron`. " +
       `Use these exact JSON arguments: ${params.argsJson}. ` +
       "Preserve job.sessionTarget and job.sessionKey exactly as provided. " +
       `If the cron job is created, reply exactly: ${params.exactReply}. ` +
       "If the tool call is cancelled, the job is not created, or you cannot confirm creation, " +
       "reply briefly saying that and ask me to retry. No markdown. " +
-      "I will verify externally with the Brikko Studio cron CLI."
+      "I will verify externally with the BrikkoStudio cron CLI."
     );
   }
   return (
-    "Your previous Brikko Studio cron MCP tool call was cancelled before the job was created. " +
-    "Retry the Brikko Studio MCP tool `brikko-studio-tools/cron` now. " +
+    "Your previous BrikkoStudio cron MCP tool call was cancelled before the job was created. " +
+    "Retry the BrikkoStudio MCP tool `brikko-studio-tools/cron` now. " +
     "If the harness shows Claude-style MCP names, use `mcp__brikko-studio-tools__cron` or `mcp__brikko-studio_tools__cron`. " +
     `Use these exact JSON arguments: ${params.argsJson}. ` +
     "Preserve job.sessionTarget and job.sessionKey exactly as provided. " +
     `If the cron job is created, reply exactly: ${params.exactReply}. ` +
     "If the tool call is cancelled, the job is not created, or you cannot confirm creation, " +
     "reply briefly saying that and ask me to retry. No markdown. " +
-    "I will verify externally with the Brikko Studio cron CLI."
+    "I will verify externally with the BrikkoStudio cron CLI."
   );
 }
 
-export async function runBrikko StudioCliJson<T>(args: string[], env: NodeJS.ProcessEnv): Promise<T> {
+export async function runBrikkoStudioCliJson<T>(args: string[], env: NodeJS.ProcessEnv): Promise<T> {
   const childEnv = { ...env };
   delete childEnv.VITEST;
   delete childEnv.VITEST_MODE;
@@ -153,7 +153,7 @@ export async function assertCronJobVisibleViaCli(params: {
   expectedName: string;
   expectedMessage: string;
 }): Promise<CronListJob | undefined> {
-  const cronList = await runBrikko StudioCliJson<CronListCliResult>(
+  const cronList = await runBrikkoStudioCliJson<CronListCliResult>(
     [
       "cron",
       "list",

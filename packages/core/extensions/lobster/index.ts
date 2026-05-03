@@ -1,12 +1,12 @@
 import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
-import type { AnyAgentTool, Brikko StudioPluginApi, Brikko StudioPluginToolFactory } from "./runtime-api.js";
+import type { AnyAgentTool, BrikkoStudioPluginApi, BrikkoStudioPluginToolFactory } from "./runtime-api.js";
 import { createLobsterTool } from "./src/lobster-tool.js";
 
 export default definePluginEntry({
   id: "lobster",
   name: "Lobster",
   description: "Optional local shell helper tools",
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     api.registerTool(
       ((ctx) => {
         if (ctx.sandboxed) {
@@ -17,7 +17,7 @@ export default definePluginEntry({
             ? api.runtime.tasks.managedFlows.fromToolContext(ctx)
             : undefined;
         return createLobsterTool(api, { taskFlow }) as AnyAgentTool;
-      }) as Brikko StudioPluginToolFactory,
+      }) as BrikkoStudioPluginToolFactory,
       { optional: true },
     );
   },

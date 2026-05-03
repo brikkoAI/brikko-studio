@@ -1,7 +1,7 @@
 import path from "node:path";
 import { formatConfigIssueSummary, type ConfigIssueLineInput } from "../config/issue-format.js";
 import { resolveMainSessionKey } from "../config/sessions/main-session.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { enqueueSystemEvent } from "../infra/system-events.js";
 
 export type ConfigRecoveryNoticePhase = "startup" | "reload";
@@ -21,7 +21,7 @@ export function formatConfigRecoveryNotice(params: {
 }): string {
   const configName = path.basename(params.configPath) || "brikko-studio.json";
   return [
-    `Config recovery warning: Brikko Studio restored ${configName} from the last-known-good backup during ${params.phase} (${params.reason}).`,
+    `Config recovery warning: BrikkoStudio restored ${configName} from the last-known-good backup during ${params.phase} (${params.reason}).`,
     "The rejected config was invalid and was preserved as a timestamped .clobbered.* file.",
     formatConfigRecoveryIssueSentence(params.issues),
     `Do not write ${configName} again unless you validate the full config first.`,
@@ -31,7 +31,7 @@ export function formatConfigRecoveryNotice(params: {
 }
 
 export function enqueueConfigRecoveryNotice(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   phase: ConfigRecoveryNoticePhase;
   reason: string;
   configPath: string;

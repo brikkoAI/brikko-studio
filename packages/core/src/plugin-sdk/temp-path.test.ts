@@ -1,11 +1,11 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 import { buildRandomTempFilePath, withTempDownloadPath } from "./temp-path.js";
 
 function expectPathInsideTmpRoot(resultPath: string) {
-  const tmpRoot = path.resolve(resolvePreferredBrikko StudioTmpDir());
+  const tmpRoot = path.resolve(resolvePreferredBrikkoStudioTmpDir());
   const resolved = path.resolve(resultPath);
   const rel = path.relative(tmpRoot, resolved);
   expect(rel === ".." || rel.startsWith(`..${path.sep}`)).toBe(false);
@@ -77,7 +77,7 @@ describe("withTempDownloadPath", () => {
     if (expectedBasename) {
       expect(path.basename(capturedPath)).toBe(expectedBasename);
     } else {
-      expect(capturedPath).toContain(path.join(resolvePreferredBrikko StudioTmpDir(), "line-media-"));
+      expect(capturedPath).toContain(path.join(resolvePreferredBrikkoStudioTmpDir(), "line-media-"));
     }
     if (expectCleanup) {
       await expect(fs.stat(capturedPath)).rejects.toMatchObject({ code: "ENOENT" });

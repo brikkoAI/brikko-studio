@@ -1,6 +1,6 @@
 import { type Context, complete } from "@mariozechner/pi-ai";
 import { Type } from "typebox";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   classifyMediaReferenceSource,
   normalizeMediaReferenceSource,
@@ -39,7 +39,7 @@ import {
   createSandboxBridgeReadFile,
   discoverAuthStorage,
   discoverModels,
-  ensureBrikko StudioModelsJson,
+  ensureBrikkoStudioModelsJson,
   resolveSandboxedBridgeMediaPath,
   runWithImageModelFallback,
   type AnyAgentTool,
@@ -79,7 +79,7 @@ export const PdfToolSchema = Type.Object({
 
 export { resolvePdfModelConfigForTool } from "./pdf-tool.model-config.js";
 
-function hasExplicitPdfToolModelConfig(config?: Brikko StudioConfig): boolean {
+function hasExplicitPdfToolModelConfig(config?: BrikkoStudioConfig): boolean {
   return (
     hasToolModelConfig(coercePdfModelConfig(config)) ||
     hasToolModelConfig(coerceImageModelConfig(config))
@@ -125,7 +125,7 @@ type PdfSandboxConfig = {
 };
 
 async function runPdfPrompt(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir: string;
   pdfModelConfig: ImageModelConfig;
   modelOverride?: string;
@@ -142,7 +142,7 @@ async function runPdfPrompt(params: {
 }> {
   const effectiveCfg = applyImageModelConfigDefaults(params.cfg, params.pdfModelConfig);
 
-  await ensureBrikko StudioModelsJson(effectiveCfg, params.agentDir);
+  await ensureBrikkoStudioModelsJson(effectiveCfg, params.agentDir);
   const authStorage = discoverAuthStorage(params.agentDir);
   const modelRegistry = discoverModels(authStorage, params.agentDir);
 
@@ -252,7 +252,7 @@ async function runPdfPrompt(params: {
 // ---------------------------------------------------------------------------
 
 export function createPdfTool(options?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   authProfileStore?: AuthProfileStore;
   workspaceDir?: string;

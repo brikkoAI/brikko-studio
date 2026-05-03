@@ -3,7 +3,7 @@ import path from "node:path";
 import { resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { resolveStateDir } from "../config/paths.js";
 import type { SessionScope } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeAgentId, normalizeMainKey } from "../routing/session-key.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 
@@ -26,7 +26,7 @@ function listExistingAgentIdsFromDisk(): string[] {
   }
 }
 
-function listConfiguredAgentIds(cfg: Brikko StudioConfig): string[] {
+function listConfiguredAgentIds(cfg: BrikkoStudioConfig): string[] {
   const ids = new Set<string>();
   const defaultId = normalizeAgentId(resolveDefaultAgentId(cfg));
   ids.add(defaultId);
@@ -48,7 +48,7 @@ function listConfiguredAgentIds(cfg: Brikko StudioConfig): string[] {
     : sorted;
 }
 
-export function listGatewayAgentsBasic(cfg: Brikko StudioConfig): {
+export function listGatewayAgentsBasic(cfg: BrikkoStudioConfig): {
   defaultId: string;
   mainKey: string;
   scope: SessionScope;

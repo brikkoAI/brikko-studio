@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveBrikko StudioPackageRootSync } from "../../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../../infra/brikko-studio-root.js";
 
 function looksLikeSkillsDir(dir: string): boolean {
   try {
@@ -59,7 +59,7 @@ export function resolveBundledSkillsDir(
     const moduleDir = path.dirname(fileURLToPath(moduleUrl));
     const argv1 = opts.argv1 ?? process.argv[1];
     const cwd = opts.cwd ?? process.cwd();
-    const packageRoot = resolveBrikko StudioPackageRootSync({
+    const packageRoot = resolveBrikkoStudioPackageRootSync({
       argv1,
       moduleUrl,
       cwd,

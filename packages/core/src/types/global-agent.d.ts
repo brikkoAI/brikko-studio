@@ -3,7 +3,7 @@
  *
  * The package ships TypeScript types in dist/index.d.ts but omits the
  * "types" field in package.json, so TypeScript cannot resolve them
- * automatically. This shim re-exports the types that Brikko Studio uses.
+ * automatically. This shim re-exports the types that BrikkoStudio uses.
  */
 declare module "global-agent" {
   /**

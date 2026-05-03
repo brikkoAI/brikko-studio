@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveStateDir } from "brikko-studio/plugin-sdk/state-paths";
 import {
   resolveMatrixCredentialsDir,
@@ -10,13 +10,13 @@ import {
 
 type MatrixAuthPresenceParams =
   | {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       env?: NodeJS.ProcessEnv;
     }
-  | Brikko StudioConfig;
+  | BrikkoStudioConfig;
 
 function listMatrixCredentialPaths(
-  _cfg: Brikko StudioConfig,
+  _cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): readonly string[] {
   const credentialsDir = resolveMatrixCredentialsDir(resolveStateDir(env, os.homedir));

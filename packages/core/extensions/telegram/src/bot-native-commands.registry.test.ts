@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { clearPluginCommands, registerPluginCommand } from "brikko-studio/plugin-sdk/plugin-runtime";
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from "vitest";
 
@@ -237,7 +237,7 @@ describe("registerTelegramNativeCommands real plugin registry", () => {
 
     registerTelegramNativeCommands({
       ...createNativeCommandTestParams({
-        commands: { allowFrom: { telegram: ["999"] } } as Brikko StudioConfig["commands"],
+        commands: { allowFrom: { telegram: ["999"] } } as BrikkoStudioConfig["commands"],
       }),
       bot,
       allowFrom: ["999"],

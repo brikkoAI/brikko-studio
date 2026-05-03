@@ -1,4 +1,4 @@
-const DEFAULT_TAGLINE = "All your chats, one Brikko Studio.";
+const DEFAULT_TAGLINE = "All your chats, one BrikkoStudio.";
 export type TaglineMode = "random" | "default" | "off";
 
 const HOLIDAY_TAGLINES = {

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { renderQaMarkdownReport } from "../../report.js";
 import { __testing as liveTesting } from "./runtime.js";
@@ -125,7 +125,7 @@ describe("matrix live qa runtime", () => {
   });
 
   it("injects a temporary Matrix account into the QA gateway config", () => {
-    const baseCfg: Brikko StudioConfig = {
+    const baseCfg: BrikkoStudioConfig = {
       plugins: {
         allow: ["memory-core", "qa-channel"],
         entries: {

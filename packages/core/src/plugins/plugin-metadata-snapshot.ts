@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { measureDiagnosticsTimelineSpanSync } from "../infra/diagnostics-timeline.js";
 import { resolveInstalledPluginIndexPolicyHash } from "./installed-plugin-index-policy.js";
 import type { InstalledPluginIndex } from "./installed-plugin-index.js";
@@ -68,7 +68,7 @@ export function isPluginMetadataSnapshotCompatible(params: {
     PluginMetadataSnapshot,
     "configFingerprint" | "index" | "policyHash" | "workspaceDir"
   >;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   workspaceDir?: string;
   index?: InstalledPluginIndex;

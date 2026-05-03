@@ -1,5 +1,5 @@
 import type { SessionEntry } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   loadExecApprovals,
   type ExecAsk,
@@ -19,12 +19,12 @@ type ResolvedExecConfig = {
 };
 
 function resolveExecConfigState(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   sessionEntry?: SessionEntry;
   agentId?: string;
   sessionKey?: string;
 }): {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   host: ExecTarget;
   agentExec?: ResolvedExecConfig;
   globalExec?: ResolvedExecConfig;
@@ -54,7 +54,7 @@ function resolveExecConfigState(params: {
 }
 
 function resolveExecSandboxAvailability(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey?: string;
   sandboxAvailable?: boolean;
 }) {
@@ -70,7 +70,7 @@ function resolveExecSandboxAvailability(params: {
 }
 
 export function canExecRequestNode(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   sessionEntry?: SessionEntry;
   agentId?: string;
   sessionKey?: string;
@@ -89,7 +89,7 @@ export function canExecRequestNode(params: {
 }
 
 export function resolveExecDefaults(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   sessionEntry?: SessionEntry;
   agentId?: string;
   sessionKey?: string;

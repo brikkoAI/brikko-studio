@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveBrikko StudioMetadata, resolveSkillInvocationPolicy } from "./frontmatter.js";
+import { resolveBrikkoStudioMetadata, resolveSkillInvocationPolicy } from "./frontmatter.js";
 
 describe("resolveSkillInvocationPolicy", () => {
   it("defaults to enabled behaviors", () => {
@@ -18,9 +18,9 @@ describe("resolveSkillInvocationPolicy", () => {
   });
 });
 
-describe("resolveBrikko StudioMetadata install validation", () => {
+describe("resolveBrikkoStudioMetadata install validation", () => {
   function resolveInstall(frontmatter: Record<string, string>) {
-    return resolveBrikko StudioMetadata(frontmatter)?.install;
+    return resolveBrikkoStudioMetadata(frontmatter)?.install;
   }
 
   it("accepts safe install specs", () => {

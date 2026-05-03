@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   computeBackoff,
   sleepWithAbort,
@@ -20,7 +20,7 @@ export const DEFAULT_RECONNECT_POLICY: ReconnectPolicy = {
   maxAttempts: 12,
 };
 
-export function resolveHeartbeatSeconds(cfg: Brikko StudioConfig, overrideSeconds?: number): number {
+export function resolveHeartbeatSeconds(cfg: BrikkoStudioConfig, overrideSeconds?: number): number {
   const candidate = overrideSeconds ?? cfg.web?.heartbeatSeconds;
   if (typeof candidate === "number" && candidate > 0) {
     return candidate;
@@ -29,7 +29,7 @@ export function resolveHeartbeatSeconds(cfg: Brikko StudioConfig, overrideSecond
 }
 
 export function resolveReconnectPolicy(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   overrides?: Partial<ReconnectPolicy>,
 ): ReconnectPolicy {
   const reconnectOverrides = cfg.web?.reconnect ?? {};

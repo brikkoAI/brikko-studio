@@ -9,7 +9,7 @@ describe("buildIrcConnectOptions", () => {
       tls: true,
       nick: "brikko-studio",
       username: "brikko-studio",
-      realname: "Brikko Studio Bot",
+      realname: "BrikkoStudio Bot",
       password: "server-pass",
       config: {
         nickserv: {
@@ -32,7 +32,7 @@ describe("buildIrcConnectOptions", () => {
       tls: true,
       nick: "brikko-studio",
       username: "brikko-studio",
-      realname: "Brikko Studio Bot",
+      realname: "BrikkoStudio Bot",
       password: "server-pass",
       nickserv: {
         enabled: true,

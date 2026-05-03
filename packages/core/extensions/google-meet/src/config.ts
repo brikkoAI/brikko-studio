@@ -160,7 +160,7 @@ const DEFAULT_GOOGLE_MEET_BARGE_IN_RMS_THRESHOLD = 650;
 const DEFAULT_GOOGLE_MEET_BARGE_IN_PEAK_THRESHOLD = 2500;
 const DEFAULT_GOOGLE_MEET_BARGE_IN_COOLDOWN_MS = 900;
 
-const DEFAULT_GOOGLE_MEET_REALTIME_INSTRUCTIONS = `You are joining a private Google Meet as an Brikko Studio agent. Keep spoken replies brief and natural. When a question needs deeper reasoning, current information, or tools, call ${REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME} before answering.`;
+const DEFAULT_GOOGLE_MEET_REALTIME_INSTRUCTIONS = `You are joining a private Google Meet as an BrikkoStudio agent. Keep spoken replies brief and natural. When a question needs deeper reasoning, current information, or tools, call ${REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME} before answering.`;
 const DEFAULT_GOOGLE_MEET_REALTIME_INTRO_MESSAGE = "Say exactly: I'm here and listening.";
 
 const DEFAULT_GOOGLE_MEET_CONFIG: GoogleMeetConfig = {
@@ -175,7 +175,7 @@ const DEFAULT_GOOGLE_MEET_CONFIG: GoogleMeetConfig = {
     audioBackend: "blackhole-2ch",
     audioFormat: DEFAULT_GOOGLE_MEET_CHROME_AUDIO_FORMAT,
     launch: true,
-    guestName: "Brikko Studio Agent",
+    guestName: "BrikkoStudio Agent",
     reuseExistingTab: true,
     autoJoin: true,
     joinTimeoutMs: 30_000,

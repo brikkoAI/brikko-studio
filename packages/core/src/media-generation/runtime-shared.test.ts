@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import {
   deriveAspectRatioFromSize,
   normalizeDurationToClosestMax,
@@ -35,7 +35,7 @@ describe("media-generation runtime shared candidates", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const candidates = resolveCapabilityModelCandidates({
       cfg,
@@ -73,7 +73,7 @@ describe("media-generation runtime shared candidates", () => {
 
   it("auto-detects auth-backed provider defaults when no explicit media model is configured", () => {
     const candidates = resolveCapabilityModelCandidates({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       modelConfig: undefined,
       parseModelRef,
       listProviders: () => [
@@ -106,7 +106,7 @@ describe("media-generation runtime shared candidates", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       modelConfig: undefined,
       parseModelRef,
       listProviders: () => [
@@ -138,7 +138,7 @@ describe("media-generation runtime shared candidates", () => {
             mediaGenerationAutoProviderFallback: false,
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       modelConfig: {
         primary: "google/gemini-3.1-flash-image-preview",
       },
@@ -163,7 +163,7 @@ describe("media-generation runtime shared candidates", () => {
             mediaGenerationAutoProviderFallback: false,
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       modelConfig: {
         primary: "google/gemini-3.1-flash-image-preview",
         fallbacks: ["fal/fal-ai/flux/dev"],

@@ -4,10 +4,10 @@ import {
   modelSupportsVision,
   resolveDefaultModelForAgent,
 } from "brikko-studio/plugin-sdk/agent-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export async function resolveStickerVisionSupportRuntime(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
 }): Promise<boolean> {
   const catalog = await loadModelCatalog({ config: params.cfg });

@@ -1,6 +1,6 @@
 import {
   createModelCatalogPresetAppliers,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildTogetherModelDefinition,
@@ -12,7 +12,7 @@ export const TOGETHER_DEFAULT_MODEL_REF = "together/moonshotai/Kimi-K2.5";
 
 const togetherPresetAppliers = createModelCatalogPresetAppliers({
   primaryModelRef: TOGETHER_DEFAULT_MODEL_REF,
-  resolveParams: (_cfg: Brikko StudioConfig) => ({
+  resolveParams: (_cfg: BrikkoStudioConfig) => ({
     providerId: "together",
     api: "openai-completions",
     baseUrl: TOGETHER_BASE_URL,
@@ -21,6 +21,6 @@ const togetherPresetAppliers = createModelCatalogPresetAppliers({
   }),
 });
 
-export function applyTogetherConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyTogetherConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return togetherPresetAppliers.applyConfig(cfg);
 }

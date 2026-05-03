@@ -75,7 +75,7 @@ vi.mock("node:child_process", async () => {
 });
 
 import { spawn as mockedSpawn } from "node:child_process";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import { resolveMemoryBackendConfig } from "brikko-studio/plugin-sdk/memory-core-host-engine-storage";
 import { QmdMemoryManager } from "./qmd-manager.js";
 
@@ -85,7 +85,7 @@ describe("QmdMemoryManager slugified path resolution", () => {
   let tmpRoot: string;
   let workspaceDir: string;
   let stateDir: string;
-  let cfg: Brikko StudioConfig;
+  let cfg: BrikkoStudioConfig;
   const agentId = "main";
   const openManagers = new Set<QmdMemoryManager>();
 
@@ -96,7 +96,7 @@ describe("QmdMemoryManager slugified path resolution", () => {
     return manager;
   }
 
-  async function createManager(params?: { cfg?: Brikko StudioConfig }) {
+  async function createManager(params?: { cfg?: BrikkoStudioConfig }) {
     const cfgToUse = params?.cfg ?? cfg;
     const resolved = resolveMemoryBackendConfig({ cfg: cfgToUse, agentId });
     const manager = trackManager(
@@ -190,7 +190,7 @@ describe("QmdMemoryManager slugified path resolution", () => {
           paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   });
 
   afterEach(async () => {
@@ -272,7 +272,7 @@ describe("QmdMemoryManager slugified path resolution", () => {
           paths: [{ path: extraRoot, pattern: "**/*.md", name: "vault" }],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const actualRelative = "Topics/Sub Category/Topic Name.md";
     const actualFile = path.join(extraRoot, actualRelative);

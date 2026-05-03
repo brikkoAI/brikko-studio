@@ -40,7 +40,7 @@ function parseArgs(argv) {
 function printHelp() {
   console.log(`Usage: node scripts/brikko-studio-performance-source-summary.mjs --source-dir <dir> [--output <summary.md>]
 
-Summarizes Brikko Studio-native performance probe artifacts for CI reports.`);
+Summarizes BrikkoStudio-native performance probe artifacts for CI reports.`);
 }
 
 function readJsonIfExists(filePath) {
@@ -189,7 +189,7 @@ function buildMarkdown(sourceDir) {
   const mockHelloSummaries = loadMockHelloSummaries(sourceDir);
 
   const lines = [
-    "# Brikko Studio Source Performance",
+    "# BrikkoStudio Source Performance",
     "",
     `Generated: ${new Date().toISOString()}`,
     "",

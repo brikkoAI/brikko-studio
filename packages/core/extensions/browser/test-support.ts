@@ -12,4 +12,4 @@ export {
   isLiveTestEnabled,
 } from "brikko-studio/plugin-sdk/test-env";
 export type { FetchMock, TempHomeEnv } from "brikko-studio/plugin-sdk/test-env";
-export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";

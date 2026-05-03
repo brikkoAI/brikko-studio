@@ -4,11 +4,11 @@
 import path from "node:path";
 import { isHelpOrVersionInvocation } from "../cli/argv.js";
 import { getRuntimeConfig } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { computeBackoff, type BackoffPolicy } from "../infra/backoff.js";
 import { consumeRootOptionToken, FLAG_TERMINATOR } from "../infra/cli-root-options.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
-import { resolveBrikko StudioAgentDir } from "./agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "./agent-paths.js";
 import { lookupCachedContextTokens, MODEL_CONTEXT_TOKEN_CACHE } from "./context-cache.js";
 import { CONTEXT_WINDOW_RUNTIME_STATE } from "./context-runtime-state.js";
 import { normalizeProviderId } from "./model-selection.js";
@@ -109,7 +109,7 @@ function loadModelsConfigRuntime() {
   return CONTEXT_WINDOW_RUNTIME_STATE.modelsConfigRuntimeLoader.load();
 }
 
-function isLikelyBrikko StudioCliProcess(argv: string[] = process.argv): boolean {
+function isLikelyBrikkoStudioCliProcess(argv: string[] = process.argv): boolean {
   const entryBasename = normalizeLowercaseStringOrEmpty(path.basename(argv[1] ?? ""));
   return (
     entryBasename === "brikko-studio" ||
@@ -168,14 +168,14 @@ const SKIP_EAGER_WARMUP_PRIMARY_COMMANDS = new Set([
 ]);
 
 export function shouldEagerWarmContextWindowCache(argv: string[] = process.argv): boolean {
-  // Keep this gate tied to the real Brikko Studio CLI entrypoints.
+  // Keep this gate tied to the real BrikkoStudio CLI entrypoints.
   //
   // This module can also land inside shared dist chunks that are imported from
   // plugin-sdk/library surfaces during smoke tests and plugin loading. If we do
   // eager warmup for those generic Node script imports, merely importing the
-  // built plugin-sdk can call ensureBrikko StudioModelsJson(), which cascades into
+  // built plugin-sdk can call ensureBrikkoStudioModelsJson(), which cascades into
   // plugin discovery and breaks dist/source singleton assumptions.
-  if (!isLikelyBrikko StudioCliProcess(argv)) {
+  if (!isLikelyBrikkoStudioCliProcess(argv)) {
     return false;
   }
   if (isHelpOrVersionInvocation(argv)) {
@@ -185,7 +185,7 @@ export function shouldEagerWarmContextWindowCache(argv: string[] = process.argv)
   return Boolean(primary) && !SKIP_EAGER_WARMUP_PRIMARY_COMMANDS.has(primary);
 }
 
-function primeConfiguredContextWindows(): Brikko StudioConfig | undefined {
+function primeConfiguredContextWindows(): BrikkoStudioConfig | undefined {
   if (CONTEXT_WINDOW_RUNTIME_STATE.configuredConfig) {
     applyConfiguredContextWindows({
       cache: MODEL_CONTEXT_TOKEN_CACHE,
@@ -232,7 +232,7 @@ function ensureContextWindowCacheLoaded(): Promise<void> {
 
   CONTEXT_WINDOW_RUNTIME_STATE.loadPromise = (async () => {
     try {
-      await (await loadModelsConfigRuntime()).ensureBrikko StudioModelsJson(cfg);
+      await (await loadModelsConfigRuntime()).ensureBrikkoStudioModelsJson(cfg);
     } catch {
       // Continue with best-effort discovery/overrides.
     }
@@ -240,7 +240,7 @@ function ensureContextWindowCacheLoaded(): Promise<void> {
     try {
       const { discoverAuthStorage, discoverModels } =
         await import("./pi-model-discovery-runtime.js");
-      const agentDir = resolveBrikko StudioAgentDir();
+      const agentDir = resolveBrikkoStudioAgentDir();
       const authStorage = discoverAuthStorage(agentDir);
       const modelRegistry = discoverModels(authStorage, agentDir, {
         normalizeModels: false,
@@ -292,7 +292,7 @@ if (shouldEagerWarmContextWindowCache()) {
 }
 
 function resolveConfiguredModelParams(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   provider: string,
   model: string,
 ): Record<string, unknown> | undefined {
@@ -344,7 +344,7 @@ function resolveProviderModelRef(params: {
 // keys overlap with raw slash-containing model IDs (e.g. OpenRouter's
 // "google/gemini-2.5-pro" stored as a raw catalog entry).
 function resolveConfiguredProviderContextTokens(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   provider: string,
   model: string,
 ): number | undefined {
@@ -456,7 +456,7 @@ function isClaudeOpus47Model(model: string): boolean {
 }
 
 export function resolveContextTokensForModel(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   provider?: string;
   model?: string;
   contextTokensOverride?: number;

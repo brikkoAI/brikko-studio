@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   buildBootstrapContextFiles,
   DEFAULT_BOOTSTRAP_MAX_CHARS,
@@ -227,7 +227,7 @@ describe("buildBootstrapContextFiles", () => {
 
 type BootstrapLimitResolverCase = {
   name: "bootstrapMaxChars" | "bootstrapTotalMaxChars";
-  resolve: (cfg?: Brikko StudioConfig) => number;
+  resolve: (cfg?: BrikkoStudioConfig) => number;
   defaultValue: number;
 };
 
@@ -255,7 +255,7 @@ describe("bootstrap limit resolvers", () => {
     for (const resolver of BOOTSTRAP_LIMIT_RESOLVERS) {
       const cfg = {
         agents: { defaults: { [resolver.name]: 12345 } },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
       expect(resolver.resolve(cfg)).toBe(12345);
     }
   });
@@ -264,7 +264,7 @@ describe("bootstrap limit resolvers", () => {
     for (const resolver of BOOTSTRAP_LIMIT_RESOLVERS) {
       const cfg = {
         agents: { defaults: { [resolver.name]: -1 } },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
       expect(resolver.resolve(cfg)).toBe(resolver.defaultValue);
     }
   });
@@ -281,12 +281,12 @@ describe("resolveBootstrapPromptTruncationWarningMode", () => {
     expect(
       resolveBootstrapPromptTruncationWarningMode({
         agents: { defaults: { bootstrapPromptTruncationWarning: "off" } },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ).toBe("off");
     expect(
       resolveBootstrapPromptTruncationWarningMode({
         agents: { defaults: { bootstrapPromptTruncationWarning: "always" } },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ).toBe("always");
   });
 
@@ -294,7 +294,7 @@ describe("resolveBootstrapPromptTruncationWarningMode", () => {
     expect(
       resolveBootstrapPromptTruncationWarningMode({
         agents: { defaults: { bootstrapPromptTruncationWarning: "invalid" } },
-      } as unknown as Brikko StudioConfig),
+      } as unknown as BrikkoStudioConfig),
     ).toBe(DEFAULT_BOOTSTRAP_PROMPT_TRUNCATION_WARNING_MODE);
   });
 });

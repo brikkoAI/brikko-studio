@@ -2,9 +2,9 @@ import type { AnyAgentTool } from "brikko-studio/plugin-sdk/agent-harness";
 import { wrapToolWithBeforeToolCallHook } from "brikko-studio/plugin-sdk/agent-harness-runtime";
 import {
   installCodexToolResultMiddleware,
-  installBrikko StudioOwnedToolHooks,
+  installBrikkoStudioOwnedToolHooks,
   mediaToolResult,
-  resetBrikko StudioOwnedToolHooks,
+  resetBrikkoStudioOwnedToolHooks,
   textToolResult,
 } from "brikko-studio/plugin-sdk/agent-runtime-test-contracts";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -20,15 +20,15 @@ function createContractTool(overrides: Partial<AnyAgentTool>): AnyAgentTool {
   } as unknown as AnyAgentTool;
 }
 
-describe("Brikko Studio-owned tool runtime contract — Codex app-server adapter", () => {
+describe("BrikkoStudio-owned tool runtime contract — Codex app-server adapter", () => {
   afterEach(() => {
-    resetBrikko StudioOwnedToolHooks();
+    resetBrikkoStudioOwnedToolHooks();
   });
 
   it("wraps unwrapped dynamic tools with before/after tool hooks", async () => {
     const adjustedParams = { mode: "safe" };
     const mergedParams = { command: "pwd", mode: "safe" };
-    const hooks = installBrikko StudioOwnedToolHooks({ adjustedParams });
+    const hooks = installBrikkoStudioOwnedToolHooks({ adjustedParams });
     const execute = vi.fn(async () => textToolResult("done", { ok: true }));
     const bridge = createCodexDynamicToolBridge({
       tools: [createContractTool({ name: "exec", execute })],
@@ -100,7 +100,7 @@ describe("Brikko Studio-owned tool runtime contract — Codex app-server adapter
   it("runs tool_result middleware before after_tool_call observes the result", async () => {
     const adjustedParams = { mode: "safe" };
     const mergedParams = { command: "status", mode: "safe" };
-    const hooks = installBrikko StudioOwnedToolHooks({ adjustedParams });
+    const hooks = installBrikkoStudioOwnedToolHooks({ adjustedParams });
     const middleware = installCodexToolResultMiddleware((event) => {
       expect(event).toMatchObject({
         toolName: "exec",
@@ -165,7 +165,7 @@ describe("Brikko Studio-owned tool runtime contract — Codex app-server adapter
   });
 
   it("fails closed when before_tool_call blocks a dynamic tool", async () => {
-    const hooks = installBrikko StudioOwnedToolHooks({ blockReason: "blocked by policy" });
+    const hooks = installBrikkoStudioOwnedToolHooks({ blockReason: "blocked by policy" });
     const execute = vi.fn(async () => textToolResult("should not run"));
     const bridge = createCodexDynamicToolBridge({
       tools: [createContractTool({ name: "message", execute })],
@@ -224,7 +224,7 @@ describe("Brikko Studio-owned tool runtime contract — Codex app-server adapter
   it("reports dynamic tool execution errors through after_tool_call", async () => {
     const adjustedParams = { timeoutSec: 1 };
     const mergedParams = { command: "false", timeoutSec: 1 };
-    const hooks = installBrikko StudioOwnedToolHooks({ adjustedParams });
+    const hooks = installBrikkoStudioOwnedToolHooks({ adjustedParams });
     const execute = vi.fn(async () => {
       throw new Error("tool failed");
     });
@@ -270,7 +270,7 @@ describe("Brikko Studio-owned tool runtime contract — Codex app-server adapter
   });
 
   it("records successful Codex messaging text, media, and target telemetry", async () => {
-    const hooks = installBrikko StudioOwnedToolHooks();
+    const hooks = installBrikkoStudioOwnedToolHooks();
     const execute = vi.fn(async () => textToolResult("Sent."));
     const bridge = createCodexDynamicToolBridge({
       tools: [createContractTool({ name: "message", execute })],
@@ -330,7 +330,7 @@ describe("Brikko Studio-owned tool runtime contract — Codex app-server adapter
   });
 
   it("records successful Codex media artifacts from tool results", async () => {
-    const hooks = installBrikko StudioOwnedToolHooks();
+    const hooks = installBrikkoStudioOwnedToolHooks();
     const execute = vi.fn(async () =>
       mediaToolResult("Generated media reply.", "/tmp/reply.opus", true),
     );
@@ -380,7 +380,7 @@ describe("Brikko Studio-owned tool runtime contract — Codex app-server adapter
   it("does not double-wrap dynamic tools that already have before_tool_call", async () => {
     const adjustedParams = { mode: "safe" };
     const mergedParams = { command: "pwd", mode: "safe" };
-    const hooks = installBrikko StudioOwnedToolHooks({ adjustedParams });
+    const hooks = installBrikkoStudioOwnedToolHooks({ adjustedParams });
     const execute = vi.fn(async () => textToolResult("done"));
     const tool = wrapToolWithBeforeToolCallHook(createContractTool({ name: "exec", execute }), {
       runId: "run-wrapped",

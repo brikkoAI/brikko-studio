@@ -1,6 +1,6 @@
 import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
 import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type {
   GeneratedVideoAsset,
   VideoGenerationIgnoredOverride,
@@ -11,7 +11,7 @@ import type {
 } from "./types.js";
 
 export type GenerateVideoParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompt: string;
   agentDir?: string;
   authStore?: AuthProfileStore;
@@ -43,7 +43,7 @@ export type GenerateVideoRuntimeResult = {
 };
 
 export type ListRuntimeVideoGenerationProvidersParams = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 };
 
 export type RuntimeVideoGenerationProvider = VideoGenerationProvider;

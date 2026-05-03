@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { resolveAllowedModelRef, resolveConfiguredModelRef } from "./model-selection-resolve.js";
 
 describe("model-selection-resolve OpenRouter compat aliases", () => {
@@ -21,7 +21,7 @@ describe("model-selection-resolve OpenRouter compat aliases", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(
       resolveAllowedModelRef({
@@ -44,7 +44,7 @@ describe("model-selection-resolve OpenRouter compat aliases", () => {
           model: { primary: "openrouter:auto" },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       resolveConfiguredModelRef({
@@ -64,7 +64,7 @@ describe("model-selection-resolve OpenRouter compat aliases", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const catalog = [
       {

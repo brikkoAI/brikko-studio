@@ -1,8 +1,8 @@
 import path from "node:path";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import {
   POSIX_BRIKKO_STUDIO_TMP_DIR,
-  resolvePreferredBrikko StudioTmpDir,
+  resolvePreferredBrikkoStudioTmpDir,
 } from "../infra/tmp-brikko-studio-dir.js";
 
 const LOG_PREFIX = "brikko-studio";
@@ -32,10 +32,10 @@ function formatLocalDate(date: Date): string {
 }
 
 function resolveDefaultRollingLogFile(date = new Date()): string {
-  const logDir = canUseNodeFs() ? resolvePreferredBrikko StudioTmpDir() : POSIX_BRIKKO_STUDIO_TMP_DIR;
+  const logDir = canUseNodeFs() ? resolvePreferredBrikkoStudioTmpDir() : POSIX_BRIKKO_STUDIO_TMP_DIR;
   return path.join(logDir, `${LOG_PREFIX}-${formatLocalDate(date)}${LOG_SUFFIX}`);
 }
 
-export function resolveConfiguredLogFilePath(config?: Brikko StudioConfig | null): string {
+export function resolveConfiguredLogFilePath(config?: BrikkoStudioConfig | null): string {
   return config?.logging?.file ?? resolveDefaultRollingLogFile();
 }

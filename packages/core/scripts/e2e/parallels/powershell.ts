@@ -44,7 +44,7 @@ export function windowsModelProviderTimeoutScript(modelId: string): string {
 @'
 ${batchJson}
 '@ | Set-Content -Path $providerTimeoutBatchPath -Encoding UTF8
-Invoke-Brikko Studio config set --batch-file $providerTimeoutBatchPath --strict-json
+Invoke-BrikkoStudio config set --batch-file $providerTimeoutBatchPath --strict-json
 $providerTimeoutExit = $LASTEXITCODE
 Remove-Item $providerTimeoutBatchPath -Force -ErrorAction SilentlyContinue
 if ($providerTimeoutExit -ne 0) { throw "model provider timeout config set failed" }`;
@@ -106,8 +106,8 @@ Remove-Item Env:BRIKKO_STUDIO_PARALLELS_AGENT_CONFIG_PATH -Force -ErrorAction Si
 if ($agentTurnConfigPatchExit -ne 0) { throw "agent turn config patch failed" }`;
 }
 
-export const windowsBrikko StudioResolver = String.raw`function Resolve-Brikko StudioCommand {
-  if ($script:Brikko StudioResolvedCommand) { return $script:Brikko StudioResolvedCommand }
+export const windowsBrikkoStudioResolver = String.raw`function Resolve-BrikkoStudioCommand {
+  if ($script:BrikkoStudioResolvedCommand) { return $script:BrikkoStudioResolvedCommand }
   $shimCandidates = @()
   if ($env:APPDATA) {
     $shimCandidates += Join-Path $env:APPDATA 'npm\brikko-studio.cmd'
@@ -127,8 +127,8 @@ export const windowsBrikko StudioResolver = String.raw`function Resolve-Brikko S
   }
   foreach ($candidate in $shimCandidates) {
     if ($candidate -and (Test-Path $candidate)) {
-      $script:Brikko StudioResolvedCommand = @{ Kind = 'shim'; Path = $candidate }
-      return $script:Brikko StudioResolvedCommand
+      $script:BrikkoStudioResolvedCommand = @{ Kind = 'shim'; Path = $candidate }
+      return $script:BrikkoStudioResolvedCommand
     }
   }
   $entryCandidates = @()
@@ -140,24 +140,24 @@ export const windowsBrikko StudioResolver = String.raw`function Resolve-Brikko S
   }
   foreach ($candidate in $entryCandidates) {
     if ($candidate -and (Test-Path $candidate)) {
-      $script:Brikko StudioResolvedCommand = @{ Kind = 'node'; Path = $candidate }
-      return $script:Brikko StudioResolvedCommand
+      $script:BrikkoStudioResolvedCommand = @{ Kind = 'node'; Path = $candidate }
+      return $script:BrikkoStudioResolvedCommand
     }
   }
   throw 'brikko-studio command not found in PATH, APPDATA npm, or npm global prefix'
 }
-function Invoke-Brikko Studio {
-  param([Parameter(ValueFromRemainingArguments = $true)][string[]] $Brikko StudioArgs)
-  $command = Resolve-Brikko StudioCommand
+function Invoke-BrikkoStudio {
+  param([Parameter(ValueFromRemainingArguments = $true)][string[]] $BrikkoStudioArgs)
+  $command = Resolve-BrikkoStudioCommand
   $previousErrorActionPreference = $ErrorActionPreference
   $previousNativeErrorActionPreference = $PSNativeCommandUseErrorActionPreference
   $ErrorActionPreference = 'Continue'
   $PSNativeCommandUseErrorActionPreference = $false
   try {
     if ($command.Kind -eq 'node') {
-      & node.exe $command.Path @Brikko StudioArgs
+      & node.exe $command.Path @BrikkoStudioArgs
     } else {
-      & $command.Path @Brikko StudioArgs
+      & $command.Path @BrikkoStudioArgs
     }
   } finally {
     $ErrorActionPreference = $previousErrorActionPreference

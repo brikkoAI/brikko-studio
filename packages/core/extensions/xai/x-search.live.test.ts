@@ -32,7 +32,7 @@ describeLive("xai x_search live", () => {
     let result: Awaited<ReturnType<NonNullable<typeof tool>["execute"]>>;
     try {
       result = await tool!.execute("x-search:live", {
-        query: "Brikko Studio from:steipete",
+        query: "BrikkoStudio from:steipete",
         to_date: "2026-03-28",
       });
     } catch (error) {

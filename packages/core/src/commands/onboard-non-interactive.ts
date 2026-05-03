@@ -2,7 +2,7 @@ import { formatCliCommand } from "../cli/command-format.js";
 import { replaceConfigFile } from "../config/config.js";
 import { readConfigFileSnapshot } from "../config/io.js";
 import { logConfigUpdated } from "../config/logging.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { defaultRuntime } from "../runtime.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -58,7 +58,7 @@ function createNonInteractiveMigrationPrompter(runtime: RuntimeEnv): WizardPromp
 async function runNonInteractiveMigrationImport(params: {
   opts: OnboardOptions;
   runtime: RuntimeEnv;
-  baseConfig: Brikko StudioConfig;
+  baseConfig: BrikkoStudioConfig;
   baseHash?: string;
 }) {
   const providerId = params.opts.importFrom?.trim();
@@ -104,7 +104,7 @@ export async function runNonInteractiveSetup(
     return;
   }
 
-  const baseConfig: Brikko StudioConfig = snapshot.valid
+  const baseConfig: BrikkoStudioConfig = snapshot.valid
     ? snapshot.exists
       ? (snapshot.sourceConfig ?? snapshot.config)
       : {}

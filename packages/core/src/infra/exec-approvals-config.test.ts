@@ -17,7 +17,7 @@ import {
 describe("exec approvals wildcard agent", () => {
   it("merges wildcard allowlist entries with agent entries", () => {
     const dir = makeTempDir();
-    const prevBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    const prevBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
 
     try {
       process.env.BRIKKO_STUDIO_HOME = dir;
@@ -44,10 +44,10 @@ describe("exec approvals wildcard agent", () => {
         "/usr/bin/uname",
       ]);
     } finally {
-      if (prevBrikko StudioHome === undefined) {
+      if (prevBrikkoStudioHome === undefined) {
         delete process.env.BRIKKO_STUDIO_HOME;
       } else {
-        process.env.BRIKKO_STUDIO_HOME = prevBrikko StudioHome;
+        process.env.BRIKKO_STUDIO_HOME = prevBrikkoStudioHome;
       }
     }
   });

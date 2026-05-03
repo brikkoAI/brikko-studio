@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   resolveThreadBindingIdleTimeoutMs,
   resolveThreadBindingMaxAgeMs,
@@ -9,7 +9,7 @@ import { normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
 export { resolveThreadBindingsEnabled };
 
 export function resolveDiscordThreadBindingIdleTimeoutMs(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
 }): number {
   const accountId = normalizeAccountId(params.accountId);
@@ -22,7 +22,7 @@ export function resolveDiscordThreadBindingIdleTimeoutMs(params: {
 }
 
 export function resolveDiscordThreadBindingMaxAgeMs(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
 }): number {
   const accountId = normalizeAccountId(params.accountId);

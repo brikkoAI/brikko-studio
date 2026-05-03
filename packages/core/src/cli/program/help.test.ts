@@ -133,12 +133,12 @@ describe("configureProgramHelp", () => {
 
   it("prints version and exits immediately when version flags are present", () => {
     process.argv = ["node", "brikko-studio", "--version"];
-    expectVersionExit({ expectedVersion: "Brikko Studio 9.9.9-test (abc1234)" });
+    expectVersionExit({ expectedVersion: "BrikkoStudio 9.9.9-test (abc1234)" });
   });
 
   it("prints version and exits immediately without commit metadata", () => {
     process.argv = ["node", "brikko-studio", "--version"];
     resolveCommitHashMock.mockReturnValue(null);
-    expectVersionExit({ expectedVersion: "Brikko Studio 9.9.9-test" });
+    expectVersionExit({ expectedVersion: "BrikkoStudio 9.9.9-test" });
   });
 });

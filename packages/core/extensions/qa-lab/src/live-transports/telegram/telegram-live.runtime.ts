@@ -3,10 +3,10 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { z } from "zod";
 import { startQaGatewayChild } from "../../gateway-child.js";
 import { DEFAULT_QA_LIVE_PROVIDER_MODE } from "../../providers/index.js";
@@ -492,14 +492,14 @@ function normalizeTelegramObservedMessage(update: TelegramUpdate): TelegramObser
 }
 
 function buildTelegramQaConfig(
-  baseCfg: Brikko StudioConfig,
+  baseCfg: BrikkoStudioConfig,
   params: {
     groupId: string;
     sutToken: string;
     driverBotId: number;
     sutAccountId: string;
   },
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const pluginAllow = [...new Set([...(baseCfg.plugins?.allow ?? []), "telegram"])];
   const pluginEntries = {
     ...baseCfg.plugins?.entries,
@@ -1073,13 +1073,13 @@ function canaryFailureMessage(params: {
   ].join("\n");
 }
 
-async function runInstalledBrikko StudioTelegramOnboardingPreflight(params: {
+async function runInstalledBrikkoStudioTelegramOnboardingPreflight(params: {
   openClawCommand: string;
   providerMode: ReturnType<typeof normalizeQaProviderMode>;
   sutToken: string;
 }) {
   const tempRoot = await fs.mkdtemp(
-    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-npm-telegram-"),
+    path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-npm-telegram-"),
   );
   const homeDir = path.join(tempRoot, "home");
   const stateDir = path.join(homeDir, ".brikko-studio");
@@ -1136,7 +1136,7 @@ async function runInstalledBrikko StudioTelegramOnboardingPreflight(params: {
 export async function runTelegramQaLive(params: {
   repoRoot?: string;
   outputDir?: string;
-  sutBrikko StudioCommand?: string;
+  sutBrikkoStudioCommand?: string;
   preflightInstalledOnboarding?: boolean;
   providerMode?: QaProviderModeInput;
   primaryModel?: string;
@@ -1197,10 +1197,10 @@ export async function runTelegramQaLive(params: {
   let preservedGatewayDebugArtifacts = false;
   let canaryFailure: string | null = null;
   try {
-    if (params.sutBrikko StudioCommand && params.preflightInstalledOnboarding === true) {
+    if (params.sutBrikkoStudioCommand && params.preflightInstalledOnboarding === true) {
       writeTelegramQaProgress(progressEnabled, "installed package onboarding preflight start");
-      await runInstalledBrikko StudioTelegramOnboardingPreflight({
-        openClawCommand: params.sutBrikko StudioCommand,
+      await runInstalledBrikkoStudioTelegramOnboardingPreflight({
+        openClawCommand: params.sutBrikkoStudioCommand,
         providerMode,
         sutToken: runtimeEnv.sutToken,
       });
@@ -1225,9 +1225,9 @@ export async function runTelegramQaLive(params: {
 
     const gatewayHarness = await startQaLiveLaneGateway({
       repoRoot,
-      command: params.sutBrikko StudioCommand
+      command: params.sutBrikkoStudioCommand
         ? {
-            executablePath: params.sutBrikko StudioCommand,
+            executablePath: params.sutBrikkoStudioCommand,
             usePackagedPlugins: true,
           }
         : undefined,

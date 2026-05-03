@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveGatewayConnectionAuth } from "./connection-auth.js";
 import { buildGatewayConnectionDetailsWithResolvers } from "./connection-details.js";
 import type { ExplicitGatewayAuth } from "./credentials.js";
@@ -14,7 +14,7 @@ export function resolveGatewayUrlOverrideSource(urlSource: string): "cli" | "env
 }
 
 export async function resolveGatewayClientBootstrap(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   gatewayUrl?: string;
   explicitAuth?: ExplicitGatewayAuth;
   env?: NodeJS.ProcessEnv;

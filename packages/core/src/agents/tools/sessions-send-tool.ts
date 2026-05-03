@@ -3,7 +3,7 @@ import { Type } from "typebox";
 import { isRequesterParentOfBackgroundAcpSession } from "../../acp/session-interaction-mode.js";
 import { parseSessionThreadInfoFast } from "../../config/sessions/thread-info.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { callGateway } from "../../gateway/call.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import {
@@ -111,7 +111,7 @@ export function createSessionsSendTool(opts?: {
   agentSessionKey?: string;
   agentChannel?: GatewayMessageChannel;
   sandboxed?: boolean;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   callGateway?: GatewayCaller;
 }): AnyAgentTool {
   return {

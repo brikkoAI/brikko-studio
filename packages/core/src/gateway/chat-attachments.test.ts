@@ -21,7 +21,7 @@ vi.mock("../media/store.js", async (importOriginal) => {
   };
 });
 
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { MAX_IMAGE_BYTES } from "../media/constants.js";
 import {
   buildMessageWithAttachments,
@@ -241,7 +241,7 @@ describe("parseMessageWithAttachments", () => {
       parseMessageWithAttachments(
         "x",
         [{ type: "image", mimeType: "image/png", fileName: "huge.png", content: big }],
-        { maxBytes: resolveChatAttachmentMaxBytes({} as Brikko StudioConfig), log: { warn: () => {} } },
+        { maxBytes: resolveChatAttachmentMaxBytes({} as BrikkoStudioConfig), log: { warn: () => {} } },
       ),
     ).rejects.toThrow(/image exceeds size limit/i);
     expect(saveMediaBufferMock).not.toHaveBeenCalled();
@@ -488,8 +488,8 @@ describe("resolveChatAttachmentMaxBytes", () => {
   const MB = 1024 * 1024;
   const DEFAULT_BYTES = DEFAULT_CHAT_ATTACHMENT_MAX_MB * MB;
 
-  const cfgWithMediaMaxMb = (value: unknown): Brikko StudioConfig =>
-    ({ agents: { defaults: { mediaMaxMb: value } } }) as unknown as Brikko StudioConfig;
+  const cfgWithMediaMaxMb = (value: unknown): BrikkoStudioConfig =>
+    ({ agents: { defaults: { mediaMaxMb: value } } }) as unknown as BrikkoStudioConfig;
 
   it("honours a configured agents.defaults.mediaMaxMb", () => {
     expect(resolveChatAttachmentMaxBytes(cfgWithMediaMaxMb(10))).toBe(10 * MB);
@@ -497,8 +497,8 @@ describe("resolveChatAttachmentMaxBytes", () => {
   });
 
   it("falls back to DEFAULT_CHAT_ATTACHMENT_MAX_MB when unset", () => {
-    expect(resolveChatAttachmentMaxBytes({} as Brikko StudioConfig)).toBe(DEFAULT_BYTES);
-    expect(resolveChatAttachmentMaxBytes({ agents: {} } as unknown as Brikko StudioConfig)).toBe(
+    expect(resolveChatAttachmentMaxBytes({} as BrikkoStudioConfig)).toBe(DEFAULT_BYTES);
+    expect(resolveChatAttachmentMaxBytes({ agents: {} } as unknown as BrikkoStudioConfig)).toBe(
       DEFAULT_BYTES,
     );
   });

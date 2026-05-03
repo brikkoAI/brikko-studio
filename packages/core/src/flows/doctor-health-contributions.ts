@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import type { probeGatewayMemoryStatus } from "../commands/doctor-gateway-health.js";
 import type { DoctorOptions, DoctorPrompter } from "../commands/doctor-prompter.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { buildGatewayConnectionDetails } from "../gateway/call.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { FlowContribution } from "./types.js";
@@ -9,7 +9,7 @@ import type { FlowContribution } from "./types.js";
 type DoctorFlowMode = "local" | "remote";
 
 type DoctorConfigResult = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   path?: string;
   shouldWriteConfig?: boolean;
   sourceConfigValid?: boolean;
@@ -21,8 +21,8 @@ type DoctorHealthFlowContext = {
   options: DoctorOptions;
   prompter: DoctorPrompter;
   configResult: DoctorConfigResult;
-  cfg: Brikko StudioConfig;
-  cfgForPersistence: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  cfgForPersistence: BrikkoStudioConfig;
   sourceConfigValid: boolean;
   configPath: string;
   env?: NodeJS.ProcessEnv;
@@ -37,7 +37,7 @@ type DoctorHealthContribution = FlowContribution & {
   run: (ctx: DoctorHealthFlowContext) => Promise<void>;
 };
 
-function resolveDoctorMode(cfg: Brikko StudioConfig): DoctorFlowMode {
+function resolveDoctorMode(cfg: BrikkoStudioConfig): DoctorFlowMode {
   return cfg.gateway?.mode === "remote" ? "remote" : "local";
 }
 

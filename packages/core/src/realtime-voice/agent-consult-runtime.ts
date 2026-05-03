@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import type { RunEmbeddedPiAgentParams } from "../agents/pi-embedded-runner/run/params.js";
 import type { SessionEntry } from "../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeLogger, PluginRuntimeCore } from "../plugins/runtime/types-core.js";
 import {
   buildRealtimeVoiceAgentConsultPrompt,
@@ -25,7 +25,7 @@ function resolveRealtimeVoiceAgentSandboxSessionKey(agentId: string, sessionKey:
 }
 
 export async function consultRealtimeVoiceAgent(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentRuntime: RealtimeVoiceAgentConsultRuntime;
   logger: Pick<RuntimeLogger, "warn">;
   sessionKey: string;

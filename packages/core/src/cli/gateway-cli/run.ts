@@ -11,7 +11,7 @@ import type {
 } from "../../config/config.js";
 import { formatConfigIssueSummary } from "../../config/issue-format.js";
 import { CONFIG_PATH, resolveGatewayPort, resolveStateDir } from "../../config/paths.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { hasConfiguredSecretInput } from "../../config/types.secrets.js";
 import {
   defaultGatewayBindMode,
@@ -218,7 +218,7 @@ function formatModeErrorList(modes: readonly string[]): string {
   return `${quoted.slice(0, -1).join(", ")}, or ${quoted[quoted.length - 1]}`;
 }
 
-async function maybeLogPendingControlUiBuild(cfg: Brikko StudioConfig): Promise<void> {
+async function maybeLogPendingControlUiBuild(cfg: BrikkoStudioConfig): Promise<void> {
   if (cfg.gateway?.controlUi?.enabled === false) {
     return;
   }
@@ -273,7 +273,7 @@ function getGatewayStartGuardErrors(params: {
 async function readGatewayStartupConfig(params: {
   startupTrace: ReturnType<typeof createGatewayCliStartupTrace>;
 }): Promise<{
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   snapshot: ConfigFileSnapshot | null;
   startupConfigSnapshotRead?: ReadConfigFileSnapshotWithPluginMetadataResult;
 }> {

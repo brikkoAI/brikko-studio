@@ -225,7 +225,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.brikko-studio.ai/cl
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['brikko-studio agents set-identity --agent main --name "Brikko Studio" --emoji "🦞"', "Set name + emoji."],
+  ['brikko-studio agents set-identity --agent main --name "BrikkoStudio" --emoji "🦞"', "Set name + emoji."],
   ["brikko-studio agents set-identity --agent main --avatar avatars/brikko-studio.png", "Set avatar path."],
   [
     "brikko-studio agents set-identity --workspace ~/.brikko-studio/workspace --from-identity",

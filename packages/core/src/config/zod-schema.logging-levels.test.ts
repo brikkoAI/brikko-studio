@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { Brikko StudioSchema } from "./zod-schema.js";
+import { BrikkoStudioSchema } from "./zod-schema.js";
 
-describe("Brikko StudioSchema logging levels", () => {
+describe("BrikkoStudioSchema logging levels", () => {
   it("accepts valid logging level values for level and consoleLevel", () => {
     expect(() =>
-      Brikko StudioSchema.parse({
+      BrikkoStudioSchema.parse({
         logging: {
           level: "debug",
           consoleLevel: "warn",
@@ -15,14 +15,14 @@ describe("Brikko StudioSchema logging levels", () => {
 
   it("rejects invalid logging level values", () => {
     expect(() =>
-      Brikko StudioSchema.parse({
+      BrikkoStudioSchema.parse({
         logging: {
           level: "loud",
         },
       }),
     ).toThrow();
     expect(() =>
-      Brikko StudioSchema.parse({
+      BrikkoStudioSchema.parse({
         logging: {
           consoleLevel: "verbose",
         },

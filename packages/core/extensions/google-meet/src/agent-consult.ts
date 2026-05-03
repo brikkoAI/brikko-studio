@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { PluginRuntime, RuntimeLogger } from "brikko-studio/plugin-sdk/plugin-runtime";
 import {
   buildRealtimeVoiceAgentConsultWorkingResponse,
@@ -38,9 +38,9 @@ export function submitGoogleMeetConsultWorkingResponse(
   });
 }
 
-export async function consultBrikko StudioAgentForGoogleMeet(params: {
+export async function consultBrikkoStudioAgentForGoogleMeet(params: {
   config: GoogleMeetConfig;
-  fullConfig: Brikko StudioConfig;
+  fullConfig: BrikkoStudioConfig;
   runtime: PluginRuntime;
   logger: RuntimeLogger;
   meetingSessionId: string;

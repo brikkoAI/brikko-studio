@@ -8,7 +8,7 @@ import {
   formatThreadBindingSpawnDisabledError,
   resolveThreadBindingSpawnPolicy,
 } from "brikko-studio/plugin-sdk/conversation-runtime";
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/core";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/core";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/string-coerce-runtime";
 import { resolveMatrixTargetIdentity } from "./target-ids.js";
 import {
@@ -103,7 +103,7 @@ function resolveMatrixBindingDeliveryOrigin(
 }
 
 export async function handleMatrixSubagentSpawning(
-  api: Brikko StudioPluginApi,
+  api: BrikkoStudioPluginApi,
   event: MatrixSubagentSpawningEvent,
 ): Promise<SpawningResult | undefined> {
   if (!event.threadRequested) {

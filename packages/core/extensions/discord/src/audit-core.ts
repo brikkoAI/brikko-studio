@@ -1,7 +1,7 @@
 import type {
   DiscordGuildChannelConfig,
   DiscordGuildEntry,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { isRecord, normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
@@ -77,14 +77,14 @@ export function collectDiscordAuditChannelIdsForGuilds(
 }
 
 export async function auditDiscordChannelPermissionsWithFetcher(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token: string;
   accountId?: string | null;
   channelIds: string[];
   timeoutMs: number;
   fetchChannelPermissions: (
     channelId: string,
-    params: { cfg: Brikko StudioConfig; token: string; accountId?: string },
+    params: { cfg: BrikkoStudioConfig; token: string; accountId?: string },
   ) => Promise<{
     permissions: string[];
   }>;

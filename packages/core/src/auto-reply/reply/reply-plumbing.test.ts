@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import type { SubagentRunRecord } from "../../agents/subagent-registry.js";
 import type { ChannelPlugin } from "../../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { formatDurationCompact } from "../../infra/format-time/format-duration.js";
 import { resetPluginRuntimeStateForTest, setActivePluginRegistry } from "../../plugins/runtime.js";
 import {
@@ -33,7 +33,7 @@ function createSlackThreadingPlugin(): ChannelPlugin {
 }
 
 describe("buildThreadingToolContext", () => {
-  const cfg = {} as Brikko StudioConfig;
+  const cfg = {} as BrikkoStudioConfig;
 
   afterEach(() => {
     resetPluginRuntimeStateForTest();
@@ -164,7 +164,7 @@ describe("buildThreadingToolContext", () => {
 
     const result = buildThreadingToolContext({
       sessionCtx,
-      config: { channels: { slack: { replyToMode: "all" } } } as Brikko StudioConfig,
+      config: { channels: { slack: { replyToMode: "all" } } } as BrikkoStudioConfig,
       hasRepliedRef: undefined,
     });
 
@@ -186,7 +186,7 @@ describe("buildThreadingToolContext", () => {
 
     const result = buildThreadingToolContext({
       sessionCtx,
-      config: { channels: { slack: { replyToMode: "all" } } } as Brikko StudioConfig,
+      config: { channels: { slack: { replyToMode: "all" } } } as BrikkoStudioConfig,
       hasRepliedRef: undefined,
     });
 
@@ -402,7 +402,7 @@ describe("subagents utils", () => {
     const run = {
       ...baseRun,
       label: [
-        "Brikko Studio runtime context (internal):",
+        "BrikkoStudio runtime context (internal):",
         "This context is runtime-generated, not user-authored. Keep internal details private.",
         "",
         "[Internal task completion event]",

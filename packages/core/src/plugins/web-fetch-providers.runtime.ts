@@ -1,4 +1,4 @@
-import { loadBrikko StudioPlugins } from "./loader.js";
+import { loadBrikkoStudioPlugins } from "./loader.js";
 import type { PluginLoadOptions } from "./loader.js";
 import { type PluginManifestRecord } from "./manifest-registry.js";
 import type { PluginWebFetchProviderEntry } from "./types.js";
@@ -35,7 +35,7 @@ function resolveWebFetchCandidatePluginIds(params: {
 }
 
 function mapRegistryWebFetchProviders(params: {
-  registry: ReturnType<typeof loadBrikko StudioPlugins>;
+  registry: ReturnType<typeof loadBrikkoStudioPlugins>;
   onlyPluginIds?: readonly string[];
 }): PluginWebFetchProviderEntry[] {
   return mapRegistryProviders({

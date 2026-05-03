@@ -79,7 +79,7 @@ function createThreadBinding(
 }
 
 function createPreflightArgs(params: {
-  cfg: import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
+  cfg: import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig;
   discordConfig: DiscordConfig;
   data: DiscordMessageEvent;
   client: DiscordClient;
@@ -177,7 +177,7 @@ async function runGuildPreflight(params: {
   guildId: string;
   message: import("../internal/discord.js").Message;
   discordConfig: DiscordConfig;
-  cfg?: import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
+  cfg?: import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig;
   guildEntries?: Parameters<typeof preflightDiscordMessage>[0]["guildEntries"];
   includeGuildObject?: boolean;
 }) {
@@ -218,7 +218,7 @@ async function runDmPreflight(params: {
 }
 
 async function runUnresolvedDmPreflight(params: {
-  cfg?: import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
+  cfg?: import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig;
   channelId: string;
   message: import("../internal/discord.js").Message;
   discordConfig: DiscordConfig;
@@ -329,7 +329,7 @@ describe("preflightDiscordMessage", () => {
       author: {
         id: "relay-bot-1",
         bot: true,
-        username: "Brikko Studio",
+        username: "BrikkoStudio",
       },
     });
 
@@ -823,7 +823,7 @@ describe("preflightDiscordMessage", () => {
       createPreflightArgs({
         cfg: {
           ...DEFAULT_PREFLIGHT_CFG,
-        } as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig,
+        } as import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig,
         discordConfig: {
           allowBots: true,
         } as DiscordConfig,
@@ -901,7 +901,7 @@ describe("preflightDiscordMessage", () => {
       get: vi.fn(async () => ({
         id: message.id,
         content: message.content,
-        mentions: [{ id: botId, username: "Brikko Studio", bot: true }],
+        mentions: [{ id: botId, username: "BrikkoStudio", bot: true }],
         mention_roles: [],
         mention_everyone: false,
       })),
@@ -989,7 +989,7 @@ describe("preflightDiscordMessage", () => {
               mentionPatterns: ["brikko-studio"],
             },
           },
-        } as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig,
+        } as import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig,
         discordConfig: {} as DiscordConfig,
         data: createGuildEvent({
           channelId,
@@ -1357,7 +1357,7 @@ describe("preflightDiscordMessage", () => {
               mentionPatterns: ["brikko-studio"],
             },
           },
-        } as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig,
+        } as import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig,
         discordConfig: {} as DiscordConfig,
         data: createGuildEvent({
           channelId,
@@ -1426,7 +1426,7 @@ describe("preflightDiscordMessage", () => {
               mentionPatterns: ["brikko-studio"],
             },
           },
-        } as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig,
+        } as import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig,
         discordConfig: {} as DiscordConfig,
         data: createGuildEvent({
           channelId,

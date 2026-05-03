@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   coerceSecretRef,
   ensureAuthProfileStore,
@@ -9,7 +9,7 @@ import { PROVIDER_ID } from "./models.js";
 
 export async function resolveFirstGithubToken(params: {
   agentDir?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 }): Promise<{
   githubToken: string;

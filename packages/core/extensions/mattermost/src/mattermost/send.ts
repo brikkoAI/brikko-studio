@@ -27,11 +27,11 @@ import {
   setInteractionSecret,
   type MattermostInteractiveButtonInput,
 } from "./interactions.js";
-import { loadOutboundMediaFromUrl, type Brikko StudioConfig } from "./runtime-api.js";
+import { loadOutboundMediaFromUrl, type BrikkoStudioConfig } from "./runtime-api.js";
 import { isMattermostId, resolveMattermostOpaqueTarget } from "./target-resolution.js";
 
 export type MattermostSendOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   botToken?: string;
   baseUrl?: string;
   accountId?: string;
@@ -306,7 +306,7 @@ async function resolveTargetChannelId(params: ResolveTargetChannelIdParams): Pro
 }
 
 type MattermostSendContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   token: string;
   baseUrl: string;

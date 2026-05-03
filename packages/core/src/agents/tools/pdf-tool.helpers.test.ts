@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 
 const pdfMetadataPlugins = vi.hoisted(() => [
   {
@@ -138,7 +138,7 @@ describe("pdf-tool.helpers", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     expect(coercePdfModelConfig(cfg)).toEqual({
       primary: ANTHROPIC_PDF_MODEL,
       fallbacks: ["google/gemini-2.5-pro"],

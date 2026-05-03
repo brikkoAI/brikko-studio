@@ -74,7 +74,7 @@ export function createAuthTestLifecycle(envKeys: string[]): AuthTestLifecycle {
   };
 }
 
-export function requireBrikko StudioAgentDir(): string {
+export function requireBrikkoStudioAgentDir(): string {
   const agentDir = process.env.BRIKKO_STUDIO_AGENT_DIR;
   if (!agentDir) {
     throw new Error("BRIKKO_STUDIO_AGENT_DIR not set");

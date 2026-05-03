@@ -5,15 +5,15 @@ import {
   resolvePluginAutoEnableManifestRegistry,
 } from "./plugin-auto-enable.shared.js";
 import type { PluginAutoEnableCandidate } from "./plugin-auto-enable.types.js";
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 
 export function detectPluginAutoEnableCandidates(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   manifestRegistry?: PluginManifestRegistry;
 }): PluginAutoEnableCandidate[] {
   const env = params.env ?? process.env;
-  const config = params.config ?? ({} as Brikko StudioConfig);
+  const config = params.config ?? ({} as BrikkoStudioConfig);
   if (!configMayNeedPluginAutoEnable(config, env)) {
     return [];
   }

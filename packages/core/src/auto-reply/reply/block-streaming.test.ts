@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   resolveBlockStreamingChunking,
   resolveEffectiveBlockStreamingConfig,
@@ -7,7 +7,7 @@ import {
 
 describe("resolveEffectiveBlockStreamingConfig", () => {
   it("applies ACP-style overrides while preserving chunk/coalescer bounds", () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const baseChunking = resolveBlockStreamingChunking(cfg, "discord");
     const resolved = resolveEffectiveBlockStreamingConfig({
       cfg,
@@ -60,7 +60,7 @@ describe("resolveEffectiveBlockStreamingConfig", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const resolved = resolveEffectiveBlockStreamingConfig({
       cfg,
@@ -79,7 +79,7 @@ describe("resolveEffectiveBlockStreamingConfig", () => {
           textChunkLimit: 4096,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const baseChunking = resolveBlockStreamingChunking(cfg, "discord");
     expect(baseChunking.maxChars).toBeLessThan(1800);

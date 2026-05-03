@@ -6,7 +6,7 @@ import {
   resolveDirectDmAuthorizationOutcome,
   resolveSenderCommandAuthorizationWithRuntime,
 } from "brikko-studio/plugin-sdk/command-auth";
-import type { MarkdownTableMode, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { MarkdownTableMode, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveInboundRouteEnvelopeBuilderWithRuntime } from "brikko-studio/plugin-sdk/inbound-envelope";
 import { resolveSendableOutboundReplyParts } from "brikko-studio/plugin-sdk/reply-payload";
 import {
@@ -51,7 +51,7 @@ import {
 export type ZaloMonitorOptions = {
   token: string;
   account: ResolvedZaloAccount;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   runtime: ZaloRuntimeEnv;
   abortSignal: AbortSignal;
   useWebhook?: boolean;
@@ -73,7 +73,7 @@ type ZaloWebhookModule = typeof import("./monitor.webhook.js");
 type ZaloProcessingContext = {
   token: string;
   account: ResolvedZaloAccount;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   runtime: ZaloRuntimeEnv;
   core: ZaloCoreRuntime;
   mediaMaxMb: number;
@@ -739,7 +739,7 @@ async function deliverZaloReply(params: {
   chatId: string;
   runtime: ZaloRuntimeEnv;
   core: ZaloCoreRuntime;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   webhookUrl?: string;
   webhookPath?: string;
   proxyUrl?: string;

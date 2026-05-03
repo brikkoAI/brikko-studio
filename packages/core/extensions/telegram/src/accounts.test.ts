@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import * as runtimeEnvModule from "brikko-studio/plugin-sdk/runtime-env";
 import { withEnv } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -28,7 +28,7 @@ function expectNoMissingDefaultWarning() {
 
 function resolveAccountWithEnv(
   env: Record<string, string>,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string,
 ) {
   return withEnv(env, () => resolveTelegramAccount({ cfg, ...(accountId ? { accountId } : {}) }));
@@ -110,7 +110,7 @@ describe("resolveTelegramAccount", () => {
 
   it("formats debug logs with inspect-style output when debug env is enabled", () => {
     withEnv({ TELEGRAM_BOT_TOKEN: "", BRIKKO_STUDIO_DEBUG_TELEGRAM_ACCOUNTS: "1" }, () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           telegram: { accounts: { work: { botToken: "tok-work" } } },
         },
@@ -138,7 +138,7 @@ describe("resolveTelegramAccount", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const accounts = listEnabledTelegramAccounts(cfg);
 
@@ -158,7 +158,7 @@ describe("resolveDefaultTelegramAccountId", () => {
   });
 
   it("warns when accounts.default is missing in multi-account setup (#32137)", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           accounts: { work: { botToken: "tok-work" }, alerts: { botToken: "tok-alerts" } },
@@ -172,7 +172,7 @@ describe("resolveDefaultTelegramAccountId", () => {
   });
 
   it("does not warn when accounts.default exists", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           accounts: { default: { botToken: "tok-default" }, work: { botToken: "tok-work" } },
@@ -185,7 +185,7 @@ describe("resolveDefaultTelegramAccountId", () => {
   });
 
   it("does not warn when defaultAccount is explicitly set", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           defaultAccount: "work",
@@ -199,7 +199,7 @@ describe("resolveDefaultTelegramAccountId", () => {
   });
 
   it("does not warn when only one non-default account is configured", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           accounts: { work: { botToken: "tok-work" } },
@@ -212,7 +212,7 @@ describe("resolveDefaultTelegramAccountId", () => {
   });
 
   it("warns only once per process lifetime", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           accounts: { work: { botToken: "tok-work" }, alerts: { botToken: "tok-alerts" } },
@@ -231,7 +231,7 @@ describe("resolveDefaultTelegramAccountId", () => {
   });
 
   it("prefers channels.telegram.defaultAccount when it matches a configured account", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           defaultAccount: "work",
@@ -244,7 +244,7 @@ describe("resolveDefaultTelegramAccountId", () => {
   });
 
   it("normalizes channels.telegram.defaultAccount before lookup", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           defaultAccount: "Router D",
@@ -257,7 +257,7 @@ describe("resolveDefaultTelegramAccountId", () => {
   });
 
   it("falls back when channels.telegram.defaultAccount is not configured", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           defaultAccount: "missing",
@@ -341,7 +341,7 @@ describe("resolveTelegramAccount allowFrom precedence", () => {
 
 describe("mergeTelegramAccountConfig", () => {
   it("inherits top-level policy fallback for named accounts", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           enabled: true,
@@ -377,7 +377,7 @@ describe("mergeTelegramAccountConfig", () => {
   });
 
   it("keeps top-level policy fallback when auth lives in accounts.default", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           enabled: true,
@@ -402,7 +402,7 @@ describe("mergeTelegramAccountConfig", () => {
   });
 
   it("drops account wildcard DM access when top-level allowFrom is restrictive", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           enabled: true,
@@ -428,7 +428,7 @@ describe("mergeTelegramAccountConfig", () => {
   });
 
   it("keeps explicit account allowlist entries while dropping a conflicting wildcard", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           enabled: true,
@@ -493,7 +493,7 @@ describe("resolveTelegramPollActionGateState", () => {
 });
 
 describe("resolveTelegramAccount groups inheritance (#30673)", () => {
-  const createMultiAccountGroupsConfig = (): Brikko StudioConfig => ({
+  const createMultiAccountGroupsConfig = (): BrikkoStudioConfig => ({
     channels: {
       telegram: {
         groups: { "-100123": { requireMention: false } },
@@ -505,7 +505,7 @@ describe("resolveTelegramAccount groups inheritance (#30673)", () => {
     },
   });
 
-  const createDefaultAccountGroupsConfig = (includeDevAccount: boolean): Brikko StudioConfig => ({
+  const createDefaultAccountGroupsConfig = (includeDevAccount: boolean): BrikkoStudioConfig => ({
     channels: {
       telegram: {
         groups: { "-100999": { requireMention: true } },

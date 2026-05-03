@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { listPluginCompatRecords } from "./compat/registry.js";
 import { normalizePluginsConfig } from "./config-state.js";
 import { hashJson } from "./installed-plugin-index-hash.js";
@@ -16,7 +16,7 @@ export function resolveCompatRegistryVersion(): string {
   );
 }
 
-export function resolveInstalledPluginIndexPolicyHash(config: Brikko StudioConfig | undefined): string {
+export function resolveInstalledPluginIndexPolicyHash(config: BrikkoStudioConfig | undefined): string {
   const normalized = normalizePluginsConfig(config?.plugins);
   const channelPolicy: Record<string, boolean> = {};
   const channels = config?.channels;

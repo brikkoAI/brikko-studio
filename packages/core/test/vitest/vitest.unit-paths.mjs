@@ -78,7 +78,7 @@ const sharedBaseExcludePatterns = [
   "apps/macos/.build/**",
   "**/node_modules/**",
   "**/vendor/**",
-  "dist/Brikko Studio.app/**",
+  "dist/BrikkoStudio.app/**",
   "**/*.live.test.ts",
   "**/*.e2e.test.ts",
 ];

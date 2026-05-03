@@ -180,7 +180,7 @@ async function resolveBinaryPath(binary: string): Promise<string> {
   }
 }
 
-export async function resolveBrikko StudioWrapperPath(
+export async function resolveBrikkoStudioWrapperPath(
   inputPath: string | undefined,
 ): Promise<string | undefined> {
   const trimmed = inputPath?.trim();
@@ -211,7 +211,7 @@ async function resolveCliProgramArguments(params: {
   nodePath?: string;
   wrapperPath?: string;
 }): Promise<GatewayProgramArgs> {
-  const wrapperPath = await resolveBrikko StudioWrapperPath(params.wrapperPath);
+  const wrapperPath = await resolveBrikkoStudioWrapperPath(params.wrapperPath);
   if (wrapperPath) {
     return { programArguments: [wrapperPath, ...params.args] };
   }

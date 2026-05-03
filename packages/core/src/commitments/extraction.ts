@@ -1,5 +1,5 @@
 import { resolveAgentConfig } from "../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveHeartbeatIntervalMs } from "../infra/heartbeat-summary.js";
 import { isRecord } from "../utils.js";
 import { resolveCommitmentsConfig } from "./config.js";
@@ -159,7 +159,7 @@ export function parseCommitmentExtractionOutput(raw: string): CommitmentExtracti
 }
 
 export async function hydrateCommitmentExtractionItem(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   item: Omit<CommitmentExtractionItem, "existingPending">;
 }): Promise<CommitmentExtractionItem> {
   const existingPending = await listPendingCommitmentsForScope({
@@ -191,7 +191,7 @@ function formatExistingPending(item: CommitmentExtractionItem) {
 }
 
 export function buildCommitmentExtractionPrompt(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   items: CommitmentExtractionItem[];
 }): string {
   const items = params.items.map((item) => ({
@@ -202,7 +202,7 @@ export function buildCommitmentExtractionPrompt(params: {
     assistantResponse: item.assistantText ?? "",
     existingPendingCommitments: formatExistingPending(item),
   }));
-  return `You are Brikko Studio's internal commitment extractor. This is a hidden background classification run. Do not address the user.
+  return `You are BrikkoStudio's internal commitment extractor. This is a hidden background classification run. Do not address the user.
 
 Create inferred follow-up commitments only. Exact user requests such as "remind me tomorrow", "schedule this", or "check in at 3" belong to cron/reminders and must be skipped.
 
@@ -237,7 +237,7 @@ function parseDueMs(raw: string | undefined): number | undefined {
 }
 
 function resolveMinimumDueMs(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   item: CommitmentExtractionItem;
   nowMs: number;
 }): number {
@@ -250,7 +250,7 @@ function resolveMinimumDueMs(params: {
 }
 
 export function validateCommitmentCandidates(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   items: CommitmentExtractionItem[];
   result: CommitmentExtractionBatchResult;
   nowMs?: number;
@@ -312,7 +312,7 @@ export function validateCommitmentCandidates(params: {
 }
 
 export async function persistCommitmentExtractionResult(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   items: CommitmentExtractionItem[];
   result: CommitmentExtractionBatchResult;
   nowMs?: number;

@@ -87,9 +87,9 @@ async function removeMacApp(runtime: RuntimeEnv, dryRun?: boolean) {
   if (process.platform !== "darwin") {
     return;
   }
-  await removePath("/Applications/Brikko Studio.app", runtime, {
+  await removePath("/Applications/BrikkoStudio.app", runtime, {
     dryRun,
-    label: "/Applications/Brikko Studio.app",
+    label: "/Applications/BrikkoStudio.app",
   });
 }
 
@@ -125,7 +125,7 @@ export async function uninstallCommand(runtime: RuntimeEnv, opts: UninstallOptio
         {
           value: "app",
           label: "macOS app",
-          hint: "/Applications/Brikko Studio.app",
+          hint: "/Applications/BrikkoStudio.app",
         },
       ],
       initialValues: ["service", "state", "workspace"],

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { AnyAgentTool } from "./tools/common.js";
 
 const mocks = vi.hoisted(() => {
@@ -26,7 +26,7 @@ const mocks = vi.hoisted(() => {
 });
 
 vi.mock("./brikko-studio-plugin-tools.js", () => ({
-  resolveBrikko StudioPluginToolsForOptions: () => [],
+  resolveBrikkoStudioPluginToolsForOptions: () => [],
 }));
 
 vi.mock("./brikko-studio-tools.nodes-workspace-guard.js", () => ({
@@ -121,7 +121,7 @@ vi.mock("../tts/tts.js", () => ({
   textToSpeech: mocks.textToSpeech,
 }));
 
-describe("createBrikko StudioTools TTS config wiring", () => {
+describe("createBrikkoStudioTools TTS config wiring", () => {
   beforeEach(() => {
     mocks.createCronToolOptions.mockClear();
     mocks.textToSpeech.mockClear();
@@ -140,13 +140,13 @@ describe("createBrikko StudioTools TTS config wiring", () => {
           },
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
-    const { __testing, createBrikko StudioTools } = await import("./brikko-studio-tools.js");
+    const { __testing, createBrikkoStudioTools } = await import("./brikko-studio-tools.js");
     __testing.setDepsForTest({ config: injectedConfig });
 
     try {
-      const tool = createBrikko StudioTools({
+      const tool = createBrikkoStudioTools({
         disableMessageTool: true,
         disablePluginTools: true,
       }).find((candidate) => candidate.name === "tts");
@@ -169,11 +169,11 @@ describe("createBrikko StudioTools TTS config wiring", () => {
   });
 
   it("keeps direct TTS tool guidance explicit even when the tool is available", async () => {
-    const { __testing, createBrikko StudioTools } = await import("./brikko-studio-tools.js");
+    const { __testing, createBrikkoStudioTools } = await import("./brikko-studio-tools.js");
     __testing.setDepsForTest({ config: {} });
 
     try {
-      const tool = createBrikko StudioTools({
+      const tool = createBrikkoStudioTools({
         disableMessageTool: true,
         disablePluginTools: true,
       }).find((candidate) => candidate.name === "tts");
@@ -194,13 +194,13 @@ describe("createBrikko StudioTools TTS config wiring", () => {
       agents: {
         list: [{ id: "reader" }, { id: "main" }],
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
-    const { __testing, createBrikko StudioTools } = await import("./brikko-studio-tools.js");
+    const { __testing, createBrikkoStudioTools } = await import("./brikko-studio-tools.js");
     __testing.setDepsForTest({ config: injectedConfig });
 
     try {
-      const tool = createBrikko StudioTools({
+      const tool = createBrikkoStudioTools({
         agentSessionKey: "agent:reader:telegram:chat:123",
         disableMessageTool: true,
         disablePluginTools: true,
@@ -236,13 +236,13 @@ describe("createBrikko StudioTools TTS config wiring", () => {
           },
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
-    const { __testing, createBrikko StudioTools } = await import("./brikko-studio-tools.js");
+    const { __testing, createBrikkoStudioTools } = await import("./brikko-studio-tools.js");
     __testing.setDepsForTest({ config: injectedConfig });
 
     try {
-      const tool = createBrikko StudioTools({
+      const tool = createBrikkoStudioTools({
         agentChannel: "feishu",
         agentAccountId: "feishu-main",
         disableMessageTool: true,
@@ -269,15 +269,15 @@ describe("createBrikko StudioTools TTS config wiring", () => {
   });
 });
 
-describe("createBrikko StudioTools cron context wiring", () => {
+describe("createBrikkoStudioTools cron context wiring", () => {
   beforeEach(() => {
     mocks.createCronToolOptions.mockClear();
   });
 
   it("passes preserved channel delivery context into the cron tool", async () => {
-    const { createBrikko StudioTools } = await import("./brikko-studio-tools.js");
+    const { createBrikkoStudioTools } = await import("./brikko-studio-tools.js");
 
-    createBrikko StudioTools({
+    createBrikkoStudioTools({
       agentSessionKey: "agent:main:matrix:channel:!abcdef1234567890:example.org",
       agentChannel: "matrix",
       agentAccountId: "bot-a",
@@ -301,9 +301,9 @@ describe("createBrikko StudioTools cron context wiring", () => {
   });
 
   it("uses agent route context when auto-threading context is unavailable", async () => {
-    const { createBrikko StudioTools } = await import("./brikko-studio-tools.js");
+    const { createBrikkoStudioTools } = await import("./brikko-studio-tools.js");
 
-    createBrikko StudioTools({
+    createBrikkoStudioTools({
       agentSessionKey: "agent:main:matrix:channel:!abcdef1234567890:example.org",
       agentChannel: "matrix",
       agentAccountId: "bot-a",
@@ -325,9 +325,9 @@ describe("createBrikko StudioTools cron context wiring", () => {
   });
 
   it("passes self-remove scope into the cron tool", async () => {
-    const { createBrikko StudioTools } = await import("./brikko-studio-tools.js");
+    const { createBrikkoStudioTools } = await import("./brikko-studio-tools.js");
 
-    createBrikko StudioTools({
+    createBrikkoStudioTools({
       agentSessionKey: "agent:main:cron:job-current",
       cronSelfRemoveOnlyJobId: "job-current",
       disableMessageTool: true,

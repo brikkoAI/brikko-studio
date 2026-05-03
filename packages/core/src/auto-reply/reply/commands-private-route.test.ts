@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ChannelPlugin } from "../../channels/plugins/types.public.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { ExecApprovalRequest } from "../../infra/exec-approvals.js";
 import { resetPluginRuntimeStateForTest, setActivePluginRegistry } from "../../plugins/runtime.js";
 import {
@@ -39,7 +39,7 @@ function createOwnerDerivedApprovalChannelPlugin(params: {
   id: "telegram";
   ownerPrefixes: string[];
 }): ChannelPlugin {
-  const resolveOwnerTargets = (cfg: Brikko StudioConfig) =>
+  const resolveOwnerTargets = (cfg: BrikkoStudioConfig) =>
     (cfg.commands?.ownerAllowFrom ?? [])
       .map((owner) => String(owner))
       .flatMap((owner) => {
@@ -89,7 +89,7 @@ function registerApprovalChannelPlugins(plugins: ChannelPlugin[]) {
   );
 }
 
-function buildCommandParams(cfg: Brikko StudioConfig): HandleCommandsParams {
+function buildCommandParams(cfg: BrikkoStudioConfig): HandleCommandsParams {
   return {
     cfg,
     ctx: {
@@ -162,7 +162,7 @@ describe("resolvePrivateCommandRouteTargets", () => {
         commands: {
           ownerAllowFrom: ["telegram:849985193", "discord:493655423946194964"],
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
       request: buildApprovalRequest(),
     });
 
@@ -205,7 +205,7 @@ describe("resolvePrivateCommandRouteTargets", () => {
             "whatsapp:+15555550100",
           ],
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
       request: buildApprovalRequest(),
     });
 
@@ -236,7 +236,7 @@ describe("resolvePrivateCommandRouteTargets", () => {
         commands: {
           ownerAllowFrom: ["telegram:849985193"],
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
       request: buildApprovalRequest(),
     });
 
@@ -272,7 +272,7 @@ describe("resolvePrivateCommandRouteTargets", () => {
             botToken: "test-token",
           },
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
       request: buildApprovalRequest(),
     });
 

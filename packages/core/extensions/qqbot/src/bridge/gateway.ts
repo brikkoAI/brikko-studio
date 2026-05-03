@@ -7,7 +7,7 @@
  */
 
 import { resolveRuntimeServiceVersion } from "brikko-studio/plugin-sdk/cli-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { EngineAdapters } from "../engine/adapter/index.js";
 import {
   startGateway as coreStartGateway,
@@ -40,7 +40,7 @@ initSender({
 export interface GatewayContext {
   account: ResolvedQQBotAccount;
   abortSignal: AbortSignal;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   onReady?: (data: unknown) => void;
   onResumed?: (data: unknown) => void;
   onError?: (error: Error) => void;

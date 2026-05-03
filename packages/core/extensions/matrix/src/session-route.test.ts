@@ -2,12 +2,12 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import { resolveMatrixOutboundSessionRoute } from "./session-route.js";
 
 const tempDirs = new Set<string>();
 const currentDmSessionKey = "agent:main:matrix:channel:!dm:example.org";
-type MatrixChannelConfig = NonNullable<NonNullable<Brikko StudioConfig["channels"]>["matrix"]>;
+type MatrixChannelConfig = NonNullable<NonNullable<BrikkoStudioConfig["channels"]>["matrix"]>;
 
 const perRoomDmMatrixConfig = {
   dm: {
@@ -37,7 +37,7 @@ function createTempStore(entries: Record<string, unknown>): string {
 function createMatrixRouteConfig(
   entries: Record<string, unknown>,
   matrix: MatrixChannelConfig = perRoomDmMatrixConfig,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return {
     session: {
       store: createTempStore(entries),
@@ -45,7 +45,7 @@ function createMatrixRouteConfig(
     channels: {
       matrix,
     },
-  } satisfies Brikko StudioConfig;
+  } satisfies BrikkoStudioConfig;
 }
 
 function createStoredDirectDmSession(
@@ -110,7 +110,7 @@ function createStoredChannelSession(): Record<string, unknown> {
   };
 }
 
-function resolveUserRoute(params: { cfg: Brikko StudioConfig; accountId?: string; target?: string }) {
+function resolveUserRoute(params: { cfg: BrikkoStudioConfig; accountId?: string; target?: string }) {
   const target = params.target ?? "@alice:example.org";
   return resolveMatrixOutboundSessionRoute({
     cfg: params.cfg,

@@ -22,7 +22,7 @@ const hookMocks = vi.hoisted(() => ({
 }));
 
 let cfg: Record<string, unknown> = {};
-let lastCreateBrikko StudioToolsContext: Record<string, unknown> | undefined;
+let lastCreateBrikkoStudioToolsContext: Record<string, unknown> | undefined;
 
 // Perf: keep this suite pure unit. Mock heavyweight config/session modules.
 vi.mock("../config/config.js", () => ({
@@ -103,8 +103,8 @@ vi.mock("../agents/brikko-studio-tools.js", () => {
       execute: async () => ({
         ok: true,
         route: {
-          agentTo: lastCreateBrikko StudioToolsContext?.agentTo,
-          agentThreadId: lastCreateBrikko StudioToolsContext?.agentThreadId,
+          agentTo: lastCreateBrikkoStudioToolsContext?.agentTo,
+          agentThreadId: lastCreateBrikkoStudioToolsContext?.agentThreadId,
         },
       }),
     },
@@ -198,8 +198,8 @@ vi.mock("../agents/brikko-studio-tools.js", () => {
   ];
 
   return {
-    createBrikko StudioTools: (ctx: Record<string, unknown>) => {
-      lastCreateBrikko StudioToolsContext = ctx;
+    createBrikkoStudioTools: (ctx: Record<string, unknown>) => {
+      lastCreateBrikkoStudioToolsContext = ctx;
       return ctx.disablePluginTools ? tools.filter((tool) => tool.name !== "browser") : tools;
     },
   };
@@ -268,7 +268,7 @@ beforeEach(() => {
   delete process.env.BRIKKO_STUDIO_GATEWAY_PASSWORD;
   pluginHttpHandlers = [];
   cfg = {};
-  lastCreateBrikko StudioToolsContext = undefined;
+  lastCreateBrikkoStudioToolsContext = undefined;
   pluginToolMetaState.clear();
   pluginToolMetaState.set("plugin_doctor", { pluginId: "test-plugin", optional: true });
   hookMocks.resolveToolLoopDetectionConfig.mockClear();
@@ -440,8 +440,8 @@ describe("POST /tools/invoke", () => {
     const body = await res.json();
     expect(body.ok).toBe(true);
     expect(body).toHaveProperty("result");
-    expect(lastCreateBrikko StudioToolsContext?.allowMediaInvokeCommands).toBe(true);
-    expect(lastCreateBrikko StudioToolsContext?.disablePluginTools).toBe(true);
+    expect(lastCreateBrikkoStudioToolsContext?.allowMediaInvokeCommands).toBe(true);
+    expect(lastCreateBrikkoStudioToolsContext?.disablePluginTools).toBe(true);
     expect(hookMocks.runBeforeToolCallHook).toHaveBeenCalledWith(
       expect.objectContaining({
         toolName: "agents_list",
@@ -459,7 +459,7 @@ describe("POST /tools/invoke", () => {
     const res = await invokeAgentsListAuthed({ sessionKey: "main" });
 
     expect(res.status).toBe(200);
-    expect(lastCreateBrikko StudioToolsContext?.allowGatewaySubagentBinding).toBe(true);
+    expect(lastCreateBrikkoStudioToolsContext?.allowGatewaySubagentBinding).toBe(true);
   });
 
   it("keeps plugin tools enabled for non-core tool invokes", async () => {
@@ -472,7 +472,7 @@ describe("POST /tools/invoke", () => {
     });
 
     expect(res.status).toBe(200);
-    expect(lastCreateBrikko StudioToolsContext?.disablePluginTools).toBe(false);
+    expect(lastCreateBrikkoStudioToolsContext?.disablePluginTools).toBe(false);
   });
 
   it("allows the requested plugin tool through Gateway profile filtering", async () => {
@@ -489,7 +489,7 @@ describe("POST /tools/invoke", () => {
 
     const body = await expectOkInvokeResponse(res);
     expect(body.result).toMatchObject({ ok: true, permissionFlow: true });
-    expect(lastCreateBrikko StudioToolsContext?.pluginToolAllowlist).toEqual(
+    expect(lastCreateBrikkoStudioToolsContext?.pluginToolAllowlist).toEqual(
       expect.arrayContaining(["plugin_doctor"]),
     );
   });
@@ -540,7 +540,7 @@ describe("POST /tools/invoke", () => {
       sessionKey: "main",
     });
     expect(writeRes.status).toBe(200);
-    expect(lastCreateBrikko StudioToolsContext?.senderIsOwner).toBe(false);
+    expect(lastCreateBrikkoStudioToolsContext?.senderIsOwner).toBe(false);
 
     const adminRes = await invokeTool({
       port: sharedPort,
@@ -549,7 +549,7 @@ describe("POST /tools/invoke", () => {
       sessionKey: "main",
     });
     expect(adminRes.status).toBe(200);
-    expect(lastCreateBrikko StudioToolsContext?.senderIsOwner).toBe(true);
+    expect(lastCreateBrikkoStudioToolsContext?.senderIsOwner).toBe(true);
   });
 
   it("uses before_tool_call adjusted params for HTTP tool execution", async () => {
@@ -945,7 +945,7 @@ describe("POST /tools/invoke", () => {
 
     const body = await expectOkInvokeResponse(res);
     expect(body.result).toEqual({ ok: true, result: "browser" });
-    expect(lastCreateBrikko StudioToolsContext?.disablePluginTools).toBe(false);
+    expect(lastCreateBrikkoStudioToolsContext?.disablePluginTools).toBe(false);
   });
 });
 
@@ -967,7 +967,7 @@ describe("tools.invoke Gateway RPC", () => {
       output: { ok: true, result: [] },
       source: "core",
     });
-    expect(lastCreateBrikko StudioToolsContext?.allowGatewaySubagentBinding).toBe(true);
+    expect(lastCreateBrikkoStudioToolsContext?.allowGatewaySubagentBinding).toBe(true);
     expect(hookMocks.runBeforeToolCallHook).toHaveBeenCalledWith(
       expect.objectContaining({
         approvalMode: "report",

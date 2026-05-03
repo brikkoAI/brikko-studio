@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   __testing as sessionBindingTesting,
   getSessionBindingService,
@@ -8,7 +8,7 @@ import { __testing, createBlueBubblesConversationBindingManager } from "./conver
 
 const baseCfg = {
   session: { mainKey: "main", scope: "per-sender" },
-} satisfies Brikko StudioConfig;
+} satisfies BrikkoStudioConfig;
 
 describe("BlueBubbles conversation bindings", () => {
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { SpeechProviderPlugin } from "../plugins/types.js";
 import {
   createSpeechProviderRegistry,
@@ -22,8 +22,8 @@ function createSpeechProvider(id: string, aliases?: string[]): SpeechProviderPlu
 }
 
 describe("speech provider registry", () => {
-  const getProviderCalls: Array<{ providerId: string; cfg?: Brikko StudioConfig }> = [];
-  const listProvidersCalls: Array<{ cfg?: Brikko StudioConfig }> = [];
+  const getProviderCalls: Array<{ providerId: string; cfg?: BrikkoStudioConfig }> = [];
+  const listProvidersCalls: Array<{ cfg?: BrikkoStudioConfig }> = [];
   let providers: SpeechProviderPlugin[] = [];
   let directProvider: SpeechProviderPlugin | undefined;
   let registry: ReturnType<typeof createSpeechProviderRegistry>;
@@ -46,7 +46,7 @@ describe("speech provider registry", () => {
   });
 
   it("lists providers from the speech capability runtime", () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     providers = [createSpeechProvider("demo-speech")];
 
     expect(registry.listSpeechProviders(cfg).map((provider) => provider.id)).toEqual([
@@ -56,7 +56,7 @@ describe("speech provider registry", () => {
   });
 
   it("gets providers by normalized id through the capability runtime", () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     directProvider = createSpeechProvider("microsoft", ["edge"]);
 
     expect(registry.getSpeechProvider(" MICROSOFT ", cfg)).toBe(directProvider);

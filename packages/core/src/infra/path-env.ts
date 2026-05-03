@@ -4,7 +4,7 @@ import path from "node:path";
 import { resolveBrewPathDirs } from "./brew.js";
 import { isTruthyEnvValue } from "./env.js";
 
-type EnsureBrikko StudioPathOpts = {
+type EnsureBrikkoStudioPathOpts = {
   execPath?: string;
   cwd?: string;
   homeDir?: string;
@@ -49,7 +49,7 @@ function mergePath(params: { existing: string; prepend?: string[]; append?: stri
   return merged.join(path.delimiter);
 }
 
-function candidateBinDirs(opts: EnsureBrikko StudioPathOpts): { prepend: string[]; append: string[] } {
+function candidateBinDirs(opts: EnsureBrikkoStudioPathOpts): { prepend: string[]; append: string[] } {
   const execPath = opts.execPath ?? process.execPath;
   const cwd = opts.cwd ?? process.cwd();
   const homeDir = opts.homeDir ?? os.homedir();
@@ -59,7 +59,7 @@ function candidateBinDirs(opts: EnsureBrikko StudioPathOpts): { prepend: string[
   const append: string[] = [];
 
   // Keep the active runtime directory ahead of PATH hardening so shebang-based
-  // subprocesses keep using the same Node/Bun the current Brikko Studio process is on.
+  // subprocesses keep using the same Node/Bun the current BrikkoStudio process is on.
   try {
     const execDir = path.dirname(execPath);
     if (isExecutable(execPath)) {
@@ -124,7 +124,7 @@ function candidateBinDirs(opts: EnsureBrikko StudioPathOpts): { prepend: string[
  * Best-effort PATH bootstrap so skills that require the `brikko-studio` CLI can run
  * under launchd/minimal environments (and inside the macOS app bundle).
  */
-export function ensureBrikko StudioCliOnPath(opts: EnsureBrikko StudioPathOpts = {}) {
+export function ensureBrikkoStudioCliOnPath(opts: EnsureBrikkoStudioPathOpts = {}) {
   if (isTruthyEnvValue(process.env.BRIKKO_STUDIO_PATH_BOOTSTRAPPED)) {
     return;
   }

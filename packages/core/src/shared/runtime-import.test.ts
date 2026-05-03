@@ -49,9 +49,9 @@ describe("runtime-import", () => {
 
     expect(
       resolveRuntimeImportSpecifier("file:///C:/Users/alice/brikko-studio/dist/subagent-registry.js", [
-        "D:\\Brikko Studio\\dist\\subagent-registry.runtime.js",
+        "D:\\BrikkoStudio\\dist\\subagent-registry.runtime.js",
       ]),
-    ).toBe("file:///D:/Brikko Studio/dist/subagent-registry.runtime.js");
+    ).toBe("file:///D:/BrikkoStudio/dist/subagent-registry.runtime.js");
   });
 
   it("keeps non-Windows import paths unchanged", () => {

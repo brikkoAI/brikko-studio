@@ -115,7 +115,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     });
   });
 
-  it("installs a missing configured Brikko Studio channel plugin from npm by default", async () => {
+  it("installs a missing configured BrikkoStudio channel plugin from npm by default", async () => {
     mocks.listChannelPluginCatalogEntries.mockReturnValue([
       {
         id: "matrix",
@@ -262,7 +262,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     expect(result.warnings).toEqual([]);
   });
 
-  it("falls back to npm when an Brikko Studio channel plugin is not on ClawHub", async () => {
+  it("falls back to npm when an BrikkoStudio channel plugin is not on ClawHub", async () => {
     mocks.installPluginFromClawHub.mockResolvedValueOnce({
       ok: false,
       code: "package_not_found",
@@ -304,7 +304,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     expect(result.warnings).toEqual([]);
   });
 
-  it("honors npm-first catalog metadata for missing Brikko Studio channel plugins", async () => {
+  it("honors npm-first catalog metadata for missing BrikkoStudio channel plugins", async () => {
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce({
       ok: true,
       pluginId: "twitch",

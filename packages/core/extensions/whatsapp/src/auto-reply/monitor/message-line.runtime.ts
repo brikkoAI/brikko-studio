@@ -1,11 +1,11 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export {
   formatInboundEnvelope,
   type EnvelopeFormatOptions,
 } from "brikko-studio/plugin-sdk/channel-envelope";
 
-type WhatsAppMessagePrefixConfig = Brikko StudioConfig;
+type WhatsAppMessagePrefixConfig = BrikkoStudioConfig;
 
 function normalizeAgentId(agentId: string): string {
   return agentId.trim().toLowerCase() || "main";

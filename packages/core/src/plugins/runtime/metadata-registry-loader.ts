@@ -1,5 +1,5 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
-import { loadBrikko StudioPlugins } from "../loader.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
+import { loadBrikkoStudioPlugins } from "../loader.js";
 import type { PluginManifestRegistry } from "../manifest-registry.js";
 import { hasExplicitPluginIdScope } from "../plugin-scope.js";
 import type { PluginRegistry } from "../registry.js";
@@ -11,8 +11,8 @@ import {
 } from "./load-context.js";
 
 export function loadPluginMetadataRegistrySnapshot(options?: {
-  config?: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   logger?: PluginLogger;
   workspaceDir?: string;
@@ -23,7 +23,7 @@ export function loadPluginMetadataRegistrySnapshot(options?: {
 }): PluginRegistry {
   const context = options?.runtimeContext ?? resolvePluginRuntimeLoadContext(options);
 
-  return loadBrikko StudioPlugins(
+  return loadBrikkoStudioPlugins(
     buildPluginRuntimeLoadOptions(context, {
       ...(options?.config !== undefined ? { config: options.config } : {}),
       ...(options?.activationSourceConfig !== undefined

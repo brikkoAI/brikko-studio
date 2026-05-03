@@ -1,10 +1,10 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { ConfigFileSnapshot, ModelDefinitionConfig, Brikko StudioConfig } from "../config/types.js";
+import type { ConfigFileSnapshot, ModelDefinitionConfig, BrikkoStudioConfig } from "../config/types.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
 import { buildTestConfigSnapshot } from "./test-helpers.config-snapshots.js";
 
 const applyPluginAutoEnable = vi.hoisted(() =>
-  vi.fn((params: { config: Brikko StudioConfig }) => ({
+  vi.fn((params: { config: BrikkoStudioConfig }) => ({
     config: params.config,
     changes: [] as string[],
     autoEnabledReasons: {} as Record<string, string[]>,
@@ -70,7 +70,7 @@ vi.mock("../config/paths.js", () => ({
 }));
 
 vi.mock("../config/runtime-overrides.js", () => ({
-  applyConfigOverrides: vi.fn((config: Brikko StudioConfig) => config),
+  applyConfigOverrides: vi.fn((config: BrikkoStudioConfig) => config),
 }));
 
 vi.mock("../config/recovery-policy.js", () => ({
@@ -97,7 +97,7 @@ vi.mock("../config/mutate.js", () => ({
 }));
 
 vi.mock("../config/validation.js", () => ({
-  validateConfigObjectWithPlugins: vi.fn((config: Brikko StudioConfig) => ({
+  validateConfigObjectWithPlugins: vi.fn((config: BrikkoStudioConfig) => ({
     ok: true,
     config,
     warnings: [],
@@ -105,7 +105,7 @@ vi.mock("../config/validation.js", () => ({
 }));
 
 vi.mock("../config/plugin-auto-enable.js", () => ({
-  applyPluginAutoEnable: (params: { config: Brikko StudioConfig }) => applyPluginAutoEnable(params),
+  applyPluginAutoEnable: (params: { config: BrikkoStudioConfig }) => applyPluginAutoEnable(params),
 }));
 
 vi.mock("./config-recovery-notice.js", () => ({
@@ -122,7 +122,7 @@ const validConfig = {
   gateway: {
     mode: "local",
   },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 function testModel(id: string, name: string): ModelDefinitionConfig {
   return {
@@ -144,7 +144,7 @@ function testModel(id: string, name: string): ModelDefinitionConfig {
 function buildSnapshot(params: {
   valid: boolean;
   raw: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): ConfigFileSnapshot {
   return buildTestConfigSnapshot({
     path: configPath,
@@ -152,7 +152,7 @@ function buildSnapshot(params: {
     raw: params.raw,
     parsed: params.config ?? null,
     valid: params.valid,
-    config: params.config ?? ({} as Brikko StudioConfig),
+    config: params.config ?? ({} as BrikkoStudioConfig),
     issues: params.valid ? [] : [{ path: "gateway.mode", message: "Expected 'local' or 'remote'" }],
     legacyIssues: [],
   });
@@ -222,7 +222,7 @@ describe("gateway startup config recovery", () => {
           browser: { enabled: false },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const runtimeConfig = {
       ...sourceConfig,
       plugins: {
@@ -238,7 +238,7 @@ describe("gateway startup config recovery", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const snapshot = {
       ...buildTestConfigSnapshot({
         path: configPath,
@@ -341,13 +341,13 @@ describe("gateway startup config recovery", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     const autoEnabledConfig = {
       ...sourceConfig,
       channels: {
         telegram: { enabled: true },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     const initialSnapshot = {
       ...buildTestConfigSnapshot({
         path: configPath,
@@ -504,7 +504,7 @@ describe("gateway startup config recovery", () => {
         heartbeat: { model: "anthropic/claude-3-5-haiku-20241022", every: "30m" },
       },
       valid: false,
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       issues: [
         {
           path: "heartbeat",
@@ -568,12 +568,12 @@ describe("gateway startup config recovery", () => {
             feishu: { enabled: true },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       issues: [
         {
           path: "plugins.entries.feishu",
           message:
-            "plugin feishu: plugin requires Brikko Studio >=2026.4.23, but this host is 2026.4.22; skipping load",
+            "plugin feishu: plugin requires BrikkoStudio >=2026.4.23, but this host is 2026.4.22; skipping load",
         },
       ],
       legacyIssues: [],
@@ -599,7 +599,7 @@ describe("gateway startup config recovery", () => {
     expect(configIo.recoverConfigFromLastKnownGood).not.toHaveBeenCalled();
     expect(configIo.recoverConfigFromJsonRootSuffix).not.toHaveBeenCalled();
     expect(log.warn).toHaveBeenCalledWith(
-      `gateway: skipped plugin config validation issue at plugins.entries.feishu: plugin feishu: plugin requires Brikko Studio >=2026.4.23, but this host is 2026.4.22; skipping load. Run "brikko-studio doctor --fix" to quarantine the plugin config.`,
+      `gateway: skipped plugin config validation issue at plugins.entries.feishu: plugin feishu: plugin requires BrikkoStudio >=2026.4.23, but this host is 2026.4.22; skipping load. Run "brikko-studio doctor --fix" to quarantine the plugin config.`,
     );
     expect(recoveryNotice.enqueueConfigRecoveryNotice).not.toHaveBeenCalled();
   });
@@ -632,7 +632,7 @@ describe("gateway startup config recovery", () => {
             feishu: { enabled: true },
           },
         },
-      } as unknown as Brikko StudioConfig,
+      } as unknown as BrikkoStudioConfig,
       issues: [
         {
           path: "gateway.mode",
@@ -690,7 +690,7 @@ describe("gateway startup config recovery", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     const invalidSnapshot = buildTestConfigSnapshot({
       path: configPath,
       exists: true,

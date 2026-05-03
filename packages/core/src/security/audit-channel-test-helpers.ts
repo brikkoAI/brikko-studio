@@ -1,14 +1,14 @@
 import type { ChannelPlugin } from "../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
 export function stubAuditChannelPlugin(params: {
   id: string;
   label: string;
   commands: ChannelPlugin["commands"];
   collectAuditFindings: NonNullable<ChannelPlugin["security"]>["collectAuditFindings"];
-  resolveAccount: (cfg: Brikko StudioConfig, accountId: string | null | undefined) => unknown;
-  inspectAccount?: (cfg: Brikko StudioConfig, accountId: string | null | undefined) => unknown;
-  isConfigured?: (account: unknown, cfg: Brikko StudioConfig) => boolean;
+  resolveAccount: (cfg: BrikkoStudioConfig, accountId: string | null | undefined) => unknown;
+  inspectAccount?: (cfg: BrikkoStudioConfig, accountId: string | null | undefined) => unknown;
+  isConfigured?: (account: unknown, cfg: BrikkoStudioConfig) => boolean;
 }): ChannelPlugin {
   return {
     id: params.id,

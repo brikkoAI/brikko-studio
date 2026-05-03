@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { OnboardOptions } from "../commands/onboard-types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import type { MigrationProviderPlugin } from "../plugins/types.js";
 import type { RuntimeEnv } from "../runtime.js";
@@ -43,14 +43,14 @@ async function hasDirectoryEntries(candidate: string): Promise<boolean> {
   }
 }
 
-function hasMeaningfulConfig(config: Brikko StudioConfig): boolean {
+function hasMeaningfulConfig(config: BrikkoStudioConfig): boolean {
   return Object.keys(config as Record<string, unknown>).some(
     (key) => !MEANINGFUL_CONFIG_IGNORED_KEYS.has(key),
   );
 }
 
 export async function inspectSetupMigrationFreshness(params: {
-  baseConfig: Brikko StudioConfig;
+  baseConfig: BrikkoStudioConfig;
   stateDir: string;
   workspaceDir: string;
 }): Promise<{ fresh: boolean; reasons: string[] }> {
@@ -80,7 +80,7 @@ function assertFreshSetupMigrationTarget(freshness: {
   }
   throw new Error(
     [
-      "Migration import during onboarding requires a fresh Brikko Studio setup.",
+      "Migration import during onboarding requires a fresh BrikkoStudio setup.",
       "Create a fresh setup or reset config, credentials, sessions, and workspace before importing.",
       "Backup plus overwrite/merge imports are feature-gated for now.",
       "Existing setup:",
@@ -90,7 +90,7 @@ function assertFreshSetupMigrationTarget(freshness: {
 }
 
 export async function detectSetupMigrationSources(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   runtime: RuntimeEnv;
 }): Promise<SetupMigrationDetection[]> {
   const [
@@ -148,7 +148,7 @@ function resolveImportSourceDefault(params: {
 
 async function selectSetupMigrationProvider(params: {
   opts: OnboardOptions;
-  baseConfig: Brikko StudioConfig;
+  baseConfig: BrikkoStudioConfig;
   detections: readonly SetupMigrationDetection[];
   prompter: WizardPrompter;
 }): Promise<{
@@ -202,11 +202,11 @@ async function selectSetupMigrationProvider(params: {
 
 export async function runSetupMigrationImport(params: {
   opts: OnboardOptions;
-  baseConfig: Brikko StudioConfig;
+  baseConfig: BrikkoStudioConfig;
   detections: readonly SetupMigrationDetection[];
   prompter: WizardPrompter;
   runtime: RuntimeEnv;
-  commitConfigFile: (config: Brikko StudioConfig) => Promise<Brikko StudioConfig>;
+  commitConfigFile: (config: BrikkoStudioConfig) => Promise<BrikkoStudioConfig>;
 }): Promise<void> {
   const [
     { applyLocalSetupWorkspaceConfig, applySkipBootstrapConfig },

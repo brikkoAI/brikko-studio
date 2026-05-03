@@ -13,7 +13,7 @@ const WEB_PROVIDER_SECRET_CONFIGS = [
 
 type WebProviderSecretConfig = (typeof WEB_PROVIDER_SECRET_CONFIGS)[number];
 
-function createPluginBrikko StudioConfigSecretTargetEntry(
+function createPluginBrikkoStudioConfigSecretTargetEntry(
   pluginId: string,
   configPath: string,
 ): SecretTargetRegistryEntry {
@@ -57,7 +57,7 @@ function listBundledWebProviderSecretTargetRegistryEntries(
         hasWebProviderContract(record, config.contract) &&
         hasSensitiveConfigHint(record, config.configPath)
       ) {
-        entries.push(createPluginBrikko StudioConfigSecretTargetEntry(record.id, config.configPath));
+        entries.push(createPluginBrikkoStudioConfigSecretTargetEntry(record.id, config.configPath));
       }
     }
   }
@@ -72,7 +72,7 @@ function listBundledPluginConfigSecretTargetRegistryEntries(
   for (const record of bundledPlugins) {
     const secretInputs = record.configContracts?.secretInputs?.paths ?? [];
     for (const secretInput of secretInputs) {
-      const entry = createPluginBrikko StudioConfigSecretTargetEntry(record.id, secretInput.path);
+      const entry = createPluginBrikkoStudioConfigSecretTargetEntry(record.id, secretInput.path);
       const key = `${entry.configFile}:${entry.pathPattern}`;
       if (seen.has(key)) {
         continue;

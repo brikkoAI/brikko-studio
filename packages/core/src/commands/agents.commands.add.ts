@@ -222,7 +222,7 @@ export async function agentsAddCommand(
 
   const prompter = createClackPrompter();
   try {
-    await prompter.intro("Add Brikko Studio agent");
+    await prompter.intro("Add BrikkoStudio agent");
     const name =
       nameInput ??
       (await prompter.text({

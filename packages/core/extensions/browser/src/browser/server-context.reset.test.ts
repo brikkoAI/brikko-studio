@@ -23,7 +23,7 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-function localBrikko StudioProfile(): Parameters<typeof createProfileResetOps>[0]["profile"] {
+function localBrikkoStudioProfile(): Parameters<typeof createProfileResetOps>[0]["profile"] {
   return {
     name: "brikko-studio",
     cdpUrl: "http://127.0.0.1:18800",
@@ -37,10 +37,10 @@ function localBrikko StudioProfile(): Parameters<typeof createProfileResetOps>[0
   };
 }
 
-function createLocalBrikko StudioResetOps(
+function createLocalBrikkoStudioResetOps(
   params: Omit<Parameters<typeof createProfileResetOps>[0], "profile">,
 ) {
-  return createProfileResetOps({ profile: localBrikko StudioProfile(), ...params });
+  return createProfileResetOps({ profile: localBrikkoStudioProfile(), ...params });
 }
 
 function createStatelessResetOps(profile: Parameters<typeof createProfileResetOps>[0]["profile"]) {
@@ -49,14 +49,14 @@ function createStatelessResetOps(profile: Parameters<typeof createProfileResetOp
     getProfileState: () => ({ profile: {} as never, running: null }),
     stopRunningBrowser: vi.fn(async () => ({ stopped: false })),
     isHttpReachable: vi.fn(async () => false),
-    resolveBrikko StudioUserDataDir: (name: string) => `/tmp/${name}`,
+    resolveBrikkoStudioUserDataDir: (name: string) => `/tmp/${name}`,
   });
 }
 
 describe("createProfileResetOps", () => {
   it("rejects remote non-extension profiles", async () => {
     const ops = createStatelessResetOps({
-      ...localBrikko StudioProfile(),
+      ...localBrikkoStudioProfile(),
       name: "remote",
       cdpUrl: "https://browserless.example/chrome",
       cdpHost: "browserless.example",
@@ -80,11 +80,11 @@ describe("createProfileResetOps", () => {
       running: { pid: 1 } as never,
     }));
 
-    const ops = createLocalBrikko StudioResetOps({
+    const ops = createLocalBrikkoStudioResetOps({
       getProfileState,
       stopRunningBrowser,
       isHttpReachable,
-      resolveBrikko StudioUserDataDir: () => profileDir,
+      resolveBrikkoStudioUserDataDir: () => profileDir,
     });
 
     const result = await ops.resetProfile();
@@ -107,11 +107,11 @@ describe("createProfileResetOps", () => {
     fs.mkdirSync(profileDir, { recursive: true });
 
     const stopRunningBrowser = vi.fn(async () => ({ stopped: false }));
-    const ops = createLocalBrikko StudioResetOps({
+    const ops = createLocalBrikkoStudioResetOps({
       getProfileState: () => ({ profile: {} as never, running: null }),
       stopRunningBrowser,
       isHttpReachable: vi.fn(async () => true),
-      resolveBrikko StudioUserDataDir: () => profileDir,
+      resolveBrikkoStudioUserDataDir: () => profileDir,
     });
 
     await ops.resetProfile();

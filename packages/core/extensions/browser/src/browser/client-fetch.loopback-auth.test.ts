@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "../test-support/browser-security.mock.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { BrowserDispatchResponse } from "./routes/dispatcher.js";
 
 vi.mock("brikko-studio/plugin-sdk/ssrf-runtime", async () => {
@@ -29,7 +29,7 @@ function okDispatchResponse(): BrowserDispatchResponse {
 }
 
 const mocks = vi.hoisted(() => ({
-  loadConfig: vi.fn<() => Brikko StudioConfig>(() => ({
+  loadConfig: vi.fn<() => BrikkoStudioConfig>(() => ({
     gateway: {
       auth: {
         token: "loopback-token",
@@ -203,8 +203,8 @@ describe("fetchBrowserJson loopback auth", () => {
     mocks.dispatch.mockRejectedValueOnce(new Error("Chrome CDP handshake timeout"));
 
     await expectThrownBrowserFetchError(() => fetchBrowserJson<{ ok: boolean }>("/tabs"), {
-      contains: ["Chrome CDP handshake timeout", "Restart the Brikko Studio gateway"],
-      omits: ["Can't reach the Brikko Studio browser control service", "Do NOT retry the browser tool"],
+      contains: ["Chrome CDP handshake timeout", "Restart the BrikkoStudio gateway"],
+      omits: ["Can't reach the BrikkoStudio browser control service", "Do NOT retry the browser tool"],
     });
   });
 
@@ -212,7 +212,7 @@ describe("fetchBrowserJson loopback auth", () => {
     mocks.dispatch.mockRejectedValueOnce(new DOMException("operation aborted", "AbortError"));
 
     await expectThrownBrowserFetchError(() => fetchBrowserJson<{ ok: boolean }>("/tabs"), {
-      contains: ["operation aborted", "Restart the Brikko Studio gateway"],
+      contains: ["operation aborted", "Restart the BrikkoStudio gateway"],
       omits: ["Do NOT retry the browser tool"],
     });
   });
@@ -238,10 +238,10 @@ describe("fetchBrowserJson loopback auth", () => {
       {
         contains: [
           "Chrome CDP handshake timeout",
-          "browser profile is external to Brikko Studio",
-          "Restarting the Brikko Studio gateway will not launch it",
+          "browser profile is external to BrikkoStudio",
+          "Restarting the BrikkoStudio gateway will not launch it",
         ],
-        omits: ["Restart the Brikko Studio gateway", "Do NOT retry the browser tool"],
+        omits: ["Restart the BrikkoStudio gateway", "Do NOT retry the browser tool"],
       },
     );
   });
@@ -264,10 +264,10 @@ describe("fetchBrowserJson loopback auth", () => {
     await expectThrownBrowserFetchError(() => fetchBrowserJson<{ ok: boolean }>("/tabs"), {
       contains: [
         "operation aborted",
-        "browser profile is external to Brikko Studio",
-        "Restarting the Brikko Studio gateway will not launch it",
+        "browser profile is external to BrikkoStudio",
+        "Restarting the BrikkoStudio gateway will not launch it",
       ],
-      omits: ["Restart the Brikko Studio gateway", "Do NOT retry the browser tool"],
+      omits: ["Restart the BrikkoStudio gateway", "Do NOT retry the browser tool"],
     });
   });
 
@@ -290,10 +290,10 @@ describe("fetchBrowserJson loopback auth", () => {
       {
         contains: [
           "timed out",
-          "browser profile is external to Brikko Studio",
-          "Restarting the Brikko Studio gateway will not launch it",
+          "browser profile is external to BrikkoStudio",
+          "Restarting the BrikkoStudio gateway will not launch it",
         ],
-        omits: ["Restart the Brikko Studio gateway", "Do NOT retry the browser tool"],
+        omits: ["Restart the BrikkoStudio gateway", "Do NOT retry the browser tool"],
       },
     );
   });
@@ -315,8 +315,8 @@ describe("fetchBrowserJson loopback auth", () => {
     await expectThrownBrowserFetchError(
       () => fetchBrowserJson<{ ok: boolean }>("/tabs?profile=brikko-studio"),
       {
-        contains: ["Chrome CDP handshake timeout", "Restart the Brikko Studio gateway"],
-        omits: ["browser profile is external to Brikko Studio", "Do NOT retry the browser tool"],
+        contains: ["Chrome CDP handshake timeout", "Restart the BrikkoStudio gateway"],
+        omits: ["browser profile is external to BrikkoStudio", "Do NOT retry the browser tool"],
       },
     );
   });
@@ -330,8 +330,8 @@ describe("fetchBrowserJson loopback auth", () => {
     await expectThrownBrowserFetchError(
       () => fetchBrowserJson<{ ok: boolean }>("/tabs?profile=manual"),
       {
-        contains: ["Chrome CDP handshake timeout", "Restart the Brikko Studio gateway"],
-        omits: ["browser profile is external to Brikko Studio", "Do NOT retry the browser tool"],
+        contains: ["Chrome CDP handshake timeout", "Restart the BrikkoStudio gateway"],
+        omits: ["browser profile is external to BrikkoStudio", "Do NOT retry the browser tool"],
       },
     );
   });
@@ -353,8 +353,8 @@ describe("fetchBrowserJson loopback auth", () => {
     await expectThrownBrowserFetchError(
       () => fetchBrowserJson<{ ok: boolean }>("/tabs?profile=missing"),
       {
-        contains: ["Chrome CDP handshake timeout", "Restart the Brikko Studio gateway"],
-        omits: ["browser profile is external to Brikko Studio", "Do NOT retry the browser tool"],
+        contains: ["Chrome CDP handshake timeout", "Restart the BrikkoStudio gateway"],
+        omits: ["browser profile is external to BrikkoStudio", "Do NOT retry the browser tool"],
       },
     );
   });
@@ -377,10 +377,10 @@ describe("fetchBrowserJson loopback auth", () => {
     await expectThrownBrowserFetchError(() => fetchBrowserJson<{ ok: boolean }>("/tabs"), {
       contains: [
         "Chrome CDP handshake timeout",
-        "browser profile is external to Brikko Studio",
-        "Restarting the Brikko Studio gateway will not launch it",
+        "browser profile is external to BrikkoStudio",
+        "Restarting the BrikkoStudio gateway will not launch it",
       ],
-      omits: ["Restart the Brikko Studio gateway", "Do NOT retry the browser tool"],
+      omits: ["Restart the BrikkoStudio gateway", "Do NOT retry the browser tool"],
     });
   });
 
@@ -405,10 +405,10 @@ describe("fetchBrowserJson loopback auth", () => {
       {
         contains: [
           "Chrome CDP connection refused",
-          "browser profile is external to Brikko Studio",
+          "browser profile is external to BrikkoStudio",
           "Do NOT retry the browser tool",
         ],
-        omits: ["Restart the Brikko Studio gateway"],
+        omits: ["Restart the BrikkoStudio gateway"],
       },
     );
   });
@@ -418,7 +418,7 @@ describe("fetchBrowserJson loopback auth", () => {
 
     await expectThrownBrowserFetchError(() => fetchBrowserJson<{ ok: boolean }>("/tabs"), {
       contains: ["Chrome CDP connection refused", "Do NOT retry the browser tool"],
-      omits: ["Can't reach the Brikko Studio browser control service"],
+      omits: ["Can't reach the BrikkoStudio browser control service"],
     });
   });
 
@@ -510,7 +510,7 @@ describe("fetchBrowserJson loopback auth", () => {
       () => fetchBrowserJson<{ ok: boolean }>("http://example.com/"),
       {
         contains: [
-          "Can't reach the Brikko Studio browser control service",
+          "Can't reach the BrikkoStudio browser control service",
           "Do NOT retry the browser tool",
         ],
       },

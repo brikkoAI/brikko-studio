@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions.js";
 import { applyInlineDirectivesFastLane } from "./directive-handling.fast-lane.js";
 import { parseInlineDirectives } from "./directive-handling.parse.js";
@@ -36,11 +36,11 @@ function createSessionEntry(overrides?: Partial<SessionEntry>): SessionEntry {
   };
 }
 
-function createConfig(): Brikko StudioConfig {
+function createConfig(): BrikkoStudioConfig {
   return {
     commands: { text: true },
     agents: { defaults: {} },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 describe("mixed inline directives", () => {

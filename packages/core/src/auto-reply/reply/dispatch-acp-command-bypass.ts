@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { isCommandEnabled } from "../commands-registry-list.js";
 import { maybeResolveTextAlias } from "../commands-registry-normalize.js";
 import { shouldHandleTextCommands } from "../commands-text-routing.js";
@@ -35,7 +35,7 @@ function isLocalCommandCandidate(text: string): boolean {
 
 export function shouldBypassAcpDispatchForCommand(
   ctx: FinalizedMsgContext,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): boolean {
   const candidate = resolveCommandCandidateText(ctx);
   if (!candidate) {

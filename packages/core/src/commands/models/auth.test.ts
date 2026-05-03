@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { ProviderPlugin } from "../../plugins/types.js";
 import type { RuntimeEnv } from "../../runtime.js";
 
@@ -41,7 +41,7 @@ vi.mock("../../agents/auth-profiles/usage.js", () => ({
 
 vi.mock("../../plugins/provider-auth-helpers.js", () => ({
   applyAuthProfileConfig: (
-    cfg: Brikko StudioConfig,
+    cfg: BrikkoStudioConfig,
     params: {
       profileId: string;
       provider: string;
@@ -49,7 +49,7 @@ vi.mock("../../plugins/provider-auth-helpers.js", () => ({
       email?: string;
       displayName?: string;
     },
-  ): Brikko StudioConfig => ({
+  ): BrikkoStudioConfig => ({
     ...cfg,
     auth: {
       ...cfg.auth,
@@ -163,7 +163,7 @@ vi.mock("../../plugins/provider-auth-choice-helpers.js", () => {
       );
     }),
     applyProviderAuthConfigPatch: vi.fn(
-      (cfg: Brikko StudioConfig, patch: unknown, options?: { replaceDefaultModels?: boolean }) => {
+      (cfg: BrikkoStudioConfig, patch: unknown, options?: { replaceDefaultModels?: boolean }) => {
         const merged = mergePatch(cfg, patch);
         if (!options?.replaceDefaultModels) {
           return merged;
@@ -184,7 +184,7 @@ vi.mock("../../plugins/provider-auth-choice-helpers.js", () => {
           : merged;
       },
     ),
-    applyDefaultModel: vi.fn((cfg: Brikko StudioConfig, model: string) => ({
+    applyDefaultModel: vi.fn((cfg: BrikkoStudioConfig, model: string) => ({
       ...cfg,
       agents: {
         ...cfg.agents,
@@ -261,8 +261,8 @@ function createProvider(params: {
 
 describe("modelsAuthLoginCommand", () => {
   let restoreStdin: (() => void) | null = null;
-  let currentConfig: Brikko StudioConfig;
-  let lastUpdatedConfig: Brikko StudioConfig | null;
+  let currentConfig: BrikkoStudioConfig;
+  let lastUpdatedConfig: BrikkoStudioConfig | null;
   let runProviderAuth: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
@@ -286,7 +286,7 @@ describe("modelsAuthLoginCommand", () => {
     mocks.isRemoteEnvironment.mockReturnValue(false);
     mocks.loadValidConfigOrThrow.mockImplementation(async () => currentConfig);
     mocks.updateConfig.mockImplementation(
-      async (mutator: (cfg: Brikko StudioConfig) => Brikko StudioConfig) => {
+      async (mutator: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig) => {
         lastUpdatedConfig = mutator(currentConfig);
         currentConfig = lastUpdatedConfig;
         return lastUpdatedConfig;
@@ -336,10 +336,10 @@ describe("modelsAuthLoginCommand", () => {
       },
     };
     const originalConfig = currentConfig;
-    mocks.resolveAgentDir.mockImplementation((_cfg: Brikko StudioConfig, agentId: string) =>
+    mocks.resolveAgentDir.mockImplementation((_cfg: BrikkoStudioConfig, agentId: string) =>
       agentId === "coder" ? "/tmp/brikko-studio/agents/coder" : "/tmp/brikko-studio/agents/main",
     );
-    mocks.resolveAgentWorkspaceDir.mockImplementation((_cfg: Brikko StudioConfig, agentId: string) =>
+    mocks.resolveAgentWorkspaceDir.mockImplementation((_cfg: BrikkoStudioConfig, agentId: string) =>
       agentId === "coder" ? "/tmp/brikko-studio/workspaces/coder" : "/tmp/brikko-studio/workspace",
     );
     return originalConfig;
@@ -770,13 +770,13 @@ describe("modelsAuthLoginCommand", () => {
       agentDir: "/tmp/brikko-studio/agents/main",
     });
     expect(runtime.log).toHaveBeenCalledWith(
-      "Anthropic setup-token auth is supported in Brikko Studio.",
+      "Anthropic setup-token auth is supported in BrikkoStudio.",
     );
     expect(runtime.log).toHaveBeenCalledWith(
-      "Brikko Studio prefers Claude CLI reuse when it is available on the host.",
+      "BrikkoStudio prefers Claude CLI reuse when it is available on the host.",
     );
     expect(runtime.log).toHaveBeenCalledWith(
-      "Anthropic staff told us this Brikko Studio path is allowed again.",
+      "Anthropic staff told us this BrikkoStudio path is allowed again.",
     );
   });
 

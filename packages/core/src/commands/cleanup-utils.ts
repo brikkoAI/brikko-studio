@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { resolveDefaultAgentWorkspaceDir } from "../agents/workspace.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { resolveHomeDir, resolveUserPath, shortenHomeInString } from "../utils.js";
 
@@ -18,7 +18,7 @@ type CleanupResolvedPaths = {
   oauthInsideState: boolean;
 };
 
-function collectWorkspaceDirs(cfg: Brikko StudioConfig | undefined): string[] {
+function collectWorkspaceDirs(cfg: BrikkoStudioConfig | undefined): string[] {
   const dirs = new Set<string>();
   const defaults = cfg?.agents?.defaults;
   if (typeof defaults?.workspace === "string" && defaults.workspace.trim()) {
@@ -38,7 +38,7 @@ function collectWorkspaceDirs(cfg: Brikko StudioConfig | undefined): string[] {
 }
 
 export function buildCleanupPlan(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   stateDir: string;
   configPath: string;
   oauthDir: string;

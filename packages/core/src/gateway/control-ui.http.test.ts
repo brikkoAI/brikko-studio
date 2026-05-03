@@ -6,7 +6,7 @@ import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { resolveStateDir } from "../config/paths.js";
 import { approveDevicePairing, requestDevicePairing } from "../infra/device-pairing.js";
-import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 import type { ResolvedGatewayAuth } from "./auth.js";
 import { CONTROL_UI_BOOTSTRAP_CONFIG_PATH } from "./control-ui-contract.js";
 import {
@@ -242,7 +242,7 @@ describe("handleControlUiHttpRequest", () => {
     prefix: string;
     fn: (tmpRoot: string) => Promise<T>;
   }) {
-    const tmpRoot = await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), params.prefix));
+    const tmpRoot = await fs.mkdtemp(path.join(resolvePreferredBrikkoStudioTmpDir(), params.prefix));
     try {
       return await params.fn(tmpRoot);
     } finally {

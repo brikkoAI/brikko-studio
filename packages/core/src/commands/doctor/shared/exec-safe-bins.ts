@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { resolveCommandResolutionFromArgv } from "../../../infra/exec-command-resolution.js";
 import {
   listInterpreterLikeSafeBins,
@@ -58,7 +58,7 @@ function normalizeConfiguredTrustedSafeBinDirs(entries: unknown): string[] {
   );
 }
 
-function collectExecSafeBinScopes(cfg: Brikko StudioConfig): ExecSafeBinScopeRef[] {
+function collectExecSafeBinScopes(cfg: BrikkoStudioConfig): ExecSafeBinScopeRef[] {
   const scopes: ExecSafeBinScopeRef[] = [];
   const globalExec = asObjectRecord(cfg.tools?.exec);
   const globalTrustedDirs = normalizeConfiguredTrustedSafeBinDirs(globalExec?.safeBinTrustedDirs);
@@ -112,7 +112,7 @@ function collectExecSafeBinScopes(cfg: Brikko StudioConfig): ExecSafeBinScopeRef
   return scopes;
 }
 
-export function scanExecSafeBinCoverage(cfg: Brikko StudioConfig): ExecSafeBinCoverageHit[] {
+export function scanExecSafeBinCoverage(cfg: BrikkoStudioConfig): ExecSafeBinCoverageHit[] {
   const hits: ExecSafeBinCoverageHit[] = [];
   for (const scope of collectExecSafeBinScopes(cfg)) {
     const interpreterBins = new Set(listInterpreterLikeSafeBins(scope.safeBins));
@@ -140,7 +140,7 @@ export function scanExecSafeBinCoverage(cfg: Brikko StudioConfig): ExecSafeBinCo
 }
 
 export function scanExecSafeBinTrustedDirHints(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): ExecSafeBinTrustedDirHintHit[] {
   const hits: ExecSafeBinTrustedDirHintHit[] = [];
   for (const scope of collectExecSafeBinScopes(cfg)) {
@@ -243,8 +243,8 @@ export function collectExecSafeBinTrustedDirHintWarnings(
   return lines;
 }
 
-export function maybeRepairExecSafeBinProfiles(cfg: Brikko StudioConfig): {
-  config: Brikko StudioConfig;
+export function maybeRepairExecSafeBinProfiles(cfg: BrikkoStudioConfig): {
+  config: BrikkoStudioConfig;
   changes: string[];
   warnings: string[];
 } {

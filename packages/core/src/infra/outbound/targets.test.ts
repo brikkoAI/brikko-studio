@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
 import { getActivePluginRegistry, setActivePluginRegistry } from "../../plugins/runtime.js";
 import {
@@ -52,7 +52,7 @@ beforeEach(() => {
 
 describe("resolveOutboundTarget defaultTo config fallback", () => {
   installResolveOutboundTargetPluginRegistryHooks();
-  const alphaDefaultCfg: Brikko StudioConfig = {
+  const alphaDefaultCfg: BrikkoStudioConfig = {
     channels: { alpha: { defaultTo: "Alpha:Room One", allowFrom: ["*"] } },
   };
 
@@ -67,7 +67,7 @@ describe("resolveOutboundTarget defaultTo config fallback", () => {
   });
 
   it("uses a second plugin defaultTo when no explicit target is provided", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: { beta: { defaultTo: "Beta:Default Room" } },
     };
     const res = resolveOutboundTarget({
@@ -90,7 +90,7 @@ describe("resolveOutboundTarget defaultTo config fallback", () => {
   });
 
   it("still errors when no defaultTo and no explicit target", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: { alpha: { allowFrom: ["room-one"] } },
     };
     const res = resolveOutboundTarget({
@@ -564,7 +564,7 @@ describe("resolveSessionDeliveryTarget", () => {
   });
 
   it("allows heartbeat delivery to core direct target prefixes by default", () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const resolved = resolveHeartbeatDeliveryTarget({
       cfg,
       entry: {
@@ -583,7 +583,7 @@ describe("resolveSessionDeliveryTarget", () => {
   });
 
   it("keeps heartbeat delivery to core channel target prefixes", () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const resolved = resolveHeartbeatDeliveryTarget({
       cfg,
       entry: {
@@ -622,7 +622,7 @@ describe("resolveSessionDeliveryTarget", () => {
   });
 
   it("parses explicit heartbeat plugin targets into threadId", () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const resolved = resolveHeartbeatDeliveryTarget({
       cfg,
       heartbeat: {
@@ -637,7 +637,7 @@ describe("resolveSessionDeliveryTarget", () => {
   });
 
   it("preserves route threadId for heartbeat target=last on plugin-owned group sessions", () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const resolved = resolveHeartbeatDeliveryTarget({
       cfg,
       entry: {
@@ -659,7 +659,7 @@ describe("resolveSessionDeliveryTarget", () => {
   });
 
   it("reuses route threadId when only deliveryContext carries it", () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const resolved = resolveHeartbeatDeliveryTarget({
       cfg,
       entry: {
@@ -683,7 +683,7 @@ describe("resolveSessionDeliveryTarget", () => {
   });
 
   it("does not inherit stale threadId for direct-chat heartbeat routes", () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const resolved = resolveHeartbeatDeliveryTarget({
       cfg,
       entry: {

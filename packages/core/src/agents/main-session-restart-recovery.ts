@@ -119,7 +119,7 @@ function resolveMainSessionResumeBlockReason(messages: unknown[]): string | null
 function buildResumeMessage(): string {
   return (
     "[System] Your previous turn was interrupted by a gateway restart while " +
-    "Brikko Studio was waiting on tool/model work. Continue from the existing " +
+    "BrikkoStudio was waiting on tool/model work. Continue from the existing " +
     "transcript and finish the interrupted response."
   );
 }

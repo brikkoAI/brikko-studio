@@ -1,5 +1,5 @@
 import type {
-  Brikko StudioPluginApi,
+  BrikkoStudioPluginApi,
   ProviderAuthContext,
   ProviderFetchUsageSnapshotContext,
 } from "brikko-studio/plugin-sdk/plugin-entry";
@@ -142,6 +142,6 @@ export function buildGoogleGeminiCliProvider(): ProviderPlugin {
   };
 }
 
-export function registerGoogleGeminiCliProvider(api: Brikko StudioPluginApi) {
+export function registerGoogleGeminiCliProvider(api: BrikkoStudioPluginApi) {
   api.registerProvider(buildGoogleGeminiCliProvider());
 }

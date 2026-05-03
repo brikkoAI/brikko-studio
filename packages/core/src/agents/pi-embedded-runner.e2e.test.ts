@@ -27,7 +27,7 @@ const resolveStoredSessionKeyForSessionIdMock = vi.fn();
 const resolveModelAsyncMock = vi.fn(async (provider: string, modelId: string) =>
   createResolvedEmbeddedRunnerModel(provider, modelId),
 );
-const ensureBrikko StudioModelsJsonMock = vi.fn(async () => ({ wrote: false }));
+const ensureBrikkoStudioModelsJsonMock = vi.fn(async () => ({ wrote: false }));
 const loggerWarnMock = vi.fn();
 let refreshRuntimeAuthOnFirstPromptError = false;
 
@@ -146,8 +146,8 @@ const installRunEmbeddedMocks = () => {
     const mod = await vi.importActual<typeof import("./models-config.js")>("./models-config.js");
     return {
       ...mod,
-      ensureBrikko StudioModelsJson: (...args: Parameters<typeof ensureBrikko StudioModelsJsonMock>) =>
-        ensureBrikko StudioModelsJsonMock(...args),
+      ensureBrikkoStudioModelsJson: (...args: Parameters<typeof ensureBrikkoStudioModelsJsonMock>) =>
+        ensureBrikkoStudioModelsJsonMock(...args),
     };
   });
 };
@@ -185,8 +185,8 @@ beforeEach(() => {
   resolveModelAsyncMock.mockImplementation(async (provider: string, modelId: string) =>
     createResolvedEmbeddedRunnerModel(provider, modelId),
   );
-  ensureBrikko StudioModelsJsonMock.mockReset();
-  ensureBrikko StudioModelsJsonMock.mockResolvedValue({ wrote: false });
+  ensureBrikkoStudioModelsJsonMock.mockReset();
+  ensureBrikkoStudioModelsJsonMock.mockResolvedValue({ wrote: false });
   loggerWarnMock.mockReset();
   refreshRuntimeAuthOnFirstPromptError = false;
   runEmbeddedAttemptMock.mockImplementation(async () => {
@@ -323,7 +323,7 @@ describe("runEmbeddedPiAgent", () => {
       cfg,
       expect.objectContaining({ skipPiDiscovery: true }),
     );
-    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikkoStudioModelsJsonMock).not.toHaveBeenCalled();
   });
 
   it("backfills a trimmed session key from sessionId when the embedded run omits it", async () => {

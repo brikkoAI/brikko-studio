@@ -6,7 +6,7 @@ import {
   setConfigOverride,
   unsetConfigOverride,
 } from "./runtime-overrides.js";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
 describe("runtime overrides", () => {
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe("runtime overrides", () => {
   it("sets and applies nested overrides", () => {
     const cfg = {
       messages: { responsePrefix: "[brikko-studio]" },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     setConfigOverride("messages.responsePrefix", "[debug]");
     const next = applyConfigOverrides(cfg);
     expect(next.messages?.responsePrefix).toBe("[debug]");
@@ -25,7 +25,7 @@ describe("runtime overrides", () => {
   it("merges object overrides without clobbering siblings", () => {
     const cfg = {
       channels: { whatsapp: { dmPolicy: "pairing", allowFrom: ["+1"] } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     setConfigOverride("channels.whatsapp.dmPolicy", "open");
     const next = applyConfigOverrides(cfg);
     expect(next.channels?.whatsapp?.dmPolicy).toBe("open");
@@ -50,7 +50,7 @@ describe("runtime overrides", () => {
   });
 
   it("blocks __proto__ keys inside override object values", () => {
-    const cfg = { commands: {} } as Brikko StudioConfig;
+    const cfg = { commands: {} } as BrikkoStudioConfig;
     setConfigOverride("commands", JSON.parse('{"__proto__":{"bash":true}}'));
 
     const next = applyConfigOverrides(cfg);
@@ -59,7 +59,7 @@ describe("runtime overrides", () => {
   });
 
   it("blocks constructor/prototype keys inside override object values", () => {
-    const cfg = { commands: {} } as Brikko StudioConfig;
+    const cfg = { commands: {} } as BrikkoStudioConfig;
     setConfigOverride("commands", JSON.parse('{"constructor":{"prototype":{"bash":true}}}'));
 
     const next = applyConfigOverrides(cfg);

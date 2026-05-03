@@ -8,7 +8,7 @@ describe("openai ws message conversion", () => {
       {
         name: "image_generate",
         description:
-          'Generate images. For transparent OpenAI backgrounds, use outputFormat="png" or "webp" and openai.background="transparent"; Brikko Studio routes the default OpenAI image model to gpt-image-1.5 for that mode.',
+          'Generate images. For transparent OpenAI backgrounds, use outputFormat="png" or "webp" and openai.background="transparent"; BrikkoStudio routes the default OpenAI image model to gpt-image-1.5 for that mode.',
         parameters: {
           type: "object",
           properties: {
@@ -25,7 +25,7 @@ describe("openai ws message conversion", () => {
                   type: "string",
                   enum: ["transparent", "opaque", "auto"],
                   description:
-                    "For transparent output use outputFormat png or webp; Brikko Studio routes the default OpenAI image model to gpt-image-1.5 for this mode.",
+                    "For transparent output use outputFormat png or webp; BrikkoStudio routes the default OpenAI image model to gpt-image-1.5 for this mode.",
                 },
               },
             },

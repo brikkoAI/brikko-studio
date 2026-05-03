@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import fsSync from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { redactIdentifier } from "brikko-studio/plugin-sdk/logging-core";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { WhatsAppSendKind, WhatsAppSendResult } from "./inbound/send-result.js";
@@ -20,7 +20,7 @@ let sendReactionWhatsApp: typeof import("./send.js").sendReactionWhatsApp;
 let resetLogger: typeof import("brikko-studio/plugin-sdk/runtime-env").resetLogger;
 let setLoggerOverride: typeof import("brikko-studio/plugin-sdk/runtime-env").setLoggerOverride;
 
-const WHATSAPP_TEST_CFG: Brikko StudioConfig = {
+const WHATSAPP_TEST_CFG: BrikkoStudioConfig = {
   channels: { whatsapp: {} },
 };
 
@@ -183,7 +183,7 @@ describe("web outbound", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(result).toEqual({
@@ -454,7 +454,7 @@ describe("web outbound", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await sendMessageWhatsApp("+1555", "pic", {
       verbose: false,

@@ -8,7 +8,7 @@ const mocks = vi.hoisted(() => ({
   applyCodexAppServerAuthProfile: vi.fn(async () => undefined),
   resolveManagedCodexAppServerStartOptions: vi.fn(async (startOptions) => startOptions),
   embeddedAgentLog: { debug: vi.fn(), warn: vi.fn() },
-  resolveBrikko StudioAgentDir: vi.fn(() => "/tmp/brikko-studio-agent"),
+  resolveBrikkoStudioAgentDir: vi.fn(() => "/tmp/brikko-studio-agent"),
 }));
 
 vi.mock("./auth-bridge.js", () => ({
@@ -26,7 +26,7 @@ vi.mock("brikko-studio/plugin-sdk/agent-harness-runtime", () => ({
 }));
 
 vi.mock("brikko-studio/plugin-sdk/provider-auth", () => ({
-  resolveBrikko StudioAgentDir: mocks.resolveBrikko StudioAgentDir,
+  resolveBrikkoStudioAgentDir: mocks.resolveBrikkoStudioAgentDir,
 }));
 
 let listCodexAppServerModels: typeof import("./models.js").listCodexAppServerModels;
@@ -73,7 +73,7 @@ describe("shared Codex app-server client", () => {
     );
     mocks.embeddedAgentLog.debug.mockClear();
     mocks.embeddedAgentLog.warn.mockClear();
-    mocks.resolveBrikko StudioAgentDir.mockClear();
+    mocks.resolveBrikkoStudioAgentDir.mockClear();
   });
 
   it("closes the shared app-server when the version gate fails", async () => {

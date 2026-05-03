@@ -87,7 +87,7 @@ export async function dashboardCommand(
   }
 
   if (opened) {
-    runtime.log("Opened in your browser. Keep that tab to control Brikko Studio.");
+    runtime.log("Opened in your browser. Keep that tab to control BrikkoStudio.");
   } else if (hint) {
     runtime.log(hint);
   }

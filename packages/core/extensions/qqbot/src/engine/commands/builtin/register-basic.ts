@@ -40,11 +40,11 @@ export function registerBasicBotCommands(registry: SlashCommandRegistry): void {
 
   registry.register({
     name: "bot-ping",
-    description: "测试 Brikko Studio 与 QQ 之间的网络延迟",
+    description: "测试 BrikkoStudio 与 QQ 之间的网络延迟",
     usage: [
       `/bot-ping`,
       ``,
-      `测试当前 Brikko Studio 宿主机与 QQ 服务器之间的网络延迟。`,
+      `测试当前 BrikkoStudio 宿主机与 QQ 服务器之间的网络延迟。`,
       `返回网络传输耗时和插件处理耗时。`,
     ].join("\n"),
     handler: (ctx) => {
@@ -69,14 +69,14 @@ export function registerBasicBotCommands(registry: SlashCommandRegistry): void {
 
   registry.register({
     name: "bot-version",
-    description: "查看 QQBot 插件版本和 Brikko Studio 框架版本",
+    description: "查看 QQBot 插件版本和 BrikkoStudio 框架版本",
     c2cOnly: true,
-    usage: [`/bot-version`, ``, `查看当前 QQBot 插件版本和 Brikko Studio 框架版本。`].join("\n"),
+    usage: [`/bot-version`, ``, `查看当前 QQBot 插件版本和 BrikkoStudio 框架版本。`].join("\n"),
     handler: async () => {
       const frameworkVersion = resolveRuntimeServiceVersion();
       const ver = getPluginVersionString();
       const lines = [
-        `🦞 Brikko Studio 框架版本：${frameworkVersion}`,
+        `🦞 BrikkoStudio 框架版本：${frameworkVersion}`,
         `🤖 QQBot 插件版本：v${ver}`,
         `🌟 官方 GitHub 仓库：[点击前往](${QQBOT_PLUGIN_GITHUB_URL})`,
       ];

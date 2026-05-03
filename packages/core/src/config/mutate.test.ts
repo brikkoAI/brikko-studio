@@ -4,7 +4,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vites
 import { createSuiteTempRootTracker } from "../test-helpers/temp-dir.js";
 import { ConfigMutationConflictError, mutateConfigFile, replaceConfigFile } from "./mutate.js";
 import { registerRuntimeConfigWriteListener, resetConfigRuntimeState } from "./runtime-snapshot.js";
-import type { ConfigFileSnapshot, Brikko StudioConfig } from "./types.js";
+import type { ConfigFileSnapshot, BrikkoStudioConfig } from "./types.js";
 
 const ioMocks = vi.hoisted(() => ({
   readConfigFileSnapshotForWrite: vi.fn(),
@@ -18,8 +18,8 @@ function createSnapshot(params: {
   hash: string;
   path?: string;
   parsed?: unknown;
-  sourceConfig: Brikko StudioConfig;
-  runtimeConfig?: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
+  runtimeConfig?: BrikkoStudioConfig;
 }): ConfigFileSnapshot {
   const runtimeConfig = (params.runtimeConfig ??
     params.sourceConfig) as ConfigFileSnapshot["config"];

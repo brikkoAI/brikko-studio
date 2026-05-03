@@ -1,10 +1,10 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveThreadSessionKeys } from "brikko-studio/plugin-sdk/routing";
 import { describe, expect, it } from "vitest";
 import { resolveTelegramConversationBaseSessionKey } from "./conversation-route.js";
 
 describe("resolveTelegramConversationBaseSessionKey", () => {
-  const cfg: Brikko StudioConfig = {};
+  const cfg: BrikkoStudioConfig = {};
 
   it("keeps default-account DMs on the route session key", () => {
     expect(

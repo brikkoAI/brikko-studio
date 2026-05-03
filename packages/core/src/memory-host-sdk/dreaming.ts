@@ -1,6 +1,6 @@
 import path from "node:path";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { asNullableRecord } from "../shared/record-coerce.js";
 import {
   lowercasePreservingWhitespace,
@@ -333,7 +333,7 @@ function formatLocalIsoDay(epochMs: number): string {
 }
 
 export function resolveMemoryDreamingPluginId(
-  cfg: Brikko StudioConfig | Record<string, unknown> | undefined,
+  cfg: BrikkoStudioConfig | Record<string, unknown> | undefined,
 ): string {
   const root = asNullableRecord(cfg);
   const plugins = asNullableRecord(root?.plugins);
@@ -346,7 +346,7 @@ export function resolveMemoryDreamingPluginId(
 }
 
 export function resolveMemoryDreamingPluginConfig(
-  cfg: Brikko StudioConfig | Record<string, unknown> | undefined,
+  cfg: BrikkoStudioConfig | Record<string, unknown> | undefined,
 ): Record<string, unknown> | undefined {
   const root = asNullableRecord(cfg);
   const plugins = asNullableRecord(root?.plugins);
@@ -361,7 +361,7 @@ export const resolveMemoryCorePluginConfig = resolveMemoryDreamingPluginConfig;
 
 export function resolveMemoryDreamingConfig(params: {
   pluginConfig?: Record<string, unknown>;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): MemoryDreamingConfig {
   const dreaming = asNullableRecord(params.pluginConfig?.dreaming);
   const frequency =
@@ -521,7 +521,7 @@ export function resolveMemoryDreamingConfig(params: {
 
 export function resolveMemoryDeepDreamingConfig(params: {
   pluginConfig?: Record<string, unknown>;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): MemoryDeepDreamingConfig & {
   timezone?: string;
   verboseLogging: boolean;
@@ -539,7 +539,7 @@ export function resolveMemoryDeepDreamingConfig(params: {
 
 export function resolveMemoryLightDreamingConfig(params: {
   pluginConfig?: Record<string, unknown>;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): MemoryLightDreamingConfig & {
   timezone?: string;
   verboseLogging: boolean;
@@ -557,7 +557,7 @@ export function resolveMemoryLightDreamingConfig(params: {
 
 export function resolveMemoryRemDreamingConfig(params: {
   pluginConfig?: Record<string, unknown>;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): MemoryRemDreamingConfig & {
   timezone?: string;
   verboseLogging: boolean;
@@ -609,7 +609,7 @@ export function isSameMemoryDreamingDay(
 }
 
 export function resolveMemoryDreamingWorkspaces(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options: MemoryDreamingWorkspaceOptions = {},
 ): MemoryDreamingWorkspace[] {
   const configured = Array.isArray(cfg.agents?.list) ? cfg.agents.list : [];

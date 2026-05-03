@@ -554,7 +554,7 @@ describe("native hook relay registry", () => {
     expect(__testing.getNativeHookRelayRegistrationForTests(relay.relayId)).toBeUndefined();
   });
 
-  it("uses the Codex no-op output when no Brikko Studio hook decides", async () => {
+  it("uses the Codex no-op output when no BrikkoStudio hook decides", async () => {
     const relay = registerNativeHookRelay({
       provider: "codex",
       sessionId: "session-1",
@@ -573,7 +573,7 @@ describe("native hook relay registry", () => {
     }
   });
 
-  it("maps Codex PreToolUse to Brikko Studio before_tool_call and blocks before execution", async () => {
+  it("maps Codex PreToolUse to BrikkoStudio before_tool_call and blocks before execution", async () => {
     const beforeToolCall = vi.fn(async () => ({
       block: true,
       blockReason: "repo policy blocks this command",
@@ -658,7 +658,7 @@ describe("native hook relay registry", () => {
     expect(beforeToolCall).toHaveBeenCalledTimes(1);
   });
 
-  it("maps Codex PostToolUse to Brikko Studio after_tool_call observation", async () => {
+  it("maps Codex PostToolUse to BrikkoStudio after_tool_call observation", async () => {
     const afterToolCall = vi.fn();
     initializeGlobalHookRunner(
       createMockPluginRegistry([{ hookName: "after_tool_call", handler: afterToolCall }]),
@@ -704,7 +704,7 @@ describe("native hook relay registry", () => {
     );
   });
 
-  it("maps Codex MCP PreToolUse to Brikko Studio before_tool_call and can block", async () => {
+  it("maps Codex MCP PreToolUse to BrikkoStudio before_tool_call and can block", async () => {
     const beforeToolCall = vi.fn(async () => ({
       block: true,
       blockReason: "MCP writes require review",
@@ -731,7 +731,7 @@ describe("native hook relay registry", () => {
         tool_name: "mcp__memory__create_entities",
         tool_use_id: "mcp-call-1",
         tool_input: {
-          entities: [{ name: "Brikko Studio", entityType: "project", observations: ["test"] }],
+          entities: [{ name: "BrikkoStudio", entityType: "project", observations: ["test"] }],
         },
       },
     });
@@ -747,7 +747,7 @@ describe("native hook relay registry", () => {
       expect.objectContaining({
         toolName: "mcp__memory__create_entities",
         params: {
-          entities: [{ name: "Brikko Studio", entityType: "project", observations: ["test"] }],
+          entities: [{ name: "BrikkoStudio", entityType: "project", observations: ["test"] }],
         },
         runId: "run-1",
         toolCallId: "mcp-call-1",
@@ -818,7 +818,7 @@ describe("native hook relay registry", () => {
     );
   });
 
-  it("maps Codex MCP PostToolUse to Brikko Studio after_tool_call observation", async () => {
+  it("maps Codex MCP PostToolUse to BrikkoStudio after_tool_call observation", async () => {
     const afterToolCall = vi.fn();
     initializeGlobalHookRunner(
       createMockPluginRegistry([{ hookName: "after_tool_call", handler: afterToolCall }]),
@@ -866,7 +866,7 @@ describe("native hook relay registry", () => {
     );
   });
 
-  it("routes Codex MCP PermissionRequest payloads through Brikko Studio approval policy", async () => {
+  it("routes Codex MCP PermissionRequest payloads through BrikkoStudio approval policy", async () => {
     const relay = registerNativeHookRelay({
       provider: "codex",
       agentId: "agent-1",
@@ -1081,7 +1081,7 @@ describe("native hook relay registry", () => {
     );
   });
 
-  it("defers PermissionRequest when Brikko Studio approval does not decide", async () => {
+  it("defers PermissionRequest when BrikkoStudio approval does not decide", async () => {
     __testing.setNativeHookRelayPermissionApprovalRequesterForTests(
       vi.fn(async () => "defer" as const),
     );

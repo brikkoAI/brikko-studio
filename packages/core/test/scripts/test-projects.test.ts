@@ -396,7 +396,7 @@ describe("scripts/test-projects changed-target routing", () => {
   it("skips app-only changes because app tests are separate from Vitest lanes", () => {
     expect(
       buildVitestRunPlans(["--changed", "origin/main"], process.cwd(), () => [
-        "apps/macos/Brikko Studio/AppDelegate.swift",
+        "apps/macos/BrikkoStudio/AppDelegate.swift",
       ]),
     ).toEqual([]);
   });

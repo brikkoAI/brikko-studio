@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   __testing as sessionBindingTesting,
   registerSessionBindingAdapter,
@@ -11,7 +11,7 @@ const baseCfg = {
   agents: {
     list: [{ id: "main" }, { id: "codex" }],
   },
-} satisfies Brikko StudioConfig;
+} satisfies BrikkoStudioConfig;
 
 describe("resolveIMessageConversationRoute", () => {
   beforeEach(() => {

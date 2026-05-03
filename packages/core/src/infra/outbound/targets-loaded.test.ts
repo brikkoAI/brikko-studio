@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { tryResolveLoadedOutboundTarget } from "./targets-loaded.js";
 
 const mocks = vi.hoisted(() => ({
@@ -22,7 +22,7 @@ describe("tryResolveLoadedOutboundTarget", () => {
   });
 
   it("uses loaded plugin config defaultTo fallback", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: { alpha: { defaultTo: "room-one" } },
     };
     mocks.getLoadedChannelPlugin.mockReturnValue({
@@ -30,7 +30,7 @@ describe("tryResolveLoadedOutboundTarget", () => {
       meta: { label: "Alpha" },
       capabilities: {},
       config: {
-        resolveDefaultTo: ({ cfg }: { cfg: Brikko StudioConfig }) =>
+        resolveDefaultTo: ({ cfg }: { cfg: BrikkoStudioConfig }) =>
           (cfg.channels?.alpha as { defaultTo?: string } | undefined)?.defaultTo,
       },
       outbound: {},

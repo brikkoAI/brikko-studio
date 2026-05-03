@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { isValidEnvSecretRefId, resolveSecretInputRef } from "../../../config/types.secrets.js";
 import type { RuntimeEnv } from "../../../runtime.js";
 import { resolveDefaultSecretProviderAlias } from "../../../secrets/ref-contract.js";
@@ -7,12 +7,12 @@ import { normalizeGatewayTokenInput, randomToken } from "../../onboard-helpers.j
 import type { OnboardOptions } from "../../onboard-types.js";
 
 export function applyNonInteractiveGatewayConfig(params: {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   opts: OnboardOptions;
   runtime: RuntimeEnv;
   defaultPort: number;
 }): {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   port: number;
   bind: string;
   authMode: string;

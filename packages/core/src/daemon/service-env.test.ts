@@ -567,7 +567,7 @@ describe("buildServiceEnvironment", () => {
     expect(env.BRIKKO_STUDIO_SERVICE_KIND).toBe("gateway");
     expect(typeof env.BRIKKO_STUDIO_SERVICE_VERSION).toBe("string");
     expect(env.BRIKKO_STUDIO_SYSTEMD_UNIT).toBe("brikko-studio-gateway.service");
-    expect(env.BRIKKO_STUDIO_WINDOWS_TASK_NAME).toBe("Brikko Studio Gateway");
+    expect(env.BRIKKO_STUDIO_WINDOWS_TASK_NAME).toBe("BrikkoStudio Gateway");
     if (process.platform === "darwin") {
       expect(env.BRIKKO_STUDIO_LAUNCHD_LABEL).toBe("ai.brikko-studio.gateway");
     }
@@ -634,7 +634,7 @@ describe("buildServiceEnvironment", () => {
       port: 18789,
     });
     expect(env.BRIKKO_STUDIO_SYSTEMD_UNIT).toBe("brikko-studio-gateway-work.service");
-    expect(env.BRIKKO_STUDIO_WINDOWS_TASK_NAME).toBe("Brikko Studio Gateway (work)");
+    expect(env.BRIKKO_STUDIO_WINDOWS_TASK_NAME).toBe("BrikkoStudio Gateway (work)");
     if (process.platform === "darwin") {
       expect(env.BRIKKO_STUDIO_LAUNCHD_LABEL).toBe("ai.brikko-studio.work");
     }
@@ -683,7 +683,7 @@ describe("buildServiceEnvironment", () => {
     });
 
     expect(env).not.toHaveProperty("PATH");
-    expect(env.BRIKKO_STUDIO_WINDOWS_TASK_NAME).toBe("Brikko Studio Gateway");
+    expect(env.BRIKKO_STUDIO_WINDOWS_TASK_NAME).toBe("BrikkoStudio Gateway");
   });
 
   it("prepends extra runtime directories to the gateway service PATH", () => {

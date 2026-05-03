@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getRuntimeConfig } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { planManifestModelCatalogRows } from "../model-catalog/manifest-planner.js";
 import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
@@ -13,11 +13,11 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "../shared/string-coerce.js";
-import { resolveBrikko StudioAgentDir } from "./agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "./agent-paths.js";
 import { modelSupportsInput as modelCatalogEntrySupportsInput } from "./model-catalog-lookup.js";
 import type { ModelCatalogEntry, ModelInputType } from "./model-catalog.types.js";
 import { buildConfiguredModelCatalog } from "./model-selection-shared.js";
-import { ensureBrikko StudioModelsJson } from "./models-config.js";
+import { ensureBrikkoStudioModelsJson } from "./models-config.js";
 import { normalizeProviderId } from "./provider-id.js";
 
 const log = createSubsystemLogger("model-catalog");
@@ -116,7 +116,7 @@ function appendCatalogEntriesIfAbsent(
 }
 
 export function loadManifestModelCatalog(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   fallbackToMetadataScan?: boolean;
@@ -219,10 +219,10 @@ function normalizePersistedModelCatalogEntry(
 }
 
 async function loadReadOnlyPersistedModelCatalog(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): Promise<ModelCatalogEntry[]> {
   const cfg = params?.config ?? getRuntimeConfig();
-  const agentDir = resolveBrikko StudioAgentDir();
+  const agentDir = resolveBrikkoStudioAgentDir();
   const raw = await readFile(join(agentDir, "models.json"), "utf8");
   const parsed = JSON.parse(raw) as Record<string, unknown>;
   const models: ModelCatalogEntry[] = [];
@@ -259,7 +259,7 @@ async function loadReadOnlyPersistedModelCatalog(params?: {
   return sortModelCatalogEntries(models);
 }
 
-function loadReadOnlyStaticModelCatalog(params?: { config?: Brikko StudioConfig }): ModelCatalogEntry[] {
+function loadReadOnlyStaticModelCatalog(params?: { config?: BrikkoStudioConfig }): ModelCatalogEntry[] {
   const cfg = params?.config ?? getRuntimeConfig();
   const models: ModelCatalogEntry[] = [];
   try {
@@ -286,7 +286,7 @@ function loadReadOnlyStaticModelCatalog(params?: { config?: Brikko StudioConfig 
 }
 
 export async function loadModelCatalog(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   useCache?: boolean;
   readOnly?: boolean;
 }): Promise<ModelCatalogEntry[]> {
@@ -322,7 +322,7 @@ export async function loadModelCatalog(params?: {
     try {
       const cfg = params?.config ?? getRuntimeConfig();
       if (!readOnly) {
-        await ensureBrikko StudioModelsJson(cfg);
+        await ensureBrikkoStudioModelsJson(cfg);
         logStage("models-json-ready");
       }
       // IMPORTANT: keep the dynamic import *inside* the try/catch.
@@ -331,7 +331,7 @@ export async function loadModelCatalog(params?: {
       // will keep failing until restart).
       const piSdk = await importPiSdk();
       logStage("pi-sdk-imported");
-      const agentDir = resolveBrikko StudioAgentDir();
+      const agentDir = resolveBrikkoStudioAgentDir();
       const { buildShouldSuppressBuiltInModel } = await loadModelSuppression();
       logStage("catalog-deps-ready");
       const authStorage = piSdk.discoverAuthStorage(

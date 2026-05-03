@@ -32,7 +32,7 @@ const coreCliCommandCatalog = defineCommandDescriptorCatalog([
   },
   {
     name: "backup",
-    description: "Create and verify local backup archives for Brikko Studio state",
+    description: "Create and verify local backup archives for BrikkoStudio state",
     hasSubcommands: true,
   },
   {
@@ -67,7 +67,7 @@ const coreCliCommandCatalog = defineCommandDescriptorCatalog([
   },
   {
     name: "mcp",
-    description: "Manage Brikko Studio MCP config and channel bridge",
+    description: "Manage BrikkoStudio MCP config and channel bridge",
     hasSubcommands: true,
   },
   {

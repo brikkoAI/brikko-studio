@@ -19,7 +19,7 @@ import {
   projectCredentialSnapshotFields,
   resolveConfiguredFromCredentialStatuses,
 } from "brikko-studio/plugin-sdk/channel-status";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { createChannelDirectoryAdapter } from "brikko-studio/plugin-sdk/directory-runtime";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import {
@@ -164,7 +164,7 @@ function resolveTelegramTokenHelper() {
 }
 
 function buildTelegramSendOptions(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   mediaUrl?: string | null;
   mediaLocalRoots?: readonly string[] | null;
   accountId?: string | null;
@@ -191,7 +191,7 @@ function buildTelegramSendOptions(params: {
 }
 
 async function sendTelegramOutbound(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   text: string;
   mediaUrl?: string | null;
@@ -462,7 +462,7 @@ function shouldStripTelegramThreadFromAnnounceOrigin(params: {
 }
 
 function resolveTelegramOutboundSessionRoute(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   accountId?: string | null;
   target: string;
@@ -524,7 +524,7 @@ function resolveTelegramOutboundSessionRoute(params: {
 }
 
 async function resolveTelegramTargets(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   inputs: string[];
   kind: "user" | "group";
@@ -953,7 +953,7 @@ export const telegramPlugin = createChatChannelPlugin({
       },
       logoutAccount: async ({ accountId, cfg }) => {
         const envToken = process.env.TELEGRAM_BOT_TOKEN?.trim() ?? "";
-        const nextCfg = { ...cfg } as Brikko StudioConfig;
+        const nextCfg = { ...cfg } as BrikkoStudioConfig;
         const nextTelegram = cfg.channels?.telegram ? { ...cfg.channels.telegram } : undefined;
         let cleared = false;
         let changed = false;

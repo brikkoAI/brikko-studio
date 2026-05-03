@@ -17,7 +17,7 @@ export function createExtensionFeishuVitestConfig(
     {
       dir: "extensions",
       env,
-      includeBrikko StudioRuntimeSetup: false,
+      includeBrikkoStudioRuntimeSetup: false,
       name: "extension-feishu",
       passWithNoTests: true,
       setupFiles: ["test/setup.extensions.ts"],

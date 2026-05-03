@@ -1,10 +1,10 @@
 // Manual facade. Keep loader boundary explicit.
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { GroupToolPolicyConfig } from "../config/types.tools.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
 
 type BlueBubblesGroupContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   groupId?: string | null;
   senderId?: string | null;

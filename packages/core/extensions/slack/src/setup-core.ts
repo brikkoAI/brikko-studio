@@ -13,7 +13,7 @@ import {
   type ChannelSetupAdapter,
   type ChannelSetupDmPolicy,
   type ChannelSetupWizard,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/setup-runtime";
 import { formatDocsLink } from "brikko-studio/plugin-sdk/setup-tools";
 import {
@@ -30,7 +30,7 @@ import {
   setSlackChannelAllowlist,
 } from "./setup-shared.js";
 
-function enableSlackAccount(cfg: Brikko StudioConfig, accountId: string): Brikko StudioConfig {
+function enableSlackAccount(cfg: BrikkoStudioConfig, accountId: string): BrikkoStudioConfig {
   return patchChannelConfigForAccount({
     cfg,
     channel,
@@ -39,7 +39,7 @@ function enableSlackAccount(cfg: Brikko StudioConfig, accountId: string): Brikko
   });
 }
 
-function hasSlackInteractiveRepliesConfig(cfg: Brikko StudioConfig, accountId: string): boolean {
+function hasSlackInteractiveRepliesConfig(cfg: BrikkoStudioConfig, accountId: string): boolean {
   const capabilities = resolveSlackAccount({ cfg, accountId }).config.capabilities;
   if (Array.isArray(capabilities)) {
     return capabilities.some(
@@ -53,10 +53,10 @@ function hasSlackInteractiveRepliesConfig(cfg: Brikko StudioConfig, accountId: s
 }
 
 function setSlackInteractiveReplies(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   interactiveReplies: boolean,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const capabilities = resolveSlackAccount({ cfg, accountId }).config.capabilities;
   const nextCapabilities = Array.isArray(capabilities)
     ? interactiveReplies
@@ -96,7 +96,7 @@ function createSlackTokenCredential(params: {
     keepPrompt: params.keepPrompt,
     inputPrompt: params.inputPrompt,
     allowEnv: ({ accountId }: { accountId: string }) => accountId === DEFAULT_ACCOUNT_ID,
-    inspect: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId: string }) => {
+    inspect: ({ cfg, accountId }: { cfg: BrikkoStudioConfig; accountId: string }) => {
       const resolved = resolveSlackAccount({ cfg, accountId });
       const configuredValue =
         params.inputKey === "botToken" ? resolved.config.botToken : resolved.config.appToken;
@@ -111,14 +111,14 @@ function createSlackTokenCredential(params: {
             : undefined,
       };
     },
-    applyUseEnv: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId: string }) =>
+    applyUseEnv: ({ cfg, accountId }: { cfg: BrikkoStudioConfig; accountId: string }) =>
       enableSlackAccount(cfg, accountId),
     applySet: ({
       cfg,
       accountId,
       value,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       accountId: string;
       value: unknown;
     }) =>
@@ -247,13 +247,13 @@ export function createSlackSetupWizardBase(handlers: {
       channel,
       label: "Slack channels",
       placeholder: "#general, #private, C123",
-      currentPolicy: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId: string }) =>
+      currentPolicy: ({ cfg, accountId }: { cfg: BrikkoStudioConfig; accountId: string }) =>
         resolveSlackAccount({ cfg, accountId }).config.groupPolicy ?? "allowlist",
-      currentEntries: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId: string }) =>
+      currentEntries: ({ cfg, accountId }: { cfg: BrikkoStudioConfig; accountId: string }) =>
         Object.entries(resolveSlackAccount({ cfg, accountId }).config.channels ?? {})
           .filter(([, value]) => value?.enabled !== false)
           .map(([key]) => key),
-      updatePrompt: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId: string }) =>
+      updatePrompt: ({ cfg, accountId }: { cfg: BrikkoStudioConfig; accountId: string }) =>
         Boolean(resolveSlackAccount({ cfg, accountId }).config.channels),
       resolveAllowlist: handlers.resolveGroupAllowlist,
       fallbackResolved: (entries) => entries,
@@ -262,7 +262,7 @@ export function createSlackSetupWizardBase(handlers: {
         accountId,
         resolved,
       }: {
-        cfg: Brikko StudioConfig;
+        cfg: BrikkoStudioConfig;
         accountId: string;
         resolved: unknown;
       }) => setSlackChannelAllowlist(cfg, accountId, resolved as string[]),
@@ -284,7 +284,7 @@ export function createSlackSetupWizardBase(handlers: {
         cfg: setSlackInteractiveReplies(cfg, accountId, enableInteractiveReplies),
       };
     },
-    disable: (cfg: Brikko StudioConfig) => setSetupChannelEnabled(cfg, channel, false),
+    disable: (cfg: BrikkoStudioConfig) => setSetupChannelEnabled(cfg, channel, false),
   } satisfies ChannelSetupWizard;
 }
 export function createSlackSetupWizardProxy(

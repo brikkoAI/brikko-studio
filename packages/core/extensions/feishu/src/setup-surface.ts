@@ -9,7 +9,7 @@ import {
   type ChannelSetupDmPolicy,
   type ChannelSetupWizard,
   type DmPolicy,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type SecretInput,
 } from "brikko-studio/plugin-sdk/setup";
 import { resolveDefaultFeishuAccountId, resolveFeishuAccount } from "./accounts.js";
@@ -30,7 +30,7 @@ function normalizeString(value: unknown): string | undefined {
   return trimmed || undefined;
 }
 
-function isFeishuConfigured(cfg: Brikko StudioConfig): boolean {
+function isFeishuConfigured(cfg: BrikkoStudioConfig): boolean {
   const feishuCfg = cfg.channels?.feishu as FeishuConfig | undefined;
 
   const isAppIdConfigured = (value: unknown): boolean => {
@@ -77,10 +77,10 @@ function isFeishuConfigured(cfg: Brikko StudioConfig): boolean {
  * - named account → writes to channels.feishu.accounts[accountId]
  */
 function patchFeishuConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   patch: Record<string, unknown>,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const feishuCfg = cfg.channels?.feishu as FeishuConfig | undefined;
   if (accountId === DEFAULT_ACCOUNT_ID) {
     return patchTopLevelChannelConfigSection({
@@ -109,10 +109,10 @@ function patchFeishuConfig(
 }
 
 async function promptFeishuAllowFrom(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   prompter: Parameters<NonNullable<ChannelSetupDmPolicy["promptAllowFrom"]>>[0]["prompter"];
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const feishuCfg = params.cfg.channels?.feishu as FeishuConfig | undefined;
   const resolvedAccountId = params.accountId ?? resolveDefaultFeishuAccountId(params.cfg);
   const account =
@@ -219,11 +219,11 @@ type WizardPrompter = Parameters<NonNullable<ChannelSetupWizard["finalize"]>>[0]
 // ---------------------------------------------------------------------------
 
 function applyNewAppSecurityPolicy(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   openId: string | undefined,
   groupPolicy: "allowlist" | "open" | "disabled",
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   let next = cfg;
 
   if (openId) {
@@ -298,10 +298,10 @@ async function runScanToCreate(prompter: WizardPrompter): Promise<AppRegistratio
 // ---------------------------------------------------------------------------
 
 async function runNewAppFlow(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: WizardPrompter;
   options: Parameters<NonNullable<ChannelSetupWizard["finalize"]>>[0]["options"];
-}): Promise<{ cfg: Brikko StudioConfig }> {
+}): Promise<{ cfg: BrikkoStudioConfig }> {
   const { prompter, options } = params;
   let next = params.cfg;
 
@@ -412,10 +412,10 @@ async function runNewAppFlow(params: {
 // ---------------------------------------------------------------------------
 
 async function runEditFlow(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: WizardPrompter;
   options: Parameters<NonNullable<ChannelSetupWizard["finalize"]>>[0]["options"];
-}): Promise<{ cfg: Brikko StudioConfig } | null> {
+}): Promise<{ cfg: BrikkoStudioConfig } | null> {
   const { prompter, options } = params;
   const next = params.cfg;
   const feishuCfg = next.channels?.feishu as FeishuConfig | undefined;
@@ -475,9 +475,9 @@ async function runEditFlow(params: {
 // ---------------------------------------------------------------------------
 
 export async function runFeishuLogin(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: WizardPrompter;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const { cfg, prompter } = params;
   const options = {};
   const alreadyConfigured = isFeishuConfigured(cfg);

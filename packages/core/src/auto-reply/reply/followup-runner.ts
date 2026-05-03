@@ -191,7 +191,7 @@ export function createFollowupRunner(params: {
     ) {
       await opts.onBlockReply({
         text:
-          "Follow-up completed, but Brikko Studio could not deliver it to the originating " +
+          "Follow-up completed, but BrikkoStudio could not deliver it to the originating " +
           "channel. The reply content was not forwarded to this channel to avoid " +
           "cross-channel misdelivery.",
         isError: true,

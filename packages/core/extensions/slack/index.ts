@@ -2,10 +2,10 @@ import {
   defineBundledChannelEntry,
   loadBundledEntryExportSync,
 } from "brikko-studio/plugin-sdk/channel-entry-contract";
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/channel-entry-contract";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/channel-entry-contract";
 
-function registerSlackPluginHttpRoutes(api: Brikko StudioPluginApi): void {
-  const register = loadBundledEntryExportSync<(api: Brikko StudioPluginApi) => void>(import.meta.url, {
+function registerSlackPluginHttpRoutes(api: BrikkoStudioPluginApi): void {
+  const register = loadBundledEntryExportSync<(api: BrikkoStudioPluginApi) => void>(import.meta.url, {
     specifier: "./http-routes-api.js",
     exportName: "registerSlackPluginHttpRoutes",
   });

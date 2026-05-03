@@ -1,5 +1,5 @@
 import { isIP } from "node:net";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { hasConfiguredSecretInput } from "../config/types.secrets.js";
 import { resolveGatewayAuth } from "../gateway/auth-resolve.js";
 import {
@@ -10,7 +10,7 @@ import type { SecurityAuditFinding } from "./audit.types.js";
 import { collectCoreInsecureOrDangerousFlags } from "./core-dangerous-config-flags.js";
 import { DEFAULT_GATEWAY_HTTP_TOOL_DENY } from "./dangerous-tools.js";
 
-type CollectDangerousConfigFlags = (cfg: Brikko StudioConfig) => string[];
+type CollectDangerousConfigFlags = (cfg: BrikkoStudioConfig) => string[];
 
 export type CollectGatewayConfigFindingsOptions = {
   collectDangerousConfigFlags?: CollectDangerousConfigFlags;
@@ -21,8 +21,8 @@ function hasNonEmptyString(value: unknown): value is string {
 }
 
 export function collectGatewayConfigFindings(
-  cfg: Brikko StudioConfig,
-  sourceConfig: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
+  sourceConfig: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv,
   options: CollectGatewayConfigFindingsOptions = {},
 ): SecurityAuditFinding[] {

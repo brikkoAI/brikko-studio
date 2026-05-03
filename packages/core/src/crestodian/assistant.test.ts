@@ -95,8 +95,8 @@ describe("Crestodian assistant", () => {
     expect(prompt).toContain("Default model: openai/gpt-5.5");
     expect(prompt).toContain("id=main, name=Main, workspace=/tmp/main");
     expect(prompt).toContain("OpenAI API key: found");
-    expect(prompt).toContain("Brikko Studio docs: /tmp/brikko-studio/docs");
-    expect(prompt).toContain("Brikko Studio source: /tmp/brikko-studio");
+    expect(prompt).toContain("BrikkoStudio docs: /tmp/brikko-studio/docs");
+    expect(prompt).toContain("BrikkoStudio source: /tmp/brikko-studio");
   });
 
   it("uses Claude CLI first for configless planning", async () => {

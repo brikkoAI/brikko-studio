@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import { buildNpmResolutionFields, type NpmSpecResolution } from "../infra/install-source-utils.js";
 
@@ -14,9 +14,9 @@ export function buildNpmResolutionInstallFields(
 }
 
 export function recordPluginInstall(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   update: PluginInstallUpdate,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const { pluginId, ...record } = update;
   const installs = {
     ...cfg.plugins?.installs,

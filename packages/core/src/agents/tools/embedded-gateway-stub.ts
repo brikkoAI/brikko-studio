@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { CallGatewayOptions } from "../../gateway/call.js";
 import type { SessionsListParams, SessionsResolveParams } from "../../gateway/protocol/index.js";
 import type { ReadSessionMessagesAsyncOptions } from "../../gateway/session-utils.fs.js";
@@ -8,8 +8,8 @@ import type { SessionsResolveResult } from "../../gateway/sessions-resolve.js";
 type EmbeddedCallGateway = <T = Record<string, unknown>>(opts: CallGatewayOptions) => Promise<T>;
 
 interface EmbeddedGatewayRuntime {
-  resolveSessionAgentId: (opts: { sessionKey: string; config: Brikko StudioConfig }) => string;
-  getRuntimeConfig: () => Brikko StudioConfig;
+  resolveSessionAgentId: (opts: { sessionKey: string; config: BrikkoStudioConfig }) => string;
+  getRuntimeConfig: () => BrikkoStudioConfig;
   augmentChatHistoryWithCliSessionImports: (opts: {
     entry: unknown;
     provider: string | undefined;
@@ -25,28 +25,28 @@ interface EmbeddedGatewayRuntime {
     messages: unknown[];
     maxSingleMessageBytes: number;
   }) => { messages: unknown[] };
-  resolveEffectiveChatHistoryMaxChars: (cfg: Brikko StudioConfig) => number;
+  resolveEffectiveChatHistoryMaxChars: (cfg: BrikkoStudioConfig) => number;
   projectRecentChatDisplayMessages: (
     msgs: unknown[],
     opts?: { maxChars?: number; maxMessages?: number },
   ) => unknown[];
   capArrayByJsonBytes: (items: unknown[], maxBytes: number) => { items: unknown[] };
   listSessionsFromStoreAsync: (opts: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     storePath: string;
     store: unknown;
     opts: SessionsListParams;
   }) => Promise<SessionsListResult>;
-  loadCombinedSessionStoreForGateway: (cfg: Brikko StudioConfig) => {
+  loadCombinedSessionStoreForGateway: (cfg: BrikkoStudioConfig) => {
     storePath: string;
     store: unknown;
   };
   resolveSessionKeyFromResolveParams: (opts: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     p: SessionsResolveParams;
   }) => Promise<SessionsResolveResult>;
   loadSessionEntry: (sessionKey: string) => {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     storePath: string | undefined;
     entry: Record<string, unknown> | undefined;
   };
@@ -57,7 +57,7 @@ interface EmbeddedGatewayRuntime {
     opts: ReadSessionMessagesAsyncOptions,
   ) => Promise<unknown[]>;
   resolveSessionModelRef: (
-    cfg: Brikko StudioConfig,
+    cfg: BrikkoStudioConfig,
     entry: unknown,
     sessionAgentId: string,
   ) => { provider: string | undefined };

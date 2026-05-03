@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import {
   collectDiscordMissingEnvTokenWarnings,
@@ -319,7 +319,7 @@ describe("discord doctor", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const hits = scanDiscordNumericIdEntries(cfg);
     expect(hits.map((hit) => hit.path)).toEqual([
@@ -342,7 +342,7 @@ describe("discord doctor", () => {
           guilds: { main: { users: [111], roles: [222] } },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const result = maybeRepairDiscordNumericIds(cfg, "brikko-studio doctor --fix");
     expect(result.config.channels?.discord?.allowFrom).toEqual(["123"]);
@@ -370,7 +370,7 @@ describe("discord doctor", () => {
           allowFrom: ["123"],
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(collectDiscordMissingEnvTokenWarnings({ cfg, env: {} })).toEqual([
       expect.stringContaining("DISCORD_BOT_TOKEN is absent"),
@@ -398,7 +398,7 @@ describe("discord doctor", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(collectDiscordMissingEnvTokenWarnings({ cfg, env: {} })).toEqual([]);
   });

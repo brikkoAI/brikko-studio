@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { beforeAll, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 const repoRoot = fileURLToPath(new URL("../..", import.meta.url));
 
@@ -26,7 +26,7 @@ describe("hasConfiguredWebSearchCredential", () => {
   it("keeps empty config and env on the manifest-only path", () => {
     expect(
       hasConfiguredWebSearchCredential({
-        config: {} as Brikko StudioConfig,
+        config: {} as BrikkoStudioConfig,
         env: {},
         origin: "bundled",
         bundledAllowlistCompat: true,
@@ -39,7 +39,7 @@ describe("hasConfiguredWebSearchCredential", () => {
       hasConfiguredWebSearchCredential({
         config: {
           tools: { web: { search: { apiKey: "brave-key" } } },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         env: {},
         origin: "bundled",
         bundledAllowlistCompat: true,

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import * as agentRuntimeModule from "brikko-studio/plugin-sdk/simple-completion-runtime";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { EMPTY_DISCORD_TEST_CONFIG } from "../test-support/config.js";
@@ -77,7 +77,7 @@ describe("generateThreadTitle", () => {
           model: "openrouter/anthropic/claude-sonnet-4-5@work",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await generateThreadTitle({
       cfg,

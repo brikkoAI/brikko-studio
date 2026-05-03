@@ -3,9 +3,9 @@ import os from "node:os";
 import path from "node:path";
 import type { Api, Model } from "@mariozechner/pi-ai";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { withEnvAsync } from "../test-utils/env.js";
-import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
+import { withBrikkoStudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import {
   clearRuntimeAuthProfileStoreSnapshots,
   ensureAuthProfileStore,
@@ -125,7 +125,7 @@ vi.mock("./model-auth-env-vars.js", () => {
     PROVIDER_ENV_API_KEY_CANDIDATES: candidates,
     listKnownProviderEnvApiKeyNames: () => [...new Set(Object.values(candidates).flat())],
     resolveProviderEnvApiKeyCandidates: () => candidates,
-    resolveProviderEnvAuthEvidence: (params?: { config?: Brikko StudioConfig }) => {
+    resolveProviderEnvAuthEvidence: (params?: { config?: BrikkoStudioConfig }) => {
       const evidence = {
         "google-vertex": [
           {
@@ -291,7 +291,7 @@ function buildDemoLocalStore(keys: string[]) {
   };
 }
 
-function buildDemoLocalProviderCfg(apiKey: string): Brikko StudioConfig {
+function buildDemoLocalProviderCfg(apiKey: string): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -324,7 +324,7 @@ async function resolveDemoLocalApiKey(params: {
 
 describe("getApiKeyForModel", () => {
   it("reads oauth auth-profiles entries from auth-profiles.json via explicit profile", async () => {
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         layout: "state-only",
         prefix: "brikko-studio-oauth-",
@@ -363,7 +363,7 @@ describe("getApiKeyForModel", () => {
   });
 
   it("suggests openai-codex when only Codex OAuth is configured", async () => {
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         layout: "state-only",
         prefix: "brikko-studio-auth-",
@@ -404,7 +404,7 @@ describe("getApiKeyForModel", () => {
       expires: createUsableOAuthExpiry(),
     });
 
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         layout: "state-only",
         prefix: "brikko-studio-auth-scope-",
@@ -434,7 +434,7 @@ describe("getApiKeyForModel", () => {
       expires: createUsableOAuthExpiry(),
     });
 
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         layout: "state-only",
         prefix: "brikko-studio-auth-claude-cli-",
@@ -543,7 +543,7 @@ describe("getApiKeyForModel", () => {
     const credentialsPath = path.join(tempDir, "credentials.json");
     await fs.writeFile(credentialsPath, "{}", "utf8");
 
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       plugins: {
         allow: ["workspace-cloud"],
       },

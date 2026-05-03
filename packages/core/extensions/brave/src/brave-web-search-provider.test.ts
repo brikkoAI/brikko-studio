@@ -93,7 +93,7 @@ describe("brave web search provider", () => {
       throw new Error("Expected tool definition");
     }
 
-    const result = await tool.execute({ query: "Brikko Studio docs" });
+    const result = await tool.execute({ query: "BrikkoStudio docs" });
 
     expect(result).toMatchObject({
       error: "missing_brave_api_key",

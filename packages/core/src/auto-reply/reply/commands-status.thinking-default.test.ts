@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 
 vi.mock("../../agents/fast-mode.js", () => ({
   resolveFastModeState: () => ({ enabled: false }),
@@ -37,7 +37,7 @@ vi.mock("./queue.js", async () => {
 
 const { buildStatusReply } = await import("./commands-status.js");
 
-async function buildKiraStatusReply(cfg: Brikko StudioConfig) {
+async function buildKiraStatusReply(cfg: BrikkoStudioConfig) {
   return await buildStatusReply({
     cfg,
     command: {
@@ -75,7 +75,7 @@ describe("buildStatusReply", () => {
       channels: {
         whatsapp: { allowFrom: ["*"] },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const reply = await buildKiraStatusReply(cfg);
 
@@ -105,7 +105,7 @@ describe("buildStatusReply", () => {
       channels: {
         whatsapp: { allowFrom: ["*"] },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const reply = await buildKiraStatusReply(cfg);
 
@@ -132,7 +132,7 @@ describe("buildStatusReply", () => {
       channels: {
         whatsapp: { allowFrom: ["*"] },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const reply = await buildKiraStatusReply(cfg);
 
@@ -161,7 +161,7 @@ describe("buildStatusReply", () => {
       channels: {
         whatsapp: { allowFrom: ["*"] },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const reply = await buildKiraStatusReply(cfg);
 
@@ -191,7 +191,7 @@ describe("buildStatusReply", () => {
       channels: {
         whatsapp: { allowFrom: ["*"] },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const reply = await buildKiraStatusReply(cfg);
 

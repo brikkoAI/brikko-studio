@@ -7,7 +7,7 @@ import { commitConfigWithPendingPluginInstalls } from "../cli/plugins-install-re
 import { readConfigFileSnapshot, resolveGatewayPort } from "../config/config.js";
 import { logConfigUpdated } from "../config/logging.js";
 import { ConfigMutationConflictError } from "../config/mutate.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
 import { resolvePluginContributionOwners } from "../plugins/plugin-registry.js";
 import type { RuntimeEnv } from "../runtime.js";
@@ -86,7 +86,7 @@ function mergeWizardConfigOntoLatest(current: unknown, base: unknown, next: unkn
 }
 
 async function resolveGatewaySecretInputForWizard(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   value: unknown;
   path: string;
 }): Promise<string | undefined> {
@@ -103,7 +103,7 @@ async function resolveGatewaySecretInputForWizard(params: {
 }
 
 async function runGatewayHealthCheck(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime: RuntimeEnv;
   port: number;
 }): Promise<void> {
@@ -195,11 +195,11 @@ async function promptChannelMode(runtime: RuntimeEnv): Promise<ChannelsWizardMod
 }
 
 async function promptWebToolsConfig(
-  nextConfig: Brikko StudioConfig,
+  nextConfig: BrikkoStudioConfig,
   runtime: RuntimeEnv,
   prompter: ReturnType<typeof createClackPrompter>,
-): Promise<Brikko StudioConfig> {
-  type WebSearchConfig = NonNullable<NonNullable<Brikko StudioConfig["tools"]>["web"]>["search"];
+): Promise<BrikkoStudioConfig> {
+  type WebSearchConfig = NonNullable<NonNullable<BrikkoStudioConfig["tools"]>["web"]>["search"];
   const existingSearch = nextConfig.tools?.web?.search;
   const existingFetch = nextConfig.tools?.web?.fetch;
   const { isCodexNativeWebSearchRelevant } = await import("../agents/codex-native-web-search.js");
@@ -367,12 +367,12 @@ export async function runConfigureWizard(
   runtime: RuntimeEnv = defaultRuntime,
 ) {
   try {
-    intro(opts.command === "update" ? "Brikko Studio update wizard" : "Brikko Studio configure");
+    intro(opts.command === "update" ? "BrikkoStudio update wizard" : "BrikkoStudio configure");
     const prompter = createClackPrompter();
 
     const snapshot = await readConfigFileSnapshot();
     let currentBaseHash = snapshot.hash;
-    const baseConfig: Brikko StudioConfig = snapshot.valid
+    const baseConfig: BrikkoStudioConfig = snapshot.valid
       ? (snapshot.sourceConfig ?? snapshot.config)
       : {};
 
@@ -534,7 +534,7 @@ export async function runConfigureWizard(
               diskConfig,
               mergeBaseConfig,
               nextConfig,
-            ) as Brikko StudioConfig;
+            ) as BrikkoStudioConfig;
             continue;
           }
           throw err;

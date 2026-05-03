@@ -22,7 +22,7 @@ import type {
 } from "./plugin-auto-enable.types.js";
 import { ensurePluginAllowlisted } from "./plugins-allowlist.js";
 import { isBlockedObjectKey } from "./prototype-keys.js";
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 export type {
   PluginAutoEnableCandidate,
   PluginAutoEnableResult,
@@ -47,7 +47,7 @@ function resolveAutoEnableProviderPluginIds(
   return Object.fromEntries(entries);
 }
 
-function collectModelRefs(cfg: Brikko StudioConfig): string[] {
+function collectModelRefs(cfg: BrikkoStudioConfig): string[] {
   const refs: string[] = [];
   const pushModelRef = (value: unknown) => {
     if (typeof value === "string" && value.trim()) {
@@ -111,7 +111,7 @@ function extractProviderFromModelRef(value: string): string | null {
   return normalizeProviderId(trimmed.slice(0, slash));
 }
 
-function hasConfiguredEmbeddedHarnessRuntime(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): boolean {
+function hasConfiguredEmbeddedHarnessRuntime(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): boolean {
   return collectConfiguredAgentHarnessRuntimes(cfg, env).length > 0;
 }
 
@@ -133,7 +133,7 @@ function resolveAgentHarnessOwnerPluginIds(
     .toSorted((left, right) => left.localeCompare(right));
 }
 
-function isProviderConfigured(cfg: Brikko StudioConfig, providerId: string): boolean {
+function isProviderConfigured(cfg: BrikkoStudioConfig, providerId: string): boolean {
   const normalized = normalizeProviderId(providerId);
   const profiles = cfg.auth?.profiles;
   if (profiles && typeof profiles === "object") {
@@ -167,12 +167,12 @@ function isProviderConfigured(cfg: Brikko StudioConfig, providerId: string): boo
   return false;
 }
 
-function hasPluginOwnedWebSearchConfig(cfg: Brikko StudioConfig, pluginId: string): boolean {
+function hasPluginOwnedWebSearchConfig(cfg: BrikkoStudioConfig, pluginId: string): boolean {
   const pluginConfig = cfg.plugins?.entries?.[pluginId]?.config;
   return isRecord(pluginConfig) && isRecord(pluginConfig.webSearch);
 }
 
-function hasPluginOwnedWebFetchConfig(cfg: Brikko StudioConfig, pluginId: string): boolean {
+function hasPluginOwnedWebFetchConfig(cfg: BrikkoStudioConfig, pluginId: string): boolean {
   const pluginConfig = cfg.plugins?.entries?.[pluginId]?.config;
   return isRecord(pluginConfig) && isRecord(pluginConfig.webFetch);
 }
@@ -188,7 +188,7 @@ function resolvePluginOwnedToolConfigKeys(plugin: PluginManifestRecord): string[
   return Object.keys(properties).filter((key) => key !== "webSearch" && key !== "webFetch");
 }
 
-function hasPluginOwnedToolConfig(cfg: Brikko StudioConfig, plugin: PluginManifestRecord): boolean {
+function hasPluginOwnedToolConfig(cfg: BrikkoStudioConfig, plugin: PluginManifestRecord): boolean {
   const pluginConfig = cfg.plugins?.entries?.[plugin.id]?.config;
   if (!isRecord(pluginConfig)) {
     return false;
@@ -291,7 +291,7 @@ function collectPluginIdsForConfiguredChannel(
   return [builtInId ?? claims[0]?.plugin.id ?? normalizedChannelId];
 }
 
-function collectConfiguredChannelIds(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): string[] {
+function collectConfiguredChannelIds(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): string[] {
   return listPotentialConfiguredChannelPresenceSignals(cfg, env, {
     includePersistedAuthState: false,
   })
@@ -299,7 +299,7 @@ function collectConfiguredChannelIds(cfg: Brikko StudioConfig, env: NodeJS.Proce
     .filter((channelId) => isChannelConfigured(cfg, channelId, env));
 }
 
-function hasConfiguredWebSearchPluginEntry(cfg: Brikko StudioConfig): boolean {
+function hasConfiguredWebSearchPluginEntry(cfg: BrikkoStudioConfig): boolean {
   const entries = cfg.plugins?.entries;
   return (
     !!entries &&
@@ -310,7 +310,7 @@ function hasConfiguredWebSearchPluginEntry(cfg: Brikko StudioConfig): boolean {
   );
 }
 
-function hasConfiguredWebFetchPluginEntry(cfg: Brikko StudioConfig): boolean {
+function hasConfiguredWebFetchPluginEntry(cfg: BrikkoStudioConfig): boolean {
   const entries = cfg.plugins?.entries;
   return (
     !!entries &&
@@ -321,7 +321,7 @@ function hasConfiguredWebFetchPluginEntry(cfg: Brikko StudioConfig): boolean {
   );
 }
 
-function hasConfiguredPluginConfigEntry(cfg: Brikko StudioConfig): boolean {
+function hasConfiguredPluginConfigEntry(cfg: BrikkoStudioConfig): boolean {
   const entries = cfg.plugins?.entries;
   return (
     !!entries &&
@@ -345,7 +345,7 @@ function toolPolicyReferencesBrowser(value: unknown): boolean {
   );
 }
 
-function hasBrowserToolReference(cfg: Brikko StudioConfig): boolean {
+function hasBrowserToolReference(cfg: BrikkoStudioConfig): boolean {
   if (toolPolicyReferencesBrowser(cfg.tools)) {
     return true;
   }
@@ -355,7 +355,7 @@ function hasBrowserToolReference(cfg: Brikko StudioConfig): boolean {
     : false;
 }
 
-function collectConfiguredPluginEntryIds(cfg: Brikko StudioConfig): string[] {
+function collectConfiguredPluginEntryIds(cfg: BrikkoStudioConfig): string[] {
   const entries = cfg.plugins?.entries;
   if (!entries || typeof entries !== "object") {
     return [];
@@ -365,23 +365,23 @@ function collectConfiguredPluginEntryIds(cfg: Brikko StudioConfig): string[] {
     .filter((pluginId) => pluginId && !isPluginEntryExplicitlyDisabled(cfg, pluginId));
 }
 
-function hasOwnPluginEntry(cfg: Brikko StudioConfig, pluginId: string): boolean {
+function hasOwnPluginEntry(cfg: BrikkoStudioConfig, pluginId: string): boolean {
   const entries = cfg.plugins?.entries;
   return !!entries && typeof entries === "object" && Object.hasOwn(entries, pluginId);
 }
 
-function isPluginEntryExplicitlyDisabled(cfg: Brikko StudioConfig, pluginId: string): boolean {
+function isPluginEntryExplicitlyDisabled(cfg: BrikkoStudioConfig, pluginId: string): boolean {
   return cfg.plugins?.entries?.[pluginId]?.enabled === false;
 }
 
-function hasNonDisabledPluginEntry(cfg: Brikko StudioConfig, pluginId: string): boolean {
+function hasNonDisabledPluginEntry(cfg: BrikkoStudioConfig, pluginId: string): boolean {
   if (!hasOwnPluginEntry(cfg, pluginId)) {
     return false;
   }
   return !isPluginEntryExplicitlyDisabled(cfg, pluginId);
 }
 
-function hasBrowserSetupAutoEnableRelevantConfig(cfg: Brikko StudioConfig): boolean {
+function hasBrowserSetupAutoEnableRelevantConfig(cfg: BrikkoStudioConfig): boolean {
   if (cfg.browser?.enabled === false || isPluginEntryExplicitlyDisabled(cfg, "browser")) {
     return false;
   }
@@ -394,7 +394,7 @@ function hasBrowserSetupAutoEnableRelevantConfig(cfg: Brikko StudioConfig): bool
   return hasBrowserToolReference(cfg);
 }
 
-function hasAcpxSetupAutoEnableRelevantConfig(cfg: Brikko StudioConfig): boolean {
+function hasAcpxSetupAutoEnableRelevantConfig(cfg: BrikkoStudioConfig): boolean {
   if (isPluginEntryExplicitlyDisabled(cfg, "acpx")) {
     return false;
   }
@@ -409,7 +409,7 @@ function hasAcpxSetupAutoEnableRelevantConfig(cfg: Brikko StudioConfig): boolean
   return configured && (!backend || backend === "acpx");
 }
 
-function hasXaiSetupAutoEnableRelevantConfig(cfg: Brikko StudioConfig): boolean {
+function hasXaiSetupAutoEnableRelevantConfig(cfg: BrikkoStudioConfig): boolean {
   if (isPluginEntryExplicitlyDisabled(cfg, "xai")) {
     return false;
   }
@@ -421,7 +421,7 @@ function hasXaiSetupAutoEnableRelevantConfig(cfg: Brikko StudioConfig): boolean 
   );
 }
 
-function resolveRelevantSetupAutoEnablePluginIds(cfg: Brikko StudioConfig): string[] {
+function resolveRelevantSetupAutoEnablePluginIds(cfg: BrikkoStudioConfig): string[] {
   const pluginIds = new Set<string>(collectConfiguredPluginEntryIds(cfg));
   if (hasBrowserSetupAutoEnableRelevantConfig(cfg)) {
     pluginIds.add("browser");
@@ -435,7 +435,7 @@ function resolveRelevantSetupAutoEnablePluginIds(cfg: Brikko StudioConfig): stri
   return [...pluginIds].toSorted((left, right) => left.localeCompare(right));
 }
 
-function hasSetupAutoEnableRelevantConfig(cfg: Brikko StudioConfig): boolean {
+function hasSetupAutoEnableRelevantConfig(cfg: BrikkoStudioConfig): boolean {
   return (
     hasBrowserSetupAutoEnableRelevantConfig(cfg) ||
     hasAcpxSetupAutoEnableRelevantConfig(cfg) ||
@@ -444,12 +444,12 @@ function hasSetupAutoEnableRelevantConfig(cfg: Brikko StudioConfig): boolean {
   );
 }
 
-function hasPluginEntries(cfg: Brikko StudioConfig): boolean {
+function hasPluginEntries(cfg: BrikkoStudioConfig): boolean {
   const entries = cfg.plugins?.entries;
   return !!entries && typeof entries === "object" && Object.keys(entries).length > 0;
 }
 
-function hasPluginAllowlistWithMaterialEntries(cfg: Brikko StudioConfig): boolean {
+function hasPluginAllowlistWithMaterialEntries(cfg: BrikkoStudioConfig): boolean {
   if (
     !Array.isArray(cfg.plugins?.allow) ||
     cfg.plugins.allow.length === 0 ||
@@ -464,7 +464,7 @@ function hasPluginAllowlistWithMaterialEntries(cfg: Brikko StudioConfig): boolea
   return Object.values(entries).some(hasMaterialPluginEntryConfig);
 }
 
-function hasConfiguredProviderModelOrHarness(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): boolean {
+function hasConfiguredProviderModelOrHarness(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): boolean {
   if (cfg.auth?.profiles && Object.keys(cfg.auth.profiles).length > 0) {
     return true;
   }
@@ -477,11 +477,11 @@ function hasConfiguredProviderModelOrHarness(cfg: Brikko StudioConfig, env: Node
   return hasConfiguredEmbeddedHarnessRuntime(cfg, env);
 }
 
-function arePluginsGloballyDisabled(cfg: Brikko StudioConfig): boolean {
+function arePluginsGloballyDisabled(cfg: BrikkoStudioConfig): boolean {
   return cfg.plugins?.enabled === false;
 }
 
-function configMayNeedPluginManifestRegistry(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): boolean {
+function configMayNeedPluginManifestRegistry(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): boolean {
   if (arePluginsGloballyDisabled(cfg)) {
     return false;
   }
@@ -508,7 +508,7 @@ function configMayNeedPluginManifestRegistry(cfg: Brikko StudioConfig, env: Node
 }
 
 export function configMayNeedPluginAutoEnable(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv,
 ): boolean {
   if (arePluginsGloballyDisabled(cfg)) {
@@ -568,7 +568,7 @@ export function resolvePluginAutoEnableCandidateReason(
 }
 
 export function resolveConfiguredPluginAutoEnableCandidates(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   registry: PluginManifestRegistry;
 }): PluginAutoEnableCandidate[] {
@@ -672,7 +672,7 @@ export function resolveConfiguredPluginAutoEnableCandidates(params: {
   return changes;
 }
 
-function isPluginExplicitlyDisabled(cfg: Brikko StudioConfig, pluginId: string): boolean {
+function isPluginExplicitlyDisabled(cfg: BrikkoStudioConfig, pluginId: string): boolean {
   const builtInChannelId = normalizeChatChannelId(pluginId);
   if (builtInChannelId) {
     const channels = cfg.channels as Record<string, unknown> | undefined;
@@ -689,12 +689,12 @@ function isPluginExplicitlyDisabled(cfg: Brikko StudioConfig, pluginId: string):
   return cfg.plugins?.entries?.[pluginId]?.enabled === false;
 }
 
-function isPluginDenied(cfg: Brikko StudioConfig, pluginId: string): boolean {
+function isPluginDenied(cfg: BrikkoStudioConfig, pluginId: string): boolean {
   const deny = cfg.plugins?.deny;
   return Array.isArray(deny) && deny.includes(pluginId);
 }
 
-function isPluginExplicitlySelected(cfg: Brikko StudioConfig, pluginId: string): boolean {
+function isPluginExplicitlySelected(cfg: BrikkoStudioConfig, pluginId: string): boolean {
   const allow = cfg.plugins?.allow;
   if (Array.isArray(allow) && allow.includes(pluginId)) {
     return true;
@@ -703,11 +703,11 @@ function isPluginExplicitlySelected(cfg: Brikko StudioConfig, pluginId: string):
 }
 
 function disableImplicitPreferredOverPlugin(params: {
-  config: Brikko StudioConfig;
-  originalConfig: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
+  originalConfig: BrikkoStudioConfig;
   pluginId: string;
   manifestRegistry: PluginManifestRegistry;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   if (isPluginExplicitlySelected(params.originalConfig, params.pluginId)) {
     return params.config;
   }
@@ -733,7 +733,7 @@ function disableImplicitPreferredOverPlugin(params: {
   };
 }
 
-function isBuiltInChannelAlreadyEnabled(cfg: Brikko StudioConfig, channelId: string): boolean {
+function isBuiltInChannelAlreadyEnabled(cfg: BrikkoStudioConfig, channelId: string): boolean {
   const channels = cfg.channels as Record<string, unknown> | undefined;
   const channelConfig = channels?.[channelId];
   return (
@@ -768,10 +768,10 @@ function resolveAutoEnableChannelId(params: {
 }
 
 function registerPluginEntry(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   entry: PluginAutoEnableCandidate,
   manifestRegistry: PluginManifestRegistry,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const builtInChannelId = resolveAutoEnableChannelId({ entry, manifestRegistry });
   if (builtInChannelId) {
     const channels = cfg.channels as Record<string, unknown> | undefined;
@@ -829,10 +829,10 @@ function isKnownPluginId(pluginId: string, manifestRegistry: PluginManifestRegis
 }
 
 function materializeConfiguredPluginEntryAllowlist(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
   manifestRegistry: PluginManifestRegistry;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   let next = params.config;
   const allow = next.plugins?.allow;
   const entries = next.plugins?.entries;
@@ -887,7 +887,7 @@ function formatAutoEnableChange(
 }
 
 export function resolvePluginAutoEnableManifestRegistry(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   manifestRegistry?: PluginManifestRegistry;
 }): PluginManifestRegistry {
@@ -903,7 +903,7 @@ export function resolvePluginAutoEnableManifestRegistry(params: {
 }
 
 export function materializePluginAutoEnableCandidatesInternal(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   candidates: readonly PluginAutoEnableCandidate[];
   env: NodeJS.ProcessEnv;
   manifestRegistry: PluginManifestRegistry;

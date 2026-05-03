@@ -7,14 +7,14 @@ import {
 } from "./qa-runtime.test-helpers.js";
 
 const loadBundledPluginPublicSurfaceModuleSync = vi.hoisted(() => vi.fn());
-const resolveBrikko StudioPackageRootSync = vi.hoisted(() => vi.fn());
+const resolveBrikkoStudioPackageRootSync = vi.hoisted(() => vi.fn());
 
 vi.mock("./facade-runtime.js", () => ({
   loadBundledPluginPublicSurfaceModuleSync,
 }));
 
 vi.mock("../infra/brikko-studio-root.js", () => ({
-  resolveBrikko StudioPackageRootSync,
+  resolveBrikkoStudioPackageRootSync,
 }));
 
 describe("plugin-sdk qa-runtime", () => {
@@ -23,7 +23,7 @@ describe("plugin-sdk qa-runtime", () => {
 
   beforeEach(() => {
     loadBundledPluginPublicSurfaceModuleSync.mockReset();
-    resolveBrikko StudioPackageRootSync.mockReset().mockReturnValue(null);
+    resolveBrikkoStudioPackageRootSync.mockReset().mockReturnValue(null);
     delete process.env.BRIKKO_STUDIO_ENABLE_PRIVATE_QA_CLI;
   });
 
@@ -52,7 +52,7 @@ describe("plugin-sdk qa-runtime", () => {
       tempDirs,
       importRuntime: () => import("./qa-runtime.js"),
       loadBundledPluginPublicSurfaceModuleSync,
-      resolveBrikko StudioPackageRootSync,
+      resolveBrikkoStudioPackageRootSync,
     });
   });
 

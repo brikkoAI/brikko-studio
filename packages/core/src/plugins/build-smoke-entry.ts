@@ -4,4 +4,4 @@ export {
   getPluginCommandSpecs,
   matchPluginCommand,
 } from "./commands.js";
-export { loadBrikko StudioPlugins } from "./loader.js";
+export { loadBrikkoStudioPlugins } from "./loader.js";

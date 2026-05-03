@@ -1,10 +1,10 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { inspectDiscordAccount } from "./account-inspect.js";
 
 const DEFAULT_DISCORD_ACCENT_COLOR = "#5865F2";
 
 type ResolveDiscordAccentColorParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 };
 

@@ -1,10 +1,10 @@
 // Manual facade. Keep loader boundary explicit.
-import type { ModelProviderConfig, Brikko StudioConfig } from "../config/types.js";
+import type { ModelProviderConfig, BrikkoStudioConfig } from "../config/types.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
 
 type FacadeModule = {
-  applyXiaomiConfig: (cfg: Brikko StudioConfig) => Brikko StudioConfig;
-  applyXiaomiProviderConfig: (cfg: Brikko StudioConfig) => Brikko StudioConfig;
+  applyXiaomiConfig: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig;
+  applyXiaomiProviderConfig: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig;
   buildXiaomiProvider: () => ModelProviderConfig;
   XIAOMI_DEFAULT_MODEL_ID: string;
   XIAOMI_DEFAULT_MODEL_REF: string;

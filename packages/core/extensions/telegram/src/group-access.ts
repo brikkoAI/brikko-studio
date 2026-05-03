@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ChannelGroupPolicy } from "brikko-studio/plugin-sdk/config-types";
 import type {
   TelegramAccountConfig,
@@ -120,7 +120,7 @@ export const resolveTelegramRuntimeGroupPolicy = (params: {
 export const evaluateTelegramGroupPolicyAccess = (params: {
   isGroup: boolean;
   chatId: string | number;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   telegramCfg: TelegramAccountConfig;
   topicConfig?: TelegramTopicConfig;
   groupConfig?: TelegramGroupConfig;

@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type {
   PluginWebFetchProviderEntry,
   PluginWebSearchProviderEntry,
@@ -115,8 +115,8 @@ vi.mock("../plugins/installed-plugin-index-records.js", async () => {
   };
 });
 
-function asConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+function asConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
 function providerPluginId(provider: ProviderUnderTest): string {
@@ -145,7 +145,7 @@ function ensureRecord(target: Record<string, unknown>, key: string): Record<stri
 }
 
 function setConfiguredProviderKey(
-  configTarget: Brikko StudioConfig,
+  configTarget: BrikkoStudioConfig,
   pluginId: string,
   value: unknown,
 ): void {
@@ -157,7 +157,7 @@ function setConfiguredProviderKey(
   webSearch.apiKey = value;
 }
 
-function setConfiguredFetchProviderKey(configTarget: Brikko StudioConfig, value: unknown): void {
+function setConfiguredFetchProviderKey(configTarget: BrikkoStudioConfig, value: unknown): void {
   const plugins = ensureRecord(configTarget as Record<string, unknown>, "plugins");
   const entries = ensureRecord(plugins, "entries");
   const pluginEntry = ensureRecord(entries, "firecrawl");
@@ -262,7 +262,7 @@ function buildTestWebFetchProviders(): PluginWebFetchProviderEntry[] {
   ];
 }
 
-async function runRuntimeWebTools(params: { config: Brikko StudioConfig; env?: NodeJS.ProcessEnv }) {
+async function runRuntimeWebTools(params: { config: BrikkoStudioConfig; env?: NodeJS.ProcessEnv }) {
   const sourceConfig = structuredClone(params.config);
   const resolvedConfig = structuredClone(params.config);
   const context = createResolverContext({
@@ -280,7 +280,7 @@ async function runRuntimeWebTools(params: { config: Brikko StudioConfig; env?: N
 function createProviderSecretRefConfig(
   provider: ProviderUnderTest,
   envRefId: string,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return asConfig({
     tools: {
       web: {
@@ -305,7 +305,7 @@ function createProviderSecretRefConfig(
   });
 }
 
-function readProviderKey(config: Brikko StudioConfig, provider: ProviderUnderTest): unknown {
+function readProviderKey(config: BrikkoStudioConfig, provider: ProviderUnderTest): unknown {
   const pluginConfig = config.plugins?.entries?.[providerPluginId(provider)]?.config as
     | { webSearch?: { apiKey?: unknown } }
     | undefined;

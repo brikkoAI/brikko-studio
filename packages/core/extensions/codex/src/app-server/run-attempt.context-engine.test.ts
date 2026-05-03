@@ -257,7 +257,7 @@ describe("runCodexAppServerAttempt context-engine lifecycle", () => {
             input: expect.arrayContaining([
               expect.objectContaining({
                 type: "text",
-                text: expect.stringContaining("Brikko Studio assembled context for this turn:"),
+                text: expect.stringContaining("BrikkoStudio assembled context for this turn:"),
               }),
             ]),
           }),

@@ -1,6 +1,6 @@
 import { ChannelType } from "discord-api-types/v10";
 import type { NativeCommandSpec } from "brikko-studio/plugin-sdk/command-auth";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { DiscordAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import * as pluginCommandsModule from "brikko-studio/plugin-sdk/plugin-runtime";
 import * as dispatcherModule from "brikko-studio/plugin-sdk/reply-dispatch-runtime";
@@ -26,7 +26,7 @@ function createInteraction(params?: { userId?: string }): MockCommandInteraction
   });
 }
 
-function createConfig(): Brikko StudioConfig {
+function createConfig(): BrikkoStudioConfig {
   return {
     commands: {
       allowFrom: {
@@ -48,10 +48,10 @@ function createConfig(): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-function createCommand(cfg: Brikko StudioConfig, discordConfig?: DiscordAccountConfig) {
+function createCommand(cfg: BrikkoStudioConfig, discordConfig?: DiscordAccountConfig) {
   const commandSpec: NativeCommandSpec = {
     name: "ping",
     description: "Ping",
@@ -82,7 +82,7 @@ function createDispatchSpy() {
 
 async function runGuildSlashCommand(params?: {
   userId?: string;
-  mutateConfig?: (cfg: Brikko StudioConfig) => void;
+  mutateConfig?: (cfg: BrikkoStudioConfig) => void;
   runtimeDiscordConfig?: DiscordAccountConfig;
   mutateInteraction?: (interaction: MockCommandInteraction) => void;
 }) {

@@ -6,7 +6,7 @@ import {
 } from "../auto-reply/heartbeat.js";
 import { parseDurationMs } from "../cli/parse-duration.js";
 import type { AgentDefaultsConfig } from "../config/types.agent-defaults.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeAgentId } from "../routing/session-key.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 
@@ -24,12 +24,12 @@ export type HeartbeatSummary = {
 
 const DEFAULT_HEARTBEAT_TARGET = "none";
 
-function hasExplicitHeartbeatAgents(cfg: Brikko StudioConfig) {
+function hasExplicitHeartbeatAgents(cfg: BrikkoStudioConfig) {
   const list = cfg.agents?.list ?? [];
   return list.some((entry) => Boolean(entry?.heartbeat));
 }
 
-export function isHeartbeatEnabledForAgent(cfg: Brikko StudioConfig, agentId?: string): boolean {
+export function isHeartbeatEnabledForAgent(cfg: BrikkoStudioConfig, agentId?: string): boolean {
   const resolvedAgentId = normalizeAgentId(agentId ?? resolveDefaultAgentId(cfg));
   const list = cfg.agents?.list ?? [];
   const hasExplicit = hasExplicitHeartbeatAgents(cfg);
@@ -45,7 +45,7 @@ export function isHeartbeatEnabledForAgent(cfg: Brikko StudioConfig, agentId?: s
 }
 
 export function resolveHeartbeatIntervalMs(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   overrideEvery?: string,
   heartbeat?: HeartbeatConfig,
 ) {
@@ -74,7 +74,7 @@ export function resolveHeartbeatIntervalMs(
 }
 
 export function resolveHeartbeatSummaryForAgent(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId?: string,
 ): HeartbeatSummary {
   const defaults = cfg.agents?.defaults?.heartbeat;

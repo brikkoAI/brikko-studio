@@ -14,13 +14,13 @@ import {
 import { buildReplyPromptBodies } from "../../../src/auto-reply/reply/prompt-prelude.js";
 import type { TemplateContext } from "../../../src/auto-reply/templating.js";
 import { SILENT_REPLY_TOKEN } from "../../../src/auto-reply/tokens.js";
-import type { Brikko StudioConfig } from "../../../src/config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../src/config/types.brikko-studio.js";
 import type {
   AnyAgentTool,
   EmbeddedRunAttemptParams,
 } from "../../../src/plugin-sdk/agent-harness-runtime.js";
 import { normalizeAgentRuntimeTools } from "../../../src/plugin-sdk/agent-harness-runtime.js";
-import { createBrikko StudioCodingTools } from "../../../src/plugin-sdk/agent-harness.js";
+import { createBrikkoStudioCodingTools } from "../../../src/plugin-sdk/agent-harness.js";
 import { loadBundledPluginTestApiSync } from "../../../src/test-utils/bundled-plugin-public-surface.js";
 
 export const CODEX_RUNTIME_HAPPY_PATH_PROMPT_SNAPSHOT_DIR =
@@ -128,7 +128,7 @@ const CODEX_WORKSPACE_BOOTSTRAP_CONTEXT_FILES = [
 ] as const;
 
 const CODEX_WORKSPACE_BOOTSTRAP_INSTRUCTIONS = [
-  "Brikko Studio loaded these user-editable workspace files. Treat them as project/user context. Codex loads AGENTS.md natively, so AGENTS.md is not repeated here.",
+  "BrikkoStudio loaded these user-editable workspace files. Treat them as project/user context. Codex loads AGENTS.md natively, so AGENTS.md is not repeated here.",
   "",
   "# Project Context",
   "",
@@ -149,7 +149,7 @@ const CODEX_WORKSPACE_BOOTSTRAP_CONFIG = {
   instructions: CODEX_WORKSPACE_BOOTSTRAP_INSTRUCTIONS,
 };
 
-const baseConfig: Brikko StudioConfig = {
+const baseConfig: BrikkoStudioConfig = {
   messages: {
     visibleReplies: "message_tool",
     groupChat: {
@@ -306,7 +306,7 @@ function createDynamicTools(params: {
   ctx: TemplateContext;
   trigger: "user" | "heartbeat";
 }): CodexDynamicToolSpec[] {
-  const tools = createBrikko StudioCodingTools({
+  const tools = createBrikkoStudioCodingTools({
     agentId: "main",
     workspaceDir: WORKSPACE_DIR,
     agentDir: AGENT_DIR,
@@ -382,10 +382,10 @@ function createScenarios(): PromptScenario[] {
     SenderId: "424242",
     SenderName: "Pash",
     SenderUsername: "pash",
-    GroupSubject: "Brikko Studio maintainers",
+    GroupSubject: "BrikkoStudio maintainers",
     GroupChannel: "#agent-sandbox",
-    GroupSpace: "Brikko Studio",
-    ConversationLabel: "Brikko Studio/#agent-sandbox",
+    GroupSpace: "BrikkoStudio",
+    ConversationLabel: "BrikkoStudio/#agent-sandbox",
     WasMentioned: true,
     InboundHistory: [
       {
@@ -394,10 +394,10 @@ function createScenarios(): PromptScenario[] {
       },
       {
         sender: "Pash",
-        body: "@Brikko Studio please verify the Codex happy path too.",
+        body: "@BrikkoStudio please verify the Codex happy path too.",
       },
     ],
-    Body: "@Brikko Studio can you audit whether this prompt path has conflicting silence instructions?",
+    Body: "@BrikkoStudio can you audit whether this prompt path has conflicting silence instructions?",
     BodyStripped: "can you audit whether this prompt path has conflicting silence instructions?",
   };
   const heartbeatCtx: TemplateContext = {
@@ -416,7 +416,7 @@ function createScenarios(): PromptScenario[] {
       title: "Telegram Direct Codex Message Tool Turn",
       notes: [
         "Default happy path: OpenAI model through the Codex harness/runtime, Telegram direct conversation, and message-tool-only visible replies.",
-        "A quiet turn is represented by not calling `message(action=send)`; the normal final assistant text is private to Brikko Studio/Codex.",
+        "A quiet turn is represented by not calling `message(action=send)`; the normal final assistant text is private to BrikkoStudio/Codex.",
       ],
       trigger: "user",
       ctx: telegramDirectCtx,
@@ -566,7 +566,7 @@ function renderModelBoundPromptLayers(params: {
   return [
     "## Reconstructed Model-Bound Prompt Layers",
     "",
-    "This is the deterministic model-bound layer stack Brikko Studio can snapshot for the Codex happy path. It uses a pinned Codex `gpt-5.5` prompt fixture generated from Codex's model catalog/cache shape, then adds the Codex permission developer text, simulated Brikko Studio workspace bootstrap config instructions, Brikko Studio developer instructions, turn input, and the Brikko Studio dynamic tool catalog. Codex can still add runtime-owned context such as native workspace `AGENTS.md`, environment context, memories, app/plugin instructions, and future collaboration-mode instructions inside the Codex runtime.",
+    "This is the deterministic model-bound layer stack BrikkoStudio can snapshot for the Codex happy path. It uses a pinned Codex `gpt-5.5` prompt fixture generated from Codex's model catalog/cache shape, then adds the Codex permission developer text, simulated BrikkoStudio workspace bootstrap config instructions, BrikkoStudio developer instructions, turn input, and the BrikkoStudio dynamic tool catalog. Codex can still add runtime-owned context such as native workspace `AGENTS.md`, environment context, memories, app/plugin instructions, and future collaboration-mode instructions inside the Codex runtime.",
     "",
     "### Layer Metadata",
     "",
@@ -620,11 +620,11 @@ function renderModelBoundPromptLayers(params: {
     "",
     markdownFence("text", CODEX_YOLO_PERMISSION_INSTRUCTIONS),
     "",
-    "### User: Codex Config Instructions (Brikko Studio Workspace Bootstrap Context)",
+    "### User: Codex Config Instructions (BrikkoStudio Workspace Bootstrap Context)",
     "",
     markdownFence("text", codexConfigInstructions),
     "",
-    "### Developer: Brikko Studio Runtime Instructions",
+    "### Developer: BrikkoStudio Runtime Instructions",
     "",
     markdownFence("text", openClawDeveloperInstructions),
     "",
@@ -668,7 +668,7 @@ function renderScenarioSnapshot(scenario: PromptScenario): string {
     "## Scope",
     "",
     ...scenario.notes.map((note) => `- ${note}`),
-    "- This captures the Brikko Studio-owned Codex app-server inputs and reconstructs the stable Codex model/permission layers from committed Codex prompt fixtures.",
+    "- This captures the BrikkoStudio-owned Codex app-server inputs and reconstructs the stable Codex model/permission layers from committed Codex prompt fixtures.",
     "- This also simulates workspace bootstrap files forwarded through Codex `config.instructions`: `SOUL.md`, `TOOLS.md`, and `HEARTBEAT.md`.",
     "",
     "## Scenario Metadata",
@@ -692,7 +692,7 @@ function renderScenarioSnapshot(scenario: PromptScenario): string {
       }),
     ),
     "",
-    "## Effective Brikko Studio Config",
+    "## Effective BrikkoStudio Config",
     "",
     markdownFence("json", stableJson(baseConfig)),
     "",
@@ -732,17 +732,17 @@ function renderReadme(scenarios: PromptScenario[]): string {
     '- `messages.visibleReplies: "message_tool"`, which is the Codex-harness default for visible source replies.',
     "- Telegram direct chat, Discord group chat, and a heartbeat turn with `heartbeat_respond` available.",
     "",
-    "The Markdown files show selected app-server thread/turn params plus a reconstructed model-bound prompt layer stack: Codex `gpt-5.5` model instructions from a pinned Codex model catalog fixture, Codex permission developer instructions for the happy-path yolo profile, simulated Brikko Studio workspace bootstrap config instructions, Brikko Studio developer instructions, user turn input, and references to the complete dynamic tool catalog.",
+    "The Markdown files show selected app-server thread/turn params plus a reconstructed model-bound prompt layer stack: Codex `gpt-5.5` model instructions from a pinned Codex model catalog fixture, Codex permission developer instructions for the happy-path yolo profile, simulated BrikkoStudio workspace bootstrap config instructions, BrikkoStudio developer instructions, user turn input, and references to the complete dynamic tool catalog.",
     "",
-    "The workspace bootstrap simulation includes dummy `SOUL.md`, `TOOLS.md`, and `HEARTBEAT.md` contents so prompt reviewers can see how those Brikko Studio project/user context files are forwarded to Codex. `AGENTS.md` is intentionally not repeated here because Codex loads it natively.",
+    "The workspace bootstrap simulation includes dummy `SOUL.md`, `TOOLS.md`, and `HEARTBEAT.md` contents so prompt reviewers can see how those BrikkoStudio project/user context files are forwarded to Codex. `AGENTS.md` is intentionally not repeated here because Codex loads it natively.",
     "",
-    "The tool catalog is pinned to the canonical happy-path Brikko Studio tools so optional locally installed plugin tools do not create fixture churn.",
+    "The tool catalog is pinned to the canonical happy-path BrikkoStudio tools so optional locally installed plugin tools do not create fixture churn.",
     "",
     "The Codex model prompt fixture is generated from the same Codex model catalog/cache shape that the Codex runtime uses for remote model metadata. Regenerate it from Codex's runtime cache or, when present, a local Codex checkout with:",
     "",
     markdownFence("sh", "pnpm prompt:snapshots:sync-codex-model"),
     "",
-    "These snapshots are still not a byte-for-byte raw OpenAI request capture. Codex-owned native `AGENTS.md`, environment context, memories, app/plugin instructions, and future collaboration-mode instructions can be added inside the Codex runtime after Brikko Studio sends thread and turn params.",
+    "These snapshots are still not a byte-for-byte raw OpenAI request capture. Codex-owned native `AGENTS.md`, environment context, memories, app/plugin instructions, and future collaboration-mode instructions can be added inside the Codex runtime after BrikkoStudio sends thread and turn params.",
     "",
     "Regenerate with:",
     "",

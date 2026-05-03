@@ -705,7 +705,7 @@ describe("tilde expansion in file tools", () => {
   it("keeps tilde expansion behavior aligned", async () => {
     const { expandHomePrefix } = await import("./home-dir.js");
     const originalHome = process.env.HOME;
-    const originalBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    const originalBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
     const fakeHome = path.resolve(path.sep, "tmp", "fake-home-test");
     process.env.HOME = fakeHome;
     process.env.BRIKKO_STUDIO_HOME = fakeHome;
@@ -714,7 +714,7 @@ describe("tilde expansion in file tools", () => {
       expect(path.normalize(result)).toBe(path.join(fakeHome, "file.txt"));
     } finally {
       process.env.HOME = originalHome;
-      process.env.BRIKKO_STUDIO_HOME = originalBrikko StudioHome;
+      process.env.BRIKKO_STUDIO_HOME = originalBrikkoStudioHome;
     }
 
     const root = await tempDirs.make("brikko-studio-tilde-test-");
@@ -740,7 +740,7 @@ describe("tilde expansion in file tools", () => {
       expect(content).toBe("tilde-write-works");
     } finally {
       process.env.HOME = originalHome;
-      process.env.BRIKKO_STUDIO_HOME = originalBrikko StudioHome;
+      process.env.BRIKKO_STUDIO_HOME = originalBrikkoStudioHome;
     }
 
     const outsideRoot = await tempDirs.make("brikko-studio-tilde-outside-");

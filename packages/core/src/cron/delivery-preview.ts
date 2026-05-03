@@ -1,5 +1,5 @@
 import { resolveDefaultAgentId } from "../agents/agent-scope-config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveCronDeliveryPlan } from "./delivery-plan.js";
 import { resolveDeliveryTarget } from "./isolated-agent/delivery-target.js";
 import { resolveCronDeliverySessionKey } from "./session-target.js";
@@ -35,7 +35,7 @@ function formatDeliveryDetail(params: {
 }
 
 export async function resolveCronDeliveryPreview(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   defaultAgentId?: string;
   job: CronJob;
 }): Promise<CronDeliveryPreview> {
@@ -86,7 +86,7 @@ export async function resolveCronDeliveryPreview(params: {
 }
 
 export async function resolveCronDeliveryPreviews(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   defaultAgentId?: string;
   jobs: CronJob[];
 }): Promise<Record<string, CronDeliveryPreview>> {

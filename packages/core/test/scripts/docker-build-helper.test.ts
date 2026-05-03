@@ -90,7 +90,7 @@ describe("docker build helper", () => {
     expect(liveCliBackend).toContain(
       'BRIKKO_STUDIO_LIVE_DOCKER_REPO_ROOT="$ROOT_DIR" "$TRUSTED_HARNESS_DIR/scripts/test-live-build-docker.sh"',
     );
-    expect(liveCliBackend).toContain("direct Codex CLI probe failed before Brikko Studio gateway smoke");
+    expect(liveCliBackend).toContain("direct Codex CLI probe failed before BrikkoStudio gateway smoke");
     expect(liveCliBackend).toContain("==> Direct Codex CLI probe ok");
     expect(liveCliBackend).not.toContain(
       'echo "==> Reuse live-test image: $LIVE_IMAGE_NAME (BRIKKO_STUDIO_SKIP_DOCKER_BUILD=1)"',

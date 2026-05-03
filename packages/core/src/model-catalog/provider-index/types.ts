@@ -1,6 +1,6 @@
 import type { ModelCatalogProvider } from "../types.js";
 
-export type Brikko StudioProviderIndexPluginInstall = {
+export type BrikkoStudioProviderIndexPluginInstall = {
   clawhubSpec?: string;
   npmSpec?: string;
   defaultChoice?: "clawhub" | "npm";
@@ -8,14 +8,14 @@ export type Brikko StudioProviderIndexPluginInstall = {
   expectedIntegrity?: string;
 };
 
-export type Brikko StudioProviderIndexPlugin = {
+export type BrikkoStudioProviderIndexPlugin = {
   id: string;
   package?: string;
   source?: string;
-  install?: Brikko StudioProviderIndexPluginInstall;
+  install?: BrikkoStudioProviderIndexPluginInstall;
 };
 
-export type Brikko StudioProviderIndexProviderAuthChoice = {
+export type BrikkoStudioProviderIndexProviderAuthChoice = {
   method: string;
   choiceId: string;
   choiceLabel: string;
@@ -32,17 +32,17 @@ export type Brikko StudioProviderIndexProviderAuthChoice = {
   onboardingScopes?: readonly ("text-inference" | "image-generation")[];
 };
 
-export type Brikko StudioProviderIndexProvider = {
+export type BrikkoStudioProviderIndexProvider = {
   id: string;
   name: string;
-  plugin: Brikko StudioProviderIndexPlugin;
+  plugin: BrikkoStudioProviderIndexPlugin;
   docs?: string;
   categories?: readonly string[];
-  authChoices?: readonly Brikko StudioProviderIndexProviderAuthChoice[];
+  authChoices?: readonly BrikkoStudioProviderIndexProviderAuthChoice[];
   previewCatalog?: ModelCatalogProvider;
 };
 
-export type Brikko StudioProviderIndex = {
+export type BrikkoStudioProviderIndex = {
   version: number;
-  providers: Readonly<Record<string, Brikko StudioProviderIndexProvider>>;
+  providers: Readonly<Record<string, BrikkoStudioProviderIndexProvider>>;
 };

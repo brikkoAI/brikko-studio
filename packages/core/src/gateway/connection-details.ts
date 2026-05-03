@@ -1,5 +1,5 @@
 import { resolveConfigPath, resolveGatewayPort } from "../config/paths.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import { isSecureWebSocketUrl } from "./net.js";
 
@@ -12,14 +12,14 @@ export type GatewayConnectionDetails = {
 };
 
 type GatewayConnectionDetailResolvers = {
-  getRuntimeConfig?: () => Brikko StudioConfig;
+  getRuntimeConfig?: () => BrikkoStudioConfig;
   resolveConfigPath?: (env: NodeJS.ProcessEnv) => string;
-  resolveGatewayPort?: (cfg?: Brikko StudioConfig, env?: NodeJS.ProcessEnv) => number;
+  resolveGatewayPort?: (cfg?: BrikkoStudioConfig, env?: NodeJS.ProcessEnv) => number;
 };
 
 export function buildGatewayConnectionDetailsWithResolvers(
   options: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     url?: string;
     configPath?: string;
     urlSource?: "cli" | "env";

@@ -17,7 +17,7 @@ import type {
 } from "brikko-studio/plugin-sdk/channel-contract";
 import type {
   ChannelMessageActionContext as CoreChannelMessageActionContext,
-  Brikko StudioPluginApi as CoreBrikko StudioPluginApi,
+  BrikkoStudioPluginApi as CoreBrikkoStudioPluginApi,
   PluginRuntime as CorePluginRuntime,
 } from "brikko-studio/plugin-sdk/core";
 import * as providerEntrySdk from "brikko-studio/plugin-sdk/provider-entry";
@@ -39,12 +39,12 @@ import type {
 } from "../../channels/plugins/types.js";
 import type {
   ChannelMessageActionContext as SharedChannelMessageActionContext,
-  Brikko StudioPluginApi as SharedBrikko StudioPluginApi,
+  BrikkoStudioPluginApi as SharedBrikkoStudioPluginApi,
   PluginRuntime as SharedPluginRuntime,
 } from "../../plugin-sdk/channel-plugin-common.js";
 import { pluginSdkSubpaths } from "../../plugin-sdk/entrypoints.js";
 import type { PluginRuntime } from "../runtime/types.js";
-import type { Brikko StudioPluginApi } from "../types.js";
+import type { BrikkoStudioPluginApi } from "../types.js";
 
 const SRC_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const REPO_ROOT = resolve(SRC_ROOT, "..");
@@ -1262,10 +1262,10 @@ describe("plugin-sdk subpath exports", () => {
     expectTypeOf<ContractChannelStatusIssue>().toMatchTypeOf<ChannelStatusIssue>();
     expectTypeOf<ContractChannelThreadingContext>().toMatchTypeOf<ChannelThreadingContext>();
     expectTypeOf<ContractChannelThreadingToolContext>().toMatchTypeOf<ChannelThreadingToolContext>();
-    expectTypeOf<CoreBrikko StudioPluginApi>().toMatchTypeOf<Brikko StudioPluginApi>();
+    expectTypeOf<CoreBrikkoStudioPluginApi>().toMatchTypeOf<BrikkoStudioPluginApi>();
     expectTypeOf<CorePluginRuntime>().toMatchTypeOf<PluginRuntime>();
     expectTypeOf<CoreChannelMessageActionContext>().toMatchTypeOf<ChannelMessageActionContext>();
-    expectTypeOf<CoreBrikko StudioPluginApi>().toMatchTypeOf<SharedBrikko StudioPluginApi>();
+    expectTypeOf<CoreBrikkoStudioPluginApi>().toMatchTypeOf<SharedBrikkoStudioPluginApi>();
     expectTypeOf<CorePluginRuntime>().toMatchTypeOf<SharedPluginRuntime>();
     expectTypeOf<CoreChannelMessageActionContext>().toMatchTypeOf<SharedChannelMessageActionContext>();
   });

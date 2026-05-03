@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { CrestodianOverview } from "./overview.js";
 
 const CRESTODIAN_CLAUDE_CLI_MODEL = "claude-opus-4-7";
@@ -10,7 +10,7 @@ type CrestodianLocalPlannerBackend = {
   runner: "cli" | "embedded";
   provider: string;
   model: string;
-  buildConfig: (workspaceDir: string) => Brikko StudioConfig;
+  buildConfig: (workspaceDir: string) => BrikkoStudioConfig;
 };
 
 const CLAUDE_CLI_BACKEND: CrestodianLocalPlannerBackend = {
@@ -55,7 +55,7 @@ export function selectCrestodianLocalPlannerBackends(
   return backends;
 }
 
-function buildCliPlannerConfig(workspaceDir: string, modelRef: string): Brikko StudioConfig {
+function buildCliPlannerConfig(workspaceDir: string, modelRef: string): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -66,7 +66,7 @@ function buildCliPlannerConfig(workspaceDir: string, modelRef: string): Brikko S
   };
 }
 
-function buildCodexAppServerPlannerConfig(workspaceDir: string): Brikko StudioConfig {
+function buildCodexAppServerPlannerConfig(workspaceDir: string): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {

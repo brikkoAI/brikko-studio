@@ -5,11 +5,11 @@ import { fileURLToPath } from "node:url";
 import { assertSandboxPath } from "../../agents/sandbox-paths.js";
 import { ensureSandboxWorkspaceForSession } from "../../agents/sandbox.js";
 import { slugifySessionKey } from "../../agents/sandbox/shared.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { logVerbose } from "../../globals.js";
 import { copyFileWithinRoot, SafeOpenError } from "../../infra/fs-safe.js";
 import { normalizeScpRemoteHost, normalizeScpRemotePath } from "../../infra/scp-host.js";
-import { resolvePreferredBrikko StudioTmpDir } from "../../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../../infra/tmp-brikko-studio-dir.js";
 import { resolveChannelRemoteInboundAttachmentRoots } from "../../media/channel-inbound-roots.js";
 import { isInboundPathAllowed } from "../../media/inbound-path-policy.js";
 import { getMediaDir, MEDIA_MAX_BYTES } from "../../media/store.js";
@@ -35,7 +35,7 @@ const EMPTY_STAGE_RESULT: StageSandboxMediaResult = { staged: new Map() };
 export async function stageSandboxMedia(params: {
   ctx: MsgContext;
   sessionCtx: TemplateContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey?: string;
   workspaceDir: string;
 }): Promise<StageSandboxMediaResult> {
@@ -154,7 +154,7 @@ async function stageRemoteFileIntoRoot(params: {
   relativeDestPath: string;
   maxBytes?: number;
 }): Promise<void> {
-  const tmpRoot = resolvePreferredBrikko StudioTmpDir();
+  const tmpRoot = resolvePreferredBrikkoStudioTmpDir();
   await fs.mkdir(tmpRoot, { recursive: true });
   const tmpDir = await fs.mkdtemp(path.join(tmpRoot, "stage-sandbox-media-"));
   const tmpPath = path.join(tmpDir, "download");

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { findCatalogTemplate } from "brikko-studio/plugin-sdk/provider-catalog-shared";
 import {
   cloneFirstTemplateModel,
@@ -38,7 +38,7 @@ export function toOpenAIDataUrl(buffer: Buffer, mimeType: string): string {
   return `data:${mimeType};base64,${buffer.toString("base64")}`;
 }
 
-export function resolveConfiguredOpenAIBaseUrl(cfg: Brikko StudioConfig | undefined): string {
+export function resolveConfiguredOpenAIBaseUrl(cfg: BrikkoStudioConfig | undefined): string {
   return normalizeOptionalString(cfg?.models?.providers?.openai?.baseUrl) ?? OPENAI_API_BASE_URL;
 }
 

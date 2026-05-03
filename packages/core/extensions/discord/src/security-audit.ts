@@ -6,7 +6,7 @@ import {
   resolveNativeSkillsEnabled,
 } from "brikko-studio/plugin-sdk/native-command-config-runtime";
 import type { ResolvedDiscordAccount } from "./accounts.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import { isDiscordMutableAllowEntry } from "./security-doctor.js";
 
 function normalizeOptionalString(value: string | null | undefined): string | undefined {
@@ -35,7 +35,7 @@ function addDiscordNameBasedEntries(params: {
 }
 
 export async function collectDiscordSecurityAuditFindings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   account: ResolvedDiscordAccount;
   orderedAccountIds: string[];

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import { collectGatewayConfigFindings, collectLoggingFindings } from "./audit.js";
 
@@ -23,7 +23,7 @@ describe("security audit loopback and logging findings", () => {
   it("evaluates loopback control UI and logging exposure findings", async () => {
     await Promise.all([
       (async () => {
-        const cfg: Brikko StudioConfig = {
+        const cfg: BrikkoStudioConfig = {
           gateway: {
             bind: "loopback",
             controlUi: { enabled: true },
@@ -43,7 +43,7 @@ describe("security audit loopback and logging findings", () => {
           BRIKKO_STUDIO_GATEWAY_PASSWORD: undefined,
         },
         async () => {
-          const cfg: Brikko StudioConfig = {
+          const cfg: BrikkoStudioConfig = {
             gateway: {
               bind: "loopback",
               controlUi: { enabled: true },
@@ -60,7 +60,7 @@ describe("security audit loopback and logging findings", () => {
         },
       ),
       (async () => {
-        const cfg: Brikko StudioConfig = {
+        const cfg: BrikkoStudioConfig = {
           logging: { redactSensitive: "off" },
         };
         expect(hasLoggingFinding("logging.redact_off", "warn", collectLoggingFindings(cfg))).toBe(

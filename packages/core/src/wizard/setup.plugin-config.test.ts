@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { PluginConfigUiHint } from "../plugins/types.js";
 import type { WizardPrompter } from "./prompts.js";
 import {
@@ -111,7 +111,7 @@ describe("discoverUnconfiguredPlugins", () => {
         gateway: { label: "Gateway" },
       }),
     ];
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         entries: {
           openshell: {
@@ -137,7 +137,7 @@ describe("discoverUnconfiguredPlugins", () => {
         gateway: { label: "Gateway" },
       }),
     ];
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         entries: {
           openshell: {
@@ -159,7 +159,7 @@ describe("discoverUnconfiguredPlugins", () => {
         endpoint: { label: "Endpoint" },
       }),
     ];
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         entries: {
           "test-plugin": {
@@ -207,7 +207,7 @@ describe("discoverUnconfiguredPlugins", () => {
         },
       ),
     ];
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         entries: {
           brave: {

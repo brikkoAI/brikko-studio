@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   externalCliDiscoveryForProviderAuth,
   ensureAuthProfileStore,
@@ -11,7 +11,7 @@ import { normalizeProviderId } from "./model-selection.js";
 
 export function hasAuthForModelProvider(params: {
   provider: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   workspaceDir?: string;
   agentDir?: string;
   env?: NodeJS.ProcessEnv;
@@ -47,7 +47,7 @@ export function hasAuthForModelProvider(params: {
 }
 
 export function createProviderAuthChecker(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   workspaceDir?: string;
   agentDir?: string;
   env?: NodeJS.ProcessEnv;

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   parseRawSessionConversationRef,
   parseThreadSessionSuffix,
@@ -31,7 +31,7 @@ export type ChannelModelOverride = {
 type ChannelModelByChannelConfig = Record<string, Record<string, string>>;
 
 type ChannelModelOverrideParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel?: string | null;
   groupId?: string | null;
   groupChatType?: string | null;

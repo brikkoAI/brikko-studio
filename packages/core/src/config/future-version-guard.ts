@@ -1,5 +1,5 @@
 import { VERSION } from "../version.js";
-import type { ConfigFileSnapshot, Brikko StudioConfig } from "./types.js";
+import type { ConfigFileSnapshot, BrikkoStudioConfig } from "./types.js";
 import { shouldWarnOnTouchedVersion } from "./version.js";
 
 export const ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV =
@@ -16,7 +16,7 @@ export type FutureConfigActionBlock = {
 type FutureConfigGuardParams = {
   action: string;
   snapshot?: Pick<ConfigFileSnapshot, "config" | "sourceConfig"> | null;
-  config?: Pick<Brikko StudioConfig, "meta"> | null;
+  config?: Pick<BrikkoStudioConfig, "meta"> | null;
   currentVersion?: string;
   env?: Record<string, string | undefined>;
 };
@@ -53,7 +53,7 @@ export function resolveFutureConfigActionBlock(
     action: params.action,
     currentVersion,
     touchedVersion,
-    message: `Refusing to ${params.action} because this Brikko Studio binary (${currentVersion}) is older than the config last written by Brikko Studio ${touchedVersion}.`,
+    message: `Refusing to ${params.action} because this BrikkoStudio binary (${currentVersion}) is older than the config last written by BrikkoStudio ${touchedVersion}.`,
     hints: [
       "Run the newer brikko-studio binary on PATH, or reinstall the intended gateway service from the newer install.",
       `Set ${ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV}=1 only for an intentional downgrade or recovery action.`,

@@ -3,7 +3,7 @@ import { resolveStateDir } from "../config/paths.js";
 import { DEFAULT_AGENT_ID } from "../routing/session-key.js";
 import { resolveUserPath } from "../utils.js";
 
-export function resolveBrikko StudioAgentDir(env: NodeJS.ProcessEnv = process.env): string {
+export function resolveBrikkoStudioAgentDir(env: NodeJS.ProcessEnv = process.env): string {
   const override = env.BRIKKO_STUDIO_AGENT_DIR?.trim() || env.PI_CODING_AGENT_DIR?.trim();
   if (override) {
     return resolveUserPath(override, env);

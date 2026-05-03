@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import type {
   MemorySearchConfig,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -122,8 +122,8 @@ describe("memory watcher config", () => {
     await fs.writeFile(path.join(extraDir, seedFile.name), seedFile.contents);
   }
 
-  function createWatcherConfig(overrides?: Partial<MemorySearchConfig>): Brikko StudioConfig {
-    const defaults: NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]> = {
+  function createWatcherConfig(overrides?: Partial<MemorySearchConfig>): BrikkoStudioConfig {
+    const defaults: NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["defaults"]> = {
       workspace: workspaceDir,
       memorySearch: {
         provider: "openai",
@@ -141,10 +141,10 @@ describe("memory watcher config", () => {
         defaults,
         list: [{ id: "main", default: true }],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
-  async function expectWatcherManager(cfg: Brikko StudioConfig) {
+  async function expectWatcherManager(cfg: BrikkoStudioConfig) {
     const result = await getMemorySearchManager({ cfg, agentId: "main" });
     expect(result.manager).not.toBeNull();
     if (!result.manager) {

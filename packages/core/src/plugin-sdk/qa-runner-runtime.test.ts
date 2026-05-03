@@ -12,14 +12,14 @@ import {
 const loadPluginManifestRegistry = vi.hoisted(() => vi.fn());
 const loadBundledPluginPublicSurfaceModuleSync = vi.hoisted(() => vi.fn());
 const tryLoadActivatedBundledPluginPublicSurfaceModuleSync = vi.hoisted(() => vi.fn());
-const resolveBrikko StudioPackageRootSync = vi.hoisted(() => vi.fn());
+const resolveBrikkoStudioPackageRootSync = vi.hoisted(() => vi.fn());
 
 vi.mock("../plugins/manifest-registry.js", () => ({
   loadPluginManifestRegistry,
 }));
 
 vi.mock("../infra/brikko-studio-root.js", () => ({
-  resolveBrikko StudioPackageRootSync,
+  resolveBrikkoStudioPackageRootSync,
 }));
 
 vi.mock("./facade-runtime.js", () => ({
@@ -38,7 +38,7 @@ describe("plugin-sdk qa-runner-runtime", () => {
     });
     loadBundledPluginPublicSurfaceModuleSync.mockReset();
     tryLoadActivatedBundledPluginPublicSurfaceModuleSync.mockReset();
-    resolveBrikko StudioPackageRootSync.mockReset().mockReturnValue(null);
+    resolveBrikkoStudioPackageRootSync.mockReset().mockReturnValue(null);
     delete process.env.BRIKKO_STUDIO_ENABLE_PRIVATE_QA_CLI;
   });
 
@@ -67,13 +67,13 @@ describe("plugin-sdk qa-runner-runtime", () => {
       tempDirs,
       importRuntime: () => import("./qa-runner-runtime.js"),
       loadBundledPluginPublicSurfaceModuleSync,
-      resolveBrikko StudioPackageRootSync,
+      resolveBrikkoStudioPackageRootSync,
     });
   });
 
   it("loads bundled plugin test APIs with the private QA source tree override", async () => {
     const sourceRoot = makePrivateQaSourceRoot(tempDirs, "brikko-studio-qa-test-api-root-");
-    resolveBrikko StudioPackageRootSync.mockReturnValue(sourceRoot);
+    resolveBrikkoStudioPackageRootSync.mockReturnValue(sourceRoot);
 
     const testApi = { marker: "matrix-test-api" };
     loadBundledPluginPublicSurfaceModuleSync.mockReturnValue(testApi);
@@ -170,7 +170,7 @@ describe("plugin-sdk qa-runner-runtime", () => {
 
   it("prefers the source bundled tree for private qa discovery in repo checkouts", async () => {
     const sourceRoot = makePrivateQaSourceRoot(tempDirs, "brikko-studio-qa-runner-root-");
-    resolveBrikko StudioPackageRootSync.mockReturnValue(sourceRoot);
+    resolveBrikkoStudioPackageRootSync.mockReturnValue(sourceRoot);
 
     const register = vi.fn((qa: Command) => qa);
     loadPluginManifestRegistry.mockReturnValue({

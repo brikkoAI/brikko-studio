@@ -1,18 +1,18 @@
 import { parseFrontmatterBlock } from "../markdown/frontmatter.js";
 import {
-  applyBrikko StudioManifestInstallCommonFields,
+  applyBrikkoStudioManifestInstallCommonFields,
   getFrontmatterString,
   normalizeStringList,
-  parseBrikko StudioManifestInstallBase,
+  parseBrikkoStudioManifestInstallBase,
   parseFrontmatterBool,
-  resolveBrikko StudioManifestBlock,
-  resolveBrikko StudioManifestInstall,
-  resolveBrikko StudioManifestOs,
-  resolveBrikko StudioManifestRequires,
+  resolveBrikkoStudioManifestBlock,
+  resolveBrikkoStudioManifestInstall,
+  resolveBrikkoStudioManifestOs,
+  resolveBrikkoStudioManifestRequires,
 } from "../shared/frontmatter.js";
 import { readStringValue } from "../shared/string-coerce.js";
 import type {
-  Brikko StudioHookMetadata,
+  BrikkoStudioHookMetadata,
   HookEntry,
   HookInstallSpec,
   HookInvocationPolicy,
@@ -24,12 +24,12 @@ export function parseFrontmatter(content: string): ParsedHookFrontmatter {
 }
 
 function parseInstallSpec(input: unknown): HookInstallSpec | undefined {
-  const parsed = parseBrikko StudioManifestInstallBase(input, ["bundled", "npm", "git"]);
+  const parsed = parseBrikkoStudioManifestInstallBase(input, ["bundled", "npm", "git"]);
   if (!parsed) {
     return undefined;
   }
   const { raw } = parsed;
-  const spec = applyBrikko StudioManifestInstallCommonFields<HookInstallSpec>(
+  const spec = applyBrikkoStudioManifestInstallCommonFields<HookInstallSpec>(
     {
       kind: parsed.kind as HookInstallSpec["kind"],
     },
@@ -45,16 +45,16 @@ function parseInstallSpec(input: unknown): HookInstallSpec | undefined {
   return spec;
 }
 
-export function resolveBrikko StudioMetadata(
+export function resolveBrikkoStudioMetadata(
   frontmatter: ParsedHookFrontmatter,
-): Brikko StudioHookMetadata | undefined {
-  const metadataObj = resolveBrikko StudioManifestBlock({ frontmatter });
+): BrikkoStudioHookMetadata | undefined {
+  const metadataObj = resolveBrikkoStudioManifestBlock({ frontmatter });
   if (!metadataObj) {
     return undefined;
   }
-  const requires = resolveBrikko StudioManifestRequires(metadataObj);
-  const install = resolveBrikko StudioManifestInstall(metadataObj, parseInstallSpec);
-  const osRaw = resolveBrikko StudioManifestOs(metadataObj);
+  const requires = resolveBrikkoStudioManifestRequires(metadataObj);
+  const install = resolveBrikkoStudioManifestInstall(metadataObj, parseInstallSpec);
+  const osRaw = resolveBrikkoStudioManifestOs(metadataObj);
   const eventsRaw = normalizeStringList(metadataObj.events);
   return {
     always: typeof metadataObj.always === "boolean" ? metadataObj.always : undefined,

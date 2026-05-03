@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import { createRequire } from "node:module";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { onAgentEvent } from "../infra/agent-events.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { requestHeartbeat } from "../infra/heartbeat-wake.js";
@@ -1856,7 +1856,7 @@ export function linkTaskToFlowById(params: { taskId: string; flowId: string }): 
 }
 
 export async function cancelTaskById(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   taskId: string;
 }): Promise<{ found: boolean; cancelled: boolean; reason?: string; task?: TaskRecord }> {
   ensureTaskRegistryReady();

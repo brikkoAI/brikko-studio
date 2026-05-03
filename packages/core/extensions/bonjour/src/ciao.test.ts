@@ -53,13 +53,13 @@ describe("bonjour-ciao", () => {
     expect(
       classifyCiaoUnhandledRejection(
         new Error(
-          "Can't probe for a service which is announced already. Received announcing for service Brikko Studio Gateway._brikko-studio._tcp.local.",
+          "Can't probe for a service which is announced already. Received announcing for service BrikkoStudio Gateway._brikko-studio._tcp.local.",
         ),
       ),
     ).toEqual({
       kind: "self-probe",
       formatted:
-        "Can't probe for a service which is announced already. Received announcing for service Brikko Studio Gateway._brikko-studio._tcp.local.",
+        "Can't probe for a service which is announced already. Received announcing for service BrikkoStudio Gateway._brikko-studio._tcp.local.",
     });
   });
 

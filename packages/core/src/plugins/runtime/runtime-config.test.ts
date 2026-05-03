@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
 const getRuntimeConfigMock = vi.fn();
 const mutateConfigFileMock = vi.fn();
@@ -48,7 +48,7 @@ describe("createRuntimeConfig", () => {
 
   it("routes deprecated writeConfigFile through replaceConfigFile with afterWrite", async () => {
     const configApi = createRuntimeConfig();
-    const nextConfig = { plugins: { entries: {} } } as Brikko StudioConfig;
+    const nextConfig = { plugins: { entries: {} } } as BrikkoStudioConfig;
 
     await configApi.writeConfigFile(nextConfig);
 
@@ -64,7 +64,7 @@ describe("createRuntimeConfig", () => {
 
   it("preserves explicit afterWrite intent for deprecated writeConfigFile", async () => {
     const configApi = createRuntimeConfig();
-    const nextConfig = { plugins: { entries: {} } } as Brikko StudioConfig;
+    const nextConfig = { plugins: { entries: {} } } as BrikkoStudioConfig;
 
     await configApi.writeConfigFile(nextConfig, {
       afterWrite: { mode: "none", reason: "test-controlled" },

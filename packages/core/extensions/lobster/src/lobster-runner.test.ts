@@ -229,7 +229,7 @@ describe("createEmbeddedLobsterRunner", () => {
         timeoutMs: 2000,
         maxStdoutBytes: 4096,
       }),
-    ).rejects.toThrow("Lobster input requests are not supported by the Brikko Studio Lobster tool yet");
+    ).rejects.toThrow("Lobster input requests are not supported by the BrikkoStudio Lobster tool yet");
   });
 
   it("routes resume through the embedded runtime", async () => {

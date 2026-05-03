@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
+import { withBrikkoStudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import type { AuthProfileStore } from "./auth-profiles.js";
 import { CHUTES_TOKEN_ENDPOINT } from "./chutes-oauth.js";
 
@@ -42,7 +42,7 @@ describe("auth-profiles (chutes)", () => {
   });
 
   it("refreshes expired Chutes OAuth credentials", async () => {
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         layout: "state-only",
         prefix: "brikko-studio-chutes-",

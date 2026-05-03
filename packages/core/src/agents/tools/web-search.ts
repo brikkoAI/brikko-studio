@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { resolveManifestContractOwnerPluginId } from "../../plugins/plugin-registry.js";
 import { getActiveRuntimeWebToolsMetadata } from "../../secrets/runtime-web-tools-state.js";
 import type { RuntimeWebSearchMetadata } from "../../secrets/runtime-web-tools.types.js";
@@ -65,13 +65,13 @@ const WebSearchSchema = {
   },
 } satisfies Record<string, unknown>;
 
-function isWebSearchDisabled(config?: Brikko StudioConfig): boolean {
+function isWebSearchDisabled(config?: BrikkoStudioConfig): boolean {
   const search = config?.tools?.web?.search;
   return Boolean(search && typeof search === "object" && search.enabled === false);
 }
 
 export function createWebSearchTool(options?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sandboxed?: boolean;
   runtimeWebSearch?: RuntimeWebSearchMetadata;
   lateBindRuntimeConfig?: boolean;

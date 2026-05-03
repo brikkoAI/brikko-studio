@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RequestClient } from "../internal/discord.js";
@@ -32,7 +32,7 @@ function firstDeliverParams() {
   const calls = deliverOutboundPayloadsMock.mock.calls as unknown as Array<
     [
       {
-        cfg?: Brikko StudioConfig;
+        cfg?: BrikkoStudioConfig;
         formatting?: unknown;
         deps?: Record<string, (...args: unknown[]) => Promise<unknown>>;
       },
@@ -49,7 +49,7 @@ describe("deliverDiscordReply", () => {
   const runtime = {} as RuntimeEnv;
   const cfg = {
     channels: { discord: { token: "test-token" } },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 
   beforeAll(async () => {
     ({ deliverDiscordReply } = await import("./reply-delivery.js"));
@@ -120,7 +120,7 @@ describe("deliverDiscordReply", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await deliverDiscordReply({
       replies: [{ text: "formatted" }],

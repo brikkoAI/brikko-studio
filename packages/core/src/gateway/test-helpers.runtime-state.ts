@@ -7,7 +7,7 @@ import type { ReplyPayload } from "../auto-reply/reply-payload.js";
 import type { MsgContext } from "../auto-reply/templating.js";
 import type { AgentBinding } from "../config/types.agents.js";
 import type { HooksConfig } from "../config/types.hooks.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RunCronAgentTurnResult } from "../cron/isolated-agent/run.types.js";
 import type { TailscaleWhoisIdentity } from "../infra/tailscale.js";
 import { resolveGlobalSingleton } from "../shared/global-singleton.js";
@@ -15,7 +15,7 @@ import { resolveGlobalSingleton } from "../shared/global-singleton.js";
 export type GetReplyFromConfigFn = (
   ctx: MsgContext,
   opts?: GetReplyOptions,
-  configOverride?: Brikko StudioConfig,
+  configOverride?: BrikkoStudioConfig,
 ) => Promise<ReplyPayload | ReplyPayload[] | undefined>;
 type CronIsolatedRunFn = (...args: unknown[]) => Promise<RunCronAgentTurnResult>;
 type AgentCommandFn = (...args: unknown[]) => Promise<void>;

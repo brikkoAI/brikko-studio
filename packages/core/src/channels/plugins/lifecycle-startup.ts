@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { listChannelPlugins } from "./registry.js";
 
 type ChannelStartupLogger = {
@@ -7,7 +7,7 @@ type ChannelStartupLogger = {
 };
 
 export async function runChannelPluginStartupMaintenance(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   log: ChannelStartupLogger;
   trigger?: string;

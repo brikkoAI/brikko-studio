@@ -25,7 +25,7 @@ export type CompactionSafeguardRuntimeValue = {
   provider?: string;
   /**
    * Pending human-readable cancel reason from the current safeguard compaction
-   * attempt. Brikko Studio consumes this to replace the upstream generic
+   * attempt. BrikkoStudio consumes this to replace the upstream generic
    * "Compaction cancelled" message.
    */
   cancelReason?: string;

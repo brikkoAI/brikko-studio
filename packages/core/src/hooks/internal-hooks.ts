@@ -1,5 +1,5 @@
 /**
- * Hook system for Brikko Studio agent events
+ * Hook system for BrikkoStudio agent events
  *
  * Provides an extensible event-driven hook system for agent events
  * like command processing, session lifecycle, etc.
@@ -8,7 +8,7 @@
 import type { WorkspaceBootstrapFile } from "../agents/workspace.js";
 import type { CliDeps } from "../cli/outbound-send-deps.js";
 import type { SessionEntry } from "../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { SessionsPatchParams } from "../gateway/protocol/schema/types.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
@@ -23,7 +23,7 @@ export type { InternalHookEvent, InternalHookEventType, InternalHookHandler };
 export type AgentBootstrapHookContext = {
   workspaceDir: string;
   bootstrapFiles: WorkspaceBootstrapFile[];
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   sessionKey?: string;
   sessionId?: string;
   agentId?: string;
@@ -36,7 +36,7 @@ export type AgentBootstrapHookEvent = InternalHookEvent & {
 };
 
 export type GatewayStartupHookContext = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   deps?: CliDeps;
   workspaceDir?: string;
 };
@@ -167,7 +167,7 @@ export type MessagePreprocessedHookEvent = InternalHookEvent & {
 export type SessionPatchHookContext = {
   sessionEntry: SessionEntry;
   patch: SessionsPatchParams;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 };
 
 export type SessionPatchHookEvent = InternalHookEvent & {

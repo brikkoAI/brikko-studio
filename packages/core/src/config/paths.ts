@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { resolveHomeRelativePath, resolveRequiredHomeDir } from "../infra/home-dir.js";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
 /**
  * Nix mode detection: When BRIKKO_STUDIO_NIX_MODE=1, the gateway is running under Nix.
@@ -323,7 +323,7 @@ function parseGatewayPortEnvValue(raw: string | undefined): number | null {
 }
 
 export function resolveGatewayPort(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): number {
   const envRaw = env.BRIKKO_STUDIO_GATEWAY_PORT?.trim();

@@ -6,7 +6,7 @@ import {
   SELF_HOSTED_DEFAULT_MAX_TOKENS,
 } from "../agents/self-hosted-provider-defaults.js";
 import type { ModelDefinitionConfig } from "../config/types.models.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { fetchWithSsrFGuard } from "../infra/net/fetch-guard.js";
 import type { SsrFPolicy } from "../infra/net/ssrf.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
@@ -124,7 +124,7 @@ export async function discoverOpenAICompatibleLocalModels(params: {
   }
 }
 
-export function applyProviderDefaultModel(cfg: Brikko StudioConfig, modelRef: string): Brikko StudioConfig {
+export function applyProviderDefaultModel(cfg: BrikkoStudioConfig, modelRef: string): BrikkoStudioConfig {
   const existingModel = cfg.agents?.defaults?.model;
   const fallbacks =
     existingModel && typeof existingModel === "object" && "fallbacks" in existingModel
@@ -147,7 +147,7 @@ export function applyProviderDefaultModel(cfg: Brikko StudioConfig, modelRef: st
 }
 
 function buildOpenAICompatibleSelfHostedProviderConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerId: string;
   baseUrl: string;
   providerApiKey: string;
@@ -156,7 +156,7 @@ function buildOpenAICompatibleSelfHostedProviderConfig(params: {
   reasoning?: boolean;
   contextWindow?: number;
   maxTokens?: number;
-}): { config: Brikko StudioConfig; modelId: string; modelRef: string; profileId: string } {
+}): { config: BrikkoStudioConfig; modelId: string; modelRef: string; profileId: string } {
   const modelRef = `${params.providerId}/${params.modelId}`;
   const profileId = `${params.providerId}:default`;
   return {
@@ -193,7 +193,7 @@ function buildOpenAICompatibleSelfHostedProviderConfig(params: {
 }
 
 type OpenAICompatibleSelfHostedProviderSetupParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: WizardPrompter;
   providerId: string;
   providerLabel: string;
@@ -207,7 +207,7 @@ type OpenAICompatibleSelfHostedProviderSetupParams = {
 };
 
 type OpenAICompatibleSelfHostedProviderPromptResult = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   credential: AuthProfileCredential;
   modelId: string;
   modelRef: string;
@@ -341,7 +341,7 @@ export async function configureOpenAICompatibleSelfHostedProviderNonInteractive(
   reasoning?: boolean;
   contextWindow?: number;
   maxTokens?: number;
-}): Promise<Brikko StudioConfig | null> {
+}): Promise<BrikkoStudioConfig | null> {
   const baseUrl = (
     normalizeOptionalSecretInput(params.ctx.opts.customBaseUrl) ?? params.defaultBaseUrl
   ).replace(/\/+$/, "");

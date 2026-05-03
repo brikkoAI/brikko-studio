@@ -7,7 +7,7 @@ import { isCliProvider } from "../../agents/model-selection.js";
 import { queueEmbeddedPiMessage } from "../../agents/pi-embedded-runner/runs.js";
 import { deriveContextPromptTokens, hasNonzeroUsage, normalizeUsage } from "../../agents/usage.js";
 import { enqueueCommitmentExtraction } from "../../commitments/runtime.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   loadSessionStore,
   resolveSessionPluginStatusLines,
@@ -805,7 +805,7 @@ function joinCommitmentAssistantText(payloads: ReplyPayload[]): string {
 }
 
 function enqueueCommitmentExtractionForTurn(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   commandBody: string;
   isHeartbeat: boolean;
   followupRun: FollowupRun;

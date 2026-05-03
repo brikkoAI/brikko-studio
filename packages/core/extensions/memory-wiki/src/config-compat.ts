@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 
 type LegacyConfigRule = {
   path: Array<string | number>;
@@ -25,8 +25,8 @@ export const legacyConfigRules: LegacyConfigRule[] = [
   },
 ];
 
-export function migrateMemoryWikiLegacyConfig(config: Brikko StudioConfig): {
-  config: Brikko StudioConfig;
+export function migrateMemoryWikiLegacyConfig(config: BrikkoStudioConfig): {
+  config: BrikkoStudioConfig;
   changes: string[];
 } | null {
   const rawEntry = asRecord(config.plugins?.entries?.["memory-wiki"]);
@@ -67,8 +67,8 @@ export function migrateMemoryWikiLegacyConfig(config: Brikko StudioConfig): {
   };
 }
 
-export function normalizeCompatibilityConfig({ cfg }: { cfg: Brikko StudioConfig }): {
-  config: Brikko StudioConfig;
+export function normalizeCompatibilityConfig({ cfg }: { cfg: BrikkoStudioConfig }): {
+  config: BrikkoStudioConfig;
   changes: string[];
 } {
   return migrateMemoryWikiLegacyConfig(cfg) ?? { config: cfg, changes: [] };

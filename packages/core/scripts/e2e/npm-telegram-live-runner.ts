@@ -25,7 +25,7 @@ function resolveCredentialRole(env: NodeJS.ProcessEnv) {
   return env.BRIKKO_STUDIO_NPM_TELEGRAM_CREDENTIAL_ROLE ?? env.BRIKKO_STUDIO_QA_CREDENTIAL_ROLE;
 }
 
-async function resolveTrustedBrikko StudioCommand(rawCommand: string) {
+async function resolveTrustedBrikkoStudioCommand(rawCommand: string) {
   if (!path.isAbsolute(rawCommand)) {
     throw new Error("BRIKKO_STUDIO_NPM_TELEGRAM_SUT_COMMAND must be an absolute path.");
   }
@@ -52,11 +52,11 @@ async function resolveTrustedBrikko StudioCommand(rawCommand: string) {
 async function main() {
   const { runTelegramQaLive } =
     await import("../../extensions/qa-lab/src/live-transports/telegram/telegram-live.runtime.ts");
-  const rawSutBrikko StudioCommand = process.env.BRIKKO_STUDIO_NPM_TELEGRAM_SUT_COMMAND?.trim();
-  if (!rawSutBrikko StudioCommand) {
+  const rawSutBrikkoStudioCommand = process.env.BRIKKO_STUDIO_NPM_TELEGRAM_SUT_COMMAND?.trim();
+  if (!rawSutBrikkoStudioCommand) {
     throw new Error("Missing BRIKKO_STUDIO_NPM_TELEGRAM_SUT_COMMAND.");
   }
-  const sutBrikko StudioCommand = await resolveTrustedBrikko StudioCommand(rawSutBrikko StudioCommand);
+  const sutBrikkoStudioCommand = await resolveTrustedBrikkoStudioCommand(rawSutBrikkoStudioCommand);
 
   const repoRoot = path.resolve(process.env.BRIKKO_STUDIO_NPM_TELEGRAM_REPO_ROOT ?? process.cwd());
   const outputDir =
@@ -65,7 +65,7 @@ async function main() {
   const result = await runTelegramQaLive({
     repoRoot,
     outputDir,
-    sutBrikko StudioCommand,
+    sutBrikkoStudioCommand,
     preflightInstalledOnboarding: true,
     providerMode: process.env.BRIKKO_STUDIO_NPM_TELEGRAM_PROVIDER_MODE,
     primaryModel: process.env.BRIKKO_STUDIO_NPM_TELEGRAM_MODEL,

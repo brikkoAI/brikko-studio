@@ -14,7 +14,7 @@ import {
   resolveDmGroupAccessWithLists,
   resolveSenderScopedGroupPolicy,
   warnMissingProviderGroupPolicyFallbackOnce,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../runtime-api.js";
 import type { ResolvedGoogleChatAccount } from "./accounts.js";
 import { sendGoogleChatMessage } from "./api.js";
@@ -141,7 +141,7 @@ function warnMutableGroupKeysConfigured(
 
 export async function applyGoogleChatInboundAccessPolicy(params: {
   account: ResolvedGoogleChatAccount;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   core: GoogleChatCoreRuntime;
   space: GoogleChatSpace;
   message: GoogleChatMessage;

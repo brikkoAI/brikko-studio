@@ -1,5 +1,5 @@
 import { rm } from "node:fs/promises";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   clearPluginInteractiveHandlers,
   registerPluginInteractiveHandler,
@@ -1012,7 +1012,7 @@ describe("createTelegramBot", () => {
 
     const modelId = "us.anthropic.claude-3-5-sonnet-20240620-v1:0";
     const storePath = `/tmp/brikko-studio-telegram-model-compact-${process.pid}-${Date.now()}.json`;
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: `bedrock/${modelId}`,
@@ -1156,7 +1156,7 @@ describe("createTelegramBot", () => {
     editMessageTextSpy.mockClear();
 
     const storePath = `/tmp/brikko-studio-telegram-model-default-${process.pid}-${Date.now()}.json`;
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: "claude-opus-4-6",
@@ -1963,7 +1963,7 @@ describe("createTelegramBot", () => {
         reply_to_message: {
           message_id: 42,
           text: "original reply",
-          from: { id: 999, first_name: "Brikko Studio" },
+          from: { id: 999, first_name: "BrikkoStudio" },
         },
       },
       me: { id: 999, username: "brikko-studio_bot" },

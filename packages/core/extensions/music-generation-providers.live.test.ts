@@ -1,8 +1,8 @@
 import {
   resolveApiKeyForProvider,
-  resolveBrikko StudioAgentDir,
+  resolveBrikkoStudioAgentDir,
 } from "brikko-studio/plugin-sdk/agent-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   registerProviderPlugin,
   requireRegisteredProvider,
@@ -65,7 +65,7 @@ const CASES: LiveProviderCase[] = [
   .filter((entry) => (providerFilter ? providerFilter.has(entry.providerId) : true))
   .toSorted((left, right) => left.providerId.localeCompare(right.providerId));
 
-function withPluginsEnabled(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function withPluginsEnabled(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return {
     ...cfg,
     plugins: {
@@ -159,7 +159,7 @@ describeLive("music generation provider live", () => {
     async () => {
       const cfg = withPluginsEnabled(getRuntimeConfig());
       const configuredModels = resolveConfiguredLiveMusicModels(cfg);
-      const agentDir = resolveBrikko StudioAgentDir();
+      const agentDir = resolveBrikkoStudioAgentDir();
       const attempted: string[] = [];
       const skipped: string[] = [];
       const failures: string[] = [];

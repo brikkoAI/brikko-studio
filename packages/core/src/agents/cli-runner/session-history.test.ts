@@ -307,7 +307,7 @@ describe("loadCliSessionReseedMessages", () => {
 });
 
 describe("buildCliSessionHistoryPrompt", () => {
-  it("renders Brikko Studio transcript history around the next user message", () => {
+  it("renders BrikkoStudio transcript history around the next user message", () => {
     const prompt = buildCliSessionHistoryPrompt({
       messages: [
         { role: "user", content: "old ask" },
@@ -337,7 +337,7 @@ describe("buildCliSessionHistoryPrompt", () => {
       maxHistoryChars: 20,
     });
 
-    expect(prompt).toContain("[Brikko Studio reseed history truncated]");
+    expect(prompt).toContain("[BrikkoStudio reseed history truncated]");
     expect(prompt).toContain("<next_user_message>\ncurrent ask must survive\n</next_user_message>");
     expect(prompt).not.toContain("x".repeat(80));
   });

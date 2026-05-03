@@ -313,8 +313,8 @@ export async function createBackupArchive(
   if (plan.included.length === 0) {
     throw new Error(
       onlyConfig
-        ? "No Brikko Studio config file was found to back up."
-        : "No local Brikko Studio state was found to back up.",
+        ? "No BrikkoStudio config file was found to back up."
+        : "No local BrikkoStudio state was found to back up.",
     );
   }
 

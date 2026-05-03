@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { runPluginSetupConfigMigrations } from "../../../plugins/setup-registry.js";
 import { migrateLegacySecretRefEnvMarkers } from "../../../secrets/legacy-secretref-env-marker.js";
 import { applyChannelDoctorCompatibilityMigrations } from "./channel-legacy-config-migrate.js";
@@ -8,8 +8,8 @@ import {
   normalizeLegacyOpenAICodexModelsAddMetadata,
 } from "./legacy-config-core-normalizers.js";
 
-export function normalizeCompatibilityConfigValues(cfg: Brikko StudioConfig): {
-  config: Brikko StudioConfig;
+export function normalizeCompatibilityConfigValues(cfg: BrikkoStudioConfig): {
+  config: BrikkoStudioConfig;
   changes: string[];
 } {
   const changes: string[] = [];

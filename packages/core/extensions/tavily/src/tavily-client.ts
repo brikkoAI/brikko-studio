@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   DEFAULT_CACHE_TTL_MINUTES,
   normalizeCacheKey,
@@ -27,7 +27,7 @@ const EXTRACT_CACHE = new Map<
 const DEFAULT_SEARCH_COUNT = 5;
 
 export type TavilySearchParams = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   query: string;
   searchDepth?: string;
   topic?: string;
@@ -40,7 +40,7 @@ export type TavilySearchParams = {
 };
 
 export type TavilyExtractParams = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   urls: string[];
   query?: string;
   extractDepth?: string;

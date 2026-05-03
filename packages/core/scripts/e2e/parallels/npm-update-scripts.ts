@@ -3,7 +3,7 @@ import { shellQuote } from "./host-command.ts";
 import {
   psSingleQuote,
   windowsAgentTurnConfigPatchScript,
-  windowsBrikko StudioResolver,
+  windowsBrikkoStudioResolver,
 } from "./powershell.ts";
 import {
   modelProviderConfigBatchJson,
@@ -144,7 +144,7 @@ ${posixAssertAgentOkScript("/opt/homebrew/bin/brikko-studio", input, "parallels-
 export function windowsUpdateScript(input: NpmUpdateScriptInput): string {
   return `$ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $false
-${windowsBrikko StudioResolver}
+${windowsBrikkoStudioResolver}
 function Remove-FuturePluginEntries {
   $configPath = Join-Path $env:USERPROFILE '.brikko-studio\\brikko-studio.json'
   if (-not (Test-Path $configPath)) { return }
@@ -163,8 +163,8 @@ function Remove-FuturePluginEntries {
   }
   $config | ConvertTo-Json -Depth 100 | Set-Content -Path $configPath -Encoding UTF8
 }
-function Stop-Brikko StudioGatewayProcesses {
-  Invoke-Brikko Studio gateway stop *>&1 | Out-Host
+function Stop-BrikkoStudioGatewayProcesses {
+  Invoke-BrikkoStudio gateway stop *>&1 | Out-Host
   Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
     Where-Object { $_.CommandLine -match 'brikko-studio.*gateway' } |
     ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
@@ -174,10 +174,10 @@ function Stop-Brikko StudioGatewayProcesses {
   Start-Sleep -Seconds 2
 }
 Remove-FuturePluginEntries
-Stop-Brikko StudioGatewayProcesses
+Stop-BrikkoStudioGatewayProcesses
 $env:BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS = '1'
 $env:BRIKKO_STUDIO_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS = '1'
-$updateOutput = Invoke-Brikko Studio update --tag ${psSingleQuote(input.updateTarget)} --yes --json --no-restart 2>&1
+$updateOutput = Invoke-BrikkoStudio update --tag ${psSingleQuote(input.updateTarget)} --yes --json --no-restart 2>&1
 $updateExit = $LASTEXITCODE
 $updateOutput
 if ($updateExit -ne 0) {
@@ -187,25 +187,25 @@ if ($updateExit -ne 0) {
   Write-Host "brikko-studio update returned a stale post-swap module import; continuing to post-update health checks"
 }
 ${windowsVersionCheck(input.expectedNeedle)}
-function Wait-Brikko StudioGateway {
+function Wait-BrikkoStudioGateway {
   $deadline = (Get-Date).AddSeconds(180)
   $attempt = 0
   while ((Get-Date) -lt $deadline) {
-    Invoke-Brikko Studio gateway status --deep --require-rpc --timeout 15000
+    Invoke-BrikkoStudio gateway status --deep --require-rpc --timeout 15000
     if ($LASTEXITCODE -eq 0) { return }
     $attempt += 1
     if ($attempt -eq 4) {
-      Invoke-Brikko Studio gateway start *>&1 | Out-Host
+      Invoke-BrikkoStudio gateway start *>&1 | Out-Host
     }
     Start-Sleep -Seconds 5
   }
   throw "gateway did not become ready after update"
 }
-Invoke-Brikko Studio gateway restart *>&1 | Out-Host
+Invoke-BrikkoStudio gateway restart *>&1 | Out-Host
 if ($LASTEXITCODE -ne 0) {
   "gateway restart exited with code $LASTEXITCODE; probing readiness before failing" | Out-Host
 }
-Wait-Brikko StudioGateway
+Wait-BrikkoStudioGateway
 ${windowsAgentTurnConfigPatchScript(input.auth.modelId)}
 $sessionPath = Join-Path $env:USERPROFILE '.brikko-studio\\agents\\main\\sessions\\parallels-npm-update-windows.jsonl'
 Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
@@ -217,7 +217,7 @@ for ($attempt = 1; $attempt -le 2; $attempt++) {
   $sessionsDir = Join-Path $env:USERPROFILE '.brikko-studio\\agents\\main\\sessions'
   $sessionPath = Join-Path $sessionsDir "$sessionId.jsonl"
   Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
-  $output = Invoke-Brikko Studio agent --local --agent main --session-id $sessionId --model ${psSingleQuote(input.auth.modelId)} --message 'Reply with exact ASCII text OK only.' --thinking minimal --timeout ${resolveParallelsModelTimeoutSeconds("windows")} --json 2>&1
+  $output = Invoke-BrikkoStudio agent --local --agent main --session-id $sessionId --model ${psSingleQuote(input.auth.modelId)} --message 'Reply with exact ASCII text OK only.' --thinking minimal --timeout ${resolveParallelsModelTimeoutSeconds("windows")} --json 2>&1
   if ($null -ne $output) { $output | ForEach-Object { $_ } }
   if ($LASTEXITCODE -ne 0) { throw "agent failed with exit code $LASTEXITCODE" }
   if (($output | Out-String) -match '"finalAssistant(Raw|Visible)Text":\\s*"OK"') {
@@ -341,7 +341,7 @@ function windowsVersionCheck(expectedNeedle: string): string {
   if (!expectedNeedle) {
     return `$versionDeadline = (Get-Date).AddSeconds(60)
 while ($true) {
-  $version = Invoke-Brikko Studio --version
+  $version = Invoke-BrikkoStudio --version
   $version
   if ($LASTEXITCODE -eq 0) { break }
   if ((Get-Date) -ge $versionDeadline) { throw "brikko-studio --version failed with exit code $LASTEXITCODE" }
@@ -352,7 +352,7 @@ while ($true) {
   const mismatch = psSingleQuote(`version mismatch: expected ${expectedNeedle}`);
   return `$versionDeadline = (Get-Date).AddSeconds(60)
 while ($true) {
-  $version = Invoke-Brikko Studio --version
+  $version = Invoke-BrikkoStudio --version
   $version
   if ($LASTEXITCODE -eq 0 -and (($version | Out-String) -like ${expectedPattern})) { break }
   if ((Get-Date) -ge $versionDeadline) {

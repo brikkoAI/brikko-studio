@@ -3,7 +3,7 @@ import { defineBundledChannelEntry } from "brikko-studio/plugin-sdk/channel-entr
 export default defineBundledChannelEntry({
   id: "googlechat",
   name: "Google Chat",
-  description: "Brikko Studio Google Chat channel plugin",
+  description: "BrikkoStudio Google Chat channel plugin",
   importMetaUrl: import.meta.url,
   plugin: {
     specifier: "./channel-plugin-api.js",

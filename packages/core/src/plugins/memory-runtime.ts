@@ -1,12 +1,12 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveUserPath } from "../utils.js";
 import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
 import { normalizePluginsConfig } from "./config-state.js";
 import { getMemoryRuntime } from "./memory-state.js";
 import { ensureStandaloneRuntimePluginRegistryLoaded } from "./runtime/standalone-runtime-registry-loader.js";
 
-function resolveMemoryRuntimePluginIds(config: Brikko StudioConfig): string[] {
+function resolveMemoryRuntimePluginIds(config: BrikkoStudioConfig): string[] {
   const plugins = normalizePluginsConfig(config.plugins);
   const memorySlot = plugins.slots.memory;
   if (!plugins.enabled || typeof memorySlot !== "string" || memorySlot.trim().length === 0) {
@@ -19,7 +19,7 @@ function resolveMemoryRuntimePluginIds(config: Brikko StudioConfig): string[] {
   return [pluginId];
 }
 
-function resolveMemoryRuntimeWorkspaceDir(cfg: Brikko StudioConfig): string | undefined {
+function resolveMemoryRuntimeWorkspaceDir(cfg: BrikkoStudioConfig): string | undefined {
   const agentId = resolveDefaultAgentId(cfg);
   const dir = resolveAgentWorkspaceDir(cfg, agentId);
   if (typeof dir !== "string" || !dir.trim()) {
@@ -28,7 +28,7 @@ function resolveMemoryRuntimeWorkspaceDir(cfg: Brikko StudioConfig): string | un
   return resolveUserPath(dir);
 }
 
-function ensureMemoryRuntime(cfg?: Brikko StudioConfig) {
+function ensureMemoryRuntime(cfg?: BrikkoStudioConfig) {
   const current = getMemoryRuntime();
   if (current || !cfg) {
     return current;
@@ -54,7 +54,7 @@ function ensureMemoryRuntime(cfg?: Brikko StudioConfig) {
 }
 
 export async function getActiveMemorySearchManager(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   purpose?: "default" | "status" | "cli";
 }) {
@@ -65,11 +65,11 @@ export async function getActiveMemorySearchManager(params: {
   return await runtime.getMemorySearchManager(params);
 }
 
-export function resolveActiveMemoryBackendConfig(params: { cfg: Brikko StudioConfig; agentId: string }) {
+export function resolveActiveMemoryBackendConfig(params: { cfg: BrikkoStudioConfig; agentId: string }) {
   return ensureMemoryRuntime(params.cfg)?.resolveMemoryBackendConfig(params) ?? null;
 }
 
-export async function closeActiveMemorySearchManagers(cfg?: Brikko StudioConfig): Promise<void> {
+export async function closeActiveMemorySearchManagers(cfg?: BrikkoStudioConfig): Promise<void> {
   void cfg;
   const runtime = getMemoryRuntime();
   await runtime?.closeAllMemorySearchManagers?.();

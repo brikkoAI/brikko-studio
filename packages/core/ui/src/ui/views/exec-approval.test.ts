@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { i18n } from "../../i18n/index.ts";
 import { createStorageMock } from "../../test-helpers/storage.ts";
 import type { AppViewState } from "../app-view-state.ts";
-import { type Brikko StudioModalDialog } from "../components/modal-dialog.ts";
+import { type BrikkoStudioModalDialog } from "../components/modal-dialog.ts";
 import type { ExecApprovalRequest } from "../controllers/exec-approval.ts";
 import { renderDreamingRestartConfirmation } from "./dreaming-restart-confirmation.ts";
 import { renderExecApprovalPrompt } from "./exec-approval.ts";
@@ -49,7 +49,7 @@ function restoreDescriptor(name: "showModal" | "close", descriptor?: PropertyDes
 }
 
 async function getRenderedDialog() {
-  const modal = container.querySelector<Brikko StudioModalDialog>("brikko-studio-modal-dialog");
+  const modal = container.querySelector<BrikkoStudioModalDialog>("brikko-studio-modal-dialog");
   expect(modal).not.toBeNull();
   await modal!.updateComplete;
   await nextFrame();

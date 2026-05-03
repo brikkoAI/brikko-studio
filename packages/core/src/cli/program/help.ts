@@ -116,7 +116,7 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
   ) {
     const commit = resolveCommitHash({ moduleUrl: import.meta.url });
     console.log(
-      commit ? `Brikko Studio ${ctx.programVersion} (${commit})` : `Brikko Studio ${ctx.programVersion}`,
+      commit ? `BrikkoStudio ${ctx.programVersion} (${commit})` : `BrikkoStudio ${ctx.programVersion}`,
     );
     process.exit(0);
   }

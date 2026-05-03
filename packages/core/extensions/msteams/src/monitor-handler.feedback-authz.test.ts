@@ -2,7 +2,7 @@ import { access, mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig, PluginRuntime, RuntimeEnv } from "../runtime-api.js";
+import type { BrikkoStudioConfig, PluginRuntime, RuntimeEnv } from "../runtime-api.js";
 import {
   type MSTeamsActivityHandler,
   type MSTeamsMessageHandlerDeps,
@@ -67,7 +67,7 @@ function createRuntimeStub(readAllowFromStore: ReturnType<typeof vi.fn>): Plugin
 }
 
 function createDeps(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   readAllowFromStore?: ReturnType<typeof vi.fn>;
 }): MSTeamsMessageHandlerDeps {
   const readAllowFromStore = params.readAllowFromStore ?? vi.fn(async () => []);
@@ -134,7 +134,7 @@ async function expectFileMissing(filePath: string) {
 }
 
 async function withFeedbackHandler(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   context: Parameters<typeof createFeedbackInvokeContext>[0];
   assertResult: (args: { tmpDir: string; originalRun: ReturnType<typeof vi.fn> }) => Promise<void>;
 }) {
@@ -175,7 +175,7 @@ describe("msteams feedback invoke authz", () => {
             allowFrom: ["owner-aad"],
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       context: {
         reaction: "like",
         conversationId: "a:personal-chat;messageid=bot-msg-1",
@@ -218,7 +218,7 @@ describe("msteams feedback invoke authz", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       context: {
         reaction: "like",
         conversationId: "a:personal-chat;messageid=bot-msg-1",
@@ -252,7 +252,7 @@ describe("msteams feedback invoke authz", () => {
             allowFrom: ["owner-aad"],
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       context: {
         reaction: "like",
         conversationId: "a:personal-chat;messageid=bot-msg-1",
@@ -285,7 +285,7 @@ describe("msteams feedback invoke authz", () => {
                 feedbackReflection: true,
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
         }),
       ) as MSTeamsActivityHandler & {
         run: NonNullable<MSTeamsActivityHandler["run"]>;

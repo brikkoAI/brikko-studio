@@ -1,9 +1,9 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 export { shouldRequireGatewayTokenForInstall } from "../gateway/auth-install-policy.js";
 import { resolveGatewayAuthToken } from "../gateway/auth-token-resolution.js";
 
 export async function resolveGatewayAuthTokenForService(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv,
 ): Promise<{ token?: string; unavailableReason?: string }> {
   const resolved = await resolveGatewayAuthToken({

@@ -19,7 +19,7 @@ export type ClawHubPackageChannel = "official" | "community" | "private";
 // Keep aligned with @brikko-studio/plugin-package-contract ExternalPluginCompatibility.
 export type ClawHubPackageCompatibility = {
   pluginApiRange?: string;
-  builtWithBrikko StudioVersion?: string;
+  builtWithBrikkoStudioVersion?: string;
   pluginSdkVersion?: string;
   minGatewayVersion?: string;
 };
@@ -154,7 +154,7 @@ export type ClawHubPackageReadinessPhase =
   | (string & {});
 export type ClawHubPackageReadiness = {
   ready?: boolean | null;
-  readyForBrikko Studio?: boolean | null;
+  readyForBrikkoStudio?: boolean | null;
   installReady?: boolean | null;
   phase?: ClawHubPackageReadinessPhase | null;
   status?: ClawHubPackageReadinessPhase | null;

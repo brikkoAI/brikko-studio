@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveGatewayStartupPluginPlanFromRegistry,
   type GatewayStartupPluginPlan,
@@ -39,8 +39,8 @@ export type PluginLookUpTable = PluginMetadataSnapshot & {
 };
 
 export type LoadPluginLookUpTableParams = {
-  config: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   workspaceDir?: string;
   env: NodeJS.ProcessEnv;
   index?: PluginRegistrySnapshot;

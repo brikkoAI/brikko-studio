@@ -12,9 +12,9 @@ export {
   type DiagnosticEventPayload,
   type DiagnosticTraceContext,
 } from "brikko-studio/plugin-sdk/diagnostic-runtime";
-export { emptyPluginConfigSchema, type Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+export { emptyPluginConfigSchema, type BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 export type {
-  Brikko StudioPluginService,
-  Brikko StudioPluginServiceContext,
+  BrikkoStudioPluginService,
+  BrikkoStudioPluginServiceContext,
 } from "brikko-studio/plugin-sdk/plugin-entry";
 export { redactSensitiveText } from "brikko-studio/plugin-sdk/security-runtime";

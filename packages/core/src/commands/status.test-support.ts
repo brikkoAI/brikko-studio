@@ -73,7 +73,7 @@ export const baseStatusOverviewScanFields = {
 const baseStatusGatewayService = {
   label: "LaunchAgent",
   installed: true,
-  managedByBrikko Studio: true,
+  managedByBrikkoStudio: true,
   loadedText: "loaded",
   runtimeShort: "running",
 };

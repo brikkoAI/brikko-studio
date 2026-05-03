@@ -1,5 +1,5 @@
 import { type ChannelDoctorAdapter } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { collectProviderDangerousNameMatchingScopes } from "brikko-studio/plugin-sdk/runtime-doctor";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { inspectDiscordAccount } from "./account-inspect.js";
@@ -27,7 +27,7 @@ function sanitizeForLog(value: string): string {
 }
 
 function collectDiscordAccountScopes(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): Array<{ prefix: string; account: Record<string, unknown> }> {
   const scopes: Array<{ prefix: string; account: Record<string, unknown> }> = [];
   const discord = asObjectRecord(cfg.channels?.discord);
@@ -104,7 +104,7 @@ function collectDiscordIdLists(
   return refs;
 }
 
-export function scanDiscordNumericIdEntries(cfg: Brikko StudioConfig): DiscordNumericIdHit[] {
+export function scanDiscordNumericIdEntries(cfg: BrikkoStudioConfig): DiscordNumericIdHit[] {
   const hits: DiscordNumericIdHit[] = [];
   const scanList = (pathLabel: string, list: unknown) => {
     if (!Array.isArray(list)) {
@@ -177,9 +177,9 @@ export function collectDiscordNumericIdWarnings(params: {
 }
 
 export function maybeRepairDiscordNumericIds(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   doctorFixCommand: string,
-): { config: Brikko StudioConfig; changes: string[]; warnings?: string[] } {
+): { config: BrikkoStudioConfig; changes: string[]; warnings?: string[] } {
   const hits = scanDiscordNumericIdEntries(cfg);
   if (hits.length === 0) {
     return { config: cfg, changes: [] };
@@ -238,7 +238,7 @@ export function maybeRepairDiscordNumericIds(
 }
 
 export function collectDiscordMissingEnvTokenWarnings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): string[] {
   if (resolveDefaultDiscordAccountId(params.cfg) !== "default") {
@@ -257,7 +257,7 @@ export function collectDiscordMissingEnvTokenWarnings(params: {
   ];
 }
 
-function collectDiscordMutableAllowlistWarnings(cfg: Brikko StudioConfig): string[] {
+function collectDiscordMutableAllowlistWarnings(cfg: BrikkoStudioConfig): string[] {
   const hits: Array<{ path: string; entry: string }> = [];
   const addHits = (pathLabel: string, list: unknown) => {
     if (!Array.isArray(list)) {

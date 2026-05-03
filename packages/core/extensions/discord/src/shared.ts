@@ -19,7 +19,7 @@ import { getChatChannelMeta, type ChannelPlugin } from "./channel-api.js";
 import { DiscordChannelConfigSchema } from "./config-schema.js";
 import { normalizeCompatibilityConfig } from "./doctor-contract.js";
 import { DISCORD_LEGACY_CONFIG_RULES } from "./doctor-shared.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import {
   collectRuntimeConfigAssignments,
   secretTargetRegistryEntries,
@@ -65,7 +65,7 @@ const discordDoctor: ChannelDoctorAdapter = {
 };
 
 function resolveDiscordConfigAccessorAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): DiscordConfigAccessorAccount {
   const accountId = normalizeAccountId(

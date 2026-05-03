@@ -1,8 +1,8 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 import type { PluginManifestRecord } from "./manifest-registry.js";
 
-type PluginEntriesConfig = NonNullable<NonNullable<Brikko StudioConfig["plugins"]>["entries"]>;
+type PluginEntriesConfig = NonNullable<NonNullable<BrikkoStudioConfig["plugins"]>["entries"]>;
 
 export function normalizePluginConfigId(id: unknown): string {
   return normalizeOptionalLowercaseString(id) ?? "";
@@ -31,7 +31,7 @@ function findPluginConfigEntry(
 }
 
 export function isWorkspacePluginAllowedByConfig(params: {
-  config: Brikko StudioConfig | undefined;
+  config: BrikkoStudioConfig | undefined;
   isImplicitlyAllowed?: (pluginId: string) => boolean;
   plugin: PluginManifestRecord;
 }): boolean {

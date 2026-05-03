@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 
 export function createTempDirHarness() {
   const tempDirs: string[] = [];
@@ -12,7 +12,7 @@ export function createTempDirHarness() {
       );
     },
     async makeTempDir(prefix: string) {
-      const dir = await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), prefix));
+      const dir = await fs.mkdtemp(path.join(resolvePreferredBrikkoStudioTmpDir(), prefix));
       tempDirs.push(dir);
       return dir;
     },

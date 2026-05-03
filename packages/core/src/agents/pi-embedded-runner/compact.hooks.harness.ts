@@ -88,7 +88,7 @@ function createDefaultSessionMessages(): unknown[] {
 }
 export const sessionMessages: unknown[] = createDefaultSessionMessages();
 export const sessionAbortCompactionMock: Mock<(reason?: unknown) => void> = vi.fn();
-export const createBrikko StudioCodingToolsMock = vi.fn(() => []);
+export const createBrikkoStudioCodingToolsMock = vi.fn(() => []);
 export const resolveEmbeddedAgentStreamFnMock: Mock<
   (params?: unknown) => MockEmbeddedAgentStreamFn
 > = vi.fn((_params?: unknown) => vi.fn());
@@ -190,8 +190,8 @@ export function resetCompactHooksHarnessMocks(): void {
 
   triggerInternalHook.mockReset();
   resetCompactSessionStateMocks();
-  createBrikko StudioCodingToolsMock.mockReset();
-  createBrikko StudioCodingToolsMock.mockReturnValue([]);
+  createBrikkoStudioCodingToolsMock.mockReset();
+  createBrikkoStudioCodingToolsMock.mockReturnValue([]);
 }
 
 export async function loadCompactHooksHarness(): Promise<{
@@ -309,7 +309,7 @@ export async function loadCompactHooksHarness(): Promise<{
   }));
 
   vi.doMock("../models-config.js", () => ({
-    ensureBrikko StudioModelsJson: vi.fn(async () => {}),
+    ensureBrikkoStudioModelsJson: vi.fn(async () => {}),
   }));
 
   vi.doMock("../model-auth.js", () => ({
@@ -379,7 +379,7 @@ export async function loadCompactHooksHarness(): Promise<{
   }));
 
   vi.doMock("../docs-path.js", () => ({
-    resolveBrikko StudioReferencePaths: vi.fn(async () => ({
+    resolveBrikkoStudioReferencePaths: vi.fn(async () => ({
       docsPath: undefined,
       sourcePath: undefined,
     })),
@@ -391,7 +391,7 @@ export async function loadCompactHooksHarness(): Promise<{
   }));
 
   vi.doMock("../pi-tools.js", () => ({
-    createBrikko StudioCodingTools: createBrikko StudioCodingToolsMock,
+    createBrikkoStudioCodingTools: createBrikkoStudioCodingToolsMock,
   }));
 
   vi.doMock("./replay-history.js", () => ({
@@ -500,7 +500,7 @@ export async function loadCompactHooksHarness(): Promise<{
   }));
 
   vi.doMock("../agent-paths.js", () => ({
-    resolveBrikko StudioAgentDir: vi.fn(() => "/tmp"),
+    resolveBrikkoStudioAgentDir: vi.fn(() => "/tmp"),
   }));
 
   vi.doMock("../agent-scope.js", () => ({

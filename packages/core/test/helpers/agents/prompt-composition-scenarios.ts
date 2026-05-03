@@ -21,7 +21,7 @@ import {
 } from "../../../src/auto-reply/reply/inbound-meta.js";
 import type { TemplateContext } from "../../../src/auto-reply/templating.js";
 import { SILENT_REPLY_TOKEN } from "../../../src/auto-reply/tokens.js";
-import type { Brikko StudioConfig } from "../../../src/config/config.js";
+import type { BrikkoStudioConfig } from "../../../src/config/config.js";
 import { makeTempWorkspace, writeWorkspaceFile } from "../../../src/test-helpers/workspace.js";
 
 export type PromptScenarioTurn = {
@@ -141,7 +141,7 @@ function buildAutoReplySystemPrompt(params: {
       : "",
     params.includeGroupIntro
       ? buildGroupIntro({
-          cfg: {} as Brikko StudioConfig,
+          cfg: {} as BrikkoStudioConfig,
           sessionCtx: params.sessionCtx,
           defaultActivation: "mention",
           silentToken: SILENT_REPLY_TOKEN,
@@ -426,7 +426,7 @@ async function createToolRichScenario(workspaceDir: string): Promise<PromptScena
   const skillsPrompt = [
     "<available_skills>",
     "<skill><name>checks</name><description>Run checks before landing changes.</description><location>/skills/checks/SKILL.md</location></skill>",
-    "<skill><name>release</name><description>Release Brikko Studio safely.</description><location>/skills/release/SKILL.md</location></skill>",
+    "<skill><name>release</name><description>Release BrikkoStudio safely.</description><location>/skills/release/SKILL.md</location></skill>",
     "</available_skills>",
   ].join("\n");
   const contextFiles = await readContextFiles(workspaceDir, ["AGENTS.md", "TOOLS.md", "SOUL.md"]);
@@ -495,7 +495,7 @@ async function createBootstrapWarningScenario(workspaceDir: string): Promise<Pro
         bootstrapTotalMaxChars: 2_200,
       },
     },
-  } satisfies Brikko StudioConfig;
+  } satisfies BrikkoStudioConfig;
   const largeAgents = "# AGENTS.md\n\n" + "Rules.\n".repeat(5_000);
   const largeTools = "# TOOLS.md\n\n" + "Notes.\n".repeat(3_000);
   await writeWorkspaceFile({ dir: workspaceDir, name: "AGENTS.md", content: largeAgents });

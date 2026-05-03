@@ -12,7 +12,7 @@ import {
 import type { WizardPrompter } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/setup";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import {
   listGoogleChatAccountIds,
   resolveGoogleChatAccount,
@@ -179,7 +179,7 @@ describe("googlechat setup", () => {
 
     const result = await runSetupWizardConfigure({
       configure: googlechatConfigure,
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       prompter,
       options: {},
     });
@@ -212,7 +212,7 @@ describe("googlechat setup", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         "alerts",
       ),
     ).toBe("allowlist");
@@ -231,7 +231,7 @@ describe("googlechat setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       accountOverrides: {
         googlechat: "alerts",
       },
@@ -255,7 +255,7 @@ describe("googlechat setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       accountOverrides: {},
       options: {},
     });
@@ -288,7 +288,7 @@ describe("googlechat setup", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(googlechatSetupWizard.dmPolicy?.getCurrent(cfg)).toBe("allowlist");
     expect(googlechatSetupWizard.dmPolicy?.resolveConfigKeys?.(cfg)).toEqual({
@@ -325,7 +325,7 @@ describe("googlechat setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       prompter: prompter as any,
     });
 
@@ -350,7 +350,7 @@ describe("googlechat setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       "open",
       "alerts",
     );
@@ -413,7 +413,7 @@ describe("resolveGoogleChatAccount", () => {
   });
 
   it("inherits shared defaults from accounts.default for named accounts", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         googlechat: {
           accounts: {
@@ -438,7 +438,7 @@ describe("resolveGoogleChatAccount", () => {
   });
 
   it("prefers top-level and account overrides over accounts.default", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         googlechat: {
           audienceType: "project-number",
@@ -464,7 +464,7 @@ describe("resolveGoogleChatAccount", () => {
   });
 
   it("does not inherit disabled state from accounts.default for named accounts", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         googlechat: {
           accounts: {
@@ -488,7 +488,7 @@ describe("resolveGoogleChatAccount", () => {
   });
 
   it("does not inherit default-account credentials into named accounts", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         googlechat: {
           accounts: {
@@ -516,7 +516,7 @@ describe("resolveGoogleChatAccount", () => {
   });
 
   it("does not inherit dangerous name matching from accounts.default", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         googlechat: {
           accounts: {
@@ -539,7 +539,7 @@ describe("resolveGoogleChatAccount", () => {
   });
 
   it("uses configured defaultAccount when accountId is omitted", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         googlechat: {
           defaultAccount: "alerts",

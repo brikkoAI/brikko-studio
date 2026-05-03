@@ -3,7 +3,7 @@ import {
   shouldAckReactionForWhatsApp,
   type AckReactionHandle,
 } from "brikko-studio/plugin-sdk/channel-feedback";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { getSenderIdentity } from "../../identity.js";
 import { resolveWhatsAppReactionLevel } from "../../reaction-level.js";
@@ -13,7 +13,7 @@ import type { WebInboundMsg } from "../types.js";
 import { resolveGroupActivationFor } from "./group-activation.js";
 
 export async function maybeSendAckReaction(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   msg: WebInboundMsg;
   agentId: string;
   sessionKey: string;

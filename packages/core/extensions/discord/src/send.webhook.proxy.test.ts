@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { sendWebhookMessageDiscord } from "./send.webhook.js";
 
@@ -35,7 +35,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           proxy: "bad-proxy",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await sendWebhookMessageDiscord("hello", {
       cfg,
@@ -63,7 +63,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           proxy: "http://127.0.0.1:8080",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await sendWebhookMessageDiscord("hello", {
       cfg,
@@ -89,7 +89,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           proxy: "http://proxy.test:8080",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await sendWebhookMessageDiscord("hello", {
       cfg,
@@ -116,7 +116,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           token: "Bot test-token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await sendWebhookMessageDiscord("hello", {
       cfg,
@@ -143,7 +143,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           token: "Bot test-token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await expect(
       sendWebhookMessageDiscord("hello", {
@@ -172,7 +172,7 @@ describe("sendWebhookMessageDiscord proxy support", () => {
           token: "Bot test-token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await expect(
       sendWebhookMessageDiscord("hello", {

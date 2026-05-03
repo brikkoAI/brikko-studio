@@ -9,7 +9,7 @@ import {
   splitSetupEntries,
   type ChannelSetupAdapter,
   type ChannelSetupWizard,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/setup";
 import { listAccountIds, resolveAccount } from "./accounts.js";
 import type { SynologyChatAccountRaw, SynologyChatChannelConfig } from "./types.js";
@@ -42,11 +42,11 @@ function normalizeOptionalString(value: unknown): string | undefined {
   return trimmed || undefined;
 }
 
-function getChannelConfig(cfg: Brikko StudioConfig): SynologyChatChannelConfig {
+function getChannelConfig(cfg: BrikkoStudioConfig): SynologyChatChannelConfig {
   return (cfg.channels?.[channel] as SynologyChatChannelConfig | undefined) ?? {};
 }
 
-function getRawAccountConfig(cfg: Brikko StudioConfig, accountId: string): SynologyChatAccountRaw {
+function getRawAccountConfig(cfg: BrikkoStudioConfig, accountId: string): SynologyChatAccountRaw {
   const channelConfig = getChannelConfig(cfg);
   if (accountId === DEFAULT_ACCOUNT_ID) {
     return channelConfig;
@@ -55,12 +55,12 @@ function getRawAccountConfig(cfg: Brikko StudioConfig, accountId: string): Synol
 }
 
 function patchSynologyChatAccountConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   patch: Record<string, unknown>;
   clearFields?: string[];
   enabled?: boolean;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const channelConfig = getChannelConfig(params.cfg);
   if (params.accountId === DEFAULT_ACCOUNT_ID) {
     const nextChannelConfig = { ...channelConfig } as Record<string, unknown>;
@@ -104,7 +104,7 @@ function patchSynologyChatAccountConfig(params: {
   };
 }
 
-function isSynologyChatConfigured(cfg: Brikko StudioConfig, accountId: string): boolean {
+function isSynologyChatConfigured(cfg: BrikkoStudioConfig, accountId: string): boolean {
   const account = resolveAccount(cfg, accountId);
   return Boolean(account.token.trim() && account.incomingUrl.trim());
 }
@@ -146,7 +146,7 @@ function normalizeSynologyAllowedUserId(value: unknown): string {
   return "";
 }
 
-function resolveExistingAllowedUserIds(cfg: Brikko StudioConfig, accountId: string): string[] {
+function resolveExistingAllowedUserIds(cfg: BrikkoStudioConfig, accountId: string): string[] {
   const raw = getRawAccountConfig(cfg, accountId).allowedUserIds;
   if (Array.isArray(raw)) {
     return raw.map(normalizeSynologyAllowedUserId).filter(Boolean);
@@ -266,7 +266,7 @@ export const synologyChatSetupWizard: ChannelSetupWizard = {
       helpTitle: "Synology Chat incoming webhook",
       helpLines: [
         "Use the incoming webhook URL from Synology Chat integrations.",
-        "This is the URL Brikko Studio uses to send replies back to Chat.",
+        "This is the URL BrikkoStudio uses to send replies back to Chat.",
       ],
       currentValue: ({ cfg, accountId }) => getRawAccountConfig(cfg, accountId).incomingUrl?.trim(),
       keepPrompt: (value) => `Incoming webhook URL set (${value}). Keep it?`,

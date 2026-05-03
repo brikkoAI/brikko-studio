@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { TtsAutoMode, TtsConfig, TtsProvider } from "../config/types.tts.js";
 import {
   normalizeOptionalLowercaseString,
@@ -219,7 +219,7 @@ function resolveStatusProviderDetails(raw: TtsConfig, provider: TtsProvider) {
 }
 
 export function resolveStatusTtsSnapshot(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionAuto?: string;
   agentId?: string;
   channelId?: string;

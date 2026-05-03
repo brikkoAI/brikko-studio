@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   applyLocalSetupWorkspaceConfig,
   ONBOARDING_DEFAULT_DM_SCOPE,
@@ -12,7 +12,7 @@ describe("applyLocalSetupWorkspaceConfig", () => {
   });
 
   it("sets secure dmScope default when unset", () => {
-    const baseConfig: Brikko StudioConfig = {};
+    const baseConfig: BrikkoStudioConfig = {};
     const result = applyLocalSetupWorkspaceConfig(baseConfig, "/tmp/workspace");
 
     expect(result.session?.dmScope).toBe(ONBOARDING_DEFAULT_DM_SCOPE);
@@ -22,7 +22,7 @@ describe("applyLocalSetupWorkspaceConfig", () => {
   });
 
   it("preserves existing dmScope when already configured", () => {
-    const baseConfig: Brikko StudioConfig = {
+    const baseConfig: BrikkoStudioConfig = {
       session: {
         dmScope: "main",
       },
@@ -33,7 +33,7 @@ describe("applyLocalSetupWorkspaceConfig", () => {
   });
 
   it("preserves explicit non-main dmScope values", () => {
-    const baseConfig: Brikko StudioConfig = {
+    const baseConfig: BrikkoStudioConfig = {
       session: {
         dmScope: "per-account-channel-peer",
       },
@@ -44,7 +44,7 @@ describe("applyLocalSetupWorkspaceConfig", () => {
   });
 
   it("preserves an explicit tools.profile when already configured", () => {
-    const baseConfig: Brikko StudioConfig = {
+    const baseConfig: BrikkoStudioConfig = {
       tools: {
         profile: "full",
       },

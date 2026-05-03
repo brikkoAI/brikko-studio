@@ -1,6 +1,6 @@
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ChannelOutboundAdapter } from "../../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   forumMessagingForTest,
   telegramMessagingForTest,
@@ -139,7 +139,7 @@ beforeEach(() => {
           config: {
             listAccountIds: () => [],
             resolveAccount: () => ({}),
-            resolveAllowFrom: ({ cfg }: { cfg: Brikko StudioConfig }) =>
+            resolveAllowFrom: ({ cfg }: { cfg: BrikkoStudioConfig }) =>
               (cfg.channels?.alpha as { allowFrom?: string[] } | undefined)?.allowFrom,
           },
         },
@@ -153,15 +153,15 @@ afterEach(() => {
   resetPluginRuntimeStateForTest();
 });
 
-function makeCfg(overrides?: Partial<Brikko StudioConfig>): Brikko StudioConfig {
+function makeCfg(overrides?: Partial<BrikkoStudioConfig>): BrikkoStudioConfig {
   return {
     bindings: [],
     channels: {},
     ...overrides,
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-function makeForumBoundCfg(accountId = "account-b"): Brikko StudioConfig {
+function makeForumBoundCfg(accountId = "account-b"): BrikkoStudioConfig {
   return makeCfg({
     bindings: [
       {
@@ -211,7 +211,7 @@ function setStoredAlphaAllowFrom(allowFrom: string[]) {
 }
 
 async function resolveForAgent(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   target?: { channel?: "last" | "forum" | "alpha"; to?: string };
 }) {
   const channel = params.target ? params.target.channel : DEFAULT_TARGET.channel;
@@ -222,7 +222,7 @@ async function resolveForAgent(params: {
   });
 }
 
-async function resolveLastTarget(cfg: Brikko StudioConfig) {
+async function resolveLastTarget(cfg: BrikkoStudioConfig) {
   return resolveForAgent({
     cfg,
     target: { channel: "last", to: undefined },

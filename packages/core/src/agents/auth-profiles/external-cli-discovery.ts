@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   resolveExternalCliAuthScopeFromConfig,
   type ExternalCliAuthScope,
@@ -8,23 +8,23 @@ export type ExternalCliAuthDiscovery =
   | {
       mode: "none";
       allowKeychainPrompt?: false;
-      config?: Brikko StudioConfig;
+      config?: BrikkoStudioConfig;
     }
   | {
       mode: "existing";
       allowKeychainPrompt?: boolean;
-      config?: Brikko StudioConfig;
+      config?: BrikkoStudioConfig;
     }
   | {
       mode: "scoped";
       allowKeychainPrompt?: boolean;
-      config?: Brikko StudioConfig;
+      config?: BrikkoStudioConfig;
       providerIds?: Iterable<string>;
       profileIds?: Iterable<string>;
     };
 
 type ProviderAuthDiscoveryParams = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   provider: string;
   profileId?: string;
   preferredProfile?: string;
@@ -32,12 +32,12 @@ type ProviderAuthDiscoveryParams = {
 };
 
 type ConfigStatusDiscoveryParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   allowKeychainPrompt?: false;
 };
 
 type ProviderSetDiscoveryParams = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   providers: Iterable<string>;
   allowKeychainPrompt?: false;
 };
@@ -49,7 +49,7 @@ function normalizeStringList(values: Iterable<string | undefined>): string[] {
 }
 
 export function externalCliDiscoveryNone(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): ExternalCliAuthDiscovery {
   return {
     mode: "none",
@@ -59,7 +59,7 @@ export function externalCliDiscoveryNone(params?: {
 }
 
 export function externalCliDiscoveryExisting(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   allowKeychainPrompt?: boolean;
 }): ExternalCliAuthDiscovery {
   return {
@@ -72,7 +72,7 @@ export function externalCliDiscoveryExisting(params?: {
 }
 
 export function externalCliDiscoveryScoped(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   providerIds?: Iterable<string>;
   profileIds?: Iterable<string>;
   allowKeychainPrompt?: boolean;
@@ -126,7 +126,7 @@ export function externalCliDiscoveryForProviders(
 }
 
 function externalCliDiscoveryFromScope(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   scope: ExternalCliAuthScope | undefined;
   allowKeychainPrompt: false;
 }): ExternalCliAuthDiscovery {

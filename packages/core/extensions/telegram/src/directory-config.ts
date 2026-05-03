@@ -1,6 +1,6 @@
 import { normalizeAccountId } from "brikko-studio/plugin-sdk/account-core";
 import { mapAllowFromEntries } from "brikko-studio/plugin-sdk/channel-config-helpers";
-import type { Brikko StudioConfig, TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig, TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import { createResolvedDirectoryEntriesLister } from "brikko-studio/plugin-sdk/directory-config-runtime";
 import { mergeTelegramAccountConfig } from "./account-config.js";
 import { resolveDefaultTelegramAccountSelection } from "./account-selection.js";
@@ -10,7 +10,7 @@ type TelegramDirectoryAccount = {
 };
 
 function resolveTelegramDirectoryAccount(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string | null,
 ): TelegramDirectoryAccount {
   const resolvedAccountId = accountId?.trim()

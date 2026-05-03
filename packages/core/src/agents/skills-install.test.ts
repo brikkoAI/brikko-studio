@@ -13,7 +13,7 @@ import {
   runCommandWithTimeoutMock,
   scanDirectoryWithSummaryMock,
 } from "./skills-install.test-mocks.js";
-import { resolveBrikko StudioMetadata, resolveSkillInvocationPolicy } from "./skills/frontmatter.js";
+import { resolveBrikkoStudioMetadata, resolveSkillInvocationPolicy } from "./skills/frontmatter.js";
 import { loadSkillsFromDirSafe, readSkillFrontmatterSafe } from "./skills/local-loader.js";
 import type { SkillEntry } from "./skills/types.js";
 
@@ -82,7 +82,7 @@ function loadTestWorkspaceSkillEntries(workspaceDir: string): SkillEntry[] {
     return {
       skill,
       frontmatter,
-      metadata: resolveBrikko StudioMetadata(frontmatter),
+      metadata: resolveBrikkoStudioMetadata(frontmatter),
       invocation,
       exposure: {
         includeInRuntimeRegistry: true,
@@ -194,7 +194,7 @@ describe("installSkill code safety scanning", () => {
     });
   });
 
-  it("runs npm node installs with an Brikko Studio-managed user prefix", async () => {
+  it("runs npm node installs with an BrikkoStudio-managed user prefix", async () => {
     await withWorkspaceCase(async ({ workspaceDir, stateDir }) => {
       await writeInstallableSkill(workspaceDir, "node-prefix-skill");
 

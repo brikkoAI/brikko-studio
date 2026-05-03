@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import {
   resolveConfiguredSecretInputWithFallback,
   resolveRequiredConfiguredSecretRefInputString,
 } from "./resolve-configured-secret-input-string.js";
 
-function createConfig(value: unknown): Brikko StudioConfig {
+function createConfig(value: unknown): BrikkoStudioConfig {
   return {
     gateway: {
       auth: {
@@ -17,7 +17,7 @@ function createConfig(value: unknown): Brikko StudioConfig {
         default: { source: "env" },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("resolveConfiguredSecretInputWithFallback", () => {

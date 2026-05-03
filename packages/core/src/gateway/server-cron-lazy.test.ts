@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { CliDeps } from "../cli/deps.types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { CronServiceContract } from "../cron/service-contract.js";
 import type { GatewayCronState } from "./server-cron.js";
 
@@ -109,11 +109,11 @@ describe("createLazyGatewayCronState", () => {
   });
 });
 
-function createParams(overrides: Partial<Brikko StudioConfig> = {}) {
+function createParams(overrides: Partial<BrikkoStudioConfig> = {}) {
   return {
     cfg: {
       ...overrides,
-    } as Brikko StudioConfig,
+    } as BrikkoStudioConfig,
     deps: {} as CliDeps,
     broadcast: vi.fn(),
   };

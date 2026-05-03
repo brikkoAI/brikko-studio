@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ButtonInteraction, ComponentData } from "../internal/discord.js";
 
@@ -22,8 +22,8 @@ import {
 } from "./exec-approvals.js";
 
 function buildConfig(
-  execApprovals?: NonNullable<NonNullable<Brikko StudioConfig["channels"]>["discord"]>["execApprovals"],
-): Brikko StudioConfig {
+  execApprovals?: NonNullable<NonNullable<BrikkoStudioConfig["channels"]>["discord"]>["execApprovals"],
+): BrikkoStudioConfig {
   return {
     channels: {
       discord: {
@@ -31,7 +31,7 @@ function buildConfig(
         execApprovals,
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createInteraction(overrides?: Partial<ButtonInteraction>): ButtonInteraction {

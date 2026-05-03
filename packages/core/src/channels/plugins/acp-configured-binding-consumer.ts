@@ -12,7 +12,7 @@ import {
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
 } from "../../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
@@ -24,7 +24,7 @@ import type {
 import type { ConfiguredBindingConsumer } from "./configured-binding-consumers.js";
 import type { ChannelConfiguredBindingConversationRef } from "./types.adapters.js";
 
-function resolveAgentRuntimeAcpDefaults(params: { cfg: Brikko StudioConfig; ownerAgentId: string }): {
+function resolveAgentRuntimeAcpDefaults(params: { cfg: BrikkoStudioConfig; ownerAgentId: string }): {
   acpAgentId?: string;
   mode?: string;
   cwd?: string;
@@ -46,7 +46,7 @@ function resolveAgentRuntimeAcpDefaults(params: { cfg: Brikko StudioConfig; owne
 }
 
 function resolveConfiguredBindingWorkspaceCwd(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
 }): string | undefined {
   const explicitAgentWorkspace = normalizeText(
@@ -90,7 +90,7 @@ function buildConfiguredAcpSpec(params: {
 }
 
 function buildAcpTargetFactory(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   binding: ConfiguredBindingRuleConfig;
   channel: string;
   agentId: string;

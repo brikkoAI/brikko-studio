@@ -89,7 +89,7 @@ export function registerBrowserFilesAndDownloadsCommands(
     .description("Arm file upload for the next file chooser")
     .argument(
       "<paths...>",
-      "File paths to upload (must be within Brikko Studio temp uploads dir, e.g. /tmp/brikko-studio/uploads/file.pdf)",
+      "File paths to upload (must be within BrikkoStudio temp uploads dir, e.g. /tmp/brikko-studio/uploads/file.pdf)",
     )
     .option("--ref <ref>", "Ref id from snapshot to click after arming")
     .option("--input-ref <ref>", "Ref id for <input type=file> to set directly")

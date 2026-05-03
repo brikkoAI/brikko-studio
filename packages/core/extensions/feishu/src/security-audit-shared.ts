@@ -1,5 +1,5 @@
 import { hasConfiguredSecretInput } from "brikko-studio/plugin-sdk/secret-input";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 
 function asRecord(value: unknown): Record<string, unknown> | undefined {
   return value && typeof value === "object" && !Array.isArray(value)
@@ -11,7 +11,7 @@ function hasNonEmptyString(value: unknown): boolean {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-function isFeishuDocToolEnabled(cfg: Brikko StudioConfig): boolean {
+function isFeishuDocToolEnabled(cfg: BrikkoStudioConfig): boolean {
   const channels = asRecord(cfg.channels);
   const feishu = asRecord(channels?.feishu);
   if (!feishu || feishu.enabled === false) {
@@ -51,7 +51,7 @@ function isFeishuDocToolEnabled(cfg: Brikko StudioConfig): boolean {
   return false;
 }
 
-export function collectFeishuSecurityAuditFindings(params: { cfg: Brikko StudioConfig }) {
+export function collectFeishuSecurityAuditFindings(params: { cfg: BrikkoStudioConfig }) {
   if (!isFeishuDocToolEnabled(params.cfg)) {
     return [];
   }

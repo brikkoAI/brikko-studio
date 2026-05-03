@@ -10,7 +10,7 @@ import {
   normalizeCommandDescriptorName,
   sanitizeCommandDescriptorDescription,
 } from "../cli/program/command-descriptor-utils.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   clearContextEnginesForOwner,
   registerContextEngineForOwner,
@@ -141,25 +141,25 @@ import type {
   CliBackendPlugin,
   ImageGenerationProviderPlugin,
   MusicGenerationProviderPlugin,
-  Brikko StudioPluginApi,
-  Brikko StudioPluginChannelRegistration,
-  Brikko StudioPluginCliCommandDescriptor,
-  Brikko StudioPluginCliRegistrar,
-  Brikko StudioPluginCommandDefinition,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginChannelRegistration,
+  BrikkoStudioPluginCliCommandDescriptor,
+  BrikkoStudioPluginCliRegistrar,
+  BrikkoStudioPluginCommandDefinition,
   PluginConversationBindingResolvedEvent,
-  Brikko StudioPluginGatewayRuntimeScopeSurface,
-  Brikko StudioGatewayDiscoveryService,
-  Brikko StudioPluginHttpRouteParams,
-  Brikko StudioPluginHookOptions,
-  Brikko StudioPluginNodeHostCommand,
-  Brikko StudioPluginNodeInvokePolicy,
-  Brikko StudioPluginReloadRegistration,
-  Brikko StudioPluginSecurityAuditCollector,
+  BrikkoStudioPluginGatewayRuntimeScopeSurface,
+  BrikkoStudioGatewayDiscoveryService,
+  BrikkoStudioPluginHttpRouteParams,
+  BrikkoStudioPluginHookOptions,
+  BrikkoStudioPluginNodeHostCommand,
+  BrikkoStudioPluginNodeInvokePolicy,
+  BrikkoStudioPluginReloadRegistration,
+  BrikkoStudioPluginSecurityAuditCollector,
   MediaUnderstandingProviderPlugin,
   MigrationProviderPlugin,
-  Brikko StudioPluginService,
-  Brikko StudioPluginToolContext,
-  Brikko StudioPluginToolFactory,
+  BrikkoStudioPluginService,
+  BrikkoStudioPluginToolContext,
+  BrikkoStudioPluginToolFactory,
   PluginHookHandlerMap,
   PluginHookName,
   PluginHookRegistration as TypedPluginHookRegistration,
@@ -175,7 +175,7 @@ import type {
 } from "./types.js";
 
 export type PluginHttpRouteRegistration = RegistryTypesPluginHttpRouteRegistration & {
-  gatewayRuntimeScopeSurface?: Brikko StudioPluginGatewayRuntimeScopeSurface;
+  gatewayRuntimeScopeSurface?: BrikkoStudioPluginGatewayRuntimeScopeSurface;
 };
 type PluginOwnedProviderRegistration<T extends { id: string }> = {
   pluginId: string;
@@ -327,7 +327,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerCodexAppServerExtensionFactory = (
     record: PluginRecord,
-    factory: Parameters<Brikko StudioPluginApi["registerCodexAppServerExtensionFactory"]>[0],
+    factory: Parameters<BrikkoStudioPluginApi["registerCodexAppServerExtensionFactory"]>[0],
   ) => {
     if (record.origin !== "bundled") {
       pushDiagnostic({
@@ -390,8 +390,8 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerAgentToolResultMiddleware = (
     record: PluginRecord,
-    handler: Parameters<Brikko StudioPluginApi["registerAgentToolResultMiddleware"]>[0],
-    options: Parameters<Brikko StudioPluginApi["registerAgentToolResultMiddleware"]>[1],
+    handler: Parameters<BrikkoStudioPluginApi["registerAgentToolResultMiddleware"]>[0],
+    options: Parameters<BrikkoStudioPluginApi["registerAgentToolResultMiddleware"]>[1],
   ) => {
     if (record.origin !== "bundled") {
       pushDiagnostic({
@@ -464,7 +464,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerTool = (
     record: PluginRecord,
-    tool: AnyAgentTool | Brikko StudioPluginToolFactory,
+    tool: AnyAgentTool | BrikkoStudioPluginToolFactory,
     opts?: { name?: string; names?: string[]; optional?: boolean },
   ) => {
     if (pluginsWithChannelRegistrationConflict.has(record.id)) {
@@ -482,8 +482,8 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     }
     const names = [...(opts?.names ?? []), ...(opts?.name ? [opts.name] : [])];
     const optional = opts?.optional === true;
-    const factory: Brikko StudioPluginToolFactory =
-      typeof tool === "function" ? tool : (_ctx: Brikko StudioPluginToolContext) => tool;
+    const factory: BrikkoStudioPluginToolFactory =
+      typeof tool === "function" ? tool : (_ctx: BrikkoStudioPluginToolContext) => tool;
 
     if (typeof tool !== "function") {
       names.push(tool.name);
@@ -522,8 +522,8 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     record: PluginRecord,
     events: string | string[],
     handler: Parameters<typeof registerInternalHook>[1],
-    opts: Brikko StudioPluginHookOptions | undefined,
-    config: Brikko StudioPluginApi["config"],
+    opts: BrikkoStudioPluginHookOptions | undefined,
+    config: BrikkoStudioPluginApi["config"],
     pluginConfig: unknown,
   ) => {
     const eventList = Array.isArray(events) ? events : [events];
@@ -662,7 +662,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     return `${plugin} (${source})`;
   };
 
-  const registerHttpRoute = (record: PluginRecord, params: Brikko StudioPluginHttpRouteParams) => {
+  const registerHttpRoute = (record: PluginRecord, params: BrikkoStudioPluginHttpRouteParams) => {
     const normalizedPath = normalizePluginHttpPath(params.path);
     if (!normalizedPath) {
       pushDiagnostic({
@@ -754,13 +754,13 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerChannel = (
     record: PluginRecord,
-    registration: Brikko StudioPluginChannelRegistration | ChannelPlugin,
+    registration: BrikkoStudioPluginChannelRegistration | ChannelPlugin,
     mode: PluginRegistrationMode = "full",
   ) => {
     const registrationCapabilities = resolvePluginRegistrationCapabilities(mode);
     const normalized =
-      typeof (registration as Brikko StudioPluginChannelRegistration).plugin === "object"
-        ? (registration as Brikko StudioPluginChannelRegistration)
+      typeof (registration as BrikkoStudioPluginChannelRegistration).plugin === "object"
+        ? (registration as BrikkoStudioPluginChannelRegistration)
         : { plugin: registration as ChannelPlugin };
     const plugin = normalizeRegisteredChannelPlugin({
       pluginId: record.id,
@@ -1152,8 +1152,8 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerCli = (
     record: PluginRecord,
-    registrar: Brikko StudioPluginCliRegistrar,
-    opts?: { commands?: string[]; descriptors?: Brikko StudioPluginCliCommandDescriptor[] },
+    registrar: BrikkoStudioPluginCliRegistrar,
+    opts?: { commands?: string[]; descriptors?: BrikkoStudioPluginCliCommandDescriptor[] },
   ) => {
     const normalizeCommandRoot = (raw: string, source: "command" | "descriptor") => {
       const normalized = normalizeCommandDescriptorName(raw);
@@ -1180,7 +1180,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
           : null;
       })
       .filter(
-        (descriptor): descriptor is Brikko StudioPluginCliCommandDescriptor => descriptor !== null,
+        (descriptor): descriptor is BrikkoStudioPluginCliCommandDescriptor => descriptor !== null,
       );
     const commands = [
       ...(opts?.commands ?? []),
@@ -1228,10 +1228,10 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     NODE_SYSTEM_NOTIFY_COMMAND,
   ]);
 
-  const registerReload = (record: PluginRecord, registration: Brikko StudioPluginReloadRegistration) => {
+  const registerReload = (record: PluginRecord, registration: BrikkoStudioPluginReloadRegistration) => {
     const normalize = (values?: string[]) =>
       (values ?? []).map((value) => value.trim()).filter(Boolean);
-    const normalized: Brikko StudioPluginReloadRegistration = {
+    const normalized: BrikkoStudioPluginReloadRegistration = {
       restartPrefixes: normalize(registration.restartPrefixes),
       hotPrefixes: normalize(registration.hotPrefixes),
       noopPrefixes: normalize(registration.noopPrefixes),
@@ -1261,7 +1261,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerNodeHostCommand = (
     record: PluginRecord,
-    nodeCommand: Brikko StudioPluginNodeHostCommand,
+    nodeCommand: BrikkoStudioPluginNodeHostCommand,
   ) => {
     const command = nodeCommand.command.trim();
     if (!command) {
@@ -1308,7 +1308,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerNodeInvokePolicy = (
     record: PluginRecord,
-    policy: Brikko StudioPluginNodeInvokePolicy,
+    policy: BrikkoStudioPluginNodeInvokePolicy,
     pluginConfig?: Record<string, unknown>,
   ) => {
     const commands = Array.isArray(policy.commands)
@@ -1359,7 +1359,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerSecurityAuditCollector = (
     record: PluginRecord,
-    collector: Brikko StudioPluginSecurityAuditCollector,
+    collector: BrikkoStudioPluginSecurityAuditCollector,
   ) => {
     registry.securityAuditCollectors ??= [];
     registry.securityAuditCollectors.push({
@@ -1371,7 +1371,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     });
   };
 
-  const registerService = (record: PluginRecord, service: Brikko StudioPluginService) => {
+  const registerService = (record: PluginRecord, service: BrikkoStudioPluginService) => {
     const id = service.id.trim();
     if (!id) {
       return;
@@ -1404,7 +1404,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerGatewayDiscoveryService = (
     record: PluginRecord,
-    service: Brikko StudioGatewayDiscoveryService,
+    service: BrikkoStudioGatewayDiscoveryService,
   ) => {
     const id = service.id.trim();
     if (!id) {
@@ -1433,7 +1433,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     });
   };
 
-  const registerCommand = (record: PluginRecord, command: Brikko StudioPluginCommandDefinition) => {
+  const registerCommand = (record: PluginRecord, command: BrikkoStudioPluginCommandDefinition) => {
     const name = command.name.trim();
     if (!name) {
       pushDiagnostic({
@@ -2130,12 +2130,12 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
   const createApi = (
     record: PluginRecord,
     params: {
-      config: Brikko StudioPluginApi["config"];
+      config: BrikkoStudioPluginApi["config"];
       pluginConfig?: Record<string, unknown>;
       hookPolicy?: PluginTypedHookPolicy;
       registrationMode?: PluginRegistrationMode;
     },
-  ): Brikko StudioPluginApi => {
+  ): BrikkoStudioPluginApi => {
     const registrationMode = params.registrationMode ?? "full";
     const registrationCapabilities = resolvePluginRegistrationCapabilities(registrationMode);
     pluginRuntimeRecordById.set(record.id, record);
@@ -2271,12 +2271,12 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
                 }
               },
               registerCompactionProvider: (
-                provider: Parameters<Brikko StudioPluginApi["registerCompactionProvider"]>[0],
+                provider: Parameters<BrikkoStudioPluginApi["registerCompactionProvider"]>[0],
               ) => {
                 const id = normalizeOptionalString(
                   (
                     provider as Partial<
-                      Parameters<Brikko StudioPluginApi["registerCompactionProvider"]>[0]
+                      Parameters<BrikkoStudioPluginApi["registerCompactionProvider"]>[0]
                     > | null
                   )?.id,
                 );
@@ -2335,7 +2335,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
                   });
                 }
                 return enqueuePluginNextTurnInjection({
-                  cfg: registryParams.runtime.config.current() as Brikko StudioConfig,
+                  cfg: registryParams.runtime.config.current() as BrikkoStudioConfig,
                   pluginId: record.id,
                   pluginName: record.name,
                   injection,

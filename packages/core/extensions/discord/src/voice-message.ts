@@ -23,7 +23,7 @@ import { MEDIA_FFMPEG_MAX_AUDIO_DURATION_SECS } from "brikko-studio/plugin-sdk/m
 import { unlinkIfExists } from "brikko-studio/plugin-sdk/media-runtime";
 import type { RetryRunner } from "brikko-studio/plugin-sdk/retry-runtime";
 import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { DiscordError, RateLimitError, type RequestClient } from "./internal/discord.js";
 import { readDiscordMessage, readRetryAfter } from "./internal/rest-errors.js";
@@ -99,7 +99,7 @@ export async function generateWaveform(filePath: string): Promise<string> {
  * Generate waveform by extracting raw PCM data and sampling amplitudes
  */
 async function generateWaveformFromPcm(filePath: string): Promise<string> {
-  const tempDir = resolvePreferredBrikko StudioTmpDir();
+  const tempDir = resolvePreferredBrikkoStudioTmpDir();
   const tempPcm = path.join(tempDir, `waveform-${crypto.randomUUID()}.raw`);
 
   try {
@@ -211,7 +211,7 @@ export async function ensureOggOpus(filePath: string): Promise<{ path: string; c
   // Convert to OGG/Opus
   // Always resample to 48kHz to ensure Discord voice messages play at correct speed
   // (Discord expects 48kHz; lower sample rates like 24kHz from some TTS providers cause 0.5x playback)
-  const tempDir = resolvePreferredBrikko StudioTmpDir();
+  const tempDir = resolvePreferredBrikkoStudioTmpDir();
   const outputPath = path.join(tempDir, `voice-${crypto.randomUUID()}.ogg`);
 
   await runFfmpeg([

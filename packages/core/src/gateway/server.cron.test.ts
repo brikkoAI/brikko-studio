@@ -159,7 +159,7 @@ async function setupCronTestRun(params: {
 type DirectCronState = {
   cron: { stop: () => void };
   storePath: string;
-  getRuntimeConfig: () => import("../config/types.brikko-studio.js").Brikko StudioConfig;
+  getRuntimeConfig: () => import("../config/types.brikko-studio.js").BrikkoStudioConfig;
 };
 
 async function createDirectCronState(): Promise<DirectCronState> {

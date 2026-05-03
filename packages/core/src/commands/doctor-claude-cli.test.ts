@@ -103,7 +103,7 @@ describe("noteClaudeCliHealth", () => {
       expect(body).toContain("Binary: /opt/homebrew/bin/claude.");
       expect(body).toContain("Headless Claude auth: OK (oauth).");
       expect(body).toContain(
-        `Brikko Studio auth profile: ${CLAUDE_CLI_PROFILE_ID} (provider claude-cli).`,
+        `BrikkoStudio auth profile: ${CLAUDE_CLI_PROFILE_ID} (provider claude-cli).`,
       );
       expect(body).toContain("Workspace:");
       expect(body).toContain("(writable).");
@@ -203,7 +203,7 @@ describe("noteClaudeCliHealth", () => {
 
       const body = String(noteFn.mock.calls[0]?.[0]);
       expect(body).toContain("Headless Claude auth: OK (oauth).");
-      expect(body).toContain(`Brikko Studio auth profile: missing (${CLAUDE_CLI_PROFILE_ID})`);
+      expect(body).toContain(`BrikkoStudio auth profile: missing (${CLAUDE_CLI_PROFILE_ID})`);
       expect(body).toContain(
         "brikko-studio models auth login --provider anthropic --method cli --set-default",
       );

@@ -1,6 +1,6 @@
 import { statSync } from "node:fs";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
+import { withBrikkoStudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import {
   createManagedTaskFlow,
   getTaskFlowById,
@@ -38,7 +38,7 @@ function createStoredFlow(): TaskFlowRecord {
 }
 
 async function withFlowRegistryTempDir<T>(run: (root: string) => Promise<T>): Promise<T> {
-  return await withBrikko StudioTestState(
+  return await withBrikkoStudioTestState(
     {
       layout: "state-only",
       prefix: "brikko-studio-task-flow-store-",

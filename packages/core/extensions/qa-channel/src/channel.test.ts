@@ -97,7 +97,7 @@ function createQaChannelConfig(params: { baseUrl: string; allowFrom?: string[] }
       "qa-channel": {
         baseUrl: params.baseUrl,
         botUserId: "brikko-studio",
-        botDisplayName: "Brikko Studio QA",
+        botDisplayName: "BrikkoStudio QA",
         allowFrom: params.allowFrom,
       },
     },

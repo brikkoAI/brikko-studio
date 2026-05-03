@@ -4,7 +4,7 @@ import {
   extractShippedPluginInstallConfigRecords,
   stripShippedPluginInstallConfigRecords,
 } from "../../../config/plugin-install-config-migration.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { loadInstalledPluginIndexInstallRecords } from "../../../plugins/installed-plugin-index-records.js";
 import {
   inspectPersistedInstalledPluginIndex,
@@ -56,7 +56,7 @@ export type PluginRegistryInstallMigrationParams = LoadInstalledPluginIndexParam
   InstalledPluginIndexStoreOptions & {
     dryRun?: boolean;
     existsSync?: (path: string) => boolean;
-    readConfig?: () => Promise<Brikko StudioConfig> | Brikko StudioConfig;
+    readConfig?: () => Promise<BrikkoStudioConfig> | BrikkoStudioConfig;
   };
 
 function hasEnvFlag(env: NodeJS.ProcessEnv | undefined, key: string): boolean {
@@ -105,7 +105,7 @@ export function preflightPluginRegistryInstallMigration(
 
 async function readMigrationConfig(
   params: PluginRegistryInstallMigrationParams,
-): Promise<Brikko StudioConfig> {
+): Promise<BrikkoStudioConfig> {
   if (params.config) {
     return params.config;
   }
@@ -177,7 +177,7 @@ function addPluginReference(
   }
 }
 
-function listConfiguredChannelIds(config: Brikko StudioConfig): Set<string> {
+function listConfiguredChannelIds(config: BrikkoStudioConfig): Set<string> {
   const channels = config.channels;
   if (!channels || typeof channels !== "object" || Array.isArray(channels)) {
     return new Set();
@@ -189,7 +189,7 @@ function listConfiguredChannelIds(config: Brikko StudioConfig): Set<string> {
   );
 }
 
-function listConfiguredModelProviderIds(config: Brikko StudioConfig): Set<string> {
+function listConfiguredModelProviderIds(config: BrikkoStudioConfig): Set<string> {
   const providers = config.models?.providers;
   if (!providers || typeof providers !== "object" || Array.isArray(providers)) {
     return new Set();
@@ -203,7 +203,7 @@ function listConfiguredModelProviderIds(config: Brikko StudioConfig): Set<string
 
 function listMigrationRelevantPluginRecords(params: {
   index: InstalledPluginIndex;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   installRecords: Record<string, unknown>;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
@@ -286,7 +286,7 @@ export async function migratePluginRegistryForInstall(
   }
 
   const rawConfig = await readMigrationConfig(params);
-  const config = stripShippedPluginInstallConfigRecords(rawConfig) as Brikko StudioConfig;
+  const config = stripShippedPluginInstallConfigRecords(rawConfig) as BrikkoStudioConfig;
   const installRecords = {
     ...extractShippedPluginInstallConfigRecords(rawConfig),
     ...(await loadInstalledPluginIndexInstallRecords(params)),

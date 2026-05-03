@@ -4,7 +4,7 @@ import type { PluginManifestRegistry } from "./manifest-registry.js";
 const mocks = vi.hoisted(() => {
   const loadManifestRegistry = vi.fn();
   return {
-    discoverBrikko StudioPlugins: vi.fn(() => ({ candidates: [], diagnostics: [] })),
+    discoverBrikkoStudioPlugins: vi.fn(() => ({ candidates: [], diagnostics: [] })),
     loadBundledManifestRegistry: vi.fn(),
     loadPluginManifestRegistryForInstalledIndex: loadManifestRegistry,
     loadPluginManifestRegistryForPluginRegistry: loadManifestRegistry,
@@ -13,7 +13,7 @@ const mocks = vi.hoisted(() => {
 });
 
 vi.mock("./discovery.js", () => ({
-  discoverBrikko StudioPlugins: mocks.discoverBrikko StudioPlugins,
+  discoverBrikkoStudioPlugins: mocks.discoverBrikkoStudioPlugins,
 }));
 
 vi.mock("./manifest-registry.js", () => ({
@@ -82,8 +82,8 @@ function createPluginRecord(
 
 describe("resolvePluginConfigContractsById", () => {
   beforeEach(() => {
-    mocks.discoverBrikko StudioPlugins.mockReset();
-    mocks.discoverBrikko StudioPlugins.mockReturnValue({ candidates: [], diagnostics: [] });
+    mocks.discoverBrikkoStudioPlugins.mockReset();
+    mocks.discoverBrikkoStudioPlugins.mockReturnValue({ candidates: [], diagnostics: [] });
     mocks.loadBundledManifestRegistry.mockReset();
     mocks.loadBundledManifestRegistry.mockReturnValue(createRegistry([]));
     mocks.loadPluginManifestRegistryForInstalledIndex.mockReset();

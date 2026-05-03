@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { activateSecretsRuntimeSnapshot, clearSecretsRuntimeSnapshot } from "../secrets/runtime.js";
-import { resolveBrikko StudioPluginToolsForOptions } from "./brikko-studio-plugin-tools.js";
+import { resolveBrikkoStudioPluginToolsForOptions } from "./brikko-studio-plugin-tools.js";
 
 const hoisted = vi.hoisted(() => ({
   resolvePluginTools: vi.fn(),
@@ -11,7 +11,7 @@ vi.mock("../plugins/tools.js", () => ({
   resolvePluginTools: (...args: unknown[]) => hoisted.resolvePluginTools(...args),
 }));
 
-describe("createBrikko StudioTools browser plugin integration", () => {
+describe("createBrikkoStudioTools browser plugin integration", () => {
   afterEach(() => {
     hoisted.resolvePluginTools.mockReset();
     clearSecretsRuntimeSnapshot();
@@ -38,9 +38,9 @@ describe("createBrikko StudioTools browser plugin integration", () => {
       plugins: {
         allow: ["browser"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
-    const tools = resolveBrikko StudioPluginToolsForOptions({
+    const tools = resolveBrikkoStudioPluginToolsForOptions({
       options: { config },
       resolvedConfig: config,
     });
@@ -60,9 +60,9 @@ describe("createBrikko StudioTools browser plugin integration", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
-    const tools = resolveBrikko StudioPluginToolsForOptions({
+    const tools = resolveBrikkoStudioPluginToolsForOptions({
       options: { config },
       resolvedConfig: config,
     });
@@ -93,20 +93,20 @@ describe("createBrikko StudioTools browser plugin integration", () => {
       ];
     });
 
-    const tools = resolveBrikko StudioPluginToolsForOptions({
+    const tools = resolveBrikkoStudioPluginToolsForOptions({
       options: {
         config: {
           plugins: {
             allow: ["browser"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         fsPolicy: { workspaceOnly: true },
       },
       resolvedConfig: {
         plugins: {
           allow: ["browser"],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     const browserTool = tools.find((tool) => tool.name === "browser");
@@ -126,9 +126,9 @@ describe("createBrikko StudioTools browser plugin integration", () => {
       plugins: {
         allow: ["browser"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
-    resolveBrikko StudioPluginToolsForOptions({
+    resolveBrikkoStudioPluginToolsForOptions({
       options: { config, allowGatewaySubagentBinding: true },
       resolvedConfig: config,
     });
@@ -145,12 +145,12 @@ describe("createBrikko StudioTools browser plugin integration", () => {
       plugins: {
         allow: ["old-plugin"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const staleRuntimeConfig = {
       plugins: {
         allow: ["old-plugin"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const resolvedRunConfig = {
       plugins: {
         allow: ["browser"],
@@ -160,10 +160,10 @@ describe("createBrikko StudioTools browser plugin integration", () => {
           planTool: true,
         },
       },
-    } as Brikko StudioConfig;
-    let capturedRuntimeConfig: Brikko StudioConfig | undefined;
+    } as BrikkoStudioConfig;
+    let capturedRuntimeConfig: BrikkoStudioConfig | undefined;
     hoisted.resolvePluginTools.mockImplementation((params: unknown) => {
-      capturedRuntimeConfig = (params as { context?: { runtimeConfig?: Brikko StudioConfig } }).context
+      capturedRuntimeConfig = (params as { context?: { runtimeConfig?: BrikkoStudioConfig } }).context
         ?.runtimeConfig;
       return [];
     });
@@ -185,7 +185,7 @@ describe("createBrikko StudioTools browser plugin integration", () => {
       },
     });
 
-    resolveBrikko StudioPluginToolsForOptions({
+    resolveBrikkoStudioPluginToolsForOptions({
       options: { config: resolvedRunConfig },
       resolvedConfig: resolvedRunConfig,
     });
@@ -198,23 +198,23 @@ describe("createBrikko StudioTools browser plugin integration", () => {
       plugins: {
         allow: ["memory-core"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const firstRuntimeConfig = {
       plugins: {
         allow: ["memory-core"],
         entries: { "memory-core": { enabled: true } },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const nextRuntimeConfig = {
       plugins: {
         allow: ["memory-core"],
         entries: { "memory-core": { enabled: false } },
       },
-    } as Brikko StudioConfig;
-    let getRuntimeConfig: (() => Brikko StudioConfig | undefined) | undefined;
+    } as BrikkoStudioConfig;
+    let getRuntimeConfig: (() => BrikkoStudioConfig | undefined) | undefined;
     hoisted.resolvePluginTools.mockImplementation((params: unknown) => {
       getRuntimeConfig = (
-        params as { context?: { getRuntimeConfig?: () => Brikko StudioConfig | undefined } }
+        params as { context?: { getRuntimeConfig?: () => BrikkoStudioConfig | undefined } }
       ).context?.getRuntimeConfig;
       return [];
     });
@@ -236,7 +236,7 @@ describe("createBrikko StudioTools browser plugin integration", () => {
       },
     });
 
-    resolveBrikko StudioPluginToolsForOptions({
+    resolveBrikkoStudioPluginToolsForOptions({
       options: { config: sourceConfig },
       resolvedConfig: sourceConfig,
     });

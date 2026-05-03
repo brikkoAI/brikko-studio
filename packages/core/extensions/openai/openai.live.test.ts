@@ -5,7 +5,7 @@ import { getModel, type Api, type Model } from "@mariozechner/pi-ai";
 import { AuthStorage, ModelRegistry } from "@mariozechner/pi-coding-agent";
 import OpenAI from "openai";
 import type { ResolvedTtsConfig } from "brikko-studio/plugin-sdk/agent-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { encodePngRgba, fillPixel } from "brikko-studio/plugin-sdk/media-runtime";
 import {
   registerProviderPlugin,
@@ -119,7 +119,7 @@ function resolveLiveOpenAISkipReason(error: unknown): string | null {
   return null;
 }
 
-function createLiveConfig(): Brikko StudioConfig {
+function createLiveConfig(): BrikkoStudioConfig {
   const cfg = getRuntimeConfig();
   return {
     ...cfg,
@@ -134,7 +134,7 @@ function createLiveConfig(): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createLiveTtsConfig(): ResolvedTtsConfig {
@@ -271,7 +271,7 @@ describeLive("openai plugin live", () => {
     const ttsConfig = createLiveTtsConfig();
 
     const audioFile = await speechProvider.synthesize({
-      text: "Brikko Studio integration test OK.",
+      text: "BrikkoStudio integration test OK.",
       cfg,
       providerConfig: ttsConfig.providerConfigs.openai ?? {},
       target: "audio-file",
@@ -351,7 +351,7 @@ describeLive("openai plugin live", () => {
     const speechProvider = requireRegisteredProvider(speechProviders, "openai");
     const cfg = createLiveConfig();
     const ttsConfig = createLiveTtsConfig();
-    const phrase = "Testing Brikko Studio OpenAI realtime transcription integration test OK.";
+    const phrase = "Testing BrikkoStudio OpenAI realtime transcription integration test OK.";
 
     const telephony = await speechProvider.synthesizeTelephony?.({
       text: phrase,

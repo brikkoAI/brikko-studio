@@ -163,7 +163,7 @@ export function execDockerRaw(
 }
 
 import { formatCliCommand } from "../../cli/command-format.js";
-import { markBrikko StudioExecEnv } from "../../infra/brikko-studio-exec-env.js";
+import { markBrikkoStudioExecEnv } from "../../infra/brikko-studio-exec-env.js";
 import { defaultRuntime } from "../../runtime.js";
 import { computeSandboxConfigHash } from "./config-hash.js";
 import { DEFAULT_SANDBOX_IMAGE } from "./constants.js";
@@ -318,7 +318,7 @@ export async function ensureDockerImage(image: string) {
   }
   if (image === DEFAULT_SANDBOX_IMAGE) {
     throw new Error(
-      `Sandbox image not found: ${image}. Build it with scripts/sandbox-setup.sh before enabling Docker sandboxing. The default image includes python3 for sandbox write/edit helpers; Brikko Studio will not substitute plain debian:bookworm-slim.`,
+      `Sandbox image not found: ${image}. Build it with scripts/sandbox-setup.sh before enabling Docker sandboxing. The default image includes python3 for sandbox write/edit helpers; BrikkoStudio will not substitute plain debian:bookworm-slim.`,
     );
   }
   throw new Error(`Sandbox image not found: ${image}. Build or pull it first.`);
@@ -432,7 +432,7 @@ export function buildSandboxCreateArgs(params: {
   if (envSanitization.warnings.length > 0) {
     log.warn(`Suspicious environment variables: ${envSanitization.warnings.join(", ")}`);
   }
-  for (const [key, value] of Object.entries(markBrikko StudioExecEnv(envSanitization.allowed))) {
+  for (const [key, value] of Object.entries(markBrikkoStudioExecEnv(envSanitization.allowed))) {
     args.push("--env", `${key}=${value}`);
   }
   for (const cap of params.cfg.capDrop) {

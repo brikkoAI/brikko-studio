@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   applyOpencodeZenModelDefault,
   OPENCODE_ZEN_DEFAULT_MODEL,
 } from "../plugin-sdk/opencode.js";
 
 function expectPrimaryModelChanged(
-  applied: { changed: boolean; next: Brikko StudioConfig },
+  applied: { changed: boolean; next: BrikkoStudioConfig },
   primary: string,
 ) {
   expect(applied.changed).toBe(true);
@@ -14,8 +14,8 @@ function expectPrimaryModelChanged(
 }
 
 function expectConfigUnchanged(
-  applied: { changed: boolean; next: Brikko StudioConfig },
-  cfg: Brikko StudioConfig,
+  applied: { changed: boolean; next: BrikkoStudioConfig },
+  cfg: BrikkoStudioConfig,
 ) {
   expect(applied.changed).toBe(false);
   expect(applied.next).toEqual(cfg);
@@ -23,7 +23,7 @@ function expectConfigUnchanged(
 
 describe("applyOpencodeZenModelDefault", () => {
   it("sets defaults when model is unset", () => {
-    const cfg: Brikko StudioConfig = { agents: { defaults: {} } };
+    const cfg: BrikkoStudioConfig = { agents: { defaults: {} } };
     const applied = applyOpencodeZenModelDefault(cfg);
     expectPrimaryModelChanged(applied, OPENCODE_ZEN_DEFAULT_MODEL);
   });
@@ -31,7 +31,7 @@ describe("applyOpencodeZenModelDefault", () => {
   it("overrides existing models", () => {
     const cfg = {
       agents: { defaults: { model: "anthropic/claude-opus-4-6" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const applied = applyOpencodeZenModelDefault(cfg);
     expectPrimaryModelChanged(applied, OPENCODE_ZEN_DEFAULT_MODEL);
   });
@@ -39,13 +39,13 @@ describe("applyOpencodeZenModelDefault", () => {
   it("no-ops when already legacy opencode-zen default", () => {
     const cfg = {
       agents: { defaults: { model: "opencode-zen/claude-opus-4-5" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const applied = applyOpencodeZenModelDefault(cfg);
     expectConfigUnchanged(applied, cfg);
   });
 
   it("preserves fallbacks when setting primary", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           model: {
@@ -66,7 +66,7 @@ describe("applyOpencodeZenModelDefault", () => {
   it("no-ops when already on the current default", () => {
     const cfg = {
       agents: { defaults: { model: OPENCODE_ZEN_DEFAULT_MODEL } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const applied = applyOpencodeZenModelDefault(cfg);
     expectConfigUnchanged(applied, cfg);
   });

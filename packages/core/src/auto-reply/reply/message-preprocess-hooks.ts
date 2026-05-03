@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { fireAndForgetHook } from "../../hooks/fire-and-forget.js";
 import { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.js";
 import {
@@ -11,7 +11,7 @@ import type { FinalizedMsgContext } from "../templating.js";
 
 export function emitPreAgentMessageHooks(params: {
   ctx: FinalizedMsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   isFastTestEnv: boolean;
 }): void {
   if (params.isFastTestEnv) {

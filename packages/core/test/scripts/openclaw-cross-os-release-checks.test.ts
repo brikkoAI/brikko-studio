@@ -785,11 +785,11 @@ describe("scripts/brikko-studio-cross-os-release-checks", () => {
     const packageRoot = mkdtempSync(join(tmpdir(), "brikko-studio-cross-os-stage-debris-"));
     try {
       mkdirSync(
-        join(packageRoot, "dist", "Extensions", "demo", ".Brikko Studio-Install-Stage", "node_modules"),
+        join(packageRoot, "dist", "Extensions", "demo", ".BrikkoStudio-Install-Stage", "node_modules"),
         { recursive: true },
       );
       writeFileSync(
-        join(packageRoot, "dist", "Extensions", "demo", ".Brikko Studio-Install-Stage", "package.json"),
+        join(packageRoot, "dist", "Extensions", "demo", ".BrikkoStudio-Install-Stage", "package.json"),
         "{}\n",
         "utf8",
       );

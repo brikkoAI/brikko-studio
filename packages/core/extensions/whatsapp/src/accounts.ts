@@ -4,7 +4,7 @@ import {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
   resolveUserPath,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/account-core";
 import type { DmPolicy, GroupPolicy, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
 import { resolveOAuthDir } from "brikko-studio/plugin-sdk/state-paths";
@@ -49,7 +49,7 @@ export type ResolvedWhatsAppAccount = {
 
 export const DEFAULT_WHATSAPP_MEDIA_MAX_MB = 50;
 
-export function listWhatsAppAuthDirs(cfg: Brikko StudioConfig): string[] {
+export function listWhatsAppAuthDirs(cfg: BrikkoStudioConfig): string[] {
   const oauthDir = resolveOAuthDir();
   const whatsappDir = path.join(oauthDir, "whatsapp");
   const authDirs = new Set<string>([oauthDir, path.join(whatsappDir, DEFAULT_ACCOUNT_ID)]);
@@ -74,7 +74,7 @@ export function listWhatsAppAuthDirs(cfg: Brikko StudioConfig): string[] {
   return Array.from(authDirs);
 }
 
-export function hasAnyWhatsAppAuth(cfg: Brikko StudioConfig): boolean {
+export function hasAnyWhatsAppAuth(cfg: BrikkoStudioConfig): boolean {
   return listWhatsAppAuthDirs(cfg).some((authDir) => hasWebCredsSync(authDir));
 }
 
@@ -95,7 +95,7 @@ function legacyAuthExists(authDir: string): boolean {
   }
 }
 
-export function resolveWhatsAppAuthDir(params: { cfg: Brikko StudioConfig; accountId: string }): {
+export function resolveWhatsAppAuthDir(params: { cfg: BrikkoStudioConfig; accountId: string }): {
   authDir: string;
   isLegacy: boolean;
 } {
@@ -118,7 +118,7 @@ export function resolveWhatsAppAuthDir(params: { cfg: Brikko StudioConfig; accou
 }
 
 export function resolveWhatsAppAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ResolvedWhatsAppAccount {
   const merged = resolveMergedWhatsAppAccountConfig({
@@ -169,7 +169,7 @@ export function resolveWhatsAppMediaMaxBytes(
   return mediaMaxMb * 1024 * 1024;
 }
 
-export function listEnabledWhatsAppAccounts(cfg: Brikko StudioConfig): ResolvedWhatsAppAccount[] {
+export function listEnabledWhatsAppAccounts(cfg: BrikkoStudioConfig): ResolvedWhatsAppAccount[] {
   return listWhatsAppAccountIds(cfg)
     .map((accountId) => resolveWhatsAppAccount({ cfg, accountId }))
     .filter((account) => account.enabled);

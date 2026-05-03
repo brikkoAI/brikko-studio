@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { getActivePluginChannelRegistry } from "../../plugins/runtime.js";
 import {
   normalizeOptionalLowercaseString,
@@ -18,7 +18,7 @@ type CommandSurfaceParams = {
 };
 
 type ChannelAccountParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   ctx: {
     OriginatingChannel?: string;
     Surface?: string;

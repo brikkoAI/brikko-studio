@@ -1,9 +1,9 @@
 import type { AuthProfileStore, OAuthCredential } from "../agents/auth-profiles/types.js";
 import type { ModelProviderAuthMode, ModelProviderConfig } from "../config/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export type ProviderResolveSyntheticAuthContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   provider: string;
   providerConfig?: ModelProviderConfig;
 };
@@ -16,7 +16,7 @@ export type ProviderSyntheticAuthResult = {
 };
 
 export type ProviderResolveExternalOAuthProfilesContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env: NodeJS.ProcessEnv;

@@ -1,6 +1,6 @@
 import { finalizeInboundContext } from "../auto-reply/reply/inbound-context.js";
 import type { MsgContext } from "../auto-reply/templating.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { formatLinkUnderstandingBody } from "./format.js";
 import { runLinkUnderstanding } from "./runner.js";
 
@@ -11,7 +11,7 @@ type ApplyLinkUnderstandingResult = {
 
 export async function applyLinkUnderstanding(params: {
   ctx: MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): Promise<ApplyLinkUnderstandingResult> {
   const result = await runLinkUnderstanding({
     cfg: params.cfg,

@@ -1,20 +1,20 @@
 import { validateRegistryNpmSpec } from "../../infra/npm-registry-spec.js";
 import { parseFrontmatterBlock } from "../../markdown/frontmatter.js";
 import {
-  applyBrikko StudioManifestInstallCommonFields,
+  applyBrikkoStudioManifestInstallCommonFields,
   getFrontmatterString,
   normalizeStringList,
-  parseBrikko StudioManifestInstallBase,
+  parseBrikkoStudioManifestInstallBase,
   parseFrontmatterBool,
-  resolveBrikko StudioManifestBlock,
-  resolveBrikko StudioManifestInstall,
-  resolveBrikko StudioManifestOs,
-  resolveBrikko StudioManifestRequires,
+  resolveBrikkoStudioManifestBlock,
+  resolveBrikkoStudioManifestInstall,
+  resolveBrikkoStudioManifestOs,
+  resolveBrikkoStudioManifestRequires,
 } from "../../shared/frontmatter.js";
 import { readStringValue } from "../../shared/string-coerce.js";
 import type { Skill } from "./skill-contract.js";
 import type {
-  Brikko StudioSkillMetadata,
+  BrikkoStudioSkillMetadata,
   ParsedSkillFrontmatter,
   SkillEntry,
   SkillInstallSpec,
@@ -110,12 +110,12 @@ function normalizeSafeDownloadUrl(raw: unknown): string | undefined {
 }
 
 function parseInstallSpec(input: unknown): SkillInstallSpec | undefined {
-  const parsed = parseBrikko StudioManifestInstallBase(input, ["brew", "node", "go", "uv", "download"]);
+  const parsed = parseBrikkoStudioManifestInstallBase(input, ["brew", "node", "go", "uv", "download"]);
   if (!parsed) {
     return undefined;
   }
   const { raw } = parsed;
-  const spec = applyBrikko StudioManifestInstallCommonFields<SkillInstallSpec>(
+  const spec = applyBrikkoStudioManifestInstallCommonFields<SkillInstallSpec>(
     {
       kind: parsed.kind as SkillInstallSpec["kind"],
     },
@@ -184,16 +184,16 @@ function parseInstallSpec(input: unknown): SkillInstallSpec | undefined {
   return spec;
 }
 
-export function resolveBrikko StudioMetadata(
+export function resolveBrikkoStudioMetadata(
   frontmatter: ParsedSkillFrontmatter,
-): Brikko StudioSkillMetadata | undefined {
-  const metadataObj = resolveBrikko StudioManifestBlock({ frontmatter });
+): BrikkoStudioSkillMetadata | undefined {
+  const metadataObj = resolveBrikkoStudioManifestBlock({ frontmatter });
   if (!metadataObj) {
     return undefined;
   }
-  const requires = resolveBrikko StudioManifestRequires(metadataObj);
-  const install = resolveBrikko StudioManifestInstall(metadataObj, parseInstallSpec);
-  const osRaw = resolveBrikko StudioManifestOs(metadataObj);
+  const requires = resolveBrikkoStudioManifestRequires(metadataObj);
+  const install = resolveBrikkoStudioManifestInstall(metadataObj, parseInstallSpec);
+  const osRaw = resolveBrikkoStudioManifestOs(metadataObj);
   return {
     always: typeof metadataObj.always === "boolean" ? metadataObj.always : undefined,
     emoji: readStringValue(metadataObj.emoji),

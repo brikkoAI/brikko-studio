@@ -5,7 +5,7 @@ import {
   DEFAULT_ACCOUNT_ID,
   type ChannelPlugin,
   type LineConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type ResolvedLineAccount,
 } from "./channel-api.js";
 import { getLineRuntime } from "./runtime.js";
@@ -60,7 +60,7 @@ export const lineGatewayAdapter: NonNullable<ChannelPlugin<ResolvedLineAccount>[
   },
   logoutAccount: async ({ accountId, cfg }) => {
     const envToken = process.env.LINE_CHANNEL_ACCESS_TOKEN?.trim() ?? "";
-    const nextCfg = { ...cfg } as Brikko StudioConfig;
+    const nextCfg = { ...cfg } as BrikkoStudioConfig;
     const lineConfig = (cfg.channels?.line ?? {}) as LineConfig;
     const nextLine = { ...lineConfig };
     let cleared = false;

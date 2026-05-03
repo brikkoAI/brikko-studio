@@ -8,7 +8,7 @@ import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
 } from "../config/runtime-snapshot.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { resolveBundledPluginsDir } from "../plugins/bundled-dir.js";
 import {
   createPluginActivationSource,
@@ -27,7 +27,7 @@ const ALWAYS_ALLOWED_RUNTIME_DIR_NAMES = new Set([
   "media-understanding-core",
   "speech-core",
 ]);
-const EMPTY_FACADE_BOUNDARY_CONFIG: Brikko StudioConfig = {};
+const EMPTY_FACADE_BOUNDARY_CONFIG: BrikkoStudioConfig = {};
 
 export type FacadePluginManifestLike = Pick<
   PluginManifestRecord,
@@ -40,7 +40,7 @@ type FacadeModuleLocation = {
 };
 
 function readFacadeBoundaryConfigSafely(): {
-  rawConfig: Brikko StudioConfig;
+  rawConfig: BrikkoStudioConfig;
 } {
   try {
     const sourceSnapshot = getRuntimeConfigSourceSnapshot();
@@ -59,7 +59,7 @@ function readFacadeBoundaryConfigSafely(): {
     const parsed = JSON5.parse(raw);
     const rawConfig =
       parsed && typeof parsed === "object"
-        ? (parsed as Brikko StudioConfig)
+        ? (parsed as BrikkoStudioConfig)
         : EMPTY_FACADE_BOUNDARY_CONFIG;
     return { rawConfig };
   } catch {
@@ -276,7 +276,7 @@ export function resolveBundledPluginPublicSurfaceAccess(params: {
 export function evaluateBundledPluginPublicSurfaceAccess(params: {
   params: { dirName: string; artifactBasename: string };
   manifestRecord: FacadePluginManifestLike;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   normalizedPluginsConfig: ReturnType<typeof normalizePluginsConfig>;
   activationSource: ReturnType<typeof createPluginActivationSource>;
   autoEnabledReasons: Record<string, string[]>;

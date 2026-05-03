@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   normalizeResolvedSecretInputString,
   normalizeSecretInput,
@@ -23,7 +23,7 @@ type PluginEntryConfig = {
   };
 };
 
-export function resolveTavilySearchConfig(cfg?: Brikko StudioConfig): TavilySearchConfig {
+export function resolveTavilySearchConfig(cfg?: BrikkoStudioConfig): TavilySearchConfig {
   const pluginConfig = cfg?.plugins?.entries?.tavily?.config as PluginEntryConfig;
   const pluginWebSearch = pluginConfig?.webSearch;
   if (pluginWebSearch && typeof pluginWebSearch === "object" && !Array.isArray(pluginWebSearch)) {
@@ -41,7 +41,7 @@ function normalizeConfiguredSecret(value: unknown, path: string): string | undef
   );
 }
 
-export function resolveTavilyApiKey(cfg?: Brikko StudioConfig): string | undefined {
+export function resolveTavilyApiKey(cfg?: BrikkoStudioConfig): string | undefined {
   const search = resolveTavilySearchConfig(cfg);
   return (
     normalizeConfiguredSecret(search?.apiKey, "plugins.entries.tavily.config.webSearch.apiKey") ||
@@ -50,7 +50,7 @@ export function resolveTavilyApiKey(cfg?: Brikko StudioConfig): string | undefin
   );
 }
 
-export function resolveTavilyBaseUrl(cfg?: Brikko StudioConfig): string {
+export function resolveTavilyBaseUrl(cfg?: BrikkoStudioConfig): string {
   const search = resolveTavilySearchConfig(cfg);
   const configured =
     (normalizeOptionalString(search?.baseUrl) ?? "") ||

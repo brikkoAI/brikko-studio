@@ -14,8 +14,8 @@ export function renderLoginGate(state: AppViewState) {
     <div class="login-gate">
       <div class="login-gate__card">
         <div class="login-gate__header">
-          <img class="login-gate__logo" src=${faviconSrc} alt="Brikko Studio" />
-          <div class="login-gate__title">Brikko Studio</div>
+          <img class="login-gate__logo" src=${faviconSrc} alt="BrikkoStudio" />
+          <div class="login-gate__title">BrikkoStudio</div>
           <div class="login-gate__sub">${t("login.subtitle")}</div>
         </div>
         <div class="login-gate__form">

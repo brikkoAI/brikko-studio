@@ -1,5 +1,5 @@
 import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
 import {
@@ -74,7 +74,7 @@ function mergeModelCatalogEntries(params: {
 }
 
 export function inferUniqueProviderFromConfiguredModels(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   model: string;
 }): string | undefined {
   const model = params.model.trim();
@@ -168,7 +168,7 @@ export function inferUniqueProviderFromCatalog(params: {
 }
 
 export function resolveBareModelDefaultProvider(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   catalog: readonly ModelCatalogEntry[];
   model: string;
   defaultProvider: string;
@@ -186,7 +186,7 @@ function isConcreteOpenRouterFreeModelRef(ref: ModelRef): boolean {
 
 function resolveConfiguredOpenRouterCompatFreeRef(
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     defaultProvider: string;
     allowManifestNormalization?: boolean;
     allowPluginNormalization?: boolean;
@@ -228,7 +228,7 @@ function resolveConfiguredOpenRouterCompatFreeRef(
 
 export function resolveConfiguredOpenRouterCompatAlias(
   params: {
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
     raw: string;
     defaultProvider: string;
     allowManifestNormalization?: boolean;
@@ -257,7 +257,7 @@ export function resolveConfiguredOpenRouterCompatAlias(
 
 function parseModelRefWithCompatAlias(
   params: {
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
     raw: string;
     defaultProvider: string;
     allowManifestNormalization?: boolean;
@@ -277,7 +277,7 @@ function parseModelRefWithCompatAlias(
 
 function resolveExactConfiguredProviderRef(
   params: {
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
     raw: string;
     allowManifestNormalization?: boolean;
     allowPluginNormalization?: boolean;
@@ -317,7 +317,7 @@ function resolveExactConfiguredProviderRef(
 }
 
 export function resolveAllowlistModelKey(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   raw: string;
   defaultProvider: string;
 }): string | null {
@@ -333,7 +333,7 @@ export function resolveAllowlistModelKey(params: {
 }
 
 export function buildConfiguredAllowlistKeys(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   defaultProvider: string;
 }): Set<string> | null {
   const rawAllowlist = Object.keys(params.cfg?.agents?.defaults?.models ?? {});
@@ -357,7 +357,7 @@ export function buildConfiguredAllowlistKeys(params: {
 
 export function buildModelAliasIndex(
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     defaultProvider: string;
     allowManifestNormalization?: boolean;
     allowPluginNormalization?: boolean;
@@ -401,7 +401,7 @@ type ModelCatalogMetadata = {
 };
 
 function buildModelCatalogMetadata(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   defaultProvider: string;
 }): ModelCatalogMetadata {
   const configuredByKey = new Map<string, ModelCatalogEntry>();
@@ -483,7 +483,7 @@ function buildSyntheticAllowedCatalogEntry(params: {
 
 export function resolveModelRefFromString(
   params: {
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
     raw: string;
     defaultProvider: string;
     aliasIndex?: ModelAliasIndex;
@@ -515,7 +515,7 @@ export function resolveModelRefFromString(
 }
 
 export function resolveConfiguredModelRef(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   defaultProvider: string;
   defaultModel: string;
   allowManifestNormalization?: boolean;
@@ -593,7 +593,7 @@ export function resolveConfiguredModelRef(params: {
 }
 
 export function buildAllowedModelSetWithFallbacks(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   catalog: ModelCatalogEntry[];
   defaultProvider: string;
   defaultModel?: string;
@@ -758,7 +758,7 @@ function getModelRefStatusFromAllowedSet(params: {
 }
 
 export function getModelRefStatusWithFallbackModels(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   catalog: ModelCatalogEntry[];
   ref: ModelRef;
   defaultProvider: string;
@@ -780,7 +780,7 @@ export function getModelRefStatusWithFallbackModels(params: {
 }
 
 export function resolveAllowedModelRefFromAliasIndex(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   raw: string;
   defaultProvider: string;
   aliasIndex: ModelAliasIndex;
@@ -814,7 +814,7 @@ export function resolveAllowedModelRefFromAliasIndex(params: {
   return { ref: resolved.ref, key: status.key };
 }
 
-export function buildConfiguredModelCatalog(params: { cfg: Brikko StudioConfig }): ModelCatalogEntry[] {
+export function buildConfiguredModelCatalog(params: { cfg: BrikkoStudioConfig }): ModelCatalogEntry[] {
   const providers = params.cfg.models?.providers;
   if (!providers || typeof providers !== "object") {
     return [];
@@ -855,7 +855,7 @@ export function buildConfiguredModelCatalog(params: { cfg: Brikko StudioConfig }
 }
 
 export function resolveHooksGmailModel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   defaultProvider: string;
 }): ModelRef | null {
   const hooksModel = params.cfg.hooks?.gmail?.model;

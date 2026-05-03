@@ -1,6 +1,6 @@
 import {
   createDefaultModelsPresetAppliers,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import { XAI_BASE_URL, XAI_DEFAULT_MODEL_ID } from "./model-definitions.js";
 import { buildXaiCatalogModels } from "./model-definitions.js";
@@ -11,7 +11,7 @@ const xaiPresetAppliers = createDefaultModelsPresetAppliers<
   ["openai-completions" | "openai-responses"]
 >({
   primaryModelRef: XAI_DEFAULT_MODEL_REF,
-  resolveParams: (_cfg: Brikko StudioConfig, api) => ({
+  resolveParams: (_cfg: BrikkoStudioConfig, api) => ({
     providerId: "xai",
     api,
     baseUrl: XAI_BASE_URL,
@@ -21,10 +21,10 @@ const xaiPresetAppliers = createDefaultModelsPresetAppliers<
   }),
 });
 
-export function applyXaiProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyXaiProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return xaiPresetAppliers.applyProviderConfig(cfg, "openai-responses");
 }
 
-export function applyXaiConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyXaiConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return xaiPresetAppliers.applyConfig(cfg, "openai-responses");
 }

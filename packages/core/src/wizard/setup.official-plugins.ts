@@ -1,5 +1,5 @@
 import { ensureOnboardingPluginInstalled } from "../commands/onboarding-plugin-install.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginPackageInstall } from "../plugins/manifest.js";
 import {
   getOfficialExternalPluginCatalogManifest,
@@ -21,7 +21,7 @@ export type OfficialPluginOnboardingInstallEntry = {
   trustedSourceLinkedOfficialInstall?: boolean;
 };
 
-function isInstalledOrConfigured(config: Brikko StudioConfig, pluginId: string): boolean {
+function isInstalledOrConfigured(config: BrikkoStudioConfig, pluginId: string): boolean {
   return Boolean(config.plugins?.entries?.[pluginId] || config.plugins?.installs?.[pluginId]);
 }
 
@@ -60,7 +60,7 @@ export const __testing = {
 };
 
 export function resolveOfficialPluginOnboardingInstallEntries(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
 }): OfficialPluginOnboardingInstallEntry[] {
   const entries: OfficialPluginOnboardingInstallEntry[] = [];
   for (const entry of listOfficialExternalPluginCatalogEntries()) {
@@ -84,11 +84,11 @@ export function resolveOfficialPluginOnboardingInstallEntries(params: {
 }
 
 export async function setupOfficialPluginInstalls(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   prompter: WizardPrompter;
   runtime: RuntimeEnv;
   workspaceDir?: string;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const installEntries = resolveOfficialPluginOnboardingInstallEntries({
     config: params.config,
   });

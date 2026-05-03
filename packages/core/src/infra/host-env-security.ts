@@ -1,5 +1,5 @@
 import { HOST_ENV_SECURITY_POLICY } from "./host-env-security-policy.js";
-import { markBrikko StudioExecEnv } from "./brikko-studio-exec-env.js";
+import { markBrikkoStudioExecEnv } from "./brikko-studio-exec-env.js";
 
 const PORTABLE_ENV_VAR_KEY = /^[A-Za-z_][A-Za-z0-9_]*$/;
 const WINDOWS_COMPAT_OVERRIDE_ENV_VAR_KEY = /^[A-Za-z_][A-Za-z0-9_()]*$/;
@@ -229,7 +229,7 @@ export function sanitizeHostExecEnvWithDiagnostics(params?: {
   }
 
   return {
-    env: markBrikko StudioExecEnv(merged),
+    env: markBrikkoStudioExecEnv(merged),
     rejectedOverrideBlockedKeys: overrideResult.rejectedOverrideBlockedKeys,
     rejectedOverrideInvalidKeys: overrideResult.rejectedOverrideInvalidKeys,
   };

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { BundleMcpDiagnostic, BundleMcpServerConfig } from "../plugins/bundle-mcp.js";
 import { loadMergedBundleMcpConfig } from "./bundle-mcp-config.js";
 
@@ -9,7 +9,7 @@ type EmbeddedPiMcpConfig = {
 
 export function loadEmbeddedPiMcpConfig(params: {
   workspaceDir: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): EmbeddedPiMcpConfig {
   const bundleMcp = loadMergedBundleMcpConfig({
     workspaceDir: params.workspaceDir,

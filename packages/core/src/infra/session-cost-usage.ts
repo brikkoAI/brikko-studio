@@ -16,7 +16,7 @@ import {
   resolveSessionTranscriptsDirForAgent,
 } from "../config/sessions/paths.js";
 import type { SessionEntry } from "../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { stripEnvelope, stripMessageIdHints } from "../shared/chat-envelope.js";
 import { asFiniteNumber } from "../shared/number-coercion.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
@@ -291,7 +291,7 @@ async function* readJsonlRecords(filePath: string): AsyncGenerator<Record<string
 
 async function scanTranscriptFile(params: {
   filePath: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   onEntry: (entry: ParsedTranscriptEntry) => void;
 }): Promise<void> {
   for await (const parsed of readJsonlRecords(params.filePath)) {
@@ -325,7 +325,7 @@ async function scanTranscriptFile(params: {
 
 async function scanUsageFile(params: {
   filePath: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   onEntry: (entry: ParsedUsageEntry) => void;
 }): Promise<void> {
   await scanTranscriptFile({
@@ -415,7 +415,7 @@ export async function loadCostUsageSummary(params?: {
   endMs?: number;
   /** @deprecated Use startMs/endMs. */
   days?: number;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
 }): Promise<CostUsageSummary> {
   const now = new Date();
@@ -607,7 +607,7 @@ export async function loadSessionCostSummary(params: {
   sessionId?: string;
   sessionEntry?: SessionEntry;
   sessionFile?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
   startMs?: number;
   endMs?: number;
@@ -918,7 +918,7 @@ export async function loadSessionUsageTimeSeries(params: {
   sessionId?: string;
   sessionEntry?: SessionEntry;
   sessionFile?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
   maxPoints?: number;
 }): Promise<SessionUsageTimeSeries | null> {
@@ -1019,7 +1019,7 @@ export async function loadSessionLogs(params: {
   sessionId?: string;
   sessionEntry?: SessionEntry;
   sessionFile?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
   limit?: number;
 }): Promise<SessionLogEntry[] | null> {

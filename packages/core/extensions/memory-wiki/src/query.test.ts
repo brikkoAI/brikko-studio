@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 import { compileMemoryWikiVault } from "./compile.js";
 import type { MemoryWikiPluginConfig } from "./config.js";
 import { renderWikiMarkdown } from "./markdown.js";
@@ -60,12 +60,12 @@ async function createQueryVault(options?: {
   });
 }
 
-function createAppConfig(): Brikko StudioConfig {
+function createAppConfig(): BrikkoStudioConfig {
   return {
     agents: {
       list: [{ id: "main", default: true }],
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createMemoryManager(overrides?: {
@@ -185,7 +185,7 @@ describe("searchMemoryWiki", () => {
           "# Maintainer: Brad Groux",
           "",
           "## Agent Card",
-          "- Maintainer lane: CEO; Microsoft-facing Brikko Studio maintainer",
+          "- Maintainer lane: CEO; Microsoft-facing BrikkoStudio maintainer",
           "",
           "## AI Notes",
           "- Main sample theme is Microsoft ecosystem adoption: Teams, M365, Azure, Foundry, tenants, and pilots.",

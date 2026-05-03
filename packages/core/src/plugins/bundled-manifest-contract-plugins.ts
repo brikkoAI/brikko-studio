@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveBundledPluginCompatibleLoadValues,
   type PluginActivationBundledCompatMode,
@@ -33,7 +33,7 @@ export function listBundledManifestContractPluginIds(params: {
 }
 
 export function resolveEnabledBundledManifestContractPlugins(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   onlyPluginIds?: readonly string[];
@@ -44,7 +44,7 @@ export function resolveEnabledBundledManifestContractPlugins(params: {
     return [];
   }
   let manifestRecords: readonly PluginManifestRecord[] | undefined;
-  const loadManifestRecords = (config?: Brikko StudioConfig) => {
+  const loadManifestRecords = (config?: BrikkoStudioConfig) => {
     manifestRecords ??= loadManifestContractSnapshot({
       config,
       workspaceDir: params.workspaceDir,

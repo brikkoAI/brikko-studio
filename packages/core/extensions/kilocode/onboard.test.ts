@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveEnvApiKey } from "brikko-studio/plugin-sdk/provider-auth-runtime";
 import { resolveAgentModelPrimaryValue } from "brikko-studio/plugin-sdk/provider-onboard";
 import { captureEnv } from "brikko-studio/plugin-sdk/test-env";
@@ -17,7 +17,7 @@ import {
   KILOCODE_DEFAULT_MODEL_REF,
 } from "./onboard.js";
 
-const emptyCfg: Brikko StudioConfig = {};
+const emptyCfg: BrikkoStudioConfig = {};
 const KILOCODE_MODEL_IDS = ["kilo/auto"];
 
 describe("Kilo Gateway provider config", () => {
@@ -101,7 +101,7 @@ describe("Kilo Gateway provider config", () => {
     });
 
     it("preserves existing alias if already set", () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             models: {
@@ -116,7 +116,7 @@ describe("Kilo Gateway provider config", () => {
     });
 
     it("does not change the default model selection", () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             model: { primary: "openai/gpt-5" },

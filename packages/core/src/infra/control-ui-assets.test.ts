@@ -65,8 +65,8 @@ vi.mock("./control-ui-assets.fs.runtime.js", async () => {
 });
 
 vi.mock("./brikko-studio-root.js", () => ({
-  resolveBrikko StudioPackageRoot: vi.fn(async () => null),
-  resolveBrikko StudioPackageRootSync: vi.fn(() => null),
+  resolveBrikkoStudioPackageRoot: vi.fn(async () => null),
+  resolveBrikkoStudioPackageRootSync: vi.fn(() => null),
 }));
 
 let resolveControlUiRepoRoot: typeof import("./control-ui-assets.js").resolveControlUiRepoRoot;
@@ -133,10 +133,10 @@ describe("control UI assets helpers (fs-mocked)", () => {
     );
   });
 
-  it("uses resolveBrikko StudioPackageRoot when available", async () => {
+  it("uses resolveBrikkoStudioPackageRoot when available", async () => {
     const pkgRoot = abs("fixtures/brikko-studio");
     (
-      brikko-studioRoot.resolveBrikko StudioPackageRoot as unknown as ReturnType<typeof vi.fn>
+      brikko-studioRoot.resolveBrikkoStudioPackageRoot as unknown as ReturnType<typeof vi.fn>
     ).mockResolvedValueOnce(pkgRoot);
 
     await expect(resolveControlUiDistIndexPath(abs("fixtures/bin/brikko-studio"))).resolves.toBe(
@@ -194,7 +194,7 @@ describe("control UI assets helpers (fs-mocked)", () => {
   it("resolves control-ui root for dist bundle argv1 and moduleUrl candidates", async () => {
     const pkgRoot = abs("fixtures/brikko-studio-bundle");
     (
-      brikko-studioRoot.resolveBrikko StudioPackageRootSync as unknown as ReturnType<typeof vi.fn>
+      brikko-studioRoot.resolveBrikkoStudioPackageRootSync as unknown as ReturnType<typeof vi.fn>
     ).mockReturnValueOnce(pkgRoot);
 
     const uiDir = path.join(pkgRoot, "dist", "control-ui");
@@ -211,8 +211,8 @@ describe("control UI assets helpers (fs-mocked)", () => {
   });
 
   it("prefers packaged app Control UI assets in Contents/Resources", () => {
-    const execPath = abs("fixtures/Brikko Studio.app/Contents/MacOS/Brikko Studio");
-    const bundledUiDir = abs("fixtures/Brikko Studio.app/Contents/Resources/control-ui");
+    const execPath = abs("fixtures/BrikkoStudio.app/Contents/MacOS/BrikkoStudio");
+    const bundledUiDir = abs("fixtures/BrikkoStudio.app/Contents/Resources/control-ui");
     setFile(path.join(bundledUiDir, "index.html"), "<html></html>\n");
 
     state.realpaths.set(execPath, execPath);
@@ -238,7 +238,7 @@ describe("control UI assets helpers (fs-mocked)", () => {
     setDir(uiDir);
     setFile(path.join(uiDir, "index.html"), "<html></html>\n");
     (
-      brikko-studioRoot.resolveBrikko StudioPackageRootSync as unknown as ReturnType<typeof vi.fn>
+      brikko-studioRoot.resolveBrikkoStudioPackageRootSync as unknown as ReturnType<typeof vi.fn>
     ).mockReturnValueOnce(pkgRoot);
 
     expect(
@@ -254,7 +254,7 @@ describe("control UI assets helpers (fs-mocked)", () => {
     setDir(fallbackRoot);
     setFile(path.join(fallbackRoot, "index.html"), "<html></html>\n");
     (
-      brikko-studioRoot.resolveBrikko StudioPackageRootSync as unknown as ReturnType<typeof vi.fn>
+      brikko-studioRoot.resolveBrikkoStudioPackageRootSync as unknown as ReturnType<typeof vi.fn>
     ).mockReturnValueOnce(pkgRoot);
 
     expect(

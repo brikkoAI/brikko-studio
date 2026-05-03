@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createOllamaWebSearchProvider as createContractOllamaWebSearchProvider } from "../web-search-contract-api.js";
 import {
@@ -21,11 +21,11 @@ type OllamaProviderConfigOverride = Partial<{
   baseUrl: string;
   baseURL: string;
   models: NonNullable<
-    NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]>[string]
+    NonNullable<NonNullable<BrikkoStudioConfig["models"]>["providers"]>[string]
   >["models"];
 }>;
 
-function createOllamaConfig(provider: OllamaProviderConfigOverride = {}): Brikko StudioConfig {
+function createOllamaConfig(provider: OllamaProviderConfigOverride = {}): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -40,7 +40,7 @@ function createOllamaConfig(provider: OllamaProviderConfigOverride = {}): Brikko
   };
 }
 
-function createOllamaConfigWithWebSearchBaseUrl(baseUrl: string): Brikko StudioConfig {
+function createOllamaConfigWithWebSearchBaseUrl(baseUrl: string): BrikkoStudioConfig {
   return {
     ...createOllamaConfig(),
     plugins: {
@@ -144,7 +144,7 @@ describe("ollama web search provider", () => {
         JSON.stringify({
           results: [
             {
-              title: "Brikko Studio",
+              title: "BrikkoStudio",
               url: "https://brikko-studio.ai/docs",
               content: "Gateway docs and setup details",
             },

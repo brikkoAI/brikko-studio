@@ -10,8 +10,8 @@ import type {
   ArtifactsListResult,
   GatewayEvent,
   GatewayRequestOptions,
-  Brikko StudioEvent,
-  Brikko StudioTransport,
+  BrikkoStudioEvent,
+  BrikkoStudioTransport,
   RunCreateParams,
   RunResult,
   RunTimestamp,
@@ -26,16 +26,16 @@ const MAX_REPLAY_RUNS = 100;
 const MAX_REPLAY_EVENTS_PER_RUN = 500;
 const MAX_NORMALIZED_REPLAY_EVENTS = 2000;
 
-export type Brikko StudioOptions = {
+export type BrikkoStudioOptions = {
   gateway?: "auto" | (string & {});
   url?: string;
   token?: string;
   password?: string;
   requestTimeoutMs?: number;
-  transport?: Brikko StudioTransport;
+  transport?: BrikkoStudioTransport;
 };
 
-function resolveGatewayUrl(options: Brikko StudioOptions): string | undefined {
+function resolveGatewayUrl(options: BrikkoStudioOptions): string | undefined {
   if (options.url) {
     return options.url;
   }
@@ -150,7 +150,7 @@ function assertNoUnsupportedRunOptions(params: AgentRunParams): void {
     return;
   }
   throw new Error(
-    `Brikko Studio Gateway does not support per-run SDK option${
+    `BrikkoStudio Gateway does not support per-run SDK option${
       unsupported.length === 1 ? "" : "s"
     } yet: ${unsupported.join(", ")}`,
   );
@@ -177,7 +177,7 @@ function buildAgentParams(params: AgentRunParams): Record<string, unknown> {
 }
 
 function unsupportedGatewayApi(api: string): never {
-  throw new Error(`${api} is not supported by the current Brikko Studio Gateway yet`);
+  throw new Error(`${api} is not supported by the current BrikkoStudio Gateway yet`);
 }
 
 type ChatProjectionState = "delta" | "final";
@@ -205,7 +205,7 @@ function requireArtifactQueryScope(api: string, params: unknown): ArtifactQuery 
   return params;
 }
 
-function readChatProjection(event: Brikko StudioEvent): ChatProjection | undefined {
+function readChatProjection(event: BrikkoStudioEvent): ChatProjection | undefined {
   const raw = event.raw;
   if (event.type !== "raw" || raw?.event !== "chat") {
     return undefined;
@@ -234,11 +234,11 @@ function readChatProjectionText(payload: Record<string, unknown>): string | unde
   return text.length > 0 ? text : undefined;
 }
 
-function isAssistantRunEvent(event: Brikko StudioEvent): boolean {
+function isAssistantRunEvent(event: BrikkoStudioEvent): boolean {
   return event.type === "assistant.delta" || event.type === "assistant.message";
 }
 
-function isTerminalRunEvent(event: Brikko StudioEvent): boolean {
+function isTerminalRunEvent(event: BrikkoStudioEvent): boolean {
   return (
     event.type === "run.completed" ||
     event.type === "run.failed" ||
@@ -248,10 +248,10 @@ function isTerminalRunEvent(event: Brikko StudioEvent): boolean {
 }
 
 function normalizeChatProjectionEvent(
-  event: Brikko StudioEvent,
+  event: BrikkoStudioEvent,
   projection: ChatProjection,
   previousText: string | undefined,
-): Brikko StudioEvent {
+): BrikkoStudioEvent {
   const text = readChatProjectionText(projection.payload);
   const isReplacement = Boolean(
     previousText && text !== undefined && !text.startsWith(previousText),
@@ -272,7 +272,7 @@ function normalizeChatProjectionEvent(
   };
 }
 
-export class Brikko Studio {
+export class BrikkoStudio {
   readonly agents: AgentsNamespace;
   readonly sessions: SessionsNamespace;
   readonly runs: RunsNamespace;
@@ -283,16 +283,16 @@ export class Brikko Studio {
   readonly approvals: ApprovalsNamespace;
   readonly environments: EnvironmentsNamespace;
 
-  private readonly transport: Brikko StudioTransport;
-  private readonly normalizedEvents = new EventHub<Brikko StudioEvent>({
+  private readonly transport: BrikkoStudioTransport;
+  private readonly normalizedEvents = new EventHub<BrikkoStudioEvent>({
     replayLimit: MAX_NORMALIZED_REPLAY_EVENTS,
   });
-  private readonly replayByRunId = new Map<string, Brikko StudioEvent[]>();
+  private readonly replayByRunId = new Map<string, BrikkoStudioEvent[]>();
   private connected = false;
   private eventPumpPromise: Promise<void> | null = null;
   private eventPumpReady: Promise<void> | null = null;
 
-  constructor(options: Brikko StudioOptions = {}) {
+  constructor(options: BrikkoStudioOptions = {}) {
     this.transport =
       options.transport ??
       new GatewayClientTransport({
@@ -342,14 +342,14 @@ export class Brikko Studio {
     return await this.transport.request<T>(method, params, options);
   }
 
-  events(filter?: (event: Brikko StudioEvent) => boolean): AsyncIterable<Brikko StudioEvent> {
+  events(filter?: (event: BrikkoStudioEvent) => boolean): AsyncIterable<BrikkoStudioEvent> {
     return this.iterateEvents(filter);
   }
 
   runEvents(
     runId: string,
-    filter?: (event: Brikko StudioEvent) => boolean,
-  ): AsyncIterable<Brikko StudioEvent> {
+    filter?: (event: BrikkoStudioEvent) => boolean,
+  ): AsyncIterable<BrikkoStudioEvent> {
     return this.iterateRunEvents(runId, filter);
   }
 
@@ -358,8 +358,8 @@ export class Brikko Studio {
   }
 
   private async *iterateEvents(
-    filter?: (event: Brikko StudioEvent) => boolean,
-  ): AsyncIterable<Brikko StudioEvent> {
+    filter?: (event: BrikkoStudioEvent) => boolean,
+  ): AsyncIterable<BrikkoStudioEvent> {
     await this.connect();
     for await (const event of this.normalizedEvents.stream(filter)) {
       yield event;
@@ -368,14 +368,14 @@ export class Brikko Studio {
 
   private async *iterateRunEvents(
     runId: string,
-    filter?: (event: Brikko StudioEvent) => boolean,
-  ): AsyncIterable<Brikko StudioEvent> {
+    filter?: (event: BrikkoStudioEvent) => boolean,
+  ): AsyncIterable<BrikkoStudioEvent> {
     await this.connect();
     const replayEvents = this.replaySnapshot(runId);
     let hasCanonicalAssistantRunEvent = replayEvents.some(isAssistantRunEvent);
     let hasTerminalRunEvent = replayEvents.some(isTerminalRunEvent);
     let previousChatProjectionText: string | undefined;
-    const toRunStreamEvent = (event: Brikko StudioEvent): Brikko StudioEvent | undefined => {
+    const toRunStreamEvent = (event: BrikkoStudioEvent): BrikkoStudioEvent | undefined => {
       const chatProjection = readChatProjection(event);
       if (chatProjection?.state === "delta") {
         if (hasCanonicalAssistantRunEvent) {
@@ -407,7 +407,7 @@ export class Brikko Studio {
       }
       return event;
     };
-    const matches = (event: Brikko StudioEvent) => event.runId === runId;
+    const matches = (event: BrikkoStudioEvent) => event.runId === runId;
     const liveSource = this.normalizedEvents.stream(matches, { replay: true });
     const live = liveSource[Symbol.asyncIterator]();
     let nextLive = live.next();
@@ -487,7 +487,7 @@ export class Brikko Studio {
     return this.eventPumpReady;
   }
 
-  private recordReplayEvent(event: Brikko StudioEvent): void {
+  private recordReplayEvent(event: BrikkoStudioEvent): void {
     if (!event.runId) {
       return;
     }
@@ -508,14 +508,14 @@ export class Brikko Studio {
     }
   }
 
-  private replaySnapshot(runId: string): Brikko StudioEvent[] {
+  private replaySnapshot(runId: string): BrikkoStudioEvent[] {
     return [...(this.replayByRunId.get(runId) ?? [])];
   }
 }
 
 export class Agent {
   constructor(
-    private readonly client: Brikko Studio,
+    private readonly client: BrikkoStudio,
     readonly id: string,
   ) {}
 
@@ -535,12 +535,12 @@ export class Agent {
 
 export class Run {
   constructor(
-    private readonly client: Brikko Studio,
+    private readonly client: BrikkoStudio,
     readonly id: string,
     readonly sessionKey?: string,
   ) {}
 
-  events(filter?: (event: Brikko StudioEvent) => boolean): AsyncIterable<Brikko StudioEvent> {
+  events(filter?: (event: BrikkoStudioEvent) => boolean): AsyncIterable<BrikkoStudioEvent> {
     return this.client.runEvents(this.id, filter);
   }
 
@@ -581,7 +581,7 @@ export class Run {
 
 export class Session {
   constructor(
-    private readonly client: Brikko Studio,
+    private readonly client: BrikkoStudio,
     readonly key: string,
     readonly info?: unknown,
   ) {}
@@ -615,7 +615,7 @@ export class Session {
 }
 
 export class AgentsNamespace {
-  constructor(private readonly client: Brikko Studio) {}
+  constructor(private readonly client: BrikkoStudio) {}
 
   async list(params?: Record<string, unknown>): Promise<unknown> {
     return await this.client.request("agents.list", params);
@@ -639,7 +639,7 @@ export class AgentsNamespace {
 }
 
 export class SessionsNamespace {
-  constructor(private readonly client: Brikko Studio) {}
+  constructor(private readonly client: BrikkoStudio) {}
 
   async list(params?: Record<string, unknown>): Promise<unknown> {
     return await this.client.request("sessions.list", params);
@@ -671,7 +671,7 @@ export class SessionsNamespace {
 }
 
 export class RunsNamespace {
-  constructor(private readonly client: Brikko Studio) {}
+  constructor(private readonly client: BrikkoStudio) {}
 
   async create(params: RunCreateParams): Promise<Run> {
     const raw = await this.client.request("agent", buildAgentParams(params), {
@@ -690,7 +690,7 @@ export class RunsNamespace {
     return new Run(this.client, runId);
   }
 
-  events(runId: string): AsyncIterable<Brikko StudioEvent> {
+  events(runId: string): AsyncIterable<BrikkoStudioEvent> {
     return new Run(this.client, runId).events();
   }
 
@@ -705,7 +705,7 @@ export class RunsNamespace {
 
 class RpcNamespace {
   constructor(
-    protected readonly client: Brikko Studio,
+    protected readonly client: BrikkoStudio,
     private readonly prefix: string,
   ) {}
 
@@ -719,7 +719,7 @@ class RpcNamespace {
 }
 
 export class TasksNamespace extends RpcNamespace {
-  constructor(client: Brikko Studio) {
+  constructor(client: BrikkoStudio) {
     super(client, "tasks");
   }
 
@@ -740,7 +740,7 @@ export class TasksNamespace extends RpcNamespace {
 }
 
 export class ModelsNamespace extends RpcNamespace {
-  constructor(client: Brikko Studio) {
+  constructor(client: BrikkoStudio) {
     super(client, "models");
   }
 
@@ -754,7 +754,7 @@ export class ModelsNamespace extends RpcNamespace {
 }
 
 export class ToolsNamespace extends RpcNamespace {
-  constructor(client: Brikko Studio) {
+  constructor(client: BrikkoStudio) {
     super(client, "tools");
   }
 
@@ -779,7 +779,7 @@ export class ToolsNamespace extends RpcNamespace {
 }
 
 export class ArtifactsNamespace extends RpcNamespace {
-  constructor(client: Brikko Studio) {
+  constructor(client: BrikkoStudio) {
     super(client, "artifacts");
   }
 
@@ -803,7 +803,7 @@ export class ArtifactsNamespace extends RpcNamespace {
 }
 
 export class ApprovalsNamespace {
-  constructor(private readonly client: Brikko Studio) {}
+  constructor(private readonly client: BrikkoStudio) {}
 
   async list(params?: unknown): Promise<unknown> {
     return await this.client.request("exec.approval.list", params);
@@ -815,7 +815,7 @@ export class ApprovalsNamespace {
 }
 
 export class EnvironmentsNamespace extends RpcNamespace {
-  constructor(client: Brikko Studio) {
+  constructor(client: BrikkoStudio) {
     super(client, "environments");
   }
 

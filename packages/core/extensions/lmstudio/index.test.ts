@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/plugin-entry";
 import { capturePluginRegistration } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { CUSTOM_LOCAL_AUTH_MARKER } from "brikko-studio/plugin-sdk/provider-auth";
 import type { ModelProviderConfig } from "brikko-studio/plugin-sdk/provider-model-shared";
@@ -164,7 +164,7 @@ describe("lmstudio plugin", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(
       provider?.augmentModelCatalog?.({

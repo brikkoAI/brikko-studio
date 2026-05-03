@@ -37,7 +37,7 @@ import {
 import { resolveMatrixTargetIdentity } from "./matrix/target-ids.js";
 import type { CoreConfig } from "./types.js";
 
-// Brikko Studio Matrix custom event content for capable clients; body and reactions remain fallback.
+// BrikkoStudio Matrix custom event content for capable clients; body and reactions remain fallback.
 const MATRIX_APPROVAL_METADATA_KEY = "com.brikko-studio.approval" as const;
 
 type PendingMessage = {

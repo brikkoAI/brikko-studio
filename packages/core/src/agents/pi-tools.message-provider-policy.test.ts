@@ -3,7 +3,7 @@ import { filterToolNamesByMessageProvider } from "./pi-tools.message-provider-po
 
 const DEFAULT_TOOL_NAMES = ["read", "write", "tts", "web_search"];
 
-describe("createBrikko StudioCodingTools message provider policy", () => {
+describe("createBrikkoStudioCodingTools message provider policy", () => {
   it.each(["voice", "VOICE", " Voice ", "discord-voice", "DISCORD-VOICE", " Discord-Voice "])(
     "does not expose tts tool for normalized voice provider: %s",
     (messageProvider) => {

@@ -1,10 +1,10 @@
 // Manual facade. Keep loader boundary explicit.
-import type { ModelDefinitionConfig, Brikko StudioConfig } from "../config/types.js";
+import type { ModelDefinitionConfig, BrikkoStudioConfig } from "../config/types.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
 
 type FacadeModule = {
-  applyLitellmConfig: (cfg: Brikko StudioConfig) => Brikko StudioConfig;
-  applyLitellmProviderConfig: (cfg: Brikko StudioConfig) => Brikko StudioConfig;
+  applyLitellmConfig: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig;
+  applyLitellmProviderConfig: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig;
   buildLitellmModelDefinition: () => ModelDefinitionConfig;
   LITELLM_BASE_URL: string;
   LITELLM_DEFAULT_MODEL_ID: string;

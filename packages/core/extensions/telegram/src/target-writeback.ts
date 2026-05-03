@@ -2,7 +2,7 @@ import {
   readConfigFileSnapshotForWrite,
   replaceConfigFile,
 } from "brikko-studio/plugin-sdk/config-mutation";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   loadCronStore,
   resolveCronStorePath,
@@ -103,7 +103,7 @@ function rewriteTargetIfMatch(params: {
 }
 
 function replaceTelegramDefaultToTargets(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   matchKey: string;
   resolvedTarget: string;
 }): boolean {
@@ -142,7 +142,7 @@ function replaceTelegramDefaultToTargets(params: {
 }
 
 export async function maybePersistResolvedTelegramTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   rawTarget: string;
   resolvedChatId: string;
   verbose?: boolean;

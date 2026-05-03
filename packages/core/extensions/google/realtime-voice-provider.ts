@@ -16,7 +16,7 @@ import {
   type RealtimeInputConfig,
   type ThinkingConfig,
 } from "@google/genai";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-onboard";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/provider-onboard";
 import type {
   RealtimeVoiceAudioFormat,
   RealtimeVoiceBridge,
@@ -189,7 +189,7 @@ function resolveGoogleRealtimeProviderConfigRecord(
 
 function normalizeProviderConfig(
   config: RealtimeVoiceProviderConfig,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): GoogleRealtimeVoiceProviderConfig {
   const raw = resolveGoogleRealtimeProviderConfigRecord(config);
   return {

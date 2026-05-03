@@ -1,8 +1,8 @@
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createBundledBrowserPluginFixture } from "../../test/helpers/browser-bundled-plugin-fixture.js";
-import type { Brikko StudioConfig } from "../config/config.js";
-import { clearPluginLoaderCache, loadBrikko StudioPlugins } from "./loader.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
+import { clearPluginLoaderCache, loadBrikkoStudioPlugins } from "./loader.js";
 import { resetPluginRuntimeStateForTest } from "./runtime.js";
 
 function resetPluginState() {
@@ -27,12 +27,12 @@ describe("registerPluginCliCommands browser plugin integration", () => {
   });
 
   it("registers the browser command from the bundled browser plugin", () => {
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       config: {
         plugins: {
           allow: ["browser"],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       cache: false,
       env: {
         ...process.env,
@@ -46,7 +46,7 @@ describe("registerPluginCliCommands browser plugin integration", () => {
   });
 
   it("omits the browser command when the bundled browser plugin is disabled", () => {
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       config: {
         plugins: {
           allow: ["browser"],
@@ -56,7 +56,7 @@ describe("registerPluginCliCommands browser plugin integration", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       cache: false,
       env: {
         ...process.env,

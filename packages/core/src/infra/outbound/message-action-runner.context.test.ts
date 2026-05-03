@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { ChannelPlugin } from "../../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
 import {
   createChannelTestPluginBase,
@@ -230,7 +230,7 @@ describe("runMessageAction context isolation", () => {
             token: "forum-test",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       action: "send" as const,
       actionParams: {
         message: "hi",
@@ -302,7 +302,7 @@ describe("runMessageAction context isolation", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       actionParams: {
         channel: "workspace",
         target: "channel:C99999999",
@@ -323,7 +323,7 @@ describe("runMessageAction context isolation", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       actionParams: {
         channel: "workspace",
         target: "channel:C99999999",

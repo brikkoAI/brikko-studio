@@ -1,5 +1,5 @@
 import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import {
   buildMediaGenerationNormalizationMetadata,
@@ -83,7 +83,7 @@ function validateProviderOptionsAgainstDeclaration(params: {
 }
 
 function buildNoVideoGenerationModelConfiguredMessage(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   deps: VideoGenerationRuntimeDeps,
 ): string {
   const listProviders = deps.listProviders ?? listVideoGenerationProviders;
@@ -96,7 +96,7 @@ function buildNoVideoGenerationModelConfiguredMessage(
 }
 
 export function listRuntimeVideoGenerationProviders(
-  params?: { config?: Brikko StudioConfig },
+  params?: { config?: BrikkoStudioConfig },
   deps: VideoGenerationRuntimeDeps = {},
 ) {
   return (deps.listProviders ?? listVideoGenerationProviders)(params?.config);

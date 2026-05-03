@@ -1,8 +1,8 @@
 export type {
   ChannelAccountSnapshot,
   ChannelPlugin,
-  Brikko StudioConfig,
-  Brikko StudioPluginApi,
+  BrikkoStudioConfig,
+  BrikkoStudioPluginApi,
   PluginRuntime,
 } from "brikko-studio/plugin-sdk/core";
 export type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";

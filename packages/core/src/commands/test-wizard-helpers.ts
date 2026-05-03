@@ -3,6 +3,6 @@ export {
   createExitThrowingRuntime,
   createWizardPrompter,
   readAuthProfilesForAgent,
-  requireBrikko StudioAgentDir,
+  requireBrikkoStudioAgentDir,
   setupAuthTestEnv,
 } from "../../test/helpers/auth-wizard.js";

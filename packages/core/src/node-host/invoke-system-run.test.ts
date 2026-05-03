@@ -41,17 +41,17 @@ type MockedSendNodeEvent = Mock<HandleSystemRunInvokeOptions["sendNodeEvent"]>;
 
 describe("handleSystemRunInvoke mac app exec host routing", () => {
   let sharedFixtureRoot = "";
-  let sharedBrikko StudioHome = "";
+  let sharedBrikkoStudioHome = "";
   let sharedRuntimeBinDir = "";
   let sharedFixtureId = 0;
-  let previousBrikko StudioHome: string | undefined;
+  let previousBrikkoStudioHome: string | undefined;
   const sharedRuntimeBins = new Set<string>();
 
   beforeAll(() => {
     sharedFixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-node-host-fixtures-"));
-    sharedBrikko StudioHome = path.join(sharedFixtureRoot, "brikko-studio-home");
+    sharedBrikkoStudioHome = path.join(sharedFixtureRoot, "brikko-studio-home");
     sharedRuntimeBinDir = path.join(sharedFixtureRoot, "bin");
-    fs.mkdirSync(sharedBrikko StudioHome, { recursive: true });
+    fs.mkdirSync(sharedBrikkoStudioHome, { recursive: true });
     fs.mkdirSync(sharedRuntimeBinDir, { recursive: true });
   });
 
@@ -68,18 +68,18 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   }
 
   beforeEach(() => {
-    previousBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
-    process.env.BRIKKO_STUDIO_HOME = sharedBrikko StudioHome;
+    previousBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
+    process.env.BRIKKO_STUDIO_HOME = sharedBrikkoStudioHome;
     fs.rmSync(resolveExecApprovalsPath(), { force: true });
     clearRuntimeConfigSnapshot();
   });
 
   afterEach(() => {
     clearRuntimeConfigSnapshot();
-    if (previousBrikko StudioHome === undefined) {
+    if (previousBrikkoStudioHome === undefined) {
       delete process.env.BRIKKO_STUDIO_HOME;
     } else {
-      process.env.BRIKKO_STUDIO_HOME = previousBrikko StudioHome;
+      process.env.BRIKKO_STUDIO_HOME = previousBrikkoStudioHome;
     }
   });
 
@@ -266,17 +266,17 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
     approvals: Parameters<typeof saveExecApprovals>[0];
     run: (ctx: { tempHome: string }) => Promise<T>;
   }): Promise<T> {
-    const tempHome = sharedBrikko StudioHome;
-    const previousBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    const tempHome = sharedBrikkoStudioHome;
+    const previousBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
     process.env.BRIKKO_STUDIO_HOME = tempHome;
     saveExecApprovals(params.approvals);
     try {
       return await params.run({ tempHome });
     } finally {
-      if (previousBrikko StudioHome === undefined) {
+      if (previousBrikkoStudioHome === undefined) {
         delete process.env.BRIKKO_STUDIO_HOME;
       } else {
-        process.env.BRIKKO_STUDIO_HOME = previousBrikko StudioHome;
+        process.env.BRIKKO_STUDIO_HOME = previousBrikkoStudioHome;
       }
     }
   }

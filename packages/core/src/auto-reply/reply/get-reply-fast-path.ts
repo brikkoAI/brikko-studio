@@ -6,7 +6,7 @@ import { resolveSessionTranscriptPath, resolveStorePath } from "../../config/ses
 import { resolveSessionKey } from "../../config/sessions/session-key.js";
 import { loadSessionStore } from "../../config/sessions/store.js";
 import type { SessionEntry, SessionScope } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
@@ -21,7 +21,7 @@ import type { SessionInitResult } from "./session.js";
 const COMPLETE_REPLY_CONFIG_SYMBOL = Symbol.for("brikko-studio.reply.complete-config");
 const FULL_REPLY_RUNTIME_SYMBOL = Symbol.for("brikko-studio.reply.full-runtime");
 
-type ReplyConfigWithMarker = Brikko StudioConfig & {
+type ReplyConfigWithMarker = BrikkoStudioConfig & {
   [COMPLETE_REPLY_CONFIG_SYMBOL]?: true;
   [FULL_REPLY_RUNTIME_SYMBOL]?: true;
 };
@@ -57,7 +57,7 @@ function markReplyConfigRuntimeMode(
   });
 }
 
-export function markCompleteReplyConfig<T extends Brikko StudioConfig>(
+export function markCompleteReplyConfig<T extends BrikkoStudioConfig>(
   config: T,
   options?: { runtimeMode?: "fast" | "full" },
 ): T {
@@ -70,15 +70,15 @@ export function markCompleteReplyConfig<T extends Brikko StudioConfig>(
   return config;
 }
 
-export function withFastReplyConfig<T extends Brikko StudioConfig>(config: T): T {
+export function withFastReplyConfig<T extends BrikkoStudioConfig>(config: T): T {
   return markCompleteReplyConfig(config, { runtimeMode: "fast" });
 }
 
-export function withFullRuntimeReplyConfig<T extends Brikko StudioConfig>(config: T): T {
+export function withFullRuntimeReplyConfig<T extends BrikkoStudioConfig>(config: T): T {
   return markCompleteReplyConfig(config, { runtimeMode: "full" });
 }
 
-function isCompleteReplyConfig(config: unknown): config is Brikko StudioConfig {
+function isCompleteReplyConfig(config: unknown): config is BrikkoStudioConfig {
   return Boolean(
     config &&
     typeof config === "object" &&
@@ -95,10 +95,10 @@ function usesFullReplyRuntime(config: unknown): boolean {
 }
 
 export function resolveGetReplyConfig(params: {
-  getRuntimeConfig: () => Brikko StudioConfig;
+  getRuntimeConfig: () => BrikkoStudioConfig;
   isFastTestEnv: boolean;
-  configOverride?: Brikko StudioConfig;
-}): Brikko StudioConfig {
+  configOverride?: BrikkoStudioConfig;
+}): BrikkoStudioConfig {
   const { configOverride } = params;
   if (configOverride == null) {
     return params.getRuntimeConfig();
@@ -114,12 +114,12 @@ export function resolveGetReplyConfig(params: {
   if (isCompleteReplyConfig(configOverride)) {
     return configOverride;
   }
-  return applyMergePatch(params.getRuntimeConfig(), configOverride) as Brikko StudioConfig;
+  return applyMergePatch(params.getRuntimeConfig(), configOverride) as BrikkoStudioConfig;
 }
 
 export function shouldUseReplyFastTestBootstrap(params: {
   isFastTestEnv: boolean;
-  configOverride?: Brikko StudioConfig;
+  configOverride?: BrikkoStudioConfig;
 }): boolean {
   return (
     params.isFastTestEnv &&
@@ -129,7 +129,7 @@ export function shouldUseReplyFastTestBootstrap(params: {
 }
 
 export function shouldUseReplyFastTestRuntime(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   isFastTestEnv: boolean;
 }): boolean {
   return (
@@ -157,7 +157,7 @@ export function shouldUseReplyFastDirectiveExecution(params: {
 
 export function buildFastReplyCommandContext(params: {
   ctx: MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   sessionKey?: string;
   isGroup: boolean;
@@ -192,7 +192,7 @@ export function buildFastReplyCommandContext(params: {
 }
 
 export function shouldHandleFastReplyTextCommands(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   commandSource?: string;
 }): boolean {
   return params.commandSource === "native" || params.cfg.commands?.text !== false;
@@ -200,7 +200,7 @@ export function shouldHandleFastReplyTextCommands(params: {
 
 export function initFastReplySessionState(params: {
   ctx: MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   commandAuthorized: boolean;
   workspaceDir: string;

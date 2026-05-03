@@ -2,7 +2,7 @@ import { EventEmitter } from "node:events";
 import path from "node:path";
 import { Readable } from "node:stream";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { createRestrictedAgentSandboxConfig } from "./test-helpers/sandbox-agent-config-fixtures.js";
 
 type SpawnCall = {
@@ -54,7 +54,7 @@ let resolveSandboxContext: typeof import("./sandbox/context.js").resolveSandboxC
 let resolveSandboxConfigForAgent: typeof import("./sandbox/config.js").resolveSandboxConfigForAgent;
 let resolveSandboxRuntimeStatus: typeof import("./sandbox/runtime-status.js").resolveSandboxRuntimeStatus;
 
-async function resolveContext(config: Brikko StudioConfig, sessionKey: string, workspaceDir: string) {
+async function resolveContext(config: BrikkoStudioConfig, sessionKey: string, workspaceDir: string) {
   return resolveSandboxContext({
     config,
     sessionKey,
@@ -76,7 +76,7 @@ function expectDockerSetupCommand(command: string) {
 
 function createDefaultsSandboxConfig(
   scope: "agent" | "shared" | "session" = "agent",
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -89,7 +89,7 @@ function createDefaultsSandboxConfig(
   };
 }
 
-function createWorkSetupCommandConfig(scope: "agent" | "shared"): Brikko StudioConfig {
+function createWorkSetupCommandConfig(scope: "agent" | "shared"): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -133,7 +133,7 @@ describe("Agent-specific sandbox config", () => {
   });
 
   it("should use agent-specific workspaceRoot", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           sandbox: {
@@ -163,7 +163,7 @@ describe("Agent-specific sandbox config", () => {
   });
 
   it("should prefer agent config over global for multiple agents", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           sandbox: {
@@ -230,7 +230,7 @@ describe("Agent-specific sandbox config", () => {
   });
 
   it("should use global sandbox config when no agent-specific config exists", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           sandbox: {
@@ -276,7 +276,7 @@ describe("Agent-specific sandbox config", () => {
   });
 
   it("should allow agent-specific docker settings beyond setupCommand", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           sandbox: {
@@ -331,7 +331,7 @@ describe("Agent-specific sandbox config", () => {
               },
             ],
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         sessionKey: "agent:main:main",
         assert: (runtime: ReturnType<typeof resolveSandboxRuntimeStatus>) => {
           expect(runtime.mode).toBe("off");
@@ -357,7 +357,7 @@ describe("Agent-specific sandbox config", () => {
               },
             ],
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         sessionKey: "agent:family:whatsapp:group:123",
         assert: (runtime: ReturnType<typeof resolveSandboxRuntimeStatus>) => {
           expect(runtime.mode).toBe("all");
@@ -374,7 +374,7 @@ describe("Agent-specific sandbox config", () => {
   });
 
   it("should use agent-specific scope", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           sandbox: {
@@ -423,7 +423,7 @@ describe("Agent-specific sandbox config", () => {
               },
             },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         expected: ["image"],
       },
     ]) {

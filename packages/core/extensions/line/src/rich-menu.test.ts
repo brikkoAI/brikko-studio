@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   createDefaultMenuConfig,
@@ -223,7 +223,7 @@ describe("createDefaultMenuConfig", () => {
   });
 });
 
-const richMenuUploadCfg: Brikko StudioConfig = {
+const richMenuUploadCfg: BrikkoStudioConfig = {
   channels: {
     line: {
       channelAccessToken: "line-token",

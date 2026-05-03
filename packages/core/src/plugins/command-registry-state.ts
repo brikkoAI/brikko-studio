@@ -1,8 +1,8 @@
 import { resolveGlobalSingleton } from "../shared/global-singleton.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
-import type { Brikko StudioPluginCommandDefinition } from "./types.js";
+import type { BrikkoStudioPluginCommandDefinition } from "./types.js";
 
-export type RegisteredPluginCommand = Brikko StudioPluginCommandDefinition & {
+export type RegisteredPluginCommand = BrikkoStudioPluginCommandDefinition & {
   pluginId: string;
   pluginName?: string;
   pluginRoot?: string;

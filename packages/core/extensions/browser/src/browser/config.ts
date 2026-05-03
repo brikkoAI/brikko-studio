@@ -7,7 +7,7 @@ import {
 import {
   type BrowserConfig,
   type BrowserProfileConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../config/config.js";
 import { resolveGatewayPort } from "../config/paths.js";
 import {
@@ -328,7 +328,7 @@ function ensureDefaultUserBrowserProfile(
 
 export function resolveBrowserConfig(
   cfg: BrowserConfig | undefined,
-  rootConfig?: Brikko StudioConfig,
+  rootConfig?: BrikkoStudioConfig,
 ): ResolvedBrowserConfig {
   const enabled = cfg?.enabled ?? DEFAULT_BRIKKO_STUDIO_BROWSER_ENABLED;
   const evaluateEnabled = cfg?.evaluateEnabled ?? DEFAULT_BROWSER_EVALUATE_ENABLED;

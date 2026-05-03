@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import {
   normalizeLegacyBrowserConfig,
   normalizeLegacyCrossContextMessageConfig,
@@ -16,10 +16,10 @@ import { migrateLegacyWebSearchConfig } from "./legacy-web-search-migrate.js";
 import { migrateLegacyXSearchConfig } from "./legacy-x-search-migrate.js";
 
 export function normalizeBaseCompatibilityConfigValues(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-  afterBrowser?: (config: Brikko StudioConfig) => Brikko StudioConfig,
-): Brikko StudioConfig {
+  afterBrowser?: (config: BrikkoStudioConfig) => BrikkoStudioConfig,
+): BrikkoStudioConfig {
   let next = seedMissingDefaultAccountsFromSingleAccountBase(cfg, changes);
   next = normalizeLegacyBrowserConfig(next, changes);
   next = afterBrowser ? afterBrowser(next) : next;

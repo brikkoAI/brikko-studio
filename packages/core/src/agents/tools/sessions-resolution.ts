@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { callGateway } from "../../gateway/call.js";
 import {
   GATEWAY_CLIENT_IDS,
@@ -33,7 +33,7 @@ let sessionsResolutionDeps: {
   callGateway: GatewayCaller;
 } = defaultSessionsResolutionDeps;
 
-export function resolveMainSessionAlias(cfg: Brikko StudioConfig) {
+export function resolveMainSessionAlias(cfg: BrikkoStudioConfig) {
   const mainKey = normalizeMainKey(cfg.session?.mainKey);
   const scope = cfg.session?.scope ?? "per-sender";
   const alias = scope === "global" ? "global" : mainKey;

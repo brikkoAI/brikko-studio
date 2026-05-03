@@ -62,7 +62,7 @@ type AttemptSpawnWorkspaceHoisted = {
   ensureGlobalUndiciEnvProxyDispatcherMock: UnknownMock;
   ensureGlobalUndiciStreamTimeoutsMock: UnknownMock;
   buildEmbeddedMessageActionDiscoveryInputMock: UnknownMock;
-  createBrikko StudioCodingToolsMock: UnknownMock;
+  createBrikkoStudioCodingToolsMock: UnknownMock;
   subscribeEmbeddedPiSessionMock: Mock<SubscribeEmbeddedPiSessionFn>;
   acquireSessionWriteLockMock: Mock<AcquireSessionWriteLockFn>;
   installToolResultContextGuardMock: UnknownMock;
@@ -123,7 +123,7 @@ const hoisted = vi.hoisted((): AttemptSpawnWorkspaceHoisted => {
   const ensureGlobalUndiciEnvProxyDispatcherMock = vi.fn();
   const ensureGlobalUndiciStreamTimeoutsMock = vi.fn();
   const buildEmbeddedMessageActionDiscoveryInputMock = vi.fn((params: unknown) => params);
-  const createBrikko StudioCodingToolsMock = vi.fn(() => []);
+  const createBrikkoStudioCodingToolsMock = vi.fn(() => []);
   const installToolResultContextGuardMock = vi.fn(() => () => {});
   const installContextEngineLoopHookMock = vi.fn(() => () => {});
   const flushPendingToolResultsAfterIdleMock = vi.fn(async () => {});
@@ -179,7 +179,7 @@ const hoisted = vi.hoisted((): AttemptSpawnWorkspaceHoisted => {
     ensureGlobalUndiciEnvProxyDispatcherMock,
     ensureGlobalUndiciStreamTimeoutsMock,
     buildEmbeddedMessageActionDiscoveryInputMock,
-    createBrikko StudioCodingToolsMock,
+    createBrikkoStudioCodingToolsMock,
     subscribeEmbeddedPiSessionMock,
     acquireSessionWriteLockMock,
     installToolResultContextGuardMock,
@@ -306,7 +306,7 @@ vi.mock("../context-engine-maintenance.js", () => ({
 }));
 
 vi.mock("../../docs-path.js", () => ({
-  resolveBrikko StudioReferencePaths: async () => ({ docsPath: undefined, sourcePath: undefined }),
+  resolveBrikkoStudioReferencePaths: async () => ({ docsPath: undefined, sourcePath: undefined }),
 }));
 
 vi.mock("../../pi-project-settings.js", () => ({
@@ -441,8 +441,8 @@ vi.mock("../../cache-trace.js", () => ({
 }));
 
 vi.mock("../../pi-tools.js", () => ({
-  createBrikko StudioCodingTools: (options?: { workspaceDir?: string; spawnWorkspaceDir?: string }) =>
-    hoisted.createBrikko StudioCodingToolsMock(options),
+  createBrikkoStudioCodingTools: (options?: { workspaceDir?: string; spawnWorkspaceDir?: string }) =>
+    hoisted.createBrikkoStudioCodingToolsMock(options),
   resolveToolLoopDetectionConfig: () => undefined,
 }));
 
@@ -766,7 +766,7 @@ export function resetEmbeddedAttemptHarness(
   hoisted.buildEmbeddedMessageActionDiscoveryInputMock
     .mockReset()
     .mockImplementation((params) => params);
-  hoisted.createBrikko StudioCodingToolsMock.mockReset().mockImplementation((...args: unknown[]) => {
+  hoisted.createBrikkoStudioCodingToolsMock.mockReset().mockImplementation((...args: unknown[]) => {
     const options = args[0] as
       | {
           workspaceDir?: string;

@@ -97,7 +97,7 @@ const BLOCKED_WORKSPACE_DOTENV_PREFIXES = [
   "ANTHROPIC_API_KEY_",
   "CLAWHUB_",
   "OPENAI_API_KEY_",
-  // Workspace .env is untrusted; reserve the full Brikko Studio runtime namespace
+  // Workspace .env is untrusted; reserve the full BrikkoStudio runtime namespace
   // for shell/global config so new BRIKKO_STUDIO_* controls are fail-closed by default.
   "BRIKKO_STUDIO_",
   "BRIKKO_STUDIO_CLAWHUB_",

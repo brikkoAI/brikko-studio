@@ -8,7 +8,7 @@ import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
 } from "../config/model-input.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type {
   MediaUnderstandingConfig,
   MediaUnderstandingModelConfig,
@@ -70,7 +70,7 @@ async function loadModelCatalogApi(): Promise<ModelCatalogApi> {
 }
 
 function resolveLiteralProviderApiKey(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   providerId: string,
 ): string | null {
   const value = cfg?.models?.providers?.[providerId]?.apiKey;
@@ -79,7 +79,7 @@ function resolveLiteralProviderApiKey(
 
 async function hasProviderAuthAvailable(params: {
   provider: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
 }): Promise<boolean> {
   if (resolveLiteralProviderApiKey(params.cfg, params.provider)) {
@@ -91,7 +91,7 @@ async function hasProviderAuthAvailable(params: {
 }
 
 function resolveConfiguredKeyProviderOrder(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerRegistry: ProviderRegistry;
   capability: MediaUnderstandingCapability;
   fallbackProviders: readonly string[];
@@ -108,7 +108,7 @@ function resolveConfiguredKeyProviderOrder(params: {
 }
 
 function resolveConfiguredImageModelId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerId: string;
 }): string | undefined {
   const configured = resolveConfiguredImageModel(params);
@@ -117,7 +117,7 @@ function resolveConfiguredImageModelId(params: {
 }
 
 function resolveConfiguredImageModel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerId: string;
 }): { id?: string; input?: string[] } | undefined {
   const providerCfg = findNormalizedProviderValue(
@@ -195,7 +195,7 @@ function resolveAutoMediaKeyProvidersFromRegistry(params: {
 }
 
 async function explicitImageModelVisionStatus(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerId: string;
   model: string;
 }): Promise<"supported" | "unsupported" | "unknown"> {
@@ -213,7 +213,7 @@ async function explicitImageModelVisionStatus(params: {
 }
 
 async function resolveAutoImageModelId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerId: string;
   providerRegistry: ProviderRegistry;
   explicitModel?: string;
@@ -261,13 +261,13 @@ async function resolveAutoImageModelId(params: {
 
 export function buildProviderRegistry(
   overrides?: Record<string, MediaUnderstandingProvider>,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): ProviderRegistry {
   return buildMediaUnderstandingRegistry(overrides, cfg);
 }
 
 export function resolveMediaAttachmentLocalRoots(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   ctx: MsgContext;
 }): readonly string[] {
   // ctx.MediaWorkspaceDir is set by chat.send's prestageNonImageOffloads when
@@ -520,7 +520,7 @@ async function resolveGeminiCliEntry(
 }
 
 async function resolveKeyEntry(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   providerRegistry: ProviderRegistry;
   capability: MediaUnderstandingCapability;
@@ -592,7 +592,7 @@ async function resolveKeyEntry(params: {
   return null;
 }
 
-function resolveImageModelFromAgentDefaults(cfg: Brikko StudioConfig): MediaUnderstandingModelConfig[] {
+function resolveImageModelFromAgentDefaults(cfg: BrikkoStudioConfig): MediaUnderstandingModelConfig[] {
   const refs: string[] = [];
   const primary = resolveAgentModelPrimaryValue(cfg.agents?.defaults?.imageModel);
   if (primary?.trim()) {
@@ -622,7 +622,7 @@ function resolveImageModelFromAgentDefaults(cfg: Brikko StudioConfig): MediaUnde
 }
 
 function hasExplicitImageUnderstandingConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   config?: MediaUnderstandingConfig;
 }): boolean {
   return (
@@ -632,7 +632,7 @@ function hasExplicitImageUnderstandingConfig(params: {
 }
 
 async function resolveAutoEntries(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   providerRegistry: ProviderRegistry;
   capability: MediaUnderstandingCapability;
@@ -670,7 +670,7 @@ async function resolveAutoEntries(params: {
 }
 
 export async function resolveAutoImageModel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   activeModel?: ActiveMediaModel;
 }): Promise<ActiveMediaModel | null> {
@@ -714,7 +714,7 @@ export async function resolveAutoImageModel(params: {
 }
 
 async function resolveActiveModelEntry(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   providerRegistry: ProviderRegistry;
   capability: MediaUnderstandingCapability;
@@ -770,7 +770,7 @@ async function resolveActiveModelEntry(params: {
 
 async function runAttachmentEntries(params: {
   capability: MediaUnderstandingCapability;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   ctx: MsgContext;
   attachmentIndex: number;
   agentDir?: string;
@@ -863,7 +863,7 @@ function hasFailedMediaAttempt(attachments: MediaUnderstandingDecision["attachme
 
 export async function runCapability(params: {
   capability: MediaUnderstandingCapability;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   ctx: MsgContext;
   attachments: MediaAttachmentCache;
   media: MediaAttachment[];

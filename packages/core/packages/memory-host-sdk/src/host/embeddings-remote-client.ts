@@ -7,7 +7,7 @@ import { normalizeOptionalString } from "./string-utils.js";
 
 export type RemoteEmbeddingProviderId = string;
 
-function resolveBrikko StudioAttributionHeaders(): Record<string, string> {
+function resolveBrikkoStudioAttributionHeaders(): Record<string, string> {
   const version = typeof process !== "undefined" ? process.env.BRIKKO_STUDIO_VERSION?.trim() : undefined;
   return {
     originator: "brikko-studio",
@@ -58,7 +58,7 @@ export async function resolveRemoteEmbeddingBearerClient(params: {
     ...headerOverrides,
   };
   if (isNativeOpenAIEmbeddingRoute(params.provider, baseUrl)) {
-    Object.assign(headers, resolveBrikko StudioAttributionHeaders());
+    Object.assign(headers, resolveBrikkoStudioAttributionHeaders());
   }
   return { baseUrl, headers, ssrfPolicy: buildRemoteBaseUrlPolicy(baseUrl) };
 }

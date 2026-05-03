@@ -4,7 +4,7 @@ import * as tar from "tar";
 import { describe, expect, it, vi } from "vitest";
 import { backupVerifyCommand } from "../commands/backup-verify.js";
 import type { RuntimeEnv } from "../runtime.js";
-import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
+import { withBrikkoStudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import {
   buildExtensionsNodeModulesFilter,
   createBackupArchive,
@@ -132,7 +132,7 @@ describe("buildExtensionsNodeModulesFilter", () => {
 
 describe("createBackupArchive", () => {
   it("omits installed plugin node_modules from the real archive while keeping plugin files", async () => {
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       {
         layout: "state-only",
         prefix: "brikko-studio-backup-plugin-deps-",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { collectPresentBrikko StudioTools } from "./brikko-studio-tools.registration.js";
+import { collectPresentBrikkoStudioTools } from "./brikko-studio-tools.registration.js";
 import { textResult, type AnyAgentTool } from "./tools/common.js";
 
 function stubAgentTool(name: string): AnyAgentTool {
@@ -14,7 +14,7 @@ function stubAgentTool(name: string): AnyAgentTool {
   };
 }
 
-export function describeBrikko StudioGenerationToolRegistration(params: {
+export function describeBrikkoStudioGenerationToolRegistration(params: {
   suiteName: string;
   toolName: string;
   toolLabel: string;
@@ -23,11 +23,11 @@ export function describeBrikko StudioGenerationToolRegistration(params: {
     it(`registers ${params.toolName} when ${params.toolLabel} is present`, () => {
       const tool = stubAgentTool(params.toolName);
 
-      expect(collectPresentBrikko StudioTools([tool])).toEqual([tool]);
+      expect(collectPresentBrikkoStudioTools([tool])).toEqual([tool]);
     });
 
     it(`omits ${params.toolName} when ${params.toolLabel} is absent`, () => {
-      expect(collectPresentBrikko StudioTools([null]).map((tool) => tool.name)).not.toContain(
+      expect(collectPresentBrikkoStudioTools([null]).map((tool) => tool.name)).not.toContain(
         params.toolName,
       );
     });

@@ -5,7 +5,7 @@ import type { DiscordMessageEvent } from "./message-handler.preflight.types.js";
 export async function resolveDiscordPreflightPluralKitInfo(params: {
   message: DiscordMessageEvent["message"];
   config?: NonNullable<
-    NonNullable<import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig["channels"]>["discord"]
+    NonNullable<import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig["channels"]>["discord"]
   >["pluralkit"];
   abortSignal?: AbortSignal;
 }): Promise<Awaited<ReturnType<typeof import("../pluralkit.js").fetchPluralKitMessageInfo>>> {

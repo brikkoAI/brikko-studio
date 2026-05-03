@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveMarkdownTableMode } from "brikko-studio/plugin-sdk/markdown-table-runtime";
 import { kindFromMime } from "brikko-studio/plugin-sdk/media-runtime";
 import { resolveOutboundAttachmentFromUrl } from "brikko-studio/plugin-sdk/media-runtime";
@@ -10,7 +10,7 @@ import { markdownToSignalText, type SignalTextStyleRange } from "./format.js";
 import { resolveSignalRpcContext } from "./rpc-context.js";
 
 export type SignalSendOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   baseUrl?: string;
   account?: string;
   accountId?: string;

@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { isDeepStrictEqual } from "node:util";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { withFileLock } from "../../infra/file-lock.js";
 import { saveJsonFile } from "../../infra/json-file.js";
 import { cloneAuthProfileStore } from "./clone.js";
@@ -39,7 +39,7 @@ import type { AuthProfileStore } from "./types.js";
 
 type LoadAuthProfileStoreOptions = {
   allowKeychainPrompt?: boolean;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   externalCli?: ExternalCliAuthDiscovery;
   readOnly?: boolean;
   syncExternalCli?: boolean;
@@ -54,7 +54,7 @@ type SaveAuthProfileStoreOptions = {
 
 type ResolvedExternalCliOverlayOptions = {
   allowKeychainPrompt?: boolean;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   externalCliProviderIds?: Iterable<string>;
   externalCliProfileIds?: Iterable<string>;
 };
@@ -471,7 +471,7 @@ export function ensureAuthProfileStore(
   agentDir?: string,
   options?: {
     allowKeychainPrompt?: boolean;
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     externalCli?: ExternalCliAuthDiscovery;
     externalCliProviderIds?: Iterable<string>;
     externalCliProfileIds?: Iterable<string>;

@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { getFreePort } from "../browser/test-port.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
 const mocks = vi.hoisted(() => ({
-  runtimeConfig: {} as Brikko StudioConfig,
-  runtimeSourceConfig: null as Brikko StudioConfig | null,
+  runtimeConfig: {} as BrikkoStudioConfig,
+  runtimeSourceConfig: null as BrikkoStudioConfig | null,
   ensureBrowserControlAuth: vi.fn(async () => ({ auth: {} })),
   resolveBrowserControlAuth: vi.fn(() => ({})),
   shouldAutoGenerateBrowserAuth: vi.fn(() => false),
@@ -40,11 +40,11 @@ vi.mock("../browser/chrome.js", () => ({
   formatChromeCdpDiagnostic: vi.fn(() => "not reachable"),
   isChromeCdpReady: mocks.isChromeCdpReady,
   isChromeReachable: mocks.isChromeReachable,
-  launchBrikko StudioChrome: vi.fn(async () => {
+  launchBrikkoStudioChrome: vi.fn(async () => {
     throw new Error("launch should not be needed for status");
   }),
-  resolveBrikko StudioUserDataDir: vi.fn(() => "/tmp/brikko-studio-browser"),
-  stopBrikko StudioChrome: vi.fn(async () => {}),
+  resolveBrikkoStudioUserDataDir: vi.fn(() => "/tmp/brikko-studio-browser"),
+  stopBrikkoStudioChrome: vi.fn(async () => {}),
 }));
 
 vi.mock("../browser/pw-ai-state.js", () => ({
@@ -61,7 +61,7 @@ function browserConfig(params: {
   executablePath?: string;
   headless?: boolean;
   noSandbox?: boolean;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     gateway: {
       port: params.gatewayPort,

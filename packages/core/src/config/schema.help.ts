@@ -2,8 +2,8 @@ import { MEDIA_AUDIO_FIELD_HELP } from "./media-audio-field-metadata.js";
 import { describeTalkSilenceTimeoutDefaults } from "./talk-defaults.js";
 
 export const FIELD_HELP: Record<string, string> = {
-  meta: "Metadata fields automatically maintained by Brikko Studio to record write/version history for this config file. Keep these values system-managed and avoid manual edits unless debugging migration history.",
-  "meta.lastTouchedVersion": "Auto-set when Brikko Studio writes the config.",
+  meta: "Metadata fields automatically maintained by BrikkoStudio to record write/version history for this config file. Keep these values system-managed and avoid manual edits unless debugging migration history.",
+  "meta.lastTouchedVersion": "Auto-set when BrikkoStudio writes the config.",
   "meta.lastTouchedAt": "ISO timestamp of the last config write (auto-set).",
   env: "Environment import and override settings used to supply runtime variables to the gateway process. Use this section to control shell-env loading and explicit variable injection behavior.",
   "env.shellEnv":
@@ -13,13 +13,13 @@ export const FIELD_HELP: Record<string, string> = {
   "env.shellEnv.timeoutMs":
     "Maximum time in milliseconds allowed for shell environment resolution before fallback behavior applies. Use tighter timeouts for faster startup, or increase when shell initialization is heavy.",
   "env.vars":
-    "Explicit key/value environment variable overrides merged into runtime process environment for Brikko Studio. Use this for deterministic env configuration instead of relying only on shell profile side effects.",
+    "Explicit key/value environment variable overrides merged into runtime process environment for BrikkoStudio. Use this for deterministic env configuration instead of relying only on shell profile side effects.",
   wizard:
     "Setup wizard state tracking fields that record the most recent guided setup run details. Keep these fields for observability and troubleshooting of setup flows across upgrades.",
   "wizard.lastRunAt":
     "ISO timestamp for when the setup wizard most recently completed on this host. Use this to confirm setup recency during support and operational audits.",
   "wizard.lastRunVersion":
-    "Brikko Studio version recorded at the time of the most recent wizard run on this config. Use this when diagnosing behavior differences across version-to-version setup changes.",
+    "BrikkoStudio version recorded at the time of the most recent wizard run on this config. Use this when diagnosing behavior differences across version-to-version setup changes.",
   "wizard.lastRunCommit":
     "Source commit identifier recorded for the last wizard execution in development builds. Use this to correlate setup behavior with exact source state during debugging.",
   "wizard.lastRunCommand":
@@ -52,7 +52,7 @@ export const FIELD_HELP: Record<string, string> = {
   "cli.banner.taglineMode":
     'Controls tagline style in the CLI startup banner: "random" (default) picks from the rotating tagline pool, "default" always shows the neutral default tagline, and "off" hides tagline text while keeping the banner version line.',
   update:
-    "Update-channel and startup-check behavior for keeping Brikko Studio runtime versions current. Use conservative channels in production and more experimental channels only in controlled environments.",
+    "Update-channel and startup-check behavior for keeping BrikkoStudio runtime versions current. Use conservative channels in production and more experimental channels only in controlled environments.",
   "update.channel": 'Update channel for git + npm installs ("stable", "beta", or "dev").',
   "update.checkOnStart": "Check for npm updates when the gateway starts (default: true).",
   "update.auto.enabled": "Enable background auto-update for package installs (default: false).",
@@ -239,13 +239,13 @@ export const FIELD_HELP: Record<string, string> = {
   "agents.list[].fastModeDefault":
     "Optional per-agent default for fast mode. Applies when no per-message or session fast-mode override is set.",
   "agents.list[].runtime":
-    "Optional runtime descriptor for this agent. Use embedded for default Brikko Studio execution or acp for external ACP harness defaults.",
+    "Optional runtime descriptor for this agent. Use embedded for default BrikkoStudio execution or acp for external ACP harness defaults.",
   "agents.list[].runtime.type":
-    'Runtime type for this agent: "embedded" (default Brikko Studio runtime) or "acp" (ACP harness defaults).',
+    'Runtime type for this agent: "embedded" (default BrikkoStudio runtime) or "acp" (ACP harness defaults).',
   "agents.list[].runtime.acp":
     "ACP runtime defaults for this agent when runtime.type=acp. Binding-level ACP overrides still take precedence per conversation.",
   "agents.list[].runtime.acp.agent":
-    "Optional ACP harness agent id to use for this Brikko Studio agent (for example codex, claude, cursor, gemini, brikko-studio).",
+    "Optional ACP harness agent id to use for this BrikkoStudio agent (for example codex, claude, cursor, gemini, brikko-studio).",
   "agents.list[].runtime.acp.backend":
     "Optional ACP backend override for this agent's ACP sessions (falls back to global acp.backend).",
   "agents.list[].runtime.acp.mode":
@@ -525,7 +525,7 @@ export const FIELD_HELP: Record<string, string> = {
   "nodeHost.browserProxy.enabled":
     "Expose the local browser control server through node proxy routing so remote clients can use this host's browser capabilities. Keep disabled unless remote automation explicitly depends on it.",
   "nodeHost.browserProxy.allowProfiles":
-    "Optional allowlist of browser profile names exposed through node proxy routing. Leave empty to preserve the default full profile surface, including profile create/delete routes. When set, Brikko Studio enforces least-privilege profile access and blocks persistent profile create/delete through the proxy.",
+    "Optional allowlist of browser profile names exposed through node proxy routing. Leave empty to preserve the default full profile surface, including profile create/delete routes. When set, BrikkoStudio enforces least-privilege profile access and blocks persistent profile create/delete through the proxy.",
   media:
     "Top-level media behavior shared across providers and tools that handle inbound files. Keep defaults unless you need stable filenames for external processing pipelines or longer-lived inbound media retention.",
   "media.preserveFilenames":
@@ -867,7 +867,7 @@ export const FIELD_HELP: Record<string, string> = {
   "models.providers.*.timeoutSeconds":
     "Optional per-provider model request timeout in seconds. Applies to provider HTTP fetches, including connect, headers, body, and total request abort handling. Use this for slow local or self-hosted model servers instead of changing global agent timeouts.",
   "models.providers.*.injectNumCtxForOpenAICompat":
-    "Controls whether Brikko Studio injects `options.num_ctx` for Ollama providers configured with the OpenAI-compatible adapter (`openai-completions`). Default is true. Set false only if your proxy/upstream rejects unknown `options` payload fields.",
+    "Controls whether BrikkoStudio injects `options.num_ctx` for Ollama providers configured with the OpenAI-compatible adapter (`openai-completions`). Default is true. Set false only if your proxy/upstream rejects unknown `options` payload fields.",
   "models.providers.*.params":
     "Provider-specific runtime parameters interpreted by provider plugins. Keep keys documented by the provider, and prefer explicit provider docs over ad hoc shared assumptions.",
   "models.providers.*.headers":
@@ -973,7 +973,7 @@ export const FIELD_HELP: Record<string, string> = {
   "agents.defaults.experimental":
     "Experimental agent-default flags. Keep these off unless you are intentionally testing a preview surface.",
   "agents.defaults.experimental.localModelLean":
-    "Experimental local-model prompt trim. When enabled, Brikko Studio drops heavyweight default tools like browser, cron, and message for weaker or smaller local-model backends.",
+    "Experimental local-model prompt trim. When enabled, BrikkoStudio drops heavyweight default tools like browser, cron, and message for weaker or smaller local-model backends.",
   "agents.defaults.bootstrapPromptTruncationWarning":
     'Inject agent-visible warning text when bootstrap files are truncated: "off", "once" (default), or "always".',
   "agents.defaults.startupContext":
@@ -1102,7 +1102,7 @@ export const FIELD_HELP: Record<string, string> = {
     "Caches computed chunk embeddings in SQLite so reindexing and incremental updates run faster (default: true). Keep this enabled unless investigating cache correctness or minimizing disk usage.",
   memory: "Memory backend configuration (global).",
   "memory.backend":
-    'Selects the global memory engine: "builtin" uses Brikko Studio memory internals, while "qmd" uses the QMD sidecar pipeline. Keep "builtin" unless you intentionally operate QMD.',
+    'Selects the global memory engine: "builtin" uses BrikkoStudio memory internals, while "qmd" uses the QMD sidecar pipeline. Keep "builtin" unless you intentionally operate QMD.',
   "memory.citations":
     'Controls citation visibility in replies: "auto" shows citations when useful, "on" always shows them, and "off" hides them. Keep "auto" for a balanced signal-to-noise default.',
   "memory.qmd.command":
@@ -1238,16 +1238,16 @@ export const FIELD_HELP: Record<string, string> = {
   "agents.defaults.model.fallbacks":
     "Ordered fallback models (provider/model). Used when the primary model fails.",
   "agents.defaults.agentRuntime":
-    "Default agent runtime policy. Omitted id uses built-in Brikko Studio Pi. Use id=auto for plugin harness selection, a registered harness id such as codex, or a supported CLI backend alias such as claude-cli.",
+    "Default agent runtime policy. Omitted id uses built-in BrikkoStudio Pi. Use id=auto for plugin harness selection, a registered harness id such as codex, or a supported CLI backend alias such as claude-cli.",
   "agents.defaults.agentRuntime.id":
-    "Agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id uses built-in Brikko Studio Pi.",
+    "Agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id uses built-in BrikkoStudio Pi.",
   "agents.defaults.embeddedHarness":
     "Legacy input for agents.defaults.agentRuntime. Run brikko-studio doctor --fix to rewrite it to agentRuntime.",
   "agents.defaults.embeddedHarness.runtime": "Legacy input for agents.defaults.agentRuntime.id.",
   "agents.list.*.agentRuntime":
     "Per-agent agent runtime policy override. Use id=codex to force Codex for one agent while defaults stay in auto mode.",
   "agents.list.*.agentRuntime.id":
-    "Per-agent agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id inherits the default Brikko Studio Pi behavior.",
+    "Per-agent agent runtime id: pi, auto, a registered plugin harness id such as codex, or a supported CLI backend alias such as claude-cli. Omitted id inherits the default BrikkoStudio Pi behavior.",
   "agents.list.*.embeddedHarness":
     "Legacy input for agents.list.*.agentRuntime. Run brikko-studio doctor --fix to rewrite it to agentRuntime.",
   "agents.list.*.embeddedHarness.runtime": "Legacy input for agents.list.*.agentRuntime.id.",
@@ -1307,7 +1307,7 @@ export const FIELD_HELP: Record<string, string> = {
   "agents.defaults.compaction.qualityGuard.maxRetries":
     "Maximum number of regeneration retries after a failed safeguard summary quality audit. Use small values to bound extra latency and token cost.",
   "agents.defaults.compaction.midTurnPrecheck":
-    "Optional Pi tool-loop precheck that detects context pressure after a tool result is appended and before the next model call. When enabled, Brikko Studio reuses existing precheck recovery to truncate tool results or compact before retrying.",
+    "Optional Pi tool-loop precheck that detects context pressure after a tool result is appended and before the next model call. When enabled, BrikkoStudio reuses existing precheck recovery to truncate tool results or compact before retrying.",
   "agents.defaults.compaction.midTurnPrecheck.enabled":
     "Enable structured mid-turn context pressure checks for Pi tool loops. Default: false. Keep disabled unless long tool-heavy sessions hit context overflow before normal turn-end compaction can run.",
   "agents.defaults.compaction.postIndexSync":
@@ -1339,7 +1339,7 @@ export const FIELD_HELP: Record<string, string> = {
   "agents.defaults.compaction.memoryFlush.systemPrompt":
     "System-prompt override for the pre-compaction memory flush turn to control extraction style and safety constraints. Use carefully so custom instructions do not reduce memory quality or leak sensitive context.",
   "agents.defaults.embeddedPi":
-    "Embedded Pi runner hardening controls for how workspace-local Pi settings are trusted and applied in Brikko Studio sessions.",
+    "Embedded Pi runner hardening controls for how workspace-local Pi settings are trusted and applied in BrikkoStudio sessions.",
   "agents.defaults.embeddedPi.projectSettingsPolicy":
     'How embedded Pi handles workspace-local `.pi/config/settings.json`: "sanitize" (default) strips shellPath/shellCommandPrefix, "ignore" disables project settings entirely, and "trusted" applies project settings as-is.',
   "agents.defaults.embeddedPi.executionContract":
@@ -1365,7 +1365,7 @@ export const FIELD_HELP: Record<string, string> = {
     "How long bash waits before backgrounding (default: 2000; 0 backgrounds immediately).",
   "commands.config": "Allow /config chat command to read/write config on disk (default: false).",
   "commands.mcp":
-    "Allow /mcp chat command to manage Brikko Studio MCP server config under mcp.servers (default: false).",
+    "Allow /mcp chat command to manage BrikkoStudio MCP server config under mcp.servers (default: false).",
   "commands.plugins":
     "Allow /plugins chat command to list discovered plugins and toggle plugin enablement in config (default: false).",
   "commands.debug": "Allow /debug chat command for runtime-only overrides (default: false).",
@@ -1379,9 +1379,9 @@ export const FIELD_HELP: Record<string, string> = {
     "Optional secret used to HMAC hash owner IDs when ownerDisplay=hash. Prefer env substitution.",
   "commands.allowFrom":
     "Defines elevated command allow rules by channel and sender for owner-level command surfaces. Use narrow provider-specific identities so privileged commands are not exposed to broad chat audiences.",
-  mcp: "Global MCP server definitions managed by Brikko Studio. Embedded Pi and other runtime adapters can consume these servers without storing them inside Pi-owned project settings.",
+  mcp: "Global MCP server definitions managed by BrikkoStudio. Embedded Pi and other runtime adapters can consume these servers without storing them inside Pi-owned project settings.",
   "mcp.servers":
-    "Named MCP server definitions. Brikko Studio stores them in its own config and runtime adapters decide which transports are supported at execution time.",
+    "Named MCP server definitions. BrikkoStudio stores them in its own config and runtime adapters decide which transports are supported at execution time.",
   "mcp.sessionIdleTtlMs":
     "Idle TTL in milliseconds for session-scoped bundled MCP runtimes. Defaults to 10 minutes; set 0 to disable idle eviction.",
   session:
@@ -1473,7 +1473,7 @@ export const FIELD_HELP: Record<string, string> = {
   "session.maintenance.maxEntries":
     "Caps total session entry count retained in the store to prevent unbounded growth over time. Use lower limits for constrained environments, or higher limits when longer history is required.",
   "session.maintenance.rotateBytes":
-    'Deprecated and ignored. Do not use for `sessions.json` growth control; Brikko Studio no longer creates automatic rotation backups, and "brikko-studio doctor --fix" removes this key.',
+    'Deprecated and ignored. Do not use for `sessions.json` growth control; BrikkoStudio no longer creates automatic rotation backups, and "brikko-studio doctor --fix" removes this key.',
   "session.maintenance.resetArchiveRetention":
     "Retention for reset transcript archives (`*.reset.<timestamp>`). Accepts a duration (for example `30d`), or `false` to disable cleanup. Defaults to pruneAfter so reset artifacts do not grow forever.",
   "session.maintenance.maxDiskBytes":
@@ -1508,7 +1508,7 @@ export const FIELD_HELP: Record<string, string> = {
   "cron.runLog.keepLines":
     "How many trailing run-log lines to retain when a file exceeds maxBytes (default `2000`). Increase for longer forensic history or lower for smaller disks.",
   hooks:
-    "Inbound webhook automation surface for mapping external events into wake or agent actions in Brikko Studio. Keep this locked down with explicit token/session/agent controls before exposing it beyond trusted networks.",
+    "Inbound webhook automation surface for mapping external events into wake or agent actions in BrikkoStudio. Keep this locked down with explicit token/session/agent controls before exposing it beyond trusted networks.",
   "hooks.enabled":
     "Enables the hooks endpoint and mapping execution pipeline for inbound webhook requests. Keep disabled unless you are actively routing external events into the gateway.",
   "hooks.path":

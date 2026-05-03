@@ -4,7 +4,7 @@ import {
   resolveAgentModelTimeoutMsValue,
 } from "../../config/model-input.js";
 import type { AgentModelConfig } from "../../config/types.agents-shared.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   externalCliDiscoveryForProviderAuth,
   ensureAuthProfileStore,
@@ -24,7 +24,7 @@ export function hasToolModelConfig(model: ToolModelConfig | undefined): boolean 
   );
 }
 
-export function resolveDefaultModelRef(cfg?: Brikko StudioConfig): { provider: string; model: string } {
+export function resolveDefaultModelRef(cfg?: BrikkoStudioConfig): { provider: string; model: string } {
   if (cfg) {
     const resolved = resolveConfiguredModelRef({
       cfg,

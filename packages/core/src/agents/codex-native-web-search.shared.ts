@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isRecord } from "../utils.js";
 
 export type CodexNativeSearchMode = "cached" | "live";
@@ -60,7 +60,7 @@ function normalizeUserLocation(value: unknown): CodexNativeSearchUserLocation | 
 }
 
 export function resolveCodexNativeWebSearchConfig(
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
 ): ResolvedCodexNativeWebSearchConfig {
   const nativeConfig = config?.tools?.web?.search?.openaiCodex;
   return {
@@ -73,7 +73,7 @@ export function resolveCodexNativeWebSearchConfig(
 }
 
 export function describeCodexNativeWebSearch(
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
 ): string | undefined {
   if (config?.tools?.web?.search?.enabled === false) {
     return undefined;

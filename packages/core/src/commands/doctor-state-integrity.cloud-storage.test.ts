@@ -12,7 +12,7 @@ describe("detectMacCloudSyncedStateDir", () => {
       "Library",
       "Mobile Documents",
       "com~apple~CloudDocs",
-      "Brikko Studio",
+      "BrikkoStudio",
       ".brikko-studio",
     );
 
@@ -28,7 +28,7 @@ describe("detectMacCloudSyncedStateDir", () => {
   });
 
   it("detects state dir under Library/CloudStorage", () => {
-    const stateDir = path.join(home, "Library", "CloudStorage", "Dropbox", "Brikko Studio", ".brikko-studio");
+    const stateDir = path.join(home, "Library", "CloudStorage", "Dropbox", "BrikkoStudio", ".brikko-studio");
 
     const result = detectMacCloudSyncedStateDir(stateDir, {
       platform: "darwin",
@@ -48,7 +48,7 @@ describe("detectMacCloudSyncedStateDir", () => {
       "Library",
       "CloudStorage",
       "OneDrive-Personal",
-      "Brikko Studio",
+      "BrikkoStudio",
       ".brikko-studio",
     );
 
@@ -70,7 +70,7 @@ describe("detectMacCloudSyncedStateDir", () => {
       "Library",
       "CloudStorage",
       "OneDrive-Personal",
-      "Brikko Studio",
+      "BrikkoStudio",
       ".brikko-studio",
     );
     const resolvedLocalPath = path.join(home, ".brikko-studio");
@@ -86,7 +86,7 @@ describe("detectMacCloudSyncedStateDir", () => {
 
   it("anchors cloud detection to OS homedir when BRIKKO_STUDIO_HOME is overridden", () => {
     const stateDir = path.join(home, "Library", "CloudStorage", "iCloud Drive", ".brikko-studio");
-    const originalBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    const originalBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
     process.env.BRIKKO_STUDIO_HOME = "/tmp/brikko-studio-home-override";
     const homedirSpy = vi.spyOn(os, "homedir").mockReturnValue(home);
     try {
@@ -100,10 +100,10 @@ describe("detectMacCloudSyncedStateDir", () => {
       });
     } finally {
       homedirSpy.mockRestore();
-      if (originalBrikko StudioHome === undefined) {
+      if (originalBrikkoStudioHome === undefined) {
         delete process.env.BRIKKO_STUDIO_HOME;
       } else {
-        process.env.BRIKKO_STUDIO_HOME = originalBrikko StudioHome;
+        process.env.BRIKKO_STUDIO_HOME = originalBrikkoStudioHome;
       }
     }
   });
@@ -114,7 +114,7 @@ describe("detectMacCloudSyncedStateDir", () => {
       "Library",
       "Mobile Documents",
       "com~apple~CloudDocs",
-      "Brikko Studio",
+      "BrikkoStudio",
       ".brikko-studio",
     );
 

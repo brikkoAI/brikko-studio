@@ -1,4 +1,4 @@
-import { resolveBrikko StudioAgentDir } from "../agents/agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../agents/agent-paths.js";
 import {
   listAgentIds,
   resolveAgentDir,
@@ -16,7 +16,7 @@ import {
   clearRuntimeConfigSnapshot,
   setRuntimeConfigSnapshotRefreshHandler,
   setRuntimeConfigSnapshot,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../config/config.js";
 import { coerceSecretRef } from "../config/types.secrets.js";
 import type { PluginOrigin } from "../plugins/plugin-origin.types.js";
@@ -32,8 +32,8 @@ import type { RuntimeWebToolsMetadata } from "./runtime-web-tools.js";
 export type { SecretResolverWarning } from "./runtime-shared.js";
 
 export type PreparedSecretsRuntimeSnapshot = {
-  sourceConfig: Brikko StudioConfig;
-  config: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
+  config: BrikkoStudioConfig;
   authStores: Array<{ agentDir: string; store: AuthProfileStore }>;
   warnings: SecretResolverWarning[];
   webTools: RuntimeWebToolsMetadata;
@@ -110,11 +110,11 @@ function clearActiveSecretsRuntimeState(): void {
 }
 
 function collectCandidateAgentDirs(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): string[] {
   const dirs = new Set<string>();
-  dirs.add(resolveUserPath(resolveBrikko StudioAgentDir(env), env));
+  dirs.add(resolveUserPath(resolveBrikkoStudioAgentDir(env), env));
   for (const agentId of listAgentIds(config)) {
     dirs.add(resolveUserPath(resolveAgentDir(config, agentId, env), env));
   }
@@ -122,7 +122,7 @@ function collectCandidateAgentDirs(
 }
 
 function resolveRefreshAgentDirs(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   context: SecretsRuntimeRefreshContext,
 ): string[] {
   const configDerived = collectCandidateAgentDirs(config, context.env);
@@ -133,7 +133,7 @@ function resolveRefreshAgentDirs(
 }
 
 async function resolveLoadablePluginOrigins(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 }): Promise<ReadonlyMap<string, PluginOrigin>> {
   const workspaceDir = resolveAgentWorkspaceDir(
@@ -166,7 +166,7 @@ function mergeSecretsRuntimeEnv(
   return merged;
 }
 
-function hasConfiguredPluginEntries(config: Brikko StudioConfig): boolean {
+function hasConfiguredPluginEntries(config: BrikkoStudioConfig): boolean {
   const entries = config.plugins?.entries;
   return (
     !!entries &&
@@ -176,7 +176,7 @@ function hasConfiguredPluginEntries(config: Brikko StudioConfig): boolean {
   );
 }
 
-function hasConfiguredChannelEntries(config: Brikko StudioConfig): boolean {
+function hasConfiguredChannelEntries(config: BrikkoStudioConfig): boolean {
   const channels = config.channels;
   return (
     !!channels &&
@@ -246,7 +246,7 @@ function hasActiveRuntimeWebFetchProviderSurface(
   return hasCredentialBearingWebFetchValue(fetchConfig, defaults);
 }
 
-function hasRuntimeWebToolConfigSurface(config: Brikko StudioConfig): boolean {
+function hasRuntimeWebToolConfigSurface(config: BrikkoStudioConfig): boolean {
   const web = config.tools?.web;
   const defaults = config.secrets?.defaults;
   const fetchExplicitlyDisabled =
@@ -309,7 +309,7 @@ function hasSecretRefCandidate(
 }
 
 function canUseSecretsRuntimeFastPath(params: {
-  sourceConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   authStores: Array<{ agentDir: string; store: AuthProfileStore }>;
 }): boolean {
   if (hasRuntimeWebToolConfigSurface(params.sourceConfig)) {
@@ -323,7 +323,7 @@ function canUseSecretsRuntimeFastPath(params: {
 }
 
 export async function prepareSecretsRuntimeSnapshot(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   agentDirs?: string[];
   includeAuthStoreRefs?: boolean;

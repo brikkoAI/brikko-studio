@@ -2,7 +2,7 @@ import { getLoadedChannelPlugin } from "../channels/plugins/index.js";
 import { resolveSessionConversation } from "../channels/plugins/session-conversation.js";
 import { DEFAULT_SUBAGENT_MAX_SPAWN_DEPTH } from "../config/agent-limits.js";
 import { resolveChannelGroupToolsPolicy } from "../config/group-policy.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { AgentToolsConfig } from "../config/types.tools.js";
 import { logWarn } from "../logger.js";
 import { normalizeAgentId } from "../routing/session-key.js";
@@ -84,7 +84,7 @@ function resolveSubagentDenyListForRole(role: SubagentSessionRole): string[] {
   return [...SUBAGENT_TOOL_DENY_ALWAYS];
 }
 
-export function resolveSubagentToolPolicy(cfg?: Brikko StudioConfig, depth?: number): SandboxToolPolicy {
+export function resolveSubagentToolPolicy(cfg?: BrikkoStudioConfig, depth?: number): SandboxToolPolicy {
   const configured = cfg?.tools?.subagents?.tools;
   const maxSpawnDepth =
     cfg?.agents?.defaults?.subagents?.maxSpawnDepth ?? DEFAULT_SUBAGENT_MAX_SPAWN_DEPTH;
@@ -104,7 +104,7 @@ export function resolveSubagentToolPolicy(cfg?: Brikko StudioConfig, depth?: num
 }
 
 export function resolveSubagentToolPolicyForSession(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   sessionKey: string,
   opts?: {
     store?: SessionCapabilityStore;
@@ -362,7 +362,7 @@ function resolveProviderToolPolicy(params: {
   return undefined;
 }
 
-function resolveExplicitProfileAlsoAllow(tools?: Brikko StudioConfig["tools"]): string[] | undefined {
+function resolveExplicitProfileAlsoAllow(tools?: BrikkoStudioConfig["tools"]): string[] | undefined {
   return Array.isArray(tools?.alsoAllow) ? tools.alsoAllow : undefined;
 }
 
@@ -373,7 +373,7 @@ function hasExplicitToolSection(section: unknown): boolean {
 /** Detect tool config sections that previously widened profiles implicitly.
  *  Used only for migration warnings — not merged into profileAlsoAllow.  #47487 */
 function detectImplicitProfileGrants(params: {
-  globalTools?: Brikko StudioConfig["tools"];
+  globalTools?: BrikkoStudioConfig["tools"];
   agentTools?: AgentToolsConfig;
 }): string[] | undefined {
   const implicit = new Set<string>();
@@ -396,7 +396,7 @@ function detectImplicitProfileGrants(params: {
 }
 
 export function resolveEffectiveToolPolicy(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sessionKey?: string;
   agentId?: string;
   modelProvider?: string;
@@ -473,7 +473,7 @@ export function resolveEffectiveToolPolicy(params: {
 }
 
 export function resolveGroupToolPolicy(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sessionKey?: string;
   spawnedBy?: string | null;
   messageProvider?: string;

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { listAgentIds, resolveAgentDir } from "../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { resolveUserPath } from "../utils.js";
 import { listAuthProfileStorePaths as listAuthProfileStorePathsFromAuthStorePaths } from "./auth-store-paths.js";
@@ -15,7 +15,7 @@ export function parseEnvAssignmentValue(raw: string): string {
   return parseEnvValue(raw);
 }
 
-export function listAuthProfileStorePaths(config: Brikko StudioConfig, stateDir: string): string[] {
+export function listAuthProfileStorePaths(config: BrikkoStudioConfig, stateDir: string): string[] {
   return listAuthProfileStorePathsFromAuthStorePaths(config, stateDir);
 }
 
@@ -46,7 +46,7 @@ function resolveActiveAgentDir(stateDir: string, env: NodeJS.ProcessEnv = proces
 }
 
 export function listAgentModelsJsonPaths(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   stateDir: string,
   env: NodeJS.ProcessEnv = process.env,
 ): string[] {

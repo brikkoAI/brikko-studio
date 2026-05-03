@@ -16,7 +16,7 @@ import type {
 } from "../commands/channel-setup/types.js";
 import type { ChannelChoice } from "../commands/onboard-types.js";
 import { isChannelConfigured } from "../config/channel-configured.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   findBundledPluginSourceInMap,
   resolveBundledPluginSources,
@@ -190,7 +190,7 @@ export function findBundledSourceForCatalogChannel(params: {
 }
 
 export async function collectChannelStatus(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   options?: SetupChannelsOptions;
   accountOverrides: Partial<Record<ChannelChoice, string>>;
   installedPlugins?: ChannelSetupPlugin[];
@@ -296,7 +296,7 @@ export async function collectChannelStatus(params: {
 }
 
 export async function noteChannelStatus(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: WizardPrompter;
   options?: SetupChannelsOptions;
   accountOverrides?: Partial<Record<ChannelChoice, string>>;
@@ -362,7 +362,7 @@ export function resolveQuickstartDefault(
 }
 
 export function resolveChannelSelectionNoteLines(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   installedPlugins: ChannelSetupPlugin[];
   selection: ChannelChoice[];
 }): string[] {

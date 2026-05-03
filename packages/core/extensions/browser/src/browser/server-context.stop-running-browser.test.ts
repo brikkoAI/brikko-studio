@@ -10,11 +10,11 @@ vi.mock("./pw-ai.js", () => pwAiMocks);
 vi.mock("./chrome.js", () => ({
   isChromeCdpReady: vi.fn(async () => true),
   isChromeReachable: vi.fn(async () => true),
-  launchBrikko StudioChrome: vi.fn(async () => {
+  launchBrikkoStudioChrome: vi.fn(async () => {
     throw new Error("unexpected launch");
   }),
-  resolveBrikko StudioUserDataDir: vi.fn(() => "/tmp/brikko-studio-test"),
-  stopBrikko StudioChrome: vi.fn(async () => {}),
+  resolveBrikkoStudioUserDataDir: vi.fn(() => "/tmp/brikko-studio-test"),
+  stopBrikkoStudioChrome: vi.fn(async () => {}),
 }));
 vi.mock("./chrome-mcp.js", () => ({
   closeChromeMcpSession: vi.fn(async () => false),

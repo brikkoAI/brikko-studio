@@ -9,7 +9,7 @@ function createHost() {
     connectGeneration: 0,
     connected: true,
     tab: "chat",
-    assistantName: "Brikko Studio",
+    assistantName: "BrikkoStudio",
     assistantAvatar: null,
     assistantAgentId: null,
     localMediaPreviewRoots: [],

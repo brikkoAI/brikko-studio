@@ -1,6 +1,6 @@
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { setBundledPluginsDirOverrideForTest } from "../plugins/bundled-dir.js";
 import {
   clearCurrentPluginMetadataSnapshot,
@@ -12,7 +12,7 @@ import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.js";
 import { clearSecretsRuntimeSnapshot } from "../secrets/runtime.js";
 import type { AuthProfileStore } from "./auth-profiles/types.js";
-import { __testing, createBrikko StudioTools } from "./brikko-studio-tools.js";
+import { __testing, createBrikkoStudioTools } from "./brikko-studio-tools.js";
 import * as pdfModelConfigModule from "./tools/pdf-tool.model-config.js";
 
 function createAuthStore(providers: string[] = []): AuthProfileStore {
@@ -82,7 +82,7 @@ function createInstalledPluginRecord(
   };
 }
 
-function legacyModelProviderConfig(provider: Record<string, unknown>): Brikko StudioConfig {
+function legacyModelProviderConfig(provider: Record<string, unknown>): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -93,7 +93,7 @@ function legacyModelProviderConfig(provider: Record<string, unknown>): Brikko St
 }
 
 function installSnapshot(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   plugins: PluginManifestRecord[],
   enabledPluginIds = plugins
     .filter((plugin) => plugin.origin !== "bundled")
@@ -155,7 +155,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("skips unavailable generation and PDF factories from snapshot and run auth facts", () => {
-    const config: Brikko StudioConfig = {};
+    const config: BrikkoStudioConfig = {};
     installSnapshot(config, [
       createPlugin({
         id: "image-owner",
@@ -193,7 +193,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("keeps explicit model configs on the factory path", () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       agents: {
         defaults: {
           imageGenerationModel: { primary: "image-owner/model" },
@@ -219,7 +219,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("skips tools that the resolved allowlist cannot expose", () => {
-    const config: Brikko StudioConfig = {};
+    const config: BrikkoStudioConfig = {};
     installSnapshot(config, [
       createPlugin({
         id: "image-owner",
@@ -248,7 +248,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("skips tools that the resolved denylist blocks", () => {
-    const config: Brikko StudioConfig = {};
+    const config: BrikkoStudioConfig = {};
     installSnapshot(config, [
       createPlugin({
         id: "image-owner",
@@ -277,7 +277,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("applies wildcard deny patterns to optional factory planning", () => {
-    const config: Brikko StudioConfig = {};
+    const config: BrikkoStudioConfig = {};
     installSnapshot(config, [
       createPlugin({
         id: "image-owner",
@@ -316,7 +316,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("keeps auth-backed providers on the factory path", () => {
-    const config: Brikko StudioConfig = {};
+    const config: BrikkoStudioConfig = {};
     installSnapshot(config, [
       createPlugin({
         id: "image-owner",
@@ -355,11 +355,11 @@ describe("optional media tool factory planning", () => {
   });
 
   it("defers PDF model resolution from the tool-prep hot path", () => {
-    const config: Brikko StudioConfig = {};
+    const config: BrikkoStudioConfig = {};
     installSnapshot(config, []);
     const resolveSpy = vi.spyOn(pdfModelConfigModule, "resolvePdfModelConfigForTool");
 
-    const tools = createBrikko StudioTools({
+    const tools = createBrikkoStudioTools({
       config,
       agentDir: "/tmp/brikko-studio-agent-main",
       authProfileStore: createAuthStore(["anthropic"]),
@@ -370,7 +370,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("keeps enabled external manifest capability providers on the factory path", () => {
-    const config: Brikko StudioConfig = {};
+    const config: BrikkoStudioConfig = {};
     installSnapshot(config, [
       createPlugin({
         id: "external-image",
@@ -417,7 +417,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("keeps manifest-declared image provider auth aliases on the factory path", () => {
-    const config: Brikko StudioConfig = {};
+    const config: BrikkoStudioConfig = {};
     const plugins = [
       createPlugin({
         id: "openai",
@@ -454,7 +454,7 @@ describe("optional media tool factory planning", () => {
     });
     installSnapshot(config, plugins, undefined, process.cwd());
     expect(
-      createBrikko StudioTools({
+      createBrikkoStudioTools({
         config,
         workspaceDir: process.cwd(),
         authProfileStore: createAuthStore(["openai-codex"]),
@@ -464,7 +464,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("keeps manifest-declared config-only generation providers on the factory path", () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         entries: {
           comfy: {
@@ -522,7 +522,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("does not expose manifest-backed generation providers when plugins are globally disabled", () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         enabled: false,
         entries: {
@@ -580,7 +580,7 @@ describe("optional media tool factory planning", () => {
       pdf: false,
     });
     expect(
-      createBrikko StudioTools({
+      createBrikkoStudioTools({
         config,
         authProfileStore: createAuthStore(),
         pluginToolAllowlist: ["image_generate", "video_generate", "music_generate"],
@@ -591,7 +591,7 @@ describe("optional media tool factory planning", () => {
   it("does not count unresolved SecretRef config signals as configured", () => {
     vi.stubEnv("COMFY_TEST_API_KEY", "");
     const workspaceDir = process.cwd();
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         entries: {
           comfy: {
@@ -654,7 +654,7 @@ describe("optional media tool factory planning", () => {
       pdf: false,
     });
     expect(
-      createBrikko StudioTools({
+      createBrikkoStudioTools({
         config,
         workspaceDir,
         authProfileStore: createAuthStore(),
@@ -664,7 +664,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("counts configured non-env SecretRef config signals without resolving secrets", () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         entries: {
           comfy: {
@@ -731,7 +731,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("does not register the image tool without cheap vision availability evidence", () => {
-    const config: Brikko StudioConfig = {};
+    const config: BrikkoStudioConfig = {};
     installSnapshot(config, [
       createPlugin({
         id: "media-owner",
@@ -741,7 +741,7 @@ describe("optional media tool factory planning", () => {
     ]);
 
     expect(
-      createBrikko StudioTools({
+      createBrikkoStudioTools({
         config,
         agentDir: "/tmp/brikko-studio-agent",
         authProfileStore: createAuthStore(),
@@ -773,7 +773,7 @@ describe("optional media tool factory planning", () => {
             },
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
     },
     {
       name: "legacy cloud API key config",
@@ -789,7 +789,7 @@ describe("optional media tool factory planning", () => {
     ({ config }) => {
       setBundledPluginsDirOverrideForTest(path.join(process.cwd(), "extensions"));
 
-      const toolNames = createBrikko StudioTools({
+      const toolNames = createBrikkoStudioTools({
         config,
         authProfileStore: createAuthStore(),
         pluginToolAllowlist: ["image_generate", "video_generate", "music_generate"],
@@ -802,7 +802,7 @@ describe("optional media tool factory planning", () => {
   );
 
   it("honors manifest-declared image provider auth alias base-url guards", () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: {
@@ -845,7 +845,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("ignores external manifest capability providers excluded by plugin policy", () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         allow: ["other-plugin"],
       },
@@ -873,7 +873,7 @@ describe("optional media tool factory planning", () => {
   });
 
   it("does not use a generic factory plan when metadata has no availability proof", () => {
-    const config: Brikko StudioConfig = {};
+    const config: BrikkoStudioConfig = {};
     installSnapshot(config, []);
 
     expect(

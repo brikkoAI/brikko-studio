@@ -1,7 +1,7 @@
 import type { PluginRuntime } from "brikko-studio/plugin-sdk/core";
 import { createPluginRuntimeStore } from "brikko-studio/plugin-sdk/runtime-store";
 import type { GatewayPluginRuntime } from "../engine/gateway/types.js";
-import { setBrikko StudioVersion } from "../engine/messaging/sender.js";
+import { setBrikkoStudioVersion } from "../engine/messaging/sender.js";
 
 // Single plugin runtime per process — concurrent multi-tenant qqbot runtimes are not supported.
 const { setRuntime: _setRuntime, getRuntime: getQQBotRuntime } =
@@ -14,7 +14,7 @@ const { setRuntime: _setRuntime, getRuntime: getQQBotRuntime } =
 function setQQBotRuntime(runtime: PluginRuntime): void {
   _setRuntime(runtime);
   // Inject the framework version into the User-Agent string (same as standalone).
-  setBrikko StudioVersion(runtime.version);
+  setBrikkoStudioVersion(runtime.version);
 }
 
 export { getQQBotRuntime, setQQBotRuntime };

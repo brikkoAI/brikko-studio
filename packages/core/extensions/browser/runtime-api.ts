@@ -85,7 +85,7 @@ export { handleBrowserGatewayRequest } from "./src/gateway/browser-request.js";
 export { browserHandlers } from "./src/gateway/browser-request.js";
 export {
   definePluginEntry,
-  type Brikko StudioPluginApi,
-  type Brikko StudioPluginToolContext,
-  type Brikko StudioPluginToolFactory,
+  type BrikkoStudioPluginApi,
+  type BrikkoStudioPluginToolContext,
+  type BrikkoStudioPluginToolFactory,
 } from "brikko-studio/plugin-sdk/plugin-entry";

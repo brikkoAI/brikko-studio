@@ -2,9 +2,9 @@ import { randomUUID } from "node:crypto";
 import { performance } from "node:perf_hooks";
 import { normalizeModelRef, parseModelRef } from "../agents/model-selection.js";
 import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizePluginsConfig } from "../plugins/config-state.js";
-import { clearActivatedPluginRuntimeState, loadBrikko StudioPlugins } from "../plugins/loader.js";
+import { clearActivatedPluginRuntimeState, loadBrikkoStudioPlugins } from "../plugins/loader.js";
 import { loadPluginLookUpTable, type PluginLookUpTable } from "../plugins/plugin-lookup-table.js";
 import { getPluginModuleLoaderStats } from "../plugins/plugin-module-loader-cache.js";
 import { createEmptyPluginRegistry } from "../plugins/registry-empty.js";
@@ -128,7 +128,7 @@ function normalizeAllowedModelRef(raw: string): string | null {
   return `${normalized.provider}/${normalized.model}`;
 }
 
-export function setPluginSubagentOverridePolicies(cfg: Brikko StudioConfig): void {
+export function setPluginSubagentOverridePolicies(cfg: BrikkoStudioConfig): void {
   const pluginSubagentPolicyState = getPluginSubagentPolicyState();
   const normalized = normalizePluginsConfig(cfg.plugins);
   const policies: PluginSubagentPolicyState["policies"] = {};
@@ -515,8 +515,8 @@ function createGatewayPluginRegistrationLogger(params?: {
 }
 
 export function loadGatewayPlugins(params: {
-  cfg: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   autoEnabledReasons?: Readonly<Record<string, string[]>>;
   workspaceDir: string;
   log: {
@@ -601,7 +601,7 @@ export function loadGatewayPlugins(params: {
   }
   const beforeLoad = performance.now();
   const loaderStatsBefore = getPluginModuleLoaderStats();
-  const pluginRegistry = loadBrikko StudioPlugins({
+  const pluginRegistry = loadBrikkoStudioPlugins({
     config: resolvedConfig,
     activationSourceConfig: params.activationSourceConfig ?? params.cfg,
     autoEnabledReasons: autoEnabled.autoEnabledReasons,

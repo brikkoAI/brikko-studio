@@ -1,5 +1,5 @@
 import type { webhook } from "@line/bot-sdk";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { DEFAULT_GROUP_HISTORY_LIMIT, type HistoryEntry } from "brikko-studio/plugin-sdk/reply-history";
 import { getRuntimeConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import {
@@ -17,7 +17,7 @@ interface LineBotOptions {
   channelSecret: string;
   accountId?: string;
   runtime?: RuntimeEnv;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   mediaMaxMb?: number;
   onMessage?: (ctx: LineInboundContext) => Promise<void>;
 }

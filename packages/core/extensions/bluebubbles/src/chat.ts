@@ -3,14 +3,14 @@ import path from "node:path";
 import { createBlueBubblesClient, type BlueBubblesClient } from "./client.js";
 import { assertMultipartActionOk } from "./multipart.js";
 import { getCachedBlueBubblesPrivateApiStatus } from "./probe.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 
 export type BlueBubblesChatOpts = {
   serverUrl?: string;
   password?: string;
   accountId?: string;
   timeoutMs?: number;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 };
 
 function clientFromOpts(params: BlueBubblesChatOpts): BlueBubblesClient {

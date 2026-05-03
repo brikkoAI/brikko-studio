@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { EffectiveToolInventoryResult } from "../../agents/tools-effective-inventory.types.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
 import {
   createChannelTestPluginBase,
@@ -113,7 +113,7 @@ function buildConfig() {
   return {
     commands: { text: true },
     channels: { whatsapp: { allowFrom: ["*"] } },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("handleToolsCommand", () => {
@@ -320,7 +320,7 @@ describe("handleToolsCommand", () => {
       {
         commands: { text: true },
         channels: { telegram: { defaultAccount: "work" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       undefined,
       { workspaceDir: "/tmp" },
     );

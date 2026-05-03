@@ -3,7 +3,7 @@ import { normalizeChannelId } from "../../channels/plugins/index.js";
 import { dispatchChannelMessageAction } from "../../channels/plugins/message-action-dispatch.js";
 import { createOutboundSendDeps } from "../../cli/deps.js";
 import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { resolveOutboundChannelPlugin } from "../../infra/outbound/channel-resolution.js";
 import { resolveMessageChannelSelection } from "../../infra/outbound/channel-selection.js";
 import { deliverOutboundPayloads } from "../../infra/outbound/deliver.js";
@@ -104,7 +104,7 @@ async function resolveRequestedChannel(params: {
   rejectWebchatAsInternalOnly?: boolean;
 }): Promise<
   | {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       channel: string;
     }
   | {
@@ -145,7 +145,7 @@ async function resolveRequestedChannel(params: {
 function resolveGatewayOutboundTarget(params: {
   channel: string;
   to: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
 }):
   | {

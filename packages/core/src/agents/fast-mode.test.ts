@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveFastModeState } from "./fast-mode.js";
 
 describe("resolveFastModeState", () => {
   it("prefers session overrides", () => {
     const state = resolveFastModeState({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       provider: "openai",
       model: "gpt-4o",
       sessionEntry: { fastMode: true },
@@ -20,7 +20,7 @@ describe("resolveFastModeState", () => {
       agents: {
         list: [{ id: "alpha", fastModeDefault: true }],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const state = resolveFastModeState({
       cfg,
@@ -42,7 +42,7 @@ describe("resolveFastModeState", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const state = resolveFastModeState({
       cfg,
@@ -63,7 +63,7 @@ describe("resolveFastModeState", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const state = resolveFastModeState({
       cfg,
@@ -84,7 +84,7 @@ describe("resolveFastModeState", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const state = resolveFastModeState({
       cfg,
@@ -105,7 +105,7 @@ describe("resolveFastModeState", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const state = resolveFastModeState({
       cfg,
@@ -119,7 +119,7 @@ describe("resolveFastModeState", () => {
 
   it("defaults to off when unset", () => {
     const state = resolveFastModeState({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       provider: "openai",
       model: "gpt-4o",
     });

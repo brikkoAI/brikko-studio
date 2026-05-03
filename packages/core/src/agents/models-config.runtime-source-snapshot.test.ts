@@ -1,5 +1,5 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createFixtureSuite } from "../test-utils/fixture-suite.js";
 import { NON_ENV_SECRETREF_MARKER } from "./model-auth-markers.js";
 import {
@@ -22,7 +22,7 @@ vi.mock("./model-auth-env-vars.js", () => ({
 }));
 
 vi.mock("../plugins/provider-runtime.js", () => ({
-  applyProviderConfigDefaultsWithPlugin: (config: Brikko StudioConfig) => config,
+  applyProviderConfigDefaultsWithPlugin: (config: BrikkoStudioConfig) => config,
   applyProviderNativeStreamingUsageCompatWithPlugin: () => undefined,
   normalizeProviderConfigWithPlugin: () => undefined,
   resolveProviderConfigApiKeyWithPlugin: () => undefined,
@@ -44,9 +44,9 @@ installModelsConfigTestHooks();
 let clearConfigCache: typeof import("../config/io.js").clearConfigCache;
 let clearRuntimeConfigSnapshot: typeof import("../config/io.js").clearRuntimeConfigSnapshot;
 let setRuntimeConfigSnapshot: typeof import("../config/io.js").setRuntimeConfigSnapshot;
-let ensureBrikko StudioModelsJson: typeof import("./models-config.js").ensureBrikko StudioModelsJson;
+let ensureBrikkoStudioModelsJson: typeof import("./models-config.js").ensureBrikkoStudioModelsJson;
 let resetModelsJsonReadyCacheForTest: typeof import("./models-config.js").resetModelsJsonReadyCacheForTest;
-let planBrikko StudioModelsJsonWithDeps: typeof import("./models-config.plan.js").planBrikko StudioModelsJsonWithDeps;
+let planBrikkoStudioModelsJsonWithDeps: typeof import("./models-config.plan.js").planBrikkoStudioModelsJsonWithDeps;
 let readGeneratedModelsJson: typeof import("./models-config.test-utils.js").readGeneratedModelsJson;
 const fixtureSuite = createFixtureSuite("brikko-studio-models-runtime-source-");
 
@@ -54,9 +54,9 @@ beforeAll(async () => {
   await fixtureSuite.setup();
   ({ clearConfigCache, clearRuntimeConfigSnapshot, setRuntimeConfigSnapshot } =
     await import("../config/io.js"));
-  ({ ensureBrikko StudioModelsJson, resetModelsJsonReadyCacheForTest } =
+  ({ ensureBrikkoStudioModelsJson, resetModelsJsonReadyCacheForTest } =
     await import("./models-config.js"));
-  ({ planBrikko StudioModelsJsonWithDeps } = await import("./models-config.plan.js"));
+  ({ planBrikkoStudioModelsJsonWithDeps } = await import("./models-config.plan.js"));
   ({ readGeneratedModelsJson } = await import("./models-config.test-utils.js"));
 });
 
@@ -70,7 +70,7 @@ afterAll(async () => {
   await fixtureSuite.cleanup();
 });
 
-function createOpenAiApiKeySourceConfig(): Brikko StudioConfig {
+function createOpenAiApiKeySourceConfig(): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -85,7 +85,7 @@ function createOpenAiApiKeySourceConfig(): Brikko StudioConfig {
   };
 }
 
-function createOpenAiApiKeyRuntimeConfig(): Brikko StudioConfig {
+function createOpenAiApiKeyRuntimeConfig(): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -100,7 +100,7 @@ function createOpenAiApiKeyRuntimeConfig(): Brikko StudioConfig {
   };
 }
 
-function createOpenAiHeaderSourceConfig(): Brikko StudioConfig {
+function createOpenAiHeaderSourceConfig(): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -126,7 +126,7 @@ function createOpenAiHeaderSourceConfig(): Brikko StudioConfig {
   };
 }
 
-function createOpenAiHeaderRuntimeConfig(): Brikko StudioConfig {
+function createOpenAiHeaderRuntimeConfig(): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -144,7 +144,7 @@ function createOpenAiHeaderRuntimeConfig(): Brikko StudioConfig {
   };
 }
 
-function createOpenAiSourceConfigWithHeadersAndApiKey(): Brikko StudioConfig {
+function createOpenAiSourceConfigWithHeadersAndApiKey(): BrikkoStudioConfig {
   const config = createOpenAiHeaderSourceConfig();
   config.models!.providers!.openai.apiKey = {
     source: "env",
@@ -154,13 +154,13 @@ function createOpenAiSourceConfigWithHeadersAndApiKey(): Brikko StudioConfig {
   return config;
 }
 
-function createOpenAiRuntimeConfigWithHeadersAndApiKey(): Brikko StudioConfig {
+function createOpenAiRuntimeConfigWithHeadersAndApiKey(): BrikkoStudioConfig {
   const config = createOpenAiHeaderRuntimeConfig();
   config.models!.providers!.openai.apiKey = "sk-runtime-resolved"; // pragma: allowlist secret
   return config;
 }
 
-function withGatewayTokenMode(config: Brikko StudioConfig): Brikko StudioConfig {
+function withGatewayTokenMode(config: BrikkoStudioConfig): BrikkoStudioConfig {
   return {
     ...config,
     gateway: {
@@ -183,10 +183,10 @@ async function expectGeneratedProviderApiKey(
 }
 
 async function planGeneratedProviders(params: {
-  config: Brikko StudioConfig;
-  sourceConfigForSecrets: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
+  sourceConfigForSecrets: BrikkoStudioConfig;
 }) {
-  const plan = await planBrikko StudioModelsJsonWithDeps(
+  const plan = await planBrikkoStudioModelsJsonWithDeps(
     {
       cfg: params.config,
       sourceConfigForSecrets: params.sourceConfigForSecrets,
@@ -220,7 +220,7 @@ function expectOpenAiHeaderMarkers(
 
 describe("models-config runtime source snapshot", () => {
   it("uses runtime source snapshot markers when passed the active runtime config", async () => {
-    const sourceConfig: Brikko StudioConfig = {
+    const sourceConfig: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: createOpenAiApiKeySourceConfig().models!.providers!.openai,
@@ -233,7 +233,7 @@ describe("models-config runtime source snapshot", () => {
         },
       },
     };
-    const runtimeConfig: Brikko StudioConfig = {
+    const runtimeConfig: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: createOpenAiApiKeyRuntimeConfig().models!.providers!.openai,
@@ -260,7 +260,7 @@ describe("models-config runtime source snapshot", () => {
       unsetEnv(MODELS_CONFIG_IMPLICIT_ENV_VARS);
       const sourceConfig = createOpenAiApiKeySourceConfig();
       const runtimeConfig = createOpenAiApiKeyRuntimeConfig();
-      const clonedRuntimeConfig: Brikko StudioConfig = {
+      const clonedRuntimeConfig: BrikkoStudioConfig = {
         ...runtimeConfig,
         agents: {
           defaults: {
@@ -271,7 +271,7 @@ describe("models-config runtime source snapshot", () => {
 
       try {
         setRuntimeConfigSnapshot(runtimeConfig, sourceConfig);
-        await ensureBrikko StudioModelsJson(clonedRuntimeConfig, agentDir);
+        await ensureBrikkoStudioModelsJson(clonedRuntimeConfig, agentDir);
         await expectGeneratedProviderApiKey(agentDir, "openai", "OPENAI_API_KEY"); // pragma: allowlist secret
       } finally {
         clearRuntimeConfigSnapshot();
@@ -286,7 +286,7 @@ describe("models-config runtime source snapshot", () => {
       unsetEnv(MODELS_CONFIG_IMPLICIT_ENV_VARS);
       const sourceConfig = createOpenAiApiKeySourceConfig();
       const runtimeConfig = createOpenAiApiKeyRuntimeConfig();
-      const firstCandidate: Brikko StudioConfig = {
+      const firstCandidate: BrikkoStudioConfig = {
         ...runtimeConfig,
         models: {
           providers: {
@@ -294,13 +294,13 @@ describe("models-config runtime source snapshot", () => {
               ...runtimeConfig.models!.providers!.openai,
               baseUrl: "https://api.openai.com/v1",
               headers: {
-                "X-Brikko Studio-Test": "one",
+                "X-BrikkoStudio-Test": "one",
               },
             },
           },
         },
       };
-      const secondCandidate: Brikko StudioConfig = {
+      const secondCandidate: BrikkoStudioConfig = {
         ...runtimeConfig,
         models: {
           providers: {
@@ -308,7 +308,7 @@ describe("models-config runtime source snapshot", () => {
               ...runtimeConfig.models!.providers!.openai,
               baseUrl: "https://mirror.example/v1",
               headers: {
-                "X-Brikko Studio-Test": "two",
+                "X-BrikkoStudio-Test": "two",
               },
             },
           },
@@ -317,7 +317,7 @@ describe("models-config runtime source snapshot", () => {
 
       try {
         setRuntimeConfigSnapshot(runtimeConfig, sourceConfig);
-        await ensureBrikko StudioModelsJson(firstCandidate, agentDir);
+        await ensureBrikkoStudioModelsJson(firstCandidate, agentDir);
         let parsed = await readGeneratedModelsJson<{
           providers: Record<
             string,
@@ -326,10 +326,10 @@ describe("models-config runtime source snapshot", () => {
         }>(agentDir);
         expect(parsed.providers.openai?.baseUrl).toBe("https://api.openai.com/v1");
         expect(parsed.providers.openai?.apiKey).toBe("OPENAI_API_KEY"); // pragma: allowlist secret
-        expect(parsed.providers.openai?.headers?.["X-Brikko Studio-Test"]).toBe("one");
+        expect(parsed.providers.openai?.headers?.["X-BrikkoStudio-Test"]).toBe("one");
 
         // Header changes still rewrite models.json, but merge mode preserves the existing baseUrl.
-        await ensureBrikko StudioModelsJson(secondCandidate, agentDir);
+        await ensureBrikkoStudioModelsJson(secondCandidate, agentDir);
         parsed = await readGeneratedModelsJson<{
           providers: Record<
             string,
@@ -338,7 +338,7 @@ describe("models-config runtime source snapshot", () => {
         }>(agentDir);
         expect(parsed.providers.openai?.baseUrl).toBe("https://api.openai.com/v1");
         expect(parsed.providers.openai?.apiKey).toBe("OPENAI_API_KEY"); // pragma: allowlist secret
-        expect(parsed.providers.openai?.headers?.["X-Brikko Studio-Test"]).toBe("two");
+        expect(parsed.providers.openai?.headers?.["X-BrikkoStudio-Test"]).toBe("two");
       } finally {
         clearRuntimeConfigSnapshot();
         clearConfigCache();

@@ -15,7 +15,7 @@ function findToolDescription(toolName: string, senderIsOwner: boolean) {
   };
 }
 
-describe("createBrikko StudioCodingTools deferred follow-up guidance", () => {
+describe("createBrikkoStudioCodingTools deferred follow-up guidance", () => {
   it("keeps cron-specific guidance when cron survives filtering", () => {
     const exec = findToolDescription("exec", true);
     const process = findToolDescription("process", true);

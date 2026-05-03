@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { HEARTBEAT_TOKEN } from "../auto-reply/tokens.js";
 import { loadCommitmentStore, saveCommitmentStore } from "../commitments/store.js";
 import type { CommitmentRecord, CommitmentStoreFile } from "../commitments/types.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   runHeartbeatOnce,
   setHeartbeatsEnabled,
@@ -72,7 +72,7 @@ describe("runHeartbeatOnce commitments", () => {
     return await withTempHeartbeatSandbox(async ({ tmpDir, storePath, replySpy }) => {
       vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tmpDir);
       const sessionKey = "agent:main:telegram:user-155462274";
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             workspace: tmpDir,
@@ -162,7 +162,7 @@ describe("runHeartbeatOnce commitments", () => {
       async ({ tmpDir, storePath, replySpy }) => {
         vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tmpDir);
         const sessionKey = "agent:main:telegram:user-155462274";
-        const cfg: Brikko StudioConfig = {
+        const cfg: BrikkoStudioConfig = {
           agents: {
             defaults: {
               workspace: tmpDir,
@@ -249,7 +249,7 @@ describe("runHeartbeatOnce commitments", () => {
       async ({ tmpDir, storePath, replySpy }) => {
         vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tmpDir);
         const sessionKey = "agent:main:telegram:user-155462274";
-        const cfg: Brikko StudioConfig = {
+        const cfg: BrikkoStudioConfig = {
           agents: {
             defaults: {
               workspace: tmpDir,
@@ -328,7 +328,7 @@ describe("runHeartbeatOnce commitments", () => {
     await withTempHeartbeatSandbox(async ({ tmpDir, storePath }) => {
       vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tmpDir);
       const dueSessionKey = "agent:main:telegram:user-155462274";
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             workspace: tmpDir,

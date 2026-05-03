@@ -1,6 +1,6 @@
 import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
 import type { ReasoningLevel, ThinkLevel } from "../../auto-reply/thinking.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { ExecElevatedDefaults } from "../bash-tools.js";
 import type { SkillSnapshot } from "../skills.js";
 
@@ -15,7 +15,7 @@ export type EmbeddedCompactionRuntimeContext = {
   authProfileId?: string;
   workspaceDir: string;
   agentDir: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   skillsSnapshot?: SkillSnapshot;
   senderIsOwner?: boolean;
   senderId?: string;
@@ -35,7 +35,7 @@ export type EmbeddedCompactionRuntimeContext = {
  * caller-supplied provider/model and optionally applying runtime defaults.
  */
 export function resolveEmbeddedCompactionTarget(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   provider?: string | null;
   modelId?: string | null;
   authProfileId?: string | null;
@@ -82,7 +82,7 @@ export function buildEmbeddedCompactionRuntimeContext(params: {
   authProfileId?: string | null;
   workspaceDir: string;
   agentDir: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   skillsSnapshot?: SkillSnapshot;
   senderIsOwner?: boolean;
   senderId?: string | null;

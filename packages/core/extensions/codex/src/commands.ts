@@ -1,5 +1,5 @@
 import type {
-  Brikko StudioPluginCommandDefinition,
+  BrikkoStudioPluginCommandDefinition,
   PluginCommandContext,
   PluginCommandResult,
 } from "brikko-studio/plugin-sdk/plugin-entry";
@@ -8,7 +8,7 @@ import type { CodexCommandDeps } from "./command-handlers.js";
 export function createCodexCommand(options: {
   pluginConfig?: unknown;
   deps?: Partial<CodexCommandDeps>;
-}): Brikko StudioPluginCommandDefinition {
+}): BrikkoStudioPluginCommandDefinition {
   return {
     name: "codex",
     description: "Inspect and control the Codex app-server harness",

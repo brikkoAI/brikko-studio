@@ -24,7 +24,7 @@ export function buildCodexConversationTurnInput(params: {
 
 function extractInboundMedia(event: PluginHookInboundClaimEvent): InboundMedia[] {
   const metadata = event.metadata ?? {};
-  // Brikko Studio channels expose either local staged files or remote URLs. Keep
+  // BrikkoStudio channels expose either local staged files or remote URLs. Keep
   // them separate so Codex can receive the cheaper localImage input when a file
   // is already present, while still supporting remote-only transports.
   const paths = readStringArray(metadata.mediaPaths).concat(readStringArray(metadata.mediaPath));

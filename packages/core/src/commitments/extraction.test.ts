@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   buildCommitmentExtractionPrompt,
   parseCommitmentExtractionOutput,
@@ -22,7 +22,7 @@ describe("commitment extraction", () => {
     tmpDirs.length = 0;
   });
 
-  async function createConfig(): Promise<Brikko StudioConfig> {
+  async function createConfig(): Promise<BrikkoStudioConfig> {
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-commitments-"));
     tmpDirs.push(tmpDir);
     vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tmpDir);
@@ -105,7 +105,7 @@ describe("commitment extraction", () => {
   });
 
   it("rejects disabled, low-confidence, and non-future candidates", () => {
-    const cfg: Brikko StudioConfig = { commitments: { enabled: true } };
+    const cfg: BrikkoStudioConfig = { commitments: { enabled: true } };
     const valid = validateCommitmentCandidates({
       cfg,
       items: [item()],

@@ -1,6 +1,6 @@
 import {
   createModelCatalogPresetAppliers,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildCerebrasModelDefinition,
@@ -12,7 +12,7 @@ export const CEREBRAS_DEFAULT_MODEL_REF = "cerebras/zai-glm-4.7";
 
 const cerebrasPresetAppliers = createModelCatalogPresetAppliers({
   primaryModelRef: CEREBRAS_DEFAULT_MODEL_REF,
-  resolveParams: (_cfg: Brikko StudioConfig) => ({
+  resolveParams: (_cfg: BrikkoStudioConfig) => ({
     providerId: "cerebras",
     api: "openai-completions",
     baseUrl: CEREBRAS_BASE_URL,
@@ -21,6 +21,6 @@ const cerebrasPresetAppliers = createModelCatalogPresetAppliers({
   }),
 });
 
-export function applyCerebrasConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyCerebrasConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return cerebrasPresetAppliers.applyConfig(cfg);
 }

@@ -19,7 +19,7 @@ import {
   resolveStoredModelOverride,
   type CommandArgs,
 } from "brikko-studio/plugin-sdk/command-auth-native";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ChannelGroupPolicy } from "brikko-studio/plugin-sdk/config-types";
 import type {
   ReplyToMode,
@@ -162,7 +162,7 @@ function resolveTelegramProgressPlaceholder(command: {
 }
 
 async function resolveTelegramCommandSessionFile(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   sessionKey: string;
   threadId?: string | number;
@@ -199,7 +199,7 @@ async function resolveTelegramCommandSessionFile(params: {
 }
 
 function resolveTelegramCommandMenuModelContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   sessionKey: string;
 }): { provider?: string; model?: string } {
@@ -318,7 +318,7 @@ async function resolveTelegramNativeCommandThreadContext(params: {
 }
 
 export type RegisterTelegramHandlerParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   bot: Bot;
   mediaMaxBytes: number;
@@ -370,7 +370,7 @@ export function resolveTelegramNativeCommandDisableBlockStreaming(
 
 export type RegisterTelegramNativeCommandsParams = {
   bot: Bot;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime: RuntimeEnv;
   accountId: string;
   telegramCfg: TelegramAccountConfig;
@@ -395,7 +395,7 @@ export type RegisterTelegramNativeCommandsParams = {
 async function resolveTelegramCommandAuth(params: {
   msg: NonNullable<TelegramNativeCommandContext["message"]>;
   bot: Bot;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   telegramCfg: TelegramAccountConfig;
   readChannelAllowFromStore: TelegramBotDeps["readChannelAllowFromStore"];
@@ -683,8 +683,8 @@ export const registerTelegramNativeCommands = ({
   for (const issue of pluginCatalog.issues) {
     runtime.error?.(danger(issue));
   }
-  const loadFreshRuntimeConfig = (): Brikko StudioConfig => telegramDeps.getRuntimeConfig();
-  const resolveFreshTelegramConfig = (runtimeCfg: Brikko StudioConfig): TelegramAccountConfig => {
+  const loadFreshRuntimeConfig = (): BrikkoStudioConfig => telegramDeps.getRuntimeConfig();
+  const resolveFreshTelegramConfig = (runtimeCfg: BrikkoStudioConfig): TelegramAccountConfig => {
     try {
       return resolveTelegramAccount({
         cfg: runtimeCfg,
@@ -760,7 +760,7 @@ export const registerTelegramNativeCommands = ({
 
   const resolveCommandRuntimeContext = async (params: {
     msg: NonNullable<TelegramNativeCommandContext["message"]>;
-    runtimeCfg: Brikko StudioConfig;
+    runtimeCfg: BrikkoStudioConfig;
     isGroup: boolean;
     isForum: boolean;
     resolvedThreadId?: number;
@@ -832,7 +832,7 @@ export const registerTelegramNativeCommands = ({
     return { chatId, threadSpec, route, mediaLocalRoots, tableMode, chunkMode };
   };
   const buildCommandDeliveryBaseOptions = (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     chatId: string | number;
     accountId: string;
     sessionKeyForInternalHooks?: string;

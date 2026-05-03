@@ -8,7 +8,7 @@ import {
 } from "./bundled-compat.js";
 import { resolveBundledPluginRepoEntryPath } from "./bundled-plugin-metadata.js";
 import { createCapturedPluginRegistration } from "./captured-registration.js";
-import { discoverBrikko StudioPlugins } from "./discovery.js";
+import { discoverBrikkoStudioPlugins } from "./discovery.js";
 import type { PluginLoadOptions } from "./loader.js";
 import { loadPluginManifestRegistry } from "./manifest-registry.js";
 import { unwrapDefaultModuleExport } from "./module-export.js";
@@ -28,7 +28,7 @@ import {
   findUndeclaredPluginToolNames,
   normalizePluginToolContractNames,
 } from "./tool-contracts.js";
-import type { Brikko StudioPluginDefinition, Brikko StudioPluginModule } from "./types.js";
+import type { BrikkoStudioPluginDefinition, BrikkoStudioPluginModule } from "./types.js";
 
 const log = createSubsystemLogger("plugins");
 
@@ -109,17 +109,17 @@ export function buildBundledCapabilityRuntimeConfig(
 }
 
 function resolvePluginModuleExport(moduleExport: unknown): {
-  definition?: Brikko StudioPluginDefinition;
-  register?: Brikko StudioPluginDefinition["register"];
+  definition?: BrikkoStudioPluginDefinition;
+  register?: BrikkoStudioPluginDefinition["register"];
 } {
   const resolved = unwrapDefaultModuleExport(moduleExport);
   if (typeof resolved === "function") {
     return {
-      register: resolved as Brikko StudioPluginDefinition["register"],
+      register: resolved as BrikkoStudioPluginDefinition["register"],
     };
   }
   if (resolved && typeof resolved === "object") {
-    const definition = resolved as Brikko StudioPluginDefinition;
+    const definition = resolved as BrikkoStudioPluginDefinition;
     return {
       definition,
       register: definition.register ?? definition.activate,
@@ -233,7 +233,7 @@ export function loadBundledCapabilityRuntimeRegistry(params: {
     });
   };
 
-  const discovery = discoverBrikko StudioPlugins({
+  const discovery = discoverBrikkoStudioPlugins({
     env,
   });
   const manifestRegistry = loadPluginManifestRegistry({
@@ -296,9 +296,9 @@ export function loadBundledCapabilityRuntimeRegistry(params: {
     const safeSource = opened.path;
     fs.closeSync(opened.fd);
 
-    let mod: Brikko StudioPluginModule | null = null;
+    let mod: BrikkoStudioPluginModule | null = null;
     try {
-      mod = getModuleLoader(safeSource)(safeSource) as Brikko StudioPluginModule;
+      mod = getModuleLoader(safeSource)(safeSource) as BrikkoStudioPluginModule;
     } catch (error) {
       recordCapabilityLoadError(registry, record, String(error));
       continue;

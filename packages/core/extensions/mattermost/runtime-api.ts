@@ -10,8 +10,8 @@ export type {
   ChannelPlugin,
   ChatType,
   HistoryEntry,
-  Brikko StudioConfig,
-  Brikko StudioPluginApi,
+  BrikkoStudioConfig,
+  BrikkoStudioPluginApi,
   PluginRuntime,
 } from "brikko-studio/plugin-sdk/core";
 export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";

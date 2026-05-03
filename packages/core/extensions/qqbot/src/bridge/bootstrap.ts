@@ -28,7 +28,7 @@ import {
   normalizeResolvedSecretInputString,
   normalizeSecretInputString,
 } from "brikko-studio/plugin-sdk/secret-input";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import {
   registerPlatformAdapter,
   registerPlatformAdapterFactory,
@@ -78,7 +78,7 @@ function createBuiltinAdapter(): PlatformAdapter {
     },
 
     getTempDir(): string {
-      return resolvePreferredBrikko StudioTmpDir();
+      return resolvePreferredBrikkoStudioTmpDir();
     },
 
     hasConfiguredSecret(value: unknown): boolean {

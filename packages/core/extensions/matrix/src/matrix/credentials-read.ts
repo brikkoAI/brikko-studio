@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   requiresExplicitMatrixDefaultAccount,
   resolveMatrixDefaultOrOnlyAccountId,
@@ -55,7 +55,7 @@ function resolveLegacyMatrixCredentialsPath(env: NodeJS.ProcessEnv): string {
 
 function shouldReadLegacyCredentialsForAccount(accountId?: string | null): boolean {
   const normalizedAccountId = normalizeAccountId(accountId);
-  const cfg = getMatrixRuntime().config.current() as Brikko StudioConfig;
+  const cfg = getMatrixRuntime().config.current() as BrikkoStudioConfig;
   if (!cfg.channels?.matrix || typeof cfg.channels.matrix !== "object") {
     return normalizedAccountId === DEFAULT_ACCOUNT_ID;
   }

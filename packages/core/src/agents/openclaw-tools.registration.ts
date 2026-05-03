@@ -1,15 +1,15 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isStrictAgenticExecutionContractActive } from "./execution-contract.js";
 import type { AnyAgentTool } from "./tools/common.js";
 
-export function collectPresentBrikko StudioTools(
+export function collectPresentBrikkoStudioTools(
   candidates: readonly (AnyAgentTool | null | undefined)[],
 ): AnyAgentTool[] {
   return candidates.filter((tool): tool is AnyAgentTool => tool !== null && tool !== undefined);
 }
 
-export function isUpdatePlanToolEnabledForBrikko StudioTools(params: {
-  config?: Brikko StudioConfig;
+export function isUpdatePlanToolEnabledForBrikkoStudioTools(params: {
+  config?: BrikkoStudioConfig;
   agentSessionKey?: string;
   agentId?: string | null;
   modelProvider?: string;

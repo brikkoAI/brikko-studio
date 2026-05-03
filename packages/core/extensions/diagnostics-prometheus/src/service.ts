@@ -2,8 +2,8 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import type {
   DiagnosticEventMetadata,
   DiagnosticEventPayload,
-  Brikko StudioPluginHttpRouteHandler,
-  Brikko StudioPluginService,
+  BrikkoStudioPluginHttpRouteHandler,
+  BrikkoStudioPluginService,
 } from "../api.js";
 import { redactSensitiveText } from "../api.js";
 
@@ -615,7 +615,7 @@ function recordDiagnosticEvent(
   }
 }
 
-function createMetricsHandler(store: PrometheusMetricStore): Brikko StudioPluginHttpRouteHandler {
+function createMetricsHandler(store: PrometheusMetricStore): BrikkoStudioPluginHttpRouteHandler {
   return (req: IncomingMessage, res: ServerResponse) => {
     if (req.method !== "GET" && req.method !== "HEAD") {
       res.statusCode = 405;
@@ -671,7 +671,7 @@ export function createDiagnosticsPrometheusExporter() {
       unsubscribe = undefined;
       store.reset();
     },
-  } satisfies Brikko StudioPluginService;
+  } satisfies BrikkoStudioPluginService;
 
   return {
     handler: createMetricsHandler(store),

@@ -59,7 +59,7 @@ const hoisted = vi.hoisted(() => {
   const stopGmailWatcher = vi.fn(async () => {});
   const resetModelCatalogCache = vi.fn();
   const disposeAllSessionMcpRuntimes = vi.fn(async () => {});
-  const resolveBrikko StudioPackageRootSync = vi.fn((_params: unknown) => "/package");
+  const resolveBrikkoStudioPackageRootSync = vi.fn((_params: unknown) => "/package");
 
   const providerManager = {
     getRuntimeSnapshot: vi.fn(() => ({
@@ -163,7 +163,7 @@ const hoisted = vi.hoisted(() => {
     stopGmailWatcher,
     resetModelCatalogCache,
     disposeAllSessionMcpRuntimes,
-    resolveBrikko StudioPackageRootSync,
+    resolveBrikkoStudioPackageRootSync,
     providerManager,
     createChannelManager,
     startGatewayConfigReloader,
@@ -217,7 +217,7 @@ vi.mock("../infra/brikko-studio-root.js", async (importOriginal) => {
   const actual = await importOriginal<typeof import("../infra/brikko-studio-root.js")>();
   return {
     ...actual,
-    resolveBrikko StudioPackageRootSync: hoisted.resolveBrikko StudioPackageRootSync,
+    resolveBrikkoStudioPackageRootSync: hoisted.resolveBrikkoStudioPackageRootSync,
   };
 });
 
@@ -327,8 +327,8 @@ describe("gateway hot reload", () => {
     hoisted.resetModelCatalogCache.mockReset();
     hoisted.disposeAllSessionMcpRuntimes.mockReset();
     hoisted.disposeAllSessionMcpRuntimes.mockResolvedValue(undefined);
-    hoisted.resolveBrikko StudioPackageRootSync.mockClear();
-    hoisted.resolveBrikko StudioPackageRootSync.mockReturnValue("/package");
+    hoisted.resolveBrikkoStudioPackageRootSync.mockClear();
+    hoisted.resolveBrikkoStudioPackageRootSync.mockReturnValue("/package");
     hoisted.resetReloadCallbacks();
   });
 

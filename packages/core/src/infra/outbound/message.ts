@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { PollInput } from "../../polls.js";
 import { normalizePollInput } from "../../polls.js";
 import {
@@ -76,7 +76,7 @@ type MessageSendParams = {
   dryRun?: boolean;
   bestEffort?: boolean;
   deps?: OutboundSendDeps;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   gateway?: MessageGatewayOptions;
   idempotencyKey?: string;
   mirror?: OutboundMirror;
@@ -107,7 +107,7 @@ type MessagePollParams = {
   silent?: boolean;
   isAnonymous?: boolean;
   dryRun?: boolean;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   gateway?: MessageGatewayOptions;
   idempotencyKey?: string;
 };
@@ -158,7 +158,7 @@ function buildMessagePollResult(params: {
 }
 
 async function resolveRequiredChannel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel?: string;
 }): Promise<string> {
   return (
@@ -169,7 +169,7 @@ async function resolveRequiredChannel(params: {
   ).channel;
 }
 
-function resolveRequiredPlugin(channel: string, cfg: Brikko StudioConfig) {
+function resolveRequiredPlugin(channel: string, cfg: BrikkoStudioConfig) {
   const plugin = resolveOutboundChannelPlugin({ channel, cfg });
   if (!plugin) {
     throw new Error(`Unknown channel: ${channel}`);
@@ -217,7 +217,7 @@ async function callMessageGateway<T>(params: {
   });
 }
 
-async function resolveMessageConfig(cfg?: Brikko StudioConfig): Promise<Brikko StudioConfig> {
+async function resolveMessageConfig(cfg?: BrikkoStudioConfig): Promise<BrikkoStudioConfig> {
   if (cfg) {
     return cfg;
   }

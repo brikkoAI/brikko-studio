@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   enqueueSystemEvent,
   resetSystemEventsForTest,
@@ -31,7 +31,7 @@ type CronAddInput = Parameters<CronParam["add"]>[0];
 type CronPatch = Parameters<CronParam["update"]>[1];
 type DreamingPluginApi = Parameters<typeof registerShortTermPromotionDreaming>[0];
 type DreamingPluginApiTestDouble = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   pluginConfig: Record<string, unknown>;
   logger: ReturnType<typeof createLogger>;
   runtime: unknown;
@@ -168,7 +168,7 @@ function getGatewayStartHandler(
   onMock: ReturnType<typeof vi.fn>,
 ): (
   event: { port: number },
-  ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown },
+  ctx: { config?: BrikkoStudioConfig; workspaceDir?: string; getCron?: () => unknown },
 ) => Promise<unknown> {
   const call = onMock.mock.calls.find(([eventName]) => eventName === "gateway_start");
   if (!call) {
@@ -176,7 +176,7 @@ function getGatewayStartHandler(
   }
   return call[1] as (
     event: { port: number },
-    ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown },
+    ctx: { config?: BrikkoStudioConfig; workspaceDir?: string; getCron?: () => unknown },
   ) => Promise<unknown>;
 }
 
@@ -184,7 +184,7 @@ function getGatewayStopHandler(
   onMock: ReturnType<typeof vi.fn>,
 ): (
   event: { reason?: string },
-  ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown },
+  ctx: { config?: BrikkoStudioConfig; workspaceDir?: string; getCron?: () => unknown },
 ) => Promise<unknown> | void {
   const call = onMock.mock.calls.find(([eventName]) => eventName === "gateway_stop");
   if (!call) {
@@ -192,20 +192,20 @@ function getGatewayStopHandler(
   }
   return call[1] as (
     event: { reason?: string },
-    ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown },
+    ctx: { config?: BrikkoStudioConfig; workspaceDir?: string; getCron?: () => unknown },
   ) => Promise<unknown> | void;
 }
 
 async function triggerGatewayStart(
   onMock: ReturnType<typeof vi.fn>,
-  ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown },
+  ctx: { config?: BrikkoStudioConfig; workspaceDir?: string; getCron?: () => unknown },
 ): Promise<void> {
   await getGatewayStartHandler(onMock)({ port: 18789 }, ctx);
 }
 
 async function triggerGatewayStop(
   onMock: ReturnType<typeof vi.fn>,
-  ctx: { config?: Brikko StudioConfig; workspaceDir?: string; getCron?: () => unknown } = {},
+  ctx: { config?: BrikkoStudioConfig; workspaceDir?: string; getCron?: () => unknown } = {},
 ): Promise<void> {
   await getGatewayStopHandler(onMock)({ reason: "test" }, ctx);
 }
@@ -222,7 +222,7 @@ describe("short-term dreaming config", () => {
           userTimezone: "America/Los_Angeles",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const resolved = resolveShortTermPromotionDreamingConfig({
       pluginConfig: {},
       cfg,
@@ -810,7 +810,7 @@ describe("gateway startup reconciliation", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         getCron: () => harness.cron,
       });
 
@@ -883,7 +883,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       const beforeAgentReply = getBeforeAgentReplyHandler(onMock);
       await beforeAgentReply(
@@ -969,7 +969,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       const beforeAgentReply = getBeforeAgentReplyHandler(onMock);
       await beforeAgentReply(
@@ -1172,7 +1172,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       pluginConfig: {},
       logger,
       runtime: {},
@@ -1234,7 +1234,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       pluginConfig: {},
       logger,
       runtime: {},
@@ -1297,7 +1297,7 @@ describe("gateway startup reconciliation", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         getCron: () => undefined,
       });
 
@@ -1481,7 +1481,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
       cronAvailable = true;
 
       await vi.advanceTimersByTimeAsync(constants.STARTUP_CRON_RETRY_DELAY_MS);
@@ -1566,7 +1566,7 @@ describe("gateway startup reconciliation", () => {
               },
             },
           },
-        }) as Brikko StudioConfig,
+        }) as BrikkoStudioConfig,
     );
     const api: DreamingPluginApiTestDouble = {
       config: {
@@ -1583,7 +1583,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       pluginConfig: {},
       logger,
       runtime: {
@@ -1649,7 +1649,7 @@ describe("gateway startup reconciliation", () => {
               },
             },
           },
-        }) as Brikko StudioConfig,
+        }) as BrikkoStudioConfig,
     );
     const api: DreamingPluginApiTestDouble = {
       config: {
@@ -1667,7 +1667,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       pluginConfig: {},
       logger,
       runtime: {
@@ -1721,7 +1721,7 @@ describe("gateway startup reconciliation", () => {
           agents: {
             list: [{ id: "main", default: true }],
           },
-        }) as Brikko StudioConfig,
+        }) as BrikkoStudioConfig,
     );
     const api: DreamingPluginApiTestDouble = {
       config: {
@@ -1738,7 +1738,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       pluginConfig: {},
       logger,
       runtime: {
@@ -1796,7 +1796,7 @@ describe("gateway startup reconciliation", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       pluginConfig: {},
       logger,
       runtime: {},
@@ -2388,7 +2388,7 @@ describe("short-term dreaming trigger", () => {
             },
           ],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       config: {
         enabled: true,
         cron: constants.DEFAULT_DREAMING_CRON_EXPR,

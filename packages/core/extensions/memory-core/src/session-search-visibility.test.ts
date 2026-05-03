@@ -2,7 +2,7 @@ import type { MemorySearchResult } from "brikko-studio/plugin-sdk/memory-core-ho
 import * as sessionTranscriptHit from "brikko-studio/plugin-sdk/session-transcript-hit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { filterMemorySearchHitsBySessionVisibility } from "./session-search-visibility.js";
-import { asBrikko StudioConfig } from "./tools.test-helpers.js";
+import { asBrikkoStudioConfig } from "./tools.test-helpers.js";
 
 const crossAgentStore = {
   "agent:peer:only": {
@@ -32,7 +32,7 @@ describe("filterMemorySearchHitsBySessionVisibility", () => {
   });
 
   it("drops sessions-sourced hits when requester key is missing (fail closed)", async () => {
-    const cfg = asBrikko StudioConfig({ tools: { sessions: { visibility: "all" } } });
+    const cfg = asBrikkoStudioConfig({ tools: { sessions: { visibility: "all" } } });
     const hits: MemorySearchResult[] = [
       {
         path: "sessions/u1.jsonl",
@@ -53,7 +53,7 @@ describe("filterMemorySearchHitsBySessionVisibility", () => {
   });
 
   it("keeps non-session hits unchanged", async () => {
-    const cfg = asBrikko StudioConfig({ tools: { sessions: { visibility: "all" } } });
+    const cfg = asBrikkoStudioConfig({ tools: { sessions: { visibility: "all" } } });
     const hits: MemorySearchResult[] = [
       {
         path: "memory/foo.md",
@@ -74,7 +74,7 @@ describe("filterMemorySearchHitsBySessionVisibility", () => {
   });
 
   it("loads the combined session store once per filter pass", async () => {
-    const cfg = asBrikko StudioConfig({ tools: { sessions: { visibility: "all" } } });
+    const cfg = asBrikkoStudioConfig({ tools: { sessions: { visibility: "all" } } });
     const hits: MemorySearchResult[] = [
       {
         path: "sessions/w1.jsonl",
@@ -112,7 +112,7 @@ describe("filterMemorySearchHitsBySessionVisibility", () => {
       startLine: 1,
       endLine: 2,
     };
-    const cfg = asBrikko StudioConfig({
+    const cfg = asBrikkoStudioConfig({
       tools: {
         sessions: { visibility: "all" },
         agentToAgent: { enabled: true, allow: ["*"] },
@@ -136,7 +136,7 @@ describe("filterMemorySearchHitsBySessionVisibility", () => {
       startLine: 1,
       endLine: 2,
     };
-    const cfg = asBrikko StudioConfig({
+    const cfg = asBrikkoStudioConfig({
       tools: {
         sessions: { visibility: "all" },
         agentToAgent: { enabled: false },
@@ -161,7 +161,7 @@ describe("filterMemorySearchHitsBySessionVisibility", () => {
       startLine: 1,
       endLine: 2,
     };
-    const cfg = asBrikko StudioConfig({
+    const cfg = asBrikkoStudioConfig({
       tools: {
         sessions: { visibility: "agent" },
       },
@@ -187,7 +187,7 @@ describe("filterMemorySearchHitsBySessionVisibility", () => {
       startLine: 1,
       endLine: 2,
     };
-    const cfg = asBrikko StudioConfig({
+    const cfg = asBrikkoStudioConfig({
       tools: {
         sessions: { visibility: "all" },
         agentToAgent: { enabled: false },

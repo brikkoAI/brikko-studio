@@ -4,7 +4,7 @@ import type {
   ChannelOutboundAdapter,
   ChannelPlugin,
 } from "../src/channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../src/config/config.js";
+import type { BrikkoStudioConfig } from "../src/config/config.js";
 import type { OutboundSendDeps } from "../src/infra/outbound/deliver.js";
 import type { PluginRegistry } from "../src/plugins/registry.js";
 import { installSharedTestSetup } from "./setup.shared.js";
@@ -162,7 +162,7 @@ function createTestRegistryForSetup(
 }
 
 function resolveSlackStubReplyToMode(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   chatType?: string | null;
 }): "off" | "first" | "all" {
   const entry = (
@@ -232,7 +232,7 @@ const createStubPlugin = (params: {
   deliveryMode?: ChannelOutboundAdapter["deliveryMode"];
   preferSessionLookupForAnnounceTarget?: boolean;
   resolveReplyToMode?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     chatType?: string | null;
   }) => "off" | "first" | "all";
@@ -254,7 +254,7 @@ const createStubPlugin = (params: {
       }
     : undefined,
   config: {
-    listAccountIds: (cfg: Brikko StudioConfig) => {
+    listAccountIds: (cfg: BrikkoStudioConfig) => {
       const channels = cfg.channels as Record<string, unknown> | undefined;
       const entry = channels?.[params.id];
       if (!entry || typeof entry !== "object") {
@@ -264,7 +264,7 @@ const createStubPlugin = (params: {
       const ids = accounts ? Object.keys(accounts).filter(Boolean) : [];
       return ids.length > 0 ? ids : ["default"];
     },
-    resolveAccount: (cfg: Brikko StudioConfig, accountId?: string | null) => {
+    resolveAccount: (cfg: BrikkoStudioConfig, accountId?: string | null) => {
       const channels = cfg.channels as Record<string, unknown> | undefined;
       const entry = channels?.[params.id];
       if (!entry || typeof entry !== "object") {
@@ -274,7 +274,7 @@ const createStubPlugin = (params: {
       const match = accountId ? accounts?.[accountId] : undefined;
       return (match && typeof match === "object") || typeof match === "string" ? match : entry;
     },
-    isConfigured: async (_account, cfg: Brikko StudioConfig) => {
+    isConfigured: async (_account, cfg: BrikkoStudioConfig) => {
       const channels = cfg.channels as Record<string, unknown> | undefined;
       return Boolean(channels?.[params.id]);
     },

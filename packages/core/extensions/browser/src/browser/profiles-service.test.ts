@@ -2,13 +2,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getRuntimeConfig } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/config.js";
-import { resolveBrikko StudioUserDataDir } from "./chrome.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
+import { resolveBrikkoStudioUserDataDir } from "./chrome.js";
 import type { BrowserRouteContext, BrowserServerState } from "./server-context.js";
 import { movePathToTrash } from "./trash.js";
 
 const configMocks = vi.hoisted(() => ({
-  writeConfigFile: vi.fn<(cfg: Brikko StudioConfig) => Promise<void>>(async (_cfg) => {}),
+  writeConfigFile: vi.fn<(cfg: BrikkoStudioConfig) => Promise<void>>(async (_cfg) => {}),
 }));
 const writeConfigFile = configMocks.writeConfigFile;
 
@@ -17,7 +17,7 @@ vi.mock("../config/config.js", async () => {
   return {
     ...actual,
     getRuntimeConfig: vi.fn(),
-    replaceConfigFile: vi.fn(async ({ nextConfig }: { nextConfig: Brikko StudioConfig }) => {
+    replaceConfigFile: vi.fn(async ({ nextConfig }: { nextConfig: BrikkoStudioConfig }) => {
       await configMocks.writeConfigFile(nextConfig);
     }),
   };
@@ -28,7 +28,7 @@ vi.mock("./trash.js", () => ({
 }));
 
 vi.mock("./chrome.js", () => ({
-  resolveBrikko StudioUserDataDir: vi.fn(() => "/tmp/brikko-studio-test/brikko-studio/user-data"),
+  resolveBrikkoStudioUserDataDir: vi.fn(() => "/tmp/brikko-studio-test/brikko-studio/user-data"),
 }));
 
 const [{ resolveBrowserConfig }, { createBrowserProfilesService }] = await Promise.all([
@@ -315,7 +315,7 @@ describe("BrowserProfilesService", () => {
     const tempDir = fs.mkdtempSync(path.join("/tmp", "brikko-studio-profile-"));
     const userDataDir = path.join(tempDir, "work", "user-data");
     fs.mkdirSync(path.dirname(userDataDir), { recursive: true });
-    vi.mocked(resolveBrikko StudioUserDataDir).mockReturnValue(userDataDir);
+    vi.mocked(resolveBrikkoStudioUserDataDir).mockReturnValue(userDataDir);
 
     const service = createBrowserProfilesService(ctx);
     const result = await service.deleteProfile("work");

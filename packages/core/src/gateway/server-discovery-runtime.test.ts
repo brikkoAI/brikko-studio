@@ -9,7 +9,7 @@ const mocks = vi.hoisted(() => ({
     changed: true,
     zonePath: "/tmp/brikko-studio.internal.db",
   })),
-  formatBonjourInstanceName: vi.fn((name: string) => `${name} (Brikko Studio)`),
+  formatBonjourInstanceName: vi.fn((name: string) => `${name} (BrikkoStudio)`),
   resolveBonjourCliPath: vi.fn(() => "/usr/local/bin/brikko-studio"),
   resolveTailnetDnsHint: vi.fn(async () => "gateway.tailnet.example.ts.net"),
 }));
@@ -222,7 +222,7 @@ describe("startGatewayDiscovery", () => {
       expect.objectContaining({
         domain: "brikko-studio.internal.",
         gatewayPort: 18789,
-        displayName: "Lab Mac (Brikko Studio)",
+        displayName: "Lab Mac (BrikkoStudio)",
         tailnetIPv4: "100.64.0.10",
         tailnetDns: "gateway.tailnet.example.ts.net",
       }),

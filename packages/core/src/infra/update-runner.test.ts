@@ -1667,7 +1667,7 @@ describe("runGatewayUpdate", () => {
     const localAppData = path.join(tempDir, "local-app-data");
     const portableGitMingw = path.join(
       localAppData,
-      "Brikko Studio",
+      "BrikkoStudio",
       "deps",
       "portable-git",
       "mingw64",
@@ -1675,7 +1675,7 @@ describe("runGatewayUpdate", () => {
     );
     const portableGitUsr = path.join(
       localAppData,
-      "Brikko Studio",
+      "BrikkoStudio",
       "deps",
       "portable-git",
       "usr",

@@ -340,7 +340,7 @@ describe("package dist inventory", () => {
     ).toBe(true);
     expect(
       isLegacyPluginDependencyInstallStagePath(
-        "Dist/Extensions/browser/.Brikko Studio-Install-Stage/package.json",
+        "Dist/Extensions/browser/.BrikkoStudio-Install-Stage/package.json",
       ),
     ).toBe(true);
     expect(
@@ -400,14 +400,14 @@ describe("package dist inventory", () => {
           "dist",
           "Extensions",
           "evil",
-          ".Brikko Studio-Install-Stage",
+          ".BrikkoStudio-Install-Stage",
           "package.json",
         );
         await fs.mkdir(path.dirname(mixedCaseStage), { recursive: true });
         await fs.writeFile(mixedCaseStage, "{}", "utf8");
 
         await expect(collectLegacyPluginDependencyStagingDebrisPaths(packageRoot)).resolves.toEqual(
-          ["dist/Extensions/evil/.Brikko Studio-Install-Stage"],
+          ["dist/Extensions/evil/.BrikkoStudio-Install-Stage"],
         );
         await expect(writePackageDistInventory(packageRoot)).rejects.toThrow(
           /unexpected legacy plugin dependency staging debris/,

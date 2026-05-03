@@ -19,9 +19,9 @@ vi.mock("./chrome.js", () => ({
   ),
   isChromeCdpReady: vi.fn(async () => true),
   isChromeReachable: vi.fn(async () => true),
-  launchBrikko StudioChrome: vi.fn(async () => {
+  launchBrikkoStudioChrome: vi.fn(async () => {
     throw new Error("unexpected launch");
   }),
-  resolveBrikko StudioUserDataDir: vi.fn(() => chromeUserDataDir.dir),
-  stopBrikko StudioChrome: vi.fn(async () => {}),
+  resolveBrikkoStudioUserDataDir: vi.fn(() => chromeUserDataDir.dir),
+  stopBrikkoStudioChrome: vi.fn(async () => {}),
 }));

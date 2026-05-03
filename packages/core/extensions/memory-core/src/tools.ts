@@ -5,7 +5,7 @@ import {
   jsonResult,
   readNumberParam,
   readStringParam,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-runtime-core";
 import type {
   MemorySearchResult,
@@ -89,7 +89,7 @@ function isActiveMemorySessionKey(sessionKey?: string): boolean {
 }
 
 function resolveActiveMemoryQmdSearchModeOverride(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   sessionKey?: string,
 ): "search" | "vsearch" | "query" | undefined {
   if (!isActiveMemorySessionKey(sessionKey)) {
@@ -181,8 +181,8 @@ async function executeMemoryReadResult<T>(params: {
 }
 
 export function createMemorySearchTool(options: {
-  config?: Brikko StudioConfig;
-  getConfig?: () => Brikko StudioConfig | undefined;
+  config?: BrikkoStudioConfig;
+  getConfig?: () => BrikkoStudioConfig | undefined;
   agentId?: string;
   agentSessionKey?: string;
   sandboxed?: boolean;
@@ -345,8 +345,8 @@ export function createMemorySearchTool(options: {
 }
 
 export function createMemoryGetTool(options: {
-  config?: Brikko StudioConfig;
-  getConfig?: () => Brikko StudioConfig | undefined;
+  config?: BrikkoStudioConfig;
+  getConfig?: () => BrikkoStudioConfig | undefined;
   agentId?: string;
   agentSessionKey?: string;
 }) {

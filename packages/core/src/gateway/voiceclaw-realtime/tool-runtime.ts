@@ -1,8 +1,8 @@
 import type { AgentToolResult, AgentToolUpdateCallback } from "@mariozechner/pi-agent-core";
 import { resolveAgentWorkspaceDir, resolveSessionAgentIds } from "../../agents/agent-scope.js";
-import { createBrikko StudioCodingTools } from "../../agents/pi-tools.js";
+import { createBrikkoStudioCodingTools } from "../../agents/pi-tools.js";
 import type { AnyAgentTool } from "../../agents/tools/common.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   buildAsyncToolAck,
   buildToolErrorContext,
@@ -42,11 +42,11 @@ type InFlightTool = {
 };
 
 type ToolRuntimeDeps = {
-  createTools?: typeof createBrikko StudioCodingTools;
+  createTools?: typeof createBrikkoStudioCodingTools;
 };
 
 export type VoiceClawRealtimeToolRuntimeOptions = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   sessionId: string;
   sessionKey: string;
   senderIsOwner: boolean;
@@ -85,7 +85,7 @@ export class VoiceClawRealtimeToolRuntime {
         JSON.stringify({
           status: "busy",
           tool: event.name,
-          error: "Too many Brikko Studio tools are already running.",
+          error: "Too many BrikkoStudio tools are already running.",
         }),
       );
       return true;
@@ -121,7 +121,7 @@ export class VoiceClawRealtimeToolRuntime {
       return;
     }
     inFlight.abortReason = "cancelled";
-    inFlight.controller.abort(new Error("Brikko Studio tool cancelled"));
+    inFlight.controller.abort(new Error("BrikkoStudio tool cancelled"));
   }
 
   abortAll(): void {
@@ -173,7 +173,7 @@ export class VoiceClawRealtimeToolRuntime {
       }
       const message =
         inFlight.abortReason === "timeout"
-          ? `Brikko Studio tool timed out after ${this.timeoutMs}ms`
+          ? `BrikkoStudio tool timed out after ${this.timeoutMs}ms`
           : err instanceof Error
             ? err.message
             : String(err);
@@ -209,12 +209,12 @@ export class VoiceClawRealtimeToolRuntime {
     const timeout = new Promise<never>((_, reject) => {
       inFlight.timeout = setTimeout(() => {
         if (inFlight.abortReason === "cancelled") {
-          reject(new Error("Brikko Studio tool cancelled"));
+          reject(new Error("BrikkoStudio tool cancelled"));
           return;
         }
         inFlight.abortReason = "timeout";
-        inFlight.controller.abort(new Error(`Brikko Studio tool timed out after ${this.timeoutMs}ms`));
-        reject(new Error(`Brikko Studio tool timed out after ${this.timeoutMs}ms`));
+        inFlight.controller.abort(new Error(`BrikkoStudio tool timed out after ${this.timeoutMs}ms`));
+        reject(new Error(`BrikkoStudio tool timed out after ${this.timeoutMs}ms`));
       }, this.timeoutMs);
     });
 
@@ -230,7 +230,7 @@ export function createVoiceClawRealtimeToolRuntime(
     config: options.config,
   });
   const workspaceDir = resolveAgentWorkspaceDir(options.config, sessionAgentId);
-  const createTools = options.deps?.createTools ?? createBrikko StudioCodingTools;
+  const createTools = options.deps?.createTools ?? createBrikkoStudioCodingTools;
   return new VoiceClawRealtimeToolRuntime(
     createTools({
       config: options.config,

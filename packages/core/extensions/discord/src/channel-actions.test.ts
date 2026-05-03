@@ -1,5 +1,5 @@
 import type { ChannelMessageActionContext } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { withEnv } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it, vi } from "vitest";
 
@@ -23,7 +23,7 @@ describe("discordMessageActions", () => {
               enabled: true,
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       });
 
       expect(discovery).toEqual({
@@ -49,7 +49,7 @@ describe("discordMessageActions", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(discovery?.capabilities).toEqual(["presentation"]);
@@ -81,7 +81,7 @@ describe("discordMessageActions", () => {
             },
           },
         },
-      } as unknown as Brikko StudioConfig,
+      } as unknown as BrikkoStudioConfig,
     });
 
     expect(discovery?.capabilities).toEqual(["presentation"]);
@@ -110,7 +110,7 @@ describe("discordMessageActions", () => {
             },
           },
         },
-      } as unknown as Brikko StudioConfig,
+      } as unknown as BrikkoStudioConfig,
       accountId: "ops",
     });
 
@@ -140,7 +140,7 @@ describe("discordMessageActions", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const defaultDiscovery = discordMessageActions.describeMessageTool?.({
       cfg,
@@ -171,7 +171,7 @@ describe("discordMessageActions", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(discovery?.actions).toContain("send");
@@ -189,7 +189,7 @@ describe("discordMessageActions", () => {
             token: "Bot token-main",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
     expect(discovery?.schema).toBeUndefined();
   });
@@ -236,7 +236,7 @@ describe("discordMessageActions", () => {
           token: "Bot token-main",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const toolContext: ChannelMessageActionContext["toolContext"] = {
       currentChannelProvider: "discord",
     };

@@ -6,7 +6,7 @@ import {
   resolveActiveTalkProviderConfig,
 } from "../../config/talk.js";
 import type { TalkConfigResponse, TalkProviderConfig } from "../../config/types.gateway.js";
-import type { Brikko StudioConfig, TtsConfig, TtsProviderConfigMap } from "../../config/types.js";
+import type { BrikkoStudioConfig, TtsConfig, TtsProviderConfigMap } from "../../config/types.js";
 import {
   REALTIME_VOICE_AGENT_CONSULT_TOOL,
   REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME,
@@ -105,9 +105,9 @@ function resolveTalkVoiceId(
 }
 
 function buildTalkTtsConfig(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
 ):
-  | { cfg: Brikko StudioConfig; provider: string; providerConfig: TalkProviderConfig }
+  | { cfg: BrikkoStudioConfig; provider: string; providerConfig: TalkProviderConfig }
   | { error: string; reason: TalkSpeakReason } {
   const resolved = resolveActiveTalkProviderConfig(config.talk);
   const provider = canonicalizeSpeechProviderId(resolved?.provider, config);
@@ -162,7 +162,7 @@ function getRecord(value: unknown): Record<string, unknown> | undefined {
   return asRecord(value) ?? undefined;
 }
 
-function getVoiceCallRealtimeConfig(config: Brikko StudioConfig): {
+function getVoiceCallRealtimeConfig(config: BrikkoStudioConfig): {
   provider?: string;
   providers?: Record<string, RealtimeVoiceProviderConfig>;
 } {
@@ -187,7 +187,7 @@ function getVoiceCallRealtimeConfig(config: Brikko StudioConfig): {
   };
 }
 
-function buildTalkRealtimeConfig(config: Brikko StudioConfig, requestedProvider?: string) {
+function buildTalkRealtimeConfig(config: BrikkoStudioConfig, requestedProvider?: string) {
   const voiceCallRealtime = getVoiceCallRealtimeConfig(config);
   const talkProviderConfigs = config.talk?.providers as
     | Record<string, RealtimeVoiceProviderConfig>
@@ -210,7 +210,7 @@ function buildTalkRealtimeConfig(config: Brikko StudioConfig, requestedProvider?
 }
 
 function buildRealtimeInstructions(): string {
-  return `You are Brikko Studio's realtime voice interface. Keep spoken replies concise. If the user asks for code, repository state, tools, files, current Brikko Studio context, or deeper reasoning, call ${REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME} and then summarize the result naturally.`;
+  return `You are BrikkoStudio's realtime voice interface. Keep spoken replies concise. If the user asks for code, repository state, tools, files, current BrikkoStudio context, or deeper reasoning, call ${REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME} and then summarize the result naturally.`;
 }
 
 function withRealtimeBrowserOverrides(
@@ -268,7 +268,7 @@ function resolveTalkSpeed(params: TalkSpeakParams): number | undefined {
 function buildTalkSpeakOverrides(
   provider: string,
   providerConfig: TalkProviderConfig,
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   params: TalkSpeakParams,
 ): TtsDirectiveOverrides {
   const speechProvider = getSpeechProvider(provider, config);
@@ -332,8 +332,8 @@ function inferMimeType(
 
 function resolveTalkResponseFromConfig(params: {
   includeSecrets: boolean;
-  sourceConfig: Brikko StudioConfig;
-  runtimeConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
+  runtimeConfig: BrikkoStudioConfig;
 }): TalkConfigResponse | undefined {
   const normalizedTalk = normalizeTalkSection(params.sourceConfig.talk);
   if (!normalizedTalk) {

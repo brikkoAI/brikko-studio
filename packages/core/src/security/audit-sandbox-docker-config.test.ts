@@ -1,7 +1,7 @@
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   collectSandboxDangerousConfigFindings,
   collectSandboxDockerNoopFindings,
@@ -61,7 +61,7 @@ describe("security audit sandbox docker config", () => {
                 },
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
           expectedFindings: [{ checkId: "sandbox.docker_config_mode_off" }],
         },
         {
@@ -76,7 +76,7 @@ describe("security audit sandbox docker config", () => {
               },
               list: [{ id: "ops", sandbox: { mode: "all" } }],
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
           expectedFindings: [],
           expectedAbsent: ["sandbox.docker_config_mode_off"],
         },
@@ -96,7 +96,7 @@ describe("security audit sandbox docker config", () => {
                 },
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
           expectedFindings: [
             { checkId: "sandbox.dangerous_bind_mount", severity: "critical" },
             { checkId: "sandbox.dangerous_network_mode", severity: "critical" },
@@ -117,7 +117,7 @@ describe("security audit sandbox docker config", () => {
                 },
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
           expectedFindings: [
             {
               checkId: "sandbox.dangerous_bind_mount",
@@ -139,7 +139,7 @@ describe("security audit sandbox docker config", () => {
                 },
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
           expectedFindings: [
             {
               checkId: "sandbox.dangerous_network_mode",

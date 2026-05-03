@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_IMESSAGE_ATTACHMENT_ROOTS,
@@ -24,7 +24,7 @@ describe("iMessage channel-inbound-roots contract", () => {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 
   it("resolves configured attachment roots with account overrides", () => {
     expectResolvedRootsCase(
@@ -56,7 +56,7 @@ describe("iMessage channel-inbound-roots contract", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectResolvedRootsCase(
       () => resolveIMessageAttachmentRoots({ cfg, accountId: "work" }),
@@ -66,14 +66,14 @@ describe("iMessage channel-inbound-roots contract", () => {
 
   it("falls back to default iMessage attachment roots", () => {
     expectResolvedRootsCase(
-      () => resolveIMessageAttachmentRoots({ cfg: {} as Brikko StudioConfig }),
+      () => resolveIMessageAttachmentRoots({ cfg: {} as BrikkoStudioConfig }),
       [...DEFAULT_IMESSAGE_ATTACHMENT_ROOTS],
     );
   });
 
   it("falls back to default iMessage remote attachment roots", () => {
     expectResolvedRootsCase(
-      () => resolveIMessageRemoteAttachmentRoots({ cfg: {} as Brikko StudioConfig }),
+      () => resolveIMessageRemoteAttachmentRoots({ cfg: {} as BrikkoStudioConfig }),
       [...DEFAULT_IMESSAGE_ATTACHMENT_ROOTS],
     );
   });

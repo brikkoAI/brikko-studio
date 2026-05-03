@@ -1,5 +1,5 @@
 import type { App } from "@slack/bolt";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { describe, expect, it } from "vitest";
 import { createSlackMonitorContext } from "./context.js";
@@ -9,7 +9,7 @@ function createTestContext() {
     cfg: {
       channels: { slack: { enabled: true } },
       session: { dmScope: "main" },
-    } as Brikko StudioConfig,
+    } as BrikkoStudioConfig,
     accountId: "default",
     botToken: "xoxb-test",
     app: { client: {} } as App,

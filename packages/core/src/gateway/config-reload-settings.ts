@@ -1,5 +1,5 @@
 import type { GatewayReloadMode } from "../config/types.gateway.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export type GatewayReloadSettings = {
   mode: GatewayReloadMode;
@@ -11,7 +11,7 @@ const DEFAULT_RELOAD_SETTINGS: GatewayReloadSettings = {
   debounceMs: 300,
 };
 
-export function resolveGatewayReloadSettings(cfg: Brikko StudioConfig): GatewayReloadSettings {
+export function resolveGatewayReloadSettings(cfg: BrikkoStudioConfig): GatewayReloadSettings {
   const rawMode = cfg.gateway?.reload?.mode;
   const mode =
     rawMode === "off" || rawMode === "restart" || rawMode === "hot" || rawMode === "hybrid"

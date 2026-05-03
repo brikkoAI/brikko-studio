@@ -81,7 +81,7 @@ export function describePackageManifestContract(params: PackageManifestContractP
 
         expect(
           isAtLeast(minimum, baseline),
-          `${packagePath} should require at least Brikko Studio ${minHostVersionBaseline}`,
+          `${packagePath} should require at least BrikkoStudio ${minHostVersionBaseline}`,
         ).toBe(true);
       });
     }

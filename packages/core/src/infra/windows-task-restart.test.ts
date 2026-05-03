@@ -5,7 +5,7 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vite
 import { captureFullEnv } from "../test-utils/env.js";
 
 const spawnMock = vi.hoisted(() => vi.fn());
-const resolvePreferredBrikko StudioTmpDirMock = vi.hoisted(() => vi.fn(() => os.tmpdir()));
+const resolvePreferredBrikkoStudioTmpDirMock = vi.hoisted(() => vi.fn(() => os.tmpdir()));
 const resolveTaskScriptPathMock = vi.hoisted(() =>
   vi.fn((env: Record<string, string | undefined>) => {
     const home = env.USERPROFILE || env.HOME || os.homedir();
@@ -23,7 +23,7 @@ vi.mock("node:child_process", async () => {
   );
 });
 vi.mock("./tmp-brikko-studio-dir.js", () => ({
-  resolvePreferredBrikko StudioTmpDir: () => resolvePreferredBrikko StudioTmpDirMock(),
+  resolvePreferredBrikkoStudioTmpDir: () => resolvePreferredBrikkoStudioTmpDirMock(),
 }));
 vi.mock("../daemon/schtasks.js", () => ({
   resolveTaskScriptPath: (env: Record<string, string | undefined>) =>
@@ -72,8 +72,8 @@ describe("relaunchGatewayScheduledTask", () => {
 
   beforeEach(() => {
     spawnMock.mockReset();
-    resolvePreferredBrikko StudioTmpDirMock.mockReset();
-    resolvePreferredBrikko StudioTmpDirMock.mockReturnValue(os.tmpdir());
+    resolvePreferredBrikkoStudioTmpDirMock.mockReset();
+    resolvePreferredBrikkoStudioTmpDirMock.mockReturnValue(os.tmpdir());
     resolveTaskScriptPathMock.mockReset();
     resolveTaskScriptPathMock.mockImplementation((env: Record<string, string | undefined>) => {
       const home = env.USERPROFILE || env.HOME || os.homedir();
@@ -95,7 +95,7 @@ describe("relaunchGatewayScheduledTask", () => {
     expect(result).toMatchObject({
       ok: true,
       method: "schtasks",
-      tried: expect.arrayContaining(['schtasks /Run /TN "Brikko Studio Gateway (work)"']),
+      tried: expect.arrayContaining(['schtasks /Run /TN "BrikkoStudio Gateway (work)"']),
     });
     expect(result.tried).toContain(`cmd.exe /d /s /c ${seenCommandArg}`);
     expect(spawnMock).toHaveBeenCalledWith(
@@ -115,9 +115,9 @@ describe("relaunchGatewayScheduledTask", () => {
     expect(script).toContain("timeout /t 1 /nobreak >nul");
     expect(script).toContain("gateway-restart.log");
     expect(script).toContain(
-      'brikko-studio restart attempt source=windows-task-handoff target="Brikko Studio Gateway (work)"',
+      'brikko-studio restart attempt source=windows-task-handoff target="BrikkoStudio Gateway (work)"',
     );
-    expect(script).toContain('schtasks /Run /TN "Brikko Studio Gateway (work)" >>');
+    expect(script).toContain('schtasks /Run /TN "BrikkoStudio Gateway (work)" >>');
     expect(script).toContain('del "%~f0" >nul 2>&1');
   });
 
@@ -129,12 +129,12 @@ describe("relaunchGatewayScheduledTask", () => {
 
     relaunchGatewayScheduledTask({
       BRIKKO_STUDIO_PROFILE: "work",
-      BRIKKO_STUDIO_WINDOWS_TASK_NAME: "Brikko Studio Gateway (custom)",
+      BRIKKO_STUDIO_WINDOWS_TASK_NAME: "BrikkoStudio Gateway (custom)",
     });
 
     const scriptPath = [...createdScriptPaths][0];
     const script = fs.readFileSync(scriptPath, "utf8");
-    expect(script).toContain('schtasks /Run /TN "Brikko Studio Gateway (custom)" >>');
+    expect(script).toContain('schtasks /Run /TN "BrikkoStudio Gateway (custom)" >>');
   });
 
   it("returns failed when the helper cannot be spawned", () => {
@@ -153,7 +153,7 @@ describe("relaunchGatewayScheduledTask", () => {
     const unref = vi.fn();
     const metacharTmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio&(restart)-"));
     createdTmpDirs.add(metacharTmpDir);
-    resolvePreferredBrikko StudioTmpDirMock.mockReturnValue(metacharTmpDir);
+    resolvePreferredBrikkoStudioTmpDirMock.mockReturnValue(metacharTmpDir);
     spawnMock.mockReturnValue({ unref });
 
     relaunchGatewayScheduledTask({ BRIKKO_STUDIO_PROFILE: "work" });

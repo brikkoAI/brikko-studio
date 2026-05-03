@@ -1,6 +1,6 @@
 import os from "node:os";
 import { resolveGatewayPort } from "../config/paths.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { normalizeSecretInputString, resolveSecretInputRef } from "../config/types.secrets.js";
 import { materializeGatewayAuthSecretRefs } from "../gateway/auth-config-utils.js";
 import { assertExplicitGatewayAuthModeWhenBothConfigured } from "../gateway/auth-mode-policy.js";
@@ -176,7 +176,7 @@ function parseNormalizedGatewayUrl(raw: string): string | null {
 }
 
 function resolveScheme(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts?: {
     forceSecure?: boolean;
   },
@@ -220,7 +220,7 @@ function pickTailnetIPv4(
 }
 
 function resolvePairingSetupAuthLabel(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv,
 ): ResolveAuthLabelResult {
   const mode = cfg.gateway?.auth?.mode;
@@ -263,7 +263,7 @@ function resolvePairingSetupAuthLabel(
 }
 
 async function resolveGatewayUrl(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts: {
     env: NodeJS.ProcessEnv;
     publicUrl?: string;
@@ -332,7 +332,7 @@ export function encodePairingSetupCode(payload: PairingSetupPayload): string {
 }
 
 export async function resolvePairingSetupFromConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options: ResolvePairingSetupOptions = {},
 ): Promise<PairingSetupResolution> {
   assertExplicitGatewayAuthModeWhenBothConfigured(cfg);

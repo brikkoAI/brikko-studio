@@ -7,7 +7,7 @@ export function createPluginSdkLightVitestConfig(env?: Record<string, string | u
     dir: "src",
     env,
     exclude: getUnitFastTestFiles(),
-    includeBrikko StudioRuntimeSetup: false,
+    includeBrikkoStudioRuntimeSetup: false,
     name: "plugin-sdk-light",
     passWithNoTests: true,
   });

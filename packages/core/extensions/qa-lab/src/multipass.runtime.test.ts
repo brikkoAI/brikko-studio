@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 
 const execFileMock = vi.hoisted(() => vi.fn());
@@ -236,7 +236,7 @@ describe("qa multipass runtime", () => {
       scenarioIds: ["channel-chat-baseline"],
     }).vmName;
     const expectedTransferDir = path.join(
-      resolvePreferredBrikko StudioTmpDir(),
+      resolvePreferredBrikkoStudioTmpDir(),
       `${expectedVmName}-qa-suite-`,
     );
 
@@ -249,7 +249,7 @@ describe("qa multipass runtime", () => {
     ).rejects.toThrow("Multipass is not installed on this host.");
 
     const tempEntries = fs
-      .readdirSync(resolvePreferredBrikko StudioTmpDir())
+      .readdirSync(resolvePreferredBrikkoStudioTmpDir())
       .filter((entry) => entry.startsWith(path.basename(expectedTransferDir)));
     expect(tempEntries).toEqual([]);
     fs.rmSync(outputDir, { recursive: true, force: true });

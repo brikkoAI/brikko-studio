@@ -41,7 +41,7 @@ afterEach(() => {
 });
 
 describe("extra-params: provider runtime handoff", () => {
-  it("keeps unsupported upstream transport values out of Brikko Studio runtime hooks", () => {
+  it("keeps unsupported upstream transport values out of BrikkoStudio runtime hooks", () => {
     const settingsManager = {
       getGlobalSettings: () => ({}),
       getProjectSettings: () => ({}),

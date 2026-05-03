@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
 import { getActivePluginRuntimeSubagentMode } from "../plugins/runtime.js";
 import { ensureStandaloneRuntimePluginRegistryLoaded } from "../plugins/runtime/standalone-runtime-registry-loader.js";
@@ -13,7 +13,7 @@ type StartupScopedPluginSnapshot = NonNullable<
 };
 
 function resolveStartupPluginIdsFromCurrentSnapshot(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
 }): string[] | undefined {
   const snapshot = getCurrentPluginMetadataSnapshot({
@@ -28,7 +28,7 @@ function resolveStartupPluginIdsFromCurrentSnapshot(params: {
 }
 
 export function ensureRuntimePluginsLoaded(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string | null;
   allowGatewaySubagentBinding?: boolean;
 }): void {

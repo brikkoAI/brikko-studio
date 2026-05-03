@@ -11,7 +11,7 @@ import {
 import path from "node:path";
 import { resolveChannelTtsVoiceDelivery } from "brikko-studio/plugin-sdk/channel-targets";
 import type {
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   ResolvedTtsPersona,
   TtsAutoMode,
   TtsConfig,
@@ -30,7 +30,7 @@ import {
   selectApplicableRuntimeConfig,
 } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import { isVerbose, logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/sandbox";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/sandbox";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
@@ -221,7 +221,7 @@ function resolveModelOverridePolicy(
   };
 }
 
-function sortSpeechProvidersForAutoSelection(cfg?: Brikko StudioConfig) {
+function sortSpeechProvidersForAutoSelection(cfg?: BrikkoStudioConfig) {
   return listSpeechProviders(cfg).toSorted((left, right) => {
     const leftOrder = left.autoSelectOrder ?? Number.MAX_SAFE_INTEGER;
     const rightOrder = right.autoSelectOrder ?? Number.MAX_SAFE_INTEGER;
@@ -232,11 +232,11 @@ function sortSpeechProvidersForAutoSelection(cfg?: Brikko StudioConfig) {
   });
 }
 
-function _resolveRegistryDefaultSpeechProviderId(cfg?: Brikko StudioConfig): TtsProvider {
+function _resolveRegistryDefaultSpeechProviderId(cfg?: BrikkoStudioConfig): TtsProvider {
   return sortSpeechProvidersForAutoSelection(cfg)[0]?.id ?? "";
 }
 
-function resolveTtsRuntimeConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function resolveTtsRuntimeConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return (
     selectApplicableRuntimeConfig({
       inputConfig: cfg,
@@ -354,7 +354,7 @@ function resolveRawProviderConfig(
 function resolveLazyProviderConfig(
   config: ResolvedTtsConfig,
   providerId: string,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): SpeechProviderConfig {
   const canonical =
     normalizeConfiguredSpeechProviderId(providerId) ?? normalizeLowercaseStringOrEmpty(providerId);
@@ -417,7 +417,7 @@ function collectDirectProviderConfigEntries(raw: TtsConfig): Record<string, Spee
 export function getResolvedSpeechProviderConfig(
   config: ResolvedTtsConfig,
   providerId: string,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): SpeechProviderConfig {
   const effectiveCfg = cfg ? resolveTtsRuntimeConfig(cfg) : config.sourceConfig;
   const canonical =
@@ -428,7 +428,7 @@ export function getResolvedSpeechProviderConfig(
 }
 
 export function resolveTtsConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   contextOrAgentId?: string | TtsConfigResolutionContext,
 ): ResolvedTtsConfig {
   cfg = resolveTtsRuntimeConfig(cfg);
@@ -489,7 +489,7 @@ export function resolveTtsAutoMode(params: {
 }
 
 function resolveEffectiveTtsAutoState(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionAuto?: string;
   agentId?: string;
   channelId?: string;
@@ -519,7 +519,7 @@ function resolveEffectiveTtsAutoState(params: {
 }
 
 export function buildTtsSystemPromptHint(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId?: string,
 ): string | undefined {
   cfg = resolveTtsRuntimeConfig(cfg);
@@ -677,7 +677,7 @@ export function setTtsProvider(prefsPath: string, provider: TtsProvider): void {
 }
 
 export function resolveExplicitTtsOverrides(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prefsPath?: string;
   provider?: string;
   modelId?: string;
@@ -831,7 +831,7 @@ function shouldDeliverTtsAsVoice(params: {
   return params.voiceCompatible === true || delivery.transcodesAudio === true;
 }
 
-export function resolveTtsProviderOrder(primary: TtsProvider, cfg?: Brikko StudioConfig): TtsProvider[] {
+export function resolveTtsProviderOrder(primary: TtsProvider, cfg?: BrikkoStudioConfig): TtsProvider[] {
   const effectiveCfg = cfg ? resolveTtsRuntimeConfig(cfg) : undefined;
   const normalizedPrimary = canonicalizeSpeechProviderId(primary, effectiveCfg) ?? primary;
   const ordered = new Set<TtsProvider>([normalizedPrimary]);
@@ -847,7 +847,7 @@ export function resolveTtsProviderOrder(primary: TtsProvider, cfg?: Brikko Studi
 export function isTtsProviderConfigured(
   config: ResolvedTtsConfig,
   provider: TtsProvider,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): boolean {
   const effectiveCfg = cfg ? resolveTtsRuntimeConfig(cfg) : config.sourceConfig;
   const resolvedProvider = getSpeechProvider(provider, effectiveCfg);
@@ -915,7 +915,7 @@ type TtsProviderReadyResolution =
 
 function resolveReadySpeechProvider(params: {
   provider: TtsProvider;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   config: ResolvedTtsConfig;
   persona?: ResolvedTtsPersona;
   requireTelephony?: boolean;
@@ -982,7 +982,7 @@ function resolveReadySpeechProvider(params: {
 async function prepareSpeechSynthesis(params: {
   provider: NonNullable<ReturnType<typeof getSpeechProvider>>;
   text: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerConfig: SpeechProviderConfig;
   providerOverrides?: SpeechProviderOverrides;
   persona?: ResolvedTtsPersona;
@@ -1024,7 +1024,7 @@ async function prepareSpeechSynthesis(params: {
 
 function resolveTtsRequestSetup(params: {
   text: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prefsPath?: string;
   providerOverride?: TtsProvider;
   disableFallback?: boolean;
@@ -1033,7 +1033,7 @@ function resolveTtsRequestSetup(params: {
   accountId?: string;
 }):
   | {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       config: ResolvedTtsConfig;
       persona?: ResolvedTtsPersona;
       providers: TtsProvider[];
@@ -1066,7 +1066,7 @@ function resolveTtsRequestSetup(params: {
 
 export async function textToSpeech(params: {
   text: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prefsPath?: string;
   channel?: string;
   overrides?: TtsDirectiveOverrides;
@@ -1102,7 +1102,7 @@ export async function textToSpeech(params: {
     outputFormat = transcoded.outputFormat;
   }
 
-  const tempRoot = resolvePreferredBrikko StudioTmpDir();
+  const tempRoot = resolvePreferredBrikkoStudioTmpDir();
   mkdirSync(tempRoot, { recursive: true, mode: 0o700 });
   const tempDir = mkdtempSync(path.join(tempRoot, "tts-"));
   const audioPath = path.join(tempDir, `voice-${Date.now()}${fileExtension}`);
@@ -1178,7 +1178,7 @@ async function maybePreTranscodeForVoiceDelivery(params: {
 
 export async function synthesizeSpeech(params: {
   text: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prefsPath?: string;
   channel?: string;
   overrides?: TtsDirectiveOverrides;
@@ -1316,7 +1316,7 @@ export async function synthesizeSpeech(params: {
 
 export async function textToSpeechTelephony(params: {
   text: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prefsPath?: string;
   overrides?: TtsDirectiveOverrides;
 }): Promise<TtsTelephonyResult> {
@@ -1444,7 +1444,7 @@ export async function textToSpeechTelephony(params: {
 
 export async function listSpeechVoices(params: {
   provider: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   config?: ResolvedTtsConfig;
   apiKey?: string;
   baseUrl?: string;
@@ -1475,7 +1475,7 @@ export async function listSpeechVoices(params: {
 
 export async function maybeApplyTtsToPayload(params: {
   payload: ReplyPayload;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel?: string;
   kind?: "tool" | "block" | "final";
   inboundAudio?: boolean;

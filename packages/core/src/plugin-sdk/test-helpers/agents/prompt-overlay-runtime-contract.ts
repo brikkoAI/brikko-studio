@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import type { ProviderSystemPromptContributionContext } from "../../../plugins/types.js";
 
 export const GPT5_CONTRACT_MODEL_ID = "gpt-5.4";
@@ -9,7 +9,7 @@ export const OPENAI_CODEX_CONTRACT_PROVIDER_ID = "openai-codex";
 export const CODEX_CONTRACT_PROVIDER_ID = "codex";
 export const NON_OPENAI_CONTRACT_PROVIDER_ID = "openrouter";
 
-export function openAiPluginPersonalityConfig(personality: "friendly" | "off"): Brikko StudioConfig {
+export function openAiPluginPersonalityConfig(personality: "friendly" | "off"): BrikkoStudioConfig {
   return {
     plugins: {
       entries: {
@@ -18,10 +18,10 @@ export function openAiPluginPersonalityConfig(personality: "friendly" | "off"): 
         },
       },
     },
-  } satisfies Brikko StudioConfig;
+  } satisfies BrikkoStudioConfig;
 }
 
-export function sharedGpt5PersonalityConfig(personality: "friendly" | "off"): Brikko StudioConfig {
+export function sharedGpt5PersonalityConfig(personality: "friendly" | "off"): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -30,12 +30,12 @@ export function sharedGpt5PersonalityConfig(personality: "friendly" | "off"): Br
         },
       },
     },
-  } satisfies Brikko StudioConfig;
+  } satisfies BrikkoStudioConfig;
 }
 
 export function codexPromptOverlayContext(params?: {
   modelId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): ProviderSystemPromptContributionContext {
   return {
     provider: CODEX_CONTRACT_PROVIDER_ID,

@@ -2,7 +2,7 @@ import type { SkillSnapshot } from "../agents/skills.js";
 import { resolveStateDir } from "../config/paths.js";
 import { redactConfigObject } from "../config/redact-snapshot.js";
 import type { SessionSystemPromptReport } from "../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveCommitHash } from "../infra/git-commit.js";
 import { resolveOsSummary } from "../infra/os-summary.js";
 import {
@@ -16,7 +16,7 @@ import { VERSION } from "../version.js";
 
 type BuildTrajectoryRunMetadataParams = {
   env?: NodeJS.ProcessEnv;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir: string;
   sessionFile?: string;
   sessionKey?: string;
@@ -133,7 +133,7 @@ function buildPluginsFromActiveRegistry() {
 }
 
 function buildPluginsFromManifest(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }) {
@@ -227,7 +227,7 @@ export function buildTrajectoryRunMetadata(
     capturedAt: new Date().toISOString(),
     harness: {
       type: "brikko-studio",
-      name: "Brikko Studio",
+      name: "BrikkoStudio",
       version: VERSION,
       gitSha:
         resolveCommitHash({ cwd: params.workspaceDir, env, moduleUrl: import.meta.url }) ??

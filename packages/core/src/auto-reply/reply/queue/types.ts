@@ -3,7 +3,7 @@ import type { CurrentTurnPromptContext } from "../../../agents/pi-embedded-runne
 import type { SkillSnapshot } from "../../../agents/skills.js";
 import type { SilentReplyPromptMode } from "../../../agents/system-prompt.types.js";
 import type { SessionEntry } from "../../../config/sessions.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import type { PromptImageOrderEntry } from "../../../media/prompt-image-order.js";
 import type { InputProvenance } from "../../../sessions/input-provenance.js";
 import type { SourceReplyDeliveryMode } from "../../get-reply-options.types.js";
@@ -71,7 +71,7 @@ export type FollowupRun = {
     traceAuthorized?: boolean;
     sessionFile: string;
     workspaceDir: string;
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     skillsSnapshot?: SkillSnapshot;
     provider: string;
     model: string;
@@ -105,7 +105,7 @@ export type FollowupRun = {
 };
 
 export type ResolveQueueSettingsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel?: string;
   sessionEntry?: SessionEntry;
   inlineMode?: QueueMode;

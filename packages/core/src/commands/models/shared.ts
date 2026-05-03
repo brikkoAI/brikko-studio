@@ -9,7 +9,7 @@ import {
 } from "../../agents/model-selection.js";
 import { formatCliCommand } from "../../cli/command-format.js";
 import {
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   readConfigFileSnapshot,
   replaceConfigFile,
 } from "../../config/config.js";
@@ -50,7 +50,7 @@ export const formatMs = (value?: number | null) => {
   return `${Math.round(value / 100) / 10}s`;
 };
 
-export async function loadValidConfigOrThrow(): Promise<Brikko StudioConfig> {
+export async function loadValidConfigOrThrow(): Promise<BrikkoStudioConfig> {
   const snapshot = await readConfigFileSnapshot();
   if (!snapshot.valid) {
     const issues = formatConfigIssueLines(snapshot.issues, "-").join("\n");
@@ -60,8 +60,8 @@ export async function loadValidConfigOrThrow(): Promise<Brikko StudioConfig> {
 }
 
 export async function updateConfig(
-  mutator: (cfg: Brikko StudioConfig) => Brikko StudioConfig,
-): Promise<Brikko StudioConfig> {
+  mutator: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig,
+): Promise<BrikkoStudioConfig> {
   const snapshot = await readConfigFileSnapshot();
   if (!snapshot.valid) {
     const issues = formatConfigIssueLines(snapshot.issues, "-").join("\n");
@@ -75,7 +75,7 @@ export async function updateConfig(
   return next;
 }
 
-export function resolveModelTarget(params: { raw: string; cfg: Brikko StudioConfig }): {
+export function resolveModelTarget(params: { raw: string; cfg: BrikkoStudioConfig }): {
   provider: string;
   model: string;
 } {
@@ -95,7 +95,7 @@ export function resolveModelTarget(params: { raw: string; cfg: Brikko StudioConf
 }
 
 export function resolveModelKeysFromEntries(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   entries: readonly string[];
 }): string[] {
   const aliasIndex = buildModelAliasIndex({
@@ -114,7 +114,7 @@ export function resolveModelKeysFromEntries(params: {
     .map((entry) => modelKey(entry.ref.provider, entry.ref.model));
 }
 
-export function buildAllowlistSet(cfg: Brikko StudioConfig): Set<string> {
+export function buildAllowlistSet(cfg: BrikkoStudioConfig): Set<string> {
   const allowed = new Set<string>();
   const models = cfg.agents?.defaults?.models ?? {};
   for (const raw of Object.keys(models)) {
@@ -128,7 +128,7 @@ export function buildAllowlistSet(cfg: Brikko StudioConfig): Set<string> {
 }
 
 export function resolveKnownAgentId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   rawAgentId?: string | null;
 }): string | undefined {
   const raw = params.rawAgentId?.trim();
@@ -206,10 +206,10 @@ export function mergePrimaryFallbackConfig(
 }
 
 export function applyDefaultModelPrimaryUpdate(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   modelRaw: string;
   field: "model" | "imageModel";
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const resolved = resolveModelTarget({ raw: params.modelRaw, cfg: params.cfg });
   const nextModels = {
     ...params.cfg.agents?.defaults?.models,

@@ -1,5 +1,5 @@
 import { normalizeThinkLevel } from "../auto-reply/thinking.shared.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 function asRecord(value: unknown): Record<string, unknown> | undefined {
   return value && typeof value === "object" ? (value as Record<string, unknown>) : undefined;
@@ -11,7 +11,7 @@ function readString(value: Record<string, unknown>, key: string): string | undef
 }
 
 export function resolveSubagentThinkingOverride(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   targetAgentConfig?: unknown;
   thinkingOverrideRaw?: string;
 }) {

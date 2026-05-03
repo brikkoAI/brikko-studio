@@ -5,7 +5,7 @@ import {
   normalizeConfiguredMcpServers,
 } from "./mcp-config-normalize.js";
 import { replaceConfigFile } from "./mutate.js";
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 import { validateConfigObjectWithPlugins } from "./validation.js";
 
 type ConfigMcpServers = ReturnType<typeof normalizeConfiguredMcpServers>;
@@ -14,7 +14,7 @@ type ConfigMcpReadResult =
   | {
       ok: true;
       path: string;
-      config: Brikko StudioConfig;
+      config: BrikkoStudioConfig;
       mcpServers: ConfigMcpServers;
       baseHash?: string;
     }
@@ -24,7 +24,7 @@ type ConfigMcpWriteResult =
   | {
       ok: true;
       path: string;
-      config: Brikko StudioConfig;
+      config: BrikkoStudioConfig;
       mcpServers: ConfigMcpServers;
       removed?: boolean;
     }

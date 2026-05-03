@@ -1,5 +1,5 @@
 import { setTimeout as sleep } from "node:timers/promises";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type { QaBusState } from "./bus-state.js";
 import { getQaProvider } from "./providers/index.js";
@@ -82,7 +82,7 @@ export function createQaChannelGatewayConfig(params: {
         enabled: true,
         baseUrl: params.baseUrl,
         botUserId: "brikko-studio",
-        botDisplayName: "Brikko Studio QA",
+        botDisplayName: "BrikkoStudio QA",
         allowFrom: ["*"],
         pollTimeoutMs: 250,
       },
@@ -112,7 +112,7 @@ function createQaChannelReportNotes(params: QaTransportReportParams) {
 async function handleQaChannelAction(params: {
   action: QaTransportActionName;
   args: Record<string, unknown>;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }) {
   return await qaChannelPlugin.actions?.handleAction?.({

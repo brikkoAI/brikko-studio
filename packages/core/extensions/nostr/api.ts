@@ -1,6 +1,6 @@
 export {
   getPluginRuntimeGatewayRequestScope,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type PluginRuntime,
 } from "./runtime-api.js";
 export { nostrPlugin } from "./src/channel.js";

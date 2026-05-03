@@ -2,7 +2,7 @@ import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { getBundledChannelSetupPlugin } from "../channels/plugins/bundled.js";
 import type { ChannelPluginCatalogEntry } from "../channels/plugins/catalog.js";
 import type { ChannelPlugin } from "../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import { resetPluginRuntimeStateForTest, setActivePluginRegistry } from "../plugins/runtime.js";
 import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.js";
@@ -782,7 +782,7 @@ describe("channelsAddCommand", () => {
       },
     };
     pluginInstallRecordCommitMocks.commitConfigWithPendingPluginInstalls.mockImplementationOnce(
-      async (params: { nextConfig: Brikko StudioConfig }) => {
+      async (params: { nextConfig: BrikkoStudioConfig }) => {
         const { installs: _installs, ...plugins } = params.nextConfig.plugins ?? {};
         const writtenConfig = { ...params.nextConfig, plugins };
         await configMocks.writeConfigFile(writtenConfig);

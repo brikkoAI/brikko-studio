@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { loadProviderIndexCatalogRowsForList } from "./list.provider-index-catalog.js";
 
-const baseConfig = {} satisfies Brikko StudioConfig;
+const baseConfig = {} satisfies BrikkoStudioConfig;
 
 describe("loadProviderIndexCatalogRowsForList", () => {
   it("returns provider-index preview rows when the provider plugin is enabled", () => {

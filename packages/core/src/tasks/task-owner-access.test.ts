@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
+import { withBrikkoStudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import {
   findLatestTaskForRelatedSessionKeyForOwner,
   findTaskByRunIdForOwner,
@@ -20,7 +20,7 @@ afterEach(() => {
 });
 
 async function withTaskRegistryTempDir<T>(run: () => Promise<T> | T): Promise<T> {
-  return await withBrikko StudioTestState(
+  return await withBrikkoStudioTestState(
     {
       layout: "state-only",
       prefix: "brikko-studio-task-owner-access-",

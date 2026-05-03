@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 
 type OwnerDisplaySetting = {
@@ -8,7 +8,7 @@ type OwnerDisplaySetting = {
 };
 
 type OwnerDisplaySecretResolution = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   generatedSecret?: string;
 };
 
@@ -16,7 +16,7 @@ type OwnerDisplaySecretResolution = {
  * Resolve owner display settings for prompt rendering.
  * Keep auth secrets decoupled from owner hash secrets.
  */
-export function resolveOwnerDisplaySetting(config?: Brikko StudioConfig): OwnerDisplaySetting {
+export function resolveOwnerDisplaySetting(config?: BrikkoStudioConfig): OwnerDisplaySetting {
   const ownerDisplay = config?.commands?.ownerDisplay;
   if (ownerDisplay !== "hash") {
     return { ownerDisplay, ownerDisplaySecret: undefined };
@@ -32,7 +32,7 @@ export function resolveOwnerDisplaySetting(config?: Brikko StudioConfig): OwnerD
  * Returns updated config and generated secret when autofill was needed.
  */
 export function ensureOwnerDisplaySecret(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   generateSecret: () => string = () => crypto.randomBytes(32).toString("hex"),
 ): OwnerDisplaySecretResolution {
   const settings = resolveOwnerDisplaySetting(config);

@@ -115,7 +115,7 @@ describe("createPluginModuleLoader", () => {
   it("loads bundled JavaScript without creating a module loader", async () => {
     const sourceLoaderCalls = mockSourceLoaderCalls();
 
-    const { loadBrikko StudioPlugins } = await importFreshModule<typeof import("./loader.js")>(
+    const { loadBrikkoStudioPlugins } = await importFreshModule<typeof import("./loader.js")>(
       import.meta.url,
       "./loader.js?scope=native-module-loader",
     );
@@ -123,7 +123,7 @@ describe("createPluginModuleLoader", () => {
     const pluginRoot = writeBundledPluginFixture("demo");
     process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = pluginRoot;
 
-    loadBrikko StudioPlugins({
+    loadBrikkoStudioPlugins({
       cache: false,
       workspaceDir: pluginRoot,
       onlyPluginIds: ["demo"],
@@ -144,7 +144,7 @@ describe("createPluginModuleLoader", () => {
   it("loads packaged JavaScript without creating a module loader", async () => {
     const sourceLoaderCalls = mockSourceLoaderCalls();
 
-    const { loadBrikko StudioPlugins } = await importFreshModule<typeof import("./loader.js")>(
+    const { loadBrikkoStudioPlugins } = await importFreshModule<typeof import("./loader.js")>(
       import.meta.url,
       "./loader.js?scope=packaged-native-module-loader",
     );
@@ -152,7 +152,7 @@ describe("createPluginModuleLoader", () => {
     const pluginRoot = writePackagedPluginFixture("npm-demo");
     process.env.BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR = makeTempDir();
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       cache: false,
       config: {
         plugins: {

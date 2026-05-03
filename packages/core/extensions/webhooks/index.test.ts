@@ -1,13 +1,13 @@
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioPluginApi } from "./api.js";
+import type { BrikkoStudioPluginApi } from "./api.js";
 import plugin from "./index.js";
 
 function createApi(params?: {
-  pluginConfig?: Brikko StudioPluginApi["pluginConfig"];
-  registerHttpRoute?: Brikko StudioPluginApi["registerHttpRoute"];
-  logger?: Brikko StudioPluginApi["logger"];
-}): Brikko StudioPluginApi {
+  pluginConfig?: BrikkoStudioPluginApi["pluginConfig"];
+  registerHttpRoute?: BrikkoStudioPluginApi["registerHttpRoute"];
+  logger?: BrikkoStudioPluginApi["logger"];
+}): BrikkoStudioPluginApi {
   return createTestPluginApi({
     id: "webhooks",
     name: "Webhooks",
@@ -19,7 +19,7 @@ function createApi(params?: {
           bindSession: vi.fn(({ sessionKey }: { sessionKey: string }) => ({ sessionKey })),
         },
       },
-    } as unknown as Brikko StudioPluginApi["runtime"],
+    } as unknown as BrikkoStudioPluginApi["runtime"],
     registerHttpRoute: params?.registerHttpRoute ?? vi.fn(),
     logger:
       params?.logger ??
@@ -28,7 +28,7 @@ function createApi(params?: {
         warn: vi.fn(),
         error: vi.fn(),
         debug: vi.fn(),
-      } as Brikko StudioPluginApi["logger"]),
+      } as BrikkoStudioPluginApi["logger"]),
   });
 }
 

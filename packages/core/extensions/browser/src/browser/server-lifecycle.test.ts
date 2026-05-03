@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { stopBrikko StudioChromeMock } = vi.hoisted(() => ({
-  stopBrikko StudioChromeMock: vi.fn(async () => {}),
+const { stopBrikkoStudioChromeMock } = vi.hoisted(() => ({
+  stopBrikkoStudioChromeMock: vi.fn(async () => {}),
 }));
 
 const { createBrowserRouteContextMock, listKnownProfileNamesMock } = vi.hoisted(() => ({
@@ -10,7 +10,7 @@ const { createBrowserRouteContextMock, listKnownProfileNamesMock } = vi.hoisted(
 }));
 
 vi.mock("./chrome.js", () => ({
-  stopBrikko StudioChrome: stopBrikko StudioChromeMock,
+  stopBrikkoStudioChrome: stopBrikkoStudioChromeMock,
 }));
 
 vi.mock("./server-context.js", () => ({
@@ -24,7 +24,7 @@ const { ensureExtensionRelayForProfiles, stopKnownBrowserProfiles } =
 beforeEach(() => {
   createBrowserRouteContextMock.mockClear();
   listKnownProfileNamesMock.mockClear();
-  stopBrikko StudioChromeMock.mockClear();
+  stopBrikkoStudioChromeMock.mockClear();
 });
 
 describe("ensureExtensionRelayForProfiles", () => {
@@ -94,7 +94,7 @@ describe("stopKnownBrowserProfiles", () => {
       onWarn: vi.fn(),
     });
 
-    expect(stopBrikko StudioChromeMock).toHaveBeenCalledWith(launchedBrowser);
+    expect(stopBrikkoStudioChromeMock).toHaveBeenCalledWith(launchedBrowser);
     expect(localRuntime.running).toBeNull();
   });
 

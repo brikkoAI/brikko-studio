@@ -5,5 +5,5 @@ export {
   replaceConfigFile,
   type BrowserConfig,
   type BrowserProfileConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../sdk-config.js";

@@ -44,7 +44,7 @@ function createProps(overrides: Partial<QuickSettingsProps> = {}): QuickSettings
     onAdvancedSettings: vi.fn(),
     connected: true,
     gatewayUrl: "ws://localhost:18789",
-    assistantName: "Brikko Studio",
+    assistantName: "BrikkoStudio",
     assistantAvatar: null,
     assistantAvatarUrl: null,
     assistantAvatarSource: null,

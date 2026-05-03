@@ -1,16 +1,16 @@
 import type { LegacyConfigRule } from "../../config/legacy.shared.js";
-import type { Brikko StudioConfig } from "../../config/types.js";
+import type { BrikkoStudioConfig } from "../../config/types.js";
 import { loadBundledPluginPublicArtifactModuleSync } from "../../plugins/public-surface-loader.js";
 
 type BundledChannelDoctorCompatibilityMutation = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
 };
 
 type BundledChannelDoctorContractApi = {
   legacyConfigRules?: readonly LegacyConfigRule[];
   normalizeCompatibilityConfig?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
   }) => BundledChannelDoctorCompatibilityMutation;
 };
 

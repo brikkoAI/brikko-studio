@@ -1,7 +1,7 @@
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import type { TextContent } from "@mariozechner/pi-ai";
 import { SessionManager } from "@mariozechner/pi-coding-agent";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
@@ -223,7 +223,7 @@ export function calculateMaxToolResultCharsWithCap(
 
 export function resolveLiveToolResultMaxChars(params: {
   contextWindowTokens: number;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentId?: string | null;
 }): number {
   const configuredCap =

@@ -40,7 +40,7 @@ export function buildCodexNativeHookRelayConfig(params: {
             command: params.relay.commandForEvent(event),
             timeout: normalizeHookTimeoutSec(params.hookTimeoutSec),
             async: false,
-            statusMessage: "Brikko Studio native hook relay",
+            statusMessage: "BrikkoStudio native hook relay",
           },
         ],
       },

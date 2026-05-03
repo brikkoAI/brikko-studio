@@ -3,7 +3,7 @@ import {
   ChannelType as DiscordChannelType,
   type APIApplicationCommandChannelOption,
 } from "discord-api-types/v10";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { DiscordAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveDiscordAccountAllowFrom } from "../accounts.js";
 import {
@@ -25,7 +25,7 @@ const VOICE_CHANNEL_TYPES: NonNullable<APIApplicationCommandChannelOption["chann
 ];
 
 type VoiceCommandContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   discordConfig: DiscordAccountConfig;
   accountId: string;
   groupPolicy: "open" | "disabled" | "allowlist";

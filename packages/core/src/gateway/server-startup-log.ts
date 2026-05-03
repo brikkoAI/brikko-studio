@@ -1,12 +1,12 @@
 import chalk from "chalk";
 import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
 import { resolveConfiguredModelRef } from "../agents/model-selection.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { getResolvedLoggerSettings } from "../logging.js";
 import { collectEnabledInsecureOrDangerousFlags } from "../security/dangerous-config-flags.js";
 
 export function logGatewayStartup(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   bindHost: string;
   bindHosts?: string[];
   port: number;

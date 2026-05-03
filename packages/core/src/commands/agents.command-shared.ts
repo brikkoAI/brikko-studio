@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import {
   requireValidConfigFileSnapshot as requireValidConfigFileSnapshotBase,
@@ -13,6 +13,6 @@ export async function requireValidConfigFileSnapshot(runtime: RuntimeEnv) {
   return await requireValidConfigFileSnapshotBase(runtime);
 }
 
-export async function requireValidConfig(runtime: RuntimeEnv): Promise<Brikko StudioConfig | null> {
+export async function requireValidConfig(runtime: RuntimeEnv): Promise<BrikkoStudioConfig | null> {
   return await requireValidConfigSnapshot(runtime);
 }

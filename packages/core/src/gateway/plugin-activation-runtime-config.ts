@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isRecord } from "../utils.js";
 
 function hasOwnValue(record: Record<string, unknown>, key: string): boolean {
@@ -6,9 +6,9 @@ function hasOwnValue(record: Record<string, unknown>, key: string): boolean {
 }
 
 function mergeChannelActivationSections(params: {
-  runtimeConfig: Brikko StudioConfig;
-  activationConfig: Brikko StudioConfig;
-}): Brikko StudioConfig {
+  runtimeConfig: BrikkoStudioConfig;
+  activationConfig: BrikkoStudioConfig;
+}): BrikkoStudioConfig {
   const activationChannels = params.activationConfig.channels;
   if (!isRecord(activationChannels)) {
     return params.runtimeConfig;
@@ -37,14 +37,14 @@ function mergeChannelActivationSections(params: {
   }
   return {
     ...params.runtimeConfig,
-    channels: nextChannels as Brikko StudioConfig["channels"],
+    channels: nextChannels as BrikkoStudioConfig["channels"],
   };
 }
 
 function mergePluginActivationSections(params: {
-  runtimeConfig: Brikko StudioConfig;
-  activationConfig: Brikko StudioConfig;
-}): Brikko StudioConfig {
+  runtimeConfig: BrikkoStudioConfig;
+  activationConfig: BrikkoStudioConfig;
+}): BrikkoStudioConfig {
   const activationPlugins = params.activationConfig.plugins;
   if (!isRecord(activationPlugins)) {
     return params.runtimeConfig;
@@ -90,14 +90,14 @@ function mergePluginActivationSections(params: {
   }
   return {
     ...params.runtimeConfig,
-    plugins: nextPlugins as Brikko StudioConfig["plugins"],
+    plugins: nextPlugins as BrikkoStudioConfig["plugins"],
   };
 }
 
 export function mergeActivationSectionsIntoRuntimeConfig(params: {
-  runtimeConfig: Brikko StudioConfig;
-  activationConfig: Brikko StudioConfig;
-}): Brikko StudioConfig {
+  runtimeConfig: BrikkoStudioConfig;
+  activationConfig: BrikkoStudioConfig;
+}): BrikkoStudioConfig {
   return mergePluginActivationSections({
     ...params,
     runtimeConfig: mergeChannelActivationSections(params),

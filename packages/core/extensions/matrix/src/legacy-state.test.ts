@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { withTempHome } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import { autoMigrateLegacyMatrixState, detectLegacyMatrixState } from "./legacy-state.js";
@@ -17,7 +17,7 @@ describe("matrix legacy state migration", () => {
       writeFile(path.join(stateDir, "matrix", "bot-storage.json"), '{"next_batch":"s1"}');
       writeFile(path.join(stateDir, "matrix", "crypto", "store.db"), "crypto");
 
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           matrix: {
             homeserver: "https://matrix.example.org",
@@ -60,7 +60,7 @@ describe("matrix legacy state migration", () => {
         ),
       );
 
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           matrix: {
             homeserver: "https://matrix.example.org",

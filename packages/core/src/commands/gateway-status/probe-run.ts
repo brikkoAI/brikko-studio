@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.js";
+import type { BrikkoStudioConfig } from "../../config/types.js";
 import { probeGateway } from "../../gateway/probe.js";
 import {
   discoverGatewayBeacons,
@@ -25,7 +25,7 @@ export type GatewayStatusProbedTarget = {
 };
 
 export async function runGatewayStatusProbePass(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   opts: {
     token?: string;
     password?: string;

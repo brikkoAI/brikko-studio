@@ -13,7 +13,7 @@ function resolveTeamsSdkVersion(): string {
   }
 }
 
-function resolveBrikko StudioVersion(): string {
+function resolveBrikkoStudioVersion(): string {
   try {
     return getMSTeamsRuntime().version;
   } catch {
@@ -23,10 +23,10 @@ function resolveBrikko StudioVersion(): string {
 
 /**
  * Build a combined User-Agent string that preserves the Teams SDK identity
- * and appends the Brikko Studio version.
+ * and appends the BrikkoStudio version.
  *
- * Format: "teams.ts[apps]/<sdk-version> Brikko Studio/<brikko-studio-version>"
- * Example: "teams.ts[apps]/2.0.5 Brikko Studio/2026.3.22"
+ * Format: "teams.ts[apps]/<sdk-version> BrikkoStudio/<brikko-studio-version>"
+ * Example: "teams.ts[apps]/2.0.5 BrikkoStudio/2026.3.22"
  *
  * This lets the Teams backend track SDK usage while also identifying the
  * host application.
@@ -40,7 +40,7 @@ export function buildUserAgent(): string {
   if (cachedUserAgent) {
     return cachedUserAgent;
   }
-  cachedUserAgent = `teams.ts[apps]/${resolveTeamsSdkVersion()} Brikko Studio/${resolveBrikko StudioVersion()}`;
+  cachedUserAgent = `teams.ts[apps]/${resolveTeamsSdkVersion()} BrikkoStudio/${resolveBrikkoStudioVersion()}`;
   return cachedUserAgent;
 }
 

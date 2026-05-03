@@ -22,7 +22,7 @@ const rules = [
     label: "r: false-positive",
     close: true,
     message:
-      "Closing this because it looks like a false positive or reclassification-only report rather than an actionable Brikko Studio bug. If this is still a real issue, please open a fresh report with concrete reproduction steps and current-version details.",
+      "Closing this because it looks like a false positive or reclassification-only report rather than an actionable BrikkoStudio bug. If this is still a real issue, please open a fresh report with concrete reproduction steps and current-version details.",
   },
   {
     label: "r: no-ci-pr",
@@ -57,7 +57,7 @@ const rules = [
     lockReason: "off-topic",
     commentTriggers: ["moltbook"],
     message:
-      "Brikko Studio is not affiliated with Moltbook, and issues related to Moltbook should not be submitted here.",
+      "BrikkoStudio is not affiliated with Moltbook, and issues related to Moltbook should not be submitted here.",
   },
 ];
 
@@ -96,7 +96,7 @@ export const managedLabelSpecs = {
   },
   "r: moltbook": {
     color: "B60205",
-    description: "Auto-close and lock: Moltbook is off-topic for Brikko Studio.",
+    description: "Auto-close and lock: Moltbook is off-topic for BrikkoStudio.",
   },
   "r: spam": {
     color: "B60205",
@@ -226,7 +226,7 @@ const candidateActionRules = [
     label: candidateLabels.lowSignalDocs,
     close: true,
     message:
-      "Closing this PR because the docs-only change is too low-signal for the core repo. Please reopen or resubmit with a concrete Brikko Studio docs gap and linked context.",
+      "Closing this PR because the docs-only change is too low-signal for the core repo. Please reopen or resubmit with a concrete BrikkoStudio docs gap and linked context.",
   },
   {
     label: candidateLabels.testOnlyNoBug,
@@ -244,7 +244,7 @@ const candidateActionRules = [
     label: candidateLabels.blankTemplate,
     close: true,
     message:
-      "Closing this PR because the template is mostly blank and does not describe a concrete Brikko Studio problem, fix, or test plan. Please reopen or resubmit with the missing context filled in.",
+      "Closing this PR because the template is mostly blank and does not describe a concrete BrikkoStudio problem, fix, or test plan. Please reopen or resubmit with the missing context filled in.",
   },
 ];
 

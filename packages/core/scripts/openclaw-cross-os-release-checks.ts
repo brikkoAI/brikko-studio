@@ -769,7 +769,7 @@ async function runUpgradeLane(params) {
       "--timeout",
       String(updateStepTimeoutSeconds()),
     ];
-    const updateResult = await runBrikko Studio({
+    const updateResult = await runBrikkoStudio({
       lane,
       env: updateEnv,
       args: updateArgs,
@@ -792,7 +792,7 @@ async function runUpgradeLane(params) {
     }
 
     logLanePhase(lane, "update-status");
-    await runBrikko Studio({
+    await runBrikkoStudio({
       lane,
       env: updateEnv,
       args: ["update", "status", "--json"],
@@ -1088,7 +1088,7 @@ async function runDevUpdateSuite(params) {
     const updatedShell = await verifyFreshShellCommand({
       lane,
       env,
-      expectedNeedle: "Brikko Studio",
+      expectedNeedle: "BrikkoStudio",
       logPath: join(params.logsDir, "dev-update-shell.log"),
     });
 
@@ -2552,7 +2552,7 @@ function ensureLocalNpmShim(lane) {
 
 async function runOnboard(params) {
   await withAllocatedGatewayPort(params.lane, async () => {
-    await runBrikko Studio({
+    await runBrikkoStudio({
       lane: params.lane,
       env: params.env,
       args: buildReleaseOnboardArgs({
@@ -2671,7 +2671,7 @@ async function waitForGateway(params) {
   while (Date.now() < deadline) {
     let result;
     try {
-      result = await runBrikko Studio({
+      result = await runBrikkoStudio({
         lane: params.lane,
         env: params.env,
         args: statusArgs,
@@ -2698,7 +2698,7 @@ function gatewayReadyDeadlineMs() {
 }
 
 async function resolveGatewayStatusArgs(lane, env, logPath) {
-  const help = await runBrikko Studio({
+  const help = await runBrikkoStudio({
     lane,
     env,
     args: ["gateway", "status", "--help"],
@@ -2719,7 +2719,7 @@ async function resolveGatewayStatusArgs(lane, env, logPath) {
 }
 
 async function runModelsSet(params) {
-  await runBrikko Studio({
+  await runBrikkoStudio({
     lane: params.lane,
     env: params.env,
     args: ["models", "set", params.providerConfig.model],
@@ -2728,7 +2728,7 @@ async function runModelsSet(params) {
   });
   const providerConfigOverride = buildReleaseProviderConfigOverride(params.providerConfig);
   if (providerConfigOverride) {
-    await runBrikko Studio({
+    await runBrikkoStudio({
       lane: params.lane,
       env: params.env,
       args: [
@@ -2743,7 +2743,7 @@ async function runModelsSet(params) {
       timeoutMs: 2 * 60 * 1000,
     });
   }
-  await runBrikko Studio({
+  await runBrikkoStudio({
     lane: params.lane,
     env: params.env,
     args: [
@@ -2756,14 +2756,14 @@ async function runModelsSet(params) {
     logPath: params.logPath,
     timeoutMs: 2 * 60 * 1000,
   });
-  await runBrikko Studio({
+  await runBrikkoStudio({
     lane: params.lane,
     env: params.env,
     args: ["config", "set", "agents.defaults.skipBootstrap", "true", "--strict-json"],
     logPath: params.logPath,
     timeoutMs: 2 * 60 * 1000,
   });
-  await runBrikko Studio({
+  await runBrikkoStudio({
     lane: params.lane,
     env: params.env,
     args: ["config", "set", "tools.profile", CROSS_OS_RELEASE_SMOKE_TOOLS_PROFILE],
@@ -2777,7 +2777,7 @@ async function runAgentTurn(params) {
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     const sessionId = `cross-os-release-check-${params.label}-${Date.now()}-${attempt}`;
     try {
-      const result = await runBrikko Studio({
+      const result = await runBrikkoStudio({
         lane: params.lane,
         env: params.env,
         args: buildReleaseAgentTurnArgs(sessionId),
@@ -2935,7 +2935,7 @@ async function runDashboardSmoke(params) {
         const html = await response.text();
         if (
           response.ok &&
-          html.includes("<title>Brikko Studio Control</title>") &&
+          html.includes("<title>BrikkoStudio Control</title>") &&
           html.includes("<brikko-studio-app></brikko-studio-app>")
         ) {
           logStream.write(
@@ -2944,7 +2944,7 @@ async function runDashboardSmoke(params) {
           return;
         }
         logStream.write(
-          `${new Date().toISOString()} dashboard-not-ready status=${response.status} title=${html.includes("<title>Brikko Studio Control</title>")} app=${html.includes("<brikko-studio-app></brikko-studio-app>")}\n`,
+          `${new Date().toISOString()} dashboard-not-ready status=${response.status} title=${html.includes("<title>BrikkoStudio Control</title>")} app=${html.includes("<brikko-studio-app></brikko-studio-app>")}\n`,
         );
       } catch (error) {
         logStream.write(
@@ -3036,7 +3036,7 @@ async function runCleanup(cleanupFns) {
   }
 }
 
-async function runBrikko Studio(params) {
+async function runBrikkoStudio(params) {
   return runCommand(process.execPath, [installedEntryPath(params.lane.prefixDir), ...params.args], {
     cwd: params.lane.homeDir,
     env: params.env,

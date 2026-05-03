@@ -137,7 +137,7 @@ function instantiatePiModelRegistry(
   return new Registry(authStorage, modelsJsonPath);
 }
 
-function createBrikko StudioModelRegistry(
+function createBrikkoStudioModelRegistry(
   authStorage: PiAuthStorage,
   modelsJsonPath: string,
   agentDir: string,
@@ -236,7 +236,7 @@ export function discoverModels(
   agentDir: string,
   options?: DiscoverModelsOptions,
 ): PiModelRegistry {
-  return createBrikko StudioModelRegistry(
+  return createBrikkoStudioModelRegistry(
     authStorage,
     path.join(agentDir, "models.json"),
     agentDir,

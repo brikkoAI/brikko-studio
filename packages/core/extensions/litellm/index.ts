@@ -1,7 +1,7 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   definePluginEntry,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
   type ProviderAuthMethodNonInteractiveContext,
 } from "brikko-studio/plugin-sdk/plugin-entry";
 import {
@@ -16,9 +16,9 @@ import { buildLitellmProvider } from "./provider-catalog.js";
 const PROVIDER_ID = "litellm";
 
 function applyCustomBaseUrlForNonInteractiveSetup(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   customBaseUrl: unknown,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const baseUrl = normalizeOptionalSecretInput(customBaseUrl)?.replace(/\/+$/, "");
   if (!baseUrl) {
     return cfg;
@@ -44,7 +44,7 @@ export default definePluginEntry({
   id: PROVIDER_ID,
   name: "LiteLLM Provider",
   description: "Bundled LiteLLM provider plugin",
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     const apiKeyAuth = createProviderApiKeyAuthMethod({
       providerId: PROVIDER_ID,
       methodId: "api-key",

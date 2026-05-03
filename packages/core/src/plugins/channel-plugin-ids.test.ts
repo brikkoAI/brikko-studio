@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { InstalledPluginIndex, InstalledPluginIndexRecord } from "./installed-plugin-index.js";
 import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.js";
 
 const listPotentialConfiguredChannelIds = vi.hoisted(() => vi.fn());
 const listExplicitlyDisabledChannelIdsForConfig = vi.hoisted(() =>
-  vi.fn((config: Brikko StudioConfig) => {
+  vi.fn((config: BrikkoStudioConfig) => {
     return Object.entries(config.channels ?? {})
       .filter(([, value]) => {
         return (
@@ -430,8 +430,8 @@ function useManifestRegistryFixture(
 }
 
 function expectStartupPluginIds(params: {
-  config: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   expected: readonly string[];
 }) {
@@ -449,8 +449,8 @@ function expectStartupPluginIds(params: {
 }
 
 function expectStartupPluginIdsCase(params: {
-  config: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   expected: readonly string[];
 }) {
@@ -573,12 +573,12 @@ function createStartupConfig(params: {
             },
           }
         : {}),
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("resolveGatewayStartupPluginIds", () => {
   beforeEach(() => {
-    listPotentialConfiguredChannelIds.mockReset().mockImplementation((config: Brikko StudioConfig) => {
+    listPotentialConfiguredChannelIds.mockReset().mockImplementation((config: BrikkoStudioConfig) => {
       if (Object.prototype.hasOwnProperty.call(config, "channels")) {
         return Object.keys(config.channels ?? {});
       }
@@ -586,13 +586,13 @@ describe("resolveGatewayStartupPluginIds", () => {
     });
     listPotentialConfiguredChannelPresenceSignals
       .mockReset()
-      .mockImplementation((config: Brikko StudioConfig) => {
+      .mockImplementation((config: BrikkoStudioConfig) => {
         return listPotentialConfiguredChannelIds(config).map((channelId: string) => ({
           channelId,
           source: "config",
         }));
       });
-    hasPotentialConfiguredChannels.mockReset().mockImplementation((config: Brikko StudioConfig) => {
+    hasPotentialConfiguredChannels.mockReset().mockImplementation((config: BrikkoStudioConfig) => {
       if (Object.prototype.hasOwnProperty.call(config, "channels")) {
         return Object.keys(config.channels ?? {}).length > 0;
       }
@@ -618,7 +618,7 @@ describe("resolveGatewayStartupPluginIds", () => {
     ],
     [
       "keeps bundled startup sidecars with enabledByDefault at idle startup",
-      {} as Brikko StudioConfig,
+      {} as BrikkoStudioConfig,
       ["demo-channel", "browser", "memory-core"],
     ],
     [
@@ -633,7 +633,7 @@ describe("resolveGatewayStartupPluginIds", () => {
       {
         channels: {},
         messages: { tts: { provider: "microsoft" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       ["browser", "microsoft", "memory-core"],
     ],
     [
@@ -641,7 +641,7 @@ describe("resolveGatewayStartupPluginIds", () => {
       {
         channels: {},
         messages: { tts: { providers: { "tts-local-cli": { command: "say" } } } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       ["browser", "tts-local-cli", "memory-core"],
     ],
     [
@@ -649,7 +649,7 @@ describe("resolveGatewayStartupPluginIds", () => {
       {
         channels: {},
         messages: { tts: { provider: "edge" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       ["browser", "microsoft", "memory-core"],
     ],
     [
@@ -667,7 +667,7 @@ describe("resolveGatewayStartupPluginIds", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       ["browser", "microsoft", "memory-core"],
     ],
     [
@@ -687,7 +687,7 @@ describe("resolveGatewayStartupPluginIds", () => {
         agents: {
           list: [{ id: "reader", tts: { persona: "narrator" } }],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       ["browser", "microsoft", "memory-core"],
     ],
     [
@@ -706,7 +706,7 @@ describe("resolveGatewayStartupPluginIds", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       ["demo-channel", "browser", "microsoft", "memory-core"],
     ],
     [
@@ -729,7 +729,7 @@ describe("resolveGatewayStartupPluginIds", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       ["demo-channel", "browser", "microsoft", "memory-core"],
     ],
     [
@@ -742,7 +742,7 @@ describe("resolveGatewayStartupPluginIds", () => {
             providers: { microsoft: { enabled: false } },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       ["browser", "memory-core"],
     ],
     [
@@ -751,7 +751,7 @@ describe("resolveGatewayStartupPluginIds", () => {
         channels: {},
         messages: { tts: { provider: "microsoft" } },
         plugins: { entries: { microsoft: { enabled: false } } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       ["browser", "memory-core"],
     ],
     [
@@ -797,7 +797,7 @@ describe("resolveGatewayStartupPluginIds", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectStartupPluginIdsCase({
       config: effectiveConfig,
@@ -817,7 +817,7 @@ describe("resolveGatewayStartupPluginIds", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const runtimeConfig = {
       ...activationSourceConfig,
       plugins: {
@@ -833,7 +833,7 @@ describe("resolveGatewayStartupPluginIds", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectStartupPluginIdsCase({
       config: runtimeConfig,
@@ -1007,7 +1007,7 @@ describe("resolveGatewayStartupPluginIds", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const runtimeConfig = {
       channels: {},
       plugins: {
@@ -1024,7 +1024,7 @@ describe("resolveGatewayStartupPluginIds", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expectStartupPluginIdsCase({
       config: runtimeConfig,
@@ -1040,7 +1040,7 @@ describe("resolveGatewayStartupPluginIds", () => {
         defaultProfile: "docker-cdp",
       },
       channels: {},
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
     const effectiveConfig = {
       ...rawConfig,
       plugins: {
@@ -1050,7 +1050,7 @@ describe("resolveGatewayStartupPluginIds", () => {
           },
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     expectStartupPluginIdsCase({
       config: effectiveConfig,
@@ -1096,7 +1096,7 @@ describe("resolveGatewayStartupPluginIds", () => {
       { channelId: "demo-channel", source: "env" },
     ]);
 
-    const config = {} as Brikko StudioConfig;
+    const config = {} as BrikkoStudioConfig;
 
     expectStartupPluginIdsCase({
       config,
@@ -1129,7 +1129,7 @@ describe("resolveGatewayStartupPluginIds", () => {
           plugins: {
             allow: ["workspace-demo-channel-plugin"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {},
       }),
@@ -1147,7 +1147,7 @@ describe("resolveGatewayStartupPluginIds", () => {
         plugins: {
           allow: ["browser"],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {},
       expected: ["demo-channel", "browser"],
     });
@@ -1162,7 +1162,7 @@ describe("resolveGatewayStartupPluginIds", () => {
             token: "stale",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {},
       expected: ["browser", "memory-core"],
     });
@@ -1171,14 +1171,14 @@ describe("resolveGatewayStartupPluginIds", () => {
   it("does not treat persisted auth alone as gateway startup intent", () => {
     listPotentialConfiguredChannelIds.mockImplementation(
       (
-        _config: Brikko StudioConfig,
+        _config: BrikkoStudioConfig,
         _env: NodeJS.ProcessEnv,
         options?: { includePersistedAuthState?: boolean },
       ) => (options?.includePersistedAuthState === false ? [] : ["demo-channel"]),
     );
 
     expectStartupPluginIdsCase({
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       env: {
         BRIKKO_STUDIO_STATE_DIR: "/tmp/brikko-studio-with-persisted-demo-channel",
       } as NodeJS.ProcessEnv,
@@ -1190,7 +1190,7 @@ describe("resolveGatewayStartupPluginIds", () => {
     useManifestRegistryFixture(createManifestRegistryFixtureWithWorkspaceDemoChannel());
     listPotentialConfiguredChannelIds.mockImplementation(
       (
-        _config: Brikko StudioConfig,
+        _config: BrikkoStudioConfig,
         _env: NodeJS.ProcessEnv,
         options?: { includePersistedAuthState?: boolean },
       ) => (options?.includePersistedAuthState === false ? [] : ["demo-channel"]),
@@ -1202,7 +1202,7 @@ describe("resolveGatewayStartupPluginIds", () => {
           plugins: {
             allow: ["workspace-demo-channel-plugin"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           BRIKKO_STUDIO_STATE_DIR: "/tmp/brikko-studio-with-persisted-demo-channel",
@@ -1224,7 +1224,7 @@ describe("resolveGatewayStartupPluginIds", () => {
             token: "configured",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       workspaceDir: "/tmp",
       env: {},
     });
@@ -1251,7 +1251,7 @@ describe("resolveGatewayStartupPluginIds", () => {
           plugins: {
             allow: ["workspace-demo-channel-plugin"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {},
       }),
@@ -1406,7 +1406,7 @@ describe("resolveGatewayStartupPluginIds", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       expected: ["demo-channel", "browser", "memory-core"],
     });
   });
@@ -1429,7 +1429,7 @@ describe("resolveGatewayStartupPluginIds", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       expected: ["demo-channel", "browser", "memory-core"],
     });
   });
@@ -1437,7 +1437,7 @@ describe("resolveGatewayStartupPluginIds", () => {
 
 describe("resolveConfiguredChannelPluginIds", () => {
   beforeEach(() => {
-    listPotentialConfiguredChannelIds.mockReset().mockImplementation((config: Brikko StudioConfig) => {
+    listPotentialConfiguredChannelIds.mockReset().mockImplementation((config: BrikkoStudioConfig) => {
       if (Object.prototype.hasOwnProperty.call(config, "channels")) {
         return Object.keys(config.channels ?? {});
       }
@@ -1445,13 +1445,13 @@ describe("resolveConfiguredChannelPluginIds", () => {
     });
     listPotentialConfiguredChannelPresenceSignals
       .mockReset()
-      .mockImplementation((config: Brikko StudioConfig) => {
+      .mockImplementation((config: BrikkoStudioConfig) => {
         return listPotentialConfiguredChannelIds(config).map((channelId: string) => ({
           channelId,
           source: "config",
         }));
       });
-    hasPotentialConfiguredChannels.mockReset().mockImplementation((config: Brikko StudioConfig) => {
+    hasPotentialConfiguredChannels.mockReset().mockImplementation((config: BrikkoStudioConfig) => {
       if (Object.prototype.hasOwnProperty.call(config, "channels")) {
         return Object.keys(config.channels ?? {}).length > 0;
       }
@@ -1497,7 +1497,7 @@ describe("resolveConfiguredChannelPluginIds", () => {
           plugins: {
             allow: ["browser"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {},
       }),
@@ -1514,7 +1514,7 @@ describe("resolveConfiguredChannelPluginIds", () => {
           plugins: {
             deny: ["activation-only-channel-plugin"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: process.env,
       }),
@@ -1531,7 +1531,7 @@ describe("resolveConfiguredChannelPluginIds", () => {
           plugins: {
             enabled: false,
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: process.env,
       }),
@@ -1598,7 +1598,7 @@ describe("resolveConfiguredChannelPluginIds", () => {
           plugins: {
             allow: ["external-env-channel-plugin"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           EXTERNAL_ENV_CHANNEL_TOKEN: "token",
@@ -1621,7 +1621,7 @@ describe("resolveConfiguredChannelPluginIds", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: process.env,
       }),
@@ -1650,7 +1650,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             allow: ["memory-core"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           DEMO_CHANNEL_TOKEN: "token",
@@ -1665,7 +1665,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             allow: ["memory-core"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           DEMO_CHANNEL_TOKEN: "token",
@@ -1687,7 +1687,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             allow: ["memory-core"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           DEMO_CHANNEL_TOKEN: "token",
@@ -1721,7 +1721,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           DEMO_CHANNEL_TOKEN: "token",
@@ -1740,7 +1740,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
               enabled: true,
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {},
         includePersistedAuthState: false,
@@ -1763,7 +1763,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
               enabled: true,
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {},
         includePersistedAuthState: false,
@@ -1779,7 +1779,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           token: "stale-token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(listExplicitConfiguredChannelIdsForConfig(config)).toEqual([]);
     expect(
@@ -1820,7 +1820,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       resolveConfiguredChannelPresencePolicy({
@@ -1865,7 +1865,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {},
       }),
@@ -1884,7 +1884,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             allow: ["external-env-channel-plugin"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           EXTERNAL_ENV_CHANNEL_TOKEN: "token",
@@ -1904,7 +1904,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
       plugins: {
         allow: ["browser"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       resolveConfiguredChannelPresencePolicy({
@@ -1946,7 +1946,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
               token: "configured",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {},
         includePersistedAuthState: false,
@@ -1971,7 +1971,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             enabled: false,
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {},
         includePersistedAuthState: false,
@@ -1989,7 +1989,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             deny: ["demo-channel"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {},
         includePersistedAuthState: false,
@@ -2011,7 +2011,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
             enabled: false,
           },
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ).toEqual(["demo-channel"]);
   });
 
@@ -2037,7 +2037,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           DEMO_CHANNEL_TOKEN: "ambient",
@@ -2064,7 +2064,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             allow: ["demo-other-channel"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           DEMO_CHANNEL_TOKEN: "ambient",
@@ -2089,7 +2089,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           ACTIVATION_ONLY_CHANNEL_TOKEN: "ambient",
@@ -2114,7 +2114,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             allow: ["external-env-channel-plugin"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           EXTERNAL_ENV_CHANNEL_TOKEN: "token",
@@ -2127,7 +2127,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
   it("ignores manifest env vars from untrusted external plugins", () => {
     expect(
       listConfiguredChannelIdsForReadOnlyScope({
-        config: {} as Brikko StudioConfig,
+        config: {} as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           EXTERNAL_ENV_CHANNEL_TOKEN: "token",
@@ -2138,7 +2138,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
 
     expect(
       hasConfiguredChannelsForReadOnlyScope({
-        config: {} as Brikko StudioConfig,
+        config: {} as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           EXTERNAL_ENV_CHANNEL_TOKEN: "token",
@@ -2155,7 +2155,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             allow: ["ambient-env-channel-plugin"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           HOME: "/tmp/user",
@@ -2174,7 +2174,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             allow: ["external-env-channel-plugin"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           external_env_channel_token: "token",
@@ -2204,7 +2204,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             allow: ["external-env-channel-plugin"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           EXTERNAL_ENV_CHANNEL_TOKEN: "token",
@@ -2238,7 +2238,7 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
           plugins: {
             allow: ["external-env-channel-plugin"],
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         workspaceDir: "/tmp",
         env: {
           EXTERNAL_ENV_CHANNEL_TOKEN: "token",

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import {
-  planBrikko StudioModelsJson,
-  planBrikko StudioModelsJsonWithDeps,
+  planBrikkoStudioModelsJson,
+  planBrikkoStudioModelsJsonWithDeps,
   type ResolveImplicitProvidersForModelsJson,
 } from "./models-config.plan.js";
 import type { ProviderConfig } from "./models-config.providers.secrets.js";
@@ -66,7 +66,7 @@ describe("models-config", () => {
   });
 
   it("does not override explicit github-copilot provider config", async () => {
-    const plan = await planBrikko StudioModelsJson({
+    const plan = await planBrikkoStudioModelsJson({
       cfg: {
         models: {
           providers: {
@@ -104,7 +104,7 @@ describe("models-config", () => {
       },
     );
 
-    const plan = await planBrikko StudioModelsJsonWithDeps(
+    const plan = await planBrikkoStudioModelsJsonWithDeps(
       {
         cfg: {
           models: {
@@ -164,7 +164,7 @@ describe("models-config", () => {
       2,
     )}\n`;
 
-    const plan = await planBrikko StudioModelsJsonWithDeps(
+    const plan = await planBrikkoStudioModelsJsonWithDeps(
       {
         cfg: {
           models: {
@@ -249,7 +249,7 @@ function createCopilotImplicitResolver(
 }
 
 async function planCopilotWithImplicitProvider(params: { provider: ProviderConfig }) {
-  return await planBrikko StudioModelsJsonWithDeps(
+  return await planBrikkoStudioModelsJsonWithDeps(
     {
       cfg: { models: { providers: {} } },
       agentDir: "/tmp/brikko-studio-agent",

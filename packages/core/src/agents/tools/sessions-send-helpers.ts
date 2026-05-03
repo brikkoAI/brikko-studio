@@ -4,7 +4,7 @@ import {
 } from "../../channels/plugins/index.js";
 import { resolveSessionConversationRef } from "../../channels/plugins/session-conversation.js";
 import { normalizeChannelId as normalizeChatChannelId } from "../../channels/registry.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { ANNOUNCE_SKIP_TOKEN, REPLY_SKIP_TOKEN } from "./sessions-send-tokens.js";
 export {
   isAnnounceSkip,
@@ -119,7 +119,7 @@ export function buildAgentToAgentAnnounceContext(params: {
   return lines.join("\n");
 }
 
-export function resolvePingPongTurns(cfg?: Brikko StudioConfig) {
+export function resolvePingPongTurns(cfg?: BrikkoStudioConfig) {
   const raw = cfg?.session?.agentToAgent?.maxPingPongTurns;
   const fallback = DEFAULT_PING_PONG_TURNS;
   if (typeof raw !== "number" || !Number.isFinite(raw)) {

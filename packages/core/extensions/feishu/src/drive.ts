@@ -1,6 +1,6 @@
 import type * as Lark from "@larksuiteoapi/node-sdk";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
-import type { Brikko StudioPluginApi } from "../runtime-api.js";
+import type { BrikkoStudioPluginApi } from "../runtime-api.js";
 import { listEnabledFeishuAccounts } from "./accounts.js";
 import { cleanupAmbientCommentTypingReaction } from "./comment-reaction.js";
 import {
@@ -731,7 +731,7 @@ export async function deliverCommentThreadText(
 
 // ============ Tool Registration ============
 
-export function registerFeishuDriveTools(api: Brikko StudioPluginApi) {
+export function registerFeishuDriveTools(api: BrikkoStudioPluginApi) {
   if (!api.config) {
     return;
   }

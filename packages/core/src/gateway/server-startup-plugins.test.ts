@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
 
@@ -97,7 +97,7 @@ const loadPluginLookUpTable = vi.hoisted(() =>
     metrics: pluginLookUpTableMetrics,
   })),
 );
-const resolveBrikko StudioPackageRootSync = vi.hoisted(() => vi.fn((_params: unknown) => "/package"));
+const resolveBrikkoStudioPackageRootSync = vi.hoisted(() => vi.fn((_params: unknown) => "/package"));
 const runChannelPluginStartupMaintenance = vi.hoisted(() =>
   vi.fn(async (_params: unknown) => undefined),
 );
@@ -121,7 +121,7 @@ vi.mock("../config/plugin-auto-enable.js", () => ({
 }));
 
 vi.mock("../infra/brikko-studio-root.js", () => ({
-  resolveBrikko StudioPackageRootSync: (params: unknown) => resolveBrikko StudioPackageRootSync(params),
+  resolveBrikkoStudioPackageRootSync: (params: unknown) => resolveBrikkoStudioPackageRootSync(params),
 }));
 
 vi.mock("../plugins/plugin-lookup-table.js", () => ({
@@ -175,7 +175,7 @@ describe("prepareGatewayPluginBootstrap startup plugins", () => {
       },
       metrics: pluginLookUpTableMetrics,
     });
-    resolveBrikko StudioPackageRootSync.mockClear().mockReturnValue("/package");
+    resolveBrikkoStudioPackageRootSync.mockClear().mockReturnValue("/package");
     runChannelPluginStartupMaintenance.mockClear();
     runStartupSessionMigration.mockClear();
   });
@@ -189,7 +189,7 @@ describe("prepareGatewayPluginBootstrap startup plugins", () => {
       plugins: {
         allow: ["bench-plugin"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const activationConfig = {
       channels: {
         telegram: {
@@ -205,7 +205,7 @@ describe("prepareGatewayPluginBootstrap startup plugins", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const runtimeConfig = {
       channels: {
         telegram: {
@@ -231,7 +231,7 @@ describe("prepareGatewayPluginBootstrap startup plugins", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     applyPluginAutoEnable.mockReturnValueOnce({
       config: activationConfig,
       changes: [],
@@ -334,7 +334,7 @@ describe("prepareGatewayPluginBootstrap startup plugins", () => {
           telegram: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const log = createLog();
     const { prepareGatewayPluginBootstrap } = await import("./server-startup-plugins.js");
 

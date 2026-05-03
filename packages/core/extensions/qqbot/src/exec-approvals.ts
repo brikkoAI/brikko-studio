@@ -9,7 +9,7 @@ import type {
   ExecApprovalRequest,
   PluginApprovalRequest,
 } from "brikko-studio/plugin-sdk/approval-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
 import {
   normalizeLowercaseStringOrEmpty,
@@ -24,7 +24,7 @@ function normalizeApproverId(value: string | number): string | undefined {
 }
 
 export function resolveQQBotExecApprovalConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): QQBotExecApprovalConfig | undefined {
   const account = resolveQQBotAccount(params.cfg, params.accountId);
@@ -39,7 +39,7 @@ export function resolveQQBotExecApprovalConfig(params: {
 }
 
 function getQQBotExecApprovalApprovers(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): string[] {
   const accountConfig = resolveQQBotAccount(params.cfg, params.accountId).config;
@@ -51,7 +51,7 @@ function getQQBotExecApprovalApprovers(params: {
 }
 
 function countQQBotExecApprovalEligibleAccounts(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   request: ExecApprovalRequest | PluginApprovalRequest;
 }): number {
   return listQQBotAccountIds(params.cfg).filter((accountId) => {
@@ -79,7 +79,7 @@ function countQQBotExecApprovalEligibleAccounts(params: {
 }
 
 function matchesQQBotRequestAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   request: ExecApprovalRequest | PluginApprovalRequest;
 }): boolean {
@@ -113,7 +113,7 @@ function matchesQQBotRequestAccount(params: {
  * must not contribute to the single-account shortcut in the fallback
  * ownership check below.
  */
-function countQQBotFallbackEligibleAccounts(cfg: Brikko StudioConfig): number {
+function countQQBotFallbackEligibleAccounts(cfg: BrikkoStudioConfig): number {
   return listQQBotAccountIds(cfg).filter((accountId) => {
     const account = resolveQQBotAccount(cfg, accountId);
     return account.enabled && account.secretSource !== "none";
@@ -140,7 +140,7 @@ function countQQBotFallbackEligibleAccounts(cfg: Brikko StudioConfig): number {
  *     a mismatched token and fails.
  */
 function matchesQQBotFallbackRequestAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   request: ExecApprovalRequest | PluginApprovalRequest;
 }): boolean {
@@ -189,7 +189,7 @@ type QQBotApprovalAccountOwnershipRequest = {
  * gate (shouldHandle) and the lazy native runtime adapter.
  */
 export function matchesQQBotApprovalAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   request: QQBotApprovalAccountOwnershipRequest;
 }): boolean {

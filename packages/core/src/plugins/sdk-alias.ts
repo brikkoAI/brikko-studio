@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveBrikko StudioPackageRootSync } from "../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../infra/brikko-studio-root.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { PluginLruCache } from "./plugin-cache-primitives.js";
 
@@ -60,7 +60,7 @@ function listPluginSdkSubpathsFromPackageJson(pkg: PluginSdkPackageJson): string
     .toSorted();
 }
 
-function hasTrustedBrikko StudioRootIndicator(params: {
+function hasTrustedBrikkoStudioRootIndicator(params: {
   packageRoot: string;
   packageJson: PluginSdkPackageJson;
 }): boolean {
@@ -73,14 +73,14 @@ function hasTrustedBrikko StudioRootIndicator(params: {
     return false;
   }
   const hasCliEntryExport = Object.prototype.hasOwnProperty.call(packageExports, "./cli-entry");
-  const hasBrikko StudioBin =
+  const hasBrikkoStudioBin =
     (typeof params.packageJson.bin === "string" &&
       normalizeLowercaseStringOrEmpty(params.packageJson.bin).includes("brikko-studio")) ||
     (typeof params.packageJson.bin === "object" &&
       params.packageJson.bin !== null &&
       typeof params.packageJson.bin.brikko-studio === "string");
-  const hasBrikko StudioEntrypoint = fs.existsSync(path.join(params.packageRoot, "brikko-studio.mjs"));
-  return hasCliEntryExport || hasBrikko StudioBin || hasBrikko StudioEntrypoint;
+  const hasBrikkoStudioEntrypoint = fs.existsSync(path.join(params.packageRoot, "brikko-studio.mjs"));
+  return hasCliEntryExport || hasBrikkoStudioBin || hasBrikkoStudioEntrypoint;
 }
 
 function readPluginSdkSubpathsFromPackageRoot(packageRoot: string): string[] | null {
@@ -88,21 +88,21 @@ function readPluginSdkSubpathsFromPackageRoot(packageRoot: string): string[] | n
   if (!pkg) {
     return null;
   }
-  if (!hasTrustedBrikko StudioRootIndicator({ packageRoot, packageJson: pkg })) {
+  if (!hasTrustedBrikkoStudioRootIndicator({ packageRoot, packageJson: pkg })) {
     return null;
   }
   const subpaths = listPluginSdkSubpathsFromPackageJson(pkg);
   return subpaths.length > 0 ? subpaths : null;
 }
 
-function resolveTrustedBrikko StudioRootFromArgvHint(params: {
+function resolveTrustedBrikkoStudioRootFromArgvHint(params: {
   argv1?: string;
   cwd: string;
 }): string | null {
   if (!params.argv1) {
     return null;
   }
-  const packageRoot = resolveBrikko StudioPackageRootSync({
+  const packageRoot = resolveBrikkoStudioPackageRootSync({
     cwd: params.cwd,
     argv1: params.argv1,
   });
@@ -113,7 +113,7 @@ function resolveTrustedBrikko StudioRootFromArgvHint(params: {
   if (!packageJson) {
     return null;
   }
-  return hasTrustedBrikko StudioRootIndicator({ packageRoot, packageJson }) ? packageRoot : null;
+  return hasTrustedBrikkoStudioRootIndicator({ packageRoot, packageJson }) ? packageRoot : null;
 }
 
 function findNearestPluginSdkPackageRoot(startDir: string, maxDepth = 12): string | null {
@@ -136,13 +136,13 @@ export function resolveLoaderPackageRoot(
   params: LoaderModuleResolveParams & { modulePath: string },
 ): string | null {
   const cwd = params.cwd ?? path.dirname(params.modulePath);
-  const fromModulePath = resolveBrikko StudioPackageRootSync({ cwd });
+  const fromModulePath = resolveBrikkoStudioPackageRootSync({ cwd });
   if (fromModulePath) {
     return fromModulePath;
   }
   const argv1 = params.argv1 ?? process.argv[1];
   const moduleUrl = params.moduleUrl ?? (params.modulePath ? undefined : import.meta.url);
-  return resolveBrikko StudioPackageRootSync({
+  return resolveBrikkoStudioPackageRootSync({
     cwd,
     ...(argv1 ? { argv1 } : {}),
     ...(moduleUrl ? { moduleUrl } : {}),
@@ -153,11 +153,11 @@ function resolveLoaderPluginSdkPackageRoot(
   params: LoaderModuleResolveParams & { modulePath: string },
 ): string | null {
   const cwd = params.cwd ?? path.dirname(params.modulePath);
-  const fromCwd = resolveBrikko StudioPackageRootSync({ cwd });
+  const fromCwd = resolveBrikkoStudioPackageRootSync({ cwd });
   const fromExplicitHints =
-    resolveTrustedBrikko StudioRootFromArgvHint({ cwd, argv1: params.argv1 }) ??
+    resolveTrustedBrikkoStudioRootFromArgvHint({ cwd, argv1: params.argv1 }) ??
     (params.moduleUrl
-      ? resolveBrikko StudioPackageRootSync({
+      ? resolveBrikkoStudioPackageRootSync({
           cwd,
           moduleUrl: params.moduleUrl,
         })

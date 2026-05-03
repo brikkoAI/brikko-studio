@@ -1,6 +1,6 @@
 import type { Command } from "commander";
 import { getRuntimeConfig, readConfigFileSnapshot, replaceConfigFile } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { tracePluginLifecyclePhaseAsync } from "../plugins/plugin-lifecycle-trace.js";
 import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
@@ -89,7 +89,7 @@ function isErroredConfigSelectedShadowDiagnostic(params: {
 export function registerPluginsCli(program: Command) {
   const plugins = program
     .command("plugins")
-    .description("Manage Brikko Studio plugins and extensions")
+    .description("Manage BrikkoStudio plugins and extensions")
     .addHelpText(
       "after",
       () =>
@@ -144,7 +144,7 @@ export function registerPluginsCli(program: Command) {
       const { refreshPluginRegistryAfterConfigMutation } =
         await import("./plugins-registry-refresh.js");
       const snapshot = await readConfigFileSnapshot();
-      const cfg = (snapshot.sourceConfig ?? snapshot.config) as Brikko StudioConfig;
+      const cfg = (snapshot.sourceConfig ?? snapshot.config) as BrikkoStudioConfig;
       const report = buildPluginRegistrySnapshotReport({ config: cfg });
       id = normalizePluginId(id);
       if (!report.plugins.some((plugin) => matchesPluginId(plugin, id))) {
@@ -153,7 +153,7 @@ export function registerPluginsCli(program: Command) {
       const enableResult = enablePluginInConfig(cfg, id, {
         updateChannelConfig: false,
       });
-      let next: Brikko StudioConfig = enableResult.config;
+      let next: BrikkoStudioConfig = enableResult.config;
       const slotResult = applySlotSelectionForPlugin(next, id);
       next = slotResult.config;
       await replaceConfigFile({
@@ -191,7 +191,7 @@ export function registerPluginsCli(program: Command) {
       const { refreshPluginRegistryAfterConfigMutation } =
         await import("./plugins-registry-refresh.js");
       const snapshot = await readConfigFileSnapshot();
-      const cfg = (snapshot.sourceConfig ?? snapshot.config) as Brikko StudioConfig;
+      const cfg = (snapshot.sourceConfig ?? snapshot.config) as BrikkoStudioConfig;
       const report = buildPluginRegistrySnapshotReport({ config: cfg });
       id = normalizePluginId(id);
       if (!report.plugins.some((plugin) => matchesPluginId(plugin, id))) {

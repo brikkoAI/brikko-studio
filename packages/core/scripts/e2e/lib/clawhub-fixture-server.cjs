@@ -116,7 +116,7 @@ if (!dependencyUrl.startsWith(expectedDependencyBaseUrl)) {
 
 export default definePluginEntry({
   id: "${pluginId}",
-  name: "Brikko Studio Kitchen Sink",
+  name: "BrikkoStudio Kitchen Sink",
   register(api) {
     if (!isNumber(42)) {
       throw new Error("kitchen-sink dependency sentinel did not load");
@@ -150,7 +150,7 @@ export default definePluginEntry({
 `,
     manifest: {
       id: pluginId,
-      name: "Brikko Studio Kitchen Sink",
+      name: "BrikkoStudio Kitchen Sink",
       channels: ["kitchen-sink-channel"],
       providers: ["kitchen-sink-provider"],
       contracts: {
@@ -167,7 +167,7 @@ export default definePluginEntry({
       const packageDetail = {
         package: {
           name: packageName,
-          displayName: "Brikko Studio Kitchen Sink",
+          displayName: "BrikkoStudio Kitchen Sink",
           family: "code-plugin",
           runtimeId: pluginId,
           channel: "official",
@@ -206,7 +206,7 @@ export default definePluginEntry({
         versionDetail: {
           package: {
             name: packageName,
-            displayName: "Brikko Studio Kitchen Sink",
+            displayName: "BrikkoStudio Kitchen Sink",
             family: "code-plugin",
           },
           version: {
@@ -246,7 +246,7 @@ export default definePluginEntry({
     },
     indexJs: `module.exports = {
   id: "${pluginId}",
-  name: "Brikko Studio Kitchen Sink",
+  name: "BrikkoStudio Kitchen Sink",
   description: "Docker E2E kitchen-sink plugin fixture",
   register(api) {
     api.on("before_agent_start", async (event, context) => ({
@@ -282,7 +282,7 @@ export default definePluginEntry({
         packageDetail: {
           package: {
             name: packageName,
-            displayName: "Brikko Studio Kitchen Sink",
+            displayName: "BrikkoStudio Kitchen Sink",
             family: "code-plugin",
             channel: "official",
             isOfficial: true,
@@ -341,7 +341,7 @@ async function main() {
   const artifactResolverDetail = {
     package: versionDetail.package ?? {
       name: packageName,
-      displayName: packageDetail.package?.displayName ?? "Brikko Studio Kitchen Sink",
+      displayName: packageDetail.package?.displayName ?? "BrikkoStudio Kitchen Sink",
       family: packageDetail.package?.family ?? "code-plugin",
     },
     version: versionDetail.version,

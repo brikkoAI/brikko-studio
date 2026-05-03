@@ -1,5 +1,5 @@
-import { resolveBrikko StudioAgentDir } from "brikko-studio/plugin-sdk/agent-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import { resolveBrikkoStudioAgentDir } from "brikko-studio/plugin-sdk/agent-runtime";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { getRuntimeConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import { isLiveTestEnabled } from "brikko-studio/plugin-sdk/test-env";
@@ -32,7 +32,7 @@ function withPluginsEnabled<T>(cfg: T): T {
 }
 
 describeLive("comfy live", () => {
-  let cfg = {} as Brikko StudioConfig;
+  let cfg = {} as BrikkoStudioConfig;
   let agentDir = "";
   const imageProviders: Array<{ id: string; generateImage: Function; isConfigured?: Function }> =
     [];
@@ -42,7 +42,7 @@ describeLive("comfy live", () => {
 
   beforeAll(async () => {
     cfg = withPluginsEnabled(getRuntimeConfig());
-    agentDir = resolveBrikko StudioAgentDir();
+    agentDir = resolveBrikkoStudioAgentDir();
     plugin.register(
       createTestPluginApi({
         config: cfg as never,

@@ -11,7 +11,7 @@ import {
   resolveEnvApiKey,
   resolveUsableCustomProviderApiKey,
 } from "../../agents/model-auth.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
@@ -62,7 +62,7 @@ function resolveProfileSourceAgentDir(params: {
 
 export function resolveProviderAuthOverview(params: {
   provider: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   store: AuthProfileStore;
   modelsPath: string;
   agentDir?: string;

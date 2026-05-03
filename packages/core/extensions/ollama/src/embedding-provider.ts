@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
 import {
   isKnownEnvApiKeyMarker,
   isNonSecretApiKeyMarker,
@@ -30,7 +30,7 @@ export type OllamaEmbeddingProvider = {
 };
 
 type OllamaEmbeddingOptions = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentDir?: string;
   provider?: string;
   remote?: {

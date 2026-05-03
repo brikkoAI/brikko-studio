@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   DEFAULT_CACHE_TTL_MINUTES,
   DEFAULT_SEARCH_COUNT,
@@ -113,7 +113,7 @@ function parseDuckDuckGoHtml(html: string): DuckDuckGoResult[] {
 }
 
 export async function runDuckDuckGoSearch(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   query: string;
   count?: number;
   region?: string;

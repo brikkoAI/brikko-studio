@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { resolveStatusTtsSnapshot } from "./status-config.js";
 
 let fixtureRoot = "";
@@ -22,7 +22,7 @@ async function withStatusTempHome(run: (home: string) => Promise<void>): Promise
   const home = path.join(fixtureRoot, `case-${fixtureId++}`);
   const previousHome = process.env.HOME;
   const previousUserProfile = process.env.USERPROFILE;
-  const previousBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+  const previousBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
   const previousStateDir = process.env.BRIKKO_STUDIO_STATE_DIR;
   fs.mkdirSync(home, { recursive: true });
   process.env.HOME = home;
@@ -34,7 +34,7 @@ async function withStatusTempHome(run: (home: string) => Promise<void>): Promise
   } finally {
     restoreEnv("HOME", previousHome);
     restoreEnv("USERPROFILE", previousUserProfile);
-    restoreEnv("BRIKKO_STUDIO_HOME", previousBrikko StudioHome);
+    restoreEnv("BRIKKO_STUDIO_HOME", previousBrikkoStudioHome);
     restoreEnv("BRIKKO_STUDIO_STATE_DIR", previousStateDir);
   }
 }
@@ -72,7 +72,7 @@ describe("resolveStatusTtsSnapshot", () => {
                 prefsPath,
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
         }),
       ).toEqual({
         autoMode: "always",
@@ -93,7 +93,7 @@ describe("resolveStatusTtsSnapshot", () => {
                 auto: "always",
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
         }),
       ).toEqual({
         autoMode: "always",
@@ -126,7 +126,7 @@ describe("resolveStatusTtsSnapshot", () => {
                 },
               ],
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
           agentId: "reader",
         }),
       ).toEqual({
@@ -163,7 +163,7 @@ describe("resolveStatusTtsSnapshot", () => {
                 },
               ],
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
           agentId: "reader",
         }),
       ).toEqual({
@@ -195,7 +195,7 @@ describe("resolveStatusTtsSnapshot", () => {
                 },
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
         }),
       ).toEqual({
         autoMode: "always",
@@ -229,7 +229,7 @@ describe("resolveStatusTtsSnapshot", () => {
                 },
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
         }),
       ).toEqual({
         autoMode: "always",
@@ -274,7 +274,7 @@ describe("resolveStatusTtsSnapshot", () => {
                 },
               ],
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
           agentId: "reader",
         }),
       ).toEqual({
@@ -320,7 +320,7 @@ describe("resolveStatusTtsSnapshot", () => {
                 },
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
         }),
       ).toEqual({
         autoMode: "always",
@@ -356,7 +356,7 @@ describe("resolveStatusTtsSnapshot", () => {
               messages: {
                 tts: {},
               },
-            } as Brikko StudioConfig,
+            } as BrikkoStudioConfig,
           }),
         ).toEqual({
           autoMode: "always",

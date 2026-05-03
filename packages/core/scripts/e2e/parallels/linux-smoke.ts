@@ -8,7 +8,7 @@ import {
   makeTempDir,
   packageBuildCommitFromTgz,
   packageVersionFromTgz,
-  packBrikko Studio,
+  packBrikkoStudio,
   parseBoolEnv,
   parseMode,
   parseProvider,
@@ -264,7 +264,7 @@ class LinuxSmoke {
       );
       say(`Run logs: ${this.runDir}`);
 
-      this.artifact = await packBrikko Studio({
+      this.artifact = await packBrikkoStudio({
         destination: this.tgzDir,
         packageSpec: this.options.targetPackageSpec,
         requireControlUi: false,
@@ -750,7 +750,7 @@ fi`,
 
   private async extractLastVersion(phaseId: string): Promise<string> {
     const text = await readFile(path.join(this.runDir, `${phaseId}.log`), "utf8").catch(() => "");
-    return [...text.matchAll(/Brikko Studio [^\r\n]+ \([0-9a-f]{7,}\)/g)].at(-1)?.[0] ?? "";
+    return [...text.matchAll(/BrikkoStudio [^\r\n]+ \([0-9a-f]{7,}\)/g)].at(-1)?.[0] ?? "";
   }
 
   private async writeSummary(): Promise<string> {

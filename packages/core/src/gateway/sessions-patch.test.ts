@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { SessionEntry } from "../config/sessions.js";
 import { createEmptyPluginRegistry } from "../plugins/registry-empty.js";
 import { resetPluginRuntimeStateForTest, setActivePluginRegistry } from "../plugins/runtime.js";
@@ -8,14 +8,14 @@ import { applySessionsPatchToStore } from "./sessions-patch.js";
 const SUBAGENT_MODEL = "synthetic/hf:moonshotai/Kimi-K2.5";
 const KIMI_SUBAGENT_KEY = "agent:kimi:subagent:child";
 const MAIN_SESSION_KEY = "agent:main:main";
-const EMPTY_CFG = {} as Brikko StudioConfig;
+const EMPTY_CFG = {} as BrikkoStudioConfig;
 
 type ApplySessionsPatchArgs = Parameters<typeof applySessionsPatchToStore>[0];
 
 async function runPatch(params: {
   patch: ApplySessionsPatchArgs["patch"];
   store?: Record<string, SessionEntry>;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   storeKey?: string;
   loadGatewayModelCatalog?: ApplySessionsPatchArgs["loadGatewayModelCatalog"];
 }) {
@@ -49,7 +49,7 @@ function expectPatchError(
   expect(result.error.message).toContain(message);
 }
 
-async function applySubagentModelPatch(cfg: Brikko StudioConfig) {
+async function applySubagentModelPatch(cfg: BrikkoStudioConfig) {
   return expectPatchOk(
     await runPatch({
       cfg,
@@ -70,7 +70,7 @@ function makeKimiSubagentCfg(params: {
   agentPrimaryModel?: string;
   agentSubagentModel?: string;
   defaultsSubagentModel?: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -90,10 +90,10 @@ function makeKimiSubagentCfg(params: {
         },
       ],
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-function createAllowlistedAnthropicModelCfg(): Brikko StudioConfig {
+function createAllowlistedAnthropicModelCfg(): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -103,7 +103,7 @@ function createAllowlistedAnthropicModelCfg(): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("gateway sessions patch", () => {
@@ -381,7 +381,7 @@ describe("gateway sessions patch", () => {
               model: { primary: "ollama/qwen3:0.6b" },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         patch: {
           key: MAIN_SESSION_KEY,
           thinkingLevel: "medium",
@@ -409,7 +409,7 @@ describe("gateway sessions patch", () => {
               model: { primary: "gmn/gpt-5.4" },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         patch: {
           key: MAIN_SESSION_KEY,
           thinkingLevel: "xhigh",
@@ -438,7 +438,7 @@ describe("gateway sessions patch", () => {
               model: { primary: "openai-codex/gpt-5.5" },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         patch: {
           key: MAIN_SESSION_KEY,
           thinkingLevel: "xhigh",

@@ -4,12 +4,12 @@ import {
   resolveExecApprovalCommandDisplay,
 } from "brikko-studio/plugin-sdk/approval-reply-runtime";
 import type { ExecApprovalRequest } from "brikko-studio/plugin-sdk/approval-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeMessageChannel } from "brikko-studio/plugin-sdk/routing";
 import { isTelegramExecApprovalClientEnabled } from "./exec-approvals.js";
 
 export function shouldSuppressTelegramExecApprovalForwardingFallback(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   target: { channel: string; accountId?: string | null };
   request: ExecApprovalRequest;
 }): boolean {

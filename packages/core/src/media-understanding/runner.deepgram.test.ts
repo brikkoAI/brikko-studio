@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { buildProviderRegistry, runCapability } from "./runner.js";
 import { withAudioFixture } from "./runner.test-utils.js";
 
@@ -106,7 +106,7 @@ describe("runCapability deepgram provider options", () => {
             },
           },
         },
-      } as unknown as Brikko StudioConfig;
+      } as unknown as BrikkoStudioConfig;
 
       const result = await runCapability({
         capability: "audio",

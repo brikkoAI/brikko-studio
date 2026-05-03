@@ -1,5 +1,5 @@
 import { normalizeProviderId } from "../agents/model-selection.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
@@ -89,10 +89,10 @@ function mergeConfigPatch<T>(base: T, patch: unknown): T {
 }
 
 export function applyProviderAuthConfigPatch(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   patch: unknown,
   options?: { replaceDefaultModels?: boolean },
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const merged = mergeConfigPatch(cfg, patch);
   if (!options?.replaceDefaultModels || !isPlainRecord(patch)) {
     return merged;
@@ -112,7 +112,7 @@ export function applyProviderAuthConfigPatch(
         ...merged.agents?.defaults,
         // Opt-in replacement for migrations that rename/remove model keys.
         models: sanitizeConfigPatchValue(patchModels) as NonNullable<
-          NonNullable<Brikko StudioConfig["agents"]>["defaults"]
+          NonNullable<BrikkoStudioConfig["agents"]>["defaults"]
         >["models"],
       },
     },
@@ -120,10 +120,10 @@ export function applyProviderAuthConfigPatch(
 }
 
 export function applyDefaultModel(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   model: string,
   opts?: { preserveExistingPrimary?: boolean },
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[model] = models[model] ?? {};
 

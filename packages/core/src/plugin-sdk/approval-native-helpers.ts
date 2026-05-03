@@ -3,13 +3,13 @@ import { resolveApprovalRequestOriginTarget } from "../infra/exec-approval-sessi
 import type { ExecApprovalRequest } from "../infra/exec-approvals.js";
 import type { PluginApprovalRequest } from "../infra/plugin-approvals.js";
 import { channelRouteTargetsMatchExact } from "./channel-route.js";
-import type { Brikko StudioConfig } from "./config-runtime.js";
+import type { BrikkoStudioConfig } from "./config-runtime.js";
 
 type ApprovalRequest = ExecApprovalRequest | PluginApprovalRequest;
 type ApprovalKind = "exec" | "plugin";
 
 type ApprovalResolverParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   approvalKind?: ApprovalKind;
   request: ApprovalRequest;
@@ -158,7 +158,7 @@ export function createChannelApproverDmTargetResolver<
 >(params: {
   shouldHandleRequest?: (params: ApprovalResolverParams) => boolean;
   resolveApprovers: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
   }) => readonly TApprover[];
   mapApprover: (approver: TApprover, params: ApprovalResolverParams) => TTarget | null | undefined;

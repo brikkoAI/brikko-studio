@@ -1,15 +1,15 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { buildWorkspaceHookStatus } from "../hooks/hooks-status.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
 
 export async function setupInternalHooks(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   runtime: RuntimeEnv,
   prompter: WizardPrompter,
-): Promise<Brikko StudioConfig> {
+): Promise<BrikkoStudioConfig> {
   await prompter.note(
     [
       "Hooks let you automate actions when agent commands are issued.",
@@ -58,7 +58,7 @@ export async function setupInternalHooks(
     entries[name] = { enabled: true };
   }
 
-  const next: Brikko StudioConfig = {
+  const next: BrikkoStudioConfig = {
     ...cfg,
     hooks: {
       ...cfg.hooks,

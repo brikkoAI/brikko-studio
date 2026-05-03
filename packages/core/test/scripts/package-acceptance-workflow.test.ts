@@ -204,8 +204,8 @@ describe("package artifact reuse", () => {
     expect(workflow).toContain(
       "BRIKKO_STUDIO_UPGRADE_SURVIVOR_SCENARIOS: ${{ inputs.published_upgrade_survivor_scenarios }}",
     );
-    expect(workflow).toContain("Download current-run Brikko Studio Docker E2E package");
-    expect(workflow).toContain("Download previous-run Brikko Studio Docker E2E package");
+    expect(workflow).toContain("Download current-run BrikkoStudio Docker E2E package");
+    expect(workflow).toContain("Download previous-run BrikkoStudio Docker E2E package");
     expect(workflow).toContain("inputs.package_artifact_name != ''");
     expect(workflow).toContain(
       'bare_image="${PROVIDED_BARE_IMAGE:-ghcr.io/${repository}-docker-e2e-bare:${image_tag}}"',

@@ -378,11 +378,11 @@ export async function createQaBundledPluginsDir(params: {
     repoRoot: params.repoRoot,
     stagedRoot,
   });
-  const stagedBrikko StudioPackageDir = path.join(stagedRoot, "node_modules", "brikko-studio");
-  await fs.mkdir(stagedBrikko StudioPackageDir, { recursive: true });
+  const stagedBrikkoStudioPackageDir = path.join(stagedRoot, "node_modules", "brikko-studio");
+  await fs.mkdir(stagedBrikkoStudioPackageDir, { recursive: true });
   await fs.copyFile(
     path.join(params.repoRoot, "package.json"),
-    path.join(stagedBrikko StudioPackageDir, "package.json"),
+    path.join(stagedBrikkoStudioPackageDir, "package.json"),
   );
   const stagedTreeName = resolveQaStagedBundledTreeName(params.repoRoot);
   const stagedTreeRoot = path.join(stagedRoot, stagedTreeName);
@@ -418,7 +418,7 @@ export async function createQaBundledPluginsDir(params: {
   }
   await symlinkQaStagedDirEntry({
     sourcePath: path.join(stagedRoot, "dist"),
-    targetPath: path.join(stagedBrikko StudioPackageDir, "dist"),
+    targetPath: path.join(stagedBrikkoStudioPackageDir, "dist"),
     directory: true,
   });
   return {

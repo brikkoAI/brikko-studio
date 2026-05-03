@@ -320,7 +320,7 @@ vi.mock("../plugins/loader.js", async () => {
     await vi.importActual<typeof import("../plugins/loader.js")>("../plugins/loader.js");
   return {
     ...actual,
-    loadBrikko StudioPlugins: () => getTestPluginRegistry(),
+    loadBrikkoStudioPlugins: () => getTestPluginRegistry(),
   };
 });
 vi.mock("../plugins/runtime/runtime-web-channel-plugin.js", () => ({

@@ -1,7 +1,7 @@
 import { ButtonStyle } from "discord-api-types/v10";
 import { resolveApprovalOverGateway } from "brikko-studio/plugin-sdk/approval-gateway-runtime";
 import type { ExecApprovalDecision } from "brikko-studio/plugin-sdk/approval-runtime";
-import type { DiscordExecApprovalConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { DiscordExecApprovalConfig, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { Button, type ButtonInteraction, type ComponentData } from "../internal/discord.js";
 export { buildExecApprovalCustomId } from "../approval-handler.runtime.js";
 import { getDiscordExecApprovalApprovers } from "../exec-approvals.js";
@@ -125,7 +125,7 @@ export function createExecApprovalButton(ctx: ExecApprovalButtonContext): Button
 }
 
 export function createDiscordExecApprovalButtonContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   config: DiscordExecApprovalConfig;
   gatewayUrl?: string;

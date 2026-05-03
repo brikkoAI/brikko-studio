@@ -9,7 +9,7 @@ export type ServiceStatusSummary = {
   label: string;
   installed: boolean | null;
   loaded: boolean;
-  managedByBrikko Studio: boolean;
+  managedByBrikkoStudio: boolean;
   externallyManaged: boolean;
   loadedText: string;
   runtime: GatewayServiceRuntime | undefined;
@@ -23,9 +23,9 @@ export async function readServiceStatusSummary(
   try {
     const state = await readGatewayServiceState(service, { env: process.env });
     const layout = await summarizeGatewayServiceLayout(state.command);
-    const managedByBrikko Studio = state.installed;
-    const externallyManaged = !managedByBrikko Studio && state.running;
-    const installed = managedByBrikko Studio || externallyManaged;
+    const managedByBrikkoStudio = state.installed;
+    const externallyManaged = !managedByBrikkoStudio && state.running;
+    const installed = managedByBrikkoStudio || externallyManaged;
     const loadedText = externallyManaged
       ? "running (externally managed)"
       : state.loaded
@@ -35,7 +35,7 @@ export async function readServiceStatusSummary(
       label: service.label,
       installed,
       loaded: state.loaded,
-      managedByBrikko Studio,
+      managedByBrikkoStudio,
       externallyManaged,
       loadedText,
       runtime: state.runtime,
@@ -46,7 +46,7 @@ export async function readServiceStatusSummary(
       label: fallbackLabel,
       installed: null,
       loaded: false,
-      managedByBrikko Studio: false,
+      managedByBrikkoStudio: false,
       externallyManaged: false,
       loadedText: "unknown",
       runtime: undefined,

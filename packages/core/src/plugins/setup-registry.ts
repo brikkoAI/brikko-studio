@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeProviderId } from "../agents/provider-id.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { buildPluginApi } from "./api-builder.js";
 import { collectPluginConfigContractMatches } from "./config-contracts.js";
 import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.js";
@@ -16,7 +16,7 @@ import type { PluginRuntime } from "./runtime/types.js";
 import { listSetupCliBackendIds, listSetupProviderIds } from "./setup-descriptors.js";
 import type {
   CliBackendPlugin,
-  Brikko StudioPluginModule,
+  BrikkoStudioPluginModule,
   PluginConfigMigration,
   PluginLogger,
   PluginSetupAutoEnableProbe,
@@ -143,7 +143,7 @@ function resolveSetupApiPath(
   return null;
 }
 
-function collectConfiguredPluginEntryIds(config: Brikko StudioConfig): string[] {
+function collectConfiguredPluginEntryIds(config: BrikkoStudioConfig): string[] {
   const entries = config.plugins?.entries;
   if (!entries || typeof entries !== "object") {
     return [];
@@ -155,7 +155,7 @@ function collectConfiguredPluginEntryIds(config: Brikko StudioConfig): string[] 
 }
 
 function resolveRelevantSetupMigrationPluginIds(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): string[] {
@@ -185,7 +185,7 @@ function resolveRelevantSetupMigrationPluginIds(params: {
   return [...ids].toSorted();
 }
 
-function resolveRegister(mod: Brikko StudioPluginModule): {
+function resolveRegister(mod: BrikkoStudioPluginModule): {
   definition?: { id?: string };
   register?: (api: ReturnType<typeof buildPluginApi>) => void | Promise<void>;
 } {
@@ -226,14 +226,14 @@ function resolveSetupRegistration(record: PluginManifestRecord): {
     return null;
   }
 
-  let mod: Brikko StudioPluginModule;
+  let mod: BrikkoStudioPluginModule;
   try {
-    mod = getModuleLoader(setupSource)(setupSource) as Brikko StudioPluginModule;
+    mod = getModuleLoader(setupSource)(setupSource) as BrikkoStudioPluginModule;
   } catch {
     return null;
   }
 
-  const resolved = resolveRegister((mod as { default?: Brikko StudioPluginModule }).default ?? mod);
+  const resolved = resolveRegister((mod as { default?: BrikkoStudioPluginModule }).default ?? mod);
   if (!resolved.register) {
     return null;
   }
@@ -259,7 +259,7 @@ function buildSetupPluginApi(params: {
     source: params.setupSource,
     rootDir: params.record.rootDir,
     registrationMode: "setup-only",
-    config: {} as Brikko StudioConfig,
+    config: {} as BrikkoStudioConfig,
     runtime: EMPTY_RUNTIME,
     logger: NOOP_LOGGER,
     resolvePath: (input) => input,
@@ -287,7 +287,7 @@ function matchesProvider(provider: ProviderPlugin, providerId: string): boolean 
 }
 
 function loadSetupManifestRegistry(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   pluginIds?: readonly string[];
@@ -341,7 +341,7 @@ function pushDescriptorRuntimeDisabledDiagnostic(params: {
     pluginId: params.record.id,
     code: "setup-descriptor-runtime-disabled",
     message:
-      "setup.requiresRuntime is false, so Brikko Studio ignored the plugin setup runtime entry. Remove setup-api/brikko-studio.setupEntry or set requiresRuntime true if setup lookup still needs plugin code.",
+      "setup.requiresRuntime is false, so BrikkoStudio ignored the plugin setup runtime entry. Remove setup-api/brikko-studio.setupEntry or set requiresRuntime true if setup lookup still needs plugin code.",
   });
 }
 
@@ -403,7 +403,7 @@ function pushSetupDescriptorDriftDiagnostics(params: {
 }
 
 export function resolvePluginSetupRegistry(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   pluginIds?: readonly string[];
@@ -531,7 +531,7 @@ export function resolvePluginSetupRegistry(params?: {
 
 export function resolvePluginSetupProvider(params: {
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   pluginIds?: readonly string[];
@@ -594,7 +594,7 @@ export function resolvePluginSetupProvider(params: {
 
 export function resolvePluginSetupCliBackend(params: {
   backend: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): SetupCliBackendEntry | undefined {
@@ -660,11 +660,11 @@ export function resolvePluginSetupCliBackend(params: {
 }
 
 export function runPluginSetupConfigMigrations(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
 } {
   let next = params.config;
@@ -692,7 +692,7 @@ export function runPluginSetupConfigMigrations(params: {
 }
 
 export function resolvePluginSetupAutoEnableReasons(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   pluginIds?: readonly string[];

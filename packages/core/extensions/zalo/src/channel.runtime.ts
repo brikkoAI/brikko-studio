@@ -4,13 +4,13 @@ import { resolveZaloProxyFetch } from "./proxy.js";
 import {
   PAIRING_APPROVED_MESSAGE,
   type ChannelPlugin,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "./runtime-api.js";
 import { normalizeSecretInputString } from "./secret-input.js";
 import { sendMessageZalo } from "./send.js";
 import type { ResolvedZaloAccount } from "./types.js";
 
-export async function notifyZaloPairingApproval(params: { cfg: Brikko StudioConfig; id: string }) {
+export async function notifyZaloPairingApproval(params: { cfg: BrikkoStudioConfig; id: string }) {
   const { resolveZaloAccount } = await import("./accounts.js");
   const account = resolveZaloAccount({ cfg: params.cfg });
   if (!account.token) {

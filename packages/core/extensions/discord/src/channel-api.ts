@@ -6,7 +6,7 @@ export {
   resolveConfiguredFromCredentialStatuses,
 } from "brikko-studio/plugin-sdk/channel-status";
 export type { ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
-export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 const DISCORD_CHANNEL_META = {
   id: "discord",

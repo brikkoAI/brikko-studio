@@ -10,7 +10,7 @@ import {
   type ChannelSetupDmPolicy,
   type ChannelSetupWizard,
   type DmPolicy,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/setup";
 import {
   listZalouserAccountIds,
@@ -43,11 +43,11 @@ function parseZalouserEntries(raw: string): string[] {
 }
 
 function setZalouserAccountScopedConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   defaultPatch: Record<string, unknown>,
   accountPatch: Record<string, unknown> = defaultPatch,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return patchScopedAccountConfig({
     cfg,
     channelKey: channel,
@@ -58,10 +58,10 @@ function setZalouserAccountScopedConfig(
 }
 
 function setZalouserDmPolicy(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   policy: DmPolicy,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const resolvedAccountId = normalizeAccountId(accountId) ?? DEFAULT_ACCOUNT_ID;
   const resolved = resolveZalouserAccountSync({ cfg, accountId: resolvedAccountId });
   return setZalouserAccountScopedConfig(
@@ -79,20 +79,20 @@ function setZalouserDmPolicy(
 }
 
 function setZalouserGroupPolicy(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   groupPolicy: "open" | "allowlist" | "disabled",
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return setZalouserAccountScopedConfig(cfg, accountId, {
     groupPolicy,
   });
 }
 
 function setZalouserGroupAllowlist(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   groupKeys: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const groups = Object.fromEntries(
     groupKeys.map((key) => [key, { enabled: true, requireMention: true }]),
   );
@@ -101,8 +101,8 @@ function setZalouserGroupAllowlist(
   });
 }
 
-function ensureZalouserPluginEnabled(cfg: Brikko StudioConfig): Brikko StudioConfig {
-  const next: Brikko StudioConfig = {
+function ensureZalouserPluginEnabled(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
+  const next: BrikkoStudioConfig = {
     ...cfg,
     plugins: {
       ...cfg.plugins,
@@ -144,10 +144,10 @@ async function noteZalouserHelp(
 }
 
 async function promptZalouserAllowFrom(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: Parameters<NonNullable<ChannelSetupDmPolicy["promptAllowFrom"]>>[0]["prompter"];
   accountId: string;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const { cfg, prompter, accountId } = params;
   const resolved = resolveZalouserAccountSync({ cfg, accountId });
   const existingAllowFrom = resolved.config.allowFrom ?? [];
@@ -242,10 +242,10 @@ const zalouserDmPolicy: ChannelSetupDmPolicy = {
 };
 
 async function promptZalouserQuickstartDmPolicy(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: Parameters<NonNullable<ChannelSetupWizard["prepare"]>>[0]["prompter"];
   accountId: string;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const { cfg, prompter, accountId } = params;
   const resolved = resolveZalouserAccountSync({ cfg, accountId });
   const existingPolicy = resolved.config.dmPolicy ?? "pairing";

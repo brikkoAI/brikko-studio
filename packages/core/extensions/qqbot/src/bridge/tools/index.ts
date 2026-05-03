@@ -5,11 +5,11 @@
  * file so that the plugin-level `index.ts` stays a pure declaration.
  */
 
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/core";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/core";
 import { registerChannelTool } from "./channel.js";
 import { registerRemindTool } from "./remind.js";
 
-export function registerQQBotTools(api: Brikko StudioPluginApi): void {
+export function registerQQBotTools(api: BrikkoStudioPluginApi): void {
   registerChannelTool(api);
   registerRemindTool(api);
 }

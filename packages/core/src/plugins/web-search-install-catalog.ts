@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isRecord } from "../utils.js";
 import { enablePluginInConfig } from "./enable.js";
 import type { PluginPackageInstall } from "./manifest.js";
@@ -46,7 +46,7 @@ function pathSegments(path: string): string[] {
     .filter((segment) => segment.length > 0);
 }
 
-function getConfigPath(config: Brikko StudioConfig | undefined, path: string): unknown {
+function getConfigPath(config: BrikkoStudioConfig | undefined, path: string): unknown {
   let current: unknown = config;
   for (const segment of pathSegments(path)) {
     if (!isRecord(current)) {
@@ -57,7 +57,7 @@ function getConfigPath(config: Brikko StudioConfig | undefined, path: string): u
   return current;
 }
 
-function setConfigPath(target: Brikko StudioConfig, path: string, value: unknown): void {
+function setConfigPath(target: BrikkoStudioConfig, path: string, value: unknown): void {
   const segments = pathSegments(path);
   let current: Record<string, unknown> = target as Record<string, unknown>;
   for (const segment of segments.slice(0, -1)) {
@@ -115,12 +115,12 @@ function buildProviderEntry(params: {
     setCredentialValue: (searchConfigTarget: Record<string, unknown>, value: unknown) => {
       searchConfigTarget.apiKey = value;
     },
-    getConfiguredCredentialValue: (config?: Brikko StudioConfig) =>
+    getConfiguredCredentialValue: (config?: BrikkoStudioConfig) =>
       getConfigPath(config, credentialPath),
-    setConfiguredCredentialValue: (configTarget: Brikko StudioConfig, value: unknown) => {
+    setConfiguredCredentialValue: (configTarget: BrikkoStudioConfig, value: unknown) => {
       setConfigPath(configTarget, credentialPath, value);
     },
-    applySelectionConfig: (config: Brikko StudioConfig) =>
+    applySelectionConfig: (config: BrikkoStudioConfig) =>
       enablePluginInConfig(config, params.pluginId).config,
     createTool: () => null,
   };

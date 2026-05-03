@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { migrateOrphanedSessionKeys } from "../infra/state-migrations.js";
 
 type SessionMigrationLogger = {
@@ -15,7 +15,7 @@ type SessionMigrationLogger = {
  * upgrade rather than requiring a manual `brikko-studio doctor` run.
  */
 export async function runStartupSessionMigration(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   log: SessionMigrationLogger;
   deps?: {

@@ -11,7 +11,7 @@ import {
 import { FIELD_LABELS } from "./schema.labels.js";
 import { asSchemaObject, cloneSchema } from "./schema.shared.js";
 import { applyDerivedTags } from "./schema.tags.js";
-import { Brikko StudioSchema } from "./zod-schema.js";
+import { BrikkoStudioSchema } from "./zod-schema.js";
 
 type ConfigSchema = Record<string, unknown>;
 
@@ -229,18 +229,18 @@ function computeBaseConfigSchemaStablePayload(): BaseConfigSchemaStablePayload {
       version: baseConfigSchemaStablePayload.version,
     };
   }
-  const schema = Brikko StudioSchema.toJSONSchema({
+  const schema = BrikkoStudioSchema.toJSONSchema({
     target: "draft-07",
     unrepresentable: "any",
   });
-  schema.title = "Brikko StudioConfig";
+  schema.title = "BrikkoStudioConfig";
   const schemaRoot = asJsonSchemaObject(schema);
   if (schemaRoot) {
     applyFieldDocumentation(schemaRoot, buildFieldDocumentation());
   }
-  const baseHints = mapSensitivePaths(Brikko StudioSchema, "", buildBaseHints());
+  const baseHints = mapSensitivePaths(BrikkoStudioSchema, "", buildBaseHints());
   const sensitiveUrlPaths = collectMatchingSchemaPaths(
-    Brikko StudioSchema,
+    BrikkoStudioSchema,
     "",
     isSensitiveUrlConfigPath,
   );

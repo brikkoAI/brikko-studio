@@ -1,6 +1,6 @@
 import {
   createDefaultModelPresetAppliers,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildMistralModelDefinition,
@@ -12,7 +12,7 @@ export const MISTRAL_DEFAULT_MODEL_REF = `mistral/${MISTRAL_DEFAULT_MODEL_ID}`;
 
 const mistralPresetAppliers = createDefaultModelPresetAppliers({
   primaryModelRef: MISTRAL_DEFAULT_MODEL_REF,
-  resolveParams: (_cfg: Brikko StudioConfig) => ({
+  resolveParams: (_cfg: BrikkoStudioConfig) => ({
     providerId: "mistral",
     api: "openai-completions",
     baseUrl: MISTRAL_BASE_URL,
@@ -22,10 +22,10 @@ const mistralPresetAppliers = createDefaultModelPresetAppliers({
   }),
 });
 
-export function applyMistralProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyMistralProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return mistralPresetAppliers.applyProviderConfig(cfg);
 }
 
-export function applyMistralConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyMistralConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return mistralPresetAppliers.applyConfig(cfg);
 }

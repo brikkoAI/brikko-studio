@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-onboard";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/provider-onboard";
 import { withEnvAsync } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { __testing } from "../test-api.js";
@@ -54,7 +54,7 @@ describe("kimi web search provider", () => {
         throw new Error("Expected tool definition");
       }
 
-      const result = await tool.execute({ query: "Brikko Studio docs" });
+      const result = await tool.execute({ query: "BrikkoStudio docs" });
 
       expect(result).toMatchObject({
         error: "missing_kimi_api_key",
@@ -75,10 +75,10 @@ describe("kimi web search provider", () => {
   it("inherits native Moonshot chat baseUrl when kimi baseUrl is unset", () => {
     const cnConfig = {
       models: { providers: { moonshot: { baseUrl: "https://api.moonshot.cn/v1" } } },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     const cnConfigWithTrailingSlash = {
       models: { providers: { moonshot: { baseUrl: "https://api.moonshot.cn/v1/" } } },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(__testing.resolveKimiBaseUrl(undefined, cnConfig)).toBe("https://api.moonshot.cn/v1");
     expect(__testing.resolveKimiBaseUrl(undefined, cnConfigWithTrailingSlash)).toBe(
@@ -89,7 +89,7 @@ describe("kimi web search provider", () => {
   it("does not inherit non-native Moonshot baseUrl for web search", () => {
     const proxyConfig = {
       models: { providers: { moonshot: { baseUrl: "https://proxy.example/v1" } } },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(__testing.resolveKimiBaseUrl(undefined, proxyConfig)).toBe("https://api.moonshot.ai/v1");
   });
@@ -97,7 +97,7 @@ describe("kimi web search provider", () => {
   it("keeps explicit kimi baseUrl over models.providers.moonshot.baseUrl", () => {
     const moonshotConfig = {
       models: { providers: { moonshot: { baseUrl: "https://api.moonshot.cn/v1" } } },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(
       __testing.resolveKimiBaseUrl({ baseUrl: "https://api.moonshot.ai/v1" }, moonshotConfig),
@@ -154,7 +154,7 @@ describe("kimi web search provider", () => {
 
   it("accepts final responses backed by Kimi web search tool replay", async () => {
     const toolArguments = JSON.stringify({
-      query: "Brikko Studio GitHub repository",
+      query: "BrikkoStudio GitHub repository",
       usage: { total_tokens: 1200 },
     });
     const fetchMock = vi
@@ -185,7 +185,7 @@ describe("kimi web search provider", () => {
           choices: [
             {
               finish_reason: "stop",
-              message: { content: "Brikko Studio is available on GitHub." },
+              message: { content: "BrikkoStudio is available on GitHub." },
             },
           ],
         }),
@@ -197,7 +197,7 @@ describe("kimi web search provider", () => {
 
       expect(result).toMatchObject({
         provider: "kimi",
-        content: expect.stringContaining("Brikko Studio is available on GitHub."),
+        content: expect.stringContaining("BrikkoStudio is available on GitHub."),
         citations: [],
       });
       expect(result).not.toHaveProperty("error");
@@ -207,11 +207,11 @@ describe("kimi web search provider", () => {
   it("accepts final responses with search result citations", async () => {
     const fetchMock = vi.fn().mockResolvedValue(
       jsonResponse({
-        search_results: [{ title: "Brikko Studio", url: "https://github.com/brikko-studio/brikko-studio" }],
+        search_results: [{ title: "BrikkoStudio", url: "https://github.com/brikko-studio/brikko-studio" }],
         choices: [
           {
             finish_reason: "stop",
-            message: { content: "Brikko Studio is on GitHub." },
+            message: { content: "BrikkoStudio is on GitHub." },
           },
         ],
       }),
@@ -223,7 +223,7 @@ describe("kimi web search provider", () => {
 
       expect(result).toMatchObject({
         provider: "kimi",
-        content: expect.stringContaining("Brikko Studio is on GitHub."),
+        content: expect.stringContaining("BrikkoStudio is on GitHub."),
         citations: ["https://github.com/brikko-studio/brikko-studio"],
       });
       expect(result).not.toHaveProperty("error");

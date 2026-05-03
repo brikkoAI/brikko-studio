@@ -1,5 +1,5 @@
 /**
- * Standalone MCP server that exposes Brikko Studio plugin-registered tools
+ * Standalone MCP server that exposes BrikkoStudio plugin-registered tools
  * (e.g. memory-lancedb's memory_recall, memory_store, memory_forget)
  * so ACP sessions running Claude Code can use them.
  *
@@ -10,13 +10,13 @@ import { pathToFileURL } from "node:url";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import type { AnyAgentTool } from "../agents/tools/common.js";
 import { getRuntimeConfig } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { routeLogsToStderr } from "../logging/console.js";
 import { ensureStandalonePluginToolRegistryLoaded, resolvePluginTools } from "../plugins/tools.js";
 import { connectToolsMcpServerToStdio, createToolsMcpServer } from "./tools-stdio-server.js";
 
-function resolveTools(config: Brikko StudioConfig): AnyAgentTool[] {
+function resolveTools(config: BrikkoStudioConfig): AnyAgentTool[] {
   ensureStandalonePluginToolRegistryLoaded({
     context: { config },
   });
@@ -28,7 +28,7 @@ function resolveTools(config: Brikko StudioConfig): AnyAgentTool[] {
 
 export function createPluginToolsMcpServer(
   params: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     tools?: AnyAgentTool[];
   } = {},
 ): Server {

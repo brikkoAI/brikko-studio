@@ -1,23 +1,23 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { VERSION } from "../version.js";
-import { Brikko StudioChannelBridge } from "./channel-bridge.js";
+import { BrikkoStudioChannelBridge } from "./channel-bridge.js";
 import { ClaudePermissionRequestSchema, type ClaudeChannelMode } from "./channel-shared.js";
 import { getChannelMcpCapabilities, registerChannelMcpTools } from "./channel-tools.js";
 
-export { Brikko StudioChannelBridge } from "./channel-bridge.js";
+export { BrikkoStudioChannelBridge } from "./channel-bridge.js";
 
-export type Brikko StudioMcpServeOptions = {
+export type BrikkoStudioMcpServeOptions = {
   gatewayUrl?: string;
   gatewayToken?: string;
   gatewayPassword?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   claudeChannelMode?: ClaudeChannelMode;
   verbose?: boolean;
 };
 
-async function resolveMcpConfig(config: Brikko StudioConfig | undefined): Promise<Brikko StudioConfig> {
+async function resolveMcpConfig(config: BrikkoStudioConfig | undefined): Promise<BrikkoStudioConfig> {
   if (config) {
     return config;
   }
@@ -25,9 +25,9 @@ async function resolveMcpConfig(config: Brikko StudioConfig | undefined): Promis
   return getRuntimeConfig();
 }
 
-export async function createBrikko StudioChannelMcpServer(opts: Brikko StudioMcpServeOptions = {}): Promise<{
+export async function createBrikkoStudioChannelMcpServer(opts: BrikkoStudioMcpServeOptions = {}): Promise<{
   server: McpServer;
-  bridge: Brikko StudioChannelBridge;
+  bridge: BrikkoStudioChannelBridge;
   start: () => Promise<void>;
   close: () => Promise<void>;
 }> {
@@ -38,7 +38,7 @@ export async function createBrikko StudioChannelMcpServer(opts: Brikko StudioMcp
     { name: "brikko-studio", version: VERSION },
     capabilities ? { capabilities } : undefined,
   );
-  const bridge = new Brikko StudioChannelBridge(cfg, {
+  const bridge = new BrikkoStudioChannelBridge(cfg, {
     gatewayUrl: opts.gatewayUrl,
     gatewayToken: opts.gatewayToken,
     gatewayPassword: opts.gatewayPassword,
@@ -70,8 +70,8 @@ export async function createBrikko StudioChannelMcpServer(opts: Brikko StudioMcp
   };
 }
 
-export async function serveBrikko StudioChannelMcp(opts: Brikko StudioMcpServeOptions = {}): Promise<void> {
-  const { server, start, close } = await createBrikko StudioChannelMcpServer(opts);
+export async function serveBrikkoStudioChannelMcp(opts: BrikkoStudioMcpServeOptions = {}): Promise<void> {
+  const { server, start, close } = await createBrikkoStudioChannelMcpServer(opts);
   const transport = new StdioServerTransport();
 
   let shuttingDown = false;

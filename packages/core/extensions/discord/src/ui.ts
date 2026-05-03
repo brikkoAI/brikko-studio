@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { Container } from "./internal/discord.js";
 import { normalizeDiscordAccentColor, resolveDiscordAccentColor } from "./ui-colors.js";
 
@@ -6,7 +6,7 @@ type DiscordContainerComponents = ConstructorParameters<typeof Container>[0];
 
 export class DiscordUiContainer extends Container {
   constructor(params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     components?: DiscordContainerComponents;
     accentColor?: string;

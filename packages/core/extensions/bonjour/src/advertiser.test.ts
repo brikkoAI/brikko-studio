@@ -424,7 +424,7 @@ describe("gateway bonjour advertiser", () => {
     expect(
       handler?.(
         new Error(
-          "Can't probe for a service which is announced already. Received announcing for service Brikko Studio Gateway._brikko-studio._tcp.local.",
+          "Can't probe for a service which is announced already. Received announcing for service BrikkoStudio Gateway._brikko-studio._tcp.local.",
         ),
       ),
     ).toBe(true);
@@ -799,7 +799,7 @@ describe("gateway bonjour advertiser", () => {
     });
 
     const [gatewayCall] = createService.mock.calls as Array<[ServiceCall]>;
-    expect(gatewayCall?.[0]?.name).toBe("Mac (Brikko Studio)");
+    expect(gatewayCall?.[0]?.name).toBe("Mac (BrikkoStudio)");
     expect(gatewayCall?.[0]?.domain).toBe("local");
     expect(gatewayCall?.[0]?.hostname).toBe("Mac");
     expect((gatewayCall?.[0]?.txt as Record<string, string>)?.lanHost).toBe("Mac.local");
@@ -847,7 +847,7 @@ describe("gateway bonjour advertiser", () => {
     const serviceName = gatewayCall?.[0]?.name as string;
     const hostname = gatewayCall?.[0]?.hostname as string;
 
-    expectDnsLabelByteLength(`${reportedHostname} (Brikko Studio)`, 64);
+    expectDnsLabelByteLength(`${reportedHostname} (BrikkoStudio)`, 64);
     expect(hostname).toBe(reportedHostname);
     expectDnsLabelWithinLimit(serviceName);
 
@@ -881,7 +881,7 @@ describe("gateway bonjour advertiser", () => {
   });
 
   it("truncates multi-byte hostname within DNS label byte limit", async () => {
-    // 21 CJK characters = 63 bytes in UTF-8, adding " (Brikko Studio)" pushes over
+    // 21 CJK characters = 63 bytes in UTF-8, adding " (BrikkoStudio)" pushes over
     const cjkHostname = "你".repeat(21);
     enableAdvertiserUnitMode(cjkHostname);
 

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RegisteredMemorySearchManager } from "../plugins/memory-state.js";
 
 type ActiveMemorySearchPurpose = "default" | "status";
@@ -15,7 +15,7 @@ async function loadMemoryHostSearchRuntime(): Promise<MemoryHostSearchRuntimeMod
 }
 
 export async function getActiveMemorySearchManager(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   purpose?: ActiveMemorySearchPurpose;
 }): Promise<ActiveMemorySearchManagerResult> {
@@ -23,7 +23,7 @@ export async function getActiveMemorySearchManager(params: {
   return await runtime.getActiveMemorySearchManager(params);
 }
 
-export async function closeActiveMemorySearchManagers(cfg?: Brikko StudioConfig): Promise<void> {
+export async function closeActiveMemorySearchManagers(cfg?: BrikkoStudioConfig): Promise<void> {
   const runtime = await loadMemoryHostSearchRuntime();
   await runtime.closeActiveMemorySearchManagers(cfg);
 }

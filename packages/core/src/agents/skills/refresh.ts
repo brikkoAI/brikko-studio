@@ -1,7 +1,7 @@
 import os from "node:os";
 import path from "node:path";
 import chokidar, { type FSWatcher } from "chokidar";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import { CONFIG_DIR, resolveUserPath } from "../../utils.js";
@@ -53,7 +53,7 @@ export const DEFAULT_SKILLS_WATCH_IGNORED: RegExp[] = [
   /(^|[\\/])\.cache([\\/]|$)/,
 ];
 
-function resolveWatchPaths(workspaceDir: string, config?: Brikko StudioConfig): string[] {
+function resolveWatchPaths(workspaceDir: string, config?: BrikkoStudioConfig): string[] {
   const paths: string[] = [];
   if (workspaceDir.trim()) {
     paths.push(path.join(workspaceDir, "skills"));
@@ -77,7 +77,7 @@ function toWatchRoot(raw: string): string {
   return normalized.replace(/\/+$/, "") || normalized;
 }
 
-function resolveWatchTargets(workspaceDir: string, config?: Brikko StudioConfig): string[] {
+function resolveWatchTargets(workspaceDir: string, config?: BrikkoStudioConfig): string[] {
   const targets = new Set<string>();
   for (const root of resolveWatchPaths(workspaceDir, config)) {
     targets.add(toWatchRoot(root));
@@ -102,7 +102,7 @@ export function shouldIgnoreSkillsWatchPath(
   return path.posix.basename(normalized) !== "SKILL.md";
 }
 
-export function ensureSkillsWatcher(params: { workspaceDir: string; config?: Brikko StudioConfig }) {
+export function ensureSkillsWatcher(params: { workspaceDir: string; config?: BrikkoStudioConfig }) {
   const workspaceDir = params.workspaceDir.trim();
   if (!workspaceDir) {
     return;

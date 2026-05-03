@@ -14,7 +14,7 @@ import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
   selectApplicableRuntimeConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../../config/config.js";
 import {
   normalizeOptionalLowercaseString,
@@ -38,7 +38,7 @@ import type { FollowupRun } from "./queue.js";
 
 const BUN_FETCH_SOCKET_ERROR_RE = /socket connection was closed unexpectedly/i;
 
-export function resolveQueuedReplyRuntimeConfig(config: Brikko StudioConfig): Brikko StudioConfig {
+export function resolveQueuedReplyRuntimeConfig(config: BrikkoStudioConfig): BrikkoStudioConfig {
   const runtimeConfig =
     typeof getRuntimeConfigSnapshot === "function" ? getRuntimeConfigSnapshot() : null;
   const runtimeSourceConfig =
@@ -53,14 +53,14 @@ export function resolveQueuedReplyRuntimeConfig(config: Brikko StudioConfig): Br
 }
 
 export async function resolveQueuedReplyExecutionConfig(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   params?: {
     originatingChannel?: string;
     messageProvider?: string;
     originatingAccountId?: string;
     agentAccountId?: string;
   },
-): Promise<Brikko StudioConfig> {
+): Promise<BrikkoStudioConfig> {
   const runtimeConfig = resolveQueuedReplyRuntimeConfig(config);
   const { resolvedConfig } = await resolveCommandSecretRefsViaGateway({
     config: runtimeConfig,
@@ -102,7 +102,7 @@ export async function resolveQueuedReplyExecutionConfig(
  */
 export function buildThreadingToolContext(params: {
   sessionCtx: TemplateContext;
-  config: Brikko StudioConfig | undefined;
+  config: BrikkoStudioConfig | undefined;
   hasRepliedRef: { value: boolean } | undefined;
 }): ChannelThreadingToolContext {
   const { sessionCtx, config, hasRepliedRef } = params;

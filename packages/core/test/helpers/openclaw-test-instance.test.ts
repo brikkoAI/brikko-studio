@@ -1,12 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { createBrikko StudioTestInstance } from "./brikko-studio-test-instance.js";
+import { createBrikkoStudioTestInstance } from "./brikko-studio-test-instance.js";
 
 describe("brikko-studio test instance", () => {
   it("creates isolated config and spawn env without mutating process env", async () => {
     const previousHome = process.env.HOME;
-    const inst = await createBrikko StudioTestInstance({
+    const inst = await createBrikkoStudioTestInstance({
       name: "instance-unit",
       gatewayToken: "gateway-token",
       hookToken: "hook-token",

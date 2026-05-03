@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { PluginCompatCode } from "./compat/registry.js";
 import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.js";
 import type { PluginCandidate } from "./discovery.js";
@@ -197,7 +197,7 @@ function buildCandidateLookup(
 export function buildInstalledPluginIndexRecords(params: {
   candidates: readonly PluginCandidate[];
   registry: PluginManifestRegistry;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   diagnostics: PluginDiagnostic[];
   installRecords: Record<string, InstalledPluginInstallRecordInfo>;
 }): InstalledPluginIndexRecord[] {

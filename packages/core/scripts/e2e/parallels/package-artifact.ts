@@ -82,7 +82,7 @@ async function ensureCurrentBuildUnlocked(input: {
   }
 }
 
-export async function packBrikko Studio(input: {
+export async function packBrikkoStudio(input: {
   destination: string;
   packageSpec?: string;
   requireControlUi?: boolean;

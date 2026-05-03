@@ -21,7 +21,7 @@ import {
   resetBlueBubblesParticipantContactNameCacheForTest,
   setBlueBubblesParticipantContactDepsForTest,
 } from "./participant-contact-names.js";
-import type { Brikko StudioConfig, PluginRuntime } from "./runtime-api.js";
+import type { BrikkoStudioConfig, PluginRuntime } from "./runtime-api.js";
 import { createBlueBubblesFetchGuardPassthroughInstaller } from "./test-harness.js";
 import {
   createBlueBubblesMonitorTestRuntime,
@@ -229,7 +229,7 @@ describe("BlueBubbles webhook monitor", () => {
 
   function setupWebhookTarget(params?: {
     account?: ReturnType<typeof createMockAccount>;
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     core?: PluginRuntime;
   }) {
     const registration = trackWebhookRegistrationForTest(
@@ -1620,7 +1620,7 @@ describe("BlueBubbles webhook monitor", () => {
               contextVisibility: "allowlist",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       });
 
       const payload = createTimestampedNewMessagePayloadForTest({
@@ -1657,7 +1657,7 @@ describe("BlueBubbles webhook monitor", () => {
               contextVisibility: "allowlist_quote",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       });
 
       const payload = createTimestampedNewMessagePayloadForTest({

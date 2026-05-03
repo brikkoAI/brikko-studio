@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type {
   AcpRuntime,
   AcpRuntimeEnsureInput,
@@ -55,7 +55,7 @@ function setNoAbort() {
 
 function createMockAcpSessionManager() {
   return {
-    resolveSession: (params: { cfg: Brikko StudioConfig; sessionKey: string }) => {
+    resolveSession: (params: { cfg: BrikkoStudioConfig; sessionKey: string }) => {
       const entry = acpMocks.readAcpSessionEntry({
         cfg: params.cfg,
         sessionKey: params.sessionKey,
@@ -83,7 +83,7 @@ function createMockAcpSessionManager() {
     }),
     runTurn: vi.fn(
       async (params: {
-        cfg: Brikko StudioConfig;
+        cfg: BrikkoStudioConfig;
         sessionKey: string;
         text?: string;
         attachments?: unknown[];
@@ -251,7 +251,7 @@ describe("dispatchReplyFromConfig ACP abort", () => {
         session: {
           sendPolicy: { default: "allow" },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       dispatcher,
       replyOptions: { abortSignal: abortController.signal },
     });

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   collectTelegramInvalidAllowFromWarnings,
@@ -171,7 +171,7 @@ describe("telegram doctor", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     expect(hits).toEqual([
       { path: "channels.telegram.allowFrom", entry: "@top" },
@@ -218,7 +218,7 @@ describe("telegram doctor", () => {
           allowFrom: ["@testuser"],
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     expect(result.config.channels?.telegram?.allowFrom).toEqual(["111"]);
     expect(result.changes[0]).toContain("@testuser");
@@ -231,7 +231,7 @@ describe("telegram doctor", () => {
           allowFrom: [-1001234567890],
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     expect(result.config.channels?.telegram?.allowFrom).toEqual([-1001234567890]);
     expect(result.changes).toEqual([
@@ -276,7 +276,7 @@ describe("telegram doctor", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     expect(result.config.channels?.telegram?.accounts?.inactive?.allowFrom).toEqual(["@testuser"]);
     expect(result.changes).toEqual([
@@ -307,7 +307,7 @@ describe("telegram doctor", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const hits = scanTelegramBotEndpointApiRoots(cfg);
     expect(hits.map((hit) => hit.path)).toEqual([
@@ -338,7 +338,7 @@ describe("telegram doctor", () => {
           replyToMode: "first",
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const hits = scanTelegramSelectedQuoteToolProgressWarnings(cfg);
     expect(hits).toEqual([{ path: "channels.telegram", replyToMode: "first" }]);
@@ -364,7 +364,7 @@ describe("telegram doctor", () => {
           accounts: {},
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(scanTelegramSelectedQuoteToolProgressWarnings(cfg)).toEqual([
       { path: "channels.telegram", replyToMode: "all" },
@@ -385,7 +385,7 @@ describe("telegram doctor", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(scanTelegramSelectedQuoteToolProgressWarnings(cfg)).toEqual([
       { path: "channels.telegram.accounts.work", replyToMode: "batched" },
@@ -404,7 +404,7 @@ describe("telegram doctor", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(scanTelegramSelectedQuoteToolProgressWarnings(cfg)).toEqual([]);
   });
@@ -418,7 +418,7 @@ describe("telegram doctor", () => {
             streaming: false,
           },
         },
-      } as unknown as Brikko StudioConfig),
+      } as unknown as BrikkoStudioConfig),
     ).toEqual([]);
 
     expect(
@@ -433,7 +433,7 @@ describe("telegram doctor", () => {
             blockStreamingDefault: "on",
           },
         },
-      } as unknown as Brikko StudioConfig),
+      } as unknown as BrikkoStudioConfig),
     ).toEqual([]);
   });
 
@@ -444,7 +444,7 @@ describe("telegram doctor", () => {
           apiRoot: "https://api.telegram.org/bot123456:ABC",
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(
       await telegramDoctor.collectPreviewWarnings?.({
@@ -472,7 +472,7 @@ describe("telegram doctor", () => {
           allowFrom: ["123"],
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     inspectTelegramAccountMock.mockReturnValueOnce({
       enabled: true,
@@ -526,7 +526,7 @@ describe("telegram doctor", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(collectTelegramMissingEnvTokenWarnings({ cfg, env: {} })).toEqual([]);
   });

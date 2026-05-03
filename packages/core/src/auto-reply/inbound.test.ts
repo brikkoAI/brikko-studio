@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { GroupKeyResolution } from "../config/sessions.js";
 import { channelRouteDedupeKey } from "../plugin-sdk/channel-route.js";
 import { resetPluginRuntimeStateForTest } from "../plugins/runtime.js";
@@ -720,7 +720,7 @@ describe("initSessionState BodyStripped", () => {
   it("prefers BodyForAgent over Body for group chats", async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-sender-meta-"));
     const storePath = path.join(root, "sessions.json");
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -742,7 +742,7 @@ describe("initSessionState BodyStripped", () => {
   it("prefers BodyForAgent over Body for direct chats", async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-sender-meta-direct-"));
     const storePath = path.join(root, "sessions.json");
-    const cfg = { session: { store: storePath } } as Brikko StudioConfig;
+    const cfg = { session: { store: storePath } } as BrikkoStudioConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -826,7 +826,7 @@ describe("resolveGroupRequireMention", () => {
   });
 
   it("respects Discord guild/channel requireMention settings", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         discord: {
           guilds: {
@@ -856,7 +856,7 @@ describe("resolveGroupRequireMention", () => {
   });
 
   it("respects Slack channel requireMention settings", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         slack: {
           channels: {
@@ -881,7 +881,7 @@ describe("resolveGroupRequireMention", () => {
   });
 
   it("uses Slack fallback resolver semantics for default-account wildcard channels", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         slack: {
           defaultAccount: "work",
@@ -911,7 +911,7 @@ describe("resolveGroupRequireMention", () => {
   });
 
   it("keeps core reply-stage resolution aligned for Slack default-account wildcard fallbacks", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         slack: {
           defaultAccount: "work",
@@ -941,7 +941,7 @@ describe("resolveGroupRequireMention", () => {
   });
 
   it("uses Discord fallback resolver semantics for guild slug matches", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         discord: {
           guilds: {
@@ -970,7 +970,7 @@ describe("resolveGroupRequireMention", () => {
   });
 
   it("keeps core reply-stage resolution aligned for Discord slug + wildcard guild fallbacks", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         discord: {
           guilds: {
@@ -1001,7 +1001,7 @@ describe("resolveGroupRequireMention", () => {
   });
 
   it("respects LINE prefixed group keys in reply-stage requireMention resolution", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         line: {
           groups: {
@@ -1025,7 +1025,7 @@ describe("resolveGroupRequireMention", () => {
   });
 
   it("preserves plugin-backed channel requireMention resolution", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         bluebubbles: {
           groups: {

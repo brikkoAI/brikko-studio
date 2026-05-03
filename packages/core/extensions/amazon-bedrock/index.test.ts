@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { PluginRuntime } from "brikko-studio/plugin-sdk/core";
 import {
   buildPluginApi,
@@ -104,7 +104,7 @@ async function registerWithConfig(
     name: "Amazon Bedrock Provider",
     source: "test",
     registrationMode: "full",
-    config: {} as Brikko StudioConfig,
+    config: {} as BrikkoStudioConfig,
     pluginConfig,
     runtime: {} as PluginRuntime,
     logger: noopLogger,
@@ -166,7 +166,7 @@ function callWrappedStream(
   provider: RegisteredProviderPlugin,
   modelId: string,
   modelDescriptor: never,
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): Record<string, unknown> {
   const wrapped = provider.wrapStreamFn?.({
     provider: "amazon-bedrock",
@@ -193,7 +193,7 @@ function callWrappedStream(
   return result;
 }
 
-function runtimePluginConfig(config?: Record<string, unknown>): Brikko StudioConfig {
+function runtimePluginConfig(config?: Record<string, unknown>): BrikkoStudioConfig {
   return {
     plugins: {
       entries: config
@@ -204,7 +204,7 @@ function runtimePluginConfig(config?: Record<string, unknown>): Brikko StudioCon
           }
         : {},
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("amazon-bedrock provider plugin", () => {

@@ -14,7 +14,7 @@ import {
   normalizeAccountId,
   resolveNormalizedAccountEntry,
 } from "brikko-studio/plugin-sdk/account-resolution";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 export type TwitchTokenSource = "env" | "config" | "none";
 
@@ -48,12 +48,12 @@ function normalizeTwitchToken(raw?: string | null): string | undefined {
  * The getAccountConfig function handles merging base-level config with accounts.default,
  * so this logic works for both simplified and multi-account patterns.
  *
- * @param cfg - Brikko Studio config
+ * @param cfg - BrikkoStudio config
  * @param opts - Options including accountId and optional envToken override
  * @returns Token resolution with source
  */
 export function resolveTwitchToken(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   opts: { accountId?: string | null; envToken?: string | null } = {},
 ): TwitchTokenResolution {
   const accountId = normalizeAccountId(opts.accountId);

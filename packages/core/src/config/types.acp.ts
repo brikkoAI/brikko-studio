@@ -22,7 +22,7 @@ export type AcpStreamConfig = {
   maxSessionUpdateChars?: number;
   /**
    * Per-sessionUpdate visibility overrides.
-   * Keys not listed here fall back to Brikko Studio defaults.
+   * Keys not listed here fall back to BrikkoStudio defaults.
    */
   tagVisibility?: Partial<Record<AcpSessionUpdateTag, boolean>>;
 };

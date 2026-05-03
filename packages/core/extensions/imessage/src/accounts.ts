@@ -2,7 +2,7 @@ import {
   createAccountListHelpers,
   normalizeAccountId,
   resolveMergedAccountConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/account-resolution";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import type { IMessageAccountConfig } from "./account-types.js";
@@ -19,7 +19,7 @@ const { listAccountIds, resolveDefaultAccountId } = createAccountListHelpers("im
 export const listIMessageAccountIds = listAccountIds;
 export const resolveDefaultIMessageAccountId = resolveDefaultAccountId;
 
-function mergeIMessageAccountConfig(cfg: Brikko StudioConfig, accountId: string): IMessageAccountConfig {
+function mergeIMessageAccountConfig(cfg: BrikkoStudioConfig, accountId: string): IMessageAccountConfig {
   return resolveMergedAccountConfig<IMessageAccountConfig>({
     channelConfig: cfg.channels?.imessage as IMessageAccountConfig | undefined,
     accounts: cfg.channels?.imessage?.accounts as
@@ -30,7 +30,7 @@ function mergeIMessageAccountConfig(cfg: Brikko StudioConfig, accountId: string)
 }
 
 export function resolveIMessageAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ResolvedIMessageAccount {
   const accountId = normalizeAccountId(
@@ -64,7 +64,7 @@ export function resolveIMessageAccount(params: {
   };
 }
 
-export function listEnabledIMessageAccounts(cfg: Brikko StudioConfig): ResolvedIMessageAccount[] {
+export function listEnabledIMessageAccounts(cfg: BrikkoStudioConfig): ResolvedIMessageAccount[] {
   return listIMessageAccountIds(cfg)
     .map((accountId) => resolveIMessageAccount({ cfg, accountId }))
     .filter((account) => account.enabled);

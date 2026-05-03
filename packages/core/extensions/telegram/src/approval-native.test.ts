@@ -1,14 +1,14 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { clearSessionStoreCacheForTest } from "brikko-studio/plugin-sdk/session-store-runtime";
 import { describe, expect, it } from "vitest";
 import { telegramApprovalCapability, telegramNativeApprovalAdapter } from "./approval-native.js";
 
 function buildConfig(
-  overrides?: Partial<NonNullable<NonNullable<Brikko StudioConfig["channels"]>["telegram"]>>,
-): Brikko StudioConfig {
+  overrides?: Partial<NonNullable<NonNullable<BrikkoStudioConfig["channels"]>["telegram"]>>,
+): BrikkoStudioConfig {
   return {
     channels: {
       telegram: {
@@ -21,7 +21,7 @@ function buildConfig(
         ...overrides,
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 const STORE_PATH = path.join(os.tmpdir(), "brikko-studio-telegram-approval-native-test.json");

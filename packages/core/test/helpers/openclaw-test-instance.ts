@@ -8,13 +8,13 @@ import {
   RUNTIME_POSTBUILD_STAMP_FILE,
 } from "../../scripts/lib/local-build-metadata-paths.mjs";
 import {
-  createBrikko StudioTestState,
-  type Brikko StudioTestState,
-  type Brikko StudioTestStateOptions,
+  createBrikkoStudioTestState,
+  type BrikkoStudioTestState,
+  type BrikkoStudioTestStateOptions,
 } from "../../src/test-utils/brikko-studio-test-state.js";
 import { sleep } from "../../src/utils.js";
 
-export type Brikko StudioTestInstanceOptions = {
+export type BrikkoStudioTestInstanceOptions = {
   name: string;
   cwd?: string;
   port?: number;
@@ -22,20 +22,20 @@ export type Brikko StudioTestInstanceOptions = {
   hookToken?: string;
   config?: Record<string, unknown>;
   env?: Record<string, string | undefined>;
-  state?: Omit<Brikko StudioTestStateOptions, "applyEnv" | "gateway" | "env">;
+  state?: Omit<BrikkoStudioTestStateOptions, "applyEnv" | "gateway" | "env">;
   gatewayArgs?: string[];
   startTimeoutMs?: number;
   stopTimeoutMs?: number;
 };
 
-export type Brikko StudioTestInstanceCommandResult = {
+export type BrikkoStudioTestInstanceCommandResult = {
   code: number | null;
   signal: NodeJS.Signals | null;
   stdout: string;
   stderr: string;
 };
 
-export type Brikko StudioTestInstance = {
+export type BrikkoStudioTestInstance = {
   name: string;
   port: number;
   url: string;
@@ -44,7 +44,7 @@ export type Brikko StudioTestInstance = {
   homeDir: string;
   stateDir: string;
   configPath: string;
-  state: Brikko StudioTestState;
+  state: BrikkoStudioTestState;
   stdout: string[];
   stderr: string[];
   child?: ChildProcessWithoutNullStreams;
@@ -53,7 +53,7 @@ export type Brikko StudioTestInstance = {
   cli: (
     args: string[],
     options?: { timeoutMs?: number },
-  ) => Promise<Brikko StudioTestInstanceCommandResult>;
+  ) => Promise<BrikkoStudioTestInstanceCommandResult>;
   startGateway: () => Promise<void>;
   stopGateway: () => Promise<void>;
   logs: () => string;
@@ -254,14 +254,14 @@ function createInstanceEnv(params: {
   return env;
 }
 
-export async function createBrikko StudioTestInstance(
-  options: Brikko StudioTestInstanceOptions,
-): Promise<Brikko StudioTestInstance> {
+export async function createBrikkoStudioTestInstance(
+  options: BrikkoStudioTestInstanceOptions,
+): Promise<BrikkoStudioTestInstance> {
   const cwd = options.cwd ?? process.cwd();
   const port = options.port ?? (await getFreePort());
   const gatewayToken = options.gatewayToken ?? `gateway-${options.name}-${randomUUID()}`;
   const hookToken = options.hookToken ?? `token-${options.name}-${randomUUID()}`;
-  const state = await createBrikko StudioTestState({
+  const state = await createBrikkoStudioTestState({
     label: options.name,
     layout: "home",
     ...options.state,
@@ -291,7 +291,7 @@ export async function createBrikko StudioTestInstance(
   let child: ChildProcessWithoutNullStreams | undefined;
   let cleaned = false;
 
-  const instance: Brikko StudioTestInstance = {
+  const instance: BrikkoStudioTestInstance = {
     name: options.name,
     port,
     url: `ws://127.0.0.1:${port}`,
@@ -405,7 +405,7 @@ async function runCommand(params: {
   cwd: string;
   env: NodeJS.ProcessEnv;
   timeoutMs: number;
-}): Promise<Brikko StudioTestInstanceCommandResult> {
+}): Promise<BrikkoStudioTestInstanceCommandResult> {
   const [command, ...args] = params.args;
   if (!command) {
     throw new Error("missing command");

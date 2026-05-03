@@ -1,9 +1,9 @@
-import type { Brikko StudioConfig } from "../../../config/types.js";
+import type { BrikkoStudioConfig } from "../../../config/types.js";
 import { validateConfigObjectWithPlugins } from "../../../config/validation.js";
 import { applyLegacyDoctorMigrations } from "./legacy-config-compat.js";
 
 export function migrateLegacyConfig(raw: unknown): {
-  config: Brikko StudioConfig | null;
+  config: BrikkoStudioConfig | null;
   changes: string[];
 } {
   const { next, changes } = applyLegacyDoctorMigrations(raw);

@@ -43,7 +43,7 @@ export type {
   AgentToolResultMiddlewareOptions,
   AgentToolResultMiddlewareResult,
   AgentToolResultMiddlewareRuntime,
-  Brikko StudioAgentToolResult,
+  BrikkoStudioAgentToolResult,
 } from "../plugins/agent-tool-result-middleware-types.js";
 export type {
   CodexAppServerExtensionContext,
@@ -86,7 +86,7 @@ export {
   filterToolResultMediaUrls,
 } from "../agents/pi-embedded-subscribe.tools.js";
 export { normalizeUsage } from "../agents/usage.js";
-export { resolveBrikko StudioAgentDir } from "../agents/agent-paths.js";
+export { resolveBrikkoStudioAgentDir } from "../agents/agent-paths.js";
 export { resolveSessionAgentIds } from "../agents/agent-scope.js";
 export { resolveModelAuthMode } from "../agents/model-auth.js";
 export { supportsModelTools } from "../agents/model-tool-support.js";
@@ -195,7 +195,7 @@ export type AgentHarnessTerminalOutcomeClassification = NonNullable<
  * should advance fallback. Deliberate silent replies such as NO_REPLY count as
  * intentional output, while whitespace-only text remains fallback-eligible.
  * This is intentionally SDK-level so plugin harness adapters such as Codex
- * preserve the same Brikko Studio-owned fallback signals as the built-in PI path
+ * preserve the same BrikkoStudio-owned fallback signals as the built-in PI path
  * without re-implementing terminal-result policy.
  */
 export function classifyAgentHarnessTerminalOutcome(

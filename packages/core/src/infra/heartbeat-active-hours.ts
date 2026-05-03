@@ -1,12 +1,12 @@
 import { resolveUserTimezone } from "../agents/date-time.js";
 import type { AgentDefaultsConfig } from "../config/types.agent-defaults.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 type HeartbeatConfig = AgentDefaultsConfig["heartbeat"];
 
 const ACTIVE_HOURS_TIME_PATTERN = /^(?:([01]\d|2[0-3]):([0-5]\d)|24:00)$/;
 
-export function resolveActiveHoursTimezone(cfg: Brikko StudioConfig, raw?: string): string {
+export function resolveActiveHoursTimezone(cfg: BrikkoStudioConfig, raw?: string): string {
   const trimmed = raw?.trim();
   if (!trimmed || trimmed === "user") {
     return resolveUserTimezone(cfg.agents?.defaults?.userTimezone);
@@ -68,7 +68,7 @@ function resolveMinutesInTimeZone(nowMs: number, timeZone: string): number | nul
 }
 
 export function isWithinActiveHours(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   heartbeat?: HeartbeatConfig,
   nowMs?: number,
 ): boolean {

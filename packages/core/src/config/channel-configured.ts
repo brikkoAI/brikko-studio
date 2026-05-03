@@ -4,10 +4,10 @@ import {
   hasMeaningfulChannelConfigShallow,
   resolveChannelConfigRecord,
 } from "./channel-configured-shared.js";
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 
 export function isChannelConfigured(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   channelId: string,
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {

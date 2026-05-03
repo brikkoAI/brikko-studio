@@ -1,10 +1,10 @@
 // Manual facade. Keep loader boundary explicit.
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { SecurityAuditFinding } from "../security/audit.types.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
 
 type SecuritySurface = {
-  collectFeishuSecurityAuditFindings: (params: { cfg: Brikko StudioConfig }) => SecurityAuditFinding[];
+  collectFeishuSecurityAuditFindings: (params: { cfg: BrikkoStudioConfig }) => SecurityAuditFinding[];
 };
 
 function loadSecuritySurface(): SecuritySurface {

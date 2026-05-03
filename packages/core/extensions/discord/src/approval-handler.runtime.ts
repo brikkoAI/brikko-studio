@@ -12,7 +12,7 @@ import type {
 import { createChannelApprovalNativeRuntimeAdapter } from "brikko-studio/plugin-sdk/approval-handler-runtime";
 import type { ExecApprovalActionDescriptor } from "brikko-studio/plugin-sdk/approval-reply-runtime";
 import type { ExecApprovalDecision } from "brikko-studio/plugin-sdk/approval-runtime";
-import type { DiscordExecApprovalConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { DiscordExecApprovalConfig, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { logDebug, logError, normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { shouldHandleDiscordApprovalRequest } from "./approval-shared.js";
 import { isDiscordExecApprovalClientEnabled } from "./exec-approvals.js";
@@ -63,7 +63,7 @@ function resolveHandlerContext(params: ChannelApprovalCapabilityHandlerContext):
 
 class ExecApprovalContainer extends DiscordUiContainer {
   constructor(params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId: string;
     title: string;
     description?: string;
@@ -184,7 +184,7 @@ function resolveCommandPreviews(
 
 function createExecApprovalRequestContainer(params: {
   view: ExecApprovalPendingView;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   actionRow?: Row<Button>;
 }): ExecApprovalContainer {
@@ -212,7 +212,7 @@ function createExecApprovalRequestContainer(params: {
 
 function createPluginApprovalRequestContainer(params: {
   view: PluginApprovalPendingView;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   actionRow?: Row<Button>;
 }): ExecApprovalContainer {
@@ -236,7 +236,7 @@ function createPluginApprovalRequestContainer(params: {
 
 function createExecResolvedContainer(params: {
   view: ExecApprovalResolvedView;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
 }): ExecApprovalContainer {
   const { commandPreview, commandSecondaryPreview } = resolveCommandPreviews(
@@ -273,7 +273,7 @@ function createExecResolvedContainer(params: {
 
 function createPluginResolvedContainer(params: {
   view: PluginApprovalResolvedView;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
 }): ExecApprovalContainer {
   const decisionLabel =
@@ -304,7 +304,7 @@ function createPluginResolvedContainer(params: {
 
 function createExecExpiredContainer(params: {
   view: ExecApprovalExpiredView;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
 }): ExecApprovalContainer {
   const { commandPreview, commandSecondaryPreview } = resolveCommandPreviews(
@@ -328,7 +328,7 @@ function createExecExpiredContainer(params: {
 
 function createPluginExpiredContainer(params: {
   view: PluginApprovalExpiredView;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
 }): ExecApprovalContainer {
   return new ExecApprovalContainer({
@@ -352,7 +352,7 @@ export function buildExecApprovalCustomId(
 }
 
 async function updateMessage(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   token: string;
   channelId: string;
@@ -379,7 +379,7 @@ async function updateMessage(params: {
 }
 
 async function finalizeMessage(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   token: string;
   cleanupAfterResolve?: boolean;

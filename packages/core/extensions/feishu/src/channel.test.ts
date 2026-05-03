@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import { feishuPlugin } from "./channel.js";
 import { looksLikeFeishuId, normalizeFeishuTarget, resolveReceiveIdType } from "./targets.js";
 
@@ -55,7 +55,7 @@ vi.mock("./channel.runtime.js", () => ({
   },
 }));
 
-function getDescribedActions(cfg: Brikko StudioConfig, accountId?: string): string[] {
+function getDescribedActions(cfg: BrikkoStudioConfig, accountId?: string): string[] {
   return [...(feishuPlugin.actions?.describeMessageTool?.({ cfg, accountId })?.actions ?? [])];
 }
 
@@ -74,7 +74,7 @@ describe("feishuPlugin.status.probeAccount", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const account = feishuPlugin.config.resolveAccount(cfg, "main");
     probeFeishuMock.mockResolvedValueOnce({ ok: true, appId: "cli_main" });
@@ -116,7 +116,7 @@ describe("feishuPlugin.pairing.notifyApproval", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await feishuPlugin.pairing?.notifyApproval?.({
       cfg,
@@ -181,7 +181,7 @@ describe("feishuPlugin actions", () => {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -217,7 +217,7 @@ describe("feishuPlugin actions", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(getDescribedActions(disabledCfg)).toEqual([
       "send",
@@ -255,7 +255,7 @@ describe("feishuPlugin actions", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(getDescribedActions(cfg, "default")).toEqual([
       "send",

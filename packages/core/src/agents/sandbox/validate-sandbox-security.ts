@@ -286,7 +286,7 @@ function formatBindBlockedError(params: { bind: string; reason: BlockedBindReaso
   if (params.reason.kind === "reserved_target") {
     return new Error(
       `Sandbox security: bind mount "${params.bind}" targets reserved container path "${params.reason.reservedPath}" ` +
-        `(resolved target: "${params.reason.targetPath}"). This can shadow Brikko Studio sandbox mounts. ` +
+        `(resolved target: "${params.reason.targetPath}"). This can shadow BrikkoStudio sandbox mounts. ` +
         "Use a dangerous override only when you fully trust this runtime.",
     );
   }

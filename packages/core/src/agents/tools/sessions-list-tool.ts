@@ -7,7 +7,7 @@ import {
   resolveStorePath,
 } from "../../config/sessions.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { callGateway } from "../../gateway/call.js";
 import {
   deriveSessionTitle,
@@ -64,7 +64,7 @@ function readSessionRunStatus(value: unknown): SessionRunStatus | undefined {
 export function createSessionsListTool(opts?: {
   agentSessionKey?: string;
   sandboxed?: boolean;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   callGateway?: GatewayCaller;
 }): AnyAgentTool {
   return {

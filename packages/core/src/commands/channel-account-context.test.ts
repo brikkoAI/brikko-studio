@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import type { ChannelPlugin } from "../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveDefaultChannelAccountContext } from "./channel-account-context.js";
 
 vi.mock("../channels/read-only-account-inspect.js", () => ({
@@ -18,7 +18,7 @@ describe("resolveDefaultChannelAccountContext", () => {
       },
     } as unknown as ChannelPlugin;
 
-    const result = await resolveDefaultChannelAccountContext(plugin, {} as Brikko StudioConfig);
+    const result = await resolveDefaultChannelAccountContext(plugin, {} as BrikkoStudioConfig);
 
     expect(result.accountIds).toEqual(["acc-1"]);
     expect(result.defaultAccountId).toBe("acc-1");
@@ -43,7 +43,7 @@ describe("resolveDefaultChannelAccountContext", () => {
       },
     } as unknown as ChannelPlugin;
 
-    const result = await resolveDefaultChannelAccountContext(plugin, {} as Brikko StudioConfig);
+    const result = await resolveDefaultChannelAccountContext(plugin, {} as BrikkoStudioConfig);
 
     expect(isEnabled).toHaveBeenCalledWith(account, {});
     expect(isConfigured).toHaveBeenCalledWith(account, {});
@@ -64,11 +64,11 @@ describe("resolveDefaultChannelAccountContext", () => {
       },
     } as unknown as ChannelPlugin;
 
-    await expect(resolveDefaultChannelAccountContext(plugin, {} as Brikko StudioConfig)).rejects.toThrow(
+    await expect(resolveDefaultChannelAccountContext(plugin, {} as BrikkoStudioConfig)).rejects.toThrow(
       /missing secret/i,
     );
 
-    const result = await resolveDefaultChannelAccountContext(plugin, {} as Brikko StudioConfig, {
+    const result = await resolveDefaultChannelAccountContext(plugin, {} as BrikkoStudioConfig, {
       mode: "read_only",
       commandName: "status",
     });
@@ -93,7 +93,7 @@ describe("resolveDefaultChannelAccountContext", () => {
       },
     } as unknown as ChannelPlugin;
 
-    const result = await resolveDefaultChannelAccountContext(plugin, {} as Brikko StudioConfig, {
+    const result = await resolveDefaultChannelAccountContext(plugin, {} as BrikkoStudioConfig, {
       mode: "read_only",
     });
 

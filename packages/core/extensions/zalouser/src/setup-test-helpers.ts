@@ -1,5 +1,5 @@
 import { createScopedDmSecurityResolver } from "brikko-studio/plugin-sdk/channel-config-helpers";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import {
   listZalouserAccountIds,
   resolveDefaultZalouserAccountId,
@@ -23,7 +23,7 @@ export const zalouserSetupPlugin = {
   config: {
     listAccountIds: (cfg: unknown) => listZalouserAccountIds(cfg as never),
     defaultAccountId: (cfg: unknown) => resolveDefaultZalouserAccountId(cfg as never),
-    resolveAccount: (cfg: Brikko StudioConfig, accountId?: string | null) =>
+    resolveAccount: (cfg: BrikkoStudioConfig, accountId?: string | null) =>
       resolveZalouserAccountSync({ cfg, accountId }),
   },
   security: {

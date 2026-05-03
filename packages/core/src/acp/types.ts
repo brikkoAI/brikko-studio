@@ -47,6 +47,6 @@ export type AcpServerOptions = {
 
 export const ACP_AGENT_INFO = {
   name: "brikko-studio-acp",
-  title: "Brikko Studio ACP Gateway",
+  title: "BrikkoStudio ACP Gateway",
   version: VERSION,
 };

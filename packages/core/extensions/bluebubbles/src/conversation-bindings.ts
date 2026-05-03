@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createAccountScopedConversationBindingManager,
   resetAccountScopedConversationBindingsForTests,
@@ -25,7 +25,7 @@ function toBlueBubblesTargetKind(raw: BindingTargetKind): BlueBubblesBindingTarg
 
 export function createBlueBubblesConversationBindingManager(params: {
   accountId?: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): BlueBubblesConversationBindingManager {
   return createAccountScopedConversationBindingManager({
     channel: "bluebubbles",

@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import type {
@@ -361,7 +361,7 @@ function listBundledChannelPluginIdsForRoot(
 
 function shouldIncludeBundledChannelSetupFeatureForConfig(params: {
   metadata: BundledChannelPluginMetadata;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): boolean {
   if (!params.config) {
     return true;
@@ -402,7 +402,7 @@ function shouldIncludeBundledChannelSetupFeatureForConfig(params: {
 function listBundledChannelPluginIdsForSetupFeature(
   rootScope: BundledChannelRootScope,
   feature: keyof NonNullable<BundledChannelSetupEntryRuntimeContract["features"]>,
-  options: { config?: Brikko StudioConfig } = {},
+  options: { config?: BrikkoStudioConfig } = {},
 ): readonly ChannelId[] {
   const hinted = listBundledChannelMetadata(rootScope)
     .filter(
@@ -700,7 +700,7 @@ export function listBundledChannelSetupPlugins(): readonly ChannelPlugin[] {
 
 export function listBundledChannelSetupPluginsByFeature(
   feature: keyof NonNullable<BundledChannelSetupEntryRuntimeContract["features"]>,
-  options: { config?: Brikko StudioConfig } = {},
+  options: { config?: BrikkoStudioConfig } = {},
 ): readonly ChannelPlugin[] {
   const { rootScope, loadContext } = resolveActiveBundledChannelLoadScope();
   return listBundledChannelPluginIdsForSetupFeature(rootScope, feature, {
@@ -717,7 +717,7 @@ export function listBundledChannelSetupPluginsByFeature(
 
 export function listBundledChannelLegacySessionSurfaces(
   options: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
   } = {},
 ): readonly BundledChannelLegacySessionSurface[] {
   const { rootScope, loadContext } = resolveActiveBundledChannelLoadScope();
@@ -739,7 +739,7 @@ export function listBundledChannelLegacySessionSurfaces(
 
 export function listBundledChannelLegacyStateMigrationDetectors(
   options: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
   } = {},
 ): readonly BundledChannelLegacyStateMigrationDetector[] {
   const { rootScope, loadContext } = resolveActiveBundledChannelLoadScope();

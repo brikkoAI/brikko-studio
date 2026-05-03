@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { resolveTelegramReactionLevel } from "./reaction-level.js";
 
@@ -53,7 +53,7 @@ describe("resolveTelegramReactionLevel", () => {
   });
 
   it("defaults to minimal level when reactionLevel is not set", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: { telegram: {} },
     };
 
@@ -62,7 +62,7 @@ describe("resolveTelegramReactionLevel", () => {
   });
 
   it("returns off level with no reactions enabled", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: { telegram: { reactionLevel: "off" } },
     };
 
@@ -75,7 +75,7 @@ describe("resolveTelegramReactionLevel", () => {
   });
 
   it("returns ack level with only ackEnabled", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: { telegram: { reactionLevel: "ack" } },
     };
 
@@ -88,7 +88,7 @@ describe("resolveTelegramReactionLevel", () => {
   });
 
   it("returns minimal level with agent reactions enabled and minimal guidance", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: { telegram: { reactionLevel: "minimal" } },
     };
 
@@ -97,7 +97,7 @@ describe("resolveTelegramReactionLevel", () => {
   });
 
   it("returns extensive level with agent reactions enabled and extensive guidance", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: { telegram: { reactionLevel: "extensive" } },
     };
 
@@ -106,7 +106,7 @@ describe("resolveTelegramReactionLevel", () => {
   });
 
   it("resolves reaction level from a specific account", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           reactionLevel: "ack",
@@ -122,7 +122,7 @@ describe("resolveTelegramReactionLevel", () => {
   });
 
   it("falls back to global level when account has no reactionLevel", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         telegram: {
           reactionLevel: "minimal",

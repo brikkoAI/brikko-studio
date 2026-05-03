@@ -3,10 +3,10 @@ import {
   resolveChannelGroupToolsPolicy,
   type GroupToolPolicyConfig,
 } from "brikko-studio/plugin-sdk/channel-policy";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/core";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/core";
 
 type IMessageGroupContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   groupId?: string | null;
   senderId?: string | null;

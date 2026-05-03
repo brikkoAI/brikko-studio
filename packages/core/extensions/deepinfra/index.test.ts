@@ -51,7 +51,7 @@ describe("deepinfra augmentModelCatalog", () => {
 });
 
 describe("deepinfra capability registration", () => {
-  it("registers all DeepInfra-backed Brikko Studio provider surfaces", () => {
+  it("registers all DeepInfra-backed BrikkoStudio provider surfaces", () => {
     const captured = createCapturedPluginRegistration();
     deepinfraPlugin.register(captured.api);
 

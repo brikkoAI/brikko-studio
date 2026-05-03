@@ -27,7 +27,7 @@ import {
   resolveChannelMediaMaxBytes,
   resolveGoogleChatAccount,
   resolveGoogleChatOutboundSpace,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "./channel.deps.runtime.js";
 import { resolveGoogleChatGroupRequireMention } from "./group-policy.js";
 
@@ -60,7 +60,7 @@ const collectGoogleChatGroupPolicyWarnings =
 const collectGoogleChatSecurityWarnings = composeAccountWarningCollectors<
   ResolvedGoogleChatAccount,
   {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     account: ResolvedGoogleChatAccount;
   }
 >(
@@ -103,7 +103,7 @@ export const googlechatSecurityAdapter = {
 
 export const googlechatThreadingAdapter = {
   scopedAccountReplyToMode: {
-    resolveAccount: (cfg: Brikko StudioConfig, accountId?: string | null) =>
+    resolveAccount: (cfg: BrikkoStudioConfig, accountId?: string | null) =>
       resolveGoogleChatAccount({ cfg, accountId }),
     resolveReplyToMode: (account: ResolvedGoogleChatAccount, _chatType?: string | null) =>
       account.config.replyToMode,
@@ -121,7 +121,7 @@ export const googlechatPairingTextAdapter = {
     message,
     accountId,
   }: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     id: string;
     message: string;
     accountId?: string | null;
@@ -179,7 +179,7 @@ export const googlechatOutboundAdapter = {
       replyToId,
       threadId,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       to: string;
       text: string;
       accountId?: string | null;
@@ -217,7 +217,7 @@ export const googlechatOutboundAdapter = {
       replyToId,
       threadId,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       to: string;
       text?: string;
       mediaUrl?: string;

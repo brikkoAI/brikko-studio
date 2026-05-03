@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { SpawnSubagentResult } from "../../agents/subagent-spawn.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
 import { createEmptyInlineDirectives } from "./commands-subagents.test-helpers.js";
 import { handleSubagentsSpawnAction } from "./commands-subagents/action-spawn.js";
@@ -31,10 +31,10 @@ function forbiddenResult(error: string): SpawnSubagentResult {
 
 const baseCfg = {
   session: { mainKey: "main", scope: "per-sender" },
-} satisfies Brikko StudioConfig;
+} satisfies BrikkoStudioConfig;
 
 function buildContext(params?: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   requesterKey?: string;
   restTokens?: string[];
   commandTo?: string | undefined;

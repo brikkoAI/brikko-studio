@@ -5,7 +5,7 @@ import {
   setConfiguredMcpServer,
   unsetConfiguredMcpServer,
 } from "../config/mcp-config.js";
-import { serveBrikko StudioChannelMcp } from "../mcp/channel-server.js";
+import { serveBrikkoStudioChannelMcp } from "../mcp/channel-server.js";
 import { defaultRuntime } from "../runtime.js";
 import {
   normalizeLowercaseStringOrEmpty,
@@ -25,11 +25,11 @@ function printJson(value: unknown): void {
 }
 
 export function registerMcpCli(program: Command) {
-  const mcp = program.command("mcp").description("Manage Brikko Studio MCP config and channel bridge");
+  const mcp = program.command("mcp").description("Manage BrikkoStudio MCP config and channel bridge");
 
   mcp
     .command("serve")
-    .description("Expose Brikko Studio channels over MCP stdio")
+    .description("Expose BrikkoStudio channels over MCP stdio")
     .option("--url <url>", "Gateway WebSocket URL (defaults to gateway.remote.url when configured)")
     .option("--token <token>", "Gateway token (if required)")
     .option("--token-file <path>", "Read gateway token from file")
@@ -54,7 +54,7 @@ export function registerMcpCli(program: Command) {
         ) {
           throw new Error("Invalid --claude-channel-mode value. Use auto, on, or off.");
         }
-        await serveBrikko StudioChannelMcp({
+        await serveBrikkoStudioChannelMcp({
           gatewayUrl: opts.url as string | undefined,
           gatewayToken,
           gatewayPassword,

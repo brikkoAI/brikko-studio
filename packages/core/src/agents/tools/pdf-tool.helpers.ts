@@ -3,7 +3,7 @@ import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
 } from "../../config/model-input.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { providerSupportsNativePdfDocument } from "../../media-understanding/defaults.js";
 import { extractAssistantText } from "../pi-embedded-utils.js";
 
@@ -100,7 +100,7 @@ export function coercePdfAssistantText(params: {
   throw new Error(`PDF model returned no text (${label}).`);
 }
 
-export function coercePdfModelConfig(cfg?: Brikko StudioConfig): PdfModelConfig {
+export function coercePdfModelConfig(cfg?: BrikkoStudioConfig): PdfModelConfig {
   const primary = resolveAgentModelPrimaryValue(cfg?.agents?.defaults?.pdfModel);
   const fallbacks = resolveAgentModelFallbackValues(cfg?.agents?.defaults?.pdfModel);
   const modelConfig: PdfModelConfig = {};

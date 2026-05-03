@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { MEDIA_FFMPEG_MAX_AUDIO_DURATION_SECS, runFfmpeg } from "brikko-studio/plugin-sdk/media-runtime";
 import { sanitizeForPlainText } from "brikko-studio/plugin-sdk/outbound-runtime";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { formatError } from "./session-errors.js";
 import {
   sanitizeAssistantVisibleText,
@@ -184,7 +184,7 @@ async function transcodeToWhatsAppVoiceOpus(params: {
   buffer: Buffer;
   fileName: string;
 }): Promise<Buffer> {
-  const tempRoot = resolvePreferredBrikko StudioTmpDir();
+  const tempRoot = resolvePreferredBrikkoStudioTmpDir();
   await fs.mkdir(tempRoot, { recursive: true, mode: 0o700 });
   const tempDir = await fs.mkdtemp(path.join(tempRoot, "whatsapp-voice-"));
   try {

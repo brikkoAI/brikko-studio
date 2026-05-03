@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
 import { resolveDiscordAccount } from "./accounts.js";
 import { parseAndResolveDiscordTarget } from "./target-resolver.js";
@@ -16,7 +16,7 @@ type DiscordRecipient =
 
 export async function parseAndResolveRecipient(
   raw: string,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string,
   parseOptions: DiscordTargetParseOptions = {},
 ): Promise<DiscordRecipient> {

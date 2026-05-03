@@ -497,7 +497,7 @@ describe("matrix CLI verification commands", () => {
 
     expect(listMatrixVerificationsMock).toHaveBeenCalledWith({ accountId: "default", cfg: {} });
     expect(consoleLogMock).toHaveBeenCalledWith("Verification id: incoming-1");
-    expect(consoleLogMock).toHaveBeenCalledWith("Initiated by Brikko Studio: no");
+    expect(consoleLogMock).toHaveBeenCalledWith("Initiated by BrikkoStudio: no");
   });
 
   it("sanitizes remote Matrix verification metadata before printing it", async () => {
@@ -902,14 +902,14 @@ describe("matrix CLI verification commands", () => {
     listMatrixOwnDevicesMock.mockResolvedValue([
       {
         deviceId: "A7hWr\u001B[31mQ70ea",
-        displayName: "Brikko Studio\u001B[2J Gateway",
+        displayName: "BrikkoStudio\u001B[2J Gateway",
         lastSeenIp: "127.0.0.1\u009B2J",
         lastSeenTs: 1_741_507_200_000,
         current: true,
       },
       {
         deviceId: "BritdXC6iL",
-        displayName: "Brikko Studio Gateway",
+        displayName: "BrikkoStudio Gateway",
         lastSeenIp: null,
         lastSeenTs: null,
         current: false,
@@ -921,9 +921,9 @@ describe("matrix CLI verification commands", () => {
 
     expect(listMatrixOwnDevicesMock).toHaveBeenCalledWith({ accountId: "poe", cfg: {} });
     expect(console.log).toHaveBeenCalledWith("Account: poe");
-    expect(console.log).toHaveBeenCalledWith("- A7hWrQ70ea (current, Brikko Studio Gateway)");
+    expect(console.log).toHaveBeenCalledWith("- A7hWrQ70ea (current, BrikkoStudio Gateway)");
     expect(console.log).toHaveBeenCalledWith("  Last IP: 127.0.0.1");
-    expect(console.log).toHaveBeenCalledWith("- BritdXC6iL (Brikko Studio Gateway)");
+    expect(console.log).toHaveBeenCalledWith("- BritdXC6iL (BrikkoStudio Gateway)");
   });
 
   it("prunes stale matrix gateway devices", async () => {
@@ -931,14 +931,14 @@ describe("matrix CLI verification commands", () => {
       before: [
         {
           deviceId: "A7hWrQ70ea",
-          displayName: "Brikko Studio Gateway",
+          displayName: "BrikkoStudio Gateway",
           lastSeenIp: "127.0.0.1",
           lastSeenTs: 1_741_507_200_000,
           current: true,
         },
         {
           deviceId: "BritdXC6iL",
-          displayName: "Brikko Studio Gateway",
+          displayName: "BrikkoStudio Gateway",
           lastSeenIp: null,
           lastSeenTs: null,
           current: false,
@@ -950,7 +950,7 @@ describe("matrix CLI verification commands", () => {
       remainingDevices: [
         {
           deviceId: "A7hWrQ70ea",
-          displayName: "Brikko Studio Gateway",
+          displayName: "BrikkoStudio Gateway",
           lastSeenIp: "127.0.0.1",
           lastSeenTs: 1_741_507_200_000,
           current: true,
@@ -967,7 +967,7 @@ describe("matrix CLI verification commands", () => {
       accountId: "poe",
       cfg: {},
     });
-    expect(console.log).toHaveBeenCalledWith("Deleted stale Brikko Studio devices: BritdXC6iL");
+    expect(console.log).toHaveBeenCalledWith("Deleted stale BrikkoStudio devices: BritdXC6iL");
     expect(console.log).toHaveBeenCalledWith("Current device: A7hWrQ70ea");
     expect(console.log).toHaveBeenCalledWith("Remaining devices: 1");
   });
@@ -1266,14 +1266,14 @@ describe("matrix CLI verification commands", () => {
     listMatrixOwnDevicesMock.mockResolvedValue([
       {
         deviceId: "BritdXC6iL",
-        displayName: "Brikko Studio Gateway",
+        displayName: "BrikkoStudio Gateway",
         lastSeenIp: null,
         lastSeenTs: null,
         current: false,
       },
       {
         deviceId: "du314Zpw3A",
-        displayName: "Brikko Studio Gateway",
+        displayName: "BrikkoStudio Gateway",
         lastSeenIp: null,
         lastSeenTs: null,
         current: true,
@@ -1318,7 +1318,7 @@ describe("matrix CLI verification commands", () => {
     );
     expect(console.log).toHaveBeenCalledWith("Backup version: 7");
     expect(console.log).toHaveBeenCalledWith(
-      "Matrix device hygiene warning: stale Brikko Studio devices detected (BritdXC6iL). Run brikko-studio matrix devices prune-stale --account ops.",
+      "Matrix device hygiene warning: stale BrikkoStudio devices detected (BritdXC6iL). Run brikko-studio matrix devices prune-stale --account ops.",
     );
   });
 
@@ -1420,7 +1420,7 @@ describe("matrix CLI verification commands", () => {
         accountId: "ops",
         deviceHealth: expect.objectContaining({
           currentDeviceId: null,
-          staleBrikko StudioDeviceIds: [],
+          staleBrikkoStudioDeviceIds: [],
           error: "homeserver unavailable",
         }),
       }),
@@ -1776,7 +1776,7 @@ describe("matrix CLI verification commands", () => {
       "Device issue: current Matrix device is missing from the homeserver device list",
     );
     expect(console.log).toHaveBeenCalledWith(
-      "- This Matrix device is no longer listed on the homeserver. Create a new Brikko Studio Matrix device with brikko-studio matrix account add --homeserver '<url>' --user-id '<@user:server>' --password '<password>' --device-name Brikko Studio-Gateway. If you use token auth, create a fresh Matrix access token in your Matrix client or admin UI, then run brikko-studio matrix account add --homeserver '<url>' --access-token '<token>'.",
+      "- This Matrix device is no longer listed on the homeserver. Create a new BrikkoStudio Matrix device with brikko-studio matrix account add --homeserver '<url>' --user-id '<@user:server>' --password '<password>' --device-name BrikkoStudio-Gateway. If you use token auth, create a fresh Matrix access token in your Matrix client or admin UI, then run brikko-studio matrix account add --homeserver '<url>' --access-token '<token>'.",
     );
   });
 

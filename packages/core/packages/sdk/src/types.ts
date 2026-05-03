@@ -12,7 +12,7 @@ export type GatewayEvent = {
   stateVersion?: unknown;
 };
 
-export type Brikko StudioTransport = {
+export type BrikkoStudioTransport = {
   request<T = unknown>(
     method: string,
     params?: unknown,
@@ -22,7 +22,7 @@ export type Brikko StudioTransport = {
   close?(): Promise<void> | void;
 };
 
-export type ConnectableBrikko StudioTransport = Brikko StudioTransport & {
+export type ConnectableBrikkoStudioTransport = BrikkoStudioTransport & {
   connect(): Promise<void>;
 };
 
@@ -155,7 +155,7 @@ export type RunResult = {
   raw?: unknown;
 };
 
-export type Brikko StudioEventType =
+export type BrikkoStudioEventType =
   | "run.created"
   | "run.queued"
   | "run.started"
@@ -185,11 +185,11 @@ export type Brikko StudioEventType =
   | "git.pr"
   | "raw";
 
-export type Brikko StudioEvent<TData = unknown> = {
+export type BrikkoStudioEvent<TData = unknown> = {
   version: 1;
   id: string;
   ts: number;
-  type: Brikko StudioEventType;
+  type: BrikkoStudioEventType;
   runId?: string;
   sessionId?: string;
   sessionKey?: string;

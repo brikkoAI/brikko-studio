@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { buildProviderAuthDoctorHintWithPlugin } from "../../plugins/provider-runtime.runtime.js";
 import { normalizeProviderId } from "../provider-id.js";
 import type { AuthProfileStore } from "./types.js";
@@ -13,7 +13,7 @@ const DEPRECATED_PROVIDER_MIGRATION_HINTS: Record<string, string> = {
 };
 
 export async function formatAuthDoctorHint(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   store: AuthProfileStore;
   provider: string;
   profileId?: string;

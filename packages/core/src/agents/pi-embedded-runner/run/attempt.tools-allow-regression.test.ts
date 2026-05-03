@@ -19,7 +19,7 @@ describe("runEmbeddedAttempt toolsAllow startup cost", () => {
 
   it("keeps plugin-only allowlists on the shared tool policy path", async () => {
     const hoisted = getHoisted();
-    hoisted.createBrikko StudioCodingToolsMock.mockReturnValue([
+    hoisted.createBrikkoStudioCodingToolsMock.mockReturnValue([
       {
         name: "memory_search",
         description: "search memory",
@@ -45,7 +45,7 @@ describe("runEmbeddedAttempt toolsAllow startup cost", () => {
       tempPaths,
     });
 
-    expect(hoisted.createBrikko StudioCodingToolsMock).toHaveBeenCalledWith(
+    expect(hoisted.createBrikkoStudioCodingToolsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         includeCoreTools: false,
         runtimeToolAllowlist: ["memory_search"],

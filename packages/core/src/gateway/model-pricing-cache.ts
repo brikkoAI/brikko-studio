@@ -9,7 +9,7 @@ import {
 } from "../agents/model-selection.js";
 import { resolvePluginWebSearchConfig } from "../config/plugin-web-search-config.js";
 import type { ModelDefinitionConfig } from "../config/types.models.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { planManifestModelCatalogRows, type ModelCatalogCost } from "../model-catalog/index.js";
 import { isInstalledPluginEnabled } from "../plugins/installed-plugin-index.js";
@@ -51,7 +51,7 @@ type OpenRouterModelPayload = {
 };
 
 type GatewayModelPricingRefreshParams = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   fetchImpl?: typeof fetch;
   workspaceDir?: string;
@@ -101,7 +101,7 @@ function clearRefreshTimer(): void {
 }
 
 function getPricingModelNormalizationOptions(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   manifestRegistry?: PluginManifestRegistry;
 }): PricingModelNormalizationOptions {
   const allowPluginBackedNormalization = params.config.plugins?.enabled !== false;
@@ -409,7 +409,7 @@ function normalizeExternalPricingPolicy(
 function filterActiveManifestRegistry(params: {
   registry: PluginManifestRegistry;
   index: PluginRegistrySnapshot;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
 }): PluginManifestRegistry {
   return {
     diagnostics: params.registry.diagnostics,
@@ -420,7 +420,7 @@ function filterActiveManifestRegistry(params: {
 }
 
 function resolveModelPricingManifestMetadata(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   workspaceDir?: string;
   pluginMetadataSnapshot?: PluginMetadataRegistryView;
@@ -704,7 +704,7 @@ function addProviderModelPair(params: {
 }
 
 function addConfiguredWebSearchPluginModels(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   aliasIndex: ReturnType<typeof buildModelAliasIndex>;
   refs: Map<string, ModelRef>;
   manifestRegistry: PluginManifestRegistry;
@@ -764,7 +764,7 @@ function isPrivateOrLoopbackBaseUrl(baseUrl: string | undefined): boolean {
 }
 
 function findConfiguredProviderModel(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   ref: ModelRef,
   options: PricingModelNormalizationOptions = {
     allowManifestNormalization: true,
@@ -783,7 +783,7 @@ function findConfiguredProviderModel(
 }
 
 function getConfiguredModelPricing(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   ref: ModelRef,
   options: PricingModelNormalizationOptions = {
     allowManifestNormalization: true,
@@ -794,7 +794,7 @@ function getConfiguredModelPricing(
 }
 
 function hasPrivateOrLoopbackConfiguredEndpoint(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   ref: ModelRef,
   options: PricingModelNormalizationOptions = {
     allowManifestNormalization: true,
@@ -810,7 +810,7 @@ function hasPrivateOrLoopbackConfiguredEndpoint(
 }
 
 function shouldFetchExternalPricingForRef(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   ref: ModelRef;
   policies: ReadonlyMap<string, ExternalPricingPolicy>;
   seededPricing: ReadonlyMap<string, CachedModelPricing>;
@@ -837,7 +837,7 @@ function shouldFetchExternalPricingForRef(params: {
 }
 
 function filterExternalPricingRefs(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   refs: ModelRef[];
   policies: ReadonlyMap<string, ExternalPricingPolicy>;
   seededPricing: ReadonlyMap<string, CachedModelPricing>;
@@ -859,7 +859,7 @@ function filterExternalPricingRefs(params: {
 }
 
 export function collectConfiguredModelPricingRefs(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   options: { manifestRegistry?: PluginManifestRegistry } = {},
 ): ModelRef[] {
   const manifestRegistry =
@@ -1129,7 +1129,7 @@ function scheduleRefresh(
 }
 
 function collectSeededPricing(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   refs: readonly ModelRef[];
   catalogPricing: ReadonlyMap<string, CachedModelPricing>;
   allowManifestNormalization: boolean;

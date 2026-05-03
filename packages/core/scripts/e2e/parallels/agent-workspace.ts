@@ -5,7 +5,7 @@ mkdir -p "$workspace/.brikko-studio"
 cat > "$workspace/IDENTITY.md" <<'IDENTITY_EOF'
 # Identity
 
-- Name: Brikko Studio
+- Name: BrikkoStudio
 - Purpose: ${purpose}
 IDENTITY_EOF
 cat > "$workspace/.brikko-studio/workspace-state.json" <<'STATE_EOF'
@@ -25,7 +25,7 @@ New-Item -ItemType Directory -Path $stateDir -Force | Out-Null
 @'
 # Identity
 
-- Name: Brikko Studio
+- Name: BrikkoStudio
 - Purpose: ${purpose}
 '@ | Set-Content -Path (Join-Path $workspace 'IDENTITY.md') -Encoding UTF8
 @'

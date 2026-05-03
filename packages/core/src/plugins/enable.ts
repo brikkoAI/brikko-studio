@@ -1,16 +1,16 @@
 import { normalizeChatChannelId } from "../channels/ids.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { setPluginEnabledInConfig } from "./toggle-config.js";
 
 export type PluginEnableResult = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   enabled: boolean;
   pluginId: string;
   reason?: string;
 };
 
 export function enablePluginInConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   pluginId: string,
   options: { updateChannelConfig?: boolean } = {},
 ): PluginEnableResult {

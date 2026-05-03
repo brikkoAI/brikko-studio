@@ -111,7 +111,7 @@ describe("buildOpenAIRealtimeVoiceProvider", () => {
     vi.unstubAllEnvs();
   });
 
-  it("adds Brikko Studio attribution headers to native realtime websocket requests", () => {
+  it("adds BrikkoStudio attribution headers to native realtime websocket requests", () => {
     vi.stubEnv("BRIKKO_STUDIO_VERSION", "2026.3.22");
     const provider = buildOpenAIRealtimeVoiceProvider();
     const bridge = provider.createBridge({
@@ -132,7 +132,7 @@ describe("buildOpenAIRealtimeVoiceProvider", () => {
     });
   });
 
-  it("returns browser-safe Brikko Studio attribution headers for native WebRTC offers", async () => {
+  it("returns browser-safe BrikkoStudio attribution headers for native WebRTC offers", async () => {
     vi.stubEnv("BRIKKO_STUDIO_VERSION", "2026.3.22");
     fetchWithSsrFGuardMock.mockResolvedValueOnce({
       response: createJsonResponse({

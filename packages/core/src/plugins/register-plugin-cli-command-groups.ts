@@ -6,7 +6,7 @@ import {
   removeCommandGroupNames,
   type CommandGroupEntry,
 } from "../cli/program/register-command-groups.js";
-import type { Brikko StudioPluginCliCommandDescriptor, PluginLogger } from "./types.js";
+import type { BrikkoStudioPluginCliCommandDescriptor, PluginLogger } from "./types.js";
 
 export type PluginCliCommandGroupEntry = CommandGroupEntry & {
   pluginId: string;
@@ -19,7 +19,7 @@ function canRegisterPluginCliLazily(entry: PluginCliCommandGroupEntry): boolean 
     return false;
   }
   const descriptorNames = new Set(
-    (entry.placeholders as readonly Brikko StudioPluginCliCommandDescriptor[]).map(
+    (entry.placeholders as readonly BrikkoStudioPluginCliCommandDescriptor[]).map(
       (descriptor) => descriptor.name,
     ),
   );

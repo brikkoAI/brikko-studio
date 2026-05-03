@@ -1,5 +1,5 @@
 import type {
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   ResolvedMemorySearchConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import {
@@ -74,7 +74,7 @@ export function applyMemoryFallbackProviderState(params: {
 }
 
 export function resolveMemoryFallbackProviderRequest(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   settings: ResolvedMemorySearchConfig;
   currentProviderId: string | null;
 }): {

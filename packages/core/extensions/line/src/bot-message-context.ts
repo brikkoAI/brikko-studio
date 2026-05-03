@@ -6,7 +6,7 @@ import {
   resolveInboundSessionEnvelopeContext,
   toLocationContext,
 } from "brikko-studio/plugin-sdk/channel-inbound";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   ensureConfiguredBindingRouteReady,
   resolvePinnedMainDmOwnerFromAllowlist,
@@ -35,7 +35,7 @@ interface MediaRef {
 interface BuildLineMessageContextParams {
   event: MessageEvent;
   allMedia: MediaRef[];
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedLineAccount;
   commandAuthorized: boolean;
   groupHistories?: Map<string, HistoryEntry[]>;
@@ -86,7 +86,7 @@ function buildPeerId(source: EventSource): string {
 
 async function resolveLineInboundRoute(params: {
   source: EventSource;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedLineAccount;
 }): Promise<{
   userId?: string;
@@ -275,7 +275,7 @@ function resolveLineAddresses(params: {
 }
 
 async function finalizeLineInboundContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedLineAccount;
   event: MessageEvent | PostbackEvent;
   route: LineRouteInfo;
@@ -516,7 +516,7 @@ export async function buildLineMessageContext(params: BuildLineMessageContextPar
 
 export async function buildLinePostbackContext(params: {
   event: PostbackEvent;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedLineAccount;
   commandAuthorized: boolean;
 }) {

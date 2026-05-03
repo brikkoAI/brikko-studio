@@ -6,7 +6,7 @@ type PluginManifestShape = {
   id?: unknown;
 };
 
-type Brikko StudioPackageShape = {
+type BrikkoStudioPackageShape = {
   name?: unknown;
   brikko-studio?: {
     install?: {
@@ -67,7 +67,7 @@ function readBundledPluginRecords(): BundledPluginRecord[] {
       }
 
       const manifest = readJsonFile<PluginManifestShape>(manifestPath);
-      const pkg = readJsonFile<Brikko StudioPackageShape>(packagePath);
+      const pkg = readJsonFile<BrikkoStudioPackageShape>(packagePath);
       const manifestId = normalizeText(manifest.id);
       const packageName = normalizeText(pkg.name);
       if (!manifestId || !packageName) {

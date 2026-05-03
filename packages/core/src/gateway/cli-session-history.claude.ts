@@ -9,7 +9,7 @@ import {
 } from "../chat/tool-content.js";
 import type { SessionEntry } from "../config/sessions.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
-import { attachBrikko StudioTranscriptMeta } from "./session-utils.fs.js";
+import { attachBrikkoStudioTranscriptMeta } from "./session-utils.fs.js";
 
 export const CLAUDE_CLI_PROVIDER = "claude-cli";
 const CLAUDE_PROJECTS_RELATIVE_DIR = path.join(".claude", "projects");
@@ -246,7 +246,7 @@ function parseClaudeCliHistoryEntry(
   }
 
   if (type === "user") {
-    return attachBrikko StudioTranscriptMeta(
+    return attachBrikkoStudioTranscriptMeta(
       {
         role: "user",
         content,
@@ -256,7 +256,7 @@ function parseClaudeCliHistoryEntry(
     ) as TranscriptLikeMessage;
   }
 
-  return attachBrikko StudioTranscriptMeta(
+  return attachBrikkoStudioTranscriptMeta(
     {
       role: "assistant",
       content,

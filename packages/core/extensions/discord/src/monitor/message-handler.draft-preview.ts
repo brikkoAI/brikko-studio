@@ -3,7 +3,7 @@ import {
   resolveChannelStreamingBlockEnabled,
   resolveChannelStreamingPreviewToolProgress,
 } from "brikko-studio/plugin-sdk/channel-streaming";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   convertMarkdownTables,
   stripInlineDirectiveTagsForDelivery,
@@ -19,10 +19,10 @@ type DraftReplyReference = {
   peek: () => string | undefined;
 };
 
-type DiscordConfig = NonNullable<Brikko StudioConfig["channels"]>["discord"];
+type DiscordConfig = NonNullable<BrikkoStudioConfig["channels"]>["discord"];
 
 export function createDiscordDraftPreviewController(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   discordConfig: DiscordConfig;
   accountId: string;
   sourceRepliesAreToolOnly: boolean;

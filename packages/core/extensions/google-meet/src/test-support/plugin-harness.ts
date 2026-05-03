@@ -1,9 +1,9 @@
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { vi } from "vitest";
 
 type GoogleMeetTestPluginEntry = {
-  register(api: Brikko StudioPluginApi): void;
+  register(api: BrikkoStudioPluginApi): void;
 };
 
 export const noopLogger = {
@@ -151,7 +151,7 @@ export function setupGoogleMeetPlugin(
         list: nodesList,
         invoke: nodesInvoke,
       },
-    } as unknown as Brikko StudioPluginApi["runtime"],
+    } as unknown as BrikkoStudioPluginApi["runtime"],
     logger: noopLogger,
     registerGatewayMethod: (method: string, handler: unknown) => methods.set(method, handler),
     registerTool: (tool: unknown) => tools.push(tool),

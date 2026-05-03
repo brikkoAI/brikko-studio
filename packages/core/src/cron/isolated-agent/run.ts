@@ -5,7 +5,7 @@ import type { SkillSnapshot } from "../../agents/skills.js";
 import type { ThinkLevel } from "../../auto-reply/thinking.js";
 import type { CliDeps } from "../../cli/outbound-send-deps.js";
 import type { AgentDefaultsConfig } from "../../config/types.agent-defaults.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
@@ -114,7 +114,7 @@ async function loadCronModelPreflightRuntime() {
   return await cronModelPreflightRuntimeLoader.load();
 }
 
-function hasConfiguredAuthProfiles(cfg: Brikko StudioConfig): boolean {
+function hasConfiguredAuthProfiles(cfg: BrikkoStudioConfig): boolean {
   return (
     Boolean(cfg.auth?.profiles && Object.keys(cfg.auth.profiles).length > 0) ||
     Boolean(cfg.auth?.order && Object.keys(cfg.auth.order).length > 0)
@@ -321,7 +321,7 @@ function hasExplicitCronDeliveryTarget(plan: CronDeliveryPlan): boolean {
 }
 
 async function resolveCronDeliveryContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   job: CronJob;
   agentId: string;
 }) {
@@ -412,7 +412,7 @@ async function loadUsageFormatRuntime() {
 }
 
 type RunCronAgentTurnParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   deps: CliDeps;
   job: CronJob;
   message: string;
@@ -430,7 +430,7 @@ type WithRunSession = (
 
 type PreparedCronRunContext = {
   input: RunCronAgentTurnParams;
-  cfgWithAgentDefaults: Brikko StudioConfig;
+  cfgWithAgentDefaults: BrikkoStudioConfig;
   agentId: string;
   agentCfg: AgentDefaultsConfig;
   agentDir: string;
@@ -479,7 +479,7 @@ async function prepareCronRunContext(params: {
     defaults: input.cfg.agents?.defaults,
     agentConfigOverride,
   });
-  const cfgWithAgentDefaults: Brikko StudioConfig = {
+  const cfgWithAgentDefaults: BrikkoStudioConfig = {
     ...input.cfg,
     agents: Object.assign({}, input.cfg.agents, { defaults: agentCfg }),
   };
@@ -999,7 +999,7 @@ async function finalizeCronRun(params: {
 }
 
 export async function runCronIsolatedAgentTurn(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   deps: CliDeps;
   job: CronJob;
   message: string;

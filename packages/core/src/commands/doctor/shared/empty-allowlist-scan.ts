@@ -1,5 +1,5 @@
 import type { ChannelDoctorEmptyAllowlistAccountContext } from "../../../channels/plugins/types.adapters.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import type { DoctorAccountRecord, DoctorAllowFromList } from "../types.js";
 import { collectEmptyAllowlistPolicyWarningsForAccount } from "./empty-allowlist-policy.js";
 import { asObjectRecord } from "./object.js";
@@ -20,7 +20,7 @@ function isDisabledRecord(value: unknown): boolean {
 }
 
 export function scanEmptyAllowlistPolicyWarnings(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   params: ScanEmptyAllowlistPolicyWarningsParams,
 ): string[] {
   const channels = cfg.channels;

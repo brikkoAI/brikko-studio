@@ -8,7 +8,7 @@ import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
 import type { ChannelId, ChannelSetupInput } from "../../channels/plugins/types.public.js";
 import { commitConfigWithPendingPluginInstalls } from "../../cli/plugins-install-record-commit.js";
 import { refreshPluginRegistryAfterConfigMutation } from "../../cli/plugins-registry-refresh.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.js";
 import { defaultRuntime, type RuntimeEnv } from "../../runtime.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
@@ -46,7 +46,7 @@ export type ChannelsAddOptions = {
 const CHANNEL_ADD_CONTROL_OPTION_KEYS = new Set(["channel", "account"]);
 const NEXTCLOUD_TALK_CLI_ALIASES = new Set(["nextcloud-talk", "nc-talk", "nc"]);
 
-async function resolveCatalogChannelEntry(raw: string, cfg: Brikko StudioConfig | null) {
+async function resolveCatalogChannelEntry(raw: string, cfg: BrikkoStudioConfig | null) {
   const trimmed = normalizeOptionalLowercaseString(raw);
   if (!trimmed) {
     return undefined;
@@ -125,7 +125,7 @@ export async function channelsAddCommand(
   if (!configSnapshot) {
     return;
   }
-  const cfg = (configSnapshot.sourceConfig ?? configSnapshot.config) as Brikko StudioConfig;
+  const cfg = (configSnapshot.sourceConfig ?? configSnapshot.config) as BrikkoStudioConfig;
   const baseHash = configSnapshot.hash;
   let nextConfig = cfg;
   let pluginRegistrySourceChanged = false;

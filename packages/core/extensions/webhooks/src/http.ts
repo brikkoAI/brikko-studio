@@ -13,7 +13,7 @@ import {
   withResolvedWebhookRequestPipeline,
   WEBHOOK_IN_FLIGHT_DEFAULTS,
   WEBHOOK_RATE_LIMIT_DEFAULTS,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type WebhookInFlightLimiter,
 } from "../runtime-api.js";
 import type { WebhookSecretInput } from "./config.js";
@@ -534,7 +534,7 @@ function describeWebhookOutcome(params: { action: WebhookAction; result: unknown
 async function executeWebhookAction(params: {
   action: WebhookAction;
   target: TaskFlowWebhookTarget;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): Promise<unknown> {
   const { action, target } = params;
   switch (action.action) {
@@ -663,7 +663,7 @@ async function executeWebhookAction(params: {
 }
 
 export function createTaskFlowWebhookRequestHandler(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   targetsByPath: Map<string, TaskFlowWebhookTarget[]>;
   inFlightLimiter?: WebhookInFlightLimiter;
 }): (req: IncomingMessage, res: ServerResponse) => Promise<boolean> {

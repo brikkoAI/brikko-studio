@@ -8,9 +8,9 @@ import type {
 } from "../plugins/types.js";
 import { definePluginEntry } from "./plugin-entry.js";
 import type {
-  Brikko StudioPluginApi,
-  Brikko StudioPluginConfigSchema,
-  Brikko StudioPluginDefinition,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginConfigSchema,
+  BrikkoStudioPluginDefinition,
 } from "./plugin-entry.js";
 import { buildSingleProviderApiKeyCatalog } from "./provider-catalog-shared.js";
 
@@ -51,8 +51,8 @@ export type SingleProviderPluginOptions = {
    * manifest `kind`. Runtime-entry `kind` remains only as a compatibility
    * fallback for older plugins.
    */
-  kind?: Brikko StudioPluginDefinition["kind"];
-  configSchema?: Brikko StudioPluginConfigSchema | (() => Brikko StudioPluginConfigSchema);
+  kind?: BrikkoStudioPluginDefinition["kind"];
+  configSchema?: BrikkoStudioPluginConfigSchema | (() => BrikkoStudioPluginConfigSchema);
   provider?: {
     id?: string;
     label: string;
@@ -65,7 +65,7 @@ export type SingleProviderPluginOptions = {
     ProviderPlugin,
     "id" | "label" | "docsPath" | "aliases" | "envVars" | "auth" | "catalog" | "staticCatalog"
   >;
-  register?: (api: Brikko StudioPluginApi) => void;
+  register?: (api: BrikkoStudioPluginApi) => void;
 };
 
 function resolveWizardSetup(params: {

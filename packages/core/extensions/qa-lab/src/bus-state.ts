@@ -29,7 +29,7 @@ import type {
 } from "./runtime-api.js";
 
 const DEFAULT_BOT_ID = "brikko-studio";
-const DEFAULT_BOT_NAME = "Brikko Studio QA";
+const DEFAULT_BOT_NAME = "BrikkoStudio QA";
 
 type QaBusEventSeed =
   | {

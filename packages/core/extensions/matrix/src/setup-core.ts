@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   DEFAULT_ACCOUNT_ID,
   type DmPolicy,
@@ -93,7 +93,7 @@ export function createMatrixSetupWizardProxy(
           accountId: resolveMatrixSetupWizardAccountId(cfg as CoreConfig, accountId),
         }).dm?.policy ?? "pairing",
       setPolicy: (cfg, policy, accountId) =>
-        setMatrixDmPolicy(cfg as CoreConfig, policy, accountId) as Brikko StudioConfig,
+        setMatrixDmPolicy(cfg as CoreConfig, policy, accountId) as BrikkoStudioConfig,
       promptAllowFrom: async (params) => {
         const promptAllowFrom = (await loadWizard()).dmPolicy?.promptAllowFrom;
         return promptAllowFrom ? await promptAllowFrom(params) : params.cfg;

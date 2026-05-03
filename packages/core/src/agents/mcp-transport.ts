@@ -7,7 +7,7 @@ import type { FetchLike, Transport } from "@modelcontextprotocol/sdk/shared/tran
 import { loadUndiciRuntimeDeps } from "../infra/net/undici-runtime.js";
 import { logDebug } from "../logger.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
-import { Brikko StudioStdioClientTransport } from "./mcp-stdio-transport.js";
+import { BrikkoStudioStdioClientTransport } from "./mcp-stdio-transport.js";
 import { resolveMcpTransportConfig } from "./mcp-transport-config.js";
 
 type ResolvedMcpTransport = {
@@ -18,7 +18,7 @@ type ResolvedMcpTransport = {
   detachStderr?: () => void;
 };
 
-function attachStderrLogging(serverName: string, transport: Brikko StudioStdioClientTransport) {
+function attachStderrLogging(serverName: string, transport: BrikkoStudioStdioClientTransport) {
   const stderr = transport.stderr;
   if (!stderr || typeof stderr.on !== "function") {
     return undefined;
@@ -84,7 +84,7 @@ export function resolveMcpTransport(
     return null;
   }
   if (resolved.kind === "stdio") {
-    const transport = new Brikko StudioStdioClientTransport({
+    const transport = new BrikkoStudioStdioClientTransport({
       command: resolved.command,
       args: resolved.args,
       env: resolved.env,

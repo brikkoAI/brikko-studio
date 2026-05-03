@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { normalizeLegacyStreamingAliases } from "../config/channel-compat-normalization.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { normalizeLegacyBrowserConfig } from "./doctor/shared/legacy-config-core-normalizers.js";
 
-function asLegacyConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+function asLegacyConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
 function getLegacyProperty(value: unknown, key: string): unknown {

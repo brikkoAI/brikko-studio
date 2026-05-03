@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { SessionEntry } from "../config/sessions.js";
 import {
   parseRawSessionConversationRef,
@@ -64,16 +64,16 @@ const baseRequest: ExecApprovalRequest = {
 function writeStoreFile(
   storePath: string,
   entries: Record<string, Partial<SessionEntry>>,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   fs.mkdirSync(path.dirname(storePath), { recursive: true });
   fs.writeFileSync(storePath, JSON.stringify(entries), "utf-8");
   return {
     session: { store: storePath },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function expectResolvedSessionTarget(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   request: ExecApprovalRequest,
 ): ReturnType<typeof resolveExecApprovalSessionTarget> {
   return resolveExecApprovalSessionTarget({ cfg, request });
@@ -107,7 +107,7 @@ function buildPluginRequest(
   };
 }
 
-function resolveSlackPluginOriginTarget(params: { cfg: Brikko StudioConfig; turnSourceTo: string }) {
+function resolveSlackPluginOriginTarget(params: { cfg: BrikkoStudioConfig; turnSourceTo: string }) {
   return resolveApprovalRequestOriginTarget({
     cfg: params.cfg,
     request: buildPluginRequest({
@@ -302,7 +302,7 @@ describe("exec approval session target", () => {
   });
 
   it("prefers explicit turn-source account bindings when session store is missing", () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const request = buildRequest({
       turnSourceChannel: "slack",
       turnSourceAccountId: "Work",
@@ -329,7 +329,7 @@ describe("exec approval session target", () => {
   });
 
   it("rejects mismatched channel bindings before account checks", () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const request = buildRequest({
       turnSourceChannel: "discord",
       turnSourceAccountId: "work",
@@ -476,7 +476,7 @@ describe("exec approval session target", () => {
 
   it("falls back to a legacy origin target when no turn-source or session target exists", () => {
     const target = resolveApprovalRequestOriginTarget({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       request: buildPluginRequest({ sessionKey: "agent:main:missing" }),
       channel: "discord",
       accountId: "default",

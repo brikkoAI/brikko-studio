@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { loadPluginManifestRegistry } from "../plugins/manifest-registry.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
@@ -90,7 +90,7 @@ function buildLegacyManifestContractMigration(params: {
 }
 
 export function collectLegacyPluginManifestContractMigrations(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   manifestRoots?: string[];
   workspaceDir?: string;
@@ -150,7 +150,7 @@ export function collectLegacyPluginManifestContractMigrations(params?: {
 }
 
 export async function maybeRepairLegacyPluginManifestContracts(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   manifestRoots?: string[];
   workspaceDir?: string;

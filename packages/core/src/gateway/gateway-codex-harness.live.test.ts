@@ -6,7 +6,7 @@ import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { describe, expect, it } from "vitest";
 import { isLiveTestEnabled } from "../agents/live-test-helpers.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { ContextEngine } from "../context-engine/types.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import type { CallGatewayOptions } from "./call.js";
@@ -26,7 +26,7 @@ import {
   assertCronJobVisibleViaCli,
   buildLiveCronProbeMessage,
   createLiveCronProbeSpec,
-  runBrikko StudioCliJson,
+  runBrikkoStudioCliJson,
   type CronListJob,
 } from "./live-agent-probes.js";
 import { restoreLiveEnv, snapshotLiveEnv, type LiveEnvSnapshot } from "./live-env-test-helpers.js";
@@ -179,7 +179,7 @@ async function writeLiveGatewayConfig(params: {
   workspace: string;
 }): Promise<void> {
   parseModelKey(params.modelKey);
-  const cfg: Brikko StudioConfig = {
+  const cfg: BrikkoStudioConfig = {
     gateway: {
       mode: "local",
       port: params.port,
@@ -415,7 +415,7 @@ async function verifyCodexGuardianProbe(params: {
   const allowStatus = findGuardianReviewStatus(allowResult.events);
   if (allowStatus === "denied") {
     // Guardian policy is owned by Codex and may reject even low-risk escalations.
-    // The Brikko Studio contract is that the review completes and the agent receives
+    // The BrikkoStudio contract is that the review completes and the agent receives
     // a final response instead of hanging on approval plumbing.
     expect(allowResult.text.toLowerCase()).toMatch(/approv|permission|guardian|reject|denied/);
     expect(allowReview?.data?.status).toBe("denied");
@@ -443,7 +443,7 @@ async function verifyCodexGuardianProbe(params: {
     label: "ask-back probe",
   });
   // The approve/deny call is Codex policy-owned and may change independently.
-  // Brikko Studio's contract here is that Guardian mode reaches Codex app-server and
+  // BrikkoStudio's contract here is that Guardian mode reaches Codex app-server and
   // projects the structured review lifecycle back onto the agent event bus.
   if (review?.data?.status === "denied") {
     expect(deniedResult.text).toContain(askBackToken);
@@ -507,7 +507,7 @@ async function verifyCodexCronMcpProbe(params: {
     expectedSessionKey: params.sessionKey,
   });
   if (createdJob.id) {
-    await runBrikko StudioCliJson(
+    await runBrikkoStudioCliJson(
       [
         "cron",
         "rm",

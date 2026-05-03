@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type {
   DocumentExtractedImage,
   DocumentExtractionResult,
@@ -14,7 +14,7 @@ export async function extractPdfContent(params: {
   maxPixels: number;
   minTextChars: number;
   pageNumbers?: number[];
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   onImageExtractionError?: (error: unknown) => void;
 }): Promise<PdfExtractedContent> {
   const extracted = await extractDocumentContent({

@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
 import { afterEach, describe, expect, it } from "vitest";
 import { HERMES_REASON_DEFAULT_MODEL_CONFIGURED } from "./items.js";
 import { buildHermesMigrationProvider } from "./provider.js";
@@ -37,8 +37,8 @@ describe("Hermes migration model apply", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
-    let writtenConfig: Brikko StudioConfig | undefined;
+    } as BrikkoStudioConfig;
+    let writtenConfig: BrikkoStudioConfig | undefined;
     const provider = buildHermesMigrationProvider({
       runtime: makeConfigRuntime(existingConfig, (next) => {
         writtenConfig = next;
@@ -101,8 +101,8 @@ describe("Hermes migration model apply", () => {
           },
         ],
       },
-    } as Brikko StudioConfig;
-    let writtenConfig: Brikko StudioConfig | undefined;
+    } as BrikkoStudioConfig;
+    let writtenConfig: BrikkoStudioConfig | undefined;
     const provider = buildHermesMigrationProvider({
       runtime: makeConfigRuntime(existingConfig, (next) => {
         writtenConfig = next;
@@ -152,7 +152,7 @@ describe("Hermes migration model apply", () => {
           model: "anthropic/claude-sonnet-4.6",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const provider = buildHermesMigrationProvider({
       runtime: makeConfigRuntime(lateConfig),
     });

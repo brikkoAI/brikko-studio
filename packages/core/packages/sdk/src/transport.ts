@@ -1,10 +1,10 @@
 import { GatewayClient } from "../../../src/gateway/client.js";
 import { EventHub } from "./event-hub.js";
 import type {
-  ConnectableBrikko StudioTransport,
+  ConnectableBrikkoStudioTransport,
   GatewayEvent,
   GatewayRequestOptions,
-  Brikko StudioTransport,
+  BrikkoStudioTransport,
 } from "./types.js";
 
 type GatewayClientLike = {
@@ -66,7 +66,7 @@ function toGatewayEvent(event: unknown): GatewayEvent {
   };
 }
 
-export class GatewayClientTransport implements ConnectableBrikko StudioTransport {
+export class GatewayClientTransport implements ConnectableBrikkoStudioTransport {
   private readonly eventsHub = new EventHub<GatewayEvent>({
     replayLimit: RAW_EVENT_REPLAY_LIMIT,
   });
@@ -148,7 +148,7 @@ export class GatewayClientTransport implements ConnectableBrikko StudioTransport
 }
 
 export function isConnectableTransport(
-  transport: Brikko StudioTransport,
-): transport is ConnectableBrikko StudioTransport {
+  transport: BrikkoStudioTransport,
+): transport is ConnectableBrikkoStudioTransport {
   return typeof (transport as { connect?: unknown }).connect === "function";
 }

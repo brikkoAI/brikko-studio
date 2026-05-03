@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { parseClawHubPluginSpec } from "../infra/clawhub-spec.js";
 import type { PluginRecord } from "../plugins/registry.js";
 
@@ -6,7 +6,7 @@ export function resolvePluginUninstallId<
   TPlugin extends Pick<PluginRecord, "id" | "name">,
 >(params: {
   rawId: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   plugins: TPlugin[];
 }): { pluginId: string; plugin?: TPlugin } {
   const rawId = params.rawId.trim();

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { detectBinary as defaultDetectBinary } from "../../plugins/setup-binary.js";
 import type {
   ChannelSetupWizard,
@@ -19,10 +19,10 @@ export function createDetectedBinaryStatus(params: {
   configuredScore: number;
   unconfiguredScore: number;
   resolveConfigured: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string;
   }) => boolean | Promise<boolean>;
-  resolveBinaryPath: (params: { cfg: Brikko StudioConfig; accountId?: string }) => string;
+  resolveBinaryPath: (params: { cfg: BrikkoStudioConfig; accountId?: string }) => string;
   detectBinary?: (path: string) => Promise<boolean>;
 }): ChannelSetupWizardStatus {
   const detectBinary = params.detectBinary ?? defaultDetectBinary;
@@ -47,7 +47,7 @@ export function createDetectedBinaryStatus(params: {
       cfg,
       accountId,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       accountId?: string;
       configured: boolean;
     }): Promise<string | undefined> {
@@ -59,7 +59,7 @@ export function createDetectedBinaryStatus(params: {
       cfg,
       accountId,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       accountId?: string;
       configured: boolean;
     }): Promise<number | undefined> {

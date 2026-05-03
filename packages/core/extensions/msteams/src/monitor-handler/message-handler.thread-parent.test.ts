@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../runtime-api.js";
+import type { BrikkoStudioConfig } from "../../runtime-api.js";
 import { _resetThreadParentContextCachesForTest } from "../thread-parent-context.js";
 import "./message-handler-mock-support.test-support.js";
 import { getRuntimeApiMockState } from "./message-handler-mock-support.test-support.js";
@@ -68,9 +68,9 @@ describe("msteams thread parent context injection", () => {
     runtimeApiMockState.dispatchReplyFromConfigWithSettledDispatcher.mockClear();
   });
 
-  const cfg: Brikko StudioConfig = {
+  const cfg: BrikkoStudioConfig = {
     channels: { msteams: { groupPolicy: "open" } },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 
   it("enqueues a Replying to @sender system event on the first thread reply", async () => {
     fetchChannelMessageMock.mockResolvedValueOnce({
@@ -146,7 +146,7 @@ describe("msteams thread parent context injection", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
     const handler = createMSTeamsMessageHandler(deps);
 
     await handler({
@@ -185,7 +185,7 @@ describe("msteams thread parent context injection", () => {
     });
     const { deps, enqueueSystemEvent } = createMessageHandlerDeps({
       channels: { msteams: { allowFrom: ["*"] } },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
     const handler = createMSTeamsMessageHandler(deps);
 
     await handler({

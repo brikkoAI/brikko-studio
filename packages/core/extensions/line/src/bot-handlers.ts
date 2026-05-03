@@ -6,7 +6,7 @@ import {
 } from "brikko-studio/plugin-sdk/channel-inbound";
 import { createChannelPairingChallengeIssuer } from "brikko-studio/plugin-sdk/channel-pairing";
 import { hasControlCommand, resolveControlCommandGate } from "brikko-studio/plugin-sdk/command-auth";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   readChannelAllowFromStore,
   resolvePairingIdLabel,
@@ -73,7 +73,7 @@ function isDownloadableLineMessageType(
 }
 
 export interface LineHandlerContext {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedLineAccount;
   runtime: RuntimeEnv;
   mediaMaxBytes: number;
@@ -401,7 +401,7 @@ function resolveEventRawText(event: MessageEvent | PostbackEvent): string {
 }
 
 function resolveLineCommandAuthorized(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   event: MessageEvent | PostbackEvent;
   senderId?: string;
   allow: NormalizedAllowFrom;

@@ -4,7 +4,7 @@ import { pathToFileURL } from "node:url";
 import { bundledDistPluginFile } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { stageBundledPluginRuntime } from "../../scripts/stage-bundled-plugin-runtime.mjs";
-import { discoverBrikko StudioPlugins } from "./discovery.js";
+import { discoverBrikkoStudioPlugins } from "./discovery.js";
 import { loadPluginManifestRegistry } from "./manifest-registry.js";
 import { cleanupTrackedTempDirs, makeTrackedTempDir } from "./test-helpers/fs-fixtures.js";
 
@@ -449,7 +449,7 @@ describe("stageBundledPluginRuntime", () => {
       BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: undefined,
       BRIKKO_STUDIO_BUNDLED_PLUGINS_DIR: runtimeExtensionsDir,
     };
-    const discovery = discoverBrikko StudioPlugins({
+    const discovery = discoverBrikkoStudioPlugins({
       env,
     });
     const manifestRegistry = loadPluginManifestRegistry({

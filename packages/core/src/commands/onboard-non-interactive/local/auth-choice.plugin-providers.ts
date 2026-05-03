@@ -5,7 +5,7 @@ import {
 } from "../../../agents/agent-scope.js";
 import type { ApiKeyCredential } from "../../../agents/auth-profiles/types.js";
 import { resolveDefaultAgentWorkspaceDir } from "../../../agents/workspace.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { enablePluginInConfig } from "../../../plugins/enable.js";
 import { resolvePreferredProviderForAuthChoice } from "../../../plugins/provider-auth-choice-preference.js";
 import { resolveManifestProviderAuthChoice } from "../../../plugins/provider-auth-choices.js";
@@ -30,11 +30,11 @@ const loadAuthChoicePluginProvidersRuntime = createLazyRuntimeSurface(
 );
 
 export async function applyNonInteractivePluginProviderChoice(params: {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   authChoice: string;
   opts: OnboardOptions;
   runtime: RuntimeEnv;
-  baseConfig: Brikko StudioConfig;
+  baseConfig: BrikkoStudioConfig;
   resolveApiKey: (input: ProviderResolveNonInteractiveApiKeyParams) => Promise<{
     key: string;
     source: "profile" | "env" | "flag";
@@ -43,7 +43,7 @@ export async function applyNonInteractivePluginProviderChoice(params: {
   toApiKeyCredential: (
     input: ProviderNonInteractiveApiKeyCredentialParams,
   ) => ApiKeyCredential | null;
-}): Promise<Brikko StudioConfig | null | undefined> {
+}): Promise<BrikkoStudioConfig | null | undefined> {
   const agentId = resolveDefaultAgentId(params.nextConfig);
   const agentDir = resolveAgentDir(params.nextConfig, agentId);
   const workspaceDir =

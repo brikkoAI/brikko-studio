@@ -1,4 +1,4 @@
-import { stopBrikko StudioChrome } from "./chrome.js";
+import { stopBrikkoStudioChrome } from "./chrome.js";
 import type { ResolvedBrowserConfig } from "./config.js";
 import {
   type BrowserServerState,
@@ -32,7 +32,7 @@ export async function stopKnownBrowserProfiles(params: {
       try {
         const runtime = current.profiles.get(name);
         if (runtime?.running) {
-          await stopBrikko StudioChrome(runtime.running);
+          await stopBrikkoStudioChrome(runtime.running);
           runtime.running = null;
           continue;
         }

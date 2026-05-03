@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { sanitizeTerminalText } from "brikko-studio/plugin-sdk/test-fixtures";
 import { describe, expect, it, vi } from "vitest";
 import {
@@ -8,7 +8,7 @@ import {
 import { createSelfChatCache } from "./self-chat-cache.js";
 
 describe("resolveIMessageInboundDecision echo detection", () => {
-  const cfg = {} as Brikko StudioConfig;
+  const cfg = {} as BrikkoStudioConfig;
   type InboundDecisionParams = Parameters<typeof resolveIMessageInboundDecision>[0];
 
   function createInboundDecisionParams(
@@ -184,7 +184,7 @@ describe("resolveIMessageInboundDecision echo detection", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const createdAt = "2026-03-02T20:58:10.649Z";
 
     expect(
@@ -302,7 +302,7 @@ describe("describeIMessageEchoDropLog", () => {
 });
 
 describe("resolveIMessageInboundDecision command auth", () => {
-  const cfg = {} as Brikko StudioConfig;
+  const cfg = {} as BrikkoStudioConfig;
   const resolveDmCommandDecision = (params: {
     messageId: number;
     storeAllowFrom: string[];

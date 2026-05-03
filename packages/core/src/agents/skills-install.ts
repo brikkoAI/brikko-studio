@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveBrewExecutable as defaultResolveBrewExecutable } from "../infra/brew.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import {
@@ -29,7 +29,7 @@ export type SkillInstallRequest = InstallSafetyOverrides & {
   skillName: string;
   installId: string;
   timeoutMs?: number;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 };
 export type { SkillInstallResult } from "./skills-install.types.js";
 

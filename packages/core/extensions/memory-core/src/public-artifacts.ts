@@ -3,7 +3,7 @@ import path from "node:path";
 import { resolveMemoryHostEventLogPath } from "brikko-studio/plugin-sdk/memory-core-host-events";
 import { resolveMemoryDreamingWorkspaces } from "brikko-studio/plugin-sdk/memory-core-host-status";
 import type { MemoryPluginPublicArtifact } from "brikko-studio/plugin-sdk/memory-host-core";
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 
 async function pathExists(inputPath: string): Promise<boolean> {
   try {
@@ -88,7 +88,7 @@ async function collectWorkspaceArtifacts(params: {
 }
 
 export async function listMemoryCorePublicArtifacts(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): Promise<MemoryPluginPublicArtifact[]> {
   const workspaces = resolveMemoryDreamingWorkspaces(params.cfg);
   const artifacts: MemoryPluginPublicArtifact[] = [];

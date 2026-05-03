@@ -14,14 +14,14 @@ export function buildSlackHomeView(): HomeView {
         type: "header",
         text: {
           type: "plain_text",
-          text: "Brikko Studio",
+          text: "BrikkoStudio",
         },
       },
       {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "Send a DM, mention Brikko Studio in a channel, or use `/brikko-studio` to start a session.",
+          text: "Send a DM, mention BrikkoStudio in a channel, or use `/brikko-studio` to start a session.",
         },
       },
       {

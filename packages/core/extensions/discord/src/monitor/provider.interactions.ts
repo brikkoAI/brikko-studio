@@ -2,7 +2,7 @@ import { CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY } from "brikko-studi
 import type { ChannelRuntimeSurface } from "brikko-studio/plugin-sdk/channel-contract";
 import { registerChannelRuntimeContext } from "brikko-studio/plugin-sdk/channel-runtime-context";
 import type { NativeCommandSpec } from "brikko-studio/plugin-sdk/command-auth";
-import type { DiscordAccountConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { DiscordAccountConfig, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { isDiscordExecApprovalClientEnabled } from "../exec-approvals.js";
 import {
@@ -31,7 +31,7 @@ import type { ThreadBindingManager } from "./thread-bindings.types.js";
 type DiscordVoiceManager = import("../voice/manager.js").DiscordVoiceManager;
 
 export function createDiscordProviderInteractionSurface(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   discordConfig: DiscordAccountConfig;
   accountId: string;
   token: string;

@@ -4,7 +4,7 @@ export {
   fetchWithSsrFGuard,
   isBlockedHostnameOrIp,
   type LookupFn,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type ReplyPayload,
   type RuntimeEnv,
   SsrFBlockedError,

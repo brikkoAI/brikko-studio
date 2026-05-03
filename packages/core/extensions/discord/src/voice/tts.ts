@@ -5,7 +5,7 @@ import {
   resolveTtsPrefsPath,
   type ResolvedTtsConfig,
 } from "brikko-studio/plugin-sdk/agent-runtime";
-import type { Brikko StudioConfig, TtsConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig, TtsConfig } from "brikko-studio/plugin-sdk/config-types";
 import { parseTtsDirectives } from "brikko-studio/plugin-sdk/speech";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { getDiscordRuntime } from "../runtime.js";
@@ -57,8 +57,8 @@ function mergeTtsConfig(base: TtsConfig, override?: TtsConfig): TtsConfig {
   };
 }
 
-function resolveVoiceTtsConfig(params: { cfg: Brikko StudioConfig; override?: TtsConfig }): {
-  cfg: Brikko StudioConfig;
+function resolveVoiceTtsConfig(params: { cfg: BrikkoStudioConfig; override?: TtsConfig }): {
+  cfg: BrikkoStudioConfig;
   resolved: ResolvedTtsConfig;
 } {
   if (!params.override) {
@@ -78,7 +78,7 @@ function resolveVoiceTtsConfig(params: { cfg: Brikko StudioConfig; override?: Tt
 }
 
 export async function transcribeVoiceAudio(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   filePath: string;
 }): Promise<string | undefined> {
@@ -92,7 +92,7 @@ export async function transcribeVoiceAudio(params: {
 }
 
 export async function synthesizeVoiceReplyAudio(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   override?: TtsConfig;
   replyText: string;
   speakerLabel: string;

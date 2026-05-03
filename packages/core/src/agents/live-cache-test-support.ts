@@ -1,12 +1,12 @@
 import { completeSimple, type Api, type AssistantMessage, type Model } from "@mariozechner/pi-ai";
 import { getRuntimeConfig } from "../config/config.js";
 import { isTruthyEnvValue } from "../infra/env.js";
-import { resolveBrikko StudioAgentDir } from "./agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "./agent-paths.js";
 import { collectProviderApiKeys } from "./live-auth-keys.js";
 import { isLiveTestEnabled } from "./live-test-helpers.js";
 import { getApiKeyForModel, requireApiKey } from "./model-auth.js";
 import { normalizeProviderId, parseModelRef } from "./model-selection.js";
-import { ensureBrikko StudioModelsJson } from "./models-config.js";
+import { ensureBrikkoStudioModelsJson } from "./models-config.js";
 import { discoverAuthStorage, discoverModels } from "./pi-model-discovery.js";
 import { buildAssistantMessageWithZeroUsage } from "./stream-message-shared.js";
 
@@ -162,8 +162,8 @@ export async function resolveLiveDirectModel(params: {
   preferredModelIds: readonly string[];
 }): Promise<LiveResolvedModel> {
   const cfg = getRuntimeConfig();
-  await ensureBrikko StudioModelsJson(cfg);
-  const agentDir = resolveBrikko StudioAgentDir();
+  await ensureBrikkoStudioModelsJson(cfg);
+  const agentDir = resolveBrikkoStudioAgentDir();
   const authStorage = discoverAuthStorage(agentDir);
   const models = discoverModels(authStorage, agentDir).getAll();
 

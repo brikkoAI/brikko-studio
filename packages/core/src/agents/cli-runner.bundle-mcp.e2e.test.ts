@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { captureEnv } from "../test-utils/env.js";
 import {
   writeBundleProbeMcpServer,
@@ -101,7 +101,7 @@ describe("runCliAgent bundle MCP e2e", () => {
       await writeClaudeBundle({ pluginRoot, serverScriptPath });
       installTestClaudeBackend({ commandPath: fakeClaudePath });
 
-      const config: Brikko StudioConfig = {
+      const config: BrikkoStudioConfig = {
         agents: {
           defaults: {
             workspace: workspaceDir,
@@ -176,7 +176,7 @@ describe("runCliAgent bundle MCP e2e", () => {
       await writeClaudeBundle({ pluginRoot, serverScriptPath });
       installTestClaudeBackend({ commandPath: fakeClaudePath, liveSession: "claude-stdio" });
 
-      const config: Brikko StudioConfig = {
+      const config: BrikkoStudioConfig = {
         agents: {
           defaults: {
             workspace: workspaceDir,

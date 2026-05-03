@@ -1,6 +1,6 @@
 import { normalizeChatChannelId } from "../../../channels/ids.js";
 import { listRouteBindings } from "../../../config/bindings.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import {
   formatChannelAccountsDefaultPath,
   formatSetExplicitDefaultInstruction,
@@ -32,7 +32,7 @@ function normalizeBindingChannelKey(raw?: string | null): string {
 }
 
 function collectChannelsMissingDefaultAccount(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): ChannelMissingDefaultAccountContext[] {
   const channels = asObjectRecord(cfg.channels);
   if (!channels) {
@@ -65,7 +65,7 @@ function collectChannelsMissingDefaultAccount(
   return contexts;
 }
 
-export function collectMissingDefaultAccountBindingWarnings(cfg: Brikko StudioConfig): string[] {
+export function collectMissingDefaultAccountBindingWarnings(cfg: BrikkoStudioConfig): string[] {
   const bindings = listRouteBindings(cfg);
   const warnings: string[] = [];
 
@@ -130,7 +130,7 @@ export function collectMissingDefaultAccountBindingWarnings(cfg: Brikko StudioCo
   return warnings;
 }
 
-export function collectMissingExplicitDefaultAccountWarnings(cfg: Brikko StudioConfig): string[] {
+export function collectMissingExplicitDefaultAccountWarnings(cfg: BrikkoStudioConfig): string[] {
   const warnings: string[] = [];
   for (const { channelKey, channel, normalizedAccountIds } of collectChannelsMissingDefaultAccount(
     cfg,

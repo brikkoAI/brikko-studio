@@ -1,6 +1,6 @@
 import {
   createDefaultModelPresetAppliers,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildKimiCodingProvider,
@@ -17,7 +17,7 @@ function resolveKimiCodingDefaultModel() {
 
 const kimiCodingPresetAppliers = createDefaultModelPresetAppliers({
   primaryModelRef: KIMI_MODEL_REF,
-  resolveParams: (_cfg: Brikko StudioConfig) => {
+  resolveParams: (_cfg: BrikkoStudioConfig) => {
     const defaultModel = resolveKimiCodingDefaultModel();
     if (!defaultModel) {
       return null;
@@ -33,10 +33,10 @@ const kimiCodingPresetAppliers = createDefaultModelPresetAppliers({
   },
 });
 
-export function applyKimiCodeProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyKimiCodeProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return kimiCodingPresetAppliers.applyProviderConfig(cfg);
 }
 
-export function applyKimiCodeConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyKimiCodeConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return kimiCodingPresetAppliers.applyConfig(cfg);
 }

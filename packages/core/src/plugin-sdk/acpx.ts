@@ -16,10 +16,10 @@ export type {
   AcpSessionUpdateTag,
 } from "../acp/runtime/types.js";
 export type {
-  Brikko StudioPluginApi,
-  Brikko StudioPluginConfigSchema,
-  Brikko StudioPluginService,
-  Brikko StudioPluginServiceContext,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginConfigSchema,
+  BrikkoStudioPluginService,
+  BrikkoStudioPluginServiceContext,
   PluginLogger,
 } from "../plugins/types.js";
 export type {

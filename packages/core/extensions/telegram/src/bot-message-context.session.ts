@@ -5,7 +5,7 @@ import {
   type NormalizedLocation,
 } from "brikko-studio/plugin-sdk/channel-inbound";
 import { normalizeCommandBody } from "brikko-studio/plugin-sdk/command-surface";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type {
   TelegramDirectConfig,
   TelegramGroupConfig,
@@ -77,7 +77,7 @@ async function loadTelegramMessageContextSessionRuntime(
 }
 
 export async function resolveTelegramMessageContextStorePath(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   sessionRuntime?: TelegramMessageContextSessionRuntimeOverrides;
 }): Promise<string> {
@@ -88,7 +88,7 @@ export async function resolveTelegramMessageContextStorePath(params: {
 }
 
 export async function buildTelegramInboundContextPayload(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   primaryCtx: TelegramContext;
   msg: TelegramContext["message"];
   allMedia: TelegramMediaRef[];

@@ -3,7 +3,7 @@ import {
   canonicalizeMainSessionAlias,
   resolveMainSessionKey,
 } from "../config/sessions/main-session.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   DEFAULT_AGENT_ID,
   normalizeAgentId,
@@ -27,12 +27,12 @@ export function canonicalizeSessionKeyForAgent(agentId: string, key: string): st
   return `agent:${normalizeAgentId(agentId)}:${lowered}`;
 }
 
-function resolveDefaultStoreAgentId(cfg: Brikko StudioConfig): string {
+function resolveDefaultStoreAgentId(cfg: BrikkoStudioConfig): string {
   return normalizeAgentId(resolveDefaultAgentId(cfg));
 }
 
 function shouldRemapLegacyDefaultMainAlias(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   parsed: ParsedAgentSessionKey,
   options?: { storeAgentId?: string },
 ): boolean {
@@ -50,7 +50,7 @@ function shouldRemapLegacyDefaultMainAlias(
 }
 
 function resolveParsedSessionStoreKey(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   raw: string,
   parsed: ParsedAgentSessionKey,
   options?: { storeAgentId?: string },
@@ -67,7 +67,7 @@ function resolveParsedSessionStoreKey(
 }
 
 export function resolveSessionStoreKey(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
   storeAgentId?: string;
 }): string {
@@ -105,7 +105,7 @@ export function resolveSessionStoreKey(params: {
   return canonicalizeSessionKeyForAgent(agentId, lowered);
 }
 
-export function resolveSessionStoreAgentId(cfg: Brikko StudioConfig, canonicalKey: string): string {
+export function resolveSessionStoreAgentId(cfg: BrikkoStudioConfig, canonicalKey: string): string {
   if (canonicalKey === "global" || canonicalKey === "unknown") {
     return resolveDefaultStoreAgentId(cfg);
   }
@@ -117,7 +117,7 @@ export function resolveSessionStoreAgentId(cfg: Brikko StudioConfig, canonicalKe
 }
 
 export function resolveStoredSessionKeyForAgentStore(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   sessionKey: string;
 }): string {
@@ -138,7 +138,7 @@ export function resolveStoredSessionKeyForAgentStore(params: {
 }
 
 export function resolveStoredSessionOwnerAgentId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   sessionKey: string;
 }): string | null {
@@ -150,7 +150,7 @@ export function resolveStoredSessionOwnerAgentId(params: {
 }
 
 export function canonicalizeSpawnedByForAgent(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
   spawnedBy?: string,
 ): string | undefined {

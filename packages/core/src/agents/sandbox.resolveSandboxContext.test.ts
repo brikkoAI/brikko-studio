@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { registerSandboxBackend } from "./sandbox/backend.js";
 import { ensureSandboxWorkspaceForSession, resolveSandboxContext } from "./sandbox/context.js";
 
@@ -64,7 +64,7 @@ afterAll(async () => {
 
 describe("resolveSandboxContext", () => {
   it("does not sandbox the agent main session in non-main mode", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           sandbox: { mode: "non-main", scope: "session" },
@@ -83,7 +83,7 @@ describe("resolveSandboxContext", () => {
   }, 15_000);
 
   it("does not create a sandbox workspace for the agent main session in non-main mode", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           sandbox: { mode: "non-main", scope: "session" },
@@ -120,7 +120,7 @@ describe("resolveSandboxContext", () => {
     }));
     const restore = registerSandboxBackend("test-off-backend", backendFactory);
     try {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             sandbox: {
@@ -154,7 +154,7 @@ describe("resolveSandboxContext", () => {
   }, 15_000);
 
   it("treats main session aliases as main in non-main mode", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       session: { mainKey: "work" },
       agents: {
         defaults: {
@@ -215,7 +215,7 @@ describe("resolveSandboxContext", () => {
       }),
     }));
     try {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             sandbox: {
@@ -264,7 +264,7 @@ describe("resolveSandboxContext", () => {
       }),
     }));
     try {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         browser: {
           ssrfPolicy: { dangerouslyAllowPrivateNetwork: true },
         },
@@ -303,7 +303,7 @@ describe("resolveSandboxContext", () => {
     const bundledDir = await createSandboxFixtureDir("bundled");
     const workspaceDir = await createSandboxFixtureDir("workspace");
 
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           sandbox: {

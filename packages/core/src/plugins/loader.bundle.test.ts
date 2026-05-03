@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { afterAll, afterEach, describe, expect, it } from "vitest";
 import { withEnv } from "../test-utils/env.js";
-import { loadBrikko StudioPlugins } from "./loader.js";
+import { loadBrikkoStudioPlugins } from "./loader.js";
 import {
   cleanupPluginLoaderFixturesForTest,
   loadBundleFixture,
@@ -13,7 +13,7 @@ import {
 } from "./loader.test-fixtures.js";
 
 function expectNoUnwiredBundleDiagnostic(
-  registry: ReturnType<typeof loadBrikko StudioPlugins>,
+  registry: ReturnType<typeof loadBrikkoStudioPlugins>,
   pluginId: string,
 ) {
   expect(
@@ -56,7 +56,7 @@ describe("bundle plugins", () => {
     );
 
     const registry = withEnv({ BRIKKO_STUDIO_STATE_DIR: stateDir }, () =>
-      loadBrikko StudioPlugins({
+      loadBrikkoStudioPlugins({
         workspaceDir,
         onlyPluginIds: ["sample-bundle"],
         config: {

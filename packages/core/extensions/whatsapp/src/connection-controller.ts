@@ -142,7 +142,7 @@ export function closeWaSocket(
 ): void {
   try {
     if (typeof sock?.end === "function") {
-      sock.end(new Error("Brikko Studio WhatsApp socket close"));
+      sock.end(new Error("BrikkoStudio WhatsApp socket close"));
       return;
     }
     sock?.ws?.close?.();

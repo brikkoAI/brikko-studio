@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { ModelDefinitionConfig } from "../../config/types.models.js";
 import type {
   ImageDescriptionRequest,
@@ -12,16 +12,16 @@ import type {
 } from "../../plugin-sdk/media-understanding.js";
 import { withFetchPreconnect } from "../../test-utils/fetch-mock.js";
 import { minimaxUnderstandImage } from "../minimax-vlm.js";
-import { createBrikko StudioCodingTools } from "../pi-tools.js";
+import { createBrikkoStudioCodingTools } from "../pi-tools.js";
 import type { SandboxFsBridge } from "../sandbox/fs-bridge.js";
 import { createHostSandboxFsBridge } from "../test-helpers/host-sandbox-fs-bridge.js";
 import { createUnsafeMountedSandbox } from "../test-helpers/unsafe-mounted-sandbox.js";
 import { makeZeroUsageSnapshot } from "../usage.js";
 import { __testing, createImageTool, resolveImageModelConfigForTool } from "./image-tool.js";
 
-type CreateBrikko StudioCodingToolsArgs = Parameters<typeof createBrikko StudioCodingTools>[0];
-type MockBrikko StudioToolsOptions = {
-  config?: Brikko StudioConfig;
+type CreateBrikkoStudioCodingToolsArgs = Parameters<typeof createBrikkoStudioCodingTools>[0];
+type MockBrikkoStudioToolsOptions = {
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   sandboxRoot?: string;
@@ -148,7 +148,7 @@ vi.mock("../model-auth.js", () => ({
 vi.mock("../brikko-studio-tools.js", async () => {
   const { createImageTool } = await import("./image-tool.js");
   return {
-    createBrikko StudioTools: vi.fn((options?: MockBrikko StudioToolsOptions) => {
+    createBrikkoStudioTools: vi.fn((options?: MockBrikkoStudioToolsOptions) => {
       const imageTool = createImageTool({
         config: options?.config,
         agentDir: options?.agentDir,
@@ -177,7 +177,7 @@ async function writeAuthProfiles(agentDir: string, profiles: unknown) {
   );
 }
 
-async function createBrikko StudioCodingToolsWithFreshModules(options?: CreateBrikko StudioCodingToolsArgs) {
+async function createBrikkoStudioCodingToolsWithFreshModules(options?: CreateBrikkoStudioCodingToolsArgs) {
   const defaultImageModels = new Map<string, string>([
     ["anthropic", "claude-opus-4-6"],
     ["minimax", "MiniMax-VL-01"],
@@ -201,7 +201,7 @@ async function createBrikko StudioCodingToolsWithFreshModules(options?: CreateBr
     resolveDefaultMediaModel: ({ providerId, capability }) =>
       capability === "image" ? defaultImageModels.get(providerId.toLowerCase()) : undefined,
   });
-  return createBrikko StudioCodingTools(options);
+  return createBrikkoStudioCodingTools(options);
 }
 
 async function withTempAgentDir<T>(run: (agentDir: string) => Promise<T>): Promise<T> {
@@ -325,7 +325,7 @@ function stubOpenAiCompletionsOkFetch(text = "ok") {
   return fetch;
 }
 
-function createMinimaxImageConfig(): Brikko StudioConfig {
+function createMinimaxImageConfig(): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -620,7 +620,7 @@ describe("image tool implicit imageModel config", () => {
 
   it("stays disabled without auth when no pairing is possible", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "openai/gpt-5.4" } } },
       };
       expect(resolveImageModelConfigForTool({ cfg, agentDir })).toBeNull();
@@ -644,7 +644,7 @@ describe("image tool implicit imageModel config", () => {
         resolveDefaultMediaModel: resolveDefaultMediaModelSpy,
         resolveAutoMediaKeyProviders: resolveAutoMediaKeyProvidersSpy,
       });
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "openai/gpt-5.4" } } },
       };
 
@@ -666,7 +666,7 @@ describe("image tool implicit imageModel config", () => {
       vi.stubEnv("MINIMAX_OAUTH_TOKEN", "minimax-oauth-test");
       vi.stubEnv("OPENAI_API_KEY", "openai-test");
       vi.stubEnv("ANTHROPIC_API_KEY", "anthropic-test");
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "minimax/MiniMax-M2.7" } } },
       };
       expect(resolveImageModelConfigForTool({ cfg, agentDir })).toEqual({
@@ -682,7 +682,7 @@ describe("image tool implicit imageModel config", () => {
       vi.stubEnv("MINIMAX_API_KEY", "minimax-test");
       vi.stubEnv("OPENAI_API_KEY", "openai-test");
       vi.stubEnv("ANTHROPIC_API_KEY", "anthropic-test");
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "minimax/MiniMax-M2.7" } } },
         models: {
           mode: "merge",
@@ -716,7 +716,7 @@ describe("image tool implicit imageModel config", () => {
           capabilities: ["image"],
           describeImage,
         });
-        const cfg: Brikko StudioConfig = {
+        const cfg: BrikkoStudioConfig = {
           agents: {
             defaults: {
               imageModel: { primary: "ollama/gemma4:26b-a4b-it-q4_K_M" },
@@ -749,7 +749,7 @@ describe("image tool implicit imageModel config", () => {
           capabilities: ["image"],
           describeImage,
         });
-        const cfg: Brikko StudioConfig = {
+        const cfg: BrikkoStudioConfig = {
           agents: {
             defaults: {
               imageModel: { primary: "ollama/gemma4:26b-a4b-it-q4_K_M" },
@@ -795,7 +795,7 @@ describe("image tool implicit imageModel config", () => {
       });
       vi.stubEnv("OPENAI_API_KEY", "openai-test");
       vi.stubEnv("ANTHROPIC_API_KEY", "anthropic-test");
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "minimax-portal/MiniMax-M2.7" } } },
       };
       expect(resolveImageModelConfigForTool({ cfg, agentDir })).toEqual(
@@ -808,7 +808,7 @@ describe("image tool implicit imageModel config", () => {
   it("pairs opencode primary with the plugin-owned image model when auth exists", async () => {
     await withTempAgentDir(async (agentDir) => {
       vi.stubEnv("OPENCODE_API_KEY", "opencode-test");
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "opencode/minimax-m2.7" } } },
       };
       expect(resolveImageModelConfigForTool({ cfg, agentDir })).toEqual({
@@ -821,7 +821,7 @@ describe("image tool implicit imageModel config", () => {
   it("pairs opencode-go primary with the Go plugin-owned image model when auth exists", async () => {
     await withTempAgentDir(async (agentDir) => {
       vi.stubEnv("OPENCODE_API_KEY", "opencode-test");
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "opencode-go/minimax-m2.7" } } },
       };
       expect(resolveImageModelConfigForTool({ cfg, agentDir })).toEqual({
@@ -836,7 +836,7 @@ describe("image tool implicit imageModel config", () => {
       vi.stubEnv("ZAI_API_KEY", "zai-test");
       vi.stubEnv("OPENAI_API_KEY", "openai-test");
       vi.stubEnv("ANTHROPIC_API_KEY", "anthropic-test");
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "zai/glm-4.7" } } },
       };
       expect(resolveImageModelConfigForTool({ cfg, agentDir })).toEqual(
@@ -854,7 +854,7 @@ describe("image tool implicit imageModel config", () => {
           "acme:default": { type: "api_key", provider: "acme", key: "sk-test" },
         },
       });
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "acme/text-1" } } },
         models: {
           providers: {
@@ -883,7 +883,7 @@ describe("image tool implicit imageModel config", () => {
           "kimchi:default": { type: "api_key", provider: "kimchi", key: "sk-test" },
         },
       });
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "kimchi/text-1" } } },
         models: {
           providers: {
@@ -916,7 +916,7 @@ describe("image tool implicit imageModel config", () => {
           },
         },
       });
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "aws-bedrock/text-1" } } },
         models: {
           providers: {
@@ -939,7 +939,7 @@ describe("image tool implicit imageModel config", () => {
 
   it("prefers explicit agents.defaults.imageModel", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             model: { primary: "minimax/MiniMax-M2.7" },
@@ -955,7 +955,7 @@ describe("image tool implicit imageModel config", () => {
 
   it("resolves providerless explicit image models from unique configured image providers", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             imageModel: {
@@ -996,7 +996,7 @@ describe("image tool implicit imageModel config", () => {
         capabilities: ["image"],
         describeImage,
       });
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             imageModel: { primary: "moondream" },
@@ -1029,7 +1029,7 @@ describe("image tool implicit imageModel config", () => {
 
   it("rejects ambiguous providerless explicit image models", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             imageModel: { primary: "moondream" },
@@ -1057,7 +1057,7 @@ describe("image tool implicit imageModel config", () => {
 
   it("keeps unmatched providerless explicit image models on the legacy default-provider path", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             imageModel: { primary: "gpt-5.4-mini" },
@@ -1077,7 +1077,7 @@ describe("image tool implicit imageModel config", () => {
     // adjusted via modelHasVision to discourage redundant usage.
     vi.stubEnv("OPENAI_API_KEY", "test-key");
     await withTempAgentDir(async (agentDir) => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             model: { primary: "acme/vision-1" },
@@ -1109,7 +1109,7 @@ describe("image tool implicit imageModel config", () => {
     await withTempAgentDir(async (agentDir) => {
       vi.stubEnv("MOONSHOT_API_KEY", "moonshot-test");
       const fetch = stubOpenAiCompletionsOkFetch("ok moonshot");
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             model: { primary: "moonshot/kimi-k2.5" },
@@ -1173,7 +1173,7 @@ describe("image tool implicit imageModel config", () => {
   it("falls back to the generic image runtime when openrouter has no media provider registration", async () => {
     await withTempAgentDir(async (agentDir) => {
       const fetch = stubOpenAiCompletionsOkFetch("ok openrouter");
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             model: { primary: "openrouter/google/gemini-2.5-flash-lite" },
@@ -1208,7 +1208,7 @@ describe("image tool implicit imageModel config", () => {
   it("falls back to the generic multi-image runtime when openrouter has no media provider registration", async () => {
     await withTempAgentDir(async (agentDir) => {
       const fetch = stubOpenAiCompletionsOkFetch("ok multi");
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             model: { primary: "openrouter/google/gemini-2.5-flash-lite" },
@@ -1259,7 +1259,7 @@ describe("image tool implicit imageModel config", () => {
         },
       });
       const fetch = stubMinimaxOkFetch();
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             model: { primary: "minimax-portal/MiniMax-M2.7" },
@@ -1390,13 +1390,13 @@ describe("image tool implicit imageModel config", () => {
     });
   });
 
-  it("allows workspace images via createBrikko StudioCodingTools when workspace root is explicit", async () => {
+  it("allows workspace images via createBrikkoStudioCodingTools when workspace root is explicit", async () => {
     await withTempWorkspacePng(async ({ workspaceDir, imagePath }) => {
       const fetch = stubMinimaxOkFetch();
       await withTempAgentDir(async (agentDir) => {
         const cfg = createMinimaxImageConfig();
 
-        const tools = await createBrikko StudioCodingToolsWithFreshModules({
+        const tools = await createBrikkoStudioCodingToolsWithFreshModules({
           config: cfg,
           agentDir,
           workspaceDir,
@@ -1446,7 +1446,7 @@ describe("image tool implicit imageModel config", () => {
     vi.stubEnv("MINIMAX_API_KEY", "minimax-test");
 
     await withTempAgentDir(async (agentDir) => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         ...createMinimaxImageConfig(),
         tools: { web: { fetch: { ssrfPolicy: { allowRfc2544BenchmarkRange: true } } } },
       };
@@ -1463,7 +1463,7 @@ describe("image tool implicit imageModel config", () => {
       const sandbox = { root: sandboxRoot, bridge: createHostSandboxFsBridge(sandboxRoot) };
 
       vi.stubEnv("OPENAI_API_KEY", "openai-test");
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "minimax/MiniMax-M2.7" } } },
       };
       const tool = createRequiredImageTool({ config: cfg, agentDir, sandbox });
@@ -1486,12 +1486,12 @@ describe("image tool implicit imageModel config", () => {
       );
       const sandbox = createUnsafeMountedSandbox({ sandboxRoot, agentRoot: agentDir });
       const fetch = stubMinimaxOkFetch();
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         ...createMinimaxImageConfig(),
         tools: { fs: { workspaceOnly: true } },
       };
 
-      const tools = await createBrikko StudioCodingToolsWithFreshModules({
+      const tools = await createBrikkoStudioCodingToolsWithFreshModules({
         config: cfg,
         agentDir,
         sandbox,
@@ -1528,7 +1528,7 @@ describe("image tool implicit imageModel config", () => {
 
       const fetch = stubMinimaxOkFetch();
 
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             model: { primary: "minimax/MiniMax-M2.7" },

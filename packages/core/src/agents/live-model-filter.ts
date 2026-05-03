@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveProviderModernModelRef } from "../plugins/provider-runtime.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { liveProvidersShareOwningPlugin } from "./live-provider-owner.js";
@@ -200,7 +200,7 @@ export function shouldExcludeProviderFromDefaultHighSignalLiveSweep(params: {
   provider?: string | null;
   useExplicitModels: boolean;
   providerFilter?: ReadonlySet<string> | null;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   resolveProviderOwners?: (provider: string) => readonly string[] | undefined;

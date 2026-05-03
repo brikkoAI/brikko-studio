@@ -137,8 +137,8 @@ export function getGoogleMeetSetupStatus(
     id: "chrome-profile",
     ok: true,
     message: config.chrome.browserProfile
-      ? "Local Chrome uses the Brikko Studio browser profile; chrome.browserProfile is passed to chrome-node hosts"
-      : "Local Chrome uses the Brikko Studio browser profile; configure browser.defaultProfile to choose another profile",
+      ? "Local Chrome uses the BrikkoStudio browser profile; chrome.browserProfile is passed to chrome-node hosts"
+      : "Local Chrome uses the BrikkoStudio browser profile; configure browser.defaultProfile to choose another profile",
   });
 
   if (needsChromeRealtimeAudio) {

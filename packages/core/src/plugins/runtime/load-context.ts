@@ -1,7 +1,7 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
 import { getRuntimeConfig } from "../../config/config.js";
 import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../../logging.js";
 import { resolvePluginActivationSourceConfig } from "../activation-source-config.js";
 import type { PluginLoadOptions } from "../loader.js";
@@ -11,9 +11,9 @@ import type { PluginLogger } from "../types.js";
 const log = createSubsystemLogger("plugins");
 
 export type PluginRuntimeLoadContext = {
-  rawConfig: Brikko StudioConfig;
-  config: Brikko StudioConfig;
-  activationSourceConfig: Brikko StudioConfig;
+  rawConfig: BrikkoStudioConfig;
+  config: BrikkoStudioConfig;
+  activationSourceConfig: BrikkoStudioConfig;
   autoEnabledReasons: Readonly<Record<string, string[]>>;
   workspaceDir: string | undefined;
   env: NodeJS.ProcessEnv;
@@ -26,8 +26,8 @@ export type PluginRuntimeResolvedLoadValues = Pick<
 >;
 
 export type PluginRuntimeLoadContextOptions = {
-  config?: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   workspaceDir?: string;
   logger?: PluginLogger;

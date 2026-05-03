@@ -59,7 +59,7 @@ let _brikko-studioVersion = "unknown";
 
 /** Build the User-Agent string from the current plugin and framework versions. */
 function buildUserAgent(): string {
-  return `QQBotPlugin/${_pluginVersion} (Node/${process.versions.node}; ${os.platform()}; Brikko Studio/${_brikko-studioVersion})`;
+  return `QQBotPlugin/${_pluginVersion} (Node/${process.versions.node}; ${os.platform()}; BrikkoStudio/${_brikko-studioVersion})`;
 }
 
 /** Return the current User-Agent string. */
@@ -80,8 +80,8 @@ export function initSender(options: { pluginVersion?: string; brikko-studioVersi
   }
 }
 
-/** Update the Brikko Studio framework version in the User-Agent (called after runtime injection). */
-export function setBrikko StudioVersion(version: string): void {
+/** Update the BrikkoStudio framework version in the User-Agent (called after runtime injection). */
+export function setBrikkoStudioVersion(version: string): void {
   if (version) {
     _brikko-studioVersion = version;
   }

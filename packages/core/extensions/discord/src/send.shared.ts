@@ -1,7 +1,7 @@
 import { PollLayoutType } from "discord-api-types/payloads/v10";
 import type { RESTAPIPoll } from "discord-api-types/rest/v10";
 import type { APIChannel } from "discord-api-types/v10";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { buildOutboundMediaLoadOptions } from "brikko-studio/plugin-sdk/media-runtime";
 import { extensionForMime } from "brikko-studio/plugin-sdk/media-runtime";
 import {
@@ -155,7 +155,7 @@ async function buildDiscordSendError(
   err: unknown,
   ctx: {
     channelId: string;
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     rest: RequestClient;
     token: string;
     hasMedia: boolean;
@@ -244,7 +244,7 @@ async function resolveChannelId(
 
 async function resolveDiscordTargetChannelId(
   raw: string,
-  opts: DiscordClientOpts & { cfg: Brikko StudioConfig },
+  opts: DiscordClientOpts & { cfg: BrikkoStudioConfig },
 ): Promise<{ channelId: string; dm?: boolean }> {
   const cfg = requireRuntimeConfig(opts.cfg, "Discord target channel resolution");
   const recipient = await parseAndResolveRecipient(raw, cfg, opts.accountId, {

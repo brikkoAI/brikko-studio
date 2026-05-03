@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   DEFAULT_CACHE_TTL_MINUTES,
   DEFAULT_SEARCH_COUNT,
@@ -229,7 +229,7 @@ async function fetchSearxngResults(params: {
 }
 
 export async function runSearxngSearch(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   query: string;
   count?: number;
   categories?: string;

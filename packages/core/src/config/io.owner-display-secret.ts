@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 
 export type OwnerDisplaySecretPersistState = {
   pendingByPath: Map<string, string>;
@@ -7,16 +7,16 @@ export type OwnerDisplaySecretPersistState = {
 };
 
 export function persistGeneratedOwnerDisplaySecret(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   configPath: string;
   generatedSecret?: string;
   logger: Pick<typeof console, "warn">;
   state: OwnerDisplaySecretPersistState;
   persistConfig: (
-    config: Brikko StudioConfig,
+    config: BrikkoStudioConfig,
     options: { expectedConfigPath: string },
   ) => Promise<unknown>;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const { config, configPath, generatedSecret, logger, state, persistConfig } = params;
   if (!generatedSecret) {
     state.pendingByPath.delete(configPath);

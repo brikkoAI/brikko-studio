@@ -73,7 +73,7 @@ import type {
 import { enrichBlueBubblesParticipantsWithContactNames } from "./participant-contact-names.js";
 import { isBlueBubblesPrivateApiEnabled } from "./probe.js";
 import { normalizeBlueBubblesReactionInputStrict, sendBlueBubblesReaction } from "./reactions.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import { normalizeSecretInputString } from "./secret-input.js";
 import { resolveChatGuidForTarget, sendMessageBlueBubbles } from "./send.js";
 import {
@@ -431,7 +431,7 @@ function logGroupAllowlistHint(params: {
 }
 
 function resolveBlueBubblesAckReaction(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   core: BlueBubblesCoreRuntime;
   runtime: BlueBubblesRuntimeEnv;
@@ -1289,7 +1289,7 @@ async function processMessageAfterDedupe(
 
   // Opt-in fallback: if the in-memory cache missed and the BB credentials are
   // available, ask the BlueBubbles HTTP API for the original message. Useful
-  // when multiple Brikko Studio instances share one BB account, after a restart,
+  // when multiple BrikkoStudio instances share one BB account, after a restart,
   // or when the cache TTL has evicted the message. Best-effort, never throws.
   if (
     replyToId &&

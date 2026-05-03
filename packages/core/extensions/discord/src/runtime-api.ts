@@ -13,14 +13,14 @@ export type {
 } from "brikko-studio/plugin-sdk/channel-contract";
 export type {
   ChannelPlugin,
-  Brikko StudioPluginApi,
+  BrikkoStudioPluginApi,
   PluginRuntime,
 } from "brikko-studio/plugin-sdk/channel-plugin-common";
 export type {
   DiscordAccountConfig,
   DiscordActionConfig,
   DiscordConfig,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/config-types";
 export {
   jsonResult,

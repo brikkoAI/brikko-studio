@@ -30,7 +30,7 @@ describeLive("elevenlabs plugin live", () => {
     const provider = requireRegisteredProvider(speechProviders, "elevenlabs");
 
     const audioFile = await provider.synthesize({
-      text: "Brikko Studio ElevenLabs eleven v three text to speech integration test OK.",
+      text: "BrikkoStudio ElevenLabs eleven v three text to speech integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig: { apiKey: ELEVENLABS_KEY, modelId: "eleven_v3" },
       target: "audio-file",
@@ -43,7 +43,7 @@ describeLive("elevenlabs plugin live", () => {
   }, 60_000);
 
   it("transcribes synthesized speech through the media provider", async () => {
-    const phrase = "Testing Brikko Studio ElevenLabs speech to text integration OK.";
+    const phrase = "Testing BrikkoStudio ElevenLabs speech to text integration OK.";
     const audio = await synthesizeElevenLabsLiveSpeech({
       text: phrase,
       apiKey: ELEVENLABS_KEY,
@@ -66,7 +66,7 @@ describeLive("elevenlabs plugin live", () => {
 
   it("streams realtime STT through the registered transcription provider", async () => {
     const provider = buildElevenLabsRealtimeTranscriptionProvider();
-    const phrase = "Testing Brikko Studio ElevenLabs realtime transcription integration OK.";
+    const phrase = "Testing BrikkoStudio ElevenLabs realtime transcription integration OK.";
     const speech = await synthesizeElevenLabsLiveSpeech({
       text: phrase,
       apiKey: ELEVENLABS_KEY,

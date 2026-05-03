@@ -564,14 +564,14 @@ describe("resolveResponsePrefixTemplate", () => {
       {
         name: "identity.name",
         template: "[{identity.name}]",
-        values: { identityName: "Brikko Studio" },
-        expected: "[Brikko Studio]",
+        values: { identityName: "BrikkoStudio" },
+        expected: "[BrikkoStudio]",
       },
       {
         name: "identityName alias",
         template: "[{identityName}]",
-        values: { identityName: "Brikko Studio" },
-        expected: "[Brikko Studio]",
+        values: { identityName: "BrikkoStudio" },
+        expected: "[BrikkoStudio]",
       },
       {
         name: "case-insensitive variables",
@@ -583,12 +583,12 @@ describe("resolveResponsePrefixTemplate", () => {
         name: "all variables",
         template: "[{identity.name}] {provider}/{model} (think:{thinkingLevel})",
         values: {
-          identityName: "Brikko Studio",
+          identityName: "BrikkoStudio",
           provider: "anthropic",
           model: "claude-opus-4-6",
           thinkingLevel: "high",
         },
-        expected: "[Brikko Studio] anthropic/claude-opus-4-6 (think:high)",
+        expected: "[BrikkoStudio] anthropic/claude-opus-4-6 (think:high)",
       },
     ] as const;
     expectResolvedTemplateCases(cases);

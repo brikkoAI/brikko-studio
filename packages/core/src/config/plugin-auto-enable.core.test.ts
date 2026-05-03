@@ -12,7 +12,7 @@ import {
   makeRegistry,
   resetPluginAutoEnableTestState,
 } from "./plugin-auto-enable.test-helpers.js";
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 import { validateConfigObject } from "./validation.js";
 
 vi.mock("../channels/plugins/configured-state.js", async (importOriginal) => {
@@ -21,7 +21,7 @@ vi.mock("../channels/plugins/configured-state.js", async (importOriginal) => {
     ...actual,
     hasBundledChannelConfiguredState: (params: {
       channelId: string;
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       env?: NodeJS.ProcessEnv;
     }) => {
       if (params.channelId === "irc") {

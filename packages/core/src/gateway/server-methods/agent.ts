@@ -39,7 +39,7 @@ import {
   type SessionEntry,
   updateSessionStore,
 } from "../../config/sessions.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { registerAgentRunContext } from "../../infra/agent-events.js";
 import { formatUncaughtError } from "../../infra/errors.js";
 import {
@@ -197,7 +197,7 @@ async function runSessionResetFromAgent(params: {
 }
 
 function resolveSessionRuntimeWorkspace(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
   sessionEntry?: SessionEntry;
   spawnedBy?: string;
@@ -217,7 +217,7 @@ function resolveSessionRuntimeWorkspace(params: {
 }
 
 function shouldSkipStartupContextForSpawnedSandbox(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
   spawnedBy?: string;
 }): boolean {
@@ -820,7 +820,7 @@ export const agentHandlers: GatewayRequestHandlers = {
     let resolvedSessionId = requestedSessionId;
     let sessionEntry: SessionEntry | undefined;
     let bestEffortDeliver = requestedBestEffortDeliver ?? false;
-    let cfgForAgent: Brikko StudioConfig | undefined;
+    let cfgForAgent: BrikkoStudioConfig | undefined;
     let resolvedSessionKey = requestedSessionKey;
     let isNewSession = false;
     let skipTimestampInjection = false;

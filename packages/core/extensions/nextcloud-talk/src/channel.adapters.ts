@@ -45,7 +45,7 @@ export const nextcloudTalkSecurityAdapter = {
 
 export const nextcloudTalkPairingTextAdapter = {
   idLabel: "nextcloudUserId",
-  message: "Brikko Studio: your access has been approved.",
+  message: "BrikkoStudio: your access has been approved.",
   normalizeAllowEntry: createPairingPrefixStripper(/^(nextcloud-talk|nc-talk|nc):/i, (entry) =>
     normalizeLowercaseStringOrEmpty(entry),
   ),

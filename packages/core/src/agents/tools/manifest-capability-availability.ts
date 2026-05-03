@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { getCurrentPluginMetadataSnapshot } from "../../plugins/current-plugin-metadata-snapshot.js";
 import {
   isManifestPluginAvailableForControlPlane,
@@ -63,7 +63,7 @@ function listCapabilityAuthSignals(params: {
 }
 
 export function getCurrentCapabilityMetadataSnapshot(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
 }): PluginMetadataSnapshot | undefined {
   return getCurrentPluginMetadataSnapshot({
@@ -73,7 +73,7 @@ export function getCurrentCapabilityMetadataSnapshot(params: {
 }
 
 export function loadCapabilityMetadataSnapshot(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): Pick<PluginMetadataSnapshot, "index" | "plugins"> {
@@ -93,7 +93,7 @@ export function loadCapabilityMetadataSnapshot(params: {
 export function hasSnapshotCapabilityAvailability(params: {
   snapshot: Pick<PluginMetadataSnapshot, "index" | "plugins">;
   key: CapabilityContractKey;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   authStore?: AuthProfileStore;
 }): boolean {
   if (params.config?.plugins?.enabled === false) {
@@ -159,7 +159,7 @@ export function hasSnapshotCapabilityAvailability(params: {
 export function hasSnapshotProviderEnvAvailability(params: {
   snapshot: Pick<PluginMetadataSnapshot, "index" | "plugins">;
   providerId: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): boolean {
   if (params.config?.plugins?.enabled === false) {
     return false;

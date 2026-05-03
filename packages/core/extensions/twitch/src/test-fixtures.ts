@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 
 export const BASE_TWITCH_TEST_ACCOUNT = {
   username: "testbot",
@@ -7,7 +7,7 @@ export const BASE_TWITCH_TEST_ACCOUNT = {
   channel: "#testchannel",
 };
 
-export function makeTwitchTestConfig(account: Record<string, unknown>): Brikko StudioConfig {
+export function makeTwitchTestConfig(account: Record<string, unknown>): BrikkoStudioConfig {
   return {
     channels: {
       twitch: {
@@ -16,7 +16,7 @@ export function makeTwitchTestConfig(account: Record<string, unknown>): Brikko S
         },
       },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 export function installTwitchTestHooks() {

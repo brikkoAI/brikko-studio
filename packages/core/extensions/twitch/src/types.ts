@@ -2,7 +2,7 @@
  * Twitch channel plugin types.
  *
  * This file defines Twitch-specific types. Generic channel types are imported
- * from Brikko Studio core.
+ * from BrikkoStudio core.
  */
 
 import type {

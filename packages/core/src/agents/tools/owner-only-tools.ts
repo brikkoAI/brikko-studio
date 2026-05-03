@@ -4,6 +4,6 @@ const BRIKKO_STUDIO_OWNER_ONLY_CORE_TOOL_NAME_SET: ReadonlySet<string> = new Set
   BRIKKO_STUDIO_OWNER_ONLY_CORE_TOOL_NAMES,
 );
 
-export function isBrikko StudioOwnerOnlyCoreToolName(toolName: string): boolean {
+export function isBrikkoStudioOwnerOnlyCoreToolName(toolName: string): boolean {
   return BRIKKO_STUDIO_OWNER_ONLY_CORE_TOOL_NAME_SET.has(toolName);
 }

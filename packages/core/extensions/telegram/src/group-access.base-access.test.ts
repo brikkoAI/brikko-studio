@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import { normalizeAllowFrom, type NormalizedAllowFrom } from "./bot-access.js";
@@ -76,7 +76,7 @@ describe("evaluateTelegramGroupBaseAccess", () => {
  */
 const baseCfg = {
   channels: { telegram: {} },
-} as unknown as Brikko StudioConfig;
+} as unknown as BrikkoStudioConfig;
 
 const baseTelegramCfg: TelegramAccountConfig = {
   groupPolicy: "allowlist",

@@ -1,11 +1,11 @@
 import { createActionGate } from "brikko-studio/plugin-sdk/channel-actions";
 import type { ChannelMessageActionName } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { extractToolSend, type ChannelToolSend } from "brikko-studio/plugin-sdk/tool-send";
 import { listEnabledSlackAccounts, resolveSlackAccount } from "./accounts.js";
 
 export function listSlackMessageActions(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string | null,
 ): ChannelMessageActionName[] {
   const accounts = (

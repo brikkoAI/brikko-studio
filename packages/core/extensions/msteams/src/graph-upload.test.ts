@@ -28,13 +28,13 @@ describe("graph upload helpers", () => {
     });
 
     expect(fetchFn).toHaveBeenCalledWith(
-      "https://graph.microsoft.com/v1.0/me/drive/root:/Brikko StudioShared/a.txt:/content",
+      "https://graph.microsoft.com/v1.0/me/drive/root:/BrikkoStudioShared/a.txt:/content",
       expect.objectContaining({
         method: "PUT",
         headers: expect.objectContaining({
           Authorization: "Bearer graph-token",
           "Content-Type": "application/octet-stream",
-          "User-Agent": expect.stringMatching(/^teams\.ts\[apps\]\/.+ Brikko Studio\/.+$/),
+          "User-Agent": expect.stringMatching(/^teams\.ts\[apps\]\/.+ BrikkoStudio\/.+$/),
         }),
       }),
     );
@@ -66,13 +66,13 @@ describe("graph upload helpers", () => {
     });
 
     expect(fetchFn).toHaveBeenCalledWith(
-      "https://graph.microsoft.com/v1.0/sites/site-123/drive/root:/Brikko StudioShared/b.txt:/content",
+      "https://graph.microsoft.com/v1.0/sites/site-123/drive/root:/BrikkoStudioShared/b.txt:/content",
       expect.objectContaining({
         method: "PUT",
         headers: expect.objectContaining({
           Authorization: "Bearer graph-token",
           "Content-Type": "application/octet-stream",
-          "User-Agent": expect.stringMatching(/^teams\.ts\[apps\]\/.+ Brikko Studio\/.+$/),
+          "User-Agent": expect.stringMatching(/^teams\.ts\[apps\]\/.+ BrikkoStudio\/.+$/),
         }),
       }),
     );
@@ -142,7 +142,7 @@ describe("resolveGraphChatId", () => {
       expect.objectContaining({
         headers: expect.objectContaining({
           Authorization: "Bearer graph-token",
-          "User-Agent": expect.stringMatching(/^teams\.ts\[apps\]\/.+ Brikko Studio\/.+$/),
+          "User-Agent": expect.stringMatching(/^teams\.ts\[apps\]\/.+ BrikkoStudio\/.+$/),
         }),
       }),
     );

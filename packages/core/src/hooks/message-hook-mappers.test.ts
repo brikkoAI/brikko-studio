@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import type { FinalizedMsgContext } from "../auto-reply/templating.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { DiagnosticTraceContext } from "../infra/diagnostic-trace-context.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { createChannelTestPluginBase, createTestRegistry } from "../test-utils/channel-plugins.js";
@@ -332,7 +332,7 @@ describe("message hook mappers", () => {
   });
 
   it("maps transcribed and preprocessed internal payloads", () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const canonical = deriveInboundMessageHookContext(makeInboundCtx({ Transcript: undefined }));
 
     const transcribed = toInternalMessageTranscribedContext(canonical, cfg);

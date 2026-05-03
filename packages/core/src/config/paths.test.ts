@@ -103,7 +103,7 @@ describe("gateway port resolution", () => {
 });
 
 describe("state + config path candidates", () => {
-  function expectBrikko StudioHomeDefaults(env: NodeJS.ProcessEnv): void {
+  function expectBrikkoStudioHomeDefaults(env: NodeJS.ProcessEnv): void {
     const configuredHome = env.BRIKKO_STUDIO_HOME;
     if (!configuredHome) {
       throw new Error("BRIKKO_STUDIO_HOME must be set for this assertion helper");
@@ -127,7 +127,7 @@ describe("state + config path candidates", () => {
     const env = {
       BRIKKO_STUDIO_HOME: "/srv/brikko-studio-home",
     } as NodeJS.ProcessEnv;
-    expectBrikko StudioHomeDefaults(env);
+    expectBrikkoStudioHomeDefaults(env);
   });
 
   it("prefers BRIKKO_STUDIO_HOME over HOME for default state/config locations", () => {
@@ -135,7 +135,7 @@ describe("state + config path candidates", () => {
       BRIKKO_STUDIO_HOME: "/srv/brikko-studio-home",
       HOME: "/home/other",
     } as NodeJS.ProcessEnv;
-    expectBrikko StudioHomeDefaults(env);
+    expectBrikkoStudioHomeDefaults(env);
   });
 
   it("orders default config candidates in a stable order", () => {

@@ -1,8 +1,8 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 /** Resolve the config path prefix for a channel account, falling back to the root channel section. */
 export function resolveChannelAccountConfigBasePath(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelKey: string;
   accountId: string;
 }): string {

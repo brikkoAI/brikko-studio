@@ -4,7 +4,7 @@ import {
   resolveCronStyleNow,
   SILENT_REPLY_TOKEN,
   type MemoryFlushPlan,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-runtime-core";
 
 export const DEFAULT_MEMORY_FLUSH_SOFT_TOKENS = 4000;
@@ -94,7 +94,7 @@ function appendCurrentTimeLine(text: string, timeLine: string): string {
 
 export function buildMemoryFlushPlan(
   params: {
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
     nowMs?: number;
   } = {},
 ): MemoryFlushPlan | null {

@@ -10,7 +10,7 @@ import type { WizardPrompter } from "brikko-studio/plugin-sdk/plugin-test-runtim
 import { bundledPluginRoot } from "brikko-studio/plugin-sdk/test-fixtures";
 import ts from "typescript";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig, PluginRuntime, ResolvedLineAccount } from "../api.js";
+import type { BrikkoStudioConfig, PluginRuntime, ResolvedLineAccount } from "../api.js";
 import { linePlugin } from "./channel.js";
 import { lineGatewayAdapter } from "./gateway.js";
 import { probeLineBot } from "./probe.js";
@@ -167,7 +167,7 @@ describe("line setup wizard", () => {
 
     const result = await runSetupWizardConfigure({
       configure: lineConfigure,
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       prompter,
       options: {},
     });
@@ -194,14 +194,14 @@ describe("line setup wizard", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         "work",
       ),
     ).toBe("allowlist");
   });
 
   it("reports account-scoped config keys for named accounts", async () => {
-    expect(lineSetupWizard.dmPolicy?.resolveConfigKeys?.({} as Brikko StudioConfig, "work")).toEqual({
+    expect(lineSetupWizard.dmPolicy?.resolveConfigKeys?.({} as BrikkoStudioConfig, "work")).toEqual({
       policyKey: "channels.line.accounts.work.dmPolicy",
       allowFromKey: "channels.line.accounts.work.allowFrom",
     });
@@ -223,7 +223,7 @@ describe("line setup wizard", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(lineSetupWizard.dmPolicy?.getCurrent(cfg)).toBe("allowlist");
     expect(lineSetupWizard.dmPolicy?.resolveConfigKeys?.(cfg)).toEqual({
@@ -255,7 +255,7 @@ describe("line setup wizard", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       "open",
       "work",
     );
@@ -292,7 +292,7 @@ describe("line setup wizard", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(configured).toBe(false);
@@ -328,7 +328,7 @@ describe("probeLineBot", () => {
 
   it("returns bot info when available", async () => {
     getBotInfoMock.mockResolvedValue({
-      displayName: "Brikko Studio",
+      displayName: "BrikkoStudio",
       userId: "U123",
       basicId: "@brikko-studio",
       pictureUrl: "https://example.com/bot.png",
@@ -348,14 +348,14 @@ describe("linePlugin status.probeAccount", () => {
       return { getBotInfo: getBotInfoMock };
     });
     getBotInfoMock.mockResolvedValue({
-      displayName: "Brikko Studio",
+      displayName: "BrikkoStudio",
       userId: "U123",
       basicId: "@brikko-studio",
       pictureUrl: "https://example.com/bot.png",
     });
 
     const params = {
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       account: {
         accountId: "default",
         enabled: true,

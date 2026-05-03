@@ -153,7 +153,7 @@ describeLive("xai live", () => {
 
       expect(tool).toBeTruthy();
       const result = await tool!.execute("web-search:grok-live", {
-        query: "Brikko Studio GitHub",
+        query: "BrikkoStudio GitHub",
         count: 3,
       });
 

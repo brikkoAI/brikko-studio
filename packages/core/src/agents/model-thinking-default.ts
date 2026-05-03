@@ -1,5 +1,5 @@
 import { resolveThinkingDefaultForModel } from "../auto-reply/thinking.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
@@ -11,7 +11,7 @@ import { normalizeModelSelection } from "./model-selection-resolve.js";
 type ThinkLevel = "off" | "minimal" | "low" | "medium" | "high" | "xhigh" | "adaptive" | "max";
 
 export function resolveThinkingDefault(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   provider: string;
   model: string;
   catalog?: ModelCatalogEntry[];

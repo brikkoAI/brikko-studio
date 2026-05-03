@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { DiscordAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { createSubsystemLogger } from "brikko-studio/plugin-sdk/runtime-env";
@@ -95,7 +95,7 @@ export class DiscordVoiceManager {
   constructor(
     private params: {
       client: Client;
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       discordConfig: DiscordAccountConfig;
       accountId: string;
       runtime: RuntimeEnv;

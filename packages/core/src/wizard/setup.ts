@@ -9,7 +9,7 @@ import type {
   ResetScope,
 } from "../commands/onboard-types.js";
 import { createConfigIO, replaceConfigFile, resolveGatewayPort } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeSecretInputString } from "../config/types.secrets.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import {
@@ -54,7 +54,7 @@ function loadModelPickerModule(): Promise<ModelPickerModule> {
   return modelPickerModulePromise;
 }
 
-async function writeWizardConfigFile(config: Brikko StudioConfig): Promise<Brikko StudioConfig> {
+async function writeWizardConfigFile(config: BrikkoStudioConfig): Promise<BrikkoStudioConfig> {
   const committed = await commitConfigWriteWithPendingPluginInstalls({
     nextConfig: config,
     commit: async (nextConfig, writeOptions) => {
@@ -74,12 +74,12 @@ async function readSetupConfigFileSnapshot() {
 
 async function resolveAuthChoiceModelSelectionPolicy(params: {
   authChoice: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   resolvePreferredProviderForAuthChoice: (params: {
     choice: string;
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     workspaceDir?: string;
     env?: NodeJS.ProcessEnv;
   }) => Promise<string | undefined>;
@@ -183,11 +183,11 @@ export async function runSetupWizard(
 ) {
   const onboardHelpers = await import("../commands/onboard-helpers.js");
   onboardHelpers.printWizardHeader(runtime);
-  await prompter.intro("Brikko Studio setup");
+  await prompter.intro("BrikkoStudio setup");
   await requireRiskAcknowledgement({ opts, prompter });
 
   const snapshot = await readSetupConfigFileSnapshot();
-  let baseConfig: Brikko StudioConfig = snapshot.valid
+  let baseConfig: BrikkoStudioConfig = snapshot.valid
     ? snapshot.exists
       ? (snapshot.sourceConfig ?? snapshot.config)
       : {}
@@ -568,7 +568,7 @@ export async function runSetupWizard(
 
   const { applyLocalSetupWorkspaceConfig, applySkipBootstrapConfig } =
     await import("../commands/onboard-config.js");
-  let nextConfig: Brikko StudioConfig = applyLocalSetupWorkspaceConfig(baseConfig, workspaceDir);
+  let nextConfig: BrikkoStudioConfig = applyLocalSetupWorkspaceConfig(baseConfig, workspaceDir);
   if (opts.skipBootstrap) {
     nextConfig = applySkipBootstrapConfig(nextConfig);
   }

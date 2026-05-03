@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
 import { createReplyToFanout, type ReplyToResolution } from "brikko-studio/plugin-sdk/outbound-runtime";
 import {
   resolveOutboundSendDep,
@@ -52,7 +52,7 @@ export function resolveDiscordFormattingOptions(ctx: {
 }
 
 export async function createDiscordPayloadSendContext(ctx: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   accountId?: string | null;
   deps?: OutboundSendDeps;

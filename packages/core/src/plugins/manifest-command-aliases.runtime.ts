@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveManifestCommandAliasOwnerInRegistry,
   type PluginManifestCommandAliasRegistry,
@@ -8,7 +8,7 @@ import { loadManifestMetadataRegistry } from "./manifest-contract-eligibility.js
 
 export function resolveManifestCommandAliasOwner(params: {
   command: string | undefined;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   registry?: PluginManifestCommandAliasRegistry;

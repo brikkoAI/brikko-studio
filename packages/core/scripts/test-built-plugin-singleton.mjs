@@ -12,10 +12,10 @@ const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."
 const smokeEntryPath = path.join(repoRoot, "dist", "plugins", "build-smoke-entry.js");
 assert.ok(fs.existsSync(smokeEntryPath), `missing build output: ${smokeEntryPath}`);
 
-const { clearPluginCommands, getPluginCommandSpecs, loadBrikko StudioPlugins, matchPluginCommand } =
+const { clearPluginCommands, getPluginCommandSpecs, loadBrikkoStudioPlugins, matchPluginCommand } =
   await import(pathToFileURL(smokeEntryPath).href);
 
-assert.equal(typeof loadBrikko StudioPlugins, "function", "built loader export missing");
+assert.equal(typeof loadBrikkoStudioPlugins, "function", "built loader export missing");
 assert.equal(typeof clearPluginCommands, "function", "clearPluginCommands missing");
 assert.equal(typeof getPluginCommandSpecs, "function", "getPluginCommandSpecs missing");
 assert.equal(typeof matchPluginCommand, "function", "matchPluginCommand missing");
@@ -112,7 +112,7 @@ assert.equal(
 
 clearPluginCommands();
 
-const registry = loadBrikko StudioPlugins({
+const registry = loadBrikkoStudioPlugins({
   cache: false,
   workspaceDir: tempRoot,
   env: {

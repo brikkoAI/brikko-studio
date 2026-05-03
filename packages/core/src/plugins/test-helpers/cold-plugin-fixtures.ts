@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
 type ColdPluginFixture = {
   authChoiceId: string;
@@ -97,7 +97,7 @@ export function createColdPluginFixture(options: ColdPluginFixtureOptions): Cold
   };
 }
 
-export function createColdPluginConfig(pluginDir: string, pluginId: string): Brikko StudioConfig {
+export function createColdPluginConfig(pluginDir: string, pluginId: string): BrikkoStudioConfig {
   return {
     plugins: {
       load: { paths: [pluginDir] },

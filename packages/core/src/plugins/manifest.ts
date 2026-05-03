@@ -1694,7 +1694,7 @@ export type PluginPackageInstall = {
   allowInvalidConfigRecovery?: boolean;
 };
 
-export type Brikko StudioPackageStartup = {
+export type BrikkoStudioPackageStartup = {
   /**
    * Opt-in for channel plugins whose `setupEntry` fully covers the gateway
    * startup surface needed before the server starts listening.
@@ -1702,25 +1702,25 @@ export type Brikko StudioPackageStartup = {
   deferConfiguredChannelFullLoadUntilAfterListen?: boolean;
 };
 
-export type Brikko StudioPackageSetupFeatures = {
+export type BrikkoStudioPackageSetupFeatures = {
   configPromotion?: boolean;
   legacyStateMigrations?: boolean;
   legacySessionSurfaces?: boolean;
 };
 
-export type Brikko StudioPackageManifest = {
+export type BrikkoStudioPackageManifest = {
   extensions?: string[];
   runtimeExtensions?: string[];
   setupEntry?: string;
   runtimeSetupEntry?: string;
-  setupFeatures?: Brikko StudioPackageSetupFeatures;
+  setupFeatures?: BrikkoStudioPackageSetupFeatures;
   plugin?: {
     id?: string;
     label?: string;
   };
   channel?: PluginPackageChannel;
   install?: PluginPackageInstall;
-  startup?: Brikko StudioPackageStartup;
+  startup?: BrikkoStudioPackageStartup;
 };
 
 export const DEFAULT_PLUGIN_ENTRY_CANDIDATES = [
@@ -1743,11 +1743,11 @@ export type PackageManifest = {
   description?: string;
   dependencies?: Record<string, string>;
   optionalDependencies?: Record<string, string>;
-} & Partial<Record<ManifestKey, Brikko StudioPackageManifest>>;
+} & Partial<Record<ManifestKey, BrikkoStudioPackageManifest>>;
 
 export function getPackageManifestMetadata(
   manifest: PackageManifest | undefined,
-): Brikko StudioPackageManifest | undefined {
+): BrikkoStudioPackageManifest | undefined {
   if (!manifest) {
     return undefined;
   }

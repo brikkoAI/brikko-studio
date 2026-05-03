@@ -20,7 +20,7 @@ export function parseFrontmatterBool(value: string | undefined, fallback: boolea
   return parsed === undefined ? fallback : parsed;
 }
 
-export function resolveBrikko StudioManifestBlock(params: {
+export function resolveBrikkoStudioManifestBlock(params: {
   frontmatter: Record<string, unknown>;
   key?: string;
 }): Record<string, unknown> | undefined {
@@ -48,16 +48,16 @@ export function resolveBrikko StudioManifestBlock(params: {
   }
 }
 
-export type Brikko StudioManifestRequires = {
+export type BrikkoStudioManifestRequires = {
   bins: string[];
   anyBins: string[];
   env: string[];
   config: string[];
 };
 
-export function resolveBrikko StudioManifestRequires(
+export function resolveBrikkoStudioManifestRequires(
   metadataObj: Record<string, unknown>,
-): Brikko StudioManifestRequires | undefined {
+): BrikkoStudioManifestRequires | undefined {
   const requiresRaw =
     typeof metadataObj.requires === "object" && metadataObj.requires !== null
       ? (metadataObj.requires as Record<string, unknown>)
@@ -73,7 +73,7 @@ export function resolveBrikko StudioManifestRequires(
   };
 }
 
-export function resolveBrikko StudioManifestInstall<T>(
+export function resolveBrikkoStudioManifestInstall<T>(
   metadataObj: Record<string, unknown>,
   parseInstallSpec: (input: unknown) => T | undefined,
 ): T[] {
@@ -83,11 +83,11 @@ export function resolveBrikko StudioManifestInstall<T>(
     .filter((entry): entry is T => Boolean(entry));
 }
 
-export function resolveBrikko StudioManifestOs(metadataObj: Record<string, unknown>): string[] {
+export function resolveBrikkoStudioManifestOs(metadataObj: Record<string, unknown>): string[] {
   return normalizeStringList(metadataObj.os);
 }
 
-export type ParsedBrikko StudioManifestInstallBase = {
+export type ParsedBrikkoStudioManifestInstallBase = {
   raw: Record<string, unknown>;
   kind: string;
   id?: string;
@@ -95,10 +95,10 @@ export type ParsedBrikko StudioManifestInstallBase = {
   bins?: string[];
 };
 
-export function parseBrikko StudioManifestInstallBase(
+export function parseBrikkoStudioManifestInstallBase(
   input: unknown,
   allowedKinds: readonly string[],
-): ParsedBrikko StudioManifestInstallBase | undefined {
+): ParsedBrikkoStudioManifestInstallBase | undefined {
   if (!input || typeof input !== "object") {
     return undefined;
   }
@@ -110,7 +110,7 @@ export function parseBrikko StudioManifestInstallBase(
     return undefined;
   }
 
-  const spec: ParsedBrikko StudioManifestInstallBase = {
+  const spec: ParsedBrikkoStudioManifestInstallBase = {
     raw,
     kind,
   };
@@ -127,9 +127,9 @@ export function parseBrikko StudioManifestInstallBase(
   return spec;
 }
 
-export function applyBrikko StudioManifestInstallCommonFields<
+export function applyBrikkoStudioManifestInstallCommonFields<
   T extends { id?: string; label?: string; bins?: string[] },
->(spec: T, parsed: Pick<ParsedBrikko StudioManifestInstallBase, "id" | "label" | "bins">): T {
+>(spec: T, parsed: Pick<ParsedBrikkoStudioManifestInstallBase, "id" | "label" | "bins">): T {
   if (parsed.id) {
     spec.id = parsed.id;
   }

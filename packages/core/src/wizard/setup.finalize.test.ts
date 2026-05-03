@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createWizardPrompter as buildWizardPrompter } from "../../test/helpers/wizard-prompter.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { PluginWebSearchProviderEntry } from "../plugins/types.js";
 import type { RuntimeEnv } from "../runtime.js";
 
@@ -45,16 +45,16 @@ const resolveSetupSecretInputString = vi.hoisted(() =>
   vi.fn<() => Promise<string | undefined>>(async () => undefined),
 );
 const resolveExistingKey = vi.hoisted(() =>
-  vi.fn<(config: Brikko StudioConfig, provider: string) => string | undefined>(() => undefined),
+  vi.fn<(config: BrikkoStudioConfig, provider: string) => string | undefined>(() => undefined),
 );
 const hasExistingKey = vi.hoisted(() =>
-  vi.fn<(config: Brikko StudioConfig, provider: string) => boolean>(() => false),
+  vi.fn<(config: BrikkoStudioConfig, provider: string) => boolean>(() => false),
 );
 const hasKeyInEnv = vi.hoisted(() =>
   vi.fn<(entry: Pick<PluginWebSearchProviderEntry, "envVars">) => boolean>(() => false),
 );
 const listConfiguredWebSearchProviders = vi.hoisted(() =>
-  vi.fn<(params?: { config?: Brikko StudioConfig }) => PluginWebSearchProviderEntry[]>(() => []),
+  vi.fn<(params?: { config?: BrikkoStudioConfig }) => PluginWebSearchProviderEntry[]>(() => []),
 );
 
 vi.mock("../commands/onboard-helpers.js", () => ({
@@ -185,7 +185,7 @@ function expectFirstOnboardingInstallPlanCallOmitsToken() {
 }
 
 type AdvancedFinalizeArgs = {
-  nextConfig?: Brikko StudioConfig;
+  nextConfig?: BrikkoStudioConfig;
   prompter?: ReturnType<typeof buildWizardPrompter>;
   runtime?: RuntimeEnv;
   installDaemon?: boolean;
@@ -198,7 +198,7 @@ function createLaterPrompter() {
   });
 }
 
-function createEnabledFirecrawlSearchConfig(): Brikko StudioConfig {
+function createEnabledFirecrawlSearchConfig(): BrikkoStudioConfig {
   return {
     tools: {
       web: {

@@ -1,23 +1,23 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   resolveSourceReplyDeliveryMode,
   resolveSourceReplyVisibilityPolicy,
 } from "./source-reply-delivery-mode.js";
 
-const emptyConfig = {} as Brikko StudioConfig;
+const emptyConfig = {} as BrikkoStudioConfig;
 const automaticGroupReplyConfig = {
   messages: {
     groupChat: {
       visibleReplies: "automatic",
     },
   },
-} as const satisfies Brikko StudioConfig;
+} as const satisfies BrikkoStudioConfig;
 const globalToolOnlyReplyConfig = {
   messages: {
     visibleReplies: "message_tool",
   },
-} as const satisfies Brikko StudioConfig;
+} as const satisfies BrikkoStudioConfig;
 
 describe("resolveSourceReplyDeliveryMode", () => {
   it("defaults groups and channels to message-tool-only delivery", () => {

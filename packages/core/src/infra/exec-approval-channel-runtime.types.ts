@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { ExecApprovalRequest, ExecApprovalResolved } from "./exec-approvals.js";
 import type { PluginApprovalRequest, PluginApprovalResolved } from "./plugin-approvals.js";
 
@@ -14,7 +14,7 @@ export type ExecApprovalChannelRuntimeAdapter<
 > = {
   label: string;
   clientDisplayName: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   gatewayUrl?: string;
   eventKinds?: readonly ExecApprovalChannelRuntimeEventKind[];
   isConfigured: () => boolean;

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { HeartbeatRunner } from "../infra/heartbeat-runner.js";
 import type { ChannelHealthMonitor } from "./channel-health-monitor.js";
 
@@ -42,7 +42,7 @@ export function createGatewayServerMutableState(): GatewayServerMutableState {
     mediaCleanup: null as ReturnType<typeof setInterval> | null,
     heartbeatRunner: {
       stop: () => {},
-      updateConfig: (_cfg: Brikko StudioConfig) => {},
+      updateConfig: (_cfg: BrikkoStudioConfig) => {},
     } satisfies HeartbeatRunner,
     stopGatewayUpdateCheck: () => {},
     tailscaleCleanup: null as (() => Promise<void>) | null,

@@ -1,8 +1,8 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { normalizeMediaProviderId } from "./provider-id.js";
 
 type ConfigProvider = NonNullable<
-  NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]>[string]
+  NonNullable<NonNullable<BrikkoStudioConfig["models"]>["providers"]>[string]
 >;
 
 type ConfigProviderModel = NonNullable<ConfigProvider["models"]>[number];
@@ -14,7 +14,7 @@ function hasImageCapableModel(providerCfg: ConfigProvider): boolean {
   );
 }
 
-export function resolveImageCapableConfigProviderIds(cfg?: Brikko StudioConfig): string[] {
+export function resolveImageCapableConfigProviderIds(cfg?: BrikkoStudioConfig): string[] {
   const configProviders = cfg?.models?.providers;
   if (!configProviders || typeof configProviders !== "object") {
     return [];

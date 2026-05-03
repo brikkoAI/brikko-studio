@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveProviderModelPickerEntries,
   type ProviderModelPickerEntry,
@@ -20,7 +20,7 @@ type ProviderModelPickerFlowContribution = FlowContribution & {
 };
 
 function resolveProviderDocsById(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): Map<string, string> {
@@ -39,7 +39,7 @@ function resolveProviderDocsById(params?: {
 }
 
 export function resolveProviderModelPickerFlowEntries(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): ProviderModelPickerFlowEntry[] {
@@ -49,7 +49,7 @@ export function resolveProviderModelPickerFlowEntries(params?: {
 }
 
 export function resolveProviderModelPickerFlowContributions(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): ProviderModelPickerFlowContribution[] {

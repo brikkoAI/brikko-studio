@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ChannelGroupPolicy } from "brikko-studio/plugin-sdk/config-types";
 import type { TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { MockFn } from "brikko-studio/plugin-sdk/plugin-test-runtime";
@@ -113,7 +113,7 @@ vi.mock("./bot/delivery.js", () => ({ deliverReplies: deliveryMocks.deliverRepli
 vi.mock("./bot/delivery.replies.js", () => ({ deliverReplies: deliveryMocks.deliverReplies }));
 
 export function createNativeCommandsHarness(params?: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   runtime?: RuntimeEnv;
   telegramCfg?: TelegramAccountConfig;
   allowFrom?: string[];
@@ -129,7 +129,7 @@ export function createNativeCommandsHarness(params?: {
   const setMyCommands: AnyAsyncMock = vi.fn(async () => undefined);
   const log: AnyMock = vi.fn();
   const telegramDeps = {
-    getRuntimeConfig: vi.fn(() => params?.cfg ?? ({} as Brikko StudioConfig)),
+    getRuntimeConfig: vi.fn(() => params?.cfg ?? ({} as BrikkoStudioConfig)),
     readChannelAllowFromStore: vi.fn(async () => params?.storeAllowFrom ?? []),
     dispatchReplyWithBufferedBlockDispatcher:
       replyPipelineMocks.dispatchReplyWithBufferedBlockDispatcher,
@@ -149,7 +149,7 @@ export function createNativeCommandsHarness(params?: {
 
   registerTelegramNativeCommands({
     bot,
-    cfg: params?.cfg ?? ({} as Brikko StudioConfig),
+    cfg: params?.cfg ?? ({} as BrikkoStudioConfig),
     runtime: params?.runtime ?? ({ log } as unknown as RuntimeEnv),
     accountId: "default",
     telegramCfg: params?.telegramCfg ?? ({} as TelegramAccountConfig),

@@ -1,5 +1,5 @@
 import { CUSTOM_LOCAL_AUTH_MARKER } from "brikko-studio/plugin-sdk/provider-auth";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
 import type { ModelDefinitionConfig } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { resolveAgentModelPrimaryValue } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
@@ -60,7 +60,7 @@ function createModel(id: string, name = id): ModelDefinitionConfig {
   };
 }
 
-function buildConfig(): Brikko StudioConfig {
+function buildConfig(): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -76,13 +76,13 @@ function buildConfig(): Brikko StudioConfig {
 }
 
 function buildDiscoveryContext(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   apiKey?: string;
   discoveryApiKey?: string;
   env?: NodeJS.ProcessEnv;
 }): ProviderCatalogContext {
   return {
-    config: params?.config ?? ({} as Brikko StudioConfig),
+    config: params?.config ?? ({} as BrikkoStudioConfig),
     env: params?.env ?? {},
     resolveProviderApiKey: () => ({
       apiKey: params?.apiKey,
@@ -98,7 +98,7 @@ function buildDiscoveryContext(params?: {
 }
 
 function buildNonInteractiveContext(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   customBaseUrl?: string;
   customApiKey?: string;
   lmstudioApiKey?: string;
@@ -281,7 +281,7 @@ describe("lmstudio setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       customBaseUrl: "http://localhost:1234/api/v1/",
       customModelId: "qwen3-8b-instruct",
     });
@@ -396,7 +396,7 @@ describe("lmstudio setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       customBaseUrl: "http://localhost:1234/api/v1/",
       customApiKey: "",
       customModelId: "qwen3-8b-instruct",
@@ -466,7 +466,7 @@ describe("lmstudio setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       customBaseUrl: "http://localhost:1234/api/v1/",
       customApiKey: "",
       customModelId: "qwen3-8b-instruct",
@@ -525,7 +525,7 @@ describe("lmstudio setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       customBaseUrl: "http://localhost:1234/api/v1/",
       customApiKey: "",
       customModelId: "qwen3-8b-instruct",
@@ -600,7 +600,7 @@ describe("lmstudio setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       customBaseUrl: "http://localhost:1234/api/v1/",
       customModelId: "qwen3-8b-instruct",
       lmstudioApiKey: "fresh-cli-key",
@@ -788,7 +788,7 @@ describe("lmstudio setup", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const { prompter } = createQueuedWizardPrompterHarness([
       "http://localhost:1234/api/v1/",
       "",
@@ -869,7 +869,7 @@ describe("lmstudio setup", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const promptText = vi
       .fn()
       .mockResolvedValueOnce("http://localhost:1234/api/v1/")
@@ -910,7 +910,7 @@ describe("lmstudio setup", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const promptText = vi
       .fn()
       .mockResolvedValueOnce("http://localhost:1234/api/v1/")
@@ -951,7 +951,7 @@ describe("lmstudio setup", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const promptText = vi
       .fn()
       .mockResolvedValueOnce("http://localhost:1234/api/v1/")
@@ -1070,7 +1070,7 @@ describe("lmstudio setup", () => {
                 },
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
         }),
       );
 
@@ -1115,7 +1115,7 @@ describe("lmstudio setup", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         env: {
           LMSTUDIO_DISCOVERY_TOKEN: "secretref-lmstudio-key",
           LMSTUDIO_PROXY_TOKEN: "proxy-token-from-env",
@@ -1154,7 +1154,7 @@ describe("lmstudio setup", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         env: {},
       }),
     );
@@ -1181,7 +1181,7 @@ describe("lmstudio setup", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         env: {},
       }),
     );
@@ -1208,7 +1208,7 @@ describe("lmstudio setup", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       }),
     );
 
@@ -1239,7 +1239,7 @@ describe("lmstudio setup", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       }),
     );
 
@@ -1273,7 +1273,7 @@ describe("lmstudio setup", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       }),
     );
 
@@ -1300,7 +1300,7 @@ describe("lmstudio setup", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       }),
     );
 
@@ -1328,7 +1328,7 @@ describe("lmstudio setup", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       }),
     );
 
@@ -1371,7 +1371,7 @@ describe("lmstudio setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       customBaseUrl: "http://localhost:1234/api/v1/",
       customModelId: "qwen3-8b-instruct",
     });

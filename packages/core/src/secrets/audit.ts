@@ -6,7 +6,7 @@ import {
   isSecretRefHeaderValueMarker,
 } from "../agents/model-auth-markers.js";
 import { normalizeProviderId } from "../agents/model-selection.js";
-import { resolveStateDir, type Brikko StudioConfig } from "../config/config.js";
+import { resolveStateDir, type BrikkoStudioConfig } from "../config/config.js";
 import { coerceSecretRef } from "../config/types.secrets.js";
 import { resolveSecretInputRef, type SecretRef } from "../config/types.secrets.js";
 import { formatErrorMessage } from "../infra/errors.js";
@@ -208,7 +208,7 @@ function collectEnvPlaintext(params: { envPath: string; collector: AuditCollecto
 }
 
 function collectConfigSecrets(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   configPath: string;
   collector: AuditCollector;
 }): void {
@@ -461,7 +461,7 @@ function collectModelsJsonSecrets(params: {
 
 async function collectUnresolvedRefFindings(params: {
   collector: AuditCollector;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   allowExec: boolean;
 }): Promise<{ refsChecked: number; skippedExecRefs: number }> {
@@ -660,7 +660,7 @@ export async function runSecretsAudit(
 
   const stateDir = resolveStateDir(env, os.homedir);
   const envPath = path.join(resolveConfigDir(env, os.homedir), ".env");
-  const config = snapshot.valid ? snapshot.config : ({} as Brikko StudioConfig);
+  const config = snapshot.valid ? snapshot.config : ({} as BrikkoStudioConfig);
   let resolution = {
     refsChecked: 0,
     skippedExecRefs: 0,

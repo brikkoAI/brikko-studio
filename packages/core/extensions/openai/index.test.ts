@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import {
   registerProviderPlugin,
@@ -290,7 +290,7 @@ describe("openai plugin", () => {
               },
             },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
       }),
     ).rejects.toThrow("Blocked hostname or private/internal/special-use IP address");
 

@@ -394,7 +394,7 @@ describe("uploadStickerDiscord", () => {
       {
         guildId: "g1",
         name: "brikko-studio_wave",
-        description: "Brikko Studio waving",
+        description: "BrikkoStudio waving",
         tags: "👋",
         mediaUrl: "file:///tmp/wave.png",
       },
@@ -405,7 +405,7 @@ describe("uploadStickerDiscord", () => {
       expect.objectContaining({
         body: {
           name: "brikko-studio_wave",
-          description: "Brikko Studio waving",
+          description: "BrikkoStudio waving",
           tags: "👋",
           files: [
             expect.objectContaining({

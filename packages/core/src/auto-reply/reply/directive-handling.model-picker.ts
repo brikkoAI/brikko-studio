@@ -3,7 +3,7 @@ import {
   type ModelRef,
   normalizeProviderId,
 } from "../../agents/model-selection.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
@@ -91,7 +91,7 @@ export function buildModelPickerItems(catalog: ModelPickerCatalogEntry[]): Model
 
 export function resolveProviderEndpointLabel(
   provider: string,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): { endpoint?: string; api?: string } {
   const normalized = normalizeProviderId(provider);
   const providers = (cfg.models?.providers ?? {}) as Record<

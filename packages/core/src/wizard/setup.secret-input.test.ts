@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveSetupSecretInputString } from "./setup.secret-input.js";
 
-function makeConfig(): Brikko StudioConfig {
+function makeConfig(): BrikkoStudioConfig {
   return {
     secrets: {
       providers: {
         default: { source: "env" },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("resolveSetupSecretInputString", () => {

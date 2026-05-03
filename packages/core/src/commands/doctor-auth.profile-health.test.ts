@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 
 const authProfileMocks = vi.hoisted(() => ({
@@ -25,7 +25,7 @@ import { noteAuthProfileHealth } from "./doctor-auth.js";
 describe("noteAuthProfileHealth", () => {
   it("skips external auth profile resolution when no auth source exists", async () => {
     await noteAuthProfileHealth({
-      cfg: { channels: { telegram: { enabled: true } } } as Brikko StudioConfig,
+      cfg: { channels: { telegram: { enabled: true } } } as BrikkoStudioConfig,
       prompter: {} as DoctorPrompter,
       allowKeychainPrompt: false,
     });

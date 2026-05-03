@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   isSameMemoryDreamingDay,
   resolveMemoryDeepDreamingConfig,
@@ -256,7 +256,7 @@ async function listWorkspaceDailyFiles(memoryDir: string): Promise<string[]> {
 }
 
 function resolveDreamingConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): Omit<
   DoctorMemoryDreamingPayload,
   | "shortTermCount"

@@ -56,7 +56,7 @@ export function getQQBotDataDir(...subPaths: string[]): string {
 /**
  * Return a path under `~/.brikko-studio/media/qqbot` without creating it.
  *
- * Unlike `getQQBotDataPath`, this lives under Brikko Studio's core media allowlist so
+ * Unlike `getQQBotDataPath`, this lives under BrikkoStudio's core media allowlist so
  * downloaded images and audio can be accessed by framework media tooling.
  */
 export function getQQBotMediaPath(...subPaths: string[]): string {
@@ -73,7 +73,7 @@ export function getQQBotMediaDir(...subPaths: string[]): string {
 }
 
 /**
- * Return `~/.brikko-studio/media`, Brikko Studio's shared media root.
+ * Return `~/.brikko-studio/media`, BrikkoStudio's shared media root.
  *
  * This mirrors the directory that core's `buildMediaLocalRoots` exposes as an
  * allowlisted location (see `brikko-studio/src/media/local-roots.ts`). Using it as a
@@ -82,7 +82,7 @@ export function getQQBotMediaDir(...subPaths: string[]): string {
  * `saveMediaBuffer(..., "outbound", ...)`) or `inbound/`, while still keeping
  * the check anchored to a single, well-known directory.
  */
-function getBrikko StudioMediaDir(): string {
+function getBrikkoStudioMediaDir(): string {
   return path.join(getHomeDir(), ".brikko-studio", "media");
 }
 
@@ -244,12 +244,12 @@ export function resolveQQBotPayloadLocalFilePath(p: string): string | null {
   }
 
   const canonicalCandidate = fs.realpathSync(resolvedCandidate);
-  // Trust both the QQ Bot-owned subdirectory and Brikko Studio's shared `~/.brikko-studio/media`
+  // Trust both the QQ Bot-owned subdirectory and BrikkoStudio's shared `~/.brikko-studio/media`
   // root. Core helpers like `saveMediaBuffer(..., "outbound", ...)` place framework
   // attachments under sibling directories (e.g. `media/outbound/`) that are already
   // part of the core media allowlist; we mirror that so auto-routed sends work
   // without leaving the plugin's trust boundary.
-  const allowedRoots = [getBrikko StudioMediaDir(), getQQBotMediaPath()];
+  const allowedRoots = [getBrikkoStudioMediaDir(), getQQBotMediaPath()];
 
   for (const root of allowedRoots) {
     const resolvedRoot = path.resolve(root);

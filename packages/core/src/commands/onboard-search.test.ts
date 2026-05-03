@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { PluginWebSearchProviderEntry } from "../plugins/types.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -47,12 +47,12 @@ const SEARCH_PROVIDER_PLUGINS: Record<
   tavily: { pluginId: "tavily", envVars: ["TAVILY_API_KEY"], label: "Tavily" },
 };
 
-function getWebSearchConfig(config: Brikko StudioConfig | undefined, pluginId: string) {
+function getWebSearchConfig(config: BrikkoStudioConfig | undefined, pluginId: string) {
   return (config as WebSearchConfigRecord | undefined)?.plugins?.entries?.[pluginId]?.config
     ?.webSearch;
 }
 
-function ensureWebSearchConfig(config: Brikko StudioConfig, pluginId: string) {
+function ensureWebSearchConfig(config: BrikkoStudioConfig, pluginId: string) {
   const entries = ((config.plugins ??= {}).entries ??= {});
   const pluginEntry = (entries[pluginId] ??= {}) as {
     enabled?: boolean;
@@ -89,9 +89,9 @@ function createSearchProviderEntry(id: string): PluginWebSearchProviderEntry {
     },
     createTool: () => null,
     applySelectionConfig: (config) => {
-      const next: Brikko StudioConfig = { ...config, plugins: { ...config.plugins } };
+      const next: BrikkoStudioConfig = { ...config, plugins: { ...config.plugins } };
       const entries = { ...next.plugins?.entries } as NonNullable<
-        NonNullable<Brikko StudioConfig["plugins"]>["entries"]
+        NonNullable<BrikkoStudioConfig["plugins"]>["entries"]
       >;
       entries[metadata.pluginId] = { ...entries[metadata.pluginId], enabled: true };
       next.plugins = { ...next.plugins, entries };
@@ -186,7 +186,7 @@ function createPrompter(params: {
   return { prompter, notes };
 }
 
-function createPerplexityConfig(apiKey: string, enabled?: boolean): Brikko StudioConfig {
+function createPerplexityConfig(apiKey: string, enabled?: boolean): BrikkoStudioConfig {
   return {
     tools: {
       web: {
@@ -210,7 +210,7 @@ function createPerplexityConfig(apiKey: string, enabled?: boolean): Brikko Studi
   };
 }
 
-function pluginWebSearchApiKey(config: Brikko StudioConfig, pluginId: string): unknown {
+function pluginWebSearchApiKey(config: BrikkoStudioConfig, pluginId: string): unknown {
   const entry = (
     config.plugins?.entries as
       | Record<string, { config?: { webSearch?: { apiKey?: unknown } } }>
@@ -219,7 +219,7 @@ function pluginWebSearchApiKey(config: Brikko StudioConfig, pluginId: string): u
   return entry?.config?.webSearch?.apiKey;
 }
 
-function createDisabledFirecrawlConfig(apiKey?: string): Brikko StudioConfig {
+function createDisabledFirecrawlConfig(apiKey?: string): BrikkoStudioConfig {
   return {
     tools: {
       web: {
@@ -247,7 +247,7 @@ function createDisabledFirecrawlConfig(apiKey?: string): Brikko StudioConfig {
   };
 }
 
-function readFirecrawlPluginApiKey(config: Brikko StudioConfig): string | undefined {
+function readFirecrawlPluginApiKey(config: BrikkoStudioConfig): string | undefined {
   const pluginConfig = config.plugins?.entries?.firecrawl?.config as
     | {
         webSearch?: {
@@ -261,7 +261,7 @@ function readFirecrawlPluginApiKey(config: Brikko StudioConfig): string | undefi
 async function runBlankPerplexityKeyEntry(
   apiKey: string,
   enabled?: boolean,
-): Promise<Brikko StudioConfig> {
+): Promise<BrikkoStudioConfig> {
   const cfg = createPerplexityConfig(apiKey, enabled);
   const { prompter } = createPrompter({
     selectValue: "perplexity",
@@ -273,7 +273,7 @@ async function runBlankPerplexityKeyEntry(
 async function runQuickstartPerplexitySetup(
   apiKey: string,
   enabled?: boolean,
-): Promise<{ result: Brikko StudioConfig; prompter: WizardPrompter }> {
+): Promise<{ result: BrikkoStudioConfig; prompter: WizardPrompter }> {
   const cfg = createPerplexityConfig(apiKey, enabled);
   const { prompter } = createPrompter({ selectValue: "perplexity" });
   const result = await setupSearch(cfg, runtime, prompter, {
@@ -304,7 +304,7 @@ describe("setupSearch", () => {
   });
 
   it("returns config unchanged when user skips", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const { prompter } = createPrompter({ selectValue: "__skip__" });
     const result = await setupSearch(cfg, runtime, prompter);
     expect(result).toBe(cfg);
@@ -326,7 +326,7 @@ describe("setupSearch", () => {
     ];
 
     for (const entry of cases) {
-      const cfg: Brikko StudioConfig = {};
+      const cfg: BrikkoStudioConfig = {};
       const { prompter } = createPrompter({
         selectValue: entry.provider,
         textValue: entry.key,
@@ -343,7 +343,7 @@ describe("setupSearch", () => {
       }
     }
 
-    const kimiCfg: Brikko StudioConfig = {};
+    const kimiCfg: BrikkoStudioConfig = {};
     const { prompter: kimiPrompter } = createPrompter({
       selectValues: ["kimi", "https://api.moonshot.ai/v1", "__keep__"],
       textValue: "sk-moonshot",
@@ -378,7 +378,7 @@ describe("setupSearch", () => {
     const original = process.env.BRAVE_API_KEY;
     delete process.env.BRAVE_API_KEY;
     try {
-      const cfg: Brikko StudioConfig = {};
+      const cfg: BrikkoStudioConfig = {};
       const { prompter, notes } = createPrompter({
         selectValue: "brave",
         textValue: "",
@@ -433,7 +433,7 @@ describe("setupSearch", () => {
   });
 
   it("quickstart skips key prompt when canonical plugin config key exists", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: {
         web: {
           search: {
@@ -468,7 +468,7 @@ describe("setupSearch", () => {
     const original = process.env.XAI_API_KEY;
     delete process.env.XAI_API_KEY;
     try {
-      const cfg: Brikko StudioConfig = {};
+      const cfg: BrikkoStudioConfig = {};
       const { prompter } = createPrompter({ selectValue: "grok", textValue: "" });
       const result = await setupSearch(cfg, runtime, prompter, {
         quickstartDefaults: true,
@@ -486,7 +486,7 @@ describe("setupSearch", () => {
   });
 
   it("uses provider-specific credential copy for kimi in onboarding", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const { prompter } = createPrompter({
       selectValue: "kimi",
       textValue: "",
@@ -503,7 +503,7 @@ describe("setupSearch", () => {
     const orig = process.env.BRAVE_API_KEY;
     process.env.BRAVE_API_KEY = "env-brave-key"; // pragma: allowlist secret
     try {
-      const cfg: Brikko StudioConfig = {};
+      const cfg: BrikkoStudioConfig = {};
       const { prompter } = createPrompter({ selectValue: "brave" });
       const result = await setupSearch(cfg, runtime, prompter, {
         quickstartDefaults: true,
@@ -536,7 +536,7 @@ describe("setupSearch", () => {
   it("preserves disabled firecrawl plugin state and allowlist when web search stays disabled", async () => {
     const original = process.env.FIRECRAWL_API_KEY;
     process.env.FIRECRAWL_API_KEY = "env-firecrawl-key"; // pragma: allowlist secret
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: {
         web: {
           search: {
@@ -647,7 +647,7 @@ describe("setupSearch", () => {
   });
 
   it("stores plaintext key when secretInputMode is unset", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const { prompter } = createPrompter({
       selectValue: "brave",
       textValue: "BSA-plain",

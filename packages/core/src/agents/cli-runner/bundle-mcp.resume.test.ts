@@ -7,7 +7,7 @@ import {
 setupCliBundleMcpTestHarness();
 
 describe("prepareCliBundleMcpConfig resume hash", () => {
-  it("stabilizes the resume hash when only the Brikko Studio loopback port changes", async () => {
+  it("stabilizes the resume hash when only the BrikkoStudio loopback port changes", async () => {
     const first = await prepareBundleProbeCliConfig({
       additionalConfig: {
         mcpServers: {

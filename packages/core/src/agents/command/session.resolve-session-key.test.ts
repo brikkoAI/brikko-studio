@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
 
 const hoisted = vi.hoisted(() => ({
@@ -44,7 +44,7 @@ function expectResolvedRequestSession(params: {
       session: {
         store: "/stores/{agentId}.json",
       },
-    } satisfies Brikko StudioConfig,
+    } satisfies BrikkoStudioConfig,
     sessionId: params.sessionId,
   });
 
@@ -117,7 +117,7 @@ describe("resolveSessionKeyForRequest", () => {
         session: {
           store: "/stores/{agentId}.json",
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       sessionId: "resume-agent-1",
       agentId: "embedded-agent",
     });

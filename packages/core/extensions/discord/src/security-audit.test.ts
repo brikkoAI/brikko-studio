@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import type { ResolvedDiscordAccount } from "./accounts.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import { collectDiscordSecurityAuditFindings } from "./security-audit.js";
 
 type DiscordAccountConfig = ResolvedDiscordAccount["config"];
@@ -27,7 +27,7 @@ function createAccount(
 }
 
 async function collectFindings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   config: DiscordAccountConfig;
   accountId?: string;
   orderedAccountIds?: string[];
@@ -46,7 +46,7 @@ async function collectFindings(params: {
 
 describe("Discord security audit findings", () => {
   it("flags slash commands when access-group enforcement is disabled and no users allowlist exists", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       commands: { native: true, useAccessGroups: false },
       channels: {
         discord: {
@@ -102,7 +102,7 @@ describe("Discord security audit findings", () => {
             },
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       expectFinding: true,
     },
     {
@@ -124,7 +124,7 @@ describe("Discord security audit findings", () => {
             },
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       expectFinding: false,
     },
   ])("$name", async (testCase) => {

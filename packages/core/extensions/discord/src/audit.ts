@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { inspectDiscordAccount } from "./account-inspect.js";
 import {
   auditDiscordChannelPermissionsWithFetcher,
@@ -8,7 +8,7 @@ import {
 import { fetchChannelPermissionsDiscord } from "./send.js";
 
 export function collectDiscordAuditChannelIds(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }) {
   const account = inspectDiscordAccount({
@@ -19,7 +19,7 @@ export function collectDiscordAuditChannelIds(params: {
 }
 
 export async function auditDiscordChannelPermissions(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token: string;
   accountId?: string | null;
   channelIds: string[];

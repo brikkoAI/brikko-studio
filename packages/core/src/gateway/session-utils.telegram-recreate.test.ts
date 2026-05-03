@@ -9,7 +9,7 @@ import {
   updateLastRoute,
   updateSessionStore,
 } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createSuiteTempRootTracker } from "../test-helpers/temp-dir.js";
 import { listSessionsFromStore } from "./session-utils.js";
 
@@ -25,7 +25,7 @@ const cfg = {
   session: {
     dmScope: "per-channel-peer",
   },
-} satisfies Partial<Brikko StudioConfig> as Brikko StudioConfig;
+} satisfies Partial<BrikkoStudioConfig> as BrikkoStudioConfig;
 
 function createTelegramDirectContext(): MsgContext {
   return {

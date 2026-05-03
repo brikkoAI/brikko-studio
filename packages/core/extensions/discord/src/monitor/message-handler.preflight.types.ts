@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
 import type { SessionBindingRecord } from "brikko-studio/plugin-sdk/conversation-runtime";
 import type { HistoryEntry } from "brikko-studio/plugin-sdk/reply-history";
 import type { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
@@ -11,7 +11,7 @@ import type { DiscordSenderIdentity } from "./sender-identity.js";
 export type { DiscordSenderIdentity } from "./sender-identity.js";
 import type { DiscordThreadChannel } from "./threading.js";
 
-type LoadedConfig = Brikko StudioConfig;
+type LoadedConfig = BrikkoStudioConfig;
 export type RuntimeEnv = import("brikko-studio/plugin-sdk/runtime-env").RuntimeEnv;
 
 export type DiscordMessageEvent = import("./listeners.js").DiscordMessageEvent;
@@ -19,7 +19,7 @@ export type DiscordMessageEvent = import("./listeners.js").DiscordMessageEvent;
 type DiscordMessagePreflightSharedFields = {
   cfg: LoadedConfig;
   discordConfig: NonNullable<
-    import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig["channels"]
+    import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig["channels"]
   >["discord"];
   accountId: string;
   token: string;

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { SecretInput } from "../config/types.secrets.js";
 import type { EmbeddingInput } from "../memory-host-sdk/host/embedding-inputs.js";
 
@@ -35,7 +35,7 @@ export type MemoryEmbeddingProvider = {
 };
 
 export type MemoryEmbeddingProviderCreateOptions = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentDir?: string;
   provider?: string;
   fallback?: string;

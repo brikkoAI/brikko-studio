@@ -10,7 +10,7 @@ import {
   resolvePollMaxSelections,
   resolveReactionMessageId,
 } from "brikko-studio/plugin-sdk/channel-actions";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   normalizeMessagePresentation,
   presentationToInteractiveReply,
@@ -193,7 +193,7 @@ function normalizeTelegramDeliveryPin(params: Record<string, unknown>) {
 
 async function maybePinTelegramActionSend(params: {
   args: Record<string, unknown>;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   to: string;
   messageId?: string;
@@ -224,7 +224,7 @@ async function maybePinTelegramActionSend(params: {
 
 export async function handleTelegramAction(
   params: Record<string, unknown>,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options?: {
     mediaLocalRoots?: readonly string[];
     mediaReadFile?: (filePath: string) => Promise<Buffer>;

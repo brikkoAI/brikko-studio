@@ -7,7 +7,7 @@ import {
 } from "./index.js";
 
 describe("@brikko-studio/plugin-package-contract", () => {
-  it("normalizes the Brikko Studio compatibility block for external plugins", () => {
+  it("normalizes the BrikkoStudio compatibility block for external plugins", () => {
     expect(
       normalizeExternalPluginCompatibility({
         version: "1.2.3",
@@ -24,7 +24,7 @@ describe("@brikko-studio/plugin-package-contract", () => {
       }),
     ).toEqual({
       pluginApiRange: ">=2026.3.24-beta.2",
-      builtWithBrikko StudioVersion: "2026.3.24-beta.2",
+      builtWithBrikkoStudioVersion: "2026.3.24-beta.2",
       pluginSdkVersion: "0.9.0",
       minGatewayVersion: "2026.3.24-beta.2",
     });
@@ -45,7 +45,7 @@ describe("@brikko-studio/plugin-package-contract", () => {
       }),
     ).toEqual({
       pluginApiRange: ">=1.0.0",
-      builtWithBrikko StudioVersion: "1.2.3",
+      builtWithBrikkoStudioVersion: "1.2.3",
       minGatewayVersion: "2026.3.24-beta.2",
     });
   });

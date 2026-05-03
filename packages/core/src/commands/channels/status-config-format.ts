@@ -8,7 +8,7 @@ import {
   buildReadOnlySourceChannelAccountSnapshot,
 } from "../../channels/plugins/status.js";
 import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { formatDocsLink } from "../../terminal/links.js";
 import { theme } from "../../terminal/theme.js";
 import {
@@ -26,9 +26,9 @@ type ChannelStatusPluginLabel = {
 };
 
 export async function formatConfigChannelsStatusLines(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   meta: { path?: string; mode?: "local" | "remote" },
-  opts?: { sourceConfig?: Brikko StudioConfig },
+  opts?: { sourceConfig?: BrikkoStudioConfig },
 ): Promise<string[]> {
   const lines: string[] = [];
   lines.push(theme.warn("Gateway not reachable; showing config-only status."));

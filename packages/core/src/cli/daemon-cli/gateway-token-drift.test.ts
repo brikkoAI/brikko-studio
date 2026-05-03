@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { resolveGatewayTokenForDriftCheck } from "./gateway-token-drift.js";
 
 describe("resolveGatewayTokenForDriftCheck", () => {
@@ -12,7 +12,7 @@ describe("resolveGatewayTokenForDriftCheck", () => {
             token: "config-token",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {
         BRIKKO_STUDIO_GATEWAY_TOKEN: "env-token",
       } as NodeJS.ProcessEnv,
@@ -36,7 +36,7 @@ describe("resolveGatewayTokenForDriftCheck", () => {
             token: { source: "env", provider: "default", id: "SERVICE_GATEWAY_TOKEN" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {
         SERVICE_GATEWAY_TOKEN: "service-token",
       } as NodeJS.ProcessEnv,
@@ -64,7 +64,7 @@ describe("resolveGatewayTokenForDriftCheck", () => {
               token: "remote-token",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         env: {} as NodeJS.ProcessEnv,
       }),
     ).rejects.toThrow(/gateway\.auth\.token/i);
@@ -84,7 +84,7 @@ describe("resolveGatewayTokenForDriftCheck", () => {
             token: { source: "env", provider: "default", id: "MISSING_LOCAL_TOKEN" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {} as NodeJS.ProcessEnv,
     });
     expect(token).toBeUndefined();
@@ -98,7 +98,7 @@ describe("resolveGatewayTokenForDriftCheck", () => {
             password: "config-password",
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {
         BRIKKO_STUDIO_GATEWAY_PASSWORD: "env-password",
       } as NodeJS.ProcessEnv,
@@ -121,7 +121,7 @@ describe("resolveGatewayTokenForDriftCheck", () => {
               token: { source: "env", provider: "default", id: "MISSING_LOCAL_TOKEN" },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         env: {
           BRIKKO_STUDIO_GATEWAY_PASSWORD: "env-password",
         } as NodeJS.ProcessEnv,

@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { evaluateEntryRequirementsForCurrentPlatform } from "../shared/entry-status.js";
 import type { RequirementConfigCheck, Requirements } from "../shared/requirements.js";
 import { CONFIG_DIR } from "../utils.js";
@@ -199,7 +199,7 @@ function isSkillUserInvocable(entry: SkillEntry): boolean {
 
 function buildSkillStatus(
   entry: SkillEntry,
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
   prefs?: SkillsInstallPreferences,
   eligibility?: SkillEligibilityContext,
   bundledNames?: Set<string>,
@@ -267,7 +267,7 @@ function buildSkillStatus(
 export function buildWorkspaceSkillStatus(
   workspaceDir: string,
   opts?: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     managedSkillsDir?: string;
     entries?: SkillEntry[];
     eligibility?: SkillEligibilityContext;

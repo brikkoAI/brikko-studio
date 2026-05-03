@@ -22,7 +22,7 @@ vi.mock("brikko-studio/plugin-sdk/ssrf-runtime", () => ({
 }));
 
 vi.mock("brikko-studio/plugin-sdk/temp-path", () => ({
-  resolvePreferredBrikko StudioTmpDir: () => qaTempPathState.preferredTmpDir,
+  resolvePreferredBrikkoStudioTmpDir: () => qaTempPathState.preferredTmpDir,
 }));
 
 vi.mock("./node-exec.js", () => ({
@@ -125,7 +125,7 @@ describe("buildQaRuntimeEnv", () => {
     expect(env.OPENAI_API_KEY).toBe("openai-explicit");
   });
 
-  it("preserves Codex CLI auth home for live frontier runs while sandboxing Brikko Studio home", async () => {
+  it("preserves Codex CLI auth home for live frontier runs while sandboxing BrikkoStudio home", async () => {
     const hostHome = await mkdtemp(path.join(os.tmpdir(), "qa-host-home-"));
     cleanups.push(async () => {
       await rm(hostHome, { recursive: true, force: true });
@@ -145,7 +145,7 @@ describe("buildQaRuntimeEnv", () => {
     expect(env.CODEX_HOME).toBe(codexHome);
   });
 
-  it("forwards host HOME for live Claude CLI runs while keeping Brikko Studio home sandboxed", async () => {
+  it("forwards host HOME for live Claude CLI runs while keeping BrikkoStudio home sandboxed", async () => {
     const hostHome = await mkdtemp(path.join(os.tmpdir(), "qa-host-home-"));
     cleanups.push(async () => {
       await rm(hostHome, { recursive: true, force: true });
@@ -164,7 +164,7 @@ describe("buildQaRuntimeEnv", () => {
     expect(env.BRIKKO_STUDIO_STATE_DIR).toBe("/tmp/brikko-studio-qa/state");
   });
 
-  it("can forward host HOME for browser-backed QA runs while keeping Brikko Studio home sandboxed", async () => {
+  it("can forward host HOME for browser-backed QA runs while keeping BrikkoStudio home sandboxed", async () => {
     const hostHome = await mkdtemp(path.join(os.tmpdir(), "qa-host-home-"));
     cleanups.push(async () => {
       await rm(hostHome, { recursive: true, force: true });

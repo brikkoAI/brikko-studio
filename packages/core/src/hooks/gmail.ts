@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import {
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   DEFAULT_GATEWAY_PORT,
   type HooksGmailTailscaleMode,
   resolveGatewayPort,
@@ -99,7 +99,7 @@ export function buildDefaultHookUrl(
 }
 
 export function resolveGmailHookRuntimeConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   overrides: GmailHookOverrides,
 ): { ok: true; value: GmailHookRuntimeConfig } | { ok: false; error: string } {
   const hooks = cfg.hooks;

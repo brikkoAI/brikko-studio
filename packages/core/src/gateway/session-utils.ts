@@ -55,7 +55,7 @@ import {
   type SessionStoreTarget,
   type SessionScope,
 } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import { projectPluginSessionExtensionsSync } from "../plugins/host-hook-state.js";
 import {
@@ -102,7 +102,7 @@ import type {
 export {
   archiveFileOnDisk,
   archiveSessionTranscripts,
-  attachBrikko StudioTranscriptMeta,
+  attachBrikkoStudioTranscriptMeta,
   capArrayByJsonBytes,
   readFirstUserMessageFromTranscript,
   readLastMessagePreviewFromTranscript,
@@ -144,7 +144,7 @@ function tryResolveExistingPath(value: string): string | null {
 }
 
 function resolveIdentityAvatarUrl(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
   avatar: string | undefined,
 ): string | undefined {
@@ -296,7 +296,7 @@ function buildCompactionCheckpointPreview(
 }
 
 function resolveEstimatedSessionCostUsd(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   provider?: string;
   model?: string;
   entry?: Pick<
@@ -522,7 +522,7 @@ function resolveChildSessionKeys(
 }
 
 function resolveTranscriptUsageFallback(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   key: string;
   entry?: SessionEntry;
   storePath: string;
@@ -592,7 +592,7 @@ function resolveTranscriptUsageFallback(params: {
  * keys, or when the owning agent still exists (#65524).
  */
 export function resolveDeletedAgentIdFromSessionKey(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   sessionKey: string,
 ): string | null {
   const parsed = parseAgentSessionKey(sessionKey);
@@ -733,7 +733,7 @@ export function pruneLegacyStoreKeys(params: {
 }
 
 export function migrateAndPruneGatewaySessionStoreKey(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   key: string;
   store: Record<string, SessionEntry>;
 }) {
@@ -811,7 +811,7 @@ function listExistingAgentIdsFromDisk(): string[] {
   }
 }
 
-function listConfiguredAgentIds(cfg: Brikko StudioConfig): string[] {
+function listConfiguredAgentIds(cfg: BrikkoStudioConfig): string[] {
   const ids = new Set<string>();
   const defaultId = normalizeAgentId(resolveDefaultAgentId(cfg));
   ids.add(defaultId);
@@ -852,7 +852,7 @@ function normalizeFallbackList(values: readonly string[]): string[] {
 }
 
 function resolveGatewayAgentModel(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
 ): GatewayAgentRow["model"] | undefined {
   const primary = resolveAgentEffectiveModelPrimary(cfg, agentId)?.trim();
@@ -868,7 +868,7 @@ function resolveGatewayAgentModel(
   };
 }
 
-export function listAgentsForGateway(cfg: Brikko StudioConfig): {
+export function listAgentsForGateway(cfg: BrikkoStudioConfig): {
   defaultId: string;
   mainKey: string;
   scope: SessionScope;
@@ -933,7 +933,7 @@ export function listAgentsForGateway(cfg: Brikko StudioConfig): {
 }
 
 function buildGatewaySessionStoreScanTargets(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   key: string;
   canonicalKey: string;
   agentId: string;
@@ -956,7 +956,7 @@ function buildGatewaySessionStoreScanTargets(params: {
 }
 
 function resolveGatewaySessionStoreCandidates(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
 ): SessionStoreTarget[] {
   const storeConfig = cfg.session?.store;
@@ -978,7 +978,7 @@ function resolveGatewaySessionStoreCandidates(
 }
 
 function resolveGatewaySessionStoreLookup(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   key: string;
   canonicalKey: string;
   agentId: string;
@@ -1028,7 +1028,7 @@ function resolveGatewaySessionStoreLookup(params: {
 }
 
 function resolveExplicitDeletedLegacyMainStoreTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   key: string;
   scanLegacyKeys?: boolean;
 }): {
@@ -1105,7 +1105,7 @@ function resolveExplicitDeletedLegacyMainStoreTarget(params: {
 }
 
 export function resolveGatewaySessionStoreTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   key: string;
   scanLegacyKeys?: boolean;
   store?: Record<string, SessionEntry>;
@@ -1174,7 +1174,7 @@ export function resolveGatewaySessionStoreTarget(params: {
 export { loadCombinedSessionStoreForGateway } from "../config/sessions/combined-store-gateway.js";
 
 export function resolveGatewaySessionThinkingDefault(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   provider: string;
   model: string;
   agentId?: string;
@@ -1195,7 +1195,7 @@ export function resolveGatewaySessionThinkingDefault(params: {
 }
 
 export function getSessionDefaults(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   modelCatalog?: ModelCatalogEntry[],
 ): GatewaySessionsDefaults {
   const resolved = resolveConfiguredModelRef({
@@ -1224,7 +1224,7 @@ export function getSessionDefaults(
 }
 
 export function resolveSessionModelRef(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   entry?:
     | SessionEntry
     | Pick<SessionEntry, "model" | "modelProvider" | "modelOverride" | "providerOverride">,
@@ -1330,7 +1330,7 @@ export async function resolveGatewayModelSupportsImages(params: {
 }
 
 export function resolveSessionModelIdentityRef(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   entry?:
     | SessionEntry
     | Pick<SessionEntry, "model" | "modelProvider" | "modelOverride" | "providerOverride">,
@@ -1379,7 +1379,7 @@ export function resolveSessionModelIdentityRef(
 }
 
 export function resolveSessionDisplayModelIdentityRef(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   provider?: string;
   model?: string;
@@ -1418,7 +1418,7 @@ export function resolveSessionDisplayModelIdentityRef(params: {
 }
 
 export function buildGatewaySessionRow(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   storePath: string;
   store: Record<string, SessionEntry>;
   key: string;
@@ -1918,7 +1918,7 @@ export function filterAndSortSessionEntries(params: {
 }
 
 export function listSessionsFromStore(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   storePath: string;
   store: Record<string, SessionEntry>;
   modelCatalog?: ModelCatalogEntry[];
@@ -1982,7 +1982,7 @@ export function listSessionsFromStore(params: {
  * loop responsive for WebSocket heartbeats, channel I/O, and concurrent RPC.
  */
 export async function listSessionsFromStoreAsync(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   storePath: string;
   store: Record<string, SessionEntry>;
   modelCatalog?: ModelCatalogEntry[];

@@ -17,7 +17,7 @@ import type {
 } from "../agents/auth-profiles/types.js";
 import { readClaudeCliCredentialsCached } from "../agents/cli-credentials.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveExecutablePath } from "../infra/executable-path.js";
 import {
   normalizeOptionalLowercaseString,
@@ -37,7 +37,7 @@ type ClaudeCliReadableCredential =
 
 type ClaudeCliDirHealth = "present" | "missing" | "not_directory" | "unreadable" | "readonly";
 
-function usesClaudeCliModelSelection(cfg: Brikko StudioConfig): boolean {
+function usesClaudeCliModelSelection(cfg: BrikkoStudioConfig): boolean {
   const primary = resolvePrimaryStringValue(
     cfg.agents?.defaults?.model as string | { primary?: string; fallbacks?: string[] } | undefined,
   );
@@ -49,7 +49,7 @@ function usesClaudeCliModelSelection(cfg: Brikko StudioConfig): boolean {
   );
 }
 
-function resolveClaudeCliCommand(cfg: Brikko StudioConfig): string {
+function resolveClaudeCliCommand(cfg: BrikkoStudioConfig): string {
   const configured = cfg.agents?.defaults?.cliBackends ?? {};
   for (const [key, entry] of Object.entries(configured)) {
     if (normalizeOptionalLowercaseString(key) !== CLAUDE_CLI_PROVIDER) {
@@ -141,7 +141,7 @@ function formatWorkspaceHealthLine(
     return `- ${label}: ${display} (writable).`;
   }
   if (health === "missing") {
-    return `- ${label}: ${display} (missing; Brikko Studio will create it on first run).`;
+    return `- ${label}: ${display} (missing; BrikkoStudio will create it on first run).`;
   }
   if (health === "not_directory") {
     return `- ${label}: ${display} exists but is not a directory.`;
@@ -174,7 +174,7 @@ function formatProjectDirHealthLine(
   return `- ${label}: ${display} is not writable by this user.`;
 }
 
-function resolveClaudeCliAgentIds(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): string[] {
+function resolveClaudeCliAgentIds(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): string[] {
   const agentIds = listAgentIds(cfg);
   const runtimeAgentIds = agentIds.filter(
     (agentId) => resolveAgentRuntimeMetadata(cfg, agentId, env).id === CLAUDE_CLI_PROVIDER,
@@ -197,7 +197,7 @@ type ClaudeCliWorkspaceTarget = {
 };
 
 function resolveClaudeCliWorkspaceTargets(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   homeDir?: string;
   workspaceDir?: string;
@@ -233,7 +233,7 @@ function resolveClaudeCliWorkspaceTargets(params: {
 }
 
 export function noteClaudeCliHealth(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   deps?: {
     noteFn?: typeof note;
     env?: NodeJS.ProcessEnv;
@@ -297,7 +297,7 @@ export function noteClaudeCliHealth(
   }
 
   if (!storedProfile) {
-    lines.push(`- Brikko Studio auth profile: missing (${CLAUDE_CLI_PROFILE_ID}) in ${authStorePath}.`);
+    lines.push(`- BrikkoStudio auth profile: missing (${CLAUDE_CLI_PROFILE_ID}) in ${authStorePath}.`);
     fixHints.push(
       `- Fix: run ${formatCliCommand(
         "brikko-studio models auth login --provider anthropic --method cli --set-default",
@@ -305,7 +305,7 @@ export function noteClaudeCliHealth(
     );
   } else if (storedProfile.provider !== CLAUDE_CLI_PROVIDER) {
     lines.push(
-      `- Brikko Studio auth profile: ${CLAUDE_CLI_PROFILE_ID} is wired to provider "${storedProfile.provider}" instead of "${CLAUDE_CLI_PROVIDER}".`,
+      `- BrikkoStudio auth profile: ${CLAUDE_CLI_PROFILE_ID} is wired to provider "${storedProfile.provider}" instead of "${CLAUDE_CLI_PROVIDER}".`,
     );
     fixHints.push(
       `- Fix: rerun ${formatCliCommand(
@@ -314,7 +314,7 @@ export function noteClaudeCliHealth(
     );
   } else {
     lines.push(
-      `- Brikko Studio auth profile: ${CLAUDE_CLI_PROFILE_ID} (provider ${CLAUDE_CLI_PROVIDER}).`,
+      `- BrikkoStudio auth profile: ${CLAUDE_CLI_PROFILE_ID} (provider ${CLAUDE_CLI_PROVIDER}).`,
     );
   }
 

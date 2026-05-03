@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
@@ -100,7 +100,7 @@ export function normalizeCommandBody(raw: string, options?: CommandNormalizeOpti
   return normalizedRest ? `${tokenSpec.canonical} ${normalizedRest}` : tokenSpec.canonical;
 }
 
-export function getCommandDetection(_cfg?: Brikko StudioConfig): CommandDetection {
+export function getCommandDetection(_cfg?: BrikkoStudioConfig): CommandDetection {
   const commands = getChatCommands();
   if (cachedDetection && cachedDetectionCommands === commands) {
     return cachedDetection;
@@ -133,7 +133,7 @@ export function getCommandDetection(_cfg?: Brikko StudioConfig): CommandDetectio
   return cachedDetection;
 }
 
-export function maybeResolveTextAlias(raw: string, cfg?: Brikko StudioConfig) {
+export function maybeResolveTextAlias(raw: string, cfg?: BrikkoStudioConfig) {
   const trimmed = normalizeCommandBody(raw).trim();
   if (!trimmed.startsWith("/")) {
     return null;
@@ -156,7 +156,7 @@ export function maybeResolveTextAlias(raw: string, cfg?: Brikko StudioConfig) {
 
 export function resolveTextCommand(
   raw: string,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): {
   command: ChatCommandDefinition;
   args?: string;

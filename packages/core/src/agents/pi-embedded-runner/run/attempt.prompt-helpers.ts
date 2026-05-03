@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import type {
   ContextEnginePromptCacheInfo,
   ContextEngineRuntimeContext,
@@ -89,7 +89,7 @@ export function forgetPromptBuildDrainCacheForRun(runId: string | undefined): vo
 }
 
 export async function resolvePromptBuildHookResult(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   prompt: string;
   messages: unknown[];
   hookCtx: PluginHookAgentContext;
@@ -211,7 +211,7 @@ export function resolvePromptModeForSession(sessionKey?: string): "minimal" | "f
 }
 
 export function shouldInjectHeartbeatPrompt(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
   defaultAgentId?: string;
   isDefaultAgent: boolean;
@@ -452,7 +452,7 @@ export function mergeOrphanedTrailingUserPrompt(params: {
 }
 
 export function resolveAttemptFsWorkspaceOnly(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sessionAgentId: string;
 }): boolean {
   return resolveEffectiveToolFsWorkspaceOnly({

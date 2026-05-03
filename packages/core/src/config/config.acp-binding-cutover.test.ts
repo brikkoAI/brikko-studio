@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { Brikko StudioSchema } from "./zod-schema.js";
+import { BrikkoStudioSchema } from "./zod-schema.js";
 
 describe("ACP binding cutover schema", () => {
   it("accepts top-level typed ACP bindings with per-agent runtime defaults", () => {
-    const parsed = Brikko StudioSchema.safeParse({
+    const parsed = BrikkoStudioSchema.safeParse({
       agents: {
         list: [
           { id: "main", default: true, runtime: { type: "embedded" } },
@@ -47,7 +47,7 @@ describe("ACP binding cutover schema", () => {
   });
 
   it("accepts route binding session dmScope overrides", () => {
-    const parsed = Brikko StudioSchema.safeParse({
+    const parsed = BrikkoStudioSchema.safeParse({
       bindings: [
         {
           type: "route",
@@ -68,7 +68,7 @@ describe("ACP binding cutover schema", () => {
   });
 
   it("rejects legacy Discord channel-local ACP binding fields", () => {
-    const parsed = Brikko StudioSchema.safeParse({
+    const parsed = BrikkoStudioSchema.safeParse({
       channels: {
         discord: {
           guilds: {
@@ -93,7 +93,7 @@ describe("ACP binding cutover schema", () => {
   });
 
   it("rejects legacy Telegram topic-local ACP binding fields", () => {
-    const parsed = Brikko StudioSchema.safeParse({
+    const parsed = BrikkoStudioSchema.safeParse({
       channels: {
         telegram: {
           groups: {
@@ -117,7 +117,7 @@ describe("ACP binding cutover schema", () => {
   });
 
   it("rejects ACP bindings without a peer conversation target", () => {
-    const parsed = Brikko StudioSchema.safeParse({
+    const parsed = BrikkoStudioSchema.safeParse({
       bindings: [
         {
           type: "acp",
@@ -131,7 +131,7 @@ describe("ACP binding cutover schema", () => {
   });
 
   it("accepts ACP bindings for arbitrary channel ids when the peer target is explicit", () => {
-    const parsed = Brikko StudioSchema.safeParse({
+    const parsed = BrikkoStudioSchema.safeParse({
       bindings: [
         {
           type: "acp",
@@ -149,7 +149,7 @@ describe("ACP binding cutover schema", () => {
   });
 
   it("accepts ACP bindings for generic direct and group peer kinds", () => {
-    const parsed = Brikko StudioSchema.safeParse({
+    const parsed = BrikkoStudioSchema.safeParse({
       bindings: [
         {
           type: "acp",
@@ -176,7 +176,7 @@ describe("ACP binding cutover schema", () => {
   });
 
   it("accepts deprecated dm peer kind for backward compatibility", () => {
-    const parsed = Brikko StudioSchema.safeParse({
+    const parsed = BrikkoStudioSchema.safeParse({
       bindings: [
         {
           type: "acp",

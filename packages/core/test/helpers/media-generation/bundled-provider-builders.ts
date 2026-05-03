@@ -1,9 +1,9 @@
-import type { Brikko StudioPluginApi } from "../../../src/plugins/types.js";
+import type { BrikkoStudioPluginApi } from "../../../src/plugins/types.js";
 import { loadBundledPluginPublicSurfaceSync } from "../../../src/test-utils/bundled-plugin-public-surface.js";
 
 type BundledPluginEntryModule = {
   default: {
-    register(api: Brikko StudioPluginApi): void;
+    register(api: BrikkoStudioPluginApi): void;
   };
 };
 

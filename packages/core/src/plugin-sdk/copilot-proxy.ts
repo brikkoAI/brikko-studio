@@ -3,7 +3,7 @@
 
 export { definePluginEntry } from "./plugin-entry.js";
 export type {
-  Brikko StudioPluginApi,
+  BrikkoStudioPluginApi,
   ProviderAuthContext,
   ProviderAuthResult,
 } from "../plugins/types.js";

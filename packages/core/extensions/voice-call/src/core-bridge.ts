@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "../api.js";
+import type { BrikkoStudioPluginApi } from "../api.js";
 import type { VoiceCallTtsConfig } from "./config.js";
 
 export type CoreConfig = {
@@ -11,4 +11,4 @@ export type CoreConfig = {
   [key: string]: unknown;
 };
 
-export type CoreAgentDeps = Brikko StudioPluginApi["runtime"]["agent"];
+export type CoreAgentDeps = BrikkoStudioPluginApi["runtime"]["agent"];

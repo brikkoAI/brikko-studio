@@ -1,6 +1,6 @@
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { checkQmdBinaryAvailability as checkQmdBinaryAvailabilityFn } from "../memory-host-sdk/engine-qmd.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 
@@ -142,7 +142,7 @@ function resetMemoryRecallMocks() {
 }
 
 describe("noteMemorySearchHealth", () => {
-  const cfg = {} as Brikko StudioConfig;
+  const cfg = {} as BrikkoStudioConfig;
 
   async function expectNoWarningWithConfiguredRemoteApiKey(provider: string) {
     resolveMemorySearchConfig.mockReturnValue({
@@ -169,7 +169,7 @@ describe("noteMemorySearchHealth", () => {
     hasAnyAuthProfileStoreSource.mockReturnValue(true);
     getActiveMemorySearchManager.mockReset();
     resolveActiveMemoryBackendConfig.mockReset();
-    resolveActiveMemoryBackendConfig.mockImplementation(({ cfg }: { cfg: Brikko StudioConfig }) =>
+    resolveActiveMemoryBackendConfig.mockImplementation(({ cfg }: { cfg: BrikkoStudioConfig }) =>
       cfg.memory?.backend === "qmd"
         ? { backend: "qmd", qmd: cfg.memory.qmd ?? {} }
         : { backend: "builtin" },
@@ -277,7 +277,7 @@ describe("noteMemorySearchHealth", () => {
   });
 
   it("does not warn when QMD backend is active", async () => {
-    const qmdCfg = { memory: { backend: "qmd", qmd: { command: "qmd" } } } as Brikko StudioConfig;
+    const qmdCfg = { memory: { backend: "qmd", qmd: { command: "qmd" } } } as BrikkoStudioConfig;
     resolveMemorySearchConfig.mockReturnValue({
       provider: "auto",
       local: {},
@@ -295,7 +295,7 @@ describe("noteMemorySearchHealth", () => {
   });
 
   it("warns when QMD backend is active but the qmd binary is unavailable", async () => {
-    const qmdCfg = { memory: { backend: "qmd", qmd: { command: "qmd" } } } as Brikko StudioConfig;
+    const qmdCfg = { memory: { backend: "qmd", qmd: { command: "qmd" } } } as BrikkoStudioConfig;
     checkQmdBinaryAvailability.mockResolvedValueOnce({
       available: false,
       error: "spawn qmd ENOENT",
@@ -654,7 +654,7 @@ describe("noteMemorySearchHealth", () => {
 });
 
 describe("memory recall doctor integration", () => {
-  const cfg = {} as Brikko StudioConfig;
+  const cfg = {} as BrikkoStudioConfig;
 
   beforeEach(() => {
     note.mockClear();

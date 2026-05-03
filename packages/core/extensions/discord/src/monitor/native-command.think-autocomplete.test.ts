@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createEmptyPluginRegistry,
   setActivePluginRegistry,
@@ -96,7 +96,7 @@ vi.mock("brikko-studio/plugin-sdk/conversation-binding-runtime", async () => {
 
 vi.mock("brikko-studio/plugin-sdk/agent-runtime", () => ({
   normalizeProviderId: (value: string) => value.trim().toLowerCase(),
-  resolveDefaultModelForAgent: (params: { cfg: Brikko StudioConfig }) => {
+  resolveDefaultModelForAgent: (params: { cfg: BrikkoStudioConfig }) => {
     const configuredModel = params.cfg.agents?.defaults?.model;
     const primary =
       typeof configuredModel === "string"
@@ -251,7 +251,7 @@ describe("discord native /think autocomplete", () => {
       session: {
         store: STORE_PATH,
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
   it("uses the session override context for /think choices", async () => {

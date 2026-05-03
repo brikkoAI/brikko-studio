@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { danger, logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import {
@@ -28,7 +28,7 @@ import { formatDiscordReactionEmoji, formatDiscordUserTag } from "./format.js";
 import { runDiscordListenerWithSlowLog, type DiscordListenerLogger } from "./listeners.queue.js";
 import { resolveFetchedDiscordThreadLikeChannelContext } from "./thread-channel-context.js";
 
-type LoadedConfig = Brikko StudioConfig;
+type LoadedConfig = BrikkoStudioConfig;
 type RuntimeEnv = import("brikko-studio/plugin-sdk/runtime-env").RuntimeEnv;
 
 type DiscordReactionEvent = Parameters<MessageReactionAddListener["handle"]>[0];

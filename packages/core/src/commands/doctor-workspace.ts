@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { DEFAULT_AGENTS_FILENAME } from "../agents/workspace.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import {
   CANONICAL_ROOT_MEMORY_FILENAME,
@@ -149,7 +149,7 @@ export function formatRootMemoryFilesWarning(detection: RootMemoryFilesDetection
       "Split root durable memory files detected:",
       `- canonical: ${shortenHomePath(detection.canonicalPath)} (${formatBytes(detection.canonicalBytes)})`,
       `- legacy: ${shortenHomePath(detection.legacyPath)} (${formatBytes(detection.legacyBytes)})`,
-      `Brikko Studio uses ${CANONICAL_ROOT_MEMORY_FILENAME} as the canonical durable memory file.`,
+      `BrikkoStudio uses ${CANONICAL_ROOT_MEMORY_FILENAME} as the canonical durable memory file.`,
       `Dreaming writes durable promotions to ${CANONICAL_ROOT_MEMORY_FILENAME}, so older facts in ${LEGACY_ROOT_MEMORY_FILENAME} can be shadowed.`,
       `Run "brikko-studio doctor --fix" to merge the legacy file into ${CANONICAL_ROOT_MEMORY_FILENAME} with a backup.`,
     ].join("\n");
@@ -246,7 +246,7 @@ export async function migrateLegacyRootMemoryFile(
   };
 }
 
-export async function noteWorkspaceMemoryHealth(cfg: Brikko StudioConfig): Promise<void> {
+export async function noteWorkspaceMemoryHealth(cfg: BrikkoStudioConfig): Promise<void> {
   try {
     const agentId = resolveDefaultAgentId(cfg);
     const workspaceDir = resolveAgentWorkspaceDir(cfg, agentId);
@@ -262,7 +262,7 @@ export async function noteWorkspaceMemoryHealth(cfg: Brikko StudioConfig): Promi
 }
 
 export async function maybeRepairWorkspaceMemoryHealth(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: DoctorPrompter;
 }): Promise<void> {
   try {

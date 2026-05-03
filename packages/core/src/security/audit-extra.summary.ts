@@ -3,7 +3,7 @@ import { resolveSandboxToolPolicyForAgent } from "../agents/sandbox/tool-policy.
 import type { SandboxToolPolicy } from "../agents/sandbox/types.js";
 import { isToolAllowedByPolicies } from "../agents/tool-policy-match.js";
 import { resolveToolProfilePolicy } from "../agents/tool-policy.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { AgentToolsConfig } from "../config/types.tools.js";
 import { hasConfiguredInternalHooks } from "../hooks/configured.js";
 import { hasConfiguredWebSearchCredential } from "../plugins/web-search-credential-presence.js";
@@ -21,7 +21,7 @@ export type SecurityAuditFinding = {
 
 const SMALL_MODEL_PARAM_B_MAX = 300;
 
-function summarizeGroupPolicy(cfg: Brikko StudioConfig): {
+function summarizeGroupPolicy(cfg: BrikkoStudioConfig): {
   open: number;
   allowlist: number;
   other: number;
@@ -56,7 +56,7 @@ function extractAgentIdFromSource(source: string): string | null {
 }
 
 function resolveToolPolicies(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentTools?: AgentToolsConfig;
   sandboxMode?: "off" | "non-main" | "all";
   agentId?: string | null;
@@ -85,7 +85,7 @@ function resolveToolPolicies(params: {
   return policies;
 }
 
-function hasWebSearchKey(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): boolean {
+function hasWebSearchKey(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): boolean {
   return hasConfiguredWebSearchCredential({
     config: cfg,
     env,
@@ -94,7 +94,7 @@ function hasWebSearchKey(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): bool
   });
 }
 
-function isWebSearchEnabled(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): boolean {
+function isWebSearchEnabled(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): boolean {
   const enabled = cfg.tools?.web?.search?.enabled;
   if (enabled === false) {
     return false;
@@ -105,7 +105,7 @@ function isWebSearchEnabled(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): b
   return hasWebSearchKey(cfg, env);
 }
 
-function isWebFetchEnabled(cfg: Brikko StudioConfig): boolean {
+function isWebFetchEnabled(cfg: BrikkoStudioConfig): boolean {
   const enabled = cfg.tools?.web?.fetch?.enabled;
   if (enabled === false) {
     return false;
@@ -113,11 +113,11 @@ function isWebFetchEnabled(cfg: Brikko StudioConfig): boolean {
   return true;
 }
 
-function isBrowserEnabled(cfg: Brikko StudioConfig): boolean {
+function isBrowserEnabled(cfg: BrikkoStudioConfig): boolean {
   return cfg.browser?.enabled !== false;
 }
 
-export function collectAttackSurfaceSummaryFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
+export function collectAttackSurfaceSummaryFindings(cfg: BrikkoStudioConfig): SecurityAuditFinding[] {
   const group = summarizeGroupPolicy(cfg);
   const elevated = cfg.tools?.elevated?.enabled !== false;
   const webhooksEnabled = cfg.hooks?.enabled === true;
@@ -148,7 +148,7 @@ export function collectAttackSurfaceSummaryFindings(cfg: Brikko StudioConfig): S
 }
 
 export function collectSmallModelRiskFindings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 }): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];

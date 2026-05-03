@@ -641,7 +641,7 @@ describe("plugin sdk alias helpers", () => {
 
   it.each([
     {
-      name: "does not derive plugin-sdk subpaths from cwd fallback when package root is not an Brikko Studio root",
+      name: "does not derive plugin-sdk subpaths from cwd fallback when package root is not an BrikkoStudio root",
       fixture: () =>
         createPluginSdkAliasFixture({
           trustedRootIndicators: false,
@@ -871,7 +871,7 @@ describe("plugin sdk alias helpers", () => {
     // resolve to the fixture root — only the moduleUrl hint can bridge the gap.
     // Pass "" for argv1: undefined would trigger the STARTUP_ARGV1 default (the vitest
     // runner binary, inside the brikko-studio repo), which resolves before moduleUrl is checked.
-    // An empty string is falsy so resolveTrustedBrikko StudioRootFromArgvHint returns null,
+    // An empty string is falsy so resolveTrustedBrikkoStudioRootFromArgvHint returns null,
     // meaning only the moduleUrl hint can bridge the gap.
     const aliases = withCwd(externalPluginRoot, () =>
       withEnv({ NODE_ENV: undefined }, () =>
@@ -892,7 +892,7 @@ describe("plugin sdk alias helpers", () => {
 
   it.each([
     {
-      name: "does not resolve plugin-sdk alias files from cwd fallback when package root is not an Brikko Studio root",
+      name: "does not resolve plugin-sdk alias files from cwd fallback when package root is not an BrikkoStudio root",
       fixture: () =>
         createPluginSdkAliasFixture({
           srcFile: "channel-runtime.ts",

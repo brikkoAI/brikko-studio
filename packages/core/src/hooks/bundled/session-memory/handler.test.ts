@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/config.js";
+import type { BrikkoStudioConfig } from "../../../config/config.js";
 import { writeWorkspaceFile } from "../../../test-helpers/workspace.js";
 import { withEnvAsync } from "../../../test-utils/env.js";
 import { createHookEvent } from "../../hooks.js";
@@ -68,7 +68,7 @@ function createMockSessionContent(
 async function runNewWithPreviousSessionEntry(params: {
   tempDir: string;
   previousSessionEntry: { sessionId: string; sessionFile?: string };
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   action?: "new" | "reset";
   sessionKey?: string;
   workspaceDirOverride?: string;
@@ -83,7 +83,7 @@ async function runNewWithPreviousSessionEntry(params: {
         params.cfg ??
         ({
           agents: { defaults: { workspace: params.tempDir } },
-        } satisfies Brikko StudioConfig),
+        } satisfies BrikkoStudioConfig),
       previousSessionEntry: params.previousSessionEntry,
       ...(params.workspaceDirOverride ? { workspaceDir: params.workspaceDirOverride } : {}),
     },
@@ -103,7 +103,7 @@ async function runNewWithPreviousSessionEntry(params: {
 
 async function runNewWithPreviousSession(params: {
   sessionContent: string;
-  cfg?: (tempDir: string) => Brikko StudioConfig;
+  cfg?: (tempDir: string) => BrikkoStudioConfig;
   action?: "new" | "reset";
 }): Promise<{ tempDir: string; files: string[]; memoryContent: string }> {
   const tempDir = await createCaseWorkspace("workspace");
@@ -120,7 +120,7 @@ async function runNewWithPreviousSession(params: {
     params.cfg?.(tempDir) ??
     ({
       agents: { defaults: { workspace: tempDir } },
-    } satisfies Brikko StudioConfig);
+    } satisfies BrikkoStudioConfig);
 
   const { files, memoryContent } = await runNewWithPreviousSessionEntry({
     tempDir,
@@ -292,7 +292,7 @@ describe("session-memory hook", () => {
           defaults: { workspace: mainWorkspace },
           list: [{ id: "navi", workspace: naviWorkspace }],
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       sessionKey: "agent:main:main",
       workspaceDirOverride: naviWorkspace,
       previousSessionEntry: {
@@ -583,7 +583,7 @@ describe("session-memory hook", () => {
           defaults: { workspace: defaultWorkspace },
           list: [{ id: "custom-agent", workspace: customAgentWorkspace }],
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       sessionKey: "agent:main:main",
       workspaceDirOverride: customAgentWorkspace,
       previousSessionEntry: {

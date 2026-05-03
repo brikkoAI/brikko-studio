@@ -1042,7 +1042,7 @@ describe("agentCommand – LiveSessionModelSwitchError retry", () => {
     await agentCommand({
       message: [
         INTERNAL_RUNTIME_CONTEXT_BEGIN,
-        "Brikko Studio runtime context (internal):",
+        "BrikkoStudio runtime context (internal):",
         "hidden task completion event",
         INTERNAL_RUNTIME_CONTEXT_END,
       ].join("\n"),

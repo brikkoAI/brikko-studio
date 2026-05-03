@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
 import {
   isWorkspacePluginAllowedByConfig,
@@ -10,7 +10,7 @@ import type { PluginOrigin } from "../plugins/plugin-origin.types.js";
 import { normalizeProviderId } from "./provider-id.js";
 
 export type ProviderAuthAliasLookupParams = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   includeUntrustedWorkspacePlugins?: boolean;
@@ -60,7 +60,7 @@ function resolveProviderAuthAliasOriginPriority(origin: PluginOrigin | undefined
 
 function isWorkspacePluginTrustedForAuthAliases(
   plugin: PluginManifestRecord,
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
 ): boolean {
   return isWorkspacePluginAllowedByConfig({
     config,

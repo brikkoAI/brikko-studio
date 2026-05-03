@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import {
   type MSTeamsActivityHandler,
   type MSTeamsMessageHandlerDeps,
@@ -149,7 +149,7 @@ function createBlockedSigninScenarios() {
             allowFrom: ["owner-aad"],
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       context: {
         userAadId: "blocked-dm-aad",
       },
@@ -171,7 +171,7 @@ function createBlockedSigninScenarios() {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       context: {
         userAadId: "blocked-channel-aad",
         conversationType: "channel" as const,
@@ -190,7 +190,7 @@ function createBlockedSigninScenarios() {
             groupAllowFrom: ["owner-aad"],
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       context: {
         userAadId: "blocked-group-aad",
         conversationType: "groupChat" as const,

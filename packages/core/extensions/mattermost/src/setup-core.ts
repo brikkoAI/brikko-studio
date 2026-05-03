@@ -1,6 +1,6 @@
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
 import type { ChannelSetupAdapter } from "brikko-studio/plugin-sdk/channel-setup";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   applyAccountNameToChannelSection,
   applySetupAccountConfigPatch,
@@ -22,7 +22,7 @@ export function isMattermostConfigured(account: ResolvedMattermostAccount): bool
   return tokenConfigured && Boolean(account.baseUrl);
 }
 
-export function resolveMattermostAccountWithSecrets(cfg: Brikko StudioConfig, accountId: string) {
+export function resolveMattermostAccountWithSecrets(cfg: BrikkoStudioConfig, accountId: string) {
   return resolveMattermostAccount({
     cfg,
     accountId,

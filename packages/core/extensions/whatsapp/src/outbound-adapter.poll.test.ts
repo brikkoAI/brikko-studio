@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 const hoisted = vi.hoisted(() => ({
@@ -34,7 +34,7 @@ describe("whatsappOutbound sendPoll", () => {
   });
 
   it("threads cfg through poll send options", async () => {
-    const cfg = { marker: "resolved-cfg" } as Brikko StudioConfig;
+    const cfg = { marker: "resolved-cfg" } as BrikkoStudioConfig;
     const poll = {
       question: "Lunch?",
       options: ["Pizza", "Sushi"],

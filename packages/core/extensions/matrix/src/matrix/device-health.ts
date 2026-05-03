@@ -6,13 +6,13 @@ export type MatrixManagedDeviceInfo = {
 
 export type MatrixDeviceHealthSummary = {
   currentDeviceId: string | null;
-  staleBrikko StudioDevices: MatrixManagedDeviceInfo[];
-  currentBrikko StudioDevices: MatrixManagedDeviceInfo[];
+  staleBrikkoStudioDevices: MatrixManagedDeviceInfo[];
+  currentBrikkoStudioDevices: MatrixManagedDeviceInfo[];
 };
 
-const BRIKKO_STUDIO_DEVICE_NAME_PREFIX = "Brikko Studio ";
+const BRIKKO_STUDIO_DEVICE_NAME_PREFIX = "BrikkoStudio ";
 
-export function isBrikko StudioManagedMatrixDevice(displayName: string | null | undefined): boolean {
+export function isBrikkoStudioManagedMatrixDevice(displayName: string | null | undefined): boolean {
   return displayName?.startsWith(BRIKKO_STUDIO_DEVICE_NAME_PREFIX) === true;
 }
 
@@ -21,11 +21,11 @@ export function summarizeMatrixDeviceHealth(
 ): MatrixDeviceHealthSummary {
   const currentDeviceId = devices.find((device) => device.current)?.deviceId ?? null;
   const openClawDevices = devices.filter((device) =>
-    isBrikko StudioManagedMatrixDevice(device.displayName),
+    isBrikkoStudioManagedMatrixDevice(device.displayName),
   );
   return {
     currentDeviceId,
-    staleBrikko StudioDevices: openClawDevices.filter((device) => !device.current),
-    currentBrikko StudioDevices: openClawDevices.filter((device) => device.current),
+    staleBrikkoStudioDevices: openClawDevices.filter((device) => !device.current),
+    currentBrikkoStudioDevices: openClawDevices.filter((device) => device.current),
   };
 }

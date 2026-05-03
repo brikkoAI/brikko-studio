@@ -1,9 +1,9 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { isAcpEnabledByPolicy } from "../policy.js";
 import { getAcpRuntimeBackend } from "./registry.js";
 
 export function isAcpRuntimeSpawnAvailable(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sandboxed?: boolean;
   backendId?: string;
 }): boolean {

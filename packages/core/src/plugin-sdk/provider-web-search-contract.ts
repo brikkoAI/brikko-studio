@@ -1,6 +1,6 @@
 // Public contract-safe web-search registration helpers for provider plugins.
 
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type {
   WebSearchCredentialResolutionSource,
   WebSearchProviderSetupContext,
@@ -59,7 +59,7 @@ export function createWebSearchProviderContractFields(
     ...createBaseWebSearchProviderContractFields(options),
     ...(selectionPluginId
       ? {
-          applySelectionConfig: (config: Brikko StudioConfig) =>
+          applySelectionConfig: (config: BrikkoStudioConfig) =>
             enablePluginInConfig(config, selectionPluginId).config,
         }
       : {}),

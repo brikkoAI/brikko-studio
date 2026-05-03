@@ -14,15 +14,15 @@ const { createMatrixQaE2eeScenarioClient, runMatrixQaE2eeBootstrap, startMatrixQ
 const {
   formatMatrixQaCliCommand,
   redactMatrixQaCliOutput,
-  resolveMatrixQaBrikko StudioCliEntryPath,
-  runMatrixQaBrikko StudioCli,
-  startMatrixQaBrikko StudioCli,
+  resolveMatrixQaBrikkoStudioCliEntryPath,
+  runMatrixQaBrikkoStudioCli,
+  startMatrixQaBrikkoStudioCli,
 } = vi.hoisted(() => ({
   formatMatrixQaCliCommand: (args: string[]) => `brikko-studio ${args.join(" ")}`,
   redactMatrixQaCliOutput: (text: string) => text,
-  resolveMatrixQaBrikko StudioCliEntryPath: (cwd: string) => `${cwd}/dist/index.js`,
-  runMatrixQaBrikko StudioCli: vi.fn(),
-  startMatrixQaBrikko StudioCli: vi.fn(),
+  resolveMatrixQaBrikkoStudioCliEntryPath: (cwd: string) => `${cwd}/dist/index.js`,
+  runMatrixQaBrikkoStudioCli: vi.fn(),
+  startMatrixQaBrikkoStudioCli: vi.fn(),
 }));
 
 vi.mock("../../substrate/client.js", () => ({
@@ -38,9 +38,9 @@ vi.mock("../../substrate/fault-proxy.js", () => ({
 vi.mock("./scenario-runtime-cli.js", () => ({
   formatMatrixQaCliCommand,
   redactMatrixQaCliOutput,
-  resolveMatrixQaBrikko StudioCliEntryPath,
-  runMatrixQaBrikko StudioCli,
-  startMatrixQaBrikko StudioCli,
+  resolveMatrixQaBrikkoStudioCliEntryPath,
+  runMatrixQaBrikkoStudioCli,
+  startMatrixQaBrikkoStudioCli,
 }));
 
 import {
@@ -207,8 +207,8 @@ describe("matrix live qa scenarios", () => {
     createMatrixQaClient.mockReset();
     createMatrixQaE2eeScenarioClient.mockReset();
     runMatrixQaE2eeBootstrap.mockReset();
-    runMatrixQaBrikko StudioCli.mockReset();
-    startMatrixQaBrikko StudioCli.mockReset();
+    runMatrixQaBrikkoStudioCli.mockReset();
+    startMatrixQaBrikkoStudioCli.mockReset();
     startMatrixQaFaultProxy.mockReset();
   });
 
@@ -498,7 +498,7 @@ describe("matrix live qa scenarios", () => {
   it("merges default and scenario-requested Matrix topology once per run", () => {
     expect(
       scenarioTesting.buildMatrixQaTopologyForScenarios({
-        defaultRoomName: "Brikko Studio Matrix QA run",
+        defaultRoomName: "BrikkoStudio Matrix QA run",
         scenarios: [
           MATRIX_QA_SCENARIOS[0],
           {
@@ -535,7 +535,7 @@ describe("matrix live qa scenarios", () => {
           key: "main",
           kind: "group",
           members: ["driver", "observer", "sut"],
-          name: "Brikko Studio Matrix QA run",
+          name: "BrikkoStudio Matrix QA run",
           requireMention: true,
         },
         {
@@ -558,7 +558,7 @@ describe("matrix live qa scenarios", () => {
   it("rejects conflicting Matrix topology room definitions", () => {
     expect(() =>
       scenarioTesting.buildMatrixQaTopologyForScenarios({
-        defaultRoomName: "Brikko Studio Matrix QA run",
+        defaultRoomName: "BrikkoStudio Matrix QA run",
         scenarios: [
           {
             id: "matrix-thread-follow-up",
@@ -603,7 +603,7 @@ describe("matrix live qa scenarios", () => {
 
   it("provisions isolated encrypted rooms for each E2EE scenario", () => {
     const topology = scenarioTesting.buildMatrixQaTopologyForScenarios({
-      defaultRoomName: "Brikko Studio Matrix QA run",
+      defaultRoomName: "BrikkoStudio Matrix QA run",
       scenarios: [
         MATRIX_QA_SCENARIOS.find((scenario) => scenario.id === "matrix-e2ee-basic-reply")!,
         MATRIX_QA_SCENARIOS.find((scenario) => scenario.id === "matrix-e2ee-thread-follow-up")!,
@@ -616,7 +616,7 @@ describe("matrix live qa scenarios", () => {
         key: "main",
         kind: "group",
         members: ["driver", "observer", "sut"],
-        name: "Brikko Studio Matrix QA run",
+        name: "BrikkoStudio Matrix QA run",
         requireMention: true,
       },
       {
@@ -4204,7 +4204,7 @@ describe("matrix live qa scenarios", () => {
       });
       const kill = vi.fn();
       const endStdin = vi.fn();
-      startMatrixQaBrikko StudioCli.mockReturnValue({
+      startMatrixQaBrikkoStudioCli.mockReturnValue({
         args: ["matrix", "verify", "self", "--account", "cli"],
         endStdin,
         kill,
@@ -4214,7 +4214,7 @@ describe("matrix live qa scenarios", () => {
         writeStdin,
       });
       let cliAccountConfigDuringRun: Record<string, unknown> | null = null;
-      runMatrixQaBrikko StudioCli.mockImplementation(async ({ args, env, stdin }) => {
+      runMatrixQaBrikkoStudioCli.mockImplementation(async ({ args, env, stdin }) => {
         if (!cliAccountConfigDuringRun && env.BRIKKO_STUDIO_CONFIG_PATH) {
           const cliConfig = JSON.parse(
             await readFile(String(env.BRIKKO_STUDIO_CONFIG_PATH), "utf8"),
@@ -4302,8 +4302,8 @@ describe("matrix live qa scenarios", () => {
         },
       });
 
-      expect(startMatrixQaBrikko StudioCli).toHaveBeenCalledTimes(1);
-      expect(startMatrixQaBrikko StudioCli.mock.calls[0]?.[0].args).toEqual([
+      expect(startMatrixQaBrikkoStudioCli).toHaveBeenCalledTimes(1);
+      expect(startMatrixQaBrikkoStudioCli.mock.calls[0]?.[0].args).toEqual([
         "matrix",
         "verify",
         "self",
@@ -4312,20 +4312,20 @@ describe("matrix live qa scenarios", () => {
         "--timeout-ms",
         "8000",
       ]);
-      expect(startMatrixQaBrikko StudioCli.mock.calls[0]?.[0].timeoutMs).toBe(16_000);
+      expect(startMatrixQaBrikkoStudioCli.mock.calls[0]?.[0].timeoutMs).toBe(16_000);
       expect(waitForOutput).toHaveBeenCalledTimes(2);
       expect(writeStdin).toHaveBeenCalledWith("yes\n");
       expect(endStdin).toHaveBeenCalledTimes(1);
       expect(wait).toHaveBeenCalledTimes(1);
       expect(kill).toHaveBeenCalledTimes(1);
       expect(registerWithToken).toHaveBeenCalledWith({
-        deviceName: "Brikko Studio Matrix QA CLI Self Verification Owner",
+        deviceName: "BrikkoStudio Matrix QA CLI Self Verification Owner",
         localpart: expect.stringMatching(/^qa-cli-self-verification-[a-f0-9]{8}$/),
         password: expect.stringMatching(/^matrix-qa-/),
         registrationToken: "registration-token",
       });
       expect(loginWithPassword).toHaveBeenCalledWith({
-        deviceName: "Brikko Studio Matrix QA CLI Self Verification Device",
+        deviceName: "BrikkoStudio Matrix QA CLI Self Verification Device",
         password: "cli-owner-password",
         userId: "@cli-owner:matrix-qa.test",
       });
@@ -4338,8 +4338,8 @@ describe("matrix live qa scenarios", () => {
           userId: "@cli-owner:matrix-qa.test",
         }),
       );
-      expect(runMatrixQaBrikko StudioCli).toHaveBeenCalledTimes(2);
-      expect(runMatrixQaBrikko StudioCli.mock.calls.map(([params]) => params.args)).toEqual([
+      expect(runMatrixQaBrikkoStudioCli).toHaveBeenCalledTimes(2);
+      expect(runMatrixQaBrikkoStudioCli.mock.calls.map(([params]) => params.args)).toEqual([
         [
           "matrix",
           "verify",
@@ -4352,8 +4352,8 @@ describe("matrix live qa scenarios", () => {
         ],
         ["matrix", "verify", "status", "--account", "cli", "--json"],
       ]);
-      expect(runMatrixQaBrikko StudioCli.mock.calls[0]?.[0].stdin).toBe("encoded-recovery-key\n");
-      const cliEnv = startMatrixQaBrikko StudioCli.mock.calls[0]?.[0].env;
+      expect(runMatrixQaBrikkoStudioCli.mock.calls[0]?.[0].stdin).toBe("encoded-recovery-key\n");
+      const cliEnv = startMatrixQaBrikkoStudioCli.mock.calls[0]?.[0].env;
       expect(cliEnv?.BRIKKO_STUDIO_STATE_DIR).toContain("brikko-studio-matrix-cli-qa-");
       expect(cliEnv?.BRIKKO_STUDIO_CONFIG_PATH).toContain("brikko-studio-matrix-cli-qa-");
       const configPath = String(cliEnv?.BRIKKO_STUDIO_CONFIG_PATH);
@@ -4411,7 +4411,7 @@ describe("matrix live qa scenarios", () => {
         password: "cli-add-password",
         userId: "@cli-add:matrix-qa.test",
       });
-      runMatrixQaBrikko StudioCli.mockImplementation(async ({ args, env }) => {
+      runMatrixQaBrikkoStudioCli.mockImplementation(async ({ args, env }) => {
         if (env.BRIKKO_STUDIO_CONFIG_PATH) {
           const initialConfig = JSON.parse(
             await readFile(String(env.BRIKKO_STUDIO_CONFIG_PATH), "utf8"),
@@ -4492,7 +4492,7 @@ describe("matrix live qa scenarios", () => {
         },
       });
 
-      expect(runMatrixQaBrikko StudioCli.mock.calls.map(([params]) => params.args)).toEqual([
+      expect(runMatrixQaBrikkoStudioCli.mock.calls.map(([params]) => params.args)).toEqual([
         [
           "matrix",
           "account",
@@ -4508,7 +4508,7 @@ describe("matrix live qa scenarios", () => {
           "--password",
           "cli-add-password",
           "--device-name",
-          "Brikko Studio Matrix QA CLI Account Add E2EE",
+          "BrikkoStudio Matrix QA CLI Account Add E2EE",
           "--allow-private-network",
           "--enable-e2ee",
           "--json",
@@ -4517,7 +4517,7 @@ describe("matrix live qa scenarios", () => {
       ]);
       expect(registerWithToken).toHaveBeenCalledWith(
         expect.objectContaining({
-          deviceName: "Brikko Studio Matrix QA CLI Account Add Owner",
+          deviceName: "BrikkoStudio Matrix QA CLI Account Add Owner",
           registrationToken: "registration-token",
         }),
       );
@@ -4544,7 +4544,7 @@ describe("matrix live qa scenarios", () => {
         userId: "@cli-setup:matrix-qa.test",
       });
       let initialAccountConfig: Record<string, unknown> | null = null;
-      runMatrixQaBrikko StudioCli.mockImplementation(async ({ args, env }) => {
+      runMatrixQaBrikkoStudioCli.mockImplementation(async ({ args, env }) => {
         if (!initialAccountConfig && env.BRIKKO_STUDIO_CONFIG_PATH) {
           const initialConfig = JSON.parse(
             await readFile(String(env.BRIKKO_STUDIO_CONFIG_PATH), "utf8"),
@@ -4646,13 +4646,13 @@ describe("matrix live qa scenarios", () => {
         startupVerification: "off",
         userId: "@cli-setup:matrix-qa.test",
       });
-      expect(runMatrixQaBrikko StudioCli.mock.calls.map(([params]) => params.args)).toEqual([
+      expect(runMatrixQaBrikkoStudioCli.mock.calls.map(([params]) => params.args)).toEqual([
         ["matrix", "encryption", "setup", "--account", "cli-encryption-setup", "--json"],
         ["matrix", "verify", "status", "--account", "cli-encryption-setup", "--json"],
       ]);
       expect(registerWithToken).toHaveBeenCalledWith(
         expect.objectContaining({
-          deviceName: "Brikko Studio Matrix QA CLI Encryption Setup Owner",
+          deviceName: "BrikkoStudio Matrix QA CLI Encryption Setup Owner",
           registrationToken: "registration-token",
         }),
       );
@@ -4687,7 +4687,7 @@ describe("matrix live qa scenarios", () => {
         userId: "@cli-idempotent:matrix-qa.test",
       });
       let initialAccountConfig: Record<string, unknown> | null = null;
-      runMatrixQaBrikko StudioCli.mockImplementation(async ({ args, env }) => {
+      runMatrixQaBrikkoStudioCli.mockImplementation(async ({ args, env }) => {
         if (!initialAccountConfig && env.BRIKKO_STUDIO_CONFIG_PATH) {
           const initialConfig = JSON.parse(
             await readFile(String(env.BRIKKO_STUDIO_CONFIG_PATH), "utf8"),
@@ -4770,13 +4770,13 @@ describe("matrix live qa scenarios", () => {
         startupVerification: "off",
         userId: "@cli-idempotent:matrix-qa.test",
       });
-      expect(runMatrixQaBrikko StudioCli.mock.calls.map(([params]) => params.args)).toEqual([
+      expect(runMatrixQaBrikkoStudioCli.mock.calls.map(([params]) => params.args)).toEqual([
         ["matrix", "encryption", "setup", "--account", "cli-encryption-idempotent", "--json"],
         ["matrix", "encryption", "setup", "--account", "cli-encryption-idempotent", "--json"],
       ]);
       expect(registerWithToken).toHaveBeenCalledWith(
         expect.objectContaining({
-          deviceName: "Brikko Studio Matrix QA CLI Encryption Idempotent Owner",
+          deviceName: "BrikkoStudio Matrix QA CLI Encryption Idempotent Owner",
           registrationToken: "registration-token",
         }),
       );
@@ -4844,7 +4844,7 @@ describe("matrix live qa scenarios", () => {
         .fn()
         .mockRejectedValue(new Error("brikko-studio matrix encryption setup exited 1"));
       const kill = vi.fn();
-      startMatrixQaBrikko StudioCli.mockReturnValue({
+      startMatrixQaBrikkoStudioCli.mockReturnValue({
         args: ["matrix", "encryption", "setup", "--account", "cli-encryption-failure", "--json"],
         kill,
         output,
@@ -4901,7 +4901,7 @@ describe("matrix live qa scenarios", () => {
           search: "",
         }),
       ).toBe(true);
-      expect(startMatrixQaBrikko StudioCli.mock.calls[0]?.[0].args).toEqual([
+      expect(startMatrixQaBrikkoStudioCli.mock.calls[0]?.[0].args).toEqual([
         "matrix",
         "encryption",
         "setup",
@@ -4909,7 +4909,7 @@ describe("matrix live qa scenarios", () => {
         "cli-encryption-failure",
         "--json",
       ]);
-      expect(startMatrixQaBrikko StudioCli.mock.calls[0]?.[0].env.BRIKKO_STUDIO_CONFIG_PATH).toContain(
+      expect(startMatrixQaBrikkoStudioCli.mock.calls[0]?.[0].env.BRIKKO_STUDIO_CONFIG_PATH).toContain(
         "brikko-studio-matrix-e2ee-setup-qa-",
       );
       expect(output).toHaveBeenCalledTimes(1);
@@ -4917,7 +4917,7 @@ describe("matrix live qa scenarios", () => {
       expect(kill).toHaveBeenCalledTimes(1);
       expect(registerWithToken).toHaveBeenCalledWith(
         expect.objectContaining({
-          deviceName: "Brikko Studio Matrix QA CLI Encryption Failure Owner",
+          deviceName: "BrikkoStudio Matrix QA CLI Encryption Failure Owner",
           registrationToken: "registration-token",
         }),
       );
@@ -4982,7 +4982,7 @@ describe("matrix live qa scenarios", () => {
         userId: "@cli-recovery:matrix-qa.test",
       });
       let initialAccountConfig: Record<string, unknown> | null = null;
-      runMatrixQaBrikko StudioCli.mockImplementation(async ({ args, env }) => {
+      runMatrixQaBrikkoStudioCli.mockImplementation(async ({ args, env }) => {
         if (!initialAccountConfig && env.BRIKKO_STUDIO_CONFIG_PATH) {
           const initialConfig = JSON.parse(
             await readFile(String(env.BRIKKO_STUDIO_CONFIG_PATH), "utf8"),
@@ -5074,7 +5074,7 @@ describe("matrix live qa scenarios", () => {
       expect(bootstrapOwnDeviceVerification).toHaveBeenCalledWith({
         allowAutomaticCrossSigningReset: false,
       });
-      expect(runMatrixQaBrikko StudioCli.mock.calls.map(([params]) => params.args)).toEqual([
+      expect(runMatrixQaBrikkoStudioCli.mock.calls.map(([params]) => params.args)).toEqual([
         [
           "matrix",
           "encryption",
@@ -5088,7 +5088,7 @@ describe("matrix live qa scenarios", () => {
       ]);
       expect(registerWithToken).toHaveBeenCalledWith(
         expect.objectContaining({
-          deviceName: "Brikko Studio Matrix QA CLI Recovery Key Owner",
+          deviceName: "BrikkoStudio Matrix QA CLI Recovery Key Owner",
           registrationToken: "registration-token",
         }),
       );
@@ -5158,7 +5158,7 @@ describe("matrix live qa scenarios", () => {
         .fn()
         .mockRejectedValue(new Error("brikko-studio matrix encryption setup exited 1"));
       const kill = vi.fn();
-      startMatrixQaBrikko StudioCli.mockReturnValue({
+      startMatrixQaBrikkoStudioCli.mockReturnValue({
         args: [
           "matrix",
           "encryption",
@@ -5205,7 +5205,7 @@ describe("matrix live qa scenarios", () => {
         },
       });
 
-      expect(startMatrixQaBrikko StudioCli.mock.calls[0]?.[0].args).toEqual([
+      expect(startMatrixQaBrikkoStudioCli.mock.calls[0]?.[0].args).toEqual([
         "matrix",
         "encryption",
         "setup",
@@ -5220,7 +5220,7 @@ describe("matrix live qa scenarios", () => {
       expect(kill).toHaveBeenCalledTimes(1);
       expect(registerWithToken).toHaveBeenCalledWith(
         expect.objectContaining({
-          deviceName: "Brikko Studio Matrix QA CLI Invalid Recovery Key Owner",
+          deviceName: "BrikkoStudio Matrix QA CLI Invalid Recovery Key Owner",
           registrationToken: "registration-token",
         }),
       );
@@ -5253,7 +5253,7 @@ describe("matrix live qa scenarios", () => {
         password: "cli-multi-password",
         userId: "@cli-multi:matrix-qa.test",
       });
-      runMatrixQaBrikko StudioCli.mockImplementation(async ({ args, env }) => {
+      runMatrixQaBrikkoStudioCli.mockImplementation(async ({ args, env }) => {
         const configPath = String(env.BRIKKO_STUDIO_CONFIG_PATH);
         const config = JSON.parse(await readFile(configPath, "utf8")) as {
           channels: {
@@ -5331,12 +5331,12 @@ describe("matrix live qa scenarios", () => {
         },
       });
 
-      expect(runMatrixQaBrikko StudioCli.mock.calls.map(([params]) => params.args)).toEqual([
+      expect(runMatrixQaBrikkoStudioCli.mock.calls.map(([params]) => params.args)).toEqual([
         ["matrix", "encryption", "setup", "--account", "cli-multi-target", "--json"],
       ]);
       expect(registerWithToken).toHaveBeenCalledWith(
         expect.objectContaining({
-          deviceName: "Brikko Studio Matrix QA CLI Multi Account Owner",
+          deviceName: "BrikkoStudio Matrix QA CLI Multi Account Owner",
           registrationToken: "registration-token",
         }),
       );
@@ -5451,7 +5451,7 @@ describe("matrix live qa scenarios", () => {
         }),
       };
       createMatrixQaE2eeScenarioClient.mockResolvedValueOnce(driverClient);
-      runMatrixQaBrikko StudioCli.mockImplementation(async ({ args, env }) => {
+      runMatrixQaBrikkoStudioCli.mockImplementation(async ({ args, env }) => {
         const joined = args.join(" ");
         if (joined === "matrix encryption setup --account cli-setup-gateway --json") {
           const configPath = String(env.BRIKKO_STUDIO_CONFIG_PATH);
@@ -5581,18 +5581,18 @@ describe("matrix live qa scenarios", () => {
         setupBootstrapMarker: "preserved",
       });
 
-      expect(runMatrixQaBrikko StudioCli.mock.calls.map(([params]) => params.args)).toEqual([
+      expect(runMatrixQaBrikkoStudioCli.mock.calls.map(([params]) => params.args)).toEqual([
         ["matrix", "encryption", "setup", "--account", "cli-setup-gateway", "--json"],
       ]);
       expect(registerWithToken).toHaveBeenCalledWith(
         expect.objectContaining({
-          deviceName: "Brikko Studio Matrix QA CLI Setup Gateway",
+          deviceName: "BrikkoStudio Matrix QA CLI Setup Gateway",
           registrationToken: "registration-token",
         }),
       );
       expect(registerWithToken).toHaveBeenCalledWith(
         expect.objectContaining({
-          deviceName: "Brikko Studio Matrix QA CLI Setup Driver",
+          deviceName: "BrikkoStudio Matrix QA CLI Setup Driver",
           registrationToken: "registration-token",
         }),
       );

@@ -4,7 +4,7 @@ import { buildSystemdUnit } from "./systemd-unit.js";
 describe("buildSystemdUnit", () => {
   it("quotes arguments with whitespace", () => {
     const unit = buildSystemdUnit({
-      description: "Brikko Studio Gateway",
+      description: "BrikkoStudio Gateway",
       programArguments: ["/usr/bin/brikko-studio", "gateway", "--name", "My Bot"],
       environment: {},
     });
@@ -14,7 +14,7 @@ describe("buildSystemdUnit", () => {
 
   it("renders control-group kill mode for child-process cleanup", () => {
     const unit = buildSystemdUnit({
-      description: "Brikko Studio Gateway",
+      description: "BrikkoStudio Gateway",
       programArguments: ["/usr/bin/brikko-studio", "gateway", "run"],
       environment: {},
     });
@@ -30,7 +30,7 @@ describe("buildSystemdUnit", () => {
   it("rejects environment values with line breaks", () => {
     expect(() =>
       buildSystemdUnit({
-        description: "Brikko Studio Gateway",
+        description: "BrikkoStudio Gateway",
         programArguments: ["/usr/bin/brikko-studio", "gateway", "start"],
         environment: {
           INJECT: "ok\nExecStartPre=/bin/touch /tmp/oc15789_rce",
@@ -41,7 +41,7 @@ describe("buildSystemdUnit", () => {
 
   it("renders EnvironmentFile entries before inline Environment values", () => {
     const unit = buildSystemdUnit({
-      description: "Brikko Studio Gateway",
+      description: "BrikkoStudio Gateway",
       programArguments: ["/usr/bin/brikko-studio", "gateway", "run"],
       environmentFiles: ["/home/test/.brikko-studio/.env"],
       environment: {

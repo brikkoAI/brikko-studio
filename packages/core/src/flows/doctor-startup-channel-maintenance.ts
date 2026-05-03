@@ -1,5 +1,5 @@
 import { runChannelPluginStartupMaintenance } from "../channels/plugins/lifecycle-startup.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 type DoctorStartupMaintenanceRuntime = {
   error: (message: string) => void;
@@ -9,7 +9,7 @@ type DoctorStartupMaintenanceRuntime = {
 type ChannelPluginStartupMaintenanceRunner = typeof runChannelPluginStartupMaintenance;
 
 export async function maybeRunDoctorStartupChannelMaintenance(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   runChannelPluginStartupMaintenance?: ChannelPluginStartupMaintenanceRunner;
   runtime: DoctorStartupMaintenanceRuntime;

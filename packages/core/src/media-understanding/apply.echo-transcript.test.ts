@@ -2,8 +2,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MsgContext } from "../auto-reply/templating.js";
-import type { Brikko StudioConfig } from "../config/types.js";
-import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 import { createSafeAudioFixtureBuffer } from "./runner.test-utils.js";
 import type { MediaUnderstandingProvider } from "./types.js";
 
@@ -79,10 +79,10 @@ function createAudioConfigWithEcho(opts?: {
   echoFormat?: string;
   transcribedText?: string;
 }): {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providers: Record<string, { id: string; transcribeAudio: () => Promise<{ text: string }> }>;
 } {
-  const cfg: Brikko StudioConfig = {
+  const cfg: BrikkoStudioConfig = {
     tools: {
       media: {
         audio: {
@@ -208,7 +208,7 @@ describe("applyMediaUnderstanding – echo transcript", () => {
       };
     });
 
-    const baseDir = resolvePreferredBrikko StudioTmpDir();
+    const baseDir = resolvePreferredBrikkoStudioTmpDir();
     await fs.mkdir(baseDir, { recursive: true });
     suiteTempMediaRootDir = await fs.mkdtemp(path.join(baseDir, TEMP_MEDIA_PREFIX));
     const mod = await import("./apply.js");

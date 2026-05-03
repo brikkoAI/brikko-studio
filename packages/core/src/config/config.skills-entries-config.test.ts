@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { Brikko StudioSchema } from "./zod-schema.js";
+import { BrikkoStudioSchema } from "./zod-schema.js";
 
 describe("skills entries config schema", () => {
   it("accepts custom fields under config", () => {
-    const res = Brikko StudioSchema.safeParse({
+    const res = BrikkoStudioSchema.safeParse({
       skills: {
         entries: {
           "custom-skill": {
@@ -21,7 +21,7 @@ describe("skills entries config schema", () => {
   });
 
   it("rejects unknown top-level fields", () => {
-    const res = Brikko StudioSchema.safeParse({
+    const res = BrikkoStudioSchema.safeParse({
       skills: {
         entries: {
           "custom-skill": {
@@ -46,7 +46,7 @@ describe("skills entries config schema", () => {
   });
 
   it("accepts agents.defaults.skills", () => {
-    const res = Brikko StudioSchema.safeParse({
+    const res = BrikkoStudioSchema.safeParse({
       agents: {
         defaults: {
           skills: ["github", "weather"],
@@ -58,7 +58,7 @@ describe("skills entries config schema", () => {
   });
 
   it("accepts agents.list[].skills as explicit replacements", () => {
-    const res = Brikko StudioSchema.safeParse({
+    const res = BrikkoStudioSchema.safeParse({
       agents: {
         defaults: {
           skills: ["github", "weather"],
@@ -71,7 +71,7 @@ describe("skills entries config schema", () => {
   });
 
   it("accepts explicit empty skills arrays for defaults and agents", () => {
-    const res = Brikko StudioSchema.safeParse({
+    const res = BrikkoStudioSchema.safeParse({
       agents: {
         defaults: {
           skills: [],
@@ -84,7 +84,7 @@ describe("skills entries config schema", () => {
   });
 
   it("rejects legacy skills.policy config", () => {
-    const res = Brikko StudioSchema.safeParse({
+    const res = BrikkoStudioSchema.safeParse({
       skills: {
         policy: {
           globalEnabled: ["github"],

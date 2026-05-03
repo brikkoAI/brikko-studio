@@ -1,6 +1,6 @@
 // Shared setup wizard/types/helpers for plugin and channel setup surfaces.
 
-export type { Brikko StudioConfig } from "../config/config.js";
+export type { BrikkoStudioConfig } from "../config/config.js";
 export type { DmPolicy, GroupPolicy } from "../config/types.js";
 export type { SecretInput } from "../config/types.secrets.js";
 export type {

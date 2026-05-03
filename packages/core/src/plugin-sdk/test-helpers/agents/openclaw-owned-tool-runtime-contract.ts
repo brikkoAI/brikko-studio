@@ -39,7 +39,7 @@ export function mediaToolResult(
   });
 }
 
-export function installBrikko StudioOwnedToolHooks(params?: {
+export function installBrikkoStudioOwnedToolHooks(params?: {
   adjustedParams?: Record<string, unknown>;
   blockReason?: string;
 }) {
@@ -64,7 +64,7 @@ export function installBrikko StudioOwnedToolHooks(params?: {
 
 /**
  * Installs only the Codex app-server `tool_result` middleware fixture.
- * Pair with `installBrikko StudioOwnedToolHooks()` when a test asserts before/after hook behavior.
+ * Pair with `installBrikkoStudioOwnedToolHooks()` when a test asserts before/after hook behavior.
  */
 export function installCodexToolResultMiddleware(
   handler: (event: CodexAppServerToolResultEvent) => AgentToolResult<unknown>,
@@ -87,7 +87,7 @@ export function installCodexToolResultMiddleware(
   return { middleware };
 }
 
-export function resetBrikko StudioOwnedToolHooks(): void {
+export function resetBrikkoStudioOwnedToolHooks(): void {
   resetGlobalHookRunner();
   resetPluginRuntimeStateForTest();
   beforeToolCallTesting.adjustedParamsByToolCallId.clear();

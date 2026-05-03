@@ -11,13 +11,13 @@ export type {
   ChannelOutboundAdapter,
   ChannelPlugin,
   HistoryEntry,
-  Brikko StudioConfig,
-  Brikko StudioPluginApi,
+  BrikkoStudioConfig,
+  BrikkoStudioPluginApi,
   OutboundIdentity,
   PluginRuntime,
   ReplyPayload,
 } from "brikko-studio/plugin-sdk/core";
-export type { Brikko StudioConfig as ClawdbotConfig } from "brikko-studio/plugin-sdk/core";
+export type { BrikkoStudioConfig as ClawdbotConfig } from "brikko-studio/plugin-sdk/core";
 export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";
 export type { GroupToolPolicyConfig } from "brikko-studio/plugin-sdk/config-types";
 export {

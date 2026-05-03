@@ -122,7 +122,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     );
   });
 
-  it("normalizes Brikko Studio Codex model ids for ACP startup", async () => {
+  it("normalizes BrikkoStudio Codex model ids for ACP startup", async () => {
     const baseStore: TestSessionStore = {
       load: vi.fn(async () => undefined),
       save: vi.fn(async () => {}),

@@ -1,5 +1,5 @@
 import type { GatewayAuthConfig } from "../config/types.gateway.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { hasConfiguredSecretInput } from "../config/types.secrets.js";
 import { resolveRequiredConfiguredSecretRefInputString } from "./resolve-configured-secret-input-string.js";
 import {
@@ -14,7 +14,7 @@ type GatewayAuthSecretInputPath = Extract<
 >;
 
 type GatewayAuthSecretRefResolutionParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   mode?: GatewayAuthConfig["mode"];
   hasPasswordCandidate: boolean;
@@ -22,7 +22,7 @@ type GatewayAuthSecretRefResolutionParams = {
 };
 
 export function hasConfiguredGatewayAuthSecretInput(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   path: GatewayAuthSecretInputPath,
 ): boolean {
   return hasConfiguredSecretInput(readGatewaySecretInputValue(cfg, path), cfg.secrets?.defaults);
@@ -74,7 +74,7 @@ function shouldResolveGatewayPasswordSecretRef(
 }
 
 async function resolveGatewayAuthSecretRefValue(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   path: GatewayAuthSecretInputPath;
   shouldResolve: boolean;
@@ -117,11 +117,11 @@ export async function resolveGatewayPasswordSecretRefValue(
 }
 
 async function resolveGatewayAuthSecretRef(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   path: GatewayAuthSecretInputPath;
   shouldResolve: boolean;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const value = await resolveGatewayAuthSecretRefValue(params);
   if (!value) {
     return params.cfg;
@@ -138,12 +138,12 @@ async function resolveGatewayAuthSecretRef(params: {
 }
 
 async function resolveGatewayPasswordSecretRef(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   mode?: GatewayAuthConfig["mode"];
   hasPasswordCandidate: boolean;
   hasTokenCandidate: boolean;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   return resolveGatewayAuthSecretRef({
     cfg: params.cfg,
     env: params.env,
@@ -154,7 +154,7 @@ async function resolveGatewayPasswordSecretRef(params: {
 
 export async function materializeGatewayAuthSecretRefs(
   params: GatewayAuthSecretRefResolutionParams,
-): Promise<Brikko StudioConfig> {
+): Promise<BrikkoStudioConfig> {
   const cfgWithToken = await resolveGatewayAuthSecretRef({
     cfg: params.cfg,
     env: params.env,

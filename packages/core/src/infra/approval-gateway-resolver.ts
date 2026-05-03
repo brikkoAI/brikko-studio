@@ -1,10 +1,10 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { withOperatorApprovalsGatewayClient } from "../gateway/operator-approvals-client.js";
 import { isApprovalNotFoundError } from "./approval-errors.js";
 import type { ExecApprovalDecision } from "./exec-approvals.js";
 
 type ResolveApprovalOverGatewayParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   approvalId: string;
   decision: ExecApprovalDecision;
   senderId?: string | null;

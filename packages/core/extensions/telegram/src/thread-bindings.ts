@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { readAcpSessionEntry } from "brikko-studio/plugin-sdk/acp-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   formatThreadBindingDurationLabel,
   registerSessionBindingAdapter,
@@ -408,7 +408,7 @@ function shouldExpireByMaxAge(params: {
 }
 
 export function createTelegramThreadBindingManager(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   persist?: boolean;
   idleTimeoutMs?: number;

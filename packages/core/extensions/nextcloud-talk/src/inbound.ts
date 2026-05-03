@@ -10,7 +10,7 @@ import {
   resolveDefaultGroupPolicy,
   resolveDmGroupAccessWithCommandGate,
   warnMissingProviderGroupPolicyFallbackOnce,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type OutboundReplyPayload,
   type RuntimeEnv,
 } from "../runtime-api.js";
@@ -85,7 +85,7 @@ export async function handleNextcloudTalkInbound(params: {
   statusSink?.({ lastInboundAt: message.timestamp });
 
   const dmPolicy = account.config.dmPolicy ?? "pairing";
-  const defaultGroupPolicy = resolveDefaultGroupPolicy(config as Brikko StudioConfig);
+  const defaultGroupPolicy = resolveDefaultGroupPolicy(config as BrikkoStudioConfig);
   const { groupPolicy, providerMissingFallbackApplied } =
     resolveAllowlistProviderRuntimeGroupPolicy({
       providerConfigPresent:
@@ -129,12 +129,12 @@ export async function handleNextcloudTalkInbound(params: {
   const roomAllowFrom = normalizeNextcloudTalkAllowlist(roomConfig?.allowFrom);
 
   const allowTextCommands = core.channel.commands.shouldHandleTextCommands({
-    cfg: config as Brikko StudioConfig,
+    cfg: config as BrikkoStudioConfig,
     surface: CHANNEL_ID,
   });
   const useAccessGroups =
     (config.commands as Record<string, unknown> | undefined)?.useAccessGroups !== false;
-  const hasControlCommand = core.channel.text.hasControlCommand(rawBody, config as Brikko StudioConfig);
+  const hasControlCommand = core.channel.text.hasControlCommand(rawBody, config as BrikkoStudioConfig);
   const access = resolveDmGroupAccessWithCommandGate({
     isGroup,
     dmPolicy,
@@ -205,7 +205,7 @@ export async function handleNextcloudTalkInbound(params: {
     return;
   }
 
-  const mentionRegexes = core.channel.mentions.buildMentionRegexes(config as Brikko StudioConfig);
+  const mentionRegexes = core.channel.mentions.buildMentionRegexes(config as BrikkoStudioConfig);
   const wasMentioned = mentionRegexes.length
     ? core.channel.mentions.matchesMentionPatterns(rawBody, mentionRegexes)
     : false;
@@ -229,7 +229,7 @@ export async function handleNextcloudTalkInbound(params: {
   }
 
   const route = core.channel.routing.resolveAgentRoute({
-    cfg: config as Brikko StudioConfig,
+    cfg: config as BrikkoStudioConfig,
     channel: CHANNEL_ID,
     accountId: account.accountId,
     peer: {
@@ -245,7 +245,7 @@ export async function handleNextcloudTalkInbound(params: {
       agentId: route.agentId,
     },
   );
-  const envelopeOptions = core.channel.reply.resolveEnvelopeFormatOptions(config as Brikko StudioConfig);
+  const envelopeOptions = core.channel.reply.resolveEnvelopeFormatOptions(config as BrikkoStudioConfig);
   const previousTimestamp = core.channel.session.readSessionUpdatedAt({
     storePath,
     sessionKey: route.sessionKey,
@@ -287,7 +287,7 @@ export async function handleNextcloudTalkInbound(params: {
   });
 
   await dispatchInboundReplyWithBase({
-    cfg: config as Brikko StudioConfig,
+    cfg: config as BrikkoStudioConfig,
     channel: CHANNEL_ID,
     accountId: account.accountId,
     route,

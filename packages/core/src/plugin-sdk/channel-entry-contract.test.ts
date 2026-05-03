@@ -5,7 +5,7 @@ import { pathToFileURL } from "node:url";
 import { importFreshModule } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { PluginRuntime } from "../plugins/runtime/types.js";
-import type { Brikko StudioPluginApi, PluginRegistrationMode } from "../plugins/types.js";
+import type { BrikkoStudioPluginApi, PluginRegistrationMode } from "../plugins/types.js";
 import { defineBundledChannelEntry, loadBundledEntryExportSync } from "./channel-entry-contract.js";
 
 const tempDirs: string[] = [];
@@ -19,13 +19,13 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 
-function createApi(registrationMode: PluginRegistrationMode): Brikko StudioPluginApi {
+function createApi(registrationMode: PluginRegistrationMode): BrikkoStudioPluginApi {
   return {
     registrationMode,
     runtime: { registrationMode } as unknown as PluginRuntime,
     registerChannel: vi.fn(),
     registerTool: vi.fn(),
-  } as unknown as Brikko StudioPluginApi;
+  } as unknown as BrikkoStudioPluginApi;
 }
 
 function writeBundledChannelFixture(params: {
@@ -75,8 +75,8 @@ function writeBundledChannelFixture(params: {
 function createBundledChannelEntry(params: {
   importerPath: string;
   pluginId: string;
-  registerCliMetadata?: (api: Brikko StudioPluginApi) => void;
-  registerFull?: (api: Brikko StudioPluginApi) => void;
+  registerCliMetadata?: (api: BrikkoStudioPluginApi) => void;
+  registerFull?: (api: BrikkoStudioPluginApi) => void;
 }) {
   return defineBundledChannelEntry({
     id: params.pluginId,
@@ -101,8 +101,8 @@ describe("defineBundledChannelEntry", () => {
       pluginId,
       runtimeMarker,
     });
-    const registerCliMetadata = vi.fn<(api: Brikko StudioPluginApi) => void>();
-    const registerFull = vi.fn<(api: Brikko StudioPluginApi) => void>((api) => {
+    const registerCliMetadata = vi.fn<(api: BrikkoStudioPluginApi) => void>();
+    const registerFull = vi.fn<(api: BrikkoStudioPluginApi) => void>((api) => {
       api.registerTool(
         {
           name: "channel_tool",
@@ -141,8 +141,8 @@ describe("defineBundledChannelEntry", () => {
       pluginId,
       runtimeMarker,
     });
-    const registerCliMetadata = vi.fn<(api: Brikko StudioPluginApi) => void>();
-    const registerFull = vi.fn<(api: Brikko StudioPluginApi) => void>();
+    const registerCliMetadata = vi.fn<(api: BrikkoStudioPluginApi) => void>();
+    const registerFull = vi.fn<(api: BrikkoStudioPluginApi) => void>();
     const entry = createBundledChannelEntry({
       importerPath,
       pluginId,
@@ -169,8 +169,8 @@ describe("defineBundledChannelEntry", () => {
       pluginId,
       runtimeMarker,
     });
-    const registerCliMetadata = vi.fn<(api: Brikko StudioPluginApi) => void>();
-    const registerFull = vi.fn<(api: Brikko StudioPluginApi) => void>();
+    const registerCliMetadata = vi.fn<(api: BrikkoStudioPluginApi) => void>();
+    const registerFull = vi.fn<(api: BrikkoStudioPluginApi) => void>();
     const entry = createBundledChannelEntry({
       importerPath,
       pluginId,

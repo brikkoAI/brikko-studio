@@ -4,7 +4,7 @@ import path from "node:path";
 
 export const POSIX_BRIKKO_STUDIO_TMP_DIR = "/tmp/brikko-studio";
 
-type ResolvePreferredBrikko StudioTmpDirOptions = {
+type ResolvePreferredBrikkoStudioTmpDirOptions = {
   accessSync?: (path: string, mode?: number) => void;
   chmodSync?: (path: string, mode: number) => void;
   lstatSync?: (path: string) => {
@@ -30,8 +30,8 @@ function isNodeErrorWithCode(err: unknown, code: string): err is MaybeNodeError 
   );
 }
 
-export function resolvePreferredBrikko StudioTmpDir(
-  options: ResolvePreferredBrikko StudioTmpDirOptions = {},
+export function resolvePreferredBrikkoStudioTmpDir(
+  options: ResolvePreferredBrikkoStudioTmpDirOptions = {},
 ): string {
   // Evaluated here (not at module load) so this file is safe to import in browser bundles.
   const TMP_DIR_ACCESS_MODE = fs.constants.W_OK | fs.constants.X_OK;
@@ -141,16 +141,16 @@ export function resolvePreferredBrikko StudioTmpDir(
       if (tryRepairWritableBits(fallbackPath)) {
         return fallbackPath;
       }
-      throw new Error(`Unsafe fallback Brikko Studio temp dir: ${fallbackPath}`);
+      throw new Error(`Unsafe fallback BrikkoStudio temp dir: ${fallbackPath}`);
     }
     try {
       mkdirSync(fallbackPath, { recursive: true, mode: 0o700 });
       chmodSync(fallbackPath, 0o700);
     } catch {
-      throw new Error(`Unable to create fallback Brikko Studio temp dir: ${fallbackPath}`);
+      throw new Error(`Unable to create fallback BrikkoStudio temp dir: ${fallbackPath}`);
     }
     if (resolveDirState(fallbackPath) !== "available" && !tryRepairWritableBits(fallbackPath)) {
-      throw new Error(`Unsafe fallback Brikko Studio temp dir: ${fallbackPath}`);
+      throw new Error(`Unsafe fallback BrikkoStudio temp dir: ${fallbackPath}`);
     }
     return fallbackPath;
   };

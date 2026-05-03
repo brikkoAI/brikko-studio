@@ -4,7 +4,7 @@ import {
   __testing,
   clearPluginLoaderCache,
   clearPluginRegistryLoadCache,
-  loadBrikko StudioPlugins,
+  loadBrikkoStudioPlugins,
   resolveRuntimePluginRegistry,
 } from "./loader.js";
 import { resetPluginLoaderTestStateForTest } from "./loader.test-fixtures.js";
@@ -566,10 +566,10 @@ describe("resolveRuntimePluginRegistry", () => {
         },
         workspaceDir: "/tmp/workspace-a",
       };
-      const fullRegistry = loadBrikko StudioPlugins(loadOptions);
+      const fullRegistry = loadBrikkoStudioPlugins(loadOptions);
 
-      loadBrikko StudioPlugins({ ...loadOptions, onlyPluginIds: ["alpha"] });
-      loadBrikko StudioPlugins({ ...loadOptions, onlyPluginIds: ["bravo"] });
+      loadBrikkoStudioPlugins({ ...loadOptions, onlyPluginIds: ["alpha"] });
+      loadBrikkoStudioPlugins({ ...loadOptions, onlyPluginIds: ["bravo"] });
 
       expect(resolveRuntimePluginRegistry(loadOptions)).toBe(fullRegistry);
     } finally {
@@ -627,7 +627,7 @@ describe("clearPluginLoaderCache", () => {
   });
 });
 
-describe("loadBrikko StudioPlugins active runtime clearing", () => {
+describe("loadBrikkoStudioPlugins active runtime clearing", () => {
   it("clears plugin-owned global providers before activating a new registry", () => {
     registerCompactionProvider({
       id: "stale-compaction",
@@ -639,7 +639,7 @@ describe("loadBrikko StudioPlugins active runtime clearing", () => {
       create: async () => ({ provider: null }),
     });
 
-    loadBrikko StudioPlugins({ onlyPluginIds: [] });
+    loadBrikkoStudioPlugins({ onlyPluginIds: [] });
 
     expect(getCompactionProvider("stale-compaction")).toBeUndefined();
     expect(getMemoryEmbeddingProvider("stale-memory")).toBeUndefined();
@@ -671,10 +671,10 @@ describe("clearPluginRegistryLoadCache", () => {
       },
       workspaceDir: "/tmp/workspace-a",
     };
-    const registry = loadBrikko StudioPlugins(loadOptions);
+    const registry = loadBrikkoStudioPlugins(loadOptions);
 
     clearPluginRegistryLoadCache();
 
-    expect(loadBrikko StudioPlugins(loadOptions)).not.toBe(registry);
+    expect(loadBrikkoStudioPlugins(loadOptions)).not.toBe(registry);
   });
 });

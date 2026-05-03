@@ -5,7 +5,7 @@ import {
   clearRuntimeConfigSnapshot,
   setRuntimeConfigSnapshot,
 } from "../config/runtime-snapshot.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { captureEnv, withPathResolutionEnv } from "../test-utils/env.js";
 import { createFixtureSuite } from "../test-utils/fixture-suite.js";
 import { createTempHomeEnv, type TempHomeEnv } from "../test-utils/temp-home.js";
@@ -118,7 +118,7 @@ function envSkillSnapshot(name: string, metadata: SkillEntry["metadata"]): Skill
   };
 }
 
-function rawSkillApiKeyRefConfig(skillName: string): Brikko StudioConfig {
+function rawSkillApiKeyRefConfig(skillName: string): BrikkoStudioConfig {
   return {
     skills: {
       entries: {
@@ -134,7 +134,7 @@ function rawSkillApiKeyRefConfig(skillName: string): Brikko StudioConfig {
   };
 }
 
-function resolvedSkillApiKeyConfig(skillName: string, apiKey: string): Brikko StudioConfig {
+function resolvedSkillApiKeyConfig(skillName: string, apiKey: string): BrikkoStudioConfig {
   return {
     skills: {
       entries: {
@@ -275,7 +275,7 @@ describe("buildWorkspaceSkillCommandSpecs", () => {
     expect(commands.map((entry) => entry.skillName)).toEqual(["alpha-skill"]);
   });
 
-  it("includes enabled Claude bundle markdown commands as native Brikko Studio slash commands", async () => {
+  it("includes enabled Claude bundle markdown commands as native BrikkoStudio slash commands", async () => {
     const workspaceDir = await makeWorkspace();
     const config = {
       plugins: {
@@ -283,7 +283,7 @@ describe("buildWorkspaceSkillCommandSpecs", () => {
           "compound-bundle": { enabled: true },
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     // Prime plugin discovery before the bundle exists so command loading proves
     // it sees the current filesystem state instead of a stale cached snapshot.

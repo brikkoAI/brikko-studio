@@ -286,7 +286,7 @@ describe("gateway-cli coverage", () => {
     discoverGatewayBeacons.mockClear();
     discoverGatewayBeacons.mockResolvedValueOnce([
       {
-        instanceName: "Studio (Brikko Studio)",
+        instanceName: "Studio (BrikkoStudio)",
         displayName: "Studio",
         domain: "brikko-studio.internal.",
         host: "studio.brikko-studio.internal",

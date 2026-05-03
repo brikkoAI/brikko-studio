@@ -13,7 +13,7 @@ import {
 } from "brikko-studio/plugin-sdk/channel-config-helpers";
 import { resolveAccountEntry } from "brikko-studio/plugin-sdk/routing";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
-import type { DiscordAccountConfig, DiscordActionConfig, Brikko StudioConfig } from "./runtime-api.js";
+import type { DiscordAccountConfig, DiscordActionConfig, BrikkoStudioConfig } from "./runtime-api.js";
 import { resolveDiscordToken } from "./token.js";
 
 export type ResolvedDiscordAccount = {
@@ -30,14 +30,14 @@ export const listDiscordAccountIds = listAccountIds;
 export const resolveDefaultDiscordAccountId = resolveDefaultAccountId;
 
 export function resolveDiscordAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): DiscordAccountConfig | undefined {
   return resolveAccountEntry(cfg.channels?.discord?.accounts, accountId);
 }
 
 export function mergeDiscordAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): DiscordAccountConfig {
   return resolveMergedAccountConfig<DiscordAccountConfig>({
@@ -50,7 +50,7 @@ export function mergeDiscordAccountConfig(
 }
 
 export function resolveDiscordAccountAllowFrom(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): string[] | undefined {
   const accountId = normalizeAccountId(
@@ -67,7 +67,7 @@ export function resolveDiscordAccountAllowFrom(params: {
 }
 
 export function resolveDiscordAccountDmPolicy(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ChannelDmPolicy | undefined {
   const accountId = normalizeAccountId(
@@ -84,7 +84,7 @@ export function resolveDiscordAccountDmPolicy(params: {
 }
 
 export function createDiscordActionGate(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): (key: keyof DiscordActionConfig, defaultValue?: boolean) => boolean {
   const accountId = normalizeAccountId(
@@ -97,7 +97,7 @@ export function createDiscordActionGate(params: {
 }
 
 export function resolveDiscordAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ResolvedDiscordAccount {
   const accountId = normalizeAccountId(
@@ -119,7 +119,7 @@ export function resolveDiscordAccount(params: {
 }
 
 export function resolveDiscordMaxLinesPerMessage(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   discordConfig?: DiscordAccountConfig | null;
   accountId?: string | null;
 }): number | undefined {
@@ -133,7 +133,7 @@ export function resolveDiscordMaxLinesPerMessage(params: {
 }
 
 function resolveDiscordAccountTokenOwner(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token: string;
 }): string | undefined {
   const token = params.token.trim();
@@ -161,7 +161,7 @@ function resolveDiscordAccountTokenOwner(params: {
 }
 
 function resolveDiscordDuplicateTokenOwner(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedDiscordAccount;
 }): string | undefined {
   const owner = resolveDiscordAccountTokenOwner({
@@ -173,14 +173,14 @@ function resolveDiscordDuplicateTokenOwner(params: {
 
 export function isDiscordAccountEnabledForRuntime(
   account: ResolvedDiscordAccount,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): boolean {
   return account.enabled && !resolveDiscordDuplicateTokenOwner({ cfg, account });
 }
 
 export function resolveDiscordAccountDisabledReason(
   account: ResolvedDiscordAccount,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): string {
   if (!account.enabled) {
     return "disabled";
@@ -189,7 +189,7 @@ export function resolveDiscordAccountDisabledReason(
   return owner ? `duplicate bot token; using account "${owner}"` : "disabled";
 }
 
-export function listEnabledDiscordAccounts(cfg: Brikko StudioConfig): ResolvedDiscordAccount[] {
+export function listEnabledDiscordAccounts(cfg: BrikkoStudioConfig): ResolvedDiscordAccount[] {
   return listDiscordAccountIds(cfg)
     .map((accountId) => resolveDiscordAccount({ cfg, accountId }))
     .filter((account) => isDiscordAccountEnabledForRuntime(account, cfg));

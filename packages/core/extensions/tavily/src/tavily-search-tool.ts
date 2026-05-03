@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-runtime";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-runtime";
 import {
   jsonResult,
   readNumberParam,
@@ -46,7 +46,7 @@ const TavilySearchToolSchema = Type.Object(
   { additionalProperties: false },
 );
 
-export function createTavilySearchTool(api: Brikko StudioPluginApi) {
+export function createTavilySearchTool(api: BrikkoStudioPluginApi) {
   return {
     name: "tavily_search",
     label: "Tavily Search",

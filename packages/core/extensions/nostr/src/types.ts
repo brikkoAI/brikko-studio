@@ -7,7 +7,7 @@ import {
   listCombinedAccountIds,
   resolveListedDefaultAccountId,
 } from "brikko-studio/plugin-sdk/account-resolution";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeSecretInputString, type SecretInput } from "brikko-studio/plugin-sdk/secret-input";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import type { NostrProfile } from "./config-schema.js";
@@ -37,7 +37,7 @@ export interface ResolvedNostrAccount {
   config: NostrAccountConfig;
 }
 
-function resolveConfiguredDefaultNostrAccountId(cfg: Brikko StudioConfig): string | undefined {
+function resolveConfiguredDefaultNostrAccountId(cfg: BrikkoStudioConfig): string | undefined {
   const nostrCfg = (cfg.channels as Record<string, unknown> | undefined)?.nostr as
     | NostrAccountConfig
     | undefined;
@@ -47,7 +47,7 @@ function resolveConfiguredDefaultNostrAccountId(cfg: Brikko StudioConfig): strin
 /**
  * List all configured Nostr account IDs
  */
-export function listNostrAccountIds(cfg: Brikko StudioConfig): string[] {
+export function listNostrAccountIds(cfg: BrikkoStudioConfig): string[] {
   const nostrCfg = (cfg.channels as Record<string, unknown> | undefined)?.nostr as
     | NostrAccountConfig
     | undefined;
@@ -63,7 +63,7 @@ export function listNostrAccountIds(cfg: Brikko StudioConfig): string[] {
 /**
  * Get the default account ID
  */
-export function resolveDefaultNostrAccountId(cfg: Brikko StudioConfig): string {
+export function resolveDefaultNostrAccountId(cfg: BrikkoStudioConfig): string {
   return resolveListedDefaultAccountId({
     accountIds: listNostrAccountIds(cfg),
     configuredDefaultAccountId: resolveConfiguredDefaultNostrAccountId(cfg),
@@ -74,7 +74,7 @@ export function resolveDefaultNostrAccountId(cfg: Brikko StudioConfig): string {
  * Resolve a Nostr account from config
  */
 export function resolveNostrAccount(opts: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ResolvedNostrAccount {
   const accountId = normalizeAccountId(opts.accountId ?? resolveDefaultNostrAccountId(opts.cfg));

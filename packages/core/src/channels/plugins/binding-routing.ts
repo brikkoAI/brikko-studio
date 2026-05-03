@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { logVerbose } from "../../globals.js";
 import {
   getSessionBindingService,
@@ -67,7 +67,7 @@ function isPluginOwnedRuntimeBindingRecord(record: SessionBindingRecord | null):
 
 export function resolveConfiguredBindingRoute(
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     route: ResolvedAgentRoute;
   } & ConfiguredBindingRouteConversationInput,
 ): ConfiguredBindingRouteResult {
@@ -152,7 +152,7 @@ export function resolveRuntimeConversationBindingRoute(
 }
 
 export async function ensureConfiguredBindingRouteReady(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   bindingResolution: ConfiguredBindingResolution | null;
 }): Promise<{ ok: true } | { ok: false; error: string }> {
   const readyPromise = ensureConfiguredBindingTargetReady(params);

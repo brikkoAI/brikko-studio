@@ -11,26 +11,26 @@ import {
   readStateDirDotEnvVars,
 } from "./env-vars.js";
 import { withEnvOverride, withTempHome, writeStateDirDotEnv } from "./test-helpers.js";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
 describe("config env vars", () => {
   it("applies env vars from env block when missing", async () => {
     await withEnvOverride({ OPENROUTER_API_KEY: undefined }, async () => {
-      applyConfigEnvVars({ env: { vars: { OPENROUTER_API_KEY: "config-key" } } } as Brikko StudioConfig);
+      applyConfigEnvVars({ env: { vars: { OPENROUTER_API_KEY: "config-key" } } } as BrikkoStudioConfig);
       expect(process.env.OPENROUTER_API_KEY).toBe("config-key");
     });
   });
 
   it("does not override existing env vars", async () => {
     await withEnvOverride({ OPENROUTER_API_KEY: "existing-key" }, async () => {
-      applyConfigEnvVars({ env: { vars: { OPENROUTER_API_KEY: "config-key" } } } as Brikko StudioConfig);
+      applyConfigEnvVars({ env: { vars: { OPENROUTER_API_KEY: "config-key" } } } as BrikkoStudioConfig);
       expect(process.env.OPENROUTER_API_KEY).toBe("existing-key");
     });
   });
 
   it("applies env vars from env.vars when missing", async () => {
     await withEnvOverride({ GROQ_API_KEY: undefined }, async () => {
-      applyConfigEnvVars({ env: { vars: { GROQ_API_KEY: "gsk-config" } } } as Brikko StudioConfig);
+      applyConfigEnvVars({ env: { vars: { GROQ_API_KEY: "gsk-config" } } } as BrikkoStudioConfig);
       expect(process.env.GROQ_API_KEY).toBe("gsk-config");
     });
   });
@@ -58,7 +58,7 @@ describe("config env vars", () => {
     await withEnvOverride({ OPENROUTER_API_KEY: undefined }, async () => {
       const merged = createConfigRuntimeEnv({
         env: { vars: { OPENROUTER_API_KEY: "config-key" } },
-      } as Brikko StudioConfig);
+      } as BrikkoStudioConfig);
       expect(merged.OPENROUTER_API_KEY).toBe("config-key");
       expect(process.env.OPENROUTER_API_KEY).toBeUndefined();
     });
@@ -85,14 +85,14 @@ describe("config env vars", () => {
             },
           },
         };
-        const entries = collectConfigRuntimeEnvVars(config as Brikko StudioConfig);
+        const entries = collectConfigRuntimeEnvVars(config as BrikkoStudioConfig);
         expect(entries.BASH_ENV).toBeUndefined();
         expect(entries.SHELL).toBeUndefined();
         expect(entries.HOME).toBeUndefined();
         expect(entries.ZDOTDIR).toBeUndefined();
         expect(entries.OPENROUTER_API_KEY).toBe("config-key");
 
-        applyConfigEnvVars(config as Brikko StudioConfig);
+        applyConfigEnvVars(config as BrikkoStudioConfig);
         expect(process.env.BASH_ENV).toBeUndefined();
         expect(process.env.SHELL).toBeUndefined();
         expect(process.env.HOME).toBeUndefined();
@@ -113,7 +113,7 @@ describe("config env vars", () => {
           "NOT-PORTABLE": "bad",
         },
       };
-      const entries = collectConfigRuntimeEnvVars(config as Brikko StudioConfig);
+      const entries = collectConfigRuntimeEnvVars(config as BrikkoStudioConfig);
       expect(entries.OPENROUTER_API_KEY).toBe("config-key");
       expect(entries[" BAD KEY"]).toBeUndefined();
       expect(entries["NOT-PORTABLE"]).toBeUndefined();
@@ -130,7 +130,7 @@ describe("config env vars", () => {
         await fs.mkdir(stateDir, { recursive: true });
         await fs.writeFile(path.join(stateDir, ".env"), "BRAVE_API_KEY=from-dotenv\n", "utf-8");
 
-        const config: Brikko StudioConfig = {
+        const config: BrikkoStudioConfig = {
           tools: {
             web: {
               search: {
@@ -141,12 +141,12 @@ describe("config env vars", () => {
         };
 
         loadDotEnv({ quiet: true });
-        const first = resolveConfigEnvVars(config, process.env) as Brikko StudioConfig;
+        const first = resolveConfigEnvVars(config, process.env) as BrikkoStudioConfig;
         expect(first.tools?.web?.search?.apiKey).toBe("from-dotenv");
 
         delete process.env.BRAVE_API_KEY;
         loadDotEnv({ quiet: true });
-        const second = resolveConfigEnvVars(config, process.env) as Brikko StudioConfig;
+        const second = resolveConfigEnvVars(config, process.env) as BrikkoStudioConfig;
         expect(second.tools?.web?.search?.apiKey).toBe("from-dotenv");
       });
     });
@@ -209,7 +209,7 @@ describe("config env vars", () => {
                 MY_KEY: "from-config",
               },
             },
-          } as Brikko StudioConfig,
+          } as BrikkoStudioConfig,
         }).MY_KEY,
       ).toBe("from-config");
     });

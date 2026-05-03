@@ -1,6 +1,6 @@
 import type { BaseProbeResult } from "brikko-studio/plugin-sdk/channel-contract";
 import { expectDirectoryIds } from "brikko-studio/plugin-sdk/channel-test-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, expectTypeOf, it, vi } from "vitest";
 import {
   listSlackDirectoryGroupsFromConfig,
@@ -42,7 +42,7 @@ describe("Slack directory contract", () => {
           channels: { C111: { users: ["U777"] } },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     await expectDirectoryIds(
       listSlackDirectoryPeersFromConfig,
@@ -68,7 +68,7 @@ describe("Slack directory contract", () => {
           channels: { C111: {} },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     await expectDirectoryIds(listSlackDirectoryPeersFromConfig, cfg, ["user:u123"]);
     await expectDirectoryIds(listSlackDirectoryGroupsFromConfig, cfg, ["channel:c111"]);
@@ -84,7 +84,7 @@ describe("Slack directory contract", () => {
           dms: { U300: {} },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const peers = await listSlackDirectoryPeersFromConfig({
       cfg,
@@ -120,7 +120,7 @@ describe("Slack directory contract", () => {
           userToken: "xoxp-test",
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     await expect(getSlackDirectorySelfLive({ cfg, accountId: "default" })).resolves.toEqual(
       expect.objectContaining({
@@ -147,7 +147,7 @@ describe("Slack directory contract", () => {
           userToken: "xoxp-test",
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     await expect(getSlackDirectorySelfLive({ cfg, accountId: "default" })).resolves.toEqual(
       expect.objectContaining({

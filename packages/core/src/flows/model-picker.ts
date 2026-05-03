@@ -23,7 +23,7 @@ import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
 } from "../config/model-input.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { applyPrimaryModel } from "../plugins/provider-model-primary.js";
 import { resolveOwningPluginIdsForProvider } from "../plugins/providers.js";
 import type { ProviderPlugin } from "../plugins/types.js";
@@ -44,7 +44,7 @@ const EMPTY_LITERAL_PREFIX_PROVIDERS = new Set<string>();
 const HIDDEN_ROUTER_MODELS = new Set(["openrouter/auto"]);
 
 export type PromptDefaultModelParams = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   prompter: WizardPrompter;
   allowKeep?: boolean;
   includeManual?: boolean;
@@ -60,7 +60,7 @@ export type PromptDefaultModelParams = {
   message?: string;
 };
 
-export type PromptDefaultModelResult = { model?: string; config?: Brikko StudioConfig };
+export type PromptDefaultModelResult = { model?: string; config?: BrikkoStudioConfig };
 export type PromptModelAllowlistResult = { models?: string[]; scopeKeys?: string[] };
 
 async function loadModelPickerRuntime() {
@@ -72,11 +72,11 @@ const loadResolvedModelPickerRuntime = createLazyRuntimeSurface(
   ({ modelPickerRuntime }) => modelPickerRuntime,
 );
 
-function resolveConfiguredModelRaw(cfg: Brikko StudioConfig): string {
+function resolveConfiguredModelRaw(cfg: BrikkoStudioConfig): string {
   return resolveAgentModelPrimaryValue(cfg.agents?.defaults?.model) ?? "";
 }
 
-function resolveConfiguredModelKeys(cfg: Brikko StudioConfig): string[] {
+function resolveConfiguredModelKeys(cfg: BrikkoStudioConfig): string[] {
   const models = cfg.agents?.defaults?.models ?? {};
   return Object.keys(models)
     .map((key) => key.trim())
@@ -97,7 +97,7 @@ function toPickerCatalogEntry(
 }
 
 function loadPickerModelCatalog(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts: { preferredProvider?: string } = {},
 ): ReturnType<typeof loadModelCatalog> {
   if (cfg.models?.mode === "replace") {
@@ -132,7 +132,7 @@ function normalizeModelKeys(values: string[]): string[] {
 }
 
 function resolveFallbackModelKey(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   raw: string;
   defaultProvider: string;
   aliasIndex: ModelAliasIndex;
@@ -154,7 +154,7 @@ function resolveFallbackModelKey(params: {
 }
 
 function resolveFallbackModelKeys(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   rawFallbacks: string[];
   defaultProvider: string;
   aliasIndex: ModelAliasIndex;
@@ -185,7 +185,7 @@ function resolveModelRouteHint(provider: string): string | undefined {
 }
 
 async function resolveLiteralPrefixProviderIds(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): Promise<Set<string>> {
@@ -314,7 +314,7 @@ function addModelKeySelectOption(params: {
 
 function createPreferredProviderMatcher(params: {
   preferredProvider: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): (entryProvider: string) => boolean {
@@ -397,7 +397,7 @@ async function maybeFilterModelsByProvider(params: {
   }>;
   preferredProvider?: string;
   prompter: WizardPrompter;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): Promise<typeof params.models> {
@@ -436,7 +436,7 @@ async function maybeFilterModelsByProvider(params: {
 }
 
 async function resolveProviderPluginSetupOptions(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): Promise<WizardSelectOption[]> {
@@ -466,7 +466,7 @@ async function resolveProviderPluginSetupOptions(params: {
 
 async function maybeHandleProviderPluginSelection(params: {
   selection: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: WizardPrompter;
   agentDir?: string;
   workspaceDir?: string;
@@ -864,7 +864,7 @@ export async function promptDefaultModel(
 }
 
 export async function promptModelAllowlist(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   prompter: WizardPrompter;
   message?: string;
   agentDir?: string;
@@ -1118,10 +1118,10 @@ export async function promptModelAllowlist(params: {
 }
 
 export function applyModelAllowlist(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   models: string[],
   opts: { scopeKeys?: string[] } = {},
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const defaults = cfg.agents?.defaults;
   const normalized = normalizeModelKeys(models);
   const scopeKeys = opts.scopeKeys ? normalizeModelKeys(opts.scopeKeys) : [];
@@ -1194,10 +1194,10 @@ export function applyModelAllowlist(
 }
 
 export function applyModelFallbacksFromSelection(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   selection: string[],
   opts: { scopeKeys?: string[] } = {},
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const normalized = normalizeModelKeys(selection);
   const scopeKeys = opts.scopeKeys ? normalizeModelKeys(opts.scopeKeys) : [];
   const scopeKeySet = scopeKeys.length > 0 ? new Set(scopeKeys) : null;

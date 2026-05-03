@@ -3,7 +3,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { resolveAgentDir } from "../agents/agent-scope.js";
 import { resolveMemorySearchConfig } from "../agents/memory-search.js";
 import { getRuntimeConfig } from "../config/io.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { logWarn } from "../logger.js";
 import {
@@ -91,7 +91,7 @@ function validateInputTexts(texts: string[]): string | undefined {
   return undefined;
 }
 
-function resolveAutoExplicitProviders(cfg: Brikko StudioConfig): Set<string> {
+function resolveAutoExplicitProviders(cfg: BrikkoStudioConfig): Set<string> {
   return new Set(
     listMemoryEmbeddingProviders(cfg)
       .filter((adapter) => adapter.allowExplicitWhenConfiguredAuto)
@@ -107,7 +107,7 @@ function shouldContinueAutoSelection(
 }
 
 async function createConfiguredEmbeddingProvider(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir: string;
   provider: EmbeddingProviderRequest;
   model: string;
@@ -172,7 +172,7 @@ async function createConfiguredEmbeddingProvider(params: {
 function resolveEmbeddingsTarget(params: {
   requestModel: string;
   configuredProvider: EmbeddingProviderRequest;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): { provider: EmbeddingProviderRequest; model: string } | { errorMessage: string } {
   const raw = params.requestModel.trim();
   const slash = raw.indexOf("/");

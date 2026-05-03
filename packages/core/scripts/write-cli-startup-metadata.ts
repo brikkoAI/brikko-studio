@@ -4,7 +4,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import type { RootHelpRenderOptions } from "../src/cli/program/root-help.js";
-import type { Brikko StudioConfig } from "../src/config/config.js";
+import type { BrikkoStudioConfig } from "../src/config/config.js";
 
 function dedupe(values: string[]): string[] {
   const seen = new Set<string>();
@@ -167,7 +167,7 @@ function createIsolatedRootHelpRenderContext(
     BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS: "",
     BRIKKO_STUDIO_STATE_DIR: stateDir,
   };
-  const config: Brikko StudioConfig = {
+  const config: BrikkoStudioConfig = {
     agents: {
       defaults: {
         workspace: workspaceDir,

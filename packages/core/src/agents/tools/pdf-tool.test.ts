@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import * as pdfExtractModule from "../../media/pdf-extract.js";
 import * as webMedia from "../../media/web-media.js";
 import type { AuthProfileStore } from "../auth-profiles/types.js";
@@ -67,16 +67,16 @@ async function withConfiguredPdfTool(
   });
 }
 
-function withPdfModel(primary: string): Brikko StudioConfig {
+function withPdfModel(primary: string): BrikkoStudioConfig {
   return {
     agents: { defaults: { pdfModel: { primary } } },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-function withDefaultModel(primary: string): Brikko StudioConfig {
+function withDefaultModel(primary: string): BrikkoStudioConfig {
   return {
     agents: { defaults: { model: { primary } } },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 async function stubPdfToolInfra(
@@ -107,7 +107,7 @@ async function stubPdfToolInfra(
           }) as never;
   vi.spyOn(modelDiscovery, "discoverModels").mockReturnValue({ find } as never);
 
-  vi.spyOn(modelsConfig, "ensureBrikko StudioModelsJson").mockResolvedValue({
+  vi.spyOn(modelsConfig, "ensureBrikkoStudioModelsJson").mockResolvedValue({
     agentDir,
     wrote: false,
   });
@@ -338,7 +338,7 @@ describe("createPdfTool", () => {
         input: ["text", "document"],
       });
       vi.spyOn(pdfNativeProviders, "anthropicAnalyzePdf").mockResolvedValue("native summary");
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         ...withPdfModel(ANTHROPIC_PDF_MODEL),
         tools: {
           web: {

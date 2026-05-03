@@ -4,7 +4,7 @@ import { createStartAccountContext } from "brikko-studio/plugin-sdk/channel-test
 import type { PluginRuntime } from "brikko-studio/plugin-sdk/core";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ResolvedDiscordAccount } from "./accounts.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import * as sendModule from "./send.js";
 import { EMPTY_DISCORD_TEST_CONFIG } from "./test-support/config.js";
 let discordPlugin: typeof import("./channel.js").discordPlugin;
@@ -47,7 +47,7 @@ vi.mock("./audit.js", () => {
   };
 });
 
-function createCfg(): Brikko StudioConfig {
+function createCfg(): BrikkoStudioConfig {
   return {
     channels: {
       discord: {
@@ -55,14 +55,14 @@ function createCfg(): Brikko StudioConfig {
         token: "discord-token",
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-function resolveAccount(cfg: Brikko StudioConfig, accountId = "default"): ResolvedDiscordAccount {
+function resolveAccount(cfg: BrikkoStudioConfig, accountId = "default"): ResolvedDiscordAccount {
   return discordPlugin.config.resolveAccount(cfg, accountId);
 }
 
-function startDiscordAccount(cfg: Brikko StudioConfig, accountId = "default") {
+function startDiscordAccount(cfg: BrikkoStudioConfig, accountId = "default") {
   return discordPlugin.gateway!.startAccount!(
     createStartAccountContext({
       account: resolveAccount(cfg, accountId),
@@ -182,7 +182,7 @@ describe("discordPlugin outbound", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveReplyToMode({ cfg, accountId: "work" })).toBe("first");
     expect(resolveReplyToMode({ cfg, accountId: "default" })).toBe("all");
@@ -203,7 +203,7 @@ describe("discordPlugin outbound", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveAccount(cfg).config).toMatchObject({
       gatewayReadyTimeoutMs: 90_000,
@@ -446,7 +446,7 @@ describe("discordPlugin outbound", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     // First account (index 0) — no delay
     await startDiscordAccount(cfg, "alpha");
@@ -524,7 +524,7 @@ describe("discordPlugin security", () => {
           dm: { policy: "allowlist", allowFrom: ["  discord:<@!123456789>  "] },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = resolveDmPolicy({
       cfg,
@@ -563,7 +563,7 @@ describe("discordPlugin groups", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       discordPlugin.groups?.resolveRequireMention?.({

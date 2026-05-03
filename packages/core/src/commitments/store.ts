@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
 import { expandHomePrefix } from "../infra/home-dir.js";
 import {
@@ -256,7 +256,7 @@ async function loadCommitmentStoreWithExpiredMarked(nowMs: number): Promise<Comm
 }
 
 export async function listPendingCommitmentsForScope(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   scope: CommitmentScope;
   nowMs?: number;
   limit?: number;
@@ -279,7 +279,7 @@ export async function listPendingCommitmentsForScope(params: {
 }
 
 export async function upsertInferredCommitments(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   item: CommitmentExtractionItem;
   candidates: Array<{
     candidate: CommitmentCandidate;
@@ -353,7 +353,7 @@ function countSentCommitmentsForSession(params: {
 }
 
 export async function listDueCommitmentsForSession(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentId: string;
   sessionKey: string;
   nowMs?: number;
@@ -399,7 +399,7 @@ export async function listDueCommitmentsForSession(params: {
 }
 
 export async function listDueCommitmentSessionKeys(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentId: string;
   nowMs?: number;
   limit?: number;
@@ -436,7 +436,7 @@ export async function listDueCommitmentSessionKeys(params: {
 }
 
 export async function markCommitmentsAttempted(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   ids: string[];
   nowMs?: number;
 }): Promise<void> {
@@ -465,7 +465,7 @@ export async function markCommitmentsAttempted(params: {
 }
 
 export async function markCommitmentsStatus(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   ids: string[];
   status: Extract<CommitmentStatus, "sent" | "dismissed" | "expired">;
   nowMs?: number;
@@ -497,7 +497,7 @@ export async function markCommitmentsStatus(params: {
 }
 
 export async function listCommitments(params?: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   status?: CommitmentStatus;
   agentId?: string;
 }): Promise<CommitmentRecord[]> {

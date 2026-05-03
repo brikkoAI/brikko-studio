@@ -1,5 +1,5 @@
 import { createChannelPairingChallengeIssuer } from "brikko-studio/plugin-sdk/channel-pairing";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { upsertChannelPairingRequest } from "brikko-studio/plugin-sdk/conversation-runtime";
 import { defaultRuntime } from "brikko-studio/plugin-sdk/runtime-env";
 import { warnMissingProviderGroupPolicyFallbackOnce } from "brikko-studio/plugin-sdk/runtime-group-policy";
@@ -27,7 +27,7 @@ function logWhatsAppVerbose(enabled: boolean | undefined, message: string) {
 }
 
 export async function checkInboundAccessControl(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   from: string;
   selfE164: string | null;

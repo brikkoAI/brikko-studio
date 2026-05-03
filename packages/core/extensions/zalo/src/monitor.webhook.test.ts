@@ -5,7 +5,7 @@ import {
 } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { withServer } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig, PluginRuntime } from "../runtime-api.js";
+import type { BrikkoStudioConfig, PluginRuntime } from "../runtime-api.js";
 import { handleZaloWebhookRequest } from "./monitor.js";
 import type { ZaloRuntimeEnv } from "./monitor.types.js";
 import {
@@ -52,14 +52,14 @@ function registerTarget(params: {
   secret?: string;
   statusSink?: (patch: { lastInboundAt?: number; lastOutboundAt?: number }) => void;
   account?: ResolvedZaloAccount;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   core?: PluginRuntime;
   runtime?: Partial<ZaloRuntimeEnv>;
 }): () => void {
   return registerZaloWebhookTarget({
     token: "tok",
     account: params.account ?? DEFAULT_ACCOUNT,
-    config: params.config ?? ({} as Brikko StudioConfig),
+    config: params.config ?? ({} as BrikkoStudioConfig),
     runtime: (params.runtime ?? {}) as ZaloRuntimeEnv,
     core: params.core ?? ({} as PluginRuntime),
     secret: params.secret ?? "secret",
@@ -685,7 +685,7 @@ describe("handleZaloWebhookRequest", () => {
         gateway: {
           trustedProxies: ["127.0.0.1"],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     try {

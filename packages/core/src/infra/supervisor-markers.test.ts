@@ -28,7 +28,7 @@ describe("detectRespawnSupervisor", () => {
 
   it("detects scheduled-task supervision on Windows from either hint family", () => {
     expect(
-      detectRespawnSupervisor({ BRIKKO_STUDIO_WINDOWS_TASK_NAME: "Brikko Studio Gateway" }, "win32"),
+      detectRespawnSupervisor({ BRIKKO_STUDIO_WINDOWS_TASK_NAME: "BrikkoStudio Gateway" }, "win32"),
     ).toBe("schtasks");
     expect(
       detectRespawnSupervisor(

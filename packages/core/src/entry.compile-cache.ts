@@ -25,7 +25,7 @@ function isNodeCompileCacheRequested(env: NodeJS.ProcessEnv | undefined): boolea
   return env?.NODE_COMPILE_CACHE !== undefined && !isNodeCompileCacheDisabled(env);
 }
 
-export function shouldEnableBrikko StudioCompileCache(params: {
+export function shouldEnableBrikkoStudioCompileCache(params: {
   env?: NodeJS.ProcessEnv;
   installRoot: string;
 }): boolean {
@@ -58,7 +58,7 @@ function readPackageVersion(packageJsonPath: string): string {
   return "unknown";
 }
 
-export function resolveBrikko StudioCompileCacheDirectory(params: {
+export function resolveBrikkoStudioCompileCacheDirectory(params: {
   env?: NodeJS.ProcessEnv;
   installRoot: string;
 }): string {
@@ -84,13 +84,13 @@ export function resolveBrikko StudioCompileCacheDirectory(params: {
   );
 }
 
-type Brikko StudioCompileCacheRespawnPlan = {
+type BrikkoStudioCompileCacheRespawnPlan = {
   command: string;
   args: string[];
   env: NodeJS.ProcessEnv;
 };
 
-export function buildBrikko StudioCompileCacheRespawnPlan(params: {
+export function buildBrikkoStudioCompileCacheRespawnPlan(params: {
   currentFile: string;
   env?: NodeJS.ProcessEnv;
   execArgv?: string[];
@@ -98,7 +98,7 @@ export function buildBrikko StudioCompileCacheRespawnPlan(params: {
   installRoot: string;
   argv?: string[];
   compileCacheDir?: string;
-}): Brikko StudioCompileCacheRespawnPlan | undefined {
+}): BrikkoStudioCompileCacheRespawnPlan | undefined {
   const env = params.env ?? process.env;
   if (!isSourceCheckoutInstallRoot(params.installRoot)) {
     return undefined;
@@ -126,11 +126,11 @@ export function buildBrikko StudioCompileCacheRespawnPlan(params: {
   };
 }
 
-export function respawnWithoutBrikko StudioCompileCacheIfNeeded(params: {
+export function respawnWithoutBrikkoStudioCompileCacheIfNeeded(params: {
   currentFile: string;
   installRoot: string;
 }): boolean {
-  const plan = buildBrikko StudioCompileCacheRespawnPlan({
+  const plan = buildBrikkoStudioCompileCacheRespawnPlan({
     currentFile: params.currentFile,
     installRoot: params.installRoot,
     compileCacheDir: getCompileCacheDir?.(),
@@ -149,15 +149,15 @@ export function respawnWithoutBrikko StudioCompileCacheIfNeeded(params: {
   return true;
 }
 
-export function enableBrikko StudioCompileCache(params: {
+export function enableBrikkoStudioCompileCache(params: {
   env?: NodeJS.ProcessEnv;
   installRoot: string;
 }): void {
-  if (!shouldEnableBrikko StudioCompileCache(params)) {
+  if (!shouldEnableBrikkoStudioCompileCache(params)) {
     return;
   }
   try {
-    enableCompileCache(resolveBrikko StudioCompileCacheDirectory(params));
+    enableCompileCache(resolveBrikkoStudioCompileCacheDirectory(params));
   } catch {
     // Best-effort only; never block startup.
   }

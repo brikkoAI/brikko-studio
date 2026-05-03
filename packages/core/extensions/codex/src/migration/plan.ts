@@ -56,7 +56,7 @@ async function buildSkillItems(params: {
           : targetExists && !params.overwrite
             ? MIGRATION_REASON_TARGET_EXISTS
             : undefined,
-        message: `Copy ${item.skill.sourceLabel} into this Brikko Studio agent workspace.`,
+        message: `Copy ${item.skill.sourceLabel} into this BrikkoStudio agent workspace.`,
         details: {
           skillName: item.name,
           sourceLabel: item.skill.sourceLabel,
@@ -118,12 +118,12 @@ export async function buildCodexMigrationPlan(
       : []),
     ...(source.plugins.length > 0
       ? [
-          "Codex native plugins are reported for manual review only. Brikko Studio does not auto-activate plugin bundles, hooks, MCP servers, or apps from another Codex home.",
+          "Codex native plugins are reported for manual review only. BrikkoStudio does not auto-activate plugin bundles, hooks, MCP servers, or apps from another Codex home.",
         ]
       : []),
     ...(source.archivePaths.length > 0
       ? [
-          "Codex config and hook files are archive-only. They are preserved in the migration report, not loaded into Brikko Studio automatically.",
+          "Codex config and hook files are archive-only. They are preserved in the migration report, not loaded into BrikkoStudio automatically.",
         ]
       : []),
   ];
@@ -136,7 +136,7 @@ export async function buildCodexMigrationPlan(
     warnings,
     nextSteps: [
       "Run brikko-studio doctor after applying the migration.",
-      "Review skipped Codex plugin/config/hook items before installing or recreating them in Brikko Studio.",
+      "Review skipped Codex plugin/config/hook items before installing or recreating them in BrikkoStudio.",
     ],
     metadata: {
       agentDir: targets.agentDir,

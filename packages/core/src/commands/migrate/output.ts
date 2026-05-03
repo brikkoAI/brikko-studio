@@ -80,7 +80,7 @@ export function writeApplyResult(
   if (result.backupPath) {
     runtime.log(`Backup: ${result.backupPath}`);
   } else if (!opts.noBackup) {
-    runtime.log("Backup: skipped (no existing Brikko Studio state found)");
+    runtime.log("Backup: skipped (no existing BrikkoStudio state found)");
   }
   if (result.reportDir) {
     runtime.log(`Report: ${result.reportDir}`);

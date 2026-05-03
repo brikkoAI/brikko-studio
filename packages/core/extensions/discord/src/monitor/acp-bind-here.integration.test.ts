@@ -13,7 +13,7 @@ vi.mock("brikko-studio/plugin-sdk/runtime-config-snapshot", async () => {
   };
 });
 
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   getSessionBindingService,
   registerSessionBindingAdapter,
@@ -49,7 +49,7 @@ const baseCfg = {
       },
     },
   },
-} satisfies Brikko StudioConfig;
+} satisfies BrikkoStudioConfig;
 
 function createDmClient(channelId: string): DiscordClient {
   return {

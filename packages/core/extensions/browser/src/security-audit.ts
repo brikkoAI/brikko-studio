@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginSecurityAuditContext } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginSecurityAuditContext } from "brikko-studio/plugin-sdk/plugin-entry";
 import { hasConfiguredSecretInput } from "brikko-studio/plugin-sdk/secret-input";
 import { formatCliCommand } from "brikko-studio/plugin-sdk/setup-tools";
 import { isPrivateNetworkOptInEnabled, isPrivateIpAddress } from "brikko-studio/plugin-sdk/ssrf-policy";
@@ -18,7 +18,7 @@ function isTrustedPrivateHostname(hostname: string): boolean {
   return normalized.length > 0 && BLOCKED_HOSTNAMES.has(normalized);
 }
 
-export function collectBrowserSecurityAuditFindings(ctx: Brikko StudioPluginSecurityAuditContext) {
+export function collectBrowserSecurityAuditFindings(ctx: BrikkoStudioPluginSecurityAuditContext) {
   const findings: Array<{
     checkId: string;
     severity: "warn" | "critical";

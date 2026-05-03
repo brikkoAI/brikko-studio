@@ -8,7 +8,7 @@ import {
   makeTempDir,
   packageBuildCommitFromTgz,
   packageVersionFromTgz,
-  packBrikko Studio,
+  packBrikkoStudio,
   parseMode,
   parseProvider,
   resolveHostIp,
@@ -38,7 +38,7 @@ import {
   encodePowerShell,
   psSingleQuote,
   windowsAgentTurnConfigPatchScript,
-  windowsBrikko StudioResolver,
+  windowsBrikkoStudioResolver,
 } from "./powershell.ts";
 import { ensureGuestGit, prepareMinGitZip } from "./windows-git.ts";
 
@@ -108,7 +108,7 @@ const defaultOptions = (): WindowsOptions => ({
   vmName: "Windows 11",
 });
 
-const windowsPortableGitPathScript = `$portableGit = Join-Path (Join-Path (Join-Path $env:LOCALAPPDATA 'Brikko Studio\\deps') 'portable-git') ''
+const windowsPortableGitPathScript = `$portableGit = Join-Path (Join-Path (Join-Path $env:LOCALAPPDATA 'BrikkoStudio\\deps') 'portable-git') ''
 $env:PATH = "$portableGit\\cmd;$portableGit\\mingw64\\bin;$portableGit\\usr\\bin;$env:PATH"
 where.exe git.exe`;
 
@@ -285,7 +285,7 @@ class WindowsSmoke {
 
       this.minGitZipPath = await prepareMinGitZip(this.tgzDir);
       if (this.needsHostTgz()) {
-        this.artifact = await packBrikko Studio({
+        this.artifact = await packBrikkoStudio({
           destination: this.tgzDir,
           packageSpec: this.options.targetPackageSpec,
           requireControlUi: false,
@@ -493,7 +493,7 @@ class WindowsSmoke {
     script: string,
     options: { check?: boolean; timeoutMs?: number } = {},
   ): string {
-    return this.guest.powershell(`${windowsBrikko StudioResolver}\n${script}`, options);
+    return this.guest.powershell(`${windowsBrikkoStudioResolver}\n${script}`, options);
   }
 
   private restoreSnapshot(): void {
@@ -575,7 +575,7 @@ class WindowsSmoke {
 $script = Invoke-RestMethod -Uri ${psSingleQuote(this.options.installUrl)}
 & ([scriptblock]::Create($script))${versionArg} -NoOnboard
 if ($LASTEXITCODE -ne 0) { throw "installer failed with exit code $LASTEXITCODE" }
-Invoke-Brikko Studio --version
+Invoke-BrikkoStudio --version
 if ($LASTEXITCODE -ne 0) { throw "brikko-studio --version failed with exit code $LASTEXITCODE" }`,
       { timeoutMs: 420_000 },
     );
@@ -592,7 +592,7 @@ $tgz = Join-Path $env:TEMP ${psSingleQuote(tempName)}
 curl.exe -fsSL ${psSingleQuote(tgzUrl)} -o $tgz
 npm.cmd install -g $tgz --no-fund --no-audit --loglevel=error
 if ($LASTEXITCODE -ne 0) { throw "npm install failed with exit code $LASTEXITCODE" }
-Invoke-Brikko Studio --version
+Invoke-BrikkoStudio --version
 if ($LASTEXITCODE -ne 0) { throw "brikko-studio --version failed with exit code $LASTEXITCODE" }`,
       { timeoutMs: 420_000 },
     );
@@ -613,7 +613,7 @@ if ($LASTEXITCODE -ne 0) { throw "brikko-studio --version failed with exit code 
   }
 
   private verifyVersionContains(needle: string): void {
-    const version = this.guestPowerShell("Invoke-Brikko Studio --version");
+    const version = this.guestPowerShell("Invoke-BrikkoStudio --version");
     if (!version.includes(needle)) {
       throw new Error(`version mismatch: expected substring ${needle}`);
     }
@@ -630,7 +630,7 @@ if ($LASTEXITCODE -ne 0) { throw "brikko-studio --version failed with exit code 
       `$ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $false
 Set-Item -Path ('Env:' + ${psSingleQuote(this.auth.apiKeyEnv)}) -Value ${psSingleQuote(this.auth.apiKeyValue)}
-Invoke-Brikko Studio onboard --non-interactive --mode local --auth-choice ${psSingleQuote(this.auth.authChoice)} --secret-input-mode ref --gateway-port 18789 --gateway-bind loopback --install-daemon --skip-skills --skip-health --accept-risk --json
+Invoke-BrikkoStudio onboard --non-interactive --mode local --auth-choice ${psSingleQuote(this.auth.authChoice)} --secret-input-mode ref --gateway-port 18789 --gateway-bind loopback --install-daemon --skip-skills --skip-health --accept-risk --json
 if ($LASTEXITCODE -ne 0) { throw "brikko-studio onboard failed with exit code $LASTEXITCODE" }`,
       720_000,
     );
@@ -652,7 +652,7 @@ $exitPath = "$base.exit"`;
     const payload = Buffer.from(
       `$ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $false
-${windowsBrikko StudioResolver}
+${windowsBrikkoStudioResolver}
 ${pathsScript}
 try {
   & {
@@ -816,10 +816,10 @@ $config.update | Add-Member -Force -MemberType NoteProperty -Name channel -Value
 $config | ConvertTo-Json -Depth 100 | Set-Content -Path $configPath -Encoding utf8
 $env:BRIKKO_STUDIO_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS = '1'
 $env:BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS = '1'
-Invoke-Brikko Studio update --channel dev --yes --json
+Invoke-BrikkoStudio update --channel dev --yes --json
 if ($LASTEXITCODE -ne 0) { throw "brikko-studio update failed with exit code $LASTEXITCODE" }
-Invoke-Brikko Studio --version
-Invoke-Brikko Studio update status --json`,
+Invoke-BrikkoStudio --version
+Invoke-BrikkoStudio update status --json`,
       { timeoutMs: Number(process.env.BRIKKO_STUDIO_PARALLELS_WINDOWS_UPDATE_TIMEOUT_S || 1200) * 1000 },
     );
   }
@@ -827,7 +827,7 @@ Invoke-Brikko Studio update status --json`,
   private verifyDevChannelUpdate(): void {
     const status = this.guestPowerShell(
       `${windowsPortableGitPathScript}
-Invoke-Brikko Studio update status --json`,
+Invoke-BrikkoStudio update status --json`,
     );
     for (const needle of ['"installKind": "git"', '"value": "dev"', '"branch": "main"']) {
       if (!status.includes(needle)) {
@@ -841,7 +841,7 @@ Invoke-Brikko Studio update status --json`,
       `gateway-${action}`,
       `$ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $false
-Invoke-Brikko Studio gateway ${action}
+Invoke-BrikkoStudio gateway ${action}
 if ($LASTEXITCODE -ne 0) { throw "gateway ${action} failed with exit code $LASTEXITCODE" }`,
       420_000,
     );
@@ -856,7 +856,7 @@ if ($LASTEXITCODE -ne 0) { throw "gateway ${action} failed with exit code $LASTE
     const start = Date.now();
     while (Date.now() < deadline) {
       const probe = this.guestPowerShell(
-        "Invoke-Brikko Studio gateway probe --url ws://127.0.0.1:18789 --timeout 30000 --json",
+        "Invoke-BrikkoStudio gateway probe --url ws://127.0.0.1:18789 --timeout 30000 --json",
         { check: false, timeoutMs: 60_000 },
       );
       if (/"ok"\s*:\s*true/.test(probe)) {
@@ -866,7 +866,7 @@ if ($LASTEXITCODE -ne 0) { throw "gateway ${action} failed with exit code $LASTE
         warn(
           `gateway-reachable recovery: gateway start after ${Math.floor((Date.now() - start) / 1000)}s`,
         );
-        this.guestPowerShell("Invoke-Brikko Studio gateway start", {
+        this.guestPowerShell("Invoke-BrikkoStudio gateway start", {
           check: false,
           timeoutMs: 120_000,
         });
@@ -880,11 +880,11 @@ if ($LASTEXITCODE -ne 0) { throw "gateway ${action} failed with exit code $LASTE
   }
 
   private showGatewayStatusCompat(): void {
-    const help = this.guestPowerShell("Invoke-Brikko Studio gateway status --help", {
+    const help = this.guestPowerShell("Invoke-BrikkoStudio gateway status --help", {
       check: false,
     });
     const suffix = help.includes("--require-rpc") ? "--deep --require-rpc" : "--deep";
-    this.guestPowerShell(`Invoke-Brikko Studio gateway status ${suffix}`);
+    this.guestPowerShell(`Invoke-BrikkoStudio gateway status ${suffix}`);
   }
 
   private verifyTurn(): Promise<void> {
@@ -917,7 +917,7 @@ for ($attempt = 1; $attempt -le 2; $attempt++) {
     '${resolveParallelsModelTimeoutSeconds("windows")}',
     '--json'
   )
-  $output = Invoke-Brikko Studio @args 2>&1
+  $output = Invoke-BrikkoStudio @args 2>&1
   $agentExitCode = $LASTEXITCODE
   if ($null -ne $output) { $output | ForEach-Object { $_ } }
   if ($agentExitCode -eq 0 -and ($output | Out-String) -match '"finalAssistant(Raw|Visible)Text":\\s*"OK"') {

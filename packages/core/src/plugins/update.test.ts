@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { bundledPluginRootAt } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { PluginNpmIntegrityDriftParams } from "./install.js";
 
 const APP_ROOT = "/app";
@@ -147,7 +147,7 @@ function createMarketplaceInstallConfig(params: {
   marketplaceSource: string;
   marketplacePlugin: string;
   marketplaceName?: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     plugins: {
       installs: {
@@ -171,7 +171,7 @@ function createClawHubInstallConfig(params: {
   clawhubFamily: "bundle-plugin" | "code-plugin";
   clawhubChannel: "community" | "official" | "private";
   spec?: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     plugins: {
       installs: {
@@ -194,7 +194,7 @@ function createGitInstallConfig(params: {
   spec: string;
   installPath: string;
   commit?: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     plugins: {
       installs: {
@@ -214,7 +214,7 @@ function createBundledPathInstallConfig(params: {
   installPath: string;
   sourcePath?: string;
   spec?: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     plugins: {
       load: { paths: params.loadPaths },
@@ -555,7 +555,7 @@ describe("updateNpmInstalledPlugins", () => {
       shasum: "same",
     });
     installPluginFromNpmSpecMock.mockRejectedValue(new Error("installer should not run"));
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         installs: {
           "lossless-claw": {
@@ -803,7 +803,7 @@ describe("updateNpmInstalledPlugins", () => {
             },
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
     },
     {
       source: "ClawHub",
@@ -827,7 +827,7 @@ describe("updateNpmInstalledPlugins", () => {
             },
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
     },
     {
       source: "marketplace",
@@ -848,7 +848,7 @@ describe("updateNpmInstalledPlugins", () => {
             },
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
     },
   ])("skips disabled $source installs before update network calls", async ({ config }) => {
     installPluginFromNpmSpecMock.mockRejectedValue(new Error("npm installer should not run"));
@@ -902,7 +902,7 @@ describe("updateNpmInstalledPlugins", () => {
           },
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const result = await updateNpmInstalledPlugins({
       config,
@@ -1574,7 +1574,7 @@ describe("updateNpmInstalledPlugins", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       pluginIds: ["context-engine"],
     });
 
@@ -2175,7 +2175,7 @@ describe("syncPluginsForUpdateChannel", () => {
       code: "archive_integrity_mismatch",
       error: "ClawHub ClawPack integrity mismatch.",
     });
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       channels: {
         "legacy-chat": {
           enabled: true,
@@ -2299,7 +2299,7 @@ describe("syncPluginsForUpdateChannel", () => {
       ok: false,
       error: "package unavailable",
     });
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       channels: {
         "legacy-chat": {
           enabled: true,

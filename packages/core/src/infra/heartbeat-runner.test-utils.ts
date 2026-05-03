@@ -4,7 +4,7 @@ import path from "node:path";
 import { vi } from "vitest";
 import { heartbeatRunnerTelegramPlugin } from "../../test/helpers/infra/heartbeat-runner-channel-plugins.js";
 import { resolveMainSessionKey } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { createTestRegistry } from "../test-utils/channel-plugins.js";
 import type { HeartbeatDeps } from "./heartbeat-runner.js";
@@ -56,7 +56,7 @@ export async function seedSessionStore(
 
 export async function seedMainSessionStore(
   storePath: string,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   session: HeartbeatSessionSeed,
 ): Promise<string> {
   const sessionKey = resolveMainSessionKey(cfg);

@@ -1,5 +1,5 @@
 import { adaptScopedAccountAccessor } from "brikko-studio/plugin-sdk/channel-config-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createSetupWizardAdapter,
   createTestWizardPrompter,
@@ -201,7 +201,7 @@ describe("bluebubbles setup surface", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(blueBubblesSetupWizard.dmPolicy?.getCurrent(cfg)).toBe("allowlist");
     expect(blueBubblesSetupWizard.dmPolicy?.resolveConfigKeys?.(cfg)).toEqual({
@@ -236,7 +236,7 @@ describe("bluebubbles setup surface", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(resolved.accountId).toBe("work");
@@ -265,7 +265,7 @@ describe("bluebubbles setup surface", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(configured).toBe(false);

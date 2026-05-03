@@ -1,6 +1,6 @@
 import type * as Lark from "@larksuiteoapi/node-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioPluginApi } from "../runtime-api.js";
+import type { BrikkoStudioPluginApi } from "../runtime-api.js";
 import { createToolFactoryHarness } from "./tool-factory-test-harness.js";
 
 const createFeishuClientMock = vi.hoisted(() => vi.fn());
@@ -16,7 +16,7 @@ type MockRecord = {
   fields?: Record<string, unknown>;
 };
 
-function createConfig(): Brikko StudioPluginApi["config"] {
+function createConfig(): BrikkoStudioPluginApi["config"] {
   return {
     channels: {
       feishu: {
@@ -29,7 +29,7 @@ function createConfig(): Brikko StudioPluginApi["config"] {
         },
       },
     },
-  } as Brikko StudioPluginApi["config"];
+  } as BrikkoStudioPluginApi["config"];
 }
 
 function createBitableClient(records: MockRecord[]) {

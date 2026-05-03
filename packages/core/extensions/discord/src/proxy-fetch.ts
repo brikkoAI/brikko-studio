@@ -1,5 +1,5 @@
 import { isIP } from "node:net";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { makeProxyFetch } from "brikko-studio/plugin-sdk/fetch-runtime";
 import { danger } from "brikko-studio/plugin-sdk/runtime-env";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
@@ -8,7 +8,7 @@ import type { ResolvedDiscordAccount } from "./accounts.js";
 
 function resolveDiscordProxyUrl(
   account: Pick<ResolvedDiscordAccount, "config">,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): string | undefined {
   const accountProxy = account.config.proxy?.trim();
   if (accountProxy) {
@@ -31,7 +31,7 @@ function resolveDiscordProxyFetchByUrl(
 
 export function resolveDiscordProxyFetchForAccount(
   account: Pick<ResolvedDiscordAccount, "config">,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   runtime?: Pick<RuntimeEnv, "error">,
 ): typeof fetch | undefined {
   return resolveDiscordProxyFetchByUrl(resolveDiscordProxyUrl(account, cfg), runtime);

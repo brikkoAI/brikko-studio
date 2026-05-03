@@ -1,5 +1,5 @@
 import { normalizeProviderId } from "../agents/model-selection.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isBlockedObjectKey } from "../infra/prototype-keys.js";
 import { resolvePluginCapabilityProviders } from "../plugins/capability-provider-runtime.js";
 import type { ImageGenerationProviderPlugin } from "../plugins/types.js";
@@ -20,7 +20,7 @@ function isSafeImageGenerationProviderId(id: string | undefined): id is string {
 }
 
 function resolvePluginImageGenerationProviders(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): ImageGenerationProviderPlugin[] {
   return resolvePluginCapabilityProviders({
     key: "imageGenerationProviders",
@@ -28,7 +28,7 @@ function resolvePluginImageGenerationProviders(
   });
 }
 
-function buildProviderMaps(cfg?: Brikko StudioConfig): {
+function buildProviderMaps(cfg?: BrikkoStudioConfig): {
   canonical: Map<string, ImageGenerationProviderPlugin>;
   aliases: Map<string, ImageGenerationProviderPlugin>;
 } {
@@ -60,14 +60,14 @@ function buildProviderMaps(cfg?: Brikko StudioConfig): {
 }
 
 export function listImageGenerationProviders(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): ImageGenerationProviderPlugin[] {
   return [...buildProviderMaps(cfg).canonical.values()];
 }
 
 export function getImageGenerationProvider(
   providerId: string | undefined,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): ImageGenerationProviderPlugin | undefined {
   const normalized = normalizeImageGenerationProviderId(providerId);
   if (!normalized) {

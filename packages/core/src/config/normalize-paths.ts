@@ -1,5 +1,5 @@
 import { isPlainObject, resolveUserPath } from "../utils.js";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
 const PATH_VALUE_RE = /^~(?=$|[\\/])/;
 
@@ -60,7 +60,7 @@ function normalizeAny(key: string | undefined, value: unknown): unknown {
  * Goal: accept `~/...` consistently across config file + env overrides, while
  * keeping the surface area small and predictable.
  */
-export function normalizeConfigPaths(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function normalizeConfigPaths(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   if (!cfg || typeof cfg !== "object") {
     return cfg;
   }

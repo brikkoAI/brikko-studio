@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig, HookConfig } from "../config/config.js";
+import type { BrikkoStudioConfig, HookConfig } from "../config/config.js";
 import { resolveHookKey } from "./frontmatter.js";
 import type { HookEntry, HookSource } from "./types.js";
 
@@ -59,7 +59,7 @@ function getHookSourcePolicy(source: HookSource): HookSourcePolicy {
 }
 
 export function resolveHookConfig(
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
   hookKey: string,
 ): HookConfig | undefined {
   const hooks = config?.hooks?.internal?.entries;
@@ -75,7 +75,7 @@ export function resolveHookConfig(
 
 export function resolveHookEnableState(params: {
   entry: HookEntry;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   hookConfig?: HookConfig;
 }): HookEnableState {
   const { entry, config } = params;

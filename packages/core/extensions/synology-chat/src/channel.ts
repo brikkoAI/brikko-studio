@@ -1,11 +1,11 @@
 /**
- * Synology Chat Channel Plugin for Brikko Studio.
+ * Synology Chat Channel Plugin for BrikkoStudio.
  *
  * Implements the ChannelPlugin interface following the LINE pattern.
  */
 
 import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/account-resolution";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/account-resolution";
 import {
   createHybridChannelConfigAdapter,
   createScopedDmSecurityResolver,
@@ -50,7 +50,7 @@ const resolveSynologyChatDmPolicy = createScopedDmSecurityResolver<ResolvedSynol
 });
 
 type SynologyChannelGatewayContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   abortSignal: AbortSignal;
   log?: {
@@ -60,7 +60,7 @@ type SynologyChannelGatewayContext = {
   };
 };
 type SynologyChannelOutboundContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   text?: string;
   mediaUrl?: string;
@@ -69,7 +69,7 @@ type SynologyChannelOutboundContext = {
 type SynologyChannelSendTextContext = SynologyChannelOutboundContext & { text: string };
 type _SynologyChannelSendMediaContext = SynologyChannelOutboundContext & { mediaUrl: string };
 type SynologySecurityWarningContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedSynologyChatAccount;
 };
 
@@ -141,16 +141,16 @@ type SynologyChatPlugin = Omit<
   pairing: {
     idLabel: string;
     normalizeAllowEntry?: (entry: string) => string;
-    notifyApproval: (params: { cfg: Brikko StudioConfig; id: string }) => Promise<void>;
+    notifyApproval: (params: { cfg: BrikkoStudioConfig; id: string }) => Promise<void>;
   };
   security: {
-    resolveDmPolicy: (params: { cfg: Brikko StudioConfig; account: ResolvedSynologyChatAccount }) => {
+    resolveDmPolicy: (params: { cfg: BrikkoStudioConfig; account: ResolvedSynologyChatAccount }) => {
       policy: string | null | undefined;
       allowFrom?: Array<string | number>;
       normalizeEntry?: (raw: string) => string;
     } | null;
     collectWarnings: (params: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       account: ResolvedSynologyChatAccount;
     }) => string[];
   };
@@ -184,7 +184,7 @@ type SynologyChatPlugin = Omit<
 
 const collectSynologyChatRoutingWarnings = projectAccountConfigWarningCollector<
   ResolvedSynologyChatAccount,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   SynologySecurityWarningContext
 >(
   (cfg) => cfg,
@@ -192,7 +192,7 @@ const collectSynologyChatRoutingWarnings = projectAccountConfigWarningCollector<
 );
 
 function resolveOutboundAccount(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string | null,
 ): ResolvedSynologyChatAccount {
   return resolveAccount(cfg ?? {}, accountId);
@@ -215,7 +215,7 @@ export function createSynologyChatPlugin(): SynologyChatPlugin {
         selectionLabel: "Synology Chat (Webhook)",
         detailLabel: "Synology Chat (Webhook)",
         docsPath: "/channels/synology-chat",
-        blurb: "Connect your Synology NAS Chat to Brikko Studio",
+        blurb: "Connect your Synology NAS Chat to BrikkoStudio",
         order: 90,
       },
       capabilities: {
@@ -317,7 +317,7 @@ export function createSynologyChatPlugin(): SynologyChatPlugin {
     pairing: {
       text: {
         idLabel: "synologyChatUserId",
-        message: "Brikko Studio: your access has been approved.",
+        message: "BrikkoStudio: your access has been approved.",
         normalizeAllowEntry: (entry: string) => normalizeLowercaseStringOrEmpty(entry),
         notify: async ({ cfg, id, message }) => {
           const account = resolveAccount(cfg);

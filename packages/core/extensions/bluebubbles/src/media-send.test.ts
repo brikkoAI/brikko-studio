@@ -4,7 +4,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { sendBlueBubblesMedia } from "./media-send.js";
-import type { Brikko StudioConfig, PluginRuntime } from "./runtime-api.js";
+import type { BrikkoStudioConfig, PluginRuntime } from "./runtime-api.js";
 import { setBlueBubblesRuntime } from "./runtime.js";
 
 const sendBlueBubblesAttachmentMock = vi.hoisted(() => vi.fn());
@@ -54,14 +54,14 @@ function createMockRuntime(): { runtime: PluginRuntime; mocks: RuntimeMocks } {
   };
 }
 
-function createConfig(overrides?: Record<string, unknown>): Brikko StudioConfig {
+function createConfig(overrides?: Record<string, unknown>): BrikkoStudioConfig {
   return {
     channels: {
       bluebubbles: {
         ...overrides,
       },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 async function makeTempDir(): Promise<string> {
@@ -82,7 +82,7 @@ async function makeTempFile(
 }
 
 async function sendLocalMedia(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   mediaPath: string;
   accountId?: string;
 }) {
@@ -95,7 +95,7 @@ async function sendLocalMedia(params: {
 }
 
 async function expectRejectedLocalMedia(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   mediaPath: string;
   error: RegExp;
   accountId?: string;
@@ -112,7 +112,7 @@ async function expectRejectedLocalMedia(params: {
 }
 
 async function expectAllowedLocalMedia(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   mediaPath: string;
   expectedAttachment: Record<string, unknown>;
   accountId?: string;

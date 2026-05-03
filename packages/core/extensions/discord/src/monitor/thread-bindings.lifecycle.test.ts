@@ -6,7 +6,7 @@ import { getSessionBindingService } from "brikko-studio/plugin-sdk/conversation-
 import {
   clearRuntimeConfigSnapshot,
   setRuntimeConfigSnapshot,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { EMPTY_DISCORD_TEST_CONFIG } from "../test-support/config.js";
@@ -73,7 +73,7 @@ const acpRuntime = await import("brikko-studio/plugin-sdk/acp-runtime");
 
 function createTestThreadBindingManager(
   params: Omit<Parameters<typeof createThreadBindingManager>[0], "cfg"> & {
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
   },
 ) {
   return createThreadBindingManager({
@@ -849,7 +849,7 @@ describe("thread binding lifecycle", () => {
   it("passes manager token when resolving parent channels for auto-bind", async () => {
     const cfg = {
       channels: { discord: { token: "tok" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     createTestThreadBindingManager({
       accountId: "runtime",
       token: "runtime-token",
@@ -902,10 +902,10 @@ describe("thread binding lifecycle", () => {
   it("uses the active runtime snapshot cfg for manager operations", async () => {
     const startupCfg = {
       channels: { discord: { token: "startup-token" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const refreshedCfg = {
       channels: { discord: { token: "refreshed-token" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const manager = createTestThreadBindingManager({
       accountId: "runtime",
       token: "runtime-token",

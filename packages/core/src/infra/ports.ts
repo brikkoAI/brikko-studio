@@ -59,7 +59,7 @@ export async function handlePortError(
       if (/brikko-studio|src\/index\.ts|dist\/index\.js/.test(details)) {
         runtime.error(
           warn(
-            "It looks like another Brikko Studio instance is already running. Stop it or pick a different port.",
+            "It looks like another BrikkoStudio instance is already running. Stop it or pick a different port.",
           ),
         );
       }

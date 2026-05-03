@@ -1,7 +1,7 @@
 import {
   applyAgentDefaultModelPrimary,
   applyProviderConfigWithDefaultModel,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildCloudflareAiGatewayModelDefinition,
@@ -37,9 +37,9 @@ export function buildCloudflareAiGatewayConfigPatch(params: {
 }
 
 export function applyCloudflareAiGatewayProviderConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   params?: { accountId?: string; gatewayId?: string },
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[CLOUDFLARE_AI_GATEWAY_DEFAULT_MODEL_REF] = {
     ...models[CLOUDFLARE_AI_GATEWAY_DEFAULT_MODEL_REF],
@@ -81,9 +81,9 @@ export function applyCloudflareAiGatewayProviderConfig(
 }
 
 export function applyCloudflareAiGatewayConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   params?: { accountId?: string; gatewayId?: string },
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return applyAgentDefaultModelPrimary(
     applyCloudflareAiGatewayProviderConfig(cfg, params),
     CLOUDFLARE_AI_GATEWAY_DEFAULT_MODEL_REF,

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { handlePluginsCommand } from "./commands-plugins.js";
 import { buildPluginsCommandParams } from "./commands.test-harness.js";
 
@@ -68,7 +68,7 @@ vi.mock("../../plugins/status.js", () => ({
 }));
 
 vi.mock("../../plugins/toggle-config.js", () => ({
-  setPluginEnabledInConfig: vi.fn((config: Brikko StudioConfig, id: string, enabled: boolean) => ({
+  setPluginEnabledInConfig: vi.fn((config: BrikkoStudioConfig, id: string, enabled: boolean) => ({
     ...config,
     plugins: {
       ...config.plugins,
@@ -88,14 +88,14 @@ vi.mock("../../utils.js", async () => {
   };
 });
 
-function buildCfg(): Brikko StudioConfig {
+function buildCfg(): BrikkoStudioConfig {
   return {
     plugins: { enabled: true },
     commands: { text: true, plugins: true },
   };
 }
 
-function buildPluginsParams(commandBodyNormalized: string, cfg: Brikko StudioConfig) {
+function buildPluginsParams(commandBodyNormalized: string, cfg: BrikkoStudioConfig) {
   return buildPluginsCommandParams({
     commandBodyNormalized,
     cfg,

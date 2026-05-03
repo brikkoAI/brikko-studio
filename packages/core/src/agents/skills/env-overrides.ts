@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeResolvedSecretInputString } from "../../config/types.secrets.js";
 import {
   isDangerousHostEnvOverrideVarName,
@@ -216,7 +216,7 @@ function createEnvReverter(updates: EnvUpdate[]) {
   };
 }
 
-export function applySkillEnvOverrides(params: { skills: SkillEntry[]; config?: Brikko StudioConfig }) {
+export function applySkillEnvOverrides(params: { skills: SkillEntry[]; config?: BrikkoStudioConfig }) {
   const { skills } = params;
   const config = resolveSkillRuntimeConfig(params.config);
   const updates: EnvUpdate[] = [];
@@ -242,7 +242,7 @@ export function applySkillEnvOverrides(params: { skills: SkillEntry[]; config?: 
 
 export function applySkillEnvOverridesFromSnapshot(params: {
   snapshot?: SkillSnapshot;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }) {
   const { snapshot } = params;
   const config = resolveSkillRuntimeConfig(params.config);

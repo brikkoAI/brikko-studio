@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
-import { resolveBrikko StudioPackageRoot } from "../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRoot } from "../infra/brikko-studio-root.js";
 
 export const BRIKKO_STUDIO_DOCS_URL = "https://docs.brikko-studio.ai";
 export const BRIKKO_STUDIO_SOURCE_URL = "https://github.com/brikko-studio/brikko-studio";
 
-type ResolveBrikko StudioReferencePathParams = {
+type ResolveBrikkoStudioReferencePathParams = {
   workspaceDir?: string;
   argv1?: string;
   cwd?: string;
@@ -20,7 +20,7 @@ function isGitCheckout(rootDir: string): boolean {
   return fs.existsSync(path.join(rootDir, ".git"));
 }
 
-export async function resolveBrikko StudioDocsPath(params: {
+export async function resolveBrikkoStudioDocsPath(params: {
   workspaceDir?: string;
   argv1?: string;
   cwd?: string;
@@ -34,7 +34,7 @@ export async function resolveBrikko StudioDocsPath(params: {
     }
   }
 
-  const packageRoot = await resolveBrikko StudioPackageRoot({
+  const packageRoot = await resolveBrikkoStudioPackageRoot({
     cwd: params.cwd,
     argv1: params.argv1,
     moduleUrl: params.moduleUrl,
@@ -47,10 +47,10 @@ export async function resolveBrikko StudioDocsPath(params: {
   return isUsableDocsDir(packageDocs) ? packageDocs : null;
 }
 
-export async function resolveBrikko StudioSourcePath(
-  params: ResolveBrikko StudioReferencePathParams,
+export async function resolveBrikkoStudioSourcePath(
+  params: ResolveBrikkoStudioReferencePathParams,
 ): Promise<string | null> {
-  const packageRoot = await resolveBrikko StudioPackageRoot({
+  const packageRoot = await resolveBrikkoStudioPackageRoot({
     cwd: params.cwd,
     argv1: params.argv1,
     moduleUrl: params.moduleUrl,
@@ -61,15 +61,15 @@ export async function resolveBrikko StudioSourcePath(
   return packageRoot;
 }
 
-export async function resolveBrikko StudioReferencePaths(
-  params: ResolveBrikko StudioReferencePathParams,
+export async function resolveBrikkoStudioReferencePaths(
+  params: ResolveBrikkoStudioReferencePathParams,
 ): Promise<{
   docsPath: string | null;
   sourcePath: string | null;
 }> {
   const [docsPath, sourcePath] = await Promise.all([
-    resolveBrikko StudioDocsPath(params),
-    resolveBrikko StudioSourcePath(params),
+    resolveBrikkoStudioDocsPath(params),
+    resolveBrikkoStudioSourcePath(params),
   ]);
   return { docsPath, sourcePath };
 }

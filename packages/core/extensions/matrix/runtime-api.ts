@@ -49,7 +49,7 @@ export type {
   ChannelDirectoryEntry,
   ChannelMessageActionContext,
 } from "brikko-studio/plugin-sdk/channel-contract";
-export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export { formatZonedTimestamp } from "brikko-studio/plugin-sdk/time-runtime";
 export type { PluginRuntime, RuntimeLogger } from "brikko-studio/plugin-sdk/plugin-runtime";
 export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";

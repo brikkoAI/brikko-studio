@@ -1,18 +1,18 @@
 import { getChannelPlugin } from "../../channels/plugins/index.js";
 import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
 import type { ChannelId, ChannelSetupInput } from "../../channels/plugins/types.public.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeAccountId } from "../../routing/session-key.js";
 
 type ChatChannel = ChannelId;
 
 export function applyAccountName(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChatChannel;
   accountId: string;
   name?: string;
   plugin?: ChannelPlugin;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const accountId = normalizeAccountId(params.accountId);
   const plugin = params.plugin ?? getChannelPlugin(params.channel);
   const apply = plugin?.setup?.applyAccountName;
@@ -20,12 +20,12 @@ export function applyAccountName(params: {
 }
 
 export function applyChannelAccountConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChatChannel;
   accountId: string;
   input: ChannelSetupInput;
   plugin?: ChannelPlugin;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const accountId = normalizeAccountId(params.accountId);
   const plugin = params.plugin ?? getChannelPlugin(params.channel);
   const apply = plugin?.setup?.applyAccountConfig;

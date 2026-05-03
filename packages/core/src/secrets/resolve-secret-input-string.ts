@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   normalizeSecretInputString,
   resolveSecretInputRef,
@@ -6,10 +6,10 @@ import {
 } from "../config/types.secrets.js";
 import { resolveSecretRefString } from "./resolve.js";
 
-type SecretDefaults = NonNullable<Brikko StudioConfig["secrets"]>["defaults"];
+type SecretDefaults = NonNullable<BrikkoStudioConfig["secrets"]>["defaults"];
 
 export async function resolveSecretInputString(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   value: unknown;
   env: NodeJS.ProcessEnv;
   defaults?: SecretDefaults;

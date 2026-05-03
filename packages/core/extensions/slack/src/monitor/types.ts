@@ -1,5 +1,5 @@
 import type { ChannelRuntimeSurface } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig, SlackSlashCommandConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig, SlackSlashCommandConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import type { SlackMessageEvent } from "../types.js";
 
@@ -8,7 +8,7 @@ export type MonitorSlackOpts = {
   appToken?: string;
   accountId?: string;
   mode?: "socket" | "http";
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   runtime?: RuntimeEnv;
   channelRuntime?: ChannelRuntimeSurface;
   abortSignal?: AbortSignal;

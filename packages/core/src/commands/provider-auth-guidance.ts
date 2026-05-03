@@ -1,7 +1,7 @@
 import { normalizeProviderId } from "../agents/model-selection.js";
 import { resolveProviderAuthAliasMap } from "../agents/provider-auth-aliases.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveManifestProviderAuthChoices } from "../plugins/provider-auth-choices.js";
 
 function normalizeProviderIdForAuth(
@@ -26,7 +26,7 @@ function matchesProviderAuthChoice(
 
 function resolveProviderAuthLoginCommand(params: {
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): string | undefined {
@@ -42,7 +42,7 @@ function resolveProviderAuthLoginCommand(params: {
 
 export function buildProviderAuthRecoveryHint(params: {
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   includeConfigure?: boolean;

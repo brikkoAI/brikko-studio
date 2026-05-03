@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type {
   ConfiguredBindingResolution,
   StatefulBindingTargetDescriptor,
@@ -15,19 +15,19 @@ export type StatefulBindingTargetResetResult =
 export type StatefulBindingTargetDriver = {
   id: string;
   ensureReady: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     bindingResolution: ConfiguredBindingResolution;
   }) => Promise<StatefulBindingTargetReadyResult>;
   ensureSession: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     bindingResolution: ConfiguredBindingResolution;
   }) => Promise<StatefulBindingTargetSessionResult>;
   resolveTargetBySessionKey?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     sessionKey: string;
   }) => StatefulBindingTargetDescriptor | null;
   resetInPlace?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     sessionKey: string;
     bindingTarget: StatefulBindingTargetDescriptor;
     reason: "new" | "reset";
@@ -67,7 +67,7 @@ export function getStatefulBindingTargetDriver(id: string): StatefulBindingTarge
 }
 
 export function resolveStatefulBindingTargetBySessionKey(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
 }): { driver: StatefulBindingTargetDriver; bindingTarget: StatefulBindingTargetDescriptor } | null {
   const sessionKey = params.sessionKey.trim();

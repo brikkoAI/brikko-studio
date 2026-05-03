@@ -1,6 +1,6 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
-  loadBrikko StudioProviderIndex,
+  loadBrikkoStudioProviderIndex,
   normalizeModelCatalogProviderId,
   planProviderIndexModelCatalogRows,
 } from "../../model-catalog/index.js";
@@ -9,12 +9,12 @@ import { normalizePluginsConfig, resolveEffectiveEnableState } from "../../plugi
 
 export function loadProviderIndexCatalogRowsForList(params: {
   providerFilter?: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): readonly NormalizedModelCatalogRow[] {
   const providerFilter = params.providerFilter
     ? normalizeModelCatalogProviderId(params.providerFilter)
     : undefined;
-  const index = loadBrikko StudioProviderIndex();
+  const index = loadBrikkoStudioProviderIndex();
   return planProviderIndexModelCatalogRows({
     index,
     ...(providerFilter ? { providerFilter } : {}),

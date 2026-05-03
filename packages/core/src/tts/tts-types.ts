@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type {
   ResolvedTtsPersona,
   TtsAutoMode,
@@ -24,5 +24,5 @@ export type ResolvedTtsConfig = {
   maxTextLength: number;
   timeoutMs: number;
   rawConfig?: TtsConfig;
-  sourceConfig?: Brikko StudioConfig;
+  sourceConfig?: BrikkoStudioConfig;
 };

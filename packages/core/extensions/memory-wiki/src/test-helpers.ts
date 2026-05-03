@@ -1,9 +1,9 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { afterEach, vi } from "vitest";
-import type { Brikko StudioPluginApi } from "../api.js";
+import type { BrikkoStudioPluginApi } from "../api.js";
 import {
   resolveMemoryWikiConfig,
   type MemoryWikiPluginConfig,
@@ -19,7 +19,7 @@ type MemoryWikiTestVault = {
 };
 
 type MemoryWikiPluginApiHarness = {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   registerCli: ReturnType<typeof vi.fn>;
   registerGatewayMethod: ReturnType<typeof vi.fn>;
   registerMemoryCorpusSupplement: ReturnType<typeof vi.fn>;
@@ -37,7 +37,7 @@ export function createMemoryWikiTestHarness() {
   });
 
   async function createTempDir(prefix: string): Promise<string> {
-    const tempDir = await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), prefix));
+    const tempDir = await fs.mkdtemp(path.join(resolvePreferredBrikkoStudioTmpDir(), prefix));
     tempDirs.push(tempDir);
     return tempDir;
   }
@@ -79,7 +79,7 @@ export function createMemoryWikiTestHarness() {
       name: "Memory Wiki",
       source: "test",
       config: {},
-      runtime: {} as Brikko StudioPluginApi["runtime"],
+      runtime: {} as BrikkoStudioPluginApi["runtime"],
       registerCli,
       registerGatewayMethod,
       registerMemoryCorpusSupplement,

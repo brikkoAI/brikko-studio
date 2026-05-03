@@ -1,7 +1,7 @@
 import { resolveDefaultAgentId } from "../agents/agent-scope.js";
 import type { ChatType } from "../channels/chat-type.js";
 import { normalizeChatType } from "../channels/chat-type.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { shouldLogVerbose } from "../globals.js";
 import { logDebug } from "../logger.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
@@ -31,7 +31,7 @@ export type RoutePeer = {
 };
 
 export type ResolveAgentRouteInput = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: string;
   accountId?: string | null;
   peer?: RoutePeer | null;
@@ -113,20 +113,20 @@ export function buildAgentSessionKey(params: {
   });
 }
 
-function listAgents(cfg: Brikko StudioConfig) {
+function listAgents(cfg: BrikkoStudioConfig) {
   const agents = cfg.agents?.list;
   return Array.isArray(agents) ? agents : [];
 }
 
 type AgentLookupCache = {
-  agentsRef: Brikko StudioConfig["agents"] | undefined;
+  agentsRef: BrikkoStudioConfig["agents"] | undefined;
   byNormalizedId: Map<string, string>;
   fallbackDefaultAgentId: string;
 };
 
-const agentLookupCacheByCfg = new WeakMap<Brikko StudioConfig, AgentLookupCache>();
+const agentLookupCacheByCfg = new WeakMap<BrikkoStudioConfig, AgentLookupCache>();
 
-function resolveAgentLookupCache(cfg: Brikko StudioConfig): AgentLookupCache {
+function resolveAgentLookupCache(cfg: BrikkoStudioConfig): AgentLookupCache {
   const agentsRef = cfg.agents;
   const existing = agentLookupCacheByCfg.get(cfg);
   if (existing && existing.agentsRef === agentsRef) {
@@ -150,7 +150,7 @@ function resolveAgentLookupCache(cfg: Brikko StudioConfig): AgentLookupCache {
   return next;
 }
 
-export function pickFirstExistingAgentId(cfg: Brikko StudioConfig, agentId: string): string {
+export function pickFirstExistingAgentId(cfg: BrikkoStudioConfig, agentId: string): string {
   const lookup = resolveAgentLookupCache(cfg);
   const trimmed = (agentId ?? "").trim();
   if (!trimmed) {
@@ -195,20 +195,20 @@ type BindingScope = {
 };
 
 type EvaluatedBindingsCache = {
-  bindingsRef: Brikko StudioConfig["bindings"];
+  bindingsRef: BrikkoStudioConfig["bindings"];
   byChannel: Map<string, EvaluatedBindingsByChannel>;
   byChannelAccount: Map<string, EvaluatedBinding[]>;
   byChannelAccountIndex: Map<string, EvaluatedBindingsIndex>;
 };
 
-const evaluatedBindingsCacheByCfg = new WeakMap<Brikko StudioConfig, EvaluatedBindingsCache>();
+const evaluatedBindingsCacheByCfg = new WeakMap<BrikkoStudioConfig, EvaluatedBindingsCache>();
 const MAX_EVALUATED_BINDINGS_CACHE_KEYS = 2000;
 const resolvedRouteCacheByCfg = new WeakMap<
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   {
-    bindingsRef: Brikko StudioConfig["bindings"];
-    agentsRef: Brikko StudioConfig["agents"];
-    sessionRef: Brikko StudioConfig["session"];
+    bindingsRef: BrikkoStudioConfig["bindings"];
+    agentsRef: BrikkoStudioConfig["agents"];
+    sessionRef: BrikkoStudioConfig["session"];
     byKey: Map<string, ResolvedAgentRoute>;
   }
 >();
@@ -237,7 +237,7 @@ function resolveAccountPatternKey(accountPattern: string): string {
 }
 
 function buildEvaluatedBindingsByChannel(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): Map<string, EvaluatedBindingsByChannel> {
   const byChannel = new Map<string, EvaluatedBindingsByChannel>();
   let order = 0;
@@ -421,7 +421,7 @@ function buildEvaluatedBindingsIndex(bindings: EvaluatedBinding[]): EvaluatedBin
 }
 
 function getEvaluatedBindingsForChannelAccount(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   channel: string,
   accountId: string,
 ): EvaluatedBinding[] {
@@ -464,7 +464,7 @@ function getEvaluatedBindingsForChannelAccount(
 }
 
 function getEvaluatedBindingIndexForChannelAccount(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   channel: string,
   accountId: string,
 ): EvaluatedBindingsIndex {
@@ -518,7 +518,7 @@ function normalizeBindingMatch(
   };
 }
 
-function resolveRouteCacheForConfig(cfg: Brikko StudioConfig): Map<string, ResolvedAgentRoute> {
+function resolveRouteCacheForConfig(cfg: BrikkoStudioConfig): Map<string, ResolvedAgentRoute> {
   const existing = resolvedRouteCacheByCfg.get(cfg);
   if (
     existing &&

@@ -1,8 +1,8 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { discoverOpenAICompatibleLocalModels } from "brikko-studio/plugin-sdk/provider-setup";
 import { VLLM_DEFAULT_BASE_URL, VLLM_PROVIDER_LABEL } from "./defaults.js";
 
-type ModelsConfig = NonNullable<Brikko StudioConfig["models"]>;
+type ModelsConfig = NonNullable<BrikkoStudioConfig["models"]>;
 type ProviderConfig = NonNullable<ModelsConfig["providers"]>[string];
 
 export async function buildVllmProvider(params?: {

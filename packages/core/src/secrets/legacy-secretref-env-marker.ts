@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   LEGACY_SECRETREF_ENV_MARKER_PREFIX,
   parseLegacySecretRefEnvMarker,
@@ -23,7 +23,7 @@ function isLegacySecretRefEnvMarker(value: unknown): value is string {
 
 function toCandidate(
   target: DiscoveredConfigSecretTarget,
-  defaults: NonNullable<Brikko StudioConfig["secrets"]>["defaults"] | undefined,
+  defaults: NonNullable<BrikkoStudioConfig["secrets"]>["defaults"] | undefined,
 ): LegacySecretRefEnvMarkerCandidate | null {
   if (!isLegacySecretRefEnvMarker(target.value)) {
     return null;
@@ -37,7 +37,7 @@ function toCandidate(
 }
 
 export function collectLegacySecretRefEnvMarkerCandidates(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
 ): LegacySecretRefEnvMarkerCandidate[] {
   const defaults = config.secrets?.defaults;
   return discoverConfigSecretTargets(config)
@@ -45,8 +45,8 @@ export function collectLegacySecretRefEnvMarkerCandidates(
     .filter((candidate): candidate is LegacySecretRefEnvMarkerCandidate => candidate !== null);
 }
 
-export function migrateLegacySecretRefEnvMarkers(config: Brikko StudioConfig): {
-  config: Brikko StudioConfig;
+export function migrateLegacySecretRefEnvMarkers(config: BrikkoStudioConfig): {
+  config: BrikkoStudioConfig;
   changes: string[];
 } {
   const candidates = collectLegacySecretRefEnvMarkerCandidates(config).filter(
@@ -56,7 +56,7 @@ export function migrateLegacySecretRefEnvMarkers(config: Brikko StudioConfig): {
     return { config, changes: [] };
   }
 
-  const next = structuredClone(config) as Brikko StudioConfig & Record<string, unknown>;
+  const next = structuredClone(config) as BrikkoStudioConfig & Record<string, unknown>;
   const changes: string[] = [];
   for (const candidate of candidates) {
     const ref = candidate.ref;

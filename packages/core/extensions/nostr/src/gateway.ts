@@ -1,6 +1,6 @@
 import { createChannelPairingController } from "brikko-studio/plugin-sdk/channel-pairing";
 import { attachChannelToResult } from "brikko-studio/plugin-sdk/channel-send-result";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createPreCryptoDirectDmAuthorizer,
   type ChannelOutboundAdapter,
@@ -53,7 +53,7 @@ function isNostrSenderAllowed(senderPubkey: string, allowFrom: string[]): boolea
 }
 
 async function resolveNostrDirectAccess(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   dmPolicy: "pairing" | "allowlist" | "open" | "disabled";
   allowFrom: Array<string | number> | undefined;
@@ -260,7 +260,7 @@ export const nostrPairingTextAdapter = {
     message,
     accountId,
   }: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     id: string;
     message: string;
     accountId?: string;

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { PluginOrigin } from "./plugin-origin.types.js";
 import { createEmptyPluginRegistry } from "./registry.js";
-import type { Brikko StudioPluginService, Brikko StudioPluginServiceContext } from "./types.js";
+import type { BrikkoStudioPluginService, BrikkoStudioPluginServiceContext } from "./types.js";
 
 const mockedLogger = vi.hoisted(() => ({
   info: vi.fn<(msg: string) => void>(),
@@ -19,7 +19,7 @@ import { STATE_DIR } from "../config/paths.js";
 import { startPluginServices } from "./services.js";
 
 function createRegistry(
-  services: Brikko StudioPluginService[],
+  services: BrikkoStudioPluginService[],
   pluginId = "plugin:test",
   origin: PluginOrigin = "workspace",
 ) {
@@ -39,7 +39,7 @@ function createServiceConfig() {
 }
 
 function expectServiceContext(
-  ctx: Brikko StudioPluginServiceContext,
+  ctx: BrikkoStudioPluginServiceContext,
   config: Parameters<typeof startPluginServices>[0]["config"],
 ) {
   expect(ctx.config).toBe(config);
@@ -48,7 +48,7 @@ function expectServiceContext(
   expectServiceLogger(ctx);
 }
 
-function expectServiceLogger(ctx: Brikko StudioPluginServiceContext) {
+function expectServiceLogger(ctx: BrikkoStudioPluginServiceContext) {
   expect(ctx.logger).toBeDefined();
   expect(typeof ctx.logger.info).toBe("function");
   expect(typeof ctx.logger.warn).toBe("function");
@@ -56,7 +56,7 @@ function expectServiceLogger(ctx: Brikko StudioPluginServiceContext) {
 }
 
 function expectServiceContexts(
-  contexts: Brikko StudioPluginServiceContext[],
+  contexts: BrikkoStudioPluginServiceContext[],
   config: Parameters<typeof startPluginServices>[0]["config"],
 ) {
   expect(contexts).not.toHaveLength(0);
@@ -68,7 +68,7 @@ function expectServiceContexts(
 function expectServiceLifecycleState(params: {
   starts: string[];
   stops: string[];
-  contexts: Brikko StudioPluginServiceContext[];
+  contexts: BrikkoStudioPluginServiceContext[];
   config: Parameters<typeof startPluginServices>[0]["config"];
 }) {
   expect(params.starts).toEqual(["a", "b", "c"]);
@@ -78,7 +78,7 @@ function expectServiceLifecycleState(params: {
 }
 
 async function startTrackingServices(params: {
-  services: Brikko StudioPluginService[];
+  services: BrikkoStudioPluginService[];
   config?: Parameters<typeof startPluginServices>[0]["config"];
   workspaceDir?: string;
 }) {
@@ -94,12 +94,12 @@ function createTrackingService(
   params: {
     starts?: string[];
     stops?: string[];
-    contexts?: Brikko StudioPluginServiceContext[];
+    contexts?: BrikkoStudioPluginServiceContext[];
     failOnStart?: boolean;
     failOnStop?: boolean;
     stopSpy?: () => void;
   } = {},
-): Brikko StudioPluginService {
+): BrikkoStudioPluginService {
   return {
     id,
     start: (ctx) => {
@@ -132,7 +132,7 @@ describe("startPluginServices", () => {
   it("starts services and stops them in reverse order", async () => {
     const starts: string[] = [];
     const stops: string[] = [];
-    const contexts: Brikko StudioPluginServiceContext[] = [];
+    const contexts: BrikkoStudioPluginServiceContext[] = [];
 
     const config = createServiceConfig();
     const handle = await startTrackingServices({
@@ -182,7 +182,7 @@ describe("startPluginServices", () => {
   });
 
   it("grants internal diagnostics only to bundled diagnostics exporter services", async () => {
-    const contexts: Brikko StudioPluginServiceContext[] = [];
+    const contexts: BrikkoStudioPluginServiceContext[] = [];
     const diagnosticsService = createTrackingService("diagnostics-otel", { contexts });
     await startPluginServices({
       registry: createRegistry([diagnosticsService], "diagnostics-otel", "bundled"),
@@ -192,7 +192,7 @@ describe("startPluginServices", () => {
     expect(contexts[0]?.internalDiagnostics?.onEvent).toBeTypeOf("function");
     expect(contexts[0]?.internalDiagnostics?.emit).toBeTypeOf("function");
 
-    const prometheusContexts: Brikko StudioPluginServiceContext[] = [];
+    const prometheusContexts: BrikkoStudioPluginServiceContext[] = [];
     const prometheusService = createTrackingService("diagnostics-prometheus", {
       contexts: prometheusContexts,
     });
@@ -204,7 +204,7 @@ describe("startPluginServices", () => {
     expect(prometheusContexts[0]?.internalDiagnostics?.onEvent).toBeTypeOf("function");
     expect(prometheusContexts[0]?.internalDiagnostics?.emit).toBeTypeOf("function");
 
-    const untrustedContexts: Brikko StudioPluginServiceContext[] = [];
+    const untrustedContexts: BrikkoStudioPluginServiceContext[] = [];
     const untrustedService = createTrackingService("diagnostics-otel", {
       contexts: untrustedContexts,
     });

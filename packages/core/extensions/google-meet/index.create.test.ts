@@ -293,7 +293,7 @@ describe("google-meet create flow", () => {
                   result: {
                     manualActionReason: "google-login-required",
                     manualAction:
-                      "Sign in to Google in the Brikko Studio browser profile, then retry meeting creation.",
+                      "Sign in to Google in the BrikkoStudio browser profile, then retry meeting creation.",
                     browserUrl: "https://accounts.google.com/signin",
                     browserTitle: "Sign in - Google Accounts",
                     notes: ["Sign-in page detected."],
@@ -320,11 +320,11 @@ describe("google-meet create flow", () => {
     expect(respond.mock.calls[0]?.[1]).toMatchObject({
       source: "browser",
       error:
-        "google-login-required: Sign in to Google in the Brikko Studio browser profile, then retry meeting creation.",
+        "google-login-required: Sign in to Google in the BrikkoStudio browser profile, then retry meeting creation.",
       manualActionRequired: true,
       manualActionReason: "google-login-required",
       manualActionMessage:
-        "Sign in to Google in the Brikko Studio browser profile, then retry meeting creation.",
+        "Sign in to Google in the BrikkoStudio browser profile, then retry meeting creation.",
       browser: {
         nodeId: "node-1",
         targetId: "login-tab",
@@ -462,7 +462,7 @@ describe("google-meet create flow", () => {
                   result: {
                     manualActionReason: "meet-permission-required",
                     manualAction:
-                      "Allow microphone/camera permissions for Meet in the Brikko Studio browser profile, then retry meeting creation.",
+                      "Allow microphone/camera permissions for Meet in the BrikkoStudio browser profile, then retry meeting creation.",
                     browserUrl: "https://meet.google.com/new",
                     browserTitle: "Meet",
                   },
@@ -485,7 +485,7 @@ describe("google-meet create flow", () => {
       manualActionRequired: true,
       manualActionReason: "meet-permission-required",
       manualActionMessage:
-        "Allow microphone/camera permissions for Meet in the Brikko Studio browser profile, then retry meeting creation.",
+        "Allow microphone/camera permissions for Meet in the BrikkoStudio browser profile, then retry meeting creation.",
       browser: {
         nodeId: "node-1",
         targetId: "permission-tab",

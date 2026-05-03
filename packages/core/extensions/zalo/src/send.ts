@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { resolveZaloAccount } from "./accounts.js";
 import type { ZaloFetch } from "./api.js";
@@ -9,7 +9,7 @@ import { resolveZaloToken } from "./token.js";
 type ZaloSendOptions = {
   token?: string;
   accountId?: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   mediaUrl?: string;
   caption?: string;
   verbose?: boolean;

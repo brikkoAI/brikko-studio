@@ -8,7 +8,7 @@ import { runCommandWithRuntime } from "./cli-utils.js";
 export function registerDocsCli(program: Command) {
   program
     .command("docs")
-    .description("Search the live Brikko Studio docs")
+    .description("Search the live BrikkoStudio docs")
     .argument("[query...]", "Search query")
     .addHelpText(
       "after",

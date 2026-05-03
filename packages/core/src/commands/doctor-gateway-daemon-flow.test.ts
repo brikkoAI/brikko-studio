@@ -295,7 +295,7 @@ describe("maybeRepairGatewayDaemon", () => {
     expect(note).toHaveBeenCalledWith(EXTERNAL_SERVICE_REPAIR_NOTE, "Gateway");
   });
 
-  it("skips gateway service install when a system Brikko Studio gateway service exists", async () => {
+  it("skips gateway service install when a system BrikkoStudio gateway service exists", async () => {
     setPlatform("linux");
     service.isLoaded.mockResolvedValue(false);
     findSystemGatewayServices.mockResolvedValue([
@@ -315,7 +315,7 @@ describe("maybeRepairGatewayDaemon", () => {
     expect(service.install).not.toHaveBeenCalled();
     expect(service.restart).not.toHaveBeenCalled();
     expect(note).toHaveBeenCalledWith(
-      expect.stringContaining("System-level Brikko Studio gateway service detected"),
+      expect.stringContaining("System-level BrikkoStudio gateway service detected"),
       "Gateway",
     );
   });

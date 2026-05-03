@@ -59,7 +59,7 @@ export function registerMigrateCommand(program: Command) {
       collectMigrationSkill,
     )
     .option("--backup-output <path>", "Pre-migration backup archive path or directory")
-    .option("--no-backup", "Skip the pre-migration Brikko Studio backup")
+    .option("--no-backup", "Skip the pre-migration BrikkoStudio backup")
     .option("--force", "Allow dangerous options such as --no-backup", false)
     .option("--json", "Output JSON", false)
     .addHelpText(
@@ -110,7 +110,7 @@ export function registerMigrateCommand(program: Command) {
   addMigrationOptions(
     migrate
       .command("plan <provider>")
-      .description("Preview a migration without changing Brikko Studio state"),
+      .description("Preview a migration without changing BrikkoStudio state"),
   ).action(async (provider, opts) => {
     await runCommandWithRuntime(defaultRuntime, async () => {
       await migratePlanCommand(defaultRuntime, {
@@ -129,7 +129,7 @@ export function registerMigrateCommand(program: Command) {
   )
     .option("--yes", "Apply without prompting", false)
     .option("--backup-output <path>", "Pre-migration backup archive path or directory")
-    .option("--no-backup", "Skip the pre-migration Brikko Studio backup")
+    .option("--no-backup", "Skip the pre-migration BrikkoStudio backup")
     .option("--force", "Allow dangerous options such as --no-backup", false)
     .action(async (provider, opts) => {
       await runCommandWithRuntime(defaultRuntime, async () => {

@@ -36,7 +36,7 @@ export { logInboundDrop, logTypingFailure } from "brikko-studio/plugin-sdk/chann
 export { resolveAckReaction } from "brikko-studio/plugin-sdk/channel-feedback";
 export type { ChannelSetupInput } from "brikko-studio/plugin-sdk/setup";
 export type {
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   ContextVisibilityMode,
   DmPolicy,
   GroupPolicy,

@@ -3,7 +3,7 @@ import {
   createChannelReplyPipeline,
   logTypingFailure,
   resolveChannelMediaMaxBytes,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type MSTeamsReplyStyle,
   type RuntimeEnv,
 } from "../runtime-api.js";
@@ -30,7 +30,7 @@ import type { MSTeamsTurnContext } from "./sdk-types.js";
 export { pickInformativeStatusText } from "./reply-stream-controller.js";
 
 export function createMSTeamsReplyDispatcher(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   sessionKey: string;
   accountId?: string;

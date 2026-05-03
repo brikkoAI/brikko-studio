@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   resolveManifestCommandAliasOwnerInRegistry,
   type PluginManifestCommandAliasRecord,
@@ -94,12 +94,12 @@ export function shouldStartProxyForCli(argv: string[]): boolean {
 
 export function resolveMissingPluginCommandMessage(
   pluginId: string,
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
   options?: {
     registry?: PluginManifestCommandAliasRegistry;
     resolveCommandAliasOwner?: (params: {
       command: string | undefined;
-      config?: Brikko StudioConfig;
+      config?: BrikkoStudioConfig;
       registry?: PluginManifestCommandAliasRegistry;
     }) => PluginManifestCommandAliasRecord | undefined;
   },

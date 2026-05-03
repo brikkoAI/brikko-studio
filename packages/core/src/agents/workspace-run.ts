@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { logWarn } from "../logger.js";
 import { redactIdentifier } from "../logging/redact-identifier.js";
 import {
@@ -25,7 +25,7 @@ type ResolveRunWorkspaceResult = {
 function resolveRunAgentId(params: {
   sessionKey?: string;
   agentId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): {
   agentId: string;
   agentIdSource: AgentIdSource;
@@ -75,7 +75,7 @@ export function resolveRunWorkspaceDir(params: {
   workspaceDir: unknown;
   sessionKey?: string;
   agentId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): ResolveRunWorkspaceResult {
   const env = params.env ?? process.env;

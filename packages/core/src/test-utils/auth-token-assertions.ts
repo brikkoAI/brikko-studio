@@ -1,10 +1,10 @@
 import { expect } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export function expectGeneratedTokenPersistedToGatewayAuth(params: {
   generatedToken?: string;
   authToken?: string;
-  persistedConfig?: Brikko StudioConfig;
+  persistedConfig?: BrikkoStudioConfig;
 }) {
   expect(params.generatedToken).toMatch(/^[0-9a-f]{48}$/);
   expect(params.authToken).toBe(params.generatedToken);

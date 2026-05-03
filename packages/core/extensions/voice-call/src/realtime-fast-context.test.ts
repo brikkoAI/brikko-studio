@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { VoiceCallRealtimeFastContextConfig } from "./config.js";
 
@@ -12,7 +12,7 @@ vi.mock("brikko-studio/plugin-sdk/memory-host-search", () => ({
 
 import { resolveRealtimeFastContextConsult } from "./realtime-fast-context.js";
 
-const cfg = {} as Brikko StudioConfig;
+const cfg = {} as BrikkoStudioConfig;
 
 function createFastContextConfig(
   overrides: Partial<VoiceCallRealtimeFastContextConfig> = {},
@@ -80,7 +80,7 @@ describe("resolveRealtimeFastContextConsult", () => {
     await expect(resultPromise).resolves.toEqual({
       handled: true,
       result: {
-        text: expect.stringContaining("No relevant Brikko Studio memory or session context"),
+        text: expect.stringContaining("No relevant BrikkoStudio memory or session context"),
       },
     });
     expect(logger.debug).toHaveBeenCalledWith(expect.stringContaining("timed out after 25ms"));

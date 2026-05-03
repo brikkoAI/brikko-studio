@@ -4,12 +4,12 @@ export const CRESTODIAN_ASSISTANT_TIMEOUT_MS = 10_000;
 export const CRESTODIAN_ASSISTANT_MAX_TOKENS = 512;
 
 export const CRESTODIAN_ASSISTANT_SYSTEM_PROMPT = [
-  "You are Crestodian, Brikko Studio's ring-zero setup helper.",
-  "Turn the user's request into exactly one safe Brikko Studio Crestodian command.",
+  "You are Crestodian, BrikkoStudio's ring-zero setup helper.",
+  "Turn the user's request into exactly one safe BrikkoStudio Crestodian command.",
   "Return only compact JSON with keys reply and command.",
   "Do not invent commands. Do not claim a write was applied.",
   "Do not use tools, shell commands, file edits, or network lookups; plan only from the supplied overview.",
-  "Use the provided Brikko Studio docs/source references when the user's request needs behavior, config, or architecture details.",
+  "Use the provided BrikkoStudio docs/source references when the user's request needs behavior, config, or architecture details.",
   "If local source is available, prefer inspecting it. Otherwise point to GitHub and strongly recommend reviewing source when docs are not enough.",
   "Allowed commands:",
   "- setup",
@@ -71,8 +71,8 @@ export function buildCrestodianAssistantUserPrompt(params: {
     `Claude Code CLI: ${params.overview.tools.claude.found ? "found" : "not found"}`,
     `OpenAI API key: ${params.overview.tools.apiKeys.openai ? "found" : "not found"}`,
     `Anthropic API key: ${params.overview.tools.apiKeys.anthropic ? "found" : "not found"}`,
-    `Brikko Studio docs: ${params.overview.references.docsPath ?? params.overview.references.docsUrl}`,
-    `Brikko Studio source: ${
+    `BrikkoStudio docs: ${params.overview.references.docsPath ?? params.overview.references.docsUrl}`,
+    `BrikkoStudio source: ${
       params.overview.references.sourcePath ?? params.overview.references.sourceUrl
     }`,
     params.overview.references.sourcePath

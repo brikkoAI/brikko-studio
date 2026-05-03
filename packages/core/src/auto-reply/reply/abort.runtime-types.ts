@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { FinalizedMsgContext } from "../templating.js";
 
 export type FastAbortResult = {
@@ -9,7 +9,7 @@ export type FastAbortResult = {
 
 export type TryFastAbortFromMessage = (params: {
   ctx: FinalizedMsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }) => Promise<FastAbortResult>;
 
 export type FormatAbortReplyText = (stoppedSubagents?: number) => string;

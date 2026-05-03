@@ -4,9 +4,9 @@ import {
   expectSchemaValid,
 } from "./legacy-config-detection.test-support.js";
 import { AudioSchema, BindingsSchema } from "./zod-schema.agents.js";
-import { Brikko StudioSchema } from "./zod-schema.js";
+import { BrikkoStudioSchema } from "./zod-schema.js";
 
-function expectBrikko StudioSchemaInvalidPreservesField(params: {
+function expectBrikkoStudioSchemaInvalidPreservesField(params: {
   config: unknown;
   readValue: (parsed: unknown) => unknown;
   expectedValue: unknown;
@@ -14,7 +14,7 @@ function expectBrikko StudioSchemaInvalidPreservesField(params: {
   expectedMessageIncludes?: string;
 }) {
   const before = JSON.stringify(params.config);
-  const res = Brikko StudioSchema.safeParse(params.config);
+  const res = BrikkoStudioSchema.safeParse(params.config);
   expect(res.success).toBe(false);
   if (!res.success) {
     if (params.expectedPath !== undefined) {
@@ -35,7 +35,7 @@ describe("legacy config detection", () => {
     });
   });
   it("rejects legacy agent.model string", () => {
-    const res = Brikko StudioSchema.safeParse({
+    const res = BrikkoStudioSchema.safeParse({
       agent: { model: "anthropic/claude-opus-4-6" },
     });
     expect(res.success).toBe(false);
@@ -45,7 +45,7 @@ describe("legacy config detection", () => {
     }
   });
   it("rejects removed legacy provider sections", () => {
-    expectBrikko StudioSchemaInvalidPreservesField({
+    expectBrikkoStudioSchemaInvalidPreservesField({
       config: { whatsapp: { allowFrom: ["+1555"] } },
       readValue: (parsed) =>
         (parsed as { whatsapp?: { allowFrom?: string[] } }).whatsapp?.allowFrom?.[0],
@@ -62,7 +62,7 @@ describe("legacy config detection", () => {
         },
       },
     };
-    const res = Brikko StudioSchema.safeParse(config);
+    const res = BrikkoStudioSchema.safeParse(config);
     expect(res.success).toBe(true);
     if (res.success) {
       expect(res.data.auth?.profiles?.["anthropic:claude-cli"]?.mode).toBe("token");
@@ -70,7 +70,7 @@ describe("legacy config detection", () => {
     expect(config.auth.profiles["anthropic:claude-cli"].mode).toBe("token");
   });
   it("rejects bindings[].match.provider without mutating the source", () => {
-    expectBrikko StudioSchemaInvalidPreservesField({
+    expectBrikkoStudioSchemaInvalidPreservesField({
       config: {
         bindings: [{ agentId: "main", match: { provider: "slack" } }],
       },
@@ -81,7 +81,7 @@ describe("legacy config detection", () => {
     });
   });
   it("rejects bindings[].match.accountID without mutating the source", () => {
-    expectBrikko StudioSchemaInvalidPreservesField({
+    expectBrikkoStudioSchemaInvalidPreservesField({
       config: {
         bindings: [{ agentId: "main", match: { channel: "telegram", accountID: "work" } }],
       },
@@ -100,7 +100,7 @@ describe("legacy config detection", () => {
     });
   });
   it("rejects session.sendPolicy.rules[].match.provider without mutating the source", () => {
-    expectBrikko StudioSchemaInvalidPreservesField({
+    expectBrikkoStudioSchemaInvalidPreservesField({
       config: {
         session: {
           sendPolicy: {
@@ -118,7 +118,7 @@ describe("legacy config detection", () => {
     });
   });
   it("rejects messages.queue.byProvider without mutating the source", () => {
-    expectBrikko StudioSchemaInvalidPreservesField({
+    expectBrikkoStudioSchemaInvalidPreservesField({
       config: { messages: { queue: { byProvider: { whatsapp: "queue" } } } },
       readValue: (parsed) =>
         (

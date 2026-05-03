@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { withTempHome } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config.js";
+import type { BrikkoStudioConfig } from "../config.js";
 import { resolveStorePath } from "./paths.js";
 import {
   resolveAgentSessionStoreTargetsSync,
@@ -31,7 +31,7 @@ async function createAgentSessionStores(
   return storePaths;
 }
 
-function createCustomRootCfg(customRoot: string, defaultAgentId = "ops"): Brikko StudioConfig {
+function createCustomRootCfg(customRoot: string, defaultAgentId = "ops"): BrikkoStudioConfig {
   return {
     session: {
       store: path.join(customRoot, "agents", "{agentId}", "sessions", "sessions.json"),
@@ -67,12 +67,12 @@ function expectTargetsToContainStores(
 const discoveryResolvers = [
   {
     label: "async",
-    resolve: async (cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv) =>
+    resolve: async (cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv) =>
       await resolveAllAgentSessionStoreTargets(cfg, { env }),
   },
   {
     label: "sync",
-    resolve: async (cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv) =>
+    resolve: async (cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv) =>
       resolveAllAgentSessionStoreTargetsSync(cfg, { env }),
   },
 ] as const;
@@ -80,7 +80,7 @@ const discoveryResolvers = [
 describe("resolveSessionStoreTargets", () => {
   it("resolves all configured agent stores", async () => {
     await withTempHome(async () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         session: {
           store: "~/.brikko-studio/agents/{agentId}/sessions/sessions.json",
         },
@@ -105,7 +105,7 @@ describe("resolveSessionStoreTargets", () => {
   });
 
   it("dedupes shared store paths for --all-agents", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       session: {
         store: "/tmp/shared-sessions.json",
       },
@@ -120,7 +120,7 @@ describe("resolveSessionStoreTargets", () => {
   });
 
   it("rejects unknown agent ids", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         list: [{ id: "main", default: true }, { id: "work" }],
       },
@@ -177,7 +177,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
       const stateDir = path.join(home, ".brikko-studio");
       const storePaths = await createAgentSessionStores(stateDir, ["ops", "retired"]);
 
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           list: [{ id: "ops", default: true }],
         },
@@ -231,7 +231,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
         ...process.env,
         BRIKKO_STUDIO_STATE_DIR: envStateDir,
       };
-      const cfg: Brikko StudioConfig = {};
+      const cfg: BrikkoStudioConfig = {};
       const mainStorePath = await resolveRealStorePath(mainSessionsDir);
       const retiredStorePath = await resolveRealStorePath(retiredSessionsDir);
 
@@ -309,7 +309,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
       await fs.writeFile(path.join(mainSessionsDir, "sessions.json"), "{}", "utf8");
       await fs.writeFile(path.join(junkSessionsDir, "sessions.json"), "{}", "utf8");
 
-      const cfg: Brikko StudioConfig = {};
+      const cfg: BrikkoStudioConfig = {};
       const mainStorePath = await resolveRealStorePath(mainSessionsDir);
       const targets = await resolveAllAgentSessionStoreTargets(cfg, { env: process.env });
 

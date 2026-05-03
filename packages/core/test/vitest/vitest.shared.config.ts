@@ -21,7 +21,7 @@ type VitestHostInfo = {
   totalMemoryBytes?: number;
 };
 
-export type Brikko StudioVitestPool = "forks" | "threads";
+export type BrikkoStudioVitestPool = "forks" | "threads";
 
 export type LocalVitestScheduling = {
   maxWorkers: number;
@@ -45,7 +45,7 @@ function detectVitestHostInfo(): Required<VitestHostInfo> {
 export function resolveLocalVitestMaxWorkers(
   env: Record<string, string | undefined> = process.env,
   system: VitestHostInfo = detectVitestHostInfo(),
-  pool: Brikko StudioVitestPool = resolveDefaultVitestPool(env),
+  pool: BrikkoStudioVitestPool = resolveDefaultVitestPool(env),
 ): number {
   return resolveLocalVitestMaxWorkersImpl(env, system, pool);
 }
@@ -53,14 +53,14 @@ export function resolveLocalVitestMaxWorkers(
 export function resolveLocalVitestScheduling(
   env: Record<string, string | undefined> = process.env,
   system: VitestHostInfo = detectVitestHostInfo(),
-  pool: Brikko StudioVitestPool = resolveDefaultVitestPool(env),
+  pool: BrikkoStudioVitestPool = resolveDefaultVitestPool(env),
 ): LocalVitestScheduling {
   return resolveLocalVitestSchedulingImpl(env, system, pool) as LocalVitestScheduling;
 }
 
 export function resolveDefaultVitestPool(
   _env: Record<string, string | undefined> = process.env,
-): Brikko StudioVitestPool {
+): BrikkoStudioVitestPool {
   return "threads";
 }
 
@@ -298,7 +298,7 @@ export const sharedVitestConfig = {
       "apps/macos/.build/**",
       "**/node_modules/**",
       "**/vendor/**",
-      "dist/Brikko Studio.app/**",
+      "dist/BrikkoStudio.app/**",
       "**/*.live.test.ts",
       "**/*.e2e.test.ts",
     ],

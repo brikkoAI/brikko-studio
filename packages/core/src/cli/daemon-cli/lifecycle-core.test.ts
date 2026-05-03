@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   defaultRuntime,
   resetLifecycleRuntimeLogs,
@@ -9,7 +9,7 @@ import {
   stubEmptyGatewayEnv,
 } from "./test-helpers/lifecycle-core-harness.js";
 
-const loadConfig = vi.fn<() => Brikko StudioConfig>(() => ({
+const loadConfig = vi.fn<() => BrikkoStudioConfig>(() => ({
   gateway: {
     auth: {
       token: "config-token",
@@ -382,7 +382,7 @@ describe("runServiceRestart token drift", () => {
     const repairLoadedService = vi.fn(async () => ({
       result: "started" as const,
       message: "Gateway service definition repaired and started.",
-      warnings: ["service was installed by Brikko Studio 2026.4.24, current CLI is 2026.5.2"],
+      warnings: ["service was installed by BrikkoStudio 2026.4.24, current CLI is 2026.5.2"],
       loaded: true,
     }));
 
@@ -404,7 +404,7 @@ describe("runServiceRestart token drift", () => {
     }>();
     expect(payload.result).toBe("started");
     expect(payload.message).toBe("Gateway service definition repaired and started.");
-    expect(payload.warnings?.[0]).toContain("service was installed by Brikko Studio");
+    expect(payload.warnings?.[0]).toContain("service was installed by BrikkoStudio");
     expect(payload.service?.loaded).toBe(true);
   });
 

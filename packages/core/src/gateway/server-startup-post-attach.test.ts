@@ -35,14 +35,14 @@ const hoisted = vi.hoisted(() => {
   }));
   const resolveAgentModelPrimaryValue = vi.fn(() => "");
   const normalizeProviderId = vi.fn((provider: string) => provider.toLowerCase());
-  const resolveBrikko StudioAgentDir = vi.fn(() => "/tmp/brikko-studio-state/agents/default/agent");
+  const resolveBrikkoStudioAgentDir = vi.fn(() => "/tmp/brikko-studio-state/agents/default/agent");
   const isCliProvider = vi.fn(() => false);
   const resolveConfiguredModelRef = vi.fn(() => ({
     provider: "openai",
     model: "gpt-5.4",
   }));
   const resolveEmbeddedAgentRuntime = vi.fn(() => "pi");
-  const ensureBrikko StudioModelsJson = vi.fn(async () => undefined);
+  const ensureBrikkoStudioModelsJson = vi.fn(async () => undefined);
   return {
     startPluginServices,
     startGmailWatcherWithLogs,
@@ -64,11 +64,11 @@ const hoisted = vi.hoisted(() => {
     reconcilePendingSessionIdentities,
     resolveAgentModelPrimaryValue,
     normalizeProviderId,
-    resolveBrikko StudioAgentDir,
+    resolveBrikkoStudioAgentDir,
     isCliProvider,
     resolveConfiguredModelRef,
     resolveEmbeddedAgentRuntime,
-    ensureBrikko StudioModelsJson,
+    ensureBrikkoStudioModelsJson,
   };
 });
 
@@ -155,7 +155,7 @@ vi.mock("../agents/provider-id.js", () => ({
 }));
 
 vi.mock("../agents/agent-paths.js", () => ({
-  resolveBrikko StudioAgentDir: hoisted.resolveBrikko StudioAgentDir,
+  resolveBrikkoStudioAgentDir: hoisted.resolveBrikkoStudioAgentDir,
 }));
 
 vi.mock("../agents/agent-scope.js", () => ({
@@ -178,7 +178,7 @@ vi.mock("../agents/pi-embedded-runner/runtime.js", () => ({
 }));
 
 vi.mock("../agents/models-config.js", () => ({
-  ensureBrikko StudioModelsJson: hoisted.ensureBrikko StudioModelsJson,
+  ensureBrikkoStudioModelsJson: hoisted.ensureBrikkoStudioModelsJson,
 }));
 
 vi.mock("./server-tailscale.js", () => ({
@@ -218,14 +218,14 @@ describe("startGatewayPostAttachRuntime", () => {
     hoisted.resolveAgentModelPrimaryValue.mockReset();
     hoisted.resolveAgentModelPrimaryValue.mockReturnValue("");
     hoisted.normalizeProviderId.mockClear();
-    hoisted.resolveBrikko StudioAgentDir.mockClear();
+    hoisted.resolveBrikkoStudioAgentDir.mockClear();
     hoisted.isCliProvider.mockReset();
     hoisted.isCliProvider.mockReturnValue(false);
     hoisted.resolveConfiguredModelRef.mockClear();
     hoisted.resolveEmbeddedAgentRuntime.mockReset();
     hoisted.resolveEmbeddedAgentRuntime.mockReturnValue("pi");
-    hoisted.ensureBrikko StudioModelsJson.mockReset();
-    hoisted.ensureBrikko StudioModelsJson.mockResolvedValue(undefined);
+    hoisted.ensureBrikkoStudioModelsJson.mockReset();
+    hoisted.ensureBrikkoStudioModelsJson.mockResolvedValue(undefined);
   });
 
   afterEach(() => {

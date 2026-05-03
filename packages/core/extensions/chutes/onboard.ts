@@ -1,7 +1,7 @@
 import {
   applyAgentDefaultModelPrimary,
   applyProviderConfigWithModelCatalogPreset,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   CHUTES_BASE_URL,
@@ -16,7 +16,7 @@ export { CHUTES_DEFAULT_MODEL_REF };
  * Apply Chutes provider configuration without changing the default model.
  * Registers all catalog models and sets provider aliases (chutes-fast, etc.).
  */
-export function applyChutesProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyChutesProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return applyProviderConfigWithModelCatalogPreset(cfg, {
     providerId: "chutes",
     api: "openai-completions",
@@ -37,7 +37,7 @@ export function applyChutesProviderConfig(cfg: Brikko StudioConfig): Brikko Stud
 /**
  * Apply Chutes provider configuration AND set Chutes as the default model.
  */
-export function applyChutesConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyChutesConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const next = applyChutesProviderConfig(cfg);
   return {
     ...next,
@@ -58,6 +58,6 @@ export function applyChutesConfig(cfg: Brikko StudioConfig): Brikko StudioConfig
   };
 }
 
-export function applyChutesApiKeyConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyChutesApiKeyConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return applyAgentDefaultModelPrimary(applyChutesProviderConfig(cfg), CHUTES_DEFAULT_MODEL_REF);
 }

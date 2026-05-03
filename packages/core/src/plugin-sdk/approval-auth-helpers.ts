@@ -1,5 +1,5 @@
 import { normalizeOptionalString } from "../shared/string-coerce.js";
-import type { Brikko StudioConfig } from "./config-runtime.js";
+import type { BrikkoStudioConfig } from "./config-runtime.js";
 
 type ApprovalKind = "exec" | "plugin";
 type ApprovalAuthorizationResult = {
@@ -39,7 +39,7 @@ export function isImplicitSameChatApprovalAuthorization(
 
 export function createResolvedApproverActionAuthAdapter(params: {
   channelLabel: string;
-  resolveApprovers: (params: { cfg: Brikko StudioConfig; accountId?: string | null }) => string[];
+  resolveApprovers: (params: { cfg: BrikkoStudioConfig; accountId?: string | null }) => string[];
   normalizeSenderId?: (value: string) => string | undefined;
 }) {
   const normalizeSenderId = params.normalizeSenderId ?? normalizeOptionalString;
@@ -51,7 +51,7 @@ export function createResolvedApproverActionAuthAdapter(params: {
       senderId,
       approvalKind,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       accountId?: string | null;
       senderId?: string | null;
       action: "approve";

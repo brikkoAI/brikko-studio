@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { detectLegacyMatrixCrypto } from "./legacy-crypto.js";
 import { detectLegacyMatrixState } from "./legacy-state.js";
 import {
@@ -15,7 +15,7 @@ export type MatrixMigrationStatus = {
 };
 
 export function resolveMatrixMigrationStatus(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): MatrixMigrationStatus {
   const env = params.env ?? process.env;
@@ -33,14 +33,14 @@ export function resolveMatrixMigrationStatus(params: {
 }
 
 export function hasPendingMatrixMigration(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): boolean {
   return resolveMatrixMigrationStatus(params).pending;
 }
 
 export function hasActionableMatrixMigration(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): boolean {
   return resolveMatrixMigrationStatus(params).actionable;

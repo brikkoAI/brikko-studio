@@ -2,7 +2,7 @@ import type {
   ChannelDoctorConfigMutation,
   ChannelDoctorLegacyConfigRule,
 } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   asObjectRecord,
   hasLegacyAccountStreamingAliases,
@@ -91,7 +91,7 @@ export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
 export function normalizeCompatibilityConfig({
   cfg,
 }: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): ChannelDoctorConfigMutation {
   const rawEntry = asObjectRecord((cfg.channels as Record<string, unknown> | undefined)?.slack);
   if (!rawEntry) {
@@ -164,8 +164,8 @@ export function normalizeCompatibilityConfig({
       ...cfg,
       channels: {
         ...cfg.channels,
-        slack: updated as unknown as NonNullable<Brikko StudioConfig["channels"]>["slack"],
-      } as Brikko StudioConfig["channels"],
+        slack: updated as unknown as NonNullable<BrikkoStudioConfig["channels"]>["slack"],
+      } as BrikkoStudioConfig["channels"],
     },
     changes,
   };

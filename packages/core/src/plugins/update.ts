@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import { parseClawHubPluginSpec } from "../infra/clawhub-spec.js";
 import type { NpmSpecResolution } from "../infra/install-source-utils.js";
@@ -55,7 +55,7 @@ export type PluginUpdateOutcome = {
 };
 
 export type PluginUpdateSummary = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changed: boolean;
   outcomes: PluginUpdateOutcome[];
 };
@@ -79,7 +79,7 @@ export type PluginChannelSyncSummary = {
 };
 
 export type PluginChannelSyncResult = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changed: boolean;
   summary: PluginChannelSyncSummary;
 };
@@ -338,7 +338,7 @@ function resolveBridgeInstallRecord(params: {
 }
 
 function isBridgeChannelEnabledByConfig(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   bridge: ExternalizedBundledPluginBridge;
 }): boolean {
   const channels = params.config.channels;
@@ -358,7 +358,7 @@ function isBridgeChannelEnabledByConfig(params: {
 }
 
 function isExternalizedBundledPluginEnabled(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   bridge: ExternalizedBundledPluginBridge;
 }): boolean {
   const normalized = normalizePluginsConfig(params.config.plugins);
@@ -571,7 +571,7 @@ function replacePluginIdInList(
   return next;
 }
 
-function migratePluginConfigId(cfg: Brikko StudioConfig, fromId: string, toId: string): Brikko StudioConfig {
+function migratePluginConfigId(cfg: BrikkoStudioConfig, fromId: string, toId: string): BrikkoStudioConfig {
   if (fromId === toId) {
     return cfg;
   }
@@ -653,7 +653,7 @@ function createPluginUpdateIntegrityDriftHandler(params: {
 }
 
 export async function updateNpmInstalledPlugins(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   logger?: PluginUpdateLogger;
   pluginIds?: string[];
   skipIds?: Set<string>;
@@ -1294,7 +1294,7 @@ export async function updateNpmInstalledPlugins(params: {
 }
 
 export async function syncPluginsForUpdateChannel(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   channel: UpdateChannel;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;

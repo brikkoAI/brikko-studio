@@ -4,13 +4,13 @@ import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 import type { CliDeps } from "../cli/deps.types.js";
 import type { GatewayTailscaleMode } from "../config/types.gateway.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { hasConfiguredInternalHooks } from "../hooks/configured.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import type { scheduleGatewayUpdateCheck } from "../infra/update-startup.js";
 import type { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
 import type { PluginHookGatewayCronService } from "../plugins/hook-types.js";
-import type { loadBrikko StudioPlugins } from "../plugins/loader.js";
+import type { loadBrikkoStudioPlugins } from "../plugins/loader.js";
 import { getPluginModuleLoaderStats } from "../plugins/plugin-module-loader-cache.js";
 import type { PluginRegistry } from "../plugins/registry.js";
 import type { PluginServicesHandle } from "../plugins/services.js";
@@ -62,7 +62,7 @@ function shouldSkipStartupModelPrewarm(env: NodeJS.ProcessEnv = process.env): bo
   return raw === "1" || raw === "true" || raw === "yes" || raw === "on";
 }
 
-function resolveGatewayMemoryStartupPolicy(cfg: Brikko StudioConfig): GatewayMemoryStartupPolicy {
+function resolveGatewayMemoryStartupPolicy(cfg: BrikkoStudioConfig): GatewayMemoryStartupPolicy {
   if (cfg.memory?.backend !== "qmd") {
     return { mode: "off" };
   }
@@ -85,7 +85,7 @@ function resolveGatewayMemoryStartupPolicy(cfg: Brikko StudioConfig): GatewayMem
 }
 
 function scheduleGatewayMemoryBackend(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   log: { warn: (msg: string) => void };
   policy: GatewayMemoryStartupPolicy;
 }): void {
@@ -185,12 +185,12 @@ async function refreshLatestUpdateRestartSentinelIfPresent(): Promise<Awaited<
   return await (await import("./server-restart-sentinel.js")).refreshLatestUpdateRestartSentinel();
 }
 
-function hasGatewayStartHooks(pluginRegistry: ReturnType<typeof loadBrikko StudioPlugins>): boolean {
+function hasGatewayStartHooks(pluginRegistry: ReturnType<typeof loadBrikkoStudioPlugins>): boolean {
   return pluginRegistry.typedHooks.some((hook) => hook.hookName === "gateway_start");
 }
 
 function isConfiguredCliBackendPrimary(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   explicitPrimary: string;
   normalizeProviderId: (provider: string) => string;
 }): boolean {
@@ -237,7 +237,7 @@ async function waitForAcpRuntimeBackendReady(params: {
 }
 
 async function prewarmConfiguredPrimaryModel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   workspaceDir?: string;
   log: { warn: (msg: string) => void };
 }): Promise<void> {
@@ -257,7 +257,7 @@ async function prewarmConfiguredPrimaryModel(params: {
     return;
   }
   const [
-    { resolveBrikko StudioAgentDir },
+    { resolveBrikkoStudioAgentDir },
     { resolveAgentWorkspaceDir, resolveDefaultAgentId },
     { DEFAULT_MODEL, DEFAULT_PROVIDER },
     { isCliProvider, resolveConfiguredModelRef },
@@ -282,12 +282,12 @@ async function prewarmConfiguredPrimaryModel(params: {
     return;
   }
   // Keep startup prewarm metadata-only; resolving models can import provider runtimes and block readiness.
-  const { ensureBrikko StudioModelsJson } = await import("../agents/models-config.js");
-  const agentDir = resolveBrikko StudioAgentDir();
+  const { ensureBrikkoStudioModelsJson } = await import("../agents/models-config.js");
+  const agentDir = resolveBrikkoStudioAgentDir();
   const workspaceDir =
     params.workspaceDir ?? resolveAgentWorkspaceDir(params.cfg, resolveDefaultAgentId(params.cfg));
   try {
-    await ensureBrikko StudioModelsJson(params.cfg, agentDir, {
+    await ensureBrikkoStudioModelsJson(params.cfg, agentDir, {
       workspaceDir,
       providerDiscoveryProviderIds: [provider],
       providerDiscoveryTimeoutMs: STARTUP_PROVIDER_DISCOVERY_TIMEOUT_MS,
@@ -300,7 +300,7 @@ async function prewarmConfiguredPrimaryModel(params: {
 
 async function prewarmConfiguredPrimaryModelWithTimeout(
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     workspaceDir?: string;
     log: { warn: (msg: string) => void };
     timeoutMs?: number;
@@ -329,7 +329,7 @@ async function prewarmConfiguredPrimaryModelWithTimeout(
 
 function schedulePrimaryModelPrewarm(
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     workspaceDir?: string;
     log: { warn: (msg: string) => void };
     startupTrace?: GatewayStartupTrace;
@@ -354,8 +354,8 @@ function schedulePrimaryModelPrewarm(
 }
 
 export async function startGatewaySidecars(params: {
-  cfg: Brikko StudioConfig;
-  pluginRegistry: ReturnType<typeof loadBrikko StudioPlugins>;
+  cfg: BrikkoStudioConfig;
+  pluginRegistry: ReturnType<typeof loadBrikkoStudioPlugins>;
   defaultWorkspaceDir: string;
   deps: CliDeps;
   startChannels: () => Promise<void>;
@@ -627,7 +627,7 @@ const defaultGatewayPostAttachRuntimeDeps: GatewayPostAttachRuntimeDeps = {
 export async function startGatewayPostAttachRuntime(
   params: {
     minimalTestGateway: boolean;
-    cfgAtStart: Brikko StudioConfig;
+    cfgAtStart: BrikkoStudioConfig;
     bindHost: string;
     bindHosts: string[];
     port: number;
@@ -648,8 +648,8 @@ export async function startGatewayPostAttachRuntime(
       error: (msg: string) => void;
       debug?: (msg: string) => void;
     };
-    gatewayPluginConfigAtStart: Brikko StudioConfig;
-    pluginRegistry: ReturnType<typeof loadBrikko StudioPlugins>;
+    gatewayPluginConfigAtStart: BrikkoStudioConfig;
+    pluginRegistry: ReturnType<typeof loadBrikkoStudioPlugins>;
     defaultWorkspaceDir: string;
     deps: CliDeps;
     startChannels: () => Promise<void>;

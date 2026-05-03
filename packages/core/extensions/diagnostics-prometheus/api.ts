@@ -4,9 +4,9 @@ export type {
 } from "brikko-studio/plugin-sdk/diagnostic-runtime";
 export {
   emptyPluginConfigSchema,
-  type Brikko StudioPluginApi,
-  type Brikko StudioPluginHttpRouteHandler,
-  type Brikko StudioPluginService,
-  type Brikko StudioPluginServiceContext,
+  type BrikkoStudioPluginApi,
+  type BrikkoStudioPluginHttpRouteHandler,
+  type BrikkoStudioPluginService,
+  type BrikkoStudioPluginServiceContext,
 } from "brikko-studio/plugin-sdk/plugin-entry";
 export { redactSensitiveText } from "brikko-studio/plugin-sdk/security-runtime";

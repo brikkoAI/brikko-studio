@@ -1,6 +1,6 @@
 import type { App } from "@slack/bolt";
 import { resolveEnvelopeFormatOptions } from "brikko-studio/plugin-sdk/channel-inbound";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { SlackMessageEvent } from "../../types.js";
 import { resolveSlackThreadContextData } from "./prepare-thread-context.js";
@@ -25,7 +25,7 @@ describe("resolveSlackThreadContextData", () => {
     return createInboundSlackTestContext({
       cfg: {
         channels: { slack: { enabled: true, replyToMode: "all", groupPolicy: "open" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       appClient: { conversations: { replies: params.replies } } as App["client"],
       defaultRequireMention: false,
       replyToMode: "all",
@@ -75,7 +75,7 @@ describe("resolveSlackThreadContextData", () => {
       allowFromLower: params.allowFromLower,
       allowNameMatching: params.allowNameMatching,
       contextVisibilityMode: "allowlist",
-      envelopeOptions: resolveEnvelopeFormatOptions({} as Brikko StudioConfig),
+      envelopeOptions: resolveEnvelopeFormatOptions({} as BrikkoStudioConfig),
       effectiveDirectMedia: null,
     });
 

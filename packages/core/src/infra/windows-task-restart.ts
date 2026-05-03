@@ -8,7 +8,7 @@ import { renderCmdRestartLogSetup } from "../daemon/restart-logs.js";
 import { resolveTaskScriptPath } from "../daemon/schtasks.js";
 import { formatErrorMessage } from "./errors.js";
 import type { RestartAttempt } from "./restart.types.js";
-import { resolvePreferredBrikko StudioTmpDir } from "./tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "./tmp-brikko-studio-dir.js";
 
 const TASK_RESTART_RETRY_LIMIT = 12;
 const TASK_RESTART_RETRY_DELAY_SEC = 1;
@@ -63,7 +63,7 @@ export function relaunchGatewayScheduledTask(env: NodeJS.ProcessEnv = process.en
   const taskName = resolveWindowsTaskName(env);
   const taskScriptPath = resolveTaskScriptPath(env);
   const scriptPath = path.join(
-    resolvePreferredBrikko StudioTmpDir(),
+    resolvePreferredBrikkoStudioTmpDir(),
     `brikko-studio-schtasks-restart-${randomUUID()}.cmd`,
   );
   const quotedScriptPath = quoteCmdScriptArg(scriptPath);

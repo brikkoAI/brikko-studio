@@ -25,7 +25,7 @@ vi.mock("../config/paths.js", async () => {
 let __testing: typeof import("./restart-stale-pids.js").__testing;
 let cleanStaleGatewayProcessesSync: typeof import("./restart-stale-pids.js").cleanStaleGatewayProcessesSync;
 let findGatewayPidsOnPortSync: typeof import("./restart-stale-pids.js").findGatewayPidsOnPortSync;
-let triggerBrikko StudioRestart: typeof import("./restart.js").triggerBrikko StudioRestart;
+let triggerBrikkoStudioRestart: typeof import("./restart.js").triggerBrikkoStudioRestart;
 
 let currentTimeMs = 0;
 const envSnapshot = captureFullEnv();
@@ -34,7 +34,7 @@ const originalPlatformDescriptor = Object.getOwnPropertyDescriptor(process, "pla
 beforeAll(async () => {
   ({ __testing, cleanStaleGatewayProcessesSync, findGatewayPidsOnPortSync } =
     await import("./restart-stale-pids.js"));
-  ({ triggerBrikko StudioRestart } = await import("./restart.js"));
+  ({ triggerBrikkoStudioRestart } = await import("./restart.js"));
 });
 
 beforeEach(() => {
@@ -87,7 +87,7 @@ describe.runIf(process.platform !== "win32")("findGatewayPidsOnPortSync", () => 
         `p${foreignPid}`,
         "cnode",
         `p${gatewayPidB}`,
-        "cBrikko Studio",
+        "cBrikkoStudio",
       ].join("\n"),
     });
 
@@ -183,7 +183,7 @@ describe.runIf(process.platform !== "win32")("cleanStaleGatewayProcessesSync", (
   });
 });
 
-describe("triggerBrikko StudioRestart", () => {
+describe("triggerBrikkoStudioRestart", () => {
   it("continues when launchctl bootstrap reports the service is already loaded", () => {
     setPlatform("darwin");
     delete process.env.VITEST;
@@ -207,7 +207,7 @@ describe("triggerBrikko StudioRestart", () => {
       return { error: undefined, status: 1, stdout: "" };
     });
 
-    const result = triggerBrikko StudioRestart();
+    const result = triggerBrikkoStudioRestart();
 
     expect(result).toEqual({
       ok: true,

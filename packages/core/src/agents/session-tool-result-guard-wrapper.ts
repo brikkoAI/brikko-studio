@@ -1,6 +1,6 @@
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import type { SessionManager } from "@mariozechner/pi-coding-agent";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { redactSensitiveText } from "../logging/redact.js";
 import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
 import {
@@ -17,7 +17,7 @@ type GuardedSessionManager = SessionManager & {
   clearPendingToolResults?: () => void;
 };
 
-function redactTranscriptText(value: string, cfg?: Brikko StudioConfig): string {
+function redactTranscriptText(value: string, cfg?: BrikkoStudioConfig): string {
   if (cfg?.logging?.redactSensitive === "off") {
     return value;
   }
@@ -27,7 +27,7 @@ function redactTranscriptText(value: string, cfg?: Brikko StudioConfig): string 
   });
 }
 
-function redactTranscriptContentBlock(block: unknown, cfg?: Brikko StudioConfig): unknown {
+function redactTranscriptContentBlock(block: unknown, cfg?: BrikkoStudioConfig): unknown {
   if (!block || typeof block !== "object" || Array.isArray(block)) {
     return block;
   }
@@ -54,7 +54,7 @@ function redactTranscriptContentBlock(block: unknown, cfg?: Brikko StudioConfig)
   return next ?? block;
 }
 
-function redactTranscriptContent(content: unknown, cfg?: Brikko StudioConfig): unknown {
+function redactTranscriptContent(content: unknown, cfg?: BrikkoStudioConfig): unknown {
   if (typeof content === "string") {
     return redactTranscriptText(content, cfg);
   }
@@ -70,7 +70,7 @@ function redactTranscriptContent(content: unknown, cfg?: Brikko StudioConfig): u
   return changed ? redacted : content;
 }
 
-function redactTranscriptMessage(message: AgentMessage, cfg?: Brikko StudioConfig): AgentMessage {
+function redactTranscriptMessage(message: AgentMessage, cfg?: BrikkoStudioConfig): AgentMessage {
   const source = message as unknown as Record<string, unknown>;
   const redactedContent = redactTranscriptContent(source.content, cfg);
   if (redactedContent === source.content) {
@@ -91,7 +91,7 @@ export function guardSessionManager(
   opts?: {
     agentId?: string;
     sessionKey?: string;
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     contextWindowTokens?: number;
     inputProvenance?: InputProvenance;
     allowSyntheticToolResults?: boolean;

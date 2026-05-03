@@ -30,7 +30,7 @@ async function withGlobalControlUiHardlinkFixture<T>(run: (rootPath: string) => 
 }
 
 describe("gateway.controlUi.root", () => {
-  test("rejects hardlinked index.html when configured root points at global Brikko Studio package control-ui", async () => {
+  test("rejects hardlinked index.html when configured root points at global BrikkoStudio package control-ui", async () => {
     await withGlobalControlUiHardlinkFixture(async (rootPath) => {
       testState.gatewayControlUi = { root: rootPath };
       await withGatewayServer(

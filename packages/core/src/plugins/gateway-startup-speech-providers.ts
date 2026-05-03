@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 import { resolveEffectiveTtsConfig } from "../tts/tts-config.js";
 
@@ -140,7 +140,7 @@ function addConfiguredTtsProviderIds(target: Set<string>, value: unknown): void 
   }
 }
 
-export function collectConfiguredSpeechProviderIds(config: Brikko StudioConfig): ReadonlySet<string> {
+export function collectConfiguredSpeechProviderIds(config: BrikkoStudioConfig): ReadonlySet<string> {
   const configured = new Set<string>();
   addConfiguredTtsProviderIds(configured, resolveEffectiveTtsConfig(config));
 

@@ -478,14 +478,14 @@ function renderSummary(params: {
     return `${label} snapshot skipped`;
   };
   return [
-    "# Brikko Studio Diagnostics Export",
+    "# BrikkoStudio Diagnostics Export",
     "",
     "Attach this zip to the bug report. It is designed for maintainers to inspect without asking for raw logs first.",
     "",
     "## Generated",
     "",
     `Generated: ${params.generatedAt}`,
-    `Brikko Studio: ${VERSION}`,
+    `BrikkoStudio: ${VERSION}`,
     "",
     "## Contents",
     "",

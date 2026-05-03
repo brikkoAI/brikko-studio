@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredBrikko StudioTmpDir } from "../../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../../infra/tmp-brikko-studio-dir.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
 import type { SkillSnapshot } from "../skills.js";
 import { cliBackendLog } from "./log.js";
@@ -89,7 +89,7 @@ export async function prepareClaudeCliSkillsPlugin(params: {
   }
 
   const tempDir = await fs.mkdtemp(
-    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-claude-skills-"),
+    path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-claude-skills-"),
   );
   const pluginDir = path.join(tempDir, BRIKKO_STUDIO_CLAUDE_PLUGIN_NAME);
   const manifestDir = path.join(pluginDir, ".claude-plugin");
@@ -100,7 +100,7 @@ export async function prepareClaudeCliSkillsPlugin(params: {
   const manifest = {
     name: BRIKKO_STUDIO_CLAUDE_PLUGIN_NAME,
     version: "0.0.0",
-    description: "Session-scoped Brikko Studio skills selected for this agent run.",
+    description: "Session-scoped BrikkoStudio skills selected for this agent run.",
     skills: "./skills",
   };
   await fs.writeFile(

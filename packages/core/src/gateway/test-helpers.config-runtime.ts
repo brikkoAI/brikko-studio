@@ -9,7 +9,7 @@ import type {
 } from "../config/io.js";
 import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
 import type { AgentBinding } from "../config/types.agents.js";
-import type { ConfigFileSnapshot, Brikko StudioConfig } from "../config/types.js";
+import type { ConfigFileSnapshot, BrikkoStudioConfig } from "../config/types.js";
 import { buildTestConfigSnapshot } from "./test-helpers.config-snapshots.js";
 import { testConfigRoot, testIsNixMode, testState } from "./test-helpers.runtime-state.js";
 
@@ -148,7 +148,7 @@ export function createGatewayConfigModuleMock(actual: GatewayConfigModule): Gate
       canvasHost,
       hooks,
       cron,
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   };
 
   const readConfigFileSnapshot = async (): Promise<ConfigFileSnapshot> => {
@@ -280,7 +280,7 @@ export function createGatewayConfigModuleMock(actual: GatewayConfigModule): Gate
     get isNixMode() {
       return testIsNixMode.value;
     },
-    applyConfigOverrides: (cfg: Brikko StudioConfig) =>
+    applyConfigOverrides: (cfg: BrikkoStudioConfig) =>
       composeTestConfig(cfg as Record<string, unknown>),
     getRuntimeConfig: loadRuntimeAwareTestConfig,
     parseConfigJson5: (raw: string) => {

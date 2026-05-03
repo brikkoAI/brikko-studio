@@ -1,13 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
-import type { BrowserProfileConfig, Brikko StudioConfig } from "../config/config.js";
+import type { BrowserProfileConfig, BrikkoStudioConfig } from "../config/config.js";
 import { getRuntimeConfig, replaceConfigFile } from "../config/config.js";
 import { deriveDefaultBrowserCdpPortRange } from "../config/port-defaults.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { resolveUserPath } from "../utils.js";
 import { assertCdpEndpointAllowed } from "./cdp.helpers.js";
-import { resolveBrikko StudioUserDataDir } from "./chrome.js";
+import { resolveBrikkoStudioUserDataDir } from "./chrome.js";
 import { parseHttpUrl, resolveProfile } from "./config.js";
 import {
   BrowserConflictError,
@@ -165,7 +165,7 @@ export function createBrowserProfilesService(ctx: BrowserRouteContext) {
       }
     }
 
-    const nextConfig: Brikko StudioConfig = {
+    const nextConfig: BrikkoStudioConfig = {
       ...cfg,
       browser: {
         ...cfg.browser,
@@ -232,7 +232,7 @@ export function createBrowserProfilesService(ctx: BrowserRouteContext) {
         // ignore
       }
 
-      const userDataDir = resolveBrikko StudioUserDataDir(name);
+      const userDataDir = resolveBrikkoStudioUserDataDir(name);
       const profileDir = path.dirname(userDataDir);
       if (fs.existsSync(profileDir)) {
         await movePathToTrash(profileDir);
@@ -241,7 +241,7 @@ export function createBrowserProfilesService(ctx: BrowserRouteContext) {
     }
 
     const { [name]: _removed, ...remainingProfiles } = profiles;
-    const nextConfig: Brikko StudioConfig = {
+    const nextConfig: BrikkoStudioConfig = {
       ...cfg,
       browser: {
         ...cfg.browser,

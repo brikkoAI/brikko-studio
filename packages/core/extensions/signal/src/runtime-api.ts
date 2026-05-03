@@ -4,9 +4,9 @@
 export type { ChannelMessageActionAdapter } from "brikko-studio/plugin-sdk/channel-contract";
 export { buildChannelConfigSchema, SignalConfigSchema } from "../config-api.js";
 export { PAIRING_APPROVED_MESSAGE } from "brikko-studio/plugin-sdk/channel-status";
-import type { Brikko StudioConfig as RuntimeBrikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
-export type { RuntimeBrikko StudioConfig as Brikko StudioConfig };
-export type { Brikko StudioPluginApi, PluginRuntime } from "brikko-studio/plugin-sdk/core";
+import type { BrikkoStudioConfig as RuntimeBrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { RuntimeBrikkoStudioConfig as BrikkoStudioConfig };
+export type { BrikkoStudioPluginApi, PluginRuntime } from "brikko-studio/plugin-sdk/core";
 export type { ChannelPlugin } from "brikko-studio/plugin-sdk/core";
 export {
   DEFAULT_ACCOUNT_ID,

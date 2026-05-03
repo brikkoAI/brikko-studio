@@ -128,7 +128,7 @@ export type MattermostCommandResponse = {
 // ─── Default commands ────────────────────────────────────────────────────────
 
 /**
- * Built-in Brikko Studio commands to register as native slash commands.
+ * Built-in BrikkoStudio commands to register as native slash commands.
  * These mirror the text-based commands already handled by the gateway.
  */
 export const DEFAULT_COMMAND_SPECS: MattermostCommandSpec[] = [
@@ -256,7 +256,7 @@ async function updateMattermostCommand(
 }
 
 /**
- * Register all Brikko Studio slash commands for a given team.
+ * Register all BrikkoStudio slash commands for a given team.
  * Skips commands that are already registered with the same trigger + callback URL.
  * Returns the list of newly created command IDs.
  */
@@ -306,7 +306,7 @@ export async function registerSlashCommands(params: {
 
     if (ownedCommands.length === 0 && foreignCommands.length > 0) {
       log?.(
-        `mattermost: trigger /${spec.trigger} already used by non-Brikko Studio command(s); skipping to avoid mutating external integrations`,
+        `mattermost: trigger /${spec.trigger} already used by non-BrikkoStudio command(s); skipping to avoid mutating external integrations`,
       );
       continue;
     }
@@ -507,7 +507,7 @@ export function parseSlashCommandPayload(
 }
 
 /**
- * Map the trigger word back to the original Brikko Studio command name.
+ * Map the trigger word back to the original BrikkoStudio command name.
  * e.g. "oc_status" -> "/status", "oc_model" -> "/model"
  */
 export function resolveCommandText(

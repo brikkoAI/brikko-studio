@@ -1,7 +1,7 @@
 import os from "node:os";
 import { formatSkillsForPrompt as upstreamFormatSkillsForPrompt } from "@mariozechner/pi-coding-agent";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { createCanonicalFixtureSkill } from "../skills.test-helpers.js";
 import {
   restoreMockSkillsHomeEnv,
@@ -51,7 +51,7 @@ function buildPrompt(
           ...(limits.maxCount !== undefined && { maxSkillsInPrompt: limits.maxCount }),
         },
       },
-    } satisfies Brikko StudioConfig,
+    } satisfies BrikkoStudioConfig,
   });
 }
 
@@ -129,7 +129,7 @@ describe("applySkillsPromptLimits (via buildWorkspaceSkillsPrompt)", () => {
             maxSkillsPromptChars: 4_000,
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
     });
 
     expect(prompt).toContain("visible");
@@ -279,7 +279,7 @@ describe("applySkillsPromptLimits (via buildWorkspaceSkillsPrompt)", () => {
     );
     const prompt = buildWorkspaceSkillsPrompt("/fake", {
       entries,
-      config: { skills: { limits: { maxSkillsPromptChars: 50_000 } } } satisfies Brikko StudioConfig,
+      config: { skills: { limits: { maxSkillsPromptChars: 50_000 } } } satisfies BrikkoStudioConfig,
     });
     const nameMatches = [...prompt.matchAll(/<name>(\w+)<\/name>/g)].map((m) => m[1]);
     expect(nameMatches).toEqual(["apple", "banana", "mango", "zoo"]);

@@ -7,9 +7,9 @@ import {
   resetPluginRuntimeStateForTest,
   setActivePluginRegistry,
 } from "../plugins/runtime.js";
-import type { ConfigFileSnapshot, Brikko StudioConfig } from "./types.js";
+import type { ConfigFileSnapshot, BrikkoStudioConfig } from "./types.js";
 
-const mockLoadConfig = vi.hoisted(() => vi.fn<() => Brikko StudioConfig>());
+const mockLoadConfig = vi.hoisted(() => vi.fn<() => BrikkoStudioConfig>());
 const mockReadConfigFileSnapshot = vi.hoisted(() => vi.fn<() => Promise<ConfigFileSnapshot>>());
 const mockLoadPluginManifestRegistry = vi.hoisted(() => vi.fn());
 const mockGetCurrentPluginMetadataSnapshot = vi.hoisted(() => vi.fn());
@@ -45,7 +45,7 @@ vi.mock("../plugins/current-plugin-metadata-snapshot.js", () => ({
     mockGetCurrentPluginMetadataSnapshot(...args),
 }));
 
-function makeSnapshot(params: { valid: boolean; config?: Brikko StudioConfig }): ConfigFileSnapshot {
+function makeSnapshot(params: { valid: boolean; config?: BrikkoStudioConfig }): ConfigFileSnapshot {
   return {
     path: "/tmp/brikko-studio.json",
     exists: true,

@@ -1,5 +1,5 @@
 import { formatCliCommand } from "../../cli/command-format.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.js";
 import type { ChannelSecurityDmPolicy } from "./types.core.js";
 import type { ChannelPlugin } from "./types.plugin.js";
@@ -7,7 +7,7 @@ import type { ChannelPlugin } from "./types.plugin.js";
 // Channel docking helper: use this when selecting the default account for a plugin.
 export function resolveChannelDefaultAccountId<ResolvedAccount>(params: {
   plugin: ChannelPlugin<ResolvedAccount>;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountIds?: string[];
 }): string {
   const accountIds = params.accountIds ?? params.plugin.config.listAccountIds(params.cfg);
@@ -32,7 +32,7 @@ export function parseOptionalDelimitedEntries(value?: string): string[] | undefi
 }
 
 export function buildAccountScopedDmSecurityPolicy(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelKey: string;
   accountId?: string | null;
   fallbackAccountId?: string | null;

@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { captureEnv } from "../../test-utils/env.js";
 import { __testing as externalAuthTesting } from "./external-auth.js";
 import {
@@ -156,7 +156,7 @@ describe("createOAuthManager", () => {
           "openai-codex": { auth: "oauth", baseUrl: "", models: [] },
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
     const buildApiKey = vi.fn(async (_provider, value: OAuthCredential) => value.access);
     const manager = createOAuthManager({
       buildApiKey,

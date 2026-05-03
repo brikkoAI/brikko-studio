@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveSecretInputRef } from "../config/types.secrets.js";
 import { trimToUndefined } from "./credentials.js";
 import {
@@ -10,7 +10,7 @@ type GatewayAuthTokenResolutionSource = "explicit" | "config" | "secretRef" | "e
 type GatewayAuthTokenEnvFallback = "never" | "no-secret-ref" | "always";
 
 export async function resolveGatewayAuthToken(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   explicitToken?: string;
   envFallback?: GatewayAuthTokenEnvFallback;

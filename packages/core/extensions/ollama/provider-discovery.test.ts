@@ -1,7 +1,7 @@
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ModelDefinitionConfig } from "brikko-studio/plugin-sdk/provider-onboard";
 import { withFetchPreconnect } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -43,7 +43,7 @@ describe("Ollama provider", () => {
     }
   }
 
-  async function runOllamaCatalog(params: { config?: Brikko StudioConfig; env?: NodeJS.ProcessEnv }) {
+  async function runOllamaCatalog(params: { config?: BrikkoStudioConfig; env?: NodeJS.ProcessEnv }) {
     const env: NodeJS.ProcessEnv = {
       ...process.env,
       VITEST: "1",

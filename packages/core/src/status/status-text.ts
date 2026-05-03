@@ -17,7 +17,7 @@ import { resolveSelectedAndActiveModel } from "../auto-reply/model-runtime.js";
 import type { ThinkLevel } from "../auto-reply/thinking.js";
 import { toAgentModelListLike } from "../config/model-input.js";
 import type { SessionEntry } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   formatUsageWindowSummary,
   loadProviderUsageSummary,
@@ -112,7 +112,7 @@ function formatSessionTaskLine(sessionKey: string): string | undefined {
 }
 
 async function resolveStatusHarnessId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   provider: string;
   model: string;
   agentId: string;

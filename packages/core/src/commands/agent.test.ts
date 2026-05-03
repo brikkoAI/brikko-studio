@@ -10,7 +10,7 @@ import * as modelSelectionModule from "../agents/model-selection.js";
 import { runEmbeddedPiAgent } from "../agents/pi-embedded.js";
 import * as runtimeSnapshotModule from "../config/runtime-snapshot.js";
 import { clearSessionStoreCacheForTest } from "../config/sessions/store.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   emitAgentEvent,
   onAgentEvent,
@@ -135,7 +135,7 @@ vi.mock("../agents/command/delivery.runtime.js", () => {
   return {
     deliverAgentCommandResult: vi.fn(
       async (params: {
-        cfg: Brikko StudioConfig;
+        cfg: BrikkoStudioConfig;
         deps: {
           sendMessageTelegram?: (
             to: string,
@@ -239,8 +239,8 @@ async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
 function mockConfig(
   home: string,
   storePath: string,
-  agentOverrides?: Partial<NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]>>,
-  telegramOverrides?: Partial<NonNullable<NonNullable<Brikko StudioConfig["channels"]>["telegram"]>>,
+  agentOverrides?: Partial<NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["defaults"]>>,
+  telegramOverrides?: Partial<NonNullable<NonNullable<BrikkoStudioConfig["channels"]>["telegram"]>>,
   agentsList?: Array<{ id: string; default?: boolean }>,
 ) {
   const cfg = {
@@ -257,7 +257,7 @@ function mockConfig(
     channels: {
       telegram: telegramOverrides ? { ...telegramOverrides } : undefined,
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
   configIoMocks.loadConfig.mockReturnValue(cfg);
   return cfg;
 }
@@ -318,7 +318,7 @@ beforeEach(() => {
   vi.mocked(loadModelCatalog).mockResolvedValue([]);
   vi.mocked(modelSelectionModule.isCliProvider).mockImplementation(() => false);
   configIoMocks.readConfigFileSnapshotForWrite.mockResolvedValue({
-    snapshot: { valid: false, resolved: {} as Brikko StudioConfig },
+    snapshot: { valid: false, resolved: {} as BrikkoStudioConfig },
     writeOptions: {},
   });
 });

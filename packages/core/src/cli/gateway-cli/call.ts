@@ -1,11 +1,11 @@
 import type { Command } from "commander";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { callGateway } from "../../gateway/call.js";
 import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../../gateway/protocol/client-info.js";
 import { withProgress } from "../progress.js";
 
 export type GatewayRpcOpts = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   url?: string;
   token?: string;
   password?: string;

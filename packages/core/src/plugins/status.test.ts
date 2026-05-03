@@ -10,7 +10,7 @@ import {
 } from "./status.test-helpers.js";
 
 const loadConfigMock = vi.fn();
-const loadBrikko StudioPluginsMock = vi.fn();
+const loadBrikkoStudioPluginsMock = vi.fn();
 const loadPluginMetadataRegistrySnapshotMock = vi.fn();
 const loadPluginManifestRegistryForPluginRegistryMock = vi.fn();
 const loadPluginRegistrySnapshotWithMetadataMock = vi.fn();
@@ -56,7 +56,7 @@ vi.mock("../config/plugin-auto-enable.js", () => ({
 }));
 
 vi.mock("./loader.js", () => ({
-  loadBrikko StudioPlugins: (...args: unknown[]) => loadBrikko StudioPluginsMock(...args),
+  loadBrikkoStudioPlugins: (...args: unknown[]) => loadBrikkoStudioPluginsMock(...args),
 }));
 
 vi.mock("./runtime/metadata-registry-loader.js", () => ({
@@ -116,7 +116,7 @@ function setPluginLoadResult(overrides: Partial<ReturnType<typeof createPluginLo
     plugins: [],
     ...overrides,
   });
-  loadBrikko StudioPluginsMock.mockReturnValue(result);
+  loadBrikkoStudioPluginsMock.mockReturnValue(result);
   loadPluginMetadataRegistrySnapshotMock.mockReturnValue(result);
 }
 
@@ -167,7 +167,7 @@ function expectPluginLoaderCall(params: {
   logger?: unknown;
   loadModules?: boolean;
 }) {
-  expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+  expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
     expect.objectContaining({
       ...(params.config !== undefined ? { config: params.config } : {}),
       ...(params.activationSourceConfig !== undefined
@@ -384,7 +384,7 @@ describe("plugin status reports", () => {
 
   beforeEach(() => {
     loadConfigMock.mockReset();
-    loadBrikko StudioPluginsMock.mockReset();
+    loadBrikkoStudioPluginsMock.mockReset();
     loadPluginMetadataRegistrySnapshotMock.mockReset();
     loadPluginManifestRegistryForPluginRegistryMock.mockReset();
     loadPluginRegistrySnapshotWithMetadataMock.mockReset();
@@ -508,7 +508,7 @@ describe("plugin status reports", () => {
         loadModules: false,
       }),
     );
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("loads plugin status from the auto-enabled config snapshot", () => {

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveGatewayCredentialsWithSecretInputs } from "./credentials-secret-inputs.js";
 import type {
   ExplicitGatewayAuth,
@@ -10,7 +10,7 @@ import type {
 import { resolveGatewayCredentialsFromConfig } from "./credentials.js";
 
 export type GatewayConnectionAuthOptions = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   explicitAuth?: ExplicitGatewayAuth;
   urlOverride?: string;
@@ -25,7 +25,7 @@ export type GatewayConnectionAuthOptions = {
 };
 
 function toGatewayCredentialOptions(
-  params: Omit<GatewayConnectionAuthOptions, "config"> & { cfg: Brikko StudioConfig },
+  params: Omit<GatewayConnectionAuthOptions, "config"> & { cfg: BrikkoStudioConfig },
 ) {
   return {
     cfg: params.cfg,
@@ -53,7 +53,7 @@ export async function resolveGatewayConnectionAuth(
 }
 
 export function resolveGatewayConnectionAuthFromConfig(
-  params: Omit<GatewayConnectionAuthOptions, "config"> & { cfg: Brikko StudioConfig },
+  params: Omit<GatewayConnectionAuthOptions, "config"> & { cfg: BrikkoStudioConfig },
 ): { token?: string; password?: string } {
   return resolveGatewayCredentialsFromConfig(toGatewayCredentialOptions(params));
 }

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { loadChannelSecretContractApi } from "./channel-contract-api.js";
 import { getPath } from "./path-utils.js";
 import { getCoreSecretTargetRegistry, getSecretTargetRegistry } from "./target-registry-data.js";
@@ -25,14 +25,14 @@ let compiledSecretTargetRegistryState: {
   targetsByType: Map<string, CompiledTargetRegistryEntry[]>;
 } | null = null;
 
-let compiledCoreBrikko StudioTargetState: {
+let compiledCoreBrikkoStudioTargetState: {
   knownTargetIds: Set<string>;
   openClawCompiledSecretTargets: CompiledTargetRegistryEntry[];
   openClawTargetsById: Map<string, CompiledTargetRegistryEntry[]>;
   targetsByType: Map<string, CompiledTargetRegistryEntry[]>;
 } | null = null;
 
-const compiledChannelBrikko StudioTargets = new Map<string, CompiledTargetRegistryEntry[] | null>();
+const compiledChannelBrikkoStudioTargets = new Map<string, CompiledTargetRegistryEntry[] | null>();
 
 function buildTargetTypeIndex(
   compiledSecretTargetRegistry: CompiledTargetRegistryEntry[],
@@ -93,41 +93,41 @@ function getCompiledSecretTargetRegistryState() {
   return compiledSecretTargetRegistryState;
 }
 
-function getCompiledCoreBrikko StudioTargetState() {
-  if (compiledCoreBrikko StudioTargetState) {
-    return compiledCoreBrikko StudioTargetState;
+function getCompiledCoreBrikkoStudioTargetState() {
+  if (compiledCoreBrikkoStudioTargetState) {
+    return compiledCoreBrikkoStudioTargetState;
   }
   const openClawCompiledSecretTargets = getCoreSecretTargetRegistry()
     .filter((entry) => entry.configFile === "brikko-studio.json")
     .map(compileTargetRegistryEntry);
-  compiledCoreBrikko StudioTargetState = {
+  compiledCoreBrikkoStudioTargetState = {
     knownTargetIds: new Set(openClawCompiledSecretTargets.map((entry) => entry.id)),
     openClawCompiledSecretTargets,
     openClawTargetsById: buildConfigTargetIdIndex(openClawCompiledSecretTargets),
     targetsByType: buildTargetTypeIndex(openClawCompiledSecretTargets),
   };
-  return compiledCoreBrikko StudioTargetState;
+  return compiledCoreBrikkoStudioTargetState;
 }
 
-function getCompiledChannelBrikko StudioTargets(
+function getCompiledChannelBrikkoStudioTargets(
   channelId: string,
 ): CompiledTargetRegistryEntry[] | null {
   const normalizedChannelId = channelId.trim();
   if (!normalizedChannelId) {
     return null;
   }
-  if (compiledChannelBrikko StudioTargets.has(normalizedChannelId)) {
-    return compiledChannelBrikko StudioTargets.get(normalizedChannelId) ?? null;
+  if (compiledChannelBrikkoStudioTargets.has(normalizedChannelId)) {
+    return compiledChannelBrikkoStudioTargets.get(normalizedChannelId) ?? null;
   }
   const compiledEntries =
     loadChannelSecretContractApi({
       channelId: normalizedChannelId,
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       env: process.env,
     })
       ?.secretTargetRegistryEntries?.filter((entry) => entry.configFile === "brikko-studio.json")
       .map(compileTargetRegistryEntry) ?? null;
-  compiledChannelBrikko StudioTargets.set(normalizedChannelId, compiledEntries);
+  compiledChannelBrikkoStudioTargets.set(normalizedChannelId, compiledEntries);
   return compiledEntries;
 }
 
@@ -264,7 +264,7 @@ export function resolvePlanTargetAgainstRegistry(candidate: {
   providerId?: string;
   accountId?: string;
 }): ResolvedPlanTarget | null {
-  const coreEntries = getCompiledCoreBrikko StudioTargetState().targetsByType.get(candidate.type);
+  const coreEntries = getCompiledCoreBrikkoStudioTargetState().targetsByType.get(candidate.type);
   if (coreEntries) {
     return resolvePlanTargetAgainstEntries(candidate, coreEntries);
   }
@@ -313,7 +313,7 @@ function resolvePlanTargetAgainstEntries(
 }
 
 export function resolveConfigSecretTargetByPath(pathSegments: string[]): ResolvedPlanTarget | null {
-  for (const entry of getCompiledCoreBrikko StudioTargetState().openClawCompiledSecretTargets) {
+  for (const entry of getCompiledCoreBrikkoStudioTargetState().openClawCompiledSecretTargets) {
     if (!entry.includeInPlan) {
       continue;
     }
@@ -330,7 +330,7 @@ export function resolveConfigSecretTargetByPath(pathSegments: string[]): Resolve
 
   const explicitChannelId = pathSegments[0] === "channels" ? (pathSegments[1]?.trim() ?? "") : "";
   const explicitChannelEntries = explicitChannelId
-    ? getCompiledChannelBrikko StudioTargets(explicitChannelId)
+    ? getCompiledChannelBrikkoStudioTargets(explicitChannelId)
     : null;
   for (const entry of explicitChannelEntries ?? []) {
     if (!entry.includeInPlan) {
@@ -365,22 +365,22 @@ export function resolveConfigSecretTargetByPath(pathSegments: string[]): Resolve
 }
 
 export function discoverConfigSecretTargets(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
 ): DiscoveredConfigSecretTarget[] {
   return discoverConfigSecretTargetsByIds(config);
 }
 
 export function discoverConfigSecretTargetsByIds(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   targetIds?: Iterable<string>,
 ): DiscoveredConfigSecretTarget[] {
   const allowedTargetIds = normalizeAllowedTargetIds(targetIds);
   const registryState =
     allowedTargetIds !== null &&
     Array.from(allowedTargetIds).every((targetId) =>
-      getCompiledCoreBrikko StudioTargetState().knownTargetIds.has(targetId),
+      getCompiledCoreBrikkoStudioTargetState().knownTargetIds.has(targetId),
     )
-      ? getCompiledCoreBrikko StudioTargetState()
+      ? getCompiledCoreBrikkoStudioTargetState()
       : getCompiledSecretTargetRegistryState();
   const discoveryEntries = resolveDiscoveryEntries({
     allowedTargetIds,

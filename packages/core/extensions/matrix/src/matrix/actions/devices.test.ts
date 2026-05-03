@@ -22,7 +22,7 @@ describe("matrix device actions", () => {
         listOwnDevices: vi.fn(async () => [
           {
             deviceId: "A7hWrQ70ea",
-            displayName: "Brikko Studio Gateway",
+            displayName: "BrikkoStudio Gateway",
             lastSeenIp: null,
             lastSeenTs: null,
             current: true,
@@ -52,14 +52,14 @@ describe("matrix device actions", () => {
         listOwnDevices: vi.fn(async () => [
           {
             deviceId: "du314Zpw3A",
-            displayName: "Brikko Studio Gateway",
+            displayName: "BrikkoStudio Gateway",
             lastSeenIp: null,
             lastSeenTs: null,
             current: true,
           },
           {
             deviceId: "old123",
-            displayName: "Brikko Studio Gateway",
+            displayName: "BrikkoStudio Gateway",
             lastSeenIp: null,
             lastSeenTs: null,
             current: false,
@@ -70,7 +70,7 @@ describe("matrix device actions", () => {
 
     const result = await getMatrixDeviceHealth({ accountId: "poe" });
 
-    expect(result.staleBrikko StudioDevices).toEqual([
+    expect(result.staleBrikkoStudioDevices).toEqual([
       expect.objectContaining({
         deviceId: "old123",
       }),
@@ -82,14 +82,14 @@ describe("matrix device actions", () => {
     expect(withStartedActionClientMock).not.toHaveBeenCalled();
   });
 
-  it("prunes stale Brikko Studio-managed devices but preserves the current device", async () => {
+  it("prunes stale BrikkoStudio-managed devices but preserves the current device", async () => {
     const deleteOwnDevices = vi.fn(async () => ({
       currentDeviceId: "du314Zpw3A",
       deletedDeviceIds: ["BritdXC6iL", "G6NJU9cTgs", "My3T0hkTE0"],
       remainingDevices: [
         {
           deviceId: "du314Zpw3A",
-          displayName: "Brikko Studio Gateway",
+          displayName: "BrikkoStudio Gateway",
           lastSeenIp: null,
           lastSeenTs: null,
           current: true,
@@ -101,28 +101,28 @@ describe("matrix device actions", () => {
         listOwnDevices: vi.fn(async () => [
           {
             deviceId: "du314Zpw3A",
-            displayName: "Brikko Studio Gateway",
+            displayName: "BrikkoStudio Gateway",
             lastSeenIp: null,
             lastSeenTs: null,
             current: true,
           },
           {
             deviceId: "BritdXC6iL",
-            displayName: "Brikko Studio Gateway",
+            displayName: "BrikkoStudio Gateway",
             lastSeenIp: null,
             lastSeenTs: null,
             current: false,
           },
           {
             deviceId: "G6NJU9cTgs",
-            displayName: "Brikko Studio Debug",
+            displayName: "BrikkoStudio Debug",
             lastSeenIp: null,
             lastSeenTs: null,
             current: false,
           },
           {
             deviceId: "My3T0hkTE0",
-            displayName: "Brikko Studio Gateway",
+            displayName: "BrikkoStudio Gateway",
             lastSeenIp: null,
             lastSeenTs: null,
             current: false,

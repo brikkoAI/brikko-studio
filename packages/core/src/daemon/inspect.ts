@@ -184,7 +184,7 @@ function detectLaunchdGatewayExecutionMarker(contents: string): Marker | null {
   return null;
 }
 
-function isBrikko StudioGatewayLaunchdService(label: string, contents: string): boolean {
+function isBrikkoStudioGatewayLaunchdService(label: string, contents: string): boolean {
   if (hasGatewayServiceMarker(contents)) {
     return true;
   }
@@ -194,7 +194,7 @@ function isBrikko StudioGatewayLaunchdService(label: string, contents: string): 
   return label.startsWith("ai.brikko-studio.");
 }
 
-function isBrikko StudioGatewaySystemdService(name: string, contents: string): boolean {
+function isBrikkoStudioGatewaySystemdService(name: string, contents: string): boolean {
   if (hasGatewayServiceMarker(contents)) {
     return true;
   }
@@ -204,7 +204,7 @@ function isBrikko StudioGatewaySystemdService(name: string, contents: string): b
   return normalizeLowercaseStringOrEmpty(contents).includes("gateway");
 }
 
-function isBrikko StudioGatewayTaskName(name: string): boolean {
+function isBrikkoStudioGatewayTaskName(name: string): boolean {
   const normalized = normalizeLowercaseStringOrEmpty(name);
   if (!normalized) {
     return false;
@@ -309,7 +309,7 @@ async function scanLaunchdDir(params: {
     if (isIgnoredLaunchdLabel(label)) {
       continue;
     }
-    if (marker === "brikko-studio" && isBrikko StudioGatewayLaunchdService(label, contents)) {
+    if (marker === "brikko-studio" && isBrikkoStudioGatewayLaunchdService(label, contents)) {
       continue;
     }
     results.push({
@@ -328,13 +328,13 @@ async function scanLaunchdDir(params: {
 async function scanSystemdDir(params: {
   dir: string;
   scope: "user" | "system";
-  includeManagedBrikko Studio?: boolean;
+  includeManagedBrikkoStudio?: boolean;
 }): Promise<ExtraGatewayService[]> {
   const results: ExtraGatewayService[] = [];
   const candidates = await collectServiceFiles({
     dir: params.dir,
     extension: ".service",
-    isIgnoredName: params.includeManagedBrikko Studio ? () => false : isIgnoredSystemdName,
+    isIgnoredName: params.includeManagedBrikkoStudio ? () => false : isIgnoredSystemdName,
   });
 
   for (const { entry, name, fullPath, contents } of candidates) {
@@ -345,9 +345,9 @@ async function scanSystemdDir(params: {
       continue;
     }
     if (
-      !params.includeManagedBrikko Studio &&
+      !params.includeManagedBrikkoStudio &&
       marker === "brikko-studio" &&
-      isBrikko StudioGatewaySystemdService(name, contents)
+      isBrikkoStudioGatewaySystemdService(name, contents)
     ) {
       continue;
     }
@@ -376,7 +376,7 @@ export async function findSystemGatewayServices(): Promise<ExtraGatewayService[]
         ...(await scanSystemdDir({
           dir,
           scope: "system",
-          includeManagedBrikko Studio: true,
+          includeManagedBrikkoStudio: true,
         })),
       );
     }
@@ -524,7 +524,7 @@ export async function findExtraGatewayServices(
       if (!name) {
         continue;
       }
-      if (isBrikko StudioGatewayTaskName(name)) {
+      if (isBrikkoStudioGatewayTaskName(name)) {
         continue;
       }
       const lowerName = normalizeLowercaseStringOrEmpty(name);

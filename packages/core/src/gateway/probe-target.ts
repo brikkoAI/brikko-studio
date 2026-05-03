@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 
 export type GatewayProbeTargetResolution = {
@@ -7,7 +7,7 @@ export type GatewayProbeTargetResolution = {
   remoteUrlMissing: boolean;
 };
 
-export function resolveGatewayProbeTarget(cfg: Brikko StudioConfig): GatewayProbeTargetResolution {
+export function resolveGatewayProbeTarget(cfg: BrikkoStudioConfig): GatewayProbeTargetResolution {
   const gatewayMode = cfg.gateway?.mode === "remote" ? "remote" : "local";
   const remoteUrlRaw = normalizeOptionalString(cfg.gateway?.remote?.url) ?? "";
   const remoteUrlMissing = gatewayMode === "remote" && !remoteUrlRaw;

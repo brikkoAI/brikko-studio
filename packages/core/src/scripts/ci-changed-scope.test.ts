@@ -105,7 +105,7 @@ describe("detectChangedScope", () => {
       runControlUiI18n: false,
     });
     expect(
-      detectChangedScope(["apps/macos-mlx-tts/Sources/Brikko StudioMLXTTSHelper/main.swift"]),
+      detectChangedScope(["apps/macos-mlx-tts/Sources/BrikkoStudioMLXTTSHelper/main.swift"]),
     ).toEqual({
       runNode: false,
       runMacos: true,
@@ -115,7 +115,7 @@ describe("detectChangedScope", () => {
       runChangedSmoke: false,
       runControlUiI18n: false,
     });
-    expect(detectChangedScope(["apps/shared/Brikko StudioKit/Sources/Foo.swift"])).toEqual({
+    expect(detectChangedScope(["apps/shared/BrikkoStudioKit/Sources/Foo.swift"])).toEqual({
       runNode: false,
       runMacos: true,
       runAndroid: true,
@@ -145,7 +145,7 @@ describe("detectChangedScope", () => {
   });
 
   it("does not force macOS for generated protocol model-only changes", () => {
-    expect(detectChangedScope(["apps/macos/Sources/Brikko StudioProtocol/GatewayModels.swift"])).toEqual(
+    expect(detectChangedScope(["apps/macos/Sources/BrikkoStudioProtocol/GatewayModels.swift"])).toEqual(
       {
         runNode: false,
         runMacos: false,

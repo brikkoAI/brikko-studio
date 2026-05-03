@@ -5,7 +5,7 @@ import {
 import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
 import type { ChannelId } from "../channels/plugins/types.public.js";
 import { normalizeAnyChannelId } from "../channels/registry.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
@@ -55,7 +55,7 @@ type OwnerAuthorizationState = {
 
 function resolveProviderFromContext(
   ctx: MsgContext,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): { providerId: ChannelId | undefined; hadResolutionError: boolean } {
   const explicitMessageChannels = [ctx.Surface, ctx.OriginatingChannel, ctx.Provider]
     .map((value) => normalizeMessageChannel(value))
@@ -107,7 +107,7 @@ function resolveProviderFromContext(
   };
 }
 
-function probeInferredProviders(ctx: MsgContext, cfg: Brikko StudioConfig): InferredProviderProbe {
+function probeInferredProviders(ctx: MsgContext, cfg: BrikkoStudioConfig): InferredProviderProbe {
   let droppedResolutionError = false;
   const candidates = listLoadedChannelPlugins()
     .map((plugin) => {
@@ -136,7 +136,7 @@ function probeInferredProviders(ctx: MsgContext, cfg: Brikko StudioConfig): Infe
 
 function formatAllowFromList(params: {
   plugin?: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   allowFrom: Array<string | number>;
 }): string[] {
@@ -152,7 +152,7 @@ function formatAllowFromList(params: {
 
 function normalizeAllowFromEntry(params: {
   plugin?: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   value: string;
 }): string[] {
@@ -179,7 +179,7 @@ function stripWildcardAllowFrom(list: string[]): string[] {
 
 function resolveProviderAllowFrom(params: {
   plugin?: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): {
   allowFrom: Array<string | number>;
@@ -228,7 +228,7 @@ function resolveProviderAllowFrom(params: {
 
 function buildProviderAllowFromResolution(params: {
   plugin?: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   providerId?: ChannelId;
   forceFallbackResolutionError?: boolean;
@@ -269,7 +269,7 @@ function describeAllowFromResolutionError(err: unknown): string {
 
 function resolveOwnerAllowFromList(params: {
   plugin?: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   providerId?: ChannelId;
   allowFrom?: Array<string | number>;
@@ -317,7 +317,7 @@ function resolveOwnerAllowFromList(params: {
  */
 function resolveCommandsAllowFromList(params: {
   plugin?: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   providerId?: ChannelId;
 }): string[] | null {
@@ -347,7 +347,7 @@ function resolveCommandsAllowFromList(params: {
 
 function resolveOwnerCandidatesForCommands(params: {
   plugin?: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   to?: string;
   allowAll: boolean;
@@ -371,7 +371,7 @@ function resolveOwnerCandidatesForCommands(params: {
 
 function resolveOwnerAuthorizationState(params: {
   plugin?: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   providerId?: ChannelId;
   to?: string;
@@ -484,7 +484,7 @@ function shouldUseFromAsSenderFallback(params: {
 function resolveSenderCandidates(params: {
   plugin?: ChannelPlugin;
   providerId?: ChannelId;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   senderId?: string | null;
   senderE164?: string | null;
@@ -527,7 +527,7 @@ function resolveSenderCandidates(params: {
 }
 
 function resolveFallbackAllowFrom(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerId?: ChannelId;
   accountId?: string | null;
 }): Array<string | number> {
@@ -624,7 +624,7 @@ function resolveFallbackDefaultAccountConfig(
 
 export function resolveCommandAuthorization(params: {
   ctx: MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   commandAuthorized: boolean;
 }): CommandAuthorization {
   const { ctx, cfg, commandAuthorized } = params;

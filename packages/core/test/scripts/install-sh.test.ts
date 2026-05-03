@@ -295,7 +295,7 @@ describe("install.sh macOS Homebrew Node behavior", () => {
   });
 });
 
-describe("install.sh duplicate Brikko Studio install detection", () => {
+describe("install.sh duplicate BrikkoStudio install detection", () => {
   it("warns with concrete package paths and versions for duplicate npm roots", () => {
     const result = runInstallShell(`
       set -euo pipefail
@@ -312,7 +312,7 @@ describe("install.sh duplicate Brikko Studio install detection", () => {
     `);
 
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain("Multiple Brikko Studio global installs detected");
+    expect(result.stdout).toContain("Multiple BrikkoStudio global installs detected");
     expect(result.stdout).toContain("2026.3.7");
     expect(result.stdout).toContain("2026.3.1");
     expect(result.stdout).toContain("/brew/brikko-studio");
@@ -321,7 +321,7 @@ describe("install.sh duplicate Brikko Studio install detection", () => {
     expect(result.stdout).toContain("npm uninstall -g brikko-studio");
   });
 
-  it("stays quiet when only one Brikko Studio npm root exists", () => {
+  it("stays quiet when only one BrikkoStudio npm root exists", () => {
     const result = runInstallShell(`
       set -euo pipefail
       source "${SCRIPT_PATH}"
@@ -335,6 +335,6 @@ describe("install.sh duplicate Brikko Studio install detection", () => {
     `);
 
     expect(result.status).toBe(0);
-    expect(result.stdout).not.toContain("Multiple Brikko Studio global installs detected");
+    expect(result.stdout).not.toContain("Multiple BrikkoStudio global installs detected");
   });
 });

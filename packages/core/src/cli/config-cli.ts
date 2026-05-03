@@ -7,7 +7,7 @@ import { CONFIG_PATH } from "../config/paths.js";
 import { isBlockedObjectKey } from "../config/prototype-keys.js";
 import { redactConfigObject } from "../config/redact-snapshot.js";
 import { readBestEffortRuntimeConfigSchema } from "../config/runtime-schema.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   coerceSecretRef,
   isValidEnvSecretRefId,
@@ -1167,7 +1167,7 @@ function buildSingleSetOperations(params: {
 }
 
 function collectDryRunRefs(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   operations: ConfigSetOperation[];
 }): SecretRef[] {
   const refsByKey = new Map<string, SecretRef>();
@@ -1212,7 +1212,7 @@ function collectDryRunRefs(params: {
 
 async function collectDryRunResolvabilityErrors(params: {
   refs: SecretRef[];
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
 }): Promise<ConfigSetDryRunError[]> {
   const failures: ConfigSetDryRunError[] = [];
   for (const ref of params.refs) {
@@ -1234,7 +1234,7 @@ async function collectDryRunResolvabilityErrors(params: {
 
 function collectDryRunStaticErrorsForSkippedExecRefs(params: {
   refs: SecretRef[];
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
 }): ConfigSetDryRunError[] {
   const failures: ConfigSetDryRunError[] = [];
   for (const ref of params.refs) {
@@ -1308,7 +1308,7 @@ function formatPluginInstallConfigSetError(): string {
 }
 
 function collectDryRunSchemaErrors(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   operations: ReadonlyArray<ConfigSetOperation>;
 }): ConfigSetDryRunError[] {
   const validated = validateConfigObjectRaw(params.config, {
@@ -1416,7 +1416,7 @@ async function runConfigOperations(params: {
     root: next,
     operations,
   });
-  const nextConfig = next as Brikko StudioConfig;
+  const nextConfig = next as BrikkoStudioConfig;
   const policyIssues = collectUnsupportedSecretRefPolicyIssues(nextConfig);
   const policyIssueLines = formatConfigIssueLines(policyIssues, "", { normalizeRoot: true }).map(
     (line) => line.trim(),

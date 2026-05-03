@@ -12,12 +12,12 @@ type MockRegistryToolEntry = {
   factory: (ctx: unknown) => unknown;
 };
 
-const loadBrikko StudioPluginsMock = vi.fn();
+const loadBrikkoStudioPluginsMock = vi.fn();
 const resolveRuntimePluginRegistryMock = vi.fn();
 const applyPluginAutoEnableMock = vi.fn();
 
 vi.mock("./loader.js", () => ({
-  loadBrikko StudioPlugins: (params: unknown) => loadBrikko StudioPluginsMock(params),
+  loadBrikkoStudioPlugins: (params: unknown) => loadBrikkoStudioPluginsMock(params),
   resolveCompatibleRuntimePluginRegistry: (params: unknown) =>
     resolveRuntimePluginRegistryMock(params),
   resolvePluginRegistryLoadCacheKey: (params: unknown) => JSON.stringify(params),
@@ -96,7 +96,7 @@ function createToolRegistry(entries: MockRegistryToolEntry[]) {
 
 function setRegistry(entries: MockRegistryToolEntry[]) {
   const registry = createToolRegistry(entries);
-  loadBrikko StudioPluginsMock.mockReturnValue(registry);
+  loadBrikkoStudioPluginsMock.mockReturnValue(registry);
   setActivePluginRegistry?.(registry as never, "test-tool-registry", "gateway-bindable", "/tmp");
   installToolManifestSnapshots({
     config: createContext().config,
@@ -358,7 +358,7 @@ function expectResolvedToolNames(
 
 function expectLoaderCall(overrides: Record<string, unknown>) {
   void overrides;
-  expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+  expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
 }
 
 function expectSingleDiagnosticMessage(
@@ -401,10 +401,10 @@ describe("resolvePluginTools optional tools", () => {
   });
 
   beforeEach(() => {
-    loadBrikko StudioPluginsMock.mockReset();
+    loadBrikkoStudioPluginsMock.mockReset();
     resolveRuntimePluginRegistryMock.mockReset();
     resolveRuntimePluginRegistryMock.mockImplementation((params) =>
-      loadBrikko StudioPluginsMock(params),
+      loadBrikkoStudioPluginsMock(params),
     );
     applyPluginAutoEnableMock.mockReset();
     applyPluginAutoEnableMock.mockImplementation(({ config }: { config: unknown }) => ({
@@ -434,7 +434,7 @@ describe("resolvePluginTools optional tools", () => {
       plugin: createXaiToolManifest(),
     });
     const factory = vi.fn(() => makeTool("x_search"));
-    loadBrikko StudioPluginsMock.mockImplementation((params) =>
+    loadBrikkoStudioPluginsMock.mockImplementation((params) =>
       Array.isArray((params as { onlyPluginIds?: string[] }).onlyPluginIds) &&
       (params as { onlyPluginIds?: string[] }).onlyPluginIds?.length === 0
         ? { tools: [], diagnostics: [] }
@@ -462,13 +462,13 @@ describe("resolvePluginTools optional tools", () => {
 
     expect(tools).toEqual([]);
     expect(factory).not.toHaveBeenCalled();
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("standalone bootstrap loads configured plugin tools before resolution", () => {
     const config = createContext().config;
     const registry = createToolRegistry([createOptionalDemoEntry()]);
-    loadBrikko StudioPluginsMock.mockReturnValue(registry);
+    loadBrikkoStudioPluginsMock.mockReturnValue(registry);
     installToolManifestSnapshot({
       config,
       plugin: {
@@ -494,7 +494,7 @@ describe("resolvePluginTools optional tools", () => {
     );
 
     expectResolvedToolNames(tools, ["optional_tool"]);
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         activate: false,
         onlyPluginIds: ["optional-demo"],
@@ -518,7 +518,7 @@ describe("resolvePluginTools optional tools", () => {
     };
     const config = context.config;
     const registry = createToolRegistry([createOptionalDemoEntry()]);
-    loadBrikko StudioPluginsMock.mockReturnValue(registry);
+    loadBrikkoStudioPluginsMock.mockReturnValue(registry);
     installToolManifestSnapshot({
       config,
       plugin: {
@@ -544,7 +544,7 @@ describe("resolvePluginTools optional tools", () => {
     );
 
     expectResolvedToolNames(tools, ["optional_tool"]);
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         activate: false,
         onlyPluginIds: ["optional-demo"],
@@ -568,7 +568,7 @@ describe("resolvePluginTools optional tools", () => {
     };
     const config = context.config;
     const registry = createToolRegistry([]);
-    loadBrikko StudioPluginsMock.mockReturnValue(registry);
+    loadBrikkoStudioPluginsMock.mockReturnValue(registry);
     installToolManifestSnapshot({
       config,
       plugin: {
@@ -618,7 +618,7 @@ describe("resolvePluginTools optional tools", () => {
       ],
       diagnostics: [],
     } as never);
-    loadBrikko StudioPluginsMock.mockReturnValue({ tools: [], diagnostics: [] });
+    loadBrikkoStudioPluginsMock.mockReturnValue({ tools: [], diagnostics: [] });
 
     const tools = resolvePluginTools({
       context: {
@@ -631,7 +631,7 @@ describe("resolvePluginTools optional tools", () => {
 
     expect(tools).toEqual([]);
     expect(factory).not.toHaveBeenCalled();
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("loads plugin-owned tools when manifest tool metadata has env auth evidence", () => {
@@ -673,7 +673,7 @@ describe("resolvePluginTools optional tools", () => {
 
     expectResolvedToolNames(tools, ["x_search"]);
     expect(factory).toHaveBeenCalledTimes(1);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("loads plugin-owned tools when manifest config signals point at configured non-env SecretRefs", () => {
@@ -741,7 +741,7 @@ describe("resolvePluginTools optional tools", () => {
 
     expectResolvedToolNames(tools, ["x_search"]);
     expect(factory).toHaveBeenCalledTimes(1);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("skips optional tools without explicit allowlist", () => {
@@ -1026,7 +1026,7 @@ describe("resolvePluginTools optional tools", () => {
     expectResolvedToolNames(second, ["cached_tool"]);
     expect(factory).toHaveBeenCalledTimes(1);
     expect(second[0]).not.toBe(first[0]);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
 
     await expect(second[0]?.execute("call", {}, undefined)).resolves.toEqual({
       content: [{ type: "text", text: "same" }],
@@ -1223,7 +1223,7 @@ describe("resolvePluginTools optional tools", () => {
     );
 
     expectResolvedToolNames(tools, ["optional_tool"]);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("reuses the gateway-bindable registry when it covers the tool runtime scope", () => {
@@ -1240,7 +1240,7 @@ describe("resolvePluginTools optional tools", () => {
 
     expectResolvedToolNames(tools, ["optional_tool"]);
     expect(resolveRuntimePluginRegistryMock).not.toHaveBeenCalled();
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("does not widen active registry reuse to non-matching plugin tool owners", () => {
@@ -1288,7 +1288,7 @@ describe("resolvePluginTools optional tools", () => {
     expectResolvedToolNames(tools, ["optional_tool"]);
     expect(heavyFactory).not.toHaveBeenCalled();
     expect(resolveRuntimePluginRegistryMock).not.toHaveBeenCalled();
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("does not let disabled bundled tool owners poison explicit runtime allowlists", () => {
@@ -1361,7 +1361,7 @@ describe("resolvePluginTools optional tools", () => {
     expectResolvedToolNames(tools, ["memory_search", "memory_get"]);
     expect(memorySearchFactory).toHaveBeenCalledTimes(1);
     expect(resolveRuntimePluginRegistryMock).not.toHaveBeenCalled();
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("falls back from a loaded channel registry without matching tool entries", () => {
@@ -1422,7 +1422,7 @@ describe("resolvePluginTools optional tools", () => {
 
     expectResolvedToolNames(tools, ["memory_search", "memory_get"]);
     expect(memorySearchFactory).toHaveBeenCalledTimes(1);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("loads a standalone registry when cached runtime registries lack matching tool entries", () => {
@@ -1481,7 +1481,7 @@ describe("resolvePluginTools optional tools", () => {
       diagnostics: [],
     } as never);
     resolveRuntimePluginRegistryMock.mockReturnValue(undefined);
-    loadBrikko StudioPluginsMock.mockReturnValue(loadedRegistry);
+    loadBrikkoStudioPluginsMock.mockReturnValue(loadedRegistry);
 
     const tools = resolvePluginTools(
       createResolveToolsParams({
@@ -1493,7 +1493,7 @@ describe("resolvePluginTools optional tools", () => {
 
     expectResolvedToolNames(tools, ["memory_search", "memory_get"]);
     expect(memorySearchFactory).toHaveBeenCalledTimes(1);
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         activate: false,
         onlyPluginIds: ["memory-core"],
@@ -1530,7 +1530,7 @@ describe("resolvePluginTools optional tools", () => {
         toolDiscovery: true,
       }),
     );
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         onlyPluginIds: expect.arrayContaining(["tavily"]),
         toolDiscovery: true,
@@ -1568,7 +1568,7 @@ describe("resolvePluginTools optional tools", () => {
 
     expectResolvedToolNames(tools, ["optional_tool"]);
     expect(resolveRuntimePluginRegistryMock).not.toHaveBeenCalled();
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("reuses the pinned gateway channel registry even when the caller omits gateway binding", () => {
@@ -1600,7 +1600,7 @@ describe("resolvePluginTools optional tools", () => {
 
     expectResolvedToolNames(tools, ["optional_tool"]);
     expect(resolveRuntimePluginRegistryMock).not.toHaveBeenCalled();
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("loads plugin tools when gateway-bindable tool loads have no active registry", () => {
@@ -1639,7 +1639,7 @@ describe("resolvePluginTools optional tools", () => {
       toolAllowlist: ["optional_tool"],
     });
 
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("includes non-optional browser tool when toolAllowlist is empty (full profile)", () => {

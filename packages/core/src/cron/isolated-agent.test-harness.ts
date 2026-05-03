@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { withTempHome as withTempHomeBase } from "brikko-studio/plugin-sdk/test-env";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { CronJob } from "./types.js";
 
 export async function withTempCronHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
@@ -35,9 +35,9 @@ export async function writeSessionStoreEntries(
 export function makeCfg(
   home: string,
   storePath: string,
-  overrides: Partial<Brikko StudioConfig> = {},
-): Brikko StudioConfig {
-  const base: Brikko StudioConfig = {
+  overrides: Partial<BrikkoStudioConfig> = {},
+): BrikkoStudioConfig {
+  const base: BrikkoStudioConfig = {
     agents: {
       defaults: {
         model: "anthropic/claude-opus-4-6",
@@ -45,7 +45,7 @@ export function makeCfg(
       },
     },
     session: { store: storePath, mainKey: "main" },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
   return { ...base, ...overrides };
 }
 

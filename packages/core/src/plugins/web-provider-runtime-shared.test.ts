@@ -2,7 +2,7 @@ import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
   isPluginRegistryLoadInFlight: vi.fn(() => false),
-  loadBrikko StudioPlugins: vi.fn(),
+  loadBrikkoStudioPlugins: vi.fn(),
   resolveCompatibleRuntimePluginRegistry: vi.fn(),
   getLoadedRuntimePluginRegistry: vi.fn(),
   resolvePluginRegistryLoadCacheKey: vi.fn((options: unknown) => JSON.stringify(options)),
@@ -24,7 +24,7 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock("./loader.js", () => ({
   isPluginRegistryLoadInFlight: mocks.isPluginRegistryLoadInFlight,
-  loadBrikko StudioPlugins: mocks.loadBrikko StudioPlugins,
+  loadBrikkoStudioPlugins: mocks.loadBrikkoStudioPlugins,
   resolveCompatibleRuntimePluginRegistry: mocks.resolveCompatibleRuntimePluginRegistry,
   resolvePluginRegistryLoadCacheKey: mocks.resolvePluginRegistryLoadCacheKey,
   resolveRuntimePluginRegistry: mocks.resolveRuntimePluginRegistry,
@@ -56,7 +56,7 @@ describe("web-provider-runtime-shared", () => {
   beforeEach(() => {
     mocks.isPluginRegistryLoadInFlight.mockReset();
     mocks.isPluginRegistryLoadInFlight.mockReturnValue(false);
-    mocks.loadBrikko StudioPlugins.mockReset();
+    mocks.loadBrikkoStudioPlugins.mockReset();
     mocks.resolveCompatibleRuntimePluginRegistry.mockReset();
     mocks.getLoadedRuntimePluginRegistry.mockReset();
     mocks.getLoadedRuntimePluginRegistry.mockReturnValue(undefined);
@@ -210,7 +210,7 @@ describe("web-provider-runtime-shared", () => {
       registry: activeRegistry,
       onlyPluginIds: ["brave"],
     });
-    expect(mocks.loadBrikko StudioPlugins).not.toHaveBeenCalled();
+    expect(mocks.loadBrikkoStudioPlugins).not.toHaveBeenCalled();
   });
 
   it("preserves explicit empty candidate scopes when reusing the active registry", () => {
@@ -238,7 +238,7 @@ describe("web-provider-runtime-shared", () => {
       registry: activeRegistry,
       onlyPluginIds: [],
     });
-    expect(mocks.loadBrikko StudioPlugins).not.toHaveBeenCalled();
+    expect(mocks.loadBrikkoStudioPlugins).not.toHaveBeenCalled();
   });
 
   it("uses loaded runtime web providers without runtime plugin loads", () => {
@@ -268,7 +268,7 @@ describe("web-provider-runtime-shared", () => {
         requiredPluginIds: ["brave"],
       }),
     );
-    expect(mocks.loadBrikko StudioPlugins).not.toHaveBeenCalled();
+    expect(mocks.loadBrikkoStudioPlugins).not.toHaveBeenCalled();
   });
 
   it("ignores runtime web provider cache opt-outs after startup loading", () => {
@@ -298,13 +298,13 @@ describe("web-provider-runtime-shared", () => {
         requiredPluginIds: ["brave"],
       }),
     );
-    expect(mocks.loadBrikko StudioPlugins).not.toHaveBeenCalled();
+    expect(mocks.loadBrikkoStudioPlugins).not.toHaveBeenCalled();
   });
 
   it("caches setup web provider plugin loads by default", () => {
     const loadedRegistry = { source: "setup" };
     const mapRegistryProviders = vi.fn(() => ["provider"]);
-    mocks.loadBrikko StudioPlugins.mockReturnValue(loadedRegistry as never);
+    mocks.loadBrikkoStudioPlugins.mockReturnValue(loadedRegistry as never);
 
     const providers = resolvePluginWebProviders(
       {
@@ -324,7 +324,7 @@ describe("web-provider-runtime-shared", () => {
     );
 
     expect(providers).toEqual(["provider"]);
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         cache: true,
         onlyPluginIds: ["brave"],
@@ -335,7 +335,7 @@ describe("web-provider-runtime-shared", () => {
   it("keeps explicit setup web provider cache opt-outs", () => {
     const loadedRegistry = { source: "setup" };
     const mapRegistryProviders = vi.fn(() => ["provider"]);
-    mocks.loadBrikko StudioPlugins.mockReturnValue(loadedRegistry as never);
+    mocks.loadBrikkoStudioPlugins.mockReturnValue(loadedRegistry as never);
 
     resolvePluginWebProviders(
       {
@@ -355,7 +355,7 @@ describe("web-provider-runtime-shared", () => {
       },
     );
 
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         cache: false,
         onlyPluginIds: ["brave"],

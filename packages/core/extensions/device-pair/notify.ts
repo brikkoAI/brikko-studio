@@ -2,7 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
-import type { Brikko StudioPluginApi } from "./api.js";
+import type { BrikkoStudioPluginApi } from "./api.js";
 import { listDevicePairing } from "./api.js";
 
 const NOTIFY_STATE_FILE = "device-pair-notify.json";
@@ -279,7 +279,7 @@ function shouldNotifySubscriberForRequest(
 }
 
 async function notifySubscriber(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   subscriber: NotifySubscription;
   text: string;
 }): Promise<boolean> {
@@ -312,7 +312,7 @@ async function notifySubscriber(params: {
 }
 
 async function notifyPendingPairingRequests(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   statePath: string;
 }): Promise<void> {
   const state = await readNotifyState(params.statePath);
@@ -375,7 +375,7 @@ async function notifyPendingPairingRequests(params: {
 }
 
 export async function armPairNotifyOnce(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   ctx: {
     channel: string;
     senderId?: string;
@@ -409,7 +409,7 @@ export async function armPairNotifyOnce(params: {
 }
 
 export async function handleNotifyCommand(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   ctx: {
     channel: string;
     senderId?: string;
@@ -488,7 +488,7 @@ export async function handleNotifyCommand(params: {
   return { text: "Usage: /pair notify on|off|once|status" };
 }
 
-export function registerPairingNotifierService(api: Brikko StudioPluginApi): void {
+export function registerPairingNotifierService(api: BrikkoStudioPluginApi): void {
   let notifyInterval: ReturnType<typeof setInterval> | null = null;
 
   api.registerService({

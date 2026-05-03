@@ -55,7 +55,7 @@ describe("proxy stream wrappers", () => {
       {
         headers: {
           "HTTP-Referer": "https://brikko-studio.ai",
-          "X-OpenRouter-Title": "Brikko Studio",
+          "X-OpenRouter-Title": "BrikkoStudio",
           "X-OpenRouter-Categories": "cli-agent",
           "X-Custom": "1",
         },

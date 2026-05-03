@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/ssrf-runtime";
 import { raceWithTimeout } from "./timeouts.js";
 
@@ -37,7 +37,7 @@ function classifyAcpStatusProbeError(params: {
 }
 
 export async function probeDiscordAcpBindingHealth(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
   storedState?: "idle" | "running" | "error";
   lastActivityAt?: number;

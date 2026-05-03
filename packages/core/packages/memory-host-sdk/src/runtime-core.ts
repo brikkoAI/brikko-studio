@@ -27,7 +27,7 @@ export {
   listActiveMemoryPublicArtifacts,
 } from "./host/brikko-studio-runtime-memory.js";
 export { parseAgentSessionKey } from "./host/brikko-studio-runtime-agent.js";
-export type { Brikko StudioConfig } from "./host/brikko-studio-runtime-config.js";
+export type { BrikkoStudioConfig } from "./host/brikko-studio-runtime-config.js";
 export type { MemoryCitationsMode } from "./host/brikko-studio-runtime-config.js";
 export type {
   MemoryFlushPlan,
@@ -38,4 +38,4 @@ export type {
   MemoryPluginRuntime,
   MemoryPromptSectionBuilder,
 } from "./host/brikko-studio-runtime-memory.js";
-export type { Brikko StudioPluginApi } from "./host/brikko-studio-runtime-memory.js";
+export type { BrikkoStudioPluginApi } from "./host/brikko-studio-runtime-memory.js";

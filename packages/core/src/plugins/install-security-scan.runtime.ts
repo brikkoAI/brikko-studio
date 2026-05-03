@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveBrikko StudioPackageRootSync } from "../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../infra/brikko-studio-root.js";
 import { extensionUsesSkippedScannerPath, isPathInside } from "../security/scan-paths.js";
 import { scanDirectoryWithSummary } from "../security/skill-scanner.js";
 import {
@@ -177,7 +177,7 @@ function pathContainsNodeModulesSegment(relativePath: string): boolean {
     .includes("node_modules");
 }
 
-function isPackageRootBrikko StudioPeerSymlink(segments: string[]): boolean {
+function isPackageRootBrikkoStudioPeerSymlink(segments: string[]): boolean {
   return (
     (segments.length === 2 && segments[0] === "node_modules" && segments[1] === "brikko-studio") ||
     (segments.length === 3 &&
@@ -199,23 +199,23 @@ function isManagedNpmRootPackagePeerSymlink(segments: string[]): boolean {
   ) {
     return false;
   }
-  return isPackageRootBrikko StudioPeerSymlink(segments.slice(packageEndIndex));
+  return isPackageRootBrikkoStudioPeerSymlink(segments.slice(packageEndIndex));
 }
 
-function isTrustedBrikko StudioPeerSymlink(params: {
+function isTrustedBrikkoStudioPeerSymlink(params: {
   allowManagedNpmRootPackagePeerSymlinks?: boolean;
   relativePath: string;
 }): boolean {
   const segments = params.relativePath.split(/[\\/]+/);
   return (
-    isPackageRootBrikko StudioPeerSymlink(segments) ||
+    isPackageRootBrikkoStudioPeerSymlink(segments) ||
     (params.allowManagedNpmRootPackagePeerSymlinks === true &&
       isManagedNpmRootPackagePeerSymlink(segments))
   );
 }
 
-async function resolveTrustedHostBrikko StudioRootRealPath(): Promise<string | null> {
-  const hostRoot = resolveBrikko StudioPackageRootSync({
+async function resolveTrustedHostBrikkoStudioRootRealPath(): Promise<string | null> {
+  const hostRoot = resolveBrikkoStudioPackageRootSync({
     argv1: process.argv[1],
     cwd: process.cwd(),
     moduleUrl: import.meta.url,
@@ -226,13 +226,13 @@ async function resolveTrustedHostBrikko StudioRootRealPath(): Promise<string | n
   return await fs.realpath(hostRoot).catch(() => path.resolve(hostRoot));
 }
 
-function isTrustedHostBrikko StudioPath(params: {
+function isTrustedHostBrikkoStudioPath(params: {
   resolvedTargetPath: string;
-  trustedHostBrikko StudioRootRealPath: string | null;
+  trustedHostBrikkoStudioRootRealPath: string | null;
 }): boolean {
   return (
-    params.trustedHostBrikko StudioRootRealPath !== null &&
-    isPathInside(params.trustedHostBrikko StudioRootRealPath, params.resolvedTargetPath)
+    params.trustedHostBrikkoStudioRootRealPath !== null &&
+    isPathInside(params.trustedHostBrikkoStudioRootRealPath, params.resolvedTargetPath)
   );
 }
 
@@ -241,7 +241,7 @@ async function inspectNodeModulesSymlinkTarget(params: {
   rootRealPath: string;
   symlinkPath: string;
   symlinkRelativePath: string;
-  trustedHostBrikko StudioRootRealPath: string | null;
+  trustedHostBrikkoStudioRootRealPath: string | null;
 }): Promise<
   Pick<PackageManifestTraversalResult, "blockedDirectoryFinding" | "blockedFileFinding">
 > {
@@ -258,17 +258,17 @@ async function inspectNodeModulesSymlinkTarget(params: {
   }
 
   if (!isPathInside(params.rootRealPath, resolvedTargetPath)) {
-    // Workspace package managers can leave peer links back to the Brikko Studio host
+    // Workspace package managers can leave peer links back to the BrikkoStudio host
     // package. Trust only the exact peer-link shapes and only when the resolved
     // target stays inside the host package root.
     if (
-      isTrustedBrikko StudioPeerSymlink({
+      isTrustedBrikkoStudioPeerSymlink({
         allowManagedNpmRootPackagePeerSymlinks: params.allowManagedNpmRootPackagePeerSymlinks,
         relativePath: params.symlinkRelativePath,
       }) &&
-      isTrustedHostBrikko StudioPath({
+      isTrustedHostBrikkoStudioPath({
         resolvedTargetPath,
-        trustedHostBrikko StudioRootRealPath: params.trustedHostBrikko StudioRootRealPath,
+        trustedHostBrikkoStudioRootRealPath: params.trustedHostBrikkoStudioRootRealPath,
       })
     ) {
       return {};
@@ -366,7 +366,7 @@ async function collectPackageManifestPaths(params: {
   const limits = resolvePackageManifestTraversalLimits();
   const rootDir = params.rootDir;
   const rootRealPath = await fs.realpath(rootDir).catch(() => rootDir);
-  const trustedHostBrikko StudioRootRealPath = await resolveTrustedHostBrikko StudioRootRealPath();
+  const trustedHostBrikkoStudioRootRealPath = await resolveTrustedHostBrikkoStudioRootRealPath();
   const queue: Array<{ depth: number; dir: string }> = [{ depth: 0, dir: rootDir }];
   const packageManifestPaths: string[] = [];
   const visitedDirectories = new Set<string>();
@@ -437,7 +437,7 @@ async function collectPackageManifestPaths(params: {
             rootRealPath,
             symlinkPath: nextPath,
             symlinkRelativePath: relativeNextPath,
-            trustedHostBrikko StudioRootRealPath,
+            trustedHostBrikkoStudioRootRealPath,
           });
           if (symlinkTargetInspection.blockedDirectoryFinding) {
             firstBlockedDirectoryFinding ??= symlinkTargetInspection.blockedDirectoryFinding;
@@ -638,7 +638,7 @@ function logTrustedSourceLinkedOfficialInstall(params: {
   targetLabel: string;
 }) {
   params.logger.warn?.(
-    `WARNING: ${params.targetLabel} allowed because it is an official Brikko Studio package: ${buildCriticalDetails({ findings: params.findings })}`,
+    `WARNING: ${params.targetLabel} allowed because it is an official BrikkoStudio package: ${buildCriticalDetails({ findings: params.findings })}`,
   );
 }
 

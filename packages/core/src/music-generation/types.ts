@@ -1,5 +1,5 @@
 import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { MediaNormalizationEntry } from "../media-generation/normalization.types.js";
 
 export type MusicGenerationOutputFormat = "mp3" | "wav";
@@ -20,7 +20,7 @@ export type MusicGenerationSourceImage = {
 };
 
 type MusicGenerationProviderConfiguredContext = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
 };
 
@@ -28,7 +28,7 @@ export type MusicGenerationRequest = {
   provider: string;
   model: string;
   prompt: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   authStore?: AuthProfileStore;
   timeoutMs?: number;

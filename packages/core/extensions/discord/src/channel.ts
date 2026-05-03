@@ -36,7 +36,7 @@ import {
   projectCredentialSnapshotFields,
   resolveConfiguredFromCredentialStatuses,
   type ChannelPlugin,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "./channel-api.js";
 import {
   buildDiscordCrossContextPresentation,
@@ -132,7 +132,7 @@ const discordMessageActions = {
   },
 };
 
-function resolveDiscordStartupDelayMs(cfg: Brikko StudioConfig, accountId: string): number {
+function resolveDiscordStartupDelayMs(cfg: BrikkoStudioConfig, accountId: string): number {
   const startupAccountIds = listDiscordAccountIds(cfg).filter((candidateId) => {
     const candidate = resolveDiscordAccount({ cfg, accountId: candidateId });
     return (
@@ -221,7 +221,7 @@ export const discordPlugin: ChannelPlugin<ResolvedDiscordAccount, DiscordProbe> 
         messageToolHints: () => [
           "- Discord mentions: use canonical outbound syntax: users `<@USER_ID>`, channels `<#CHANNEL_ID>`, and roles `<@&ROLE_ID>`. Do not use the legacy `<@!USER_ID>` nickname form.",
           "- Discord components: set `components` when sending messages to include buttons, selects, or v2 containers.",
-          "- Forms: add `components.modal` (title, fields). Brikko Studio adds a trigger button and routes submissions as new messages.",
+          "- Forms: add `components.modal` (title, fields). BrikkoStudio adds a trigger button and routes submissions as new messages.",
         ],
       },
       messaging: {
@@ -431,7 +431,7 @@ export const discordPlugin: ChannelPlugin<ResolvedDiscordAccount, DiscordProbe> 
               ],
             };
           }
-          const statusCfg: Brikko StudioConfig = {
+          const statusCfg: BrikkoStudioConfig = {
             channels: {
               discord: {
                 accounts: {

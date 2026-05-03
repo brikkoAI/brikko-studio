@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   deliverTextOrMediaReply,
   resolveSendableOutboundReplyParts,
@@ -17,7 +17,7 @@ import type { SentMessageCache } from "./echo-cache.js";
 import { sanitizeOutboundText } from "./sanitize-outbound.js";
 
 export async function deliverReplies(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   replies: ReplyPayload[];
   target: string;
   client: Awaited<ReturnType<typeof createIMessageRpcClient>>;

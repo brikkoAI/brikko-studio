@@ -1,6 +1,6 @@
 import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import {
   getZcaUserInfo,
   listEnabledZalouserAccounts,
@@ -19,8 +19,8 @@ vi.mock("./zalo-js.js", () => ({
 const mockCheckAuthenticated = vi.mocked(checkZaloAuthenticated);
 const mockGetUserInfo = vi.mocked(getZaloUserInfo);
 
-function asConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+function asConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
 describe("zalouser account resolution", () => {

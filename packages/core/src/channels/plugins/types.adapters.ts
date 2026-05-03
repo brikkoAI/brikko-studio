@@ -1,7 +1,7 @@
 import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
 import type { LegacyConfigRule } from "../../config/legacy.shared.js";
 import type { AgentBinding } from "../../config/types.agents.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { GroupToolPolicyConfig } from "../../config/types.tools.js";
 import type { ChannelApprovalNativeRuntimeAdapter } from "../../infra/approval-handler-runtime-types.js";
 import type { ChannelApprovalKind } from "../../infra/approval-types.js";
@@ -74,34 +74,34 @@ type ChannelAdapterCallback<T extends (...args: never[]) => unknown> = T;
 
 export type ChannelSetupAdapter = {
   resolveAccountId?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string;
     input?: ChannelSetupInput;
   }) => string;
   resolveBindingAccountId?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     agentId: string;
     accountId?: string;
   }) => string | undefined;
   applyAccountName?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId: string;
     name?: string;
-  }) => Brikko StudioConfig;
+  }) => BrikkoStudioConfig;
   applyAccountConfig: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId: string;
     input: ChannelSetupInput;
-  }) => Brikko StudioConfig;
+  }) => BrikkoStudioConfig;
   afterAccountConfigWritten?: (params: {
-    previousCfg: Brikko StudioConfig;
-    cfg: Brikko StudioConfig;
+    previousCfg: BrikkoStudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId: string;
     input: ChannelSetupInput;
     runtime: RuntimeEnv;
   }) => Promise<void> | void;
   validateInput?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId: string;
     input: ChannelSetupInput;
   }) => string | null;
@@ -113,42 +113,42 @@ export type ChannelSetupAdapter = {
 };
 
 export type ChannelConfigAdapter<ResolvedAccount> = {
-  listAccountIds: (cfg: Brikko StudioConfig) => string[];
-  resolveAccount: (cfg: Brikko StudioConfig, accountId?: string | null) => ResolvedAccount;
-  inspectAccount?: (cfg: Brikko StudioConfig, accountId?: string | null) => unknown;
-  defaultAccountId?: (cfg: Brikko StudioConfig) => string;
+  listAccountIds: (cfg: BrikkoStudioConfig) => string[];
+  resolveAccount: (cfg: BrikkoStudioConfig, accountId?: string | null) => ResolvedAccount;
+  inspectAccount?: (cfg: BrikkoStudioConfig, accountId?: string | null) => unknown;
+  defaultAccountId?: (cfg: BrikkoStudioConfig) => string;
   setAccountEnabled?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId: string;
     enabled: boolean;
-  }) => Brikko StudioConfig;
-  deleteAccount?: (params: { cfg: Brikko StudioConfig; accountId: string }) => Brikko StudioConfig;
-  isEnabled?: ChannelAdapterCallback<(account: ResolvedAccount, cfg: Brikko StudioConfig) => boolean>;
+  }) => BrikkoStudioConfig;
+  deleteAccount?: (params: { cfg: BrikkoStudioConfig; accountId: string }) => BrikkoStudioConfig;
+  isEnabled?: ChannelAdapterCallback<(account: ResolvedAccount, cfg: BrikkoStudioConfig) => boolean>;
   disabledReason?: ChannelAdapterCallback<
-    (account: ResolvedAccount, cfg: Brikko StudioConfig) => string
+    (account: ResolvedAccount, cfg: BrikkoStudioConfig) => string
   >;
   isConfigured?: ChannelAdapterCallback<
-    (account: ResolvedAccount, cfg: Brikko StudioConfig) => boolean | Promise<boolean>
+    (account: ResolvedAccount, cfg: BrikkoStudioConfig) => boolean | Promise<boolean>
   >;
   unconfiguredReason?: ChannelAdapterCallback<
-    (account: ResolvedAccount, cfg: Brikko StudioConfig) => string
+    (account: ResolvedAccount, cfg: BrikkoStudioConfig) => string
   >;
   describeAccount?: ChannelAdapterCallback<
-    (account: ResolvedAccount, cfg: Brikko StudioConfig) => ChannelAccountSnapshot
+    (account: ResolvedAccount, cfg: BrikkoStudioConfig) => ChannelAccountSnapshot
   >;
   resolveAllowFrom?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
   }) => Array<string | number> | undefined;
   formatAllowFrom?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     allowFrom: Array<string | number>;
   }) => string[];
-  hasConfiguredState?: (params: { cfg: Brikko StudioConfig; env?: NodeJS.ProcessEnv }) => boolean;
-  hasPersistedAuthState?: (params: { cfg: Brikko StudioConfig; env?: NodeJS.ProcessEnv }) => boolean;
+  hasConfiguredState?: (params: { cfg: BrikkoStudioConfig; env?: NodeJS.ProcessEnv }) => boolean;
+  hasPersistedAuthState?: (params: { cfg: BrikkoStudioConfig; env?: NodeJS.ProcessEnv }) => boolean;
   resolveDefaultTo?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
   }) => string | undefined;
 };
@@ -161,7 +161,7 @@ export type ChannelSecretsAdapter = {
     value: unknown;
   }>;
   collectRuntimeConfigAssignments?: (params: {
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     defaults: SecretDefaults | undefined;
     context: ResolverContext;
   }) => void;
@@ -178,13 +178,13 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
   buildChannelSummary?: ChannelAdapterCallback<
     (params: {
       account: ResolvedAccount;
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       defaultAccountId: string;
       snapshot: ChannelAccountSnapshot;
     }) => Record<string, unknown> | Promise<Record<string, unknown>>
   >;
   probeAccount?: ChannelAdapterCallback<
-    (params: { account: ResolvedAccount; timeoutMs: number; cfg: Brikko StudioConfig }) => Promise<Probe>
+    (params: { account: ResolvedAccount; timeoutMs: number; cfg: BrikkoStudioConfig }) => Promise<Probe>
   >;
   formatCapabilitiesProbe?: ChannelAdapterCallback<
     (params: { probe: Probe }) => ChannelCapabilitiesDisplayLine[]
@@ -193,7 +193,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
     (params: {
       account: ResolvedAccount;
       timeoutMs: number;
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       probe?: Probe;
     }) => Promise<Audit>
   >;
@@ -201,7 +201,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
     (params: {
       account: ResolvedAccount;
       timeoutMs: number;
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       probe?: Probe;
       audit?: Audit;
       target?: string;
@@ -210,7 +210,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
   buildAccountSnapshot?: ChannelAdapterCallback<
     (params: {
       account: ResolvedAccount;
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       runtime?: ChannelAccountSnapshot;
       probe?: Probe;
       audit?: Audit;
@@ -219,7 +219,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
   logSelfId?: ChannelAdapterCallback<
     (params: {
       account: ResolvedAccount;
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       runtime: RuntimeEnv;
       includeChannelPrefix?: boolean;
     }) => void
@@ -227,7 +227,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
   resolveAccountState?: ChannelAdapterCallback<
     (params: {
       account: ResolvedAccount;
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       configured: boolean;
       enabled: boolean;
     }) => ChannelAccountState
@@ -236,7 +236,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
 };
 
 export type ChannelGatewayContext<ResolvedAccount = unknown> = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   account: ResolvedAccount;
   runtime: RuntimeEnv;
@@ -331,7 +331,7 @@ export type ChannelLoginWithQrWaitResult = {
 };
 
 export type ChannelLogoutContext<ResolvedAccount = unknown> = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   account: ResolvedAccount;
   runtime: RuntimeEnv;
@@ -342,7 +342,7 @@ export type ChannelGatewayAdapter<ResolvedAccount = unknown> = {
   startAccount?: (ctx: ChannelGatewayContext<ResolvedAccount>) => Promise<unknown>;
   stopAccount?: (ctx: ChannelGatewayContext<ResolvedAccount>) => Promise<void>;
   /** Keep gateway auth bypass resolution mirrored through a lightweight top-level `gateway-auth-api.ts` artifact. */
-  resolveGatewayAuthBypassPaths?: (params: { cfg: Brikko StudioConfig }) => string[];
+  resolveGatewayAuthBypassPaths?: (params: { cfg: BrikkoStudioConfig }) => string[];
   loginWithQrStart?: (params: {
     accountId?: string;
     force?: boolean;
@@ -359,7 +359,7 @@ export type ChannelGatewayAdapter<ResolvedAccount = unknown> = {
 
 export type ChannelAuthAdapter = {
   login?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     runtime: RuntimeEnv;
     verbose?: boolean;
@@ -369,19 +369,19 @@ export type ChannelAuthAdapter = {
 
 export type ChannelHeartbeatAdapter = {
   checkReady?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     deps?: ChannelHeartbeatDeps;
   }) => Promise<{ ok: boolean; reason: string }>;
   sendTyping?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     to: string;
     accountId?: string | null;
     threadId?: string | number | null;
     deps?: ChannelHeartbeatDeps;
   }) => Promise<void> | void;
   clearTyping?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     to: string;
     accountId?: string | null;
     threadId?: string | number | null;
@@ -390,13 +390,13 @@ export type ChannelHeartbeatAdapter = {
 };
 
 type ChannelDirectorySelfParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   runtime: RuntimeEnv;
 };
 
 type ChannelDirectoryListParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   query?: string | null;
   limit?: number | null;
@@ -404,7 +404,7 @@ type ChannelDirectoryListParams = {
 };
 
 type ChannelDirectoryListGroupMembersParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   groupId: string;
   limit?: number | null;
@@ -434,7 +434,7 @@ export type ChannelResolveResult = {
 
 export type ChannelResolverAdapter = {
   resolveTargets: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     inputs: string[];
     kind: ChannelResolveKind;
@@ -444,7 +444,7 @@ export type ChannelResolverAdapter = {
 
 export type ChannelElevatedAdapter = {
   allowFromFallback?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
   }) => Array<string | number> | undefined;
 };
@@ -486,7 +486,7 @@ export type ChannelCommandAdapter = {
 };
 
 export type ChannelDoctorConfigMutation = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
   warnings?: string[];
 };
@@ -513,26 +513,26 @@ export type ChannelDoctorAdapter = {
   groupAllowFromFallbackToAllowFrom?: boolean;
   warnOnEmptyGroupSenderAllowlist?: boolean;
   legacyConfigRules?: LegacyConfigRule[];
-  normalizeCompatibilityConfig?: (params: { cfg: Brikko StudioConfig }) => ChannelDoctorConfigMutation;
+  normalizeCompatibilityConfig?: (params: { cfg: BrikkoStudioConfig }) => ChannelDoctorConfigMutation;
   collectPreviewWarnings?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     doctorFixCommand: string;
     env?: NodeJS.ProcessEnv;
   }) => string[] | Promise<string[]>;
   collectMutableAllowlistWarnings?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
   }) => string[] | Promise<string[]>;
   repairConfig?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     doctorFixCommand: string;
   }) => ChannelDoctorConfigMutation | Promise<ChannelDoctorConfigMutation>;
   runConfigSequence?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     env: NodeJS.ProcessEnv;
     shouldRepair: boolean;
   }) => ChannelDoctorSequenceResult | Promise<ChannelDoctorSequenceResult>;
   cleanStaleConfig?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
   }) => ChannelDoctorConfigMutation | Promise<ChannelDoctorConfigMutation>;
   collectEmptyAllowlistExtraWarnings?: (
     params: ChannelDoctorEmptyAllowlistAccountContext,
@@ -544,18 +544,18 @@ export type ChannelDoctorAdapter = {
 
 export type ChannelLifecycleAdapter = {
   onAccountConfigChanged?: (params: {
-    prevCfg: Brikko StudioConfig;
-    nextCfg: Brikko StudioConfig;
+    prevCfg: BrikkoStudioConfig;
+    nextCfg: BrikkoStudioConfig;
     accountId: string;
     runtime: RuntimeEnv;
   }) => Promise<void> | void;
   onAccountRemoved?: (params: {
-    prevCfg: Brikko StudioConfig;
+    prevCfg: BrikkoStudioConfig;
     accountId: string;
     runtime: RuntimeEnv;
   }) => Promise<void> | void;
   runStartupMaintenance?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     env?: NodeJS.ProcessEnv;
     log: {
       info?: (message: string) => void;
@@ -565,7 +565,7 @@ export type ChannelLifecycleAdapter = {
     logPrefix?: string;
   }) => Promise<void> | void;
   detectLegacyStateMigrations?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     env: NodeJS.ProcessEnv;
     stateDir: string;
     oauthDir: string;
@@ -573,9 +573,9 @@ export type ChannelLifecycleAdapter = {
 };
 
 export type ChannelApprovalDeliveryAdapter = {
-  hasConfiguredDmRoute?: (params: { cfg: Brikko StudioConfig }) => boolean;
+  hasConfiguredDmRoute?: (params: { cfg: BrikkoStudioConfig }) => boolean;
   shouldSuppressForwardingFallback?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     approvalKind: ChannelApprovalKind;
     target: ChannelApprovalForwardTarget;
     request: ExecApprovalRequest;
@@ -598,26 +598,26 @@ export type {
 export type ChannelApprovalRenderAdapter = {
   exec?: {
     buildPendingPayload?: (params: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       request: ExecApprovalRequest;
       target: ChannelApprovalForwardTarget;
       nowMs: number;
     }) => ReplyPayload | null;
     buildResolvedPayload?: (params: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       resolved: ExecApprovalResolved;
       target: ChannelApprovalForwardTarget;
     }) => ReplyPayload | null;
   };
   plugin?: {
     buildPendingPayload?: (params: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       request: PluginApprovalRequest;
       target: ChannelApprovalForwardTarget;
       nowMs: number;
     }) => ReplyPayload | null;
     buildResolvedPayload?: (params: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       resolved: PluginApprovalResolved;
       target: ChannelApprovalForwardTarget;
     }) => ReplyPayload | null;
@@ -638,7 +638,7 @@ export type ChannelApprovalAdapter = {
 
 export type ChannelApprovalCapability = ChannelApprovalAdapter & {
   authorizeActorAction?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     senderId?: string | null;
     action: "approve";
@@ -648,19 +648,19 @@ export type ChannelApprovalCapability = ChannelApprovalAdapter & {
     reason?: string;
   };
   getActionAvailabilityState?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     action: "approve";
     approvalKind?: ChannelApprovalKind;
   }) => ChannelActionAvailabilityState;
   /** Exec-native client availability for the initiating surface; distinct from same-chat auth. */
   getExecInitiatingSurfaceState?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     action: "approve";
   }) => ChannelActionAvailabilityState;
   resolveApproveCommandBehavior?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     senderId?: string | null;
     approvalKind: ChannelApprovalKind;
@@ -669,7 +669,7 @@ export type ChannelApprovalCapability = ChannelApprovalAdapter & {
 
 export type ChannelAllowlistAdapter = {
   applyConfigEdit?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     parsedConfig: Record<string, unknown>;
     accountId?: string | null;
     scope: "dm" | "group";
@@ -697,7 +697,7 @@ export type ChannelAllowlistAdapter = {
           }
       >
     | null;
-  readConfig?: (params: { cfg: Brikko StudioConfig; accountId?: string | null }) =>
+  readConfig?: (params: { cfg: BrikkoStudioConfig; accountId?: string | null }) =>
     | {
         dmAllowFrom?: Array<string | number>;
         groupAllowFrom?: Array<string | number>;
@@ -713,7 +713,7 @@ export type ChannelAllowlistAdapter = {
         groupOverrides?: Array<{ label: string; entries: Array<string | number> }>;
       }>;
   resolveNames?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     scope: "dm" | "group";
     entries: string[];
@@ -830,7 +830,7 @@ export type ChannelConversationBindingSupport = {
     idleTimeoutMs?: number;
     maxAgeMs?: number;
   }>;
-  createManager?: (params: { cfg: Brikko StudioConfig; accountId?: string | null }) =>
+  createManager?: (params: { cfg: BrikkoStudioConfig; accountId?: string | null }) =>
     | {
         stop: () => void | Promise<void>;
       }
@@ -841,7 +841,7 @@ export type ChannelConversationBindingSupport = {
 
 export type ChannelSecurityAdapter<ResolvedAccount = unknown> = {
   applyConfigFixes?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     env: NodeJS.ProcessEnv;
   }) => ChannelDoctorConfigMutation | Promise<ChannelDoctorConfigMutation>;
   resolveDmPolicy?: ChannelAdapterCallback<
@@ -853,7 +853,7 @@ export type ChannelSecurityAdapter<ResolvedAccount = unknown> = {
   collectAuditFindings?: ChannelAdapterCallback<
     (
       ctx: ChannelSecurityContext<ResolvedAccount> & {
-        sourceConfig: Brikko StudioConfig;
+        sourceConfig: BrikkoStudioConfig;
         orderedAccountIds: string[];
         hasExplicitAccountPath: boolean;
       },

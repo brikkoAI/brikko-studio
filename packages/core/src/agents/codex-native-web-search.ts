@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   hasAvailableCodexAuth,
   isCodexNativeSearchEligibleModel,
@@ -17,7 +17,7 @@ export {
 } from "./codex-native-web-search.shared.js";
 
 export function isCodexNativeWebSearchRelevant(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentId?: string;
   agentDir?: string;
 }): boolean {

@@ -822,7 +822,7 @@ async function activateScheduledTask(params: {
   scriptPath: string;
   description?: string;
 }) {
-  const taskDescription = params.description ?? "Brikko Studio Gateway";
+  const taskDescription = params.description ?? "BrikkoStudio Gateway";
 
   const taskName = resolveTaskName(params.env);
   const quotedScript = quoteSchtasksArg(params.scriptPath);

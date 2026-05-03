@@ -2,7 +2,7 @@ import type {
   AgentModelConfig,
   AgentRuntimePolicyConfig,
 } from "../../../config/types.agents-shared.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 
 type CodexPiRouteHit = {
   path: string;
@@ -27,7 +27,7 @@ function isOpenAICodexModelRef(model: string | undefined): model is string {
   return normalizeString(model)?.startsWith("openai-codex/") === true;
 }
 
-function isCodexPluginEnabled(cfg: Brikko StudioConfig): boolean {
+function isCodexPluginEnabled(cfg: BrikkoStudioConfig): boolean {
   const plugins = cfg.plugins;
   if (plugins?.enabled === false) {
     return false;
@@ -56,7 +56,7 @@ function resolveRuntime(params: {
 }
 
 function collectOpenAICodexPiRouteHits(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env?: NodeJS.ProcessEnv,
 ): CodexPiRouteHit[] {
   const defaults = cfg.agents?.defaults;
@@ -89,7 +89,7 @@ function collectOpenAICodexPiRouteHits(
 }
 
 export function collectCodexRouteWarnings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): string[] {
   if (!isCodexPluginEnabled(params.cfg)) {
@@ -101,7 +101,7 @@ export function collectCodexRouteWarnings(params: {
   }
   return [
     [
-      "- Codex plugin is enabled, but `openai-codex/*` model refs still use the Brikko Studio PI runner unless `agentRuntime.id` is `codex`.",
+      "- Codex plugin is enabled, but `openai-codex/*` model refs still use the BrikkoStudio PI runner unless `agentRuntime.id` is `codex`.",
       ...hits.map(
         (hit) => `- ${hit.path}: ${hit.model} currently resolves with runtime "${hit.runtime}".`,
       ),

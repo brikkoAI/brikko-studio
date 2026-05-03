@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createGatewayCredentialPlan } from "../gateway/credential-planner.js";
 import type { SecretDefaults } from "./runtime-shared.js";
 import { isRecord } from "./shared.js";
@@ -58,7 +58,7 @@ function createState(params: {
 }
 
 export function evaluateGatewayAuthSurfaceStates(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   defaults?: SecretDefaults;
 }): GatewayAuthSurfaceStateMap {

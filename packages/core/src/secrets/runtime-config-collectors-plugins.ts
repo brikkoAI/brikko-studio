@@ -1,5 +1,5 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   collectPluginConfigContractMatches,
   resolvePluginConfigContractsById,
@@ -25,7 +25,7 @@ import { isRecord } from "./shared.js";
  * non-loadable plugins from blocking startup or preflight validation.
  */
 export function collectPluginConfigAssignments(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   defaults: SecretDefaults | undefined;
   context: ResolverContext;
   loadablePluginOrigins?: ReadonlyMap<string, PluginOrigin>;

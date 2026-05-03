@@ -1,6 +1,6 @@
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveRunWorkspaceDir } from "./workspace-run.js";
 import { resolveDefaultAgentWorkspaceDir } from "./workspace.js";
 
@@ -25,7 +25,7 @@ describe("resolveRunWorkspaceDir", () => {
         defaults: { workspace: defaultWorkspace },
         list: [{ id: "research", workspace: researchWorkspace }],
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const result = resolveRunWorkspaceDir({
       workspaceDir: undefined,
@@ -45,7 +45,7 @@ describe("resolveRunWorkspaceDir", () => {
       agents: {
         defaults: { workspace: defaultWorkspace },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const result = resolveRunWorkspaceDir({
       workspaceDir: "   ",
@@ -113,7 +113,7 @@ describe("resolveRunWorkspaceDir", () => {
           { id: "research", workspace: researchWorkspace, default: true },
         ],
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     expect(() =>
       resolveRunWorkspaceDir({
@@ -130,7 +130,7 @@ describe("resolveRunWorkspaceDir", () => {
       agents: {
         defaults: { workspace: fallbackWorkspace },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const result = resolveRunWorkspaceDir({
       workspaceDir: undefined,

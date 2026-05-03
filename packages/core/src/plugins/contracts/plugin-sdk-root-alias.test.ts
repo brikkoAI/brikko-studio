@@ -473,7 +473,7 @@ describe("plugin-sdk root alias", () => {
     expect(typeof rootSdk.createTypingCallbacks).toBe("function");
     expect(typeof rootSdk.createChannelReplyPipeline).toBe("function");
     expect(typeof rootSdk.resolveChannelSourceReplyDeliveryMode).toBe("function");
-    expect(typeof rootSdk.resolvePreferredBrikko StudioTmpDir).toBe("function");
+    expect(typeof rootSdk.resolvePreferredBrikkoStudioTmpDir).toBe("function");
     expect(typeof rootSdk.default).toBe("object");
     expect(rootSdk.default).toBe(rootSdk);
     expect(rootSdk.__esModule).toBe(true);

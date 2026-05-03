@@ -3,7 +3,7 @@ import { i18n } from "../../i18n/index.ts";
 import { getSafeLocalStorage, getSafeSessionStorage } from "../../local-storage.ts";
 import { createStorageMock } from "../../test-helpers/storage.ts";
 import "../app.ts";
-import type { Brikko StudioApp } from "../app.ts";
+import type { BrikkoStudioApp } from "../app.ts";
 
 class MockWebSocket {
   static CONNECTING = 0;
@@ -42,12 +42,12 @@ function createMatchMediaMock(width: number) {
   });
 }
 
-const mountedApps = new Set<Brikko StudioApp>();
+const mountedApps = new Set<BrikkoStudioApp>();
 
 function collectMountedApps() {
-  return new Set<Brikko StudioApp>([
+  return new Set<BrikkoStudioApp>([
     ...mountedApps,
-    ...document.querySelectorAll<Brikko StudioApp>("brikko-studio-app"),
+    ...document.querySelectorAll<BrikkoStudioApp>("brikko-studio-app"),
   ]);
 }
 
@@ -69,13 +69,13 @@ function nextFrame() {
   });
 }
 
-async function waitForAppUpdates(apps: Iterable<Brikko StudioApp>) {
+async function waitForAppUpdates(apps: Iterable<BrikkoStudioApp>) {
   for (const app of apps) {
     await app.updateComplete;
   }
 }
 
-async function drainAppWork(apps: Iterable<Brikko StudioApp>) {
+async function drainAppWork(apps: Iterable<BrikkoStudioApp>) {
   const snapshot = [...apps];
   await nextMicrotask();
   await waitForAppUpdates(snapshot);
@@ -102,7 +102,7 @@ async function cleanupMountedApps() {
 
 export function mountApp(pathname: string) {
   window.history.replaceState({}, "", pathname);
-  const app = document.createElement("brikko-studio-app") as Brikko StudioApp;
+  const app = document.createElement("brikko-studio-app") as BrikkoStudioApp;
   mountedApps.add(app);
   document.body.append(app);
   app.connected = true;

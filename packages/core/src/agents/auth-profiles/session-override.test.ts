@@ -1,10 +1,10 @@
 import fs from "node:fs/promises";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { SessionEntry } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
-  type Brikko StudioTestState,
-  withBrikko StudioTestState,
+  type BrikkoStudioTestState,
+  withBrikkoStudioTestState,
 } from "../../test-utils/brikko-studio-test-state.js";
 import { resolveSessionAuthProfileOverride } from "./session-override.js";
 import type { AuthProfileStore } from "./types.js";
@@ -54,8 +54,8 @@ vi.mock("./usage.js", () => ({
   isProfileInCooldown: authStoreMocks.isProfileInCooldown,
 }));
 
-async function withAuthState<T>(run: (state: Brikko StudioTestState) => Promise<T>): Promise<T> {
-  return await withBrikko StudioTestState(
+async function withAuthState<T>(run: (state: BrikkoStudioTestState) => Promise<T>): Promise<T> {
+  return await withBrikkoStudioTestState(
     {
       layout: "state-only",
       prefix: "brikko-studio-auth-",
@@ -108,7 +108,7 @@ describe("resolveSessionAuthProfileOverride", () => {
       const sessionStore = { "agent:main:main": sessionEntry };
 
       const resolved = await resolveSessionAuthProfileOverride({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         provider: "openrouter",
         agentDir,
         sessionEntry,
@@ -142,7 +142,7 @@ describe("resolveSessionAuthProfileOverride", () => {
       const sessionStore = { "agent:main:main": sessionEntry };
 
       const resolved = await resolveSessionAuthProfileOverride({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         provider: "z.ai",
         agentDir,
         sessionEntry,
@@ -189,7 +189,7 @@ describe("resolveSessionAuthProfileOverride", () => {
       const sessionStore = { "agent:main:main": sessionEntry };
 
       const resolved = await resolveSessionAuthProfileOverride({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         provider: "openai-codex",
         agentDir,
         sessionEntry,
@@ -232,7 +232,7 @@ describe("resolveSessionAuthProfileOverride", () => {
       const sessionStore = { "agent:main:main": sessionEntry };
 
       const resolved = await resolveSessionAuthProfileOverride({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         provider: "codex-cli",
         agentDir,
         sessionEntry,

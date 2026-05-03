@@ -9,10 +9,10 @@ export type { ChannelMessageActionContext } from "brikko-studio/plugin-sdk/chann
 export { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/account-id";
 export type {
   ChannelPlugin,
-  Brikko StudioPluginApi,
+  BrikkoStudioPluginApi,
   PluginRuntime,
 } from "brikko-studio/plugin-sdk/channel-plugin-common";
-export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export type { SlackAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 export {
   emptyPluginConfigSchema,

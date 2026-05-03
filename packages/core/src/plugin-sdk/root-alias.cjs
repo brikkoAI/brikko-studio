@@ -206,7 +206,7 @@ function getModuleLoader(tryNative) {
     alias: buildPluginSdkAliasMap(effectiveTryNative),
     interopDefault: true,
     // Prefer Node's native sync ESM loader for built dist/plugin-sdk/*.js files
-    // so local plugins do not create a second transpiled Brikko Studio core graph.
+    // so local plugins do not create a second transpiled BrikkoStudio core graph.
     tryNative: effectiveTryNative,
     extensions: [".ts", ".tsx", ".mts", ".cts", ".mtsx", ".ctsx", ".js", ".mjs", ".cjs", ".json"],
   });

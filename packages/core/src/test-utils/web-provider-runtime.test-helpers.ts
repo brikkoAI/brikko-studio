@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type {
   PluginWebFetchProviderEntry,
   PluginWebSearchProviderEntry,
@@ -11,7 +11,7 @@ type CommonWebProviderTestParams = {
   autoDetectOrder?: number;
   requiresCredential?: boolean;
   getCredentialValue?: (config?: Record<string, unknown>) => unknown;
-  getConfiguredCredentialValue?: (config?: Brikko StudioConfig) => unknown;
+  getConfiguredCredentialValue?: (config?: BrikkoStudioConfig) => unknown;
   getConfiguredCredentialFallback?: PluginWebSearchProviderEntry["getConfiguredCredentialFallback"];
 };
 

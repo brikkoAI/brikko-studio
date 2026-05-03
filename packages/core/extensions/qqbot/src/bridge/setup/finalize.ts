@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ChannelSetupWizard } from "brikko-studio/plugin-sdk/setup";
 import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/setup";
 import { formatDocsLink } from "brikko-studio/plugin-sdk/setup-tools";
@@ -7,17 +7,17 @@ import { applyQQBotAccountConfig, resolveQQBotAccount } from "../config.js";
 type SetupPrompter = Parameters<NonNullable<ChannelSetupWizard["finalize"]>>[0]["prompter"];
 type SetupRuntime = Parameters<NonNullable<ChannelSetupWizard["finalize"]>>[0]["runtime"];
 
-function isQQBotAccountConfigured(cfg: Brikko StudioConfig, accountId: string): boolean {
+function isQQBotAccountConfigured(cfg: BrikkoStudioConfig, accountId: string): boolean {
   const account = resolveQQBotAccount(cfg, accountId, { allowUnresolvedSecretRef: true });
   return Boolean(account.appId && account.clientSecret);
 }
 
 async function linkViaQrCode(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   prompter: SetupPrompter;
   runtime: SetupRuntime;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   try {
     const { qrConnect } = await import("@tencent-connect/qqbot-connector");
 
@@ -65,10 +65,10 @@ async function linkViaQrCode(params: {
 }
 
 async function linkViaManualInput(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   prompter: SetupPrompter;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const appId = await params.prompter.text({
     message: "请输入 QQ Bot AppID",
     validate: (value: string) => (value.trim() ? undefined : "AppID 不能为空"),
@@ -89,12 +89,12 @@ async function linkViaManualInput(params: {
 }
 
 export async function finalizeQQBotSetup(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   forceAllowFrom: boolean;
   prompter: SetupPrompter;
   runtime: SetupRuntime;
-}): Promise<{ cfg: Brikko StudioConfig }> {
+}): Promise<{ cfg: BrikkoStudioConfig }> {
   const accountId = params.accountId.trim() || DEFAULT_ACCOUNT_ID;
   let next = params.cfg;
 

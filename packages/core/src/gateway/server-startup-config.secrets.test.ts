@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { loadAuthProfileStoreWithoutExternalProfiles } from "../agents/auth-profiles.js";
-import type { ConfigFileSnapshot, Brikko StudioConfig } from "../config/types.js";
+import type { ConfigFileSnapshot, BrikkoStudioConfig } from "../config/types.js";
 import type { PreparedSecretsRuntimeSnapshot, SecretResolverWarning } from "../secrets/runtime.js";
 import { KNOWN_WEAK_GATEWAY_TOKEN_PLACEHOLDERS } from "./known-weak-gateway-secrets.js";
 import {
@@ -9,7 +9,7 @@ import {
 } from "./server-startup-config.js";
 import { buildTestConfigSnapshot } from "./test-helpers.config-snapshots.js";
 
-function gatewayTokenConfig(config: Brikko StudioConfig): Brikko StudioConfig {
+function gatewayTokenConfig(config: BrikkoStudioConfig): BrikkoStudioConfig {
   return {
     ...config,
     gateway: {
@@ -23,11 +23,11 @@ function gatewayTokenConfig(config: Brikko StudioConfig): Brikko StudioConfig {
   };
 }
 
-function asConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+function asConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
-function buildSnapshot(config: Brikko StudioConfig): ConfigFileSnapshot {
+function buildSnapshot(config: BrikkoStudioConfig): ConfigFileSnapshot {
   const raw = `${JSON.stringify(config, null, 2)}\n`;
   return buildTestConfigSnapshot({
     path: "/tmp/brikko-studio-startup-secrets-test.json",
@@ -41,7 +41,7 @@ function buildSnapshot(config: Brikko StudioConfig): ConfigFileSnapshot {
   });
 }
 
-function preparedSnapshot(config: Brikko StudioConfig): PreparedSecretsRuntimeSnapshot {
+function preparedSnapshot(config: BrikkoStudioConfig): PreparedSecretsRuntimeSnapshot {
   return {
     sourceConfig: config,
     config,

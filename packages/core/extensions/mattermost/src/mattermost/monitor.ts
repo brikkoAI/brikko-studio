@@ -63,7 +63,7 @@ import { deliverMattermostReplyPayload } from "./reply-delivery.js";
 import type {
   ChannelAccountSnapshot,
   ChatType,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   ReplyPayload,
   RuntimeEnv,
 } from "./runtime-api.js";
@@ -107,7 +107,7 @@ export type MonitorMattermostOpts = {
   botToken?: string;
   baseUrl?: string;
   accountId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   runtime?: RuntimeEnv;
   abortSignal?: AbortSignal;
   statusSink?: (patch: Partial<ChannelAccountSnapshot>) => void;
@@ -435,7 +435,7 @@ function buildMattermostWsUrl(baseUrl: string): string {
 export async function monitorMattermostProvider(opts: MonitorMattermostOpts = {}): Promise<void> {
   const core = getMattermostRuntime();
   const runtime = resolveRuntime(opts);
-  const cfg = (opts.config ?? core.config.current()) as Brikko StudioConfig;
+  const cfg = (opts.config ?? core.config.current()) as BrikkoStudioConfig;
   const account = resolveMattermostAccount({
     cfg,
     accountId: opts.accountId,
@@ -590,7 +590,7 @@ export async function monitorMattermostProvider(opts: MonitorMattermostOpts = {}
               message: post.message ?? "",
               props: post.props ?? undefined,
             },
-            ephemeral_text: `Brikko Studio ignored this action for ${decision.roomLabel}.`,
+            ephemeral_text: `BrikkoStudio ignored this action for ${decision.roomLabel}.`,
           },
         };
       },

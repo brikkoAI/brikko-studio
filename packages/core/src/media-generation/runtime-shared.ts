@@ -9,7 +9,7 @@ import {
   resolveAgentModelPrimaryValue,
 } from "../config/model-input.js";
 import type { AgentModelConfig } from "../config/types.agents-shared.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { getProviderEnvVars as getDefaultProviderEnvVars } from "../secrets/provider-env-vars.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
@@ -64,7 +64,7 @@ type CapabilityProviderCandidate = {
   id: string;
   aliases?: readonly string[];
   defaultModel?: string | null;
-  isConfigured?: (ctx: { cfg?: Brikko StudioConfig; agentDir?: string }) => boolean;
+  isConfigured?: (ctx: { cfg?: BrikkoStudioConfig; agentDir?: string }) => boolean;
 };
 
 type ParsedAspectRatio = {
@@ -80,7 +80,7 @@ type ParsedSize = {
   area: number;
 };
 
-function resolveCurrentDefaultProviderId(cfg?: Brikko StudioConfig): string {
+function resolveCurrentDefaultProviderId(cfg?: BrikkoStudioConfig): string {
   const configured = resolveAgentModelPrimaryValue(cfg?.agents?.defaults?.model);
   const trimmed = normalizeOptionalString(configured);
   if (!trimmed) {
@@ -96,7 +96,7 @@ function resolveCurrentDefaultProviderId(cfg?: Brikko StudioConfig): string {
 
 function isCapabilityProviderConfigured(params: {
   provider: CapabilityProviderCandidate;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
 }): boolean {
   if (params.provider.isConfigured) {
@@ -119,9 +119,9 @@ function isCapabilityProviderConfigured(params: {
 }
 
 function resolveAutoCapabilityFallbackRefs(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
-  listProviders: (cfg?: Brikko StudioConfig) => CapabilityProviderCandidate[];
+  listProviders: (cfg?: BrikkoStudioConfig) => CapabilityProviderCandidate[];
 }): string[] {
   const providerDefaults = new Map<string, { ref: string; aliases: string[] }>();
   for (const provider of params.listProviders(params.cfg)) {
@@ -163,12 +163,12 @@ function resolveAutoCapabilityFallbackRefs(params: {
 }
 
 export function resolveCapabilityModelCandidates(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   modelConfig: AgentModelConfig | undefined;
   modelOverride?: string;
   parseModelRef: (raw: string | undefined) => ParsedProviderModelRef | null;
   agentDir?: string;
-  listProviders?: (cfg?: Brikko StudioConfig) => CapabilityProviderCandidate[];
+  listProviders?: (cfg?: BrikkoStudioConfig) => CapabilityProviderCandidate[];
   autoProviderFallback?: boolean;
 }): ParsedProviderModelRef[] {
   const candidates: ParsedProviderModelRef[] = [];

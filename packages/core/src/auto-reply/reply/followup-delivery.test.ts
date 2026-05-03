@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { resolveFollowupDeliveryPayloads } from "./followup-delivery.js";
 
-const baseConfig = {} as Brikko StudioConfig;
+const baseConfig = {} as BrikkoStudioConfig;
 
 describe("resolveFollowupDeliveryPayloads", () => {
   it("drops heartbeat ack payloads without media", () => {

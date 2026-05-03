@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { isRecord } from "../utils.js";
 import { loadEnabledBundleMcpConfig } from "./bundle-mcp.js";
 import {
@@ -43,7 +43,7 @@ afterEach(async () => {
   await tempHarness.cleanup();
 });
 
-function createEnabledBundleConfig(pluginIds: string[]): Brikko StudioConfig {
+function createEnabledBundleConfig(pluginIds: string[]): BrikkoStudioConfig {
   return {
     plugins: {
       entries: createEnabledPluginEntries(pluginIds),
@@ -93,7 +93,7 @@ describe("loadEnabledBundleMcpConfig", () => {
       async ({ homeDir, workspaceDir }) => {
         const { pluginRoot, serverPath } = await createBundleProbePlugin(homeDir);
 
-        const config: Brikko StudioConfig = {
+        const config: BrikkoStudioConfig = {
           plugins: {
             entries: {
               "bundle-probe": { enabled: true },

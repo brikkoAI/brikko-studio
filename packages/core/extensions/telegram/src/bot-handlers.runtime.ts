@@ -13,7 +13,7 @@ import {
 } from "brikko-studio/plugin-sdk/command-auth-native";
 import { buildCommandsMessagePaginated } from "brikko-studio/plugin-sdk/command-status";
 import { replaceConfigFile } from "brikko-studio/plugin-sdk/config-mutation";
-import type { DmPolicy, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { DmPolicy, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type {
   TelegramDirectConfig,
   TelegramGroupConfig,
@@ -813,7 +813,7 @@ export const registerTelegramHandlers = ({
     senderId: string;
     senderUsername: string;
     context: TelegramEventAuthorizationContext;
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
   }): boolean => {
     const { chatId, isGroup, senderId, senderUsername, context, cfg } = params;
     const useAccessGroups = cfg.commands?.useAccessGroups !== false;

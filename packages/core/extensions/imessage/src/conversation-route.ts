@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   resolveConfiguredBindingRoute,
   resolveRuntimeConversationBindingRoute,
@@ -8,7 +8,7 @@ import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { resolveIMessageInboundConversationId } from "./conversation-id.js";
 
 export function resolveIMessageConversationRoute(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   isGroup: boolean;
   peerId: string;

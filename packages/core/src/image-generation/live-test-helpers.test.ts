@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   parseCaseFilter,
   parseCsvFilter,
@@ -45,7 +45,7 @@ describe("image-generation live-test helpers", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveConfiguredLiveImageModels(cfg)).toEqual(
       new Map([

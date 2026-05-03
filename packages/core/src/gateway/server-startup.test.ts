@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
-const ensureBrikko StudioModelsJsonMock = vi.fn<
+const ensureBrikkoStudioModelsJsonMock = vi.fn<
   (
     config: unknown,
     agentDir: unknown,
@@ -12,7 +12,7 @@ const piModelModuleLoadedMock = vi.fn();
 const resolveEmbeddedAgentRuntimeMock = vi.fn(() => "auto");
 
 vi.mock("../agents/agent-paths.js", () => ({
-  resolveBrikko StudioAgentDir: () => "/tmp/agent",
+  resolveBrikkoStudioAgentDir: () => "/tmp/agent",
 }));
 
 vi.mock("../agents/agent-scope.js", () => ({
@@ -21,8 +21,8 @@ vi.mock("../agents/agent-scope.js", () => ({
 }));
 
 vi.mock("../agents/models-config.js", () => ({
-  ensureBrikko StudioModelsJson: (config: unknown, agentDir: unknown, options?: unknown) =>
-    ensureBrikko StudioModelsJsonMock(config, agentDir, options),
+  ensureBrikkoStudioModelsJson: (config: unknown, agentDir: unknown, options?: unknown) =>
+    ensureBrikkoStudioModelsJsonMock(config, agentDir, options),
 }));
 
 vi.mock("../agents/pi-embedded-runner/model.js", () => {
@@ -47,7 +47,7 @@ describe("gateway startup primary model warmup", () => {
   });
 
   beforeEach(() => {
-    ensureBrikko StudioModelsJsonMock.mockClear();
+    ensureBrikkoStudioModelsJsonMock.mockClear();
     piModelModuleLoadedMock.mockClear();
     resolveEmbeddedAgentRuntimeMock.mockClear();
     resolveEmbeddedAgentRuntimeMock.mockReturnValue("auto");
@@ -62,14 +62,14 @@ describe("gateway startup primary model warmup", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await prewarmConfiguredPrimaryModel({
       cfg,
       log: { warn: vi.fn() },
     });
 
-    expect(ensureBrikko StudioModelsJsonMock).toHaveBeenCalledWith(
+    expect(ensureBrikkoStudioModelsJsonMock).toHaveBeenCalledWith(
       cfg,
       "/tmp/agent",
       expect.objectContaining({
@@ -84,11 +84,11 @@ describe("gateway startup primary model warmup", () => {
 
   it("skips warmup when no explicit primary model is configured", async () => {
     await prewarmConfiguredPrimaryModel({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       log: { warn: vi.fn() },
     });
 
-    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikkoStudioModelsJsonMock).not.toHaveBeenCalled();
     expect(piModelModuleLoadedMock).not.toHaveBeenCalled();
   });
 
@@ -122,11 +122,11 @@ describe("gateway startup primary model warmup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       log: { warn: vi.fn() },
     });
 
-    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikkoStudioModelsJsonMock).not.toHaveBeenCalled();
     expect(piModelModuleLoadedMock).not.toHaveBeenCalled();
   });
 
@@ -141,11 +141,11 @@ describe("gateway startup primary model warmup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       log: { warn: vi.fn() },
     });
 
-    expect(ensureBrikko StudioModelsJsonMock).not.toHaveBeenCalled();
+    expect(ensureBrikkoStudioModelsJsonMock).not.toHaveBeenCalled();
     expect(piModelModuleLoadedMock).not.toHaveBeenCalled();
   });
 
@@ -159,14 +159,14 @@ describe("gateway startup primary model warmup", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await prewarmConfiguredPrimaryModel({
       cfg,
       log: { warn: vi.fn() },
     });
 
-    expect(ensureBrikko StudioModelsJsonMock).toHaveBeenCalledWith(
+    expect(ensureBrikkoStudioModelsJsonMock).toHaveBeenCalledWith(
       cfg,
       "/tmp/agent",
       expect.objectContaining({
@@ -180,7 +180,7 @@ describe("gateway startup primary model warmup", () => {
   });
 
   it("warns when scoped models.json preparation fails", async () => {
-    ensureBrikko StudioModelsJsonMock.mockRejectedValueOnce(new Error("models write failed"));
+    ensureBrikkoStudioModelsJsonMock.mockRejectedValueOnce(new Error("models write failed"));
     const warn = vi.fn();
 
     await prewarmConfiguredPrimaryModel({
@@ -192,7 +192,7 @@ describe("gateway startup primary model warmup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       log: { warn },
     });
 

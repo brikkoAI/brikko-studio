@@ -32,7 +32,7 @@ export async function buildStatusCommandReportLines(params: {
   footerLines: string[];
 }) {
   const lines: string[] = [];
-  lines.push(params.heading("Brikko Studio status"));
+  lines.push(params.heading("BrikkoStudio status"));
 
   appendStatusReportSections({
     lines,

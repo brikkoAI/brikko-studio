@@ -11,7 +11,7 @@ import { lowercasePreservingWhitespace } from "brikko-studio/plugin-sdk/text-run
 import { resolveBlueBubblesAccount } from "./accounts.js";
 import { sendBlueBubblesAttachment } from "./attachments.js";
 import { resolveBlueBubblesMessageId } from "./monitor-reply-cache.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 import { getBlueBubblesRuntime } from "./runtime.js";
 import { sendMessageBlueBubbles } from "./send.js";
 import { buildBlueBubblesChatContextFromTarget } from "./targets.js";
@@ -86,7 +86,7 @@ function isPathInsideRoot(candidate: string, root: string): boolean {
   return normalizedCandidate === normalizedRoot || normalizedCandidate.startsWith(rootWithSep);
 }
 
-function resolveMediaLocalRoots(params: { cfg: Brikko StudioConfig; accountId?: string }): string[] {
+function resolveMediaLocalRoots(params: { cfg: BrikkoStudioConfig; accountId?: string }): string[] {
   const account = resolveBlueBubblesAccount({
     cfg: params.cfg,
     accountId: params.accountId,
@@ -177,7 +177,7 @@ function resolveFilenameFromSource(source?: string): string | undefined {
 }
 
 export async function sendBlueBubblesMedia(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   mediaUrl?: string;
   mediaPath?: string;

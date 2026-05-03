@@ -3,7 +3,7 @@ import JSON5 from "json5";
 import { z } from "zod";
 import { formatCliCommand } from "../cli/command-format.js";
 import type { OptionalBootstrapFileName } from "../config/types.agent-defaults.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { defaultRuntime } from "../runtime.js";
 import { createLazyImportLoader } from "../shared/lazy-promise.js";
@@ -34,7 +34,7 @@ type SetupCommandDeps = {
   mkdir?: (dir: string, options: { recursive: true }) => Promise<unknown>;
   resolveSessionTranscriptsDir?: () => string | Promise<string>;
   replaceConfigFile?: (params: {
-    nextConfig: Brikko StudioConfig;
+    nextConfig: BrikkoStudioConfig;
     afterWrite: { mode: "auto" };
   }) => Promise<unknown>;
 };
@@ -89,7 +89,7 @@ async function ensureDefaultAgentWorkspace(
   return ensureAgentWorkspace(params);
 }
 
-async function writeDefaultConfigFile(config: Brikko StudioConfig): Promise<void> {
+async function writeDefaultConfigFile(config: BrikkoStudioConfig): Promise<void> {
   const { replaceConfigFile } = await loadConfigIOModule();
   await replaceConfigFile({
     nextConfig: config,
@@ -117,12 +117,12 @@ async function resolveDefaultSessionTranscriptsDir(): Promise<string> {
 
 async function readConfigFileRaw(configPath: string): Promise<{
   exists: boolean;
-  parsed: Brikko StudioConfig;
+  parsed: BrikkoStudioConfig;
 }> {
   try {
     const raw = await fs.readFile(configPath, "utf-8");
     const parsed = safeParseWithSchema(JsonRecordSchema, JSON5.parse(raw));
-    return { exists: true, parsed: (parsed ?? {}) as Brikko StudioConfig };
+    return { exists: true, parsed: (parsed ?? {}) as BrikkoStudioConfig };
   } catch {
     return { exists: false, parsed: {} };
   }
@@ -147,7 +147,7 @@ export async function setupCommand(
   const workspace =
     desiredWorkspace ?? defaults.workspace ?? (await resolveDefaultAgentWorkspaceDir(deps));
 
-  const next: Brikko StudioConfig = {
+  const next: BrikkoStudioConfig = {
     ...cfg,
     agents: {
       ...cfg.agents,

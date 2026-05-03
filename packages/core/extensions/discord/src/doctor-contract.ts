@@ -2,12 +2,12 @@ import type {
   ChannelDoctorConfigMutation,
   ChannelDoctorLegacyConfigRule,
 } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { asObjectRecord, normalizeLegacyChannelAliases } from "brikko-studio/plugin-sdk/runtime-doctor";
 import { resolveDiscordPreviewStreamMode } from "./preview-streaming.js";
 
 const LEGACY_TTS_PROVIDER_KEYS = ["openai", "elevenlabs", "microsoft", "edge"] as const;
-type AgentBindingConfig = NonNullable<Brikko StudioConfig["bindings"]>[number];
+type AgentBindingConfig = NonNullable<BrikkoStudioConfig["bindings"]>[number];
 
 function hasLegacyTtsProviderKeys(value: unknown): boolean {
   const tts = asObjectRecord(value);
@@ -224,7 +224,7 @@ function isDiscordChannelAgentBinding(
 }
 
 function normalizeDiscordGuildChannelAgentIds(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   entry: Record<string, unknown>;
   pathPrefix: string;
   accountId?: string;
@@ -348,7 +348,7 @@ export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
 export function normalizeCompatibilityConfig({
   cfg,
 }: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): ChannelDoctorConfigMutation {
   const rawEntry = asObjectRecord((cfg.channels as Record<string, unknown> | undefined)?.discord);
   if (!rawEntry) {
@@ -468,7 +468,7 @@ export function normalizeCompatibilityConfig({
       channels: {
         ...cfg.channels,
         discord: updated,
-      } as Brikko StudioConfig["channels"],
+      } as BrikkoStudioConfig["channels"],
       bindings:
         bindingsToAdd.length > 0 ? [...(cfg.bindings ?? []), ...bindingsToAdd] : cfg.bindings,
     },

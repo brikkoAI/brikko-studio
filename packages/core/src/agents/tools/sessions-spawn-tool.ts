@@ -5,7 +5,7 @@ import {
   supportsAutomaticThreadBindingSpawn,
 } from "../../channels/thread-bindings-policy.js";
 import { getRuntimeConfig } from "../../config/config.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { callGateway } from "../../gateway/call.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import { normalizeDeliveryContext } from "../../utils/delivery-context.shared.js";
@@ -116,7 +116,7 @@ function hasAnyThreadAvailability(availability: SessionsSpawnThreadAvailability)
 }
 
 function resolveSessionsSpawnThreadAvailability(opts?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentChannel?: GatewayMessageChannel;
   agentAccountId?: string;
 }): SessionsSpawnThreadAvailability {
@@ -220,7 +220,7 @@ function createSessionsSpawnToolSchema(params: {
   return Type.Object(schema);
 }
 
-function resolveAcpUnavailableMessage(opts?: { sandboxed?: boolean; config?: Brikko StudioConfig }) {
+function resolveAcpUnavailableMessage(opts?: { sandboxed?: boolean; config?: BrikkoStudioConfig }) {
   if (opts?.sandboxed === true) {
     return 'runtime="acp" is unavailable from sandboxed sessions because ACP sessions run on the host. Use runtime="subagent".';
   }
@@ -238,7 +238,7 @@ export function createSessionsSpawnTool(
     agentTo?: string;
     agentThreadId?: string | number;
     sandboxed?: boolean;
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     /** Explicit agent ID override for cron/hook sessions where session key parsing may not work. */
     requesterAgentIdOverride?: string;
   } & SpawnedToolContext,

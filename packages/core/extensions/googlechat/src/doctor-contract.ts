@@ -2,10 +2,10 @@ import type {
   ChannelDoctorConfigMutation,
   ChannelDoctorLegacyConfigRule,
 } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { asObjectRecord } from "brikko-studio/plugin-sdk/runtime-doctor";
 
-type GoogleChatChannelsConfig = NonNullable<Brikko StudioConfig["channels"]>;
+type GoogleChatChannelsConfig = NonNullable<BrikkoStudioConfig["channels"]>;
 
 function hasLegacyGoogleChatStreamMode(value: unknown): boolean {
   return asObjectRecord(value)?.streamMode !== undefined;
@@ -119,7 +119,7 @@ export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
 export function normalizeCompatibilityConfig({
   cfg,
 }: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): ChannelDoctorConfigMutation {
   const rawEntry = asObjectRecord(
     (cfg.channels as Record<string, unknown> | undefined)?.googlechat,

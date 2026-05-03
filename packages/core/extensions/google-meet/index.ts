@@ -5,7 +5,7 @@ import {
   errorShape,
   type GatewayRequestHandlerOptions,
 } from "brikko-studio/plugin-sdk/gateway-runtime";
-import { definePluginEntry, type Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import { definePluginEntry, type BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { Type } from "typebox";
 import {
@@ -70,7 +70,7 @@ const googleMeetConfigSchema = {
     },
     "chrome.autoJoin": {
       label: "Auto Join Guest Screen",
-      help: "Best-effort guest-name fill and Join Now click through Brikko Studio browser automation.",
+      help: "Best-effort guest-name fill and Join Now click through BrikkoStudio browser automation.",
     },
     "chrome.waitForInCallMs": {
       label: "Wait For In-Call (ms)",
@@ -162,7 +162,7 @@ const googleMeetConfigSchema = {
     },
     "realtime.agentId": {
       label: "Realtime Consult Agent",
-      help: 'Brikko Studio agent id used by brikko-studio_agent_consult. Defaults to "main".',
+      help: 'BrikkoStudio agent id used by brikko-studio_agent_consult. Defaults to "main".',
       advanced: true,
     },
     "realtime.toolPolicy": {
@@ -472,7 +472,7 @@ async function callGoogleMeetGatewayFromTool(params: {
 
 async function createMeetFromParams(params: {
   config: GoogleMeetConfig;
-  runtime: Brikko StudioPluginApi["runtime"];
+  runtime: BrikkoStudioPluginApi["runtime"];
   raw: Record<string, unknown>;
 }) {
   const create = await import("./src/create.js");
@@ -481,7 +481,7 @@ async function createMeetFromParams(params: {
 
 async function createAndJoinMeetFromParams(params: {
   config: GoogleMeetConfig;
-  runtime: Brikko StudioPluginApi["runtime"];
+  runtime: BrikkoStudioPluginApi["runtime"];
   raw: Record<string, unknown>;
   ensureRuntime: () => Promise<GoogleMeetRuntime>;
 }) {
@@ -659,7 +659,7 @@ export default definePluginEntry({
   name: "Google Meet",
   description: "Join Google Meet calls through Chrome or Twilio transports",
   configSchema: googleMeetConfigSchema,
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     const config = googleMeetConfigSchema.parse(api.pluginConfig);
     let runtime: GoogleMeetRuntime | null = null;
 

@@ -25,5 +25,5 @@ export type {
   MemoryPluginPublicArtifactsProvider,
   MemoryPluginRuntime,
   MemoryPromptSectionBuilder,
-  Brikko StudioPluginApi,
+  BrikkoStudioPluginApi,
 } from "./brikko-studio-runtime.js";

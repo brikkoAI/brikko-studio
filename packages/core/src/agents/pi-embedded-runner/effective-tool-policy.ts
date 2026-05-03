@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { getPluginToolMeta } from "../../plugins/tools.js";
 import {
   resolveEffectiveToolPolicy,
@@ -33,13 +33,13 @@ import type { AnyAgentTool } from "../tools/common.js";
  * detect drift on fields that have no session-bound counterpart.
  */
 type FinalEffectiveToolPolicyParams = {
-  // Tools appended to the core tool set after `createBrikko StudioCodingTools()`
+  // Tools appended to the core tool set after `createBrikkoStudioCodingTools()`
   // has already applied owner-only and tool-policy filtering (e.g. bundled
   // MCP/LSP tools). Only these are filtered here; re-running the pipeline over
   // the already-filtered core tools would drop plugin tools whose WeakMap
   // metadata no longer survives core-tool wrapping/normalization.
   bundledTools: AnyAgentTool[];
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sandboxToolPolicy?: { allow?: string[]; deny?: string[] };
   sessionKey?: string;
   agentId?: string;
@@ -136,7 +136,7 @@ export function applyFinalEffectiveToolPolicy(
   // it's filtering, and this pass only sees the bundled MCP/LSP subset.
   // Normal core allowlist entries (e.g. `tools.allow: ["read", "exec"]`)
   // would look "unknown" relative to that reduced set even though they are
-  // valid core names already resolved by `createBrikko StudioCodingTools()` in
+  // valid core names already resolved by `createBrikkoStudioCodingTools()` in
   // the first pass — keeping those warnings on would pollute logs and evict
   // real diagnostics from the shared warning cache. Genuinely unknown
   // entries (typos) still surface through the `otherEntries` path in

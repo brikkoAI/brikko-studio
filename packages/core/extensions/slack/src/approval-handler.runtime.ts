@@ -10,7 +10,7 @@ import { createChannelApprovalNativeRuntimeAdapter } from "brikko-studio/plugin-
 import { buildChannelApprovalNativeTargetKey } from "brikko-studio/plugin-sdk/approval-native-runtime";
 import { buildApprovalInteractiveReplyFromActionDescriptors } from "brikko-studio/plugin-sdk/approval-reply-runtime";
 import type { ExecApprovalRequest } from "brikko-studio/plugin-sdk/approval-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { logError, normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   isSlackExecApprovalClientEnabled,
@@ -36,7 +36,7 @@ const SLACK_CHAT_UPDATE_TEXT_LIMIT = 4000;
 const SLACK_TEXT_OBJECT_MAX = 3000;
 
 type SlackExecApprovalConfig = NonNullable<
-  NonNullable<NonNullable<Brikko StudioConfig["channels"]>["slack"]>["execApprovals"]
+  NonNullable<NonNullable<BrikkoStudioConfig["channels"]>["slack"]>["execApprovals"]
 >;
 
 export type SlackApprovalHandlerContext = {

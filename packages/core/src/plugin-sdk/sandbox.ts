@@ -19,7 +19,7 @@ export type {
   SshSandboxSession,
   SshSandboxSettings,
 } from "../agents/sandbox.js";
-export type { Brikko StudioConfig } from "../config/config.js";
+export type { BrikkoStudioConfig } from "../config/config.js";
 
 export {
   buildExecRemoteCommand,
@@ -47,4 +47,4 @@ export {
   type PluginCommandRunOptions,
   type PluginCommandRunResult,
 } from "./run-command.js";
-export { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
+export { resolvePreferredBrikkoStudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";

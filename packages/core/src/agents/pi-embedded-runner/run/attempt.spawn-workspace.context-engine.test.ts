@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/types.js";
+import type { BrikkoStudioConfig } from "../../../config/types.js";
 import { buildMemorySystemPromptAddition } from "../../../context-engine/delegate.js";
 import {
   clearMemoryPluginState,
@@ -178,7 +178,7 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
       ]),
     );
     expect(JSON.stringify(seen.messages)).not.toContain(
-      "Brikko Studio runtime context for the immediately preceding user message.",
+      "BrikkoStudio runtime context for the immediately preceding user message.",
     );
     expect(JSON.stringify(seen.messages)).not.toContain("not user-authored");
     const trajectoryEvents = (
@@ -321,8 +321,8 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
       },
     });
 
-    expect(seenPrompt).toBe("Continue the Brikko Studio runtime event.");
-    expect(result.finalPromptText).toBe("Continue the Brikko Studio runtime event.");
+    expect(seenPrompt).toBe("Continue the BrikkoStudio runtime event.");
+    expect(result.finalPromptText).toBe("Continue the BrikkoStudio runtime event.");
     expect(result.messagesSnapshot).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -338,7 +338,7 @@ describe("runEmbeddedAttempt context engine sessionKey forwarding", () => {
       .split("\n")
       .map((line) => JSON.parse(line) as TrajectoryEvent);
     const contextCompiled = trajectoryEvents.find((event) => event.type === "context.compiled");
-    expect(contextCompiled?.data?.prompt).toBe("Continue the Brikko Studio runtime event.");
+    expect(contextCompiled?.data?.prompt).toBe("Continue the BrikkoStudio runtime event.");
     expect(contextCompiled?.data?.systemPrompt).toContain("internal heartbeat event");
   });
 
@@ -1019,7 +1019,7 @@ describe("runEmbeddedAttempt context engine mid-turn precheck integration", () =
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       },
     });
 
@@ -1064,7 +1064,7 @@ describe("runEmbeddedAttempt context engine mid-turn precheck integration", () =
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       },
       sessionMessages: [seedMessage],
       sessionPrompt: async (session) => {

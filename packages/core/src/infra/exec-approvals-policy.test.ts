@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { DEFAULT_AGENT_ID } from "../routing/session-key.js";
 import {
   collectExecPolicyScopeSnapshots,
@@ -452,7 +452,7 @@ describe("exec approvals policy helpers", () => {
     });
   });
 
-  it("reports askFallback from the Brikko Studio default when approvals omit it", () => {
+  it("reports askFallback from the BrikkoStudio default when approvals omit it", () => {
     const summary = resolveExecPolicyScopeSummary({
       approvals: {
         version: 1,
@@ -464,7 +464,7 @@ describe("exec approvals policy helpers", () => {
 
     expect(summary.askFallback).toEqual({
       effective: "full",
-      source: "Brikko Studio default (full)",
+      source: "BrikkoStudio default (full)",
     });
   });
 
@@ -480,7 +480,7 @@ describe("exec approvals policy helpers", () => {
         agents: {
           list: [{ id: "runner" }],
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       approvals: {
         version: 1,
         agents: {
@@ -522,7 +522,7 @@ describe("exec approvals policy helpers", () => {
             ask: "off",
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       approvals: {
         version: 1,
         agents: {
@@ -566,7 +566,7 @@ describe("exec approvals policy helpers", () => {
             },
           ],
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       approvals: {
         version: 1,
       },

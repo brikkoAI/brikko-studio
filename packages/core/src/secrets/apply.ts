@@ -12,7 +12,7 @@ import {
   replaceConfigFile,
   resolveStateDir,
   type ConfigFileSnapshot,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../config/config.js";
 import type { ConfigWriteOptions } from "../config/io.js";
 import type { SecretProviderConfig } from "../config/types.secrets.js";
@@ -53,7 +53,7 @@ type ApplyWrite = {
 };
 
 type ProjectedState = {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   configSnapshot: ConfigFileSnapshot;
   configPath: string;
   configWriteOptions: ConfigWriteOptions;
@@ -159,7 +159,7 @@ function scrubEnvRaw(
 }
 
 function applyProviderPlanMutations(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   upserts: Record<string, SecretProviderConfig> | undefined;
   deletes: string[] | undefined;
 }): boolean {
@@ -292,7 +292,7 @@ async function projectPlanState(params: {
 
 function applyConfigTargetMutations(params: {
   planTargets: SecretsPlanTarget[];
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   stateDir: string;
   authStoreByPath: Map<string, Record<string, unknown>>;
   changedFiles: Set<string>;
@@ -373,7 +373,7 @@ function applyConfigTargetMutations(params: {
 }
 
 function scrubAuthStoresForProviderTargets(params: {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   stateDir: string;
   providerTargets: Set<string>;
   scrubbedValues: Set<string>;
@@ -445,7 +445,7 @@ function ensureMutableAuthStore(
 
 function resolveAuthStoreForTarget(params: {
   target: SecretsPlanTarget;
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   stateDir: string;
   authStoreByPath: Map<string, Record<string, unknown>>;
 }): { path: string; store: MutableAuthProfileStore } {
@@ -466,7 +466,7 @@ function resolveAuthStoreForTarget(params: {
 }
 
 function resolveAuthStorePathForAgent(params: {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   stateDir: string;
   agentId: string;
 }): string {
@@ -541,7 +541,7 @@ function ensureAuthProfileContainer(params: {
 function applyAuthProfileTargetMutation(params: {
   target: SecretsPlanTarget;
   resolved: ResolvedPlanTargetEntry["resolved"];
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   stateDir: string;
   authStoreByPath: Map<string, Record<string, unknown>>;
   scrubbedValues: Set<string>;
@@ -648,7 +648,7 @@ function scrubEnvFiles(params: {
 
 async function validateProjectedSecretsState(params: {
   env: NodeJS.ProcessEnv;
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   resolvedTargets: ResolvedPlanTargetEntry[];
   authStoreByPath: Map<string, Record<string, unknown>>;
   write: boolean;
@@ -870,7 +870,7 @@ export const __testing = {
   async projectConfigForTest(params: {
     plan: SecretsApplyPlan;
     env?: NodeJS.ProcessEnv;
-  }): Promise<Brikko StudioConfig> {
+  }): Promise<BrikkoStudioConfig> {
     const projected = await projectPlanState({
       plan: params.plan,
       env: params.env ?? process.env,

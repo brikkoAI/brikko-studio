@@ -14,7 +14,7 @@ import {
 } from "./docker.js";
 
 function resolveConfiguredDockerRuntimeImage(params: {
-  config: CreateSandboxBackendParams["cfg"] | import("../../config/config.js").Brikko StudioConfig;
+  config: CreateSandboxBackendParams["cfg"] | import("../../config/config.js").BrikkoStudioConfig;
   agentId?: string;
   configLabelKind?: string;
 }): string {

@@ -422,7 +422,7 @@ const launchCalls = vi.hoisted(() => [] as Array<{ port: number }>);
 vi.mock("./chrome.js", () => ({
   isChromeCdpReady: vi.fn(async () => state.reachable),
   isChromeReachable: vi.fn(async () => state.reachable),
-  launchBrikko StudioChrome: vi.fn(async (_resolved: unknown, profile: { cdpPort: number }) => {
+  launchBrikkoStudioChrome: vi.fn(async (_resolved: unknown, profile: { cdpPort: number }) => {
     launchCalls.push({ port: profile.cdpPort });
     state.reachable = true;
     return {
@@ -434,8 +434,8 @@ vi.mock("./chrome.js", () => ({
       proc,
     };
   }),
-  resolveBrikko StudioUserDataDir: vi.fn(() => chromeUserDataDir.dir),
-  stopBrikko StudioChrome: vi.fn(async () => {
+  resolveBrikkoStudioUserDataDir: vi.fn(() => chromeUserDataDir.dir),
+  stopBrikkoStudioChrome: vi.fn(async () => {
     state.reachable = false;
   }),
 }));

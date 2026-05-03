@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { runHeartbeatOnce } from "../infra/heartbeat-runner.js";
 import { installHeartbeatRunnerTestRuntime } from "../infra/heartbeat-runner.test-harness.js";
 import {
@@ -34,7 +34,7 @@ describe("commitments full-chain integration", () => {
     await withTempHeartbeatSandbox(async ({ tmpDir, storePath, replySpy }) => {
       vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tmpDir);
       const sessionKey = "agent:main:telegram:user-155462274";
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: {
           defaults: {
             workspace: tmpDir,

@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { withTempHome as withTempHomeBase } from "brikko-studio/plugin-sdk/test-env";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { MsgContext, TemplateContext } from "./templating.js";
 
 export async function withSandboxMediaTempHome<T>(
@@ -27,7 +27,7 @@ export function createSandboxMediaContexts(mediaPath: string): {
   return { ctx, sessionCtx: { ...ctx } };
 }
 
-export function createSandboxMediaStageConfig(home: string): Brikko StudioConfig {
+export function createSandboxMediaStageConfig(home: string): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -41,5 +41,5 @@ export function createSandboxMediaStageConfig(home: string): Brikko StudioConfig
     },
     channels: { whatsapp: { allowFrom: ["*"] } },
     session: { store: join(home, "sessions.json") },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }

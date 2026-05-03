@@ -1,9 +1,9 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { maxBytesForKind, type MediaKind } from "./constants.js";
 
 const MB = 1024 * 1024;
 
-export function resolveConfiguredMediaMaxBytes(cfg?: Brikko StudioConfig): number | undefined {
+export function resolveConfiguredMediaMaxBytes(cfg?: BrikkoStudioConfig): number | undefined {
   const configured = cfg?.agents?.defaults?.mediaMaxMb;
   if (typeof configured === "number" && Number.isFinite(configured) && configured > 0) {
     return Math.floor(configured * MB);
@@ -11,12 +11,12 @@ export function resolveConfiguredMediaMaxBytes(cfg?: Brikko StudioConfig): numbe
   return undefined;
 }
 
-export function resolveGeneratedMediaMaxBytes(cfg: Brikko StudioConfig | undefined, kind: MediaKind) {
+export function resolveGeneratedMediaMaxBytes(cfg: BrikkoStudioConfig | undefined, kind: MediaKind) {
   return resolveConfiguredMediaMaxBytes(cfg) ?? maxBytesForKind(kind);
 }
 
 export function resolveChannelAccountMediaMaxMb(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel?: string | null;
   accountId?: string | null;
 }): number | undefined {

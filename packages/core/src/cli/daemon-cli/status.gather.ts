@@ -7,7 +7,7 @@ import {
   resolveStateDir,
 } from "../../config/config.js";
 import type {
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   ConfigFileSnapshot,
   GatewayBindMode,
   GatewayControlUiConfig,
@@ -62,8 +62,8 @@ type PortStatusSummary = {
 
 type DaemonConfigContext = {
   mergedDaemonEnv: Record<string, string | undefined>;
-  cliCfg: Brikko StudioConfig;
-  daemonCfg: Brikko StudioConfig;
+  cliCfg: BrikkoStudioConfig;
+  daemonCfg: BrikkoStudioConfig;
   cliConfigSummary: ConfigSummary;
   daemonConfigSummary: ConfigSummary;
   configMismatch: boolean;
@@ -71,7 +71,7 @@ type DaemonConfigContext = {
 
 type StatusConfigRead = {
   summary: ConfigSummary;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   mode: "fast" | "full";
 };
 
@@ -117,18 +117,18 @@ function loadRestartHealthModule() {
   return restartHealthModuleLoader.load();
 }
 
-function resolveSnapshotRuntimeConfig(snapshot: ConfigFileSnapshot | null): Brikko StudioConfig | null {
+function resolveSnapshotRuntimeConfig(snapshot: ConfigFileSnapshot | null): BrikkoStudioConfig | null {
   if (!snapshot?.valid || !snapshot.runtimeConfig) {
     return null;
   }
   return snapshot.runtimeConfig;
 }
 
-function coerceStatusConfig(value: unknown): Brikko StudioConfig {
+function coerceStatusConfig(value: unknown): BrikkoStudioConfig {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return {};
   }
-  return value as Brikko StudioConfig;
+  return value as BrikkoStudioConfig;
 }
 
 function hasOwnKey(value: unknown, key: string): boolean {
@@ -335,8 +335,8 @@ async function loadDaemonConfigContext(
 }
 
 async function resolveGatewayStatusSummary(params: {
-  daemonCfg: Brikko StudioConfig;
-  cliCfg: Brikko StudioConfig;
+  daemonCfg: BrikkoStudioConfig;
+  cliCfg: BrikkoStudioConfig;
   mergedDaemonEnv: Record<string, string | undefined>;
   commandProgramArguments?: string[];
   rpcUrlOverride?: string;

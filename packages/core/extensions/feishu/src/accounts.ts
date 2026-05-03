@@ -1,6 +1,6 @@
 import {
   DEFAULT_ACCOUNT_ID,
-  type Brikko StudioConfig as ClawdbotConfig,
+  type BrikkoStudioConfig as ClawdbotConfig,
   createAccountListHelpers,
   normalizeAccountId,
   normalizeOptionalAccountId,

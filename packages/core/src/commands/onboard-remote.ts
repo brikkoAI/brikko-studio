@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { SecretInput } from "../config/types.secrets.js";
 import { isSecureWebSocketUrl } from "../gateway/net.js";
 import { discoverGatewayBeacons, type GatewayBonjourBeacon } from "../infra/bonjour-discovery.js";
@@ -47,10 +47,10 @@ function validateGatewayWebSocketUrl(value: string): string | undefined {
 }
 
 export async function promptRemoteGatewayConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   prompter: WizardPrompter,
   options?: { secretInputMode?: SecretInputMode },
-): Promise<Brikko StudioConfig> {
+): Promise<BrikkoStudioConfig> {
   let selectedBeacon: GatewayBonjourBeacon | null = null;
   let suggestedUrl = cfg.gateway?.remote?.url ?? DEFAULT_GATEWAY_URL;
   let discoveryTlsFingerprint: string | undefined;
@@ -178,7 +178,7 @@ export async function promptRemoteGatewayConfig(
       copy: {
         modeMessage: "How do you want to provide this gateway token?",
         plaintextLabel: "Enter token now",
-        plaintextHint: "Stores the token directly in Brikko Studio config",
+        plaintextHint: "Stores the token directly in BrikkoStudio config",
       },
     });
     if (selectedMode === "ref") {
@@ -221,7 +221,7 @@ export async function promptRemoteGatewayConfig(
       copy: {
         modeMessage: "How do you want to provide this gateway password?",
         plaintextLabel: "Enter password now",
-        plaintextHint: "Stores the password directly in Brikko Studio config",
+        plaintextHint: "Stores the password directly in BrikkoStudio config",
       },
     });
     if (selectedMode === "ref") {

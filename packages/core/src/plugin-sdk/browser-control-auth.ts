@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
 
 export type BrowserControlAuth = {
@@ -7,7 +7,7 @@ export type BrowserControlAuth = {
 };
 
 type EnsureBrowserControlAuthParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 };
 
@@ -17,7 +17,7 @@ type EnsureBrowserControlAuthResult = {
 };
 
 type BrowserControlAuthSurface = {
-  resolveBrowserControlAuth: (cfg?: Brikko StudioConfig, env?: NodeJS.ProcessEnv) => BrowserControlAuth;
+  resolveBrowserControlAuth: (cfg?: BrikkoStudioConfig, env?: NodeJS.ProcessEnv) => BrowserControlAuth;
   shouldAutoGenerateBrowserAuth: (env: NodeJS.ProcessEnv) => boolean;
   ensureBrowserControlAuth: (
     params: EnsureBrowserControlAuthParams,
@@ -36,7 +36,7 @@ function loadBrowserControlAuthSurface(): BrowserControlAuthSurface {
 }
 
 export function resolveBrowserControlAuth(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): BrowserControlAuth {
   return loadBrowserControlAuthSurface().resolveBrowserControlAuth(cfg, env);

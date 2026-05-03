@@ -1,7 +1,7 @@
 import path from "node:path";
 import { formatCliCommand } from "../cli/command-format.js";
 import { CONFIG_PATH } from "../config/paths.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { note } from "../terminal/note.js";
 import { noteOpencodeProviderOverrides } from "./doctor-config-analysis.js";
@@ -27,7 +27,7 @@ function hasLegacyInternalHookHandlers(raw: unknown): boolean {
 }
 
 function collectInvalidHookTransformsDirWarnings(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   configPath: string,
 ): string[] {
   const transformsDir = cfg.hooks?.transformsDir?.trim();
@@ -50,7 +50,7 @@ function collectInvalidHookTransformsDirWarnings(
   ];
 }
 
-function collectConfiguredChannelIds(cfg: Brikko StudioConfig): string[] {
+function collectConfiguredChannelIds(cfg: BrikkoStudioConfig): string[] {
   const channels =
     cfg.channels && typeof cfg.channels === "object" && !Array.isArray(cfg.channels)
       ? cfg.channels
@@ -71,7 +71,7 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
   const preflight = await runDoctorConfigPreflight({ repairPrefixedConfig: shouldRepair });
   let snapshot = preflight.snapshot;
   const baseCfg = preflight.baseConfig;
-  let cfg: Brikko StudioConfig = baseCfg;
+  let cfg: BrikkoStudioConfig = baseCfg;
   let candidate = structuredClone(baseCfg);
   let pendingChanges = false;
   let fixHints: string[] = [];

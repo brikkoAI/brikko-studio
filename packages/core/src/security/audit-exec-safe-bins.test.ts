@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { collectExecRuntimeFindings } from "./audit.js";
 
 function hasFinding(
@@ -34,7 +34,7 @@ describe("security audit exec safe-bin findings", () => {
             },
           ],
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       expected: true,
     },
     {
@@ -67,7 +67,7 @@ describe("security audit exec safe-bin findings", () => {
             },
           ],
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       expected: false,
     },
   ])(
@@ -88,7 +88,7 @@ describe("security audit exec safe-bin findings", () => {
             safeBins: ["jq"],
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       expected: true,
     },
     {
@@ -99,7 +99,7 @@ describe("security audit exec safe-bin findings", () => {
             safeBins: ["cut"],
           },
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       expected: false,
     },
   ])(
@@ -134,7 +134,7 @@ describe("security audit exec safe-bin findings", () => {
           },
         ],
       },
-    } satisfies Brikko StudioConfig);
+    } satisfies BrikkoStudioConfig);
 
     const riskyFinding = findings.find(
       (finding) => finding.checkId === "tools.exec.safe_bin_trusted_dirs_risky",
@@ -155,7 +155,7 @@ describe("security audit exec safe-bin findings", () => {
               safeBinTrustedDirs: ["/usr/libexec"],
             },
           },
-        } satisfies Brikko StudioConfig),
+        } satisfies BrikkoStudioConfig),
       ),
     ).toBe(false);
   });

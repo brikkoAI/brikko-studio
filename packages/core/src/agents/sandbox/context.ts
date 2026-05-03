@@ -1,5 +1,5 @@
 import fs from "node:fs/promises";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   ensureBrowserControlAuth,
   resolveBrowserControlAuth,
@@ -25,7 +25,7 @@ async function ensureSandboxWorkspaceLayout(params: {
   cfg: ReturnType<typeof resolveSandboxConfigForAgent>;
   agentId: string;
   rawSessionKey: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
 }): Promise<{
   agentWorkspaceDir: string;
@@ -109,7 +109,7 @@ export async function resolveSandboxDockerUser(params: {
   }
 }
 
-function resolveSandboxSession(params: { config?: Brikko StudioConfig; sessionKey?: string }) {
+function resolveSandboxSession(params: { config?: BrikkoStudioConfig; sessionKey?: string }) {
   const rawSessionKey = params.sessionKey?.trim();
   if (!rawSessionKey) {
     return null;
@@ -128,7 +128,7 @@ function resolveSandboxSession(params: { config?: Brikko StudioConfig; sessionKe
 }
 
 export async function resolveSandboxContext(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sessionKey?: string;
   workspaceDir?: string;
 }): Promise<SandboxContext | null> {
@@ -242,7 +242,7 @@ export async function resolveSandboxContext(params: {
 }
 
 export async function ensureSandboxWorkspaceForSession(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sessionKey?: string;
   workspaceDir?: string;
 }): Promise<SandboxWorkspaceInfo | null> {

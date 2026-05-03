@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { CURRENT_SESSION_VERSION } from "@mariozechner/pi-coding-agent";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
 import { __testing as cliBackendsTesting } from "../cli-backends.js";
 import { hashCliSessionText } from "../cli-session.js";
@@ -76,7 +76,7 @@ async function createTestMcpLoopbackServer(port = 0) {
 
 function createCliBackendConfig(
   params: { systemPromptOverride?: string | null; bundleMcp?: boolean } = {},
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -99,7 +99,7 @@ function createCliBackendConfig(
         },
       },
     },
-  } satisfies Brikko StudioConfig;
+  } satisfies BrikkoStudioConfig;
 }
 
 function createSessionFile() {
@@ -158,7 +158,7 @@ describe("shouldSkipLocalCliCredentialEpoch", () => {
       getActiveMcpLoopbackRuntime: vi.fn(() => undefined),
       ensureMcpLoopbackServer: vi.fn(createTestMcpLoopbackServer),
       createMcpLoopbackServerConfig: vi.fn(createTestMcpLoopbackServerConfig),
-      resolveBrikko StudioReferencePaths: vi.fn(async () => ({ docsPath: null, sourcePath: null })),
+      resolveBrikkoStudioReferencePaths: vi.fn(async () => ({ docsPath: null, sourcePath: null })),
     });
     mockGetGlobalHookRunner.mockReturnValue(null);
     mockBuildActiveVideoGenerationTaskPromptContextForSession.mockReturnValue(undefined);

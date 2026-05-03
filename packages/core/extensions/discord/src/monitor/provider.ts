@@ -3,7 +3,7 @@ import {
   listNativeCommandSpecsForConfig,
   listSkillCommandsForAgents,
 } from "brikko-studio/plugin-sdk/command-auth";
-import type { Brikko StudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
 import { createConnectedChannelStatusPatch } from "brikko-studio/plugin-sdk/gateway-runtime";
 import {
   isNativeCommandsExplicitlyDisabled,
@@ -71,7 +71,7 @@ import type { DiscordMonitorStatusSink } from "./status.js";
 export type MonitorDiscordOpts = {
   token?: string;
   accountId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   runtime?: RuntimeEnv;
   channelRuntime?: ChannelRuntimeSurface;
   abortSignal?: AbortSignal;

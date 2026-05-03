@@ -4,7 +4,7 @@ import type {
   ChannelMessageActionName,
   ChannelMessageToolDiscovery,
 } from "brikko-studio/plugin-sdk/channel-contract";
-import type { DiscordActionConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { DiscordActionConfig, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { extractToolSend } from "brikko-studio/plugin-sdk/tool-send";
 import { inspectDiscordAccount } from "./account-inspect.js";
@@ -19,13 +19,13 @@ async function loadDiscordChannelActionsRuntime() {
   return await discordChannelActionsRuntimePromise;
 }
 
-function listDiscoverableDiscordAccounts(cfg: Brikko StudioConfig) {
+function listDiscoverableDiscordAccounts(cfg: BrikkoStudioConfig) {
   return listDiscordAccountIds(cfg)
     .map((accountId) => inspectDiscordAccount({ cfg, accountId }))
     .filter((account) => account.enabled && account.configured);
 }
 
-function resolveDiscordActionDiscovery(cfg: Brikko StudioConfig) {
+function resolveDiscordActionDiscovery(cfg: BrikkoStudioConfig) {
   const accounts = listDiscoverableDiscordAccounts(cfg);
   if (accounts.length === 0) {
     return null;
@@ -43,7 +43,7 @@ function resolveDiscordActionDiscovery(cfg: Brikko StudioConfig) {
 }
 
 function resolveScopedDiscordActionDiscovery(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }) {
   if (!params.accountId) {

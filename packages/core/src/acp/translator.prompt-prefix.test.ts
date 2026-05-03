@@ -55,7 +55,7 @@ describe("acp prompt cwd prefix", () => {
 
   async function runPromptWithCwd(cwd: string) {
     const pinnedHome = os.homedir();
-    const previousBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    const previousBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
     const previousHome = process.env.HOME;
     delete process.env.BRIKKO_STUDIO_HOME;
     process.env.HOME = pinnedHome;
@@ -63,10 +63,10 @@ describe("acp prompt cwd prefix", () => {
     try {
       return await runPromptAndCaptureRequest({ cwd, prefixCwd: true });
     } finally {
-      if (previousBrikko StudioHome === undefined) {
+      if (previousBrikkoStudioHome === undefined) {
         delete process.env.BRIKKO_STUDIO_HOME;
       } else {
-        process.env.BRIKKO_STUDIO_HOME = previousBrikko StudioHome;
+        process.env.BRIKKO_STUDIO_HOME = previousBrikkoStudioHome;
       }
       if (previousHome === undefined) {
         delete process.env.HOME;

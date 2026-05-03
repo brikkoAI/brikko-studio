@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { runDoctorRepairSequence } from "./repair-sequencing.js";
 
 vi.mock("./shared/channel-doctor.js", () => ({
-  collectChannelDoctorRepairMutations: ({ cfg }: { cfg: Brikko StudioConfig }) => {
+  collectChannelDoctorRepairMutations: ({ cfg }: { cfg: BrikkoStudioConfig }) => {
     const allowFrom = cfg.channels?.discord?.allowFrom as unknown[] | undefined;
     if (allowFrom?.[0] === 123) {
       return [
@@ -42,49 +42,49 @@ vi.mock("./shared/channel-doctor.js", () => ({
 }));
 
 vi.mock("./shared/empty-allowlist-scan.js", () => ({
-  scanEmptyAllowlistPolicyWarnings: (cfg: Brikko StudioConfig) =>
+  scanEmptyAllowlistPolicyWarnings: (cfg: BrikkoStudioConfig) =>
     cfg.channels?.signal
       ? ["channels.signal.accounts.ops\u001B[31m-team\u001B[0m\r\nnext.dmPolicy warning"]
       : [],
 }));
 
 vi.mock("./shared/allowlist-policy-repair.js", () => ({
-  maybeRepairAllowlistPolicyAllowFrom: async (cfg: Brikko StudioConfig) => ({
+  maybeRepairAllowlistPolicyAllowFrom: async (cfg: BrikkoStudioConfig) => ({
     config: cfg,
     changes: [],
   }),
 }));
 
 vi.mock("./shared/bundled-plugin-load-paths.js", () => ({
-  maybeRepairBundledPluginLoadPaths: (cfg: Brikko StudioConfig) => ({
+  maybeRepairBundledPluginLoadPaths: (cfg: BrikkoStudioConfig) => ({
     config: cfg,
     changes: [],
   }),
 }));
 
 vi.mock("./shared/open-policy-allowfrom.js", () => ({
-  maybeRepairOpenPolicyAllowFrom: (cfg: Brikko StudioConfig) => ({
+  maybeRepairOpenPolicyAllowFrom: (cfg: BrikkoStudioConfig) => ({
     config: cfg,
     changes: [],
   }),
 }));
 
 vi.mock("./shared/stale-plugin-config.js", () => ({
-  maybeRepairStalePluginConfig: (cfg: Brikko StudioConfig) => ({
+  maybeRepairStalePluginConfig: (cfg: BrikkoStudioConfig) => ({
     config: cfg,
     changes: [],
   }),
 }));
 
 vi.mock("./shared/invalid-plugin-config.js", () => ({
-  maybeRepairInvalidPluginConfig: (cfg: Brikko StudioConfig) => ({
+  maybeRepairInvalidPluginConfig: (cfg: BrikkoStudioConfig) => ({
     config: cfg,
     changes: [],
   }),
 }));
 
 vi.mock("./shared/legacy-tools-by-sender.js", () => ({
-  maybeRepairLegacyToolsBySenderKeys: (cfg: Brikko StudioConfig) => {
+  maybeRepairLegacyToolsBySenderKeys: (cfg: BrikkoStudioConfig) => {
     const channels = cfg.channels as Record<string, unknown> | undefined;
     const tools = channels?.tools as
       | { exec?: { toolsBySender?: Record<string, unknown> } }
@@ -121,7 +121,7 @@ vi.mock("./shared/legacy-tools-by-sender.js", () => ({
 }));
 
 vi.mock("./shared/exec-safe-bins.js", () => ({
-  maybeRepairExecSafeBinProfiles: (cfg: Brikko StudioConfig) => ({
+  maybeRepairExecSafeBinProfiles: (cfg: BrikkoStudioConfig) => ({
     config: cfg,
     changes: [],
   }),
@@ -151,7 +151,7 @@ describe("doctor repair sequencing", () => {
               },
             },
           },
-        } as unknown as Brikko StudioConfig,
+        } as unknown as BrikkoStudioConfig,
         candidate: {
           channels: {
             discord: {
@@ -172,7 +172,7 @@ describe("doctor repair sequencing", () => {
               },
             },
           },
-        } as unknown as Brikko StudioConfig,
+        } as unknown as BrikkoStudioConfig,
         pendingChanges: false,
         fixHints: [],
       },
@@ -210,14 +210,14 @@ describe("doctor repair sequencing", () => {
               allowFrom: [106232522769186816],
             },
           },
-        } as unknown as Brikko StudioConfig,
+        } as unknown as BrikkoStudioConfig,
         candidate: {
           channels: {
             discord: {
               allowFrom: [106232522769186816],
             },
           },
-        } as unknown as Brikko StudioConfig,
+        } as unknown as BrikkoStudioConfig,
         pendingChanges: false,
         fixHints: [],
       },

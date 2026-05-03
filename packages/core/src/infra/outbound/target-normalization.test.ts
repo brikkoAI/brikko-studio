@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 
 const getChannelPluginMock = vi.hoisted(() => vi.fn());
 const getActivePluginChannelRegistryVersionMock = vi.hoisted(() => vi.fn());
@@ -165,7 +165,7 @@ describe("looksLikeTargetId", () => {
 });
 
 describe("maybeResolvePluginMessagingTarget", () => {
-  const cfg = {} as Brikko StudioConfig;
+  const cfg = {} as BrikkoStudioConfig;
 
   it("returns undefined when requireIdLike is set and the target is not id-like", async () => {
     getChannelPluginMock.mockReturnValueOnce({

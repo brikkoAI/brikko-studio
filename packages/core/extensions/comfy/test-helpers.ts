@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import * as providerAuth from "brikko-studio/plugin-sdk/provider-auth-runtime";
 import { expect, vi } from "vitest";
 
@@ -19,24 +19,24 @@ type ComfyCloudJobResponseOptions = {
   redirectLocation: string;
 };
 
-export function buildComfyConfig(config: Record<string, unknown>): Brikko StudioConfig {
+export function buildComfyConfig(config: Record<string, unknown>): BrikkoStudioConfig {
   return {
     plugins: {
       entries: {
         comfy: { config },
       },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
-export function buildLegacyComfyConfig(config: Record<string, unknown>): Brikko StudioConfig {
+export function buildLegacyComfyConfig(config: Record<string, unknown>): BrikkoStudioConfig {
   return {
     models: {
       providers: {
         comfy: config,
       },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 export function parseComfyJsonBody(

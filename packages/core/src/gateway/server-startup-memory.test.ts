@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { MemoryQmdUpdateConfig } from "../config/types.memory.js";
 
 const { getMemorySearchManagerMock } = vi.hoisted(() => ({
@@ -13,13 +13,13 @@ vi.mock("../plugins/memory-runtime.js", () => ({
 import { startGatewayMemoryBackend } from "./server-startup-memory.js";
 
 function createQmdConfig(
-  agents: Brikko StudioConfig["agents"],
+  agents: BrikkoStudioConfig["agents"],
   update: MemoryQmdUpdateConfig = { startup: "immediate" },
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return {
     agents,
     memory: { backend: "qmd", qmd: { update } },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createGatewayLogMock() {
@@ -43,7 +43,7 @@ describe("startGatewayMemoryBackend", () => {
     const cfg = {
       agents: { list: [{ id: "main", default: true }] },
       memory: { backend: "builtin" },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const log = { info: vi.fn(), warn: vi.fn() };
 
     await startGatewayMemoryBackend({ cfg, log });
@@ -57,7 +57,7 @@ describe("startGatewayMemoryBackend", () => {
     const cfg = {
       agents: { list: [{ id: "main", default: true }] },
       memory: { backend: "qmd", qmd: {} },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const log = createGatewayLogMock();
 
     await startGatewayMemoryBackend({ cfg, log });
@@ -183,7 +183,7 @@ describe("startGatewayMemoryBackend", () => {
           update: { startup: "immediate", onBoot: false, interval: "0s", embedInterval: "0s" },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const log = createGatewayLogMock();
 
     await startGatewayMemoryBackend({ cfg, log });

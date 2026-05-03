@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   DEFAULT_CACHE_TTL_MINUTES,
   markdownToText,
@@ -62,7 +62,7 @@ type FirecrawlSearchItem = {
 };
 
 export type FirecrawlSearchParams = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   query: string;
   count?: number;
   timeoutSeconds?: number;
@@ -72,7 +72,7 @@ export type FirecrawlSearchParams = {
 };
 
 export type FirecrawlScrapeParams = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   url: string;
   extractMode: "markdown" | "text";
   maxChars?: number;

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   resolveAgentDirMock,
   resolveSessionAgentIdMock,
@@ -19,7 +19,7 @@ function buildParams(commandBody: string) {
   const cfg = {
     commands: { text: true },
     channels: { whatsapp: { allowFrom: ["*"] } },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
   return buildCommandTestParams(commandBody, cfg, undefined, { workspaceDir: "/tmp/workspace" });
 }
 

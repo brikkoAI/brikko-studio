@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import type { ImageContent } from "@mariozechner/pi-ai";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 import { MAX_IMAGE_BYTES } from "../media/constants.js";
 import {
   buildCliArgs,
@@ -203,7 +203,7 @@ describe("buildCliArgs", () => {
 describe("writeCliImages", () => {
   it("uses stable hashed file paths so repeated image hydration reuses the same path", async () => {
     const workspaceDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-cli-write-images-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-cli-write-images-"),
     );
     const image: ImageContent = {
       type: "image",
@@ -225,7 +225,7 @@ describe("writeCliImages", () => {
     try {
       expect(first.paths).toHaveLength(1);
       expect(second.paths).toEqual(first.paths);
-      expect(first.paths[0]).toContain(`${resolvePreferredBrikko StudioTmpDir()}/brikko-studio-cli-images/`);
+      expect(first.paths[0]).toContain(`${resolvePreferredBrikkoStudioTmpDir()}/brikko-studio-cli-images/`);
       expect(first.paths[0]).toMatch(/\.png$/);
       await expect(fs.readFile(first.paths[0])).resolves.toEqual(Buffer.from(image.data, "base64"));
     } finally {
@@ -236,7 +236,7 @@ describe("writeCliImages", () => {
 
   it("uses the shared media extension map for image formats beyond the tiny builtin list", async () => {
     const workspaceDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-cli-write-heic-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-cli-write-heic-"),
     );
     const image: ImageContent = {
       type: "image",
@@ -260,7 +260,7 @@ describe("writeCliImages", () => {
 
   it("hydrates prompt media refs into codex image args through the helper seams", async () => {
     const tempDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-cli-prompt-image-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-cli-prompt-image-"),
     );
     const sourceImage = path.join(tempDir, "bb-image.png");
     await fs.writeFile(
@@ -311,7 +311,7 @@ describe("writeCliImages", () => {
 
   it("appends hydrated prompt media refs for stdin backends through the helper seams", async () => {
     const tempDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-cli-prompt-image-generic-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-cli-prompt-image-generic-"),
     );
     const sourceImage = path.join(tempDir, "claude-image.png");
     await fs.writeFile(
@@ -346,7 +346,7 @@ describe("writeCliImages", () => {
 
   it("appends Gemini prompt refs with @-prefixed image paths", async () => {
     const tempDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-cli-prompt-image-gemini-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-cli-prompt-image-gemini-"),
     );
     const explicitImage: ImageContent = {
       type: "image",
@@ -397,7 +397,7 @@ describe("writeCliImages", () => {
 
   it("prefers explicit images over prompt refs through the helper seams", async () => {
     const tempDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-cli-explicit-images-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-cli-explicit-images-"),
     );
     const sourceImage = path.join(tempDir, "ignored-prompt-image.png");
     await fs.writeFile(

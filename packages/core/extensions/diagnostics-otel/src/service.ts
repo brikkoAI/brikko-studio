@@ -19,7 +19,7 @@ import type {
   DiagnosticEventMetadata,
   DiagnosticEventPayload,
   DiagnosticTraceContext,
-  Brikko StudioPluginService,
+  BrikkoStudioPluginService,
 } from "../api.js";
 import {
   isValidDiagnosticSpanId,
@@ -511,7 +511,7 @@ function addTraceAttributes(
   }
 }
 
-export function createDiagnosticsOtelService(): Brikko StudioPluginService {
+export function createDiagnosticsOtelService(): BrikkoStudioPluginService {
   let sdk: NodeSDK | null = null;
   let logProvider: LoggerProvider | null = null;
   let unsubscribe: (() => void) | null = null;
@@ -2312,5 +2312,5 @@ export function createDiagnosticsOtelService(): Brikko StudioPluginService {
     async stop() {
       await stopStarted();
     },
-  } satisfies Brikko StudioPluginService;
+  } satisfies BrikkoStudioPluginService;
 }

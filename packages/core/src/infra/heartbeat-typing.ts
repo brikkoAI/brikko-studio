@@ -1,6 +1,6 @@
 import type { ChannelHeartbeatDeps, ChannelPlugin } from "../channels/plugins/types.public.js";
 import { createTypingCallbacks, type TypingCallbacks } from "../channels/typing.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 const DEFAULT_HEARTBEAT_TYPING_INTERVAL_SECONDS = 6;
 
@@ -16,7 +16,7 @@ type HeartbeatTypingTarget = {
 };
 
 export function createHeartbeatTypingCallbacks(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   target: HeartbeatTypingTarget;
   plugin?: Pick<ChannelPlugin, "heartbeat">;
   deps?: ChannelHeartbeatDeps;

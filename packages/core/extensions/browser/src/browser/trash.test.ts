@@ -2,12 +2,12 @@ import fs from "node:fs";
 import os from "node:os";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const resolvePreferredBrikko StudioTmpDirMock = vi.hoisted(() => vi.fn(() => "/tmp/brikko-studio"));
+const resolvePreferredBrikkoStudioTmpDirMock = vi.hoisted(() => vi.fn(() => "/tmp/brikko-studio"));
 const BRIKKO_STUDIO_TMP_ROOT = "/tmp/brikko-studio";
 const TRASH_SOURCE = `${BRIKKO_STUDIO_TMP_ROOT}/demo`;
 
 vi.mock("brikko-studio/plugin-sdk/temp-path", () => ({
-  resolvePreferredBrikko StudioTmpDir: resolvePreferredBrikko StudioTmpDirMock,
+  resolvePreferredBrikkoStudioTmpDir: resolvePreferredBrikkoStudioTmpDirMock,
 }));
 
 function mockTrashContainer(...suffixes: string[]) {
@@ -22,8 +22,8 @@ function mockTrashContainer(...suffixes: string[]) {
 describe("browser trash", () => {
   beforeEach(() => {
     vi.restoreAllMocks();
-    resolvePreferredBrikko StudioTmpDirMock.mockReset();
-    resolvePreferredBrikko StudioTmpDirMock.mockReturnValue("/tmp/brikko-studio");
+    resolvePreferredBrikkoStudioTmpDirMock.mockReset();
+    resolvePreferredBrikkoStudioTmpDirMock.mockReturnValue("/tmp/brikko-studio");
     vi.spyOn(Date, "now").mockReturnValue(123);
     vi.spyOn(os, "homedir").mockReturnValue("/home/test");
     vi.spyOn(os, "tmpdir").mockReturnValue("/tmp");

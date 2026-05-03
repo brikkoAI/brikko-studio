@@ -140,7 +140,7 @@ function resolveOnboardingMode(): boolean {
   return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
 }
 
-export class Brikko StudioApp extends LitElement {
+export class BrikkoStudioApp extends LitElement {
   private i18nController = new I18nController(this);
   clientInstanceId = generateUUID();
   connectGeneration = 0;
@@ -925,7 +925,7 @@ export class Brikko StudioApp extends LitElement {
         }
       },
       onTranscript: (entry) => {
-        this.realtimeTalkTranscript = `${entry.role === "user" ? "You" : "Brikko Studio"}: ${entry.text}`;
+        this.realtimeTalkTranscript = `${entry.role === "user" ? "You" : "BrikkoStudio"}: ${entry.text}`;
       },
     });
     this.realtimeTalkSession = session;
@@ -1166,5 +1166,5 @@ export class Brikko StudioApp extends LitElement {
 }
 
 if (!customElements.get("brikko-studio-app")) {
-  customElements.define("brikko-studio-app", Brikko StudioApp);
+  customElements.define("brikko-studio-app", BrikkoStudioApp);
 }

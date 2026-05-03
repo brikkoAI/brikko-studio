@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   parseFrontmatter,
-  resolveBrikko StudioMetadata,
+  resolveBrikkoStudioMetadata,
   resolveHookInvocationPolicy,
 } from "./frontmatter.js";
 
@@ -148,7 +148,7 @@ description: 'single-quoted'
   });
 });
 
-describe("resolveBrikko StudioMetadata", () => {
+describe("resolveBrikkoStudioMetadata", () => {
   it("extracts brikko-studio metadata from parsed frontmatter", () => {
     const frontmatter = {
       name: "test-hook",
@@ -164,7 +164,7 @@ describe("resolveBrikko StudioMetadata", () => {
       }),
     };
 
-    const result = resolveBrikko StudioMetadata(frontmatter);
+    const result = resolveBrikkoStudioMetadata(frontmatter);
     expect(result).toBeDefined();
     expect(result?.emoji).toBe("🔥");
     expect(result?.events).toEqual(["command:new", "command:reset"]);
@@ -174,7 +174,7 @@ describe("resolveBrikko StudioMetadata", () => {
 
   it("returns undefined when metadata is missing", () => {
     const frontmatter = { name: "no-metadata" };
-    const result = resolveBrikko StudioMetadata(frontmatter);
+    const result = resolveBrikkoStudioMetadata(frontmatter);
     expect(result).toBeUndefined();
   });
 
@@ -182,7 +182,7 @@ describe("resolveBrikko StudioMetadata", () => {
     const frontmatter = {
       metadata: JSON.stringify({ other: "data" }),
     };
-    const result = resolveBrikko StudioMetadata(frontmatter);
+    const result = resolveBrikkoStudioMetadata(frontmatter);
     expect(result).toBeUndefined();
   });
 
@@ -190,7 +190,7 @@ describe("resolveBrikko StudioMetadata", () => {
     const frontmatter = {
       metadata: "not valid json {",
     };
-    const result = resolveBrikko StudioMetadata(frontmatter);
+    const result = resolveBrikkoStudioMetadata(frontmatter);
     expect(result).toBeUndefined();
   });
 
@@ -200,14 +200,14 @@ describe("resolveBrikko StudioMetadata", () => {
         brikko-studio: {
           events: ["command"],
           install: [
-            { id: "bundled", kind: "bundled", label: "Bundled with Brikko Studio" },
+            { id: "bundled", kind: "bundled", label: "Bundled with BrikkoStudio" },
             { id: "npm", kind: "npm", package: "@brikko-studio/hook" },
           ],
         },
       }),
     };
 
-    const result = resolveBrikko StudioMetadata(frontmatter);
+    const result = resolveBrikkoStudioMetadata(frontmatter);
     expect(result?.install).toHaveLength(2);
     expect(result?.install?.[0].kind).toBe("bundled");
     expect(result?.install?.[1].kind).toBe("npm");
@@ -224,7 +224,7 @@ describe("resolveBrikko StudioMetadata", () => {
       }),
     };
 
-    const result = resolveBrikko StudioMetadata(frontmatter);
+    const result = resolveBrikkoStudioMetadata(frontmatter);
     expect(result?.os).toEqual(["darwin", "linux"]);
   });
 
@@ -241,7 +241,7 @@ metadata:
         "emoji": "💾",
         "events": ["command:new", "command:reset"],
         "requires": { "config": ["workspace.dir"] },
-        "install": [{ "id": "bundled", "kind": "bundled", "label": "Bundled with Brikko Studio" }],
+        "install": [{ "id": "bundled", "kind": "bundled", "label": "Bundled with BrikkoStudio" }],
       },
   }
 ---
@@ -253,7 +253,7 @@ metadata:
     expect(frontmatter.name).toBe("session-memory");
     expect(frontmatter.metadata).toBeDefined();
 
-    const brikko-studio = resolveBrikko StudioMetadata(frontmatter);
+    const brikko-studio = resolveBrikkoStudioMetadata(frontmatter);
     expect(brikko-studio).toBeDefined();
     expect(brikko-studio?.emoji).toBe("💾");
     expect(brikko-studio?.events).toEqual(["command:new", "command:reset"]);
@@ -272,7 +272,7 @@ metadata:
 ---
 `;
     const frontmatter = parseFrontmatter(content);
-    const brikko-studio = resolveBrikko StudioMetadata(frontmatter);
+    const brikko-studio = resolveBrikkoStudioMetadata(frontmatter);
     expect(brikko-studio?.emoji).toBe("disk");
     expect(brikko-studio?.events).toEqual(["command:new"]);
   });

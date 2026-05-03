@@ -9,12 +9,12 @@ afterEach(() => {
 describe("listBundledChannelCatalogEntries discovery failures", () => {
   it("falls back when bundled plugin catalog discovery is unavailable during import", async () => {
     vi.doMock("../infra/brikko-studio-root.js", () => ({
-      resolveBrikko StudioPackageRootSync: () => null,
-      resolveBrikko StudioPackageRoot: async () => null,
+      resolveBrikkoStudioPackageRootSync: () => null,
+      resolveBrikkoStudioPackageRoot: async () => null,
     }));
     vi.doMock("../plugins/channel-catalog-registry.js", () => ({
       listChannelCatalogEntries() {
-        throw new ReferenceError("Cannot access 'discoverBrikko StudioPlugins' before initialization.");
+        throw new ReferenceError("Cannot access 'discoverBrikkoStudioPlugins' before initialization.");
       },
     }));
 

@@ -4,7 +4,7 @@ import { attachModelProviderRequestTransport } from "./provider-request-config.j
 import {
   buildTransportAwareSimpleStreamFn,
   createBoundaryAwareStreamFnForModel,
-  createBrikko StudioTransportStreamFnForModel,
+  createBrikkoStudioTransportStreamFnForModel,
   createTransportAwareStreamFnForModel,
   isTransportAwareApiSupported,
   prepareTransportAwareSimpleModel,
@@ -153,7 +153,7 @@ describe("provider transport stream contracts", () => {
     expect(prepareTransportAwareSimpleModel(model)).toBe(model);
   });
 
-  it("keeps OpenAI API-key default streams on Brikko Studio transport", () => {
+  it("keeps OpenAI API-key default streams on BrikkoStudio transport", () => {
     const cases = [
       buildModel("openai-responses", {
         id: "gpt-5.4",
@@ -169,14 +169,14 @@ describe("provider transport stream contracts", () => {
 
     for (const model of cases) {
       expect(createBoundaryAwareStreamFnForModel(model)).toBeTypeOf("function");
-      expect(createBrikko StudioTransportStreamFnForModel(model)).toBeTypeOf("function");
+      expect(createBrikkoStudioTransportStreamFnForModel(model)).toBeTypeOf("function");
       expect(createTransportAwareStreamFnForModel(model)).toBeUndefined();
       expect(buildTransportAwareSimpleStreamFn(model)).toBeUndefined();
       expect(prepareTransportAwareSimpleModel(model)).toBe(model);
     }
   });
 
-  it("keeps Codex defaults on the Brikko Studio transport until PI preserves attribution", () => {
+  it("keeps Codex defaults on the BrikkoStudio transport until PI preserves attribution", () => {
     const model = buildModel("openai-codex-responses", {
       id: "gpt-5.4",
       provider: "openai-codex",

@@ -8,7 +8,7 @@ import {
   readStringArrayParam,
   readStringParam,
   type DiscordActionConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../runtime-api.js";
 import {
   addRoleDiscord,
@@ -60,7 +60,7 @@ export const discordGuildActionRuntime = {
   uploadStickerDiscord,
 };
 
-type DiscordRoleMutationOpts = { cfg: Brikko StudioConfig; accountId?: string };
+type DiscordRoleMutationOpts = { cfg: BrikkoStudioConfig; accountId?: string };
 type DiscordRoleMutation = (
   params: {
     guildId: string;
@@ -71,7 +71,7 @@ type DiscordRoleMutation = (
 ) => Promise<unknown>;
 
 async function runRoleMutation(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   values: Record<string, unknown>;
   mutate: DiscordRoleMutation;
@@ -96,7 +96,7 @@ export async function handleDiscordGuildAction(
   action: string,
   params: Record<string, unknown>,
   isActionEnabled: ActionGate<DiscordActionConfig>,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options?: { mediaLocalRoots?: readonly string[] },
 ): Promise<AgentToolResult<unknown>> {
   const accountId = readStringParam(params, "accountId");

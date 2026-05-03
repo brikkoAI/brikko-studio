@@ -32,7 +32,7 @@ export type { CliMockOutputRuntime, CliRuntimeCapture } from "../cli/test-runtim
 export { setDefaultChannelPluginRegistryForTests } from "../commands/channel-test-registry.js";
 export type { ChannelAccountSnapshot } from "../channels/plugins/types.public.js";
 export type { ChannelGatewayContext } from "../channels/plugins/types.adapters.js";
-export type { Brikko StudioConfig } from "../config/config.js";
+export type { BrikkoStudioConfig } from "../config/config.js";
 export { isAtLeast, parseSemver } from "../infra/runtime-guard.js";
 export { callGateway } from "../gateway/call.js";
 export { deliverOutboundPayloads } from "../infra/outbound/deliver.js";

@@ -5,7 +5,7 @@ import { Type } from "typebox";
 import {
   definePluginEntry,
   type GatewayRequestHandlerOptions,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
 } from "./api.js";
 import { createVoiceCallRuntime, type VoiceCallRuntime } from "./runtime-entry.js";
 import { registerVoiceCallCli } from "./src/cli.js";
@@ -216,7 +216,7 @@ export default definePluginEntry({
   name: "Voice Call",
   description: "Voice-call plugin with Telnyx/Twilio/Plivo providers",
   configSchema: voiceCallConfigSchema,
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     const config = resolveVoiceCallConfig(voiceCallConfigSchema.parse(api.pluginConfig));
     const validation = validateProviderConfig(config);
 

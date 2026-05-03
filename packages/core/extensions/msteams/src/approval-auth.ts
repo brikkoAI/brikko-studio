@@ -3,7 +3,7 @@ import {
   resolveApprovalApprovers,
 } from "brikko-studio/plugin-sdk/approval-auth-runtime";
 import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import { normalizeMSTeamsMessagingTarget } from "./resolve-allowlist.js";
 
 const MSTEAMS_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -20,7 +20,7 @@ function normalizeMSTeamsApproverId(value: string | number): string | undefined 
   return MSTEAMS_ID_RE.test(id) ? id : undefined;
 }
 
-function resolveMSTeamsChannelConfig(cfg: Brikko StudioConfig) {
+function resolveMSTeamsChannelConfig(cfg: BrikkoStudioConfig) {
   return cfg.channels?.msteams;
 }
 

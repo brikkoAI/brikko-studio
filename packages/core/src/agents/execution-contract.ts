@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { resolveAgentExecutionContract, resolveSessionAgentIds } from "./agent-scope.js";
 
@@ -82,7 +82,7 @@ export function isStrictAgenticSupportedProviderModel(params: {
  * installations, not only users who opted in manually.
  */
 export function resolveEffectiveExecutionContract(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sessionKey?: string;
   agentId?: string | null;
   provider?: string | null;
@@ -113,7 +113,7 @@ export function resolveEffectiveExecutionContract(params: {
 }
 
 export function isStrictAgenticExecutionContractActive(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sessionKey?: string;
   agentId?: string | null;
   provider?: string | null;

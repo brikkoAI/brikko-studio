@@ -8,7 +8,7 @@ import {
   makeTempDir,
   packageBuildCommitFromTgz,
   packageVersionFromTgz,
-  packBrikko Studio,
+  packBrikkoStudio,
   parseMode,
   parseProvider,
   modelProviderConfigBatchJson,
@@ -93,8 +93,8 @@ interface MacosSummary {
 
 const guestPath =
   "/opt/homebrew/bin:/opt/homebrew/opt/node/bin:/opt/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin";
-const guestBrikko Studio = "/opt/homebrew/bin/brikko-studio";
-const guestBrikko StudioEntry = "/opt/homebrew/lib/node_modules/brikko-studio/brikko-studio.mjs";
+const guestBrikkoStudio = "/opt/homebrew/bin/brikko-studio";
+const guestBrikkoStudioEntry = "/opt/homebrew/lib/node_modules/brikko-studio/brikko-studio.mjs";
 const guestNode = "/opt/homebrew/bin/node";
 const guestNpm = "/opt/homebrew/bin/npm";
 
@@ -321,7 +321,7 @@ class MacosSmoke {
       say(`Run logs: ${this.runDir}`);
 
       if (await this.needsHostTgz()) {
-        this.artifact = await packBrikko Studio({
+        this.artifact = await packBrikkoStudio({
           destination: this.tgzDir,
           packageSpec: this.options.targetPackageSpec,
           requireControlUi: true,
@@ -419,8 +419,8 @@ class MacosSmoke {
       },
       guest: this.guest,
       guestNode,
-      guestBrikko Studio,
-      guestBrikko StudioEntry,
+      guestBrikkoStudio,
+      guestBrikkoStudioEntry,
       runDir: this.runDir,
       vmName: this.options.vmName,
     });
@@ -737,7 +737,7 @@ rm -f /tmp/brikko-studio-parallels-macos-gateway.log`);
       `export BRIKKO_STUDIO_NO_ONBOARD=1
 curl -fsSL ${shellQuote(this.options.installUrl)} -o /tmp/brikko-studio-install.sh
 bash /tmp/brikko-studio-install.sh --version ${shellQuote(this.installVersion)}
-${guestBrikko Studio} --version`,
+${guestBrikkoStudio} --version`,
     );
   }
 
@@ -746,7 +746,7 @@ ${guestBrikko Studio} --version`,
       this
         .guestSh(`printf 'install-source: registry-spec %s\\n' ${shellQuote(this.options.targetPackageSpec || "")}
 ${guestNpm} install -g ${shellQuote(this.options.targetPackageSpec || "")}
-${guestBrikko Studio} --version`);
+${guestBrikkoStudio} --version`);
       return;
     }
     if (!this.artifact || !this.server) {
@@ -756,7 +756,7 @@ ${guestBrikko Studio} --version`);
     this.guestSh(`printf 'install-source: host-tgz %s\\n' ${shellQuote(tgzUrl)}
 curl -fsSL ${shellQuote(tgzUrl)} -o /tmp/${tempName}
 ${guestNpm} install -g /tmp/${tempName}
-${guestBrikko Studio} --version`);
+${guestBrikkoStudio} --version`);
   }
 
   private async verifyTargetVersion(): Promise<void> {
@@ -774,7 +774,7 @@ ${guestBrikko Studio} --version`);
   }
 
   private verifyVersionContains(needle: string): void {
-    const version = this.guestExec([guestBrikko Studio, "--version"]);
+    const version = this.guestExec([guestBrikkoStudio, "--version"]);
     if (!version.includes(needle)) {
       throw new Error(`version mismatch: expected substring ${needle}`);
     }
@@ -807,7 +807,7 @@ fi`);
     this.guestExec([
       "/usr/bin/env",
       `${this.auth.apiKeyEnv}=${this.auth.apiKeyValue}`,
-      guestBrikko Studio,
+      guestBrikkoStudio,
       "onboard",
       "--non-interactive",
       "--mode",
@@ -863,14 +863,14 @@ const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 config.update = { ...(config.update || {}), channel: "dev" };
 fs.writeFileSync(configPath, JSON.stringify(config, null, 2) + "\\n");
 JS
-/usr/bin/env NODE_OPTIONS=--max-old-space-size=4096 BRIKKO_STUDIO_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS=1 BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS=1 ${guestNode} ${guestBrikko StudioEntry} update --channel dev --yes --json
-${guestNode} ${guestBrikko StudioEntry} --version
-${guestNode} ${guestBrikko StudioEntry} update status --json`,
+/usr/bin/env NODE_OPTIONS=--max-old-space-size=4096 BRIKKO_STUDIO_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS=1 BRIKKO_STUDIO_DISABLE_BUNDLED_PLUGINS=1 ${guestNode} ${guestBrikkoStudioEntry} update --channel dev --yes --json
+${guestNode} ${guestBrikkoStudioEntry} --version
+${guestNode} ${guestBrikkoStudioEntry} update status --json`,
     );
   }
 
   private verifyDevChannelUpdate(): void {
-    const status = this.guestExec([guestNode, guestBrikko StudioEntry, "update", "status", "--json"]);
+    const status = this.guestExec([guestNode, guestBrikkoStudioEntry, "update", "status", "--json"]);
     for (const needle of ['"installKind": "git"', '"value": "dev"', '"branch": "main"']) {
       if (!status.includes(needle)) {
         throw new Error(`dev update status missing ${needle}`);
@@ -893,14 +893,14 @@ trap '' HUP
         `${this.auth.apiKeyEnv}=${this.auth.apiKeyValue}`,
       )} BRIKKO_STUDIO_HOME=${shellQuote(home)} BRIKKO_STUDIO_STATE_DIR=${shellQuote(`${home}/.brikko-studio`)} BRIKKO_STUDIO_CONFIG_PATH=${shellQuote(
         `${home}/.brikko-studio/brikko-studio.json`,
-      )} ${guestNode} ${guestBrikko StudioEntry} gateway run --bind loopback --port 18789 --force </dev/null >/tmp/brikko-studio-parallels-macos-gateway.log 2>&1 &
+      )} ${guestNode} ${guestBrikkoStudioEntry} gateway run --bind loopback --port 18789 --force </dev/null >/tmp/brikko-studio-parallels-macos-gateway.log 2>&1 &
 sleep 1`,
     );
   }
 
   private verifyGateway(): void {
     for (let attempt = 1; attempt <= 8; attempt++) {
-      const result = this.guestBrikko Studio(
+      const result = this.guestBrikkoStudio(
         ["gateway", "status", "--deep", "--require-rpc", "--timeout", "15000"],
         false,
       );
@@ -916,16 +916,16 @@ sleep 1`,
   }
 
   private showGatewayStatusCompat(): void {
-    const help = this.guestExec([guestBrikko Studio, "gateway", "status", "--help"], { check: false });
+    const help = this.guestExec([guestBrikkoStudio, "gateway", "status", "--help"], { check: false });
     const args = help.includes("--require-rpc")
       ? ["gateway", "status", "--deep", "--require-rpc"]
       : ["gateway", "status", "--deep"];
-    if (!this.guestBrikko Studio(args, false)) {
+    if (!this.guestBrikkoStudio(args, false)) {
       throw new Error("gateway status failed");
     }
   }
 
-  private guestBrikko Studio(args: string[], check: boolean): boolean {
+  private guestBrikkoStudio(args: string[], check: boolean): boolean {
     const result = run(
       "prlctl",
       [
@@ -942,7 +942,7 @@ sleep 1`,
               `PATH=${guestPath}`,
             ]
           : ["--current-user", "/usr/bin/env", `PATH=${guestPath}`]),
-        guestBrikko Studio,
+        guestBrikkoStudio,
         ...args,
       ],
       { check: false, quiet: true, timeoutMs: this.remainingPhaseTimeoutMs() },
@@ -960,7 +960,7 @@ sleep 1`,
 deadline=$((SECONDS + 120))
 while [ $SECONDS -lt $deadline ]; do
   if curl -fsSL --connect-timeout 2 --max-time 5 http://127.0.0.1:18789/ >/tmp/brikko-studio-dashboard-smoke.html 2>/dev/null; then
-    grep -F '<title>Brikko Studio Control</title>' /tmp/brikko-studio-dashboard-smoke.html >/dev/null &&
+    grep -F '<title>BrikkoStudio Control</title>' /tmp/brikko-studio-dashboard-smoke.html >/dev/null &&
       grep -F '<brikko-studio-app></brikko-studio-app>' /tmp/brikko-studio-dashboard-smoke.html >/dev/null &&
       exit 0
   fi
@@ -971,7 +971,7 @@ exit 1`);
   }
 
   private verifyTurn(): void {
-    this.guestExec([guestNode, guestBrikko StudioEntry, "models", "set", this.auth.modelId]);
+    this.guestExec([guestNode, guestBrikkoStudioEntry, "models", "set", this.auth.modelId]);
     const modelProviderConfigBatch = modelProviderConfigBatchJson(this.auth.modelId, "macos");
     if (modelProviderConfigBatch) {
       this.guestSh(`provider_config_batch="$(mktemp)"
@@ -979,20 +979,20 @@ cat >"$provider_config_batch" <<'JSON'
 ${modelProviderConfigBatch}
 JSON
 ${shellQuote(guestNode)} ${shellQuote(
-        guestBrikko StudioEntry,
+        guestBrikkoStudioEntry,
       )} config set --batch-file "$provider_config_batch" --strict-json
 rm -f "$provider_config_batch"`);
     }
     this.guestExec([
       guestNode,
-      guestBrikko StudioEntry,
+      guestBrikkoStudioEntry,
       "config",
       "set",
       "agents.defaults.skipBootstrap",
       "true",
       "--strict-json",
     ]);
-    this.guestExec([guestNode, guestBrikko StudioEntry, "config", "set", "tools.profile", "minimal"]);
+    this.guestExec([guestNode, guestBrikkoStudioEntry, "config", "set", "tools.profile", "minimal"]);
     this.guestSh(
       `${posixAgentWorkspaceScript("Parallels macOS smoke test assistant.")}
 agent_ok=false
@@ -1002,7 +1002,7 @@ for attempt in 1 2; do
   rm -f "$HOME/.brikko-studio/agents/main/sessions/$session_id.jsonl"
   output_file="$(mktemp)"
   set +e
-  /usr/bin/env ${shellQuote(`${this.auth.apiKeyEnv}=${this.auth.apiKeyValue}`)} ${guestNode} ${guestBrikko StudioEntry} agent --local --agent main --session-id "$session_id" --message ${shellQuote(
+  /usr/bin/env ${shellQuote(`${this.auth.apiKeyEnv}=${this.auth.apiKeyValue}`)} ${guestNode} ${guestBrikkoStudioEntry} agent --local --agent main --session-id "$session_id" --message ${shellQuote(
     "Reply with exact ASCII text OK only.",
   )} --thinking minimal --timeout ${resolveParallelsModelTimeoutSeconds("macos")} --json >"$output_file" 2>&1
   rc=$?

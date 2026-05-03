@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { hasCommittedMessagingToolDeliveryEvidence } from "./delivery-evidence.js";
 import { makeAttemptResult } from "./run.overflow-compaction.fixture.js";
 import {
@@ -219,7 +219,7 @@ describe("runEmbeddedPiAgent incomplete-turn safety", () => {
             },
           ],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(mockedRunEmbeddedAttempt).toHaveBeenCalledTimes(3);
@@ -258,7 +258,7 @@ describe("runEmbeddedPiAgent incomplete-turn safety", () => {
           },
           list: [{ id: "main" }],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(result.payloads).toEqual([
@@ -293,7 +293,7 @@ describe("runEmbeddedPiAgent incomplete-turn safety", () => {
         agents: {
           list: [{ id: "main" }],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     // Two retries (strict-agentic retry cap) plus the original attempt = 3 calls.
@@ -333,7 +333,7 @@ describe("runEmbeddedPiAgent incomplete-turn safety", () => {
           },
           list: [{ id: "main" }],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     // Default contract: 1 retry then falls through. Should NOT surface the
@@ -1955,7 +1955,7 @@ describe("runEmbeddedPiAgent incomplete-turn safety", () => {
         agents: {
           list: [{ id: "main" }],
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(mockedRunEmbeddedAttempt).toHaveBeenCalledTimes(1);

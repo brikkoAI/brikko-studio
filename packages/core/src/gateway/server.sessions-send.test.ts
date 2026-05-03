@@ -12,7 +12,7 @@ import {
   testState,
 } from "./test-helpers.js";
 
-const { createBrikko StudioTools } = await import("../agents/brikko-studio-tools.js");
+const { createBrikkoStudioTools } = await import("../agents/brikko-studio-tools.js");
 
 installGatewayTestHooks({ scope: "suite" });
 
@@ -21,7 +21,7 @@ let gatewayPort: number;
 const gatewayToken = "test-gateway-token-1234567890";
 let envSnapshot: ReturnType<typeof captureEnv>;
 
-type SessionSendTool = ReturnType<typeof createBrikko StudioTools>[number];
+type SessionSendTool = ReturnType<typeof createBrikkoStudioTools>[number];
 const SESSION_SEND_E2E_TIMEOUT_MS = 10_000;
 let cachedSessionsSendTool: SessionSendTool | null = null;
 
@@ -29,7 +29,7 @@ function getSessionsSendTool(): SessionSendTool {
   if (cachedSessionsSendTool) {
     return cachedSessionsSendTool;
   }
-  const tool = createBrikko StudioTools().find((candidate) => candidate.name === "sessions_send");
+  const tool = createBrikkoStudioTools().find((candidate) => candidate.name === "sessions_send");
   if (!tool) {
     throw new Error("missing sessions_send tool");
   }
@@ -192,7 +192,7 @@ describe("sessions_send label lookup", () => {
         timeoutMs: 5000,
       });
 
-      const tool = createBrikko StudioTools({
+      const tool = createBrikkoStudioTools({
         config: {
           tools: {
             sessions: {

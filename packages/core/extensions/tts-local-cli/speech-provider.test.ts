@@ -1,7 +1,7 @@
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { SpeechProviderConfig, SpeechSynthesisRequest } from "brikko-studio/plugin-sdk/speech-core";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -15,7 +15,7 @@ vi.mock("brikko-studio/plugin-sdk/media-runtime", () => ({
 
 import { buildCliSpeechProvider } from "./speech-provider.js";
 
-const TEST_CFG = {} as Brikko StudioConfig;
+const TEST_CFG = {} as BrikkoStudioConfig;
 
 function createCliFixture(): { dir: string; script: string } {
   const dir = mkdtempSync(path.join(os.tmpdir(), "brikko-studio-cli-tts-test-"));

@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import path from "node:path";
 import type { AgentMessage, StreamFn } from "@mariozechner/pi-agent-core";
 import { resolveStateDir } from "../config/paths.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveUserPath } from "../utils.js";
 import { parseBooleanValue } from "../utils/boolean.js";
 import { safeJsonStringify } from "../utils/safe-json.js";
@@ -55,7 +55,7 @@ type CacheTrace = {
 };
 
 type CacheTraceInit = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   runId?: string;
   sessionId?: string;

@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { describe, expect, it, vi } from "vitest";
-import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 import { resolveAllowedManagedMediaPath, resolveSandboxedMediaSource } from "./sandbox-paths.js";
 
 async function withSandboxRoot<T>(run: (sandboxDir: string) => Promise<T>) {
@@ -41,7 +41,7 @@ async function withManagedMediaRoot<T>(run: (ctx: { stateDir: string }) => Promi
   }
 }
 
-async function withOutsideHardlinkInBrikko StudioTmp<T>(
+async function withOutsideHardlinkInBrikkoStudioTmp<T>(
   params: {
     openClawTmpDir: string;
     hardlinkPrefix: string;
@@ -83,22 +83,22 @@ async function withOutsideHardlinkInBrikko StudioTmp<T>(
 }
 
 describe("resolveSandboxedMediaSource", () => {
-  const openClawTmpDir = resolvePreferredBrikko StudioTmpDir();
+  const openClawTmpDir = resolvePreferredBrikkoStudioTmpDir();
 
   // Group 1: /tmp paths (the bug fix)
   it.each([
     {
-      name: "absolute paths under preferred Brikko Studio tmp root",
+      name: "absolute paths under preferred BrikkoStudio tmp root",
       media: path.join(openClawTmpDir, "image.png"),
       expected: path.join(openClawTmpDir, "image.png"),
     },
     {
-      name: "file:// URLs pointing to preferred Brikko Studio tmp root",
+      name: "file:// URLs pointing to preferred BrikkoStudio tmp root",
       media: pathToFileURL(path.join(openClawTmpDir, "photo.png")).href,
       expected: path.join(openClawTmpDir, "photo.png"),
     },
     {
-      name: "nested paths under preferred Brikko Studio tmp root",
+      name: "nested paths under preferred BrikkoStudio tmp root",
       media: path.join(openClawTmpDir, "subdir", "deep", "file.png"),
       expected: path.join(openClawTmpDir, "subdir", "deep", "file.png"),
     },
@@ -260,7 +260,7 @@ describe("resolveSandboxedMediaSource", () => {
     });
   });
 
-  it("rejects symlinked Brikko Studio tmp paths escaping tmp root", async () => {
+  it("rejects symlinked BrikkoStudio tmp paths escaping tmp root", async () => {
     if (process.platform === "win32") {
       return;
     }
@@ -302,11 +302,11 @@ describe("resolveSandboxedMediaSource", () => {
     });
   });
 
-  it("rejects hardlinked Brikko Studio tmp paths to outside files", async () => {
+  it("rejects hardlinked BrikkoStudio tmp paths to outside files", async () => {
     if (process.platform === "win32") {
       return;
     }
-    await withOutsideHardlinkInBrikko StudioTmp(
+    await withOutsideHardlinkInBrikkoStudioTmp(
       {
         openClawTmpDir,
         hardlinkPrefix: "sandbox-media-hardlink",
@@ -319,11 +319,11 @@ describe("resolveSandboxedMediaSource", () => {
     );
   });
 
-  it("rejects symlinked Brikko Studio tmp paths to hardlinked outside files", async () => {
+  it("rejects symlinked BrikkoStudio tmp paths to hardlinked outside files", async () => {
     if (process.platform === "win32") {
       return;
     }
-    await withOutsideHardlinkInBrikko StudioTmp(
+    await withOutsideHardlinkInBrikkoStudioTmp(
       {
         openClawTmpDir,
         hardlinkPrefix: "sandbox-media-hardlink-target",

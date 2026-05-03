@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createTestWizardPrompter,
   runSetupWizardPrepare,
@@ -27,7 +27,7 @@ const baseCfg = {
       appToken: "xapp-test",
     },
   },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 describe("slackSetupWizard.finalize", () => {
   it("prompts to enable interactive replies for newly configured Slack accounts", async () => {
@@ -92,7 +92,7 @@ describe("slackSetupWizard.prepare", () => {
 
     await runSetupWizardPrepare({
       prepare: slackSetupWizard.prepare,
-      cfg: { channels: { slack: {} } } as Brikko StudioConfig,
+      cfg: { channels: { slack: {} } } as BrikkoStudioConfig,
       prompter: createTestWizardPrompter({
         plain,
         note: note as WizardPrompter["note"],
@@ -104,7 +104,7 @@ describe("slackSetupWizard.prepare", () => {
     const manifest = plain.mock.calls[0]?.[0];
     expect(typeof manifest).toBe("string");
     expect(JSON.parse(manifest)).toMatchObject({
-      display_information: { name: "Brikko Studio" },
+      display_information: { name: "BrikkoStudio" },
       settings: { socket_mode_enabled: true },
     });
   });
@@ -141,7 +141,7 @@ describe("slackSetupWizard.dmPolicy", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         "alerts",
       ),
     ).toBe("allowlist");
@@ -168,7 +168,7 @@ describe("slackSetupWizard.dmPolicy", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       "open",
       "alerts",
     );
@@ -200,7 +200,7 @@ describe("slackSetupWizard.status", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(configured).toBe(false);

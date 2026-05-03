@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { collectChannelStatusIssues as collectChannelStatusIssuesFn } from "../infra/channels-status-issues.js";
 import { resolveOsSummary } from "../infra/os-summary.js";
 import type { UpdateCheckResult } from "../infra/update-check.js";
@@ -14,8 +14,8 @@ import type {
 import type { getStatusSummary as getStatusSummaryFn } from "./status.summary.js";
 
 export type StatusScanResult = {
-  cfg: Brikko StudioConfig;
-  sourceConfig: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   secretDiagnostics: string[];
   osSummary: ReturnType<typeof resolveOsSummary>;
   tailscaleMode: string;
@@ -43,8 +43,8 @@ export type StatusScanResult = {
 };
 
 export function buildStatusScanResult(params: {
-  cfg: Brikko StudioConfig;
-  sourceConfig: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   secretDiagnostics: string[];
   osSummary: ReturnType<typeof resolveOsSummary>;
   tailscaleMode: string;

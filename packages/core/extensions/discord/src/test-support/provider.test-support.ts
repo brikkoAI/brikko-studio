@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import type { Mock } from "vitest";
 import { expect, vi } from "vitest";
@@ -23,7 +23,7 @@ type ProviderMonitorTestMocks = {
   createDiscordAutoPresenceControllerMock: Mock<() => unknown>;
   createDiscordExecApprovalButtonContextMock: Mock<
     (params?: {
-      cfg?: Brikko StudioConfig;
+      cfg?: BrikkoStudioConfig;
       accountId?: string;
       config?: unknown;
       gatewayUrl?: string;
@@ -38,7 +38,7 @@ type ProviderMonitorTestMocks = {
   createdBindingManagers: Array<{ stop: ReturnType<typeof vi.fn> }>;
   getAcpSessionStatusMock: Mock<
     (params: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       sessionKey: string;
       signal?: AbortSignal;
     }) => Promise<{ state: string }>
@@ -124,7 +124,7 @@ const providerMonitorTestMocks: ProviderMonitorTestMocks = vi.hoisted(() => {
     })),
     createdBindingManagers,
     getAcpSessionStatusMock: vi.fn(
-      async (_params: { cfg: Brikko StudioConfig; sessionKey: string; signal?: AbortSignal }) => ({
+      async (_params: { cfg: BrikkoStudioConfig; sessionKey: string; signal?: AbortSignal }) => ({
         state: "idle",
       }),
     ),
@@ -272,7 +272,7 @@ export const baseRuntime = (): RuntimeEnv => ({
   exit: vi.fn(),
 });
 
-export const baseConfig = (): Brikko StudioConfig =>
+export const baseConfig = (): BrikkoStudioConfig =>
   ({
     channels: {
       discord: {
@@ -283,7 +283,7 @@ export const baseConfig = (): Brikko StudioConfig =>
         },
       },
     },
-  }) as Brikko StudioConfig;
+  }) as BrikkoStudioConfig;
 
 vi.mock("../internal/discord.js", async () => {
   const actual =

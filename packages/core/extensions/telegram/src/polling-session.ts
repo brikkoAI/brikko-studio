@@ -372,7 +372,7 @@ export class TelegramPollingSession {
       const reason = isConflict ? "getUpdates conflict" : "network error";
       const errMsg = formatErrorMessage(err);
       const conflictHint = isConflict
-        ? " Another Brikko Studio gateway, script, or Telegram poller may be using this bot token; stop the duplicate poller or switch this account to webhook mode."
+        ? " Another BrikkoStudio gateway, script, or Telegram poller may be using this bot token; stop the duplicate poller or switch this account to webhook mode."
         : "";
       this.opts.log(
         `[telegram][diag] polling cycle error reason=${reason} ${liveness.formatDiagnosticFields("lastGetUpdatesError")} err=${errMsg}${conflictHint}`,

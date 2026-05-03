@@ -1,5 +1,5 @@
 export type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
-export type { Brikko StudioConfig, GroupPolicy } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig, GroupPolicy } from "brikko-studio/plugin-sdk/config-types";
 export type { MarkdownTableMode } from "brikko-studio/plugin-sdk/config-types";
 export type { BaseTokenResolution } from "brikko-studio/plugin-sdk/channel-contract";
 export type {

@@ -1,6 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import type { Brikko StudioChannelBridge } from "./channel-bridge.js";
+import type { BrikkoStudioChannelBridge } from "./channel-bridge.js";
 import {
   extractAttachmentsFromMessage,
   resolveMessageId,
@@ -20,10 +20,10 @@ export function getChannelMcpCapabilities(claudeChannelMode: "off" | "on" | "aut
   };
 }
 
-export function registerChannelMcpTools(server: McpServer, bridge: Brikko StudioChannelBridge): void {
+export function registerChannelMcpTools(server: McpServer, bridge: BrikkoStudioChannelBridge): void {
   server.tool(
     "conversations_list",
-    "List Brikko Studio channel-backed conversations available through session routes.",
+    "List BrikkoStudio channel-backed conversations available through session routes.",
     {
       limit: z.number().int().min(1).max(500).optional(),
       search: z.string().optional(),
@@ -42,7 +42,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: Brikko Studio
 
   server.tool(
     "conversation_get",
-    "Get one Brikko Studio conversation by session key.",
+    "Get one BrikkoStudio conversation by session key.",
     { session_key: z.string().min(1) },
     async ({ session_key }) => {
       const conversation = await bridge.getConversation(session_key);
@@ -61,7 +61,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: Brikko Studio
 
   server.tool(
     "messages_read",
-    "Read recent messages for one Brikko Studio conversation.",
+    "Read recent messages for one BrikkoStudio conversation.",
     {
       session_key: z.string().min(1),
       limit: z.number().int().min(1).max(200).optional(),
@@ -77,7 +77,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: Brikko Studio
 
   server.tool(
     "attachments_fetch",
-    "List non-text attachments for a message in one Brikko Studio conversation.",
+    "List non-text attachments for a message in one BrikkoStudio conversation.",
     {
       session_key: z.string().min(1),
       message_id: z.string().min(1),
@@ -102,7 +102,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: Brikko Studio
 
   server.tool(
     "events_poll",
-    "Poll queued Brikko Studio conversation events since a cursor.",
+    "Poll queued BrikkoStudio conversation events since a cursor.",
     {
       after_cursor: z.number().int().min(0).optional(),
       session_key: z.string().optional(),
@@ -122,7 +122,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: Brikko Studio
 
   server.tool(
     "events_wait",
-    "Wait for the next queued Brikko Studio conversation event.",
+    "Wait for the next queued BrikkoStudio conversation event.",
     {
       after_cursor: z.number().int().min(0).optional(),
       session_key: z.string().optional(),
@@ -142,7 +142,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: Brikko Studio
 
   server.tool(
     "messages_send",
-    "Send a message back through the same Brikko Studio conversation route.",
+    "Send a message back through the same BrikkoStudio conversation route.",
     {
       session_key: z.string().min(1),
       text: z.string().min(1),
@@ -158,7 +158,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: Brikko Studio
 
   server.tool(
     "permissions_list_open",
-    "List open Brikko Studio exec or plugin approval requests visible through the Gateway.",
+    "List open BrikkoStudio exec or plugin approval requests visible through the Gateway.",
     {},
     async () => {
       const approvals = bridge.listPendingApprovals();
@@ -171,7 +171,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: Brikko Studio
 
   server.tool(
     "permissions_respond",
-    "Allow or deny one pending Brikko Studio exec or plugin approval request.",
+    "Allow or deny one pending BrikkoStudio exec or plugin approval request.",
     {
       kind: z.enum(["exec", "plugin"]),
       id: z.string().min(1),

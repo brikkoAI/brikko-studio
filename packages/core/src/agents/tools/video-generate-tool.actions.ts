@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { listSupportedVideoGenerationModes } from "../../video-generation/capabilities.js";
 import { listRuntimeVideoGenerationProviders } from "../../video-generation/runtime.js";
 import {
@@ -78,7 +78,7 @@ function summarizeVideoGenerationCapabilities(
 }
 
 export function createVideoGenerateListActionResult(
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): VideoGenerateActionResult {
   const providers = listRuntimeVideoGenerationProviders({ config });
   return createMediaGenerateProviderListActionResult({

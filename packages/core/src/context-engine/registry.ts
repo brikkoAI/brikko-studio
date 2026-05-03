@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { defaultSlotIdForKey } from "../plugins/slots.js";
 import { resolveGlobalSingleton } from "../shared/global-singleton.js";
 import { sanitizeForLog } from "../terminal/ansi.js";
@@ -10,7 +10,7 @@ import type { ContextEngine } from "./types.js";
  * without fragile workarounds.
  */
 export type ContextEngineFactoryContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
 };
@@ -498,7 +498,7 @@ export type ResolveContextEngineOptions = {
  * Throws only when the default engine itself cannot be resolved.
  */
 export async function resolveContextEngine(
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
   options?: ResolveContextEngineOptions,
 ): Promise<ContextEngine> {
   const slotValue = config?.plugins?.slots?.contextEngine;

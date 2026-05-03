@@ -3,7 +3,7 @@ import {
   listChannelPlugins,
   resolveChannelApprovalCapability,
 } from "../channels/plugins/index.js";
-import { getRuntimeConfig, type Brikko StudioConfig } from "../config/config.js";
+import { getRuntimeConfig, type BrikkoStudioConfig } from "../config/config.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import {
   INTERNAL_MESSAGE_CHANNEL,
@@ -40,7 +40,7 @@ function hasNativeExecApprovalCapability(channel?: string): boolean {
 export function resolveExecApprovalInitiatingSurfaceState(params: {
   channel?: string | null;
   accountId?: string | null;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): ExecApprovalInitiatingSurfaceState {
   const channel = normalizeMessageChannel(params.channel);
   const channelLabel = labelForChannel(channel);

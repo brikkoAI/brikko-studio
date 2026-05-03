@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   expectedIntegrityForUpdate,
   readInstalledPackageVersion,
@@ -26,7 +26,7 @@ export type HookPackUpdateOutcome = {
 };
 
 export type HookPackUpdateSummary = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changed: boolean;
   outcomes: HookPackUpdateOutcome[];
 };
@@ -66,7 +66,7 @@ function createHookPackUpdateIntegrityDriftHandler(params: {
 }
 
 export async function updateNpmInstalledHookPacks(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   logger?: HookPackUpdateLogger;
   hookIds?: string[];
   dryRun?: boolean;

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import {
   completeWithPreparedSimpleCompletionModel,
@@ -21,7 +21,7 @@ const DISCORD_THREAD_TITLE_SYSTEM_PROMPT =
   "Generate a concise Discord thread title (3-6 words). Return only the title. Use channel context when provided and avoid redundant channel-name words unless needed for clarity.";
 
 export async function generateThreadTitle(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   messageText: string;
   modelRef?: string;

@@ -1,5 +1,5 @@
 import type { WebClient } from "@slack/web-api";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 const resolveSlackMedia = vi.fn();
@@ -239,7 +239,7 @@ describe("downloadSlackFile", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     const result = await downloadSlackFile("F123", {
       cfg,

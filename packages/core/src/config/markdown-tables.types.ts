@@ -1,8 +1,8 @@
 import type { MarkdownTableMode } from "./types.base.js";
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 
 export type ResolveMarkdownTableModeParams = {
-  cfg?: Partial<Brikko StudioConfig>;
+  cfg?: Partial<BrikkoStudioConfig>;
   channel?: string | null;
   accountId?: string | null;
 };

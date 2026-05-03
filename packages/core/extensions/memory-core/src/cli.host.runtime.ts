@@ -17,7 +17,7 @@ export {
   resolveDefaultAgentId,
   resolveSessionTranscriptsDirForAgent,
   resolveStateDir,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-runtime-core";
 export {
   listMemoryFiles,

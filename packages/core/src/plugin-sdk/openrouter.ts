@@ -1,10 +1,10 @@
 // Manual facade. Keep loader boundary explicit.
-import type { ModelProviderConfig, Brikko StudioConfig } from "../config/types.js";
+import type { ModelProviderConfig, BrikkoStudioConfig } from "../config/types.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
 
 type FacadeModule = {
-  applyOpenrouterConfig: (cfg: Brikko StudioConfig) => Brikko StudioConfig;
-  applyOpenrouterProviderConfig: (cfg: Brikko StudioConfig) => Brikko StudioConfig;
+  applyOpenrouterConfig: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig;
+  applyOpenrouterProviderConfig: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig;
   buildOpenrouterProvider: () => ModelProviderConfig;
   OPENROUTER_DEFAULT_MODEL_REF: string;
 };

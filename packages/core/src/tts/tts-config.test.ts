@@ -2,7 +2,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   resolveConfiguredTtsMode,
   resolveEffectiveTtsConfig,
@@ -43,13 +43,13 @@ describe("shouldAttemptTtsPayload", () => {
   });
 
   it("skips TTS when config, prefs, and session state leave auto mode off", () => {
-    expect(shouldAttemptTtsPayload({ cfg: {} as Brikko StudioConfig })).toBe(false);
+    expect(shouldAttemptTtsPayload({ cfg: {} as BrikkoStudioConfig })).toBe(false);
   });
 
   it("does not infer automatic TTS from a dashboard text turn without opt-in state", () => {
     expect(
       shouldAttemptTtsPayload({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         agentId: "main",
         channelId: "webchat",
         accountId: "dashboard",
@@ -59,21 +59,21 @@ describe("shouldAttemptTtsPayload", () => {
 
   it("honors session auto state before prefs and config", () => {
     writeFileSync(prefsPath, JSON.stringify({ tts: { auto: "off" } }));
-    const cfg = { messages: { tts: { auto: "off" } } } as Brikko StudioConfig;
+    const cfg = { messages: { tts: { auto: "off" } } } as BrikkoStudioConfig;
 
     expect(shouldAttemptTtsPayload({ cfg, ttsAuto: "always" })).toBe(true);
     expect(shouldAttemptTtsPayload({ cfg, ttsAuto: "off" })).toBe(false);
   });
 
   it("uses local prefs before config auto mode", () => {
-    const cfg = { messages: { tts: { auto: "off" } } } as Brikko StudioConfig;
+    const cfg = { messages: { tts: { auto: "off" } } } as BrikkoStudioConfig;
 
     writeFileSync(prefsPath, JSON.stringify({ tts: { enabled: true } }));
     expect(shouldAttemptTtsPayload({ cfg })).toBe(true);
 
     writeFileSync(prefsPath, JSON.stringify({ tts: { auto: "off" } }));
     expect(
-      shouldAttemptTtsPayload({ cfg: { messages: { tts: { enabled: true } } } as Brikko StudioConfig }),
+      shouldAttemptTtsPayload({ cfg: { messages: { tts: { enabled: true } } } as BrikkoStudioConfig }),
     ).toBe(false);
   });
 
@@ -96,7 +96,7 @@ describe("shouldAttemptTtsPayload", () => {
           },
         ],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(shouldAttemptTtsPayload({ cfg, agentId: "voice" })).toBe(true);
     expect(resolveConfiguredTtsMode(cfg, "voice")).toBe("all");
@@ -152,7 +152,7 @@ describe("shouldAttemptTtsPayload", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const resolved = resolveEffectiveTtsConfig(cfg, {
       agentId: "reader",

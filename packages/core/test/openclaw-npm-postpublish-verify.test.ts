@@ -148,8 +148,8 @@ describe("collectInstalledContextEngineRuntimeErrors", () => {
 
 describe("normalizeInstalledBinaryVersion", () => {
   it("accepts decorated CLI version output", () => {
-    expect(normalizeInstalledBinaryVersion("Brikko Studio 2026.4.8 (9ece252)")).toBe("2026.4.8");
-    expect(normalizeInstalledBinaryVersion("Brikko Studio 2026.4.8-beta.1 (9ece252)")).toBe(
+    expect(normalizeInstalledBinaryVersion("BrikkoStudio 2026.4.8 (9ece252)")).toBe("2026.4.8");
+    expect(normalizeInstalledBinaryVersion("BrikkoStudio 2026.4.8-beta.1 (9ece252)")).toBe(
       "2026.4.8-beta.1",
     );
   });

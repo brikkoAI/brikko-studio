@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { TelegramNativeCommandDeps } from "./bot-native-command-deps.runtime.js";
@@ -115,7 +115,7 @@ vi.mock("brikko-studio/plugin-sdk/conversation-runtime", async () => {
     ensureConfiguredBindingRouteReady: persistentBindingMocks.ensureConfiguredBindingRouteReady,
     recordInboundSessionMetaSafe: vi.fn(
       async (params: {
-        cfg: Brikko StudioConfig;
+        cfg: BrikkoStudioConfig;
         agentId: string;
         sessionKey: string;
         ctx: unknown;
@@ -204,7 +204,7 @@ type TelegramPluginCommandSpecs = ReturnType<
 >;
 
 function registerAndResolveStatusHandler(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   allowFrom?: string[];
   groupAllowFrom?: string[];
   storeAllowFrom?: string[];
@@ -236,7 +236,7 @@ function registerAndResolveStatusHandler(params: {
 
 function registerAndResolveCommandHandlerBase(params: {
   commandName: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   allowFrom: string[];
   groupAllowFrom: string[];
   storeAllowFrom?: string[];
@@ -297,7 +297,7 @@ function registerAndResolveCommandHandlerBase(params: {
 
 function registerAndResolveCommandHandler(params: {
   commandName: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   allowFrom?: string[];
   groupAllowFrom?: string[];
   storeAllowFrom?: string[];
@@ -490,7 +490,7 @@ describe("registerTelegramNativeCommands — session metadata", () => {
   });
 
   it("calls recordSessionMetaFromInbound after a native slash command", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const { handler } = registerAndResolveStatusHandler({ cfg });
     await handler(createTelegramPrivateCommandContext());
 
@@ -511,7 +511,7 @@ describe("registerTelegramNativeCommands — session metadata", () => {
   });
 
   it("uses the target session model when building native argument menus", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     sessionMocks.loadSessionStore.mockReturnValue({
       "agent:main:main": {
         providerOverride: "anthropic",
@@ -547,7 +547,7 @@ describe("registerTelegramNativeCommands — session metadata", () => {
   });
 
   it("inherits the parent session model when building DM thread native argument menus", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     sessionMocks.loadSessionStore.mockReturnValue({
       "agent:main:main": {
         providerOverride: "anthropic",
@@ -588,7 +588,7 @@ describe("registerTelegramNativeCommands — session metadata", () => {
           model: { primary: "openai/gpt-5.5" },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     sessionMocks.loadSessionStore.mockReturnValue({
       "agent:main:main": {
         providerOverride: "anthropic",
@@ -640,7 +640,7 @@ describe("registerTelegramNativeCommands — session metadata", () => {
     const deferred = createDeferred<void>();
     sessionMocks.recordSessionMetaFromInbound.mockReturnValue(deferred.promise);
 
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const { handler } = registerAndResolveStatusHandler({ cfg });
     const runPromise = handler(createTelegramPrivateCommandContext());
 
@@ -1061,7 +1061,7 @@ describe("registerTelegramNativeCommands — session metadata", () => {
 
     const { handler } = registerAndResolveCommandHandler({
       commandName: "codex",
-      cfg: { commands: { allowFrom: { telegram: ["200"] } } } as Brikko StudioConfig,
+      cfg: { commands: { allowFrom: { telegram: ["200"] } } } as BrikkoStudioConfig,
       groupAllowFrom: ["-1001234567890"],
       useAccessGroups: false,
       pluginCommandSpecs: [

@@ -129,7 +129,7 @@ export const linePlugin: ChannelPlugin<ResolvedLineAccount> = createChatChannelP
   pairing: {
     text: {
       idLabel: "lineUserId",
-      message: "Brikko Studio: your access has been approved.",
+      message: "BrikkoStudio: your access has been approved.",
       normalizeAllowEntry: createPairingPrefixStripper(/^line:(?:user:)?/i),
       notify: async ({ cfg, id, message }) => {
         const account = (getLineRuntime().channel.line?.resolveLineAccount ?? resolveLineAccount)({

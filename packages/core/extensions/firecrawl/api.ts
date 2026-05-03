@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { readStringValue } from "brikko-studio/plugin-sdk/text-runtime";
 import { runFirecrawlScrape } from "./src/firecrawl-client.js";
 
@@ -26,7 +26,7 @@ export type FetchFirecrawlContentResult = {
 export async function fetchFirecrawlContent(
   params: FetchFirecrawlContentParams,
 ): Promise<FetchFirecrawlContentResult> {
-  const cfg: Brikko StudioConfig = {
+  const cfg: BrikkoStudioConfig = {
     plugins: {
       entries: {
         firecrawl: {

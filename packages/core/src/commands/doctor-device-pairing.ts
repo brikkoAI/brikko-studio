@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { formatCliCommand } from "../cli/command-format.js";
 import { resolveStateDir } from "../config/paths.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { callGateway } from "../gateway/call.js";
 import {
   listApprovedPairedDeviceRoles,
@@ -142,7 +142,7 @@ function normalizeLocalPairedDevice(device: PairedDevice): DoctorPairedDevice {
 }
 
 async function loadDoctorPairingSnapshot(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   healthOk: boolean;
 }): Promise<DoctorPairingSnapshot | null> {
   if (params.healthOk) {
@@ -513,11 +513,11 @@ function collectLocalDeviceAuthIssues(snapshot: DoctorPairingSnapshot): string[]
 
 function formatPairingStoreReadIssue(error: JsonFileReadError): string {
   const problem = error.reason === "parse" ? "contains invalid JSON" : "could not be read";
-  return `- Device pairing store ${error.filePath} ${problem}. Brikko Studio refused to treat it as empty to avoid overwriting approved pairings. Fix the JSON or file permissions, or move it aside and re-pair devices.`;
+  return `- Device pairing store ${error.filePath} ${problem}. BrikkoStudio refused to treat it as empty to avoid overwriting approved pairings. Fix the JSON or file permissions, or move it aside and re-pair devices.`;
 }
 
 export async function noteDevicePairingHealth(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   healthOk: boolean;
 }): Promise<void> {
   let snapshot: DoctorPairingSnapshot | null;

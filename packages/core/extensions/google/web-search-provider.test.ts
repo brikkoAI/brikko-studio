@@ -1,10 +1,10 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { withEnv, withEnvAsync, withFetchPreconnect } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { __testing, createGeminiWebSearchProvider } from "./src/gemini-web-search-provider.js";
 
 type TestModelProviderConfig = NonNullable<
-  NonNullable<Brikko StudioConfig["models"]>["providers"]
+  NonNullable<BrikkoStudioConfig["models"]>["providers"]
 >[string];
 
 function installGeminiFetch() {
@@ -80,7 +80,7 @@ describe("google web search provider", () => {
         throw new Error("Expected tool definition");
       }
 
-      await expect(tool.execute({ query: "Brikko Studio docs" })).resolves.toMatchObject({
+      await expect(tool.execute({ query: "BrikkoStudio docs" })).resolves.toMatchObject({
         error: "missing_gemini_api_key",
         message: expect.stringContaining("use web_fetch for a specific URL or the browser tool"),
       });
@@ -111,7 +111,7 @@ describe("google web search provider", () => {
 
   it("stores configured credentials at the canonical plugin config path", () => {
     const provider = createGeminiWebSearchProvider();
-    const config = {} as Brikko StudioConfig;
+    const config = {} as BrikkoStudioConfig;
 
     provider.setConfiguredCredentialValue?.(config, "AIza-plugin-test");
 
@@ -145,7 +145,7 @@ describe("google web search provider", () => {
       searchConfig: { provider: "gemini" },
     });
 
-    await tool?.execute({ query: "Brikko Studio docs" });
+    await tool?.execute({ query: "BrikkoStudio docs" });
 
     expect(getGeminiFetchUrl(mockFetch)).toBe(
       "https://generativelanguage.googleapis.com/proxy/v1beta/models/gemini-2.5-flash:generateContent",
@@ -174,7 +174,7 @@ describe("google web search provider", () => {
       searchConfig: { provider: "gemini" },
     });
 
-    await tool?.execute({ query: "Brikko Studio docs" }, { signal: controller.signal });
+    await tool?.execute({ query: "BrikkoStudio docs" }, { signal: controller.signal });
 
     const init = mockFetch.mock.calls[0]?.[1] as { signal?: AbortSignal } | undefined;
     expect(init?.signal?.aborted).toBe(true);
@@ -197,7 +197,7 @@ describe("google web search provider", () => {
         searchConfig: { provider: "gemini" },
       });
 
-      await tool?.execute({ query: "Brikko Studio provider key fallback" });
+      await tool?.execute({ query: "BrikkoStudio provider key fallback" });
 
       expect(getFetchHeaders(mockFetch)["x-goog-api-key"]).toBe("AIza-provider-test");
     });
@@ -231,7 +231,7 @@ describe("google web search provider", () => {
         searchConfig: { provider: "gemini" },
       });
 
-      await tool?.execute({ query: "Brikko Studio plugin key precedence" });
+      await tool?.execute({ query: "BrikkoStudio plugin key precedence" });
 
       expect(getFetchHeaders(mockFetch)["x-goog-api-key"]).toBe("AIza-plugin-test");
     });
@@ -254,7 +254,7 @@ describe("google web search provider", () => {
       searchConfig: { provider: "gemini" },
     });
 
-    await tool?.execute({ query: "Brikko Studio provider baseUrl fallback" });
+    await tool?.execute({ query: "BrikkoStudio provider baseUrl fallback" });
 
     expect(getGeminiFetchUrl(mockFetch)).toBe(
       "https://generativelanguage.googleapis.com/provider/v1beta/models/gemini-2.5-flash:generateContent",
@@ -289,7 +289,7 @@ describe("google web search provider", () => {
       searchConfig: { provider: "gemini" },
     });
 
-    await tool?.execute({ query: "Brikko Studio plugin baseUrl precedence" });
+    await tool?.execute({ query: "BrikkoStudio plugin baseUrl precedence" });
 
     expect(getGeminiFetchUrl(mockFetch)).toBe(
       "https://generativelanguage.googleapis.com/plugin/v1beta/models/gemini-2.5-flash:generateContent",
@@ -348,7 +348,7 @@ describe("google web search provider", () => {
     });
 
     await tool?.execute({
-      query: "Brikko Studio release notes",
+      query: "BrikkoStudio release notes",
       date_after: "2026-04-01",
       date_before: "2026-04-30",
     });
@@ -382,7 +382,7 @@ describe("google web search provider", () => {
 
     await expect(
       tool?.execute({
-        query: "Brikko Studio release notes",
+        query: "BrikkoStudio release notes",
         freshness: "week",
         date_after: "2026-04-01",
       }),

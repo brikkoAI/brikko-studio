@@ -11,9 +11,9 @@ export {
 } from "./onboard.js";
 
 export function applyOpencodeGoModelDefault(
-  cfg: import("brikko-studio/plugin-sdk/provider-onboard").Brikko StudioConfig,
+  cfg: import("brikko-studio/plugin-sdk/provider-onboard").BrikkoStudioConfig,
 ): {
-  next: import("brikko-studio/plugin-sdk/provider-onboard").Brikko StudioConfig;
+  next: import("brikko-studio/plugin-sdk/provider-onboard").BrikkoStudioConfig;
   changed: boolean;
 } {
   const current = resolveAgentModelPrimaryValue(cfg.agents?.defaults?.model);

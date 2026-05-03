@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { startHeartbeatRunner } from "./heartbeat-runner.js";
 import { computeNextHeartbeatPhaseDueMs, resolveHeartbeatPhaseMs } from "./heartbeat-schedule.js";
 import {
@@ -28,14 +28,14 @@ describe("startHeartbeatRunner", () => {
   }
 
   function heartbeatConfig(
-    list?: NonNullable<NonNullable<Brikko StudioConfig["agents"]>["list"]>,
-  ): Brikko StudioConfig {
+    list?: NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["list"]>,
+  ): BrikkoStudioConfig {
     return {
       agents: {
         defaults: { heartbeat: { every: "30m" } },
         ...(list ? { list } : {}),
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
   function resolveDueFromNow(nowMs: number, intervalMs: number, agentId: string) {
@@ -99,7 +99,7 @@ describe("startHeartbeatRunner", () => {
   }
 
   async function expectWakeDispatch(params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     runSpy: RunOnce;
     wake: Parameters<typeof requestHeartbeat>[0];
     expectedCall: Record<string, unknown>;
@@ -148,7 +148,7 @@ describe("startHeartbeatRunner", () => {
           { id: "ops", heartbeat: { every: "15m" } },
         ],
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     const nowAfterReload = Date.now();
     const nextMainDueMs = resolveDueFromNow(nowAfterReload, 10 * 60_000, "main");
@@ -230,7 +230,7 @@ describe("startHeartbeatRunner", () => {
 
     const cfg = {
       agents: { defaults: { heartbeat: { every: "30m" } } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const firstDueMs = resolveDueFromNow(0, 30 * 60_000, "main");
 
     // Start runner A
@@ -372,7 +372,7 @@ describe("startHeartbeatRunner", () => {
           { id: "main", heartbeat: { every: "30m" } },
           { id: "ops", heartbeat: { every: "15m" } },
         ]),
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       runSpy,
       wake: {
         source: "cron",
@@ -432,7 +432,7 @@ describe("startHeartbeatRunner", () => {
             },
           },
         ]),
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       runSpy,
       wake: {
         source: "cron",
@@ -486,7 +486,7 @@ describe("startHeartbeatRunner", () => {
           { id: "main", heartbeat: { every: "30m" } },
           { id: "finance", heartbeat: { every: "30m" } },
         ]),
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       runSpy,
       wake: {
         source: "exec-event",

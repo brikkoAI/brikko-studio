@@ -7,7 +7,7 @@ type CodexContextProjection = {
   prePromptMessageCount: number;
 };
 
-const CONTEXT_HEADER = "Brikko Studio assembled context for this turn:";
+const CONTEXT_HEADER = "BrikkoStudio assembled context for this turn:";
 const CONTEXT_OPEN = "<conversation_context>";
 const CONTEXT_CLOSE = "</conversation_context>";
 const REQUEST_HEADER = "Current user request:";
@@ -17,7 +17,7 @@ const MAX_RENDERED_CONTEXT_CHARS = 24_000;
 const MAX_TEXT_PART_CHARS = 6_000;
 
 /**
- * Project assembled Brikko Studio context-engine messages into Codex prompt inputs.
+ * Project assembled BrikkoStudio context-engine messages into Codex prompt inputs.
  */
 export function projectContextEngineAssemblyForCodex(params: {
   assembledMessages: AgentMessage[];

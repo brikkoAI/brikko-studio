@@ -1,6 +1,6 @@
 import { type Api, type Model } from "@mariozechner/pi-ai";
 import type { AgentModelConfig } from "../../config/types.agents-shared.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { SsrFPolicy } from "../../infra/net/ssrf.js";
 import { getDefaultLocalRoots } from "../../media/web-media.js";
 import { readSnakeCaseParamRaw } from "../../param-key.js";
@@ -64,30 +64,30 @@ type TaskRunDetailHandle = {
 };
 
 export function applyImageModelConfigDefaults(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   imageModelConfig: ImageModelConfig,
-): Brikko StudioConfig | undefined {
+): BrikkoStudioConfig | undefined {
   return applyAgentDefaultModelConfig(cfg, "imageModel", imageModelConfig);
 }
 
 export function applyImageGenerationModelConfigDefaults(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   imageGenerationModelConfig: ToolModelConfig,
-): Brikko StudioConfig | undefined {
+): BrikkoStudioConfig | undefined {
   return applyAgentDefaultModelConfig(cfg, "imageGenerationModel", imageGenerationModelConfig);
 }
 
 export function applyVideoGenerationModelConfigDefaults(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   videoGenerationModelConfig: ToolModelConfig,
-): Brikko StudioConfig | undefined {
+): BrikkoStudioConfig | undefined {
   return applyAgentDefaultModelConfig(cfg, "videoGenerationModel", videoGenerationModelConfig);
 }
 
 export function applyMusicGenerationModelConfigDefaults(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   musicGenerationModelConfig: ToolModelConfig,
-): Brikko StudioConfig | undefined {
+): BrikkoStudioConfig | undefined {
   return applyAgentDefaultModelConfig(cfg, "musicGenerationModel", musicGenerationModelConfig);
 }
 
@@ -106,16 +106,16 @@ export function readGenerationTimeoutMs(args: Record<string, unknown>): number |
 }
 
 export function resolveRemoteMediaSsrfPolicy(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
 ): SsrFPolicy | undefined {
   return cfg?.tools?.web?.fetch?.ssrfPolicy;
 }
 
 function applyAgentDefaultModelConfig(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   key: "imageModel" | "imageGenerationModel" | "videoGenerationModel" | "musicGenerationModel",
   modelConfig: ToolModelConfig,
-): Brikko StudioConfig | undefined {
+): BrikkoStudioConfig | undefined {
   if (!cfg) {
     return undefined;
   }
@@ -135,7 +135,7 @@ type CapabilityProvider = {
   id: string;
   aliases?: string[];
   defaultModel?: string;
-  isConfigured?: (ctx: { cfg?: Brikko StudioConfig; agentDir?: string }) => boolean;
+  isConfigured?: (ctx: { cfg?: BrikkoStudioConfig; agentDir?: string }) => boolean;
 };
 
 type CapabilityProviderSource = CapabilityProvider[] | (() => CapabilityProvider[]);
@@ -161,7 +161,7 @@ export function isCapabilityProviderConfigured<T extends CapabilityProvider>(par
   providers: T[];
   provider?: T;
   providerId?: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   authStore?: AuthProfileStore;
 }): boolean {
@@ -211,7 +211,7 @@ export function resolveSelectedCapabilityProvider<T extends CapabilityProvider>(
 }
 
 function resolveCapabilityModelCandidatesForTool(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   authStore?: AuthProfileStore;
   providers: CapabilityProvider[];
@@ -269,7 +269,7 @@ function resolveCapabilityModelCandidatesForTool(params: {
 }
 
 export function resolveCapabilityModelConfigForTool(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   authStore?: AuthProfileStore;
   modelConfig?: AgentModelConfig;
@@ -307,7 +307,7 @@ export function resolveCapabilityModelConfigForTool(params: {
 }
 
 export function hasGenerationToolAvailability(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   authStore?: AuthProfileStore;
@@ -553,7 +553,7 @@ export function resolveModelFromRegistry(params: {
 
 export async function resolveModelRuntimeApiKey(params: {
   model: Model<Api>;
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   agentDir: string;
   authStorage: {
     setRuntimeApiKey: (provider: string, apiKey: string) => void;

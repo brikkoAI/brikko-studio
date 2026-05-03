@@ -2,16 +2,16 @@ import {
   ensureControlUiAllowedOriginsForNonLoopbackBind,
   type GatewayNonLoopbackBindMode,
 } from "../config/gateway-control-ui-origins.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isContainerEnvironment } from "./net.js";
 
 export async function maybeSeedControlUiAllowedOriginsAtStartup(params: {
-  config: Brikko StudioConfig;
-  writeConfig: (config: Brikko StudioConfig) => Promise<void>;
+  config: BrikkoStudioConfig;
+  writeConfig: (config: BrikkoStudioConfig) => Promise<void>;
   log: { info: (msg: string) => void; warn: (msg: string) => void };
   runtimeBind?: unknown;
   runtimePort?: unknown;
-}): Promise<{ config: Brikko StudioConfig; persistedAllowedOriginsSeed: boolean }> {
+}): Promise<{ config: BrikkoStudioConfig; persistedAllowedOriginsSeed: boolean }> {
   const seeded = ensureControlUiAllowedOriginsForNonLoopbackBind(params.config, {
     isContainerEnvironment,
     runtimeBind: params.runtimeBind,

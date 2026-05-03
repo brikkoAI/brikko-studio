@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resetLogger, setLoggerOverride } from "../logging/logger.js";
 import { createWarnLogCapture } from "../logging/test-helpers/warn-log-capture.js";
 import { AUTH_STORE_VERSION } from "./auth-profiles/constants.js";
@@ -149,7 +149,7 @@ afterEach(() => {
   authSourceCheckMock.hasAnyAuthProfileStoreSource.mockReset().mockReturnValue(true);
 });
 
-function makeFallbacksOnlyCfg(): Brikko StudioConfig {
+function makeFallbacksOnlyCfg(): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -158,10 +158,10 @@ function makeFallbacksOnlyCfg(): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-function makeProviderFallbackCfg(provider: string): Brikko StudioConfig {
+function makeProviderFallbackCfg(provider: string): BrikkoStudioConfig {
   return makeCfg({
     agents: {
       defaults: {
@@ -189,7 +189,7 @@ async function makeAuthTempDir(): Promise<string> {
 }
 
 async function runWithStoredAuth(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   store: AuthProfileStore;
   provider: string;
   run: (provider: string, model: string) => Promise<string>;

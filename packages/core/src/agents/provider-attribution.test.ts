@@ -87,13 +87,13 @@ import {
 } from "./provider-attribution.js";
 
 describe("provider attribution", () => {
-  it("resolves the canonical Brikko Studio product and runtime version", () => {
+  it("resolves the canonical BrikkoStudio product and runtime version", () => {
     const identity = resolveProviderAttributionIdentity({
       BRIKKO_STUDIO_VERSION: "2026.3.99",
     });
 
     expect(identity).toEqual({
-      product: "Brikko Studio",
+      product: "BrikkoStudio",
       version: "2026.3.99",
     });
   });
@@ -109,12 +109,12 @@ describe("provider attribution", () => {
       verification: "vendor-documented",
       hook: "request-headers",
       docsUrl: "https://openrouter.ai/docs/app-attribution",
-      reviewNote: "Documented app attribution headers. Verified in Brikko Studio runtime wrapper.",
-      product: "Brikko Studio",
+      reviewNote: "Documented app attribution headers. Verified in BrikkoStudio runtime wrapper.",
+      product: "BrikkoStudio",
       version: "2026.3.22",
       headers: {
         "HTTP-Referer": "https://brikko-studio.ai",
-        "X-OpenRouter-Title": "Brikko Studio",
+        "X-OpenRouter-Title": "BrikkoStudio",
         "X-OpenRouter-Categories": "cli-agent",
       },
     });
@@ -127,7 +127,7 @@ describe("provider attribution", () => {
       }),
     ).toEqual({
       "HTTP-Referer": "https://brikko-studio.ai",
-      "X-OpenRouter-Title": "Brikko Studio",
+      "X-OpenRouter-Title": "BrikkoStudio",
       "X-OpenRouter-Categories": "cli-agent",
     });
   });
@@ -140,7 +140,7 @@ describe("provider attribution", () => {
       hook: "request-headers",
       reviewNote:
         "OpenAI native traffic supports hidden originator/User-Agent attribution. Verified against the Codex wire contract.",
-      product: "Brikko Studio",
+      product: "BrikkoStudio",
       version: "2026.3.22",
       headers: {
         originator: "brikko-studio",
@@ -165,7 +165,7 @@ describe("provider attribution", () => {
       hook: "request-headers",
       reviewNote:
         "OpenAI Codex ChatGPT-backed traffic supports the same hidden originator/User-Agent attribution contract.",
-      product: "Brikko Studio",
+      product: "BrikkoStudio",
       version: "2026.3.22",
       headers: {
         originator: "brikko-studio",

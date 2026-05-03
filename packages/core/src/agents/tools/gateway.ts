@@ -1,5 +1,5 @@
 import { getRuntimeConfig, resolveGatewayPort } from "../../config/config.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { callGateway } from "../../gateway/call.js";
 import { resolveGatewayCredentialsFromConfig, trimToUndefined } from "../../gateway/credentials.js";
 import {
@@ -63,7 +63,7 @@ function canonicalizeToolGatewayWsUrl(raw: string): { origin: string; key: strin
 }
 
 function validateGatewayUrlOverrideForAgentTools(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   urlOverride: string;
 }): { url: string; target: GatewayOverrideTarget } {
   const { cfg } = params;
@@ -105,7 +105,7 @@ function validateGatewayUrlOverrideForAgentTools(params: {
 }
 
 function resolveGatewayOverrideToken(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   target: GatewayOverrideTarget;
   explicitToken?: string;
 }): string | undefined {

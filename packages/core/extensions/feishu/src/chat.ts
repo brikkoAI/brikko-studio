@@ -1,5 +1,5 @@
 import type * as Lark from "@larksuiteoapi/node-sdk";
-import type { Brikko StudioPluginApi } from "../runtime-api.js";
+import type { BrikkoStudioPluginApi } from "../runtime-api.js";
 import { listEnabledFeishuAccounts } from "./accounts.js";
 import { FeishuChatSchema, type FeishuChatParams } from "./chat-schema.js";
 import { createFeishuClient } from "./client.js";
@@ -121,7 +121,7 @@ export async function getFeishuMemberInfo(
   };
 }
 
-export function registerFeishuChatTools(api: Brikko StudioPluginApi) {
+export function registerFeishuChatTools(api: BrikkoStudioPluginApi) {
   if (!api.config) {
     return;
   }

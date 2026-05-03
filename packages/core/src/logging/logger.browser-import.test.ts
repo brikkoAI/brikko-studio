@@ -8,15 +8,15 @@ const originalGetBuiltinModule = (
 ).getBuiltinModule;
 
 async function importBrowserSafeLogger(params?: {
-  resolvePreferredBrikko StudioTmpDir?: ReturnType<typeof vi.fn>;
+  resolvePreferredBrikkoStudioTmpDir?: ReturnType<typeof vi.fn>;
 }): Promise<{
   module: LoggerModule;
-  resolvePreferredBrikko StudioTmpDir: ReturnType<typeof vi.fn>;
+  resolvePreferredBrikkoStudioTmpDir: ReturnType<typeof vi.fn>;
 }> {
-  const resolvePreferredBrikko StudioTmpDir =
-    params?.resolvePreferredBrikko StudioTmpDir ??
+  const resolvePreferredBrikkoStudioTmpDir =
+    params?.resolvePreferredBrikkoStudioTmpDir ??
     vi.fn(() => {
-      throw new Error("resolvePreferredBrikko StudioTmpDir should not run during browser-safe import");
+      throw new Error("resolvePreferredBrikkoStudioTmpDir should not run during browser-safe import");
     });
 
   vi.doMock("../infra/tmp-brikko-studio-dir.js", async () => {
@@ -25,7 +25,7 @@ async function importBrowserSafeLogger(params?: {
     );
     return {
       ...actual,
-      resolvePreferredBrikko StudioTmpDir,
+      resolvePreferredBrikkoStudioTmpDir,
     };
   });
 
@@ -38,7 +38,7 @@ async function importBrowserSafeLogger(params?: {
     import.meta.url,
     "./logger.js?scope=browser-safe",
   );
-  return { module, resolvePreferredBrikko StudioTmpDir };
+  return { module, resolvePreferredBrikkoStudioTmpDir };
 }
 
 describe("logging/logger browser-safe import", () => {
@@ -51,15 +51,15 @@ describe("logging/logger browser-safe import", () => {
   });
 
   it("does not resolve the preferred temp dir at import time when node fs is unavailable", async () => {
-    const { module, resolvePreferredBrikko StudioTmpDir } = await importBrowserSafeLogger();
+    const { module, resolvePreferredBrikkoStudioTmpDir } = await importBrowserSafeLogger();
 
-    expect(resolvePreferredBrikko StudioTmpDir).not.toHaveBeenCalled();
+    expect(resolvePreferredBrikkoStudioTmpDir).not.toHaveBeenCalled();
     expect(module.DEFAULT_LOG_DIR).toBe("/tmp/brikko-studio");
     expect(module.DEFAULT_LOG_FILE).toBe("/tmp/brikko-studio/brikko-studio.log");
   });
 
   it("disables file logging when imported in a browser-like environment", async () => {
-    const { module, resolvePreferredBrikko StudioTmpDir } = await importBrowserSafeLogger();
+    const { module, resolvePreferredBrikkoStudioTmpDir } = await importBrowserSafeLogger();
 
     expect(module.getResolvedLoggerSettings()).toMatchObject({
       level: "silent",
@@ -67,6 +67,6 @@ describe("logging/logger browser-safe import", () => {
     });
     expect(module.isFileLogLevelEnabled("info")).toBe(false);
     expect(() => module.getLogger().info("browser-safe")).not.toThrow();
-    expect(resolvePreferredBrikko StudioTmpDir).not.toHaveBeenCalled();
+    expect(resolvePreferredBrikkoStudioTmpDir).not.toHaveBeenCalled();
   });
 });

@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { SafeOpenError, openFileWithinRoot } from "../infra/fs-safe.js";
 import { isNotFoundPathError, isPathInside } from "../infra/path-guards.js";
-import { resolvePreferredBrikko StudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../infra/tmp-brikko-studio-dir.js";
 
 const DEFAULT_FALLBACK_BROWSER_TMP_DIR = "/tmp/brikko-studio";
 
@@ -23,7 +23,7 @@ function canUseNodeFs(): boolean {
 }
 
 const DEFAULT_BROWSER_TMP_DIR = canUseNodeFs()
-  ? resolvePreferredBrikko StudioTmpDir()
+  ? resolvePreferredBrikkoStudioTmpDir()
   : DEFAULT_FALLBACK_BROWSER_TMP_DIR;
 export const DEFAULT_TRACE_DIR = DEFAULT_BROWSER_TMP_DIR;
 export const DEFAULT_DOWNLOAD_DIR = path.join(DEFAULT_BROWSER_TMP_DIR, "downloads");

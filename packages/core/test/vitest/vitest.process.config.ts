@@ -4,7 +4,7 @@ export function createProcessVitestConfig(env?: Record<string, string | undefine
   const config = createScopedVitestConfig(["src/process/**/*.test.ts"], {
     dir: "src",
     env,
-    includeBrikko StudioRuntimeSetup: false,
+    includeBrikkoStudioRuntimeSetup: false,
     name: "process",
     passWithNoTests: true,
   });

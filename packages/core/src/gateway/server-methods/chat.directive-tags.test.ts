@@ -812,7 +812,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   it("renders image reply payloads as assistant image content instead of MEDIA text", async () => {
     createTranscriptFixture("brikko-studio-chat-send-agent-image-");
     mockState.finalPayload = {
-      text: "Scan this QR code with the Brikko Studio iOS app:",
+      text: "Scan this QR code with the BrikkoStudio iOS app:",
       mediaUrl: "data:image/png;base64,cG5n",
     };
     const respond = vi.fn();
@@ -827,7 +827,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
     expect(payload?.message).toMatchObject({
       role: "assistant",
       content: [
-        { type: "text", text: "Scan this QR code with the Brikko Studio iOS app:" },
+        { type: "text", text: "Scan this QR code with the BrikkoStudio iOS app:" },
         { type: "input_image", image_url: "data:image/png;base64,cG5n" },
       ],
     });
@@ -2367,7 +2367,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   it("does not persist sensitive image media into transcript updates", async () => {
     createTranscriptFixture("brikko-studio-chat-send-sensitive-media-final-");
     mockState.finalPayload = {
-      text: "Scan this QR code with the Brikko Studio iOS app:",
+      text: "Scan this QR code with the BrikkoStudio iOS app:",
       mediaUrl: "data:image/png;base64,cG5n",
       sensitiveMedia: true,
     };
@@ -2383,7 +2383,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
     expect(payload?.message).toMatchObject({
       role: "assistant",
       content: [
-        { type: "text", text: "Scan this QR code with the Brikko Studio iOS app:" },
+        { type: "text", text: "Scan this QR code with the BrikkoStudio iOS app:" },
         { type: "input_image", image_url: "data:image/png;base64,cG5n" },
       ],
     });
@@ -2396,7 +2396,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
     expect(transcriptUpdate).toMatchObject({
       message: {
         role: "assistant",
-        content: [{ type: "text", text: "Scan this QR code with the Brikko Studio iOS app:" }],
+        content: [{ type: "text", text: "Scan this QR code with the BrikkoStudio iOS app:" }],
       },
     });
     expect(JSON.stringify(transcriptUpdate)).not.toContain("input_image");

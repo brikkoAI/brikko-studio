@@ -1,4 +1,4 @@
-import { spawn as startBrikko StudioCliProcess } from "node:child_process";
+import { spawn as startBrikkoStudioCliProcess } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { existsSync } from "node:fs";
 import { chmod, mkdir, mkdtemp, rm, stat, writeFile } from "node:fs/promises";
@@ -6,7 +6,7 @@ import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { redactSensitiveText } from "brikko-studio/plugin-sdk/logging-core";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 
 export type MatrixQaCliRunResult = {
   args: string[];
@@ -60,7 +60,7 @@ export function formatMatrixQaCliCommand(args: string[]) {
   return `brikko-studio ${redactMatrixQaCliArgs(args).join(" ")}`;
 }
 
-export function resolveMatrixQaBrikko StudioCliEntryPath(cwd: string): string {
+export function resolveMatrixQaBrikkoStudioCliEntryPath(cwd: string): string {
   const mjsEntryPath = path.join(cwd, "dist", "index.mjs");
   if (existsSync(mjsEntryPath)) {
     return mjsEntryPath;
@@ -91,7 +91,7 @@ function formatMatrixQaCliExitError(result: MatrixQaCliRunResult) {
     .join("\n");
 }
 
-export function startMatrixQaBrikko StudioCli(params: {
+export function startMatrixQaBrikkoStudioCli(params: {
   allowNonZero?: boolean;
   args: string[];
   cwd?: string;
@@ -100,7 +100,7 @@ export function startMatrixQaBrikko StudioCli(params: {
   timeoutMs: number;
 }): MatrixQaCliSession {
   const cwd = params.cwd ?? process.cwd();
-  const distEntryPath = resolveMatrixQaBrikko StudioCliEntryPath(cwd);
+  const distEntryPath = resolveMatrixQaBrikkoStudioCliEntryPath(cwd);
   const stdout: Buffer[] = [];
   const stderr: Buffer[] = [];
   let closed = false;
@@ -112,7 +112,7 @@ export function startMatrixQaBrikko StudioCli(params: {
       }
     | undefined;
 
-  const child = startBrikko StudioCliProcess(process.execPath, [distEntryPath, ...params.args], {
+  const child = startBrikkoStudioCliProcess(process.execPath, [distEntryPath, ...params.args], {
     cwd,
     env: params.env,
     stdio: ["pipe", "pipe", "pipe"],
@@ -243,7 +243,7 @@ export function startMatrixQaBrikko StudioCli(params: {
   };
 }
 
-export async function runMatrixQaBrikko StudioCli(params: {
+export async function runMatrixQaBrikkoStudioCli(params: {
   allowNonZero?: boolean;
   args: string[];
   cwd?: string;
@@ -251,7 +251,7 @@ export async function runMatrixQaBrikko StudioCli(params: {
   stdin?: string;
   timeoutMs: number;
 }): Promise<MatrixQaCliRunResult> {
-  return await startMatrixQaBrikko StudioCli(params).wait();
+  return await startMatrixQaBrikkoStudioCli(params).wait();
 }
 
 async function assertMatrixQaPrivatePathMode(pathToCheck: string, label: string) {
@@ -264,7 +264,7 @@ async function assertMatrixQaPrivatePathMode(pathToCheck: string, label: string)
   }
 }
 
-export async function createMatrixQaBrikko StudioCliRuntime(params: {
+export async function createMatrixQaBrikkoStudioCliRuntime(params: {
   accountId: string;
   accessToken: string;
   artifactLabel: string;
@@ -276,7 +276,7 @@ export async function createMatrixQaBrikko StudioCliRuntime(params: {
   userId: string;
 }) {
   const rootDir = await mkdtemp(
-    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-matrix-cli-qa-"),
+    path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-matrix-cli-qa-"),
   );
   const artifactDir = path.join(
     params.outputDir,
@@ -348,7 +348,7 @@ export async function createMatrixQaBrikko StudioCliRuntime(params: {
       args: string[],
       opts: { allowNonZero?: boolean; stdin?: string; timeoutMs: number },
     ): Promise<MatrixQaCliRunResult> =>
-      await runMatrixQaBrikko StudioCli({
+      await runMatrixQaBrikkoStudioCli({
         allowNonZero: opts.allowNonZero,
         args,
         env,
@@ -356,7 +356,7 @@ export async function createMatrixQaBrikko StudioCliRuntime(params: {
         timeoutMs: opts.timeoutMs,
       }),
     start: (args: string[], opts: { allowNonZero?: boolean; timeoutMs: number }) =>
-      startMatrixQaBrikko StudioCli({
+      startMatrixQaBrikkoStudioCli({
         allowNonZero: opts.allowNonZero,
         args,
         env,

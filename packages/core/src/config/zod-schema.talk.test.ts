@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { Brikko StudioSchema } from "./zod-schema.js";
+import { BrikkoStudioSchema } from "./zod-schema.js";
 
-describe("Brikko StudioSchema talk validation", () => {
+describe("BrikkoStudioSchema talk validation", () => {
   it("accepts a positive integer talk.silenceTimeoutMs", () => {
     expect(() =>
-      Brikko StudioSchema.parse({
+      BrikkoStudioSchema.parse({
         talk: {
           silenceTimeoutMs: 1500,
         },
@@ -18,7 +18,7 @@ describe("Brikko StudioSchema talk validation", () => {
     ["float", 1500.5],
   ])("rejects %s talk.silenceTimeoutMs", (_label, value) => {
     expect(() =>
-      Brikko StudioSchema.parse({
+      BrikkoStudioSchema.parse({
         talk: {
           silenceTimeoutMs: value,
         },
@@ -28,7 +28,7 @@ describe("Brikko StudioSchema talk validation", () => {
 
   it("rejects talk.provider when it does not match talk.providers", () => {
     expect(() =>
-      Brikko StudioSchema.parse({
+      BrikkoStudioSchema.parse({
         talk: {
           provider: "acme",
           providers: {
@@ -43,7 +43,7 @@ describe("Brikko StudioSchema talk validation", () => {
 
   it("rejects multi-provider talk config without talk.provider", () => {
     expect(() =>
-      Brikko StudioSchema.parse({
+      BrikkoStudioSchema.parse({
         talk: {
           providers: {
             acme: {

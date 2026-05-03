@@ -19,7 +19,7 @@ function createAccount(params: {
     dmPolicy: "allowlist",
     allowedUserIds: [],
     rateLimitPerMinute: 30,
-    botName: "Brikko Studio",
+    botName: "BrikkoStudio",
     allowInsecureSsl: false,
   };
 }

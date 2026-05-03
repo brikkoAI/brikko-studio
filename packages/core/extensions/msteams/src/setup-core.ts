@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createStandardChannelSetupStatus,
   DEFAULT_ACCOUNT_ID,
@@ -102,7 +102,7 @@ export function createMSTeamsSetupWizardBase(): Pick<
         normalizeSecretInputString(process.env.MSTEAMS_TENANT_ID),
       );
 
-      let next: Brikko StudioConfig = cfg;
+      let next: BrikkoStudioConfig = cfg;
       let appId: string | null = null;
       let appPassword: string | null = null;
       let tenantId: string | null = null;

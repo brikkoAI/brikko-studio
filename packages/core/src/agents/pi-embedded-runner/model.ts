@@ -5,7 +5,7 @@ import {
   type AuthStorage,
   type ModelRegistry,
 } from "@mariozechner/pi-coding-agent";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
 import {
   applyProviderResolvedModelCompatWithPlugins,
@@ -17,7 +17,7 @@ import {
   normalizeProviderResolvedModelWithPlugin,
   shouldPreferProviderRuntimeResolvedModel,
 } from "../../plugins/provider-runtime.js";
-import { resolveBrikko StudioAgentDir } from "../agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../agent-paths.js";
 import { DEFAULT_CONTEXT_TOKENS } from "../defaults.js";
 import { buildModelAliasLines } from "../model-alias-lines.js";
 import { modelKey, normalizeStaticProviderModelId } from "../model-ref-shared.js";
@@ -154,7 +154,7 @@ function canonicalizeLegacyResolvedModel(params: {
 
 function applyResolvedTransportFallback(params: {
   provider: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   runtimeHooks: ProviderRuntimeHooks;
   model: Model<Api>;
 }): Model<Api> | undefined {
@@ -185,7 +185,7 @@ function applyResolvedTransportFallback(params: {
 function normalizeResolvedModel(params: {
   provider: string;
   model: Model<Api>;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   runtimeHooks?: ProviderRuntimeHooks;
 }): Model<Api> {
@@ -289,7 +289,7 @@ function resolveProviderTransport(params: {
   provider: string;
   api?: Api | null;
   baseUrl?: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   runtimeHooks?: ProviderRuntimeHooks;
 }): {
   api?: Api;
@@ -381,7 +381,7 @@ function findInlineModelMatch(params: {
 export { buildModelAliasLines, buildInlineProviderModels };
 
 function resolveConfiguredProviderConfig(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   provider: string,
 ): InlineProviderConfig | undefined {
   const configuredProviders = cfg?.models?.providers;
@@ -432,7 +432,7 @@ function mergeModelParams(
 }
 
 function findConfiguredAgentModelParams(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   provider: string;
   modelId: string;
 }): Record<string, unknown> | undefined {
@@ -474,7 +474,7 @@ function findConfiguredAgentModelParams(params: {
 }
 
 function mergeConfiguredRuntimeModelParams(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   provider: string;
   modelId: string;
   discoveredParams?: unknown;
@@ -496,7 +496,7 @@ function applyConfiguredProviderOverrides(params: {
   discoveredModel: ProviderRuntimeModel;
   providerConfig?: InlineProviderConfig;
   modelId: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   runtimeHooks?: ProviderRuntimeHooks;
   preferDiscoveredModelMetadata?: boolean;
 }): ProviderRuntimeModel {
@@ -633,7 +633,7 @@ function resolveExplicitModelWithRegistry(params: {
   provider: string;
   modelId: string;
   modelRegistry: ModelRegistry;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   runtimeHooks?: ProviderRuntimeHooks;
 }): { kind: "resolved"; model: Model<Api> } | { kind: "suppressed" } | undefined {
@@ -743,7 +743,7 @@ function resolvePluginDynamicModelWithRegistry(params: {
   provider: string;
   modelId: string;
   modelRegistry: ModelRegistry;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   runtimeHooks?: ProviderRuntimeHooks;
@@ -796,7 +796,7 @@ function resolvePluginDynamicModelWithRegistry(params: {
 function resolveConfiguredFallbackModel(params: {
   provider: string;
   modelId: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   runtimeHooks?: ProviderRuntimeHooks;
 }): Model<Api> | undefined {
@@ -884,7 +884,7 @@ function resolveConfiguredFallbackModel(params: {
 function shouldCompareProviderRuntimeResolvedModel(params: {
   provider: string;
   modelId: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   runtimeHooks: ProviderRuntimeHooks;
@@ -919,7 +919,7 @@ export function resolveModelWithRegistry(params: {
   provider: string;
   modelId: string;
   modelRegistry: ModelRegistry;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   runtimeHooks?: ProviderRuntimeHooks;
 }): Model<Api> | undefined {
@@ -972,7 +972,7 @@ export function resolveModel(
   provider: string,
   modelId: string,
   agentDir?: string,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   options?: {
     authStorage?: AuthStorage;
     modelRegistry?: ModelRegistry;
@@ -989,7 +989,7 @@ export function resolveModel(
     provider,
     model: normalizeStaticProviderModelId(normalizeProviderId(provider), modelId),
   };
-  const resolvedAgentDir = agentDir ?? resolveBrikko StudioAgentDir();
+  const resolvedAgentDir = agentDir ?? resolveBrikkoStudioAgentDir();
   const authStorage = options?.authStorage ?? discoverAuthStorage(resolvedAgentDir);
   const modelRegistry = options?.modelRegistry ?? discoverModels(authStorage, resolvedAgentDir);
   const runtimeHooks = resolveRuntimeHooks(options);
@@ -1022,7 +1022,7 @@ export async function resolveModelAsync(
   provider: string,
   modelId: string,
   agentDir?: string,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   options?: {
     authStorage?: AuthStorage;
     modelRegistry?: ModelRegistry;
@@ -1041,7 +1041,7 @@ export async function resolveModelAsync(
     provider,
     model: normalizeStaticProviderModelId(normalizeProviderId(provider), modelId),
   };
-  const resolvedAgentDir = agentDir ?? resolveBrikko StudioAgentDir();
+  const resolvedAgentDir = agentDir ?? resolveBrikkoStudioAgentDir();
   const emptyDiscoveryStores =
     options?.skipPiDiscovery && (!options.authStorage || !options.modelRegistry)
       ? createEmptyPiDiscoveryStores()
@@ -1146,7 +1146,7 @@ export async function resolveModelAsync(
 function buildUnknownModelError(params: {
   provider: string;
   modelId: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   runtimeHooks?: ProviderRuntimeHooks;
 }): string {

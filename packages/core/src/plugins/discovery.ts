@@ -21,7 +21,7 @@ import {
   loadPluginManifest,
   type PluginManifest,
   resolvePackageExtensionEntries,
-  type Brikko StudioPackageManifest,
+  type BrikkoStudioPackageManifest,
   type PackageManifest,
 } from "./manifest.js";
 import {
@@ -64,7 +64,7 @@ export type PluginCandidate = {
   packageVersion?: string;
   packageDescription?: string;
   packageDir?: string;
-  packageManifest?: Brikko StudioPackageManifest;
+  packageManifest?: BrikkoStudioPackageManifest;
   packageDependencies?: PluginDependencySpecMap;
   packageOptionalDependencies?: PluginDependencySpecMap;
   bundledManifest?: PluginManifest;
@@ -945,7 +945,7 @@ function discoverFromPath(params: {
   }
 }
 
-export function discoverBrikko StudioPlugins(params: {
+export function discoverBrikkoStudioPlugins(params: {
   workspaceDir?: string;
   extraPaths?: string[];
   installRecords?: Record<string, PluginInstallRecord>;
@@ -979,7 +979,7 @@ export function discoverBrikko StudioPlugins(params: {
           result.diagnostics.push({
             level: "warn",
             source: trimmed,
-            message: `ignored plugins.load.paths entry that points at Brikko Studio's ${bundledAlias.kind} bundled plugin directory; remove this redundant path or run brikko-studio doctor --fix`,
+            message: `ignored plugins.load.paths entry that points at BrikkoStudio's ${bundledAlias.kind} bundled plugin directory; remove this redundant path or run brikko-studio doctor --fix`,
           });
           continue;
         }
@@ -1001,7 +1001,7 @@ export function discoverBrikko StudioPlugins(params: {
         realpathCache,
       );
       if (roots.workspace && workspaceRoot && !workspaceMatchesBundledRoot) {
-        // Keep workspace auto-discovery constrained to the Brikko Studio extensions root.
+        // Keep workspace auto-discovery constrained to the BrikkoStudio extensions root.
         // Recursively scanning the full workspace treats arbitrary project folders as
         // plugin candidates and causes noisy "plugin manifest not found" validation failures.
         discoverInDirectory({

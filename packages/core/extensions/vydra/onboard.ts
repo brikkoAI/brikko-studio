@@ -1,8 +1,8 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-onboard";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/provider-onboard";
 
 export const VYDRA_DEFAULT_IMAGE_MODEL_REF = "vydra/grok-imagine";
 
-export function applyVydraConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyVydraConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   if (cfg.agents?.defaults?.imageGenerationModel) {
     return cfg;
   }

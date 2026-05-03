@@ -5,7 +5,7 @@ import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest
 import { upsertAcpSessionMeta } from "../../acp/runtime/session-meta.js";
 import * as jsonFiles from "../../infra/json-files.js";
 import { createSuiteTempRootTracker, withTempDirSync } from "../../test-helpers/temp-dir.js";
-import type { Brikko StudioConfig } from "../config.js";
+import type { BrikkoStudioConfig } from "../config.js";
 import type { SessionConfig } from "../types.base.js";
 import { resolveSessionLifecycleTimestamps } from "./lifecycle.js";
 import {
@@ -481,7 +481,7 @@ describe("session store writer queue", () => {
       session: {
         store: storePath,
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await upsertAcpSessionMeta({
       cfg,

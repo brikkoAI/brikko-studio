@@ -6,7 +6,7 @@ const exporter = createDiagnosticsPrometheusExporter();
 export default definePluginEntry({
   id: "diagnostics-prometheus",
   name: "Diagnostics Prometheus",
-  description: "Expose Brikko Studio diagnostics metrics in Prometheus text format",
+  description: "Expose BrikkoStudio diagnostics metrics in Prometheus text format",
   register(api) {
     api.registerService(exporter.service);
     api.registerHttpRoute({

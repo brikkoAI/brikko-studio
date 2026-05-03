@@ -3,7 +3,7 @@ import type { SkillSnapshot } from "../../agents/skills.js";
 import { normalizeToolList } from "../../agents/tool-policy.js";
 import type { ThinkLevel, VerboseLevel } from "../../auto-reply/thinking.js";
 import type { AgentDefaultsConfig } from "../../config/types.agent-defaults.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import type { CronJob } from "../types.js";
 import {
@@ -70,8 +70,8 @@ export type CronExecutionResult = {
 };
 
 export function createCronPromptExecutor(params: {
-  cfg: Brikko StudioConfig;
-  cfgWithAgentDefaults: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  cfgWithAgentDefaults: BrikkoStudioConfig;
   job: CronJob;
   agentId: string;
   agentDir: string;
@@ -270,8 +270,8 @@ export function createCronPromptExecutor(params: {
 }
 
 export async function executeCronRun(params: {
-  cfg: Brikko StudioConfig;
-  cfgWithAgentDefaults: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  cfgWithAgentDefaults: BrikkoStudioConfig;
   job: CronJob;
   agentId: string;
   agentDir: string;

@@ -1,5 +1,5 @@
 // Docker E2E aggregate scheduler.
-// Builds shared Docker images, prepares one Brikko Studio npm tarball, assigns lanes
+// Builds shared Docker images, prepares one BrikkoStudio npm tarball, assigns lanes
 // to bare/functional images, and runs lanes through weighted resource pools.
 import { spawn } from "node:child_process";
 import fs from "node:fs";
@@ -21,7 +21,7 @@ import {
   laneSummary,
   laneWeight,
   lanesNeedE2eImageKind,
-  lanesNeedBrikko StudioPackage,
+  lanesNeedBrikkoStudioPackage,
   parseLaneSelection,
   parseLiveMode,
   parseProfile,
@@ -717,14 +717,14 @@ async function runDockerPreflight(baseEnv, options) {
   console.log(`==> Docker preflight run: ${elapsedSeconds}s`);
 }
 
-async function prepareBrikko StudioPackage(baseEnv, logDir) {
+async function prepareBrikkoStudioPackage(baseEnv, logDir) {
   const existing = baseEnv.BRIKKO_STUDIO_CURRENT_PACKAGE_TGZ;
   if (existing) {
     const packageTgz = path.resolve(existing);
     baseEnv.BRIKKO_STUDIO_CURRENT_PACKAGE_TGZ = packageTgz;
     baseEnv.BRIKKO_STUDIO_BUNDLED_CHANNEL_HOST_BUILD = "0";
     baseEnv.BRIKKO_STUDIO_NPM_ONBOARD_HOST_BUILD = "0";
-    console.log(`==> Brikko Studio package: ${packageTgz}`);
+    console.log(`==> BrikkoStudio package: ${packageTgz}`);
     return;
   }
 
@@ -732,7 +732,7 @@ async function prepareBrikko StudioPackage(baseEnv, logDir) {
   await mkdir(packDir, { recursive: true });
   const packageTgz = path.join(packDir, "brikko-studio-current.tgz");
   await runForeground(
-    "Prepare Brikko Studio package once",
+    "Prepare BrikkoStudio package once",
     `node scripts/package-brikko-studio-for-docker.mjs --output-dir ${shellQuote(packDir)} --output-name brikko-studio-current.tgz`,
     baseEnv,
   );
@@ -740,7 +740,7 @@ async function prepareBrikko StudioPackage(baseEnv, logDir) {
   baseEnv.BRIKKO_STUDIO_CURRENT_PACKAGE_TGZ = packageTgz;
   baseEnv.BRIKKO_STUDIO_BUNDLED_CHANNEL_HOST_BUILD = "0";
   baseEnv.BRIKKO_STUDIO_NPM_ONBOARD_HOST_BUILD = "0";
-  console.log(`==> Brikko Studio package: ${baseEnv.BRIKKO_STUDIO_CURRENT_PACKAGE_TGZ}`);
+  console.log(`==> BrikkoStudio package: ${baseEnv.BRIKKO_STUDIO_CURRENT_PACKAGE_TGZ}`);
 }
 
 function e2eImageForLane(poolLane, baseEnv) {
@@ -1226,12 +1226,12 @@ async function main() {
       });
     },
   );
-  if (lanesNeedBrikko StudioPackage(scheduledLanes)) {
+  if (lanesNeedBrikkoStudioPackage(scheduledLanes)) {
     await runPhase(phases, "prepare-brikko-studio-package", {}, async () => {
-      await prepareBrikko StudioPackage(baseEnv, logDir);
+      await prepareBrikkoStudioPackage(baseEnv, logDir);
     });
   } else {
-    console.log("==> Brikko Studio package: not needed for selected lanes");
+    console.log("==> BrikkoStudio package: not needed for selected lanes");
   }
 
   if (buildEnabled) {

@@ -56,7 +56,7 @@ function createAccount(overrides?: Partial<ResolvedIrcAccount>): ResolvedIrcAcco
     accountId: "default",
     enabled: true,
     server: "irc.example.com",
-    nick: "Brikko Studio",
+    nick: "BrikkoStudio",
     config: {
       dmPolicy: "pairing",
       allowFrom: [],
@@ -108,7 +108,7 @@ describe("irc inbound behavior", () => {
     expect(sendReply).toHaveBeenCalledTimes(1);
     expect(sendReply).toHaveBeenCalledWith(
       "alice",
-      expect.stringContaining("Brikko Studio: access not configured."),
+      expect.stringContaining("BrikkoStudio: access not configured."),
       undefined,
     );
     expect(sendReply).toHaveBeenCalledWith(

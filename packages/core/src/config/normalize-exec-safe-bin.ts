@@ -1,8 +1,8 @@
 import { normalizeSafeBinProfileFixtures } from "../infra/exec-safe-bin-policy.js";
 import { normalizeTrustedSafeBinDirs } from "../infra/exec-safe-bin-trust.js";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
-export function normalizeExecSafeBinProfilesInConfig(cfg: Brikko StudioConfig): void {
+export function normalizeExecSafeBinProfilesInConfig(cfg: BrikkoStudioConfig): void {
   const normalizeExec = (exec: unknown) => {
     if (!exec || typeof exec !== "object" || Array.isArray(exec)) {
       return;

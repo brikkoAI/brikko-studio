@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   resolveGatewayConnectionAuth,
   resolveGatewayConnectionAuthFromConfig,
@@ -10,14 +10,14 @@ type ResolvedAuth = { token?: string; password?: string };
 
 type ConnectionAuthCase = {
   name: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   options?: Partial<Omit<GatewayConnectionAuthOptions, "config" | "env">>;
   expected: ResolvedAuth;
 };
 
-function cfg(input: Partial<Brikko StudioConfig>): Brikko StudioConfig {
-  return input as Brikko StudioConfig;
+function cfg(input: Partial<BrikkoStudioConfig>): BrikkoStudioConfig {
+  return input as BrikkoStudioConfig;
 }
 
 function createRemoteModeConfig() {

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { withActivatedPluginIds } from "../activation-context.js";
 import { getLoadedRuntimePluginRegistry } from "../active-runtime-registry.js";
 import {
@@ -7,7 +7,7 @@ import {
   resolveDiscoverableScopedChannelPluginIds,
 } from "../channel-plugin-ids.js";
 import { resolveEffectivePluginIds } from "../effective-plugin-ids.js";
-import { loadBrikko StudioPlugins } from "../loader.js";
+import { loadBrikkoStudioPlugins } from "../loader.js";
 import {
   hasExplicitPluginIdScope,
   hasNonEmptyPluginIdScope,
@@ -106,7 +106,7 @@ function resolveScopePluginIds(params: {
 }
 
 function resolveOrLoadRuntimePluginRegistry(
-  loadOptions: NonNullable<Parameters<typeof loadBrikko StudioPlugins>[0]>,
+  loadOptions: NonNullable<Parameters<typeof loadBrikkoStudioPlugins>[0]>,
 ): void {
   if (
     !getLoadedRuntimePluginRegistry({
@@ -116,14 +116,14 @@ function resolveOrLoadRuntimePluginRegistry(
       requiredPluginIds: loadOptions.onlyPluginIds,
     })
   ) {
-    loadBrikko StudioPlugins(loadOptions);
+    loadBrikkoStudioPlugins(loadOptions);
   }
 }
 
 export function ensurePluginRegistryLoaded(options?: {
   scope?: PluginRegistryScope;
-  config?: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   workspaceDir?: string;
   onlyPluginIds?: string[];

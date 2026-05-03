@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
 vi.mock("../plugins/provider-hook-runtime.js", () => ({
   resolveProviderRuntimePlugin: vi.fn(({ provider }: { provider?: string }) =>
@@ -21,10 +21,10 @@ const MISTRAL_PLUGIN_CONFIG = {
       mistral: { enabled: true },
     },
   },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 function createProviderRuntimeSmokeContext(): {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   workspaceDir: string;
 } {

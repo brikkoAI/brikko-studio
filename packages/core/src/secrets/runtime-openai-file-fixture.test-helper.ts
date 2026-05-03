@@ -3,7 +3,7 @@ import path from "node:path";
 import { expect } from "vitest";
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
 import { getRuntimeConfig } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginOrigin } from "../plugins/plugin-origin.types.js";
 import type { captureEnv } from "../test-utils/env.js";
 import { getActiveSecretsRuntimeSnapshot } from "./runtime.js";
@@ -25,8 +25,8 @@ export type SecretsRuntimeEnvSnapshot = ReturnType<typeof captureEnv>;
 
 const allowInsecureTempSecretFile = process.platform === "win32";
 
-export function asConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+export function asConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
 export function loadAuthStoreWithProfiles(
@@ -77,7 +77,7 @@ export async function createOpenAIFileRuntimeFixture(home: string) {
   };
 }
 
-export function createOpenAIFileRuntimeConfig(secretFile: string): Brikko StudioConfig {
+export function createOpenAIFileRuntimeConfig(secretFile: string): BrikkoStudioConfig {
   return asConfig({
     secrets: {
       providers: {

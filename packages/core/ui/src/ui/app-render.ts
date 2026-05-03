@@ -1397,11 +1397,11 @@ export function renderApp(state: AppViewState) {
                       <img
                         class="sidebar-brand__logo"
                         src="${agentLogoUrl(basePath)}"
-                        alt="Brikko Studio"
+                        alt="BrikkoStudio"
                       />
                       <span class="sidebar-brand__copy">
                         <span class="sidebar-brand__eyebrow">${t("nav.control")}</span>
-                        <span class="sidebar-brand__title">Brikko Studio</span>
+                        <span class="sidebar-brand__title">BrikkoStudio</span>
                       </span>
                     `}
               </div>

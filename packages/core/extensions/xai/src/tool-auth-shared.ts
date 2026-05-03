@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { canResolveEnvSecretRefInReadOnlyPath } from "brikko-studio/plugin-sdk/extension-shared";
 import {
   coerceSecretRef,
@@ -33,7 +33,7 @@ function readConfiguredOrManagedApiKey(value: unknown): string | undefined {
   return ref ? resolveNonEnvSecretRefApiKeyMarker(ref.source) : undefined;
 }
 
-function readLegacyGrokFallbackAuth(cfg?: Brikko StudioConfig): XaiFallbackAuth | undefined {
+function readLegacyGrokFallbackAuth(cfg?: BrikkoStudioConfig): XaiFallbackAuth | undefined {
   const search = cfg?.tools?.web?.search;
   if (!search || typeof search !== "object") {
     return undefined;
@@ -48,7 +48,7 @@ function readLegacyGrokFallbackAuth(cfg?: Brikko StudioConfig): XaiFallbackAuth 
 function readConfiguredRuntimeApiKey(
   value: unknown,
   path: string,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): ConfiguredRuntimeApiKeyResolution {
   const resolved = resolveSecretInputString({
     value,
@@ -82,7 +82,7 @@ function readConfiguredRuntimeApiKey(
   return envValue ? { status: "available", value: envValue } : { status: "missing" };
 }
 
-function readLegacyGrokApiKeyResult(cfg?: Brikko StudioConfig): ConfiguredRuntimeApiKeyResolution {
+function readLegacyGrokApiKeyResult(cfg?: BrikkoStudioConfig): ConfiguredRuntimeApiKeyResolution {
   const search = cfg?.tools?.web?.search;
   if (!search || typeof search !== "object") {
     return { status: "missing" };
@@ -96,7 +96,7 @@ function readLegacyGrokApiKeyResult(cfg?: Brikko StudioConfig): ConfiguredRuntim
 }
 
 function readPluginXaiWebSearchApiKeyResult(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): ConfiguredRuntimeApiKeyResolution {
   return readConfiguredRuntimeApiKey(
     resolveProviderWebSearchPluginConfig(cfg as Record<string, unknown> | undefined, "xai")?.apiKey,
@@ -105,7 +105,7 @@ function readPluginXaiWebSearchApiKeyResult(
   );
 }
 
-export function resolveFallbackXaiAuth(cfg?: Brikko StudioConfig): XaiFallbackAuth | undefined {
+export function resolveFallbackXaiAuth(cfg?: BrikkoStudioConfig): XaiFallbackAuth | undefined {
   const pluginApiKey = readConfiguredOrManagedApiKey(
     resolveProviderWebSearchPluginConfig(cfg as Record<string, unknown> | undefined, "xai")?.apiKey,
   );
@@ -118,7 +118,7 @@ export function resolveFallbackXaiAuth(cfg?: Brikko StudioConfig): XaiFallbackAu
   return readLegacyGrokFallbackAuth(cfg);
 }
 
-export function resolveFallbackXaiApiKey(cfg?: Brikko StudioConfig): string | undefined {
+export function resolveFallbackXaiApiKey(cfg?: BrikkoStudioConfig): string | undefined {
   const plugin = readPluginXaiWebSearchApiKeyResult(cfg);
   if (plugin.status === "available") {
     return plugin.value;
@@ -131,8 +131,8 @@ export function resolveFallbackXaiApiKey(cfg?: Brikko StudioConfig): string | un
 }
 
 export function resolveXaiToolApiKey(params: {
-  runtimeConfig?: Brikko StudioConfig;
-  sourceConfig?: Brikko StudioConfig;
+  runtimeConfig?: BrikkoStudioConfig;
+  sourceConfig?: BrikkoStudioConfig;
 }): string | undefined {
   const runtimePlugin = readPluginXaiWebSearchApiKeyResult(params.runtimeConfig);
   if (runtimePlugin.status === "available") {
@@ -167,8 +167,8 @@ export function resolveXaiToolApiKey(params: {
 
 export function isXaiToolEnabled(params: {
   enabled?: boolean;
-  runtimeConfig?: Brikko StudioConfig;
-  sourceConfig?: Brikko StudioConfig;
+  runtimeConfig?: BrikkoStudioConfig;
+  sourceConfig?: BrikkoStudioConfig;
 }): boolean {
   if (params.enabled === false) {
     return false;

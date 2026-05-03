@@ -658,7 +658,7 @@ describe("installPluginFromNpmSpec", () => {
       expect(fs.existsSync(path.join(npmRoot, "node_modules", spec))).toBe(false);
       expect(
         warnings.some((warning) =>
-          warning.includes("allowed because it is an official Brikko Studio package"),
+          warning.includes("allowed because it is an official BrikkoStudio package"),
         ),
       ).toBe(false);
     },
@@ -696,7 +696,7 @@ describe("installPluginFromNpmSpec", () => {
       expect(result.pluginId).toBe(pluginId);
       expect(
         warnings.some((warning) =>
-          warning.includes("allowed because it is an official Brikko Studio package"),
+          warning.includes("allowed because it is an official BrikkoStudio package"),
         ),
       ).toBe(true);
       expectNpmInstallIntoRoot({

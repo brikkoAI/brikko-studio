@@ -373,7 +373,7 @@ describe("runCodexAppServerAttempt", () => {
     ]);
   });
 
-  it("allows Codex dynamic tool filtering to opt back into Brikko Studio compatibility", () => {
+  it("allows Codex dynamic tool filtering to opt back into BrikkoStudio compatibility", () => {
     const tools = ["read", "exec", "message", "custom_tool"].map((name) => ({ name }));
 
     expect(
@@ -386,7 +386,7 @@ describe("runCodexAppServerAttempt", () => {
     ).toEqual(["read", "exec", "message"]);
   });
 
-  it("starts Codex threads without duplicate Brikko Studio workspace tools by default", async () => {
+  it("starts Codex threads without duplicate BrikkoStudio workspace tools by default", async () => {
     const sessionFile = path.join(tempDir, "session.jsonl");
     const workspaceDir = path.join(tempDir, "workspace");
     const appServer = createThreadLifecycleAppServerOptions();
@@ -495,7 +495,7 @@ describe("runCodexAppServerAttempt", () => {
       contentItems: [
         {
           type: "inputText",
-          text: "Brikko Studio dynamic tool call timed out after 1ms while running tool message.",
+          text: "BrikkoStudio dynamic tool call timed out after 1ms while running tool message.",
         },
       ],
     });
@@ -529,7 +529,7 @@ describe("runCodexAppServerAttempt", () => {
       contentItems: [
         {
           type: "inputText",
-          text: "Brikko Studio dynamic tool call timed out after 1ms while waiting for process action=poll sessionId=rapid-crustacean. This is a tool RPC timeout, not a session idle timeout.",
+          text: "BrikkoStudio dynamic tool call timed out after 1ms while waiting for process action=poll sessionId=rapid-crustacean. This is a tool RPC timeout, not a session idle timeout.",
         },
       ],
     });
@@ -606,7 +606,7 @@ describe("runCodexAppServerAttempt", () => {
         {
           type: "inputText",
           text: expect.stringMatching(
-            /^(Unknown Brikko Studio tool: message|Action send requires a target\.)$/u,
+            /^(Unknown BrikkoStudio tool: message|Action send requires a target\.)$/u,
           ),
         },
       ],
@@ -705,7 +705,7 @@ describe("runCodexAppServerAttempt", () => {
     );
   });
 
-  it("passes Brikko Studio bootstrap files through Codex config instructions", async () => {
+  it("passes BrikkoStudio bootstrap files through Codex config instructions", async () => {
     const sessionFile = path.join(tempDir, "session.jsonl");
     const workspaceDir = path.join(tempDir, "workspace");
     await fs.mkdir(workspaceDir, { recursive: true });
@@ -2288,7 +2288,7 @@ describe("runCodexAppServerAttempt", () => {
     );
   });
 
-  it("builds resume and turn params from the currently selected Brikko Studio model", () => {
+  it("builds resume and turn params from the currently selected BrikkoStudio model", () => {
     const params = createParams("/tmp/session.jsonl", "/tmp/workspace");
     const appServer = {
       start: {

@@ -14,7 +14,7 @@ import {
   setRuntimeConfigSnapshot,
   writeConfigFile,
 } from "./io.js";
-import type { ConfigFileSnapshot, Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { ConfigFileSnapshot, BrikkoStudioConfig } from "./types.brikko-studio.js";
 
 // Mock the plugin manifest registry so we can register a fake channel whose
 // AJV JSON Schema carries a `default` value.  This lets the #56772 regression
@@ -835,7 +835,7 @@ describe("config io write", () => {
         { baseSnapshot },
       );
 
-      const persisted = JSON.parse(await fs.readFile(configPath, "utf-8")) as Brikko StudioConfig;
+      const persisted = JSON.parse(await fs.readFile(configPath, "utf-8")) as BrikkoStudioConfig;
       expect(persisted.agents?.defaults?.params).toEqual({
         transport: "sse",
         openaiWsWarmup: false,
@@ -1247,7 +1247,7 @@ describe("config io write", () => {
         { baseSnapshot: snapshot },
       );
 
-      const persisted = JSON.parse(await fs.readFile(configPath, "utf-8")) as Brikko StudioConfig;
+      const persisted = JSON.parse(await fs.readFile(configPath, "utf-8")) as BrikkoStudioConfig;
       expect(persisted.logging?.file).toBe("~/brikko-studio-upgrade-survivor/gateway.jsonl");
       expect(persisted.logging?.level).toBe("debug");
     });

@@ -6,7 +6,7 @@ import {
   createRuntimeEnv,
   setActivePluginRegistry,
 } from "brikko-studio/plugin-sdk/plugin-test-runtime";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { PluginRuntime } from "../runtime-api.js";
 import {
@@ -35,7 +35,7 @@ vi.mock("./outbound-media.js", async () => {
 import { clearHostedZaloMediaForTest } from "./outbound-media.js";
 
 const ZALO_OUTBOUND_MEDIA_DIR = join(
-  resolvePreferredBrikko StudioTmpDir(),
+  resolvePreferredBrikkoStudioTmpDir(),
   "brikko-studio-zalo-outbound-media",
 );
 

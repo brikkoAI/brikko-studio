@@ -4,7 +4,7 @@ import type { GatewayRequestHandlerOptions } from "./types.js";
 
 const mocks = vi.hoisted(() => ({
   getRuntimeConfig: vi.fn(() => ({})),
-  resolveBrikko StudioAgentDir: vi.fn(() => "/tmp/agent"),
+  resolveBrikkoStudioAgentDir: vi.fn(() => "/tmp/agent"),
   ensureAuthProfileStore: vi.fn((agentDir?: string, options?: unknown) => {
     void agentDir;
     void options;
@@ -21,7 +21,7 @@ vi.mock("../../config/config.js", () => ({
 }));
 
 vi.mock("../../agents/agent-paths.js", () => ({
-  resolveBrikko StudioAgentDir: mocks.resolveBrikko StudioAgentDir,
+  resolveBrikkoStudioAgentDir: mocks.resolveBrikkoStudioAgentDir,
 }));
 
 vi.mock("../../agents/auth-profiles.js", async () => {

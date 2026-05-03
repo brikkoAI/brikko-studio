@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { PluginRegistry } from "../plugins/registry-types.js";
-import type { Brikko StudioPluginNodeInvokePolicyContext } from "../plugins/types.js";
+import type { BrikkoStudioPluginNodeInvokePolicyContext } from "../plugins/types.js";
 import { applyPluginNodeInvokePolicy } from "./node-invoke-plugin-policy.js";
 import type { NodeSession } from "./node-registry.js";
 import type { GatewayRequestContext } from "./server-methods/types.js";
@@ -96,7 +96,7 @@ describe("applyPluginNodeInvokePolicy", () => {
           pluginId: "demo",
           policy: {
             commands: ["demo.read"],
-            handle: (ctx: Brikko StudioPluginNodeInvokePolicyContext) => ctx.invokeNode(),
+            handle: (ctx: BrikkoStudioPluginNodeInvokePolicyContext) => ctx.invokeNode(),
           },
           pluginConfig: { enabled: true },
           source: "test",

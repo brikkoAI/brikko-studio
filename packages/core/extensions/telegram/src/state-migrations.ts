@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import type { ChannelLegacyStateMigrationPlan } from "brikko-studio/plugin-sdk/channel-contract";
 import { resolveChannelAllowFromPath } from "brikko-studio/plugin-sdk/channel-pairing-paths";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveDefaultTelegramAccountId } from "./account-selection.js";
 
 function fileExists(pathValue: string): boolean {
@@ -13,7 +13,7 @@ function fileExists(pathValue: string): boolean {
 }
 
 export function detectTelegramLegacyStateMigrations(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 }): ChannelLegacyStateMigrationPlan[] {
   const legacyPath = resolveChannelAllowFromPath("telegram", params.env);

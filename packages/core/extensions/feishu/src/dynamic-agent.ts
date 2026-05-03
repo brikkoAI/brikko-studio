@@ -1,12 +1,12 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig, PluginRuntime } from "../runtime-api.js";
+import type { BrikkoStudioConfig, PluginRuntime } from "../runtime-api.js";
 import type { DynamicAgentCreationConfig } from "./types.js";
 
 type MaybeCreateDynamicAgentResult = {
   created: boolean;
-  updatedCfg: Brikko StudioConfig;
+  updatedCfg: BrikkoStudioConfig;
   agentId?: string;
 };
 
@@ -15,7 +15,7 @@ type MaybeCreateDynamicAgentResult = {
  * This creates a unique agent instance with its own workspace for each DM user.
  */
 export async function maybeCreateDynamicAgent(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime: PluginRuntime;
   senderOpenId: string;
   dynamicCfg: DynamicAgentCreationConfig;
@@ -58,7 +58,7 @@ export async function maybeCreateDynamicAgent(params: {
     // Agent exists but binding doesn't - just add the binding
     log(`feishu: agent "${agentId}" exists, adding missing binding for ${senderOpenId}`);
 
-    const updatedCfg: Brikko StudioConfig = {
+    const updatedCfg: BrikkoStudioConfig = {
       ...cfg,
       bindings: [
         ...existingBindings,
@@ -99,7 +99,7 @@ export async function maybeCreateDynamicAgent(params: {
   await fs.promises.mkdir(agentDir, { recursive: true });
 
   // Update configuration with new agent and binding
-  const updatedCfg: Brikko StudioConfig = {
+  const updatedCfg: BrikkoStudioConfig = {
     ...cfg,
     agents: {
       ...cfg.agents,

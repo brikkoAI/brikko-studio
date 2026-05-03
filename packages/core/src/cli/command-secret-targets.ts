@@ -1,5 +1,5 @@
 import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalAccountId } from "../routing/session-key.js";
 import { loadChannelSecretContractApi } from "../secrets/channel-contract-api.js";
 import {
@@ -112,7 +112,7 @@ function isScopedChannelSecretTargetEntry(params: {
 }
 
 function getConfiguredChannelSecretTargetIds(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): string[] {
   const targetIds = new Set<string>();
@@ -188,7 +188,7 @@ function pathTargetsScopedChannelAccount(params: {
 }
 
 export function getScopedChannelsCommandSecretTargets(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   channel?: string | null;
   accountId?: string | null;
 }): {
@@ -226,7 +226,7 @@ export function getChannelsCommandSecretTargetIds(): Set<string> {
 }
 
 export function getConfiguredChannelsCommandSecretTargetIds(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   env?: NodeJS.ProcessEnv,
 ): Set<string> {
   return toTargetIdSet(getConfiguredChannelSecretTargetIds(config, env));
@@ -246,7 +246,7 @@ export function getAgentRuntimeCommandSecretTargetIds(params?: {
 }
 
 export function getStatusCommandSecretTargetIds(
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
   env?: NodeJS.ProcessEnv,
 ): Set<string> {
   const channelTargetIds = config

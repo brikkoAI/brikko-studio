@@ -1,5 +1,5 @@
 import { replaceConfigFile } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { type HookInstallUpdate, recordHookInstall } from "../hooks/installs.js";
 import { isPathInside } from "../infra/path-guards.js";
 import { enablePluginInConfig } from "../plugins/enable.js";
@@ -23,7 +23,7 @@ import {
 import { commitPluginInstallRecordsWithConfig } from "./plugins-install-record-commit.js";
 import { refreshPluginRegistryAfterConfigMutation } from "./plugins-registry-refresh.js";
 
-function addInstalledPluginToAllowlist(cfg: Brikko StudioConfig, pluginId: string): Brikko StudioConfig {
+function addInstalledPluginToAllowlist(cfg: BrikkoStudioConfig, pluginId: string): BrikkoStudioConfig {
   const allow = cfg.plugins?.allow;
   if (!Array.isArray(allow) || allow.length === 0 || allow.includes(pluginId)) {
     return cfg;
@@ -37,7 +37,7 @@ function addInstalledPluginToAllowlist(cfg: Brikko StudioConfig, pluginId: strin
   };
 }
 
-function removeInstalledPluginFromDenylist(cfg: Brikko StudioConfig, pluginId: string): Brikko StudioConfig {
+function removeInstalledPluginFromDenylist(cfg: BrikkoStudioConfig, pluginId: string): BrikkoStudioConfig {
   const deny = cfg.plugins?.deny;
   if (!Array.isArray(deny) || !deny.includes(pluginId)) {
     return cfg;
@@ -57,7 +57,7 @@ function removeInstalledPluginFromDenylist(cfg: Brikko StudioConfig, pluginId: s
 }
 
 export type ConfigSnapshotForInstallPersist = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   baseHash: string | undefined;
 };
 
@@ -72,7 +72,7 @@ function sourceMatchesInstalledPath(params: {
 }
 
 function logShadowedNpmInstallWarning(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   pluginId: string;
   install: Omit<PluginInstallUpdate, "pluginId">;
   runtime: RuntimeEnv;
@@ -118,7 +118,7 @@ export async function persistPluginInstall(params: {
   successMessage?: string;
   warningMessage?: string;
   runtime?: RuntimeEnv;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const runtime = params.runtime ?? defaultRuntime;
   const installConfig =
     params.enable === false
@@ -196,7 +196,7 @@ export async function persistHookPackInstall(params: {
   install: Omit<HookInstallUpdate, "hookId" | "hooks">;
   successMessage?: string;
   runtime?: RuntimeEnv;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const runtime = params.runtime ?? defaultRuntime;
   let next = enableInternalHookEntries(params.snapshot.config, params.hooks);
   next = recordHookInstall(next, {

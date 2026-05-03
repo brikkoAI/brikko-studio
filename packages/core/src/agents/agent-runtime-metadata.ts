@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeAgentId } from "../routing/session-key.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { resolveAgentRuntimePolicy } from "./agent-runtime-policy.js";
@@ -19,7 +19,7 @@ function normalizeRuntimeValue(value: unknown): EmbeddedAgentRuntime | undefined
 }
 
 export function resolveAgentRuntimeMetadata(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
   env: NodeJS.ProcessEnv = process.env,
 ): AgentRuntimeMetadata {

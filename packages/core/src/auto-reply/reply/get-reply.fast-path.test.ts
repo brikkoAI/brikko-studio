@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   buildFastReplyCommandContext,
   initFastReplySessionState,
@@ -64,7 +64,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
 
   it("fails fast on unmarked config overrides in strict fast-test mode", async () => {
     await expect(
-      getReplyFromConfig(buildGetReplyCtx(), undefined, {} as Brikko StudioConfig),
+      getReplyFromConfig(buildGetReplyCtx(), undefined, {} as BrikkoStudioConfig),
     ).rejects.toThrow(/withFastReplyConfig\(\)\/markCompleteReplyConfig\(\)/);
     expect(vi.mocked(loadConfigMock)).not.toHaveBeenCalled();
   });
@@ -80,7 +80,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
       },
       channels: { telegram: { allowFrom: ["*"] } },
       session: { store: path.join(home, "sessions.json") },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     await expect(getReplyFromConfig(buildGetReplyCtx(), undefined, cfg)).resolves.toEqual({
       text: "ok",
@@ -104,7 +104,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
           botToken: "resolved-telegram-token",
         },
       },
-    } satisfies Brikko StudioConfig);
+    } satisfies BrikkoStudioConfig);
 
     await getReplyFromConfig(buildGetReplyCtx(), undefined, {
       agents: {
@@ -112,7 +112,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
           userTimezone: "America/New_York",
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(vi.mocked(loadConfigMock)).toHaveBeenCalledOnce();
     expect(mocks.initSessionState).toHaveBeenCalledOnce();
@@ -120,7 +120,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
   });
 
   it("marks configs through withFastReplyConfig()", async () => {
-    const cfg = withFastReplyConfig({ session: { store: "/tmp/sessions.json" } } as Brikko StudioConfig);
+    const cfg = withFastReplyConfig({ session: { store: "/tmp/sessions.json" } } as BrikkoStudioConfig);
 
     await expect(getReplyFromConfig(buildGetReplyCtx(), undefined, cfg)).resolves.toEqual({
       text: "ok",
@@ -137,7 +137,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
         CommandSource: "native",
         CommandTargetSessionKey: "agent:main:main",
       }),
-      cfg: { session: { store: "/tmp/sessions.json" } } as Brikko StudioConfig,
+      cfg: { session: { store: "/tmp/sessions.json" } } as BrikkoStudioConfig,
       agentId: "main",
       commandAuthorized: true,
       workspaceDir: "/tmp/workspace",
@@ -158,7 +158,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
         To: undefined,
         SenderId: "gateway-client",
       }),
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       sessionKey: "main",
       isGroup: false,
       triggerBodyNormalized: "/codex bind",
@@ -193,7 +193,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
         CommandBody: "/reset \nsoft",
         SessionKey: sessionKey,
       }),
-      cfg: { session: { store: storePath } } as Brikko StudioConfig,
+      cfg: { session: { store: storePath } } as BrikkoStudioConfig,
       agentId: "main",
       commandAuthorized: true,
       workspaceDir: home,
@@ -226,7 +226,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
         CommandBody: "/reset: soft",
         SessionKey: sessionKey,
       }),
-      cfg: { session: { store: storePath } } as Brikko StudioConfig,
+      cfg: { session: { store: storePath } } as BrikkoStudioConfig,
       agentId: "main",
       commandAuthorized: true,
       workspaceDir: home,

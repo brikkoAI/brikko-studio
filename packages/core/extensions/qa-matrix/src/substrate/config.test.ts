@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import {
   buildMatrixQaConfig,
@@ -51,7 +51,7 @@ describe("matrix qa config", () => {
   };
 
   it("builds default Matrix QA config from provisioned topology", () => {
-    const next = buildMatrixQaConfig({} as Brikko StudioConfig, {
+    const next = buildMatrixQaConfig({} as BrikkoStudioConfig, {
       driverUserId: "@driver:matrix-qa.test",
       homeserver: "http://127.0.0.1:28008/",
       observerUserId: "@observer:matrix-qa.test",
@@ -80,7 +80,7 @@ describe("matrix qa config", () => {
   });
 
   it("applies room-keyed Matrix QA config overrides", () => {
-    const next = buildMatrixQaConfig({} as Brikko StudioConfig, {
+    const next = buildMatrixQaConfig({} as BrikkoStudioConfig, {
       driverUserId: "@driver:matrix-qa.test",
       homeserver: "http://127.0.0.1:28008/",
       observerUserId: "@observer:matrix-qa.test",
@@ -189,7 +189,7 @@ describe("matrix qa config", () => {
   });
 
   it("rewrites the owned Matrix QA account instead of retaining stale override fields", () => {
-    const overridden = buildMatrixQaConfig({} as Brikko StudioConfig, {
+    const overridden = buildMatrixQaConfig({} as BrikkoStudioConfig, {
       driverUserId: "@driver:matrix-qa.test",
       homeserver: "http://127.0.0.1:28008/",
       observerUserId: "@observer:matrix-qa.test",
@@ -314,7 +314,7 @@ describe("matrix qa config", () => {
   });
 
   it("applies Matrix approval delivery overrides with gateway forwarding enabled", () => {
-    const next = buildMatrixQaConfig({} as Brikko StudioConfig, {
+    const next = buildMatrixQaConfig({} as BrikkoStudioConfig, {
       driverUserId: "@driver:matrix-qa.test",
       homeserver: "http://127.0.0.1:28008/",
       observerUserId: "@observer:matrix-qa.test",
@@ -373,7 +373,7 @@ describe("matrix qa config", () => {
 
   it("rejects configured bot roles without matching side-account auth", () => {
     expect(() =>
-      buildMatrixQaConfig({} as Brikko StudioConfig, {
+      buildMatrixQaConfig({} as BrikkoStudioConfig, {
         driverUserId: "@driver:matrix-qa.test",
         homeserver: "http://127.0.0.1:28008/",
         observerUserId: "@observer:matrix-qa.test",
@@ -390,7 +390,7 @@ describe("matrix qa config", () => {
 
   it("rejects the SUT role as a configured bot source", () => {
     expect(() =>
-      buildMatrixQaConfig({} as Brikko StudioConfig, {
+      buildMatrixQaConfig({} as BrikkoStudioConfig, {
         driverUserId: "@driver:matrix-qa.test",
         homeserver: "http://127.0.0.1:28008/",
         observerUserId: "@observer:matrix-qa.test",
@@ -407,7 +407,7 @@ describe("matrix qa config", () => {
 
   it("rejects unknown room-key overrides", () => {
     expect(() =>
-      buildMatrixQaConfig({} as Brikko StudioConfig, {
+      buildMatrixQaConfig({} as BrikkoStudioConfig, {
         driverUserId: "@driver:matrix-qa.test",
         homeserver: "http://127.0.0.1:28008/",
         observerUserId: "@observer:matrix-qa.test",

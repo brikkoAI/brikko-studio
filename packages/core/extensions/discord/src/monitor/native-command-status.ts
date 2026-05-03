@@ -1,5 +1,5 @@
 import { resolveDirectStatusReplyForSession } from "brikko-studio/plugin-sdk/command-status-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveChunkMode, resolveTextChunkLimit } from "brikko-studio/plugin-sdk/reply-chunking";
 import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { resolveDiscordMaxLinesPerMessage } from "../accounts.js";
@@ -21,7 +21,7 @@ export async function maybeDeliverDiscordDirectStatus(params: {
   commandName: string;
   suppressReplies?: boolean;
   resolveDirectStatusReplyForSession: ResolveDirectStatusReplyForSession;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   discordConfig: DiscordConfig;
   accountId: string;
   sessionKey: string;

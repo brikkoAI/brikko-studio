@@ -10,7 +10,7 @@ export {
   resolveChannelMediaMaxBytes,
   type ChannelMessageActionAdapter,
   type ChannelStatusIssue,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../runtime-api.js";
 export {
   type GoogleChatConfigAccessorAccount,

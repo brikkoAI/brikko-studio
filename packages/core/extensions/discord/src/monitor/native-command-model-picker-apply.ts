@@ -1,5 +1,5 @@
 import type { ChatCommandDefinition, CommandArgs } from "brikko-studio/plugin-sdk/command-auth";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { applyModelOverrideToSessionEntry } from "brikko-studio/plugin-sdk/model-session-runtime";
 import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
@@ -13,7 +13,7 @@ import {
 import type { DispatchDiscordCommandInteraction } from "./native-command-dispatch.js";
 import type { ThreadBindingManager } from "./thread-bindings.js";
 
-type DiscordConfig = NonNullable<Brikko StudioConfig["channels"]>["discord"];
+type DiscordConfig = NonNullable<BrikkoStudioConfig["channels"]>["discord"];
 
 type DiscordModelPickerSelectionCommand = {
   prompt: string;
@@ -29,7 +29,7 @@ type DiscordModelPickerApplyResult =
   | { status: "failed"; noticeMessage: string };
 
 async function persistDiscordModelPickerOverride(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   route: ResolvedAgentRoute;
   provider: string;
   model: string;
@@ -62,7 +62,7 @@ export async function applyDiscordModelPickerSelection(params: {
   interaction: ButtonInteraction | StringSelectMenuInteraction;
   selectionCommand: DiscordModelPickerSelectionCommand;
   dispatchCommandInteraction: DispatchDiscordCommandInteraction;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   discordConfig: DiscordConfig;
   accountId: string;
   sessionPrefix: string;

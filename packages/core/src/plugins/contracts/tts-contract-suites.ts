@@ -1,5 +1,5 @@
 import type { AssistantMessage } from "@mariozechner/pi-ai";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createEmptyPluginRegistry,
   pluginRegistrationContractRegistry,
@@ -110,12 +110,12 @@ function createResolvedModel(provider: string, modelId: string, api = "openai-co
   };
 }
 
-function asLegacyTtsConfig(value: unknown): Brikko StudioConfig {
-  return value as Brikko StudioConfig;
+function asLegacyTtsConfig(value: unknown): BrikkoStudioConfig {
+  return value as BrikkoStudioConfig;
 }
 
-function asLegacyBrikko StudioConfig(value: Record<string, unknown>): Brikko StudioConfig {
-  return value as unknown as Brikko StudioConfig;
+function asLegacyBrikkoStudioConfig(value: Record<string, unknown>): BrikkoStudioConfig {
+  return value as unknown as BrikkoStudioConfig;
 }
 
 const mockAssistantMessage = (content: AssistantMessage["content"]): AssistantMessage => ({
@@ -152,7 +152,7 @@ function createSummarizeTextDeps() {
   };
 }
 
-function createOpenAiTelephonyCfg(model: "tts-1" | "gpt-4o-mini-tts"): Brikko StudioConfig {
+function createOpenAiTelephonyCfg(model: "tts-1" | "gpt-4o-mini-tts"): BrikkoStudioConfig {
   return asLegacyTtsConfig({
     messages: {
       tts: {
@@ -464,7 +464,7 @@ function setupTestSpeechProviderRegistry() {
   setActivePluginRegistry(registry);
 }
 
-function createResolvedSummarizationConfig(cfg: Brikko StudioConfig): ResolvedTtsConfig {
+function createResolvedSummarizationConfig(cfg: BrikkoStudioConfig): ResolvedTtsConfig {
   const rawConfig =
     typeof cfg.messages?.tts === "object" && cfg.messages?.tts !== null ? cfg.messages.tts : {};
   return {
@@ -537,7 +537,7 @@ export function describeTtsConfigContract() {
     beforeEach(setupTtsContractTest);
 
     describe("resolveEdgeOutputFormat", () => {
-      const baseCfg: Brikko StudioConfig = {
+      const baseCfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "openai/gpt-4o-mini" } } },
         messages: { tts: {} },
       };
@@ -557,7 +557,7 @@ export function describeTtsConfigContract() {
                 edge: { outputFormat: "audio-24khz-96kbitrate-mono-mp3" },
               },
             },
-          } as unknown as Brikko StudioConfig,
+          } as unknown as BrikkoStudioConfig,
           expected: "audio-24khz-96kbitrate-mono-mp3",
         },
       ] as const)("$name", ({ cfg, expected, name }) => {
@@ -721,7 +721,7 @@ export function describeTtsConfigContract() {
             GOOGLE_API_KEY: undefined,
           },
           () => {
-            const cfg = asLegacyBrikko StudioConfig({
+            const cfg = asLegacyBrikkoStudioConfig({
               agents: { defaults: { model: { primary: "openai/gpt-4o-mini" } } },
               models: {
                 providers: {
@@ -752,7 +752,7 @@ export function describeTtsConfigContract() {
     describe("resolveTtsConfig provider normalization", () => {
       it("normalizes legacy edge provider ids to microsoft", () => {
         const config = resolveTtsConfig(
-          asLegacyBrikko StudioConfig({
+          asLegacyBrikkoStudioConfig({
             agents: { defaults: { model: { primary: "openai/gpt-4o-mini" } } },
             messages: {
               tts: {
@@ -773,7 +773,7 @@ export function describeTtsConfigContract() {
     });
 
     describe("resolveTtsConfig – openai.baseUrl", () => {
-      const baseCfg: Brikko StudioConfig = {
+      const baseCfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "openai/gpt-4o-mini" } } },
         messages: { tts: {} },
       };
@@ -798,7 +798,7 @@ export function describeTtsConfigContract() {
             messages: {
               tts: { ...baseCfg.messages!.tts, openai: { baseUrl: "http://my-server:9000/v1" } },
             },
-          } as unknown as Brikko StudioConfig,
+          } as unknown as BrikkoStudioConfig,
           env: { OPENAI_TTS_BASE_URL: "http://localhost:8880/v1" },
           expected: "http://my-server:9000/v1",
         },
@@ -812,7 +812,7 @@ export function describeTtsConfigContract() {
                 openai: { baseUrl: "http://my-server:9000/v1///" },
               },
             },
-          } as unknown as Brikko StudioConfig,
+          } as unknown as BrikkoStudioConfig,
           env: { OPENAI_TTS_BASE_URL: undefined },
           expected: "http://my-server:9000/v1",
         },
@@ -854,7 +854,7 @@ export function describeTtsSummarizationContract() {
   describe("tts summarization contract", () => {
     beforeEach(setupTtsSummarizationTest);
 
-    const baseCfg: Brikko StudioConfig = {
+    const baseCfg: BrikkoStudioConfig = {
       agents: { defaults: { model: { primary: "openai/gpt-4o-mini" } } },
       messages: { tts: {} },
     };
@@ -862,7 +862,7 @@ export function describeTtsSummarizationContract() {
     async function runSummarizeText(params?: {
       text?: string;
       targetLength?: number;
-      cfg?: Brikko StudioConfig;
+      cfg?: BrikkoStudioConfig;
     }) {
       const cfg = params?.cfg ?? baseCfg;
       const config = createResolvedSummarizationConfig(cfg);
@@ -908,7 +908,7 @@ export function describeTtsSummarizationContract() {
     });
 
     it("uses summaryModel override when configured", async () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         agents: { defaults: { model: { primary: "anthropic/claude-opus-4-5" } } },
         messages: { tts: { summaryModel: "openai/gpt-4.1-mini" } },
       };
@@ -1208,7 +1208,7 @@ export function describeTtsAutoApplyContract() {
   describe("tts auto-apply contract", () => {
     beforeEach(setupTtsContractTest);
 
-    const baseCfg: Brikko StudioConfig = asLegacyBrikko StudioConfig({
+    const baseCfg: BrikkoStudioConfig = asLegacyBrikkoStudioConfig({
       agents: { defaults: { model: { primary: "openai/gpt-4o-mini" } } },
       messages: {
         tts: {
@@ -1233,7 +1233,7 @@ export function describeTtsAutoApplyContract() {
       }
     };
 
-    const taggedCfg: Brikko StudioConfig = {
+    const taggedCfg: BrikkoStudioConfig = {
       ...baseCfg,
       messages: {
         ...baseCfg.messages!,
@@ -1242,7 +1242,7 @@ export function describeTtsAutoApplyContract() {
     };
 
     async function expectAutoTtsOutcome(params: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       payload: { text: string };
       inboundAudio?: boolean;
       expectedFetchCalls: number;

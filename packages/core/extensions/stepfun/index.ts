@@ -1,6 +1,6 @@
 import {
   definePluginEntry,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type ProviderCatalogContext,
 } from "brikko-studio/plugin-sdk/plugin-entry";
 import { createProviderApiKeyAuthMethod } from "brikko-studio/plugin-sdk/provider-auth-api-key";
@@ -131,7 +131,7 @@ function createStepFunApiKeyMethod(params: {
   choiceId: string;
   choiceLabel: string;
   choiceHint: string;
-  applyConfig: (cfg: Brikko StudioConfig) => Brikko StudioConfig;
+  applyConfig: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig;
 }) {
   return createProviderApiKeyAuthMethod({
     providerId: params.providerId,

@@ -5,7 +5,7 @@ import {
   __testing as acpRuntimeTesting,
   registerAcpRuntimeBackend,
 } from "../../acp/runtime/registry.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { PluginManifestRegistry } from "../../plugins/manifest-registry.js";
 import { createTrackedTempDirs } from "../../test-utils/tracked-temp-dirs.js";
 
@@ -215,7 +215,7 @@ describe("resolvePluginSkillDirs", () => {
             helper: { enabled: true },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(dirs).toEqual(expectedDirs({ acpxRoot, helperRoot }));
@@ -242,7 +242,7 @@ describe("resolvePluginSkillDirs", () => {
             helper: { enabled: true },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(dirs).toEqual([path.resolve(pluginRoot, "skills")]);
@@ -273,7 +273,7 @@ describe("resolvePluginSkillDirs", () => {
             helper: { enabled: true },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(dirs).toEqual([]);
@@ -301,7 +301,7 @@ describe("resolvePluginSkillDirs", () => {
             helper: { enabled: true },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(dirs).toEqual([
@@ -331,7 +331,7 @@ describe("resolvePluginSkillDirs", () => {
             "helper-legacy": { enabled: true },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(dirs).toEqual([path.resolve(pluginRoot, "skills")]);

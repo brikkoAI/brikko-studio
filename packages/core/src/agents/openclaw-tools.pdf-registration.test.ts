@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { collectPresentBrikko StudioTools } from "./brikko-studio-tools.registration.js";
+import { collectPresentBrikkoStudioTools } from "./brikko-studio-tools.registration.js";
 import { createPdfTool } from "./tools/pdf-tool.js";
 
-describe("createBrikko StudioTools PDF registration", () => {
+describe("createBrikkoStudioTools PDF registration", () => {
   it("includes the pdf tool when the pdf factory returns a tool", () => {
     const pdfTool = createPdfTool({
       agentDir: "/tmp/brikko-studio-agent-main",
@@ -16,6 +16,6 @@ describe("createBrikko StudioTools PDF registration", () => {
     });
 
     expect(pdfTool?.name).toBe("pdf");
-    expect(collectPresentBrikko StudioTools([pdfTool]).map((tool) => tool.name)).toContain("pdf");
+    expect(collectPresentBrikkoStudioTools([pdfTool]).map((tool) => tool.name)).toContain("pdf");
   });
 });

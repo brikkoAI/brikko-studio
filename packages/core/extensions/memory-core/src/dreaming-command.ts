@@ -1,16 +1,16 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveMemoryDreamingConfig } from "brikko-studio/plugin-sdk/memory-core-host-status";
-import type { Brikko StudioPluginApi, PluginCommandContext } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginApi, PluginCommandContext } from "brikko-studio/plugin-sdk/plugin-entry";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { asRecord } from "./dreaming-shared.js";
 import { resolveShortTermPromotionDreamingConfig } from "./dreaming.js";
 
-function resolveMemoryCorePluginConfig(cfg: Brikko StudioConfig): Record<string, unknown> {
+function resolveMemoryCorePluginConfig(cfg: BrikkoStudioConfig): Record<string, unknown> {
   const entry = asRecord(cfg.plugins?.entries?.["memory-core"]);
   return asRecord(entry?.config) ?? {};
 }
 
-function updateDreamingEnabledInConfig(cfg: Brikko StudioConfig, enabled: boolean): Brikko StudioConfig {
+function updateDreamingEnabledInConfig(cfg: BrikkoStudioConfig, enabled: boolean): BrikkoStudioConfig {
   const entries = { ...cfg.plugins?.entries };
   const existingEntry = asRecord(entries["memory-core"]) ?? {};
   const existingConfig = asRecord(existingEntry.config) ?? {};
@@ -47,7 +47,7 @@ function formatPhaseGuide(): string {
   ].join("\n");
 }
 
-function formatStatus(cfg: Brikko StudioConfig): string {
+function formatStatus(cfg: BrikkoStudioConfig): string {
   const pluginConfig = resolveMemoryCorePluginConfig(cfg);
   const dreaming = resolveMemoryDreamingConfig({
     pluginConfig,
@@ -80,13 +80,13 @@ function requiresAdminToMutateDreaming(gatewayClientScopes?: readonly string[]):
   return Array.isArray(gatewayClientScopes) && !gatewayClientScopes.includes("operator.admin");
 }
 
-export async function handleDreamingCommand(api: Brikko StudioPluginApi, ctx: PluginCommandContext) {
+export async function handleDreamingCommand(api: BrikkoStudioPluginApi, ctx: PluginCommandContext) {
   const args = ctx.args?.trim() ?? "";
   const [firstToken = ""] = args
     .split(/\s+/)
     .filter(Boolean)
     .map((token) => normalizeLowercaseStringOrEmpty(token));
-  const currentConfig = api.runtime.config.current() as Brikko StudioConfig;
+  const currentConfig = api.runtime.config.current() as BrikkoStudioConfig;
 
   if (!firstToken || firstToken === "help" || firstToken === "options" || firstToken === "phases") {
     return { text: formatUsage(formatStatus(currentConfig)) };
@@ -116,7 +116,7 @@ export async function handleDreamingCommand(api: Brikko StudioPluginApi, ctx: Pl
   return { text: formatUsage(formatStatus(currentConfig)) };
 }
 
-export function registerDreamingCommand(api: Brikko StudioPluginApi): void {
+export function registerDreamingCommand(api: BrikkoStudioPluginApi): void {
   api.registerCommand({
     name: "dreaming",
     description: "Enable or disable memory dreaming.",

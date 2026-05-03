@@ -2,7 +2,7 @@
 import type {
   ModelDefinitionConfig,
   ModelProviderConfig,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
 } from "../config/types.js";
 import {
   createLazyFacadeValue as createLazyFacadeRuntimeValue,
@@ -81,7 +81,7 @@ type FacadeModule = {
   }) => Promise<FetchLmstudioModelsResult>;
   mapLmstudioWireEntry: (entry: LmstudioModelWire) => LmstudioModelBase | null;
   discoverLmstudioModels: (params?: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     baseUrl?: string;
     apiKey?: string;
     headers?: Record<string, string>;
@@ -93,18 +93,18 @@ type FacadeModule = {
     headers?: Record<string, string>;
   }) => Record<string, string> | undefined;
   resolveLmstudioConfiguredApiKey: (params: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     env?: NodeJS.ProcessEnv;
     path?: string;
   }) => Promise<string | undefined>;
   resolveLmstudioProviderHeaders: (params: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     env?: NodeJS.ProcessEnv;
     headers?: unknown;
     path?: string;
   }) => Promise<Record<string, string> | undefined>;
   resolveLmstudioRequestContext: (params: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     env?: NodeJS.ProcessEnv;
     headers?: unknown;
     providerHeaders?: unknown;
@@ -114,7 +114,7 @@ type FacadeModule = {
     headers?: Record<string, string>;
   }>;
   resolveLmstudioRuntimeApiKey: (params: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     agentDir?: string;
     env?: NodeJS.ProcessEnv;
     headers?: unknown;

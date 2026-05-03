@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   loadConfig,
   refreshPluginRegistry,
@@ -20,7 +20,7 @@ function createTrackedPluginConfig(params: {
   pluginId: string;
   spec: string;
   resolvedName?: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     plugins: {
       installs: {
@@ -32,7 +32,7 @@ function createTrackedPluginConfig(params: {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("plugins cli update", () => {
@@ -67,7 +67,7 @@ describe("plugins cli update", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const nextConfig = {
       hooks: {
         internal: {
@@ -80,7 +80,7 @@ describe("plugins cli update", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     loadConfig.mockReturnValue(cfg);
     updateNpmInstalledPlugins.mockResolvedValue({
@@ -120,7 +120,7 @@ describe("plugins cli update", () => {
       plugins: {
         installs: {},
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     await expect(runPluginsCommand(["plugins", "update"])).rejects.toThrow("__exit__:1");
 
@@ -133,7 +133,7 @@ describe("plugins cli update", () => {
       plugins: {
         installs: {},
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     await runPluginsCommand(["plugins", "update", "--all"]);
 
@@ -181,7 +181,7 @@ describe("plugins cli update", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const nextConfig = {
       plugins: {
         installs: {
@@ -191,7 +191,7 @@ describe("plugins cli update", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     loadConfig.mockReturnValue(cfg);
     setInstalledPluginIndexInstallRecords(cfg.plugins?.installs ?? {});
     updateNpmInstalledPlugins.mockResolvedValue({
@@ -242,7 +242,7 @@ describe("plugins cli update", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const nextConfig = {
       plugins: {
         installs: {
@@ -256,7 +256,7 @@ describe("plugins cli update", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     loadConfig.mockReturnValue(cfg);
     setInstalledPluginIndexInstallRecords(cfg.plugins?.installs ?? {});
     updateNpmInstalledPlugins.mockResolvedValue({
@@ -300,7 +300,7 @@ describe("plugins cli update", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     loadConfig.mockReturnValue(cfg);
     updateNpmInstalledPlugins.mockResolvedValue({
       config: cfg,

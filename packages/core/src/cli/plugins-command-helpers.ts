@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginKind } from "../plugins/plugin-kind.types.js";
 import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
 import { applyExclusiveSlotSelection } from "../plugins/slots.js";
@@ -46,7 +46,7 @@ function mergeRuntimeKinds(
   };
 }
 
-function loadRuntimeKindReportForPlugins(config: Brikko StudioConfig, pluginIds: readonly string[]) {
+function loadRuntimeKindReportForPlugins(config: BrikkoStudioConfig, pluginIds: readonly string[]) {
   return buildPluginDiagnosticsReport({
     config,
     onlyPluginIds: [...pluginIds],
@@ -54,7 +54,7 @@ function loadRuntimeKindReportForPlugins(config: Brikko StudioConfig, pluginIds:
 }
 
 function buildSlotSelectionRegistry(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   pluginId: string,
 ): SlotSelectionRegistry {
   const plugins = loadPluginMetadataSnapshot({
@@ -96,9 +96,9 @@ export function resolveFileNpmSpecToLocalPath(
 }
 
 export function applySlotSelectionForPlugin(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   pluginId: string,
-): { config: Brikko StudioConfig; warnings: string[] } {
+): { config: BrikkoStudioConfig; warnings: string[] } {
   const report = buildSlotSelectionRegistry(config, pluginId);
   const plugin = report.plugins.find((entry) => entry.id === pluginId);
   if (!plugin) {
@@ -147,9 +147,9 @@ export function createHookPackInstallLogger(runtime: RuntimeEnv = defaultRuntime
 }
 
 export function enableInternalHookEntries(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   hookNames: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const entries = { ...config.hooks?.internal?.entries } as Record<string, HookInternalEntryLike>;
 
   for (const hookName of hookNames) {

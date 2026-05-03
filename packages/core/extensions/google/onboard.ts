@@ -1,12 +1,12 @@
 import {
   applyAgentDefaultModelPrimary,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 
 export const GOOGLE_GEMINI_DEFAULT_MODEL = "google/gemini-3.1-pro-preview";
 
-export function applyGoogleGeminiModelDefault(cfg: Brikko StudioConfig): {
-  next: Brikko StudioConfig;
+export function applyGoogleGeminiModelDefault(cfg: BrikkoStudioConfig): {
+  next: BrikkoStudioConfig;
   changed: boolean;
 } {
   const current = cfg.agents?.defaults?.model as unknown;

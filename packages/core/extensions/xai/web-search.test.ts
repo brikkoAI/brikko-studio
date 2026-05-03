@@ -131,7 +131,7 @@ describe("xai web search config resolution", () => {
         throw new Error("expected xai web search tool");
       }
 
-      await expect(maybeTool.execute({ query: "Brikko Studio" })).resolves.toMatchObject({
+      await expect(maybeTool.execute({ query: "BrikkoStudio" })).resolves.toMatchObject({
         error: "missing_xai_api_key",
         message: expect.stringContaining("use web_fetch for a specific URL or the browser tool"),
       });
@@ -312,7 +312,7 @@ describe("xai web search config resolution", () => {
       searchConfig: { provider: "grok" },
     });
 
-    await tool?.execute({ query: "Brikko Studio Grok proxy test" });
+    await tool?.execute({ query: "BrikkoStudio Grok proxy test" });
 
     expect(String(mockFetch.mock.calls[0]?.[0])).toBe("https://api.x.ai/proxy/v1/responses");
   });

@@ -1,7 +1,7 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveCronStorePath, loadCronStore, saveCronStore } from "../cron/store.js";
 import type { CronJob } from "../cron/types.js";
 import {
@@ -181,7 +181,7 @@ export async function noteLegacyWhatsAppCrontabHealthCheck(
   note(
     [
       "Legacy WhatsApp crontab health check detected.",
-      "`~/.brikko-studio/bin/ensure-whatsapp.sh` is not maintained by current Brikko Studio and can misreport `Gateway inactive` from cron when the systemd user bus environment is missing.",
+      "`~/.brikko-studio/bin/ensure-whatsapp.sh` is not maintained by current BrikkoStudio and can misreport `Gateway inactive` from cron when the systemd user bus environment is missing.",
       `Remove the stale crontab entry with ${formatCliCommand("crontab -e")}; use ${formatCliCommand("brikko-studio channels status --probe")}, ${formatCliCommand("brikko-studio doctor")}, and ${formatCliCommand("brikko-studio gateway status")} for current health checks.`,
       `Matched ${pluralize(legacyLines.length, "entry")}.`,
     ].join("\n"),
@@ -190,7 +190,7 @@ export async function noteLegacyWhatsAppCrontabHealthCheck(
 }
 
 export async function maybeRepairLegacyCronStore(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   options: DoctorOptions;
   prompter: Pick<DoctorPrompter, "confirm">;
 }) {

@@ -3,13 +3,13 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { formatCliCommand } from "../cli/command-format.js";
 import { resolveStateDir } from "../config/paths.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { runCommandWithTimeout } from "../process/exec.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { VERSION } from "../version.js";
 import { isTruthyEnvValue } from "./env.js";
 import { writeJsonAtomic } from "./json-files.js";
-import { resolveBrikko StudioPackageRoot } from "./brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRoot } from "./brikko-studio-root.js";
 import { normalizeUpdateChannel, DEFAULT_PACKAGE_CHANNEL } from "./update-channels.js";
 import { compareSemverStrings, resolveNpmChannelTag, checkUpdateStatus } from "./update-check.js";
 
@@ -78,7 +78,7 @@ function shouldSkipCheck(allowInTests: boolean): boolean {
   return false;
 }
 
-function resolveAutoUpdatePolicy(cfg: Brikko StudioConfig): AutoUpdatePolicy {
+function resolveAutoUpdatePolicy(cfg: BrikkoStudioConfig): AutoUpdatePolicy {
   const auto = cfg.update?.auto;
   const stableDelayHours =
     typeof auto?.stableDelayHours === "number" && Number.isFinite(auto.stableDelayHours)
@@ -101,7 +101,7 @@ function resolveAutoUpdatePolicy(cfg: Brikko StudioConfig): AutoUpdatePolicy {
   };
 }
 
-function resolveCheckIntervalMs(cfg: Brikko StudioConfig): number {
+function resolveCheckIntervalMs(cfg: BrikkoStudioConfig): number {
   const channel = normalizeUpdateChannel(cfg.update?.channel) ?? DEFAULT_PACKAGE_CHANNEL;
   const auto = resolveAutoUpdatePolicy(cfg);
   if (!auto.enabled) {
@@ -300,7 +300,7 @@ function clearAutoState(nextState: UpdateCheckState): void {
 }
 
 export async function runGatewayUpdateCheck(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   log: { info: (msg: string, meta?: Record<string, unknown>) => void };
   isNixMode: boolean;
   allowInTests?: boolean;
@@ -350,7 +350,7 @@ export async function runGatewayUpdateCheck(params: {
     }
   }
 
-  const root = await resolveBrikko StudioPackageRoot({
+  const root = await resolveBrikkoStudioPackageRoot({
     moduleUrl: import.meta.url,
     argv1: process.argv[1],
     cwd: process.cwd(),
@@ -498,7 +498,7 @@ export async function runGatewayUpdateCheck(params: {
 }
 
 export function scheduleGatewayUpdateCheck(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   log: { info: (msg: string, meta?: Record<string, unknown>) => void };
   isNixMode: boolean;
   onUpdateAvailableChange?: (updateAvailable: UpdateAvailable | null) => void;

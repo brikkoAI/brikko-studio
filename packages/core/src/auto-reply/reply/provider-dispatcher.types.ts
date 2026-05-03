@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { GetReplyOptions } from "../get-reply-options.types.js";
 import type { FinalizedMsgContext, MsgContext } from "../templating.js";
 import type { DispatchFromConfigResult } from "./dispatch-from-config.types.js";
@@ -13,7 +13,7 @@ type DispatchReplyOptions = Omit<GetReplyOptions, "onBlockReply">;
 
 export type DispatchReplyWithBufferedBlockDispatcher = (params: {
   ctx: DispatchReplyContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   dispatcherOptions: ReplyDispatcherWithTypingOptions;
   replyOptions?: DispatchReplyOptions;
   replyResolver?: GetReplyFromConfig;
@@ -21,7 +21,7 @@ export type DispatchReplyWithBufferedBlockDispatcher = (params: {
 
 export type DispatchReplyWithDispatcher = (params: {
   ctx: DispatchReplyContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   dispatcherOptions: ReplyDispatcherOptions;
   replyOptions?: DispatchReplyOptions;
   replyResolver?: GetReplyFromConfig;

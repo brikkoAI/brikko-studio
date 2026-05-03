@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { ChannelApprovalKind } from "../../infra/approval-types.js";
 import type { ExecApprovalRequest } from "../../infra/exec-approvals.js";
 import type { PluginApprovalRequest } from "../../infra/plugin-approvals.js";
@@ -24,19 +24,19 @@ export type ChannelApprovalNativeDeliveryCapabilities = {
 
 export type ChannelApprovalNativeAdapter = {
   describeDeliveryCapabilities: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     approvalKind: ChannelApprovalKind;
     request: ChannelApprovalNativeRequest;
   }) => ChannelApprovalNativeDeliveryCapabilities;
   resolveOriginTarget?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     approvalKind: ChannelApprovalKind;
     request: ChannelApprovalNativeRequest;
   }) => ChannelApprovalNativeTarget | null | Promise<ChannelApprovalNativeTarget | null>;
   resolveApproverDmTargets?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     approvalKind: ChannelApprovalKind;
     request: ChannelApprovalNativeRequest;

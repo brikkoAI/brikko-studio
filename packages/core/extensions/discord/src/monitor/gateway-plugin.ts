@@ -104,7 +104,7 @@ function createGatewayPlugin(params: {
   runtime?: RuntimeEnv;
   testing?: GatewayPluginTestingOptions;
 }): discordGateway.GatewayPlugin {
-  class Brikko StudioGatewayPlugin extends discordGateway.GatewayPlugin {
+  class BrikkoStudioGatewayPlugin extends discordGateway.GatewayPlugin {
     private gatewayInfoUsedFallback = false;
 
     constructor() {
@@ -221,7 +221,7 @@ function createGatewayPlugin(params: {
     }
   }
 
-  return new Brikko StudioGatewayPlugin();
+  return new BrikkoStudioGatewayPlugin();
 }
 
 function createDiscordGatewayMetadataFetch(debugCaptureEnabled: boolean): DiscordGatewayFetch {
@@ -282,7 +282,7 @@ export function createDiscordGatewayPlugin(params: {
     options: {
       reconnect: { maxAttempts: 50 },
       intents,
-      // Brikko Studio registers its own async interaction listener.
+      // BrikkoStudio registers its own async interaction listener.
       autoInteractions: false,
     },
     gatewayInfoTimeoutMs,

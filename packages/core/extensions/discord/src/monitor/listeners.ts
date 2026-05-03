@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { danger } from "brikko-studio/plugin-sdk/runtime-env";
 import {
   type Client,
@@ -108,7 +108,7 @@ type ThreadUpdateEvent = Parameters<ThreadUpdateListener["handle"]>[0];
 
 export class DiscordThreadUpdateListener extends ThreadUpdateListener {
   constructor(
-    private cfg: Brikko StudioConfig,
+    private cfg: BrikkoStudioConfig,
     private accountId: string,
     private logger?: Logger,
   ) {

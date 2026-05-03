@@ -7,7 +7,7 @@ import {
 } from "../plugin-sdk/agent-harness.js";
 import { listAgentToolResultMiddlewares } from "../plugins/agent-tool-result-middleware.js";
 import { listCodexAppServerExtensionFactories } from "../plugins/codex-app-server-extension-factory.js";
-import { loadBrikko StudioPlugins } from "../plugins/loader.js";
+import { loadBrikkoStudioPlugins } from "../plugins/loader.js";
 import {
   cleanupTempPluginTestEnvironment,
   createTempPluginDir,
@@ -73,14 +73,14 @@ describe("agent tool result middleware", () => {
       onlyPluginIds: ["tool-result-middleware"],
     };
 
-    loadBrikko StudioPlugins(options);
+    loadBrikkoStudioPlugins(options);
     expect(listAgentToolResultMiddlewares("codex")).toHaveLength(1);
     expect(listAgentToolResultMiddlewares("pi")).toHaveLength(0);
 
     resetActivePluginRegistryForTest();
     expect(listAgentToolResultMiddlewares("codex")).toHaveLength(0);
 
-    loadBrikko StudioPlugins(options);
+    loadBrikkoStudioPlugins(options);
     const runner = createAgentToolResultMiddlewareRunner({ runtime: "codex" });
     const result = await runner.applyToolResultMiddleware({
       threadId: "thread-1",
@@ -112,7 +112,7 @@ describe("agent tool result middleware", () => {
 } };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       onlyPluginIds: ["tool-result-middleware"],
       config: {
         plugins: {
@@ -152,7 +152,7 @@ describe("agent tool result middleware", () => {
 } };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       workspaceDir: tmp,
       onlyPluginIds: ["tool-result-middleware"],
       config: {
@@ -193,7 +193,7 @@ export default { id: "tool-result-middleware", register(api) {
 } };`,
     });
 
-    loadBrikko StudioPlugins({
+    loadBrikkoStudioPlugins({
       onlyPluginIds: ["tool-result-middleware"],
       config: {
         plugins: {
@@ -297,13 +297,13 @@ describe("Codex app-server extension factories", () => {
       onlyPluginIds: ["codex-ext"],
     };
 
-    loadBrikko StudioPlugins(options);
+    loadBrikkoStudioPlugins(options);
     expect(listCodexAppServerExtensionFactories()).toHaveLength(1);
 
     resetActivePluginRegistryForTest();
     expect(listCodexAppServerExtensionFactories()).toHaveLength(0);
 
-    loadBrikko StudioPlugins(options);
+    loadBrikkoStudioPlugins(options);
     const runner = createCodexAppServerToolResultExtensionRunner({});
     const result = await runner.applyToolResultExtensions({
       threadId: "thread-1",
@@ -334,7 +334,7 @@ describe("Codex app-server extension factories", () => {
 } };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       workspaceDir: tmp,
       onlyPluginIds: ["codex-ext"],
       config: {
@@ -368,7 +368,7 @@ describe("Codex app-server extension factories", () => {
 } };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       onlyPluginIds: ["codex-ext"],
       config: {
         plugins: {
@@ -410,7 +410,7 @@ describe("Codex app-server extension factories", () => {
 } };`,
     });
 
-    const registry = loadBrikko StudioPlugins({
+    const registry = loadBrikkoStudioPlugins({
       onlyPluginIds: ["codex-ext"],
       config: {
         plugins: {

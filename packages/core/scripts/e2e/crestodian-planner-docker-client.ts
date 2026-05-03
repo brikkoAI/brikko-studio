@@ -5,7 +5,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { clearConfigCache } from "../../dist/config/config.js";
-import type { Brikko StudioConfig } from "../../dist/config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../dist/config/types.brikko-studio.js";
 import { runCrestodian } from "../../dist/crestodian/crestodian.js";
 import type { RuntimeEnv } from "../../dist/runtime.js";
 
@@ -95,11 +95,11 @@ async function main() {
   const promptLine = await fs.readFile(promptLogPath, "utf8");
   assert(promptLine.includes("User request:"), "fake Claude CLI did not receive planner prompt");
   assert(
-    promptLine.includes("Brikko Studio docs:"),
+    promptLine.includes("BrikkoStudio docs:"),
     "planner prompt did not include docs reference context",
   );
 
-  const config = JSON.parse(await fs.readFile(configPath, "utf8")) as Brikko StudioConfig;
+  const config = JSON.parse(await fs.readFile(configPath, "utf8")) as BrikkoStudioConfig;
   assert(
     config.agents?.defaults?.model &&
       typeof config.agents.defaults.model === "object" &&

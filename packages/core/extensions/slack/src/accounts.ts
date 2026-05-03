@@ -3,7 +3,7 @@ import {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
   resolveMergedAccountConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/account-resolution";
 import {
   mapAllowFromEntries,
@@ -45,14 +45,14 @@ export const listSlackAccountIds = listAccountIds;
 export const resolveDefaultSlackAccountId = resolveDefaultAccountId;
 
 function resolveSlackAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): SlackAccountConfig | undefined {
   return resolveAccountEntry(cfg.channels?.slack?.accounts, accountId);
 }
 
 export function mergeSlackAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): SlackAccountConfig {
   return resolveMergedAccountConfig<SlackAccountConfig>({
@@ -63,7 +63,7 @@ export function mergeSlackAccountConfig(
 }
 
 export function resolveSlackAccountAllowFrom(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): string[] | undefined {
   const accountId = normalizeAccountId(
@@ -79,7 +79,7 @@ export function resolveSlackAccountAllowFrom(params: {
 }
 
 export function resolveSlackConfigAccessorAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): SlackConfigAccessorAccount {
   const accountId = normalizeAccountId(
@@ -93,7 +93,7 @@ export function resolveSlackConfigAccessorAccount(params: {
 }
 
 export function resolveSlackAccountDmPolicy(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ChannelDmPolicy | undefined {
   const accountId = normalizeAccountId(
@@ -110,7 +110,7 @@ export function resolveSlackAccountDmPolicy(params: {
 }
 
 export function resolveSlackAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ResolvedSlackAccount {
   const accountId = normalizeAccountId(
@@ -172,7 +172,7 @@ export function resolveSlackAccount(params: {
   };
 }
 
-export function listEnabledSlackAccounts(cfg: Brikko StudioConfig): ResolvedSlackAccount[] {
+export function listEnabledSlackAccounts(cfg: BrikkoStudioConfig): ResolvedSlackAccount[] {
   return listSlackAccountIds(cfg)
     .map((accountId) => resolveSlackAccount({ cfg, accountId }))
     .filter((account) => account.enabled);

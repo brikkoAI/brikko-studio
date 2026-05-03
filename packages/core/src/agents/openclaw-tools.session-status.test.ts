@@ -9,7 +9,7 @@ const updateSessionStoreMock = vi.fn();
 const callGatewayMock = vi.fn();
 const loadCombinedSessionStoreForGatewayMock = vi.fn();
 const buildStatusMessageMock = vi.hoisted(() =>
-  vi.fn((_params?: unknown) => "Brikko Studio\n🧠 Model: GPT-5.4"),
+  vi.fn((_params?: unknown) => "BrikkoStudio\n🧠 Model: GPT-5.4"),
 );
 const resolveQueueSettingsMock = vi.hoisted(() =>
   vi.fn((_params?: unknown) => ({ mode: "interrupt" })),
@@ -228,7 +228,7 @@ function createCommandsStatusRuntimeModuleMock() {
         includeTranscriptUsage: params.includeTranscriptUsage,
         workspaceDir: params.workspaceDir,
       });
-      return ["Brikko Studio", `🧠 Model: ${primary}`, params.taskLineOverride]
+      return ["BrikkoStudio", `🧠 Model: ${primary}`, params.taskLineOverride]
         .filter(Boolean)
         .join("\n");
     },
@@ -405,7 +405,7 @@ describe("session_status tool", () => {
     const result = await tool.execute("call1", {});
     const details = result.details as { ok?: boolean; statusText?: string };
     expect(details.ok).toBe(true);
-    expect(details.statusText).toContain("Brikko Studio");
+    expect(details.statusText).toContain("BrikkoStudio");
     expect(details.statusText).toContain("🧠 Model:");
     expect(details.statusText).not.toContain("OAuth/token status");
   });
@@ -586,7 +586,7 @@ describe("session_status tool", () => {
     const details = result.details as { ok?: boolean; sessionKey?: string; statusText?: string };
     expect(details.ok).toBe(true);
     expect(details.sessionKey).toBe("agent:main:scope:scopy:direct:scopy");
-    expect(details.statusText).toContain("Brikko Studio");
+    expect(details.statusText).toContain("BrikkoStudio");
     expect(details.statusText).toContain("🧠 Model:");
   });
 
@@ -599,7 +599,7 @@ describe("session_status tool", () => {
     const details = result.details as { ok?: boolean; sessionKey?: string; statusText?: string };
     expect(details.ok).toBe(true);
     expect(details.sessionKey).toBe("agent:main:scope:scopy:direct:scopy");
-    expect(details.statusText).toContain("Brikko Studio");
+    expect(details.statusText).toContain("BrikkoStudio");
     expect(details.statusText).toContain("🧠 Model:");
   });
 

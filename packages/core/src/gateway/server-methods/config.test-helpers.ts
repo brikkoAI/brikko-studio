@@ -1,5 +1,5 @@
 import { vi, type Mock } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { GatewayRequestHandlerOptions } from "./types.js";
 
 type UnknownMock = Mock<(...args: unknown[]) => unknown>;
@@ -25,7 +25,7 @@ function createGatewayLog(): GatewayLogMocks {
   };
 }
 
-export function createConfigWriteSnapshot(config: Brikko StudioConfig) {
+export function createConfigWriteSnapshot(config: BrikkoStudioConfig) {
   return {
     snapshot: {
       path: "/tmp/brikko-studio.json",

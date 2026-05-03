@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { ConversationRef } from "../../infra/outbound/session-binding-service.js";
 import type {
   ConfiguredBindingRecordResolution,
@@ -17,7 +17,7 @@ import {
 import { resolveConfiguredBindingRecordBySessionKeyFromRegistry } from "./configured-binding-session-lookup.js";
 
 function resolveMaterializedConfiguredBinding(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   conversation: ConversationRef;
 }) {
   const conversation = toConfiguredBindingConversationRef(params.conversation);
@@ -46,7 +46,7 @@ function resolveMaterializedConfiguredBinding(params: {
   };
 }
 
-export function primeConfiguredBindingRegistry(params: { cfg: Brikko StudioConfig }): {
+export function primeConfiguredBindingRegistry(params: { cfg: BrikkoStudioConfig }): {
   bindingCount: number;
   channelCount: number;
 } {
@@ -54,7 +54,7 @@ export function primeConfiguredBindingRegistry(params: { cfg: Brikko StudioConfi
 }
 
 export function resolveConfiguredBindingRecord(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: string;
   accountId: string;
   conversationId: string;
@@ -76,7 +76,7 @@ export function resolveConfiguredBindingRecord(params: {
 }
 
 export function resolveConfiguredBindingRecordForConversation(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   conversation: ConversationRef;
 }): ConfiguredBindingRecordResolution | null {
   const resolved = resolveMaterializedConfiguredBinding(params);
@@ -87,7 +87,7 @@ export function resolveConfiguredBindingRecordForConversation(params: {
 }
 
 export function resolveConfiguredBinding(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   conversation: ConversationRef;
 }): ConfiguredBindingResolution | null {
   const resolved = resolveMaterializedConfiguredBinding(params);
@@ -103,7 +103,7 @@ export function resolveConfiguredBinding(params: {
 }
 
 export function resolveConfiguredBindingRecordBySessionKey(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
 }): ConfiguredBindingRecordResolution | null {
   return resolveConfiguredBindingRecordBySessionKeyFromRegistry({

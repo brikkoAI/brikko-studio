@@ -2,7 +2,7 @@ import type { DatabaseSync } from "node:sqlite";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import {
   createSubsystemLogger,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import type { MemorySyncProgressUpdate } from "brikko-studio/plugin-sdk/memory-core-host-engine-storage";
 
@@ -170,7 +170,7 @@ export function enqueueMemoryTargetedSessionSync(
 export function _createMemorySyncControlConfigForTests(
   workspaceDir: string,
   indexPath: string,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -186,5 +186,5 @@ export function _createMemorySyncControlConfigForTests(
       },
       list: [{ id: "main", default: true }],
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }

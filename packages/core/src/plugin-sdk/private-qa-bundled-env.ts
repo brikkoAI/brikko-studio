@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { resolveBrikko StudioPackageRootSync } from "../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../infra/brikko-studio-root.js";
 
 export function resolvePrivateQaBundledPluginsEnv(
   env: NodeJS.ProcessEnv = process.env,
@@ -8,7 +8,7 @@ export function resolvePrivateQaBundledPluginsEnv(
   if (env.BRIKKO_STUDIO_ENABLE_PRIVATE_QA_CLI !== "1") {
     return undefined;
   }
-  const packageRoot = resolveBrikko StudioPackageRootSync({
+  const packageRoot = resolveBrikkoStudioPackageRootSync({
     argv1: process.argv[1],
     cwd: process.cwd(),
     moduleUrl: import.meta.url,

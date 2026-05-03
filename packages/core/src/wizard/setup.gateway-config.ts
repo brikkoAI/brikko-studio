@@ -4,7 +4,7 @@ import {
   validateGatewayPasswordInput,
 } from "../commands/onboard-helpers.js";
 import type { GatewayAuthChoice, SecretInputMode } from "../commands/onboard-types.js";
-import type { GatewayBindMode, GatewayTailscaleMode, Brikko StudioConfig } from "../config/config.js";
+import type { GatewayBindMode, GatewayTailscaleMode, BrikkoStudioConfig } from "../config/config.js";
 import { ensureControlUiAllowedOriginsForNonLoopbackBind } from "../config/gateway-control-ui-origins.js";
 import {
   normalizeSecretInputString,
@@ -34,8 +34,8 @@ import type {
 
 type ConfigureGatewayOptions = {
   flow: WizardFlow;
-  baseConfig: Brikko StudioConfig;
-  nextConfig: Brikko StudioConfig;
+  baseConfig: BrikkoStudioConfig;
+  nextConfig: BrikkoStudioConfig;
   localPort: number;
   quickstartGateway: QuickstartGatewayDefaults;
   secretInputMode?: SecretInputMode;
@@ -44,7 +44,7 @@ type ConfigureGatewayOptions = {
 };
 
 type ConfigureGatewayResult = {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   settings: GatewayWizardSettings;
 };
 
@@ -247,7 +247,7 @@ export async function configureGatewayForSetup(
         copy: {
           modeMessage: "How do you want to provide the gateway password?",
           plaintextLabel: "Enter password now",
-          plaintextHint: "Stores the password directly in Brikko Studio config",
+          plaintextHint: "Stores the password directly in BrikkoStudio config",
         },
       });
       if (selectedMode === "ref") {

@@ -2,7 +2,7 @@ import { listChatChannels } from "../channels/chat-meta.js";
 import { formatCliCommand } from "../cli/command-format.js";
 import { CONFIG_PATH } from "../config/config.js";
 import { isBlockedObjectKey } from "../config/prototype-keys.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { note } from "../terminal/note.js";
 import { sanitizeTerminalText } from "../terminal/safe-text.js";
@@ -29,7 +29,7 @@ const RESERVED_CHANNEL_CONFIG_KEYS = new Set(["defaults", "modelByChannel"]);
 const DONE_VALUE: Extract<ChannelRemovalSelectValue, { kind: "done" }> = { kind: "done" };
 
 function listConfiguredChannelRemovalChoices(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): ConfiguredChannelRemovalChoice[] {
   const channels = cfg.channels;
   if (!channels) {
@@ -67,9 +67,9 @@ function compareChannelRemovalChoices(
 }
 
 export async function removeChannelConfigWizard(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   runtime: RuntimeEnv,
-): Promise<Brikko StudioConfig> {
+): Promise<BrikkoStudioConfig> {
   let next = { ...cfg };
 
   while (true) {
@@ -120,7 +120,7 @@ export async function removeChannelConfigWizard(
     const nextChannels: Record<string, unknown> = { ...next.channels };
     delete nextChannels[channel];
     if (Object.keys(nextChannels).length) {
-      next.channels = nextChannels as Brikko StudioConfig["channels"];
+      next.channels = nextChannels as BrikkoStudioConfig["channels"];
     } else {
       delete next.channels;
     }

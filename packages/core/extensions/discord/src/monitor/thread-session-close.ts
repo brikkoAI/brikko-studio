@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveStorePath, updateSessionStore } from "brikko-studio/plugin-sdk/session-store-runtime";
 import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-runtime";
 
@@ -12,7 +12,7 @@ import { normalizeOptionalLowercaseString } from "brikko-studio/plugin-sdk/text-
  * any on-disk transcript history.
  */
 export async function closeDiscordThreadSessions(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   threadId: string;
 }): Promise<number> {

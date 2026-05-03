@@ -9,7 +9,7 @@ import {
   resetTaskRegistryDeliveryRuntimeForTests,
   resetTaskRegistryForTests,
 } from "../tasks/task-registry.js";
-import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
+import { withBrikkoStudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import { tasksAuditCommand, tasksMaintenanceCommand } from "./tasks.js";
 
 function createRuntime(): RuntimeEnv {
@@ -21,7 +21,7 @@ function createRuntime(): RuntimeEnv {
 }
 
 async function withTaskCommandStateDir(run: () => Promise<void>): Promise<void> {
-  await withBrikko StudioTestState(
+  await withBrikkoStudioTestState(
     { layout: "state-only", prefix: "brikko-studio-tasks-command-" },
     async () => {
       resetTaskRegistryDeliveryRuntimeForTests();

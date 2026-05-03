@@ -11,7 +11,7 @@ import type {
   jsonSchemaValidator,
 } from "@modelcontextprotocol/sdk/validation/types.js";
 import type { ErrorObject, ValidateFunction } from "ajv";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { logWarn } from "../logger.js";
 import { resolveGlobalSingleton } from "../shared/global-singleton.js";
 import { redactSensitiveUrlLikeString } from "../shared/net/redact-sensitive-url.js";
@@ -145,7 +145,7 @@ function createCatalogFingerprint(servers: Record<string, unknown>): string {
 
 function loadSessionMcpConfig(params: {
   workspaceDir: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   logDiagnostics?: boolean;
 }): {
   loaded: LoadedMcpConfig;
@@ -170,7 +170,7 @@ function createDisposedError(sessionId: string): Error {
   return new Error(`bundle-mcp runtime disposed for session ${sessionId}`);
 }
 
-function resolveSessionMcpRuntimeIdleTtlMs(cfg?: Brikko StudioConfig): number {
+function resolveSessionMcpRuntimeIdleTtlMs(cfg?: BrikkoStudioConfig): number {
   const raw = cfg?.mcp?.sessionIdleTtlMs;
   if (typeof raw === "number" && Number.isFinite(raw) && raw >= 0) {
     return Math.floor(raw);
@@ -182,7 +182,7 @@ export function createSessionMcpRuntime(params: {
   sessionId: string;
   sessionKey?: string;
   workspaceDir: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): SessionMcpRuntime {
   const { loaded, fingerprint: configFingerprint } = loadSessionMcpConfig({
     workspaceDir: params.workspaceDir,
@@ -585,7 +585,7 @@ export async function getOrCreateSessionMcpRuntime(params: {
   sessionId: string;
   sessionKey?: string;
   workspaceDir: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): Promise<SessionMcpRuntime> {
   return await getSessionMcpRuntimeManager().getOrCreate(params);
 }

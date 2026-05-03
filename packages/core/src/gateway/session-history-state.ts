@@ -3,7 +3,7 @@ import {
   projectChatDisplayMessages,
 } from "./chat-display-projection.js";
 import {
-  attachBrikko StudioTranscriptMeta,
+  attachBrikkoStudioTranscriptMeta,
   readRecentSessionMessagesWithStatsAsync,
   readSessionMessagesAsync,
 } from "./session-utils.js";
@@ -229,7 +229,7 @@ export class SessionHistorySseState {
       return null;
     }
     this.rawTranscriptSeq += 1;
-    const nextMessage = attachBrikko StudioTranscriptMeta(update.message, {
+    const nextMessage = attachBrikkoStudioTranscriptMeta(update.message, {
       ...(typeof update.messageId === "string" ? { id: update.messageId } : {}),
       seq: this.rawTranscriptSeq,
     });

@@ -13,7 +13,7 @@ import {
   TUI,
 } from "@mariozechner/pi-tui";
 import { resolveAgentIdByWorkspacePath, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { getRuntimeConfig, type Brikko StudioConfig } from "../config/config.js";
+import { getRuntimeConfig, type BrikkoStudioConfig } from "../config/config.js";
 import { setConsoleSubsystemFilter } from "../logging/console.js";
 import { loggingState } from "../logging/state.js";
 import {
@@ -78,7 +78,7 @@ const OPENAI_CODEX_PROVIDER = "openai-codex";
 
 type RunTuiOptions = TuiOptions & {
   backend?: TuiBackend;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   title?: string;
 };
 
@@ -168,7 +168,7 @@ export function resolveTuiSessionKey(params: {
 }
 
 export function resolveInitialTuiAgentId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   fallbackAgentId: string;
   initialSessionInput?: string;
   cwd?: string;

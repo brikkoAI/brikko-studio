@@ -1,5 +1,5 @@
 import type { SkillCommandSpec } from "../../agents/skills.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
@@ -15,7 +15,7 @@ export function reserveSkillCommandNames(params: {
 }
 
 export function resolveConfiguredDirectiveAliases(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   commandTextHasSlash: boolean;
   reservedCommands: Set<string>;
 }) {

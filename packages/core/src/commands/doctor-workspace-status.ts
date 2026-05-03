@@ -1,7 +1,7 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { buildWorkspaceSkillStatus } from "../agents/skills-status.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   buildPluginCompatibilityWarnings,
   buildPluginRegistrySnapshotReport,
@@ -52,7 +52,7 @@ function noteFlowRecoveryHints() {
   );
 }
 
-export function noteWorkspaceStatus(cfg: Brikko StudioConfig) {
+export function noteWorkspaceStatus(cfg: BrikkoStudioConfig) {
   const workspaceDir = resolveAgentWorkspaceDir(cfg, resolveDefaultAgentId(cfg));
   const legacyWorkspace = detectLegacyWorkspaceDirs({ workspaceDir });
   if (legacyWorkspace.legacyDirs.length > 0) {

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { WhatsAppSendResult } from "../../inbound/send-result.js";
 import type { WebInboundMessage } from "../../inbound/types.js";
@@ -41,8 +41,8 @@ function createMessage(overrides: Partial<WebInboundMessage> = {}): WebInboundMe
 
 function createConfig(
   reactionLevel: "off" | "ack" | "minimal" | "extensive",
-  extras?: Partial<NonNullable<Brikko StudioConfig["channels"]>["whatsapp"]>,
-): Brikko StudioConfig {
+  extras?: Partial<NonNullable<BrikkoStudioConfig["channels"]>["whatsapp"]>,
+): BrikkoStudioConfig {
   return {
     channels: {
       whatsapp: {
@@ -55,7 +55,7 @@ function createConfig(
         ...extras,
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 type AckReactionParams = Parameters<typeof maybeSendAckReaction>[0];

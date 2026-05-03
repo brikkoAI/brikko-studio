@@ -29,7 +29,7 @@ describe("buildOpenAIRealtimeTranscriptionProvider", () => {
           openai: {
             language: "en",
             model: "gpt-4o-transcribe",
-            prompt: "expect Brikko Studio product names",
+            prompt: "expect BrikkoStudio product names",
             silenceDurationMs: 900,
             vadThreshold: 0.45,
           },
@@ -40,7 +40,7 @@ describe("buildOpenAIRealtimeTranscriptionProvider", () => {
     expect(resolved).toEqual({
       language: "en",
       model: "gpt-4o-transcribe",
-      prompt: "expect Brikko Studio product names",
+      prompt: "expect BrikkoStudio product names",
       silenceDurationMs: 900,
       vadThreshold: 0.45,
     });

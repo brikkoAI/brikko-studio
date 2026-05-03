@@ -6,7 +6,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import {
   evaluateLocalTestboxKey,
-  evaluateBrikko StudioTestboxClaim,
+  evaluateBrikkoStudioTestboxClaim,
   resolveTestboxId,
 } from "./blacksmith-testbox-state.mjs";
 
@@ -94,7 +94,7 @@ export function runTestboxSyncSanity({
     env,
     testboxId,
   });
-  const claimResult = evaluateBrikko StudioTestboxClaim({
+  const claimResult = evaluateBrikkoStudioTestboxClaim({
     cwd: root,
     env,
     testboxId,
@@ -121,7 +121,7 @@ export function runTestboxSyncSanity({
   }
 
   if (keyResult.checked) {
-    stdout.write(`Testbox local key and Brikko Studio claim ok: ${keyResult.testboxId}\n`);
+    stdout.write(`Testbox local key and BrikkoStudio claim ok: ${keyResult.testboxId}\n`);
   }
   stdout.write(
     `Testbox sync sanity ok: ${result.statusEntryCount} changed entries, ${result.trackedDeletionCount} tracked deletions.\n`,

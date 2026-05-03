@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { setLoggerOverride } from "../logging/logger.js";
 import { loggingState } from "../logging/state.js";
 import { stripAnsi } from "../terminal/ansi.js";
@@ -87,9 +87,9 @@ describe("loader", () => {
   }
 
   function withLegacyInternalHookHandlers(
-    config: Brikko StudioConfig,
+    config: BrikkoStudioConfig,
     handlers?: Array<{ event: string; module: string; export?: string }>,
-  ): Brikko StudioConfig {
+  ): BrikkoStudioConfig {
     if (!handlers) {
       return config;
     }
@@ -102,12 +102,12 @@ describe("loader", () => {
           handlers,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
   function createEnabledHooksConfig(
     handlers?: Array<{ event: string; module: string; export?: string }>,
-  ): Brikko StudioConfig {
+  ): BrikkoStudioConfig {
     return withLegacyInternalHookHandlers(
       {
         hooks: {
@@ -135,36 +135,36 @@ describe("loader", () => {
 
   describe("loadInternalHooks", () => {
     it("detects configured internal hook surfaces", () => {
-      expect(hasConfiguredInternalHooks({} satisfies Brikko StudioConfig)).toBe(false);
+      expect(hasConfiguredInternalHooks({} satisfies BrikkoStudioConfig)).toBe(false);
       expect(
         hasConfiguredInternalHooks({
           hooks: { internal: { entries: { "session-memory": { enabled: true } } } },
-        } satisfies Brikko StudioConfig),
+        } satisfies BrikkoStudioConfig),
       ).toBe(true);
       expect(
         hasConfiguredInternalHooks({
           hooks: { internal: { entries: { "session-memory": { enabled: false } } } },
-        } satisfies Brikko StudioConfig),
+        } satisfies BrikkoStudioConfig),
       ).toBe(false);
       expect(
         hasConfiguredInternalHooks({
           hooks: { internal: { load: { extraDirs: ["/tmp/hooks"] } } },
-        } satisfies Brikko StudioConfig),
+        } satisfies BrikkoStudioConfig),
       ).toBe(true);
       expect(
         resolveConfiguredInternalHookNames({
           hooks: { internal: { entries: { "session-memory": { enabled: true } } } },
-        } satisfies Brikko StudioConfig),
+        } satisfies BrikkoStudioConfig),
       ).toEqual(new Set(["session-memory"]));
       expect(
         resolveConfiguredInternalHookNames({
           hooks: { internal: { enabled: true } },
-        } satisfies Brikko StudioConfig),
+        } satisfies BrikkoStudioConfig),
       ).toBeNull();
       expect(
         resolveConfiguredInternalHookNames({
           hooks: { internal: { installs: { pack: { source: "path" } } } },
-        } satisfies Brikko StudioConfig),
+        } satisfies BrikkoStudioConfig),
       ).toBeNull();
     });
 
@@ -176,7 +176,7 @@ describe("loader", () => {
         },
       ]);
 
-    const expectNoCommandHookRegistration = async (cfg: Brikko StudioConfig) => {
+    const expectNoCommandHookRegistration = async (cfg: BrikkoStudioConfig) => {
       const count = await loadInternalHooks(cfg, tmpDir);
       expect(count).toBe(0);
       expect(getRegisteredEventKeys()).not.toContain("command:new");
@@ -190,7 +190,7 @@ describe("loader", () => {
               enabled: false,
             },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         withLegacyInternalHookHandlers(
           {
             hooks: {
@@ -198,7 +198,7 @@ describe("loader", () => {
                 enabled: false,
               },
             },
-          } satisfies Brikko StudioConfig,
+          } satisfies BrikkoStudioConfig,
           [],
         ),
       ]) {
@@ -209,9 +209,9 @@ describe("loader", () => {
 
     it("skips hook discovery until internal hooks are configured", async () => {
       for (const cfg of [
-        {} satisfies Brikko StudioConfig,
-        { hooks: {} } satisfies Brikko StudioConfig,
-        { hooks: { internal: {} } } satisfies Brikko StudioConfig,
+        {} satisfies BrikkoStudioConfig,
+        { hooks: {} } satisfies BrikkoStudioConfig,
+        { hooks: { internal: {} } } satisfies BrikkoStudioConfig,
       ]) {
         const count = await loadInternalHooks(cfg, tmpDir);
         expect(count).toBe(0);
@@ -232,7 +232,7 @@ describe("loader", () => {
               },
             },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         tmpDir,
         { managedHooksDir: hooksDir, bundledHooksDir: "/nonexistent/bundled/hooks" },
       );

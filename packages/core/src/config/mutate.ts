@@ -27,7 +27,7 @@ import {
   type ConfigWriteAfterWrite,
   type ConfigWriteFollowUp,
 } from "./runtime-snapshot.js";
-import type { ConfigFileSnapshot, Brikko StudioConfig } from "./types.js";
+import type { ConfigFileSnapshot, BrikkoStudioConfig } from "./types.js";
 import { validateConfigObjectWithPlugins } from "./validation.js";
 
 export type ConfigMutationBase = "runtime" | "source";
@@ -46,14 +46,14 @@ export type ConfigReplaceResult = {
   path: string;
   previousHash: string | null;
   snapshot: ConfigFileSnapshot;
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   afterWrite: ConfigWriteAfterWrite;
   followUp: ConfigWriteFollowUp;
 };
 
 type ConfigMutationIO = {
   readConfigFileSnapshotForWrite: typeof readConfigFileSnapshotForWrite;
-  writeConfigFile: (cfg: Brikko StudioConfig, options?: ConfigWriteOptions) => Promise<unknown>;
+  writeConfigFile: (cfg: BrikkoStudioConfig, options?: ConfigWriteOptions) => Promise<unknown>;
 };
 
 function assertBaseHashMatches(snapshot: ConfigFileSnapshot, expectedHash?: string): string | null {
@@ -131,7 +131,7 @@ async function writeJsonFileAtomic(filePath: string, value: unknown): Promise<vo
 
 async function tryWriteSingleTopLevelIncludeMutation(params: {
   snapshot: ConfigFileSnapshot;
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   afterWrite?: ConfigWriteOptions["afterWrite"];
   writeOptions?: ConfigWriteOptions;
   io?: ConfigMutationIO;
@@ -222,7 +222,7 @@ async function tryWriteSingleTopLevelIncludeMutation(params: {
 }
 
 export async function replaceConfigFile(params: {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   baseHash?: string;
   snapshot?: ConfigFileSnapshot;
   afterWrite?: ConfigWriteOptions["afterWrite"];
@@ -270,7 +270,7 @@ export async function mutateConfigFile<T = void>(params: {
   writeOptions?: ConfigWriteOptions;
   io?: ConfigMutationIO;
   mutate: (
-    draft: Brikko StudioConfig,
+    draft: BrikkoStudioConfig,
     context: { snapshot: ConfigFileSnapshot; previousHash: string | null },
   ) => Promise<T | void> | T | void;
 }): Promise<ConfigReplaceResult & { result: T | undefined }> {
@@ -279,7 +279,7 @@ export async function mutateConfigFile<T = void>(params: {
   )();
   const previousHash = assertBaseHashMatches(snapshot, params.baseHash);
   const baseConfig = params.base === "runtime" ? snapshot.runtimeConfig : snapshot.sourceConfig;
-  const draft = structuredClone(baseConfig) as Brikko StudioConfig;
+  const draft = structuredClone(baseConfig) as BrikkoStudioConfig;
   const result = (await params.mutate(draft, { snapshot, previousHash })) as T | undefined;
   const afterWrite = resolveConfigWriteAfterWrite(
     params.afterWrite ?? params.writeOptions?.afterWrite,

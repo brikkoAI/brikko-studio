@@ -3,7 +3,7 @@ import { defineBundledChannelEntry } from "brikko-studio/plugin-sdk/channel-entr
 export default defineBundledChannelEntry({
   id: "synology-chat",
   name: "Synology Chat",
-  description: "Native Synology Chat channel plugin for Brikko Studio",
+  description: "Native Synology Chat channel plugin for BrikkoStudio",
   importMetaUrl: import.meta.url,
   plugin: {
     specifier: "./channel-plugin-api.js",

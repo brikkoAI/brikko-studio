@@ -47,7 +47,7 @@ const coreTools = [
   stubTool("pdf"),
 ];
 
-const createBrikko StudioToolsMock = vi.fn(
+const createBrikkoStudioToolsMock = vi.fn(
   (options?: { enableHeartbeatTool?: boolean; recordToolPrepStage?: (name: string) => void }) => {
     options?.recordToolPrepStage?.("brikko-studio-tools:test-helper");
     return coreTools
@@ -57,7 +57,7 @@ const createBrikko StudioToolsMock = vi.fn(
 );
 
 vi.mock("../brikko-studio-tools.js", () => ({
-  createBrikko StudioTools: createBrikko StudioToolsMock,
+  createBrikkoStudioTools: createBrikkoStudioToolsMock,
   __testing: {
     setDepsForTest: () => {},
   },

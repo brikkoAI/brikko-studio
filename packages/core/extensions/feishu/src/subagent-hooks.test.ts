@@ -3,7 +3,7 @@ import {
   registerHookHandlersForTest,
 } from "brikko-studio/plugin-sdk/channel-test-helpers";
 import { beforeEach, describe, expect, it } from "vitest";
-import type { ClawdbotConfig, Brikko StudioPluginApi } from "../runtime-api.js";
+import type { ClawdbotConfig, BrikkoStudioPluginApi } from "../runtime-api.js";
 import { registerFeishuSubagentHooks } from "../subagent-hooks-api.js";
 import {
   createFeishuThreadBindingManager,
@@ -16,7 +16,7 @@ const baseConfig: ClawdbotConfig = {
 };
 
 function registerHandlersForTest(config: Record<string, unknown> = baseConfig) {
-  return registerHookHandlersForTest<Brikko StudioPluginApi>({
+  return registerHookHandlersForTest<BrikkoStudioPluginApi>({
     config,
     register: registerFeishuSubagentHooks,
   });

@@ -1,6 +1,6 @@
 import { Type } from "typebox";
 import { getRuntimeConfig } from "../../config/config.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { parseImageGenerationModelRef } from "../../image-generation/model-ref.js";
 import {
   generateImage,
@@ -111,7 +111,7 @@ const ImageGenerateToolSchema = Type.Object({
   filename: Type.Optional(
     Type.String({
       description:
-        "Optional output filename hint. Brikko Studio preserves the basename and saves under its managed media directory.",
+        "Optional output filename hint. BrikkoStudio preserves the basename and saves under its managed media directory.",
     }),
   ),
   size: Type.Optional(
@@ -146,7 +146,7 @@ const ImageGenerateToolSchema = Type.Object({
     Type.Object({
       background: optionalStringEnum(SUPPORTED_BACKGROUNDS, {
         description:
-          "OpenAI-only background hint: transparent, opaque, or auto. For transparent output use outputFormat png or webp; Brikko Studio routes the default OpenAI image model to gpt-image-1.5 for this mode.",
+          "OpenAI-only background hint: transparent, opaque, or auto. For transparent output use outputFormat png or webp; BrikkoStudio routes the default OpenAI image model to gpt-image-1.5 for this mode.",
       }),
       moderation: optionalStringEnum(SUPPORTED_OPENAI_MODERATIONS, {
         description: "OpenAI-only moderation hint: low or auto.",
@@ -198,7 +198,7 @@ function formatImageGenerationAuthHint(provider: {
 }
 
 export function resolveImageGenerationModelConfigForTool(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentDir?: string;
   authStore?: AuthProfileStore;
 }): ToolModelConfig | null {
@@ -211,7 +211,7 @@ export function resolveImageGenerationModelConfigForTool(params: {
   });
 }
 
-function hasExplicitImageGenerationModelConfig(cfg?: Brikko StudioConfig): boolean {
+function hasExplicitImageGenerationModelConfig(cfg?: BrikkoStudioConfig): boolean {
   return hasToolModelConfig(coerceToolModelConfig(cfg?.agents?.defaults?.imageGenerationModel));
 }
 
@@ -359,7 +359,7 @@ function normalizeReferenceImages(args: Record<string, unknown>): string[] {
 }
 
 function resolveSelectedImageGenerationProvider(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   imageGenerationModelConfig: ToolModelConfig;
   modelOverride?: string;
 }): ImageGenerationProvider | undefined {
@@ -572,7 +572,7 @@ async function inferResolutionFromInputImages(
 }
 
 export function createImageGenerateTool(options?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   authProfileStore?: AuthProfileStore;
   workspaceDir?: string;
@@ -605,7 +605,7 @@ export function createImageGenerateTool(options?: {
     label: "Image Generation",
     name: "image_generate",
     description:
-      'Generate new images or edit reference images with the configured or inferred image-generation model. For transparent backgrounds, use outputFormat="png" or "webp" and background="transparent"; OpenAI also accepts openai.background and Brikko Studio routes the default OpenAI image model to gpt-image-1.5 for that mode. Set agents.defaults.imageGenerationModel.primary to pick a provider/model. Providers declare their own auth/readiness; use action="list" to inspect registered providers, models, readiness, and auth hints. Generated images are delivered automatically from the tool result as MEDIA paths.',
+      'Generate new images or edit reference images with the configured or inferred image-generation model. For transparent backgrounds, use outputFormat="png" or "webp" and background="transparent"; OpenAI also accepts openai.background and BrikkoStudio routes the default OpenAI image model to gpt-image-1.5 for that mode. Set agents.defaults.imageGenerationModel.primary to pick a provider/model. Providers declare their own auth/readiness; use action="list" to inspect registered providers, models, readiness, and auth hints. Generated images are delivered automatically from the tool result as MEDIA paths.',
     parameters: ImageGenerateToolSchema,
     execute: async (_toolCallId, args) => {
       const params = args as Record<string, unknown>;

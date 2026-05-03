@@ -69,17 +69,17 @@ exit 0
   }
 
   function expectWindowsRestartWaitOrdering(content: string, port = 18789) {
-    const stateCheck = "$taskState = Get-Brikko StudioScheduledTaskState -TaskName $taskName";
+    const stateCheck = "$taskState = Get-BrikkoStudioScheduledTaskState -TaskName $taskName";
     const runningGuard = 'if ($taskState -eq "Running")';
     const endCommand =
-      'Invoke-Brikko StudioSchtasksWithTimeout -Arguments @("/End", "/TN", $taskName) -TimeoutSeconds 10';
+      'Invoke-BrikkoStudioSchtasksWithTimeout -Arguments @("/End", "/TN", $taskName) -TimeoutSeconds 10';
     const skipEndLog = "brikko-studio restart skipped schtasks end";
     const pollLoop = "for ($attempt = 1; $attempt -le 10; $attempt++)";
-    const pollCall = `Get-Brikko StudioListenerPids -Port $port`;
+    const pollCall = `Get-BrikkoStudioListenerPids -Port $port`;
     const forceKillBranch = "if ($attempt -eq 10)";
     const forceKillCommand = "Stop-Process -Id $listenerPid -Force";
     const runCommand =
-      'Invoke-Brikko StudioSchtasksWithTimeout -Arguments @("/Run", "/TN", $taskName) -TimeoutSeconds 30';
+      'Invoke-BrikkoStudioSchtasksWithTimeout -Arguments @("/Run", "/TN", $taskName) -TimeoutSeconds 30';
     const portAssignment = `$port = ${port}`;
     const stateCheckIndex = content.indexOf(stateCheck);
     const runningGuardIndex = content.indexOf(runningGuard, stateCheckIndex);
@@ -355,10 +355,10 @@ exit 0
       expect(content).not.toContain("powershell -NoProfile -ExecutionPolicy Bypass -File");
       expect(content).toContain('$ErrorActionPreference = "Continue"');
       expect(content).toContain("gateway-restart.log");
-      expect(content).toContain("$taskName = 'Brikko Studio Gateway'");
-      expect(content).toContain("function Invoke-Brikko StudioSchtasksWithTimeout");
-      expect(content).toContain("function Get-Brikko StudioScheduledTaskState");
-      expect(content).toContain("function Invoke-Brikko StudioStartupLauncher");
+      expect(content).toContain("$taskName = 'BrikkoStudio Gateway'");
+      expect(content).toContain("function Invoke-BrikkoStudioSchtasksWithTimeout");
+      expect(content).toContain("function Get-BrikkoStudioScheduledTaskState");
+      expect(content).toContain("function Invoke-BrikkoStudioStartupLauncher");
       expect(content).toContain("Get-ScheduledTask -TaskName $TaskName");
       expect(content).toContain("brikko-studio restart skipped schtasks end");
       expect(content).toContain(
@@ -375,14 +375,14 @@ exit 0
 
       const { scriptPath, content } = await prepareAndReadScript({
         BRIKKO_STUDIO_PROFILE: "default",
-        BRIKKO_STUDIO_WINDOWS_TASK_NAME: "Brikko Studio Gateway (custom)",
+        BRIKKO_STUDIO_WINDOWS_TASK_NAME: "BrikkoStudio Gateway (custom)",
       });
-      expect(content).toContain("$taskName = 'Brikko Studio Gateway (custom)'");
-      expect(content).toContain("Get-Brikko StudioScheduledTaskState -TaskName $taskName");
+      expect(content).toContain("$taskName = 'BrikkoStudio Gateway (custom)'");
+      expect(content).toContain("Get-BrikkoStudioScheduledTaskState -TaskName $taskName");
       expect(content).toContain(
-        'Invoke-Brikko StudioSchtasksWithTimeout -Arguments @("/End", "/TN", $taskName) -TimeoutSeconds 10',
+        'Invoke-BrikkoStudioSchtasksWithTimeout -Arguments @("/End", "/TN", $taskName) -TimeoutSeconds 10',
       );
-      expect(content).toContain("$status = Invoke-Brikko StudioStartupLauncher");
+      expect(content).toContain("$status = Invoke-BrikkoStudioStartupLauncher");
       expectWindowsRestartWaitOrdering(content);
       await cleanupScript(scriptPath);
     });
@@ -431,7 +431,7 @@ exit 0
       const { scriptPath, content } = await prepareAndReadScript({
         BRIKKO_STUDIO_PROFILE: "production",
       });
-      expect(content).toContain("$taskName = 'Brikko Studio Gateway (production)'");
+      expect(content).toContain("$taskName = 'BrikkoStudio Gateway (production)'");
       expectWindowsRestartWaitOrdering(content);
       await cleanupScript(scriptPath);
     });

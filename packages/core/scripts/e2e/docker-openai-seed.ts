@@ -3,10 +3,10 @@
 import {
   applyProviderConfigWithDefaultModelPreset,
   type ModelDefinitionConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../../dist/plugin-sdk/provider-onboard.js";
 
-export type { Brikko StudioConfig };
+export type { BrikkoStudioConfig };
 
 const DOCKER_OPENAI_MODEL_REF = "openai/gpt-5.5";
 const DOCKER_OPENAI_BASE_URL =
@@ -28,9 +28,9 @@ const DOCKER_OPENAI_MODEL: ModelDefinitionConfig = {
 };
 
 export function applyDockerOpenAiProviderConfig(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   apiKey: string,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const seededConfig = applyProviderConfigWithDefaultModelPreset(config, {
     providerId: "openai",
     api: "openai-responses",

@@ -1332,7 +1332,7 @@ describe("VoiceCallWebhookServer barge-in suppression during initial message", (
     call.state = "speaking";
     call.metadata = {
       mode: "conversation",
-      initialMessage: "Hi, this is Brikko Studio.",
+      initialMessage: "Hi, this is BrikkoStudio.",
     };
 
     const clearTtsQueue = vi.fn<TwilioProviderTestDouble["clearTtsQueue"]>();

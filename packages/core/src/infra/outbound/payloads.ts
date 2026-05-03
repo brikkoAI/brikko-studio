@@ -7,7 +7,7 @@ import {
 } from "../../auto-reply/reply/reply-payloads.js";
 import type { ReplyPayload } from "../../auto-reply/types.js";
 import { resolveSilentReplySettings } from "../../config/silent-reply.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   hasInteractiveReplyBlocks,
   hasMessagePresentationBlocks,
@@ -55,7 +55,7 @@ export type OutboundPayloadPlan = {
 };
 
 type OutboundPayloadPlanContext = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   sessionKey?: string;
   surface?: string;
   conversationType?: SilentReplyConversationType;

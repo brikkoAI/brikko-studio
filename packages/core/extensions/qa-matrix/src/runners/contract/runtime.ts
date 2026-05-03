@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { loadQaRuntimeModule } from "brikko-studio/plugin-sdk/qa-runner-runtime";
 import type { QaReportCheck } from "../../report.js";
@@ -513,7 +513,7 @@ async function startMatrixQaLiveLaneGateway(params: {
     requiredPluginIds: readonly string[];
     createGatewayConfig: (params: {
       baseUrl: string;
-    }) => Pick<Brikko StudioConfig, "channels" | "messages">;
+    }) => Pick<BrikkoStudioConfig, "channels" | "messages">;
   };
   transportBaseUrl: string;
   providerMode: "mock-openai" | "live-frontier";
@@ -521,7 +521,7 @@ async function startMatrixQaLiveLaneGateway(params: {
   alternateModel: string;
   fastMode?: boolean;
   controlUiEnabled?: boolean;
-  mutateConfig?: (cfg: Brikko StudioConfig) => Brikko StudioConfig;
+  mutateConfig?: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig;
 }): Promise<MatrixQaLiveLaneGatewayHarness> {
   return (await loadQaRuntimeModule().startQaLiveLaneGateway(
     params,
@@ -555,7 +555,7 @@ export async function runMatrixQaLive(params: {
   const scenarios = findMatrixQaScenarios(params.scenarioIds, params.profile);
   const runSuffix = randomUUID().slice(0, 8);
   const topology = buildMatrixQaTopologyForScenarios({
-    defaultRoomName: `Brikko Studio Matrix QA ${runSuffix}`,
+    defaultRoomName: `BrikkoStudio Matrix QA ${runSuffix}`,
     scenarios,
   });
   const observedEvents: MatrixQaObservedEvent[] = [];
@@ -588,7 +588,7 @@ export async function runMatrixQaLive(params: {
             driverLocalpart: `qa-driver-${runSuffix}`,
             observerLocalpart: `qa-observer-${runSuffix}`,
             registrationToken: harness.registrationToken,
-            roomName: `Brikko Studio Matrix QA ${runSuffix}`,
+            roomName: `BrikkoStudio Matrix QA ${runSuffix}`,
             sutLocalpart: `qa-sut-${runSuffix}`,
             topology,
           }),

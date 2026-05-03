@@ -2,7 +2,7 @@ import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
 } from "../config/model-input.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { createLazyImportLoader } from "../shared/lazy-promise.js";
@@ -399,7 +399,7 @@ function resolveFallbackSoonestCooldownExpiry(params: {
   authRuntime: ModelFallbackAuthRuntime | null;
   authStore: AuthProfileStore | null;
   agentDir?: string;
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   candidates: ModelCandidate[];
 }): number | null {
   if (!params.authRuntime || !params.authStore) {
@@ -438,7 +438,7 @@ function resolveFallbackSoonestCooldownExpiry(params: {
 }
 
 function resolveImageFallbackCandidates(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   defaultProvider: string;
   modelOverride?: string;
 }): ModelCandidate[] {
@@ -489,7 +489,7 @@ function resolveImageFallbackCandidates(params: {
   return candidates;
 }
 
-function resolveImageFallbackDefaultProvider(cfg: Brikko StudioConfig | undefined): string {
+function resolveImageFallbackDefaultProvider(cfg: BrikkoStudioConfig | undefined): string {
   const configuredPrimary = resolveAgentModelPrimaryValue(cfg?.agents?.defaults?.imageModel);
   if (configuredPrimary?.trim()) {
     const aliasIndex = buildModelAliasIndex({
@@ -509,7 +509,7 @@ function resolveImageFallbackDefaultProvider(cfg: Brikko StudioConfig | undefine
 }
 
 function resolveFallbackCandidates(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
   model: string;
   /** Optional explicit fallbacks list; when provided (even empty), replaces agents.defaults.model.fallbacks. */
@@ -779,7 +779,7 @@ function resolveCooldownDecision(params: {
 }
 
 export async function runWithModelFallback<T>(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
   model: string;
   runId?: string;
@@ -1119,7 +1119,7 @@ export async function runWithModelFallback<T>(params: {
 }
 
 export async function runWithImageModelFallback<T>(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   modelOverride?: string;
   run: (provider: string, model: string) => Promise<T>;
   onError?: ModelFallbackErrorHandler;

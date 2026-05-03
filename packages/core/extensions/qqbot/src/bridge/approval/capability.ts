@@ -16,7 +16,7 @@ import { createLazyChannelApprovalNativeRuntimeAdapter } from "brikko-studio/plu
 import type { ChannelApprovalNativeRuntimeAdapter } from "brikko-studio/plugin-sdk/approval-handler-runtime";
 import { resolveApprovalRequestSessionConversation } from "brikko-studio/plugin-sdk/approval-native-runtime";
 import type { ChannelApprovalCapability } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveApprovalTarget } from "../../engine/approval/index.js";
 import {
@@ -40,7 +40,7 @@ import { getBridgeLogger } from "../logger.js";
  * delivery fails with 500 on the QQ Bot API).
  */
 function shouldHandleRequest(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   request: {
     request: {
@@ -65,14 +65,14 @@ function shouldHandleRequest(params: {
 }
 
 function hasExecApprovalConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): boolean {
   return resolveQQBotExecApprovalConfig(params) !== undefined;
 }
 
 function isNativeDeliveryEnabled(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): boolean {
   if (hasExecApprovalConfig(params)) {
@@ -120,7 +120,7 @@ function createQQBotApprovalCapability(): ChannelApprovalCapability {
       cfg,
       accountId,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       accountId?: string | null;
       action: "approve";
     }) => {
@@ -132,7 +132,7 @@ function createQQBotApprovalCapability(): ChannelApprovalCapability {
       cfg,
       accountId,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       accountId?: string | null;
       action: "approve";
     }) => {

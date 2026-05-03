@@ -20,7 +20,7 @@ import {
   type SessionEntry,
   updateSessionStoreEntry,
 } from "../../config/sessions.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { readSessionMessagesAsync } from "../../gateway/session-utils.fs.js";
 import { logVerbose } from "../../globals.js";
 import { registerAgentRunContext } from "../../infra/agent-events.js";
@@ -249,7 +249,7 @@ type SessionLogSnapshot = {
 };
 
 async function appendPostCompactionRefreshPrompt(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   followupRun: FollowupRun;
 }): Promise<void> {
   const refreshPrompt = await readPostCompactionContext(params.followupRun.run.workspaceDir, {
@@ -420,7 +420,7 @@ async function estimatePromptTokensFromSessionTranscript(params: {
 }
 
 export async function runPreflightCompactionIfNeeded(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   followupRun: FollowupRun;
   promptForEstimate?: string;
   defaultModel: string;
@@ -651,7 +651,7 @@ export async function runPreflightCompactionIfNeeded(params: {
 }
 
 export async function runMemoryFlushIfNeeded(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   followupRun: FollowupRun;
   promptForEstimate?: string;
   sessionCtx: TemplateContext;

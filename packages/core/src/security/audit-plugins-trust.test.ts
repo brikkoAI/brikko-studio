@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import type { InstalledPluginIndex } from "../plugins/installed-plugin-index.js";
 import { createPathResolutionEnv, withEnvAsync } from "../test-utils/env.js";
@@ -161,7 +161,7 @@ describe("security audit install metadata findings", () => {
     return dir;
   };
 
-  const runInstallMetadataAudit = async (cfg: Brikko StudioConfig, stateDir: string) => {
+  const runInstallMetadataAudit = async (cfg: BrikkoStudioConfig, stateDir: string) => {
     return await collectPluginsTrustFindingsForTest({ cfg, stateDir });
   };
 
@@ -448,7 +448,7 @@ describe("security audit extension tool reachability findings", () => {
   const previousPathResolutionEnv: Partial<Record<(typeof pathResolutionEnvKeys)[number], string>> =
     {};
 
-  const runSharedExtensionsAudit = async (config: Brikko StudioConfig) => {
+  const runSharedExtensionsAudit = async (config: BrikkoStudioConfig) => {
     return await collectPluginsTrustFindingsForTest({
       cfg: config,
       stateDir: sharedExtensionsStateDir,
@@ -500,7 +500,7 @@ describe("security audit extension tool reachability findings", () => {
     const cases = [
       {
         name: "flags extensions without plugins.allow",
-        cfg: {} satisfies Brikko StudioConfig,
+        cfg: {} satisfies BrikkoStudioConfig,
         assert: (findings: Awaited<ReturnType<typeof runSharedExtensionsAudit>>) => {
           expect(
             findings.some(
@@ -515,7 +515,7 @@ describe("security audit extension tool reachability findings", () => {
         name: "flags enabled extensions when tool policy can expose plugin tools",
         cfg: {
           plugins: { allow: ["some-plugin"] },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         assert: (findings: Awaited<ReturnType<typeof runSharedExtensionsAudit>>) => {
           expect(
             findings.some(
@@ -531,7 +531,7 @@ describe("security audit extension tool reachability findings", () => {
         cfg: {
           plugins: { allow: ["some-plugin"] },
           tools: { profile: "coding" },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         assert: (findings: Awaited<ReturnType<typeof runSharedExtensionsAudit>>) => {
           expect(
             findings.some(
@@ -546,7 +546,7 @@ describe("security audit extension tool reachability findings", () => {
           channels: {
             discord: { enabled: true, token: "t" },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         assert: (findings: Awaited<ReturnType<typeof runSharedExtensionsAudit>>) => {
           expect(
             findings.some(
@@ -570,7 +570,7 @@ describe("security audit extension tool reachability findings", () => {
               } as unknown as string,
             },
           },
-        } satisfies Brikko StudioConfig,
+        } satisfies BrikkoStudioConfig,
         assert: (findings: Awaited<ReturnType<typeof runSharedExtensionsAudit>>) => {
           expect(
             findings.some(

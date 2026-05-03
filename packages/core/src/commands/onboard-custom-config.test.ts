@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { CONTEXT_WINDOW_HARD_MIN_TOKENS } from "../agents/context-window-guard.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   applyCustomApiConfig,
   buildAnthropicVerificationProbeRequest,
@@ -12,7 +12,7 @@ import {
 
 function buildCustomProviderConfig(contextWindow?: number) {
   if (contextWindow === undefined) {
-    return {} as Brikko StudioConfig;
+    return {} as BrikkoStudioConfig;
   }
   return {
     models: {
@@ -34,7 +34,7 @@ function buildCustomProviderConfig(contextWindow?: number) {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function applyCustomModelConfigWithContextWindow(contextWindow?: number) {
@@ -389,7 +389,7 @@ describe("applyCustomApiConfig", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       baseUrl: "https://llm.example.com/v1",
       modelId: "foo-large",
       compatibility: "openai",
@@ -419,7 +419,7 @@ describe("applyCustomApiConfig", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       baseUrl: "https://my-resource.openai.azure.com",
       modelId: "o3-mini",
       compatibility: "openai",

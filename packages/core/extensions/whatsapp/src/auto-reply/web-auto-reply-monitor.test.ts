@@ -45,10 +45,10 @@ const makeConfig = (overrides: Record<string, unknown>) =>
     },
     session: { store: sessionStorePath },
     ...overrides,
-  }) as unknown as import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
+  }) as unknown as import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig;
 
 async function runGroupGating(params: {
-  cfg: import("brikko-studio/plugin-sdk/config-types").Brikko StudioConfig;
+  cfg: import("brikko-studio/plugin-sdk/config-types").BrikkoStudioConfig;
   msg: WebInboundMsg;
   conversationId?: string;
   agentId?: string;

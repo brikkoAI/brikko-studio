@@ -1,5 +1,5 @@
 import type { HookConfig, HookInstallRecord } from "../config/types.hooks.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { getLegacyInternalHookHandlers } from "./legacy-config.js";
 
 function hasEnabledFlag(entry: HookConfig | undefined): boolean {
@@ -17,7 +17,7 @@ function hasConfiguredInstalls(installs: Record<string, HookInstallRecord> | und
   return installs ? Object.keys(installs).length > 0 : false;
 }
 
-export function hasConfiguredInternalHooks(config: Brikko StudioConfig): boolean {
+export function hasConfiguredInternalHooks(config: BrikkoStudioConfig): boolean {
   const internal = config.hooks?.internal;
   if (!internal || internal.enabled === false) {
     return false;
@@ -37,7 +37,7 @@ export function hasConfiguredInternalHooks(config: Brikko StudioConfig): boolean
   return getLegacyInternalHookHandlers(config).length > 0;
 }
 
-export function resolveConfiguredInternalHookNames(config: Brikko StudioConfig): Set<string> | null {
+export function resolveConfiguredInternalHookNames(config: BrikkoStudioConfig): Set<string> | null {
   const internal = config.hooks?.internal;
   if (!internal || internal.enabled === false) {
     return new Set();

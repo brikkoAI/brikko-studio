@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   resolveMemoryDeepDreamingConfig,
   resolveMemoryRemDreamingConfig,
@@ -24,7 +24,7 @@ type MemoryRemHarnessDeepConfig = ReturnType<typeof resolveMemoryDeepDreamingCon
 
 export type PreviewRemHarnessOptions = {
   workspaceDir: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   pluginConfig?: Record<string, unknown>;
   grounded?: boolean;
   groundedInputPaths?: string[];

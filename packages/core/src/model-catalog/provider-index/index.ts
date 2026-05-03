@@ -1,9 +1,9 @@
-export { loadBrikko StudioProviderIndex } from "./load.js";
-export { normalizeBrikko StudioProviderIndex } from "./normalize.js";
+export { loadBrikkoStudioProviderIndex } from "./load.js";
+export { normalizeBrikkoStudioProviderIndex } from "./normalize.js";
 export type {
-  Brikko StudioProviderIndex,
-  Brikko StudioProviderIndexPluginInstall,
-  Brikko StudioProviderIndexPlugin,
-  Brikko StudioProviderIndexProviderAuthChoice,
-  Brikko StudioProviderIndexProvider,
+  BrikkoStudioProviderIndex,
+  BrikkoStudioProviderIndexPluginInstall,
+  BrikkoStudioProviderIndexPlugin,
+  BrikkoStudioProviderIndexProviderAuthChoice,
+  BrikkoStudioProviderIndexProvider,
 } from "./types.js";

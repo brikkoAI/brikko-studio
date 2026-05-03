@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   DEFAULT_MEMORY_DREAMING_FREQUENCY as DEFAULT_MEMORY_DREAMING_CRON_EXPR,
   DEFAULT_MEMORY_DEEP_DREAMING_LIMIT as DEFAULT_MEMORY_DREAMING_LIMIT,
@@ -19,7 +19,7 @@ import {
   resolveMemoryDeepDreamingConfig,
   resolveMemoryDreamingWorkspaces,
 } from "brikko-studio/plugin-sdk/memory-core-host-status";
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import { peekSystemEventEntries } from "brikko-studio/plugin-sdk/system-event-runtime";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { writeDeepDreamingReport } from "./dreaming-markdown.js";
@@ -45,7 +45,7 @@ const STARTUP_CRON_RETRY_DELAY_MS = 5_000;
 const STARTUP_CRON_RETRY_MAX_ATTEMPTS = 12;
 const HEARTBEAT_ISOLATED_SESSION_SUFFIX = ":heartbeat";
 
-type Logger = Pick<Brikko StudioPluginApi["logger"], "info" | "warn" | "error">;
+type Logger = Pick<BrikkoStudioPluginApi["logger"], "info" | "warn" | "error">;
 
 type CronSchedule = { kind: "cron"; expr: string; tz?: string };
 type CronPayload =
@@ -386,7 +386,7 @@ function hasPendingManagedDreamingCronEvent(sessionKey?: string): boolean {
 
 export function resolveShortTermPromotionDreamingConfig(params: {
   pluginConfig?: Record<string, unknown>;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }): ShortTermPromotionDreamingConfig {
   const resolved = resolveMemoryDeepDreamingConfig(params);
   return {
@@ -494,7 +494,7 @@ export async function runShortTermDreamingPromotionIfTriggered(params: {
   cleanedBody: string;
   trigger?: string;
   workspaceDir?: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   config: ShortTermPromotionDreamingConfig;
   logger: Logger;
   subagent?: Parameters<typeof generateAndAppendDreamNarrative>[0]["subagent"];
@@ -675,7 +675,7 @@ export async function runShortTermDreamingPromotionIfTriggered(params: {
   return { handled: true, reason: "memory-core: short-term dreaming processed" };
 }
 
-export function registerShortTermPromotionDreaming(api: Brikko StudioPluginApi): void {
+export function registerShortTermPromotionDreaming(api: BrikkoStudioPluginApi): void {
   let resolveStartupCron: (() => CronServiceLike | null) | null = null;
   // Hold a live reference to the gateway context so we can retry cron resolution at runtime.
   // The startup capture may fail if the cron service isn't available yet (race condition in
@@ -691,8 +691,8 @@ export function registerShortTermPromotionDreaming(api: Brikko StudioPluginApi):
   let startupCronRetryAttempts = 0;
   let disposed = false;
 
-  const resolveCurrentConfig = (): Brikko StudioConfig =>
-    (api.runtime.config?.current?.() ?? api.config) as Brikko StudioConfig;
+  const resolveCurrentConfig = (): BrikkoStudioConfig =>
+    (api.runtime.config?.current?.() ?? api.config) as BrikkoStudioConfig;
 
   const resolveCurrentDreamingConfig = (): ShortTermPromotionDreamingConfig => {
     const cfg = resolveCurrentConfig();
@@ -743,7 +743,7 @@ export function registerShortTermPromotionDreaming(api: Brikko StudioPluginApi):
 
   const reconcileManagedDreamingCron = async (params: {
     reason: "startup" | "runtime";
-    startupConfig?: Brikko StudioConfig;
+    startupConfig?: BrikkoStudioConfig;
     startupCron?: (() => CronServiceLike | null) | null;
   }): Promise<ShortTermPromotionDreamingConfig> => {
     const startupCfg =

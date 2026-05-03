@@ -111,7 +111,7 @@ type AgentConfig = {
   contextLimits?: AgentContextLimitsConfig;
 };
 
-export type Brikko StudioConfig = {
+export type BrikkoStudioConfig = {
   agents?: {
     defaults?: {
       workspace?: string;
@@ -246,13 +246,13 @@ function resolveDefaultAgentWorkspaceDir(env: NodeJS.ProcessEnv = process.env): 
   return path.join(home, ".brikko-studio", "workspace");
 }
 
-function listAgentEntries(cfg: Brikko StudioConfig): AgentConfig[] {
+function listAgentEntries(cfg: BrikkoStudioConfig): AgentConfig[] {
   return Array.isArray(cfg.agents?.list)
     ? cfg.agents.list.filter((entry): entry is AgentConfig => Boolean(entry))
     : [];
 }
 
-function resolveDefaultAgentId(cfg: Brikko StudioConfig): string {
+function resolveDefaultAgentId(cfg: BrikkoStudioConfig): string {
   const agents = listAgentEntries(cfg);
   if (agents.length === 0) {
     return DEFAULT_AGENT_ID;
@@ -261,7 +261,7 @@ function resolveDefaultAgentId(cfg: Brikko StudioConfig): string {
   return normalizeAgentId(chosen || DEFAULT_AGENT_ID);
 }
 
-function resolveAgentConfig(cfg: Brikko StudioConfig, agentId: string): AgentConfig | undefined {
+function resolveAgentConfig(cfg: BrikkoStudioConfig, agentId: string): AgentConfig | undefined {
   const id = normalizeAgentId(agentId);
   return listAgentEntries(cfg).find((entry) => normalizeAgentId(entry.id) === id);
 }
@@ -271,7 +271,7 @@ function stripNullBytes(value: string): string {
 }
 
 export function resolveAgentWorkspaceDir(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
   env: NodeJS.ProcessEnv = process.env,
 ): string {
@@ -293,7 +293,7 @@ export function resolveAgentWorkspaceDir(
 }
 
 export function resolveAgentContextLimits(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   agentId?: string | null,
 ): AgentContextLimitsConfig | undefined {
   const defaults = cfg?.agents?.defaults?.contextLimits;
@@ -304,7 +304,7 @@ export function resolveAgentContextLimits(
 }
 
 export function resolveMemorySearchConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string,
 ): { enabled: boolean; extraPaths: string[] } | null {
   const defaults = cfg.agents?.defaults?.memorySearch;

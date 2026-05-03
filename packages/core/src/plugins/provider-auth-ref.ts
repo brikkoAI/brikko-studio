@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { isValidEnvSecretRefId, type SecretRef } from "../config/types.secrets.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { encodeJsonPointerToken } from "../secrets/json-pointer.js";
@@ -44,7 +44,7 @@ export function extractEnvVarFromSourceLabel(source: string): string | undefined
 
 function resolveDefaultProviderEnvVar(
   provider: string,
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): string | undefined {
   const envVars = getProviderEnvVars(provider, {
     ...(config ? { config } : {}),
@@ -58,7 +58,7 @@ function resolveDefaultFilePointerId(provider: string): string {
 }
 
 export function resolveRefFallbackInput(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   provider: string;
   preferredEnvVar?: string;
   env?: NodeJS.ProcessEnv;
@@ -95,7 +95,7 @@ export function resolveRefFallbackInput(params: {
 
 async function promptEnvSecretRefForSetup(params: {
   provider: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   prompter: WizardPrompter;
   defaultEnvVar: string;
   copy?: SecretRefSetupPromptCopy;
@@ -144,7 +144,7 @@ async function promptEnvSecretRefForSetup(params: {
   };
   await params.prompter.note(
     params.copy?.envValidatedMessage?.(envVar) ??
-      `Validated environment variable ${envVar}. Brikko Studio will store a reference, not the key value.`,
+      `Validated environment variable ${envVar}. BrikkoStudio will store a reference, not the key value.`,
     "Reference validated",
   );
   return { ref, resolvedValue };
@@ -152,7 +152,7 @@ async function promptEnvSecretRefForSetup(params: {
 
 async function promptProviderSecretRefForSetup(params: {
   provider: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   prompter: WizardPrompter;
   defaultFilePointer: string;
   copy?: SecretRefSetupPromptCopy;
@@ -247,7 +247,7 @@ async function promptProviderSecretRefForSetup(params: {
     });
     await params.prompter.note(
       params.copy?.providerValidatedMessage?.(selectedProvider, id, providerEntry.source) ??
-        `Validated ${providerEntry.source} reference ${selectedProvider}:${id}. Brikko Studio will store a reference, not the key value.`,
+        `Validated ${providerEntry.source} reference ${selectedProvider}:${id}. BrikkoStudio will store a reference, not the key value.`,
       "Reference validated",
     );
     return { ref, resolvedValue };
@@ -266,7 +266,7 @@ async function promptProviderSecretRefForSetup(params: {
 
 export async function promptSecretRefForSetup(params: {
   provider: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   prompter: WizardPrompter;
   preferredEnvVar?: string;
   copy?: SecretRefSetupPromptCopy;

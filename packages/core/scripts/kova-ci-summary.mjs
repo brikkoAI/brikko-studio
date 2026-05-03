@@ -46,7 +46,7 @@ function renderSummary(report, options) {
       .map(([status, count]) => `${status}: ${value(count)}`)
       .join(", ") || "unknown";
 
-  lines.push(`# Brikko Studio Performance Report`);
+  lines.push(`# BrikkoStudio Performance Report`);
   lines.push("");
   lines.push(`- Lane: ${options.lane}`);
   lines.push(`- Run: ${value(report.runId)}`);

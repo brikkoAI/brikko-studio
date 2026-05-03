@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 import { disposeRegisteredAgentHarnesses } from "brikko-studio/plugin-sdk/agent-harness";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { startQaGatewayChild, type QaCliBackendAuthMode } from "./gateway-child.js";
 import type {
@@ -362,7 +362,7 @@ async function writeQaSuiteArtifacts(params: {
   scenarioIds?: readonly string[];
 }) {
   const report = renderQaMarkdownReport({
-    title: "Brikko Studio QA Scenario Suite",
+    title: "BrikkoStudio QA Scenario Suite",
     startedAt: params.startedAt,
     finishedAt: params.finishedAt,
     checks: [],
@@ -741,7 +741,7 @@ export async function runQaSuite(params?: QaSuiteRunParams): Promise<QaSuiteResu
     enabledPluginIds,
     forwardHostHome: gatewayRuntimeOptions?.forwardHostHome,
     mutateConfig: gatewayConfigPatch
-      ? (cfg) => applyQaMergePatch(cfg, gatewayConfigPatch) as Brikko StudioConfig
+      ? (cfg) => applyQaMergePatch(cfg, gatewayConfigPatch) as BrikkoStudioConfig
       : undefined,
   });
   writeQaSuiteProgress(

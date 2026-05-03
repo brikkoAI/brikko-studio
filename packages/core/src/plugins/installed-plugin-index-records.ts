@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import {
   loadInstalledPluginIndexInstallRecords,
@@ -65,9 +65,9 @@ export function writePersistedInstalledPluginIndexInstallRecordsSync(
 }
 
 export function withPluginInstallRecords(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   records: Record<string, PluginInstallRecord>,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return {
     ...config,
     plugins: {
@@ -77,7 +77,7 @@ export function withPluginInstallRecords(
   };
 }
 
-export function withoutPluginInstallRecords(config: Brikko StudioConfig): Brikko StudioConfig {
+export function withoutPluginInstallRecords(config: BrikkoStudioConfig): BrikkoStudioConfig {
   if (!config.plugins?.installs) {
     return config;
   }

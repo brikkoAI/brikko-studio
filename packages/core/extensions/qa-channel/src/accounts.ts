@@ -33,7 +33,7 @@ export function resolveQaChannelAccount(params: {
   const enabled = baseEnabled && merged.enabled !== false;
   const baseUrl = merged.baseUrl?.trim() ?? "";
   const botUserId = merged.botUserId?.trim() || "brikko-studio";
-  const botDisplayName = merged.botDisplayName?.trim() || "Brikko Studio QA";
+  const botDisplayName = merged.botDisplayName?.trim() || "BrikkoStudio QA";
   return {
     accountId,
     enabled,

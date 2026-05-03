@@ -3,7 +3,7 @@ import {
   type OwnerDisplaySecretPersistState,
   persistGeneratedOwnerDisplaySecret,
 } from "./io.owner-display-secret.js";
-import type { Brikko StudioConfig } from "./types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "./types.brikko-studio.js";
 
 function createState(): OwnerDisplaySecretPersistState {
   return {
@@ -31,7 +31,7 @@ describe("persistGeneratedOwnerDisplaySecret", () => {
         ownerDisplay: "hash",
         ownerDisplaySecret: "generated-owner-secret",
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const persistConfig = vi.fn(async () => undefined);
 
     const result = persistGeneratedOwnerDisplaySecret({
@@ -66,7 +66,7 @@ describe("persistGeneratedOwnerDisplaySecret", () => {
         ownerDisplay: "hash",
         ownerDisplaySecret: "generated-owner-secret",
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const warn = vi.fn();
     const persistConfig = vi.fn(async () => {
       throw new Error("disk full");
@@ -115,7 +115,7 @@ describe("persistGeneratedOwnerDisplaySecret", () => {
         ownerDisplay: "hash",
         ownerDisplaySecret: "existing-secret",
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = persistGeneratedOwnerDisplaySecret({
       config,

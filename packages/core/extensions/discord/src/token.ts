@@ -1,5 +1,5 @@
 import type { BaseTokenResolution } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
 import { resolveAccountEntry } from "brikko-studio/plugin-sdk/routing";
 import { normalizeResolvedSecretInputString } from "brikko-studio/plugin-sdk/secret-input";
@@ -19,7 +19,7 @@ export function normalizeDiscordToken(raw: unknown, path: string): string | unde
 }
 
 export function resolveDiscordToken(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts: { accountId?: string | null; envToken?: string | null } = {},
 ): DiscordTokenResolution {
   const accountId = normalizeAccountId(opts.accountId);

@@ -1,5 +1,5 @@
 import type { Bot } from "grammy";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { resolveAutoTopicLabelConfig as resolveAutoTopicLabelConfigRuntime } from "./auto-topic-label-config.js";
 import type { TelegramBotDeps } from "./bot-deps.js";
@@ -2996,7 +2996,7 @@ describe("dispatchTelegramMessage draft streaming", () => {
             },
           },
         },
-      } as unknown as Brikko StudioConfig,
+      } as unknown as BrikkoStudioConfig,
     });
 
     expect(deliverReplies).toHaveBeenCalledTimes(1);
@@ -3034,7 +3034,7 @@ describe("dispatchTelegramMessage draft streaming", () => {
             },
           },
         },
-      } as unknown as Brikko StudioConfig,
+      } as unknown as BrikkoStudioConfig,
     });
 
     expect(deliverReplies).not.toHaveBeenCalled();
@@ -3082,7 +3082,7 @@ describe("dispatchTelegramMessage draft streaming", () => {
             },
           },
         },
-      } as unknown as Brikko StudioConfig,
+      } as unknown as BrikkoStudioConfig,
     });
 
     expect(deliverReplies).toHaveBeenCalledTimes(1);
@@ -3123,7 +3123,7 @@ describe("dispatchTelegramMessage draft streaming", () => {
             },
           },
         },
-      } as unknown as Brikko StudioConfig,
+      } as unknown as BrikkoStudioConfig,
     });
 
     expect(deliverReplies).toHaveBeenCalledTimes(1);
@@ -3170,7 +3170,7 @@ describe("dispatchTelegramMessage draft streaming", () => {
             },
           },
         },
-      } as unknown as Brikko StudioConfig,
+      } as unknown as BrikkoStudioConfig,
     });
 
     expect(deliverReplies).not.toHaveBeenCalled();

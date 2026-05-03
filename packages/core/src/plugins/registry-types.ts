@@ -36,19 +36,19 @@ import type {
   ImageGenerationProviderPlugin,
   MediaUnderstandingProviderPlugin,
   MusicGenerationProviderPlugin,
-  Brikko StudioPluginChannelRegistration,
-  Brikko StudioPluginCliCommandDescriptor,
-  Brikko StudioPluginCliRegistrar,
-  Brikko StudioPluginCommandDefinition,
-  Brikko StudioPluginGatewayRuntimeScopeSurface,
-  Brikko StudioGatewayDiscoveryService,
-  Brikko StudioPluginHttpRouteAuth,
-  Brikko StudioPluginHttpRouteHandler,
-  Brikko StudioPluginHttpRouteMatch,
-  Brikko StudioPluginReloadRegistration,
-  Brikko StudioPluginSecurityAuditCollector,
-  Brikko StudioPluginService,
-  Brikko StudioPluginToolFactory,
+  BrikkoStudioPluginChannelRegistration,
+  BrikkoStudioPluginCliCommandDescriptor,
+  BrikkoStudioPluginCliRegistrar,
+  BrikkoStudioPluginCommandDefinition,
+  BrikkoStudioPluginGatewayRuntimeScopeSurface,
+  BrikkoStudioGatewayDiscoveryService,
+  BrikkoStudioPluginHttpRouteAuth,
+  BrikkoStudioPluginHttpRouteHandler,
+  BrikkoStudioPluginHttpRouteMatch,
+  BrikkoStudioPluginReloadRegistration,
+  BrikkoStudioPluginSecurityAuditCollector,
+  BrikkoStudioPluginService,
+  BrikkoStudioPluginToolFactory,
   PluginConversationBindingResolvedEvent,
   PluginHookRegistration as TypedPluginHookRegistration,
   PluginLogger,
@@ -67,7 +67,7 @@ import type {
 export type PluginToolRegistration = {
   pluginId: string;
   pluginName?: string;
-  factory: Brikko StudioPluginToolFactory;
+  factory: BrikkoStudioPluginToolFactory;
   names: string[];
   declaredNames?: string[];
   optional: boolean;
@@ -78,9 +78,9 @@ export type PluginToolRegistration = {
 export type PluginCliRegistration = {
   pluginId: string;
   pluginName?: string;
-  register: Brikko StudioPluginCliRegistrar;
+  register: BrikkoStudioPluginCliRegistrar;
   commands: string[];
-  descriptors: Brikko StudioPluginCliCommandDescriptor[];
+  descriptors: BrikkoStudioPluginCliCommandDescriptor[];
   source: string;
   rootDir?: string;
 };
@@ -88,10 +88,10 @@ export type PluginCliRegistration = {
 export type PluginHttpRouteRegistration = {
   pluginId?: string;
   path: string;
-  handler: Brikko StudioPluginHttpRouteHandler;
-  auth: Brikko StudioPluginHttpRouteAuth;
-  match: Brikko StudioPluginHttpRouteMatch;
-  gatewayRuntimeScopeSurface?: Brikko StudioPluginGatewayRuntimeScopeSurface;
+  handler: BrikkoStudioPluginHttpRouteHandler;
+  auth: BrikkoStudioPluginHttpRouteAuth;
+  match: BrikkoStudioPluginHttpRouteMatch;
+  gatewayRuntimeScopeSurface?: BrikkoStudioPluginGatewayRuntimeScopeSurface;
   source?: string;
 };
 
@@ -202,7 +202,7 @@ export type PluginHookRegistration = {
 export type PluginServiceRegistration = {
   pluginId: string;
   pluginName?: string;
-  service: Brikko StudioPluginService;
+  service: BrikkoStudioPluginService;
   source: string;
   origin: PluginOrigin;
   rootDir?: string;
@@ -211,7 +211,7 @@ export type PluginServiceRegistration = {
 export type PluginGatewayDiscoveryServiceRegistration = {
   pluginId: string;
   pluginName?: string;
-  service: Brikko StudioGatewayDiscoveryService;
+  service: BrikkoStudioGatewayDiscoveryService;
   source: string;
   rootDir?: string;
 };
@@ -219,7 +219,7 @@ export type PluginGatewayDiscoveryServiceRegistration = {
 export type PluginReloadRegistration = {
   pluginId: string;
   pluginName?: string;
-  registration: Brikko StudioPluginReloadRegistration;
+  registration: BrikkoStudioPluginReloadRegistration;
   source: string;
   rootDir?: string;
 };
@@ -227,7 +227,7 @@ export type PluginReloadRegistration = {
 export type PluginNodeHostCommandRegistration = {
   pluginId: string;
   pluginName?: string;
-  command: import("./types.js").Brikko StudioPluginNodeHostCommand;
+  command: import("./types.js").BrikkoStudioPluginNodeHostCommand;
   source: string;
   rootDir?: string;
 };
@@ -235,7 +235,7 @@ export type PluginNodeHostCommandRegistration = {
 export type PluginNodeInvokePolicyRegistration = {
   pluginId: string;
   pluginName?: string;
-  policy: import("./types.js").Brikko StudioPluginNodeInvokePolicy;
+  policy: import("./types.js").BrikkoStudioPluginNodeInvokePolicy;
   pluginConfig?: Record<string, unknown>;
   source: string;
   rootDir?: string;
@@ -244,7 +244,7 @@ export type PluginNodeInvokePolicyRegistration = {
 export type PluginSecurityAuditCollectorRegistration = {
   pluginId: string;
   pluginName?: string;
-  collector: Brikko StudioPluginSecurityAuditCollector;
+  collector: BrikkoStudioPluginSecurityAuditCollector;
   source: string;
   rootDir?: string;
 };
@@ -252,7 +252,7 @@ export type PluginSecurityAuditCollectorRegistration = {
 export type PluginCommandRegistration = {
   pluginId: string;
   pluginName?: string;
-  command: Brikko StudioPluginCommandDefinition;
+  command: BrikkoStudioPluginCommandDefinition;
   source: string;
   rootDir?: string;
 };
@@ -437,11 +437,11 @@ export type PluginRegistryParams = {
 };
 
 export type PluginRegistrationMode = import("./types.js").PluginRegistrationMode;
-export type Brikko StudioPluginNodeHostCommand = import("./types.js").Brikko StudioPluginNodeHostCommand;
-export type Brikko StudioPluginToolContext = import("./types.js").Brikko StudioPluginToolContext;
-export type Brikko StudioPluginHttpRouteParams = import("./types.js").Brikko StudioPluginHttpRouteParams;
-export type Brikko StudioPluginHookOptions = import("./types.js").Brikko StudioPluginHookOptions;
+export type BrikkoStudioPluginNodeHostCommand = import("./types.js").BrikkoStudioPluginNodeHostCommand;
+export type BrikkoStudioPluginToolContext = import("./types.js").BrikkoStudioPluginToolContext;
+export type BrikkoStudioPluginHttpRouteParams = import("./types.js").BrikkoStudioPluginHttpRouteParams;
+export type BrikkoStudioPluginHookOptions = import("./types.js").BrikkoStudioPluginHookOptions;
 export type PluginHookHandlerMap = import("./types.js").PluginHookHandlerMap;
-export type Brikko StudioPluginApi = import("./types.js").Brikko StudioPluginApi;
+export type BrikkoStudioPluginApi = import("./types.js").BrikkoStudioPluginApi;
 export type TypedPluginHook = TypedPluginHookRegistration;
-export type Brikko StudioPluginChannelReg = Brikko StudioPluginChannelRegistration;
+export type BrikkoStudioPluginChannelReg = BrikkoStudioPluginChannelRegistration;

@@ -5,7 +5,7 @@ import path from "node:path";
 import type { MemoryEmbeddingProbeResult } from "brikko-studio/plugin-sdk/memory-core-host-engine-storage";
 import { resolveMemoryRemDreamingConfig } from "brikko-studio/plugin-sdk/memory-core-host-status";
 import { buildAgentSessionKey } from "brikko-studio/plugin-sdk/routing";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import {
   colorize,
   defaultRuntime,
@@ -23,7 +23,7 @@ import {
   shortenHomeInString,
   shortenHomePath,
   theme,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   withManager,
   withProgress,
   withProgressTotals,
@@ -80,7 +80,7 @@ type MemorySourceScan = {
 };
 
 type LoadedMemoryCommandConfig = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   diagnostics: string[];
 };
 
@@ -121,7 +121,7 @@ function emitMemorySecretResolveDiagnostics(
   }
 }
 
-function resolveMemoryPluginConfig(cfg: Brikko StudioConfig): Record<string, unknown> {
+function resolveMemoryPluginConfig(cfg: BrikkoStudioConfig): Record<string, unknown> {
   const entry = asRecord(cfg.plugins?.entries?.["memory-core"]);
   return asRecord(entry?.config) ?? {};
 }
@@ -167,7 +167,7 @@ async function createHistoricalRemHarnessWorkspace(params: {
 }> {
   const sourceFiles = await listHistoricalDailyFiles(params.inputPath);
   const workspaceDir = await fs.mkdtemp(
-    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-rem-harness-"),
+    path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-rem-harness-"),
   );
   const memoryDir = path.join(workspaceDir, "memory");
   await fs.mkdir(memoryDir, { recursive: true });
@@ -194,7 +194,7 @@ async function createHistoricalRemHarnessWorkspace(params: {
   };
 }
 
-function formatDreamingSummary(cfg: Brikko StudioConfig): string {
+function formatDreamingSummary(cfg: BrikkoStudioConfig): string {
   const pluginConfig = resolveMemoryPluginConfig(cfg);
   const dreaming = resolveShortTermPromotionDreamingConfig({ pluginConfig, cfg });
   if (!dreaming.enabled) {
@@ -284,7 +284,7 @@ function formatSourceLabel(source: string, workspaceDir: string, agentId: string
   return source;
 }
 
-function resolveAgent(cfg: Brikko StudioConfig, agent?: string) {
+function resolveAgent(cfg: BrikkoStudioConfig, agent?: string) {
   const trimmed = agent?.trim();
   if (trimmed) {
     return trimmed;
@@ -301,7 +301,7 @@ function buildCliMemorySearchSessionKey(agentId: string): string {
   });
 }
 
-function resolveAgentIds(cfg: Brikko StudioConfig, agent?: string): string[] {
+function resolveAgentIds(cfg: BrikkoStudioConfig, agent?: string): string[] {
   const trimmed = agent?.trim();
   if (trimmed) {
     return [trimmed];
@@ -444,7 +444,7 @@ function matchesPromotionSelector(
 }
 
 async function withMemoryManagerForAgent(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   purpose?: MemoryManagerPurpose;
   run: (manager: MemoryManager) => Promise<void>;
@@ -1803,7 +1803,7 @@ export async function runMemoryRemBackfill(opts: MemoryRemBackfillOptions) {
       }
 
       const scratchDir = await fs.mkdtemp(
-        path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-rem-backfill-"),
+        path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-rem-backfill-"),
       );
       try {
         const sourceFiles = await listHistoricalDailyFiles(opts.path);

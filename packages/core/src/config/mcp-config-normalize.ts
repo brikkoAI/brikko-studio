@@ -1,9 +1,9 @@
 import { isRecord } from "../utils.js";
 
 type ConfigMcpServers = Record<string, Record<string, unknown>>;
-type Brikko StudioMcpHttpTransport = "sse" | "streamable-http";
+type BrikkoStudioMcpHttpTransport = "sse" | "streamable-http";
 
-const CLI_MCP_TYPE_TO_BRIKKO_STUDIO_TRANSPORT: Record<string, Brikko StudioMcpHttpTransport | "stdio"> = {
+const CLI_MCP_TYPE_TO_BRIKKO_STUDIO_TRANSPORT: Record<string, BrikkoStudioMcpHttpTransport | "stdio"> = {
   http: "streamable-http",
   "streamable-http": "streamable-http",
   sse: "sse",
@@ -14,9 +14,9 @@ function normalizeMcpString(value: unknown): string {
   return typeof value === "string" ? value.trim().toLowerCase() : "";
 }
 
-export function resolveBrikko StudioMcpTransportAlias(
+export function resolveBrikkoStudioMcpTransportAlias(
   value: unknown,
-): Brikko StudioMcpHttpTransport | undefined {
+): BrikkoStudioMcpHttpTransport | undefined {
   const mapped = CLI_MCP_TYPE_TO_BRIKKO_STUDIO_TRANSPORT[normalizeMcpString(value)];
   return mapped === "sse" || mapped === "streamable-http" ? mapped : undefined;
 }
@@ -29,7 +29,7 @@ export function canonicalizeConfiguredMcpServer(
   server: Record<string, unknown>,
 ): Record<string, unknown> {
   const next = { ...server };
-  const transportAlias = resolveBrikko StudioMcpTransportAlias(next.type);
+  const transportAlias = resolveBrikkoStudioMcpTransportAlias(next.type);
   if (typeof next.transport !== "string" && transportAlias) {
     next.transport = transportAlias;
   }

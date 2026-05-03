@@ -12,7 +12,7 @@ import {
   replaceConfigFile,
   validateConfigObjectWithPlugins,
 } from "../../config/config.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../../config/types.plugins.js";
 import { resolveArchiveKind } from "../../infra/archive.js";
 import { parseClawHubPluginSpec } from "../../infra/clawhub.js";
@@ -48,7 +48,7 @@ function renderJsonBlock(label: string, value: unknown): string {
 
 function buildPluginInspectJson(params: {
   id: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   installRecords: Record<string, PluginInstallRecord>;
   report: PluginStatusReport;
 }): {
@@ -80,7 +80,7 @@ function buildPluginInspectJson(params: {
 }
 
 function buildAllPluginInspectJson(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   installRecords: Record<string, PluginInstallRecord>;
   report: PluginStatusReport;
 }): Array<{
@@ -282,7 +282,7 @@ async function loadPluginCommandState(
   | {
       ok: true;
       path: string;
-      config: Brikko StudioConfig;
+      config: BrikkoStudioConfig;
       report: PluginStatusReport;
     }
   | { ok: false; path: string; error: string }

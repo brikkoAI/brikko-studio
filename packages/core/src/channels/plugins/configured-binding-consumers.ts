@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type {
   CompiledConfiguredBinding,
   ConfiguredBindingRecordResolution,
@@ -16,7 +16,7 @@ export type ConfiguredBindingConsumer = {
   id: string;
   supports: (binding: ConfiguredBindingRuleConfig) => boolean;
   buildTargetFactory: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     binding: ConfiguredBindingRuleConfig;
     channel: string;
     agentId: string;

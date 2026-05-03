@@ -1,11 +1,11 @@
 import {
   applyAgentDefaultModelPrimary,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 
 export const VERCEL_AI_GATEWAY_DEFAULT_MODEL_REF = "vercel-ai-gateway/anthropic/claude-opus-4.6";
 
-function applyVercelAiGatewayProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function applyVercelAiGatewayProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[VERCEL_AI_GATEWAY_DEFAULT_MODEL_REF] = {
     ...models[VERCEL_AI_GATEWAY_DEFAULT_MODEL_REF],
@@ -24,7 +24,7 @@ function applyVercelAiGatewayProviderConfig(cfg: Brikko StudioConfig): Brikko St
   };
 }
 
-export function applyVercelAiGatewayConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyVercelAiGatewayConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return applyAgentDefaultModelPrimary(
     applyVercelAiGatewayProviderConfig(cfg),
     VERCEL_AI_GATEWAY_DEFAULT_MODEL_REF,

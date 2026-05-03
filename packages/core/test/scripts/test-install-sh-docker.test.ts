@@ -75,7 +75,7 @@ describe("test-install-sh-docker", () => {
     expect(workflow).toContain('git rev-parse --verify "${INPUT_REF}^{commit}"');
     expect(workflow).toContain("repository-branch-history");
     expect(workflow).toContain("git tag --points-at \"$selected_sha\" | grep -Eq '^v'");
-    expect(workflow).toContain("reachable from an Brikko Studio branch or release tag");
+    expect(workflow).toContain("reachable from an BrikkoStudio branch or release tag");
   });
 
   it("prints package size audits for release smoke tarballs", () => {

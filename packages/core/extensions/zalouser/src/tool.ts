@@ -1,4 +1,4 @@
-import type { AnyAgentTool, Brikko StudioPluginToolContext } from "brikko-studio/plugin-sdk/core";
+import type { AnyAgentTool, BrikkoStudioPluginToolContext } from "brikko-studio/plugin-sdk/core";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { Type } from "typebox";
 import { sendImageZalouser, sendLinkZalouser, sendMessageZalouser } from "./send.js";
@@ -51,7 +51,7 @@ type ToolParams = {
   url?: string;
 };
 
-type ZalouserToolContext = Pick<Brikko StudioPluginToolContext, "deliveryContext">;
+type ZalouserToolContext = Pick<BrikkoStudioPluginToolContext, "deliveryContext">;
 
 function json(payload: unknown): AgentToolResult {
   return {

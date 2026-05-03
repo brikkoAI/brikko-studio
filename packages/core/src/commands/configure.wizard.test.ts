@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
 const mocks = vi.hoisted(() => {
   const writeConfigFile = vi.fn();
@@ -26,14 +26,14 @@ const mocks = vi.hoisted(() => {
     waitForGatewayReachable: vi.fn(),
     resolveControlUiLinks: vi.fn(),
     summarizeExistingConfig: vi.fn(),
-    promptRemoteGatewayConfig: vi.fn(async (cfg: Brikko StudioConfig) => ({
+    promptRemoteGatewayConfig: vi.fn(async (cfg: BrikkoStudioConfig) => ({
       ...cfg,
       gateway: { mode: "remote", remote: { url: "wss://gateway.example.test" } },
     })),
-    isCodexNativeWebSearchRelevant: vi.fn(({ config }: { config: Brikko StudioConfig }) =>
+    isCodexNativeWebSearchRelevant: vi.fn(({ config }: { config: BrikkoStudioConfig }) =>
       Boolean(config.auth?.profiles?.["openai-codex:default"]),
     ),
-    setupChannels: vi.fn(async (cfg: Brikko StudioConfig) => cfg),
+    setupChannels: vi.fn(async (cfg: BrikkoStudioConfig) => cfg),
   };
 });
 
@@ -67,7 +67,7 @@ vi.mock("../terminal/note.js", () => ({
 
 vi.mock("./onboard-helpers.js", () => ({
   DEFAULT_WORKSPACE: "~/.brikko-studio/workspace",
-  applyWizardMetadata: (cfg: Brikko StudioConfig) => cfg,
+  applyWizardMetadata: (cfg: BrikkoStudioConfig) => cfg,
   ensureWorkspaceAndSessions: vi.fn(),
   guardCancel: <T>(value: T) => value,
   printWizardHeader: mocks.printWizardHeader,
@@ -158,7 +158,7 @@ function createSearchProviderOption(overrides: Record<string, unknown>) {
 }
 
 function createEnabledWebSearchConfig(provider: string, pluginEntry: Record<string, unknown>) {
-  return (cfg: Brikko StudioConfig) => ({
+  return (cfg: BrikkoStudioConfig) => ({
     ...cfg,
     tools: {
       ...cfg.tools,
@@ -180,7 +180,7 @@ function createEnabledWebSearchConfig(provider: string, pluginEntry: Record<stri
   });
 }
 
-function setupBaseWizardState(config: Brikko StudioConfig = {}) {
+function setupBaseWizardState(config: BrikkoStudioConfig = {}) {
   mocks.readConfigFileSnapshot.mockResolvedValue({
     ...EMPTY_CONFIG_SNAPSHOT,
     config,
@@ -233,7 +233,7 @@ describe("runConfigureWizard", () => {
       },
     ]);
     mocks.setupSearch.mockReset();
-    mocks.setupSearch.mockImplementation(async (cfg: Brikko StudioConfig) => cfg);
+    mocks.setupSearch.mockImplementation(async (cfg: BrikkoStudioConfig) => cfg);
   });
 
   it("persists gateway.mode=local when only the run mode is selected", async () => {
@@ -295,7 +295,7 @@ describe("runConfigureWizard", () => {
 
   it("persists provider-owned web search config changes returned by setupSearch", async () => {
     setupBaseWizardState();
-    mocks.setupSearch.mockImplementation(async (cfg: Brikko StudioConfig) =>
+    mocks.setupSearch.mockImplementation(async (cfg: BrikkoStudioConfig) =>
       createEnabledWebSearchConfig("firecrawl", {
         enabled: true,
         config: { webSearch: { apiKey: "fc-entered-key" } },
@@ -425,7 +425,7 @@ describe("runConfigureWizard", () => {
         credentialPath: "",
       }),
     ]);
-    mocks.setupSearch.mockImplementation(async (cfg: Brikko StudioConfig) =>
+    mocks.setupSearch.mockImplementation(async (cfg: BrikkoStudioConfig) =>
       createEnabledWebSearchConfig("duckduckgo", {
         enabled: true,
       })(cfg),
@@ -525,7 +525,7 @@ describe("runConfigureWizard", () => {
   });
 
   it("retries without dropping nested plugin config written during wizard flow (issue #64188)", async () => {
-    const baseConfig: Brikko StudioConfig = {
+    const baseConfig: BrikkoStudioConfig = {
       plugins: {
         entries: {
           "github-copilot": {

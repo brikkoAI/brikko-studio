@@ -39,7 +39,7 @@ describe("entry root version fast path", () => {
       }),
     ).toBe(true);
     await flushVersionFastPath();
-    expect(output).toHaveBeenCalledWith("Brikko Studio 9.9.9-test (abc1234)");
+    expect(output).toHaveBeenCalledWith("BrikkoStudio 9.9.9-test (abc1234)");
     expect(exit).toHaveBeenCalledWith(0);
 
     output.mockClear();
@@ -57,7 +57,7 @@ describe("entry root version fast path", () => {
       }),
     ).toBe(true);
     await flushVersionFastPath();
-    expect(output).toHaveBeenCalledWith("Brikko Studio 9.9.9-test");
+    expect(output).toHaveBeenCalledWith("BrikkoStudio 9.9.9-test");
     expect(exit).toHaveBeenCalledWith(0);
 
     output.mockClear();

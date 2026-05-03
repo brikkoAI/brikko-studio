@@ -3,7 +3,7 @@ import type { SimpleStreamOptions } from "@mariozechner/pi-ai";
 import { streamSimple } from "@mariozechner/pi-ai";
 import type { SettingsManager } from "@mariozechner/pi-coding-agent";
 import type { ThinkLevel } from "../../auto-reply/thinking.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   prepareProviderExtraParams as prepareProviderExtraParamsRuntime,
   resolveProviderExtraParamsForTransport as resolveProviderExtraParamsForTransportRuntime,
@@ -38,7 +38,7 @@ const providerRuntimeDeps = {
   ...defaultProviderRuntimeDeps,
 };
 
-let preparedExtraParamsCache = new WeakMap<Brikko StudioConfig, Map<string, Record<string, unknown>>>();
+let preparedExtraParamsCache = new WeakMap<BrikkoStudioConfig, Map<string, Record<string, unknown>>>();
 
 export const __testing = {
   setProviderRuntimeDepsForTest(
@@ -69,7 +69,7 @@ export const __testing = {
  * @internal Exported for testing only
  */
 export function resolveExtraParams(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
   modelId: string;
   agentId?: string;
@@ -192,7 +192,7 @@ function resolvePreparedExtraParamsCacheKey(params: {
 }
 
 export function resolvePreparedExtraParams(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
   modelId: string;
   agentDir?: string;
@@ -584,7 +584,7 @@ function createOpenAICompletionsExtraBodyWrapper(
 
 type ApplyExtraParamsContext = {
   agent: { streamFn?: StreamFn };
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
   modelId: string;
   agentDir?: string;
@@ -701,7 +701,7 @@ function applyPostPluginStreamWrappers(
  */
 export function applyExtraParamsToAgent(
   agent: { streamFn?: StreamFn },
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   provider: string,
   modelId: string,
   extraParamsOverride?: Record<string, unknown>,

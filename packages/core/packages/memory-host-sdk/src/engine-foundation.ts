@@ -34,7 +34,7 @@ export {
   resolveUserPath,
   truncateUtf16Safe,
 } from "./host/brikko-studio-runtime-io.js";
-export type { Brikko StudioConfig } from "./host/brikko-studio-runtime-config.js";
+export type { BrikkoStudioConfig } from "./host/brikko-studio-runtime-config.js";
 export type { SessionSendPolicyConfig } from "./host/brikko-studio-runtime-config.js";
 export type { SecretInput } from "./host/brikko-studio-runtime-config.js";
 export type {

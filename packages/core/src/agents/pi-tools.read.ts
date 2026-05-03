@@ -48,7 +48,7 @@ const ADAPTIVE_READ_CONTEXT_SHARE = 0.1;
 const CHARS_PER_TOKEN_ESTIMATE = 4;
 const MAX_ADAPTIVE_READ_PAGES = 4;
 
-type Brikko StudioReadToolOptions = {
+type BrikkoStudioReadToolOptions = {
   modelContextWindowTokens?: number;
   imageSanitization?: ImageSanitizationLimits;
 };
@@ -66,7 +66,7 @@ function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
-function resolveAdaptiveReadMaxBytes(options?: Brikko StudioReadToolOptions): number {
+function resolveAdaptiveReadMaxBytes(options?: BrikkoStudioReadToolOptions): number {
   const contextWindowTokens = options?.modelContextWindowTokens;
   if (
     typeof contextWindowTokens !== "number" ||
@@ -628,7 +628,7 @@ export function createSandboxedReadTool(params: SandboxToolParams) {
   const base = createReadTool(params.root, {
     operations: createSandboxReadOperations(params),
   }) as unknown as AnyAgentTool;
-  return createBrikko StudioReadTool(base, {
+  return createBrikkoStudioReadTool(base, {
     modelContextWindowTokens: params.modelContextWindowTokens,
     imageSanitization: params.imageSanitization,
   });
@@ -671,9 +671,9 @@ export function createHostWorkspaceEditTool(root: string, options?: { workspaceO
   return wrapToolParamValidation(withRecovery, REQUIRED_PARAM_GROUPS.edit);
 }
 
-export function createBrikko StudioReadTool(
+export function createBrikkoStudioReadTool(
   base: AnyAgentTool,
-  options?: Brikko StudioReadToolOptions,
+  options?: BrikkoStudioReadToolOptions,
 ): AnyAgentTool {
   return {
     ...base,

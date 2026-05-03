@@ -50,7 +50,7 @@ function createDuplicatePollingError(params: {
   const ageMs = Math.max(0, Date.now() - params.existing.startedAt);
   const ageSeconds = Math.round(ageMs / 1000);
   return new Error(
-    `Telegram polling already active for bot token ${params.tokenFingerprint} on account "${params.existing.accountId}" (${ageSeconds}s old); refusing duplicate poller for account "${params.accountId}". Stop the existing Brikko Studio gateway/poller or use a different bot token.`,
+    `Telegram polling already active for bot token ${params.tokenFingerprint} on account "${params.existing.accountId}" (${ageSeconds}s old); refusing duplicate poller for account "${params.accountId}". Stop the existing BrikkoStudio gateway/poller or use a different bot token.`,
   );
 }
 

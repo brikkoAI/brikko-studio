@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { GatewayServerLiveState } from "./server-live-state.js";
 import type { GatewayRequestContext, GatewayClient } from "./server-methods/types.js";
 import { disconnectAllSharedGatewayAuthClients } from "./server-shared-auth-generation.js";
@@ -30,7 +30,7 @@ type GatewayRequestContextParams = {
   nodeUnsubscribeAll: GatewayRequestContext["nodeUnsubscribeAll"];
   hasConnectedMobileNode: GatewayRequestContext["hasConnectedMobileNode"];
   clients: Set<GatewayRequestContextClient>;
-  enforceSharedGatewayAuthGenerationForConfigWrite: (nextConfig: Brikko StudioConfig) => void;
+  enforceSharedGatewayAuthGenerationForConfigWrite: (nextConfig: BrikkoStudioConfig) => void;
   nodeRegistry: GatewayRequestContext["nodeRegistry"];
   agentRunSeq: GatewayRequestContext["agentRunSeq"];
   chatAbortControllers: GatewayRequestContext["chatAbortControllers"];

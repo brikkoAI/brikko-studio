@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import type { ResolvedSlackAccount } from "../../accounts.js";
 import type { SlackMessageEvent } from "../../types.js";
@@ -15,7 +15,7 @@ function buildCtx(overrides?: {
       channels: {
         slack: { enabled: true, replyToMode },
       },
-    } as Brikko StudioConfig,
+    } as BrikkoStudioConfig,
     teamId: "T1",
     threadInheritParent: false,
     threadHistoryScope: "thread",

@@ -4,7 +4,7 @@ import path from "node:path";
 import process from "node:process";
 import { promisify } from "node:util";
 import { danger, shouldLogVerbose } from "../globals.js";
-import { markBrikko StudioExecEnv } from "../infra/brikko-studio-exec-env.js";
+import { markBrikkoStudioExecEnv } from "../infra/brikko-studio-exec-env.js";
 import {
   decodeWindowsOutputBuffer,
   resolveWindowsConsoleEncoding,
@@ -267,7 +267,7 @@ export function resolveCommandEnv(params: {
       resolvedEnv.npm_config_fund = "false";
     }
   }
-  return markBrikko StudioExecEnv(resolvedEnv);
+  return markBrikkoStudioExecEnv(resolvedEnv);
 }
 
 export async function runCommandWithTimeout(

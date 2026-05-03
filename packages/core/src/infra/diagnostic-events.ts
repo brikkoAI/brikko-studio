@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   formatDiagnosticTraceparent,
   getActiveDiagnosticTraceContext,
@@ -618,7 +618,7 @@ function getDiagnosticEventsState(): DiagnosticEventsGlobalState {
   return state;
 }
 
-export function isDiagnosticsEnabled(config?: Brikko StudioConfig): boolean {
+export function isDiagnosticsEnabled(config?: BrikkoStudioConfig): boolean {
   return config?.diagnostics?.enabled !== false;
 }
 

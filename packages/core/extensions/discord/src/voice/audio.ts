@@ -5,7 +5,7 @@ import path from "node:path";
 import type { Readable } from "node:stream";
 import { logVerbose, shouldLogVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/ssrf-runtime";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 
 const require = createRequire(import.meta.url);
 
@@ -153,7 +153,7 @@ function estimateDurationSeconds(pcm: Buffer): number {
 export async function writeVoiceWavFile(
   pcm: Buffer,
 ): Promise<{ path: string; durationSeconds: number }> {
-  const tempDir = await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), "discord-voice-"));
+  const tempDir = await fs.mkdtemp(path.join(resolvePreferredBrikkoStudioTmpDir(), "discord-voice-"));
   const filePath = path.join(tempDir, `segment-${randomUUID()}.wav`);
   const wav = buildWavBuffer(pcm);
   await fs.writeFile(filePath, wav);

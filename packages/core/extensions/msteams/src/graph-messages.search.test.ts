@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import {
   CHANNEL_TO,
   CHAT_ID,
@@ -31,7 +31,7 @@ describe("searchMessagesMSTeams", () => {
     });
 
     const result = await searchMessagesMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       query: "meeting notes",
     });
@@ -65,7 +65,7 @@ describe("searchMessagesMSTeams", () => {
     });
 
     const result = await searchMessagesMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHANNEL_TO,
       query: "sprint",
     });
@@ -79,7 +79,7 @@ describe("searchMessagesMSTeams", () => {
     mockState.fetchGraphJson.mockResolvedValue({ value: [] });
 
     await searchMessagesMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       query: "test",
       limit: 10,
@@ -93,7 +93,7 @@ describe("searchMessagesMSTeams", () => {
     mockState.fetchGraphJson.mockResolvedValue({ value: [] });
 
     await searchMessagesMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       query: "test",
       limit: 100,
@@ -107,7 +107,7 @@ describe("searchMessagesMSTeams", () => {
     mockState.fetchGraphJson.mockResolvedValue({ value: [] });
 
     await searchMessagesMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       query: "test",
       limit: 0,
@@ -121,7 +121,7 @@ describe("searchMessagesMSTeams", () => {
     mockState.fetchGraphJson.mockResolvedValue({ value: [] });
 
     await searchMessagesMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       query: "budget",
       from: "Alice",
@@ -137,7 +137,7 @@ describe("searchMessagesMSTeams", () => {
     mockState.fetchGraphJson.mockResolvedValue({ value: [] });
 
     await searchMessagesMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       query: "test",
       from: "O'Brien",
@@ -152,7 +152,7 @@ describe("searchMessagesMSTeams", () => {
     mockState.fetchGraphJson.mockResolvedValue({ value: [] });
 
     await searchMessagesMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       query: 'say "hello" world',
     });
@@ -167,7 +167,7 @@ describe("searchMessagesMSTeams", () => {
     mockState.fetchGraphJson.mockResolvedValue({ value: [] });
 
     await searchMessagesMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       query: "test",
     });
@@ -183,7 +183,7 @@ describe("searchMessagesMSTeams", () => {
     mockState.fetchGraphJson.mockResolvedValue({ value: [] });
 
     const result = await searchMessagesMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       query: "nonexistent",
     });
@@ -199,7 +199,7 @@ describe("searchMessagesMSTeams", () => {
     mockState.fetchGraphJson.mockResolvedValue({ value: [] });
 
     await searchMessagesMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: "user:aad-user-1",
       query: "hello",
     });

@@ -104,7 +104,7 @@ vi.mock("../infra/env.js", () => ({
 }));
 
 vi.mock("../infra/path-env.js", () => ({
-  ensureBrikko StudioCliOnPath: ensurePathMock,
+  ensureBrikkoStudioCliOnPath: ensurePathMock,
 }));
 
 vi.mock("../infra/runtime-guard.js", () => ({

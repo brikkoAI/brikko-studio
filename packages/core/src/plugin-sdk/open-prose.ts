@@ -2,4 +2,4 @@
 // Keep this list additive and scoped to the bundled open-prose surface.
 
 export { definePluginEntry } from "./plugin-entry.js";
-export type { Brikko StudioPluginApi } from "../plugins/types.js";
+export type { BrikkoStudioPluginApi } from "../plugins/types.js";

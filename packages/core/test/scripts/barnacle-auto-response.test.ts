@@ -89,7 +89,7 @@ function barnacleIssueContext(
       sender: options.sender,
       issue: {
         number: 456,
-        title: "Brikko Studio issue",
+        title: "BrikkoStudio issue",
         body: "",
         author_association: "CONTRIBUTOR",
         user: {

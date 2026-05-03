@@ -265,7 +265,7 @@ describe("installPluginFromClawHub", () => {
     expect(archiveCleanupMock).toHaveBeenCalledTimes(1);
   });
 
-  it("marks official source-linked Brikko Studio packages as trusted for install scanning", async () => {
+  it("marks official source-linked BrikkoStudio packages as trusted for install scanning", async () => {
     fetchClawHubPackageDetailMock.mockResolvedValueOnce({
       package: {
         name: "demo",
@@ -776,7 +776,7 @@ describe("installPluginFromClawHub", () => {
     expect(result).toMatchObject({
       ok: false,
       code: CLAWHUB_INSTALL_ERROR_CODE.INCOMPATIBLE_PLUGIN_API,
-      error: 'Plugin "demo" requires plugin API *, but this Brikko Studio runtime exposes invalid.',
+      error: 'Plugin "demo" requires plugin API *, but this BrikkoStudio runtime exposes invalid.',
     });
     expect(downloadClawHubPackageArchiveMock).not.toHaveBeenCalled();
     expect(installPluginFromArchiveMock).not.toHaveBeenCalled();
@@ -1953,7 +1953,7 @@ describe("installPluginFromClawHub", () => {
         ok: false,
         code: CLAWHUB_INSTALL_ERROR_CODE.INCOMPATIBLE_PLUGIN_API,
         error:
-          'Plugin "demo" requires plugin API >=2026.3.22, but this Brikko Studio runtime exposes 2026.3.21.',
+          'Plugin "demo" requires plugin API >=2026.3.22, but this BrikkoStudio runtime exposes 2026.3.21.',
       },
     },
     {

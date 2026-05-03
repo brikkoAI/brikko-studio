@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { Logger as TsLogger } from "tslog";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { emitDiagnosticEvent } from "../infra/diagnostic-events.js";
 import {
   getActiveDiagnosticTraceContext,
@@ -14,7 +14,7 @@ import {
 import { isBlockedObjectKey } from "../infra/prototype-keys.js";
 import {
   POSIX_BRIKKO_STUDIO_TMP_DIR,
-  resolvePreferredBrikko StudioTmpDir,
+  resolvePreferredBrikkoStudioTmpDir,
 } from "../infra/tmp-brikko-studio-dir.js";
 import { readLoggingConfig, shouldSkipMutatingLoggingConfigRead } from "./config.js";
 import { resolveEnvLogLevelOverride } from "./env-log-level.js";
@@ -42,7 +42,7 @@ function canUseNodeFs(): boolean {
 }
 
 function resolveDefaultLogDir(): string {
-  return canUseNodeFs() ? resolvePreferredBrikko StudioTmpDir() : POSIX_BRIKKO_STUDIO_TMP_DIR;
+  return canUseNodeFs() ? resolvePreferredBrikkoStudioTmpDir() : POSIX_BRIKKO_STUDIO_TMP_DIR;
 }
 
 function resolveDefaultLogFile(defaultLogDir: string): string {
@@ -471,7 +471,7 @@ function resolveSettings(): ResolvedSettings {
     };
   }
 
-  const cfg: Brikko StudioConfig["logging"] | undefined =
+  const cfg: BrikkoStudioConfig["logging"] | undefined =
     (loggingState.overrideSettings as LoggerSettings | null) ?? readLoggingConfig();
   const defaultLevel =
     process.env.VITEST === "true" && process.env.BRIKKO_STUDIO_TEST_FILE_LOG !== "1" ? "silent" : "info";

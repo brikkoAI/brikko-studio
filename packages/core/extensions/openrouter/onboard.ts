@@ -1,11 +1,11 @@
 import {
   applyAgentDefaultModelPrimary,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 
 export const OPENROUTER_DEFAULT_MODEL_REF = "openrouter/auto";
 
-export function applyOpenrouterProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyOpenrouterProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[OPENROUTER_DEFAULT_MODEL_REF] = {
     ...models[OPENROUTER_DEFAULT_MODEL_REF],
@@ -24,7 +24,7 @@ export function applyOpenrouterProviderConfig(cfg: Brikko StudioConfig): Brikko 
   };
 }
 
-export function applyOpenrouterConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyOpenrouterConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return applyAgentDefaultModelPrimary(
     applyOpenrouterProviderConfig(cfg),
     OPENROUTER_DEFAULT_MODEL_REF,

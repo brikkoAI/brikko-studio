@@ -10,7 +10,7 @@ import {
 } from "./pw-tools-core.test-harness.js";
 
 const tmpDirMocks = vi.hoisted(() => ({
-  resolvePreferredBrikko StudioTmpDir: vi.fn(() => "/tmp/brikko-studio"),
+  resolvePreferredBrikkoStudioTmpDir: vi.fn(() => "/tmp/brikko-studio"),
 }));
 const chromeMocks = vi.hoisted(() => ({
   getChromeWebSocketUrl: vi.fn(async () => "ws://127.0.0.1/devtools/browser/mock"),
@@ -37,8 +37,8 @@ describe("pw-tools-core", () => {
     vi.doMock("./pw-session.js", () => sessionMocks);
     vi.doMock("./chrome.js", () => chromeMocks);
     tmpDirModule = await import("../infra/tmp-brikko-studio-dir.js");
-    vi.spyOn(tmpDirModule, "resolvePreferredBrikko StudioTmpDir").mockImplementation(
-      tmpDirMocks.resolvePreferredBrikko StudioTmpDir,
+    vi.spyOn(tmpDirModule, "resolvePreferredBrikkoStudioTmpDir").mockImplementation(
+      tmpDirMocks.resolvePreferredBrikkoStudioTmpDir,
     );
     const [downloads, responses] = await Promise.all([
       import("./pw-tools-core.downloads.js"),
@@ -61,7 +61,7 @@ describe("pw-tools-core", () => {
     for (const fn of Object.values(clientFetchMocks)) {
       fn.mockClear();
     }
-    tmpDirMocks.resolvePreferredBrikko StudioTmpDir.mockReturnValue("/tmp/brikko-studio");
+    tmpDirMocks.resolvePreferredBrikkoStudioTmpDir.mockReturnValue("/tmp/brikko-studio");
   });
 
   async function withTempDir<T>(run: (tempDir: string) => Promise<T>): Promise<T> {
@@ -274,7 +274,7 @@ describe("pw-tools-core", () => {
   );
 
   it("uses preferred tmp dir when waiting for download without explicit path", async () => {
-    tmpDirMocks.resolvePreferredBrikko StudioTmpDir.mockReturnValue("/tmp/brikko-studio-preferred");
+    tmpDirMocks.resolvePreferredBrikkoStudioTmpDir.mockReturnValue("/tmp/brikko-studio-preferred");
     const { res, outPath } = await waitForImplicitDownloadOutput({
       downloadUrl: "https://example.com/file.bin",
       suggestedFilename: "file.bin",
@@ -287,11 +287,11 @@ describe("pw-tools-core", () => {
     expect(path.dirname(outPath)).toBe(expectedRootedDownloadsDir);
     expect(path.basename(outPath)).toMatch(/-file\.bin$/);
     expect(path.normalize(res.path)).toContain(path.normalize(expectedDownloadsTail));
-    expect(tmpDirMocks.resolvePreferredBrikko StudioTmpDir).toHaveBeenCalled();
+    expect(tmpDirMocks.resolvePreferredBrikkoStudioTmpDir).toHaveBeenCalled();
   });
 
   it("sanitizes suggested download filenames to prevent traversal escapes", async () => {
-    tmpDirMocks.resolvePreferredBrikko StudioTmpDir.mockReturnValue("/tmp/brikko-studio-preferred");
+    tmpDirMocks.resolvePreferredBrikkoStudioTmpDir.mockReturnValue("/tmp/brikko-studio-preferred");
     const { res, outPath } = await waitForImplicitDownloadOutput({
       downloadUrl: "https://example.com/evil",
       suggestedFilename: "../../../../etc/passwd",

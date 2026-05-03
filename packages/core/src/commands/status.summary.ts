@@ -4,7 +4,7 @@ import { resolveMainSessionKey } from "../config/sessions/main-session.js";
 import { resolveStorePath } from "../config/sessions/paths.js";
 import { readSessionStoreReadOnly } from "../config/sessions/store-read.js";
 import { resolveSessionTotalTokens, type SessionEntry } from "../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { resolveCronStorePath } from "../cron/store.js";
 import { listGatewayAgentsBasic } from "../gateway/agent-list.js";
 import { resolveHeartbeatSummaryForAgent } from "../infra/heartbeat-summary.js";
@@ -102,8 +102,8 @@ export async function getStatusSummary(
   options: {
     includeSensitive?: boolean;
     includeChannelSummary?: boolean;
-    config?: Brikko StudioConfig;
-    sourceConfig?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
+    sourceConfig?: BrikkoStudioConfig;
   } = {},
 ): Promise<StatusSummary> {
   const { includeSensitive = true, includeChannelSummary = true } = options;

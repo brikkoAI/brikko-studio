@@ -63,7 +63,7 @@ describe.skipIf(!LIVE || !VYDRA_API_KEY)("vydra live", () => {
     );
 
     const result = await provider.synthesize({
-      text: "Brikko Studio integration test OK.",
+      text: "BrikkoStudio integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig: { apiKey: VYDRA_API_KEY },
       target: "audio-file",

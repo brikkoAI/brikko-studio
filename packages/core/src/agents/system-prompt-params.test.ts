@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
 import { buildSystemPromptParams } from "./system-prompt-params.js";
 
@@ -14,7 +14,7 @@ async function makeRepoRoot(root: string): Promise<void> {
   await fs.mkdir(path.join(root, ".git"), { recursive: true });
 }
 
-function buildParams(params: { config?: Brikko StudioConfig; workspaceDir?: string; cwd?: string }) {
+function buildParams(params: { config?: BrikkoStudioConfig; workspaceDir?: string; cwd?: string }) {
   return buildSystemPromptParams({
     config: params.config,
     workspaceDir: params.workspaceDir,
@@ -62,7 +62,7 @@ describe("buildSystemPromptParams repo root", () => {
     await fs.mkdir(workspaceDir, { recursive: true });
     await makeRepoRoot(workspaceDir);
 
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       agents: {
         defaults: {
           repoRoot,
@@ -82,7 +82,7 @@ describe("buildSystemPromptParams repo root", () => {
     await fs.mkdir(workspaceDir, { recursive: true });
     await makeRepoRoot(repoRoot);
 
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       agents: {
         defaults: {
           repoRoot: path.join(temp, "missing"),

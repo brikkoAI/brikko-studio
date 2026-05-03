@@ -79,10 +79,10 @@ export function parseArgs(argv) {
   return options;
 }
 
-export function validateBrikko StudioPackageSpec(spec) {
+export function validateBrikkoStudioPackageSpec(spec) {
   if (!BRIKKO_STUDIO_PACKAGE_SPEC_RE.test(spec)) {
     throw new Error(
-      `package_spec must be brikko-studio@alpha, brikko-studio@beta, brikko-studio@latest, or an exact Brikko Studio release version; got: ${spec}`,
+      `package_spec must be brikko-studio@alpha, brikko-studio@beta, brikko-studio@latest, or an exact BrikkoStudio release version; got: ${spec}`,
     );
   }
 }
@@ -276,7 +276,7 @@ async function resolveTrustedRepoRef(ref) {
   }
 
   throw new Error(
-    `package_ref ${ref} resolved to ${selectedSha}, which is not reachable from an Brikko Studio branch or release tag`,
+    `package_ref ${ref} resolved to ${selectedSha}, which is not reachable from an BrikkoStudio branch or release tag`,
   );
 }
 
@@ -329,7 +329,7 @@ async function moveNewestPackedTarball(outputDir, packOutput, outputName) {
       .at(-1);
   }
   if (!filename) {
-    throw new Error(`npm pack produced no Brikko Studio tarball in ${outputDir}`);
+    throw new Error(`npm pack produced no BrikkoStudio tarball in ${outputDir}`);
   }
   const packed = path.join(outputDir, filename);
   const target = path.join(outputDir, outputName);
@@ -400,7 +400,7 @@ async function resolveCandidate(options) {
         options.outputName || DEFAULT_OUTPUT_NAME,
       ]);
     } else if (options.source === "npm") {
-      validateBrikko StudioPackageSpec(options.packageSpec);
+      validateBrikkoStudioPackageSpec(options.packageSpec);
       const packOutput = await run(
         "npm",
         [
@@ -454,13 +454,13 @@ async function resolveCandidate(options) {
 
   const artifactSha256 = typeof artifactMetadata.sha256 === "string" ? artifactMetadata.sha256 : "";
   const digest = await assertExpectedSha256(target, options.packageSha256 || artifactSha256);
-  console.error(`Checking Brikko Studio package tarball: ${target}`);
+  console.error(`Checking BrikkoStudio package tarball: ${target}`);
   const checkStartedAt = Date.now();
   await run("node", ["scripts/check-brikko-studio-package-tarball.mjs", target], {
     timeoutMs: 5 * 60 * 1000,
   });
   console.error(
-    `Brikko Studio package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
+    `BrikkoStudio package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
   );
   const pkg = await readPackageJson(target);
   const metadata = {

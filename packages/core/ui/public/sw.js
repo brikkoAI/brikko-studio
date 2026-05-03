@@ -1,4 +1,4 @@
-// Brikko Studio Control – Service Worker
+// BrikkoStudio Control – Service Worker
 // Handles offline caching and push notifications.
 
 const CACHE_NAME = "brikko-studio-control-v1";
@@ -80,10 +80,10 @@ self.addEventListener("push", (event) => {
   try {
     data = event.data.json();
   } catch {
-    data = { title: "Brikko Studio", body: event.data.text() };
+    data = { title: "BrikkoStudio", body: event.data.text() };
   }
 
-  const title = data.title || "Brikko Studio";
+  const title = data.title || "BrikkoStudio";
   const options = {
     body: data.body || "",
     icon: "./apple-touch-icon.png",

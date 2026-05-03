@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-runtime";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-runtime";
 import {
   jsonResult,
   readNumberParam,
@@ -39,7 +39,7 @@ const TavilyExtractToolSchema = Type.Object(
   { additionalProperties: false },
 );
 
-export function createTavilyExtractTool(api: Brikko StudioPluginApi) {
+export function createTavilyExtractTool(api: BrikkoStudioPluginApi) {
   return {
     name: "tavily_extract",
     label: "Tavily Extract",

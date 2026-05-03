@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { installedPluginRoot } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   listOfficialExternalPluginCatalogEntries,
   resolveOfficialExternalPluginId,
@@ -62,7 +62,7 @@ function useProfileExtensionsDir(): string {
   return path.join(PROFILE_STATE_ROOT, "extensions");
 }
 
-function createEnabledPluginConfig(pluginId: string): Brikko StudioConfig {
+function createEnabledPluginConfig(pluginId: string): BrikkoStudioConfig {
   return {
     plugins: {
       entries: {
@@ -71,15 +71,15 @@ function createEnabledPluginConfig(pluginId: string): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-function createEmptyPluginConfig(): Brikko StudioConfig {
+function createEmptyPluginConfig(): BrikkoStudioConfig {
   return {
     plugins: {
       entries: {},
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createClawHubInstallResult(params: {
@@ -170,7 +170,7 @@ function primeNpmPluginFallback(pluginId = "demo") {
   return { cfg, enabledCfg };
 }
 
-function createPathHookPackInstalledConfig(tmpRoot: string): Brikko StudioConfig {
+function createPathHookPackInstalledConfig(tmpRoot: string): BrikkoStudioConfig {
   return {
     hooks: {
       internal: {
@@ -183,10 +183,10 @@ function createPathHookPackInstalledConfig(tmpRoot: string): Brikko StudioConfig
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
-function createNpmHookPackInstalledConfig(): Brikko StudioConfig {
+function createNpmHookPackInstalledConfig(): BrikkoStudioConfig {
   return {
     hooks: {
       internal: {
@@ -198,7 +198,7 @@ function createNpmHookPackInstalledConfig(): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createHookPackInstallResult(targetDir: string): {
@@ -218,7 +218,7 @@ function createHookPackInstallResult(targetDir: string): {
 }
 
 function primeHookPackNpmFallback() {
-  const cfg = {} as Brikko StudioConfig;
+  const cfg = {} as BrikkoStudioConfig;
   const installedCfg = createNpmHookPackInstalledConfig();
 
   loadConfig.mockReturnValue(cfg);
@@ -245,7 +245,7 @@ function primeBlockedNpmPluginInstall(params: {
   pluginId: string;
   code?: "security_scan_blocked" | "security_scan_failed";
 }) {
-  loadConfig.mockReturnValue({} as Brikko StudioConfig);
+  loadConfig.mockReturnValue({} as BrikkoStudioConfig);
   mockClawHubPackageNotFound(params.spec);
   installPluginFromNpmSpec.mockResolvedValue({
     ok: false,
@@ -257,10 +257,10 @@ function primeBlockedNpmPluginInstall(params: {
 function primeHookPackPathFallback(params: {
   tmpRoot: string;
   pluginInstallError: string;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const installedCfg = createPathHookPackInstalledConfig(params.tmpRoot);
 
-  loadConfig.mockReturnValue({} as Brikko StudioConfig);
+  loadConfig.mockReturnValue({} as BrikkoStudioConfig);
   installPluginFromPath.mockResolvedValueOnce({
     ok: false,
     error: params.pluginInstallError,
@@ -383,7 +383,7 @@ describe("plugins cli install", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledCfg = {
       plugins: {
         entries: {
@@ -392,7 +392,7 @@ describe("plugins cli install", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     loadConfig.mockReturnValue(cfg);
     installPluginFromMarketplace.mockResolvedValue({
       ok: true,
@@ -456,7 +456,7 @@ describe("plugins cli install", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledCfg = createEnabledPluginConfig("demo");
     loadConfig.mockReturnValue(cfg);
     parseClawHubPluginSpec.mockReturnValue({ name: "demo" });
@@ -545,7 +545,7 @@ describe("plugins cli install", () => {
           paths: ["/existing/plugin"],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     loadConfig.mockReturnValue(cfg);
     findBundledPluginSourceMock.mockReturnValue({
       pluginId,
@@ -564,7 +564,7 @@ describe("plugins cli install", () => {
 
     await runPluginsCommand(["plugins", "install", pluginId]);
 
-    const writtenConfig = writeConfigFile.mock.calls.at(-1)?.[0] as Brikko StudioConfig;
+    const writtenConfig = writeConfigFile.mock.calls.at(-1)?.[0] as BrikkoStudioConfig;
     expect(writtenConfig.plugins?.entries?.[pluginId]).toBeUndefined();
     expect(writtenConfig.plugins?.load?.paths).toEqual(["/existing/plugin"]);
     expect(writePersistedInstalledPluginIndexInstallRecords).toHaveBeenCalledWith({
@@ -591,7 +591,7 @@ describe("plugins cli install", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledCfg = createEnabledPluginConfig(pluginId);
     loadConfig.mockReturnValue(cfg);
     findBundledPluginSourceMock.mockReturnValue({
@@ -622,7 +622,7 @@ describe("plugins cli install", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledCfg = createEnabledPluginConfig("demo");
 
     loadConfig.mockReturnValue(cfg);
@@ -657,7 +657,7 @@ describe("plugins cli install", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledCfg = createEnabledPluginConfig("demo");
 
     loadConfig.mockReturnValue(cfg);
@@ -994,7 +994,7 @@ describe("plugins cli install", () => {
   });
 
   it("reports npm install failures without trying ClawHub when npm: prefix is used", async () => {
-    loadConfig.mockReturnValue({} as Brikko StudioConfig);
+    loadConfig.mockReturnValue({} as BrikkoStudioConfig);
     installPluginFromNpmSpec.mockResolvedValue({
       ok: false,
       error: "npm install failed",
@@ -1013,7 +1013,7 @@ describe("plugins cli install", () => {
   });
 
   it("does not resolve npm: prefixed bundled plugin ids through bundled installs", async () => {
-    loadConfig.mockReturnValue({ plugins: { load: { paths: [] } } } as Brikko StudioConfig);
+    loadConfig.mockReturnValue({ plugins: { load: { paths: [] } } } as BrikkoStudioConfig);
     installPluginFromNpmSpec.mockResolvedValue({
       ok: false,
       error: "Package not found on npm: memory-lancedb.",
@@ -1039,7 +1039,7 @@ describe("plugins cli install", () => {
   });
 
   it("rejects empty npm: prefix installs before resolver lookup", async () => {
-    loadConfig.mockReturnValue({} as Brikko StudioConfig);
+    loadConfig.mockReturnValue({} as BrikkoStudioConfig);
 
     await expect(runPluginsCommand(["plugins", "install", "npm:"])).rejects.toThrow("__exit__:1");
 
@@ -1085,7 +1085,7 @@ describe("plugins cli install", () => {
   });
 
   it("rejects --pin for git installs and points at git refs", async () => {
-    loadConfig.mockReturnValue({} as Brikko StudioConfig);
+    loadConfig.mockReturnValue({} as BrikkoStudioConfig);
 
     await expect(
       runPluginsCommand(["plugins", "install", "git:github.com/acme/demo", "--pin"]),
@@ -1134,7 +1134,7 @@ describe("plugins cli install", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledCfg = createEnabledPluginConfig("demo");
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-plugin-link-"));
 
@@ -1206,7 +1206,7 @@ describe("plugins cli install", () => {
     const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-link-plugin-"));
     const pluginInstallError = "plugin blocked by security scan";
 
-    loadConfig.mockReturnValue({} as Brikko StudioConfig);
+    loadConfig.mockReturnValue({} as BrikkoStudioConfig);
     installPluginFromPath.mockResolvedValue({
       ok: false,
       error: pluginInstallError,
@@ -1301,7 +1301,7 @@ describe("plugins cli install", () => {
   });
 
   it("suggests update or --force when npm plugin install target already exists", async () => {
-    loadConfig.mockReturnValue({} as Brikko StudioConfig);
+    loadConfig.mockReturnValue({} as BrikkoStudioConfig);
     mockClawHubPackageNotFound("@example/lossless-claw");
     installPluginFromNpmSpec.mockResolvedValue({
       ok: false,
@@ -1326,7 +1326,7 @@ describe("plugins cli install", () => {
   it("does not append hook-pack fallback details for managed extensions boundary failures", async () => {
     const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-local-plugin-"));
 
-    loadConfig.mockReturnValue({} as Brikko StudioConfig);
+    loadConfig.mockReturnValue({} as BrikkoStudioConfig);
     installPluginFromPath.mockResolvedValue({
       ok: false,
       error: "Invalid path: must stay within extensions directory",
@@ -1357,7 +1357,7 @@ describe("plugins cli install", () => {
           paths: [],
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enabledCfg = createEnabledPluginConfig("demo");
 
     loadConfig.mockReturnValue(cfg);
@@ -1424,7 +1424,7 @@ describe("plugins cli install", () => {
     const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-local-plugin-"));
     const pluginInstallError = "plugin security scan failed";
 
-    loadConfig.mockReturnValue({} as Brikko StudioConfig);
+    loadConfig.mockReturnValue({} as BrikkoStudioConfig);
     installPluginFromPath.mockResolvedValue({
       ok: false,
       error: pluginInstallError,
@@ -1446,7 +1446,7 @@ describe("plugins cli install", () => {
 
   it("does not fall back to hook pack for local path when dangerous force unsafe install is set", async () => {
     const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-local-plugin-"));
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const pluginInstallError = "plugin blocked by security scan";
 
     loadConfig.mockReturnValue(cfg);
@@ -1475,7 +1475,7 @@ describe("plugins cli install", () => {
 
   it("does not fall back to hook pack for local path when security scan fails under dangerous force unsafe install", async () => {
     const localPluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-local-plugin-"));
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const pluginInstallError = "plugin security scan failed";
 
     loadConfig.mockReturnValue(cfg);
@@ -1503,7 +1503,7 @@ describe("plugins cli install", () => {
   });
 
   it("does not fall back to hook pack for npm installs when dangerous force unsafe install is set", async () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const pluginInstallError = "plugin blocked by security scan";
 
     loadConfig.mockReturnValue(cfg);
@@ -1542,7 +1542,7 @@ describe("plugins cli install", () => {
   });
 
   it("does not fall back to hook pack for npm installs when security scan fails under dangerous force unsafe install", async () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const pluginInstallError = "plugin security scan failed";
 
     loadConfig.mockReturnValue(cfg);
@@ -1567,7 +1567,7 @@ describe("plugins cli install", () => {
 
   it("still falls back to local hook pack when dangerous force unsafe install is set for non-security errors", async () => {
     const localHookDir = fs.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-local-hook-pack-"));
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const installedCfg = {
       hooks: {
         internal: {
@@ -1579,7 +1579,7 @@ describe("plugins cli install", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     loadConfig.mockReturnValue(cfg);
     installPluginFromPath.mockResolvedValue({
@@ -1616,7 +1616,7 @@ describe("plugins cli install", () => {
   });
 
   it("still falls back to npm hook pack when dangerous force unsafe install is set for non-security errors", async () => {
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
     const installedCfg = {
       hooks: {
         internal: {
@@ -1628,7 +1628,7 @@ describe("plugins cli install", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     loadConfig.mockReturnValue(cfg);
     installPluginFromClawHub.mockResolvedValue({

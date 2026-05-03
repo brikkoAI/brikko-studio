@@ -1100,7 +1100,7 @@ describe("sanitizeSessionHistory", () => {
           text: [
             "Conversation info (untrusted metadata):",
             "```json",
-            '{"chat_id":"channel:123","sender":"Brikko Studio"}',
+            '{"chat_id":"channel:123","sender":"BrikkoStudio"}',
             "```",
             "",
             "Pong",
@@ -1137,7 +1137,7 @@ describe("sanitizeSessionHistory", () => {
     const metadataOnlyText = [
       "Conversation info (untrusted metadata):",
       "```json",
-      '{"chat_id":"channel:123","sender":"Brikko Studio"}',
+      '{"chat_id":"channel:123","sender":"BrikkoStudio"}',
       "```",
     ].join("\n");
     const messages = castAgentMessages([

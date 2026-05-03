@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   TALK_TEST_PROVIDER_API_KEY_PATH,
   TALK_TEST_PROVIDER_ID,
@@ -27,7 +27,7 @@ describe("secrets configure plan helpers", () => {
           botToken: "token", // pragma: allowlist secret
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const candidates = buildConfigureCandidates(config);
     const paths = candidates.map((entry) => entry.path);
@@ -43,7 +43,7 @@ describe("secrets configure plan helpers", () => {
           legacy: { source: "env" },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const next = {
       secrets: {
         providers: {
@@ -51,7 +51,7 @@ describe("secrets configure plan helpers", () => {
           modern: { source: "env" },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const changes = collectConfigureProviderChanges({ original, next });
     expect(Object.keys(changes.upserts).toSorted()).toEqual(["default", "modern"]);
@@ -60,7 +60,7 @@ describe("secrets configure plan helpers", () => {
 
   it("discovers auth-profiles candidates for the selected agent scope", () => {
     const candidates = buildConfigureCandidatesForScope({
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       authProfiles: {
         agentId: "main",
         store: {
@@ -102,7 +102,7 @@ describe("secrets configure plan helpers", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       authProfiles: {
         agentId: "main",
         store: {
@@ -156,12 +156,12 @@ describe("secrets configure plan helpers", () => {
           },
           apiKey: "demo-talk-key", // pragma: allowlist secret
         },
-      } as Brikko StudioConfig,
-      authoredBrikko StudioConfig: {
+      } as BrikkoStudioConfig,
+      authoredBrikkoStudioConfig: {
         talk: {
           apiKey: "demo-talk-key", // pragma: allowlist secret
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     const normalized = candidates.find((entry) => entry.path === TALK_TEST_PROVIDER_API_KEY_PATH);

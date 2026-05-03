@@ -1,5 +1,5 @@
 import { getRuntimeConfig } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { callGateway } from "../gateway/call.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
@@ -111,7 +111,7 @@ export function createSubagentRunManager(params: {
   ensureRuntimePluginsLoaded:
     | typeof ensureRuntimePluginsLoadedFn
     | ((args: {
-        config: Brikko StudioConfig;
+        config: BrikkoStudioConfig;
         workspaceDir?: string;
         allowGatewaySubagentBinding?: boolean;
       }) => void | Promise<void>);
@@ -120,7 +120,7 @@ export function createSubagentRunManager(params: {
   stopSweeper(): void;
   resumeSubagentRun(runId: string): void;
   clearPendingLifecycleError(runId: string): void;
-  resolveSubagentWaitTimeoutMs(cfg: Brikko StudioConfig, runTimeoutSeconds?: number): number;
+  resolveSubagentWaitTimeoutMs(cfg: BrikkoStudioConfig, runTimeoutSeconds?: number): number;
   scheduleOrphanRecovery(args?: { delayMs?: number; maxRetries?: number }): void;
   notifyContextEngineSubagentEnded(args: {
     childSessionKey: string;

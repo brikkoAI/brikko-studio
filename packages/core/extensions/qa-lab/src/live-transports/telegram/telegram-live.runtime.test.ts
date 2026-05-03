@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   LIVE_TRANSPORT_BASELINE_STANDARD_SCENARIO_IDS,
@@ -164,7 +164,7 @@ describe("telegram live qa runtime", () => {
   });
 
   it("injects a temporary Telegram account into the QA gateway config", () => {
-    const baseCfg: Brikko StudioConfig = {
+    const baseCfg: BrikkoStudioConfig = {
       plugins: {
         allow: ["memory-core", "qa-channel"],
         entries: {
@@ -177,7 +177,7 @@ describe("telegram live qa runtime", () => {
           enabled: true,
           baseUrl: "http://127.0.0.1:43123",
           botUserId: "brikko-studio",
-          botDisplayName: "Brikko Studio QA",
+          botDisplayName: "BrikkoStudio QA",
           allowFrom: ["*"],
         },
       },

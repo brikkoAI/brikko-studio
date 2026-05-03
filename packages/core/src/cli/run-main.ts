@@ -3,11 +3,11 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { resolveStateDir } from "../config/paths.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isTruthyEnvValue, normalizeEnv } from "../infra/env.js";
 import { isMainModule } from "../infra/is-main.js";
 import type { ProxyHandle } from "../infra/net/proxy/proxy-lifecycle.js";
-import { ensureBrikko StudioCliOnPath } from "../infra/path-env.js";
+import { ensureBrikkoStudioCliOnPath } from "../infra/path-env.js";
 import { assertSupportedRuntime } from "../infra/runtime-guard.js";
 import type { PluginManifestCommandAliasRegistry } from "../plugins/manifest-command-aliases.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
@@ -206,7 +206,7 @@ async function closeCliMemoryManagers(): Promise<void> {
 
 export function resolveMissingPluginCommandMessage(
   pluginId: string,
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
   options?: { registry?: PluginManifestCommandAliasRegistry },
 ): string | null {
   return resolveMissingPluginCommandMessageFromPolicy(
@@ -321,7 +321,7 @@ export async function runCli(argv: string[] = process.argv) {
   }
   normalizeEnv();
   if (shouldEnsureCliPath(normalizedArgv)) {
-    ensureBrikko StudioCliOnPath();
+    ensureBrikkoStudioCliOnPath();
   }
 
   // Enforce the minimum supported runtime before doing any work.
@@ -471,7 +471,7 @@ export async function runCli(argv: string[] = process.argv) {
 
     const { createCliProgress } = await import("./progress.js");
     const startupProgress = createCliProgress({
-      label: "Loading Brikko Studio CLI…",
+      label: "Loading BrikkoStudio CLI…",
       indeterminate: true,
       delayMs: 0,
       fallback: "none",

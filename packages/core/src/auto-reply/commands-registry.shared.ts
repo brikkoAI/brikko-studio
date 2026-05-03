@@ -554,7 +554,7 @@ export function buildBuiltinChatCommands(
     defineChatCommand({
       key: "mcp",
       nativeName: "mcp",
-      description: "Show or set Brikko Studio MCP servers.",
+      description: "Show or set BrikkoStudio MCP servers.",
       textAlias: "/mcp",
       category: "management",
       tier: "power",
@@ -660,7 +660,7 @@ export function buildBuiltinChatCommands(
     defineChatCommand({
       key: "restart",
       nativeName: "restart",
-      description: "Restart Brikko Studio.",
+      description: "Restart BrikkoStudio.",
       textAlias: "/restart",
       category: "tools",
       tier: "power",

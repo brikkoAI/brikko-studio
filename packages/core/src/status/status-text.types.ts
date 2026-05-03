@@ -5,11 +5,11 @@ import type {
   VerboseLevel,
 } from "../auto-reply/thinking.js";
 import type { SessionEntry, SessionScope } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { MediaUnderstandingDecision } from "../media-understanding/types.js";
 
 export type BuildStatusTextParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionEntry?: SessionEntry;
   sessionKey: string;
   parentSessionKey?: string;

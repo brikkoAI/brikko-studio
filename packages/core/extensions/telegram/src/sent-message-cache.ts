@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { resolveStorePath } from "brikko-studio/plugin-sdk/session-store-runtime";
 
@@ -35,7 +35,7 @@ function createSentMessageStore(): SentMessageStore {
   return new Map<string, Map<string, number>>();
 }
 
-function resolveSentMessageStorePath(cfg?: Pick<Brikko StudioConfig, "session">): string {
+function resolveSentMessageStorePath(cfg?: Pick<BrikkoStudioConfig, "session">): string {
   return `${resolveStorePath(cfg?.session?.store)}.telegram-sent-messages.json`;
 }
 
@@ -86,7 +86,7 @@ function readPersistedSentMessages(filePath: string): SentMessageStore {
   }
 }
 
-function getSentMessageBucket(cfg?: Pick<Brikko StudioConfig, "session">): SentMessageBucket {
+function getSentMessageBucket(cfg?: Pick<BrikkoStudioConfig, "session">): SentMessageBucket {
   const state = getSentMessageState();
   const persistedPath = resolveSentMessageStorePath(cfg);
   const existing = state.bucketsByPath.get(persistedPath);
@@ -101,7 +101,7 @@ function getSentMessageBucket(cfg?: Pick<Brikko StudioConfig, "session">): SentM
   return bucket;
 }
 
-function getSentMessages(cfg?: Pick<Brikko StudioConfig, "session">): SentMessageStore {
+function getSentMessages(cfg?: Pick<BrikkoStudioConfig, "session">): SentMessageStore {
   return getSentMessageBucket(cfg).store;
 }
 
@@ -128,7 +128,7 @@ function persistSentMessages(bucket: SentMessageBucket): void {
 export function recordSentMessage(
   chatId: number | string,
   messageId: number,
-  cfg?: Pick<Brikko StudioConfig, "session">,
+  cfg?: Pick<BrikkoStudioConfig, "session">,
 ): void {
   const scopeKey = String(chatId);
   const idKey = String(messageId);
@@ -154,7 +154,7 @@ export function recordSentMessage(
 export function wasSentByBot(
   chatId: number | string,
   messageId: number,
-  cfg?: Pick<Brikko StudioConfig, "session">,
+  cfg?: Pick<BrikkoStudioConfig, "session">,
 ): boolean {
   const scopeKey = String(chatId);
   const idKey = String(messageId);

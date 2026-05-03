@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { getActivePluginRegistry } from "../plugins/runtime.js";
 
 let pluginRegistryLoaderModulePromise:
@@ -11,7 +11,7 @@ async function loadPluginRegistryLoaderModule() {
 }
 
 export async function ensureNodeHostPluginRegistry(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): Promise<void> {
   (await loadPluginRegistryLoaderModule()).ensurePluginRegistryLoaded({

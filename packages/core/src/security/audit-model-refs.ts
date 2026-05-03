@@ -8,12 +8,12 @@ import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
 } from "../config/model-input.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export type AuditModelRef = { id: string; source: string };
 
 function resolveAuditModelId(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   raw: string,
   aliasIndex: ReturnType<typeof buildModelAliasIndex>,
 ): string {
@@ -29,7 +29,7 @@ function resolveAuditModelId(
 
 function addModelRef(params: {
   out: AuditModelRef[];
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   aliasIndex: ReturnType<typeof buildModelAliasIndex>;
   raw: unknown;
   source: string;
@@ -47,7 +47,7 @@ function addModelRef(params: {
   });
 }
 
-export function collectAuditModelRefs(cfg: Brikko StudioConfig): AuditModelRef[] {
+export function collectAuditModelRefs(cfg: BrikkoStudioConfig): AuditModelRef[] {
   const aliasIndex = buildModelAliasIndex({
     cfg,
     defaultProvider: DEFAULT_PROVIDER,

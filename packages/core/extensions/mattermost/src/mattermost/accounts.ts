@@ -15,7 +15,7 @@ import type {
   MattermostReplyToMode,
 } from "../types.js";
 import { normalizeMattermostBaseUrl } from "./client.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 
 type MattermostTokenSource = "env" | "config" | "none";
 type MattermostBaseUrlSource = "env" | "config" | "none";
@@ -40,16 +40,16 @@ export type ResolvedMattermostAccount = {
 
 const mattermostAccountHelpers = createAccountListHelpers("mattermost");
 
-export function listMattermostAccountIds(cfg: Brikko StudioConfig): string[] {
+export function listMattermostAccountIds(cfg: BrikkoStudioConfig): string[] {
   return mattermostAccountHelpers.listAccountIds(cfg);
 }
 
-export function resolveDefaultMattermostAccountId(cfg: Brikko StudioConfig): string {
+export function resolveDefaultMattermostAccountId(cfg: BrikkoStudioConfig): string {
   return mattermostAccountHelpers.resolveDefaultAccountId(cfg);
 }
 
 function mergeMattermostAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): MattermostAccountConfig {
   return resolveMergedAccountConfig<MattermostAccountConfig>({
@@ -77,7 +77,7 @@ function resolveMattermostRequireMention(config: MattermostAccountConfig): boole
 }
 
 export function resolveMattermostAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   allowUnresolvedSecretRef?: boolean;
 }): ResolvedMattermostAccount {

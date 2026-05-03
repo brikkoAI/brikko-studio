@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { applyMergePatch } from "../config/merge-patch.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { matchBoundaryFileOpenFailure, openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import { isRecord } from "../utils.js";
 import { normalizePluginsConfig, resolveEffectivePluginActivationState } from "./config-state.js";
@@ -93,7 +93,7 @@ export function inspectBundleServerRuntimeSupport<TConfig>(params: {
 
 export function loadEnabledBundleConfig<TConfig, TDiagnostic>(params: {
   workspaceDir: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   createEmptyConfig: () => TConfig;
   loadBundleConfig: (params: {
     pluginId: string;

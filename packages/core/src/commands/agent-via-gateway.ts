@@ -5,7 +5,7 @@ import { formatCliCommand } from "../cli/command-format.js";
 import type { CliDeps } from "../cli/deps.types.js";
 import { withProgress } from "../cli/progress.js";
 import { getRuntimeConfig } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { callGateway, isGatewayTransportError, randomIdempotencyKey } from "../gateway/call.js";
 import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../gateway/protocol/client-info.js";
 import { routeLogsToStderr } from "../logging/console.js";
@@ -67,7 +67,7 @@ function protectJsonStdout(opts: Pick<AgentCliOpts, "json">): void {
   }
 }
 
-function parseTimeoutSeconds(opts: { cfg: Brikko StudioConfig; timeout?: string }) {
+function parseTimeoutSeconds(opts: { cfg: BrikkoStudioConfig; timeout?: string }) {
   const raw =
     opts.timeout !== undefined
       ? Number.parseInt(opts.timeout, 10)

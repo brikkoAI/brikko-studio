@@ -1,9 +1,9 @@
 export { definePluginEntry } from "brikko-studio/plugin-sdk/core";
 export type {
   AnyAgentTool,
-  Brikko StudioPluginApi,
-  Brikko StudioPluginToolContext,
-  Brikko StudioPluginToolFactory,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginToolContext,
+  BrikkoStudioPluginToolFactory,
 } from "brikko-studio/plugin-sdk/core";
 export {
   applyWindowsSpawnProgramPolicy,

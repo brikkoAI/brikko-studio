@@ -123,7 +123,7 @@ function resolvePostinstallTildePath(input, homeDir) {
   return input;
 }
 
-function resolvePostinstallBrikko StudioHomeDir(env, getHomedir = homedir) {
+function resolvePostinstallBrikkoStudioHomeDir(env, getHomedir = homedir) {
   const osHome = resolvePostinstallOsHomeDir(env, getHomedir);
   const override = env?.BRIKKO_STUDIO_HOME?.trim();
   return override ? pathResolve(resolvePostinstallTildePath(override, osHome)) : osHome;
@@ -338,7 +338,7 @@ const pathDelimiter = process.platform === "win32" ? ";" : ":";
 export function collectLegacyPluginRuntimeDepsStateRoots(params = {}) {
   const env = params.env ?? process.env;
   const getHomedir = params.homedir ?? homedir;
-  const openClawHome = resolvePostinstallBrikko StudioHomeDir(env, getHomedir);
+  const openClawHome = resolvePostinstallBrikkoStudioHomeDir(env, getHomedir);
   const stateRoots = [];
   const addStateRoot = (root) => {
     if (root) {
@@ -719,7 +719,7 @@ function shouldRunBundledPluginPostinstall(params) {
   return true;
 }
 
-export function pruneBrikko StudioCompileCache(params = {}) {
+export function pruneBrikkoStudioCompileCache(params = {}) {
   const env = params.env ?? process.env;
   const pathExists = params.existsSync ?? existsSync;
   const readDir = params.readdirSync ?? readdirSync;
@@ -747,11 +747,11 @@ export function pruneBrikko StudioCompileCache(params = {}) {
             retryDelay: 100,
           });
         } catch (error) {
-          log.warn?.(`[postinstall] could not prune Brikko Studio compile cache: ${String(error)}`);
+          log.warn?.(`[postinstall] could not prune BrikkoStudio compile cache: ${String(error)}`);
         }
       }
     } catch (error) {
-      log.warn?.(`[postinstall] could not prune Brikko Studio compile cache: ${String(error)}`);
+      log.warn?.(`[postinstall] could not prune BrikkoStudio compile cache: ${String(error)}`);
     }
   }
 }
@@ -765,7 +765,7 @@ export function runBundledPluginPostinstall(params = {}) {
   if (env?.[DISABLE_POSTINSTALL_ENV]?.trim()) {
     return;
   }
-  pruneBrikko StudioCompileCache({
+  pruneBrikkoStudioCompileCache({
     env,
     existsSync: pathExists,
     rmSync: params.rmSync,

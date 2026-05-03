@@ -1,6 +1,6 @@
 import type { AgentToolResult as PiAgentToolResult } from "@mariozechner/pi-agent-core";
 
-export type Brikko StudioAgentToolResult<TResult = unknown> = PiAgentToolResult<TResult>;
+export type BrikkoStudioAgentToolResult<TResult = unknown> = PiAgentToolResult<TResult>;
 
 export type AgentToolResultMiddlewareRuntime = "pi" | "codex";
 /** @deprecated Use AgentToolResultMiddlewareRuntime. */
@@ -16,7 +16,7 @@ export type AgentToolResultMiddlewareEvent = {
   args: Record<string, unknown>;
   cwd?: string;
   isError?: boolean;
-  result: Brikko StudioAgentToolResult;
+  result: BrikkoStudioAgentToolResult;
 };
 
 export type AgentToolResultMiddlewareContext = {
@@ -30,7 +30,7 @@ export type AgentToolResultMiddlewareContext = {
 };
 
 export type AgentToolResultMiddlewareResult = {
-  result: Brikko StudioAgentToolResult;
+  result: BrikkoStudioAgentToolResult;
 };
 
 export type AgentToolResultMiddleware = (

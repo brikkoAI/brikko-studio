@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { InstalledPluginIndex } from "./installed-plugin-index.js";
 import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.js";
 import type { PluginDiagnostic } from "./manifest-types.js";
@@ -53,7 +53,7 @@ export type PluginMetadataRegistryView = Pick<PluginMetadataSnapshot, "index" | 
 export type PluginMetadataManifestView = Pick<PluginMetadataSnapshot, "index" | "plugins">;
 
 export type LoadPluginMetadataSnapshotParams = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   workspaceDir?: string;
   stateDir?: string;
   env: NodeJS.ProcessEnv;

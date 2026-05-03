@@ -1,9 +1,9 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { DiscordAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import { authorizeDiscordVoiceIngress } from "./access.js";
 
-const baseCfg = { commands: { useAccessGroups: true } } as Brikko StudioConfig;
+const baseCfg = { commands: { useAccessGroups: true } } as BrikkoStudioConfig;
 
 describe("authorizeDiscordVoiceIngress", () => {
   it("blocks speakers outside the configured channel user allowlist", async () => {

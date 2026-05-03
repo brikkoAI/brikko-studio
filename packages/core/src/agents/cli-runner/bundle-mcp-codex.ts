@@ -7,7 +7,7 @@ import {
 } from "./bundle-mcp-adapter-shared.js";
 import { serializeTomlInlineValue } from "./toml-inline.js";
 
-function isBrikko StudioLoopbackMcpServer(name: string, server: BundleMcpServerConfig): boolean {
+function isBrikkoStudioLoopbackMcpServer(name: string, server: BundleMcpServerConfig): boolean {
   return (
     name === "brikko-studio" &&
     typeof server.url === "string" &&
@@ -21,7 +21,7 @@ function normalizeCodexServerConfig(
 ): Record<string, unknown> {
   const next: Record<string, unknown> = {};
   applyCommonServerConfig(next, server);
-  if (isBrikko StudioLoopbackMcpServer(name, server)) {
+  if (isBrikkoStudioLoopbackMcpServer(name, server)) {
     next.default_tools_approval_mode = "approve";
   }
   const httpHeaders = normalizeStringRecord(server.headers);

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 
 const dockerMocks = vi.hoisted(() => ({
   dockerContainerState: vi.fn(),
@@ -21,7 +21,7 @@ vi.mock("./docker.js", async () => {
 
 const { dockerSandboxBackendManager } = await import("./docker-backend.js");
 
-function createConfig(): Brikko StudioConfig {
+function createConfig(): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {

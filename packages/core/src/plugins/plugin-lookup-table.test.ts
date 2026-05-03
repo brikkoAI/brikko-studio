@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveInstalledPluginIndexPolicyHash } from "./installed-plugin-index-policy.js";
 import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.js";
 import type { PluginRegistrySnapshot } from "./plugin-registry.js";
@@ -17,11 +17,11 @@ vi.mock("../channels/config-presence.js", () => ({
       Object.keys(value).some((key) => key !== "enabled"),
     ),
   listPotentialConfiguredChannelIds: (
-    config: Brikko StudioConfig,
+    config: BrikkoStudioConfig,
     env: NodeJS.ProcessEnv,
     options?: { includePersistedAuthState?: boolean },
   ) => listPotentialConfiguredChannelIds(config, env, options),
-  listExplicitlyDisabledChannelIdsForConfig: (config: Brikko StudioConfig) =>
+  listExplicitlyDisabledChannelIdsForConfig: (config: BrikkoStudioConfig) =>
     listExplicitlyDisabledChannelIdsForConfig(config),
 }));
 
@@ -103,7 +103,7 @@ describe("loadPluginLookUpTable", () => {
   beforeEach(() => {
     listPotentialConfiguredChannelIds
       .mockReset()
-      .mockImplementation((config: Brikko StudioConfig) => Object.keys(config.channels ?? {}));
+      .mockImplementation((config: BrikkoStudioConfig) => Object.keys(config.channels ?? {}));
     listExplicitlyDisabledChannelIdsForConfig.mockReset().mockReturnValue([]);
     loadPluginManifestRegistryForInstalledIndex.mockReset();
   });
@@ -165,7 +165,7 @@ describe("loadPluginLookUpTable", () => {
         plugins: {
           slots: { memory: "none" },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       env: {},
       index,
     });
@@ -212,7 +212,7 @@ describe("loadPluginLookUpTable", () => {
       channels: {
         telegram: { token: "configured" },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const compatibleIndex = {
       ...index,
       policyHash: resolveInstalledPluginIndexPolicyHash(config),
@@ -260,12 +260,12 @@ describe("loadPluginLookUpTable", () => {
       plugins: {
         allow: ["telegram"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const requestedConfig = {
       plugins: {
         allow: ["other-plugin"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const snapshotIndex = createIndex(plugins, {
       policyHash: resolveInstalledPluginIndexPolicyHash(snapshotConfig),
     });
@@ -315,12 +315,12 @@ describe("loadPluginLookUpTable", () => {
       plugins: {
         load: { paths: ["/plugins/one"] },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const requestedConfig = {
       plugins: {
         load: { paths: ["/plugins/two"] },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const policyHash = resolveInstalledPluginIndexPolicyHash(snapshotConfig);
     const index = createIndex(plugins, { policyHash });
     const manifestRegistry: PluginManifestRegistry = {
@@ -366,7 +366,7 @@ describe("loadPluginLookUpTable", () => {
       plugins: {
         load: { paths: ["~/plugins"] },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const snapshotEnv = {
       HOME: "/home/snapshot",
       BRIKKO_STUDIO_HOME: undefined,
@@ -417,7 +417,7 @@ describe("loadPluginLookUpTable", () => {
         channels: ["telegram"],
       }),
     ];
-    const config = {} as Brikko StudioConfig;
+    const config = {} as BrikkoStudioConfig;
     const snapshotEnv = {
       HOME: "/home/snapshot",
       BRIKKO_STUDIO_HOME: undefined,
@@ -484,7 +484,7 @@ describe("loadPluginLookUpTable", () => {
       channels: {
         telegram: { token: "configured" },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const policyHash = resolveInstalledPluginIndexPolicyHash(config);
     const snapshotIndex = createIndex(snapshotPlugins, { policyHash });
     const requestedIndex = createIndex(requestedPlugins, { policyHash });
@@ -548,7 +548,7 @@ describe("loadPluginLookUpTable", () => {
       channels: {
         telegram: { token: "configured" },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const policyHash = resolveInstalledPluginIndexPolicyHash(config);
     const snapshotIndex = createIndex(snapshotPlugins, { policyHash });
     const requestedIndex = createIndex(requestedPlugins, { policyHash });

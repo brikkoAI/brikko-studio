@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { getRuntimeConfig } from "../config/config.js";
 import { parseLiveCsvFilter } from "../media-generation/live-test-helpers.js";
 import { runTasksWithConcurrency } from "../utils/run-with-concurrency.js";
-import { resolveBrikko StudioAgentDir } from "./agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "./agent-paths.js";
 import {
   collectAnthropicApiKeys,
   isAnthropicBillingError,
@@ -37,7 +37,7 @@ import { createLiveTargetMatcher } from "./live-target-matcher.js";
 import { isLiveProfileKeyModeEnabled, isLiveTestEnabled } from "./live-test-helpers.js";
 import { getApiKeyForModel, requireApiKey } from "./model-auth.js";
 import { shouldSuppressBuiltInModel } from "./model-suppression.js";
-import { ensureBrikko StudioModelsJson } from "./models-config.js";
+import { ensureBrikkoStudioModelsJson } from "./models-config.js";
 import {
   isCloudflareOrHtmlErrorPage,
   isRateLimitErrorMessage,
@@ -714,7 +714,7 @@ describeLive("live models (profile keys)", () => {
       );
       logProgress("[live-models] preparing models.json");
       await withLiveStageTimeout(
-        ensureBrikko StudioModelsJson(cfg),
+        ensureBrikkoStudioModelsJson(cfg),
         "[live-models] prepare models.json",
         LIVE_MODELS_JSON_TIMEOUT_MS,
       );
@@ -730,7 +730,7 @@ describeLive("live models (profile keys)", () => {
         logProgress(`[live-models] anthropic keys loaded: ${anthropicKeys.length}`);
       }
 
-      const agentDir = resolveBrikko StudioAgentDir();
+      const agentDir = resolveBrikkoStudioAgentDir();
       const authStorage = discoverAuthStorage(agentDir);
       logProgress("[live-models] loading model registry");
       const models = await withLiveStageTimeout(

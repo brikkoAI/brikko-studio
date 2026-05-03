@@ -1,10 +1,10 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import { matrixApprovalCapability } from "./approval-native.js";
 
 function buildConfig(
-  overrides?: Partial<NonNullable<NonNullable<Brikko StudioConfig["channels"]>["matrix"]>>,
-): Brikko StudioConfig {
+  overrides?: Partial<NonNullable<NonNullable<BrikkoStudioConfig["channels"]>["matrix"]>>,
+): BrikkoStudioConfig {
   return {
     channels: {
       matrix: {
@@ -19,7 +19,7 @@ function buildConfig(
         ...overrides,
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("matrix approval capability", () => {

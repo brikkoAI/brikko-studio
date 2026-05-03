@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "./config.js";
+import type { BrikkoStudioConfig } from "./config.js";
 import {
   resolveChannelGroupPolicy,
   resolveChannelGroupRequireMention,
@@ -14,7 +14,7 @@ describe("resolveChannelGroupPolicy", () => {
           groupPolicy: "allowlist",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const policy = resolveChannelGroupPolicy({
       cfg,
@@ -36,7 +36,7 @@ describe("resolveChannelGroupPolicy", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const policy = resolveChannelGroupPolicy({
       cfg,
@@ -58,7 +58,7 @@ describe("resolveChannelGroupPolicy", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const policy = resolveChannelGroupPolicy({
       cfg,
@@ -81,7 +81,7 @@ describe("resolveChannelGroupPolicy", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const policy = resolveChannelGroupPolicy({
       cfg,
@@ -101,7 +101,7 @@ describe("resolveChannelGroupPolicy", () => {
           groupPolicy: "allowlist",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const policy = resolveChannelGroupPolicy({
       cfg,
@@ -121,7 +121,7 @@ describe("resolveChannelGroupPolicy", () => {
           groupPolicy: "allowlist",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const policy = resolveChannelGroupPolicy({
       cfg,
@@ -143,7 +143,7 @@ describe("resolveChannelGroupPolicy", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       resolveChannelGroupRequireMention({

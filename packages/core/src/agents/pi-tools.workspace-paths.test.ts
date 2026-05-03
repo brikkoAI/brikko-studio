@@ -4,8 +4,8 @@ import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import "./test-helpers/fast-coding-tools.js";
 import "./test-helpers/fast-brikko-studio-tools.js";
-import type { Brikko StudioConfig } from "../config/config.js";
-import { createBrikko StudioCodingTools } from "./pi-tools.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
+import { createBrikkoStudioCodingTools } from "./pi-tools.js";
 import { createHostSandboxFsBridge } from "./test-helpers/host-sandbox-fs-bridge.js";
 import { expectReadWriteEditTools, getTextContent } from "./test-helpers/pi-tools-fs-helpers.js";
 import { createPiToolsSandboxContext } from "./test-helpers/pi-tools-sandbox-context.js";
@@ -25,7 +25,7 @@ async function withTempDir<T>(prefix: string, fn: (dir: string) => Promise<T>) {
 }
 
 function createExecTool(workspaceDir: string) {
-  const tools = createBrikko StudioCodingTools({
+  const tools = createBrikkoStudioCodingTools({
     workspaceDir,
     exec: { host: "gateway", ask: "off", security: "full" },
   });
@@ -59,7 +59,7 @@ describe("workspace path resolution", () => {
       await withTempDir("brikko-studio-cwd-", async (otherDir) => {
         const cwdSpy = vi.spyOn(process, "cwd").mockReturnValue(otherDir);
         try {
-          const tools = createBrikko StudioCodingTools({ workspaceDir });
+          const tools = createBrikkoStudioCodingTools({ workspaceDir });
           const { readTool, writeTool, editTool } = expectReadWriteEditTools(tools);
 
           const readFile = "read.txt";
@@ -100,7 +100,7 @@ describe("workspace path resolution", () => {
 
         const cwdSpy = vi.spyOn(process, "cwd").mockReturnValue(otherDir);
         try {
-          const tools = createBrikko StudioCodingTools({ workspaceDir });
+          const tools = createBrikkoStudioCodingTools({ workspaceDir });
           const { editTool } = expectReadWriteEditTools(tools);
 
           await editTool.execute("ws-edit-delete", {
@@ -124,7 +124,7 @@ describe("workspace path resolution", () => {
 
         const cwdSpy = vi.spyOn(process, "cwd").mockReturnValue(otherDir);
         try {
-          const tools = createBrikko StudioCodingTools({ workspaceDir });
+          const tools = createBrikkoStudioCodingTools({ workspaceDir });
           const { editTool } = expectReadWriteEditTools(tools);
 
           await editTool.execute("ws-edit-batch", {
@@ -168,8 +168,8 @@ describe("workspace path resolution", () => {
 
   it("rejects @-prefixed absolute paths outside workspace when workspaceOnly is enabled", async () => {
     await withTempDir("brikko-studio-ws-", async (workspaceDir) => {
-      const cfg: Brikko StudioConfig = { tools: { fs: { workspaceOnly: true } } };
-      const tools = createBrikko StudioCodingTools({ workspaceDir, config: cfg });
+      const cfg: BrikkoStudioConfig = { tools: { fs: { workspaceOnly: true } } };
+      const tools = createBrikkoStudioCodingTools({ workspaceDir, config: cfg });
       const { readTool } = expectReadWriteEditTools(tools);
 
       const outsideAbsolute = path.resolve(path.parse(workspaceDir).root, "outside-brikko-studio.txt");
@@ -184,8 +184,8 @@ describe("workspace path resolution", () => {
       return;
     }
     await withTempDir("brikko-studio-ws-", async (workspaceDir) => {
-      const cfg: Brikko StudioConfig = { tools: { fs: { workspaceOnly: true } } };
-      const tools = createBrikko StudioCodingTools({ workspaceDir, config: cfg });
+      const cfg: BrikkoStudioConfig = { tools: { fs: { workspaceOnly: true } } };
+      const tools = createBrikkoStudioCodingTools({ workspaceDir, config: cfg });
       const { readTool, writeTool } = expectReadWriteEditTools(tools);
       const outsidePath = path.join(
         path.dirname(workspaceDir),
@@ -236,7 +236,7 @@ describe("sandboxed workspace paths", () => {
         await fs.writeFile(path.join(sandboxDir, testFile), "sandbox read", "utf8");
         await fs.writeFile(path.join(workspaceDir, testFile), "workspace read", "utf8");
 
-        const tools = createBrikko StudioCodingTools({ workspaceDir, sandbox });
+        const tools = createBrikkoStudioCodingTools({ workspaceDir, sandbox });
         const { readTool, writeTool, editTool } = expectReadWriteEditTools(tools);
 
         const result = await readTool?.execute("sbx-read", { path: testFile });

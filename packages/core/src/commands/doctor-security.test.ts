@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
 const note = vi.hoisted(() => vi.fn());
 const pluginRegistry = vi.hoisted(() => ({ list: [] as unknown[] }));
@@ -106,7 +106,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
               },
             ],
           },
-        } as Brikko StudioConfig);
+        } as BrikkoStudioConfig);
       },
     );
 
@@ -117,7 +117,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
   }
 
   it("warns when exposed without auth", async () => {
-    const cfg = { gateway: { bind: "lan" } } as Brikko StudioConfig;
+    const cfg = { gateway: { bind: "lan" } } as BrikkoStudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("CRITICAL");
@@ -128,7 +128,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
 
   it("uses env token to avoid critical warning", async () => {
     process.env.BRIKKO_STUDIO_GATEWAY_TOKEN = "token-123";
-    const cfg = { gateway: { bind: "lan" } } as Brikko StudioConfig;
+    const cfg = { gateway: { bind: "lan" } } as BrikkoStudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("WARNING");
@@ -144,7 +144,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           token: { source: "env", provider: "default", id: "BRIKKO_STUDIO_GATEWAY_TOKEN" },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("WARNING");
@@ -154,14 +154,14 @@ describe("noteSecurityWarnings gateway exposure", () => {
   it("treats whitespace token as missing", async () => {
     const cfg = {
       gateway: { bind: "lan", auth: { mode: "token", token: "   " } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("CRITICAL");
   });
 
   it("skips warning for loopback bind", async () => {
-    const cfg = { gateway: { bind: "loopback" } } as Brikko StudioConfig;
+    const cfg = { gateway: { bind: "loopback" } } as BrikkoStudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("No channel security warnings detected");
@@ -169,7 +169,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
   });
 
   it("treats unset bind as loopback for host-side doctor checks", async () => {
-    const cfg = { gateway: {} } as Brikko StudioConfig;
+    const cfg = { gateway: {} } as BrikkoStudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("No channel security warnings detected");
@@ -198,7 +198,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
         },
       },
     ];
-    const cfg = { session: { dmScope: "main" } } as Brikko StudioConfig;
+    const cfg = { session: { dmScope: "main" } } as BrikkoStudioConfig;
     await noteSecurityWarnings(cfg);
     expect(listReadOnlyChannelPluginsForConfigMock).toHaveBeenCalledWith(cfg, {
       includePersistedAuthState: true,
@@ -215,7 +215,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           enabled: false,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("disables approval forwarding only");
@@ -240,7 +240,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
               ask: "off",
             },
           },
-        } as Brikko StudioConfig);
+        } as BrikkoStudioConfig);
       },
     );
 
@@ -269,7 +269,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
               ask: "on-miss",
             },
           },
-        } as Brikko StudioConfig);
+        } as BrikkoStudioConfig);
       },
     );
 
@@ -291,7 +291,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
               ask: "always",
             },
           },
-        } as Brikko StudioConfig);
+        } as BrikkoStudioConfig);
       },
     );
 
@@ -326,7 +326,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           agents: {
             list: [{ id: "runner" }],
           },
-        } as Brikko StudioConfig);
+        } as BrikkoStudioConfig);
       },
     );
 
@@ -361,7 +361,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           agents: {
             list: [{ id: "runner" }],
           },
-        } as Brikko StudioConfig);
+        } as BrikkoStudioConfig);
       },
     );
 
@@ -396,7 +396,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
               ask: "always",
             },
           },
-        } as Brikko StudioConfig);
+        } as BrikkoStudioConfig);
       },
     );
 
@@ -413,7 +413,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain("Heartbeat defaults");
@@ -433,7 +433,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           },
         ],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).toContain('Heartbeat agent "ops"');
@@ -460,7 +460,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
       },
     ];
 
-    await noteSecurityWarnings({} as Brikko StudioConfig);
+    await noteSecurityWarnings({} as BrikkoStudioConfig);
     expect(listReadOnlyChannelPluginsForConfigMock).toHaveBeenCalledWith(
       {},
       {
@@ -492,7 +492,7 @@ describe("noteSecurityWarnings gateway exposure", () => {
           },
         ],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     await noteSecurityWarnings(cfg);
     const message = lastMessage();
     expect(message).not.toContain("Heartbeat defaults");

@@ -27,5 +27,5 @@ export type {
   ImageGenerationResolution,
   ImageGenerationResult,
   ImageGenerationSourceImage,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/image-generation-core";

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
 import { resolveChannelModelOverride } from "brikko-studio/plugin-sdk/model-session-runtime";
 import { buildAgentSessionKey } from "brikko-studio/plugin-sdk/routing";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
@@ -78,7 +78,7 @@ export async function resolveDiscordAutoThreadReplyPlan(
     replyToMode: ReplyToMode;
     agentId: string;
     channel: string;
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     threadParentInheritanceEnabled?: boolean;
   },
 ): Promise<DiscordAutoThreadReplyPlan> {
@@ -219,7 +219,7 @@ export async function maybeCreateDiscordAutoThread(
 }
 
 function resolveDiscordThreadTitleModelRef(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel?: string;
   agentId: string;
   threadId: string;
@@ -258,7 +258,7 @@ async function maybeRenameDiscordAutoThread(params: {
   modelRef?: string;
   channelName?: string;
   channelDescription?: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
 }): Promise<void> {
   try {

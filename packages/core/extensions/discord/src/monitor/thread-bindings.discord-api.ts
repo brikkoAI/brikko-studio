@@ -1,5 +1,5 @@
 import { ChannelType } from "discord-api-types/v10";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { createDiscordRestClient } from "../client.js";
@@ -139,7 +139,7 @@ export function isDiscordThreadGoneError(err: unknown): boolean {
 }
 
 export async function maybeSendBindingMessage(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   record: ThreadBindingRecord;
   text: string;
   preferWebhook?: boolean;
@@ -175,7 +175,7 @@ export async function maybeSendBindingMessage(params: {
 }
 
 export async function createWebhookForChannel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   token?: string;
   channelId: string;
@@ -188,7 +188,7 @@ export async function createWebhookForChannel(params: {
     }).rest;
     const created = await createChannelWebhook(rest, params.channelId, {
       body: {
-        name: "Brikko Studio Agents",
+        name: "BrikkoStudio Agents",
       },
     });
     const webhookId = normalizeOptionalString(created?.id) ?? "";
@@ -240,7 +240,7 @@ export function findReusableWebhook(params: { accountId: string; channelId: stri
 }
 
 export async function resolveChannelIdForBinding(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   token?: string;
   threadId: string;
@@ -280,7 +280,7 @@ export async function resolveChannelIdForBinding(params: {
 }
 
 export async function createThreadForBinding(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   token?: string;
   channelId: string;

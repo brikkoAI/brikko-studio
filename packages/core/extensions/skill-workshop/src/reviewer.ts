@@ -5,7 +5,7 @@ import {
   resolveAgentEffectiveModelPrimary,
   resolveDefaultModelForAgent,
 } from "brikko-studio/plugin-sdk/agent-runtime";
-import type { Brikko StudioPluginApi } from "../api.js";
+import type { BrikkoStudioPluginApi } from "../api.js";
 import type { SkillWorkshopConfig } from "./config.js";
 import { normalizeSkillName } from "./skills.js";
 import { compactWhitespace, extractTranscriptText } from "./text.js";
@@ -38,7 +38,7 @@ type ReviewerJson = {
   newText?: string;
 };
 
-function resolveReviewerFallbackModel(params: { api: Brikko StudioPluginApi; agentId: string }): {
+function resolveReviewerFallbackModel(params: { api: BrikkoStudioPluginApi; agentId: string }): {
   provider: string;
   model: string;
 } {
@@ -233,7 +233,7 @@ async function buildReviewPrompt(params: {
 }
 
 export async function reviewTranscriptForProposal(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   config: SkillWorkshopConfig;
   ctx: ReviewContext;
   messages: unknown[];

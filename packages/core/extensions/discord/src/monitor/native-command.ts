@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord-api-types/v10";
 import { resolveNativeCommandSessionTargets } from "brikko-studio/plugin-sdk/command-auth-native";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { buildPairingReply } from "brikko-studio/plugin-sdk/conversation-runtime";
 import { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
 import { getAgentScopedMediaLocalRoots } from "brikko-studio/plugin-sdk/media-runtime";
@@ -87,7 +87,7 @@ export { __testing } from "./native-command.runtime.js";
 
 export function createDiscordNativeCommand(params: {
   command: NativeCommandSpec;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   discordConfig: DiscordConfig;
   accountId: string;
   sessionPrefix: string;
@@ -199,7 +199,7 @@ async function dispatchDiscordCommandInteraction(params: {
   prompt: string;
   command: ChatCommandDefinition;
   commandArgs?: DiscordCommandArgs;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   discordConfig: DiscordConfig;
   accountId: string;
   sessionPrefix: string;

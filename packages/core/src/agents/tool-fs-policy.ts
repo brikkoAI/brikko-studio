@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveAgentConfig } from "./agent-scope.js";
 import { pickSandboxToolPolicy } from "./sandbox-tool-policy.js";
 import { isToolAllowedByPolicies } from "./tool-policy-match.js";
@@ -14,7 +14,7 @@ export function createToolFsPolicy(params: { workspaceOnly?: boolean }): ToolFsP
   };
 }
 
-export function resolveToolFsConfig(params: { cfg?: Brikko StudioConfig; agentId?: string }): {
+export function resolveToolFsConfig(params: { cfg?: BrikkoStudioConfig; agentId?: string }): {
   workspaceOnly?: boolean;
 } {
   const cfg = params.cfg;
@@ -27,14 +27,14 @@ export function resolveToolFsConfig(params: { cfg?: Brikko StudioConfig; agentId
 }
 
 export function resolveEffectiveToolFsWorkspaceOnly(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentId?: string;
 }): boolean {
   return resolveToolFsConfig(params).workspaceOnly === true;
 }
 
 export function resolveEffectiveToolFsRootExpansionAllowed(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentId?: string;
 }): boolean {
   const cfg = params.cfg;

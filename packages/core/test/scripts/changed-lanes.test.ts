@@ -676,7 +676,7 @@ describe("scripts/changed-lanes", () => {
       "apps/ios/Config/Version.xcconfig",
       "apps/ios/fastlane/metadata/en-US/release_notes.txt",
       "apps/ios/version.json",
-      "apps/macos/Sources/Brikko Studio/Resources/Info.plist",
+      "apps/macos/Sources/BrikkoStudio/Resources/Info.plist",
       "docs/.generated/config-baseline.sha256",
       "package.json",
       "src/config/schema.base.generated.ts",

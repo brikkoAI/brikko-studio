@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { AuthProfileStore } from "../../agents/auth-profiles.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 
 let mockStore: AuthProfileStore;
 let mockOrder: string[];
@@ -9,7 +9,7 @@ const resolveEnvApiKeyMock = vi.hoisted(() =>
     (
       _provider?: string,
       _env?: NodeJS.ProcessEnv,
-      _options?: { config?: Brikko StudioConfig; workspaceDir?: string },
+      _options?: { config?: BrikkoStudioConfig; workspaceDir?: string },
     ) => null as { apiKey: string; source: string } | null,
   ),
 );
@@ -51,7 +51,7 @@ vi.mock("../../agents/model-auth.js", () => ({
   resolveEnvApiKey: (
     provider?: string,
     env?: NodeJS.ProcessEnv,
-    options?: { config?: Brikko StudioConfig; workspaceDir?: string },
+    options?: { config?: BrikkoStudioConfig; workspaceDir?: string },
   ) => resolveEnvApiKeyMock(provider, env, options),
 }));
 
@@ -72,7 +72,7 @@ async function resolveRefOnlyAuthLabel(params: {
 
   return resolveAuthLabel(
     params.provider,
-    {} as Brikko StudioConfig,
+    {} as BrikkoStudioConfig,
     "/tmp/models.json",
     undefined,
     params.mode,
@@ -129,7 +129,7 @@ describe("resolveAuthLabel ref-aware labels", () => {
   });
 
   it("passes workspace scope to env auth labels", async () => {
-    const cfg = { plugins: { allow: ["workspace-auth-label"] } } as Brikko StudioConfig;
+    const cfg = { plugins: { allow: ["workspace-auth-label"] } } as BrikkoStudioConfig;
     resolveEnvApiKeyMock.mockReturnValue({
       apiKey: "workspace-local-credentials",
       source: "workspace credentials",

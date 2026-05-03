@@ -1,5 +1,5 @@
 import { normalizeProviderId } from "../agents/model-selection.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { isBlockedObjectKey } from "../infra/prototype-keys.js";
 import { resolvePluginCapabilityProviders } from "../plugins/capability-provider-runtime.js";
 import type { VideoGenerationProviderPlugin } from "../plugins/types.js";
@@ -20,7 +20,7 @@ function isSafeVideoGenerationProviderId(id: string | undefined): id is string {
 }
 
 function resolvePluginVideoGenerationProviders(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): VideoGenerationProviderPlugin[] {
   return resolvePluginCapabilityProviders({
     key: "videoGenerationProviders",
@@ -28,7 +28,7 @@ function resolvePluginVideoGenerationProviders(
   });
 }
 
-function buildProviderMaps(cfg?: Brikko StudioConfig): {
+function buildProviderMaps(cfg?: BrikkoStudioConfig): {
   canonical: Map<string, VideoGenerationProviderPlugin>;
   aliases: Map<string, VideoGenerationProviderPlugin>;
 } {
@@ -60,14 +60,14 @@ function buildProviderMaps(cfg?: Brikko StudioConfig): {
 }
 
 export function listVideoGenerationProviders(
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): VideoGenerationProviderPlugin[] {
   return [...buildProviderMaps(cfg).canonical.values()];
 }
 
 export function getVideoGenerationProvider(
   providerId: string | undefined,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): VideoGenerationProviderPlugin | undefined {
   const normalized = normalizeVideoGenerationProviderId(providerId);
   if (!normalized) {

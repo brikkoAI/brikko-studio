@@ -1,6 +1,6 @@
 import { installedPluginRoot } from "brikko-studio/plugin-sdk/test-fixtures";
 import { beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   applyPluginUninstallDirectoryRemoval,
   buildPluginDiagnosticsReport,
@@ -46,14 +46,14 @@ describe("plugins cli uninstall", () => {
           contextEngine: "alpha",
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
     buildPluginSnapshotReport.mockReturnValue({
       plugins: [{ id: "alpha", name: "alpha" }],
       diagnostics: [],
     });
     planPluginUninstall.mockReturnValue({
       ok: true,
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       actions: {
         entry: true,
         install: true,
@@ -92,13 +92,13 @@ describe("plugins cli uninstall", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const nextConfig = {
       plugins: {
         entries: {},
         installs: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     setInstalledPluginIndexInstallRecords(baseConfig.plugins?.installs ?? {});
@@ -163,13 +163,13 @@ describe("plugins cli uninstall", () => {
         },
         installs: installRecords,
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const nextConfig = {
       plugins: {
         entries: {},
         installs: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     setInstalledPluginIndexInstallRecords(installRecords);
@@ -222,13 +222,13 @@ describe("plugins cli uninstall", () => {
         },
         installs: installRecords,
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const nextConfig = {
       plugins: {
         entries: {},
         installs: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     setInstalledPluginIndexInstallRecords(installRecords);
@@ -277,12 +277,12 @@ describe("plugins cli uninstall", () => {
         allow: ["alpha", "beta"],
         deny: ["alpha"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const nextConfig = {
       plugins: {
         allow: ["beta"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     buildPluginSnapshotReport.mockReturnValue({
@@ -325,8 +325,8 @@ describe("plugins cli uninstall", () => {
           alpha: { enabled: true },
         },
       },
-    } as Brikko StudioConfig;
-    const nextConfig = {} as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
+    const nextConfig = {} as BrikkoStudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     buildPluginSnapshotReport.mockReturnValue({
@@ -391,14 +391,14 @@ describe("plugins cli uninstall", () => {
           enabled: true,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const nextConfig = {
       channels: {
         discord: {
           enabled: true,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     setInstalledPluginIndexInstallRecords(installRecords);
@@ -444,7 +444,7 @@ describe("plugins cli uninstall", () => {
         entries: {},
         installs: {},
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
     buildPluginSnapshotReport.mockReturnValue({
       plugins: [{ id: "alpha", name: "alpha" }],
       diagnostics: [],

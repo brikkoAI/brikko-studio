@@ -1,5 +1,5 @@
 import { describeAccountSnapshot } from "brikko-studio/plugin-sdk/account-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { patchTopLevelChannelConfigSection } from "brikko-studio/plugin-sdk/setup";
 import {
   createDelegatedSetupWizardProxy,
@@ -36,13 +36,13 @@ type ResolvedNostrSetupAccount = {
   config: NostrAccountConfig;
 };
 
-function getNostrConfig(cfg: Brikko StudioConfig): NostrAccountConfig | undefined {
+function getNostrConfig(cfg: BrikkoStudioConfig): NostrAccountConfig | undefined {
   return (cfg.channels as Record<string, unknown> | undefined)?.nostr as
     | NostrAccountConfig
     | undefined;
 }
 
-function listSetupNostrAccountIds(cfg: Brikko StudioConfig): string[] {
+function listSetupNostrAccountIds(cfg: BrikkoStudioConfig): string[] {
   const nostrCfg = getNostrConfig(cfg);
   const privateKey = typeof nostrCfg?.privateKey === "string" ? nostrCfg.privateKey.trim() : "";
   if (!privateKey) {
@@ -51,7 +51,7 @@ function listSetupNostrAccountIds(cfg: Brikko StudioConfig): string[] {
   return [resolveDefaultSetupNostrAccountId(cfg)];
 }
 
-function resolveDefaultSetupNostrAccountId(cfg: Brikko StudioConfig): string {
+function resolveDefaultSetupNostrAccountId(cfg: BrikkoStudioConfig): string {
   const configured = getNostrConfig(cfg)?.defaultAccount;
   return typeof configured === "string" && configured.trim()
     ? configured.trim()
@@ -59,7 +59,7 @@ function resolveDefaultSetupNostrAccountId(cfg: Brikko StudioConfig): string {
 }
 
 function resolveSetupNostrAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): ResolvedNostrSetupAccount {
   const nostrCfg = getNostrConfig(params.cfg);

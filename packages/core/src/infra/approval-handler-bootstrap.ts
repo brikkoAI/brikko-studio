@@ -1,7 +1,7 @@
 import { resolveChannelApprovalCapability } from "../channels/plugins/approvals.js";
 import type { ChannelRuntimeSurface } from "../channels/plugins/channel-runtime-surface.types.js";
 import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import {
   CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY,
@@ -19,7 +19,7 @@ const APPROVAL_HANDLER_BOOTSTRAP_RETRY_MS = 1_000;
 
 export async function startChannelApprovalHandlerBootstrap(params: {
   plugin: Pick<ChannelPlugin, "id" | "meta" | "approvalCapability">;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   channelRuntime?: ChannelRuntimeSurface;
   logger?: ReturnType<typeof createSubsystemLogger>;

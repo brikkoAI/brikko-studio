@@ -1,4 +1,4 @@
-import type { ChannelSetupAdapter, Brikko StudioConfig } from "brikko-studio/plugin-sdk/setup";
+import type { ChannelSetupAdapter, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/setup";
 import { createSetupInputPresenceValidator } from "brikko-studio/plugin-sdk/setup";
 import { hasLineCredentials, parseLineAllowFromId } from "./account-helpers.js";
 import {
@@ -10,12 +10,12 @@ import {
 } from "./setup-runtime-api.js";
 
 export function patchLineAccountConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   patch: Record<string, unknown>;
   clearFields?: string[];
   enabled?: boolean;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const accountId = normalizeAccountId(params.accountId);
   const lineConfig = (params.cfg.channels?.line ?? {}) as LineConfig;
   const clearFields = params.clearFields ?? [];
@@ -65,7 +65,7 @@ export function patchLineAccountConfig(params: {
   };
 }
 
-export function isLineConfigured(cfg: Brikko StudioConfig, accountId: string): boolean {
+export function isLineConfigured(cfg: BrikkoStudioConfig, accountId: string): boolean {
   return hasLineCredentials(resolveLineAccount({ cfg, accountId }));
 }
 

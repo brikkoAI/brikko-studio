@@ -1,6 +1,6 @@
-import { describeBrikko StudioGenerationToolRegistration } from "./brikko-studio-tools.generation.test-support.js";
+import { describeBrikkoStudioGenerationToolRegistration } from "./brikko-studio-tools.generation.test-support.js";
 
-describeBrikko StudioGenerationToolRegistration({
+describeBrikkoStudioGenerationToolRegistration({
   suiteName: "brikko-studio tools video generation registration",
   toolName: "video_generate",
   toolLabel: "a video-generation tool",

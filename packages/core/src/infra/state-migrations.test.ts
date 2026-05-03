@@ -2,7 +2,7 @@ import fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveChannelAllowFromPath } from "../pairing/pairing-store.js";
 import { createTrackedTempDirs } from "../test-utils/tracked-temp-dirs.js";
 import { detectLegacyStateMigrations, runLegacyStateMigrations } from "./state-migrations.js";
@@ -16,7 +16,7 @@ vi.mock("../channels/plugins/bundled.js", () => {
     }
   }
 
-  function resolveChatAppAccountId(cfg: Brikko StudioConfig): string {
+  function resolveChatAppAccountId(cfg: BrikkoStudioConfig): string {
     const channel = (cfg.channels as Record<string, { defaultAccount?: string }> | undefined)
       ?.chatapp;
     return channel?.defaultAccount ?? "default";
@@ -58,7 +58,7 @@ vi.mock("../channels/plugins/bundled.js", () => {
               ];
         });
       },
-      ({ cfg, env }: { cfg: Brikko StudioConfig; env: NodeJS.ProcessEnv }) => {
+      ({ cfg, env }: { cfg: BrikkoStudioConfig; env: NodeJS.ProcessEnv }) => {
         const root = env.BRIKKO_STUDIO_STATE_DIR;
         if (!root) {
           return [];
@@ -80,7 +80,7 @@ vi.mock("../channels/plugins/bundled.js", () => {
 const tempDirs = createTrackedTempDirs();
 const createTempDir = () => tempDirs.make("brikko-studio-state-migrations-test-");
 
-function createConfig(): Brikko StudioConfig {
+function createConfig(): BrikkoStudioConfig {
   return {
     agents: {
       list: [{ id: "worker-1", default: true }],
@@ -97,7 +97,7 @@ function createConfig(): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createEnv(stateDir: string): NodeJS.ProcessEnv {

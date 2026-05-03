@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { SecretRef } from "../../config/types.secrets.js";
 
 export type OAuthProvider = string;
@@ -32,7 +32,7 @@ export type ApiKeyCredential = {
 export type TokenCredential = {
   /**
    * Static bearer-style token (often OAuth access token / PAT).
-   * Not refreshable by Brikko Studio (unlike `type: "oauth"`).
+   * Not refreshable by BrikkoStudio (unlike `type: "oauth"`).
    */
   type: "token";
   provider: string;
@@ -113,7 +113,7 @@ export type AuthProfileStateStore = {
 export type AuthProfileStore = AuthProfileSecretsStore & AuthProfileState;
 
 export type AuthProfileIdRepairResult = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
   migrated: boolean;
   fromProfileId?: string;

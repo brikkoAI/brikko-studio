@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { configureTaskRegistryRuntime } from "../../tasks/task-registry.store.js";
 import type { MsgContext } from "../templating.js";
 import { buildCommandContext } from "./commands-context.js";
@@ -9,11 +9,11 @@ export const baseCommandTestConfig = {
   commands: { text: true },
   channels: { whatsapp: { allowFrom: ["*"] } },
   session: { mainKey: "main", scope: "per-sender" },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 export function buildCommandTestParams(
   commandBody: string,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   ctxOverrides?: Partial<MsgContext>,
   options?: {
     workspaceDir?: string;
@@ -78,7 +78,7 @@ export function configureInMemoryTaskRegistryStoreForTests(): void {
 
 export function buildPluginsCommandParams(params: {
   commandBodyNormalized: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   workspaceDir?: string;
   gatewayClientScopes?: string[];
 }): HandleCommandsParams {
@@ -92,7 +92,7 @@ export function buildPluginsCommandParams(params: {
           plugins: true,
         },
         plugins: { enabled: true },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ctx: {
       Provider: "whatsapp",
       Surface: "whatsapp",

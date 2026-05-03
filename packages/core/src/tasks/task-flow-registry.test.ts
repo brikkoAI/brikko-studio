@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
+import { withBrikkoStudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import {
   createFlowRecord,
   createTaskFlowForTask,
@@ -18,7 +18,7 @@ import {
 import { configureTaskFlowRegistryRuntime } from "./task-flow-registry.store.js";
 
 async function withFlowRegistryTempDir<T>(run: (root: string) => Promise<T>): Promise<T> {
-  return await withBrikko StudioTestState(
+  return await withBrikkoStudioTestState(
     { layout: "state-only", prefix: "brikko-studio-task-flow-registry-" },
     async (state) => {
       resetTaskFlowRegistryForTests();

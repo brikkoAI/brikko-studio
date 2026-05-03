@@ -143,7 +143,7 @@ export class CodexAppServerClient {
     const response = await this.request("initialize", {
       clientInfo: {
         name: "brikko-studio",
-        title: "Brikko Studio",
+        title: "BrikkoStudio",
         version: BRIKKO_STUDIO_VERSION,
       },
       capabilities: {
@@ -478,7 +478,7 @@ function defaultServerRequestResponse(
       contentItems: [
         {
           type: "inputText",
-          text: "Brikko Studio did not register a handler for this app-server tool call.",
+          text: "BrikkoStudio did not register a handler for this app-server tool call.",
         },
       ],
       success: false,
@@ -496,7 +496,7 @@ function defaultServerRequestResponse(
   if (isCodexAppServerApprovalRequest(request.method)) {
     return {
       decision: "decline",
-      reason: "Brikko Studio codex app-server bridge does not grant native approvals yet.",
+      reason: "BrikkoStudio codex app-server bridge does not grant native approvals yet.",
     };
   }
   if (request.method === "item/tool/requestUserInput") {
@@ -522,7 +522,7 @@ function timeoutServerRequestResponse(
     contentItems: [
       {
         type: "inputText",
-        text: `Brikko Studio dynamic tool call timed out after ${CODEX_DYNAMIC_TOOL_SERVER_REQUEST_TIMEOUT_MS}ms before sending a response to Codex.`,
+        text: `BrikkoStudio dynamic tool call timed out after ${CODEX_DYNAMIC_TOOL_SERVER_REQUEST_TIMEOUT_MS}ms before sending a response to Codex.`,
       },
     ],
     success: false,
@@ -533,7 +533,7 @@ function assertSupportedCodexAppServerVersion(response: CodexInitializeResponse)
   const detectedVersion = readCodexVersionFromUserAgent(response.userAgent);
   if (!detectedVersion) {
     throw new Error(
-      `Codex app-server ${MIN_CODEX_APP_SERVER_VERSION} or newer is required, but Brikko Studio could not determine the running Codex version. Update the configured Codex app-server binary, or remove custom command overrides to use the managed binary.`,
+      `Codex app-server ${MIN_CODEX_APP_SERVER_VERSION} or newer is required, but BrikkoStudio could not determine the running Codex version. Update the configured Codex app-server binary, or remove custom command overrides to use the managed binary.`,
     );
   }
   if (compareVersions(detectedVersion, MIN_CODEX_APP_SERVER_VERSION) < 0) {
@@ -545,7 +545,7 @@ function assertSupportedCodexAppServerVersion(response: CodexInitializeResponse)
 
 export function readCodexVersionFromUserAgent(userAgent: string | undefined): string | undefined {
   // Codex returns `<originator>/<codex-version> ...`; the originator can be
-  // Brikko Studio, Codex Desktop, or an env override, so only the slash-delimited
+  // BrikkoStudio, Codex Desktop, or an env override, so only the slash-delimited
   // version in the leading product field is stable.
   const match = userAgent?.match(
     /^[^/]+\/(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)(?:[\s(]|$)/,

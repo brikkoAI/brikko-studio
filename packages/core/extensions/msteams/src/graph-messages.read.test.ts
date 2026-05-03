@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import {
   CHANNEL_TO,
   CHAT_ID,
@@ -34,7 +34,7 @@ describe("getMessageMSTeams", () => {
     });
 
     await getMessageMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: "user:aad-object-id-123",
       messageId: "msg-1",
     });
@@ -58,7 +58,7 @@ describe("getMessageMSTeams", () => {
     });
 
     await getMessageMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: "user:aad-id",
       messageId: "msg-1",
     });
@@ -74,7 +74,7 @@ describe("getMessageMSTeams", () => {
 
     await expect(
       getMessageMSTeams({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         to: "user:unknown-user",
         messageId: "msg-1",
       }),
@@ -89,7 +89,7 @@ describe("getMessageMSTeams", () => {
 
     await expect(
       getMessageMSTeams({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         to: "user:some-user",
         messageId: "msg-1",
       }),
@@ -105,7 +105,7 @@ describe("getMessageMSTeams", () => {
     });
 
     await getMessageMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: `conversation:${CHAT_ID}`,
       messageId: "msg-1",
     });
@@ -125,7 +125,7 @@ describe("getMessageMSTeams", () => {
     });
 
     const result = await getMessageMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       messageId: "msg-1",
     });
@@ -151,7 +151,7 @@ describe("getMessageMSTeams", () => {
     });
 
     const result = await getMessageMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHANNEL_TO,
       messageId: "msg-2",
     });
@@ -185,7 +185,7 @@ describe("listPinsMSTeams", () => {
     });
 
     const result = await listPinsMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
     });
 
@@ -203,7 +203,7 @@ describe("listPinsMSTeams", () => {
     mockState.fetchGraphJson.mockResolvedValue({ value: [] });
 
     const result = await listPinsMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
     });
 
@@ -221,7 +221,7 @@ describe("listPinsMSTeams", () => {
     });
 
     const result = await listPinsMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
     });
 
@@ -252,7 +252,7 @@ describe("listPinsMSTeams", () => {
     }
 
     const result = await listPinsMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
     });
 
@@ -263,7 +263,7 @@ describe("listPinsMSTeams", () => {
   it("throws for channel list-pins (not supported on Graph v1.0)", async () => {
     await expect(
       listPinsMSTeams({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         to: CHANNEL_TO,
       }),
     ).rejects.toThrow("not supported for channels");
@@ -283,7 +283,7 @@ describe("listReactionsMSTeams", () => {
     });
 
     const result = await listReactionsMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       messageId: "msg-1",
     });
@@ -316,7 +316,7 @@ describe("listReactionsMSTeams", () => {
     });
 
     const result = await listReactionsMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       messageId: "msg-1",
     });
@@ -338,7 +338,7 @@ describe("listReactionsMSTeams", () => {
     });
 
     const result = await listReactionsMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHAT_ID,
       messageId: "msg-1",
     });
@@ -369,7 +369,7 @@ describe("listReactionsMSTeams", () => {
     });
 
     const result = await listReactionsMSTeams({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       to: CHANNEL_TO,
       messageId: "msg-2",
     });

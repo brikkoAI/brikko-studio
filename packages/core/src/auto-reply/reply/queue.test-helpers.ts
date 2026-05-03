@@ -1,5 +1,5 @@
 import { afterAll, beforeAll } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { defaultRuntime } from "../../runtime.js";
 import type { FollowupRun } from "./queue.js";
 
@@ -35,7 +35,7 @@ export function createQueueTestRun(params: {
       sessionId: "sess",
       sessionFile: "/tmp/session.json",
       workspaceDir: "/tmp",
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       provider: "openai",
       model: "gpt-test",
       timeoutMs: 10_000,

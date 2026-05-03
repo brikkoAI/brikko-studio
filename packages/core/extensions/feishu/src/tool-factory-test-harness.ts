@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "../runtime-api.js";
+import type { BrikkoStudioPluginApi } from "../runtime-api.js";
 
 type ToolContextLike = {
   agentAccountId?: string;
@@ -37,10 +37,10 @@ function asToolLike(tool: unknown, fallbackName?: string): ToolLike {
   };
 }
 
-export function createToolFactoryHarness(cfg: Brikko StudioPluginApi["config"]) {
+export function createToolFactoryHarness(cfg: BrikkoStudioPluginApi["config"]) {
   const registered: RegisteredTool[] = [];
 
-  const api: Pick<Brikko StudioPluginApi, "config" | "logger" | "registerTool"> = {
+  const api: Pick<BrikkoStudioPluginApi, "config" | "logger" | "registerTool"> = {
     config: cfg,
     logger: {
       info: () => {},
@@ -73,7 +73,7 @@ export function createToolFactoryHarness(cfg: Brikko StudioPluginApi["config"]) 
   };
 
   return {
-    api: api as Brikko StudioPluginApi,
+    api: api as BrikkoStudioPluginApi,
     resolveTool,
   };
 }

@@ -12,7 +12,7 @@ import {
   resolveAgentDir,
   resolveSessionTranscriptsDirForAgent,
   resolveUserPath,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type ResolvedMemorySearchConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import {
@@ -141,7 +141,7 @@ export function runDetachedMemorySync(sync: () => Promise<void>, reason: "interv
 }
 
 export abstract class MemoryManagerSyncOps {
-  protected abstract readonly cfg: Brikko StudioConfig;
+  protected abstract readonly cfg: BrikkoStudioConfig;
   protected abstract readonly agentId: string;
   protected abstract readonly workspaceDir: string;
   protected abstract readonly settings: ResolvedMemorySearchConfig;

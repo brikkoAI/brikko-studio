@@ -1,5 +1,5 @@
 import { ChannelType } from "discord-api-types/v10";
-import type { DiscordAccountConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { DiscordAccountConfig, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { buildPluginBindingApprovalCustomId } from "brikko-studio/plugin-sdk/conversation-runtime";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { type DiscordComponentEntry, type DiscordModalEntry } from "../components.js";
@@ -52,14 +52,14 @@ function getLastRecordedCtx(): Record<string, unknown> | undefined {
 
 describe("discord component interactions", () => {
   let editDiscordComponentMessageMock: ReturnType<typeof vi.spyOn>;
-  const createCfg = (): Brikko StudioConfig =>
+  const createCfg = (): BrikkoStudioConfig =>
     ({
       channels: {
         discord: {
           replyToMode: "first",
         },
       },
-    }) as Brikko StudioConfig;
+    }) as BrikkoStudioConfig;
 
   const createDiscordConfig = (overrides?: Partial<DiscordAccountConfig>): DiscordAccountConfig =>
     ({
@@ -190,7 +190,7 @@ describe("discord component interactions", () => {
         cfg: {
           commands: { useAccessGroups: true },
           channels: { discord: { replyToMode: "first" } },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         allowFrom,
       }),
     );
@@ -418,7 +418,7 @@ describe("discord component interactions", () => {
       createComponentContext({
         cfg: {
           channels: { discord: { replyToMode: "first", groupPolicy: "allowlist" } },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         discordConfig: createDiscordConfig({ groupPolicy: "allowlist" }),
         guildEntries: {},
       }),
@@ -490,7 +490,7 @@ describe("discord component interactions", () => {
       createComponentContext({
         cfg: {
           channels: { discord: { replyToMode: "first", groupPolicy: "allowlist" } },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         discordConfig: createDiscordConfig({ groupPolicy: "allowlist" }),
         guildEntries: params.guildEntries,
       }),
@@ -532,7 +532,7 @@ describe("discord component interactions", () => {
         cfg: {
           commands: { useAccessGroups: true },
           channels: { discord: { replyToMode: "first" } },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         allowFrom: params.allowFrom,
       }),
     );

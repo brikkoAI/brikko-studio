@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { appendFileSync, mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import { performance } from "node:perf_hooks";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isDiagnosticFlagEnabled } from "./diagnostic-flags.js";
 import { isTruthyEnvValue } from "./env.js";
 
@@ -50,12 +50,12 @@ type DiagnosticsTimelineSpanOptions = {
   phase?: string;
   parentSpanId?: string;
   attributes?: DiagnosticsTimelineAttributes;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 };
 
 type DiagnosticsTimelineOptions = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 };
 

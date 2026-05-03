@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { sendMessage } from "./client.js";
 import type { SynologyInboundMessage } from "./inbound-context.js";
 import { getSynologyRuntime } from "./runtime.js";
@@ -12,7 +12,7 @@ type SynologyChannelLog = {
 };
 
 function resolveSynologyChatInboundRoute(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedSynologyChatAccount;
   userId: string;
 }) {
@@ -61,7 +61,7 @@ export async function dispatchSynologyChatInboundTurn(params: {
   log?: SynologyChannelLog;
 }): Promise<null> {
   const rt = getSynologyRuntime();
-  const currentCfg = rt.config.current() as Brikko StudioConfig;
+  const currentCfg = rt.config.current() as BrikkoStudioConfig;
 
   // The Chat API user_id (for sending) may differ from the webhook
   // user_id (used for sessions/pairing). Use chatUserId for API calls.

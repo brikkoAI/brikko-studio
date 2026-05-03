@@ -1,6 +1,6 @@
 import {
   type ChannelSetupWizard,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type WizardPrompter,
 } from "brikko-studio/plugin-sdk/setup-runtime";
 import { formatDocsLink } from "brikko-studio/plugin-sdk/setup-tools";
@@ -44,10 +44,10 @@ async function resolveDiscordAllowFromEntries(params: { token?: string; entries:
 }
 
 async function promptDiscordAllowFrom(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   return await promptLegacyChannelAllowFromForAccount({
     cfg: params.cfg,
     channel,
@@ -88,7 +88,7 @@ async function promptDiscordAllowFrom(params: {
 }
 
 async function resolveDiscordGroupAllowlist(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   credentialValues: { token?: string };
   entries: string[];

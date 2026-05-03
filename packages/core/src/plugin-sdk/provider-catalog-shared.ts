@@ -6,7 +6,7 @@
 import { resolveProviderRequestCapabilities } from "../agents/provider-attribution.js";
 import { findNormalizedProviderKey } from "../agents/provider-id.js";
 import type { ModelDefinitionConfig } from "../config/types.models.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeModelCatalog } from "../model-catalog/normalize.js";
 import type {
   ModelCatalogCost,
@@ -140,7 +140,7 @@ function normalizeConfiguredCatalogModelInput(
 }
 
 function resolveConfiguredProviderModels(
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
   providerId: string,
 ): ModelDefinitionConfig[] {
   const providers = config?.models?.providers;
@@ -159,7 +159,7 @@ function resolveConfiguredProviderModels(
 }
 
 export function readConfiguredProviderCatalogEntries(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   providerId: string;
   publishedProviderId?: string;
 }): ConfiguredProviderCatalogEntry[] {

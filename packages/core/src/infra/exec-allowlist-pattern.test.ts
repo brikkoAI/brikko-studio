@@ -25,7 +25,7 @@ describe("matchesExecAllowlistPattern", () => {
   });
 
   it("expands home-prefix patterns", () => {
-    const prevBrikko StudioHome = process.env.BRIKKO_STUDIO_HOME;
+    const prevBrikkoStudioHome = process.env.BRIKKO_STUDIO_HOME;
     const prevHome = process.env.HOME;
     process.env.BRIKKO_STUDIO_HOME = "/srv/brikko-studio-home";
     process.env.HOME = "/home/other";
@@ -35,10 +35,10 @@ describe("matchesExecAllowlistPattern", () => {
       expect(matchesExecAllowlistPattern("~/bin/tool", openClawHome)).toBe(true);
       expect(matchesExecAllowlistPattern("~/bin/tool", fallbackHome)).toBe(false);
     } finally {
-      if (prevBrikko StudioHome === undefined) {
+      if (prevBrikkoStudioHome === undefined) {
         delete process.env.BRIKKO_STUDIO_HOME;
       } else {
-        process.env.BRIKKO_STUDIO_HOME = prevBrikko StudioHome;
+        process.env.BRIKKO_STUDIO_HOME = prevBrikkoStudioHome;
       }
       if (prevHome === undefined) {
         delete process.env.HOME;

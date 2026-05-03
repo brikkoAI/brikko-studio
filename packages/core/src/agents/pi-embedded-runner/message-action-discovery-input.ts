@@ -1,7 +1,7 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
 export function buildEmbeddedMessageActionDiscoveryInput(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   channel: string;
   currentChannelId?: string | null;
   currentThreadTs?: string | null;

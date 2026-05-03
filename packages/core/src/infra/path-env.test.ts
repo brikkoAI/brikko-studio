@@ -1,6 +1,6 @@
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ensureBrikko StudioCliOnPath } from "./path-env.js";
+import { ensureBrikkoStudioCliOnPath } from "./path-env.js";
 
 const state = vi.hoisted(() => ({
   dirs: new Set<string>(),
@@ -44,7 +44,7 @@ vi.mock("./env.js", () => ({
   isTruthyEnvValue: (value?: string) => value === "1" || value === "true",
 }));
 
-describe("ensureBrikko StudioCliOnPath", () => {
+describe("ensureBrikkoStudioCliOnPath", () => {
   const envKeys = [
     "PATH",
     "BRIKKO_STUDIO_PATH_BOOTSTRAPPED",
@@ -94,7 +94,7 @@ describe("ensureBrikko StudioCliOnPath", () => {
     platform: NodeJS.Platform;
     allowProjectLocalBin?: boolean;
   }) {
-    ensureBrikko StudioCliOnPath(params);
+    ensureBrikkoStudioCliOnPath(params);
     return (process.env.PATH ?? "").split(path.delimiter);
   }
 
@@ -154,7 +154,7 @@ describe("ensureBrikko StudioCliOnPath", () => {
   it("is idempotent", () => {
     process.env.PATH = "/bin";
     process.env.BRIKKO_STUDIO_PATH_BOOTSTRAPPED = "1";
-    ensureBrikko StudioCliOnPath({
+    ensureBrikkoStudioCliOnPath({
       execPath: "/tmp/does-not-matter",
       cwd: "/tmp",
       homeDir: "/tmp",

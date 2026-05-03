@@ -17,7 +17,7 @@ import type { ResolvedMattermostAccount } from "./accounts.js";
 import {
   isRequestBodyLimitError,
   readRequestBodyWithLimit,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
 } from "./runtime-api.js";
 import {
   normalizeSlashCommandTrigger,
@@ -157,7 +157,7 @@ export function activateSlashCommands(params: {
   registeredCommands: MattermostRegisteredCommand[];
   triggerMap?: Map<string, string>;
   api: {
-    cfg: import("./runtime-api.js").Brikko StudioConfig;
+    cfg: import("./runtime-api.js").BrikkoStudioConfig;
     runtime: import("./runtime-api.js").RuntimeEnv;
   };
   log?: (msg: string) => void;
@@ -223,7 +223,7 @@ export function deactivateSlashCommands(accountId?: string) {
  * to registered team/trigger ownership so upstream validation can accept a
  * rotated Mattermost token.
  */
-export function registerSlashCommandRoute(api: Brikko StudioPluginApi) {
+export function registerSlashCommandRoute(api: BrikkoStudioPluginApi) {
   const mmConfig = api.config.channels?.mattermost as MattermostConfig | undefined;
 
   // Collect callback paths from both top-level and per-account config.

@@ -10,7 +10,7 @@ import {
   hasBundledPluginContractSnapshotCapabilities,
 } from "./contracts/inventory/bundled-capability-metadata.js";
 import { pluginTestRepoRoot as repoRoot } from "./generated-plugin-test-helpers.js";
-import type { Brikko StudioPackageManifest } from "./manifest.js";
+import type { BrikkoStudioPackageManifest } from "./manifest.js";
 import type { PluginManifest } from "./manifest.js";
 
 function readManifestRecords(): PluginManifest[] {
@@ -25,7 +25,7 @@ function readManifestRecords(): PluginManifest[] {
         return false;
       }
       const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf-8")) as {
-        brikko-studio?: Brikko StudioPackageManifest;
+        brikko-studio?: BrikkoStudioPackageManifest;
       };
       return normalizeBundledPluginStringList(packageJson.brikko-studio?.extensions).length > 0;
     })

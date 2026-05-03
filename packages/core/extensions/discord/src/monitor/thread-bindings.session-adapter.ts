@@ -4,7 +4,7 @@ import {
   type SessionBindingAdapter,
   type SessionBindingRecord,
 } from "brikko-studio/plugin-sdk/conversation-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveDiscordChannelId } from "../target-parsing.js";
 import { resolveChannelIdForBinding } from "./thread-bindings.discord-api.js";
@@ -111,7 +111,7 @@ export function createThreadBindingSessionAdapter(params: {
   accountId: string;
   manager: ThreadBindingManager;
   defaults: ThreadBindingDefaults;
-  resolveCurrentCfg: () => Brikko StudioConfig;
+  resolveCurrentCfg: () => BrikkoStudioConfig;
   resolveCurrentToken: () => string | undefined;
 }): SessionBindingAdapter {
   const toRecord = (entry: ThreadBindingRecord) => toSessionBindingRecord(entry, params.defaults);

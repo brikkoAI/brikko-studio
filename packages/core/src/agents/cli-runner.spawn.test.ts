@@ -217,7 +217,7 @@ describe("runCliAgent spawn path", () => {
     expect(allArgs).toContain("You are a helpful assistant.");
   });
 
-  it("includes the Brikko Studio skills prompt in CLI system prompts", () => {
+  it("includes the BrikkoStudio skills prompt in CLI system prompts", () => {
     const systemPrompt = buildSystemPrompt({
       workspaceDir: "/tmp",
       modelDisplay: "claude-cli/sonnet",
@@ -329,7 +329,7 @@ describe("runCliAgent spawn path", () => {
     expect(input.argv).not.toContain("hi");
   });
 
-  it("passes Brikko Studio skills to Claude as a session plugin", async () => {
+  it("passes BrikkoStudio skills to Claude as a session plugin", async () => {
     const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-cli-skills-"));
     const skillDir = path.join(workspaceDir, "skills", "weather");
     await fs.mkdir(skillDir, { recursive: true });

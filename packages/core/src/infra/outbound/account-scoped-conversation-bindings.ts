@@ -3,7 +3,7 @@ import {
   resolveThreadBindingIdleTimeoutMsForChannel,
   resolveThreadBindingMaxAgeMsForChannel,
 } from "../../channels/thread-bindings-policy.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeAccountId, resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
 import {
   registerSessionBindingAdapter,
@@ -117,7 +117,7 @@ function toSessionBindingRecord<TKind extends string>(params: {
 
 export function createAccountScopedConversationBindingManager<TKind extends string>(params: {
   channel: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   stateKey: symbol;
   accountId?: string | null;
   toStoredTargetKind: (raw: BindingTargetKind) => TKind;

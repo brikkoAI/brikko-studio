@@ -1,7 +1,7 @@
 import {
   normalizeAccountId,
   resolveAccountEntry,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/account-core";
 import type { TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 
@@ -45,7 +45,7 @@ function resolveMergedAllowFrom(params: {
 }
 
 export function resolveTelegramAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): TelegramAccountConfig | undefined {
   const normalized = normalizeAccountId(accountId);
@@ -53,7 +53,7 @@ export function resolveTelegramAccountConfig(
 }
 
 export function mergeTelegramAccountConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): TelegramAccountConfig {
   const {

@@ -8,7 +8,7 @@ import {
   type ChannelSetupAdapter,
   type ChannelSetupInput,
   type ChannelSetupWizard,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/setup";
 import {
   normalizeOptionalString,
@@ -31,11 +31,11 @@ function isConfigured(account: TlonResolvedAccount): boolean {
 
 type TlonSetupWizardBaseParams = {
   resolveConfigured: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string;
   }) => boolean | Promise<boolean>;
   resolveStatusLines?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string;
     configured: boolean;
   }) => string[] | Promise<string[]>;
@@ -125,7 +125,7 @@ export function createTlonSetupWizardBase(params: TlonSetupWizardBaseParams): Ch
 }
 
 export async function resolveTlonSetupConfigured(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string,
 ): Promise<boolean> {
   if (accountId) {
@@ -140,7 +140,7 @@ export async function resolveTlonSetupConfigured(
 }
 
 export async function resolveTlonSetupStatusLines(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string,
 ): Promise<string[]> {
   const configured = await resolveTlonSetupConfigured(cfg, accountId);
@@ -149,10 +149,10 @@ export async function resolveTlonSetupStatusLines(
 }
 
 export function applyTlonSetupConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   input: TlonSetupInput;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const { cfg, accountId, input } = params;
   const useDefault = accountId === DEFAULT_ACCOUNT_ID;
   const namedConfig = prepareScopedSetupConfig({

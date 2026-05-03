@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { collectCodexNativeAssetWarnings, scanCodexNativeAssets } from "./codex-native-assets.js";
 
 const tempRoots = new Set<string>();
@@ -18,7 +18,7 @@ async function writeFile(filePath: string, content = ""): Promise<void> {
   await fs.writeFile(filePath, content, "utf8");
 }
 
-function codexConfig(): Brikko StudioConfig {
+function codexConfig(): BrikkoStudioConfig {
   return {
     plugins: {
       entries: {
@@ -32,7 +32,7 @@ function codexConfig(): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 afterEach(async () => {
@@ -104,7 +104,7 @@ describe("scanCodexNativeAssets", () => {
 
     await expect(
       scanCodexNativeAssets({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         env: { CODEX_HOME: codexHome, HOME: root },
       }),
     ).resolves.toEqual([]);

@@ -12,7 +12,7 @@ import {
   resolveAgentMainSessionKey,
   resolveMainSessionKey,
 } from "../../config/sessions/main-session.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { TtsAutoMode } from "../../config/types.tts.js";
 import { sleepWithAbort } from "../../infra/backoff.js";
 import { formatErrorMessage } from "../../infra/errors.js";
@@ -102,8 +102,8 @@ export function resolveCronDeliveryBestEffort(job: CronJob): boolean {
 export type SuccessfulDeliveryTarget = Extract<DeliveryTargetResolution, { ok: true }>;
 
 type DispatchCronDeliveryParams = {
-  cfg: Brikko StudioConfig;
-  cfgWithAgentDefaults: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  cfgWithAgentDefaults: BrikkoStudioConfig;
   deps: CliDeps;
   job: CronJob;
   agentId: string;
@@ -310,7 +310,7 @@ function getCompletedDirectCronDelivery(
 }
 
 async function maybeApplyTtsToCronPayloads(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   payloads: ReplyPayload[];
   delivery: SuccessfulDeliveryTarget;
   agentId: string;
@@ -373,7 +373,7 @@ function shouldQueueCronAwareness(params: {
 }
 
 function resolveCronAwarenessMainSessionKey(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
 }): string {
   return params.cfg.session?.scope === "global"
@@ -382,7 +382,7 @@ function resolveCronAwarenessMainSessionKey(params: {
 }
 
 async function queueCronAwarenessSystemEvent(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   jobId: string;
   agentId: string;
   deliveryIdempotencyKey: string;
@@ -500,7 +500,7 @@ export async function dispatchCronDelivery(
   let directCronSessionDeleted = false;
   const formatDeliveryTargetError = (error: string) =>
     params.unverifiedMessagingToolDelivery === true
-      ? `${error}; the agent used the message tool, but Brikko Studio could not verify that message matched the cron delivery target`
+      ? `${error}; the agent used the message tool, but BrikkoStudio could not verify that message matched the cron delivery target`
       : error;
   const failDeliveryTarget = (error: string) =>
     params.withRunSession({

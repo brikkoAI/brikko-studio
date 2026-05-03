@@ -11,7 +11,7 @@ import type { PluginCommandDiagnosticsSession, PluginCommandResult } from "../..
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import type { ReplyPayload } from "../types.js";
 import { rejectNonOwnerCommand } from "./command-gates.js";
-import { buildCurrentBrikko StudioCliCommand } from "./commands-brikko-studio-cli.js";
+import { buildCurrentBrikkoStudioCliCommand } from "./commands-brikko-studio-cli.js";
 import {
   deliverPrivateCommandReply,
   readCommandDeliveryTarget,
@@ -267,7 +267,7 @@ function buildDiagnosticsApprovalRequest(params: HandleCommandsParams): ExecAppr
 }
 
 function buildGatewayDiagnosticsExportJsonCommand(): string {
-  return buildCurrentBrikko StudioCliCommand(["gateway", "diagnostics", "export", "--json"]);
+  return buildCurrentBrikkoStudioCliCommand(["gateway", "diagnostics", "export", "--json"]);
 }
 
 async function deliverPrivateDiagnosticsReply(params: {
@@ -423,9 +423,9 @@ function hasCodexHarnessMetadata(params: HandleCommandsParams): boolean {
 
 function isCodexDiagnosticsUnavailableText(text: string | undefined): boolean {
   return (
-    text?.startsWith("No Codex thread is attached to this Brikko Studio session yet.") === true ||
+    text?.startsWith("No Codex thread is attached to this BrikkoStudio session yet.") === true ||
     text?.startsWith(
-      "Cannot send Codex diagnostics because this command did not include an Brikko Studio session file.",
+      "Cannot send Codex diagnostics because this command did not include an BrikkoStudio session file.",
     ) === true
   );
 }

@@ -5,7 +5,7 @@ import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
 } from "../../config/sessions/paths.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { resolveSessionAgentIds } from "../agent-scope.js";
 import {
   limitAgentHookHistoryMessages,
@@ -79,7 +79,7 @@ export function buildCliSessionHistoryPrompt(params: {
     .trim();
   const renderedHistory =
     renderedHistoryRaw.length > maxHistoryChars
-      ? `${renderedHistoryRaw.slice(0, maxHistoryChars).trimEnd()}\n[Brikko Studio reseed history truncated]`
+      ? `${renderedHistoryRaw.slice(0, maxHistoryChars).trimEnd()}\n[BrikkoStudio reseed history truncated]`
       : renderedHistoryRaw;
 
   if (!renderedHistory) {
@@ -87,7 +87,7 @@ export function buildCliSessionHistoryPrompt(params: {
   }
 
   return [
-    "Continue this conversation using the Brikko Studio transcript below as prior session history.",
+    "Continue this conversation using the BrikkoStudio transcript below as prior session history.",
     "Treat it as authoritative context for this fresh CLI session.",
     "",
     "<conversation_history>",
@@ -118,7 +118,7 @@ function resolveSafeCliSessionFile(params: {
   sessionFile: string;
   sessionKey?: string;
   agentId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): { sessionFile: string; sessionsDir: string } {
   const { defaultAgentId, sessionAgentId } = resolveSessionAgentIds({
     sessionKey: params.sessionKey,
@@ -145,7 +145,7 @@ async function loadCliSessionEntries(params: {
   sessionFile: string;
   sessionKey?: string;
   agentId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): Promise<unknown[]> {
   try {
     const { sessionFile, sessionsDir } = resolveSafeCliSessionFile(params);
@@ -175,7 +175,7 @@ export async function loadCliSessionHistoryMessages(params: {
   sessionFile: string;
   sessionKey?: string;
   agentId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): Promise<unknown[]> {
   const history = (await loadCliSessionEntries(params)).flatMap((entry) => {
     const candidate = entry as HistoryEntry;
@@ -189,7 +189,7 @@ export async function loadCliSessionReseedMessages(params: {
   sessionFile: string;
   sessionKey?: string;
   agentId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): Promise<unknown[]> {
   const entries = await loadCliSessionEntries(params);
   const latestCompactionIndex = entries.findLastIndex((entry) => {

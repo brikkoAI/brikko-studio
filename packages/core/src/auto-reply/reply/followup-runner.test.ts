@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { DELIVERY_NO_REPLY_RUNTIME_CONTRACT } from "brikko-studio/plugin-sdk/agent-runtime-test-contracts";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
 import type { FollowupRun, QueueSettings } from "./queue.js";
 
@@ -461,7 +461,7 @@ function createAsyncReplySpy() {
 
 describe("createFollowupRunner runtime config", () => {
   it("uses the active runtime snapshot for queued embedded followup runs", async () => {
-    const sourceConfig: Brikko StudioConfig = {
+    const sourceConfig: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: {
@@ -476,7 +476,7 @@ describe("createFollowupRunner runtime config", () => {
         },
       },
     };
-    const runtimeConfig: Brikko StudioConfig = {
+    const runtimeConfig: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: {
@@ -518,7 +518,7 @@ describe("createFollowupRunner runtime config", () => {
   });
 
   it("resolves queued embedded followups before preflight helpers read config", async () => {
-    const sourceConfig: Brikko StudioConfig = {
+    const sourceConfig: BrikkoStudioConfig = {
       skills: {
         entries: {
           whisper: {
@@ -531,7 +531,7 @@ describe("createFollowupRunner runtime config", () => {
         },
       },
     };
-    const runtimeConfig: Brikko StudioConfig = {
+    const runtimeConfig: BrikkoStudioConfig = {
       skills: {
         entries: {
           whisper: {
@@ -585,7 +585,7 @@ describe("createFollowupRunner runtime config", () => {
       payloads: [],
       meta: {},
     });
-    const sourceConfig: Brikko StudioConfig = {};
+    const sourceConfig: BrikkoStudioConfig = {};
     const runner = createFollowupRunner({
       typing: createMockTypingController(),
       typingMode: "instant",
@@ -1278,7 +1278,7 @@ describe("createFollowupRunner messaging delivery and dedupe", () => {
                   },
                 },
               },
-            } as Brikko StudioConfig,
+            } as BrikkoStudioConfig,
           },
         }),
       ),

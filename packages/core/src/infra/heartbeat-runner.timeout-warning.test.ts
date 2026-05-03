@@ -1,13 +1,13 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 
-function createHeartbeatConfig(every: string): Brikko StudioConfig {
+function createHeartbeatConfig(every: string): BrikkoStudioConfig {
   return {
     agents: {
       defaults: { heartbeat: { every } },
       list: [{ id: "main", heartbeat: { every } }],
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("startHeartbeatRunner timeout overflow warnings", () => {

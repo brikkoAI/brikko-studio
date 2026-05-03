@@ -1,7 +1,7 @@
 import {
   startLazyPluginServiceModule,
   type LazyPluginServiceHandle,
-  type Brikko StudioPluginService,
+  type BrikkoStudioPluginService,
 } from "./sdk-node-runtime.js";
 
 type BrowserControlHandle = LazyPluginServiceHandle | null;
@@ -15,7 +15,7 @@ function validateBrowserControlOverrideSpecifier(specifier: string): string {
   return trimmed;
 }
 
-export function createBrowserPluginService(): Brikko StudioPluginService {
+export function createBrowserPluginService(): BrikkoStudioPluginService {
   let handle: BrowserControlHandle = null;
 
   return {

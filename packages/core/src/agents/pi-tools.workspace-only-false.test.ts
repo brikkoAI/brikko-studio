@@ -26,7 +26,7 @@ vi.mock("@mariozechner/pi-ai/oauth", async () => {
 import {
   createHostWorkspaceEditTool,
   createHostWorkspaceWriteTool,
-  createBrikko StudioReadTool,
+  createBrikkoStudioReadTool,
   wrapToolMemoryFlushAppendOnlyWrite,
   wrapToolWorkspaceRootGuard,
 } from "./pi-tools.read.js";
@@ -46,7 +46,7 @@ describe("FS tools with workspaceOnly=false", () => {
     });
 
   const toolsFor = (workspaceOnly: boolean | undefined): AnyAgentTool[] => {
-    const read = createBrikko StudioReadTool(createReadTool(workspaceDir) as unknown as AnyAgentTool);
+    const read = createBrikkoStudioReadTool(createReadTool(workspaceDir) as unknown as AnyAgentTool);
     const write = createHostWorkspaceWriteTool(workspaceDir, { workspaceOnly });
     const edit = createHostWorkspaceEditTool(workspaceDir, { workspaceOnly });
     const tools = [read, write, edit];
@@ -209,7 +209,7 @@ describe("FS tools with workspaceOnly=false", () => {
     await fs.writeFile(allowedAbsolutePath, "seed");
 
     const tools = [
-      createBrikko StudioReadTool(createReadTool(workspaceDir) as unknown as AnyAgentTool),
+      createBrikkoStudioReadTool(createReadTool(workspaceDir) as unknown as AnyAgentTool),
       wrapToolMemoryFlushAppendOnlyWrite(createHostWorkspaceWriteTool(workspaceDir), {
         root: workspaceDir,
         relativePath: allowedRelativePath,

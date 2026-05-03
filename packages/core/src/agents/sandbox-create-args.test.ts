@@ -137,7 +137,7 @@ describe("buildSandboxCreateArgs", () => {
     );
   });
 
-  it("preserves the Brikko Studio exec marker when strict env sanitization is enabled", () => {
+  it("preserves the BrikkoStudio exec marker when strict env sanitization is enabled", () => {
     const cfg = createSandboxConfig({
       env: {
         NODE_ENV: "test",

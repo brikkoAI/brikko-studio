@@ -2,51 +2,51 @@ import {
   defineBundledChannelEntry,
   loadBundledEntryExportSync,
 } from "brikko-studio/plugin-sdk/channel-entry-contract";
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/channel-entry-contract";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/channel-entry-contract";
 import { registerFeishuSubagentHooks } from "./subagent-hooks-api.js";
 
-function registerFeishuDocTools(api: Brikko StudioPluginApi) {
-  const register = loadBundledEntryExportSync<(api: Brikko StudioPluginApi) => void>(import.meta.url, {
+function registerFeishuDocTools(api: BrikkoStudioPluginApi) {
+  const register = loadBundledEntryExportSync<(api: BrikkoStudioPluginApi) => void>(import.meta.url, {
     specifier: "./api.js",
     exportName: "registerFeishuDocTools",
   });
   register(api);
 }
 
-function registerFeishuChatTools(api: Brikko StudioPluginApi) {
-  const register = loadBundledEntryExportSync<(api: Brikko StudioPluginApi) => void>(import.meta.url, {
+function registerFeishuChatTools(api: BrikkoStudioPluginApi) {
+  const register = loadBundledEntryExportSync<(api: BrikkoStudioPluginApi) => void>(import.meta.url, {
     specifier: "./api.js",
     exportName: "registerFeishuChatTools",
   });
   register(api);
 }
 
-function registerFeishuWikiTools(api: Brikko StudioPluginApi) {
-  const register = loadBundledEntryExportSync<(api: Brikko StudioPluginApi) => void>(import.meta.url, {
+function registerFeishuWikiTools(api: BrikkoStudioPluginApi) {
+  const register = loadBundledEntryExportSync<(api: BrikkoStudioPluginApi) => void>(import.meta.url, {
     specifier: "./api.js",
     exportName: "registerFeishuWikiTools",
   });
   register(api);
 }
 
-function registerFeishuDriveTools(api: Brikko StudioPluginApi) {
-  const register = loadBundledEntryExportSync<(api: Brikko StudioPluginApi) => void>(import.meta.url, {
+function registerFeishuDriveTools(api: BrikkoStudioPluginApi) {
+  const register = loadBundledEntryExportSync<(api: BrikkoStudioPluginApi) => void>(import.meta.url, {
     specifier: "./api.js",
     exportName: "registerFeishuDriveTools",
   });
   register(api);
 }
 
-function registerFeishuPermTools(api: Brikko StudioPluginApi) {
-  const register = loadBundledEntryExportSync<(api: Brikko StudioPluginApi) => void>(import.meta.url, {
+function registerFeishuPermTools(api: BrikkoStudioPluginApi) {
+  const register = loadBundledEntryExportSync<(api: BrikkoStudioPluginApi) => void>(import.meta.url, {
     specifier: "./api.js",
     exportName: "registerFeishuPermTools",
   });
   register(api);
 }
 
-function registerFeishuBitableTools(api: Brikko StudioPluginApi) {
-  const register = loadBundledEntryExportSync<(api: Brikko StudioPluginApi) => void>(import.meta.url, {
+function registerFeishuBitableTools(api: BrikkoStudioPluginApi) {
+  const register = loadBundledEntryExportSync<(api: BrikkoStudioPluginApi) => void>(import.meta.url, {
     specifier: "./api.js",
     exportName: "registerFeishuBitableTools",
   });

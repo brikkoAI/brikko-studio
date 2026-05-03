@@ -10,7 +10,7 @@ import { hasExplicitOptions } from "../command-options.js";
 export function registerSetupCommand(program: Command) {
   program
     .command("setup")
-    .description("Initialize the active Brikko Studio config and agent workspace")
+    .description("Initialize the active BrikkoStudio config and agent workspace")
     .addHelpText(
       "after",
       () =>

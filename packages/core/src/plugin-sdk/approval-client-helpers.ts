@@ -7,7 +7,7 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "../shared/string-coerce.js";
-import type { Brikko StudioConfig } from "./config-runtime.js";
+import type { BrikkoStudioConfig } from "./config-runtime.js";
 import type { ReplyPayload } from "./reply-payload.js";
 import { normalizeAccountId } from "./routing.js";
 
@@ -23,11 +23,11 @@ type ChannelApprovalConfig = {
 };
 
 type ApprovalProfileParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 };
 
-function isApprovalTargetsMode(cfg: Brikko StudioConfig): boolean {
+function isApprovalTargetsMode(cfg: BrikkoStudioConfig): boolean {
   const execApprovals = cfg.approvals?.exec;
   if (!execApprovals?.enabled) {
     return false;
@@ -48,7 +48,7 @@ export function isChannelExecApprovalClientEnabledFromConfig(params: {
 }
 
 export function isChannelExecApprovalTargetRecipient(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   senderId?: string | null;
   accountId?: string | null;
   channel: string;

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig, RuntimeEnv } from "./runtime-api.js";
+import type { BrikkoStudioConfig, RuntimeEnv } from "./runtime-api.js";
 
 class FakeWebSocket {
   public readonly sent: string[] = [];
@@ -139,7 +139,7 @@ vi.mock("./runtime-api.js", async () => {
   };
 });
 
-function createRuntimeCore(cfg: Brikko StudioConfig) {
+function createRuntimeCore(cfg: BrikkoStudioConfig) {
   const runPrepared = vi.fn(
     async (turn: {
       storePath: string;
@@ -296,7 +296,7 @@ function createRuntimeCore(cfg: Brikko StudioConfig) {
   };
 }
 
-const testConfig: Brikko StudioConfig = {
+const testConfig: BrikkoStudioConfig = {
   channels: {
     mattermost: {
       enabled: true,
@@ -409,7 +409,7 @@ describe("mattermost inbound user posts", () => {
     const socket = new FakeWebSocket();
     const abortController = new AbortController();
     mockState.abortController = abortController;
-    const directConfig: Brikko StudioConfig = {
+    const directConfig: BrikkoStudioConfig = {
       channels: {
         mattermost: {
           enabled: true,

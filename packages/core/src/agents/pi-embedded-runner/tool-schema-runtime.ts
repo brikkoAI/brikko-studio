@@ -1,6 +1,6 @@
 import type { AgentTool } from "@mariozechner/pi-agent-core";
 import type { TSchema } from "typebox";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
 import {
   inspectProviderToolSchemasWithPlugin,
@@ -13,7 +13,7 @@ import { log } from "./logger.js";
 type ProviderToolSchemaParams<TSchemaType extends TSchema = TSchema, TResult = unknown> = {
   tools: AgentTool<TSchemaType, TResult>[];
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   modelId?: string;

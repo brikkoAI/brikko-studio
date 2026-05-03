@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { getActiveMemorySearchManager } from "brikko-studio/plugin-sdk/memory-host-search";
 import {
@@ -59,7 +59,7 @@ function buildContextText(params: { query: string; hits: MemorySearchHit[] }): s
     })
     .join("\n\n");
   return [
-    "Fast Brikko Studio memory context found for the live caller.",
+    "Fast BrikkoStudio memory context found for the live caller.",
     "Use this context only if it answers the caller's question. If it is not relevant, say briefly that you do not have that context handy.",
     `Question:\n${params.query}`,
     `Context:\n${hits}`,
@@ -68,7 +68,7 @@ function buildContextText(params: { query: string; hits: MemorySearchHit[] }): s
 
 function buildMissText(query: string): string {
   return [
-    "No relevant Brikko Studio memory or session context was found quickly for the live caller.",
+    "No relevant BrikkoStudio memory or session context was found quickly for the live caller.",
     "Answer briefly that you do not have that context handy. Do not keep checking unless the caller asks you to.",
     `Question:\n${query}`,
   ].join("\n\n");
@@ -91,7 +91,7 @@ async function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T
 }
 
 async function lookupFastContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   sessionKey: string;
   config: VoiceCallRealtimeFastContextConfig;
@@ -116,7 +116,7 @@ async function lookupFastContext(params: {
 }
 
 export async function resolveRealtimeFastContextConsult(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   sessionKey: string;
   config: VoiceCallRealtimeFastContextConfig;

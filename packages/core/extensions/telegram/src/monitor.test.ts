@@ -921,7 +921,7 @@ describe("monitorTelegramProvider (grammY)", () => {
       persistedOffset: 549076203,
     });
 
-    // Brikko Studio middleware skips duplicates using the persisted update offset.
+    // BrikkoStudio middleware skips duplicates using the persisted update offset.
     expect(api.getUpdates).not.toHaveBeenCalled();
     expect(order).toEqual(["deleteWebhook", "run"]);
   });

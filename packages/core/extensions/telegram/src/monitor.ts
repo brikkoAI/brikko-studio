@@ -1,7 +1,7 @@
 import type { RunOptions } from "@grammyjs/runner";
 import { CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY } from "brikko-studio/plugin-sdk/approval-handler-adapter-runtime";
 import { registerChannelRuntimeContext } from "brikko-studio/plugin-sdk/channel-runtime-context";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveAgentMaxConcurrent } from "brikko-studio/plugin-sdk/model-session-runtime";
 import { getRuntimeConfig } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import {
@@ -25,7 +25,7 @@ import { makeProxyFetch } from "./proxy.js";
 
 export type { MonitorTelegramOpts } from "./monitor.types.js";
 
-export function createTelegramRunnerOptions(cfg: Brikko StudioConfig): RunOptions<unknown> {
+export function createTelegramRunnerOptions(cfg: BrikkoStudioConfig): RunOptions<unknown> {
   return {
     sink: {
       concurrency: resolveAgentMaxConcurrent(cfg),

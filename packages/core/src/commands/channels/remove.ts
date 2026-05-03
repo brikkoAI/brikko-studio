@@ -4,7 +4,7 @@ import { listReadOnlyChannelPluginsForConfig } from "../../channels/plugins/read
 import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
 import { commitConfigWithPendingPluginInstalls } from "../../cli/plugins-install-record-commit.js";
 import { refreshPluginRegistryAfterConfigMutation } from "../../cli/plugins-registry-refresh.js";
-import { replaceConfigFile, type Brikko StudioConfig } from "../../config/config.js";
+import { replaceConfigFile, type BrikkoStudioConfig } from "../../config/config.js";
 import { callGateway } from "../../gateway/call.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.js";
@@ -22,7 +22,7 @@ export type ChannelsRemoveOptions = {
 };
 
 function listAccountIds(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   channel: ChatChannel,
   plugin?: ChannelPlugin,
 ): string[] {
@@ -34,7 +34,7 @@ function listAccountIds(
 }
 
 async function stopGatewayRuntimeBeforeRemove(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChatChannel;
   accountId: string;
   plugin: ChannelPlugin;
@@ -72,7 +72,7 @@ export async function channelsRemoveCommand(
     return;
   }
   const baseHash = configSnapshot.hash;
-  let cfg = (configSnapshot.sourceConfig ?? configSnapshot.config) as Brikko StudioConfig;
+  let cfg = (configSnapshot.sourceConfig ?? configSnapshot.config) as BrikkoStudioConfig;
 
   const useWizard = shouldUseWizard(params);
   const prompter = useWizard ? createClackPrompter() : null;

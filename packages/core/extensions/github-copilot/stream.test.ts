@@ -205,7 +205,7 @@ describe("wrapCopilotAnthropicStream", () => {
     expect(baseStreamFn).toHaveBeenCalledOnce();
   });
 
-  it("does not claim provider transport before Brikko Studio chooses one", () => {
+  it("does not claim provider transport before BrikkoStudio chooses one", () => {
     expect(
       wrapCopilotProviderStream({
         streamFn: undefined,

@@ -70,9 +70,9 @@ describe("browser client fetch attachOnly diagnostics", () => {
       );
       expect(thrown).toBeInstanceOf(Error);
       const message = thrown instanceof Error ? thrown.message : String(thrown);
-      expect(message).toContain("browser profile is external to Brikko Studio");
-      expect(message).toContain("Restarting the Brikko Studio gateway will not launch it");
-      expect(message).not.toContain("Restart the Brikko Studio gateway");
+      expect(message).toContain("browser profile is external to BrikkoStudio");
+      expect(message).toContain("Restarting the BrikkoStudio gateway will not launch it");
+      expect(message).not.toContain("Restart the BrikkoStudio gateway");
       expect(message).not.toContain("Do NOT retry the browser tool");
     } finally {
       for (const socket of sockets) {

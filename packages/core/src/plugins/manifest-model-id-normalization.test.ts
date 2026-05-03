@@ -9,7 +9,7 @@ import {
 } from "./current-plugin-metadata-snapshot.js";
 import { resolveInstalledPluginIndexPolicyHash } from "./installed-plugin-index-policy.js";
 import type { InstalledPluginIndex } from "./installed-plugin-index.js";
-import { listBrikko StudioPluginManifestMetadata } from "./manifest-metadata-scan.js";
+import { listBrikkoStudioPluginManifestMetadata } from "./manifest-metadata-scan.js";
 import { normalizeProviderModelIdWithManifest } from "./manifest-model-id-normalization.js";
 import type { PluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
 import { createEmptyPluginRegistry } from "./registry-empty.js";
@@ -259,8 +259,8 @@ describe("manifest model id normalization", () => {
 
     const readFileSyncSpy = vi.spyOn(fs, "readFileSync");
 
-    expect(listBrikko StudioPluginManifestMetadata(process.env)).toHaveLength(1);
-    expect(listBrikko StudioPluginManifestMetadata(process.env)).toHaveLength(1);
+    expect(listBrikkoStudioPluginManifestMetadata(process.env)).toHaveLength(1);
+    expect(listBrikkoStudioPluginManifestMetadata(process.env)).toHaveLength(1);
 
     const manifestReads = readFileSyncSpy.mock.calls.filter(
       ([filePath]) => String(filePath) === manifestPath,

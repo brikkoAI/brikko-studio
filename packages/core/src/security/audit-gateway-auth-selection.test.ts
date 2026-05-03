@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveGatewayProbeAuthSafe, resolveGatewayProbeTarget } from "../gateway/probe-auth.js";
 import { collectDeepProbeFindings } from "./audit-deep-probe-findings.js";
 
@@ -18,7 +18,7 @@ describe("security audit gateway auth selection", () => {
 
     const cases: Array<{
       name: string;
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       env?: { token?: string; password?: string };
       expectedAuth: { token?: string; password?: string };
     }> = [
@@ -109,7 +109,7 @@ describe("security audit gateway auth selection", () => {
   });
 
   it("adds warning finding when probe auth SecretRef is unavailable", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       gateway: {
         mode: "local",
         auth: {

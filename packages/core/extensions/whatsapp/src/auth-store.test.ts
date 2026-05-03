@@ -205,7 +205,7 @@ describe("auth-store", () => {
     });
   });
 
-  it("does not delete custom auth directories outside the Brikko Studio auth root", async () => {
+  it("does not delete custom auth directories outside the BrikkoStudio auth root", async () => {
     const authDir = createTempAuthDir("brikko-studio-wa-auth-custom");
     const nestedDir = path.join(authDir, "nested");
     fsSync.mkdirSync(nestedDir);

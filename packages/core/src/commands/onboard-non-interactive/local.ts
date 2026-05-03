@@ -1,7 +1,7 @@
 import { formatCliCommand } from "../../cli/command-format.js";
 import { replaceConfigFile, resolveGatewayPort } from "../../config/config.js";
 import { logConfigUpdated } from "../../config/logging.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { resolveGatewayAuthToken } from "../../gateway/auth-token-resolution.js";
 import { resolveConfiguredSecretInputString } from "../../gateway/resolve-configured-secret-input-string.js";
 import type { RuntimeEnv } from "../../runtime.js";
@@ -95,7 +95,7 @@ async function collectGatewayHealthFailureDiagnostics(): Promise<
 }
 
 export async function resolveGatewayHealthProbeToken(
-  nextConfig: Brikko StudioConfig,
+  nextConfig: BrikkoStudioConfig,
 ): Promise<{ token?: string; password?: string; unresolvedRefReason?: string }> {
   if (nextConfig.gateway?.auth?.mode === "password") {
     const resolved = await resolveConfiguredSecretInputString({
@@ -138,7 +138,7 @@ function formatGatewayHealthFailureDetail(params: {
 export async function runNonInteractiveLocalSetup(params: {
   opts: OnboardOptions;
   runtime: RuntimeEnv;
-  baseConfig: Brikko StudioConfig;
+  baseConfig: BrikkoStudioConfig;
   baseHash?: string;
 }) {
   const { opts, runtime, baseConfig, baseHash } = params;
@@ -150,7 +150,7 @@ export async function runNonInteractiveLocalSetup(params: {
     defaultWorkspaceDir: DEFAULT_WORKSPACE,
   });
 
-  let nextConfig: Brikko StudioConfig = applyLocalSetupWorkspaceConfig(baseConfig, workspaceDir);
+  let nextConfig: BrikkoStudioConfig = applyLocalSetupWorkspaceConfig(baseConfig, workspaceDir);
   if (opts.skipBootstrap) {
     nextConfig = applySkipBootstrapConfig(nextConfig);
   }

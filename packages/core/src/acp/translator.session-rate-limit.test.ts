@@ -742,7 +742,7 @@ describe("acp setSessionConfigOption bridge behavior", () => {
     sessionStore.clearAllSessionsForTest();
   });
 
-  it("accepts forwarded timeout config options without failing Brikko Studio ACP bridge turns", async () => {
+  it("accepts forwarded timeout config options without failing BrikkoStudio ACP bridge turns", async () => {
     const sessionStore = createInMemorySessionStore();
     const connection = createAcpConnection();
     const request = vi.fn(async (method: string) => {

@@ -1,7 +1,7 @@
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type {
-  Brikko StudioPluginApi,
-  Brikko StudioConfig,
+  BrikkoStudioPluginApi,
+  BrikkoStudioConfig,
   ProviderAuthContext,
   ProviderAuthResult,
   ProviderCatalogContext,
@@ -69,11 +69,11 @@ function portalModelRef(modelId: string): string {
   return `${PORTAL_PROVIDER_ID}/${modelId}`;
 }
 
-function getProviderBaseUrl(cfg: Brikko StudioConfig, providerId: string): string | undefined {
+function getProviderBaseUrl(cfg: BrikkoStudioConfig, providerId: string): string | undefined {
   return normalizeOptionalString(cfg.models?.providers?.[providerId]?.baseUrl);
 }
 
-function resolveMinimaxUsageBaseUrl(cfg: Brikko StudioConfig): string | undefined {
+function resolveMinimaxUsageBaseUrl(cfg: BrikkoStudioConfig): string | undefined {
   return getProviderBaseUrl(cfg, PORTAL_PROVIDER_ID) ?? getProviderBaseUrl(cfg, API_PROVIDER_ID);
 }
 
@@ -238,7 +238,7 @@ function createMinimaxOAuthMethod(region: MiniMaxRegion) {
   };
 }
 
-export function registerMinimaxProviders(api: Brikko StudioPluginApi) {
+export function registerMinimaxProviders(api: BrikkoStudioPluginApi) {
   api.registerProvider({
     id: API_PROVIDER_ID,
     label: PROVIDER_LABEL,

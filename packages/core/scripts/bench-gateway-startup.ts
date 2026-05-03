@@ -213,7 +213,7 @@ function parseOptions(): CliOptions {
 }
 
 function printUsage(): void {
-  console.log(`Brikko Studio Gateway startup benchmark
+  console.log(`BrikkoStudio Gateway startup benchmark
 
 Usage:
   pnpm test:startup:gateway -- [options]

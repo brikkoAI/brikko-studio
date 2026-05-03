@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { ConfigFileSnapshot, Brikko StudioConfig } from "../config/config.js";
+import type { ConfigFileSnapshot, BrikkoStudioConfig } from "../config/config.js";
 import {
   formatCrestodianOverview,
   formatCrestodianStartupMessage,
@@ -8,7 +8,7 @@ import {
 
 describe("loadCrestodianOverview", () => {
   it("summarizes config, agents, model, tools, and gateway", async () => {
-    const runtimeConfig: Brikko StudioConfig = {
+    const runtimeConfig: BrikkoStudioConfig = {
       agents: {
         defaults: { model: { primary: "openai/gpt-5.2" } },
         list: [

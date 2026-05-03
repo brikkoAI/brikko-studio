@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import type { Brikko StudioConfig } from "../../../src/config/config.js";
+import type { BrikkoStudioConfig } from "../../../src/config/config.js";
 import type { ImageGenerationProvider } from "../../../src/image-generation/types.js";
 import type { MusicGenerationProvider } from "../../../src/music-generation/types.js";
 import type { VideoGenerationProvider } from "../../../src/video-generation/types.js";
@@ -28,23 +28,23 @@ const mediaRuntimeMocks = vi.hoisted(() => {
     createSubsystemLogger: vi.fn(() => ({ debug, warn })),
     describeFailoverError: vi.fn(),
     getImageGenerationProvider: vi.fn<
-      (providerId: string, config?: Brikko StudioConfig) => ImageGenerationProvider | undefined
+      (providerId: string, config?: BrikkoStudioConfig) => ImageGenerationProvider | undefined
     >(() => undefined),
     getMusicGenerationProvider: vi.fn<
-      (providerId: string, config?: Brikko StudioConfig) => MusicGenerationProvider | undefined
+      (providerId: string, config?: BrikkoStudioConfig) => MusicGenerationProvider | undefined
     >(() => undefined),
     getProviderEnvVars: vi.fn<(providerId: string) => string[]>(() => []),
     getVideoGenerationProvider: vi.fn<
-      (providerId: string, config?: Brikko StudioConfig) => VideoGenerationProvider | undefined
+      (providerId: string, config?: BrikkoStudioConfig) => VideoGenerationProvider | undefined
     >(() => undefined),
     isFailoverError: vi.fn<(err: unknown) => boolean>(() => false),
-    listImageGenerationProviders: vi.fn<(config?: Brikko StudioConfig) => ImageGenerationProvider[]>(
+    listImageGenerationProviders: vi.fn<(config?: BrikkoStudioConfig) => ImageGenerationProvider[]>(
       () => [],
     ),
-    listMusicGenerationProviders: vi.fn<(config?: Brikko StudioConfig) => MusicGenerationProvider[]>(
+    listMusicGenerationProviders: vi.fn<(config?: BrikkoStudioConfig) => MusicGenerationProvider[]>(
       () => [],
     ),
-    listVideoGenerationProviders: vi.fn<(config?: Brikko StudioConfig) => VideoGenerationProvider[]>(
+    listVideoGenerationProviders: vi.fn<(config?: BrikkoStudioConfig) => VideoGenerationProvider[]>(
       () => [],
     ),
     parseImageGenerationModelRef:

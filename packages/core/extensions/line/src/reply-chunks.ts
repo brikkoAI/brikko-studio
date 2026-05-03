@@ -1,5 +1,5 @@
 import type { messagingApi } from "@line/bot-sdk";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 type LineReplyMessage = messagingApi.TextMessage;
 
@@ -9,23 +9,23 @@ export type SendLineReplyChunksParams = {
   quickReplies?: string[];
   replyToken?: string | null;
   replyTokenUsed?: boolean;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   replyMessageLine: (
     replyToken: string,
     messages: messagingApi.Message[],
-    opts: { cfg: Brikko StudioConfig; accountId?: string },
+    opts: { cfg: BrikkoStudioConfig; accountId?: string },
   ) => Promise<unknown>;
   pushMessageLine: (
     to: string,
     text: string,
-    opts: { cfg: Brikko StudioConfig; accountId?: string },
+    opts: { cfg: BrikkoStudioConfig; accountId?: string },
   ) => Promise<unknown>;
   pushTextMessageWithQuickReplies: (
     to: string,
     text: string,
     quickReplies: string[],
-    opts: { cfg: Brikko StudioConfig; accountId?: string },
+    opts: { cfg: BrikkoStudioConfig; accountId?: string },
   ) => Promise<unknown>;
   createTextMessageWithQuickReplies: (text: string, quickReplies: string[]) => LineReplyMessage;
   onReplyError?: (err: unknown) => void;

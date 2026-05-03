@@ -6,11 +6,11 @@ import net from "node:net";
 import os from "node:os";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type { ModelProviderConfig } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { fetchWithSsrFGuard } from "brikko-studio/plugin-sdk/ssrf-runtime";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import {
   createQaBundledPluginsDir,
   resolveQaBundledPluginSourceDir,
@@ -493,10 +493,10 @@ export async function startQaGatewayChild(params: {
   controlUiEnabled?: boolean;
   enabledPluginIds?: string[];
   forwardHostHome?: boolean;
-  mutateConfig?: (cfg: Brikko StudioConfig) => Brikko StudioConfig;
+  mutateConfig?: (cfg: BrikkoStudioConfig) => BrikkoStudioConfig;
 }) {
   const tempRoot = await fs.mkdtemp(
-    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-qa-suite-"),
+    path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-qa-suite-"),
   );
   const runtimeCwd = tempRoot;
   const distEntryPath = path.join(params.repoRoot, "dist", "index.js");
@@ -601,7 +601,7 @@ export async function startQaGatewayChild(params: {
   let baseUrl = "";
   let wsUrl = "";
   let child: ReturnType<typeof spawn> | null = null;
-  let cfg!: Brikko StudioConfig;
+  let cfg!: BrikkoStudioConfig;
   let rpcClient: Awaited<ReturnType<typeof startQaGatewayRpcClient>> | null = null;
   let stagedBundledPluginsRoot: string | null = null;
   let env: NodeJS.ProcessEnv | null = null;

@@ -1,8 +1,8 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 
 const probeBlueBubblesMock = vi.hoisted(() => vi.fn());
-const cfg: Brikko StudioConfig = {};
+const cfg: BrikkoStudioConfig = {};
 
 vi.mock("./channel.runtime.js", () => ({
   blueBubblesChannelRuntime: {

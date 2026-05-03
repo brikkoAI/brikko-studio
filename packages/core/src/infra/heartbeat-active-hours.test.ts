@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { isWithinActiveHours } from "./heartbeat-active-hours.js";
 
-function cfgWithUserTimezone(userTimezone = "UTC"): Brikko StudioConfig {
+function cfgWithUserTimezone(userTimezone = "UTC"): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {

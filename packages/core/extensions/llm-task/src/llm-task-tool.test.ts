@@ -40,7 +40,7 @@ vi.mock("../api.js", async () => {
   const actual = await vi.importActual<typeof import("../api.js")>("../api.js");
   return {
     ...actual,
-    resolvePreferredBrikko StudioTmpDir: () => "/tmp",
+    resolvePreferredBrikkoStudioTmpDir: () => "/tmp",
   };
 });
 

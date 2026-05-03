@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   clearMemoryEmbeddingProviders,
   registerMemoryEmbeddingProvider,
 } from "../plugins/memory-embedding-providers.js";
 import { resolveMemorySearchConfig, resolveMemorySearchSyncConfig } from "./memory-search.js";
 
-const asConfig = (cfg: Brikko StudioConfig): Brikko StudioConfig => cfg;
+const asConfig = (cfg: BrikkoStudioConfig): BrikkoStudioConfig => cfg;
 
 function registerBaseMemoryEmbeddingProviders(options?: { includeGemini?: boolean }): void {
   registerMemoryEmbeddingProvider({
@@ -70,7 +70,7 @@ describe("memory search config", () => {
     clearMemoryEmbeddingProviders();
   });
 
-  function configWithDefaultProvider(provider: string): Brikko StudioConfig {
+  function configWithDefaultProvider(provider: string): BrikkoStudioConfig {
     return asConfig({
       agents: {
         defaults: {

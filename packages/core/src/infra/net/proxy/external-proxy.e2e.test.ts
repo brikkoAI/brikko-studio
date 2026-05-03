@@ -9,7 +9,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { WebSocketServer } from "ws";
 import { withTempDir } from "../../../test-helpers/temp-dir.js";
 import { resolveSystemBin } from "../../resolve-system-bin.js";
-import { resolvePreferredBrikko StudioTmpDir } from "../../tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../../tmp-brikko-studio-dir.js";
 
 const CHILD_PROCESS_TIMEOUT_MS = process.env.CI ? 45_000 : 15_000;
 const PROBE_TIMEOUT_MS = process.env.CI ? 15_000 : 5_000;
@@ -47,7 +47,7 @@ function createDiscordTlsFixture(dir: string): DiscordTlsFixture {
       "-days",
       "1",
       "-subj",
-      "/CN=Brikko Studio Proxy Test CA",
+      "/CN=BrikkoStudio Proxy Test CA",
     ],
     { stdio: "ignore" },
   );
@@ -104,7 +104,7 @@ async function withDiscordTlsFixture<T>(
   return await withTempDir(
     {
       prefix: "brikko-studio-discord-tls-",
-      parentDir: resolvePreferredBrikko StudioTmpDir(),
+      parentDir: resolvePreferredBrikkoStudioTmpDir(),
     },
     async (dir) => {
       return await run(createDiscordTlsFixture(dir));

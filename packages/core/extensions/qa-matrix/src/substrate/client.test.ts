@@ -156,7 +156,7 @@ describe("matrix driver client", () => {
 
     await expect(
       client.loginWithPassword({
-        deviceName: "Brikko Studio Matrix QA Stale Device",
+        deviceName: "BrikkoStudio Matrix QA Stale Device",
         password: "driver-password",
         userId: "@qa-driver:matrix-qa.test",
       }),
@@ -176,7 +176,7 @@ describe("matrix driver client", () => {
             type: "m.id.user",
             user: "@qa-driver:matrix-qa.test",
           },
-          initial_device_display_name: "Brikko Studio Matrix QA Stale Device",
+          initial_device_display_name: "BrikkoStudio Matrix QA Stale Device",
           password: "driver-password",
         },
       },
@@ -484,11 +484,11 @@ describe("matrix driver client", () => {
       driverLocalpart: "qa-driver",
       observerLocalpart: "qa-observer",
       registrationToken: "reg-token",
-      roomName: "Brikko Studio Matrix QA",
+      roomName: "BrikkoStudio Matrix QA",
       sutLocalpart: "qa-sut",
       fetchImpl,
       topology: buildDefaultMatrixQaTopologySpec({
-        defaultRoomName: "Brikko Studio Matrix QA",
+        defaultRoomName: "BrikkoStudio Matrix QA",
       }),
     });
 

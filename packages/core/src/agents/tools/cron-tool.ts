@@ -23,7 +23,7 @@ import { optionalStringEnum, stringEnum } from "../schema/typebox.js";
 import { CRON_TOOL_DISPLAY_SUMMARY } from "../tool-description-presets.js";
 import { type AnyAgentTool, jsonResult, readStringParam } from "./common.js";
 import { callGatewayTool, readGatewayCallOptions, type GatewayCallOptions } from "./gateway.js";
-import { isBrikko StudioOwnerOnlyCoreToolName } from "./owner-only-tools.js";
+import { isBrikkoStudioOwnerOnlyCoreToolName } from "./owner-only-tools.js";
 import { resolveInternalSessionKey, resolveMainSessionAlias } from "./sessions-helpers.js";
 
 // We spell out job/patch properties so that LLMs know what fields to send.
@@ -562,7 +562,7 @@ export function createCronTool(opts?: CronToolOptions, deps?: CronToolDeps): Any
   return {
     label: "Cron",
     name: "cron",
-    ownerOnly: isBrikko StudioOwnerOnlyCoreToolName("cron"),
+    ownerOnly: isBrikkoStudioOwnerOnlyCoreToolName("cron"),
     displaySummary: CRON_TOOL_DISPLAY_SUMMARY,
     description: `Manage Gateway cron jobs (status/list/add/update/remove/run/runs) and send wake events. Use this for reminders, "check back later" requests, delayed follow-ups, and recurring tasks. Do not emulate scheduling with exec sleep or process polling.
 

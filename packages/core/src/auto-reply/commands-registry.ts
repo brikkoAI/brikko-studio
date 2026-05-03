@@ -5,7 +5,7 @@ import {
 } from "../agents/model-selection.js";
 import type { SkillCommandSpec } from "../agents/skills.js";
 import { getChannelPlugin, getLoadedChannelPlugin } from "../channels/plugins/index.js";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 import {
   isCommandEnabled,
@@ -116,7 +116,7 @@ export function listNativeCommandSpecs(params?: {
 }
 
 export function listNativeCommandSpecsForConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   params?: { skillCommands?: SkillCommandSpec[]; provider?: string },
 ): NativeCommandSpec[] {
   return listNativeSpecsFromCommands(listChatCommandsForConfig(cfg, params), params?.provider);
@@ -239,12 +239,12 @@ export function buildCommandTextFromArgs(
   return buildCommandText(commandName, serializeCommandArgs(command, args));
 }
 
-function resolveDefaultCommandContext(cfg?: Brikko StudioConfig): {
+function resolveDefaultCommandContext(cfg?: BrikkoStudioConfig): {
   provider: string;
   model: string;
 } {
   const resolved = resolveConfiguredModelRef({
-    cfg: cfg ?? ({} as Brikko StudioConfig),
+    cfg: cfg ?? ({} as BrikkoStudioConfig),
     defaultProvider: DEFAULT_PROVIDER,
     defaultModel: DEFAULT_MODEL,
   });
@@ -259,7 +259,7 @@ export type ResolvedCommandArgChoice = { value: string; label: string };
 export function resolveCommandArgChoices(params: {
   command: ChatCommandDefinition;
   arg: CommandArgDefinition;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   provider?: string;
   model?: string;
   catalog?: ThinkingCatalogEntry[];
@@ -291,7 +291,7 @@ export function resolveCommandArgChoices(params: {
 export function resolveCommandArgMenu(params: {
   command: ChatCommandDefinition;
   args?: CommandArgs;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   provider?: string;
   model?: string;
   catalog?: ThinkingCatalogEntry[];

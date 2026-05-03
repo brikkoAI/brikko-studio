@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { type ClaimableDedupe, createClaimableDedupe } from "brikko-studio/plugin-sdk/persistent-dedupe";
 import { resolveStateDir } from "brikko-studio/plugin-sdk/state-paths";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import type { NormalizedWebhookMessage } from "./monitor-normalize.js";
 
 // BlueBubbles has no sequence/ack in its webhook protocol, and its
@@ -26,11 +26,11 @@ function resolveStateDirFromEnv(env: NodeJS.ProcessEnv = process.env): string {
     // Isolate tests from real ~/.brikko-studio state without sharing across tests.
     // Stable-per-pid so the scoped dedupe test can observe persistence.
     const name = "brikko-studio-vitest-" + process.pid;
-    return path.join(resolvePreferredBrikko StudioTmpDir(), name);
+    return path.join(resolvePreferredBrikkoStudioTmpDir(), name);
   }
-  // Canonical Brikko Studio state dir: honors BRIKKO_STUDIO_STATE_DIR (with `~` expansion
+  // Canonical BrikkoStudio state dir: honors BRIKKO_STUDIO_STATE_DIR (with `~` expansion
   // via resolveUserPath), plus legacy/new fallback. Using the shared helper
-  // keeps this plugin's persistence aligned with the rest of Brikko Studio state.
+  // keeps this plugin's persistence aligned with the rest of BrikkoStudio state.
   return resolveStateDir(env);
 }
 

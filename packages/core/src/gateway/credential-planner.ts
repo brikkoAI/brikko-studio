@@ -1,5 +1,5 @@
 import { containsEnvVarReference } from "../config/env-substitution.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { hasConfiguredSecretInput, resolveSecretInputRef } from "../config/types.secrets.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 
@@ -41,7 +41,7 @@ export type GatewayCredentialPlan = {
   remotePasswordActive: boolean;
 };
 
-type GatewaySecretDefaults = NonNullable<Brikko StudioConfig["secrets"]>["defaults"];
+type GatewaySecretDefaults = NonNullable<BrikkoStudioConfig["secrets"]>["defaults"];
 
 export const trimToUndefined = normalizeOptionalString;
 
@@ -87,7 +87,7 @@ function resolveConfiguredGatewayCredentialInput(params: {
 }
 
 export function createGatewayCredentialPlan(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   defaults?: GatewaySecretDefaults;
 }): GatewayCredentialPlan {

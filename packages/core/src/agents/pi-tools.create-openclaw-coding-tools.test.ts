@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   applyXaiModelCompat,
   findUnsupportedSchemaKeywords,
@@ -12,8 +12,8 @@ import {
 import "./test-helpers/fast-bash-tools.js";
 import "./test-helpers/fast-coding-tools.js";
 import "./test-helpers/fast-brikko-studio-tools.js";
-import { createBrikko StudioTools } from "./brikko-studio-tools.js";
-import { createBrikko StudioCodingTools } from "./pi-tools.js";
+import { createBrikkoStudioTools } from "./brikko-studio-tools.js";
+import { createBrikkoStudioCodingTools } from "./pi-tools.js";
 import { createHostSandboxFsBridge } from "./test-helpers/host-sandbox-fs-bridge.js";
 import { expectReadWriteEditTools } from "./test-helpers/pi-tools-fs-helpers.js";
 import { createPiToolsSandboxContext } from "./test-helpers/pi-tools-sandbox-context.js";
@@ -62,7 +62,7 @@ async function writeSessionStore(
 }
 
 function createToolsForStoredSession(storeTemplate: string, sessionKey: string) {
-  return createBrikko StudioCodingTools({
+  return createBrikkoStudioCodingTools({
     sessionKey,
     config: {
       session: {
@@ -79,7 +79,7 @@ function createToolsForStoredSession(storeTemplate: string, sessionKey: string) 
   });
 }
 
-function expectNoSubagentControlTools(tools: ReturnType<typeof createBrikko StudioCodingTools>) {
+function expectNoSubagentControlTools(tools: ReturnType<typeof createBrikkoStudioCodingTools>) {
   const names = new Set(tools.map((tool) => tool.name));
   expect(names.has("sessions_spawn")).toBe(false);
   expect(names.has("sessions_list")).toBe(false);
@@ -92,11 +92,11 @@ function applyRuntimeToolsAllow<T extends { name: string }>(tools: T[], toolsAll
   return tools.filter((tool) => allowSet.has(normalizeToolName(tool.name)));
 }
 
-describe("createBrikko StudioCodingTools", () => {
-  const testConfig: Brikko StudioConfig = {};
+describe("createBrikkoStudioCodingTools", () => {
+  const testConfig: BrikkoStudioConfig = {};
 
   it("exposes gateway config and restart actions to owner sessions", () => {
-    const tools = createBrikko StudioCodingTools({ config: testConfig, senderIsOwner: true });
+    const tools = createBrikkoStudioCodingTools({ config: testConfig, senderIsOwner: true });
     const gateway = tools.find((tool) => tool.name === "gateway");
     expect(gateway).toBeDefined();
 
@@ -115,7 +115,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("exposes only an explicitly authorized owner-only tool to non-owner sessions", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: testConfig,
       senderIsOwner: false,
       ownerOnlyToolAllowlist: ["cron"],
@@ -129,7 +129,7 @@ describe("createBrikko StudioCodingTools", () => {
 
   it("resolves isolated cron runtime toolsAllow after the cron owner-only grant", () => {
     const withoutGrant = applyRuntimeToolsAllow(
-      createBrikko StudioCodingTools({
+      createBrikkoStudioCodingTools({
         config: testConfig,
         senderIsOwner: false,
       }),
@@ -146,7 +146,7 @@ describe("createBrikko StudioCodingTools", () => {
     );
 
     const withGrant = applyRuntimeToolsAllow(
-      createBrikko StudioCodingTools({
+      createBrikkoStudioCodingTools({
         config: testConfig,
         senderIsOwner: false,
         ownerOnlyToolAllowlist: ["cron"],
@@ -165,30 +165,30 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("uses runtime toolsAllow when materializing plugin tools", () => {
-    const createBrikko StudioToolsMock = vi.mocked(createBrikko StudioTools);
-    createBrikko StudioToolsMock.mockClear();
+    const createBrikkoStudioToolsMock = vi.mocked(createBrikkoStudioTools);
+    createBrikkoStudioToolsMock.mockClear();
 
-    createBrikko StudioCodingTools({
+    createBrikkoStudioCodingTools({
       config: testConfig,
       runtimeToolAllowlist: ["memory_search", "memory_get"],
     });
 
-    expect(createBrikko StudioToolsMock).toHaveBeenCalledWith(
+    expect(createBrikkoStudioToolsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         pluginToolAllowlist: expect.arrayContaining(["memory_search", "memory_get"]),
       }),
     );
   });
 
-  it("passes explicit denylist entries to Brikko Studio tool factory planning", () => {
-    const createBrikko StudioToolsMock = vi.mocked(createBrikko StudioTools);
-    createBrikko StudioToolsMock.mockClear();
+  it("passes explicit denylist entries to BrikkoStudio tool factory planning", () => {
+    const createBrikkoStudioToolsMock = vi.mocked(createBrikkoStudioTools);
+    createBrikkoStudioToolsMock.mockClear();
 
-    createBrikko StudioCodingTools({
+    createBrikkoStudioCodingTools({
       config: { tools: { deny: ["pdf"] } },
     });
 
-    expect(createBrikko StudioToolsMock).toHaveBeenCalledWith(
+    expect(createBrikkoStudioToolsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         pluginToolDenylist: expect.arrayContaining(["pdf"]),
       }),
@@ -198,7 +198,7 @@ describe("createBrikko StudioCodingTools", () => {
   it("records core tool-prep stages for hot-path diagnostics", () => {
     const stages: string[] = [];
 
-    createBrikko StudioCodingTools({
+    createBrikkoStudioCodingTools({
       config: testConfig,
       recordToolPrepStage: (name) => stages.push(name),
       senderIsOwner: true,
@@ -230,7 +230,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("preserves action enums in normalized schemas", () => {
-    const defaultTools = createBrikko StudioCodingTools({ config: testConfig, senderIsOwner: true });
+    const defaultTools = createBrikkoStudioCodingTools({ config: testConfig, senderIsOwner: true });
     const toolNames = ["canvas", "nodes", "cron", "gateway", "message"];
     const missingNames = toolNames.filter(
       (name) => !defaultTools.some((candidate) => candidate.name === name),
@@ -254,68 +254,68 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("enforces apply_patch availability and canonical names across model/provider constraints", () => {
-    const defaultTools = createBrikko StudioCodingTools({ config: testConfig, senderIsOwner: true });
+    const defaultTools = createBrikkoStudioCodingTools({ config: testConfig, senderIsOwner: true });
     expect(defaultTools.some((tool) => tool.name === "exec")).toBe(true);
     expect(defaultTools.some((tool) => tool.name === "process")).toBe(true);
     expect(defaultTools.some((tool) => tool.name === "apply_patch")).toBe(false);
 
-    const openAiTools = createBrikko StudioCodingTools({
+    const openAiTools = createBrikkoStudioCodingTools({
       config: testConfig,
       modelProvider: "openai",
       modelId: "gpt-5.4",
     });
     expect(openAiTools.some((tool) => tool.name === "apply_patch")).toBe(true);
 
-    const codexTools = createBrikko StudioCodingTools({
+    const codexTools = createBrikkoStudioCodingTools({
       config: testConfig,
       modelProvider: "openai-codex",
       modelId: "gpt-5.4",
     });
     expect(codexTools.some((tool) => tool.name === "apply_patch")).toBe(true);
 
-    const disabledConfig: Brikko StudioConfig = {
+    const disabledConfig: BrikkoStudioConfig = {
       tools: {
         exec: {
           applyPatch: { enabled: false },
         },
       },
     };
-    const disabledOpenAiTools = createBrikko StudioCodingTools({
+    const disabledOpenAiTools = createBrikkoStudioCodingTools({
       config: disabledConfig,
       modelProvider: "openai",
       modelId: "gpt-5.4",
     });
     expect(disabledOpenAiTools.some((tool) => tool.name === "apply_patch")).toBe(false);
 
-    const anthropicTools = createBrikko StudioCodingTools({
+    const anthropicTools = createBrikkoStudioCodingTools({
       config: disabledConfig,
       modelProvider: "anthropic",
       modelId: "claude-opus-4-6",
     });
     expect(anthropicTools.some((tool) => tool.name === "apply_patch")).toBe(false);
 
-    const allowModelsConfig: Brikko StudioConfig = {
+    const allowModelsConfig: BrikkoStudioConfig = {
       tools: {
         exec: {
           applyPatch: { allowModels: ["gpt-5.4"] },
         },
       },
     };
-    const allowed = createBrikko StudioCodingTools({
+    const allowed = createBrikkoStudioCodingTools({
       config: allowModelsConfig,
       modelProvider: "openai",
       modelId: "gpt-5.4",
     });
     expect(allowed.some((tool) => tool.name === "apply_patch")).toBe(true);
 
-    const denied = createBrikko StudioCodingTools({
+    const denied = createBrikkoStudioCodingTools({
       config: allowModelsConfig,
       modelProvider: "openai",
       modelId: "gpt-5.4-mini",
     });
     expect(denied.some((tool) => tool.name === "apply_patch")).toBe(false);
 
-    const oauthTools = createBrikko StudioCodingTools({
+    const oauthTools = createBrikkoStudioCodingTools({
       config: testConfig,
       modelProvider: "anthropic",
       modelAuthMode: "oauth",
@@ -329,7 +329,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("provides top-level object schemas for all tools", () => {
-    const tools = createBrikko StudioCodingTools({ config: testConfig });
+    const tools = createBrikkoStudioCodingTools({ config: testConfig });
     const offenders = tools
       .map((tool) => {
         const schema =
@@ -348,7 +348,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("does not expose provider-specific message tools", () => {
-    const tools = createBrikko StudioCodingTools({ messageProvider: "discord" });
+    const tools = createBrikkoStudioCodingTools({ messageProvider: "discord" });
     const names = new Set(tools.map((tool) => tool.name));
     expect(names.has("discord")).toBe(false);
     expect(names.has("slack")).toBe(false);
@@ -357,7 +357,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("filters session tools for sub-agent sessions by default", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       sessionKey: "agent:main:subagent:test",
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -469,7 +469,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("supports allow-only sub-agent tool policy", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       sessionKey: "agent:main:subagent:test",
       config: {
         tools: {
@@ -485,7 +485,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("applies tool profiles before allow/deny policies", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: { tools: { profile: "messaging" } },
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -497,12 +497,12 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("includes browser tool with full profile when browser is configured (#76507)", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: {
         tools: { profile: "full" },
         browser: { enabled: true },
         plugins: { entries: { browser: { enabled: true } } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       senderIsOwner: true,
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -514,12 +514,12 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("includes browser tool with full profile for non-owner senders (#76507)", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: {
         tools: { profile: "full" },
         browser: { enabled: true },
         plugins: { entries: { browser: { enabled: true } } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       senderIsOwner: false,
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -533,11 +533,11 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("includes browser tool without explicit profile (defaults to no filtering) (#76507)", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: {
         browser: { enabled: true },
         plugins: { entries: { browser: { enabled: true } } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
     const names = new Set(tools.map((tool) => tool.name));
     // No profile means no profile filtering — all tools pass.
@@ -549,15 +549,15 @@ describe("createBrikko StudioCodingTools", () => {
       browser: { enabled: true },
       plugins: { entries: { browser: { enabled: true } } },
       tools: { profile: "coding" },
-    } as Brikko StudioConfig;
-    const codingSubagent = createBrikko StudioCodingTools({
+    } as BrikkoStudioConfig;
+    const codingSubagent = createBrikkoStudioCodingTools({
       sessionKey: "agent:main:subagent:test",
       config: baseConfig,
     });
     const codingNames = new Set(codingSubagent.map((tool) => tool.name));
     expect(codingNames.has("browser")).toBe(false);
 
-    const subagentAllowOnly = createBrikko StudioCodingTools({
+    const subagentAllowOnly = createBrikkoStudioCodingTools({
       sessionKey: "agent:main:subagent:test",
       config: {
         ...baseConfig,
@@ -565,27 +565,27 @@ describe("createBrikko StudioCodingTools", () => {
           profile: "coding",
           subagents: { tools: { allow: ["browser"] } },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
     expect(subagentAllowOnly.some((tool) => tool.name === "browser")).toBe(false);
 
-    const profileStageAlsoAllow = createBrikko StudioCodingTools({
+    const profileStageAlsoAllow = createBrikkoStudioCodingTools({
       sessionKey: "agent:main:subagent:test",
       config: {
         ...baseConfig,
         tools: { profile: "coding", alsoAllow: ["browser"] },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
     expect(profileStageAlsoAllow.some((tool) => tool.name === "browser")).toBe(true);
   });
 
   it("can keep message available when a cron route needs it under the coding profile", () => {
-    const codingTools = createBrikko StudioCodingTools({
+    const codingTools = createBrikkoStudioCodingTools({
       config: { tools: { profile: "coding" } },
     });
     expect(codingTools.some((tool) => tool.name === "message")).toBe(false);
 
-    const cronTools = createBrikko StudioCodingTools({
+    const cronTools = createBrikkoStudioCodingTools({
       config: { tools: { profile: "coding" } },
       forceMessageTool: true,
     });
@@ -593,7 +593,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("keeps heartbeat response available for heartbeat runs under the coding profile", () => {
-    const codingTools = createBrikko StudioCodingTools({
+    const codingTools = createBrikkoStudioCodingTools({
       config: { tools: { profile: "coding" } },
       trigger: "heartbeat",
       enableHeartbeatTool: true,
@@ -604,11 +604,11 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("enables heartbeat response when visible replies are message-tool-only", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: {
         messages: { visibleReplies: "message_tool" },
         tools: { profile: "coding" },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       trigger: "heartbeat",
     });
 
@@ -616,14 +616,14 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("can keep message available when a cron route needs it under a provider coding profile", () => {
-    const providerProfileTools = createBrikko StudioCodingTools({
+    const providerProfileTools = createBrikkoStudioCodingTools({
       config: { tools: { byProvider: { openai: { profile: "coding" } } } },
       modelProvider: "openai",
       modelId: "gpt-5.4",
     });
     expect(providerProfileTools.some((tool) => tool.name === "message")).toBe(false);
 
-    const cronTools = createBrikko StudioCodingTools({
+    const cronTools = createBrikkoStudioCodingTools({
       config: { tools: { byProvider: { openai: { profile: "coding" } } } },
       modelProvider: "openai",
       modelId: "gpt-5.4",
@@ -635,14 +635,14 @@ describe("createBrikko StudioCodingTools", () => {
   it.each(providerAliasCases)(
     "applies canonical tools.byProvider deny policy to core tools for alias %s",
     (alias, canonical) => {
-      const tools = createBrikko StudioCodingTools({
+      const tools = createBrikkoStudioCodingTools({
         config: {
           tools: {
             byProvider: {
               [canonical]: { deny: ["read"] },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         modelProvider: alias,
       });
       const names = new Set(tools.map((tool) => tool.name));
@@ -653,7 +653,7 @@ describe("createBrikko StudioCodingTools", () => {
   );
 
   it("expands group shorthands in global tool policy", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: { tools: { allow: ["group:fs"] } },
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -665,7 +665,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("expands group shorthands in global tool deny policy", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: { tools: { deny: ["group:fs"] } },
     });
     const names = new Set(tools.map((tool) => tool.name));
@@ -676,7 +676,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("lets agent profiles override global profiles", () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       sessionKey: "agent:work:main",
       config: {
         tools: { profile: "coding" },
@@ -692,7 +692,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("removes unsupported JSON Schema keywords for Cloud Code Assist API compatibility", () => {
-    const googleTools = createBrikko StudioCodingTools({
+    const googleTools = createBrikkoStudioCodingTools({
       modelProvider: "google",
       senderIsOwner: true,
     });
@@ -707,7 +707,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("applies xai model compat for direct Grok tool cleanup", () => {
-    const xaiTools = createBrikko StudioCodingTools({
+    const xaiTools = createBrikkoStudioCodingTools({
       modelProvider: "xai",
       modelCompat: applyXaiModelCompat({ compat: {} }).compat,
       senderIsOwner: true,
@@ -730,7 +730,7 @@ describe("createBrikko StudioCodingTools", () => {
   });
 
   it("returns image-aware read metadata for images and text-only blocks for text files", async () => {
-    const defaultTools = createBrikko StudioCodingTools();
+    const defaultTools = createBrikkoStudioCodingTools();
     const readTool = defaultTools.find((tool) => tool.name === "read");
     expect(readTool).toBeDefined();
 
@@ -789,7 +789,7 @@ describe("createBrikko StudioCodingTools", () => {
         deny: ["browser"],
       },
     });
-    const tools = createBrikko StudioCodingTools({ sandbox });
+    const tools = createBrikkoStudioCodingTools({ sandbox });
     expect(tools.some((tool) => tool.name === "exec")).toBe(true);
     expect(tools.some((tool) => tool.name === "read")).toBe(false);
     expect(tools.some((tool) => tool.name === "browser")).toBe(false);
@@ -807,7 +807,7 @@ describe("createBrikko StudioCodingTools", () => {
         deny: [],
       },
     });
-    const tools = createBrikko StudioCodingTools({ sandbox });
+    const tools = createBrikkoStudioCodingTools({ sandbox });
     expect(tools.some((tool) => tool.name === "read")).toBe(true);
     expect(tools.some((tool) => tool.name === "write")).toBe(false);
     expect(tools.some((tool) => tool.name === "edit")).toBe(false);
@@ -816,7 +816,7 @@ describe("createBrikko StudioCodingTools", () => {
   it("accepts canonical parameters for read/write/edit", async () => {
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-canonical-"));
     try {
-      const tools = createBrikko StudioCodingTools({ workspaceDir: tmpDir });
+      const tools = createBrikkoStudioCodingTools({ workspaceDir: tmpDir });
       const { readTool, writeTool, editTool } = expectReadWriteEditTools(tools);
 
       const filePath = "canonical-test.txt";
@@ -847,7 +847,7 @@ describe("createBrikko StudioCodingTools", () => {
   it("rejects legacy alias parameters", async () => {
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-legacy-alias-"));
     try {
-      const tools = createBrikko StudioCodingTools({ workspaceDir: tmpDir });
+      const tools = createBrikkoStudioCodingTools({ workspaceDir: tmpDir });
       const { readTool, writeTool, editTool } = expectReadWriteEditTools(tools);
 
       await expect(
@@ -878,7 +878,7 @@ describe("createBrikko StudioCodingTools", () => {
   it("rejects structured content blocks for write", async () => {
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-structured-write-"));
     try {
-      const tools = createBrikko StudioCodingTools({ workspaceDir: tmpDir });
+      const tools = createBrikkoStudioCodingTools({ workspaceDir: tmpDir });
       const writeTool = tools.find((tool) => tool.name === "write");
       expect(writeTool).toBeDefined();
 
@@ -902,7 +902,7 @@ describe("createBrikko StudioCodingTools", () => {
       const filePath = path.join(tmpDir, "structured-edit.js");
       await fs.writeFile(filePath, "const value = 'old';\n", "utf8");
 
-      const tools = createBrikko StudioCodingTools({ workspaceDir: tmpDir });
+      const tools = createBrikkoStudioCodingTools({ workspaceDir: tmpDir });
       const editTool = tools.find((tool) => tool.name === "edit");
       expect(editTool).toBeDefined();
 

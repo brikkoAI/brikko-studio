@@ -1,6 +1,6 @@
 import type { MemorySearchResult } from "brikko-studio/plugin-sdk/memory-core-host-runtime-files";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 import {
   resetMemoryToolMockState,
   setMemoryBackend,
@@ -24,11 +24,11 @@ vi.mock("./short-term-promotion.js", () => ({
   recordShortTermRecalls: recallTrackingMock.recordShortTermRecalls,
 }));
 
-function asBrikko StudioConfig(config: Partial<Brikko StudioConfig>): Brikko StudioConfig {
+function asBrikkoStudioConfig(config: Partial<BrikkoStudioConfig>): BrikkoStudioConfig {
   return config;
 }
 
-function createSearchTool(config: Brikko StudioConfig) {
+function createSearchTool(config: BrikkoStudioConfig) {
   const tool = createMemorySearchTool({ config });
   if (!tool) {
     throw new Error("memory_search tool missing");
@@ -65,7 +65,7 @@ describe("memory_search recall tracking", () => {
     ]);
 
     const tool = createSearchTool(
-      asBrikko StudioConfig({
+      asBrikkoStudioConfig({
         agents: { list: [{ id: "main", default: true }] },
         memory: {
           backend: "qmd",
@@ -99,7 +99,7 @@ describe("memory_search recall tracking", () => {
     );
 
     const tool = createSearchTool(
-      asBrikko StudioConfig({
+      asBrikkoStudioConfig({
         agents: { list: [{ id: "main", default: true }] },
       }),
     );
@@ -150,7 +150,7 @@ describe("memory_search recall tracking", () => {
     ]);
 
     const tool = createSearchTool(
-      asBrikko StudioConfig({
+      asBrikkoStudioConfig({
         agents: {
           defaults: {
             userTimezone: "America/Los_Angeles",

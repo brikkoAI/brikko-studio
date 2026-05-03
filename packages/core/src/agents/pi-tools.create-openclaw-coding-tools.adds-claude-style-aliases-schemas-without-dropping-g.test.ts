@@ -4,7 +4,7 @@ import path from "node:path";
 import type { AgentTool, AgentToolResult } from "@mariozechner/pi-agent-core";
 import { Type } from "typebox";
 import { describe, expect, it, vi } from "vitest";
-import { createBrikko StudioReadTool, createSandboxedReadTool } from "./pi-tools.read.js";
+import { createBrikkoStudioReadTool, createSandboxedReadTool } from "./pi-tools.read.js";
 import { createHostSandboxFsBridge } from "./test-helpers/host-sandbox-fs-bridge.js";
 
 function extractToolText(result: unknown): string {
@@ -26,7 +26,7 @@ function extractToolText(result: unknown): string {
   return textBlock?.text ?? "";
 }
 
-describe("createBrikko StudioCodingTools read behavior", () => {
+describe("createBrikkoStudioCodingTools read behavior", () => {
   it("applies sandbox path guards to canonical path", async () => {
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-sbx-"));
     const outsidePath = path.join(os.tmpdir(), "brikko-studio-outside.txt");
@@ -117,8 +117,8 @@ describe("createBrikko StudioCodingTools read behavior", () => {
       execute: vi.fn(async () => readResult),
     };
 
-    const wrapped = createBrikko StudioReadTool(
-      baseRead as unknown as Parameters<typeof createBrikko StudioReadTool>[0],
+    const wrapped = createBrikkoStudioReadTool(
+      baseRead as unknown as Parameters<typeof createBrikkoStudioReadTool>[0],
     );
     const result = await wrapped.execute("read-strip-1", { path: "demo.txt", limit: 1 });
 

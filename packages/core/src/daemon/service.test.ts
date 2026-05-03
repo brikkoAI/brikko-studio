@@ -55,7 +55,7 @@ describe("resolveGatewayService", () => {
     expect(() => resolveGatewayService()).toThrow("Gateway service install not supported on aix");
   });
 
-  it("guards mutating service adapters when config was written by a newer Brikko Studio", async () => {
+  it("guards mutating service adapters when config was written by a newer BrikkoStudio", async () => {
     const tempHome = await makeTempWorkspace("brikko-studio-service-future-config-");
     const stateDir = path.join(tempHome, ".brikko-studio");
     const configPath = path.join(stateDir, "brikko-studio.json");
@@ -187,7 +187,7 @@ describe("startGatewayService", () => {
     expect(result.outcome).toBe("repair-required");
     if (result.outcome === "repair-required") {
       expect(formatGatewayServiceStartRepairIssues(result.issues)).toContain(
-        "service was installed by Brikko Studio 2026.4.24",
+        "service was installed by BrikkoStudio 2026.4.24",
       );
     }
     expect(service.restart).not.toHaveBeenCalled();

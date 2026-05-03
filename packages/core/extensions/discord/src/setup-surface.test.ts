@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import { createDiscordSetupWizardBase } from "./setup-core.js";
 
@@ -33,7 +33,7 @@ describe("discordSetupWizard.dmPolicy", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         "alerts",
       ),
     ).toBe("allowlist");
@@ -59,7 +59,7 @@ describe("discordSetupWizard.dmPolicy", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       "open",
       "alerts",
     );
@@ -88,7 +88,7 @@ describe("discordSetupWizard.status", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(configured).toBe(false);
@@ -110,11 +110,11 @@ describe("discordSetupWizard.groupAccess", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       accountId: "default",
       resolved: [
         {
-          input: "Brikko Studio/#triage",
+          input: "BrikkoStudio/#triage",
           resolved: true,
           guildId: "guild-1",
           channelId: "channel-1",

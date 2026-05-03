@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeResolvedSecretInputString } from "../../config/types.secrets.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
@@ -36,7 +36,7 @@ async function loadSelfHostedWebToolsEndpoint(): Promise<
   return (await webGuardedFetchLoader.load()).withSelfHostedWebToolsEndpoint;
 }
 
-export type SearchConfigRecord = (NonNullable<Brikko StudioConfig["tools"]>["web"] extends infer Web
+export type SearchConfigRecord = (NonNullable<BrikkoStudioConfig["tools"]>["web"] extends infer Web
   ? Web extends { search?: infer Search }
     ? Search
     : never

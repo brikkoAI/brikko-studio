@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { MANIFEST_KEY } from "../compat/legacy-names.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { isPathInsideWithRealpath } from "../security/scan-paths.js";
@@ -10,7 +10,7 @@ import { resolveBundledHooksDir } from "./bundled-dir.js";
 import {
   parseFrontmatter,
   resolveHookInvocationPolicy,
-  resolveBrikko StudioMetadata,
+  resolveBrikkoStudioMetadata,
 } from "./frontmatter.js";
 import { resolvePluginHookDirs } from "./plugin-hooks.js";
 import { resolveHookEntries } from "./policy.js";
@@ -216,7 +216,7 @@ export function loadHookEntriesFromDir(params: {
         pluginId: params.pluginId,
       },
       frontmatter,
-      metadata: resolveBrikko StudioMetadata(frontmatter),
+      metadata: resolveBrikkoStudioMetadata(frontmatter),
       invocation: resolveHookInvocationPolicy(frontmatter),
     };
     return entry;
@@ -226,7 +226,7 @@ export function loadHookEntriesFromDir(params: {
 function discoverWorkspaceHookEntries(
   workspaceDir: string,
   opts?: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     managedHooksDir?: string;
     bundledHooksDir?: string;
   },
@@ -278,7 +278,7 @@ function discoverWorkspaceHookEntries(
 export function loadWorkspaceHookEntries(
   workspaceDir: string,
   opts?: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     managedHooksDir?: string;
     bundledHooksDir?: string;
     entries?: HookEntry[];

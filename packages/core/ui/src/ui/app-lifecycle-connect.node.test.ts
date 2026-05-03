@@ -48,7 +48,7 @@ function createHost() {
     connectGeneration: 0,
     connected: false,
     tab: "chat",
-    assistantName: "Brikko Studio",
+    assistantName: "BrikkoStudio",
     assistantAvatar: null,
     assistantAgentId: null,
     serverVersion: null,

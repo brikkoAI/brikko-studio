@@ -3,7 +3,7 @@ import type { IncomingMessage } from "node:http";
 import net from "node:net";
 import * as grammy from "grammy";
 import type { ChannelAccountSnapshot } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { isDiagnosticsEnabled } from "brikko-studio/plugin-sdk/diagnostic-runtime";
 import type { BackoffPolicy, RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import {
@@ -216,7 +216,7 @@ function resolveForwardedClientIp(
   return undefined;
 }
 
-function resolveTelegramWebhookClientIp(req: IncomingMessage, config?: Brikko StudioConfig): string {
+function resolveTelegramWebhookClientIp(req: IncomingMessage, config?: BrikkoStudioConfig): string {
   const remoteAddress = parseIpLiteral(req.socket.remoteAddress);
   const trustedProxies = config?.gateway?.trustedProxies;
   if (!remoteAddress) {
@@ -244,7 +244,7 @@ function resolveTelegramWebhookClientIp(req: IncomingMessage, config?: Brikko St
 function resolveTelegramWebhookRateLimitKey(
   req: IncomingMessage,
   path: string,
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): string {
   return `${path}:${resolveTelegramWebhookClientIp(req, config)}`;
 }
@@ -252,7 +252,7 @@ function resolveTelegramWebhookRateLimitKey(
 export async function startTelegramWebhook(opts: {
   token: string;
   accountId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   path?: string;
   port?: number;
   host?: string;

@@ -1,5 +1,5 @@
 import { Type } from "typebox";
-import type { Brikko StudioPluginApi } from "../runtime-api.js";
+import type { BrikkoStudioPluginApi } from "../runtime-api.js";
 import {
   createEmbeddedLobsterRunner,
   resolveLobsterCwd,
@@ -13,7 +13,7 @@ import {
 } from "./lobster-taskflow.js";
 
 type BoundTaskFlow = ReturnType<
-  NonNullable<Brikko StudioPluginApi["runtime"]>["tasks"]["managedFlows"]["bindSession"]
+  NonNullable<BrikkoStudioPluginApi["runtime"]>["tasks"]["managedFlows"]["bindSession"]
 >;
 
 type JsonLike =
@@ -209,7 +209,7 @@ function resolveManagedFlowToolResult(result: ManagedLobsterFlowResult) {
   return formatManagedFlowResult(result);
 }
 
-export function createLobsterTool(api: Brikko StudioPluginApi, options?: LobsterToolOptions) {
+export function createLobsterTool(api: BrikkoStudioPluginApi, options?: LobsterToolOptions) {
   const runner = options?.runner ?? createEmbeddedLobsterRunner();
   return {
     name: "lobster",

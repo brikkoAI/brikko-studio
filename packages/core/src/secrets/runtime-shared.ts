@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { coerceSecretRef, type SecretRef } from "../config/types.secrets.js";
 import { secretRefKey } from "./ref-contract.js";
 import type { SecretRefResolveCache } from "./resolve-types.js";
@@ -31,7 +31,7 @@ export type SecretAssignment = {
 };
 
 export type ResolverContext = {
-  sourceConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   cache: SecretRefResolveCache;
   warnings: SecretResolverWarning[];
@@ -39,11 +39,11 @@ export type ResolverContext = {
   assignments: SecretAssignment[];
 };
 
-export type SecretDefaults = NonNullable<Brikko StudioConfig["secrets"]>["defaults"];
+export type SecretDefaults = NonNullable<BrikkoStudioConfig["secrets"]>["defaults"];
 export type { SecretRefResolveCache } from "./resolve-types.js";
 
 export function createResolverContext(params: {
-  sourceConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 }): ResolverContext {
   return {

@@ -8,7 +8,7 @@ import {
   shouldAttemptLastKnownGoodRecovery,
 } from "../config/recovery-policy.js";
 import { resolveConfigWriteFollowUp } from "../config/runtime-snapshot.js";
-import type { ConfigFileSnapshot, Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { ConfigFileSnapshot, BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import { validateConfigObjectWithPlugins } from "../config/validation.js";
 import {
@@ -112,7 +112,7 @@ type GatewayConfigReloader = {
 
 type PluginInstallRecords = Record<string, PluginInstallRecord>;
 
-function asPluginInstallConfig(records: PluginInstallRecords): Brikko StudioConfig {
+function asPluginInstallConfig(records: PluginInstallRecords): BrikkoStudioConfig {
   return {
     plugins: {
       installs: records,
@@ -121,12 +121,12 @@ function asPluginInstallConfig(records: PluginInstallRecords): Brikko StudioConf
 }
 
 export function startGatewayConfigReloader(opts: {
-  initialConfig: Brikko StudioConfig;
-  initialCompareConfig?: Brikko StudioConfig;
+  initialConfig: BrikkoStudioConfig;
+  initialCompareConfig?: BrikkoStudioConfig;
   initialInternalWriteHash?: string | null;
   readSnapshot: () => Promise<ConfigFileSnapshot>;
-  onHotReload: (plan: GatewayReloadPlan, nextConfig: Brikko StudioConfig) => Promise<void>;
-  onRestart: (plan: GatewayReloadPlan, nextConfig: Brikko StudioConfig) => void | Promise<void>;
+  onHotReload: (plan: GatewayReloadPlan, nextConfig: BrikkoStudioConfig) => Promise<void>;
+  onRestart: (plan: GatewayReloadPlan, nextConfig: BrikkoStudioConfig) => void | Promise<void>;
   recoverSnapshot?: (snapshot: ConfigFileSnapshot, reason: string) => Promise<boolean>;
   promoteSnapshot?: (snapshot: ConfigFileSnapshot, reason: string) => Promise<boolean>;
   initialPluginInstallRecords?: PluginInstallRecords;
@@ -154,8 +154,8 @@ export function startGatewayConfigReloader(opts: {
   let restartQueued = false;
   let missingConfigRetries = 0;
   let pendingInProcessConfig: {
-    config: Brikko StudioConfig;
-    compareConfig: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
+    compareConfig: BrikkoStudioConfig;
     persistedHash: string;
     afterWrite?: ConfigWriteNotification["afterWrite"];
   } | null = null;
@@ -179,7 +179,7 @@ export function startGatewayConfigReloader(opts: {
   const schedule = () => {
     scheduleAfter(settings.debounceMs);
   };
-  const queueRestart = (plan: GatewayReloadPlan, nextConfig: Brikko StudioConfig) => {
+  const queueRestart = (plan: GatewayReloadPlan, nextConfig: BrikkoStudioConfig) => {
     if (restartQueued) {
       return;
     }
@@ -258,8 +258,8 @@ export function startGatewayConfigReloader(opts: {
   };
 
   const applySnapshot = async (
-    nextConfig: Brikko StudioConfig,
-    nextCompareConfig: Brikko StudioConfig,
+    nextConfig: BrikkoStudioConfig,
+    nextCompareConfig: BrikkoStudioConfig,
     afterWrite?: ConfigWriteNotification["afterWrite"],
   ) => {
     const configChangedPaths = diffConfigPaths(currentCompareConfig, nextCompareConfig);

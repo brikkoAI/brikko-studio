@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import type { Writable } from "node:stream";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type { PluginRuntime, RuntimeLogger } from "brikko-studio/plugin-sdk/plugin-runtime";
 import {
@@ -13,7 +13,7 @@ import {
   type RealtimeVoiceProviderPlugin,
 } from "brikko-studio/plugin-sdk/realtime-voice";
 import {
-  consultBrikko StudioAgentForGoogleMeet,
+  consultBrikkoStudioAgentForGoogleMeet,
   GOOGLE_MEET_AGENT_CONSULT_TOOL_NAME,
   resolveGoogleMeetRealtimeTools,
   submitGoogleMeetConsultWorkingResponse,
@@ -88,7 +88,7 @@ export function resolveGoogleMeetRealtimeAudioFormat(config: GoogleMeetConfig) {
 
 export function resolveGoogleMeetRealtimeProvider(params: {
   config: GoogleMeetConfig;
-  fullConfig: Brikko StudioConfig;
+  fullConfig: BrikkoStudioConfig;
   providers?: RealtimeVoiceProviderPlugin[];
 }): ResolvedRealtimeProvider {
   return resolveConfiguredRealtimeVoiceProvider({
@@ -103,7 +103,7 @@ export function resolveGoogleMeetRealtimeProvider(params: {
 
 export async function startCommandRealtimeAudioBridge(params: {
   config: GoogleMeetConfig;
-  fullConfig: Brikko StudioConfig;
+  fullConfig: BrikkoStudioConfig;
   runtime: PluginRuntime;
   meetingSessionId: string;
   inputCommand: string[];
@@ -350,7 +350,7 @@ export async function startCommandRealtimeAudioBridge(params: {
         return;
       }
       submitGoogleMeetConsultWorkingResponse(session, event.callId || event.itemId);
-      void consultBrikko StudioAgentForGoogleMeet({
+      void consultBrikkoStudioAgentForGoogleMeet({
         config: params.config,
         fullConfig: params.fullConfig,
         runtime: params.runtime,

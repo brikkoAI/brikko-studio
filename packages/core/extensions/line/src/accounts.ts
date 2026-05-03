@@ -3,7 +3,7 @@ import {
   normalizeAccountId as normalizeSharedAccountId,
   normalizeOptionalAccountId,
 } from "brikko-studio/plugin-sdk/account-id";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/account-resolution";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/account-resolution";
 import { resolveAccountEntry } from "brikko-studio/plugin-sdk/account-resolution";
 import { tryReadSecretFileSync } from "brikko-studio/plugin-sdk/core";
 import type {
@@ -90,7 +90,7 @@ function resolveSecret(params: {
 }
 
 export function resolveLineAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
 }): ResolvedLineAccount {
   const cfg = params.cfg;
@@ -143,7 +143,7 @@ export function resolveLineAccount(params: {
   };
 }
 
-export function listLineAccountIds(cfg: Brikko StudioConfig): string[] {
+export function listLineAccountIds(cfg: BrikkoStudioConfig): string[] {
   const lineConfig = cfg.channels?.line as LineConfig | undefined;
   const accounts = lineConfig?.accounts;
   const ids = new Set<string>();
@@ -165,7 +165,7 @@ export function listLineAccountIds(cfg: Brikko StudioConfig): string[] {
   return Array.from(ids);
 }
 
-export function resolveDefaultLineAccountId(cfg: Brikko StudioConfig): string {
+export function resolveDefaultLineAccountId(cfg: BrikkoStudioConfig): string {
   const preferred = normalizeOptionalAccountId(
     (cfg.channels?.line as LineConfig | undefined)?.defaultAccount,
   );

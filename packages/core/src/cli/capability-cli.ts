@@ -18,7 +18,7 @@ import {
 } from "../agents/simple-completion-runtime.js";
 import { getRuntimeConfig } from "../config/config.js";
 import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { callGateway, randomIdempotencyKey } from "../gateway/call.js";
 import { buildGatewayConnectionDetailsWithResolvers } from "../gateway/connection-details.js";
 import { isLoopbackHost } from "../gateway/net.js";
@@ -459,14 +459,14 @@ function resolveSelectedProviderFromModelRef(modelRef: string | undefined): stri
   return resolveModelRefOverride(modelRef).provider;
 }
 
-function getAuthProfileIdsForProvider(cfg: Brikko StudioConfig, providerId: string): string[] {
+function getAuthProfileIdsForProvider(cfg: BrikkoStudioConfig, providerId: string): string[] {
   const agentDir = resolveAgentDir(cfg, resolveDefaultAgentId(cfg));
   const store = loadAuthProfileStoreForRuntime(agentDir);
   return listProfilesForProvider(store, providerId);
 }
 
 function providerHasGenericConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   providerId: string;
   envVars?: string[];
 }): boolean {

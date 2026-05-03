@@ -2,7 +2,7 @@ import type {
   ContextVisibilityMode,
   DmPolicy,
   GroupPolicy,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   SecretInput,
 } from "./runtime-api.js";
 
@@ -234,12 +234,12 @@ export type CoreConfig = {
   };
   session?: {
     store?: string;
-    dmScope?: NonNullable<Brikko StudioConfig["session"]>["dmScope"];
+    dmScope?: NonNullable<BrikkoStudioConfig["session"]>["dmScope"];
   };
   messages?: {
     ackReaction?: string;
     ackReactionScope?: "group-mentions" | "group-all" | "direct" | "all" | "none" | "off";
   };
-  secrets?: Brikko StudioConfig["secrets"];
+  secrets?: BrikkoStudioConfig["secrets"];
   [key: string]: unknown;
 };

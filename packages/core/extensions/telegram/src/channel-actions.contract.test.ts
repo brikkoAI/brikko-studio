@@ -1,5 +1,5 @@
 import { installChannelActionsContractSuite } from "brikko-studio/plugin-sdk/channel-test-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe } from "vitest";
 import { telegramPlugin } from "../api.js";
 
@@ -15,7 +15,7 @@ describe("telegram actions contract", () => {
               botToken: "123:telegram-test-token",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         expectedActions: ["send", "poll", "react", "delete", "edit", "topic-create", "topic-edit"],
         expectedCapabilities: ["delivery-pin", "presentation"],
       },

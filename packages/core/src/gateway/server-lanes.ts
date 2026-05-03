@@ -1,9 +1,9 @@
 import { resolveAgentMaxConcurrent, resolveSubagentMaxConcurrent } from "../config/agent-limits.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { setCommandLaneConcurrency } from "../process/command-queue.js";
 import { CommandLane } from "../process/lanes.js";
 
-export function applyGatewayLaneConcurrency(cfg: Brikko StudioConfig) {
+export function applyGatewayLaneConcurrency(cfg: BrikkoStudioConfig) {
   const cronMaxConcurrentRuns = cfg.cron?.maxConcurrentRuns ?? 1;
   setCommandLaneConcurrency(CommandLane.Cron, cronMaxConcurrentRuns);
   // Cron isolated agent turns remap inner LLM work to this lane.

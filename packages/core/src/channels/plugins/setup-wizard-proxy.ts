@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { createDelegatedSetupWizardStatusResolvers } from "./setup-wizard-binary.js";
 import type { ChannelSetupDmPolicy } from "./setup-wizard-types.js";
 import type { ChannelSetupWizard } from "./setup-wizard.js";
@@ -73,7 +73,7 @@ export function createDelegatedSetupWizardProxy(params: {
 export function createAllowlistSetupWizardProxy<TGroupResolved>(params: {
   loadWizard: () => Promise<ChannelSetupWizard>;
   createBase: (handlers: {
-    promptAllowFrom: (params: PromptAllowFromParams) => Promise<Brikko StudioConfig>;
+    promptAllowFrom: (params: PromptAllowFromParams) => Promise<BrikkoStudioConfig>;
     resolveAllowFromEntries: (
       params: ResolveAllowFromEntriesParams,
     ) => Promise<ResolveAllowFromEntriesResult>;

@@ -21,7 +21,7 @@ describeLive("openai tts live", () => {
     };
 
     const audioFile = await speechProvider.synthesize({
-      text: "Brikko Studio OpenAI text to speech integration test OK.",
+      text: "BrikkoStudio OpenAI text to speech integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       target: "audio-file",
@@ -32,7 +32,7 @@ describeLive("openai tts live", () => {
     expect(audioFile.audioBuffer.byteLength).toBeGreaterThan(512);
 
     const telephony = await speechProvider.synthesizeTelephony?.({
-      text: "Brikko Studio OpenAI telephony integration test OK.",
+      text: "BrikkoStudio OpenAI telephony integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       timeoutMs: 45_000,

@@ -2,7 +2,7 @@ import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent
 import type { SkillStatusEntry, SkillStatusReport } from "../agents/skills-status.js";
 import { buildWorkspaceSkillStatus } from "../agents/skills-status.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { note } from "../terminal/note.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 
@@ -59,9 +59,9 @@ export function formatUnavailableSkillDoctorLines(skills: SkillStatusEntry[]): s
 }
 
 export function disableUnavailableSkillsInConfig(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   skills: readonly SkillStatusEntry[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   if (skills.length === 0) {
     return config;
   }
@@ -82,9 +82,9 @@ export function disableUnavailableSkillsInConfig(
 }
 
 export async function maybeRepairSkillReadiness(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: DoctorPrompter;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const agentId = resolveDefaultAgentId(params.cfg);
   const workspaceDir = resolveAgentWorkspaceDir(params.cfg, agentId);
   const report = buildWorkspaceSkillStatus(workspaceDir, {

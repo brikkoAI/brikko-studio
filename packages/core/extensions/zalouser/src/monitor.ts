@@ -10,7 +10,7 @@ import {
 } from "brikko-studio/plugin-sdk/channel-policy";
 import { createChannelReplyPipeline } from "brikko-studio/plugin-sdk/channel-reply-pipeline";
 import { resolveSenderCommandAuthorization } from "brikko-studio/plugin-sdk/command-auth";
-import type { MarkdownTableMode, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { MarkdownTableMode, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { KeyedAsyncQueue } from "brikko-studio/plugin-sdk/core";
 import { isDangerousNameMatchingEnabled } from "brikko-studio/plugin-sdk/dangerous-name-runtime";
 import { createDeferred } from "brikko-studio/plugin-sdk/extension-shared";
@@ -63,7 +63,7 @@ import {
 
 export type ZalouserMonitorOptions = {
   account: ResolvedZalouserAccount;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   runtime: RuntimeEnv;
   abortSignal: AbortSignal;
   statusSink?: (patch: { lastInboundAt?: number; lastOutboundAt?: number }) => void;
@@ -138,14 +138,14 @@ function resolveInboundQueueKey(message: ZaloInboundMessage): string {
   return `direct:${senderId || threadId}`;
 }
 
-function resolveZalouserDmSessionScope(config: Brikko StudioConfig) {
+function resolveZalouserDmSessionScope(config: BrikkoStudioConfig) {
   const configured = config.session?.dmScope;
   return configured === "main" || !configured ? "per-channel-peer" : configured;
 }
 
 function resolveZalouserInboundSessionKey(params: {
   core: ZalouserCoreRuntime;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   route: { agentId: string; accountId: string; sessionKey: string };
   storePath: string;
   isGroup: boolean;
@@ -251,7 +251,7 @@ async function sendZalouserDeliveryAcks(params: {
 async function processMessage(
   message: ZaloInboundMessage,
   account: ResolvedZalouserAccount,
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   core: ZalouserCoreRuntime,
   runtime: RuntimeEnv,
   historyState: ZalouserGroupHistoryState,
@@ -750,7 +750,7 @@ async function deliverZalouserReply(params: {
   isGroup: boolean;
   runtime: RuntimeEnv;
   core: ZalouserCoreRuntime;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   accountId?: string;
   statusSink?: (patch: { lastInboundAt?: number; lastOutboundAt?: number }) => void;
   tableMode?: MarkdownTableMode;
@@ -1015,7 +1015,7 @@ export const __testing = {
   processMessage: async (params: {
     message: ZaloInboundMessage;
     account: ResolvedZalouserAccount;
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     runtime: RuntimeEnv;
     historyState?: {
       historyLimit?: number;

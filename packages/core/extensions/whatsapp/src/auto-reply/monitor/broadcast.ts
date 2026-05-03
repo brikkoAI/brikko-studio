@@ -1,5 +1,5 @@
 import type { AckReactionHandle } from "brikko-studio/plugin-sdk/channel-feedback";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { resolveAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { buildAgentSessionKey, deriveLastRoutePolicy } from "brikko-studio/plugin-sdk/routing";
 import {
@@ -14,7 +14,7 @@ import type { WebInboundMsg } from "../types.js";
 import type { GroupHistoryEntry } from "./inbound-context.js";
 
 function buildBroadcastRouteKeys(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   msg: WebInboundMsg;
   route: ReturnType<typeof resolveAgentRoute>;
   peerId: string;
@@ -47,7 +47,7 @@ function buildBroadcastRouteKeys(params: {
 }
 
 export async function maybeBroadcastMessage(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   msg: WebInboundMsg;
   peerId: string;
   route: ReturnType<typeof resolveAgentRoute>;

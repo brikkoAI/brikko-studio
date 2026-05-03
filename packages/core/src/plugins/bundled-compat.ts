@@ -1,11 +1,11 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginEntryConfig } from "../config/types.plugins.js";
 import { hasExplicitPluginConfig } from "./config-policy.js";
 
 export function withBundledPluginAllowlistCompat(params: {
-  config: Brikko StudioConfig | undefined;
+  config: BrikkoStudioConfig | undefined;
   pluginIds: readonly string[];
-}): Brikko StudioConfig | undefined {
+}): BrikkoStudioConfig | undefined {
   const allow = params.config?.plugins?.allow;
   if (!Array.isArray(allow) || allow.length === 0) {
     return params.config;
@@ -34,9 +34,9 @@ export function withBundledPluginAllowlistCompat(params: {
 }
 
 export function withBundledPluginEnablementCompat(params: {
-  config: Brikko StudioConfig | undefined;
+  config: BrikkoStudioConfig | undefined;
   pluginIds: readonly string[];
-}): Brikko StudioConfig | undefined {
+}): BrikkoStudioConfig | undefined {
   const existingEntries = params.config?.plugins?.entries ?? {};
   const forcePluginsEnabled = params.config?.plugins?.enabled === false;
   let changed = false;
@@ -70,10 +70,10 @@ export function withBundledPluginEnablementCompat(params: {
 }
 
 export function withBundledPluginVitestCompat(params: {
-  config: Brikko StudioConfig | undefined;
+  config: BrikkoStudioConfig | undefined;
   pluginIds: readonly string[];
   env?: NodeJS.ProcessEnv;
-}): Brikko StudioConfig | undefined {
+}): BrikkoStudioConfig | undefined {
   const env = params.env ?? process.env;
   const isVitest = Boolean(env.VITEST);
   if (

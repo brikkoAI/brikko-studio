@@ -3,7 +3,7 @@ import { chmod, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/pr
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 import type { MatrixVerificationSummary } from "@brikko-studio/matrix/test-api.js";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { createMatrixQaClient } from "../../substrate/client.js";
 import {
   createMatrixQaE2eeScenarioClient,
@@ -31,8 +31,8 @@ import {
 import {
   formatMatrixQaCliCommand,
   redactMatrixQaCliOutput,
-  runMatrixQaBrikko StudioCli,
-  startMatrixQaBrikko StudioCli,
+  runMatrixQaBrikkoStudioCli,
+  startMatrixQaBrikkoStudioCli,
   type MatrixQaCliSession,
   type MatrixQaCliRunResult,
 } from "./scenario-runtime-cli.js";
@@ -548,7 +548,7 @@ async function createMatrixQaCliSelfVerificationRuntime(params: {
 }) {
   const outputDir = requireMatrixQaE2eeOutputDir(params.context);
   const rootDir = await mkdtemp(
-    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-matrix-cli-qa-"),
+    path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-matrix-cli-qa-"),
   );
   const artifactDir = path.join(
     outputDir,
@@ -611,14 +611,14 @@ async function createMatrixQaCliSelfVerificationRuntime(params: {
     BRIKKO_STUDIO_STATE_DIR: stateDir,
   };
   const run = async (args: string[], timeoutMs = params.context.timeoutMs, stdin?: string) =>
-    await runMatrixQaBrikko StudioCli({
+    await runMatrixQaBrikkoStudioCli({
       args,
       env,
       stdin,
       timeoutMs,
     });
   const start = (args: string[], timeoutMs = params.context.timeoutMs) =>
-    startMatrixQaBrikko StudioCli({
+    startMatrixQaBrikkoStudioCli({
       args,
       env,
       timeoutMs,
@@ -642,7 +642,7 @@ async function createMatrixQaCliE2eeSetupRuntime(params: {
 }) {
   const outputDir = requireMatrixQaE2eeOutputDir(params.context);
   const rootDir = await mkdtemp(
-    path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-matrix-e2ee-setup-qa-"),
+    path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-matrix-e2ee-setup-qa-"),
   );
   const artifactDir = path.join(
     outputDir,
@@ -674,13 +674,13 @@ async function createMatrixQaCliE2eeSetupRuntime(params: {
     BRIKKO_STUDIO_STATE_DIR: stateDir,
   };
   const run = async (args: string[], timeoutMs = params.context.timeoutMs) =>
-    await runMatrixQaBrikko StudioCli({
+    await runMatrixQaBrikkoStudioCli({
       args,
       env,
       timeoutMs,
     });
   const start = (args: string[], timeoutMs = params.context.timeoutMs) =>
-    startMatrixQaBrikko StudioCli({
+    startMatrixQaBrikkoStudioCli({
       args,
       env,
       timeoutMs,
@@ -717,7 +717,7 @@ async function createMatrixQaCliGatewayRuntime(params: {
     BRIKKO_STUDIO_DISABLE_AUTO_UPDATE: "1",
   };
   const run = async (args: string[], timeoutMs = params.context.timeoutMs) =>
-    await runMatrixQaBrikko StudioCli({
+    await runMatrixQaBrikkoStudioCli({
       args,
       env,
       timeoutMs,
@@ -1126,7 +1126,7 @@ async function withMatrixQaIsolatedE2eeDriverRoom<T>(
   const originalGroupPolicy = accountConfig.groupPolicy;
   const driverAccount = await registerMatrixQaE2eeScenarioAccount({
     context,
-    deviceName: "Brikko Studio Matrix QA Isolated E2EE Driver",
+    deviceName: "BrikkoStudio Matrix QA Isolated E2EE Driver",
     localpartPrefix: "qa-e2ee-driver",
     scenarioId,
   });
@@ -1433,7 +1433,7 @@ export async function runMatrixQaE2eeRecoveryKeyLifecycleScenario(
         baseUrl: context.baseUrl,
       });
       const recoveryDevice = await loginClient.loginWithPassword({
-        deviceName: "Brikko Studio Matrix QA Recovery Restore Device",
+        deviceName: "BrikkoStudio Matrix QA Recovery Restore Device",
         password: driverPassword,
         userId: context.driverUserId,
       });
@@ -1557,7 +1557,7 @@ export async function runMatrixQaE2eeRecoveryOwnerVerificationRequiredScenario(
         baseUrl: context.baseUrl,
       });
       const recoveryDevice = await loginClient.loginWithPassword({
-        deviceName: "Brikko Studio Matrix QA Owner Verification Required Device",
+        deviceName: "BrikkoStudio Matrix QA Owner Verification Required Device",
         password: driverPassword,
         userId: context.driverUserId,
       });
@@ -1724,7 +1724,7 @@ export async function runMatrixQaE2eeCliAccountAddEnableE2eeScenario(
   const accountId = "cli-add-e2ee";
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "Brikko Studio Matrix QA CLI Account Add Owner",
+    deviceName: "BrikkoStudio Matrix QA CLI Account Add Owner",
     scenarioId: "matrix-e2ee-cli-account-add-enable-e2ee",
   });
   const cli = await createMatrixQaCliE2eeSetupRuntime({
@@ -1747,7 +1747,7 @@ export async function runMatrixQaE2eeCliAccountAddEnableE2eeScenario(
       "--password",
       account.password,
       "--device-name",
-      "Brikko Studio Matrix QA CLI Account Add E2EE",
+      "BrikkoStudio Matrix QA CLI Account Add E2EE",
       "--allow-private-network",
       "--enable-e2ee",
       "--json",
@@ -1820,14 +1820,14 @@ export async function runMatrixQaE2eeCliEncryptionSetupScenario(
   const accountId = "cli-encryption-setup";
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "Brikko Studio Matrix QA CLI Encryption Setup Owner",
+    deviceName: "BrikkoStudio Matrix QA CLI Encryption Setup Owner",
     scenarioId: "matrix-e2ee-cli-encryption-setup",
   });
   const loginClient = createMatrixQaClient({
     baseUrl: context.baseUrl,
   });
   const cliDevice = await loginClient.loginWithPassword({
-    deviceName: "Brikko Studio Matrix QA CLI Encryption Setup Device",
+    deviceName: "BrikkoStudio Matrix QA CLI Encryption Setup Device",
     password: account.password,
     userId: account.userId,
   });
@@ -1922,14 +1922,14 @@ export async function runMatrixQaE2eeCliEncryptionSetupIdempotentScenario(
   const accountId = "cli-encryption-idempotent";
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "Brikko Studio Matrix QA CLI Encryption Idempotent Owner",
+    deviceName: "BrikkoStudio Matrix QA CLI Encryption Idempotent Owner",
     scenarioId: "matrix-e2ee-cli-encryption-setup-idempotent",
   });
   const loginClient = createMatrixQaClient({
     baseUrl: context.baseUrl,
   });
   const cliDevice = await loginClient.loginWithPassword({
-    deviceName: "Brikko Studio Matrix QA CLI Encryption Idempotent Device",
+    deviceName: "BrikkoStudio Matrix QA CLI Encryption Idempotent Device",
     password: account.password,
     userId: account.userId,
   });
@@ -2023,14 +2023,14 @@ export async function runMatrixQaE2eeCliEncryptionSetupBootstrapFailureScenario(
   const accountId = "cli-encryption-failure";
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "Brikko Studio Matrix QA CLI Encryption Failure Owner",
+    deviceName: "BrikkoStudio Matrix QA CLI Encryption Failure Owner",
     scenarioId: "matrix-e2ee-cli-encryption-setup-bootstrap-failure",
   });
   const loginClient = createMatrixQaClient({
     baseUrl: context.baseUrl,
   });
   const cliDevice = await loginClient.loginWithPassword({
-    deviceName: "Brikko Studio Matrix QA CLI Encryption Failure Device",
+    deviceName: "BrikkoStudio Matrix QA CLI Encryption Failure Device",
     password: account.password,
     userId: account.userId,
   });
@@ -2111,7 +2111,7 @@ export async function runMatrixQaE2eeCliRecoveryKeySetupScenario(
   const accountId = "cli-recovery-key-setup";
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "Brikko Studio Matrix QA CLI Recovery Key Owner",
+    deviceName: "BrikkoStudio Matrix QA CLI Recovery Key Owner",
     scenarioId: "matrix-e2ee-cli-recovery-key-setup",
   });
   const owner = await createMatrixQaE2eeCliOwnerClient({
@@ -2132,7 +2132,7 @@ export async function runMatrixQaE2eeCliRecoveryKeySetupScenario(
     throw new Error("Matrix E2EE CLI recovery-key setup did not expose a recovery key");
   }
   const cliDevice = await loginClient.loginWithPassword({
-    deviceName: "Brikko Studio Matrix QA CLI Recovery Key Setup Device",
+    deviceName: "BrikkoStudio Matrix QA CLI Recovery Key Setup Device",
     password: account.password,
     userId: account.userId,
   });
@@ -2229,7 +2229,7 @@ export async function runMatrixQaE2eeCliRecoveryKeyInvalidScenario(
   const invalidRecoveryKey = "not-a-valid-matrix-recovery-key";
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "Brikko Studio Matrix QA CLI Invalid Recovery Key Owner",
+    deviceName: "BrikkoStudio Matrix QA CLI Invalid Recovery Key Owner",
     scenarioId: "matrix-e2ee-cli-recovery-key-invalid",
   });
   const owner = await createMatrixQaE2eeCliOwnerClient({
@@ -2249,7 +2249,7 @@ export async function runMatrixQaE2eeCliRecoveryKeyInvalidScenario(
     baseUrl: context.baseUrl,
   });
   const cliDevice = await loginClient.loginWithPassword({
-    deviceName: "Brikko Studio Matrix QA CLI Invalid Recovery Key Device",
+    deviceName: "BrikkoStudio Matrix QA CLI Invalid Recovery Key Device",
     password: account.password,
     userId: account.userId,
   });
@@ -2343,14 +2343,14 @@ export async function runMatrixQaE2eeCliEncryptionSetupMultiAccountScenario(
   const decoyAccountId = "cli-multi-decoy";
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "Brikko Studio Matrix QA CLI Multi Account Owner",
+    deviceName: "BrikkoStudio Matrix QA CLI Multi Account Owner",
     scenarioId: "matrix-e2ee-cli-encryption-setup-multi-account",
   });
   const loginClient = createMatrixQaClient({
     baseUrl: context.baseUrl,
   });
   const cliDevice = await loginClient.loginWithPassword({
-    deviceName: "Brikko Studio Matrix QA CLI Multi Account Target Device",
+    deviceName: "BrikkoStudio Matrix QA CLI Multi Account Target Device",
     password: account.password,
     userId: account.userId,
   });
@@ -2480,12 +2480,12 @@ export async function runMatrixQaE2eeCliSetupThenGatewayReplyScenario(
   const roomKey = buildMatrixQaE2eeScenarioRoomKey(scenarioId);
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "Brikko Studio Matrix QA CLI Setup Gateway",
+    deviceName: "BrikkoStudio Matrix QA CLI Setup Gateway",
     scenarioId,
   });
   const driverAccount = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "Brikko Studio Matrix QA CLI Setup Driver",
+    deviceName: "BrikkoStudio Matrix QA CLI Setup Driver",
     scenarioId,
   });
   const driverApi = createMatrixQaClient({
@@ -2687,7 +2687,7 @@ export async function runMatrixQaE2eeCliSelfVerificationScenario(
   const accountId = "cli";
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "Brikko Studio Matrix QA CLI Self Verification Owner",
+    deviceName: "BrikkoStudio Matrix QA CLI Self Verification Owner",
     scenarioId: "matrix-e2ee-cli-self-verification",
   });
   const owner = await createMatrixQaE2eeCliOwnerClient({
@@ -2708,7 +2708,7 @@ export async function runMatrixQaE2eeCliSelfVerificationScenario(
       baseUrl: context.baseUrl,
     });
     const cliDevice = await loginClient.loginWithPassword({
-      deviceName: "Brikko Studio Matrix QA CLI Self Verification Device",
+      deviceName: "BrikkoStudio Matrix QA CLI Self Verification Device",
       password: account.password,
       userId: account.userId,
     });
@@ -3117,7 +3117,7 @@ export async function runMatrixQaE2eeStaleDeviceHygieneScenario(
         baseUrl: context.baseUrl,
       });
       const secondary = await loginClient.loginWithPassword({
-        deviceName: "Brikko Studio Matrix QA Stale Device",
+        deviceName: "BrikkoStudio Matrix QA Stale Device",
         password: driverPassword,
         userId: context.driverUserId,
       });

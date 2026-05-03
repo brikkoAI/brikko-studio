@@ -2,13 +2,13 @@ import {
   ensureAuthProfileStore,
   findPersistedAuthProfileCredential,
 } from "../../agents/auth-profiles/store.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 
 export function resolveProfileOverride(params: {
   rawProfile?: string;
   provider: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
 }): { profileId?: string; error?: string } {
   const raw = normalizeOptionalString(params.rawProfile);

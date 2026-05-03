@@ -1,7 +1,7 @@
 import type { Model, SimpleStreamOptions } from "@mariozechner/pi-ai";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createPiAiStreamSimpleMock } from "../../../test/helpers/agents/pi-ai-stream-simple-mock.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 
 vi.mock("@mariozechner/pi-ai", () => createPiAiStreamSimpleMock());
 
@@ -12,7 +12,7 @@ type ToolStreamCase = {
   applyProvider: string;
   applyModelId: string;
   model: Model<"openai-completions">;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   options?: SimpleStreamOptions;
 };
 

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 
 const mocks = vi.hoisted(() => ({
   sendMessageMatrix: vi.fn(),
@@ -48,7 +48,7 @@ describe("matrixOutbound cfg threading", () => {
           accessToken: "resolved-token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await matrixOutbound.sendText!({
       cfg,
@@ -78,7 +78,7 @@ describe("matrixOutbound cfg threading", () => {
           accessToken: "resolved-token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await matrixOutbound.sendMedia!({
       cfg,
@@ -109,7 +109,7 @@ describe("matrixOutbound cfg threading", () => {
           accessToken: "resolved-token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const matrix = vi.fn(async () => ({
       messageId: "evt-injected",
       roomId: "!room:example",
@@ -144,7 +144,7 @@ describe("matrixOutbound cfg threading", () => {
           accessToken: "resolved-token",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await matrixOutbound.sendPoll!({
       cfg,

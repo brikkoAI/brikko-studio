@@ -22,7 +22,7 @@ import {
 } from "../config/sessions/paths.js";
 import { loadSessionStore } from "../config/sessions/store-load.js";
 import { updateSessionStore } from "../config/sessions/store.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveRequiredHomeDir } from "../infra/home-dir.js";
 import { resolveMemoryBackendConfig } from "../memory-host-sdk/engine-storage.js";
 import { listConfiguredChannelIdsForReadOnlyScope } from "../plugins/channel-plugin-ids.js";
@@ -116,7 +116,7 @@ function formatOrphanAgentDirPreview(entries: OrphanAgentDir[], limit = 3): stri
   return labels.join(", ");
 }
 
-function listOrphanAgentDirs(cfg: Brikko StudioConfig, stateDir: string): OrphanAgentDir[] {
+function listOrphanAgentDirs(cfg: BrikkoStudioConfig, stateDir: string): OrphanAgentDir[] {
   const configuredIds = new Set<string>();
   configuredIds.add(normalizeAgentId(resolveDefaultAgentId(cfg)));
   for (const entry of listAgentEntries(cfg)) {
@@ -554,7 +554,7 @@ function isSlashRoutingSessionKey(sessionKey: string): boolean {
   return /^[^:]+:slash:[^:]+(?:$|:)/.test(scoped);
 }
 
-function shouldRequireOAuthDir(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv): boolean {
+function shouldRequireOAuthDir(cfg: BrikkoStudioConfig, env: NodeJS.ProcessEnv): boolean {
   if (env.BRIKKO_STUDIO_OAUTH_DIR?.trim()) {
     return true;
   }
@@ -590,13 +590,13 @@ function shouldRequireOAuthDir(cfg: Brikko StudioConfig, env: NodeJS.ProcessEnv)
   return false;
 }
 
-function shouldSuppressOrphanTranscriptWarning(cfg: Brikko StudioConfig, agentId: string): boolean {
+function shouldSuppressOrphanTranscriptWarning(cfg: BrikkoStudioConfig, agentId: string): boolean {
   const backendConfig = resolveMemoryBackendConfig({ cfg, agentId });
   return backendConfig?.backend === "qmd" && backendConfig.qmd?.sessions.enabled === true;
 }
 
 export async function noteStateIntegrity(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   prompter: DoctorPrompterLike,
   configPath?: string,
 ) {
@@ -877,7 +877,7 @@ export async function noteStateIntegrity(
       warnings.push(
         [
           `- Found ${wedgedCount} with automatic restart recovery tombstoned.`,
-          "  Brikko Studio will not auto-resume these child sessions on restart; reconcile their task records instead.",
+          "  BrikkoStudio will not auto-resume these child sessions on restart; reconcile their task records instead.",
           `  Examples: ${wedgedSubagentSessions
             .slice(0, 3)
             .map(([key]) => key)

@@ -2,7 +2,7 @@ import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent
 import { initSubagentRegistry } from "../agents/subagent-registry.js";
 import { runChannelPluginStartupMaintenance } from "../channels/plugins/lifecycle-startup.js";
 import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { loadPluginLookUpTable } from "../plugins/plugin-lookup-table.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
 import { createEmptyPluginRegistry } from "../plugins/registry.js";
@@ -24,9 +24,9 @@ type GatewayStartupTrace = {
 };
 
 export function resolveGatewayStartupMaintenanceConfig(params: {
-  cfgAtStart: Brikko StudioConfig;
-  startupRuntimeConfig: Brikko StudioConfig;
-}): Brikko StudioConfig {
+  cfgAtStart: BrikkoStudioConfig;
+  startupRuntimeConfig: BrikkoStudioConfig;
+}): BrikkoStudioConfig {
   return params.cfgAtStart.channels === undefined &&
     params.startupRuntimeConfig.channels !== undefined
     ? {
@@ -37,9 +37,9 @@ export function resolveGatewayStartupMaintenanceConfig(params: {
 }
 
 export async function prepareGatewayPluginBootstrap(params: {
-  cfgAtStart: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
-  startupRuntimeConfig: Brikko StudioConfig;
+  cfgAtStart: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
+  startupRuntimeConfig: BrikkoStudioConfig;
   pluginMetadataSnapshot?: PluginMetadataSnapshot;
   minimalTestGateway: boolean;
   log: GatewayPluginBootstrapLog;
@@ -146,8 +146,8 @@ export async function prepareGatewayPluginBootstrap(params: {
 }
 
 export async function loadGatewayStartupPluginRuntime(params: {
-  cfg: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
   workspaceDir: string;
   log: GatewayPluginBootstrapLog;
   baseMethods: string[];

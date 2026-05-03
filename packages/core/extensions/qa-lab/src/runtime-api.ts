@@ -1,5 +1,5 @@
 export type { Command } from "commander";
-export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 export { callGatewayFromCli } from "brikko-studio/plugin-sdk/gateway-runtime";
 export type { PluginRuntime } from "brikko-studio/plugin-sdk/runtime-store";

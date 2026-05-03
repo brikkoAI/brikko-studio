@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { dispatchInboundReplyWithBase } from "brikko-studio/plugin-sdk/inbound-reply-dispatch";
 import {
   buildAgentMediaPayload,
@@ -73,7 +73,7 @@ export async function handleQaInbound(params: {
     threadId: inbound.threadId,
   });
   const route = runtime.channel.routing.resolveAgentRoute({
-    cfg: params.config as Brikko StudioConfig,
+    cfg: params.config as BrikkoStudioConfig,
     channel: params.channelId,
     accountId: params.account.accountId,
     peer: {
@@ -91,7 +91,7 @@ export async function handleQaInbound(params: {
     ? runtime.channel.mentions.matchesMentionPatterns(
         inbound.text,
         runtime.channel.mentions.buildMentionRegexes(
-          params.config as Brikko StudioConfig,
+          params.config as BrikkoStudioConfig,
           route.agentId,
         ),
       )
@@ -108,7 +108,7 @@ export async function handleQaInbound(params: {
     from: inbound.senderName || inbound.senderId,
     timestamp: inbound.timestamp,
     previousTimestamp,
-    envelope: runtime.channel.reply.resolveEnvelopeFormatOptions(params.config as Brikko StudioConfig),
+    envelope: runtime.channel.reply.resolveEnvelopeFormatOptions(params.config as BrikkoStudioConfig),
     body: inbound.text,
   });
   const mediaPayload = await resolveQaInboundMediaPayload(inbound.attachments);
@@ -152,7 +152,7 @@ export async function handleQaInbound(params: {
   });
 
   await dispatchInboundReplyWithBase({
-    cfg: params.config as Brikko StudioConfig,
+    cfg: params.config as BrikkoStudioConfig,
     channel: params.channelId,
     accountId: params.account.accountId,
     route,

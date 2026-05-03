@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolvePluginControlPlaneFingerprint } from "../plugins/plugin-control-plane-context.js";
 import { resolveProviderRuntimePlugin } from "../plugins/provider-hook-runtime.js";
 import { shouldPreserveThinkingBlocks } from "../plugins/provider-replay-helpers.js";
@@ -178,12 +178,12 @@ function mergeTranscriptPolicy(
   };
 }
 
-const transcriptPolicyCache = new WeakMap<Brikko StudioConfig, Map<string, TranscriptPolicy>>();
+const transcriptPolicyCache = new WeakMap<BrikkoStudioConfig, Map<string, TranscriptPolicy>>();
 
 function canCacheTranscriptPolicy(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
-}): params is { config: Brikko StudioConfig; env?: NodeJS.ProcessEnv } {
+}): params is { config: BrikkoStudioConfig; env?: NodeJS.ProcessEnv } {
   if (!params.config) {
     return false;
   }
@@ -194,7 +194,7 @@ function resolveTranscriptPolicyCacheKey(params: {
   modelApi?: string | null;
   provider: string;
   modelId?: string | null;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): string {
@@ -215,7 +215,7 @@ export function resolveTranscriptPolicy(params: {
   modelApi?: string | null;
   provider?: string | null;
   modelId?: string | null;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   model?: ProviderRuntimeModel;

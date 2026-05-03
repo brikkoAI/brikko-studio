@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
 const outputPath = path.join(
   repoRoot,
-  "apps/shared/Brikko StudioKit/Sources/Brikko StudioKit/Resources/tool-display.json",
+  "apps/shared/BrikkoStudioKit/Sources/BrikkoStudioKit/Resources/tool-display.json",
 );
 const toolSources = [
   path.join(repoRoot, "src/agents/apply-patch.ts"),

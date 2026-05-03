@@ -101,7 +101,7 @@ export function resolveHookInstallDir(hookId: string, hooksDir?: string): string
   return targetDirResult.path;
 }
 
-async function ensureBrikko StudioHooks(manifest: HookPackageManifest) {
+async function ensureBrikkoStudioHooks(manifest: HookPackageManifest) {
   const hooks = manifest[MANIFEST_KEY]?.hooks;
   if (!Array.isArray(hooks)) {
     throw new Error("package.json missing brikko-studio.hooks");
@@ -228,7 +228,7 @@ async function installHookPackageFromDir(
 
   let hookEntries: string[];
   try {
-    hookEntries = await ensureBrikko StudioHooks(manifest);
+    hookEntries = await ensureBrikkoStudioHooks(manifest);
   } catch (err) {
     return { ok: false, error: String(err) };
   }

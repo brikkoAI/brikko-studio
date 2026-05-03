@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 import type { DoctorRepairMode } from "./doctor-repair-mode.js";
@@ -57,7 +57,7 @@ describe("maybeRepairSandboxImages", () => {
     migrateLegacySandboxRegistryFiles.mockResolvedValue([]);
   });
 
-  function createSandboxConfig(mode: "off" | "all" | "non-main"): Brikko StudioConfig {
+  function createSandboxConfig(mode: "off" | "all" | "non-main"): BrikkoStudioConfig {
     return {
       agents: {
         defaults: {

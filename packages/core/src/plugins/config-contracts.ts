@@ -1,6 +1,6 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isRecord } from "../utils.js";
-import { discoverBrikko StudioPlugins } from "./discovery.js";
+import { discoverBrikkoStudioPlugins } from "./discovery.js";
 import { loadPluginManifestRegistry } from "./manifest-registry.js";
 import type { PluginManifestConfigContracts } from "./manifest.js";
 import type { PluginOrigin } from "./plugin-origin.types.js";
@@ -99,7 +99,7 @@ export function collectPluginConfigContractMatches(params: {
 }
 
 export function resolvePluginConfigContractsById(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   fallbackToBundledMetadata?: boolean;
@@ -124,7 +124,7 @@ export function resolvePluginConfigContractsById(params: {
     if (bundledContractFallbacks.has(pluginId)) {
       return bundledContractFallbacks.get(pluginId);
     }
-    const discovery = discoverBrikko StudioPlugins({
+    const discovery = discoverBrikkoStudioPlugins({
       workspaceDir: params.workspaceDir,
       env: params.env,
     });

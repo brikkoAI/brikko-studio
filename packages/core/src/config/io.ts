@@ -105,7 +105,7 @@ import {
   type RuntimeConfigWriteNotification,
 } from "./runtime-snapshot.js";
 import { resolveShellEnvExpectedKeys } from "./shell-env-expected-keys.js";
-import type { Brikko StudioConfig, ConfigFileSnapshot, LegacyConfigIssue } from "./types.js";
+import type { BrikkoStudioConfig, ConfigFileSnapshot, LegacyConfigIssue } from "./types.js";
 import {
   validateConfigObjectRawWithPlugins,
   validateConfigObjectWithPlugins,
@@ -295,11 +295,11 @@ export function resolveConfigSnapshotHash(snapshot: {
   return hashConfigRaw(snapshot.raw);
 }
 
-function coerceConfig(value: unknown): Brikko StudioConfig {
+function coerceConfig(value: unknown): BrikkoStudioConfig {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return {};
   }
-  return value as Brikko StudioConfig;
+  return value as BrikkoStudioConfig;
 }
 
 function hasConfigMeta(value: unknown): boolean {
@@ -895,7 +895,7 @@ function warnOnConfigMiskeys(raw: unknown, logger: Pick<typeof console, "warn">)
   }
 }
 
-function stampConfigVersion(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function stampConfigVersion(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const now = new Date().toISOString();
   return {
     ...cfg,
@@ -907,7 +907,7 @@ function stampConfigVersion(cfg: Brikko StudioConfig): Brikko StudioConfig {
   };
 }
 
-function warnIfConfigFromFuture(cfg: Brikko StudioConfig, logger: Pick<typeof console, "warn">): void {
+function warnIfConfigFromFuture(cfg: BrikkoStudioConfig, logger: Pick<typeof console, "warn">): void {
   const touched = cfg.meta?.lastTouchedVersion;
   if (!touched) {
     return;
@@ -918,7 +918,7 @@ function warnIfConfigFromFuture(cfg: Brikko StudioConfig, logger: Pick<typeof co
     }
     warnedFutureTouchedVersions.add(touched);
     logger.warn(
-      `Config was last written by a newer Brikko Studio (${touched}); current version is ${VERSION}.`,
+      `Config was last written by a newer BrikkoStudio (${touched}); current version is ${VERSION}.`,
     );
   }
 }
@@ -1149,7 +1149,7 @@ function resolveConfigForRead(
 ): ConfigReadResolution {
   // Apply config.env to process.env BEFORE substitution so ${VAR} can reference config-defined vars.
   if (resolvedIncludes && typeof resolvedIncludes === "object" && "env" in resolvedIncludes) {
-    applyConfigEnvVars(resolvedIncludes as Brikko StudioConfig, env);
+    applyConfigEnvVars(resolvedIncludes as BrikkoStudioConfig, env);
   }
 
   // Collect missing env var references as warnings instead of throwing,
@@ -1181,9 +1181,9 @@ function createConfigFileSnapshot(params: {
   exists: boolean;
   raw: string | null;
   parsed: unknown;
-  sourceConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   valid: boolean;
-  runtimeConfig: Brikko StudioConfig;
+  runtimeConfig: BrikkoStudioConfig;
   hash?: string;
   issues: ConfigFileSnapshot["issues"];
   warnings: ConfigFileSnapshot["warnings"];
@@ -1239,7 +1239,7 @@ export function createConfigIO(
     return snapshot;
   }
 
-  function finalizeLoadedRuntimeConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+  function finalizeLoadedRuntimeConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
     const duplicates = findDuplicateAgentDirs(cfg, {
       env: deps.env,
       homedir: deps.homedir,
@@ -1503,7 +1503,7 @@ export function createConfigIO(
     }
   }
 
-  function loadConfig(): Brikko StudioConfig {
+  function loadConfig(): BrikkoStudioConfig {
     try {
       maybeLoadDotEnvForConfig(deps.env);
       if (!deps.fs.existsSync(configPath)) {
@@ -1564,7 +1564,7 @@ export function createConfigIO(
         });
         return {};
       }
-      const preValidationDuplicates = findDuplicateAgentDirs(effectiveConfigRaw as Brikko StudioConfig, {
+      const preValidationDuplicates = findDuplicateAgentDirs(effectiveConfigRaw as BrikkoStudioConfig, {
         env: deps.env,
         homedir: deps.homedir,
       });
@@ -1572,7 +1572,7 @@ export function createConfigIO(
         throw new DuplicateAgentDirError(preValidationDuplicates);
       }
       let pluginMetadataSnapshot: PluginMetadataSnapshot | undefined;
-      const loadValidationPluginMetadataSnapshot = (config: Brikko StudioConfig) => {
+      const loadValidationPluginMetadataSnapshot = (config: BrikkoStudioConfig) => {
         if (pluginMetadataSnapshot) {
           return pluginMetadataSnapshot;
         }
@@ -1687,7 +1687,7 @@ export function createConfigIO(
 
     let fallbackRaw: string | null = null;
     let fallbackParsed: unknown = {};
-    let fallbackSourceConfig: Brikko StudioConfig = {};
+    let fallbackSourceConfig: BrikkoStudioConfig = {};
     let fallbackHash = hashConfigRaw(null);
 
     try {
@@ -1794,7 +1794,7 @@ export function createConfigIO(
         : hash;
       fallbackSourceConfig = coerceConfig(effectiveConfigRaw);
       let pluginMetadataSnapshot: PluginMetadataSnapshot | undefined;
-      const loadValidationPluginMetadataSnapshot = (config: Brikko StudioConfig) => {
+      const loadValidationPluginMetadataSnapshot = (config: BrikkoStudioConfig) => {
         if (pluginMetadataSnapshot) {
           return pluginMetadataSnapshot;
         }
@@ -1958,7 +1958,7 @@ export function createConfigIO(
     };
   }
 
-  async function readBestEffortConfig(): Promise<Brikko StudioConfig> {
+  async function readBestEffortConfig(): Promise<BrikkoStudioConfig> {
     const result = await readConfigFileSnapshotInternal();
     if (!result.snapshot.valid) {
       return result.snapshot.config;
@@ -1970,7 +1970,7 @@ export function createConfigIO(
     );
   }
 
-  async function readSourceConfigBestEffort(): Promise<Brikko StudioConfig> {
+  async function readSourceConfigBestEffort(): Promise<BrikkoStudioConfig> {
     maybeLoadDotEnvForConfig(deps.env);
     const exists = deps.fs.existsSync(configPath);
     if (!exists) {
@@ -2006,9 +2006,9 @@ export function createConfigIO(
   }
 
   async function writeConfigFile(
-    cfg: Brikko StudioConfig,
+    cfg: BrikkoStudioConfig,
     options: ConfigWriteOptions = {},
-  ): Promise<{ persistedHash: string; persistedConfig: Brikko StudioConfig }> {
+  ): Promise<{ persistedHash: string; persistedConfig: BrikkoStudioConfig }> {
     clearConfigCache();
     const unsetPaths = resolveManagedUnsetPathsForWrite(options.unsetPaths);
     let persistCandidate: unknown = cfg;
@@ -2058,7 +2058,7 @@ export function createConfigIO(
       }
     }
 
-    persistCandidate = applyUnsetPathsForWrite(persistCandidate as Brikko StudioConfig, unsetPaths);
+    persistCandidate = applyUnsetPathsForWrite(persistCandidate as BrikkoStudioConfig, unsetPaths);
 
     const validated = validateConfigObjectRawWithPlugins(persistCandidate, { env: deps.env });
     if (!validated.ok) {
@@ -2087,7 +2087,7 @@ export function createConfigIO(
     // persisted to disk (issue #56772).
     // Apply legacy web-search normalization so that migration results are still
     // persisted even though we bypass validated.config.
-    let cfgToWrite = persistCandidate as Brikko StudioConfig;
+    let cfgToWrite = persistCandidate as BrikkoStudioConfig;
     try {
       if (deps.fs.existsSync(configPath)) {
         const currentRaw = await deps.fs.promises.readFile(configPath, "utf-8");
@@ -2101,7 +2101,7 @@ export function createConfigIO(
             cfgToWrite,
             parsedRes.parsed,
             envForRestore,
-          ) as Brikko StudioConfig;
+          ) as BrikkoStudioConfig;
         }
       }
     } catch {
@@ -2118,14 +2118,14 @@ export function createConfigIO(
     });
     const outputConfigBase =
       envRefMap && changedPaths
-        ? (restoreEnvRefsFromMap(cfgToWrite, "", envRefMap, changedPaths) as Brikko StudioConfig)
+        ? (restoreEnvRefsFromMap(cfgToWrite, "", envRefMap, changedPaths) as BrikkoStudioConfig)
         : cfgToWrite;
     const tildeRestoredOutputConfig = restoreAuthoredTildePathsForWrite(
       outputConfigBase,
       snapshot.parsed,
       undefined,
       deps.homedir(),
-    ) as Brikko StudioConfig;
+    ) as BrikkoStudioConfig;
     const outputConfig = applyUnsetPathsForWrite(tildeRestoredOutputConfig, unsetPaths);
     // Do NOT apply runtime defaults when writing - user config should only contain
     // explicitly set values. Runtime defaults are applied when loading (issue #6070).
@@ -2339,8 +2339,8 @@ export function registerConfigWriteListener(
 }
 
 function isCompatibleTopLevelRuntimeProjectionShape(params: {
-  runtimeSnapshot: Brikko StudioConfig;
-  candidate: Brikko StudioConfig;
+  runtimeSnapshot: BrikkoStudioConfig;
+  candidate: BrikkoStudioConfig;
 }): boolean {
   const runtime = params.runtimeSnapshot as Record<string, unknown>;
   const candidate = params.candidate as Record<string, unknown>;
@@ -2367,7 +2367,7 @@ function isCompatibleTopLevelRuntimeProjectionShape(params: {
   return true;
 }
 
-export function projectConfigOntoRuntimeSourceSnapshot(config: Brikko StudioConfig): Brikko StudioConfig {
+export function projectConfigOntoRuntimeSourceSnapshot(config: BrikkoStudioConfig): BrikkoStudioConfig {
   const runtimeConfigSnapshot = getRuntimeConfigSnapshotState();
   const runtimeConfigSourceSnapshot = getRuntimeConfigSourceSnapshotState();
   if (!runtimeConfigSnapshot || !runtimeConfigSourceSnapshot) {
@@ -2395,22 +2395,22 @@ export function projectConfigOntoRuntimeSourceSnapshot(config: Brikko StudioConf
   return coerceConfig(applyMergePatch(projectedSource, runtimePatch));
 }
 
-export function loadConfig(): Brikko StudioConfig {
+export function loadConfig(): BrikkoStudioConfig {
   // First successful load becomes the process snapshot. Long-lived runtimes
   // should swap this snapshot via explicit reload/watcher paths instead of
   // reparsing brikko-studio.json on hot code paths.
   return loadPinnedRuntimeConfig(() => createConfigIO().loadConfig());
 }
 
-export function getRuntimeConfig(): Brikko StudioConfig {
+export function getRuntimeConfig(): BrikkoStudioConfig {
   return loadConfig();
 }
 
-export async function readBestEffortConfig(): Promise<Brikko StudioConfig> {
+export async function readBestEffortConfig(): Promise<BrikkoStudioConfig> {
   return await createConfigIO().readBestEffortConfig();
 }
 
-export async function readSourceConfigBestEffort(): Promise<Brikko StudioConfig> {
+export async function readSourceConfigBestEffort(): Promise<BrikkoStudioConfig> {
   return await createConfigIO().readSourceConfigBestEffort();
 }
 
@@ -2462,7 +2462,7 @@ export async function readSourceConfigSnapshotForWrite(): Promise<ReadConfigFile
 }
 
 export async function writeConfigFile(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   options: ConfigWriteOptions = {},
 ): Promise<void> {
   const io = createConfigIO();
@@ -2506,7 +2506,7 @@ export async function writeConfigFile(
   // phantom paths under plugins.entries.* on every save — incorrectly
   // triggering a `plugins`-scoped restart of the gateway for changes that
   // never touched any plugin entry.
-  let canonicalSourceConfig: Brikko StudioConfig = nextCfg;
+  let canonicalSourceConfig: BrikkoStudioConfig = nextCfg;
   try {
     const freshSnapshot = await io.readConfigFileSnapshot();
     if (freshSnapshot.exists && freshSnapshot.valid) {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   hasExplicitPluginConfig,
   isBundledChannelEnabledByChannelConfig,
@@ -42,7 +42,7 @@ describe("isBundledChannelEnabledByChannelConfig", () => {
         telegram: { enabled: true },
         slack: { enabled: false },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(isBundledChannelEnabledByChannelConfig(cfg, "telegram")).toBe(true);
     expect(isBundledChannelEnabledByChannelConfig(cfg, "slack")).toBe(false);

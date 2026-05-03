@@ -1,6 +1,6 @@
 import { EventEmitter } from "node:events";
 import type { ChannelRuntimeSurface } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { RateLimitError } from "../internal/discord.js";
 import {
@@ -86,7 +86,7 @@ function createRateLimitError(
   return new RateLimitErrorCtor(response, body, fallbackRequest);
 }
 
-function createConfigWithDiscordAccount(overrides: Record<string, unknown> = {}): Brikko StudioConfig {
+function createConfigWithDiscordAccount(overrides: Record<string, unknown> = {}): BrikkoStudioConfig {
   return {
     channels: {
       discord: {
@@ -98,7 +98,7 @@ function createConfigWithDiscordAccount(overrides: Record<string, unknown> = {})
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 vi.mock("../voice/manager.runtime.js", () => {
@@ -111,7 +111,7 @@ vi.mock("../voice/manager.runtime.js", () => {
 });
 describe("monitorDiscordProvider", () => {
   type ReconcileHealthProbeParams = {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId: string;
     sessionKey: string;
     binding: unknown;
@@ -119,7 +119,7 @@ describe("monitorDiscordProvider", () => {
   };
 
   type ReconcileStartupParams = {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     healthProbe?: (
       params: ReconcileHealthProbeParams,
     ) => Promise<{ status: string; reason?: string }>;
@@ -731,7 +731,7 @@ describe("monitorDiscordProvider", () => {
     expect(drained[0]?.message).toContain("4014");
   });
 
-  it("passes Brikko Studio event queue defaults to the Discord client", async () => {
+  it("passes BrikkoStudio event queue defaults to the Discord client", async () => {
     await monitorDiscordProvider({
       config: baseConfig(),
       runtime: baseRuntime(),

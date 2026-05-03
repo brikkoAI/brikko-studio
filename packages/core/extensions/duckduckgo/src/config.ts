@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 
 export const DEFAULT_DDG_SAFE_SEARCH = "moderate";
@@ -13,7 +13,7 @@ type DdgPluginConfig = {
 };
 
 function resolveDdgWebSearchConfig(
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): DdgPluginConfig["webSearch"] | undefined {
   const pluginConfig = config?.plugins?.entries?.duckduckgo?.config as DdgPluginConfig | undefined;
   const webSearch = pluginConfig?.webSearch;
@@ -23,7 +23,7 @@ function resolveDdgWebSearchConfig(
   return undefined;
 }
 
-export function resolveDdgRegion(config?: Brikko StudioConfig): string | undefined {
+export function resolveDdgRegion(config?: BrikkoStudioConfig): string | undefined {
   const region = resolveDdgWebSearchConfig(config)?.region;
   if (typeof region !== "string") {
     return undefined;
@@ -32,7 +32,7 @@ export function resolveDdgRegion(config?: Brikko StudioConfig): string | undefin
   return trimmed || undefined;
 }
 
-export function resolveDdgSafeSearch(config?: Brikko StudioConfig): DdgSafeSearch {
+export function resolveDdgSafeSearch(config?: BrikkoStudioConfig): DdgSafeSearch {
   const safeSearch = resolveDdgWebSearchConfig(config)?.safeSearch;
   const normalized = normalizeLowercaseStringOrEmpty(safeSearch);
   if (normalized === "strict" || normalized === "off") {

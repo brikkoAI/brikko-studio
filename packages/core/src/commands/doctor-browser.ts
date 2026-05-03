@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "../plugin-sdk/facade-loader.js";
 import { note } from "../terminal/note.js";
 
@@ -16,7 +16,7 @@ type BrowserDoctorDeps = {
 };
 
 type BrowserDoctorSurface = {
-  noteChromeMcpBrowserReadiness: (cfg: Brikko StudioConfig, deps?: BrowserDoctorDeps) => Promise<void>;
+  noteChromeMcpBrowserReadiness: (cfg: BrikkoStudioConfig, deps?: BrowserDoctorDeps) => Promise<void>;
 };
 
 function loadBrowserDoctorSurface(): BrowserDoctorSurface {
@@ -26,7 +26,7 @@ function loadBrowserDoctorSurface(): BrowserDoctorSurface {
   });
 }
 
-export async function noteChromeMcpBrowserReadiness(cfg: Brikko StudioConfig, deps?: BrowserDoctorDeps) {
+export async function noteChromeMcpBrowserReadiness(cfg: BrikkoStudioConfig, deps?: BrowserDoctorDeps) {
   try {
     await loadBrowserDoctorSurface().noteChromeMcpBrowserReadiness(cfg, deps);
   } catch (error) {

@@ -1,6 +1,6 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../../agents/agent-scope.js";
 import { CHANNEL_IDS } from "../../../channels/ids.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { normalizePluginId } from "../../../plugins/config-state.js";
 import { loadInstalledPluginIndexInstallRecordsSync } from "../../../plugins/installed-plugin-index-records.js";
 import { loadManifestMetadataSnapshot } from "../../../plugins/manifest-contract-eligibility.js";
@@ -25,7 +25,7 @@ type StalePluginRegistryState = {
 };
 
 function collectPluginRegistryState(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env?: NodeJS.ProcessEnv,
 ): StalePluginRegistryState {
   const workspaceDir = resolveAgentWorkspaceDir(cfg, resolveDefaultAgentId(cfg));
@@ -70,7 +70,7 @@ function collectPluginRegistryState(
 }
 
 export function isStalePluginAutoRepairBlocked(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env?: NodeJS.ProcessEnv,
 ): boolean {
   if (cfg.plugins?.enabled === false) {
@@ -80,7 +80,7 @@ export function isStalePluginAutoRepairBlocked(
 }
 
 export function scanStalePluginConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env?: NodeJS.ProcessEnv,
 ): StalePluginConfigHit[] {
   if (cfg.plugins?.enabled === false) {
@@ -90,7 +90,7 @@ export function scanStalePluginConfig(
 }
 
 function scanStalePluginConfigWithState(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   registryState: StalePluginRegistryState,
 ): StalePluginConfigHit[] {
   const plugins = asObjectRecord(cfg.plugins);
@@ -151,7 +151,7 @@ function scanStalePluginConfigWithState(
 }
 
 function collectDanglingChannelIds(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   registryState: StalePluginRegistryState;
   staleEvidenceIds: ReadonlySet<string>;
 }): string[] {
@@ -181,7 +181,7 @@ function collectDanglingChannelIds(params: {
 }
 
 function collectDependentChannelConfigHits(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   channelIds: readonly string[],
 ): StalePluginConfigHit[] {
   if (channelIds.length === 0) {
@@ -267,10 +267,10 @@ export function collectStalePluginConfigWarnings(params: {
 }
 
 export function maybeRepairStalePluginConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env?: NodeJS.ProcessEnv,
 ): {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
 } {
   if (cfg.plugins?.enabled === false) {
@@ -347,7 +347,7 @@ export function maybeRepairStalePluginConfig(
   return { config: next, changes };
 }
 
-function removeDanglingChannelReferences(config: Brikko StudioConfig, channelIds: readonly string[]) {
+function removeDanglingChannelReferences(config: BrikkoStudioConfig, channelIds: readonly string[]) {
   const staleChannelIds = new Set(channelIds.map((channelId) => normalizePluginId(channelId)));
   const channels = asObjectRecord(config.channels);
   if (channels) {

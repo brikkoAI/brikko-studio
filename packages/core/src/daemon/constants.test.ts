@@ -58,12 +58,12 @@ describe("resolveGatewayWindowsTaskName", () => {
   it("returns default task name when no profile is set", () => {
     const result = resolveGatewayWindowsTaskName();
     expect(result).toBe(GATEWAY_WINDOWS_TASK_NAME);
-    expect(result).toBe("Brikko Studio Gateway");
+    expect(result).toBe("BrikkoStudio Gateway");
   });
 
   it("returns profile-specific task name when profile is set", () => {
     const result = resolveGatewayWindowsTaskName("dev");
-    expect(result).toBe("Brikko Studio Gateway (dev)");
+    expect(result).toBe("BrikkoStudio Gateway (dev)");
   });
 });
 
@@ -88,24 +88,24 @@ describe("resolveGatewayProfileSuffix", () => {
 
 describe("formatGatewayServiceDescription", () => {
   it("returns default description when no profile/version", () => {
-    expect(formatGatewayServiceDescription()).toBe("Brikko Studio Gateway");
+    expect(formatGatewayServiceDescription()).toBe("BrikkoStudio Gateway");
   });
 
   it("includes profile when set", () => {
     expect(formatGatewayServiceDescription({ profile: "work" })).toBe(
-      "Brikko Studio Gateway (profile: work)",
+      "BrikkoStudio Gateway (profile: work)",
     );
   });
 
   it("includes version when set", () => {
     expect(formatGatewayServiceDescription({ version: "2026.1.10" })).toBe(
-      "Brikko Studio Gateway (v2026.1.10)",
+      "BrikkoStudio Gateway (v2026.1.10)",
     );
   });
 
   it("includes profile and version when set", () => {
     expect(formatGatewayServiceDescription({ profile: "dev", version: "1.2.3" })).toBe(
-      "Brikko Studio Gateway (profile: dev, v1.2.3)",
+      "BrikkoStudio Gateway (profile: dev, v1.2.3)",
     );
   });
 });
@@ -126,7 +126,7 @@ describe("resolveGatewayServiceDescription", () => {
         env: { BRIKKO_STUDIO_PROFILE: "work", BRIKKO_STUDIO_SERVICE_VERSION: "local" },
         environment: { BRIKKO_STUDIO_SERVICE_VERSION: "remote" },
       }),
-    ).toBe("Brikko Studio Gateway (profile: work, vremote)");
+    ).toBe("BrikkoStudio Gateway (profile: work, vremote)");
   });
 });
 

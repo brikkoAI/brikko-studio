@@ -6,17 +6,17 @@ import {
   prepareScopedSetupConfig,
   type ChannelSetupAdapter,
   type DmPolicy,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/setup";
 import { applyBlueBubblesConnectionConfig } from "./config-apply.js";
 
 const channel = "bluebubbles" as const;
 
 export function setBlueBubblesDmPolicy(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   dmPolicy: DmPolicy,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const resolvedAccountId = normalizeAccountId(accountId);
   const existingAllowFrom =
     resolvedAccountId === "default"
@@ -40,10 +40,10 @@ export function setBlueBubblesDmPolicy(
 }
 
 export function setBlueBubblesAllowFrom(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
   allowFrom: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return patchScopedAccountConfig({
     cfg,
     channelKey: channel,

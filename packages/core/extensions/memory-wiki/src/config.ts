@@ -1,7 +1,7 @@
 import os from "node:os";
 import path from "node:path";
 import { mapPluginConfigIssues } from "brikko-studio/plugin-sdk/extension-shared";
-import { buildPluginConfigSchema, z, type Brikko StudioPluginConfigSchema } from "../api.js";
+import { buildPluginConfigSchema, z, type BrikkoStudioPluginConfigSchema } from "../api.js";
 
 export const WIKI_VAULT_MODES = ["isolated", "bridge", "unsafe-local"] as const;
 export const WIKI_RENDER_MODES = ["native", "obsidian"] as const;
@@ -181,7 +181,7 @@ const memoryWikiConfigSchemaBase = buildPluginConfigSchema(MemoryWikiConfigSourc
   },
 });
 
-export const memoryWikiConfigSchema: Brikko StudioPluginConfigSchema = memoryWikiConfigSchemaBase;
+export const memoryWikiConfigSchema: BrikkoStudioPluginConfigSchema = memoryWikiConfigSchemaBase;
 
 function expandHomePath(inputPath: string, homedir: string): string {
   if (inputPath === "~") {

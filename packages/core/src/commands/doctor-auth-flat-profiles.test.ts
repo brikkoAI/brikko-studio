@@ -2,13 +2,13 @@ import fs from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { clearRuntimeAuthProfileStoreSnapshots } from "../agents/auth-profiles/store.js";
 import {
-  createBrikko StudioTestState,
-  type Brikko StudioTestState,
+  createBrikkoStudioTestState,
+  type BrikkoStudioTestState,
 } from "../test-utils/brikko-studio-test-state.js";
 import { maybeRepairLegacyFlatAuthProfileStores } from "./doctor-auth-flat-profiles.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 
-const states: Brikko StudioTestState[] = [];
+const states: BrikkoStudioTestState[] = [];
 
 function makePrompter(shouldRepair: boolean): DoctorPrompter {
   return {
@@ -29,8 +29,8 @@ function makePrompter(shouldRepair: boolean): DoctorPrompter {
   };
 }
 
-async function makeTestState(): Promise<Brikko StudioTestState> {
-  const state = await createBrikko StudioTestState({
+async function makeTestState(): Promise<BrikkoStudioTestState> {
+  const state = await createBrikkoStudioTestState({
     layout: "state-only",
     prefix: "brikko-studio-doctor-flat-auth-",
     env: {

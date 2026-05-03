@@ -3,12 +3,12 @@ import os from "node:os";
 import path from "node:path";
 import { resetDiagnosticEventsForTest } from "../infra/diagnostic-events.js";
 import { withEnv } from "../test-utils/env.js";
-import { clearPluginLoaderCache, loadBrikko StudioPlugins } from "./loader.js";
+import { clearPluginLoaderCache, loadBrikkoStudioPlugins } from "./loader.js";
 import { resetPluginRuntimeStateForTest } from "./runtime.js";
 
 export type TempPlugin = { dir: string; file: string; id: string };
-export type PluginLoadConfig = NonNullable<Parameters<typeof loadBrikko StudioPlugins>[0]>["config"];
-export type PluginRegistry = ReturnType<typeof loadBrikko StudioPlugins>;
+export type PluginLoadConfig = NonNullable<Parameters<typeof loadBrikkoStudioPlugins>[0]>["config"];
+export type PluginRegistry = ReturnType<typeof loadBrikkoStudioPlugins>;
 
 function chmodSafeDir(dir: string) {
   if (process.platform === "win32") {
@@ -119,7 +119,7 @@ export function loadBundleFixture(params: {
   const bundleRoot = path.join(workspaceDir, ".brikko-studio", "extensions", params.pluginId);
   params.build(bundleRoot);
   return withEnv({ BRIKKO_STUDIO_STATE_DIR: stateDir, ...params.env }, () =>
-    loadBrikko StudioPlugins({
+    loadBrikkoStudioPlugins({
       workspaceDir,
       onlyPluginIds: params.onlyPluginIds ?? [params.pluginId],
       config: {

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolvePluginCapabilityProviders } from "../plugins/capability-provider-runtime.js";
 import {
   buildCapabilityProviderMaps,
@@ -13,27 +13,27 @@ export function normalizeRealtimeVoiceProviderId(
   return normalizeCapabilityProviderId(providerId);
 }
 
-function resolveRealtimeVoiceProviderEntries(cfg?: Brikko StudioConfig): RealtimeVoiceProviderPlugin[] {
+function resolveRealtimeVoiceProviderEntries(cfg?: BrikkoStudioConfig): RealtimeVoiceProviderPlugin[] {
   return resolvePluginCapabilityProviders({
     key: "realtimeVoiceProviders",
     cfg,
   });
 }
 
-function buildProviderMaps(cfg?: Brikko StudioConfig): {
+function buildProviderMaps(cfg?: BrikkoStudioConfig): {
   canonical: Map<string, RealtimeVoiceProviderPlugin>;
   aliases: Map<string, RealtimeVoiceProviderPlugin>;
 } {
   return buildCapabilityProviderMaps(resolveRealtimeVoiceProviderEntries(cfg));
 }
 
-export function listRealtimeVoiceProviders(cfg?: Brikko StudioConfig): RealtimeVoiceProviderPlugin[] {
+export function listRealtimeVoiceProviders(cfg?: BrikkoStudioConfig): RealtimeVoiceProviderPlugin[] {
   return [...buildProviderMaps(cfg).canonical.values()];
 }
 
 export function getRealtimeVoiceProvider(
   providerId: string | undefined,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): RealtimeVoiceProviderPlugin | undefined {
   const normalized = normalizeRealtimeVoiceProviderId(providerId);
   if (!normalized) {
@@ -44,7 +44,7 @@ export function getRealtimeVoiceProvider(
 
 export function canonicalizeRealtimeVoiceProviderId(
   providerId: string | undefined,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
 ): RealtimeVoiceProviderId | undefined {
   const normalized = normalizeRealtimeVoiceProviderId(providerId);
   if (!normalized) {

@@ -5,7 +5,7 @@ import {
   setActivePluginRegistry,
 } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { vi, type Mock } from "vitest";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import type { ResolvedZaloAccount } from "../types.js";
 
 type MonitorModule = typeof import("../monitor.js");
@@ -148,7 +148,7 @@ export async function loadCachedLifecycleMonitorModule(cacheKey: string): Promis
 
 export async function startWebhookLifecycleMonitor(params: {
   account: ResolvedZaloAccount;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   token?: string;
   webhookUrl?: string;
   webhookSecret?: string;

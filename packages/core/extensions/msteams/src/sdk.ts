@@ -91,7 +91,7 @@ async function loadMSTeamsSdk(): Promise<MSTeamsTeamsSdk> {
  * Create a no-op HTTP server adapter that satisfies the Teams SDK's
  * IHttpServerAdapter interface without spinning up an Express server.
  *
- * Brikko Studio manages its own Express server for the Teams webhook endpoint, so
+ * BrikkoStudio manages its own Express server for the Teams webhook endpoint, so
  * the SDK's built-in HTTP server is unnecessary.  Passing this adapter via the
  * `httpServerAdapter` option prevents the SDK from creating the default
  * HttpPlugin (which uses the deprecated `plugins` array and registers an

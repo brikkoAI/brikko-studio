@@ -183,7 +183,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
       expect(findVerifiedGatewayListenerPidsOnPortSync).toHaveBeenCalledWith(GATEWAY_PORT);
       expectGatewayTermination(5151);
       expect(inspectPortUsage).toHaveBeenCalledTimes(2);
-      expect(schtasksCalls).toContainEqual(["/Run", "/TN", "Brikko Studio Gateway"]);
+      expect(schtasksCalls).toContainEqual(["/Run", "/TN", "BrikkoStudio Gateway"]);
     });
   });
 
@@ -199,7 +199,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
       await expect(restartScheduledTask({ env, stdout })).rejects.toThrow(
         "schtasks run failed: ERROR: Access is denied.",
       );
-      expect(schtasksCalls.at(-1)).toEqual(["/Run", "/TN", "Brikko Studio Gateway"]);
+      expect(schtasksCalls.at(-1)).toEqual(["/Run", "/TN", "BrikkoStudio Gateway"]);
     });
   });
 });

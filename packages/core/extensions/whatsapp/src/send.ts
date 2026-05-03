@@ -1,5 +1,5 @@
 import { formatCliCommand } from "brikko-studio/plugin-sdk/cli-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { generateSecureUuid } from "brikko-studio/plugin-sdk/core";
 import { redactIdentifier } from "brikko-studio/plugin-sdk/logging-core";
 import {
@@ -28,7 +28,7 @@ import { markdownToWhatsApp, toWhatsappJid } from "./text-runtime.js";
 const outboundLog = createSubsystemLogger("gateway/channels/whatsapp").child("outbound");
 
 function resolveOutboundWhatsAppAccountId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
 }): string | undefined {
   const explicitAccountId = params.accountId?.trim();
@@ -38,7 +38,7 @@ function resolveOutboundWhatsAppAccountId(params: {
   return resolveDefaultWhatsAppAccountId(params.cfg);
 }
 
-function requireOutboundActiveWebListener(params: { cfg: Brikko StudioConfig; accountId?: string }): {
+function requireOutboundActiveWebListener(params: { cfg: BrikkoStudioConfig; accountId?: string }): {
   accountId: string;
   listener: ActiveWebListener;
 } {
@@ -59,7 +59,7 @@ export async function sendMessageWhatsApp(
   body: string,
   options: {
     verbose: boolean;
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     mediaUrl?: string;
     mediaUrls?: readonly string[];
     mediaAccess?: {
@@ -186,7 +186,7 @@ export async function sendMessageWhatsApp(
 export async function sendTypingWhatsApp(
   to: string,
   options: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string;
   },
 ): Promise<void> {
@@ -209,7 +209,7 @@ export async function sendReactionWhatsApp(
     fromMe?: boolean;
     participant?: string;
     accountId?: string;
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
   },
 ): Promise<void> {
   const correlationId = generateSecureUuid();
@@ -251,7 +251,7 @@ export async function sendReactionWhatsApp(
 export async function sendPollWhatsApp(
   to: string,
   poll: PollInput,
-  options: { verbose: boolean; accountId?: string; cfg: Brikko StudioConfig },
+  options: { verbose: boolean; accountId?: string; cfg: BrikkoStudioConfig },
 ): Promise<{ messageId: string; toJid: string }> {
   const correlationId = generateSecureUuid();
   const startedAt = Date.now();

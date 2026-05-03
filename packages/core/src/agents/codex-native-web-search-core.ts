@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isRecord } from "../utils.js";
 import { externalCliDiscoveryForProviderAuth } from "./auth-profiles/external-cli-discovery.js";
 import { listProfilesForProvider } from "./auth-profiles/profile-list.js";
@@ -43,7 +43,7 @@ function hasCodexNativeWebSearchTool(tools: unknown): boolean {
 }
 
 export function hasAvailableCodexAuth(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
 }): boolean {
   if (
@@ -77,7 +77,7 @@ export function hasAvailableCodexAuth(params: {
 }
 
 export function resolveCodexNativeSearchActivation(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   modelProvider?: string;
   modelApi?: string;
   agentDir?: string;
@@ -146,7 +146,7 @@ export function resolveCodexNativeSearchActivation(params: {
 }
 
 export function buildCodexNativeWebSearchTool(
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
 ): Record<string, unknown> {
   const nativeConfig = resolveCodexNativeWebSearchConfig(config);
   const tool: Record<string, unknown> = {
@@ -176,7 +176,7 @@ export function buildCodexNativeWebSearchTool(
 
 export function patchCodexNativeWebSearchPayload(params: {
   payload: unknown;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): CodexNativeSearchPayloadPatchResult {
   if (!isRecord(params.payload)) {
     return { status: "payload_not_object" };
@@ -194,7 +194,7 @@ export function patchCodexNativeWebSearchPayload(params: {
 }
 
 export function shouldSuppressManagedWebSearchTool(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   modelProvider?: string;
   modelApi?: string;
   agentDir?: string;

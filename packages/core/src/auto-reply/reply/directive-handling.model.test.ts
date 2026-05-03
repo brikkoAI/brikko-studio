@@ -107,7 +107,7 @@ import {
   replaceRuntimeAuthProfileStoreSnapshots,
 } from "../../agents/auth-profiles.js";
 import type { ModelAliasIndex } from "../../agents/model-selection.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions.js";
 import { enqueueSystemEvent } from "../../infra/system-events.js";
 import { createEmptyPluginRegistry } from "../../plugins/registry-empty.js";
@@ -178,11 +178,11 @@ function baseAliasIndex(): ModelAliasIndex {
   return { byAlias: new Map(), byKey: new Map() };
 }
 
-function baseConfig(): Brikko StudioConfig {
+function baseConfig(): BrikkoStudioConfig {
   return {
     commands: { text: true },
     agents: { defaults: {} },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 function createSessionEntry(overrides?: Partial<SessionEntry>): SessionEntry {
@@ -272,7 +272,7 @@ function resolveModelSelectionForCommand(params: {
 }) {
   return resolveModelSelectionFromDirective({
     directives: parseInlineDirectives(params.command),
-    cfg: { commands: { text: true } } as unknown as Brikko StudioConfig,
+    cfg: { commands: { text: true } } as unknown as BrikkoStudioConfig,
     agentDir: TEST_AGENT_DIR,
     defaultProvider: "anthropic",
     defaultModel: "claude-opus-4-6",
@@ -446,7 +446,7 @@ describe("/model chat UX", () => {
             cfg: {
               ...baseConfig(),
               plugins: { allow: ["workspace-model-list"] },
-            } as Brikko StudioConfig,
+            } as BrikkoStudioConfig,
           });
 
           expect(reply?.text).toContain("- anthropic");
@@ -488,7 +488,7 @@ describe("/model chat UX", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       allowedModelCatalog: [
         { provider: "anthropic", id: "claude-opus-4-6", name: "Claude Opus 4.5" },
         { provider: "openai", id: "gpt-4.1-mini", name: "GPT-4.1 mini" },
@@ -561,7 +561,7 @@ describe("/model chat UX", () => {
                   },
                 },
               },
-            } as Brikko StudioConfig,
+            } as BrikkoStudioConfig,
             allowedModelCatalog: [
               { provider: "anthropic", id: "claude-opus-4-6", name: "Claude Opus 4.6" },
             ],
@@ -577,7 +577,7 @@ describe("/model chat UX", () => {
 
   it("auto-applies closest match for typos", () => {
     const directives = parseInlineDirectives("/model anthropic/claud-opus-4-5");
-    const cfg = { commands: { text: true } } as unknown as Brikko StudioConfig;
+    const cfg = { commands: { text: true } } as unknown as BrikkoStudioConfig;
 
     const resolved = resolveModelSelectionFromDirective({
       directives,
@@ -679,7 +679,7 @@ describe("/model chat UX", () => {
 
     const resolved = resolveModelSelectionFromDirective({
       directives: parseInlineDirectives(`/model gpt@${OPENAI_DATE_PROFILE_ID}`),
-      cfg: { commands: { text: true } } as unknown as Brikko StudioConfig,
+      cfg: { commands: { text: true } } as unknown as BrikkoStudioConfig,
       agentDir: TEST_AGENT_DIR,
       defaultProvider: "anthropic",
       defaultModel: "claude-opus-4-6",

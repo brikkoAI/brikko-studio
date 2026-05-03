@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import type { checkQmdBinaryAvailability as checkQmdBinaryAvailabilityFn } from "brikko-studio/plugin-sdk/memory-core-host-engine-qmd";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -134,14 +134,14 @@ function createQmdCfg(
   agentId: string,
   workspace: string = "/tmp/workspace",
   qmd: Record<string, unknown> = {},
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return {
     memory: { backend: "qmd", qmd },
     agents: { list: [{ id: agentId, default: true, workspace }] },
   };
 }
 
-function createBuiltinCfg(agentId: string): Brikko StudioConfig {
+function createBuiltinCfg(agentId: string): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -161,7 +161,7 @@ function createBuiltinCfg(agentId: string): Brikko StudioConfig {
       },
       list: [{ id: agentId, default: true, workspace: "/tmp/workspace" }],
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function requireManager(result: SearchManagerResult): SearchManager {
@@ -350,7 +350,7 @@ describe("getMemorySearchManager caching", () => {
     const cfg = {
       memory: { backend: "qmd", qmd: {} },
       agents: { list: [{ id: agentId, default: true, workspace }] },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     try {
       await getMemorySearchManager({ cfg, agentId });
@@ -457,7 +457,7 @@ describe("getMemorySearchManager caching", () => {
           },
         ],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const firstPrimary = createManagerMock({
       backend: "qmd",
       provider: "qmd",
@@ -652,7 +652,7 @@ describe("getMemorySearchManager caching", () => {
     const secondCfg = {
       ...createQmdCfg(agentId),
       session: { store: "/tmp/alternate-session-store.json" },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const createGate = createDeferred<QmdManagerInstance>();
     createQmdManagerMock.mockImplementationOnce(async () => await createGate.promise);
 

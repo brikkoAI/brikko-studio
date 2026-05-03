@@ -1,10 +1,10 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { PluginWebSearchProviderEntry } from "../plugins/types.js";
 
 const mocks = vi.hoisted(() => ({
   resolvePluginWebSearchProviders: vi.fn<
-    (params?: { config?: Brikko StudioConfig }) => PluginWebSearchProviderEntry[]
+    (params?: { config?: BrikkoStudioConfig }) => PluginWebSearchProviderEntry[]
   >(() => []),
   resolveWebSearchInstallCatalogEntries: vi.fn(() => []),
 }));
@@ -109,7 +109,7 @@ describe("onboard-search provider resolution", () => {
       params?.config ? [customEntry] : [],
     );
 
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: {
         web: {
           search: {
@@ -149,7 +149,7 @@ describe("onboard-search provider resolution", () => {
       params?.config ? [customEntry] : [],
     );
 
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       plugins: {
         installs: {
           "custom-plugin": {
@@ -196,7 +196,7 @@ describe("onboard-search provider resolution", () => {
   it("does not treat hard-disabled bundled providers as selectable credentials", async () => {
     mocks.resolvePluginWebSearchProviders.mockReturnValue([]);
 
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: {
         web: {
           search: {
@@ -245,7 +245,7 @@ describe("onboard-search provider resolution", () => {
       progress: vi.fn(() => ({ update: vi.fn(), stop: vi.fn() })),
     };
 
-    const result = await mod.setupSearch({} as Brikko StudioConfig, {} as never, prompter as never);
+    const result = await mod.setupSearch({} as BrikkoStudioConfig, {} as never, prompter as never);
 
     expect(result.tools?.web?.search?.provider).toBe("duckduckgo");
     expect(result.plugins?.entries?.duckduckgo?.enabled).toBe(true);

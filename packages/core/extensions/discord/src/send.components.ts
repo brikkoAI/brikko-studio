@@ -1,6 +1,6 @@
 import { ChannelType } from "discord-api-types/v10";
 import { recordChannelActivity } from "brikko-studio/plugin-sdk/channel-activity-runtime";
-import type { MarkdownTableMode, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { MarkdownTableMode, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { OutboundMediaAccess } from "brikko-studio/plugin-sdk/media-runtime";
 import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
 import type { ChunkMode } from "brikko-studio/plugin-sdk/reply-chunking";
@@ -146,7 +146,7 @@ function collapseClassicComponentText(spec: DiscordComponentMessageSpec): string
 }
 
 type DiscordComponentSendOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   token?: string;
   rest?: RequestClient;

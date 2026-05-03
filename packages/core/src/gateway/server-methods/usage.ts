@@ -4,7 +4,7 @@ import {
   resolveSessionFilePathOptions,
 } from "../../config/sessions/paths.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { loadProviderUsageSummary } from "../../infra/provider-usage.js";
 import type {
   CostUsageSummary,
@@ -88,9 +88,9 @@ function setCostUsageCache(cacheKey: string, entry: CostUsageCacheEntry): void {
 function resolveSessionUsageFileOrRespond(
   key: string,
   respond: RespondFn,
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
 ): {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   entry: SessionEntry | undefined;
   agentId: string | undefined;
   sessionId: string;
@@ -302,7 +302,7 @@ function buildStoreBySessionId(
 }
 
 async function discoverAllSessionsForUsage(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   startMs: number;
   endMs: number;
 }): Promise<DiscoveredSessionWithAgent[]> {
@@ -323,7 +323,7 @@ async function discoverAllSessionsForUsage(params: {
 async function loadCostUsageSummaryCached(params: {
   startMs: number;
   endMs: number;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
 }): Promise<CostUsageSummary> {
   const cacheKey = `${params.startMs}-${params.endMs}`;
   const now = Date.now();

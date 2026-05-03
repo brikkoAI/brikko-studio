@@ -1,12 +1,12 @@
 import type { Api, Model } from "@mariozechner/pi-ai";
 import type { ModelRegistry } from "@mariozechner/pi-coding-agent";
-import { resolveBrikko StudioAgentDir } from "../../agents/agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../../agents/agent-paths.js";
 import {
   shouldSuppressBuiltInModel,
   shouldSuppressBuiltInModelFromManifest,
 } from "../../agents/model-suppression.js";
 import { discoverAuthStorage, discoverModels } from "../../agents/pi-model-discovery.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   formatErrorWithStack,
   MODEL_AVAILABILITY_UNAVAILABLE_CODE,
@@ -56,7 +56,7 @@ function validateAvailableModels(availableModels: unknown): Model<Api>[] {
 
 function loadAvailableModels(
   registry: ModelRegistry,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts?: { runtimeSuppression?: boolean },
 ): Model<Api>[] {
   let availableModels: unknown;
@@ -86,7 +86,7 @@ function loadAvailableModels(
 }
 
 export async function loadModelRegistry(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts?: {
     providerFilter?: string;
     normalizeModels?: boolean;
@@ -95,7 +95,7 @@ export async function loadModelRegistry(
   },
 ) {
   const runtimeSuppression = opts?.normalizeModels !== false;
-  const agentDir = resolveBrikko StudioAgentDir();
+  const agentDir = resolveBrikkoStudioAgentDir();
   const authStorage = discoverAuthStorage(agentDir, {
     readOnly: true,
     skipCredentials: opts?.loadAvailability === false,

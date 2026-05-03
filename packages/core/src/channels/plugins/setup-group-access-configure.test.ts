@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { configureChannelAccessWithAllowlist } from "./setup-group-access-configure.js";
 import type { ChannelAccessPolicy } from "./setup-group-access.js";
 
@@ -13,13 +13,13 @@ function createPrompter(params: { confirm: boolean; policy?: ChannelAccessPolicy
 }
 
 async function runConfigureChannelAccess<TResolved>(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: ReturnType<typeof createPrompter>;
   label?: string;
   placeholder?: string;
-  setPolicy: (cfg: Brikko StudioConfig, policy: ChannelAccessPolicy) => Brikko StudioConfig;
-  resolveAllowlist: (params: { cfg: Brikko StudioConfig; entries: string[] }) => Promise<TResolved>;
-  applyAllowlist: (params: { cfg: Brikko StudioConfig; resolved: TResolved }) => Brikko StudioConfig;
+  setPolicy: (cfg: BrikkoStudioConfig, policy: ChannelAccessPolicy) => BrikkoStudioConfig;
+  resolveAllowlist: (params: { cfg: BrikkoStudioConfig; entries: string[] }) => Promise<TResolved>;
+  applyAllowlist: (params: { cfg: BrikkoStudioConfig; resolved: TResolved }) => BrikkoStudioConfig;
 }) {
   return await configureChannelAccessWithAllowlist({
     cfg: params.cfg,
@@ -37,11 +37,11 @@ async function runConfigureChannelAccess<TResolved>(params: {
 
 describe("configureChannelAccessWithAllowlist", () => {
   it("returns input config when user skips access configuration", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const prompter = createPrompter({ confirm: false });
-    const setPolicy = vi.fn((next: Brikko StudioConfig) => next);
+    const setPolicy = vi.fn((next: BrikkoStudioConfig) => next);
     const resolveAllowlist = vi.fn(async () => [] as string[]);
-    const applyAllowlist = vi.fn((params: { cfg: Brikko StudioConfig }) => params.cfg);
+    const applyAllowlist = vi.fn((params: { cfg: BrikkoStudioConfig }) => params.cfg);
 
     const next = await runConfigureChannelAccess({
       cfg,
@@ -58,19 +58,19 @@ describe("configureChannelAccessWithAllowlist", () => {
   });
 
   it("applies non-allowlist policy directly", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const prompter = createPrompter({
       confirm: true,
       policy: "open",
     });
     const setPolicy = vi.fn(
-      (next: Brikko StudioConfig, policy: ChannelAccessPolicy): Brikko StudioConfig => ({
+      (next: BrikkoStudioConfig, policy: ChannelAccessPolicy): BrikkoStudioConfig => ({
         ...next,
         channels: { discord: { groupPolicy: policy } },
       }),
     );
     const resolveAllowlist = vi.fn(async () => ["ignored"]);
-    const applyAllowlist = vi.fn((params: { cfg: Brikko StudioConfig }) => params.cfg);
+    const applyAllowlist = vi.fn((params: { cfg: BrikkoStudioConfig }) => params.cfg);
 
     const next = await runConfigureChannelAccess({
       cfg,
@@ -89,19 +89,19 @@ describe("configureChannelAccessWithAllowlist", () => {
   });
 
   it("supports allowlist policies without prompting for entries", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const prompter = createPrompter({
       confirm: true,
       policy: "allowlist",
     });
     const setPolicy = vi.fn(
-      (next: Brikko StudioConfig, policy: ChannelAccessPolicy): Brikko StudioConfig => ({
+      (next: BrikkoStudioConfig, policy: ChannelAccessPolicy): BrikkoStudioConfig => ({
         ...next,
         channels: { twitch: { groupPolicy: policy } },
       }),
     );
     const resolveAllowlist = vi.fn(async () => ["ignored"]);
-    const applyAllowlist = vi.fn((params: { cfg: Brikko StudioConfig }) => params.cfg);
+    const applyAllowlist = vi.fn((params: { cfg: BrikkoStudioConfig }) => params.cfg);
 
     const next = await configureChannelAccessWithAllowlist({
       cfg,
@@ -123,27 +123,27 @@ describe("configureChannelAccessWithAllowlist", () => {
   });
 
   it("resolves allowlist entries and applies them after forcing allowlist policy", async () => {
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
     const prompter = createPrompter({
       confirm: true,
       policy: "allowlist",
       text: "#general, #support",
     });
     const calls: string[] = [];
-    const setPolicy = vi.fn((next: Brikko StudioConfig, policy: ChannelAccessPolicy): Brikko StudioConfig => {
+    const setPolicy = vi.fn((next: BrikkoStudioConfig, policy: ChannelAccessPolicy): BrikkoStudioConfig => {
       calls.push("setPolicy");
       return {
         ...next,
         channels: { slack: { groupPolicy: policy } },
       };
     });
-    const resolveAllowlist = vi.fn(async (params: { cfg: Brikko StudioConfig; entries: string[] }) => {
+    const resolveAllowlist = vi.fn(async (params: { cfg: BrikkoStudioConfig; entries: string[] }) => {
       calls.push("resolve");
       expect(params.cfg).toBe(cfg);
       expect(params.entries).toEqual(["#general", "#support"]);
       return ["C1", "C2"];
     });
-    const applyAllowlist = vi.fn((params: { cfg: Brikko StudioConfig; resolved: string[] }) => {
+    const applyAllowlist = vi.fn((params: { cfg: BrikkoStudioConfig; resolved: string[] }) => {
       calls.push("apply");
       expect(params.cfg.channels?.slack?.groupPolicy).toBe("allowlist");
       return {

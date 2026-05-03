@@ -1,5 +1,5 @@
 import { expectChannelInboundContextContract } from "brikko-studio/plugin-sdk/channel-contract-testing";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { createTempHomeEnv } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import {
@@ -42,7 +42,7 @@ describe("Slack inbound context contract", () => {
       const ctx = createInboundSlackTestContext({
         cfg: {
           channels: { slack: { enabled: true } },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
       });
       ctx.resolveUserName = async () => ({ name: "Alice" }) as never;
 

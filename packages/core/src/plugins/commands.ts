@@ -6,7 +6,7 @@
  */
 
 import { resolveConversationBindingContext } from "../channels/conversation-binding-context.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { ADMIN_SCOPE, isOperatorScope } from "../gateway/operator-scopes.js";
 import { logVerbose } from "../globals.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
@@ -33,7 +33,7 @@ import {
 } from "./conversation-binding.js";
 import { getActivePluginChannelRegistry } from "./runtime.js";
 import type {
-  Brikko StudioPluginCommandDefinition,
+  BrikkoStudioPluginCommandDefinition,
   PluginCommandContext,
   PluginCommandResult,
 } from "./types.js";
@@ -130,7 +130,7 @@ function sanitizeArgs(args: string | undefined): string | undefined {
 }
 
 function resolveBindingConversationFromCommand(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   channel: string;
   senderId?: string;
   from?: string;
@@ -152,7 +152,7 @@ function resolveBindingConversationFromCommand(params: {
     return null;
   }
   return resolveConversationBindingContext({
-    cfg: params.config ?? ({} as Brikko StudioConfig),
+    cfg: params.config ?? ({} as BrikkoStudioConfig),
     channel: params.channel,
     accountId: params.accountId,
     threadId: params.messageThreadId,
@@ -183,7 +183,7 @@ export async function executePluginCommand(params: {
   sessionId?: PluginCommandContext["sessionId"];
   sessionFile?: PluginCommandContext["sessionFile"];
   commandBody: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   from?: PluginCommandContext["from"];
   to?: PluginCommandContext["to"];
   accountId?: PluginCommandContext["accountId"];
@@ -368,7 +368,7 @@ export function listPluginCommands(): Array<{
   }));
 }
 
-function listPluginInvocationNames(command: Brikko StudioPluginCommandDefinition): string[] {
+function listPluginInvocationNames(command: BrikkoStudioPluginCommandDefinition): string[] {
   return listPluginInvocationKeys(command);
 }
 

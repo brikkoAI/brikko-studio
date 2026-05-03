@@ -2,7 +2,7 @@ import {
   installChannelSetupContractSuite,
   installChannelStatusContractSuite,
 } from "brikko-studio/plugin-sdk/channel-test-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect } from "vitest";
 import { linePlugin, lineSetupPlugin } from "../api.js";
 
@@ -12,7 +12,7 @@ describe("line setup contract", () => {
     cases: [
       {
         name: "default account stores token and secret",
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         input: {
           channelAccessToken: "line-token",
           channelSecret: "line-secret",
@@ -26,7 +26,7 @@ describe("line setup contract", () => {
       },
       {
         name: "non-default env setup is rejected",
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: "ops",
         input: {
           useEnv: true,
@@ -52,7 +52,7 @@ describe("line status contract", () => {
               channelSecret: "line-secret",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         runtime: {
           accountId: "default",
           running: true,

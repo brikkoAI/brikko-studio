@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { GatewayClient } from "../gateway/client.js";
 import {
   addDurableCommandApproval,
@@ -123,7 +123,7 @@ const APPROVAL_SCRIPT_OPERAND_BINDING_DENIED_MESSAGE =
   "SYSTEM_RUN_DENIED: approval missing script operand binding";
 const APPROVAL_SCRIPT_OPERAND_DRIFT_DENIED_MESSAGE =
   "SYSTEM_RUN_DENIED: approval script operand changed before execution";
-type ExecToolConfig = NonNullable<NonNullable<Brikko StudioConfig["tools"]>["exec"]>;
+type ExecToolConfig = NonNullable<NonNullable<BrikkoStudioConfig["tools"]>["exec"]>;
 
 function warnWritableTrustedDirOnce(message: string): void {
   if (safeBinTrustedDirWarningCache.has(message)) {
@@ -148,7 +148,7 @@ function normalizeDeniedReason(reason: string | null | undefined): SystemRunDeni
 }
 
 function resolveAgentExecConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string | undefined,
 ): ExecToolConfig | undefined {
   if (!agentId) {
@@ -189,10 +189,10 @@ export type HandleSystemRunInvokeOptions = {
   sendInvokeResult: (result: SystemRunInvokeResult) => Promise<void>;
   sendExecFinishedEvent: (params: ExecFinishedEventParams) => Promise<void>;
   preferMacAppExecHost: boolean;
-  getRuntimeConfig?: () => Brikko StudioConfig;
+  getRuntimeConfig?: () => BrikkoStudioConfig;
 };
 
-async function loadSystemRunConfig(opts: HandleSystemRunInvokeOptions): Promise<Brikko StudioConfig> {
+async function loadSystemRunConfig(opts: HandleSystemRunInvokeOptions): Promise<BrikkoStudioConfig> {
   if (opts.getRuntimeConfig) {
     return opts.getRuntimeConfig();
   }

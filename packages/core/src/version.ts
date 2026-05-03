@@ -151,7 +151,7 @@ export function resolveCompatibilityHostVersion(
   });
 }
 
-// Single source of truth for the current Brikko Studio version.
+// Single source of truth for the current BrikkoStudio version.
 // - Embedded/bundled builds: injected define or env var.
 // - Dev/npm builds: package.json.
 export const VERSION = resolveBinaryVersion({

@@ -5,7 +5,7 @@ import {
 import { normalizeAccountId, resolveAgentIdFromSessionKey } from "brikko-studio/plugin-sdk/routing";
 import {
   getRuntimeConfigSnapshot,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/runtime-config-snapshot";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
@@ -99,7 +99,7 @@ function isDirectConversationBindingId(value?: string | null): boolean {
 export function createThreadBindingManager(params: {
   accountId?: string;
   token?: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   persist?: boolean;
   enableSweeper?: boolean;
   idleTimeoutMs?: number;

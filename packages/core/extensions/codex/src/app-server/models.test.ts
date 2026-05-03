@@ -26,7 +26,7 @@ vi.mock("./managed-binary.js", () => ({
 }));
 
 vi.mock("brikko-studio/plugin-sdk/provider-auth", () => ({
-  resolveBrikko StudioAgentDir: mocks.providerAuth.agentDir,
+  resolveBrikkoStudioAgentDir: mocks.providerAuth.agentDir,
 }));
 
 let listCodexAppServerModels: typeof import("./models.js").listCodexAppServerModels;

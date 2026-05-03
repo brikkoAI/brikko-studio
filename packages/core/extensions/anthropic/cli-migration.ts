@@ -1,6 +1,6 @@
 import {
   CLAUDE_CLI_PROFILE_ID,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type ProviderAuthResult,
 } from "brikko-studio/plugin-sdk/provider-auth";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
@@ -10,10 +10,10 @@ import {
 } from "./cli-auth-seam.js";
 import { CLAUDE_CLI_BACKEND_ID, CLAUDE_CLI_DEFAULT_ALLOWLIST_REFS } from "./cli-shared.js";
 
-type AgentDefaultsModel = NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]>["model"];
-type AgentDefaultsModels = NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]>["models"];
+type AgentDefaultsModel = NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["defaults"]>["model"];
+type AgentDefaultsModels = NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["defaults"]>["models"];
 type AgentDefaultsRuntimePolicy = NonNullable<
-  NonNullable<Brikko StudioConfig["agents"]>["defaults"]
+  NonNullable<BrikkoStudioConfig["agents"]>["defaults"]
 >["agentRuntime"];
 type ClaudeCliCredential = NonNullable<ReturnType<typeof readClaudeCliCredentialsForSetup>>;
 
@@ -178,7 +178,7 @@ function buildClaudeCliAuthProfiles(
 }
 
 export function buildAnthropicCliMigrationResult(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   credential?: ClaudeCliCredential | null,
 ): ProviderAuthResult {
   const defaults = config.agents?.defaults;

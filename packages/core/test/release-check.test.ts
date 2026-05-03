@@ -389,12 +389,12 @@ describe("collectForbiddenPackPaths", () => {
     expect(
       collectForbiddenPackPaths([
         "dist/index.js",
-        "dist/extensions/browser/.Brikko Studio-Install-Stage/package.json",
+        "dist/extensions/browser/.BrikkoStudio-Install-Stage/package.json",
         "dist/extensions/codex/.brikko-studio-runtime-deps-backup-node_modules-old/zod/index.js",
         "dist/extensions/discord/.brikko-studio-runtime-deps-stamp.json",
       ]),
     ).toEqual([
-      "dist/extensions/browser/.Brikko Studio-Install-Stage/package.json",
+      "dist/extensions/browser/.BrikkoStudio-Install-Stage/package.json",
       "dist/extensions/codex/.brikko-studio-runtime-deps-backup-node_modules-old/zod/index.js",
       "dist/extensions/discord/.brikko-studio-runtime-deps-stamp.json",
     ]);

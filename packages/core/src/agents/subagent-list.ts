@@ -2,7 +2,7 @@ import { resolveSubagentLabel, sortSubagentRuns } from "../auto-reply/reply/suba
 import { resolveStorePath } from "../config/sessions/paths.js";
 import { loadSessionStore } from "../config/sessions/store-load.js";
 import type { SessionEntry } from "../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { parseAgentSessionKey, type ParsedAgentSessionKey } from "../routing/session-key.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import {
@@ -60,7 +60,7 @@ type SessionEntryResolution = {
 };
 
 function resolveStorePathForKey(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   key: string,
   parsed?: ParsedAgentSessionKey | null,
 ) {
@@ -70,7 +70,7 @@ function resolveStorePathForKey(
 }
 
 export function resolveSessionEntryForKey(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   key: string;
   cache: Map<string, Record<string, SessionEntry>>;
 }): SessionEntryResolution {
@@ -218,7 +218,7 @@ function buildListText(params: {
 }
 
 export function buildSubagentList(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runs: SubagentRunRecord[];
   recentMinutes: number;
   taskMaxChars?: number;

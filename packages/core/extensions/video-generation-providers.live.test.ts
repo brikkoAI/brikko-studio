@@ -1,8 +1,8 @@
 import {
   resolveApiKeyForProvider,
-  resolveBrikko StudioAgentDir,
+  resolveBrikkoStudioAgentDir,
 } from "brikko-studio/plugin-sdk/agent-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   registerProviderPlugin,
   requireRegisteredProvider,
@@ -149,7 +149,7 @@ function readPositiveIntegerEnv(raw: string | undefined, fallback: number): numb
   return Number.isFinite(value) && value > 0 ? value : fallback;
 }
 
-function withPluginsEnabled(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function withPluginsEnabled(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return {
     ...cfg,
     plugins: {
@@ -361,7 +361,7 @@ function resolveLiveSmokeDurationSeconds(params: {
 async function runLiveVideoProviderCase(testCase: LiveProviderCase): Promise<void> {
   const cfg = withPluginsEnabled(getRuntimeConfig());
   const configuredModels = resolveConfiguredLiveVideoModels(cfg);
-  const agentDir = resolveBrikko StudioAgentDir();
+  const agentDir = resolveBrikkoStudioAgentDir();
   const attempted: string[] = [];
   const skipped: string[] = [];
   const failures: string[] = [];

@@ -1,6 +1,6 @@
 import { rmSync } from "node:fs";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-payload";
 import {
   clearRuntimeConfigSnapshot,
@@ -147,7 +147,7 @@ function installSpeechProviders(providers: SpeechProviderPlugin[]): void {
   );
 }
 
-function createTtsConfig(prefsName: string): Brikko StudioConfig {
+function createTtsConfig(prefsName: string): BrikkoStudioConfig {
   return {
     messages: {
       tts: {
@@ -313,7 +313,7 @@ describe("speech-core native voice-note routing", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     const runtimeConfig = {
       messages: {
         tts: {
@@ -326,7 +326,7 @@ describe("speech-core native voice-note routing", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     installSpeechProviders([
       createMockSpeechProvider("mock", {
         isConfigured: ({ providerConfig }) => providerConfig.apiKey === "resolved-minimax-key",
@@ -452,7 +452,7 @@ describe("speech-core native voice-note routing", () => {
   });
 
   it("selects persona preferred provider before config fallback", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       messages: {
         tts: {
           enabled: true,
@@ -480,7 +480,7 @@ describe("speech-core native voice-note routing", () => {
   });
 
   it("merges active persona provider binding into synthesis config", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       messages: {
         tts: {
           enabled: true,
@@ -786,7 +786,7 @@ describe("speech-core per-agent TTS config", () => {
           },
         ],
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const resolved = resolveTtsConfig(cfg, "reader");
 
@@ -851,7 +851,7 @@ describe("speech-core per-agent TTS config", () => {
           },
         ],
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     let mediaDir: string | undefined;
     try {
@@ -903,7 +903,7 @@ describe("speech-core per-agent TTS config", () => {
           },
         ],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const resolved = resolveTtsConfig(cfg, "reader");
 

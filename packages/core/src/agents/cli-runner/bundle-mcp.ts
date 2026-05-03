@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { applyMergePatch } from "../../config/merge-patch.js";
 import type { CliBackendConfig } from "../../config/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { extractMcpServerMap, type BundleMcpConfig } from "../../plugins/bundle-mcp.js";
 import type { CliBundleMcpMode } from "../../plugins/types.js";
 import { loadMergedBundleMcpConfig, toCliBundleMcpServerConfig } from "../bundle-mcp-config.js";
@@ -48,7 +48,7 @@ function sortJsonValue(value: unknown): unknown {
   );
 }
 
-function normalizeBrikko StudioLoopbackUrl(value: string): string {
+function normalizeBrikkoStudioLoopbackUrl(value: string): string {
   const match =
     /^(http:\/\/(?:127\.0\.0\.1|localhost|\[::1\])):\d+(\/mcp)$/.exec(value.trim()) ?? undefined;
   if (!match) {
@@ -67,7 +67,7 @@ function canonicalizeBundleMcpConfigForResume(config: BundleMcpConfig): BundleMc
         name,
         sortJsonValue({
           ...server,
-          url: normalizeBrikko StudioLoopbackUrl(server.url),
+          url: normalizeBrikkoStudioLoopbackUrl(server.url),
         }),
       ];
     }),
@@ -145,7 +145,7 @@ export async function prepareCliBundleMcpConfig(params: {
   mode?: CliBundleMcpMode;
   backend: CliBackendConfig;
   workspaceDir: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   additionalConfig?: BundleMcpConfig;
   env?: Record<string, string>;
   warn?: (message: string) => void;

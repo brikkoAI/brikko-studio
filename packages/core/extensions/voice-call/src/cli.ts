@@ -418,7 +418,7 @@ export function registerVoiceCallCli(params: {
     .option(
       "--message <text>",
       "Message to speak during the smoke call",
-      "Brikko Studio voice call smoke test.",
+      "BrikkoStudio voice call smoke test.",
     )
     .option("--mode <mode>", "Call mode: notify or conversation", "notify")
     .option("--yes", "Actually place the live outbound call")

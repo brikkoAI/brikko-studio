@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import type { AssistantMessage } from "@mariozechner/pi-ai";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { redactIdentifier } from "../logging/redact-identifier.js";
 import type { AuthProfileFailureReason } from "./auth-profiles.js";
 import { buildAttemptReplayMetadata } from "./pi-embedded-runner/run/incomplete-turn.js";
@@ -77,7 +77,7 @@ const installRunEmbeddedMocks = () => {
     const mod = await vi.importActual<typeof import("./models-config.js")>("./models-config.js");
     return {
       ...mod,
-      ensureBrikko StudioModelsJson: vi.fn(async () => ({ wrote: false })),
+      ensureBrikkoStudioModelsJson: vi.fn(async () => ({ wrote: false })),
     };
   });
 };
@@ -202,7 +202,7 @@ const makeConfig = (opts?: {
   apiKey?: string;
   overloadedBackoffMs?: number;
   overloadedProfileRotations?: number;
-}): Brikko StudioConfig =>
+}): BrikkoStudioConfig =>
   ({
     auth:
       opts?.overloadedBackoffMs != null || opts?.overloadedProfileRotations != null
@@ -244,9 +244,9 @@ const makeConfig = (opts?: {
         },
       },
     },
-  }) satisfies Brikko StudioConfig;
+  }) satisfies BrikkoStudioConfig;
 
-const makeAgentOverrideOnlyFallbackConfig = (agentId: string): Brikko StudioConfig =>
+const makeAgentOverrideOnlyFallbackConfig = (agentId: string): BrikkoStudioConfig =>
   ({
     agents: {
       defaults: {
@@ -283,11 +283,11 @@ const makeAgentOverrideOnlyFallbackConfig = (agentId: string): Brikko StudioConf
         },
       },
     },
-  }) satisfies Brikko StudioConfig;
+  }) satisfies BrikkoStudioConfig;
 
 const copilotModelId = "gpt-4o";
 
-const makeCopilotConfig = (): Brikko StudioConfig =>
+const makeCopilotConfig = (): BrikkoStudioConfig =>
   ({
     models: {
       providers: {
@@ -308,7 +308,7 @@ const makeCopilotConfig = (): Brikko StudioConfig =>
         },
       },
     },
-  }) satisfies Brikko StudioConfig;
+  }) satisfies BrikkoStudioConfig;
 
 const writeAuthStore = async (
   agentDir: string,
@@ -428,7 +428,7 @@ async function runAutoPinnedOpenAiTurn(params: {
   sessionKey: string;
   runId: string;
   authProfileId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }) {
   await runEmbeddedPiAgentInline({
     sessionId: "session:test",
@@ -471,7 +471,7 @@ async function runAutoPinnedRotationCase(params: {
   errorMessage: string;
   sessionKey: string;
   runId: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }) {
   runEmbeddedAttemptMock.mockReset();
   return withAgentWorkspace(async ({ agentDir, workspaceDir }) => {
@@ -495,7 +495,7 @@ async function runAutoPinnedPromptErrorRotationCase(params: {
   errorMessage: string;
   sessionKey: string;
   runId: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }) {
   runEmbeddedAttemptMock.mockReset();
   return withAgentWorkspace(async ({ agentDir, workspaceDir }) => {

@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { getRuntimeConfig } from "../../config/io.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { listDevicePairing } from "../../infra/device-pairing.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import {
@@ -139,7 +139,7 @@ async function resolveDirectNodePushConfig() {
     : { ok: false as const, error: auth.error };
 }
 
-function resolveRelayNodePushConfig(cfg: Brikko StudioConfig) {
+function resolveRelayNodePushConfig(cfg: BrikkoStudioConfig) {
   const relay = resolveApnsRelayConfigFromEnv(process.env, cfg.gateway);
   return relay.ok
     ? { ok: true as const, relayConfig: relay.value }
@@ -248,7 +248,7 @@ function listPendingNodeActions(nodeId: string): PendingNodeAction[] {
 function resolveAllowedPendingNodeActions(params: {
   nodeId: string;
   client: { connect?: ConnectParams | null } | null;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): PendingNodeAction[] {
   const pending = listPendingNodeActions(params.nodeId);
   if (pending.length === 0) {
@@ -306,7 +306,7 @@ function toPendingParamsJSON(params: unknown): string | undefined {
 
 export async function maybeWakeNodeWithApns(
   nodeId: string,
-  opts?: { force?: boolean; wakeReason?: string; cfg?: Brikko StudioConfig },
+  opts?: { force?: boolean; wakeReason?: string; cfg?: BrikkoStudioConfig },
 ): Promise<NodeWakeAttempt> {
   const state = nodeWakeById.get(nodeId) ?? { lastWakeAtMs: 0 };
   nodeWakeById.set(nodeId, state);
@@ -416,7 +416,7 @@ export async function maybeWakeNodeWithApns(
 
 export async function maybeSendNodeWakeNudge(
   nodeId: string,
-  opts?: { cfg?: Brikko StudioConfig },
+  opts?: { cfg?: BrikkoStudioConfig },
 ): Promise<NodeWakeNudgeAttempt> {
   const startedAtMs = Date.now();
   const withDuration = (
@@ -450,8 +450,8 @@ export async function maybeSendNodeWakeNudge(
       result = await sendApnsAlert({
         registration,
         nodeId,
-        title: "Brikko Studio needs a quick reopen",
-        body: "Tap to reopen Brikko Studio and restore the node connection.",
+        title: "BrikkoStudio needs a quick reopen",
+        body: "Tap to reopen BrikkoStudio and restore the node connection.",
         relayConfig: relay.relayConfig,
       });
     } else {
@@ -467,8 +467,8 @@ export async function maybeSendNodeWakeNudge(
       result = await sendApnsAlert({
         registration,
         nodeId,
-        title: "Brikko Studio needs a quick reopen",
-        body: "Tap to reopen Brikko Studio and restore the node connection.",
+        title: "BrikkoStudio needs a quick reopen",
+        body: "Tap to reopen BrikkoStudio and restore the node connection.",
         auth: auth.auth,
       });
     }

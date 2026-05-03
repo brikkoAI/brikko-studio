@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { MALFORMED_STREAMING_FRAGMENT_ERROR_MESSAGE } from "../shared/assistant-error-format.js";
 import { getSlashCommands, parseCommand } from "./commands.js";
 import {
@@ -131,7 +131,7 @@ describe("resolveTuiSessionKey", () => {
 });
 
 describe("resolveInitialTuiAgentId", () => {
-  const cfg: Brikko StudioConfig = {
+  const cfg: BrikkoStudioConfig = {
     agents: {
       list: [
         { id: "main", workspace: "/tmp/brikko-studio" },

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export type RealtimeVoiceProviderId = string;
 
@@ -66,12 +66,12 @@ export type RealtimeVoiceBridgeCallbacks = {
 export type RealtimeVoiceProviderConfig = Record<string, unknown>;
 
 export type RealtimeVoiceProviderResolveConfigContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   rawConfig: RealtimeVoiceProviderConfig;
 };
 
 export type RealtimeVoiceProviderConfiguredContext = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   providerConfig: RealtimeVoiceProviderConfig;
 };
 

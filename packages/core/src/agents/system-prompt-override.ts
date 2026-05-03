@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveAgentConfig } from "./agent-scope.js";
 
 function trimNonEmpty(value: unknown): string | undefined {
@@ -10,7 +10,7 @@ function trimNonEmpty(value: unknown): string | undefined {
 }
 
 export function resolveSystemPromptOverride(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
 }): string | undefined {
   const config = params.config;

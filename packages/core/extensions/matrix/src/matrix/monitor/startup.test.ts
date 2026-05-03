@@ -79,8 +79,8 @@ function createDeps(
     maybeRestoreLegacyMatrixBackup: vi.fn(async () => createLegacyCryptoRestoreResult()),
     summarizeMatrixDeviceHealth: vi.fn(() => ({
       currentDeviceId: null,
-      staleBrikko StudioDevices: [] as MatrixManagedDeviceInfo[],
-      currentBrikko StudioDevices: [] as MatrixManagedDeviceInfo[],
+      staleBrikkoStudioDevices: [] as MatrixManagedDeviceInfo[],
+      currentBrikkoStudioDevices: [] as MatrixManagedDeviceInfo[],
     })),
     syncMatrixOwnProfile: vi.fn(async () => createProfileSyncResult()),
     ensureMatrixStartupVerification: vi.fn(async () =>
@@ -177,10 +177,10 @@ describe("runMatrixStartupMaintenance", () => {
     params.auth.encryption = true;
     vi.mocked(deps.summarizeMatrixDeviceHealth).mockReturnValue({
       currentDeviceId: null,
-      staleBrikko StudioDevices: [
-        { deviceId: "DEV123", displayName: "Brikko Studio Device", current: false },
+      staleBrikkoStudioDevices: [
+        { deviceId: "DEV123", displayName: "BrikkoStudio Device", current: false },
       ],
-      currentBrikko StudioDevices: [],
+      currentBrikkoStudioDevices: [],
     });
     vi.mocked(deps.ensureMatrixStartupVerification).mockResolvedValue(
       createStartupVerificationOutcome("pending"),
@@ -197,7 +197,7 @@ describe("runMatrixStartupMaintenance", () => {
     await runMatrixStartupMaintenance(params, deps);
 
     expect(params.logger.warn).toHaveBeenCalledWith(
-      "matrix: stale Brikko Studio devices detected for @bot:example.org: DEV123. Run 'brikko-studio matrix devices prune-stale --account ops' to keep encrypted-room trust healthy.",
+      "matrix: stale BrikkoStudio devices detected for @bot:example.org: DEV123. Run 'brikko-studio matrix devices prune-stale --account ops' to keep encrypted-room trust healthy.",
     );
     expect(params.logger.info).toHaveBeenCalledWith(
       "matrix: device not verified — run 'brikko-studio matrix verify device <key>' to enable E2EE",

@@ -1,12 +1,12 @@
 import { loadChannelOutboundAdapter } from "../../channels/plugins/outbound/load.js";
 import type { ChannelId } from "../../channels/plugins/types.public.js";
 import { getRuntimeConfig } from "../../config/config.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { OutboundMediaAccess } from "../../media/load-options.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 
 type RuntimeSendOpts = {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   mediaUrl?: string;
   mediaAccess?: OutboundMediaAccess;
   mediaLocalRoots?: readonly string[];

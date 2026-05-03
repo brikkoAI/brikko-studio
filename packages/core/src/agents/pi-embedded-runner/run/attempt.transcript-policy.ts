@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import type { ProviderRuntimeModel } from "../../../plugins/provider-runtime-model.types.js";
 import type { AgentRuntimePlan } from "../../runtime-plan/types.js";
 import { resolveTranscriptPolicy, type TranscriptPolicy } from "../../transcript-policy.js";
@@ -18,7 +18,7 @@ export function resolveAttemptTranscriptPolicy(params: {
   runtimePlanModelContext: AttemptRuntimeModelContext;
   provider: string;
   modelId: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): TranscriptPolicy {
   return (

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { type Brikko StudioConfig, DEFAULT_GATEWAY_PORT } from "../config/config.js";
+import { type BrikkoStudioConfig, DEFAULT_GATEWAY_PORT } from "../config/config.js";
 import {
   buildDefaultHookUrl,
   buildGogWatchServeLogArgs,
@@ -17,11 +17,11 @@ const baseConfig = {
       pushToken: "push-token",
     },
   },
-} satisfies Brikko StudioConfig;
+} satisfies BrikkoStudioConfig;
 
 describe("gmail hook config", () => {
   function resolveWithGmailOverrides(
-    overrides: Partial<NonNullable<Brikko StudioConfig["hooks"]>["gmail"]>,
+    overrides: Partial<NonNullable<BrikkoStudioConfig["hooks"]>["gmail"]>,
   ) {
     return resolveGmailHookRuntimeConfig(
       {

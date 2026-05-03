@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { replaceConfigFile } from "../config/mutate.js";
 import type { GatewayAuthConfig, GatewayTailscaleConfig } from "../config/types.gateway.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import {
   hasConfiguredGatewayAuthSecretInput,
@@ -66,7 +66,7 @@ export function mergeGatewayTailscaleConfig(
 }
 
 function resolveGatewayAuthFromConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   authOverride?: GatewayAuthConfig;
   tailscaleOverride?: GatewayTailscaleConfig;
@@ -101,7 +101,7 @@ function shouldPersistGeneratedToken(params: {
 }
 
 function hasGatewayTokenCandidate(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   authOverride?: GatewayAuthConfig;
 }): boolean {
@@ -138,14 +138,14 @@ function hasGatewayPasswordOverrideCandidate(params: {
 }
 
 export async function ensureGatewayStartupAuth(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   authOverride?: GatewayAuthConfig;
   tailscaleOverride?: GatewayTailscaleConfig;
   persist?: boolean;
   baseHash?: string;
 }): Promise<{
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   auth: ReturnType<typeof resolveGatewayAuth>;
   generatedToken?: string;
   persistedGeneratedToken: boolean;
@@ -202,7 +202,7 @@ export async function ensureGatewayStartupAuth(params: {
   }
 
   const generatedToken = crypto.randomBytes(24).toString("hex");
-  const nextCfg: Brikko StudioConfig = {
+  const nextCfg: BrikkoStudioConfig = {
     ...params.cfg,
     gateway: {
       ...params.cfg.gateway,
@@ -245,7 +245,7 @@ export async function ensureGatewayStartupAuth(params: {
 }
 
 export function assertHooksTokenSeparateFromGatewayAuth(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   auth: ResolvedGatewayAuth;
 }): void {
   if (params.cfg.hooks?.enabled !== true) {

@@ -14,12 +14,12 @@ type ResolveBonjourCliPathOptions = {
 export function formatBonjourInstanceName(displayName: string) {
   const trimmed = displayName.trim();
   if (!trimmed) {
-    return "Brikko Studio";
+    return "BrikkoStudio";
   }
   if (/brikko-studio/i.test(trimmed)) {
     return trimmed;
   }
-  return `${trimmed} (Brikko Studio)`;
+  return `${trimmed} (BrikkoStudio)`;
 }
 
 export function resolveBonjourCliPath(opts: ResolveBonjourCliPathOptions = {}): string | undefined {

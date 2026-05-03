@@ -1,6 +1,6 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
-export function makeModelFallbackCfg(overrides: Partial<Brikko StudioConfig> = {}): Brikko StudioConfig {
+export function makeModelFallbackCfg(overrides: Partial<BrikkoStudioConfig> = {}): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {
@@ -11,5 +11,5 @@ export function makeModelFallbackCfg(overrides: Partial<Brikko StudioConfig> = {
       },
     },
     ...overrides,
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }

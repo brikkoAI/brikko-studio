@@ -170,7 +170,7 @@ function uniqueCandidateDirs(candidates: CandidateDir[]): CandidateDir[] {
   );
 }
 
-export function listBrikko StudioPluginManifestMetadata(
+export function listBrikkoStudioPluginManifestMetadata(
   env: NodeJS.ProcessEnv = process.env,
 ): PluginManifestMetadataRecord[] {
   const candidates: CandidateDir[] = [];

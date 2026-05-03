@@ -10,7 +10,7 @@ import {
   resolveCoreToolProfiles,
 } from "../../agents/tool-catalog.js";
 import { summarizeToolDescriptionText } from "../../agents/tool-description-summary.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { getActivePluginRegistry } from "../../plugins/runtime.js";
 import {
   buildPluginToolMetadataKey,
@@ -51,7 +51,7 @@ type ToolCatalogGroup = {
 function resolveAgentIdOrRespondError(
   rawAgentId: unknown,
   respond: RespondFn,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ) {
   const knownAgents = listAgentIds(cfg);
   const requestedAgentId = normalizeOptionalString(rawAgentId) ?? "";
@@ -83,7 +83,7 @@ function buildCoreGroups(): ToolCatalogGroup[] {
 }
 
 function buildPluginGroups(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   existingToolNames: Set<string>;
 }): ToolCatalogGroup[] {
@@ -203,7 +203,7 @@ function buildPluginGroups(params: {
 }
 
 export function buildToolsCatalogResult(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   includePlugins?: boolean;
 }): ToolsCatalogResult {

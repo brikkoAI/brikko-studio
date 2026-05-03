@@ -10,7 +10,7 @@ import type {
   ExecApprovalRequest,
   PluginApprovalRequest,
 } from "brikko-studio/plugin-sdk/approval-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { TelegramExecApprovalConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
 import { normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
@@ -35,13 +35,13 @@ function normalizeTelegramDirectApproverId(value: string | number): string | und
   return chatId;
 }
 
-function resolveTelegramOwnerApprovers(cfg: Brikko StudioConfig): Array<string | number> {
+function resolveTelegramOwnerApprovers(cfg: BrikkoStudioConfig): Array<string | number> {
   const ownerAllowFrom = cfg.commands?.ownerAllowFrom;
   return Array.isArray(ownerAllowFrom) ? ownerAllowFrom : [];
 }
 
 export function resolveTelegramExecApprovalConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): TelegramExecApprovalConfig | undefined {
   const account = resolveTelegramAccount(params);
@@ -55,7 +55,7 @@ export function resolveTelegramExecApprovalConfig(params: {
 }
 
 export function getTelegramExecApprovalApprovers(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): string[] {
   return resolveApprovalApprovers({
@@ -66,7 +66,7 @@ export function getTelegramExecApprovalApprovers(params: {
 }
 
 export function isTelegramExecApprovalTargetRecipient(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   senderId?: string | null;
   accountId?: string | null;
 }): boolean {
@@ -84,7 +84,7 @@ export function isTelegramExecApprovalTargetRecipient(params: {
 }
 
 function countTelegramExecApprovalEligibleAccounts(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   request: ExecApprovalRequest | PluginApprovalRequest;
 }): number {
   return listTelegramAccountIds(params.cfg).filter((accountId) => {
@@ -122,7 +122,7 @@ function isTargetForwardingMode(mode?: string): boolean {
 }
 
 function matchesExplicitTelegramForwardTargetAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   request: ExecApprovalRequest | PluginApprovalRequest;
 }): boolean | undefined {
@@ -154,7 +154,7 @@ function matchesExplicitTelegramForwardTargetAccount(params: {
 }
 
 function matchesTelegramRequestAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   request: ExecApprovalRequest | PluginApprovalRequest;
 }): boolean {
@@ -204,7 +204,7 @@ export const shouldHandleTelegramExecApprovalRequest =
   telegramExecApprovalProfile.shouldHandleRequest;
 
 export function shouldInjectTelegramExecApprovalButtons(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   to: string;
 }): boolean {
@@ -223,7 +223,7 @@ export function shouldInjectTelegramExecApprovalButtons(params: {
 }
 
 function resolveExecApprovalButtonsExplicitlyDisabled(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): boolean {
   const capabilities = resolveTelegramAccount(params).config.capabilities;
@@ -231,7 +231,7 @@ function resolveExecApprovalButtonsExplicitlyDisabled(params: {
 }
 
 export function shouldEnableTelegramExecApprovalButtons(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   to: string;
 }): boolean {
@@ -242,7 +242,7 @@ export function shouldEnableTelegramExecApprovalButtons(params: {
 }
 
 export function shouldSuppressLocalTelegramExecApprovalPrompt(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   payload: ReplyPayload;
 }): boolean {
@@ -250,7 +250,7 @@ export function shouldSuppressLocalTelegramExecApprovalPrompt(params: {
 }
 
 export function isTelegramExecApprovalHandlerConfigured(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): boolean {
   return isChannelExecApprovalClientEnabledFromConfig({

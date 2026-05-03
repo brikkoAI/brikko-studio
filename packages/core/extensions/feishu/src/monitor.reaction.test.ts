@@ -542,7 +542,7 @@ describe("Feishu inbound debounce regressions", () => {
     vi.spyOn(dedup, "tryBeginFeishuMessageProcessing").mockReturnValue(true);
     vi.spyOn(dedup, "recordProcessedFeishuMessage").mockResolvedValue(true);
     vi.spyOn(dedup, "hasProcessedFeishuMessage").mockResolvedValue(false);
-    const onMessage = await setupDebounceMonitor({ botName: "Brikko Studio Bot" });
+    const onMessage = await setupDebounceMonitor({ botName: "BrikkoStudio Bot" });
 
     await onMessage(
       createTextEvent({
@@ -552,7 +552,7 @@ describe("Feishu inbound debounce regressions", () => {
           {
             key: "@_user_1",
             id: { open_id: "ou_bot" },
-            name: "Brikko Studio Bot",
+            name: "BrikkoStudio Bot",
           },
         ],
       }),
@@ -565,7 +565,7 @@ describe("Feishu inbound debounce regressions", () => {
     const firstParams = handleFeishuMessageMock.mock.calls[0]?.[0] as
       | { botName?: string }
       | undefined;
-    expect(firstParams?.botName).toBe("Brikko Studio Bot");
+    expect(firstParams?.botName).toBe("BrikkoStudio Bot");
   });
 
   it("does not synthesize mention-forward intent across separate messages", async () => {

@@ -1,6 +1,6 @@
 import { expandAllowFromWithAccessGroups } from "brikko-studio/plugin-sdk/command-auth";
 import { resolveCommandAuthorizedFromAuthorizers } from "brikko-studio/plugin-sdk/command-auth-native";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   readStoreAllowFromForDmPolicy,
   resolveDmGroupAccessWithLists,
@@ -44,7 +44,7 @@ function resolveDmPolicyCommandAuthorization(params: {
 }
 
 async function expandAllowFromWithDiscordAccessGroups(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   allowFrom: string[];
   sender: { id: string };
   accountId: string;
@@ -78,7 +78,7 @@ export async function resolveDiscordDmCommandAccess(params: {
   sender: { id: string; name?: string; tag?: string };
   allowNameMatching: boolean;
   useAccessGroups: boolean;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   token?: string;
   rest?: RequestClient;
   readStoreAllowFrom?: () => Promise<string[]>;

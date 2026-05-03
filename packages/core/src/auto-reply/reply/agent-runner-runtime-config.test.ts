@@ -3,11 +3,11 @@ import {
   clearRuntimeConfigSnapshot,
   setRuntimeConfigSnapshot,
 } from "../../config/runtime-snapshot.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { buildEmbeddedRunBaseParams } from "./agent-runner-run-params.js";
 import type { FollowupRun } from "./queue.js";
 
-function makeRun(config: Brikko StudioConfig): FollowupRun["run"] {
+function makeRun(config: BrikkoStudioConfig): FollowupRun["run"] {
   return {
     sessionId: "session-1",
     agentId: "agent-1",
@@ -37,7 +37,7 @@ afterEach(() => {
 
 describe("buildEmbeddedRunBaseParams runtime config", () => {
   it("keeps an already-resolved run config instead of reverting to a stale runtime snapshot", () => {
-    const staleSnapshot: Brikko StudioConfig = {
+    const staleSnapshot: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: {
@@ -52,7 +52,7 @@ describe("buildEmbeddedRunBaseParams runtime config", () => {
         },
       },
     };
-    const resolvedRunConfig: Brikko StudioConfig = {
+    const resolvedRunConfig: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: {

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveApiKeyForProvider } from "brikko-studio/plugin-sdk/provider-auth-runtime";
 import {
   assertOkOrThrowHttpError,
@@ -88,7 +88,7 @@ function resolveVydraBaseUrlFromConfig(cfg: unknown): string {
 }
 
 export async function resolveVydraRequestContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   authStore?: VydraAuthStore;
   capability: "image" | "video";

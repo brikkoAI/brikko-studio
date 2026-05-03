@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveSecretInputRef } from "../config/types.secrets.js";
 import { isRecord } from "../utils.js";
 import {
@@ -8,7 +8,7 @@ import {
 } from "./model-auth-markers.js";
 import type { ProviderConfig, SecretDefaults } from "./models-config.providers.secrets.js";
 
-type ModelsConfig = NonNullable<Brikko StudioConfig["models"]>;
+type ModelsConfig = NonNullable<BrikkoStudioConfig["models"]>;
 
 function normalizeSourceProviderLookup(
   providers: ModelsConfig["providers"] | undefined,

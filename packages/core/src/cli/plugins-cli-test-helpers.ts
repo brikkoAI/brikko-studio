@@ -2,7 +2,7 @@ import { Command } from "commander";
 import type { Mock } from "vitest";
 import { vi } from "vitest";
 import { getRuntimeConfig } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import { createEmptyUninstallActions } from "../plugins/uninstall.js";
 import type { CliMockOutputRuntime } from "./test-runtime-capture.js";
@@ -33,11 +33,11 @@ function invokeMock<TArgs extends unknown[], TResult>(mock: unknown, ...args: TA
   return (mock as (...args: TArgs) => TResult)(...args);
 }
 
-export const loadConfig: Mock<LoadConfigFn> = vi.fn<LoadConfigFn>(() => ({}) as Brikko StudioConfig);
+export const loadConfig: Mock<LoadConfigFn> = vi.fn<LoadConfigFn>(() => ({}) as BrikkoStudioConfig);
 export const readConfigFileSnapshot: AsyncUnknownMock = vi.fn();
 export const writeConfigFile: AsyncUnknownMock = vi.fn(async () => undefined);
 export const replaceConfigFile: AsyncUnknownMock = vi.fn(
-  async (params: { nextConfig: Brikko StudioConfig }) => await writeConfigFile(params.nextConfig),
+  async (params: { nextConfig: BrikkoStudioConfig }) => await writeConfigFile(params.nextConfig),
 ) as AsyncUnknownMock;
 const resolveStateDir: Mock<() => string> = vi.fn(() => "/tmp/brikko-studio-state");
 export const installPluginFromMarketplace: Mock<InstallPluginFromMarketplaceFn> = vi.fn();
@@ -170,9 +170,9 @@ vi.mock("../config/config.js", () => ({
       readConfigFileSnapshot,
       ...args,
     )) as (typeof import("../config/config.js"))["readConfigFileSnapshot"],
-  writeConfigFile: ((config: Brikko StudioConfig) =>
+  writeConfigFile: ((config: BrikkoStudioConfig) =>
     invokeMock<
-      [Brikko StudioConfig],
+      [BrikkoStudioConfig],
       ReturnType<(typeof import("../config/config.js"))["writeConfigFile"]>
     >(writeConfigFile, config)) as (typeof import("../config/config.js"))["writeConfigFile"],
   replaceConfigFile: ((
@@ -651,7 +651,7 @@ export function resetPluginsCliTestState() {
   installHooksFromPath.mockReset();
   recordHookInstall.mockReset();
 
-  loadConfig.mockReturnValue({} as Brikko StudioConfig);
+  loadConfig.mockReturnValue({} as BrikkoStudioConfig);
   readConfigFileSnapshot.mockImplementation(async () => {
     const config = getRuntimeConfig();
     return {
@@ -672,7 +672,7 @@ export function resetPluginsCliTestState() {
   });
   writeConfigFile.mockResolvedValue(undefined);
   replaceConfigFile.mockImplementation(
-    (async (params: { nextConfig: Brikko StudioConfig }) =>
+    (async (params: { nextConfig: BrikkoStudioConfig }) =>
       await writeConfigFile(params.nextConfig)) as (...args: unknown[]) => Promise<unknown>,
   );
   resolveStateDir.mockReturnValue("/tmp/brikko-studio-state");
@@ -681,13 +681,13 @@ export function resetPluginsCliTestState() {
     ok: false,
     error: "marketplace install failed",
   });
-  enablePluginInConfig.mockImplementation(((cfg: Brikko StudioConfig, pluginId: string) => ({
+  enablePluginInConfig.mockImplementation(((cfg: BrikkoStudioConfig, pluginId: string) => ({
     config: cfg,
     enabled: true,
     pluginId,
   })) as (...args: unknown[]) => unknown);
   recordPluginInstall.mockImplementation(
-    ((cfg: Brikko StudioConfig) => cfg) as (...args: unknown[]) => unknown,
+    ((cfg: BrikkoStudioConfig) => cfg) as (...args: unknown[]) => unknown,
   );
   loadInstalledPluginIndexInstallRecords.mockImplementation(async () =>
     clonePluginInstallRecords(mockInstalledPluginIndexInstallRecords),
@@ -730,7 +730,7 @@ export function resetPluginsCliTestState() {
     current: defaultRegistryIndex,
   });
   refreshPluginRegistry.mockResolvedValue(defaultRegistryIndex);
-  applyExclusiveSlotSelection.mockImplementation((({ config }: { config: Brikko StudioConfig }) => ({
+  applyExclusiveSlotSelection.mockImplementation((({ config }: { config: BrikkoStudioConfig }) => ({
     config,
     warnings: [],
   })) as (...args: unknown[]) => unknown);
@@ -738,7 +738,7 @@ export function resetPluginsCliTestState() {
     config,
     pluginId,
   }: {
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     pluginId: string;
   }) => ({
     ok: true,
@@ -753,19 +753,19 @@ export function resetPluginsCliTestState() {
   });
   uninstallPlugin.mockResolvedValue({
     ok: true,
-    config: {} as Brikko StudioConfig,
+    config: {} as BrikkoStudioConfig,
     warnings: [],
     actions: createEmptyUninstallActions(),
   });
   updateNpmInstalledPlugins.mockResolvedValue({
     outcomes: [],
     changed: false,
-    config: {} as Brikko StudioConfig,
+    config: {} as BrikkoStudioConfig,
   });
   updateNpmInstalledHookPacks.mockResolvedValue({
     outcomes: [],
     changed: false,
-    config: {} as Brikko StudioConfig,
+    config: {} as BrikkoStudioConfig,
   });
   promptYesNo.mockResolvedValue(true);
   installPluginFromPath.mockResolvedValue({ ok: false, error: "path install disabled in test" });
@@ -807,6 +807,6 @@ export function resetPluginsCliTestState() {
     error: "hook npm install disabled in test",
   });
   recordHookInstall.mockImplementation(
-    ((cfg: Brikko StudioConfig) => cfg) as (...args: unknown[]) => unknown,
+    ((cfg: BrikkoStudioConfig) => cfg) as (...args: unknown[]) => unknown,
   );
 }

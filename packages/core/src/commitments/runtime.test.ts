@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { DEFAULT_COMMITMENT_EXTRACTION_QUEUE_MAX_ITEMS } from "./config.js";
 import {
   configureCommitmentExtractionRuntime,
@@ -38,7 +38,7 @@ describe("commitment extraction runtime", () => {
     tmpDirs.length = 0;
   });
 
-  async function createConfig(): Promise<Brikko StudioConfig> {
+  async function createConfig(): Promise<BrikkoStudioConfig> {
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-commitment-runtime-"));
     tmpDirs.push(tmpDir);
     vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tmpDir);
@@ -66,7 +66,7 @@ describe("commitment extraction runtime", () => {
   });
 
   it("keeps hidden extraction opt-in by default", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       commitments: {},
     };
     configureCommitmentExtractionRuntime({

@@ -8,7 +8,7 @@ import {
   resolveWriteEnvSnapshotForPath,
   unsetPathForWrite,
 } from "./io.write-prepare.js";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
 describe("config io write prepare", () => {
   it("persists caller changes onto resolved config without leaking runtime defaults", () => {
@@ -75,7 +75,7 @@ describe("config io write prepare", () => {
             },
           },
         },
-      }) as Brikko StudioConfig,
+      }) as BrikkoStudioConfig,
       [["plugins", "installs"]],
     ) as {
       plugins?: {
@@ -118,7 +118,7 @@ describe("config io write prepare", () => {
         agents: { list: [{ id: "main" }, { id: "ops" }] },
         gateway: { mode: "local" },
       },
-    }) as Brikko StudioConfig;
+    }) as BrikkoStudioConfig;
 
     expect(persisted.agents?.defaults?.params).toEqual({
       transport: "sse",
@@ -132,7 +132,7 @@ describe("config io write prepare", () => {
   });
 
   it("allows explicit unsets to remove authored agent provider params", () => {
-    const sourceConfig: Brikko StudioConfig = {
+    const sourceConfig: BrikkoStudioConfig = {
       agents: {
         defaults: {
           params: { transport: "sse", openaiWsWarmup: false },
@@ -152,7 +152,7 @@ describe("config io write prepare", () => {
         ["agents", "defaults", "params"],
         ["agents", "defaults", "models", "openai/gpt-5.4", "params"],
       ],
-    }) as Brikko StudioConfig;
+    }) as BrikkoStudioConfig;
 
     expect(persisted.agents?.defaults).not.toHaveProperty("params");
     expect(persisted.agents?.defaults?.models?.["openai/gpt-5.4"]).not.toHaveProperty("params");
@@ -237,10 +237,10 @@ describe("config io write prepare", () => {
   });
 
   it("does not mutate caller config when unsetting existing config objects", () => {
-    const input: Brikko StudioConfig = {
+    const input: BrikkoStudioConfig = {
       gateway: { mode: "local" },
       commands: { ownerDisplay: "hash" },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const next = unsetPathForWrite(input, ["commands", "ownerDisplay"]);
 
@@ -252,10 +252,10 @@ describe("config io write prepare", () => {
   });
 
   it("keeps caller arrays immutable when unsetting array entries", () => {
-    const input: Brikko StudioConfig = {
+    const input: BrikkoStudioConfig = {
       gateway: { mode: "local" },
       tools: { alsoAllow: ["exec", "fetch", "read"] },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const next = unsetPathForWrite(input, ["tools", "alsoAllow", "1"]);
 
@@ -267,10 +267,10 @@ describe("config io write prepare", () => {
   });
 
   it("treats missing unset paths as no-op without mutating caller config", () => {
-    const input: Brikko StudioConfig = {
+    const input: BrikkoStudioConfig = {
       gateway: { mode: "local" },
       commands: { ownerDisplay: "hash" },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const next = unsetPathForWrite(input, ["commands", "missingKey"]);
 
@@ -283,10 +283,10 @@ describe("config io write prepare", () => {
   });
 
   it("ignores blocked prototype-key unset path segments", () => {
-    const input: Brikko StudioConfig = {
+    const input: BrikkoStudioConfig = {
       gateway: { mode: "local" },
       commands: { ownerDisplay: "hash" },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const blocked = [
       ["commands", "__proto__"],
@@ -454,9 +454,9 @@ describe("config io write prepare", () => {
           password: "test-password",
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
-    const runtimeConfig: Brikko StudioConfig = {
+    const runtimeConfig: BrikkoStudioConfig = {
       gateway: { port: 18789 },
       channels: {
         bluebubbles: {
@@ -465,9 +465,9 @@ describe("config io write prepare", () => {
           enrichGroupParticipantsFromContacts: true,
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
-    const nextConfig: Brikko StudioConfig = structuredClone(runtimeConfig);
+    const nextConfig: BrikkoStudioConfig = structuredClone(runtimeConfig);
     nextConfig.gateway = {
       ...nextConfig.gateway,
       auth: { mode: "token" },
@@ -491,7 +491,7 @@ describe("config io write prepare", () => {
   });
 
   it("does not reintroduce legacy nested dm.policy defaults in the persisted candidate", () => {
-    const sourceConfig: Brikko StudioConfig = {
+    const sourceConfig: BrikkoStudioConfig = {
       channels: {
         discord: {
           dmPolicy: "pairing",
@@ -503,7 +503,7 @@ describe("config io write prepare", () => {
         },
       },
       gateway: { port: 18789 },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const nextConfig = structuredClone(sourceConfig);
     delete (nextConfig.channels?.discord?.dm as { enabled?: boolean; policy?: string } | undefined)
@@ -557,9 +557,9 @@ describe("config io write prepare", () => {
           },
         },
       },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
-    const nextConfig: Brikko StudioConfig = {
+    const nextConfig: BrikkoStudioConfig = {
       ...structuredClone(sourceConfig),
       gateway: {
         auth: { mode: "token" },
@@ -592,18 +592,18 @@ describe("config io write prepare", () => {
   });
 
   it("preserves root $schema during unrelated partial writes", () => {
-    const sourceConfig: Brikko StudioConfig = {
+    const sourceConfig: BrikkoStudioConfig = {
       $schema: "https://brikko-studio.ai/config.json",
       gateway: { mode: "local" },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const persisted = resolvePersistCandidateForWrite({
       runtimeConfig: sourceConfig,
       sourceConfig,
       nextConfig: {
         gateway: { mode: "local", port: 18789 },
-      } satisfies Brikko StudioConfig,
-    }) as Brikko StudioConfig;
+      } satisfies BrikkoStudioConfig,
+    }) as BrikkoStudioConfig;
 
     expect(persisted.$schema).toBe("https://brikko-studio.ai/config.json");
     expect(persisted.gateway).toEqual({ mode: "local", port: 18789 });

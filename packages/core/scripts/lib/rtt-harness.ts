@@ -72,10 +72,10 @@ const REQUIRED_TELEGRAM_ENV = [
   "BRIKKO_STUDIO_QA_TELEGRAM_SUT_BOT_TOKEN",
 ] as const;
 
-export function validateBrikko StudioPackageSpec(spec: string) {
+export function validateBrikkoStudioPackageSpec(spec: string) {
   if (!BRIKKO_STUDIO_PACKAGE_SPEC_RE.test(spec)) {
     throw new Error(
-      `Package spec must be brikko-studio@main, brikko-studio@alpha, brikko-studio@beta, brikko-studio@latest, or an exact Brikko Studio release version; got: ${spec}`,
+      `Package spec must be brikko-studio@main, brikko-studio@alpha, brikko-studio@beta, brikko-studio@latest, or an exact BrikkoStudio release version; got: ${spec}`,
     );
   }
   return spec;
@@ -155,7 +155,7 @@ export async function assertHarnessRoot(harnessRoot: string) {
   try {
     await fs.access(scriptPath);
   } catch {
-    throw new Error(`Missing Brikko Studio Telegram npm harness: ${scriptPath}`);
+    throw new Error(`Missing BrikkoStudio Telegram npm harness: ${scriptPath}`);
   }
 }
 
@@ -185,7 +185,7 @@ export async function resolveMainVersion(harnessRoot: string) {
     await fs.readFile(path.join(harnessRoot, "package.json"), "utf8"),
   ) as { version?: unknown };
   if (typeof packageJson.version !== "string" || packageJson.version.trim().length === 0) {
-    throw new Error("Brikko Studio package.json must contain a non-empty version.");
+    throw new Error("BrikkoStudio package.json must contain a non-empty version.");
   }
   const { stdout } = await execFileAsync("git", ["rev-parse", "--short=10", "HEAD"], {
     cwd: harnessRoot,

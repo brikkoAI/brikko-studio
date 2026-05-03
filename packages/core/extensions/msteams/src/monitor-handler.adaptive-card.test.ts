@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig, RuntimeEnv } from "../runtime-api.js";
+import type { BrikkoStudioConfig, RuntimeEnv } from "../runtime-api.js";
 import type { MSTeamsConversationStore } from "./conversation-store.js";
 import {
   type MSTeamsActivityHandler,
@@ -36,7 +36,7 @@ function createDeps(): MSTeamsMessageHandlerDeps {
   installMSTeamsTestRuntime();
 
   return {
-    cfg: {} as Brikko StudioConfig,
+    cfg: {} as BrikkoStudioConfig,
     runtime: { error: vi.fn() } as unknown as RuntimeEnv,
     appId: "test-app",
     adapter: {} as MSTeamsMessageHandlerDeps["adapter"],

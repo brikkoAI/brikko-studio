@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isRecord } from "../utils.js";
 import {
   listProviderEnvAuthLookupKeys,
@@ -10,7 +10,7 @@ import { resolveEnvApiKey } from "./model-auth-env.js";
 import type { PiCredentialMap } from "./pi-auth-credentials.js";
 
 export type PiDiscoveryAuthLookupOptions = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 };

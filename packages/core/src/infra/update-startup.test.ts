@@ -9,7 +9,7 @@ vi.mock("./brikko-studio-root.js", async () => {
   const actual = await vi.importActual<typeof import("./brikko-studio-root.js")>("./brikko-studio-root.js");
   return {
     ...actual,
-    resolveBrikko StudioPackageRoot: vi.fn(),
+    resolveBrikkoStudioPackageRoot: vi.fn(),
   };
 });
 
@@ -48,7 +48,7 @@ describe("update-startup", () => {
   let tempDir: string;
   let envSnapshot: ReturnType<typeof captureEnv>;
 
-  let resolveBrikko StudioPackageRoot: (typeof import("./brikko-studio-root.js"))["resolveBrikko StudioPackageRoot"];
+  let resolveBrikkoStudioPackageRoot: (typeof import("./brikko-studio-root.js"))["resolveBrikkoStudioPackageRoot"];
   let checkUpdateStatus: (typeof import("./update-check.js"))["checkUpdateStatus"];
   let resolveNpmChannelTag: (typeof import("./update-check.js"))["resolveNpmChannelTag"];
   let runCommandWithTimeout: (typeof import("../process/exec.js"))["runCommandWithTimeout"];
@@ -81,7 +81,7 @@ describe("update-startup", () => {
 
     // Perf: load mocked modules once (after timers/env are set up).
     if (!loaded) {
-      ({ resolveBrikko StudioPackageRoot } = await import("./brikko-studio-root.js"));
+      ({ resolveBrikkoStudioPackageRoot } = await import("./brikko-studio-root.js"));
       ({ checkUpdateStatus, resolveNpmChannelTag } = await import("./update-check.js"));
       ({ runCommandWithTimeout } = await import("../process/exec.js"));
       ({
@@ -92,7 +92,7 @@ describe("update-startup", () => {
       } = await import("./update-startup.js"));
       loaded = true;
     }
-    vi.mocked(resolveBrikko StudioPackageRoot).mockClear();
+    vi.mocked(resolveBrikkoStudioPackageRoot).mockClear();
     vi.mocked(checkUpdateStatus).mockClear();
     vi.mocked(resolveNpmChannelTag).mockClear();
     vi.mocked(runCommandWithTimeout).mockClear();
@@ -115,7 +115,7 @@ describe("update-startup", () => {
   }
 
   function mockPackageInstallStatus() {
-    vi.mocked(resolveBrikko StudioPackageRoot).mockResolvedValue("/opt/brikko-studio");
+    vi.mocked(resolveBrikkoStudioPackageRoot).mockResolvedValue("/opt/brikko-studio");
     vi.mocked(checkUpdateStatus).mockResolvedValue({
       root: "/opt/brikko-studio",
       installKind: "package",

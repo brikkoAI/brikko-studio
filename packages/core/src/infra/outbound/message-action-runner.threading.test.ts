@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   prepareOutboundMirrorRoute,
   resolveAndApplyOutboundReplyToId,
@@ -15,7 +15,7 @@ const workspaceConfig = {
       botToken: "xoxb-test",
     },
   },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 const forumConfig = {
   channels: {
@@ -23,7 +23,7 @@ const forumConfig = {
       botToken: "forum-test",
     },
   },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 const defaultForumToolContext = {
   currentChannelId: "forum:123",

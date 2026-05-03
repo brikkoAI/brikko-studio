@@ -1,5 +1,5 @@
 import { parseAvailableTags, readNumberParam, readStringParam } from "../runtime-api.js";
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import type {
   DiscordChannelCreate,
   DiscordChannelEdit,
@@ -28,10 +28,10 @@ function readDiscordBooleanParam(
 export function createDiscordActionOptions<
   T extends Record<string, unknown> = Record<string, never>,
 >(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
   extra?: T;
-}): { cfg: Brikko StudioConfig; accountId?: string } & T {
+}): { cfg: BrikkoStudioConfig; accountId?: string } & T {
   return {
     cfg: params.cfg,
     ...(params.accountId ? { accountId: params.accountId } : {}),

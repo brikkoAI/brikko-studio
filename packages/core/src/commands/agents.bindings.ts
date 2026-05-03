@@ -5,7 +5,7 @@ import type { ChannelId } from "../channels/plugins/types.public.js";
 import { normalizeChannelId as normalizeBundledChannelId } from "../channels/registry.js";
 import { isRouteBinding, listRouteBindings } from "../config/bindings.js";
 import type { AgentRouteBinding } from "../config/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { listManifestChannelContributionIds } from "../plugins/manifest-contribution-ids.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAgentId } from "../routing/session-key.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
@@ -55,10 +55,10 @@ function canUpgradeBindingAccountScope(params: {
 }
 
 export function applyAgentBindings(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   bindings: AgentRouteBinding[],
 ): {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   added: AgentRouteBinding[];
   updated: AgentRouteBinding[];
   skipped: AgentRouteBinding[];
@@ -141,10 +141,10 @@ export function applyAgentBindings(
 }
 
 export function removeAgentBindings(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   bindings: AgentRouteBinding[],
 ): {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   removed: AgentRouteBinding[];
   missing: AgentRouteBinding[];
   conflicts: Array<{ binding: AgentRouteBinding; existingAgentId: string }>;
@@ -208,7 +208,7 @@ export function removeAgentBindings(
   };
 }
 
-function resolveDefaultAccountId(cfg: Brikko StudioConfig, provider: ChannelId): string {
+function resolveDefaultAccountId(cfg: BrikkoStudioConfig, provider: ChannelId): string {
   const plugin = getBindingChannelPlugin(provider);
   if (!plugin) {
     return DEFAULT_ACCOUNT_ID;
@@ -216,7 +216,7 @@ function resolveDefaultAccountId(cfg: Brikko StudioConfig, provider: ChannelId):
   return resolveChannelDefaultAccountId({ plugin, cfg });
 }
 
-function listManifestChannelIds(config: Brikko StudioConfig): Set<string> {
+function listManifestChannelIds(config: BrikkoStudioConfig): Set<string> {
   return new Set(
     listManifestChannelContributionIds({
       includeDisabled: true,
@@ -228,7 +228,7 @@ function listManifestChannelIds(config: Brikko StudioConfig): Set<string> {
 
 function normalizeBindingChannelId(
   raw: string | undefined,
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
 ): ChannelId | null {
   const bundled = normalizeBundledChannelId(raw);
   if (bundled) {
@@ -247,7 +247,7 @@ function getBindingChannelPlugin(channel: ChannelId) {
 
 function resolveBindingAccountId(params: {
   channel: ChannelId;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentId: string;
   explicitAccountId?: string;
 }): string | undefined {
@@ -275,7 +275,7 @@ function resolveBindingAccountId(params: {
 export function buildChannelBindings(params: {
   agentId: string;
   selection: ChannelChoice[];
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   accountIds?: Partial<Record<ChannelChoice, string>>;
 }): AgentRouteBinding[] {
   const bindings: AgentRouteBinding[] = [];
@@ -299,7 +299,7 @@ export function buildChannelBindings(params: {
 export function parseBindingSpecs(params: {
   agentId: string;
   specs?: string[];
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
 }): { bindings: AgentRouteBinding[]; errors: string[] } {
   const bindings: AgentRouteBinding[] = [];
   const errors: string[] = [];

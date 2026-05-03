@@ -11,7 +11,7 @@ import type {
 import { buildAgentHookContextChannelFields } from "../../plugins/hook-agent-context.js";
 import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
 import { annotateInterSessionPromptText } from "../../sessions/input-provenance.js";
-import { resolveBrikko StudioAgentDir } from "../agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../agent-paths.js";
 import { resolveSessionAgentIds } from "../agent-scope.js";
 import { externalCliDiscoveryForProviderAuth } from "../auth-profiles/external-cli-discovery.js";
 import { loadAuthProfileStoreForRuntime } from "../auth-profiles/store.js";
@@ -59,9 +59,9 @@ const prepareDeps = {
   getActiveMcpLoopbackRuntime,
   ensureMcpLoopbackServer,
   createMcpLoopbackServerConfig,
-  resolveBrikko StudioReferencePaths: async (
-    params: Parameters<typeof import("../docs-path.js").resolveBrikko StudioReferencePaths>[0],
-  ) => (await import("../docs-path.js")).resolveBrikko StudioReferencePaths(params),
+  resolveBrikkoStudioReferencePaths: async (
+    params: Parameters<typeof import("../docs-path.js").resolveBrikkoStudioReferencePaths>[0],
+  ) => (await import("../docs-path.js")).resolveBrikkoStudioReferencePaths(params),
 };
 
 export function setCliRunnerPrepareTestDeps(overrides: Partial<typeof prepareDeps>): void {
@@ -114,7 +114,7 @@ export async function prepareCliRunContext(
       `CLI backend ${backendResolved.id} cannot run with tools disabled because it exposes native tools`,
     );
   }
-  const agentDir = resolveBrikko StudioAgentDir();
+  const agentDir = resolveBrikkoStudioAgentDir();
   const requestedAuthProfileId = params.authProfileId?.trim() || undefined;
   const effectiveAuthProfileId =
     requestedAuthProfileId ?? backendResolved.defaultAuthProfileId?.trim() ?? undefined;
@@ -275,7 +275,7 @@ export async function prepareCliRunContext(
     );
   }
   let openClawHistoryMessages: unknown[] | undefined;
-  const loadBrikko StudioHistoryMessages = async () => {
+  const loadBrikkoStudioHistoryMessages = async () => {
     openClawHistoryMessages ??= await loadCliSessionHistoryMessages({
       sessionId: params.sessionId,
       sessionFile: params.sessionFile,
@@ -290,7 +290,7 @@ export async function prepareCliRunContext(
     agentId: sessionAgentId,
     defaultAgentId,
   });
-  const openClawReferences = await prepareDeps.resolveBrikko StudioReferencePaths({
+  const openClawReferences = await prepareDeps.resolveBrikkoStudioReferencePaths({
     workspaceDir,
     argv1: process.argv[1],
     cwd: process.cwd(),
@@ -341,7 +341,7 @@ export async function prepareCliRunContext(
     const hookResult = await resolvePromptBuildHookResult({
       config: params.config ?? getRuntimeConfig(),
       prompt: params.prompt,
-      messages: await loadBrikko StudioHistoryMessages(),
+      messages: await loadBrikkoStudioHistoryMessages(),
       hookCtx: {
         runId: params.runId,
         agentId: sessionAgentId,

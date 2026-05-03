@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { resolveGatewayService } from "../../../daemon/service.js";
 import { isSystemdUserServiceAvailable } from "../../../daemon/systemd.js";
 import type { RuntimeEnv } from "../../../runtime.js";
@@ -9,7 +9,7 @@ import type { OnboardOptions } from "../../onboard-types.js";
 import { ensureSystemdUserLingerNonInteractive } from "../../systemd-linger.js";
 
 export async function installGatewayDaemonNonInteractive(params: {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   opts: OnboardOptions;
   runtime: RuntimeEnv;
   port: number;

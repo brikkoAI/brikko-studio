@@ -22,7 +22,7 @@ class MockChildProcess extends EventEmitter {
   stderr = new PassThrough();
 }
 
-describe("Brikko StudioStdioClientTransport", () => {
+describe("BrikkoStudioStdioClientTransport", () => {
   afterEach(() => {
     vi.useRealTimers();
     spawnMock.mockReset();
@@ -32,9 +32,9 @@ describe("Brikko StudioStdioClientTransport", () => {
   it("starts stdio MCP servers in a disposable process group on POSIX", async () => {
     const child = new MockChildProcess();
     spawnMock.mockReturnValue(child);
-    const { Brikko StudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
+    const { BrikkoStudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
 
-    const transport = new Brikko StudioStdioClientTransport({
+    const transport = new BrikkoStudioStdioClientTransport({
       command: "npx",
       args: ["-y", "example-mcp"],
       env: { EXAMPLE: "1" },
@@ -80,9 +80,9 @@ describe("Brikko StudioStdioClientTransport", () => {
     vi.useFakeTimers();
     const child = new MockChildProcess();
     spawnMock.mockReturnValue(child);
-    const { Brikko StudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
+    const { BrikkoStudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
 
-    const transport = new Brikko StudioStdioClientTransport({ command: "npx" });
+    const transport = new BrikkoStudioStdioClientTransport({ command: "npx" });
     const started = transport.start();
     child.emit("spawn");
     await started;
@@ -100,9 +100,9 @@ describe("Brikko StudioStdioClientTransport", () => {
     vi.useFakeTimers();
     const child = new MockChildProcess();
     spawnMock.mockReturnValue(child);
-    const { Brikko StudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
+    const { BrikkoStudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
 
-    const transport = new Brikko StudioStdioClientTransport({ command: "npx" });
+    const transport = new BrikkoStudioStdioClientTransport({ command: "npx" });
     const started = transport.start();
     child.emit("spawn");
     await started;
@@ -118,9 +118,9 @@ describe("Brikko StudioStdioClientTransport", () => {
   it("sends and receives JSON-RPC messages over stdio", async () => {
     const child = new MockChildProcess();
     spawnMock.mockReturnValue(child);
-    const { Brikko StudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
+    const { BrikkoStudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
 
-    const transport = new Brikko StudioStdioClientTransport({ command: "npx" });
+    const transport = new BrikkoStudioStdioClientTransport({ command: "npx" });
     const onmessage = vi.fn();
     Object.assign(transport, { onmessage });
     const started = transport.start();
@@ -152,9 +152,9 @@ describe("Brikko StudioStdioClientTransport", () => {
     };
     child.stdin = brokenStdin;
     spawnMock.mockReturnValue(child);
-    const { Brikko StudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
+    const { BrikkoStudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
 
-    const transport = new Brikko StudioStdioClientTransport({ command: "npx" });
+    const transport = new BrikkoStudioStdioClientTransport({ command: "npx" });
     const started = transport.start();
     child.emit("spawn");
     await started;
@@ -172,9 +172,9 @@ describe("Brikko StudioStdioClientTransport", () => {
     };
     child.stdin = brokenStdin;
     spawnMock.mockReturnValue(child);
-    const { Brikko StudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
+    const { BrikkoStudioStdioClientTransport } = await import("./mcp-stdio-transport.js");
 
-    const transport = new Brikko StudioStdioClientTransport({ command: "npx" });
+    const transport = new BrikkoStudioStdioClientTransport({ command: "npx" });
     const started = transport.start();
     child.emit("spawn");
     await started;

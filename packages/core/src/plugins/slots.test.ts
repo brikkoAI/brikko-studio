@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   applyExclusiveSlotSelection,
   hasKind,
@@ -10,7 +10,7 @@ import {
 import type { PluginKind } from "./types.js";
 
 describe("applyExclusiveSlotSelection", () => {
-  const createMemoryConfig = (plugins?: Brikko StudioConfig["plugins"]): Brikko StudioConfig => ({
+  const createMemoryConfig = (plugins?: BrikkoStudioConfig["plugins"]): BrikkoStudioConfig => ({
     plugins: {
       ...plugins,
       entries: {
@@ -23,7 +23,7 @@ describe("applyExclusiveSlotSelection", () => {
     },
   });
 
-  const runMemorySelection = (config: Brikko StudioConfig, selectedId = "memory") =>
+  const runMemorySelection = (config: BrikkoStudioConfig, selectedId = "memory") =>
     applyExclusiveSlotSelection({
       config,
       selectedId,
@@ -84,7 +84,7 @@ describe("applyExclusiveSlotSelection", () => {
   }
 
   function expectUnchangedSelectionCase(params: {
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     selectedId: string;
     selectedKind?: PluginKind | PluginKind[];
     registry?: { plugins: ReadonlyArray<{ id: string; kind?: PluginKind | PluginKind[] }> };
@@ -105,7 +105,7 @@ describe("applyExclusiveSlotSelection", () => {
   }
 
   function expectChangedSelectionCase(params: {
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     selectedId?: string;
     expectedDisabled?: boolean;
     warningChecks: {
@@ -180,7 +180,7 @@ describe("applyExclusiveSlotSelection", () => {
     },
     {
       name: "skips changes when no exclusive slot applies",
-      config: {} as Brikko StudioConfig,
+      config: {} as BrikkoStudioConfig,
       selectedId: "custom",
     },
   ] as const)("$name", ({ config, selectedId, selectedKind, registry }) => {
@@ -193,7 +193,7 @@ describe("applyExclusiveSlotSelection", () => {
   });
 
   it("applies slot selection for each kind in a multi-kind array", () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         slots: { memory: "memory-core", contextEngine: "legacy" },
         entries: {
@@ -220,7 +220,7 @@ describe("applyExclusiveSlotSelection", () => {
   });
 
   it("does not disable a dual-kind plugin that still owns another slot", () => {
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         slots: { memory: "dual-plugin", contextEngine: "dual-plugin" },
         entries: {
@@ -245,7 +245,7 @@ describe("applyExclusiveSlotSelection", () => {
 
   it("does not disable a dual-kind plugin that owns another slot via default", () => {
     // contextEngine is NOT explicitly set — defaults to "legacy"
-    const config: Brikko StudioConfig = {
+    const config: BrikkoStudioConfig = {
       plugins: {
         slots: { memory: "legacy" },
         entries: {

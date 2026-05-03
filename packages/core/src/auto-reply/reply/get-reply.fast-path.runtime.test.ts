@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   createReplyRuntimeMocks,
   createTempHomeHarness,
@@ -52,7 +52,7 @@ describe("getReplyFromConfig fast-path runtime", () => {
           ChatType: "direct",
         },
         {},
-        makeReplyConfig(home) as Brikko StudioConfig,
+        makeReplyConfig(home) as BrikkoStudioConfig,
       );
 
       const text = Array.isArray(res) ? res[0]?.text : res?.text;

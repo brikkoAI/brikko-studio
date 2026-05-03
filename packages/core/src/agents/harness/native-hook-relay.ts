@@ -18,7 +18,7 @@ import {
 } from "node:http";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { resolveBrikko StudioPackageRootSync } from "../../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../../infra/brikko-studio-root.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { PluginApprovalResolutions } from "../../plugins/types.js";
 import { runBeforeToolCallHook } from "../pi-tools.before-tool-call.js";
@@ -276,7 +276,7 @@ const nativeHookRelayProviderAdapters: Record<
               ? { behavior: "allow" }
               : {
                   behavior: "deny",
-                  message: message?.trim() || "Denied by Brikko Studio",
+                  message: message?.trim() || "Denied by BrikkoStudio",
                 },
         },
       })}\n`,
@@ -348,7 +348,7 @@ export function buildNativeHookRelayCommand(params: {
   nodeExecutable?: string;
 }): string {
   const timeoutMs = normalizePositiveInteger(params.timeoutMs, DEFAULT_RELAY_TIMEOUT_MS);
-  const executable = params.executable ?? resolveBrikko StudioCliExecutable();
+  const executable = params.executable ?? resolveBrikkoStudioCliExecutable();
   const argv =
     executable === "brikko-studio"
       ? ["brikko-studio"]
@@ -885,7 +885,7 @@ async function runNativeHookRelayPreToolUse(params: {
     return params.adapter.renderPreToolUseBlockResponse(outcome.reason);
   }
   // Codex PreToolUse supports block/allow, not argument mutation. If an
-  // Brikko Studio plugin returns adjusted params here, we intentionally ignore them.
+  // BrikkoStudio plugin returns adjusted params here, we intentionally ignore them.
   return params.adapter.renderNoopResponse(params.invocation.event);
 }
 
@@ -1454,12 +1454,12 @@ function truncateText(value: string, maxLength: number): string {
   return `${value.slice(0, Math.max(0, maxLength - 3))}...`;
 }
 
-function resolveBrikko StudioCliExecutable(): string {
+function resolveBrikkoStudioCliExecutable(): string {
   const envPath = process.env.BRIKKO_STUDIO_CLI_PATH?.trim();
   if (envPath && existsSync(envPath)) {
     return envPath;
   }
-  const packageRoot = resolveBrikko StudioPackageRootSync({
+  const packageRoot = resolveBrikkoStudioPackageRootSync({
     moduleUrl: import.meta.url,
     argv1: process.argv[1],
     cwd: process.cwd(),
@@ -1482,7 +1482,7 @@ function resolveBrikko StudioCliExecutable(): string {
       return resolved;
     }
   }
-  throw new Error("Cannot resolve Brikko Studio CLI executable path for native hook relay");
+  throw new Error("Cannot resolve BrikkoStudio CLI executable path for native hook relay");
 }
 
 function normalizeAllowedEvents(

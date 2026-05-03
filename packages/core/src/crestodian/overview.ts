@@ -6,14 +6,14 @@ import {
 import {
   BRIKKO_STUDIO_DOCS_URL,
   BRIKKO_STUDIO_SOURCE_URL,
-  resolveBrikko StudioReferencePaths,
+  resolveBrikkoStudioReferencePaths,
 } from "../agents/docs-path.js";
 import {
   readConfigFileSnapshot,
   resolveConfigPath,
   resolveGatewayPort,
   type ConfigFileSnapshot,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../config/config.js";
 import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
 import { normalizeAgentId } from "../routing/session-key.js";
@@ -60,7 +60,7 @@ export type CrestodianOverview = {
   };
 };
 
-type Brikko StudioReferencePaths = Awaited<ReturnType<typeof resolveBrikko StudioReferencePaths>>;
+type BrikkoStudioReferencePaths = Awaited<ReturnType<typeof resolveBrikkoStudioReferencePaths>>;
 
 type GatewayConnectionDetails = {
   url: string;
@@ -73,12 +73,12 @@ type CrestodianOverviewDependencies = {
   resolveConfigPath?: typeof resolveConfigPath;
   resolveGatewayPort?: typeof resolveGatewayPort;
   buildGatewayConnectionDetails?: (input: {
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     configPath: string;
   }) => GatewayConnectionDetails;
   probeLocalCommand?: typeof probeLocalCommand;
   probeGatewayUrl?: typeof probeGatewayUrl;
-  resolveBrikko StudioReferencePaths?: typeof resolveBrikko StudioReferencePaths;
+  resolveBrikkoStudioReferencePaths?: typeof resolveBrikkoStudioReferencePaths;
 };
 
 function issueMessages(snapshot: ConfigFileSnapshot): string[] {
@@ -88,7 +88,7 @@ function issueMessages(snapshot: ConfigFileSnapshot): string[] {
   });
 }
 
-function buildAgentSummaries(cfg: Brikko StudioConfig): CrestodianAgentSummary[] {
+function buildAgentSummaries(cfg: BrikkoStudioConfig): CrestodianAgentSummary[] {
   const defaultAgentId = resolveDefaultAgentId(cfg);
   const entries = listAgentEntries(cfg);
   if (entries.length === 0) {
@@ -127,7 +127,7 @@ function buildAgentSummaries(cfg: Brikko StudioConfig): CrestodianAgentSummary[]
   return summaries;
 }
 
-function resolveFastTestReferences(env: NodeJS.ProcessEnv): Brikko StudioReferencePaths | undefined {
+function resolveFastTestReferences(env: NodeJS.ProcessEnv): BrikkoStudioReferencePaths | undefined {
   if (env.BRIKKO_STUDIO_TEST_FAST !== "1") {
     return undefined;
   }
@@ -165,7 +165,7 @@ export async function loadCrestodianOverview(
   } catch (err) {
     gatewayError = err instanceof Error ? err.message : String(err);
   }
-  const resolveReferences = deps.resolveBrikko StudioReferencePaths ?? resolveBrikko StudioReferencePaths;
+  const resolveReferences = deps.resolveBrikkoStudioReferencePaths ?? resolveBrikkoStudioReferencePaths;
   const commandProbe = deps.probeLocalCommand ?? probeLocalCommand;
   const [codex, claude, gateway, references] = await Promise.all([
     commandProbe("codex"),

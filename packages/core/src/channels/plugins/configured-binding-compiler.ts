@@ -1,5 +1,5 @@
 import { listConfiguredBindings } from "../../config/bindings.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { pickFirstExistingAgentId } from "../../routing/resolve-route.js";
 import {
   normalizeOptionalLowercaseString,
@@ -71,7 +71,7 @@ function compileConfiguredBindingTarget(params: {
 }
 
 function compileConfiguredBindingRule(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ConfiguredBindingChannel;
   binding: CompiledConfiguredBinding["binding"];
   target: ChannelConfiguredBindingConversationRef;
@@ -119,7 +119,7 @@ function pushCompiledRule(
 }
 
 function compileConfiguredBindingRegistry(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): CompiledConfiguredBindingRegistry {
   const rulesByChannel = new Map<ConfiguredBindingChannel, CompiledConfiguredBinding[]>();
 
@@ -163,13 +163,13 @@ function compileConfiguredBindingRegistry(params: {
 }
 
 export function resolveCompiledBindingRegistry(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): CompiledConfiguredBindingRegistry {
   return compileConfiguredBindingRegistry({ cfg });
 }
 
 export function primeCompiledBindingRegistry(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): CompiledConfiguredBindingRegistry {
   return compileConfiguredBindingRegistry({ cfg });
 }

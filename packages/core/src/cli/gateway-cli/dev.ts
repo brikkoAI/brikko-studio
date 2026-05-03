@@ -61,7 +61,7 @@ async function ensureDevWorkspace(dir: string) {
   const [agents, soul, tools, identity, user] = await Promise.all([
     loadDevTemplate(
       "AGENTS.dev.md",
-      `# AGENTS.md - Brikko Studio Dev Workspace\n\nDefault dev workspace for brikko-studio gateway --dev.\n`,
+      `# AGENTS.md - BrikkoStudio Dev Workspace\n\nDefault dev workspace for brikko-studio gateway --dev.\n`,
     ),
     loadDevTemplate(
       "SOUL.dev.md",

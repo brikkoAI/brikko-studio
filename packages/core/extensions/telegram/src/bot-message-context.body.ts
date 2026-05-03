@@ -10,7 +10,7 @@ import {
 import { resolveChannelGroupPolicy } from "brikko-studio/plugin-sdk/channel-policy";
 import { resolveControlCommandGate } from "brikko-studio/plugin-sdk/command-auth-native";
 import { hasControlCommand } from "brikko-studio/plugin-sdk/command-detection";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type {
   TelegramDirectConfig,
   TelegramGroupConfig,
@@ -83,7 +83,7 @@ function formatAudioTranscriptForAgent(transcript: string): string {
 }
 
 async function resolveStickerVisionSupport(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
 }): Promise<boolean> {
   try {
@@ -95,7 +95,7 @@ async function resolveStickerVisionSupport(params: {
 }
 
 export async function resolveTelegramInboundBody(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   primaryCtx: TelegramContext;
   msg: TelegramContext["message"];
   allMedia: TelegramMediaRef[];

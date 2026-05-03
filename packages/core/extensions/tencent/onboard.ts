@@ -1,7 +1,7 @@
 import {
   applyAgentDefaultModelPrimary,
   applyProviderConfigWithModelCatalog,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildTokenHubModelDefinition,
@@ -14,7 +14,7 @@ import {
 
 export const TOKENHUB_DEFAULT_MODEL_REF = `${TOKENHUB_PROVIDER_ID}/hy3-preview`;
 
-function applyTokenHubProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function applyTokenHubProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[TOKENHUB_DEFAULT_MODEL_REF] = {
     ...models[TOKENHUB_DEFAULT_MODEL_REF],
@@ -30,7 +30,7 @@ function applyTokenHubProviderConfig(cfg: Brikko StudioConfig): Brikko StudioCon
   });
 }
 
-export function applyTokenHubConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyTokenHubConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return applyAgentDefaultModelPrimary(
     applyTokenHubProviderConfig(cfg),
     TOKENHUB_DEFAULT_MODEL_REF,

@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 import { resolveCliBackendConfig, resolveCliBackendLiveTest } from "../agents/cli-backends.js";
 import { isLiveTestEnabled } from "../agents/live-test-helpers.js";
 import { parseModelRef } from "../agents/model-selection.js";
-import { clearRuntimeConfigSnapshot, type Brikko StudioConfig } from "../config/config.js";
+import { clearRuntimeConfigSnapshot, type BrikkoStudioConfig } from "../config/config.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import {
   applyCliBackendLiveEnv,
@@ -92,7 +92,7 @@ function sleep(ms: number): Promise<void> {
 
 function openAiProviderConfigForCodexCli(
   modelKey: string,
-): NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]>["openai"] {
+): NonNullable<NonNullable<BrikkoStudioConfig["models"]>["providers"]>["openai"] {
   const parsed = parseModelRef(modelKey, DEFAULT_PROVIDER);
   const modelId = parsed?.model?.trim() || "gpt-5.5";
   return {
@@ -299,8 +299,8 @@ describeLive("gateway live (cli backend)", () => {
         cliArgs = withClaudeMcpConfigOverrides(baseCliArgs, mcpConfigPath);
       }
 
-      const cfg: Brikko StudioConfig = {};
-      const cfgWithCliBackends = cfg as Brikko StudioConfig & {
+      const cfg: BrikkoStudioConfig = {};
+      const cfgWithCliBackends = cfg as BrikkoStudioConfig & {
         agents?: {
           defaults?: {
             cliBackends?: Record<string, Record<string, unknown>>;

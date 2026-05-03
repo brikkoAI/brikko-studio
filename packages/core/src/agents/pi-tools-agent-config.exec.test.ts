@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import "./test-helpers/fast-coding-tools.js";
 import "./test-helpers/fast-brikko-studio-tools.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { createSessionConversationTestRegistry } from "../test-utils/session-conversation-registry.js";
-import { createBrikko StudioCodingTools } from "./pi-tools.js";
+import { createBrikkoStudioCodingTools } from "./pi-tools.js";
 
 function createExecHostDefaultsConfig(
   agents: Array<{ id: string; execHost?: "auto" | "gateway" | "sandbox" }>,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return {
     tools: {
       exec: {
@@ -40,7 +40,7 @@ describe("Agent-specific exec tool defaults", () => {
   });
 
   it("should run exec synchronously when process is denied", async () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       tools: {
         deny: ["process"],
         exec: {
@@ -51,7 +51,7 @@ describe("Agent-specific exec tool defaults", () => {
       },
     };
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:main:main",
       workspaceDir: "/tmp/test-main",
@@ -70,7 +70,7 @@ describe("Agent-specific exec tool defaults", () => {
   });
 
   it("routes implicit auto exec to gateway without a sandbox runtime", async () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: {
         tools: {
           exec: {
@@ -94,7 +94,7 @@ describe("Agent-specific exec tool defaults", () => {
   });
 
   it("fails closed when exec host=sandbox is requested without sandbox runtime", async () => {
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: {},
       sessionKey: "agent:main:main",
       workspaceDir: "/tmp/test-main-fail-closed",
@@ -116,7 +116,7 @@ describe("Agent-specific exec tool defaults", () => {
       { id: "helper" },
     ]);
 
-    const mainTools = createBrikko StudioCodingTools({
+    const mainTools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:main:main",
       workspaceDir: "/tmp/test-main-exec-defaults",
@@ -137,7 +137,7 @@ describe("Agent-specific exec tool defaults", () => {
       }),
     ).rejects.toThrow("exec host not allowed");
 
-    const helperTools = createBrikko StudioCodingTools({
+    const helperTools = createBrikkoStudioCodingTools({
       config: cfg,
       sessionKey: "agent:helper:main",
       workspaceDir: "/tmp/test-helper-exec-defaults",
@@ -163,7 +163,7 @@ describe("Agent-specific exec tool defaults", () => {
   it("applies explicit agentId exec defaults when sessionKey is opaque", async () => {
     const cfg = createExecHostDefaultsConfig([{ id: "main", execHost: "gateway" }]);
 
-    const tools = createBrikko StudioCodingTools({
+    const tools = createBrikkoStudioCodingTools({
       config: cfg,
       agentId: "main",
       sessionKey: "run-opaque-123",

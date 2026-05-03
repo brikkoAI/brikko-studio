@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { ChannelPlugin } from "../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   applySecurityFixConfigMutations,
   collectSecurityPermissionTargets,
@@ -135,7 +135,7 @@ describe("security fix", () => {
         channels: {
           whatsapp: params.whatsapp,
         },
-      } satisfies Brikko StudioConfig,
+      } satisfies BrikkoStudioConfig,
       env: process.env,
       channelPlugins: [createWhatsAppConfigFixTestPlugin(params.allowFromStore)],
     });
@@ -165,7 +165,7 @@ describe("security fix", () => {
         imessage: { groupPolicy: "open" },
       },
       logging: { redactSensitive: "off" },
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
     const fixed = await applySecurityFixConfigMutations({
       cfg,
       env: process.env,
@@ -283,7 +283,7 @@ describe("security fix", () => {
       configPath,
       cfg: {
         channels: { whatsapp: { groupPolicy: "open" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       includePaths: [includePath],
     });
 

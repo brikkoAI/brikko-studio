@@ -1,4 +1,4 @@
-export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export type {
   MemoryEmbeddingProbeResult,
   MemoryProviderStatus,

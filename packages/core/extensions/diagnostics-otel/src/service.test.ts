@@ -134,7 +134,7 @@ import {
   onInternalDiagnosticEvent,
   resetDiagnosticEventsForTest,
 } from "brikko-studio/plugin-sdk/diagnostic-runtime";
-import type { Brikko StudioPluginServiceContext } from "../api.js";
+import type { BrikkoStudioPluginServiceContext } from "../api.js";
 import { emitDiagnosticEvent } from "../api.js";
 import { createDiagnosticsOtelService } from "./service.js";
 
@@ -170,13 +170,13 @@ type OtelContextFlags = {
   metrics?: boolean;
   logs?: boolean;
   captureContent?: NonNullable<
-    NonNullable<Brikko StudioPluginServiceContext["config"]["diagnostics"]>["otel"]
+    NonNullable<BrikkoStudioPluginServiceContext["config"]["diagnostics"]>["otel"]
   >["captureContent"];
 };
 function createOtelContext(
   endpoint: string,
   { traces = false, metrics = false, logs = false, captureContent }: OtelContextFlags = {},
-): Brikko StudioPluginServiceContext {
+): BrikkoStudioPluginServiceContext {
   return {
     config: {
       diagnostics: {
@@ -201,7 +201,7 @@ function createOtelContext(
   };
 }
 
-function createTraceOnlyContext(endpoint: string): Brikko StudioPluginServiceContext {
+function createTraceOnlyContext(endpoint: string): BrikkoStudioPluginServiceContext {
   return createOtelContext(endpoint, { traces: true });
 }
 

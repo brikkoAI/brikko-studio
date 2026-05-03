@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { MsgContext } from "../templating.js";
 import { resolveElevatedPermissions } from "./reply-elevated.js";
 
-function buildConfig(allowFrom: string[]): Brikko StudioConfig {
+function buildConfig(allowFrom: string[]): BrikkoStudioConfig {
   return {
     tools: {
       elevated: {
@@ -12,7 +12,7 @@ function buildConfig(allowFrom: string[]): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function buildContext(overrides?: Partial<MsgContext>): MsgContext {

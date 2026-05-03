@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { getSkillsSnapshotVersion, resetSkillsRefreshForTest } from "../agents/skills/refresh.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { NodeRegistry } from "../gateway/node-registry.js";
 import {
   getRemoteSkillEligibility,
@@ -183,7 +183,7 @@ describe("skills-remote", () => {
             workspace: workspaceDir,
           },
         },
-      } satisfies Brikko StudioConfig;
+      } satisfies BrikkoStudioConfig;
       const invokeCalls: string[] = [];
       setSkillsRemoteRegistry({
         listConnected: () => [],
@@ -265,7 +265,7 @@ describe("skills-remote", () => {
             workspace: workspaceDir,
           },
         },
-      } satisfies Brikko StudioConfig;
+      } satisfies BrikkoStudioConfig;
       recordRemoteNodeInfo({
         nodeId,
         displayName: "Remote Mac",
@@ -323,7 +323,7 @@ describe("skills-remote", () => {
             workspace: workspaceDir,
           },
         },
-      } satisfies Brikko StudioConfig;
+      } satisfies BrikkoStudioConfig;
       const invokeCalls: string[] = [];
       setSkillsRemoteRegistry({
         listConnected: () => [],

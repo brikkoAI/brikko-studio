@@ -2,7 +2,7 @@ import {
   createAccountStatusSink,
   runPassiveAccountLifecycle,
 } from "brikko-studio/plugin-sdk/channel-lifecycle";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { createLazyRuntimeNamedExport } from "brikko-studio/plugin-sdk/lazy-runtime";
 import type { ChannelAccountSnapshot } from "brikko-studio/plugin-sdk/status-helpers";
 import type { ResolvedGoogleChatAccount } from "./accounts.js";
@@ -15,7 +15,7 @@ const loadGoogleChatChannelRuntime = createLazyRuntimeNamedExport(
 
 export async function startGoogleChatGatewayAccount(ctx: {
   account: ResolvedGoogleChatAccount;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime: GoogleChatRuntimeEnv;
   abortSignal: AbortSignal;
   setStatus: (next: ChannelAccountSnapshot) => void;

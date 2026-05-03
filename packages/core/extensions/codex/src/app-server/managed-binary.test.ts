@@ -59,7 +59,7 @@ describe("managed Codex app-server binary", () => {
   });
 
   it("resolves Windows Codex command shims", () => {
-    const pluginRoot = path.win32.join("C:\\", "Brikko Studio", "dist", "extensions", "codex");
+    const pluginRoot = path.win32.join("C:\\", "BrikkoStudio", "dist", "extensions", "codex");
     const paths = resolveManagedCodexAppServerPaths({ platform: "win32", pluginRoot });
 
     expect(paths.commandPath.endsWith(path.win32.join("node_modules", ".bin", "codex.cmd"))).toBe(

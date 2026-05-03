@@ -7,7 +7,7 @@ import {
   type SessionsCleanupOptions,
   type SessionsCleanupResult,
 } from "../config/sessions.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { callGateway, isGatewayTransportError } from "../gateway/call.js";
 import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
 import { isRich, theme } from "../terminal/theme.js";
@@ -75,7 +75,7 @@ function buildActionRows(params: {
 }
 
 function renderStoreDryRunPlan(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   summary: SessionCleanupSummary;
   actionRows: SessionCleanupActionRow[];
   runtime: RuntimeEnv;

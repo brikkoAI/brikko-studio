@@ -5,7 +5,7 @@ import {
   listPotentialConfiguredChannelIds,
 } from "../../../channels/config-presence.js";
 import { listChannelPluginCatalogEntries } from "../../../channels/plugins/catalog.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import type { PluginInstallRecord } from "../../../config/types.plugins.js";
 import { parseClawHubPluginSpec } from "../../../infra/clawhub-spec.js";
 import { parseRegistryNpmSpec } from "../../../infra/npm-registry-spec.js";
@@ -88,7 +88,7 @@ function addConfiguredPluginId(ids: Set<string>, value: unknown): void {
 
 function addConfiguredAgentRuntimePluginIds(
   ids: Set<string>,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env?: NodeJS.ProcessEnv,
 ): void {
   addConfiguredPluginId(ids, env?.BRIKKO_STUDIO_AGENT_RUNTIME);
@@ -101,7 +101,7 @@ function addConfiguredAgentRuntimePluginIds(
   }
 }
 
-function collectConfiguredPluginIds(cfg: Brikko StudioConfig, env?: NodeJS.ProcessEnv): Set<string> {
+function collectConfiguredPluginIds(cfg: BrikkoStudioConfig, env?: NodeJS.ProcessEnv): Set<string> {
   const ids = new Set<string>();
   const plugins = asObjectRecord(cfg.plugins);
   if (plugins?.enabled === false) {
@@ -139,7 +139,7 @@ function collectConfiguredPluginIds(cfg: Brikko StudioConfig, env?: NodeJS.Proce
   return ids;
 }
 
-function collectConfiguredChannelIds(cfg: Brikko StudioConfig, env?: NodeJS.ProcessEnv): Set<string> {
+function collectConfiguredChannelIds(cfg: BrikkoStudioConfig, env?: NodeJS.ProcessEnv): Set<string> {
   const ids = new Set<string>();
   if (asObjectRecord(cfg.plugins)?.enabled === false) {
     return ids;
@@ -162,7 +162,7 @@ function collectConfiguredChannelIds(cfg: Brikko StudioConfig, env?: NodeJS.Proc
 }
 
 function collectDownloadableInstallCandidates(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   missingPluginIds: ReadonlySet<string>;
   configuredPluginIds?: ReadonlySet<string>;
@@ -288,7 +288,7 @@ function collectDownloadableInstallCandidates(params: {
 }
 
 function collectUpdateDeferredPluginIds(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   configuredPluginIds: ReadonlySet<string>;
   configuredChannelIds: ReadonlySet<string>;
@@ -480,7 +480,7 @@ async function installCandidate(params: {
 }
 
 export async function repairMissingConfiguredPluginInstalls(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
 }): Promise<{ changes: string[]; warnings: string[] }> {
   return repairMissingPluginInstalls({
@@ -492,7 +492,7 @@ export async function repairMissingConfiguredPluginInstalls(params: {
 }
 
 export async function repairMissingPluginInstallsForIds(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   pluginIds: Iterable<string>;
   channelIds?: Iterable<string>;
   blockedPluginIds?: Iterable<string>;
@@ -518,7 +518,7 @@ export async function repairMissingPluginInstallsForIds(params: {
 }
 
 async function repairMissingPluginInstalls(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   pluginIds: ReadonlySet<string>;
   channelIds: ReadonlySet<string>;
   blockedPluginIds?: ReadonlySet<string>;

@@ -1,8 +1,8 @@
-import { definePluginEntry, type Brikko StudioPluginApi } from "./api.js";
+import { definePluginEntry, type BrikkoStudioPluginApi } from "./api.js";
 import { resolveWebhooksPluginConfig } from "./src/config.js";
 import { createTaskFlowWebhookRequestHandler, type TaskFlowWebhookTarget } from "./src/http.js";
 
-function registerWebhookRoutes(api: Brikko StudioPluginApi): void {
+function registerWebhookRoutes(api: BrikkoStudioPluginApi): void {
   const routes = resolveWebhooksPluginConfig({
     pluginConfig: api.pluginConfig,
   });
@@ -46,8 +46,8 @@ export default definePluginEntry({
   id: "webhooks",
   name: "Webhooks",
   description:
-    "Authenticated inbound webhooks that bind external automation to Brikko Studio TaskFlows.",
-  register(api: Brikko StudioPluginApi) {
+    "Authenticated inbound webhooks that bind external automation to BrikkoStudio TaskFlows.",
+  register(api: BrikkoStudioPluginApi) {
     registerWebhookRoutes(api);
   },
 });

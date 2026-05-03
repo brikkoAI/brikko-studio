@@ -28,7 +28,7 @@ import {
 vi.mock("../../agents/harness/builtin-pi.js", () => ({
   createPiAgentHarness: () => ({
     id: "pi",
-    label: "Brikko Studio Pi",
+    label: "BrikkoStudio Pi",
     supports: () => ({ supported: true, priority: 0 }),
     runAttempt: async () => {
       throw new Error("not used in status tests");
@@ -347,7 +347,7 @@ describe("buildStatusReply subagent summary", () => {
       runId: "run-status-task-leak",
       endedAt: Date.now(),
       error: [
-        "Brikko Studio runtime context (internal):",
+        "BrikkoStudio runtime context (internal):",
         "This context is runtime-generated, not user-authored. Keep internal details private.",
         "",
         "[Internal task completion event]",
@@ -359,7 +359,7 @@ describe("buildStatusReply subagent summary", () => {
 
     expect(reply?.text).toContain("📌 Tasks: 1 recent failure");
     expect(reply?.text).toContain("leaked context task");
-    expect(reply?.text).not.toContain("Brikko Studio runtime context (internal):");
+    expect(reply?.text).not.toContain("BrikkoStudio runtime context (internal):");
     expect(reply?.text).not.toContain("Internal task completion event");
   });
 

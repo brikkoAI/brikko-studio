@@ -13,20 +13,20 @@ import {
 } from "./chrome.executables.js";
 import {
   clearStaleChromeSingletonLocks,
-  decorateBrikko StudioProfile,
+  decorateBrikkoStudioProfile,
   diagnoseChromeCdp,
   ensureProfileCleanExit,
   findChromeExecutableLinux,
   findChromeExecutableMac,
   findChromeExecutableWindows,
   formatChromeCdpDiagnostic,
-  buildBrikko StudioChromeLaunchArgs,
+  buildBrikkoStudioChromeLaunchArgs,
   getChromeWebSocketUrl,
   isProfileDecorated,
   isChromeCdpReady,
   isChromeReachable,
   resolveBrowserExecutableForPlatform,
-  stopBrikko StudioChrome,
+  stopBrikkoStudioChrome,
 } from "./chrome.js";
 import {
   DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR,
@@ -35,7 +35,7 @@ import {
 import { BrowserCdpEndpointBlockedError } from "./errors.js";
 import { DEFAULT_DOWNLOAD_DIR } from "./paths.js";
 
-type StopChromeTarget = Parameters<typeof stopBrikko StudioChrome>[0];
+type StopChromeTarget = Parameters<typeof stopBrikkoStudioChrome>[0];
 
 async function readJson(filePath: string): Promise<Record<string, unknown>> {
   const raw = await fsp.readFile(filePath, "utf-8");
@@ -95,7 +95,7 @@ async function withMockChromeCdpServer(params: {
 }
 
 async function stopChromeWithProc(proc: ReturnType<typeof makeChromeTestProc>, timeoutMs: number) {
-  await stopBrikko StudioChrome(
+  await stopBrikkoStudioChrome(
     {
       proc,
       cdpPort: 12345,
@@ -143,7 +143,7 @@ describe("browser chrome profile decoration", () => {
 
   it("writes expected name + signed ARGB seed to Chrome prefs", async () => {
     const userDataDir = await createUserDataDir();
-    decorateBrikko StudioProfile(userDataDir, { color: DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR });
+    decorateBrikkoStudioProfile(userDataDir, { color: DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR });
 
     const expectedSignedArgb = ((0xff << 24) | 0xff4500) >> 0;
 
@@ -176,7 +176,7 @@ describe("browser chrome profile decoration", () => {
 
   it("writes managed download prefs when a download dir is provided", async () => {
     const userDataDir = await createUserDataDir();
-    decorateBrikko StudioProfile(userDataDir, {
+    decorateBrikkoStudioProfile(userDataDir, {
       color: DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR,
       downloadDir: DEFAULT_DOWNLOAD_DIR,
     });
@@ -201,7 +201,7 @@ describe("browser chrome profile decoration", () => {
 
   it("treats missing managed download prefs as undecorated when required", async () => {
     const userDataDir = await createUserDataDir();
-    decorateBrikko StudioProfile(userDataDir, { color: DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR });
+    decorateBrikkoStudioProfile(userDataDir, { color: DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR });
 
     expect(
       isProfileDecorated(
@@ -215,7 +215,7 @@ describe("browser chrome profile decoration", () => {
 
   it("best-effort writes name when color is invalid", async () => {
     const userDataDir = await createUserDataDir();
-    decorateBrikko StudioProfile(userDataDir, { color: "lobster-orange" });
+    decorateBrikkoStudioProfile(userDataDir, { color: "lobster-orange" });
     const def = await readDefaultProfileFromLocalState(userDataDir);
 
     expect(def.name).toBe(DEFAULT_BRIKKO_STUDIO_BROWSER_PROFILE_NAME);
@@ -232,7 +232,7 @@ describe("browser chrome profile decoration", () => {
       "utf-8",
     );
 
-    decorateBrikko StudioProfile(userDataDir, { color: DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR });
+    decorateBrikkoStudioProfile(userDataDir, { color: DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR });
 
     const localState = await readJson(path.join(userDataDir, "Local State"));
     expect(typeof localState.profile).toBe("object");
@@ -251,8 +251,8 @@ describe("browser chrome profile decoration", () => {
 
   it("is idempotent when rerun on an existing profile", async () => {
     const userDataDir = await createUserDataDir();
-    decorateBrikko StudioProfile(userDataDir, { color: DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR });
-    decorateBrikko StudioProfile(userDataDir, { color: DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR });
+    decorateBrikkoStudioProfile(userDataDir, { color: DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR });
+    decorateBrikkoStudioProfile(userDataDir, { color: DEFAULT_BRIKKO_STUDIO_BROWSER_COLOR });
 
     const prefs = await readJson(path.join(userDataDir, "Default", "Preferences"));
     const profile = prefs.profile as Record<string, unknown>;
@@ -794,20 +794,20 @@ describe("browser chrome helpers", () => {
     );
   });
 
-  it("stopBrikko StudioChrome no-ops when process is already killed", async () => {
+  it("stopBrikkoStudioChrome no-ops when process is already killed", async () => {
     const proc = makeChromeTestProc({ killed: true });
     await stopChromeWithProc(proc, 10);
     expect(proc.kill).not.toHaveBeenCalled();
   });
 
-  it("stopBrikko StudioChrome sends SIGTERM and returns once CDP is down", async () => {
+  it("stopBrikkoStudioChrome sends SIGTERM and returns once CDP is down", async () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("down")));
     const proc = makeChromeTestProc();
     await stopChromeWithProc(proc, 10);
     expect(proc.kill).toHaveBeenCalledWith("SIGTERM");
   });
 
-  it("stopBrikko StudioChrome escalates to SIGKILL when CDP stays reachable", async () => {
+  it("stopBrikkoStudioChrome escalates to SIGKILL when CDP stays reachable", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValue({
@@ -871,7 +871,7 @@ describe("chrome executables", () => {
 
 describe("browser chrome launch args", () => {
   it("does not force an about:blank tab at startup", () => {
-    const args = buildBrikko StudioChromeLaunchArgs({
+    const args = buildBrikkoStudioChromeLaunchArgs({
       resolved: {
         enabled: true,
         controlPort: 18791,

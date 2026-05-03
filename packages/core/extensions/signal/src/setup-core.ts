@@ -14,7 +14,7 @@ import {
   type ChannelSetupAdapter,
   type ChannelSetupWizard,
   type ChannelSetupWizardTextInput,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type WizardPrompter,
 } from "brikko-studio/plugin-sdk/setup-runtime";
 import { formatCliCommand, formatDocsLink } from "brikko-studio/plugin-sdk/setup-tools";
@@ -89,10 +89,10 @@ function buildSignalSetupPatch(input: {
 }
 
 async function promptSignalAllowFrom(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   return promptParsedAllowFromForAccount({
     cfg: params.cfg,
     accountId: params.accountId,
@@ -127,7 +127,7 @@ export const signalDmPolicy = {
   channel,
   policyKey: "channels.signal.dmPolicy",
   allowFromKey: "channels.signal.allowFrom",
-  resolveConfigKeys: (cfg: Brikko StudioConfig, accountId?: string) =>
+  resolveConfigKeys: (cfg: BrikkoStudioConfig, accountId?: string) =>
     (accountId ?? resolveDefaultSignalAccountId(cfg)) !== DEFAULT_ACCOUNT_ID
       ? {
           policyKey: `channels.signal.accounts.${accountId ?? resolveDefaultSignalAccountId(cfg)}.dmPolicy`,
@@ -137,11 +137,11 @@ export const signalDmPolicy = {
           policyKey: "channels.signal.dmPolicy",
           allowFromKey: "channels.signal.allowFrom",
         },
-  getCurrent: (cfg: Brikko StudioConfig, accountId?: string) =>
+  getCurrent: (cfg: BrikkoStudioConfig, accountId?: string) =>
     resolveSignalAccount({ cfg, accountId: accountId ?? resolveDefaultSignalAccountId(cfg) }).config
       .dmPolicy ?? "pairing",
   setPolicy: (
-    cfg: Brikko StudioConfig,
+    cfg: BrikkoStudioConfig,
     policy: "pairing" | "allowlist" | "open" | "disabled",
     accountId?: string,
   ) =>
@@ -167,7 +167,7 @@ export const signalDmPolicy = {
 };
 
 function resolveSignalCliPath(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   credentialValues: Record<string, unknown>;
 }) {
@@ -211,7 +211,7 @@ export const signalNumberTextInput: ChannelSetupWizardTextInput = {
 export const signalCompletionNote = {
   title: "Signal next steps",
   lines: [
-    'Link device with: signal-cli link -n "Brikko Studio"',
+    'Link device with: signal-cli link -n "BrikkoStudio"',
     "Scan QR in Signal -> Linked Devices",
     `Then run: ${formatCliCommand("brikko-studio gateway call channels.status --params '{\"probe\":true}'")}`,
     `Docs: ${formatDocsLink("/signal", "signal")}`,
@@ -262,6 +262,6 @@ export function createSignalSetupWizardProxy(loadWizard: () => Promise<ChannelSe
     ],
     completionNote: signalCompletionNote,
     dmPolicy: signalDmPolicy,
-    disable: (cfg: Brikko StudioConfig) => setSetupChannelEnabled(cfg, channel, false),
+    disable: (cfg: BrikkoStudioConfig) => setSetupChannelEnabled(cfg, channel, false),
   });
 }

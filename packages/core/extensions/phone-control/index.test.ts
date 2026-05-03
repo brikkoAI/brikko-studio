@@ -5,8 +5,8 @@ import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { describe, expect, it, vi } from "vitest";
 import registerPhoneControl from "./index.js";
 import type {
-  Brikko StudioPluginApi,
-  Brikko StudioPluginCommandDefinition,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginCommandDefinition,
   PluginCommandContext,
 } from "./runtime-api.js";
 
@@ -17,8 +17,8 @@ function createApi(params: {
   stateDir: string;
   getConfig: () => Record<string, unknown>;
   writeConfig: (next: Record<string, unknown>) => Promise<void>;
-  registerCommand: (command: Brikko StudioPluginCommandDefinition) => void;
-}): Brikko StudioPluginApi {
+  registerCommand: (command: BrikkoStudioPluginCommandDefinition) => void;
+}): BrikkoStudioPluginApi {
   return createTestPluginApi({
     id: "phone-control",
     name: "phone-control",
@@ -34,7 +34,7 @@ function createApi(params: {
         replaceConfigFile: ({ nextConfig }: { nextConfig: unknown }) =>
           params.writeConfig(nextConfig as Record<string, unknown>),
       },
-    } as unknown as Brikko StudioPluginApi["runtime"],
+    } as unknown as BrikkoStudioPluginApi["runtime"],
     registerCommand: params.registerCommand,
   });
 }
@@ -68,7 +68,7 @@ function createPhoneControlConfig(): Record<string, unknown> {
 
 async function withRegisteredPhoneControl(
   run: (params: {
-    command: Brikko StudioPluginCommandDefinition;
+    command: BrikkoStudioPluginCommandDefinition;
     writeConfigFile: ReturnType<typeof vi.fn>;
     getConfig: () => Record<string, unknown>;
   }) => Promise<void>,
@@ -80,7 +80,7 @@ async function withRegisteredPhoneControl(
       config = next;
     });
 
-    let command: Brikko StudioPluginCommandDefinition | undefined;
+    let command: BrikkoStudioPluginCommandDefinition | undefined;
     registerPhoneControl.register(
       createApi({
         stateDir,

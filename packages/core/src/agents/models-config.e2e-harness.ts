@@ -1,6 +1,6 @@
 import { afterEach, beforeEach } from "vitest";
 import { clearConfigCache, clearRuntimeConfigSnapshot } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { withTempHome as withTempHomeBase } from "../plugin-sdk/test-helpers/temp-home.js";
 import { resetPluginLoaderTestStateForTest } from "../plugins/loader.test-fixtures.js";
 import { resetModelsJsonReadyCacheForTest } from "./models-config-state.js";
@@ -19,14 +19,14 @@ export function installModelsConfigTestHooks(opts?: {
   resetPluginLoaderState?: boolean;
 }) {
   let previousHome: string | undefined;
-  let previousBrikko StudioAgentDir: string | undefined;
+  let previousBrikkoStudioAgentDir: string | undefined;
   let previousPiCodingAgentDir: string | undefined;
   const originalFetch = globalThis.fetch;
   const shouldResetPluginLoaderState = opts?.resetPluginLoaderState !== false;
 
   beforeEach(() => {
     previousHome = process.env.HOME;
-    previousBrikko StudioAgentDir = process.env.BRIKKO_STUDIO_AGENT_DIR;
+    previousBrikkoStudioAgentDir = process.env.BRIKKO_STUDIO_AGENT_DIR;
     previousPiCodingAgentDir = process.env.PI_CODING_AGENT_DIR;
     delete process.env.BRIKKO_STUDIO_AGENT_DIR;
     delete process.env.PI_CODING_AGENT_DIR;
@@ -40,10 +40,10 @@ export function installModelsConfigTestHooks(opts?: {
 
   afterEach(() => {
     process.env.HOME = previousHome;
-    if (previousBrikko StudioAgentDir === undefined) {
+    if (previousBrikkoStudioAgentDir === undefined) {
       delete process.env.BRIKKO_STUDIO_AGENT_DIR;
     } else {
-      process.env.BRIKKO_STUDIO_AGENT_DIR = previousBrikko StudioAgentDir;
+      process.env.BRIKKO_STUDIO_AGENT_DIR = previousBrikkoStudioAgentDir;
     }
     if (previousPiCodingAgentDir === undefined) {
       delete process.env.PI_CODING_AGENT_DIR;
@@ -146,7 +146,7 @@ export const MODELS_CONFIG_IMPLICIT_ENV_VARS = [
   "AWS_SHARED_CREDENTIALS_FILE",
 ];
 
-export const CUSTOM_PROXY_MODELS_CONFIG: Brikko StudioConfig = {
+export const CUSTOM_PROXY_MODELS_CONFIG: BrikkoStudioConfig = {
   models: {
     providers: {
       "custom-proxy": {

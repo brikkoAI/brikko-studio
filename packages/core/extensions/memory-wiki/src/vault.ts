@@ -55,7 +55,7 @@ function buildWikiOverviewMarkdown(config: ResolvedMemoryWikiConfig): string {
   return withTrailingNewline(`\
 # Memory Wiki
 
-This vault is maintained by the Brikko Studio memory-wiki plugin.
+This vault is maintained by the BrikkoStudio memory-wiki plugin.
 
 - Vault mode: \`${config.vaultMode}\`
 - Render mode: \`${config.vault.renderMode}\`

@@ -4,7 +4,7 @@ import path from "node:path";
 import type { AssistantMessage, Message, Tool } from "@mariozechner/pi-ai";
 import { Type } from "typebox";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   buildAssistantHistoryTurn as buildTypedAssistantHistoryTurn,
   buildStableCachePrefix,
@@ -230,7 +230,7 @@ function buildEmbeddedRunnerConfig(
     cacheRetention: "none" | "short" | "long";
     transport?: "sse" | "websocket";
   },
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const provider = params.model.provider;
   const modelKey = `${provider}/${params.model.id}`;
   const providerBaseUrl =

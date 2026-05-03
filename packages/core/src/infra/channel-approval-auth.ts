@@ -1,5 +1,5 @@
 import { getChannelPlugin, resolveChannelApprovalCapability } from "../channels/plugins/index.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isImplicitSameChatApprovalAuthorization } from "../plugin-sdk/approval-auth-helpers.js";
 import { normalizeMessageChannel } from "../utils/message-channel.js";
 
@@ -10,7 +10,7 @@ type ApprovalCommandAuthorization = {
 };
 
 export function resolveApprovalCommandAuthorization(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel?: string | null;
   accountId?: string | null;
   senderId?: string | null;

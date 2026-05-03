@@ -56,7 +56,7 @@ describe("runtime context prompt submission", () => {
         transcriptPrompt: "",
       }),
     ).toEqual({
-      prompt: "Continue the Brikko Studio runtime event.",
+      prompt: "Continue the BrikkoStudio runtime event.",
       runtimeContext: "internal event",
       runtimeOnly: true,
       runtimeSystemContext: expect.stringContaining("internal event"),
@@ -105,7 +105,7 @@ describe("runtime context prompt submission", () => {
       { deliverAs: "nextTurn" },
     );
     expect(sentMessages[0]?.content).not.toContain(
-      "Brikko Studio runtime context for the immediately preceding user message.",
+      "BrikkoStudio runtime context for the immediately preceding user message.",
     );
     expect(sentMessages[0]?.content).not.toContain("not user-authored");
   });
@@ -114,7 +114,7 @@ describe("runtime context prompt submission", () => {
     const systemContext = buildRuntimeContextSystemContext("secret runtime context");
 
     expect(systemContext).toContain(
-      "Brikko Studio runtime context for the immediately preceding user message.",
+      "BrikkoStudio runtime context for the immediately preceding user message.",
     );
     expect(systemContext).toContain("not user-authored");
     expect(systemContext).toContain("secret runtime context");
@@ -123,7 +123,7 @@ describe("runtime context prompt submission", () => {
   it("labels runtime-only events as system context", async () => {
     const { buildRuntimeEventSystemContext } = await import("./runtime-context-prompt.js");
 
-    expect(buildRuntimeEventSystemContext("internal event")).toContain("Brikko Studio runtime event.");
+    expect(buildRuntimeEventSystemContext("internal event")).toContain("BrikkoStudio runtime event.");
     expect(buildRuntimeEventSystemContext("internal event")).toContain("not user-authored");
   });
 });

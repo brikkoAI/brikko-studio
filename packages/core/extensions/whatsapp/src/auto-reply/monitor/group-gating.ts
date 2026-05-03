@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   getPrimaryIdentityId,
   getReplyContext,
@@ -31,7 +31,7 @@ export type GroupHistoryEntry = {
 };
 
 type ApplyGroupGatingParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   msg: WebInboundMsg;
   mentionText?: string;
   deferMissingMention?: boolean;

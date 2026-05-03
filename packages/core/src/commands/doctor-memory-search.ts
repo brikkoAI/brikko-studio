@@ -12,7 +12,7 @@ import {
   resolveUsableCustomProviderApiKey,
 } from "../agents/model-auth.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { checkQmdBinaryAvailability } from "../memory-host-sdk/engine-qmd.js";
 import { DEFAULT_LOCAL_MODEL } from "../memory-host-sdk/host/embedding-defaults.js";
@@ -133,7 +133,7 @@ function isKeyOptionalMemoryProvider(providerId: string): boolean {
 }
 
 async function resolveRuntimeMemoryAuditContext(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): Promise<RuntimeMemoryAuditContext | null> {
   const agentId = resolveDefaultAgentId(cfg);
   const result = await getActiveMemorySearchManager({
@@ -194,7 +194,7 @@ function buildDreamingArtifactIssueNote(audit: DreamingArtifactsAuditSummary): s
   ].join("\n");
 }
 
-export async function noteMemoryRecallHealth(cfg: Brikko StudioConfig): Promise<void> {
+export async function noteMemoryRecallHealth(cfg: BrikkoStudioConfig): Promise<void> {
   try {
     const context = await resolveRuntimeMemoryAuditContext(cfg);
     const workspaceDir = context?.workspaceDir?.trim();
@@ -226,7 +226,7 @@ export async function noteMemoryRecallHealth(cfg: Brikko StudioConfig): Promise<
 }
 
 export async function maybeRepairMemoryRecallHealth(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: DoctorPrompter;
 }): Promise<void> {
   await maybeRepairWorkspaceMemoryHealth(params);
@@ -310,7 +310,7 @@ export async function maybeRepairMemoryRecallHealth(params: {
  * the configured `qmd` binary is available.
  */
 export async function noteMemorySearchHealth(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts?: {
     gatewayMemoryProbe?: {
       checked: boolean;
@@ -549,7 +549,7 @@ function hasLocalEmbeddings(local: { modelPath?: string }, useDefaultFallback = 
 
 async function hasApiKeyForProvider(
   provider: string,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentDir: string,
 ): Promise<boolean> {
   const metadata = resolveMemoryEmbeddingProviderDoctorMetadata(provider);

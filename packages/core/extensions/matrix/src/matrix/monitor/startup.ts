@@ -119,9 +119,9 @@ export async function runMatrixStartupMaintenance(
     const deviceHealth = runtimeDeps.summarizeMatrixDeviceHealth(
       await params.client.listOwnDevices(),
     );
-    if (deviceHealth.staleBrikko StudioDevices.length > 0) {
+    if (deviceHealth.staleBrikkoStudioDevices.length > 0) {
       params.logger.warn(
-        `matrix: stale Brikko Studio devices detected for ${params.auth.userId}: ${deviceHealth.staleBrikko StudioDevices.map((device) => device.deviceId).join(", ")}. Run 'brikko-studio matrix devices prune-stale --account ${params.effectiveAccountId}' to keep encrypted-room trust healthy.`,
+        `matrix: stale BrikkoStudio devices detected for ${params.auth.userId}: ${deviceHealth.staleBrikkoStudioDevices.map((device) => device.deviceId).join(", ")}. Run 'brikko-studio matrix devices prune-stale --account ${params.effectiveAccountId}' to keep encrypted-room trust healthy.`,
       );
     }
   } catch (err) {

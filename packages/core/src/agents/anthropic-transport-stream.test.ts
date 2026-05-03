@@ -361,7 +361,7 @@ describe("anthropic transport stream", () => {
     );
 
     expect(result.stopReason).toBe("error");
-    expect(result.errorMessage).toBe("Brikko Studio transport error: malformed_streaming_fragment");
+    expect(result.errorMessage).toBe("BrikkoStudio transport error: malformed_streaming_fragment");
   });
 
   it("preserves Anthropic OAuth identity and tool-name remapping with transport overrides", async () => {

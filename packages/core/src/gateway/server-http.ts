@@ -16,7 +16,7 @@ import {
 import type { CanvasHostHandler } from "../canvas-host/server.js";
 import { resolveBundledChannelGatewayAuthBypassPaths } from "../channels/plugins/gateway-auth-bypass.js";
 import { getRuntimeConfig } from "../config/io.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   createDiagnosticTraceContext,
   runWithDiagnosticTraceContext,
@@ -156,12 +156,12 @@ const GATEWAY_PROBE_STATUS_BY_PATH = new Map<string, "live" | "ready">([
   ["/readyz", "ready"],
 ]);
 const pluginGatewayAuthBypassPathsCache = new WeakMap<
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   Promise<ReadonlySet<string>>
 >();
 
 async function resolvePluginGatewayAuthBypassPaths(
-  configSnapshot: Brikko StudioConfig,
+  configSnapshot: BrikkoStudioConfig,
 ): Promise<Set<string>> {
   const paths = new Set<string>();
   const configuredChannels = configSnapshot.channels;
@@ -180,7 +180,7 @@ async function resolvePluginGatewayAuthBypassPaths(
 }
 
 function getCachedPluginGatewayAuthBypassPaths(
-  configSnapshot: Brikko StudioConfig,
+  configSnapshot: BrikkoStudioConfig,
 ): Promise<ReadonlySet<string>> {
   const cached = pluginGatewayAuthBypassPathsCache.get(configSnapshot);
   if (cached) {
@@ -486,7 +486,7 @@ export function createGatewayHttpServer(opts: {
   /** Optional rate limiter for auth brute-force protection. */
   rateLimiter?: AuthRateLimiter;
   getReadiness?: ReadinessChecker;
-  getRuntimeConfig?: () => Brikko StudioConfig;
+  getRuntimeConfig?: () => BrikkoStudioConfig;
   tlsOptions?: TlsOptions;
 }): HttpServer {
   const {

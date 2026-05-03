@@ -6,7 +6,7 @@ import path from "node:path";
 import { Command } from "commander";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { TEST_BUNDLED_RUNTIME_SIDECAR_PATHS } from "../../test/helpers/bundled-runtime-sidecars.js";
-import type { Brikko StudioConfig, ConfigFileSnapshot } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig, ConfigFileSnapshot } from "../config/types.brikko-studio.js";
 import { writePackageDistInventory } from "../infra/package-dist-inventory.js";
 import { isBetaTag } from "../infra/update-channels.js";
 import type { UpdateRunResult } from "../infra/update-runner.js";
@@ -40,7 +40,7 @@ const pathExists = vi.fn();
 const syncPluginsForUpdateChannel = vi.fn();
 const updateNpmInstalledPlugins = vi.fn();
 const loadInstalledPluginIndexInstallRecords = vi.fn(
-  async (params: { config?: Brikko StudioConfig } = {}) => params.config?.plugins?.installs ?? {},
+  async (params: { config?: BrikkoStudioConfig } = {}) => params.config?.plugins?.installs ?? {},
 );
 const nodeVersionSatisfiesEngine = vi.fn();
 const spawn = vi.fn();
@@ -59,8 +59,8 @@ vi.mock("../infra/update-runner.js", () => ({
 }));
 
 vi.mock("../infra/brikko-studio-root.js", () => ({
-  resolveBrikko StudioPackageRoot: vi.fn(),
-  resolveBrikko StudioPackageRootSync: vi.fn(() => process.cwd()),
+  resolveBrikkoStudioPackageRoot: vi.fn(),
+  resolveBrikkoStudioPackageRootSync: vi.fn(() => process.cwd()),
 }));
 
 vi.mock("../config/config.js", () => ({
@@ -244,7 +244,7 @@ vi.mock("../runtime.js", () => ({
 }));
 
 const { runGatewayUpdate } = await import("../infra/update-runner.js");
-const { resolveBrikko StudioPackageRoot } = await import("../infra/brikko-studio-root.js");
+const { resolveBrikkoStudioPackageRoot } = await import("../infra/brikko-studio-root.js");
 const { ConfigMutationConflictError, readConfigFileSnapshot, replaceConfigFile } =
   await import("../config/config.js");
 const { checkUpdateStatus, fetchNpmPackageTargetStatus, fetchNpmTagVersion, resolveNpmChannelTag } =
@@ -274,7 +274,7 @@ describe("update-cli", () => {
     return dir;
   };
 
-  const baseConfig = {} as Brikko StudioConfig;
+  const baseConfig = {} as BrikkoStudioConfig;
   const baseSnapshot: ConfigFileSnapshot = {
     path: "/tmp/brikko-studio-config.json",
     exists: true,
@@ -305,7 +305,7 @@ describe("update-cli", () => {
   };
 
   const mockPackageInstallStatus = (root: string) => {
-    vi.mocked(resolveBrikko StudioPackageRoot).mockResolvedValue(root);
+    vi.mocked(resolveBrikkoStudioPackageRoot).mockResolvedValue(root);
     vi.mocked(checkUpdateStatus).mockResolvedValue({
       root,
       installKind: "package",
@@ -439,7 +439,7 @@ describe("update-cli", () => {
       return child;
     });
     vi.mocked(defaultRuntime.exit).mockImplementation(() => {});
-    vi.mocked(resolveBrikko StudioPackageRoot).mockResolvedValue(process.cwd());
+    vi.mocked(resolveBrikkoStudioPackageRoot).mockResolvedValue(process.cwd());
     vi.mocked(readConfigFileSnapshot).mockResolvedValue(baseSnapshot);
     vi.mocked(fetchNpmTagVersion).mockResolvedValue({
       tag: "latest",
@@ -759,10 +759,10 @@ describe("update-cli", () => {
     vi.mocked(readConfigFileSnapshot).mockResolvedValue({
       ...baseSnapshot,
       parsed: { update: { channel: "stable" } },
-      resolved: { update: { channel: "stable" } } as Brikko StudioConfig,
-      sourceConfig: { update: { channel: "stable" } } as Brikko StudioConfig,
-      runtimeConfig: { update: { channel: "stable" } } as Brikko StudioConfig,
-      config: { update: { channel: "stable" } } as Brikko StudioConfig,
+      resolved: { update: { channel: "stable" } } as BrikkoStudioConfig,
+      sourceConfig: { update: { channel: "stable" } } as BrikkoStudioConfig,
+      runtimeConfig: { update: { channel: "stable" } } as BrikkoStudioConfig,
+      config: { update: { channel: "stable" } } as BrikkoStudioConfig,
       hash: "stable-hash",
     });
 
@@ -801,10 +801,10 @@ describe("update-cli", () => {
       .mockResolvedValueOnce({
         ...baseSnapshot,
         parsed: { update: { channel: "stable" } },
-        resolved: { update: { channel: "stable" } } as Brikko StudioConfig,
-        sourceConfig: { update: { channel: "stable" } } as Brikko StudioConfig,
-        runtimeConfig: { update: { channel: "stable" } } as Brikko StudioConfig,
-        config: { update: { channel: "stable" } } as Brikko StudioConfig,
+        resolved: { update: { channel: "stable" } } as BrikkoStudioConfig,
+        sourceConfig: { update: { channel: "stable" } } as BrikkoStudioConfig,
+        runtimeConfig: { update: { channel: "stable" } } as BrikkoStudioConfig,
+        config: { update: { channel: "stable" } } as BrikkoStudioConfig,
         hash: "stable-hash",
       })
       .mockResolvedValueOnce({
@@ -816,19 +816,19 @@ describe("update-cli", () => {
         resolved: {
           meta: { lastTouchedVersion: "2026.4.30" },
           update: { channel: "stable" },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         sourceConfig: {
           meta: { lastTouchedVersion: "2026.4.30" },
           update: { channel: "stable" },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         runtimeConfig: {
           meta: { lastTouchedVersion: "2026.4.30" },
           update: { channel: "stable" },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         config: {
           meta: { lastTouchedVersion: "2026.4.30" },
           update: { channel: "stable" },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         hash: "newer-hash",
       });
     vi.mocked(replaceConfigFile)
@@ -929,7 +929,7 @@ describe("update-cli", () => {
   it("fails json update output when post-core plugin updates fail", async () => {
     updateNpmInstalledPlugins.mockImplementationOnce(
       async (params: {
-        config: Brikko StudioConfig;
+        config: BrikkoStudioConfig;
         onIntegrityDrift?: (drift: {
           pluginId: string;
           spec: string;
@@ -1115,7 +1115,7 @@ describe("update-cli", () => {
       },
       assert: () => {
         const logs = vi.mocked(defaultRuntime.log).mock.calls.map((call) => call[0]);
-        expect(logs.join("\n")).toContain("Brikko Studio update status");
+        expect(logs.join("\n")).toContain("BrikkoStudio update status");
       },
     },
     {
@@ -1178,7 +1178,7 @@ describe("update-cli", () => {
       prepare: async () => {
         vi.mocked(readConfigFileSnapshot).mockResolvedValue({
           ...baseSnapshot,
-          config: { update: { channel: "beta" } } as Brikko StudioConfig,
+          config: { update: { channel: "beta" } } as BrikkoStudioConfig,
         });
       },
       expectedChannel: "beta" as const,
@@ -1232,7 +1232,7 @@ describe("update-cli", () => {
     mockPackageInstallStatus(tempDir);
     vi.mocked(readConfigFileSnapshot).mockResolvedValue({
       ...baseSnapshot,
-      config: { update: { channel: "beta" } } as Brikko StudioConfig,
+      config: { update: { channel: "beta" } } as BrikkoStudioConfig,
     });
     vi.mocked(resolveNpmChannelTag).mockResolvedValue({
       tag: "latest",
@@ -1522,7 +1522,7 @@ describe("update-cli", () => {
       readPackageName.mockResolvedValue("brikko-studio");
       readPackageVersion.mockResolvedValue("1.0.0");
       resolveGlobalManager.mockResolvedValue("npm");
-      vi.mocked(resolveBrikko StudioPackageRoot).mockResolvedValue(process.cwd());
+      vi.mocked(resolveBrikkoStudioPackageRoot).mockResolvedValue(process.cwd());
       await run();
       expectPackageInstallSpec(expectedSpec);
     },
@@ -2050,7 +2050,7 @@ describe("update-cli", () => {
     const localAppData = createCaseDir("brikko-studio-localappdata");
     const portableGitMingw = path.join(
       localAppData,
-      "Brikko Studio",
+      "BrikkoStudio",
       "deps",
       "portable-git",
       "mingw64",
@@ -2058,7 +2058,7 @@ describe("update-cli", () => {
     );
     const portableGitUsr = path.join(
       localAppData,
-      "Brikko Studio",
+      "BrikkoStudio",
       "deps",
       "portable-git",
       "usr",
@@ -2230,7 +2230,7 @@ describe("update-cli", () => {
     } as const;
     const sourceConfig = {
       plugins: {},
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     loadInstalledPluginIndexInstallRecords.mockResolvedValueOnce(pluginInstallRecords);
     vi.mocked(readConfigFileSnapshot).mockResolvedValue({
       ...baseSnapshot,
@@ -2248,7 +2248,7 @@ describe("update-cli", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
     syncPluginsForUpdateChannel.mockResolvedValue({
       changed: false,
@@ -2269,7 +2269,7 @@ describe("update-cli", () => {
     await updateCommand({ channel: "beta", yes: true });
 
     const syncConfig = vi.mocked(syncPluginsForUpdateChannel).mock.calls[0]?.[0]?.config as
-      | Brikko StudioConfig
+      | BrikkoStudioConfig
       | undefined;
     const updateCall = vi.mocked(updateNpmInstalledPlugins).mock.calls[0]?.[0] as
       | { skipDisabledPlugins?: boolean }
@@ -2291,10 +2291,10 @@ describe("update-cli", () => {
     vi.mocked(readConfigFileSnapshot).mockResolvedValue({
       ...baseSnapshot,
       parsed: { update: { channel: "stable" } },
-      resolved: { update: { channel: "stable" } } as Brikko StudioConfig,
-      sourceConfig: { update: { channel: "stable" } } as Brikko StudioConfig,
-      runtimeConfig: { update: { channel: "stable" } } as Brikko StudioConfig,
-      config: { update: { channel: "stable" } } as Brikko StudioConfig,
+      resolved: { update: { channel: "stable" } } as BrikkoStudioConfig,
+      sourceConfig: { update: { channel: "stable" } } as BrikkoStudioConfig,
+      runtimeConfig: { update: { channel: "stable" } } as BrikkoStudioConfig,
+      config: { update: { channel: "stable" } } as BrikkoStudioConfig,
     });
     vi.mocked(runGatewayUpdate).mockResolvedValue(
       makeOkUpdateResult({

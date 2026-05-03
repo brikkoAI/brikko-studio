@@ -5,7 +5,7 @@ import { ChannelType } from "discord-api-types/v10";
 import * as commandRegistryModule from "brikko-studio/plugin-sdk/command-auth";
 import type { ChatCommandDefinition, CommandArgsParsing } from "brikko-studio/plugin-sdk/command-auth";
 import type { ModelsProviderData } from "brikko-studio/plugin-sdk/command-auth";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import * as globalsModule from "brikko-studio/plugin-sdk/runtime-env";
 import {
   loadSessionStore,
@@ -82,7 +82,7 @@ function createModelPickerContext(): ModelPickerContext {
         },
       },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 
   return {
     cfg,
@@ -430,8 +430,8 @@ describe("Discord model picker interactions", () => {
         [
           {
             id: "pi",
-            label: "Brikko Studio Pi Default",
-            description: "Use the built-in Brikko Studio Pi runtime.",
+            label: "BrikkoStudio Pi Default",
+            description: "Use the built-in BrikkoStudio Pi runtime.",
           },
           {
             id: "codex",

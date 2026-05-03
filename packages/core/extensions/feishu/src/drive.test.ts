@@ -1,6 +1,6 @@
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioPluginApi, PluginRuntime } from "../runtime-api.js";
+import type { BrikkoStudioPluginApi, PluginRuntime } from "../runtime-api.js";
 
 const createFeishuToolClientMock = vi.hoisted(() => vi.fn());
 const resolveAnyEnabledFeishuToolsConfigMock = vi.hoisted(() => vi.fn());
@@ -22,9 +22,9 @@ function createFeishuToolRuntime(): PluginRuntime {
 }
 
 function createDriveToolApi(params: {
-  config: Brikko StudioPluginApi["config"];
-  registerTool: Brikko StudioPluginApi["registerTool"];
-}): Brikko StudioPluginApi {
+  config: BrikkoStudioPluginApi["config"];
+  registerTool: BrikkoStudioPluginApi["registerTool"];
+}): BrikkoStudioPluginApi {
   return createTestPluginApi({
     id: "feishu-test",
     name: "Feishu Test",

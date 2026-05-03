@@ -1,4 +1,4 @@
-import type { ChatType, Brikko StudioConfig } from "./runtime-api.js";
+import type { ChatType, BrikkoStudioConfig } from "./runtime-api.js";
 
 export function mapMattermostChannelTypeToChatType(channelType?: string | null): ChatType {
   if (!channelType) {
@@ -26,7 +26,7 @@ export function resolveMattermostTrustedChatKind(params: {
 }
 
 export type MattermostRequireMentionResolverInput = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: "mattermost";
   accountId: string;
   groupId: string;
@@ -35,7 +35,7 @@ export type MattermostRequireMentionResolverInput = {
 
 export type MattermostMentionGateInput = {
   kind: ChatType;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   channelId: string;
   threadRootId?: string;

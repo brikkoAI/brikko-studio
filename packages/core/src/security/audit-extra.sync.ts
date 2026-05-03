@@ -6,7 +6,7 @@ import { getBlockedBindReason } from "../agents/sandbox/validate-sandbox-securit
 import { isToolAllowedByPolicies } from "../agents/tool-policy-match.js";
 import { resolveToolProfilePolicy } from "../agents/tool-policy.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { AgentToolsConfig } from "../config/types.tools.js";
 import { resolveGatewayAuth } from "../gateway/auth.js";
 import { resolveAllowedAgentIds } from "../gateway/hooks-policy.js";
@@ -57,7 +57,7 @@ function looksLikeEnvRef(value: string): boolean {
   return v.startsWith("${") && v.endsWith("}");
 }
 
-function isGatewayRemotelyExposed(cfg: Brikko StudioConfig): boolean {
+function isGatewayRemotelyExposed(cfg: BrikkoStudioConfig): boolean {
   const bind = typeof cfg.gateway?.bind === "string" ? cfg.gateway.bind : "loopback";
   if (bind !== "loopback") {
     return true;
@@ -112,8 +112,8 @@ function isWildcardEntry(value: unknown): boolean {
   return normalizeStringifiedOptionalString(value) === "*";
 }
 
-function listKnownNodeCommands(cfg: Brikko StudioConfig): Set<string> {
-  const baseCfg: Brikko StudioConfig = {
+function listKnownNodeCommands(cfg: BrikkoStudioConfig): Set<string> {
+  const baseCfg: BrikkoStudioConfig = {
     ...cfg,
     gateway: {
       ...cfg.gateway,
@@ -143,7 +143,7 @@ function listKnownNodeCommands(cfg: Brikko StudioConfig): Set<string> {
 }
 
 function resolveToolPolicies(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentTools?: AgentToolsConfig;
   sandboxMode?: "off" | "non-main" | "all";
   agentId?: string | null;
@@ -245,7 +245,7 @@ function suggestKnownNodeCommands(unknown: string, known: Set<string>): string[]
     .map((r) => r.cmd);
 }
 
-function listGroupPolicyOpen(cfg: Brikko StudioConfig): string[] {
+function listGroupPolicyOpen(cfg: BrikkoStudioConfig): string[] {
   const out: string[] = [];
   const channels = cfg.channels as Record<string, unknown> | undefined;
   if (!channels || typeof channels !== "object") {
@@ -283,7 +283,7 @@ function hasConfiguredGroupTargets(section: Record<string, unknown>): boolean {
   });
 }
 
-function listPotentialMultiUserSignals(cfg: Brikko StudioConfig): string[] {
+function listPotentialMultiUserSignals(cfg: BrikkoStudioConfig): string[] {
   const out = new Set<string>();
   const channels = cfg.channels as Record<string, unknown> | undefined;
   if (!channels || typeof channels !== "object") {
@@ -351,7 +351,7 @@ function listPotentialMultiUserSignals(cfg: Brikko StudioConfig): string[] {
   return Array.from(out);
 }
 
-function collectRiskyToolExposureContexts(cfg: Brikko StudioConfig): {
+function collectRiskyToolExposureContexts(cfg: BrikkoStudioConfig): {
   riskyContexts: string[];
   hasRuntimeRisk: boolean;
 } {
@@ -427,7 +427,7 @@ export function collectSyncedFolderFindings(params: {
   return findings;
 }
 
-export function collectSecretsInConfigFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
+export function collectSecretsInConfigFindings(cfg: BrikkoStudioConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const password = normalizeOptionalString(cfg.gateway?.auth?.password) ?? "";
   if (password && !looksLikeEnvRef(password)) {
@@ -457,7 +457,7 @@ export function collectSecretsInConfigFindings(cfg: Brikko StudioConfig): Securi
 }
 
 export function collectHooksHardeningFindings(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
@@ -575,7 +575,7 @@ export function collectHooksHardeningFindings(
 }
 
 export function collectGatewayHttpSessionKeyOverrideFindings(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const chatCompletionsEnabled = cfg.gateway?.http?.endpoints?.chatCompletions?.enabled === true;
@@ -602,7 +602,7 @@ export function collectGatewayHttpSessionKeyOverrideFindings(
 }
 
 export function collectGatewayHttpNoAuthFindings(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv,
 ): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
@@ -635,7 +635,7 @@ export function collectGatewayHttpNoAuthFindings(
   return findings;
 }
 
-export function collectSandboxDockerNoopFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
+export function collectSandboxDockerNoopFindings(cfg: BrikkoStudioConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const configuredPaths: string[] = [];
   const agents = Array.isArray(cfg.agents?.list) ? cfg.agents.list : [];
@@ -685,7 +685,7 @@ export function collectSandboxDockerNoopFindings(cfg: Brikko StudioConfig): Secu
   return findings;
 }
 
-export function collectSandboxDangerousConfigFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
+export function collectSandboxDangerousConfigFindings(cfg: BrikkoStudioConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const agents = Array.isArray(cfg.agents?.list) ? cfg.agents.list : [];
 
@@ -797,7 +797,7 @@ export function collectSandboxDangerousConfigFindings(cfg: Brikko StudioConfig):
   return findings;
 }
 
-export function collectNodeDenyCommandPatternFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
+export function collectNodeDenyCommandPatternFindings(cfg: BrikkoStudioConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const denyListRaw = cfg.gateway?.nodes?.denyCommands;
   if (!Array.isArray(denyListRaw) || denyListRaw.length === 0) {
@@ -855,7 +855,7 @@ export function collectNodeDenyCommandPatternFindings(cfg: Brikko StudioConfig):
 }
 
 export function collectNodeDangerousAllowCommandFindings(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const allowRaw = cfg.gateway?.nodes?.allowCommands;
@@ -892,7 +892,7 @@ export function collectNodeDangerousAllowCommandFindings(
   return findings;
 }
 
-export function collectMinimalProfileOverrideFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
+export function collectMinimalProfileOverrideFindings(cfg: BrikkoStudioConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   if (cfg.tools?.profile !== "minimal") {
     return findings;
@@ -928,7 +928,7 @@ export function collectMinimalProfileOverrideFindings(cfg: Brikko StudioConfig):
   return findings;
 }
 
-export function collectModelHygieneFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
+export function collectModelHygieneFindings(cfg: BrikkoStudioConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const models = collectAuditModelRefs(cfg);
   if (models.length === 0) {
@@ -1013,7 +1013,7 @@ export function collectModelHygieneFindings(cfg: Brikko StudioConfig): SecurityA
   return findings;
 }
 
-export function collectExposureMatrixFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
+export function collectExposureMatrixFindings(cfg: BrikkoStudioConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const openGroups = listGroupPolicyOpen(cfg);
   if (openGroups.length === 0) {
@@ -1052,7 +1052,7 @@ export function collectExposureMatrixFindings(cfg: Brikko StudioConfig): Securit
   return findings;
 }
 
-export function collectLikelyMultiUserSetupFindings(cfg: Brikko StudioConfig): SecurityAuditFinding[] {
+export function collectLikelyMultiUserSetupFindings(cfg: BrikkoStudioConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const signals = listPotentialMultiUserSignals(cfg);
   if (signals.length === 0) {
@@ -1076,7 +1076,7 @@ export function collectLikelyMultiUserSetupFindings(cfg: Brikko StudioConfig): S
       "Heuristic signals indicate this gateway may be reachable by multiple users:\n" +
       signals.map((signal) => `- ${signal}`).join("\n") +
       `\n${impactLine}\n${riskyContextsDetail}\n` +
-      "Brikko Studio's default security model is personal-assistant (one trusted operator boundary), not hostile multi-tenant isolation on one shared gateway.",
+      "BrikkoStudio's default security model is personal-assistant (one trusted operator boundary), not hostile multi-tenant isolation on one shared gateway.",
     remediation:
       'If users may be mutually untrusted, split trust boundaries (separate gateways + credentials, ideally separate OS users/hosts). If you intentionally run shared-user access, set agents.defaults.sandbox.mode="all", keep tools.fs.workspaceOnly=true, deny runtime/fs/web tools unless required, and keep personal/private identities + credentials off that runtime.',
   });

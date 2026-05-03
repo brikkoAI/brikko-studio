@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
 import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
@@ -23,7 +23,7 @@ type UnsupportedSecretRefConfigCandidate = {
 
 type BundledChannelContractApi = {
   collectRuntimeConfigAssignments?: (params: {
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     defaults: SecretDefaults | undefined;
     context: ResolverContext;
   }) => void;
@@ -156,7 +156,7 @@ function recordOwnsChannel(record: PluginManifestRecord, channelId: string): boo
 
 function listChannelSecretContractRecords(params: {
   channelId: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   loadablePluginOrigins?: ReadonlyMap<string, PluginOrigin>;
 }): PluginManifestRecord[] {
@@ -189,7 +189,7 @@ function listChannelSecretContractRecords(params: {
 
 export function loadChannelSecretContractApi(params: {
   channelId: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   loadablePluginOrigins?: ReadonlyMap<string, PluginOrigin>;
 }): BundledChannelSecretContractApi | undefined {

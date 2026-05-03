@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { withAudioFixture, withVideoFixture } from "./runner.test-utils.js";
 import type { AudioTranscriptionRequest, VideoDescriptionRequest } from "./types.js";
 
@@ -35,7 +35,7 @@ let buildProviderRegistry: typeof import("./runner.js").buildProviderRegistry;
 let clearMediaUnderstandingBinaryCacheForTests: typeof import("./runner.js").clearMediaUnderstandingBinaryCacheForTests;
 let runCapability: typeof import("./runner.js").runCapability;
 
-function createOpenAiAudioCfg(providerOverrides: Record<string, unknown> = {}): Brikko StudioConfig {
+function createOpenAiAudioCfg(providerOverrides: Record<string, unknown> = {}): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -54,7 +54,7 @@ function createOpenAiAudioCfg(providerOverrides: Record<string, unknown> = {}): 
         },
       },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 async function runAudioCapabilityWithFetchCapture(params: {
@@ -135,7 +135,7 @@ describe("runCapability proxy fetch passthrough", () => {
               },
             },
           },
-        } as unknown as Brikko StudioConfig,
+        } as unknown as BrikkoStudioConfig,
         ctx,
         attachments: cache,
         media,

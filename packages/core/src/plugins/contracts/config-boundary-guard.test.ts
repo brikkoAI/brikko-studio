@@ -82,10 +82,10 @@ describe("config boundary guard", () => {
       repoRoot,
       "extensions/telegram/src/index.ts",
       [
-        'import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-runtime";',
+        'import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-runtime";',
         'import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/config-runtime";',
         'type Loader = typeof import("brikko-studio/plugin-sdk/config-runtime").getRuntimeConfig;',
-        "export type Config = Brikko StudioConfig;",
+        "export type Config = BrikkoStudioConfig;",
         "export const load: Loader = requireRuntimeConfig;",
       ].join("\n"),
     );
@@ -118,10 +118,10 @@ describe("config boundary guard", () => {
       repoRoot,
       "extensions/telegram/src/index.ts",
       [
-        'import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";',
+        'import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";',
         'import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";',
         'type Loader = typeof import("brikko-studio/plugin-sdk/runtime-config-snapshot").getRuntimeConfig;',
-        'export const load = (cfg: Brikko StudioConfig) => requireRuntimeConfig(cfg, "telegram");',
+        'export const load = (cfg: BrikkoStudioConfig) => requireRuntimeConfig(cfg, "telegram");',
       ].join("\n"),
     );
 

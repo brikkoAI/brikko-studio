@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { requireRuntimeConfig } from "brikko-studio/plugin-sdk/plugin-config-runtime";
 import type { RetryConfig, RetryRunner } from "brikko-studio/plugin-sdk/retry-runtime";
 import { normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
@@ -17,7 +17,7 @@ import type { DiscordRuntimeAccountContext } from "./send.types.js";
 import { normalizeDiscordToken } from "./token.js";
 
 export type DiscordClientOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token?: string;
   accountId?: string;
   rest?: RequestClient;
@@ -26,7 +26,7 @@ export type DiscordClientOpts = {
 };
 
 export function createDiscordRuntimeAccountContext(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
 }): DiscordRuntimeAccountContext {
   return {
@@ -64,7 +64,7 @@ function resolveToken(params: { accountId: string; fallbackToken?: string }) {
 function resolveRest(
   token: string,
   account: ResolvedDiscordAccount,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   rest?: RequestClient,
   proxyFetch?: typeof fetch,
 ) {
@@ -79,7 +79,7 @@ function resolveRest(
 }
 
 function resolveAccountWithoutToken(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string;
 }): ResolvedDiscordAccount {
   const accountId = normalizeAccountId(params.accountId);

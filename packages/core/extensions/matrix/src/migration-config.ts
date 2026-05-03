@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/account-id";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveStateDir } from "brikko-studio/plugin-sdk/state-paths";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/string-coerce-runtime";
 import {
@@ -45,14 +45,14 @@ function clean(value: unknown): string {
 }
 
 function resolveMatrixAccountConfigEntry(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): Record<string, unknown> | null {
   return findMatrixAccountEntry(cfg, accountId);
 }
 
 function resolveMatrixFlatStoreSelectionNote(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId: string,
 ): string | undefined {
   if (resolveConfiguredMatrixAccountIds(cfg).length <= 1) {
@@ -65,7 +65,7 @@ function resolveMatrixFlatStoreSelectionNote(
 }
 
 function resolveMatrixMigrationConfigFields(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   accountId: string;
 }): {
@@ -156,7 +156,7 @@ function credentialsMatchResolvedIdentity(
 }
 
 export function resolveMatrixMigrationAccountTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   accountId: string;
 }): MatrixMigrationAccountTarget | null {
@@ -196,7 +196,7 @@ export function resolveMatrixMigrationAccountTarget(params: {
 }
 
 export function resolveLegacyMatrixFlatStoreTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   detectedPath: string;
   detectedKind: MatrixLegacyFlatStoreKind;

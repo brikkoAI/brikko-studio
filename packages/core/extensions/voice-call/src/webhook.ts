@@ -1,6 +1,6 @@
 import http from "node:http";
 import { URL } from "node:url";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveConfiguredCapabilityProvider } from "brikko-studio/plugin-sdk/provider-selection-runtime";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import {
@@ -166,7 +166,7 @@ export class VoiceCallWebhookServer {
   private manager: CallManager;
   private provider: VoiceCallProvider;
   private coreConfig: CoreConfig | null;
-  private fullConfig: Brikko StudioConfig | null;
+  private fullConfig: BrikkoStudioConfig | null;
   private agentRuntime: CoreAgentDeps | null;
   private logger: Logger;
   private stopStaleCallReaper: (() => void) | null = null;
@@ -184,7 +184,7 @@ export class VoiceCallWebhookServer {
     manager: CallManager,
     provider: VoiceCallProvider,
     coreConfig?: CoreConfig,
-    fullConfig?: Brikko StudioConfig,
+    fullConfig?: BrikkoStudioConfig,
     agentRuntime?: CoreAgentDeps,
     logger?: Logger,
   ) {
@@ -283,14 +283,14 @@ export class VoiceCallWebhookServer {
   private async initializeMediaStreaming(): Promise<void> {
     const streaming = this.config.streaming;
     const pluginConfig =
-      this.fullConfig ?? (this.coreConfig as unknown as Brikko StudioConfig | undefined);
+      this.fullConfig ?? (this.coreConfig as unknown as BrikkoStudioConfig | undefined);
     const { getRealtimeTranscriptionProvider, listRealtimeTranscriptionProviders } =
       await loadRealtimeTranscriptionRuntime();
     const resolution = resolveConfiguredCapabilityProvider({
       configuredProviderId: streaming.provider,
       providerConfigs: streaming.providers,
       cfg: pluginConfig,
-      cfgForResolve: pluginConfig ?? ({} as Brikko StudioConfig),
+      cfgForResolve: pluginConfig ?? ({} as BrikkoStudioConfig),
       getConfiguredProvider: (providerId) =>
         getRealtimeTranscriptionProvider(providerId, pluginConfig),
       listProviders: () => listRealtimeTranscriptionProviders(pluginConfig),

@@ -9,7 +9,7 @@ export function buildPairingReply(params: {
   const { channel, idLine, code } = params;
   const approveCommand = formatCliCommand(`brikko-studio pairing approve ${channel} ${code}`);
   return [
-    "Brikko Studio: access not configured.",
+    "BrikkoStudio: access not configured.",
     "",
     idLine,
     "Pairing code:",

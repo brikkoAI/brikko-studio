@@ -12,7 +12,7 @@ const contextTestState = vi.hoisted(() => {
   const state = {
     loadConfigImpl: () => ({}) as unknown,
     discoveredModels: [] as DiscoveredModel[],
-    ensureBrikko StudioModelsJson: vi.fn(async () => {}),
+    ensureBrikkoStudioModelsJson: vi.fn(async () => {}),
     discoverAuthStorage: vi.fn(() => ({})),
     discoverModels: vi.fn(() => ({
       getAll: () => state.discoveredModels,
@@ -26,11 +26,11 @@ vi.mock("../config/config.js", () => ({
 }));
 
 vi.mock("./models-config.runtime.js", () => ({
-  ensureBrikko StudioModelsJson: contextTestState.ensureBrikko StudioModelsJson,
+  ensureBrikkoStudioModelsJson: contextTestState.ensureBrikkoStudioModelsJson,
 }));
 
 vi.mock("./agent-paths.js", () => ({
-  resolveBrikko StudioAgentDir: () => "/tmp/brikko-studio-agent",
+  resolveBrikkoStudioAgentDir: () => "/tmp/brikko-studio-agent",
 }));
 
 vi.mock("./pi-model-discovery-runtime.js", () => ({
@@ -44,8 +44,8 @@ function mockContextDeps(params: {
 }) {
   contextTestState.loadConfigImpl = params.getRuntimeConfig;
   contextTestState.discoveredModels = params.discoveredModels ?? [];
-  contextTestState.ensureBrikko StudioModelsJson.mockClear();
-  return { ensureBrikko StudioModelsJson: contextTestState.ensureBrikko StudioModelsJson };
+  contextTestState.ensureBrikkoStudioModelsJson.mockClear();
+  return { ensureBrikkoStudioModelsJson: contextTestState.ensureBrikkoStudioModelsJson };
 }
 
 function mockContextModuleDeps(loadConfigImpl: () => unknown) {
@@ -112,7 +112,7 @@ describe("lookupContextTokens", () => {
   beforeEach(() => {
     contextTestState.loadConfigImpl = () => ({});
     contextTestState.discoveredModels = [];
-    contextTestState.ensureBrikko StudioModelsJson.mockClear();
+    contextTestState.ensureBrikkoStudioModelsJson.mockClear();
     contextTestState.discoverAuthStorage.mockClear();
     contextTestState.discoverModels.mockClear();
     contextModule.resetContextWindowCacheForTest();

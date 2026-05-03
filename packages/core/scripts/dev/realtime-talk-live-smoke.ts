@@ -181,7 +181,7 @@ async function createGoogleLiveToken(apiKey: string): Promise<string> {
               prebuiltVoiceConfig: { voiceName: GOOGLE_REALTIME_VOICE },
             },
           },
-          systemInstruction: "Brikko Studio browser Talk live smoke.",
+          systemInstruction: "BrikkoStudio browser Talk live smoke.",
           inputAudioTranscription: {},
           outputAudioTranscription: {},
         },

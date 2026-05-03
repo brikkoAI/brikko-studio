@@ -11,18 +11,18 @@ import {
   resolveAgentWorkspaceDir,
   resolveDefaultModelForAgent,
 } from "brikko-studio/plugin-sdk/agent-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   resolveLivePluginConfigObject,
   resolvePluginConfigObject,
 } from "brikko-studio/plugin-sdk/plugin-config-runtime";
-import { definePluginEntry, type Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import { definePluginEntry, type BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import { parseAgentSessionKey, parseThreadSessionSuffix } from "brikko-studio/plugin-sdk/routing";
 import {
   resolveSessionStoreEntry,
   updateSessionStore,
 } from "brikko-studio/plugin-sdk/session-store-runtime";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 
 const DEFAULT_TIMEOUT_MS = 15_000;
 const DEFAULT_AGENT_ID = "main";
@@ -430,7 +430,7 @@ function toSafeTranscriptAgentDirName(agentId: string): string {
   return encoded ? encoded : "unknown-agent";
 }
 
-function resolvePersistentTranscriptBaseDir(api: Brikko StudioPluginApi, agentId: string): string {
+function resolvePersistentTranscriptBaseDir(api: BrikkoStudioPluginApi, agentId: string): string {
   return path.join(
     api.runtime.state.resolveStateDir(),
     "plugins",
@@ -442,7 +442,7 @@ function resolvePersistentTranscriptBaseDir(api: Brikko StudioPluginApi, agentId
 }
 
 function resolveCanonicalSessionKeyFromSessionId(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   agentId: string;
   sessionId?: string;
 }): string | undefined {
@@ -494,7 +494,7 @@ function normalizeOptionalString(value: unknown): string | undefined {
 }
 
 function resolveRecallRunChannelContext(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   agentId: string;
   sessionKey?: string;
   sessionId?: string;
@@ -577,7 +577,7 @@ function resolveRecallRunChannelContext(params: {
   }
 }
 
-function resolveToggleStatePath(api: Brikko StudioPluginApi): string {
+function resolveToggleStatePath(api: BrikkoStudioPluginApi): string {
   return path.join(
     api.runtime.state.resolveStateDir(),
     "plugins",
@@ -632,7 +632,7 @@ async function writeToggleStore(statePath: string, store: ActiveMemoryToggleStor
 }
 
 async function isSessionActiveMemoryDisabled(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   sessionKey?: string;
 }): Promise<boolean> {
   const sessionKey = params.sessionKey?.trim();
@@ -651,7 +651,7 @@ async function isSessionActiveMemoryDisabled(params: {
 }
 
 async function setSessionActiveMemoryDisabled(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   sessionKey: string;
   disabled: boolean;
 }): Promise<void> {
@@ -669,7 +669,7 @@ async function setSessionActiveMemoryDisabled(params: {
 }
 
 function resolveCommandSessionKey(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   config: ResolvedActiveRecallPluginConfig;
   sessionKey?: string;
   sessionId?: string;
@@ -707,7 +707,7 @@ function formatActiveMemoryCommandHelp(): string {
   ].join("\n");
 }
 
-function isActiveMemoryGloballyEnabled(cfg: Brikko StudioConfig): boolean {
+function isActiveMemoryGloballyEnabled(cfg: BrikkoStudioConfig): boolean {
   const entry = asRecord(cfg.plugins?.entries?.["active-memory"]);
   if (entry?.enabled === false) {
     return false;
@@ -717,9 +717,9 @@ function isActiveMemoryGloballyEnabled(cfg: Brikko StudioConfig): boolean {
 }
 
 function updateActiveMemoryGlobalEnabledInConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   enabled: boolean,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const entries = { ...cfg.plugins?.entries };
   const existingEntry = asRecord(entries["active-memory"]) ?? {};
   const existingConfig = asRecord(existingEntry.config) ?? {};
@@ -815,9 +815,9 @@ function normalizePluginConfig(pluginConfig: unknown): ResolvedActiveRecallPlugi
 }
 
 function applyActiveMemoryRuntimeConfigSnapshot(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   pluginConfig: ResolvedActiveRecallPluginConfig,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const existingEntry = asRecord(cfg.plugins?.entries?.["active-memory"]);
   const existingPluginConfig = asRecord(existingEntry?.config);
   return {
@@ -1388,7 +1388,7 @@ function sanitizeDebugText(text: string): string {
 }
 
 async function persistPluginStatusLines(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   agentId: string;
   sessionKey?: string;
   statusLine?: string;
@@ -2176,7 +2176,7 @@ function parseModelCandidate(modelRef: string | undefined, defaultProvider = DEF
 }
 
 function getModelRef(
-  api: Brikko StudioPluginApi,
+  api: BrikkoStudioPluginApi,
   agentId: string,
   config: ResolvedActiveRecallPluginConfig,
   ctx?: {
@@ -2208,7 +2208,7 @@ function getModelRef(
 }
 
 async function runRecallSubagent(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   config: ResolvedActiveRecallPluginConfig;
   agentId: string;
   sessionKey?: string;
@@ -2252,7 +2252,7 @@ async function runRecallSubagent(params: {
     : `agent:${params.agentId}:${subagentSuffix}`;
   const tempDir = params.config.persistTranscripts
     ? undefined
-    : await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-active-memory-"));
+    : await fs.mkdtemp(path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-active-memory-"));
   const persistedDir = params.config.persistTranscripts
     ? resolveSafeTranscriptDir(
         resolvePersistentTranscriptBaseDir(params.api, params.agentId),
@@ -2351,7 +2351,7 @@ async function runRecallSubagent(params: {
 }
 
 async function maybeResolveActiveRecall(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   config: ResolvedActiveRecallPluginConfig;
   agentId: string;
   sessionKey?: string;
@@ -2629,7 +2629,7 @@ export default definePluginEntry({
   id: "active-memory",
   name: "Active Memory",
   description: "Proactively surfaces relevant memory before eligible conversational replies.",
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     let config = normalizePluginConfig(api.pluginConfig);
     const warnDeprecatedModelFallbackPolicy = (pluginConfig: unknown) => {
       if (hasDeprecatedModelFallbackPolicy(pluginConfig)) {
@@ -2653,7 +2653,7 @@ export default definePluginEntry({
     const refreshLiveConfigFromRuntime = () => {
       const livePluginConfig = resolveLivePluginConfigObject(
         api.runtime.config?.current
-          ? () => api.runtime.config.current() as Brikko StudioConfig
+          ? () => api.runtime.config.current() as BrikkoStudioConfig
           : undefined,
         "active-memory",
         api.pluginConfig as Record<string, unknown>,
@@ -2675,7 +2675,7 @@ export default definePluginEntry({
           return { text: formatActiveMemoryCommandHelp() };
         }
         if (isGlobal) {
-          const currentConfig = api.runtime.config.current() as Brikko StudioConfig;
+          const currentConfig = api.runtime.config.current() as BrikkoStudioConfig;
           if (action === "status") {
             return {
               text: `Active Memory: ${isActiveMemoryGloballyEnabled(currentConfig) ? "on" : "off"} globally.`,

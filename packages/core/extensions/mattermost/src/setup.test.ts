@@ -1,14 +1,14 @@
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/setup";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig, Brikko StudioPluginApi } from "../runtime-api.js";
+import type { BrikkoStudioConfig, BrikkoStudioPluginApi } from "../runtime-api.js";
 
 const resolveMattermostAccount = vi.hoisted(() => vi.fn());
 const normalizeMattermostBaseUrl = vi.hoisted(() => vi.fn((value: string | undefined) => value));
 const hasConfiguredSecretInput = vi.hoisted(() => vi.fn((value: unknown) => Boolean(value)));
 
 vi.mock("./setup.accounts.runtime.js", () => ({
-  listMattermostAccountIds: vi.fn((cfg: Brikko StudioConfig) => {
+  listMattermostAccountIds: vi.fn((cfg: BrikkoStudioConfig) => {
     const accounts = cfg.channels?.mattermost?.accounts;
     const ids = accounts ? Object.keys(accounts) : [];
     return ids.length > 0 ? ids : [DEFAULT_ACCOUNT_ID];
@@ -42,15 +42,15 @@ vi.mock("./setup.secret-input.runtime.js", () => ({
 }));
 
 function createApi(
-  registrationMode: Brikko StudioPluginApi["registrationMode"],
+  registrationMode: BrikkoStudioPluginApi["registrationMode"],
   registerHttpRoute = vi.fn(),
-): Brikko StudioPluginApi {
+): BrikkoStudioPluginApi {
   return createTestPluginApi({
     id: "mattermost",
     name: "Mattermost",
     source: "test",
     config: {},
-    runtime: {} as Brikko StudioPluginApi["runtime"],
+    runtime: {} as BrikkoStudioPluginApi["runtime"],
     registrationMode,
     registerHttpRoute,
   });
@@ -68,7 +68,7 @@ describe("mattermost setup", () => {
     ({ isMattermostConfigured, resolveMattermostAccountWithSecrets, mattermostSetupAdapter } =
       await import("./setup-core.js"));
     plugin = {
-      register(api: Brikko StudioPluginApi) {
+      register(api: BrikkoStudioPluginApi) {
         if (api.registrationMode === "full") {
           api.registerHttpRoute({
             path: "/api/channels/mattermost/command",
@@ -256,7 +256,7 @@ describe("mattermost setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expect(configured).toBe(true);
@@ -281,7 +281,7 @@ describe("mattermost setup", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       accountId: undefined,
     });
 
@@ -295,7 +295,7 @@ describe("mattermost setup", () => {
           channels: {
             mattermost: {},
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         accountId: "default",
       } as never),
     ).toBe(true);
@@ -313,7 +313,7 @@ describe("mattermost setup", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         accountId: "default",
       } as never),
     ).toBe(false);
@@ -325,14 +325,14 @@ describe("mattermost setup", () => {
 
     expect(
       mattermostSetupWizard.envShortcut?.isAvailable?.({
-        cfg: { channels: { mattermost: {} } } as Brikko StudioConfig,
+        cfg: { channels: { mattermost: {} } } as BrikkoStudioConfig,
         accountId: "default",
       } as never),
     ).toBe(true);
 
     expect(
       mattermostSetupWizard.envShortcut?.isAvailable?.({
-        cfg: { channels: { mattermost: {} } } as Brikko StudioConfig,
+        cfg: { channels: { mattermost: {} } } as BrikkoStudioConfig,
         accountId: "work",
       } as never),
     ).toBe(false);
@@ -341,7 +341,7 @@ describe("mattermost setup", () => {
   it("keeps env shortcut as a no-op patch for the selected account", () => {
     expect(
       mattermostSetupWizard.envShortcut?.apply?.({
-        cfg: { channels: { mattermost: { enabled: false } } } as Brikko StudioConfig,
+        cfg: { channels: { mattermost: { enabled: false } } } as BrikkoStudioConfig,
         accountId: "default",
       } as never),
     ).toEqual({

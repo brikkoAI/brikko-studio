@@ -14,7 +14,7 @@ import {
 import { buildGatewaySessionRow } from "../../gateway/session-utils.js";
 import { withTempConfig } from "../../gateway/test-temp-config.js";
 import { emitAgentEvent, resetAgentEventsForTest } from "../../infra/agent-events.js";
-import { resolvePreferredBrikko StudioTmpDir } from "../../infra/tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../../infra/tmp-brikko-studio-dir.js";
 import { executePluginCommand, validatePluginCommandDefinition } from "../commands.js";
 import { createHookRunner } from "../hooks.js";
 import {
@@ -709,7 +709,7 @@ describe("host-hook fixture plugin contract", () => {
     setActivePluginRegistry(registry.registry);
 
     const stateDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-host-hooks-patch-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-host-hooks-patch-"),
     );
     const storePath = path.join(stateDir, "sessions.json");
     const tempConfig = {
@@ -923,7 +923,7 @@ describe("host-hook fixture plugin contract", () => {
 
   it("reports duplicate next-turn injections as not newly enqueued", async () => {
     const stateDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-host-hooks-injection-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-host-hooks-injection-"),
     );
     const storePath = path.join(stateDir, "sessions.json");
     const tempConfig = {
@@ -1010,7 +1010,7 @@ describe("host-hook fixture plugin contract", () => {
     );
     setActivePluginRegistry(registry);
     const stateDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-host-hooks-stale-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-host-hooks-stale-"),
     );
     const storePath = path.join(stateDir, "sessions.json");
     const tempConfig = {
@@ -1109,7 +1109,7 @@ describe("host-hook fixture plugin contract", () => {
     );
     setActivePluginRegistry(registry);
     const stateDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-host-hooks-order-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-host-hooks-order-"),
     );
     const storePath = path.join(stateDir, "sessions.json");
     const tempConfig = {
@@ -1687,7 +1687,7 @@ describe("host-hook fixture plugin contract", () => {
     });
 
     const stateDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-host-hooks-state-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-host-hooks-state-"),
     );
     const tempConfig = {
       session: { store: path.join(stateDir, "sessions.json") },
@@ -1998,7 +1998,7 @@ describe("host-hook fixture plugin contract", () => {
     });
 
     const stateDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-host-hooks-store-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-host-hooks-store-"),
     );
     const storePath = path.join(stateDir, "sessions.json");
     const tempConfig = {
@@ -2098,7 +2098,7 @@ describe("host-hook fixture plugin contract", () => {
     ).toBe(true);
 
     const stateDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-host-hooks-run-context-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-host-hooks-run-context-"),
     );
     const tempConfig = {
       session: { store: path.join(stateDir, "sessions.json") },
@@ -2158,7 +2158,7 @@ describe("host-hook fixture plugin contract", () => {
     });
 
     const stateDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-host-hooks-restart-state-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-host-hooks-restart-state-"),
     );
     const storePath = path.join(stateDir, "sessions.json");
     const tempConfig = {
@@ -2238,7 +2238,7 @@ describe("host-hook fixture plugin contract", () => {
       }),
     );
     const stateDir = await fs.mkdtemp(
-      path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-host-hooks-injection-only-"),
+      path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-host-hooks-injection-only-"),
     );
     const storePath = path.join(stateDir, "sessions.json");
     const tempConfig = {

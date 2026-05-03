@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import { formatCliCommand } from "../cli/command-format.js";
 import {
   getRuntimeConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   CONFIG_PATH,
   readConfigFileSnapshot,
   replaceConfigFile,
@@ -198,7 +198,7 @@ export async function runGmailSetup(opts: GmailSetupOptions) {
     true,
   );
 
-  const nextConfig: Brikko StudioConfig = {
+  const nextConfig: BrikkoStudioConfig = {
     ...baseConfig,
     hooks: {
       ...baseConfig.hooks,

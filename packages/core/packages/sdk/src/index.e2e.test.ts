@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { WebSocketServer, type RawData, type WebSocket } from "ws";
 import { installGatewayTestHooks, startServer } from "../../../src/gateway/test-helpers.js";
 import { emitAgentEvent, registerAgentRunContext } from "../../../src/infra/agent-events.js";
-import { GatewayClientTransport, Brikko Studio } from "./index.js";
+import { GatewayClientTransport, BrikkoStudio } from "./index.js";
 
 type JsonObject = Record<string, unknown>;
 type FakeGatewayRequest = {
@@ -298,7 +298,7 @@ async function createFakeGateway(port = 0): Promise<FakeGateway> {
   };
 }
 
-describe("Brikko Studio SDK websocket e2e", () => {
+describe("BrikkoStudio SDK websocket e2e", () => {
   afterEach(async () => {
     await Promise.all(
       servers.splice(0).map(
@@ -320,7 +320,7 @@ describe("Brikko Studio SDK websocket e2e", () => {
       deviceIdentity: null,
       requestTimeoutMs: 2_000,
     });
-    const oc = new Brikko Studio({ transport });
+    const oc = new BrikkoStudio({ transport });
     try {
       const agent = await oc.agents.get("main");
       const run = await agent.run({
@@ -375,7 +375,7 @@ describe("Brikko Studio SDK websocket e2e", () => {
       deviceIdentity: null,
       requestTimeoutMs: 2_000,
     });
-    const oc = new Brikko Studio({ transport });
+    const oc = new BrikkoStudio({ transport });
 
     try {
       await expect(oc.agents.list()).resolves.toMatchObject({ agents: [{ id: "main" }] });
@@ -479,7 +479,7 @@ describe("Brikko Studio SDK websocket e2e", () => {
   });
 });
 
-describe("Brikko Studio SDK real Gateway e2e", () => {
+describe("BrikkoStudio SDK real Gateway e2e", () => {
   installGatewayTestHooks({ scope: "test" });
 
   it("streams real Gateway agent events", async () => {
@@ -491,7 +491,7 @@ describe("Brikko Studio SDK real Gateway e2e", () => {
       deviceIdentity: null,
       requestTimeoutMs: 2_000,
     });
-    const oc = new Brikko Studio({ transport });
+    const oc = new BrikkoStudio({ transport });
     const runId = "sdk-real-gateway-run";
 
     try {
@@ -568,9 +568,9 @@ function readLiveTextDelta(data: unknown): string {
   return "";
 }
 
-liveGatewayDescribe("Brikko Studio SDK live Gateway e2e", () => {
+liveGatewayDescribe("BrikkoStudio SDK live Gateway e2e", () => {
   it("connects to a configured Gateway, streams a real run, and waits for completion", async () => {
-    const oc = new Brikko Studio({
+    const oc = new BrikkoStudio({
       url: liveGatewayUrl,
       token: liveGatewayToken,
       requestTimeoutMs: 20_000,

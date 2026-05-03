@@ -288,7 +288,7 @@ const CommitmentsSchema = z
   .strict()
   .optional();
 
-export const Brikko StudioSchema = z
+export const BrikkoStudioSchema = z
   .object({
     $schema: z.string().optional(),
     meta: z

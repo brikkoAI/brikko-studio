@@ -1,5 +1,5 @@
 import { Type } from "typebox";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { SsrFBlockedError, type LookupFn, type SsrFPolicy } from "../../infra/net/ssrf.js";
 import { logDebug } from "../../logger.js";
 import type { RuntimeWebFetchMetadata } from "../../secrets/runtime-web-tools.types.js";
@@ -65,7 +65,7 @@ const WebFetchSchema = Type.Object({
   ),
 });
 
-type WebFetchConfig = NonNullable<Brikko StudioConfig["tools"]>["web"] extends infer Web
+type WebFetchConfig = NonNullable<BrikkoStudioConfig["tools"]>["web"] extends infer Web
   ? Web extends { fetch?: infer Fetch }
     ? Fetch
     : undefined
@@ -99,7 +99,7 @@ async function loadWebGuardedFetch(): Promise<
   return (await webGuardedFetchLoader.load()).fetchWithWebToolsNetworkGuard;
 }
 
-function resolveFetchConfig(cfg?: Brikko StudioConfig): WebFetchConfig {
+function resolveFetchConfig(cfg?: BrikkoStudioConfig): WebFetchConfig {
   return resolveWebProviderConfig(cfg, "fetch") as NonNullable<WebFetchConfig> | undefined;
 }
 
@@ -272,7 +272,7 @@ type WebFetchRuntimeParams = {
   cacheTtlMs: number;
   userAgent: string;
   readabilityEnabled: boolean;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   ssrfPolicy?: {
     allowRfc2544BenchmarkRange?: boolean;
     allowIpv6UniqueLocalRange?: boolean;
@@ -605,7 +605,7 @@ async function runWebFetch(params: WebFetchRuntimeParams): Promise<Record<string
 }
 
 export function createWebFetchTool(options?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   sandboxed?: boolean;
   runtimeWebFetch?: RuntimeWebFetchMetadata;
   lookupFn?: LookupFn;

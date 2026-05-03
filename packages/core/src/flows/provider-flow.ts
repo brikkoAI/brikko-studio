@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizePluginsConfig, resolveEffectiveEnableState } from "../plugins/config-state.js";
 import { resolveManifestProviderAuthChoices } from "../plugins/provider-auth-choices.js";
 import { resolveProviderInstallCatalogEntries } from "../plugins/provider-install-catalog.js";
@@ -31,7 +31,7 @@ function includesProviderFlowScope(
 }
 
 function resolveInstallCatalogProviderSetupFlowContributions(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   scope?: ProviderFlowScope;
@@ -87,7 +87,7 @@ function resolveInstallCatalogProviderSetupFlowContributions(params?: {
 }
 
 function resolveManifestProviderSetupFlowContributions(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   scope?: ProviderFlowScope;
@@ -132,7 +132,7 @@ function resolveManifestProviderSetupFlowContributions(params?: {
 }
 
 export function resolveProviderSetupFlowContributions(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   scope?: ProviderFlowScope;

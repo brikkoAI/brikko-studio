@@ -1,6 +1,6 @@
 import { ChannelType } from "discord-api-types/v10";
 import { expectPairingReplyText } from "brikko-studio/plugin-sdk/channel-test-helpers";
-import type { DiscordAccountConfig, Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { DiscordAccountConfig, BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { buildAgentSessionKey } from "brikko-studio/plugin-sdk/routing";
 import { peekSystemEvents, resetSystemEventsForTest } from "brikko-studio/plugin-sdk/test-fixtures";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -36,7 +36,7 @@ describe("agent components", () => {
     peer: { kind: "group", id: "group-dm-channel" },
   });
 
-  const createCfg = (): Brikko StudioConfig => ({}) as Brikko StudioConfig;
+  const createCfg = (): BrikkoStudioConfig => ({}) as BrikkoStudioConfig;
   const createBaseDmInteraction = (overrides: Record<string, unknown> = {}) => {
     const reply = vi.fn().mockResolvedValue(undefined);
     const defer = vi.fn().mockResolvedValue(undefined);

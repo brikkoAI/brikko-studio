@@ -344,7 +344,7 @@ describe("runQaCharacterEval", () => {
         outputDir: params.outputDir,
         model: params.primaryModel,
         transcript:
-          "USER Alice: Are you awake?\n\nASSISTANT Brikko Studio QA: 400 model `qwen3.6-plus` is not supported.",
+          "USER Alice: Are you awake?\n\nASSISTANT BrikkoStudio QA: 400 model `qwen3.6-plus` is not supported.",
       }),
     );
     const runJudge = makeRunJudge([
@@ -372,7 +372,7 @@ describe("runQaCharacterEval", () => {
       makeSuiteResult({
         outputDir: params.outputDir,
         model: params.primaryModel,
-        transcript: "ASSISTANT Brikko Studio QA: ⚠️ ✍️ Write: to /tmp/precious.html failed",
+        transcript: "ASSISTANT BrikkoStudio QA: ⚠️ ✍️ Write: to /tmp/precious.html failed",
       }),
     );
     const runJudge = makeRunJudge([
@@ -401,7 +401,7 @@ describe("runQaCharacterEval", () => {
         outputDir: params.outputDir,
         model: params.primaryModel,
         transcript:
-          "ASSISTANT Brikko Studio QA: ⚠️ Something went wrong while processing your request. Please try again, or use /new to start a fresh session.",
+          "ASSISTANT BrikkoStudio QA: ⚠️ Something went wrong while processing your request. Please try again, or use /new to start a fresh session.",
       }),
     );
     const runJudge = makeRunJudge([
@@ -430,7 +430,7 @@ describe("runQaCharacterEval", () => {
         outputDir: params.outputDir,
         model: params.primaryModel,
         transcript:
-          "ASSISTANT Brikko Studio QA: The model did not produce a response before the LLM idle timeout. Please try again, or increase `agents.defaults.llm.idleTimeoutSeconds` in your config.",
+          "ASSISTANT BrikkoStudio QA: The model did not produce a response before the LLM idle timeout. Please try again, or increase `agents.defaults.llm.idleTimeoutSeconds` in your config.",
       }),
     );
     const runJudge = makeRunJudge([
@@ -459,7 +459,7 @@ describe("runQaCharacterEval", () => {
         outputDir: params.outputDir,
         model: params.primaryModel,
         transcript:
-          "ASSISTANT Brikko Studio QA: checking thread context; then post a tight progress reply here.\nQA_LEAK_OK",
+          "ASSISTANT BrikkoStudio QA: checking thread context; then post a tight progress reply here.\nQA_LEAK_OK",
       }),
     );
     const runJudge = makeRunJudge([

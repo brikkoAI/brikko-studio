@@ -25,7 +25,7 @@ async function collectStreamEvents<T>(stream: AsyncIterable<T>): Promise<T[]> {
   return events;
 }
 
-async function withTempBrikko StudioState<T>(run: (paths: { root: string }) => Promise<T>): Promise<T> {
+async function withTempBrikkoStudioState<T>(run: (paths: { root: string }) => Promise<T>): Promise<T> {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "brikko-studio-ollama-cli-live-"));
   try {
     await fs.writeFile(
@@ -53,7 +53,7 @@ async function withTempBrikko StudioState<T>(run: (paths: { root: string }) => P
   }
 }
 
-async function runBrikko StudioCli(args: string[], env: NodeJS.ProcessEnv) {
+async function runBrikkoStudioCli(args: string[], env: NodeJS.ProcessEnv) {
   const outputRoot = fsSync.mkdtempSync(path.join(os.tmpdir(), "brikko-studio-ollama-cli-output-"));
   const stdoutPath = path.join(outputRoot, "stdout.txt");
   const stderrPath = path.join(outputRoot, "stderr.txt");
@@ -116,8 +116,8 @@ function buildCliEnv(root: string): NodeJS.ProcessEnv {
 
 describe.skipIf(!LIVE)("ollama live", () => {
   it("runs infer model run through the local CLI path without PI model discovery", async () => {
-    await withTempBrikko StudioState(async ({ root }) => {
-      const result = await runBrikko StudioCli(
+    await withTempBrikkoStudioState(async ({ root }) => {
+      const result = await runBrikkoStudioCli(
         [
           "infer",
           "model",
@@ -273,7 +273,7 @@ describe.skipIf(!LIVE)("ollama live", () => {
       }
 
       const result = (await tool.execute({
-        query: "Brikko Studio documentation",
+        query: "BrikkoStudio documentation",
         count: 1,
       })) as {
         provider?: string;

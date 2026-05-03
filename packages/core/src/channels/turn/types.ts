@@ -8,7 +8,7 @@ import type { ReplyDispatcherWithTypingOptions } from "../../auto-reply/reply/re
 import type { ReplyDispatchKind } from "../../auto-reply/reply/reply-dispatcher.types.js";
 import type { FinalizedMsgContext, MsgContext } from "../../auto-reply/templating.js";
 import type { GroupKeyResolution } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { InboundLastRouteUpdate, RecordInboundSession } from "../session.types.js";
 
 export type ChannelTurnAdmission =
@@ -204,7 +204,7 @@ export type ChannelTurnDispatcherOptions = Omit<
 >;
 
 export type AssembledChannelTurn = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: string;
   accountId?: string;
   agentId: string;

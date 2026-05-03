@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 
 const hoisted = vi.hoisted(() => ({
   resolveCommandSecretRefsViaGatewayMock: vi.fn(),
@@ -44,9 +44,9 @@ describe("resolveQueuedReplyExecutionConfig channel scope", () => {
   });
 
   it("resolves base runtime targets, then active channel/account targets from originating context", async () => {
-    const sourceConfig = { source: true } as unknown as Brikko StudioConfig;
-    const baseResolved = { baseResolved: true } as unknown as Brikko StudioConfig;
-    const scopedResolved = { scopedResolved: true } as unknown as Brikko StudioConfig;
+    const sourceConfig = { source: true } as unknown as BrikkoStudioConfig;
+    const baseResolved = { baseResolved: true } as unknown as BrikkoStudioConfig;
+    const scopedResolved = { scopedResolved: true } as unknown as BrikkoStudioConfig;
     hoisted.resolveCommandSecretRefsViaGatewayMock
       .mockResolvedValueOnce({
         resolvedConfig: baseResolved,
@@ -71,7 +71,7 @@ describe("resolveQueuedReplyExecutionConfig channel scope", () => {
     expect(resolved).toBe(scopedResolved);
     expect(hoisted.resolveCommandSecretRefsViaGatewayMock).toHaveBeenCalledTimes(2);
     const baseCall = hoisted.resolveCommandSecretRefsViaGatewayMock.mock.calls[0]?.[0] as {
-      config: Brikko StudioConfig;
+      config: BrikkoStudioConfig;
       commandName: string;
       targetIds: Set<string>;
     };
@@ -84,7 +84,7 @@ describe("resolveQueuedReplyExecutionConfig channel scope", () => {
       accountId: "work",
     });
     const scopedCall = hoisted.resolveCommandSecretRefsViaGatewayMock.mock.calls[1]?.[0] as {
-      config: Brikko StudioConfig;
+      config: BrikkoStudioConfig;
       commandName: string;
       targetIds: Set<string>;
       allowedPaths?: Set<string>;
@@ -98,7 +98,7 @@ describe("resolveQueuedReplyExecutionConfig channel scope", () => {
   });
 
   it("falls back to messageProvider and agentAccountId when originating values are missing", async () => {
-    const sourceConfig = { source: true } as unknown as Brikko StudioConfig;
+    const sourceConfig = { source: true } as unknown as BrikkoStudioConfig;
 
     await resolveQueuedReplyExecutionConfig(sourceConfig, {
       messageProvider: "discord",
@@ -113,7 +113,7 @@ describe("resolveQueuedReplyExecutionConfig channel scope", () => {
   });
 
   it("skips scoped channel resolution when no active channel can be resolved", async () => {
-    const sourceConfig = { source: true } as unknown as Brikko StudioConfig;
+    const sourceConfig = { source: true } as unknown as BrikkoStudioConfig;
 
     const resolved = await resolveQueuedReplyExecutionConfig(sourceConfig);
 
@@ -123,8 +123,8 @@ describe("resolveQueuedReplyExecutionConfig channel scope", () => {
   });
 
   it("prefers the runtime snapshot as the base config for secret resolution", async () => {
-    const sourceConfig = { source: true } as unknown as Brikko StudioConfig;
-    const runtimeConfig = { runtime: true } as unknown as Brikko StudioConfig;
+    const sourceConfig = { source: true } as unknown as BrikkoStudioConfig;
+    const runtimeConfig = { runtime: true } as unknown as BrikkoStudioConfig;
     setRuntimeConfigSnapshot(runtimeConfig, sourceConfig);
     hoisted.getScopedChannelsCommandSecretTargetsMock.mockReturnValue({
       targetIds: new Set<string>(),
@@ -135,7 +135,7 @@ describe("resolveQueuedReplyExecutionConfig channel scope", () => {
     });
 
     const baseCall = hoisted.resolveCommandSecretRefsViaGatewayMock.mock.calls[0]?.[0] as {
-      config: Brikko StudioConfig;
+      config: BrikkoStudioConfig;
       commandName: string;
     };
     expect(baseCall.config).toBe(runtimeConfig);
@@ -157,7 +157,7 @@ describe("resolveQueuedReplyExecutionConfig channel scope", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     const staleRuntimeConfig = {
       models: {
         providers: {
@@ -167,7 +167,7 @@ describe("resolveQueuedReplyExecutionConfig channel scope", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     const scopedResolvedConfig = {
       models: {
         providers: {
@@ -182,7 +182,7 @@ describe("resolveQueuedReplyExecutionConfig channel scope", () => {
           planTool: true,
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
     setRuntimeConfigSnapshot(staleRuntimeConfig, sourceConfig);
 
     expect(resolveQueuedReplyRuntimeConfig(structuredClone(sourceConfig))).toBe(staleRuntimeConfig);

@@ -3,7 +3,7 @@ import {
   canonicalizeMainSessionAlias,
   resolveAgentMainSessionKey,
 } from "../../config/sessions/main-session.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeOptionalLowercaseString } from "../../shared/string-coerce.js";
 import { resolveSessionAgentId } from "../agent-scope.js";
 import { resolveSandboxConfigForAgent } from "./config.js";
@@ -24,7 +24,7 @@ function shouldSandboxSession(cfg: SandboxConfig, sessionKey: string, mainSessio
 }
 
 function resolveMainSessionKeyForSandbox(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentId: string;
 }): string {
   if (params.cfg?.session?.scope === "global") {
@@ -37,7 +37,7 @@ function resolveMainSessionKeyForSandbox(params: {
 }
 
 function resolveComparableSessionKeyForSandbox(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentId: string;
   sessionKey: string;
 }): string {
@@ -49,7 +49,7 @@ function resolveComparableSessionKeyForSandbox(params: {
 }
 
 export function resolveSandboxRuntimeStatus(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   sessionKey?: string;
 }): {
   agentId: string;
@@ -126,7 +126,7 @@ function shellEscapeSingleArg(value: string): string {
 }
 
 export function formatSandboxToolPolicyBlockedMessage(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   sessionKey?: string;
   toolName: string;
 }): string | undefined {

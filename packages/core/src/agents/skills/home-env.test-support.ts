@@ -3,14 +3,14 @@ import { vi } from "vitest";
 
 export type SkillsHomeEnvSnapshot = {
   previousHome: string | undefined;
-  previousBrikko StudioHome: string | undefined;
+  previousBrikkoStudioHome: string | undefined;
   previousUserProfile: string | undefined;
 };
 
 export function setMockSkillsHomeEnv(fakeHome: string): SkillsHomeEnvSnapshot {
   const snapshot: SkillsHomeEnvSnapshot = {
     previousHome: process.env.HOME,
-    previousBrikko StudioHome: process.env.BRIKKO_STUDIO_HOME,
+    previousBrikkoStudioHome: process.env.BRIKKO_STUDIO_HOME,
     previousUserProfile: process.env.USERPROFILE,
   };
   process.env.HOME = fakeHome;
@@ -30,10 +30,10 @@ export async function restoreMockSkillsHomeEnv(
   } else {
     process.env.HOME = snapshot.previousHome;
   }
-  if (snapshot.previousBrikko StudioHome === undefined) {
+  if (snapshot.previousBrikkoStudioHome === undefined) {
     delete process.env.BRIKKO_STUDIO_HOME;
   } else {
-    process.env.BRIKKO_STUDIO_HOME = snapshot.previousBrikko StudioHome;
+    process.env.BRIKKO_STUDIO_HOME = snapshot.previousBrikkoStudioHome;
   }
   if (snapshot.previousUserProfile === undefined) {
     delete process.env.USERPROFILE;

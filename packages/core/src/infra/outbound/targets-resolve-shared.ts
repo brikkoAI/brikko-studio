@@ -2,7 +2,7 @@ import { mapAllowFromEntries } from "brikko-studio/plugin-sdk/channel-config-hel
 import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
 import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.public.js";
 import { formatCliCommand } from "../../cli/command-format.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { INTERNAL_MESSAGE_CHANNEL } from "../../utils/message-channel-constants.js";
 import type { GatewayMessageChannel } from "../../utils/message-channel.js";
 import { validateTargetProviderPrefix } from "./channel-target-prefix.js";
@@ -14,7 +14,7 @@ export type ResolveOutboundTargetParams = {
   channel: GatewayMessageChannel;
   to?: string;
   allowFrom?: string[];
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   accountId?: string | null;
   mode?: ChannelOutboundTargetMode;
 };

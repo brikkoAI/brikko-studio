@@ -3,7 +3,7 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { escapeRegExp, formatEnvelopeTimestamp } from "brikko-studio/plugin-sdk/channel-test-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { setLoggerOverride } from "brikko-studio/plugin-sdk/runtime-env";
 import { withEnvAsync } from "brikko-studio/plugin-sdk/test-env";
 import { beforeAll, describe, expect, it, vi } from "vitest";
@@ -616,7 +616,7 @@ describe("web auto-reply connection", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     await monitorWebChannel(
       false,
@@ -648,7 +648,7 @@ describe("web auto-reply connection", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     await monitorWebChannel(
       false,
@@ -684,7 +684,7 @@ describe("web auto-reply connection", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
     setRuntimeConfigSourceSnapshotMock(null);
 
     await monitorWebChannel(
@@ -872,7 +872,7 @@ describe("web auto-reply connection", () => {
       return { text: "final reply" };
     });
 
-    const mockConfig: Brikko StudioConfig = {
+    const mockConfig: BrikkoStudioConfig = {
       channels: { whatsapp: { allowFrom: ["*"] } },
     };
 

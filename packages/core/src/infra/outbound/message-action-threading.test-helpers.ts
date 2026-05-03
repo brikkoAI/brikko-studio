@@ -1,8 +1,8 @@
 import { vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
 type AutoThreadResolver = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   to: string;
   toolContext?: Record<string, unknown>;
@@ -10,7 +10,7 @@ type AutoThreadResolver = (params: {
 }) => string | undefined;
 
 type OutboundThreadContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   accountId?: string | null;
   toolContext?: Record<string, unknown>;
@@ -127,7 +127,7 @@ export function createOutboundThreadingMock() {
         resolveAutoThreadId,
       }: {
         actionParams: Record<string, unknown>;
-        cfg: Brikko StudioConfig;
+        cfg: BrikkoStudioConfig;
         to: string;
         accountId?: string | null;
         toolContext?: Record<string, unknown>;

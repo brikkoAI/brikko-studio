@@ -1,7 +1,7 @@
 import {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/account-resolution";
 import {
   hasConfiguredSecretInput,
@@ -65,7 +65,7 @@ function inspectSlackToken(value: unknown): {
 }
 
 export function inspectSlackAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   envBotToken?: string | null;
   envAppToken?: string | null;

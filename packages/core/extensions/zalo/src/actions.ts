@@ -3,7 +3,7 @@ import type {
   ChannelMessageActionAdapter,
   ChannelMessageActionName,
 } from "brikko-studio/plugin-sdk/channel-contract";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { createLazyRuntimeNamedExport } from "brikko-studio/plugin-sdk/lazy-runtime";
 import { extractToolSend } from "brikko-studio/plugin-sdk/tool-send";
 import { listEnabledZaloAccounts, resolveZaloAccount } from "./accounts.js";
@@ -15,7 +15,7 @@ const loadZaloActionsRuntime = createLazyRuntimeNamedExport(
 
 const providerId = "zalo";
 
-function listEnabledAccounts(cfg: Brikko StudioConfig, accountId?: string | null) {
+function listEnabledAccounts(cfg: BrikkoStudioConfig, accountId?: string | null) {
   return (
     accountId ? [resolveZaloAccount({ cfg, accountId })] : listEnabledZaloAccounts(cfg)
   ).filter((account) => account.enabled && account.tokenSource !== "none");

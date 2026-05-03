@@ -26,7 +26,7 @@ export type {
 } from "brikko-studio/plugin-sdk/channel-contract";
 export type {
   ChannelPlugin,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   PluginRuntime,
 } from "brikko-studio/plugin-sdk/channel-core";
 export { parseFiniteNumber } from "brikko-studio/plugin-sdk/number-runtime";

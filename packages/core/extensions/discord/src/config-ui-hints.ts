@@ -91,7 +91,7 @@ export const discordChannelConfigUiHints = {
   },
   "eventQueue.listenerTimeout": {
     label: "Discord EventQueue Listener Timeout (ms)",
-    help: "Canonical Discord listener timeout control in ms for gateway normalization/enqueue handlers. Default is 120000 in Brikko Studio; set per account via channels.discord.accounts.<id>.eventQueue.listenerTimeout.",
+    help: "Canonical Discord listener timeout control in ms for gateway normalization/enqueue handlers. Default is 120000 in BrikkoStudio; set per account via channels.discord.accounts.<id>.eventQueue.listenerTimeout.",
   },
   "eventQueue.maxQueueSize": {
     label: "Discord EventQueue Max Queue Size",
@@ -175,7 +175,7 @@ export const discordChannelConfigUiHints = {
   },
   "voice.reconnectGraceMs": {
     label: "Discord Voice Reconnect Grace (ms)",
-    help: "Grace period for a disconnected Discord voice session to enter Signalling or Connecting before Brikko Studio destroys it. Default: 15000.",
+    help: "Grace period for a disconnected Discord voice session to enter Signalling or Connecting before BrikkoStudio destroys it. Default: 15000.",
   },
   "voice.tts": {
     label: "Discord Voice Text-to-Speech",

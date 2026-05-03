@@ -1,8 +1,8 @@
 import { callGatewayTool } from "brikko-studio/plugin-sdk/agent-harness-runtime";
 import type {
   AnyAgentTool,
-  Brikko StudioPluginApi,
-  Brikko StudioPluginToolContext,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginToolContext,
 } from "brikko-studio/plugin-sdk/core";
 import { RemindSchema, executeScheduledRemind } from "../../engine/tools/remind-logic.js";
 import type { RemindCronAction, RemindParams } from "../../engine/tools/remind-logic.js";
@@ -43,7 +43,7 @@ const defaultDeps: RemindToolDeps = {
 };
 
 export function createRemindTool(
-  toolContext: Brikko StudioPluginToolContext = {},
+  toolContext: BrikkoStudioPluginToolContext = {},
   deps: RemindToolDeps = defaultDeps,
 ): AnyAgentTool {
   return {
@@ -86,6 +86,6 @@ export function createRemindTool(
   };
 }
 
-export function registerRemindTool(api: Brikko StudioPluginApi): void {
+export function registerRemindTool(api: BrikkoStudioPluginApi): void {
   api.registerTool((ctx) => createRemindTool(ctx), { name: "qqbot_remind" });
 }

@@ -1,5 +1,5 @@
 import { resolveCommandAuthorizedFromAuthorizers } from "brikko-studio/plugin-sdk/command-auth-native";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { DiscordAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveOpenProviderRuntimeGroupPolicy } from "brikko-studio/plugin-sdk/runtime-group-policy";
 import type { Guild } from "../internal/discord.js";
@@ -13,7 +13,7 @@ import {
 } from "../monitor/allow-list.js";
 
 export async function authorizeDiscordVoiceIngress(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   discordConfig: DiscordAccountConfig;
   groupPolicy?: "open" | "disabled" | "allowlist";
   useAccessGroups?: boolean;

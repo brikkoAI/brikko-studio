@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { ChannelSetupPlugin } from "../../channels/plugins/setup-wizard-types.js";
 import type { ChannelSetupWizard } from "../../channels/plugins/setup-wizard.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { createChannelTestPluginBase } from "../../test-utils/channel-plugins.js";
 import { resolveChannelSetupWizardAdapterForPlugin } from "./registry.js";
 
@@ -14,7 +14,7 @@ function createSetupPlugin(params: {
       label: "Demo",
     }),
     setup: {
-      applyAccountConfig: ({ cfg }: { cfg: Brikko StudioConfig }) => cfg,
+      applyAccountConfig: ({ cfg }: { cfg: BrikkoStudioConfig }) => cfg,
     },
     setupWizard: params.setupWizard,
   };
@@ -49,7 +49,7 @@ describe("resolveChannelSetupWizardAdapterForPlugin", () => {
         configured: false,
         statusLines: [],
       }),
-      configure: async ({ cfg }: { cfg: Brikko StudioConfig }) => ({ cfg }),
+      configure: async ({ cfg }: { cfg: BrikkoStudioConfig }) => ({ cfg }),
     };
     const plugin = createSetupPlugin({ setupWizard });
 

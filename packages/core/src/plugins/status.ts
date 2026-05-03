@@ -1,8 +1,8 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { resolveDefaultAgentWorkspaceDir } from "../agents/workspace.js";
 import { getRuntimeConfig } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
-import { normalizeBrikko StudioVersionBase } from "../config/version.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
+import { normalizeBrikkoStudioVersionBase } from "../config/version.js";
 import { listImportedBundledPluginFacadeIds } from "../plugin-sdk/facade-runtime.js";
 import { resolveCompatibilityHostVersion } from "../version.js";
 import { inspectBundleLspRuntimeSupport } from "./bundle-lsp.js";
@@ -19,7 +19,7 @@ import {
   type PluginCapabilityEntry,
   type PluginInspectShape,
 } from "./inspect-shape.js";
-import { loadBrikko StudioPlugins } from "./loader.js";
+import { loadBrikkoStudioPlugins } from "./loader.js";
 import type { PluginManifestRecord } from "./manifest-registry.js";
 import type { PluginDiagnostic } from "./manifest-types.js";
 import { tracePluginLifecyclePhase } from "./plugin-lifecycle-trace.js";
@@ -145,21 +145,21 @@ function resolveReportedPluginVersion(
     return plugin.version;
   }
   return (
-    normalizeBrikko StudioVersionBase(resolveCompatibilityHostVersion(env)) ??
-    normalizeBrikko StudioVersionBase(plugin.version) ??
+    normalizeBrikkoStudioVersionBase(resolveCompatibilityHostVersion(env)) ??
+    normalizeBrikkoStudioVersionBase(plugin.version) ??
     plugin.version
   );
 }
 
 type PluginReportParams = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   effectiveOnly?: boolean;
   onlyPluginIds?: readonly string[];
   workspaceDir?: string;
   /** Use an explicit env when plugin roots should resolve independently from process.env. */
   env?: NodeJS.ProcessEnv;
   logger?: PluginLogger;
-  resolvedConfig?: Brikko StudioConfig;
+  resolvedConfig?: BrikkoStudioConfig;
 };
 
 function buildPluginRecordFromInstalledIndex(
@@ -322,7 +322,7 @@ function buildPluginReport(
     ? tracePluginLifecyclePhase(
         "runtime plugin registry load",
         () =>
-          loadBrikko StudioPlugins(
+          loadBrikkoStudioPlugins(
             buildPluginRuntimeLoadOptions(context, {
               config: runtimeCompatConfig,
               activationSourceConfig: rawConfig,
@@ -392,12 +392,12 @@ export function buildPluginDiagnosticsReport(params?: PluginReportParams): Plugi
 
 export function buildPluginInspectReport(params: {
   id: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   logger?: PluginLogger;
   report?: PluginStatusReport;
-  resolvedConfig?: Brikko StudioConfig;
+  resolvedConfig?: BrikkoStudioConfig;
 }): PluginInspectReport | null {
   const rawConfig = params.config ?? getRuntimeConfig();
   const config =
@@ -525,7 +525,7 @@ export function buildPluginInspectReport(params: {
 }
 
 export function buildAllPluginInspectReports(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   logger?: PluginLogger;
@@ -563,7 +563,7 @@ export function buildAllPluginInspectReports(params?: {
 }
 
 export function buildPluginCompatibilityWarnings(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   logger?: PluginLogger;
@@ -573,7 +573,7 @@ export function buildPluginCompatibilityWarnings(params?: {
 }
 
 export function buildPluginCompatibilityNotices(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   logger?: PluginLogger;
@@ -583,7 +583,7 @@ export function buildPluginCompatibilityNotices(params?: {
 }
 
 export function buildPluginCompatibilitySnapshotNotices(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): PluginCompatibilityNotice[] {

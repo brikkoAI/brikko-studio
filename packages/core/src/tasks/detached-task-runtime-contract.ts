@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type {
   TaskDeliveryState,
   TaskDeliveryStatus,
@@ -100,7 +100,7 @@ export type DetachedTaskDeliveryStatusParams = {
 };
 
 export type DetachedTaskCancelParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   taskId: string;
 };
 

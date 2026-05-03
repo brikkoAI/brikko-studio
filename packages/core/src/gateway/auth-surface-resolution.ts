@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { hasConfiguredSecretInput } from "../config/types.secrets.js";
 import { trimToUndefined, type ExplicitGatewayAuth } from "./credentials.js";
 import { resolveConfiguredSecretInputString } from "./resolve-configured-secret-input-string.js";
@@ -15,7 +15,7 @@ type ResolvedGatewayCredential = {
 };
 
 async function resolveGatewayCredential(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   diagnostics: string[];
   path: GatewayCredentialPath;
@@ -44,7 +44,7 @@ function withDiagnostics<T extends object>(params: {
 }
 
 export async function resolveGatewayProbeSurfaceAuth(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   surface: "local" | "remote";
 }): Promise<{ token?: string; password?: string; diagnostics?: string[] }> {
@@ -142,7 +142,7 @@ export async function resolveGatewayProbeSurfaceAuth(params: {
 }
 
 export async function resolveGatewayInteractiveSurfaceAuth(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   explicitAuth?: ExplicitGatewayAuth;
   suppressEnvAuthFallback?: boolean;

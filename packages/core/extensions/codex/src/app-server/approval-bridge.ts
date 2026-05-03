@@ -304,7 +304,7 @@ function requestedPermissions(requestParams: JsonObject | undefined): JsonObject
 function unsupportedApprovalResponse(): JsonValue {
   return {
     decision: "decline",
-    reason: "Brikko Studio codex app-server bridge does not grant native approvals yet.",
+    reason: "BrikkoStudio codex app-server bridge does not grant native approvals yet.",
   };
 }
 

@@ -1,5 +1,5 @@
 import { normalizeConfiguredMcpServers } from "../config/mcp-config-normalize.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   loadEnabledBundleMcpConfig,
   type BundleMcpConfig,
@@ -22,10 +22,10 @@ const BRIKKO_STUDIO_TRANSPORT_TO_CLI_BUNDLE_TYPE: Record<string, string> = {
 };
 
 /**
- * User config stores Brikko Studio MCP transport names, while CLI backends such as
+ * User config stores BrikkoStudio MCP transport names, while CLI backends such as
  * Claude Code and Gemini expect a downstream `type` field. Keep this adapter
  * out of the generic merge path because embedded Pi still consumes the raw
- * Brikko Studio `transport` shape directly.
+ * BrikkoStudio `transport` shape directly.
  */
 export function toCliBundleMcpServerConfig(server: BundleMcpServerConfig): BundleMcpServerConfig {
   const next = { ...server } as Record<string, unknown>;
@@ -45,7 +45,7 @@ export function toCliBundleMcpServerConfig(server: BundleMcpServerConfig): Bundl
 
 export function loadMergedBundleMcpConfig(params: {
   workspaceDir: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   mapConfiguredServer?: BundleMcpServerMapper;
 }): MergedBundleMcpConfig {
   const bundleMcp = loadEnabledBundleMcpConfig({
@@ -57,7 +57,7 @@ export function loadMergedBundleMcpConfig(params: {
 
   return {
     config: {
-      // Brikko Studio config is the owner-managed layer, so it overrides bundle defaults.
+      // BrikkoStudio config is the owner-managed layer, so it overrides bundle defaults.
       mcpServers: {
         ...bundleMcp.config.mcpServers,
         ...Object.fromEntries(

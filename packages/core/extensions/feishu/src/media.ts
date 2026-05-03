@@ -5,7 +5,7 @@ import type * as Lark from "@larksuiteoapi/node-sdk";
 import { mediaKindFromMime } from "brikko-studio/plugin-sdk/media-mime";
 import { MEDIA_FFMPEG_MAX_AUDIO_DURATION_SECS, runFfmpeg } from "brikko-studio/plugin-sdk/media-runtime";
 import {
-  resolvePreferredBrikko StudioTmpDir,
+  resolvePreferredBrikkoStudioTmpDir,
   withTempDownloadPath,
 } from "brikko-studio/plugin-sdk/temp-path";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
@@ -741,7 +741,7 @@ async function transcodeToFeishuVoiceOpus(params: {
   fileName: string;
   contentType?: string;
 }): Promise<{ buffer: Buffer; fileName: string; contentType: string }> {
-  const tempRoot = resolvePreferredBrikko StudioTmpDir();
+  const tempRoot = resolvePreferredBrikkoStudioTmpDir();
   await fs.promises.mkdir(tempRoot, { recursive: true, mode: 0o700 });
   const tempDir = await fs.promises.mkdtemp(path.join(tempRoot, "feishu-voice-"));
   try {

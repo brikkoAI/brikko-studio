@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createLazyImportLoader, type LazyPromiseLoader } from "../shared/lazy-promise.js";
 import { MODEL_CONTEXT_TOKEN_CACHE } from "./context-cache.js";
 
@@ -6,7 +6,7 @@ const CONTEXT_WINDOW_RUNTIME_STATE_KEY = Symbol.for("brikko-studio.contextWindow
 
 type ContextWindowRuntimeState = {
   loadPromise: Promise<void> | null;
-  configuredConfig: Brikko StudioConfig | undefined;
+  configuredConfig: BrikkoStudioConfig | undefined;
   configLoadFailures: number;
   nextConfigLoadAttemptAtMs: number;
   modelsConfigRuntimeLoader: LazyPromiseLoader<typeof import("./models-config.runtime.js")>;

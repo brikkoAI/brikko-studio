@@ -53,7 +53,7 @@ vi.mock("../../config/plugin-auto-enable.js", () => ({
   applyPluginAutoEnable: (a: unknown) => applyPluginAutoEnable(a as { config: unknown }),
 }));
 vi.mock("../../plugins/loader.js", () => ({
-  loadBrikko StudioPlugins: vi.fn(),
+  loadBrikkoStudioPlugins: vi.fn(),
 }));
 
 import { resolveChannelSetupEntries } from "./discovery.js";

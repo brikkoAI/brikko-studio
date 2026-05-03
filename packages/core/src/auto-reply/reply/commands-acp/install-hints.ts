@@ -1,13 +1,13 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { resolveBundledPluginInstallCommandHint } from "../../../plugins/bundled-sources.js";
 import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "../../../shared/string-coerce.js";
 
-export function resolveAcpInstallCommandHint(cfg: Brikko StudioConfig): string {
+export function resolveAcpInstallCommandHint(cfg: BrikkoStudioConfig): string {
   const configured = normalizeOptionalString(cfg.acp?.runtime?.installCommand);
   if (configured) {
     return configured;

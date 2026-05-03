@@ -6,7 +6,7 @@ import {
   createSandboxSshConfig,
 } from "brikko-studio/plugin-sdk/test-fixtures";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { SandboxConfig } from "./types.js";
 
 const sshMocks = vi.hoisted(() => ({
@@ -31,7 +31,7 @@ vi.mock("./ssh.js", async () => {
 
 const { createSshSandboxBackend, sshSandboxBackendManager } = await import("./ssh-backend.js");
 
-function createConfig(): Brikko StudioConfig {
+function createConfig(): BrikkoStudioConfig {
   return {
     agents: {
       defaults: {

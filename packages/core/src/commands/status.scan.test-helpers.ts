@@ -1,6 +1,6 @@
 import type { Mock } from "vitest";
 import { vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 
 type UnknownMock = Mock<(...args: unknown[]) => unknown>;
 type ResolveConfigPathMock = Mock<() => string>;
@@ -184,7 +184,7 @@ export async function loadStatusScanModuleForTest(
   }));
   vi.doMock("../plugins/channel-plugin-ids.js", () => ({
     hasConfiguredChannelsForReadOnlyScope: (params: {
-      config: Brikko StudioConfig;
+      config: BrikkoStudioConfig;
       env?: NodeJS.ProcessEnv;
       includePersistedAuthState?: boolean;
     }) =>
@@ -198,7 +198,7 @@ export async function loadStatusScanModuleForTest(
         ),
       ),
     listConfiguredChannelIdsForReadOnlyScope: (params: {
-      config: Brikko StudioConfig;
+      config: BrikkoStudioConfig;
       env?: NodeJS.ProcessEnv;
       includePersistedAuthState?: boolean;
     }) =>
@@ -282,14 +282,14 @@ export async function loadStatusScanModuleForTest(
   return await import("./status.scan.js");
 }
 
-export function createStatusScanConfig<T extends object = Brikko StudioConfig>(
+export function createStatusScanConfig<T extends object = BrikkoStudioConfig>(
   overrides: T = {} as T,
-): Brikko StudioConfig & T {
+): BrikkoStudioConfig & T {
   return {
     session: {},
     gateway: {},
     ...overrides,
-  } as Brikko StudioConfig & T;
+  } as BrikkoStudioConfig & T;
 }
 
 export function createStatusSummary(
@@ -369,7 +369,7 @@ function createStatusGatewayProbeFailure() {
   };
 }
 
-export function createStatusMemorySearchConfig(): Brikko StudioConfig {
+export function createStatusMemorySearchConfig(): BrikkoStudioConfig {
   return createStatusScanConfig({
     agents: {
       defaults: {
@@ -397,8 +397,8 @@ export function applyStatusScanDefaults(
   mocks: StatusScanSharedMocks,
   options: {
     hasConfiguredChannels?: boolean;
-    sourceConfig?: Brikko StudioConfig;
-    resolvedConfig?: Brikko StudioConfig;
+    sourceConfig?: BrikkoStudioConfig;
+    resolvedConfig?: BrikkoStudioConfig;
     summary?: ReturnType<typeof createStatusSummary>;
     update?: ReturnType<typeof createStatusUpdateResult> | false;
     gatewayProbe?: ReturnType<typeof createStatusGatewayProbeFailure> | false;

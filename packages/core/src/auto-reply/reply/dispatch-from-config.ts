@@ -27,7 +27,7 @@ import { applyMergePatch } from "../../config/merge-patch.js";
 import { resolveGroupSessionKey } from "../../config/sessions/group.js";
 import { parseSessionThreadInfoFast } from "../../config/sessions/thread-info.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { logVerbose } from "../../globals.js";
 import { fireAndForgetHook } from "../../hooks/fire-and-forget.js";
 import {
@@ -207,7 +207,7 @@ const resolveRoutedPolicyConversationType = (
 
 const resolveSessionStoreLookup = (
   ctx: FinalizedMsgContext,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): {
   sessionKey?: string;
   storePath?: string;
@@ -240,7 +240,7 @@ const resolveSessionStoreLookup = (
 
 const resolveBoundAcpDispatchSessionKey = (params: {
   ctx: FinalizedMsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): string | undefined => {
   const bindingContext = resolveConversationBindingContextFromMessage({
     cfg: params.cfg,
@@ -292,7 +292,7 @@ const createShouldEmitVerboseProgress = (params: {
 };
 
 const resolveHarnessSourceVisibleRepliesDefault = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   ctx: FinalizedMsgContext;
   entry?: SessionEntry;
   sessionAgentId: string;
@@ -1230,7 +1230,7 @@ export async function dispatchReplyFromConfig(
     const replyResolver =
       params.replyResolver ?? (await loadGetReplyFromConfigRuntime()).getReplyFromConfig;
     const replyConfig = withFullRuntimeReplyConfig(
-      params.configOverride ? (applyMergePatch(cfg, params.configOverride) as Brikko StudioConfig) : cfg,
+      params.configOverride ? (applyMergePatch(cfg, params.configOverride) as BrikkoStudioConfig) : cfg,
     );
     const replyResult = await replyResolver(
       ctx,

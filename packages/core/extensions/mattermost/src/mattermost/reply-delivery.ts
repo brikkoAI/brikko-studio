@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig, PluginRuntime } from "brikko-studio/plugin-sdk/core";
+import type { BrikkoStudioConfig, PluginRuntime } from "brikko-studio/plugin-sdk/core";
 import { getAgentScopedMediaLocalRoots } from "brikko-studio/plugin-sdk/media-runtime";
 import {
   deliverTextOrMediaReply,
@@ -13,7 +13,7 @@ type SendMattermostMessage = (
   to: string,
   text: string,
   opts: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string;
     mediaUrl?: string;
     mediaLocalRoots?: readonly string[];
@@ -23,7 +23,7 @@ type SendMattermostMessage = (
 
 export async function deliverMattermostReplyPayload(params: {
   core: PluginRuntime;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   payload: ReplyPayload;
   to: string;
   accountId: string;

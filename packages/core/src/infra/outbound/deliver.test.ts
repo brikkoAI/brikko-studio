@@ -2,7 +2,7 @@ import path from "node:path";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { chunkText } from "../../auto-reply/chunk.js";
 import type { ChannelOutboundAdapter } from "../../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import * as mediaCapabilityModule from "../../media/read-capability.js";
 import { createHookRunner } from "../../plugins/hooks.js";
 import { addTestHook } from "../../plugins/hooks.test-helpers.js";
@@ -19,7 +19,7 @@ import {
   resetDiagnosticEventsForTest,
   type DiagnosticEventPayload,
 } from "../diagnostic-events.js";
-import { resolvePreferredBrikko StudioTmpDir } from "../tmp-brikko-studio-dir.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../tmp-brikko-studio-dir.js";
 
 const mocks = vi.hoisted(() => ({
   appendAssistantMessageToSessionTranscript: vi.fn(async () => ({ ok: true, sessionFile: "x" })),
@@ -101,11 +101,11 @@ type DeliverModule = typeof import("./deliver.js");
 let deliverOutboundPayloads: DeliverModule["deliverOutboundPayloads"];
 let normalizeOutboundPayloads: DeliverModule["normalizeOutboundPayloads"];
 
-const matrixChunkConfig: Brikko StudioConfig = {
-  channels: { matrix: { textChunkLimit: 4000 } } as Brikko StudioConfig["channels"],
+const matrixChunkConfig: BrikkoStudioConfig = {
+  channels: { matrix: { textChunkLimit: 4000 } } as BrikkoStudioConfig["channels"],
 };
 
-const expectedPreferredTmpRoot = resolvePreferredBrikko StudioTmpDir();
+const expectedPreferredTmpRoot = resolvePreferredBrikkoStudioTmpDir();
 
 type DeliverOutboundArgs = Parameters<DeliverModule["deliverOutboundPayloads"]>[0];
 type DeliverOutboundPayload = DeliverOutboundArgs["payloads"][number];
@@ -170,7 +170,7 @@ const matrixOutboundForTest: ChannelOutboundAdapter = {
 async function deliverMatrixPayload(params: {
   sendMatrix: MatrixSendFn;
   payload: DeliverOutboundPayload;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
 }) {
   return deliverOutboundPayloads({
     cfg: params.cfg ?? matrixChunkConfig,
@@ -188,8 +188,8 @@ async function runChunkedMatrixDelivery(params?: {
     .fn()
     .mockResolvedValueOnce({ messageId: "m1", roomId: "!room:example" })
     .mockResolvedValueOnce({ messageId: "m2", roomId: "!room:example" });
-  const cfg: Brikko StudioConfig = {
-    channels: { matrix: { textChunkLimit: 2 } } as Brikko StudioConfig["channels"],
+  const cfg: BrikkoStudioConfig = {
+    channels: { matrix: { textChunkLimit: 2 } } as BrikkoStudioConfig["channels"],
   };
   const results = await deliverOutboundPayloads({
     cfg,
@@ -224,7 +224,7 @@ async function runBestEffortPartialFailureDelivery() {
     .mockRejectedValueOnce(new Error("fail"))
     .mockResolvedValueOnce({ messageId: "m2", roomId: "!room:example" });
   const onError = vi.fn();
-  const cfg: Brikko StudioConfig = {};
+  const cfg: BrikkoStudioConfig = {};
   const results = await deliverOutboundPayloads({
     cfg,
     channel: "matrix",
@@ -518,7 +518,7 @@ describe("deliverOutboundPayloads", () => {
     );
 
     const results = await deliverOutboundPayloads({
-      cfg: { channels: { matrix: { textChunkLimit: 2 } } } as Brikko StudioConfig,
+      cfg: { channels: { matrix: { textChunkLimit: 2 } } } as BrikkoStudioConfig,
       channel: "matrix",
       to: "!room",
       accountId: "default",
@@ -568,7 +568,7 @@ describe("deliverOutboundPayloads", () => {
     );
 
     await deliverOutboundPayloads({
-      cfg: { channels: { matrix: { textChunkLimit: 2 } } } as Brikko StudioConfig,
+      cfg: { channels: { matrix: { textChunkLimit: 2 } } } as BrikkoStudioConfig,
       channel: "matrix",
       to: "!room",
       payloads: [{ text: "abcd" }],
@@ -952,7 +952,7 @@ describe("deliverOutboundPayloads", () => {
     );
 
     const textResults = await deliverOutboundPayloads({
-      cfg: { channels: { line: {} } } as Brikko StudioConfig,
+      cfg: { channels: { line: {} } } as BrikkoStudioConfig,
       channel: "line",
       to: "U123",
       accountId: "default",
@@ -973,7 +973,7 @@ describe("deliverOutboundPayloads", () => {
       "fmt:hello **boss**:2",
     ]);
 
-    const cfg = { channels: { line: {} } } as Brikko StudioConfig;
+    const cfg = { channels: { line: {} } } as BrikkoStudioConfig;
     await deliverOutboundPayloads({
       cfg,
       channel: "line",
@@ -1002,11 +1002,11 @@ describe("deliverOutboundPayloads", () => {
     expect(sendMedia).not.toHaveBeenCalled();
   });
 
-  it("includes Brikko Studio tmp root in plugin mediaLocalRoots", async () => {
+  it("includes BrikkoStudio tmp root in plugin mediaLocalRoots", async () => {
     const sendMatrix = vi.fn().mockResolvedValue({ messageId: "m-media", roomId: "!room" });
 
     await deliverOutboundPayloads({
-      cfg: { channels: { matrix: {} } } as Brikko StudioConfig,
+      cfg: { channels: { matrix: {} } } as BrikkoStudioConfig,
       channel: "matrix",
       to: "!room:example",
       payloads: [{ text: "hi", mediaUrl: "https://example.com/x.png" }],
@@ -1047,7 +1047,7 @@ describe("deliverOutboundPayloads", () => {
           matrix: {
             allowFrom: ["111", "222", "333"],
           },
-        } as Brikko StudioConfig["channels"],
+        } as BrikkoStudioConfig["channels"],
       },
       channel: "matrix",
       to: "!explicit:example",
@@ -1093,7 +1093,7 @@ describe("deliverOutboundPayloads", () => {
     );
 
     await deliverOutboundPayloads({
-      cfg: { channels: { matrix: {} } } as Brikko StudioConfig,
+      cfg: { channels: { matrix: {} } } as BrikkoStudioConfig,
       channel: "matrix",
       to: "room:!room:example",
       payloads: [{ text: "voice caption", mediaUrl: "file:///tmp/clip.mp3", audioAsVoice: true }],
@@ -1137,7 +1137,7 @@ describe("deliverOutboundPayloads", () => {
     );
 
     await deliverOutboundPayloads({
-      cfg: { channels: { matrix: {} } } as Brikko StudioConfig,
+      cfg: { channels: { matrix: {} } } as BrikkoStudioConfig,
       channel: "matrix",
       to: "room:!room:example",
       payloads: [
@@ -1180,10 +1180,10 @@ describe("deliverOutboundPayloads", () => {
 
   it("respects newline chunk mode for plugin text", async () => {
     const sendMatrix = vi.fn().mockResolvedValue({ messageId: "m1", roomId: "!room:example" });
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: {
         matrix: { textChunkLimit: 4000, chunkMode: "newline" },
-      } as Brikko StudioConfig["channels"],
+      } as BrikkoStudioConfig["channels"],
     };
 
     await deliverOutboundPayloads({
@@ -1240,7 +1240,7 @@ describe("deliverOutboundPayloads", () => {
     );
 
     await deliverOutboundPayloads({
-      cfg: { channels: { matrix: { textChunkLimit: 4000 } } } as Brikko StudioConfig,
+      cfg: { channels: { matrix: { textChunkLimit: 4000 } } } as BrikkoStudioConfig,
       channel: "matrix",
       to: "!room",
       payloads: [{ text: "abcd" }],
@@ -1286,7 +1286,7 @@ describe("deliverOutboundPayloads", () => {
     );
 
     await deliverOutboundPayloads({
-      cfg: { channels: { matrix: { textChunkLimit: 4000 } } } as Brikko StudioConfig,
+      cfg: { channels: { matrix: { textChunkLimit: 4000 } } } as BrikkoStudioConfig,
       channel: "matrix",
       to: "!room",
       payloads: [{ text: "line one\nline two" }],
@@ -1356,7 +1356,7 @@ describe("deliverOutboundPayloads", () => {
       ]),
     );
 
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       channels: { matrix: { textChunkLimit: 4000, chunkMode: "newline" } },
     };
     const text = "```js\nconst a = 1;\nconst b = 2;\n```\nAfter";
@@ -1383,7 +1383,7 @@ describe("deliverOutboundPayloads", () => {
         },
       ]),
     );
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: { defaults: { mediaMaxMb: 3 } },
     };
 
@@ -1583,7 +1583,7 @@ describe("deliverOutboundPayloads", () => {
 
   it("applies silent-reply rewrite policy from the outbound session", async () => {
     const sendMatrix = vi.fn().mockResolvedValue({ messageId: "m-silent", roomId: "!room" });
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       agents: {
         defaults: {
           silentReply: {
@@ -1658,7 +1658,7 @@ describe("deliverOutboundPayloads", () => {
     const sendMatrix = vi.fn().mockResolvedValue({ messageId: "m1", roomId: "!room:example" });
     const abortController = new AbortController();
     abortController.abort();
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
 
     await expect(
       deliverOutboundPayloads({
@@ -1679,7 +1679,7 @@ describe("deliverOutboundPayloads", () => {
   it("passes normalized payload to onError", async () => {
     const sendMatrix = vi.fn().mockRejectedValue(new Error("boom"));
     const onError = vi.fn();
-    const cfg: Brikko StudioConfig = {};
+    const cfg: BrikkoStudioConfig = {};
 
     await deliverOutboundPayloads({
       cfg,
@@ -1717,7 +1717,7 @@ describe("deliverOutboundPayloads", () => {
     );
     mocks.appendAssistantMessageToSessionTranscript.mockClear();
 
-    const cfg = { channels: { line: {} } } as Brikko StudioConfig;
+    const cfg = { channels: { line: {} } } as BrikkoStudioConfig;
     await deliverOutboundPayloads({
       cfg,
       channel: "line",

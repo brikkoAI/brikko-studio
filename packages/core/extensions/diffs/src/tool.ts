@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
 import { Static, Type } from "typebox";
-import type { AnyAgentTool, Brikko StudioPluginApi, Brikko StudioPluginToolContext } from "../api.js";
+import type { AnyAgentTool, BrikkoStudioPluginApi, BrikkoStudioPluginToolContext } from "../api.js";
 import { PlaywrightDiffScreenshotter, type DiffScreenshotter } from "./browser.js";
 import { resolveDiffImageRenderOptions } from "./config.js";
 import { renderDiffDocument } from "./render.js";
@@ -158,12 +158,12 @@ type DiffsToolRawParams = DiffsToolParams & {
 };
 
 export function createDiffsTool(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   store: DiffArtifactStore;
   defaults: DiffToolDefaults;
   viewerBaseUrl?: string;
   screenshotter?: DiffScreenshotter;
-  context?: Brikko StudioPluginToolContext;
+  context?: BrikkoStudioPluginToolContext;
 }): AnyAgentTool {
   return {
     name: "diffs",
@@ -438,7 +438,7 @@ async function renderDiffArtifactFile(params: {
 }
 
 function buildArtifactContext(
-  context: Brikko StudioPluginToolContext | undefined,
+  context: BrikkoStudioPluginToolContext | undefined,
 ): DiffArtifactContext | undefined {
   if (!context) {
     return undefined;

@@ -35,10 +35,10 @@ describe("tmp-brikko-studio-dir browser-safe import", () => {
       plugins: [nodeShimPlugin],
       stdin: {
         contents: `
-          import { POSIX_BRIKKO_STUDIO_TMP_DIR, resolvePreferredBrikko StudioTmpDir } from "./src/infra/tmp-brikko-studio-dir.ts";
+          import { POSIX_BRIKKO_STUDIO_TMP_DIR, resolvePreferredBrikkoStudioTmpDir } from "./src/infra/tmp-brikko-studio-dir.ts";
           globalThis.${resultKey} = {
             posixTmpDir: POSIX_BRIKKO_STUDIO_TMP_DIR,
-            resolverType: typeof resolvePreferredBrikko StudioTmpDir,
+            resolverType: typeof resolvePreferredBrikkoStudioTmpDir,
           };
         `,
         loader: "ts",

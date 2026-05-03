@@ -42,7 +42,7 @@ import {
   type PackageManifest as PluginPackageManifest,
 } from "./manifest.js";
 import { validatePackageExtensionEntriesForInstall } from "./package-entry-resolution.js";
-import { linkBrikko StudioPeerDependencies } from "./plugin-peer-link.js";
+import { linkBrikkoStudioPeerDependencies } from "./plugin-peer-link.js";
 
 export { resolvePluginInstallDir } from "./install-paths.js";
 
@@ -118,7 +118,7 @@ type PluginInstallPolicyRequest = {
 
 const defaultLogger: PluginInstallLogger = {};
 
-function ensureBrikko StudioExtensions(params: { manifest: PackageManifest }):
+function ensureBrikkoStudioExtensions(params: { manifest: PackageManifest }):
   | {
       ok: true;
       entries: string[];
@@ -629,7 +629,7 @@ async function detectNativePackageInstallSource(packageDir: string): Promise<boo
 
   try {
     const manifest = await runtime.readJsonFile<PackageManifest>(manifestPath);
-    return ensureBrikko StudioExtensions({ manifest }).ok;
+    return ensureBrikkoStudioExtensions({ manifest }).ok;
   } catch {
     return false;
   }
@@ -675,7 +675,7 @@ async function validatePackagePluginInstallSource(params: {
     return { ok: false, error: `invalid package.json: ${String(err)}` };
   }
 
-  const extensionsResult = ensureBrikko StudioExtensions({
+  const extensionsResult = ensureBrikkoStudioExtensions({
     manifest,
   });
   if (!extensionsResult.ok) {
@@ -744,13 +744,13 @@ async function validatePackagePluginInstallSource(params: {
     if (minHostVersionCheck.kind === "unknown_host_version") {
       return {
         ok: false,
-        error: `plugin "${pluginId}" requires Brikko Studio >=${minHostVersionCheck.requirement.minimumLabel}, but this host version could not be determined. Re-run from a released build or set BRIKKO_STUDIO_VERSION and retry.`,
+        error: `plugin "${pluginId}" requires BrikkoStudio >=${minHostVersionCheck.requirement.minimumLabel}, but this host version could not be determined. Re-run from a released build or set BRIKKO_STUDIO_VERSION and retry.`,
         code: PLUGIN_INSTALL_ERROR_CODE.UNKNOWN_HOST_VERSION,
       };
     }
     return {
       ok: false,
-      error: `plugin "${pluginId}" requires Brikko Studio >=${minHostVersionCheck.requirement.minimumLabel}, but this host is ${minHostVersionCheck.currentVersion}. Upgrade Brikko Studio and retry.`,
+      error: `plugin "${pluginId}" requires BrikkoStudio >=${minHostVersionCheck.requirement.minimumLabel}, but this host is ${minHostVersionCheck.currentVersion}. Upgrade BrikkoStudio and retry.`,
       code: PLUGIN_INSTALL_ERROR_CODE.INCOMPATIBLE_HOST_VERSION,
     };
   }
@@ -830,7 +830,7 @@ async function scanAndLinkInstalledPackage(params: {
   if (scanResult) {
     return scanResult;
   }
-  await linkBrikko StudioPeerDependencies({
+  await linkBrikkoStudioPeerDependencies({
     installedDir: params.installedDir,
     peerDependencies: params.peerDependencies,
     logger: params.logger,

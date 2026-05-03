@@ -217,7 +217,7 @@ describe("createDiscordGatewayPlugin", () => {
     );
   });
 
-  it("leaves autoInteractions disabled so Brikko Studio owns interaction handoff", () => {
+  it("leaves autoInteractions disabled so BrikkoStudio owns interaction handoff", () => {
     const plugin = createPlugin();
 
     expect((plugin as unknown as { options?: { autoInteractions?: boolean } }).options).toEqual(
@@ -225,7 +225,7 @@ describe("createDiscordGatewayPlugin", () => {
     );
   });
 
-  it("keeps Brikko Studio metadata timeout out of gateway options", () => {
+  it("keeps BrikkoStudio metadata timeout out of gateway options", () => {
     const plugin = createDiscordGatewayPlugin({
       discordConfig: { gatewayInfoTimeoutMs: 5_000 },
       runtime: {

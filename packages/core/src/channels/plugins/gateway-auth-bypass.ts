@@ -1,8 +1,8 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { loadBundledPluginPublicArtifactModuleSync } from "../../plugins/public-surface-loader.js";
 
 type GatewayAuthBypassApi = {
-  resolveGatewayAuthBypassPaths?: (params: { cfg: Brikko StudioConfig }) => readonly unknown[];
+  resolveGatewayAuthBypassPaths?: (params: { cfg: BrikkoStudioConfig }) => readonly unknown[];
 };
 
 const GATEWAY_AUTH_API_ARTIFACT_BASENAME = "gateway-auth-api.js";
@@ -24,7 +24,7 @@ function loadBundledChannelGatewayAuthApi(channelId: string): GatewayAuthBypassA
 
 export function resolveBundledChannelGatewayAuthBypassPaths(params: {
   channelId: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): string[] {
   const api = loadBundledChannelGatewayAuthApi(params.channelId);
   const paths = api?.resolveGatewayAuthBypassPaths?.({ cfg: params.cfg }) ?? [];

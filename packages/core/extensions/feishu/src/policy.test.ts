@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/core";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/core";
 import { describe, expect, it } from "vitest";
 import { FeishuConfigSchema } from "./config-schema.js";
 import {
@@ -10,12 +10,12 @@ import {
 } from "./policy.js";
 import type { FeishuConfig } from "./types.js";
 
-function createCfg(feishu: Record<string, unknown>): Brikko StudioConfig {
+function createCfg(feishu: Record<string, unknown>): BrikkoStudioConfig {
   return {
     channels: {
       feishu,
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createFeishuConfig(overrides: Partial<FeishuConfig>): FeishuConfig {

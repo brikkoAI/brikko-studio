@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/routing";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { handleWhatsAppAction, whatsAppActionRuntime } from "./action-runtime.js";
@@ -8,13 +8,13 @@ const sendReactionWhatsApp = vi.fn(async () => undefined);
 
 const enabledConfig = {
   channels: { whatsapp: { actions: { reactions: true } } },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 describe("handleWhatsAppAction", () => {
-  function reactionConfig(reactionLevel: "minimal" | "extensive" | "off" | "ack"): Brikko StudioConfig {
+  function reactionConfig(reactionLevel: "minimal" | "extensive" | "off" | "ack"): BrikkoStudioConfig {
     return {
       channels: { whatsapp: { actions: { reactions: true }, reactionLevel } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
   beforeEach(() => {
@@ -193,7 +193,7 @@ describe("handleWhatsAppAction", () => {
   it("respects reaction gating", async () => {
     const cfg = {
       channels: { whatsapp: { actions: { reactions: false } } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     await expect(
       handleWhatsAppAction(
         {
@@ -216,7 +216,7 @@ describe("handleWhatsAppAction", () => {
           messageId: "msg1",
           emoji: "✅",
         },
-        {} as Brikko StudioConfig,
+        {} as BrikkoStudioConfig,
       ),
     ).rejects.toThrow(/WhatsApp reactions are disabled/);
   });
@@ -224,7 +224,7 @@ describe("handleWhatsAppAction", () => {
   it("prefers the action gate error when both actions.reactions and reactionLevel disable reactions", async () => {
     const cfg = {
       channels: { whatsapp: { actions: { reactions: false }, reactionLevel: "ack" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await expect(
       handleWhatsAppAction(
@@ -273,7 +273,7 @@ describe("handleWhatsAppAction", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await expect(
       handleWhatsAppAction(
@@ -303,7 +303,7 @@ describe("handleWhatsAppAction", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     await handleWhatsAppAction(
       {

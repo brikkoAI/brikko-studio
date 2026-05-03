@@ -47,12 +47,12 @@ type RuntimeMutateConfigFileParams<T = void> = {
   afterWrite: RuntimeConfigAfterWrite;
   writeOptions?: RuntimeWriteConfigOptions;
   mutate: (
-    draft: import("../../config/types.brikko-studio.js").Brikko StudioConfig,
+    draft: import("../../config/types.brikko-studio.js").BrikkoStudioConfig,
     context: RuntimeConfigMutationContext,
   ) => Promise<T | void> | T | void;
 };
 type RuntimeReplaceConfigFileParams = {
-  nextConfig: import("../../config/types.brikko-studio.js").Brikko StudioConfig;
+  nextConfig: import("../../config/types.brikko-studio.js").BrikkoStudioConfig;
   baseHash?: string;
   afterWrite: RuntimeConfigAfterWrite;
   writeOptions?: RuntimeWriteConfigOptions;
@@ -96,7 +96,7 @@ export type PluginRuntimeCore = {
   version: string;
   config: {
     /** Current process runtime config snapshot. Prefer config passed into the active call path. */
-    current: () => DeepReadonly<import("../../config/types.brikko-studio.js").Brikko StudioConfig>;
+    current: () => DeepReadonly<import("../../config/types.brikko-studio.js").BrikkoStudioConfig>;
     /**
      * Persist a focused config mutation. Callers must choose the post-write
      * behavior explicitly so the gateway can hot-reload, restart, or defer.
@@ -117,7 +117,7 @@ export type PluginRuntimeCore = {
      * plugins and repo code are blocked from using this by the
      * deprecated-internal-config-api architecture guard.
      */
-    loadConfig: () => import("../../config/types.brikko-studio.js").Brikko StudioConfig;
+    loadConfig: () => import("../../config/types.brikko-studio.js").BrikkoStudioConfig;
     /**
      * @deprecated Use mutateConfigFile() or replaceConfigFile() with an
      * explicit afterWrite intent so restart behavior stays under host control.
@@ -125,7 +125,7 @@ export type PluginRuntimeCore = {
      * deprecated-internal-config-api architecture guard.
      */
     writeConfigFile: (
-      cfg: import("../../config/types.brikko-studio.js").Brikko StudioConfig,
+      cfg: import("../../config/types.brikko-studio.js").BrikkoStudioConfig,
       options?: RuntimeWriteConfigOptions & { afterWrite?: RuntimeConfigAfterWrite },
     ) => Promise<void>;
   };
@@ -138,7 +138,7 @@ export type PluginRuntimeCore = {
     resolveAgentWorkspaceDir: typeof import("../../agents/agent-scope.js").resolveAgentWorkspaceDir;
     resolveAgentIdentity: typeof import("../../agents/identity.js").resolveAgentIdentity;
     resolveThinkingDefault: (params: {
-      cfg: import("../../config/types.brikko-studio.js").Brikko StudioConfig;
+      cfg: import("../../config/types.brikko-studio.js").BrikkoStudioConfig;
       provider: string;
       model: string;
       catalog?: import("../../agents/model-catalog.types.js").ModelCatalogEntry[];
@@ -265,19 +265,19 @@ export type PluginRuntimeCore = {
     /** Resolve auth for a model. Only provider/model, optional cfg, and workspaceDir are used. */
     getApiKeyForModel: (params: {
       model: import("@mariozechner/pi-ai").Model<import("@mariozechner/pi-ai").Api>;
-      cfg?: import("../../config/types.brikko-studio.js").Brikko StudioConfig;
+      cfg?: import("../../config/types.brikko-studio.js").BrikkoStudioConfig;
       workspaceDir?: string;
     }) => Promise<import("../../agents/model-auth-runtime-shared.js").ResolvedProviderAuth>;
     /** Resolve request-ready auth for a model, including provider runtime exchanges. */
     getRuntimeAuthForModel: (params: {
       model: import("@mariozechner/pi-ai").Model<import("@mariozechner/pi-ai").Api>;
-      cfg?: import("../../config/types.brikko-studio.js").Brikko StudioConfig;
+      cfg?: import("../../config/types.brikko-studio.js").BrikkoStudioConfig;
       workspaceDir?: string;
     }) => Promise<import("./model-auth-types.js").ResolvedProviderRuntimeAuth>;
     /** Resolve auth for a provider by name. Only provider, optional cfg, and workspaceDir are used. */
     resolveApiKeyForProvider: (params: {
       provider: string;
-      cfg?: import("../../config/types.brikko-studio.js").Brikko StudioConfig;
+      cfg?: import("../../config/types.brikko-studio.js").BrikkoStudioConfig;
       workspaceDir?: string;
     }) => Promise<import("../../agents/model-auth-runtime-shared.js").ResolvedProviderAuth>;
   };

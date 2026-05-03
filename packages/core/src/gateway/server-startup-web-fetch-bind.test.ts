@@ -1,6 +1,6 @@
 import http from "node:http";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { getFreePort, installGatewayTestHooks, startGatewayServer } from "./test-helpers.js";
 
 const webFetchProviderDiscovery = vi.hoisted(() => ({
@@ -70,7 +70,7 @@ async function requestHealthz(port: number): Promise<{ status: number; body: str
   });
 }
 
-async function writeConfig(config: Brikko StudioConfig): Promise<void> {
+async function writeConfig(config: BrikkoStudioConfig): Promise<void> {
   const { writeConfigFile } = await import("../config/config.js");
   await writeConfigFile(config);
 }
@@ -101,7 +101,7 @@ describe("gateway startup web fetch config", () => {
             },
           },
         },
-      } as Brikko StudioConfig);
+      } as BrikkoStudioConfig);
 
       const port = await getFreePort();
       server = await startGatewayServer(port, {

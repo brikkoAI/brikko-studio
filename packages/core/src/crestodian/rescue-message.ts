@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import type { CommandContext } from "../auto-reply/reply/commands-types.js";
 import { resolveStateDir } from "../config/paths.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import {
   executeCrestodianOperation,
@@ -24,7 +24,7 @@ type RescuePendingOperation = {
 };
 
 export type CrestodianRescueMessageInput = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   command: CommandContext;
   commandBody: string;
   agentId?: string;

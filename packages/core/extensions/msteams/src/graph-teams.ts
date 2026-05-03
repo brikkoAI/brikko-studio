@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import { type GraphResponse, fetchGraphJson, resolveGraphToken } from "./graph.js";
 
 // ---------------------------------------------------------------------------
@@ -15,7 +15,7 @@ type GraphTeamsChannel = {
 };
 
 type ListChannelsMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   teamId: string;
 };
 
@@ -30,7 +30,7 @@ type ListChannelsMSTeamsResult = {
 };
 
 type GetChannelInfoMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   teamId: string;
   channelId: string;
 };

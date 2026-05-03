@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig, ReplyToMode } from "brikko-studio/plugin-sdk/config-types";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import type { TelegramBotDeps } from "./bot-deps.js";
 import type { TelegramBotInfo } from "./bot-info.js";
@@ -14,7 +14,7 @@ export type TelegramBotOptions = {
   mediaMaxMb?: number;
   replyToMode?: ReplyToMode;
   proxyFetch?: typeof fetch;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   /** Bot identity returned by the startup getMe probe. Avoids a duplicate grammY init getMe before polling. */
   botInfo?: TelegramBotInfo;
   /** Signal to abort in-flight Telegram API fetch requests (e.g. getUpdates) on shutdown. */

@@ -3,7 +3,7 @@ import type { ChannelId } from "../../channels/plugins/types.public.js";
 import { resolveCommandConfigWithSecrets } from "../../cli/command-config-resolution.js";
 import type { CommandSecretResolutionMode } from "../../cli/command-secret-gateway.js";
 import { getChannelsCommandSecretTargetIds } from "../../cli/command-secret-targets.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.js";
 import { defaultRuntime, type RuntimeEnv } from "../../runtime.js";
 import {
@@ -22,7 +22,7 @@ export async function requireValidConfig(
     commandName?: string;
     mode?: CommandSecretResolutionMode;
   },
-): Promise<Brikko StudioConfig | null> {
+): Promise<BrikkoStudioConfig | null> {
   const cfg = await requireValidConfigSnapshot(runtime);
   if (!cfg) {
     return null;

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../errors.js";
 import {
   ackDelivery,
@@ -19,7 +19,7 @@ export type RecoverySummary = {
 
 export type DeliverFn = (
   params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
   } & QueuedDeliveryPayload & {
       skipQueue?: boolean;
     },
@@ -109,7 +109,7 @@ export async function withActiveDeliveryClaim<T>(
   }
 }
 
-function buildRecoveryDeliverParams(entry: QueuedDelivery, cfg: Brikko StudioConfig) {
+function buildRecoveryDeliverParams(entry: QueuedDelivery, cfg: BrikkoStudioConfig) {
   return {
     cfg,
     channel: entry.channel,
@@ -194,7 +194,7 @@ export function isPermanentDeliveryError(error: string): boolean {
 
 async function drainQueuedEntry(opts: {
   entry: QueuedDelivery;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   deliver: DeliverFn;
   stateDir?: string;
   onRecovered?: (entry: QueuedDelivery) => void;
@@ -235,7 +235,7 @@ async function drainQueuedEntry(opts: {
 export async function drainPendingDeliveries(opts: {
   drainKey: string;
   logLabel: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   log: RecoveryLogger;
   stateDir?: string;
   deliver: DeliverFn;
@@ -346,7 +346,7 @@ export async function drainPendingDeliveries(opts: {
 export async function recoverPendingDeliveries(opts: {
   deliver: DeliverFn;
   log: RecoveryLogger;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   stateDir?: string;
   /** Maximum wall-clock time for recovery in ms. Remaining entries are deferred to next startup. Default: 60 000. */
   maxRecoveryMs?: number;

@@ -14,7 +14,7 @@ const readConfigFileSnapshotForWrite = vi.fn().mockResolvedValue({
   writeOptions: {},
 });
 const setRuntimeConfigSnapshot = vi.fn();
-const resolveBrikko StudioAgentDir = vi.fn().mockReturnValue("/tmp/brikko-studio-agent");
+const resolveBrikkoStudioAgentDir = vi.fn().mockReturnValue("/tmp/brikko-studio-agent");
 const ensureAuthProfileStore = vi.fn().mockReturnValue({ version: 1, profiles: {} });
 const listProfilesForProvider = vi.fn().mockReturnValue([]);
 const resolveEnvApiKey = vi.fn().mockReturnValue(undefined);
@@ -56,7 +56,7 @@ vi.mock("./models/load-config.js", () => ({
 }));
 
 vi.mock("../agents/agent-paths.js", () => ({
-  resolveBrikko StudioAgentDir,
+  resolveBrikkoStudioAgentDir,
 }));
 
 vi.mock("../agents/auth-profiles/profile-list.js", () => ({

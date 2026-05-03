@@ -195,7 +195,7 @@ function adaptStepForBaseline(step, baselineVersion, summary) {
   return step;
 }
 
-function runBrikko Studio(step) {
+function runBrikkoStudio(step) {
   const result = spawnSync("brikko-studio", step.argv, {
     encoding: "utf8",
     env: process.env,
@@ -243,7 +243,7 @@ function applyRecipe() {
     if (!adaptedStep) {
       continue;
     }
-    const outcome = runBrikko Studio(adaptedStep);
+    const outcome = runBrikkoStudio(adaptedStep);
     summary.steps.push(outcome);
     writeJson(summaryPath, summary);
     if (!outcome.ok) {

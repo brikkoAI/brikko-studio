@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../runtime-api.js";
+import type { BrikkoStudioConfig } from "../runtime-api.js";
 import { resolveConversationPath, resolveGraphConversationId } from "./graph-messages.js";
 import {
   deleteGraphRequest,
@@ -14,7 +14,7 @@ import {
 // ---------------------------------------------------------------------------
 
 type AddParticipantMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   userId: string;
   role?: string;
@@ -67,7 +67,7 @@ export async function addParticipantMSTeams(
 // ---------------------------------------------------------------------------
 
 type RemoveParticipantMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   userId: string;
 };
@@ -137,7 +137,7 @@ export async function removeParticipantMSTeams(
 // ---------------------------------------------------------------------------
 
 type RenameGroupMSTeamsParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   to: string;
   name: string;
 };

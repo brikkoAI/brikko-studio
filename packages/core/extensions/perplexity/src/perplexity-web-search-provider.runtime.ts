@@ -135,7 +135,7 @@ function buildPerplexityRequestHeaders(apiKey: string, acceptJson = false): Reco
     ...(acceptJson ? { Accept: "application/json" } : {}),
     Authorization: `Bearer ${apiKey}`,
     "HTTP-Referer": "https://brikko-studio.ai",
-    "X-Title": "Brikko Studio Web Search",
+    "X-Title": "BrikkoStudio Web Search",
   };
 }
 

@@ -5,10 +5,10 @@ import {
   resolveNativeSkillsEnabled,
 } from "brikko-studio/plugin-sdk/native-command-config-runtime";
 import type { ResolvedSlackAccount } from "./accounts.js";
-import type { Brikko StudioConfig } from "./runtime-api.js";
+import type { BrikkoStudioConfig } from "./runtime-api.js";
 
 export async function collectSlackSecurityAuditFindings(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   account: ResolvedSlackAccount;
 }) {

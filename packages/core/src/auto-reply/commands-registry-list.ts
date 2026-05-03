@@ -1,6 +1,6 @@
 import type { SkillCommandSpec } from "../agents/skills/types.js";
 import { isCommandFlagEnabled } from "../config/commands.flags.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { getChatCommands } from "./commands-registry.data.js";
 import type { ChatCommandDefinition } from "./commands-registry.types.js";
 
@@ -36,7 +36,7 @@ export function listChatCommands(params?: {
   return [...commands, ...buildSkillCommandDefinitions(params.skillCommands)];
 }
 
-export function isCommandEnabled(cfg: Brikko StudioConfig, commandKey: string): boolean {
+export function isCommandEnabled(cfg: BrikkoStudioConfig, commandKey: string): boolean {
   if (commandKey === "config") {
     return isCommandFlagEnabled(cfg, "config");
   }
@@ -56,7 +56,7 @@ export function isCommandEnabled(cfg: Brikko StudioConfig, commandKey: string): 
 }
 
 export function listChatCommandsForConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   params?: { skillCommands?: SkillCommandSpec[] },
 ): ChatCommandDefinition[] {
   const base = getChatCommands().filter((command) => isCommandEnabled(cfg, command.key));

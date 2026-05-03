@@ -4,7 +4,7 @@ import {
   resolveStoredSessionKeyForAgentStore,
 } from "../../gateway/session-store-key.js";
 import { normalizeAgentId } from "../../routing/session-key.js";
-import type { Brikko StudioConfig } from "../types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../types.brikko-studio.js";
 import { resolveStorePath } from "./paths.js";
 import { loadSessionStore } from "./store-load.js";
 import {
@@ -18,7 +18,7 @@ function isStorePathTemplate(store?: string): boolean {
 }
 
 function mergeSessionEntryIntoCombined(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   combined: Record<string, SessionEntry>;
   entry: SessionEntry;
   agentId: string;
@@ -58,7 +58,7 @@ function mergeSessionEntryIntoCombined(params: {
 }
 
 export function loadCombinedSessionStoreForGateway(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts: { agentId?: string } = {},
 ): {
   storePath: string;

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveConfiguredCapabilityProvider } from "../plugin-sdk/provider-selection-runtime.js";
 import type { RealtimeVoiceProviderPlugin } from "../plugins/types.js";
 import { getRealtimeVoiceProvider, listRealtimeVoiceProviders } from "./provider-registry.js";
@@ -12,8 +12,8 @@ export type ResolvedRealtimeVoiceProvider = {
 export type ResolveConfiguredRealtimeVoiceProviderParams = {
   configuredProviderId?: string;
   providerConfigs?: Record<string, Record<string, unknown> | undefined>;
-  cfg?: Brikko StudioConfig;
-  cfgForResolve?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
+  cfgForResolve?: BrikkoStudioConfig;
   providers?: RealtimeVoiceProviderPlugin[];
   defaultModel?: string;
   noRegisteredProviderMessage?: string;
@@ -22,7 +22,7 @@ export type ResolveConfiguredRealtimeVoiceProviderParams = {
 export function resolveConfiguredRealtimeVoiceProvider(
   params: ResolveConfiguredRealtimeVoiceProviderParams,
 ): ResolvedRealtimeVoiceProvider {
-  const cfgForResolve = params.cfgForResolve ?? params.cfg ?? ({} as Brikko StudioConfig);
+  const cfgForResolve = params.cfgForResolve ?? params.cfg ?? ({} as BrikkoStudioConfig);
   const providers = params.providers ?? listRealtimeVoiceProviders(params.cfg);
   const resolution = resolveConfiguredCapabilityProvider({
     configuredProviderId: params.configuredProviderId,

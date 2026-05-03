@@ -4,8 +4,8 @@ export type {
   ChannelDirectoryEntry,
   ChatType,
   HistoryEntry,
-  Brikko StudioConfig,
-  Brikko StudioPluginApi,
+  BrikkoStudioConfig,
+  BrikkoStudioPluginApi,
   ReplyPayload,
 } from "brikko-studio/plugin-sdk/core";
 export type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime";

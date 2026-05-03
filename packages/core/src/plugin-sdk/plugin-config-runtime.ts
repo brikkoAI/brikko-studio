@@ -1,8 +1,8 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 
 export { normalizePluginsConfig, resolveEffectiveEnableState } from "../plugins/config-state.js";
 
-export function requireRuntimeConfig(config: Brikko StudioConfig, context: string): Brikko StudioConfig {
+export function requireRuntimeConfig(config: BrikkoStudioConfig, context: string): BrikkoStudioConfig {
   if (config) {
     return config;
   }
@@ -12,7 +12,7 @@ export function requireRuntimeConfig(config: Brikko StudioConfig, context: strin
 }
 
 export function resolvePluginConfigObject(
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
   pluginId: string,
 ): Record<string, unknown> | undefined {
   const plugins =
@@ -34,7 +34,7 @@ export function resolvePluginConfigObject(
 }
 
 export function resolveLivePluginConfigObject(
-  runtimeConfigLoader: (() => Brikko StudioConfig | undefined) | undefined,
+  runtimeConfigLoader: (() => BrikkoStudioConfig | undefined) | undefined,
   pluginId: string,
   startupPluginConfig?: Record<string, unknown>,
 ): Record<string, unknown> | undefined {

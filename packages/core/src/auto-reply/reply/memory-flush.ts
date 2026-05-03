@@ -2,12 +2,12 @@ import { resolveContextTokensForModel } from "../../agents/context.js";
 import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.js";
 import { parseNonNegativeByteSize } from "../../config/byte-size.js";
 import { resolveFreshSessionTotalTokens, type SessionEntry } from "../../config/sessions.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
 export function resolveMemoryFlushContextWindowTokens(params: {
   modelId?: string;
   agentCfgContextTokens?: number;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   provider?: string;
 }): number {
   return (
@@ -21,7 +21,7 @@ export function resolveMemoryFlushContextWindowTokens(params: {
   );
 }
 
-export function resolveMaxActiveTranscriptBytes(cfg?: Brikko StudioConfig): number | undefined {
+export function resolveMaxActiveTranscriptBytes(cfg?: BrikkoStudioConfig): number | undefined {
   const compaction = cfg?.agents?.defaults?.compaction;
   if (compaction?.truncateAfterCompaction !== true) {
     return undefined;

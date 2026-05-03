@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { AuthProfileStore } from "./auth-profiles.js";
 
 export const ANTHROPIC_STORE: AuthProfileStore = {
@@ -17,7 +17,7 @@ export const ANTHROPIC_STORE: AuthProfileStore = {
   },
 };
 
-export const ANTHROPIC_CFG: Brikko StudioConfig = {
+export const ANTHROPIC_CFG: BrikkoStudioConfig = {
   auth: {
     profiles: {
       "anthropic:default": { provider: "anthropic", mode: "api_key" },

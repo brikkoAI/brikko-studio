@@ -1,7 +1,7 @@
 import {
   createModelCatalogPresetAppliers,
   type ModelProviderConfig,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type ProviderOnboardPresetAppliers,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
@@ -25,7 +25,7 @@ function createStepFunPresetAppliers(params: {
 }): ProviderOnboardPresetAppliers<[string]> {
   return createModelCatalogPresetAppliers<[string]>({
     primaryModelRef: params.primaryModelRef,
-    resolveParams: (_cfg: Brikko StudioConfig, baseUrl: string) => {
+    resolveParams: (_cfg: BrikkoStudioConfig, baseUrl: string) => {
       const provider = params.buildProvider(baseUrl);
       const models = provider.models ?? [];
       return {
@@ -56,18 +56,18 @@ const stepFunPlanPresetAppliers = createStepFunPresetAppliers({
   buildProvider: buildStepFunPlanProvider,
 });
 
-export function applyStepFunStandardConfigCn(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyStepFunStandardConfigCn(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return stepFunPresetAppliers.applyConfig(cfg, STEPFUN_STANDARD_CN_BASE_URL);
 }
 
-export function applyStepFunStandardConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyStepFunStandardConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return stepFunPresetAppliers.applyConfig(cfg, STEPFUN_STANDARD_INTL_BASE_URL);
 }
 
-export function applyStepFunPlanConfigCn(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyStepFunPlanConfigCn(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return stepFunPlanPresetAppliers.applyConfig(cfg, STEPFUN_PLAN_CN_BASE_URL);
 }
 
-export function applyStepFunPlanConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyStepFunPlanConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return stepFunPlanPresetAppliers.applyConfig(cfg, STEPFUN_PLAN_INTL_BASE_URL);
 }

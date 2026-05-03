@@ -1,6 +1,6 @@
 import { resolveAccountWithDefaultFallback } from "brikko-studio/plugin-sdk/account-core";
 import { tryReadSecretFileSync } from "brikko-studio/plugin-sdk/channel-core";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveDefaultSecretProviderAlias } from "brikko-studio/plugin-sdk/provider-auth";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "brikko-studio/plugin-sdk/routing";
@@ -49,7 +49,7 @@ function inspectTokenFile(pathValue: unknown): {
 }
 
 function canResolveEnvSecretRefInReadOnlyPath(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   provider: string;
   id: string;
 }): boolean {
@@ -64,7 +64,7 @@ function canResolveEnvSecretRefInReadOnlyPath(params: {
   return !allowlist || allowlist.includes(params.id);
 }
 
-function inspectTokenValue(params: { cfg: Brikko StudioConfig; value: unknown }): {
+function inspectTokenValue(params: { cfg: BrikkoStudioConfig; value: unknown }): {
   token: string;
   tokenSource: "config" | "env" | "none";
   tokenStatus: TelegramCredentialStatus;
@@ -118,7 +118,7 @@ function inspectTokenValue(params: { cfg: Brikko StudioConfig; value: unknown })
 }
 
 function inspectTelegramAccountPrimary(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   envToken?: string | null;
 }): InspectedTelegramAccount {
@@ -218,7 +218,7 @@ function inspectTelegramAccountPrimary(params: {
 }
 
 export function inspectTelegramAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   envToken?: string | null;
 }): InspectedTelegramAccount {

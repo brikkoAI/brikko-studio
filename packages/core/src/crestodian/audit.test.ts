@@ -15,7 +15,7 @@ describe("Crestodian audit log", () => {
     }
   });
 
-  it("writes jsonl records under the Brikko Studio audit dir", async () => {
+  it("writes jsonl records under the BrikkoStudio audit dir", async () => {
     const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "crestodian-audit-"));
     vi.stubEnv("BRIKKO_STUDIO_STATE_DIR", tempDir);
 

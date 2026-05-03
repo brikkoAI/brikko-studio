@@ -36,8 +36,8 @@ export async function uploadToOneDrive(params: {
   const fetchFn = params.fetchFn ?? fetch;
   const token = await params.tokenProvider.getAccessToken(GRAPH_SCOPE);
 
-  // Use "Brikko StudioShared" folder to organize bot-uploaded files
-  const uploadPath = `/Brikko StudioShared/${encodeURIComponent(params.filename)}`;
+  // Use "BrikkoStudioShared" folder to organize bot-uploaded files
+  const uploadPath = `/BrikkoStudioShared/${encodeURIComponent(params.filename)}`;
 
   const res = await fetchFn(`${GRAPH_ROOT}/me/drive/root:${uploadPath}:/content`, {
     method: "PUT",
@@ -181,8 +181,8 @@ export async function uploadToSharePoint(params: {
   const fetchFn = params.fetchFn ?? fetch;
   const token = await params.tokenProvider.getAccessToken(GRAPH_SCOPE);
 
-  // Use "Brikko StudioShared" folder to organize bot-uploaded files
-  const uploadPath = `/Brikko StudioShared/${encodeURIComponent(params.filename)}`;
+  // Use "BrikkoStudioShared" folder to organize bot-uploaded files
+  const uploadPath = `/BrikkoStudioShared/${encodeURIComponent(params.filename)}`;
 
   const res = await fetchFn(
     `${GRAPH_ROOT}/sites/${params.siteId}/drive/root:${uploadPath}:/content`,

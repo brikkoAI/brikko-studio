@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import type { ActiveMediaModel } from "./active-model.types.js";
 import type {
   MediaUnderstandingDecision,
@@ -9,7 +9,7 @@ import type {
 export type RunMediaUnderstandingFileParams = {
   capability: "image" | "audio" | "video";
   filePath: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   mime?: string;
   activeModel?: ActiveMediaModel;
@@ -27,7 +27,7 @@ export type RunMediaUnderstandingFileResult = {
 
 export type DescribeImageFileParams = {
   filePath: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   mime?: string;
   activeModel?: ActiveMediaModel;
@@ -37,7 +37,7 @@ export type DescribeImageFileParams = {
 
 export type DescribeImageFileWithModelParams = {
   filePath: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   mime?: string;
   provider: string;
@@ -53,7 +53,7 @@ type DescribeImageFileWithModelResult = Awaited<
 
 export type DescribeVideoFileParams = {
   filePath: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   mime?: string;
   activeModel?: ActiveMediaModel;
@@ -61,7 +61,7 @@ export type DescribeVideoFileParams = {
 
 export type TranscribeAudioFileParams = {
   filePath: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   mime?: string;
   activeModel?: ActiveMediaModel;

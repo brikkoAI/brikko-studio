@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
-import { replaceConfigFile, type Brikko StudioConfig } from "../config/config.js";
+import { replaceConfigFile, type BrikkoStudioConfig } from "../config/config.js";
 import { resolveGatewayPort, resolveIsNixMode } from "../config/paths.js";
 import { resolveSecretInputRef } from "../config/types.secrets.js";
 import {
@@ -96,7 +96,7 @@ function resolveGatewayServiceWrapperPath(
 }
 
 async function buildExpectedGatewayServicePlan(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   command: GatewayServiceCommandConfig;
   serviceInstallEnv: NodeJS.ProcessEnv;
   port: number;
@@ -115,7 +115,7 @@ async function buildExpectedGatewayServicePlan(params: {
 }
 
 async function buildGatewayServiceAuditInputs(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   command: GatewayServiceCommandConfig;
   serviceInstallEnv: NodeJS.ProcessEnv;
 }) {
@@ -338,7 +338,7 @@ async function cleanupLegacyLinuxUserServices(
 }
 
 export async function maybeRepairGatewayServiceConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   mode: "local" | "remote",
   runtime: RuntimeEnv,
   prompter: DoctorPrompter,
@@ -548,7 +548,7 @@ export async function maybeRepairGatewayServiceConfig(
     !configuredGatewayToken &&
     gatewayTokenForRepair
   ) {
-    const nextCfg: Brikko StudioConfig = {
+    const nextCfg: BrikkoStudioConfig = {
       ...cfg,
       gateway: {
         ...cfg.gateway,
@@ -658,7 +658,7 @@ export async function maybeScanExtraGatewayServices(
         note(failed.map((line) => `- ${line}`).join("\n"), "Legacy gateway cleanup skipped");
       }
       if (removed.length > 0) {
-        runtime.log("Legacy gateway services removed. Installing Brikko Studio gateway next.");
+        runtime.log("Legacy gateway services removed. Installing BrikkoStudio gateway next.");
       }
     }
   }

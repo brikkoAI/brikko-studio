@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { createEmptyPluginRegistry } from "./registry.js";
 
 type MockManifestRegistry = {
@@ -39,14 +39,14 @@ const mocks = vi.hoisted(() => ({
     plugins: [],
   })),
   withBundledPluginAllowlistCompat: vi.fn(
-    ({ config, pluginIds }: { config?: Brikko StudioConfig; pluginIds: string[] }) =>
+    ({ config, pluginIds }: { config?: BrikkoStudioConfig; pluginIds: string[] }) =>
       ({
         ...config,
         plugins: {
           ...config?.plugins,
           allow: Array.from(new Set([...(config?.plugins?.allow ?? []), ...pluginIds])),
         },
-      }) as Brikko StudioConfig,
+      }) as BrikkoStudioConfig,
   ),
   withBundledPluginEnablementCompat: vi.fn(({ config }) => config),
   withBundledPluginVitestCompat: vi.fn(({ config }) => config),
@@ -163,8 +163,8 @@ function collectActiveRegistryLookups() {
 }
 
 function expectBundledCompatLoadPath(params: {
-  cfg: Brikko StudioConfig;
-  allowlistCompat: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  allowlistCompat: BrikkoStudioConfig;
   enablementCompat: {
     plugins: {
       allow?: string[];
@@ -191,12 +191,12 @@ function expectBundledCompatLoadPath(params: {
 }
 
 function createCompatChainConfig() {
-  const cfg = { plugins: { allow: ["custom-plugin"] } } as Brikko StudioConfig;
+  const cfg = { plugins: { allow: ["custom-plugin"] } } as BrikkoStudioConfig;
   const allowlistCompat = {
     plugins: {
       allow: ["custom-plugin", "openai"],
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
   const enablementCompat = {
     plugins: {
       allow: ["custom-plugin", "openai"],
@@ -239,8 +239,8 @@ function expectCompatChainApplied(params: {
     | "videoGenerationProviders"
     | "musicGenerationProviders";
   contractKey: string;
-  cfg: Brikko StudioConfig;
-  allowlistCompat: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  allowlistCompat: BrikkoStudioConfig;
   enablementCompat: {
     plugins: {
       allow?: string[];
@@ -285,14 +285,14 @@ describe("resolvePluginCapabilityProviders", () => {
     mocks.loadBundledCapabilityRuntimeRegistry.mockImplementation(() => mocks.createMockRegistry());
     mocks.withBundledPluginAllowlistCompat.mockClear();
     mocks.withBundledPluginAllowlistCompat.mockImplementation(
-      ({ config, pluginIds }: { config?: Brikko StudioConfig; pluginIds: string[] }) =>
+      ({ config, pluginIds }: { config?: BrikkoStudioConfig; pluginIds: string[] }) =>
         ({
           ...config,
           plugins: {
             ...config?.plugins,
             allow: Array.from(new Set([...(config?.plugins?.allow ?? []), ...pluginIds])),
           },
-        }) as Brikko StudioConfig,
+        }) as BrikkoStudioConfig,
     );
     mocks.withBundledPluginEnablementCompat.mockReset();
     mocks.withBundledPluginEnablementCompat.mockImplementation(({ config }) => config);
@@ -550,7 +550,7 @@ describe("resolvePluginCapabilityProviders", () => {
             models: [{ provider: "deepgram" }],
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expectResolvedCapabilityProviderIds(providers, ["deepgram"]);
@@ -618,7 +618,7 @@ describe("resolvePluginCapabilityProviders", () => {
             audio: { enabled: true, models: [{ provider: "deepgram", model: "nova-3" }] },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expectResolvedCapabilityProviderIds(providers, ["openai", "deepgram"]);
@@ -652,7 +652,7 @@ describe("resolvePluginCapabilityProviders", () => {
       cfg: {
         plugins: { entries: { microsoft: { enabled: true } } },
         messages: { tts: { provider: "edge" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expectResolvedCapabilityProviderIds(providers, ["microsoft"]);
@@ -692,7 +692,7 @@ describe("resolvePluginCapabilityProviders", () => {
 
     const providers = resolvePluginCapabilityProviders({
       key: "speechProviders",
-      cfg: { messages: { tts: { provider: "acme" } } } as Brikko StudioConfig,
+      cfg: { messages: { tts: { provider: "acme" } } } as BrikkoStudioConfig,
     });
 
     expectResolvedCapabilityProviderIds(providers, ["acme"]);
@@ -757,7 +757,7 @@ describe("resolvePluginCapabilityProviders", () => {
       cfg: {
         plugins: { allow: ["openai", "microsoft"] },
         messages: { tts: { provider: "edge" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expectResolvedCapabilityProviderIds(providers, ["openai", "microsoft"]);
@@ -824,7 +824,7 @@ describe("resolvePluginCapabilityProviders", () => {
       key: "speechProviders",
       cfg: {
         messages: { tts: { provider: "google" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expectResolvedCapabilityProviderIds(providers, ["openai", "google"]);
@@ -912,7 +912,7 @@ describe("resolvePluginCapabilityProviders", () => {
       key: "speechProviders",
       cfg: {
         messages: { tts: { provider: "google" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expectResolvedCapabilityProviderIds(providers, ["openai", "google"]);
@@ -1001,7 +1001,7 @@ describe("resolvePluginCapabilityProviders", () => {
       cfg: {
         plugins: { allow: ["openai", "microsoft", "elevenlabs"] },
         messages: { tts: { provider: "edge" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
     });
 
     expectResolvedCapabilityProviderIds(providers, ["openai", "microsoft"]);
@@ -1120,7 +1120,7 @@ describe("resolvePluginCapabilityProviders", () => {
 
     const providers = resolvePluginCapabilityProviders({
       key: "mediaUnderstandingProviders",
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
     });
 
     expectNoResolvedCapabilityProviders(providers);
@@ -1134,7 +1134,7 @@ describe("resolvePluginCapabilityProviders", () => {
         allow: ["google"],
         entries: { google: { enabled: true } },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const loaded = createEmptyPluginRegistry();
     loaded.mediaUnderstandingProviders.push({
       pluginId: "google",
@@ -1170,7 +1170,7 @@ describe("resolvePluginCapabilityProviders", () => {
   });
 
   it("loads fallback snapshots without startup dependency repair", () => {
-    const cfg = { plugins: { allow: ["custom-plugin"] } } as Brikko StudioConfig;
+    const cfg = { plugins: { allow: ["custom-plugin"] } } as BrikkoStudioConfig;
     const enablementCompat = {
       plugins: {
         allow: ["custom-plugin", "openai"],
@@ -1192,7 +1192,7 @@ describe("resolvePluginCapabilityProviders", () => {
   });
 
   it("does not resolve non-speech capability providers when plugins are globally disabled", () => {
-    const cfg = { plugins: { enabled: false, allow: ["custom-plugin"] } } as Brikko StudioConfig;
+    const cfg = { plugins: { enabled: false, allow: ["custom-plugin"] } } as BrikkoStudioConfig;
     const active = createEmptyPluginRegistry();
     active.mediaUnderstandingProviders.push({
       pluginId: "openai",
@@ -1222,14 +1222,14 @@ describe("resolvePluginCapabilityProviders", () => {
     const cfg = {
       plugins: { enabled: false },
       messages: { tts: { provider: "mistral" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const allowlistCompat = {
       ...cfg,
       plugins: {
         enabled: false,
         allow: ["microsoft"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const compatConfig = {
       ...cfg,
       plugins: {
@@ -1237,7 +1237,7 @@ describe("resolvePluginCapabilityProviders", () => {
         allow: ["microsoft"],
         entries: { microsoft: { enabled: true } },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const loaded = createEmptyPluginRegistry();
     loaded.speechProviders.push({
       pluginId: "microsoft",
@@ -1303,7 +1303,7 @@ describe("resolvePluginCapabilityProviders", () => {
   ] as const)("uses an explicit empty plugin scope for %s when no bundled owner exists", (key) => {
     const providers = resolvePluginCapabilityProviders({
       key,
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
     });
 
     expectNoResolvedCapabilityProviders(providers as Array<{ id: string }>);
@@ -1318,7 +1318,7 @@ describe("resolvePluginCapabilityProviders", () => {
   });
 
   it("scopes media capability snapshot loads to manifest-derived bundled owners", () => {
-    const cfg = { plugins: { allow: ["openai", "minimax"] } } as Brikko StudioConfig;
+    const cfg = { plugins: { allow: ["openai", "minimax"] } } as BrikkoStudioConfig;
     mocks.loadPluginManifestRegistry.mockReturnValue({
       plugins: [
         {
@@ -1355,7 +1355,7 @@ describe("resolvePluginCapabilityProviders", () => {
   });
 
   it("does not unscoped-load media generation capabilities without bundled owners", () => {
-    const cfg = { plugins: { allow: ["openai"] } } as Brikko StudioConfig;
+    const cfg = { plugins: { allow: ["openai"] } } as BrikkoStudioConfig;
     mocks.loadPluginManifestRegistry.mockReturnValue({
       plugins: [
         {
@@ -1381,12 +1381,12 @@ describe("resolvePluginCapabilityProviders", () => {
   });
 
   it("loads only the bundled owner plugin for a targeted provider lookup", () => {
-    const cfg = { plugins: { allow: ["custom-plugin"] } } as Brikko StudioConfig;
+    const cfg = { plugins: { allow: ["custom-plugin"] } } as BrikkoStudioConfig;
     const allowlistCompat = {
       plugins: {
         allow: ["custom-plugin", "google"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enablementCompat = {
       plugins: {
         allow: ["custom-plugin", "google"],
@@ -1443,7 +1443,7 @@ describe("resolvePluginCapabilityProviders", () => {
   });
 
   it("does not load targeted non-speech capability providers when plugins are globally disabled", () => {
-    const cfg = { plugins: { enabled: false, allow: ["custom-plugin"] } } as Brikko StudioConfig;
+    const cfg = { plugins: { enabled: false, allow: ["custom-plugin"] } } as BrikkoStudioConfig;
     const loaded = createEmptyPluginRegistry();
     loaded.memoryEmbeddingProviders.push({
       pluginId: "google",
@@ -1488,13 +1488,13 @@ describe("resolvePluginCapabilityProviders", () => {
   });
 
   it("loads targeted bundled speech providers through compat when plugins are globally disabled", () => {
-    const cfg = { plugins: { enabled: false, allow: ["custom-plugin"] } } as Brikko StudioConfig;
+    const cfg = { plugins: { enabled: false, allow: ["custom-plugin"] } } as BrikkoStudioConfig;
     const allowlistCompat = {
       plugins: {
         enabled: false,
         allow: ["custom-plugin", "microsoft"],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const enablementCompat = {
       plugins: {
         enabled: true,

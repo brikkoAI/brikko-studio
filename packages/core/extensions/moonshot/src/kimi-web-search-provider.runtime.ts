@@ -1,5 +1,5 @@
 import { createProviderHttpError } from "brikko-studio/plugin-sdk/provider-http";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-onboard";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   buildSearchCacheKey,
   buildUnsupportedSearchFilterResponse,
@@ -102,7 +102,7 @@ function trimTrailingSlashes(url: string): string {
   return url.replace(/\/+$/, "");
 }
 
-function resolveKimiBaseUrl(kimi?: KimiConfig, openClawConfig?: Brikko StudioConfig): string {
+function resolveKimiBaseUrl(kimi?: KimiConfig, openClawConfig?: BrikkoStudioConfig): string {
   const explicitBaseUrl = normalizeOptionalString(kimi?.baseUrl) ?? "";
   if (explicitBaseUrl) {
     return trimTrailingSlashes(explicitBaseUrl) || DEFAULT_KIMI_BASE_URL;
@@ -289,7 +289,7 @@ async function runKimiSearch(params: {
 }
 
 export async function executeKimiWebSearchProviderTool(
-  ctx: { config?: Brikko StudioConfig; searchConfig?: SearchConfigRecord },
+  ctx: { config?: BrikkoStudioConfig; searchConfig?: SearchConfigRecord },
   args: Record<string, unknown>,
 ): Promise<Record<string, unknown>> {
   const searchConfig = mergeScopedSearchConfig(

@@ -1361,7 +1361,7 @@ describe("memory cli", () => {
       await fs.writeFile(
         historyPath,
         [
-          "## Brikko Studio / runtime / workflow preferences and corrections",
+          "## BrikkoStudio / runtime / workflow preferences and corrections",
           "- Mariano explicitly said that when he tells Razor there has been an error, the default interpretation should be that he wants it fixed, not merely diagnosed or acknowledged.",
           "- Mariano clarified that the problem with cron output is overlapping, independently unreasonable crons converging into dumb sludge.",
           "",

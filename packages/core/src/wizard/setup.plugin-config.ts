@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
 import type { PluginConfigUiHint } from "../plugins/types.js";
 import { getPath, setPathCreateStrict } from "../secrets/path-utils.js";
@@ -54,7 +54,7 @@ function resolveJsonSchemaProperty(
 }
 
 function getExistingPluginConfig(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   pluginId: string,
 ): Record<string, unknown> {
   return (config.plugins?.entries?.[pluginId]?.config as Record<string, unknown>) ?? {};
@@ -130,7 +130,7 @@ export function discoverUnconfiguredPlugins(params: {
     configSchema?: Record<string, unknown>;
     enabled?: boolean;
   }>;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
 }): ConfigurablePlugin[] {
   const all = discoverConfigurablePlugins(params);
   return all.filter((plugin) => {
@@ -143,7 +143,7 @@ export function discoverUnconfiguredPlugins(params: {
 }
 
 async function listEnabledConfigurableManifestPlugins(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   workspaceDir?: string;
 }): Promise<readonly PluginManifestRecord[]> {
   const { loadPluginMetadataSnapshot } = await loadPluginMetadataSnapshotModule();
@@ -164,11 +164,11 @@ async function listEnabledConfigurableManifestPlugins(params: {
  */
 async function promptPluginFields(params: {
   plugin: ConfigurablePlugin;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   prompter: WizardPrompter;
   /** When true, show all fields including already-configured ones (for configure flow). */
   showConfigured?: boolean;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const { plugin, config, prompter } = params;
   const existing = getExistingPluginConfig(config, plugin.id);
   const updatedConfig = structuredClone(existing);
@@ -312,10 +312,10 @@ async function promptPluginFields(params: {
  * Shows unconfigured plugin fields and prompts the user.
  */
 export async function setupPluginConfig(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   prompter: WizardPrompter;
   workspaceDir?: string;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const manifestPlugins = await listEnabledConfigurableManifestPlugins({
     config: params.config,
     workspaceDir: params.workspaceDir,
@@ -368,10 +368,10 @@ export async function setupPluginConfig(params: {
  * Shows all configurable plugins and all their non-advanced fields.
  */
 export async function configurePluginConfig(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   prompter: WizardPrompter;
   workspaceDir?: string;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const manifestPlugins = await listEnabledConfigurableManifestPlugins({
     config: params.config,
     workspaceDir: params.workspaceDir,

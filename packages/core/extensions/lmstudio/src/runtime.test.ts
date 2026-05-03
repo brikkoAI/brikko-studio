@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/provider-auth";
 import { CUSTOM_LOCAL_AUTH_MARKER } from "brikko-studio/plugin-sdk/provider-auth";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { LMSTUDIO_LOCAL_API_KEY_PLACEHOLDER } from "./defaults.js";
@@ -23,7 +23,7 @@ function buildLmstudioConfig(overrides?: {
   apiKey?: unknown;
   headers?: unknown;
   auth?: "api-key";
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   return {
     models: {
       providers: {
@@ -37,7 +37,7 @@ function buildLmstudioConfig(overrides?: {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 describe("lmstudio-runtime", () => {

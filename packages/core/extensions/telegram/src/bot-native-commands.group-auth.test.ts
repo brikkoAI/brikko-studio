@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ChannelGroupPolicy } from "brikko-studio/plugin-sdk/config-types";
 import type { TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
@@ -10,7 +10,7 @@ import {
 
 describe("native command auth in groups", () => {
   function setup(params: {
-    cfg?: Brikko StudioConfig;
+    cfg?: BrikkoStudioConfig;
     telegramCfg?: TelegramAccountConfig;
     allowFrom?: string[];
     groupAllowFrom?: string[];
@@ -20,7 +20,7 @@ describe("native command auth in groups", () => {
     resolveGroupPolicy?: () => ChannelGroupPolicy;
   }) {
     return createNativeCommandsHarness({
-      cfg: params.cfg ?? ({} as Brikko StudioConfig),
+      cfg: params.cfg ?? ({} as BrikkoStudioConfig),
       telegramCfg: params.telegramCfg ?? ({} as TelegramAccountConfig),
       allowFrom: params.allowFrom ?? [],
       groupAllowFrom: params.groupAllowFrom ?? [],
@@ -74,7 +74,7 @@ describe("native command auth in groups", () => {
             telegram: ["12345"],
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       allowFrom: ["99999"],
       groupAllowFrom: ["99999"],
       useAccessGroups: true,
@@ -96,7 +96,7 @@ describe("native command auth in groups", () => {
             telegram: ["99999"],
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       groupAllowFrom: ["12345"],
       useAccessGroups: true,
     });
@@ -125,7 +125,7 @@ describe("native command auth in groups", () => {
             telegram: ["12345"],
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       useAccessGroups: true,
       resolveGroupPolicy: () =>
         ({
@@ -153,7 +153,7 @@ describe("native command auth in groups", () => {
             telegram: ["12345"],
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       useAccessGroups: true,
       resolveGroupPolicy: () =>
         ({

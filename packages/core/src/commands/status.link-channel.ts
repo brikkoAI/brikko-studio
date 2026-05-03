@@ -1,7 +1,7 @@
 import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.js";
 import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
 import type { ChannelAccountSnapshot } from "../channels/plugins/types.public.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveDefaultChannelAccountContext } from "./channel-account-context.js";
 
 export type LinkChannelContext = {
@@ -13,8 +13,8 @@ export type LinkChannelContext = {
 };
 
 export async function resolveLinkChannelContext(
-  cfg: Brikko StudioConfig,
-  options: { sourceConfig?: Brikko StudioConfig } = {},
+  cfg: BrikkoStudioConfig,
+  options: { sourceConfig?: BrikkoStudioConfig } = {},
 ): Promise<LinkChannelContext | null> {
   const sourceConfig = options.sourceConfig ?? cfg;
   for (const plugin of listReadOnlyChannelPluginsForConfig(cfg, {

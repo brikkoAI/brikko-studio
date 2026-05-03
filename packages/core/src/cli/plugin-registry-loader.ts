@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { loggingState } from "../logging/state.js";
 import { createLazyImportLoader } from "../shared/lazy-promise.js";
 import type { CliPluginRegistryScope } from "./command-catalog.js";
@@ -16,8 +16,8 @@ export type CliPluginRegistryLoadPolicy = {
 export async function ensureCliPluginRegistryLoaded(params: {
   scope: CliPluginRegistryScope;
   routeLogsToStderr?: boolean;
-  config?: Brikko StudioConfig;
-  activationSourceConfig?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
+  activationSourceConfig?: BrikkoStudioConfig;
 }) {
   const { ensurePluginRegistryLoaded } = await loadPluginRegistryModule();
   const previousForceStderr = loggingState.forceConsoleToStderr;

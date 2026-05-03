@@ -13,7 +13,7 @@ import {
 import { resolveProviderAuthAliasMap } from "../../agents/provider-auth-aliases.js";
 import { normalizeProviderIdForAuth } from "../../agents/provider-id.js";
 import { resolveAgentModelPrimaryValue } from "../../config/model-input.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { loadPluginRegistrySnapshotWithMetadata } from "../../plugins/plugin-registry.js";
 
 export type ModelListAuthIndex = {
@@ -21,7 +21,7 @@ export type ModelListAuthIndex = {
 };
 
 export type CreateModelListAuthIndexParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   authStore: AuthProfileStore;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
@@ -37,7 +37,7 @@ function normalizeAuthProvider(
 }
 
 function listValidatedSyntheticAuthProviderRefs(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   workspaceDir?: string;
   env: NodeJS.ProcessEnv;
 }): readonly string[] {

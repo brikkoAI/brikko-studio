@@ -18,7 +18,7 @@ import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import { sanitizeForLog } from "../../terminal/ansi.js";
 import { resolveUserPath } from "../../utils.js";
 import { isMarkdownCapableMessageChannel } from "../../utils/message-channel.js";
-import { resolveBrikko StudioAgentDir } from "../agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../agent-paths.js";
 import {
   hasConfiguredModelFallbacks,
   resolveAgentExecutionContract,
@@ -56,7 +56,7 @@ import {
   resolveAuthProfileOrder,
   shouldPreferExplicitConfigApiKeyAuth,
 } from "../model-auth.js";
-import { ensureBrikko StudioModelsJson } from "../models-config.js";
+import { ensureBrikkoStudioModelsJson } from "../models-config.js";
 import {
   retireSessionMcpRuntime,
   retireSessionMcpRuntimeForSessionKey,
@@ -423,7 +423,7 @@ export async function runEmbeddedPiAgent(
 
       let provider = (params.provider ?? DEFAULT_PROVIDER).trim() || DEFAULT_PROVIDER;
       let modelId = (params.model ?? DEFAULT_MODEL).trim() || DEFAULT_MODEL;
-      const agentDir = params.agentDir ?? resolveBrikko StudioAgentDir();
+      const agentDir = params.agentDir ?? resolveBrikkoStudioAgentDir();
       const normalizedSessionKey = params.sessionKey?.trim();
       const fallbackConfigured = hasConfiguredModelFallbacks({
         cfg: params.config,
@@ -503,7 +503,7 @@ export async function runEmbeddedPiAgent(
         dynamicModelResolution.model || pluginHarnessOwnsTransport
           ? dynamicModelResolution
           : await (async () => {
-              await ensureBrikko StudioModelsJson(params.config, agentDir);
+              await ensureBrikkoStudioModelsJson(params.config, agentDir);
               return await resolveModelAsync(provider, modelId, agentDir, params.config);
             })();
       const { model, error, authStorage, modelRegistry } = modelResolution;

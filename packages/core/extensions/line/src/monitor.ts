@@ -1,6 +1,6 @@
 import type { webhook } from "@line/bot-sdk";
 import { createChannelReplyPipeline } from "brikko-studio/plugin-sdk/channel-reply-pipeline";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { hasFinalInboundReplyDispatch } from "brikko-studio/plugin-sdk/inbound-reply-dispatch";
 import { chunkMarkdownText } from "brikko-studio/plugin-sdk/reply-runtime";
 import {
@@ -48,7 +48,7 @@ export interface MonitorLineProviderOptions {
   channelAccessToken: string;
   channelSecret: string;
   accountId?: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   runtime: RuntimeEnv;
   abortSignal?: AbortSignal;
   webhookUrl?: string;
@@ -117,7 +117,7 @@ export function clearLineRuntimeStateForTests() {
 }
 
 function startLineLoadingKeepalive(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   userId: string;
   accountId?: string;
   intervalMs?: number;

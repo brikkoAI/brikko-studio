@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resetAgentRunContextForTest } from "../infra/agent-events.js";
 
 const hoisted = vi.hoisted(() => ({
-  loadConfigMock: vi.fn<() => Brikko StudioConfig>(),
+  loadConfigMock: vi.fn<() => BrikkoStudioConfig>(),
   loadCombinedSessionStoreForGatewayMock: vi.fn(),
 }));
 
@@ -19,7 +19,7 @@ vi.mock("./session-utils.js", async () => {
   const actual = await vi.importActual<typeof import("./session-utils.js")>("./session-utils.js");
   return {
     ...actual,
-    loadCombinedSessionStoreForGateway: (cfg: Brikko StudioConfig) =>
+    loadCombinedSessionStoreForGateway: (cfg: BrikkoStudioConfig) =>
       hoisted.loadCombinedSessionStoreForGatewayMock(cfg),
   };
 });
@@ -41,7 +41,7 @@ describe("resolveSessionKeyForRun", () => {
   });
 
   it("resolves run ids from the combined gateway store and caches the result", () => {
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       session: {
         store: "/custom/root/agents/{agentId}/sessions/sessions.json",
       },

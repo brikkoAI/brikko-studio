@@ -1,5 +1,5 @@
 import type { APIAttachment, APIStickerItem } from "discord-api-types/v10";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { createReplyReferencePlanner } from "brikko-studio/plugin-sdk/reply-reference";
 import type { ChannelType, Client, MessageCreateListener } from "../internal/discord.js";
 import type { DiscordChannelConfigResolved } from "./allow-list.js";
@@ -97,6 +97,6 @@ export type MaybeCreateDiscordAutoThreadParams = {
   channelDescription?: string;
   baseText: string;
   combinedBody: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
 };

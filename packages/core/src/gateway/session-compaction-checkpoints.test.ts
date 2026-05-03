@@ -5,7 +5,7 @@ import path from "node:path";
 import type { AssistantMessage } from "@mariozechner/pi-ai";
 import { CURRENT_SESSION_VERSION, SessionManager } from "@mariozechner/pi-coding-agent";
 import { afterEach, describe, expect, test, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   captureCompactionCheckpointSnapshotAsync,
   cleanupCompactionCheckpointSnapshot,
@@ -356,7 +356,7 @@ describe("session-compaction-checkpoints", () => {
       cfg: {
         session: { store: storePath },
         agents: { list: [{ id: "main", default: true }] },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       sessionKey: "main",
       sessionId,
       reason: "manual",

@@ -1,6 +1,6 @@
 import type { Mock } from "vitest";
 import { vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createLazyImportLoader } from "../shared/lazy-promise.js";
 import { createTestRuntime } from "./test-runtime-config-helpers.js";
 
@@ -13,7 +13,7 @@ export const writeConfigFileMock: Mock<(...args: unknown[]) => Promise<unknown>>
   .fn()
   .mockResolvedValue(undefined);
 const replaceConfigFileMock: Mock<(...args: unknown[]) => Promise<unknown>> = vi.fn(
-  async (params: { nextConfig: Brikko StudioConfig }): Promise<ReplaceConfigFileResult> => {
+  async (params: { nextConfig: BrikkoStudioConfig }): Promise<ReplaceConfigFileResult> => {
     await writeConfigFileMock(params.nextConfig);
     return {
       path: "/tmp/brikko-studio.json",
@@ -36,7 +36,7 @@ vi.mock("./agents.command-shared.js", () => ({
   createQuietRuntime: <T>(runtime: T) => runtime,
   requireValidConfig: async () => {
     const snapshot = (await readConfigFileSnapshotMock()) as
-      | { config?: Brikko StudioConfig; sourceConfig?: Brikko StudioConfig }
+      | { config?: BrikkoStudioConfig; sourceConfig?: BrikkoStudioConfig }
       | undefined;
     return snapshot?.sourceConfig ?? snapshot?.config ?? null;
   },

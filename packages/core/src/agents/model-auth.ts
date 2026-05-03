@@ -3,7 +3,7 @@ import { type Api, type Model } from "@mariozechner/pi-ai";
 import { formatCliCommand } from "../cli/command-format.js";
 import { getRuntimeConfigSnapshot } from "../config/config.js";
 import type { ModelProviderAuthMode, ModelProviderConfig } from "../config/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { coerceSecretRef } from "../config/types.secrets.js";
 import { getShellEnvAppliedKeys } from "../infra/shell-env.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
@@ -56,7 +56,7 @@ export type ProviderCredentialPrecedence = "profile-first" | "env-first";
 const log = createSubsystemLogger("model-auth");
 
 function resolveConfigAwareEnvApiKey(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   provider: string,
   workspaceDir?: string,
 ): EnvApiKeyResult | null {
@@ -64,7 +64,7 @@ function resolveConfigAwareEnvApiKey(
 }
 
 function resolveProviderConfig(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   provider: string,
 ): ModelProviderConfig | undefined {
   const providers = cfg?.models?.providers ?? {};
@@ -86,7 +86,7 @@ function resolveProviderConfig(
 }
 
 export function getCustomProviderApiKey(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   provider: string,
 ): string | undefined {
   const entry = resolveProviderConfig(cfg, provider);
@@ -111,7 +111,7 @@ type ResolvedCustomProviderApiKey = {
 };
 
 function canResolveEnvSecretRefInReadOnlyPath(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
   id: string;
 }): boolean {
@@ -127,7 +127,7 @@ function canResolveEnvSecretRefInReadOnlyPath(params: {
 }
 
 export function resolveUsableCustomProviderApiKey(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
   env?: NodeJS.ProcessEnv;
 }): ResolvedCustomProviderApiKey | null {
@@ -203,7 +203,7 @@ export function resolveUsableCustomProviderApiKey(params: {
 }
 
 export function hasUsableCustomProviderApiKey(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   provider: string,
   env?: NodeJS.ProcessEnv,
 ): boolean {
@@ -211,7 +211,7 @@ export function hasUsableCustomProviderApiKey(
 }
 
 export function shouldPreferExplicitConfigApiKeyAuth(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   provider: string,
 ): boolean {
   const providerConfig = resolveProviderConfig(cfg, provider);
@@ -223,7 +223,7 @@ export function shouldPreferExplicitConfigApiKeyAuth(
 }
 
 function resolveProviderAuthOverride(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   provider: string,
 ): ModelProviderAuthMode | undefined {
   const entry = resolveProviderConfig(cfg, provider);
@@ -290,7 +290,7 @@ function isManagedSecretRefApiKeyMarker(apiKey: string | undefined): boolean {
 }
 
 export function hasSyntheticLocalProviderAuthConfig(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
 }): boolean {
   const providerConfig = resolveProviderConfig(params.cfg, params.provider);
@@ -321,7 +321,7 @@ export function hasSyntheticLocalProviderAuthConfig(params: {
 
 export function hasRuntimeAvailableProviderAuth(params: {
   provider: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   allowPluginSyntheticAuth?: boolean;
@@ -363,11 +363,11 @@ type SyntheticProviderAuthResolution = {
 };
 
 function resolveProviderSyntheticRuntimeAuth(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
 }): SyntheticProviderAuthResolution {
   const resolveFromConfig = (
-    config: Brikko StudioConfig | undefined,
+    config: BrikkoStudioConfig | undefined,
   ): ResolvedProviderAuth | undefined => {
     const providerConfig = resolveProviderConfig(config, params.provider);
     return (
@@ -407,7 +407,7 @@ function resolveProviderSyntheticRuntimeAuth(params: {
 }
 
 function resolveSyntheticLocalProviderAuth(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
 }): ResolvedProviderAuth | null {
   const syntheticProviderAuth = resolveProviderSyntheticRuntimeAuth(params);
@@ -483,7 +483,7 @@ function resolveAwsSdkAuthInfo(): { mode: "aws-sdk"; source: string } {
 }
 
 function shouldDeferSyntheticProfileAuth(params: {
-  cfg: Brikko StudioConfig | undefined;
+  cfg: BrikkoStudioConfig | undefined;
   provider: string;
   resolvedApiKey: string | undefined;
 }): boolean {
@@ -504,7 +504,7 @@ function shouldDeferSyntheticProfileAuth(params: {
 
 function resolveScopedAuthProfileStore(params: {
   agentDir?: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   provider: string;
   profileId?: string;
   preferredProfile?: string;
@@ -516,7 +516,7 @@ function resolveScopedAuthProfileStore(params: {
 
 export async function resolveApiKeyForProvider(params: {
   provider: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   profileId?: string;
   preferredProfile?: string;
   store?: AuthProfileStore;
@@ -745,7 +745,7 @@ export type { EnvApiKeyResult } from "./model-auth-env.js";
 
 export function resolveModelAuthMode(
   provider?: string,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   store?: AuthProfileStore,
   options?: { workspaceDir?: string },
 ): ModelAuthMode | undefined {
@@ -814,7 +814,7 @@ export function resolveModelAuthMode(
 
 export async function hasAvailableAuthForProvider(params: {
   provider: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   preferredProfile?: string;
   store?: AuthProfileStore;
   agentDir?: string;
@@ -873,7 +873,7 @@ export async function hasAvailableAuthForProvider(params: {
 
 export async function getApiKeyForModel(params: {
   model: Model<Api>;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   profileId?: string;
   preferredProfile?: string;
   store?: AuthProfileStore;
@@ -930,7 +930,7 @@ export function applyLocalNoAuthHeaderOverride<T extends Model<Api>>(
 export function applyAuthHeaderOverride<T extends Model<Api>>(
   model: T,
   auth: ResolvedProviderAuth | null | undefined,
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
 ): T {
   if (!auth?.apiKey) {
     return model;

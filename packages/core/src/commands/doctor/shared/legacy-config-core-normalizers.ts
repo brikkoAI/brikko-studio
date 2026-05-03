@@ -2,7 +2,7 @@ import { migrateLegacyRuntimeModelRef } from "../../../agents/model-runtime-alia
 import { normalizeProviderId } from "../../../agents/provider-id.js";
 import { resolveSingleAccountKeysToMove } from "../../../channels/plugins/setup-promotion-helpers.js";
 import { resolveNormalizedProviderModelMaxTokens } from "../../../config/defaults.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import { DEFAULT_GOOGLE_API_BASE_URL } from "../../../infra/google-api-base-url.js";
 import { DEFAULT_ACCOUNT_ID } from "../../../routing/session-key.js";
 import {
@@ -14,7 +14,7 @@ import { isRecord } from "./legacy-config-record-shared.js";
 import { isLegacyModelsAddCodexMetadataModel } from "./legacy-models-add-metadata.js";
 export { normalizeLegacyTalkConfig } from "./legacy-talk-config-normalizer.js";
 
-function hasConfiguredChannels(cfg: Brikko StudioConfig): boolean {
+function hasConfiguredChannels(cfg: BrikkoStudioConfig): boolean {
   const channels = cfg.channels;
   if (!isRecord(channels)) {
     return false;
@@ -23,9 +23,9 @@ function hasConfiguredChannels(cfg: Brikko StudioConfig): boolean {
 }
 
 export function normalizeMissingGroupVisibleRepliesDefault(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const messages = cfg.messages;
   if (
     !hasConfiguredChannels(cfg) ||
@@ -51,9 +51,9 @@ export function normalizeMissingGroupVisibleRepliesDefault(
 }
 
 export function normalizeLegacyCommandsConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const rawCommands = cfg.commands;
   if (!isRecord(rawCommands) || !("modelsWrite" in rawCommands)) {
     return cfg;
@@ -65,14 +65,14 @@ export function normalizeLegacyCommandsConfig(
 
   return {
     ...cfg,
-    commands: commands as Brikko StudioConfig["commands"],
+    commands: commands as BrikkoStudioConfig["commands"],
   };
 }
 
 export function normalizeLegacyBrowserConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const rawBrowser = cfg.browser;
   if (!isRecord(rawBrowser)) {
     return cfg;
@@ -150,14 +150,14 @@ export function normalizeLegacyBrowserConfig(
 
   return {
     ...cfg,
-    browser: browser as Brikko StudioConfig["browser"],
+    browser: browser as BrikkoStudioConfig["browser"],
   };
 }
 
 export function seedMissingDefaultAccountsFromSingleAccountBase(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const channels = cfg.channels as Record<string, unknown> | undefined;
   if (!channels) {
     return cfg;
@@ -220,17 +220,17 @@ export function seedMissingDefaultAccountsFromSingleAccountBase(
 
   return {
     ...cfg,
-    channels: nextChannels as Brikko StudioConfig["channels"],
+    channels: nextChannels as BrikkoStudioConfig["channels"],
   };
 }
 
 type ModelProviderEntry = Partial<
-  NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]>[string]
+  NonNullable<NonNullable<BrikkoStudioConfig["models"]>["providers"]>[string]
 >;
-type ModelsConfigPatch = Partial<NonNullable<Brikko StudioConfig["models"]>>;
+type ModelsConfigPatch = Partial<NonNullable<BrikkoStudioConfig["models"]>>;
 type ModelDefinitionEntry = NonNullable<ModelProviderEntry["models"]>[number];
 type AgentRuntimePolicyPatch = NonNullable<
-  NonNullable<NonNullable<Brikko StudioConfig["agents"]>["defaults"]>["agentRuntime"]
+  NonNullable<NonNullable<BrikkoStudioConfig["agents"]>["defaults"]>["agentRuntime"]
 >;
 
 function mergeModelEntry(legacyEntry: unknown, currentEntry: unknown): unknown {
@@ -369,9 +369,9 @@ function normalizeLegacyRuntimeAgentContainer(
 }
 
 export function normalizeLegacyRuntimeModelRefs(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const rawAgents = cfg.agents;
   if (!isRecord(rawAgents)) {
     return cfg;
@@ -413,15 +413,15 @@ export function normalizeLegacyRuntimeModelRefs(
   return changed
     ? {
         ...cfg,
-        agents: nextAgents as Brikko StudioConfig["agents"],
+        agents: nextAgents as BrikkoStudioConfig["agents"],
       }
     : cfg;
 }
 
 export function normalizeLegacyOpenAICodexModelsAddMetadata(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const rawModels = cfg.models;
   if (!isRecord(rawModels) || !isRecord(rawModels.providers)) {
     return cfg;
@@ -479,15 +479,15 @@ export function normalizeLegacyOpenAICodexModelsAddMetadata(
     ...cfg,
     models: {
       ...rawModels,
-      providers: nextProviders as NonNullable<Brikko StudioConfig["models"]>["providers"],
+      providers: nextProviders as NonNullable<BrikkoStudioConfig["models"]>["providers"],
     },
   };
 }
 
 export function normalizeLegacyOpenAIModelProviderApi(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const rawModels = cfg.models;
   if (!isRecord(rawModels) || !isRecord(rawModels.providers)) {
     return cfg;
@@ -550,15 +550,15 @@ export function normalizeLegacyOpenAIModelProviderApi(
     ...cfg,
     models: {
       ...rawModels,
-      providers: nextProviders as NonNullable<Brikko StudioConfig["models"]>["providers"],
+      providers: nextProviders as NonNullable<BrikkoStudioConfig["models"]>["providers"],
     },
   };
 }
 
 export function normalizeLegacyNanoBananaSkill(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const NANO_BANANA_SKILL_KEY = "nano-banana-pro";
   const NANO_BANANA_MODEL = "google/gemini-3-pro-image-preview";
   const rawSkills = cfg.skills;
@@ -657,10 +657,10 @@ export function normalizeLegacyNanoBananaSkill(
       rawGoogle.models = [];
     }
     rawProviders.google = rawGoogle;
-    rawModels.providers = rawProviders as NonNullable<Brikko StudioConfig["models"]>["providers"];
+    rawModels.providers = rawProviders as NonNullable<BrikkoStudioConfig["models"]>["providers"];
     next = {
       ...next,
-      models: rawModels as Brikko StudioConfig["models"],
+      models: rawModels as BrikkoStudioConfig["models"],
     };
     changes.push(
       `Moved skills.entries.${NANO_BANANA_SKILL_KEY}.${legacyEnvApiKey ? "env.GEMINI_API_KEY" : "apiKey"} → models.providers.google.apiKey.`,
@@ -692,9 +692,9 @@ export function normalizeLegacyNanoBananaSkill(
 }
 
 export function normalizeLegacyCrossContextMessageConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const rawTools = cfg.tools;
   if (!isRecord(rawTools)) {
     return cfg;
@@ -786,9 +786,9 @@ function migrateLegacyDeepgramCompat(params: {
 }
 
 export function normalizeLegacyMediaProviderOptions(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const rawTools = cfg.tools;
   if (!isRecord(rawTools)) {
     return cfg;
@@ -858,15 +858,15 @@ export function normalizeLegacyMediaProviderOptions(
     ...cfg,
     tools: {
       ...cfg.tools,
-      media: nextMedia as NonNullable<Brikko StudioConfig["tools"]>["media"],
+      media: nextMedia as NonNullable<BrikkoStudioConfig["tools"]>["media"],
     },
   };
 }
 
 export function normalizeLegacyMistralModelMaxTokens(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   changes: string[],
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const rawProviders = cfg.models?.providers;
   if (!isRecord(rawProviders)) {
     return cfg;
@@ -937,7 +937,7 @@ export function normalizeLegacyMistralModelMaxTokens(
     ...cfg,
     models: {
       ...cfg.models,
-      providers: nextProviders as NonNullable<Brikko StudioConfig["models"]>["providers"],
+      providers: nextProviders as NonNullable<BrikkoStudioConfig["models"]>["providers"],
     },
   };
 }

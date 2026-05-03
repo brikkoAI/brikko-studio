@@ -9,7 +9,7 @@ import type {
   SpeechSynthesisRequest,
   SpeechTelephonySynthesisRequest,
 } from "brikko-studio/plugin-sdk/speech-core";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 
 const log = createSubsystemLogger("tts-local-cli");
 
@@ -326,7 +326,7 @@ export function buildCliSpeechProvider(): SpeechProviderPlugin {
 
       log.debug(`synthesize: text=${req.text.slice(0, 50)}...`);
 
-      const tempDir = mkdtempSync(path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-cli-tts-"));
+      const tempDir = mkdtempSync(path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-cli-tts-"));
 
       try {
         const result = await runCli({
@@ -397,7 +397,7 @@ export function buildCliSpeechProvider(): SpeechProviderPlugin {
 
       log.debug(`synthesizeTelephony: text=${req.text.slice(0, 50)}...`);
 
-      const tempDir = mkdtempSync(path.join(resolvePreferredBrikko StudioTmpDir(), "brikko-studio-cli-tts-"));
+      const tempDir = mkdtempSync(path.join(resolvePreferredBrikkoStudioTmpDir(), "brikko-studio-cli-tts-"));
 
       try {
         const result = await runCli({

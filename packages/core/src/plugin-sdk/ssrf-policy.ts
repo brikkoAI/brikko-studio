@@ -11,7 +11,7 @@ import type {
   ChannelDoctorConfigMutation,
   ChannelDoctorLegacyConfigRule,
 } from "./channel-contract.js";
-import type { Brikko StudioConfig } from "./config-runtime.js";
+import type { BrikkoStudioConfig } from "./config-runtime.js";
 
 export { isPrivateIpAddress };
 export type { SsrFPolicy };
@@ -154,7 +154,7 @@ function hasLegacyAllowPrivateNetworkInAccounts(value: unknown): boolean {
 
 export function createLegacyPrivateNetworkDoctorContract(params: { channelKey: string }): {
   legacyConfigRules: ChannelDoctorLegacyConfigRule[];
-  normalizeCompatibilityConfig: (params: { cfg: Brikko StudioConfig }) => ChannelDoctorConfigMutation;
+  normalizeCompatibilityConfig: (params: { cfg: BrikkoStudioConfig }) => ChannelDoctorConfigMutation;
 } {
   const pathPrefix = `channels.${params.channelKey}`;
   return {
@@ -225,7 +225,7 @@ export function createLegacyPrivateNetworkDoctorContract(params: { channelKey: s
           channels: {
             ...cfg.channels,
             [params.channelKey]: updatedChannel,
-          } as Brikko StudioConfig["channels"],
+          } as BrikkoStudioConfig["channels"],
         },
         changes,
       };

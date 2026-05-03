@@ -28,7 +28,7 @@ function withActivatedPluginIdsForTest<T extends Record<string, unknown>>(
 }
 
 const mocks = vi.hoisted(() => ({
-  loadBrikko StudioPlugins: vi.fn<typeof import("../plugins/loader.js").loadBrikko StudioPlugins>(),
+  loadBrikkoStudioPlugins: vi.fn<typeof import("../plugins/loader.js").loadBrikkoStudioPlugins>(),
   resolveCompatibleRuntimePluginRegistry:
     vi.fn<typeof import("../plugins/loader.js").resolveCompatibleRuntimePluginRegistry>(),
   resolveRuntimePluginRegistry:
@@ -52,8 +52,8 @@ let ensurePluginRegistryLoaded: typeof import("./plugin-registry.js").ensurePlug
 let resetPluginRegistryLoadedForTests: typeof import("./plugin-registry.js").__testing.resetPluginRegistryLoadedForTests;
 
 vi.mock("../plugins/loader.js", () => ({
-  loadBrikko StudioPlugins: (...args: Parameters<typeof mocks.loadBrikko StudioPlugins>) =>
-    mocks.loadBrikko StudioPlugins(...args),
+  loadBrikkoStudioPlugins: (...args: Parameters<typeof mocks.loadBrikkoStudioPlugins>) =>
+    mocks.loadBrikkoStudioPlugins(...args),
   resolveCompatibleRuntimePluginRegistry: (
     ...args: Parameters<typeof mocks.resolveCompatibleRuntimePluginRegistry>
   ) => mocks.resolveCompatibleRuntimePluginRegistry(...args),
@@ -134,7 +134,7 @@ describe("ensurePluginRegistryLoaded", () => {
   });
 
   beforeEach(() => {
-    mocks.loadBrikko StudioPlugins.mockReset();
+    mocks.loadBrikkoStudioPlugins.mockReset();
     mocks.resolveCompatibleRuntimePluginRegistry.mockReset();
     mocks.resolveRuntimePluginRegistry.mockReset();
     mocks.getActivePluginRegistry.mockReset();
@@ -200,7 +200,7 @@ describe("ensurePluginRegistryLoaded", () => {
         workspaceDir: "/tmp/workspace",
       }),
     );
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: autoEnabledConfig,
         activationSourceConfig: autoEnabledConfig,
@@ -235,15 +235,15 @@ describe("ensurePluginRegistryLoaded", () => {
     ensurePluginRegistryLoaded({ scope: "configured-channels" });
     ensurePluginRegistryLoaded({ scope: "channels" });
 
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledTimes(2);
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenNthCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledTimes(2);
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
         onlyPluginIds: ["demo-channel-a"],
         throwOnLoadError: true,
       }),
     );
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenNthCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
         onlyPluginIds: ["demo-channel-a", "demo-channel-b"],
@@ -275,8 +275,8 @@ describe("ensurePluginRegistryLoaded", () => {
 
     ensurePluginRegistryLoaded({ scope: "all" });
 
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledTimes(1);
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledTimes(1);
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config,
         onlyPluginIds: ["demo"],
@@ -311,8 +311,8 @@ describe("ensurePluginRegistryLoaded", () => {
 
     ensurePluginRegistryLoaded({ scope: "configured-channels" });
 
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledTimes(1);
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledTimes(1);
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: activatedConfig,
         activationSourceConfig: activatedConfig,
@@ -352,8 +352,8 @@ describe("ensurePluginRegistryLoaded", () => {
     } as never);
     ensurePluginRegistryLoaded({ scope: "configured-channels" });
 
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledTimes(1);
-    expect(mocks.loadBrikko StudioPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledTimes(1);
+    expect(mocks.loadBrikkoStudioPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         config: activatedConfig,
         activationSourceConfig: activatedConfig,

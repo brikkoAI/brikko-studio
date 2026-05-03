@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { AuthProfileFailureReason } from "./auth-profiles.js";
 import { runWithModelFallback } from "./model-fallback.js";
 import { classifyEmbeddedPiRunResultForModelFallback } from "./pi-embedded-runner/result-fallback-classifier.js";
@@ -33,7 +33,7 @@ vi.mock("./models-config.js", async () => {
   const mod = await vi.importActual<typeof import("./models-config.js")>("./models-config.js");
   return {
     ...mod,
-    ensureBrikko StudioModelsJson: vi.fn(async () => ({ wrote: false })),
+    ensureBrikkoStudioModelsJson: vi.fn(async () => ({ wrote: false })),
   };
 });
 
@@ -77,7 +77,7 @@ type EmbeddedAttemptParams = {
   authProfileId?: string;
 };
 
-function makeConfig(): Brikko StudioConfig {
+function makeConfig(): BrikkoStudioConfig {
   const apiKeyField = ["api", "Key"].join("");
   return {
     agents: {
@@ -124,7 +124,7 @@ function makeConfig(): Brikko StudioConfig {
         },
       },
     },
-  } satisfies Brikko StudioConfig;
+  } satisfies BrikkoStudioConfig;
 }
 
 async function withAgentWorkspace<T>(
@@ -217,7 +217,7 @@ async function runEmbeddedFallback(params: {
   sessionKey: string;
   runId: string;
   abortSignal?: AbortSignal;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }) {
   const cfg = params.config ?? makeConfig();
   return await runWithModelFallback({

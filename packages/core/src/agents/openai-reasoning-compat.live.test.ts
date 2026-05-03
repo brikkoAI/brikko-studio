@@ -4,10 +4,10 @@ import { SessionManager } from "@mariozechner/pi-coding-agent";
 import { Type } from "typebox";
 import { describe, expect, it } from "vitest";
 import { getRuntimeConfig } from "../config/config.js";
-import { resolveBrikko StudioAgentDir } from "./agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "./agent-paths.js";
 import { isLiveProfileKeyModeEnabled, isLiveTestEnabled } from "./live-test-helpers.js";
 import { getApiKeyForModel, requireApiKey } from "./model-auth.js";
-import { ensureBrikko StudioModelsJson } from "./models-config.js";
+import { ensureBrikkoStudioModelsJson } from "./models-config.js";
 import { sanitizeSessionHistory } from "./pi-embedded-runner/replay-history.js";
 import { discoverAuthStorage, discoverModels } from "./pi-model-discovery.js";
 
@@ -125,9 +125,9 @@ describeLive("openai reasoning compat live", () => {
     async () => {
       const { provider, modelId } = resolveTargetModelRef();
       const cfg = getRuntimeConfig();
-      await ensureBrikko StudioModelsJson(cfg);
+      await ensureBrikkoStudioModelsJson(cfg);
 
-      const agentDir = resolveBrikko StudioAgentDir();
+      const agentDir = resolveBrikkoStudioAgentDir();
       const authStorage = discoverAuthStorage(agentDir);
       const modelRegistry = discoverModels(authStorage, agentDir);
       const model = modelRegistry.find(provider, modelId) as Model<Api> | null;
@@ -179,9 +179,9 @@ describeLive("openai reasoning compat live", () => {
     async () => {
       const { provider, modelId } = resolveTargetModelRef();
       const cfg = getRuntimeConfig();
-      await ensureBrikko StudioModelsJson(cfg);
+      await ensureBrikkoStudioModelsJson(cfg);
 
-      const agentDir = resolveBrikko StudioAgentDir();
+      const agentDir = resolveBrikkoStudioAgentDir();
       const authStorage = discoverAuthStorage(agentDir);
       const modelRegistry = discoverModels(authStorage, agentDir);
       const model = modelRegistry.find(provider, modelId) as Model<Api> | null;

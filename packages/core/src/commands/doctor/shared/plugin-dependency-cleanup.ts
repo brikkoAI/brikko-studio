@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { resolveStateDir } from "../../../config/paths.js";
-import { resolveBrikko StudioPackageRootSync } from "../../../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRootSync } from "../../../infra/brikko-studio-root.js";
 import { resolveConfigDir, resolveUserPath } from "../../../utils.js";
 
 const LEGACY_DIRECT_CHILD_NAMES = new Set(["plugin-runtime-deps", "bundled-plugin-runtime-deps"]);
@@ -88,7 +88,7 @@ async function collectLegacyPluginDependencyTargets(
 ): Promise<string[]> {
   const packageRoot =
     options.packageRoot ??
-    resolveBrikko StudioPackageRootSync({
+    resolveBrikkoStudioPackageRootSync({
       argv1: process.argv[1],
       moduleUrl: import.meta.url,
       cwd: process.cwd(),

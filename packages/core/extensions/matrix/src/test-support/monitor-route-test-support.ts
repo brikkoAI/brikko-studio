@@ -7,4 +7,4 @@ export {
   createTestRegistry,
   setActivePluginRegistry,
 } from "brikko-studio/plugin-sdk/plugin-test-runtime";
-export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";

@@ -1,5 +1,5 @@
 import { normalizeLegacyOnboardAuthChoice } from "../commands/auth-choice-legacy.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveManifestProviderAuthChoice } from "./provider-auth-choices.js";
 
 function normalizeLegacyAuthChoice(choice: string, env?: NodeJS.ProcessEnv): string {
@@ -8,7 +8,7 @@ function normalizeLegacyAuthChoice(choice: string, env?: NodeJS.ProcessEnv): str
 
 export async function resolvePreferredProviderForAuthChoice(params: {
   choice: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   includeUntrustedWorkspacePlugins?: boolean;

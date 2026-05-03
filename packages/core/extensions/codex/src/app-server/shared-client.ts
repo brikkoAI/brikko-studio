@@ -1,4 +1,4 @@
-import { resolveBrikko StudioAgentDir } from "brikko-studio/plugin-sdk/provider-auth";
+import { resolveBrikkoStudioAgentDir } from "brikko-studio/plugin-sdk/provider-auth";
 import { applyCodexAppServerAuthProfile, bridgeCodexAppServerStartOptions } from "./auth-bridge.js";
 import { CodexAppServerClient } from "./client.js";
 import {
@@ -32,7 +32,7 @@ export async function getSharedCodexAppServerClient(options?: {
   agentDir?: string;
 }): Promise<CodexAppServerClient> {
   const state = getSharedCodexAppServerClientState();
-  const agentDir = options?.agentDir ?? resolveBrikko StudioAgentDir();
+  const agentDir = options?.agentDir ?? resolveBrikkoStudioAgentDir();
   const requestedStartOptions =
     options?.startOptions ?? resolveCodexAppServerRuntimeOptions().start;
   const managedStartOptions = await resolveManagedCodexAppServerStartOptions(requestedStartOptions);
@@ -91,7 +91,7 @@ export async function createIsolatedCodexAppServerClient(options?: {
   authProfileId?: string;
   agentDir?: string;
 }): Promise<CodexAppServerClient> {
-  const agentDir = options?.agentDir ?? resolveBrikko StudioAgentDir();
+  const agentDir = options?.agentDir ?? resolveBrikkoStudioAgentDir();
   const requestedStartOptions =
     options?.startOptions ?? resolveCodexAppServerRuntimeOptions().start;
   const managedStartOptions = await resolveManagedCodexAppServerStartOptions(requestedStartOptions);

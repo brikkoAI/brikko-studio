@@ -69,7 +69,7 @@ function buildAccount(): ResolvedIrcAccount {
     tls: true,
     nick: "brikko-studio",
     username: "brikko-studio",
-    realname: "Brikko Studio",
+    realname: "BrikkoStudio",
     password: "",
     passwordSource: "none",
     config: {} as ResolvedIrcAccount["config"],
@@ -303,7 +303,7 @@ describe("irc setup", () => {
           tls: true,
           nick: " brikko-studio ",
           username: " claw ",
-          realname: " Brikko Studio Bot ",
+          realname: " BrikkoStudio Bot ",
           password: " secret ",
           channels: ["#brikko-studio"],
         },
@@ -318,7 +318,7 @@ describe("irc setup", () => {
           tls: true,
           nick: "brikko-studio",
           username: "claw",
-          realname: "Brikko Studio Bot",
+          realname: "BrikkoStudio Bot",
           password: "secret",
           channels: ["#brikko-studio"],
         },
@@ -342,7 +342,7 @@ describe("irc setup", () => {
           return "brikko-studio";
         }
         if (message === "IRC real name") {
-          return "Brikko Studio Bot";
+          return "BrikkoStudio Bot";
         }
         if (message.startsWith("Auto-join IRC channels")) {
           return "#brikko-studio, #ops";

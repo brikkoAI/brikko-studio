@@ -5,7 +5,7 @@
  * They support dependency injection via the `deps` parameter for testability.
  */
 
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { getClientManager as getRegistryClientManager } from "./client-manager-registry.js";
 import { resolveTwitchAccountContext } from "./config.js";
@@ -27,12 +27,12 @@ export interface SendMessageResult {
 /**
  * Internal send function used by the outbound adapter.
  *
- * This function has access to the full Brikko Studio config and handles
+ * This function has access to the full BrikkoStudio config and handles
  * account resolution, markdown stripping, and actual message sending.
  *
  * @param channel - The channel name
  * @param text - The message text
- * @param cfg - Full Brikko Studio configuration
+ * @param cfg - Full BrikkoStudio configuration
  * @param accountId - Account ID to use
  * @param stripMarkdown - Whether to strip markdown (default: true)
  * @param logger - Logger instance
@@ -51,7 +51,7 @@ export interface SendMessageResult {
 export async function sendMessageTwitchInternal(
   channel: string,
   text: string,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   accountId?: string,
   stripMarkdown: boolean = true,
   logger: Console = console,

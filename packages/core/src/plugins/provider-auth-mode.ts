@@ -27,7 +27,7 @@ export async function resolveSecretInputModeForEnvSelection(params: {
       {
         value: "plaintext",
         label: params.copy?.plaintextLabel ?? "Paste API key now",
-        hint: params.copy?.plaintextHint ?? "Stores the key directly in Brikko Studio config",
+        hint: params.copy?.plaintextHint ?? "Stores the key directly in BrikkoStudio config",
       },
       {
         value: "ref",

@@ -5,7 +5,7 @@ import {
   createHeartbeatToolResponsePayload,
   type HeartbeatToolResponse,
 } from "../auto-reply/heartbeat-tool-response.js";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { runHeartbeatOnce, type HeartbeatDeps } from "./heartbeat-runner.js";
 import { installHeartbeatRunnerTestRuntime } from "./heartbeat-runner.test-harness.js";
 import {
@@ -28,7 +28,7 @@ describe("runHeartbeatOnce heartbeat response tool", () => {
     visibleReplies?: "automatic" | "message_tool";
     agentRuntimeId?: string;
     model?: string;
-  }): Brikko StudioConfig {
+  }): BrikkoStudioConfig {
     return {
       agents: {
         defaults: {
@@ -47,7 +47,7 @@ describe("runHeartbeatOnce heartbeat response tool", () => {
         },
       },
       session: { store: params.storePath },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
   function createDeps(params: {

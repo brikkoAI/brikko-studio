@@ -6,7 +6,7 @@ import {
   recordSessionMetaFromInbound,
   resolveStorePath,
 } from "../../config/sessions/inbound.runtime.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { RoutePeer } from "../../routing/resolve-route.js";
 import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
@@ -24,7 +24,7 @@ export type OutboundSessionRoute = {
 };
 
 export type ResolveOutboundSessionRouteParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChannelId;
   agentId: string;
   accountId?: string | null;
@@ -133,7 +133,7 @@ export async function resolveOutboundSessionRoute(
 }
 
 export async function ensureOutboundSessionEntry(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: ChannelId;
   accountId?: string | null;
   route: OutboundSessionRoute;

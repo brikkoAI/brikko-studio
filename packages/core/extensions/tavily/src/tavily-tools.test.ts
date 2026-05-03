@@ -1,5 +1,5 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-runtime";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-runtime";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   DEFAULT_TAVILY_BASE_URL,
@@ -22,10 +22,10 @@ vi.mock("./tavily-client.js", () => ({
   runTavilyExtract,
 }));
 
-function fakeApi(): Brikko StudioPluginApi {
+function fakeApi(): BrikkoStudioPluginApi {
   return {
     config: {},
-  } as Brikko StudioPluginApi;
+  } as BrikkoStudioPluginApi;
 }
 
 describe("tavily tools", () => {
@@ -213,7 +213,7 @@ describe("tavily tools", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveTavilySearchConfig(cfg)).toEqual({
       apiKey: "plugin-key",
@@ -229,7 +229,7 @@ describe("tavily tools", () => {
 
     expect(resolveTavilyApiKey()).toBe("env-key");
     expect(resolveTavilyBaseUrl()).toBe("https://env.tavily.test");
-    expect(resolveTavilyBaseUrl({} as Brikko StudioConfig)).not.toBe(DEFAULT_TAVILY_BASE_URL);
+    expect(resolveTavilyBaseUrl({} as BrikkoStudioConfig)).not.toBe(DEFAULT_TAVILY_BASE_URL);
     expect(resolveTavilySearchTimeoutSeconds()).toBe(DEFAULT_TAVILY_SEARCH_TIMEOUT_SECONDS);
     expect(resolveTavilyExtractTimeoutSeconds()).toBe(DEFAULT_TAVILY_EXTRACT_TIMEOUT_SECONDS);
   });

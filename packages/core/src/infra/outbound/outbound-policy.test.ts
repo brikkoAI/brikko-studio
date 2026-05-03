@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { vi } from "vitest";
 import type { ChannelMessageActionName } from "../../channels/plugins/types.js";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 
 let applyCrossContextDecoration: typeof import("./outbound-policy.js").applyCrossContextDecoration;
 let buildCrossContextDecoration: typeof import("./outbound-policy.js").buildCrossContextDecoration;
@@ -70,16 +70,16 @@ const workspaceConfig = {
       appToken: "workspace-app-test",
     },
   },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 const richChatConfig = {
   channels: {
     richchat: {},
   },
-} as Brikko StudioConfig;
+} as BrikkoStudioConfig;
 
 function expectCrossContextPolicyResult(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel: string;
   action: "send" | "upload-file";
   to: string;
@@ -126,7 +126,7 @@ describe("outbound policy helpers", () => {
         tools: {
           message: { crossContext: { allowAcrossProviders: true } },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       channel: "forum",
       action: "send" as const,
       to: "forum:@ops",
@@ -149,7 +149,7 @@ describe("outbound policy helpers", () => {
         tools: {
           message: { crossContext: { allowWithinProvider: false } },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       channel: "workspace",
       action: "send" as const,
       to: "C999",
@@ -163,7 +163,7 @@ describe("outbound policy helpers", () => {
         tools: {
           message: { crossContext: { allowWithinProvider: false } },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       channel: "workspace",
       action: "upload-file" as const,
       to: "C999",

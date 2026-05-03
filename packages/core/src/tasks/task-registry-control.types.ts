@@ -1,7 +1,7 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export type CancelAcpSessionAdmin = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
   reason: string;
 }) => Promise<void>;
@@ -16,7 +16,7 @@ export type KillSubagentRunAdminResult = {
 };
 
 export type KillSubagentRunAdmin = (params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
 }) => Promise<KillSubagentRunAdminResult>;
 

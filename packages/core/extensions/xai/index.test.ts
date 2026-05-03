@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import {
   registerProviderPlugin,
@@ -33,7 +33,7 @@ function createProviderModel(overrides: {
   };
 }
 
-type XaiAutoEnableProbe = Parameters<Brikko StudioPluginApi["registerAutoEnableProbe"]>[0];
+type XaiAutoEnableProbe = Parameters<BrikkoStudioPluginApi["registerAutoEnableProbe"]>[0];
 
 function registerXaiAutoEnableProbe(): XaiAutoEnableProbe {
   const probes: XaiAutoEnableProbe[] = [];

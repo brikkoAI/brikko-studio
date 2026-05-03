@@ -182,7 +182,7 @@ describe("Dockerfile", () => {
     );
   });
 
-  it("pre-creates the Brikko Studio home before switching to the node user", async () => {
+  it("pre-creates the BrikkoStudio home before switching to the node user", async () => {
     const dockerfile = await readFile(dockerfilePath, "utf8");
     const runtimeStageIndex = dockerfile.lastIndexOf("FROM base-runtime");
     const stateDirIndex = dockerfile.indexOf(

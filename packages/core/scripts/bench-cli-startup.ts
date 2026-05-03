@@ -455,7 +455,7 @@ function parseOptions(): CliOptions {
 }
 
 function printUsage(): void {
-  console.log(`Brikko Studio CLI benchmark
+  console.log(`BrikkoStudio CLI benchmark
 
 Usage:
   pnpm tsx scripts/bench-cli-startup.ts [options]

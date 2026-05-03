@@ -211,7 +211,7 @@ const brikko-studioTheme = {
   },
 };
 
-class Brikko StudioA2UIHost extends LitElement {
+class BrikkoStudioA2UIHost extends LitElement {
   static properties = {
     surfaces: { state: true },
     pendingAction: { state: true },
@@ -547,5 +547,5 @@ class Brikko StudioA2UIHost extends LitElement {
 }
 
 if (!customElements.get("brikko-studio-a2ui-host")) {
-  customElements.define("brikko-studio-a2ui-host", Brikko StudioA2UIHost);
+  customElements.define("brikko-studio-a2ui-host", BrikkoStudioA2UIHost);
 }

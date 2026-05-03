@@ -8,13 +8,13 @@ import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
 } from "../../config/model-input.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { ConfiguredEntry } from "./list.types.js";
 import { DEFAULT_MODEL, DEFAULT_PROVIDER, modelKey } from "./shared.js";
 
 const DISPLAY_MODEL_PARSE_OPTIONS = { allowPluginNormalization: false } as const;
 
-export function resolveConfiguredEntries(cfg: Brikko StudioConfig) {
+export function resolveConfiguredEntries(cfg: BrikkoStudioConfig) {
   const resolvedDefault = resolveConfiguredModelRef({
     cfg,
     defaultProvider: DEFAULT_PROVIDER,

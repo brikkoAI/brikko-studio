@@ -3,7 +3,7 @@ import {
   installChannelSetupContractSuite,
   installChannelStatusContractSuite,
 } from "brikko-studio/plugin-sdk/channel-test-helpers";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect } from "vitest";
 import { slackPlugin } from "../api.js";
 import { slackSetupPlugin } from "../setup-plugin-api.js";
@@ -38,7 +38,7 @@ describe("slack actions contract", () => {
               appToken: "xapp-test",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         expectedActions: slackDefaultActions,
         expectedCapabilities: ["presentation"],
       },
@@ -54,7 +54,7 @@ describe("slack actions contract", () => {
               },
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         expectedActions: slackDefaultActions,
         expectedCapabilities: ["presentation"],
       },
@@ -66,7 +66,7 @@ describe("slack actions contract", () => {
               enabled: true,
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         expectedActions: [],
         expectedCapabilities: [],
       },
@@ -80,7 +80,7 @@ describe("slack setup contract", () => {
     cases: [
       {
         name: "default account stores tokens and enables the channel",
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         input: {
           botToken: "xoxb-test",
           appToken: "xapp-test",
@@ -94,7 +94,7 @@ describe("slack setup contract", () => {
       },
       {
         name: "non-default env setup is rejected",
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: "ops",
         input: {
           useEnv: true,
@@ -119,7 +119,7 @@ describe("slack status contract", () => {
               appToken: "xapp-test",
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         runtime: {
           accountId: "default",
           connected: true,

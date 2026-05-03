@@ -15,7 +15,7 @@ vi.mock("./schtasks-exec.js", () => ({
 // Real content from the brikko-studio-gateway.service unit file (the canonical gateway unit).
 const GATEWAY_SERVICE_CONTENTS = `\
 [Unit]
-Description=Brikko Studio Gateway (v2026.3.8)
+Description=BrikkoStudio Gateway (v2026.3.8)
 After=network-online.target
 Wants=network-online.target
 
@@ -33,7 +33,7 @@ WantedBy=default.target
 // Real content from the brikko-studio-test.service unit file (a non-gateway brikko-studio service).
 const TEST_SERVICE_CONTENTS = `\
 [Unit]
-Description=Brikko Studio test service
+Description=BrikkoStudio test service
 After=default.target
 
 [Service]
@@ -55,7 +55,7 @@ Environment=HOME=/home/clawdbot
 
 const COMPANION_SERVICE_CONTENTS = `\
 [Unit]
-Description=Brikko Studio companion worker
+Description=BrikkoStudio companion worker
 After=brikko-studio-gateway.service
 Requires=brikko-studio-gateway.service
 
@@ -65,7 +65,7 @@ ExecStart=/usr/bin/node /opt/brikko-studio-worker/dist/index.js worker
 
 const CUSTOM_BRIKKO_STUDIO_GATEWAY_CONTENTS = `\
 [Unit]
-Description=Custom Brikko Studio gateway
+Description=Custom BrikkoStudio gateway
 
 [Service]
 ExecStart=/usr/bin/node /opt/brikko-studio/dist/entry.js gateway --port 18888
@@ -337,8 +337,8 @@ describe("findExtraGatewayServices (win32)", () => {
     execSchtasksMock.mockResolvedValueOnce({
       code: 0,
       stdout: [
-        "TaskName: Brikko Studio Gateway",
-        "Task To Run: C:\\Program Files\\Brikko Studio\\brikko-studio.exe gateway run",
+        "TaskName: BrikkoStudio Gateway",
+        "Task To Run: C:\\Program Files\\BrikkoStudio\\brikko-studio.exe gateway run",
         "",
         "TaskName: Clawdbot Legacy",
         "Task To Run: C:\\clawdbot\\clawdbot.exe run",

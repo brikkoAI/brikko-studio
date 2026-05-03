@@ -61,7 +61,7 @@ import { loadSessionStore } from "../config/sessions/store-load.js";
 import { archiveRemovedSessionTranscripts, updateSessionStore } from "../config/sessions/store.js";
 import type { SessionEntry } from "../config/sessions/types.js";
 import type { AgentDefaultsConfig } from "../config/types.agent-defaults.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { hasActiveCronJobs } from "../cron/active-jobs.js";
 import { resolveCronSession } from "../cron/isolated-agent/session.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
@@ -237,7 +237,7 @@ type ActiveHoursSchedule = {
 };
 
 function resolveActiveHoursSchedule(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   heartbeat?: HeartbeatConfig,
 ): ActiveHoursSchedule | undefined {
   const activeHours = heartbeat?.activeHours;
@@ -263,7 +263,7 @@ function activeHoursConfigMatch(a?: ActiveHoursSchedule, b?: ActiveHoursSchedule
 
 export type HeartbeatRunner = {
   stop: () => void;
-  updateConfig: (cfg: Brikko StudioConfig) => void;
+  updateConfig: (cfg: BrikkoStudioConfig) => void;
 };
 
 function resolveHeartbeatSchedulerSeed(explicitSeed?: string) {
@@ -282,13 +282,13 @@ function resolveHeartbeatSchedulerSeed(explicitSeed?: string) {
   }
 }
 
-function hasExplicitHeartbeatAgents(cfg: Brikko StudioConfig) {
+function hasExplicitHeartbeatAgents(cfg: BrikkoStudioConfig) {
   const list = cfg.agents?.list ?? [];
   return list.some((entry) => Boolean(entry?.heartbeat));
 }
 
 function resolveHeartbeatConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId?: string,
 ): HeartbeatConfig | undefined {
   const defaults = cfg.agents?.defaults?.heartbeat;
@@ -302,7 +302,7 @@ function resolveHeartbeatConfig(
   return { ...defaults, ...overrides };
 }
 
-function resolveHeartbeatAgents(cfg: Brikko StudioConfig): HeartbeatAgent[] {
+function resolveHeartbeatAgents(cfg: BrikkoStudioConfig): HeartbeatAgent[] {
   const list = cfg.agents?.list ?? [];
   if (hasExplicitHeartbeatAgents(cfg)) {
     return list
@@ -323,20 +323,20 @@ function resolveHeartbeatAgents(cfg: Brikko StudioConfig): HeartbeatAgent[] {
   return [{ agentId: fallbackId, heartbeat: resolveHeartbeatConfig(cfg, fallbackId) }];
 }
 
-function resolveHeartbeatPromptRaw(cfg: Brikko StudioConfig, heartbeat?: HeartbeatConfig) {
+function resolveHeartbeatPromptRaw(cfg: BrikkoStudioConfig, heartbeat?: HeartbeatConfig) {
   return heartbeat?.prompt ?? cfg.agents?.defaults?.heartbeat?.prompt;
 }
 
-export function resolveHeartbeatPrompt(cfg: Brikko StudioConfig, heartbeat?: HeartbeatConfig) {
+export function resolveHeartbeatPrompt(cfg: BrikkoStudioConfig, heartbeat?: HeartbeatConfig) {
   return resolveHeartbeatPromptText(resolveHeartbeatPromptRaw(cfg, heartbeat));
 }
 
-function resolveHeartbeatResponseToolPrompt(cfg: Brikko StudioConfig, heartbeat?: HeartbeatConfig) {
+function resolveHeartbeatResponseToolPrompt(cfg: BrikkoStudioConfig, heartbeat?: HeartbeatConfig) {
   return resolveHeartbeatPromptForResponseTool(resolveHeartbeatPromptRaw(cfg, heartbeat));
 }
 
 function resolveHeartbeatModelRef(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   heartbeat?: HeartbeatConfig;
   entry?: SessionEntry;
@@ -378,7 +378,7 @@ function resolvePinnedHeartbeatRuntimeId(entry: SessionEntry | undefined): strin
 }
 
 function usesCodexHarness(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   heartbeat?: HeartbeatConfig;
   entry?: SessionEntry;
@@ -404,7 +404,7 @@ function usesCodexHarness(params: {
 }
 
 function shouldUseHeartbeatResponseToolPrompt(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   heartbeat?: HeartbeatConfig;
   entry?: SessionEntry;
@@ -419,7 +419,7 @@ function shouldUseHeartbeatResponseToolPrompt(params: {
   return usesCodexHarness(params);
 }
 
-function resolveHeartbeatAckMaxChars(cfg: Brikko StudioConfig, heartbeat?: HeartbeatConfig) {
+function resolveHeartbeatAckMaxChars(cfg: BrikkoStudioConfig, heartbeat?: HeartbeatConfig) {
   return Math.max(
     0,
     heartbeat?.ackMaxChars ??
@@ -428,7 +428,7 @@ function resolveHeartbeatAckMaxChars(cfg: Brikko StudioConfig, heartbeat?: Heart
   );
 }
 
-function isHeartbeatTypingEnabled(params: { cfg: Brikko StudioConfig; hasChatDelivery: boolean }) {
+function isHeartbeatTypingEnabled(params: { cfg: BrikkoStudioConfig; hasChatDelivery: boolean }) {
   if (!params.hasChatDelivery) {
     return false;
   }
@@ -437,14 +437,14 @@ function isHeartbeatTypingEnabled(params: { cfg: Brikko StudioConfig; hasChatDel
   return typingMode !== "never";
 }
 
-function resolveHeartbeatTypingIntervalSeconds(cfg: Brikko StudioConfig) {
+function resolveHeartbeatTypingIntervalSeconds(cfg: BrikkoStudioConfig) {
   const agentCfg = cfg.agents?.defaults;
   const configured = agentCfg?.typingIntervalSeconds ?? cfg.session?.typingIntervalSeconds;
   return typeof configured === "number" && configured > 0 ? configured : undefined;
 }
 
 function resolveHeartbeatSession(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId?: string,
   heartbeat?: HeartbeatConfig,
   forcedSessionKey?: string,
@@ -840,7 +840,7 @@ function resolveHeartbeatWakePayloadFlags(params: {
 }
 
 async function resolveHeartbeatPreflight(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   heartbeat?: HeartbeatConfig;
   forcedSessionKey?: string;
@@ -1019,7 +1019,7 @@ function stripHeartbeatTasksBlock(content: string): string {
 }
 
 function resolveHeartbeatRunPrompt(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   heartbeat?: HeartbeatConfig;
   preflight: HeartbeatPreflight;
   canRelayToUser: boolean;
@@ -1152,7 +1152,7 @@ function selectSystemEventsConsumedByHeartbeat(params: {
 }
 
 export async function runHeartbeatOnce(opts: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentId?: string;
   sessionKey?: string;
   heartbeat?: HeartbeatConfig;
@@ -1898,7 +1898,7 @@ export async function runHeartbeatOnce(opts: {
 }
 
 export function startHeartbeatRunner(opts: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   runtime?: RuntimeEnv;
   abortSignal?: AbortSignal;
   runOnce?: typeof runHeartbeatOnce;
@@ -2039,7 +2039,7 @@ export function startHeartbeatRunner(opts: {
     state.timer.unref?.();
   };
 
-  const updateConfig = (cfg: Brikko StudioConfig) => {
+  const updateConfig = (cfg: BrikkoStudioConfig) => {
     if (state.stopped) {
       return;
     }

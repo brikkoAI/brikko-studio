@@ -4,7 +4,7 @@ import {
   runSetupWizardFinalize,
 } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
-import { DEFAULT_ACCOUNT_ID, type Brikko StudioConfig } from "brikko-studio/plugin-sdk/setup";
+import { DEFAULT_ACCOUNT_ID, type BrikkoStudioConfig } from "brikko-studio/plugin-sdk/setup";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { whatsappSetupWizard } from "./setup-surface.js";
 import {
@@ -26,7 +26,7 @@ import {
 } from "./setup-test-helpers.js";
 
 const hoisted = vi.hoisted(() => ({
-  detectWhatsAppLinked: vi.fn<(cfg: Brikko StudioConfig, accountId: string) => Promise<boolean>>(
+  detectWhatsAppLinked: vi.fn<(cfg: BrikkoStudioConfig, accountId: string) => Promise<boolean>>(
     async () => false,
   ),
   loginWeb: vi.fn(async () => {}),
@@ -35,7 +35,7 @@ const hoisted = vi.hoisted(() => ({
     async () => "not-linked",
   ),
   resolveWhatsAppAuthDir: vi.fn<
-    (params: { cfg: Brikko StudioConfig; accountId: string }) => { authDir: string }
+    (params: { cfg: BrikkoStudioConfig; accountId: string }) => { authDir: string }
   >(() => ({
     authDir: "/tmp/brikko-studio-whatsapp-test",
   })),
@@ -116,13 +116,13 @@ function createSeparatePhoneHarness(params: { selectValues: string[]; textValues
 }
 
 function expectFinalizeResult(result: Awaited<ReturnType<typeof runFinalizeWithHarness>>): {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 } {
   expect(result).toBeDefined();
   if (!result || typeof result !== "object" || !("cfg" in result) || !result.cfg) {
     throw new Error("Expected WhatsApp finalize result with cfg");
   }
-  return result as { cfg: Brikko StudioConfig };
+  return result as { cfg: BrikkoStudioConfig };
 }
 
 async function runSeparatePhoneFlow(params: { selectValues: string[]; textValues?: string[] }) {
@@ -184,7 +184,7 @@ describe("whatsapp setup wizard", () => {
       await runFinalizeWithHarness({
         harness,
         accountId: "work",
-        cfg: createWhatsAppWorkAccountConfig() as Brikko StudioConfig,
+        cfg: createWhatsAppWorkAccountConfig() as BrikkoStudioConfig,
       }),
     );
 
@@ -204,7 +204,7 @@ describe("whatsapp setup wizard", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       accountOverrides: {
         whatsapp: "work",
       },
@@ -237,7 +237,7 @@ describe("whatsapp setup wizard", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       accountOverrides: {},
     });
 
@@ -262,7 +262,7 @@ describe("whatsapp setup wizard", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       accountOverrides: {
         whatsapp: "work",
       },
@@ -282,7 +282,7 @@ describe("whatsapp setup wizard", () => {
       await runFinalizeWithHarness({
         harness,
         accountId: "",
-        cfg: createWhatsAppWorkAccountConfig({ defaultAccount: "work" }) as Brikko StudioConfig,
+        cfg: createWhatsAppWorkAccountConfig({ defaultAccount: "work" }) as BrikkoStudioConfig,
       }),
     );
 
@@ -318,7 +318,7 @@ describe("whatsapp setup wizard", () => {
     const result = expectFinalizeResult(
       await runFinalizeWithHarness({
         harness,
-        cfg: createWhatsAppRootAllowFromConfig() as Brikko StudioConfig,
+        cfg: createWhatsAppRootAllowFromConfig() as BrikkoStudioConfig,
       }),
     );
 

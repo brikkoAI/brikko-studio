@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi as MatrixEntryPluginApi } from "brikko-studio/plugin-sdk/channel-entry-contract";
+import type { BrikkoStudioPluginApi as MatrixEntryPluginApi } from "brikko-studio/plugin-sdk/channel-entry-contract";
 import {
   getRequiredHookHandler,
   registerHookHandlersForTest,

@@ -16,7 +16,7 @@ export type {
   MemoryQmdMcporterConfig,
   MemoryQmdSearchMode,
   MemorySearchConfig,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   SecretInput,
   SessionSendPolicyConfig,
 } from "./brikko-studio-runtime.js";

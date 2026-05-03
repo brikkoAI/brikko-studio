@@ -1,10 +1,10 @@
 import { ToolAuthorizationError } from "brikko-studio/plugin-sdk/channel-actions";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveWhatsAppAccount } from "./accounts.js";
 import { resolveWhatsAppOutboundTarget } from "./resolve-outbound-target.js";
 
 export function resolveAuthorizedWhatsAppOutboundTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   chatJid: string;
   accountId?: string;
   actionLabel: string;

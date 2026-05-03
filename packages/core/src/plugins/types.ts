@@ -21,7 +21,7 @@ import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
 import type { ChannelId } from "../channels/plugins/types.public.js";
 import type { ModelProviderConfig } from "../config/types.js";
 import type { ModelCompatConfig } from "../config/types.models.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { OperatorScope } from "../gateway/operator-scopes.js";
 import type { GatewayRequestHandler } from "../gateway/server-methods/types.js";
 import type { InternalHookHandler } from "../hooks/internal-hook-types.js";
@@ -145,10 +145,10 @@ import type {
 } from "./provider-thinking.types.js";
 import type { PluginRuntime } from "./runtime/types.js";
 import type {
-  Brikko StudioPluginHookOptions,
-  Brikko StudioPluginToolContext,
-  Brikko StudioPluginToolFactory,
-  Brikko StudioPluginToolOptions,
+  BrikkoStudioPluginHookOptions,
+  BrikkoStudioPluginToolContext,
+  BrikkoStudioPluginToolFactory,
+  BrikkoStudioPluginToolOptions,
 } from "./tool-types.js";
 import type { WebFetchProviderPlugin, WebSearchProviderPlugin } from "./web-provider-types.js";
 
@@ -164,10 +164,10 @@ export type {
   PluginFormat,
 } from "./manifest-types.js";
 export type {
-  Brikko StudioPluginHookOptions,
-  Brikko StudioPluginToolContext,
-  Brikko StudioPluginToolFactory,
-  Brikko StudioPluginToolOptions,
+  BrikkoStudioPluginHookOptions,
+  BrikkoStudioPluginToolContext,
+  BrikkoStudioPluginToolFactory,
+  BrikkoStudioPluginToolOptions,
 } from "./tool-types.js";
 export type { AnyAgentTool } from "../agents/tools/common.js";
 export type { AgentHarness } from "../agents/harness/types.js";
@@ -179,7 +179,7 @@ export type {
   AgentToolResultMiddlewareOptions,
   AgentToolResultMiddlewareResult,
   AgentToolResultMiddlewareRuntime,
-  Brikko StudioAgentToolResult,
+  BrikkoStudioAgentToolResult,
 } from "./agent-tool-result-middleware-types.js";
 export type {
   PluginConversationBinding,
@@ -277,7 +277,7 @@ export type PluginConfigValidation =
  * function, or both. `uiHints` and `jsonSchema` are optional extras for docs,
  * forms, and config UIs.
  */
-export type Brikko StudioPluginConfigSchema = {
+export type BrikkoStudioPluginConfigSchema = {
   safeParse?: (value: unknown) => {
     success: boolean;
     data?: unknown;
@@ -303,7 +303,7 @@ export type ProviderAuthResult = {
    * `models.providers.<id>` entries, default aliases, or agent model helpers.
    * The caller still persists auth-profile bindings separately.
    */
-  configPatch?: Partial<Brikko StudioConfig>;
+  configPatch?: Partial<BrikkoStudioConfig>;
   defaultModel?: string;
   notes?: string[];
   /**
@@ -316,7 +316,7 @@ export type ProviderAuthResult = {
 
 /** Interactive auth context passed to provider login/setup methods. */
 export type ProviderAuthContext = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   agentDir?: string;
   workspaceDir?: string;
@@ -380,8 +380,8 @@ export type ProviderNonInteractiveApiKeyCredentialParams = {
 
 export type ProviderAuthMethodNonInteractiveContext = {
   authChoice: string;
-  config: Brikko StudioConfig;
-  baseConfig: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
+  baseConfig: BrikkoStudioConfig;
   opts: ProviderAuthOptionBag;
   runtime: RuntimeEnv;
   agentDir?: string;
@@ -403,20 +403,20 @@ export type ProviderAuthMethod = {
    * Optional wizard/onboarding metadata for this specific auth method.
    *
    * Use this when one provider exposes multiple setup entries (for example API
-   * key + OAuth, or region-specific login flows). Brikko Studio uses this to expose
+   * key + OAuth, or region-specific login flows). BrikkoStudio uses this to expose
    * method-specific auth choices while keeping the provider id stable.
    */
   wizard?: ProviderPluginWizardSetup;
   run: (ctx: ProviderAuthContext) => Promise<ProviderAuthResult>;
   runNonInteractive?: (
     ctx: ProviderAuthMethodNonInteractiveContext,
-  ) => Promise<Brikko StudioConfig | null>;
+  ) => Promise<BrikkoStudioConfig | null>;
 };
 
 export type ProviderCatalogOrder = "simple" | "profile" | "paired" | "late";
 
 export type ProviderCatalogContext = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env: NodeJS.ProcessEnv;
@@ -465,7 +465,7 @@ export type ProviderRuntimeProviderConfig = {
  * belong in `prepareDynamicModel`.
  */
 export type ProviderResolveDynamicModelContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   provider: string;
@@ -484,7 +484,7 @@ export type ProviderResolveDynamicModelContext = {
 export type ProviderPrepareDynamicModelContext = ProviderResolveDynamicModelContext;
 
 export type ProviderPreferRuntimeResolvedModelContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   provider: string;
@@ -494,12 +494,12 @@ export type ProviderPreferRuntimeResolvedModelContext = {
 /**
  * Last-chance rewrite hook for provider-owned transport normalization.
  *
- * Runs after Brikko Studio resolves an explicit/discovered/dynamic model and before
+ * Runs after BrikkoStudio resolves an explicit/discovered/dynamic model and before
  * the embedded runner uses it. Typical uses: swap API ids, fix base URLs, or
  * patch provider-specific compat bits.
  */
 export type ProviderNormalizeResolvedModelContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   provider: string;
@@ -544,7 +544,7 @@ export type ProviderNormalizeTransportContext = {
  * for the request.
  */
 export type ProviderPrepareRuntimeAuthContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env: NodeJS.ProcessEnv;
@@ -578,7 +578,7 @@ export type ProviderPreparedRuntimeAuth = {
  * snapshots often need a different credential source than live inference
  * requests, and they run outside the embedded runner.
  *
- * The helper methods cover the common Brikko Studio auth resolution paths:
+ * The helper methods cover the common BrikkoStudio auth resolution paths:
  *
  * - `resolveApiKeyFromConfigAndStore`: env/config/plain token/api_key profiles
  * - `resolveOAuthToken`: oauth/token profiles resolved through the auth store,
@@ -588,7 +588,7 @@ export type ProviderPreparedRuntimeAuth = {
  * token blob, read a legacy credential file, or pick between aliases).
  */
 export type ProviderResolveUsageAuthContext = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env: NodeJS.ProcessEnv;
@@ -620,7 +620,7 @@ export type ProviderResolvedUsageAuth = {
  * owns the provider-specific HTTP request + response normalization.
  */
 export type ProviderFetchUsageSnapshotContext = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env: NodeJS.ProcessEnv;
@@ -634,26 +634,26 @@ export type ProviderFetchUsageSnapshotContext = {
 /**
  * Provider-owned auth-doctor hint input.
  *
- * Called when OAuth refresh fails and Brikko Studio wants a provider-specific repair
+ * Called when OAuth refresh fails and BrikkoStudio wants a provider-specific repair
  * hint to append to the generic re-auth message. Use this for legacy profile-id
  * migrations or other provider-owned auth-store cleanup guidance.
  */
 export type ProviderAuthDoctorHintContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   store: AuthProfileStore;
   provider: string;
   profileId?: string;
 };
 
 /**
- * Provider-owned extra-param normalization before Brikko Studio builds its generic
+ * Provider-owned extra-param normalization before BrikkoStudio builds its generic
  * stream option wrapper.
  *
  * Use this to set provider defaults or rewrite provider-specific config keys
  * into the merged `extraParams` object. Return the full next extraParams object.
  */
 export type ProviderPrepareExtraParamsContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   provider: string;
@@ -680,7 +680,7 @@ export type ProviderResolvePromptOverlayContext = ProviderSystemPromptContributi
 };
 
 export type ProviderFollowupFallbackRouteContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   provider: string;
@@ -698,7 +698,7 @@ export type ProviderFollowupFallbackRouteResult = {
 };
 
 export type ProviderResolveAuthProfileIdContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   provider: string;
@@ -719,7 +719,7 @@ export type ProviderReasoningOutputMode = "native" | "tagged";
  * @deprecated Legacy static provider capability bag.
  *
  * Core replay/runtime ownership now lives on explicit provider hooks such as
- * `buildReplayPolicy`, `normalizeToolSchemas`, and `wrapStreamFn`. Brikko Studio no
+ * `buildReplayPolicy`, `normalizeToolSchemas`, and `wrapStreamFn`. BrikkoStudio no
  * longer reads this bag at runtime, but the field remains typed so existing
  * third-party plugins do not fail to compile immediately.
  */
@@ -758,7 +758,7 @@ export type ProviderReplayPolicy = {
  * behavior and should stay with the provider plugin instead of core tables.
  */
 export type ProviderReplayPolicyContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
@@ -835,7 +835,7 @@ export type ProviderReasoningOutputModeContext = ProviderReplayPolicyContext;
  * as a wrapper around `streamSimple`).
  */
 export type ProviderCreateStreamFnContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   provider: string;
@@ -844,7 +844,7 @@ export type ProviderCreateStreamFnContext = {
 };
 
 /**
- * Provider-owned stream wrapper hook after Brikko Studio applies its generic
+ * Provider-owned stream wrapper hook after BrikkoStudio applies its generic
  * transport-independent wrappers.
  *
  * Use this for provider-specific payload/header/model mutations that still run
@@ -941,7 +941,7 @@ export type PluginEmbeddingProvider = {
  * plugin instead of the core memory switchboard.
  */
 export type ProviderCreateEmbeddingProviderContext = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   provider: string;
@@ -962,7 +962,7 @@ export type ProviderCreateEmbeddingProviderContext = {
 /**
  * Provider-owned prompt-cache eligibility.
  *
- * Return `true` or `false` to override Brikko Studio's built-in provider cache TTL
+ * Return `true` or `false` to override BrikkoStudio's built-in provider cache TTL
  * detection for this provider. Return `undefined` to fall back to core rules.
  */
 export type ProviderCacheTtlEligibilityContext = {
@@ -974,12 +974,12 @@ export type ProviderCacheTtlEligibilityContext = {
 /**
  * Provider-owned missing-auth message override.
  *
- * Runs only after Brikko Studio exhausts normal env/profile/config auth resolution
+ * Runs only after BrikkoStudio exhausts normal env/profile/config auth resolution
  * for the requested provider. Return a custom message to replace the generic
  * "No API key found" error.
  */
 export type ProviderBuildMissingAuthMessageContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env: NodeJS.ProcessEnv;
@@ -991,11 +991,11 @@ export type ProviderBuildMissingAuthMessageContext = {
  * Provider-owned unknown-model hint override.
  *
  * Runs after catalog/runtime lookup misses for the requested provider. Return a
- * hint suffix that Brikko Studio should append to the generic `Unknown model`
+ * hint suffix that BrikkoStudio should append to the generic `Unknown model`
  * error.
  */
 export type ProviderBuildUnknownModelHintContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env: NodeJS.ProcessEnv;
@@ -1011,7 +1011,7 @@ export type ProviderBuildUnknownModelHintContext = {
  * hooks are no longer called by model resolution.
  */
 export type ProviderBuiltInModelSuppressionContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env: NodeJS.ProcessEnv;
@@ -1045,13 +1045,13 @@ export type ProviderModernModelPolicyContext = {
 /**
  * Final catalog augmentation hook.
  *
- * Runs after Brikko Studio loads the discovered model catalog and merges configured
+ * Runs after BrikkoStudio loads the discovered model catalog and merges configured
  * opt-in providers. Use this for forward-compat rows or vendor-owned synthetic
  * entries that should appear in `models list` and model pickers even when the
  * upstream registry has not caught up yet.
  */
 export type ProviderAugmentModelCatalogContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   env: NodeJS.ProcessEnv;
@@ -1136,7 +1136,7 @@ export type ProviderOAuthProfileIdRepair = {
   /**
    * Legacy OAuth profile id to migrate away from.
    *
-   * When omitted, Brikko Studio falls back to `<provider>:default`.
+   * When omitted, BrikkoStudio falls back to `<provider>:default`.
    */
   legacyProfileId?: string;
   /**
@@ -1148,7 +1148,7 @@ export type ProviderOAuthProfileIdRepair = {
 };
 
 export type ProviderModelSelectedContext = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   model: string;
   prompter: WizardPrompter;
   agentDir?: string;
@@ -1156,14 +1156,14 @@ export type ProviderModelSelectedContext = {
 };
 
 export type ProviderDeferSyntheticProfileAuthContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   provider: string;
   providerConfig?: ModelProviderConfig;
   resolvedApiKey?: string;
 };
 
 export type ProviderSystemPromptContributionContext = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   provider: string;
@@ -1254,7 +1254,7 @@ export type ProviderPlugin = {
   /**
    * Optional async prefetch for dynamic model resolution.
    *
-   * Brikko Studio calls this only from async model resolution paths. After it
+   * BrikkoStudio calls this only from async model resolution paths. After it
    * completes, `resolveDynamicModel` is called again.
    */
   prepareDynamicModel?: (ctx: ProviderPrepareDynamicModelContext) => Promise<void>;
@@ -1342,7 +1342,7 @@ export type ProviderPlugin = {
   /**
    * Provider-owned replay-history sanitization.
    *
-   * Runs after Brikko Studio performs generic transcript cleanup. Use this for
+   * Runs after BrikkoStudio performs generic transcript cleanup. Use this for
    * provider-specific replay rewrites that should stay with the provider
    * plugin rather than in shared core compaction helpers.
    */
@@ -1362,7 +1362,7 @@ export type ProviderPlugin = {
   /**
    * Provider-owned tool-schema normalization.
    *
-   * Use this for transport-family schema cleanup before Brikko Studio registers
+   * Use this for transport-family schema cleanup before BrikkoStudio registers
    * tools with the embedded runner.
    */
   normalizeToolSchemas?: (
@@ -1414,7 +1414,7 @@ export type ProviderPlugin = {
    */
   createStreamFn?: (ctx: ProviderCreateStreamFnContext) => StreamFn | null | undefined;
   /**
-   * Provider-owned stream wrapper applied after generic Brikko Studio wrappers.
+   * Provider-owned stream wrapper applied after generic BrikkoStudio wrappers.
    *
    * Typical uses: provider attribution headers, request-body rewrites, or
    * provider-specific compat payload patches that do not justify a separate
@@ -1457,7 +1457,7 @@ export type ProviderPlugin = {
   /**
    * Runtime auth exchange hook.
    *
-   * Called after Brikko Studio resolves the raw configured credential but before the
+   * Called after BrikkoStudio resolves the raw configured credential but before the
    * runner stores it in runtime auth storage. This lets plugins exchange a
    * source credential (for example a GitHub token) into a short-lived runtime
    * token plus optional base URL override.
@@ -1515,7 +1515,7 @@ export type ProviderPlugin = {
    * Provider-owned missing-auth message override.
    *
    * Return a custom message when the provider wants a more specific recovery
-   * hint than Brikko Studio's generic auth-store guidance.
+   * hint than BrikkoStudio's generic auth-store guidance.
    */
   buildMissingAuthMessage?: (
     ctx: ProviderBuildMissingAuthMessageContext,
@@ -1524,7 +1524,7 @@ export type ProviderPlugin = {
    * Provider-owned unknown-model hint override.
    *
    * Return a suffix when the provider wants a more specific recovery hint than
-   * Brikko Studio's generic `Unknown model` error after catalog/runtime lookup
+   * BrikkoStudio's generic `Unknown model` error after catalog/runtime lookup
    * fails.
    */
   buildUnknownModelHint?: (ctx: ProviderBuildUnknownModelHintContext) => string | null | undefined;
@@ -1532,7 +1532,7 @@ export type ProviderPlugin = {
    * Provider-owned built-in model suppression.
    *
    * Return `{ suppress: true }` to hide a stale upstream row. Include
-   * `errorMessage` when Brikko Studio should surface a provider-specific hint for
+   * `errorMessage` when BrikkoStudio should surface a provider-specific hint for
    * direct model resolution failures.
    *
    * @deprecated Use manifest `modelCatalog.suppressions`. Runtime suppression
@@ -1545,7 +1545,7 @@ export type ProviderPlugin = {
    * Provider-owned final catalog augmentation.
    *
    * Return extra rows to append to the final catalog after discovery/config
-   * merging. Brikko Studio deduplicates by `provider/id`, so plugins only need to
+   * merging. BrikkoStudio deduplicates by `provider/id`, so plugins only need to
    * describe the desired supplemental rows.
    */
   augmentModelCatalog?: (
@@ -1577,7 +1577,7 @@ export type ProviderPlugin = {
    * Provider-owned thinking level profile.
    *
    * Prefer this over the individual thinking capability hooks when a provider
-   * or model exposes a custom set of thinking levels. Brikko Studio stores the
+   * or model exposes a custom set of thinking levels. BrikkoStudio stores the
    * canonical `id`, shows `label` when provided, and downgrades stale stored
    * values by profile rank.
    */
@@ -1599,7 +1599,7 @@ export type ProviderPlugin = {
    * Provider-owned system-prompt contribution.
    *
    * Use this when a provider/model family needs cache-aware prompt tuning
-   * without replacing the full Brikko Studio-owned system prompt.
+   * without replacing the full BrikkoStudio-owned system prompt.
    */
   resolveSystemPromptContribution?: (
     ctx: ProviderSystemPromptContributionContext,
@@ -1607,7 +1607,7 @@ export type ProviderPlugin = {
   /**
    * Provider-owned GPT/model prompt overlay seam.
    *
-   * Runs after Brikko Studio's built-in overlay is resolved and before the
+   * Runs after BrikkoStudio's built-in overlay is resolved and before the
    * provider's regular system-prompt contribution is merged.
    */
   resolvePromptOverlay?: (
@@ -1616,7 +1616,7 @@ export type ProviderPlugin = {
   /**
    * Provider-owned fallback route override for model/profile failure handling.
    *
-   * Return undefined/null to keep Brikko Studio's default fallback policy.
+   * Return undefined/null to keep BrikkoStudio's default fallback policy.
    */
   followupFallbackRoute?: (
     ctx: ProviderFollowupFallbackRouteContext,
@@ -1632,7 +1632,7 @@ export type ProviderPlugin = {
    * Provider-owned final system-prompt transform.
    *
    * Use this sparingly when a provider transport needs small compatibility
-   * rewrites after Brikko Studio has assembled the complete prompt. Return
+   * rewrites after BrikkoStudio has assembled the complete prompt. Return
    * `undefined`/`null` to leave the prompt unchanged.
    */
   transformSystemPrompt?: (ctx: ProviderTransformSystemPromptContext) => string | null | undefined;
@@ -1640,7 +1640,7 @@ export type ProviderPlugin = {
    * Provider-owned bidirectional text replacements.
    *
    * `input` applies to system prompts and text message content before transport.
-   * `output` applies to assistant text deltas/final text before Brikko Studio handles
+   * `output` applies to assistant text deltas/final text before BrikkoStudio handles
    * its own control markers or channel delivery.
    */
   textTransforms?: PluginTextTransforms;
@@ -1652,7 +1652,7 @@ export type ProviderPlugin = {
    */
   applyConfigDefaults?: (
     ctx: ProviderApplyConfigDefaultsContext,
-  ) => Brikko StudioConfig | null | undefined;
+  ) => BrikkoStudioConfig | null | undefined;
   /**
    * Provider-owned "modern model" matcher used by live profile/smoke filters.
    *
@@ -1664,7 +1664,7 @@ export type ProviderPlugin = {
   /**
    * Provider-owned auth-profile API-key formatter.
    *
-   * Brikko Studio uses this when a stored auth profile is already valid and needs to
+   * BrikkoStudio uses this when a stored auth profile is already valid and needs to
    * be converted into the runtime `apiKey` string expected by the provider. Use
    * this for providers whose auth profile stores extra metadata alongside the
    * bearer token (for example Gemini CLI's `{ token, projectId }` payload).
@@ -1689,7 +1689,7 @@ export type ProviderPlugin = {
   /**
    * Provider-owned OAuth refresh.
    *
-   * Brikko Studio calls this before falling back to the shared `pi-ai` OAuth
+   * BrikkoStudio calls this before falling back to the shared `pi-ai` OAuth
    * refreshers. Use it when the provider has a custom refresh endpoint, or when
    * the provider needs custom refresh-failure behavior that should stay out of
    * core auth-profile code.
@@ -1700,7 +1700,7 @@ export type ProviderPlugin = {
    *
    * Return a multiline repair hint when OAuth refresh fails and the provider
    * wants to steer users toward a specific auth-profile migration or recovery
-   * path. Return nothing to keep Brikko Studio's generic error text.
+   * path. Return nothing to keep BrikkoStudio's generic error text.
    */
   buildAuthDoctorHint?: (
     ctx: ProviderAuthDoctorHintContext,
@@ -1767,7 +1767,7 @@ export type ProviderPlugin = {
    *
    * Return true when a stored profile API key is only a provider-owned
    * synthetic placeholder and should yield to env/config-backed auth before
-   * Brikko Studio falls back to that stored profile.
+   * BrikkoStudio falls back to that stored profile.
    */
   shouldDeferSyntheticProfileAuth?: (
     ctx: ProviderDeferSyntheticProfileAuthContext,
@@ -1847,7 +1847,7 @@ export type ImageGenerationProviderPlugin = ImageGenerationProvider;
 export type VideoGenerationProviderPlugin = VideoGenerationProvider;
 export type MusicGenerationProviderPlugin = MusicGenerationProvider;
 
-export type Brikko StudioPluginGatewayMethod = {
+export type BrikkoStudioPluginGatewayMethod = {
   method: string;
   handler: GatewayRequestHandler;
 };
@@ -1859,9 +1859,9 @@ export type Brikko StudioPluginGatewayMethod = {
 export type PluginCommandDiagnosticsSession = {
   /** Stable host session key when available. */
   sessionKey?: string;
-  /** Ephemeral Brikko Studio session id when available. */
+  /** Ephemeral BrikkoStudio session id when available. */
   sessionId?: string;
-  /** Transcript file for this Brikko Studio session when available. */
+  /** Transcript file for this BrikkoStudio session when available. */
   sessionFile?: string;
   /** Embedded agent harness selected for this session. */
   agentHarnessId?: string;
@@ -1897,14 +1897,14 @@ export type PluginCommandContext = {
   sessionKey?: string;
   /** Ephemeral host session id for the active conversation when available. */
   sessionId?: string;
-  /** Transcript file for the active Brikko Studio session when available. */
+  /** Transcript file for the active BrikkoStudio session when available. */
   sessionFile?: string;
   /** Raw command arguments after the command name */
   args?: string;
   /** The full normalized command body */
   commandBody: string;
-  /** Current Brikko Studio configuration */
-  config: Brikko StudioConfig;
+  /** Current BrikkoStudio configuration */
+  config: BrikkoStudioConfig;
   /** Raw "From" value (channel-scoped id) */
   from?: string;
   /** Raw "To" value (channel-scoped id) */
@@ -1945,7 +1945,7 @@ export type PluginCommandHandler = (
 /**
  * Definition for a plugin-registered command.
  */
-export type Brikko StudioPluginCommandDefinition = {
+export type BrikkoStudioPluginCommandDefinition = {
   /** Command name without leading slash (e.g., "tts") */
   name: string;
   /**
@@ -1999,61 +1999,61 @@ export type PluginInteractiveRegistration<
 
 export type PluginInteractiveHandlerRegistration = PluginInteractiveRegistration;
 
-export type Brikko StudioPluginHttpRouteAuth = "gateway" | "plugin";
-export type Brikko StudioPluginHttpRouteMatch = "exact" | "prefix";
-export type Brikko StudioPluginGatewayRuntimeScopeSurface = "write-default" | "trusted-operator";
+export type BrikkoStudioPluginHttpRouteAuth = "gateway" | "plugin";
+export type BrikkoStudioPluginHttpRouteMatch = "exact" | "prefix";
+export type BrikkoStudioPluginGatewayRuntimeScopeSurface = "write-default" | "trusted-operator";
 
-export type Brikko StudioPluginHttpRouteHandler = (
+export type BrikkoStudioPluginHttpRouteHandler = (
   req: IncomingMessage,
   res: ServerResponse,
 ) => Promise<boolean | void> | boolean | void;
 
-export type Brikko StudioPluginHttpRouteParams = {
+export type BrikkoStudioPluginHttpRouteParams = {
   path: string;
-  handler: Brikko StudioPluginHttpRouteHandler;
-  auth: Brikko StudioPluginHttpRouteAuth;
-  match?: Brikko StudioPluginHttpRouteMatch;
-  gatewayRuntimeScopeSurface?: Brikko StudioPluginGatewayRuntimeScopeSurface;
+  handler: BrikkoStudioPluginHttpRouteHandler;
+  auth: BrikkoStudioPluginHttpRouteAuth;
+  match?: BrikkoStudioPluginHttpRouteMatch;
+  gatewayRuntimeScopeSurface?: BrikkoStudioPluginGatewayRuntimeScopeSurface;
   replaceExisting?: boolean;
 };
 
-export type Brikko StudioPluginCliContext = {
+export type BrikkoStudioPluginCliContext = {
   program: Command;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   workspaceDir?: string;
   logger: PluginLogger;
 };
 
-export type Brikko StudioPluginCliRegistrar = (ctx: Brikko StudioPluginCliContext) => void | Promise<void>;
+export type BrikkoStudioPluginCliRegistrar = (ctx: BrikkoStudioPluginCliContext) => void | Promise<void>;
 
 /**
  * Top-level CLI metadata for plugin-owned commands.
  *
  * Descriptors are the parse-time contract for lazy plugin CLI registration.
- * If you want Brikko Studio to keep a plugin command lazy-loaded while still
+ * If you want BrikkoStudio to keep a plugin command lazy-loaded while still
  * advertising it at the root CLI level, provide descriptors that cover every
  * top-level command root registered by that plugin CLI surface.
  */
-export type Brikko StudioPluginCliCommandDescriptor = {
+export type BrikkoStudioPluginCliCommandDescriptor = {
   name: string;
   description: string;
   hasSubcommands: boolean;
 };
 
-export type Brikko StudioPluginReloadRegistration = {
+export type BrikkoStudioPluginReloadRegistration = {
   restartPrefixes?: string[];
   hotPrefixes?: string[];
   noopPrefixes?: string[];
 };
 
-export type Brikko StudioPluginNodeHostCommand = {
+export type BrikkoStudioPluginNodeHostCommand = {
   command: string;
   cap?: string;
   dangerous?: boolean;
   handle: (paramsJSON?: string | null) => Promise<string>;
 };
 
-export type Brikko StudioPluginNodeInvokeTransportResult =
+export type BrikkoStudioPluginNodeInvokeTransportResult =
   | {
       ok: true;
       payload?: unknown;
@@ -2066,9 +2066,9 @@ export type Brikko StudioPluginNodeInvokeTransportResult =
       details?: Record<string, unknown>;
     };
 
-export type Brikko StudioPluginNodeInvokeApprovalDecision = "allow-once" | "allow-always" | "deny";
+export type BrikkoStudioPluginNodeInvokeApprovalDecision = "allow-once" | "allow-always" | "deny";
 
-export type Brikko StudioPluginNodeInvokePolicyApprovalRuntime = {
+export type BrikkoStudioPluginNodeInvokePolicyApprovalRuntime = {
   request: (input: {
     title: string;
     description: string;
@@ -2080,17 +2080,17 @@ export type Brikko StudioPluginNodeInvokePolicyApprovalRuntime = {
     timeoutMs?: number;
   }) => Promise<{
     id?: string;
-    decision?: Brikko StudioPluginNodeInvokeApprovalDecision | null;
+    decision?: BrikkoStudioPluginNodeInvokeApprovalDecision | null;
   }>;
 };
 
-export type Brikko StudioPluginNodeInvokePolicyContext = {
+export type BrikkoStudioPluginNodeInvokePolicyContext = {
   nodeId: string;
   command: string;
   params: unknown;
   timeoutMs?: number;
   idempotencyKey?: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   pluginConfig?: Record<string, unknown>;
   node?: {
     nodeId: string;
@@ -2103,15 +2103,15 @@ export type Brikko StudioPluginNodeInvokePolicyContext = {
     connId?: string;
     scopes?: string[];
   } | null;
-  approvals?: Brikko StudioPluginNodeInvokePolicyApprovalRuntime;
+  approvals?: BrikkoStudioPluginNodeInvokePolicyApprovalRuntime;
   invokeNode: (input?: {
     params?: unknown;
     timeoutMs?: number;
     idempotencyKey?: string;
-  }) => Promise<Brikko StudioPluginNodeInvokeTransportResult>;
+  }) => Promise<BrikkoStudioPluginNodeInvokeTransportResult>;
 };
 
-export type Brikko StudioPluginNodeInvokePolicyResult =
+export type BrikkoStudioPluginNodeInvokePolicyResult =
   | {
       ok: true;
       payload?: unknown;
@@ -2125,26 +2125,26 @@ export type Brikko StudioPluginNodeInvokePolicyResult =
       unavailable?: boolean;
     };
 
-export type Brikko StudioPluginNodeInvokePolicy = {
+export type BrikkoStudioPluginNodeInvokePolicy = {
   commands: string[];
   handle: (
-    ctx: Brikko StudioPluginNodeInvokePolicyContext,
-  ) => Promise<Brikko StudioPluginNodeInvokePolicyResult> | Brikko StudioPluginNodeInvokePolicyResult;
+    ctx: BrikkoStudioPluginNodeInvokePolicyContext,
+  ) => Promise<BrikkoStudioPluginNodeInvokePolicyResult> | BrikkoStudioPluginNodeInvokePolicyResult;
 };
 
-export type Brikko StudioPluginSecurityAuditContext = {
-  config: Brikko StudioConfig;
-  sourceConfig: Brikko StudioConfig;
+export type BrikkoStudioPluginSecurityAuditContext = {
+  config: BrikkoStudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   stateDir: string;
   configPath: string;
 };
 
-export type Brikko StudioPluginSecurityAuditCollector = (
-  ctx: Brikko StudioPluginSecurityAuditContext,
+export type BrikkoStudioPluginSecurityAuditCollector = (
+  ctx: BrikkoStudioPluginSecurityAuditContext,
 ) => SecurityAuditFinding[] | Promise<SecurityAuditFinding[]>;
 
-export type Brikko StudioGatewayDiscoveryAdvertiseContext = {
+export type BrikkoStudioGatewayDiscoveryAdvertiseContext = {
   machineDisplayName: string;
   gatewayPort: number;
   gatewayTlsEnabled: boolean;
@@ -2156,16 +2156,16 @@ export type Brikko StudioGatewayDiscoveryAdvertiseContext = {
   minimal: boolean;
 };
 
-export type Brikko StudioGatewayDiscoveryService = {
+export type BrikkoStudioGatewayDiscoveryService = {
   id: string;
   advertise: (
-    ctx: Brikko StudioGatewayDiscoveryAdvertiseContext,
+    ctx: BrikkoStudioGatewayDiscoveryAdvertiseContext,
   ) => void | Promise<void | { stop?: () => void | Promise<void> }>;
 };
 
 /** Context passed to long-lived plugin services. */
-export type Brikko StudioPluginServiceContext = {
-  config: Brikko StudioConfig;
+export type BrikkoStudioPluginServiceContext = {
+  config: BrikkoStudioConfig;
   workspaceDir?: string;
   stateDir: string;
   logger: PluginLogger;
@@ -2178,18 +2178,18 @@ export type Brikko StudioPluginServiceContext = {
 };
 
 /** Background service registered by a plugin during `register(api)`. */
-export type Brikko StudioPluginService = {
+export type BrikkoStudioPluginService = {
   id: string;
-  start: (ctx: Brikko StudioPluginServiceContext) => void | Promise<void>;
-  stop?: (ctx: Brikko StudioPluginServiceContext) => void | Promise<void>;
+  start: (ctx: BrikkoStudioPluginServiceContext) => void | Promise<void>;
+  stop?: (ctx: BrikkoStudioPluginServiceContext) => void | Promise<void>;
 };
 
-export type Brikko StudioPluginChannelRegistration = {
+export type BrikkoStudioPluginChannelRegistration = {
   plugin: ChannelPlugin;
 };
 
 /** Module-level plugin definition loaded from a native plugin entry file. */
-export type Brikko StudioPluginDefinition = {
+export type BrikkoStudioPluginDefinition = {
   id?: string;
   name?: string;
   description?: string;
@@ -2201,15 +2201,15 @@ export type Brikko StudioPluginDefinition = {
    * metadata-only command paths.
    */
   kind?: PluginKind | PluginKind[];
-  configSchema?: Brikko StudioPluginConfigSchema;
-  reload?: Brikko StudioPluginReloadRegistration;
-  nodeHostCommands?: Brikko StudioPluginNodeHostCommand[];
-  securityAuditCollectors?: Brikko StudioPluginSecurityAuditCollector[];
-  register?: (api: Brikko StudioPluginApi) => void;
-  activate?: (api: Brikko StudioPluginApi) => void;
+  configSchema?: BrikkoStudioPluginConfigSchema;
+  reload?: BrikkoStudioPluginReloadRegistration;
+  nodeHostCommands?: BrikkoStudioPluginNodeHostCommand[];
+  securityAuditCollectors?: BrikkoStudioPluginSecurityAuditCollector[];
+  register?: (api: BrikkoStudioPluginApi) => void;
+  activate?: (api: BrikkoStudioPluginApi) => void;
 };
 
-export type Brikko StudioPluginModule = Brikko StudioPluginDefinition | ((api: Brikko StudioPluginApi) => void);
+export type BrikkoStudioPluginModule = BrikkoStudioPluginDefinition | ((api: BrikkoStudioPluginApi) => void);
 
 /**
  * Public label exposed to plugin `register(api)` calls.
@@ -2233,9 +2233,9 @@ export type PluginRegistrationMode =
   | "setup-runtime"
   | "cli-metadata";
 
-export type PluginConfigMigration = (config: Brikko StudioConfig) =>
+export type PluginConfigMigration = (config: BrikkoStudioConfig) =>
   | {
-      config: Brikko StudioConfig;
+      config: BrikkoStudioConfig;
       changes: string[];
     }
   | null
@@ -2310,7 +2310,7 @@ export type MigrationApplyResult = MigrationPlan & {
 };
 
 export type MigrationProviderContext = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   runtime?: PluginRuntime;
   logger: PluginLogger;
   stateDir: string;
@@ -2336,7 +2336,7 @@ export type MigrationProviderPlugin = {
 };
 
 export type PluginSetupAutoEnableContext = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
 };
 
@@ -2345,7 +2345,7 @@ export type PluginSetupAutoEnableProbe = (
 ) => string | string[] | null | undefined;
 
 /** Main registration API injected into native plugin entry files. */
-export type Brikko StudioPluginApi = {
+export type BrikkoStudioPluginApi = {
   id: string;
   name: string;
   version?: string;
@@ -2353,7 +2353,7 @@ export type Brikko StudioPluginApi = {
   source: string;
   rootDir?: string;
   registrationMode: PluginRegistrationMode;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   pluginConfig?: Record<string, unknown>;
   /**
    * In-process runtime helpers for trusted native plugins.
@@ -2364,17 +2364,17 @@ export type Brikko StudioPluginApi = {
   runtime: PluginRuntime;
   logger: PluginLogger;
   registerTool: (
-    tool: AnyAgentTool | Brikko StudioPluginToolFactory,
-    opts?: Brikko StudioPluginToolOptions,
+    tool: AnyAgentTool | BrikkoStudioPluginToolFactory,
+    opts?: BrikkoStudioPluginToolOptions,
   ) => void;
   registerHook: (
     events: string | string[],
     handler: InternalHookHandler,
-    opts?: Brikko StudioPluginHookOptions,
+    opts?: BrikkoStudioPluginHookOptions,
   ) => void;
-  registerHttpRoute: (params: Brikko StudioPluginHttpRouteParams) => void;
+  registerHttpRoute: (params: BrikkoStudioPluginHttpRouteParams) => void;
   /** Register a native messaging channel plugin (channel capability). */
-  registerChannel: (registration: Brikko StudioPluginChannelRegistration | ChannelPlugin) => void;
+  registerChannel: (registration: BrikkoStudioPluginChannelRegistration | ChannelPlugin) => void;
   /**
    * Register a gateway RPC method for this plugin.
    *
@@ -2388,27 +2388,27 @@ export type Brikko StudioPluginApi = {
     opts?: { scope?: OperatorScope },
   ) => void;
   registerCli: (
-    registrar: Brikko StudioPluginCliRegistrar,
+    registrar: BrikkoStudioPluginCliRegistrar,
     opts?: {
       /** Explicit top-level command roots owned by this registrar. */
       commands?: string[];
       /**
        * Parse-time command descriptors for lazy root CLI registration.
        *
-       * When descriptors cover every top-level command root, Brikko Studio can keep
+       * When descriptors cover every top-level command root, BrikkoStudio can keep
        * the plugin registrar lazy in the normal root CLI path. Command-only
        * registrations stay on the eager compatibility path.
        */
-      descriptors?: Brikko StudioPluginCliCommandDescriptor[];
+      descriptors?: BrikkoStudioPluginCliCommandDescriptor[];
     },
   ) => void;
-  registerReload: (registration: Brikko StudioPluginReloadRegistration) => void;
-  registerNodeHostCommand: (command: Brikko StudioPluginNodeHostCommand) => void;
-  registerNodeInvokePolicy: (policy: Brikko StudioPluginNodeInvokePolicy) => void;
-  registerSecurityAuditCollector: (collector: Brikko StudioPluginSecurityAuditCollector) => void;
-  registerService: (service: Brikko StudioPluginService) => void;
+  registerReload: (registration: BrikkoStudioPluginReloadRegistration) => void;
+  registerNodeHostCommand: (command: BrikkoStudioPluginNodeHostCommand) => void;
+  registerNodeInvokePolicy: (policy: BrikkoStudioPluginNodeInvokePolicy) => void;
+  registerSecurityAuditCollector: (collector: BrikkoStudioPluginSecurityAuditCollector) => void;
+  registerService: (service: BrikkoStudioPluginService) => void;
   /** Register a local gateway discovery advertiser such as mDNS/Bonjour. */
-  registerGatewayDiscoveryService: (service: Brikko StudioGatewayDiscoveryService) => void;
+  registerGatewayDiscoveryService: (service: BrikkoStudioGatewayDiscoveryService) => void;
   /** Register a text-only CLI backend used by the local CLI runner. */
   registerCliBackend: (backend: CliBackendPlugin) => void;
   /** Register plugin-owned prompt/message compatibility text transforms. */
@@ -2448,7 +2448,7 @@ export type Brikko StudioPluginApi = {
    * Plugin commands are processed before built-in commands and before agent invocation.
    * Use this for simple state-toggling or status commands that don't need AI reasoning.
    */
-  registerCommand: (command: Brikko StudioPluginCommandDefinition) => void;
+  registerCommand: (command: BrikkoStudioPluginCommandDefinition) => void;
   /** Register a context engine implementation (exclusive slot - only one active at a time). */
   registerContextEngine: (
     id: string,

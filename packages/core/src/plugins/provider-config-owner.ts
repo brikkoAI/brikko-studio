@@ -1,9 +1,9 @@
 import { normalizeProviderId } from "../agents/provider-id.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 export function resolveProviderConfigApiOwnerHint(params: {
   provider: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 }): string | undefined {
   const providers = params.config?.models?.providers;
   if (!providers) {

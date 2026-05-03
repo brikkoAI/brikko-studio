@@ -1,10 +1,10 @@
 import { buildThreadAwareOutboundSessionRoute } from "brikko-studio/plugin-sdk/channel-core";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { buildOutboundBaseSessionKey, type RoutePeer } from "brikko-studio/plugin-sdk/routing";
 import { parseDiscordTarget } from "./target-parsing.js";
 
 export type ResolveDiscordOutboundSessionRouteParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   accountId?: string | null;
   target: string;

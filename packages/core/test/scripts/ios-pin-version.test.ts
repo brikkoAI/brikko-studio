@@ -22,7 +22,7 @@ describe("pinIosVersion", () => {
   it("pins an explicit iOS release version and syncs generated artifacts", () => {
     const rootDir = writeIosFixture({
       version: "2026.4.6",
-      changelog: `# Brikko Studio iOS Changelog
+      changelog: `# BrikkoStudio iOS Changelog
 
 ## Unreleased
 
@@ -61,7 +61,7 @@ describe("pinIosVersion", () => {
     const rootDir = writeIosFixture({
       version: "2026.4.6",
       packageVersion: "2026.4.10-beta.3",
-      changelog: `# Brikko Studio iOS Changelog
+      changelog: `# BrikkoStudio iOS Changelog
 
 ## Unreleased
 
@@ -86,7 +86,7 @@ describe("pinIosVersion", () => {
   it("can skip syncing checked-in artifacts when requested", () => {
     const rootDir = writeIosFixture({
       version: "2026.4.6",
-      changelog: `# Brikko Studio iOS Changelog
+      changelog: `# BrikkoStudio iOS Changelog
 
 ## Unreleased
 

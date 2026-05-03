@@ -1,4 +1,4 @@
-import { resolveBrikko StudioAgentDir } from "../agents/agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../agents/agent-paths.js";
 import {
   resolveDefaultAgentId,
   resolveAgentDir,
@@ -7,7 +7,7 @@ import {
 import { upsertAuthProfile } from "../agents/auth-profiles.js";
 import { formatLiteralProviderPrefixedModelRef } from "../agents/model-ref-shared.js";
 import { resolveDefaultAgentWorkspaceDir } from "../agents/workspace.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { sanitizeTerminalText } from "../terminal/safe-text.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -30,7 +30,7 @@ import type { ProviderAuthMethod, ProviderAuthOptionBag, ProviderPlugin } from "
 
 export type ApplyProviderAuthChoiceParams = {
   authChoice: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   prompter: WizardPrompter;
   runtime: RuntimeEnv;
@@ -42,7 +42,7 @@ export type ApplyProviderAuthChoiceParams = {
 };
 
 export type ApplyProviderAuthChoiceResult = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   agentModelOverride?: string;
   retrySelection?: boolean;
 };
@@ -63,9 +63,9 @@ function formatModelRefForDisplay(modelRef: string, provider: ProviderPlugin): s
 }
 
 function restoreConfiguredPrimaryModel(
-  nextConfig: Brikko StudioConfig,
-  originalConfig: Brikko StudioConfig,
-): Brikko StudioConfig {
+  nextConfig: BrikkoStudioConfig,
+  originalConfig: BrikkoStudioConfig,
+): BrikkoStudioConfig {
   const originalModel = originalConfig.agents?.defaults?.model;
   const nextAgents = nextConfig.agents;
   const nextDefaults = nextAgents?.defaults;
@@ -94,7 +94,7 @@ function restoreConfiguredPrimaryModel(
   };
 }
 
-function resolveConfiguredDefaultModelPrimary(cfg: Brikko StudioConfig): string | undefined {
+function resolveConfiguredDefaultModelPrimary(cfg: BrikkoStudioConfig): string | undefined {
   const model = cfg.agents?.defaults?.model;
   if (typeof model === "string") {
     return model;
@@ -129,14 +129,14 @@ async function noteDefaultModelResult(params: {
 }
 
 async function applyDefaultModelFromAuthChoice(params: {
-  config: Brikko StudioConfig;
-  configBeforeProviderAuth?: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
+  configBeforeProviderAuth?: BrikkoStudioConfig;
   selectedModel: string;
   selectedModelDisplay?: string;
   preserveExistingDefaultModel: boolean | undefined;
   prompter: WizardPrompter;
-  runSelectedModelHook: (config: Brikko StudioConfig) => Promise<void>;
-}): Promise<Brikko StudioConfig> {
+  runSelectedModelHook: (config: BrikkoStudioConfig) => Promise<void>;
+}): Promise<BrikkoStudioConfig> {
   const defaultModelBaseConfig = params.configBeforeProviderAuth ?? params.config;
   const previousPrimary = resolveConfiguredDefaultModelPrimary(defaultModelBaseConfig);
   const preservesDifferentPrimary =
@@ -178,7 +178,7 @@ async function loadPluginProviderRuntime() {
 
 function resolveManifestAuthChoiceScope(params: {
   authChoice: string;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   workspaceDir: string;
   env?: NodeJS.ProcessEnv;
 }): ProviderAuthChoiceMetadata | undefined {
@@ -207,7 +207,7 @@ export const __testing = {
 } as const;
 
 export async function runProviderPluginAuthMethod(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   runtime: RuntimeEnv;
   prompter: WizardPrompter;
@@ -219,13 +219,13 @@ export async function runProviderPluginAuthMethod(params: {
   secretInputMode?: ProviderAuthOptionBag["secretInputMode"];
   allowSecretRefPrompt?: boolean;
   opts?: Partial<ProviderAuthOptionBag>;
-}): Promise<{ config: Brikko StudioConfig; defaultModel?: string }> {
+}): Promise<{ config: BrikkoStudioConfig; defaultModel?: string }> {
   const agentId = params.agentId ?? resolveDefaultAgentId(params.config);
   const defaultAgentId = resolveDefaultAgentId(params.config);
   const agentDir =
     params.agentDir ??
     (agentId === defaultAgentId
-      ? resolveBrikko StudioAgentDir()
+      ? resolveBrikkoStudioAgentDir()
       : resolveAgentDir(params.config, agentId));
   const workspaceDir =
     params.workspaceDir ??
@@ -332,7 +332,7 @@ export async function applyAuthChoiceLoadedPluginProvider(
     enabledConfig = enableResult.config;
   }
 
-  const resolveScopedRuntimeProviders = (config: Brikko StudioConfig): ProviderPlugin[] =>
+  const resolveScopedRuntimeProviders = (config: BrikkoStudioConfig): ProviderPlugin[] =>
     resolvePluginProviders({
       config,
       workspaceDir,
@@ -472,7 +472,7 @@ export async function applyAuthChoicePluginProvider(
   const defaultAgentId = resolveDefaultAgentId(nextConfig);
   const agentDir =
     params.agentDir ??
-    (agentId === defaultAgentId ? resolveBrikko StudioAgentDir() : resolveAgentDir(nextConfig, agentId));
+    (agentId === defaultAgentId ? resolveBrikkoStudioAgentDir() : resolveAgentDir(nextConfig, agentId));
   const workspaceDir =
     resolveAgentWorkspaceDir(nextConfig, agentId) ?? resolveDefaultAgentWorkspaceDir();
 

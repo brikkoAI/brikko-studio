@@ -13,7 +13,7 @@ import type {
   ChannelId,
   ChannelPlugin,
 } from "../../channels/plugins/types.public.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { asRecord } from "../../shared/record-coerce.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import {
@@ -37,8 +37,8 @@ type ChannelAccountRow = ChannelAccountTokenSummaryRow & {
 
 type ResolvedChannelAccountRowParams = {
   plugin: ChannelPlugin;
-  cfg: Brikko StudioConfig;
-  sourceConfig: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
+  sourceConfig: BrikkoStudioConfig;
   accountId: string;
 };
 
@@ -142,7 +142,7 @@ const formatAccountLabel = (params: { accountId: string; name?: string }) => {
 
 const buildAccountNotes = (params: {
   plugin: ChannelPlugin;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   entry: ChannelAccountRow;
   liveCredentialAvailable?: boolean;
 }) => {
@@ -247,10 +247,10 @@ function collectMissingPaths(accounts: ChannelAccountRow[]): string[] {
 // `status --all` channels table.
 // Keep this generic: channel-specific rules belong in the channel plugin.
 export async function buildChannelsTable(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts?: {
     showSecrets?: boolean;
-    sourceConfig?: Brikko StudioConfig;
+    sourceConfig?: BrikkoStudioConfig;
     includeSetupFallbackPlugins?: boolean;
     liveChannelStatus?: unknown;
   },

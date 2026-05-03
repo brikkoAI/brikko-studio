@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { PluginRuntime } from "brikko-studio/plugin-sdk/core";
 import type { GatewayAccount } from "../engine/types.js";
 import type { ResolvedQQBotAccount } from "../types.js";
@@ -18,11 +18,11 @@ export function toGatewayAccount(account: ResolvedQQBotAccount): GatewayAccount 
 }
 
 /**
- * Persist Brikko Studio config through the injected plugin runtime (typed entry point).
+ * Persist BrikkoStudio config through the injected plugin runtime (typed entry point).
  */
-export async function writeBrikko StudioConfigThroughRuntime(
+export async function writeBrikkoStudioConfigThroughRuntime(
   runtime: PluginRuntime,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ): Promise<void> {
   await runtime.config.replaceConfigFile({
     nextConfig: cfg,

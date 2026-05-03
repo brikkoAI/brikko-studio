@@ -1,5 +1,5 @@
 import type { AgentRuntimePolicyConfig } from "../../config/types.agents-shared.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { normalizeAgentId } from "../../routing/session-key.js";
@@ -70,7 +70,7 @@ function compareHarnessSupport(
 export function selectAgentHarness(params: {
   provider: string;
   modelId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
   sessionKey?: string;
   agentHarnessId?: string;
@@ -81,7 +81,7 @@ export function selectAgentHarness(params: {
 function selectAgentHarnessDecision(params: {
   provider: string;
   modelId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
   sessionKey?: string;
   agentHarnessId?: string;
@@ -281,7 +281,7 @@ export async function maybeCompactAgentHarnessSession(
 export function resolveAgentHarnessPolicy(params: {
   provider?: string;
   modelId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentId?: string;
   sessionKey?: string;
   env?: NodeJS.ProcessEnv;
@@ -308,7 +308,7 @@ export function resolveAgentHarnessPolicy(params: {
 }
 
 function resolveAgentEmbeddedHarnessConfig(
-  config: Brikko StudioConfig | undefined,
+  config: BrikkoStudioConfig | undefined,
   params: { agentId?: string; sessionKey?: string },
 ): AgentRuntimePolicyConfig | undefined {
   if (!config) {

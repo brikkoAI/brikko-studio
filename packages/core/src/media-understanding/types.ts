@@ -1,5 +1,5 @@
 import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 type MediaUnderstandingKind = "audio.transcription" | "video.description" | "image.description";
 
@@ -134,7 +134,7 @@ export type ImageDescriptionRequest = {
   preferredProfile?: string;
   authStore?: AuthProfileStore;
   agentDir: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   model: string;
   provider: string;
 };
@@ -156,7 +156,7 @@ export type ImagesDescriptionRequest = {
   preferredProfile?: string;
   authStore?: AuthProfileStore;
   agentDir: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 };
 
 export type ImageDescriptionResult = {

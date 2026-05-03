@@ -6,7 +6,7 @@ import type {
   GroupToolPolicyBySenderConfig,
   GroupToolPolicyConfig,
   MarkdownConfig,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   BaseProbeResult,
 } from "./runtime-api.js";
 
@@ -71,8 +71,8 @@ type IrcConfig = IrcAccountConfig & {
   defaultAccount?: string;
 };
 
-export type CoreConfig = Brikko StudioConfig & {
-  channels?: Brikko StudioConfig["channels"] & {
+export type CoreConfig = BrikkoStudioConfig & {
+  channels?: BrikkoStudioConfig["channels"] & {
     irc?: IrcConfig;
   };
 };

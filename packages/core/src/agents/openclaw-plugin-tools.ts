@@ -1,18 +1,18 @@
 import { selectApplicableRuntimeConfig } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolvePluginTools } from "../plugins/tools.js";
 import { getActiveSecretsRuntimeSnapshot } from "../secrets/runtime.js";
 import { normalizeDeliveryContext } from "../utils/delivery-context.js";
 import { listProfilesForProvider } from "./auth-profiles.js";
 import type { AuthProfileStore } from "./auth-profiles/types.js";
 import {
-  resolveBrikko StudioPluginToolInputs,
-  type Brikko StudioPluginToolOptions,
+  resolveBrikkoStudioPluginToolInputs,
+  type BrikkoStudioPluginToolOptions,
 } from "./brikko-studio-tools.plugin-context.js";
 import { applyPluginToolDeliveryDefaults } from "./plugin-tool-delivery-defaults.js";
 import type { AnyAgentTool } from "./tools/common.js";
 
-type ResolveBrikko StudioPluginToolsOptions = Brikko StudioPluginToolOptions & {
+type ResolveBrikkoStudioPluginToolsOptions = BrikkoStudioPluginToolOptions & {
   pluginToolAllowlist?: string[];
   currentChannelId?: string;
   currentThreadTs?: string;
@@ -28,9 +28,9 @@ type ResolveBrikko StudioPluginToolsOptions = Brikko StudioPluginToolOptions & {
   authProfileStore?: AuthProfileStore;
 };
 
-export function resolveBrikko StudioPluginToolsForOptions(params: {
-  options?: ResolveBrikko StudioPluginToolsOptions;
-  resolvedConfig?: Brikko StudioConfig;
+export function resolveBrikkoStudioPluginToolsForOptions(params: {
+  options?: ResolveBrikkoStudioPluginToolsOptions;
+  resolvedConfig?: BrikkoStudioConfig;
   existingToolNames?: Set<string>;
 }): AnyAgentTool[] {
   if (params.options?.disablePluginTools) {
@@ -54,7 +54,7 @@ export function resolveBrikko StudioPluginToolsForOptions(params: {
   };
   const authProfileStore = params.options?.authProfileStore;
   const pluginTools = resolvePluginTools({
-    ...resolveBrikko StudioPluginToolInputs({
+    ...resolveBrikkoStudioPluginToolInputs({
       options: params.options,
       resolvedConfig: params.resolvedConfig,
       runtimeConfig: resolveCurrentRuntimeConfig(),

@@ -601,7 +601,7 @@ const getInterruptedSpawnExitCode = (res) => {
   return null;
 };
 
-const runBrikko Studio = async (deps) => {
+const runBrikkoStudio = async (deps) => {
   const cpuProfileArgs = resolveRunNodeCpuProfileArgs(deps);
   const nodeProcess = deps.spawn(deps.execPath, [...cpuProfileArgs, "brikko-studio.mjs", ...deps.args], {
     cwd: deps.cwd,
@@ -938,7 +938,7 @@ export async function runNodeMain(params = {}) {
           }
         }
       }
-      exitCode = await runBrikko Studio(deps);
+      exitCode = await runBrikkoStudio(deps);
       return await closeRunNodeOutputTee(deps, exitCode);
     }
 
@@ -987,7 +987,7 @@ export async function runNodeMain(params = {}) {
     if (buildExitCode !== 0) {
       return await closeRunNodeOutputTee(deps, buildExitCode);
     }
-    exitCode = await runBrikko Studio(deps);
+    exitCode = await runBrikkoStudio(deps);
     return await closeRunNodeOutputTee(deps, exitCode);
   } catch (error) {
     await closeRunNodeOutputTee(deps, 1);

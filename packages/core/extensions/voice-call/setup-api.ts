@@ -1,10 +1,10 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/plugin-entry";
 import { definePluginEntry } from "brikko-studio/plugin-sdk/plugin-entry";
 import { isRecord } from "brikko-studio/plugin-sdk/text-runtime";
 import { migrateVoiceCallLegacyConfigInput } from "./config-api.js";
 
-function migrateVoiceCallPluginConfig(config: Brikko StudioConfig): {
-  config: Brikko StudioConfig;
+function migrateVoiceCallPluginConfig(config: BrikkoStudioConfig): {
+  config: BrikkoStudioConfig;
   changes: string[];
 } | null {
   const rawVoiceCallConfig = config.plugins?.entries?.["voice-call"]?.config;

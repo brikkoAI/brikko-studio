@@ -1,6 +1,6 @@
 import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
 import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type {
   GeneratedImageAsset,
   ImageGenerationBackground,
@@ -15,7 +15,7 @@ import type {
 } from "./types.js";
 
 export type GenerateImageParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompt: string;
   agentDir?: string;
   authStore?: AuthProfileStore;
@@ -45,7 +45,7 @@ export type GenerateImageRuntimeResult = {
 };
 
 export type ListRuntimeImageGenerationProvidersParams = {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
 };
 
 export type RuntimeImageGenerationProvider = ImageGenerationProvider;

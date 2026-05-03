@@ -1,6 +1,6 @@
 import {
   definePluginEntry,
-  type Brikko StudioPluginApi,
+  type BrikkoStudioPluginApi,
   type ProviderAuthMethodNonInteractiveContext,
 } from "brikko-studio/plugin-sdk/plugin-entry";
 import {
@@ -21,7 +21,7 @@ export default definePluginEntry({
   id: "sglang",
   name: "SGLang Provider",
   description: "Bundled SGLang provider plugin",
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     api.registerProvider({
       id: PROVIDER_ID,
       label: "SGLang",

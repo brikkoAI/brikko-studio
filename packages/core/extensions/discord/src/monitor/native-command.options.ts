@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType } from "discord-api-types/v10";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   resolveCommandArgChoices,
   type ChatCommandDefinition,
@@ -56,7 +56,7 @@ function resolveDiscordCommandLogLabel(command: ChatCommandDefinition): string {
 
 export function buildDiscordCommandOptions(params: {
   command: ChatCommandDefinition;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   authorizeChoiceContext?: (interaction: AutocompleteInteraction) => Promise<boolean>;
   resolveChoiceContext?: (
     interaction: AutocompleteInteraction,

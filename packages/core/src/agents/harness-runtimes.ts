@@ -1,10 +1,10 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 import { isRecord } from "../utils.js";
 import { resolveAgentRuntimePolicy } from "./agent-runtime-policy.js";
 
 export function collectConfiguredAgentHarnessRuntimes(
-  config: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv,
 ): string[] {
   const runtimes = new Set<string>();

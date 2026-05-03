@@ -7,7 +7,7 @@ import type {
 } from "../../auto-reply/commands-registry.types.js";
 import { listSkillCommandsForAgents } from "../../auto-reply/skill-commands.js";
 import { getChannelPlugin } from "../../channels/plugins/index.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { getPluginCommandSpecs } from "../../plugins/command-specs.js";
 import { listPluginCommands } from "../../plugins/commands.js";
 import { normalizeOptionalLowercaseString } from "../../shared/string-coerce.js";
@@ -54,7 +54,7 @@ function clampDescription(value: string | undefined): string {
 function resolveAgentIdOrRespondError(
   rawAgentId: unknown,
   respond: RespondFn,
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
 ) {
   const knownAgents = listAgentIds(cfg);
   const requestedAgentId = typeof rawAgentId === "string" ? rawAgentId.trim() : "";
@@ -174,7 +174,7 @@ function mapCommand(
 function buildPluginCommandEntries(params: {
   provider?: string;
   nameSurface: CommandNameSurface;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): CommandEntry[] {
   const pluginTextSpecs = listPluginCommands();
   const pluginNativeSpecs = getPluginCommandSpecs(params.provider, { config: params.cfg });
@@ -204,7 +204,7 @@ function buildPluginCommandEntries(params: {
 }
 
 export function buildCommandsListResult(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   provider?: string;
   scope?: "native" | "text" | "both";

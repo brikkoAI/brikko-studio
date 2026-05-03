@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { isRecord } from "./tool-config-shared.js";
 
 type JsonRecord = Record<string, unknown>;
@@ -10,13 +10,13 @@ function cloneRecord<T extends JsonRecord | undefined>(value: T): T {
   return { ...value } as T;
 }
 
-function resolveLegacyXSearchConfig(config?: Brikko StudioConfig): JsonRecord | undefined {
+function resolveLegacyXSearchConfig(config?: BrikkoStudioConfig): JsonRecord | undefined {
   const web = config?.tools?.web as Record<string, unknown> | undefined;
   const xSearch = web?.x_search;
   return isRecord(xSearch) ? cloneRecord(xSearch) : undefined;
 }
 
-function resolvePluginXSearchConfig(config?: Brikko StudioConfig): JsonRecord | undefined {
+function resolvePluginXSearchConfig(config?: BrikkoStudioConfig): JsonRecord | undefined {
   const pluginConfig = config?.plugins?.entries?.xai?.config;
   if (!isRecord(pluginConfig?.xSearch)) {
     return undefined;
@@ -24,7 +24,7 @@ function resolvePluginXSearchConfig(config?: Brikko StudioConfig): JsonRecord | 
   return cloneRecord(pluginConfig.xSearch);
 }
 
-function resolveLegacyGrokWebSearchConfig(config?: Brikko StudioConfig): JsonRecord | undefined {
+function resolveLegacyGrokWebSearchConfig(config?: BrikkoStudioConfig): JsonRecord | undefined {
   const web = config?.tools?.web as Record<string, unknown> | undefined;
   const search = web?.search;
   if (!isRecord(search) || !isRecord(search.grok)) {
@@ -33,7 +33,7 @@ function resolveLegacyGrokWebSearchConfig(config?: Brikko StudioConfig): JsonRec
   return cloneRecord(search.grok);
 }
 
-function resolvePluginWebSearchConfig(config?: Brikko StudioConfig): JsonRecord | undefined {
+function resolvePluginWebSearchConfig(config?: BrikkoStudioConfig): JsonRecord | undefined {
   const pluginConfig = config?.plugins?.entries?.xai?.config;
   if (!isRecord(pluginConfig?.webSearch)) {
     return undefined;
@@ -47,7 +47,7 @@ function baseUrlFallback(config?: JsonRecord): JsonRecord | undefined {
     : undefined;
 }
 
-export function resolveEffectiveXSearchConfig(config?: Brikko StudioConfig): JsonRecord | undefined {
+export function resolveEffectiveXSearchConfig(config?: BrikkoStudioConfig): JsonRecord | undefined {
   const legacyGrokBaseUrl = baseUrlFallback(resolveLegacyGrokWebSearchConfig(config));
   const pluginWebSearchBaseUrl = baseUrlFallback(resolvePluginWebSearchConfig(config));
   const legacy = resolveLegacyXSearchConfig(config);
@@ -65,7 +65,7 @@ export function resolveEffectiveXSearchConfig(config?: Brikko StudioConfig): Jso
 }
 
 export function setPluginXSearchConfigValue(
-  configTarget: Brikko StudioConfig,
+  configTarget: BrikkoStudioConfig,
   key: string,
   value: unknown,
 ): void {

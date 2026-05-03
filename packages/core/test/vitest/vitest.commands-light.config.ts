@@ -7,7 +7,7 @@ export function createCommandsLightVitestConfig(env?: Record<string, string | un
     dir: "src/commands",
     env,
     exclude: getUnitFastTestFiles(),
-    includeBrikko StudioRuntimeSetup: false,
+    includeBrikkoStudioRuntimeSetup: false,
     name: "commands-light",
     passWithNoTests: true,
   });

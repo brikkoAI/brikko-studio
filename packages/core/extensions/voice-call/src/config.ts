@@ -272,7 +272,7 @@ const VoiceCallRealtimeConfigSchema = z
     streamPath: z.string().min(1).optional(),
     /** System instructions passed to the realtime provider. */
     instructions: z.string().default(DEFAULT_VOICE_CALL_REALTIME_INSTRUCTIONS),
-    /** Tool policy for the shared Brikko Studio agent consult tool. */
+    /** Tool policy for the shared BrikkoStudio agent consult tool. */
     toolPolicy: VoiceCallRealtimeToolPolicySchema.default("safe-read-only"),
     /** Tool definitions exposed to the realtime provider. */
     tools: z.array(RealtimeToolSchema).default([]),

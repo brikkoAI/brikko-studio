@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 
 const validationMocks = vi.hoisted(() => ({
   validateConfigObjectWithPlugins: vi.fn(),
@@ -45,7 +45,7 @@ describe("doctor invalid plugin config repair", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(result.changes).toEqual([
       "- plugins.entries: quarantined 1 invalid plugin config (community-feedback)",
@@ -83,7 +83,7 @@ describe("doctor invalid plugin config repair", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(result.config.plugins?.entries?.["pack/one"]).toEqual({
       enabled: false,
@@ -113,7 +113,7 @@ describe("doctor invalid plugin config repair", () => {
           },
         },
       },
-    } as Brikko StudioConfig);
+    } as BrikkoStudioConfig);
 
     expect(result.changes).toEqual([
       "- plugins.entries: quarantined 1 invalid plugin config (community-feedback)",
@@ -141,7 +141,7 @@ describe("doctor invalid plugin config repair", () => {
       gateway: {
         mode: "invalid",
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(maybeRepairInvalidPluginConfig(cfg)).toEqual({ config: cfg, changes: [] });
   });

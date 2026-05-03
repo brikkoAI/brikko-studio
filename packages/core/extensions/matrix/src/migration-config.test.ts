@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { withTempHome } from "brikko-studio/plugin-sdk/test-env";
 import { describe, expect, it } from "vitest";
 import { resolveMatrixMigrationAccountTarget } from "./migration-config.js";
@@ -11,7 +11,7 @@ import {
   writeMatrixCredentials,
 } from "./test-helpers.js";
 
-function resolveOpsTarget(cfg: Brikko StudioConfig, env = process.env) {
+function resolveOpsTarget(cfg: BrikkoStudioConfig, env = process.env) {
   return resolveMatrixMigrationAccountTarget({
     cfg,
     env,
@@ -29,7 +29,7 @@ describe("resolveMatrixMigrationAccountTarget", () => {
         accessToken: MATRIX_OPS_ACCESS_TOKEN,
       });
 
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           matrix: {
             accounts: {
@@ -60,7 +60,7 @@ describe("resolveMatrixMigrationAccountTarget", () => {
         deviceId: "DEVICE-OLD",
       });
 
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           matrix: {
             accounts: {
@@ -93,7 +93,7 @@ describe("resolveMatrixMigrationAccountTarget", () => {
         deviceId: "DEVICE-OLD",
       });
 
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           matrix: {
             accounts: {
@@ -121,7 +121,7 @@ describe("resolveMatrixMigrationAccountTarget", () => {
         accessToken: MATRIX_OPS_ACCESS_TOKEN,
       });
 
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           matrix: {
             homeserver: MATRIX_TEST_HOMESERVER,
@@ -146,7 +146,7 @@ describe("resolveMatrixMigrationAccountTarget", () => {
 
   it("does not inherit the base access token for non-default accounts", async () => {
     await withTempHome(async () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           matrix: {
             homeserver: MATRIX_TEST_HOMESERVER,
@@ -171,7 +171,7 @@ describe("resolveMatrixMigrationAccountTarget", () => {
   it("does not inherit the global Matrix access token for non-default accounts", async () => {
     await withTempHome(
       async () => {
-        const cfg: Brikko StudioConfig = {
+        const cfg: BrikkoStudioConfig = {
           channels: {
             matrix: {
               accounts: {
@@ -198,7 +198,7 @@ describe("resolveMatrixMigrationAccountTarget", () => {
 
   it("uses the same scoped env token encoding as runtime account auth", async () => {
     await withTempHome(async () => {
-      const cfg: Brikko StudioConfig = {
+      const cfg: BrikkoStudioConfig = {
         channels: {
           matrix: {
             accounts: {

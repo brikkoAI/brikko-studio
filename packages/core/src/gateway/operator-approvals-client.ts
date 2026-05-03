@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isLoopbackIpAddress } from "../shared/net/ip.js";
 import { resolveGatewayClientBootstrap } from "./client-bootstrap.js";
 import { startGatewayClientWhenEventLoopReady } from "./client-start-readiness.js";
@@ -34,7 +34,7 @@ export async function createOperatorApprovalsGatewayClient(
     | "onHelloOk"
     | "onReconnectPaused"
   > & {
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     gatewayUrl?: string;
   },
 ): Promise<GatewayClient> {
@@ -70,7 +70,7 @@ export async function createOperatorApprovalsGatewayClient(
 
 export async function withOperatorApprovalsGatewayClient<T>(
   params: {
-    config: Brikko StudioConfig;
+    config: BrikkoStudioConfig;
     gatewayUrl?: string;
     clientDisplayName: string;
   },

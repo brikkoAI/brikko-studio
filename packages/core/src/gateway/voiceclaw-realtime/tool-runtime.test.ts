@@ -118,7 +118,7 @@ describe("VoiceClawRealtimeToolRuntime", () => {
 
     await vi.waitFor(() => expect(callbacks.injected[0]).toContain("timed out after 10ms"));
     expect(callbacks.progress.map((entry) => entry.summary)).toContain(
-      "stuck failed: Brikko Studio tool timed out after 10ms",
+      "stuck failed: BrikkoStudio tool timed out after 10ms",
     );
 
     const handled = runtime.handleToolCall(makeToolCall("quick", {}, "call-2"), callbacks);

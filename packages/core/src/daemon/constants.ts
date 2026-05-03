@@ -3,12 +3,12 @@ import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 // Default service labels (canonical + legacy compatibility)
 export const GATEWAY_LAUNCH_AGENT_LABEL = "ai.brikko-studio.gateway";
 export const GATEWAY_SYSTEMD_SERVICE_NAME = "brikko-studio-gateway";
-export const GATEWAY_WINDOWS_TASK_NAME = "Brikko Studio Gateway";
+export const GATEWAY_WINDOWS_TASK_NAME = "BrikkoStudio Gateway";
 export const GATEWAY_SERVICE_MARKER = "brikko-studio";
 export const GATEWAY_SERVICE_KIND = "gateway";
 const NODE_LAUNCH_AGENT_LABEL = "ai.brikko-studio.node";
 const NODE_SYSTEMD_SERVICE_NAME = "brikko-studio-node";
-const NODE_WINDOWS_TASK_NAME = "Brikko Studio Node";
+const NODE_WINDOWS_TASK_NAME = "BrikkoStudio Node";
 export const NODE_SERVICE_MARKER = "brikko-studio";
 export const NODE_SERVICE_KIND = "node";
 export const NODE_WINDOWS_TASK_SCRIPT_NAME = "node.cmd";
@@ -53,7 +53,7 @@ export function resolveGatewayWindowsTaskName(profile?: string): string {
   if (!normalized) {
     return GATEWAY_WINDOWS_TASK_NAME;
   }
-  return `Brikko Studio Gateway (${normalized})`;
+  return `BrikkoStudio Gateway (${normalized})`;
 }
 
 export function formatGatewayServiceDescription(params?: {
@@ -70,9 +70,9 @@ export function formatGatewayServiceDescription(params?: {
     parts.push(`v${version}`);
   }
   if (parts.length === 0) {
-    return "Brikko Studio Gateway";
+    return "BrikkoStudio Gateway";
   }
-  return `Brikko Studio Gateway (${parts.join(", ")})`;
+  return `BrikkoStudio Gateway (${parts.join(", ")})`;
 }
 
 export function resolveGatewayServiceDescription(params: {
@@ -104,7 +104,7 @@ export function resolveNodeWindowsTaskName(): string {
 export function formatNodeServiceDescription(params?: { version?: string }): string {
   const version = params?.version?.trim();
   if (!version) {
-    return "Brikko Studio Node Host";
+    return "BrikkoStudio Node Host";
   }
-  return `Brikko Studio Node Host (v${version})`;
+  return `BrikkoStudio Node Host (v${version})`;
 }

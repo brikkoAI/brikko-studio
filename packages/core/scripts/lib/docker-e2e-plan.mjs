@@ -305,7 +305,7 @@ export function lanesNeedE2eImageKind(poolLanes, kind) {
   return poolLanes.some((poolLane) => poolLane.e2eImageKind === kind);
 }
 
-export function lanesNeedBrikko StudioPackage(poolLanes) {
+export function lanesNeedBrikkoStudioPackage(poolLanes) {
   return poolLanes.some((poolLane) => poolLane.e2eImageKind);
 }
 
@@ -370,7 +370,7 @@ function buildPlanJson(params) {
       e2eImage: imageKinds.length > 0,
       functionalImage: imageKinds.includes("functional"),
       liveImage: scheduledLanes.some((poolLane) => poolLane.live),
-      package: lanesNeedBrikko StudioPackage(scheduledLanes),
+      package: lanesNeedBrikkoStudioPackage(scheduledLanes),
     },
     profile: params.profile,
     selectedLanes: params.selectedLaneNames,

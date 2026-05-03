@@ -4,8 +4,8 @@ import path from "node:path";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { createMockServerResponse } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../api.js";
-import type { Brikko StudioPluginApi, Brikko StudioPluginToolContext } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
+import type { BrikkoStudioPluginApi, BrikkoStudioPluginToolContext } from "../api.js";
 import { registerDiffsPlugin } from "./plugin.js";
 import { createTempDiffRoot } from "./test-helpers.js";
 
@@ -200,13 +200,13 @@ describe("diffs plugin registration", () => {
       req: IncomingMessage,
       res: ServerResponse,
     ) => boolean | Promise<boolean>;
-    type RegisteredHttpRouteParams = Parameters<Brikko StudioPluginApi["registerHttpRoute"]>[0];
+    type RegisteredHttpRouteParams = Parameters<BrikkoStudioPluginApi["registerHttpRoute"]>[0];
 
     let registeredToolFactory:
-      | ((ctx: Brikko StudioPluginToolContext) => RegisteredTool | RegisteredTool[] | null | undefined)
+      | ((ctx: BrikkoStudioPluginToolContext) => RegisteredTool | RegisteredTool[] | null | undefined)
       | undefined;
     let registeredHttpRouteHandler: HttpRouteHandler | undefined;
-    let configFile: Brikko StudioConfig = {
+    let configFile: BrikkoStudioConfig = {
       gateway: {
         port: 18789,
         bind: "loopback",
@@ -229,7 +229,7 @@ describe("diffs plugin registration", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const api = createTestPluginApi({
       id: "diffs",
@@ -259,7 +259,7 @@ describe("diffs plugin registration", () => {
           current: () => configFile,
         },
       } as never,
-      registerTool(tool: Parameters<Brikko StudioPluginApi["registerTool"]>[0]) {
+      registerTool(tool: Parameters<BrikkoStudioPluginApi["registerTool"]>[0]) {
         registeredToolFactory = typeof tool === "function" ? tool : () => tool;
       },
       registerHttpRoute(params: RegisteredHttpRouteParams) {
@@ -268,7 +268,7 @@ describe("diffs plugin registration", () => {
       on: vi.fn(),
     });
 
-    registerDiffsPlugin(api as unknown as Brikko StudioPluginApi);
+    registerDiffsPlugin(api as unknown as BrikkoStudioPluginApi);
 
     configFile = {
       ...configFile,
@@ -290,7 +290,7 @@ describe("diffs plugin registration", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const registeredTool = registeredToolFactory?.({
       agentId: "main",
@@ -332,14 +332,14 @@ describe("diffs plugin registration", () => {
       req: IncomingMessage,
       res: ServerResponse,
     ) => boolean | Promise<boolean>;
-    type RegisteredHttpRouteParams = Parameters<Brikko StudioPluginApi["registerHttpRoute"]>[0];
+    type RegisteredHttpRouteParams = Parameters<BrikkoStudioPluginApi["registerHttpRoute"]>[0];
 
     let registeredToolFactory:
-      | ((ctx: Brikko StudioPluginToolContext) => RegisteredTool | RegisteredTool[] | null | undefined)
+      | ((ctx: BrikkoStudioPluginToolContext) => RegisteredTool | RegisteredTool[] | null | undefined)
       | undefined;
     let registeredHttpRouteHandler: HttpRouteHandler | undefined;
     const on = vi.fn();
-    let configFile: Brikko StudioConfig = {
+    let configFile: BrikkoStudioConfig = {
       gateway: {
         port: 18789,
         bind: "loopback",
@@ -355,7 +355,7 @@ describe("diffs plugin registration", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const api = createTestPluginApi({
       id: "diffs",
@@ -387,7 +387,7 @@ describe("diffs plugin registration", () => {
           current: () => configFile,
         },
       } as never,
-      registerTool(tool: Parameters<Brikko StudioPluginApi["registerTool"]>[0]) {
+      registerTool(tool: Parameters<BrikkoStudioPluginApi["registerTool"]>[0]) {
         registeredToolFactory = typeof tool === "function" ? tool : () => tool;
       },
       registerHttpRoute(params: RegisteredHttpRouteParams) {
@@ -396,7 +396,7 @@ describe("diffs plugin registration", () => {
       on,
     });
 
-    registerDiffsPlugin(api as unknown as Brikko StudioPluginApi);
+    registerDiffsPlugin(api as unknown as BrikkoStudioPluginApi);
 
     expect(on).toHaveBeenCalledTimes(1);
     expect(on.mock.calls[0]?.[0]).toBe("before_prompt_build");
@@ -453,7 +453,7 @@ describe("diffs plugin registration", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const proxiedRes = createMockServerResponse();
     const proxiedHandled = await registeredHttpRouteHandler?.(
@@ -479,13 +479,13 @@ describe("diffs plugin registration", () => {
       req: IncomingMessage,
       res: ServerResponse,
     ) => boolean | Promise<boolean>;
-    type RegisteredHttpRouteParams = Parameters<Brikko StudioPluginApi["registerHttpRoute"]>[0];
+    type RegisteredHttpRouteParams = Parameters<BrikkoStudioPluginApi["registerHttpRoute"]>[0];
 
     let registeredToolFactory:
-      | ((ctx: Brikko StudioPluginToolContext) => RegisteredTool | RegisteredTool[] | null | undefined)
+      | ((ctx: BrikkoStudioPluginToolContext) => RegisteredTool | RegisteredTool[] | null | undefined)
       | undefined;
     let registeredHttpRouteHandler: HttpRouteHandler | undefined;
-    let configFile: Brikko StudioConfig = {
+    let configFile: BrikkoStudioConfig = {
       gateway: {
         port: 18789,
         bind: "loopback",
@@ -501,7 +501,7 @@ describe("diffs plugin registration", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const api = createTestPluginApi({
       id: "diffs",
@@ -524,7 +524,7 @@ describe("diffs plugin registration", () => {
           current: () => configFile,
         },
       } as never,
-      registerTool(tool: Parameters<Brikko StudioPluginApi["registerTool"]>[0]) {
+      registerTool(tool: Parameters<BrikkoStudioPluginApi["registerTool"]>[0]) {
         registeredToolFactory = typeof tool === "function" ? tool : () => tool;
       },
       registerHttpRoute(params: RegisteredHttpRouteParams) {
@@ -533,7 +533,7 @@ describe("diffs plugin registration", () => {
       on: vi.fn(),
     });
 
-    registerDiffsPlugin(api as unknown as Brikko StudioPluginApi);
+    registerDiffsPlugin(api as unknown as BrikkoStudioPluginApi);
 
     const registeredTool = registeredToolFactory?.({
       agentId: "main",
@@ -554,7 +554,7 @@ describe("diffs plugin registration", () => {
       plugins: {
         entries: {},
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const proxiedRes = createMockServerResponse();
     const proxiedHandled = await registeredHttpRouteHandler?.(
@@ -573,12 +573,12 @@ describe("diffs plugin registration", () => {
   });
 });
 
-function createConfig(): Brikko StudioConfig {
+function createConfig(): BrikkoStudioConfig {
   return {
     browser: {
       executablePath: process.execPath,
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function localReq(input: {

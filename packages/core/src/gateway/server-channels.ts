@@ -7,7 +7,7 @@ import {
   listChannelPlugins,
 } from "../channels/plugins/index.js";
 import type { ChannelAccountSnapshot } from "../channels/plugins/types.public.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { startChannelApprovalHandlerBootstrap } from "../infra/approval-handler-bootstrap.js";
 import { type BackoffPolicy, computeBackoff, sleepWithAbort } from "../infra/backoff.js";
 import { createTaskScopedChannelRuntime } from "../infra/channel-runtime-context.js";
@@ -131,7 +131,7 @@ function applyDescribedAccountFields(
 }
 
 type ChannelManagerOptions = {
-  getRuntimeConfig: () => Brikko StudioConfig;
+  getRuntimeConfig: () => BrikkoStudioConfig;
   channelLogs: Partial<Record<ChannelId, SubsystemLogger>>;
   channelRuntimeEnvs: Partial<Record<ChannelId, RuntimeEnv>>;
   /**

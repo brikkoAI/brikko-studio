@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { describe, expect, it } from "vitest";
 import {
   buildIMessageInboundContext,
@@ -7,7 +7,7 @@ import {
 import { parseIMessageNotification } from "./monitor/parse-notification.js";
 import type { IMessagePayload } from "./monitor/types.js";
 
-function baseCfg(): Brikko StudioConfig {
+function baseCfg(): BrikkoStudioConfig {
   return {
     channels: {
       imessage: {
@@ -21,11 +21,11 @@ function baseCfg(): Brikko StudioConfig {
     messages: {
       groupChat: { mentionPatterns: ["@brikko-studio"] },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 function resolve(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   message: IMessagePayload;
   storeAllowFrom?: string[];
 }) {
@@ -49,7 +49,7 @@ function resolve(params: {
 }
 
 function resolveDispatchDecision(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   message: IMessagePayload;
   groupHistories?: Parameters<typeof resolveIMessageInboundDecision>[0]["groupHistories"];
   allowFrom?: string[];
@@ -80,7 +80,7 @@ function resolveDispatchDecision(params: {
   return { decision, groupHistories };
 }
 
-function buildDispatchContextPayload(params: { cfg: Brikko StudioConfig; message: IMessagePayload }) {
+function buildDispatchContextPayload(params: { cfg: BrikkoStudioConfig; message: IMessagePayload }) {
   const { cfg, message } = params;
   const { decision, groupHistories } = resolveDispatchDecision({ cfg, message });
 

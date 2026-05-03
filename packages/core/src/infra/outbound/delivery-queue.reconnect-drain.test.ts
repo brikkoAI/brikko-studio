@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import {
   type DeliverFn,
   drainPendingDeliveries,
@@ -17,7 +17,7 @@ import {
   installDeliveryQueueTmpDirHooks,
 } from "./delivery-queue.test-helpers.js";
 
-const stubCfg = {} as Brikko StudioConfig;
+const stubCfg = {} as BrikkoStudioConfig;
 const NO_LISTENER_ERROR = "No active DirectChat listener";
 
 function normalizeReconnectAccountIdForTest(accountId?: string | null): string {

@@ -13,7 +13,7 @@ import {
 } from "../channels/plugins/config-write-policy-shared.js";
 import { buildAccountScopedDmSecurityPolicy } from "../channels/plugins/helpers.js";
 import type { ChannelConfigAdapter } from "../channels/plugins/types.adapters.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 import { normalizeStringEntries } from "../shared/string-normalization.js";
@@ -62,7 +62,7 @@ type ChannelConfigAdapterWithAccessors<ResolvedAccount> = Pick<
 >;
 
 export function resolveChannelConfigWrites(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelId?: string | null;
   accountId?: string | null;
 }): boolean {
@@ -70,7 +70,7 @@ export function resolveChannelConfigWrites(params: {
 }
 
 export function authorizeConfigWrite(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   origin?: ConfigWriteScope;
   target?: ConfigWriteTarget;
   allowBypass?: boolean;
@@ -96,7 +96,7 @@ export function formatConfigWriteDeniedMessage(params: {
   return formatConfigWriteDeniedMessageShared(params);
 }
 
-type ChannelConfigAccessorParams<Config extends Brikko StudioConfig = Brikko StudioConfig> = {
+type ChannelConfigAccessorParams<Config extends BrikkoStudioConfig = BrikkoStudioConfig> = {
   cfg: Config;
   accountId?: string | null;
 };
@@ -104,7 +104,7 @@ type ChannelConfigAccessorParams<Config extends Brikko StudioConfig = Brikko Stu
 type MultiAccountChannelConfigAdapterParams<
   ResolvedAccount,
   AccessorAccount = ResolvedAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 > = {
   sectionKey: string;
   listAccountIds: (cfg: Config) => string[];
@@ -120,7 +120,7 @@ type MultiAccountChannelConfigAdapterParams<
 
 type NamedAccountChannelConfigBaseParams<
   ResolvedAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 > = {
   sectionKey: string;
   listAccountIds: (cfg: Config) => string[];
@@ -154,7 +154,7 @@ export function resolveOptionalConfigString(
 }
 
 /** Adapt `{ cfg, accountId }` accessors to callback sites that pass positional args. */
-export function adaptScopedAccountAccessor<Result, Config extends Brikko StudioConfig = Brikko StudioConfig>(
+export function adaptScopedAccountAccessor<Result, Config extends BrikkoStudioConfig = BrikkoStudioConfig>(
   accessor: (params: { cfg: Config; accountId?: string | null }) => Result,
 ): (cfg: Config, accountId?: string | null) => Result {
   return (cfg, accountId) => accessor({ cfg, accountId });
@@ -164,7 +164,7 @@ export function adaptScopedAccountAccessor<Result, Config extends Brikko StudioC
 export function createScopedAccountConfigAccessors<
   ResolvedAccount,
   // oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Config preserves caller-specific config subtype for account resolvers.
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 >(params: {
   resolveAccount: (params: { cfg: Config; accountId?: string | null }) => ResolvedAccount;
   resolveAllowFrom: (account: ResolvedAccount) => Array<string | number> | null | undefined;
@@ -175,7 +175,7 @@ export function createScopedAccountConfigAccessors<
   "resolveAllowFrom" | "formatAllowFrom" | "resolveDefaultTo"
 > {
   const base = {
-    resolveAllowFrom({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId?: string | null }) {
+    resolveAllowFrom({ cfg, accountId }: { cfg: BrikkoStudioConfig; accountId?: string | null }) {
       return mapAllowFromEntries(
         params.resolveAllowFrom(params.resolveAccount({ cfg: cfg as Config, accountId })),
       );
@@ -201,18 +201,18 @@ export function createScopedAccountConfigAccessors<
 
 function createNamedAccountConfigBase<
   ResolvedAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 >(params: {
   listAccountIds: (cfg: Config) => string[];
   resolveAccount: (cfg: Config, accountId?: string | null) => ResolvedAccount;
   inspectAccount?: (cfg: Config, accountId?: string | null) => unknown;
   defaultAccountId: (cfg: Config) => string;
   setAccountEnabled: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId: string;
     enabled: boolean;
-  }) => Brikko StudioConfig;
-  deleteAccount: (params: { cfg: Brikko StudioConfig; accountId: string }) => Brikko StudioConfig;
+  }) => BrikkoStudioConfig;
+  deleteAccount: (params: { cfg: BrikkoStudioConfig; accountId: string }) => BrikkoStudioConfig;
 }): ChannelCrudConfigAdapter<ResolvedAccount> {
   return {
     listAccountIds(cfg) {
@@ -245,7 +245,7 @@ function createNamedAccountConfigBase<
 
 function resolveAccessorAccountWithFallback<
   AccessorAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 >(
   resolveAccessorAccount:
     | ((params: ChannelConfigAccessorParams<Config>) => AccessorAccount)
@@ -258,7 +258,7 @@ function resolveAccessorAccountWithFallback<
 function createChannelConfigAdapterWithAccessors<
   ResolvedAccount,
   AccessorAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 >(params: {
   base: ChannelCrudConfigAdapter<ResolvedAccount>;
   resolveAccessorAccount?: (params: ChannelConfigAccessorParams<Config>) => AccessorAccount;
@@ -284,7 +284,7 @@ function createChannelConfigAdapterWithAccessors<
 function createChannelConfigAdapterFromBase<
   ResolvedAccount,
   AccessorAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 >(params: {
   base: ChannelCrudConfigAdapter<ResolvedAccount>;
   resolveAccessorAccount?: (params: ChannelConfigAccessorParams<Config>) => AccessorAccount;
@@ -306,7 +306,7 @@ function createChannelConfigAdapterFromBase<
 /** Build the common CRUD/config helpers for channels that store multiple named accounts. */
 export function createScopedChannelConfigBase<
   ResolvedAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 >(
   params: NamedAccountChannelConfigBaseParams<ResolvedAccount, Config> & {
     allowTopLevel?: boolean;
@@ -341,7 +341,7 @@ export function createScopedChannelConfigBase<
 export function createScopedChannelConfigAdapter<
   ResolvedAccount,
   AccessorAccount = ResolvedAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 >(
   params: MultiAccountChannelConfigAdapterParams<ResolvedAccount, AccessorAccount, Config> & {
     allowTopLevel?: boolean;
@@ -367,7 +367,7 @@ export function createScopedChannelConfigAdapter<
   });
 }
 
-function setTopLevelChannelEnabledInConfigSection<Config extends Brikko StudioConfig>(params: {
+function setTopLevelChannelEnabledInConfigSection<Config extends BrikkoStudioConfig>(params: {
   cfg: Config;
   sectionKey: string;
   enabled: boolean;
@@ -385,7 +385,7 @@ function setTopLevelChannelEnabledInConfigSection<Config extends Brikko StudioCo
   } as Config;
 }
 
-function removeTopLevelChannelConfigSection<Config extends Brikko StudioConfig>(params: {
+function removeTopLevelChannelConfigSection<Config extends BrikkoStudioConfig>(params: {
   cfg: Config;
   sectionKey: string;
 }): Config {
@@ -400,7 +400,7 @@ function removeTopLevelChannelConfigSection<Config extends Brikko StudioConfig>(
   return nextCfg;
 }
 
-function clearTopLevelChannelConfigFields<Config extends Brikko StudioConfig>(params: {
+function clearTopLevelChannelConfigFields<Config extends BrikkoStudioConfig>(params: {
   cfg: Config;
   sectionKey: string;
   clearBaseFields: string[];
@@ -425,7 +425,7 @@ function clearTopLevelChannelConfigFields<Config extends Brikko StudioConfig>(pa
 /** Build CRUD/config helpers for top-level single-account channels. */
 export function createTopLevelChannelConfigBase<
   ResolvedAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 >(params: {
   sectionKey: string;
   resolveAccount: (cfg: Config) => ResolvedAccount;
@@ -482,7 +482,7 @@ export function createTopLevelChannelConfigBase<
 export function createTopLevelChannelConfigAdapter<
   ResolvedAccount,
   AccessorAccount = ResolvedAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 >(params: {
   sectionKey: string;
   resolveAccount: (cfg: Config) => ResolvedAccount;
@@ -519,7 +519,7 @@ export function createTopLevelChannelConfigAdapter<
 /** Build CRUD/config helpers for channels where the default account lives at channel root and named accounts live under `accounts`. */
 export function createHybridChannelConfigBase<
   ResolvedAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 >(
   params: NamedAccountChannelConfigBaseParams<ResolvedAccount, Config> & {
     preserveSectionOnDefaultDelete?: boolean;
@@ -575,7 +575,7 @@ export function createHybridChannelConfigBase<
 export function createHybridChannelConfigAdapter<
   ResolvedAccount,
   AccessorAccount = ResolvedAccount,
-  Config extends Brikko StudioConfig = Brikko StudioConfig,
+  Config extends BrikkoStudioConfig = BrikkoStudioConfig,
 >(
   params: MultiAccountChannelConfigAdapterParams<ResolvedAccount, AccessorAccount, Config> & {
     preserveSectionOnDefaultDelete?: boolean;
@@ -609,7 +609,7 @@ export function createScopedDmSecurityResolver<
   resolvePolicy: (account: ResolvedAccount) => string | null | undefined;
   resolveAllowFrom: (account: ResolvedAccount) => Array<string | number> | null | undefined;
   resolveAccess?: (params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     account: ResolvedAccount;
   }) => {
@@ -630,7 +630,7 @@ export function createScopedDmSecurityResolver<
     accountId,
     account,
   }: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     accountId?: string | null;
     account: ResolvedAccount;
   }) => {

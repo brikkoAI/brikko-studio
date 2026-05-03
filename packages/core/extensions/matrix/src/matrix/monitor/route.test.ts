@@ -6,7 +6,7 @@ import {
   registerSessionBindingAdapter,
   resolveAgentRoute,
   setActivePluginRegistry,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "../../test-support/monitor-route-test-support.js";
 import { resolveMatrixInboundRoute } from "./route.js";
 
@@ -15,9 +15,9 @@ const baseCfg = {
   agents: {
     list: [{ id: "main" }, { id: "sender-agent" }, { id: "room-agent" }, { id: "acp-agent" }],
   },
-} satisfies Brikko StudioConfig;
+} satisfies BrikkoStudioConfig;
 
-type RouteBinding = NonNullable<Brikko StudioConfig["bindings"]>[number];
+type RouteBinding = NonNullable<BrikkoStudioConfig["bindings"]>[number];
 type RoutePeer = NonNullable<RouteBinding["match"]["peer"]>;
 
 function matrixBinding(
@@ -45,7 +45,7 @@ function dmRoomPeer(id = "!dm:example.org"): RoutePeer {
 }
 
 function resolveDmRoute(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   opts: {
     dmSessionScope?: "per-user" | "per-room";
   } = {},
@@ -76,7 +76,7 @@ describe("resolveMatrixInboundRoute", () => {
         matrixBinding("room-agent", dmRoomPeer()),
         matrixBinding("sender-agent", senderPeer()),
       ],
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const { route, configuredBinding } = resolveDmRoute(cfg);
 
@@ -90,7 +90,7 @@ describe("resolveMatrixInboundRoute", () => {
     const cfg = {
       ...baseCfg,
       bindings: [matrixBinding("acp-agent"), matrixBinding("room-agent", dmRoomPeer())],
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const { route, configuredBinding } = resolveDmRoute(cfg);
 
@@ -104,7 +104,7 @@ describe("resolveMatrixInboundRoute", () => {
     const cfg = {
       ...baseCfg,
       bindings: [matrixBinding("sender-agent", senderPeer())],
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const { route, configuredBinding } = resolveDmRoute(cfg, {
       dmSessionScope: "per-room",
@@ -125,7 +125,7 @@ describe("resolveMatrixInboundRoute", () => {
         matrixBinding("room-agent", dmRoomPeer()),
         matrixBinding("acp-agent", dmRoomPeer(), "acp"),
       ],
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const { route, configuredBinding } = resolveDmRoute(cfg);
 
@@ -143,7 +143,7 @@ describe("resolveMatrixInboundRoute", () => {
         matrixBinding("room-agent", dmRoomPeer()),
         matrixBinding("acp-agent", dmRoomPeer(), "acp"),
       ],
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const { route, configuredBinding } = resolveDmRoute(cfg, {
       dmSessionScope: "per-room",
@@ -188,7 +188,7 @@ describe("resolveMatrixInboundRoute", () => {
         matrixBinding("sender-agent", senderPeer()),
         matrixBinding("room-agent", dmRoomPeer()),
       ],
-    } satisfies Brikko StudioConfig;
+    } satisfies BrikkoStudioConfig;
 
     const { route, configuredBinding, runtimeBindingId } = resolveDmRoute(cfg);
 

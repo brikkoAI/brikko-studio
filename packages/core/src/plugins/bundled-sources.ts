@@ -1,5 +1,5 @@
 import { normalizeOptionalString } from "../shared/string-coerce.js";
-import { discoverBrikko StudioPlugins } from "./discovery.js";
+import { discoverBrikkoStudioPlugins } from "./discovery.js";
 import { loadPluginManifest } from "./manifest.js";
 
 export type BundledPluginSource = {
@@ -39,7 +39,7 @@ export function resolveBundledPluginSources(params: {
   /** Use an explicit env when bundled roots should resolve independently from process.env. */
   env?: NodeJS.ProcessEnv;
 }): Map<string, BundledPluginSource> {
-  const discovery = discoverBrikko StudioPlugins({
+  const discovery = discoverBrikkoStudioPlugins({
     workspaceDir: params.workspaceDir,
     env: params.env,
   });

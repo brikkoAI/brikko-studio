@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { ResolvedTtsPersona, TtsAutoMode, TtsProvider } from "../config/types.tts.js";
 import type {
   SpeechProviderConfig,
@@ -62,7 +62,7 @@ export type ResolveTtsAutoModeParams = {
 };
 
 export type ResolveExplicitTtsOverridesParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prefsPath?: string;
   provider?: string;
   modelId?: string;
@@ -74,7 +74,7 @@ export type ResolveExplicitTtsOverridesParams = {
 
 export type TtsRequestParams = {
   text: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prefsPath?: string;
   channel?: string;
   overrides?: TtsDirectiveOverrides;
@@ -86,14 +86,14 @@ export type TtsRequestParams = {
 
 export type TtsTelephonyRequestParams = {
   text: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prefsPath?: string;
   overrides?: TtsDirectiveOverrides;
 };
 
 export type ListSpeechVoicesParams = {
   provider: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   config?: ResolvedTtsConfig;
   apiKey?: string;
   baseUrl?: string;
@@ -101,7 +101,7 @@ export type ListSpeechVoicesParams = {
 
 export type MaybeApplyTtsToPayloadParams = {
   payload: ReplyPayload;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channel?: string;
   kind?: "tool" | "block" | "final";
   inboundAudio?: boolean;
@@ -126,7 +126,7 @@ export type TtsTestFacade = {
   getResolvedSpeechProviderConfig: (
     config: ResolvedTtsConfig,
     providerId: string,
-    cfg?: Brikko StudioConfig,
+    cfg?: BrikkoStudioConfig,
   ) => SpeechProviderConfig;
   formatTtsProviderError: (provider: TtsProvider, err: unknown) => string;
   sanitizeTtsErrorForLog: (err: unknown) => string;
@@ -186,12 +186,12 @@ export type ListSpeechVoices = (params: ListSpeechVoicesParams) => Promise<Speec
 
 export type TtsRuntimeFacade = {
   _test: TtsTestFacade;
-  buildTtsSystemPromptHint: (cfg: Brikko StudioConfig, agentId?: string) => string | undefined;
+  buildTtsSystemPromptHint: (cfg: BrikkoStudioConfig, agentId?: string) => string | undefined;
   getLastTtsAttempt: () => TtsStatusEntry | undefined;
   getResolvedSpeechProviderConfig: (
     config: ResolvedTtsConfig,
     providerId: string,
-    cfg?: Brikko StudioConfig,
+    cfg?: BrikkoStudioConfig,
   ) => SpeechProviderConfig;
   getTtsMaxLength: (prefsPath: string) => number;
   getTtsPersona: (config: ResolvedTtsConfig, prefsPath: string) => ResolvedTtsPersona | undefined;
@@ -201,7 +201,7 @@ export type TtsRuntimeFacade = {
   isTtsProviderConfigured: (
     config: ResolvedTtsConfig,
     provider: TtsProvider,
-    cfg?: Brikko StudioConfig,
+    cfg?: BrikkoStudioConfig,
   ) => boolean;
   listSpeechVoices: ListSpeechVoices;
   listTtsPersonas: (config: ResolvedTtsConfig) => ResolvedTtsPersona[];
@@ -209,11 +209,11 @@ export type TtsRuntimeFacade = {
   resolveExplicitTtsOverrides: (params: ResolveExplicitTtsOverridesParams) => TtsDirectiveOverrides;
   resolveTtsAutoMode: (params: ResolveTtsAutoModeParams) => TtsAutoMode;
   resolveTtsConfig: (
-    cfg: Brikko StudioConfig,
+    cfg: BrikkoStudioConfig,
     contextOrAgentId?: string | TtsConfigResolutionContext,
   ) => ResolvedTtsConfig;
   resolveTtsPrefsPath: (config: ResolvedTtsConfig) => string;
-  resolveTtsProviderOrder: (primary: TtsProvider, cfg?: Brikko StudioConfig) => TtsProvider[];
+  resolveTtsProviderOrder: (primary: TtsProvider, cfg?: BrikkoStudioConfig) => TtsProvider[];
   setLastTtsAttempt: (entry: TtsStatusEntry | undefined) => void;
   setSummarizationEnabled: (prefsPath: string, enabled: boolean) => void;
   setTtsAutoMode: (prefsPath: string, mode: TtsAutoMode) => void;

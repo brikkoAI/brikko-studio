@@ -56,11 +56,11 @@ describe("installScheduledTask", () => {
 
   function expectInitialTaskQueries(): void {
     expect(schtasksCalls[0]).toEqual(["/Query"]);
-    expect(schtasksCalls[1]).toEqual(["/Query", "/TN", "Brikko Studio Gateway"]);
+    expect(schtasksCalls[1]).toEqual(["/Query", "/TN", "BrikkoStudio Gateway"]);
   }
 
   function expectTaskRunCall(index: number): void {
-    expect(schtasksCalls[index]).toEqual(["/Run", "/TN", "Brikko Studio Gateway"]);
+    expect(schtasksCalls[index]).toEqual(["/Run", "/TN", "BrikkoStudio Gateway"]);
   }
 
   it("writes quoted set assignments and escapes metacharacters", async () => {
@@ -126,9 +126,9 @@ describe("installScheduledTask", () => {
       expect(parsed?.environment).not.toHaveProperty("OC_EMPTY");
 
       expect(schtasksCalls[0]).toEqual(["/Query"]);
-      expect(schtasksCalls[1]).toEqual(["/Query", "/TN", "Brikko Studio Gateway"]);
+      expect(schtasksCalls[1]).toEqual(["/Query", "/TN", "BrikkoStudio Gateway"]);
       expect(schtasksCalls[2]?.[0]).toBe("/Change");
-      expect(schtasksCalls[3]).toEqual(["/Run", "/TN", "Brikko Studio Gateway"]);
+      expect(schtasksCalls[3]).toEqual(["/Run", "/TN", "BrikkoStudio Gateway"]);
     });
   });
 

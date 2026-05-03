@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import {
   generateMusic,
   listRuntimeMusicGenerationProviders,
@@ -9,7 +9,7 @@ import {
 import type { MusicGenerationProvider } from "./types.js";
 
 let providers: MusicGenerationProvider[] = [];
-let listedConfigs: Array<Brikko StudioConfig | undefined> = [];
+let listedConfigs: Array<BrikkoStudioConfig | undefined> = [];
 
 const runtimeDeps: MusicGenerationRuntimeDeps = {
   getProvider: (providerId) => providers.find((provider) => provider.id === providerId),
@@ -63,7 +63,7 @@ describe("music-generation runtime", () => {
             musicGenerationModel: { primary: "music-plugin/track-v1" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       prompt: "play a synth line",
       agentDir: "/tmp/agent",
       authStore,
@@ -111,7 +111,7 @@ describe("music-generation runtime", () => {
             musicGenerationModel: { primary: "music-plugin/track-v1" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       prompt: "play a synth line",
       autoProviderFallback: false,
     };
@@ -148,7 +148,7 @@ describe("music-generation runtime", () => {
     ];
 
     const result = await runGenerateMusic({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       prompt: "play a synth line",
     });
 
@@ -182,9 +182,9 @@ describe("music-generation runtime", () => {
     providers = registryProviders;
 
     expect(
-      listRuntimeMusicGenerationProviders({ config: {} as Brikko StudioConfig }, runtimeDeps),
+      listRuntimeMusicGenerationProviders({ config: {} as BrikkoStudioConfig }, runtimeDeps),
     ).toEqual(registryProviders);
-    expect(listedConfigs).toEqual([{} as Brikko StudioConfig]);
+    expect(listedConfigs).toEqual([{} as BrikkoStudioConfig]);
   });
 
   it("ignores unsupported optional overrides per provider and model", async () => {
@@ -231,7 +231,7 @@ describe("music-generation runtime", () => {
             musicGenerationModel: { primary: "google/lyria-3-clip-preview" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       prompt: "energetic arcade anthem",
       lyrics: "Hero crab in the neon tide",
       instrumental: true,
@@ -301,7 +301,7 @@ describe("music-generation runtime", () => {
             musicGenerationModel: { primary: "google/lyria-3-pro-preview" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       prompt: "turn this cover image into a trailer cue",
       lyrics: "rise up",
       instrumental: true,
@@ -356,7 +356,7 @@ describe("music-generation runtime", () => {
             musicGenerationModel: { primary: "minimax/music-2.6" },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       prompt: "energetic arcade anthem",
       durationSeconds: 45,
     });

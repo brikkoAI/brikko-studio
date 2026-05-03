@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizePluginsConfig, resolveEffectivePluginActivationState } from "./config-state.js";
 import type { PluginManifestRecord } from "./manifest-registry.js";
 
@@ -66,7 +66,7 @@ export function resolveManifestOwnerBasePolicyBlock(params: {
 export function isActivatedManifestOwner(params: {
   plugin: OwnerPlugin;
   normalizedConfig: NormalizedPluginsConfig;
-  rootConfig?: Brikko StudioConfig;
+  rootConfig?: BrikkoStudioConfig;
 }): boolean {
   return resolveEffectivePluginActivationState({
     id: params.plugin.id,

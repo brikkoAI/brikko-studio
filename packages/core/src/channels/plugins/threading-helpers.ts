@@ -1,5 +1,5 @@
 import type { ReplyToMode } from "../../config/types.base.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { ChannelThreadingAdapter } from "./types.core.js";
 
 type ReplyToModeResolver = NonNullable<ChannelThreadingAdapter["resolveReplyToMode"]>;
@@ -18,7 +18,7 @@ export function createTopLevelChannelReplyToModeResolver(channelId: string): Rep
 }
 
 export function createScopedAccountReplyToModeResolver<TAccount>(params: {
-  resolveAccount: (cfg: Brikko StudioConfig, accountId?: string | null) => TAccount;
+  resolveAccount: (cfg: BrikkoStudioConfig, accountId?: string | null) => TAccount;
   resolveReplyToMode: (
     account: TAccount,
     chatType?: string | null,

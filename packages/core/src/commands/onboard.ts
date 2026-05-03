@@ -85,7 +85,7 @@ export async function setupWizardCommand(
   if (process.platform === "win32") {
     runtime.log(
       [
-        "Windows detected - Brikko Studio runs great on WSL2!",
+        "Windows detected - BrikkoStudio runs great on WSL2!",
         "Native Windows might be trickier.",
         "Quick setup: wsl --install (one command, one reboot)",
         "Guide: https://docs.brikko-studio.ai/windows",

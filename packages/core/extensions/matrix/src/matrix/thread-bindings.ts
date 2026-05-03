@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { readJsonFileWithFallback, writeJsonFileAtomically } from "brikko-studio/plugin-sdk/json-store";
 import { resolveAgentIdFromSessionKey } from "brikko-studio/plugin-sdk/session-key-runtime";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/string-coerce-runtime";
@@ -147,7 +147,7 @@ function buildMatrixBindingIntroText(params: {
 }
 
 async function sendBindingMessage(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   client: MatrixClient;
   accountId: string;
   roomId: string;
@@ -168,7 +168,7 @@ async function sendBindingMessage(params: {
 }
 
 async function sendFarewellMessage(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   client: MatrixClient;
   accountId: string;
   record: MatrixThreadBindingRecord;
@@ -203,7 +203,7 @@ async function sendFarewellMessage(params: {
 }
 
 export async function createMatrixThreadBindingManager(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   auth: MatrixAuth;
   client: MatrixClient;

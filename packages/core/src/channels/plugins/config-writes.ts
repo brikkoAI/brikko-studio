@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
 import {
   authorizeConfigWriteShared,
@@ -21,7 +21,7 @@ function isInternalConfigWriteMessageChannel(channel?: string | null): boolean {
 }
 
 export function resolveChannelConfigWrites(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelId?: ChannelId | null;
   accountId?: string | null;
 }): boolean {
@@ -29,7 +29,7 @@ export function resolveChannelConfigWrites(params: {
 }
 
 export function authorizeConfigWrite(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   origin?: ConfigWriteScope;
   target?: ConfigWriteTarget;
   allowBypass?: boolean;

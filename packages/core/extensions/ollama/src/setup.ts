@@ -1,6 +1,6 @@
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import type {
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   SecretInput,
   SecretInputMode,
 } from "brikko-studio/plugin-sdk/provider-auth";
@@ -52,7 +52,7 @@ type OllamaSetupOptions = {
 };
 
 type OllamaSetupResult = {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   credential: SecretInput;
   credentialMode?: SecretInputMode;
 };
@@ -362,7 +362,7 @@ async function pullOllamaModelNonInteractive(
 }
 
 async function promptForOllamaCloudCredential(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   opts?: Record<string, unknown>;
   prompter: WizardPrompter;
@@ -464,12 +464,12 @@ function findAvailableOllamaModelName(modelName: string, availableModelNames: It
 }
 
 function applyOllamaProviderConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   baseUrl: string,
   modelNames: string[],
   discoveredModelsByName?: Map<string, OllamaModelWithContext>,
   apiKey: SecretInput = "OLLAMA_API_KEY",
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   return {
     ...cfg,
     models: {
@@ -533,7 +533,7 @@ async function resolveHostBackedSuggestedModelNames(params: {
 }
 
 async function promptAndConfigureHostBackedOllama(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   mode: HostBackedOllamaInteractiveMode;
   prompter: WizardPrompter;
   env?: NodeJS.ProcessEnv;
@@ -570,7 +570,7 @@ async function promptAndConfigureHostBackedOllama(params: {
 }
 
 export async function promptAndConfigureOllama(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   env?: NodeJS.ProcessEnv;
   opts?: Record<string, unknown>;
   prompter: WizardPrompter;
@@ -626,11 +626,11 @@ export async function promptAndConfigureOllama(params: {
 }
 
 export async function configureOllamaNonInteractive(params: {
-  nextConfig: Brikko StudioConfig;
+  nextConfig: BrikkoStudioConfig;
   opts: OllamaSetupOptions;
   runtime: RuntimeEnv;
   agentDir?: string;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const baseUrl = resolveOllamaApiBase(
     (params.opts.customBaseUrl?.trim() || resolveOllamaSetupDefaultBaseUrl()).replace(/\/+$/, ""),
   );
@@ -715,7 +715,7 @@ export async function configureOllamaNonInteractive(params: {
 }
 
 export async function ensureOllamaModelPulled(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   model: string;
   prompter: WizardPrompter;
 }): Promise<void> {

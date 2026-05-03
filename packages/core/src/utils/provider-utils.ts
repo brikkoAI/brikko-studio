@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
 import { resolveProviderReasoningOutputModeWithPlugin } from "../plugins/provider-runtime.js";
 import {
@@ -16,7 +16,7 @@ const BUILTIN_REASONING_OUTPUT_MODES = {
 
 export function resolveReasoningOutputMode(params: {
   provider: string | undefined | null;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   modelId?: string;
@@ -66,7 +66,7 @@ export function resolveReasoningOutputMode(params: {
 export function isReasoningTagProvider(
   provider: string | undefined | null,
   options?: {
-    config?: Brikko StudioConfig;
+    config?: BrikkoStudioConfig;
     workspaceDir?: string;
     env?: NodeJS.ProcessEnv;
     modelId?: string;

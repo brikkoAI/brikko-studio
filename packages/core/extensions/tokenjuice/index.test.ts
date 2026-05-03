@@ -2,24 +2,24 @@ import fs from "node:fs";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { tokenjuiceFactory, createTokenjuiceBrikko StudioEmbeddedExtension } = vi.hoisted(() => {
+const { tokenjuiceFactory, createTokenjuiceBrikkoStudioEmbeddedExtension } = vi.hoisted(() => {
   const tokenjuiceFactory = vi.fn();
-  const createTokenjuiceBrikko StudioEmbeddedExtension = vi.fn(() => tokenjuiceFactory);
+  const createTokenjuiceBrikkoStudioEmbeddedExtension = vi.fn(() => tokenjuiceFactory);
   return {
     tokenjuiceFactory,
-    createTokenjuiceBrikko StudioEmbeddedExtension,
+    createTokenjuiceBrikkoStudioEmbeddedExtension,
   };
 });
 
 vi.mock("./runtime-api.js", () => ({
-  createTokenjuiceBrikko StudioEmbeddedExtension,
+  createTokenjuiceBrikkoStudioEmbeddedExtension,
 }));
 
 import plugin from "./index.js";
 
 describe("tokenjuice bundled plugin", () => {
   beforeEach(() => {
-    createTokenjuiceBrikko StudioEmbeddedExtension.mockClear();
+    createTokenjuiceBrikkoStudioEmbeddedExtension.mockClear();
     tokenjuiceFactory.mockClear();
   });
 
@@ -46,7 +46,7 @@ describe("tokenjuice bundled plugin", () => {
       }),
     );
 
-    expect(createTokenjuiceBrikko StudioEmbeddedExtension).toHaveBeenCalledTimes(1);
+    expect(createTokenjuiceBrikkoStudioEmbeddedExtension).toHaveBeenCalledTimes(1);
     expect(tokenjuiceFactory).toHaveBeenCalledTimes(1);
     expect(registerAgentToolResultMiddleware).toHaveBeenCalledWith(expect.any(Function), {
       runtimes: ["pi", "codex"],

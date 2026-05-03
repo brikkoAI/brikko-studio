@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/core";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/core";
 import type { ResolvedGoogleChatAccount } from "./accounts.js";
 import type { GoogleChatAudienceType } from "./auth.js";
 import type { getGoogleChatRuntime } from "./runtime.js";
@@ -10,7 +10,7 @@ export type GoogleChatRuntimeEnv = {
 
 export type GoogleChatMonitorOptions = {
   account: ResolvedGoogleChatAccount;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   runtime: GoogleChatRuntimeEnv;
   abortSignal: AbortSignal;
   webhookPath?: string;
@@ -22,7 +22,7 @@ export type GoogleChatCoreRuntime = ReturnType<typeof getGoogleChatRuntime>;
 
 export type WebhookTarget = {
   account: ResolvedGoogleChatAccount;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   runtime: GoogleChatRuntimeEnv;
   core: GoogleChatCoreRuntime;
   path: string;

@@ -4,7 +4,7 @@ import {
   isCliProvider,
 } from "../agents/model-selection.js";
 import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 
 type SessionDisplayModelRow = {
   key: string;
@@ -36,7 +36,7 @@ function parseModelRef(raw: string, defaultProvider: string): SessionDisplayMode
 }
 
 function resolveAgentPrimaryModel(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId: string | undefined,
 ): string | undefined {
   if (!agentId) {
@@ -65,7 +65,7 @@ function normalizeStoredOverrideModel(params: {
   };
 }
 
-function resolveDefaultModelRef(cfg: Brikko StudioConfig, agentId?: string): SessionDisplayModelRef {
+function resolveDefaultModelRef(cfg: BrikkoStudioConfig, agentId?: string): SessionDisplayModelRef {
   const primary =
     resolveAgentPrimaryModel(cfg, agentId) ??
     resolveAgentModelPrimaryValue(cfg.agents?.defaults?.model) ??
@@ -74,7 +74,7 @@ function resolveDefaultModelRef(cfg: Brikko StudioConfig, agentId?: string): Ses
 }
 
 export function resolveSessionDisplayDefaults(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId?: string,
 ): SessionDisplayDefaults {
   return {
@@ -83,7 +83,7 @@ export function resolveSessionDisplayDefaults(
 }
 
 function normalizeCliRuntimeDisplayRef(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   ref: SessionDisplayModelRef,
   defaultRef: SessionDisplayModelRef,
 ): SessionDisplayModelRef {
@@ -114,14 +114,14 @@ function normalizeCliRuntimeDisplayRef(
 }
 
 export function resolveSessionDisplayModel(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   row: SessionDisplayModelRow,
 ): string {
   return resolveSessionDisplayModelRef(cfg, row).model;
 }
 
 export function resolveSessionDisplayModelRef(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   row: SessionDisplayModelRow,
 ): SessionDisplayModelRef {
   const agentId = row.key.startsWith("agent:") ? row.key.split(":")[1] : undefined;

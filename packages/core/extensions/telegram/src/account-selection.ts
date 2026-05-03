@@ -3,7 +3,7 @@ import {
   normalizeAccountId,
   normalizeOptionalAccountId,
 } from "brikko-studio/plugin-sdk/account-id";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 
 const DEFAULT_AGENT_ID = "main";
 
@@ -21,13 +21,13 @@ function normalizeChannelId(value: unknown): string {
   return typeof value === "string" ? value.trim().toLowerCase() : "";
 }
 
-function resolveDefaultAgentId(cfg: Brikko StudioConfig): string {
+function resolveDefaultAgentId(cfg: BrikkoStudioConfig): string {
   const agents = Array.isArray(cfg.agents?.list) ? cfg.agents.list : [];
   const chosen = (agents.find((agent) => agent?.default) ?? agents[0])?.id;
   return normalizeAgentId(chosen);
 }
 
-function listConfiguredAccountIds(cfg: Brikko StudioConfig): string[] {
+function listConfiguredAccountIds(cfg: BrikkoStudioConfig): string[] {
   const ids = new Set<string>();
   for (const key of Object.keys(cfg.channels?.telegram?.accounts ?? {})) {
     if (key) {
@@ -61,7 +61,7 @@ function resolveBindingAccount(params: {
   };
 }
 
-function listBoundAccountIds(cfg: Brikko StudioConfig, channelId: string): string[] {
+function listBoundAccountIds(cfg: BrikkoStudioConfig, channelId: string): string[] {
   const ids = new Set<string>();
   for (const binding of cfg.bindings ?? []) {
     const resolved = resolveBindingAccount({ binding, channelId });
@@ -72,7 +72,7 @@ function listBoundAccountIds(cfg: Brikko StudioConfig, channelId: string): strin
   return [...ids].toSorted((left, right) => left.localeCompare(right));
 }
 
-function resolveDefaultAgentBoundAccountId(cfg: Brikko StudioConfig, channelId: string): string | null {
+function resolveDefaultAgentBoundAccountId(cfg: BrikkoStudioConfig, channelId: string): string | null {
   const defaultAgentId = resolveDefaultAgentId(cfg);
   for (const binding of cfg.bindings ?? []) {
     const resolved = resolveBindingAccount({ binding, channelId });
@@ -111,14 +111,14 @@ function resolveListedDefaultAccountId(params: {
   return params.accountIds[0] ?? DEFAULT_ACCOUNT_ID;
 }
 
-export function listTelegramAccountIds(cfg: Brikko StudioConfig): string[] {
+export function listTelegramAccountIds(cfg: BrikkoStudioConfig): string[] {
   return combineAccountIds({
     configuredAccountIds: listConfiguredAccountIds(cfg),
     additionalAccountIds: listBoundAccountIds(cfg, "telegram"),
   });
 }
 
-export function resolveDefaultTelegramAccountSelection(cfg: Brikko StudioConfig): {
+export function resolveDefaultTelegramAccountSelection(cfg: BrikkoStudioConfig): {
   accountId: string;
   accountIds: string[];
   shouldWarnMissingDefault: boolean;
@@ -146,6 +146,6 @@ export function resolveDefaultTelegramAccountSelection(cfg: Brikko StudioConfig)
   };
 }
 
-export function resolveDefaultTelegramAccountId(cfg: Brikko StudioConfig): string {
+export function resolveDefaultTelegramAccountId(cfg: BrikkoStudioConfig): string {
   return resolveDefaultTelegramAccountSelection(cfg).accountId;
 }

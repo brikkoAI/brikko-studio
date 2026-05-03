@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../../config/types.js";
+import type { BrikkoStudioConfig } from "../../config/types.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import { withProgress } from "../progress.js";
@@ -28,7 +28,7 @@ export async function probeGatewayStatus(opts: {
   url: string;
   token?: string;
   password?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   tlsFingerprint?: string;
   timeoutMs: number;
   preauthHandshakeTimeoutMs?: number;

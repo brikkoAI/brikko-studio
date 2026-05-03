@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ModelProviderConfig } from "brikko-studio/plugin-sdk/provider-model-shared";
 import {
   defaultQaModelForMode,
@@ -54,7 +54,7 @@ export function buildQaGatewayConfig(params: {
   liveProviderConfigs?: Record<string, ModelProviderConfig>;
   fastMode?: boolean;
   thinkingDefault?: QaThinkingLevel;
-}): Brikko StudioConfig {
+}): BrikkoStudioConfig {
   const providerBaseUrl = params.providerBaseUrl ?? "http://127.0.0.1:44080/v1";
   const providerMode = normalizeQaProviderMode(params.providerMode ?? DEFAULT_QA_PROVIDER_MODE);
   const provider = getQaProvider(providerMode);
@@ -248,5 +248,5 @@ export function buildQaGatewayConfig(params: {
     },
     ...(params.transportConfig?.channels ? { channels: params.transportConfig.channels } : {}),
     ...(params.transportConfig?.messages ? { messages: params.transportConfig.messages } : {}),
-  } satisfies Brikko StudioConfig;
+  } satisfies BrikkoStudioConfig;
 }

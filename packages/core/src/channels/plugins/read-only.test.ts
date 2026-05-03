@@ -75,7 +75,7 @@ vi.mock("../../plugins/plugin-module-loader-cache.js", async (importOriginal) =>
     );
   }
 
-  function loadBrikko StudioPlugins(params: LoaderParams) {
+  function loadBrikkoStudioPlugins(params: LoaderParams) {
     const onlyPluginIds = new Set(params.onlyPluginIds ?? []);
     const channelSetups = listCandidatePluginDirs(params).flatMap((pluginDir) => {
       const manifestPath = path.join(pluginDir, "brikko-studio.plugin.json");
@@ -117,7 +117,7 @@ vi.mock("../../plugins/plugin-module-loader-cache.js", async (importOriginal) =>
           modulePath.endsWith("/plugins/loader.js") ||
           modulePath.endsWith("/plugins/loader.ts")
         ) {
-          return { loadBrikko StudioPlugins };
+          return { loadBrikkoStudioPlugins };
         }
         return actualLoader(modulePath);
       }) as ReturnType<typeof actual.getCachedPluginModuleLoader>;

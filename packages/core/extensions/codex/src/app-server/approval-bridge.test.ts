@@ -507,7 +507,7 @@ describe("Codex app-server approval bridge", () => {
 
     expect(result).toEqual({
       decision: "decline",
-      reason: "Brikko Studio codex app-server bridge does not grant native approvals yet.",
+      reason: "BrikkoStudio codex app-server bridge does not grant native approvals yet.",
     });
     expect(mockCallGatewayTool).not.toHaveBeenCalled();
     expect(params.onAgentEvent).not.toHaveBeenCalled();
@@ -832,7 +832,7 @@ describe("Codex app-server approval bridge", () => {
     });
     expect(buildApprovalResponse("future/requestApproval", undefined, "approved-once")).toEqual({
       decision: "decline",
-      reason: "Brikko Studio codex app-server bridge does not grant native approvals yet.",
+      reason: "BrikkoStudio codex app-server bridge does not grant native approvals yet.",
     });
   });
 });

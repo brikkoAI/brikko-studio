@@ -1,6 +1,6 @@
 import { Type } from "typebox";
 import { getRuntimeConfig } from "../../config/config.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { textToSpeech } from "../../tts/tts.js";
 import type { GatewayMessageChannel } from "../../utils/message-channel.js";
 import type { AnyAgentTool } from "./common.js";
@@ -54,7 +54,7 @@ function sanitizeTranscriptForToolContent(text: string): string {
 }
 
 export function createTtsTool(opts?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   agentChannel?: GatewayMessageChannel;
   agentId?: string;
   agentAccountId?: string;

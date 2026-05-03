@@ -3,14 +3,14 @@ import type {
   GatewayBindMode,
   GatewayTailscaleConfig,
 } from "../config/types.gateway.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   assertGatewayAuthConfigured,
   type ResolvedGatewayAuth,
   resolveGatewayAuth,
 } from "./auth.js";
 import { normalizeControlUiBasePath } from "./control-ui-shared.js";
-import { warnLegacyBrikko StudioEnvVars } from "./env-deprecation.js";
+import { warnLegacyBrikkoStudioEnvVars } from "./env-deprecation.js";
 import { resolveHooksConfig } from "./hooks.js";
 import {
   defaultGatewayBindMode,
@@ -39,7 +39,7 @@ type GatewayRuntimeConfig = {
 };
 
 export async function resolveGatewayRuntimeConfig(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   port: number;
   bind?: GatewayBindMode;
   host?: string;
@@ -49,7 +49,7 @@ export async function resolveGatewayRuntimeConfig(params: {
   auth?: GatewayAuthConfig;
   tailscale?: GatewayTailscaleConfig;
 }): Promise<GatewayRuntimeConfig> {
-  warnLegacyBrikko StudioEnvVars();
+  warnLegacyBrikkoStudioEnvVars();
 
   // Tailscale serve/funnel hard-requires loopback.  When bind is not
   // explicitly set, we must resolve Tailscale mode *before* choosing the

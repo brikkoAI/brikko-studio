@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { normalizeAccountId } from "../../routing/session-key.js";
 import {
   createAccountListHelpers,
@@ -14,16 +14,16 @@ import {
 const { listConfiguredAccountIds, listAccountIds, resolveDefaultAccountId } =
   createAccountListHelpers("testchannel");
 
-function cfg(accounts?: Record<string, unknown> | null, defaultAccount?: string): Brikko StudioConfig {
+function cfg(accounts?: Record<string, unknown> | null, defaultAccount?: string): BrikkoStudioConfig {
   if (accounts === null) {
     return {
       channels: {
         testchannel: defaultAccount ? { defaultAccount } : {},
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
   }
   if (accounts === undefined && !defaultAccount) {
-    return {} as unknown as Brikko StudioConfig;
+    return {} as unknown as BrikkoStudioConfig;
   }
   return {
     channels: {
@@ -32,18 +32,18 @@ function cfg(accounts?: Record<string, unknown> | null, defaultAccount?: string)
         ...(defaultAccount ? { defaultAccount } : {}),
       },
     },
-  } as unknown as Brikko StudioConfig;
+  } as unknown as BrikkoStudioConfig;
 }
 
 function expectResolvedAccountIdsCase(params: {
-  resolve: (cfg: Brikko StudioConfig) => string[];
-  input: Brikko StudioConfig;
+  resolve: (cfg: BrikkoStudioConfig) => string[];
+  input: BrikkoStudioConfig;
   expected: string[];
 }) {
   expect(params.resolve(params.input)).toEqual(params.expected);
 }
 
-function expectResolvedDefaultAccountCase(input: Brikko StudioConfig, expected: string) {
+function expectResolvedDefaultAccountCase(input: BrikkoStudioConfig, expected: string) {
   expect(resolveDefaultAccountId(input)).toBe(expected);
 }
 
@@ -52,7 +52,7 @@ describe("createAccountListHelpers", () => {
     it.each([
       {
         name: "returns empty for missing config",
-        input: {} as Brikko StudioConfig,
+        input: {} as BrikkoStudioConfig,
       },
       {
         name: "returns empty when no accounts key",
@@ -102,7 +102,7 @@ describe("createAccountListHelpers", () => {
     it.each([
       {
         name: 'returns ["default"] for empty config',
-        input: {} as Brikko StudioConfig,
+        input: {} as BrikkoStudioConfig,
         expected: ["default"],
       },
       {
@@ -153,7 +153,7 @@ describe("createAccountListHelpers", () => {
       },
       {
         name: 'returns "default" for empty config',
-        input: {} as Brikko StudioConfig,
+        input: {} as BrikkoStudioConfig,
         expected: "default",
       },
     ])("$name", ({ input, expected }) => {

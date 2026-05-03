@@ -1,5 +1,5 @@
 import util from "node:util";
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import { isVerbose } from "../global-state.js";
 import { stripAnsi } from "../terminal/ansi.js";
 import { readLoggingConfig, shouldSkipMutatingLoggingConfigRead } from "./config.js";
@@ -18,7 +18,7 @@ type ConsoleSettings = {
 };
 export type ConsoleLoggerSettings = ConsoleSettings;
 
-type ConsoleConfigLoader = () => Brikko StudioConfig["logging"] | undefined;
+type ConsoleConfigLoader = () => BrikkoStudioConfig["logging"] | undefined;
 const loadConfigFallbackDefault: ConsoleConfigLoader = () => undefined;
 let loadConfigFallback: ConsoleConfigLoader = loadConfigFallbackDefault;
 
@@ -60,7 +60,7 @@ function resolveConsoleSettings(): ConsoleSettings {
     return { level: "silent", style: normalizeConsoleStyle(undefined) };
   }
 
-  let cfg: Brikko StudioConfig["logging"] | undefined =
+  let cfg: BrikkoStudioConfig["logging"] | undefined =
     (loggingState.overrideSettings as LoggerSettings | null) ?? readLoggingConfig();
   if (!cfg && !shouldSkipMutatingLoggingConfigRead()) {
     if (loggingState.resolvingConsoleSettings) {

@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { PluginCandidate } from "./discovery.js";
 import { hashJson } from "./installed-plugin-index-hash.js";
 import type { InstalledPluginIndex, InstalledPluginIndexRecord } from "./installed-plugin-index.js";
@@ -10,7 +10,7 @@ import type { BundledChannelConfigCollector } from "./manifest-registry.js";
 import {
   DEFAULT_PLUGIN_ENTRY_CANDIDATES,
   getPackageManifestMetadata,
-  type Brikko StudioPackageManifest,
+  type BrikkoStudioPackageManifest,
   type PackageManifest,
 } from "./manifest.js";
 import { tracePluginLifecyclePhase } from "./plugin-lifecycle-trace.js";
@@ -106,7 +106,7 @@ function resolveFallbackPluginSource(record: InstalledPluginIndexRecord): string
 }
 
 function resolveInstalledPackageMetadata(record: InstalledPluginIndexRecord): {
-  packageManifest?: Brikko StudioPackageManifest;
+  packageManifest?: BrikkoStudioPackageManifest;
   packageDependencies?: PluginDependencySpecMap;
   packageOptionalDependencies?: PluginDependencySpecMap;
 } {
@@ -188,7 +188,7 @@ function toPluginCandidate(record: InstalledPluginIndexRecord): PluginCandidate 
 
 export function loadPluginManifestRegistryForInstalledIndex(params: {
   index: InstalledPluginIndex;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
   pluginIds?: readonly string[];

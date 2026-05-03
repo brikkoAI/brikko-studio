@@ -4,13 +4,13 @@ import {
   getRuntimeConfig,
   getRuntimeConfigSourceSnapshot,
   setRuntimeConfigSnapshot,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   getModelsCommandSecretTargetIds,
 } from "./load-config.runtime.js";
 
 export type LoadedModelsConfig = {
-  sourceConfig: Brikko StudioConfig;
-  resolvedConfig: Brikko StudioConfig;
+  sourceConfig: BrikkoStudioConfig;
+  resolvedConfig: BrikkoStudioConfig;
   diagnostics: string[];
 };
 
@@ -42,6 +42,6 @@ export async function loadModelsConfigWithSource(params: {
 export async function loadModelsConfig(params: {
   commandName: string;
   runtime?: RuntimeEnv;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   return (await loadModelsConfigWithSource(params)).resolvedConfig;
 }

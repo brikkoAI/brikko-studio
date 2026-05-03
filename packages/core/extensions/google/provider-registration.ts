@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import { createProviderApiKeyAuthMethod } from "brikko-studio/plugin-sdk/provider-auth-api-key";
 import type { ProviderPlugin } from "brikko-studio/plugin-sdk/provider-model-shared";
 import { normalizeGoogleModelId } from "./model-id.js";
@@ -67,6 +67,6 @@ export function buildGoogleProvider(): ProviderPlugin {
   };
 }
 
-export function registerGoogleProvider(api: Brikko StudioPluginApi) {
+export function registerGoogleProvider(api: BrikkoStudioPluginApi) {
   api.registerProvider(buildGoogleProvider());
 }

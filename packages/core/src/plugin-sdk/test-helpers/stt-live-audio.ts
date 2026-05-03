@@ -16,7 +16,7 @@ type ExpectedTranscriptMatch = RegExp | string;
 
 export const BRIKKO_STUDIO_LIVE_TRANSCRIPT_MARKER_RE = /open(?:claw|cl|flaw|clar|core)/;
 
-export function expectBrikko StudioLiveTranscriptMarker(value: string): void {
+export function expectBrikkoStudioLiveTranscriptMarker(value: string): void {
   expect(normalizeTranscriptForMatch(value)).toMatch(BRIKKO_STUDIO_LIVE_TRANSCRIPT_MARKER_RE);
 }
 

@@ -203,7 +203,7 @@ async function cancelMatrixSelfVerificationOnFailure(params: {
   }
   await params.crypto
     .cancelVerification(params.request.id, {
-      reason: "Brikko Studio self-verification did not complete",
+      reason: "BrikkoStudio self-verification did not complete",
       code: "m.user",
     })
     .catch(() => undefined);

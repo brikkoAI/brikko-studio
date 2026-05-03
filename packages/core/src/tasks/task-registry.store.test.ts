@@ -2,7 +2,7 @@ import { mkdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { requireNodeSqlite } from "../infra/node-sqlite.js";
-import { withBrikko StudioTestState } from "../test-utils/brikko-studio-test-state.js";
+import { withBrikkoStudioTestState } from "../test-utils/brikko-studio-test-state.js";
 import { createManagedTaskFlow, resetTaskFlowRegistryForTests } from "./task-flow-registry.js";
 import {
   createTaskRecord,
@@ -283,7 +283,7 @@ describe("task-registry store runtime", () => {
     if (process.platform === "win32") {
       return;
     }
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       { layout: "state-only", prefix: "brikko-studio-task-store-" },
       async () => {
         createTaskRecord({
@@ -307,7 +307,7 @@ describe("task-registry store runtime", () => {
   });
 
   it("migrates legacy ownerless cron rows to system scope", async () => {
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       { layout: "state-only", prefix: "brikko-studio-task-store-legacy-" },
       async () => {
         const sqlitePath = resolveTaskRegistrySqlitePath(process.env);
@@ -392,7 +392,7 @@ describe("task-registry store runtime", () => {
   });
 
   it("keeps legacy requester_session_key rows writable after restore", async () => {
-    await withBrikko StudioTestState(
+    await withBrikkoStudioTestState(
       { layout: "state-only", prefix: "brikko-studio-task-store-legacy-write-" },
       async () => {
         const sqlitePath = resolveTaskRegistrySqlitePath(process.env);

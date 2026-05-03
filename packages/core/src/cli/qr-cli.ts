@@ -1,6 +1,6 @@
 import type { Command } from "commander";
 import { getRuntimeConfig } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { hasConfiguredSecretInput } from "../config/types.secrets.js";
 import { trimToUndefined } from "../gateway/credentials.js";
 import { resolveRequiredConfiguredSecretRefInputString } from "../gateway/resolve-configured-secret-input-string.js";
@@ -27,7 +27,7 @@ type QrCliOptions = {
 function renderQrAscii(data: string): Promise<string> {
   return renderQrTerminal(data, { small: true });
 }
-function readDevicePairPublicUrlFromConfig(cfg: Brikko StudioConfig): string | undefined {
+function readDevicePairPublicUrlFromConfig(cfg: BrikkoStudioConfig): string | undefined {
   const value = cfg.plugins?.entries?.["device-pair"]?.config?.["publicUrl"];
   if (typeof value !== "string") {
     return undefined;
@@ -37,7 +37,7 @@ function readDevicePairPublicUrlFromConfig(cfg: Brikko StudioConfig): string | u
 }
 
 function shouldResolveLocalGatewayPasswordSecret(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv,
 ): boolean {
   if (trimToUndefined(env.BRIKKO_STUDIO_GATEWAY_PASSWORD)) {
@@ -58,7 +58,7 @@ function shouldResolveLocalGatewayPasswordSecret(
   return !envToken && !configTokenConfigured;
 }
 
-async function resolveLocalGatewayPasswordSecretIfNeeded(cfg: Brikko StudioConfig): Promise<void> {
+async function resolveLocalGatewayPasswordSecretIfNeeded(cfg: BrikkoStudioConfig): Promise<void> {
   const resolvedPassword = await resolveRequiredConfiguredSecretRefInputString({
     config: cfg,
     env: process.env,
@@ -226,7 +226,7 @@ export function registerQrCli(program: Command) {
 
         const lines: string[] = [
           theme.heading("Pairing QR"),
-          "Scan this with the Brikko Studio mobile app (Onboarding -> Scan QR).",
+          "Scan this with the BrikkoStudio mobile app (Onboarding -> Scan QR).",
           "",
         ];
 

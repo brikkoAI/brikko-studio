@@ -7,7 +7,7 @@ import {
 } from "brikko-studio/plugin-sdk/channel-config-helpers";
 import { createChannelPluginBase, type ChannelPlugin } from "brikko-studio/plugin-sdk/channel-core";
 import { getChatChannelMeta } from "brikko-studio/plugin-sdk/channel-plugin-common";
-import type { Brikko StudioConfig, TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig, TelegramAccountConfig } from "brikko-studio/plugin-sdk/config-types";
 import { DEFAULT_ACCOUNT_ID } from "brikko-studio/plugin-sdk/routing";
 import { inspectTelegramAccount } from "./account-inspect.js";
 import {
@@ -38,7 +38,7 @@ type TelegramConfigAccessorAccount = {
 };
 
 export function findTelegramTokenOwnerAccountId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
 }): string | null {
   const normalizedAccountId = normalizeAccountId(params.accountId);
@@ -85,7 +85,7 @@ export function formatDuplicateTelegramTokenReason(params: {
  *
  * See: https://github.com/brikko-studio/brikko-studio/issues/53876
  */
-function isBlockedByMultiBotGuard(cfg: Brikko StudioConfig, accountId: string): boolean {
+function isBlockedByMultiBotGuard(cfg: BrikkoStudioConfig, accountId: string): boolean {
   if (normalizeAccountId(accountId) === DEFAULT_ACCOUNT_ID) {
     return false;
   }
@@ -105,7 +105,7 @@ function isBlockedByMultiBotGuard(cfg: Brikko StudioConfig, accountId: string): 
 }
 
 function resolveTelegramConfigAccessorAccount(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): TelegramConfigAccessorAccount {
   const accountId = normalizeAccountId(

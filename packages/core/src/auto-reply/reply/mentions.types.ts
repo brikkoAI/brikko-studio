@@ -1,6 +1,6 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
-export type BuildMentionRegexes = (cfg: Brikko StudioConfig | undefined, agentId?: string) => RegExp[];
+export type BuildMentionRegexes = (cfg: BrikkoStudioConfig | undefined, agentId?: string) => RegExp[];
 
 export type MatchesMentionPatterns = (text: string, mentionRegexes: RegExp[]) => boolean;
 

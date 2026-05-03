@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ReplyPayload } from "brikko-studio/plugin-sdk/reply-runtime";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 import { resolveDefaultSlackAccountId, resolveSlackAccount } from "./accounts.js";
@@ -163,7 +163,7 @@ function resolveInteractiveRepliesFromCapabilities(capabilities: unknown): boole
 }
 
 export function isSlackInteractiveRepliesEnabled(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
 }): boolean {
   const account = resolveSlackAccount({

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { AuthProfileStore } from "./auth-profiles.js";
 import { hasAuthForModelProvider } from "./model-provider-auth.js";
 
@@ -25,7 +25,7 @@ describe("model provider auth availability", () => {
     expect(
       hasAuthForModelProvider({
         provider: "amazon-bedrock",
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         env: {},
         store: emptyStore,
       }),
@@ -43,7 +43,7 @@ describe("model provider auth availability", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       hasAuthForModelProvider({
@@ -66,7 +66,7 @@ describe("model provider auth availability", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       hasAuthForModelProvider({

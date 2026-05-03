@@ -90,7 +90,7 @@ const subCliCommandCatalog = defineCommandDescriptorCatalog([
   },
   {
     name: "docs",
-    description: "Search the live Brikko Studio docs",
+    description: "Search the live BrikkoStudio docs",
     hasSubcommands: false,
   },
   {
@@ -100,7 +100,7 @@ const subCliCommandCatalog = defineCommandDescriptorCatalog([
   },
   {
     name: "proxy",
-    description: "Run the Brikko Studio debug proxy and inspect captured traffic",
+    description: "Run the BrikkoStudio debug proxy and inspect captured traffic",
     hasSubcommands: true,
   },
   {
@@ -130,7 +130,7 @@ const subCliCommandCatalog = defineCommandDescriptorCatalog([
   },
   {
     name: "plugins",
-    description: "Manage Brikko Studio plugins",
+    description: "Manage BrikkoStudio plugins",
     hasSubcommands: true,
   },
   {
@@ -160,7 +160,7 @@ const subCliCommandCatalog = defineCommandDescriptorCatalog([
   },
   {
     name: "update",
-    description: "Update Brikko Studio and inspect update channel status",
+    description: "Update BrikkoStudio and inspect update channel status",
     hasSubcommands: true,
   },
   {

@@ -1,13 +1,13 @@
 import type { ModelCatalogEntry } from "../../agents/model-catalog.js";
 import type { ModelAliasIndex } from "../../agents/model-selection.js";
 import type { SessionEntry } from "../../config/sessions.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { MsgContext } from "../templating.js";
 import type { InlineDirectives } from "./directive-handling.parse.js";
 import type { ElevatedLevel, ReasoningLevel, ThinkLevel, VerboseLevel } from "./directives.js";
 
 export type HandleDirectiveOnlyCoreParams = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   directives: InlineDirectives;
   sessionEntry: SessionEntry;
   sessionStore: Record<string, SessionEntry>;
@@ -53,7 +53,7 @@ export type ApplyInlineDirectivesFastLaneParams = HandleDirectiveOnlyCoreParams 
   workspaceDir?: string;
   agentId?: string;
   isGroup: boolean;
-  agentCfg?: NonNullable<Brikko StudioConfig["agents"]>["defaults"];
+  agentCfg?: NonNullable<BrikkoStudioConfig["agents"]>["defaults"];
   modelState: {
     resolveDefaultThinkingLevel: () => Promise<ThinkLevel | undefined>;
     resolveThinkingCatalog: () => Promise<ModelCatalogEntry[] | undefined>;

@@ -7,9 +7,9 @@ export type ExternalizedBundledPluginBridge = {
   pluginId?: string;
   /** Preferred external source when migrating the bundled plugin out. Defaults to npm. */
   preferredSource?: ExternalizedBundledPluginPreferredSource;
-  /** npm spec Brikko Studio can install when migrating the bundled plugin out. */
+  /** npm spec BrikkoStudio can install when migrating the bundled plugin out. */
   npmSpec?: string;
-  /** ClawHub spec Brikko Studio can install when migrating the bundled plugin out. */
+  /** ClawHub spec BrikkoStudio can install when migrating the bundled plugin out. */
   clawhubSpec?: string;
   /** Optional ClawHub base URL for non-default registries. */
   clawhubUrl?: string;

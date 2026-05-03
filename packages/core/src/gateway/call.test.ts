@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { DeviceIdentity } from "../infra/device-identity.js";
 import { captureEnv } from "../test-utils/env.js";
 import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.js";
@@ -206,9 +206,9 @@ function resetGatewayCallMocks() {
   closeCode = 1006;
   closeReason = "";
   helloMethods = ["health", "secrets.resolve"];
-  const loadConfigForTests = getRuntimeConfig as unknown as () => Brikko StudioConfig;
+  const loadConfigForTests = getRuntimeConfig as unknown as () => BrikkoStudioConfig;
   const resolveGatewayPortForTests = resolveGatewayPort as unknown as (
-    cfg?: Brikko StudioConfig,
+    cfg?: BrikkoStudioConfig,
     env?: NodeJS.ProcessEnv,
   ) => number;
   __testing.setDepsForTests({
@@ -478,7 +478,7 @@ describe("callGateway url resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
     resolveGatewayPort.mockReturnValue(18789);
     pickPrimaryTailnetIPv4.mockReturnValue(undefined);
     process.env.BRIKKO_STUDIO_GATEWAY_URL = "wss://gateway-in-container.internal:9443/ws";
@@ -1099,10 +1099,10 @@ describe("callGateway error details", () => {
             });
           },
         }) as never,
-      getRuntimeConfig: getRuntimeConfig as unknown as () => Brikko StudioConfig,
+      getRuntimeConfig: getRuntimeConfig as unknown as () => BrikkoStudioConfig,
       loadOrCreateDeviceIdentity: () => deviceIdentityState.value,
       resolveGatewayPort: resolveGatewayPort as unknown as (
-        cfg?: Brikko StudioConfig,
+        cfg?: BrikkoStudioConfig,
         env?: NodeJS.ProcessEnv,
       ) => number,
     });
@@ -1157,10 +1157,10 @@ describe("callGateway error details", () => {
             });
           },
         }) as never,
-      getRuntimeConfig: getRuntimeConfig as unknown as () => Brikko StudioConfig,
+      getRuntimeConfig: getRuntimeConfig as unknown as () => BrikkoStudioConfig,
       loadOrCreateDeviceIdentity: () => deviceIdentityState.value,
       resolveGatewayPort: resolveGatewayPort as unknown as (
-        cfg?: Brikko StudioConfig,
+        cfg?: BrikkoStudioConfig,
         env?: NodeJS.ProcessEnv,
       ) => number,
     });
@@ -1358,7 +1358,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1381,7 +1381,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1404,7 +1404,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1427,7 +1427,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1454,7 +1454,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await expect(callGateway({ method: "health" })).rejects.toThrow("gateway.auth.token");
   });
@@ -1474,7 +1474,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1498,7 +1498,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1521,7 +1521,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await expect(callGateway({ method: "health" })).rejects.toThrow("gateway.auth.password");
   });
@@ -1545,7 +1545,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1569,7 +1569,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1593,7 +1593,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1617,7 +1617,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1643,7 +1643,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1668,7 +1668,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1693,7 +1693,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1718,7 +1718,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 
@@ -1743,7 +1743,7 @@ describe("callGateway password resolution", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as Brikko StudioConfig);
+    } as unknown as BrikkoStudioConfig);
 
     await callGateway({ method: "health" });
 

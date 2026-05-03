@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { ensureAuthProfileStore } from "./auth-profiles/store.js";
 import {
   normalizeProviderSpecificConfig,
@@ -14,7 +14,7 @@ import {
 } from "./models-config.providers.secret-helpers.js";
 import { enforceSourceManagedProviderSecrets } from "./models-config.providers.source-managed.js";
 
-type ModelsConfig = NonNullable<Brikko StudioConfig["models"]>;
+type ModelsConfig = NonNullable<BrikkoStudioConfig["models"]>;
 
 export function normalizeProviders(params: {
   providers: ModelsConfig["providers"];

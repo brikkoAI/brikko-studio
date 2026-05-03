@@ -1,6 +1,6 @@
 import {
   createModelCatalogPresetAppliers,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
 } from "brikko-studio/plugin-sdk/provider-onboard";
 import {
   QWEN_CN_BASE_URL,
@@ -13,7 +13,7 @@ import { buildQwenProvider } from "./provider-catalog.js";
 
 const qwenPresetAppliers = createModelCatalogPresetAppliers<[string]>({
   primaryModelRef: QWEN_DEFAULT_MODEL_REF,
-  resolveParams: (_cfg: Brikko StudioConfig, baseUrl: string) => {
+  resolveParams: (_cfg: BrikkoStudioConfig, baseUrl: string) => {
     const provider = buildQwenProvider({ baseUrl });
     return {
       providerId: "qwen",
@@ -31,35 +31,35 @@ const qwenPresetAppliers = createModelCatalogPresetAppliers<[string]>({
   },
 });
 
-function applyQwenProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function applyQwenProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return qwenPresetAppliers.applyProviderConfig(cfg, QWEN_GLOBAL_BASE_URL);
 }
 
-function applyQwenProviderConfigCn(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function applyQwenProviderConfigCn(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return qwenPresetAppliers.applyProviderConfig(cfg, QWEN_CN_BASE_URL);
 }
 
-export function applyQwenConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyQwenConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return qwenPresetAppliers.applyConfig(cfg, QWEN_GLOBAL_BASE_URL);
 }
 
-export function applyQwenConfigCn(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyQwenConfigCn(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return qwenPresetAppliers.applyConfig(cfg, QWEN_CN_BASE_URL);
 }
 
-function applyQwenStandardProviderConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function applyQwenStandardProviderConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return qwenPresetAppliers.applyProviderConfig(cfg, QWEN_STANDARD_GLOBAL_BASE_URL);
 }
 
-function applyQwenStandardProviderConfigCn(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function applyQwenStandardProviderConfigCn(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return qwenPresetAppliers.applyProviderConfig(cfg, QWEN_STANDARD_CN_BASE_URL);
 }
 
-export function applyQwenStandardConfig(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyQwenStandardConfig(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return qwenPresetAppliers.applyConfig(cfg, QWEN_STANDARD_GLOBAL_BASE_URL);
 }
 
-export function applyQwenStandardConfigCn(cfg: Brikko StudioConfig): Brikko StudioConfig {
+export function applyQwenStandardConfigCn(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   return qwenPresetAppliers.applyConfig(cfg, QWEN_STANDARD_CN_BASE_URL);
 }
 

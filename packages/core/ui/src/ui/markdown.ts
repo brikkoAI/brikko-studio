@@ -309,7 +309,7 @@ md.core.ruler.after("linkify", "linkify-cjk-trim", (state) => {
         continue;
       }
       // Only trim linkify-generated autolinks, not explicit markdown links
-      // like [Brikko Studio中文](https://docs.brikko-studio.ai) where CJK in display
+      // like [BrikkoStudio中文](https://docs.brikko-studio.ai) where CJK in display
       // text is intentional and href must not be rewritten.
       if (token.markup !== "linkify") {
         continue;

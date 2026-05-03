@@ -1,14 +1,14 @@
 import { describe, expect, it, test } from "vitest";
 import {
-  applyBrikko StudioManifestInstallCommonFields,
+  applyBrikkoStudioManifestInstallCommonFields,
   getFrontmatterString,
   normalizeStringList,
   parseFrontmatterBool,
-  parseBrikko StudioManifestInstallBase,
-  resolveBrikko StudioManifestBlock,
-  resolveBrikko StudioManifestInstall,
-  resolveBrikko StudioManifestOs,
-  resolveBrikko StudioManifestRequires,
+  parseBrikkoStudioManifestInstallBase,
+  resolveBrikkoStudioManifestBlock,
+  resolveBrikkoStudioManifestInstall,
+  resolveBrikkoStudioManifestOs,
+  resolveBrikkoStudioManifestRequires,
 } from "./frontmatter.js";
 
 describe("shared/frontmatter", () => {
@@ -30,9 +30,9 @@ describe("shared/frontmatter", () => {
     expect(parseFrontmatterBool("maybe", false)).toBe(false);
   });
 
-  test("resolveBrikko StudioManifestBlock reads current manifest keys and custom metadata fields", () => {
+  test("resolveBrikkoStudioManifestBlock reads current manifest keys and custom metadata fields", () => {
     expect(
-      resolveBrikko StudioManifestBlock({
+      resolveBrikkoStudioManifestBlock({
         frontmatter: {
           metadata: "{ brikko-studio: { foo: 1, bar: 'baz' } }",
         },
@@ -40,7 +40,7 @@ describe("shared/frontmatter", () => {
     ).toEqual({ foo: 1, bar: "baz" });
 
     expect(
-      resolveBrikko StudioManifestBlock({
+      resolveBrikkoStudioManifestBlock({
         frontmatter: {
           pluginMeta: "{ brikko-studio: { foo: 2 } }",
         },
@@ -49,9 +49,9 @@ describe("shared/frontmatter", () => {
     ).toEqual({ foo: 2 });
   });
 
-  test("resolveBrikko StudioManifestBlock reads legacy manifest keys", () => {
+  test("resolveBrikkoStudioManifestBlock reads legacy manifest keys", () => {
     expect(
-      resolveBrikko StudioManifestBlock({
+      resolveBrikkoStudioManifestBlock({
         frontmatter: {
           metadata: "{ clawdbot: { requires: { bins: ['op'] }, install: [] } }",
         },
@@ -59,9 +59,9 @@ describe("shared/frontmatter", () => {
     ).toEqual({ requires: { bins: ["op"] }, install: [] });
   });
 
-  test("resolveBrikko StudioManifestBlock prefers current manifest keys over legacy keys", () => {
+  test("resolveBrikkoStudioManifestBlock prefers current manifest keys over legacy keys", () => {
     expect(
-      resolveBrikko StudioManifestBlock({
+      resolveBrikkoStudioManifestBlock({
         frontmatter: {
           metadata:
             "{ brikko-studio: { requires: { bins: ['current'] } }, clawdbot: { requires: { bins: ['legacy'] } } }",
@@ -70,21 +70,21 @@ describe("shared/frontmatter", () => {
     ).toEqual({ requires: { bins: ["current"] } });
   });
 
-  test("resolveBrikko StudioManifestBlock returns undefined for invalid input", () => {
-    expect(resolveBrikko StudioManifestBlock({ frontmatter: {} })).toBeUndefined();
+  test("resolveBrikkoStudioManifestBlock returns undefined for invalid input", () => {
+    expect(resolveBrikkoStudioManifestBlock({ frontmatter: {} })).toBeUndefined();
     expect(
-      resolveBrikko StudioManifestBlock({ frontmatter: { metadata: "not-json5" } }),
+      resolveBrikkoStudioManifestBlock({ frontmatter: { metadata: "not-json5" } }),
     ).toBeUndefined();
-    expect(resolveBrikko StudioManifestBlock({ frontmatter: { metadata: "123" } })).toBeUndefined();
-    expect(resolveBrikko StudioManifestBlock({ frontmatter: { metadata: "[]" } })).toBeUndefined();
+    expect(resolveBrikkoStudioManifestBlock({ frontmatter: { metadata: "123" } })).toBeUndefined();
+    expect(resolveBrikkoStudioManifestBlock({ frontmatter: { metadata: "[]" } })).toBeUndefined();
     expect(
-      resolveBrikko StudioManifestBlock({ frontmatter: { metadata: "{ nope: { a: 1 } }" } }),
+      resolveBrikkoStudioManifestBlock({ frontmatter: { metadata: "{ nope: { a: 1 } }" } }),
     ).toBeUndefined();
   });
 
   it("normalizes manifest requirement and os lists", () => {
     expect(
-      resolveBrikko StudioManifestRequires({
+      resolveBrikkoStudioManifestRequires({
         requires: {
           bins: "bun, node",
           anyBins: [" ffmpeg ", ""],
@@ -98,15 +98,15 @@ describe("shared/frontmatter", () => {
       env: ["BRIKKO_STUDIO_TOKEN", "BRIKKO_STUDIO_URL"],
       config: [],
     });
-    expect(resolveBrikko StudioManifestRequires({})).toBeUndefined();
-    expect(resolveBrikko StudioManifestOs({ os: [" darwin ", "linux", ""] })).toEqual([
+    expect(resolveBrikkoStudioManifestRequires({})).toBeUndefined();
+    expect(resolveBrikkoStudioManifestOs({ os: [" darwin ", "linux", ""] })).toEqual([
       "darwin",
       "linux",
     ]);
   });
 
   it("parses and applies install common fields", () => {
-    const parsed = parseBrikko StudioManifestInstallBase(
+    const parsed = parseBrikkoStudioManifestInstallBase(
       {
         type: " Brew ",
         id: "brew.git",
@@ -128,9 +128,9 @@ describe("shared/frontmatter", () => {
       label: "Git",
       bins: ["git", "git"],
     });
-    expect(parseBrikko StudioManifestInstallBase({ kind: "bad" }, ["brew"])).toBeUndefined();
+    expect(parseBrikkoStudioManifestInstallBase({ kind: "bad" }, ["brew"])).toBeUndefined();
     expect(
-      applyBrikko StudioManifestInstallCommonFields<{
+      applyBrikkoStudioManifestInstallCommonFields<{
         extra: boolean;
         id?: string;
         label?: string;
@@ -145,7 +145,7 @@ describe("shared/frontmatter", () => {
   });
 
   it("prefers explicit kind, ignores invalid common fields, and leaves missing ones untouched", () => {
-    const parsed = parseBrikko StudioManifestInstallBase(
+    const parsed = parseBrikkoStudioManifestInstallBase(
       {
         kind: " npm ",
         type: "brew",
@@ -167,7 +167,7 @@ describe("shared/frontmatter", () => {
       kind: "npm",
     });
     expect(
-      applyBrikko StudioManifestInstallCommonFields(
+      applyBrikkoStudioManifestInstallCommonFields(
         { id: "keep", label: "Keep", bins: ["bun"] },
         parsed!,
       ),
@@ -180,7 +180,7 @@ describe("shared/frontmatter", () => {
 
   it("maps install entries through the parser and filters rejected specs", () => {
     expect(
-      resolveBrikko StudioManifestInstall(
+      resolveBrikkoStudioManifestInstall(
         {
           install: [{ id: "keep" }, { id: "drop" }, "bad"],
         },

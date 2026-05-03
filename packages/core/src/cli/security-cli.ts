@@ -102,7 +102,7 @@ export function registerSecurityCli(program: Command) {
       const muted = (text: string) => (rich ? theme.muted(text) : text);
 
       const lines: string[] = [];
-      lines.push(heading("Brikko Studio security audit"));
+      lines.push(heading("BrikkoStudio security audit"));
       lines.push(muted(`Summary: ${formatSummary(report.summary)}`));
       lines.push(muted(`Run deeper: ${formatCliCommand("brikko-studio security audit --deep")}`));
       for (const diagnostic of secretDiagnostics) {

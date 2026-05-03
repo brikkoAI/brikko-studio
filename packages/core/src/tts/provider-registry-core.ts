@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.js";
+import type { BrikkoStudioConfig } from "../config/types.js";
 import {
   buildCapabilityProviderMaps,
   normalizeCapabilityProviderId,
@@ -7,8 +7,8 @@ import type { SpeechProviderPlugin } from "../plugins/types.js";
 import type { SpeechProviderId } from "./provider-types.js";
 
 export type SpeechProviderRegistryResolver = {
-  getProvider: (providerId: string, cfg?: Brikko StudioConfig) => SpeechProviderPlugin | undefined;
-  listProviders: (cfg?: Brikko StudioConfig) => SpeechProviderPlugin[];
+  getProvider: (providerId: string, cfg?: BrikkoStudioConfig) => SpeechProviderPlugin | undefined;
+  listProviders: (cfg?: BrikkoStudioConfig) => SpeechProviderPlugin[];
 };
 
 export function normalizeSpeechProviderId(
@@ -18,16 +18,16 @@ export function normalizeSpeechProviderId(
 }
 
 export function createSpeechProviderRegistry(resolver: SpeechProviderRegistryResolver) {
-  const buildResolvedProviderMaps = (cfg?: Brikko StudioConfig) =>
+  const buildResolvedProviderMaps = (cfg?: BrikkoStudioConfig) =>
     buildCapabilityProviderMaps(resolver.listProviders(cfg));
 
-  const listProviders = (cfg?: Brikko StudioConfig): SpeechProviderPlugin[] => [
+  const listProviders = (cfg?: BrikkoStudioConfig): SpeechProviderPlugin[] => [
     ...buildResolvedProviderMaps(cfg).canonical.values(),
   ];
 
   const getProvider = (
     providerId: string | undefined,
-    cfg?: Brikko StudioConfig,
+    cfg?: BrikkoStudioConfig,
   ): SpeechProviderPlugin | undefined => {
     const normalized = normalizeSpeechProviderId(providerId);
     if (!normalized) {
@@ -41,7 +41,7 @@ export function createSpeechProviderRegistry(resolver: SpeechProviderRegistryRes
 
   const canonicalizeProviderId = (
     providerId: string | undefined,
-    cfg?: Brikko StudioConfig,
+    cfg?: BrikkoStudioConfig,
   ): SpeechProviderId | undefined => {
     const normalized = normalizeSpeechProviderId(providerId);
     if (!normalized) {

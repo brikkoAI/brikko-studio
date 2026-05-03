@@ -58,7 +58,7 @@ describe("config view", () => {
     borderRadius: 50,
     setBorderRadius: vi.fn(),
     gatewayUrl: "",
-    assistantName: "Brikko Studio",
+    assistantName: "BrikkoStudio",
   });
 
   function findActionButtons(container: HTMLElement): {

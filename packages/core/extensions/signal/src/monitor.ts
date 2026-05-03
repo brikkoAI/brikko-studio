@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { SignalReactionNotificationMode } from "brikko-studio/plugin-sdk/config-types";
 import {
   detectMime,
@@ -51,7 +51,7 @@ export type MonitorSignalOpts = {
   abortSignal?: AbortSignal;
   account?: string;
   accountId?: string;
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   baseUrl?: string;
   autoStart?: boolean;
   startupTimeoutMs?: number;
@@ -328,7 +328,7 @@ async function fetchAttachment(params: {
 }
 
 async function deliverReplies(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   replies: ReplyPayload[];
   target: string;
   baseUrl: string;

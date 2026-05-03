@@ -1,5 +1,5 @@
 import type { App } from "@slack/bolt";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { describe, expect, it } from "vitest";
 import { resolveSlackChannelConfig } from "./channel-config.js";
@@ -135,7 +135,7 @@ describe("resolveSlackChannelConfig", () => {
 });
 
 const baseParams = () => ({
-  cfg: {} as Brikko StudioConfig,
+  cfg: {} as BrikkoStudioConfig,
   accountId: "default",
   botToken: "token",
   app: { client: {} } as App,

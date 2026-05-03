@@ -67,7 +67,7 @@ export type ApnsPushResult = {
 type ApnsPushAlertResult = ApnsPushResult;
 type ApnsPushWakeResult = ApnsPushResult;
 
-const EXEC_APPROVAL_GENERIC_ALERT_BODY = "Open Brikko Studio to review this request.";
+const EXEC_APPROVAL_GENERIC_ALERT_BODY = "Open BrikkoStudio to review this request.";
 const EXEC_APPROVAL_NOTIFICATION_CATEGORY = "brikko-studio.exec-approval";
 
 type ApnsPushType = "alert" | "background";

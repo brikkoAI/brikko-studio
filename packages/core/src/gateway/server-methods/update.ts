@@ -1,6 +1,6 @@
 import { isRestartEnabled } from "../../config/commands.flags.js";
 import { extractDeliveryInfo } from "../../config/sessions.js";
-import { resolveBrikko StudioPackageRoot } from "../../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRoot } from "../../infra/brikko-studio-root.js";
 import { readPackageVersion } from "../../infra/package-json.js";
 import {
   buildRestartSuccessContinuation,
@@ -59,7 +59,7 @@ export const updateHandlers: GatewayRequestHandlers = {
       const config = context.getRuntimeConfig();
       const configChannel = normalizeUpdateChannel(config.update?.channel);
       const root =
-        (await resolveBrikko StudioPackageRoot({
+        (await resolveBrikkoStudioPackageRoot({
           moduleUrl: import.meta.url,
           argv1: process.argv[1],
           cwd: process.cwd(),

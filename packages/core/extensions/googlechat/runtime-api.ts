@@ -29,7 +29,7 @@ export {
 } from "brikko-studio/plugin-sdk/channel-policy";
 export { PAIRING_APPROVED_MESSAGE } from "brikko-studio/plugin-sdk/channel-status";
 export { chunkTextForOutbound } from "brikko-studio/plugin-sdk/text-chunking";
-export type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+export type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 export { GoogleChatConfigSchema } from "brikko-studio/plugin-sdk/bundled-channel-config-schema";
 export {
   GROUP_POLICY_BLOCKED_LABEL,

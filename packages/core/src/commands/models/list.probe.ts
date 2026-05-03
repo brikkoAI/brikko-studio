@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
-import { resolveBrikko StudioAgentDir } from "../../agents/agent-paths.js";
+import { resolveBrikkoStudioAgentDir } from "../../agents/agent-paths.js";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
 import {
   type AuthProfileCredential,
@@ -25,7 +25,7 @@ import {
   resolveSessionTranscriptPath,
   resolveSessionTranscriptsDirForAgent,
 } from "../../config/sessions/paths.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { coerceSecretRef, normalizeSecretInputString } from "../../config/types.secrets.js";
 import { type SecretRefResolveCache, resolveSecretRefString } from "../../secrets/resolve.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
@@ -201,7 +201,7 @@ function formatMissingCredentialProbeError(reasonCode: AuthProbeReasonCode): str
   return `${legacyLine}\n↳ Auth reason [ineligible_profile]: profile is incompatible with provider config.`;
 }
 
-function resolveProbeSecretRef(profile: AuthProfileCredential, cfg: Brikko StudioConfig) {
+function resolveProbeSecretRef(profile: AuthProfileCredential, cfg: BrikkoStudioConfig) {
   const defaults = cfg.secrets?.defaults;
   if (profile.type === "api_key") {
     if (normalizeSecretInputString(profile.key) !== undefined) {
@@ -224,7 +224,7 @@ function formatUnresolvedRefProbeError(refLabel: string): string {
 }
 
 async function maybeResolveUnresolvedRefIssue(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   profile?: AuthProfileCredential;
   cache: SecretRefResolveCache;
 }): Promise<{ reasonCode: "unresolved_ref"; error: string } | null> {
@@ -251,7 +251,7 @@ async function maybeResolveUnresolvedRefIssue(params: {
 }
 
 export async function buildProbeTargets(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   workspaceDir?: string;
   providers: string[];
@@ -432,7 +432,7 @@ export async function buildProbeTargets(params: {
 }
 
 async function probeTarget(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   agentDir: string;
   workspaceDir: string;
@@ -508,7 +508,7 @@ async function probeTarget(params: {
 }
 
 async function runTargetsWithConcurrency(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   agentDir?: string;
   workspaceDir?: string;
@@ -522,7 +522,7 @@ async function runTargetsWithConcurrency(params: {
   const concurrency = Math.max(1, Math.min(targets.length || 1, params.concurrency));
 
   const agentId = params.agentId ?? resolveDefaultAgentId(cfg);
-  const agentDir = params.agentDir ?? resolveBrikko StudioAgentDir();
+  const agentDir = params.agentDir ?? resolveBrikkoStudioAgentDir();
   const workspaceDir =
     params.workspaceDir ??
     resolveAgentWorkspaceDir(cfg, agentId) ??
@@ -570,7 +570,7 @@ async function runTargetsWithConcurrency(params: {
 }
 
 export async function runAuthProbes(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   agentDir?: string;
   workspaceDir?: string;

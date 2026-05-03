@@ -4,7 +4,7 @@ import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { AcpInitializeSessionInput } from "../acp/control-plane/manager.types.js";
 import type { SessionEntry } from "../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import {
   __testing as sessionBindingServiceTesting,
   registerSessionBindingAdapter,
@@ -13,7 +13,7 @@ import {
   type SessionBindingRecord,
 } from "../infra/outbound/session-binding-service.js";
 
-function createDefaultSpawnConfig(): Brikko StudioConfig {
+function createDefaultSpawnConfig(): BrikkoStudioConfig {
   return {
     acp: {
       enabled: true,
@@ -178,7 +178,7 @@ type CrossAgentWorkspaceFixture = {
   targetWorkspace: string;
 };
 
-function replaceSpawnConfig(next: Brikko StudioConfig): void {
+function replaceSpawnConfig(next: BrikkoStudioConfig): void {
   const current = hoisted.state.cfg as Record<string, unknown>;
   for (const key of Object.keys(current)) {
     delete current[key];
@@ -868,7 +868,7 @@ describe("spawnAcpDirect", () => {
     expect(agentCall?.params?.timeout).toBe(45);
   });
 
-  it("rejects Brikko Studio config agent ids when runtime=acp targets a native agent", async () => {
+  it("rejects BrikkoStudio config agent ids when runtime=acp targets a native agent", async () => {
     replaceSpawnConfig({
       ...createDefaultSpawnConfig(),
       acp: {
@@ -901,14 +901,14 @@ describe("spawnAcpDirect", () => {
       status: "error",
       errorCode: "runtime_agent_mismatch",
     });
-    expect(result).toHaveProperty("error", expect.stringContaining("Brikko Studio config agent"));
+    expect(result).toHaveProperty("error", expect.stringContaining("BrikkoStudio config agent"));
     expect(hoisted.initializeSessionMock).not.toHaveBeenCalled();
     expect(hoisted.callGatewayMock).not.toHaveBeenCalledWith(
       expect.objectContaining({ method: "agent" }),
     );
   });
 
-  it("maps Brikko Studio ACP runtime agent aliases to their configured harness id", async () => {
+  it("maps BrikkoStudio ACP runtime agent aliases to their configured harness id", async () => {
     replaceSpawnConfig({
       ...createDefaultSpawnConfig(),
       agents: {

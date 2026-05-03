@@ -211,7 +211,7 @@ describe("createMSTeamsAdapter", () => {
     );
   });
 
-  it("passes the Brikko Studio User-Agent to the Bot Framework connector client", async () => {
+  it("passes the BrikkoStudio User-Agent to the Bot Framework connector client", async () => {
     const creds = {
       type: "secret",
       appId: "app-id",
@@ -243,7 +243,7 @@ describe("createMSTeamsAdapter", () => {
       serviceUrl: "https://service.example.com/",
       options: {
         headers: {
-          "User-Agent": expect.stringMatching(/^teams\.ts\[apps\]\/.+ Brikko Studio\/.+$/),
+          "User-Agent": expect.stringMatching(/^teams\.ts\[apps\]\/.+ BrikkoStudio\/.+$/),
         },
       },
     });

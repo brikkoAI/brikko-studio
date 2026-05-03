@@ -3,7 +3,7 @@ import {
   listSkillCommandsForAgents,
   type NativeCommandSpec,
 } from "brikko-studio/plugin-sdk/command-auth";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { danger, warn, type RuntimeEnv } from "brikko-studio/plugin-sdk/runtime-env";
 import { normalizeLowercaseStringOrEmpty } from "brikko-studio/plugin-sdk/text-runtime";
 
@@ -28,7 +28,7 @@ async function loadPluginRuntime() {
 async function appendPluginCommandSpecs(params: {
   commandSpecs: NativeCommandSpec[];
   runtime: RuntimeEnv;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   getPluginCommandSpecs?: GetPluginCommandSpecs;
 }): Promise<NativeCommandSpec[]> {
   const merged = [...params.commandSpecs];
@@ -61,7 +61,7 @@ async function appendPluginCommandSpecs(params: {
 }
 
 export async function resolveDiscordProviderCommandSpecs(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime: RuntimeEnv;
   nativeEnabled: boolean;
   nativeSkillsEnabled: boolean;

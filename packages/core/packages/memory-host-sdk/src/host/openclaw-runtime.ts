@@ -46,7 +46,7 @@ export {
   /** @deprecated Use getRuntimeConfig(), or pass the already loaded config through the call path. */
   loadConfig,
 } from "../../../../src/config/config.js";
-export type { Brikko StudioConfig } from "../../../../src/config/config.js";
+export type { BrikkoStudioConfig } from "../../../../src/config/config.js";
 export { resolveStateDir } from "../../../../src/config/paths.js";
 export {
   isCompactionCheckpointTranscriptFileName,
@@ -131,7 +131,7 @@ export type {
   MemoryPluginRuntime,
   MemoryPromptSectionBuilder,
 } from "../../../../src/plugins/memory-state.js";
-export type { Brikko StudioPluginApi } from "../../../../src/plugins/types.js";
+export type { BrikkoStudioPluginApi } from "../../../../src/plugins/types.js";
 
 // Shared session/text utilities.
 export { defaultRuntime } from "../../../../src/runtime.js";

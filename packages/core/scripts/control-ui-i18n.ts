@@ -130,7 +130,7 @@ const LOCALE_ENTRIES: readonly LocaleEntry[] = [
 ];
 
 const DEFAULT_GLOSSARY: readonly GlossaryEntry[] = [
-  { source: "Brikko Studio", target: "Brikko Studio" },
+  { source: "BrikkoStudio", target: "BrikkoStudio" },
   { source: "Gateway", target: "Gateway" },
   { source: "Control UI", target: "Control UI" },
   { source: "Skills", target: "Skills" },

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { AgentBindingMatch } from "../config/types.agents.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveRequesterOriginForChild } from "./spawn-requester-origin.js";
 
 describe("resolveRequesterOriginForChild", () => {
@@ -9,7 +9,7 @@ describe("resolveRequesterOriginForChild", () => {
   }
 
   function resolveAccount(params: {
-    cfg: Brikko StudioConfig;
+    cfg: BrikkoStudioConfig;
     targetAgentId?: string;
     requesterAgentId?: string;
     requesterChannel: string;
@@ -44,7 +44,7 @@ describe("resolveRequesterOriginForChild", () => {
             accountId: "bot-alpha-qa",
           }),
         ],
-      } as Brikko StudioConfig;
+      } as BrikkoStudioConfig;
 
       expect(
         resolveRequesterOriginForChild({
@@ -185,7 +185,7 @@ describe("resolveRequesterOriginForChild", () => {
   ] as const)("selects target account: $name", (scenario) => {
     expect(
       resolveAccount({
-        cfg: { bindings: [...scenario.bindings] } as Brikko StudioConfig,
+        cfg: { bindings: [...scenario.bindings] } as BrikkoStudioConfig,
         requesterChannel: scenario.requesterChannel,
         requesterAccountId: scenario.requesterAccountId,
         requesterAgentId: scenario.requesterAgentId,
@@ -211,7 +211,7 @@ describe("resolveRequesterOriginForChild", () => {
           accountId: "bot-alpha-teams",
         }),
       ],
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       resolveRequesterOriginForChild({
@@ -242,7 +242,7 @@ describe("resolveRequesterOriginForChild", () => {
           accountId: "bot-alpha-qa",
         }),
       ],
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       resolveRequesterOriginForChild({
@@ -283,7 +283,7 @@ describe("resolveRequesterOriginForChild", () => {
           accountId: "bot-alpha-current-guild",
         }),
       ],
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       resolveRequesterOriginForChild({
@@ -315,7 +315,7 @@ describe("resolveRequesterOriginForChild", () => {
           accountId: "bot-alpha-line",
         }),
       ],
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       resolveRequesterOriginForChild({

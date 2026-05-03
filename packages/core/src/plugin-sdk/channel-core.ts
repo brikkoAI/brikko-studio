@@ -1,8 +1,8 @@
 export type {
   ChannelConfigUiHint,
   ChannelPlugin,
-  Brikko StudioConfig,
-  Brikko StudioPluginApi,
+  BrikkoStudioConfig,
+  BrikkoStudioPluginApi,
   PluginCommandContext,
   PluginRuntime,
   ChannelOutboundSessionRouteParams,

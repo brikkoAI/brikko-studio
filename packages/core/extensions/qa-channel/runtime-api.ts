@@ -13,7 +13,7 @@ export {
   dispatchInboundReplyWithBase,
   getChatChannelMeta,
   jsonResult,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type PluginRuntime,
   readStringParam,
   type RuntimeEnv,

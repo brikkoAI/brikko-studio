@@ -9,8 +9,8 @@ import { resolveGatewayInstallToken } from "../../commands/gateway-install-token
 import { resolveFutureConfigActionBlock } from "../../config/future-version-guard.js";
 import { readConfigFileSnapshotForWrite } from "../../config/io.js";
 import { resolveGatewayPort } from "../../config/paths.js";
-import type { Brikko StudioConfig } from "../../config/types.js";
-import { BRIKKO_STUDIO_WRAPPER_ENV_KEY, resolveBrikko StudioWrapperPath } from "../../daemon/program-args.js";
+import type { BrikkoStudioConfig } from "../../config/types.js";
+import { BRIKKO_STUDIO_WRAPPER_ENV_KEY, resolveBrikkoStudioWrapperPath } from "../../daemon/program-args.js";
 import { readEmbeddedGatewayToken } from "../../daemon/service-audit.js";
 import { resolveGatewayService } from "../../daemon/service.js";
 import type { GatewayServiceCommandConfig } from "../../daemon/service.js";
@@ -110,7 +110,7 @@ export async function runDaemonInstall(opts: DaemonInstallOptions) {
   let wrapperPath: string | undefined;
   if (opts.wrapper !== undefined) {
     try {
-      wrapperPath = await resolveBrikko StudioWrapperPath(opts.wrapper);
+      wrapperPath = await resolveBrikkoStudioWrapperPath(opts.wrapper);
       if (!wrapperPath) {
         fail("Invalid --wrapper");
         return;
@@ -143,7 +143,7 @@ export async function runDaemonInstall(opts: DaemonInstallOptions) {
   });
   if (!wrapperPath) {
     try {
-      wrapperPath = await resolveBrikko StudioWrapperPath(installEnv[BRIKKO_STUDIO_WRAPPER_ENV_KEY]);
+      wrapperPath = await resolveBrikkoStudioWrapperPath(installEnv[BRIKKO_STUDIO_WRAPPER_ENV_KEY]);
     } catch (err) {
       fail(`Invalid ${BRIKKO_STUDIO_WRAPPER_ENV_KEY}: ${String(err)}`);
       return;
@@ -248,7 +248,7 @@ async function getGatewayServiceAutoRefreshMessage(params: {
   runtime: GatewayDaemonRuntime;
   wrapperPath?: string;
   existingEnvironment?: Record<string, string | undefined>;
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
 }): Promise<string | undefined> {
   try {
     const currentCommand = params.currentCommand;

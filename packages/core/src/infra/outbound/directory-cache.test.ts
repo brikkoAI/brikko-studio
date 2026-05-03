@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import { DirectoryCache, buildDirectoryCacheKey } from "./directory-cache.js";
 import type { DirectoryCacheKey } from "./directory-cache.js";
 
@@ -35,8 +35,8 @@ describe("DirectoryCache", () => {
   it("expires entries after ttl and resets when config ref changes", () => {
     vi.useFakeTimers();
     const cache = new DirectoryCache<string>(1_000);
-    const cfgA = {} as Brikko StudioConfig;
-    const cfgB = {} as Brikko StudioConfig;
+    const cfgA = {} as BrikkoStudioConfig;
+    const cfgB = {} as BrikkoStudioConfig;
 
     cache.set("a", "first", cfgA);
     expect(cache.get("a", cfgA)).toBe("first");
@@ -52,7 +52,7 @@ describe("DirectoryCache", () => {
 
   it("evicts least-recent entries, refreshes insertion order, and clears matches", () => {
     const cache = new DirectoryCache<string>(60_000, 2);
-    const cfg = {} as Brikko StudioConfig;
+    const cfg = {} as BrikkoStudioConfig;
 
     cache.set("a", "A", cfg);
     cache.set("b", "B", cfg);

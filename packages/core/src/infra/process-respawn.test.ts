@@ -3,7 +3,7 @@ import { captureFullEnv } from "../test-utils/env.js";
 import { SUPERVISOR_HINT_ENV_VARS } from "./supervisor-markers.js";
 
 const spawnMock = vi.hoisted(() => vi.fn());
-const triggerBrikko StudioRestartMock = vi.hoisted(() => vi.fn());
+const triggerBrikkoStudioRestartMock = vi.hoisted(() => vi.fn());
 const isContainerEnvironmentMock = vi.hoisted(() => vi.fn(() => false));
 
 vi.mock("node:child_process", async () => {
@@ -16,7 +16,7 @@ vi.mock("node:child_process", async () => {
   );
 });
 vi.mock("./restart.js", () => ({
-  triggerBrikko StudioRestart: (...args: unknown[]) => triggerBrikko StudioRestartMock(...args),
+  triggerBrikkoStudioRestart: (...args: unknown[]) => triggerBrikkoStudioRestartMock(...args),
 }));
 vi.mock("./container-environment.js", () => ({
   isContainerEnvironment: () => isContainerEnvironmentMock(),
@@ -47,7 +47,7 @@ afterEach(() => {
   process.argv = [...originalArgv];
   process.execArgv = [...originalExecArgv];
   spawnMock.mockClear();
-  triggerBrikko StudioRestartMock.mockClear();
+  triggerBrikkoStudioRestartMock.mockClear();
   isContainerEnvironmentMock.mockReset();
   isContainerEnvironmentMock.mockReturnValue(false);
   if (originalPlatformDescriptor) {
@@ -69,7 +69,7 @@ function expectLaunchdSupervisedWithoutKickstart(params?: { launchJobLabel?: str
   process.env.BRIKKO_STUDIO_LAUNCHD_LABEL = "ai.brikko-studio.gateway";
   const result = restartGatewayProcessWithFreshPid();
   expect(result).toEqual({ mode: "supervised" });
-  expect(triggerBrikko StudioRestartMock).not.toHaveBeenCalled();
+  expect(triggerBrikkoStudioRestartMock).not.toHaveBeenCalled();
   expect(spawnMock).not.toHaveBeenCalled();
 }
 
@@ -90,7 +90,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     const result = restartGatewayProcessWithFreshPid();
 
     expect(result).toEqual({ mode: "disabled" });
-    expect(triggerBrikko StudioRestartMock).not.toHaveBeenCalled();
+    expect(triggerBrikkoStudioRestartMock).not.toHaveBeenCalled();
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
@@ -103,12 +103,12 @@ describe("restartGatewayProcessWithFreshPid", () => {
     expectLaunchdSupervisedWithoutKickstart({ launchJobLabel: "ai.brikko-studio.gateway" });
   });
 
-  it("launchd supervisor never returns failed regardless of triggerBrikko StudioRestart outcome", () => {
+  it("launchd supervisor never returns failed regardless of triggerBrikkoStudioRestart outcome", () => {
     clearSupervisorHints();
     setPlatform("darwin");
     process.env.BRIKKO_STUDIO_LAUNCHD_LABEL = "ai.brikko-studio.gateway";
-    // Even if triggerBrikko StudioRestart *would* fail, launchd path must not call it.
-    triggerBrikko StudioRestartMock.mockReturnValue({
+    // Even if triggerBrikkoStudioRestart *would* fail, launchd path must not call it.
+    triggerBrikkoStudioRestartMock.mockReturnValue({
       ok: false,
       method: "launchctl",
       detail: "Bootstrap failed: 5: Input/output error",
@@ -116,7 +116,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     const result = restartGatewayProcessWithFreshPid();
     expect(result.mode).toBe("supervised");
     expect(result.mode).not.toBe("failed");
-    expect(triggerBrikko StudioRestartMock).not.toHaveBeenCalled();
+    expect(triggerBrikkoStudioRestartMock).not.toHaveBeenCalled();
   });
 
   it("does not schedule kickstart on non-darwin platforms", () => {
@@ -127,7 +127,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     const result = restartGatewayProcessWithFreshPid();
 
     expect(result.mode).toBe("supervised");
-    expect(triggerBrikko StudioRestartMock).not.toHaveBeenCalled();
+    expect(triggerBrikkoStudioRestartMock).not.toHaveBeenCalled();
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
@@ -137,7 +137,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     process.env.XPC_SERVICE_NAME = "ai.brikko-studio.gateway";
     const result = restartGatewayProcessWithFreshPid();
     expect(result.mode).toBe("supervised");
-    expect(triggerBrikko StudioRestartMock).not.toHaveBeenCalled();
+    expect(triggerBrikkoStudioRestartMock).not.toHaveBeenCalled();
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
@@ -176,15 +176,15 @@ describe("restartGatewayProcessWithFreshPid", () => {
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
-  it("returns supervised when Brikko Studio gateway task markers are set on Windows", () => {
+  it("returns supervised when BrikkoStudio gateway task markers are set on Windows", () => {
     clearSupervisorHints();
     setPlatform("win32");
     process.env.BRIKKO_STUDIO_SERVICE_MARKER = "brikko-studio";
     process.env.BRIKKO_STUDIO_SERVICE_KIND = "gateway";
-    triggerBrikko StudioRestartMock.mockReturnValue({ ok: true, method: "schtasks" });
+    triggerBrikkoStudioRestartMock.mockReturnValue({ ok: true, method: "schtasks" });
     const result = restartGatewayProcessWithFreshPid();
     expect(result.mode).toBe("supervised");
-    expect(triggerBrikko StudioRestartMock).toHaveBeenCalledOnce();
+    expect(triggerBrikkoStudioRestartMock).toHaveBeenCalledOnce();
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
@@ -198,7 +198,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     const result = restartGatewayProcessWithFreshPid();
 
     expect(result).toEqual({ mode: "spawned", pid: 4242 });
-    expect(triggerBrikko StudioRestartMock).not.toHaveBeenCalled();
+    expect(triggerBrikkoStudioRestartMock).not.toHaveBeenCalled();
   });
 
   it("returns disabled on Windows without Scheduled Task markers", () => {
@@ -238,7 +238,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     const result = restartGatewayProcessWithFreshPid();
 
     expect(result.mode).toBe("disabled");
-    expect(triggerBrikko StudioRestartMock).not.toHaveBeenCalled();
+    expect(triggerBrikkoStudioRestartMock).not.toHaveBeenCalled();
     expect(spawnMock).not.toHaveBeenCalled();
   });
 

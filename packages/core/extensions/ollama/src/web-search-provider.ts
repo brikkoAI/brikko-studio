@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   isNonSecretApiKeyMarker,
   normalizeOptionalSecretInput,
@@ -74,7 +74,7 @@ function isOllamaCloudBaseUrl(baseUrl: string): boolean {
   }
 }
 
-function resolveConfiguredOllamaWebSearchApiKey(config?: Brikko StudioConfig): string | undefined {
+function resolveConfiguredOllamaWebSearchApiKey(config?: BrikkoStudioConfig): string | undefined {
   const providerApiKey = normalizeOptionalSecretInput(config?.models?.providers?.ollama?.apiKey);
   if (providerApiKey && !isNonSecretApiKeyMarker(providerApiKey)) {
     return providerApiKey;
@@ -86,11 +86,11 @@ function resolveEnvOllamaWebSearchApiKey(): string | undefined {
   return resolveEnvApiKey("ollama")?.apiKey;
 }
 
-function resolveOllamaWebSearchApiKey(config?: Brikko StudioConfig): string | undefined {
+function resolveOllamaWebSearchApiKey(config?: BrikkoStudioConfig): string | undefined {
   return resolveConfiguredOllamaWebSearchApiKey(config) ?? resolveEnvOllamaWebSearchApiKey();
 }
 
-function resolveOllamaWebSearchBaseUrl(config?: Brikko StudioConfig): string {
+function resolveOllamaWebSearchBaseUrl(config?: BrikkoStudioConfig): string {
   const pluginBaseUrl = normalizeOptionalString(
     resolveProviderWebSearchPluginConfig(config, "ollama")?.baseUrl,
   );
@@ -156,7 +156,7 @@ function buildOllamaWebSearchAttempts(params: {
 }
 
 export async function runOllamaWebSearch(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   query: string;
   count?: number;
 }): Promise<Record<string, unknown>> {
@@ -260,11 +260,11 @@ export async function runOllamaWebSearch(params: {
 }
 
 async function warnOllamaWebSearchPrereqs(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   prompter: {
     note: (message: string, title?: string) => Promise<void>;
   };
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const baseUrl = resolveOllamaWebSearchBaseUrl(params.config);
   const { reachable } = await fetchOllamaModels(baseUrl);
   if (!reachable) {

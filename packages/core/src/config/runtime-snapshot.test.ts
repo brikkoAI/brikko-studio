@@ -13,7 +13,7 @@ import {
   setRuntimeConfigSnapshot,
   setRuntimeConfigSnapshotRefreshHandler,
 } from "./runtime-snapshot.js";
-import type { Brikko StudioConfig } from "./types.js";
+import type { BrikkoStudioConfig } from "./types.js";
 
 function resetRuntimeConfigState(): void {
   setRuntimeConfigSnapshotRefreshHandler(null);
@@ -28,7 +28,7 @@ describe("runtime snapshot state", () => {
   it("pins the first successful load in memory until the snapshot is cleared", () => {
     let freshPort = 18789;
     let loadCount = 0;
-    const loadFresh = (): Brikko StudioConfig => {
+    const loadFresh = (): BrikkoStudioConfig => {
       loadCount += 1;
       return { gateway: { port: freshPort } };
     };
@@ -46,7 +46,7 @@ describe("runtime snapshot state", () => {
   });
 
   it("returns the source snapshot when runtime snapshot is active", () => {
-    const sourceConfig: Brikko StudioConfig = {
+    const sourceConfig: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: {
@@ -57,7 +57,7 @@ describe("runtime snapshot state", () => {
         },
       },
     };
-    const runtimeConfig: Brikko StudioConfig = {
+    const runtimeConfig: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: {
@@ -74,8 +74,8 @@ describe("runtime snapshot state", () => {
   });
 
   it("tracks snapshot metadata and cache keys across runtime refreshes", () => {
-    const firstConfig: Brikko StudioConfig = { gateway: { port: 18789 } };
-    const secondConfig: Brikko StudioConfig = { gateway: { port: 19001 } };
+    const firstConfig: BrikkoStudioConfig = { gateway: { port: 18789 } };
+    const secondConfig: BrikkoStudioConfig = { gateway: { port: 19001 } };
 
     setRuntimeConfigSnapshot(firstConfig);
     const firstMetadata = getRuntimeConfigSnapshotMetadata();
@@ -94,7 +94,7 @@ describe("runtime snapshot state", () => {
   });
 
   it("selects runtime config only when input still matches the runtime source", () => {
-    const sourceConfig: Brikko StudioConfig = {
+    const sourceConfig: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: {
@@ -105,7 +105,7 @@ describe("runtime snapshot state", () => {
         },
       },
     };
-    const runtimeConfig: Brikko StudioConfig = {
+    const runtimeConfig: BrikkoStudioConfig = {
       models: {
         providers: {
           openai: {
@@ -116,7 +116,7 @@ describe("runtime snapshot state", () => {
         },
       },
     };
-    const scopedResolvedConfig: Brikko StudioConfig = {
+    const scopedResolvedConfig: BrikkoStudioConfig = {
       ...runtimeConfig,
       tools: {
         experimental: {
@@ -151,10 +151,10 @@ describe("runtime snapshot state", () => {
 
   it("refreshes both snapshots from disk after a write when source + runtime snapshots exist", async () => {
     const notifyCommittedWrite = vi.fn();
-    const loadFreshConfig = vi.fn<() => Brikko StudioConfig>(() => ({
+    const loadFreshConfig = vi.fn<() => BrikkoStudioConfig>(() => ({
       gateway: { auth: { mode: "token" } },
     }));
-    const nextSourceConfig: Brikko StudioConfig = {
+    const nextSourceConfig: BrikkoStudioConfig = {
       gateway: { auth: { mode: "token" } },
       models: {
         providers: {
@@ -222,7 +222,7 @@ describe("runtime snapshot state", () => {
 
   it("keeps the last-known-good runtime snapshot active while specialized refresh is pending", async () => {
     const notifyCommittedWrite = vi.fn();
-    const loadFreshConfig = vi.fn<() => Brikko StudioConfig>(() => ({
+    const loadFreshConfig = vi.fn<() => BrikkoStudioConfig>(() => ({
       gateway: { auth: { mode: "token" } },
     }));
     let releaseRefresh!: () => void;
@@ -294,7 +294,7 @@ describe("runtime snapshot state", () => {
   });
 
   it("notifies registered write listeners with committed runtime snapshots", () => {
-    const seen: Array<{ configPath: string; runtimeConfig: Brikko StudioConfig }> = [];
+    const seen: Array<{ configPath: string; runtimeConfig: BrikkoStudioConfig }> = [];
     const unsubscribe = registerRuntimeConfigWriteListener((event) => {
       seen.push({
         configPath: event.configPath,

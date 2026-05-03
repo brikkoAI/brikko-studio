@@ -30,7 +30,7 @@ describe("buildOfficialChannelCatalog", () => {
     writeJson(path.join(repoRoot, "extensions", "whatsapp", "package.json"), {
       name: "@brikko-studio/whatsapp",
       version: "2026.3.23",
-      description: "Brikko Studio WhatsApp channel plugin",
+      description: "BrikkoStudio WhatsApp channel plugin",
       brikko-studio: {
         channel: {
           id: "whatsapp",
@@ -111,7 +111,7 @@ describe("buildOfficialChannelCatalog", () => {
         }),
         expect.objectContaining({
           name: "@brikko-studio/whatsapp",
-          description: "Brikko Studio WhatsApp channel plugin",
+          description: "BrikkoStudio WhatsApp channel plugin",
           source: "official",
           brikko-studio: expect.objectContaining({
             channel: expect.objectContaining({
@@ -145,7 +145,7 @@ describe("buildOfficialChannelCatalog", () => {
     }
   });
 
-  it("allows official Brikko Studio channel npm specs without integrity during launch", () => {
+  it("allows official BrikkoStudio channel npm specs without integrity during launch", () => {
     const repoRoot = makeRepoRoot("brikko-studio-official-channel-catalog-brikko-studio-policy-");
     const twitch = buildOfficialChannelCatalog({ repoRoot }).entries.find(
       (entry) => entry.brikko-studio?.channel?.id === "twitch",

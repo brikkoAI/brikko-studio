@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 
 const note = vi.hoisted(() => vi.fn());
@@ -82,7 +82,7 @@ describe("root memory repair", () => {
     if (!entries.has("MEMORY.md") || !entries.has("memory.md")) {
       return;
     }
-    const cfg = { agents: { defaults: { workspace: tmpDir } } } as Brikko StudioConfig;
+    const cfg = { agents: { defaults: { workspace: tmpDir } } } as BrikkoStudioConfig;
     const prompter = {
       confirmRuntimeRepair: vi.fn(async () => true),
     } as unknown as DoctorPrompter;

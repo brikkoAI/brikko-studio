@@ -1,5 +1,5 @@
 import { resolveGatewayPort } from "../config/config.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { isValidEnvSecretRefId, type SecretInput } from "../config/types.secrets.js";
 import {
   maybeAddTailnetOriginToControlUiAllowedOrigins,
@@ -27,10 +27,10 @@ type GatewayAuthChoice = "token" | "password" | "trusted-proxy";
 type GatewayTokenInputMode = "plaintext" | "ref";
 
 export async function promptGatewayConfig(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   runtime: RuntimeEnv,
 ): Promise<{
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   port: number;
   token?: string;
 }> {
@@ -216,7 +216,7 @@ export async function promptGatewayConfig(
         }),
         id: envVarName,
       };
-      note(`Validated ${envVarName}. Brikko Studio will store a token SecretRef.`, "Gateway token");
+      note(`Validated ${envVarName}. BrikkoStudio will store a token SecretRef.`, "Gateway token");
     } else {
       const tokenInput = guardCancel(
         await text({
@@ -244,7 +244,7 @@ export async function promptGatewayConfig(
   if (authMode === "trusted-proxy") {
     note(
       [
-        "Trusted proxy mode: Brikko Studio trusts user identity from a reverse proxy.",
+        "Trusted proxy mode: BrikkoStudio trusts user identity from a reverse proxy.",
         "The proxy must authenticate users and pass identity via headers.",
         "Only requests from specified proxy IPs will be trusted.",
         "",

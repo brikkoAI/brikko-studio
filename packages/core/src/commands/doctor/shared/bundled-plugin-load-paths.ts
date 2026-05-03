@@ -1,5 +1,5 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../../agents/agent-scope.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 import {
   buildBundledPluginLoadPathAliases,
   normalizeBundledLookupPath,
@@ -16,12 +16,12 @@ type BundledPluginLoadPathHit = {
   pathLabel: string;
 };
 
-function resolveBundledWorkspaceDir(cfg: Brikko StudioConfig): string | undefined {
+function resolveBundledWorkspaceDir(cfg: BrikkoStudioConfig): string | undefined {
   return resolveAgentWorkspaceDir(cfg, resolveDefaultAgentId(cfg)) ?? undefined;
 }
 
 export function scanBundledPluginLoadPathMigrations(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): BundledPluginLoadPathHit[] {
   const plugins = asObjectRecord(cfg.plugins);
@@ -79,17 +79,17 @@ export function collectBundledPluginLoadPathWarnings(params: {
   }
   const lines = params.hits.map(
     (hit) =>
-      `- ${hit.pathLabel}: bundled plugin path "${hit.fromPath}" still aliases ${hit.pluginId}; Brikko Studio loads the packaged bundled plugin from "${hit.toPath}".`,
+      `- ${hit.pathLabel}: bundled plugin path "${hit.fromPath}" still aliases ${hit.pluginId}; BrikkoStudio loads the packaged bundled plugin from "${hit.toPath}".`,
   );
   lines.push(`- Run "${params.doctorFixCommand}" to remove these redundant bundled plugin paths.`);
   return lines.map((line) => sanitizeForLog(line));
 }
 
 export function maybeRepairBundledPluginLoadPaths(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   changes: string[];
 } {
   const hits = scanBundledPluginLoadPathMigrations(cfg, env);

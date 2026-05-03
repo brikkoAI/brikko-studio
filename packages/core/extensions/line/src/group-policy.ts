@@ -1,8 +1,8 @@
 import { resolveChannelGroupRequireMention } from "brikko-studio/plugin-sdk/channel-policy";
-import { resolveExactLineGroupConfigKey, type Brikko StudioConfig } from "./channel-api.js";
+import { resolveExactLineGroupConfigKey, type BrikkoStudioConfig } from "./channel-api.js";
 
 type LineGroupContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId?: string | null;
   groupId?: string | null;
 };

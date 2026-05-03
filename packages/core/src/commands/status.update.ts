@@ -1,5 +1,5 @@
 import { formatCliCommand } from "../cli/command-format.js";
-import { resolveBrikko StudioPackageRoot } from "../infra/brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRoot } from "../infra/brikko-studio-root.js";
 import { normalizeUpdateChannel, resolveRegistryUpdateChannel } from "../infra/update-channels.js";
 import {
   checkUpdateStatus,
@@ -15,7 +15,7 @@ export async function getUpdateCheckResult(params: {
   updateConfigChannel?: string | null;
 }): Promise<UpdateCheckResult> {
   const configChannel = normalizeUpdateChannel(params.updateConfigChannel);
-  const root = await resolveBrikko StudioPackageRoot({
+  const root = await resolveBrikkoStudioPackageRoot({
     moduleUrl: import.meta.url,
     argv1: process.argv[1],
     cwd: process.cwd(),

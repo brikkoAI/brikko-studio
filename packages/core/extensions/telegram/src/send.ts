@@ -37,7 +37,7 @@ import {
   type MediaKind,
   normalizePollInput,
   probeVideoDimensions,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type PollInput,
   requireRuntimeConfig,
   resolveMarkdownTableMode,
@@ -67,7 +67,7 @@ const MAX_TELEGRAM_PHOTO_DIMENSION_SUM = 10_000;
 const MAX_TELEGRAM_PHOTO_ASPECT_RATIO = 20;
 
 type TelegramSendOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token?: string;
   accountId?: string;
   verbose?: boolean;
@@ -109,7 +109,7 @@ type TelegramMessageLike = {
 };
 
 type TelegramReactionOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token?: string;
   accountId?: string;
   api?: TelegramApiOverride;
@@ -119,7 +119,7 @@ type TelegramReactionOpts = {
 };
 
 type TelegramTypingOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token?: string;
   accountId?: string;
   verbose?: boolean;
@@ -196,7 +196,7 @@ export function resetTelegramClientOptionsCacheForTests(): void {
   telegramClientOptionsCache.clear();
 }
 
-function createTelegramHttpLogger(cfg: Brikko StudioConfig) {
+function createTelegramHttpLogger(cfg: BrikkoStudioConfig) {
   const enabled = isDiagnosticFlagEnabled("telegram.http", cfg);
   if (!enabled) {
     return () => {};
@@ -329,7 +329,7 @@ async function resolveChatId(
 }
 
 async function resolveAndPersistChatId(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   api: TelegramApiOverride;
   lookupTarget: string;
   persistTarget: string;
@@ -429,7 +429,7 @@ async function withTelegramHtmlParseFallback<T>(params: {
 }
 
 type TelegramApiContext = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedTelegramAccount;
   api: TelegramApi;
 };
@@ -438,7 +438,7 @@ function resolveTelegramApiContext(opts: {
   token?: string;
   accountId?: string;
   api?: TelegramApiOverride;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 }): TelegramApiContext {
   const cfg = requireRuntimeConfig(opts.cfg, "Telegram API context");
   const account = resolveTelegramAccount({
@@ -458,7 +458,7 @@ type TelegramRequestWithDiag = <T>(
 ) => Promise<T>;
 
 function createTelegramRequestWithDiag(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedTelegramAccount;
   retry?: RetryConfig;
   verbose?: boolean;
@@ -565,7 +565,7 @@ function createRequestWithChatNotFound(params: {
 }
 
 function createTelegramNonIdempotentRequestWithDiag(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   account: ResolvedTelegramAccount;
   retry?: RetryConfig;
   verbose?: boolean;
@@ -1051,7 +1051,7 @@ export async function reactMessageTelegram(
 }
 
 type TelegramDeleteOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token?: string;
   accountId?: string;
   notify?: boolean;
@@ -1263,7 +1263,7 @@ type TelegramEditOpts = {
   /** Inline keyboard buttons (reply markup). Pass empty array to remove buttons. */
   buttons?: TelegramInlineButtons;
   /** Resolved runtime config from the command or gateway boundary. */
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 };
 
 type TelegramEditReplyMarkupOpts = {
@@ -1275,7 +1275,7 @@ type TelegramEditReplyMarkupOpts = {
   /** Inline keyboard buttons (reply markup). Pass empty array to remove buttons. */
   buttons?: TelegramInlineButtons;
   /** Resolved runtime config from the command or gateway boundary. */
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
 };
 
 export async function editMessageReplyMarkupTelegram(
@@ -1434,7 +1434,7 @@ function inferFilename(kind: MediaKind) {
 }
 
 type TelegramStickerOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token?: string;
   accountId?: string;
   verbose?: boolean;
@@ -1517,7 +1517,7 @@ export async function sendStickerTelegram(
 }
 
 type TelegramPollOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token?: string;
   accountId?: string;
   verbose?: boolean;
@@ -1633,7 +1633,7 @@ export async function sendPollTelegram(
 // ---------------------------------------------------------------------------
 
 type TelegramCreateForumTopicOpts = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   token?: string;
   accountId?: string;
   api?: TelegramApiOverride;

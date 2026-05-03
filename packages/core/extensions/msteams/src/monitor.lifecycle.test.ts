@@ -1,7 +1,7 @@
 import { EventEmitter } from "node:events";
 import type { Request, Response } from "express";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig, RuntimeEnv } from "../runtime-api.js";
+import type { BrikkoStudioConfig, RuntimeEnv } from "../runtime-api.js";
 import type { MSTeamsConversationStore } from "./conversation-store.js";
 import type { MSTeamsPollStore } from "./polls.js";
 
@@ -153,7 +153,7 @@ vi.mock("./runtime.js", () => ({
 
 import { monitorMSTeamsProvider } from "./monitor.js";
 
-function createConfig(port: number): Brikko StudioConfig {
+function createConfig(port: number): BrikkoStudioConfig {
   return {
     channels: {
       msteams: {
@@ -167,7 +167,7 @@ function createConfig(port: number): Brikko StudioConfig {
         },
       },
     },
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 function createRuntime(): RuntimeEnv {

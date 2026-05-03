@@ -36,7 +36,7 @@ export function buildOpenRouterSpeechProvider(): SpeechProviderPlugin {
     baseUrlPolicy: { kind: "canonical", aliases: ["https://openrouter.ai/v1"] },
     extraHeaders: {
       "HTTP-Referer": "https://brikko-studio.ai",
-      "X-OpenRouter-Title": "Brikko Studio",
+      "X-OpenRouter-Title": "BrikkoStudio",
     },
     apiErrorLabel: "OpenRouter TTS API error",
     missingApiKeyError: "OpenRouter API key missing",

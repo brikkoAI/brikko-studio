@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import {
   formatMemoryDreamingDay,
   isSameMemoryDreamingDay,
@@ -92,7 +92,7 @@ describe("memory dreaming host helpers", () => {
           userTimezone: "America/Los_Angeles",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const resolved = resolveMemoryDreamingConfig({
       pluginConfig: {},
@@ -161,7 +161,7 @@ describe("memory dreaming host helpers", () => {
           { id: "gamma", workspace: "/workspace/shared" },
         ],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveMemoryDreamingWorkspaces(cfg)).toEqual([
       {
@@ -183,7 +183,7 @@ describe("memory dreaming host helpers", () => {
           { id: "agi-cdo", workspace: "/workspace/agi-cdo" },
         ],
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(
       resolveMemoryDreamingWorkspaces(cfg, {
@@ -213,7 +213,7 @@ describe("memory dreaming host helpers", () => {
           workspace: "/workspace",
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(resolveMemoryDreamingWorkspaces(cfg)).toEqual([
       {
@@ -242,7 +242,7 @@ describe("memory dreaming host helpers", () => {
             memory: "memos-local-brikko-studio-plugin",
           },
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ).toBe("memos-local-brikko-studio-plugin");
   });
 
@@ -263,7 +263,7 @@ describe("memory dreaming host helpers", () => {
             },
           },
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ).toEqual({
       dreaming: {
         enabled: true,
@@ -289,7 +289,7 @@ describe("memory dreaming host helpers", () => {
             },
           },
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ).toEqual({
       dreaming: {
         enabled: true,
@@ -312,7 +312,7 @@ describe("memory dreaming host helpers", () => {
             },
           },
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ).toEqual({
       dreaming: {
         enabled: true,
@@ -328,7 +328,7 @@ describe("memory dreaming host helpers", () => {
             memory: "none",
           },
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ).toBe("memory-core");
 
     expect(
@@ -347,7 +347,7 @@ describe("memory dreaming host helpers", () => {
             },
           },
         },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
     ).toEqual({
       dreaming: {
         enabled: true,

@@ -23,7 +23,7 @@ function configPath(...parts: string[]) {
   return path.join(CONFIG_DIR, ...parts);
 }
 
-function etcBrikko StudioPath(...parts: string[]) {
+function etcBrikkoStudioPath(...parts: string[]) {
   return path.join(ETC_BRIKKO_STUDIO_DIR, ...parts);
 }
 
@@ -81,7 +81,7 @@ describe("resolveConfigIncludes", () => {
   });
 
   it("rejects absolute path outside config directory (CWE-22)", () => {
-    const absolute = etcBrikko StudioPath("agents.json");
+    const absolute = etcBrikkoStudioPath("agents.json");
     const files = { [absolute]: { list: [{ id: "main" }] } };
     const obj = { agents: { $include: absolute } };
     expectResolveIncludeError(() => resolve(obj, files), /escapes config directory/);
@@ -703,7 +703,7 @@ describe("BRIKKO_STUDIO_INCLUDE_ROOTS allowlist", () => {
   });
 
   it("still rejects include paths that fall outside every allowed root", () => {
-    const obj = { $include: etcBrikko StudioPath("agents.json") };
+    const obj = { $include: etcBrikkoStudioPath("agents.json") };
     expect(() =>
       resolveConfigIncludes(obj, DEFAULT_BASE_PATH, createMockResolver({}), {
         allowedRoots: [SHARED_DIR],

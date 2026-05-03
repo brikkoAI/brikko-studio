@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { MemoryEmbeddingProviderAdapter } from "brikko-studio/plugin-sdk/memory-core-host-engine-embeddings";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createEmbeddingProvider } from "./embeddings.js";
@@ -40,7 +40,7 @@ function createOptions(provider: string) {
           "voyage",
         ],
       },
-    } as Brikko StudioConfig,
+    } as BrikkoStudioConfig,
     agentDir: "/tmp/brikko-studio-agent",
     provider,
     fallback: "none",

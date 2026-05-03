@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
 import type {
@@ -12,22 +12,22 @@ import type {
   MigrationProviderContext,
   MigrationProviderPlugin,
   MigrationSummary,
-  Brikko StudioPluginApi,
-  Brikko StudioPluginCommandDefinition,
-  Brikko StudioPluginConfigSchema,
-  Brikko StudioPluginDefinition,
-  Brikko StudioPluginHttpRouteHandler,
-  Brikko StudioPluginNodeHostCommand,
-  Brikko StudioPluginNodeInvokePolicy,
-  Brikko StudioPluginNodeInvokePolicyContext,
-  Brikko StudioPluginNodeInvokePolicyResult,
-  Brikko StudioPluginReloadRegistration,
-  Brikko StudioPluginSecurityAuditCollector,
-  Brikko StudioPluginSecurityAuditContext,
-  Brikko StudioPluginService,
-  Brikko StudioPluginServiceContext,
-  Brikko StudioPluginToolContext,
-  Brikko StudioPluginToolFactory,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginCommandDefinition,
+  BrikkoStudioPluginConfigSchema,
+  BrikkoStudioPluginDefinition,
+  BrikkoStudioPluginHttpRouteHandler,
+  BrikkoStudioPluginNodeHostCommand,
+  BrikkoStudioPluginNodeInvokePolicy,
+  BrikkoStudioPluginNodeInvokePolicyContext,
+  BrikkoStudioPluginNodeInvokePolicyResult,
+  BrikkoStudioPluginReloadRegistration,
+  BrikkoStudioPluginSecurityAuditCollector,
+  BrikkoStudioPluginSecurityAuditContext,
+  BrikkoStudioPluginService,
+  BrikkoStudioPluginServiceContext,
+  BrikkoStudioPluginToolContext,
+  BrikkoStudioPluginToolFactory,
   PluginLogger,
   ProviderAugmentModelCatalogContext,
   ProviderAuthContext,
@@ -79,8 +79,8 @@ import type {
   ProviderValidateReplayTurnsContext,
   ProviderWebSocketSessionPolicy,
   ProviderWrapStreamFnContext,
-  Brikko StudioGatewayDiscoveryAdvertiseContext,
-  Brikko StudioGatewayDiscoveryService,
+  BrikkoStudioGatewayDiscoveryAdvertiseContext,
+  BrikkoStudioGatewayDiscoveryService,
   SpeechProviderPlugin,
   PluginCommandContext,
   PluginCommandResult,
@@ -117,16 +117,16 @@ export type {
   MigrationProviderContext,
   MigrationProviderPlugin,
   MigrationSummary,
-  Brikko StudioPluginApi,
-  Brikko StudioPluginNodeHostCommand,
-  Brikko StudioPluginNodeInvokePolicy,
-  Brikko StudioPluginNodeInvokePolicyContext,
-  Brikko StudioPluginNodeInvokePolicyResult,
-  Brikko StudioPluginReloadRegistration,
-  Brikko StudioPluginSecurityAuditCollector,
-  Brikko StudioPluginSecurityAuditContext,
-  Brikko StudioPluginToolContext,
-  Brikko StudioPluginToolFactory,
+  BrikkoStudioPluginApi,
+  BrikkoStudioPluginNodeHostCommand,
+  BrikkoStudioPluginNodeInvokePolicy,
+  BrikkoStudioPluginNodeInvokePolicyContext,
+  BrikkoStudioPluginNodeInvokePolicyResult,
+  BrikkoStudioPluginReloadRegistration,
+  BrikkoStudioPluginSecurityAuditCollector,
+  BrikkoStudioPluginSecurityAuditContext,
+  BrikkoStudioPluginToolContext,
+  BrikkoStudioPluginToolFactory,
   PluginCommandContext,
   PluginCommandResult,
   PluginAgentEventSubscriptionRegistration,
@@ -148,8 +148,8 @@ export type {
   PluginSessionExtensionProjection,
   PluginToolMetadataRegistration,
   PluginTrustedToolPolicyRegistration,
-  Brikko StudioPluginConfigSchema,
-  Brikko StudioPluginHttpRouteHandler,
+  BrikkoStudioPluginConfigSchema,
+  BrikkoStudioPluginHttpRouteHandler,
   ProviderDiscoveryContext,
   ProviderCatalogContext,
   ProviderCatalogResult,
@@ -196,17 +196,17 @@ export type {
   ProviderValidateReplayTurnsContext,
   ProviderWebSocketSessionPolicy,
   ProviderWrapStreamFnContext,
-  Brikko StudioGatewayDiscoveryAdvertiseContext,
-  Brikko StudioGatewayDiscoveryService,
-  Brikko StudioPluginService,
-  Brikko StudioPluginServiceContext,
+  BrikkoStudioGatewayDiscoveryAdvertiseContext,
+  BrikkoStudioGatewayDiscoveryService,
+  BrikkoStudioPluginService,
+  BrikkoStudioPluginServiceContext,
   ProviderAuthContext,
   ProviderAuthDoctorHintContext,
   ProviderAuthMethodNonInteractiveContext,
   ProviderAuthMethod,
   ProviderAuthResult,
-  Brikko StudioPluginCommandDefinition,
-  Brikko StudioPluginDefinition,
+  BrikkoStudioPluginCommandDefinition,
+  BrikkoStudioPluginDefinition,
   PluginLogger,
 };
 export type {
@@ -221,7 +221,7 @@ export type {
   PluginHookInboundClaimResult,
 } from "../plugins/hook-types.js";
 export type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
-export type { Brikko StudioConfig };
+export type { BrikkoStudioConfig };
 
 export {
   buildJsonPluginConfigSchema,
@@ -239,23 +239,23 @@ type DefinePluginEntryOptions = {
    * manifest `kind`. Runtime-entry `kind` remains only as a compatibility
    * fallback for older plugins.
    */
-  kind?: Brikko StudioPluginDefinition["kind"];
-  configSchema?: Brikko StudioPluginConfigSchema | (() => Brikko StudioPluginConfigSchema);
-  reload?: Brikko StudioPluginDefinition["reload"];
-  nodeHostCommands?: Brikko StudioPluginDefinition["nodeHostCommands"];
-  securityAuditCollectors?: Brikko StudioPluginDefinition["securityAuditCollectors"];
-  register: (api: Brikko StudioPluginApi) => void;
+  kind?: BrikkoStudioPluginDefinition["kind"];
+  configSchema?: BrikkoStudioPluginConfigSchema | (() => BrikkoStudioPluginConfigSchema);
+  reload?: BrikkoStudioPluginDefinition["reload"];
+  nodeHostCommands?: BrikkoStudioPluginDefinition["nodeHostCommands"];
+  securityAuditCollectors?: BrikkoStudioPluginDefinition["securityAuditCollectors"];
+  register: (api: BrikkoStudioPluginApi) => void;
 };
 
-/** Normalized object shape that Brikko Studio loads from a plugin entry module. */
+/** Normalized object shape that BrikkoStudio loads from a plugin entry module. */
 type DefinedPluginEntry = {
   id: string;
   name: string;
   description: string;
-  configSchema: Brikko StudioPluginConfigSchema;
-  register: NonNullable<Brikko StudioPluginDefinition["register"]>;
+  configSchema: BrikkoStudioPluginConfigSchema;
+  register: NonNullable<BrikkoStudioPluginDefinition["register"]>;
 } & Pick<
-  Brikko StudioPluginDefinition,
+  BrikkoStudioPluginDefinition,
   "kind" | "reload" | "nodeHostCommands" | "securityAuditCollectors"
 >;
 

@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-runtime";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-runtime";
 import {
   jsonResult,
   readNumberParam,
@@ -61,7 +61,7 @@ const FirecrawlScrapeToolSchema = Type.Object(
   { additionalProperties: false },
 );
 
-export function createFirecrawlScrapeTool(api: Brikko StudioPluginApi) {
+export function createFirecrawlScrapeTool(api: BrikkoStudioPluginApi) {
   return {
     name: "firecrawl_scrape",
     label: "Firecrawl Scrape",

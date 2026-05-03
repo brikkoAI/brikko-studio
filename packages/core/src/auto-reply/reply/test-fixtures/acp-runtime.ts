@@ -1,7 +1,7 @@
 import type { SessionAcpMeta } from "../../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../../config/types.brikko-studio.js";
 
-export function createAcpTestConfig(overrides?: Partial<Brikko StudioConfig>): Brikko StudioConfig {
+export function createAcpTestConfig(overrides?: Partial<BrikkoStudioConfig>): BrikkoStudioConfig {
   return {
     acp: {
       enabled: true,
@@ -11,7 +11,7 @@ export function createAcpTestConfig(overrides?: Partial<Brikko StudioConfig>): B
       },
     },
     ...overrides,
-  } as Brikko StudioConfig;
+  } as BrikkoStudioConfig;
 }
 
 export function createAcpSessionMeta(overrides?: Partial<SessionAcpMeta>): SessionAcpMeta {

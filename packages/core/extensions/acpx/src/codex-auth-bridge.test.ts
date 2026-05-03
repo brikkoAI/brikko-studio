@@ -76,7 +76,7 @@ afterEach(async () => {
 });
 
 describe("prepareAcpxCodexAuthConfig", () => {
-  it("installs an isolated Codex ACP wrapper without synthesizing auth from canonical Brikko Studio OAuth", async () => {
+  it("installs an isolated Codex ACP wrapper without synthesizing auth from canonical BrikkoStudio OAuth", async () => {
     const root = await makeTempDir();
     const agentDir = path.join(root, "agent");
     const stateDir = path.join(root, "state");

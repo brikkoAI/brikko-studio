@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const hoisted = vi.hoisted(() => ({
   completeMock: vi.fn(),
-  ensureBrikko StudioModelsJsonMock: vi.fn(async () => {}),
+  ensureBrikkoStudioModelsJsonMock: vi.fn(async () => {}),
   getApiKeyForModelMock: vi.fn(async () => ({
     apiKey: "oauth-test", // pragma: allowlist secret
     source: "test",
@@ -23,7 +23,7 @@ const hoisted = vi.hoisted(() => ({
 }));
 const {
   completeMock,
-  ensureBrikko StudioModelsJsonMock,
+  ensureBrikkoStudioModelsJsonMock,
   getApiKeyForModelMock,
   resolveApiKeyForProviderMock,
   requireApiKeyMock,
@@ -53,7 +53,7 @@ vi.mock("../agents/models-config.js", async () => ({
   ...(await vi.importActual<typeof import("../agents/models-config.js")>(
     "../agents/models-config.js",
   )),
-  ensureBrikko StudioModelsJson: ensureBrikko StudioModelsJsonMock,
+  ensureBrikkoStudioModelsJson: ensureBrikkoStudioModelsJsonMock,
 }));
 
 vi.mock("../agents/model-auth.js", () => ({
@@ -143,7 +143,7 @@ describe("describeImageWithModel", () => {
       text: "portal ok",
       model: "MiniMax-VL-01",
     });
-    expect(ensureBrikko StudioModelsJsonMock).toHaveBeenCalled();
+    expect(ensureBrikkoStudioModelsJsonMock).toHaveBeenCalled();
     expect(getApiKeyForModelMock).toHaveBeenCalledWith(
       expect.objectContaining({ store: authStore }),
     );
@@ -156,7 +156,7 @@ describe("describeImageWithModel", () => {
         headers: {
           Authorization: "Bearer oauth-test",
           "Content-Type": "application/json",
-          "MM-API-Source": "Brikko Studio",
+          "MM-API-Source": "BrikkoStudio",
         },
         body: JSON.stringify({
           prompt: "Describe the image.",
@@ -585,7 +585,7 @@ describe("describeImageWithModel", () => {
 
   it("rejects when image runtime setup exceeds the request timeout", async () => {
     vi.useFakeTimers();
-    ensureBrikko StudioModelsJsonMock.mockImplementationOnce(() => new Promise(() => {}));
+    ensureBrikkoStudioModelsJsonMock.mockImplementationOnce(() => new Promise(() => {}));
 
     const result = describeImageWithModel({
       cfg: {},

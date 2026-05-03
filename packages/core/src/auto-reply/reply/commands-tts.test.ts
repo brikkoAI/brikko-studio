@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../../config/config.js";
+import type { BrikkoStudioConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions.js";
 
 const ttsMocks = vi.hoisted(() => ({
@@ -44,7 +44,7 @@ const FALLBACK_TTS_PROVIDER = "backup-speech";
 
 function buildTtsParams(
   commandBodyNormalized: string,
-  cfg: Brikko StudioConfig = {},
+  cfg: BrikkoStudioConfig = {},
   agentId?: string,
   overrides: Partial<Parameters<typeof handleTtsCommands>[0]> = {},
 ): Parameters<typeof handleTtsCommands>[0] {
@@ -198,7 +198,7 @@ describe("handleTtsCommands status fallback reporting", () => {
     const result = await handleTtsCommands(
       buildTtsParams("/tts", {
         messages: { tts: { prefsPath: "/tmp/tts.json" } },
-      } as Brikko StudioConfig),
+      } as BrikkoStudioConfig),
       true,
     );
     expect(result?.shouldContinue).toBe(false);
@@ -208,7 +208,7 @@ describe("handleTtsCommands status fallback reporting", () => {
   it("resolves status config for the active agent", async () => {
     const cfg = {
       agents: { list: [{ id: "reader", tts: { provider: "elevenlabs" } }] },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await handleTtsCommands(buildTtsParams("/tts status", cfg, "reader"), true);
 
@@ -228,7 +228,7 @@ describe("handleTtsCommands status fallback reporting", () => {
     });
     const cfg = {
       agents: { list: [{ id: "reader", tts: { provider: PRIMARY_TTS_PROVIDER } }] },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const result = await handleTtsCommands(
       buildTtsParams("/tts audio hello", cfg, "reader", {

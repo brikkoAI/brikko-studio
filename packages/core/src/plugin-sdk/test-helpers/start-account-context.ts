@@ -3,14 +3,14 @@ import { createRuntimeEnv } from "../testing.js";
 import type {
   ChannelAccountSnapshot,
   ChannelGatewayContext,
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   RuntimeEnv,
 } from "../testing.js";
 
 export function createStartAccountContext<TAccount extends { accountId: string }>(params: {
   account: TAccount;
   abortSignal?: AbortSignal;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   runtime?: RuntimeEnv;
   statusPatchSink?: (next: ChannelAccountSnapshot) => void;
 }): ChannelGatewayContext<TAccount> {
@@ -23,7 +23,7 @@ export function createStartAccountContext<TAccount extends { accountId: string }
   return {
     accountId: params.account.accountId,
     account: params.account,
-    cfg: params.cfg ?? ({} as Brikko StudioConfig),
+    cfg: params.cfg ?? ({} as BrikkoStudioConfig),
     runtime: params.runtime ?? createRuntimeEnv(),
     abortSignal: params.abortSignal ?? new AbortController().signal,
     log: { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() },

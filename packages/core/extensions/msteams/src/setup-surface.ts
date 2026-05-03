@@ -6,7 +6,7 @@ import {
   splitSetupEntries,
   type ChannelSetupDmPolicy,
   type ChannelSetupWizard,
-  type Brikko StudioConfig,
+  type BrikkoStudioConfig,
   type WizardPrompter,
 } from "brikko-studio/plugin-sdk/setup";
 import type { MSTeamsTeamConfig } from "../runtime-api.js";
@@ -39,9 +39,9 @@ function looksLikeGuid(value: string): boolean {
 }
 
 async function promptMSTeamsAllowFrom(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   prompter: WizardPrompter;
-}): Promise<Brikko StudioConfig> {
+}): Promise<BrikkoStudioConfig> {
   const existing = params.cfg.channels?.msteams?.allowFrom ?? [];
   await params.prompter.note(
     [
@@ -102,9 +102,9 @@ async function promptMSTeamsAllowFrom(params: {
 }
 
 function setMSTeamsTeamsAllowlist(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   entries: Array<{ teamKey: string; channelKey?: string }>,
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const baseTeams = cfg.channels?.msteams?.teams ?? {};
   const teams: Record<string, { channels?: Record<string, unknown> }> = { ...baseTeams };
   for (const entry of entries) {
@@ -134,7 +134,7 @@ function setMSTeamsTeamsAllowlist(
   };
 }
 
-function listMSTeamsGroupEntries(cfg: Brikko StudioConfig): string[] {
+function listMSTeamsGroupEntries(cfg: BrikkoStudioConfig): string[] {
   return Object.entries(cfg.channels?.msteams?.teams ?? {}).flatMap(([teamKey, value]) => {
     const channels = value?.channels ?? {};
     const channelKeys = Object.keys(channels);
@@ -146,7 +146,7 @@ function listMSTeamsGroupEntries(cfg: Brikko StudioConfig): string[] {
 }
 
 async function resolveMSTeamsGroupAllowlist(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   entries: string[];
   prompter: Pick<WizardPrompter, "note">;
 }): Promise<Array<{ teamKey: string; channelKey?: string }>> {

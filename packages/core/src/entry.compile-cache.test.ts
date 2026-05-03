@@ -3,11 +3,11 @@ import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanupTempDirs, makeTempDir } from "../test/helpers/temp-dir.js";
 import {
-  buildBrikko StudioCompileCacheRespawnPlan,
+  buildBrikkoStudioCompileCacheRespawnPlan,
   isSourceCheckoutInstallRoot,
-  resolveBrikko StudioCompileCacheDirectory,
+  resolveBrikkoStudioCompileCacheDirectory,
   resolveEntryInstallRoot,
-  shouldEnableBrikko StudioCompileCache,
+  shouldEnableBrikkoStudioCompileCache,
 } from "./entry.compile-cache.js";
 
 describe("entry compile cache", () => {
@@ -36,7 +36,7 @@ describe("entry compile cache", () => {
     await fs.writeFile(path.join(root, "src", "entry.ts"), "export {};\n", "utf8");
 
     expect(
-      shouldEnableBrikko StudioCompileCache({
+      shouldEnableBrikkoStudioCompileCache({
         env: {},
         installRoot: root,
       }),
@@ -46,9 +46,9 @@ describe("entry compile cache", () => {
   it("keeps compile cache enabled for packaged installs unless disabled by env", () => {
     const root = makeTempDir(tempDirs, "brikko-studio-compile-cache-package-");
 
-    expect(shouldEnableBrikko StudioCompileCache({ env: {}, installRoot: root })).toBe(true);
+    expect(shouldEnableBrikkoStudioCompileCache({ env: {}, installRoot: root })).toBe(true);
     expect(
-      shouldEnableBrikko StudioCompileCache({
+      shouldEnableBrikkoStudioCompileCache({
         env: { NODE_DISABLE_COMPILE_CACHE: "1" },
         installRoot: root,
       }),
@@ -60,7 +60,7 @@ describe("entry compile cache", () => {
     const packageJsonPath = path.join(root, "package.json");
     await fs.writeFile(packageJsonPath, '{"version":"2026.4.29"}\n', "utf8");
 
-    const directory = resolveBrikko StudioCompileCacheDirectory({
+    const directory = resolveBrikkoStudioCompileCacheDirectory({
       env: { NODE_COMPILE_CACHE: path.join(root, ".node-cache") },
       installRoot: root,
     });
@@ -75,7 +75,7 @@ describe("entry compile cache", () => {
     await fs.mkdir(path.join(root, "src"), { recursive: true });
     await fs.writeFile(path.join(root, "src", "entry.ts"), "export {};\n", "utf8");
 
-    const plan = buildBrikko StudioCompileCacheRespawnPlan({
+    const plan = buildBrikkoStudioCompileCacheRespawnPlan({
       currentFile: path.join(root, "dist", "entry.js"),
       env: { NODE_COMPILE_CACHE: "/tmp/brikko-studio-cache" },
       execArgv: ["--no-warnings"],
@@ -98,7 +98,7 @@ describe("entry compile cache", () => {
     const root = makeTempDir(tempDirs, "brikko-studio-compile-cache-package-respawn-");
 
     expect(
-      buildBrikko StudioCompileCacheRespawnPlan({
+      buildBrikkoStudioCompileCacheRespawnPlan({
         currentFile: path.join(root, "dist", "entry.js"),
         env: { NODE_COMPILE_CACHE: "/tmp/brikko-studio-cache" },
         installRoot: root,
@@ -112,7 +112,7 @@ describe("entry compile cache", () => {
     await fs.writeFile(path.join(root, "src", "entry.ts"), "export {};\n", "utf8");
 
     expect(
-      buildBrikko StudioCompileCacheRespawnPlan({
+      buildBrikkoStudioCompileCacheRespawnPlan({
         currentFile: path.join(root, "dist", "entry.js"),
         env: {
           NODE_COMPILE_CACHE: "/tmp/brikko-studio-cache",

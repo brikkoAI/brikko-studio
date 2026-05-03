@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   createWebSearchProviderContractFields,
   mergeScopedSearchConfig,
@@ -71,14 +71,14 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function resolveGoogleModelProviderConfig(
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): Record<string, unknown> | undefined {
   const provider = config?.models?.providers?.google;
   return isRecord(provider) ? provider : undefined;
 }
 
 function getGoogleModelProviderCredentialFallback(
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): { path: string; value: unknown } | undefined {
   const provider = resolveGoogleModelProviderConfig(config);
   return provider && provider.apiKey !== undefined
@@ -88,7 +88,7 @@ function getGoogleModelProviderCredentialFallback(
 
 function withGoogleModelProviderFallbacks(
   searchConfig: Record<string, unknown> | undefined,
-  config?: Brikko StudioConfig,
+  config?: BrikkoStudioConfig,
 ): Record<string, unknown> | undefined {
   const provider = resolveGoogleModelProviderConfig(config);
   if (!provider || (provider.apiKey === undefined && provider.baseUrl === undefined)) {

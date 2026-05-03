@@ -15,7 +15,7 @@ const CORE_SPARSE_ROOTS = ["packages", "ui/src"];
 
 const CORE_PROD_REQUIRED_PATHS = [
   {
-    path: "apps/shared/Brikko StudioKit/Sources/Brikko StudioKit/Resources/tool-display.json",
+    path: "apps/shared/BrikkoStudioKit/Sources/BrikkoStudioKit/Resources/tool-display.json",
     whenPresent: "ui/src/ui/tool-display.ts",
   },
   {

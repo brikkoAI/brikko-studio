@@ -1,8 +1,8 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import type { PluginAutoEnableResult } from "../config/plugin-auto-enable.js";
 import type { PluginManifestRecord } from "./manifest-registry.js";
-import type { Brikko StudioPackageManifest } from "./manifest.js";
+import type { BrikkoStudioPackageManifest } from "./manifest.js";
 import type { PluginRegistrySnapshot } from "./plugin-registry.js";
 import { createEmptyPluginRegistry } from "./registry-empty.js";
 import type { ProviderPlugin } from "./types.js";
@@ -12,7 +12,7 @@ type ResolveCompatibleRuntimePluginRegistry =
   typeof import("./loader.js").resolveCompatibleRuntimePluginRegistry;
 type GetRuntimePluginRegistryForLoadOptions =
   typeof import("./loader.js").getRuntimePluginRegistryForLoadOptions;
-type LoadBrikko StudioPlugins = typeof import("./loader.js").loadBrikko StudioPlugins;
+type LoadBrikkoStudioPlugins = typeof import("./loader.js").loadBrikkoStudioPlugins;
 type IsPluginRegistryLoadInFlight = typeof import("./loader.js").isPluginRegistryLoadInFlight;
 type LoadPluginManifestRegistry =
   typeof import("./manifest-registry.js").loadPluginManifestRegistry;
@@ -22,7 +22,7 @@ type SetActivePluginRegistry = typeof import("./runtime.js").setActivePluginRegi
 const resolveRuntimePluginRegistryMock = vi.fn<ResolveRuntimePluginRegistry>();
 const getRuntimePluginRegistryForLoadOptionsMock = vi.fn<GetRuntimePluginRegistryForLoadOptions>();
 const resolveCompatibleRuntimePluginRegistryMock = vi.fn<ResolveCompatibleRuntimePluginRegistry>();
-const loadBrikko StudioPluginsMock = vi.fn<LoadBrikko StudioPlugins>();
+const loadBrikkoStudioPluginsMock = vi.fn<LoadBrikkoStudioPlugins>();
 const isPluginRegistryLoadInFlightMock = vi.fn<IsPluginRegistryLoadInFlight>((_) => false);
 const loadPluginManifestRegistryMock = vi.fn<LoadPluginManifestRegistry>();
 const applyPluginAutoEnableMock = vi.fn<ApplyPluginAutoEnable>();
@@ -48,7 +48,7 @@ function createManifestProviderPlugin(params: {
   activation?: PluginManifestRecord["activation"];
   setup?: PluginManifestRecord["setup"];
   contracts?: PluginManifestRecord["contracts"];
-  packageManifest?: Brikko StudioPackageManifest;
+  packageManifest?: BrikkoStudioPackageManifest;
 }): PluginManifestRecord {
   return {
     id: params.id,
@@ -256,7 +256,7 @@ function expectLastSetupRegistryLoad(params?: {
   env?: NodeJS.ProcessEnv;
   onlyPluginIds?: readonly string[];
 }) {
-  expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+  expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
     expect.objectContaining({
       cache: false,
       activate: false,
@@ -278,7 +278,7 @@ function getLastResolvedPluginConfig() {
 }
 
 function getLastSetupLoadedPluginConfig() {
-  const call = loadBrikko StudioPluginsMock.mock.calls.at(-1)?.[0];
+  const call = loadBrikkoStudioPluginsMock.mock.calls.at(-1)?.[0];
   expect(call).toBeDefined();
   return (call?.config ?? undefined) as
     | {
@@ -303,10 +303,10 @@ function createBundledProviderCompatOptions(params?: { onlyPluginIds?: readonly 
 }
 
 function createAutoEnabledProviderConfig() {
-  const rawConfig: Brikko StudioConfig = {
+  const rawConfig: BrikkoStudioConfig = {
     plugins: {},
   };
-  const autoEnabledConfig: Brikko StudioConfig = {
+  const autoEnabledConfig: BrikkoStudioConfig = {
     ...rawConfig,
     plugins: {
       entries: {
@@ -374,8 +374,8 @@ describe("resolvePluginProviders", () => {
       diagnostics: [],
     });
     vi.doMock("./loader.js", () => ({
-      loadBrikko StudioPlugins: (...args: Parameters<LoadBrikko StudioPlugins>) =>
-        loadBrikko StudioPluginsMock(...args),
+      loadBrikkoStudioPlugins: (...args: Parameters<LoadBrikkoStudioPlugins>) =>
+        loadBrikkoStudioPluginsMock(...args),
       isPluginRegistryLoadInFlight: (...args: Parameters<IsPluginRegistryLoadInFlight>) =>
         isPluginRegistryLoadInFlightMock(...args),
       resolveCompatibleRuntimePluginRegistry: (
@@ -457,7 +457,7 @@ describe("resolvePluginProviders", () => {
     resolveRuntimePluginRegistryMock.mockReset();
     getRuntimePluginRegistryForLoadOptionsMock.mockReset();
     resolveCompatibleRuntimePluginRegistryMock.mockReset();
-    loadBrikko StudioPluginsMock.mockReset();
+    loadBrikkoStudioPluginsMock.mockReset();
     isPluginRegistryLoadInFlightMock.mockReset();
     isPluginRegistryLoadInFlightMock.mockReturnValue(false);
     const provider: ProviderPlugin = {
@@ -471,12 +471,12 @@ describe("resolvePluginProviders", () => {
     getRuntimePluginRegistryForLoadOptionsMock.mockImplementation((...args) =>
       resolveRuntimePluginRegistryMock(...args),
     );
-    loadBrikko StudioPluginsMock.mockReturnValue(registry);
+    loadBrikkoStudioPluginsMock.mockReturnValue(registry);
     loadPluginManifestRegistryMock.mockReset();
     applyPluginAutoEnableMock.mockReset();
     applyPluginAutoEnableMock.mockImplementation(
       (params): PluginAutoEnableResult => ({
-        config: params.config ?? ({} as Brikko StudioConfig),
+        config: params.config ?? ({} as BrikkoStudioConfig),
         changes: [],
         autoEnabledReasons: {},
       }),
@@ -992,7 +992,7 @@ describe("resolvePluginProviders", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       providerRefs: ["ollama-spark"],
       activate: true,
     });
@@ -1135,7 +1135,7 @@ describe("resolvePluginProviders", () => {
       mode: "setup",
     });
 
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         onlyPluginIds: ["setup-owned-provider"],
         activate: true,
@@ -1173,7 +1173,7 @@ describe("resolvePluginProviders", () => {
       mode: "setup",
     });
 
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         config: expect.objectContaining({
           plugins: expect.objectContaining({
@@ -1209,7 +1209,7 @@ describe("resolvePluginProviders", () => {
       mode: "setup",
     });
 
-    expect(loadBrikko StudioPluginsMock).toHaveBeenCalledWith(
+    expect(loadBrikkoStudioPluginsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         config: expect.objectContaining({
           plugins: expect.objectContaining({
@@ -1244,7 +1244,7 @@ describe("resolvePluginProviders", () => {
     });
 
     expect(providers).toEqual([]);
-    expect(loadBrikko StudioPluginsMock).not.toHaveBeenCalled();
+    expect(loadBrikkoStudioPluginsMock).not.toHaveBeenCalled();
   });
 
   it("does not auto-activate untrusted workspace runtime owners when requested", () => {

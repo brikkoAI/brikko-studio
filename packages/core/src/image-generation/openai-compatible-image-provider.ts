@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { isProviderApiKeyConfigured } from "brikko-studio/plugin-sdk/provider-auth";
 import { resolveApiKeyForProvider } from "brikko-studio/plugin-sdk/provider-auth-runtime";
 import {
@@ -23,7 +23,7 @@ import type {
   ImageGenerationSourceImage,
 } from "./types.js";
 
-type ModelProviderConfig = NonNullable<NonNullable<Brikko StudioConfig["models"]>["providers"]>[string];
+type ModelProviderConfig = NonNullable<NonNullable<BrikkoStudioConfig["models"]>["providers"]>[string];
 
 export type OpenAiCompatibleImageRequestMode = "generate" | "edit";
 
@@ -86,7 +86,7 @@ export type OpenAiCompatibleImageProviderOptions = {
 };
 
 function readProviderConfig(
-  cfg: Brikko StudioConfig | undefined,
+  cfg: BrikkoStudioConfig | undefined,
   providerConfigKey: string,
 ): ModelProviderConfig | undefined {
   return cfg?.models?.providers?.[providerConfigKey];

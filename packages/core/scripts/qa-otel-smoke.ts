@@ -293,7 +293,7 @@ function openClawEntryArgs(): string[] {
   return ["brikko-studio.mjs"];
 }
 
-function spawnBrikko Studio(args: string[], env: NodeJS.ProcessEnv): ChildProcess {
+function spawnBrikkoStudio(args: string[], env: NodeJS.ProcessEnv): ChildProcess {
   return spawn(process.execPath, [...openClawEntryArgs(), ...args], {
     env,
     stdio: ["ignore", "pipe", "pipe"],
@@ -434,7 +434,7 @@ async function main() {
 
   let childExitCode = 1;
   try {
-    const child = spawnBrikko Studio(buildQaArgs(options), buildQaEnv(port));
+    const child = spawnBrikkoStudio(buildQaArgs(options), buildQaEnv(port));
     child.stdout?.on("data", (chunk) => process.stdout.write(chunk));
     child.stderr?.on("data", (chunk) => process.stderr.write(chunk));
     childExitCode = await waitForChild(child);

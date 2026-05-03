@@ -1,5 +1,5 @@
 import { normalizeChatType } from "../../channels/chat-type.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { SessionSendPolicyDecision } from "../../sessions/send-policy.js";
 import type { SourceReplyDeliveryMode } from "../get-reply-options.types.js";
 
@@ -9,7 +9,7 @@ export type SourceReplyDeliveryModeContext = {
 };
 
 export function resolveSourceReplyDeliveryMode(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   ctx: SourceReplyDeliveryModeContext;
   requested?: SourceReplyDeliveryMode;
   messageToolAvailable?: boolean;
@@ -51,7 +51,7 @@ export type SourceReplyVisibilityPolicy = {
 };
 
 export function resolveSourceReplyVisibilityPolicy(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   ctx: SourceReplyDeliveryModeContext;
   requested?: SourceReplyDeliveryMode;
   sendPolicy: SessionSendPolicyDecision;

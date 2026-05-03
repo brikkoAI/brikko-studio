@@ -17,7 +17,7 @@ import {
   type SessionEntry,
   updateSessionStore,
 } from "../../config/sessions.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { resolveStableSessionEndTranscript } from "../../gateway/session-transcript-files.fs.js";
 import { logVerbose } from "../../globals.js";
 import { getRemoteSkillEligibility } from "../../infra/skills-remote.js";
@@ -54,7 +54,7 @@ async function persistSessionEntryUpdate(params: {
 }
 
 function emitCompactionSessionLifecycleHooks(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
   storePath?: string;
   previousEntry: SessionEntry;
@@ -113,7 +113,7 @@ export async function ensureSkillSnapshot(params: {
   sessionId?: string;
   isFirstTurnInSession: boolean;
   workspaceDir: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   /** If provided, only load skills with these names (for per-channel skill filtering) */
   skillFilter?: string[];
 }): Promise<{
@@ -227,7 +227,7 @@ export async function incrementCompactionCount(params: {
   sessionStore?: Record<string, SessionEntry>;
   sessionKey?: string;
   storePath?: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   now?: number;
   amount?: number;
   /** Token count after compaction - if provided, updates session token counts */

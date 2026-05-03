@@ -11,8 +11,8 @@ import type { MigrateApplyOptions } from "./types.js";
 function shouldTreatMissingBackupAsEmptyState(error: unknown): boolean {
   const message = error instanceof Error ? error.message : String(error);
   return (
-    message.includes("No local Brikko Studio state was found to back up") ||
-    message.includes("No Brikko Studio config file was found to back up")
+    message.includes("No local BrikkoStudio state was found to back up") ||
+    message.includes("No BrikkoStudio config file was found to back up")
   );
 }
 

@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { resolveSessionAgentIds } from "../../agents/agent-scope.js";
 import { resolveBootstrapContextForRun } from "../../agents/bootstrap-files.js";
-import { createBrikko StudioCodingTools } from "../../agents/pi-tools.js";
+import { createBrikkoStudioCodingTools } from "../../agents/pi-tools.js";
 import { resolveSandboxRuntimeStatus } from "../../agents/sandbox.js";
 import { buildAgentSystemPrompt } from "../../agents/system-prompt.js";
 import { resolveCommandsSystemPromptBundle } from "./commands-system-prompt.js";
 import type { HandleCommandsParams } from "./commands-types.js";
 
-const { createBrikko StudioCodingToolsMock } = vi.hoisted(() => ({
-  createBrikko StudioCodingToolsMock: vi.fn(() => []),
+const { createBrikkoStudioCodingToolsMock } = vi.hoisted(() => ({
+  createBrikkoStudioCodingToolsMock: vi.fn(() => []),
 }));
 
 vi.mock("../../agents/bootstrap-files.js", () => ({
@@ -53,7 +53,7 @@ vi.mock("../../agents/system-prompt.js", () => ({
 }));
 
 vi.mock("../../agents/pi-tools.js", () => ({
-  createBrikko StudioCodingTools: createBrikko StudioCodingToolsMock,
+  createBrikkoStudioCodingTools: createBrikkoStudioCodingToolsMock,
 }));
 
 vi.mock("../../tts/tts.js", () => ({
@@ -116,14 +116,14 @@ function makeParams(): HandleCommandsParams {
 describe("resolveCommandsSystemPromptBundle", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    createBrikko StudioCodingToolsMock.mockClear();
-    createBrikko StudioCodingToolsMock.mockReturnValue([]);
+    createBrikkoStudioCodingToolsMock.mockClear();
+    createBrikkoStudioCodingToolsMock.mockReturnValue([]);
   });
 
   it("opts command tool builds into gateway subagent binding", async () => {
     await resolveCommandsSystemPromptBundle(makeParams());
 
-    expect(vi.mocked(createBrikko StudioCodingTools)).toHaveBeenCalledWith(
+    expect(vi.mocked(createBrikkoStudioCodingTools)).toHaveBeenCalledWith(
       expect.objectContaining({
         allowGatewaySubagentBinding: true,
         sessionKey: "agent:main:default",
@@ -161,7 +161,7 @@ describe("resolveCommandsSystemPromptBundle", () => {
 
     await resolveCommandsSystemPromptBundle(params);
 
-    expect(vi.mocked(createBrikko StudioCodingTools)).toHaveBeenCalledWith(
+    expect(vi.mocked(createBrikkoStudioCodingTools)).toHaveBeenCalledWith(
       expect.objectContaining({
         agentId: "target",
         sessionKey: "agent:target:telegram:direct:target-session",
@@ -198,7 +198,7 @@ describe("resolveCommandsSystemPromptBundle", () => {
         sessionId: "target-session",
       }),
     );
-    expect(vi.mocked(createBrikko StudioCodingTools)).toHaveBeenCalledWith(
+    expect(vi.mocked(createBrikkoStudioCodingTools)).toHaveBeenCalledWith(
       expect.objectContaining({
         groupId: "target-group",
         groupChannel: "#target",

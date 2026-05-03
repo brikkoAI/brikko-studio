@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveProviderRuntimePlugin } from "../plugins/provider-hook-runtime.js";
 
 vi.mock("../plugins/provider-hook-runtime.js", async () => {
@@ -241,7 +241,7 @@ describe("resolveTranscriptPolicy", () => {
   });
 
   it("memoizes replay policy resolution for the same config and process env", () => {
-    const config = {} as Brikko StudioConfig;
+    const config = {} as BrikkoStudioConfig;
 
     resolveTranscriptPolicy({
       provider: "mistral",
@@ -260,7 +260,7 @@ describe("resolveTranscriptPolicy", () => {
   });
 
   it("does not reuse cached replay policies across custom env objects", () => {
-    const config = {} as Brikko StudioConfig;
+    const config = {} as BrikkoStudioConfig;
     const strictEnv = {
       ...process.env,
       BRIKKO_STUDIO_TEST_TRANSCRIPT_POLICY: "strict",

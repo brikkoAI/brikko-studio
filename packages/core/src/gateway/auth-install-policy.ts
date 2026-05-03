@@ -1,9 +1,9 @@
 import { collectDurableServiceEnvVars } from "../config/state-dir-dotenv.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { hasConfiguredSecretInput } from "../config/types.secrets.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 
-type GatewayInstallAuthMode = NonNullable<NonNullable<Brikko StudioConfig["gateway"]>["auth"]>["mode"];
+type GatewayInstallAuthMode = NonNullable<NonNullable<BrikkoStudioConfig["gateway"]>["auth"]>["mode"];
 
 function hasExplicitGatewayInstallAuthMode(
   mode: GatewayInstallAuthMode | undefined,
@@ -17,12 +17,12 @@ function hasExplicitGatewayInstallAuthMode(
   return undefined;
 }
 
-function hasConfiguredGatewayPasswordForInstall(cfg: Brikko StudioConfig): boolean {
+function hasConfiguredGatewayPasswordForInstall(cfg: BrikkoStudioConfig): boolean {
   return hasConfiguredSecretInput(cfg.gateway?.auth?.password, cfg.secrets?.defaults);
 }
 
 function hasDurableGatewayPasswordEnvForInstall(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv,
 ): boolean {
   const durableServiceEnv = collectDurableServiceEnvVars({ env, config: cfg });
@@ -33,7 +33,7 @@ function hasDurableGatewayPasswordEnvForInstall(
 }
 
 export function shouldRequireGatewayTokenForInstall(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv,
 ): boolean {
   const explicitModeDecision = hasExplicitGatewayInstallAuthMode(cfg.gateway?.auth?.mode);

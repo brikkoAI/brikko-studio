@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { resolveHookEnableState, resolveHookEntries } from "./policy.js";
 import type { HookEntry, HookSource } from "./types.js";
 
@@ -37,7 +37,7 @@ describe("hook policy", () => {
 
     it("allows workspace hooks when explicitly enabled", () => {
       const entry = makeHookEntry("workspace-hook", "brikko-studio-workspace");
-      const config: Brikko StudioConfig = {
+      const config: BrikkoStudioConfig = {
         hooks: {
           internal: {
             entries: {

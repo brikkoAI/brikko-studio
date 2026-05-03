@@ -1,5 +1,5 @@
 import type { SecretRefSource } from "../config/types.secrets.js";
-import { listBrikko StudioPluginManifestMetadata } from "../plugins/manifest-metadata-scan.js";
+import { listBrikkoStudioPluginManifestMetadata } from "../plugins/manifest-metadata-scan.js";
 import { listKnownProviderEnvApiKeyNames } from "./model-auth-env-vars.js";
 
 export const MINIMAX_OAUTH_MARKER = "minimax-oauth";
@@ -55,7 +55,7 @@ export function listKnownNonSecretApiKeyMarkers(): string[] {
   knownNonSecretApiKeyMarkersCache ??= [
     ...new Set([
       ...CORE_NON_SECRET_API_KEY_MARKERS,
-      ...listBrikko StudioPluginManifestMetadata().flatMap((plugin) =>
+      ...listBrikkoStudioPluginManifestMetadata().flatMap((plugin) =>
         plugin.origin === "bundled"
           ? normalizeStringList(plugin.manifest.nonSecretAuthMarkers)
           : [],

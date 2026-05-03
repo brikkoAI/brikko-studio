@@ -1,5 +1,5 @@
 import type { CliBackendConfig } from "../config/types.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { resolveRuntimeCliBackends } from "../plugins/cli-backends.runtime.js";
 import { resolvePluginSetupCliBackend } from "../plugins/setup-registry.js";
 import { resolveRuntimeTextTransforms } from "../plugins/text-transforms.runtime.js";
@@ -201,7 +201,7 @@ export function resolveCliBackendLiveTest(provider: string): ResolvedCliBackendL
 
 export function resolveCliBackendConfig(
   provider: string,
-  cfg?: Brikko StudioConfig,
+  cfg?: BrikkoStudioConfig,
   options: { agentId?: string } = {},
 ): ResolvedCliBackend | null {
   const normalized = normalizeBackendKey(provider);

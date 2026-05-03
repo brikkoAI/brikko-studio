@@ -2,7 +2,7 @@
 /**
  * compile-rules.mjs
  *
- * Compiles source OpenGrep rule YAML files from a folder into Brikko Studio's shipped
+ * Compiles source OpenGrep rule YAML files from a folder into BrikkoStudio's shipped
  * precise super-config. The input folder is intentionally generic: any nested
  * .yml/.yaml file containing a top-level `rules` array can be compiled as long
  * as each rule carries metadata.ghsa or metadata.advisory-id.

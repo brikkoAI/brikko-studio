@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolvePluginConfigObject } from "brikko-studio/plugin-sdk/plugin-config-runtime";
 import {
   definePluginEntry,
@@ -37,7 +37,7 @@ async function loadGithubCopilotRuntime() {
   return await import("./register.runtime.js");
 }
 
-function applyCopilotDefaultModel(cfg: Brikko StudioConfig): Brikko StudioConfig {
+function applyCopilotDefaultModel(cfg: BrikkoStudioConfig): BrikkoStudioConfig {
   const defaults = cfg.agents?.defaults;
   const existingModel = defaults?.model;
   const existingPrimary =
@@ -179,7 +179,7 @@ async function resolveCopilotNonInteractiveToken(
 
 async function runGitHubCopilotNonInteractiveAuth(
   ctx: ProviderAuthMethodNonInteractiveContext,
-): Promise<Brikko StudioConfig | null> {
+): Promise<BrikkoStudioConfig | null> {
   const opts = ctx.opts as Record<string, unknown> | undefined;
   const flagValue = normalizeOptionalSecretInput(opts?.githubCopilotToken);
   const resolved = await resolveCopilotNonInteractiveToken(ctx, flagValue);
@@ -247,7 +247,7 @@ export default definePluginEntry({
   register(api) {
     const startupPluginConfig = (api.pluginConfig ?? {}) as GithubCopilotPluginConfig;
 
-    function resolveCurrentPluginConfig(config?: Brikko StudioConfig): GithubCopilotPluginConfig {
+    function resolveCurrentPluginConfig(config?: BrikkoStudioConfig): GithubCopilotPluginConfig {
       const runtimePluginConfig = resolvePluginConfigObject(config, "github-copilot");
       if (runtimePluginConfig) {
         return runtimePluginConfig as GithubCopilotPluginConfig;

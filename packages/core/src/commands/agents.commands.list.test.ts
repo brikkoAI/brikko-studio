@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { OutputRuntimeEnv } from "../runtime.js";
 
 const {
@@ -54,7 +54,7 @@ function createRuntime(): OutputRuntimeEnv & { json: unknown[] } {
   };
 }
 
-function createConfig(): Brikko StudioConfig {
+function createConfig(): BrikkoStudioConfig {
   return {
     agents: {
       list: [{ id: "main", default: true }],

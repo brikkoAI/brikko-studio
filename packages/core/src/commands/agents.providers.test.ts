@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { buildProviderStatusIndex } from "./agents.providers.js";
 
 const mocks = vi.hoisted(() => ({
@@ -62,7 +62,7 @@ describe("buildProviderStatusIndex", () => {
     mocks.listReadOnlyChannelPluginsForConfig.mockReturnValue([plugin]);
     mocks.getChannelPlugin.mockReturnValue(plugin);
 
-    const map = await buildProviderStatusIndex({} as Brikko StudioConfig);
+    const map = await buildProviderStatusIndex({} as BrikkoStudioConfig);
 
     expect(mocks.listReadOnlyChannelPluginsForConfig).toHaveBeenCalledWith(
       {},
@@ -96,7 +96,7 @@ describe("buildProviderStatusIndex", () => {
     mocks.listReadOnlyChannelPluginsForConfig.mockReturnValue([plugin]);
     mocks.getChannelPlugin.mockReturnValue(plugin);
 
-    await expect(buildProviderStatusIndex({} as Brikko StudioConfig)).resolves.toEqual(
+    await expect(buildProviderStatusIndex({} as BrikkoStudioConfig)).resolves.toEqual(
       new Map([
         [
           "quietchat:default",
@@ -127,6 +127,6 @@ describe("buildProviderStatusIndex", () => {
     mocks.listReadOnlyChannelPluginsForConfig.mockReturnValue([plugin]);
     mocks.getChannelPlugin.mockReturnValue(plugin);
 
-    await expect(buildProviderStatusIndex({} as Brikko StudioConfig)).rejects.toThrow("plugin crash");
+    await expect(buildProviderStatusIndex({} as BrikkoStudioConfig)).rejects.toThrow("plugin crash");
   });
 });

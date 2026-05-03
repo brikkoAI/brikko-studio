@@ -1,7 +1,7 @@
 import { installSkill } from "../agents/skills-install.js";
 import { buildWorkspaceSkillStatus } from "../agents/skills-status.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { normalizeSecretInput } from "../utils/normalize-secret-input.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -31,10 +31,10 @@ function formatSkillHint(skill: {
 }
 
 function upsertSkillEntry(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   skillKey: string,
   patch: { apiKey?: string },
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const entries = { ...cfg.skills?.entries };
   const existing = (entries[skillKey] as { apiKey?: string } | undefined) ?? {};
   entries[skillKey] = { ...existing, ...patch };
@@ -48,11 +48,11 @@ function upsertSkillEntry(
 }
 
 export async function setupSkills(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   workspaceDir: string,
   runtime: RuntimeEnv,
   prompter: WizardPrompter,
-): Promise<Brikko StudioConfig> {
+): Promise<BrikkoStudioConfig> {
   const report = buildWorkspaceSkillStatus(workspaceDir, { config: cfg });
   const eligible = report.skills.filter((s) => s.eligible);
   const unsupportedOs = report.skills.filter(
@@ -84,7 +84,7 @@ export async function setupSkills(
   const installable = missing.filter(
     (skill) => skill.install.length > 0 && skill.missing.bins.length > 0,
   );
-  let next: Brikko StudioConfig = cfg;
+  let next: BrikkoStudioConfig = cfg;
   if (installable.length > 0) {
     const toInstall = await prompter.multiselect({
       message: "Install missing skill dependencies",

@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import type {
   DetachedRunningTaskCreateParams,
@@ -577,7 +577,7 @@ export function runTaskInFlowForOwner(
 }
 
 export async function cancelFlowById(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   flowId: string;
 }): Promise<CancelFlowResult> {
   const flow = getTaskFlowById(params.flowId);
@@ -659,7 +659,7 @@ export async function cancelFlowById(params: {
 }
 
 export async function cancelFlowByIdForOwner(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   flowId: string;
   callerOwnerKey: string;
 }): Promise<CancelFlowResult> {
@@ -680,7 +680,7 @@ export async function cancelFlowByIdForOwner(params: {
   });
 }
 
-export async function cancelDetachedTaskRunById(params: { cfg: Brikko StudioConfig; taskId: string }) {
+export async function cancelDetachedTaskRunById(params: { cfg: BrikkoStudioConfig; taskId: string }) {
   const task = getTaskById(params.taskId);
   if (!task) {
     return cancelTaskById(params);

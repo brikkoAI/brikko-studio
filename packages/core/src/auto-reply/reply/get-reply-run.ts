@@ -16,7 +16,7 @@ import {
 import { resolveSessionStoreEntry } from "../../config/sessions/store.js";
 import type { SessionEntry } from "../../config/sessions/types.js";
 import { resolveSilentReplySettings } from "../../config/silent-reply.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import { logVerbose } from "../../globals.js";
 import { clearCommandLane, getQueueSize } from "../../process/command-queue.js";
 import {
@@ -73,7 +73,7 @@ import { resolveTypingMode } from "./typing-mode.js";
 import { resolveRunTypingPolicy } from "./typing-policy.js";
 import type { TypingController } from "./typing.js";
 
-type AgentDefaults = NonNullable<Brikko StudioConfig["agents"]>["defaults"];
+type AgentDefaults = NonNullable<BrikkoStudioConfig["agents"]>["defaults"];
 type ExecOverrides = Pick<ExecToolDefaults, "host" | "security" | "ask" | "node">;
 
 export function resolvePromptSilentReplyConversationType(params: {
@@ -289,11 +289,11 @@ function hasInboundHistoryBody(ctx: TemplateContext): boolean {
 type RunPreparedReplyParams = {
   ctx: MsgContext;
   sessionCtx: TemplateContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId: string;
   agentDir: string;
   agentCfg: AgentDefaults;
-  sessionCfg: Brikko StudioConfig["session"];
+  sessionCfg: BrikkoStudioConfig["session"];
   commandAuthorized: boolean;
   command: ReturnType<typeof buildCommandContext>;
   commandSource?: string;
@@ -653,7 +653,7 @@ export async function runPreparedReply(
   const transcriptBodyBase = isHeartbeat
     ? HEARTBEAT_TRANSCRIPT_PROMPT
     : isBareSessionReset
-      ? softResetTail || `[Brikko Studio session ${startupAction}]`
+      ? softResetTail || `[BrikkoStudio session ${startupAction}]`
       : hasUserBody
         ? baseBodyFinal
         : "[User sent media without caption]";

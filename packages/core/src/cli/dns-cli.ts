@@ -252,7 +252,7 @@ export function registerDnsCli(program: Command) {
         defaultRuntime.log("");
         defaultRuntime.log(
           theme.muted(
-            "Note: enable discovery.wideArea.enabled in the active Brikko Studio config ($BRIKKO_STUDIO_CONFIG_PATH, default ~/.brikko-studio/brikko-studio.json) on the gateway and restart the gateway so it writes the DNS-SD zone.",
+            "Note: enable discovery.wideArea.enabled in the active BrikkoStudio config ($BRIKKO_STUDIO_CONFIG_PATH, default ~/.brikko-studio/brikko-studio.json) on the gateway and restart the gateway so it writes the DNS-SD zone.",
           ),
         );
       }

@@ -3,7 +3,7 @@ import {
   listPotentialConfiguredChannelIds,
 } from "../channels/config-presence.js";
 import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeOptionalLowercaseString } from "../shared/string-coerce.js";
 import {
   listExplicitConfiguredChannelIdsForConfig,
@@ -16,8 +16,8 @@ import { passesManifestOwnerBasePolicy } from "./manifest-owner-policy.js";
 import { defaultSlotIdForKey } from "./slots.js";
 
 function collectConfiguredChannelIds(
-  config: Brikko StudioConfig,
-  activationSourceConfig: Brikko StudioConfig,
+  config: BrikkoStudioConfig,
+  activationSourceConfig: BrikkoStudioConfig,
   env: NodeJS.ProcessEnv,
 ): string[] {
   const disabled = new Set([
@@ -40,7 +40,7 @@ function collectConfiguredChannelIds(
 }
 
 function collectBundledChannelOwnerPluginIds(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   channelIds: readonly string[];
   env: NodeJS.ProcessEnv;
   workspaceDir?: string;
@@ -95,7 +95,7 @@ function collectBundledChannelOwnerPluginIds(params: {
   return [...pluginIds].toSorted((left, right) => left.localeCompare(right));
 }
 
-function collectExplicitEffectivePluginIds(config: Brikko StudioConfig): string[] {
+function collectExplicitEffectivePluginIds(config: BrikkoStudioConfig): string[] {
   const plugins = normalizePluginsConfig(config.plugins);
   if (!plugins.enabled) {
     return [];
@@ -121,7 +121,7 @@ function collectExplicitEffectivePluginIds(config: Brikko StudioConfig): string[
   return [...ids].toSorted((left, right) => left.localeCompare(right));
 }
 
-function collectSelectedContextEnginePluginIds(config: Brikko StudioConfig): string[] {
+function collectSelectedContextEnginePluginIds(config: BrikkoStudioConfig): string[] {
   const plugins = normalizePluginsConfig(config.plugins);
   if (!plugins.enabled) {
     return [];
@@ -140,7 +140,7 @@ function collectSelectedContextEnginePluginIds(config: Brikko StudioConfig): str
 }
 
 export function resolveEffectivePluginIds(params: {
-  config: Brikko StudioConfig;
+  config: BrikkoStudioConfig;
   env: NodeJS.ProcessEnv;
   workspaceDir?: string;
   bundledPluginsDir?: string;

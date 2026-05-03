@@ -3,7 +3,7 @@ import path from "node:path";
 import { withTempHome as withTempHomeBase } from "brikko-studio/plugin-sdk/test-env";
 import { resetPluginLoaderTestStateForTest } from "../plugins/loader.test-fixtures.js";
 import { clearPluginSetupRegistryCache } from "../plugins/setup-registry.js";
-import { resetConfigRuntimeState, type Brikko StudioConfig } from "./config.js";
+import { resetConfigRuntimeState, type BrikkoStudioConfig } from "./config.js";
 
 function resetConfigTestRuntimeState(): void {
   resetConfigRuntimeState();
@@ -34,7 +34,7 @@ export async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise
   }
 }
 
-export async function writeBrikko StudioConfig(home: string, config: unknown): Promise<string> {
+export async function writeBrikkoStudioConfig(home: string, config: unknown): Promise<string> {
   const configPath = path.join(home, ".brikko-studio", "brikko-studio.json");
   await fs.mkdir(path.dirname(configPath), { recursive: true });
   await fs.writeFile(configPath, JSON.stringify(config, null, 2), "utf-8");
@@ -63,7 +63,7 @@ export async function withTempHomeConfig<T>(
   fn: (params: { home: string; configPath: string }) => Promise<T>,
 ): Promise<T> {
   return withTempHome(async (home) => {
-    const configPath = await writeBrikko StudioConfig(home, config);
+    const configPath = await writeBrikkoStudioConfig(home, config);
     return fn({ home, configPath });
   });
 }
@@ -99,7 +99,7 @@ export async function withEnvOverride<T>(
 
 export function buildWebSearchProviderConfig(params: {
   provider: NonNullable<
-    NonNullable<NonNullable<NonNullable<Brikko StudioConfig["tools"]>["web"]>["search"]>["provider"]
+    NonNullable<NonNullable<NonNullable<BrikkoStudioConfig["tools"]>["web"]>["search"]>["provider"]
   >;
   enabled?: boolean;
   providerConfig?: Record<string, unknown>;

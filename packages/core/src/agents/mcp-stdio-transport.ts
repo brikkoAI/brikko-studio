@@ -8,7 +8,7 @@ import type { JSONRPCMessage } from "@modelcontextprotocol/sdk/types.js";
 import { killProcessTree } from "../process/kill-tree.js";
 import { prepareOomScoreAdjustedSpawn } from "../process/linux-oom-score.js";
 
-export type Brikko StudioStdioServerParameters = {
+export type BrikkoStudioStdioServerParameters = {
   command: string;
   args?: string[];
   env?: Record<string, string>;
@@ -24,7 +24,7 @@ function delay(ms: number) {
   });
 }
 
-export class Brikko StudioStdioClientTransport implements Transport {
+export class BrikkoStudioStdioClientTransport implements Transport {
   onclose?: () => void;
   onerror?: (error: Error) => void;
   onmessage?: (message: JSONRPCMessage) => void;
@@ -33,7 +33,7 @@ export class Brikko StudioStdioClientTransport implements Transport {
   private readonly stderrStream: PassThrough | null = null;
   private process?: ChildProcess;
 
-  constructor(private readonly serverParams: Brikko StudioStdioServerParameters) {
+  constructor(private readonly serverParams: BrikkoStudioStdioServerParameters) {
     if (serverParams.stderr === "pipe" || serverParams.stderr === "overlapped") {
       this.stderrStream = new PassThrough();
     }
@@ -42,7 +42,7 @@ export class Brikko StudioStdioClientTransport implements Transport {
   async start(): Promise<void> {
     if (this.process) {
       throw new Error(
-        "Brikko StudioStdioClientTransport already started; Client.connect() starts transports automatically.",
+        "BrikkoStudioStdioClientTransport already started; Client.connect() starts transports automatically.",
       );
     }
 

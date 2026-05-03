@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { normalizeLegacyTalkConfig } from "../commands/doctor/shared/legacy-talk-config-normalizer.js";
-import type { Brikko StudioConfig } from "./types.js";
-import { Brikko StudioSchema } from "./zod-schema.js";
+import type { BrikkoStudioConfig } from "./types.js";
+import { BrikkoStudioSchema } from "./zod-schema.js";
 
 describe("legacy provider-shaped config snapshots", () => {
   it("accepts a string map of voice aliases while still flagging legacy talk config", () => {
@@ -14,7 +14,7 @@ describe("legacy provider-shaped config snapshots", () => {
       },
     };
     const changes: string[] = [];
-    const migrated = normalizeLegacyTalkConfig(raw as unknown as Brikko StudioConfig, changes);
+    const migrated = normalizeLegacyTalkConfig(raw as unknown as BrikkoStudioConfig, changes);
 
     expect(changes).toContain(
       "Normalized talk.provider/providers shape (trimmed provider ids and merged missing compatibility fields).",
@@ -35,7 +35,7 @@ describe("legacy provider-shaped config snapshots", () => {
   });
 
   it("rejects non-string voice alias values", () => {
-    const res = Brikko StudioSchema.safeParse({
+    const res = BrikkoStudioSchema.safeParse({
       talk: {
         voiceAliases: {
           Clawd: 123,

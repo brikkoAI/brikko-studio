@@ -448,7 +448,7 @@ describe("run-node script", () => {
     });
   });
 
-  it("adds Node CPU profiling flags to the launched Brikko Studio child when requested", async () => {
+  it("adds Node CPU profiling flags to the launched BrikkoStudio child when requested", async () => {
     await withTempDir({ prefix: "brikko-studio-run-node-" }, async (tmp) => {
       await setupTrackedProject(tmp, {
         files: {

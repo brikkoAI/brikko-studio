@@ -1,13 +1,13 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredBrikko StudioTmpDir } from "../api.js";
+import { resolvePreferredBrikkoStudioTmpDir } from "../api.js";
 import { DiffArtifactStore } from "./store.js";
 
 export async function createTempDiffRoot(prefix: string): Promise<{
   rootDir: string;
   cleanup: () => Promise<void>;
 }> {
-  const rootDir = await fs.mkdtemp(path.join(resolvePreferredBrikko StudioTmpDir(), prefix));
+  const rootDir = await fs.mkdtemp(path.join(resolvePreferredBrikkoStudioTmpDir(), prefix));
   return {
     rootDir,
     cleanup: async () => {

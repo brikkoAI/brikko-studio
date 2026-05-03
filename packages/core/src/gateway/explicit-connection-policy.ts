@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { trimToUndefined, type ExplicitGatewayAuth } from "./credentials.js";
 
 function hasExplicitGatewayConnectionAuth(auth?: ExplicitGatewayAuth): boolean {
@@ -6,7 +6,7 @@ function hasExplicitGatewayConnectionAuth(auth?: ExplicitGatewayAuth): boolean {
 }
 
 export function canSkipGatewayConfigLoad(params: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   urlOverride?: string;
   explicitAuth?: ExplicitGatewayAuth;
 }): boolean {

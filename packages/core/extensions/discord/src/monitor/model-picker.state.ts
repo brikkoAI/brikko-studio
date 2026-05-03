@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ModelsProviderData } from "brikko-studio/plugin-sdk/models-provider-runtime";
 import { normalizeProviderId } from "brikko-studio/plugin-sdk/provider-model-shared";
 import type { ComponentData } from "../internal/discord.js";
@@ -167,7 +167,7 @@ function paginateItems<T>(params: {
 }
 
 export async function loadDiscordModelPickerData(
-  cfg: Brikko StudioConfig,
+  cfg: BrikkoStudioConfig,
   agentId?: string,
 ): Promise<ModelsProviderData> {
   const { buildModelsProviderData } = await loadModelsProviderRuntime();

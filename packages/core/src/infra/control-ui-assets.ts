@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { runCommandWithTimeout } from "../process/exec.js";
 import { defaultRuntime, type RuntimeEnv } from "../runtime.js";
 import * as controlUiFsRuntime from "./control-ui-assets.fs.runtime.js";
-import { resolveBrikko StudioPackageRoot, resolveBrikko StudioPackageRootSync } from "./brikko-studio-root.js";
+import { resolveBrikkoStudioPackageRoot, resolveBrikkoStudioPackageRootSync } from "./brikko-studio-root.js";
 
 const CONTROL_UI_DIST_PATH_SEGMENTS = ["dist", "control-ui", "index.html"] as const;
 
@@ -98,7 +98,7 @@ export async function resolveControlUiDistIndexPath(
     }
   }
 
-  const packageRoot = await resolveBrikko StudioPackageRoot({ argv1: normalized, moduleUrl });
+  const packageRoot = await resolveBrikkoStudioPackageRoot({ argv1: normalized, moduleUrl });
   if (packageRoot) {
     return path.join(packageRoot, "dist", "control-ui", "index.html");
   }
@@ -209,7 +209,7 @@ export function resolveControlUiRootSync(opts: ControlUiRootResolveOptions = {})
       return null;
     }
   })();
-  const packageRoot = resolveBrikko StudioPackageRootSync({
+  const packageRoot = resolveBrikkoStudioPackageRootSync({
     argv1,
     moduleUrl: opts.moduleUrl,
     cwd,
@@ -256,7 +256,7 @@ export function isPackageProvenControlUiRootSync(
 ): boolean {
   const argv1 = opts.argv1 ?? process.argv[1];
   const cwd = opts.cwd ?? process.cwd();
-  const packageRoot = resolveBrikko StudioPackageRootSync({
+  const packageRoot = resolveBrikkoStudioPackageRootSync({
     argv1,
     moduleUrl: opts.moduleUrl,
     cwd,

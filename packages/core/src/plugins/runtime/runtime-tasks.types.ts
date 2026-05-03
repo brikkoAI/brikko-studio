@@ -1,7 +1,7 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { DetachedTaskLifecycleRuntime } from "../../tasks/detached-task-runtime-contract.js";
 import type { TaskDeliveryState } from "../../tasks/task-registry.types.js";
-import type { Brikko StudioPluginToolContext } from "../tool-types.js";
+import type { BrikkoStudioPluginToolContext } from "../tool-types.js";
 import type { PluginRuntimeTaskFlow } from "./runtime-taskflow.types.js";
 import type {
   TaskFlowDetail,
@@ -28,7 +28,7 @@ export type BoundTaskRunsRuntime = {
   list: () => TaskRunView[];
   findLatest: () => TaskRunDetail | undefined;
   resolve: (token: string) => TaskRunDetail | undefined;
-  cancel: (params: { taskId: string; cfg: Brikko StudioConfig }) => Promise<TaskRunCancelResult>;
+  cancel: (params: { taskId: string; cfg: BrikkoStudioConfig }) => Promise<TaskRunCancelResult>;
 };
 
 export type PluginRuntimeTaskRuns = {
@@ -37,7 +37,7 @@ export type PluginRuntimeTaskRuns = {
     requesterOrigin?: TaskDeliveryState["requesterOrigin"];
   }) => BoundTaskRunsRuntime;
   fromToolContext: (
-    ctx: Pick<Brikko StudioPluginToolContext, "sessionKey" | "deliveryContext">,
+    ctx: Pick<BrikkoStudioPluginToolContext, "sessionKey" | "deliveryContext">,
   ) => BoundTaskRunsRuntime;
 };
 
@@ -57,7 +57,7 @@ export type PluginRuntimeTaskFlows = {
     requesterOrigin?: TaskDeliveryState["requesterOrigin"];
   }) => BoundTaskFlowsRuntime;
   fromToolContext: (
-    ctx: Pick<Brikko StudioPluginToolContext, "sessionKey" | "deliveryContext">,
+    ctx: Pick<BrikkoStudioPluginToolContext, "sessionKey" | "deliveryContext">,
   ) => BoundTaskFlowsRuntime;
 };
 

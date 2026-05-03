@@ -68,7 +68,7 @@ const DEFAULT_GROUP_CONFIG: Readonly<Omit<GroupConfig, "prompt">> = {
 
 // ============ Helpers ============
 
-/** Read a named account's raw `groups` map from an Brikko StudioConfig. */
+/** Read a named account's raw `groups` map from an BrikkoStudioConfig. */
 function readGroupsMap(
   cfg: Record<string, unknown>,
   accountId?: string | null,

@@ -6,7 +6,7 @@ import {
 import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.js";
 import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
 import type { ChannelId } from "../../channels/plugins/types.public.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { RuntimeEnv } from "../../runtime.js";
 import { normalizeOptionalLowercaseString } from "../../shared/string-coerce.js";
 import { createClackPrompter } from "../../wizard/clack-prompter.js";
@@ -26,7 +26,7 @@ type ChannelPluginSnapshot = {
 };
 
 type ResolveInstallableChannelPluginResult = {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   channelId?: ChannelId;
   plugin?: ChannelPlugin;
   catalogEntry?: ChannelPluginCatalogEntry;
@@ -35,7 +35,7 @@ type ResolveInstallableChannelPluginResult = {
   supportsRequestedCapability?: boolean;
 };
 
-function resolveWorkspaceDir(cfg: Brikko StudioConfig) {
+function resolveWorkspaceDir(cfg: BrikkoStudioConfig) {
   return resolveAgentWorkspaceDir(cfg, resolveDefaultAgentId(cfg));
 }
 
@@ -53,7 +53,7 @@ function resolveResolvedChannelId(params: {
   return normalizeChannelId(params.catalogEntry.id) ?? (params.catalogEntry.id as ChannelId);
 }
 
-function resolveCatalogChannelEntry(raw: string, cfg: Brikko StudioConfig | null) {
+function resolveCatalogChannelEntry(raw: string, cfg: BrikkoStudioConfig | null) {
   const trimmed = normalizeOptionalLowercaseString(raw);
   if (!trimmed) {
     return undefined;
@@ -88,7 +88,7 @@ function findScopedChannelPlugin(
 }
 
 function loadScopedChannelPlugin(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime: RuntimeEnv;
   channelId: ChannelId;
   supports: (plugin: ChannelPlugin) => boolean;
@@ -106,7 +106,7 @@ function loadScopedChannelPlugin(params: {
 }
 
 export async function resolveInstallableChannelPlugin(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   runtime: RuntimeEnv;
   rawChannel?: string | null;
   channelId?: ChannelId;

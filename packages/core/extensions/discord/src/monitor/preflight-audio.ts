@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { getFileExtension } from "brikko-studio/plugin-sdk/media-mime";
 import { logVerbose } from "brikko-studio/plugin-sdk/runtime-env";
 import { normalizeOptionalString } from "brikko-studio/plugin-sdk/text-runtime";
@@ -66,7 +66,7 @@ export async function resolveDiscordPreflightAudioMentionContext(params: {
   isDirectMessage: boolean;
   shouldRequireMention: boolean;
   mentionRegexes: RegExp[];
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   abortSignal?: AbortSignal;
 }): Promise<{
   hasAudioAttachment: boolean;

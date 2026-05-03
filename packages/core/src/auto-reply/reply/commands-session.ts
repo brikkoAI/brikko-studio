@@ -19,7 +19,7 @@ import {
   type RestartSentinelPayload,
   writeRestartSentinel,
 } from "../../infra/restart-sentinel.js";
-import { scheduleGatewaySigusr1Restart, triggerBrikko StudioRestart } from "../../infra/restart.js";
+import { scheduleGatewaySigusr1Restart, triggerBrikkoStudioRestart } from "../../infra/restart.js";
 import { loadCostUsageSummary, loadSessionCostSummary } from "../../infra/session-cost-usage.js";
 import {
   normalizeLowercaseStringOrEmpty,
@@ -695,7 +695,7 @@ export const handleRestartCommand: CommandHandler = async (params, allowTextComm
     return {
       shouldContinue: false,
       reply: {
-        text: "⚙️ Restarting Brikko Studio in-process (SIGUSR1); back in a few seconds.",
+        text: "⚙️ Restarting BrikkoStudio in-process (SIGUSR1); back in a few seconds.",
       },
     };
   }
@@ -713,7 +713,7 @@ export const handleRestartCommand: CommandHandler = async (params, allowTextComm
       },
     };
   }
-  const restartMethod = triggerBrikko StudioRestart();
+  const restartMethod = triggerBrikkoStudioRestart();
   if (!restartMethod.ok) {
     await removeRestartSentinelFile(sentinelPath);
     const detail = restartMethod.detail ? ` Details: ${restartMethod.detail}` : "";
@@ -727,7 +727,7 @@ export const handleRestartCommand: CommandHandler = async (params, allowTextComm
   return {
     shouldContinue: false,
     reply: {
-      text: `⚙️ Restarting Brikko Studio via ${restartMethod.method}; give me a few seconds to come back online.`,
+      text: `⚙️ Restarting BrikkoStudio via ${restartMethod.method}; give me a few seconds to come back online.`,
     },
   };
 };

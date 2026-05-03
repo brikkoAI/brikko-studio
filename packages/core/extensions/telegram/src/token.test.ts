@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { withStateDirEnv } from "brikko-studio/plugin-sdk/test-env";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { resolveTelegramToken } from "./token.js";
@@ -23,7 +23,7 @@ describe("resolveTelegramToken", () => {
     return tokenFile;
   }
 
-  function createUnknownAccountConfig(): Brikko StudioConfig {
+  function createUnknownAccountConfig(): BrikkoStudioConfig {
     return {
       channels: {
         telegram: {
@@ -33,10 +33,10 @@ describe("resolveTelegramToken", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
   }
 
-  function expectNoTokenForUnknownAccount(cfg: Brikko StudioConfig) {
+  function expectNoTokenForUnknownAccount(cfg: BrikkoStudioConfig) {
     const res = resolveTelegramToken(cfg, { accountId: "unknownBot" });
     expect(res.token).toBe("");
     expect(res.source).toBe("none");
@@ -55,7 +55,7 @@ describe("resolveTelegramToken", () => {
       envToken: "env-token",
       cfg: {
         channels: { telegram: { botToken: "cfg-token" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       expected: { token: "cfg-token", source: "config" },
     },
     {
@@ -63,7 +63,7 @@ describe("resolveTelegramToken", () => {
       envToken: "env-token",
       cfg: {
         channels: { telegram: {} },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       expected: { token: "env-token", source: "env" },
     },
     {
@@ -71,11 +71,11 @@ describe("resolveTelegramToken", () => {
       envToken: "",
       cfg: {
         channels: { telegram: { tokenFile: "" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       resolveCfg: () =>
         ({
           channels: { telegram: { tokenFile: createTokenFile("token.txt") } },
-        }) as Brikko StudioConfig,
+        }) as BrikkoStudioConfig,
       expected: { token: "file-token", source: "tokenFile" },
     },
     {
@@ -83,7 +83,7 @@ describe("resolveTelegramToken", () => {
       envToken: "",
       cfg: {
         channels: { telegram: { botToken: "cfg-token" } },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       expected: { token: "cfg-token", source: "config" },
     },
   ])("$name", ({ envToken, cfg, resolveCfg, expected }) => {
@@ -100,7 +100,7 @@ describe("resolveTelegramToken", () => {
     fs.writeFileSync(tokenFile, "file-token\n", "utf-8");
     fs.symlinkSync(tokenFile, tokenLink);
 
-    const cfg = { channels: { telegram: { tokenFile: tokenLink } } } as Brikko StudioConfig;
+    const cfg = { channels: { telegram: { tokenFile: tokenLink } } } as BrikkoStudioConfig;
     const res = resolveTelegramToken(cfg);
     expect(res.token).toBe("");
     expect(res.source).toBe("none");
@@ -112,7 +112,7 @@ describe("resolveTelegramToken", () => {
     const tokenFile = path.join(dir, "missing-token.txt");
     const cfg = {
       channels: { telegram: { tokenFile, botToken: "cfg-token" } },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
     const res = resolveTelegramToken(cfg);
     expect(res.token).toBe("");
     expect(res.source).toBe("none");
@@ -129,7 +129,7 @@ describe("resolveTelegramToken", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const res = resolveTelegramToken(cfg, { accountId: "careynotifications" });
     expect(res.token).toBe("acct-token");
@@ -146,7 +146,7 @@ describe("resolveTelegramToken", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const res = resolveTelegramToken(cfg, { accountId: "carey-notifications" });
     expect(res.token).toBe("acct-token");
@@ -163,7 +163,7 @@ describe("resolveTelegramToken", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const res = resolveTelegramToken(cfg, { accountId: "work" });
     expect(res.token).toBe("top-level-token");
@@ -183,7 +183,7 @@ describe("resolveTelegramToken", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const res = resolveTelegramToken(cfg, { accountId: "work" });
     expect(res.token).toBe("account-file-token");
@@ -200,7 +200,7 @@ describe("resolveTelegramToken", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const res = resolveTelegramToken(cfg, { accountId: "work" });
     expect(res.token).toBe("file-token");
@@ -217,7 +217,7 @@ describe("resolveTelegramToken", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const res = resolveTelegramToken(cfg, { accountId: "work" });
     expect(res.token).toBe("");
@@ -237,7 +237,7 @@ describe("resolveTelegramToken", () => {
           botToken: { source: "env", provider: "default", id: "TELEGRAM_BOT_TOKEN" },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(resolveTelegramToken(cfg)).toEqual({
       token: "secretref-env-token",
@@ -254,7 +254,7 @@ describe("resolveTelegramToken", () => {
           botToken: { source: "env", provider: "default", id: "TELEGRAM_REF_TOKEN" },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(resolveTelegramToken(cfg)).toEqual({
       token: "",
@@ -280,7 +280,7 @@ describe("resolveTelegramToken", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(resolveTelegramToken(cfg)).toEqual({
       token: "",
@@ -304,7 +304,7 @@ describe("resolveTelegramToken", () => {
           botToken: { source: "env", provider: "telegram-env", id: "TELEGRAM_BOT_TOKEN" },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(() => resolveTelegramToken(cfg)).toThrow(
       /not allowlisted in secrets\.providers\.telegram-env\.allowlist/i,
@@ -326,7 +326,7 @@ describe("resolveTelegramToken", () => {
           botToken: { source: "env", provider: "telegram-env", id: "TELEGRAM_BOT_TOKEN" },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(() => resolveTelegramToken(cfg)).toThrow(
       /Secret provider "telegram-env" has source "file" but ref requests "env"/i,
@@ -340,7 +340,7 @@ describe("resolveTelegramToken", () => {
           botToken: { source: "env", provider: "ops-env", id: "TELEGRAM_BOT_TOKEN" },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(() => resolveTelegramToken(cfg)).toThrow(
       /Secret provider "ops-env" is not configured \(ref: env:ops-env:TELEGRAM_BOT_TOKEN\)/i,
@@ -364,7 +364,7 @@ describe("resolveTelegramToken", () => {
           },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(resolveTelegramToken(cfg)).toEqual({
       token: "secretref-env-token",
@@ -379,7 +379,7 @@ describe("resolveTelegramToken", () => {
           botToken: { source: "file", provider: "vault", id: "/telegram/bot-token" },
         },
       },
-    } as unknown as Brikko StudioConfig;
+    } as unknown as BrikkoStudioConfig;
 
     expect(() => resolveTelegramToken(cfg)).toThrow(
       /channels\.telegram\.botToken: unresolved SecretRef/i,
@@ -397,7 +397,7 @@ describe("resolveTelegramToken", () => {
           enabled: true,
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     const res = resolveTelegramToken(cfg, { accountId: "bot-main" });
     expect(res.token).toBe("channel-level-token");

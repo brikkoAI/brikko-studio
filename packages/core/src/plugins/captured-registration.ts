@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import type {
   AgentToolResultMiddleware,
   AgentToolResultMiddlewareOptions,
@@ -22,13 +22,13 @@ import type {
   AnyAgentTool,
   AgentHarness,
   CliBackendPlugin,
-  Brikko StudioPluginApi,
+  BrikkoStudioPluginApi,
   ImageGenerationProviderPlugin,
   MediaUnderstandingProviderPlugin,
   MigrationProviderPlugin,
   MusicGenerationProviderPlugin,
-  Brikko StudioPluginCliCommandDescriptor,
-  Brikko StudioPluginCliRegistrar,
+  BrikkoStudioPluginCliCommandDescriptor,
+  BrikkoStudioPluginCliRegistrar,
   PluginTextTransformRegistration,
   ProviderPlugin,
   RealtimeTranscriptionProviderPlugin,
@@ -40,13 +40,13 @@ import type {
 } from "./types.js";
 
 type CapturedPluginCliRegistration = {
-  register: Brikko StudioPluginCliRegistrar;
+  register: BrikkoStudioPluginCliRegistrar;
   commands: string[];
-  descriptors: Brikko StudioPluginCliCommandDescriptor[];
+  descriptors: BrikkoStudioPluginCliCommandDescriptor[];
 };
 
 export type CapturedPluginRegistration = {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   providers: ProviderPlugin[];
   agentHarnesses: AgentHarness[];
   cliRegistrars: CapturedPluginCliRegistration[];
@@ -76,10 +76,10 @@ export type CapturedPluginRegistration = {
 };
 
 export function createCapturedPluginRegistration(params?: {
-  config?: Brikko StudioConfig;
+  config?: BrikkoStudioConfig;
   id?: string;
   name?: string;
-  registrationMode?: Brikko StudioPluginApi["registrationMode"];
+  registrationMode?: BrikkoStudioPluginApi["registrationMode"];
   source?: string;
 }): CapturedPluginRegistration {
   const providers: ProviderPlugin[] = [];
@@ -150,7 +150,7 @@ export function createCapturedPluginRegistration(params?: {
       name: pluginName,
       source: pluginSource,
       registrationMode: params?.registrationMode ?? "full",
-      config: params?.config ?? ({} as Brikko StudioConfig),
+      config: params?.config ?? ({} as BrikkoStudioConfig),
       runtime: {} as PluginRuntime,
       logger: noopLogger,
       resolvePath: (input) => input,
@@ -278,7 +278,7 @@ export function createCapturedPluginRegistration(params?: {
 }
 
 export function capturePluginRegistration(params: {
-  register(api: Brikko StudioPluginApi): void;
+  register(api: BrikkoStudioPluginApi): void;
 }): CapturedPluginRegistration {
   const captured = createCapturedPluginRegistration();
   params.register(captured.api);

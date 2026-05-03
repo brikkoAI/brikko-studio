@@ -1,9 +1,9 @@
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import type { CronJob } from "../types.js";
 import { resolveEffectiveModelFallbacks } from "./run-execution.runtime.js";
 
 export function resolveCronFallbacksOverride(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   job: CronJob;
   agentId: string;
 }): string[] | undefined {

@@ -4,7 +4,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { requestDiscord } from "@brikko-studio/discord/api.js";
 import { DEFAULT_EMOJIS } from "brikko-studio/plugin-sdk/channel-feedback";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { formatErrorMessage } from "brikko-studio/plugin-sdk/error-runtime";
 import { chromium } from "playwright-core";
 import { z } from "zod";
@@ -333,7 +333,7 @@ function parseDiscordQaCredentialPayload(payload: unknown): DiscordQaRuntimeEnv 
 }
 
 function buildDiscordQaConfig(
-  baseCfg: Brikko StudioConfig,
+  baseCfg: BrikkoStudioConfig,
   params: {
     guildId: string;
     channelId: string;
@@ -344,7 +344,7 @@ function buildDiscordQaConfig(
   options: {
     statusReactionsToolOnly?: boolean;
   } = {},
-): Brikko StudioConfig {
+): BrikkoStudioConfig {
   const pluginAllow = [...new Set([...(baseCfg.plugins?.allow ?? []), "discord"])];
   const pluginEntries = {
     ...baseCfg.plugins?.entries,

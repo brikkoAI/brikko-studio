@@ -1,5 +1,5 @@
 import type {
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   ResolvedMemorySearchConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import { describe, expect, it, vi } from "vitest";
@@ -111,7 +111,7 @@ describe("memory manager mistral provider wiring", () => {
 
   it("uses default ollama model when activating ollama fallback", () => {
     const request = resolveMemoryFallbackProviderRequest({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       settings: createSettings({ provider: "openai", fallback: "ollama" }),
       currentProviderId: "openai",
     });
@@ -153,7 +153,7 @@ describe("memory manager mistral provider wiring", () => {
 
   it("uses default lmstudio model when activating lmstudio fallback", async () => {
     const request = resolveMemoryFallbackProviderRequest({
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       settings: createSettings({ provider: "openai", fallback: "lmstudio" }),
       currentProviderId: "openai",
     });

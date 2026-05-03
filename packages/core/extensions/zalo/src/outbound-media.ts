@@ -4,14 +4,14 @@ import { chmod, mkdir, readdir, readFile, stat, unlink, writeFile } from "node:f
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { join } from "node:path";
 import { loadOutboundMediaFromUrl } from "brikko-studio/plugin-sdk/outbound-media";
-import { resolvePreferredBrikko StudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
+import { resolvePreferredBrikkoStudioTmpDir } from "brikko-studio/plugin-sdk/temp-path";
 import { resolveWebhookPath } from "brikko-studio/plugin-sdk/webhook-ingress";
 
 const ZALO_OUTBOUND_MEDIA_TTL_MS = 2 * 60_000;
 const ZALO_OUTBOUND_MEDIA_SEGMENT = "media";
 const ZALO_OUTBOUND_MEDIA_PREFIX = `/${ZALO_OUTBOUND_MEDIA_SEGMENT}/`;
 const ZALO_OUTBOUND_MEDIA_DIR = join(
-  resolvePreferredBrikko StudioTmpDir(),
+  resolvePreferredBrikkoStudioTmpDir(),
   "brikko-studio-zalo-outbound-media",
 );
 const ZALO_OUTBOUND_MEDIA_ID_RE = /^[a-f0-9]{24}$/;

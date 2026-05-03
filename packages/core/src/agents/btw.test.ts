@@ -6,7 +6,7 @@ const readFileMock = vi.fn();
 const parseSessionEntriesMock = vi.fn();
 const migrateSessionEntriesMock = vi.fn();
 const buildSessionContextMock = vi.fn();
-const ensureBrikko StudioModelsJsonMock = vi.fn();
+const ensureBrikkoStudioModelsJsonMock = vi.fn();
 const discoverAuthStorageMock = vi.fn();
 const discoverModelsMock = vi.fn();
 const resolveModelWithRegistryMock = vi.fn();
@@ -44,7 +44,7 @@ vi.mock("@mariozechner/pi-coding-agent", () => ({
 }));
 
 vi.mock("./models-config.js", () => ({
-  ensureBrikko StudioModelsJson: (...args: unknown[]) => ensureBrikko StudioModelsJsonMock(...args),
+  ensureBrikkoStudioModelsJson: (...args: unknown[]) => ensureBrikkoStudioModelsJsonMock(...args),
 }));
 
 vi.mock("./pi-model-discovery.js", () => ({
@@ -285,7 +285,7 @@ describe("runBtwSideQuestion", () => {
     parseSessionEntriesMock.mockReset();
     migrateSessionEntriesMock.mockReset();
     buildSessionContextMock.mockReset();
-    ensureBrikko StudioModelsJsonMock.mockReset();
+    ensureBrikkoStudioModelsJsonMock.mockReset();
     discoverAuthStorageMock.mockReset();
     discoverModelsMock.mockReset();
     resolveModelWithRegistryMock.mockReset();

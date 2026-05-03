@@ -6,7 +6,7 @@ import {
   modelSupportsVision,
 } from "brikko-studio/plugin-sdk/agent-runtime";
 import { resolveDefaultModelForAgent } from "brikko-studio/plugin-sdk/agent-runtime";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import { resolveAutoImageModel } from "brikko-studio/plugin-sdk/media-runtime";
 import {
   resolveAutoMediaKeyProviders,
@@ -29,7 +29,7 @@ const STICKER_DESCRIPTION_PROMPT =
 
 export interface DescribeStickerParams {
   imagePath: string;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentDir?: string;
   agentId?: string;
 }

@@ -18,7 +18,7 @@ import {
   resolveAttemptSpawnWorkspaceDir,
   resolveAgentHarnessBeforePromptBuildResult,
   resolveModelAuthMode,
-  resolveBrikko StudioAgentDir,
+  resolveBrikkoStudioAgentDir,
   resolveSandboxContext,
   resolveSessionAgentIds,
   resolveUserPath,
@@ -115,8 +115,8 @@ const CODEX_BOOTSTRAP_CONTEXT_ORDER = new Map<string, number>([
   ["heartbeat.md", 70],
 ]);
 
-type Brikko StudioCodingToolsOptions = NonNullable<
-  Parameters<(typeof import("brikko-studio/plugin-sdk/agent-harness"))["createBrikko StudioCodingTools"]>[0]
+type BrikkoStudioCodingToolsOptions = NonNullable<
+  Parameters<(typeof import("brikko-studio/plugin-sdk/agent-harness"))["createBrikkoStudioCodingTools"]>[0]
 >;
 
 let clientFactory = defaultCodexAppServerClientFactory;
@@ -209,7 +209,7 @@ function formatDynamicToolTimeoutDetails(params: {
 
   if (tool !== "process" || !isJsonObject(params.call.arguments)) {
     return {
-      responseMessage: `Brikko Studio dynamic tool call timed out after ${params.timeoutMs}ms while running tool ${tool}.`,
+      responseMessage: `BrikkoStudio dynamic tool call timed out after ${params.timeoutMs}ms while running tool ${tool}.`,
       consoleMessage: `codex dynamic tool timeout: tool=${tool} toolTimeoutMs=${params.timeoutMs}; per-tool-call watchdog, not session idle`,
       meta: baseMeta,
     };
@@ -232,7 +232,7 @@ function formatDynamicToolTimeoutDetails(params: {
       : " while waiting for the process tool";
 
   return {
-    responseMessage: `Brikko Studio dynamic tool call timed out after ${params.timeoutMs}ms${responseTarget}. This is a tool RPC timeout, not a session idle timeout.`,
+    responseMessage: `BrikkoStudio dynamic tool call timed out after ${params.timeoutMs}ms${responseTarget}. This is a tool RPC timeout, not a session idle timeout.`,
     consoleMessage: `codex process tool timeout:${actionPart}${sessionPart} toolTimeoutMs=${params.timeoutMs}${requestedPart}; per-tool-call watchdog, not session idle${retryHint}`,
     meta: {
       ...baseMeta,
@@ -376,7 +376,7 @@ export async function runCodexAppServerAttempt(
     config: params.config,
     agentId: params.agentId,
   });
-  const agentDir = params.agentDir ?? resolveBrikko StudioAgentDir();
+  const agentDir = params.agentDir ?? resolveBrikkoStudioAgentDir();
   const runtimeParams = { ...params, sessionKey: sandboxSessionKey };
   const activeContextEngine = isActiveHarnessContextEngine(params.contextEngine)
     ? params.contextEngine
@@ -1281,7 +1281,7 @@ async function handleDynamicToolCallWithTimeout(params: {
   onTimeout?: () => void;
 }): Promise<CodexDynamicToolCallResponse> {
   if (params.signal.aborted) {
-    return failedDynamicToolResponse("Brikko Studio dynamic tool call aborted before execution.");
+    return failedDynamicToolResponse("BrikkoStudio dynamic tool call aborted before execution.");
   }
 
   const controller = new AbortController();
@@ -1289,7 +1289,7 @@ async function handleDynamicToolCallWithTimeout(params: {
   let timedOut = false;
   let resolveAbort: ((response: CodexDynamicToolCallResponse) => void) | undefined;
   const abortFromRun = () => {
-    const message = "Brikko Studio dynamic tool call aborted.";
+    const message = "BrikkoStudio dynamic tool call aborted.";
     controller.abort(params.signal.reason ?? new Error(message));
     resolveAbort?.(failedDynamicToolResponse(message));
   };
@@ -1331,7 +1331,7 @@ async function handleDynamicToolCallWithTimeout(params: {
     params.signal.removeEventListener("abort", abortFromRun);
     resolveAbort = undefined;
     if (!timedOut && !controller.signal.aborted) {
-      controller.abort(new Error("Brikko Studio dynamic tool call finished."));
+      controller.abort(new Error("BrikkoStudio dynamic tool call finished."));
     }
   }
 }
@@ -1427,9 +1427,9 @@ async function buildDynamicTools(input: DynamicToolBuildParams) {
     return [];
   }
   const modelHasVision = params.model.input?.includes("image") ?? false;
-  const agentDir = params.agentDir ?? resolveBrikko StudioAgentDir();
-  const { createBrikko StudioCodingTools } = await import("brikko-studio/plugin-sdk/agent-harness");
-  const allTools = createBrikko StudioCodingTools({
+  const agentDir = params.agentDir ?? resolveBrikkoStudioAgentDir();
+  const { createBrikkoStudioCodingTools } = await import("brikko-studio/plugin-sdk/agent-harness");
+  const allTools = createBrikkoStudioCodingTools({
     agentId: input.sessionAgentId,
     ...buildEmbeddedAttemptToolRunContext(params),
     exec: {
@@ -1466,7 +1466,7 @@ async function buildDynamicTools(input: DynamicToolBuildParams) {
     modelId: params.modelId,
     modelCompat:
       params.model.compat && typeof params.model.compat === "object"
-        ? (params.model.compat as Brikko StudioCodingToolsOptions["modelCompat"])
+        ? (params.model.compat as BrikkoStudioCodingToolsOptions["modelCompat"])
         : undefined,
     modelApi: params.model.api,
     modelContextWindowTokens: params.model.contextWindow,
@@ -1670,7 +1670,7 @@ function renderCodexWorkspaceBootstrapInstructions(
   }
   const hasSoulFile = files.some((file) => getCodexContextFileBasename(file.path) === "soul.md");
   const lines = [
-    "Brikko Studio loaded these user-editable workspace files. Treat them as project/user context. Codex loads AGENTS.md natively, so AGENTS.md is not repeated here.",
+    "BrikkoStudio loaded these user-editable workspace files. Treat them as project/user context. Codex loads AGENTS.md natively, so AGENTS.md is not repeated here.",
     "",
     "# Project Context",
     "",

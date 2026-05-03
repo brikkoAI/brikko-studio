@@ -6,7 +6,7 @@ import {
 } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import type { WizardPrompter } from "brikko-studio/plugin-sdk/plugin-test-runtime";
 import { describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../api.js";
+import type { BrikkoStudioConfig } from "../api.js";
 import { TlonAuthorizationSchema, TlonConfigSchema } from "./config-schema.js";
 import { tlonSetupWizard } from "./setup-surface.js";
 import { normalizeShip, resolveTlonOutboundTarget } from "./targets.js";
@@ -19,17 +19,17 @@ const tlonTestPlugin = {
   config: {
     listAccountIds: listTlonAccountIds,
     defaultAccountId: () => "default",
-    resolveAllowFrom: ({ cfg, accountId }: { cfg: Brikko StudioConfig; accountId?: string | null }) =>
+    resolveAllowFrom: ({ cfg, accountId }: { cfg: BrikkoStudioConfig; accountId?: string | null }) =>
       resolveTlonAccount(cfg, accountId).dmAllowlist,
     formatAllowFrom: ({
       allowFrom,
     }: {
-      cfg: Brikko StudioConfig;
+      cfg: BrikkoStudioConfig;
       allowFrom: Array<string | number> | undefined | null;
     }) => (allowFrom ?? []).map((entry) => normalizeShip(String(entry))).filter(Boolean),
   },
   setup: {
-    resolveAccountId: ({ accountId }: { cfg: Brikko StudioConfig; accountId?: string | null }) =>
+    resolveAccountId: ({ accountId }: { cfg: BrikkoStudioConfig; accountId?: string | null }) =>
       accountId ?? "default",
   },
 };
@@ -41,7 +41,7 @@ describe("tlon core", () => {
   it("formats dm allowlist entries through the shared hybrid adapter", () => {
     expect(
       tlonTestPlugin.config.formatAllowFrom?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         allowFrom: ["zod", " ~nec "],
       }),
     ).toEqual(["~zod", "~nec"]);
@@ -50,7 +50,7 @@ describe("tlon core", () => {
   it("returns an empty dm allowlist when the default account is unconfigured", () => {
     expect(
       tlonTestPlugin.config.resolveAllowFrom?.({
-        cfg: {} as Brikko StudioConfig,
+        cfg: {} as BrikkoStudioConfig,
         accountId: "default",
       }),
     ).toEqual([]);
@@ -68,7 +68,7 @@ describe("tlon core", () => {
               dmAllowlist: ["~zod"],
             },
           },
-        } as Brikko StudioConfig,
+        } as BrikkoStudioConfig,
         accountId: "default",
       }),
     ).toEqual(["~zod"]);
@@ -137,7 +137,7 @@ describe("tlon core", () => {
 
     const result = await runSetupWizardConfigure({
       configure: tlonConfigure,
-      cfg: {} as Brikko StudioConfig,
+      cfg: {} as BrikkoStudioConfig,
       prompter,
       options: {},
     });
@@ -190,7 +190,7 @@ describe("tlon core", () => {
           },
         },
       },
-    } as Brikko StudioConfig;
+    } as BrikkoStudioConfig;
 
     expect(listTlonAccountIds(cfg)).toEqual(["alerts", "default", "work"]);
   });
@@ -216,7 +216,7 @@ describe("tlon core", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       "work",
     );
 
@@ -247,7 +247,7 @@ describe("tlon core", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       "default",
     );
 
@@ -268,7 +268,7 @@ describe("tlon core", () => {
             },
           },
         },
-      } as Brikko StudioConfig,
+      } as BrikkoStudioConfig,
       accountOverrides: { tlon: "work" },
     });
 

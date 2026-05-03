@@ -1,4 +1,4 @@
-import type { Brikko StudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
+import type { BrikkoStudioPluginApi } from "brikko-studio/plugin-sdk/plugin-entry";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const buildVllmProviderMock = vi.hoisted(() => vi.fn());
@@ -75,7 +75,7 @@ describe("vllm provider discovery contract", () => {
       registerProvider: (registeredProvider) => {
         provider = registeredProvider as RegisteredVllmProvider;
       },
-    } as Brikko StudioPluginApi);
+    } as BrikkoStudioPluginApi);
     expect(provider?.id).toBe("vllm");
     expect(provider?.discovery?.order).toBe("late");
     const discovery = provider?.discovery;

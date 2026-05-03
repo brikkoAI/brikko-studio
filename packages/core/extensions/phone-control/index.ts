@@ -1,14 +1,14 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "brikko-studio/plugin-sdk/text-runtime";
 import {
   definePluginEntry,
-  type Brikko StudioPluginApi,
-  type Brikko StudioPluginService,
+  type BrikkoStudioPluginApi,
+  type BrikkoStudioPluginService,
 } from "./runtime-api.js";
 
 type ArmGroup = "camera" | "screen" | "writes" | "all";
@@ -162,18 +162,18 @@ async function writeArmState(statePath: string, state: ArmStateFile | null): Pro
   await fs.writeFile(statePath, `${JSON.stringify(state, null, 2)}\n`, "utf8");
 }
 
-function normalizeDenyList(cfg: Brikko StudioPluginApi["config"]): string[] {
+function normalizeDenyList(cfg: BrikkoStudioPluginApi["config"]): string[] {
   return uniqSorted([...(cfg.gateway?.nodes?.denyCommands ?? [])]);
 }
 
-function normalizeAllowList(cfg: Brikko StudioPluginApi["config"]): string[] {
+function normalizeAllowList(cfg: BrikkoStudioPluginApi["config"]): string[] {
   return uniqSorted([...(cfg.gateway?.nodes?.allowCommands ?? [])]);
 }
 
 function patchConfigNodeLists(
-  cfg: Brikko StudioPluginApi["config"],
+  cfg: BrikkoStudioPluginApi["config"],
   next: { allowCommands: string[]; denyCommands: string[] },
-): Brikko StudioPluginApi["config"] {
+): BrikkoStudioPluginApi["config"] {
   return {
     ...cfg,
     gateway: {
@@ -188,7 +188,7 @@ function patchConfigNodeLists(
 }
 
 async function disarmNow(params: {
-  api: Brikko StudioPluginApi;
+  api: BrikkoStudioPluginApi;
   stateDir: string;
   statePath: string;
   reason: string;
@@ -198,7 +198,7 @@ async function disarmNow(params: {
   if (!state) {
     return { changed: false, restored: [], removed: [] };
   }
-  const cfg = api.runtime.config.current() as Brikko StudioConfig;
+  const cfg = api.runtime.config.current() as BrikkoStudioConfig;
   const allow = new Set(normalizeAllowList(cfg));
   const deny = new Set(normalizeDenyList(cfg));
   const removed: string[] = [];
@@ -307,10 +307,10 @@ export default definePluginEntry({
   id: "phone-control",
   name: "Phone Control",
   description: "Temporary allowlist control for phone automation commands",
-  register(api: Brikko StudioPluginApi) {
+  register(api: BrikkoStudioPluginApi) {
     let expiryInterval: ReturnType<typeof setInterval> | null = null;
 
-    const timerService: Brikko StudioPluginService = {
+    const timerService: BrikkoStudioPluginService = {
       id: "phone-control-expiry",
       start: async (ctx) => {
         const statePath = resolveStatePath(ctx.stateDir);
@@ -409,7 +409,7 @@ export default definePluginEntry({
           const expiresAtMs = Date.now() + durationMs;
 
           const commands = resolveCommandsForGroup(group);
-          const cfg = api.runtime.config.current() as Brikko StudioConfig;
+          const cfg = api.runtime.config.current() as BrikkoStudioConfig;
           const allowSet = new Set(normalizeAllowList(cfg));
           const denySet = new Set(normalizeDenyList(cfg));
 

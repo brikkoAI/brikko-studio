@@ -7,10 +7,10 @@ import {
   resolveStorePath,
 } from "../../config/sessions.js";
 import type { SessionAcpMeta } from "../../config/sessions/types.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 
 export async function persistAcpDispatchTranscript(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   sessionKey: string;
   promptText: string;
   finalText: string;

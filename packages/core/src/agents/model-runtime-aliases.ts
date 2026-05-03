@@ -1,4 +1,4 @@
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { normalizeAgentId } from "../routing/session-key.js";
 import { resolveAgentRuntimePolicy } from "./agent-runtime-policy.js";
 import { normalizeProviderId } from "./provider-id.js";
@@ -97,7 +97,7 @@ export function isCliRuntimeAlias(runtime: string | undefined): boolean {
 }
 
 function resolveConfiguredRuntime(params: {
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentId?: string;
   runtimeOverride?: string;
 }): string | undefined {
@@ -123,7 +123,7 @@ function resolveConfiguredRuntime(params: {
 
 export function resolveCliRuntimeExecutionProvider(params: {
   provider: string;
-  cfg?: Brikko StudioConfig;
+  cfg?: BrikkoStudioConfig;
   agentId?: string;
   runtimeOverride?: string;
 }): string | undefined {

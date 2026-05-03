@@ -5,7 +5,7 @@ import {
   type ChatCommandDefinition,
   type CommandArgs,
 } from "brikko-studio/plugin-sdk/command-auth";
-import type { Brikko StudioConfig } from "brikko-studio/plugin-sdk/config-types";
+import type { BrikkoStudioConfig } from "brikko-studio/plugin-sdk/config-types";
 import type { ResolvedAgentRoute } from "brikko-studio/plugin-sdk/routing";
 import { loadSessionStore, resolveStorePath } from "brikko-studio/plugin-sdk/session-store-runtime";
 import {
@@ -131,7 +131,7 @@ async function resolveDiscordModelPickerRouteState(params: {
     | ButtonInteraction
     | StringSelectMenuInteraction
     | AutocompleteInteraction;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   threadBindings: ThreadBindingManager;
   enforceConfiguredBindingReadiness?: boolean;
@@ -172,7 +172,7 @@ export async function resolveDiscordModelPickerRoute(params: {
     | ButtonInteraction
     | StringSelectMenuInteraction
     | AutocompleteInteraction;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   threadBindings: ThreadBindingManager;
 }) {
@@ -182,7 +182,7 @@ export async function resolveDiscordModelPickerRoute(params: {
 
 export async function resolveDiscordNativeChoiceContext(params: {
   interaction: DiscordNativeChoiceInteraction;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   accountId: string;
   threadBindings: ThreadBindingManager;
 }): Promise<{ provider?: string; model?: string } | null> {
@@ -229,7 +229,7 @@ export async function resolveDiscordNativeChoiceContext(params: {
 }
 
 export function resolveDiscordModelPickerCurrentModel(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   route: ResolvedAgentRoute;
   data: Awaited<ReturnType<typeof loadDiscordModelPickerData>>;
 }): string {
@@ -263,7 +263,7 @@ export function resolveDiscordModelPickerCurrentModel(params: {
 }
 
 export function resolveDiscordModelPickerCurrentRuntime(params: {
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   route: ResolvedAgentRoute;
 }): string {
   try {
@@ -294,7 +294,7 @@ export function resolveDiscordModelPickerCurrentRuntime(params: {
 
 export async function replyWithDiscordModelPickerProviders(params: {
   interaction: CommandInteraction | ButtonInteraction | StringSelectMenuInteraction;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   command: DiscordModelPickerCommandContext;
   userId: string;
   accountId: string;

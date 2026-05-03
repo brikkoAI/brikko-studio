@@ -9,16 +9,16 @@ describe("shared/assistant-identity-values", () => {
   });
 
   it("trims values and preserves strings within the limit", () => {
-    expect(coerceIdentityValue("  Brikko Studio  ", 20)).toBe("Brikko Studio");
-    expect(coerceIdentityValue("  Brikko Studio  ", 8)).toBe("Brikko Studio");
+    expect(coerceIdentityValue("  BrikkoStudio  ", 20)).toBe("BrikkoStudio");
+    expect(coerceIdentityValue("  BrikkoStudio  ", 8)).toBe("BrikkoStudio");
   });
 
   it("truncates overlong trimmed values at the exact limit", () => {
-    expect(coerceIdentityValue("  Brikko Studio Assistant  ", 8)).toBe("Brikko Studio");
+    expect(coerceIdentityValue("  BrikkoStudio Assistant  ", 8)).toBe("BrikkoStudio");
   });
 
   it("returns an empty string when truncating to a zero-length limit", () => {
-    expect(coerceIdentityValue("  Brikko Studio  ", 0)).toBe("");
-    expect(coerceIdentityValue("  Brikko Studio  ", -1)).toBe("OpenCla");
+    expect(coerceIdentityValue("  BrikkoStudio  ", 0)).toBe("");
+    expect(coerceIdentityValue("  BrikkoStudio  ", -1)).toBe("OpenCla");
   });
 });

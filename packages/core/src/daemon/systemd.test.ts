@@ -553,10 +553,10 @@ describe("splitArgsPreservingQuotes", () => {
 
   it("supports schtasks-style escaped quotes while preserving other backslashes", () => {
     expect(
-      splitArgsPreservingQuotes('brikko-studio --path "C:\\\\Program Files\\\\Brikko Studio"', {
+      splitArgsPreservingQuotes('brikko-studio --path "C:\\\\Program Files\\\\BrikkoStudio"', {
         escapeMode: "backslash-quote-only",
       }),
-    ).toEqual(["brikko-studio", "--path", "C:\\\\Program Files\\\\Brikko Studio"]);
+    ).toEqual(["brikko-studio", "--path", "C:\\\\Program Files\\\\BrikkoStudio"]);
 
     expect(
       splitArgsPreservingQuotes('brikko-studio --label "My \\"Quoted\\" Name"', {
@@ -1061,7 +1061,7 @@ describe("systemd service install and uninstall", () => {
   it("disables the BRIKKO_STUDIO_SYSTEMD_UNIT override during uninstall", async () => {
     await withNodeSystemdFixture(async ({ env, unitPath }) => {
       await fs.mkdir(path.dirname(unitPath), { recursive: true });
-      await fs.writeFile(unitPath, "[Unit]\nDescription=Brikko Studio Node\n", "utf8");
+      await fs.writeFile(unitPath, "[Unit]\nDescription=BrikkoStudio Node\n", "utf8");
 
       execFileMock
         .mockImplementationOnce((_cmd, args, _opts, cb) => {

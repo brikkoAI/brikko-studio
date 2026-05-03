@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { createTestPluginApi } from "brikko-studio/plugin-sdk/plugin-test-api";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioPluginApi, Brikko StudioPluginToolContext } from "../api.js";
+import type { BrikkoStudioPluginApi, BrikkoStudioPluginToolContext } from "../api.js";
 import type { DiffScreenshotter } from "./browser.js";
 import { DEFAULT_DIFFS_TOOL_DEFAULTS } from "./config.js";
 import { DiffArtifactStore } from "./store.js";
@@ -471,7 +471,7 @@ describe("diffs tool", () => {
   });
 });
 
-function createApi(pluginConfig?: Record<string, unknown>): Brikko StudioPluginApi {
+function createApi(pluginConfig?: Record<string, unknown>): BrikkoStudioPluginApi {
   return createTestPluginApi({
     id: "diffs",
     name: "Diffs",
@@ -484,7 +484,7 @@ function createApi(pluginConfig?: Record<string, unknown>): Brikko StudioPluginA
       },
     },
     pluginConfig,
-    runtime: {} as Brikko StudioPluginApi["runtime"],
+    runtime: {} as BrikkoStudioPluginApi["runtime"],
   });
 }
 
@@ -492,7 +492,7 @@ function createToolWithScreenshotter(
   store: DiffArtifactStore,
   screenshotter: DiffScreenshotter,
   defaults = DEFAULT_DIFFS_TOOL_DEFAULTS,
-  context: Brikko StudioPluginToolContext = {
+  context: BrikkoStudioPluginToolContext = {
     agentId: "main",
     sessionId: "session-123",
     messageChannel: "discord",

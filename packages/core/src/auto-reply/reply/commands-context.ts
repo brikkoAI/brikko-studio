@@ -1,5 +1,5 @@
 import { normalizeAnyChannelId } from "../../channels/registry.js";
-import type { Brikko StudioConfig } from "../../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../../config/types.brikko-studio.js";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
@@ -12,7 +12,7 @@ import { stripMentions } from "./mentions.js";
 
 export function buildCommandContext(params: {
   ctx: MsgContext;
-  cfg: Brikko StudioConfig;
+  cfg: BrikkoStudioConfig;
   agentId?: string;
   sessionKey?: string;
   isGroup: boolean;

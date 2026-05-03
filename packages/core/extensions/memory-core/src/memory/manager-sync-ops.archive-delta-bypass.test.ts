@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import type { DatabaseSync } from "node:sqlite";
 import type {
-  Brikko StudioConfig,
+  BrikkoStudioConfig,
   ResolvedMemorySearchConfig,
 } from "brikko-studio/plugin-sdk/memory-core-host-engine-foundation";
 import type {
@@ -31,7 +31,7 @@ type SyncParams = {
 };
 
 class SessionDeltaHarness extends MemoryManagerSyncOps {
-  protected readonly cfg = {} as Brikko StudioConfig;
+  protected readonly cfg = {} as BrikkoStudioConfig;
   protected readonly agentId = "main";
   protected readonly workspaceDir = "/tmp/brikko-studio-test-workspace";
   protected readonly settings = {

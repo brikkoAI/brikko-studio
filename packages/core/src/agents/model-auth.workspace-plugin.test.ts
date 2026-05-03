@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { Brikko StudioConfig } from "../config/types.brikko-studio.js";
+import type { BrikkoStudioConfig } from "../config/types.brikko-studio.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import type { AuthProfileStore } from "./auth-profiles.js";
 import { resolveEnvApiKey } from "./model-auth-env.js";
@@ -54,7 +54,7 @@ describe("workspace plugin model auth evidence", () => {
     await fs.writeFile(credentialsPath, "{}", "utf8");
     await writeWorkspaceAuthEvidencePlugin(workspaceDir);
 
-    const cfg: Brikko StudioConfig = {
+    const cfg: BrikkoStudioConfig = {
       plugins: {
         allow: ["workspace-cloud"],
       },

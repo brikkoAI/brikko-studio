@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { Brikko StudioConfig } from "../config/config.js";
+import type { BrikkoStudioConfig } from "../config/config.js";
 import { getRuntimeConfig, writeConfigFile } from "../config/config.js";
 import { withTempHome } from "../config/home-env.test-harness.js";
 import { withEnvAsync } from "../test-utils/env.js";
@@ -118,7 +118,7 @@ describe("secrets runtime snapshot gateway-auth integration", () => {
 
         const persistedConfig = JSON.parse(
           await fs.readFile(path.join(home, ".brikko-studio", "brikko-studio.json"), "utf8"),
-        ) as Brikko StudioConfig;
+        ) as BrikkoStudioConfig;
         expect(persistedConfig.gateway?.auth?.token).toEqual(missingTokenRef);
       });
     },
