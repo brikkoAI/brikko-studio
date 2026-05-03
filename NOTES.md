@@ -81,6 +81,23 @@ This is not a Part A blocker because Part A only needs the lockfile + the
 workspace topology. It IS a blocker for any work that needs to actually run
 upstream code (Task 13 docker build, M1 PII work, M2 plugins).
 
+## 2026-05-03 — Part C tooling validation outcomes
+
+After Part B, ran the four root scripts to validate the pnpm + oxlint stack:
+
+| Script | Command | M0 outcome |
+| --- | --- | --- |
+| `lint` | `oxlint --ignore-path .oxlintignore packages/` | clean — 0 files, 0 errors (we own no source under `packages/` outside the i18n catalog yet, and `.oxlintignore` excludes `packages/core/`) |
+| `typecheck` | `tsc --build` against root `tsconfig.json` (`files: []`, empty `references`) | clean — no-op exit 0 |
+| `test` | `vitest run` (root config — see `vitest.config.ts`) | 5/5 i18n catalog tests pass in ~270 ms |
+| `build` | `pnpm -r build` | **WILL FAIL** today because `packages/core`'s build hits the rebrand corruption (NOTES blocker above). Left in place as a placeholder for Task 7+ when our own packages have build scripts; do NOT run until the corruption is fixed. |
+
+Notes:
+
+- `oxlint` ignores via `.oxlintrc.json#ignorePatterns` did not take effect in our setup (oxlint 0.13 may evaluate them only against the lint root, not target dirs). Workaround: `--ignore-path .oxlintignore` (eslintignore-style), which works.
+- Root `tsconfig.json` excludes `packages/core/**` entirely. Our i18n source is inside that tree but small enough that we let `vitest` exercise it instead. When we land `packages/oauth-client` (Task 7) we'll add `{ "path": "./packages/oauth-client" }` to root tsconfig's `references`.
+- Root `vitest.config.ts` does NOT extend upstream's `packages/core/vitest.shared.config.ts` because that file was hit by the rebrand corruption (`export type Brikko StudioVitestPool` — literal space, parse error). Our config explicitly enumerates the test paths it discovers.
+
 ## Open follow-ups
 
 - [ ] Fix Task 4 identifier corruption (see BLOCKER above) before M0 Task 13.

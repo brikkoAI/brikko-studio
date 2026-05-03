@@ -1,0 +1,6 @@
+# Brikko Studio — files to skip during oxlint.
+# packages/core/ is upstream territory with its own tooling; M0 doesn't lint it.
+node_modules/
+**/node_modules/
+**/dist/
+packages/core/
