@@ -1,0 +1,72 @@
+# Brikko Studio — local orchestration: core + anonymizer + redis.
+#
+# Usage:
+#   cp .env.example .env    # optional: override defaults
+#   docker compose up -d --build
+#   docker compose ps
+#   docker compose down -v
+#
+# Notes:
+# - `version:` key is omitted on purpose — Compose v2 ignores it and prints a warning.
+# - core depends_on anonymizer + redis being *healthy* (not just started) to avoid
+#   race conditions during boot.
+# - GHCR refs use lowercase brikkoai (org name on GitHub Container Registry).
+
+services:
+  core:
+    image: ghcr.io/brikkoai/studio-core:${BRIKKO_VERSION:-latest}
+    build:
+      context: .
+      dockerfile: packages/core/Dockerfile
+    container_name: brikko-studio-core
+    restart: unless-stopped
+    ports:
+      - "${BRIKKO_PORT:-3737}:3737"
+    environment:
+      BRIKKO_GATEWAY: ${BRIKKO_GATEWAY:-https://api.brikko.ru}
+      BRIKKO_PORT: 3737
+      BRIKKO_USE_INMEM_KEYCHAIN: ${BRIKKO_USE_INMEM_KEYCHAIN:-0}
+      ANONYMIZER_URL: http://anonymizer:8403
+      REDIS_URL: redis://redis:6379/0
+      NODE_ENV: production
+    depends_on:
+      anonymizer:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3737/api/auth/status').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  anonymizer:
+    image: ghcr.io/brikkoai/studio-anonymizer:${BRIKKO_VERSION:-latest}
+    build:
+      context: ./anonymizer
+      dockerfile: Dockerfile
+    container_name: brikko-studio-anonymizer
+    restart: unless-stopped
+    ports:
+      - "${ANONYMIZER_PORT:-8403}:8403"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8403/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: brikko-studio-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 3s
