@@ -1,0 +1,13 @@
+{
+  "rules": {},
+  "ignorePatterns": [
+    "node_modules",
+    "packages/core/extensions/**/dist",
+    "packages/core/extensions/**/node_modules",
+    "packages/core/dist",
+    "packages/core/node_modules",
+    "packages/core/.generated",
+    "packages/core/test/fixtures",
+    "packages/core/scripts/e2e/lib/fixtures"
+  ]
+}

@@ -5,24 +5,19 @@
   "description": "Brikko Studio — российский AI-агент с reversible PII anonymization. M0 foundations.",
   "license": "MIT",
   "engines": {
-    "node": ">=22.14.0",
-    "npm": ">=10.0.0"
+    "node": ">=22.14.0"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "lint": "eslint \"packages/*/src/**/*.{ts,tsx}\"",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "oxlint packages/",
     "typecheck": "tsc --build",
     "format": "prettier --write \"packages/*/src/**/*.{ts,tsx,json}\""
   },
   "devDependencies": {
     "typescript": "5.4.5",
-    "eslint": "8.57.0",
-    "@typescript-eslint/parser": "7.7.0",
-    "@typescript-eslint/eslint-plugin": "7.7.0",
+    "oxlint": "^0.13.0",
     "prettier": "3.2.5"
-  }
+  },
+  "packageManager": "pnpm@10.33.2"
 }

@@ -1,0 +1,5 @@
+packages:
+  - 'packages/*'
+  - 'packages/core/extensions/*'
+  - 'packages/core/packages/*'
+  - 'packages/core/ui'
