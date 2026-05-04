@@ -1670,9 +1670,6 @@ importers:
 
   packages/privacy-plugin:
     dependencies:
-      undici:
-        specifier: ^7.0.0
-        version: 7.25.0
       zod:
         specifier: ^3.23.8
         version: 3.25.76
