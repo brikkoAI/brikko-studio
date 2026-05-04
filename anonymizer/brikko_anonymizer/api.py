@@ -8,18 +8,82 @@ test conftest manually populates ``app.state``).
 """
 from __future__ import annotations
 
+import json
+from typing import AsyncIterator, Callable, Optional
+
 from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import StreamingResponse
 
 from . import schemas
 from .errors import (
     KeyringUnavailableError,
+    MappingDecryptError,
+    StreamProtocolError,
     TrustViolationError,
     WorkspaceKeyMissingError,
 )
+from .mapping_store import MappingStore
+from .pii.masker import PiiMapping
+from .pii.streaming import StreamUnmasker
 from .pipeline import Pipeline
 
 
 router = APIRouter()
+
+
+# ----------------------------------------------------- StreamUnmasker adapter
+#
+# StreamUnmasker takes a fully-materialised PiiMapping (with .reverse dict).
+# For /restore_stream we want lazy lookup against the encrypted SQLite store
+# instead — placeholders may be hundreds, only a handful appear in any
+# given stream. LookupReverse is a tiny dict-shaped adapter whose .get()
+# delegates to the per-workspace store and tracks every miss so the caller
+# can emit the hallucinated set in the terminal end event.
+#
+# Hard Constraint 1 from the M1 plan: pii/streaming.py is a byte-copy from
+# the Gateway and must not be modified. The adapter avoids touching it.
+# Upstream enhancement (StreamUnmasker accepts a callable directly) is
+# tracked as an M3 follow-up.
+
+
+class _LookupReverse:
+    """Dict-shaped adapter: ``.get(ph, default)`` delegates to a lookup callable.
+
+    Records every placeholder for which the lookup returned ``None`` so the
+    HTTP layer can surface the hallucinated set on stream close.
+    """
+
+    __slots__ = ("_lookup", "hallucinated")
+
+    def __init__(self, lookup: Callable[[str], Optional[str]]) -> None:
+        self._lookup = lookup
+        self.hallucinated: set[str] = set()
+
+    def get(self, key: str, default=None):
+        val = self._lookup(key)
+        if val is None:
+            # Only count *placeholder-shaped* misses — the unmask regex
+            # only feeds us strings matching <TYPE_DIGITS>, so every miss
+            # here really is a hallucinated placeholder.
+            self.hallucinated.add(key)
+            return default
+        return val
+
+
+def _lookup_backed_mapping(
+    lookup: Callable[[str], Optional[str]]
+) -> tuple[PiiMapping, _LookupReverse]:
+    """Build a ``PiiMapping`` whose ``.reverse`` defers to ``lookup``.
+
+    ``PiiMapping.is_empty`` returns ``not self.reverse``. For a class
+    instance with neither ``__bool__`` nor ``__len__``, ``bool(instance)``
+    is True — so swapping ``.reverse`` for our adapter keeps
+    ``is_empty()`` False without any seed entries.
+    """
+    rev = _LookupReverse(lookup)
+    mapping = PiiMapping()
+    mapping.reverse = rev  # type: ignore[assignment]
+    return mapping, rev
 
 
 # ---------------------------------------------------------------- helpers
@@ -121,6 +185,152 @@ async def restore(
         request_id=payload.request_id,
         latency_ms=result.latency_ms,
     )
+
+
+# ---------------------------------------------------------- /restore_stream
+
+
+def _ndjson_lines(body: bytes) -> list[str]:
+    """Decode + split a raw NDJSON request body, dropping blank lines."""
+    text = body.decode("utf-8")
+    return [ln for ln in text.split("\n") if ln.strip()]
+
+
+@router.post("/restore_stream")
+async def restore_stream(request: Request) -> StreamingResponse:
+    """Streaming restore endpoint (NDJSON in, NDJSON out).
+
+    Request body framing::
+
+        {"workspace_id": "ws_x", "request_id": "r1"}
+        {"type": "chunk", "text": "..."}
+        {"type": "chunk", "text": "..."}
+        {"type": "end"}
+
+    Response framing (one JSON object per line, ``\\n``-terminated)::
+
+        {"type": "chunk", "text": "..."}
+        {"type": "end", "hallucinated": ["<NAME_999>", ...]}
+
+    Notes:
+    * The request body is buffered (FastAPI default). True request-side
+      streaming would require ``request.stream()`` and is deferred to M2.
+    * EOF without an explicit ``end`` event still produces a clean
+      terminal ``end`` event so consumers always see one.
+    """
+    pipe = _pipeline(request)
+
+    raw = await request.body()
+    lines = _ndjson_lines(raw)
+    if not lines:
+        raise HTTPException(
+            status_code=400,
+            detail={"error": "bad_request", "message": "empty request body"},
+        )
+
+    # Header line — required keys.
+    try:
+        header = json.loads(lines[0])
+    except json.JSONDecodeError as exc:
+        raise HTTPException(
+            status_code=400,
+            detail={"error": "bad_request", "message": f"header not JSON: {exc}"},
+        ) from exc
+    if not isinstance(header, dict) or "workspace_id" not in header or "request_id" not in header:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "bad_request",
+                "message": "header must include workspace_id and request_id",
+            },
+        )
+    workspace_id = header["workspace_id"]
+
+    # Resolve the per-workspace store + build the lazy lookup.
+    try:
+        store: MappingStore = pipe._store(workspace_id)
+    except (KeyringUnavailableError, WorkspaceKeyMissingError) as exc:
+        raise HTTPException(
+            status_code=503,
+            detail={"error": "key_unavailable", "message": str(exc)},
+        ) from exc
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=400,
+            detail={"error": "bad_request", "message": str(exc)},
+        ) from exc
+
+    def _lookup(placeholder: str) -> Optional[str]:
+        try:
+            return store.get(placeholder)
+        except MappingDecryptError:
+            # Treat unreadable rows as missing — the stream stays alive
+            # and the placeholder surfaces in the hallucinated set.
+            return None
+
+    mapping, reverse = _lookup_backed_mapping(_lookup)
+    unmasker = StreamUnmasker(mapping=mapping)
+
+    async def _gen() -> AsyncIterator[bytes]:
+        try:
+            for line in lines[1:]:
+                try:
+                    evt = json.loads(line)
+                except json.JSONDecodeError as exc:
+                    raise StreamProtocolError(
+                        f"event not JSON: {exc}"
+                    ) from exc
+                if not isinstance(evt, dict):
+                    raise StreamProtocolError("event must be a JSON object")
+                etype = evt.get("type")
+                if etype == "chunk":
+                    out = unmasker.feed(evt.get("text") or "")
+                    if out:
+                        yield (
+                            json.dumps(
+                                {"type": "chunk", "text": out},
+                                ensure_ascii=False,
+                            )
+                            + "\n"
+                        ).encode("utf-8")
+                elif etype == "end":
+                    break
+                else:
+                    raise StreamProtocolError(
+                        f"unknown event type: {etype!r}"
+                    )
+
+            tail = unmasker.flush()
+            if tail:
+                yield (
+                    json.dumps(
+                        {"type": "chunk", "text": tail}, ensure_ascii=False
+                    )
+                    + "\n"
+                ).encode("utf-8")
+            yield (
+                json.dumps(
+                    {
+                        "type": "end",
+                        "hallucinated": sorted(reverse.hallucinated),
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n"
+            ).encode("utf-8")
+        except StreamProtocolError as exc:
+            # Inline error event — once we've started streaming we can't
+            # change the HTTP status code, so the protocol surfaces the
+            # error as a terminal NDJSON line the client must check for.
+            yield (
+                json.dumps(
+                    {"type": "error", "error": "stream_protocol", "message": str(exc)},
+                    ensure_ascii=False,
+                )
+                + "\n"
+            ).encode("utf-8")
+
+    return StreamingResponse(_gen(), media_type="application/x-ndjson")
 
 
 __all__ = ["router"]
