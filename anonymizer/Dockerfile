@@ -30,14 +30,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl && \
 COPY --from=builder --chown=brikko:brikko /root/.local /home/brikko/.local
 COPY --chown=brikko:brikko brikko_anonymizer ./brikko_anonymizer
 
+# Persistent state mount point (workspace keys + mapping DBs + audit log).
+# In docker-compose this dir is bound to the named ``brikko-state`` volume,
+# so workspace keys + mappings survive container restarts. Owned by
+# brikko:brikko so the non-root user can write without chowning the host
+# volume on first boot.
+RUN mkdir -p /data/.brikko && chown -R brikko:brikko /data
+
 USER brikko
-ENV PATH=/home/brikko/.local/bin:$PATH
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
+ENV PATH=/home/brikko/.local/bin:$PATH \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    BRIKKO_HOME=/data/.brikko
 
 EXPOSE 8403
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD curl -fsS http://127.0.0.1:8403/health || exit 1
+# Healthcheck uses stdlib urllib instead of curl so we drop one apt
+# package from the runtime image (smaller attack surface). The /health
+# endpoint is the same one docker-compose's external healthcheck calls.
+HEALTHCHECK --interval=15s --timeout=3s --start-period=10s --retries=3 \
+  CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8403/health', timeout=2)" || exit 1
 
 CMD ["uvicorn", "brikko_anonymizer.main:app", "--host", "0.0.0.0", "--port", "8403"]

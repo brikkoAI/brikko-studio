@@ -48,14 +48,36 @@ services:
       dockerfile: Dockerfile
     container_name: brikko-studio-anonymizer
     restart: unless-stopped
+    # CRITICAL: bind only to host loopback. NEVER expose 8403 publicly —
+    # the sidecar holds workspace AES keys + plaintext PII mappings in
+    # process memory and on disk under /data/.brikko. Any non-loopback
+    # bind would let other LAN hosts hit /restore and decrypt mappings
+    # for known placeholders. The core container reaches it on the
+    # internal compose network at http://anonymizer:8403 (not via the
+    # host port).
     ports:
-      - "${ANONYMIZER_PORT:-8403}:8403"
+      - "127.0.0.1:${ANONYMIZER_PORT:-8403}:8403"
+    volumes:
+      - brikko-state:/data
+    environment:
+      BRIKKO_HOME: /data/.brikko
+      # Off by default: forces use of OS keychain (Linux Secret Service /
+      # macOS Keychain / Windows Credential Manager). Set to 1 in
+      # headless deployments and provide BRIKKO_KEY_PASSPHRASE so the
+      # Argon2id-encrypted key.enc file fallback can decrypt at boot.
+      BRIKKO_KEY_FALLBACK: ${BRIKKO_KEY_FALLBACK:-0}
+      BRIKKO_KEY_PASSPHRASE: ${BRIKKO_KEY_PASSPHRASE:-}
+      BRIKKO_TOOL_POLICIES_PATH: ${BRIKKO_TOOL_POLICIES_PATH:-}
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8403/health"]
-      interval: 30s
-      timeout: 5s
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8403/health', timeout=2)"
+      interval: 15s
+      timeout: 3s
       retries: 3
-      start_period: 5s
+      start_period: 10s
 
   redis:
     image: redis:7.2-alpine
@@ -70,3 +92,11 @@ services:
       timeout: 3s
       retries: 3
       start_period: 3s
+
+volumes:
+  # Persistent on-disk state for the anonymizer sidecar:
+  #   /data/.brikko/workspaces/<id>/{mappings.db, key.enc}
+  #   /data/.brikko/audit/YYYY-MM-DD.jsonl[.gz]
+  # Survives `docker compose down` (removed by `down -v`).
+  brikko-state:
+    name: brikko-state
