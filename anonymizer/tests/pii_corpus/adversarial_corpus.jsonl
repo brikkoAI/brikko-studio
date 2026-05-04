@@ -1,0 +1,50 @@
+{"id": "adv_001", "text": "ИНН 770 7083 893", "expected_categories": ["INN"], "attack_class": "spaced_digits"}
+{"id": "adv_002", "text": "Мой инн: 7707 0838 93", "expected_categories": ["INN"], "attack_class": "spaced_digits"}
+{"id": "adv_003", "text": "СНИЛС 112 233 445 95", "expected_categories": ["SNILS"], "attack_class": "spaced_digits"}
+{"id": "adv_004", "text": "паспорт 4509-235 678", "expected_categories": ["PASSPORT"], "attack_class": "spaced_digits"}
+{"id": "adv_005", "text": "Карта: 4276 8800 1234 5678", "expected_categories": ["CARD"], "attack_class": "spaced_digits"}
+{"id": "adv_006", "text": "Иван​Иванов сообщил", "expected_categories": ["NAME"], "attack_class": "zero_width"}
+{"id": "adv_007", "text": "telephone: +7‌916‌555‌1234", "expected_categories": ["PHONE"], "attack_class": "zero_width"}
+{"id": "adv_008", "text": "ИНН​7707083893", "expected_categories": ["INN"], "attack_class": "zero_width"}
+{"id": "adv_009", "text": "user@​example.com", "expected_categories": ["EMAIL"], "attack_class": "zero_width"}
+{"id": "adv_010", "text": "паспорт 45‌09 235678", "expected_categories": ["PASSPORT"], "attack_class": "zero_width"}
+{"id": "adv_011", "text": "Контакт: Ivan Ivanov, +79165551234", "expected_categories": ["PHONE"], "attack_class": "transliteration"}
+{"id": "adv_012", "text": "Petrov P.S., inn 7707083893", "expected_categories": ["INN"], "attack_class": "transliteration"}
+{"id": "adv_013", "text": "Sergey Sidorov, sergey@mail.ru", "expected_categories": ["EMAIL"], "attack_class": "transliteration"}
+{"id": "adv_014", "text": "Director: Aleksandr Volkov", "expected_categories": ["NAME"], "attack_class": "transliteration"}
+{"id": "adv_015", "text": "Smirnova Anna Ivanovna", "expected_categories": ["NAME"], "attack_class": "transliteration"}
+{"id": "adv_016", "text": "Иванoв Иван Иванович", "expected_categories": ["NAME"], "attack_class": "mixed_script"}
+{"id": "adv_017", "text": "ИHН 7707083893", "expected_categories": ["INN"], "attack_class": "mixed_script"}
+{"id": "adv_018", "text": "СНИЛC 112-233-445 95", "expected_categories": ["SNILS"], "attack_class": "mixed_script"}
+{"id": "adv_019", "text": "user@gmaiI.com", "expected_categories": ["EMAIL"], "attack_class": "mixed_script"}
+{"id": "adv_020", "text": "Cмирнов Сергей", "expected_categories": ["NAME"], "attack_class": "mixed_script"}
+{"id": "adv_021", "text": "ИВАНОВ ИВАН ИВАНОВИЧ", "expected_categories": ["NAME"], "attack_class": "case_play"}
+{"id": "adv_022", "text": "иванов иван иванович", "expected_categories": ["NAME"], "attack_class": "case_play"}
+{"id": "adv_023", "text": "EMAIL: USER@EXAMPLE.COM", "expected_categories": ["EMAIL"], "attack_class": "case_play"}
+{"id": "adv_024", "text": "Иванов СЕРГЕЙ Петрович", "expected_categories": ["NAME"], "attack_class": "case_play"}
+{"id": "adv_025", "text": "телефон +7 (916) 555-12-34, ПАСПОРТ 4509 235678", "expected_categories": ["PHONE", "PASSPORT"], "attack_class": "case_play"}
+{"id": "adv_026", "text": "ИНН  77O7O83893", "expected_categories": ["INN"], "attack_class": "ocr_noise"}
+{"id": "adv_027", "text": "карта  4276880Ol2345678", "expected_categories": ["CARD"], "attack_class": "ocr_noise"}
+{"id": "adv_028", "text": "паспорт 45O9 235678..", "expected_categories": ["PASSPORT"], "attack_class": "ocr_noise"}
+{"id": "adv_029", "text": "СНИЛС  112-233-445  95", "expected_categories": ["SNILS"], "attack_class": "ocr_noise"}
+{"id": "adv_030", "text": "Иванов  И.  И.  --  директор", "expected_categories": ["NAME"], "attack_class": "ocr_noise"}
+{"id": "adv_031", "text": "Hello, please contact Ivanov Ivan Ivanovich at +7 916 555 1234.", "expected_categories": ["PHONE"], "attack_class": "english_context"}
+{"id": "adv_032", "text": "The customer's INN is 7707083893 and SNILS 112-233-445 95.", "expected_categories": ["INN", "SNILS"], "attack_class": "english_context"}
+{"id": "adv_033", "text": "Send the report to ivanov@mail.ru by EOD.", "expected_categories": ["EMAIL"], "attack_class": "english_context"}
+{"id": "adv_034", "text": "Russian passport number: 4509 235678 issued in Moscow.", "expected_categories": ["PASSPORT"], "attack_class": "english_context"}
+{"id": "adv_035", "text": "card number 4276 8800 1234 5678 expiring 12/26", "expected_categories": ["CARD"], "attack_class": "english_context"}
+{"id": "adv_036", "text": "Order number 770708389 from 2024", "expected_categories": [], "attack_class": "partial_match"}
+{"id": "adv_037", "text": "phone 916 555 12 34", "expected_categories": [], "attack_class": "partial_match"}
+{"id": "adv_038", "text": "ID 4509 23567", "expected_categories": [], "attack_class": "partial_match"}
+{"id": "adv_039", "text": "card-like 4276 8800 1234", "expected_categories": [], "attack_class": "partial_match"}
+{"id": "adv_040", "text": "snils-like 112-233-445", "expected_categories": [], "attack_class": "partial_match"}
+{"id": "adv_041", "text": "phone +7(916)555-12-34", "expected_categories": ["PHONE"], "attack_class": "format_mutation"}
+{"id": "adv_042", "text": "phone 8 916 555 12 34", "expected_categories": ["PHONE"], "attack_class": "format_mutation"}
+{"id": "adv_043", "text": "phone +7.916.555.1234", "expected_categories": ["PHONE"], "attack_class": "format_mutation"}
+{"id": "adv_044", "text": "card 4276-8800-1234-5678", "expected_categories": ["CARD"], "attack_class": "format_mutation"}
+{"id": "adv_045", "text": "passport 4509235678", "expected_categories": ["PASSPORT"], "attack_class": "format_mutation"}
+{"id": "adv_046", "text": "{\"client_inn\": \"7707083893\", \"name\": \"Иванов Иван Иванович\"}", "expected_categories": ["INN"], "attack_class": "embedded"}
+{"id": "adv_047", "text": "```\ncontact: ivanov@mail.ru\nphone: +79165551234\n```", "expected_categories": ["EMAIL", "PHONE"], "attack_class": "embedded"}
+{"id": "adv_048", "text": "https://crm.example.com/clients?inn=7707083893", "expected_categories": ["INN"], "attack_class": "embedded"}
+{"id": "adv_049", "text": "<user email='ivanov@mail.ru' phone='+79165551234'/>", "expected_categories": ["EMAIL", "PHONE"], "attack_class": "embedded"}
+{"id": "adv_050", "text": "ФИО: Иванов И.И.; ИНН: 7707083893; СНИЛС: 112-233-445 95", "expected_categories": ["INN", "SNILS"], "attack_class": "embedded"}
