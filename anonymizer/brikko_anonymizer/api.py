@@ -187,6 +187,56 @@ async def restore(
     )
 
 
+# ------------------------------------------------- /tool_call/deanonymize
+
+
+@router.post(
+    "/tool_call/deanonymize",
+    response_model=schemas.ToolCallDeanonResponse,
+)
+async def tool_call_deanonymize(
+    payload: schemas.ToolCallDeanonRequest, request: Request
+) -> schemas.ToolCallDeanonResponse:
+    """Replace placeholders in tool args according to the tool policy.
+
+    Loads the per-tool policy from ``app.state.pipeline._tool_policies``
+    (initialised in main.lifespan from BRIKKO_TOOL_POLICIES_PATH or the
+    bundled ``default_tool_policies.yaml``). The optional
+    ``payload.policy`` overrides the loaded policy for this single call —
+    useful for pinning ``forbid`` from a higher-level guardrail.
+    """
+    pipe = _pipeline(request)
+    try:
+        args, keys = pipe.deanonymize_tool_args(
+            payload.workspace_id,
+            tool_name=payload.tool_name,
+            args=payload.args,
+            policy_override=payload.policy,
+            request_id=payload.request_id,
+        )
+    except TrustViolationError as exc:
+        raise HTTPException(
+            status_code=403,
+            detail={"error": "trust_violation", "message": str(exc)},
+        ) from exc
+    except (KeyringUnavailableError, WorkspaceKeyMissingError) as exc:
+        raise HTTPException(
+            status_code=503,
+            detail={"error": "key_unavailable", "message": str(exc)},
+        ) from exc
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=400,
+            detail={"error": "bad_request", "message": str(exc)},
+        ) from exc
+
+    return schemas.ToolCallDeanonResponse(
+        args=args,
+        deanonymized_keys=keys,
+        request_id=payload.request_id,
+    )
+
+
 # ---------------------------------------------------------- /restore_stream
 
 
