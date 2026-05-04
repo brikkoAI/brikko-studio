@@ -8,13 +8,19 @@ test conftest manually populates ``app.state``).
 """
 from __future__ import annotations
 
+import datetime as _dt
+import io
 import json
+import os
+import zipfile
+from pathlib import Path
 from typing import AsyncIterator, Callable, Optional
 
-from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import StreamingResponse
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from fastapi import APIRouter, HTTPException, Query, Request
+from fastapi.responses import Response, StreamingResponse
 
-from . import schemas
+from . import audit_log, paths, schemas, workspace_key_fallback as wkf
 from .errors import (
     KeyringUnavailableError,
     MappingDecryptError,
@@ -381,6 +387,242 @@ async def restore_stream(request: Request) -> StreamingResponse:
             ).encode("utf-8")
 
     return StreamingResponse(_gen(), media_type="application/x-ndjson")
+
+
+# =========================================================================
+# Admin endpoints (M1 task 15) — used by the M2 web-ui dashboard.
+# All four resolve the per-workspace store via Pipeline._store(ws_id) so
+# they share the in-process AES key + connection cache with /anonymize.
+# =========================================================================
+
+
+def _safe_workspace_id(ws_id: str) -> None:
+    """Reject path-traversal-shaped workspace_id before any disk hit."""
+    try:
+        paths.workspace_dir(ws_id)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=400,
+            detail={"error": "bad_request", "message": str(exc)},
+        ) from exc
+
+
+# ---------------------------------------------------------- /stats
+
+
+@router.get(
+    "/workspaces/{ws_id}/stats",
+    response_model=schemas.StatsResponse,
+)
+async def workspace_stats(ws_id: str, request: Request) -> schemas.StatsResponse:
+    _safe_workspace_id(ws_id)
+    pipe = _pipeline(request)
+    watcher = _watcher(request)
+    store = pipe._store(ws_id)
+
+    cats = store.stats()
+    total = store.total()
+
+    # Audit count for the trailing 24h window.
+    since = (
+        _dt.datetime.now(tz=_dt.UTC) - _dt.timedelta(days=1)
+    ).isoformat()
+    _, audit_24h_total, _ = audit_log.query(
+        ws_id, limit=1, offset=0, since=since
+    )
+
+    return schemas.StatsResponse(
+        workspace_id=ws_id,
+        categories=cats,
+        total_mappings=total,
+        audit_events_last_24h=audit_24h_total,
+        degraded_mode=(watcher.current() != "full"),
+    )
+
+
+# ---------------------------------------------------------- /audit
+
+
+@router.get(
+    "/workspaces/{ws_id}/audit",
+    response_model=schemas.AuditQueryResponse,
+)
+async def workspace_audit(
+    ws_id: str,
+    request: Request,
+    limit: int = Query(100, ge=1, le=1000),
+    offset: int = Query(0, ge=0),
+    category: Optional[str] = None,
+    since: Optional[str] = None,
+) -> schemas.AuditQueryResponse:
+    _safe_workspace_id(ws_id)
+    # Validate `since` early so a bad ISO format becomes 400, not 500.
+    if since is not None:
+        try:
+            _dt.datetime.fromisoformat(since)
+        except ValueError as exc:
+            raise HTTPException(
+                status_code=400,
+                detail={
+                    "error": "bad_request",
+                    "message": f"since not ISO-8601: {exc}",
+                },
+            ) from exc
+
+    events, total, next_offset = audit_log.query(
+        ws_id, limit=limit, offset=offset, category=category, since=since
+    )
+
+    # Wrap each raw dict via .get(field, default) so legacy events with
+    # missing keys don't crash the JSON serialisation.
+    wrapped = [
+        schemas.AuditEvent(
+            timestamp=e.get("timestamp", ""),
+            workspace_id=e.get("workspace_id", ws_id),
+            event_type=e.get("event_type", "unknown"),
+            category=e.get("category", "UNKNOWN"),
+            placeholder=e.get("placeholder", ""),
+            request_id=e.get("request_id", ""),
+            policy_profile=e.get("policy_profile", "n/a"),
+            degraded_mode=e.get("degraded_mode", "full"),
+            tool_name=e.get("tool_name"),
+        )
+        for e in events
+    ]
+    return schemas.AuditQueryResponse(
+        events=wrapped, total=total, next_offset=next_offset
+    )
+
+
+# ---------------------------------------------------------- /purge
+
+
+@router.post(
+    "/workspaces/{ws_id}/purge",
+    response_model=schemas.PurgeResponse,
+)
+async def workspace_purge(
+    ws_id: str, payload: schemas.PurgeRequest, request: Request
+) -> schemas.PurgeResponse:
+    _safe_workspace_id(ws_id)
+    pipe = _pipeline(request)
+    store = pipe._store(ws_id)
+    try:
+        if payload.scope == "all":
+            deleted = store.purge(scope="all")
+        elif payload.scope == "session":
+            deleted = store.purge(
+                scope="session", session_id=payload.session_id
+            )
+        elif payload.scope == "subject":
+            deleted = store.purge(
+                scope="subject", subject_hash=payload.subject_hash
+            )
+        else:  # pragma: no cover — Pydantic Literal already enforces this
+            raise HTTPException(
+                status_code=400,
+                detail={
+                    "error": "bad_request",
+                    "message": f"unknown scope: {payload.scope!r}",
+                },
+            )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=400,
+            detail={"error": "bad_request", "message": str(exc)},
+        ) from exc
+    # Audit retention is independent (90-day rotation in audit_log) — we
+    # do not delete audit events here, by design (compliance trail must
+    # outlive a workspace purge to keep the 152-ФЗ paper trail).
+    return schemas.PurgeResponse(
+        deleted_mappings=deleted, deleted_audit_events=0
+    )
+
+
+# ---------------------------------------------------------- /backup
+
+
+@router.post("/workspaces/{ws_id}/backup")
+async def workspace_backup(
+    ws_id: str, request: Request
+) -> Response:
+    """Return an Argon2id-AES-GCM encrypted zip of the workspace state.
+
+    Body framing:
+        [16 B salt][12 B nonce][N B ciphertext+tag]
+
+    Plaintext is a deflated zip with two members:
+        mappings.db   — a flushed copy of the SQLite store
+        manifest.json — {"workspace_id", "version": 1, "created_at"}
+
+    The same wrap-key derivation as workspace_key_fallback is used:
+    BRIKKO_KEY_PASSPHRASE -> Argon2id(salt) -> AES-256-GCM. This means
+    operator who wants to RESTORE the backup needs only the same
+    passphrase — no extra escrow, no second secret to lose.
+    """
+    _safe_workspace_id(ws_id)
+    db_path = paths.workspace_db_path(ws_id)
+    if not db_path.exists():
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "error": "not_found",
+                "message": f"no workspace state for {ws_id!r}",
+            },
+        )
+
+    # Make sure any pending WAL writes are flushed before we read the file.
+    # The store is held in the Pipeline cache; a checkpoint is the simplest
+    # way to force the WAL into the main DB before we copy bytes off disk.
+    pipe = _pipeline(request)
+    store = pipe._store(ws_id)
+    try:
+        store._conn.execute("PRAGMA wal_checkpoint(FULL)")
+    except Exception:  # noqa: BLE001 — checkpoint is best-effort
+        pass
+
+    db_bytes = db_path.read_bytes()
+    manifest = {
+        "workspace_id": ws_id,
+        "version": 1,
+        "created_at": _dt.datetime.now(tz=_dt.UTC).isoformat(),
+    }
+
+    # Build the deflated zip in memory.
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr("mappings.db", db_bytes)
+        zf.writestr("manifest.json", json.dumps(manifest, ensure_ascii=False))
+    plaintext = buf.getvalue()
+
+    # Wrap with the Argon2id-AES-GCM envelope used by workspace_key_fallback.
+    try:
+        passphrase = wkf._passphrase()
+    except WorkspaceKeyMissingError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "error": "passphrase_required",
+                "message": str(exc),
+            },
+        ) from exc
+
+    salt = os.urandom(wkf.SALT_BYTES)
+    nonce = os.urandom(wkf.NONCE_BYTES)
+    kek = wkf._derive(passphrase, salt)
+    ct = AESGCM(kek).encrypt(nonce, plaintext, ws_id.encode("utf-8"))
+
+    today_iso = _dt.date.today().isoformat()
+    return Response(
+        content=salt + nonce + ct,
+        media_type="application/zip",
+        headers={
+            "X-Brikko-Backup-Version": "1",
+            "Content-Disposition": (
+                f'attachment; filename="brikko-workspace-{ws_id}-{today_iso}.zip.enc"'
+            ),
+        },
+    )
 
 
 __all__ = ["router"]
