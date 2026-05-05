@@ -1,3 +1,9 @@
+import { AnonymizerClient } from "./anonymizer-client.js";
+import { type PluginConfig, loadConfigFromEnv } from "./config.js";
+import {
+  type HookLogger,
+  makePreUserMessageHook,
+} from "./hooks/pre-user-message.js";
 import type {
   BrikkoPrivacyPluginExports,
   HookResult,
@@ -9,83 +15,86 @@ import type {
   ToolResultContext,
 } from "./types.js";
 
-const VERSION = "0.3.0";
+const VERSION = "0.3.0-m2";
 
 /**
- * Scaffold plugin — every hook is identity + log.
+ * Build a plugin instance bound to a specific config + AnonymizerClient.
  *
- * Subsequent M2 tasks (4-10) replace each `return ctx;` with the real
- * anonymizer-backed implementation. This file is the source of truth for
- * the plugin's external shape; do not move the hook signatures elsewhere.
+ * The factory shape lets tests inject an MSW-mocked sidecar URL while the
+ * default `plugin` export continues to read from process.env for the real
+ * runtime (OpenClaw plugin loader).
  */
-export const plugin: BrikkoPrivacyPluginExports = {
-  name: "brikko-privacy",
-  version: VERSION,
-  hooks: {
-    async pre_user_message(
-      ctx: MessageContext,
-    ): Promise<HookResult<MessageContext>> {
-      log("pre_user_message", ctx.request_id, {
-        textLen: ctx.message.text.length,
-      });
-      return ctx;
-    },
-    async post_llm_response(
-      ctx: LlmResponseContext,
-    ): Promise<HookResult<LlmResponseContext>> {
-      log("post_llm_response", ctx.request_id, {
-        textLen: ctx.response.text.length,
-      });
-      return ctx;
-    },
-    async post_llm_response_stream(
-      ctx: LlmStreamContext,
-    ): Promise<HookResult<LlmStreamContext>> {
-      log("post_llm_response_stream", ctx.request_id, {});
-      return ctx;
-    },
-    async pre_tool_call(
-      ctx: ToolCallContext,
-    ): Promise<HookResult<ToolCallContext>> {
-      log("pre_tool_call", ctx.request_id, {
-        tool: ctx.tool.name,
-        trust: ctx.trust,
-      });
-      return ctx;
-    },
-    async post_tool_result(
-      ctx: ToolResultContext,
-    ): Promise<HookResult<ToolResultContext>> {
-      log("post_tool_result", ctx.request_id, { tool: ctx.tool.name });
-      return ctx;
-    },
-    async pre_llm_call(
-      ctx: MessageContext,
-    ): Promise<HookResult<MessageContext>> {
-      log("pre_llm_call", ctx.request_id, {
-        textLen: ctx.message.text.length,
-      });
-      return ctx;
-    },
-    async pre_memory_write(
-      ctx: MemoryWriteContext,
-    ): Promise<HookResult<MemoryWriteContext>> {
-      log("pre_memory_write", ctx.request_id, { key: ctx.memory.key });
-      return ctx;
-    },
-  },
-};
+export function createPlugin(cfg: PluginConfig): BrikkoPrivacyPluginExports {
+  const client = new AnonymizerClient(cfg);
+  const log: HookLogger = (hook, requestId, fields) => {
+    if (cfg.debugLogging) {
+      // eslint-disable-next-line no-console -- intentional debug channel
+      console.log(
+        `[brikko-privacy] hook=${hook} request_id=${requestId} ${JSON.stringify(fields)}`,
+      );
+    }
+  };
 
-/** Debug-only logger; no-op unless BRIKKO_PLUGIN_DEBUG=1 in env. */
-function log(
-  hook: string,
-  requestId: string,
-  fields: Record<string, unknown>,
-): void {
-  if (process.env["BRIKKO_PLUGIN_DEBUG"] === "1") {
-    // eslint-disable-next-line no-console -- intentional debug channel
-    console.log(
-      `[brikko-privacy] hook=${hook} request_id=${requestId} ${JSON.stringify(fields)}`,
-    );
-  }
+  const preUserMessage = makePreUserMessageHook(client, log);
+
+  return {
+    name: "brikko-privacy",
+    version: VERSION,
+    hooks: {
+      pre_user_message: preUserMessage,
+
+      // Identity hooks — replaced in subsequent M2 tasks.
+      async post_llm_response(
+        ctx: LlmResponseContext,
+      ): Promise<HookResult<LlmResponseContext>> {
+        log("post_llm_response", ctx.request_id, {
+          textLen: ctx.response.text.length,
+        });
+        return ctx;
+      },
+      async post_llm_response_stream(
+        ctx: LlmStreamContext,
+      ): Promise<HookResult<LlmStreamContext>> {
+        log("post_llm_response_stream", ctx.request_id, {});
+        return ctx;
+      },
+      async pre_tool_call(
+        ctx: ToolCallContext,
+      ): Promise<HookResult<ToolCallContext>> {
+        log("pre_tool_call", ctx.request_id, {
+          tool: ctx.tool.name,
+          trust: ctx.trust,
+        });
+        return ctx;
+      },
+      async post_tool_result(
+        ctx: ToolResultContext,
+      ): Promise<HookResult<ToolResultContext>> {
+        log("post_tool_result", ctx.request_id, { tool: ctx.tool.name });
+        return ctx;
+      },
+      async pre_llm_call(
+        ctx: MessageContext,
+      ): Promise<HookResult<MessageContext>> {
+        log("pre_llm_call", ctx.request_id, {
+          textLen: ctx.message.text.length,
+        });
+        return ctx;
+      },
+      async pre_memory_write(
+        ctx: MemoryWriteContext,
+      ): Promise<HookResult<MemoryWriteContext>> {
+        log("pre_memory_write", ctx.request_id, { key: ctx.memory.key });
+        return ctx;
+      },
+    },
+  };
 }
+
+/**
+ * Default export — used by the OpenClaw plugin loader at runtime.
+ * Reads configuration from process.env via loadConfigFromEnv().
+ */
+export const plugin: BrikkoPrivacyPluginExports = createPlugin(
+  loadConfigFromEnv(),
+);

@@ -28,14 +28,12 @@ describe("BrikkoPrivacyPlugin lifecycle (scaffold — no logic yet)", () => {
     expect(typeof plugin.hooks.pre_memory_write).toBe("function");
   });
 
-  it("pre_user_message returns the context unchanged in scaffold mode", async () => {
-    const ctx: MessageContext = {
-      workspace: ws,
-      session: ses,
-      request_id: reqId,
-      message: { text: "hello", channel: "web" },
-    };
-    expect(await plugin.hooks.pre_user_message(ctx)).toEqual(ctx);
+  it("pre_user_message is callable on the default plugin instance", () => {
+    // M2 Task 4 wired this hook to the anonymizer sidecar; behavior is
+    // covered in tests/integration/pre-user-message.test.ts where MSW
+    // stands in for the sidecar. Here we only verify the symbol exists
+    // on the default export so the OpenClaw loader can mount it.
+    expect(typeof plugin.hooks.pre_user_message).toBe("function");
   });
 
   it("post_llm_response returns the context unchanged in scaffold mode", async () => {
