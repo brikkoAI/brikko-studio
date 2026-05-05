@@ -3,6 +3,7 @@ import { StatsPanel } from "../privacy/StatsPanel.js";
 import { AuditLogTable } from "../privacy/AuditLogTable.js";
 import { PolicyEditor } from "../privacy/PolicyEditor.js";
 import { ToolPoliciesEditor } from "../privacy/ToolPoliciesEditor.js";
+import { PurgeButton } from "../privacy/PurgeButton.js";
 import { useTranslation } from "../i18n/index.js";
 
 export function Privacy(): JSX.Element {
@@ -27,6 +28,7 @@ export function Privacy(): JSX.Element {
         </Tabs.List>
         <Tabs.Content value="stats">
           <StatsPanel />
+          <PurgeButton />
         </Tabs.Content>
         <Tabs.Content value="audit">
           <AuditLogTable />
