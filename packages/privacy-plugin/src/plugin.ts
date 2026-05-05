@@ -1,6 +1,7 @@
 import { AnonymizerClient } from "./anonymizer-client.js";
 import { type PluginConfig, loadConfigFromEnv } from "./config.js";
 import { makePostLlmResponseHook } from "./hooks/post-llm-response.js";
+import { makePostLlmResponseStreamHook } from "./hooks/post-llm-response-stream.js";
 import {
   type HookLogger,
   makePreUserMessageHook,
@@ -8,7 +9,6 @@ import {
 import type {
   BrikkoPrivacyPluginExports,
   HookResult,
-  LlmStreamContext,
   MemoryWriteContext,
   MessageContext,
   ToolCallContext,
@@ -37,6 +37,7 @@ export function createPlugin(cfg: PluginConfig): BrikkoPrivacyPluginExports {
 
   const preUserMessage = makePreUserMessageHook(client, log);
   const postLlmResponse = makePostLlmResponseHook(client, log);
+  const postLlmResponseStream = makePostLlmResponseStreamHook(cfg, log);
 
   return {
     name: "brikko-privacy",
@@ -44,14 +45,9 @@ export function createPlugin(cfg: PluginConfig): BrikkoPrivacyPluginExports {
     hooks: {
       pre_user_message: preUserMessage,
       post_llm_response: postLlmResponse,
+      post_llm_response_stream: postLlmResponseStream,
 
       // Identity hooks — replaced in subsequent M2 tasks.
-      async post_llm_response_stream(
-        ctx: LlmStreamContext,
-      ): Promise<HookResult<LlmStreamContext>> {
-        log("post_llm_response_stream", ctx.request_id, {});
-        return ctx;
-      },
       async pre_tool_call(
         ctx: ToolCallContext,
       ): Promise<HookResult<ToolCallContext>> {

@@ -84,17 +84,12 @@ describe("BrikkoPrivacyPlugin lifecycle (scaffold — no logic yet)", () => {
     expect(await plugin.hooks.pre_memory_write(ctx)).toEqual(ctx);
   });
 
-  it("post_llm_response_stream returns the context unchanged in scaffold mode", async () => {
-    async function* gen(): AsyncIterable<string> {
-      yield "chunk1";
-    }
-    const ctx = {
-      workspace: ws,
-      session: ses,
-      request_id: reqId,
-      stream: gen(),
-    };
-    const out = await plugin.hooks.post_llm_response_stream(ctx);
-    expect(out).toBe(ctx);
+  it("post_llm_response_stream is callable on the default plugin instance", () => {
+    // M2 Task 6 wired this hook to StreamRestorer; behavior is covered in
+    // tests/unit/stream-restorer.test.ts and
+    // tests/integration/post-llm-response-stream.test.ts where MSW stands
+    // in for the sidecar. Here we only verify the symbol exists on the
+    // default export so the OpenClaw loader can mount it.
+    expect(typeof plugin.hooks.post_llm_response_stream).toBe("function");
   });
 });

@@ -3,6 +3,10 @@ import {
   AnonymizerRequestError,
   AnonymizerUnavailableError,
 } from "./errors.js";
+import {
+  type RestoreStreamOptions,
+  restoreStream,
+} from "./stream-restorer.js";
 import type {
   AnonymizeRequest,
   AnonymizeResponse,
@@ -52,6 +56,22 @@ export class AnonymizerClient {
 
   async restore(req: RestoreRequest): Promise<RestoreResponse> {
     return this.postJson<RestoreResponse>("/restore", req);
+  }
+
+  /**
+   * Streaming variant of restore. Wraps an upstream LLM text-delta
+   * AsyncIterable in a transformer that proxies through
+   * POST /restore_stream (NDJSON) and yields restored chunks.
+   *
+   * Carry-buffer logic (32 chars) lives in `stream-restorer.ts`; this
+   * method is a typed convenience so callers don't need to import the
+   * lower-level function. Note: no retry — streaming bodies are
+   * half-duplex and cannot be replayed after the first byte.
+   */
+  restoreStream(
+    opts: Omit<RestoreStreamOptions, "cfg">,
+  ): AsyncIterable<string> {
+    return restoreStream({ ...opts, cfg: this.cfg });
   }
 
   async toolCallDeanonymize(
