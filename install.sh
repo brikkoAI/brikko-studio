@@ -147,19 +147,36 @@ mkdir -p "$INSTALL_DIR"
 cd "$INSTALL_DIR"
 
 # 8. Download docker-compose.yml and .env.example
-log "Скачиваю docker-compose.yml…"
-if ! curl -fsSL "$COMPOSE_URL" -o docker-compose.yml; then
-  fatal "Не удалось скачать docker-compose.yml.
-       Проверь интернет: curl -v $COMPOSE_URL
-       Если в РФ блокировка raw.githubusercontent.com — VPN или клонирование вручную:
-       git clone https://github.com/brikkoAI/brikko-studio.git $INSTALL_DIR"
+# Curl с retry+timeout: первый ответ Cloudflare быстрый, но 302 ведёт на
+# raw.githubusercontent.com, который у некоторых ISP в РФ лагает или дропает
+# TCP. Делаем 3 попытки по 30 сек → если всё равно фейл, советуем git clone.
+log "Скачиваю docker-compose.yml… (если медленно — это блокировка raw.githubusercontent.com у твоего провайдера)"
+if ! curl -fsSL --retry 3 --retry-delay 2 --connect-timeout 10 --max-time 30 \
+     --progress-bar "$COMPOSE_URL" -o docker-compose.yml 2>/dev/null; then
+  warn "Не удалось скачать docker-compose.yml через CDN."
+  hint "  Альтернатива (другой endpoint, обычно работает в РФ без VPN):"
+  hint "    cd \$HOME"
+  hint "    rm -rf brikko-studio   # на всякий случай"
+  hint "    git clone https://github.com/brikkoAI/brikko-studio.git brikko-studio"
+  hint "    cd brikko-studio"
+  hint "    cp .env.example .env"
+  hint "    docker compose up -d"
+  fatal "Прерываю установку. Используй git clone (см. выше) или подключи VPN."
 fi
 
 if [[ ! -f .env ]]; then
   log "Скачиваю .env.example…"
-  curl -fsSL "$ENV_URL" -o .env
-  sed -i.bak "s/^BRIKKO_PORT=.*/BRIKKO_PORT=$PORT/" .env && rm -f .env.bak
-  echo "BRIKKO_VERSION=$VERSION" >> .env
+  if ! curl -fsSL --retry 3 --retry-delay 2 --connect-timeout 10 --max-time 30 \
+       "$ENV_URL" -o .env; then
+    warn ".env.example не скачался — создаю минимальный .env с дефолтами."
+    cat > .env <<EOF
+BRIKKO_PORT=$PORT
+BRIKKO_VERSION=$VERSION
+EOF
+  else
+    sed -i.bak "s/^BRIKKO_PORT=.*/BRIKKO_PORT=$PORT/" .env && rm -f .env.bak
+    echo "BRIKKO_VERSION=$VERSION" >> .env
+  fi
 else
   log ".env уже существует — оставляю как есть"
 fi
