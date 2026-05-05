@@ -1,22 +1,19 @@
 #!/usr/bin/env node
-// Stub bin — real implementations wired in Task 18. Until then this exits
-// immediately with OneCCredentialsMissingError if invoked.
 import { runStdio } from "../dist/index.js";
-import { OneCCredentialsMissingError } from "../dist/errors.js";
+import { documentsList } from "../dist/tools/documents.js";
+import { contractorsSearch } from "../dist/tools/contractors.js";
+import { reportsBalance } from "../dist/tools/reports.js";
+import { OdataClient } from "../dist/odata-client.js";
+import { defaultBackend, loadCredentials } from "../dist/credentials.js";
 
-const stub = {
-  documentsList: async () => {
-    throw new OneCCredentialsMissingError();
-  },
-  contractorsSearch: async () => {
-    throw new OneCCredentialsMissingError();
-  },
-  reportsBalance: async () => {
-    throw new OneCCredentialsMissingError();
-  },
-};
+const creds = await loadCredentials(defaultBackend());
+const client = new OdataClient(creds);
 
-runStdio(stub).catch((err) => {
+await runStdio({
+  documentsList: (a) => documentsList(client, a),
+  contractorsSearch: (a) => contractorsSearch(client, a),
+  reportsBalance: (a) => reportsBalance(client, a),
+}).catch((err) => {
   console.error("[brikko-mcp-1c] fatal:", err);
   process.exit(1);
 });
