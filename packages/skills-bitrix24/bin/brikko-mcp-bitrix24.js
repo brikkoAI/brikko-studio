@@ -1,25 +1,20 @@
 #!/usr/bin/env node
 import { runStdio } from "../dist/index.js";
-import { CredentialsMissingError } from "../dist/errors.js";
+import { dealsGet, dealsList } from "../dist/tools/deals.js";
+import { contactsSearch } from "../dist/tools/contacts.js";
+import { leadsCreate } from "../dist/tools/leads.js";
+import { CrestClient } from "../dist/rest-client.js";
+import { defaultBackend, loadCredentials } from "../dist/credentials.js";
 
-// Real implementations come in Task 14-15. This bin starts up but tools throw
-// CredentialsMissingError until the user configures Bitrix24 in Settings.
-const stub = {
-  dealsList: async () => {
-    throw new CredentialsMissingError();
-  },
-  dealsGet: async () => {
-    throw new CredentialsMissingError();
-  },
-  contactsSearch: async () => {
-    throw new CredentialsMissingError();
-  },
-  leadsCreate: async () => {
-    throw new CredentialsMissingError();
-  },
-};
+const creds = await loadCredentials(defaultBackend());
+const client = new CrestClient(creds);
 
-runStdio(stub).catch((err) => {
+await runStdio({
+  dealsList: (a) => dealsList(client, a),
+  dealsGet: (a) => dealsGet(client, a),
+  contactsSearch: (a) => contactsSearch(client, a),
+  leadsCreate: (a) => leadsCreate(client, a),
+}).catch((err) => {
   console.error("[brikko-mcp-bitrix24] fatal:", err);
   process.exit(1);
 });
