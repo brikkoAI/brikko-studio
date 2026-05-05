@@ -1,6 +1,6 @@
 [project]
 name = "brikko-anonymizer"
-version = "0.2.0"
+version = "0.3.0"
 description = "Brikko Studio Anonymizer sidecar (M1 — PII masking core)"
 requires-python = ">=3.12"
 license = { text = "MIT" }
