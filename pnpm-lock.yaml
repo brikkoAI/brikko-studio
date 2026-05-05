@@ -1690,6 +1690,34 @@ importers:
         specifier: ^4.1.5
         version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@22.19.17)(@vitest/browser-playwright@4.1.5)(@vitest/coverage-v8@4.1.5)(jsdom@29.1.1(@noble/hashes@2.0.1))(msw@2.14.2(@types/node@22.19.17)(typescript@5.4.5))(vite@8.0.10(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.4))
 
+  packages/skills-bitrix24:
+    dependencies:
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.29.0
+        version: 1.29.0(zod@3.25.76)
+      keytar:
+        specifier: ^7.9.0
+        version: 7.9.0
+      undici:
+        specifier: ^7.0.0
+        version: 7.25.0
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^22.7.0
+        version: 22.19.17
+      msw:
+        specifier: ^2.6.0
+        version: 2.14.2(@types/node@22.19.17)(typescript@5.4.5)
+      typescript:
+        specifier: 5.4.5
+        version: 5.4.5
+      vitest:
+        specifier: ^4.1.5
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@22.19.17)(@vitest/browser-playwright@4.1.5)(@vitest/coverage-v8@4.1.5)(jsdom@29.1.1(@noble/hashes@2.0.1))(msw@2.14.2(@types/node@22.19.17)(typescript@5.4.5))(vite@8.0.10(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.4))
+
   packages/web-ui:
     dependencies:
       '@brikko/oauth-client':
@@ -11078,6 +11106,28 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
+  '@modelcontextprotocol/sdk@1.29.0(zod@3.25.76)':
+    dependencies:
+      '@hono/node-server': 1.19.14(hono@4.12.16)
+      ajv: 8.20.0
+      ajv-formats: 3.0.1(ajv@8.20.0)
+      content-type: 1.0.5
+      cors: 2.8.6
+      cross-spawn: 7.0.6
+      eventsource: 3.0.7
+      eventsource-parser: 3.0.8
+      express: 5.2.1
+      express-rate-limit: 8.4.1(express@5.2.1)
+      hono: 4.12.16
+      jose: 6.2.3
+      json-schema-typed: 8.0.2
+      pkce-challenge: 5.0.1
+      raw-body: 3.0.2
+      zod: 3.25.76
+      zod-to-json-schema: 3.25.2(zod@3.25.76)
+    transitivePeerDependencies:
+      - supports-color
+
   '@modelcontextprotocol/sdk@1.29.0(zod@4.4.2)':
     dependencies:
       '@hono/node-server': 1.19.14(hono@4.12.16)
@@ -11880,14 +11930,14 @@ snapshots:
 
   '@slack/logger@4.0.1':
     dependencies:
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
 
   '@slack/oauth@3.0.5':
     dependencies:
       '@slack/logger': 4.0.1
       '@slack/web-api': 7.15.1
       '@types/jsonwebtoken': 9.0.10
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
       jsonwebtoken: 9.0.3
     transitivePeerDependencies:
       - debug
@@ -11896,7 +11946,7 @@ snapshots:
     dependencies:
       '@slack/logger': 4.0.1
       '@slack/web-api': 7.15.1
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
       '@types/ws': 8.18.1
       eventemitter3: 5.0.4
       ws: 8.20.0
@@ -12446,7 +12496,7 @@ snapshots:
   '@types/body-parser@1.19.6':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
 
   '@types/chai@5.2.3':
     dependencies:
@@ -12459,7 +12509,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
 
   '@types/debug@4.1.13':
     dependencies:
@@ -12477,7 +12527,7 @@ snapshots:
 
   '@types/express-serve-static-core@5.1.1':
     dependencies:
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
       '@types/qs': 6.15.0
       '@types/range-parser': 1.2.7
       '@types/send': 1.2.1
@@ -12563,16 +12613,16 @@ snapshots:
 
   '@types/send@1.2.1':
     dependencies:
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
 
   '@types/serve-static@2.2.0':
     dependencies:
       '@types/http-errors': 2.0.5
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
 
   '@types/set-cookie-parser@2.4.10':
     dependencies:
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
 
   '@types/statuses@2.0.6': {}
 
@@ -12588,7 +12638,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
     optional: true
 
   '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260501.1':
@@ -12751,9 +12801,9 @@ snapshots:
       obug: 2.1.1
       std-env: 4.1.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@22.19.17)(@vitest/browser-playwright@4.1.5)(@vitest/coverage-v8@4.1.5)(jsdom@29.1.1(@noble/hashes@2.0.1))(msw@2.14.2(@types/node@22.19.17)(typescript@5.4.5))(vite@8.0.10(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.4))
+      vitest: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/browser-playwright@4.1.5)(@vitest/coverage-v8@4.1.5)(jsdom@29.1.1(@noble/hashes@2.0.1))(msw@2.14.2(@types/node@25.6.0)(typescript@5.4.5))(vite@8.0.10(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.4))
     optionalDependencies:
-      '@vitest/browser': 4.1.5(msw@2.14.2(@types/node@22.19.17)(typescript@5.4.5))(vite@8.0.10(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.4))(vitest@4.1.5)
+      '@vitest/browser': 4.1.5(msw@2.14.2(@types/node@25.6.0)(typescript@5.4.5))(vite@8.0.10(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.4))(vitest@4.1.5)
 
   '@vitest/expect@1.6.1':
     dependencies:
@@ -15913,7 +15963,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.1
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
       long: 5.3.2
 
   protobufjs@8.0.1:
@@ -15928,7 +15978,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.1
-      '@types/node': 20.19.39
+      '@types/node': 22.19.17
       long: 5.3.2
 
   proxy-addr@2.0.7:
@@ -17381,6 +17431,10 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+
+  zod-to-json-schema@3.25.2(zod@3.25.76):
+    dependencies:
+      zod: 3.25.76
 
   zod-to-json-schema@3.25.2(zod@4.4.2):
     dependencies:
