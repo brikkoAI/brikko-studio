@@ -1,12 +1,41 @@
-// Real implementation in Task 23.
+import * as Tabs from "@radix-ui/react-tabs";
+import { StatsPanel } from "../privacy/StatsPanel.js";
+import { AuditLogTable } from "../privacy/AuditLogTable.js";
 import { useTranslation } from "../i18n/index.js";
 
-export function Privacy() {
+export function Privacy(): JSX.Element {
   const t = useTranslation();
   return (
-    <div className="page" data-testid="privacy-placeholder">
+    <div className="page" data-testid="privacy-page">
       <h1>{t("privacy.title")}</h1>
-      <p className="muted">— Task 23 —</p>
+      <Tabs.Root defaultValue="stats">
+        <Tabs.List className="tabs-list">
+          <Tabs.Trigger value="stats" className="tabs-trigger" data-testid="tab-stats">
+            {t("privacy.tab.stats")}
+          </Tabs.Trigger>
+          <Tabs.Trigger value="audit" className="tabs-trigger" data-testid="tab-audit">
+            {t("privacy.tab.audit")}
+          </Tabs.Trigger>
+          <Tabs.Trigger value="policy" className="tabs-trigger" data-testid="tab-policy">
+            {t("privacy.tab.policy")}
+          </Tabs.Trigger>
+          <Tabs.Trigger value="tools" className="tabs-trigger" data-testid="tab-tools">
+            {t("privacy.tab.tools")}
+          </Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value="stats">
+          <StatsPanel />
+        </Tabs.Content>
+        <Tabs.Content value="audit">
+          <AuditLogTable />
+        </Tabs.Content>
+        <Tabs.Content value="policy">
+          <p className="muted">— Task 24 —</p>
+        </Tabs.Content>
+        <Tabs.Content value="tools">
+          <p className="muted">— Task 24 —</p>
+        </Tabs.Content>
+      </Tabs.Root>
     </div>
   );
 }
