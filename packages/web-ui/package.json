@@ -7,20 +7,35 @@
     "dev": "vite --port 3737 --host 127.0.0.1",
     "build": "tsc -b && vite build",
     "preview": "vite preview --port 3737",
-    "test": "echo 'no unit tests in M0; see tests/e2e for Playwright'",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:e2e": "playwright test"
   },
   "dependencies": {
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "6.23.0",
-    "@brikko/oauth-client": "workspace:*"
+    "@brikko/oauth-client": "workspace:*",
+    "@tanstack/react-query": "5.59.0",
+    "@radix-ui/react-dialog": "1.1.0",
+    "@radix-ui/react-dropdown-menu": "2.1.0",
+    "@radix-ui/react-checkbox": "1.1.0",
+    "@radix-ui/react-tooltip": "1.1.0",
+    "@radix-ui/react-tabs": "1.1.0",
+    "@radix-ui/react-select": "2.1.0",
+    "clsx": "2.1.1",
+    "date-fns": "4.1.0"
   },
   "devDependencies": {
     "@types/react": "18.3.0",
     "@types/react-dom": "18.3.0",
     "@vitejs/plugin-react": "4.3.0",
     "vite": "5.2.10",
-    "@playwright/test": "1.43.1"
+    "@playwright/test": "1.43.1",
+    "vitest": "2.1.1",
+    "@testing-library/react": "16.0.0",
+    "@testing-library/user-event": "14.5.2",
+    "@testing-library/jest-dom": "6.5.0",
+    "jsdom": "25.0.0"
   }
 }
