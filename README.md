@@ -19,11 +19,22 @@
 
 ### ⚡ Установка одной командой
 
+**Рекомендованный способ** (через npm CLI):
+
 ```bash
-curl -sSL https://install.brikko.ru/studio.sh | bash
+npm install -g brikko-cli
+brikko init
 ```
 
 Откроется браузер на `http://localhost:3737`. Дальше — 6-шаговый онбординг: workspace + backup → выбор LLM → privacy профиль → демо → подтверждение.
+
+Управление после установки: `brikko start` / `brikko stop` / `brikko logs -f` / `brikko update` / `brikko doctor`. Подробнее — в [brikkoAI/brikko-cli](https://github.com/brikkoAI/brikko-cli).
+
+> **Альтернатива** (для машин без Node.js):
+> ```bash
+> curl -sSL https://install.brikko.ru/studio.sh | bash
+> ```
+> Старый способ через `curl` всё ещё работает, но npm CLI — рекомендованный путь (надёжнее в РФ, обновления через `brikko update`, диагностика через `brikko doctor`).
 
 ### 🧠 Что умеет
 
@@ -162,11 +173,22 @@ Russian companies are restricted by 152-FZ data protection law from sending pers
 
 ### One-line install
 
+**Recommended** (via the npm CLI):
+
 ```bash
-curl -sSL https://install.brikko.ru/studio.sh | bash
+npm install -g brikko-cli
+brikko init
 ```
 
-Browser opens on `http://localhost:3737` with 6-step onboarding.
+Browser opens on `http://localhost:3737` with the 6-step onboarding.
+
+Day-to-day management: `brikko start` / `brikko stop` / `brikko logs -f` / `brikko update` / `brikko doctor`. See [brikkoAI/brikko-cli](https://github.com/brikkoAI/brikko-cli) for the full command reference.
+
+> **Fallback** (for machines without Node.js):
+> ```bash
+> curl -sSL https://install.brikko.ru/studio.sh | bash
+> ```
+> The legacy `curl` installer still works, but the npm CLI is the recommended path — more reliable in Russia (no CDN dependency), updates via `brikko update`, diagnostics via `brikko doctor`.
 
 ### Features
 
