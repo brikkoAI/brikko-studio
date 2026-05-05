@@ -1,4 +1,48 @@
-# M2 follow-ups (web-ui side)
+# M2 follow-ups
+
+Items intentionally deferred from M2 — track here so they're not forgotten when
+planning M3.
+
+## Plugin
+
+- [ ] Hot reload of policy YAML files (spec §4.11). M2 requires container
+      restart. The plugin reads `BRIKKO_POLICY_PATH` and
+      `BRIKKO_TOOL_POLICIES_PATH` once at boot.
+- [ ] Per-field sensitivity filtering for `email.send`-style policies
+      (spec §4.3 advanced). M2 implements deny / deanonymize / keep_anonymized
+      at the call level only.
+- [ ] Plugin-level integration test that boots actual core + actual anonymizer
+      (currently we test against mocks in `packages/privacy-plugin/tests/`).
+
+## MCP
+
+- [ ] Bitrix24: pagination across `crm.deal.list` (we cap at `limit`, but
+      Bitrix24 paginates with `start`).
+- [ ] Bitrix24: support custom fields (UF_*) in deals + leads.
+- [ ] 1С: support УНФ + УТ field-name variants (M2 ships with Бухгалтерия 3.0
+      only).
+- [ ] 1С: period-bounded balance via Turnover() OData function.
+- [ ] amoCRM, Мегаплан, RetailCRM MCP servers — third-party CRMs.
+
+## Web UI
+
+- [ ] Virtualised message list for >1k messages (currently linear React render).
+- [ ] Per-session message persistence in IndexedDB (currently lost on reload).
+- [ ] Privacy dashboard "tool policies" trust-level toggle (M2 displays trust
+      read-only).
+- [ ] Settings: rotate-key flow (currently only initial save).
+- [ ] Onboarding: skip-onboarding for power users who restored from backup.
+
+## Integration
+
+- [ ] Verified end-to-end against real Telegram channel adapter from upstream.
+- [ ] Load test with k6 — 10 concurrent chats, measure anonymizer latency p95.
+- [ ] Clean-VM smoke run on fresh Ubuntu 22.04 + Docker (Task 33 step 6 — left
+      to CEO post-tag).
+
+---
+
+## Onboarding API gap (Tasks 27-30) — server-side
 
 Tracker for server-side gaps that the M2 onboarding wizard depends on.
 The wizard UI is fully implemented (Tasks 27-30) and calls these endpoints

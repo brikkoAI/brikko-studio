@@ -1,0 +1,48 @@
+{
+  "$schema": "https://brikko.ru/schemas/plugins-config.v1.json",
+  "version": 1,
+  "_comment": [
+    "Brikko Studio plugin loader config — read by core at boot.",
+    "Each entry registers a plugin module that exposes the OpenClaw hook surface",
+    "(pre_user_message, post_llm_response, post_llm_response_stream, pre_tool_call,",
+    "post_tool_result, pre_llm_call, pre_memory_write).",
+    "",
+    "Resolution: `module` is a Node import path. The core will `import(module)`",
+    "and call `createPlugin(config)`; the returned object's `hooks` are merged",
+    "into the pipeline in the order listed here.",
+    "",
+    "Adding a plugin: append an entry. Disabling: set `enabled: false` rather",
+    "than removing — keeps the docker compose image self-contained for rollback.",
+    "",
+    "Hot-reload of this file is NOT supported in M2 (see docs/M2_FOLLOWUPS.md).",
+    "Restart the container after edits."
+  ],
+  "plugins": [
+    {
+      "name": "@brikko/privacy-plugin",
+      "module": "@brikko/privacy-plugin",
+      "enabled": true,
+      "config": {
+        "anonymizerUrl": "${BRIKKO_ANONYMIZER_URL:-http://anonymizer:8403}",
+        "policyPath": "${BRIKKO_POLICY_PATH:-/etc/brikko/policy.yaml}",
+        "toolPoliciesPath": "${BRIKKO_TOOL_POLICIES_PATH:-/etc/brikko/tool-policies.yaml}",
+        "debug": "${BRIKKO_PLUGIN_DEBUG:-0}"
+      }
+    }
+  ],
+  "mcp_servers": [
+    {
+      "name": "bitrix24",
+      "bin": "${BRIKKO_MCP_BITRIX24_BIN:-brikko-mcp-bitrix24}",
+      "transport": "stdio",
+      "trust": "untrusted",
+      "_comment": "Spawned per-request. Trust=untrusted means pre_tool_call deanonymizes args by default; trusted servers (none in M2) bypass deanonymization."
+    },
+    {
+      "name": "1c",
+      "bin": "${BRIKKO_MCP_1C_BIN:-brikko-mcp-1c}",
+      "transport": "stdio",
+      "trust": "untrusted"
+    }
+  ]
+}

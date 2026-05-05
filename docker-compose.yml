@@ -26,9 +26,27 @@ services:
       BRIKKO_GATEWAY: ${BRIKKO_GATEWAY:-https://api.brikko.ru}
       BRIKKO_PORT: 3737
       BRIKKO_USE_INMEM_KEYCHAIN: ${BRIKKO_USE_INMEM_KEYCHAIN:-0}
+      # Privacy plugin <-> anonymizer wiring (M2 task 31).
+      # The plugin reads BRIKKO_ANONYMIZER_URL from env at boot. ANONYMIZER_URL
+      # is kept for backward compat with M0/M1 callers.
       ANONYMIZER_URL: http://anonymizer:8403
+      BRIKKO_ANONYMIZER_URL: http://anonymizer:8403
+      BRIKKO_PLUGIN_DEBUG: ${BRIKKO_PLUGIN_DEBUG:-0}
+      # Policy YAML paths read by core /api/privacy/policy + /api/privacy/tool-policies
+      # endpoints (Task 24). Default profile is "balanced"; ops mounts custom YAML
+      # files into /etc/brikko via the brikko-config volume below.
+      BRIKKO_POLICY_PATH: ${BRIKKO_POLICY_PATH:-/etc/brikko/policy.yaml}
+      BRIKKO_TOOL_POLICIES_PATH: ${BRIKKO_TOOL_POLICIES_PATH:-/etc/brikko/tool-policies.yaml}
+      # MCP servers are bundled in the core image (see Dockerfile). PATH-resolved
+      # by name when the core spawns brikko-mcp-bitrix24 / brikko-mcp-1c.
+      BRIKKO_MCP_BITRIX24_BIN: brikko-mcp-bitrix24
+      BRIKKO_MCP_1C_BIN: brikko-mcp-1c
       REDIS_URL: redis://redis:6379/0
       NODE_ENV: production
+    volumes:
+      # Operator-supplied policy YAMLs (read-only). Pre-seeded with empty-defaults
+      # baked into the image; mount-over to override.
+      - brikko-config:/etc/brikko
     depends_on:
       anonymizer:
         condition: service_healthy
@@ -100,3 +118,9 @@ volumes:
   # Survives `docker compose down` (removed by `down -v`).
   brikko-state:
     name: brikko-state
+  # Operator-supplied policy YAMLs:
+  #   /etc/brikko/policy.yaml         — privacy profile + per-category overrides
+  #   /etc/brikko/tool-policies.yaml  — pre_tool_call deny-by-default rules
+  # If empty, core falls back to the "balanced" profile baked into the image.
+  brikko-config:
+    name: brikko-config
