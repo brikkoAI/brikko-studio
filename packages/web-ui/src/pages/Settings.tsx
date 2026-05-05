@@ -1,11 +1,16 @@
+import { WorkspaceSection } from "../settings/WorkspaceSection.js";
+import { McpCredentialsSection } from "../settings/McpCredentialsSection.js";
+import { ThemeSection } from "../settings/ThemeSection.js";
 import { useTranslation } from "../i18n/index.js";
 
-export function Settings() {
+export function Settings(): JSX.Element {
   const t = useTranslation();
   return (
-    <div className="page" data-testid="settings-placeholder">
+    <div className="settings-page" data-testid="settings-page">
       <h1>{t("settings.title")}</h1>
-      <p className="muted">— Task 26 —</p>
+      <WorkspaceSection />
+      <McpCredentialsSection />
+      <ThemeSection />
     </div>
   );
 }
