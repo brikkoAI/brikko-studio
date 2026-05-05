@@ -38,6 +38,9 @@ jobs:
       - name: Typecheck oauth-client
         run: pnpm --filter @brikko/oauth-client exec tsc -p tsconfig.json --noEmit
 
+      - name: Build oauth-client (needed for typecheck of core + web-ui)
+        run: pnpm --filter @brikko/oauth-client exec tsc -p tsconfig.json
+
       - name: Typecheck core (studio)
         run: pnpm --filter @brikko/studio-core exec tsc -p tsconfig.studio.json --noEmit
 
@@ -46,9 +49,6 @@ jobs:
 
       - name: Test core (vitest, only auth-api + i18n in M0)
         run: pnpm exec vitest run packages/core/src/auth-api packages/core/src/i18n
-
-      - name: Build oauth-client
-        run: pnpm --filter @brikko/oauth-client exec tsc -p tsconfig.json
 
       - name: Build core
         run: pnpm --filter @brikko/studio-core exec tsc -p tsconfig.studio.json

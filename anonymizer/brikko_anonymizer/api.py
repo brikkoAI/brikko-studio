@@ -13,7 +13,6 @@ import io
 import json
 import os
 import zipfile
-from pathlib import Path
 from typing import AsyncIterator, Callable, Optional
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM

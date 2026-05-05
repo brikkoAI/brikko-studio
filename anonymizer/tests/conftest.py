@@ -23,7 +23,6 @@ from typing import Iterator
 import pytest
 
 from brikko_anonymizer import (
-    degraded_mode,
     mapping_store,
     paths,
     pipeline as pipeline_mod,
