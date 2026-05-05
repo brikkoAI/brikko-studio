@@ -11,8 +11,17 @@ set -euo pipefail
 
 INSTALL_DIR="${HOME}/brikko-studio"
 PORT="3737"
-COMPOSE_URL="https://raw.githubusercontent.com/brikkoAI/brikko-studio/main/docker-compose.yml"
-ENV_URL="https://raw.githubusercontent.com/brikkoAI/brikko-studio/main/.env.example"
+# Primary: JSDelivr CDN (AnyCast, в РФ работает без VPN, кеш 12 часов).
+# Fallback: raw.githubusercontent.com (на случай если JSDelivr недоступен).
+# Зеркала перебираем в download_with_fallback() ниже.
+COMPOSE_URLS=(
+  "https://cdn.jsdelivr.net/gh/brikkoAI/brikko-studio@main/docker-compose.yml"
+  "https://raw.githubusercontent.com/brikkoAI/brikko-studio/main/docker-compose.yml"
+)
+ENV_URLS=(
+  "https://cdn.jsdelivr.net/gh/brikkoAI/brikko-studio@main/.env.example"
+  "https://raw.githubusercontent.com/brikkoAI/brikko-studio/main/.env.example"
+)
 VERSION="${BRIKKO_VERSION:-latest}"
 
 while [[ $# -gt 0 ]]; do
@@ -38,6 +47,29 @@ log()   { printf "\033[1;34m[brikko]\033[0m %s\n" "$*"; }
 warn()  { printf "\033[1;33m[brikko]\033[0m %s\n" "$*" >&2; }
 fatal() { printf "\033[1;31m[brikko]\033[0m %s\n" "$*" >&2; exit 1; }
 hint()  { printf "\033[1;36m[brikko]\033[0m \033[2m%s\033[0m\n" "$*" >&2; }
+
+# Скачивает первый доступный URL из списка зеркал. Возвращает 0 при успехе,
+# 1 если все упали. Caller сам решает что делать (fatal или fallback на git).
+download_with_fallback() {
+  local out_path="$1"
+  shift
+  local urls=("$@")
+  local short_name
+  short_name="$(basename "$out_path")"
+  for url in "${urls[@]}"; do
+    local host
+    host="$(echo "$url" | awk -F/ '{print $3}')"
+    log "  → пробую через $host…"
+    if curl -fsSL --retry 2 --retry-delay 1 \
+            --connect-timeout 8 --max-time 30 \
+            "$url" -o "$out_path" 2>/dev/null; then
+      log "    ✓ $short_name скачан с $host"
+      return 0
+    fi
+    warn "    × $host недоступен, пробую следующее зеркало"
+  done
+  return 1
+}
 
 # 1. Detect OS — distinguish WSL from native Linux for clearer guidance
 OS_NAME="$(uname -s)"
@@ -147,27 +179,21 @@ mkdir -p "$INSTALL_DIR"
 cd "$INSTALL_DIR"
 
 # 8. Download docker-compose.yml and .env.example
-# Curl с retry+timeout: первый ответ Cloudflare быстрый, но 302 ведёт на
-# raw.githubusercontent.com, который у некоторых ISP в РФ лагает или дропает
-# TCP. Делаем 3 попытки по 30 сек → если всё равно фейл, советуем git clone.
-log "Скачиваю docker-compose.yml… (если медленно — это блокировка raw.githubusercontent.com у твоего провайдера)"
-if ! curl -fsSL --retry 3 --retry-delay 2 --connect-timeout 10 --max-time 30 \
-     --progress-bar "$COMPOSE_URL" -o docker-compose.yml 2>/dev/null; then
-  warn "Не удалось скачать docker-compose.yml через CDN."
-  hint "  Альтернатива (другой endpoint, обычно работает в РФ без VPN):"
-  hint "    cd \$HOME"
-  hint "    rm -rf brikko-studio   # на всякий случай"
+# Перебор зеркал (JSDelivr CDN → raw.githubusercontent.com), retry/timeout
+# внутри каждого. Если все зеркала упали — fallback на git clone.
+log "Скачиваю docker-compose.yml…"
+if ! download_with_fallback "docker-compose.yml" "${COMPOSE_URLS[@]}"; then
+  warn "Все CDN-зеркала недоступны. Возможно у твоего провайдера блокировка."
+  hint "  Альтернатива через git (обычно работает в РФ без VPN):"
+  hint "    cd \$HOME && rm -rf brikko-studio"
   hint "    git clone https://github.com/brikkoAI/brikko-studio.git brikko-studio"
-  hint "    cd brikko-studio"
-  hint "    cp .env.example .env"
-  hint "    docker compose up -d"
-  fatal "Прерываю установку. Используй git clone (см. выше) или подключи VPN."
+  hint "    cd brikko-studio && cp .env.example .env && docker compose up -d"
+  fatal "Прерываю установку. Используй git clone (см. выше)."
 fi
 
 if [[ ! -f .env ]]; then
   log "Скачиваю .env.example…"
-  if ! curl -fsSL --retry 3 --retry-delay 2 --connect-timeout 10 --max-time 30 \
-       "$ENV_URL" -o .env; then
+  if ! download_with_fallback ".env" "${ENV_URLS[@]}"; then
     warn ".env.example не скачался — создаю минимальный .env с дефолтами."
     cat > .env <<EOF
 BRIKKO_PORT=$PORT
