@@ -1,6 +1,8 @@
 import * as Tabs from "@radix-ui/react-tabs";
 import { StatsPanel } from "../privacy/StatsPanel.js";
 import { AuditLogTable } from "../privacy/AuditLogTable.js";
+import { PolicyEditor } from "../privacy/PolicyEditor.js";
+import { ToolPoliciesEditor } from "../privacy/ToolPoliciesEditor.js";
 import { useTranslation } from "../i18n/index.js";
 
 export function Privacy(): JSX.Element {
@@ -30,10 +32,10 @@ export function Privacy(): JSX.Element {
           <AuditLogTable />
         </Tabs.Content>
         <Tabs.Content value="policy">
-          <p className="muted">— Task 24 —</p>
+          <PolicyEditor />
         </Tabs.Content>
         <Tabs.Content value="tools">
-          <p className="muted">— Task 24 —</p>
+          <ToolPoliciesEditor />
         </Tabs.Content>
       </Tabs.Root>
     </div>
