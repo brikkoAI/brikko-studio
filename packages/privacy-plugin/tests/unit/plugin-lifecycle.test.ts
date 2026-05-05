@@ -1,10 +1,5 @@
 import { describe, it, expect } from "vitest";
 import plugin from "../../src/index.js";
-import type { MemoryWriteContext } from "../../src/types.js";
-
-const ws = { id: "ws_test", policy_profile: "balanced" as const };
-const ses = { id: "ses_1" };
-const reqId = "req_abc";
 
 describe("BrikkoPrivacyPlugin lifecycle (scaffold — no logic yet)", () => {
   it("exports name 'brikko-privacy' and a SemVer version", () => {
@@ -65,14 +60,13 @@ describe("BrikkoPrivacyPlugin lifecycle (scaffold — no logic yet)", () => {
     expect(typeof plugin.hooks.pre_llm_call).toBe("function");
   });
 
-  it("pre_memory_write returns the context unchanged in scaffold mode", async () => {
-    const ctx: MemoryWriteContext = {
-      workspace: ws,
-      session: ses,
-      request_id: reqId,
-      memory: { content: "client X likes blue", key: "client_pref_X" },
-    };
-    expect(await plugin.hooks.pre_memory_write(ctx)).toEqual(ctx);
+  it("pre_memory_write is callable on the default plugin instance", () => {
+    // M2 Task 11 wired this hook to AnonymizerClient.anonymize via
+    // maskMemoryContent (fail-closed); behaviour is covered in
+    // tests/integration/pre-memory-write.test.ts where MSW stands in for
+    // the sidecar. Here we only verify the symbol exists on the default
+    // export so the OpenClaw loader can mount it.
+    expect(typeof plugin.hooks.pre_memory_write).toBe("function");
   });
 
   it("post_llm_response_stream is callable on the default plugin instance", () => {
