@@ -2,16 +2,17 @@ import { AnonymizerClient } from "./anonymizer-client.js";
 import { type PluginConfig, loadConfigFromEnv } from "./config.js";
 import { makePostLlmResponseHook } from "./hooks/post-llm-response.js";
 import { makePostLlmResponseStreamHook } from "./hooks/post-llm-response-stream.js";
+import { makePreToolCallHook } from "./hooks/pre-tool-call.js";
 import {
   type HookLogger,
   makePreUserMessageHook,
 } from "./hooks/pre-user-message.js";
+import { loadToolPolicies } from "./tool-policies.js";
 import type {
   BrikkoPrivacyPluginExports,
   HookResult,
   MemoryWriteContext,
   MessageContext,
-  ToolCallContext,
   ToolResultContext,
 } from "./types.js";
 
@@ -35,9 +36,15 @@ export function createPlugin(cfg: PluginConfig): BrikkoPrivacyPluginExports {
     }
   };
 
+  // Load tool policies once at plugin startup. The promise is awaited inside
+  // each pre_tool_call invocation; subsequent calls hit the resolved value
+  // for free. Hot-reload is M3 (tracked in M2_FOLLOWUPS).
+  const policiesPromise = loadToolPolicies(cfg.toolPoliciesPath);
+
   const preUserMessage = makePreUserMessageHook(client, log);
   const postLlmResponse = makePostLlmResponseHook(client, log);
   const postLlmResponseStream = makePostLlmResponseStreamHook(cfg, log);
+  const preToolCall = makePreToolCallHook(client, policiesPromise, log);
 
   return {
     name: "brikko-privacy",
@@ -46,17 +53,9 @@ export function createPlugin(cfg: PluginConfig): BrikkoPrivacyPluginExports {
       pre_user_message: preUserMessage,
       post_llm_response: postLlmResponse,
       post_llm_response_stream: postLlmResponseStream,
+      pre_tool_call: preToolCall,
 
       // Identity hooks — replaced in subsequent M2 tasks.
-      async pre_tool_call(
-        ctx: ToolCallContext,
-      ): Promise<HookResult<ToolCallContext>> {
-        log("pre_tool_call", ctx.request_id, {
-          tool: ctx.tool.name,
-          trust: ctx.trust,
-        });
-        return ctx;
-      },
       async post_tool_result(
         ctx: ToolResultContext,
       ): Promise<HookResult<ToolResultContext>> {

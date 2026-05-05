@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 import plugin from "../../src/index.js";
 import type {
   MessageContext,
-  ToolCallContext,
   ToolResultContext,
   MemoryWriteContext,
 } from "../../src/types.js";
@@ -43,15 +42,14 @@ describe("BrikkoPrivacyPlugin lifecycle (scaffold — no logic yet)", () => {
     expect(typeof plugin.hooks.post_llm_response).toBe("function");
   });
 
-  it("pre_tool_call returns the context unchanged in scaffold mode", async () => {
-    const ctx: ToolCallContext = {
-      workspace: ws,
-      session: ses,
-      request_id: reqId,
-      tool: { name: "bitrix24.deals.list", args: { client: "X" } },
-      trust: "trusted",
-    };
-    expect(await plugin.hooks.pre_tool_call(ctx)).toEqual(ctx);
+  it("pre_tool_call is callable on the default plugin instance", () => {
+    // M2 Task 8 wired this hook to the tool-policy table + anonymizer's
+    // /tool_call/deanonymize endpoint; behaviour is covered in
+    // tests/integration/pre-tool-call.test.ts where MSW + a fixture YAML
+    // stand in for the sidecar and the policy file. Here we only verify
+    // the symbol exists on the default export so the OpenClaw loader can
+    // mount it.
+    expect(typeof plugin.hooks.pre_tool_call).toBe("function");
   });
 
   it("post_tool_result returns the context unchanged in scaffold mode", async () => {
