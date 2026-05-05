@@ -1,9 +1,6 @@
 import { describe, it, expect } from "vitest";
 import plugin from "../../src/index.js";
-import type {
-  MessageContext,
-  MemoryWriteContext,
-} from "../../src/types.js";
+import type { MemoryWriteContext } from "../../src/types.js";
 
 const ws = { id: "ws_test", policy_profile: "balanced" as const };
 const ses = { id: "ses_1" };
@@ -59,14 +56,13 @@ describe("BrikkoPrivacyPlugin lifecycle (scaffold — no logic yet)", () => {
     expect(typeof plugin.hooks.post_tool_result).toBe("function");
   });
 
-  it("pre_llm_call returns the context unchanged in scaffold mode", async () => {
-    const ctx: MessageContext = {
-      workspace: ws,
-      session: ses,
-      request_id: reqId,
-      message: { text: "prompt for llm", channel: "cli" },
-    };
-    expect(await plugin.hooks.pre_llm_call(ctx)).toEqual(ctx);
+  it("pre_llm_call is callable on the default plugin instance", () => {
+    // M2 Task 10 wired this hook to AnonymizerClient.anonymize as the
+    // defence-in-depth final guard; behaviour is covered in
+    // tests/integration/pre-llm-call.test.ts where MSW stands in for the
+    // sidecar. Here we only verify the symbol exists on the default
+    // export so the OpenClaw loader can mount it.
+    expect(typeof plugin.hooks.pre_llm_call).toBe("function");
   });
 
   it("pre_memory_write returns the context unchanged in scaffold mode", async () => {

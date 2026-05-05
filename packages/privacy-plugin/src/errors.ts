@@ -53,3 +53,21 @@ export class StreamProtocolError extends BrikkoPluginError {
     super(`Anonymizer stream protocol violation: ${reason}`);
   }
 }
+
+/**
+ * Raised by `pre_llm_call` (defence in depth) when PII slips past the
+ * upstream hooks and is detected at the final guard immediately before
+ * the bytes leave for the LLM. Strict-profile workspaces abort the call;
+ * balanced re-masks silently; permissive logs and proceeds.
+ */
+export class LatePIIDetectedError extends BrikkoPluginError {
+  public readonly entities: number;
+  constructor(entities: number) {
+    super(
+      `pre_llm_call detected ${entities} PII entit${
+        entities === 1 ? "y" : "ies"
+      } after upstream hooks — strict profile aborts.`,
+    );
+    this.entities = entities;
+  }
+}

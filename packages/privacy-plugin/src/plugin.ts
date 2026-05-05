@@ -3,6 +3,7 @@ import { type PluginConfig, loadConfigFromEnv } from "./config.js";
 import { makePostLlmResponseHook } from "./hooks/post-llm-response.js";
 import { makePostLlmResponseStreamHook } from "./hooks/post-llm-response-stream.js";
 import { makePostToolResultHook } from "./hooks/post-tool-result.js";
+import { makePreLlmCallHook } from "./hooks/pre-llm-call.js";
 import { makePreToolCallHook } from "./hooks/pre-tool-call.js";
 import {
   type HookLogger,
@@ -46,6 +47,7 @@ export function createPlugin(cfg: PluginConfig): BrikkoPrivacyPluginExports {
   const postLlmResponseStream = makePostLlmResponseStreamHook(cfg, log);
   const preToolCall = makePreToolCallHook(client, policiesPromise, log);
   const postToolResult = makePostToolResultHook(client, log);
+  const preLlmCall = makePreLlmCallHook(client, log);
 
   return {
     name: "brikko-privacy",
@@ -56,16 +58,9 @@ export function createPlugin(cfg: PluginConfig): BrikkoPrivacyPluginExports {
       post_llm_response_stream: postLlmResponseStream,
       pre_tool_call: preToolCall,
       post_tool_result: postToolResult,
+      pre_llm_call: preLlmCall,
 
       // Identity hooks — replaced in subsequent M2 tasks.
-      async pre_llm_call(
-        ctx: MessageContext,
-      ): Promise<HookResult<MessageContext>> {
-        log("pre_llm_call", ctx.request_id, {
-          textLen: ctx.message.text.length,
-        });
-        return ctx;
-      },
       async pre_memory_write(
         ctx: MemoryWriteContext,
       ): Promise<HookResult<MemoryWriteContext>> {
