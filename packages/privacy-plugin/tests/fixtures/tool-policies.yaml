@@ -1,0 +1,26 @@
+tool_policies:
+  filesystem.*:
+    args: deanonymize
+    result: anonymize
+  bitrix24.*:
+    args: deanonymize
+    result: anonymize
+  1c.*:
+    args: deanonymize
+    result: anonymize
+  web.search:
+    args:
+      max_sensitivity: low
+    result: anonymize
+  email.send:
+    args:
+      to: { max_sensitivity: medium }
+      subject: { max_sensitivity: medium }
+      body: { max_sensitivity: low }
+    result: anonymize
+  third_party_ai.*:
+    deny: true
+    deny_message: "Использование сторонних AI-инструментов запрещено политикой"
+  '*':
+    args: keep_anonymized
+    result: anonymize
