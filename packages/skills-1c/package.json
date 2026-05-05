@@ -1,0 +1,36 @@
+{
+  "name": "@brikko/skills-1c",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Brikko MCP server exposing 1С (Бухгалтерия 3.0) as tools via OData.",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "brikko-mcp-1c": "./bin/brikko-mcp-1c.js" },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.23.8",
+    "keytar": "^7.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.0",
+    "msw": "^2.6.0",
+    "typescript": "5.4.5",
+    "vitest": "^4.1.5"
+  },
+  "engines": { "node": ">=22.14.0" },
+  "files": ["dist", "bin", "README.md", "LICENSE"]
+}
