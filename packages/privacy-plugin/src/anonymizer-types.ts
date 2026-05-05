@@ -47,9 +47,19 @@ export interface RestoreRequest {
   request_id: string;
 }
 
+/**
+ * Each entry is the placeholder the LLM hallucinated (no mapping exists in
+ * the workspace store). Object shape (rather than bare string) leaves room
+ * for the sidecar to attach `category`, `first_seen`, etc. without a
+ * breaking schema change. Aligns with the chat UI's rendering shape.
+ */
+export interface HallucinatedEntity {
+  placeholder: string;
+}
+
 export interface RestoreResponse {
   restored_text: string;
-  hallucinated: string[];
+  hallucinated: HallucinatedEntity[];
   request_id: string;
   latency_ms: number;
 }

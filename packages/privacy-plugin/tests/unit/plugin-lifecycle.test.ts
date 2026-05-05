@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 import plugin from "../../src/index.js";
 import type {
   MessageContext,
-  LlmResponseContext,
   ToolCallContext,
   ToolResultContext,
   MemoryWriteContext,
@@ -36,14 +35,12 @@ describe("BrikkoPrivacyPlugin lifecycle (scaffold — no logic yet)", () => {
     expect(typeof plugin.hooks.pre_user_message).toBe("function");
   });
 
-  it("post_llm_response returns the context unchanged in scaffold mode", async () => {
-    const ctx: LlmResponseContext = {
-      workspace: ws,
-      session: ses,
-      request_id: reqId,
-      response: { text: "answer" },
-    };
-    expect(await plugin.hooks.post_llm_response(ctx)).toEqual(ctx);
+  it("post_llm_response is callable on the default plugin instance", () => {
+    // M2 Task 5 wired this hook to the anonymizer's /restore endpoint;
+    // behavior is covered in tests/integration/post-llm-response.test.ts
+    // where MSW stands in for the sidecar. Here we only verify the symbol
+    // exists on the default export so the OpenClaw loader can mount it.
+    expect(typeof plugin.hooks.post_llm_response).toBe("function");
   });
 
   it("pre_tool_call returns the context unchanged in scaffold mode", async () => {

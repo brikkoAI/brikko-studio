@@ -30,11 +30,24 @@ export interface MessageContext {
   message: { text: string; channel: "web" | "telegram" | "cli" | string };
 }
 
+/**
+ * Placeholders the LLM emitted that don't exist in the workspace mapping
+ * store. The chat UI (Task 21) renders these with an "AI-generated" badge
+ * so the user knows the value was not de-anonymized from a real subject.
+ */
+export interface HallucinatedPlaceholder {
+  placeholder: string;
+}
+
 export interface LlmResponseContext {
   workspace: WorkspaceRef;
   session: SessionRef;
   request_id: string;
-  response: { text: string };
+  response: {
+    text: string;
+    /** Set by post_llm_response hook when the anonymizer flags hallucinations. */
+    hallucinated?: HallucinatedPlaceholder[];
+  };
 }
 
 export interface LlmStreamContext {

@@ -55,7 +55,7 @@ export const handlers = [
       .replace("<INN_1>", "7707083893");
     return HttpResponse.json({
       restored_text: restored,
-      hallucinated: [] as string[],
+      hallucinated: [] as Array<{ placeholder: string }>,
       request_id: body.request_id,
       latency_ms: 3,
     });
