@@ -3,7 +3,11 @@
 [![Version](https://img.shields.io/badge/version-0.3.0-blue.svg)](https://github.com/brikkoAI/brikko-studio/releases/tag/v0.3.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 [![Tests](https://img.shields.io/badge/tests-454%20passing-brightgreen.svg)](#testing)
+[![GitHub stars](https://img.shields.io/github/stars/brikkoAI/brikko-studio?style=social)](https://github.com/brikkoAI/brikko-studio/stargazers)
 [![Docker](https://img.shields.io/badge/docker-ghcr.io%2Fbrikkoai-blue.svg)](https://github.com/orgs/brikkoAI/packages?repo_name=brikko-studio)
+[![152-ФЗ](https://img.shields.io/badge/152--ФЗ-compliant-success.svg)](./docs/compliance/152fz-checklist.md)
+
+> **Часть [Brikko Privacy Ecosystem](https://brikko.ru)** — open-source инфраструктура маскинга персональных данных перед AI для русского рынка.
 
 [🇷🇺 Русский](#русский) | [🇬🇧 English](#english)
 
@@ -147,12 +151,16 @@ Issues и PR приветствуются. Особенно интересны:
 - Edge cases по 152-ФЗ от compliance-офицеров
 - Поддержка новых LLM-провайдеров
 
-### 🔗 Связанные проекты
+### 🔗 Связанные продукты Brikko
 
-- [brikkoAI/brikko](https://github.com/brikkoAI/brikko) — Brikko Gateway (api.brikko.ru), Privacy Mode v2 server-side
-- [brikkoAI/presidio-ru-recognizers](https://github.com/brikkoAI/presidio-ru-recognizers) (скоро) — русские recognizers для Microsoft Presidio
-- [brikkoAI/n8n-nodes-brikko](https://github.com/brikkoAI/n8n-nodes-brikko) (скоро) — n8n nodes для workflow-автоматизации
-- [brikkoAI/brikko-extension](https://github.com/brikkoAI/brikko-extension) (скоро) — Chrome/Edge/Firefox расширение для claude.ai/ChatGPT/GigaChat
+| Артефакт | Установка | Аудитория |
+|---|---|---|
+| **brikko-studio** ★ (вы здесь) | `curl install.brikko.ru/studio.sh \| bash` | Desktop AI agent с MCP |
+| [brikko-shield](https://github.com/brikkoAI/brikko-shield) | Chrome Web Store (скоро) | Маскинг в ChatGPT/Claude.ai |
+| [brikko-cli](https://github.com/brikkoAI/brikko-cli) | `npm install -g brikko-cli` | CLI для Studio |
+| [brikko-pii-skill](https://github.com/brikkoAI/brikko-pii-skill) | `git clone` | Skill для Claude Code/Cursor |
+| [n8n-nodes-brikko](https://github.com/brikkoAI/n8n-nodes-brikko) | `npm install n8n-nodes-brikko` | Маскинг в n8n workflows |
+| [presidio-ru-recognizers](https://github.com/brikkoAI/presidio-ru-recognizers) | `pip install presidio-ru-recognizers` | Python recognizers для Presidio |
 
 ### 📞 Контакты
 
@@ -253,12 +261,16 @@ Subscribe: [brikko.ru/pricing](https://brikko.ru/pricing)
 - [Plugin Architecture](./docs/plugin-architecture.md)
 - [152-FZ Compliance](./docs/compliance/152fz-checklist.md) (Russian)
 
-### Related projects
+### Related Brikko products
 
-- [brikkoAI/brikko](https://github.com/brikkoAI/brikko) — Brikko Gateway (api.brikko.ru, server-side Privacy Mode v2)
-- `brikkoAI/presidio-ru-recognizers` (coming) — Russian PII recognizers for Microsoft Presidio
-- `brikkoAI/n8n-nodes-brikko` (coming) — n8n workflow automation nodes
-- `brikkoAI/brikko-extension` (coming) — Chrome/Edge/Firefox extension for claude.ai/ChatGPT/GigaChat
+| Artifact | Install | Audience |
+|---|---|---|
+| **brikko-studio** ★ (you are here) | `curl install.brikko.ru/studio.sh \| bash` | Desktop AI agent with MCP |
+| [brikko-shield](https://github.com/brikkoAI/brikko-shield) | Chrome Web Store (soon) | PII masking in ChatGPT / Claude.ai |
+| [brikko-cli](https://github.com/brikkoAI/brikko-cli) | `npm install -g brikko-cli` | CLI for Studio |
+| [brikko-pii-skill](https://github.com/brikkoAI/brikko-pii-skill) | `git clone` | Skill for Claude Code / Cursor |
+| [n8n-nodes-brikko](https://github.com/brikkoAI/n8n-nodes-brikko) | `npm install n8n-nodes-brikko` | PII masking inside n8n workflows |
+| [presidio-ru-recognizers](https://github.com/brikkoAI/presidio-ru-recognizers) | `pip install presidio-ru-recognizers` | Russian recognizers for Presidio |
 
 ### Contributing
 
